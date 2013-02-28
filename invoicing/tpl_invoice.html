@@ -1,0 +1,50 @@
+<table width="80%" align="center">
+<tr>
+<td>
+
+<table width="100%" cellspacing="2" cellpadding="2" border="1">
+<tr><td align="center">{str_INVOICE}</td></tr>
+<tr><td align="left">{val_CLIENTNAME}<br/>{val_CLIENTADDRESS}</td></tr>
+<tr><td align="left">{val_HEADER}</td></tr>
+</table>
+
+</td>
+</tr>
+<tr>
+<td>
+
+<table width="90%" cellspacing="2" cellpadding="2" border="1" align="center">
+<tr><td>{str_TITLE}</td><td>{str_AMOUNTEXTAX}</td></tr>
+<!-- BEGIN items -->
+<tr><td width="80%">{val_TITLE}</td><td width="20%" align="left">{val_AMOUNTEXTAX}</td></tr>
+<!-- END items -->
+</table>
+
+<table cellspacing="2" cellpadding="2" border="1" width="90%" align="center">
+<tr><td align="right" width="90%">{str_TOTALEXTAX}</td><td align="left" width="20%">{val_TOTALEXTAX}</td></tr>
+<tr><td align="right">{str_TAXRATE}</td><td align="left">{val_TAXRATE} %</td></tr>
+<tr><td align="right">{str_TAXAMOUNT}</td><td align="left">{val_TAXAMOUNT}</td></tr>
+<tr><td align="right">{str_TOTALINCTAX}</td><td align="left">{val_TOTALINCTAX}</td></tr>
+</table>
+
+</td>
+</tr>
+<tr>
+<td>
+
+<table width="100%" cellspacing="2" cellpadding="2" border="1">
+<tr><td align="left">{val_COMPANYNAME}<br/>{val_COMPANYADDRESS}</td></tr>
+</table>
+
+</td>
+</tr>
+<tr>
+<td>
+
+<table width="100%" cellspacing="2" cellpadding="2" border="1">
+<tr><td align="left">{val_FOOTER}</td></tr>
+</table>
+
+</td>
+</tr>
+</table>

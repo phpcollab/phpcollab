@@ -1,0 +1,32 @@
+==========================================
+FEATURES
+==========================================
+
+1. Option to switch support on or off
+2. Option for team support or admin support
+3. Return support email which all support notifications can be replied too
+4. Three support request types; New, Open, and Complete
+5. Five support priority levels
+6. Notifications to client upon support status change or reply message
+
+==========================================
+TO-DO
+==========================================
+
+Add email response to database functionality for support
+
+==========================================
+NEW FILES
+==========================================
+
+adminsupport.php
+addsupportpost.php
+confirmdeletesupport.php
+managesupport.php
+showallsupport.php
+suprequestdetail.php
+project_site/addsupport.php
+project_site/addsupportpost.php
+project_site/showallsupport.php
+project_site/suprequestdetail.php
+

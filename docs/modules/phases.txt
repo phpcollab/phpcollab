@@ -1,0 +1,31 @@
+The phase names are defined in languages/custom_en.php. 
+We wanted to give you the option to define a number of phase sets with your own names and in any language you want. 
+
+What you need to do is open customvales.php. Then there are two steps you need to perform to add a new phase set. 
+
+Step 1. The bellow line is to define the names of the phases sets. You can have as many as you like. 
+"sets" => array(1 => "Website", 2 => "CD"), 
+
+So for example if you were to add a phase set called "Network Migration" the line would now look like: 
+
+"sets" => array(1 => "Website", 2 => "CD", 3 => "Network Migration"), 
+
+Step 2. Now you have to enter the actual names of the phases within a phase set. So to use the above example of adding a new phase set called Network Migration, you would add: 
+
+"3" => array(0 => "Phase1", 1 => "Phase2", 2 => "Phase3"), 
+
+The number 3 at the begining of the line relates to the number you have assigned to the name "Network Migration" in Step 1. 
+
+So now the entire phase set array in customvalues.php would look like: 
+
+$phaseArraySets = array( 
+#Define the names of your phase sets 
+"sets" => array(1 => "Website", 2 => "CD”, 3 => “Network Migration"), 
+#List the indervitual items within each phase set. 
+#Website Set 
+"1" => array(0 => "Planning", 1 => "Design", 2 => "Production", 3 => "Testing", 4 => "Sign-off"), 
+#CD Set 
+"2" => array(0 => "Planning", 1 => "Design", 2 => "Production", 3 => "Testing"), 
+#Network Migration Set 
+"3" => array(0 => "Phase1", 1 => "Phase2", 2 => "Phase3") 
+);
