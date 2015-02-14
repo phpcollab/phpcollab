@@ -1,3 +1,7 @@
+# Project Generated Files
+#########################
+includes/settings.php
+
 # Logs and databases #
 ######################
 *.log
