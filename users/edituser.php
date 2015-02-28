@@ -314,7 +314,7 @@ if ($id != "") {
 	$block1->contentTitle($strings["change_password_user"]);
 }
 
-$block1->contentRow($strings["password"],"<input size=\"24\" style=\"width: 250px;\" maxlength=\"15\" type=\"password\" name=\"pw\" value=\"\">");
+$block1->contentRow($strings["password"],"<input size=\"24\" style=\"width: 250px;\" maxlength=\"16\" type=\"password\" name=\"pw\" value=\"\">");
 $block1->contentRow($strings["confirm_password"],"<input size=\"24\" style=\"width: 250px;\" maxlength=\"16\" type=\"password\" name=\"pwa\" value=\"\">");
 
 // if the user isn't a client user then i give the opportunity to change the permission
