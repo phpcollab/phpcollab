@@ -200,7 +200,7 @@ $parse_start = getmicrotime();
 $updateDatabase = array(0 => "1.0", 1 => "1.1", 2 => "1.3", 3 => "1.4", 4 => "1.6", 5 => "1.8", 6 => "1.9", 7 => "2.0", 8 => "2.1", 9 => "2.5");
 
 //languages array
-$langValue = array(
+$languageArray = array(
     "ar" => "Arabic",
     "az" => "Azerbaijani",
     "pt-br" => "Brazilian Portuguese",
@@ -299,14 +299,14 @@ if ($languageSession == "") {
  */
 function getLanguageDropdown($preferredLanguage = null)
 {
-    global $langDefault, $langValue, $lang;
+    global $langDefault, $languageArray, $lang;
 
     $preferredLanguage = (isset($preferredLanguage)) ? $preferredLanguage : $lang;
     $dropdown = '<select name="defaultLanguage">';
     if (!empty($langDefault) && $langDefault != $preferredLanguage) {
-        $dropdown .= "<option value='$langDefault'>Default (" . $langValue["$langDefault"] . ")</option>";
+        $dropdown .= "<option value='$langDefault'>Default (" . $languageArray["$langDefault"] . ")</option>";
     }
-    foreach ($langValue as $language_code => $language_name) {
+    foreach ($languageArray as $language_code => $language_name) {
         if ($preferredLanguage == $language_code) {
             $dropdown .= "<option value=\"$language_code\" selected>$language_name</option>";
         } else {
