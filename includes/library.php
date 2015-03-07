@@ -356,11 +356,7 @@ if ($checkSession != "false" && $demoSession != "true") {
 				headerFunction("../general/login.php?logout=true");
 			} else {
 				$dateunixSession=$dateunix;
-				if (version_compare("4.1.1", phpversion(),"<") > 0) {
-					$_SESSION['dateunixSession'] = $dateunixSession;
-				} else {
-					session_register("dateunixSession");
-				}
+				$_SESSION['dateunixSession'] = $dateunixSession;
 			}
 		}
 	}

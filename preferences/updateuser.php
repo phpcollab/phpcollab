@@ -49,14 +49,11 @@ if ($action == "update") {
 	$logouttimeSession = $logout_time;
 	$dateunixSession = date("U");
 	$nameSession = $fn;
-	if (version_compare("4.1.1", phpversion(),"<") > 0) {
+
 	$_SESSION['logouttimeSession'] = $logouttimeSession;
 	$_SESSION['timezoneSession'] = $timezoneSession;
 	$_SESSION['dateunixSession'] = $dateunixSession;
 	$_SESSION['nameSession'] = $nameSession;
-	} else {
-		session_register("logouttimeSession","timezoneSession","dateunixSession","nameSession");
-	}
 
 //if mantis bug tracker enabled
 		if ($enableMantis == "true") {
