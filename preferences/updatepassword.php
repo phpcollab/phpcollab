@@ -86,11 +86,9 @@ if ($htaccessAuth == "true") {
 		$r = substr($npw, 0, 2); 
 		$npw = crypt($npw, $r);
 		$passwordSession = $npw;
-		if (version_compare("4.1.1", phpversion(),"<") > 0) {
+
 		$_SESSION['passwordSession'] = $passwordSession;
-		} else {
-			session_register("passwordSession");
-		}
+
 		headerFunction("../preferences/updateuser.php?msg=update&".session_name()."=".session_id());
 		exit;
 	}
