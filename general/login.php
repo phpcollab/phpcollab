@@ -17,12 +17,6 @@
 **
 ** DESC: Screen: login page
 **
-** HISTORY:
-** 	2003-10-23	-	added new document info
-**	2003-10-27	-	correct html form to valid xhtml
-**  2004-08-23  -   add/complete switch according to php version 
-**  15/01/2005  -	added check for last visited page redirect
-**	21/06/2005	-	add rules for redirect page
 ** -----------------------------------------------------------------------------
 ** TO-DO:
 ** move to a better login system and authentication (try to db session)
@@ -32,7 +26,7 @@
 
 
 $checkSession = "false";
-include('../includes/library.php');
+include '../includes/library.php';
 
 
 if ($logout == "true") {
@@ -40,8 +34,8 @@ if ($logout == "true") {
     connectSql("$tmpquery1");
 
     // delete the authentication cookies
-    #setcookie('loginCookie', '', time()-86400);
-    #setcookie('passwordCookie', '', time()-86400);
+    //setcookie('loginCookie', '', time()-86400);
+    //setcookie('passwordCookie', '', time()-86400);
 
     session_unset();
     $_SESSION = array();
@@ -75,21 +69,25 @@ if (!empty($SSL_CLIENT_CERT) && !$logout && $auth != "test") {
     if ($auth == "test") {
         if ($loginForm == "" && $passwordForm == "") {
             $error = $strings["login_username"] . "<br/>" . $strings["login_password"];
-        } else if ($loginForm == "") {
-            $error = $strings["login_username"];
-        } else if ($passwordForm == "") {
-            $error = $strings["login_password"];
         } else {
-            $auth = "on";
-
-            if ($rememberForm == "on") {
-                $oneyear = 22896000;
-                $storePwd = get_password($passwordForm);
-                setcookie("loginCookie", $loginForm, time() + $oneyear);
-                setcookie("passwordCookie", $storePwd, time() + $oneyear);
+            if ($loginForm == "") {
+                $error = $strings["login_username"];
             } else {
-                setcookie("loginCookie");
-                setcookie("passwordCookie");
+                if ($passwordForm == "") {
+                    $error = $strings["login_password"];
+                } else {
+                    $auth = "on";
+
+                    if ($rememberForm == "on") {
+                        $oneyear = 22896000;
+                        $storePwd = get_password($passwordForm);
+                        setcookie("loginCookie", $loginForm, time() + $oneyear);
+                        setcookie("passwordCookie", $storePwd, time() + $oneyear);
+                    } else {
+                        setcookie("loginCookie");
+                        setcookie("passwordCookie");
+                    }
+                }
             }
         }
     }
@@ -219,8 +217,10 @@ if ($auth == "on") {
 
             // we must avoid to redirect to some special pages
             // otherwise, the user can't access to phpCollab
-            $loginUser->mem_last_page[0] = str_replace('accessfile.php?mode=view&', 'viewfile.php?', $loginUser->mem_last_page[0]);
-            $loginUser->mem_last_page[0] = str_replace('accessfile.php?mode=download&', 'viewfile.php?', $loginUser->mem_last_page[0]);
+            $loginUser->mem_last_page[0] = str_replace('accessfile.php?mode=view&', 'viewfile.php?',
+                $loginUser->mem_last_page[0]);
+            $loginUser->mem_last_page[0] = str_replace('accessfile.php?mode=download&', 'viewfile.php?',
+                $loginUser->mem_last_page[0]);
 
             //redirect for external link to internal page
             if ($url != "") {
@@ -231,28 +231,34 @@ if ($auth == "on") {
                     headerFunction("../$url&" . session_name() . "=" . session_id());
                 }
             } //redirect to last page required (with auto log out feature)
-            else if ($loginUser->mem_last_page[0] != "" && $loginUser->mem_profil[0] != "3" && $lastvisitedpage) {
-                $tmpquery = "UPDATE " . $tableCollab["members"] . " SET last_page='' WHERE login = '$loginForm'";
-                connectSql("$tmpquery");
-                headerFunction("../" . $loginUser->mem_last_page[0] . "&" . session_name() . "=" . session_id());
-
-            } else if ($loginUser->mem_last_page[0] != "" && ($loginCookie != "" && $passwordCookie != "") && $loginUser->mem_profil[0] != "3" && $lastvisitedpage) {
-                $tmpquery = "UPDATE " . $tableCollab["members"] . " SET last_page='' WHERE login = '$loginForm'";
-                connectSql("$tmpquery");
-                headerFunction("../" . $loginUser->mem_last_page[0] . "&" . session_name() . "=" . session_id());
-            } //redirect to home or admin page (if user is administrator)
             else {
-                if ($loginUser->mem_profil[0] == "3") {
-                    headerFunction("../projects_site/home.php?" . session_name() . "=" . session_id());
-                } else if ($loginUser->mem_profil[0] == "0") {
-                    if ($adminathome == '1') {
-                        headerFunction("../general/home.php?" . session_name() . "=" . session_id());
-                    } else {
-                        headerFunction("../administration/admin.php?" . session_name() . "=" . session_id());
-                    }
+                if ($loginUser->mem_last_page[0] != "" && $loginUser->mem_profil[0] != "3" && $lastvisitedpage) {
+                    $tmpquery = "UPDATE " . $tableCollab["members"] . " SET last_page='' WHERE login = '$loginForm'";
+                    connectSql("$tmpquery");
+                    headerFunction("../" . $loginUser->mem_last_page[0] . "&" . session_name() . "=" . session_id());
 
                 } else {
-                    headerFunction("../general/home.php?" . session_name() . "=" . session_id());
+                    if ($loginUser->mem_last_page[0] != "" && ($loginCookie != "" && $passwordCookie != "") && $loginUser->mem_profil[0] != "3" && $lastvisitedpage) {
+                        $tmpquery = "UPDATE " . $tableCollab["members"] . " SET last_page='' WHERE login = '$loginForm'";
+                        connectSql("$tmpquery");
+                        headerFunction("../" . $loginUser->mem_last_page[0] . "&" . session_name() . "=" . session_id());
+                    } //redirect to home or admin page (if user is administrator)
+                    else {
+                        if ($loginUser->mem_profil[0] == "3") {
+                            headerFunction("../projects_site/home.php?" . session_name() . "=" . session_id());
+                        } else {
+                            if ($loginUser->mem_profil[0] == "0") {
+                                if ($adminathome == '1') {
+                                    headerFunction("../general/home.php?" . session_name() . "=" . session_id());
+                                } else {
+                                    headerFunction("../administration/admin.php?" . session_name() . "=" . session_id());
+                                }
+
+                            } else {
+                                headerFunction("../general/home.php?" . session_name() . "=" . session_id());
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -353,10 +359,11 @@ $block1->contentRow("* " . $strings["password"], "<input value='$passwordForm' t
 
 //$block1->contentRow("* ".$strings["remember_password"],"<input type=\"checkbox\" name=\"rememberForm\" value=\"on\">");
 
-$block1->contentRow("", "<input type='submit' name='save' value='" . $strings["login"] . "'><br/><br/><br/>" . $blockPage->buildLink("../general/sendpassword.php?", $strings["forgot_pwd"], in));
+$block1->contentRow("",
+    "<input type='submit' name='save' value='" . $strings["login"] . "'><br/><br/><br/>" . $blockPage->buildLink("../general/sendpassword.php?",
+        $strings["forgot_pwd"], in));
 
 $block1->closeContent();
 $block1->closeForm();
 
-include('../themes/' . THEME . '/footer.php');
-?>
+include '../themes/' . THEME . '/footer.php';
