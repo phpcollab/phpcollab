@@ -42,7 +42,7 @@
 **
 */
 
-define('APP_ROOT', dirname( dirname( __FILE__ ) ) . '/');
+define('APP_ROOT', dirname(dirname(__FILE__)) . '/');
 // require the autoloader class file
 require_once APP_ROOT . '/classes/phpCollab/Autoloader.php';
 $autoloader = new \phpCollab\Autoloader();
@@ -80,6 +80,7 @@ Function spechars($return)
     $return = str_replace('=', '&#61;', $return);
     $return = str_replace('$', '&#36;', $return);
     $return = str_replace("\\", '&#92;', $return);
+
     return $return;
 }
 
@@ -112,6 +113,7 @@ function returnGlobal($var, $type)
         }
     } else {
         global $$var;
+
         return $$var;
     }
 }
@@ -158,7 +160,8 @@ function updatechecker($iCV)
 
     if ($connection_socket) {
 
-        fputs($connection_socket, "GET /" . $url['path'] . ($url['query'] ? '?' . $url['query'] : '') . " HTTP/1.0\r\nHost: " . $url['host'] . "\r\n\r\n");
+        fputs($connection_socket,
+            "GET /" . $url['path'] . ($url['query'] ? '?' . $url['query'] : '') . " HTTP/1.0\r\nHost: " . $url['host'] . "\r\n\r\n");
         $http_response = fgets($connection_socket, 22);
 
         if (preg_match("/200 OK/", $http_response, $regs)) {
@@ -191,16 +194,60 @@ function updatechecker($iCV)
 function getmicrotime()
 {
     list($usec, $sec) = explode(" ", microtime());
+
     return ((float)$usec + (float)$sec);
 }
 
 $parse_start = getmicrotime();
 
 //database update array
-$updateDatabase = array(0 => "1.0", 1 => "1.1", 2 => "1.3", 3 => "1.4", 4 => "1.6", 5 => "1.8", 6 => "1.9", 7 => "2.0", 8 => "2.1", 9 => "2.5");
+$updateDatabase = array(
+    0 => "1.0",
+    1 => "1.1",
+    2 => "1.3",
+    3 => "1.4",
+    4 => "1.6",
+    5 => "1.8",
+    6 => "1.9",
+    7 => "2.0",
+    8 => "2.1",
+    9 => "2.5"
+);
 
 //languages array
-$langValue = array("en" => "English", "es" => "Spanish", "fr" => "French", "it" => "Italian", "pt" => "Portuguese", "da" => "Danish", "no" => "Norwegian", "nl" => "Dutch", "de" => "German", "zh" => "Chinese simplified", "uk" => "Ukrainian", "pl" => "Polish", "in" => "Indonesian", "ru" => "Russian", "az" => "Azerbaijani", "ko" => "Korean", "zh-tw" => "Chinese traditional", "ca" => "Catalan", "pt-br" => "Brazilian Portuguese", "et" => "Estonian", "bg" => "Bulgarian", "ro" => "Romanian", "hu" => "Hungarian", "cs-iso" => "Czech (iso)", "cs-win1250" => "Czech (win1250)", "is" => "Icelandic", "sk-win1250" => "Slovak (win1250)", "tr" => "Turkish", "lv" => "Latvian", "ar" => "Arabic", "ja" => "Japanese");
+$langValue = array(
+    "en" => "English",
+    "es" => "Spanish",
+    "fr" => "French",
+    "it" => "Italian",
+    "pt" => "Portuguese",
+    "da" => "Danish",
+    "no" => "Norwegian",
+    "nl" => "Dutch",
+    "de" => "German",
+    "zh" => "Chinese simplified",
+    "uk" => "Ukrainian",
+    "pl" => "Polish",
+    "in" => "Indonesian",
+    "ru" => "Russian",
+    "az" => "Azerbaijani",
+    "ko" => "Korean",
+    "zh-tw" => "Chinese traditional",
+    "ca" => "Catalan",
+    "pt-br" => "Brazilian Portuguese",
+    "et" => "Estonian",
+    "bg" => "Bulgarian",
+    "ro" => "Romanian",
+    "hu" => "Hungarian",
+    "cs-iso" => "Czech (iso)",
+    "cs-win1250" => "Czech (win1250)",
+    "is" => "Icelandic",
+    "sk-win1250" => "Slovak (win1250)",
+    "tr" => "Turkish",
+    "lv" => "Latvian",
+    "ar" => "Arabic",
+    "ja" => "Japanese"
+);
 
 
 //language browser detection
@@ -431,7 +478,8 @@ function autoLinks($data)
         $line = preg_replace('|(http://[^ )\r\n]+)|', '<a href="$1" target="_blank">$1</a>', $line);
         $line = preg_replace('|(https://[^ )\r\n]+)|', '<a href="$1" target="_blank">$1</a>', $line);
         $line = preg_replace('|(ftp://[^ )\r\n]+)|', '<a href="$1" target="_blank">$1</a>', $line);
-        $line = preg_replace('|([-a-z0-9_]+(\.[_a-z0-9-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)+))|', '<a href="mailto:$1">$1</a>', $line);
+        $line = preg_replace('|([-a-z0-9_]+(\.[_a-z0-9-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)+))|',
+            '<a href="mailto:$1">$1</a>', $line);
 
         if (empty($newText)) {
             $newText = $line;
@@ -461,6 +509,7 @@ function diff_date($date1, $date2)
     $timestamp = mktime(0, 0, 0, $mois, $jour, $an);
     $timestamp2 = mktime(0, 0, 0, $mois2, $jour2, $an2);
     $diff = floor(($timestamp - $timestamp2) / (3600 * 24));
+
     return $diff;
 }
 
@@ -497,6 +546,7 @@ function is_password_match($formUsername, $formPassword, $storedPassword)
                     } else {
                         return false;
                     }
+
                     return false;
             }
         }
@@ -504,10 +554,11 @@ function is_password_match($formUsername, $formPassword, $storedPassword)
         $sr = ldap_search($conn, $configLDAP[searchroot], "uid=$formUsername");
         $info = ldap_get_entries($conn, $sr);
         $user_dn = $info[0]["dn"];
-        if (!$bind = @ldap_bind($conn, $user_dn, $formPassword))
+        if (!$bind = @ldap_bind($conn, $user_dn, $formPassword)) {
             return false;
-        else
+        } else {
             return true;
+        }
     } else {
         switch ($loginMethod) {
             case MD5:
@@ -529,6 +580,7 @@ function is_password_match($formUsername, $formPassword, $storedPassword)
                 } else {
                     return false;
                 }
+
                 return false;
         }
     }
@@ -548,9 +600,11 @@ function get_password($newPassword)
             return md5($newPassword);
         case CRYPT:
             $salt = substr($newPassword, 0, 2);
+
             return crypt($newPassword, $salt);
         case PLAIN:
             return $newPassword;
+
             return $newPassword;
     }
 }
@@ -608,6 +662,7 @@ function password_generator($size = 8, $with_numbers = true, $with_tiny_letters 
             $pass_g .= $letter[$char_select];
         }
     }
+
     return $pass_g;
 }
 
@@ -731,11 +786,13 @@ function delDir($location)
                     @rmdir("$location/$file");
                 }
                 unset($file);
-            } else if (!is_dir("$location/$file")) {
-                if (file_exists("$location/$file")) {
-                    @unlink("$location/$file");
+            } else {
+                if (!is_dir("$location/$file")) {
+                    if (file_exists("$location/$file")) {
+                        @unlink("$location/$file");
+                    }
+                    unset($file);
                 }
-                unset($file);
             }
         }
         closedir($all);
@@ -753,7 +810,7 @@ function delDir($location)
  * @param boolean $recursive Option to use recursivity
  * @access public
  **/
-function folder_info_size($path, $recursive = TRUE)
+function folder_info_size($path, $recursive = true)
 {
     $result = 0;
     if (is_dir($path) || is_readable($path)) {
@@ -769,6 +826,7 @@ function folder_info_size($path, $recursive = TRUE)
         }
 
         closedir($dir);
+
         return $result;
     }
 }
@@ -784,12 +842,16 @@ function convertSize($result)
 
     if ($result >= 1073741824) {
         $result = round($result / 1073741824 * 100) / 100 . " " . $byteUnits[3];
-    } else if ($result >= 1048576) {
-        $result = round($result / 1048576 * 100) / 100 . " " . $byteUnits[2];
-    } else if ($result >= 1024) {
-        $result = round($result / 1024 * 100) / 100 . " " . $byteUnits[1];
     } else {
-        $result = $result . " " . $byteUnits[0];
+        if ($result >= 1048576) {
+            $result = round($result / 1048576 * 100) / 100 . " " . $byteUnits[2];
+        } else {
+            if ($result >= 1024) {
+                $result = round($result / 1024 * 100) / 100 . " " . $byteUnits[1];
+            } else {
+                $result = $result . " " . $byteUnits[0];
+            }
+        }
     }
 
     if ($result == 0) {
@@ -809,6 +871,7 @@ function file_info_size($fichier)
     global $taille;
 
     $taille = filesize($fichier);
+
     return $taille;
 }
 
@@ -823,6 +886,7 @@ function file_info_dim($fichier)
 
     $temp = GetImageSize($fichier);
     $dim = ($temp[0]) . "x" . ($temp[1]);
+
     return $dim;
 }
 
@@ -836,6 +900,7 @@ function file_info_date($file)
     global $dateFile;
 
     $dateFile = date("Y-m-d", filemtime($file));
+
     return $dateFile;
 }
 
@@ -850,6 +915,7 @@ function recupFile($file)
 
     if (!file_exists($file)) {
         echo "File does not exist : " . $file;
+
         return false;
     }
 
@@ -857,6 +923,7 @@ function recupFile($file)
 
     if (!$fp) {
         echo "Unable to open file : " . $file;
+
         return false;
     }
 
@@ -866,6 +933,7 @@ function recupFile($file)
     }
 
     fclose($fp);
+
     return $content;
 }
 
@@ -902,7 +970,8 @@ function createDate($storedDate, $gmtUser)
             $extractMonth = substr("$storedDate", 5, 2);
             $extractDay = substr("$storedDate", 8, 2);
 
-            return date("Y-m-d H:i", mktime($extractHour + $gmtUser, $extractMinute, 0, $extractMonth, $extractDay, $extractYear));
+            return date("Y-m-d H:i",
+                mktime($extractHour + $gmtUser, $extractMinute, 0, $extractMonth, $extractDay, $extractYear));
         }
     } else {
         return $storedDate;
@@ -938,12 +1007,14 @@ function convertData($data)
         $data = str_replace('<', '&lt;', $data);
         $data = str_replace('>', '&gt;', $data);
         $data = stripslashes($data);
+
         return ($data);
     } elseif (get_magic_quotes_gpc() == 1) {
         $data = str_replace('"', '&quot;', $data);
         $data = str_replace('<', '&lt;', $data);
         $data = str_replace('>', '&gt;', $data);
         $data = str_replace("'", '&#39;', $data);
+
         return ($data);
     } else {
         $data = str_replace('"', '&quot;', $data);
@@ -951,6 +1022,7 @@ function convertData($data)
         $data = str_replace('>', '&gt;', $data);
         $data = str_replace("'", '&#39;', $data);
         $data = addslashes($data);
+
         return ($data);
     }
 
@@ -1108,12 +1180,15 @@ function projectComputeCompletion($projectDetail, $tableProject)
         $tasksNumb = count($taskDetails->tas_id);
         $tasksCompleted = 0;
         foreach ($taskDetails->tas_status as $stat) {
-            if ($stat == 1) $tasksCompleted++;
+            if ($stat == 1) {
+                $tasksCompleted++;
+            }
         }
         $prj_name = preg_replace("/\[[0-9 ]*\/[0-9 ]*\]/", "[ $tasksCompleted / $tasksNumb ]", $prj_name);
         $tmpquery5 = "UPDATE " . $tableProject . " SET name='$prj_name' WHERE id = '$prj_id'";
         $ad = connectSql($tmpquery5);
     }
+
     return $prj_name;
 }
 
