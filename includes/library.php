@@ -301,8 +301,6 @@ if ($indexRedirect == "true") {
     include("includes/initrequests.php");
     include("includes/request.class.php");
 
-    include("themes/" . THEME . "/block.class.php");
-
     include("languages/lang_en.php");
     include("languages/lang_" . $lang . ".php");
     include("languages/help_" . $lang . ".php");
@@ -321,8 +319,6 @@ if ($indexRedirect == "true") {
 
     include("../includes/initrequests.php");
     include("../includes/request.class.php");
-
-    include("../themes/" . THEME . "/block.class.php");
 
     include("../languages/lang_en.php");
     include("../languages/lang_" . $lang . ".php");
