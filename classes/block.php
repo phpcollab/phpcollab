@@ -19,7 +19,7 @@ class block
         $this->highlightOff = $this->oddColor;
         $this->theme = THEME;
         $this->pathImg = "../themes/";
-        $this->themeImgPath = '../themes/' . THEME . '/images/';
+        $this->themeImgPath = '../themes/' . THEME . '/images';
     }
 
     /**
