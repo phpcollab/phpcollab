@@ -42,6 +42,11 @@
 **
 */
 
+define('APP_ROOT', dirname( dirname( __FILE__ ) ) . '/');
+// require the autoloader class file
+require_once APP_ROOT . '/classes/phpCollab/Autoloader.php';
+$autoloader = new \phpCollab\Autoloader();
+spl_autoload_register(array($autoloader, 'load'));
 if (ini_get('session.auto_start') == 0) {
     $profilSession = "";
 }
