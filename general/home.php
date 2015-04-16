@@ -298,7 +298,7 @@ if ($showHomeProjects)
 				$block1->checkboxRow($listProjects->tea_pro_id[$i]);
 				$block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=".$listProjects->tea_pro_id[$i],$listProjects->tea_pro_id[$i],in));
 				$block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=".$listProjects->tea_pro_id[$i],$listProjects->tea_pro_name[$i],in));
-				$block1->cellRow("<img src=\"../themes/".THEME."/gfx_priority/".$idPriority.".gif\" alt=\"\"> ".$priority[$idPriority]);
+				$block1->cellRow("<img src=\"../themes/".THEME."/images/gfx_priority/".$idPriority.".gif\" alt=\"\"> ".$priority[$idPriority]);
 				$block1->cellRow($listProjects->tea_org2_name[$i]);
 				$block1->cellRow($status[$idStatus]);
 				$block1->cellRow($blockPage->buildLink($listProjects->tea_mem2_email_work[$i],$listProjects->tea_mem2_login[$i],mail));
@@ -441,7 +441,7 @@ if ($showHomeTasks)
 	{
 	$block2->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=".$listTasks->tas_id[$i],$listTasks->tas_name[$i],in));
 	}
-	$block2->cellRow("<img src=\"../themes/".THEME."/gfx_priority/".$idPriority.".gif\" alt=\"\"> ".$priority[$idPriority]);
+	$block2->cellRow("<img src=\"../themes/".THEME."/images/gfx_priority/".$idPriority.".gif\" alt=\"\"> ".$priority[$idPriority]);
 	$block2->cellRow($status[$idStatus]);
 	$block2->cellRow($complValue);
 
@@ -555,7 +555,7 @@ if ($showHomeSubtasks)
     {
         $block3->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=".$listTasks->subtas_id[$i]."&task=".$listTasks->subtas_task[$i],$listTasks->subtas_name[$i],in));
     }
-    $block3->cellRow("<img src=\"../themes/".THEME."/gfx_priority/".$idPriority.".gif\" alt=\"\"> ".$priority[$idPriority]);
+    $block3->cellRow("<img src=\"../themes/".THEME."/images/gfx_priority/".$idPriority.".gif\" alt=\"\"> ".$priority[$idPriority]);
     $block3->cellRow($status[$idStatus]);
     $block3->cellRow($complValue);
 

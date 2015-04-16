@@ -103,7 +103,7 @@ $block1->openRow();
 $block1->checkboxRow($listProjects->pro_id[$i]);
 $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=".$listProjects->pro_id[$i],$listProjects->pro_id[$i],in));
 $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=".$listProjects->pro_id[$i],$listProjects->pro_name[$i],in));
-$block1->cellRow("<img src=\"../themes/".THEME."/gfx_priority/".$idPriority.".gif\" alt=\"\"> ".$priority[$idPriority]);
+$block1->cellRow("<img src=\"../themes/".THEME."/images/gfx_priority/".$idPriority.".gif\" alt=\"\"> ".$priority[$idPriority]);
 $block1->cellRow($listProjects->pro_org_name[$i]);
 $block1->cellRow($status[$idStatus]);
 $block1->cellRow($blockPage->buildLink($listProjects->pro_mem_email_work[$i],$listProjects->pro_mem_login[$i],mail));

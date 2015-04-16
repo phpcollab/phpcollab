@@ -204,7 +204,7 @@ $idPublish = $taskDetail->tas_published[0];
 $complValue = ($taskDetail->tas_completion[0]>0) ? $taskDetail->tas_completion[0]."0 %": $taskDetail->tas_completion[0]." %"; 
 $block1->contentRow($strings["status"],$status[$idStatus]);
 $block1->contentRow($strings["completion"],$complValue);
-$block1->contentRow($strings["priority"],"<img src=\"../themes/".THEME."/gfx_priority/".$idPriority.".gif\" alt=\"\"> ".$priority[$idPriority]);
+$block1->contentRow($strings["priority"],"<img src=\"../themes/".THEME."/images/gfx_priority/".$idPriority.".gif\" alt=\"\"> ".$priority[$idPriority]);
 $block1->contentRow($strings["start_date"],$taskDetail->tas_start_date[0]);
 
 if ($taskDetail->tas_due_date[0] <= $date && $taskDetail->tas_completion[0] != "10") 
@@ -548,7 +548,7 @@ if ($comptListSubtasks != "0")
 		$block4->openRow();
 		$block4->checkboxRow($listSubtasks->subtas_id[$i]);
 		$block4->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=".$listSubtasks->subtas_id[$i]."&task=$id",$listSubtasks->subtas_name[$i],in));
-		$block4->cellRow("<img src=\"../themes/".THEME."/gfx_priority/".$idPriority.".gif\" alt=\"\"> ".$priority[$idPriority]);
+		$block4->cellRow("<img src=\"../themes/".THEME."/images/gfx_priority/".$idPriority.".gif\" alt=\"\"> ".$priority[$idPriority]);
 		$block4->cellRow($status[$idStatus]);
 		$block4->cellRow($complValue);
 		

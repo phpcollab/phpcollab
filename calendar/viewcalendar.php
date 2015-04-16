@@ -736,7 +736,7 @@ if ($type == "monthPreview")
                 {
                     if ($listTasks->tas_start_date[$h] == $dateLink && $listTasks->tas_start_date[$h] != $listTasks->tas_due_date[$h])
                     {
-                        echo "<img src=\"../themes/".THEME."/gfx_priority/".$idPriority.".gif\" alt='".$strings["priority"].": ".$priority[$idPriority]."' /> <b>".$strings["task"]."</b>: ";
+                        echo "<img src=\"../themes/".THEME."/images/gfx_priority/".$idPriority.".gif\" alt='".$strings["priority"].": ".$priority[$idPriority]."' /> <b>".$strings["task"]."</b>: ";
                         echo "<a href='../tasks/viewtask.php?id=".$listTasks->tas_id[$h]."' class='calendar-results-start-date'>".$listTasks->tas_name[$h]."</a><br /><br />";
                     }
 
@@ -745,12 +745,12 @@ if ($type == "monthPreview")
 
                         if ($listTasks->tas_due_date[$h] <= $date && $listTasks->tas_completion[$h] != "10")
                         {
-                            echo "<img src=\"../themes/".THEME."/gfx_priority/".$idPriority.".gif\" alt='".$strings["priority"].": ".$priority[$idPriority]."' /> <b>".$strings["task"]."</b>: ";
+                            echo "<img src=\"../themes/".THEME."/images/gfx_priority/".$idPriority.".gif\" alt='".$strings["priority"].": ".$priority[$idPriority]."' /> <b>".$strings["task"]."</b>: ";
                             echo "<a href='../tasks/viewtask.php?id=".$listTasks->tas_id[$h]."' class='calendar-results-due-date'><b>".$listTasks->tas_name[$h]."</b></a><br /><br />";
                         }
                         else
                         {
-                            echo "<img src=\"../themes/".THEME."/gfx_priority/".$idPriority.".gif\" alt='".$strings["priority"].": ".$priority[$idPriority]."' /> <b>".$strings["task"]."</b>: ";
+                            echo "<img src=\"../themes/".THEME."/images/gfx_priority/".$idPriority.".gif\" alt='".$strings["priority"].": ".$priority[$idPriority]."' /> <b>".$strings["task"]."</b>: ";
                             echo "<a href='../tasks/viewtask.php?id=".$listTasks->tas_id[$h]."' class='calendar-results-due-date'>".$listTasks->tas_name[$h]."</a><br /><br />";
                         }
                     }
@@ -760,12 +760,12 @@ if ($type == "monthPreview")
 
                         if ($listTasks->tas_due_date[$h] <= $date && $listTasks->tas_completion[$h] != "10")
                         {
-                            echo "<img src=\"../themes/".THEME."/gfx_priority/".$idPriority.".gif\" alt='".$strings["priority"].": ".$priority[$idPriority]."' /> <b>".$strings["task"]."</b>: ";
+                            echo "<img src=\"../themes/".THEME."/images/gfx_priority/".$idPriority.".gif\" alt='".$strings["priority"].": ".$priority[$idPriority]."' /> <b>".$strings["task"]."</b>: ";
                             echo "<a href='../tasks/viewtask.php?id=".$listTasks->tas_id[$h]."' class='calendar-results-due-date'><b>".$listTasks->tas_name[$h]."</b></a><br /><br />";
                         }
                         else
                         {
-                            echo "<img src=\"../themes/".THEME."/gfx_priority/".$idPriority.".gif\" alt='".$strings["priority"].": ".$priority[$idPriority]."' /> <b>".$strings["task"]."</b>: ";
+                            echo "<img src=\"../themes/".THEME."/images/gfx_priority/".$idPriority.".gif\" alt='".$strings["priority"].": ".$priority[$idPriority]."' /> <b>".$strings["task"]."</b>: ";
                             echo "<a href='../tasks/viewtask.php?id=".$listTasks->tas_id[$h]."' class='calendar-results-due-date'>".$listTasks->tas_name[$h]."</a><br /><br />";
                         }
                     }
@@ -820,13 +820,13 @@ if ($type == "monthPreview")
                 {
                     if ($listSubtasks->subtas_start_date[$h] == $dateLink && $listSubtasks->subtas_start_date[$h] != $listSubtasks->subtas_due_date[$h])
                     {
-                        echo "<img src=\"../themes/".THEME."/gfx_priority/".$idPriority.".gif\" alt='".$strings["priority"].": ".$priority[$idPriority]."' /> <b>".$strings["subtask"]."</b>: ";
+                        echo "<img src=\"../themes/".THEME."/images/gfx_priority/".$idPriority.".gif\" alt='".$strings["priority"].": ".$priority[$idPriority]."' /> <b>".$strings["subtask"]."</b>: ";
                         echo "<a href='../subtasks/viewsubtask.php?id=".$listSubtasks->subtas_id[$h]."&task=".$listSubtasks->subtas_task[$h]."' class='calendar-results-start-date'>".$listSubtasks->subtas_name[$h]."</a><br /><br />";
                     }
 
                     if ($listSubtasks->subtas_due_date[$h] == $dateLink && $listSubtasks->subtas_start_date[$h] != $listSubtasks->subtas_due_date[$h])
                     {
-                        echo "<img src=\"../themes/".THEME."/gfx_priority/".$idPriority.".gif\" alt='".$strings["priority"].": ".$priority[$idPriority]."' /> <b>".$strings["subtask"]."</b>: ";                        if ($listSubtasks->subtas_due_date[$h] <= $date && $listSubtasks->subtas_completion[$h] != "10") {
+                        echo "<img src=\"../themes/".THEME."/images/gfx_priority/".$idPriority.".gif\" alt='".$strings["priority"].": ".$priority[$idPriority]."' /> <b>".$strings["subtask"]."</b>: ";                        if ($listSubtasks->subtas_due_date[$h] <= $date && $listSubtasks->subtas_completion[$h] != "10") {
                         echo "<a href='../subtasks/viewsubtask.php?id=".$listSubtasks->subtas_id[$h]."&task=".$listSubtasks->subtas_task[$h]."' class='calendar-results-due-date'><b>".$listSubtasks->subtas_name[$h]."</b></a><br /><br />";
                     }
                     else
@@ -837,7 +837,7 @@ if ($type == "monthPreview")
 
                 if ($listSubtasks->subtas_start_date[$h] == $dateLink && $listSubtasks->subtas_due_date[$h] == $dateLink)
                 {
-                    echo "<img src=\"../themes/".THEME."/gfx_priority/".$idPriority.".gif\" alt='".$strings["priority"].": ".$priority[$idPriority]."' /> <b>".$strings["subtask"]."</b>: ";
+                    echo "<img src=\"../themes/".THEME."/images/gfx_priority/".$idPriority.".gif\" alt='".$strings["priority"].": ".$priority[$idPriority]."' /> <b>".$strings["subtask"]."</b>: ";
 
                     if ($listSubtasks->subtas_due_date[$h] <= $date && $listSubtasks->subtas_completion[$h] != "10")
                     {
@@ -853,13 +853,13 @@ if ($type == "monthPreview")
             {
                 if ($listSubtasks->subtas_start_date[$h] == $dateLink && $listSubtasks->subtas_start_date[$h] != $listSubtasks->subtas_due_date[$h])
                 {
-                    echo "<img src=\"../themes/".THEME."/gfx_priority/".$idPriority.".gif\" alt='".$strings["priority"].": ".$priority[$idPriority]."' /> <b>".$strings["subtask"]."</b>: ";
+                    echo "<img src=\"../themes/".THEME."/images/gfx_priority/".$idPriority.".gif\" alt='".$strings["priority"].": ".$priority[$idPriority]."' /> <b>".$strings["subtask"]."</b>: ";
                     echo "<a href='../subtasks/viewsubtask.php?id=".$listSubtasks->subtas_id[$h]."&task=".$listSubtasks->subtas_task[$h]."'>".$listSubtasks->subtas_name[$h]."</a><br /><br />";
                 }
 
                 if ($listSubtasks->subtas_due_date[$h] == $dateLink && $listSubtasks->subtas_start_date[$h] != $listSubtasks->subtas_due_date[$h])
                 {
-                    echo "<img src=\"../themes/".THEME."/gfx_priority/".$idPriority.".gif\" alt='".$strings["priority"].": ".$priority[$idPriority]."' /> <b>".$strings["subtask"]."</b>: ";
+                    echo "<img src=\"../themes/".THEME."/images/gfx_priority/".$idPriority.".gif\" alt='".$strings["priority"].": ".$priority[$idPriority]."' /> <b>".$strings["subtask"]."</b>: ";
 
                     if ($listSubtasks->subtas_due_date[$h] <= $date && $listSubtasks->subtas_completion[$h] != "10")
                     {
@@ -873,7 +873,7 @@ if ($type == "monthPreview")
 
                 if ($listSubtasks->subtas_start_date[$h] == $dateLink && $listSubtasks->subtas_due_date[$h] == $dateLink)
                 {
-                    echo "<img src=\"../themes/".THEME."/gfx_priority/".$idPriority.".gif\" alt='".$strings["priority"].": ".$priority[$idPriority]."' /> <b>".$strings["subtask"]."</b>: ";
+                    echo "<img src=\"../themes/".THEME."/images/gfx_priority/".$idPriority.".gif\" alt='".$strings["priority"].": ".$priority[$idPriority]."' /> <b>".$strings["subtask"]."</b>: ";
 
                     if ($listSubtasks->subtas_due_date[$h] <= $date && $listSubtasks->subtas_completion[$h] != "10")
                     {

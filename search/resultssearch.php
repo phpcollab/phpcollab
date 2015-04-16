@@ -441,7 +441,7 @@ if ($comptListProjects != "0") {
         $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listProjects->pro_id[$i], $listProjects->pro_id[$i], in));
         $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listProjects->pro_id[$i], $listProjects->pro_name[$i], in));
 
-        $block1->cellRow("<img src=\"../themes/" . THEME . "/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
+        $block1->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
         $block1->cellRow($listProjects->pro_org_name[$i]);
         $block1->cellRow($status[$idStatus]);
         $block1->cellRow($blockPage->buildLink($listProjects->pro_mem_email_work[$i], $listProjects->pro_mem_login[$i], mail));
@@ -492,7 +492,7 @@ if ($comptListTasks != "0") {
         $block2->openRow();
         $block2->checkboxRow($listTasks->tas_id[$i]);
         $block2->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $listTasks->tas_id[$i], $listTasks->tas_name[$i], in));
-        $block2->cellRow("<img src=\"../themes/" . THEME . "/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
+        $block2->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
         $block2->cellRow($status[$idStatus]);
         if ($listTasks->tas_due_date[$i] <= $date && $listTasks->tas_completion[$i] != "10") {
             $block2->cellRow("<b>" . $listTasks->tas_due_date[$i] . "</b>");
@@ -540,7 +540,7 @@ if ($comptListSubtasks != "0") {
         $block9->openRow();
         $block9->checkboxRow($listSubtasks->subtas_id[$i]);
         $block9->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $listSubtasks->subtas_id[$i] . "&task=" . $listSubtasks->subtas_task[$i], $listSubtasks->subtas_name[$i], in));
-        $block9->cellRow("<img src=\"../themes/" . THEME . "/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
+        $block9->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
         $block9->cellRow($status[$idStatus]);
         if ($listTasks->subtas_due_date[$i] <= $date && $listSubtasks->subtas_completion[$i] != "10") {
             $block9->cellRow("<b>" . $listSubtasks->subtas_due_date[$i] . "</b>");

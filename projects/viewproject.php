@@ -387,7 +387,7 @@ $block1->contentTitle($strings["details"]);
 
 $block1->contentRow($strings["name"],$projectDetail->pro_name[0]);
 $block1->contentRow($strings["project_id"],$projectDetail->pro_id[0]);
-$block1->contentRow($strings["priority"],"<img src=\"../themes/".THEME."/gfx_priority/".$idPriority.".gif\" alt=\"\"> ".$priority[$idPriority]);
+$block1->contentRow($strings["priority"],"<img src=\"../themes/".THEME."/images/gfx_priority/".$idPriority.".gif\" alt=\"\"> ".$priority[$idPriority]);
 
 //List open phases and link to phase details
 if ($projectDetail->pro_phase_set[0] != "0")
@@ -668,7 +668,7 @@ else
 			$block2->openRow();
 			$block2->checkboxRow($listTasks->tas_id[$i]);
 			$block2->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=".$listTasks->tas_id[$i],$listTasks->tas_name[$i],in));
-			$block2->cellRow("<img src=\"../themes/".THEME."/gfx_priority/".$idPriority.".gif\" alt=\"\"> ".$priority[$idPriority]);
+			$block2->cellRow("<img src=\"../themes/".THEME."/images/gfx_priority/".$idPriority.".gif\" alt=\"\"> ".$priority[$idPriority]);
 			$block2->cellRow($status[$idStatus]);
 			$block2->cellRow($complValue);
 

@@ -215,7 +215,7 @@ $complValue = ($listTasks->tas_completion[$i]>0) ? $listTasks->tas_completion[$i
 $block2->openRow();
 $block2->checkboxRow($listTasks->tas_id[$i]);
 $block2->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=".$listTasks->tas_id[$i],$listTasks->tas_name[$i],in));
-$block2->cellRow("<img src=\"../themes/".THEME."/gfx_priority/".$idPriority.".gif\" alt=\"\"> ".$priority[$idPriority]);
+$block2->cellRow("<img src=\"../themes/".THEME."/images/gfx_priority/".$idPriority.".gif\" alt=\"\"> ".$priority[$idPriority]);
 $block2->cellRow($status[$idStatus]);
 $block2->cellRow($complValue);
 if ($listTasks->tas_due_date[$i] <= $date) {

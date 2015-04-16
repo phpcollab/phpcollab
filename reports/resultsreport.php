@@ -409,7 +409,7 @@ if ($comptListTasks != "0")
 		//$block1->checkboxRow($listTasks->tas_id[$i]);
 		$block1->cellRow('');
 		$block1->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=".$listTasks->tas_id[$i],$listTasks->tas_name[$i],in));
-		$block1->cellRow("<img src='../themes/".THEME."/gfx_priority/".$idPriority.".gif' alt=''> ".$priority[$idPriority]);
+		$block1->cellRow("<img src='../themes/".THEME."/images/gfx_priority/".$idPriority.".gif' alt=''> ".$priority[$idPriority]);
 		$block1->cellRow($status[$idStatus]);
 		
 		if ($listTasks->tas_due_date[$i] <= $date && $listTasks->tas_completion[$i] != "10") 
@@ -459,7 +459,7 @@ if ($comptListTasks != "0")
 				//$block1->checkboxRow($listSubTasks->subtas_id[$j]);
 				$block1->cellRow('');
 				$block1->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=".$listSubTasks->subtas_id[$j]."&task=".$listSubTasks->subtas_task[$j],$listSubTasks->subtas_name[$j],in));
-				$block1->cellRow("<img src=\"../themes/".THEME."/gfx_priority/".$idPriority.".gif\" alt=\"\"> ".$priority[$idPriority]);
+				$block1->cellRow("<img src=\"../themes/".THEME."/images/gfx_priority/".$idPriority.".gif\" alt=\"\"> ".$priority[$idPriority]);
 				$block1->cellRow($status[$idStatus]);
 				
 				if ($listSubTasks->subtas_due_date[$j] <= $date && $listSubTasks->subtas_completion[$j] != "10") 

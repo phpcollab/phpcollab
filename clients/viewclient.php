@@ -160,7 +160,7 @@ $block2->openRow();
 $block2->checkboxRow($listProjects->pro_id[$i]);
 $block2->cellRow($blockPage->buildLink("../projects/viewproject.php?id=".$listProjects->pro_id[$i],$listProjects->pro_id[$i],in));
 $block2->cellRow($blockPage->buildLink("../projects/viewproject.php?id=".$listProjects->pro_id[$i],$listProjects->pro_name[$i],in));
-$block1->cellRow("<img src=\"../themes/".THEME."/gfx_priority/".$idPriority.".gif\" alt=\"\"> ".$priority[$idPriority]);
+$block1->cellRow("<img src=\"../themes/".THEME."/images/gfx_priority/".$idPriority.".gif\" alt=\"\"> ".$priority[$idPriority]);
 $block2->cellRow($status[$idStatus]);
 $block2->cellRow($blockPage->buildLink($listProjects->pro_mem_email_work[$i],$listProjects->pro_mem_login[$i],mail));
 if ($sitePublish == "true") {

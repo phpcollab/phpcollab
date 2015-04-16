@@ -173,7 +173,7 @@ $idPublish = $subtaskDetail->subtas_published[0];
 $complValue = ($subtaskDetail->subtas_completion[0] > 0) ? $subtaskDetail->subtas_completion[0] . "0 %" : $subtaskDetail->subtas_completion[0] . " %";
 $block1->contentRow($strings["status"], $status[$idStatus]);
 $block1->contentRow($strings["completion"], $complValue);
-$block1->contentRow($strings["priority"], "<img src=\"../themes/" . THEME . "/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
+$block1->contentRow($strings["priority"], "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
 $block1->contentRow($strings["start_date"], $subtaskDetail->subtas_start_date[0]);
 if ($subtaskDetail->subtas_due_date[0] <= $date && $subtaskDetail->subtas_completion[0] != "10") {
     $block1->contentRow($strings["due_date"], "<b>" . $subtaskDetail->subtas_due_date[0] . "</b>");
