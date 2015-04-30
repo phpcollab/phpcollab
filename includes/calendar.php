@@ -46,7 +46,7 @@ $build = <<<END
 <script type="text/javascript" src="../javascript/calendar/lang/calendar-$calendar_lang.js"></script>
 <script type="text/javascript" src="../javascript/calendar/calendar-setup.js"></script>
 END;
-echo "<link rel='stylesheet' href='../themes/".THEME."/calendar.css' type='text/css' />";
+echo "<link rel='stylesheet' href='../themes/".THEME."/css/calendar.css' type='text/css' />";
 
 echo $build;
 ?>
