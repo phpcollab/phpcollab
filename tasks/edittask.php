@@ -639,7 +639,7 @@ if ($projectDetail->pro_phase_set[0] != "0")
     $targetPhase->openPhases($tmpquery);
 }
 
-$bodyCommand="onload=\"document.etDForm.compl.value = document.etDForm.completion.selectedIndex;document.etDForm.tn.focus();\"";
+$bodyCommand="onload=\"document.etDForm.compl.value = document.etDForm.completion.selectedIndex;document.etDForm.task_name.focus();\"";
 
 $headBonus = "";
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
