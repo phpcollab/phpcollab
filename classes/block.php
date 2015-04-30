@@ -299,7 +299,7 @@ class block
     function openForm($address)
     {
         echo '<a name="' . $this->form . 'Anchor"></a>
-<form accept-charset="UNKNOWN" method="POST" action="'.$address.' name="' . $this->form . 'Form" enctype="application/x-www-form-urlencoded">';
+<form accept-charset="UNKNOWN" method="POST" action="'.$address.'" name="' . $this->form . 'Form" enctype="application/x-www-form-urlencoded">';
     }
 
     /**
