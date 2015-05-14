@@ -25,12 +25,10 @@
 ** =============================================================================
 */
 
-
-include("../includes/settings.php");
+include_once('../includes/library.php');
 
 $blank = "true";
 include('../themes/'.THEME.'/header.php');
-include("../themes/".THEME."/block.class.php");
 
 $blockPage = new block();
 $blockPage->openBreadcrumbs();
