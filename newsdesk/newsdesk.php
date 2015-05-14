@@ -58,7 +58,6 @@ $connection = @mysql_connect(MYSERVER,MYLOGIN,MYPASSWORD) or die($strings["error
 
 function showPosts() 	{
        	global $connection, $newsdesklimit;
-       	include("../includes/settings.php");
 
 		if (!isset($langDefault) || ($langDefault=='')) { $langDefault = 'en'; }
 		include("../languages/lang_".$langDefault.".php");
@@ -190,7 +189,6 @@ function showPosts() 	{
 function showSingle($id) 
 		{
     		global $connection;
-			include("../includes/settings.php");
 
 			if (!isset($langDefault) || ($langDefault=='')) { $langDefault = 'en'; }
 			include("../languages/lang_".$langDefault.".php");
@@ -240,7 +238,6 @@ function showSingle($id)
 function showComments($id) 
 		{
     		//variables
-    		include("../includes/settings.php");
 			global $connection;
 
 			if (!isset($langDefault) || ($langDefault=='')) { $langDefault = 'en'; }
@@ -311,7 +308,6 @@ function showComments($id)
 function addComment($id) 
 		{
     		global $connection;
-			include("../includes/settings.php");
 
     		//query string
     		$query = "INSERT INTO ".$tableCollab["newsdeskcomments"]." VALUES('',$id,'{$_POST['name']}', '{$_POST['comment']}')";
