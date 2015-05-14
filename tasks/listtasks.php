@@ -39,7 +39,7 @@ $tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='0' WHERE id IN($id
 } else {
 $tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='0' WHERE id = '$id'";
 }
-connectSql("$tmpquery1");
+Util::connectSql("$tmpquery1");
 $msg = "addToSite";
 $id = $project;
 }
@@ -52,7 +52,7 @@ $tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='1' WHERE id IN($id
 } else {
 $tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='1' WHERE id = '$id'";
 }
-connectSql("$tmpquery1");
+Util::connectSql("$tmpquery1");
 $msg = "removeToSite";
 $id = $project;
 }
@@ -124,7 +124,7 @@ $block1->sorting("tasks",$sortingUser->sor_tasks[0],"tas.name ASC",$sortingField
 
 $tmpquery = "WHERE tas.project = '$project' ORDER BY $block1->sortingValue";
 
-$block1->recordsTotal = compt($initrequest["tasks"]." ".$tmpquery);
+$block1->recordsTotal = Util::computeTotal($initrequest["tasks"]." ".$tmpquery);
 
 $listTasks = new request();
 $listTasks->openTasks($tmpquery,$block1->borne,$block1->rowsLimit);

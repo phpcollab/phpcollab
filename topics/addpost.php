@@ -15,18 +15,18 @@ $projectDetail = new request();
 $projectDetail->openProjects($tmpquery);
 
 if ($action == "add") {
-	$tpm = convertData($tpm);
-	autoLinks($tpm);
+	$tpm = Util::convertData($tpm);
+	Util::autoLinks($tpm);
 	$detailTopic->top_posts[0] = $detailTopic->top_posts[0] + 1;
 	$tmpquery1 = "INSERT INTO ".$tableCollab["posts"]."(topic,member,created,message) VALUES('$id','$idSession','$dateheure','$newText')";
-	connectSql("$tmpquery1");
+	Util::connectSql("$tmpquery1");
 	$tmpquery2 = "UPDATE ".$tableCollab["topics"]." SET last_post='$dateheure',posts='".$detailTopic->top_posts[0]."' WHERE id = '$id'";
-	connectSql("$tmpquery2");
+	Util::connectSql("$tmpquery2");
 
 if ($notifications == "true") {
 	include("../topics/noti_newpost.php");
 }
-	headerFunction("../topics/viewtopic.php?id=$id&msg=add&".session_name()."=".session_id());
+	Util::headerFunction("../topics/viewtopic.php?id=$id&msg=add&".session_name()."=".session_id());
 }
 
 $idStatus = $detailTopic->top_status[0];
@@ -82,7 +82,7 @@ if ($sitePublish == "true") {
 
 $block1->contentRow($strings["retired"],$statusTopicBis[$idStatus]);
 $block1->contentRow($strings["posts"],$detailTopic->top_posts[0]);
-$block1->contentRow($strings["last_post"],createDate($detailTopic->top_last_post[0],$timezoneSession));
+$block1->contentRow($strings["last_post"],Util::createDate($detailTopic->top_last_post[0],$timezoneSession));
 
 $block1->contentTitle($strings["details"]);
 
@@ -95,9 +95,9 @@ for ($i=0;$i<$comptListPosts;$i++) {
 $block1->contentRow($strings["posted_by"],$blockPage->buildLink($listPosts->pos_mem_email_work[$i],$listPosts->pos_mem_name[$i],mail));
 
 if ($listPosts->pos_created[$i] > $lastvisiteSession) {
-	$block1->contentRow($strings["when"],"<b>".createDate($listPosts->pos_created[$i],$timezoneSession)."</b>");
+	$block1->contentRow($strings["when"],"<b>".Util::createDate($listPosts->pos_created[$i],$timezoneSession)."</b>");
 } else {
-	$block1->contentRow($strings["when"],createDate($listPosts->pos_created[$i],$timezoneSession));
+	$block1->contentRow($strings["when"],Util::createDate($listPosts->pos_created[$i],$timezoneSession));
 }
 $block1->contentRow("",nl2br($listPosts->pos_message[$i]));
 $block1->contentRow("","","true");

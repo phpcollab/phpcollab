@@ -12,7 +12,7 @@ $fileDetail = new request();
 $fileDetail->openFiles($tmpquery);
 
 if ($fileDetail->fil_published[0] == "1" || $fileDetail->fil_project[0] != $projectSession) {
-headerFunction("index.php");
+Util::headerFunction("index.php");
 }
 
 $type = file_info_type($fileDetail->fil_extension[0]);
@@ -73,7 +73,7 @@ $maxFileSize = $maxCustom;
 	if ($docopy == "true") {
 	
 		//Copy old file with a new file name
-		moveFile($path_source,$path_destination);
+		Util::moveFile($path_source,$path_destination);
 		
 		//Set variables from original files details.
 		$copy_project = $fileDetail->fil_project[0];
@@ -89,20 +89,20 @@ $maxFileSize = $maxCustom;
 		$copy_vc_version = $fileDetail->fil_vc_version[0];
 				
 		//Insert a new row for the copied file
-		$comments = convertData($comments);
+		$comments = Util::convertData($comments);
 		$tmpquery = "INSERT INTO ".$tableCollab["files"]."(owner,project,task,name,date,size,extension,comments,upload,published,status,vc_status,vc_version,vc_parent,phase) VALUES('$idSession','$copy_project','$copy_task','$changename','$copy_date','$copy_size','$copy_extension','$copy_comments','$copy_upload','0','2','3','$copy_vc_version','$copy_id','0')";
-		connectSql("$tmpquery");
+		Util::connectSql("$tmpquery");
 		$tmpquery = $tableCollab["files"];
-		last_id($tmpquery);
+		Util::getLastId($tmpquery);
 		$num = $lastId[0];
 		unset($lastId);
 	}
 	
 	//Insert details into Database
 	if ($docopy == "true") {
-		uploadFile(".", $_FILES['upload']['tmp_name'], $path);
-		//$size = file_info_size("$path");
-		//$dateFile = file_info_date("$path");
+		Util::uploadFile(".", $_FILES['upload']['tmp_name'], $path);
+		//$size = Util::fileInfoSize("$path");
+		//$dateFile = Util::getFileDate("$path");
 		$chaine = strrev("$path");
 		$tab = explode(".",$chaine);
 		$extension = strtolower(strrev($tab[0]));
@@ -112,8 +112,8 @@ $maxFileSize = $maxCustom;
 	if ($docopy == "true") {
 		$name = "$upload_name";
 		$tmpquery = "UPDATE ".$tableCollab["files"]." SET date='$dateheure',size='$size',comments='$c',status='$statusField',vc_version='$newversion' WHERE id = '$id'";
-		connectSql("$tmpquery");
-		headerFunction("clientfiledetail.php?id=".$fileDetail->fil_id[0]."&msg=addFile&".session_name()."=".session_id());
+		Util::connectSql("$tmpquery");
+		Util::headerFunction("clientfiledetail.php?id=".$fileDetail->fil_id[0]."&msg=addFile&".session_name()."=".session_id());
 		exit;
 	}	
 }
@@ -163,29 +163,29 @@ $maxFileSize = $maxCustom;
 	
 	//Insert details into Database
 	if ($docopy == "true") {
-		$comments = convertData($comments);
+		$comments = Util::convertData($comments);
 		$tmpquery = "INSERT INTO ".$tableCollab["files"]."(owner,project,task,comments,upload,published,status,vc_status,vc_parent,phase) VALUES('$idSession','$project','$task','$c','$dateheure','0','2','0','$parent','0')";
-		connectSql("$tmpquery");
+		Util::connectSql("$tmpquery");
 		$tmpquery = $tableCollab["files"];
-		last_id($tmpquery);
+		Util::getLastId($tmpquery);
 		$num = $lastId[0];
 		unset($lastId);
 	}
 
 	if ($task != "0") {
 		if ($docopy == "true") {
-			uploadFile("files/$project/$task", $_FILES['upload']['tmp_name'], $upload_name);
-			$size = file_info_size("../files/$project/$task/$upload_name");
-			//$dateFile = file_info_date("../files/$project/$task/$upload_name");
+			Util::uploadFile("files/$project/$task", $_FILES['upload']['tmp_name'], $upload_name);
+			$size = Util::fileInfoSize("../files/$project/$task/$upload_name");
+			//$dateFile = Util::getFileDate("../files/$project/$task/$upload_name");
 			$chaine = strrev("../files/$project/$task/$upload_name");
 			$tab = explode(".",$chaine);
 			$extension = strtolower(strrev($tab[0]));
 		}
 	} else {
 		if ($docopy == "true") {
-			uploadFile("files/$project", $_FILES['upload']['tmp_name'], $upload_name);
-			$size = file_info_size("../files/$project/$upload_name");
-			//$dateFile = file_info_date("../files/$project/$upload_name");
+			Util::uploadFile("files/$project", $_FILES['upload']['tmp_name'], $upload_name);
+			$size = Util::fileInfoSize("../files/$project/$upload_name");
+			//$dateFile = Util::getFileDate("../files/$project/$upload_name");
 			$chaine = strrev("../files/$project/$upload_name");
 			$tab = explode(".",$chaine);
 			$extension = strtolower(strrev($tab[0]));
@@ -195,8 +195,8 @@ $maxFileSize = $maxCustom;
 	if ($docopy == "true") {
 		$name = "$upload_name";
 		$tmpquery = "UPDATE ".$tableCollab["files"]." SET name='$name',date='$dateheure',size='$size',extension='$extension',vc_version='$oldversion' WHERE id = '$num'";
-		connectSql("$tmpquery");
-		headerFunction("clientfiledetail.php?id=$sendto&msg=addFile&".session_name()."=".session_id());
+		Util::connectSql("$tmpquery");
+		Util::headerFunction("clientfiledetail.php?id=$sendto&msg=addFile&".session_name()."=".session_id());
 		exit;
 	}
 }
@@ -218,7 +218,7 @@ echo "<table cellpadding=20 cellspacing=0 border=0 width=\"100%\">
 	<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue2\">".$strings["name"]." : </td><td>".$fileDetail->fil_name[0]."</td></tr>
 	<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue2\">".$strings["vc_version"]." :</td><td>".$fileDetail->fil_vc_version[0]."</td></tr>
 	<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue2\">".$strings["ifc_last_date"]." :</td><td>".$fileDetail->fil_date[0]."</td></tr>
-	<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue2\">".$strings["size"].":</td><td>".convertSize($fileDetail->fil_size[0])."</td></tr>
+	<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue2\">".$strings["size"].":</td><td>".Util::convertSize($fileDetail->fil_size[0])."</td></tr>
 	<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue2\">".$strings["owner"]." :</td><td><a href=\"contactdetail.php?$transmitSid&id=".$fileDetail->fil_mem_id[0]."\">".$fileDetail->fil_mem_name[0]."</a> (<a href=\"mailto:".$fileDetail->fil_mem_email_work[0]."\">".$fileDetail->fil_mem_login[0]."</a>)</td></tr>";
 
 	if ($fileDetail->fil_comments[0] != "") {

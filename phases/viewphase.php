@@ -40,7 +40,7 @@ $tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='0' WHERE id IN($id
 } else {
 $tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='0' WHERE id = '$id'";
 }
-connectSql("$tmpquery1");
+Util::connectSql("$tmpquery1");
 $msg = "addToSite";
 $id = $phase;
 }
@@ -53,7 +53,7 @@ $tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='1' WHERE id IN($id
 } else {
 $tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='1' WHERE id = '$id'";
 }
-connectSql("$tmpquery1");
+Util::connectSql("$tmpquery1");
 $msg = "removeToSite";
 $id = $phase;
 }
@@ -65,7 +65,7 @@ $tmpquery1 = "UPDATE ".$tableCollab["files"]." SET published='0' WHERE id IN($id
 } else {
 $tmpquery1 = "UPDATE ".$tableCollab["files"]." SET published='0' WHERE id = '$id'";
 }
-connectSql("$tmpquery1");
+Util::connectSql("$tmpquery1");
 $msg = "addToSite";
 $id = $phase;
 }
@@ -78,7 +78,7 @@ $tmpquery1 = "UPDATE ".$tableCollab["files"]." SET published='1' WHERE id IN($id
 } else {
 $tmpquery1 = "UPDATE ".$tableCollab["files"]." SET published='1' WHERE id = '$id'";
 }
-connectSql("$tmpquery1");
+Util::connectSql("$tmpquery1");
 $msg = "removeToSite";
 $id = $phase;
 }

@@ -13,7 +13,7 @@ $fileDetail->openFiles($tmpquery);
 
 // test if file is published and part of the current project
 if ($fileDetail->fil_published[0] == "1" || $fileDetail->fil_project[0] != $projectSession) {
-	headerFunction("index.php");
+	Util::headerFunction("index.php");
 }
 
 // serve the requested file

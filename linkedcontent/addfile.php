@@ -41,7 +41,7 @@ if ($task == "")
 if ($action == "add") 
 {
 
-	$filename = check_FileName($_FILES['upload']['name']);
+	$filename = Util::checkFileName($_FILES['upload']['name']);
 	
 	if ($maxCustom != "") 
 	{
@@ -102,11 +102,11 @@ if ($action == "add")
 			$versionFile = "0.0";
 		}
 
-		$c = convertData($c);
-		$tmpquery = "INSERT INTO ".$tableCollab["files"]."(owner,project,phase,task,comments,upload,published,status,vc_version,vc_parent) VALUES('$idSession','$project','".fixInt($phase)."','$task','$c','$dateheure','1','$statusField','$versionFile','0')";
-		connectSql("$tmpquery");
+		$c = Util::convertData($c);
+		$tmpquery = "INSERT INTO ".$tableCollab["files"]."(owner,project,phase,task,comments,upload,published,status,vc_version,vc_parent) VALUES('$idSession','$project','".Util::fixInt($phase)."','$task','$c','$dateheure','1','$statusField','$versionFile','0')";
+		Util::connectSql("$tmpquery");
 		$tmpquery = $tableCollab["files"];
-		last_id($tmpquery);
+		Util::getLastId($tmpquery);
 		$num = $lastId[0];
 		unset($lastId);
 	}
@@ -115,9 +115,9 @@ if ($action == "add")
 	{
 		if ($docopy == "true") 
 		{
-			uploadFile("files/$project/$task", $_FILES['upload']['tmp_name'], "$num--".$filename);
-			$size = file_info_size("../files/".$project."/".$task."/".$num."--".$filename);
-			//$dateFile = file_info_date("../files/".$project."/".$task."/".$num."--".$filename);
+			Util::uploadFile("files/$project/$task", $_FILES['upload']['tmp_name'], "$num--".$filename);
+			$size = Util::fileInfoSize("../files/".$project."/".$task."/".$num."--".$filename);
+			//$dateFile = Util::getFileDate("../files/".$project."/".$task."/".$num."--".$filename);
 			$chaine = strrev("../files/".$project."/".$task."/".$num."--".$filename);
 			$tab = explode(".",$chaine);
 			$extension = strtolower(strrev($tab[0]));
@@ -127,9 +127,9 @@ if ($action == "add")
 	{
 		if ($docopy == "true") 
 		{
-			uploadFile("files/$project", $_FILES['upload']['tmp_name'], "$num--".$filename);
-			$size = file_info_size("../files/".$project."/".$num."--".$filename);
-			//$dateFile = file_info_date("../files/".$project."/".$num."--".$filename);
+			Util::uploadFile("files/$project", $_FILES['upload']['tmp_name'], "$num--".$filename);
+			$size = Util::fileInfoSize("../files/".$project."/".$num."--".$filename);
+			//$dateFile = Util::getFileDate("../files/".$project."/".$num."--".$filename);
 			$chaine = strrev("../files/".$project."/".$num."--".$filename);
 			$tab = explode(".",$chaine);
 			$extension = strtolower(strrev($tab[0]));
@@ -140,14 +140,14 @@ if ($action == "add")
 	{
 		$name = $num."--".$filename;
 		$tmpquery = "UPDATE ".$tableCollab["files"]." SET name='$name',date='$dateheure',size='$size',extension='$extension' WHERE id = '$num'";
-		connectSql("$tmpquery");
+		Util::connectSql("$tmpquery");
 
 		if ($notifications == "true") 
 		{			
 			require("../projects_site/noti_uploadfile.php");
 		}		
 		
-		headerFunction("../linkedcontent/viewfile.php?id=$num&msg=addFile&".session_name()."=".session_id());
+		Util::headerFunction("../linkedcontent/viewfile.php?id=$num&msg=addFile&".session_name()."=".session_id());
 	}
 }
 

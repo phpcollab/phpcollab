@@ -23,7 +23,7 @@ if ($comptFilesPublished != "0") {
 		}
 	}
 $tmpquery1 = "UPDATE ".$tableCollab["files"]." SET published='0' WHERE vc_parent IN ($filesPublishedValue)";
-connectSql("$tmpquery1");
+Util::connectSql("$tmpquery1");
 }
 
 $tmpquery = "WHERE fil.published = '1'";
@@ -39,7 +39,7 @@ if ($comptFilesPublishedNo != "0") {
 		}
 	}
 $tmpquery1 = "UPDATE ".$tableCollab["files"]." SET published='1' WHERE vc_parent IN ($filesPublishedNoValue)";
-connectSql("$tmpquery1");
+Util::connectSql("$tmpquery1");
 }
 echo "fixed :o)";
 }

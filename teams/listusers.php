@@ -38,7 +38,7 @@ $comptProjectDetail = count($projectDetail->pro_id);
 
 if ($comptProjectDetail == "0") 
 {
-	headerFunction("../projects/listprojects.php?msg=blank&".session_name()."=".session_id());
+	Util::headerFunction("../projects/listprojects.php?msg=blank&".session_name()."=".session_id());
 	exit;
 }
 

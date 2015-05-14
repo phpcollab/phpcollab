@@ -36,7 +36,7 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5" ) {
-	headerFunction("../newsdesk/viewnews.php?id=$postid&msg=permissionNews&".session_name()."=".session_id());
+	Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=permissionNews&".session_name()."=".session_id());
 	exit;
 }	
 
@@ -53,32 +53,32 @@ if ($id != "")
 	//only author and admin can change an article
 	if ($profilSession != "0" && $idSession != $newsDetail->news_author[0] ) 
 	{
-		headerFunction("../newsdesk/viewnews.php?id=$postid&msg=permissionNews&".session_name()."=".session_id());
+		Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=permissionNews&".session_name()."=".session_id());
 		exit;
 	}
 
 	if ($comptnewsDetail == "0") 
 	{
-		headerFunction("../newsdesk/listnews.php?msg=blankNews&".session_name()."=".session_id());
+		Util::headerFunction("../newsdesk/listnews.php?msg=blankNews&".session_name()."=".session_id());
 		exit;
 	}
 
 	if ($action == "update") 
 	{
-		$title = convertData($title);
+		$title = Util::convertData($title);
 		if (get_magic_quotes_gpc() != 1) {$content = addslashes($content);}
 		$tmpquery = "UPDATE ".$tableCollab["newsdeskposts"]." SET title = '$title', author = '$author', related = '$related', content = '$content', links = '$links', rss = '$rss' WHERE id = '$id'";
-		connectSql("$tmpquery");
-		headerFunction("../newsdesk/viewnews.php?id=$id&msg=update&".session_name()."=".session_id());
+		Util::connectSql("$tmpquery");
+		Util::headerFunction("../newsdesk/viewnews.php?id=$id&msg=update&".session_name()."=".session_id());
 	}
 	elseif ($action == "delete") 
 	{
 		$id = str_replace("**",",",$id);
 		$tmpquery = "DELETE FROM ".$tableCollab["newsdeskposts"]." WHERE id = $id";
-		connectSql("$tmpquery");
+		Util::connectSql("$tmpquery");
 		$tmpquery = "DELETE FROM ".$tableCollab["newsdeskcomments"]." WHERE post_id = $id";
-		connectSql("$tmpquery");
-		headerFunction("../newsdesk/listnews.php?msg=removeNews&".session_name()."=".session_id());
+		Util::connectSql("$tmpquery");
+		Util::headerFunction("../newsdesk/listnews.php?msg=removeNews&".session_name()."=".session_id());
 	}	
 	else 
 	{
@@ -106,20 +106,20 @@ else
 		{
 
 			//replace quotes by html code in name and address
-			$title = convertData($title);
+			$title = Util::convertData($title);
 			if (get_magic_quotes_gpc() != 1) {$content = addslashes($content);}
-			$author = convertData($author);
+			$author = Util::convertData($author);
 
 			//insert into organizations and redirect to new client organization detail (last id)
 
 			$tmpquery1 = "INSERT INTO ".$tableCollab["newsdeskposts"]."(title,author,related,content,links,rss,pdate) VALUES ('$title', '$author', '$related', '".addslashes($content)."', '$links', '$rss', NOW())";
-			connectSql("$tmpquery1");
+			Util::connectSql("$tmpquery1");
 			$tmpquery = $tableCollab["newsdeskposts"];
-			last_id($tmpquery);
+			Util::getLastId($tmpquery);
 			$num = $lastId[0];
 			unset($lastId);
 	
-			headerFunction("../newsdesk/viewnews.php?id=$num&msg=add&".session_name()."=".session_id());
+			Util::headerFunction("../newsdesk/viewnews.php?id=$num&msg=add&".session_name()."=".session_id());
 			
 
 		}

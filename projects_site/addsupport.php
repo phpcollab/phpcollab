@@ -15,13 +15,13 @@ $listRequests->openSupportRequests($tmpquery);
 $comptListRequests = count($listRequests->sr_id);
 
 if ($action == "add") {
-	$sub = convertData($sub);
-	$mes = convertData($mes);
+	$sub = Util::convertData($sub);
+	$mes = Util::convertData($mes);
 
 	$tmpquery1 = "INSERT INTO ".$tableCollab["support_requests"]."(member,priority,subject,message,date_open,project,status) VALUES('$user','$pr','$sub','$mes','$dateheure','$project','0')";
-	connectSql($tmpquery1);
+	Util::connectSql($tmpquery1);
 	$tmpquery = $tableCollab["support_requests"];
-	last_id($tmpquery);
+	Util::getLastId($tmpquery);
 	$num = $lastId[0];
 	unset($lastId);
 	
@@ -29,7 +29,7 @@ if ($action == "add") {
 		include("../support/noti_newrequest.php");
 	}	
 	
-	headerFunction("suprequestdetail.php?id=$num&".session_name()."=".session_id());
+	Util::headerFunction("suprequestdetail.php?id=$num&".session_name()."=".session_id());
 	exit;
 }
 

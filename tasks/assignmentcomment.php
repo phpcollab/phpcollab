@@ -7,10 +7,10 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 if ($action == "update") {
-	$acomm = convertData($acomm);
+	$acomm = Util::convertData($acomm);
 	$tmpquery6 = "UPDATE ".$tableCollab["assignments"]." SET comments='$acomm' WHERE id = '$id'";
-	connectSql("$tmpquery6");
-	headerFunction("../tasks/viewtask.php?id=$task&msg=update&".session_name()."=".session_id());
+	Util::connectSql("$tmpquery6");
+	Util::headerFunction("../tasks/viewtask.php?id=$task&msg=update&".session_name()."=".session_id());
 	exit;
 }
 

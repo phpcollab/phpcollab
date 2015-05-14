@@ -45,7 +45,7 @@ $comptListTasks = count($listTasks->tas_id);
 
 if ($action == "update")
 {
-	$acomm = convertData($acomm);
+	$acomm = Util::convertData($acomm);
 
 	if ($at != $strings["no_change"])
 	{
@@ -122,7 +122,7 @@ if ($action == "update")
 			if ($at != "0" && $listTasks->tas_assigned[$i] == "")
 			{
 				$tmpquery6 = "UPDATE ".$tableCollab["tasks"]." SET assigned='$dateheure' WHERE id = '".$listTasks->tas_id[$i]."'";
-				connectSql("$tmpquery6");
+				Util::connectSql("$tmpquery6");
 				//echo $tmpquery6."<br/>";
 			}
 
@@ -132,7 +132,7 @@ if ($action == "update")
 			}
 
 			$tmpquery = "UPDATE ".$tableCollab["tasks"]." SET $query,modified='$dateheure' WHERE id = '".$listTasks->tas_id[$i]."'";
-			connectSql("$tmpquery");
+			Util::connectSql("$tmpquery");
 
 			//echo $tmpquery."<br/>";
 			//echo $listTasks->tas_status[$i]." $st<br/>";
@@ -170,7 +170,7 @@ if ($action == "update")
 			if ($at != "0" && $sameAssign != "true" && $assignUpdate == "true")
 			{
 				$tmpquery2 = "INSERT INTO ".$tableCollab["assignments"]."(task,owner,assigned_to,comments,assigned) VALUES('".$listTasks->tas_id[$i]."','".$listTasks->tas_owner[$i]."','$at','$acomm','$dateheure')";
-				connectSql("$tmpquery2");
+				Util::connectSql("$tmpquery2");
 				//echo $tmpquery2."<br/>";
 
 				$tmpquery = "WHERE tea.project = '$project' AND tea.member = '$at'";
@@ -181,7 +181,7 @@ if ($action == "update")
 				if ($comptTestinTeam == "0")
 				{
 					$tmpquery3 = "INSERT INTO ".$tableCollab["teams"]."(project,member,published,authorized) VALUES('$project','$at','1','0')";
-					connectSql("$tmpquery3");
+					Util::connectSql("$tmpquery3");
 				}
 
 				if ($notifications == "true")
@@ -195,7 +195,7 @@ if ($action == "update")
 		}
 	}
 
-	headerFunction("../tasks/listtasks.php?project=$project&msg=update&PHPSESSID=$PHPSESSID");
+	Util::headerFunction("../tasks/listtasks.php?project=$project&msg=update&PHPSESSID=$PHPSESSID");
 }
 
 //$bodyCommand="onload=\"document.forms[0].compl.value = document.forms[0].completion.selectedIndex;\"";

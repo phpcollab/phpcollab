@@ -37,12 +37,12 @@ $userDetail->openMembers($tmpquery);
 $comptUserDetail = count($userDetail->mem_id);
 
 if ($userDetail->mem_profil[0] == "3") {
-	headerFunction("../users/viewclientuser.php?id=$id&organization=".$userDetail->mem_organization[0]."&".session_name()."=".session_id());
+	Util::headerFunction("../users/viewclientuser.php?id=$id&organization=".$userDetail->mem_organization[0]."&".session_name()."=".session_id());
 	exit;
 }
 
 if ($comptUserDetail == "0") {
-	headerFunction("../users/listusers.php?msg=blankUser&".session_name()."=".session_id());
+	Util::headerFunction("../users/listusers.php?msg=blankUser&".session_name()."=".session_id());
 	exit;
 }
 
@@ -113,20 +113,20 @@ if ($userDetail->mem_profil[0] == "0") {
 $block1->contentRow($strings["permissions"],$permission);
 
 $block1->contentRow($strings["comments"],nl2br($userDetail->mem_comments[0]));
-$block1->contentRow($strings["account_created"],createDate($userDetail->mem_created[0],$timezoneSession));
+$block1->contentRow($strings["account_created"],Util::createDate($userDetail->mem_created[0],$timezoneSession));
 $block1->contentRow($strings["last_page"],$userDetail->mem_last_page[0]);
 $block1->contentTitle($strings["information"]);
 
 $tmpquery = "SELECT tea.id FROM ".$tableCollab["teams"]." tea LEFT OUTER JOIN ".$tableCollab["projects"]." pro ON pro.id = tea.project WHERE tea.member = '".$userDetail->mem_id[0]."' AND pro.status IN(0,2,3)";
-compt($tmpquery);
+Util::computeTotal($tmpquery);
 $valueProjects = $countEnregTotal;
 
 $tmpquery = "SELECT tas.id FROM ".$tableCollab["tasks"]." tas LEFT OUTER JOIN ".$tableCollab["projects"]." pro ON pro.id = tas.project WHERE tas.assigned_to = '".$userDetail->mem_id[0]."' AND tas.status IN(0,2,3) AND pro.status IN(0,2,3)";
-compt($tmpquery);
+Util::computeTotal($tmpquery);
 $valueTasks = $countEnregTotal;
 
 $tmpquery = "SELECT note.id FROM ".$tableCollab["notes"]." note LEFT OUTER JOIN ".$tableCollab["projects"]." pro ON pro.id = note.project WHERE note.owner = '".$userDetail->mem_id[0]."' AND pro.status IN(0,2,3)";
-compt($tmpquery);
+Util::computeTotal($tmpquery);
 $valueNotes = $countEnregTotal;
 
 $block1->contentRow($strings["projects"],$valueProjects);

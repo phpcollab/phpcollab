@@ -30,7 +30,7 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 if ($profilSession != "0") {
-    headerFunction('../general/permissiondenied.php?' . session_name() . '=' . session_id());
+    Util::headerFunction('../general/permissiondenied.php?' . session_name() . '=' . session_id());
     exit;
 }
 
@@ -93,7 +93,7 @@ if ($databaseType == "sqlserver") {
 }
 
 $block1->contentRow("Database Type", $databaseTypeMore);
-$block1->contentRow("Files folder size", convertSize(folder_info_size("../files/")));
+$block1->contentRow("Files folder size", Util::convertSize(Util::folderInfoSize("../files/")));
 
 $block1->contentTitle($strings["system_properties"]);
 $block1->contentRow("PHP Version", phpversion() . " " . $blockPage->buildLink("../administration/phpinfo.php?", "PhpInfo", inblank));
@@ -174,17 +174,17 @@ $block1->contentRow("SMTP", ini_get(SMTP));
 $block1->contentRow("upload_max_filesize", ini_get(upload_max_filesize));
 $block1->contentRow("session.name", session_name());
 $block1->contentRow("session.save_path", session_save_path());
-$block1->contentRow("HTTP_HOST", returnGlobal('HTTP_HOST', 'SERVER'));
+$block1->contentRow("HTTP_HOST", Util::returnGlobal('HTTP_HOST', 'SERVER'));
 
 if (substr(PHP_OS, 0, 3) == "WIN") {
-    $block1->contentRow("PATH_TRANSLATED", stripslashes(returnGlobal('PATH_TRANSLATED', 'SERVER')));
+    $block1->contentRow("PATH_TRANSLATED", stripslashes(Util::returnGlobal('PATH_TRANSLATED', 'SERVER')));
 } else {
-    $block1->contentRow("PATH_TRANSLATED", returnGlobal('PATH_TRANSLATED', 'SERVER'));
+    $block1->contentRow("PATH_TRANSLATED", Util::returnGlobal('PATH_TRANSLATED', 'SERVER'));
 }
 
-$block1->contentRow("SERVER_NAME", returnGlobal('SERVER_NAME', 'SERVER'));
-$block1->contentRow("SERVER_PORT", returnGlobal('SERVER_PORT', 'SERVER'));
-$block1->contentRow("SERVER_SOFTWARE", returnGlobal('SERVER_SOFTWARE', 'SERVER'));
+$block1->contentRow("SERVER_NAME", Util::returnGlobal('SERVER_NAME', 'SERVER'));
+$block1->contentRow("SERVER_PORT", Util::returnGlobal('SERVER_PORT', 'SERVER'));
+$block1->contentRow("SERVER_SOFTWARE", Util::returnGlobal('SERVER_SOFTWARE', 'SERVER'));
 $block1->contentRow("SERVER_OS", PHP_OS);
 
 $block1->closeContent();

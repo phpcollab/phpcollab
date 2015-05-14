@@ -6,7 +6,7 @@
 $checkSession = "true";
 include_once('../includes/library.php');
 
-$id = returnGlobal('id','GET');
+$id = Util::returnGlobal('id','GET');
 
 $tmpquery = "WHERE org.id = '$id'";
 $clientDetail = new request();
@@ -14,7 +14,7 @@ $clientDetail->openOrganizations($tmpquery);
 $comptClientDetail = count($clientDetail->org_id);
 
 if ($comptClientDetail == "0") {
-	headerFunction("../clients/listclients.php?msg=blankClient&".session_name()."=".session_id());
+	Util::headerFunction("../clients/listclients.php?msg=blankClient&".session_name()."=".session_id());
 }
 
 include('../themes/'.THEME.'/header.php');
@@ -54,7 +54,7 @@ $block1->contentRow($strings["email"],$blockPage->buildLink($clientDetail->org_e
 $block1->contentTitle($strings["details"]);
 
 $block1->contentRow($strings["comments"],nl2br($clientDetail->org_comments[0]));
-$block1->contentRow($strings["created"],createDate($clientDetail->org_created[0],$timezoneSession));
+$block1->contentRow($strings["created"],Util::createDate($clientDetail->org_created[0],$timezoneSession));
 
 $block1->closeContent();
 $block1->closeToggle();

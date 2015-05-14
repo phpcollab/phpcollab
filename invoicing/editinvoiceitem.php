@@ -20,8 +20,8 @@ $projectDetail->openProjects($tmpquery);
 
 if ($action == "update") {
 	$tmpquery = "UPDATE ".$tableCollab["invoices_items"]." SET rate_type='$rate_type',rate_value='$rate_value',amount_ex_tax='$amount_ex_tax' WHERE id = '$invoiceitem'";
-	connectSql($tmpquery);
-	headerFunction("../invoicing/viewinvoice.php?msg=update&id=$id&".session_name()."=".session_id());
+	Util::connectSql($tmpquery);
+	Util::headerFunction("../invoicing/viewinvoice.php?msg=update&id=$id&".session_name()."=".session_id());
 }
 
 //set value in form

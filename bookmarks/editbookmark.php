@@ -38,7 +38,7 @@ if ($id != "" && $action != "add")
 
 	if ($bookmarkDetail->boo_owner[0] != $idSession) 
 	{
-		headerFunction("../bookmarks/listbookmarks.php?view=my&msg=bookmarkOwner&".session_name()."=".session_id());
+		Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=bookmarkOwner&".session_name()."=".session_id());
 		exit;
 	}
 }
@@ -55,7 +55,7 @@ if ($id != "") {
 		}
 		if ($category_new != "") 
 		{
-			$category_new = convertData($category_new);
+			$category_new = Util::convertData($category_new);
 			$tmpquery = "WHERE boocat.name = '$category_new'";
 			$listCategories = new request();
 			$listCategories->openBookmarksCategories($tmpquery);
@@ -63,10 +63,10 @@ if ($id != "") {
 			if ($comptListCategories == "0") 
 			{
 				$tmpquery1 = "INSERT INTO ".$tableCollab["bookmarks_categories"]."(name) VALUES('$category_new')";
-				connectSql("$tmpquery1");
+				Util::connectSql("$tmpquery1");
 
 				$tmpquery = $tableCollab["bookmarks_categories"];
-				last_id($tmpquery);
+				Util::getLastId($tmpquery);
 				$num = $lastId[0];
 				unset($lastId);
 				
@@ -90,11 +90,11 @@ if ($id != "") {
 			$comments = "0";
 		}
 
-		$name = convertData($name);
-		$description = convertData($description);
+		$name = Util::convertData($name);
+		$description = Util::convertData($description);
 		$tmpquery5 = "UPDATE ".$tableCollab["bookmarks"]." SET url='$url',name='$name',description='$description',modified='$dateheure',category='$category',shared='$shared',home='$home',comments='$comments',users='$users' WHERE id = '$id'";
-		connectSql("$tmpquery5");
-		headerFunction("../bookmarks/listbookmarks.php?view=my&msg=update&".session_name()."=".session_id());
+		Util::connectSql("$tmpquery5");
+		Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=update&".session_name()."=".session_id());
 	}
 	
 	//set value in form
@@ -137,7 +137,7 @@ if ($id == "")
 		}
 		if ($category_new != "") 
 		{
-			$category_new = convertData($category_new);
+			$category_new = Util::convertData($category_new);
 			$tmpquery = "WHERE boocat.name = '$category_new'";
 			$listCategories = new request();
 			$listCategories->openBookmarksCategories($tmpquery);
@@ -145,10 +145,10 @@ if ($id == "")
 			if ($comptListCategories == "0") 
 			{
 				$tmpquery1 = "INSERT INTO ".$tableCollab["bookmarks_categories"]."(name) VALUES('$category_new')";
-				connectSql("$tmpquery1");
+				Util::connectSql("$tmpquery1");
 
 				$tmpquery = $tableCollab["bookmarks_categories"];
-				last_id($tmpquery);
+				Util::getLastId($tmpquery);
 				$num = $lastId[0];
 				unset($lastId);
 				
@@ -173,11 +173,11 @@ if ($id == "")
 			$comments = "0";
 		}
 
-		$name = convertData($name);
-		$description = convertData($description);
+		$name = Util::convertData($name);
+		$description = Util::convertData($description);
 		$tmpquery1 = "INSERT INTO ".$tableCollab["bookmarks"]."(owner,category,name,url,description,shared,home,comments,users,created) VALUES('$idSession','$category','$name','$url','$description','$shared','$home','$comments','$users','$dateheure')";
-		connectSql("$tmpquery1");
-		headerFunction("../bookmarks/listbookmarks.php?view=my&msg=add&".session_name()."=".session_id());
+		Util::connectSql("$tmpquery1");
+		Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=add&".session_name()."=".session_id());
 	}
 
 }

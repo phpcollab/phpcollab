@@ -43,14 +43,14 @@ if ($action == "publish")
 	if ($addToSite == "true") 
 	{
 		$tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='0' WHERE id = '$id'";
-		connectSql("$tmpquery1");
+		Util::connectSql("$tmpquery1");
 		$msg = "addToSite";
 	}
 
 	if ($removeToSite == "true") 
 	{
 		$tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='1' WHERE id = '$id'";
-		connectSql("$tmpquery1");
+		Util::connectSql("$tmpquery1");
 		$msg = "removeToSite";
 	}
 
@@ -58,7 +58,7 @@ if ($action == "publish")
 	{
 		$id = str_replace("**",",",$id);
 		$tmpquery1 = "UPDATE ".$tableCollab["files"]." SET published='0' WHERE id IN($id) OR vc_parent IN ($id)";
-		connectSql("$tmpquery1");
+		Util::connectSql("$tmpquery1");
 		$msg = "addToSite";
 		$id = $task;
 	}
@@ -67,7 +67,7 @@ if ($action == "publish")
 	{
 		$id = str_replace("**",",",$id);
 		$tmpquery1 = "UPDATE ".$tableCollab["files"]." SET published='1' WHERE id IN($id) OR vc_parent IN ($id)";
-		connectSql("$tmpquery1");
+		Util::connectSql("$tmpquery1");
 		$msg = "removeToSite";
 		$id = $task;
 	}
@@ -180,9 +180,9 @@ if ($projectDetail->pro_phase_set[0] != "0")
 
 $block1->contentRow($strings["organization"],$projectDetail->pro_org_name[0]);
 
-$block1->contentRow($strings["created"],createDate($taskDetail->tas_created[0],$timezoneSession));
-$block1->contentRow($strings["assigned"],createDate($taskDetail->tas_assigned[0],$timezoneSession));
-$block1->contentRow($strings["modified"],createDate($taskDetail->tas_modified[0],$timezoneSession));
+$block1->contentRow($strings["created"],Util::createDate($taskDetail->tas_created[0],$timezoneSession));
+$block1->contentRow($strings["assigned"],Util::createDate($taskDetail->tas_assigned[0],$timezoneSession));
+$block1->contentRow($strings["modified"],Util::createDate($taskDetail->tas_modified[0],$timezoneSession));
 
 $block1->contentTitle($strings["details"]);
 
@@ -218,7 +218,7 @@ else
 
 if ($taskDetail->tas_complete_date[0] != "" && $taskDetail->tas_complete_date[0] != "--" && $taskDetail->tas_due_date[0] != "--") 
 {
-	$diff = diff_date($taskDetail->tas_complete_date[0],$taskDetail->tas_due_date[0]);
+	$diff = Util::diffDate($taskDetail->tas_complete_date[0],$taskDetail->tas_due_date[0]);
 
 	if ($diff > 0) 
 	{
@@ -285,7 +285,7 @@ if ($comptListUpdates != "0")
 		}
 
 		$abbrev = stripslashes(substr($listUpdates->upd_comments[$i],0,100));
-		echo "<b>".$j.".</b> <i>".createDate($listUpdates->upd_created[$i],$timezoneSession)."</i> $abbrev";
+		echo "<b>".$j.".</b> <i>".Util::createDate($listUpdates->upd_created[$i],$timezoneSession)."</i> $abbrev";
 
 		if (100 < strlen($listUpdates->upd_comments[$i])) 
 		{
@@ -488,7 +488,7 @@ for ($i=0;$i<$comptListAssign;$i++)
 	{
 		$block3->cellRow($blockPage->buildLink($listAssign->ass_mem2_email_work[$i],$listAssign->ass_mem2_login[$i],mail));
 	}
-	$block3->cellRow(createDate($listAssign->ass_assigned[$i],$timezoneSession));
+	$block3->cellRow(Util::createDate($listAssign->ass_assigned[$i],$timezoneSession));
 	$block3->closeRow();
 }
 

@@ -35,7 +35,7 @@ $memberTest = new request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
-		headerFunction("../clients/listclients.php?msg=blankClient&".session_name()."=".session_id());
+		Util::headerFunction("../clients/listclients.php?msg=blankClient&".session_name()."=".session_id());
 	} else {
 		$tmpquery = "WHERE org.id = '$id'";
 	}
@@ -50,7 +50,7 @@ $clientDetail->openOrganizations($tmpquery);
 $comptClientDetail = count($clientDetail->org_id);
 
 if ($comptClientDetail == "0") {
-	headerFunction("../clients/listclients.php?msg=blankClient&".session_name()."=".session_id());
+	Util::headerFunction("../clients/listclients.php?msg=blankClient&".session_name()."=".session_id());
 }
 
 $setTitle .= " : View Client (" . $clientDetail->org_name[0] . ")";
@@ -98,7 +98,7 @@ $block1->contentRow($strings["comments"],nl2br($clientDetail->org_comments[0]));
 if ($enableInvoicing == "true" && ($profilSession == "1" || $profilSession == "0" || $profilSession == "5")) {
 $block1->contentRow($strings["hourly_rate"],$clientDetail->org_hourly_rate[0]);
 }
-$block1->contentRow($strings["created"],createDate($clientDetail->org_created[0],$timezoneSession));
+$block1->contentRow($strings["created"],Util::createDate($clientDetail->org_created[0],$timezoneSession));
 if (file_exists("../logos_clients/".$id.".".$clientDetail->org_extension_logo[0])) {
 $block1->contentRow($strings["logo"],"<img src=\"../logos_clients/".$id.".".$clientDetail->org_extension_logo[0]."\">");
 }

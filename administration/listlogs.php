@@ -32,14 +32,14 @@ include_once('../includes/library.php');
 
 if ($profilSession != "0") 
 {
-	headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
 	exit;
 }
 
 if ($action == "delete") 
 {
 	$tmpquery = "DELETE FROM ".$tableCollab["logs"];
-	connectSql("$tmpquery");
+	Util::connectSql("$tmpquery");
 }
 
 $setTitle .= " : Logs";
@@ -75,7 +75,7 @@ for ($i=0;$i<$comptListLogs;$i++)
 	$block1->cellRow($listLogs->log_ip[$i]);
 	$block1->cellRow($listLogs->log_session[$i]);
 	$block1->cellRow($listLogs->log_compt[$i]);
-	$block1->cellRow(createDate($listLogs->log_last_visite[$i],$timezoneSession));
+	$block1->cellRow(Util::createDate($listLogs->log_last_visite[$i],$timezoneSession));
 	
 	if ($listLogs->log_mem_profil[$i] == "3") 
 	{

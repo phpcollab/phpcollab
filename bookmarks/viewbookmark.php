@@ -32,12 +32,12 @@ include_once('../includes/library.php');
 if ($action == "publish") {
 	if ($addToSite == "true") {
 		$tmpquery1 = "UPDATE ".$tableCollab["notes"]." SET published='0' WHERE id = '$id'";
-		connectSql("$tmpquery1");
+		Util::connectSql("$tmpquery1");
 		$msg = "addToSite";
 	}
 	if ($removeToSite == "true") {
 		$tmpquery1 = "UPDATE ".$tableCollab["notes"]." SET published='1' WHERE id = '$id'";
-		connectSql("$tmpquery1");
+		Util::connectSql("$tmpquery1");
 		$msg = "removeToSite";
 	}
 }
@@ -58,7 +58,7 @@ $private = "false";
 }
 
 if (($bookmarkDetail->boo_users[0] == "" && $bookmarkDetail->boo_owner[0] != $idSession && $bookmarkDetail->boo_shared[0] == "0") || ($private == "false" && $bookmarkDetail->boo_owner[0] != $idSession)) {
-	headerFunction("../bookmarks/listbookmarks.php?view=my&msg=bookmarkOwner&".session_name()."=".session_id());
+	Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=bookmarkOwner&".session_name()."=".session_id());
 }
 
 $setTitle .= " : View Bookmark (" . $bookmarkDetail->boo_name[0] . ")";

@@ -9,8 +9,8 @@ include_once('../includes/library.php');
 if ($action == "delete") {
 	$id = str_replace("**",",",$id);
 	$tmpquery1 = "DELETE FROM ".$tableCollab["reports"]." WHERE id IN($id)";
-	connectSql("$tmpquery1");
-	headerFunction("../general/home.php?msg=deleteReport&".session_name()."=".session_id());
+	Util::connectSql("$tmpquery1");
+	Util::headerFunction("../general/home.php?msg=deleteReport&".session_name()."=".session_id());
 	exit;
 }
 

@@ -43,7 +43,7 @@ if ($id != "")
 	
 	if ($comptClientDetail == "0") 
 	{
-		headerFunction("../clients/listclients.php?msg=blankClient&".session_name()."=".session_id());
+		Util::headerFunction("../clients/listclients.php?msg=blankClient&".session_name()."=".session_id());
 		exit;
 	}
 }
@@ -56,7 +56,7 @@ if ($id != "")
 		if ($logoDel == "on") 
 		{
 			$tmpquery = "UPDATE ".$tableCollab["organizations"]." SET extension_logo='' WHERE id='$id'";
-			connectSql("$tmpquery");
+			Util::connectSql("$tmpquery");
 			@unlink("../logos_clients/".$id.".$extensionOld");
 		}
 
@@ -66,17 +66,17 @@ if ($id != "")
 		{
 			chmod("../logos_clients/".$id.".$extension",0666);
 			$tmpquery = "UPDATE ".$tableCollab["organizations"]." SET extension_logo='$extension' WHERE id='$id'";
-			connectSql("$tmpquery");
+			Util::connectSql("$tmpquery");
 		}
 
 		//replace quotes by html code in name and address
-		$cn = convertData($cn);
-		$add = convertData($add);
-		//$c = convertData($c);
-		$comments = convertData($comments);
-		$tmpquery = "UPDATE ".$tableCollab["organizations"]." SET name='$cn',address1='$add',phone='$client_phone',url='$url',email='$email',comments='$comments',owner='".fixInt($cown)."',hourly_rate='$hourly_rate' WHERE id = '$id'";
-		connectSql("$tmpquery");
-		headerFunction("../clients/viewclient.php?id=$id&msg=update&".session_name()."=".session_id());
+		$cn = Util::convertData($cn);
+		$add = Util::convertData($add);
+		//$c = Util::convertData($c);
+		$comments = Util::convertData($comments);
+		$tmpquery = "UPDATE ".$tableCollab["organizations"]." SET name='$cn',address1='$add',phone='$client_phone',url='$url',email='$email',comments='$comments',owner='".Util::fixInt($cown)."',hourly_rate='$hourly_rate' WHERE id = '$id'";
+		Util::connectSql("$tmpquery");
+		Util::headerFunction("../clients/viewclient.php?id=$id&msg=update&".session_name()."=".session_id());
 	}
 
 	//set value in form
@@ -108,9 +108,9 @@ if ($id == "")
 		{
 
 			//replace quotes by html code in name and address
-			$cn = convertData($cn);
-			$add = convertData($add);
-			$comments = convertData($comments);
+			$cn = Util::convertData($cn);
+			$add = Util::convertData($add);
+			$comments = Util::convertData($comments);
 			
 			//test if name already exists
 			$tmpquery = "WHERE org.name = '$cn'";
@@ -131,11 +131,11 @@ if ($id == "")
 				}
 				
 				//insert into organizations and redirect to new client organization detail (last id)
-				$tmpquery1 = "INSERT INTO ".$tableCollab["organizations"]."(name,address1,phone,url,email,comments,created,owner,hourly_rate) VALUES('$cn','$add','$client_phone','$url','$email','$c','$dateheure','".fixInt($cown)."','$hourly_rate')";
+				$tmpquery1 = "INSERT INTO ".$tableCollab["organizations"]."(name,address1,phone,url,email,comments,created,owner,hourly_rate) VALUES('$cn','$add','$client_phone','$url','$email','$c','$dateheure','".Util::fixInt($cown)."','$hourly_rate')";
 
-				connectSql("$tmpquery1");
+				Util::connectSql("$tmpquery1");
 				$tmpquery = $tableCollab["organizations"];
-				last_id($tmpquery);
+				Util::getLastId($tmpquery);
 				$num = $lastId[0];
 				unset($lastId);
 
@@ -145,10 +145,10 @@ if ($id == "")
 				{
 					chmod("../logos_clients/".$num.".$extension", 0666);
 					$tmpquery = "UPDATE ".$tableCollab["organizations"]." SET extension_logo='$extension' WHERE id='$num'";
-					connectSql("$tmpquery");
+					Util::connectSql("$tmpquery");
 				}
 
-				headerFunction("../clients/viewclient.php?id=$num&msg=add&".session_name()."=".session_id());
+				Util::headerFunction("../clients/viewclient.php?id=$num&msg=add&".session_name()."=".session_id());
 			}
 		}
 	}

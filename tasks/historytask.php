@@ -144,9 +144,9 @@ for ($i = 0; $i < $comptListUpdates; $i++) {
 
     $block1->contentRow($strings["posted_by"], $blockPage->buildLink($listUpdates->upd_mem_email_work[$i], $listUpdates->upd_mem_name[$i], mail));
     if ($listUpdates->upd_created[$i] > $lastvisiteSession) {
-        $block1->contentRow($strings["when"], "<b>" . createDate($listUpdates->upd_created[$i], $timezoneSession) . "</b>");
+        $block1->contentRow($strings["when"], "<b>" . Util::createDate($listUpdates->upd_created[$i], $timezoneSession) . "</b>");
     } else {
-        $block1->contentRow($strings["when"], createDate($listUpdates->upd_created[$i], $timezoneSession));
+        $block1->contentRow($strings["when"], Util::createDate($listUpdates->upd_created[$i], $timezoneSession));
     }
     $block1->contentRow("", nl2br($listUpdates->upd_comments[$i]));
     $block1->contentRow("", "", "true");

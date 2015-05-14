@@ -6,13 +6,13 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 if ($enableHelpSupport != "true") {
-	headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
 	exit;
 }
 
 if ($supportType == "admin") {
 	if ($profilSession != "0") {
-		headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+		Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
 		exit;
 	}
 }
@@ -25,10 +25,10 @@ if($action == "edit"){
 
 	if ($sta == 2){
 		$tmpquery2 = "UPDATE ".$tableCollab["support_requests"]." SET status='$sta',date_close='$dateheure' WHERE id = '$id'";
-		connectSql("$tmpquery2");
+		Util::connectSql("$tmpquery2");
 	} else {
 		$tmpquery2 = "UPDATE ".$tableCollab["support_requests"]." SET status='$sta',date_close='--' WHERE id = '$id'";
-		connectSql($tmpquery2);
+		Util::connectSql($tmpquery2);
 	}
 	
 	if ($notifications == "true") {
@@ -38,17 +38,17 @@ if($action == "edit"){
 		}
 	}
 
-	headerFunction("../support/viewrequest.php?id=$id&".session_name()."=".session_id());
+	Util::headerFunction("../support/viewrequest.php?id=$id&".session_name()."=".session_id());
 	exit;
 }
 
 if($action == "add"){
-	$mes = convertData($mes);
+	$mes = Util::convertData($mes);
 
 	$tmpquery1 = "INSERT INTO ".$tableCollab["support_posts"]."(request_id,message,date,owner,project) VALUES('$id','$mes','$dateheure','$idSession','".$requestDetail->sr_project[0]."')";
-	connectSql("$tmpquery1");
+	Util::connectSql("$tmpquery1");
 	$tmpquery = $tableCollab["support_posts"];
-	last_id($tmpquery);
+	Util::getLastId($tmpquery);
 
 	$num = $lastId[0];
 	unset($lastId);
@@ -59,7 +59,7 @@ if($action == "add"){
 			}
 		}
 	
-	headerFunction("../support/viewrequest.php?id=$id&".session_name()."=".session_id());
+	Util::headerFunction("../support/viewrequest.php?id=$id&".session_name()."=".session_id());
 	exit;
 }
 

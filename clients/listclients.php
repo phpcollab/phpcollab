@@ -95,7 +95,7 @@ $comptMemberTest = count($memberTest->tea_id);
 	$tmpquery = "WHERE org.id != '1' ORDER BY $block1->sortingValue";
 }
 
-$block1->recordsTotal = compt($initrequest["organizations"]." ".$tmpquery);
+$block1->recordsTotal = Util::computeTotal($initrequest["organizations"]." ".$tmpquery);
 
 if ($listClients != "false") {
 	$listOrganizations = new request();

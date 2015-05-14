@@ -9,19 +9,19 @@ include_once('../includes/library.php');
 if ($_GET['action'] == "closeTopic") {
 $tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET status='0' WHERE id = '".$_GET['id']."'";
 $num = "1";
-connectSql("$tmpquery1");
+Util::connectSql("$tmpquery1");
 $msg = "closeTopic";
 }
 
 if ($_GET['action'] == "addToSite") {
 $tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET published='0' WHERE id = '".$_GET['id']."'";
-connectSql("$tmpquery1");
+Util::connectSql("$tmpquery1");
 $msg = "addToSite";
 }
 
 if ($_GET['action'] == "removeToSite") {
 $tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET published='1' WHERE id = '".$_GET['id']."'";
-connectSql("$tmpquery1");
+Util::connectSql("$tmpquery1");
 $msg = "removeToSite";
 }
 
@@ -110,7 +110,7 @@ if ($sitePublish == "true") {
 
 $block1->contentRow($strings["retired"],$statusTopicBis[$idStatus]);
 $block1->contentRow($strings["posts"],$detailTopic->top_posts[0]);
-$block1->contentRow($strings["last_post"],createDate($detailTopic->top_last_post[0],$timezoneSession));
+$block1->contentRow($strings["last_post"],Util::createDate($detailTopic->top_last_post[0],$timezoneSession));
 
 $block1->contentTitle($strings["posts"]);
 
@@ -122,9 +122,9 @@ for ($i=0;$i<$comptListPosts;$i++) {
 $block1->contentRow($strings["posted_by"],$blockPage->buildLink($listPosts->pos_mem_email_work[$i],$listPosts->pos_mem_name[$i],mail));
 
 if ($listPosts->pos_created[$i] > $lastvisiteSession) {
-	$block1->contentRow($strings["when"],"<b>".createDate($listPosts->pos_created[$i],$timezoneSession)."</b>");
+	$block1->contentRow($strings["when"],"<b>".Util::createDate($listPosts->pos_created[$i],$timezoneSession)."</b>");
 } else {
-	$block1->contentRow($strings["when"],createDate($listPosts->pos_created[$i],$timezoneSession));
+	$block1->contentRow($strings["when"],Util::createDate($listPosts->pos_created[$i],$timezoneSession));
 }
 if ($detailProject->pro_owner[0] == $idSession || $profileSession == "0" || $listPosts->pos_member[$i] == $idSession) {
 	$block1->contentRow($blockPage->buildLink("../topics/deletepost.php?topic=".$detailTopic->top_id[0]."&id=".$listPosts->pos_id[$i],$strings["delete_message"],in),nl2br($listPosts->pos_message[$i]));

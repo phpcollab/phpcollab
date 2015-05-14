@@ -36,7 +36,7 @@ $userPrefs->openMembers($tmpquery);
 $comptUserPrefs = count($userPrefs->mem_id);
 
 if ($comptUserPrefs == "0") {
-    headerFunction("../users/listusers.php?msg=blankUser&" . session_name() . "=" . session_id());
+    Util::headerFunction("../users/listusers.php?msg=blankUser&" . session_name() . "=" . session_id());
     exit;
 }
 
@@ -46,11 +46,11 @@ if ($action == "update") {
             $tbl_check[$i] = "1";
         }
         //echo $tbl_check[$i]."<br/>";
-        headerFunction("../preferences/updatenotifications.php?msg=update&" . session_name() . "=" . session_id());
+        Util::headerFunction("../preferences/updatenotifications.php?msg=update&" . session_name() . "=" . session_id());
     }
 
     $tmpquery = "UPDATE " . $tableCollab["notifications"] . " SET taskAssignment='$tbl_check[0]',statusTaskChange='$tbl_check[1]',priorityTaskChange='$tbl_check[2]',duedateTaskChange='$tbl_check[3]',addProjectTeam='$tbl_check[4]',removeProjectTeam='$tbl_check[5]',newPost='$tbl_check[6]',newTopic='$tbl_check[7]',clientAddTask='$tbl_check[8]',uploadFile='$tbl_check[9]',dailyAlert='$tbl_check[10]',weeklyAlert='$tbl_check[11]',pastdueAlert='$tbl_check[12]' WHERE member = '$idSession'";
-    connectSql($tmpquery);
+    Util::connectSql($tmpquery);
 }
 
 $tmpquery = "WHERE noti.member = '$idSession'";

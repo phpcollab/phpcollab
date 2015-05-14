@@ -43,23 +43,23 @@ if ($action == "add") {
 		$pub = "1";
 	}
 
-	$ttt = convertData($ttt);
-	$tpm = convertData($tpm);
+	$ttt = Util::convertData($ttt);
+	$tpm = Util::convertData($tpm);
 	$tmpquery1 = "INSERT INTO ".$tableCollab["topics"]."(project,owner,subject,status,last_post,posts,published) VALUES('$project','$idSession','$ttt','1','$dateheure','1','$pub')";
-	connectSql("$tmpquery1");
+	Util::connectSql("$tmpquery1");
 	$tmpquery = $tableCollab["topics"];
-	last_id($tmpquery);
+	Util::getLastId($tmpquery);
 	$num = $lastId[0];
 	unset($lastId);
-	autoLinks($tpm);
+	Util::autoLinks($tpm);
 	$tmpquery2 = "INSERT INTO ".$tableCollab["posts"]."(topic,member,created,message) VALUES('$num','$idSession','$dateheure','$newText')";
-	connectSql("$tmpquery2");
+	Util::connectSql("$tmpquery2");
 
 	if ($notifications == "true") {
 		include("../topics/noti_newtopic.php");
 	}
 
-	headerFunction("../topics/viewtopic.php?project=$project&id=$num&msg=add&".session_name()."=".session_id());
+	Util::headerFunction("../topics/viewtopic.php?project=$project&id=$num&msg=add&".session_name()."=".session_id());
 }
 
 $teamMember = "false";

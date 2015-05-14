@@ -6,13 +6,13 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 if ($enableHelpSupport != "true") {
-	headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
 	exit;
 }
 
 if ($supportType == "admin") {
 	if ($profilSession != "0") {
-		headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+		Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
 		exit;
 	}
 }

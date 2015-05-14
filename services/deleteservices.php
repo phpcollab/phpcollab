@@ -7,15 +7,15 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 if ($profilSession != "0") {
-	headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
 	exit;
 }
 
 if ($action == "delete") {
 	$id = str_replace("**",",",$id);
 	$tmpquery1 = "DELETE FROM ".$tableCollab["services"]." WHERE id IN($id)";
-	connectSql($tmpquery1);
-	headerFunction("../services/listservices.php?msg=delete&".session_name()."=".session_id());
+	Util::connectSql($tmpquery1);
+	Util::headerFunction("../services/listservices.php?msg=delete&".session_name()."=".session_id());
 	exit;
 }
 

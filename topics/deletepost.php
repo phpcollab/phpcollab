@@ -13,10 +13,10 @@ $detailTopic->openTopics($tmpquery);
 if ($action == "delete") {
 	$detailTopic->top_posts[0] = $detailTopic->top_posts[0] - 1;
 	$tmpquery = "DELETE FROM ".$tableCollab["posts"]." WHERE id = '$id'";
-	connectSql("$tmpquery");
+	Util::connectSql("$tmpquery");
 	$tmpquery2 = "UPDATE ".$tableCollab["topics"]." SET posts='".$detailTopic->top_posts[0]."' WHERE id = '$topic'";
-	connectSql("$tmpquery2");
-	headerFunction("../topics/viewtopic.php?msg=delete&id=$topic&".session_name()."=".session_id());
+	Util::connectSql("$tmpquery2");
+	Util::headerFunction("../topics/viewtopic.php?msg=delete&id=$topic&".session_name()."=".session_id());
 	exit;
 }
 

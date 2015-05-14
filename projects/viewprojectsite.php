@@ -42,7 +42,7 @@ if ($action == "publish")
 		{
 			$tmpquery1 = "UPDATE ".$tableCollab["teams"]." SET published='0' WHERE member = '$id' AND project = '$project'";
 		}
-		connectSql("$tmpquery1");
+		Util::connectSql("$tmpquery1");
 		$msg = "addToSite";
 		$id = $project;
 	}
@@ -60,7 +60,7 @@ if ($action == "publish")
 			$tmpquery1 = "UPDATE ".$tableCollab["teams"]." SET published='1' WHERE member = '$id' AND project = '$project'";
 		}
 
-		connectSql("$tmpquery1");
+		Util::connectSql("$tmpquery1");
 		$msg = "removeToSite";
 		$id = $project;
 	}
@@ -99,7 +99,7 @@ if ($teamMember == "false" && $projectsFilter == "true")
 
 if ($comptPro == "0") 
 {
-	headerFunction("../projects/listprojects.php?msg=blankProject&".session_name()."=".session_id());
+	Util::headerFunction("../projects/listprojects.php?msg=blankProject&".session_name()."=".session_id());
 	exit;
 }
 

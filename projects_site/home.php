@@ -43,9 +43,9 @@ if ($updateProject == "true") {
 
 		$_SESSION['projectSession'] = $projectSession;
 
-		headerFunction("home.php?".session_name()."=".session_id());
+		Util::headerFunction("home.php?".session_name()."=".session_id());
 	} else {
-		headerFunction("home.php?changeProject=true&".session_name()."=".session_id());
+		Util::headerFunction("home.php?changeProject=true&".session_name()."=".session_id());
 	}
 }
 
@@ -54,7 +54,7 @@ $titlePage = $strings["welcome"]." $nameSession ".$strings["your_projectsite"];
 include ("include_header.php");
 
 if ($updateProject != "true" && $changeProject != "true") {
-	$tmpquery = "WHERE org.id = '".fixInt($projectDetail->pro_organization[0])."'";
+	$tmpquery = "WHERE org.id = '".Util::fixInt($projectDetail->pro_organization[0])."'";
 	$clientDetail = new request();
 	$clientDetail->openOrganizations($tmpquery);
 }
@@ -63,7 +63,7 @@ $idStatus = $projectDetail->pro_status[0];
 $idPriority = $projectDetail->pro_priority[0];
 
 if ($projectSession == "" || $changeProject == "true") {
-	$tmpquery = "WHERE tea.member = '".fixInt($idSession)."' AND pro.status IN(0,2,3) AND pro.published = '0' ORDER BY pro.name";
+	$tmpquery = "WHERE tea.member = '".Util::fixInt($idSession)."' AND pro.status IN(0,2,3) AND pro.published = '0' ORDER BY pro.name";
 	$listProjects = new request();
 	$listProjects->openTeams($tmpquery);
 	$comptListProjects = count($listProjects->tea_id);
@@ -173,11 +173,11 @@ if ($projectSession != "" && $changeProject != "true") {
 			</tr>
 			<tr>
 				<th nowrap class='FormLabel'>".$strings["created"]." :</th>
-				<td>&nbsp;".createDate($projectDetail->pro_created[0],$timezoneSession)."</td>
+				<td>&nbsp;".Util::createDate($projectDetail->pro_created[0],$timezoneSession)."</td>
 			</tr>
 			<tr>
 				<th nowrap class='FormLabel'>".$strings["modified"]." :</th>
-				<td>&nbsp;".createDate($projectDetail->pro_modified[0],$timezoneSession)."</td>
+				<td>&nbsp;".Util::createDate($projectDetail->pro_modified[0],$timezoneSession)."</td>
 			</tr>
 			</table>";
 

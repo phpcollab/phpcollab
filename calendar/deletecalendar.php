@@ -31,8 +31,8 @@ include_once('../includes/library.php');
 if ($action == "delete") {
 	$id = str_replace("**",",",$id);
 	$tmpquery1 = "DELETE FROM ".$tableCollab["calendar"]." WHERE id IN($id)";
-	connectSql("$tmpquery1");
-	headerFunction("../calendar/viewcalendar.php?msg=delete&".session_name()."=".session_id());
+	Util::connectSql("$tmpquery1");
+	Util::headerFunction("../calendar/viewcalendar.php?msg=delete&".session_name()."=".session_id());
 	exit;
 }
 

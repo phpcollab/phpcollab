@@ -48,7 +48,7 @@ if ($id != "") {
 	$comptcommentDetail = count($commentDetail->newscom_id);
 	
 	if ($comptcommentDetail == "0") {
-			headerFunction("../newsdesk/viewnews.php?id=$postid&msg=blankNews&".session_name()."=".session_id());
+			Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=blankNews&".session_name()."=".session_id());
 			exit;
 	}
 
@@ -58,29 +58,29 @@ if ($id != "") {
 	$commentAuthor->openMembers($tmpquery_user);
 
 	if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5" && $idSession != $commentDetail->newscom_name[0] ) {
-			headerFunction("../newsdesk/viewnews.php?id=$postid&msg=commentpermissionNews&".session_name()."=".session_id());
+			Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=commentpermissionNews&".session_name()."=".session_id());
 			exit;
 	}
 
 
 	if ($action == "update") {
-		$title = convertData($title);
-		$content = convertData($content);
+		$title = Util::convertData($title);
+		$content = Util::convertData($content);
 		$tmpquery = "UPDATE ".$tableCollab["newsdeskcomments"]." SET comment = '$comment' WHERE id = '$id'";
-		connectSql("$tmpquery");
-		headerFunction("../newsdesk/viewnews.php?id=$postid&msg=update&".session_name()."=".session_id());
+		Util::connectSql("$tmpquery");
+		Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=update&".session_name()."=".session_id());
 	}
 	elseif ($action == "delete") {
 		// only admin, prj-adm and prj-man can delete a comments
 		if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5" ) {
-			headerFunction("../newsdesk/viewnews.php?id=$postid&msg=commentpermissionNews&".session_name()."=".session_id());
+			Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=commentpermissionNews&".session_name()."=".session_id());
 			exit;
 		}
 
 		$id = str_replace("**",",",$id);
 		$tmpquery = "DELETE FROM ".$tableCollab["newsdeskcomments"]." WHERE id IN('$id')";
-		connectSql("$tmpquery");
-		headerFunction("../newsdesk/viewnews.php?id=$postid&msg=removeComment&".session_name()."=".session_id());
+		Util::connectSql("$tmpquery");
+		Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=removeComment&".session_name()."=".session_id());
 	}	
 	else {
 		//set value in form
@@ -98,19 +98,19 @@ if ($id != "") {
 		} else {
 
 			//replace quotes by html code in name and address
-			$name = convertData($name);
-			$comment = convertData($comment);
+			$name = Util::convertData($name);
+			$comment = Util::convertData($comment);
 
 			//insert into organizations and redirect to new client organization detail (last id)
 			$tmpquery1 = "INSERT INTO ".$tableCollab["newsdeskcomments"]."(name,post_id,comment) VALUES ('$name','$postid' , '".addslashes($comment)."')";
 
-			connectSql("$tmpquery1");
+			Util::connectSql("$tmpquery1");
 			$tmpquery = $tableCollab["newsdeskcomments"];
-			last_id($tmpquery);
+			Util::getLastId($tmpquery);
 			$num = $lastId[0];
 			unset($lastId);
 	
-			headerFunction("../newsdesk/viewnews.php?id=$postid&msg=add&".session_name()."=".session_id());
+			Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=add&".session_name()."=".session_id());
 
 		}
 	}

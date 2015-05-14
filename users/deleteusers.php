@@ -45,7 +45,7 @@ if ($action == "delete") {
 				if ($comptListTeams == "0") {
 					$tmpquery = "INSERT INTO ".$tableCollab["teams"]."(project,member,published,authorized) VALUES('".$listProjects->pro_id[$i]."','$atProject','1','0')";
 
-					connectSql("$tmpquery");
+					Util::connectSql("$tmpquery");
 				}
 	}
 
@@ -72,20 +72,20 @@ if ($action == "delete") {
 			}
 		}
 	}
-	connectSql("$tmpquery1");
-	connectSql("$tmpquery2");
-	connectSql("$tmpquery3");
-	connectSql("$tmpquery4");
-	connectSql("$tmpquery5");
-	connectSql("$tmpquery6");
-	connectSql("$tmpquery7");
+	Util::connectSql("$tmpquery1");
+	Util::connectSql("$tmpquery2");
+	Util::connectSql("$tmpquery3");
+	Util::connectSql("$tmpquery4");
+	Util::connectSql("$tmpquery5");
+	Util::connectSql("$tmpquery6");
+	Util::connectSql("$tmpquery7");
 //if mantis bug tracker enabled
 	if ($enableMantis == "true") {
 // Call mantis function to remove user
 		include ("../mantis/user_delete.php");
 	}
 
-	headerFunction("../users/listusers.php?msg=delete&".session_name()."=".session_id());
+	Util::headerFunction("../users/listusers.php?msg=delete&".session_name()."=".session_id());
 	exit;
 }
 
@@ -125,11 +125,11 @@ for ($i=0;$i<$comptListMembers;$i++) {
 }
 
 $tmpquery = "SELECT pro.id FROM ".$tableCollab["projects"]." pro WHERE pro.owner IN($id)";
-compt($tmpquery);
+Util::computeTotal($tmpquery);
 $totalProjects = $countEnregTotal;
 
 $tmpquery = "SELECT tas.id FROM ".$tableCollab["tasks"]." tas WHERE tas.assigned_to IN($id)";
-compt($tmpquery);
+Util::computeTotal($tmpquery);
 
 $totalTasks = $countEnregTotal;
 

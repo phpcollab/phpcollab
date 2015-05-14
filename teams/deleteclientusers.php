@@ -12,7 +12,7 @@ $projectDetail->openProjects($tmpquery);
 $comptProjectDetail = count($projectDetail->pro_id);
 
 if ($comptProjectDetail == "0") {
-	headerFunction("../projects/listprojects.php?msg=blank&".session_name()."=".session_id());
+	Util::headerFunction("../projects/listprojects.php?msg=blank&".session_name()."=".session_id());
 	exit;
 }
 
@@ -42,7 +42,7 @@ if ($action == "delete") {
 	$compt = count($pieces);
 	for ($i=0;$i<$compt;$i++) {
 		$tmpquery1 = "DELETE FROM ".$tableCollab["teams"]." WHERE member = '$pieces[$i]'";
-		connectSql("$tmpquery1");
+		Util::connectSql("$tmpquery1");
 //if mantis bug tracker enabled
 		if ($enableMantis == "true") {
 // Unassign user from this project in mantis
@@ -55,7 +55,7 @@ if ($notifications == "true") {
 $organization = "";
 	include("../teams/noti_removeprojectteam.php");
 }
-	headerFunction("../projects/viewprojectsite.php?id=$project&msg=removeClientToSite&".session_name()."=".session_id());
+	Util::headerFunction("../projects/viewprojectsite.php?id=$project&msg=removeClientToSite&".session_name()."=".session_id());
 	exit;
 }
 

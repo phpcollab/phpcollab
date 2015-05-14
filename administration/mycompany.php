@@ -33,28 +33,28 @@ include_once('../includes/library.php');
 
 if ($profilSession != "0") 
 {
-	headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
 	exit;
 }
 
-$action = returnGlobal('action','GET');
+$action = Util::returnGlobal('action','GET');
 
 if ($action == "update") 
 {
-	$extension = returnGlobal('extension','POST');
-	$extensionOld = returnGlobal('extensionOld','POST');
-	$cn = returnGlobal('cn','POST');
-	$add = returnGlobal('add','POST');
-	$wp = returnGlobal('wp','POST');
-	$url = returnGlobal('url','POST');
-	$email = returnGlobal('email','POST');
-	$c = returnGlobal('c','POST');
-	$logoDel = returnGlobal('logoDel','POST');
+	$extension = Util::returnGlobal('extension','POST');
+	$extensionOld = Util::returnGlobal('extensionOld','POST');
+	$cn = Util::returnGlobal('cn','POST');
+	$add = Util::returnGlobal('add','POST');
+	$wp = Util::returnGlobal('wp','POST');
+	$url = Util::returnGlobal('url','POST');
+	$email = Util::returnGlobal('email','POST');
+	$c = Util::returnGlobal('c','POST');
+	$logoDel = Util::returnGlobal('logoDel','POST');
 
 	if ($logoDel == "on") 
 	{
 		$tmpquery = "UPDATE ".$tableCollab["organizations"]." SET extension_logo='' WHERE id='1'";
-		connectSql("$tmpquery");
+		Util::connectSql("$tmpquery");
 		@unlink("../logos_clients/1.$extensionOld");
 	}
 	
@@ -62,14 +62,14 @@ if ($action == "update")
 	if(@move_uploaded_file($_FILES['upload']['tmp_name'], "../logos_clients/1.$extension")) 
 	{
 		$tmpquery = "UPDATE ".$tableCollab["organizations"]." SET extension_logo='$extension' WHERE id='1'";
-		connectSql("$tmpquery");
+		Util::connectSql("$tmpquery");
 	}
-	$cn = convertData($cn);
-	$add = convertData($add);
-	$c = convertData($c);
+	$cn = Util::convertData($cn);
+	$add = Util::convertData($add);
+	$c = Util::convertData($c);
 	$tmpquery = "UPDATE ".$tableCollab["organizations"]." SET name='$cn',address1='$add',phone='$wp',url='$url',email='$email',comments='$c' WHERE id = '1'";
-	connectSql("$tmpquery");
-	headerFunction("../administration/mycompany.php?".session_name()."=".session_id());
+	Util::connectSql("$tmpquery");
+	Util::headerFunction("../administration/mycompany.php?".session_name()."=".session_id());
 }
 $tmpquery = "WHERE org.id = '1'";
 $clientDetail = new request();

@@ -17,7 +17,7 @@ $comptProjectDetail = count($projectDetail->pro_id);
 
 //test exists selected project, redirect to list if not
 if ($comptProjectDetail == "0") {
-	headerFunction("../projects/listprojects.php?msg=blank&".session_name()."=".session_id());
+	Util::headerFunction("../projects/listprojects.php?msg=blank&".session_name()."=".session_id());
 	exit;
 }
 
@@ -50,7 +50,7 @@ $multi = strstr($id,",");
 		for ($i=0;$i<$compt;$i++) {
 			if ($projectDetail->pro_owner[0] != $pieces[$i]) {
 				$tmpquery1 = "DELETE FROM ".$tableCollab["teams"]." WHERE member = '$pieces[$i]' AND project = '$project'";
-				connectSql("$tmpquery1");
+				Util::connectSql("$tmpquery1");
 
 //if mantis bug tracker enabled
 			if ($enableMantis == "true") {
@@ -82,7 +82,7 @@ $multi = strstr($id,",");
 		if ($projectDetail->pro_owner[0] == $id) {
 			$msg = "deleteTeamOwner";
 		} else {
-			connectSql("$tmpquery1");
+			Util::connectSql("$tmpquery1");
 			$msg = "delete";
 
 //if mantis bug tracker enabled
@@ -104,13 +104,13 @@ $multi = strstr($id,",");
 	}
 
 //$tmpquery3 = "UPDATE ".$tableCollab["tasks"]." SET assigned_to='0' WHERE assigned_to IN($id) AND assigned_to != '$projectDetail->pro_owner[0]'";
-//connectSql("$tmpquery3");
+//Util::connectSql("$tmpquery3");
 
 if ($notifications == "true") {
 $organization = "1";
 	include("../teams/noti_removeprojectteam.php");
 }
-	headerFunction("../projects/viewproject.php?id=$project&msg=$msg&".session_name()."=".session_id());
+	Util::headerFunction("../projects/viewproject.php?id=$project&msg=$msg&".session_name()."=".session_id());
 }
 
 include('../themes/'.THEME.'/header.php');

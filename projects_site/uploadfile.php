@@ -32,7 +32,7 @@ include("../includes/library.php");
 
 if ($action == "add") 
 {
-	$filename = check_FileName($_FILES['upload']['name']);
+	$filename = Util::checkFileName($_FILES['upload']['name']);
 	
 	if ($maxCustom != "") 
 	{
@@ -80,11 +80,11 @@ if ($action == "add")
 		
 	if ($docopy == "true") 
 	{
-		$commentsField = convertData($commentsField);
+		$commentsField = Util::convertData($commentsField);
 		$tmpquery = "INSERT INTO ".$tableCollab["files"]."(owner,project,task,comments,upload,published,status,vc_version,vc_parent,phase) VALUES('$idSession','$projectSession','0','$commentsField','$dateheure','0','2','0.0','0','0')";
-		connectSql("$tmpquery");
+		Util::connectSql("$tmpquery");
 		$tmpquery = $tableCollab["files"];
-		last_id($tmpquery);
+		Util::getLastId($tmpquery);
 		$num = $lastId[0];
 		unset($lastId);
 
@@ -93,10 +93,10 @@ if ($action == "add")
 			include("../projects_site/noti_uploadfile.php");
 		}
 
-		uploadFile("files/$project", $_FILES['upload']['tmp_name'], "$num--".$filename);
+		Util::uploadFile("files/$project", $_FILES['upload']['tmp_name'], "$num--".$filename);
 		
-		$size = file_info_size("../files/".$project."/".$num."--".$filename);
-		//$dateFile = file_info_date("files/".$project."/".$num."--".$filename);
+		$size = Util::fileInfoSize("../files/".$project."/".$num."--".$filename);
+		//$dateFile = Util::getFileDate("files/".$project."/".$num."--".$filename);
 		
 		$chaine = strrev("../files/".$project."/".$num."--".$filename);
 		$tab = explode(".",$chaine);
@@ -105,8 +105,8 @@ if ($action == "add")
 		$name = $num."--".$filename;
 		$tmpquery = "UPDATE ".$tableCollab["files"]." SET name='$name',date='$dateheure',size='$size',extension='$extension' WHERE id = '$num'";
 			
-		connectSql("$tmpquery");
-		headerFunction("doclists.php?".session_name()."=".session_id());
+		Util::connectSql("$tmpquery");
+		Util::headerFunction("doclists.php?".session_name()."=".session_id());
 		exit;
 	}
 

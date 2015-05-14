@@ -40,7 +40,7 @@ if ($action == "search") {
 //if searchfor not blank, redirect to searchresults
 	} else {
 		$searchfor = urlencode($searchfor);
-		headerFunction("../search/resultssearch.php?searchfor=$searchfor&heading=$heading&".session_name()."=".session_id());
+		Util::headerFunction("../search/resultssearch.php?searchfor=$searchfor&heading=$heading&".session_name()."=".session_id());
 		exit;
 	}
 } 

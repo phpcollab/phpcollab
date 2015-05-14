@@ -83,7 +83,7 @@ if ($typeProjects == "inactive") {
 	}
 }
 
-$block1->recordsTotal = compt($initrequest["projects"]." ".$tmpquery);
+$block1->recordsTotal = Util::computeTotal($initrequest["projects"]." ".$tmpquery);
 
 $listProjects = new request();
 $listProjects->openProjects($tmpquery,$block1->borne,$block1->rowsLimit);

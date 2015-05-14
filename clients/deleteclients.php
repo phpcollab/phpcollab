@@ -42,10 +42,10 @@ if ($action == "delete") {
 	$tmpquery1 = "DELETE FROM ".$tableCollab["organizations"]." WHERE id IN($id)";
 	$tmpquery2 = "UPDATE ".$tableCollab["projects"]." SET organization='1' WHERE organization IN($id)";
 	$tmpquery3 = "DELETE FROM ".$tableCollab["members"]." WHERE organization IN($id)";
-	connectSql("$tmpquery1");
-	connectSql("$tmpquery2");
-	connectSql("$tmpquery3");
-	headerFunction("../clients/listclients.php?msg=delete&".session_name()."=".session_id());
+	Util::connectSql("$tmpquery1");
+	Util::connectSql("$tmpquery2");
+	Util::connectSql("$tmpquery3");
+	Util::headerFunction("../clients/listclients.php?msg=delete&".session_name()."=".session_id());
 }
 
 $setTitle .= " : Delete Client";

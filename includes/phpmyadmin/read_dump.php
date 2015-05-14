@@ -417,6 +417,6 @@ if ($goto != 'main.php') {
     include('header.inc.php');
 }
 require('./' . $goto);*/
-headerFunction("../index.php");
+Util::headerFunction("../index.php");
 exit;
 ?>

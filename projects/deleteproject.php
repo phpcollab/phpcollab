@@ -17,11 +17,11 @@ $listProjects->openProjects($tmpquery);
 $comptListProjects = count($listProjects->pro_id);
 
 if ($comptListProjects == "0") {
-    headerFunction("../projects/listprojects.php?msg=blankProject&".session_name()."=".session_id());
+    Util::headerFunction("../projects/listprojects.php?msg=blankProject&".session_name()."=".session_id());
     exit;
 }
 if ($idSession != $listProjects->pro_owner[0] && $profilSession != "5") {
-    headerFunction("../projects/listprojects.php?msg=projectOwner&".session_name()."=".session_id());
+    Util::headerFunction("../projects/listprojects.php?msg=projectOwner&".session_name()."=".session_id());
     exit;
 }
 
@@ -32,10 +32,10 @@ if ($action == "delete") {
     $comptPro = count($pieces);
     for ($i=0;$i<$comptPro;$i++) {
         if ($fileManagement == "true") {
-            delDir("../files/$pieces[$i]");
+            Util::deleteDirectory("../files/$pieces[$i]");
         }
         if ($sitePublish == "true") {
-            delDir("project_sites/$pieces[$i]");
+            Util::deleteDirectory("project_sites/$pieces[$i]");
         }
 
 //if CVS repository enabled
@@ -50,7 +50,7 @@ if ($action == "delete") {
     $comptListTasks = count($listTasks->tas_id);
     for ($i=0;$i<$comptListTasks;$i++) {
         if ($fileManagement == "true") {
-            delDir("../files/$id/".$listTasks->tas_id[$i]);
+            Util::deleteDirectory("../files/$id/".$listTasks->tas_id[$i]);
         }
         $tasks .= $listTasks->tas_id[$i];
         if ($i != $comptListTasks-1) {
@@ -81,28 +81,28 @@ if ($action == "delete") {
     $tmpquery11 = "DELETE FROM ".$tableCollab["phases"]." WHERE project_id IN($id)";
     $tmpquery12 = "DELETE FROM ".$tableCollab["subtasks"]." WHERE task IN($tasks)";
     
-    connectSql($tmpquery1);
-    connectSql($tmpquery2);
-    connectSql($tmpquery3);
-    connectSql($tmpquery4);
-    connectSql($tmpquery5);
+    Util::connectSql($tmpquery1);
+    Util::connectSql($tmpquery2);
+    Util::connectSql($tmpquery3);
+    Util::connectSql($tmpquery4);
+    Util::connectSql($tmpquery5);
 if ($tasks != "") {
-    connectSql($tmpquery6);
-    connectSql($tmpquery12);
+    Util::connectSql($tmpquery6);
+    Util::connectSql($tmpquery12);
 }
 if ($topics != "") {
-    connectSql($tmpquery7);
+    Util::connectSql($tmpquery7);
 }
-    connectSql($tmpquery8);
-    connectSql($tmpquery9);
-    connectSql($tmpquery10);
-    connectSql($tmpquery11);
+    Util::connectSql($tmpquery8);
+    Util::connectSql($tmpquery9);
+    Util::connectSql($tmpquery10);
+    Util::connectSql($tmpquery11);
 //if mantis bug tracker enabled
     if ($enableMantis == "true") {
 // call mantis function to delete project
         include("../mantis/proj_delete.php");
     }
-    headerFunction("../projects/listprojects.php?msg=delete&".session_name()."=".session_id());
+    Util::headerFunction("../projects/listprojects.php?msg=delete&".session_name()."=".session_id());
 }
 
 include('../themes/'.THEME.'/header.php');

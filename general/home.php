@@ -72,7 +72,7 @@ if ($action == 'publish')
 	      $num = '1';
 		}
 	
-	    connectSql($tmpquery1);
+	    Util::connectSql($tmpquery1);
 	    $msg = 'closeTopic';
 	}
 
@@ -88,7 +88,7 @@ if ($action == 'publish')
 	$tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET published='0' WHERE id = '$id'";
 	}
 
-    connectSql($tmpquery1);
+    Util::connectSql($tmpquery1);
     $msg = 'addToSite';
 }
 
@@ -106,7 +106,7 @@ if ($action == 'publish')
 			$tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET published='1' WHERE id = '$id'";
 		}
 	
-		connectSql("$tmpquery1");
+		Util::connectSql("$tmpquery1");
 		$msg = "removeToSite";
 	}
 }
@@ -647,11 +647,11 @@ if ($showHomeDiscussions)
 	$block4->cellRow($listTopics->top_posts[$i]);
 	if ($listTopics->top_last_post[$i] > $lastvisiteSession) 
 	{
-		$block4->cellRow("<b>".createDate($listTopics->top_last_post[$i],$timezoneSession)."</b>");
+		$block4->cellRow("<b>".Util::createDate($listTopics->top_last_post[$i],$timezoneSession)."</b>");
 	} 
 	else 
 	{
-		$block4->cellRow(createDate($listTopics->top_last_post[$i],$timezoneSession));
+		$block4->cellRow(Util::createDate($listTopics->top_last_post[$i],$timezoneSession));
 	}
 	$block4->cellRow($statusTopic[$idStatus]);
 	$block4->cellRow($blockPage->buildLink("../projects/viewproject.php?id=".$listTopics->top_project[$i],$listTopics->top_pro_name[$i],in));
@@ -717,7 +717,7 @@ if ($showHomeReports)
 	$block5->openRow();
 	$block5->checkboxRow($listReports->rep_id[$i]);
 	$block5->cellRow($blockPage->buildLink("../reports/resultsreport.php?id=".$listReports->rep_id[$i],$listReports->rep_name[$i],in));
-	$block5->cellRow(createDate($listReports->rep_created[$i],$timezoneSession));
+	$block5->cellRow(Util::createDate($listReports->rep_created[$i],$timezoneSession));
 	$block5->closeRow();
 	}
 	$block5->closeResults();
@@ -870,8 +870,8 @@ if ($showHomeNewsdesk)
 	
 	$relatedQuery = " = 'g' ";
 
-	$tmpquery = "WHERE news.author = '".fixInt($sessionId)."' OR news.rss = '1' OR news.related ".$relatedQuery." ORDER BY $block7->sortingValue ";
-	$block7->recordsTotal = compt($initrequest["newsdeskposts"]." ".$tmpquery);
+	$tmpquery = "WHERE news.author = '".Util::fixInt($sessionId)."' OR news.rss = '1' OR news.related ".$relatedQuery." ORDER BY $block7->sortingValue ";
+	$block7->recordsTotal = Util::computeTotal($initrequest["newsdeskposts"]." ".$tmpquery);
 
 	$listPosts = new request();
 	$listPosts->openNewsDesk($tmpquery,$block7->borne,$block7->rowsLimit);

@@ -34,20 +34,20 @@ if ($action == "publish") {
 
     if ($addToSite == "true") {
         $tmpquery1 = "UPDATE " . $tableCollab["subtasks"] . " SET published='0' WHERE id = '$id'";
-        connectSql("$tmpquery1");
+        Util::connectSql("$tmpquery1");
         $msg = "addToSite";
     }
 
     if ($removeToSite == "true") {
         $tmpquery1 = "UPDATE " . $tableCollab["subtasks"] . " SET published='1' WHERE id = '$id'";
-        connectSql("$tmpquery1");
+        Util::connectSql("$tmpquery1");
         $msg = "removeToSite";
     }
 
     if ($addToSiteFile == "true") {
         $id = str_replace("**", ",", $id);
         $tmpquery1 = "UPDATE " . $tableCollab["files"] . " SET published='0' WHERE id IN($id) OR vc_parent IN ($id)";
-        connectSql("$tmpquery1");
+        Util::connectSql("$tmpquery1");
         $msg = "addToSite";
         $id = $task;
     }
@@ -55,7 +55,7 @@ if ($action == "publish") {
     if ($removeToSiteFile == "true") {
         $id = str_replace("**", ",", $id);
         $tmpquery1 = "UPDATE " . $tableCollab["files"] . " SET published='1' WHERE id IN($id) OR vc_parent IN ($id)";
-        connectSql("$tmpquery1");
+        Util::connectSql("$tmpquery1");
         $msg = "removeToSite";
         $id = $task;
     }
@@ -153,9 +153,9 @@ if ($projectDetail->pro_phase_set[0] != "0") {
 
 $block1->contentRow($strings["task"], $blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail->tas_id[0], $taskDetail->tas_name[0], in));
 $block1->contentRow($strings["organization"], $projectDetail->pro_org_name[0]);
-$block1->contentRow($strings["created"], createDate($subtaskDetail->subtas_created[0], $timezoneSession));
-$block1->contentRow($strings["assigned"], createDate($subtaskDetail->subtas_assigned[0], $timezoneSession));
-$block1->contentRow($strings["modified"], createDate($subtaskDetail->subtas_modified[0], $timezoneSession));
+$block1->contentRow($strings["created"], Util::createDate($subtaskDetail->subtas_created[0], $timezoneSession));
+$block1->contentRow($strings["assigned"], Util::createDate($subtaskDetail->subtas_assigned[0], $timezoneSession));
+$block1->contentRow($strings["modified"], Util::createDate($subtaskDetail->subtas_modified[0], $timezoneSession));
 
 $block1->contentTitle($strings["details"]);
 
@@ -181,7 +181,7 @@ if ($subtaskDetail->subtas_due_date[0] <= $date && $subtaskDetail->subtas_comple
     $block1->contentRow($strings["due_date"], $subtaskDetail->subtas_due_date[0]);
 }
 if ($subtaskDetail->subtas_complete_date[0] != "" && $subtaskDetail->subtas_complete_date[0] != "--" && $subtaskDetail->subtas_due_date[0] != "--") {
-    $diff = diff_date($subtaskDetail->subtas_complete_date[0], $subtaskDetail->subtas_due_date[0]);
+    $diff = Util::diffDate($subtaskDetail->subtas_complete_date[0], $subtaskDetail->subtas_due_date[0]);
     if ($diff > 0) {
         $diff = "<b>+$diff</b>";
     }
@@ -223,7 +223,7 @@ if ($comptListUpdates != "0") {
         }
 
         $abbrev = stripslashes(substr($listUpdates->upd_comments[$i], 0, 100));
-        echo "<b>" . $j . ".</b> <i>" . createDate($listUpdates->upd_created[$i], $timezoneSession) . "</i> $abbrev";
+        echo "<b>" . $j . ".</b> <i>" . Util::createDate($listUpdates->upd_created[$i], $timezoneSession) . "</i> $abbrev";
         if (100 < strlen($listUpdates->upd_comments[$i])) {
             echo "...<br/>";
         } else {
@@ -381,7 +381,7 @@ for ($i = 0; $i < $comptListAssign; $i++) {
     } else {
         $block3->cellRow($blockPage->buildLink($listAssign->ass_mem2_email_work[$i], $listAssign->ass_mem2_login[$i], mail));
     }
-    $block3->cellRow(createDate($listAssign->ass_assigned[$i], $timezoneSession));
+    $block3->cellRow(Util::createDate($listAssign->ass_assigned[$i], $timezoneSession));
     $block3->closeRow();
 }
 $block3->closeResults();

@@ -32,18 +32,18 @@ if ($action == "add") {
             } else {
 
 //replace quotes by html code in name and address
-                $fn = convertData($fn);
-                $tit = convertData($tit);
-                $c = convertData($c);
-                $pw = get_password($pw);
+                $fn = Util::convertData($fn);
+                $tit = Util::convertData($tit);
+                $c = Util::convertData($c);
+                $pw = Util::getPassword($pw);
                 $tmpquery1 = "INSERT INTO " . $tableCollab["members"] . "(organization,login,name,title,email_work,phone_work,phone_home,mobile,fax,comments,password,profil,created,timezone) VALUES('$clod','$un','$fn','$tit','$em','$wp','$hp','$mp','$fax','$c','$pw','3','$dateheure','0')";
-                connectSql("$tmpquery1");
+                Util::connectSql("$tmpquery1");
                 $tmpquery = $tableCollab["members"];
-                last_id($tmpquery);
+                Util::getLastId($tmpquery);
                 $num = $lastId[0];
                 unset($lastId);
                 $tmpquery3 = "INSERT INTO " . $tableCollab["notifications"] . "(member,taskAssignment,removeProjectTeam,addProjectTeam,newTopic,newPost,statusTaskChange,priorityTaskChange,duedateTaskChange,clientAddTask) VALUES ('$num','0','0','0','0','0','0','0','0','0')";
-                connectSql("$tmpquery3");
+                Util::connectSql("$tmpquery3");
 
 // notify user hack by urbanfalcon
 // 28/05/2003 patch by fullo
@@ -83,7 +83,7 @@ if ($action == "add") {
                     $f_access_level = $client_user_level; // Reporter
                     include("../mantis/create_new_user.php");
                 }
-                headerFunction("../clients/viewclient.php?id=$clod&msg=add&" . session_name() . "=" . session_id());
+                Util::headerFunction("../clients/viewclient.php?id=$clod&msg=add&" . session_name() . "=" . session_id());
                 exit;
             }
         }

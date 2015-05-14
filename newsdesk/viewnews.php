@@ -6,13 +6,13 @@
 $checkSession = "true";
 include_once('../includes/library.php');
 
-$tmpquery = "WHERE news.id = '".fixInt($id)."'";
+$tmpquery = "WHERE news.id = '".Util::fixInt($id)."'";
 $newsDetail = new request();
 $newsDetail->openNewsDesk($tmpquery);
 $comptNewsDetail = count($newsDetail->news_id);
 
 if ($comptNewsDetail == "0") {
-	headerFunction("../newsdesk/listnews.php?msg=blankNews&".session_name()."=".session_id());
+	Util::headerFunction("../newsdesk/listnews.php?msg=blankNews&".session_name()."=".session_id());
 }
 
 include('../themes/'.THEME.'/header.php');
@@ -111,7 +111,7 @@ $block1->closePaletteScript($comptNewsDetail,$newsDetail->news_id);
 ///////////////////////////////// comments block //////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 
-$tmpquery = "WHERE newscom.post_id = '".fixInt($id)."'";
+$tmpquery = "WHERE newscom.post_id = '".Util::fixInt($id)."'";
 $newsComments = new request();
 $newsComments->openNewsDeskComments($tmpquery);
 $comptCommentsDetail = count($newsComments->newscom_id);

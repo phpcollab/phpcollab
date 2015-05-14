@@ -139,11 +139,11 @@ if ($type == "calendEdit") {
             $dateStart_J = substr("$dateStart", 8, 2);
             $dayRecurr = _dayOfWeek(mktime(12,12,12,$dateStart_M,$dateStart_J,$dateStart_A));
         }
-        $subject = convertData($subject);
-        $description = convertData($description);
+        $subject = Util::convertData($subject);
+        $description = Util::convertData($description);
         $tmpquery = "UPDATE ".$tableCollab["calendar"]." SET subject='$subject',description='$description',location='$location',shortname='$shortname',date_start='$dateStart',date_end='$dateEnd',time_start='$time_start',time_end='$time_end',reminder='$reminder',recurring='$recurring',recur_day='$dayRecurr',broadcast='$broadcast' WHERE id = '$dateEnreg'";
-        connectSql("$tmpquery");
-        headerFunction("../calendar/viewcalendar.php?dateEnreg=$dateEnreg&dateCalend=$dateCalend&type=calendDetail&msg=update&".session_name()."=".session_id());
+        Util::connectSql("$tmpquery");
+        Util::headerFunction("../calendar/viewcalendar.php?dateEnreg=$dateEnreg&dateCalend=$dateCalend&type=calendDetail&msg=update&".session_name()."=".session_id());
     }
 
     if ($action == "add")
@@ -166,16 +166,16 @@ if ($type == "calendEdit") {
                 $dayRecurr = _dayOfWeek(mktime(12,12,12,$dateStart_M,$dateStart_J,$dateStart_A));
             }
 
-            $subject = convertData($subject);
-            $description = convertData($description);
-            $shortname = convertData($shortname);
+            $subject = Util::convertData($subject);
+            $description = Util::convertData($description);
+            $shortname = Util::convertData($shortname);
             $tmpquery = "INSERT INTO ".$tableCollab["calendar"]."(owner,subject,description,location,shortname,date_start,date_end,time_start,time_end,reminder,broadcast,recurring,recur_day) VALUES('$idSession','$subject','$description','$location','$shortname','$dateStart','$dateEnd','$time_start','$time_end','$reminder','$broadcast','$recurring','$dayRecurr')";
-            connectSql("$tmpquery");
+            Util::connectSql("$tmpquery");
             $tmpquery = $tableCollab["calendar"];
-            last_id($tmpquery);
+            Util::getLastId($tmpquery);
             $num = $lastId[0];
             unset($lastId);
-            headerFunction("../calendar/viewcalendar.php?dateEnreg=$num&dateCalend=$dateCalend&type=calendDetail&msg=add&".session_name()."=".session_id());
+            Util::headerFunction("../calendar/viewcalendar.php?dateEnreg=$num&dateCalend=$dateCalend&type=calendDetail&msg=add&".session_name()."=".session_id());
         }
     }
 }
@@ -196,7 +196,7 @@ if ($type == "calendEdit")
 
         if ($comptDetailCalendar == "0")
         {
-            headerFunction("../calendar/viewcalendar.php?".session_name()."=".session_id());
+            Util::headerFunction("../calendar/viewcalendar.php?".session_name()."=".session_id());
         }
     }
 }
@@ -215,7 +215,7 @@ if ($type == "calendDetail")
 
     if ($comptDetailCalendar == "0")
     {
-        headerFunction("../calendar/viewcalendar.php?".session_name()."=".session_id());
+        Util::headerFunction("../calendar/viewcalendar.php?".session_name()."=".session_id());
     }
 }
 

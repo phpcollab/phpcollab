@@ -40,7 +40,7 @@ $block1->sorting("organizations",$sortingUser->sor_organizations[0],"org.name AS
 
 $tmpquery = "WHERE org.id != '1' ORDER BY $block1->sortingValue";
 
-$block1->recordsTotal = compt($initrequest["organizations"]." ".$tmpquery);
+$block1->recordsTotal = Util::computeTotal($initrequest["organizations"]." ".$tmpquery);
 
 $listOrganizations = new request();
 $listOrganizations->openOrganizations($tmpquery,$block1->borne,$block1->rowsLimit);
@@ -91,7 +91,7 @@ $block2->sorting("organizations",$sortingUser->sor_organizations[0],"org.name AS
 
 $tmpquery = "WHERE org.id != '1' ORDER BY $block2->sortingValue";
 
-$block2->recordsTotal = compt($initrequest["organizations"]." ".$tmpquery);
+$block2->recordsTotal = Util::computeTotal($initrequest["organizations"]." ".$tmpquery);
 
 $listOrganizations2 = new request();
 $listOrganizations2->openOrganizations($tmpquery,$block2->borne,$block2->rowsLimit);

@@ -16,7 +16,7 @@ include("../includes/library.php");
 
 // session checking to prevent nonadmins from accessing file. Change or remove to give access to Users.
 if ($profilSession != (0 && 2 && 5)) {
-	headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
 	exit;
 }
 

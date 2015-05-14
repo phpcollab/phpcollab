@@ -30,7 +30,7 @@ for ($i=0;$i<$comptListTopics;$i++) {
 		$class = "even";
 		$highlightOff = $block1->evenColor;
 	}
-echo "<tr class=\"$class\" onmouseover=\"this.style.backgroundColor='".$block1->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td><a href=\"showallthreads.php?$transmitSid&id=".$listTopics->top_id[$i]."\">".$listTopics->top_subject[$i]."</a></td><td>".$listTopics->top_posts[$i]."</td><td>".$listTopics->top_mem_name[$i]."</td><td>".createDate($listTopics->top_last_post[$i],$timezoneSession)."</td></tr>";
+echo "<tr class=\"$class\" onmouseover=\"this.style.backgroundColor='".$block1->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td><a href=\"showallthreads.php?$transmitSid&id=".$listTopics->top_id[$i]."\">".$listTopics->top_subject[$i]."</a></td><td>".$listTopics->top_posts[$i]."</td><td>".$listTopics->top_mem_name[$i]."</td><td>".Util::createDate($listTopics->top_last_post[$i],$timezoneSession)."</td></tr>";
 }
 echo "</table>
 <hr />\n";

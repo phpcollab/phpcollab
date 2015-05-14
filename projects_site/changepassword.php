@@ -49,7 +49,7 @@ if ($action == "update") {
         {
             $error = $strings["new_password_error"];
         } else {
-            $cnpw = get_password($npw);
+            $cnpw = Util::getPassword($npw);
 
             if ($htaccessAuth == "true") {
                 $Htpasswd = new Htpasswd;
@@ -70,7 +70,7 @@ if ($action == "update") {
             }
 
             $tmpquery = "UPDATE ".$tableCollab["members"]." SET password='$cnpw' WHERE id = '$idSession'";
-            connectSql("$tmpquery");
+            Util::connectSql("$tmpquery");
 
             //if CVS repository enabled
             if ($enable_cvs == "true") 
@@ -91,7 +91,7 @@ if ($action == "update") {
 
             $_SESSION['passwordSession'] = $passwordSession;
 
-            headerFunction("changepassword.php?msg=update&".session_name()."=".session_id());
+            Util::headerFunction("changepassword.php?msg=update&".session_name()."=".session_id());
             exit;
         }
     }
@@ -103,7 +103,7 @@ $userDetail->openMembers($tmpquery);
 $comptUserDetail = count($userDetail->mem_id);
 
 if ($comptUserDetail == "0") {
-    headerFunction("userlist.php?msg=blankUser&".session_name()."=".session_id());
+    Util::headerFunction("userlist.php?msg=blankUser&".session_name()."=".session_id());
     exit;
 }
 

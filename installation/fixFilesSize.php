@@ -28,7 +28,7 @@ $sizeNew = str_replace('M','',$sizeNew);
 $sizeNew = str_replace('G','',$sizeNew);
 
 $tmpquery = "UPDATE ".$tableCollab["files"]." SET size='$sizeNew' WHERE id='".$listFiles->fil_id[$i]."'";
-connectSql($tmpquery);
+Util::connectSql($tmpquery);
 }
 echo "$comptListFiles fixed :o)";
 } else {

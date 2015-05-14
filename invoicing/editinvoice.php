@@ -52,14 +52,14 @@ if ($st == "1") {
 }
 
 	$tmpquery = "UPDATE ".$tableCollab["invoices"]." SET header_note='$header_note',footer_note='$footer_note',published='$pub',status='$st',due_date='$dd',date_sent='$datesent',total_ex_tax='$total_ex_tax',total_inc_tax='$total_inc_tax',tax_rate='$tax_rate',tax_amount='$tax_amount',modified='$dateheure' WHERE id = '$id'";
-	connectSql($tmpquery);
+	Util::connectSql($tmpquery);
 
 for ($i=0;$i<$comptListInvoicesItems;$i++) {
 	$tmpquery = "UPDATE ".$tableCollab["invoices_items"]." SET title='".$title[$i]."',position='".$position[$i]."',amount_ex_tax='".${"item".$i}."' WHERE id = '".$itemId[$i]."'";
-	connectSql($tmpquery);
+	Util::connectSql($tmpquery);
 }
 
-	headerFunction("../invoicing/viewinvoice.php?msg=update&id=$id&".session_name()."=".session_id());
+	Util::headerFunction("../invoicing/viewinvoice.php?msg=update&id=$id&".session_name()."=".session_id());
 }
 
 //set value in form

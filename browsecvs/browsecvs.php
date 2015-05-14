@@ -30,7 +30,7 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 if ($profilSession < 0 || $profilSession > 2) {
-	headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
 	exit;
 }
 

@@ -37,7 +37,7 @@ if ($id != "" && $action != "add") {
 	$tmpquery = "WHERE pro.id = '".$noteDetail->note_project[0]."'";
 	$project = $noteDetail->note_project[0];
 if ($noteDetail->note_owner[0] != $idSession) {
-	headerFunction("../notes/listnotes.php?project=$project&msg=noteOwner&".session_name()."=".session_id());
+	Util::headerFunction("../notes/listnotes.php?project=$project&msg=noteOwner&".session_name()."=".session_id());
 	exit;
 }
 
@@ -63,12 +63,12 @@ if ($comptMemberTest == "0") {
 if ($id != "") {
 	//case update note entry
 	if ($action == "update") {
-		$subject = convertData($subject);
-		$description = convertData($description);
+		$subject = Util::convertData($subject);
+		$description = Util::convertData($description);
 		$tmpquery5 = "UPDATE ".$tableCollab["notes"]." SET project='$projectMenu',topic='$topic',subject='$subject',description='$description',date='$dd',owner='$idSession' WHERE id = '$id'";
 		$msg = "update";
-		connectSql("$tmpquery5");
-		headerFunction("../notes/viewnote.php?id=$id&msg=$msg&".session_name()."=".session_id());
+		Util::connectSql("$tmpquery5");
+		Util::headerFunction("../notes/viewnote.php?id=$id&msg=$msg&".session_name()."=".session_id());
 		exit;
 	}
 
@@ -84,15 +84,15 @@ if ($id == "") {
 
 	//case add note entry
 	if ($action == "add") {
-		$subject = convertData($subject);
-		$description = convertData($description);
+		$subject = Util::convertData($subject);
+		$description = Util::convertData($description);
 		$tmpquery1 = "INSERT INTO ".$tableCollab["notes"]."(project,topic,subject,description,date,owner,published) VALUES('$projectMenu','$topic','$subject','$description','$dd','$idSession','1')";
-		connectSql("$tmpquery1");
+		Util::connectSql("$tmpquery1");
 		$tmpquery = $tableCollab["notes"];
-		last_id($tmpquery);
+		Util::getLastId($tmpquery);
 		$num = $lastId[0];
 		unset($lastId);
-		headerFunction("../notes/viewnote.php?id=$num&msg=add&".session_name()."=".session_id());
+		Util::headerFunction("../notes/viewnote.php?id=$num&msg=add&".session_name()."=".session_id());
 		exit;
 	}
 

@@ -114,7 +114,7 @@ elseif ($_GET['project'] != '')
 	$projectDetail = new request();
 	$projectDetail->openProjects($tmpquery);
 
-	$projectDetail->pro_created[0] = createDate($projectDetail->pro_created[0],$timezoneSession);
+	$projectDetail->pro_created[0] = Util::createDate($projectDetail->pro_created[0],$timezoneSession);
 	$projectDetail->pro_name[0] = str_replace('&quot;','"',$projectDetail->pro_name[0]);
 	$projectDetail->pro_name[0] = str_replace("&#39;","'",$projectDetail->pro_name[0]);
 

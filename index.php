@@ -25,11 +25,11 @@ include_once('includes/library.php');
 global $session;
 if ($session == "false") 
 {
-	headerFunction("general/login.php?session=false&".session_name()."=".session_id());
+	Util::headerFunction("general/login.php?session=false&".session_name()."=".session_id());
 } 
 //default case
 else 
 {
-	headerFunction("general/login.php?".session_name()."=".session_id());
+	Util::headerFunction("general/login.php?".session_name()."=".session_id());
 }
 ?>

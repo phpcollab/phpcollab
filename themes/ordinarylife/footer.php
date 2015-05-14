@@ -8,7 +8,7 @@ if ($notLogged != "true" && $blank != "true") {
 }
 
 if ($footerDev == "true") {
-	$parse_end = getmicrotime();
+	$parse_end = Util::getMicroTime();
 	$parse = $parse_end - $parse_start;
 	$parse = round($parse,3);
 	echo " - $parse secondes - databaseType $databaseType - select requests $comptRequest";

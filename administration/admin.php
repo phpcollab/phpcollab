@@ -32,7 +32,7 @@ $setTitle .= " : Administration";
 
 if ($profilSession != "0") 
 {
-	headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
 	exit;
 }
 
@@ -87,7 +87,7 @@ $block1->contentRow($strings["update"].$blockPage->printHelp("admin_update"),"1.
 
 if ($updateChecker == "true" && $installationType == "online") 
 {
-	$block1->contentRow("",updatechecker($version));
+	$block1->contentRow("",Util::updateChecker($version));
 }
 
 if (file_exists("../installation/setup.php")) 

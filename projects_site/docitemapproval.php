@@ -6,11 +6,11 @@ $checkSession = "true";
 include("../includes/library.php");
 
 if ($action == "update") {
-$commentField = convertData($commentField);
+$commentField = Util::convertData($commentField);
 $tmpquery1 = "UPDATE ".$tableCollab["files"]." SET comments_approval='$commentField',date_approval='$dateheure',approver='$idSession',status='$statusField' WHERE id = '$id'";
-connectSql("$tmpquery1");
+Util::connectSql("$tmpquery1");
 $msg = "updateFile";
-	headerFunction("doclists.php?".session_name()."=".session_id());
+	Util::headerFunction("doclists.php?".session_name()."=".session_id());
 	exit;
 }
 
@@ -19,7 +19,7 @@ $fileDetail = new request();
 $fileDetail->openFiles($tmpquery);
 
 if ($fileDetail->fil_published[0] == "1" || $fileDetail->fil_project[0] != $projectSession) {
-headerFunction("index.php");
+Util::headerFunction("index.php");
 }
 
 $bouton[4] = "over";

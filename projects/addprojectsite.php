@@ -12,18 +12,18 @@ $projectDetail->openProjects($tmpquery);
 $comptProjectDetail = count($projectDetail->pro_id);
 
 if ($comptProjectDetail == "0") {
-	headerFunction("../projects/listprojects.php?msg=blankProject&".session_name()."=".session_id());
+	Util::headerFunction("../projects/listprojects.php?msg=blankProject&".session_name()."=".session_id());
 	exit;
 }
 if ($idSession != $projectDetail->pro_owner[0] && $profilSession != "5") {
-	headerFunction("../projects/listprojects.php?msg=projectOwner&".session_name()."=".session_id());
+	Util::headerFunction("../projects/listprojects.php?msg=projectOwner&".session_name()."=".session_id());
 	exit;
 }
 
 if ($action == "create") {
 	$tmpquery = "UPDATE ".$tableCollab["projects"]." SET published='0' WHERE id = '$id'";
-	connectSql("$tmpquery");
-	headerFunction("../projects/viewprojectsite.php?id=$id&msg=createProjectSite&".session_name()."=".session_id());
+	Util::connectSql("$tmpquery");
+	Util::headerFunction("../projects/viewprojectsite.php?id=$id&msg=createProjectSite&".session_name()."=".session_id());
 	exit;
 }
 

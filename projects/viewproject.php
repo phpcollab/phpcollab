@@ -32,13 +32,13 @@ $checkSession = "true";
 include_once('../includes/library.php');
 include("../includes/customvalues.php");
 
-$id = returnGlobal('id','REQUEST');
-$project = returnGlobal('project','REQUEST');
-$action = returnGlobal('action','GET');
+$id = Util::returnGlobal('id','REQUEST');
+$project = Util::returnGlobal('project','REQUEST');
+$action = Util::returnGlobal('action','GET');
 
 if ($action == "publish") 
 {
-	$closeTopic = returnGlobal('closeTopic','GET');
+	$closeTopic = Util::returnGlobal('closeTopic','GET');
 
 	if ($closeTopic == "true") 
 	{
@@ -53,16 +53,16 @@ if ($action == "publish")
 		} 
 		else 
 		{
-			$tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET status='0' WHERE id = '".fixInt($id)."'";
+			$tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET status='0' WHERE id = '".Util::fixInt($id)."'";
 			$num = "1";
 		}
 		
-		connectSql("$tmpquery1");
+		Util::connectSql("$tmpquery1");
 		$msg = "closeTopic";
 		$id = $project;
 	}
 
-	$addToSiteTask = returnGlobal('addToSiteTask','GET');
+	$addToSiteTask = Util::returnGlobal('addToSiteTask','GET');
 
 	if ($addToSiteTask == "true") 
 	{
@@ -75,15 +75,15 @@ if ($action == "publish")
 		} 
 		else 
 		{
-			$tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='0' WHERE id = '".fixInt($id)."'";
+			$tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='0' WHERE id = '".Util::fixInt($id)."'";
 		}
 		
-		connectSql("$tmpquery1");
+		Util::connectSql("$tmpquery1");
 		$msg = "addToSite";
 		$id = $project;
 	}
 
-	$removeToSiteTask = returnGlobal('removeToSiteTask','GET');
+	$removeToSiteTask = Util::returnGlobal('removeToSiteTask','GET');
 
 	if ($removeToSiteTask == "true") 
 	{
@@ -96,15 +96,15 @@ if ($action == "publish")
 		} 
 		else 
 		{
-			$tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='1' WHERE id = '".fixInt($id)."'";
+			$tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='1' WHERE id = '".Util::fixInt($id)."'";
 		}
 	
-		connectSql("$tmpquery1");
+		Util::connectSql("$tmpquery1");
 		$msg = "removeToSite";
 		$id = $project;
 	}
 
-	$addToSiteTopic = returnGlobal('addToSiteTopic','GET');
+	$addToSiteTopic = Util::returnGlobal('addToSiteTopic','GET');
 
 	if ($addToSiteTopic == "true") 
 	{
@@ -117,15 +117,15 @@ if ($action == "publish")
 		} 
 		else 
 		{
-			$tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET published='0' WHERE id = '".fixInt($id)."'";
+			$tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET published='0' WHERE id = '".Util::fixInt($id)."'";
 		}
 
-			connectSql("$tmpquery1");
+			Util::connectSql("$tmpquery1");
 			$msg = "addToSite";
 			$id = $project;
 	}
 
-	$removeToSiteTopic = returnGlobal('removeToSiteTopic','GET');
+	$removeToSiteTopic = Util::returnGlobal('removeToSiteTopic','GET');
 	if ($removeToSiteTopic == "true") 
 	{
 		$multi = strstr($id,"**");
@@ -137,15 +137,15 @@ if ($action == "publish")
 		} 
 		else 
 		{
-			$tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET published='1' WHERE id = '".fixInt($id)."'";
+			$tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET published='1' WHERE id = '".Util::fixInt($id)."'";
 		}
 
-		connectSql("$tmpquery1");
+		Util::connectSql("$tmpquery1");
 		$msg = "removeToSite";
 		$id = $project;
 	}
 
-	$addToSiteTeam = returnGlobal('addToSiteTeam','GET');
+	$addToSiteTeam = Util::returnGlobal('addToSiteTeam','GET');
 	if ($addToSiteTeam == "true") 
 	{
 		$multi = strstr($id,"**");
@@ -160,12 +160,12 @@ if ($action == "publish")
 			$tmpquery1 = "UPDATE ".$tableCollab["teams"]." SET published='0' WHERE member = '$id' AND project = '$project'";
 		}
 		
-		connectSql("$tmpquery1");
+		Util::connectSql("$tmpquery1");
 		$msg = "addToSite";
 		$id = $project;
 	}
 
-	$removeToSiteTeam = returnGlobal('removeToSiteTeam','GET');
+	$removeToSiteTeam = Util::returnGlobal('removeToSiteTeam','GET');
 	if ($removeToSiteTeam == "true") 
 	{
 		$multi = strstr($id,"**");
@@ -180,34 +180,34 @@ if ($action == "publish")
 			$tmpquery1 = "UPDATE ".$tableCollab["teams"]." SET published='1' WHERE member = '$id' AND project = '$project'";
 		}
 
-		connectSql("$tmpquery1");
+		Util::connectSql("$tmpquery1");
 		$msg = "removeToSite";
 		$id = $project;
 	}
 
-	$addToSiteFile = returnGlobal('addToSiteFile','GET');
+	$addToSiteFile = Util::returnGlobal('addToSiteFile','GET');
 
 	if ($addToSiteFile == "true") 
 	{
 		$id = str_replace("**",",",$id);
 		$tmpquery1 = "UPDATE ".$tableCollab["files"]." SET published='0' WHERE id IN($id) OR vc_parent IN ($id)";
-		connectSql("$tmpquery1");
+		Util::connectSql("$tmpquery1");
 		$msg = "addToSite";
 		$id = $project;
 	}
 
-	$removeToSiteFile = returnGlobal('removeToSiteFile','GET');
+	$removeToSiteFile = Util::returnGlobal('removeToSiteFile','GET');
 
 	if ($removeToSiteFile == "true") 
 	{
 		$id = str_replace("**",",",$id);
 		$tmpquery1 = "UPDATE ".$tableCollab["files"]." SET published='1' WHERE id IN($id) OR vc_parent IN ($id)";
-		connectSql("$tmpquery1");
+		Util::connectSql("$tmpquery1");
 		$msg = "removeToSite";
 		$id = $project;
 	}
 
-	$addToSiteNote = returnGlobal('addToSiteNote','GET');
+	$addToSiteNote = Util::returnGlobal('addToSiteNote','GET');
 
 	if ($addToSiteNote == "true") 
 	{
@@ -219,15 +219,15 @@ if ($action == "publish")
 		} 
 		else 
 		{
-			$tmpquery1 = "UPDATE ".$tableCollab["notes"]." SET published='0' WHERE id = '".fixInt($id)."'";
+			$tmpquery1 = "UPDATE ".$tableCollab["notes"]." SET published='0' WHERE id = '".Util::fixInt($id)."'";
 		}
 		
-		connectSql("$tmpquery1");
+		Util::connectSql("$tmpquery1");
 		$msg = "addToSite";
 		$id = $project;
 	}
 
-	$removeToSiteNote = returnGlobal('removeToSiteNote','GET');
+	$removeToSiteNote = Util::returnGlobal('removeToSiteNote','GET');
 	if ($removeToSiteNote == "true") 
 	{
 		$multi = strstr($id,"**");
@@ -239,10 +239,10 @@ if ($action == "publish")
 		} 
 		else 
 		{
-			$tmpquery1 = "UPDATE ".$tableCollab["notes"]." SET published='1' WHERE id = '".fixInt($id)."'";
+			$tmpquery1 = "UPDATE ".$tableCollab["notes"]." SET published='1' WHERE id = '".Util::fixInt($id)."'";
 		}
 		
-		connectSql("$tmpquery1");
+		Util::connectSql("$tmpquery1");
 		$msg = "removeToSite";
 		$id = $project;
 	}
@@ -261,7 +261,7 @@ $comptProjectDetail = count($projectDetail->pro_id);
 
 if ($comptProjectDetail == "0") 
 {
-	headerFunction("../projects/listprojects.php?msg=blankProject&".session_name()."=".session_id());
+	Util::headerFunction("../projects/listprojects.php?msg=blankProject&".session_name()."=".session_id());
 	exit;
 }
 
@@ -278,7 +278,7 @@ if ($comptListTasksTime != "0")
 
 		if ($listTasksTime->tas_complete_date[$i] != "" && $listTasksTime->tas_complete_date[$i] != "--" && $listTasksTime->tas_due_date[$i] != "--") 
 		{
-			$diff = diff_date($listTasksTime->tas_complete_date[$i],$listTasksTime->tas_due_date[$i]);
+			$diff = Util::diffDate($listTasksTime->tas_complete_date[$i],$listTasksTime->tas_due_date[$i]);
 			$diff_time = $diff_time + $diff;
 		}
 	}
@@ -290,7 +290,7 @@ if ($comptListTasksTime != "0")
 }
 
 $teamMember = "false";
-$tmpquery = "WHERE tea.project = '$id' AND tea.member = '".fixInt($idSession)."'";
+$tmpquery = "WHERE tea.project = '$id' AND tea.member = '".Util::fixInt($idSession)."'";
 $memberTest = new request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
@@ -423,8 +423,8 @@ $block1->contentRow($strings["description"],nl2br($projectDetail->pro_descriptio
 $block1->contentRow($strings["url_dev"],$blockPage->buildLink($projectDetail->pro_url_dev[0],$projectDetail->pro_url_dev[0],out));
 $block1->contentRow($strings["url_prod"],$blockPage->buildLink($projectDetail->pro_url_prod[0],$projectDetail->pro_url_prod[0],out));
 $block1->contentRow($strings["owner"],$blockPage->buildLink("../users/viewuser.php?id=".$projectDetail->pro_mem_id[0],$projectDetail->pro_mem_name[0],in)." (".$blockPage->buildLink($projectDetail->pro_mem_email_work[0],$projectDetail->pro_mem_login[0],mail).")");
-$block1->contentRow($strings["created"],createDate($projectDetail->pro_created[0],$timezoneSession));
-$block1->contentRow($strings["modified"],createDate($projectDetail->pro_modified[0],$timezoneSession));
+$block1->contentRow($strings["created"],Util::createDate($projectDetail->pro_created[0],$timezoneSession));
+$block1->contentRow($strings["modified"],Util::createDate($projectDetail->pro_modified[0],$timezoneSession));
 
 if ($projectDetail->pro_org_id[0] == "1") 
 {
@@ -439,8 +439,8 @@ $block1->contentRow($strings["status"],$status[$idStatus]);
 
 if ($fileManagement == "true") 
 {
-	$block1->contentRow($strings["max_upload"].$blockPage->printHelp("max_file_size"),convertSize($projectDetail->pro_upload_max[0]));
-	$block1->contentRow($strings["project_folder_size"].$blockPage->printHelp("project_disk_space"),convertSize(folder_info_size("../files/".$projectDetail->pro_id[0]."/")));
+	$block1->contentRow($strings["max_upload"].$blockPage->printHelp("max_file_size"),Util::convertSize($projectDetail->pro_upload_max[0]));
+	$block1->contentRow($strings["project_folder_size"].$blockPage->printHelp("project_disk_space"),Util::convertSize(Util::folderInfoSize("../files/".$projectDetail->pro_id[0]."/")));
 }
 
 $block1->contentRow($strings["estimated_time"],$estimated_time." ".$strings["hours"]);
@@ -643,7 +643,7 @@ else
 
 	$tmpquery = "WHERE tas.project = '$id' ORDER BY $block2->sortingValue";
 
-	$block2->recordsTotal = compt($initrequest["tasks"]." ".$tmpquery);
+	$block2->recordsTotal = Util::computeTotal($initrequest["tasks"]." ".$tmpquery);
 
 	$listTasks = new request();
 	$listTasks->openTasks($tmpquery,$block2->borne,$block2->rowsLimit);
@@ -779,7 +779,7 @@ $block3->sorting("project_discussions",$sortingUser->sor_project_discussions[0],
 
 $tmpquery = "WHERE topic.project = '$id' ORDER BY $block3->sortingValue";
 
-$block3->recordsTotal = compt($initrequest["topics"]." ".$tmpquery);
+$block3->recordsTotal = Util::computeTotal($initrequest["topics"]." ".$tmpquery);
 
 $listTopics = new request();
 $listTopics->openTopics($tmpquery,$block3->borne,$block3->rowsLimit);
@@ -803,11 +803,11 @@ if ($comptListTopics != "0")
 		
 		if ($listTopics->top_last_post[$i] > $lastvisiteSession) 
 		{
-			$block3->cellRow("<b>".createDate($listTopics->top_last_post[$i],$timezoneSession)."</b>");
+			$block3->cellRow("<b>".Util::createDate($listTopics->top_last_post[$i],$timezoneSession)."</b>");
 		} 
 		else 
 		{
-			$block3->cellRow(createDate($listTopics->top_last_post[$i],$timezoneSession));
+			$block3->cellRow(Util::createDate($listTopics->top_last_post[$i],$timezoneSession));
 		}
 		
 		$block3->cellRow($statusTopic[$idStatus]);
@@ -880,7 +880,7 @@ $block4->sorting("team",$sortingUser->sor_team[0],"mem.name ASC",$sortingFields 
 
 $tmpquery = "WHERE tea.project = '$id' AND mem.profil != '3' ORDER BY $block4->sortingValue";
 
-$block4->recordsTotal = compt($initrequest["teams"]." ".$tmpquery);
+$block4->recordsTotal = Util::computeTotal($initrequest["teams"]." ".$tmpquery);
 
 $listTeam = new request();
 $listTeam->openTeams($tmpquery,$block4->borne,$block4->rowsLimit);
@@ -1119,7 +1119,7 @@ else
 
 $tmpquery = "WHERE note.project = '$id' ORDER BY $block6->sortingValue";
 
-$block6->recordsTotal = compt($initrequest["notes"]." ".$tmpquery);
+$block6->recordsTotal = Util::computeTotal($initrequest["notes"]." ".$tmpquery);
 $listNotes = new request();
 $listNotes->openNotes($tmpquery,$block6->borne,$block6->rowsLimit);
 $comptListNotes = count($listNotes->note_id);

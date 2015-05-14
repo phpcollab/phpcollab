@@ -16,7 +16,7 @@ if ($action == "publish") {
 		} else {
 			$tmpquery1 = "UPDATE ".$tableCollab["notes"]." SET published='0' WHERE id = '$id'";
 		}
-		connectSql("$tmpquery1");
+		Util::connectSql("$tmpquery1");
 		$msg = "addToSite";
 		$id = $project;
 	}
@@ -29,7 +29,7 @@ if ($action == "publish") {
 		} else {
 			$tmpquery1 = "UPDATE ".$tableCollab["notes"]." SET published='1' WHERE id = '$id'";
 		}
-		connectSql("$tmpquery1");
+		Util::connectSql("$tmpquery1");
 		$msg = "removeToSite";
 		$id = $project;
 	}

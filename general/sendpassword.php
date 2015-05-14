@@ -50,10 +50,10 @@ if ($action == "send")
 
 //test if email of user exists
 		} else if ($userDetail->mem_email_work[0] != "") {
-			password_generator();
-			$pw = get_password($pass_g);
+			Util::passwordGenerator();
+			$pw = Util::getPassword($pass_g);
 			$tmpquery = "UPDATE ".$tableCollab["members"]." SET password='$pw' WHERE login = '$loginForm'";
-			connectSql("$tmpquery");
+			Util::connectSql("$tmpquery");
 
 			$body = $strings["user_name"]." : ".$userDetail->mem_login[0]."\n\n".$strings["password"]." : $pass_g";
 

@@ -40,9 +40,9 @@ if ($requestDetail->sr_project[0] != $projectSession || $requestDetail->sr_user[
 		// a request that no longer exists. If this happens the user gets stuck in a login loop and can't
 		// login.
 		$tmpquery = "UPDATE ".$tableCollab["members"]." SET last_page='' WHERE login = '{$_SESSION['loginSession']}'";
-		connectSql("$tmpquery");
+		Util::connectSql("$tmpquery");
 	}
-	headerFunction("index.php");
+	Util::headerFunction("index.php");
 }
 
 

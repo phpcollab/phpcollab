@@ -31,7 +31,7 @@ include '../includes/library.php';
 
 if ($logout == "true") {
     $tmpquery1 = "UPDATE " . $tableCollab["logs"] . " SET connected='' WHERE login = '$loginSession'";
-    connectSql("$tmpquery1");
+    Util::connectSql("$tmpquery1");
 
     // delete the authentication cookies
     //setcookie('loginCookie', '', time()-86400);
@@ -41,12 +41,12 @@ if ($logout == "true") {
     $_SESSION = array();
     session_destroy();
 
-    headerFunction("../general/login.php?msg=logout");
+    Util::headerFunction("../general/login.php?msg=logout");
 }
 
-$auth = returnGlobal('auth', 'GET');
-$loginForm = returnGlobal('loginForm', 'POST');
-$passwordForm = returnGlobal('passwordForm', 'POST');
+$auth = Util::returnGlobal('auth', 'GET');
+$loginForm = Util::returnGlobal('loginForm', 'POST');
+$passwordForm = Util::returnGlobal('passwordForm', 'POST');
 
 $match = false;
 $ssl = false;
@@ -80,7 +80,7 @@ if (!empty($SSL_CLIENT_CERT) && !$logout && $auth != "test") {
 
                     if ($rememberForm == "on") {
                         $oneyear = 22896000;
-                        $storePwd = get_password($passwordForm);
+                        $storePwd = Util::getPassword($passwordForm);
                         setcookie("loginCookie", $loginForm, time() + $oneyear);
                         setcookie("passwordCookie", $storePwd, time() + $oneyear);
                     } else {
@@ -101,8 +101,8 @@ if (!empty($SSL_CLIENT_CERT) && !$logout && $auth != "test") {
 }
 
 //
-// $loginCookie = returnGlobal('loginCookie','COOKIE');
-// $passwordCookie = returnGlobal('passwordCookie','COOKIE');
+// $loginCookie = Util::returnGlobal('loginCookie','COOKIE');
+// $passwordCookie = Util::returnGlobal('passwordCookie','COOKIE');
 // if ($loginCookie != "" && $passwordCookie != "") 
 // {
 //		$auth = "on";
@@ -146,7 +146,7 @@ if ($auth == "on") {
                 $match = true;
             }
         } else {
-            if (!$ssl && !is_password_match($loginForm, $passwordForm, $loginUser->mem_password[0])) {
+            if (!$ssl && !Util::doesPasswordMatch($loginForm, $passwordForm, $loginUser->mem_password[0])) {
                 $error = $strings["invalid_login"];
             } else {
                 $match = true;
@@ -204,7 +204,7 @@ if ($auth == "on") {
 
             if ($comptRegisterLog == "0") {
                 $tmpquery1 = "INSERT INTO " . $tableCollab["logs"] . "(login,password,ip,session,compt,last_visite) VALUES('$loginForm','$passwordForm','$ip','$session','1','$dateheure')";
-                connectSql("$tmpquery1");
+                Util::connectSql("$tmpquery1");
             } else {
                 $lastvisiteSession = $registerLog->log_last_visite[0];
 
@@ -212,7 +212,7 @@ if ($auth == "on") {
 
                 $increm = $registerLog->log_compt[0] + 1;
                 $tmpquery1 = "UPDATE " . $tableCollab["logs"] . " SET ip='$ip',session='$session',compt='$increm',last_visite='$dateheure' WHERE login = '$loginForm'";
-                connectSql("$tmpquery1");
+                Util::connectSql("$tmpquery1");
             }
 
             // we must avoid to redirect to some special pages
@@ -226,36 +226,36 @@ if ($auth == "on") {
             if ($url != "") {
 
                 if ($loginUser->mem_profil[0] == "3") {
-                    headerFunction("../$url&updateProject=true&" . session_name() . "=" . session_id());
+                    Util::headerFunction("../$url&updateProject=true&" . session_name() . "=" . session_id());
                 } else {
-                    headerFunction("../$url&" . session_name() . "=" . session_id());
+                    Util::headerFunction("../$url&" . session_name() . "=" . session_id());
                 }
             } //redirect to last page required (with auto log out feature)
             else {
                 if ($loginUser->mem_last_page[0] != "" && $loginUser->mem_profil[0] != "3" && $lastvisitedpage) {
                     $tmpquery = "UPDATE " . $tableCollab["members"] . " SET last_page='' WHERE login = '$loginForm'";
-                    connectSql("$tmpquery");
-                    headerFunction("../" . $loginUser->mem_last_page[0] . "&" . session_name() . "=" . session_id());
+                    Util::connectSql("$tmpquery");
+                    Util::headerFunction("../" . $loginUser->mem_last_page[0] . "&" . session_name() . "=" . session_id());
 
                 } else {
                     if ($loginUser->mem_last_page[0] != "" && ($loginCookie != "" && $passwordCookie != "") && $loginUser->mem_profil[0] != "3" && $lastvisitedpage) {
                         $tmpquery = "UPDATE " . $tableCollab["members"] . " SET last_page='' WHERE login = '$loginForm'";
-                        connectSql("$tmpquery");
-                        headerFunction("../" . $loginUser->mem_last_page[0] . "&" . session_name() . "=" . session_id());
+                        Util::connectSql("$tmpquery");
+                        Util::headerFunction("../" . $loginUser->mem_last_page[0] . "&" . session_name() . "=" . session_id());
                     } //redirect to home or admin page (if user is administrator)
                     else {
                         if ($loginUser->mem_profil[0] == "3") {
-                            headerFunction("../projects_site/home.php?" . session_name() . "=" . session_id());
+                            Util::headerFunction("../projects_site/home.php?" . session_name() . "=" . session_id());
                         } else {
                             if ($loginUser->mem_profil[0] == "0") {
                                 if ($adminathome == '1') {
-                                    headerFunction("../general/home.php?" . session_name() . "=" . session_id());
+                                    Util::headerFunction("../general/home.php?" . session_name() . "=" . session_id());
                                 } else {
-                                    headerFunction("../administration/admin.php?" . session_name() . "=" . session_id());
+                                    Util::headerFunction("../administration/admin.php?" . session_name() . "=" . session_id());
                                 }
 
                             } else {
-                                headerFunction("../general/home.php?" . session_name() . "=" . session_id());
+                                Util::headerFunction("../general/home.php?" . session_name() . "=" . session_id());
                             }
                         }
                     }

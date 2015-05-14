@@ -14,13 +14,13 @@ if ($action == "delete") {
 	$tmpquery2 = "DELETE FROM ".$tableCollab["posts"]." WHERE topic = $id";
 	$pieces = explode(",",$id);
 	$num = count($pieces);
-	connectSql("$tmpquery1");
-	connectSql("$tmpquery2");
+	Util::connectSql("$tmpquery1");
+	Util::connectSql("$tmpquery2");
 		if ($project != "") {
-			headerFunction("../projects/viewproject.php?num=$num&msg=deleteTopic&id=$project&".session_name()."=".session_id());
+			Util::headerFunction("../projects/viewproject.php?num=$num&msg=deleteTopic&id=$project&".session_name()."=".session_id());
 			exit;
 		} else {
-			headerFunction("../general/home.php?num=$num&msg=deleteTopic&".session_name()."=".session_id());
+			Util::headerFunction("../general/home.php?num=$num&msg=deleteTopic&".session_name()."=".session_id());
 			exit;
 		}
 }

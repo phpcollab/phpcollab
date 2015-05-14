@@ -35,7 +35,7 @@ $bodyCommand = "onLoad=\"document.searchForm.searchfor.focus()\"";
 include('../themes/' . THEME . '/header.php');
 
 $searchFor = urldecode($searchFor);
-$searchfor = convertData($searchfor);
+$searchfor = Util::convertData($searchfor);
 $searchfor = strtolower($searchfor);
 $mots = explode(" ", $searchfor);
 $nombre_mots = count($mots);
@@ -187,7 +187,7 @@ if ($projectsFilter == "true") {
 }
 $comptListProjects = "0";
 if ($validProjects == "true") {
-    $block1->recordsTotal = compt($initrequest["projects"] . " " . $tmpquery);
+    $block1->recordsTotal = Util::computeTotal($initrequest["projects"] . " " . $tmpquery);
 
     $listProjects = new request();
     $listProjects->openProjects($tmpquery, $block1->borne, $block1->rowsLimit);
@@ -232,7 +232,7 @@ if ($projectsFilter == "true") {
 
 $comptListTasks = "0";
 if ($validTasks == "true") {
-    $block2->recordsTotal = compt($initrequest["tasks"] . " " . $tmpquery);
+    $block2->recordsTotal = Util::computeTotal($initrequest["tasks"] . " " . $tmpquery);
 
     $listTasks = new request();
     $listTasks->openTasks($tmpquery, $block2->borne, $block2->rowsLimit);
@@ -249,7 +249,7 @@ $tmpquery = "$searchSubtasks ORDER BY $block9->sortingValue";
 
 $comptListSubtasks = "0";
 if ($validSubtasks == "true") {
-    $block9->recordsTotal = compt($initrequest["subtasks"] . " " . $tmpquery);
+    $block9->recordsTotal = Util::computeTotal($initrequest["subtasks"] . " " . $tmpquery);
 
     $listSubtasks = new request();
     $listSubtasks->openSubtasks($tmpquery, $block9->borne, $block9->rowsLimit);
@@ -270,7 +270,7 @@ if ($demoMode == "true") {
 }
 $comptListMembers = "0";
 if ($validMembers == "true") {
-    $block3->recordsTotal = compt($initrequest["members"] . " " . $tmpquery);
+    $block3->recordsTotal = Util::computeTotal($initrequest["members"] . " " . $tmpquery);
 
     $listMembers = new request();
     $listMembers->openMembers($tmpquery, $block3->borne, $block3->rowsLimit);
@@ -315,7 +315,7 @@ if ($clientsFilter == "true" && $profilSession == "2") {
 
 $comptListOrganizations = "0";
 if ($validOrganizations == "true" && $listClients != "false") {
-    $block4->recordsTotal = compt($initrequest["organizations"] . " " . $tmpquery);
+    $block4->recordsTotal = Util::computeTotal($initrequest["organizations"] . " " . $tmpquery);
 
     $listOrganizations = new request();
     $listOrganizations->openOrganizations($tmpquery, $block4->borne, $block4->rowsLimit);
@@ -342,7 +342,7 @@ if ($projectsFilter == "true") {
 
 $comptListTopics = "0";
 if ($validTopics == "true") {
-    $block5->recordsTotal = compt($initrequest["topics"] . " " . $tmpquery);
+    $block5->recordsTotal = Util::computeTotal($initrequest["topics"] . " " . $tmpquery);
 
     $listTopics = new request();
     $listTopics->openTopics($tmpquery, $block5->borne, $block5->rowsLimit);
@@ -376,7 +376,7 @@ if ($projectsFilter == "true") {
 $comptListNotes = "0";
 if ($validNotes == "true") {
 
-    $block6->recordsTotal = compt($initrequest["notes"] . " " . $tmpquery);
+    $block6->recordsTotal = Util::computeTotal($initrequest["notes"] . " " . $tmpquery);
 
     $listNotes = new request();
     $listNotes->openNotes($tmpquery, $block6->borne, $block6->rowsLimit);

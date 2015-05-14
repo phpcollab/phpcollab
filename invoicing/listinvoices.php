@@ -17,7 +17,7 @@ $memberTest = new request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
-		headerFunction("../clients/listclients.php?msg=blankClient&".session_name()."=".session_id());
+		Util::headerFunction("../clients/listclients.php?msg=blankClient&".session_name()."=".session_id());
 	} else {
 		$tmpquery = "WHERE org.id = '$client'";
 	}
@@ -32,7 +32,7 @@ $clientDetail->openOrganizations($tmpquery);
 $comptClientDetail = count($clientDetail->org_id);
 
 if ($comptClientDetail == "0") {
-	headerFunction("../clients/listclients.php?msg=blankClient&".session_name()."=".session_id());
+	Util::headerFunction("../clients/listclients.php?msg=blankClient&".session_name()."=".session_id());
 }
 
 include('../themes/'.THEME.'/header.php');
@@ -109,7 +109,7 @@ $comptProjectsTest = count($projectsTest->pro_id);
 		}
 	}
 
-$block1->recordsTotal = compt($initrequest["invoices"]." ".$tmpquery);
+$block1->recordsTotal = Util::computeTotal($initrequest["invoices"]." ".$tmpquery);
 
 $listInvoices = new request();
 $listInvoices->openInvoices($tmpquery,$block1->borne,$block1->rowsLimit);

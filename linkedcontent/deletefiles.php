@@ -21,23 +21,23 @@ $comptListFiles = count($listFiles->fil_id);
 	for ($i=0;$i<$comptListFiles;$i++) {
 		if ($task != "0") {
 			if (file_exists ("../files/".$project."/".$task."/".$listFiles->fil_name[$i])) {
-				deleteFile("files/".$project."/".$task."/".$listFiles->fil_name[$i]);
+				Util::deleteFile("files/".$project."/".$task."/".$listFiles->fil_name[$i]);
 			}
 		} else {
 			if (file_exists ("../files/".$project."/".$listFiles->fil_name[$i])) {
-				deleteFile("files/".$project."/".$listFiles->fil_name[$i]);
+				Util::deleteFile("files/".$project."/".$listFiles->fil_name[$i]);
 			}
 		}
 	}
-	connectSql("$tmpquery1");
+	Util::connectSql("$tmpquery1");
 	if ($sendto == "filedetails"){
-		headerFunction("../linkedcontent/viewfile.php?id=".$listFiles->fil_vc_parent[0]."&msg=deleteFile&".session_name()."=".session_id());
+		Util::headerFunction("../linkedcontent/viewfile.php?id=".$listFiles->fil_vc_parent[0]."&msg=deleteFile&".session_name()."=".session_id());
 	} else {
 		if ($task != "0") {
-			headerFunction("../tasks/viewtask.php?id=$task&msg=deleteFile&".session_name()."=".session_id());
+			Util::headerFunction("../tasks/viewtask.php?id=$task&msg=deleteFile&".session_name()."=".session_id());
 			exit;
 		} else {
-			headerFunction("../projects/viewproject.php?id=$project&msg=deleteFile&".session_name()."=".session_id());
+			Util::headerFunction("../projects/viewproject.php?id=$project&msg=deleteFile&".session_name()."=".session_id());
 			exit;
 		}
 	}

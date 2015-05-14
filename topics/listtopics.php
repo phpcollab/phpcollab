@@ -18,7 +18,7 @@ $num = count($pieces);
 $tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET status='0' WHERE id = '$id'";
 $num = "1";
 }
-connectSql("$tmpquery1");
+Util::connectSql("$tmpquery1");
 $msg = "closeTopic";
 }
 
@@ -30,7 +30,7 @@ $tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET published='0' WHERE id IN($i
 } else {
 $tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET published='0' WHERE id = '$id'";
 }
-connectSql("$tmpquery1");
+Util::connectSql("$tmpquery1");
 $msg = "addToSite";
 }
 
@@ -42,7 +42,7 @@ $tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET published='1' WHERE id IN($i
 } else {
 $tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET published='1' WHERE id = '$id'";
 }
-connectSql("$tmpquery1");
+Util::connectSql("$tmpquery1");
 $msg = "removeToSite";
 }
 }
@@ -134,9 +134,9 @@ $block1->cellRow($blockPage->buildLink("../topics/viewtopic.php?id=".$listTopics
 $block1->cellRow($blockPage->buildLink($listTopics->top_mem_email_work[$i],$listTopics->top_mem_login[$i],mail));
 $block1->cellRow($listTopics->top_posts[$i]);
 if ($listTopics->top_last_post[$i] > $lastvisiteSession) {
-	$block1->cellRow("<b>".createDate($listTopics->top_last_post[$i],$timezoneSession)."</b>");
+	$block1->cellRow("<b>".Util::createDate($listTopics->top_last_post[$i],$timezoneSession)."</b>");
 } else {
-	$block1->cellRow(createDate($listTopics->top_last_post[$i],$timezoneSession));
+	$block1->cellRow(Util::createDate($listTopics->top_last_post[$i],$timezoneSession));
 }
 $block1->cellRow($statusTopic[$idStatus]);
 if ($sitePublish == "true") {

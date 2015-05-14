@@ -16,7 +16,7 @@ $projectDetail->openProjects($tmpquery);
 $comptProjectDetail = count($projectDetail->pro_id);
 
 if ($comptProjectDetail == "0") {
-	headerFunction("../projects/listprojects.php?msg=blank&".session_name()."=".session_id());
+	Util::headerFunction("../projects/listprojects.php?msg=blank&".session_name()."=".session_id());
 	exit;
 }
 
@@ -46,7 +46,7 @@ if ($action == "add") {
 	$comptAjout = count($pieces);
 	for($i=0;$i<$comptAjout;$i++) {
 		$tmpquery="INSERT INTO ".$tableCollab["teams"]."(project, member,published,authorized) VALUES ('".$projectDetail->pro_id[0]."','$pieces[$i]','1','0')";
-		connectSql("$tmpquery");
+		Util::connectSql("$tmpquery");
 //if mantis bug tracker enabled
 		if ($enableMantis == "true") {
 			// Assign user to this project in mantis
@@ -69,7 +69,7 @@ if ($notifications == "true") {
 $organization = "1";
 	include("../teams/noti_addprojectteam.php");
 }
-	headerFunction("../projects/viewproject.php?".session_name()."=".session_id()."&id=".$projectDetail->pro_id[0]."&msg=add");
+	Util::headerFunction("../projects/viewproject.php?".session_name()."=".session_id()."&id=".$projectDetail->pro_id[0]."&msg=add");
 }
 
 include('../themes/'.THEME.'/header.php');

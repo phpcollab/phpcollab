@@ -10,16 +10,16 @@ $requestDetail = new request();
 $requestDetail->openSupportRequests($tmpquery);
 
 if ($requestDetail->sr_project[0] != $projectSession || $requestDetail->sr_user[0] != $idSession) {
-headerFunction("index.php");
+Util::headerFunction("index.php");
 }
 
 if ($action == "add") {
-	$mes = convertData($mes);
+	$mes = Util::convertData($mes);
 
 	$tmpquery1 = "INSERT INTO ".$tableCollab["support_posts"]."(request_id,message,date,owner,project) VALUES('$id','$mes','$dateheure','$idSession','".$requestDetail->sr_project[0]."')";
-	connectSql("$tmpquery1");
+	Util::connectSql("$tmpquery1");
 	$tmpquery = $tableCollab["support_posts"];
-	last_id($tmpquery);
+	Util::getLastId($tmpquery);
 	$num = $lastId[0];
 	unset($lastId);
 	
@@ -29,7 +29,7 @@ if ($action == "add") {
 			}
 		}
 	
-	headerFunction("suprequestdetail.php?id=$id&".session_name()."=".session_id());
+	Util::headerFunction("suprequestdetail.php?id=$id&".session_name()."=".session_id());
 	exit;
 }
 

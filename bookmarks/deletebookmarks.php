@@ -32,8 +32,8 @@ include_once('../includes/library.php');
 if ($action == "delete") {
 	$id = str_replace("**",",",$id);
 	$tmpquery1 = "DELETE FROM ".$tableCollab["bookmarks"]." WHERE id IN($id)";
-	connectSql("$tmpquery1");
-	headerFunction("../bookmarks/listbookmarks.php?view=my&msg=delete&".session_name()."=".session_id());
+	Util::connectSql("$tmpquery1");
+	Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=delete&".session_name()."=".session_id());
 	exit;
 }
 

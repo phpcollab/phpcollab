@@ -54,7 +54,7 @@ $block1->sorting("newsdesk",$sortingUser->sor_newsdesk[0],"news.pdate DESC",$sor
 $block1->openContent();
 
 $tmpquery = "WHERE news.id != '0' ORDER BY $block1->sortingValue ";
-$block1->recordsTotal = compt($initrequest["newsdeskposts"]." ".$tmpquery);
+$block1->recordsTotal = Util::computeTotal($initrequest["newsdeskposts"]." ".$tmpquery);
 
 $listPosts = new request();
 $listPosts->openNewsDesk($tmpquery,$block1->borne,$block1->rowsLimit);

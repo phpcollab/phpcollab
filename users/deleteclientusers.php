@@ -17,18 +17,18 @@ if ($action == "delete") {
 	$tmpquery3 = "UPDATE ".$tableCollab["assignments"]." SET assigned_to='$at',assigned='$dateheure' WHERE assigned_to IN($id)";
 	$tmpquery4 = "DELETE FROM ".$tableCollab["notifications"]." WHERE member IN($id)";
 	$tmpquery5 = "DELETE FROM ".$tableCollab["teams"]." WHERE member IN($id)";
-	connectSql("$tmpquery1");
-	connectSql("$tmpquery2");
-	connectSql("$tmpquery3");
-	connectSql("$tmpquery4");
-	connectSql("$tmpquery5");
+	Util::connectSql("$tmpquery1");
+	Util::connectSql("$tmpquery2");
+	Util::connectSql("$tmpquery3");
+	Util::connectSql("$tmpquery4");
+	Util::connectSql("$tmpquery5");
 //if mantis bug tracker enabled
 	if ($enableMantis == "true") {
 // Call mantis function to remove user
 		include ("../mantis/user_delete.php");
 	}
 
-	headerFunction("../clients/viewclient.php?id=$organization&msg=delete&".session_name()."=".session_id());
+	Util::headerFunction("../clients/viewclient.php?id=$organization&msg=delete&".session_name()."=".session_id());
 	exit;
 }
 
@@ -68,7 +68,7 @@ echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>".$listM
 }
 
 $tmpquery = "SELECT tas.id FROM ".$tableCollab["tasks"]." tas WHERE tas.assigned_to IN($id)";
-compt($tmpquery);
+Util::computeTotal($tmpquery);
 $totalTasks = $countEnregTotal;
 
 $block1->contentTitle($strings["reassignment_clientuser"]);

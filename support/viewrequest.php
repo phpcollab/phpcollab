@@ -6,13 +6,13 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 if ($enableHelpSupport != "true") {
-	headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
 	exit;
 }
 
 if ($supportType == "admin") {
 	if ($profilSession != "0") {
-		headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+		Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
 		exit;
 	}
 }
@@ -106,7 +106,7 @@ if ($teamMember == "true" || $profilSession != "0") {
 
 for ($i=0;$i<$comptListPosts;$i++) {
 $block1->contentRow($strings["posted_by"],$blockPage->buildLink($listPosts->sp_mem_email_work[$i],$listPosts->sp_mem_name[$i],mail));
-$block1->contentRow($strings["date"],createDate($listPosts->sp_date[$i],$timezoneSession));
+$block1->contentRow($strings["date"],Util::createDate($listPosts->sp_date[$i],$timezoneSession));
 
 if ($teamMember == "true" || $profilSession == "0") {
 $block1->contentRow($blockPage->buildLink("../support/deleterequests.php?action=deleteP&id=".$listPosts->sp_id[$i],$strings["delete_message"],in),nl2br($listPosts->sp_message[$i]));

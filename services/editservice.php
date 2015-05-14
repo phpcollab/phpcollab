@@ -7,7 +7,7 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 if ($profilSession != "0") {
-	headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
 	exit;
 }
 
@@ -17,11 +17,11 @@ if ($id != "") {
 //case update user
 if ($action == "update") {
 //replace quotes by html code in name and address
-	$n = convertData($n);
-	$np = convertData($np);
+	$n = Util::convertData($n);
+	$np = Util::convertData($np);
 	$tmpquery = "UPDATE ".$tableCollab["services"]." SET name='$n',name_print='$np',hourly_rate='$hr' WHERE id = '$id'";
-	connectSql($tmpquery);
-	headerFunction("../services/listservices.php?msg=update&".session_name()."=".session_id());
+	Util::connectSql($tmpquery);
+	Util::headerFunction("../services/listservices.php?msg=update&".session_name()."=".session_id());
 	exit;
 }
 $tmpquery = "WHERE serv.id = '$id'";
@@ -39,14 +39,14 @@ $hr = $detailService->serv_hourly_rate[0];
 if ($id == "") {
 if ($action == "add") {
 //replace quotes by html code in name and address
-	$n = convertData($n);
-	$np = convertData($np);
+	$n = Util::convertData($n);
+	$np = Util::convertData($np);
 	
 	//$tmpquery1 = "INSERT INTO ".$tableCollab["services"]." SET name='$n',name_print='$np',hourly_rate='$hr'";
     $tmpquery1 = "INSERT INTO ".$tableCollab["services"]." (name,name_print,hourly_rate) VALUES ('$n','$np','$hr')";
 	
-	connectSql($tmpquery1);
-	headerFunction("../services/listservices.php?msg=add&".session_name()."=".session_id());
+	Util::connectSql($tmpquery1);
+	Util::headerFunction("../services/listservices.php?msg=add&".session_name()."=".session_id());
 	exit;
 }
 }

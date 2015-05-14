@@ -42,19 +42,19 @@ if ($id == "")
 	{
 
 		//concat values from date selector and replace quotes by html code in name
-		$tn = convertData($tn);
-		$d = convertData($d);
-		$c = convertData($c);
+		$tn = Util::convertData($tn);
+		$d = Util::convertData($d);
+		$c = Util::convertData($c);
 
 		$tmpquery1 = "INSERT INTO ".$tableCollab["tasks"]."(project,name,description,owner,assigned_to,status,priority,start_date,due_date,estimated_time,actual_time,comments,created,published,completion) VALUES('$projectSession','$tn','$d','$idSession','0','2','$pr','$sd','$dd','$etm','$atm','$c','$dateheure','$pub','0')";
-		connectSql("$tmpquery1");
+		Util::connectSql("$tmpquery1");
 		$tmpquery = $tableCollab["tasks"];
-		last_id($tmpquery);
+		Util::getLastId($tmpquery);
 		$num = $lastId[0];
 		unset($lastId);
 
 		$tmpquery2 = "INSERT INTO ".$tableCollab["assignments"]."(task,owner,assigned_to,assigned) VALUES('$num','$idSession','$at','$dateheure')";
-		connectSql("$tmpquery2");
+		Util::connectSql("$tmpquery2");
 
 		//send task assignment mail if notifications = true
 		if ($notifications == "true") 
@@ -65,10 +65,10 @@ if ($id == "")
 		//create task sub-folder if filemanagement = true
 		if ($fileManagement == "true") 
 		{
-			createDir("../files/$projectSession/$num");
+			Util::createDirectory("../files/$projectSession/$num");
 		}
 		
-		headerFunction("showallteamtasks.php?".session_name()."=".session_id());
+		Util::headerFunction("showallteamtasks.php?".session_name()."=".session_id());
 	}
 
 }

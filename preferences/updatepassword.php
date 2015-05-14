@@ -45,7 +45,7 @@ if ($opw != $passwordSession) {
 	if ($npw != $pwa || $npw == "") {
 		$error = $strings["new_password_error"];
 	} else {
-		$cnpw = get_password($npw);
+		$cnpw = Util::getPassword($npw);
 
 if ($htaccessAuth == "true") {
 	$Htpasswd = new Htpasswd;
@@ -63,7 +63,7 @@ if ($htaccessAuth == "true") {
 }
 
 		$tmpquery = "UPDATE ".$tableCollab["members"]." SET password='$cnpw' WHERE id = '$idSession'";
-		connectSql("$tmpquery");
+		Util::connectSql("$tmpquery");
 
 //if mantis bug tracker enabled
 		if ($enableMantis == "true") {
@@ -88,7 +88,7 @@ if ($htaccessAuth == "true") {
 
 		$_SESSION['passwordSession'] = $passwordSession;
 
-		headerFunction("../preferences/updateuser.php?msg=update&".session_name()."=".session_id());
+		Util::headerFunction("../preferences/updateuser.php?msg=update&".session_name()."=".session_id());
 		exit;
 	}
 }
@@ -100,7 +100,7 @@ $userDetail->openMembers($tmpquery);
 $comptUserDetail = count($userDetail->mem_id);
 
 if ($comptUserDetail == "0") {
-	headerFunction("../users/listusers.php?msg=blankUser&".session_name()."=".session_id());
+	Util::headerFunction("../users/listusers.php?msg=blankUser&".session_name()."=".session_id());
 	exit;
 }
 

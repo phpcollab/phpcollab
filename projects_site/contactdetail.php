@@ -14,7 +14,7 @@ $detailContact = new request();
 $detailContact->openTeams($tmpquery);
 
 if ($detailContact->tea_published[0] == "1" || $detailContact->tea_project[0] != $projectSession) {
-headerFunction("index.php");
+Util::headerFunction("index.php");
 }
 
 $bouton[1] = "over";

@@ -18,27 +18,27 @@ if ($action == "delete") {
 	$comptListTasks = count($listTasks->tas_id);
 		for ($i=0;$i<$comptListTasks;$i++) {
 			if ($fileManagement == "true") {
-				delDir("../files/".$listTasks->tas_project[$i]."/".$listTasks->tas_id[$i]);
+				Util::deleteDirectory("../files/".$listTasks->tas_project[$i]."/".$listTasks->tas_id[$i]);
 			}
 		}
-	connectSql("$tmpquery1");
-	connectSql("$tmpquery2");
-	connectSql("$tmpquery3");
+	Util::connectSql("$tmpquery1");
+	Util::connectSql("$tmpquery2");
+	Util::connectSql("$tmpquery3");
 	
 //recompute number of completed tasks of the project
 	$tmpquery = "WHERE pro.id = '".$listTasks->tas_project[0]."'";
 	$projectDetail = new request();
 	$projectDetail->openProjects($tmpquery);
 
-	projectComputeCompletion(
+	Util::projectComputeCompletion(
 	$listTasks->tas_project[$i],
 	$tableCollab["projects"]);
 
 	if ($project != "") {	
-		headerFunction("../projects/viewproject.php?id=$project&msg=delete&".session_name()."=".session_id());
+		Util::headerFunction("../projects/viewproject.php?id=$project&msg=delete&".session_name()."=".session_id());
 		exit;
 	} else {
-		headerFunction("../general/home.php?msg=delete&".session_name()."=".session_id());
+		Util::headerFunction("../general/home.php?msg=delete&".session_name()."=".session_id());
 		exit;
 	}
 }

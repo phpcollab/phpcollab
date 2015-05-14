@@ -38,7 +38,7 @@ include_once('../includes/library.php');
 $multi = strstr($id,"**");
 if ($multi != "")
 {
-    headerFunction("../tasks/updatetasks.php?report=$report&project=$project&id=$id&".session_name()."=".session_id());
+    Util::headerFunction("../tasks/updatetasks.php?report=$report&project=$project&id=$id&".session_name()."=".session_id());
     exit;
 }
 
@@ -75,7 +75,7 @@ else
 
 if ($teamMember == "false" && $profilSession != "5")
 {
-    headerFunction("../tasks/listtasks.php?project=$project&msg=taskOwner&".session_name()."=".session_id());
+    Util::headerFunction("../tasks/listtasks.php?project=$project&msg=taskOwner&".session_name()."=".session_id());
     exit;
 }
 
@@ -88,9 +88,9 @@ if ($id != "")
     {
 
         //concat values from date selector and replace quotes by html code in name
-        $task_name = convertData($task_name);
-        $d = convertData($d);
-        $c = convertData($c);
+        $task_name = Util::convertData($task_name);
+        $d = Util::convertData($d);
+        $c = Util::convertData($c);
 
         //case copy task
         if ($docopy == "true")
@@ -137,9 +137,9 @@ if ($id != "")
                 $tmpquery1 = "INSERT INTO ".$tableCollab["tasks"]."(project,name,description,owner,assigned_to,status,priority,start_date,due_date,estimated_time,actual_time,comments,created,published,completion,invoicing,worked_hours) VALUES('$project','$task_name','$d','$idSession','$at','$st','$pr','$start_date','$due_date','$etm','$atm','$c','$dateheure','$pub','$compl','$invoicing','$worked_hours')";
             }
             
-            connectSql("$tmpquery1");
+            Util::connectSql("$tmpquery1");
             $tmpquery = $tableCollab["tasks"];
-            last_id($tmpquery);
+            Util::getLastId($tmpquery);
             $num = $lastId[0];
             unset($lastId);
 
@@ -153,8 +153,8 @@ if ($id != "")
 
             for ($j=0;$j<$comptListSubtasks;$j++)
             {
-                $s_tn = convertData($subtaskDetail->subtas_name[$j]);
-                $s_d = convertData($subtaskDetail->subtas_description[$j]);
+                $s_tn = Util::convertData($subtaskDetail->subtas_name[$j]);
+                $s_d = Util::convertData($subtaskDetail->subtas_description[$j]);
                 $s_ow = $subtaskDetail->subtas_owner[$j];
                 $s_at = $subtaskDetail->subtas_assigned_to[$j];
                 $s_st = $subtaskDetail->subtas_status[$j];
@@ -164,12 +164,12 @@ if ($id != "")
                 $s_cd = $subtaskDetail->subtas_complete_date[$j];
                 $s_etm = $subtaskDetail->subtas_estimated_time[$j];
                 $s_atm = $subtaskDetail->subtas_actual_time[$j];
-                $s_c = convertData($subtaskDetail->subtas_comments[$j]);
+                $s_c = Util::convertData($subtaskDetail->subtas_comments[$j]);
                 $s_published = $subtaskDetail->subtas_published[$j];
                 $s_compl = $subtaskDetail->subtas_completion[$j];
 
                 $tmpquery1 = "INSERT INTO ".$tableCollab["subtasks"]."(task,name,description,owner,assigned_to,status,priority,start_date,due_date,complete_date,estimated_time,actual_time,comments,created,assigned,published,completion) VALUES('$num','$s_tn','$s_d','$s_ow','$s_at','$s_st','$s_pr','$s_sd','$s_dd','$s_cd','$s_etm','$s_atm','$s_c','$dateheure','$dateheure','$s_published','$s_compl')";
-                connectSql("$tmpquery1");
+                Util::connectSql("$tmpquery1");
             }
 
             // invoice
@@ -189,26 +189,26 @@ if ($id != "")
                 $detailInvoice->openInvoices($tmpquery);
                 if ($detailInvoice->inv_status[0] == "0") {
                     //$tmpquery3 = "INSERT INTO ".$tableCollab["invoices_items"]." SET title='$task_name',description='$d',invoice='".$detailInvoice->inv_id[0]."',created='$dateheure',active='$invoicing',completed='$completeItem',mod_type='1',mod_value='$num',worked_hours='$worked_hours'";
-                    $tmpquery3 = "INSERT INTO ".$tableCollab["invoices_items"]." (title,description,invoice,created,active,completed,mod_type,mod_value,worked_hours) VALUES ('$task_name','$d','".fixInt($detailInvoice->inv_id[0])."','$dateheure','$invoicing','$completeItem','1','$num','$worked_hours')";
-                    connectSql($tmpquery3);
+                    $tmpquery3 = "INSERT INTO ".$tableCollab["invoices_items"]." (title,description,invoice,created,active,completed,mod_type,mod_value,worked_hours) VALUES ('$task_name','$d','".Util::fixInt($detailInvoice->inv_id[0])."','$dateheure','$invoicing','$completeItem','1','$num','$worked_hours')";
+                    Util::connectSql($tmpquery3);
             }
         }
 
         if ($st == "1" && $complete_date != "--")
         {
             $tmpquery6 = "UPDATE ".$tableCollab["tasks"]." SET complete_date='$date' WHERE id = '$num'";
-            connectSql($tmpquery6);
+            Util::connectSql($tmpquery6);
         }
 
         //if assigned_to not blank, set assigned date
         if ($at != "0")
         {
             $tmpquery6 = "UPDATE ".$tableCollab["tasks"]." SET assigned='$dateheure' WHERE id = '$num'";
-            connectSql($tmpquery6);
+            Util::connectSql($tmpquery6);
         }
 
         $tmpquery2 = "INSERT INTO ".$tableCollab["assignments"]."(task,owner,assigned_to,assigned) VALUES('$num','$idSession','$at','$dateheure')";
-        connectSql("$tmpquery2");
+        Util::connectSql("$tmpquery2");
 
         //if assigned_to not blank, add to team members (only if doesn't already exist)
         if ($at != "0")
@@ -221,7 +221,7 @@ if ($id != "")
             if ($comptTestinTeam == "0")
             {
                 $tmpquery3 = "INSERT INTO ".$tableCollab["teams"]."(project,member,published,authorized) VALUES('$project','$at','1','0')";
-                connectSql("$tmpquery3");
+                Util::connectSql("$tmpquery3");
             }
 
             //send task assignment mail if notifications = true
@@ -233,10 +233,10 @@ if ($id != "")
 
         //create task sub-folder if filemanagement = true
         if ($fileManagement == "true") {
-            createDir("files/$project/$num");
+            Util::createDirectory("files/$project/$num");
         }
 
-        headerFunction("../tasks/viewtask.php?id=$num&msg=addAssignment&".session_name()."=".session_id());
+        Util::headerFunction("../tasks/viewtask.php?id=$num&msg=addAssignment&".session_name()."=".session_id());
         exit;
 
         //case update task
@@ -267,7 +267,7 @@ if ($id != "")
         }
 
         //recompute number of completed tasks of the project
-        $projectDetail->pro_name[0] = projectComputeCompletion(
+        $projectDetail->pro_name[0] = Util::projectComputeCompletion(
         $projectDetail,
         $tableCollab["projects"]);
 
@@ -289,28 +289,28 @@ if ($id != "")
         if ($st == "1" && $complete_date == "--")
         {
             $tmpquery6 = "UPDATE ".$tableCollab["tasks"]." SET complete_date='$date' WHERE id = '$id'";
-            connectSql($tmpquery6);
+            Util::connectSql($tmpquery6);
         }
         else
         {
             $tmpquery6 = "UPDATE ".$tableCollab["tasks"]." SET complete_date='$complete_date' WHERE id = '$id'";
-            connectSql($tmpquery6);
+            Util::connectSql($tmpquery6);
         }
 
         if ($old_st == "1" && $st != $old_st)
         {
             $tmpquery6 = "UPDATE ".$tableCollab["tasks"]." SET complete_date='' WHERE id = '$id'";
-            connectSql($tmpquery6);
+            Util::connectSql($tmpquery6);
         }
 
         //if project different from past value, set project number in tasks table
         if ($project != $old_project)
         {
             $tmpquery6 = "UPDATE ".$tableCollab["tasks"]." SET project='$project' WHERE id = '$id'";
-            connectSql($tmpquery6);
+            Util::connectSql($tmpquery6);
             $tmpquery7 = "UPDATE ".$tableCollab["files"]." SET project='$project' WHERE task = '$id'";
-            connectSql($tmpquery7);
-            createDir("files/$project/$id");
+            Util::connectSql($tmpquery7);
+            Util::createDirectory("files/$project/$id");
 
             $dir = opendir("../files/$old_project/$id");
             if (is_resource($dir))
@@ -329,7 +329,7 @@ if ($id != "")
             $tmpquery = "WHERE pro.id = '$old_project'";
             $oldproject = new request();
             $oldproject->openProjects($tmpquery);
-            projectComputeCompletion(
+            Util::projectComputeCompletion(
             $oldproject,
             $tableCollab["projects"]);
 
@@ -352,7 +352,7 @@ if ($id != "")
                 if ($detailInvoice->inv_status[0] == "0")
                 {
                     $tmpquery3 = "UPDATE ".$tableCollab["invoices_items"]." SET active='$invoicing',completed='$completeItem',worked_hours='$worked_hours' WHERE mod_type = '1' AND mod_value = '$id'";
-                    connectSql($tmpquery3);
+                    Util::connectSql($tmpquery3);
                 }
             }
 
@@ -360,7 +360,7 @@ if ($id != "")
             if ($at != "0" && $old_assigned == "")
             {
                 $tmpquery6 = "UPDATE ".$tableCollab["tasks"]." SET assigned='$dateheure' WHERE id = '$id'";
-                connectSql($tmpquery6);
+                Util::connectSql($tmpquery6);
             }
 
             //if assigned_to different from past value, insert into assignment
@@ -368,7 +368,7 @@ if ($id != "")
             if ($at != $old_at)
             {
                 $tmpquery2 = "INSERT INTO ".$tableCollab["assignments"]."(task,owner,assigned_to,assigned) VALUES('$id','$idSession','$at','$dateheure')";
-                connectSql("$tmpquery2");
+                Util::connectSql("$tmpquery2");
                 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$at'";
                 $testinTeam = new request();
                 $testinTeam->openTeams($tmpquery);
@@ -377,11 +377,11 @@ if ($id != "")
                 if ($comptTestinTeam == "0")
                 {
                     $tmpquery3 = "INSERT INTO ".$tableCollab["teams"]."(project,member,published,authorized) VALUES('$project','$at','1','0')";
-                    connectSql("$tmpquery3");
+                    Util::connectSql("$tmpquery3");
                 }
 
                 $msg = "updateAssignment";
-                connectSql("$tmpquery5");
+                Util::connectSql("$tmpquery5");
                 $tmpquery = "WHERE tas.id = '$id'";
                 $taskDetail = new request();
                 $taskDetail->openTasks($tmpquery);
@@ -395,7 +395,7 @@ if ($id != "")
             else
             {
                 $msg = "update";
-                connectSql("$tmpquery5");
+                Util::connectSql("$tmpquery5");
                 $tmpquery = "WHERE tas.id = '$id'";
                 $taskDetail = new request();
                 $taskDetail->openTasks($tmpquery);
@@ -445,12 +445,12 @@ if ($id != "")
 
             if ($cUp != "" || $st != $old_st || $pr != $old_pr || $due_date != $old_dd)
             {
-                $cUp = convertData($cUp);
+                $cUp = Util::convertData($cUp);
                 $tmpquery6 = "INSERT INTO ".$tableCollab["updates"]."(type,item,member,comments,created) VALUES ('1','$id','$idSession','$cUp','$dateheure')";
-                connectSql($tmpquery6);
+                Util::connectSql($tmpquery6);
             }
 
-            headerFunction("../tasks/viewtask.php?id=$id&msg=$msg&".session_name()."=".session_id());
+            Util::headerFunction("../tasks/viewtask.php?id=$id&msg=$msg&".session_name()."=".session_id());
         }
     }
 
@@ -481,9 +481,9 @@ if ($id == "")
     {
 
         //concat values from date selector and replace quotes by html code in name
-        $task_name = convertData($task_name);
-        $d = convertData($d);
-        $c = convertData($c);
+        $task_name = Util::convertData($task_name);
+        $d = Util::convertData($d);
+        $c = Util::convertData($c);
 
         //Change task status if parent phase is suspended, complete or not open.
         if ($projectDetail->pro_enable_phase[0] == "1")
@@ -528,9 +528,9 @@ if ($id == "")
             $tmpquery1 = "INSERT INTO ".$tableCollab["tasks"]."(project,name,description,owner,assigned_to,status,priority,start_date,due_date,estimated_time,actual_time,comments,created,published,completion,invoicing,worked_hours) VALUES('$project','$task_name','$d','$idSession','$at','$st','$pr','$start_date','$due_date','$etm','$atm','$c','$dateheure','$pub','$compl','$invoicing','$worked_hours')";
         }
 
-        connectSql("$tmpquery1");
+        Util::connectSql("$tmpquery1");
         $tmpquery = $tableCollab["tasks"];
-        last_id($tmpquery);
+        Util::getLastId($tmpquery);
         $num = $lastId[0];
         unset($lastId);
 
@@ -552,19 +552,19 @@ if ($id == "")
             if ($detailInvoice->inv_status[0] == "0")
             {
                 //$tmpquery3 = "INSERT INTO ".$tableCollab["invoices_items"]." SET title='$task_name',description='$d',invoice='".$detailInvoice->inv_id[0]."',created='$dateheure',active='$invoicing',completed='$completeItem',mod_type='1',mod_value='$num',worked_hours='$worked_hours'";
-                $tmpquery3 = "INSERT INTO ".$tableCollab["invoices_items"]." (title,description,invoice,created,active,completed,mod_type,mod_value,worked_hours) VALUES ('$task_name','$d','".fixInt($detailInvoice->inv_id[0])."','$dateheure','$invoicing','$completeItem','1','$num','$worked_hours')";
-                connectSql($tmpquery3);
+                $tmpquery3 = "INSERT INTO ".$tableCollab["invoices_items"]." (title,description,invoice,created,active,completed,mod_type,mod_value,worked_hours) VALUES ('$task_name','$d','".Util::fixInt($detailInvoice->inv_id[0])."','$dateheure','$invoicing','$completeItem','1','$num','$worked_hours')";
+                Util::connectSql($tmpquery3);
             }
         }
 
         if ($st == "1")
         {
             $tmpquery6 = "UPDATE ".$tableCollab["tasks"]." SET complete_date='$date' WHERE id = '$num'";
-            connectSql($tmpquery6);
+            Util::connectSql($tmpquery6);
         }
 
         //recompute number of completed tasks of the project
-        $projectDetail->pro_name[0] = projectComputeCompletion(
+        $projectDetail->pro_name[0] = Util::projectComputeCompletion(
         $projectDetail,
         $tableCollab["projects"]);
 
@@ -572,10 +572,10 @@ if ($id == "")
         if ($at != "0")
         {
             $tmpquery6 = "UPDATE ".$tableCollab["tasks"]." SET assigned='$dateheure' WHERE id = '$num'";
-            connectSql($tmpquery6);
+            Util::connectSql($tmpquery6);
         }
         $tmpquery2 = "INSERT INTO ".$tableCollab["assignments"]."(task,owner,assigned_to,assigned) VALUES('$num','$idSession','$at','$dateheure')";
-        connectSql($tmpquery2);
+        Util::connectSql($tmpquery2);
 
         //if assigned_to not blank, add to team members (only if doesn't already exist)
         //add assigned_to in team members (only if doesn't already exist)
@@ -589,7 +589,7 @@ if ($id == "")
             if ($comptTestinTeam == "0")
             {
                 $tmpquery3 = "INSERT INTO ".$tableCollab["teams"]."(project,member,published,authorized) VALUES('$project','$at','1','0')";
-                connectSql($tmpquery3);
+                Util::connectSql($tmpquery3);
             }
 
             //send task assignment mail if notifications = true
@@ -602,9 +602,9 @@ if ($id == "")
         //create task sub-folder if filemanagement = true
         if ($fileManagement == "true")
         {
-            createDir("files/$project/$num");
+            Util::createDirectory("files/$project/$num");
         }
-        headerFunction("../tasks/viewtask.php?id=$num&msg=addAssignment&".session_name()."=".session_id());
+        Util::headerFunction("../tasks/viewtask.php?id=$num&msg=addAssignment&".session_name()."=".session_id());
     }
 
     //set default values

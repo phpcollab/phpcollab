@@ -54,7 +54,7 @@ if ($projectSession != "" && $changeProject != "true")
 
 	if ($teamMember == "false") 
 	{
-		headerFunction("index.php");
+		Util::headerFunction("index.php");
 	}
 }
 

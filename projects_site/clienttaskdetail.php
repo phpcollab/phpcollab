@@ -6,14 +6,14 @@ $checkSession = "true";
 include("../includes/library.php");
 
 if ($action == "update") {
-$comments = convertData($comments);
+$comments = Util::convertData($comments);
 if ($checkbox != "") {
 	$tmpquery = "UPDATE ".$tableCollab["tasks"]." SET comments='$comments',status='0',modified='$dateheure' WHERE id = '$id'";
 } else {
 	$tmpquery = "UPDATE ".$tableCollab["tasks"]." SET comments='$comments',status='3',modified='$dateheure' WHERE id = '$id'";
 }
-	connectSql("$tmpquery");
-	headerFunction("showallclienttasks.php?".session_name()."=".session_id());
+	Util::connectSql("$tmpquery");
+	Util::headerFunction("showallclienttasks.php?".session_name()."=".session_id());
 	exit;
 }
 
@@ -22,7 +22,7 @@ $taskDetail = new request();
 $taskDetail->openTasks($tmpquery);
 
 if ($taskDetail->tas_published[0] == "1" || $taskDetail->tas_project[0] != $projectSession) {
-headerFunction("index.php");
+Util::headerFunction("index.php");
 }
 
 $bouton[3] = "over";
@@ -63,7 +63,7 @@ $comptListUpdates=count($listUpdates->upd_id);
 if ($comptListUpdates != "0") {
 $j = 1;
 for ($i=0;$i<$comptListUpdates;$i++) {
-	echo "<b>".$j.".</b> <i>".createDate($listUpdates->upd_created[$i],$timezoneSession)."</i><br/>".nl2br($listUpdates->upd_comments[$i]);
+	echo "<b>".$j.".</b> <i>".Util::createDate($listUpdates->upd_created[$i],$timezoneSession)."</i><br/>".nl2br($listUpdates->upd_comments[$i]);
 	echo "<br/>";
 $j++;
 }

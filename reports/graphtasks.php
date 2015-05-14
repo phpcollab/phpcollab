@@ -116,7 +116,7 @@ if ($S_ORGSEL != "ALL" || $S_PRJSEL != "ALL" || $S_ATSEL != "ALL" || $S_STATSEL 
 	$query .= ")";
 }
 
-$reportDetail->rep_created[0] = createDate($reportDetail->rep_created[0],$timezoneSession);
+$reportDetail->rep_created[0] = Util::createDate($reportDetail->rep_created[0],$timezoneSession);
 
 $graph = new GanttGraph();
 $graph->SetBox();

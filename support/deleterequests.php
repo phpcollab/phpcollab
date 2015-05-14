@@ -6,13 +6,13 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 if ($enableHelpSupport != "true") {
-	headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
 	exit;
 }
 
 if ($supportType == "admin") {
 	if ($profilSession != "0") {
-		headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+		Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
 		exit;
 	}
 }
@@ -23,10 +23,10 @@ if ($action == "deleteRequest") {
 	$tmpquery2 = "DELETE FROM ".$tableCollab["support_posts"]." WHERE request_id IN($id)";
 	$pieces = explode(",",$id);
 	$num = count($pieces);
-	connectSql("$tmpquery1");
-	connectSql("$tmpquery2");
+	Util::connectSql("$tmpquery1");
+	Util::connectSql("$tmpquery2");
 	
-	headerFunction("../support/support.php?msg=delete&action=$sendto&project=$project&".session_name()."=".session_id());
+	Util::headerFunction("../support/support.php?msg=delete&action=$sendto&project=$project&".session_name()."=".session_id());
 	exit;	
 }
 
@@ -35,9 +35,9 @@ if ($action == "deletePost") {
 	$tmpquery3 = "DELETE FROM ".$tableCollab["support_posts"]." WHERE id IN($id)";
 	$pieces = explode(",",$id);
 	$num = count($pieces);
-	connectSql("$tmpquery3");
+	Util::connectSql("$tmpquery3");
 	
-	headerFunction("../support/viewrequest.php?msg=delete&id=$sendto&".session_name()."=".session_id());
+	Util::headerFunction("../support/viewrequest.php?msg=delete&id=$sendto&".session_name()."=".session_id());
 	exit;	
 }
 

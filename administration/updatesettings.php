@@ -38,7 +38,7 @@ $setTitle .= " : Edit Settings";
 
 if ($profilSession != "0")
 {
-	headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
 	exit;
 }
 
@@ -302,7 +302,7 @@ STAMP;
 		else 
 		{
 			fclose($fp);
-			headerFunction("../administration/admin.php?msg=update&".session_name()."=".session_id());
+			Util::headerFunction("../administration/admin.php?msg=update&".session_name()."=".session_id());
 		}
 	}
 }

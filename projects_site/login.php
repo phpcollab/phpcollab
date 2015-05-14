@@ -7,12 +7,12 @@ includes("../includes/library.php");
 
 //case session fails
 if ($url != "") {
-	headerFunction("../login.php?url=$url");
+	Util::headerFunction("../login.php?url=$url");
 	exit;
 
 //default case
 } else {
-	headerFunction("../login.php");
+	Util::headerFunction("../login.php");
 	exit;
 }
 ?>

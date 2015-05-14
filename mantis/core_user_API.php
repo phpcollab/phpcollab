@@ -130,7 +130,7 @@
 	# --------------------
 	# Checks for password match using the globally specified login method
 	/** Disable for phpcollab for duplication function declaration
-	function is_password_match( $f_username, $p_test_password, $p_password ) {
+	function Util::doesPasswordMatch( $f_username, $p_test_password, $p_password ) {
 		global $g_login_method, $g_allow_anonymous_login, $g_anonymous_account;
 		global $PHP_AUTH_PW;
 

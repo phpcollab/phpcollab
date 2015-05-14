@@ -57,17 +57,17 @@ if ($action == "update") {
         } else {
 
 //replace quotes by html code in name
-            $fn = convertData($fn);
-            $tit = convertData($tit);
-            $c = convertData($c);
-            $em = convertData($em);
-            $wp = convertData($wp);
-            $hp = convertData($hp);
-            $mp = convertData($mp);
-            $fax = convertData($fax);
-            $last_page = convertData($last_page);
+            $fn = Util::convertData($fn);
+            $tit = Util::convertData($tit);
+            $c = Util::convertData($c);
+            $em = Util::convertData($em);
+            $wp = Util::convertData($wp);
+            $hp = Util::convertData($hp);
+            $mp = Util::convertData($mp);
+            $fax = Util::convertData($fax);
+            $last_page = Util::convertData($last_page);
             $tmpquery = "UPDATE " . $tableCollab["members"] . " SET login='$un',name='$fn',title='$tit',organization='$clod',email_work='$em',phone_work='$wp',phone_home='$hp',mobile='$mp',fax='$fax',last_page='$last_page',comments='$c' WHERE id = '$id'";
-            connectSql("$tmpquery");
+            Util::connectSql("$tmpquery");
 
 //test if new password set
             if ($pw != "") {
@@ -76,10 +76,10 @@ if ($action == "update") {
                 if ($pw != $pwa || $pwa == "") {
                     $error = $strings["new_password_error"];
                 } else {
-                    $pw = get_password($pw);
+                    $pw = Util::getPassword($pw);
                     $tmpquery = "UPDATE " . $tableCollab["members"] . " SET password='$pw' WHERE id = '$id'";
-                    connectSql("$tmpquery");
-                    headerFunction("../clients/viewclient.php?msg=update&id=$clod&" . session_name() . "=" . session_id());
+                    Util::connectSql("$tmpquery");
+                    Util::headerFunction("../clients/viewclient.php?msg=update&id=$clod&" . session_name() . "=" . session_id());
                     exit;
                 }
             } else {
@@ -89,7 +89,7 @@ if ($action == "update") {
                     $f_access_level = $client_user_level; // reporter
                     include("../mantis/user_update.php");
                 }
-                headerFunction("../clients/viewclient.php?msg=update&id=$clod&" . session_name() . "=" . session_id());
+                Util::headerFunction("../clients/viewclient.php?msg=update&id=$clod&" . session_name() . "=" . session_id());
                 exit;
             }
         }

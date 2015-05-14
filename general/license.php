@@ -43,7 +43,7 @@ $block1->heading($setTitle . " : License");
 $block1->openContent();
 $block1->contentTitle("License");
 
-$block1->contentRow("","<pre>".recupFile("../docs/copying.txt")."</pre>");
+$block1->contentRow("","<pre>".Util::getFileContents("../docs/copying.txt")."</pre>");
 
 $block1->closeContent();
 

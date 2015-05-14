@@ -73,7 +73,7 @@ if ($comptListReports != "0")
 		$block1->openRow();
 		$block1->checkboxRow($listReports->rep_id[$i]);
 		$block1->cellRow($blockPage->buildLink("../reports/resultsreport.php?id=".$listReports->rep_id[$i],$listReports->rep_name[$i],in));
-		$block1->cellRow(createDate($listReports->rep_created[$i],$timezoneSession));
+		$block1->cellRow(Util::createDate($listReports->rep_created[$i],$timezoneSession));
 	}
 
 	$block1->closeResults();

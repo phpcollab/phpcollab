@@ -47,23 +47,23 @@ if ($action == "delete") {
 	$comptListTasks = count($listTasks->tas_id);
 		for ($i=0;$i<$comptListTasks;$i++) {
 			if ($fileManagement == "true") {
-				delDir("../files/".$listTasks->tas_project[$i]."/".$listTasks->tas_id[$i]);
+				Util::deleteDirectory("../files/".$listTasks->tas_project[$i]."/".$listTasks->tas_id[$i]);
 			}
 		}
 	*/
-	connectSql($tmpquery1);
-	connectSql($tmpquery2);
+	Util::connectSql($tmpquery1);
+	Util::connectSql($tmpquery2);
 
 	//recompute average completion of the task
-	taskComputeCompletion(
+	Util::taskComputeCompletion(
 	$listSubtasks->subtas_task[0],
 	$tableCollab["tasks"]);
 
 	if ($task != "") {	
-		headerFunction("../tasks/viewtask.php?id=$task&msg=delete&".session_name()."=".session_id());
+		Util::headerFunction("../tasks/viewtask.php?id=$task&msg=delete&".session_name()."=".session_id());
 		exit;
 	} else {
-		headerFunction("../general/home.php?msg=delete&".session_name()."=".session_id());
+		Util::headerFunction("../general/home.php?msg=delete&".session_name()."=".session_id());
 		exit;
 	}
 }

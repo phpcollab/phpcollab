@@ -35,16 +35,16 @@ if ($action == "update") {
 	if (($logout_time < "30" && $logout_time != "0") || !is_numeric($logout_time)) {
 		$logout_time = "30";
 	}
-	$fn = convertData($fn);
-	$tit = convertData($tit);
-	$em = convertData($em);
-	$wp = convertData($wp);
-	$hp = convertData($hp);
-	$mp = convertData($mp);
-	$fax = convertData($fax);
-	$logout_time = convertData($logout_time);
+	$fn = Util::convertData($fn);
+	$tit = Util::convertData($tit);
+	$em = Util::convertData($em);
+	$wp = Util::convertData($wp);
+	$hp = Util::convertData($hp);
+	$mp = Util::convertData($mp);
+	$fax = Util::convertData($fax);
+	$logout_time = Util::convertData($logout_time);
 	$tmpquery = "UPDATE ".$tableCollab["members"]." SET name='$fn',title='$tit',email_work='$em',phone_work='$wp',phone_home='$hp',mobile='$mp',fax='$fax',logout_time='$logout_time',timezone='$tz' WHERE id = '$idSession'";
-	connectSql("$tmpquery");
+	Util::connectSql("$tmpquery");
 	$timezoneSession = $tz;
 	$logouttimeSession = $logout_time;
 	$dateunixSession = date("U");
@@ -60,7 +60,7 @@ if ($action == "update") {
 // Call mantis function for user profile changes..!!!
 			include ("../mantis/user_profile.php");				
 		}
-	headerFunction("../preferences/updateuser.php?msg=update&".session_name()."=".session_id());
+	Util::headerFunction("../preferences/updateuser.php?msg=update&".session_name()."=".session_id());
 }
 
 $tmpquery = "WHERE mem.id = '$idSession'";
@@ -69,7 +69,7 @@ $userPrefs->openMembers($tmpquery);
 $comptUserPrefs = count($userPrefs->mem_id);
 
 if ($comptUserPrefs == "0") {
-	headerFunction("../users/listusers.php?msg=blankUser&".session_name()."=".session_id());
+	Util::headerFunction("../users/listusers.php?msg=blankUser&".session_name()."=".session_id());
 	exit;
 }
 
@@ -143,7 +143,7 @@ if ($userPrefs->mem_profil[0] == "0") {
 	$block1->contentRow($strings["permissions"],$strings["project_manager_administrator_permissions"]); 
 }
 
-$block1->contentRow($strings["account_created"],createDate($userPrefs->mem_created[0],$timezoneSession));
+$block1->contentRow($strings["account_created"],Util::createDate($userPrefs->mem_created[0],$timezoneSession));
 $block1->contentRow("","<input type=\"submit\" name=\"Save\" value=\"".$strings["save"]."\">");
 
 $block1->closeContent();

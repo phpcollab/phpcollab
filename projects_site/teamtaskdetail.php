@@ -10,7 +10,7 @@ $taskDetail = new request();
 $taskDetail->openTasks($tmpquery);
 
 if ($taskDetail->tas_published[0] == "1" || $taskDetail->tas_project[0] != $projectSession) {
-headerFunction("index.php");
+Util::headerFunction("index.php");
 }
 
 $bouton[2] = "over";
@@ -51,7 +51,7 @@ $comptListUpdates=count($listUpdates->upd_id);
 if ($comptListUpdates != "0") {
 $j = 1;
 for ($i=0;$i<$comptListUpdates;$i++) {
-	echo "<b>".$j.".</b> <i>".createDate($listUpdates->upd_created[$i],$timezoneSession)."</i><br/>".nl2br($listUpdates->upd_comments[$i]);
+	echo "<b>".$j.".</b> <i>".Util::createDate($listUpdates->upd_created[$i],$timezoneSession)."</i><br/>".nl2br($listUpdates->upd_comments[$i]);
 	echo "<br/>";
 $j++;
 }

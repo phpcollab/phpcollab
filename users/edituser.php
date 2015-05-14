@@ -32,7 +32,7 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 if ($profilSession != "0") {
-    headerFunction('../general/permissiondenied.php?' . session_name() . '=' . session_id());
+    Util::headerFunction('../general/permissiondenied.php?' . session_name() . '=' . session_id());
     exit;
 }
 
@@ -40,7 +40,7 @@ if ($profilSession != "0") {
 if ($id != "") {
 
     if ($id == "1" && $idSession == "1") {
-        headerFunction("../preferences/updateuser.php?" . session_name() . "=" . session_id());
+        Util::headerFunction("../preferences/updateuser.php?" . session_name() . "=" . session_id());
         exit;
     }
 
@@ -63,18 +63,18 @@ if ($id != "") {
             } else {
 
 //replace quotes by html code in name and address
-                $fn = convertData($fn);
-                $tit = convertData($tit);
-                $c = convertData($c);
-                $em = convertData($em);
-                $wp = convertData($wp);
-                $hp = convertData($hp);
-                $mp = convertData($mp);
-                $fax = convertData($fax);
-                $last_page = convertData($last_page);
+                $fn = Util::convertData($fn);
+                $tit = Util::convertData($tit);
+                $c = Util::convertData($c);
+                $em = Util::convertData($em);
+                $wp = Util::convertData($wp);
+                $hp = Util::convertData($hp);
+                $mp = Util::convertData($mp);
+                $fax = Util::convertData($fax);
+                $last_page = Util::convertData($last_page);
 
                 $tmpquery = "UPDATE " . $tableCollab["members"] . " SET login='$un',name='$fn',title='$tit',email_work='$em',phone_work='$wp',phone_home='$hp',mobile='$mp',fax='$fax',comments='$c',profil='$perm',last_page='$last_page' WHERE id = '$id'";
-                connectSql("$tmpquery");
+                Util::connectSql("$tmpquery");
 
                 if ($htaccessAuth == "true") {
                     if ($un != $unOld) {
@@ -99,7 +99,7 @@ if ($id != "") {
                     if ($pw != $pwa || $pwa == "") {
                         $error = $strings["new_password_error"];
                     } else {
-                        $pw = get_password($pw);
+                        $pw = Util::getPassword($pw);
 
                         if ($htaccessAuth == "true") {
                             if ($un == $unOld) {
@@ -117,7 +117,7 @@ if ($id != "") {
                             }
                         }
                         $tmpquery = "UPDATE " . $tableCollab["members"] . " SET password='$pw' WHERE id = '$id'";
-                        connectSql("$tmpquery");
+                        Util::connectSql("$tmpquery");
 //if mantis bug tracker enabled
                         if ($enableMantis == "true") {
 // Call mantis function for user changes..!!!
@@ -125,7 +125,7 @@ if ($id != "") {
                             include("../mantis/user_update.php");
                         }
 
-                        headerFunction("../users/listusers.php?msg=update&" . session_name() . "=" . session_id());
+                        Util::headerFunction("../users/listusers.php?msg=update&" . session_name() . "=" . session_id());
                         exit;
                     }
                 } else {
@@ -135,7 +135,7 @@ if ($id != "") {
                         $f_access_level = $team_user_level; // Developer
                         include("../mantis/user_update.php");
                     }
-                    headerFunction("../users/listusers.php?msg=update&" . session_name() . "=" . session_id());
+                    Util::headerFunction("../users/listusers.php?msg=update&" . session_name() . "=" . session_id());
                     exit;
                 }
             }
@@ -148,7 +148,7 @@ if ($id != "") {
 
 //test exists selected user, redirect to list if not
     if ($comptDetailUser == "0") {
-        headerFunction("../users/listusers.php?msg=blankUser&" . session_name() . "=" . session_id());
+        Util::headerFunction("../users/listusers.php?msg=blankUser&" . session_name() . "=" . session_id());
         exit;
     }
 
@@ -211,27 +211,27 @@ if ($id == "") {
                 } else {
 
 //replace quotes by html code in name and address
-                    $fn = convertData($fn);
-                    $tit = convertData($tit);
-                    $c = convertData($c);
-                    $pw = get_password($pw);
+                    $fn = Util::convertData($fn);
+                    $tit = Util::convertData($tit);
+                    $c = Util::convertData($c);
+                    $pw = Util::getPassword($pw);
                     $tmpquery1 = "INSERT INTO " . $tableCollab["members"] . "(login,name,title,email_work,phone_work,phone_home,mobile,fax,comments,password,profil,created,organization,timezone) VALUES('$un','$fn','$tit','$em','$wp','$hp','$mp','$fax','$c','$pw','$perm','$dateheure','1','0')";
-                    connectSql("$tmpquery1");
+                    Util::connectSql("$tmpquery1");
                     $tmpquery = $tableCollab["members"];
-                    last_id($tmpquery);
+                    Util::getLastId($tmpquery);
                     $num = $lastId[0];
                     unset($lastId);
                     $tmpquery2 = "INSERT INTO " . $tableCollab["sorting"] . "(member) VALUES('$num')";
-                    connectSql("$tmpquery2");
+                    Util::connectSql("$tmpquery2");
                     $tmpquery3 = "INSERT INTO " . $tableCollab["notifications"] . "(member,taskAssignment,removeProjectTeam,addProjectTeam,newTopic,newPost,statusTaskChange,priorityTaskChange,duedateTaskChange,clientAddTask) VALUES ('$num','0','0','0','0','0','0','0','0','0')";
-                    connectSql("$tmpquery3");
+                    Util::connectSql("$tmpquery3");
 //if mantis bug tracker enabled
                     if ($enableMantis == "true") {
 // Call mantis function for user changes..!!!
                         $f_access_level = $team_user_level; // Developer
                         include("../mantis/create_new_user.php");
                     }
-                    headerFunction("../users/listusers.php?msg=add&" . session_name() . "=" . session_id());
+                    Util::headerFunction("../users/listusers.php?msg=add&" . session_name() . "=" . session_id());
                     exit;
                 }
             }

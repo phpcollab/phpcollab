@@ -90,7 +90,7 @@ if ($action == "generate")
 	}
 
 	// return a password using the globally specified method
-	function get_password($newPassword) 
+	function Util::getPassword($newPassword)
 	{
 		global $loginMethod;
 		switch ($loginMethod) 
@@ -341,8 +341,8 @@ STAMP;
 		$msg = 'File settings.php created correctly.';
 		
 		// crypt admin and demo password
-		$demoPwd = get_password("demo");
-		$adminPwd = get_password($adminPwd);
+		$demoPwd = Util::getPassword("demo");
+		$adminPwd = Util::getPassword($adminPwd);
 
 		// create all tables
 		include("../includes/db_var.inc.php");

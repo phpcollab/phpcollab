@@ -50,7 +50,7 @@ $comptMemberTest = count($memberTest->tea_id);
 	}
 
 if ($action == "update") {
-	$c = convertData($c);
+	$c = Util::convertData($c);
 
 	if ($st == 0) {
 		$ed = "--";
@@ -65,7 +65,7 @@ if ($action == "update") {
 	}
 
 	$tmpquery = "UPDATE ".$tableCollab["phases"]." SET status='$st', date_start='$sd', date_end='$ed', comments='$c' WHERE id = '$id'";
-	connectSql("$tmpquery");
+	Util::connectSql("$tmpquery");
 
 	if ($st != 1) {
 		$tmpquery = "WHERE tas.parent_phase = '$id' AND tas.status = '3'";
@@ -75,10 +75,10 @@ if ($action == "update") {
 		for ($i=0;$i<$comptchangeTasks;$i++) {
 			$taskID = $changeTasks->tas_id[$i];
 			$tmpquery = "UPDATE ".$tableCollab["tasks"]." SET status='4' WHERE id = '$taskID'";
-			connectSql("$tmpquery");
+			Util::connectSql("$tmpquery");
 		}
 	}
-	headerFunction("../phases/viewphase.php?id=$id&".session_name()."=".session_id());
+	Util::headerFunction("../phases/viewphase.php?id=$id&".session_name()."=".session_id());
 	exit;
 }
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
