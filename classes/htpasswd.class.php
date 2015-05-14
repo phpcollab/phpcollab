@@ -1,7 +1,7 @@
 <?php
 #Application name: PhpCollab
 #Status page: 2
-#Path by root: ../includes/htpasswd.class.php
+#Path by root: ../classes/htpasswd.php
 
 /*	**************************************************************
 

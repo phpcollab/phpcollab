@@ -21,7 +21,6 @@ if ($action == "delete") {
 	$pieces = explode(",",$id);
 
 	if ($htaccessAuth == "true") {
-		include("../includes/htpasswd.class.php");
 		$Htpasswd = new Htpasswd;
 		$Htpasswd->initialize("../files/".$projectDetail->pro_id[0]."/.htpasswd");
 

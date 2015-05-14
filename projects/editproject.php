@@ -35,7 +35,6 @@ $docopy = returnGlobal('docopy','REQUEST');
 
 if ($htaccessAuth == "true") 
 {
-	include("../includes/htpasswd.class.php");
 	$Htpasswd = new Htpasswd;
 }
 

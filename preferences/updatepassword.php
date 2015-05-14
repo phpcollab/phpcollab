@@ -48,7 +48,6 @@ if ($opw != $passwordSession) {
 		$cnpw = get_password($npw);
 
 if ($htaccessAuth == "true") {
-	include("../includes/htpasswd.class.php");
 	$Htpasswd = new Htpasswd;
 	$tmpquery = "WHERE tea.member = '$idSession'";
 	$listProjects = new request();

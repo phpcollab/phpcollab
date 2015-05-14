@@ -22,7 +22,6 @@ if($id != "") {
 	$id = str_replace("**",",",$id);
 
 	if ($htaccessAuth == "true") {
-		include("../includes/htpasswd.class.php");
 		$Htpasswd = new Htpasswd;
 		$Htpasswd->initialize("../files/".$projectDetail->pro_id[0]."/.htpasswd");
 

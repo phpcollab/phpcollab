@@ -47,7 +47,6 @@ if ($id != "") {
 //case update user
     if ($action == "update") {
         if ($htaccessAuth == "true") {
-            include("../includes/htpasswd.class.php");
             $Htpasswd = new Htpasswd;
         }
         if (!preg_match("/^[A-Za-z0-9]+$/", $un)) {
