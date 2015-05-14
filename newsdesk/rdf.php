@@ -16,8 +16,6 @@ $connection = @mysql_connect(MYSERVER,MYLOGIN,MYPASSWORD) or die($strings["error
 
 function createRSS() 	{
        	global $connection, $newsdesklimit;
-
-       	include("../includes/settings.php");
 		
 		if (!isset($langDefault) || ($langDefault=='')) { $langDefault = 'en'; }
 		include("../languages/lang_".$langDefault.".php");

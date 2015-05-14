@@ -15,7 +15,6 @@ $connection = @mysql_connect(MYSERVER,MYLOGIN,MYPASSWORD) or die($strings["error
 
 function createRSS() 	{
        	global $connection, $newsdesklimit;
-       	include("../includes/settings.php");
 
    		$query = "SELECT id,title,author,content,related, DATE_FORMAT(pdate, '%Y-%m-%d') as date FROM ".$tableCollab["newsdeskposts"]." WHERE rss = '1' ORDER BY pdate DESC LIMIT 0,5";  
 		$result = @mysql_query($query) or die("Error: " . mysql_error());
