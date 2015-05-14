@@ -27,8 +27,9 @@
 ** =============================================================================
 */
 
+define('APP_ROOT', dirname(dirname(__FILE__)));
 
-require("../includes/phpmailer/class.phpmailer.php");
+require( APP_ROOT . "/includes/phpmailer/class.phpmailer.php");
 
 class notification extends phpmailer 
 {
@@ -37,7 +38,7 @@ class notification extends phpmailer
 	{
 		global $strings,$root,$notificationMethod,$lang;
 
-		if (file_exists("../includes/phpmailer/language/phpmailer.lang-$lang.php")) 
+		if (file_exists( APP_ROOT . "/includes/phpmailer/language/phpmailer.lang-$lang.php"))
 		{
 			$phpmailer_lang = $lang;
 		}
@@ -47,8 +48,8 @@ class notification extends phpmailer
 
 
 		$this->Mailer = $notificationMethod;
-		$this->PluginDir = "../includes/phpmailer/";
-		$this->SetLanguage($phpmailer_lang, "../includes/phpmailer/language/");
+		$this->PluginDir = APP_ROOT . "/includes/phpmailer/";
+		$this->SetLanguage($phpmailer_lang, APP_ROOT . "/includes/phpmailer/language/");
 
 		if ($this->Mailer == "smtp") 
 		{

@@ -26,16 +26,19 @@
 */
 
 // Define directories for include files
-define("PHPCOLLAB_INC_DIR", dirname (__FILE__)."/../includes/");
-define("PHPCOLLAB_LANG_DIR", dirname (__FILE__)."/../languages/");
+define("PHPCOLLAB_INC_DIR", dirname(__FILE__) . "/../includes/");
+define("PHPCOLLAB_CLASSES_DIR", dirname(__FILE__) . "/../classes/");
+define("PHPCOLLAB_LANG_DIR", dirname(__FILE__) . "/../languages/");
 
 // Include 
-include(PHPCOLLAB_INC_DIR."settings.php");
-include(PHPCOLLAB_INC_DIR."request.class.php");
-include(PHPCOLLAB_INC_DIR."notification.class.php");
+include(PHPCOLLAB_INC_DIR . "settings.php");
+include(PHPCOLLAB_CLASSES_DIR . "request.php");
+include(PHPCOLLAB_CLASSES_DIR . "notification.php");
 
-if (!isset($langDefault) || ($langDefault=='')) { $langDefault = 'en'; }
-include(PHPCOLLAB_LANG_DIR."lang_".$langDefault.".php");
+if (!isset($langDefault) || ($langDefault == '')) {
+    $langDefault = 'en';
+}
+include(PHPCOLLAB_LANG_DIR . "lang_" . $langDefault . ".php");
 
 // Check if emailAlerts is set to true
 if ($emailAlerts == "false") {
@@ -45,7 +48,7 @@ if ($emailAlerts == "false") {
 
 // Check that database vars are set
 if (!defined('MYSERVER') || !defined('MYLOGIN') || !defined('MYPASSWORD') || !defined('MYDATABASE')) {
-    echo ($strings['error_server']);
+    echo($strings['error_server']);
     exit(1);
 }
 
@@ -82,7 +85,7 @@ $query = "SELECT $membersTable.id,
 $alert->query($query);
 
 // Loop to retrieve all rows
-while ($alert->fetch()){
+while ($alert->fetch()) {
     // Set member
     $assignedTo = $row[0];
 
@@ -117,9 +120,9 @@ while ($alert->fetch()){
                      $projectsTable.id, 
                      $projectsTable.name
               FROM  $tasksTable, $projectsTable, $membersTable
-              WHERE $tasksTable.assigned_to = ".$assignedTo."
+              WHERE $tasksTable.assigned_to = " . $assignedTo . "
               AND $tasksTable.status != 1 
-              AND $tasksTable.due_date = '".$today."'
+              AND $tasksTable.due_date = '" . $today . "'
               AND $tasksTable.project = $projectsTable.id
               AND $tasksTable.assigned_to = $membersTable.id
               ORDER BY $tasksTable.priority";
@@ -127,26 +130,26 @@ while ($alert->fetch()){
     $alertSub->query($query);
 
     // Create email body with link
-    while ($alertSub->fetch()){
+    while ($alertSub->fetch()) {
         // Set task body
         if ($taskCount == 0) {
-            $body .= $strings['alert_daily_task']."\n";
+            $body .= $strings['alert_daily_task'] . "\n";
             $body .= "----------------------------------\n\n";
         }
-        $body .= $strings['task']." : ".$row[1]." (".$row[0].") \n";
+        $body .= $strings['task'] . " : " . $row[1] . " (" . $row[0] . ") \n";
         //$body .= $strings['project']." : ".$row[10]." (".$row[9].") \n";
-        $body .= $strings['project']." : ".$row[9]."\n";
+        $body .= $strings['project'] . " : " . $row[9] . "\n";
         //$body .= $strings['link']." : ".$root."/general/login.php?url=tasks/viewtask.php?id=".$row[0]."\n";
-        $body .= $strings['link']." : ".$root."/tasks/viewtask.php?id=".$row[0]."\n";
-        $body .= $strings['start_date']." : ".$row[5]."\n";
-        $body .= $strings['due_date']." : ".$row[6]."\n";
+        $body .= $strings['link'] . " : " . $root . "/tasks/viewtask.php?id=" . $row[0] . "\n";
+        $body .= $strings['start_date'] . " : " . $row[5] . "\n";
+        $body .= $strings['due_date'] . " : " . $row[6] . "\n";
         if ($row[4] == 0) {
-            $body .= $strings['completion']." : ".$row[4]."%\n";
+            $body .= $strings['completion'] . " : " . $row[4] . "%\n";
         } else {
-            $body .= $strings['completion']." : ".$row[4]."0%\n";
+            $body .= $strings['completion'] . " : " . $row[4] . "0%\n";
         }
-        $body .= $strings['priority']." : ".$row[2]." - ".$priority[$row[2]]."\n";
-        $body .= $strings['status']." : ".$row[3]." - " .$status[$row[3]]."\n";
+        $body .= $strings['priority'] . " : " . $row[2] . " - " . $priority[$row[2]] . "\n";
+        $body .= $strings['status'] . " : " . $row[3] . " - " . $status[$row[3]] . "\n";
         //$body .= $strings['description']." :\n".$row[7]."\n";
         $body .= "\n\n--------\n\n";
 
@@ -171,9 +174,9 @@ while ($alert->fetch()){
                      $tasksTable.id, 
                      $tasksTable.name
               FROM  $subtasksTable, $tasksTable, $membersTable
-              WHERE $subtasksTable.assigned_to = ".$assignedTo."
+              WHERE $subtasksTable.assigned_to = " . $assignedTo . "
               AND $subtasksTable.status != 1 
-              AND $subtasksTable.due_date = '".$today."'
+              AND $subtasksTable.due_date = '" . $today . "'
               AND $subtasksTable.task = $tasksTable.id
               AND $subtasksTable.assigned_to = $membersTable.id
               ORDER BY $subtasksTable.priority";
@@ -181,25 +184,25 @@ while ($alert->fetch()){
     $alertSub->query($query);
 
     // Create email body with link
-    while ($alertSub->fetch()){
+    while ($alertSub->fetch()) {
         // Set subtask body
         if ($subtaskCount == 0) {
-            $body .= $strings['alert_daily_subtask']."\n";
+            $body .= $strings['alert_daily_subtask'] . "\n";
             $body .= "----------------------------------\n\n";
         }
-        $body .= $strings['task']." : ".$row[1]." (".$row[0].") \n";
+        $body .= $strings['task'] . " : " . $row[1] . " (" . $row[0] . ") \n";
         //$body .= $strings['link']." : ".$root."/general/login.php?url=subtasks/viewsubtask.php?id=".$row[0]."?task=".$row[8]."\n";
-        $body .= $strings['link']." : ".$root."/subtasks/viewsubtask.php?id=".$row[0]."&task=".$row[8]."\n";
-        $body .= $strings['task']." : ".$row[9]." (".$row[8].") \n";
-        $body .= $strings['start_date']." : ".$row[5]."\n";
-        $body .= $strings['due_date']." : ".$row[6]."\n";
+        $body .= $strings['link'] . " : " . $root . "/subtasks/viewsubtask.php?id=" . $row[0] . "&task=" . $row[8] . "\n";
+        $body .= $strings['task'] . " : " . $row[9] . " (" . $row[8] . ") \n";
+        $body .= $strings['start_date'] . " : " . $row[5] . "\n";
+        $body .= $strings['due_date'] . " : " . $row[6] . "\n";
         if ($row[4] == 0) {
-            $body .= $strings['completion']." : ".$row[4]."%\n";
+            $body .= $strings['completion'] . " : " . $row[4] . "%\n";
         } else {
-            $body .= $strings['completion']." : ".$row[4]."0%\n";
+            $body .= $strings['completion'] . " : " . $row[4] . "0%\n";
         }
-        $body .= $strings['priority']." : ".$row[2]." - ".$priority[$row[2]]."\n";
-        $body .= $strings['status']." : ".$row[3]." - " .$status[$row[3]]."\n";
+        $body .= $strings['priority'] . " : " . $row[2] . " - " . $priority[$row[2]] . "\n";
+        $body .= $strings['status'] . " : " . $row[3] . " - " . $status[$row[3]] . "\n";
         //$body .= $strings['description']." :\n".$row[7]."\n";
         $body .= "\n\n--------\n\n";
 
@@ -217,7 +220,7 @@ while ($alert->fetch()){
         // Set body
         $mailBody = $mail->header;
         $mailBody .= $body;
-        $mailBody .= "\n".$mail->footer;
+        $mailBody .= "\n" . $mail->footer;
         $mail->Body = $mailBody;
 
         // Send daily alert
