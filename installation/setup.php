@@ -29,6 +29,12 @@
 
 error_reporting(2039);
 
+define('APP_ROOT', dirname(dirname(__FILE__)));
+// require the autoloader class file
+require_once APP_ROOT . '/classes/phpCollab/Autoloader.php';
+$autoloader = new \phpCollab\Autoloader();
+spl_autoload_register(array($autoloader, 'load'));
+
 // register_globals cheat code
 //GET and POST VARS
 while (list($key, $val) = @each($_REQUEST)) 
@@ -406,7 +412,7 @@ if ($step == "")
 $setTitle = "PhpCollab";
 define('THEME','default');
 $blank = "true";
-include("../themes/".THEME."/block.class.php");
+
 include('../themes/'.THEME.'/header.php');
 
 
