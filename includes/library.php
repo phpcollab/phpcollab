@@ -42,7 +42,7 @@
 **
 */
 
-define('APP_ROOT', dirname(dirname(__FILE__)) . '/');
+define('APP_ROOT', dirname(dirname(__FILE__)));
 // require the autoloader class file
 require_once APP_ROOT . '/classes/phpCollab/Autoloader.php';
 $autoloader = new \phpCollab\Autoloader();
@@ -299,7 +299,6 @@ if ($indexRedirect == "true") {
     }
 
     include("includes/initrequests.php");
-    include("includes/request.class.php");
 
     include("languages/lang_en.php");
     include("languages/lang_" . $lang . ".php");
@@ -313,12 +312,7 @@ if ($indexRedirect == "true") {
         $settings->makeGlobal();
     }
 
-    if ($notifications == "true") {
-        include("../includes/notification.class.php");
-    }
-
     include("../includes/initrequests.php");
-    include("../includes/request.class.php");
 
     include("../languages/lang_en.php");
     include("../languages/lang_" . $lang . ".php");
