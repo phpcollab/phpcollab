@@ -43,8 +43,6 @@ if ($profilSession != "0")
 }
 
 $versionNew = "2.5";
-//$versionNew = "2.5 CVS";
-
 
 if ($action == "generate") 
 {
@@ -130,7 +128,7 @@ define('THEME','$mythemeNew');
 \$gmtTimezone = "$gmtTimezoneNew";
 
 # language choice
-\$langDefault = "$langNew";
+\$langDefault = "$defaultLanguage";
 
 # Mantis bug tracking parameters
 // Should bug tracking be enabled?
@@ -571,42 +569,11 @@ $block1->contentRow("Timezone (GMT)","<input type='radio' name='gmtTimezoneNew' 
 $block1->contentRow("* Forced login".$blockPage->printHelp("setup_forcedlogin"),"<input type='radio' name='forcedloginNew' value='false' $checked2_c /> False&nbsp;<input type='radio' name='forcedloginNew' value='true' $checked1_c  /> True");
 
 echo "<tr class='odd'>
-		<td valign='top' class='leftvalue'>Default language".$blockPage->printHelp("setup_langdefault")."</td><td>
-			<select name='langNew'>
-				<option value=''>Blank</option>
-				<option value='ar' ".$langSelected["ar"].">Arabic</option>
-				<option value='az' ".$langSelected["az"].">Azerbaijani</option>
-				<option value='pt-br'' ".$langSelected["pt-br"].">Brazilian Portuguese</option>
-				<option value='bg' ".$langSelected["bg"].">Bulgarian</option>
-				<option value='ca' ".$langSelected["ca"].">Catalan</option>
-				<option value='zh' ".$langSelected["zh"].">Chinese simplified</option>
-				<option value='zh-tw' ".$langSelected["zh-tw"].">Chinese traditional</option>
-				<option value='cs-iso' ".$langSelected["cs-iso"].">Czech (iso)</option>
-				<option value='cs-win1250' ".$langSelected["cs-win1250"].">Czech (win1250)</option>
-				<option value='da' ".$langSelected["da"].">Danish</option>
-				<option value='nl' ".$langSelected["nl"].">Dutch</option>
-				<option value='en' ".$langSelected["en"].">English</option>
-				<option value='et' ".$langSelected["et"].">Estonian</option>
-				<option value='fr' ".$langSelected["fr"].">French</option>
-				<option value='de' ".$langSelected["de"].">German</option>
-				<option value='hu' ".$langSelected["hu"].">Hungarian</option>
-				<option value='is' ".$langSelected["is"].">Icelandic</option>
-				<option value='in' ".$langSelected["in"].">Indonesian</option>
-				<option value='it' ".$langSelected["it"].">Italian</option>
-				<option value='ko' ".$langSelected["ko"].">Korean</option>
-				<option value='lv' ".$langSelected["lv"].">Latvian</option>
-				<option value='no' ".$langSelected["no"].">Norwegian</option>
-				<option value='pl' ".$langSelected["pl"].">Polish</option>
-				<option value='pt' ".$langSelected["pt"].">Portuguese</option>
-				<option value='ro' ".$langSelected["ro"].">Romanian</option>
-				<option value='ru' ".$langSelected["ru"].">Russian</option>
-				<option value='sk-win1250' ".$langSelected["sk-win1250"].">Slovak (win1250)</option>
-				<option value='es' ".$langSelected["es"].">Spanish</option>
-				<option value='tr' ".$langSelected["tr"].">Turkish</option>
-				<option value='uk' ".$langSelected["uk"].">Ukrainian</option>
-			</select>
-          </td>
-         </tr>";
+		<td valign='top' class='leftvalue'>Default language".$blockPage->printHelp("setup_langdefault")."</td><td>";
+
+echo getLanguageDropdown($langDefault);
+
+echo "</td></tr>";
     
 $block1->contentRow("* Root","<input size='44' value='$root' style='width: 200px' name='rootNew' maxlength='100' type='text' />");
 $block1->contentRow("* Default max file size","<input size='44' value='$maxFileSize' style='width: 200px' name='maxFileSizeNew' maxlength='100' type='text' /> $byteUnits[0]");
