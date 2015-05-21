@@ -200,30 +200,81 @@ $parse_start = getmicrotime();
 $updateDatabase = array(0 => "1.0", 1 => "1.1", 2 => "1.3", 3 => "1.4", 4 => "1.6", 5 => "1.8", 6 => "1.9", 7 => "2.0", 8 => "2.1", 9 => "2.5");
 
 //languages array
-$langValue = array("en" => "English", "es" => "Spanish", "fr" => "French", "it" => "Italian", "pt" => "Portuguese", "da" => "Danish", "no" => "Norwegian", "nl" => "Dutch", "de" => "German", "zh" => "Chinese simplified", "uk" => "Ukrainian", "pl" => "Polish", "in" => "Indonesian", "ru" => "Russian", "az" => "Azerbaijani", "ko" => "Korean", "zh-tw" => "Chinese traditional", "ca" => "Catalan", "pt-br" => "Brazilian Portuguese", "et" => "Estonian", "bg" => "Bulgarian", "ro" => "Romanian", "hu" => "Hungarian", "cs-iso" => "Czech (iso)", "cs-win1250" => "Czech (win1250)", "is" => "Icelandic", "sk-win1250" => "Slovak (win1250)", "tr" => "Turkish", "lv" => "Latvian", "ar" => "Arabic", "ja" => "Japanese");
+$languageArray = array(
+    "ar" => "Arabic",
+    "az" => "Azerbaijani",
+    "pt-br" => "Brazilian Portuguese",
+    "bg" => "Bulgarian",
+    "ca" => "Catalan",
+    "zh" => "Chinese simplified",
+    "zh-tw" => "Chinese traditional",
+    "cs-iso" => "Czech (iso)",
+    "cs-win1250" => "Czech (win1250)",
+    "da" => "Danish",
+    "nl" => "Dutch",
+    "en" => "English",
+    "et" => "Estonian",
+    "fr" => "French",
+    "de" => "German",
+    "hu" => "Hungarian",
+    "is" => "Icelandic",
+    "in" => "Indonesian",
+    "it" => "Italian",
+    "ja" => "Japanese",
+    "ko" => "Korean",
+    "lv" => "Latvian",
+    "no" => "Norwegian",
+    "pl" => "Polish",
+    "pt" => "Portuguese",
+    "ro" => "Romanian",
+    "ru" => "Russian",
+    "sk-win1250" => "Slovak (win1250)",
+    "es" => "Spanish",
+    "tr" => "Turkish",
+    "uk" => "Ukrainian"
+);
 
 
-//language browser detection
-if ($langDefault == "") {
-	if(isset($HTTP_ACCEPT_LANGUAGE)) {
-		$plng = split(",", $HTTP_ACCEPT_LANGUAGE);
-			if(count($plng) > 0) {
-				while(list($k,$v) = each($plng)) {
-					$k = split(";", $v, 1);
-					$k = split("-", $k[0]);
-
-					if(file_exists("../languages/lang_".$k[0].".php")) {
-						$langDefault = $k[0];
-						break;
+/**
+ * setLanguage
+ * Get the language from the HTTP_ACCEPT_LANGUAGE header and use that,
+ * otherwise set it to English
+ */
+function setLanguage()
+{
+    global $langDefault;
+    $preferred_locale = array();
+    $preferred_language = array();
+    if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+        preg_match_all('/([a-z]{2})(?:-[a-zA-Z]{2})?/', $_SERVER['HTTP_ACCEPT_LANGUAGE'], $matches);
+        foreach ($matches[0] as $locale) {
+            $preferred_locale[] = strtolower($locale);
+        }
+        foreach ($matches[1] as $language) {
+            if (!in_array($language, $preferred_language)) {
+                $preferred_language[] = strtolower($language);
 					}
-					$langDefault = "en";
 				}
+        /**
+         * Now that we have the user's preferred locale/language, let's use the appropriate
+         * language file.
+         *
+         * Selection uses locale first, then language, then default
+         */
+        if (file_exists("../languages/lang_" . $preferred_locale[0] . ".php")) {
+            $langDefault = $preferred_locale[0];
+        } else if (file_exists("../languages/lang_" . $preferred_language[0] . ".php")) {
+            $langDefault = $preferred_language[0];
 			} else {
 				$langDefault = "en";
 			}
 	} else {
+        // Set the language to English
 		$langDefault = "en";
 	}
+}
+if ($langDefault == "") {
+    setLanguage();
 }
 
 //set language session
@@ -239,7 +290,36 @@ if ($languageSession == "") {
 	$lang = $languageSession;
 }
 
+/**
+ * getLanguageDropdown
+ * Compiles a select element containing all of the languages and sets the appropriate
+ * selection based on $langDefault or a passed in value ($preferredLanguage)
+ * @param null $preferredLanguage
+ * @return string html select menu
+ */
+function getLanguageDropdown($preferredLanguage = null)
+{
+    global $langDefault, $languageArray, $lang;
 
+    $preferredLanguage = (isset($preferredLanguage)) ? $preferredLanguage : $lang;
+    $dropdown = '<select name="defaultLanguage">';
+    if (!empty($langDefault) && $langDefault != $preferredLanguage) {
+        $dropdown .= "<option value='$langDefault'>Default (" . $languageArray["$langDefault"] . ")</option>";
+    }
+    foreach ($languageArray as $language_code => $language_name) {
+        if ($preferredLanguage == $language_code) {
+            $dropdown .= "<option value=\"$language_code\" selected>$language_name</option>";
+        } else {
+            if (empty($langDefault) && $language_code == 'en') {
+                $dropdown .= "<option value=\"$language_code\">Default ($language_name)</option>";
+            } else {
+                $dropdown .= "<option value=\"$language_code\">$language_name</option>";
+            }
+        }
+    }
+    $dropdown .= '</select>';
+    return $dropdown;
+}
 
 $settings = null;
 //settings and date selector includes
@@ -256,10 +336,14 @@ if ($indexRedirect == "true") {
 	include("includes/request.class.php");
 	
 	include("themes/".THEME."/block.class.php");
-	
+
 	include("languages/lang_en.php");
-	include("languages/lang_".$lang.".php");
-	include("languages/help_".$lang.".php");
+
+    $languageFile = "languages/lang_" . $lang . ".php";
+    $localizedHelpFile = "languages/help_" . $lang . ".php";
+    file_exists($languageFile) AND include $languageFile;
+    file_exists($localizedHelpFile) AND include $localizedHelpFile;
+
 } else {
 	include("../includes/settings.php");
 
@@ -279,8 +363,12 @@ if ($indexRedirect == "true") {
 	include("../themes/".THEME."/block.class.php");
 	
 	include("../languages/lang_en.php");
-	include("../languages/lang_".$lang.".php");
-	include("../languages/help_".$lang.".php");
+
+    // TODO: Abstract this out to a function/localization Class
+    $languageFile = "../languages/lang_" . $lang . ".php";
+    $localizedHelpFile = "../languages/help_" . $lang . ".php";
+    file_exists($languageFile) AND include $languageFile;
+    file_exists($localizedHelpFile) AND include $localizedHelpFile;
 }
 
 //fix if update from old version

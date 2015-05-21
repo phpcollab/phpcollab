@@ -18,7 +18,13 @@ function scrubData($data) {
 
     $retData = array();
     foreach ($data as $key => $val) {
-        $dVal = preg_replace($regEx, '', $val);
+        // This is a hack until the data scrubbing can be normalized.
+        if ($key == "defaultLanguage") {
+            $dVal = $val;
+        } else {
+            $dVal = preg_replace($regEx, '', $val);
+        }
+
         $retData[$key] = $dVal;
     }
     return $retData;
