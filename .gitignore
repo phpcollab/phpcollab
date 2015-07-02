@@ -27,3 +27,13 @@ nbproject
 .project
 .settings
 composer.lock
+
+# Temporary Ignores #
+test
+test.md
+Tests
+compatability*
+composer.json
+phpCollab Vulnerabilities 17134.txt
+*.xml
+
