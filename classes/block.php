@@ -68,7 +68,7 @@ class block
      **/
     function headingToggle($title)
     {
-        if ($_COOKIE[$this->form] == "c" || $HTTP_COOKIE_VARS[$this->form] == "c") {
+        if ($_COOKIE[$this->form] == "c") {
             $style = "none";
             $arrow = "closed";
         } else {
