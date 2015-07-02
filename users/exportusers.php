@@ -5,7 +5,7 @@
 
 // PDF setup
 include ('../includes/class.ezpdf.php');
-$pdf =& new Cezpdf();
+$pdf = new Cezpdf();
 $pdf->selectFont('../includes/fonts/Helvetica.afm');
 $pdf -> ezSetMargins(50,70,50,50);
 

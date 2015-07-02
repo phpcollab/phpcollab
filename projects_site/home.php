@@ -37,13 +37,11 @@ if ($updateProject == "true") {
 	$comptTestProject = count($testProject->tea_id);
 
 	if ($comptTestProject != "0") {
-		session_unregister("projectSession"); 
-			$projectSession = $project;
-		if (version_compare("4.1.1", phpversion(),"<") > 0) {
-			$_SESSION['projectSession'] = $projectSession;			
-		} else {	
-			session_register("projectSession");
-		}
+		unset($_SESSION['projectSession']);
+
+		$projectSession = $project;
+
+		$_SESSION['projectSession'] = $projectSession;
 
 		headerFunction("home.php?".session_name()."=".session_id());
 	} else {

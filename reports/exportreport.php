@@ -29,7 +29,7 @@
 
 // PDF setup
 include ('../includes/class.ezpdf.php');
-$pdf =& new Cezpdf();
+$pdf = new Cezpdf();
 $pdf->selectFont('../includes/fonts/Helvetica.afm');
 $pdf -> ezSetMargins(50,70,50,50);
 
@@ -541,7 +541,7 @@ function ganttPDF($reportName,$listTasks)
 				
 				$activity->progress->Set($progress);
 				$graph->Add($activity);
-			} // end for complñistsubtask
+			} // end for comptListSubTasks
 		} // end if subtask
 		$posGantt += 1;
 	} // end for complisttask

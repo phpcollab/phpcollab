@@ -42,41 +42,40 @@
 **
 */
 
-if (ini_get('session.auto_start')==0) 
-{
-	$profilSession = "";
+if (ini_get('session.auto_start') == 0) {
+    $profilSession = "";
 }
 
 error_reporting(2039);
-@ini_set("session.use_trans_sid",0);
+@ini_set("session.use_trans_sid", 0);
 
 //disable session on export
-if ($export != "true") 
-{
-	session_start();
+if ($export != "true") {
+    session_start();
 }
 
-/** 
+/**
  * Wrapper to make sure null strings display as 0 in sql queries
  * @param string $var An integer represented as a string
  **/
-function fixInt($var) {
-	if ($var == '') {
-          return 0;
-        } else {
-          return $var;
-        }
-} 
+function fixInt($var)
+{
+    if ($var == '') {
+        return 0;
+    } else {
+        return $var;
+    }
+}
 
 // replace spec.chars , you can add rule
 Function spechars($return)
-{ 
-	$return= str_replace('"','&quot',$return);
-	$return= str_replace("'",'&#039;',$return);
-	$return= str_replace('=','&#61;',$return);
-	$return= str_replace('$','&#36;',$return);
-	$return= str_replace("\\",'&#92;',$return);
-	return $return;
+{
+    $return = str_replace('"', '&quot', $return);
+    $return = str_replace("'", '&#039;', $return);
+    $return = str_replace('=', '&#61;', $return);
+    $return = str_replace('$', '&#36;', $return);
+    $return = str_replace("\\", '&#92;', $return);
+    return $return;
 }
 
 /**
@@ -85,115 +84,111 @@ Function spechars($return)
  * @param string $type Variable type (SERVER, POST, GET, SESSION, REQUEST, COOKIE)
  * @access public
  **/
-function returnGlobal($var,$type) {
-	if (phpversion() >= "4.1.0") {
-		if ($type == "SERVER") {
-			return spechars($_SERVER[$var]);
-		}
-		if ($type == "POST") {
-			return spechars($_POST[$var]);
-		}
-		if ($type == "GET") {
-			return spechars($_GET[$var]);
-		}
-		if ($type == "SESSION") {
-			return spechars($_SESSION[$var]);
-		}
-		if ($type == "REQUEST") {
-			return spechars($_REQUEST[$var]);
-		}
-		if ($type == "COOKIE") {
-			return spechars($_COOKIE[$var]);
-		}
-	} else {
-		global $$var;
-		return $$var;
-	}
+function returnGlobal($var, $type)
+{
+    if (phpversion() >= "4.1.0") {
+        if ($type == "SERVER") {
+            return spechars($_SERVER[$var]);
+        }
+        if ($type == "POST") {
+            return spechars($_POST[$var]);
+        }
+        if ($type == "GET") {
+            return spechars($_GET[$var]);
+        }
+        if ($type == "SESSION") {
+            return spechars($_SESSION[$var]);
+        }
+        if ($type == "REQUEST") {
+            return spechars($_REQUEST[$var]);
+        }
+        if ($type == "COOKIE") {
+            return spechars($_COOKIE[$var]);
+        }
+    } else {
+        global $$var;
+        return $$var;
+    }
 }
 
 // register_globals cheat code
 if (ini_get(register_globals) != "1") {
-	//GET and POST VARS
-	while (list($key, $val) = @each($_REQUEST)) {
-		   $GLOBALS[$key] = spechars($val);
-	}
-	//$HTTP_SESSION_VARS
-	while (list($key, $val) = @each($_SESSION)) {
-		   $GLOBALS[$key] = spechars($val);
-	}
-	//$HTTP_SERVER_VARS
-	while (list($key, $val) = @each($_SERVER)) {
-		   $GLOBALS[$key] = spechars($val);
-	}
+    //GET and POST VARS
+    while (list($key, $val) = @each($_REQUEST)) {
+        $GLOBALS[$key] = spechars($val);
+    }
+    //$HTTP_SESSION_VARS
+    while (list($key, $val) = @each($_SESSION)) {
+        $GLOBALS[$key] = spechars($val);
+    }
+    //$HTTP_SERVER_VARS
+    while (list($key, $val) = @each($_SERVER)) {
+        $GLOBALS[$key] = spechars($val);
+    }
 }
 
-$msg = returnGlobal('msg','GET');
-$session = returnGlobal('session','GET');
-$logout = returnGlobal('logout','GET');
-$idSession = returnGlobal('idSession','SESSION');
-$dateunixSession = returnGlobal('dateunixSession','SESSION');
-$loginSession = returnGlobal('loginSession','SESSION');
-$profilSession = returnGlobal('profilSession','SESSION');
-$logouttimeSession = returnGlobal('logouttimeSession','SESSION');
+$msg = returnGlobal('msg', 'GET');
+$session = returnGlobal('session', 'GET');
+$logout = returnGlobal('logout', 'GET');
+$idSession = returnGlobal('idSession', 'SESSION');
+$dateunixSession = returnGlobal('dateunixSession', 'SESSION');
+$loginSession = returnGlobal('loginSession', 'SESSION');
+$profilSession = returnGlobal('profilSession', 'SESSION');
+$logouttimeSession = returnGlobal('logouttimeSession', 'SESSION');
 
 /**
  * Check last version of PhpCollab
  * @param string $iCV Version to compare
  * @access public
  **/
-function updatechecker($iCV) 
+function updatechecker($iCV)
 {
-	global $strings;
-	
-	$phpcollab_url = 'http://www.php-collab.org/website/version.txt';
+    global $strings;
 
-	$url = parse_url($phpcollab_url);
+    $phpcollab_url = 'http://www.php-collab.org/website/version.txt';
 
-	$connection_socket = @fsockopen( $url['host'], 80, $errno, $errstr, 30 );
-	
-	if ($connection_socket)
-	{
-		
-		fputs ($connection_socket, "GET /".$url['path'].($url['query'] ? '?'.$url['query'] : '')." HTTP/1.0\r\nHost: ".$url['host']."\r\n\r\n");
-		$http_response = fgets( $connection_socket, 22 );
+    $url = parse_url($phpcollab_url);
 
-		if ( ereg("200 OK", $http_response, $regs ) )
-		{
-				// WARNING: in file(), use a final URL to avoid any HTTP redirection
-				$sVersiondata = join('',file($phpcollab_url));
-				$aVersiondata = explode("|",$sVersiondata);
-				$iNV = $aVersiondata[0];
-				
-				if ($iCV < $iNV) 
-				{
-					$checkMsg = "<br/><b>".$strings["update_available"]."</b> ".$strings["version_current"]." $iCV. ".$strings["version_latest"]." $iNV.<br/>";
-					$checkMsg .= "<a href='http://www.sourceforge.net/projects/phpcollab' target='_blank'>".$strings["sourceforge_link"]."</a>.";
-				}				
-		}
-		else
-		{
-				$checkMsg = $strings["version_check_error"];		
-		}
-		
-		fclose( $connection_socket );
-	
-	}
-	else
-	{
-		$checkMsg = $strings["version_check_error"]."<br/>Error type: $errno - $errstr";
-	}
+    $connection_socket = @fsockopen($url['host'], 80, $errno, $errstr, 30);
 
-	return $checkMsg;
+    if ($connection_socket) {
+
+        fputs($connection_socket, "GET /" . $url['path'] . ($url['query'] ? '?' . $url['query'] : '') . " HTTP/1.0\r\nHost: " . $url['host'] . "\r\n\r\n");
+        $http_response = fgets($connection_socket, 22);
+
+        if (preg_match("/200 OK/", $http_response, $regs)) {
+            // WARNING: in file(), use a final URL to avoid any HTTP redirection
+            $sVersiondata = join('', file($phpcollab_url));
+            $aVersiondata = explode("|", $sVersiondata);
+            $iNV = $aVersiondata[0];
+
+            if ($iCV < $iNV) {
+                $checkMsg = "<br/><b>" . $strings["update_available"] . "</b> " . $strings["version_current"] . " $iCV. " . $strings["version_latest"] . " $iNV.<br/>";
+                $checkMsg .= "<a href='http://www.sourceforge.net/projects/phpcollab' target='_blank'>" . $strings["sourceforge_link"] . "</a>.";
+            }
+        } else {
+            $checkMsg = $strings["version_check_error"];
+        }
+
+        fclose($connection_socket);
+
+    } else {
+        $checkMsg = $strings["version_check_error"] . "<br/>Error type: $errno - $errstr";
+    }
+
+    return $checkMsg;
 }
 
 /**
  * Calculate time to parse page (used with footer.php)
  * @access public
  **/
-function getmicrotime(){
-	list($usec, $sec) = explode(" ",microtime());
-	return ((float)$usec + (float)$sec);
+function getmicrotime()
+{
+    list($usec, $sec) = explode(" ", microtime());
+    return ((float)$usec + (float)$sec);
 }
+
 $parse_start = getmicrotime();
 
 //database update array
@@ -233,7 +228,6 @@ $languageArray = array(
     "tr" => "Turkish",
     "uk" => "Ukrainian"
 );
-
 
 /**
  * setLanguage
@@ -279,15 +273,15 @@ if ($langDefault == "") {
 
 //set language session
 if ($langDefault != "") {
-	$langSelected[$langDefault] = "selected";
+    $langSelected[$langDefault] = "selected";
 } else {
-	$langSelected = "";
+    $langSelected = "";
 }
 
 if ($languageSession == "") {
-	$lang = $langDefault;
+    $lang = $langDefault;
 } else {
-	$lang = $languageSession;
+    $lang = $languageSession;
 }
 
 /**
@@ -324,7 +318,7 @@ function getLanguageDropdown($preferredLanguage = null)
 $settings = null;
 //settings and date selector includes
 if ($indexRedirect == "true") {
-	include("includes/settings.php");
+    include("includes/settings.php");
 //    echo "DEBUG:: Server - " . MYSERVER . "<br />User: " . MYLOGIN . "<br />Database: " . MYDATABASE;
     if (defined('CONVERTED') && CONVERTED) {
         require_once("includes/classes/settings.class.php");
@@ -343,9 +337,8 @@ if ($indexRedirect == "true") {
     $localizedHelpFile = "languages/help_" . $lang . ".php";
     file_exists($languageFile) AND include $languageFile;
     file_exists($localizedHelpFile) AND include $localizedHelpFile;
-
 } else {
-	include("../includes/settings.php");
+    include("../includes/settings.php");
 
     if (defined('CONVERTED') && CONVERTED) {
         require_once("../includes/classes/settings.class.php");
@@ -373,35 +366,35 @@ if ($indexRedirect == "true") {
 
 //fix if update from old version
 if ($theme == "") {
-	$theme = "default";
+    $theme = "default";
 }
 if (!is_resource(THEME)) {
-	define('THEME',$theme);
+    define('THEME', $theme);
 }
 if (!is_resource(FTPSERVER)) {
-	define('FTPSERVER','');
+    define('FTPSERVER', '');
 }
 if (!is_resource(FTPLOGIN)) {
-	define('FTPLOGIN','');
+    define('FTPLOGIN', '');
 }
 if (!is_resource(FTPPASSWORD)) {
-	define('FTPPASSWORD','');
+    define('FTPPASSWORD', '');
 }
 if ($uploadMethod == "") {
-	$uploadMethod = "PHP";
+    $uploadMethod = "PHP";
 }
 if ($peerReview == "") {
-	$peerReview = "true";
+    $peerReview = "true";
 }
 
 if ($loginMethod == "") {
-	$loginMethod = "PLAIN";
+    $loginMethod = "PLAIN";
 }
 if ($databaseType == "") {
-	$databaseType = "mysql";
+    $databaseType = "mysql";
 }
 if ($installationType == "") {
-	$installationType = "online";
+    $installationType = "online";
 }
 
 /**
@@ -409,102 +402,99 @@ if ($installationType == "") {
  * @param string $url Path to redirect
  * @access public
  **/
-function headerFunction($url) {
-	header("Location:$url");
+function headerFunction($url)
+{
+    header("Location:$url");
 }
 
 //check session validity on main phpcollab, except for demo user
 if ($checkSession != "false" && $demoSession != "true") {
-	if ($profilSession == "3" && !strstr($PHP_SELF,"projects_site")) {
-		headerFunction("../projects_site/home.php");
-	}
+    if ($profilSession == "3" && !strstr($PHP_SELF, "projects_site")) {
+        headerFunction("../projects_site/home.php");
+    }
 
-	if ($lastvisitedpage && $profilSession != "0") { // If the user has admin permissions, do not log the last page visited.
-		if (!strstr($_SERVER['PHP_SELF'],"graph")) {
-				$sidCode = session_name();
-				$page = $_SERVER['PHP_SELF']."?".$QUERY_STRING;
-				$page = eregi_replace("(&".$sidCode."=)([A-Za-z0-9.]*)($|.)", "", $page); 
-				$page = eregi_replace("(".$sidCode."=)([A-Za-z0-9.]*)($|.)", "", $page);
-				$page = strrev($page);
-				$pieces = explode("/",$page);
-				$pieces[0] = strrev($pieces[0]);
-				$pieces[1] = strrev($pieces[1]);
-				$page = $pieces[1]."/".$pieces[0];
-				$tmpquery = "UPDATE ".$tableCollab["members"]." SET last_page='$page' WHERE id = '".fixInt($idSession)."'";
-				connectSql("$tmpquery");
-		}
-	}
-	//if auto logout feature used, store last required page before deconnexion
-	if ($profilSession != "3") {
-		if ($logouttimeSession != "0" && $logouttimeSession != "") {
-			$dateunix=date("U");
-			$diff = $dateunix-$dateunixSession;
+    if ($lastvisitedpage && $profilSession != "0") { // If the user has admin permissions, do not log the last page visited.
+        if (!strstr($_SERVER['PHP_SELF'], "graph")) {
+            $sidCode = session_name();
+            $page = $_SERVER['PHP_SELF'] . "?" . $QUERY_STRING;
+            $page = preg_replace('/(&' . $sidCode . '=)([A-Za-z0-9.]*)($|.)/', '', $page);
+            $page = preg_replace('/(' . $sidCode . '=)([A-Za-z0-9.]*)($|.)/', '', $page);
+            $page = strrev($page);
+            $pieces = explode("/", $page);
+            $pieces[0] = strrev($pieces[0]);
+            $pieces[1] = strrev($pieces[1]);
+            $page = $pieces[1] . "/" . $pieces[0];
+            $tmpquery = "UPDATE " . $tableCollab["members"] . " SET last_page='$page' WHERE id = '" . fixInt($idSession) . "'";
+            connectSql("$tmpquery");
+        }
+    }
+    //if auto logout feature used, store last required page before deconnexion
+    if ($profilSession != "3") {
+        if ($logouttimeSession != "0" && $logouttimeSession != "") {
+            $dateunix = date("U");
+            $diff = $dateunix - $dateunixSession;
 
-			if ($diff > $logouttimeSession) {
-				headerFunction("../general/login.php?logout=true");
-			} else {
-				$dateunixSession=$dateunix;
-				if (version_compare("4.1.1", phpversion(),"<") > 0) {
-					$_SESSION['dateunixSession'] = $dateunixSession;
-				} else {
-					session_register("dateunixSession");
-				}
-			}
-		}
-	}
+            if ($diff > $logouttimeSession) {
+                headerFunction("../general/login.php?logout=true");
+            } else {
+                $dateunixSession = $dateunix;
+                $_SESSION['dateunixSession'] = $dateunixSession;
+            }
+        }
+    }
 
-	$tmpquery = "WHERE log.login = '".fixInt($loginSession)."'";
-	$checkLog = new request();
-	$checkLog->openLogs($tmpquery);
-	$comptCheckLog = count($checkLog->log_id);
-	if ($comptCheckLog != "0") {
-		if (session_id() != $checkLog->log_session[0]) {
-			headerFunction("../index.php?session=false");
-		}
-	} else {
-		headerFunction("../index.php?session=false");
-	}
+    $tmpquery = "WHERE log.login = '" . fixInt($loginSession) . "'";
+    $checkLog = new request();
+    $checkLog->openLogs($tmpquery);
+    $comptCheckLog = count($checkLog->log_id);
+    if ($comptCheckLog != "0") {
+        if (session_id() != $checkLog->log_session[0]) {
+            headerFunction("../index.php?session=false");
+        }
+    } else {
+        headerFunction("../index.php?session=false");
+    }
 }
 
 //count connected users
 if ($checkConnected != "false") {
-	$dateunix=date("U");
-	$tmpquery1 = "UPDATE ".$tableCollab["logs"]." SET connected='$dateunix' WHERE login = '$loginSession'";
-	connectSql("$tmpquery1");
-	$tmpsql = "SELECT * FROM ".$tableCollab["logs"]." WHERE connected > $dateunix-5*60";
-	compt($tmpsql);
-	$connectedUsers = $countEnregTotal;
+    $dateunix = date("U");
+    $tmpquery1 = "UPDATE " . $tableCollab["logs"] . " SET connected='$dateunix' WHERE login = '$loginSession'";
+    connectSql("$tmpquery1");
+    $tmpsql = "SELECT * FROM " . $tableCollab["logs"] . " WHERE connected > $dateunix-5*60";
+    compt($tmpsql);
+    $connectedUsers = $countEnregTotal;
 }
 
 //redirect if server/database in error
 if ($databaseType == "mysql") {
-	if (!@mysql_connect(MYSERVER,MYLOGIN,MYPASSWORD)) {
-		headerFunction("../general/error.php?type=myserver");
-		exit;
-	} else {
-		$res = mysql_connect(MYSERVER,MYLOGIN,MYPASSWORD);
-	}
-	if (!@mysql_select_db(MYDATABASE,$res)) {
-		headerFunction("../general/error.php?type=mydatabase");
-		exit;
-	} else {
-		@mysql_close($res);
-	}
+    if (!@mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD)) {
+        headerFunction("../general/error.php?type=myserver");
+        exit;
+    } else {
+        $res = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
+    }
+    if (!@mysql_select_db(MYDATABASE, $res)) {
+        headerFunction("../general/error.php?type=mydatabase");
+        exit;
+    } else {
+        @mysql_close($res);
+    }
 }
 
 //disable actions if demo user logged in demo mode
 if ($action != "") {
-	if ($demoSession == "true") {
-		$closeTopic = "";
-		$addToSiteTask = "";
-		$removeToSiteTask = "";
-		$addToSiteTopic = "";
-		$removeToSiteTopic = "";
-		$addToSiteTeam = "";
-		$removeToSiteTeam = "";
-		$action = "";
-		$msg = "demo";
-	}
+    if ($demoSession == "true") {
+        $closeTopic = "";
+        $addToSiteTask = "";
+        $removeToSiteTask = "";
+        $addToSiteTopic = "";
+        $removeToSiteTopic = "";
+        $addToSiteTeam = "";
+        $removeToSiteTeam = "";
+        $action = "";
+        $msg = "demo";
+    }
 }
 
 /**
@@ -512,24 +502,25 @@ if ($action != "") {
  * @param string $data Text to parse
  * @access public
  **/
-function autoLinks($data) {
-	global $newText;
-	$lines = explode("\n", $data); 
-	while (list ($key, $line) = each ($lines)) { 
-		$line = eregi_replace("([ \t]|^)www\.", " http://www.", $line); 
+function autoLinks($data)
+{
+    global $newText;
+    $lines = explode("\n", $data);
+    while (list ($key, $line) = each($lines)) {
+        $line = preg_replace('|([ \t]|^)www\.|', ' http://www.', $line);
 
-		$line = eregi_replace("([ \t]|^)ftp\.", " ftp://ftp.", $line); 
-		$line = eregi_replace("(http://[^ )\r\n]+)", "<a href=\"\\1\" target=\"_blank\">\\1</a>", $line); 
-		$line = eregi_replace("(https://[^ )\r\n]+)", "<a href=\"\\1\" target=\"_blank\">\\1</a>", $line); 
-		$line = eregi_replace("(ftp://[^ )\r\n]+)", "<a href=\"\\1\" target=\"_blank\">\\1</a>", $line); 
-		$line = eregi_replace("([-a-z0-9_]+(\.[_a-z0-9-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)+))", "<a href=\"mailto:\\1\">\\1</a>", $line); 
-		
-		if (empty($newText)) { 
-			$newText = $line; 
-		} else { 
-			$newText .= "\n$line"; 
-		} 
-	} 
+        $line = preg_replace('/([ \t]|^)ftp\./', ' ftp://ftp.', $line);
+        $line = preg_replace('|(http://[^ )\r\n]+)|', '<a href="$1" target="_blank">$1</a>', $line);
+        $line = preg_replace('|(https://[^ )\r\n]+)|', '<a href="$1" target="_blank">$1</a>', $line);
+        $line = preg_replace('|(ftp://[^ )\r\n]+)|', '<a href="$1" target="_blank">$1</a>', $line);
+        $line = preg_replace('|([-a-z0-9_]+(\.[_a-z0-9-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)+))|', '<a href="mailto:$1">$1</a>', $line);
+
+        if (empty($newText)) {
+            $newText = $line;
+        } else {
+            $newText .= "\n$line";
+        }
+    }
 }
 
 
@@ -539,19 +530,20 @@ function autoLinks($data) {
  * @param string $date2 Date to compare
  * @access public
  **/
-function diff_date($date1, $date2) {
-	$an = substr("$date1", 0, 4);
-	$mois = substr("$date1", 5, 2);
-	$jour = substr("$date1", 8, 2);
+function diff_date($date1, $date2)
+{
+    $an = substr("$date1", 0, 4);
+    $mois = substr("$date1", 5, 2);
+    $jour = substr("$date1", 8, 2);
 
-	$an2 = substr("$date2", 0, 4);
-	$mois2 = substr("$date2", 5, 2);
-	$jour2 = substr("$date2", 8, 2);
+    $an2 = substr("$date2", 0, 4);
+    $mois2 = substr("$date2", 5, 2);
+    $jour2 = substr("$date2", 8, 2);
 
-	$timestamp = mktime(0, 0, 0, $mois, $jour, $an); 
-	$timestamp2 = mktime(0, 0, 0, $mois2, $jour2, $an2); 
-  	$diff = floor(($timestamp - $timestamp2) / (3600 * 24)); 
-	return $diff; 
+    $timestamp = mktime(0, 0, 0, $mois, $jour, $an);
+    $timestamp2 = mktime(0, 0, 0, $mois2, $jour2, $an2);
+    $diff = floor(($timestamp - $timestamp2) / (3600 * 24));
+    return $diff;
 }
 
 /**
@@ -561,66 +553,67 @@ function diff_date($date1, $date2) {
  * @param string $storedPassword Password stored in database
  * @access public
  **/
-function is_password_match($formUsername, $formPassword, $storedPassword ) {
-	global $loginMethod, $useLDAP, $configLDAP;
-	
-	if($useLDAP == "true") {
-		if($formUsername == "admin") {
-			switch ($loginMethod)  {
-				case MD5:
-					if (md5($formPassword) == $storedPassword) {
-						return true;
-					}  else {
-						return false;
-					}
-				case CRYPT:
-					$salt = substr($storedPassword, 0, 2 );
-					if (crypt($formPassword,$salt) == $storedPassword) {
-						return true;
-					} else {
-						return false;
-					}
-				case PLAIN:	
-					if ($formPassword == $storedPassword) {
-						return true;
-					} else {
-						return false;
-					}
-				return false;
-			}
-		}
-		$conn = ldap_connect($configLDAP[ldapserver]);
-		$sr = ldap_search($conn, $configLDAP[searchroot], "uid=$formUsername");
-		$info = ldap_get_entries($conn, $sr);
-		$user_dn = $info[0]["dn"];
-		if(!$bind = @ldap_bind($conn, $user_dn, $formPassword))
-			return false;
-		else
-			return true;
-	} else {
-		switch ($loginMethod) {
-			case MD5:
-				if (md5($formPassword) == $storedPassword) {
-					return true;
-				} else {
-					return false;
-				}
-			case CRYPT:
-				$salt = substr($storedPassword, 0, 2 );
-				if (crypt($formPassword,$salt) == $storedPassword) {
-					return true;
-				} else {
-					return false;
-				}
-			case PLAIN:
-				if ($formPassword == $storedPassword) {
-					return true;
-				} else {
-					return false;
-				}
-			return false;
-		}
-	}
+function is_password_match($formUsername, $formPassword, $storedPassword)
+{
+    global $loginMethod, $useLDAP, $configLDAP;
+
+    if ($useLDAP == "true") {
+        if ($formUsername == "admin") {
+            switch ($loginMethod) {
+                case MD5:
+                    if (md5($formPassword) == $storedPassword) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                case CRYPT:
+                    $salt = substr($storedPassword, 0, 2);
+                    if (crypt($formPassword, $salt) == $storedPassword) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                case PLAIN:
+                    if ($formPassword == $storedPassword) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                    return false;
+            }
+        }
+        $conn = ldap_connect($configLDAP[ldapserver]);
+        $sr = ldap_search($conn, $configLDAP[searchroot], "uid=$formUsername");
+        $info = ldap_get_entries($conn, $sr);
+        $user_dn = $info[0]["dn"];
+        if (!$bind = @ldap_bind($conn, $user_dn, $formPassword))
+            return false;
+        else
+            return true;
+    } else {
+        switch ($loginMethod) {
+            case MD5:
+                if (md5($formPassword) == $storedPassword) {
+                    return true;
+                } else {
+                    return false;
+                }
+            case CRYPT:
+                $salt = substr($storedPassword, 0, 2);
+                if (crypt($formPassword, $salt) == $storedPassword) {
+                    return true;
+                } else {
+                    return false;
+                }
+            case PLAIN:
+                if ($formPassword == $storedPassword) {
+                    return true;
+                } else {
+                    return false;
+                }
+                return false;
+        }
+    }
 }
 
 /**
@@ -628,19 +621,20 @@ function is_password_match($formUsername, $formPassword, $storedPassword ) {
  * @param string $newPassword Password to transfom
  * @access public
  **/
-function get_password($newPassword) {
-	global $loginMethod;
+function get_password($newPassword)
+{
+    global $loginMethod;
 
-	switch ($loginMethod) {
-		case MD5:	
-				return md5($newPassword);
-		case CRYPT:	
-				$salt = substr($newPassword,0,2);
-				return crypt($newPassword,$salt);
-		case PLAIN:	
-				return $newPassword;
-		return $newPassword;
-	}
+    switch ($loginMethod) {
+        case MD5:
+            return md5($newPassword);
+        case CRYPT:
+            $salt = substr($newPassword, 0, 2);
+            return crypt($newPassword, $salt);
+        case PLAIN:
+            return $newPassword;
+            return $newPassword;
+    }
 }
 
 /**
@@ -651,51 +645,52 @@ function get_password($newPassword) {
  * @param boolean $with_capital_letters Option to use capital letters
  * @access public
  **/
-function password_generator($size=8, $with_numbers=true, $with_tiny_letters=true, $with_capital_letters=true) { 
-	global $pass_g;
+function password_generator($size = 8, $with_numbers = true, $with_tiny_letters = true, $with_capital_letters = true)
+{
+    global $pass_g;
 
-	$pass_g = ""; 
-	$sizeof_lchar = 0; 
-	$letter = ""; 
-	$letter_tiny = "abcdefghijklmnopqrstuvwxyz"; 
-	$letter_capital = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
-	$letter_number = "0123456789";
+    $pass_g = "";
+    $sizeof_lchar = 0;
+    $letter = "";
+    $letter_tiny = "abcdefghijklmnopqrstuvwxyz";
+    $letter_capital = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $letter_number = "0123456789";
 
-	if($with_tiny_letters == true) { 
-		$sizeof_lchar += 26; 
-		if (isset($letter)) {
-			$letter .= $letter_tiny; 
-		} else {
-			$letter = $letter_tiny; 
-		}
-	} 
+    if ($with_tiny_letters == true) {
+        $sizeof_lchar += 26;
+        if (isset($letter)) {
+            $letter .= $letter_tiny;
+        } else {
+            $letter = $letter_tiny;
+        }
+    }
 
-	if($with_capital_letters == true) { 
-		$sizeof_lchar += 26; 
-		if (isset($letter)) {
-			$letter .= $letter_capital; 
-		} else {
-			$letter = $letter_capital; 
-		}
-	} 
+    if ($with_capital_letters == true) {
+        $sizeof_lchar += 26;
+        if (isset($letter)) {
+            $letter .= $letter_capital;
+        } else {
+            $letter = $letter_capital;
+        }
+    }
 
-	if($with_numbers == true) { 
-		$sizeof_lchar += 10; 
-		if (isset($letter)) {
-			$letter .= $letter_number; 
-		} else {
-			$letter = $letter_number; 
-		}
-	} 
+    if ($with_numbers == true) {
+        $sizeof_lchar += 10;
+        if (isset($letter)) {
+            $letter .= $letter_number;
+        } else {
+            $letter = $letter_number;
+        }
+    }
 
-	if($sizeof_lchar > 0) { 
-		srand((double)microtime()*date("YmdGis")); 
-		for($cnt = 0; $cnt < $size; $cnt++) { 
-			$char_select = rand(0, $sizeof_lchar - 1); 
-			$pass_g .= $letter[$char_select]; 
-		} 
-	} 
-	return $pass_g; 
+    if ($sizeof_lchar > 0) {
+        srand((double)microtime() * date("YmdGis"));
+        for ($cnt = 0; $cnt < $size; $cnt++) {
+            $char_select = rand(0, $sizeof_lchar - 1);
+            $pass_g .= $letter[$char_select];
+        }
+    }
+    return $pass_g;
 }
 
 /**
@@ -704,17 +699,18 @@ function password_generator($size=8, $with_numbers=true, $with_tiny_letters=true
  * @param string $dest New path of file
  * @access public
  **/
-function moveFile($source, $dest) {
-	global $mkdirMethod,$ftpRoot;
+function moveFile($source, $dest)
+{
+    global $mkdirMethod, $ftpRoot;
 
-	if($mkdirMethod == "FTP") {
-		$ftp = ftp_connect(FTPSERVER);
-		ftp_login($ftp,FTPLOGIN,FTPPASSWORD);
-		ftp_rename($ftp, "$ftpRoot/$source", "$ftpRoot/$dest");
-		ftp_quit($ftp);
-	} else {
-		copy("../".$source, "../".$dest);
-	}
+    if ($mkdirMethod == "FTP") {
+        $ftp = ftp_connect(FTPSERVER);
+        ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
+        ftp_rename($ftp, "$ftpRoot/$source", "$ftpRoot/$dest");
+        ftp_quit($ftp);
+    } else {
+        copy("../" . $source, "../" . $dest);
+    }
 }
 
 /**
@@ -722,21 +718,18 @@ function moveFile($source, $dest) {
  * @param string $source Path of file
  * @access public
  **/
-function deleteFile($source) 
+function deleteFile($source)
 {
-	global $mkdirMethod,$ftpRoot;
+    global $mkdirMethod, $ftpRoot;
 
-	if($mkdirMethod == "FTP") 
-	{
-		$ftp = ftp_connect(FTPSERVER);
-		ftp_login($ftp,FTPLOGIN,FTPPASSWORD);
-		ftp_delete($ftp, $ftpRoot."/".$source);
-		ftp_quit($ftp);
-	} 
-	else 
-	{
-		unlink("../".$source);
-	}
+    if ($mkdirMethod == "FTP") {
+        $ftp = ftp_connect(FTPSERVER);
+        ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
+        ftp_delete($ftp, $ftpRoot . "/" . $source);
+        ftp_quit($ftp);
+    } else {
+        unlink("../" . $source);
+    }
 }
 
 /**
@@ -746,40 +739,33 @@ function deleteFile($source)
  * @param string $dest Destination path
  * @access public
  **/
-function uploadFile($path, $source, $dest) 
+function uploadFile($path, $source, $dest)
 {
-	global $mkdirMethod,$ftpRoot;
+    global $mkdirMethod, $ftpRoot;
 
-	$pathNew = $ftpRoot."/".$path;
+    $pathNew = $ftpRoot . "/" . $path;
 
-	if (!file_exists($pathNew))
-	{
-			# if there is no project dir first create it
-			$path_info = pathinfo($path);
-			if ( $path != 'files/'.$path_info['basename'])
-			{
-					createDir($path_info['dirname']);
-					createDir($path);
-			} 
-			else 
-			{
-					createDir($path);
-			}
-	} 
+    if (!file_exists($pathNew)) {
+        # if there is no project dir first create it
+        $path_info = pathinfo($path);
+        if ($path != 'files/' . $path_info['basename']) {
+            createDir($path_info['dirname']);
+            createDir($path);
+        } else {
+            createDir($path);
+        }
+    }
 
 
-	if($mkdirMethod == "FTP") 
-	{
-		$ftp = ftp_connect(FTPSERVER);
-		ftp_login($ftp,FTPLOGIN,FTPPASSWORD);
-		ftp_chdir($ftp, $pathNew);
-		ftp_put($ftp, $dest, $source, FTP_BINARY);
-		ftp_quit($ftp);
-	} 
-	else 
-	{
-		@move_uploaded_file($source, "../".$path."/".$dest);
-	}
+    if ($mkdirMethod == "FTP") {
+        $ftp = ftp_connect(FTPSERVER);
+        ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
+        ftp_chdir($ftp, $pathNew);
+        ftp_put($ftp, $dest, $source, FTP_BINARY);
+        ftp_quit($ftp);
+    } else {
+        @move_uploaded_file($source, "../" . $path . "/" . $dest);
+    }
 }
 
 /**
@@ -787,30 +773,28 @@ function uploadFile($path, $source, $dest)
  * @param string $path Path to the new directory
  * @access public
  **/
-function createDir($path) 
+function createDir($path)
 {
-	global $mkdirMethod,$ftpRoot;
+    global $mkdirMethod, $ftpRoot;
 
-	if ($mkdirMethod == "FTP") 
-	{
-		$pathNew = $ftpRoot."/".$path;
+    if ($mkdirMethod == "FTP") {
+        $pathNew = $ftpRoot . "/" . $path;
 
-		$ftp = ftp_connect(FTPSERVER);
-		ftp_login($ftp,FTPLOGIN,FTPPASSWORD);
-		
-		//if (!file_exists($pathNew))
-		//{
-			ftp_mkdir ($ftp,$pathNew);
-		//}
-		
-		ftp_quit ($ftp);
-	}
-	
-	if ($mkdirMethod == "PHP") 
-	{
-		@mkdir("../$path",0755);
-		@chmod("../$path",0777);
-	}
+        $ftp = ftp_connect(FTPSERVER);
+        ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
+
+        //if (!file_exists($pathNew))
+        //{
+        ftp_mkdir($ftp, $pathNew);
+        //}
+
+        ftp_quit($ftp);
+    }
+
+    if ($mkdirMethod == "PHP") {
+        @mkdir("../$path", 0755);
+        @chmod("../$path", 0777);
+    }
 }
 
 /**
@@ -818,32 +802,31 @@ function createDir($path)
  * @param string $location Path of directory to delete
  * @access public
  **/
-function delDir($location) 
-{ 
-	if(is_dir($location)) 
-	{
-		$all = opendir($location); 
-		while ($file = readdir($all)) 
-		{ 
-			if (is_dir("$location/$file") && $file !=".." && $file!=".") 
-			{ 
-				deldir("$location/$file"); 
-				if(file_exists("$location/$file")){@rmdir("$location/$file"); }
-				unset($file); 
-			} 
-			else if (!is_dir("$location/$file")) 
-			{ 
-				if(file_exists("$location/$file")){@unlink("$location/$file"); }
-				unset($file); 
-			} 
-		} 
-		closedir($all);
-		@rmdir($location);
-	} 
-	else 
-	{
-		if(file_exists("$location")) {@unlink("$location");}
-	}
+function delDir($location)
+{
+    if (is_dir($location)) {
+        $all = opendir($location);
+        while ($file = readdir($all)) {
+            if (is_dir("$location/$file") && $file != ".." && $file != ".") {
+                deldir("$location/$file");
+                if (file_exists("$location/$file")) {
+                    @rmdir("$location/$file");
+                }
+                unset($file);
+            } else if (!is_dir("$location/$file")) {
+                if (file_exists("$location/$file")) {
+                    @unlink("$location/$file");
+                }
+                unset($file);
+            }
+        }
+        closedir($all);
+        @rmdir($location);
+    } else {
+        if (file_exists("$location")) {
+            @unlink("$location");
+        }
+    }
 }
 
 /**
@@ -852,30 +835,24 @@ function delDir($location)
  * @param boolean $recursive Option to use recursivity
  * @access public
  **/
-function folder_info_size($path, $recursive=TRUE) 
-{ 
-	$result = 0; 
-	if (is_dir($path) || is_readable($path)) 
-	{
-		$dir = opendir($path); 
-		while($file = readdir($dir))
-		{
-			if ($file != "." && $file != "..") 
-			{
-				if (@is_dir("$path$file/")) 
-				{
-					$result += $recursive?folder_info_size("$path$file/"):0; 
-				} 
-				else 
-				{
-					$result += filesize("$path$file"); 
-				} 
-			}
-		} 
-		
-		closedir($dir);
-		return $result;
-	} 
+function folder_info_size($path, $recursive = TRUE)
+{
+    $result = 0;
+    if (is_dir($path) || is_readable($path)) {
+        $dir = opendir($path);
+        while ($file = readdir($dir)) {
+            if ($file != "." && $file != "..") {
+                if (@is_dir("$path$file/")) {
+                    $result += $recursive ? folder_info_size("$path$file/") : 0;
+                } else {
+                    $result += filesize("$path$file");
+                }
+            }
+        }
+
+        closedir($dir);
+        return $result;
+    }
 }
 
 /**
@@ -883,33 +860,25 @@ function folder_info_size($path, $recursive=TRUE)
  * @param string $result Result to convert
  * @access public
  **/
-function convertSize($result) 
+function convertSize($result)
 {
-	global $byteUnits;
-	
-	if ($result >= 1073741824) 
-	{
-		$result = round($result / 1073741824 * 100) / 100 . " ".$byteUnits[3];
-	} 
-	else if ($result >= 1048576) 
-	{
-		$result = round($result / 1048576 * 100) / 100 . " ".$byteUnits[2];
-	} 
-	else if ($result >= 1024) 
-	{
-		$result = round($result / 1024 * 100) / 100 . " ".$byteUnits[1];
-	} 
-	else 
-	{
-		$result = $result . " ".$byteUnits[0];
-	}
-	
-	if($result==0) 
-	{
-		$result="-";
-	}
-	
-	return $result;
+    global $byteUnits;
+
+    if ($result >= 1073741824) {
+        $result = round($result / 1073741824 * 100) / 100 . " " . $byteUnits[3];
+    } else if ($result >= 1048576) {
+        $result = round($result / 1048576 * 100) / 100 . " " . $byteUnits[2];
+    } else if ($result >= 1024) {
+        $result = round($result / 1024 * 100) / 100 . " " . $byteUnits[1];
+    } else {
+        $result = $result . " " . $byteUnits[0];
+    }
+
+    if ($result == 0) {
+        $result = "-";
+    }
+
+    return $result;
 }
 
 /**
@@ -917,12 +886,12 @@ function convertSize($result)
  * @param string $fichier File used
  * @access public
  **/
-function file_info_size($fichier) 
+function file_info_size($fichier)
 {
-	global $taille;
+    global $taille;
 
-	$taille = filesize($fichier);
-	return $taille;
+    $taille = filesize($fichier);
+    return $taille;
 }
 
 /**
@@ -930,26 +899,26 @@ function file_info_size($fichier)
  * @param string $fichier File used
  * @access public
  **/
-function file_info_dim($fichier) 
-{ 
-	global $dim; 
-	
-	$temp = GetImageSize($fichier); 
-	$dim = ($temp[0])."x".($temp[1]); 
-	return $dim; 
-} 
+function file_info_dim($fichier)
+{
+    global $dim;
+
+    $temp = GetImageSize($fichier);
+    $dim = ($temp[0]) . "x" . ($temp[1]);
+    return $dim;
+}
 
 /**
  * Return file date
  * @param string $fichier File used
  * @access public
  **/
-function file_info_date($file) 
+function file_info_date($file)
 {
-	global $dateFile;
+    global $dateFile;
 
-	$dateFile = date("Y-m-d",filemtime($file));
-	return $dateFile;
+    $dateFile = date("Y-m-d", filemtime($file));
+    return $dateFile;
 }
 
 /**
@@ -957,92 +926,82 @@ function file_info_date($file)
  * @param string $file File used
  * @access public
  **/
-function recupFile($file) 
+function recupFile($file)
 {
-	if(!file_exists($file)) 
-	{
-		echo "File does not exist : " . $file;
-			return false;
-	}
+    $content = '';
 
-	$fp = fopen ($file, "r");
+    if (!file_exists($file)) {
+        echo "File does not exist : " . $file;
+        return false;
+    }
 
-	if(!$fp) 
-	{
-		echo "Unable to open file : " . $file;
-		return false;
-	}
+    $fp = fopen($file, "r");
 
-	while (!feof ($fp)) 
-	{
-		$tmpline = fgets($fp, 4096);
-		$content .= $tmpline;
-	}
+    if (!$fp) {
+        echo "Unable to open file : " . $file;
+        return false;
+    }
 
-	fclose($fp);
-	return $content;
+    while (!feof($fp)) {
+        $tmpline = fgets($fp, 4096);
+        $content .= $tmpline;
+    }
+
+    fclose($fp);
+    return $content;
 }
 
 //provide id session if trans_sid false on server (if $trans_sid true in settings)
-if ($trans_sid == "true") 
-{
-	global $transmitSid;
-	$transmitSid = session_name()."=".session_id();
+if ($trans_sid == "true") {
+    global $transmitSid;
+    $transmitSid = session_name() . "=" . session_id();
 }
 
 //time variables
-if ($gmtTimezone == "true") 
-{
-	$date = gmdate("Y-m-d");
-	$dateheure = gmdate("Y-m-d H:i");
-} 
-else 
-{
-	$date = date("Y-m-d");
-	$dateheure = date("Y-m-d H:i");
+if ($gmtTimezone == "true") {
+    $date = gmdate("Y-m-d");
+    $dateheure = gmdate("Y-m-d H:i");
+} else {
+    $date = date("Y-m-d");
+    $dateheure = date("Y-m-d H:i");
 }
 
 /**
  * Displat date according to timezone (if timezone enabled)
  * @param string $storedDate Date stored in database
- * @param string $gmtUser User timezone 
+ * @param string $gmtUser User timezone
  * @access public
  **/
-function createDate($storedDate, $gmtUser) 
+function createDate($storedDate, $gmtUser)
 {
-	global $gmtTimezone;
+    global $gmtTimezone;
 
-	if ($gmtTimezone == "true") 
-	{
-		if ($storedDate != "") 
-		{
-			$extractHour = substr("$storedDate", 11, 2);
-			$extractMinute = substr("$storedDate", 14, 2);
-			$extractYear = substr("$storedDate", 0, 4);
-			$extractMonth = substr("$storedDate", 5, 2);
-			$extractDay = substr("$storedDate", 8, 2);
+    if ($gmtTimezone == "true") {
+        if ($storedDate != "") {
+            $extractHour = substr("$storedDate", 11, 2);
+            $extractMinute = substr("$storedDate", 14, 2);
+            $extractYear = substr("$storedDate", 0, 4);
+            $extractMonth = substr("$storedDate", 5, 2);
+            $extractDay = substr("$storedDate", 8, 2);
 
-			return date("Y-m-d H:i", mktime($extractHour + $gmtUser,$extractMinute,0,$extractMonth,$extractDay,$extractYear));
-		}
-	} 
-	else 
-	{
-		return $storedDate;
-	}
+            return date("Y-m-d H:i", mktime($extractHour + $gmtUser, $extractMinute, 0, $extractMonth, $extractDay, $extractYear));
+        }
+    } else {
+        return $storedDate;
+    }
 }
 
 //update sorting table if query sort column
-if (!empty($sor_cible) && $sor_cible != "" && $sor_champs != "none") 
-{
-	$sor_champs = convertData($sor_champs);
-	$sor_cible = convertData($sor_cible);
+if (!empty($sor_cible) && $sor_cible != "" && $sor_champs != "none") {
+    $sor_champs = convertData($sor_champs);
+    $sor_cible = convertData($sor_cible);
 
-	$tmpquery = "UPDATE ".$tableCollab["sorting"]." SET $sor_cible='$sor_champs $sor_ordre' WHERE member = '$idSession'";
-	connectSql("$tmpquery");
+    $tmpquery = "UPDATE " . $tableCollab["sorting"] . " SET $sor_cible='$sor_champs $sor_ordre' WHERE member = '$idSession'";
+    connectSql("$tmpquery");
 }
 
 //set all sorting values for logged user
-$tmpquery = "WHERE sor.member = '".fixInt($idSession)."'";
+$tmpquery = "WHERE sor.member = '" . fixInt($idSession) . "'";
 $sortingUser = new request();
 $sortingUser->openSorting($tmpquery);
 
@@ -1051,36 +1010,31 @@ $sortingUser->openSorting($tmpquery);
  * @param string $data Data to convert
  * @access public
  **/
-function convertData($data) 
+function convertData($data)
 {
-	global $databaseType;
-	
-	if ($databaseType == "sqlserver") 
-	{
-		$data = str_replace('"','&quot;',$data);
-		$data = str_replace("'",'&#39;',$data);
-		$data = str_replace('<','&lt;',$data);
-		$data = str_replace('>','&gt;',$data);
-		$data = stripslashes($data);
-		return ($data);
-	} 
-	elseif (get_magic_quotes_gpc() == 1) 
-	{
-		$data = str_replace('"','&quot;',$data);
-		$data = str_replace('<','&lt;',$data);
-		$data = str_replace('>','&gt;',$data);
-		$data = str_replace("'",'&#39;',$data);
-		return ($data);
-    } 
-	else 
-	{
-		$data = str_replace('"','&quot;',$data);
-		$data = str_replace('<','&lt;',$data);
-		$data = str_replace('>','&gt;',$data);
-		$data = str_replace("'",'&#39;',$data);
-		$data = addslashes($data);
-		return ($data);
-	}
+    global $databaseType;
+
+    if ($databaseType == "sqlserver") {
+        $data = str_replace('"', '&quot;', $data);
+        $data = str_replace("'", '&#39;', $data);
+        $data = str_replace('<', '&lt;', $data);
+        $data = str_replace('>', '&gt;', $data);
+        $data = stripslashes($data);
+        return ($data);
+    } elseif (get_magic_quotes_gpc() == 1) {
+        $data = str_replace('"', '&quot;', $data);
+        $data = str_replace('<', '&lt;', $data);
+        $data = str_replace('>', '&gt;', $data);
+        $data = str_replace("'", '&#39;', $data);
+        return ($data);
+    } else {
+        $data = str_replace('"', '&quot;', $data);
+        $data = str_replace('<', '&lt;', $data);
+        $data = str_replace('>', '&gt;', $data);
+        $data = str_replace("'", '&#39;', $data);
+        $data = addslashes($data);
+        return ($data);
+    }
 
 }
 
@@ -1089,56 +1043,57 @@ function convertData($data)
  * @param string $tmpsql Sql query
  * @access public
  **/
-function compt($tmpsql) {
-	global $tableCollab,$databaseType,$countEnregTotal,$comptRequest;
+function compt($tmpsql)
+{
+    global $tableCollab, $databaseType, $countEnregTotal, $comptRequest;
 
-	$comptRequest = $comptRequest + 1;
+    $comptRequest = $comptRequest + 1;
 
-	if ($databaseType == "mysql") {
-		$res = mysql_connect(MYSERVER,MYLOGIN,MYPASSWORD) or die($strings["error_server"]);
-		mysql_select_db(MYDATABASE,$res) or die($strings["error_database"]);
-		$sql = "$tmpsql";
-		$index = mysql_query($sql, $res);
-		
-		while($row = mysql_fetch_row($index)) {
-			$countEnreg[] = ($row[0]);
-		}
-		
-		$countEnregTotal = count($countEnreg);
-		@mysql_free_result($index);
-		@mysql_close($res);
-	}
+    if ($databaseType == "mysql") {
+        $res = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die($strings["error_server"]);
+        mysql_select_db(MYDATABASE, $res) or die($strings["error_database"]);
+        $sql = "$tmpsql";
+        $index = mysql_query($sql, $res);
 
-	if ($databaseType == "postgresql") {
-		$res = pg_connect("host=".MYSERVER." port=5432 dbname=".MYDATABASE." user=".MYLOGIN." password=".MYPASSWORD);
-		$sql = "$tmpsql";
-		$index = pg_query($res,$sql);
-		
-		while($row = pg_fetch_row($index)) {
-			$countEnreg[] = ($row[0]);
-		}	
-		
-		$countEnregTotal = count($countEnreg);
-		@pg_free_result($index);
-		@pg_close($res);
-	}
+        while ($row = mysql_fetch_row($index)) {
+            $countEnreg[] = ($row[0]);
+        }
 
-	if ($databaseType == "sqlserver") {
-		$res = mssql_connect(MYSERVER,MYLOGIN,MYPASSWORD) or die($strings["error_server"]);
-		mssql_select_db(MYDATABASE,$res) or die($strings["error_database"]);
-		$sql = "$tmpsql";
-		$index = mssql_query($sql, $res);
-		
-		while($row = mssql_fetch_row($index)) {
-			$countEnreg[] = ($row[0]);
-		}
+        $countEnregTotal = count($countEnreg);
+        @mysql_free_result($index);
+        @mysql_close($res);
+    }
 
-		$countEnregTotal = count($countEnreg);
-		@mssql_free_result($index);
-		@mssql_close($res);
-	}
+    if ($databaseType == "postgresql") {
+        $res = pg_connect("host=" . MYSERVER . " port=5432 dbname=" . MYDATABASE . " user=" . MYLOGIN . " password=" . MYPASSWORD);
+        $sql = "$tmpsql";
+        $index = pg_query($res, $sql);
 
-	return $countEnregTotal;
+        while ($row = pg_fetch_row($index)) {
+            $countEnreg[] = ($row[0]);
+        }
+
+        $countEnregTotal = count($countEnreg);
+        @pg_free_result($index);
+        @pg_close($res);
+    }
+
+    if ($databaseType == "sqlserver") {
+        $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die($strings["error_server"]);
+        mssql_select_db(MYDATABASE, $res) or die($strings["error_database"]);
+        $sql = "$tmpsql";
+        $index = mssql_query($sql, $res);
+
+        while ($row = mssql_fetch_row($index)) {
+            $countEnreg[] = ($row[0]);
+        }
+
+        $countEnregTotal = count($countEnreg);
+        @mssql_free_result($index);
+        @mssql_close($res);
+    }
+
+    return $countEnregTotal;
 }
 
 /**
@@ -1146,32 +1101,33 @@ function compt($tmpsql) {
  * @param string $tmpsql Sql query
  * @access public
  **/
-function connectSql($tmpsql) {
-global $tableCollab,$databaseType;
+function connectSql($tmpsql)
+{
+    global $tableCollab, $databaseType;
 
-	if ($databaseType == "mysql") {
-		$res = mysql_connect(MYSERVER,MYLOGIN,MYPASSWORD) or die($strings["error_server"]);
-		mysql_select_db(MYDATABASE,$res) or die($strings["error_database"]);
-		$sql = $tmpsql;
-		$index = mysql_query($sql, $res);
-		@mysql_free_result($index);
-		@mysql_close($res) ;
-	}
-	if ($databaseType == "postgresql") {
-		$res = pg_connect("host=".MYSERVER." port=5432 dbname=".MYDATABASE." user=".MYLOGIN." password=".MYPASSWORD);
-		$sql = $tmpsql;
-		$index = pg_query($res,$sql);
-		@pg_free_result($index);
-		@pg_close($res) ;
-	}
-	if ($databaseType == "sqlserver") {
-		$res = mssql_connect(MYSERVER,MYLOGIN,MYPASSWORD) or die($strings["error_server"]);
-		mssql_select_db(MYDATABASE,$res) or die($strings["error_database"]);
-		$sql = $tmpsql;
-		$index = mssql_query($sql, $res);
-		@mssql_free_result($index);
-		@mssql_close($res) ;
-	}
+    if ($databaseType == "mysql") {
+        $res = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die($strings["error_server"]);
+        mysql_select_db(MYDATABASE, $res) or die($strings["error_database"]);
+        $sql = $tmpsql;
+        $index = mysql_query($sql, $res);
+        @mysql_free_result($index);
+        @mysql_close($res);
+    }
+    if ($databaseType == "postgresql") {
+        $res = pg_connect("host=" . MYSERVER . " port=5432 dbname=" . MYDATABASE . " user=" . MYLOGIN . " password=" . MYPASSWORD);
+        $sql = $tmpsql;
+        $index = pg_query($res, $sql);
+        @pg_free_result($index);
+        @pg_close($res);
+    }
+    if ($databaseType == "sqlserver") {
+        $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die($strings["error_server"]);
+        mssql_select_db(MYDATABASE, $res) or die($strings["error_database"]);
+        $sql = $tmpsql;
+        $index = mssql_query($sql, $res);
+        @mssql_free_result($index);
+        @mssql_close($res);
+    }
 }
 
 /**
@@ -1179,101 +1135,101 @@ global $tableCollab,$databaseType;
  * @param string $tmpsql Table name
  * @access public
  **/
-function last_id($tmpsql) {
-global $tableCollab,$databaseType;
-if ($databaseType == "mysql") {
-$res = mysql_connect(MYSERVER,MYLOGIN,MYPASSWORD) or die($strings["error_server"]);
-mysql_select_db(MYDATABASE,$res) or die($strings["error_database"]);
-global $lastId;
-$sql = "SELECT id FROM $tmpsql ORDER BY id DESC";
-$index = mysql_query($sql,$res);
-while($row = mysql_fetch_row($index)) {
-	$lastId[] = ($row[0]);
-}
-@mysql_free_result($index);
-@mysql_close($res);
-}
-if ($databaseType == "postgresql") {
-$res = pg_connect("host=".MYSERVER." port=5432 dbname=".MYDATABASE." user=".MYLOGIN." password=".MYPASSWORD);
-global $lastId;
-$sql = "SELECT id FROM $tmpsql ORDER BY id DESC";
-$index = pg_query($res,$sql);
-while($row = pg_fetch_row($index)) {
-	$lastId[] = ($row[0]);
-}
-@pg_free_result($index);
-@pg_close($res);
-}
-if ($databaseType == "sqlserver") {
-$res = mssql_connect(MYSERVER,MYLOGIN,MYPASSWORD) or die($strings["error_server"]);
-mssql_select_db(MYDATABASE,$res) or die($strings["error_database"]);
-global $lastId;
-$sql = "SELECT id FROM $tmpsql ORDER BY id DESC";
-$index = mssql_query($sql,$res);
-while($row = mssql_fetch_row($index)) {
-	$lastId[] = ($row[0]);
-}
-@mssql_free_result($index);
-@mssql_close($res);
-}
+function last_id($tmpsql)
+{
+    global $tableCollab, $databaseType;
+    if ($databaseType == "mysql") {
+        $res = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die($strings["error_server"]);
+        mysql_select_db(MYDATABASE, $res) or die($strings["error_database"]);
+        global $lastId;
+        $sql = "SELECT id FROM $tmpsql ORDER BY id DESC";
+        $index = mysql_query($sql, $res);
+        while ($row = mysql_fetch_row($index)) {
+            $lastId[] = ($row[0]);
+        }
+        @mysql_free_result($index);
+        @mysql_close($res);
+    }
+    if ($databaseType == "postgresql") {
+        $res = pg_connect("host=" . MYSERVER . " port=5432 dbname=" . MYDATABASE . " user=" . MYLOGIN . " password=" . MYPASSWORD);
+        global $lastId;
+        $sql = "SELECT id FROM $tmpsql ORDER BY id DESC";
+        $index = pg_query($res, $sql);
+        while ($row = pg_fetch_row($index)) {
+            $lastId[] = ($row[0]);
+        }
+        @pg_free_result($index);
+        @pg_close($res);
+    }
+    if ($databaseType == "sqlserver") {
+        $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die($strings["error_server"]);
+        mssql_select_db(MYDATABASE, $res) or die($strings["error_database"]);
+        global $lastId;
+        $sql = "SELECT id FROM $tmpsql ORDER BY id DESC";
+        $index = mssql_query($sql, $res);
+        while ($row = mssql_fetch_row($index)) {
+            $lastId[] = ($row[0]);
+        }
+        @mssql_free_result($index);
+        @mssql_close($res);
+    }
 }
 
 //recompute number of completed tasks of the project
 // Do it only if the project name contains [ / ]
 //list tasks of the same project and count the number of completed
-function projectComputeCompletion($projectDetail, $tableProject) {
- $prj_name = $projectDetail->pro_name[0];
- preg_match("/\[([0-9 ]*\/[0-9 ]*)\]/", $prj_name, $findit);;
- if ($findit[1] != "") {
- $prj_id = $projectDetail->pro_id[0];
- $taskDetails = new request();
- $tmpquery = "WHERE tas.project = '$prj_id'";
- $taskDetails->openTasks($tmpquery);
- $tasksNumb = count($taskDetails->tas_id);
- $tasksCompleted = 0;
- foreach ($taskDetails->tas_status as $stat) {
- if ($stat == 1) $tasksCompleted++;
- }
- $prj_name = preg_replace ("/\[[0-9 ]*\/[0-9 ]*\]/", "[ $tasksCompleted / $tasksNumb ]", $prj_name);
- $tmpquery5 = "UPDATE ".$tableProject." SET name='$prj_name' WHERE id = '$prj_id'";
- $ad = connectSql($tmpquery5);
- }
- return $prj_name;
+function projectComputeCompletion($projectDetail, $tableProject)
+{
+    $prj_name = $projectDetail->pro_name[0];
+    preg_match("/\[([0-9 ]*\/[0-9 ]*)\]/", $prj_name, $findit);;
+    if ($findit[1] != "") {
+        $prj_id = $projectDetail->pro_id[0];
+        $taskDetails = new request();
+        $tmpquery = "WHERE tas.project = '$prj_id'";
+        $taskDetails->openTasks($tmpquery);
+        $tasksNumb = count($taskDetails->tas_id);
+        $tasksCompleted = 0;
+        foreach ($taskDetails->tas_status as $stat) {
+            if ($stat == 1) $tasksCompleted++;
+        }
+        $prj_name = preg_replace("/\[[0-9 ]*\/[0-9 ]*\]/", "[ $tasksCompleted / $tasksNumb ]", $prj_name);
+        $tmpquery5 = "UPDATE " . $tableProject . " SET name='$prj_name' WHERE id = '$prj_id'";
+        $ad = connectSql($tmpquery5);
+    }
+    return $prj_name;
 }
 
 //compute the average completion of all subtaks of a task
 //update the main task completion
 //24/05/03: Florian DECKERT
-function taskComputeCompletion ($taskid, $tableTask)
+function taskComputeCompletion($taskid, $tableTask)
 {
- $tmpquery = "WHERE subtas.tasks = '$taskid'";
- $subtaskList = new request();
- $subtaskList->openAvgTasks($taskid);
- $avg = $subtaskList->tas_avg[0];
- settype ($avg, "integer");
- $tmpquery6 = "UPDATE ".$tableTask." set completion = $avg where id='$taskid'";
- connectSql($tmpquery6);
+    $tmpquery = "WHERE subtas.tasks = '$taskid'";
+    $subtaskList = new request();
+    $subtaskList->openAvgTasks($taskid);
+    $avg = $subtaskList->tas_avg[0];
+    settype($avg, "integer");
+    $tmpquery6 = "UPDATE " . $tableTask . " set completion = $avg where id='$taskid'";
+    connectSql($tmpquery6);
 }
 
 /**
-* check a file name and remove backslash and spaces
-* this function remove also the file path if IE is used for upload
-* @param string $name the name of the file
-*/
-function check_FileName($name='') {
+ * check a file name and remove backslash and spaces
+ * this function remove also the file path if IE is used for upload
+ * @param string $name the name of the file
+ */
+function check_FileName($name = '')
+{
 
- 	$name = str_replace('\\', '/', $name);
-  	$name = str_replace(" ", "_", $name);
-  	$name = str_replace("'", "", $name);
-	
- 	if (get_magic_quotes_gpc()) 
- 	{
- 		$name = basename(stripslashes($name));
-    } 
-    else 
-    {
-		$name = basename($name);
-	}
+    $name = str_replace('\\', '/', $name);
+    $name = str_replace(" ", "_", $name);
+    $name = str_replace("'", "", $name);
+
+    if (get_magic_quotes_gpc()) {
+        $name = basename(stripslashes($name));
+    } else {
+        $name = basename($name);
+    }
 
     return $name;
 }

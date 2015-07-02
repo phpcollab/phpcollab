@@ -27,3 +27,12 @@ nbproject
 .project
 .settings
 composer.lock
+
+# Temporary Ignores #
+test
+test.md
+Tests
+compatability*
+composer.json
+*.xml
+

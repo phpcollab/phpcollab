@@ -86,7 +86,7 @@ elseif ($step == 2) {
     
     echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>";
         
-    if (checkDatabase(&$myError)) {
+    if (checkDatabase($myError)) {
         echo "<br />Database looks <font style='color: green'>good</font>.  We are continuing the conversion...<br /><br />";
         echo "<br />Continue on to <a href='../installation/{$script}?step=3&redirect=true'>Step 3</a>.<br /><br /><b>MAKE SURE SETTINGS.PHP IS WRITEABLE!!!</b><Br /><br />";
     } else {
