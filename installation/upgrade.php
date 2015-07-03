@@ -39,7 +39,7 @@ include('../themes/'.THEME.'/header.php');
 //Get this file.. 
 $script = "upgrade.php";
 $step = getParameter('step');
-$version = "2.5";
+$version = "2.5.1";
 
 if (empty($step)) $step = 1;
 

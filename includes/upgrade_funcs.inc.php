@@ -410,7 +410,7 @@ function rewriteConfig($settingsFile) {
 
     $theme = THEME;
 
-    $version = "2.5";
+    $version = "2.5.1";
     $docType = addslashes($setDoctype);
     $docDesc = addslashes($setDescription);
     $docWords = addslashes($setKeywords);

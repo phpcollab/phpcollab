@@ -56,7 +56,7 @@ if ($redirect == "true" && $step == "2")
 if (substr($root, -1) == "/") { $root = substr($root, 0, -1); }
 if (substr($ftpRoot, -1) == "/") { $ftpRoot = substr($ftpRoot, 0, -1); }
 
-$version = "2.5";
+$version = "2.5.1";
 
 $dateheure = date("Y-m-d H:i");
 
