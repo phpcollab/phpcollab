@@ -30,9 +30,7 @@
 $checkSession = "true";
 include_once('../includes/library.php');
 
-include("../includes/files_types.php");
-
-if ($action == "publish") 
+if ($action == "publish")
 {
 	if ($addToSiteFile == "true") 
 	{
@@ -94,7 +92,7 @@ $phaseDetail = new Request();
 $phaseDetail->openPhases($tmpquery);
 }
 
-$type = file_info_type($fileDetail->fil_extension[0]);
+$type = FileHandler::fileInfoType( $fileDetail->fil_extension[0]);
 $displayname = $fileDetail->fil_name[0];
 
 //---------------------------------------------------------------------------------------------------

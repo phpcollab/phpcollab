@@ -293,12 +293,10 @@ if ($comptListFiles != "0") {
 
 	$block2->labels($labels = array(0=>$strings["type"],1=>$strings["name"],2=>$strings["date"],3=>$strings["approval_tracking"],4=>$strings["published"]),"true");
 
-include("../includes/files_types.php");
-
 for ($i=0;$i<$comptListFiles;$i++) {
 $idStatus = $listFiles->fil_status[$i];
 $idPublish = $listFiles->fil_published[$i];
-$type = file_info_type($listFiles->fil_extension[$i]);
+$type = FileHandler::fileInfoType( $listFiles->fil_extension[$i]);
 if (file_exists("../files/".$listFiles->fil_project[$i]."/".$listFiles->fil_task[$i]."/".$listFiles->fil_name[$i])) {
 $existFile = "true";
 }

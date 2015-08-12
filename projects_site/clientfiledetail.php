@@ -5,8 +5,6 @@
 $checkSession = "true";
 include("../includes/library.php");
 
-include("../includes/files_types.php");
-
 $tmpquery = "WHERE fil.id = '$id'";
 $fileDetail = new Request();
 $fileDetail->openFiles($tmpquery);
@@ -15,7 +13,7 @@ if ($fileDetail->fil_published[0] == "1" || $fileDetail->fil_project[0] != $proj
 Util::headerFunction("index.php");
 }
 
-$type = file_info_type($fileDetail->fil_extension[0]);
+$type = FileHandler::fileInfoType( $fileDetail->fil_extension[0]);
 $displayname = $fileDetail->fil_name[0];
 
 //---------------------------------------------------------------------------------------------------
