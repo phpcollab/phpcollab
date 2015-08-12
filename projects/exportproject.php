@@ -8,7 +8,7 @@ $export = "true";
 $checkSession = "false";
 include_once '../includes/library.php';
 
-require("../includes/phpmyadmin/defines.lib.php");
+require '../includes/phpmyadmin/defines.lib.php';
     function which_crlf()
     {
         $the_crlf = "\n";
