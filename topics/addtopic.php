@@ -27,7 +27,7 @@
 */
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 $tmpquery = "WHERE pro.id = '$project'";
 $projectDetail = new Request();
@@ -56,7 +56,7 @@ if ($action == "add") {
 	Util::connectSql("$tmpquery2");
 
 	if ($notifications == "true") {
-		include("../topics/noti_newtopic.php");
+		include '../topics/noti_newtopic.php';
 	}
 
 	Util::headerFunction("../topics/viewtopic.php?project=$project&id=$num&msg=add&".session_name()."=".session_id());
@@ -80,7 +80,7 @@ if ($teamMember == "false" && $projectsFilter == "true") {
 } 
 
 $bodyCommand = "onLoad=\"document.ctTForm.ttt.focus();\"";
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

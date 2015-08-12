@@ -4,7 +4,7 @@
 #Path by root: ../topics/deletepost.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 $tmpquery = "WHERE topic.id = '$topic'";
 $detailTopic = new Request();
@@ -24,7 +24,7 @@ $tmpquery = "WHERE pos.id = '$id'";
 $detailPost = new Request();
 $detailPost->openPosts($tmpquery);
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

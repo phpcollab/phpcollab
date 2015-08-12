@@ -4,7 +4,7 @@
 #Path by root: ../newsdesk/viewnews.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 $tmpquery = "WHERE news.id = '".Util::fixInt($id)."'";
 $newsDetail = new Request();
@@ -15,7 +15,7 @@ if ($comptNewsDetail == "0") {
 	Util::headerFunction("../newsdesk/listnews.php?msg=blankNews&".session_name()."=".session_id());
 }
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

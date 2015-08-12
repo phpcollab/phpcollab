@@ -27,8 +27,8 @@
 */
 
 $checkSession = "true";
-include_once('../includes/library.php');
-include("../includes/customvalues.php");
+include_once '../includes/library.php';
+include '../includes/customvalues.php';
 
 $id = Util::returnGlobal('id','REQUEST');
 $docopy = Util::returnGlobal('docopy','REQUEST');
@@ -40,7 +40,7 @@ if ($htaccessAuth == "true")
 
 if ($enable_cvs == "true") 
 {
-	include("../includes/cvslib.php");
+	include '../includes/cvslib.php';
 }
 
 //case update or copy project
@@ -257,7 +257,7 @@ STAMP;
 			if ($enableMantis == "true") 
 			{
 				// call mantis function to copy project
-				include("$pathMantis/proj_add.php");
+				include $pathMantis . '/proj_add.php';
 			}
 
 			//if CVS repository enabled
@@ -410,7 +410,7 @@ STAMP;
 		if ($enableMantis == "true") 
 		{
 			// call mantis function to copy project
-			include("../mantis/proj_update.php");
+			include '../mantis/proj_update.php';
 		}
 			Util::headerFunction("../projects/viewproject.php?id=$id&msg=update&".session_name()."=".session_id());
 		}
@@ -526,7 +526,7 @@ STAMP;
 		if ($enableMantis == "true") 
 		{
 			// call mantis function to copy project
-			include("../mantis/proj_add.php");
+			include '../mantis/proj_add.php';
 		}
 		
 		//create phase structure if enable phase was selected as true
@@ -548,7 +548,7 @@ STAMP;
 $bodyCommand = "onLoad='document.epDForm.pn.focus();'";
 
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

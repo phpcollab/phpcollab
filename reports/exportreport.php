@@ -35,7 +35,7 @@ $pdf -> ezSetMargins(50,70,50,50);
 
 // begin PHPCollab code
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 // get company info
 $tmpquery = "WHERE org.id = '1'";
@@ -464,8 +464,8 @@ $pdf->ezStream();
 
 function ganttPDF($reportName,$listTasks)
 {
-    include("../includes/jpgraph/jpgraph.php");
-    include("../includes/jpgraph/jpgraph_gantt.php");
+    include '../includes/jpgraph/jpgraph.php';
+    include '../includes/jpgraph/jpgraph_gantt.php';
 
     $graph = new GanttGraph();
     $graph->SetBox();

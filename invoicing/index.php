@@ -4,7 +4,7 @@
 #Path by root: ../invoicing/index.php
 
 $checkSession = "false";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 Util::headerFunction('../index.php?'.session_name().'='.session_id());
 exit;
 ?>

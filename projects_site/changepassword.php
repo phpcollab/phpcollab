@@ -31,10 +31,10 @@
 
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 if ($enable_cvs == "true") {
-    include("../includes/cvslib.php");
+    include '../includes/cvslib.php';
 }
 
 if ($action == "update") {
@@ -108,7 +108,7 @@ if ($comptUserDetail == "0") {
 }
 
 $titlePage = $strings["change_password"];
-include ("include_header.php");
+include 'include_header.php';
 
 if ($msg != "") {
     include '../includes/messages.php';

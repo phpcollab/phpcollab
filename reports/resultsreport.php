@@ -34,7 +34,7 @@
 
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 if ($action == "add") {
 	$S_SAVENAME = Util::convertData($S_SAVENAME);
@@ -44,7 +44,7 @@ if ($action == "add") {
 }
 
 $setTitle .= " : Report Results";
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 if ($id == "" && $tri != "true") 
 {	

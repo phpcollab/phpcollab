@@ -3,7 +3,7 @@
 #Status page: 0
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 $tmpquery = "WHERE mem.id = '$idSession'";
 $userDetail = new Request();
@@ -26,7 +26,7 @@ if ($action == "add") {
 	unset($lastId);
 	
 	if ($notifications == "true") {
-		include("../support/noti_newrequest.php");
+		include '../support/noti_newrequest.php';
 	}	
 	
 	Util::headerFunction("suprequestdetail.php?id=$num&".session_name()."=".session_id());
@@ -35,7 +35,7 @@ if ($action == "add") {
 
 $bouton[6] = "over";
 $titlePage = $strings["support"];
-include ("include_header.php");
+include 'include_header.php';
 
 echo "<form accept-charset='UNKNOWN' method='POST' action='../projects_site/addsupport.php?".session_name()."=".session_id()."&action=add&project=$projectSession#filedetailsAnchor' name='addsupport' enctype='multipart/form-data' >";
 

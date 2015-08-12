@@ -29,11 +29,11 @@
 ** - can a project team member see the other members tasks? *why not?*
 */
 
-include("../includes/library.php");
+include '../includes/library.php';
 
 $bouton[12] = "over";
 $titlePage = $strings["calendar"];
-include ("include_header.php");
+include 'include_header.php';
 
 if ($type == "") 
 {

@@ -3,7 +3,7 @@
 #Status page: 0
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 $tmpquery = "WHERE mem.id = '$id'";
 $userDetail = new Request();
@@ -19,7 +19,7 @@ Util::headerFunction("index.php");
 
 $bouton[1] = "over";
 $titlePage = $strings["team_member_details"];
-include ("include_header.php");
+include 'include_header.php';
 
 echo "<h1 class=\"heading\">".$strings["team_member_details"]."</h1>";
 

@@ -30,8 +30,8 @@
 */
 
 $checkSession = "true";
-include_once('../includes/library.php');
-include("../includes/customvalues.php");
+include_once '../includes/library.php';
+include '../includes/customvalues.php';
 
 $setTitle .= " : Home Page";
 
@@ -111,7 +111,7 @@ if ($action == 'publish')
 	}
 }
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

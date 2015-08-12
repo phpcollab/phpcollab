@@ -4,7 +4,7 @@
 #Path by root: ../projects/listprojects.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 if ($typeInvoices == "") {
 	$typeInvoices = "open";
@@ -35,7 +35,7 @@ if ($comptClientDetail == "0") {
 	Util::headerFunction("../clients/listclients.php?msg=blankClient&".session_name()."=".session_id());
 }
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

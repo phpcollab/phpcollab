@@ -3,11 +3,11 @@
 #Status page: 0
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 $bouton[3] = "over";
 $titlePage = $strings["client_tasks"];
-include ("include_header.php");
+include 'include_header.php';
 
 $tmpquery = "WHERE tas.project = '$projectSession' AND tas.assigned_to != '0' AND tas.published = '0' AND mem.profil = '3' ORDER BY tas.name";
 $listTasks = new Request();

@@ -3,7 +3,7 @@
 #Status page: 0
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 $tmpquery = "WHERE subtas.id = '$id'";
 $subtaskDetail = new Request();
@@ -19,7 +19,7 @@ Util::headerFunction("index.php");
 
 $bouton[2] = "over";
 $titlePage = $strings["team_subtask_details"];
-include ("include_header.php");
+include 'include_header.php';
 
 echo "<h1 class=\"heading\">".$strings["team_subtask_details"]."</h1>";
 

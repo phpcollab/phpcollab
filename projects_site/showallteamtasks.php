@@ -30,11 +30,11 @@
 $projectSite = "true";
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 $bouton[2] = "over";
 $titlePage = $strings["team_tasks"];
-include ("include_header.php");
+include 'include_header.php';
 
 $tmpquery = "WHERE tas.project = '$projectSession' AND tas.assigned_to != '0' AND tas.published = '0' AND mem.organization = '1' ORDER BY tas.name";
 $listTasks = new Request();

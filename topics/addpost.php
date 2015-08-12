@@ -4,7 +4,7 @@
 #Path by root: ../topics/addpost.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 $tmpquery = "WHERE topic.id = '$id'";
 $detailTopic = new Request();
@@ -24,7 +24,7 @@ if ($action == "add") {
 	Util::connectSql("$tmpquery2");
 
 if ($notifications == "true") {
-	include("../topics/noti_newpost.php");
+	include '../topics/noti_newpost.php';
 }
 	Util::headerFunction("../topics/viewtopic.php?id=$id&msg=add&".session_name()."=".session_id());
 }
@@ -42,7 +42,7 @@ if ($projectDetail->pro_org_id[0] == "1") {
 }
 
 $bodyCommand = "onLoad=\"document.ptTForm.tpm.focus();\"";
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

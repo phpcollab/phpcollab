@@ -6,7 +6,7 @@
 $export = "true";
 
 $checkSession = "false";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 require("../includes/phpmyadmin/defines.lib.php");
     function which_crlf()

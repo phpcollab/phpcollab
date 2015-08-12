@@ -3,11 +3,11 @@
 #Status page: 0
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 $bouton[4] = "over";
 $titlePage = $strings["document_list"];
-include ("include_header.php");
+include 'include_header.php';
 
 $tmpquery = "WHERE fil.project = '$projectSession' AND fil.published = '0' AND fil.vc_parent = '0' ORDER BY fil.name";
 $listFiles = new Request();

@@ -28,7 +28,7 @@
 
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 if ($action == "publish") {
 
@@ -61,7 +61,7 @@ if ($action == "publish") {
     }
 }
 
-include('../themes/' . THEME . '/header.php');
+include '../themes/' . THEME . '/header.php';
 
 $tmpquery = "WHERE subtas.id = '$id'";
 $subtaskDetail = new Request();
@@ -387,5 +387,5 @@ $block3->closeResults();
 $block3->closeToggle();
 $block3->closeFormResults();
 
-include('../themes/' . THEME . '/footer.php');
+include '../themes/' . THEME . '/footer.php';
 ?>

@@ -3,7 +3,7 @@
 #Status page: 0
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 if ($action == "update") {
 $commentField = Util::convertData($commentField);
@@ -24,7 +24,7 @@ Util::headerFunction("index.php");
 
 $bouton[4] = "over";
 $titlePage = $strings["approval_tracking"];
-include ("include_header.php");
+include 'include_header.php';
 
 echo "<form accept-charset=\"UNKNOWN\" method=\"post\" action=\"../projects_site/docitemapproval.php?".session_name()."=".session_id()."&action=update\" name=\"documentitemapproval\" enctype=\"application/x-www-form-urlencoded\">";
 

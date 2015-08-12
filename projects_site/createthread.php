@@ -3,7 +3,7 @@
 #Status page: 0
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 	if ($action == "add") {
 		$topicField = Util::convertData($topicField);
@@ -23,7 +23,7 @@ $tmpquery = "WHERE pro.id = '$projectSession'";
 $projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
-	include("../topics/noti_newtopic.php");
+	include '../topics/noti_newtopic.php';
 }
 		Util::headerFunction("showallthreadtopics.php?".session_name()."=".session_id());
 	}
@@ -32,7 +32,7 @@ $bodyCommand="onload=\"document.createThreadTopic.topicField.focus();\"";
 
 $bouton[5] = "over";
 $titlePage = $strings["create_topic"];
-include ("include_header.php");
+include 'include_header.php';
 
 echo "<form accept-charset=\"UNKNOWN\" method=\"post\" action=\"../projects_site/createthread.php?project=$projectSession&action=add&".session_name()."=".session_id()."&id=$id\" name=\"createThreadTopic\" enctype=\"application/x-www-form-urlencoded\">";
 

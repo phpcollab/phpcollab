@@ -11,7 +11,7 @@ $pdf -> ezSetMargins(50,70,50,50);
 
 // include files
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 
 // session checking to prevent nonadmins from accessing file. Change or remove to give access to Users.
@@ -44,7 +44,7 @@ $blockPage = new Block();
 
 if ($msg != "") {
 if (file_exists("modules/PhpCollab/pnversion.php")) {
-	include("modules/PhpCollab/includes/messages.php");
+	include 'modules/PhpCollab/includes/messages.php';
 } else {
 	include '../includes/messages.php';
 }

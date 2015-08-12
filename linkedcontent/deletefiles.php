@@ -4,7 +4,7 @@
 #Path by root: ../linkedcontent/deletefiles.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 if ($task == "") {
 	$task = "0";
@@ -53,7 +53,7 @@ if ($task != "0") {
 	$taskDetail->openTasks($tmpquery);
 }
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

@@ -26,7 +26,7 @@
 */
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 $tmpquery = "WHERE sr.id = '$id'";
 $requestDetail = new Request();
@@ -53,7 +53,7 @@ $comptPostDetail = count($postDetail->sp_id);
 
 $bouton[6] = "over";
 $titlePage = $strings["support"];
-include ("include_header.php");
+include 'include_header.php';
 
 echo "<table cellspacing='0' width='90%' cellpadding='3'><tr><th colspan='4'>".$strings["information"].":</th></tr>";
 

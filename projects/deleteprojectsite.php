@@ -4,7 +4,7 @@
 #Path by root: ../projects/deleteprojectsite.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 if ($action == "delete") {
 	$tmpquery = "UPDATE ".$tableCollab["projects"]." SET published='1' WHERE id = '$project'";
@@ -13,7 +13,7 @@ if ($action == "delete") {
 	exit;
 }
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $tmpquery = "WHERE pro.id = '$project'";
 $projectDetail = new Request();

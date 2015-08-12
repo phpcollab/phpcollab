@@ -31,7 +31,7 @@
 */
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 //case add task
 if ($id == "") 
@@ -59,7 +59,7 @@ if ($id == "")
 		//send task assignment mail if notifications = true
 		if ($notifications == "true") 
 		{
-				include("../tasks/noti_clientaddtask.php");
+				include '../tasks/noti_clientaddtask.php';
 		}
 
 		//create task sub-folder if filemanagement = true
@@ -78,7 +78,7 @@ $bodyCommand="onload='document.etDForm.tn.focus();'";
 $bouton[2] = "over";
 $titlePage = $strings["add_task"];
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
-include ("include_header.php");
+include 'include_header.php';
 
 echo "<form accept-charset='UNKNOWN' method='POST' action='../projects_site/addteamtask.php?project=$projectSession&action=add&".session_name()."=".session_id()."#etDAnchor' name='etDForm' enctype='application/x-www-form-urlencoded'>";
 

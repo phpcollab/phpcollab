@@ -29,7 +29,7 @@
 
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 //case update client organization
 if ($id != "") 
@@ -155,7 +155,7 @@ if ($id == "")
 }
 
 $bodyCommand = "onLoad=\"document.ecDForm.cn.focus();\"";
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

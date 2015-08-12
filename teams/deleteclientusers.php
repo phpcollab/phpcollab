@@ -4,7 +4,7 @@
 #Path by root: ../teams/deleteclientusers.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 $tmpquery = "WHERE pro.id = '$project'";
 $projectDetail = new Request();
@@ -37,7 +37,7 @@ if ($action == "delete") {
 //if mantis bug tracker enabled	
 	if ($enableMantis == "true") {
 	//  include mantis library
-		include( "../mantis/core_API.php" );
+		include '../mantis/core_API.php';
 	}
 	$compt = count($pieces);
 	for ($i=0;$i<$compt;$i++) {
@@ -48,18 +48,18 @@ if ($action == "delete") {
 // Unassign user from this project in mantis
 			$f_project_id = $project;
 			$f_user_id = $pieces[$i];
-			include("../mantis/user_proj_delete.php");
+			include '../mantis/user_proj_delete.php';
 		}
 	}
 if ($notifications == "true") {
 $organization = "";
-	include("../teams/noti_removeprojectteam.php");
+	include '../teams/noti_removeprojectteam.php';
 }
 	Util::headerFunction("../projects/viewprojectsite.php?id=$project&msg=removeClientToSite&".session_name()."=".session_id());
 	exit;
 }
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

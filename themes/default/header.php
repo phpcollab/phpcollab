@@ -24,7 +24,7 @@ var gFlashOK = true;
 <script type='text/JavaScript' src='../javascript/overlib_mini.js'></script>
 <link rel='stylesheet' href='../themes/".THEME."/css/stylesheet.css' type='text/css' />";
 if ($includeCalendar && $includeCalendar == true) {
-	include("../includes/calendar.php");
+	include '../includes/calendar.php';
 }
 
 echo "

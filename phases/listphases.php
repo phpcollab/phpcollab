@@ -4,9 +4,9 @@
 #Path by root: ../phases/listphases.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $tmpquery = "WHERE pro.id = '$id'";
 $projectDetail = new Request();

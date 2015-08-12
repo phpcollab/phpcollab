@@ -28,7 +28,7 @@
 
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 $tmpquery = "WHERE mem.id = '$idSession'";
 $userPrefs = new Request();
@@ -133,7 +133,7 @@ function checkboxes(){
 }
 //-->
 </script>";
-include('../themes/' . THEME . '/header.php');
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();
@@ -242,5 +242,5 @@ echo "
 $block1->closeContent();
 $block1->closeForm();
 
-include('../themes/' . THEME . '/footer.php');
+include '../themes/' . THEME . '/footer.php';
 ?>

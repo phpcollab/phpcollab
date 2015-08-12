@@ -26,15 +26,15 @@
 */
 
 // Include all needed files here.. show the license as well.. we want to be legal 
-include("../languages/help_en.php");
-include("../includes/upgrade_funcs.inc.php");
+include '../languages/help_en.php';
+include '../includes/upgrade_funcs.inc.php';
 
 //Start the page
 $setTitle = "PhpCollab Upgrade";
 define('THEME','default');
 $blank = "true";
-include("../themes/".THEME."/block.class.php");
-include '../themes/'.THEME.'/header.php';
+
+include '../themes/' . THEME . '/header.php';
 
 //Get this file.. 
 $script = "upgrade.php";
@@ -62,7 +62,7 @@ if ($step == 1) {
     
     echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>
     	<pre>";
-    	include("../docs/copying.txt");
+    	include '../docs/copying.txt';
     	echo "</pre>
     	</td></tr>";
 }
@@ -151,7 +151,7 @@ elseif ($step == 3) {
             echo "<br />Writting out new settings file...";
             rewriteConfig($settingsFile);
             //Reload the Config so we can use the root
-            include($settingsFile);
+            include $settingsFile;
 
             echo "<b> done</b><br /><br />";
             echo "<br /><B>Congratulations... if there was no error writting the file, you are done.<br />Click <a href={$root}>here</a> to login.";

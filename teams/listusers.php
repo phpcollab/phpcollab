@@ -29,7 +29,7 @@
 
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 $tmpquery = "WHERE pro.id = '$id'";
 $projectDetail = new Request();
@@ -42,7 +42,7 @@ if ($comptProjectDetail == "0")
 	exit;
 }
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

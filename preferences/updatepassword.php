@@ -30,10 +30,10 @@
 
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 if ($enable_cvs == "true") {
-include("../includes/cvslib.php");
+include '../includes/cvslib.php';
 }
 
 if ($action == "update") {
@@ -105,7 +105,7 @@ if ($comptUserDetail == "0") {
 }
 
 $bodyCommand = "onLoad=\"document.change_passwordForm.opw.focus();\"";
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 
 $blockPage = new Block();

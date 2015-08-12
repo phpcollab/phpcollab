@@ -30,12 +30,12 @@ define("PHPCOLLAB_INC_DIR", dirname(__FILE__) . "/../includes/");
 define("PHPCOLLAB_LANG_DIR", dirname(__FILE__) . "/../languages/");
 
 // Include 
-include(PHPCOLLAB_INC_DIR . "settings.php");
+include PHPCOLLAB_INC_DIR . 'settings.php';
 
 if (!isset($langDefault) || ($langDefault == '')) {
     $langDefault = 'en';
 }
-include(PHPCOLLAB_LANG_DIR . "lang_" . $langDefault . ".php");
+include PHPCOLLAB_LANG_DIR . 'lang_' . $langDefault . '.php');
 
 // Check if emailAlerts is set to true
 if ($emailAlerts == "false") {

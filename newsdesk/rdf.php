@@ -7,7 +7,7 @@
  * @version 1.1
  */
 header("Content-type: text/xml");
-include("../includes/settings.php");
+include '../includes/settings.php';
 
 if (!isset($langDefault) || ($langDefault=='')) { $langDefault = 'en'; }
 
@@ -18,7 +18,7 @@ function createRSS() 	{
        	global $connection, $newsdesklimit;
 		
 		if (!isset($langDefault) || ($langDefault=='')) { $langDefault = 'en'; }
-		include("../languages/lang_".$langDefault.".php");
+		include '../languages/lang_' . $langDefault . '.php';
 
    		$query = "SELECT id,title,author,content,related, DATE_FORMAT(pdate, '%Y-%m-%d') as date FROM ".$tableCollab["newsdeskposts"]." WHERE rss = '1' ORDER BY pdate DESC LIMIT 0,5";  
 		$result = @mysql_query($query) or die("Error: " . mysql_error());

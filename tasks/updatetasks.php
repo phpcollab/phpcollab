@@ -31,7 +31,7 @@
 
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 $tmpquery = "WHERE pro.id = '$project'";
 $projectDetail = new Request();
@@ -144,7 +144,7 @@ if ($action == "update")
 				{
 					//$statustaskchange = new Notification();
 					//$statustaskchange->taskNotification($listTasks->tas_assigned_to[$i],$listTasks->tas_id[$i],"statustaskchange");
-					include("../tasks/noti_statustaskchange.php");
+					include '../tasks/noti_statustaskchange.php';
 				}
 			}
 
@@ -154,7 +154,7 @@ if ($action == "update")
 				{
 					//$prioritytaskchange = new Notification();
 					//$prioritytaskchange->taskNotification($listTasks->tas_assigned_to[$i],$listTasks->tas_id[$i],"prioritytaskchange");
-					include("../tasks/noti_prioritytaskchange.php");
+					include '../tasks/noti_prioritytaskchange.php';
 				}
 			}
 			if ($dd != "--" && $listTasks->tas_due_date[$i] != $dd && $assignUpdate != "true" && $listTasks->tas_assigned_to[$i] != "0")
@@ -163,7 +163,7 @@ if ($action == "update")
 				{
 					//$duedatetaskchange = new Notification();
 					//$duedatetaskchange->taskNotification($listTasks->tas_assigned_to[$i],$listTasks->tas_id[$i],"duedatetaskchange");
-					include("../tasks/noti_duedatetaskchange.php");
+					include '../tasks/noti_duedatetaskchange.php';
 				}
 			}
 
@@ -188,7 +188,7 @@ if ($action == "update")
 				{
 					//$taskassignment = new Notification();
 					//$taskassignment->taskNotification($at,$listTasks->tas_id[$i],"taskassignment");
-					include("../tasks/noti_taskassignment.php");
+					include '../tasks/noti_taskassignment.php';
 				}
 			}
 
@@ -200,7 +200,7 @@ if ($action == "update")
 
 //$bodyCommand="onload=\"document.forms[0].compl.value = document.forms[0].completion.selectedIndex;\"";
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

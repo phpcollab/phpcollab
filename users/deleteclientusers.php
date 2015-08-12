@@ -4,7 +4,7 @@
 #Path by root: ../users/deleteclientusers.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 $tmpquery = "WHERE org.id = '$organization'";
 $detailOrganization = new Request();
 $detailOrganization->openOrganizations($tmpquery);
@@ -32,7 +32,7 @@ if ($action == "delete") {
 	exit;
 }
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

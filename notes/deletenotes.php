@@ -4,7 +4,7 @@
 #Path by root: ../notes/deletenotes.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 if ($action == "delete") {
 	$id = str_replace("**",",",$id);
@@ -14,7 +14,7 @@ if ($action == "delete") {
 	exit;
 }
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

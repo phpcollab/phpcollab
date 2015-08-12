@@ -26,8 +26,8 @@
 */
 
 $checkSession = "true";
-include_once('../includes/library.php');
-include("../includes/customvalues.php");
+include_once '../includes/library.php';
+include '../includes/customvalues.php';
 
 $tmpquery = "WHERE pha.id = '$id'";
 $phaseDetail = new Request();
@@ -82,7 +82,7 @@ if ($action == "update") {
 	exit;
 }
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

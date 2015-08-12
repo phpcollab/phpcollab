@@ -27,7 +27,7 @@
 
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 if ($type == "2") {
     $tmpquery = "WHERE subtas.id = '$item'";
@@ -73,7 +73,7 @@ if ($type == "1") {
     }
 }
 
-include('../themes/' . THEME . '/header.php');
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();
@@ -160,5 +160,5 @@ $block1->closeContent();
 
 $block1->closeForm();
 
-include('../themes/' . THEME . '/footer.php');
+include '../themes/' . THEME . '/footer.php';
 ?>

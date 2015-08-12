@@ -28,8 +28,8 @@
 */
 
 $checkSession = "true";
-include_once('../includes/library.php');
-include("../includes/customvalues.php");
+include_once '../includes/library.php';
+include '../includes/customvalues.php';
 
 if ($action == "publish") 
 {
@@ -47,7 +47,7 @@ if ($action == "publish")
 	}
 }
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $tmpquery = "WHERE note.id = '$id'";
 $noteDetail = new Request();

@@ -51,7 +51,7 @@
 <!--//******************************************************//-->						
 <?
 
-include("../includes/settings.php");
+include '../includes/settings.php';
 
 $connection = @mysql_connect(MYSERVER,MYLOGIN,MYPASSWORD) or die($strings["error_server"]);
 @mysql_select_db(MYDATABASE, $connection) or die($strings["error_database"]);
@@ -60,7 +60,7 @@ function showPosts() 	{
        	global $connection, $newsdesklimit;
 
 		if (!isset($langDefault) || ($langDefault=='')) { $langDefault = 'en'; }
-		include("../languages/lang_".$langDefault.".php");
+		include '../languages/lang_' . $langDefault . '.php';
 
        	$page = $_GET[page];                 
     	$query_count = "SELECT title FROM ".$tableCollab["newsdeskposts"];      
@@ -191,7 +191,7 @@ function showSingle($id)
     		global $connection;
 
 			if (!isset($langDefault) || ($langDefault=='')) { $langDefault = 'en'; }
-			include("../languages/lang_".$langDefault.".php");
+			include '../languages/lang_' . $langDefault . '.php';
 
 	
     		//query string
@@ -241,7 +241,7 @@ function showComments($id)
 			global $connection;
 
 			if (!isset($langDefault) || ($langDefault=='')) { $langDefault = 'en'; }
-			include("../languages/lang_".$langDefault.".php");
+			include '../languages/lang_' . $langDefault . '.php';
 
     		//query string
     		$query = "SELECT * FROM ".$tableCollab["newsdeskcomments"]." WHERE post_id=$id";

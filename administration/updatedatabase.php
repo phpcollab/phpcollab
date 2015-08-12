@@ -27,7 +27,7 @@
 */
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 $setTitle .= " : Edit Database";
 
 if ($profilSession != "0") {
@@ -38,23 +38,23 @@ if ($profilSession != "0") {
 $versionNew = "2.5";
 
 if ($action == "printSetup") {
-	include("../includes/db_var.inc.php");
-	include("../includes/setup_db.php");
+	include '../includes/db_var.inc.php';
+	include '../includes/setup_db.php';
 	for($con = 0; $con < count($SQL); $con++){
 		echo $SQL[$con] . ';<br/>';
 	}
 }
 if ($action == "printUpdate") {
-	include("../includes/db_var.inc.php");
-	include("../includes/update_db.php");
+	include '../includes/db_var.inc.php';
+	include '../includes/update_db.php';
 	for($con = 0; $con < count($SQL); $con++){
 		echo $SQL[$con] . '<br/>';
 	}
 }
 
 if ($action == "generate") {
-	include("../includes/db_var.inc.php");
-	include("../includes/update_db.php");
+	include '../includes/db_var.inc.php';
+	include '../includes/update_db.php';
 	if ($databaseType == "mysql") {
 	$my = @mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
 	if (mysql_errno() != 0){ exit('<br/><b>PANIC! <br/> Error during connection on server MySQL.</b><br/>'); }
@@ -82,7 +82,7 @@ if ($action == "generate") {
 
 
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

@@ -34,7 +34,7 @@
 
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 if ($type == "")
 {
@@ -243,7 +243,7 @@ switch ($type) {
         break;
 }
 $includeCalendar = true; //Include Javascript files for the pop-up calendar 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 if ($type == "calendEdit")
 {

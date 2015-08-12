@@ -29,8 +29,8 @@
 
 
 $checkSession = "true";
-include_once('../includes/library.php');
-include("../includes/customvalues.php");
+include_once '../includes/library.php';
+include '../includes/customvalues.php';
 
 $id = Util::returnGlobal('id','REQUEST');
 $project = Util::returnGlobal('project','REQUEST');
@@ -330,7 +330,7 @@ if ($enableHelpSupport == "true" && ($teamMember == "true" || $profilSession == 
 
 $setTitle .= " : View Project (" . $projectDetail->pro_name[0] . ")";
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

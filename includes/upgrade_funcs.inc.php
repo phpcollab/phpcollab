@@ -97,7 +97,7 @@ function checkDatabase($errorMsg = '') {
  */
 function convertDB() {
     $settingsFile = dirname(realpath(__FILE__)) . "/settings.php";
-    include($settingsFile); // Reimport :)
+    include $settingsFile; // Reimport :)
 
     echo ":: Connecting to DB Server....";
 
@@ -286,7 +286,7 @@ function addTables($type, $conn, $prefix = "", $errorMsg = null) {
 function modTables($type, $conn, $prefix = "", $errorMsg = null) {
     //Get DB Vaars
     $dbvar = dirname(realpath(__FILE__)) . "/db_var.inc.php";
-    include($dbvar);
+    include $dbvar;
 
     if (empty($type) || empty($conn)) { return false;}
 
@@ -394,7 +394,7 @@ function connectDB($db, $server, $user, $pwd, $dbname) {
 
 function rewriteConfig($settingsFile) {
     //Okay this is the icky part.. We are going to open this up and you know do all the stuff
-    include($settingsFile);
+    include $settingsFile;
     $myserver = MYSERVER;
     $mylogin = MYLOGIN;
     $mypassword = MYPASSWORD;

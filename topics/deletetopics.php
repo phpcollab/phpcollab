@@ -4,7 +4,7 @@
 #Path by root: ../topics/deletetopics.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 if ($action == "delete") {
 	$id = str_replace("**",",",$id);
@@ -33,7 +33,7 @@ $tmpquery = "WHERE pro.id = '$project'";
 $projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

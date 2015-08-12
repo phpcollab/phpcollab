@@ -41,7 +41,7 @@ if (!isset($is_db) || !$is_db) {
 // Displays headers
 if (!isset($message)) {
     $js_to_run = 'functions.js';
-    include('./header.inc.php');
+    include './header.inc.php';
     // Reloads the navigation frame via JavaScript if required
     if (isset($reload) && $reload) {
         echo "\n";
@@ -65,7 +65,7 @@ window.parent.frames['nav'].location.replace('./left.php?lang=<?php echo $lang; 
 if ((!empty($submit_mult) && isset($selected_tbl))
     || isset($mult_btn)) {
     $action = 'db_details.php';
-    include('./mult_submits.inc.php');
+    include './mult_submits.inc.php';
 }
 
 

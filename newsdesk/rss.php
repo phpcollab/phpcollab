@@ -7,7 +7,7 @@
  * @version 1.1
  */
 header("Content-type: text/xml");
-include("../includes/settings.php");
+include '../includes/settings.php';
 if (!isset($langDefault) || ($langDefault=='')) { $langDefault = 'en'; }
 
 $connection = @mysql_connect(MYSERVER,MYLOGIN,MYPASSWORD) or die($strings["error_server"]);

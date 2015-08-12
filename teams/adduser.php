@@ -4,10 +4,10 @@
 #Path by root: ../teams/adduser.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 if ($enable_cvs == "true") {
-include("../includes/cvslib.php");
+include '../includes/cvslib.php';
 }
 
 $tmpquery = "WHERE pro.id = '$project'";
@@ -40,7 +40,7 @@ if ($action == "add") {
 //if mantis bug tracker enabled	
 	if ($enableMantis == "true") {
 	//  include mantis library
-		include( "../mantis/core_API.php" );
+		include '../mantis/core_API.php';
 	}
 
 	$comptAjout = count($pieces);
@@ -53,7 +53,7 @@ if ($action == "add") {
 			$f_access_level	= $team_user_level; // Developer access
 			$f_project_id = $projectDetail->pro_id[0];
 			$f_user_id = $pieces[$i];
-			include("../mantis/user_proj_add.php");
+			include '../mantis/user_proj_add.php';
 		}	
 
 //if CVS repository enabled
@@ -67,12 +67,12 @@ if ($action == "add") {
 
 if ($notifications == "true") {
 $organization = "1";
-	include("../teams/noti_addprojectteam.php");
+	include '../teams/noti_addprojectteam.php';
 }
 	Util::headerFunction("../projects/viewproject.php?".session_name()."=".session_id()."&id=".$projectDetail->pro_id[0]."&msg=add");
 }
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 //echo "$tmpquery<br/>$comptMulti<br/>";
 

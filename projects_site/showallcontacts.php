@@ -3,11 +3,11 @@
 #Status page: 0
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 $bouton[1] = "over";
 $titlePage = $strings["project_team"];
-include ("include_header.php");
+include 'include_header.php';
 
 $tmpquery = "WHERE tea.project = '$projectSession' AND tea.published = '0' ORDER BY mem.name";
 $listContacts = new Request();

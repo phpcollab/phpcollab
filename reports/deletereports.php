@@ -4,7 +4,7 @@
 #Path by root: ../reports/deletereports.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 if ($action == "delete") {
 	$id = str_replace("**",",",$id);
@@ -15,7 +15,7 @@ if ($action == "delete") {
 }
 
 $setTitle .= " : Delete Report";
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

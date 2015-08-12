@@ -5,7 +5,7 @@
 
 
 $checkSession = "false";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 echo "Script to update published values with files updates and reviews: <a href=\"$PHP_SELF?action=update\">launch</a><br/><br/>";
 

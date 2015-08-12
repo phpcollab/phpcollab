@@ -66,7 +66,7 @@ if (!defined('PMA_COMMON_LIB_INCLUDED')){
      * Parses the configuration file and gets some constants used to define
      * versions of phpMyAdmin/php/mysql...
      */
-    include('config.inc.php');
+    include 'config.inc.php';
 
     // For compatibility with old config.inc.php
     if (!isset($cfgExecTimeLimit)) {
@@ -136,7 +136,7 @@ if (!defined('PMA_COMMON_LIB_INCLUDED')){
     }
 
     // Gets some constants
-    include('defines.lib.php');
+    include 'defines.lib.php';
 
     // If zlib output compression is set in the php configuration file, no
     // output buffering should be run
@@ -248,7 +248,7 @@ if (!defined('PMA_COMMON_LIB_INCLUDED')){
         }
         echo "\n";
 
-        include('footer.inc.php');
+        include 'footer.inc.php';
         exit();
     } // end of the 'PMA_mysqlDie()' function
 
@@ -336,7 +336,7 @@ if (!defined('PMA_COMMON_LIB_INCLUDED')){
 
         // Gets the authentication library that fits the cfgServer settings
         // and run authentication
-        include($cfgServer['auth_type'] . '.auth.lib.php');
+        include $cfgServer['auth_type'] . '.auth.lib.php';
         if (!PMA_auth_check()) {
             PMA_auth();
         } else {
@@ -608,7 +608,7 @@ if (!defined('PMA_COMMON_LIB_INCLUDED')){
      * reference the constants, else PHP 3.0.16 won't be happy; and must be
      * located after we are connected to db to get the MySql version.
      */
-    include('defines.lib.php');
+    include 'defines.lib.php';
 
 
 

@@ -4,10 +4,10 @@
 #Path by root: ../users/deleteusers.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 //CVS library
-include("../includes/cvslib.php");
+include '../includes/cvslib.php';
 
 if ($action == "delete") {
 	if ($at == "0") {
@@ -89,7 +89,7 @@ if ($action == "delete") {
 	exit;
 }
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

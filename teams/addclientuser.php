@@ -4,7 +4,7 @@
 #Path by root: ../teams/addclientuser.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 $tmpquery = "WHERE pro.id = '$project'";
 $projectDetail = new Request();
@@ -37,7 +37,7 @@ if($id != "") {
 //if mantis bug tracker enabled	
 	if ($enableMantis == "true") {
 	//  include mantis library
-		include( "../mantis/core_API.php" );
+		include '../mantis/core_API.php';
 	}
 	$comptTeam = count($pieces);
 	for($i=0;$i<$comptTeam;$i++) {
@@ -49,20 +49,20 @@ if($id != "") {
 			$f_access_level	= $client_user_level; // Reporter access
 			$f_project_id = $projectDetail->pro_id[0];
 			$f_user_id = $pieces[$i];
-			include("../mantis/user_proj_add.php");
+			include '../mantis/user_proj_add.php';
 		}	
 
 	}
 
 if ($notifications == "true") {
 $organization = "";
-	include("../teams/noti_addprojectteam.php");
+	include '../teams/noti_addprojectteam.php';
 }
 	Util::headerFunction("../projects/viewprojectsite.php?".session_name()."=".session_id()."&id=".$projectDetail->pro_id[0]."&msg=addClientToSite");
 }
 }
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 //echo "$tmpquery<br/>$comptMulti<br/>";
 

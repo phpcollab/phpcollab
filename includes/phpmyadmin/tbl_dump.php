@@ -113,7 +113,7 @@ if (empty($asfile)
 // No download
 if (empty($asfile)) {
     $cfgServer_backup = $cfgServer;
-    include('header.inc.php');
+    include 'header.inc.php';
     $cfgServer = $cfgServer_backup;
     unset($cfgServer_backup);
     echo '<div align="' . $cell_align_left . '">' . "\n";
@@ -317,6 +317,6 @@ if (empty($asfile)) {
     echo '    </pre>' . "\n";
     echo '</div>' . "\n";
     echo "\n";
-    include('footer.inc.php');
+    include 'footer.inc.php';
 } // end if
 ?>

@@ -26,10 +26,10 @@
 
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
-include("../includes/jpgraph/jpgraph.php");
-include("../includes/jpgraph/jpgraph_gantt.php");
+include '../includes/jpgraph/jpgraph.php';
+include '../includes/jpgraph/jpgraph_gantt.php';
 
 $dateCalend = substr($dateCalend,0,7);
 

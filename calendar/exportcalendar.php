@@ -27,7 +27,7 @@
 
 
 $checkSession = "false";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 $tmpquery = "WHERE cal.owner = '$idSession' AND cal.id = '$id'";
 $detailCalendar = new Request();

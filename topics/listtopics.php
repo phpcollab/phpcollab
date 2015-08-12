@@ -4,7 +4,7 @@
 #Path by root: ../topics/listtopics.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 if ($action == "publish") {
 if ($closeTopic == "true") {
@@ -47,7 +47,7 @@ $msg = "removeToSite";
 }
 }
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $tmpquery = "WHERE pro.id = '$project'";
 $projectDetail = new Request();

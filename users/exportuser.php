@@ -6,9 +6,9 @@
 $export = "true";
 
 $checkSession = "false";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
-include("../includes/vcard.class.php");
+include '../includes/vcard.class.php';
 
 $tmpquery = "WHERE mem.id = '$id'";
 $userDetail = new Request();

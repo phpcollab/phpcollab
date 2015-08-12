@@ -26,7 +26,7 @@
 
 
 // MIMETypes should be handled using PHP mime.magic once it's out
-include("../includes/mimetypes.php");
+include '../includes/mimetypes.php';
 $filespath="../files";
 
 // construct file path and test whether file exists/is accessible

@@ -30,7 +30,7 @@
 
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 //set task to "0" for project main folder upload
 if ($task == "") 
@@ -192,7 +192,7 @@ if ($task != "0")
 	$taskDetail->openTasks($tmpquery);
 }
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

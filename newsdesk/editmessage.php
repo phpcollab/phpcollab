@@ -31,7 +31,7 @@
 
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 //if ($profilSession != "0" && $profilSession != "2" ) {
 //	header("Location:../general/permissiondenied.php?".session_name()."=".session_id());
@@ -117,7 +117,7 @@ if ($id != "") {
 }
 
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $tmpquery2 = "WHERE news.id = '$postid'";
 $newsDetail = new Request();

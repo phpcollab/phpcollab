@@ -27,7 +27,7 @@
 ** =============================================================================
 */
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 include ("../includes/jpgraph/jpgraph.php");
 include ("../includes/jpgraph/jpgraph_gantt.php");

@@ -28,7 +28,7 @@
 */
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 if ($action == "add") 
 {
@@ -90,7 +90,7 @@ if ($action == "add")
 
 		if ($notifications == "true") 
 		{
-			include("../projects_site/noti_uploadfile.php");
+			include '../projects_site/noti_uploadfile.php';
 		}
 
 		Util::uploadFile("files/$project", $_FILES['upload']['tmp_name'], "$num--".$filename);
@@ -114,7 +114,7 @@ if ($action == "add")
 
 $bouton[4] = "over";
 $titlePage = $strings["upload_file"];
-include ("include_header.php");
+include 'include_header.php';
 
 echo "
 	<form accept-charset='UNKNOWN' method='POST' action='../projects_site/uploadfile.php?".session_name()."=".session_id()."&action=add&project=$projectSession&task=$task#filedetailsAnchor' name='feeedback' enctype='multipart/form-data'>

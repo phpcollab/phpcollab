@@ -29,7 +29,7 @@
 
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 if ($profilSession != "0") {
     Util::headerFunction('../general/permissiondenied.php?' . session_name() . '=' . session_id());
@@ -122,7 +122,7 @@ if ($id != "") {
                         if ($enableMantis == "true") {
 // Call mantis function for user changes..!!!
                             $f_access_level = $team_user_level; // Developer
-                            include("../mantis/user_update.php");
+                            include '../mantis/user_update.php';
                         }
 
                         Util::headerFunction("../users/listusers.php?msg=update&" . session_name() . "=" . session_id());
@@ -133,7 +133,7 @@ if ($id != "") {
                     if ($enableMantis == "true") {
 // Call mantis function for user changes..!!!
                         $f_access_level = $team_user_level; // Developer
-                        include("../mantis/user_update.php");
+                        include '../mantis/user_update.php';
                     }
                     Util::headerFunction("../users/listusers.php?msg=update&" . session_name() . "=" . session_id());
                     exit;
@@ -229,7 +229,7 @@ if ($id == "") {
                     if ($enableMantis == "true") {
 // Call mantis function for user changes..!!!
                         $f_access_level = $team_user_level; // Developer
-                        include("../mantis/create_new_user.php");
+                        include '../mantis/create_new_user.php';
                     }
                     Util::headerFunction("../users/listusers.php?msg=add&" . session_name() . "=" . session_id());
                     exit;
@@ -240,7 +240,7 @@ if ($id == "") {
 }
 
 $bodyCommand = "onLoad=\"document.user_editForm.un.focus();\"";
-include('../themes/' . THEME . '/header.php');
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();
@@ -332,5 +332,5 @@ $block1->contentRow("", "<input type='submit' name='Save' value='" . $strings["s
 $block1->closeContent();
 $block1->closeForm();
 
-include('../themes/' . THEME . '/footer.php');
+include '../themes/' . THEME . '/footer.php';
 ?>

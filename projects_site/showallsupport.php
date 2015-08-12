@@ -3,11 +3,11 @@
 #Status page: 0
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 $bouton[6] = "over";
 $titlePage = $strings["support"];
-include ("include_header.php");
+include 'include_header.php';
 
 $tmpquery = "WHERE mem.id = '$idSession'";
 $userDetail = new Request();

@@ -3,7 +3,7 @@
 #Status page: 0
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 $tmpquery = "WHERE sr.id = '$id'";
 $requestDetail = new Request();
@@ -25,7 +25,7 @@ if ($action == "add") {
 	
 		if ($notifications == "true") {
 			if ($mes != ""){
-				include("../support/noti_newpost.php");
+				include '../support/noti_newpost.php';
 			}
 		}
 	
@@ -36,7 +36,7 @@ if ($action == "add") {
 
 $bouton[6] = "over";
 $titlePage = $strings["support"];
-include ("include_header.php");
+include 'include_header.php';
 
 echo "<form accept-charset=\"UNKNOWN\" method=\"POST\" action=\"../projects_site/addsupportpost.php?id=$id&".session_name()."=".session_id()."&action=add&project=$projectSession#filedetailsAnchor\" name=\"addsupport\" enctype=\"multipart/form-data\">";
 

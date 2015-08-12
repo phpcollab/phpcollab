@@ -27,7 +27,7 @@
 
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 if ($action == "publish") {
 	if ($addToSite == "true") {
@@ -63,7 +63,7 @@ if (($bookmarkDetail->boo_users[0] == "" && $bookmarkDetail->boo_owner[0] != $id
 
 $setTitle .= " : View Bookmark (" . $bookmarkDetail->boo_name[0] . ")";
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

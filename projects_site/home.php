@@ -28,7 +28,7 @@
 */
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 if ($updateProject == "true") {
 	$tmpquery = "WHERE tea.member = '$idSession' AND pro.id = '$project' AND pro.status IN(0,2,3) AND pro.published = '0'";
@@ -51,7 +51,7 @@ if ($updateProject == "true") {
 
 $bouton[0] = "over";
 $titlePage = $strings["welcome"]." $nameSession ".$strings["your_projectsite"];
-include ("include_header.php");
+include 'include_header.php';
 
 if ($updateProject != "true" && $changeProject != "true") {
 	$tmpquery = "WHERE org.id = '".Util::fixInt($projectDetail->pro_organization[0])."'";

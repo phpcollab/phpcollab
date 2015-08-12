@@ -26,7 +26,7 @@
 */
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 $tmpquery = "WHERE inv.id = '$id'";
 $detailInvoice = new Request();
@@ -79,7 +79,7 @@ $pub = $detailInvoice->inv_published[0];
 	}
 }
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

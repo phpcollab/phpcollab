@@ -4,7 +4,7 @@
 #Path by root: ../users/addclientuser.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 $tmpquery = "WHERE org.id = '$organization'";
 $clientDetail = new Request();
@@ -81,7 +81,7 @@ if ($action == "add") {
                 if ($enableMantis == "true") {
 // Call mantis function for new user creation!!!
                     $f_access_level = $client_user_level; // Reporter
-                    include("../mantis/create_new_user.php");
+                    include '../mantis/create_new_user.php';
                 }
                 Util::headerFunction("../clients/viewclient.php?id=$clod&msg=add&" . session_name() . "=" . session_id());
                 exit;
@@ -91,7 +91,7 @@ if ($action == "add") {
 }
 
 $bodyCommand = "onLoad=\"document.client_user_addForm.un.focus();\"";
-include('../themes/' . THEME . '/header.php');
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();
@@ -157,5 +157,5 @@ $block1->contentRow("", "<input type=\"submit\" name=\"Save\" value=\"" . $strin
 $block1->closeContent();
 $block1->closeForm();
 
-include('../themes/' . THEME . '/footer.php');
+include '../themes/' . THEME . '/footer.php';
 ?>

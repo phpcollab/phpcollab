@@ -3,10 +3,10 @@
 #Status page: 0
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
-include("../includes/jpgraph/jpgraph.php");
-include("../includes/jpgraph/jpgraph_gantt.php");
+include '../includes/jpgraph/jpgraph.php';
+include '../includes/jpgraph/jpgraph_gantt.php';
 
 $tmpquery = "WHERE tas.id = '".$task."'";
 $taskDetail = new Request();

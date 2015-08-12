@@ -1,6 +1,6 @@
 <?php
 // Required Libraries
-include(dirname(realpath(__FILE__)) . '/../includes/adodb/adodb.inc.php');
+include dirname(realpath(__FILE__)) . '/../includes/adodb/adodb.inc.php';
 global $ourDBType;
 
 $ourDBType = null; // Default

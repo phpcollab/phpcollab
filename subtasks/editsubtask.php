@@ -29,7 +29,7 @@
 
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 //case multiple edit tasks
 $multi = strstr($id,"**");
@@ -137,7 +137,7 @@ if ($compl == "10") {
 
 //send task assignment mail if notifications = true
 						if ($notifications == "true") {
-							include("../subtasks/noti_taskassignment.php");
+							include '../subtasks/noti_taskassignment.php';
 						}
 				} else {
 					$msg = "update";
@@ -146,21 +146,21 @@ if ($compl == "10") {
 //send status task change mail if notifications = true
 					if ($at != "0" && $st != $old_st) {
 						if ($notifications == "true") {
-								include("../subtasks/noti_statustaskchange.php");
+								include '../subtasks/noti_statustaskchange.php';
 						}
 					}
 
 //send priority task change mail if notifications = true
 					if ($at != "0" && $pr != $old_pr) {
 						if ($notifications == "true") {
-								include("../subtasks/noti_prioritytaskchange.php");
+								include '../subtasks/noti_prioritytaskchange.php';
 						}
 					}
 
 //send due date task change mail if notifications = true
 					if ($at != "0" && $dd != $old_dd) {
 						if ($notifications == "true") {
-								include("../subtasks/noti_duedatetaskchange.php");
+								include '../subtasks/noti_duedatetaskchange.php';
 						}
 					}
 				}
@@ -257,7 +257,7 @@ if ($pub == "") {
 
 //send task assignment mail if notifications = true
 					if ($notifications == "true") {
-						include("../subtasks/noti_taskassignment.php");
+						include '../subtasks/noti_taskassignment.php';
 					}
 			}
 
@@ -294,7 +294,7 @@ if ($projectDetail->pro_phase_set[0] != "0"){
 
 $bodyCommand="onload=\"document.etDForm.compl.value = document.etDForm.completion.selectedIndex;document.etDForm.tn.focus();\"";
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

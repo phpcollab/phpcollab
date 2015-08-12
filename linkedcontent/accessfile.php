@@ -6,12 +6,12 @@
 error_reporting(0);
 
 $checkSession = "true";
-include("../includes/library.php");		// starts session and writes session cache headers
+include '../includes/library.php';		// starts session and writes session cache headers
 
 $tmpquery = "WHERE fil.id = '$id'";
 $fileDetail = new Request();
 $fileDetail->openFiles($tmpquery);
 
 // serve the requested file
-include("../includes/download.php");
+include '../includes/download.php';
 ?>

@@ -37,7 +37,7 @@ while (list($key, $val) = @each($_SERVER)) {
     $GLOBALS[$key] = $val;
 }
 
-include("../languages/help_en.php");
+include '../languages/help_en.php';
 
 if ($redirect == "true" && $step == "2") {
     header("Location:../installation/setup.php?step=2&connection=$connection");
@@ -300,8 +300,8 @@ STAMP;
         $adminPwd = Util::getPassword($adminPwd);
 
         // create all tables
-        include("../includes/db_var.inc.php");
-        include("../includes/setup_db.php");
+        include '../includes/db_var.inc.php';
+        include '../includes/setup_db.php';
 
         if ($databaseType == "mysql") {
             $my = @mysql_connect($myserver, $mylogin, $mypassword);
@@ -375,7 +375,7 @@ $setTitle = "PhpCollab";
 define('THEME', 'default');
 $blank = "true";
 
-include('../themes/' . THEME . '/header.php');
+include '../themes/' . THEME . '/header.php';
 
 
 $blockPage = new Block();
@@ -417,7 +417,7 @@ if ($step == "1") {
 
     echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>
 		<pre>";
-    include("../docs/copying.txt");
+    include '../docs/copying.txt';
     echo "</pre>
 		</td></tr>";
     $block1->closeContent();
@@ -602,5 +602,5 @@ if ($step < "2") {
 }
 
 $footerDev = "false";
-include('../themes/' . THEME . '/footer.php');
+include '../themes/' . THEME . '/footer.php';
 ?>

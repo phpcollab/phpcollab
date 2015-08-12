@@ -29,7 +29,7 @@
 
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 $tmpquery = "WHERE mem.id = '$id'";
 $userDetail = new Request();
@@ -49,7 +49,7 @@ if ($comptUserDetail == "0") {
 $setTitle .= " : User Management (" . $userDetail->mem_login[0] . ")";
     
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

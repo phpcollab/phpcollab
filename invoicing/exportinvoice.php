@@ -1,6 +1,6 @@
 <?php
-include("../includes/library.php");
-include("../includes/phplib/template.php");
+include '../includes/library.php';
+include '../includes/phplib/template.php';
 
 $tmpquery = "WHERE inv.id = '$id'";
 $detailInvoice = new Request();

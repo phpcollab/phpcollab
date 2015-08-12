@@ -28,7 +28,7 @@
 */
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 if ($id != "" && $action != "add") 
 {
@@ -183,7 +183,7 @@ if ($id == "")
 }
 
 $bodyCommand = "onLoad=\"document.booForm.name.focus();\"";
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

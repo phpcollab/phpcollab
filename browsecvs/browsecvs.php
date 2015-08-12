@@ -27,7 +27,7 @@
 */
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 if ($profilSession < 0 || $profilSession > 2) {
 	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
@@ -35,7 +35,7 @@ if ($profilSession < 0 || $profilSession > 2) {
 }
 
 if ($enable_cvs == "true") {
-include("../includes/cvslib.php");
+include '../includes/cvslib.php';
 }
 
 $conf['images'] = array('.bmp','.jpg','.jpeg','.gif','.png','.wbm','.psd','.psp');
@@ -53,7 +53,7 @@ $tmpquery = "WHERE pro.id = '$id'";
 $projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $modulehref = basename($PHP_SELF)."?id=$id";
 $moduledir = (dirname($PHP_SELF) == "/") ? "" : dirname($PHP_SELF);
@@ -210,8 +210,8 @@ function checkout($file,$filename){
 } 
 
 
-include("textutil.php");
-include("browsecvs.class.php");
+include 'textutil.php';
+include 'browsecvs.class.php';
 
 if (!isset($cvsrep) || $cvsrep == '') $cvsrep = urlencode($conf['defaultcvsrep']);
 $cvsrep = urldecode($cvsrep);
@@ -252,7 +252,7 @@ if ($cvs_access) {
 
     echo "<!-- Start browsecvs -->";
     
-    include("theme.php");
+    include 'theme.php';
     
     //echo $theme->header();
     

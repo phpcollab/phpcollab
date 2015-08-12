@@ -29,7 +29,7 @@
 
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 if ($action == "update") {
 	if (($logout_time < "30" && $logout_time != "0") || !is_numeric($logout_time)) {
@@ -74,7 +74,7 @@ if ($comptUserPrefs == "0") {
 }
 
 $bodyCommand = "onLoad=\"document.user_edit_profileForm.fn.focus();\"";
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

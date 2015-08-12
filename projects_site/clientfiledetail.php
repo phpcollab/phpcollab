@@ -3,7 +3,7 @@
 #Status page: 0
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 $tmpquery = "WHERE fil.id = '$id'";
 $fileDetail = new Request();
@@ -203,7 +203,7 @@ $maxFileSize = $maxCustom;
 
 $bouton[4] = "over";
 $titlePage = $strings["document"];
-include ("include_header.php");
+include 'include_header.php';
 
 // TABLE 1 - FILE DETAILS TABLE.
 echo "<table cellpadding=20 cellspacing=0 border=0 width=\"100%\">

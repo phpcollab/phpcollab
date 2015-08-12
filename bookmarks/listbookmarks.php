@@ -28,7 +28,7 @@
 
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 // ** Do the title stuff here **
 switch ($view) {
@@ -43,7 +43,7 @@ switch ($view) {
         break;
 }
 // END
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=all",$strings["bookmarks"],in));

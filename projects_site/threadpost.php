@@ -3,7 +3,7 @@
 #Status page: 0
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 $tmpquery = "WHERE topic.id = '$id'";
 $detailTopic = new Request();
@@ -27,14 +27,14 @@ $tmpquery = "WHERE pro.id = '$projectSession'";
 $projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
-	include("../topics/noti_newpost.php");
+	include '../topics/noti_newpost.php';
 }
 		//Util::headerFunction("showallthreads.php?id=$id&".session_name()."=".session_id());
 }
 
 $bouton[5] = "over";
 $titlePage = $strings["post_reply"];
-include ("include_header.php");
+include 'include_header.php';
 
 $idStatus = $detailTopic->top_status[0];
 

@@ -85,7 +85,7 @@ echo "<meta http-equiv='Content-Type' content='text/html; charset=$setCharset'>
 <script type='text/javascript' src='../javascript/general.js'></script>
 <script type='text/JavaScript' src='../javascript/overlib_mini.js'></script>";
 if ($includeCalendar && $includeCalendar == true) {
-	include("../includes/calendar.php");
+	include '../includes/calendar.php';
 }
 echo "</head>";
 echo "<body $bodyCommand>
@@ -137,7 +137,7 @@ if ($projectSession != "" && $changeProject != "true")
 	//if mantis bug tracker enabled
 	if ($enableMantis == "true") 
 	{
-		include("navigation.php");
+		include 'navigation.php';
 		echo"<tr><td><img src='ico_arrow_".$bouton[6].".gif' border='0' alt=''></td><td><a href='javascript:onClick= document.login.submit();'>".$strings["bug"]."</a></td></tr></form>";
 	}
 

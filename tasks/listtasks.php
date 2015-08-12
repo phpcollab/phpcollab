@@ -28,7 +28,7 @@
 
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 if ($action == "publish") {
 if ($addToSite == "true") {
@@ -77,7 +77,7 @@ if ($teamMember == "false" && $projectsFilter == "true") {
 	exit; 
 } 
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

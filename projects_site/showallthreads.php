@@ -3,7 +3,7 @@
 #Status page: 0
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 $tmpquery = "WHERE topic.id = '$id'";
 $detailTopic = new Request();
@@ -25,7 +25,7 @@ Util::connectSql("$tmpquery2");
 
 $bouton[5] = "over";
 $titlePage = $strings["bulletin_board_topic"];
-include ("include_header.php");
+include 'include_header.php';
 
 $tmpquery = "WHERE pos.topic = '".$detailTopic->top_id[0]."' ORDER BY pos.created DESC";
 $listPosts = new Request();

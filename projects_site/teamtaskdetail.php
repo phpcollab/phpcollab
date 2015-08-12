@@ -3,7 +3,7 @@
 #Status page: 0
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 $tmpquery = "WHERE tas.id = '$id'";
 $taskDetail = new Request();
@@ -15,7 +15,7 @@ Util::headerFunction("index.php");
 
 $bouton[2] = "over";
 $titlePage = $strings["team_task_details"];
-include ("include_header.php");
+include 'include_header.php';
 
 $block1 = new Block();
 

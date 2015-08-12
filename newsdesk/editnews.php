@@ -33,7 +33,7 @@
 
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5" ) {
 	Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=permissionNews&".session_name()."=".session_id());
@@ -172,7 +172,7 @@ if ($id != '' && empty($action)) {
 } else {
     $setTitle .= " : Add News Item";
 }
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

@@ -27,12 +27,12 @@
 */
 
 $checkSession = "true";
-include_once('../includes/library.php');
-include("../includes/customvalues.php");
+include_once '../includes/library.php';
+include '../includes/customvalues.php';
 
 $setTitle .= " : Search Results";
 $bodyCommand = "onLoad=\"document.searchForm.searchfor.focus()\"";
-include('../themes/' . THEME . '/header.php');
+include '../themes/' . THEME . '/header.php';
 
 $searchFor = urldecode($searchFor);
 $searchfor = Util::convertData($searchfor);
@@ -773,5 +773,5 @@ echo "
 $block7->closeContent();
 $block7->closeForm();
 
-include('../themes/' . THEME . '/footer.php');
+include '../themes/' . THEME . '/footer.php';
 ?>

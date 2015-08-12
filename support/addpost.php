@@ -3,7 +3,7 @@
 #Status page: 0
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 if ($enableHelpSupport != "true") {
 	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
@@ -34,7 +34,7 @@ if($action == "edit"){
 	if ($notifications == "true") {
 		if ($requestDetail->sr_status[0] != $sta) {
 			$num = $id;
-			include("../support/noti_statusrequestchange.php");
+			include '../support/noti_statusrequestchange.php';
 		}
 	}
 
@@ -55,7 +55,7 @@ if($action == "add"){
 	
 		if ($notifications == "true") {
 			if ($mes != ""){
-				include("../support/noti_newpost.php");
+				include '../support/noti_newpost.php';
 			}
 		}
 	
@@ -64,7 +64,7 @@ if($action == "add"){
 }
 
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

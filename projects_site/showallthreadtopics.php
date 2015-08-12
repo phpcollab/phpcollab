@@ -3,11 +3,11 @@
 #Status page: 0
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 $bouton[5] = "over";
 $titlePage = $strings["bulletin_board"];
-include ("include_header.php");
+include 'include_header.php';
 
 $tmpquery = "WHERE topic.project = '$projectSession' AND topic.published = '0' ORDER BY topic.last_post DESC";
 $listTopics = new Request();

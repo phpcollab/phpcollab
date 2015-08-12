@@ -4,7 +4,7 @@
 #Path by root: ../users/emailusers.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 /*
 //anyone can send a message
@@ -77,7 +77,7 @@ if ($action == "email")
 }
 
 // start main page
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();
@@ -87,7 +87,7 @@ $blockPage->itemBreadcrumbs($strings["email_users"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
-	include("../themes/".THEME."/msg.php");
+	include '../themes/' . THEME . '/msg.php';
 }
 
 $block1 = new Block();

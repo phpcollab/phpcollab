@@ -4,7 +4,7 @@
 #Path by root: ../services/listservices.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 if ($profilSession != "0") {
 	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
@@ -12,7 +12,7 @@ if ($profilSession != "0") {
 }
 
 $setTitle .= " : List Services";
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

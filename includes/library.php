@@ -166,33 +166,33 @@ if ($languageSession == "") {
 $settings = null;
 //settings and date selector includes
 if ($indexRedirect == "true") {
-    include("includes/settings.php");
+    include 'includes/settings.php';
 //    echo "DEBUG:: Server - " . MYSERVER . "<br />User: " . MYLOGIN . "<br />Database: " . MYDATABASE;
     if (defined('CONVERTED') && CONVERTED) {
-        require_once("includes/classes/settings.class.php");
+        include_once 'includes/classes/settings.class.php';
         $settings = new Settings(true);
         $settings->makeGlobal();
     }
 
-    include("includes/initrequests.php");
+    include 'includes/initrequests.php';
 
-    include("languages/lang_en.php");
-    include("languages/lang_" . $lang . ".php");
-    include("languages/help_" . $lang . ".php");
+    include 'languages/lang_en.php';
+    include 'languages/lang_' . $lang . '.php';
+    include 'languages/help_' . $lang . '.php';
 } else {
-    include("../includes/settings.php");
+    include '../includes/settings.php';
 
     if (defined('CONVERTED') && CONVERTED) {
-        require_once("../includes/classes/settings.class.php");
+        include_once '../includes/classes/settings.class.php';
         $settings = new Settings(true);
         $settings->makeGlobal();
     }
 
-    include("../includes/initrequests.php");
+    include '../includes/initrequests.php';
 
-    include("../languages/lang_en.php");
-    include("../languages/lang_" . $lang . ".php");
-    include("../languages/help_" . $lang . ".php");
+    include '../languages/lang_en.php';
+    include '../languages/lang_' . $lang . '.php';
+    include '../languages/help_' . $lang . '.php';
 }
 
 //fix if update from old version

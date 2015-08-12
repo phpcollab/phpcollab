@@ -3,7 +3,7 @@
 #Status page: 0
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 if ($action == "update") {
 $comments = Util::convertData($comments);
@@ -31,7 +31,7 @@ Util::headerFunction("index.php");
 
 $bouton[3] = "over";
 $titlePage = $strings["client_subtask_details"];
-include ("include_header.php");
+include 'include_header.php';
 
 echo "<h1 class=\"heading\">".$strings["client_subtask_details"]."</h1>";
 

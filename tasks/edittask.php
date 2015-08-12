@@ -32,7 +32,7 @@
 
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 //case multiple edit tasks
 $multi = strstr($id,"**");
@@ -227,7 +227,7 @@ if ($id != "")
             //send task assignment mail if notifications = true
             if ($notifications == "true")
             {
-                    include("../tasks/noti_taskassignment.php");
+                    include '../tasks/noti_taskassignment.php';
             }
         }
 
@@ -389,7 +389,7 @@ if ($id != "")
                 //send task assignment mail if notifications = true
                 if ($notifications == "true")
                 {
-                    include("../tasks/noti_taskassignment.php");
+                    include '../tasks/noti_taskassignment.php';
                 }
             }
             else
@@ -405,7 +405,7 @@ if ($id != "")
                 {
                     if ($notifications == "true")
                     {
-                            include("../tasks/noti_statustaskchange.php");
+                            include '../tasks/noti_statustaskchange.php';
                     }
                 }
 
@@ -414,7 +414,7 @@ if ($id != "")
                 {
                     if ($notifications == "true")
                     {
-                            include("../tasks/noti_prioritytaskchange.php");
+                            include '../tasks/noti_prioritytaskchange.php';
                     }
                 }
 
@@ -423,7 +423,7 @@ if ($id != "")
                 {
                     if ($notifications == "true")
                     {
-                            include("../tasks/noti_duedatetaskchange.php");
+                            include '../tasks/noti_duedatetaskchange.php';
                     }
                 }
             }
@@ -595,7 +595,7 @@ if ($id == "")
             //send task assignment mail if notifications = true
             if ($notifications == "true")
             {
-                    include("../tasks/noti_taskassignment.php");
+                    include '../tasks/noti_taskassignment.php';
             }
         }
 
@@ -643,7 +643,7 @@ $bodyCommand="onload=\"document.etDForm.compl.value = document.etDForm.completio
 
 $headBonus = "";
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

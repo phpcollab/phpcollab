@@ -29,7 +29,7 @@
 
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 $tmpquery = "WHERE org.id = '$organization'";
 $detailClient = new Request();
@@ -87,7 +87,7 @@ if ($action == "update") {
                 if ($enableMantis == "true") {
                     // Call mantis function for user changes..!!!
                     $f_access_level = $client_user_level; // reporter
-                    include("../mantis/user_update.php");
+                    include '../mantis/user_update.php';
                 }
                 Util::headerFunction("../clients/viewclient.php?msg=update&id=$clod&" . session_name() . "=" . session_id());
                 exit;
@@ -112,7 +112,7 @@ $last_page = $userDetail->mem_last_page[0];
 $c = $userDetail->mem_comments[0];
 
 $bodyCommand = "onLoad=\"document.client_user_editForm.un.focus();\"";
-include('../themes/' . THEME . '/header.php');
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();
@@ -182,5 +182,5 @@ echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["password"
 $block1->closeContent();
 $block1->closeForm();
 
-include('../themes/' . THEME . '/footer.php');
+include '../themes/' . THEME . '/footer.php';
 ?>

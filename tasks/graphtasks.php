@@ -28,10 +28,10 @@
 
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
-include("../includes/jpgraph/jpgraph.php");
-include("../includes/jpgraph/jpgraph_gantt.php");
+include '../includes/jpgraph/jpgraph.php';
+include '../includes/jpgraph/jpgraph_gantt.php';
 
 $tmpquery = "WHERE pro.id = '".$project."'";
 $projectDetail = new Request();

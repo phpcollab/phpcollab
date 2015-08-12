@@ -4,10 +4,10 @@
 #Path by root: ../projects/deleteproject.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 if ($enable_cvs == "true") {
-include("../includes/cvslib.php");
+include '../includes/cvslib.php';
 }
 
 $id = str_replace("**",",",$id);
@@ -100,12 +100,12 @@ if ($topics != "") {
 //if mantis bug tracker enabled
     if ($enableMantis == "true") {
 // call mantis function to delete project
-        include("../mantis/proj_delete.php");
+        include '../mantis/proj_delete.php';
     }
     Util::headerFunction("../projects/listprojects.php?msg=delete&".session_name()."=".session_id());
 }
 
-include '../themes/'.THEME.'/header.php';
+include '../themes/' . THEME . '/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();
