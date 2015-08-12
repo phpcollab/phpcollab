@@ -31,10 +31,10 @@ define('APP_ROOT', dirname(dirname(__FILE__)));
 
 require( APP_ROOT . "/includes/phpmailer/class.phpmailer.php");
 
-class notification extends phpmailer 
+class Notification extends phpmailer
 {
 
-	function Notification()
+	function notification()
 	{
 		global $strings,$root,$notificationMethod,$lang;
 
