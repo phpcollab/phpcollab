@@ -65,8 +65,9 @@ if ($action == "generate")
 	}
 
 // DAB - scrub the data
-$scrubData = DataFunctions::scrubData($_POST);
-extract($scrubData);
+	$dataFunction = new DataFunctions();
+	$scrubedData = $dataFunction->scrubData($_POST);
+	extract($scrubedData);
 // -- END Paranoia
 
 $content = <<<STAMP

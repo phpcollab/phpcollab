@@ -72,8 +72,9 @@ if ($action == "generate") {
     }
 
     //Let's also get pretty paranoid here ;)
-    $scrubData = DataFunctions::scrubData($_POST);
-    extract($scrubData);
+    $dataFunctions = new DataFunctions();
+    $scrubedData = $dataFunctions->scrubData($_POST);
+    extract($scrubedData);
     // -- END Paranoia
 
 $content = <<<STAMP
