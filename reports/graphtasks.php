@@ -33,7 +33,7 @@ include ("../includes/jpgraph/jpgraph.php");
 include ("../includes/jpgraph/jpgraph_gantt.php");
 
 $tmpquery = "WHERE id = '".$report."'";
-$reportDetail = new request();
+$reportDetail = new Request();
 $reportDetail->openReports($tmpquery);
 $S_ORGSEL = $reportDetail->rep_clients[0];
 $S_PRJSEL = $reportDetail->rep_projects[0];
@@ -132,7 +132,7 @@ $graph->scale->week->SetFont(FF_FONT0);
 $graph->scale->year->SetFont(FF_FONT1);
 
 $tmpquery = "$queryStart $query ORDER BY tas.name";
-$listTasks = new request();
+$listTasks = new Request();
 $listTasks->openTasks($tmpquery);
 $comptListTasks = count($listTasks->tas_id);
 $posGantt = 0;
@@ -166,7 +166,7 @@ for ($i=0;$i<$comptListTasks;$i++)
 	
 	// begin if subtask
 	$tmpquery = "WHERE task = ".$listTasks->tas_id[$i];
-	$listSubTasks = new request();
+	$listSubTasks = new Request();
 	$listSubTasks->openSubtasks($tmpquery);
 	$comptListSubTasks = count($listSubTasks->subtas_id);
 	

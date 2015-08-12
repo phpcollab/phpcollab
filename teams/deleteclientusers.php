@@ -7,7 +7,7 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 $comptProjectDetail = count($projectDetail->pro_id);
 
@@ -25,7 +25,7 @@ if ($action == "delete") {
 		$Htpasswd->initialize("../files/".$projectDetail->pro_id[0]."/.htpasswd");
 
 		$tmpquery = "WHERE mem.id IN($id)";
-		$listMembers = new request();
+		$listMembers = new Request();
 		$listMembers->openMembers($tmpquery);
 		$comptListMembers = count($listMembers->mem_id);
 
@@ -86,7 +86,7 @@ $block1->contentTitle($strings["remove_team_info"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE mem.id IN($id) ORDER BY mem.name";
-$listMembers = new request();
+$listMembers = new Request();
 $listMembers->openMembers($tmpquery);
 $comptListMembers = count($listMembers->mem_id);
 

@@ -29,16 +29,16 @@
 */
 
 $tmpquery = "WHERE fil.id = '$num'";
-$detailFile = new request();
+$detailFile = new Request();
 $detailFile->openFiles($tmpquery);
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 $tmpquery = "WHERE tea.project = '$project' AND tea.member != '$idSession' ORDER BY mem.id";
 
-$listTeam = new request();
+$listTeam = new Request();
 $listTeam->openTeams($tmpquery);
 
 $comptListTeam = count($listTeam->tea_id);
@@ -57,7 +57,7 @@ if ($posters != "") {
 
 	$tmpquery = "WHERE noti.member IN ($posters)";
 
-	$listNotifications = new request();
+	$listNotifications = new Request();
 	$listNotifications->openNotifications($tmpquery);
 	$comptListNotifications = count($listNotifications->not_id);
 

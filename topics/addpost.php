@@ -7,11 +7,11 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 $tmpquery = "WHERE topic.id = '$id'";
-$detailTopic = new request();
+$detailTopic = new Request();
 $detailTopic->openTopics($tmpquery);
 
 $tmpquery = "WHERE pro.id = '".$detailTopic->top_project[0]."'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 if ($action == "add") {
@@ -33,7 +33,7 @@ $idStatus = $detailTopic->top_status[0];
 $idPublish = $detailTopic->top_published[0];
 
 $tmpquery = "WHERE pos.topic = '".$detailTopic->top_id[0]."' ORDER BY pos.created DESC";
-$listPosts = new request();
+$listPosts = new Request();
 $listPosts->openPosts($tmpquery);
 $comptListPosts = count($listPosts->pos_id);
 

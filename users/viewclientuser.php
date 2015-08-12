@@ -32,7 +32,7 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 $tmpquery = "WHERE mem.id = '$id'";
-$userDetail = new request();
+$userDetail = new Request();
 $userDetail->openMembers($tmpquery);
 $comptUserDetail = count($userDetail->mem_id);
 
@@ -45,7 +45,7 @@ $organization = $userDetail->mem_organization[0];
 if ($clientsFilter == "true" && $profilSession == "2") {
 $teamMember = "false";
 $tmpquery = "WHERE tea.member = '$idSession' AND org2.id = '$organization'";
-$memberTest = new request();
+$memberTest = new Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
@@ -59,7 +59,7 @@ $comptMemberTest = count($memberTest->tea_id);
 }
 
 $comptDetailClient = "0";
-$detailClient = new request();
+$detailClient = new Request();
 $detailClient->openOrganizations($tmpquery);
 $comptDetailClient = count($detailClient->org_id);
 

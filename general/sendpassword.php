@@ -40,7 +40,7 @@ $pw = htmlspecialchars(strip_tags($pw),ENT_QUOTES);
 if ($action == "send") 
 {
 	$tmpquery = "WHERE mem.login = '$loginForm'";
-	$userDetail = new request();
+	$userDetail = new Request();
 	$userDetail->openMembers($tmpquery);
 	$comptUserDetail = count ($userDetail->mem_id);
 

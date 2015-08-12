@@ -6,7 +6,7 @@ $checkSession = "true";
 include("../includes/library.php");
 
 $tmpquery = "WHERE sr.id = '$id'";
-$requestDetail = new request();
+$requestDetail = new Request();
 $requestDetail->openSupportRequests($tmpquery);
 
 if ($requestDetail->sr_project[0] != $projectSession || $requestDetail->sr_user[0] != $idSession) {

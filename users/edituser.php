@@ -55,7 +55,7 @@ if ($id != "") {
 
 //test if login already exists
             $tmpquery = "WHERE mem.login = '$un' AND mem.login != '$unOld'";
-            $existsUser = new request();
+            $existsUser = new Request();
             $existsUser->openMembers($tmpquery);
             $comptExistsUser = count($existsUser->mem_id);
             if ($comptExistsUser != "0") {
@@ -79,7 +79,7 @@ if ($id != "") {
                 if ($htaccessAuth == "true") {
                     if ($un != $unOld) {
                         $tmpquery = "WHERE tea.member = '$id'";
-                        $listProjects = new request();
+                        $listProjects = new Request();
                         $listProjects->openTeams($tmpquery);
                         $comptListProjects = count($listProjects->tea_id);
 
@@ -104,7 +104,7 @@ if ($id != "") {
                         if ($htaccessAuth == "true") {
                             if ($un == $unOld) {
                                 $tmpquery = "WHERE tea.member = '$id'";
-                                $listProjects = new request();
+                                $listProjects = new Request();
                                 $listProjects->openTeams($tmpquery);
                                 $comptListProjects = count($listProjects->tea_id);
                             }
@@ -142,7 +142,7 @@ if ($id != "") {
         }
     }
     $tmpquery = "WHERE mem.id = '$id'";
-    $detailUser = new request();
+    $detailUser = new Request();
     $detailUser->openMembers($tmpquery);
     $comptDetailUser = count($detailUser->mem_id);
 
@@ -198,7 +198,7 @@ if ($id == "") {
 
 //test if login already exists
             $tmpquery = "WHERE mem.login = '$un'";
-            $existsUser = new request();
+            $existsUser = new Request();
             $existsUser->openMembers($tmpquery);
             $comptExistsUser = count($existsUser->mem_id);
             if ($comptExistsUser != "0") {

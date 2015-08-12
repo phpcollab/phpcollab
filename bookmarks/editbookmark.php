@@ -33,7 +33,7 @@ include_once('../includes/library.php');
 if ($id != "" && $action != "add") 
 {
 	$tmpquery = "WHERE boo.id = '$id'";
-	$bookmarkDetail = new request();
+	$bookmarkDetail = new Request();
 	$bookmarkDetail->openBookmarks($tmpquery);
 
 	if ($bookmarkDetail->boo_owner[0] != $idSession) 
@@ -57,7 +57,7 @@ if ($id != "") {
 		{
 			$category_new = Util::convertData($category_new);
 			$tmpquery = "WHERE boocat.name = '$category_new'";
-			$listCategories = new request();
+			$listCategories = new Request();
 			$listCategories->openBookmarksCategories($tmpquery);
 			$comptListCategories = count($listCategories->boocat_id);
 			if ($comptListCategories == "0") 
@@ -139,7 +139,7 @@ if ($id == "")
 		{
 			$category_new = Util::convertData($category_new);
 			$tmpquery = "WHERE boocat.name = '$category_new'";
-			$listCategories = new request();
+			$listCategories = new Request();
 			$listCategories->openBookmarksCategories($tmpquery);
 			$comptListCategories = count($listCategories->boocat_id);
 			if ($comptListCategories == "0") 
@@ -239,7 +239,7 @@ echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">".$strings["bookm
 <option value=\"0\">-</option>";
 
 $tmpquery = "ORDER BY boocat.name";
-$listCategories = new request();
+$listCategories = new Request();
 $listCategories->openBookmarksCategories($tmpquery);
 $comptListCategories = count($listCategories->boocat_id);
 
@@ -272,7 +272,7 @@ else
 {
 	$tmpquery = "WHERE mem.id != '$idSession' AND mem.profil != '3' AND mem.id != '2' ORDER BY mem.login";
 }
-$listUsers = new request();
+$listUsers = new Request();
 $listUsers->openMembers($tmpquery);
 $comptListUsers = count($listUsers->mem_id);
 

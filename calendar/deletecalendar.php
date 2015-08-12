@@ -68,7 +68,7 @@ $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE cal.id IN($id) ORDER BY cal.subject";
-$listCalendar = new request();
+$listCalendar = new Request();
 $listCalendar->openCalendar($tmpquery);
 $comptListCalendar = count($listCalendar->cal_id);
 

@@ -34,7 +34,7 @@ if ($action == "delete") {
 		
 	//find parent task
 	$tmpquery = "WHERE subtas.id IN($id)";
-	$listSubtasks = new request();
+	$listSubtasks = new Request();
 	$listSubtasks->openSubtasks($tmpquery);
 
 	$tmpquery1 = "DELETE FROM ".$tableCollab["subtasks"]." WHERE id IN($id)";
@@ -42,7 +42,7 @@ if ($action == "delete") {
 
 	/*
 	$tmpquery = "WHERE tas.id IN($id)";
-	$listTasks = new request();
+	$listTasks = new Request();
 	$listTasks->openTasks($tmpquery);
 	$comptListTasks = count($listTasks->tas_id);
 		for ($i=0;$i<$comptListTasks;$i++) {
@@ -69,19 +69,19 @@ if ($action == "delete") {
 }
 
 $tmpquery = "WHERE tas.id = '$task'";
-$taskDetail = new request();
+$taskDetail = new Request();
 $taskDetail->openTasks($tmpquery);
 $project = $taskDetail->tas_project[0];
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 if ($projectDetail->pro_enable_phase[0] != "0"){
 	$tPhase = $taskDetail->tas_parent_phase[0];
     if (!$tPhase){ $tPhase = '0'; }
 	$tmpquery = "WHERE pha.project_id = '".$taskDetail->tas_project[0]."' AND pha.order_num = '$tPhase'";
-	$targetPhase = new request();
+	$targetPhase = new Request();
 	$targetPhase->openPhases($tmpquery);
 }	
 
@@ -124,7 +124,7 @@ $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE subtas.id IN($id) ORDER BY subtas.name";
-$listSubtasks = new request();
+$listSubtasks = new Request();
 $listSubtasks->openSubtasks($tmpquery);
 $comptListSubtasks = count($listSubtasks->subtas_id);
 

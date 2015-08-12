@@ -43,7 +43,7 @@ if ($id != "") {
 
 	//test exists selected client organization, redirect to list if not
 	$tmpquery = "WHERE newscom.id = '$id'";
-	$commentDetail = new request();
+	$commentDetail = new Request();
 	$commentDetail->openNewsDeskComments($tmpquery);
 	$comptcommentDetail = count($commentDetail->newscom_id);
 	
@@ -54,7 +54,7 @@ if ($id != "") {
 
 	// only comment's author, admin, prj-adm and prj-man can change the comments
 	$tmpquery_user = "WHERE mem.id = '".$commentDetail->newscom_name[0]."' ";
-	$commentAuthor = new request();
+	$commentAuthor = new Request();
 	$commentAuthor->openMembers($tmpquery_user);
 
 	if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5" && $idSession != $commentDetail->newscom_name[0] ) {
@@ -120,7 +120,7 @@ if ($id != "") {
 include('../themes/'.THEME.'/header.php');
 
 $tmpquery2 = "WHERE news.id = '$postid'";
-$newsDetail = new request();
+$newsDetail = new Request();
 $newsDetail->openNewsDesk($tmpquery2);
 
 $blockPage = new Block();
@@ -202,14 +202,14 @@ if ($action!='remove') {
 	$old_id = $id;
 	$id = str_replace("**",",",$id);
 	$tmpquery = "WHERE newscom.id IN($id) ORDER BY newscom.id";
-	$listNews = new request();
+	$listNews = new Request();
 	$listNews->openNewsDeskComments($tmpquery);
 	$comptListComments = count($listNews->newscom_id);
 
 	for ($i=0;$i<$comptListComments;$i++) {
 		
 		$tmpquery_user = "WHERE mem.id = '".$listNews->newscom_name[$i]."' ";
-		$newsAuthor = new request();
+		$newsAuthor = new Request();
 		$newsAuthor->openMembers($tmpquery_user);
 		$block1->contentRow("#".$listNews->newscom_id[$i],$newsAuthor->mem_name[0]);
 	}

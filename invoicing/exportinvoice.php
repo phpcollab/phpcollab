@@ -3,25 +3,25 @@ include("../includes/library.php");
 include("../includes/phplib/template.php");
 
 $tmpquery = "WHERE inv.id = '$id'";
-$detailInvoice = new request();
+$detailInvoice = new Request();
 $detailInvoice->openInvoices($tmpquery);
 
 $tmpquery = "WHERE pro.id = '".$detailInvoice->inv_project[0]."'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 $tmpquery = "WHERE org.id = '".$projectDetail->pro_organization[0]."'";
-$clientDetail = new request();
+$clientDetail = new Request();
 $clientDetail->openOrganizations($tmpquery);
 $comptClientDetail = count($clientDetail->org_id);
 
 $tmpquery = "WHERE org.id = '1'";
-$mycompanyDetail = new request();
+$mycompanyDetail = new Request();
 $mycompanyDetail->openOrganizations($tmpquery);
 $comptMycompanyDetailDetail = count($mycompanyDetail->org_id);
 
 $tmpquery = "WHERE invitem.invoice = '$id' AND invitem.active = '1' ORDER BY invitem.position ASC";
-$listInvoicesItems = new request();
+$listInvoicesItems = new Request();
 $listInvoicesItems->openInvoicesItems($tmpquery);
 $comptListInvoicesItems = count($listInvoicesItems->invitem_id);
 

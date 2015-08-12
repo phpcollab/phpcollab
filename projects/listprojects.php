@@ -85,7 +85,7 @@ if ($typeProjects == "inactive") {
 
 $block1->recordsTotal = Util::computeTotal($initrequest["projects"]." ".$tmpquery);
 
-$listProjects = new request();
+$listProjects = new Request();
 $listProjects->openProjects($tmpquery,$block1->borne,$block1->rowsLimit);
 $comptListProjects = count($listProjects->pro_id);
 

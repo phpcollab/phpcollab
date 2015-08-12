@@ -9,11 +9,11 @@ include("../includes/jpgraph/jpgraph.php");
 include("../includes/jpgraph/jpgraph_gantt.php");
 
 $tmpquery = "WHERE pro.id = '".$HTTP_REQUEST_VARS['project']."'";
-$proDetail = new request();
+$proDetail = new Request();
 $proDetail->openProjects($tmpquery);
 
 $tmpquery = "WHERE pha.project_id = '".$project."' AND pha.order_num = '".$phase."'";
-$phaDetail = new request();
+$phaDetail = new Request();
 $phaDetail->openPhases($tmpquery);
 
 $phaDetail->pha_name[0] = str_replace('&quot;','"',$phaDetail->pha_name[0]);
@@ -34,7 +34,7 @@ $graph->scale->week->SetFont(FF_FONT0);
 $graph->scale->year->SetFont(FF_FONT1);
 
 $tmpquery = "WHERE tas.project = '".$project."' AND tas.parent_phase = '".$phase."' AND tas.start_date != '--' AND tas.due_date != '--' ORDER BY tas.due_date";
-$listTasks = new request();
+$listTasks = new Request();
 $listTasks->openTasks($tmpquery);
 $comptListTasks = count($listTasks->tas_id);
 

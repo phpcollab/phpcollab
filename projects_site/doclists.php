@@ -10,7 +10,7 @@ $titlePage = $strings["document_list"];
 include ("include_header.php");
 
 $tmpquery = "WHERE fil.project = '$projectSession' AND fil.published = '0' AND fil.vc_parent = '0' ORDER BY fil.name";
-$listFiles = new request();
+$listFiles = new Request();
 $listFiles->openFiles($tmpquery);
 $comptListFiles = count($listFiles->fil_id);
 

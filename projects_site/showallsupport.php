@@ -10,11 +10,11 @@ $titlePage = $strings["support"];
 include ("include_header.php");
 
 $tmpquery = "WHERE mem.id = '$idSession'";
-$userDetail = new request();
+$userDetail = new Request();
 $userDetail->openMembers($tmpquery);
 
 $tmpquery = "WHERE sr.member = '$idSession' AND sr.project = '$project'";
-$listRequests = new request();
+$listRequests = new Request();
 $listRequests->openSupportRequests($tmpquery);
 $comptListRequests = count($listRequests->sr_id);
 

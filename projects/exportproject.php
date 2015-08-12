@@ -40,7 +40,7 @@ $crlf        = which_crlf();
  */
 
 $tmpquery = "WHERE pro.id = '$id'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 if ($projectDetail->pro_org_id[0] == "1") {
@@ -54,7 +54,7 @@ $dump_buffer .= "\"".$strings["name"]."\";\"".$strings["description"]."\";\"".$s
 $dump_buffer .= "\"".$projectDetail->pro_name[0]."\";\"".$projectDetail->pro_description[0]."\";\"".$projectDetail->pro_mem_login[0]."\";\"".$priority[$idPriority]."\";\"".$status[$idStatus]."\";\"".Util::createDate($projectDetail->pro_created[0],$timezoneSession)."\";\"".$projectDetail->pro_org_name[0]."\"".$crlf.$crlf;
 
 $tmpquery = "WHERE tas.project = '$id'";
-$listTasks = new request();
+$listTasks = new Request();
 $listTasks->openTasks($tmpquery);
 $comptListTasks = count($listTasks->tas_id);
 

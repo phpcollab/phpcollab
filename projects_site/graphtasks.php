@@ -54,7 +54,7 @@ if ($_GET['dateCalend'] != '')
 	
 	//add the published task to the graph
 	$tmpquery = "WHERE (tas.start_date LIKE '".$dateCalend."%' OR tas.due_date LIKE '".$dateCalend."%') AND tas.published = '0' AND tas.assigned_to = '$idSession' ORDER BY tas.due_date";
-	$listTasks = new request();
+	$listTasks = new Request();
 	$listTasks->openTasks($tmpquery);
 	$comptListTasks = count($listTasks->tas_id);
 
@@ -83,7 +83,7 @@ if ($_GET['dateCalend'] != '')
 	}
 
 	$tmpquery = "WHERE cal.owner = '$idSession'  OR cal.broadcast = '1' "; 
-	$detailCalendar = new request();
+	$detailCalendar = new Request();
 	$detailCalendar->openCalendar($tmpquery);
 	$comptDetailCalendar = count($detailCalendar->cal_id);
 		
@@ -111,7 +111,7 @@ elseif ($_GET['project'] != '')
 	$graph->subtitle->Set("(".$strings["created"].": ".$projectDetail->pro_created[0].")");
 	
 	$tmpquery = "WHERE pro.id = '".$project."'";
-	$projectDetail = new request();
+	$projectDetail = new Request();
 	$projectDetail->openProjects($tmpquery);
 
 	$projectDetail->pro_created[0] = Util::createDate($projectDetail->pro_created[0],$timezoneSession);
@@ -119,7 +119,7 @@ elseif ($_GET['project'] != '')
 	$projectDetail->pro_name[0] = str_replace("&#39;","'",$projectDetail->pro_name[0]);
 
 	$tmpquery = "WHERE tas.project = '".$project."' AND tas.start_date != '--' AND tas.due_date != '--' AND tas.published != '1' ORDER BY tas.due_date";
-	$listTasks = new request();
+	$listTasks = new Request();
 	$listTasks->openTasks($tmpquery);
 	$comptListTasks = count($listTasks->tas_id);
 

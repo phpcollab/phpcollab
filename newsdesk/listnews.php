@@ -56,7 +56,7 @@ $block1->openContent();
 $tmpquery = "WHERE news.id != '0' ORDER BY $block1->sortingValue ";
 $block1->recordsTotal = Util::computeTotal($initrequest["newsdeskposts"]." ".$tmpquery);
 
-$listPosts = new request();
+$listPosts = new Request();
 $listPosts->openNewsDesk($tmpquery,$block1->borne,$block1->rowsLimit);
 $comptPosts = count($listPosts->news_id);
 
@@ -67,13 +67,13 @@ if ($comptPosts != "0") {
 	for ($i=0;$i<$comptPosts;$i++) {
 		// take the news author
 		$tmpquery_user = "WHERE mem.id = '".$listPosts->news_author[$i]."' ";
-		$newsAuthor = new request();
+		$newsAuthor = new Request();
 		$newsAuthor->openMembers($tmpquery_user);
 
 		// take the name of the related article
 		if ($listPosts->news_related[$i]!='g') {
 			$tmpquery = "WHERE pro.id = '".$listPosts->news_related[$i]."'";
-			$projectDetail = new request();
+			$projectDetail = new Request();
 			$projectDetail->openProjects($tmpquery);
 			$article_related = "<a href='../projects/viewproject.php?id=".$projectDetail->pro_id[0]."' title='".$projectDetail->pro_name[0]."'>".$projectDetail->pro_name[0]."</a>";
 		} else {

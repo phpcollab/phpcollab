@@ -98,7 +98,7 @@ if ($view == "my") {
 	$tmpquery = "WHERE boo.shared = '1' OR boo.owner = '$idSession' ORDER BY $block1->sortingValue";
 }
 
-$listBookmarks = new request();
+$listBookmarks = new Request();
 $listBookmarks->openBookmarks($tmpquery);
 
 $comptListBookmarks = count($listBookmarks->boo_id);

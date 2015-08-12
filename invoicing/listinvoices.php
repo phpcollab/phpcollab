@@ -13,7 +13,7 @@ if ($typeInvoices == "") {
 if ($clientsFilter == "true" && $profilSession == "2") {
 $teamMember = "false";
 $tmpquery = "WHERE tea.member = '$idSession' AND org2.id = '$client'";
-$memberTest = new request();
+$memberTest = new Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
@@ -27,7 +27,7 @@ $comptMemberTest = count($memberTest->tea_id);
 	$tmpquery = "WHERE org.id = '$client'";
 }
 
-$clientDetail = new request();
+$clientDetail = new Request();
 $clientDetail->openOrganizations($tmpquery);
 $comptClientDetail = count($clientDetail->org_id);
 
@@ -89,7 +89,7 @@ $block1->rowsLimit = "20";
 $block1->sorting("invoices",$sortingUser->sor_invoices[0],"inv.id ASC",$sortingFields = array(0=>"inv.id",1=>"pro.name",2=>"inv.total_inc_tax",3=>"inv.date_sent",4=>"inv.published"));
 
 $tmpquery = "WHERE pro.owner = '$idSession' ORDER BY pro.id";
-$projectsTest = new request();
+$projectsTest = new Request();
 $projectsTest->openProjects($tmpquery);
 $comptProjectsTest = count($projectsTest->pro_id);
 
@@ -111,7 +111,7 @@ $comptProjectsTest = count($projectsTest->pro_id);
 
 $block1->recordsTotal = Util::computeTotal($initrequest["invoices"]." ".$tmpquery);
 
-$listInvoices = new request();
+$listInvoices = new Request();
 $listInvoices->openInvoices($tmpquery,$block1->borne,$block1->rowsLimit);
 $comptListInvoices = count($listInvoices->inv_id);
 

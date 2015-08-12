@@ -6,7 +6,7 @@
 $checkSession = "true";
 include_once('../includes/library.php');
 $tmpquery = "WHERE org.id = '$organization'";
-$detailOrganization = new request();
+$detailOrganization = new Request();
 $detailOrganization->openOrganizations($tmpquery);
 $comptDetailOrganization = count($detailOrganization->org_id);
 
@@ -59,7 +59,7 @@ $block1->contentTitle($strings["delete_following"]);
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE mem.id IN($id) ORDER BY mem.name";
 
-$listMembers = new request();
+$listMembers = new Request();
 $listMembers->openMembers($tmpquery);
 $comptListMembers = count($listMembers->mem_id);
 
@@ -77,7 +77,7 @@ echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>".$strin
 <tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td><b>".$strings["reassign_to"]." : </b> ";
 
 $tmpquery = "WHERE mem.profil != '3' ORDER BY mem.name";
-$reassign = new request();
+$reassign = new Request();
 $reassign->openMembers($tmpquery);
 $comptReassign = count($reassign->mem_id);
 

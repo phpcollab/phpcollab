@@ -72,7 +72,7 @@ if ($action == "update")
 	Util::headerFunction("../administration/mycompany.php?".session_name()."=".session_id());
 }
 $tmpquery = "WHERE org.id = '1'";
-$clientDetail = new request();
+$clientDetail = new Request();
 $clientDetail->openOrganizations($tmpquery);
 
 $cn = $clientDetail->org_name[0];

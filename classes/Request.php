@@ -3,7 +3,7 @@
 #Status page: 2
 #Path by root: ../includes/request.class.php
 
-class request 
+class Request
 {
 	function request() 
 	{

@@ -9,12 +9,12 @@ include_once('../includes/library.php');
 include('../themes/'.THEME.'/header.php');
 
 $tmpquery = "WHERE pro.id = '$id'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '$id' AND tea.member = '$idSession'";
-$memberTest = new request();
+$memberTest = new Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
@@ -54,7 +54,7 @@ $block7->closePaletteIcon();
 $block7->sorting("phases",$sortingUser->sor_phases[0],"pha.order_num ASC",$sortingFields = array(0=>"pha.order_num",1=>"pha.name",2=>"none",3=>"none",4=>"pha.status",5=>"pha.date_start",6=>"pha.date_end"));
 
 $tmpquery = "WHERE pha.project_id = '$id' ORDER BY $block7->sortingValue";
-$listPhases = new request();
+$listPhases = new Request();
 $listPhases->openPhases($tmpquery);
 $comptListPhases = count($listPhases->pha_id);
 
@@ -63,7 +63,7 @@ if ($comptListPhases != "0") {
 	$block7->labels($labels = array(0=>$strings["order"],1=>$strings["name"],2=>$strings["total_tasks"],3=>$strings["uncomplete_tasks"],4=>$strings["status"],5=>$strings["date_start"],6=>$strings["date_end"]),"false");
 
 $tmpquery = "WHERE tas.project = '$id'";
-$countPhaseTasks = new request();
+$countPhaseTasks = new Request();
 $countPhaseTasks->openTasks($tmpquery);
 $comptlistTasks = count($countPhaseTasks->tas_id);
 

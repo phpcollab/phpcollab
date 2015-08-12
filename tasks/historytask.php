@@ -31,32 +31,32 @@ include_once('../includes/library.php');
 
 if ($type == "2") {
     $tmpquery = "WHERE subtas.id = '$item'";
-    $subtaskDetail = new request();
+    $subtaskDetail = new Request();
     $subtaskDetail->openSubtasks($tmpquery);
 
     $tmpquery = "WHERE tas.id = '" . $subtaskDetail->subtas_task[0] . "'";
-    $taskDetail = new request();
+    $taskDetail = new Request();
     $taskDetail->openTasks($tmpquery);
 
     $tmpquery = "WHERE pro.id = '" . $taskDetail->tas_project[0] . "'";
-    $projectDetail = new request();
+    $projectDetail = new Request();
     $projectDetail->openProjects($tmpquery);
 
     if ($projectDetail->pro_enable_phase[0] != "0") {
         $tPhase = $taskDetail->tas_parent_phase[0];
         $tmpquery = "WHERE pha.project_id = '" . $taskDetail->tas_project[0] . "' AND pha.order_num = '$tPhase'";
-        $targetPhase = new request();
+        $targetPhase = new Request();
         $targetPhase->openPhases($tmpquery);
     }
 }
 
 if ($type == "1") {
     $tmpquery = "WHERE tas.id = '$item'";
-    $taskDetail = new request();
+    $taskDetail = new Request();
     $taskDetail->openTasks($tmpquery);
 
     $tmpquery = "WHERE pro.id = '" . $taskDetail->tas_project[0] . "'";
-    $projectDetail = new request();
+    $projectDetail = new Request();
     $projectDetail->openProjects($tmpquery);
 
     if ($projectDetail->pro_enable_phase[0] != "0") {
@@ -65,7 +65,7 @@ if ($type == "1") {
             $tPhase = '0';
         }
         $tmpquery = "WHERE pha.project_id = '" . $taskDetail->tas_project[0] . "' AND pha.order_num = '$tPhase'";
-        $targetPhase = new request();
+        $targetPhase = new Request();
         $targetPhase->openPhases($tmpquery);
     }
 }
@@ -121,7 +121,7 @@ $block1->openContent();
 $block1->contentTitle($strings["details"]);
 
 $tmpquery = "WHERE upd.type='$type' AND upd.item = '$item' ORDER BY upd.created DESC";
-$listUpdates = new request();
+$listUpdates = new Request();
 $listUpdates->openUpdates($tmpquery);
 $comptListUpdates = count($listUpdates->upd_id);
 

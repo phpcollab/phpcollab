@@ -31,7 +31,7 @@ include_once('../includes/library.php');
 if ($clientsFilter == "true" && $profilSession == "2") {
 $teamMember = "false";
 $tmpquery = "WHERE tea.member = '$idSession' AND org2.id = '$id'";
-$memberTest = new request();
+$memberTest = new Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
@@ -45,7 +45,7 @@ $comptMemberTest = count($memberTest->tea_id);
 	$tmpquery = "WHERE org.id = '$id'";
 }
 
-$clientDetail = new request();
+$clientDetail = new Request();
 $clientDetail->openOrganizations($tmpquery);
 $comptClientDetail = count($clientDetail->org_id);
 
@@ -144,7 +144,7 @@ if ($projectsFilter == "true") {
 } else {
 	$tmpquery = "WHERE pro.organization = '".$clientDetail->org_id[0]."' ORDER BY $block2->sortingValue";
 }
-$listProjects = new request();
+$listProjects = new Request();
 $listProjects->openProjects($tmpquery);
 $comptListProjects = count($listProjects->pro_id);
 
@@ -214,7 +214,7 @@ $block3->closePaletteIcon();
 $block3->sorting("users",$sortingUser->sor_users[0],"mem.name ASC",$sortingFields = array(0=>"mem.name",1=>"mem.login",2=>"mem.email_work",3=>"mem.profil",4=>"connected"));
 
 $tmpquery = "WHERE mem.organization = '$id' ORDER BY $block3->sortingValue";
-$listMembers = new request();
+$listMembers = new Request();
 $listMembers->openMembers($tmpquery);
 $comptListMembers = count($listMembers->mem_id);
 

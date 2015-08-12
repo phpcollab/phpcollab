@@ -10,7 +10,7 @@ $titlePage = $strings["bulletin_board"];
 include ("include_header.php");
 
 $tmpquery = "WHERE topic.project = '$projectSession' AND topic.published = '0' ORDER BY topic.last_post DESC";
-$listTopics = new request();
+$listTopics = new Request();
 $listTopics->openTopics($tmpquery);
 $comptListTopics = count($listTopics->top_id);
 

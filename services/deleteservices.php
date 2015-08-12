@@ -45,7 +45,7 @@ $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE serv.id IN($id) ORDER BY serv.name";
-$listServices = new request();
+$listServices = new Request();
 $listServices->openServices($tmpquery);
 $comptListServices = count($listServices->serv_id);
 

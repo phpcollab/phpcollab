@@ -7,7 +7,7 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 $comptProjectDetail = count($projectDetail->pro_id);
 
@@ -26,7 +26,7 @@ if($id != "") {
 		$Htpasswd->initialize("../files/".$projectDetail->pro_id[0]."/.htpasswd");
 
 		$tmpquery = "WHERE mem.id IN($id)";
-		$listMembers = new request();
+		$listMembers = new Request();
 		$listMembers->openMembers($tmpquery);
 		$comptListMembers = count($listMembers->mem_id);
 
@@ -90,7 +90,7 @@ $block1->closePaletteIcon();
 $block1->sorting("team",$sortingUser->sor_users[0],"mem.name ASC",$sortingFields = array(0=>"mem.name",1=>"mem.title",2=>"mem.login",3=>"mem.phone_work",4=>"log.connected"));
 
 $tmpquery = "WHERE tea.project = '$project' AND mem.profil = '3'";
-$concatMembers = new request();
+$concatMembers = new Request();
 $concatMembers->openTeams($tmpquery);
 $comptConcatMembers = count($concatMembers->tea_id);
 if ($comptConcatMembers != "0") {
@@ -105,7 +105,7 @@ $queryBonus = "AND mem.id NOT IN($membersTeam)";
 }
 
 $tmpquery = "WHERE mem.organization = '".$projectDetail->pro_organization[0]."' $queryBonus AND mem.profil = '3' ORDER BY $block1->sortingValue";
-$listMembers = new request();
+$listMembers = new Request();
 $listMembers->openMembers($tmpquery);
 $comptListMembers = count($listMembers->mem_id);
 

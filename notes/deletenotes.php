@@ -39,7 +39,7 @@ $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE note.id IN($id) ORDER BY note.subject";
-$listNotes = new request();
+$listNotes = new Request();
 $listNotes->openNotes($tmpquery);
 $comptListNotes = count($listNotes->note_id);
 

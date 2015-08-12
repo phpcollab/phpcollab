@@ -8,7 +8,7 @@ include_once('../includes/library.php');
 if ($supportType == "team") {
 	$teamMember = "false";
 	$tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-	$memberTest = new request();
+	$memberTest = new Request();
 	$memberTest->openTeams($tmpquery);
 	$comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
@@ -32,7 +32,7 @@ if ($supportType == "admin") {
 
 if ($supportType == "team") {
 	$tmpquery = "WHERE pro.id = '$project'";
-	$requestProject = new request();
+	$requestProject = new Request();
 	$requestProject->openProjects($tmpquery);
 }
 
@@ -104,7 +104,7 @@ if($supportType == "team") {
 }
 
 if($action != "" || $action != " "){
-	$listRequests = new request();
+	$listRequests = new Request();
 	$listRequests->openSupportRequests($tmpquery);
 	$comptListRequests = count($listRequests->sr_id);
 }

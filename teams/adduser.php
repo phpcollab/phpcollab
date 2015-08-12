@@ -11,7 +11,7 @@ include("../includes/cvslib.php");
 }
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 $comptProjectDetail = count($projectDetail->pro_id);
 
@@ -29,7 +29,7 @@ if ($action == "add") {
 		$Htpasswd->initialize("../files/".$projectDetail->pro_id[0]."/.htpasswd");
 
 		$tmpquery = "WHERE mem.id IN($id)";
-		$listMembers = new request();
+		$listMembers = new Request();
 		$listMembers->openMembers($tmpquery);
 		$comptListMembers = count($listMembers->mem_id);
 
@@ -59,7 +59,7 @@ if ($action == "add") {
 //if CVS repository enabled
 		if ($enable_cvs == "true") {
 			$user_query = "WHERE mem.id = '$pieces[$i]'";
-			$cvsMembers = new request();
+			$cvsMembers = new Request();
 			$cvsMembers->openMembers($user_query);
 			cvs_add_user($cvsMembers->mem_login[$i], $cvsMembers->mem_password[$i], $projectDetail->pro_id[0]);
 		}
@@ -100,7 +100,7 @@ $block1->closePaletteIcon();
 $block1->sorting("users",$sortingUser->sor_users[0],"mem.name ASC",$sortingFields = array(0=>"mem.name",1=>"mem.title",2=>"mem.login",3=>"mem.phone_work",4=>"log.connected"));
 
 $tmpquery = "WHERE tea.project = '$project' AND mem.profil != '3'";
-$concatMembers = new request();
+$concatMembers = new Request();
 $concatMembers->openTeams($tmpquery);
 $comptConcatMembers = count($concatMembers->tea_id);
 for ($i=0;$i<$comptConcatMembers;$i++) {
@@ -115,7 +115,7 @@ $tmpquery = "WHERE mem.id NOT IN($membersTeam) AND mem.profil != '3' ORDER BY $b
 } else {
 $tmpquery = "WHERE mem.id NOT IN($membersTeam) AND mem.profil != '3' AND mem.id != '2' ORDER BY $block1->sortingValue";
 }
-$listMembers = new request();
+$listMembers = new Request();
 $listMembers->openMembers($tmpquery);
 $comptListMembers = count($listMembers->mem_id);
 

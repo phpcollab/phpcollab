@@ -4,19 +4,19 @@ if ($num == "")
 	$num = $id;
 }
 $tmpquery = "WHERE subtas.id IN($num)";
-$subtaskNoti = new request();
+$subtaskNoti = new Request();
 $subtaskNoti->openSubtasks($tmpquery);
 
 $tmpquery = "WHERE tas.id = '".$subtaskNoti->subtas_task[0]."'";
-$taskNoti = new request();
+$taskNoti = new Request();
 $taskNoti->openTasks($tmpquery);
 
 $tmpquery = "WHERE pro.id = '".$taskNoti->tas_project[0]."'";
-$projectNoti = new request();
+$projectNoti = new Request();
 $projectNoti->openProjects($tmpquery);
 
 $tmpquery = "WHERE noti.member IN($at)";
-$listNotifications = new request();
+$listNotifications = new Request();
 $listNotifications->openNotifications($tmpquery);
 $comptListNotifications = count($listNotifications->not_id);
 

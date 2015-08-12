@@ -32,7 +32,7 @@ include("../includes/library.php");
 
 if ($updateProject == "true") {
 	$tmpquery = "WHERE tea.member = '$idSession' AND pro.id = '$project' AND pro.status IN(0,2,3) AND pro.published = '0'";
-	$testProject = new request();
+	$testProject = new Request();
 	$testProject->openTeams($tmpquery);
 	$comptTestProject = count($testProject->tea_id);
 
@@ -55,7 +55,7 @@ include ("include_header.php");
 
 if ($updateProject != "true" && $changeProject != "true") {
 	$tmpquery = "WHERE org.id = '".Util::fixInt($projectDetail->pro_organization[0])."'";
-	$clientDetail = new request();
+	$clientDetail = new Request();
 	$clientDetail->openOrganizations($tmpquery);
 }
 
@@ -64,7 +64,7 @@ $idPriority = $projectDetail->pro_priority[0];
 
 if ($projectSession == "" || $changeProject == "true") {
 	$tmpquery = "WHERE tea.member = '".Util::fixInt($idSession)."' AND pro.status IN(0,2,3) AND pro.published = '0' ORDER BY pro.name";
-	$listProjects = new request();
+	$listProjects = new Request();
 	$listProjects->openTeams($tmpquery);
 	$comptListProjects = count($listProjects->tea_id);
 
@@ -143,7 +143,7 @@ if ($projectSession != "" && $changeProject != "true") {
 		echo"	<tr><th nowrap valign='top' class='FormLabel'>".$strings["current_phase"]." :</td><td>";
 
 		$tmpquery = "WHERE pha.project_id = '".$projectDetail->pro_id[0]."' AND status = '1'";
-		$currentPhase = new request();
+		$currentPhase = new Request();
 		$currentPhase->openPhases($tmpquery);
 		$comptCurrentPhase = count($currentPhase->pha_id);
 		if ($comptCurrentPhase == 0){
@@ -182,7 +182,7 @@ if ($projectSession != "" && $changeProject != "true") {
 			</table>";
 
 	$tmpquery = "WHERE tea.project = '$projectSession' AND tea.member = '".$projectDetail->pro_owner[0]."'";
-	$detailContact = new request();
+	$detailContact = new Request();
 	$detailContact->openTeams($tmpquery);
 
 	if ($detailContact->tea_published[0] == "0" && $detailContact->tea_project[0] == $projectSession) {

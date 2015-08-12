@@ -54,7 +54,7 @@ if ($action == "update") {
             if ($htaccessAuth == "true") {
                 $Htpasswd = new Htpasswd;
                 $tmpquery = "WHERE tea.member = '$idSession'";
-                $listProjects = new request();
+                $listProjects = new Request();
                 $listProjects->openTeams($tmpquery);
                 $comptListProjects = count($listProjects->tea_id);
 
@@ -76,7 +76,7 @@ if ($action == "update") {
             if ($enable_cvs == "true") 
             {
                 $query = "WHERE tea.member = '$idSession'";
-                $cvsMembers = new request();
+                $cvsMembers = new Request();
                 $cvsMembers->openTeams($query);
 
             //change the password in every repository
@@ -98,7 +98,7 @@ if ($action == "update") {
 }
 
 $tmpquery = "WHERE mem.id = '$idSession'";
-$userDetail = new request();
+$userDetail = new Request();
 $userDetail->openMembers($tmpquery);
 $comptUserDetail = count($userDetail->mem_id);
 

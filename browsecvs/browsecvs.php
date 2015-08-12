@@ -50,7 +50,7 @@ $conf['cvsreps'] = array('rep');
 $conf['defaultcvsrep'] = 'rep';
 
 $tmpquery = "WHERE pro.id = '$id'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 include('../themes/'.THEME.'/header.php');

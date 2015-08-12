@@ -20,18 +20,18 @@ if ($action == "email")
 
 	// get name and email of user sending the email
 	$tmpquery = "WHERE mem.id = '$idSession'";
-	$userPrefs = new request();
+	$userPrefs = new Request();
 	$userPrefs->openMembers($tmpquery);
 
 	// get company name
 	$tmpquery = "WHERE org.id = '1'";
-	$clientDetail = new request();
+	$clientDetail = new Request();
 	$clientDetail->openOrganizations($tmpquery);
 
 	// get users to email
 	$id = str_replace("**",",",$id);
 	$tmpquery = "WHERE mem.id IN($id) ORDER BY mem.name";
-	$listMembers = new request();
+	$listMembers = new Request();
 	$listMembers->openMembers($tmpquery);
 	$comptListMembers = count($listMembers->mem_id);
 
@@ -107,7 +107,7 @@ $block1->contentTitle($strings["email_following"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE mem.id IN($id) ORDER BY mem.name";
-$listMembers = new request();
+$listMembers = new Request();
 $listMembers->openMembers($tmpquery);
 $comptListMembers = count($listMembers->mem_id);
 

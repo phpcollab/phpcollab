@@ -127,7 +127,7 @@ if ($auth == "on") {
         $tmpquery = "WHERE mem.login = '$loginForm' AND mem.profil != '4'";
     }
 
-    $loginUser = new request();
+    $loginUser = new Request();
     $loginUser->openMembers($tmpquery);
     $comptLoginUser = count($loginUser->mem_id);
 
@@ -197,7 +197,7 @@ if ($auth == "on") {
             //insert into or update log
             $ip = $REMOTE_ADDR;
             $tmpquery = "WHERE log.login = '$loginForm'";
-            $registerLog = new request();
+            $registerLog = new Request();
             $registerLog->openLogs($tmpquery);
             $comptRegisterLog = count($registerLog->log_id);
             $session = session_id();

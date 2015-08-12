@@ -79,11 +79,11 @@ if ($task != "" && $cheatCode == "true")
 }
 
 $tmpquery = "WHERE tas.id = '$id'";
-$taskDetail = new request();
+$taskDetail = new Request();
 $taskDetail->openTasks($tmpquery);
 
 $tmpquery = "WHERE pro.id = '".$taskDetail->tas_project[0]."'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 if ($projectDetail->pro_enable_phase[0] != "0")
@@ -91,13 +91,13 @@ if ($projectDetail->pro_enable_phase[0] != "0")
 	$tPhase = $taskDetail->tas_parent_phase[0];
 	if (!$tPhase){ $tPhase = '0'; }
 	$tmpquery = "WHERE pha.project_id = '".$taskDetail->tas_project[0]."' AND pha.order_num = '$tPhase'";
-	$targetPhase = new request();
+	$targetPhase = new Request();
 	$targetPhase->openPhases($tmpquery);
 }
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '".$taskDetail->tas_project[0]."' AND tea.member = '$idSession'";
-$memberTest = new request();
+$memberTest = new Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 
@@ -253,7 +253,7 @@ $block1->contentRow($strings["comments"],nl2br($taskDetail->tas_comments[0]));
 
 $block1->contentTitle($strings["updates_task"]);
 $tmpquery = "WHERE upd.type='1' AND upd.item = '$id' ORDER BY upd.created DESC";
-$listUpdates = new request();
+$listUpdates = new Request();
 $listUpdates->openUpdates($tmpquery);
 $comptListUpdates=count($listUpdates->upd_id);
 
@@ -360,7 +360,7 @@ if ($fileManagement == "true")
 	$block2->sorting("files",$sortingUser->sor_files[0],"fil.name ASC",$sortingFields = array(0=>"fil.extension",1=>"fil.name",2=>"fil.owner",3=>"fil.date",4=>"fil.status",5=>"fil.published"));
 	
 	$tmpquery = "WHERE fil.task = '$id' AND fil.vc_parent = '0' ORDER BY $block2->sortingValue";
-	$listFiles = new request();
+	$listFiles = new Request();
 	$listFiles->openFiles($tmpquery);
 	$comptListFiles = count($listFiles->fil_id);
 
@@ -454,7 +454,7 @@ $block3->headingToggle($strings["assignment_history"]);
 $block3->sorting("assignment",$sortingUser->sor_assignment[0],"ass.assigned DESC",$sortingFields = array(0=>"ass.comments",1=>"mem1.login",2=>"mem2.login",3=>"ass.assigned"));
 
 $tmpquery = "WHERE ass.task = '$id' ORDER BY $block3->sortingValue";
-$listAssign = new request();
+$listAssign = new Request();
 $listAssign->openAssignments($tmpquery);
 $comptListAssign = count($listAssign->ass_id);
 
@@ -524,7 +524,7 @@ $block4->closePaletteIcon();
 $block4->sorting("subtasks",$sortingUser->sor_subtasks[0],"subtas.name ASC",$sortingFields = array(0=>"subtas.name",1=>"subtas.priority",2=>"subtas.status",3=>"subtas.completion",4=>"subtas.due_date",5=>"mem.login",6=>"subtas.published"));
 
 $tmpquery = "WHERE subtas.task = '$id' ORDER BY $block4->sortingValue";
-$listSubtasks = new request();
+$listSubtasks = new Request();
 $listSubtasks->openSubtasks($tmpquery);
 $comptListSubtasks = count($listSubtasks->subtas_id);
 

@@ -10,7 +10,7 @@ echo "Script to remove file size labels in database: <a href='$PHP_SELF?action=u
 
 if ($action == "update") {
 $tmpquery = "";
-$listFiles = new request();
+$listFiles = new Request();
 $listFiles->openFiles($tmpquery);
 $comptListFiles = count($listFiles->fil_id);
 

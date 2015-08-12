@@ -46,7 +46,7 @@ if ($id != "")
 
 	//test exists selected client organization, redirect to list if not
 	$tmpquery = "WHERE news.id = '$id'";
-	$newsDetail = new request();
+	$newsDetail = new Request();
 	$newsDetail->openNewsDesk($tmpquery);
 	$comptnewsDetail = count($newsDetail->news_id);
 
@@ -230,7 +230,7 @@ if ($action!='remove')
 	else 
 	{ 
 		$tmpquery_user = "WHERE mem.id = '".$newsDetail->news_author[0]."' ";
-		$newsAuthor = new request();
+		$newsAuthor = new Request();
 		$newsAuthor->openMembers($tmpquery_user);
 		$block1->contentRow($strings["author"],"<input type='hidden' name='author' value='".$newsDetail->news_author[0]."'><b>".$newsAuthor->mem_name[0]."</b>");	
 	}
@@ -257,7 +257,7 @@ if ($action!='remove')
 		}					
 		
 	}
-	$listProjects = new request();
+	$listProjects = new Request();
 	$listProjects->openNewsDeskRelated($tmpquery);
 	$comptListProjects = count($listProjects->tea_id);
 
@@ -330,7 +330,7 @@ else
 
 	$id = str_replace("**",",",$id);
 	$tmpquery = "WHERE news.id IN($id) ORDER BY news.pdate";
-	$listNews = new request();
+	$listNews = new Request();
 	$listNews->openNewsDesk($tmpquery);
 	$comptListNews = count($listNews->news_id);
 

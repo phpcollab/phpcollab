@@ -87,18 +87,18 @@ $id = $phase;
 include('../themes/'.THEME.'/header.php');
 
 $tmpquery = "WHERE pha.id = '$id'";
-$phaseDetail = new request();
+$phaseDetail = new Request();
 $phaseDetail->openPhases($tmpquery);
 $project = $phaseDetail->pha_project_id[0];
 $phase = $phaseDetail->pha_id[0];
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-$memberTest = new request();
+$memberTest = new Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
@@ -140,7 +140,7 @@ $block1->contentRow($strings["status"],$phaseStatus[$phaseDetail->pha_status[0]]
 
 $parentPhase = $phaseDetail->pha_order_num[0];
 $tmpquery = "WHERE tas.project = '$project' AND tas.parent_phase = '$parentPhase'";
-$countPhaseTasks = new request();
+$countPhaseTasks = new Request();
 $countPhaseTasks->openTasks($tmpquery);
 $comptlistTasks = count($countPhaseTasks->tas_id);
 
@@ -196,7 +196,7 @@ $block2->closePaletteIcon();
 $block2->sorting("tasks",$sortingUser->sor_tasks[0],"tas.name ASC",$sortingFields = array(0=>"tas.name",1=>"tas.priority",2=>"tas.status",3=>"tas.completion",4=>"tas.due_date",5=>"mem.login",6=>"tas.published"));
 
 $tmpquery = "WHERE tas.project = '$project' AND tas.parent_phase = '$parentPhase' ORDER BY $block2->sortingValue";
-$listTasks = new request();
+$listTasks = new Request();
 $listTasks->openTasks($tmpquery);
 $comptListTasks = count($listTasks->tas_id);
 
@@ -303,7 +303,7 @@ if ($fileManagement == "true")
 	$block3->sorting("files",$sortingUser->sor_files[0],"fil.name ASC",$sortingFields = array(0=>"fil.extension",1=>"fil.name",2=>"fil.owner",3=>"fil.date",4=>"fil.status",5=>"fil.published")); 
 
 	$tmpquery = "WHERE fil.project = '".$projectDetail->pro_id[0]."' AND fil.phase = '".$phaseDetail->pha_id[0]."' AND fil.task = '0' AND fil.vc_parent = '0' ORDER BY $block3->sortingValue";
-	$listFiles = new request();
+	$listFiles = new Request();
 	$listFiles->openFiles($tmpquery);
 	$comptListFiles = count($listFiles->fil_id);
 

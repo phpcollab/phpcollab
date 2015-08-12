@@ -255,7 +255,7 @@ if ($msg == "demo")
 }
 
 $tmpquery = "WHERE pro.id = '$id'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 $comptProjectDetail = count($projectDetail->pro_id);
 
@@ -266,7 +266,7 @@ if ($comptProjectDetail == "0")
 }
 
 $tmpquery = "WHERE tas.project = '$id' ORDER BY tas.name";
-$listTasksTime = new request();
+$listTasksTime = new Request();
 $listTasksTime->openTasks($tmpquery);
 $comptListTasksTime = count($listTasksTime->tas_id);
 if ($comptListTasksTime != "0") 
@@ -291,7 +291,7 @@ if ($comptListTasksTime != "0")
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '$id' AND tea.member = '".Util::fixInt($idSession)."'";
-$memberTest = new request();
+$memberTest = new Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 
@@ -313,17 +313,17 @@ if ($teamMember == "false" && $projectsFilter == "true")
 if ($enableHelpSupport == "true" && ($teamMember == "true" || $profilSession == "5")) 
 {
 	$tmpquery = "WHERE sr.status = '0' AND sr.project = '".$projectDetail->pro_id[0]."'";
-	$listNewRequests = new request();
+	$listNewRequests = new Request();
 	$listNewRequests->openSupportRequests($tmpquery);
 	$comptListNewRequests = count($listNewRequests->sr_id);
 
 	$tmpquery = "WHERE sr.status = '1' AND sr.project = '".$projectDetail->pro_id[0]."'";
-	$listOpenRequests = new request();
+	$listOpenRequests = new Request();
 	$listOpenRequests->openSupportRequests($tmpquery);
 	$comptListOpenRequests = count($listOpenRequests->sr_id);
 
 	$tmpquery = "WHERE sr.status = '2' AND sr.project = '".$projectDetail->pro_id[0]."'";
-	$listCompleteRequests = new request();
+	$listCompleteRequests = new Request();
 	$listCompleteRequests->openSupportRequests($tmpquery);
 	$comptListCompleteRequests = count($listCompleteRequests->sr_id);
 }
@@ -393,7 +393,7 @@ $block1->contentRow($strings["priority"],"<img src=\"../themes/".THEME."/images/
 if ($projectDetail->pro_phase_set[0] != "0")
 {
 	$tmpquery = "WHERE pha.project_id = '$id' AND status = '1' ORDER BY pha.order_num";
-	$currentPhase = new request();
+	$currentPhase = new Request();
 	$currentPhase->openPhases($tmpquery);
 	$comptCurrentPhase = count($currentPhase->pha_id);
 
@@ -534,7 +534,7 @@ if ($projectDetail->pro_phase_set[0] != "0")
 	$block7->sorting("phases",$sortingUser->sor_phases[0],"pha.order_num ASC",$sortingFields = array(0=>"pha.order_num",1=>"pha.name",2=>"none",3=>"none",4=>"pha.status",5=>"pha.date_start",6=>"pha.date_end"));
 
 	$tmpquery = "WHERE pha.project_id = '$id' ORDER BY $block7->sortingValue";
-	$listPhases = new request();
+	$listPhases = new Request();
 	$listPhases->openPhases($tmpquery);
 	$comptListPhases = count($listPhases->pha_id);
 
@@ -544,7 +544,7 @@ if ($projectDetail->pro_phase_set[0] != "0")
 		$block7->labels($labels = array(0=>$strings["order"],1=>$strings["name"],2=>$strings["total_tasks"],3=>$strings["uncomplete_tasks"],4=>$strings["status"],5=>$strings["date_start"],6=>$strings["date_end"]),"false");
 
 		$tmpquery = "WHERE tas.project = '$id'";
-		$countPhaseTasks = new request();
+		$countPhaseTasks = new Request();
 		$countPhaseTasks->openTasks($tmpquery);
 		$comptlistTasks = count($countPhaseTasks->tas_id);
 
@@ -645,7 +645,7 @@ else
 
 	$block2->recordsTotal = Util::computeTotal($initrequest["tasks"]." ".$tmpquery);
 
-	$listTasks = new request();
+	$listTasks = new Request();
 	$listTasks->openTasks($tmpquery,$block2->borne,$block2->rowsLimit);
 	$comptListTasks = count($listTasks->tas_id);
 
@@ -781,7 +781,7 @@ $tmpquery = "WHERE topic.project = '$id' ORDER BY $block3->sortingValue";
 
 $block3->recordsTotal = Util::computeTotal($initrequest["topics"]." ".$tmpquery);
 
-$listTopics = new request();
+$listTopics = new Request();
 $listTopics->openTopics($tmpquery,$block3->borne,$block3->rowsLimit);
 $comptListTopics = count($listTopics->top_id);
 
@@ -882,7 +882,7 @@ $tmpquery = "WHERE tea.project = '$id' AND mem.profil != '3' ORDER BY $block4->s
 
 $block4->recordsTotal = Util::computeTotal($initrequest["teams"]." ".$tmpquery);
 
-$listTeam = new request();
+$listTeam = new Request();
 $listTeam->openTeams($tmpquery,$block4->borne,$block4->rowsLimit);
 $comptListTeam = count($listTeam->tea_id);
 
@@ -983,7 +983,7 @@ if ($fileManagement == "true")
 	$block5->sorting("files",$sortingUser->sor_files[0],"fil.name ASC",$sortingFields = array(0=>"fil.extension",1=>"fil.name",2=>"fil.owner",3=>"fil.date",4=>"fil.status",5=>"fil.published"));
 
 	$tmpquery = "WHERE fil.project = '$id' AND fil.task = '0' AND fil.vc_parent = '0' AND fil.phase = '0' ORDER BY $block5->sortingValue";
-	$listFiles = new request();
+	$listFiles = new Request();
 	$listFiles->openFiles($tmpquery);
 	$comptListFiles = count($listFiles->fil_id);
 
@@ -1120,7 +1120,7 @@ else
 $tmpquery = "WHERE note.project = '$id' ORDER BY $block6->sortingValue";
 
 $block6->recordsTotal = Util::computeTotal($initrequest["notes"]." ".$tmpquery);
-$listNotes = new request();
+$listNotes = new Request();
 $listNotes->openNotes($tmpquery,$block6->borne,$block6->rowsLimit);
 $comptListNotes = count($listNotes->note_id);
 

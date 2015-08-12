@@ -68,7 +68,7 @@ $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE boo.id IN($id) ORDER BY boo.name";
-$listBookmarks = new request();
+$listBookmarks = new Request();
 $listBookmarks->openBookmarks($tmpquery);
 $comptListBookmarks = count($listBookmarks->boo_id);
 

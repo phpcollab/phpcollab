@@ -29,11 +29,11 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 $tmpquery = "WHERE inv.id = '$id'";
-$detailInvoice = new request();
+$detailInvoice = new Request();
 $detailInvoice->openInvoices($tmpquery);
 
 $tmpquery = "WHERE pro.id = '".$detailInvoice->inv_project[0]."'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 if ($projectDetail->pro_owner[0] != $idSession) { 
@@ -121,7 +121,7 @@ $block1->contentRow($strings["header_note"],"<textarea rows=\"10\" style=\"width
 $block1->contentRow($strings["footer_note"],"<textarea rows=\"10\" style=\"width: 400px; height: 100px;\" name=\"footer_note\" cols=\"47\">$footer_note</textarea>");
 
 $tmpquery = "WHERE invitem.invoice = '$id' AND invitem.active = '1' ORDER BY invitem.position ASC";
-$listInvoicesItems = new request();
+$listInvoicesItems = new Request();
 $listInvoicesItems->openInvoicesItems($tmpquery);
 $comptListInvoicesItems = count($listInvoicesItems->invitem_id);
 

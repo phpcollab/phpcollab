@@ -53,10 +53,10 @@ if (!defined('MYSERVER') || !defined('MYLOGIN') || !defined('MYPASSWORD') || !de
 }
 
 // Create database requests
-$alert = new request();
+$alert = new Request();
 $alert->connectClass();
 
-$alertSub = new request();
+$alertSub = new Request();
 $alertSub->connectClass();
 
 // Get table names

@@ -4,15 +4,15 @@ $mail = new Notification();
 $mail->getUserinfo($idSession,"from");
 
 $tmpquery = "WHERE sp.id = '$num'";
-$postDetail = new request();
+$postDetail = new Request();
 $postDetail->openSupportPosts($tmpquery);
 
 $tmpquery = "WHERE sr.id = '".$postDetail->sp_request_id[0]."'";
-$requestDetail = new request();
+$requestDetail = new Request();
 $requestDetail->openSupportRequests($tmpquery);
 
 $tmpquery = "WHERE mem.id = '".$requestDetail->sr_user[0]."'";
-$userDetail = new request();
+$userDetail = new Request();
 $userDetail->openMembers($tmpquery);
 
 		$mail->partSubject = $strings["support"]." ".$strings["support_id"];

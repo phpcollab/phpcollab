@@ -18,7 +18,7 @@ if ($supportType == "admin") {
 }
 
 $tmpquery = "WHERE sr.id = '$id'";
-$requestDetail = new request();
+$requestDetail = new Request();
 $requestDetail->openSupportRequests($tmpquery);
 
 if($action == "edit"){

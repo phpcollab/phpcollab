@@ -39,23 +39,23 @@ if ($multi != "") {
 }
 
 $tmpquery = "WHERE tas.id = '$task'";
-$taskDetail = new request();
+$taskDetail = new Request();
 $taskDetail->openTasks($tmpquery);
 $project = $taskDetail->tas_project[0];
 
 if ($id != "") {
 $tmpquery = "WHERE subtas.id = '$id'";
-$subtaskDetail = new request();
+$subtaskDetail = new Request();
 $subtaskDetail->openSubtasks($tmpquery);
 }
 
 $tmpquery = "WHERE pro.id = '".$taskDetail->tas_project[0]."'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-$memberTest = new request();
+$memberTest = new Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
@@ -124,7 +124,7 @@ if ($compl == "10") {
 					$tmpquery2 = "INSERT INTO ".$tableCollab["assignments"]."(subtask,owner,assigned_to,assigned) VALUES('$id','$idSession','$at','$dateheure')";
 					Util::connectSql("$tmpquery2");
 					$tmpquery = "WHERE tea.project = '$project' AND tea.member = '$at'";
-					$testinTeam = new request();
+					$testinTeam = new Request();
 					$testinTeam->openTeams($tmpquery);
 					$comptTestinTeam = count($testinTeam->tea_id);
 						if ($comptTestinTeam == "0") {
@@ -247,7 +247,7 @@ if ($pub == "") {
 //add assigned_to in team members (only if doesn't already exist)
 			if ($at != "0") {
 				$tmpquery = "WHERE tea.project = '$project' AND tea.member = '$at'";
-				$testinTeam = new request();
+				$testinTeam = new Request();
 				$testinTeam->openTeams($tmpquery);
 				$comptTestinTeam = count($testinTeam->tea_id);
 					if ($comptTestinTeam == "0") {
@@ -288,7 +288,7 @@ if ($projectDetail->pro_phase_set[0] != "0"){
 		$tPhase = $phase;
 		$tmpquery = "WHERE pha.project_id = '$project' AND pha.order_num = '$tPhase'";
 	}
-	$targetPhase = new request();
+	$targetPhase = new Request();
 	$targetPhase->openPhases($tmpquery);
 }
 
@@ -389,7 +389,7 @@ if ($subtaskDetail->subtas_assigned_to[0] == "0") {
 }
 
 $tmpquery = "WHERE tea.project = '$project' ORDER BY mem.name";
-$assignto = new request();
+$assignto = new Request();
 $assignto->openTeams($tmpquery);
 $comptAssignto = count($assignto->tea_mem_id);
 

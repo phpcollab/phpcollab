@@ -1,14 +1,14 @@
 <?php
 $tmpquery = "WHERE tas.id IN($id)";
-$taskNoti = new request();
+$taskNoti = new Request();
 $taskNoti->openTasks($tmpquery);
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectNoti = new request();
+$projectNoti = new Request();
 $projectNoti->openProjects($tmpquery);
 
 $tmpquery = "WHERE noti.member IN($at)";
-$listNotifications = new request();
+$listNotifications = new Request();
 $listNotifications->openNotifications($tmpquery);
 $comptListNotifications = count($listNotifications->not_id);
 

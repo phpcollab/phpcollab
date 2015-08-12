@@ -7,7 +7,7 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 $tmpquery = "WHERE news.id = '".Util::fixInt($id)."'";
-$newsDetail = new request();
+$newsDetail = new Request();
 $newsDetail->openNewsDesk($tmpquery);
 $comptNewsDetail = count($newsDetail->news_id);
 
@@ -52,7 +52,7 @@ if ($comptNewsDetail != "0") {
 
 	// take the news author
 	$tmpquery_user = "WHERE mem.id = '".$newsDetail->news_author[0]."' ";
-	$newsAuthor = new request();
+	$newsAuthor = new Request();
 	$newsAuthor->openMembers($tmpquery_user);
 
 	$block1->openContent();
@@ -63,7 +63,7 @@ if ($comptNewsDetail != "0") {
 
 		if ($newsDetail->news_related[0]!='g') {
 			$tmpquery = "WHERE pro.id = '".$newsDetail->news_related[0]."'";
-			$projectDetail = new request();
+			$projectDetail = new Request();
 			$projectDetail->openProjects($tmpquery);
 			$article_related = "<a href='../projects/viewproject.php?id=".$projectDetail->pro_id[0]."' title='".$projectDetail->pro_name[0]."'>".$projectDetail->pro_name[0]."</a>";
 		} else {
@@ -112,7 +112,7 @@ $block1->closePaletteScript($comptNewsDetail,$newsDetail->news_id);
 ///////////////////////////////////////////////////////////////////////////////////
 
 $tmpquery = "WHERE newscom.post_id = '".Util::fixInt($id)."'";
-$newsComments = new request();
+$newsComments = new Request();
 $newsComments->openNewsDeskComments($tmpquery);
 $comptCommentsDetail = count($newsComments->newscom_id);
 
@@ -142,7 +142,7 @@ if ($comptCommentsDetail != "0") {
 
 	for ($i=0;$i<$comptCommentsDetail;$i++) {
 		$tmpquery_user = "WHERE mem.id = '".$newsComments->newscom_name[$i]."' ";
-		$newsAuthor = new request();
+		$newsAuthor = new Request();
 		$newsAuthor->openMembers($tmpquery_user);
 
 		$block2->openRow();

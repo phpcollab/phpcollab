@@ -26,11 +26,11 @@
 ** =============================================================================
 */
 $tmpquery = "WHERE topic.id = '$num'";
-$detailTopic = new request();
+$detailTopic = new Request();
 $detailTopic->openTopics($tmpquery);
 
 $tmpquery = "WHERE tea.project = '$project' AND tea.member != '$idSession' ORDER BY mem.id";
-$listTeam = new request();
+$listTeam = new Request();
 $listTeam->openTeams($tmpquery);
 $comptListTeam = count($listTeam->tea_id);
 
@@ -42,7 +42,7 @@ if (substr($posters, -1) == ",") { $posters = substr($posters, 0, -1); }
 
 if ($posters != "") {
 $tmpquery = "WHERE noti.member IN($posters)";
-$listNotifications = new request();
+$listNotifications = new Request();
 $listNotifications->openNotifications($tmpquery);
 $comptListNotifications = count($listNotifications->not_id);
 

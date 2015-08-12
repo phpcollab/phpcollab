@@ -30,17 +30,17 @@ include_once('../includes/library.php');
 include("../includes/customvalues.php");
 
 $tmpquery = "WHERE pha.id = '$id'";
-$phaseDetail = new request();
+$phaseDetail = new Request();
 $phaseDetail->openPhases($tmpquery);
 $project = $phaseDetail->pha_project_id[0];
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-$memberTest = new request();
+$memberTest = new Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
@@ -69,7 +69,7 @@ if ($action == "update") {
 
 	if ($st != 1) {
 		$tmpquery = "WHERE tas.parent_phase = '$id' AND tas.status = '3'";
-		$changeTasks = new request();
+		$changeTasks = new Request();
 		$changeTasks->openTasks($tmpquery);
 		$comptchangeTasks = count($changeTasks->tas_id);
 		for ($i=0;$i<$comptchangeTasks;$i++) {

@@ -18,7 +18,7 @@ if ($checkbox != "") {
 }
 
 $tmpquery = "WHERE tas.id = '$id'";
-$taskDetail = new request();
+$taskDetail = new Request();
 $taskDetail->openTasks($tmpquery);
 
 if ($taskDetail->tas_published[0] == "1" || $taskDetail->tas_project[0] != $projectSession) {
@@ -56,7 +56,7 @@ echo "<tr><td>".$strings["due_date"]." :</td><td>".$taskDetail->tas_due_date[0].
 }
 echo "<tr><td>".$strings["updates_task"]." :</td><td>";
 $tmpquery = "WHERE upd.type='1' AND upd.item = '$id' ORDER BY upd.created DESC";
-$listUpdates = new request();
+$listUpdates = new Request();
 $listUpdates->openUpdates($tmpquery);
 $comptListUpdates=count($listUpdates->upd_id);
 
@@ -76,7 +76,7 @@ echo "</td></tr>
 <hr>";
 
 $tmpquery = "WHERE subtas.task = '$id' AND subtas.published = '0' ORDER BY subtas.name";
-$listSubtasks = new request();
+$listSubtasks = new Request();
 $listSubtasks->openSubtasks($tmpquery);
 $comptListSubtasks = count($listSubtasks->subtas_id);
 

@@ -18,17 +18,17 @@ if ($supportType == "admin") {
 }
 
 $tmpquery = "WHERE sr.id = '$id'";
-$requestDetail = new request();
+$requestDetail = new Request();
 $requestDetail->openSupportRequests($tmpquery);
 
 $tmpquery = "WHERE sp.request_id = '$id' ORDER BY sp.date DESC";
-$listPosts = new request();
+$listPosts = new Request();
 $listPosts->openSupportPosts($tmpquery);
 $comptListPosts = count($listPosts->sp_id);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '".$requestDetail->sr_project[0]."' AND tea.member = '$idSession'";
-$memberTest = new request();
+$memberTest = new Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {

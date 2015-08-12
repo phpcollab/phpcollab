@@ -26,21 +26,21 @@ $msg = "removeToSite";
 }
 
 $tmpquery = "WHERE topic.id = '$id'";
-$detailTopic = new request();
+$detailTopic = new Request();
 $detailTopic->openTopics($tmpquery);
 
 $tmpquery = "WHERE pos.topic = '".$detailTopic->top_id[0]."' ORDER BY pos.created DESC";
-$listPosts = new request();
+$listPosts = new Request();
 $listPosts->openPosts($tmpquery);
 $comptListPosts = count($listPosts->pos_id);
 
 $tmpquery = "WHERE pro.id = '".$detailTopic->top_project[0]."'";
-$detailProject = new request();
+$detailProject = new Request();
 $detailProject->openProjects($tmpquery);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '".$detailTopic->top_project[0]."' AND tea.member = '$idSession'";
-$memberTest = new request();
+$memberTest = new Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {

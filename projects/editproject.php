@@ -54,7 +54,7 @@ if ($id != "")
 
 //test exists selected project, redirect to list if not
 	$tmpquery = "WHERE pro.id = '$id'";
-	$projectDetail = new request();
+	$projectDetail = new Request();
 	$projectDetail->openProjects($tmpquery);
 	$comptProjectDetail = count($projectDetail->pro_id);
 
@@ -136,7 +136,7 @@ STAMP;
 				$fp = @fopen("../files/$projectNew/.htpasswd",'wb+');
 
 				$tmpquery = "WHERE mem.id = '$pown'";
-				$detailMember = new request();
+				$detailMember = new Request();
 				$detailMember->openMembers($tmpquery);
 
 				$Htpasswd = new Htpasswd;
@@ -145,7 +145,7 @@ STAMP;
 			}
 
 			$tmpquery = "WHERE tas.project = '$id'";
-			$listTasks = new request();
+			$listTasks = new Request();
 			$listTasks->openTasks($tmpquery);
 			$comptListTasks = count($listTasks->tas_id);
 
@@ -188,7 +188,7 @@ STAMP;
 				$T_id=$listTasks->tas_id[$i];
 				
 				$tmpquery1 = "WHERE task = '$T_id'";
-				$subtaskDetail = new request();
+				$subtaskDetail = new Request();
 				$subtaskDetail->openSubtasks($tmpquery1);
 				$comptListSubtasks = count($subtaskDetail->subtas_id);
 				
@@ -225,7 +225,7 @@ STAMP;
 				if ($at != "0") 
 				{
 					$tmpquery = "WHERE tea.project = '$projectNew' AND tea.member = '$at'";
-					$testinTeam = new request();
+					$testinTeam = new Request();
 					$testinTeam->openTeams($tmpquery);
 					$comptTestinTeam = count($testinTeam->tea_id);
 					
@@ -237,7 +237,7 @@ STAMP;
 						if ($htaccessAuth == "true") 
 						{
 							$tmpquery = "WHERE mem.id = '$at'";
-							$detailMember = new request();
+							$detailMember = new Request();
 							$detailMember->openMembers($tmpquery);
 
 							$Htpasswd->initialize("../files/".$projectNew."/.htpasswd");
@@ -264,7 +264,7 @@ STAMP;
 			if ($enable_cvs == "true") 
 			{
 				$user_query = "WHERE mem.id = '$pown'";
-				$cvsUser = new request();
+				$cvsUser = new Request();
 				$cvsUser->openMembers($user_query);
 				cvs_add_repository($cvsUser->mem_login[0], $cvsUser->mem_password[0], $projectNew);
 			}
@@ -291,7 +291,7 @@ STAMP;
 			if ($pown != $projectDetail->pro_owner[0]) 
 			{
 				$tmpquery = "WHERE tea.project = '$id' AND tea.member = '$pown'";
-				$testinTeam = new request();
+				$testinTeam = new Request();
 				$testinTeam->openTeams($tmpquery);
 				$comptTestinTeam = count($testinTeam->tea_id);
 						
@@ -303,7 +303,7 @@ STAMP;
 					if ($htaccessAuth == "true") 
 					{
 						$tmpquery = "WHERE mem.id = '$pown'";
-						$detailMember = new request();
+						$detailMember = new Request();
 						$detailMember->openMembers($tmpquery);
 
 						$Htpasswd->initialize("../files/".$id."/.htpasswd");
@@ -316,7 +316,7 @@ STAMP;
 		if ($clod != $projectDetail->pro_organization[0]) 
 		{
 			$tmpquery = "WHERE tea.project = '$id' AND mem.profil = '3'";
-			$suppTeamClient = new request();
+			$suppTeamClient = new Request();
 			$suppTeamClient->openTeams($tmpquery);
 			$comptSuppTeamClient = count($suppTeamClient->tea_id);
 				
@@ -344,7 +344,7 @@ STAMP;
 
 //-------------------------------------------------------------------------------------------------		
 		$tmpquery = "WHERE pro.id = '$id'";
-		$targetProject = new request();
+		$targetProject = new Request();
 		$targetProject->openProjects($tmpquery);
 
 		//Delete old or unused phases
@@ -367,17 +367,17 @@ STAMP;
 			
 			//Get a listing of project tasks and files and re-assign them to new phases if the phase set of a project is changed.
 			$tmpquery = "WHERE tas.project = '".$targetProject->pro_id[0]."'";
-			$listTasks = new request();
+			$listTasks = new Request();
 			$listTasks->openTasks($tmpquery);
 			$comptListTasks = count($listTasks->tas_id);
 			
 			$tmpquery = "WHERE fil.project = '".$targetProject->pro_id[0]."' AND fil.phase !='0'";
-			$listFiles = new request();
+			$listFiles = new Request();
 			$listFiles->openFiles($tmpquery);
 			$comptListFiles = count($listFiles->fil_id);
 			
 			$tmpquery = "WHERE pha.project_id = '".$targetProject->pro_id[0]."' AND pha.order_num ='0'";
-			$targetPhase = new request();
+			$targetPhase = new Request();
 			$targetPhase->openPhases($tmpquery);
 			$comptTargetPhase = count($targetPhase->pha_id);			
 			
@@ -489,7 +489,7 @@ if ($id == "")
 		if ($enable_cvs == "true") 
 		{
 			$user_query = "WHERE mem.id = '$pown'";
-			$cvsUser = new request();
+			$cvsUser = new Request();
 			$cvsUser->openMembers($user_query);
 			cvs_add_repository($cvsUser->mem_login[0], $cvsUser->mem_password[0], $num);
 		}
@@ -514,7 +514,7 @@ STAMP;
 				$fp = @fopen("../files/$num/.htpasswd",'wb+');
 
 				$tmpquery = "WHERE mem.id = '$pown'";
-				$detailMember = new request();
+				$detailMember = new Request();
 				$detailMember->openMembers($tmpquery);
 
 				$Htpasswd = new Htpasswd;
@@ -668,7 +668,7 @@ else
 {
 	$tmpquery = "WHERE (mem.profil = '1' OR mem.profil = '0' OR mem.profil = '5') AND mem.id != '2' ORDER BY mem.name";
 }
-$assignOwner = new request();
+$assignOwner = new Request();
 
 $assignOwner->openMembers($tmpquery);
 $comptAssignOwner = count($assignOwner->mem_id);
@@ -697,7 +697,7 @@ else
 	$tmpquery = "WHERE org.id != '1' ORDER BY org.name";
 }
 
-$listClients = new request();
+$listClients = new Request();
 $listClients->openOrganizations($tmpquery);
 $comptListClients = count($listClients->org_id);
 

@@ -189,7 +189,7 @@ $comptListProjects = "0";
 if ($validProjects == "true") {
     $block1->recordsTotal = Util::computeTotal($initrequest["projects"] . " " . $tmpquery);
 
-    $listProjects = new request();
+    $listProjects = new Request();
     $listProjects->openProjects($tmpquery, $block1->borne, $block1->rowsLimit);
     $comptListProjects = count($listProjects->pro_id);
     //echo "$tmpquery<br/>";
@@ -206,7 +206,7 @@ if ($projectsFilter == "true") {
     $tmpquery = "LEFT OUTER JOIN " . $tableCollab["teams"] . " teams ON teams.project = pro.id ";
     $tmpquery .= "WHERE pro.status IN(0,2,3) AND teams.member = '$idSession' ORDER BY pro.id";
 
-    $listProjectsFilter = new request();
+    $listProjectsFilter = new Request();
     $listProjectsFilter->openProjects($tmpquery);
     $comptListProjectsFilter = count($listProjectsFilter->pro_id);
 
@@ -234,7 +234,7 @@ $comptListTasks = "0";
 if ($validTasks == "true") {
     $block2->recordsTotal = Util::computeTotal($initrequest["tasks"] . " " . $tmpquery);
 
-    $listTasks = new request();
+    $listTasks = new Request();
     $listTasks->openTasks($tmpquery, $block2->borne, $block2->rowsLimit);
     $comptListTasks = count($listTasks->tas_id);
     //echo "$tmpquery<br/>";
@@ -251,7 +251,7 @@ $comptListSubtasks = "0";
 if ($validSubtasks == "true") {
     $block9->recordsTotal = Util::computeTotal($initrequest["subtasks"] . " " . $tmpquery);
 
-    $listSubtasks = new request();
+    $listSubtasks = new Request();
     $listSubtasks->openSubtasks($tmpquery, $block9->borne, $block9->rowsLimit);
     $comptListSubtasks = count($listSubtasks->subtas_id);
     //echo "$tmpquery<br/>";
@@ -272,7 +272,7 @@ $comptListMembers = "0";
 if ($validMembers == "true") {
     $block3->recordsTotal = Util::computeTotal($initrequest["members"] . " " . $tmpquery);
 
-    $listMembers = new request();
+    $listMembers = new Request();
     $listMembers->openMembers($tmpquery, $block3->borne, $block3->rowsLimit);
     $comptListMembers = count($listMembers->mem_id);
     //echo "$tmpquery<br/>";
@@ -288,7 +288,7 @@ $block4->sorting("organizations", $sortingUser->sor_organizations[0], "org.name 
 if ($clientsFilter == "true" && $profilSession == "2") {
     $teamMember = "false";
     $tmpquery = "WHERE tea.member = '$idSession'";
-    $memberTest = new request();
+    $memberTest = new Request();
     $memberTest->openTeams($tmpquery);
     $comptMemberTest = count($memberTest->tea_id);
     if ($comptMemberTest == "0") {
@@ -317,7 +317,7 @@ $comptListOrganizations = "0";
 if ($validOrganizations == "true" && $listClients != "false") {
     $block4->recordsTotal = Util::computeTotal($initrequest["organizations"] . " " . $tmpquery);
 
-    $listOrganizations = new request();
+    $listOrganizations = new Request();
     $listOrganizations->openOrganizations($tmpquery, $block4->borne, $block4->rowsLimit);
     $comptListOrganizations = count($listOrganizations->org_id);
     //echo "$tmpquery<br/>";
@@ -344,7 +344,7 @@ $comptListTopics = "0";
 if ($validTopics == "true") {
     $block5->recordsTotal = Util::computeTotal($initrequest["topics"] . " " . $tmpquery);
 
-    $listTopics = new request();
+    $listTopics = new Request();
     $listTopics->openTopics($tmpquery, $block5->borne, $block5->rowsLimit);
     $comptListTopics = count($listTopics->top_id);
     //echo "$tmpquery<br/>";
@@ -378,7 +378,7 @@ if ($validNotes == "true") {
 
     $block6->recordsTotal = Util::computeTotal($initrequest["notes"] . " " . $tmpquery);
 
-    $listNotes = new request();
+    $listNotes = new Request();
     $listNotes->openNotes($tmpquery, $block6->borne, $block6->rowsLimit);
     $comptListNotes = count($listNotes->note_id);
     //echo "$tmpquery<br/>";

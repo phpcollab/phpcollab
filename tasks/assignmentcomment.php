@@ -18,11 +18,11 @@ $bodyCommand = "onLoad=\"document.assignment_commentForm.acomm.focus();\"";
 include('../themes/'.THEME.'/header.php');
 
 $tmpquery = "WHERE tas.id = '$task'";
-$taskDetail = new request();
+$taskDetail = new Request();
 $taskDetail->openTasks($tmpquery);
 
 $tmpquery = "WHERE pro.id = '".$taskDetail->tas_project[0]."'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 $blockPage = new Block();

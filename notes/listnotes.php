@@ -38,12 +38,12 @@ if ($action == "publish") {
 include('../themes/'.THEME.'/header.php');
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-$memberTest = new request();
+$memberTest = new Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 if ($comptMemberTest == "0") {
@@ -94,7 +94,7 @@ if ($comptTopic != "0") {
 	$block1->sorting("notes",$sortingUser->sor_notes[0],"note.date DESC",$sortingFields = array(0=>"note.subject",1=>"note.date",2=>"mem.login",3=>"note.published"));
 }
 $tmpquery = "WHERE note.project = '$project' ORDER BY $block1->sortingValue";
-$listNotes = new request();
+$listNotes = new Request();
 $listNotes->openNotes($tmpquery);
 $comptListNotes = count($listNotes->note_id);
 

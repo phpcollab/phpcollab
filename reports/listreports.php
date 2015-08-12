@@ -58,7 +58,7 @@ $block1->closePaletteIcon();
 $block1->sorting("reports",$sortingUser->sor_reports[0],"rep.name ASC",$sortingFields = array(0=>"rep.name",1=>"rep.created"));
 
 $tmpquery = "WHERE rep.owner = '$idSession' ORDER BY ".$block1->sortingValue." ";
-$listReports = new request();
+$listReports = new Request();
 $listReports->openReports($tmpquery);
 $comptListReports = count($listReports->rep_id);
 

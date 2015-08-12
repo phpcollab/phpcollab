@@ -9,7 +9,7 @@ $checkSession = "true";
 include("../includes/library.php");		// starts session and writes session cache headers
 
 $tmpquery = "WHERE fil.id = '$id'";
-$fileDetail = new request();
+$fileDetail = new Request();
 $fileDetail->openFiles($tmpquery);
 
 // serve the requested file

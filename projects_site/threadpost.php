@@ -6,7 +6,7 @@ $checkSession = "true";
 include("../includes/library.php");
 
 $tmpquery = "WHERE topic.id = '$id'";
-$detailTopic = new request();
+$detailTopic = new Request();
 $detailTopic->openTopics($tmpquery);
 
 if ($detailTopic->top_published[0] == "1" || $detailTopic->top_project[0] != $projectSession) {
@@ -24,7 +24,7 @@ Util::autoLinks($messageField);
 
 if ($notifications == "true") {
 $tmpquery = "WHERE pro.id = '$projectSession'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 	include("../topics/noti_newpost.php");
@@ -54,7 +54,7 @@ echo "<table cellspacing=\"0\" width=\"90%\" cellpadding=\"3\">
 </form>";
 
 $tmpquery = "WHERE pos.topic = '".$detailTopic->top_id[0]."' ORDER BY pos.created DESC";
-$listPosts = new request();
+$listPosts = new Request();
 $listPosts->openPosts($tmpquery);
 $comptListPosts = count($listPosts->pos_id);
 

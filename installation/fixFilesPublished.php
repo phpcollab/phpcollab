@@ -11,7 +11,7 @@ echo "Script to update published values with files updates and reviews: <a href=
 
 if ($action == "update") {
 $tmpquery = "WHERE fil.published = '0'";
-$filesPublished = new request();
+$filesPublished = new Request();
 $filesPublished->openFiles($tmpquery);
 $comptFilesPublished = count($filesPublished->fil_id);
 
@@ -27,7 +27,7 @@ Util::connectSql("$tmpquery1");
 }
 
 $tmpquery = "WHERE fil.published = '1'";
-$filesPublishedNo = new request();
+$filesPublishedNo = new Request();
 $filesPublishedNo->openFiles($tmpquery);
 $comptFilesPublishedNo = count($filesPublishedNo->fil_id);
 

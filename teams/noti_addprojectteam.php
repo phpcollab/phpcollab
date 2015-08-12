@@ -1,6 +1,6 @@
 <?php
 $tmpquery = "WHERE noti.member IN($id)";
-$listNotifications = new request();
+$listNotifications = new Request();
 $listNotifications->openNotifications($tmpquery);
 $comptListNotifications = count($listNotifications->not_id);
 

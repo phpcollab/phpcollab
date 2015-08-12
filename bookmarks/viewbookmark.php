@@ -43,7 +43,7 @@ if ($action == "publish") {
 }
 
 $tmpquery = "WHERE boo.id = '$id'";
-$bookmarkDetail = new request();
+$bookmarkDetail = new Request();
 $bookmarkDetail->openBookmarks($tmpquery);
 
 if ($bookmarkDetail->boo_users[0] != "") {

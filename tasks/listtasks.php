@@ -59,12 +59,12 @@ $id = $project;
 }
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-$memberTest = new request();
+$memberTest = new Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
@@ -126,7 +126,7 @@ $tmpquery = "WHERE tas.project = '$project' ORDER BY $block1->sortingValue";
 
 $block1->recordsTotal = Util::computeTotal($initrequest["tasks"]." ".$tmpquery);
 
-$listTasks = new request();
+$listTasks = new Request();
 $listTasks->openTasks($tmpquery,$block1->borne,$block1->rowsLimit);
 $comptListTasks = count($listTasks->tas_id);
 

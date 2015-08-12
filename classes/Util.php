@@ -820,7 +820,7 @@ class Util
         preg_match("/\[([0-9 ]*\/[0-9 ]*)\]/", $prj_name, $findit);;
         if ($findit[1] != "") {
             $prj_id = $projectDetail->pro_id[0];
-            $taskDetails = new request();
+            $taskDetails = new Request();
             $tmpquery = "WHERE tas.project = '$prj_id'";
             $taskDetails->openTasks($tmpquery);
             $tasksNumb = count($taskDetails->tas_id);
@@ -849,7 +849,7 @@ class Util
     public static function taskComputeCompletion($taskid, $tableTask)
     {
         $tmpquery = "WHERE subtas.tasks = '$taskid'";
-        $subtaskList = new request();
+        $subtaskList = new Request();
         $subtaskList->openAvgTasks($taskid);
         $avg = $subtaskList->tas_avg[0];
         settype($avg, "integer");

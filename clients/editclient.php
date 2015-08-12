@@ -37,7 +37,7 @@ if ($id != "")
 
 	//test exists selected client organization, redirect to list if not
 	$tmpquery = "WHERE org.id = '$id'";
-	$clientDetail = new request();
+	$clientDetail = new Request();
 	$clientDetail->openOrganizations($tmpquery);
 	$comptClientDetail = count($clientDetail->org_id);
 	
@@ -114,7 +114,7 @@ if ($id == "")
 			
 			//test if name already exists
 			$tmpquery = "WHERE org.name = '$cn'";
-			$existsClient = new request();
+			$existsClient = new Request();
 			$existsClient->openOrganizations($tmpquery);
 			$comptExistsClient = count($existsClient->org_id);
 
@@ -217,7 +217,7 @@ if ($clientsFilter == "true")
 {
 	$selectOwner = "<select name='cown'>";
 	$tmpquery = "WHERE (mem.profil = '1' OR mem.profil = '0') AND mem.login != 'demo' ORDER BY mem.name";
-	$clientOwner = new request();
+	$clientOwner = new Request();
 	$clientOwner->openMembers($tmpquery);
 	$comptClientOwner = count($clientOwner->mem_id);
 

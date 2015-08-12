@@ -71,7 +71,7 @@ $block1->sorting("organizations",$sortingUser->sor_organizations[0],"org.name AS
 if ($clientsFilter == "true" && $profilSession == "2") {
 $teamMember = "false";
 $tmpquery = "WHERE tea.member = '$idSession'";
-$memberTest = new request();
+$memberTest = new Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
@@ -98,7 +98,7 @@ $comptMemberTest = count($memberTest->tea_id);
 $block1->recordsTotal = Util::computeTotal($initrequest["organizations"]." ".$tmpquery);
 
 if ($listClients != "false") {
-	$listOrganizations = new request();
+	$listOrganizations = new Request();
 	$listOrganizations->openOrganizations($tmpquery,$block1->borne,$block1->rowsLimit);
 	$comptListOrganizations = count($listOrganizations->org_id);
 } else {

@@ -20,7 +20,7 @@ Util::autoLinks($messageField);
 
 if ($notifications == "true") {
 $tmpquery = "WHERE pro.id = '$projectSession'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 	include("../topics/noti_newtopic.php");

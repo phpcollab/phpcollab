@@ -50,7 +50,7 @@ $msg = "removeToSite";
 include('../themes/'.THEME.'/header.php');
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 $blockPage = new Block();
@@ -58,7 +58,7 @@ $blockPage->openBreadcrumbs();
 if ($project != "") {
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-$memberTest = new request();
+$memberTest = new Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
@@ -115,7 +115,7 @@ $tmpquery = "WHERE topic.project = '$project' ORDER BY $block1->sortingValue";
 } else {
 $tmpquery = "WHERE topic.owner = '$idSession' ORDER BY $block1->sortingValue";
 }
-$listTopics = new request();
+$listTopics = new Request();
 $listTopics->openTopics($tmpquery);
 $comptListTopics = count($listTopics->top_id);
 

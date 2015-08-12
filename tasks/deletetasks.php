@@ -13,7 +13,7 @@ if ($action == "delete") {
 	$tmpquery3 = "DELETE FROM ".$tableCollab["subtasks"]." WHERE task IN($id)";
 
 	$tmpquery = "WHERE tas.id IN($id)";
-	$listTasks = new request();
+	$listTasks = new Request();
 	$listTasks->openTasks($tmpquery);
 	$comptListTasks = count($listTasks->tas_id);
 		for ($i=0;$i<$comptListTasks;$i++) {
@@ -27,7 +27,7 @@ if ($action == "delete") {
 	
 //recompute number of completed tasks of the project
 	$tmpquery = "WHERE pro.id = '".$listTasks->tas_project[0]."'";
-	$projectDetail = new request();
+	$projectDetail = new Request();
 	$projectDetail->openProjects($tmpquery);
 
 	Util::projectComputeCompletion(
@@ -44,7 +44,7 @@ if ($action == "delete") {
 }
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 include('../themes/'.THEME.'/header.php');
@@ -78,7 +78,7 @@ $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE tas.id IN($id) ORDER BY tas.name";
-$listTasks = new request();
+$listTasks = new Request();
 $listTasks->openTasks($tmpquery);
 $comptListTasks = count($listTasks->tas_id);
 

@@ -36,7 +36,7 @@ echo "<div id='overDiv' style='position:absolute; visibility:hidden; z-index:100
 
 if ($blank != "true" && $version >= "2.0") {
 $tmpquery = "WHERE org.id = '1'";
-$clientHeader = new request();
+$clientHeader = new Request();
 $clientHeader->openOrganizations($tmpquery);
 }
 if (file_exists("../logos_clients/1.".$clientHeader->org_extension_logo[0]) && $blank != "true" && $version >= "2.0") {

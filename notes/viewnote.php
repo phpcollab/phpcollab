@@ -50,16 +50,16 @@ if ($action == "publish")
 include('../themes/'.THEME.'/header.php');
 
 $tmpquery = "WHERE note.id = '$id'";
-$noteDetail = new request();
+$noteDetail = new Request();
 $noteDetail->openNotes($tmpquery);
 
 $tmpquery = "WHERE pro.id = '".$noteDetail->note_project[0]."'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '".$noteDetail->note_project[0]."' AND tea.member = '$idSession'";
-$memberTest = new request();
+$memberTest = new Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 

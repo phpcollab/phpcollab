@@ -15,7 +15,7 @@ $msg = "updateFile";
 }
 
 $tmpquery = "WHERE fil.id = '$id'";
-$fileDetail = new request();
+$fileDetail = new Request();
 $fileDetail->openFiles($tmpquery);
 
 if ($fileDetail->fil_published[0] == "1" || $fileDetail->fil_project[0] != $projectSession) {

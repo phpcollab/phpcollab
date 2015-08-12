@@ -31,7 +31,7 @@ include_once('../includes/library.php');
 if ($action == "delete") {
 	$id = str_replace("**",",",$id);
 	$tmpquery = "WHERE org.id IN($id)";
-	$listOrganizations = new request();
+	$listOrganizations = new Request();
 	$listOrganizations->openOrganizations($tmpquery);
 	$comptListOrganizations = count($listOrganizations->org_id);
 	for ($i=0;$i<$comptListOrganizations;$i++) {
@@ -75,7 +75,7 @@ $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE org.id IN($id) ORDER BY org.name";
-$listOrganizations = new request();
+$listOrganizations = new Request();
 $listOrganizations->openOrganizations($tmpquery);
 $comptListOrganizations = count($listOrganizations->org_id);
 

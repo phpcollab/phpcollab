@@ -32,7 +32,7 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 $tmpquery = "WHERE pro.id = '$id'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 $comptProjectDetail = count($projectDetail->pro_id);
 
@@ -79,7 +79,7 @@ $block1->closePaletteIcon();
 $block1->sorting("team",$sortingUser->sor_team[0],"mem.name ASC",$sortingFields = array(0=>"mem.name",1=>"mem.title",2=>"mem.login",3=>"mem.phone_work",4=>"log.connected",5=>"tea.published"));
 
 $tmpquery = "WHERE tea.project = '$id' AND mem.profil != '3' ORDER BY $block1->sortingValue";
-$listTeam = new request();
+$listTeam = new Request();
 $listTeam->openTeams($tmpquery);
 $comptListTeam = count($listTeam->tea_id);
 

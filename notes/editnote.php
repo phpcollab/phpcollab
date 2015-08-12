@@ -32,7 +32,7 @@ include("../includes/customvalues.php");
 
 if ($id != "" && $action != "add") {
 	$tmpquery = "WHERE note.id = '$id'";
-	$noteDetail = new request();
+	$noteDetail = new Request();
 	$noteDetail->openNotes($tmpquery);
 	$tmpquery = "WHERE pro.id = '".$noteDetail->note_project[0]."'";
 	$project = $noteDetail->note_project[0];
@@ -45,12 +45,12 @@ if ($noteDetail->note_owner[0] != $idSession) {
 	$tmpquery = "WHERE pro.id = '$project'";
 }
 
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-$memberTest = new request();
+$memberTest = new Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 if ($comptMemberTest == "0") {
@@ -148,7 +148,7 @@ $block1->contentTitle($strings["details"]);
 echo "<tr class='odd'><td valign='top' class='leftvalue'>".$strings["project"]." :</td><td><select name='projectMenu'>";
 
 $tmpquery = "WHERE tea.member = '$idSession' ORDER BY pro.name";
-$listProjects = new request();
+$listProjects = new Request();
 $listProjects->openTeams($tmpquery);
 $comptListProjects = count($listProjects->tea_id);
 

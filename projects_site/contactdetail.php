@@ -6,11 +6,11 @@ $checkSession = "true";
 include("../includes/library.php");
 
 $tmpquery = "WHERE mem.id = '$id'";
-$userDetail = new request();
+$userDetail = new Request();
 $userDetail->openMembers($tmpquery);
 
 $tmpquery = "WHERE tea.project = '$projectSession' AND tea.member = '$id'";
-$detailContact = new request();
+$detailContact = new Request();
 $detailContact->openTeams($tmpquery);
 
 if ($detailContact->tea_published[0] == "1" || $detailContact->tea_project[0] != $projectSession) {

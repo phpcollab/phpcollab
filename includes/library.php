@@ -266,7 +266,7 @@ if ($checkSession != "false" && $demoSession != "true") {
     }
 
     $tmpquery = "WHERE log.login = '" . Util::fixInt($loginSession) . "'";
-    $checkLog = new request();
+    $checkLog = new Request();
     $checkLog->openLogs($tmpquery);
     $comptCheckLog = count($checkLog->log_id);
     if ($comptCheckLog != "0") {
@@ -345,7 +345,7 @@ if (!empty($sor_cible) && $sor_cible != "" && $sor_champs != "none") {
 
 //set all sorting values for logged user
 $tmpquery = "WHERE sor.member = '" . Util::fixInt($idSession) . "'";
-$sortingUser = new request();
+$sortingUser = new Request();
 $sortingUser->openSorting($tmpquery);
 
 // :-)

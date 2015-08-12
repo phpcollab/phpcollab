@@ -42,7 +42,7 @@ $tmpquery = "WHERE org.id != '1' ORDER BY $block1->sortingValue";
 
 $block1->recordsTotal = Util::computeTotal($initrequest["organizations"]." ".$tmpquery);
 
-$listOrganizations = new request();
+$listOrganizations = new Request();
 $listOrganizations->openOrganizations($tmpquery,$block1->borne,$block1->rowsLimit);
 $comptListOrganizations = count($listOrganizations->org_id);
 
@@ -93,7 +93,7 @@ $tmpquery = "WHERE org.id != '1' ORDER BY $block2->sortingValue";
 
 $block2->recordsTotal = Util::computeTotal($initrequest["organizations"]." ".$tmpquery);
 
-$listOrganizations2 = new request();
+$listOrganizations2 = new Request();
 $listOrganizations2->openOrganizations($tmpquery,$block2->borne,$block2->rowsLimit);
 $comptlistOrganizations2 = count($listOrganizations2->org_id);
 

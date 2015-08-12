@@ -9,11 +9,11 @@ include("../includes/jpgraph/jpgraph.php");
 include("../includes/jpgraph/jpgraph_gantt.php");
 
 $tmpquery = "WHERE tas.id = '".$task."'";
-$taskDetail = new request();
+$taskDetail = new Request();
 $taskDetail->openTasks($tmpquery);
 
 $tmpquery = "WHERE pro.id = '".$taskDetail->tas_project[0]."'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 $projectDetail->pro_created[0] = Util::createDate($projectDetail->pro_created[0],$timezoneSession);
@@ -34,7 +34,7 @@ $graph->scale->week->SetFont(FF_FONT0);
 $graph->scale->year->SetFont(FF_FONT1);
 
 $tmpquery = "WHERE subtas.task = '$task' AND subtas.start_date != '--' AND subtas.due_date != '--' ORDER BY subtas.due_date";
-$listTasks = new request();
+$listTasks = new Request();
 $listTasks->openSubtasks($tmpquery);
 $comptListTasks = count($listTasks->subtas_id);
 

@@ -64,7 +64,7 @@ if ($action == "update") {
 }
 
 $tmpquery = "WHERE mem.id = '$idSession'";
-$userPrefs = new request();
+$userPrefs = new Request();
 $userPrefs->openMembers($tmpquery);
 $comptUserPrefs = count($userPrefs->mem_id);
 

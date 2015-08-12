@@ -32,12 +32,12 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 $tmpquery = "WHERE org.id = '$organization'";
-$detailClient = new request();
+$detailClient = new Request();
 $detailClient->openOrganizations($tmpquery);
 $comptDetailClient = count($detailClient->org_id);
 
 $tmpquery = "WHERE mem.id = '$id'";
-$userDetail = new request();
+$userDetail = new Request();
 $userDetail->openMembers($tmpquery);
 $comptUserDetail = count($userDetail->mem_id);
 
@@ -49,7 +49,7 @@ if ($action == "update") {
 
 //test if login already exists
         $tmpquery = "WHERE mem.login = '$un' AND mem.login != '$unOld'";
-        $existsUser = new request();
+        $existsUser = new Request();
         $existsUser->openMembers($tmpquery);
         $comptExistsUser = count($existsUser->mem_id);
         if ($comptExistsUser != "0") {
@@ -148,7 +148,7 @@ echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["user_name
 <tr class='odd'><td valign='top' class='leftvalue'>" . $strings["organization"] . " :</td><td><select name='clod'>";
 
 $tmpquery = "WHERE org.id != '1' ORDER BY org.name";
-$selectClient = new request();
+$selectClient = new Request();
 $selectClient->openOrganizations($tmpquery);
 $comptSelectClient = count($selectClient->org_id);
 for ($i = 0; $i < $comptSelectClient; $i++) {

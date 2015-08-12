@@ -34,7 +34,7 @@ $block1->closePaletteIcon();
 $block1->sorting("organizations",$sortingUser->sor_organizations[0],"org.name ASC",$sortingFields = array(0=>"org.name",1=>"org.phone",2=>"org.url"));
 
 $tmpquery = "WHERE org.id != '1' ORDER BY $block1->sortingValue";
-$listOrganizations = new request();
+$listOrganizations = new Request();
 $listOrganizations->openOrganizations($tmpquery);
 $comptListOrganizations = count($listOrganizations->org_id);
 

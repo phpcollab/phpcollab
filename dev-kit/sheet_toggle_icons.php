@@ -9,7 +9,7 @@ include_once('../includes/library.php');
 $id = Util::returnGlobal('id','GET');
 
 $tmpquery = "WHERE org.id = '$id'";
-$clientDetail = new request();
+$clientDetail = new Request();
 $clientDetail->openOrganizations($tmpquery);
 $comptClientDetail = count($clientDetail->org_id);
 

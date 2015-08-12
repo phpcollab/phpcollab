@@ -18,12 +18,12 @@ if ($supportType == "admin") {
 }
 
 $tmpquery = "WHERE pro.id = '$id'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '$id' AND tea.member = '$idSession'";
-$memberTest = new request();
+$memberTest = new Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
@@ -69,11 +69,11 @@ if($teamMember == "true" || $profilSession == "0"){
 $block1->sorting("support_requests",$sortingUser->sor_support_requests[0],"sr.id ASC",$sortingFields = array(0=>"sr.id",1=>"sr.subject",2=>"sr.priority",3=>"sr.status",4=>"sr.date_open",5=>"sr.date_close"));
 
 /*$tmpquery = "WHERE mem.id = '$idSession'";
-$userDetail = new request();
+$userDetail = new Request();
 $userDetail->openMembers($tmpquery);*/
 
 $tmpquery = "WHERE sr.project = '$id' ORDER BY $block1->sortingValue";
-$listRequests = new request();
+$listRequests = new Request();
 $listRequests->openSupportRequests($tmpquery);
 $comptListRequests = count($listRequests->sr_id);
 

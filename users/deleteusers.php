@@ -26,7 +26,7 @@ if ($action == "delete") {
 	$tmpquery7 = "DELETE FROM ".$tableCollab["teams"]." WHERE member IN($id)";
 
 	$tmpquery = "WHERE pro.owner IN($id)";
-	$listProjects = new request();
+	$listProjects = new Request();
 	$listProjects->openProjects($tmpquery);
 	$comptListProjects = count($listProjects->pro_id);
 	for ($i=0;$i<$comptListProjects;$i++) {
@@ -39,7 +39,7 @@ if ($action == "delete") {
 			$listTeams->tea_pro_id = "";
 
 			$tmpquery = "WHERE tea.project = '".$listProjects->pro_id[$i]."' AND tea.member = '$atProject'";
-			$listTeams = new request();
+			$listTeams = new Request();
 			$listTeams->openTeams($tmpquery);
 			$comptListTeams = count($listTeams->tea_id);
 				if ($comptListTeams == "0") {
@@ -64,7 +64,7 @@ if ($action == "delete") {
 			$listTeams->tea_pro_id = "";
 
 			$tmpquery = "WHERE tea.member = '$pieces[$j]'";
-			$listTeams = new request();
+			$listTeams = new Request();
 			$listTeams->openTeams($tmpquery);
 			$comptListTeams = count($listTeams->tea_id);
 			for ($i=0;$i<$comptListTeams;$i++) {
@@ -115,7 +115,7 @@ $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE mem.id IN($id) ORDER BY mem.name";
-$listMembers = new request();
+$listMembers = new Request();
 $listMembers->openMembers($tmpquery);
 $comptListMembers = count($listMembers->mem_id);
 
@@ -140,7 +140,7 @@ echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td>".
 <tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td><b>".$strings["reassign_to"]." : </b> ";
 
 $tmpquery = "WHERE mem.profil != '3' AND mem.id NOT IN($id) ORDER BY mem.name";
-$reassign = new request();
+$reassign = new Request();
 $reassign->openMembers($tmpquery);
 $comptReassign = count($reassign->mem_id);
 

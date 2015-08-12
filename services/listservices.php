@@ -40,7 +40,7 @@ $block1->paletteIcon(3,"edit",$strings["edit"]);
 $block1->closePaletteIcon();
 
 $tmpquery = "ORDER BY serv.name ASC";
-$listServices = new request();
+$listServices = new Request();
 $listServices->openServices($tmpquery);
 $comptListServices = count($listServices->serv_id);
 

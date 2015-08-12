@@ -61,7 +61,7 @@ $block1->labels($labels = array(0=>$strings["user_name"],1=>$strings["ip"],2=>$s
 
 $tmpquery = "ORDER BY last_visite DESC";
 
-$listLogs = new request();
+$listLogs = new Request();
 $listLogs->openLogs($tmpquery);
 $comptListLogs = count($listLogs->log_id);
 

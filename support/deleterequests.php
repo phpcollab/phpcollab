@@ -45,18 +45,18 @@ if ($action == "deletePost") {
 if ($action == "deleteR") {
 	$id = str_replace("**",",",$id);
 	$tmpquery = "WHERE sr.id IN($id) ORDER BY sr.subject";
-	$listRequest = new request();
+	$listRequest = new Request();
 	$listRequest->openSupportRequests($tmpquery);
 	$comptListRequest = count($listRequest->sr_id);
 }elseif ($action == "deleteP") {
 	$id = str_replace("**",",",$id);
 	$tmpquery = "WHERE sp.id IN($id) ORDER BY sp.id";
-	$listPost = new request();
+	$listPost = new Request();
 	$listPost->openSupportPosts($tmpquery);
 	$comptListPost = count($listPost->sp_id);
 
 	$tmpquery2 = "WHERE sr.id IN(".$listPost->sp_request_id[0].") ORDER BY sr.subject";
-	$listRequest = new request();
+	$listRequest = new Request();
 	$listRequest->openSupportRequests($tmpquery2);
 	$comptListRequest = count($listRequest->sr_id);
 }

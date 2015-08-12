@@ -32,7 +32,7 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 $tmpquery = "WHERE mem.id = '$id'";
-$userDetail = new request();
+$userDetail = new Request();
 $userDetail->openMembers($tmpquery);
 $comptUserDetail = count($userDetail->mem_id);
 

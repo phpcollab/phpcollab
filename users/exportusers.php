@@ -22,7 +22,7 @@ if ($profilSession != (0 && 2 && 5)) {
 
 // get company info
 $tmpquery = "WHERE org.id = '1'";
-$clientDetail = new request();
+$clientDetail = new Request();
 $clientDetail->openOrganizations($tmpquery);
 
 $cn = $clientDetail->org_name[0];
@@ -60,7 +60,7 @@ if ($demoMode == "true") {
 } else {
 	$tmpquery = "WHERE mem.id != '1' AND mem.profil != '3' AND mem.id != '2' ORDER BY $block1->sortingValue";
 }
-$listMembers = new request();
+$listMembers = new Request();
 $listMembers->openMembers($tmpquery);
 $comptListMembers = count($listMembers->mem_id);
 

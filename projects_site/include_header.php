@@ -34,12 +34,12 @@
 if ($projectSession != "" && $changeProject != "true") 
 {
 	$tmpquery = "WHERE pro.id = '$projectSession'";
-	$projectDetail = new request();
+	$projectDetail = new Request();
 	$projectDetail->openProjects($tmpquery);
 
 	$teamMember = "false";
 	$tmpquery = "WHERE tea.project = '$projectSession' AND tea.member = '$idSession'";
-	$memberTest = new request();
+	$memberTest = new Request();
 	$memberTest->openTeams($tmpquery);
 	$comptMemberTest = count($memberTest->tea_id);
 

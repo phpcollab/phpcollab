@@ -31,7 +31,7 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 $tmpquery = "WHERE mem.id = '$idSession'";
-$userPrefs = new request();
+$userPrefs = new Request();
 $userPrefs->openMembers($tmpquery);
 $comptUserPrefs = count($userPrefs->mem_id);
 
@@ -54,7 +54,7 @@ if ($action == "update") {
 }
 
 $tmpquery = "WHERE noti.member = '$idSession'";
-$userAvert = new request();
+$userAvert = new Request();
 $userAvert->openNotifications($tmpquery);
 
 if ($userAvert->not_taskassignment[0] == "0") {

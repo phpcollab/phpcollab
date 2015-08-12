@@ -45,7 +45,7 @@ if ($multi != "")
 if ($id != "" && $action != "update" && $action != "add")
 {
     $tmpquery = "WHERE tas.id = '$id'";
-    $taskDetail = new request();
+    $taskDetail = new Request();
     $taskDetail->openTasks($tmpquery);
     $tmpquery = "WHERE pro.id = '".$taskDetail->tas_project[0]."'";
     $project = $taskDetail->tas_project[0];
@@ -55,12 +55,12 @@ else
     $tmpquery = "WHERE pro.id = '$project'";
 }
 
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-$memberTest = new request();
+$memberTest = new Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 
@@ -100,7 +100,7 @@ if ($id != "")
             if ($projectDetail->pro_phase_set[0] != "0")
             {
                 $tmpquery = "WHERE pha.project_id = '$project' AND pha.order_num = '$pha'";
-                $currentPhase = new request();
+                $currentPhase = new Request();
                 $currentPhase->openPhases($tmpquery);
                 if ($st == 3 && $currentPhase->pha_status[0] != 1)
                 {
@@ -146,7 +146,7 @@ if ($id != "")
 
             //subtask copying
             $tmpquery1 = "WHERE task = '$id'";
-            $subtaskDetail = new request();
+            $subtaskDetail = new Request();
             $subtaskDetail->openSubtasks($tmpquery1);
 
             $comptListSubtasks = count($subtaskDetail->subtas_id);
@@ -185,7 +185,7 @@ if ($id != "")
                 }
 
                 $tmpquery = "WHERE project = '$project'";
-                $detailInvoice = new request();
+                $detailInvoice = new Request();
                 $detailInvoice->openInvoices($tmpquery);
                 if ($detailInvoice->inv_status[0] == "0") {
                     //$tmpquery3 = "INSERT INTO ".$tableCollab["invoices_items"]." SET title='$task_name',description='$d',invoice='".$detailInvoice->inv_id[0]."',created='$dateheure',active='$invoicing',completed='$completeItem',mod_type='1',mod_value='$num',worked_hours='$worked_hours'";
@@ -214,7 +214,7 @@ if ($id != "")
         if ($at != "0")
         {
             $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$at'";
-            $testinTeam = new request();
+            $testinTeam = new Request();
             $testinTeam->openTeams($tmpquery);
             $comptTestinTeam = count($testinTeam->tea_id);
 
@@ -248,7 +248,7 @@ if ($id != "")
         if ($projectDetail->pro_phase_set[0] != "0")
         {
             $tmpquery = "WHERE pha.project_id = '$project' AND pha.order_num = '$pha'";
-            $currentPhase = new request();
+            $currentPhase = new Request();
             $currentPhase->openPhases($tmpquery);
 
             if ($st == 3 && $currentPhase->pha_status[0] != 1)
@@ -327,7 +327,7 @@ if ($id != "")
 
             //recompute number of completed tasks of the old project
             $tmpquery = "WHERE pro.id = '$old_project'";
-            $oldproject = new request();
+            $oldproject = new Request();
             $oldproject->openProjects($tmpquery);
             Util::projectComputeCompletion(
             $oldproject,
@@ -346,7 +346,7 @@ if ($id != "")
                 $completeItem = "0";
             }
                 $tmpquery = "WHERE project = '$project'";
-                $detailInvoice = new request();
+                $detailInvoice = new Request();
                 $detailInvoice->openInvoices($tmpquery);
 
                 if ($detailInvoice->inv_status[0] == "0")
@@ -370,7 +370,7 @@ if ($id != "")
                 $tmpquery2 = "INSERT INTO ".$tableCollab["assignments"]."(task,owner,assigned_to,assigned) VALUES('$id','$idSession','$at','$dateheure')";
                 Util::connectSql("$tmpquery2");
                 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$at'";
-                $testinTeam = new request();
+                $testinTeam = new Request();
                 $testinTeam->openTeams($tmpquery);
                 $comptTestinTeam = count($testinTeam->tea_id);
 
@@ -383,7 +383,7 @@ if ($id != "")
                 $msg = "updateAssignment";
                 Util::connectSql("$tmpquery5");
                 $tmpquery = "WHERE tas.id = '$id'";
-                $taskDetail = new request();
+                $taskDetail = new Request();
                 $taskDetail->openTasks($tmpquery);
 
                 //send task assignment mail if notifications = true
@@ -397,7 +397,7 @@ if ($id != "")
                 $msg = "update";
                 Util::connectSql("$tmpquery5");
                 $tmpquery = "WHERE tas.id = '$id'";
-                $taskDetail = new request();
+                $taskDetail = new Request();
                 $taskDetail->openTasks($tmpquery);
 
                 //send status task change mail if notifications = true
@@ -489,7 +489,7 @@ if ($id == "")
         if ($projectDetail->pro_enable_phase[0] == "1")
         {
             $tmpquery = "WHERE pha.project_id = '$project' AND pha.order_num = '$pha'";
-            $currentPhase = new request();
+            $currentPhase = new Request();
             $currentPhase->openPhases($tmpquery);
 
             if ($st == 3 && $currentPhase->pha_status[0] != 1)
@@ -546,7 +546,7 @@ if ($id == "")
             }
 
             $tmpquery = "WHERE project = '$project'";
-            $detailInvoice = new request();
+            $detailInvoice = new Request();
             $detailInvoice->openInvoices($tmpquery);
 
             if ($detailInvoice->inv_status[0] == "0")
@@ -582,7 +582,7 @@ if ($id == "")
         if ($at != "0")
         {
             $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$at'";
-            $testinTeam = new request();
+            $testinTeam = new Request();
             $testinTeam->openTeams($tmpquery);
             $comptTestinTeam = count($testinTeam->tea_id);
 
@@ -635,7 +635,7 @@ if ($projectDetail->pro_phase_set[0] != "0")
         $tmpquery = "WHERE pha.project_id = '$project' AND pha.order_num = '$tPhase'";
     }
 
-    $targetPhase = new request();
+    $targetPhase = new Request();
     $targetPhase->openPhases($tmpquery);
 }
 
@@ -732,7 +732,7 @@ else
     $tmpquery = "";
 }
 
-$listProjects = new request();
+$listProjects = new Request();
 $listProjects->openProjects($tmpquery);
 $comptListProjects = count($listProjects->pro_id);
 
@@ -784,7 +784,7 @@ else
 }
 
 $tmpquery = "WHERE tea.project = '$project' ORDER BY mem.name";
-$assignto = new request();
+$assignto = new Request();
 $assignto->openTeams($tmpquery);
 $comptAssignto = count($assignto->tea_mem_id);
 
@@ -817,7 +817,7 @@ if ($projectDetail->pro_phase_set[0] != "0")
 
     $projectTarget = $projectDetail->pro_id[0];
     $tmpquery = "WHERE pha.project_id = '$projectTarget' ORDER BY pha.order_num";
-    $projectPhaseList = new request();
+    $projectPhaseList = new Request();
     $projectPhaseList->openPhases($tmpquery);
 
     $comptlistPhase = count($projectPhaseList->pha_id);

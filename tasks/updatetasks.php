@@ -34,12 +34,12 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE tas.id IN($id)";
-$listTasks = new request();
+$listTasks = new Request();
 $listTasks->openTasks($tmpquery);
 $comptListTasks = count($listTasks->tas_id);
 
@@ -174,7 +174,7 @@ if ($action == "update")
 				//echo $tmpquery2."<br/>";
 
 				$tmpquery = "WHERE tea.project = '$project' AND tea.member = '$at'";
-				$testinTeam = new request();
+				$testinTeam = new Request();
 				$testinTeam->openTeams($tmpquery);
 				$comptTestinTeam = count($testinTeam->tea_id);
 
@@ -208,7 +208,7 @@ $blockPage->openBreadcrumbs();
 if ($report != "")
 {
 	$tmpquery = "WHERE id = '$report'";
-	$reportDetail = new request();
+	$reportDetail = new Request();
 	$reportDetail->openReports($tmpquery);
 	$blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/createreport.php?",$strings["reports"],in));
 	$blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/resultsreport.php?id=".$reportDetail->rep_id[0],$reportDetail->rep_name[0],in));
@@ -254,7 +254,7 @@ if ($idSession == "1")
 }
 
 $tmpquery = "WHERE mem.id != '1' AND mem.profil != '3' ORDER BY mem.name";
-$assignTo = new request();
+$assignTo = new Request();
 $assignTo->openMembers($tmpquery);
 $comptAssignTo = count($assignTo->mem_id);
 

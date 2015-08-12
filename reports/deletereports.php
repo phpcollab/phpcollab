@@ -40,7 +40,7 @@ $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE rep.id IN($id) ORDER BY rep.name";
-$listReports = new request();
+$listReports = new Request();
 $listReports->openReports($tmpquery);
 $comptListReports = count($listReports->rep_id);
 

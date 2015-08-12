@@ -16,7 +16,7 @@ if ($action == "delete") {
 include('../themes/'.THEME.'/header.php');
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 $blockPage = new Block();

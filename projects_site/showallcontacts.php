@@ -10,7 +10,7 @@ $titlePage = $strings["project_team"];
 include ("include_header.php");
 
 $tmpquery = "WHERE tea.project = '$projectSession' AND tea.published = '0' ORDER BY mem.name";
-$listContacts = new request();
+$listContacts = new Request();
 $listContacts->openTeams($tmpquery);
 $comptListTeams = count($listContacts->tea_id);
 

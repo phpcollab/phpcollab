@@ -8,7 +8,7 @@ include("../includes/library.php");
 include("../includes/files_types.php");
 
 $tmpquery = "WHERE fil.id = '$id'";
-$fileDetail = new request();
+$fileDetail = new Request();
 $fileDetail->openFiles($tmpquery);
 
 if ($fileDetail->fil_published[0] == "1" || $fileDetail->fil_project[0] != $projectSession) {
@@ -241,7 +241,7 @@ echo "<table cellpadding=20 cellspacing=0 border=0 width=\"100%\">
 	//------------------------------------------------------------------
 	$tmpquery = "WHERE fil.id = '$id' OR fil.vc_parent = '$id' AND fil.vc_status = '3' ORDER BY fil.date DESC";
 
-	$listVersions = new request();
+	$listVersions = new Request();
 	$listVersions->openFiles($tmpquery);
 	$comptListVersions = count($listVersions->fil_vc_parent);
 
@@ -302,7 +302,7 @@ echo "<table cellpadding=20 cellspacing=0 border=0 width=\"100%\">
 	echo"<tr class=\"odd\"><td align=\"center\"><br/>";
 
 	$tmpquery = "WHERE fil.vc_parent = '$id' AND fil.vc_status != '3' ORDER BY fil.date";
-	$listReviews = new request();
+	$listReviews = new Request();
 	$listReviews->openFiles($tmpquery);
 	$comptListReviews = count($listReviews->fil_vc_parent);
 	for ($i=0;$i<$comptListReviews;$i++) {

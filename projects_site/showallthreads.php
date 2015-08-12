@@ -6,7 +6,7 @@ $checkSession = "true";
 include("../includes/library.php");
 
 $tmpquery = "WHERE topic.id = '$id'";
-$detailTopic = new request();
+$detailTopic = new Request();
 $detailTopic->openTopics($tmpquery);
 
 if ($detailTopic->top_published[0] == "1" || $detailTopic->top_project[0] != $projectSession) {
@@ -28,7 +28,7 @@ $titlePage = $strings["bulletin_board_topic"];
 include ("include_header.php");
 
 $tmpquery = "WHERE pos.topic = '".$detailTopic->top_id[0]."' ORDER BY pos.created DESC";
-$listPosts = new request();
+$listPosts = new Request();
 $listPosts->openPosts($tmpquery);
 $comptListPosts = count($listPosts->pos_id);
 

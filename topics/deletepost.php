@@ -7,7 +7,7 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 $tmpquery = "WHERE topic.id = '$topic'";
-$detailTopic = new request();
+$detailTopic = new Request();
 $detailTopic->openTopics($tmpquery);
 
 if ($action == "delete") {
@@ -21,7 +21,7 @@ if ($action == "delete") {
 }
 
 $tmpquery = "WHERE pos.id = '$id'";
-$detailPost = new request();
+$detailPost = new Request();
 $detailPost->openPosts($tmpquery);
 
 include('../themes/'.THEME.'/header.php');

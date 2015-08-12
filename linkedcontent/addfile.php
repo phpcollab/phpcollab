@@ -152,12 +152,12 @@ if ($action == "add")
 }
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-$memberTest = new request();
+$memberTest = new Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 
@@ -181,14 +181,14 @@ if ($projectDetail->pro_phase_set[0] != "0")
 	$phase = $projectDetail->pro_phase_set[0];
 
 	$tmpquery = "WHERE pha.id = '$phase'";
-	$phaseDetail = new request();
+	$phaseDetail = new Request();
 	$phaseDetail->openPhases($tmpquery);
 }
 
 if ($task != "0") 
 {
 	$tmpquery = "WHERE tas.id = '$task'";
-	$taskDetail = new request();
+	$taskDetail = new Request();
 	$taskDetail->openTasks($tmpquery);
 }
 

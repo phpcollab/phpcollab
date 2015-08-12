@@ -52,17 +52,17 @@ if ($msg != "")
 if ($enableHelpSupport == "true")
 {
 	$tmpquery = "WHERE sr.status = '0'";
-	$listNewRequests = new request();
+	$listNewRequests = new Request();
 	$listNewRequests->openSupportRequests($tmpquery);
 	$comptListNewRequests = count($listNewRequests->sr_id);
 	
 	$tmpquery = "WHERE sr.status = '1'";
-	$listOpenRequests = new request();
+	$listOpenRequests = new Request();
 	$listOpenRequests->openSupportRequests($tmpquery);
 	$comptListOpenRequests = count($listOpenRequests->sr_id);
 	
 	$tmpquery = "WHERE sr.status = '2'";
-	$listCompleteRequests = new request();
+	$listCompleteRequests = new Request();
 	$listCompleteRequests->openSupportRequests($tmpquery);
 	$comptListCompleteRequests = count($listCompleteRequests->sr_id);
 	

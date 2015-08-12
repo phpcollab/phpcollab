@@ -7,15 +7,15 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 $tmpquery = "WHERE invitem.id = '$id'";
-$detailInvoiceItem = new request();
+$detailInvoiceItem = new Request();
 $detailInvoiceItem->openInvoicesItems($tmpquery);
 
 $tmpquery = "WHERE inv.id = '".$detailInvoiceItem->invitem_invoice[0]."'";
-$detailInvoice = new request();
+$detailInvoice = new Request();
 $detailInvoice->openInvoices($tmpquery);
 
 $tmpquery = "WHERE pro.id = '".$detailInvoice->inv_project[0]."'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 if ($action == "update") {
@@ -87,11 +87,11 @@ if ($detailInvoiceItem->invitem_rate_type[0] == "a") {
 }
 
 $tmpquery = "WHERE org.id = '".$projectDetail->pro_organization[0]."'";
-$detailClient = new request();
+$detailClient = new Request();
 $detailClient->openOrganizations($tmpquery);
 
 $tmpquery = "ORDER BY serv.name ASC";
-$listServices = new request();
+$listServices = new Request();
 $listServices->openServices($tmpquery);
 $comptListServices = count($listServices->serv_id);
 

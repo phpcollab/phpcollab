@@ -8,7 +8,7 @@ $checkSession = "true";
 include("../includes/library.php");		// starts session and writes session cache headers
 
 $tmpquery = "WHERE fil.id = '$id'";
-$fileDetail = new request();
+$fileDetail = new Request();
 $fileDetail->openFiles($tmpquery);
 
 // test if file is published and part of the current project

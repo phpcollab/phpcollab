@@ -15,7 +15,7 @@ $id = str_replace("**",",",$id);
 $tmpquery1 = "DELETE FROM ".$tableCollab["files"]." WHERE id IN($id) OR vc_parent IN($id)";
 
 $tmpquery = "WHERE fil.id IN($id) OR fil.vc_parent IN($id) ORDER BY fil.name";
-$listFiles = new request();
+$listFiles = new Request();
 $listFiles->openFiles($tmpquery);
 $comptListFiles = count($listFiles->fil_id);
 	for ($i=0;$i<$comptListFiles;$i++) {
@@ -44,12 +44,12 @@ $comptListFiles = count($listFiles->fil_id);
 }
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 if ($task != "0") {
 	$tmpquery = "WHERE tas.id = '$task'";
-	$taskDetail = new request();
+	$taskDetail = new Request();
 	$taskDetail->openTasks($tmpquery);
 }
 
@@ -85,7 +85,7 @@ $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE fil.id IN($id) ORDER BY fil.name";
-$listFiles = new request();
+$listFiles = new Request();
 $listFiles->openFiles($tmpquery);
 $comptListFiles = count($listFiles->fil_id);
 

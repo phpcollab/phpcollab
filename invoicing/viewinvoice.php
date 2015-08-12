@@ -23,11 +23,11 @@ $msg = "removeToSite";
 }
 
 $tmpquery = "WHERE inv.id = '$id'";
-$detailInvoice = new request();
+$detailInvoice = new Request();
 $detailInvoice->openInvoices($tmpquery);
 
 $tmpquery = "WHERE pro.id = '".$detailInvoice->inv_project[0]."'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 if ($projectDetail->pro_owner[0] != $idSession) { 
@@ -117,7 +117,7 @@ $block2->paletteIcon(7,"edit",$strings["edit"]);
 $block2->closePaletteIcon();
 
 $tmpquery = "WHERE invitem.invoice = '$id' AND invitem.active = '1' ORDER BY invitem.position ASC";
-$listInvoicesItems = new request();
+$listInvoicesItems = new Request();
 $listInvoicesItems->openInvoicesItems($tmpquery);
 $comptListInvoicesItems = count($listInvoicesItems->invitem_id);
 

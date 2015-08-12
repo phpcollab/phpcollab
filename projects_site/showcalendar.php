@@ -113,7 +113,7 @@ if ($type == "calendDetail")
 	}
 
 	$tmpquery = "WHERE (cal.owner = '$idSession' AND cal.id = '$dateEnreg') OR (cal.broadcast = '1' AND cal.id = '$dateEnreg')";
-	$detailCalendar = new request();
+	$detailCalendar = new Request();
 	$detailCalendar->openCalendar($tmpquery);
 	$comptDetailCalendar = count($detailCalendar->cal_id);
 
@@ -274,12 +274,12 @@ if ($type == "monthPreview")
 
 	//LIMIT CALENDAR TO CURRENT PROJECT BUT SHOW ALL ASSIGNEES
 	$tmpquery = "WHERE (tas.project = '$projectSession') AND (tas.owner = '$idSession' OR tas.published = '0') ORDER BY tas.name";
-	$listTasks = new request();
+	$listTasks = new Request();
 	$listTasks->openTasks($tmpquery);
 	$comptListTasks = count($listTasks->tas_id);
 
 	$tmpquery = "WHERE subtas.task = tas.id AND tas.project = '$projectSession' AND (tas.owner = '$idSession' OR tas.published = '0') ORDER BY subtas.name";
-	$listSubtasks = new request();
+	$listSubtasks = new Request();
 	$listSubtasks->openSubtasks($tmpquery);
 	$comptListSubtasks = count($listSubtasks->subtas_id);
 
@@ -310,7 +310,7 @@ if ($type == "monthPreview")
 		$dayRecurr = _dayOfWeek(mktime(0,0,0,$month,$a,$year));
 		
 		$tmpquery = "WHERE (cal.owner = '$idSession' AND ((cal.date_start <= '$dateLink' AND cal.date_end >= '$dateLink' AND cal.recurring = '0') OR ((cal.date_start <= '$dateLink' AND cal.date_end >= '$dateLink') AND cal.recurring = '1' AND cal.recur_day = '$dayRecurr'))) OR (cal.broadcast = '1' AND ((cal.date_start <= '$dateLink' AND cal.date_end >= '$dateLink' AND cal.recurring = '0') OR ((cal.date_start <= '$dateLink' AND cal.date_end >= '$dateLink') AND cal.recurring = '1' AND cal.recur_day = '$dayRecurr'))) ORDER BY cal.shortname";
-		$listCalendarScan = new request();
+		$listCalendarScan = new Request();
 		$listCalendarScan->openCalendar($tmpquery);
 		$comptListCalendarScan = count($listCalendarScan->cal_id);
 		

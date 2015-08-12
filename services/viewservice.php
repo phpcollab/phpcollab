@@ -12,7 +12,7 @@ if ($profilSession != "0") {
 }
 
 $tmpquery = "WHERE serv.id = '$id'";
-$detailService = new request();
+$detailService = new Request();
 $detailService->openServices($tmpquery);
 $comptDetailService = count($detailService->serv_id);
 

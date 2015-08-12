@@ -12,7 +12,7 @@ include("../includes/cvslib.php");
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE pro.id IN($id) ORDER BY pro.name";
-$listProjects = new request();
+$listProjects = new Request();
 $listProjects->openProjects($tmpquery);
 $comptListProjects = count($listProjects->pro_id);
 
@@ -45,7 +45,7 @@ if ($action == "delete") {
     }
 
     $tmpquery = "WHERE tas.project IN($id)";
-    $listTasks = new request();
+    $listTasks = new Request();
     $listTasks->openTasks($tmpquery);
     $comptListTasks = count($listTasks->tas_id);
     for ($i=0;$i<$comptListTasks;$i++) {
@@ -59,7 +59,7 @@ if ($action == "delete") {
     }
 
     $tmpquery = "WHERE topic.project IN($id)";
-    $listTopics = new request();
+    $listTopics = new Request();
     $listTopics->openTopics($tmpquery);
     $comptListTopics = count($listTopics->top_id);
     for ($i=0;$i<$comptListTopics;$i++) {

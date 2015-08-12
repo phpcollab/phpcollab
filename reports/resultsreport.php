@@ -151,7 +151,7 @@ if ($id == "" && $tri != "true")
 if ($id != "") 
 {
 	$tmpquery = "WHERE id = '$id'";
-	$reportDetail = new request();
+	$reportDetail = new Request();
 	$reportDetail->openReports($tmpquery);
 	$S_ORGSEL = $reportDetail->rep_clients[0];
 	$S_PRJSEL = $reportDetail->rep_projects[0];
@@ -310,7 +310,7 @@ if ($projectsFilter == "true")
 	$tmpquery = "LEFT OUTER JOIN ".$tableCollab["teams"]." teams ON teams.project = pro.id ";
 	$tmpquery .= "WHERE pro.status IN(0,2,3) AND teams.member = '$idSession' ORDER BY pro.id";
 
-	$listProjectsTasks = new request();
+	$listProjectsTasks = new Request();
 	$listProjectsTasks->openProjects($tmpquery);
 	$comptListProjectsTasks = count($listProjectsTasks->pro_id);
 
@@ -341,7 +341,7 @@ if ($projectsFilter == "true")
 	$tmpquery = "$queryStart $query ORDER BY ".$block1->sortingValue." ";
 }
 
-$listTasks = new request();
+$listTasks = new Request();
 $listTasks->openTasks($tmpquery);
 $comptListTasks = count($listTasks->tas_id);
    
@@ -354,7 +354,7 @@ else
 	$tmpquery = "WHERE task in (\"\")";
 }
 
-$listSubTasks = new request();
+$listSubTasks = new Request();
 $listSubTasks->openSubtasks($tmpquery);
 $comptListSubTasks = count($listSubTasks->subtas_id);
 $totalTasks = $comptListTasks+$comptListSubTasks;
@@ -443,7 +443,7 @@ if ($comptListTasks != "0")
 		$block1->closeRow();
 		// begin if subtask
 		$tmpquery = "WHERE task = ".$listTasks->tas_id[$i];
-		$listSubTasks = new request();
+		$listSubTasks = new Request();
 		$listSubTasks->openSubtasks($tmpquery);
 		$comptListSubTasks = count($listSubTasks->subtas_id);
 		

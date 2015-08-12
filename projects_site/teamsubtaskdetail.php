@@ -6,11 +6,11 @@ $checkSession = "true";
 include("../includes/library.php");
 
 $tmpquery = "WHERE subtas.id = '$id'";
-$subtaskDetail = new request();
+$subtaskDetail = new Request();
 $subtaskDetail->openSubtasks($tmpquery);
 
 $tmpquery = "WHERE tas.id = '$task'";
-$taskDetail = new request();
+$taskDetail = new Request();
 $taskDetail->openTasks($tmpquery);
 
 if ($subtaskDetail->subtas_published[0] == "1" || $taskDetail->tas_project[0] != $projectSession) {
@@ -49,7 +49,7 @@ echo "<tr><td>".$strings["due_date"]." :</td><td>".$subtaskDetail->subtas_due_da
 }
 echo "<tr><td>".$strings["updates_subtask"]." :</td><td>";
 $tmpquery = "WHERE upd.type='2' AND upd.item = '$id' ORDER BY upd.created DESC";
-$listUpdates = new request();
+$listUpdates = new Request();
 $listUpdates->openUpdates($tmpquery);
 $comptListUpdates=count($listUpdates->upd_id);
 

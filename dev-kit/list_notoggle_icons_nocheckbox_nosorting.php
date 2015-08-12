@@ -32,7 +32,7 @@ $block1->paletteIcon(1,"remove",$strings["delete"]);
 $block1->closePaletteIcon();
 
 $tmpquery = "WHERE org.id != '1' ORDER BY org.url DESC";
-$listOrganizations = new request();
+$listOrganizations = new Request();
 $listOrganizations->openOrganizations($tmpquery);
 $comptListOrganizations = count($listOrganizations->org_id);
 

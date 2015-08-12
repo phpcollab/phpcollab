@@ -7,7 +7,7 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 $tmpquery = "WHERE org.id = '$organization'";
-$clientDetail = new request();
+$clientDetail = new Request();
 $clientDetail->openOrganizations($tmpquery);
 $comptClientDetail = count($clientDetail->org_id);
 
@@ -19,7 +19,7 @@ if ($action == "add") {
         $error = $strings["alpha_only"];
     } else {
         $tmpquery = "WHERE mem.login = '$un'";
-        $existsUser = new request();
+        $existsUser = new Request();
         $existsUser->openMembers($tmpquery);
         $comptExistsUser = count($existsUser->mem_id);
         if ($comptExistsUser != "0") {
@@ -127,7 +127,7 @@ $block1->contentRow($strings["title"], "<input size=\"24\" style=\"width: 250px;
 $selectOrganization = "<select name=\"clod\">";
 
 $tmpquery = "WHERE org.id != '1' ORDER BY org.name";
-$listOrganizations = new request();
+$listOrganizations = new Request();
 $listOrganizations->openOrganizations($tmpquery);
 $comptListOrganizations = count($listOrganizations->org_id);
 

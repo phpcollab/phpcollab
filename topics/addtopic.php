@@ -30,7 +30,7 @@ $checkSession = "true";
 include_once('../includes/library.php');
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 if ($projectDetail->pro_org_id[0] == "1") {
@@ -64,7 +64,7 @@ if ($action == "add") {
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '".$projectDetail->pro_id[0]."' AND tea.member = '$idSession'";
-$memberTest = new request();
+$memberTest = new Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	

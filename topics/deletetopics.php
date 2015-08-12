@@ -30,7 +30,7 @@ if($_GET['project']){
 	unset($project);
 }
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new request();
+$projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 include('../themes/'.THEME.'/header.php');
@@ -66,7 +66,7 @@ $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE topic.id IN($id) ORDER BY topic.subject";
-$listTopics = new request();
+$listTopics = new Request();
 $listTopics->openTopics($tmpquery);
 $comptListTopics = count($listTopics->top_id);
 
