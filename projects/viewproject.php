@@ -1198,5 +1198,5 @@ $block6->closePaletteScript($comptListNotes,$listNotes->note_id);
  * End Notes section
  */
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

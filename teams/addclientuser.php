@@ -149,5 +149,5 @@ $block1->paletteScript(1,"info","../users/viewuser.php?","false,true,false",$str
 $block1->paletteScript(2,"edit","../users/updateclientuser.php?organization=".$projectDetail->pro_organization[0]."","false,true,false",$strings["edit"]);
 $block1->closePaletteScript($comptListMembers,$listMembers->mem_id);
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

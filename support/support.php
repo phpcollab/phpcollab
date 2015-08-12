@@ -154,5 +154,5 @@ if($teamMember == "true" || $profilSession == "0"){
 	$block1->closePaletteScript($comptListRequests,$listRequests->sr_id);
 }
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

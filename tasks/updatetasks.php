@@ -343,7 +343,7 @@ echo "<input name='id' type='HIDDEN' value='$id'><input name='project' type='HID
 $block1->closeContent();
 $block1->closeForm();
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>
 <script>
 function changeSt(theObj, firstRun){

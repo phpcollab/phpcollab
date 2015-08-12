@@ -57,5 +57,5 @@ $block1->contentRow("",$strings["error_database"]);
 $block1->closeContent();
 
 $footerDev = "false";
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

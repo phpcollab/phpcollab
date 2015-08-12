@@ -42,5 +42,5 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

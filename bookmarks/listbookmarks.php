@@ -152,6 +152,6 @@ if ($view == "my") {
 $block1->closePaletteScript($comptListBookmarks,$listBookmarks->boo_id);
 
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 
 ?>

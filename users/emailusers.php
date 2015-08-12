@@ -130,5 +130,5 @@ $block1->contentRow("","<input type='submit' name='delete' value='".$strings["em
 $block1->closeContent();
 $block1->closeForm();
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

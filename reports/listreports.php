@@ -90,5 +90,5 @@ $block1->paletteScript(1,"remove","../reports/deletereports.php?","false,true,tr
 $block1->paletteScript(2,"export","../reports/exportreport.php?","false,true,true",$strings["export"]);
 $block1->closePaletteScript($comptListReports,$listReports->rep_id);
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

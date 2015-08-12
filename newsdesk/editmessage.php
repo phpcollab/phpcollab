@@ -222,6 +222,6 @@ if ($action!='remove') {
 }
 
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 
 ?>

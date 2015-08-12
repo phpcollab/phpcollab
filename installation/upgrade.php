@@ -167,7 +167,7 @@ $stepNext = $step + 1;
 if ($step < "2") { echo "<form name='license' action='../installation/{$script}?step=2&redirect=true' method='post'><center><a href=\"javascript:document.license.submit();\"><br /><b>Step $stepNext</b></a><br /><br /></center></form><br/>"; }
 
 $footerDev = "false";
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 
 //FOR DEBUG ****
 exit();

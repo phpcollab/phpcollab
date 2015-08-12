@@ -383,5 +383,5 @@ if ($fileManagement == "true")
 	$block3->closePaletteScript($comptListFiles,$listFiles->fil_id);
 }
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

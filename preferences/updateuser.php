@@ -153,5 +153,5 @@ $block1->openPaletteScript();
 $block1->paletteScript(0,"export","../users/exportuser.php?id=$idSession","true,true,true",$strings["export"]);
 $block1->closePaletteScript("","");
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

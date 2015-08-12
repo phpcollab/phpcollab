@@ -970,5 +970,5 @@ echo "</tr></table>";
     }
 }
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

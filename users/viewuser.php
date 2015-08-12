@@ -154,5 +154,5 @@ $block1->paletteScript(2,"export","../users/exportuser.php?id=$id&","true,true,t
 $block1->paletteScript(3,"email","../users/emailusers.php?id=$id&","true,true,true",$strings["email"]); 
 $block1->closePaletteScript("","");
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

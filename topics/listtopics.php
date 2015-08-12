@@ -165,5 +165,5 @@ $block1->paletteScript(4,"remove_projectsite","../topics/listtopics.php?removeTo
 $block1->paletteScript(5,"info","../topics/viewtopic.php?","false,true,false",$strings["view"]);
 $block1->closePaletteScript($comptListTopics,$listTopics->top_id);
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

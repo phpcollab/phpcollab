@@ -148,6 +148,6 @@ if ($teamMember == "true" && $idSession == $noteDetail->note_owner[0])
 	$block1->closePaletteScript("","");
 }
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 
 ?>

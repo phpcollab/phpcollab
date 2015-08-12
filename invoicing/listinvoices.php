@@ -154,5 +154,5 @@ if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
 
 $block1->closePaletteScript($comptListInvoices,$listInvoices->inv_id);
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

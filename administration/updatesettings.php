@@ -633,5 +633,5 @@ $block1->contentRow("","<input type='SUBMIT' value='".$strings["save"]."' />");
 $block1->closeContent();
 $block1->closeForm();
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

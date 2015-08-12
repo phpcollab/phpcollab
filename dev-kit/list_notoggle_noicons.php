@@ -51,5 +51,5 @@ $block1->noresults();
 }
 $block1->closeFormResults();
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

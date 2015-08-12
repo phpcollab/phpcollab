@@ -620,5 +620,5 @@ if ($teamMember == "true" || $profilSession == "5")
 }
 $block4->closePaletteScript($comptListSubtasks,$listSubtasks->subtas_id);
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

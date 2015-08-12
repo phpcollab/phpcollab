@@ -257,5 +257,5 @@ if ($profilSession == "0" || $profilSession == "1") {
 }
 $block3->closePaletteScript($comptListMembers,$listMembers->mem_id);
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

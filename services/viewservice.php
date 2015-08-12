@@ -62,5 +62,5 @@ $block1->paletteScript(0,"remove","../services/deleteservices.php?id=$id","true,
 $block1->paletteScript(1,"edit","../services/editservice.php?id=$id","true,true,true",$strings["edit"]);
 $block1->closePaletteScript("","");
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

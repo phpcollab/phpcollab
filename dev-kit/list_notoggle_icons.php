@@ -61,5 +61,5 @@ $block1->paletteScript(0,"add","../clients/editclient.php?","true,false,false",$
 $block1->paletteScript(1,"remove","../clients/deleteclients.php?","false,true,true",$strings["delete"]);
 $block1->closePaletteScript($comptListOrganizations,$listOrganizations->org_id);
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

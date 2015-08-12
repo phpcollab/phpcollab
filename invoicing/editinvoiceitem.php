@@ -114,5 +114,5 @@ $block1->closeForm();
 ?>
 
 <?php
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

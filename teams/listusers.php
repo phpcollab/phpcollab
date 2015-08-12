@@ -136,5 +136,5 @@ $block1->paletteScript(4,"info","../users/viewuser.php?","false,true,false",$str
 $block1->paletteScript(5,"email","../users/emailusers.php?","false,true,true",$strings["email"]);
 $block1->closePaletteScript($comptListTeam,$listTeam->tea_mem_id);
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

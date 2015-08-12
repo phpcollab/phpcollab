@@ -131,6 +131,6 @@ $block1->paletteScript(1,"remove","../support/deleterequests.php?action=deleteR&
 $block1->closePaletteScript($comptListRequests,$listRequests->sr_id);
 $block1->closeForm();
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 
 ?>

@@ -139,5 +139,5 @@ $block1->paletteScript(1,"edit","../users/updateclientuser.php?".session_name().
 $block1->paletteScript(2,"export","../users/exportuser.php?id=$id","true,true,true",$strings["export"]);
 $block1->closePaletteScript("","");
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

@@ -103,5 +103,5 @@ $block2->contentRow("1-","phpCollab is a fantastic program that can give you the
 $block2->contentRow("a","phpCollab does not publish your web site. phpCollab manages your projects, not your web site.");
 $block2->closeContent(); 
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

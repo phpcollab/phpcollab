@@ -146,5 +146,5 @@ $block1->paletteScript(3,"remove_projectsite","../topics/viewtopic.php?id=".$det
 $block1->closePaletteScript("","");
 }
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

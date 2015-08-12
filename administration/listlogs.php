@@ -100,5 +100,5 @@ for ($i=0;$i<$comptListLogs;$i++)
 
 $block1->closeResults();
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

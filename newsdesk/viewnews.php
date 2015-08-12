@@ -175,5 +175,5 @@ if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
 
 $block2->closePaletteScript($comptCommentsDetail,$newsComments->newscom_id);
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

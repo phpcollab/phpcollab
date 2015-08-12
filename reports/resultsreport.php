@@ -562,5 +562,5 @@ echo "  <tr class='odd'>
 $block2->closeContent();
 $block2->closeForm();
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

@@ -108,7 +108,7 @@ if ($profilSession == "0" || $profilSession == "1"  || $profilSession == "5") {
 	$block1->paletteScript(3,"info","../newsdesk/viewnews.php?","false,true,false",$strings["view_newsdesk"]);
 
 $block1->closePaletteScript($comptPosts,$listPosts->news_id);
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 
 
 ?>

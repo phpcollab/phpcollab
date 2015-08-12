@@ -294,5 +294,5 @@ echo "&nbsp;</td></tr>";
 
 $block1->closeContent();
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

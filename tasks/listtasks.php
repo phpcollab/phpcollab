@@ -202,5 +202,5 @@ $block1->paletteScript(7,"edit","../tasks/edittask.php?project=$project","false,
 }
 $block1->closePaletteScript($comptListTasks,$listTasks->tas_id);
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

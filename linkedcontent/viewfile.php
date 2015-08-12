@@ -843,5 +843,5 @@ if ($fileDetail->fil_owner[0] == $idSession)
 	$block4->closeContent();
 	$block4->closeForm();
 }
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

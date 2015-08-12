@@ -114,5 +114,5 @@ if ($bookmarkDetail->boo_owner[0] == $idSession) {
 	$block1->closePaletteScript("","");
 }
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

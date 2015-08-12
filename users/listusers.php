@@ -89,5 +89,5 @@ $block1->paletteScript(4,"export","../users/exportusers.php?","true,false,true",
 $block1->paletteScript(5,"email","../users/emailusers.php?","false,true,true",$strings["email"]); 
 $block1->closePaletteScript($comptListMembers,$listMembers->mem_id);
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

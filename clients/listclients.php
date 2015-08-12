@@ -137,5 +137,5 @@ if ($profilSession == "0" || $profilSession == "1") {
 }
 $block1->closePaletteScript($comptListOrganizations,$listOrganizations->org_id);
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

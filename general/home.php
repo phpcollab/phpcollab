@@ -933,5 +933,5 @@ if ($showHomeNewsdesk)
 	$block7->closePaletteScript($comptPosts,$listPosts->news_id);
 }
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

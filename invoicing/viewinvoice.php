@@ -164,5 +164,5 @@ $block2->openPaletteScript();
 $block2->paletteScript(7,"edit","../invoicing/editinvoiceitem.php?id=$id","false,true,true",$strings["edit"]);
 $block2->closePaletteScript($comptListInvoicesItems,$listInvoicesItems->invitem_id);
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

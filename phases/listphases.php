@@ -108,5 +108,5 @@ $block7->paletteScript(1,"edit","../phases/editphase.php?","false,true,true",$st
 $block7->closePaletteScript($comptListPhases,$listPhases->pha_id);
 }
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

@@ -144,5 +144,5 @@ if ($enableMantis == "true") {
 
 $block1->closePaletteScript($comptListProjects,$listProjects->pro_id);
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

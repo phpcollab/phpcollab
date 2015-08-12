@@ -90,5 +90,5 @@ $block1->closeForm();
 
 $block1->note($strings["delete_organizations_note"]);
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

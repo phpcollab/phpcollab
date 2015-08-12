@@ -52,5 +52,5 @@ $block1->contentRow("","<input type=\"submit\" name=\"delete\" value=\"".$string
 $block1->closeContent();
 $block1->closeForm();
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

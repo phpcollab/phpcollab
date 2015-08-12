@@ -69,5 +69,5 @@ $block1->paletteScript(2,"info","../services/viewservice.php?","false,true,false
 $block1->paletteScript(3,"edit","../services/editservice.php?","false,true,false",$strings["edit"]);
 $block1->closePaletteScript($comptListServices,$listServices->serv_id);
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

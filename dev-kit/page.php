@@ -21,5 +21,5 @@ if ($msg != "") {
 
 //blocks here
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

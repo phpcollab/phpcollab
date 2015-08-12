@@ -138,5 +138,5 @@ $block1->closeContent();
 $block1->closeForm();
 
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>
