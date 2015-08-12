@@ -53,7 +53,7 @@ $tmpquery = "WHERE pro.id = '$id'";
 $projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
-include('../themes/'.THEME.'/header.php');
+include '../themes/'.THEME.'/header.php';
 
 $modulehref = basename($PHP_SELF)."?id=$id";
 $moduledir = (dirname($PHP_SELF) == "/") ? "" : dirname($PHP_SELF);

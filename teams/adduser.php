@@ -72,7 +72,7 @@ $organization = "1";
 	Util::headerFunction("../projects/viewproject.php?".session_name()."=".session_id()."&id=".$projectDetail->pro_id[0]."&msg=add");
 }
 
-include('../themes/'.THEME.'/header.php');
+include '../themes/'.THEME.'/header.php';
 
 //echo "$tmpquery<br/>$comptMulti<br/>";
 

@@ -105,7 +105,7 @@ if ($comptUserDetail == "0") {
 }
 
 $bodyCommand = "onLoad=\"document.change_passwordForm.opw.focus();\"";
-include('../themes/'.THEME.'/header.php');
+include '../themes/'.THEME.'/header.php';
 
 
 $blockPage = new Block();

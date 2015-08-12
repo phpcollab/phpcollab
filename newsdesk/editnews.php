@@ -172,7 +172,7 @@ if ($id != '' && empty($action)) {
 } else {
     $setTitle .= " : Add News Item";
 }
-include('../themes/'.THEME.'/header.php');
+include '../themes/'.THEME.'/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

@@ -117,7 +117,7 @@ if ($id != "") {
 }
 
 
-include('../themes/'.THEME.'/header.php');
+include '../themes/'.THEME.'/header.php';
 
 $tmpquery2 = "WHERE news.id = '$postid'";
 $newsDetail = new Request();

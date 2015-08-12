@@ -48,7 +48,7 @@ if ($action == "search") {
 $setTitle .= " : Search";
 
 $bodyCommand = "onLoad=\"document.searchForm.searchfor.focus()\"";
-include('../themes/'.THEME.'/header.php');
+include '../themes/'.THEME.'/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

@@ -35,7 +35,7 @@ if ($action == "publish") {
 	}
 }
 
-include('../themes/'.THEME.'/header.php');
+include '../themes/'.THEME.'/header.php';
 
 $tmpquery = "WHERE pro.id = '$project'";
 $projectDetail = new Request();

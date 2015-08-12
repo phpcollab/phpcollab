@@ -80,7 +80,7 @@ if ($action == "send")
 
 $notLogged = "true";
 $bodyCommand = "onLoad=\"document.sendForm.loginForm.focus();\"";
-include('../themes/'.THEME.'/header.php');
+include '../themes/'.THEME.'/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

@@ -15,7 +15,7 @@ if ($action == "update") {
 }
 
 $bodyCommand = "onLoad=\"document.assignment_commentForm.acomm.focus();\"";
-include('../themes/'.THEME.'/header.php');
+include '../themes/'.THEME.'/header.php';
 
 $tmpquery = "WHERE tas.id = '$task'";
 $taskDetail = new Request();

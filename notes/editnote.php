@@ -100,7 +100,7 @@ if ($id == "") {
 
 $bodyCommand = "onLoad=\"document.etDForm.subject.focus();\"";
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
-include('../themes/'.THEME.'/header.php');
+include '../themes/'.THEME.'/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

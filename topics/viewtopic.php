@@ -61,7 +61,7 @@ if ($detailProject->pro_org_id[0] == "1") {
 $idStatus = $detailTopic->top_status[0];
 $idPublish = $detailTopic->top_published[0];
 
-include('../themes/'.THEME.'/header.php');
+include '../themes/'.THEME.'/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

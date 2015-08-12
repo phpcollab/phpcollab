@@ -6,7 +6,7 @@
 $checkSession = "true";
 include_once('../includes/library.php');
 
-include('../themes/'.THEME.'/header.php');
+include '../themes/'.THEME.'/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

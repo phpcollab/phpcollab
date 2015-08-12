@@ -44,7 +44,7 @@ if ($action == "add") {
 }
 
 $setTitle .= " : Report Results";
-include('../themes/'.THEME.'/header.php');
+include '../themes/'.THEME.'/header.php';
 
 if ($id == "" && $tri != "true") 
 {	

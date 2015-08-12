@@ -62,7 +62,7 @@ $organization = "";
 }
 }
 
-include('../themes/'.THEME.'/header.php');
+include '../themes/'.THEME.'/header.php';
 
 //echo "$tmpquery<br/>$comptMulti<br/>";
 

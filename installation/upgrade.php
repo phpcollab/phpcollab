@@ -34,7 +34,7 @@ $setTitle = "PhpCollab Upgrade";
 define('THEME','default');
 $blank = "true";
 include("../themes/".THEME."/block.class.php");
-include('../themes/'.THEME.'/header.php');
+include '../themes/'.THEME.'/header.php';
 
 //Get this file.. 
 $script = "upgrade.php";

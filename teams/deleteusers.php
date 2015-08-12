@@ -113,7 +113,7 @@ $organization = "1";
 	Util::headerFunction("../projects/viewproject.php?id=$project&msg=$msg&".session_name()."=".session_id());
 }
 
-include('../themes/'.THEME.'/header.php');
+include '../themes/'.THEME.'/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

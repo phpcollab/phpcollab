@@ -16,7 +16,7 @@ $detailService = new Request();
 $detailService->openServices($tmpquery);
 $comptDetailService = count($detailService->serv_id);
 
-include('../themes/'.THEME.'/header.php');
+include '../themes/'.THEME.'/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

@@ -200,7 +200,7 @@ if ($action == "update")
 
 //$bodyCommand="onload=\"document.forms[0].compl.value = document.forms[0].completion.selectedIndex;\"";
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
-include('../themes/'.THEME.'/header.php');
+include '../themes/'.THEME.'/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

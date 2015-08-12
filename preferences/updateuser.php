@@ -74,7 +74,7 @@ if ($comptUserPrefs == "0") {
 }
 
 $bodyCommand = "onLoad=\"document.user_edit_profileForm.fn.focus();\"";
-include('../themes/'.THEME.'/header.php');
+include '../themes/'.THEME.'/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

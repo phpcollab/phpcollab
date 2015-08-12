@@ -32,7 +32,7 @@ $comptMemberTest = count($memberTest->tea_id);
 		$teamMember = "true";
 	}
 
-include('../themes/'.THEME.'/header.php');
+include '../themes/'.THEME.'/header.php';
 
 
 $blockPage = new Block();

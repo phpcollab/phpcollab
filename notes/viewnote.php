@@ -47,7 +47,7 @@ if ($action == "publish")
 	}
 }
 
-include('../themes/'.THEME.'/header.php');
+include '../themes/'.THEME.'/header.php';
 
 $tmpquery = "WHERE note.id = '$id'";
 $noteDetail = new Request();

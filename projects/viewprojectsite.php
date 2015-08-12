@@ -103,7 +103,7 @@ if ($comptPro == "0")
 	exit;
 }
 
-include('../themes/'.THEME.'/header.php');
+include '../themes/'.THEME.'/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();

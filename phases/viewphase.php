@@ -84,7 +84,7 @@ $id = $phase;
 }
 }
 
-include('../themes/'.THEME.'/header.php');
+include '../themes/'.THEME.'/header.php';
 
 $tmpquery = "WHERE pha.id = '$id'";
 $phaseDetail = new Request();

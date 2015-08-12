@@ -87,7 +87,7 @@ $c = $clientDetail->org_comments[0];
 $setTitle .= " : Company Details";
 
 $bodyCommand = "onLoad='document.adminDForm.cn.focus();'";
-include('../themes/'.THEME.'/header.php');
+include '../themes/'.THEME.'/header.php';
 
 
 

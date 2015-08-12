@@ -30,7 +30,7 @@ $amount_ex_tax = $detailInvoiceItem->invitem_amount_ex_tax[0];
 $rate_type = $detailInvoiceItem->invitem_rate_type[0];
 $rate_value = $detailInvoiceItem->invitem_rate_value[0];
 
-include('../themes/'.THEME.'/header.php');
+include '../themes/'.THEME.'/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();
