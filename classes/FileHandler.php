@@ -13,7 +13,7 @@ class FileHandler
      * @param $extension
      * @return string
      */
-    public static function fileInfoType($extension)
+    public function fileInfoType($extension)
     {
         global $type;
         switch ($extension) {

@@ -12,8 +12,9 @@ $fileDetail->openFiles($tmpquery);
 if ($fileDetail->fil_published[0] == "1" || $fileDetail->fil_project[0] != $projectSession) {
 Util::headerFunction("index.php");
 }
+$fileHandler = new FileHandler();
+$type = $fileHandler->fileInfoType( $fileDetail->fil_extension[0]);
 
-$type = FileHandler::fileInfoType( $fileDetail->fil_extension[0]);
 $displayname = $fileDetail->fil_name[0];
 
 //---------------------------------------------------------------------------------------------------

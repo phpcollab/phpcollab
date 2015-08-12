@@ -375,8 +375,10 @@ if ($fileManagement == "true")
 			$idStatus = $listFiles->fil_status[$i];
 			$idPublish = $listFiles->fil_published[$i];
 
-			$type = FileHandler::fileInfoType( $listFiles->fil_extension[$i]);
-			if (file_exists("../files/".$listFiles->fil_project[$i]."/".$listFiles->fil_task[$i]."/".$listFiles->fil_name[$i])) 
+			$fileHandler = new FileHandler();
+			$type = $fileHandler->fileInfoType( $listFiles->fil_extension[$i]);
+
+			if (file_exists("../files/".$listFiles->fil_project[$i]."/".$listFiles->fil_task[$i]."/".$listFiles->fil_name[$i]))
 			{
 				$existFile = "true";
 			}

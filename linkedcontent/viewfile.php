@@ -92,7 +92,8 @@ $phaseDetail = new Request();
 $phaseDetail->openPhases($tmpquery);
 }
 
-$type = FileHandler::fileInfoType( $fileDetail->fil_extension[0]);
+$fileHandler = new FileHandler();
+$type = $fileHandler->fileInfoType( $fileDetail->fil_extension[0]);
 $displayname = $fileDetail->fil_name[0];
 
 //---------------------------------------------------------------------------------------------------
