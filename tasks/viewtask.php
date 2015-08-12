@@ -118,7 +118,7 @@ if ($teamMember == "false" && $projectsFilter == "true")
 
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -139,7 +139,7 @@ if ($msg != "")
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "tdD";
 $block1->openForm("../tasks/viewtask.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
@@ -331,7 +331,7 @@ if ($teamMember == "true" || $profilSession == "5")
 if ($fileManagement == "true") 
 {
 
-	$block2 = new block();
+	$block2 = new Block();
 	$block2->form = "tdC";
 	$block2->openForm("../tasks/viewtask.php?".session_name()."=".session_id()."&id=$id#".$block2->form."Anchor");
 	$block2->headingToggle($strings["linked_content"]);
@@ -446,7 +446,7 @@ if ($fileManagement == "true")
 	$block2->closePaletteScript($comptListFiles,$listFiles->fil_id);
 }
 
-$block3 = new block();
+$block3 = new Block();
 
 $block3->form = "ahT";
 $block3->openForm("../tasks/viewtask.php?".session_name()."=".session_id()."&id=$id#".$block3->form."Anchor");
@@ -496,7 +496,7 @@ $block3->closeResults();
 $block3->closeToggle();
 $block3->closeFormResults();
 
-$block4 = new block();
+$block4 = new Block();
 $block4->form = "subT";
 $block4->openForm("../tasks/viewtask.php?".session_name()."=".session_id()."&task=$id#".$block4->form."Anchor");
 $block4->headingToggle($strings["subtasks"]);

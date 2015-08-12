@@ -65,7 +65,7 @@ $setTitle .= " : View Bookmark (" . $bookmarkDetail->boo_name[0] . ")";
 
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=$view",$strings["bookmarks"],in));
 $blockPage->itemBreadcrumbs($bookmarkDetail->boo_name[0]);
@@ -76,7 +76,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 $block1->form = "tdD";
 $block1->openForm("../bookmarks/viewbookmark.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
 $block1->heading($strings["bookmark"]." : ".$bookmarkDetail->boo_name[0]);

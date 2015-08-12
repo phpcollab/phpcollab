@@ -17,7 +17,7 @@ $bouton[2] = "over";
 $titlePage = $strings["team_task_details"];
 include ("include_header.php");
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->heading($strings["team_task_details"]);
 
@@ -68,7 +68,7 @@ $comptListSubtasks = count($listSubtasks->subtas_id);
 
 echo "<br/>";
 
-$block2 = new block();
+$block2 = new Block();
 
 $block2->heading($strings["subtasks"]);
 

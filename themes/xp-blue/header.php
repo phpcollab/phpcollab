@@ -45,7 +45,7 @@ echo "<p id='header'><img src='../logos_clients/1.".$clientHeader->org_extension
 echo "<p id='header'>".$setTitle."</p>\n\n";
 }
 
-$blockHeader = new block();
+$blockHeader = new Block();
 
 $blockHeader->openAccount();
 if ($blank == "true") {

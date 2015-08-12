@@ -37,7 +37,7 @@ if ($projectDetail->pro_owner[0] != $idSession) {
 
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?",$strings["clients"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=".$projectDetail->pro_org_id[0],$projectDetail->pro_org_name[0],in));
@@ -50,7 +50,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "invoiceSheet";
 $block1->openForm("../invoicing/viewinvoice.php?id=$id&".session_name()."=".session_id()."#".$block1->form."Anchor");
@@ -104,7 +104,7 @@ $block1->paletteScript(4,"remove_projectsite","../invoicing/viewinvoice.php?remo
 $block1->paletteScript(5,"edit","../invoicing/editinvoice.php?id=".$detailInvoice->inv_id[0],"true,true,false",$strings["edit"]);
 $block1->closePaletteScript("","");
 
-$block2 = new block();
+$block2 = new Block();
 
 $block2->form = "invoiceItems";
 $block2->openForm("../invoicing/viewinvoice.php?id=$id&".session_name()."=".session_id()."#".$block2->form."Anchor");

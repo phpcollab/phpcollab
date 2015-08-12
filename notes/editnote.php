@@ -102,7 +102,7 @@ $bodyCommand = "onLoad=\"document.etDForm.subject.focus();\"";
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -121,7 +121,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 if ($id == "") {
 	$block1->form = "etD";
 	$block1->openForm("../notes/editnote.php?project=$project&id=$id&action=add&".session_name()."=".session_id()."#".$block1->form."Anchor");

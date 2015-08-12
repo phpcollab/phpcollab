@@ -2,7 +2,7 @@
 #Application name: PhpCollab
 #Status page: 0
 
-class block
+class Block
 {
 
     function block()

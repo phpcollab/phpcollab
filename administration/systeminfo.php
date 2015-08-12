@@ -37,13 +37,13 @@ if ($profilSession != "0") {
 $setTitle .= " : System Information";
 include('../themes/' . THEME . '/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], in));
 $blockPage->itemBreadcrumbs($strings["system_information"]);
 $blockPage->closeBreadcrumbs();
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->heading($strings["system_information"]);
 

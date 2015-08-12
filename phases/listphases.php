@@ -23,7 +23,7 @@ $comptMemberTest = count($memberTest->tea_id);
 		$teamMember = "true";
 	}
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -36,7 +36,7 @@ if ($msg != "") {
 }
 
 if ($teamMember == "true" || $profilSession == "5"){
-$block7 = new block();
+$block7 = new Block();
 $block7->form = "wbSe";
 $block7->openForm("../phases/listphases.php?id=$id&".session_name()."=".session_id()."#".$block7->form."Anchor");
 $block7->headingToggle($strings["phases"]);

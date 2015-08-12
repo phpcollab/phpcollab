@@ -53,7 +53,7 @@ $tmpquery = "WHERE pro.id = '$project'";
 $projectDetail = new request();
 $projectDetail->openProjects($tmpquery);
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 if ($project != "") {
 $teamMember = "false";
@@ -81,7 +81,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "saH";
 $block1->openForm("../topics/listtopics.php?".session_name()."=".session_id()."&project=$project#".$block1->form."Anchor");

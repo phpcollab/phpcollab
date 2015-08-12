@@ -123,7 +123,7 @@ $tmpquery2 = "WHERE news.id = '$postid'";
 $newsDetail = new request();
 $newsDetail->openNewsDesk($tmpquery2);
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/listnews.php?",$strings["newsdesk"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/viewnews.php?id=$postid",$newsDetail->news_title[0],in));
@@ -150,7 +150,7 @@ if ($error != "") {
 	$block1->contentError($error);
 }
 
-$block1 = new block();
+$block1 = new Block();
 
 if ($action!='remove') {
 	if ($id == "") {

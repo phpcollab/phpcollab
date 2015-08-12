@@ -26,7 +26,7 @@ $detailPost->openPosts($tmpquery);
 
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$detailTopic->top_pro_id[0],$detailTopic->top_pro_name[0],in));
@@ -40,7 +40,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "saP";
 $block1->openForm("../topics/deletepost.php?id=$id&topic=$topic&action=delete&".session_name()."=".session_id());

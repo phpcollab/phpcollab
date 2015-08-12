@@ -38,7 +38,7 @@ if ($supportType == "team") {
 
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 if ($supportType == "team") {
 	$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
@@ -63,7 +63,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 $block1->form = "srs";
 $block1->openForm("../support/support.php?action=$action&project=$project&".session_name()."=".session_id()."#".$block1->form."Anchor");
 	

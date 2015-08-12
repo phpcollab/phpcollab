@@ -14,7 +14,7 @@ $listTopics = new request();
 $listTopics->openTopics($tmpquery);
 $comptListTopics = count($listTopics->top_id);
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->heading($strings["bulletin_board"]);
 

@@ -14,7 +14,7 @@ $listContacts = new request();
 $listContacts->openTeams($tmpquery);
 $comptListTeams = count($listContacts->tea_id);
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->heading($strings["project_team"]);
 

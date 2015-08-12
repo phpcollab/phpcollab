@@ -41,7 +41,7 @@ $listTasks = new request();
 $listTasks->openTasks($tmpquery);
 $comptListTasks = count($listTasks->tas_id);
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->heading($strings["team_tasks"]);
 

@@ -29,14 +29,14 @@ if ($action == "create") {
 
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=$id",$projectDetail->pro_name[0],in));
 $blockPage->itemBreadcrumbs($strings["create_projectsite"]);
 $blockPage->closeBreadcrumbs();
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "csdD";
 $block1->openForm("../projects/addprojectsite.php?action=create&id=$id&".session_name()."=".session_id());

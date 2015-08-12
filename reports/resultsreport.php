@@ -282,7 +282,7 @@ if ($S_PRJSEL != "ALL" || $S_ORGSEL != "ALL" || $S_ATSEL != "ALL" || $S_STATSEL 
 	} 
 }
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/listreports.php?",$strings["reports"],in));
 
@@ -301,7 +301,7 @@ if ($msg != "")
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->sorting("report_tasks",$sortingUser->sor_report_tasks[0],"tas.name ASC",$sortingFields = array(0=>"tas.name",1=>"tas.priority",2=>"tas.status",3=>"tas.due_date",4=>"tas.complete_date",5=>"mem.login",6=>"tas.project",7=>"tas.published"));
 
@@ -358,7 +358,7 @@ $listSubTasks = new request();
 $listSubTasks->openSubtasks($tmpquery);
 $comptListSubTasks = count($listSubTasks->subtas_id);
 $totalTasks = $comptListTasks+$comptListSubTasks;
-$block0 = new block();
+$block0 = new Block();
 
 $block0->openContent();
 $block0->contentTitle($strings["report_results"]);
@@ -527,7 +527,7 @@ if ($comptListTasks != "0")
 	*/
 }
 
-$block2 = new block();
+$block2 = new Block();
 
 $block2->form = "save_report";
 $block2->openForm("../reports/resultsreport.php?action=add&".session_name()."=".session_id());

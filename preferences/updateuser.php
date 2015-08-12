@@ -76,7 +76,7 @@ if ($comptUserPrefs == "0") {
 $bodyCommand = "onLoad=\"document.user_edit_profileForm.fn.focus();\"";
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($strings["preferences"]);
 if ($notifications == "true") {
@@ -91,7 +91,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "user_edit_profile";
 $block1->openForm("../preferences/updateuser.php?".session_name()."=".session_id());

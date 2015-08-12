@@ -14,7 +14,7 @@ $listFiles = new request();
 $listFiles->openFiles($tmpquery);
 $comptListFiles = count($listFiles->fil_id);
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->heading($strings["document_list"]);
 

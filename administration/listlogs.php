@@ -46,13 +46,13 @@ $setTitle .= " : Logs";
 
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?",$strings["administration"],in));
 $blockPage->itemBreadcrumbs($strings["logs"]);
 $blockPage->closeBreadcrumbs();
 
-$block1 = new block();
+$block1 = new Block();
 $block1->form = "adminD";
 $block1->openForm("../administration/listlogs.php?action=delete&".session_name()."=".session_id()."&id=$id#".$block1->form."Anchor");
 $block1->heading($strings["logs"]);

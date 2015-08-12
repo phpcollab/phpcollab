@@ -242,7 +242,7 @@ if ($id == "") {
 $bodyCommand = "onLoad=\"document.user_editForm.un.focus();\"";
 include('../themes/' . THEME . '/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../users/listusers.php?", $strings["user_management"], in));
@@ -261,7 +261,7 @@ if ($msg != "") {
     $blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 
 if ($id == "") {
     $block1->form = "user_edit";

@@ -36,13 +36,13 @@ include_once('../includes/library.php');
 $includeCalendar = true;
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/listreports.php?",$strings["reports"],in));
 $blockPage->itemBreadcrumbs($strings["create_report"]);
 $blockPage->closeBreadcrumbs();
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "customsearch";
 $block1->openForm("../reports/resultsreport.php?".session_name()."=".session_id());

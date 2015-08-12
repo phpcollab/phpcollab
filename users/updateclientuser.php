@@ -114,7 +114,7 @@ $c = $userDetail->mem_comments[0];
 $bodyCommand = "onLoad=\"document.client_user_editForm.un.focus();\"";
 include('../themes/' . THEME . '/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?", $strings["organizations"], in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=$organization", $detailClient->org_name[0], in));
@@ -127,7 +127,7 @@ if ($msg != "") {
     $blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "client_user_edit";
 $block1->openForm("../users/updateclientuser.php?action=update&organization=$organization&" . session_name() . "=" . session_id());

@@ -288,7 +288,7 @@ if ($type == "calendEdit")
         $checked2_a = "";
     }
 
-    $blockPage = new block();
+    $blockPage = new Block();
     $blockPage->openBreadcrumbs();
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=monthPreview",$strings["calendar"],in));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=monthPreview&dateCalend=$dateCalend","$monthName $year",in));
@@ -311,7 +311,7 @@ if ($type == "calendEdit")
         $blockPage->messagebox($msgLabel);
     }
 
-    $block1 = new block();
+    $block1 = new Block();
 
     $block1->form = "calend";
 
@@ -447,7 +447,7 @@ if ($type == "calendDetail")
         $recurring = $strings["yes"];
     }
 
-    $blockPage = new block();
+    $blockPage = new Block();
     $blockPage->openBreadcrumbs();
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=monthPreview",$strings["calendar"],in));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=monthPreview&dateCalend=$dateCalend","$monthName $year",in));
@@ -461,7 +461,7 @@ if ($type == "calendDetail")
         $blockPage->messagebox($msgLabel);
     }
 
-    $block1 = new block();
+    $block1 = new Block();
 
     $block1->form = "calend";
     $block1->openForm("../calendar/viewcalendar.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
@@ -549,7 +549,7 @@ if ($type == "calendDetail")
     $block1->closePaletteScript("","");
 }
 
-$blockPage = new block();
+$blockPage = new Block();
 
 if ($type == "dayList")
 {
@@ -559,7 +559,7 @@ if ($type == "dayList")
     $blockPage->itemBreadcrumbs("$dayName $day $monthName $year");
     $blockPage->closeBreadcrumbs();
 
-    $block1 = new block();
+    $block1 = new Block();
 
     $block1->form = "calendList";
     $block1->openForm("../calendar/viewcalendar.php?type=$type&dateCalend=$dateCalend&".session_name()."=".session_id()."#".$block1->form."Anchor");
@@ -627,7 +627,7 @@ if ($type == "monthPreview")
 
     // include('memlist.php');
 
-    $block2 = new block();
+    $block2 = new Block();
 
     $block2->heading("$monthName $year");
 

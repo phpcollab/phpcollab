@@ -84,7 +84,7 @@ if ($action == "update") {
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -102,7 +102,7 @@ $sd = $phaseDetail->pha_date_start[0];
 $ed = $phaseDetail->pha_date_end[0];
 $c = $phaseDetail->pha_comments[0];
 
-$block1 = new block();
+$block1 = new Block();
 $block1->form = "pdD";
 $block1->headingToggle($strings["phase"]." : ".$phaseDetail->pha_name[0]);
 $block1->openContent();

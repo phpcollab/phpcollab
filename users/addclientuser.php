@@ -93,7 +93,7 @@ if ($action == "add") {
 $bodyCommand = "onLoad=\"document.client_user_addForm.un.focus();\"";
 include('../themes/' . THEME . '/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?", $strings["clients"], in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $clientDetail->org_id[0], $clientDetail->org_name[0], in));
@@ -105,7 +105,7 @@ if ($msg != "") {
     $blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "client_user_add";
 $block1->openForm("../users/addclientuser.php?organization=$organization&action=add&" . session_name() . "=" . session_id());

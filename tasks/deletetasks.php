@@ -49,7 +49,7 @@ $projectDetail->openProjects($tmpquery);
 
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 if ($project != "") {	
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
@@ -66,7 +66,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "saP";
 $block1->openForm("../tasks/deletetasks.php?project=$project&action=delete&id=$id&".session_name()."=".session_id());

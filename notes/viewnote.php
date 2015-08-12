@@ -72,7 +72,7 @@ else
 	$teamMember = "true";
 }
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -86,7 +86,7 @@ if ($msg != "")
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 $block1->form = "tdD";
 $block1->openForm("../notes/viewnote.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
 $block1->heading($strings["note"]." : ".$noteDetail->note_subject[0]);

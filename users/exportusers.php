@@ -40,7 +40,7 @@ $pdf->ezText($url,12,array('justification'=>'center'));
 $pdf->ezText("\n");
 
 // get user info
-$blockPage = new block();
+$blockPage = new Block();
 
 if ($msg != "") {
 if (file_exists("modules/PhpCollab/pnversion.php")) {
@@ -51,7 +51,7 @@ if (file_exists("modules/PhpCollab/pnversion.php")) {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->sorting("users",$sortingUser->sor_users[0],"mem.name ASC",$sortingFields = array(0=>"mem.name",1=>"mem.login",2=>"mem.email_work",3=>"mem.profil",4=>"log.connected"));
 

@@ -30,12 +30,12 @@ include_once('../includes/library.php');
 $blank = "true";
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs("&nbsp;");
 $blockPage->closeBreadcrumbs();
 
-$block1 = new block();
+$block1 = new Block();
 $block1->heading($setTitle . " : Error");
 
 $block1->openContent();

@@ -44,7 +44,7 @@ switch ($view) {
 }
 // END
 include('../themes/'.THEME.'/header.php');
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=all",$strings["bookmarks"],in));
 if ($view == "all") {
@@ -63,7 +63,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 $block1->form = "saJ";
 $block1->openForm("../bookmarks/listbookmarks.php?view=$view&".session_name()."=".session_id()."&project=$project#".$block1->form."Anchor");
 $block1->heading($strings["bookmarks"]);

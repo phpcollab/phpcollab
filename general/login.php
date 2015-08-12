@@ -284,7 +284,7 @@ $notLogged = "true";
 $bodyCommand = "onLoad='document.loginForm.loginForm.focus();'";
 include('../themes/' . THEME . '/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs("&nbsp;");
 $blockPage->closeBreadcrumbs();
@@ -295,7 +295,7 @@ if ($msg != "") {
 }
 
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "login";
 $block1->openForm("../general/login.php?auth=test&" . session_name() . "=" . session_id());

@@ -66,7 +66,7 @@ if($action == "add"){
 
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 
 if ($supportType == "team") {
@@ -98,7 +98,7 @@ if ($msg != "") {
 }
 
 
-$block2 = new block();
+$block2 = new Block();
 
 	$block2->form = "sr";
 	if ($action == "status"){

@@ -15,7 +15,7 @@ $setTitle .= " : List Users";
 
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?",$strings["administration"],in));
 $blockPage->itemBreadcrumbs($strings["user_management"]);
@@ -26,7 +26,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "ulU";
 $block1->openForm("../users/listusers.php?".session_name()."=".session_id()."#".$block1->form."Anchor");

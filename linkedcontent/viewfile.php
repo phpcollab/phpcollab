@@ -337,7 +337,7 @@ if ($action == "add")
 
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$fileDetail->fil_project[0],$projectDetail->pro_name[0],in));
@@ -366,7 +366,7 @@ if ($msg != "")
 //Begining of Display code
 
 //File details block
-$block1 = new block();
+$block1 = new Block();
 $block1->form = "vdC";
 $block1->openForm("../files/viewfile.php?".session_name()."=".session_id()."&id=$id#".$block1->form."Anchor");
 
@@ -545,7 +545,7 @@ if ($fileDetail->fil_owner[0] == $idSession)
 if ($peerReview == "true") 
 {
 	//Revision list block
-	$block2 = new block();
+	$block2 = new Block();
 	$block2->form = "tdC";
 	$block2->openForm("../files/viewfile.php?".session_name()."=".session_id()."&id=$id#".$block2->form."Anchor");
 	$block2->heading($strings["ifc_revisions"]);
@@ -660,7 +660,7 @@ if ($peerReview == "true")
 	if ($teamMember ==  "true" || $profilSession == "5") 
 	{
 		//Add new revision Block
-		$block3 = new block();
+		$block3 = new Block();
 		$block3->form = "filedetails";
 		
 		echo "
@@ -717,7 +717,7 @@ if ($peerReview == "true")
 
 if ($fileDetail->fil_owner[0] == $idSession || $projectDetail->pro_owner[0] == $idSession || $profilSession == "5")
 {
-	$block5 = new block();
+	$block5 = new Block();
 	$block5->form = "filedetails";
 
 	echo "
@@ -781,7 +781,7 @@ if ($fileDetail->fil_owner[0] == $idSession || $projectDetail->pro_owner[0] == $
 //Update file Block
 if ($fileDetail->fil_owner[0] == $idSession)
 {
-	$block4 = new block();
+	$block4 = new Block();
 	$block4->form = "filedetails";
 
 	echo "

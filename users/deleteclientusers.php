@@ -34,7 +34,7 @@ if ($action == "delete") {
 
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?",$strings["clients"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=".$detailOrganization->org_id[0],$detailOrganization->org_name[0],in));
@@ -46,7 +46,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "client_user_delete";
 $block1->openForm("../users/deleteclientusers.php?organization=$organization&action=delete&".session_name()."=".session_id());

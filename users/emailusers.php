@@ -79,7 +79,7 @@ if ($action == "email")
 // start main page
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?",$strings["administration"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../users/listusers.php?",$strings["user_management"],in));
@@ -90,7 +90,7 @@ if ($msg != "") {
 	include("../themes/".THEME."/msg.php");
 }
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "user_email";
 $block1->openForm("../users/emailusers.php?action=email&".session_name()."=".session_id());

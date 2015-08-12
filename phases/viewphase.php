@@ -107,7 +107,7 @@ $comptMemberTest = count($memberTest->tea_id);
 		$teamMember = "true";
 	}
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -120,7 +120,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 $block1->form = "pppD";
 $block1->openForm("../projects/listprojects.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
 $block1->headingToggle($strings["phase"]." : ".$phaseDetail->pha_name[0]);
@@ -168,7 +168,7 @@ $block1->paletteScript(0,"edit","../phases/editphase.php?id=$id","true,true,true
 $block1->closePaletteScript($comptListPhaese,$listPhases->pha_id);
 }
 
-$block2 = new block();
+$block2 = new Block();
 
 $block2->form = "saP";
 $block2->openForm("../phases/viewphase.php?".session_name()."=".session_id()."&id=$id#".$block2->form."Anchor");
@@ -274,7 +274,7 @@ $block2->closePaletteScript($comptListTasks,$listTasks->tas_id);
 if ($fileManagement == "true") 
 {
 
-	$block3 = new block();
+	$block3 = new Block();
 	$block3->form = "tdC";
 	$block3->openForm("../phases/viewphase.php?".session_name()."=".session_id()."&id=$id#".$block3->form."Anchor");
 	$block3->headingToggle($strings["linked_content"]);

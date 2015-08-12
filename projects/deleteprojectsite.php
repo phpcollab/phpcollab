@@ -19,7 +19,7 @@ $tmpquery = "WHERE pro.id = '$project'";
 $projectDetail = new request();
 $projectDetail->openProjects($tmpquery);
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -32,7 +32,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "projectsite_delete";
 $block1->openForm("../projects/deleteprojectsite.php?action=delete&project=$project&".session_name()."=".session_id());

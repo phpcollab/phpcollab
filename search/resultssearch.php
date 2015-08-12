@@ -170,9 +170,9 @@ while ($y < $nombre_mots) {
     $y++;
 }
 
-$blockPage = new block();
+$blockPage = new Block();
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->borne = $blockPage->returnBorne("1");
 $block1->rowsLimit = "10";
@@ -195,7 +195,7 @@ if ($validProjects == "true") {
     //echo "$tmpquery<br/>";
 }
 
-$block2 = new block();
+$block2 = new Block();
 
 $block2->borne = $blockPage->returnBorne("2");
 $block2->rowsLimit = "10";
@@ -240,7 +240,7 @@ if ($validTasks == "true") {
     //echo "$tmpquery<br/>";
 }
 
-$block9 = new block();
+$block9 = new Block();
 $block9->borne = $blockPage->returnBorne("9");
 $block9->rowsLimit = "10";
 $block9->sorting("home_subtasks", $sortingUser->sor_home_subtasks[0], "subtas.name ASC", $sortingFields = array(0 => "subtas.name", 1 => "subtas.priority", 2 => "subtas.status", 3 => "subtas.due_date", 4 => "mem.login", 5 => "subtas.project", 6 => "subtas.published"));
@@ -256,7 +256,7 @@ if ($validSubtasks == "true") {
     $comptListSubtasks = count($listSubtasks->subtas_id);
     //echo "$tmpquery<br/>";
 }
-$block3 = new block();
+$block3 = new Block();
 
 $block3->borne = $blockPage->returnBorne("3");
 $block3->rowsLimit = "10";
@@ -278,7 +278,7 @@ if ($validMembers == "true") {
     //echo "$tmpquery<br/>";
 }
 
-$block4 = new block();
+$block4 = new Block();
 
 $block4->borne = $blockPage->returnBorne("4");
 $block4->rowsLimit = "10";
@@ -323,7 +323,7 @@ if ($validOrganizations == "true" && $listClients != "false") {
     //echo "$tmpquery<br/>";
 }
 
-$block5 = new block();
+$block5 = new Block();
 
 $block5->borne = $blockPage->returnBorne("5");
 $block5->rowsLimit = "10";
@@ -350,7 +350,7 @@ if ($validTopics == "true") {
     //echo "$tmpquery<br/>";
 }
 
-$block6 = new block();
+$block6 = new Block();
 
 $comptTopic = count($topicNote);
 
@@ -393,7 +393,7 @@ $blockPage->closeBreadcrumbs();
 
 $blockPage->bornesNumber = "6";
 
-$block0 = new block();
+$block0 = new Block();
 
 $block0->openContent();
 $block0->contentTitle($strings["results_for_keywords"] . " : <b>$searchfor</b>");
@@ -739,7 +739,7 @@ if ($comptListNotes != "0") {
     $block6->closePaletteScript($comptListNotes,$listNotes->note_id);*/
 }
 
-$block7 = new block();
+$block7 = new Block();
 
 $block7->form = "search";
 $block7->openForm("../search/createsearch.php?action=search&" . session_name() . "=" . session_id());

@@ -44,7 +44,7 @@ if ($projectDetail->pro_org_id[0] == "1") {
 $bodyCommand = "onLoad=\"document.ptTForm.tpm.focus();\"";
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -57,7 +57,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "ptT";
 $block1->openForm("../topics/addpost.php?action=add&id=".$detailTopic->top_id[0]."&project=".$detailTopic->top_project[0]."&".session_name()."=".session_id());

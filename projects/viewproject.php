@@ -332,7 +332,7 @@ $setTitle .= " : View Project (" . $projectDetail->pro_name[0] . ")";
 
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($projectDetail->pro_name[0]);
@@ -349,7 +349,7 @@ $blockPage->bornesNumber = "4";
 $idStatus = $projectDetail->pro_status[0];
 $idPriority = $projectDetail->pro_priority[0];
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "pdD";
 $block1->openForm("../projects/listprojects.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
@@ -513,7 +513,7 @@ if ($idSession == $projectDetail->pro_owner[0] || $enable_cvs == "true" || $prof
 //Phase or Task list block
 if ($projectDetail->pro_phase_set[0] != "0")
 {
-	$block7 = new block();
+	$block7 = new Block();
 	$block7->form = "wbSe";
 	$block7->openForm("../projects/viewproject.php?id=$id&".session_name()."=".session_id()."#".$block7->form."Anchor");
 	$block7->headingToggle($strings["phases"]);
@@ -605,7 +605,7 @@ if ($projectDetail->pro_phase_set[0] != "0")
 }
 else
 {
-	$block2 = new block();
+	$block2 = new Block();
 	$block2->form = "wbTuu";
 	$block2->openForm("../projects/viewproject.php?".session_name()."=".session_id()."&id=".$projectDetail->pro_id[0]."#".$block2->form."Anchor");
 
@@ -748,7 +748,7 @@ else
 	$block2->closePaletteScript($comptListTasks,$listTasks->tas_id);
 }
 
-$block3 = new block();
+$block3 = new Block();
 $block3->form = "pdH";
 $block3->openForm("../projects/viewproject.php?id=$id&".session_name()."=".session_id()."#".$block3->form."Anchor");
 $block3->headingToggle($strings["discussions"]);
@@ -853,7 +853,7 @@ if ($comptListTopics != "0")
 $block3->paletteScript(5,"info","../topics/viewtopic.php?","false,true,false",$strings["view"]);
 $block3->closePaletteScript($comptListTopics,$listTopics->top_id);
 
-$block4 = new block();
+$block4 = new Block();
 $block4->form = "pdM";
 $block4->openForm("../projects/viewproject.php?".session_name()."=".session_id()."&id=".$projectDetail->pro_id[0]."#".$block4->form."Anchor");
 $block4->headingToggle($strings["team"]);
@@ -954,7 +954,7 @@ $block4->closePaletteScript($comptListTeam,$listTeam->tea_mem_id);
 if ($fileManagement == "true") 
 {
 
-	$block5 = new block();
+	$block5 = new Block();
 	$block5->form = "tdC";
 	$block5->openForm("../projects/viewproject.php?".session_name()."=".session_id()."&id=$id#".$block5->form."Anchor");
 	$block5->headingToggle($strings["linked_content"]);
@@ -1078,7 +1078,7 @@ if ($fileManagement == "true")
  * -------------------
  * Begin Notes Section
  */
-$block6 = new block();
+$block6 = new Block();
 $block6->form = "wbJ";
 $block6->openForm("../projects/viewproject.php?".session_name()."=".session_id()."&id=".$projectDetail->pro_id[0]."#".$block6->form."Anchor");
 $block6->headingToggle($strings["notes"]);

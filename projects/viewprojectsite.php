@@ -105,7 +105,7 @@ if ($comptPro == "0")
 
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=$id",$projectDetail->pro_name[0],in));
@@ -118,7 +118,7 @@ if ($msg != "")
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 $block1->form = "uploadlogo";
 $block1->form = "pdD";
 $block1->openForm("../projects/viewprojectsite.php?action=update&id=$id&".session_name()."=".session_id()."#".$block1->form."Anchor");
@@ -161,7 +161,7 @@ if ($idSession == $projectDetail->pro_owner[0] || $profilSession == "5")
 if ($projectDetail->pro_organization[0] != "" && $projectDetail->pro_organization[0] != "1") 
 {
 
-	$block2 = new block();
+	$block2 = new Block();
 	$block2->form = "csU";
 	$block2->openForm("../projects/viewprojectsite.php?".session_name()."=".session_id()."&id=".$projectDetail->pro_id[0]."#".$block2->form."Anchor");
 	$block2->heading($strings["permitted_client"]);

@@ -82,7 +82,7 @@ $notLogged = "true";
 $bodyCommand = "onLoad=\"document.sendForm.loginForm.focus();\"";
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs("&nbsp;");
 $blockPage->closeBreadcrumbs();
@@ -92,7 +92,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "send";
 $block1->openForm("../general/sendpassword.php?action=send&".session_name()."=".session_id());

@@ -35,7 +35,7 @@ $comptMemberTest = count($memberTest->tea_id);
 include('../themes/'.THEME.'/header.php');
 
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 if ($supportType == "team") {
 	$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
@@ -54,7 +54,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 $block1->form = "srs";
 $block1->openForm("../support/listrequests.php?".session_name()."=".session_id()."&id=$id#".$block1->form."Anchor");
 $block1->heading($strings["support_requests"]);

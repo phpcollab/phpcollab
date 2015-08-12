@@ -267,7 +267,7 @@ if ($S_PRJSEL != "ALL" || $S_ORGSEL != "ALL" || $S_ATSEL != "ALL" || $S_STATSEL 
 }
 
 
-$blockPage = new block();
+$blockPage = new Block();
 
 if ($msg != "") {
 	include('../includes/messages.php');
@@ -275,7 +275,7 @@ if ($msg != "") {
 }
 
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->sorting("report_tasks",$sortingUser->sor_report_tasks[0],"tas.complete_date DESC",$sortingFields = array(0=>"tas.name",1=>"tas.project",2=>"tas.actual_time",3=>"tas.completion",4=>"tas.status",5=>"tas.start_date",6=>"tas.due_date",7=>"tas.complete_date",8=>"mem.login",9=>"tas.description",10=>"tas.comments"));
 
@@ -541,7 +541,7 @@ function ganttPDF($reportName,$listTasks)
 				
 				$activity->progress->Set($progress);
 				$graph->Add($activity);
-			} // end for complñistsubtask
+			} // end for complï¿½istsubtask
 		} // end if subtask
 		$posGantt += 1;
 	} // end for complisttask

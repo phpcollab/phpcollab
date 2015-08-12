@@ -194,7 +194,7 @@ if ($task != "0")
 
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=$project",$projectDetail->pro_name[0],in));
@@ -220,7 +220,7 @@ if ($msg != "")
 
 }
 
-$block1 = new block();
+$block1 = new Block();
 
 
 $block1->form = "filedetails";

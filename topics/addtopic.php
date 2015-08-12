@@ -82,7 +82,7 @@ if ($teamMember == "false" && $projectsFilter == "true") {
 $bodyCommand = "onLoad=\"document.ctTForm.ttt.focus();\"";
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -95,7 +95,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "ctT";
 $block1->openForm("../topics/addtopic.php?project=".$projectDetail->pro_id[0]."&action=add&".session_name()."=".session_id());

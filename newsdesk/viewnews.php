@@ -17,7 +17,7 @@ if ($comptNewsDetail == "0") {
 
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/listnews.php?",$strings["newsdesk"],in));
 $blockPage->itemBreadcrumbs($newsDetail->news_title[0]);
@@ -31,7 +31,7 @@ if ($msg != "") {
 $blockPage->bornesNumber = "1";
 
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "clPr";
 $block1->openForm("../newsdesk/viewnews.php?".session_name()."=".session_id()."&id=$id#".$block1->form."Anchor");
@@ -117,7 +117,7 @@ $newsComments->openNewsDeskComments($tmpquery);
 $comptCommentsDetail = count($newsComments->newscom_id);
 
 
-$block2 = new block();
+$block2 = new Block();
 
 $block2->form = "clPrc";
 $block2->openForm("../newsdesk/viewnews.php?".session_name()."=".session_id()."&id=$id#".$block2->form."Anchor");

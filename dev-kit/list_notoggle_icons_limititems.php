@@ -8,7 +8,7 @@ include_once('../includes/library.php');
 
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?",$strings["organizations"],in));
 $blockPage->itemBreadcrumbs($strings["organizations"]);
@@ -21,7 +21,7 @@ if ($msg != "") {
 
 $blockPage->bornesNumber = "2";
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "clientList";
 $block1->openForm("../clients/listclients.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
@@ -72,7 +72,7 @@ $block1->paletteScript(0,"add","../clients/editclient.php?","true,false,false",$
 $block1->paletteScript(1,"remove","../clients/deleteclients.php?","false,true,true",$strings["delete"]);
 $block1->closePaletteScript($comptListOrganizations,$listOrganizations->org_id);
 
-$block2 = new block();
+$block2 = new Block();
 
 $block2->form = "clientList2";
 $block2->openForm("../clients/listclients.php?".session_name()."=".session_id()."#".$block2->form."Anchor");

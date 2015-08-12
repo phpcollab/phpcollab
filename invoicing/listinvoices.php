@@ -37,7 +37,7 @@ if ($comptClientDetail == "0") {
 
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?",$strings["clients"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=".$clientDetail->org_id[0],$clientDetail->org_name[0],in));
@@ -58,7 +58,7 @@ if ($msg != "") {
 
 $blockPage->bornesNumber = "1";
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "saP";
 $block1->openForm("../invoicing/listinvoices.php?client=$client&typeInvoices=$typeInvoices&".session_name()."=".session_id()."#".$block1->form."Anchor");

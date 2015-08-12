@@ -36,13 +36,13 @@ $setTitle .= " : List Reports";
 
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/listreports.php?",$strings["reports"],in));
 $blockPage->itemBreadcrumbs($strings["my_reports"]);
 $blockPage->closeBreadcrumbs();
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "wbSe";
 $block1->openForm("../reports/listreports.php?".session_name()."=".session_id()."#".$block1->form."Anchor");

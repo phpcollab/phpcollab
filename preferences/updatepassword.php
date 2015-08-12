@@ -108,7 +108,7 @@ $bodyCommand = "onLoad=\"document.change_passwordForm.opw.focus();\"";
 include('../themes/'.THEME.'/header.php');
 
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($strings["preferences"]);
 if ($notifications == "true") {
@@ -123,7 +123,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "change_password";
 $block1->openForm("../preferences/updatepassword.php?action=update&".session_name()."=".session_id());

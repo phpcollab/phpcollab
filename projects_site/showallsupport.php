@@ -18,7 +18,7 @@ $listRequests = new request();
 $listRequests->openSupportRequests($tmpquery);
 $comptListRequests = count($listRequests->sr_id);
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->heading($strings["my_support_request"]);
 

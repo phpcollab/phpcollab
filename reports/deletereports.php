@@ -17,7 +17,7 @@ if ($action == "delete") {
 $setTitle .= " : Delete Report";
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/listreports.php?",$strings["my_reports"],in));
 $blockPage->itemBreadcrumbs($strings["delete_reports"]);
@@ -28,7 +28,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "saS";
 $block1->openForm("../reports/deletereports.php?action=delete&id=$id&".session_name()."=".session_id());

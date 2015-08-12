@@ -29,7 +29,7 @@ $bouton[3] = "over";
 $titlePage = $strings["client_task_details"];
 include ("include_header.php");
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->heading($strings["client_task_details"]);
 
@@ -80,7 +80,7 @@ $listSubtasks = new request();
 $listSubtasks->openSubtasks($tmpquery);
 $comptListSubtasks = count($listSubtasks->subtas_id);
 
-$block2 = new block();
+$block2 = new Block();
 
 $block2->heading($strings["subtasks"]);
 

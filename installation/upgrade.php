@@ -44,12 +44,12 @@ $version = "2.5";
 if (empty($step)) $step = 1;
 
 // Create new block and start the breadcrumbs
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs("<a href='../installation/$script'>Upgrade</a>");
 
 //Content block
-$block1 = new block();
+$block1 = new Block();
 
 if ($step == 1) {
     

@@ -70,14 +70,14 @@ if ($comptDetailClient == "0") {
 
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?",$strings["clients"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=$organization",$detailClient->org_name[0],in));
 $blockPage->itemBreadcrumbs($userDetail->mem_login[0]);
 $blockPage->closeBreadcrumbs();
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "cuserD";
 $block1->openForm("../users/viewclientuser.php?".session_name()."=".session_id()."#".$block1->form."Anchor");

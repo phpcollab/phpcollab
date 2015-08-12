@@ -112,7 +112,7 @@ include ("include_header.php");
 
 if ($msg != "") {
     include('../includes/messages.php');
-    $blockPage = new block();
+    $blockPage = new Block();
     $blockPage->messagebox($msgLabel);
 }
 

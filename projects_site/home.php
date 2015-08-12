@@ -68,7 +68,7 @@ if ($projectSession == "" || $changeProject == "true") {
 	$listProjects->openTeams($tmpquery);
 	$comptListProjects = count($listProjects->tea_id);
 
-	$block1 = new block();
+	$block1 = new Block();
 
 	$block1->heading($strings["my_projects"]);
 

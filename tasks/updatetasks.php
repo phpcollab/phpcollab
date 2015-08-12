@@ -202,7 +202,7 @@ if ($action == "update")
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 
 if ($report != "")
@@ -223,7 +223,7 @@ else
 $blockPage->itemBreadcrumbs($strings["edit_multiple_tasks"]);
 $blockPage->closeBreadcrumbs();
 
-$block1 = new block();
+$block1 = new Block();
 $block1->form = "batT";
 $block1->openForm("../tasks/updatetasks.php?action=update&".session_name()."=".session_id()."#".$block1->form."Anchor");
 

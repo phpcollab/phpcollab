@@ -91,7 +91,7 @@ include('../themes/'.THEME.'/header.php');
 
 
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?",$strings["administration"],in));
 $blockPage->itemBreadcrumbs($strings["company_details"]);
@@ -103,7 +103,7 @@ if ($msg != "")
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 
 echo "<a name='".$block1->form."Anchor'></a>\n
 	<form accept-charset='UNKNOWN' method='POST' action='../administration/mycompany.php?action=update&".session_name()."=".session_id()."' name='adminDForm' enctype='multipart/form-data'>

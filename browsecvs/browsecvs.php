@@ -226,14 +226,14 @@ if (isset($file)){
     if (eregi("\/\.\.",$file)||($file=="..")||eregi("\.\.\/",$file)) $file="";
 }
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs("<a href=\"../projects/listprojects.php?$sid\">".$strings["projects"]."</a>");
 $blockPage->itemBreadcrumbs("<a href=\"../projects/viewproject.php?$sid&id=$id\">".$projectDetail->pro_name[0]."</a>");
 $blockPage->itemBreadcrumbs($strings["repository"]);
 $blockPage->closeBreadcrumbs();
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->heading($strings["browse_cvs"]." : ".$projectDetail->pro_name[0]);
 

@@ -156,7 +156,7 @@ if ($type == "calendDetail")
 		$recurring = $strings["yes"];
 	}
 	
-	$block1 = new block();
+	$block1 = new Block();
 	
 	if ($error != "")
 	{            
@@ -258,7 +258,7 @@ if ($type == "calendDetail")
 if ($type == "monthPreview") 
 {
 
-	$block2 = new block();
+	$block2 = new Block();
 	$block2->heading("$monthName $year");
 
 	echo "<table border='0' cellpadding='0' cellspacing='0' width='100%' class='listing'><tr>";

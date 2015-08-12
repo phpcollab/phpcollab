@@ -39,13 +39,13 @@ $setTitle .= " : DB Administraton";
 
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?",$strings["administration"],in));
 $blockPage->itemBreadcrumbs($strings["database"]." ".MYDATABASE);
 $blockPage->closeBreadcrumbs();
 
-$block1 = new block();
+$block1 = new Block();
 $block1->heading($strings["database"]." ".MYDATABASE);
 
 $block1->openContent();

@@ -185,7 +185,7 @@ if ($id == "")
 $bodyCommand = "onLoad=\"document.booForm.name.focus();\"";
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=my",$strings["bookmarks"],in));
 
@@ -206,7 +206,7 @@ if ($msg != "")
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 if ($id == "") 
 {
 	$block1->form = "boo";

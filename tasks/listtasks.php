@@ -79,7 +79,7 @@ if ($teamMember == "false" && $projectsFilter == "true") {
 
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -93,7 +93,7 @@ if ($msg != "") {
 
 $blockPage->bornesNumber = "1";
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "saT";
 $block1->openForm("../tasks/listtasks.php?".session_name()."=".session_id()."&project=$project#".$block1->form."Anchor");

@@ -50,7 +50,7 @@ $setTitle .= " : Search";
 $bodyCommand = "onLoad=\"document.searchForm.searchfor.focus()\"";
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../search/createsearch.php?",$strings["search"],in));
 $blockPage->itemBreadcrumbs($strings["search_options"]);
@@ -61,7 +61,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "search";
 $block1->openForm("../search/createsearch.php?action=search&".session_name()."=".session_id());

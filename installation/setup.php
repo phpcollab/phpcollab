@@ -416,7 +416,7 @@ $blank = "true";
 include('../themes/'.THEME.'/header.php');
 
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs("<a href='../installation/setup.php'>Setup</a>");
 
@@ -444,7 +444,7 @@ elseif ($step > "1")
 
 $blockPage->closeBreadcrumbs();
 
-$block1 = new block();
+$block1 = new Block();
 
 if ($step == "1") 
 {

@@ -57,7 +57,7 @@ $setTitle .= " : View Client (" . $clientDetail->org_name[0] . ")";
 
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?",$strings["clients"],in));
 $blockPage->itemBreadcrumbs($clientDetail->org_name[0]);
@@ -68,7 +68,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "ecD";
 $block1->openForm("../projects/listprojects.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
@@ -114,7 +114,7 @@ $block1->paletteScript(2,"invoicing","../invoicing/listinvoices.php?client=".$cl
 $block1->closePaletteScript("","");
 }
 
-$block2 = new block();
+$block2 = new Block();
 
 $block2->form = "clPr";
 $block2->openForm("../clients/viewclient.php?".session_name()."=".session_id()."&id=$id#".$block2->form."Anchor");
@@ -193,7 +193,7 @@ if ($enableMantis == "true") {
 }
 $block2->closePaletteScript($comptListProjects,$listProjects->pro_id);
 
-$block3 = new block();
+$block3 = new Block();
 
 $block3->form = "clU";
 $block3->openForm("../clients/viewclient.php?".session_name()."=".session_id()."&id=$id#".$block3->form."Anchor");

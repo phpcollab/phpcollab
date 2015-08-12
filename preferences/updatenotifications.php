@@ -135,7 +135,7 @@ function checkboxes(){
 </script>";
 include('../themes/' . THEME . '/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($strings["preferences"]);
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../preferences/updateuser.php?", $strings["user_profile"],
@@ -148,7 +148,7 @@ if ($msg != "") {
     $blockPage->messagebox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new Block();
 $block1->form = "user_avert";
 $block1->openForm("../preferences/updatenotifications.php?action=update&" . session_name() . "=" . session_id());
 

@@ -10,7 +10,7 @@ $setTitle .= " : News List";
 
 include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/listnews.php?",$strings["newsdesk"],in));
 $blockPage->itemBreadcrumbs($strings["newsdesk_list"]);
@@ -23,7 +23,7 @@ if ($msg != "") {
 
 $blockPage->bornesNumber = "1";
 
-$block1 = new block();
+$block1 = new Block();
 
 $block1->form = "newsdeskList";
 $block1->openForm("../newsdesk/listnews.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
