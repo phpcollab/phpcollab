@@ -42,11 +42,7 @@ if ($profilSession != "0")
 	exit;
 }
 
-$versionNew = "2.5";
-//$versionNew = "2.5 CVS";
-
-
-if ($action == "generate") 
+if ($action == "generate")
 {
 	if ($installationTypeNew == "offline") 
 	{
@@ -69,8 +65,7 @@ if ($action == "generate")
 	}
 
 // DAB - scrub the data
-require_once(dirname(realpath(__FILE__)) . '/../general/data_funcs.inc.php');
-$scrubData = scrubData($_POST);
+$scrubData = DataFunctions::scrubData($_POST);
 extract($scrubData);
 // -- END Paranoia
 
@@ -240,8 +235,7 @@ define('THEME','$mythemeNew');
 \$tableCollab["newsdeskposts"] = "$table_newsdeskposts";
 
 # PhpCollab version
-\$version = "$versionNew";
-\$versionOld = "$versionOldNew";
+\$version = "$version";
 
 # demo mode parameters
 \$demoMode = "false";

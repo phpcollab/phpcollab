@@ -250,7 +250,7 @@ if ($checkSession != "false" && $demoSession != "true") {
             Util::connectSql("$tmpquery");
         }
     }
-    //if auto logout feature used, store last required page before deconnexion
+    //if auto logout feature used, store last required page before deconnection
     if ($profilSession != "3") {
         if ($logouttimeSession != "0" && $logouttimeSession != "") {
             $dateunix = date("U");
