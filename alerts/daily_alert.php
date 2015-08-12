@@ -27,13 +27,10 @@
 
 // Define directories for include files
 define("PHPCOLLAB_INC_DIR", dirname(__FILE__) . "/../includes/");
-define("PHPCOLLAB_CLASSES_DIR", dirname(__FILE__) . "/../classes/");
 define("PHPCOLLAB_LANG_DIR", dirname(__FILE__) . "/../languages/");
 
 // Include 
 include(PHPCOLLAB_INC_DIR . "settings.php");
-include(PHPCOLLAB_CLASSES_DIR . "request.php");
-include(PHPCOLLAB_CLASSES_DIR . "notification.php");
 
 if (!isset($langDefault) || ($langDefault == '')) {
     $langDefault = 'en';
