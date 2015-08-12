@@ -111,7 +111,7 @@ $titlePage = $strings["change_password"];
 include ("include_header.php");
 
 if ($msg != "") {
-    include('../includes/messages.php');
+    include '../includes/messages.php';
     $blockPage = new Block();
     $blockPage->messagebox($msgLabel);
 }

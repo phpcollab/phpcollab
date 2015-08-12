@@ -92,7 +92,7 @@ $blockPage->itemBreadcrumbs($phaseDetail->pha_name[0]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
-	include('../includes/messages.php');
+	include '../includes/messages.php';
 	$blockPage->messagebox($msgLabel);
 }
 

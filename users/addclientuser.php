@@ -101,7 +101,7 @@ $blockPage->itemBreadcrumbs($strings["add_client_user"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
-    include('../includes/messages.php');
+    include '../includes/messages.php';
     $blockPage->messagebox($msgLabel);
 }
 

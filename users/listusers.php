@@ -22,7 +22,7 @@ $blockPage->itemBreadcrumbs($strings["user_management"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
-	include('../includes/messages.php');
+	include '../includes/messages.php';
 	$blockPage->messagebox($msgLabel);
 }
 

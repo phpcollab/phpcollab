@@ -99,7 +99,7 @@ if ($type == "1") {
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
-    include('../includes/messages.php');
+    include '../includes/messages.php';
     $blockPage->messagebox($msgLabel);
 }
 

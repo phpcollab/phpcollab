@@ -307,7 +307,7 @@ if ($type == "calendEdit")
 
     if ($msg != "")
     {
-        include('../includes/messages.php');
+        include '../includes/messages.php';
         $blockPage->messagebox($msgLabel);
     }
 
@@ -457,7 +457,7 @@ if ($type == "calendDetail")
 
     if ($msg != "")
     {
-        include('../includes/messages.php');
+        include '../includes/messages.php';
         $blockPage->messagebox($msgLabel);
     }
 

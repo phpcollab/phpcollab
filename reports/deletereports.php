@@ -24,7 +24,7 @@ $blockPage->itemBreadcrumbs($strings["delete_reports"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
-	include('../includes/messages.php');
+	include '../includes/messages.php';
 	$blockPage->messagebox($msgLabel);
 }
 

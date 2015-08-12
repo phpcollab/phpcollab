@@ -46,7 +46,7 @@ if ($msg != "") {
 if (file_exists("modules/PhpCollab/pnversion.php")) {
 	include("modules/PhpCollab/includes/messages.php");
 } else {
-	include('../includes/messages.php');
+	include '../includes/messages.php';
 }
 	$blockPage->messagebox($msgLabel);
 }

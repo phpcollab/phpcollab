@@ -320,7 +320,7 @@ $blockPage->itemBreadcrumbs($strings["edit_subtask"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
-	include('../includes/messages.php');
+	include '../includes/messages.php';
 	$blockPage->messagebox($msgLabel);
 }
 

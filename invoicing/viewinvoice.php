@@ -46,7 +46,7 @@ $blockPage->itemBreadcrumbs($detailInvoice->inv_id[0]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
-	include('../includes/messages.php');
+	include '../includes/messages.php';
 	$blockPage->messagebox($msgLabel);
 }
 

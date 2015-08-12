@@ -87,7 +87,7 @@ $blockPage->itemBreadcrumbs($strings["user_profile"]." | ".$blockPage->buildLink
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
-	include('../includes/messages.php');
+	include '../includes/messages.php';
 	$blockPage->messagebox($msgLabel);
 }
 
