@@ -34,7 +34,7 @@ require( APP_ROOT . "/includes/phpmailer/class.phpmailer.php");
 class notification extends phpmailer 
 {
 
-	function notification() 
+	function Notification()
 	{
 		global $strings,$root,$notificationMethod,$lang;
 

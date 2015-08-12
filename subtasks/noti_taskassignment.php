@@ -22,7 +22,7 @@ $comptListNotifications = count($listNotifications->not_id);
 
 if ($listNotifications->not_taskassignment[0] == "0") 
 {
-	$mail = new notification();
+	$mail = new Notification();
 
 	$mail->getUserinfo($idSession,"from");
 

@@ -142,7 +142,7 @@ if ($action == "update")
 			{
 				if ($notifications == "true")
 				{
-					//$statustaskchange = new notification();
+					//$statustaskchange = new Notification();
 					//$statustaskchange->taskNotification($listTasks->tas_assigned_to[$i],$listTasks->tas_id[$i],"statustaskchange");
 					include("../tasks/noti_statustaskchange.php");
 				}
@@ -152,7 +152,7 @@ if ($action == "update")
 			{
 				if ($notifications == "true")
 				{
-					//$prioritytaskchange = new notification();
+					//$prioritytaskchange = new Notification();
 					//$prioritytaskchange->taskNotification($listTasks->tas_assigned_to[$i],$listTasks->tas_id[$i],"prioritytaskchange");
 					include("../tasks/noti_prioritytaskchange.php");
 				}
@@ -161,7 +161,7 @@ if ($action == "update")
 			{
 				if ($notifications == "true")
 				{
-					//$duedatetaskchange = new notification();
+					//$duedatetaskchange = new Notification();
 					//$duedatetaskchange->taskNotification($listTasks->tas_assigned_to[$i],$listTasks->tas_id[$i],"duedatetaskchange");
 					include("../tasks/noti_duedatetaskchange.php");
 				}
@@ -186,7 +186,7 @@ if ($action == "update")
 
 				if ($notifications == "true")
 				{
-					//$taskassignment = new notification();
+					//$taskassignment = new Notification();
 					//$taskassignment->taskNotification($at,$listTasks->tas_id[$i],"taskassignment");
 					include("../tasks/noti_taskassignment.php");
 				}

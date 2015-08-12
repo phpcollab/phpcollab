@@ -1,5 +1,5 @@
 <?php
-$mail = new notification();
+$mail = new Notification();
 
 $mail->getUserinfo($idSession,"from");
 

@@ -4,7 +4,7 @@ $listNotifications = new request();
 $listNotifications->openNotifications($tmpquery);
 $comptListNotifications = count($listNotifications->not_id);
 
-$mail = new notification();
+$mail = new Notification();
 
 $mail->getUserinfo($idSession,"from");
 

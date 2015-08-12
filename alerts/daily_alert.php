@@ -70,7 +70,7 @@ $projectsTable = $tableCollab['projects'];
 $today = date("Y-m-d", time());
 
 // Create new notification
-$mail = new notification();
+$mail = new Notification();
 $mail->message_type = "alt";
 
 // Get list of members and notification settings

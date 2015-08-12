@@ -61,7 +61,7 @@ if ($posters != "") {
 	$listNotifications->openNotifications($tmpquery);
 	$comptListNotifications = count($listNotifications->not_id);
 
-	$mail = new notification();
+	$mail = new Notification();
 	$mail->getUserinfo($idSession,"from");
 
 	$mail->partSubject = $strings["noti_newfile1"];
