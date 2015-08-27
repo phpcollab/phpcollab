@@ -1,122 +1,129 @@
 <?php
 /**
  * Class FileHandler
- */
-
-
-/**
- * Class FileHandler
- */
+ **/
 class FileHandler
 {
+    protected $type;
+
     /**
-     * @param $extension
-     * @return string
+     * Constructor method
+     * @param null $type nada
+     */
+    public function __construct($type = null)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * Gets the document type, based on the extension, and returns the appropriate
+     * icon image.
+     * @param String $extension the string to determing the return graphic
+     * @return null|string
      */
     public function fileInfoType($extension)
     {
-        global $type;
         switch ($extension) {
-            case "doc":
-                $type = "doc.gif";
-                break;
-            case "mdb":
-                $type = "mdb.gif";
-                break;
-            case "ppt":
-                $type = "ppt.gif";
-                break;
-            case "xls":
-                $type = "xls.gif";
-                break;
-            case "pdf":
-                $type = "pdf.gif";
-                break;
-            case "ai":
-                $type = "ai.gif";
-                break;
-            case "eps":
-                $type = "ai.gif";
-                break;
-            case "ttf":
-                $type = "ttf.gif";
-                break;
-            case "gif":
-                $type = "gif.gif";
-                break;
-            case "jpg":
-                $type = "jpg.gif";
-                break;
-            case "png":
-                $type = "png.gif";
-                break;
-            case "psd":
-                $type = "psd.gif";
-                break;
-            case "txt":
-                $type = "txt.gif";
-                break;
-            case "js":
-                $type = "js.gif";
-                break;
-            case "htm":
-                $type = "htm.gif";
-                break;
-            case "html":
-                $type = "htm.gif";
-                break;
-            case "php":
-                $type = "php.gif";
-                break;
-            case "php3":
-                $type = "php.gif";
-                break;
-            case "zip":
-                $type = "zip.gif";
-                break;
-            case "rar":
-                $type = "rar.gif";
-                break;
-            case "swf":
-                $type = "swf.gif";
-                break;
-            case "rm":
-                $type = "rm.gif";
-                break;
-            case "sxd":
-                $type = "sxd.gif";
-                break;
-            case "std":
-                $type = "std.gif";
-                break;
-            case "sxw":
-                $type = "sxw.gif";
-                break;
-            case "stw":
-                $type = "stw.gif";
-                break;
-            case "sxi":
-                $type = "sxi.gif";
-                break;
-            case "sti":
-                $type = "sti.gif";
-                break;
-            case "sxc":
-                $type = "sxc.gif";
-                break;
-            case "stc":
-                $type = "stc.gif";
-                break;
-            case "sxg":
-                $type = "sxg.gif";
-                break;
-            case "sxm":
-                $type = "sxm.gif";
-                break;
-            default:
-                $type = "fic.gif";
+        case "doc":
+            $this->type = "doc.gif";
+            break;
+        case "mdb":
+            $this->type = "mdb.gif";
+            break;
+        case "ppt":
+            $this->type = "ppt.gif";
+            break;
+        case "xls":
+            $this->type = "xls.gif";
+            break;
+        case "pdf":
+            $this->type = "pdf.gif";
+            break;
+        case "ai":
+            $this->type = "ai.gif";
+            break;
+        case "eps":
+            $this->type = "ai.gif";
+            break;
+        case "ttf":
+            $this->type = "ttf.gif";
+            break;
+        case "gif":
+            $this->type = "gif.gif";
+            break;
+        case "jpg":
+            $this->type = "jpg.gif";
+            break;
+        case "png":
+            $this->type = "png.gif";
+            break;
+        case "psd":
+            $this->type = "psd.gif";
+            break;
+        case "txt":
+            $this->type = "txt.gif";
+            break;
+        case "js":
+            $this->type = "js.gif";
+            break;
+        case "htm":
+            $this->type = "htm.gif";
+            break;
+        case "html":
+            $this->type = "htm.gif";
+            break;
+        case "php":
+            $this->type = "php.gif";
+            break;
+        case "php3":
+            $this->type = "php.gif";
+            break;
+        case "zip":
+            $this->type = "zip.gif";
+            break;
+        case "rar":
+            $this->type = "rar.gif";
+            break;
+        case "swf":
+            $this->type = "swf.gif";
+            break;
+        case "rm":
+            $this->type = "rm.gif";
+            break;
+        case "sxd":
+            $this->type = "sxd.gif";
+            break;
+        case "std":
+            $this->type = "std.gif";
+            break;
+        case "sxw":
+            $this->type = "sxw.gif";
+            break;
+        case "stw":
+            $this->type = "stw.gif";
+            break;
+        case "sxi":
+            $this->type = "sxi.gif";
+            break;
+        case "sti":
+            $this->type = "sti.gif";
+            break;
+        case "sxc":
+            $this->type = "sxc.gif";
+            break;
+        case "stc":
+            $this->type = "stc.gif";
+            break;
+        case "sxg":
+            $this->type = "sxg.gif";
+            break;
+        case "sxm":
+            $this->type = "sxm.gif";
+            break;
+        default:
+            $this->type = "fic.gif";
         }
 
-        return $type;
+        return $this->type;
     }
 }
