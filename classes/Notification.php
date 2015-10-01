@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
 ** Application name: phpCollab
 ** Last Edit page: 26/01/2004 
@@ -29,57 +29,56 @@
 
 define('APP_ROOT', dirname(dirname(__FILE__)));
 
-require( APP_ROOT . "/includes/phpmailer/class.phpmailer.php");
+require(APP_ROOT . "/includes/phpmailer/class.phpmailer.php");
 
 class Notification extends phpmailer
 {
 
-	function notification()
-	{
-		global $strings,$root,$notificationMethod,$lang;
+    function notification()
+    {
+        global $strings, $root, $notificationMethod, $lang;
 
-		if (file_exists( APP_ROOT . "/includes/phpmailer/language/phpmailer.lang-$lang.php"))
-		{
-			$phpmailer_lang = $lang;
-		}
-		else {
-			$phpmailer_lang = 'en';
-		}
+        if (file_exists(
+            APP_ROOT . "/includes/phpmailer/language/phpmailer.lang-$lang.php"
+        )) {
+            $phpmailer_lang = $lang;
+        } else {
+            $phpmailer_lang = 'en';
+        }
 
 
-		$this->Mailer = $notificationMethod;
-		$this->PluginDir = APP_ROOT . "/includes/phpmailer/";
-		$this->SetLanguage($phpmailer_lang, APP_ROOT . "/includes/phpmailer/language/");
+        $this->Mailer = $notificationMethod;
+        $this->PluginDir = APP_ROOT . "/includes/phpmailer/";
+        $this->SetLanguage(
+            $phpmailer_lang, APP_ROOT . "/includes/phpmailer/language/"
+        );
 
-		if ($this->Mailer == "smtp") 
-		{
-			$this->Host = SMTPSERVER;
-			$this->Username = SMTPLOGIN;
-			$this->Password = SMTPPASSWORD;
-		}
+        if ($this->Mailer == "smtp") {
+            $this->Host = SMTPSERVER;
+            $this->Username = SMTPLOGIN;
+            $this->Password = SMTPPASSWORD;
+        }
 
-		$this->footer = "--\n".$strings["noti_foot1"]."\n\n".$strings["noti_foot2"]."\n$root/";
-	}
+        $this->footer = "--\n" . $strings["noti_foot1"] . "\n\n"
+            . $strings["noti_foot2"] . "\n$root/";
+    }
 
-	function getUserinfo($idUser,$type) 
-	{
-		$tmpquery = "WHERE mem.id = '$idUser'";
-		$detailUser = new Request();
-		$detailUser->openMembers($tmpquery);
+    function getUserinfo($idUser, $type)
+    {
+        $tmpquery = "WHERE mem.id = '$idUser'";
+        $detailUser = new Request();
+        $detailUser->openMembers($tmpquery);
 
-		if ($type == "from") 
-		{
-			$this->From     = $detailUser->mem_email_work[0];
-			$this->FromName = $detailUser->mem_name[0];
-		}
-		
-		if ($type == "to") 
-		{
-			$this->AddAddress($detailUser->mem_email_work[0], $detailUser->mem_name[0]);
-		}
-	}
+        if ($type == "from") {
+            $this->From = $detailUser->mem_email_work[0];
+            $this->FromName = $detailUser->mem_name[0];
+        }
+
+        if ($type == "to") {
+            $this->AddAddress(
+                $detailUser->mem_email_work[0], $detailUser->mem_name[0]
+            );
+        }
+    }
 
 }
-
-
-?>
