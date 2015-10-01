@@ -34,6 +34,10 @@ class Block
 
     }
 
+    public function getHighlightOn() {
+        return $this->highlightOn;
+    }
+
 //    public function block()
 //    {
 //        $this->iconWidth = "23";
