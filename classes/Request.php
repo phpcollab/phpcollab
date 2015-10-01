@@ -5,6 +5,11 @@
 
 class Request
 {
+
+    public function __construct()
+    {
+    }
+
     public function request()
     {
         //empty constructor
@@ -15,17 +20,24 @@ class Request
         global $strings, $res, $databaseType;
 
         if ($databaseType == "mysql") {
-            $res = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die($strings["error_server"]);
-            mysql_select_db(MYDATABASE, $res) or die($strings["error_database"]);
+            $res = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD)
+            or die($strings["error_server"]);
+            mysql_select_db(MYDATABASE, $res)
+            or die($strings["error_database"]);
         }
 
         if ($databaseType == "postgresql") {
-            $res = pg_connect("host=" . MYSERVER . " port=5432 dbname=" . MYDATABASE . " user=" . MYLOGIN . " password=" . MYPASSWORD . "");
+            $res = pg_connect(
+                "host=" . MYSERVER . " port=5432 dbname=" . MYDATABASE
+                . " user=" . MYLOGIN . " password=" . MYPASSWORD . ""
+            );
         }
 
         if ($databaseType == "sqlserver") {
-            $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die($strings["error_server"]);
-            mssql_select_db(MYDATABASE, $res) or die($strings["error_database"]);
+            $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD)
+            or die($strings["error_server"]);
+            mssql_select_db(MYDATABASE, $res)
+            or die($strings["error_database"]);
         }
     }
 
@@ -56,7 +68,8 @@ class Request
             @$row = mysql_fetch_row($this->index);
 
             if (mysql_errno() != 0) {
-                echo "<font color='red'><b>" . mysql_error() . "</b></font><br/>";
+                echo "<font color='red'><b>" . mysql_error()
+                    . "</b></font><br/>";
             }
         }
 
@@ -723,7 +736,8 @@ class Request
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
         $this->connectClass();
-        $sql = "select avg(completion) from " . $tableCollab["subtasks"] . " where task = '$querymore'";
+        $sql = "select avg(completion) from " . $tableCollab["subtasks"]
+            . " where task = '$querymore'";
 
         $index = $this->query($sql);
         while ($this->fetch()) {
@@ -1119,7 +1133,9 @@ class Request
 
         $this->connectClass();
 
-        $sql = "SELECT DISTINCT pro.id, pro.name, tea.id FROM " . $tableCollab["teams"] . " tea, " . $tableCollab["projects"] . " pro WHERE pro.id = tea.project ";
+        $sql = "SELECT DISTINCT pro.id, pro.name, tea.id FROM "
+            . $tableCollab["teams"] . " tea, " . $tableCollab["projects"]
+            . " pro WHERE pro.id = tea.project ";
         $sql .= ' ' . $querymore;
 
         if ($databaseType == "mysql" && $start != "") {
