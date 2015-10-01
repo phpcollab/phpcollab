@@ -60,7 +60,7 @@ class Block
     public function printHelp($item)
     {
         return ' [<a href="javascript:void(0);" onmouseover="return overlib(\'' .
-            addslashes($this->$help[$item]) . '\',SNAPX,550,BGCOLOR,\'' . $this->bgColor .
+            addslashes($this->help[$item]) . '\',SNAPX,550,BGCOLOR,\'' . $this->bgColor .
             '\',FGCOLOR,\'' . $this->fgColor . '\');" onmouseout="return nd();">' .
             $this->strings["help"] . '</a>]';
     }
