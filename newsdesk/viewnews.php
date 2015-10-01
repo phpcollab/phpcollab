@@ -28,7 +28,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$blockPage->bornesNumber = "1";
+$blockPage->limitsNumber = "1";
 
 
 $block1 = new Block();
@@ -133,7 +133,7 @@ if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
 
 $block2->closePaletteIcon();
 
-$block1->borne = $blockPage->returnBorne("2");
+$block1->limit = $blockPage->returnLimit("2");
 $block2->openContent();
 
 if ($comptCommentsDetail != "0") {
@@ -153,7 +153,7 @@ if ($comptCommentsDetail != "0") {
 	}
 
 	$block2->closeResults();
-	$block2->bornesFooter("1",$blockPage->bornesNumber,"","");
+	$block2->limitsFooter("1",$blockPage->limitssNumber,"","");
 
 } else {
 	$block2->noresults();

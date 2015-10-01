@@ -344,7 +344,7 @@ if ($msg != "")
 	$blockPage->messagebox($msgLabel);
 }
 
-$blockPage->bornesNumber = "4";
+$blockPage->limitsNumber = "4";
 
 $idStatus = $projectDetail->pro_status[0];
 $idPriority = $projectDetail->pro_priority[0];
@@ -636,7 +636,7 @@ else
 
 	$block2->closePaletteIcon();
 
-	$block2->borne = $blockPage->returnBorne("1");
+	$block2->limit = $blockPage->returnLimit("1");
 	$block2->rowsLimit = "5";
 
 	$block2->sorting("project_tasks",$sortingUser->sor_project_tasks[0],"tas.name ASC",$sortingFields = array(0=>"tas.name",1=>"tas.priority",2=>"tas.status",3=>"tas.completion",4=>"tas.due_date",5=>"mem.login",6=>"tas.published"));
@@ -646,7 +646,7 @@ else
 	$block2->recordsTotal = Util::computeTotal($initrequest["tasks"]." ".$tmpquery);
 
 	$listTasks = new Request();
-	$listTasks->openTasks($tmpquery,$block2->borne,$block2->rowsLimit);
+	$listTasks->openTasks($tmpquery,$block2->limit,$block2->rowsLimit);
 	$comptListTasks = count($listTasks->tas_id);
 
 	if ($comptListTasks != "0") 
@@ -704,7 +704,7 @@ else
 		}
 		
 		$block2->closeResults();
-		$block2->bornesFooter("1",$blockPage->bornesNumber,"../tasks/listtasks.php?project=$id&","id=$id");
+		$block2->limitsFooter("1",$blockPage->limitsNumber,"../tasks/listtasks.php?project=$id&","id=$id");
 
 		if ($activeJpgraph == "true" && $gantt == "true") 
 		{
@@ -773,7 +773,7 @@ if ($idSession == $projectDetail->pro_owner[0] || $profilSession == "5")
 
 $block3->paletteIcon(5,"info",$strings["view"]);
 $block3->closePaletteIcon();
-$block3->borne = $blockPage->returnBorne("2");
+$block3->limit = $blockPage->returnLimit("2");
 $block3->rowsLimit = "5";
 $block3->sorting("project_discussions",$sortingUser->sor_project_discussions[0],"topic.last_post DESC",$sortingFields = array(0=>"topic.subject",1=>"mem.login",2=>"topic.posts",3=>"topic.last_post",4=>"topic.status",5=>"topic.published"));
 
@@ -782,7 +782,7 @@ $tmpquery = "WHERE topic.project = '$id' ORDER BY $block3->sortingValue";
 $block3->recordsTotal = Util::computeTotal($initrequest["topics"]." ".$tmpquery);
 
 $listTopics = new Request();
-$listTopics->openTopics($tmpquery,$block3->borne,$block3->rowsLimit);
+$listTopics->openTopics($tmpquery,$block3->limit,$block3->rowsLimit);
 $comptListTopics = count($listTopics->top_id);
 
 if ($comptListTopics != "0") 
@@ -821,7 +821,7 @@ if ($comptListTopics != "0")
 	}
 	
 	$block3->closeResults();
-	$block3->bornesFooter("2",$blockPage->bornesNumber,"../topics/listtopics.php?project=$id&","id=$id");
+	$block3->limitsFooter("2",$blockPage->limitsNumber,"../topics/listtopics.php?project=$id&","id=$id");
 
 	} 
 	else 
@@ -874,7 +874,7 @@ if ($idSession == $projectDetail->pro_owner[0] || $profilSession == "5")
 $block4->paletteIcon(4,"info",$strings["view"]);
 $block4->paletteIcon(5,"email",$strings["email"]);
 $block4->closePaletteIcon();
-$block4->borne = $blockPage->returnBorne("3");
+$block4->limit = $blockPage->returnLimit("3");
 $block4->rowsLimit = "5";
 $block4->sorting("team",$sortingUser->sor_team[0],"mem.name ASC",$sortingFields = array(0=>"mem.name",1=>"mem.title",2=>"mem.login",3=>"mem.phone_work",4=>"log.connected",5=>"tea.published"));
 
@@ -883,7 +883,7 @@ $tmpquery = "WHERE tea.project = '$id' AND mem.profil != '3' ORDER BY $block4->s
 $block4->recordsTotal = Util::computeTotal($initrequest["teams"]." ".$tmpquery);
 
 $listTeam = new Request();
-$listTeam->openTeams($tmpquery,$block4->borne,$block4->rowsLimit);
+$listTeam->openTeams($tmpquery,$block4->limit,$block4->rowsLimit);
 $comptListTeam = count($listTeam->tea_id);
 
 $block4->openResults();
@@ -927,7 +927,7 @@ for ($i=0;$i<$comptListTeam;$i++)
 }
 
 $block4->closeResults();
-$block4->bornesFooter("3",$blockPage->bornesNumber,"../teams/listusers.php?id=$id&","id=$id");
+$block4->limitsFooter("3",$blockPage->limitsNumber,"../teams/listusers.php?id=$id&","id=$id");
 $block4->closeToggle();
 $block4->closeFormResults();
 $block4->openPaletteScript();
@@ -1103,7 +1103,7 @@ if ($teamMember == "true" || $profilSession == "5")
 }
 
 $block6->closePaletteIcon();
-$block6->borne = $blockPage->returnBorne("4");
+$block6->limit = $blockPage->returnLimit("4");
 $block6->rowsLimit = "5";
 
 $comptTopic = count($topicNote);
@@ -1121,7 +1121,7 @@ $tmpquery = "WHERE note.project = '$id' ORDER BY $block6->sortingValue";
 
 $block6->recordsTotal = Util::computeTotal($initrequest["notes"]." ".$tmpquery);
 $listNotes = new Request();
-$listNotes->openNotes($tmpquery,$block6->borne,$block6->rowsLimit);
+$listNotes->openNotes($tmpquery,$block6->limit,$block6->rowsLimit);
 $comptListNotes = count($listNotes->note_id);
 
 if ($comptListNotes != "0") 
@@ -1165,7 +1165,7 @@ if ($comptListNotes != "0")
 	}
 	
 	$block6->closeResults();
-	$block6->bornesFooter("4",$blockPage->bornesNumber,"../notes/listnotes.php?project=$id&","id=$id");
+	$block6->limitsFooter("4",$blockPage->limitsNumber,"../notes/listnotes.php?project=$id&","id=$id");
 } 
 else 
 {

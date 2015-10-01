@@ -35,7 +35,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$blockPage->bornesNumber = "1";
+$blockPage->limitssNumber = "1";
 
 $block1 = new Block();
 
@@ -62,7 +62,7 @@ if ($enableMantis == "true") {
 }
 $block1->closePaletteIcon();
 
-$block1->borne = $blockPage->returnBorne("1");
+$block1->limit = $blockPage->returnLimit("1");
 $block1->rowsLimit = "20";
 
 $block1->sorting("projects",$sortingUser->sor_projects[0],"pro.name ASC",$sortingFields = array(0=>"pro.id",1=>"pro.name",2=>"pro.priority",3=>"org.name",4=>"pro.status",5=>"mem.login",6=>"pro.published"));
@@ -86,7 +86,7 @@ if ($typeProjects == "inactive") {
 $block1->recordsTotal = Util::computeTotal($initrequest["projects"]." ".$tmpquery);
 
 $listProjects = new Request();
-$listProjects->openProjects($tmpquery,$block1->borne,$block1->rowsLimit);
+$listProjects->openProjects($tmpquery,$block1->limit,$block1->rowsLimit);
 $comptListProjects = count($listProjects->pro_id);
 
 if ($comptListProjects != "0") {
@@ -118,7 +118,7 @@ $block1->closeRow();
 }
 $block1->closeResults();
 
-$block1->bornesFooter("1",$blockPage->bornesNumber,"","typeProjects=$typeProjects");
+$block1->limitsFooter("1",$blockPage->limitsNumber,"","typeProjects=$typeProjects");
 
 } else {
 $block1->noresults();

@@ -4,9 +4,20 @@
 
 class Block
 {
+    protected $help, $strings, $iconWidth, $iconHeight, $bgColor, $fgColor,
+        $oddColor, $evenColor, $highlightOn, $class, $highlightOff, $theme,
+        $pathImg, $themeImgPath, $accountTotal, $account, $sortingOrders,
+        $sortingFields, $sortingArrows, $sortingStyles, $explode, $labels,
+        $sitePublish;
+    /**
+     *
+     */
+    public function __construct() {
+        global $help, $strings;
+        global $sortingOrders, $sortingFields, $sortingArrows, $sortingStyles, $explode;
+        $this->help = $help;
+        $this->strings = $strings;
 
-    function block()
-    {
         $this->iconWidth = "23";
         $this->iconHeight = "23";
         $this->bgColor = "#5B7F93";
@@ -20,7 +31,25 @@ class Block
         $this->theme = THEME;
         $this->pathImg = "../themes/";
         $this->themeImgPath = '../themes/' . THEME . '/images';
+
     }
+
+//    public function block()
+//    {
+//        $this->iconWidth = "23";
+//        $this->iconHeight = "23";
+//        $this->bgColor = "#5B7F93";
+//        $this->fgColor = "#C4D3DB";
+//        $this->oddColor = "#F5F5F5";
+//        $this->evenColor = "#EFEFEF";
+//        $this->highlightOn = "#DEE7EB";
+//
+//        $this->class = "odd";
+//        $this->highlightOff = $this->oddColor;
+//        $this->theme = THEME;
+//        $this->pathImg = "../themes/";
+//        $this->themeImgPath = '../themes/' . THEME . '/images';
+//    }
 
     /**
      * Print tooltips
@@ -28,14 +57,12 @@ class Block
      * @access public
      * @return string
      **/
-    function printHelp($item)
+    public function printHelp($item)
     {
-        global $help, $strings;
-
         return ' [<a href="javascript:void(0);" onmouseover="return overlib(\'' .
-            addslashes($help[$item]) . '\',SNAPX,550,BGCOLOR,\'' . $this->bgColor .
+            addslashes($this->$help[$item]) . '\',SNAPX,550,BGCOLOR,\'' . $this->bgColor .
             '\',FGCOLOR,\'' . $this->fgColor . '\');" onmouseout="return nd();">' .
-            $strings["help"] . '</a>]';
+            $this->strings["help"] . '</a>]';
     }
 
     /**
@@ -44,7 +71,7 @@ class Block
      * @access public
      * @return none
      **/
-    function note($content)
+    public function note($content)
     {
         echo '<p class="note">' . $content . '</p>';
     }
@@ -55,7 +82,7 @@ class Block
      * @access public
      * @return none
      **/
-    function heading($title)
+    public function heading($title)
     {
         echo '<h1 class="heading">' . stripslashes($title) . '</h1>';
     }
@@ -66,7 +93,7 @@ class Block
      * @see block::closeToggle()
      * @access public
      **/
-    function headingToggle($title)
+    public function headingToggle($title)
     {
         if ($_COOKIE[$this->form] == "c") {
             $style = "none";
@@ -85,7 +112,7 @@ class Block
      * @see block::headingToggle()
      * @access public
      **/
-    function closeToggle()
+    public function closeToggle()
     {
         echo '</div>';
     }
@@ -95,7 +122,7 @@ class Block
      * @param string $title Text printed in heading
      * @access public
      **/
-    function headingError($title)
+    public function headingError($title)
     {
         echo '<h1 class="headingError">' . $title . '</h1>';
     }
@@ -105,51 +132,50 @@ class Block
      * @param string $content Text printed in content error table
      * @access public
      **/
-    function contentError($content)
+    public function contentError($content)
     {
         echo '<table class="error"><tr><td>' . $content . '</td></tr></table>';
     }
 
-    function returnBorne($current)
+    public function returnLimit($current)
     {
-        global ${'borne' . $current};
-        if (${'borne' . $current} == "") {
-            $borneValue = "0";
+        global ${'limit' . $current};
+        if (${'limit' . $current} == "") {
+            $limitValue = "0";
         } else {
-            $borneValue = ${'borne' . $current};
+            $limitValue = ${'limit' . $current};
         }
 
-        return $borneValue;
+        return $limitValue;
     }
 
     /**
      * Print page-per-page in bottom of list block
-     * @param string $current Borne number for concerned block
-     * @param string $total Total bornes number
+     * @param string $current Limit number for concerned block
+     * @param string $total Total limits number
      * @param string $showall Link to page which display all records, with parameters
      * @param string $parameters Optional parameters to transmit between pages
      * @access public
      **/
-    function bornesFooter($current, $total, $showall, $parameters)
+    public function limitsFooter($current, $total, $showall, $parameters)
     {
-        global $strings;
         if ($this->rowsLimit < $this->recordsTotal) {
             echo '<table cellspacing="0" width="100%" border="0" cellpadding="0"><tr><td nowrap class="footerCell">&#160;&#160;&#160;&#160;';
 
             $nbpages = ceil($this->recordsTotal / $this->rowsLimit);
             $j = "0";
             for ($i = 1; $i <= $nbpages; $i++) {
-                if ($this->borne == $j) {
+                if ($this->limit == $j) {
                     echo "<b>$i</b>&#160;";
                 } else {
                     echo "<a href=\"$PHP_SELF?$transmitSid";
                     for ($k = 1; $k <= $total; $k++) {
-                        global ${'borne' . $k};
+                        global ${'limit' . $k};
                         if ($k != $current) {
-                            echo "&borne$k=" . ${'borne' . $k};
+                            echo "&limit$k=" . ${'limit' . $k};
                         } else {
                             if ($k == $current) {
-                                echo "&borne$k=$j";
+                                echo "&limit$k=$j";
                             }
                         }
                     }
@@ -161,7 +187,7 @@ class Block
             }
             echo "</td><td nowrap align=\"right\" class=\"footerCell\">";
             if ($showall != "") {
-                echo "<a href=\"$showall&" . session_name() . "=" . session_id() . "\">" . $strings["show_all"] . "</a>";
+                echo "<a href=\"$showall&" . session_name() . "=" . session_id() . "\">" . $this->strings["show_all"] . "</a>";
             }
             echo "&#160;&#160;&#160;&#160;&#160;</td></tr><tr><td height=\"5\" colspan=\"2\"><img width=\"1\" height=\"5\" border=\"0\" src=\"$this->themeImgPath/spacer.gif\" alt=\"\"></td></tr></table>";
         }
@@ -173,7 +199,7 @@ class Block
      * @param string $msgLabel Text built with messages.php
      * @access public
      **/
-    function messageBox($msgLabel)
+    public function messageBox($msgLabel)
     {
         echo '<br/><table class="message"><tr><td>' . $msgLabel . '</td></tr></table>';
     }
@@ -185,7 +211,7 @@ class Block
      * @see block::paletteScript()
      * @access public
      **/
-    function openPaletteIcon()
+    public function openPaletteIcon()
     {
         echo '<table cellpadding="0" cellspacing="0" border="0" class="icons"><tr>';
     }
@@ -197,7 +223,7 @@ class Block
      * @see block::paletteScript()
      * @access public
      **/
-    function closePaletteIcon()
+    public function closePaletteIcon()
     {
         echo "<td align=left width=\"1%\"><img height=\"26\" width=\"5\" src=\"$this->themeImgPath/spacer.gif\" alt=\"\"></td><td class=\"commandDesc\" align=\"left\" width=\"99%\"><div id=\"" . $this->form . "tt\" class=\"rel\"><div id=\"" . $this->form . "tti\" class=\"abs\"><img height=\"1\" width=\"350\" src=\"$this->themeImgPath/spacer.gif\" alt=\"\"></div></div></td></tr></table>";
     }
@@ -207,7 +233,7 @@ class Block
      * @see block::openPaletteScript()
      * @access public
      **/
-    function openPaletteScript()
+    public function openPaletteScript()
     {
         echo '<script type="text/JavaScript">
         document.' . $this->form . 'Form.buttons = new Array();';
@@ -220,14 +246,13 @@ class Block
      * @see block::closePaletteScript()
      * @access public
      **/
-    function closePaletteScript($compt, $values)
+    public function closePaletteScript($compt, $values)
     {
         echo "MM_updateButtons(document." . $this->form . "Form, 0);document." . $this->form . "Form.checkboxes = new Array();";
         for ($i = 0; $i < $compt; $i++) {
             echo "document." . $this->form . "Form.checkboxes[document." . $this->form . "Form.checkboxes.length] = new MMCheckbox('$values[$i]',document." . $this->form . "Form,'" . $this->form . "cb$values[$i]');";
         }
-        echo "document." . $this->form . "Form.tt = '" . $this->form . "tt';
-</script>";
+        echo "document." . $this->form . "Form.tt = '" . $this->form . "tt';</script>";
     }
 
     /**
@@ -238,7 +263,7 @@ class Block
      * @param array $sortingFields Array with sorted fields on each column
      * @access public
      **/
-    function sorting($sortingRef, $sortingValue, $sortingDefault, $sortingFields)
+    public function sorting($sortingRef, $sortingValue, $sortingDefault, $sortingFields)
     {
         if ($sortingRef != "") {
             $this->sortingRef = $sortingRef;
@@ -253,7 +278,9 @@ class Block
         if ($sortingFields != "") {
             $this->sortingFields = $sortingFields;
         }
-        global $sortingOrders, $sortingFields, $sortingArrows, $sortingStyles, $explode;
+
+//        global $sortingOrders, $sortingFields, $sortingArrows, $sortingStyles, $explode;
+
         if (isset($this->sortingValue) != "") {
             $explode = explode(" ", $this->sortingValue);
         } else {
@@ -261,32 +288,32 @@ class Block
             $explode = explode(" ", $this->sortingValue);
         }
 
-        for ($i = 0; $i < count($sortingFields); $i++) {
-            if ($sortingFields[$i] == $explode[0] && $explode[1] == "DESC") {
-                $sortingOrders[$i] = "ASC";
-                $sortingArrows[$i] = "&#160;<img border=\"0\" src=\"$this->themeImgPath/icon_sort_za.gif\" alt=\"\" width=\"11\" height=\"11\">";
-                $sortingStyles[$i] = "active";
+        for ($i = 0; $i < count($this->sortingFields); $i++) {
+            if ($this->sortingFields[$i] == $explode[0] && $explode[1] == "DESC") {
+                $this->sortingOrders[$i] = "ASC";
+                $this->sortingArrows[$i] = "&#160;<img border=\"0\" src=\"$this->themeImgPath/icon_sort_za.gif\" alt=\"\" width=\"11\" height=\"11\">";
+                $this->sortingStyles[$i] = "active";
             } else {
-                if ($sortingFields[$i] == $explode[0] && $explode[1] == "ASC") {
-                    $sortingOrders[$i] = "DESC";
-                    $sortingArrows[$i] = "&#160;<img border=\"0\" src=\"$this->themeImgPath/icon_sort_az.gif\" alt=\"\" width=\"11\" height=\"11\">";
-                    $sortingStyles[$i] = "active";
+                if ($this->sortingFields[$i] == $explode[0] && $explode[1] == "ASC") {
+                    $this->sortingOrders[$i] = "DESC";
+                    $this->sortingArrows[$i] = "&#160;<img border=\"0\" src=\"$this->themeImgPath/icon_sort_az.gif\" alt=\"\" width=\"11\" height=\"11\">";
+                    $this->sortingStyles[$i] = "active";
                 } else {
-                    $sortingOrders[$i] = "ASC";
-                    $sortingArrows[$i] = "";
-                    $sortingStyles[$i] = "";
+                    $this->sortingOrders[$i] = "ASC";
+                    $this->sortingArrows[$i] = "";
+                    $this->sortingStyles[$i] = "";
                 }
             }
         }
-        if ($sortingOrders != "") {
-            $this->sortingOrders = $sortingOrders;
-        }
-        if ($sortingArrows != "") {
-            $this->sortingArrows = $sortingArrows;
-        }
-        if ($sortingStyles != "") {
-            $this->sortingStyles = $sortingStyles;
-        }
+//        if ($this->sortingOrders != "") {
+//            $this->sortingOrders = $sortingOrders;
+//        }
+//        if ($this->sortingArrows != "") {
+//            $this->sortingArrows = $this->sortingArrows;
+//        }
+//        if ($sortingStyles != "") {
+//            $this->sortingStyles = $sortingStyles;
+//        }
     }
 
     /**
@@ -296,7 +323,7 @@ class Block
      * @see block::closeForm()
      * @access public
      **/
-    function openForm($address)
+    public function openForm($address)
     {
         echo '<a name="' . $this->form . 'Anchor"></a>
 <form accept-charset="UNKNOWN" method="POST" action="'.$address.'" name="' . $this->form . 'Form" enctype="application/x-www-form-urlencoded">';
@@ -306,7 +333,7 @@ class Block
      * Close a form used with a list block
      * @access public
      **/
-    function closeFormResults()
+    public function closeFormResults()
     {
         echo '<input name="sor_cible" type="HIDDEN" value="' . $this->sortingRef . '"><input name="sor_champs" type="HIDDEN" value=""><input name="sor_ordre" type="HIDDEN" value=""></form>';
     }
@@ -319,9 +346,9 @@ class Block
      * @param array $sortingOff Array with label number (from $labels) and order (ASC/DESC)
      * @access public
      **/
-    function labels($labels, $published, $sorting = "true", $sortingOff = "")
+    public function labels($labels, $published, $sorting = "true", $sortingOff = "")
     {
-        global $labels, $sortingOrders, $sortingFields, $sortingArrows, $sortingStyles, $strings, $sitePublish;
+//        global $labels, $sortingOrders, $sortingFields, $sortingArrows, $sortingStyles, $strings, $sitePublish;
         $sortingFields = $this->sortingFields;
         $sortingOrders = $this->sortingOrders;
         $sortingArrows = $this->sortingArrows;
@@ -360,7 +387,7 @@ class Block
      * @param boolean $checkbox Disable checkbox display
      * @access public
      **/
-    function openResults($checkbox = "true")
+    public function openResults($checkbox = "true")
     {
         echo "<table class='listing' cellpadding='0' cellspacing='0' border='0'>
 <tr>";
@@ -371,16 +398,15 @@ class Block
         }
     }
 
-    function closeResults()
+    public function closeResults()
     {
         echo "</table>
 <hr />";
     }
 
-    function noresults()
+    public function noresults()
     {
-        global $strings;
-        echo "<table cellspacing='0' border='0' cellpadding='2'><tr><td colspan='4'>" . $strings["no_items"] . "</td></tr></table><hr />";
+        echo "<table cellspacing='0' border='0' cellpadding='2'><tr><td colspan='4'>" . $this->strings["no_items"] . "</td></tr></table><hr />";
     }
 
     /**
@@ -391,7 +417,7 @@ class Block
      * @see block::openPaletteIcon()
      * @access public
      **/
-    function paletteIcon($num, $type, $text)
+    public function paletteIcon($num, $type, $text)
     {
         echo "<td width=\"30\" class=\"commandBtn\"><a href=\"javascript:var b = MM_getButtonWithName(document." . $this->form . "Form, '" . $this->form . "$num'); if (b) b.click();\" onMouseOver=\"var over = MM_getButtonWithName(document." . $this->form . "Form, '" . $this->form . "$num'); if (over) over.over(); return true; \" onMouseOut=\"var out = MM_getButtonWithName(document." . $this->form . "Form, '" . $this->form . "$num'); if (out) out.out(); return true; \"><img width=\"$this->iconWidth\" height=\"$this->iconHeight\" border=\"0\" name=\"" . $this->form . "$num\" src=\"$this->themeImgPath/btn_" . $type . "_norm.gif\" alt='" . stripslashes($text) . "'></a></td>";
     }
@@ -405,7 +431,7 @@ class Block
      * @see block::openPaletteIcon()
      * @access public
      **/
-    function paletteScript($num, $type, $link, $options, $text)
+    public function paletteScript($num, $type, $link, $options, $text)
     {
         echo "document." . $this->form . "Form.buttons[document." . $this->form . "Form.buttons.length] = new MMCommandButton('" . $this->form . "$num',document." . $this->form . "Form,'" . $link . "&" . session_name() . "=" . session_id() . "','$this->themeImgPath/btn_" . $type . "_norm.gif','$this->themeImgPath/btn_" . $type . "_over.gif','$this->themeImgPath/btn_" . $type . "_down.gif','$this->themeImgPath/btn_" . $type . "_dim.gif',$options,'',\"" . stripslashes($text) . "\",false,'');";
     }
@@ -415,7 +441,7 @@ class Block
      * @see block::contentRow()
      * @access public
      **/
-    function openContent()
+    public function openContent()
     {
         echo "<table class='content' cellspacing='0' cellpadding='0'>";
     }
@@ -427,7 +453,7 @@ class Block
      * @param boolean $altern Option to altern background color
      * @access public
      **/
-    function contentRow($left, $right, $altern = "false")
+    public function contentRow($left, $right, $altern = "false")
     {
         if ($this->class == "") {
             $this->class = "odd";
@@ -448,7 +474,7 @@ class Block
         }
     }
 
-    function openRow()
+    public function openRow()
     {
         $change = "true";
         echo "<tr class='{$this->class}' onmouseover=\"this.style.backgroundColor='" . $this->highlightOn . "'\" onmouseout=\"this.style.backgroundColor='" . $this->highlightOff . "'\">";
@@ -464,7 +490,7 @@ class Block
         }
     }
 
-    function checkboxRow($ref, $checkbox = "true")
+    public function checkboxRow($ref, $checkbox = "true")
     {
         if ($checkbox == "true") {
             echo "<td align='center'><a href=\"javascript:MM_toggleItem(document." . $this->form . "Form, '" . $ref . "', '" . $this->form . "cb" . $ref . "','{$this->theme}')\"><img name='" . $this->form . "cb" . $ref . "' border='0' src='$this->themeImgPath/checkbox_off_16.gif' alt='' vspace='3'></a></td>";
@@ -473,37 +499,37 @@ class Block
         }
     }
 
-    function cellRow($content)
+    public function cellRow($content)
     {
         echo "<td>$content</td>";
     }
 
-    function closeRow()
+    public function closeRow()
     {
         echo "</tr>";
     }
 
-    function contentTitle($title)
+    public function contentTitle($title)
     {
         echo "<tr><th colspan='2'>" . $title . "</th></tr>";
     }
 
-    function closeContent()
+    public function closeContent()
     {
         echo "</table><hr />";
     }
 
-    function closeForm()
+    public function closeForm()
     {
         echo "</form>";
     }
 
-    function openBreadcrumbs()
+    public function openBreadcrumbs()
     {
         echo "<p class='breadcrumbs'>";
     }
 
-    function itemBreadcrumbs($content)
+    public function itemBreadcrumbs($content)
     {
         if ($this->breadcrumbsTotal == "") {
             $this->breadcrumbsTotal = "0";
@@ -512,7 +538,7 @@ class Block
         $this->breadcrumbsTotal = $this->breadcrumbsTotal + 1;
     }
 
-    function closeBreadcrumbs()
+    public function closeBreadcrumbs()
     {
         $items = $this->breadcrumbsTotal;
         for ($i = 0; $i < $items; $i++) {
@@ -524,12 +550,12 @@ class Block
         echo "</p>";
     }
 
-    function openNavigation()
+    public function openNavigation()
     {
         echo "<p id='navigation'>";
     }
 
-    function itemNavigation($content)
+    public function itemNavigation($content)
     {
         if ($this->navigationTotal == "") {
             $this->navigationTotal = "0";
@@ -538,7 +564,7 @@ class Block
         $this->navigationTotal = $this->navigationTotal + 1;
     }
 
-    function closeNavigation()
+    public function closeNavigation()
     {
         $items = $this->navigationTotal;
         for ($i = 0; $i < $items; $i++) {
@@ -550,12 +576,12 @@ class Block
         echo "</p>";
     }
 
-    function openAccount()
+    public function openAccount()
     {
         echo "<p id='account'>";
     }
 
-    function itemAccount($content)
+    public function itemAccount($content)
     {
         if ($this->accountTotal == "") {
             $this->accountTotal = "0";
@@ -564,7 +590,7 @@ class Block
         $this->accountTotal = $this->accountTotal + 1;
     }
 
-    function closeaccount()
+    public function closeaccount()
     {
         $items = $this->accountTotal;
         for ($i = 0; $i < $items; $i++) {
@@ -576,7 +602,7 @@ class Block
         echo "</p>";
     }
 
-    function buildLink($url, $label, $type)
+    public function buildLink($url, $label, $type)
     {
         if ($type == "in") {
             return "<a href='$url&" . session_name() . "=" . session_id() . "'>$label</a>";

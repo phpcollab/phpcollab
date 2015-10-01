@@ -21,7 +21,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$blockPage->bornesNumber = "1";
+$blockPage->limitsNumber = "1";
 
 $block1 = new Block();
 
@@ -46,7 +46,7 @@ if ($profilSession == "0" || $profilSession == "1"  || $profilSession == "5") {
 
 $block1->closePaletteIcon(); 
 
-$block1->borne = $blockPage->returnBorne("1");
+$block1->limit = $blockPage->returnLimit("1");
 $block1->rowsLimit = "40";
 
 $block1->sorting("newsdesk",$sortingUser->sor_newsdesk[0],"news.pdate DESC",$sortingFields = array(0=>"news.title",1=>"news.pdate"));
@@ -57,7 +57,7 @@ $tmpquery = "WHERE news.id != '0' ORDER BY $block1->sortingValue ";
 $block1->recordsTotal = Util::computeTotal($initrequest["newsdeskposts"]." ".$tmpquery);
 
 $listPosts = new Request();
-$listPosts->openNewsDesk($tmpquery,$block1->borne,$block1->rowsLimit);
+$listPosts->openNewsDesk($tmpquery,$block1->limit,$block1->rowsLimit);
 $comptPosts = count($listPosts->news_id);
 
 if ($comptPosts != "0") {
@@ -92,7 +92,7 @@ if ($comptPosts != "0") {
 	
 	$block1->closeResults();
 	
-	$block1->bornesFooter("1",$blockPage->bornesNumber,"","");
+	$block1->limitsFooter("1",$blockPage->limitsNumber,"","");
 } else {
 	$block1->noresults();
 }

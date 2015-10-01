@@ -91,7 +91,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$blockPage->bornesNumber = "1";
+$blockPage->limitsNumber = "1";
 
 $block1 = new Block();
 
@@ -117,7 +117,7 @@ if ($teamMember == "true") {
 }
 $block1->closePaletteIcon();
 
-$block1->borne = $blockPage->returnBorne("1");
+$block1->limit = $blockPage->returnLimit("1");
 $block1->rowsLimit = "20";
 
 $block1->sorting("tasks",$sortingUser->sor_tasks[0],"tas.name ASC",$sortingFields = array(0=>"tas.name",1=>"tas.priority",2=>"tas.status",3=>"tas.completion",4=>"tas.due_date",5=>"mem.login",6=>"tas.published"));
@@ -127,7 +127,7 @@ $tmpquery = "WHERE tas.project = '$project' ORDER BY $block1->sortingValue";
 $block1->recordsTotal = Util::computeTotal($initrequest["tasks"]." ".$tmpquery);
 
 $listTasks = new Request();
-$listTasks->openTasks($tmpquery,$block1->borne,$block1->rowsLimit);
+$listTasks->openTasks($tmpquery,$block1->limit,$block1->rowsLimit);
 $comptListTasks = count($listTasks->tas_id);
 
 if ($comptListTasks != "0") {
@@ -170,7 +170,7 @@ $block1->closeRow();
 }
 $block1->closeResults();
 
-$block1->bornesFooter("1",$blockPage->bornesNumber,"","project=$project");
+$block1->limitsFooter("1",$blockPage->limitsNumber,"","project=$project");
 
 	if ($activeJpgraph == "true" && $gantt == "true") {
 	echo "

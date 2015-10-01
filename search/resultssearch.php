@@ -174,7 +174,7 @@ $blockPage = new Block();
 
 $block1 = new Block();
 
-$block1->borne = $blockPage->returnBorne("1");
+$block1->limit = $blockPage->returnLimit("1");
 $block1->rowsLimit = "10";
 
 $block1->sorting("projects", $sortingUser->sor_projects[0], "pro.name ASC", $sortingFields = array(0 => "pro.id", 1 => "pro.name", 2 => "pro.priority", 3 => "org.name", 4 => "pro.status", 5 => "mem.login", 6 => "pro.published"));
@@ -190,14 +190,14 @@ if ($validProjects == "true") {
     $block1->recordsTotal = Util::computeTotal($initrequest["projects"] . " " . $tmpquery);
 
     $listProjects = new Request();
-    $listProjects->openProjects($tmpquery, $block1->borne, $block1->rowsLimit);
+    $listProjects->openProjects($tmpquery, $block1->limit, $block1->rowsLimit);
     $comptListProjects = count($listProjects->pro_id);
     //echo "$tmpquery<br/>";
 }
 
 $block2 = new Block();
 
-$block2->borne = $blockPage->returnBorne("2");
+$block2->limit = $blockPage->returnLimit("2");
 $block2->rowsLimit = "10";
 
 $block2->sorting("home_tasks", $sortingUser->sor_home_tasks[0], "tas.name ASC", $sortingFields = array(0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.due_date", 4 => "mem.login", 5 => "tas.project", 6 => "tas.published"));
@@ -235,13 +235,13 @@ if ($validTasks == "true") {
     $block2->recordsTotal = Util::computeTotal($initrequest["tasks"] . " " . $tmpquery);
 
     $listTasks = new Request();
-    $listTasks->openTasks($tmpquery, $block2->borne, $block2->rowsLimit);
+    $listTasks->openTasks($tmpquery, $block2->limit, $block2->rowsLimit);
     $comptListTasks = count($listTasks->tas_id);
     //echo "$tmpquery<br/>";
 }
 
 $block9 = new Block();
-$block9->borne = $blockPage->returnBorne("9");
+$block9->limit = $blockPage->returnLimit("9");
 $block9->rowsLimit = "10";
 $block9->sorting("home_subtasks", $sortingUser->sor_home_subtasks[0], "subtas.name ASC", $sortingFields = array(0 => "subtas.name", 1 => "subtas.priority", 2 => "subtas.status", 3 => "subtas.due_date", 4 => "mem.login", 5 => "subtas.project", 6 => "subtas.published"));
 //$tmpquery = "$searchSubtasks AND pro.id IN($filterResults) ORDER BY $block9->sortingValue";
@@ -252,13 +252,13 @@ if ($validSubtasks == "true") {
     $block9->recordsTotal = Util::computeTotal($initrequest["subtasks"] . " " . $tmpquery);
 
     $listSubtasks = new Request();
-    $listSubtasks->openSubtasks($tmpquery, $block9->borne, $block9->rowsLimit);
+    $listSubtasks->openSubtasks($tmpquery, $block9->limit, $block9->rowsLimit);
     $comptListSubtasks = count($listSubtasks->subtas_id);
     //echo "$tmpquery<br/>";
 }
 $block3 = new Block();
 
-$block3->borne = $blockPage->returnBorne("3");
+$block3->limit = $blockPage->returnLimit("3");
 $block3->rowsLimit = "10";
 
 $block3->sorting("users", $sortingUser->sor_users[0], "mem.name ASC", $sortingFields = array(0 => "mem.name", 1 => "mem.login", 2 => "mem.email_work", 3 => "mem.phone_work", 4 => "log.connected"));
@@ -273,14 +273,14 @@ if ($validMembers == "true") {
     $block3->recordsTotal = Util::computeTotal($initrequest["members"] . " " . $tmpquery);
 
     $listMembers = new Request();
-    $listMembers->openMembers($tmpquery, $block3->borne, $block3->rowsLimit);
+    $listMembers->openMembers($tmpquery, $block3->limit, $block3->rowsLimit);
     $comptListMembers = count($listMembers->mem_id);
     //echo "$tmpquery<br/>";
 }
 
 $block4 = new Block();
 
-$block4->borne = $blockPage->returnBorne("4");
+$block4->limit = $blockPage->returnLimit("4");
 $block4->rowsLimit = "10";
 
 $block4->sorting("organizations", $sortingUser->sor_organizations[0], "org.name ASC", $sortingFields = array(0 => "org.name", 1 => "org.url", 2 => "org.phone"));
@@ -318,14 +318,14 @@ if ($validOrganizations == "true" && $listClients != "false") {
     $block4->recordsTotal = Util::computeTotal($initrequest["organizations"] . " " . $tmpquery);
 
     $listOrganizations = new Request();
-    $listOrganizations->openOrganizations($tmpquery, $block4->borne, $block4->rowsLimit);
+    $listOrganizations->openOrganizations($tmpquery, $block4->limit, $block4->rowsLimit);
     $comptListOrganizations = count($listOrganizations->org_id);
     //echo "$tmpquery<br/>";
 }
 
 $block5 = new Block();
 
-$block5->borne = $blockPage->returnBorne("5");
+$block5->limit = $blockPage->returnLimit("5");
 $block5->rowsLimit = "10";
 
 $block5->sorting("home_discussions", $sortingUser->sor_home_discussions[0], "topic.last_post DESC", $sortingFields = array(0 => "topic.subject", 1 => "mem.login", 2 => "topic.posts", 3 => "topic.last_post", 4 => "topic.status", 5 => "topic.project", 6 => "topic.published"));
@@ -345,7 +345,7 @@ if ($validTopics == "true") {
     $block5->recordsTotal = Util::computeTotal($initrequest["topics"] . " " . $tmpquery);
 
     $listTopics = new Request();
-    $listTopics->openTopics($tmpquery, $block5->borne, $block5->rowsLimit);
+    $listTopics->openTopics($tmpquery, $block5->limit, $block5->rowsLimit);
     $comptListTopics = count($listTopics->top_id);
     //echo "$tmpquery<br/>";
 }
@@ -354,7 +354,7 @@ $block6 = new Block();
 
 $comptTopic = count($topicNote);
 
-$block6->borne = $blockPage->returnBorne("6");
+$block6->limit = $blockPage->returnLimit("6");
 $block6->rowsLimit = "10";
 
 if ($comptTopic != "0") {
@@ -379,7 +379,7 @@ if ($validNotes == "true") {
     $block6->recordsTotal = Util::computeTotal($initrequest["notes"] . " " . $tmpquery);
 
     $listNotes = new Request();
-    $listNotes->openNotes($tmpquery, $block6->borne, $block6->rowsLimit);
+    $listNotes->openNotes($tmpquery, $block6->limit, $block6->rowsLimit);
     $comptListNotes = count($listNotes->note_id);
     //echo "$tmpquery<br/>";
 }
@@ -391,7 +391,7 @@ $blockPage->itemBreadcrumbs($blockPage->buildLink("../search/createsearch.php?",
 $blockPage->itemBreadcrumbs($strings["search_results"]);
 $blockPage->closeBreadcrumbs();
 
-$blockPage->bornesNumber = "6";
+$blockPage->limitsNumber = "6";
 
 $block0 = new Block();
 
@@ -456,7 +456,7 @@ if ($comptListProjects != "0") {
     }
     $block1->closeResults();
 
-    $block1->bornesFooter("1", $blockPage->bornesNumber, "", "searchfor=$searchfor&heading=$heading");
+    $block1->limitsFooter("1", $blockPage->limitsNumber, "", "searchfor=$searchfor&heading=$heading");
 
     $block1->closeToggle();
     $block1->closeFormResults();
@@ -513,7 +513,7 @@ if ($comptListTasks != "0") {
 
     $block2->closeResults();
 
-    $block2->bornesFooter("2", $blockPage->bornesNumber, "", "searchfor=$searchfor&heading=$heading");
+    $block2->limitsFooter("2", $blockPage->limitsNumber, "", "searchfor=$searchfor&heading=$heading");
 
     $block2->closeToggle();
     $block2->closeFormResults();
@@ -559,7 +559,7 @@ if ($comptListSubtasks != "0") {
         $block9->closeRow();
     }
     $block9->closeResults();
-    $block9->bornesFooter("2", $blockPage->bornesNumber, "", "searchfor=$searchfor&heading=$heading");
+    $block9->limitsFooter("2", $blockPage->limitsNumber, "", "searchfor=$searchfor&heading=$heading");
 
     $block9->closeToggle();
     $block9->closeFormResults();
@@ -600,7 +600,7 @@ if ($comptListMembers != "0") {
 
     $block3->closeResults();
 
-    $block3->bornesFooter("3", $blockPage->bornesNumber, "", "searchfor=$searchfor&heading=$heading");
+    $block3->limitsFooter("3", $blockPage->limitsNumber, "", "searchfor=$searchfor&heading=$heading");
 
     $block3->closeToggle();
     $block3->closeFormResults();
@@ -635,7 +635,7 @@ if ($comptListOrganizations != "0") {
 
     $block4->closeResults();
 
-    $block4->bornesFooter("4", $blockPage->bornesNumber, "", "searchfor=$searchfor&heading=$heading");
+    $block4->limitsFooter("4", $blockPage->limitsNumber, "", "searchfor=$searchfor&heading=$heading");
 
     $block4->closeToggle();
     $block4->closeFormResults();
@@ -683,7 +683,7 @@ if ($comptListTopics != "0") {
 
     $block5->closeResults();
 
-    $block5->bornesFooter("5", $blockPage->bornesNumber, "", "searchfor=$searchfor&heading=$heading");
+    $block5->limitsFooter("5", $blockPage->limitsNumber, "", "searchfor=$searchfor&heading=$heading");
 
     $block5->closeToggle();
     $block5->closeFormResults();
@@ -729,7 +729,7 @@ if ($comptListNotes != "0") {
     }
     $block6->closeResults();
 
-    $block6->bornesFooter("6", $blockPage->bornesNumber, "", "searchfor=$searchfor&heading=$heading");
+    $block6->limitsFooter("6", $blockPage->limitsNumber, "", "searchfor=$searchfor&heading=$heading");
 
     $block6->closeToggle();
     $block6->closeFormResults();

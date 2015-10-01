@@ -56,7 +56,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$blockPage->bornesNumber = "1";
+$blockPage->limitsNumber = "1";
 
 $block1 = new Block();
 
@@ -83,7 +83,7 @@ if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
 }
 $block1->closePaletteIcon();
 
-$block1->borne = $blockPage->returnBorne("1");
+$block1->limit = $blockPage->returnLimit("1");
 $block1->rowsLimit = "20";
 
 $block1->sorting("invoices",$sortingUser->sor_invoices[0],"inv.id ASC",$sortingFields = array(0=>"inv.id",1=>"pro.name",2=>"inv.total_inc_tax",3=>"inv.date_sent",4=>"inv.published"));
@@ -112,7 +112,7 @@ $comptProjectsTest = count($projectsTest->pro_id);
 $block1->recordsTotal = Util::computeTotal($initrequest["invoices"]." ".$tmpquery);
 
 $listInvoices = new Request();
-$listInvoices->openInvoices($tmpquery,$block1->borne,$block1->rowsLimit);
+$listInvoices->openInvoices($tmpquery,$block1->limit,$block1->rowsLimit);
 $comptListInvoices = count($listInvoices->inv_id);
 
 if ($comptListInvoices != "0") {
@@ -134,7 +134,7 @@ $block1->closeRow();
 }
 $block1->closeResults();
 
-$block1->bornesFooter("1",$blockPage->bornesNumber,"","typeProjects=$typeProjects");
+$block1->limitsFooter("1",$blockPage->limitssNumber,"","typeProjects=$typeProjects");
 
 } else {
 $block1->noresults();

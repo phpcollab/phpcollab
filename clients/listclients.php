@@ -43,7 +43,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$blockPage->bornesNumber = "1";
+$blockPage->limitssNumber = "1";
 
 $block1 = new Block();
 
@@ -63,7 +63,7 @@ if ($profilSession == "0" || $profilSession == "1") {
 }
 $block1->closePaletteIcon();
 
-$block1->borne = $blockPage->returnBorne("1");
+$block1->limit = $blockPage->returnLimit("1");
 $block1->rowsLimit = "20";
 
 $block1->sorting("organizations",$sortingUser->sor_organizations[0],"org.name ASC",$sortingFields = array(0=>"org.name",1=>"org.phone",2=>"org.url"));
@@ -99,7 +99,7 @@ $block1->recordsTotal = Util::computeTotal($initrequest["organizations"]." ".$tm
 
 if ($listClients != "false") {
 	$listOrganizations = new Request();
-	$listOrganizations->openOrganizations($tmpquery,$block1->borne,$block1->rowsLimit);
+	$listOrganizations->openOrganizations($tmpquery,$block1->limit,$block1->rowsLimit);
 	$comptListOrganizations = count($listOrganizations->org_id);
 } else {
 	$comptListOrganizations = 0;
@@ -119,7 +119,7 @@ $block1->closeRow();
 }
 $block1->closeResults();
 
-$block1->bornesFooter("1",$blockPage->bornesNumber,"","");
+$block1->limitsFooter("1",$blockPage->limitssNumber,"","");
 
 } else {
 $block1->noresults();

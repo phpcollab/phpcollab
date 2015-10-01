@@ -855,7 +855,7 @@ if ($showHomeNewsdesk)
 
 	$block7->closePaletteIcon();
 
-	$block7->borne = $blockPage->returnBorne("1");
+	$block7->limit = $blockPage->returnLimit("1");
 	$block7->rowsLimit = "40";
 
 	$block7->sorting("newsdesk",$sortingUser->sor_newsdesk[0],"news.pdate DESC",$sortingFields = array(0=>"news.title",1=>"news.pdate",2=>"news.author",3=>"news.related"));
@@ -874,7 +874,7 @@ if ($showHomeNewsdesk)
 	$block7->recordsTotal = Util::computeTotal($initrequest["newsdeskposts"]." ".$tmpquery);
 
 	$listPosts = new Request();
-	$listPosts->openNewsDesk($tmpquery,$block7->borne,$block7->rowsLimit);
+	$listPosts->openNewsDesk($tmpquery,$block7->limit,$block7->rowsLimit);
 	$comptPosts = count($listPosts->news_id);
 
 	if ($comptPosts != "0") 
@@ -912,7 +912,7 @@ if ($showHomeNewsdesk)
 		}
 		
 		$block7->closeResults();		
-		$block7->bornesFooter("1",$blockPage->bornesNumber,"","");
+		$block7->limitsFooter("1",$blockPage->limitNumber,"","");
 	} 
 	else 
 	{
