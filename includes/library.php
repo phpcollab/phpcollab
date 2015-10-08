@@ -30,6 +30,7 @@
 ** 2008-11-18   -   Updated the library.php to reflect the new settings object. (dab-norman77)
 **
 */
+$debug = true;
 
 define('APP_ROOT', dirname(dirname(__FILE__)));
 // require the autoloader class file
@@ -38,6 +39,31 @@ $autoloader = new \phpCollab\Autoloader();
 spl_autoload_register(array($autoloader, 'load'));
 if (ini_get('session.auto_start') == 0) {
     $profilSession = "";
+}
+
+if ($debug) {
+
+    // Set error reporting
+    error_reporting(E_ALL | E_STRICT);
+
+    // Display errors
+    ini_set('display_errors', 1);
+
+    // Log errors
+    ini_set('log_errors', 1);
+
+    // No error lof message max
+    ini_set('log_errors_max_len', 0);
+
+    // pecify log file
+    ini_set('error_log', '/Users/mindblender/Sites/phpCollab/phpCollab/logs/php_errors.log');
+
+//    register_shutdown_function('shutdown_notify');
+
+    include_once APP_ROOT . '/classes/Vendor/FirePHPCore/FirePHP.class.php';
+//    ob_start();
+
+    $firephp = FirePHP::getInstance(true);
 }
 
 error_reporting(2039);
