@@ -7,6 +7,13 @@
 
 class Util
 {
+    protected $request_factory;
+    protected $firephp;
+
+    public function __construct(RequestFactory $request_factory, $firephp) {
+        $this->firephp = $firephp;
+    }
+
 
     /**
      * Wrapper to make sure null strings display as 0 in sql queries
@@ -821,6 +828,7 @@ class Util
         if ($findit[1] != "") {
             $prj_id = $projectDetail->pro_id[0];
             $taskDetails = new Request();
+//            $taskDetails = $this->request_factory->newInstance();
             $tmpquery = "WHERE tas.project = '$prj_id'";
             $taskDetails->openTasks($tmpquery);
             $tasksNumb = count($taskDetails->tas_id);
@@ -850,6 +858,7 @@ class Util
     {
         $tmpquery = "WHERE subtas.tasks = '$taskid'";
         $subtaskList = new Request();
+//        $subtaskList = $this->request_factory->newInstance();
         $subtaskList->openAvgTasks($taskid);
         $avg = $subtaskList->tas_avg[0];
         settype($avg, "integer");
