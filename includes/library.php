@@ -348,7 +348,6 @@ if ($action != "") {
 //provide id session if trans_sid false on server (if $trans_sid true in settings)
 if ($trans_sid == "true") {
     global $transmitSid;
-    $transmitSid = session_name() . "=" . session_id();
 }
 
 //time variables
