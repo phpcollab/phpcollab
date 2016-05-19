@@ -226,36 +226,36 @@ if ($auth == "on") {
             if ($url != "") {
 
                 if ($loginUser->mem_profil[0] == "3") {
-                    Util::headerFunction("../$url&updateProject=true&" . session_name() . "=" . session_id());
+                    Util::headerFunction("../$url&updateProject=true");
                 } else {
-                    Util::headerFunction("../$url&" . session_name() . "=" . session_id());
+                    Util::headerFunction("../$url");
                 }
             } //redirect to last page required (with auto log out feature)
             else {
                 if ($loginUser->mem_last_page[0] != "" && $loginUser->mem_profil[0] != "3" && $lastvisitedpage) {
                     $tmpquery = "UPDATE " . $tableCollab["members"] . " SET last_page='' WHERE login = '$loginForm'";
                     Util::connectSql("$tmpquery");
-                    Util::headerFunction("../" . $loginUser->mem_last_page[0] . "&" . session_name() . "=" . session_id());
+                    Util::headerFunction("../" . $loginUser->mem_last_page[0]);
 
                 } else {
                     if ($loginUser->mem_last_page[0] != "" && ($loginCookie != "" && $passwordCookie != "") && $loginUser->mem_profil[0] != "3" && $lastvisitedpage) {
                         $tmpquery = "UPDATE " . $tableCollab["members"] . " SET last_page='' WHERE login = '$loginForm'";
                         Util::connectSql("$tmpquery");
-                        Util::headerFunction("../" . $loginUser->mem_last_page[0] . "&" . session_name() . "=" . session_id());
+                        Util::headerFunction("../" . $loginUser->mem_last_page[0]);
                     } //redirect to home or admin page (if user is administrator)
                     else {
                         if ($loginUser->mem_profil[0] == "3") {
-                            Util::headerFunction("../projects_site/home.php?" . session_name() . "=" . session_id());
+                            Util::headerFunction("../projects_site/home.php");
                         } else {
                             if ($loginUser->mem_profil[0] == "0") {
                                 if ($adminathome == '1') {
-                                    Util::headerFunction("../general/home.php?" . session_name() . "=" . session_id());
+                                    Util::headerFunction("../general/home.php");
                                 } else {
-                                    Util::headerFunction("../administration/admin.php?" . session_name() . "=" . session_id());
+                                    Util::headerFunction("../administration/admin.php");
                                 }
 
                             } else {
-                                Util::headerFunction("../general/home.php?" . session_name() . "=" . session_id());
+                                Util::headerFunction("../general/home.php");
                             }
                         }
                     }
