@@ -81,7 +81,7 @@ echo "</title>\n";
 
 echo "<meta http-equiv='Content-Type' content='text/html; charset=$setCharset'>
 
-<link rel='stylesheet' href='../themes/".THEME."/stylesheet.css'>
+<link rel='stylesheet' href='../themes/".THEME."/css/stylesheet.css'>
 <script type='text/javascript' src='../javascript/general.js'></script>
 <script type='text/JavaScript' src='../javascript/overlib_mini.js'></script>";
 if ($includeCalendar && $includeCalendar == true) {
@@ -96,7 +96,7 @@ echo "<body $bodyCommand>
 </table>
 
 <table cellpadding='0' cellspacing='0' border='0' height='95%' width='100%'>
-<tr><td valign='middle' width='150' bgcolor='#5B7F93' height='75'><img src='../themes/".THEME."/spacer.gif' width='150' height='75' alt=''></td><td bgcolor='#EFEFEF' height='75'>&nbsp;&nbsp;&nbsp;<b>$titlePage</b></td></tr>
+<tr><td valign='middle' width='150' bgcolor='#5B7F93' height='75'><img src='../themes/".THEME."/images/spacer.gif' width='150' height='75' alt=''></td><td bgcolor='#EFEFEF' height='75'>&nbsp;&nbsp;&nbsp;<b>$titlePage</b></td></tr>
 <tr><td valign='top' bgcolor='#C4D3DB'><br/>
 
 <table cellspacing='2' cellpadding='3' border='0'>";
