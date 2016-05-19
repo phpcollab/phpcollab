@@ -27,3 +27,5 @@ nbproject
 .project
 .settings
 composer.lock
+composer/
+vendor/
