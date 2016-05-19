@@ -94,7 +94,7 @@ if ($projectSession == "" || $changeProject == "true") {
 			$idStatus = $listProjects->tea_pro_status[$i];
 			$idPriority = $listProjects->tea_pro_priority[$i];
 			echo "	<tr class='$class' onmouseover=\"this.style.backgroundColor='" . $block1->getHighlightOn() . "'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\">
-						<td width='30%'><a href='home.php?$transmitSid&updateProject=true&project=".$listProjects->tea_pro_id[$i]."'>".$listProjects->tea_pro_name[$i]."</a></td>
+						<td width='30%'><a href='home.php?updateProject=true&project=".$listProjects->tea_pro_id[$i]."'>".$listProjects->tea_pro_name[$i]."</a></td>
 						<td>".$listProjects->tea_org2_name[$i]."</td>
 						<td>$priority[$idPriority]</td>
 						<td>$status[$idStatus]</td>
@@ -186,7 +186,7 @@ if ($projectSession != "" && $changeProject != "true") {
 	$detailContact->openTeams($tmpquery);
 
 	if ($detailContact->tea_published[0] == "0" && $detailContact->tea_project[0] == $projectSession) {
-		echo "<br/><div>".$strings["contact_projectsite"].", <a href=\"contactdetail.php?$transmitSid&id=".$projectDetail->pro_owner[0]."\">".$projectDetail->pro_mem_name[0]."</a>.</div>";
+		echo "<br/><div>".$strings["contact_projectsite"].", <a href=\"contactdetail.php?id=".$projectDetail->pro_owner[0]."\">".$projectDetail->pro_mem_name[0]."</a>.</div>";
 	}
 }
 

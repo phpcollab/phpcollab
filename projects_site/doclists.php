@@ -33,13 +33,13 @@ for ($i=0;$i<$comptListFiles;$i++) {
 $idStatus = $listFiles->fil_status[$i];
 echo "<tr class=\"$class\" onmouseover=\"this.style.backgroundColor='".$block1->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td>";
 if ($listFiles->fil_task[$i] != "0") {
-echo "<a href=\"clientfiledetail.php?$transmitSid&id=".$listFiles->fil_id[$i]."\">".$listFiles->fil_name[$i]."</a>";
+echo "<a href=\"clientfiledetail.php?id=".$listFiles->fil_id[$i]."\">".$listFiles->fil_name[$i]."</a>";
 $folder = $listFiles->fil_project[0]."/".$listFiles->fil_task[0];
 } else {
-echo "<a href=\"clientfiledetail.php?$transmitSid&id=".$listFiles->fil_id[$i]."\">".$listFiles->fil_name[$i]."</a>";
+echo "<a href=\"clientfiledetail.php?id=".$listFiles->fil_id[$i]."\">".$listFiles->fil_name[$i]."</a>";
 $folder = $listFiles->fil_project[0];
 }
-echo " </td><td><a href=\"createthread.php?$transmitSid&topicField=".$listFiles->fil_name[$i]."\">".$strings["create"]."</a></td><td>".$listFiles->fil_date[$i]."</td><td width=\"20%\" class=\"$class\"><a href=\"docitemapproval.php?$transmitSid&id=".$listFiles->fil_id[$i]."\">$statusFile[$idStatus]</a></td></tr>";
+echo " </td><td><a href=\"createthread.php?topicField=".$listFiles->fil_name[$i]."\">".$strings["create"]."</a></td><td>".$listFiles->fil_date[$i]."</td><td width=\"20%\" class=\"$class\"><a href=\"docitemapproval.php?id=".$listFiles->fil_id[$i]."\">$statusFile[$idStatus]</a></td></tr>";
 }
 echo "</table>
 <hr />\n";

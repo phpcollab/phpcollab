@@ -34,7 +34,7 @@ if ($listTasks->tas_due_date[$i] == "") {
 	$listTasks->tas_due_date[$i] = $strings["none"];
 }
 $idStatus = $listTasks->tas_status[$i];
-echo "<tr class=\"$class\" onmouseover=\"this.style.backgroundColor='".$block1->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td><a href=\"clienttaskdetail.php?$transmitSid&id=".$listTasks->tas_id[$i]."\">".$listTasks->tas_name[$i]."</a></td><td>".nl2br($listTasks->tas_description[$i])."</td><td>$status[$idStatus]</td><td>".$listTasks->tas_due_date[$i]."</td></tr>";
+echo "<tr class=\"$class\" onmouseover=\"this.style.backgroundColor='".$block1->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td><a href=\"clienttaskdetail.php?id=".$listTasks->tas_id[$i]."\">".$listTasks->tas_name[$i]."</a></td><td>".nl2br($listTasks->tas_description[$i])."</td><td>$status[$idStatus]</td><td>".$listTasks->tas_due_date[$i]."</td></tr>";
 }
 echo "</table>
 <hr />\n";

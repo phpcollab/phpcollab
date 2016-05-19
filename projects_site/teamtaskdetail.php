@@ -91,7 +91,7 @@ for ($i=0;$i<$comptListSubtasks;$i++) {
 		$highlightOff = $block2->evenColor;
 	}
 $idStatus = $listSubtasks->subtas_status[$i];
-echo "<tr class=\"$class\" onmouseover=\"this.style.backgroundColor='".$block2->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td><a href=\"teamsubtaskdetail.php?$transmitSid&task=$id&id=".$listSubtasks->subtas_id[$i]."\">".$listSubtasks->subtas_name[$i]."</a></td><td>".nl2br($listSubtasks->subtas_description[$i])."</td><td>$status[$idStatus]</td><td>".$listSubtasks->subtas_due_date[$i]."</td></tr>";
+echo "<tr class=\"$class\" onmouseover=\"this.style.backgroundColor='".$block2->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td><a href=\"teamsubtaskdetail.php?task=$id&id=".$listSubtasks->subtas_id[$i]."\">".$listSubtasks->subtas_name[$i]."</a></td><td>".nl2br($listSubtasks->subtas_description[$i])."</td><td>$status[$idStatus]</td><td>".$listSubtasks->subtas_due_date[$i]."</td></tr>";
 }
 echo "</table> <hr>\n";
 

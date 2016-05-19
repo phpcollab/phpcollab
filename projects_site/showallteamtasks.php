@@ -81,7 +81,7 @@ if ($comptListTasks != "0")
 
 		$idStatus = $listTasks->tas_status[$i];
 		echo "	<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\">
-					<td><a href='teamtaskdetail.php?$transmitSid&id=".$listTasks->tas_id[$i]."'>".$listTasks->tas_name[$i]."</a></td>
+					<td><a href='teamtaskdetail.php?id=".$listTasks->tas_id[$i]."'>".$listTasks->tas_name[$i]."</a></td>
 					<td>".nl2br($listTasks->tas_description[$i])."</td>
 					<td>$status[$idStatus]</td><td>".$listTasks->tas_due_date[$i]."</td>
 				</tr>";

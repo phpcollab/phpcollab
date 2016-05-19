@@ -218,7 +218,7 @@ echo "<table cellpadding=20 cellspacing=0 border=0 width=\"100%\">
 	<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue2\">".$strings["vc_version"]." :</td><td>".$fileDetail->fil_vc_version[0]."</td></tr>
 	<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue2\">".$strings["ifc_last_date"]." :</td><td>".$fileDetail->fil_date[0]."</td></tr>
 	<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue2\">".$strings["size"].":</td><td>".Util::convertSize($fileDetail->fil_size[0])."</td></tr>
-	<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue2\">".$strings["owner"]." :</td><td><a href=\"contactdetail.php?$transmitSid&id=".$fileDetail->fil_mem_id[0]."\">".$fileDetail->fil_mem_name[0]."</a> (<a href=\"mailto:".$fileDetail->fil_mem_email_work[0]."\">".$fileDetail->fil_mem_login[0]."</a>)</td></tr>";
+	<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue2\">".$strings["owner"]." :</td><td><a href=\"contactdetail.php?id=".$fileDetail->fil_mem_id[0]."\">".$fileDetail->fil_mem_name[0]."</a> (<a href=\"mailto:".$fileDetail->fil_mem_email_work[0]."\">".$fileDetail->fil_mem_login[0]."</a>)</td></tr>";
 
 	if ($fileDetail->fil_comments[0] != "") {
 		echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue2\">".$strings["comments"]." :</td><td>".nl2br($fileDetail->fil_comments[0])."</td></tr>";
@@ -226,10 +226,10 @@ echo "<table cellpadding=20 cellspacing=0 border=0 width=\"100%\">
 
 
 	$idStatus = $fileDetail->fil_status[0];
-	echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue2\">".$strings["approval_tracking"]." :</td><td><a href=\"docitemapproval.php?$transmitSid&id=".$fileDetail->fil_id[0]."\">$statusFile[$idStatus]</a></td></tr>";
+	echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue2\">".$strings["approval_tracking"]." :</td><td><a href=\"docitemapproval.php?id=".$fileDetail->fil_id[0]."\">$statusFile[$idStatus]</a></td></tr>";
 
 	if ($fileDetail->fil_mem2_id[0] != "") {
-		echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue2\">".$strings["approver"]." :</td><td><a href=\"userdetail.php?$transmitSid&id=".$fileDetail->fil_mem2_id[0]."\">".$fileDetail->fil_mem2_name[0]."</a> (<a href=\"mailto:".$fileDetail->fil_mem2_email_work[0]."\">".$fileDetail->fil_mem2_login[0]."</a>)&nbsp;</td></tr>";
+		echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue2\">".$strings["approver"]." :</td><td><a href=\"userdetail.php?id=".$fileDetail->fil_mem2_id[0]."\">".$fileDetail->fil_mem2_name[0]."</a> (<a href=\"mailto:".$fileDetail->fil_mem2_email_work[0]."\">".$fileDetail->fil_mem2_login[0]."</a>)&nbsp;</td></tr>";
 		echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue2\">".$strings["approval_date"]." :</td><td>".$fileDetail->fil_date_approval[0]."&nbsp;</td></tr>";
 	}
 
@@ -263,19 +263,19 @@ echo "<table cellpadding=20 cellspacing=0 border=0 width=\"100%\">
 	
 	if ($listVersions->fil_task[$i] != "0") {
 		if (file_exists("../files/".$listVersions->fil_project[$i]."/".$listVersions->fil_task[$i]."/".$listVersions->fil_name[$i])) {
-				echo " <a href=\"clientaccessfile.php?$transmitSid&mode=view&id=".$listVersions->fil_id[$i]."\">".$strings["view"]."</a>";
+				echo " <a href=\"clientaccessfile.php?mode=view&id=".$listVersions->fil_id[$i]."\">".$strings["view"]."</a>";
 				$folder = $listVersions->fil_project[$i]."/".$listVersions->fil_task[$i];
 				$existFile = "true";
 		}
 	} else {
 		if (file_exists("../files/".$listVersions->fil_project[$i]."/".$listVersions->fil_name[$i])) {
-				echo " <a href=\"clientaccessfile.php?$transmitSid&mode=view&id=".$listVersions->fil_id[$i]."\">".$strings["view"]."</a>";
+				echo " <a href=\"clientaccessfile.php?mode=view&id=".$listVersions->fil_id[$i]."\">".$strings["view"]."</a>";
 				$folder = $listVersions->fil_project[$i];
 				$existFile = "true";
 		}
 	}
 	if ($existFile == "true") {
-		echo " <a href=\"clientaccessfile.php?$transmitSid&mode=download&id=".$listVersions->fil_id[$i]."\">".$strings["save"]."</a>";
+		echo " <a href=\"clientaccessfile.php?mode=download&id=".$listVersions->fil_id[$i]."\">".$strings["save"]."</a>";
 	} else {
 		echo $strings["missing_file"];
 	}
@@ -324,19 +324,19 @@ echo "<table cellpadding=20 cellspacing=0 border=0 width=\"100%\">
 	<td colspan=\"3\">$displayname&nbsp;&nbsp;";
 	if ($listReviews->fil_task[$i] != "0") {
 		if (file_exists("../files/".$listReviews->fil_project[$i]."/".$listReviews->fil_task[$i]."/$listReviews->fil_name[$i]")) {
-			echo "<a href=\"clientaccessfile.php?$transmitSid&mode=view&id=".$listReviews->fil_id[$i]."\">".$strings["view"]."</a>";
+			echo "<a href=\"clientaccessfile.php?mode=view&id=".$listReviews->fil_id[$i]."\">".$strings["view"]."</a>";
 			$folder = $listReviews->fil_project[$i]."/".$listReviews->fil_task[$i];
 			$existFile = "true";
 		}
 	} else {
 		if (file_exists("../files/".$listReviews->fil_project[$i]."/".$listReviews->fil_name[$i])) {
-			echo "<a href=\"clientaccessfile.php?$transmitSid&mode=view&id=".$listReviews->fil_id[$i]."\">".$strings["view"]."</a>";
+			echo "<a href=\"clientaccessfile.php?mode=view&id=".$listReviews->fil_id[$i]."\">".$strings["view"]."</a>";
 			$folder = $listReviews->fil_project[$i];
 			$existFile = "true";
 		}
 	}
 	if ($existFile == "true") {
-		echo " <a href=\"clientaccessfile.php?$transmitSid&mode=download&id=".$listReviews->fil_id[$i]."\">".$strings["save"]."</a>";
+		echo " <a href=\"clientaccessfile.php?mode=download&id=".$listReviews->fil_id[$i]."\">".$strings["save"]."</a>";
 	} else {
 		echo $strings["missing_file"];
 	}

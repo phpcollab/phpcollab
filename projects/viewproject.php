@@ -408,7 +408,7 @@ if ($projectDetail->pro_phase_set[0] != "0")
 			if ($i != $comptCurrentPhase)
 			{
 				 $pnum = $i+1;
-				 $phasesList .= "$pnum.<a href=\"../phases/viewphase.php?$transmitSid&id=".$currentPhase->pha_id[$i]."\">".$currentPhase->pha_name[$i]."</a>  ";
+				 $phasesList .= "$pnum.<a href=\"../phases/viewphase.php?id=".$currentPhase->pha_id[$i]."\">".$currentPhase->pha_name[$i]."</a>  ";
 			}
 		}
 		$block1->contentRow($strings["current_phase"],$phasesList);

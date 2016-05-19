@@ -87,7 +87,7 @@ if ($requestDetail->sr_status[0] == "2")
 
 echo "<tr><td colspan=\"4\">&nbsp;</td></tr>
 <tr><th colspan=\"4\">".$strings["responses"].":</th></tr>
-<tr><td colspan=\"4\" align=\"right\"><a href=\"addsupportpost.php?$transmitSid&id=$id\" class=\"FooterCell\">".$strings["add_support_response"]."</a></td></tr>";
+<tr><td colspan=\"4\" align=\"right\"><a href=\"addsupportpost.php?id=$id\" class=\"FooterCell\">".$strings["add_support_response"]."</a></td></tr>";
 
 if ($comptPostDetail != "0") 
 {

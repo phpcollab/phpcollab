@@ -25,7 +25,7 @@ echo "<h1 class=\"heading\">".$strings["team_subtask_details"]."</h1>";
 
 echo "<table cellspacing=\"0\" cellpadding=\"3\">";
 if ($taskDetail->tas_name[0] != "") {
-echo "<tr><td>".$strings["task"]." :</td><td><a href=\"teamtaskdetail.php?$transmitSid&id=".$taskDetail->tas_id[0]."\">".$taskDetail->tas_name[0]."</a></td></tr>";
+echo "<tr><td>".$strings["task"]." :</td><td><a href=\"teamtaskdetail.php?id=".$taskDetail->tas_id[0]."\">".$taskDetail->tas_name[0]."</a></td></tr>";
 }
 if ($subtaskDetail->subtas_name[0] != "") {
 echo "<tr><td>".$strings["name"]." :</td><td>".$subtaskDetail->subtas_name[0]."</td></tr>";

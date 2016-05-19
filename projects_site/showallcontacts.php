@@ -33,7 +33,7 @@ if ($listContacts->tea_mem_phone_work[$i] == "") {
 		$class = "even";
 		$highlightOff = $block1->evenColor;
 	}
-echo "<tr class=\"$class\" onmouseover=\"this.style.backgroundColor='".$block1->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td><a href=\"contactdetail.php?$transmitSid&id=".$listContacts->tea_mem_id[$i]."\">".$listContacts->tea_mem_name[$i]."</a></td><td>".$listContacts->tea_mem_title[$i]."</td><td>".$listContacts->tea_org_name[$i]."</td><td><a href=\"mailto:".$listContacts->tea_mem_email_work[$i]."\">".$listContacts->tea_mem_email_work[$i]."</a></td></tr>";
+echo "<tr class=\"$class\" onmouseover=\"this.style.backgroundColor='".$block1->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td><a href=\"contactdetail.php?id=".$listContacts->tea_mem_id[$i]."\">".$listContacts->tea_mem_name[$i]."</a></td><td>".$listContacts->tea_mem_title[$i]."</td><td>".$listContacts->tea_org_name[$i]."</td><td><a href=\"mailto:".$listContacts->tea_mem_email_work[$i]."\">".$listContacts->tea_mem_email_work[$i]."</a></td></tr>";
 }
 echo "</table>
 <hr />\n";

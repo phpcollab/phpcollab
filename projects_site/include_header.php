@@ -131,7 +131,7 @@ if ($projectSession != "" && $changeProject != "true")
 
 	if ($enableHelpSupport == "true")
 	{
-		echo"<tr><td><img src='ico_arrow_".$bouton[6].".gif' border='0' alt=''></td><td><a href='showallsupport.php?$transmitSid&project=$projectSession'>".$strings["support"]."</a></td></tr>";
+		echo"<tr><td><img src='ico_arrow_".$bouton[6].".gif' border='0' alt=''></td><td><a href='showallsupport.php?project=$projectSession'>".$strings["support"]."</a></td></tr>";
 	}
 
 	//if mantis bug tracker enabled
@@ -148,13 +148,13 @@ if ($projectSession != "" && $changeProject != "true")
 echo "
 	<table cellspacing='2' cellpadding='3' border='0'>
 		<tr>
-			<td><a href='home.php?$transmitSid&changeProject=true'><img src='ico_folder.gif' border='0' alt=''></a></td>
-			<td><a href='home.php?$transmitSid&changeProject=true'>".$strings["my_projects"]."</a></td>
+			<td><a href='home.php?changeProject=true'><img src='ico_folder.gif' border='0' alt=''></a></td>
+			<td><a href='home.php?changeProject=true'>".$strings["my_projects"]."</a></td>
 		</tr>
 		<tr><td colspan='2'><br/></td></tr>
 		<tr>
-			<td><a href='changepassword.php?$transmitSid&changeProject=true'><img src='ico_prefs.gif' border='0' alt=''></a></td>
-			<td><a href='changepassword.php?$transmitSid&changeProject=true'>".$strings["preferences"]."</a></td>
+			<td><a href='changepassword.php?changeProject=true'><img src='ico_prefs.gif' border='0' alt=''></a></td>
+			<td><a href='changepassword.php?changeProject=true'>".$strings["preferences"]."</a></td>
 		</tr>
 		<tr><td colspan='2'><br/></td></tr>";
 
