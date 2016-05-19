@@ -32,7 +32,7 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$setTitle .= " : List Reports";
+$setTitle .= " : " . $strings["my_reports"];
 
 include '../themes/' . THEME . '/header.php';
 
@@ -45,7 +45,7 @@ $blockPage->closeBreadcrumbs();
 $block1 = new Block();
 
 $block1->form = "wbSe";
-$block1->openForm("../reports/listreports.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
+$block1->openForm("../reports/listreports.php#".$block1->form."Anchor");
 
 $block1->heading($strings["my_reports"]);
 
@@ -57,27 +57,37 @@ $block1->closePaletteIcon();
 
 $block1->sorting("reports",$sortingUser->sor_reports[0],"rep.name ASC",$sortingFields = array(0=>"rep.name",1=>"rep.created"));
 
-$tmpquery = "WHERE rep.owner = '$idSession' ORDER BY ".$block1->sortingValue." ";
-$listReports = new Request();
-$listReports->openReports($tmpquery);
-$comptListReports = count($listReports->rep_id);
+/**
+ * Use the new Database class and prepared statements to prevent SQL injection
+ * Todo: look into using existing SQL statements from initrequests.php
+ */
 
-if ($comptListReports != "0") 
-{
+$myReports = new Reports();
+
+//var_dump($block1->sortingValue);
+
+//$tmpquery = "WHERE rep.owner = '$idSession' ORDER BY ".$block1->sortingValue." ";
+$sorting = $block1->sortingValue;
+
+$dataSet = $myReports->getReportsByOwner( $idSession, $sorting );
+
+$reportCount = count( $dataSet );
+
+if ( $reportCount > 0) {
+
 	$block1->openResults();
-
 	$block1->labels($labels = array(0=>$strings["name"],1=>$strings["created"]),"false");
 
-	for ($i=0;$i<$comptListReports;$i++) 
-	{
+
+	foreach ( $dataSet as $data ) {
 		$block1->openRow();
-		$block1->checkboxRow($listReports->rep_id[$i]);
-		$block1->cellRow($blockPage->buildLink("../reports/resultsreport.php?id=".$listReports->rep_id[$i],$listReports->rep_name[$i],in));
-		$block1->cellRow(Util::createDate($listReports->rep_created[$i],$timezoneSession));
+		$block1->checkboxRow($data["id"]);
+		$block1->cellRow($blockPage->buildLink("../reports/resultsreport.php?id=".$data["id"],$data["name"],in));
+		$block1->cellRow(Util::createDate($data["created"],$timezoneSession));
+
 	}
 
 	$block1->closeResults();
-
 } else {
 	$block1->noresults();
 }
