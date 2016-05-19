@@ -704,7 +704,7 @@ if ($type == "monthPreview")
                 $classCell = "odd";
             }
 
-        echo "<td width='14%' align='left' valign='top' class='$classCell' onmouseover=\"this.style.backgroundColor='".$block2->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><div align='right'>".$blockPage->buildLink("../calendar/viewcalendar.php?dateCalend=$dateLink&type=dayList",$day,in)."</div>";
+        echo "<td width='14%' align='left' valign='top' class='$classCell' onmouseover=\"this.style.backgroundColor='" . $block2->getHighlightOn() . "'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><div align='right'>".$blockPage->buildLink("../calendar/viewcalendar.php?dateCalend=$dateLink&type=dayList",$day,in)."</div>";
 
         if ($comptListCalendarScan != "0")
         {
@@ -955,7 +955,7 @@ echo "</tr></table>";
                 <td nowrap align='right' class='footerCell'>".$blockPage->buildLink("../calendar/viewcalendar.php?dateCalend=$datePast",$strings["previous"],in)." | ".$blockPage->buildLink("../calendar/viewcalendar.php?dateCalend=$dateToday",$strings["today"],in)." | ".$blockPage->buildLink("../calendar/viewcalendar.php?dateCalend=$dateNext",$strings["next"],in)."</td>
             </tr>
             <tr>
-                <td height='5' colspan='2'><img width='1' height='5' border='0' src='../themes/".THEME."/spacer.gif' alt=''></td>
+                <td height='5' colspan='2'><img width='1' height='5' border='0' src='../themes/".THEME."/images/spacer.gif' alt=''></td>
             </tr>
             </table>";
 
