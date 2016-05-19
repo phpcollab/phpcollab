@@ -46,6 +46,12 @@ class Block
         return $this->highlightOff;
     }
 
+    public function getThemeImgPath()
+    {
+        return $this->themeImgPath;
+    }
+
+
 //    public function block()
 //    {
 //        $this->iconWidth = "23";
@@ -187,7 +193,7 @@ class Block
                 if ($this->limit == $j) {
                     echo "<b>$i</b>&#160;";
                 } else {
-                    echo "<a href=\"$PHP_SELF?$transmitSid";
+                    echo "<a href=\"$PHP_SELF?";
                     for ($k = 1; $k <= $total; $k++) {
                         global ${'limit' . $k};
                         if ($k != $current) {
@@ -198,17 +204,17 @@ class Block
                             }
                         }
                     }
-                    echo "&$parameters&" . session_name() . "=" . session_id() . "#" . $this->form . "Anchor\">$i</a>&#160;";
+                    echo "&$parameters#" . $this->form . "Anchor\">$i</a>&#160;";
                 }
                 $j = $j + $this->rowsLimit;
 
 
             }
-            echo "</td><td nowrap align=\"right\" class=\"footerCell\">";
+            echo '</td><td nowrap align="right" class="footerCell">';
             if ($showall != "") {
-                echo "<a href=\"$showall&" . session_name() . "=" . session_id() . "\">" . $this->strings["show_all"] . "</a>";
+                echo '<a href="' . $showall .'">' . $this->strings["show_all"] . '</a>';
             }
-            echo "&#160;&#160;&#160;&#160;&#160;</td></tr><tr><td height=\"5\" colspan=\"2\"><img width=\"1\" height=\"5\" border=\"0\" src=\"$this->themeImgPath/spacer.gif\" alt=\"\"></td></tr></table>";
+            echo '&#160;&#160;&#160;&#160;&#160;</td></tr><tr><td height="5" colspan="2"><img width="1" height="5" border="0" src="' . $this->themeImgPath . '/spacer.gif" alt=""></td></tr></table>';
         }
 
     }
@@ -452,7 +458,7 @@ class Block
      **/
     public function paletteScript($num, $type, $link, $options, $text)
     {
-        echo "document." . $this->form . "Form.buttons[document." . $this->form . "Form.buttons.length] = new MMCommandButton('" . $this->form . "$num',document." . $this->form . "Form,'" . $link . "&" . session_name() . "=" . session_id() . "','$this->themeImgPath/btn_" . $type . "_norm.gif','$this->themeImgPath/btn_" . $type . "_over.gif','$this->themeImgPath/btn_" . $type . "_down.gif','$this->themeImgPath/btn_" . $type . "_dim.gif',$options,'',\"" . stripslashes($text) . "\",false,'');";
+        echo "document." . $this->form . "Form.buttons[document." . $this->form . "Form.buttons.length] = new MMCommandButton('" . $this->form . "$num',document." . $this->form . "Form,'" . $link . "&','$this->themeImgPath/btn_" . $type . "_norm.gif','$this->themeImgPath/btn_" . $type . "_over.gif','$this->themeImgPath/btn_" . $type . "_down.gif','$this->themeImgPath/btn_" . $type . "_dim.gif',$options,'',\"" . stripslashes($text) . "\",false,'');";
     }
 
     /**
@@ -627,10 +633,10 @@ class Block
             return '<a href="' . $url . '">' . $label .'</a>';
         } else {
             if ($type == "icone") {
-                return "<a href='$url&" . session_name() . "=" . session_id() . "'><img src='../interface/icones/$label' border='0' alt=''></a>";
+                return "<a href='$url&'><img src='../interface/icones/$label' border='0' alt=''></a>";
             } else {
                 if ($type == "inblank") {
-                    return "<a href='$url&" . session_name() . "=" . session_id() . "' target='_blank'>$label</a>";
+                    return "<a href='$url&' target='_blank'>$label</a>";
                 } else {
                     if ($type == "powered") {
                         return "Powered by <a href='$url' target='_blank'>$label</a>";
