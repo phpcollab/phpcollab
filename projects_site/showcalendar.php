@@ -325,7 +325,7 @@ if ($type == "monthPreview")
 				$classCell = "odd";
 				}
 
-			echo "<td width='14%' height='100' align='left' valign='top' class='$classCell' onmouseover=\"this.style.backgroundColor='".$block2->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><div align='right'><h3>$day</h3></div>";
+			echo "<td width='14%' height='100' align='left' valign='top' class='$classCell' onmouseover=\"this.style.backgroundColor='".$block2->getHighlightOn()."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><div align='right'><h3>$day</h3></div>";
 			
 			if ($comptListCalendarScan != "0") 
 			{
