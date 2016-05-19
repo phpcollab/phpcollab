@@ -9,10 +9,12 @@ class Block
         $pathImg, $themeImgPath, $accountTotal, $account, $sortingOrders,
         $sortingFields, $sortingArrows, $sortingStyles, $explode, $labels,
         $sitePublish;
+
     /**
      *
      */
-    public function __construct() {
+    public function __construct()
+    {
         global $help, $strings;
         global $sortingOrders, $sortingFields, $sortingArrows, $sortingStyles, $explode;
         $this->help = $help;
@@ -34,8 +36,14 @@ class Block
 
     }
 
-    public function getHighlightOn() {
+    public function getHighlightOn()
+    {
         return $this->highlightOn;
+    }
+
+    public function getHighlightOff()
+    {
+        return $this->highlightOff;
     }
 
 //    public function block()
@@ -64,9 +72,9 @@ class Block
     public function printHelp($item)
     {
         return ' [<a href="javascript:void(0);" onmouseover="return overlib(\'' .
-            addslashes($this->help[$item]) . '\',SNAPX,550,BGCOLOR,\'' . $this->bgColor .
-            '\',FGCOLOR,\'' . $this->fgColor . '\');" onmouseout="return nd();">' .
-            $this->strings["help"] . '</a>]';
+        addslashes($this->help[$item]) . '\',SNAPX,550,BGCOLOR,\'' . $this->bgColor .
+        '\',FGCOLOR,\'' . $this->fgColor . '\');" onmouseout="return nd();">' .
+        $this->strings["help"] . '</a>]';
     }
 
     /**
@@ -106,8 +114,15 @@ class Block
             $style = "block";
             $arrow = "open";
         }
-        echo "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><tr><td><a href=\"javascript:showHideModule('" . $this->form . "','{$this->theme}')\" onMouseOver=\"javascript:showHideModuleMouseOver('" . $this->form . "'); return true; \" onMouseOut=\"javascript:window.status=''; return true;\"><img name=\"" . $this->form . "Toggle\" border=\"0\" src=\"$this->themeImgPath/module_toggle_" . $arrow . ".gif\" alt=\"\"></a></td><td><img width=\"10\" height=\"10\" name=\"" . $this->form . "tl\" src=\"$this->themeImgPath/spacer.gif\" alt=\"\"></td><td width=\"100%\"><h1 class=\"heading\">" . $title . "</h1></td></tr></table>
 
+        echo "
+<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\">
+<tr>
+<td><a href=\"javascript:showHideModule('" . $this->form . "','{$this->theme}')\" onMouseOver=\"javascript:showHideModuleMouseOver('" . $this->form . "'); return true; \" onMouseOut=\"javascript:window.status=''; return true;\"><img name=\"" . $this->form . "Toggle\" border=\"0\" src=\"$this->themeImgPath/module_toggle_" . $arrow . ".gif\" alt=\"\"></a></td>
+<td><img width=\"10\" height=\"10\" name=\"" . $this->form . "tl\" src=\"$this->themeImgPath/spacer.gif\" alt=\"\"></td>
+<td width=\"100%\"><h1 class=\"heading\">" . $title . "</h1></td>
+</tr>
+</table>
 <div id=\"" . $this->form . "\" style=\"display: $style;\">";
     }
 
@@ -330,7 +345,7 @@ class Block
     public function openForm($address)
     {
         echo '<a name="' . $this->form . 'Anchor"></a>
-<form accept-charset="UNKNOWN" method="POST" action="'.$address.'" name="' . $this->form . 'Form" enctype="application/x-www-form-urlencoded">';
+<form accept-charset="UNKNOWN" method="POST" action="' . $address . '" name="' . $this->form . 'Form" enctype="application/x-www-form-urlencoded">';
     }
 
     /**
@@ -609,7 +624,7 @@ class Block
     public function buildLink($url, $label, $type)
     {
         if ($type == "in") {
-            return "<a href='$url&" . session_name() . "=" . session_id() . "'>$label</a>";
+            return '<a href="' . $url . '">' . $label .'</a>';
         } else {
             if ($type == "icone") {
                 return "<a href='$url&" . session_name() . "=" . session_id() . "'><img src='../interface/icones/$label' border='0' alt=''></a>";
