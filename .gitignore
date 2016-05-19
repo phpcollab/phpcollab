@@ -1,6 +1,7 @@
 # Project Generated Files
 #########################
 includes/settings.php
+files/**/
 
 # Logs and databases #
 ######################
