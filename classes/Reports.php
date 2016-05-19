@@ -1,7 +1,6 @@
 <?php
 
 /**
- * Created by PhpStorm.
  * User: mindblender
  * Date: 5/5/16
  * Time: 10:33 PM
@@ -29,8 +28,6 @@ class Reports
      */
     public function getReportsByOwner($ownerId, $sorting)
     {
-//        $db = new Database();
-
         // Todo: I'm sure this allows SQL injection.  How do I fix it?
         if (!is_null($sorting)) {
             $sortQry = 'ORDER BY ' . $sorting;
