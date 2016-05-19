@@ -166,7 +166,7 @@ echo "
 <tr class='odd'>
 	<td valign='top' class='leftvalue'>" . $strings["select_deselect"] . " :</td>
 	<td>
-		<a href='javascript:checkboxes();' onmouseover='window.status = \"" . $strings["select_deselect"] . "\";return true;' onmouseout='window.status = \";return true;\"'><img name='all' src='../themes/$block1->themeImgPath/checkbox_off_16.gif' border='0' alt=''></a>
+		<a href='javascript:checkboxes();' onmouseover='window.status = \"" . $strings["select_deselect"] . "\";return true;' onmouseout='window.status = \";return true;\"'><img name='all' src='../themes/" . $block1->getThemeImgPath() . "/checkbox_off_16.gif' border='0' alt=''></a>
 	</td>
 </tr>
 <tr class='odd'>
