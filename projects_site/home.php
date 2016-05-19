@@ -43,9 +43,9 @@ if ($updateProject == "true") {
 
 		$_SESSION['projectSession'] = $projectSession;
 
-		Util::headerFunction("home.php?".session_name()."=".session_id());
+		Util::headerFunction("home.php?");
 	} else {
-		Util::headerFunction("home.php?changeProject=true&".session_name()."=".session_id());
+		Util::headerFunction("home.php?changeProject=true");
 	}
 }
 
@@ -85,15 +85,15 @@ if ($projectSession == "" || $changeProject == "true") {
 
 			if (!($i%2)) {
 				$class = "odd";
-				$highlightOff = $block1->oddColor;
+				$highlightOff = $block1->getHighlightOff();
 			} else {
 				$class = "even";
-				$highlightOff = $block1->evenColor;
+				$highlightOff = $block1->getHighlightOff();
 			}
 			
 			$idStatus = $listProjects->tea_pro_status[$i];
 			$idPriority = $listProjects->tea_pro_priority[$i];
-			echo "	<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\">
+			echo "	<tr class='$class' onmouseover=\"this.style.backgroundColor='" . $block1->getHighlightOn() . "'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\">
 						<td width='30%'><a href='home.php?$transmitSid&updateProject=true&project=".$listProjects->tea_pro_id[$i]."'>".$listProjects->tea_pro_name[$i]."</a></td>
 						<td>".$listProjects->tea_org2_name[$i]."</td>
 						<td>$priority[$idPriority]</td>
