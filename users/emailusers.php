@@ -63,12 +63,12 @@ if ($action == "email")
 
 	if ($profilSession == "0") 
 	{
-		header("Location:../users/listusers.php?id=$clod&msg=email&".session_name()."=".session_id());
+		header("Location:../users/listusers.php?id=$clod&msg=email");
 		exit;
 	} 
 	else 
 	{
-		header("Location:../general/home.php?msg=email&".session_name()."=".session_id());
+		header("Location:../general/home.php?msg=email");
 		exit;
 	}
 
@@ -93,7 +93,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "user_email";
-$block1->openForm("../users/emailusers.php?action=email&".session_name()."=".session_id());
+$block1->openForm("../users/emailusers.php?action=email");
 
 if ($error != "") {            
 	$block1->headingError($strings["errors"]);

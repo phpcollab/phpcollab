@@ -36,7 +36,7 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5" ) {
-	Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=permissionNews&".session_name()."=".session_id());
+	Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=permissionNews");
 	exit;
 }	
 
@@ -53,13 +53,13 @@ if ($id != "")
 	//only author and admin can change an article
 	if ($profilSession != "0" && $idSession != $newsDetail->news_author[0] ) 
 	{
-		Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=permissionNews&".session_name()."=".session_id());
+		Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=permissionNews");
 		exit;
 	}
 
 	if ($comptnewsDetail == "0") 
 	{
-		Util::headerFunction("../newsdesk/listnews.php?msg=blankNews&".session_name()."=".session_id());
+		Util::headerFunction("../newsdesk/listnews.php?msg=blankNews");
 		exit;
 	}
 
@@ -69,7 +69,7 @@ if ($id != "")
 		if (get_magic_quotes_gpc() != 1) {$content = addslashes($content);}
 		$tmpquery = "UPDATE ".$tableCollab["newsdeskposts"]." SET title = '$title', author = '$author', related = '$related', content = '$content', links = '$links', rss = '$rss' WHERE id = '$id'";
 		Util::connectSql("$tmpquery");
-		Util::headerFunction("../newsdesk/viewnews.php?id=$id&msg=update&".session_name()."=".session_id());
+		Util::headerFunction("../newsdesk/viewnews.php?id=$id&msg=update");
 	}
 	elseif ($action == "delete") 
 	{
@@ -78,7 +78,7 @@ if ($id != "")
 		Util::connectSql("$tmpquery");
 		$tmpquery = "DELETE FROM ".$tableCollab["newsdeskcomments"]." WHERE post_id = $id";
 		Util::connectSql("$tmpquery");
-		Util::headerFunction("../newsdesk/listnews.php?msg=removeNews&".session_name()."=".session_id());
+		Util::headerFunction("../newsdesk/listnews.php?msg=removeNews");
 	}	
 	else 
 	{
@@ -119,7 +119,7 @@ else
 			$num = $lastId[0];
 			unset($lastId);
 	
-			Util::headerFunction("../newsdesk/viewnews.php?id=$num&msg=add&".session_name()."=".session_id());
+			Util::headerFunction("../newsdesk/viewnews.php?id=$num&msg=add");
 			
 
 		}
@@ -208,12 +208,12 @@ if ($action!='remove')
 {
 	if ($id == "") 
 	{		
-		echo "	<a name='".$block1->form."Anchor'></a>\n <form accept-charset='UNKNOWN' method='POST' action='../newsdesk/editnews.php?action=add&".session_name()."=".session_id()."' name='ecDForm'>\n";
+		echo "	<a name='".$block1->form."Anchor'></a>\n <form accept-charset='UNKNOWN' method='POST' action='../newsdesk/editnews.php?action=add&' name='ecDForm'>\n";
 		$block1->heading($strings["add_newsdesk"]);
 	} 
 	else 
 	{		
-		echo "	<a name='".$block1->form."Anchor'></a>\n <form accept-charset='UNKNOWN' method='POST' action='../newsdesk/editnews.php?id=$id&action=update&".session_name()."=".session_id()."' name='ecDForm'>\n";
+		echo "	<a name='".$block1->form."Anchor'></a>\n <form accept-charset='UNKNOWN' method='POST' action='../newsdesk/editnews.php?id=$id&action=update&' name='ecDForm'>\n";
 		$block1->heading($strings["edit_newsdesk"]." : ".$newsDetail->news_title[0]);
 	}
 
@@ -321,7 +321,7 @@ else
 	//remove
 
 	$block1->form = "saP";
-	$block1->openForm("../newsdesk/editnews.php?action=delete&id=$id&".session_name()."=".session_id());
+	$block1->openForm("../newsdesk/editnews.php?action=delete&id=$id");
 
 	$block1->heading($strings["del_newsdesk"]);
 

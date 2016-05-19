@@ -78,7 +78,7 @@ if ($action == "update") {
 			Util::connectSql("$tmpquery");
 		}
 	}
-	Util::headerFunction("../phases/viewphase.php?id=$id&".session_name()."=".session_id());
+	Util::headerFunction("../phases/viewphase.php?id=$id");
 	exit;
 }
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
@@ -109,7 +109,7 @@ $block1->openContent();
 $block1->contentTitle($strings["details"]);
 $block1->form = "filedetails";
 echo "<a name='filedetailsAnchor'></a>";
-echo "<form accept-charset='UNKNOWN' method='POST' action='../phases/editphase.php?id=$id&action=update&".session_name()."=".session_id()."#filedetailsAnchor' name='filedetailsForm' enctype='multipart/form-data'>
+echo "<form accept-charset='UNKNOWN' method='POST' action='../phases/editphase.php?id=$id&action=update&#filedetailsAnchor' name='filedetailsForm' enctype='multipart/form-data'>
 		<input type='hidden' name='MAX_FILE_SIZE' value='100000000'>
 		<input type='hidden' name='maxCustom' value='".$projectDetail->pro_upload_max[0]."'>
 	 ";

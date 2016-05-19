@@ -48,7 +48,7 @@ if ($id != "") {
 	$comptcommentDetail = count($commentDetail->newscom_id);
 	
 	if ($comptcommentDetail == "0") {
-			Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=blankNews&".session_name()."=".session_id());
+			Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=blankNews");
 			exit;
 	}
 
@@ -58,7 +58,7 @@ if ($id != "") {
 	$commentAuthor->openMembers($tmpquery_user);
 
 	if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5" && $idSession != $commentDetail->newscom_name[0] ) {
-			Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=commentpermissionNews&".session_name()."=".session_id());
+			Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=commentpermissionNews");
 			exit;
 	}
 
@@ -68,19 +68,19 @@ if ($id != "") {
 		$content = Util::convertData($content);
 		$tmpquery = "UPDATE ".$tableCollab["newsdeskcomments"]." SET comment = '$comment' WHERE id = '$id'";
 		Util::connectSql("$tmpquery");
-		Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=update&".session_name()."=".session_id());
+		Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=update");
 	}
 	elseif ($action == "delete") {
 		// only admin, prj-adm and prj-man can delete a comments
 		if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5" ) {
-			Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=commentpermissionNews&".session_name()."=".session_id());
+			Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=commentpermissionNews");
 			exit;
 		}
 
 		$id = str_replace("**",",",$id);
 		$tmpquery = "DELETE FROM ".$tableCollab["newsdeskcomments"]." WHERE id IN('$id')";
 		Util::connectSql("$tmpquery");
-		Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=removeComment&".session_name()."=".session_id());
+		Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=removeComment");
 	}	
 	else {
 		//set value in form
@@ -110,7 +110,7 @@ if ($id != "") {
 			$num = $lastId[0];
 			unset($lastId);
 	
-			Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=add&".session_name()."=".session_id());
+			Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=add");
 
 		}
 	}
@@ -156,7 +156,7 @@ if ($action!='remove') {
 	if ($id == "") {
 		
 		echo "	<a name=\"".$block1->form."Anchor\"></a>\n
-				<form accept-charset=\"UNKNOWN\" method=\"POST\" action=\"../newsdesk/editmessage.php?action=add&".session_name()."=".session_id()."\" 
+				<form accept-charset=\"UNKNOWN\" method=\"POST\" action=\"../newsdesk/editmessage.php?action=add&\" 
 				name=\"ecDForm\">\n
 			 ";
 		$block1->heading($strings["add_newsdesk_comment"]);
@@ -165,7 +165,7 @@ if ($action!='remove') {
 		
 		echo "	<a name=\"".$block1->form."Anchor\"></a>\n
 				<form accept-charset=\"UNKNOWN\" method=\"POST\" 
-				action=\"../newsdesk/editmessage.php?id=$id&action=update&".session_name()."=".session_id()."\" 
+				action=\"../newsdesk/editmessage.php?id=$id&action=update&\" 
 				name=\"ecDForm\">\n
 			 ";
 		$block1->heading($strings["edit_newsdesk_comment"]." : ".$newsDetail->news_title[0]);
@@ -192,7 +192,7 @@ if ($action!='remove') {
 } else { //remove action
 
 	$block1->form = "saP";
-	$block1->openForm("../newsdesk/editmessage.php?action=delete&postid=$postid&".session_name()."=".session_id());
+	$block1->openForm("../newsdesk/editmessage.php?action=delete&postid=$postid");
 
 	$block1->heading($strings["del_newsdesk_comment"]);
 

@@ -45,7 +45,7 @@ if ($action == "delete") {
 	Util::connectSql("$tmpquery1");
 	Util::connectSql("$tmpquery2");
 	Util::connectSql("$tmpquery3");
-	Util::headerFunction("../clients/listclients.php?msg=delete&".session_name()."=".session_id());
+	Util::headerFunction("../clients/listclients.php?msg=delete");
 }
 
 $setTitle .= " : Delete Client";
@@ -66,7 +66,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "saP";
-$block1->openForm("../clients/deleteclients.php?action=delete&id=$id&".session_name()."=".session_id());
+$block1->openForm("../clients/deleteclients.php?action=delete&id=$id");
 
 $block1->heading($strings["delete_organizations"]);
 

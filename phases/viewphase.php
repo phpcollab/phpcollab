@@ -122,7 +122,7 @@ if ($msg != "") {
 
 $block1 = new Block();
 $block1->form = "pppD";
-$block1->openForm("../projects/listprojects.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
+$block1->openForm("../projects/listprojects.php#".$block1->form."Anchor");
 $block1->headingToggle($strings["phase"]." : ".$phaseDetail->pha_name[0]);
 
 if ($idSession == $projectDetail->pro_owner[0] || $profilSession == "0" || $profilSession == "5") {
@@ -171,7 +171,7 @@ $block1->closePaletteScript($comptListPhaese,$listPhases->pha_id);
 $block2 = new Block();
 
 $block2->form = "saP";
-$block2->openForm("../phases/viewphase.php?".session_name()."=".session_id()."&id=$id#".$block2->form."Anchor");
+$block2->openForm("../phases/viewphase.php?&id=$id#".$block2->form."Anchor");
 
 $block2->headingToggle($strings["tasks"]);
 
@@ -242,7 +242,7 @@ $block2->closeResults();
 if ($activeJpgraph == "true" && $gantt == "true") {
 	echo "
 		<div id='ganttChart_taskList' class='ganttChart'>
-			<img src='graphtasks.php?".session_name()."=".session_id()."&project=".$projectDetail->pro_id[0]."&phase=".$phaseDetail->pha_order_num[0]."' alt=''><br/>
+			<img src='graphtasks.php?&project=".$projectDetail->pro_id[0]."&phase=".$phaseDetail->pha_order_num[0]."' alt=''><br/>
 			<span class='listEvenBold''>".$blockPage->buildLink("http://www.aditus.nu/jpgraph/","JpGraph",powered)."</span>	
 		</div>
 	";
@@ -276,7 +276,7 @@ if ($fileManagement == "true")
 
 	$block3 = new Block();
 	$block3->form = "tdC";
-	$block3->openForm("../phases/viewphase.php?".session_name()."=".session_id()."&id=$id#".$block3->form."Anchor");
+	$block3->openForm("../phases/viewphase.php?&id=$id#".$block3->form."Anchor");
 	$block3->headingToggle($strings["linked_content"]);
 	$block3->openPaletteIcon();
 

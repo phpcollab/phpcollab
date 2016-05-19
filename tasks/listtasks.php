@@ -73,7 +73,7 @@ $comptMemberTest = count($memberTest->tea_id);
 		$teamMember = "true";
 	}
 if ($teamMember == "false" && $projectsFilter == "true") { 
-	header("Location:../general/permissiondenied.php?".session_name()."=".session_id()); 
+	header("Location:../general/permissiondenied.php");
 	exit; 
 } 
 
@@ -96,7 +96,7 @@ $blockPage->limitsNumber = "1";
 $block1 = new Block();
 
 $block1->form = "saT";
-$block1->openForm("../tasks/listtasks.php?".session_name()."=".session_id()."&project=$project#".$block1->form."Anchor");
+$block1->openForm("../tasks/listtasks.php?&project=$project#".$block1->form."Anchor");
 
 $block1->heading($strings["tasks"]);
 
@@ -175,7 +175,7 @@ $block1->limitsFooter("1",$blockPage->limitsNumber,"","project=$project");
 	if ($activeJpgraph == "true" && $gantt == "true") {
 	echo "
 		<div id='ganttChart_taskList' class='ganttChart'>
-			<img src='graphtasks.php?".session_name()."=".session_id()."&project=".$projectDetail->pro_id[0]."' alt=''><br/>
+			<img src='graphtasks.php?&project=".$projectDetail->pro_id[0]."' alt=''><br/>
 			<span class='listEvenBold''>".$blockPage->buildLink("http://www.aditus.nu/jpgraph/","JpGraph",powered)."</span>	
 		</div>
 	";

@@ -60,10 +60,10 @@ if ($action == "delete") {
 	$tableCollab["tasks"]);
 
 	if ($task != "") {	
-		Util::headerFunction("../tasks/viewtask.php?id=$task&msg=delete&".session_name()."=".session_id());
+		Util::headerFunction("../tasks/viewtask.php?id=$task&msg=delete");
 		exit;
 	} else {
-		Util::headerFunction("../general/home.php?msg=delete&".session_name()."=".session_id());
+		Util::headerFunction("../general/home.php?msg=delete");
 		exit;
 	}
 }
@@ -115,7 +115,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "saP";
-$block1->openForm("../subtasks/deletesubtasks.php?task=$task&action=delete&id=$id&".session_name()."=".session_id());
+$block1->openForm("../subtasks/deletesubtasks.php?task=$task&action=delete&id=$id");
 
 $block1->heading($strings["delete_subtasks"]);
 

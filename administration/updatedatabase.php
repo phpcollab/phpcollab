@@ -31,7 +31,7 @@ include_once '../includes/library.php';
 $setTitle .= " : Edit Database";
 
 if ($profilSession != "0") {
-	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+	Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 
@@ -77,7 +77,7 @@ if ($action == "generate") {
 	    if (mssql_get_last_message() != 0){ exit('<br/><b>PANIC! <br/> Error during the update of the database.</b><br/> Error: '. mssql_get_last_message()); }
 	}
 	}
-	Util::headerFunction("../administration/admin.php?msg=update&".session_name()."=".session_id());
+	Util::headerFunction("../administration/admin.php?msg=update");
 }
 
 
@@ -97,7 +97,7 @@ $block1->heading($strings["edit_database"]);
 $block1->openContent();
 $block1->contentTitle("Details");
 $block1->form = "settings";
-$block1->openForm("../administration/updatedatabase.php?action=generate&".session_name()."=".session_id());
+$block1->openForm("../administration/updatedatabase.php?action=generate");
 
 
 if ($version == $versionNew) {

@@ -10,7 +10,7 @@ if ($action == "delete") {
 	$id = str_replace("**",",",$id);
 	$tmpquery1 = "DELETE FROM ".$tableCollab["reports"]." WHERE id IN($id)";
 	Util::connectSql("$tmpquery1");
-	Util::headerFunction("../general/home.php?msg=deleteReport&".session_name()."=".session_id());
+	Util::headerFunction("../general/home.php?msg=deleteReport");
 	exit;
 }
 
@@ -31,7 +31,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "saS";
-$block1->openForm("../reports/deletereports.php?action=delete&id=$id&".session_name()."=".session_id());
+$block1->openForm("../reports/deletereports.php?action=delete&id=$id");
 
 $block1->heading($strings["delete_reports"]);
 

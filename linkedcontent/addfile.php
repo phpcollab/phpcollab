@@ -147,7 +147,7 @@ if ($action == "add")
 			require("../projects_site/noti_uploadfile.php");
 		}		
 		
-		Util::headerFunction("../linkedcontent/viewfile.php?id=$num&msg=addFile&".session_name()."=".session_id());
+		Util::headerFunction("../linkedcontent/viewfile.php?id=$num&msg=addFile");
 	}
 }
 
@@ -172,7 +172,7 @@ else
 
 if ($teamMember == "false" && $projectsFilter == "true") 
 { 
-	header("Location:../general/permissiondenied.php?".session_name()."=".session_id()); 
+	header("Location:../general/permissiondenied.php");
 	exit; 
 } 
 
@@ -226,7 +226,7 @@ $block1 = new Block();
 $block1->form = "filedetails";
 
 echo "<a name='filedetailsAnchor'></a>";
-echo "<form accept-charset='UNKNOWN' method='POST' action='../linkedcontent/addfile.php?action=add&project=$project&task=$task&phase=$phase&".session_name()."=".session_id()."' name='filedetailsForm' enctype='multipart/form-data'><input type='hidden' name='MAX_FILE_SIZE' value='100000000'><input type='hidden' name='maxCustom' value='".$projectDetail->pro_upload_max[0]."'>";
+echo "<form accept-charset='UNKNOWN' method='POST' action='../linkedcontent/addfile.php?action=add&project=$project&task=$task&phase=$phase&' name='filedetailsForm' enctype='multipart/form-data'><input type='hidden' name='MAX_FILE_SIZE' value='100000000'><input type='hidden' name='maxCustom' value='".$projectDetail->pro_upload_max[0]."'>";
 
 if ($error != "") 
 {            

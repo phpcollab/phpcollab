@@ -225,7 +225,7 @@ $blockPage->closeBreadcrumbs();
 
 $block1 = new Block();
 $block1->form = "batT";
-$block1->openForm("../tasks/updatetasks.php?action=update&".session_name()."=".session_id()."#".$block1->form."Anchor");
+$block1->openForm("../tasks/updatetasks.php?action=update&#".$block1->form."Anchor");
 
 if ($error != "")
 {

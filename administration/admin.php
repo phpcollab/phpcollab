@@ -32,7 +32,7 @@ $setTitle .= " : Administration";
 
 if ($profilSession != "0") 
 {
-	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+	Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 

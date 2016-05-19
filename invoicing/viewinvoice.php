@@ -31,7 +31,7 @@ $projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 if ($projectDetail->pro_owner[0] != $idSession) { 
-	header("Location:../general/permissiondenied.php?".session_name()."=".session_id()); 
+	header("Location:../general/permissiondenied.php");
 	exit; 
 } 
 
@@ -53,7 +53,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "invoiceSheet";
-$block1->openForm("../invoicing/viewinvoice.php?id=$id&".session_name()."=".session_id()."#".$block1->form."Anchor");
+$block1->openForm("../invoicing/viewinvoice.php?id=$id&#".$block1->form."Anchor");
 
 $block1->headingToggle($strings["invoice"]." : ".$detailInvoice->inv_id[0]);
 
@@ -107,7 +107,7 @@ $block1->closePaletteScript("","");
 $block2 = new Block();
 
 $block2->form = "invoiceItems";
-$block2->openForm("../invoicing/viewinvoice.php?id=$id&".session_name()."=".session_id()."#".$block2->form."Anchor");
+$block2->openForm("../invoicing/viewinvoice.php?id=$id&#".$block2->form."Anchor");
 
 $block2->headingToggle($strings["invoice_items"]);
 

@@ -106,7 +106,7 @@ if ($action == "add")
 		$tmpquery = "UPDATE ".$tableCollab["files"]." SET name='$name',date='$dateheure',size='$size',extension='$extension' WHERE id = '$num'";
 			
 		Util::connectSql("$tmpquery");
-		Util::headerFunction("doclists.php?".session_name()."=".session_id());
+		Util::headerFunction("doclists.php");
 		exit;
 	}
 
@@ -117,7 +117,7 @@ $titlePage = $strings["upload_file"];
 include 'include_header.php';
 
 echo "
-	<form accept-charset='UNKNOWN' method='POST' action='../projects_site/uploadfile.php?".session_name()."=".session_id()."&action=add&project=$projectSession&task=$task#filedetailsAnchor' name='feeedback' enctype='multipart/form-data'>
+	<form accept-charset='UNKNOWN' method='POST' action='../projects_site/uploadfile.php?action=add&project=$projectSession&task=$task#filedetailsAnchor' name='feeedback' enctype='multipart/form-data'>
 		<input type='hidden' name='MAX_FILE_SIZE' value='100000000'>
 		<input type='hidden' name='maxCustom' value='".$projectDetail->pro_upload_max[0]."'>
 	

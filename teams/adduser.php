@@ -16,7 +16,7 @@ $projectDetail->openProjects($tmpquery);
 $comptProjectDetail = count($projectDetail->pro_id);
 
 if ($comptProjectDetail == "0") {
-	Util::headerFunction("../projects/listprojects.php?msg=blank&".session_name()."=".session_id());
+	Util::headerFunction("../projects/listprojects.php?msg=blank");
 	exit;
 }
 
@@ -69,7 +69,7 @@ if ($notifications == "true") {
 $organization = "1";
 	include '../teams/noti_addprojectteam.php';
 }
-	Util::headerFunction("../projects/viewproject.php?".session_name()."=".session_id()."&id=".$projectDetail->pro_id[0]."&msg=add");
+	Util::headerFunction("../projects/viewproject.php?id=".$projectDetail->pro_id[0]."&msg=add");
 }
 
 include '../themes/' . THEME . '/header.php';
@@ -87,7 +87,7 @@ $blockPage->closeBreadcrumbs();
 $block1 = new Block();
 
 $block1->form = "atpt";
-$block1->openForm("../teams/adduser.php?".session_name()."=".session_id()."&project=$project#".$block1->form."Anchor");
+$block1->openForm("../teams/adduser.php?project=$project#".$block1->form."Anchor");
 
 $block1->heading($strings["add_team"]);
 

@@ -66,7 +66,7 @@ if ($msg != "") {
 
 $block1 = new Block();
 $block1->form = "saJ";
-$block1->openForm("../notes/listnotes.php?".session_name()."=".session_id()."&project=$project#".$block1->form."Anchor");
+$block1->openForm("../notes/listnotes.php?&project=$project#".$block1->form."Anchor");
 
 $block1->heading($strings["notes"]);
 

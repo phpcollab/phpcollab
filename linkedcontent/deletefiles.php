@@ -31,13 +31,13 @@ $comptListFiles = count($listFiles->fil_id);
 	}
 	Util::connectSql("$tmpquery1");
 	if ($sendto == "filedetails"){
-		Util::headerFunction("../linkedcontent/viewfile.php?id=".$listFiles->fil_vc_parent[0]."&msg=deleteFile&".session_name()."=".session_id());
+		Util::headerFunction("../linkedcontent/viewfile.php?id=".$listFiles->fil_vc_parent[0]."&msg=deleteFile");
 	} else {
 		if ($task != "0") {
-			Util::headerFunction("../tasks/viewtask.php?id=$task&msg=deleteFile&".session_name()."=".session_id());
+			Util::headerFunction("../tasks/viewtask.php?id=$task&msg=deleteFile");
 			exit;
 		} else {
-			Util::headerFunction("../projects/viewproject.php?id=$project&msg=deleteFile&".session_name()."=".session_id());
+			Util::headerFunction("../projects/viewproject.php?id=$project&msg=deleteFile");
 			exit;
 		}
 	}
@@ -76,7 +76,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "saC";
-$block1->openForm("../linkedcontent/deletefiles.php?project=$project&task=$task&action=delete&id=$id&sendto=$sendto&".session_name()."=".session_id());
+$block1->openForm("../linkedcontent/deletefiles.php?project=$project&task=$task&action=delete&id=$id&sendto=$sendto");
 
 $block1->heading($strings["unlink_files"]);
 

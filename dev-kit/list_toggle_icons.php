@@ -22,7 +22,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "clientList";
-$block1->openForm("../clients/listclients.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
+$block1->openForm("../clients/listclients.php#".$block1->form."Anchor");
 
 $block1->headingToggle($strings["organizations"]);
 

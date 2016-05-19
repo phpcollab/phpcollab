@@ -32,7 +32,7 @@ include_once '../includes/library.php';
 
 if ($profilSession != "0") 
 {
-	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+	Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 
@@ -54,7 +54,7 @@ $blockPage->closeBreadcrumbs();
 
 $block1 = new Block();
 $block1->form = "adminD";
-$block1->openForm("../administration/listlogs.php?action=delete&".session_name()."=".session_id()."&id=$id#".$block1->form."Anchor");
+$block1->openForm("../administration/listlogs.php?action=delete&&id=$id#".$block1->form."Anchor");
 $block1->heading($strings["logs"]);
 $block1->openResults($checkbox="false");
 $block1->labels($labels = array(0=>$strings["user_name"],1=>$strings["ip"],2=>$strings["session"],3=>$strings["compteur"],4=>$strings["last_visit"],5=>$strings["connected"]),"false",$sorting="false",$sortingOff = array(0=>"4",1=>"DESC"));

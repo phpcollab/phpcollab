@@ -32,7 +32,7 @@ if ($action == "delete") {
 	$id = str_replace("**",",",$id);
 	$tmpquery1 = "DELETE FROM ".$tableCollab["calendar"]." WHERE id IN($id)";
 	Util::connectSql("$tmpquery1");
-	Util::headerFunction("../calendar/viewcalendar.php?msg=delete&".session_name()."=".session_id());
+	Util::headerFunction("../calendar/viewcalendar.php?msg=delete");
 	exit;
 }
 
@@ -59,7 +59,7 @@ if ($msg != "") {
 
 $block1 = new Block();
 $block1->form = "saP";
-$block1->openForm("../calendar/deletecalendar.php?project=$project&action=delete&id=$id&".session_name()."=".session_id());
+$block1->openForm("../calendar/deletecalendar.php?project=$project&action=delete&id=$id");
 
 $block1->heading($strings["delete"]);
 

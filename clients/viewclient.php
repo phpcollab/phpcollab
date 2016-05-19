@@ -35,7 +35,7 @@ $memberTest = new Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
-		Util::headerFunction("../clients/listclients.php?msg=blankClient&".session_name()."=".session_id());
+		Util::headerFunction("../clients/listclients.php?msg=blankClient");
 	} else {
 		$tmpquery = "WHERE org.id = '$id'";
 	}
@@ -50,7 +50,7 @@ $clientDetail->openOrganizations($tmpquery);
 $comptClientDetail = count($clientDetail->org_id);
 
 if ($comptClientDetail == "0") {
-	Util::headerFunction("../clients/listclients.php?msg=blankClient&".session_name()."=".session_id());
+	Util::headerFunction("../clients/listclients.php?msg=blankClient");
 }
 
 $setTitle .= " : View Client (" . $clientDetail->org_name[0] . ")";
@@ -71,7 +71,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "ecD";
-$block1->openForm("../projects/listprojects.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
+$block1->openForm("../projects/listprojects.php#".$block1->form."Anchor");
 
 $block1->heading($strings["organization"]." : ".$clientDetail->org_name[0]);
 
@@ -117,7 +117,7 @@ $block1->closePaletteScript("","");
 $block2 = new Block();
 
 $block2->form = "clPr";
-$block2->openForm("../clients/viewclient.php?".session_name()."=".session_id()."&id=$id#".$block2->form."Anchor");
+$block2->openForm("../clients/viewclient.php?id=$id#".$block2->form."Anchor");
 
 $block2->headingToggle($strings["client_projects"]);
 
@@ -196,7 +196,7 @@ $block2->closePaletteScript($comptListProjects,$listProjects->pro_id);
 $block3 = new Block();
 
 $block3->form = "clU";
-$block3->openForm("../clients/viewclient.php?".session_name()."=".session_id()."&id=$id#".$block3->form."Anchor");
+$block3->openForm("../clients/viewclient.php?id=$id#".$block3->form."Anchor");
 
 $block3->headingToggle($strings["client_users"]);
 

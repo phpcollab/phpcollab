@@ -38,7 +38,7 @@ if ($id != "" && $action != "add")
 
 	if ($bookmarkDetail->boo_owner[0] != $idSession) 
 	{
-		Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=bookmarkOwner&".session_name()."=".session_id());
+		Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=bookmarkOwner");
 		exit;
 	}
 }
@@ -94,7 +94,7 @@ if ($id != "") {
 		$description = Util::convertData($description);
 		$tmpquery5 = "UPDATE ".$tableCollab["bookmarks"]." SET url='$url',name='$name',description='$description',modified='$dateheure',category='$category',shared='$shared',home='$home',comments='$comments',users='$users' WHERE id = '$id'";
 		Util::connectSql("$tmpquery5");
-		Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=update&".session_name()."=".session_id());
+		Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=update");
 	}
 	
 	//set value in form
@@ -177,7 +177,7 @@ if ($id == "")
 		$description = Util::convertData($description);
 		$tmpquery1 = "INSERT INTO ".$tableCollab["bookmarks"]."(owner,category,name,url,description,shared,home,comments,users,created) VALUES('$idSession','$category','$name','$url','$description','$shared','$home','$comments','$users','$dateheure')";
 		Util::connectSql("$tmpquery1");
-		Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=add&".session_name()."=".session_id());
+		Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=add");
 	}
 
 }
@@ -210,12 +210,12 @@ $block1 = new Block();
 if ($id == "") 
 {
 	$block1->form = "boo";
-	$block1->openForm("../bookmarks/editbookmark.php?action=add&".session_name()."=".session_id()."#".$block1->form."Anchor");
+	$block1->openForm("../bookmarks/editbookmark.php?action=add&#".$block1->form."Anchor");
 }
 if ($id != "") 
 {
 	$block1->form = "boo";
-	$block1->openForm("../bookmarks/editbookmark.php?id=$id&action=update&".session_name()."=".session_id()."#".$block1->form."Anchor");
+	$block1->openForm("../bookmarks/editbookmark.php?id=$id&action=update&#".$block1->form."Anchor");
 }
 if ($error != "") 
 {            

@@ -7,7 +7,7 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($profilSession != "0") {
-	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+	Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 
@@ -28,7 +28,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "servList";
-$block1->openForm("../services/listservices.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
+$block1->openForm("../services/listservices.php#".$block1->form."Anchor");
 
 $block1->heading($strings["service_management"]);
 

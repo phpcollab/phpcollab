@@ -119,7 +119,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "tdD";
-$block1->openForm("../subtasks/viewsubtask.php?" . session_name() . "=" . session_id() . "#" . $block1->form . "Anchor");
+$block1->openForm("../subtasks/viewsubtask.php#" . $block1->form . "Anchor");
 
 $block1->headingToggle($strings["subtask"] . " : " . $subtaskDetail->subtas_name[0]);
 
@@ -346,7 +346,7 @@ $block2->closePaletteScript($comptListFiles,$listFiles->fil_id);
 $block3 = new Block();
 
 $block3->form = "ahT";
-$block3->openForm("../subtasks/viewsubtask.php?" . session_name() . "=" . session_id() . "&id=$id&task=$task#" . $block3->form . "Anchor");
+$block3->openForm("../subtasks/viewsubtask.php?&id=$id&task=$task#" . $block3->form . "Anchor");
 
 $block3->headingToggle($strings["assignment_history"]);
 

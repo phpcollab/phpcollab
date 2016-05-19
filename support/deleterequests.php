@@ -6,13 +6,13 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($enableHelpSupport != "true") {
-	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+	Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 
 if ($supportType == "admin") {
 	if ($profilSession != "0") {
-		Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+		Util::headerFunction('../general/permissiondenied.php');
 		exit;
 	}
 }
@@ -26,7 +26,7 @@ if ($action == "deleteRequest") {
 	Util::connectSql("$tmpquery1");
 	Util::connectSql("$tmpquery2");
 	
-	Util::headerFunction("../support/support.php?msg=delete&action=$sendto&project=$project&".session_name()."=".session_id());
+	Util::headerFunction("../support/support.php?msg=delete&action=$sendto&project=$project");
 	exit;	
 }
 
@@ -37,7 +37,7 @@ if ($action == "deletePost") {
 	$num = count($pieces);
 	Util::connectSql("$tmpquery3");
 	
-	Util::headerFunction("../support/viewrequest.php?msg=delete&id=$sendto&".session_name()."=".session_id());
+	Util::headerFunction("../support/viewrequest.php?msg=delete&id=$sendto");
 	exit;	
 }
 
@@ -96,9 +96,9 @@ $block1 = new Block();
 
 $block1->form = "saP";
 if ($action == "deleteR") {
-	$block1->openForm("../support/deleterequests.php?action=deleteRequest&id=$id&sendto=$sendto&project=".$listRequest->sr_project[0]."&".session_name()."=".session_id());
+	$block1->openForm("../support/deleterequests.php?action=deleteRequest&id=$id&sendto=$sendto&project=".$listRequest->sr_project[0]."");
 }elseif($action == "deleteP"){
-	$block1->openForm("../support/deleterequests.php?action=deletePost&id=$id&sendto=".$listRequest->sr_id[0]."&".session_name()."=".session_id());
+	$block1->openForm("../support/deleterequests.php?action=deletePost&id=$id&sendto=".$listRequest->sr_id[0]."");
 }
 
 if ($action == "deleteR") {

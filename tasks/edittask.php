@@ -38,7 +38,7 @@ include_once '../includes/library.php';
 $multi = strstr($id,"**");
 if ($multi != "")
 {
-    Util::headerFunction("../tasks/updatetasks.php?report=$report&project=$project&id=$id&".session_name()."=".session_id());
+    Util::headerFunction("../tasks/updatetasks.php?report=$report&project=$project&id=$id");
     exit;
 }
 
@@ -75,7 +75,7 @@ else
 
 if ($teamMember == "false" && $profilSession != "5")
 {
-    Util::headerFunction("../tasks/listtasks.php?project=$project&msg=taskOwner&".session_name()."=".session_id());
+    Util::headerFunction("../tasks/listtasks.php?project=$project&msg=taskOwner");
     exit;
 }
 
@@ -236,7 +236,7 @@ if ($id != "")
             Util::createDirectory("files/$project/$num");
         }
 
-        Util::headerFunction("../tasks/viewtask.php?id=$num&msg=addAssignment&".session_name()."=".session_id());
+        Util::headerFunction("../tasks/viewtask.php?id=$num&msg=addAssignment");
         exit;
 
         //case update task
@@ -450,7 +450,7 @@ if ($id != "")
                 Util::connectSql($tmpquery6);
             }
 
-            Util::headerFunction("../tasks/viewtask.php?id=$id&msg=$msg&".session_name()."=".session_id());
+            Util::headerFunction("../tasks/viewtask.php?id=$id&msg=$msg");
         }
     }
 
@@ -604,7 +604,7 @@ if ($id == "")
         {
             Util::createDirectory("files/$project/$num");
         }
-        Util::headerFunction("../tasks/viewtask.php?id=$num&msg=addAssignment&".session_name()."=".session_id());
+        Util::headerFunction("../tasks/viewtask.php?id=$num&msg=addAssignment");
     }
 
     //set default values
@@ -683,13 +683,13 @@ $block1 = new Block();
 if ($id == "")
 {
     $block1->form = "etD";
-    $block1->openForm("../tasks/edittask.php?project=$project&action=add&".session_name()."=".session_id()."#".$block1->form."Anchor");
+    $block1->openForm("../tasks/edittask.php?project=$project&action=add&#".$block1->form."Anchor");
 }
 
 if ($id != "")
 {
     $block1->form = "etD";
-    $block1->openForm("../tasks/edittask.php?project=$project&id=$id&action=update&docopy=$docopy&".session_name()."=".session_id()."#".$block1->form."Anchor");
+    $block1->openForm("../tasks/edittask.php?project=$project&id=$id&action=update&docopy=$docopy&#".$block1->form."Anchor");
     echo "<input type=\"hidden\" name=\"old_at\" value=\"".$taskDetail->tas_assigned_to[0]."\"><input type=\"hidden\" name=\"old_assigned\" value=\"".$taskDetail->tas_assigned[0]."\"><input type=\"hidden\" name=\"old_pr\" value=\"".$taskDetail->tas_priority[0]."\"><input type=\"hidden\" name=\"old_st\" value=\"".$taskDetail->tas_status[0]."\"><input type=\"hidden\" name=\"old_dd\" value=\"".$taskDetail->tas_due_date[0]."\"><input type=\"hidden\" name=\"old_project\" value=\"".$taskDetail->tas_project[0]."\">";
 }
 

@@ -17,7 +17,7 @@ $memberTest = new Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
-		Util::headerFunction("../clients/listclients.php?msg=blankClient&".session_name()."=".session_id());
+		Util::headerFunction("../clients/listclients.php?msg=blankClient");
 	} else {
 		$tmpquery = "WHERE org.id = '$client'";
 	}
@@ -32,7 +32,7 @@ $clientDetail->openOrganizations($tmpquery);
 $comptClientDetail = count($clientDetail->org_id);
 
 if ($comptClientDetail == "0") {
-	Util::headerFunction("../clients/listclients.php?msg=blankClient&".session_name()."=".session_id());
+	Util::headerFunction("../clients/listclients.php?msg=blankClient");
 }
 
 include '../themes/' . THEME . '/header.php';
@@ -61,7 +61,7 @@ $blockPage->limitsNumber = "1";
 $block1 = new Block();
 
 $block1->form = "saP";
-$block1->openForm("../invoicing/listinvoices.php?client=$client&typeInvoices=$typeInvoices&".session_name()."=".session_id()."#".$block1->form."Anchor");
+$block1->openForm("../invoicing/listinvoices.php?client=$client&typeInvoices=$typeInvoices#".$block1->form."Anchor");
 
 if ($typeInvoices == "open") {
 	$status = "0";

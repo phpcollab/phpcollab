@@ -25,7 +25,7 @@ $projectDetail->openProjects($tmpquery);
 
 	include '../topics/noti_newtopic.php';
 }
-		Util::headerFunction("showallthreadtopics.php?".session_name()."=".session_id());
+		Util::headerFunction("showallthreadtopics.php");
 	}
 
 $bodyCommand="onload=\"document.createThreadTopic.topicField.focus();\"";
@@ -34,7 +34,7 @@ $bouton[5] = "over";
 $titlePage = $strings["create_topic"];
 include 'include_header.php';
 
-echo "<form accept-charset=\"UNKNOWN\" method=\"post\" action=\"../projects_site/createthread.php?project=$projectSession&action=add&".session_name()."=".session_id()."&id=$id\" name=\"createThreadTopic\" enctype=\"application/x-www-form-urlencoded\">";
+echo "<form accept-charset=\"UNKNOWN\" method=\"post\" action=\"../projects_site/createthread.php?project=$projectSession&action=add&id=$id\" name=\"createThreadTopic\" enctype=\"application/x-www-form-urlencoded\">";
 
 echo "<table cellspacing=\"0\" width=\"90%\" border=\"0\" cellpadding=\"3\">
 <tr><th colspan=\"2\">".$strings["create_topic"]."</th></tr>

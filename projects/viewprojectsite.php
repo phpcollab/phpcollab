@@ -93,13 +93,13 @@ else
 
 if ($teamMember == "false" && $projectsFilter == "true") 
 { 
-	header("Location:../general/permissiondenied.php?".session_name()."=".session_id()); 
+	header("Location:../general/permissiondenied.php");
 	exit; 
 } 
 
 if ($comptPro == "0") 
 {
-	Util::headerFunction("../projects/listprojects.php?msg=blankProject&".session_name()."=".session_id());
+	Util::headerFunction("../projects/listprojects.php?msg=blankProject");
 	exit;
 }
 
@@ -121,7 +121,7 @@ if ($msg != "")
 $block1 = new Block();
 $block1->form = "uploadlogo";
 $block1->form = "pdD";
-$block1->openForm("../projects/viewprojectsite.php?action=update&id=$id&".session_name()."=".session_id()."#".$block1->form."Anchor");
+$block1->openForm("../projects/viewprojectsite.php?action=update&id=$id&#".$block1->form."Anchor");
 $block1->heading($strings["project_site"]." : ".$projectDetail->pro_name[0]);
 
 if ($idSession == $projectDetail->pro_owner[0] || $profilSession == "5") 
@@ -163,7 +163,7 @@ if ($projectDetail->pro_organization[0] != "" && $projectDetail->pro_organizatio
 
 	$block2 = new Block();
 	$block2->form = "csU";
-	$block2->openForm("../projects/viewprojectsite.php?".session_name()."=".session_id()."&id=".$projectDetail->pro_id[0]."#".$block2->form."Anchor");
+	$block2->openForm("../projects/viewprojectsite.php?&id=".$projectDetail->pro_id[0]."#".$block2->form."Anchor");
 	$block2->heading($strings["permitted_client"]);
 
 	if ($idSession == $projectDetail->pro_owner[0] || $profilSession == "5") 

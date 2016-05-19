@@ -17,7 +17,7 @@ $comptProjectDetail = count($projectDetail->pro_id);
 
 //test exists selected project, redirect to list if not
 if ($comptProjectDetail == "0") {
-	Util::headerFunction("../projects/listprojects.php?msg=blank&".session_name()."=".session_id());
+	Util::headerFunction("../projects/listprojects.php?msg=blank");
 	exit;
 }
 
@@ -110,7 +110,7 @@ if ($notifications == "true") {
 $organization = "1";
 	include '../teams/noti_removeprojectteam.php';
 }
-	Util::headerFunction("../projects/viewproject.php?id=$project&msg=$msg&".session_name()."=".session_id());
+	Util::headerFunction("../projects/viewproject.php?id=$project&msg=$msg");
 }
 
 include '../themes/' . THEME . '/header.php';
@@ -130,7 +130,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "crM";
-$block1->openForm("../teams/deleteusers.php?project=$project&action=delete&id=$id&".session_name()."=".session_id());
+$block1->openForm("../teams/deleteusers.php?project=$project&action=delete&id=$id");
 
 $block1->heading($strings["remove_team"]);
 

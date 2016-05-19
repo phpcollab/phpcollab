@@ -40,7 +40,7 @@ $blockPage->limitssNumber = "1";
 $block1 = new Block();
 
 $block1->form = "saP";
-$block1->openForm("../projects/listprojects.php?typeProjects=$typeProjects&".session_name()."=".session_id()."#".$block1->form."Anchor");
+$block1->openForm("../projects/listprojects.php?typeProjects=$typeProjects&#".$block1->form."Anchor");
 
 $block1->heading($strings["projects"]);
 

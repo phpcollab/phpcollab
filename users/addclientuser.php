@@ -83,7 +83,7 @@ if ($action == "add") {
                     $f_access_level = $client_user_level; // Reporter
                     include '../mantis/create_new_user.php';
                 }
-                Util::headerFunction("../clients/viewclient.php?id=$clod&msg=add&" . session_name() . "=" . session_id());
+                Util::headerFunction("../clients/viewclient.php?id=$clod&msg=add");
                 exit;
             }
         }
@@ -108,7 +108,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "client_user_add";
-$block1->openForm("../users/addclientuser.php?organization=$organization&action=add&" . session_name() . "=" . session_id());
+$block1->openForm("../users/addclientuser.php?organization=$organization&action=add");
 
 if ($error != "") {
     $block1->headingError($strings["errors"]);

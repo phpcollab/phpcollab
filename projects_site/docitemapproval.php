@@ -10,7 +10,7 @@ $commentField = Util::convertData($commentField);
 $tmpquery1 = "UPDATE ".$tableCollab["files"]." SET comments_approval='$commentField',date_approval='$dateheure',approver='$idSession',status='$statusField' WHERE id = '$id'";
 Util::connectSql("$tmpquery1");
 $msg = "updateFile";
-	Util::headerFunction("doclists.php?".session_name()."=".session_id());
+	Util::headerFunction("doclists.php");
 	exit;
 }
 
@@ -26,7 +26,7 @@ $bouton[4] = "over";
 $titlePage = $strings["approval_tracking"];
 include 'include_header.php';
 
-echo "<form accept-charset=\"UNKNOWN\" method=\"post\" action=\"../projects_site/docitemapproval.php?".session_name()."=".session_id()."&action=update\" name=\"documentitemapproval\" enctype=\"application/x-www-form-urlencoded\">";
+echo "<form accept-charset=\"UNKNOWN\" method=\"post\" action=\"../projects_site/docitemapproval.php?action=update\" name=\"documentitemapproval\" enctype=\"application/x-www-form-urlencoded\">";
 
 echo "<table cellspacing=\"0\" width=\"90%\" border=\"0\" cellpadding=\"3\">
 <tr><th colspan=\"2\">".$strings["approval_tracking"]." :</th></tr>

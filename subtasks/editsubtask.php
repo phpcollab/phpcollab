@@ -34,7 +34,7 @@ include_once '../includes/library.php';
 //case multiple edit tasks
 $multi = strstr($id,"**");
 if ($multi != "") {
-	Util::headerFunction("batch../tasks/edittask.php?report=$report&project=$project&id=$id&".session_name()."=".session_id());
+	Util::headerFunction("batch../tasks/edittask.php?report=$report&project=$project&id=$id");
 	exit;
 }
 
@@ -65,7 +65,7 @@ $comptMemberTest = count($memberTest->tea_id);
 	}
 
 		if ($teamMember != "true" && $profilSession != "5") {
-			Util::headerFunction("../tasks/viewtask.php?id=$task&msg=taskOwner&".session_name()."=".session_id());
+			Util::headerFunction("../tasks/viewtask.php?id=$task&msg=taskOwner");
 		}
 
 //case update or copy task
@@ -180,7 +180,7 @@ if ($compl == "10") {
 				$tmpquery6 = "INSERT INTO ".$tableCollab["updates"]."(type,item,member,comments,created) VALUES ('2','$id','$idSession','$cUp','$dateheure')";
 				Util::connectSql($tmpquery6);
 			}
-			Util::headerFunction("../subtasks/viewsubtask.php?id=$id&task=$task&msg=$msg&".session_name()."=".session_id());
+			Util::headerFunction("../subtasks/viewsubtask.php?id=$id&task=$task&msg=$msg");
 		}
 }
 
@@ -265,7 +265,7 @@ if ($pub == "") {
 			if ($fileManagement == "true") {
 				Util::createDirectory("../files/$project/$num");
 			}
-		Util::headerFunction("../subtasks/viewsubtask.php?id=$num&task=$task&msg=add&".session_name()."=".session_id());
+		Util::headerFunction("../subtasks/viewsubtask.php?id=$num&task=$task&msg=add");
 	}
 
 //set default values
@@ -328,11 +328,11 @@ $block1 = new Block();
 
 if ($id == "") {
 	$block1->form = "etD";
-	$block1->openForm("../subtasks/editsubtask.php?task=$task&action=add&".session_name()."=".session_id()."#".$block1->form."Anchor");
+	$block1->openForm("../subtasks/editsubtask.php?task=$task&action=add&#".$block1->form."Anchor");
 }
 if ($id != "") {
 	$block1->form = "etD";
-	$block1->openForm("../subtasks/editsubtask.php?task=$task&id=$id&action=update&docopy=$docopy&".session_name()."=".session_id()."#".$block1->form."Anchor");
+	$block1->openForm("../subtasks/editsubtask.php?task=$task&id=$id&action=update&docopy=$docopy&#".$block1->form."Anchor");
 	echo "	<input type='hidden' name='old_at' value='".$subtaskDetail->subtas_assigned_to[0]."'>
 			<input type='hidden' name='old_assigned' value='".$subtaskDetail->subtas_assigned[0]."'>
 			<input type='hidden' name='old_pr' value='".$subtaskDetail->subtas_priority[0]."'>

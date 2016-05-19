@@ -43,7 +43,7 @@ if ($id != "")
 	
 	if ($comptClientDetail == "0") 
 	{
-		Util::headerFunction("../clients/listclients.php?msg=blankClient&".session_name()."=".session_id());
+		Util::headerFunction("../clients/listclients.php?msg=blankClient");
 		exit;
 	}
 }
@@ -76,7 +76,7 @@ if ($id != "")
 		$comments = Util::convertData($comments);
 		$tmpquery = "UPDATE ".$tableCollab["organizations"]." SET name='$cn',address1='$add',phone='$client_phone',url='$url',email='$email',comments='$comments',owner='".Util::fixInt($cown)."',hourly_rate='$hourly_rate' WHERE id = '$id'";
 		Util::connectSql("$tmpquery");
-		Util::headerFunction("../clients/viewclient.php?id=$id&msg=update&".session_name()."=".session_id());
+		Util::headerFunction("../clients/viewclient.php?id=$id&msg=update");
 	}
 
 	//set value in form
@@ -148,7 +148,7 @@ if ($id == "")
 					Util::connectSql("$tmpquery");
 				}
 
-				Util::headerFunction("../clients/viewclient.php?id=$num&msg=add&".session_name()."=".session_id());
+				Util::headerFunction("../clients/viewclient.php?id=$num&msg=add");
 			}
 		}
 	}
@@ -185,13 +185,13 @@ $block1 = new Block();
 if ($id == "") 
 {
 	echo "<a name='".$block1->form."Anchor'></a>\n
-	<form accept-charset=\"UNKNOWN\" method=\"POST\" action=\"../clients/editclient.php?action=add&".session_name()."=".session_id()."\" name=\"ecDForm\" enctype=\"multipart/form-data\"><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"100000000\">\n";
+	<form accept-charset=\"UNKNOWN\" method=\"POST\" action=\"../clients/editclient.php?action=add&\" name=\"ecDForm\" enctype=\"multipart/form-data\"><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"100000000\">\n";
 }
 
 if ($id != "") 
 {
 	echo "<a name='".$block1->form."Anchor'></a>\n
-	<form accept-charset=\"UNKNOWN\" method=\"POST\" action=\"../clients/editclient.php?id=$id&action=update&".session_name()."=".session_id()."\" name=\"ecDForm\" enctype=\"multipart/form-data\"><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"100000000\">\n";
+	<form accept-charset=\"UNKNOWN\" method=\"POST\" action=\"../clients/editclient.php?id=$id&action=update&\" name=\"ecDForm\" enctype=\"multipart/form-data\"><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"100000000\">\n";
 }
 
 if ($error != "") 

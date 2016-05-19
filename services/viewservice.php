@@ -7,7 +7,7 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($profilSession != "0") {
-	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+	Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 
@@ -33,7 +33,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "serviceD";
-$block1->openForm("../services/viewservice.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
+$block1->openForm("../services/viewservice.php#".$block1->form."Anchor");
 
 if ($error != "") {            
 	$block1->headingError($strings["errors"]);

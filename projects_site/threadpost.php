@@ -38,7 +38,7 @@ include 'include_header.php';
 
 $idStatus = $detailTopic->top_status[0];
 
-echo "<form accept-charset=\"UNKNOWN\" method=\"POST\" action=\"../projects_site/threadpost.php?".session_name()."=".session_id()."&action=add\" name=\"post\" enctype=\"application/x-www-form-urlencoded\"><input name=\"id\" type=\"hidden\" value=\"$id\">";
+echo "<form accept-charset=\"UNKNOWN\" method=\"POST\" action=\"../projects_site/threadpost.php?action=add\" name=\"post\" enctype=\"application/x-www-form-urlencoded\"><input name=\"id\" type=\"hidden\" value=\"$id\">";
 
 echo "<table cellspacing=\"0\" width=\"90%\" cellpadding=\"3\">
 <tr><th colspan=\"4\">".$detailTopic->top_subject[0]."</th></tr>

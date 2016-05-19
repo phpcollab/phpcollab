@@ -91,7 +91,7 @@ if ($action == "update") {
 
             $_SESSION['passwordSession'] = $passwordSession;
 
-            Util::headerFunction("changepassword.php?msg=update&".session_name()."=".session_id());
+            Util::headerFunction("changepassword.php?msg=update");
             exit;
         }
     }
@@ -103,7 +103,7 @@ $userDetail->openMembers($tmpquery);
 $comptUserDetail = count($userDetail->mem_id);
 
 if ($comptUserDetail == "0") {
-    Util::headerFunction("userlist.php?msg=blankUser&".session_name()."=".session_id());
+    Util::headerFunction("userlist.php?msg=blankUser");
     exit;
 }
 
@@ -116,7 +116,7 @@ if ($msg != "") {
     $blockPage->messagebox($msgLabel);
 }
 
-echo "  <form accept-charset='UNKNOWN' method='POST' action='../projects_site/changepassword.php?".session_name()."=".session_id()."&action=update' name='changepassword' enctype='application/x-www-form-urlencoded'>
+echo "  <form accept-charset='UNKNOWN' method='POST' action='../projects_site/changepassword.php?action=update' name='changepassword' enctype='application/x-www-form-urlencoded'>
             <table cellspacing='0' width='90%' border='0' cellpadding='3'>
             <tr>
                 <th colspan='2'>".$strings["change_password"]."</th>

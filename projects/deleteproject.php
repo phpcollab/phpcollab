@@ -17,11 +17,11 @@ $listProjects->openProjects($tmpquery);
 $comptListProjects = count($listProjects->pro_id);
 
 if ($comptListProjects == "0") {
-    Util::headerFunction("../projects/listprojects.php?msg=blankProject&".session_name()."=".session_id());
+    Util::headerFunction("../projects/listprojects.php?msg=blankProject");
     exit;
 }
 if ($idSession != $listProjects->pro_owner[0] && $profilSession != "5") {
-    Util::headerFunction("../projects/listprojects.php?msg=projectOwner&".session_name()."=".session_id());
+    Util::headerFunction("../projects/listprojects.php?msg=projectOwner");
     exit;
 }
 
@@ -102,7 +102,7 @@ if ($topics != "") {
 // call mantis function to delete project
         include '../mantis/proj_delete.php';
     }
-    Util::headerFunction("../projects/listprojects.php?msg=delete&".session_name()."=".session_id());
+    Util::headerFunction("../projects/listprojects.php?msg=delete");
 }
 
 include '../themes/' . THEME . '/header.php';
@@ -121,7 +121,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "saP";
-$block1->openForm("../projects/deleteproject.php?action=delete&id=$id&".session_name()."=".session_id());
+$block1->openForm("../projects/deleteproject.php?action=delete&id=$id");
 
 $block1->heading($strings["delete_projects"]);
 

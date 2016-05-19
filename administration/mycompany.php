@@ -33,7 +33,7 @@ include_once '../includes/library.php';
 
 if ($profilSession != "0") 
 {
-	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+	Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 
@@ -69,7 +69,7 @@ if ($action == "update")
 	$c = Util::convertData($c);
 	$tmpquery = "UPDATE ".$tableCollab["organizations"]." SET name='$cn',address1='$add',phone='$wp',url='$url',email='$email',comments='$c' WHERE id = '1'";
 	Util::connectSql("$tmpquery");
-	Util::headerFunction("../administration/mycompany.php?".session_name()."=".session_id());
+	Util::headerFunction("../administration/mycompany.php");
 }
 $tmpquery = "WHERE org.id = '1'";
 $clientDetail = new Request();
@@ -106,7 +106,7 @@ if ($msg != "")
 $block1 = new Block();
 
 echo "<a name='".$block1->form."Anchor'></a>\n
-	<form accept-charset='UNKNOWN' method='POST' action='../administration/mycompany.php?action=update&".session_name()."=".session_id()."' name='adminDForm' enctype='multipart/form-data'>
+	<form accept-charset='UNKNOWN' method='POST' action='../administration/mycompany.php?action=update&' name='adminDForm' enctype='multipart/form-data'>
 	<input type='hidden' name='MAX_FILE_SIZE' value='100000000'>\n";
 
 if ($error != "") 

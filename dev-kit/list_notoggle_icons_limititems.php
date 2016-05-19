@@ -24,7 +24,7 @@ $blockPage->bornesNumber = "2";
 $block1 = new Block();
 
 $block1->form = "clientList";
-$block1->openForm("../clients/listclients.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
+$block1->openForm("../clients/listclients.php#".$block1->form."Anchor");
 
 $block1->heading($strings["organizations"]);
 
@@ -75,7 +75,7 @@ $block1->closePaletteScript($comptListOrganizations,$listOrganizations->org_id);
 $block2 = new Block();
 
 $block2->form = "clientList2";
-$block2->openForm("../clients/listclients.php?".session_name()."=".session_id()."#".$block2->form."Anchor");
+$block2->openForm("../clients/listclients.php#".$block2->form."Anchor");
 
 $block2->heading($strings["organizations"]);
 

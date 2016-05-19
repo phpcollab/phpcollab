@@ -85,7 +85,7 @@ if ($action == "delete") {
 		include ("../mantis/user_delete.php");
 	}
 
-	Util::headerFunction("../users/listusers.php?msg=delete&".session_name()."=".session_id());
+	Util::headerFunction("../users/listusers.php?msg=delete");
 	exit;
 }
 
@@ -106,7 +106,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "user_delete";
-$block1->openForm("../users/deleteusers.php?action=delete&".session_name()."=".session_id());
+$block1->openForm("../users/deleteusers.php?action=delete");
 
 $block1->heading($strings["delete_users"]);
 

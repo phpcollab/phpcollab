@@ -71,7 +71,7 @@ else
 
 if ($teamMember == "false" && $projectsFilter == "true") 
 { 
-	header("Location:../general/permissiondenied.php?".session_name()."=".session_id()); 
+	header("Location:../general/permissiondenied.php");
 	exit; 
 } 
 
@@ -216,7 +216,7 @@ if ($action == "update")
 		$name = $upload_name;
 		$tmpquery = "UPDATE ".$tableCollab["files"]." SET date='$dateheure',size='$size',comments='$c',comments_approval=null,approver=null,date_approval=null,status='$statusField',vc_version='$newversion' WHERE id = '$id'";
 		Util::connectSql("$tmpquery");
-		Util::headerFunction("../linkedcontent/viewfile.php?id=".$fileDetail->fil_id[0]."&msg=addFile&".session_name()."=".session_id());
+		Util::headerFunction("../linkedcontent/viewfile.php?id=".$fileDetail->fil_id[0]."&msg=addFile");
 		exit;
 	}	
 }
@@ -228,7 +228,7 @@ if ($action == "approve")
 	$commentField = Util::convertData($c);
 	$tmpquery1 = "UPDATE ".$tableCollab["files"]." SET comments_approval='$commentField',date_approval='$dateheure',approver='$idSession',status='$statusField' WHERE id = '$id'";
 	Util::connectSql("$tmpquery1");
-	Util::headerFunction("../linkedcontent/viewfile.php?id=".$fileDetail->fil_id[0]."&msg=addFile&".session_name()."=".session_id());
+	Util::headerFunction("../linkedcontent/viewfile.php?id=".$fileDetail->fil_id[0]."&msg=addFile");
 	exit;
 }
 
@@ -327,7 +327,7 @@ if ($action == "add")
 		$name = $upload_name;
 		$tmpquery = "UPDATE ".$tableCollab["files"]." SET name='$name',date='$dateheure',size='$size',extension='$extension',vc_version='$oldversion' WHERE id = '$num'";
 		Util::connectSql("$tmpquery");
-		Util::headerFunction("../linkedcontent/viewfile.php?id=$sendto&msg=addFile&".session_name()."=".session_id());
+		Util::headerFunction("../linkedcontent/viewfile.php?id=$sendto&msg=addFile");
 		exit;
 	}
 }
@@ -367,7 +367,7 @@ if ($msg != "")
 //File details block
 $block1 = new Block();
 $block1->form = "vdC";
-$block1->openForm("../files/viewfile.php?".session_name()."=".session_id()."&id=$id#".$block1->form."Anchor");
+$block1->openForm("../files/viewfile.php?&id=$id#".$block1->form."Anchor");
 
 $block1->heading($strings["document"]);
 
@@ -546,7 +546,7 @@ if ($peerReview == "true")
 	//Revision list block
 	$block2 = new Block();
 	$block2->form = "tdC";
-	$block2->openForm("../files/viewfile.php?".session_name()."=".session_id()."&id=$id#".$block2->form."Anchor");
+	$block2->openForm("../files/viewfile.php?&id=$id#".$block2->form."Anchor");
 	$block2->heading($strings["ifc_revisions"]);
 
 	if ($fileDetail->fil_owner[0] == $idSession) 
@@ -664,7 +664,7 @@ if ($peerReview == "true")
 		
 		echo "
 			<a name='filedetailsAnchor'></a>
-			<form accept-charset='UNKNOWN' method='POST' action='../linkedcontent/viewfile.php?action=add&id=".$fileDetail->fil_id[0]."&".session_name()."=".session_id()."#filedetailsAnchor' name='filedetailsForm' enctype='multipart/form-data'>
+			<form accept-charset='UNKNOWN' method='POST' action='../linkedcontent/viewfile.php?action=add&id=".$fileDetail->fil_id[0]."&#filedetailsAnchor' name='filedetailsForm' enctype='multipart/form-data'>
 				<input type='hidden' name='MAX_FILE_SIZE' value='100000000' />
 				<input type='hidden' name='maxCustom' value='".$projectDetail->pro_upload_max[0]."' />
 		";
@@ -721,7 +721,7 @@ if ($fileDetail->fil_owner[0] == $idSession || $projectDetail->pro_owner[0] == $
 
 	echo "
 		<a name='filedetailsAnchor'></a>
-		<form accept-charset='UNKNOWN' method='POST' action='../linkedcontent/viewfile.php?action=approve&amp;id=".$fileDetail->fil_id[0]."&amp;".session_name()."=".session_id()."#filedetailsAnchor' name='filedetailsForm' enctype='multipart/form-data'>
+		<form accept-charset='UNKNOWN' method='POST' action='../linkedcontent/viewfile.php?action=approve&amp;id=".$fileDetail->fil_id[0]."&amp;#filedetailsAnchor' name='filedetailsForm' enctype='multipart/form-data'>
 			<input type='hidden' name='MAX_FILE_SIZE' value='100000000' />
 			<input type='hidden' name='maxCustom' value='".$projectDetail->pro_upload_max[0]."' />
 	";
@@ -785,7 +785,7 @@ if ($fileDetail->fil_owner[0] == $idSession)
 
 	echo "
 		<a name='filedetailsAnchor'></a>
-		<form accept-charset='UNKNOWN' method='POST' action='../linkedcontent/viewfile.php?action=update&id=".$fileDetail->fil_id[0]."&".session_name()."=".session_id()."#filedetailsAnchor' name='filedetailsForm' enctype='multipart/form-data'>
+		<form accept-charset='UNKNOWN' method='POST' action='../linkedcontent/viewfile.php?action=update&id=".$fileDetail->fil_id[0]."&#filedetailsAnchor' name='filedetailsForm' enctype='multipart/form-data'>
 			<input type='hidden' name='MAX_FILE_SIZE' value='100000000' />
 			<input type='hidden' name='maxCustom' value='".$projectDetail->pro_upload_max[0]."' />
 		";

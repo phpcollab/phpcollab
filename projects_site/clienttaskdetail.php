@@ -13,7 +13,7 @@ if ($checkbox != "") {
 	$tmpquery = "UPDATE ".$tableCollab["tasks"]." SET comments='$comments',status='3',modified='$dateheure' WHERE id = '$id'";
 }
 	Util::connectSql("$tmpquery");
-	Util::headerFunction("showallclienttasks.php?".session_name()."=".session_id());
+	Util::headerFunction("showallclienttasks.php");
 	exit;
 }
 
@@ -105,7 +105,7 @@ echo "</table>
 echo "<table cellspacing=\"0\" border=\"0\" cellpadding=\"2\"><tr><td colspan=\"4\" class=\"listOddBold\">".$strings["no_items"]."</td></tr></table><hr>";
 }
 
-echo "<form accept-charset=\"UNKNOWN\" method=\"post\" action=\"../projects_site/clienttaskdetail.php?".session_name()."=".session_id()."&action=update\" name=\"clientTaskUpdate\" enctype=\"multipart/form-data\"><input name=\"id\" type=\"HIDDEN\" value=\"$id\">";
+echo "<form accept-charset=\"UNKNOWN\" method=\"post\" action=\"../projects_site/clienttaskdetail.php?action=update\" name=\"clientTaskUpdate\" enctype=\"multipart/form-data\"><input name=\"id\" type=\"HIDDEN\" value=\"$id\">";
 
 echo "<table cellspacing=\"0\" cellpadding=\"3\">
 <tr><th colspan=\"2\">".$strings["client_change_status"]."</th></tr>

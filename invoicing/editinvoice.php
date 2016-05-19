@@ -37,7 +37,7 @@ $projectDetail = new Request();
 $projectDetail->openProjects($tmpquery);
 
 if ($projectDetail->pro_owner[0] != $idSession) { 
-	header("Location:../general/permissiondenied.php?".session_name()."=".session_id()); 
+	header("Location:../general/permissiondenied.php");
 	exit; 
 } 
 
@@ -59,7 +59,7 @@ for ($i=0;$i<$comptListInvoicesItems;$i++) {
 	Util::connectSql($tmpquery);
 }
 
-	Util::headerFunction("../invoicing/viewinvoice.php?msg=update&id=$id&".session_name()."=".session_id());
+	Util::headerFunction("../invoicing/viewinvoice.php?msg=update&id=$id");
 }
 
 //set value in form
@@ -102,7 +102,7 @@ $block1 = new Block();
 
 if ($id != "") {
 	$block1->form = "invoice";
-	$block1->openForm("../invoicing/editinvoice.php?id=$id&action=update&".session_name()."=".session_id()."#".$block1->form."Anchor");
+	$block1->openForm("../invoicing/editinvoice.php?id=$id&action=update&#".$block1->form."Anchor");
 }
 
 if ($error != "") {            

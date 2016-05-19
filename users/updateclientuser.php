@@ -79,7 +79,7 @@ if ($action == "update") {
                     $pw = Util::getPassword($pw);
                     $tmpquery = "UPDATE " . $tableCollab["members"] . " SET password='$pw' WHERE id = '$id'";
                     Util::connectSql("$tmpquery");
-                    Util::headerFunction("../clients/viewclient.php?msg=update&id=$clod&" . session_name() . "=" . session_id());
+                    Util::headerFunction("../clients/viewclient.php?msg=update&id=$clod");
                     exit;
                 }
             } else {
@@ -89,7 +89,7 @@ if ($action == "update") {
                     $f_access_level = $client_user_level; // reporter
                     include '../mantis/user_update.php';
                 }
-                Util::headerFunction("../clients/viewclient.php?msg=update&id=$clod&" . session_name() . "=" . session_id());
+                Util::headerFunction("../clients/viewclient.php?msg=update&id=$clod");
                 exit;
             }
         }
@@ -130,7 +130,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "client_user_edit";
-$block1->openForm("../users/updateclientuser.php?action=update&organization=$organization&" . session_name() . "=" . session_id());
+$block1->openForm("../users/updateclientuser.php?action=update&organization=$organization");
 
 if ($error != "") {
     $block1->headingError($strings["errors"]);

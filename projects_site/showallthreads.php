@@ -19,7 +19,7 @@ $tmpquery = "DELETE FROM ".$tableCollab["posts"]." WHERE id = '$post'";
 Util::connectSql("$tmpquery");
 $tmpquery2 = "UPDATE ".$tableCollab["topics"]." SET posts='".$detailTopic->top_posts[0]."' WHERE id = '$id'";
 Util::connectSql("$tmpquery2");
-	Util::headerFunction("showallthreads.php?id=$id&".session_name()."=".session_id());
+	Util::headerFunction("showallthreads.php?id=$id");
 	exit;
 }
 
@@ -44,7 +44,7 @@ echo "<table cellspacing='0' width='90%' cellpadding='3'>
 <tr><th colspan='4'>".$strings["discussion"].":</th></tr>";
 
 if ($detailTopic->top_status[0] == "1") { 
-	echo "<tr><td colspan='4' align='right'><a href='threadpost.php?id=$id&".session_name()."=".session_id()."'>".$strings["post_reply"]."</a></td></tr>";
+	echo "<tr><td colspan='4' align='right'><a href='threadpost.php?id=$id'>".$strings["post_reply"]."</a></td></tr>";
 }
 
 if ($comptListPosts != "0") {
@@ -58,7 +58,7 @@ echo "<tr><td colspan='4' class='$class'>&nbsp;</td></tr>
 <tr class='$class'><th>".$strings["posted_by"]." :</th><td>".$listPosts->pos_mem_name[$i]."</td><td colspan='2' align='right'>";
 
 if ($detailProject->pro_owner[0] == $idSession || $profilSession == "0" || $listPosts->pos_member[$i] == $idSession) {
-echo "<a href='../projects_site/showallthreads.php?id=$id&".session_name()."=".session_id()."&action=delete&post=".$listPosts->pos_id[$i]."'>".$strings["delete_message"]."</a>";
+echo "<a href='../projects_site/showallthreads.php?id=$id&action=delete&post=".$listPosts->pos_id[$i]."'>".$strings["delete_message"]."</a>";
 } else {
 echo "&nbsp";
 }

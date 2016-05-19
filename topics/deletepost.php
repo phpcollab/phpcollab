@@ -16,7 +16,7 @@ if ($action == "delete") {
 	Util::connectSql("$tmpquery");
 	$tmpquery2 = "UPDATE ".$tableCollab["topics"]." SET posts='".$detailTopic->top_posts[0]."' WHERE id = '$topic'";
 	Util::connectSql("$tmpquery2");
-	Util::headerFunction("../topics/viewtopic.php?msg=delete&id=$topic&".session_name()."=".session_id());
+	Util::headerFunction("../topics/viewtopic.php?msg=delete&id=$topic");
 	exit;
 }
 
@@ -43,7 +43,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "saP";
-$block1->openForm("../topics/deletepost.php?id=$id&topic=$topic&action=delete&".session_name()."=".session_id());
+$block1->openForm("../topics/deletepost.php?id=$id&topic=$topic&action=delete");
 
 $block1->heading($strings["delete_messages"]);
 

@@ -12,18 +12,18 @@ $projectDetail->openProjects($tmpquery);
 $comptProjectDetail = count($projectDetail->pro_id);
 
 if ($comptProjectDetail == "0") {
-	Util::headerFunction("../projects/listprojects.php?msg=blankProject&".session_name()."=".session_id());
+	Util::headerFunction("../projects/listprojects.php?msg=blankProject");
 	exit;
 }
 if ($idSession != $projectDetail->pro_owner[0] && $profilSession != "5") {
-	Util::headerFunction("../projects/listprojects.php?msg=projectOwner&".session_name()."=".session_id());
+	Util::headerFunction("../projects/listprojects.php?msg=projectOwner");
 	exit;
 }
 
 if ($action == "create") {
 	$tmpquery = "UPDATE ".$tableCollab["projects"]." SET published='0' WHERE id = '$id'";
 	Util::connectSql("$tmpquery");
-	Util::headerFunction("../projects/viewprojectsite.php?id=$id&msg=createProjectSite&".session_name()."=".session_id());
+	Util::headerFunction("../projects/viewprojectsite.php?id=$id&msg=createProjectSite");
 	exit;
 }
 
@@ -39,7 +39,7 @@ $blockPage->closeBreadcrumbs();
 $block1 = new Block();
 
 $block1->form = "csdD";
-$block1->openForm("../projects/addprojectsite.php?action=create&id=$id&".session_name()."=".session_id());
+$block1->openForm("../projects/addprojectsite.php?action=create&id=$id");
 
 $block1->heading($strings["create_projectsite"]);
 

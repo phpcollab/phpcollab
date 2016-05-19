@@ -10,7 +10,7 @@ if ($action == "update") {
 	$acomm = Util::convertData($acomm);
 	$tmpquery6 = "UPDATE ".$tableCollab["assignments"]." SET comments='$acomm' WHERE id = '$id'";
 	Util::connectSql("$tmpquery6");
-	Util::headerFunction("../tasks/viewtask.php?id=$task&msg=update&".session_name()."=".session_id());
+	Util::headerFunction("../tasks/viewtask.php?id=$task&msg=update");
 	exit;
 }
 
@@ -37,7 +37,7 @@ $blockPage->closeBreadcrumbs();
 $block1 = new Block();
 
 $block1->form = "assignment_comment";
-$block1->openForm("../tasks/assignmentcomment.php?action=update&id=$id&task=$task&".session_name()."=".session_id());
+$block1->openForm("../tasks/assignmentcomment.php?action=update&id=$id&task=$task");
 
 if ($error != "") {            
 	$block1->headingError($strings["errors"]);

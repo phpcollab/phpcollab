@@ -143,7 +143,7 @@ if ($type == "calendEdit") {
         $description = Util::convertData($description);
         $tmpquery = "UPDATE ".$tableCollab["calendar"]." SET subject='$subject',description='$description',location='$location',shortname='$shortname',date_start='$dateStart',date_end='$dateEnd',time_start='$time_start',time_end='$time_end',reminder='$reminder',recurring='$recurring',recur_day='$dayRecurr',broadcast='$broadcast' WHERE id = '$dateEnreg'";
         Util::connectSql("$tmpquery");
-        Util::headerFunction("../calendar/viewcalendar.php?dateEnreg=$dateEnreg&dateCalend=$dateCalend&type=calendDetail&msg=update&".session_name()."=".session_id());
+        Util::headerFunction("../calendar/viewcalendar.php?dateEnreg=$dateEnreg&dateCalend=$dateCalend&type=calendDetail&msg=update");
     }
 
     if ($action == "add")
@@ -175,7 +175,7 @@ if ($type == "calendEdit") {
             Util::getLastId($tmpquery);
             $num = $lastId[0];
             unset($lastId);
-            Util::headerFunction("../calendar/viewcalendar.php?dateEnreg=$num&dateCalend=$dateCalend&type=calendDetail&msg=add&".session_name()."=".session_id());
+            Util::headerFunction("../calendar/viewcalendar.php?dateEnreg=$num&dateCalend=$dateCalend&type=calendDetail&msg=add");
         }
     }
 }
@@ -196,7 +196,7 @@ if ($type == "calendEdit")
 
         if ($comptDetailCalendar == "0")
         {
-            Util::headerFunction("../calendar/viewcalendar.php?".session_name()."=".session_id());
+            Util::headerFunction("../calendar/viewcalendar.php");
         }
     }
 }
@@ -215,7 +215,7 @@ if ($type == "calendDetail")
 
     if ($comptDetailCalendar == "0")
     {
-        Util::headerFunction("../calendar/viewcalendar.php?".session_name()."=".session_id());
+        Util::headerFunction("../calendar/viewcalendar.php");
     }
 }
 
@@ -317,11 +317,11 @@ if ($type == "calendEdit")
 
     if ($id != "")
     {
-        $block1->openForm("../calendar/viewcalendar.php?".session_name()."=".session_id()."&dateEnreg=$dateEnreg&dateCalend=$dateCalend&type=$type&action=update#".$block1->form."Anchor");
+        $block1->openForm("../calendar/viewcalendar.php?&dateEnreg=$dateEnreg&dateCalend=$dateCalend&type=$type&action=update#".$block1->form."Anchor");
     }
     else
     {
-        $block1->openForm("../calendar/viewcalendar.php?".session_name()."=".session_id()."&dateEnreg=$dateEnreg&dateCalend=$dateCalend&type=$type&action=add#".$block1->form."Anchor");
+        $block1->openForm("../calendar/viewcalendar.php?&dateEnreg=$dateEnreg&dateCalend=$dateCalend&type=$type&action=add#".$block1->form."Anchor");
     }
 
     if ($error != "")
@@ -464,7 +464,7 @@ if ($type == "calendDetail")
     $block1 = new Block();
 
     $block1->form = "calend";
-    $block1->openForm("../calendar/viewcalendar.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
+    $block1->openForm("../calendar/viewcalendar.php#".$block1->form."Anchor");
 
     if ($error != "")
     {
@@ -562,7 +562,7 @@ if ($type == "dayList")
     $block1 = new Block();
 
     $block1->form = "calendList";
-    $block1->openForm("../calendar/viewcalendar.php?type=$type&dateCalend=$dateCalend&".session_name()."=".session_id()."#".$block1->form."Anchor");
+    $block1->openForm("../calendar/viewcalendar.php?type=$type&dateCalend=$dateCalend&#".$block1->form."Anchor");
 
     $block1->heading("$dayName $day $monthName $year");
 
@@ -963,7 +963,7 @@ echo "</tr></table>";
     {
 		echo "
 			<div id='ganttChart_taskList' class='ganttChart'>
-				<img src='graphtasks.php?".session_name()."=".session_id()."&dateCalend=$dateCalend' alt=''><br/>
+				<img src='graphtasks.php?&dateCalend=$dateCalend' alt=''><br/>
 				<span class='listEvenBold''>".$blockPage->buildLink("http://www.aditus.nu/jpgraph/","JpGraph",powered)."</span>	
 			</div>
 		";

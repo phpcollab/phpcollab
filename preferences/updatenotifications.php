@@ -36,7 +36,7 @@ $userPrefs->openMembers($tmpquery);
 $comptUserPrefs = count($userPrefs->mem_id);
 
 if ($comptUserPrefs == "0") {
-    Util::headerFunction("../users/listusers.php?msg=blankUser&" . session_name() . "=" . session_id());
+    Util::headerFunction("../users/listusers.php?msg=blankUser");
     exit;
 }
 
@@ -46,7 +46,7 @@ if ($action == "update") {
             $tbl_check[$i] = "1";
         }
         //echo $tbl_check[$i]."<br/>";
-        Util::headerFunction("../preferences/updatenotifications.php?msg=update&" . session_name() . "=" . session_id());
+        Util::headerFunction("../preferences/updatenotifications.php?msg=update");
     }
 
     $tmpquery = "UPDATE " . $tableCollab["notifications"] . " SET taskAssignment='$tbl_check[0]',statusTaskChange='$tbl_check[1]',priorityTaskChange='$tbl_check[2]',duedateTaskChange='$tbl_check[3]',addProjectTeam='$tbl_check[4]',removeProjectTeam='$tbl_check[5]',newPost='$tbl_check[6]',newTopic='$tbl_check[7]',clientAddTask='$tbl_check[8]',uploadFile='$tbl_check[9]',dailyAlert='$tbl_check[10]',weeklyAlert='$tbl_check[11]',pastdueAlert='$tbl_check[12]' WHERE member = '$idSession'";
@@ -150,7 +150,7 @@ if ($msg != "") {
 
 $block1 = new Block();
 $block1->form = "user_avert";
-$block1->openForm("../preferences/updatenotifications.php?action=update&" . session_name() . "=" . session_id());
+$block1->openForm("../preferences/updatenotifications.php?action=update");
 
 if ($error != "") {
     $block1->headingError($strings["errors"]);

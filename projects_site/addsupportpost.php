@@ -29,7 +29,7 @@ if ($action == "add") {
 			}
 		}
 	
-	Util::headerFunction("suprequestdetail.php?id=$id&".session_name()."=".session_id());
+	Util::headerFunction("suprequestdetail.php?id=$id");
 	exit;
 }
 
@@ -38,7 +38,7 @@ $bouton[6] = "over";
 $titlePage = $strings["support"];
 include 'include_header.php';
 
-echo "<form accept-charset=\"UNKNOWN\" method=\"POST\" action=\"../projects_site/addsupportpost.php?id=$id&".session_name()."=".session_id()."&action=add&project=$projectSession#filedetailsAnchor\" name=\"addsupport\" enctype=\"multipart/form-data\">";
+echo "<form accept-charset=\"UNKNOWN\" method=\"POST\" action=\"../projects_site/addsupportpost.php?id=$id&action=add&project=$projectSession#filedetailsAnchor\" name=\"addsupport\" enctype=\"multipart/form-data\">";
 
 echo "<table cellspacing=\"0\" width=\"90%\" border=\"0\" cellpadding=\"3\">
 <tr><th colspan=\"2\">".$strings["add_support_response"]."</th></tr>

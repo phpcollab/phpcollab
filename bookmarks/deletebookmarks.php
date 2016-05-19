@@ -33,7 +33,7 @@ if ($action == "delete") {
 	$id = str_replace("**",",",$id);
 	$tmpquery1 = "DELETE FROM ".$tableCollab["bookmarks"]." WHERE id IN($id)";
 	Util::connectSql("$tmpquery1");
-	Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=delete&".session_name()."=".session_id());
+	Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=delete");
 	exit;
 }
 
@@ -59,7 +59,7 @@ if ($msg != "") {
 
 $block1 = new Block();
 $block1->form = "saP";
-$block1->openForm("../bookmarks/deletebookmarks.php?action=delete&id=$id&".session_name()."=".session_id());
+$block1->openForm("../bookmarks/deletebookmarks.php?action=delete&id=$id");
 
 $block1->heading($strings["delete_bookmarks"]);
 

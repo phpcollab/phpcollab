@@ -37,12 +37,12 @@ $userDetail->openMembers($tmpquery);
 $comptUserDetail = count($userDetail->mem_id);
 
 if ($userDetail->mem_profil[0] == "3") {
-	Util::headerFunction("../users/viewclientuser.php?id=$id&organization=".$userDetail->mem_organization[0]."&".session_name()."=".session_id());
+	Util::headerFunction("../users/viewclientuser.php?id=$id&organization=".$userDetail->mem_organization[0]);
 	exit;
 }
 
 if ($comptUserDetail == "0") {
-	Util::headerFunction("../users/listusers.php?msg=blankUser&".session_name()."=".session_id());
+	Util::headerFunction("../users/listusers.php?msg=blankUser");
 	exit;
 }
 
@@ -66,7 +66,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "userD";
-$block1->openForm("../users/viewuser.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
+$block1->openForm("../users/viewuser.php#".$block1->form."Anchor");
 
 if ($error != "") {            
 	$block1->headingError($strings["errors"]);

@@ -298,7 +298,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "login";
-$block1->openForm("../general/login.php?auth=test&" . session_name() . "=" . session_id());
+$block1->openForm("../general/login.php?auth=test");
 
 if ($url != "") {
     echo "<input value='$url' type='hidden' name='url'>";

@@ -50,7 +50,7 @@ $comptMemberTest = count($memberTest->tea_id);
 	}
 
 if ($teamMember == "false" && $projectsFilter == "true") { 
-	header("Location:../general/permissiondenied.php?".session_name()."=".session_id()); 
+	header("Location:../general/permissiondenied.php");
 	exit; 
 } 
 

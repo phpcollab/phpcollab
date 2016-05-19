@@ -6,13 +6,13 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($enableHelpSupport != "true") {
-	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+	Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 
 if ($supportType == "admin") {
 	if ($profilSession != "0") {
-		Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+		Util::headerFunction('../general/permissiondenied.php');
 		exit;
 	}
 }
@@ -56,7 +56,7 @@ if ($msg != "") {
 
 $block1 = new Block();
 $block1->form = "srs";
-$block1->openForm("../support/listrequests.php?".session_name()."=".session_id()."&id=$id#".$block1->form."Anchor");
+$block1->openForm("../support/listrequests.php?&id=$id#".$block1->form."Anchor");
 $block1->heading($strings["support_requests"]);
 if($teamMember == "true" || $profilSession == "0"){
 	$block1->openPaletteIcon();

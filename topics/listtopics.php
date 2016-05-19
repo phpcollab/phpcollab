@@ -84,7 +84,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "saH";
-$block1->openForm("../topics/listtopics.php?".session_name()."=".session_id()."&project=$project#".$block1->form."Anchor");
+$block1->openForm("../topics/listtopics.php?project=$project#".$block1->form."Anchor");
 
 if ($project != "") {
 	$block1->heading($strings["discussions"]);

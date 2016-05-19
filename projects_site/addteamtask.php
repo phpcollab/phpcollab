@@ -68,7 +68,7 @@ if ($id == "")
 			Util::createDirectory("../files/$projectSession/$num");
 		}
 		
-		Util::headerFunction("showallteamtasks.php?".session_name()."=".session_id());
+		Util::headerFunction("showallteamtasks.php");
 	}
 
 }
@@ -80,7 +80,7 @@ $titlePage = $strings["add_task"];
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
 include 'include_header.php';
 
-echo "<form accept-charset='UNKNOWN' method='POST' action='../projects_site/addteamtask.php?project=$projectSession&action=add&".session_name()."=".session_id()."#etDAnchor' name='etDForm' enctype='application/x-www-form-urlencoded'>";
+echo "<form accept-charset='UNKNOWN' method='POST' action='../projects_site/addteamtask.php?project=$projectSession&action=add#etDAnchor' name='etDForm' enctype='application/x-www-form-urlencoded'>";
 
 echo "
 <table cellpadding='3' cellspacing='0' border='0'>

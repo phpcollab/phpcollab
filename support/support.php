@@ -19,13 +19,13 @@ if ($supportType == "team") {
 }
 
 if ($enableHelpSupport != "true") {
-	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+	Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 
 if ($supportType == "admin") {
 	if ($profilSession != "0") {
-		Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+		Util::headerFunction('../general/permissiondenied.php');
 		exit;
 	}
 }
@@ -65,7 +65,7 @@ if ($msg != "") {
 
 $block1 = new Block();
 $block1->form = "srs";
-$block1->openForm("../support/support.php?action=$action&project=$project&".session_name()."=".session_id()."#".$block1->form."Anchor");
+$block1->openForm("../support/support.php?action=$action&project=$project&#".$block1->form."Anchor");
 	
 if ($action == "new"){
 	$block1->heading($strings["new_requests"]);

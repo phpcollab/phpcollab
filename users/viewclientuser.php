@@ -37,7 +37,7 @@ $userDetail->openMembers($tmpquery);
 $comptUserDetail = count($userDetail->mem_id);
 
 if ($comptUserDetail == "0") {
-	Util::headerFunction("../clients/viewclient.php?msg=blankUser&id=$organization&".session_name()."=".session_id());
+	Util::headerFunction("../clients/viewclient.php?msg=blankUser&id=$organization");
 	exit;
 }
 $organization = $userDetail->mem_organization[0];
@@ -49,7 +49,7 @@ $memberTest = new Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
-		Util::headerFunction("../clients/listclients.php?msg=blankClient&".session_name()."=".session_id());
+		Util::headerFunction("../clients/listclients.php?msg=blankClient");
 	} else {
 	}
 } else if ($clientsFilter == "true" && $profilSession == "1") {
@@ -64,7 +64,7 @@ $detailClient->openOrganizations($tmpquery);
 $comptDetailClient = count($detailClient->org_id);
 
 if ($comptDetailClient == "0") {
-	Util::headerFunction("../clients/listclients.php?msg=blankClient&".session_name()."=".session_id());
+	Util::headerFunction("../clients/listclients.php?msg=blankClient");
 	exit;
 }
 
@@ -80,7 +80,7 @@ $blockPage->closeBreadcrumbs();
 $block1 = new Block();
 
 $block1->form = "cuserD";
-$block1->openForm("../users/viewclientuser.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
+$block1->openForm("../users/viewclientuser.php#".$block1->form."Anchor");
 
 if ($error != "") {            
 	$block1->headingError($strings["errors"]);
@@ -133,8 +133,8 @@ $block1->closeForm();
 
 $block1->openPaletteScript();
 if ($profilSession == "0" || $profilSession == "1") {
-$block1->paletteScript(0,"remove","../users/deleteclientusers.php?".session_name()."=".session_id()."&id=$id&organization=$organization","true,true,true",$strings["delete"]);
-$block1->paletteScript(1,"edit","../users/updateclientuser.php?".session_name()."=".session_id()."&id=$id&organization=$organization","true,true,true",$strings["edit"]);
+$block1->paletteScript(0,"remove","../users/deleteclientusers.php?id=$id&organization=$organization","true,true,true",$strings["delete"]);
+$block1->paletteScript(1,"edit","../users/updateclientuser.php?id=$id&organization=$organization","true,true,true",$strings["edit"]);
 }
 $block1->paletteScript(2,"export","../users/exportuser.php?id=$id","true,true,true",$strings["export"]);
 $block1->closePaletteScript("","");

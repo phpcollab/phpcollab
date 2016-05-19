@@ -35,10 +35,10 @@ if ($action == "delete") {
 	$tableCollab["projects"]);
 
 	if ($project != "") {	
-		Util::headerFunction("../projects/viewproject.php?id=$project&msg=delete&".session_name()."=".session_id());
+		Util::headerFunction("../projects/viewproject.php?id=$project&msg=delete");
 		exit;
 	} else {
-		Util::headerFunction("../general/home.php?msg=delete&".session_name()."=".session_id());
+		Util::headerFunction("../general/home.php?msg=delete");
 		exit;
 	}
 }
@@ -69,7 +69,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "saP";
-$block1->openForm("../tasks/deletetasks.php?project=$project&action=delete&id=$id&".session_name()."=".session_id());
+$block1->openForm("../tasks/deletetasks.php?project=$project&action=delete&id=$id");
 
 $block1->heading($strings["delete_tasks"]);
 

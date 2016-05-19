@@ -38,7 +38,7 @@ $setTitle .= " : Edit Settings";
 
 if ($profilSession != "0")
 {
-	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+	Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 
@@ -297,7 +297,7 @@ STAMP;
 		else 
 		{
 			fclose($fp);
-			Util::headerFunction("../administration/admin.php?msg=update&".session_name()."=".session_id());
+			Util::headerFunction("../administration/admin.php?msg=update");
 		}
 	}
 }
@@ -324,7 +324,7 @@ $block1->heading($strings["edit_settings"]);
 $block1->openContent();
 $block1->contentTitle("General");
 $block1->form = "settings";
-$block1->openForm("../administration/updatesettings.php?action=generate&".session_name()."=".session_id());
+$block1->openForm("../administration/updatesettings.php?action=generate");
 
 if (substr($ftpRoot, -1) == "/") { $ftpRoot = substr($ftpRoot, 0, -1); }
 

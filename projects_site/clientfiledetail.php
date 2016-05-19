@@ -112,7 +112,7 @@ $maxFileSize = $maxCustom;
 		$name = "$upload_name";
 		$tmpquery = "UPDATE ".$tableCollab["files"]." SET date='$dateheure',size='$size',comments='$c',status='$statusField',vc_version='$newversion' WHERE id = '$id'";
 		Util::connectSql("$tmpquery");
-		Util::headerFunction("clientfiledetail.php?id=".$fileDetail->fil_id[0]."&msg=addFile&".session_name()."=".session_id());
+		Util::headerFunction("clientfiledetail.php?id=".$fileDetail->fil_id[0]."&msg=addFile");
 		exit;
 	}	
 }
@@ -195,7 +195,7 @@ $maxFileSize = $maxCustom;
 		$name = "$upload_name";
 		$tmpquery = "UPDATE ".$tableCollab["files"]." SET name='$name',date='$dateheure',size='$size',extension='$extension',vc_version='$oldversion' WHERE id = '$num'";
 		Util::connectSql("$tmpquery");
-		Util::headerFunction("clientfiledetail.php?id=$sendto&msg=addFile&".session_name()."=".session_id());
+		Util::headerFunction("clientfiledetail.php?id=$sendto&msg=addFile");
 		exit;
 	}
 }
@@ -362,7 +362,7 @@ echo "<table cellpadding=20 cellspacing=0 border=0 width=\"100%\">
 	<tr><td width=\"40%\" class=\"$class\"><table cellspacing=\"0\" width=\"100%\" border=\"0\" cellpadding=\"0\">";
 
 	echo "<a name=\"filedetailsAnchor\"></a>";
-	echo "<form accept-charset=\"UNKNOWN\" method=\"POST\" action=\"../projects_site/clientfiledetail.php?action=add&id=".$fileDetail->fil_id[0]."&".session_name()."=".session_id()."#filedetailsAnchor\" name=\"filedetailsForm\" enctype=\"multipart/form-data\"><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"100000000\"><input type=\"hidden\" name=\"maxCustom\" value=\"".$projectDetail->pro_upload_max[0]."\">";
+	echo "<form accept-charset=\"UNKNOWN\" method=\"POST\" action=\"../projects_site/clientfiledetail.php?action=add&id=".$fileDetail->fil_id[0]."#filedetailsAnchor\" name=\"filedetailsForm\" enctype=\"multipart/form-data\"><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"100000000\"><input type=\"hidden\" name=\"maxCustom\" value=\"".$projectDetail->pro_upload_max[0]."\">";
 
 	//Add one to the number of current revisions
 	$revision = $displayrev+1;
@@ -392,7 +392,7 @@ echo "<table cellpadding=20 cellspacing=0 border=0 width=\"100%\">
 	<table cellspacing=\"0\" width=\"90%\" border=\"0\" cellpadding=\"3\" cols=\"4\">
 	<tr height=\"15\"><th width=\"100%\" class=\"ModuleColumnHeaderSort\"><img src=\"../themes/".THEME."/spacer.gif\" width=\"1\" height=\"1\" border=\"0\"></th></tr>
 	<tr><td width=\"40%\" class=\"$class\">
-<form accept-charset=\"UNKNOWN\" method=\"POST\" action=\"../projects_site/clientfiledetail.php?action=update&id=".$fileDetail->fil_id[0]."&".session_name()."=".session_id()."#filedetailsAnchor\" name=\"filedetailsForm\" enctype=\"multipart/form-data\"><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"100000000\"><input type=\"hidden\" name=\"maxCustom\" value=\"".$projectDetail->pro_upload_max[0]."\">
+<form accept-charset=\"UNKNOWN\" method=\"POST\" action=\"../projects_site/clientfiledetail.php?action=update&id=".$fileDetail->fil_id[0]."#filedetailsAnchor\" name=\"filedetailsForm\" enctype=\"multipart/form-data\"><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"100000000\"><input type=\"hidden\" name=\"maxCustom\" value=\"".$projectDetail->pro_upload_max[0]."\">
 <table cellpadding =\"0\" width=\"100%\" border=\"0\" cellpadding=\"0\">";
 
 	echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\"></td><td class=\"odd\">".$strings["version_increm"]."<br/>

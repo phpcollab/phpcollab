@@ -12,7 +12,7 @@ $newsDetail->openNewsDesk($tmpquery);
 $comptNewsDetail = count($newsDetail->news_id);
 
 if ($comptNewsDetail == "0") {
-	Util::headerFunction("../newsdesk/listnews.php?msg=blankNews&".session_name()."=".session_id());
+	Util::headerFunction("../newsdesk/listnews.php?msg=blankNews");
 }
 
 include '../themes/' . THEME . '/header.php';
@@ -34,7 +34,7 @@ $blockPage->limitsNumber = "1";
 $block1 = new Block();
 
 $block1->form = "clPr";
-$block1->openForm("../newsdesk/viewnews.php?".session_name()."=".session_id()."&id=$id#".$block1->form."Anchor");
+$block1->openForm("../newsdesk/viewnews.php?&id=$id#".$block1->form."Anchor");
 
 $block1->headingToggle($strings["newsdesk"]);
 
@@ -120,7 +120,7 @@ $comptCommentsDetail = count($newsComments->newscom_id);
 $block2 = new Block();
 
 $block2->form = "clPrc";
-$block2->openForm("../newsdesk/viewnews.php?".session_name()."=".session_id()."&id=$id#".$block2->form."Anchor");
+$block2->openForm("../newsdesk/viewnews.php?&id=$id#".$block2->form."Anchor");
 
 $block2->headingToggle($strings["comments"]);
 

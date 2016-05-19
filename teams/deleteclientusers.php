@@ -12,7 +12,7 @@ $projectDetail->openProjects($tmpquery);
 $comptProjectDetail = count($projectDetail->pro_id);
 
 if ($comptProjectDetail == "0") {
-	Util::headerFunction("../projects/listprojects.php?msg=blank&".session_name()."=".session_id());
+	Util::headerFunction("../projects/listprojects.php?msg=blank");
 	exit;
 }
 
@@ -55,7 +55,7 @@ if ($notifications == "true") {
 $organization = "";
 	include '../teams/noti_removeprojectteam.php';
 }
-	Util::headerFunction("../projects/viewprojectsite.php?id=$project&msg=removeClientToSite&".session_name()."=".session_id());
+	Util::headerFunction("../projects/viewprojectsite.php?id=$project&msg=removeClientToSite");
 	exit;
 }
 
@@ -77,7 +77,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "crM";
-$block1->openForm("../teams/deleteclientusers.php?project=$project&action=delete&id=$id&".session_name()."=".session_id());
+$block1->openForm("../teams/deleteclientusers.php?project=$project&action=delete&id=$id");
 
 $block1->heading($strings["remove_team_client"]);
 

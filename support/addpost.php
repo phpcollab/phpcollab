@@ -6,13 +6,13 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($enableHelpSupport != "true") {
-	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+	Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 
 if ($supportType == "admin") {
 	if ($profilSession != "0") {
-		Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+		Util::headerFunction('../general/permissiondenied.php');
 		exit;
 	}
 }
@@ -38,7 +38,7 @@ if($action == "edit"){
 		}
 	}
 
-	Util::headerFunction("../support/viewrequest.php?id=$id&".session_name()."=".session_id());
+	Util::headerFunction("../support/viewrequest.php?id=$id");
 	exit;
 }
 
@@ -59,7 +59,7 @@ if($action == "add"){
 			}
 		}
 	
-	Util::headerFunction("../support/viewrequest.php?id=$id&".session_name()."=".session_id());
+	Util::headerFunction("../support/viewrequest.php?id=$id");
 	exit;
 }
 
@@ -102,10 +102,10 @@ $block2 = new Block();
 
 	$block2->form = "sr";
 	if ($action == "status"){
-		$block2->openForm("../support/addpost.php?action=edit&id=$id&".session_name()."=".session_id()."#".$block2->form."Anchor");
+		$block2->openForm("../support/addpost.php?action=edit&id=$id&#".$block2->form."Anchor");
 	}else{
 
-		$block2->openForm("../support/addpost.php?action=add&id=$id&".session_name()."=".session_id()."#".$block2->form."Anchor");
+		$block2->openForm("../support/addpost.php?action=add&id=$id&#".$block2->form."Anchor");
 	}
 if ($error != "") {            
 	$block2->headingError($strings["errors"]);

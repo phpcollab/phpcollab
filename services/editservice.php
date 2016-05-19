@@ -7,7 +7,7 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($profilSession != "0") {
-	Util::headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
+	Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 
@@ -21,7 +21,7 @@ if ($action == "update") {
 	$np = Util::convertData($np);
 	$tmpquery = "UPDATE ".$tableCollab["services"]." SET name='$n',name_print='$np',hourly_rate='$hr' WHERE id = '$id'";
 	Util::connectSql($tmpquery);
-	Util::headerFunction("../services/listservices.php?msg=update&".session_name()."=".session_id());
+	Util::headerFunction("../services/listservices.php?msg=update");
 	exit;
 }
 $tmpquery = "WHERE serv.id = '$id'";
@@ -46,7 +46,7 @@ if ($action == "add") {
     $tmpquery1 = "INSERT INTO ".$tableCollab["services"]." (name,name_print,hourly_rate) VALUES ('$n','$np','$hr')";
 	
 	Util::connectSql($tmpquery1);
-	Util::headerFunction("../services/listservices.php?msg=add&".session_name()."=".session_id());
+	Util::headerFunction("../services/listservices.php?msg=add");
 	exit;
 }
 }
@@ -84,11 +84,11 @@ $block1 = new Block();
 
 if ($id == "") {
 	$block1->form = "serv_edit";
-	$block1->openForm("../services/editservice.php?id=$id&action=add&".session_name()."=".session_id()."#".$block1->form."Anchor");
+	$block1->openForm("../services/editservice.php?id=$id&action=add&#".$block1->form."Anchor");
 }
 if ($id != "") {
 	$block1->form = "serv_edit";
-	$block1->openForm("../services/editservice.php?id=$id&action=update&".session_name()."=".session_id()."#".$block1->form."Anchor");
+	$block1->openForm("../services/editservice.php?id=$id&action=update&#".$block1->form."Anchor");
 }
 
 if ($error != "") {            

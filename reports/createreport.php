@@ -45,7 +45,7 @@ $blockPage->closeBreadcrumbs();
 $block1 = new Block();
 
 $block1->form = "customsearch";
-$block1->openForm("../reports/resultsreport.php?".session_name()."=".session_id());
+$block1->openForm("../reports/resultsreport.php");
 
 $block1->heading($strings["create_report"]);
 

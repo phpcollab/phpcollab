@@ -32,7 +32,7 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($profilSession != "0") {
-    Util::headerFunction('../general/permissiondenied.php?' . session_name() . '=' . session_id());
+    Util::headerFunction('../general/permissiondenied.php');
     exit;
 }
 
@@ -40,7 +40,7 @@ if ($profilSession != "0") {
 if ($id != "") {
 
     if ($id == "1" && $idSession == "1") {
-        Util::headerFunction("../preferences/updateuser.php?" . session_name() . "=" . session_id());
+        Util::headerFunction("../preferences/updateuser.php");
         exit;
     }
 
@@ -125,7 +125,7 @@ if ($id != "") {
                             include '../mantis/user_update.php';
                         }
 
-                        Util::headerFunction("../users/listusers.php?msg=update&" . session_name() . "=" . session_id());
+                        Util::headerFunction("../users/listusers.php?msg=update");
                         exit;
                     }
                 } else {
@@ -135,7 +135,7 @@ if ($id != "") {
                         $f_access_level = $team_user_level; // Developer
                         include '../mantis/user_update.php';
                     }
-                    Util::headerFunction("../users/listusers.php?msg=update&" . session_name() . "=" . session_id());
+                    Util::headerFunction("../users/listusers.php?msg=update");
                     exit;
                 }
             }
@@ -148,7 +148,7 @@ if ($id != "") {
 
 //test exists selected user, redirect to list if not
     if ($comptDetailUser == "0") {
-        Util::headerFunction("../users/listusers.php?msg=blankUser&" . session_name() . "=" . session_id());
+        Util::headerFunction("../users/listusers.php?msg=blankUser");
         exit;
     }
 
@@ -231,7 +231,7 @@ if ($id == "") {
                         $f_access_level = $team_user_level; // Developer
                         include '../mantis/create_new_user.php';
                     }
-                    Util::headerFunction("../users/listusers.php?msg=add&" . session_name() . "=" . session_id());
+                    Util::headerFunction("../users/listusers.php?msg=add");
                     exit;
                 }
             }
@@ -265,11 +265,11 @@ $block1 = new Block();
 
 if ($id == "") {
     $block1->form = "user_edit";
-    $block1->openForm("../users/edituser.php?id=$id&action=add&" . session_name() . "=" . session_id() . "#" . $block1->form . "Anchor");
+    $block1->openForm("../users/edituser.php?id=$id&action=add#" . $block1->form . "Anchor");
 }
 if ($id != "") {
     $block1->form = "user_edit";
-    $block1->openForm("../users/edituser.php?id=$id&action=update&" . session_name() . "=" . session_id() . "#" . $block1->form . "Anchor");
+    $block1->openForm("../users/edituser.php?id=$id&action=update#" . $block1->form . "Anchor");
 }
 
 if ($error != "") {

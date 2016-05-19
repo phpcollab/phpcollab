@@ -119,7 +119,7 @@ if ($type == "calendDetail")
 
 	if ($comptDetailCalendar == "0") 
 	{
-		header("Location:../projects_site/showcalendar.php?".session_name()."=".session_id());
+		header("Location:../projects_site/showcalendar.php");
 	}
 }
 	
@@ -584,7 +584,7 @@ if ($type == "monthPreview")
 	{
 		echo "
 			<div id='ganttChart_taskList' class='ganttChart'>
-				<img src='graphtasks.php?".session_name()."=".session_id()."&dateCalend=$dateCalend' alt=''><br/>
+				<img src='graphtasks.php?dateCalend=$dateCalend' alt=''><br/>
 				<span class='listEvenBold''>".$blockPage->buildLink("http://www.aditus.nu/jpgraph/","JpGraph",powered)."</span>	
 			</div>
 		";

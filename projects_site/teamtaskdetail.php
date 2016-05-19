@@ -75,7 +75,7 @@ $block2->heading($strings["subtasks"]);
 if ($comptListSubtasks != "0") {
 
 if ($activeJpgraph == "true") {
-echo "<img src=\"graphsubtasks.php?".session_name()."=".session_id()."&task=".$taskDetail->tas_id[0]."\" alt=\"\">
+echo "<img src=\"graphsubtasks.php?task=".$taskDetail->tas_id[0]."\" alt=\"\">
 <span class=\"listEvenBold\">[<a href=\"http://www.aditus.nu/jpgraph/\" target=\"_blank\">JpGraph</a>]</span><br/><br/>";
 }
 

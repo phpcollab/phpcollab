@@ -26,7 +26,7 @@ if ($action == "add") {
 if ($notifications == "true") {
 	include '../topics/noti_newpost.php';
 }
-	Util::headerFunction("../topics/viewtopic.php?id=$id&msg=add&".session_name()."=".session_id());
+	Util::headerFunction("../topics/viewtopic.php?id=$id&msg=add");
 }
 
 $idStatus = $detailTopic->top_status[0];
@@ -60,7 +60,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "ptT";
-$block1->openForm("../topics/addpost.php?action=add&id=".$detailTopic->top_id[0]."&project=".$detailTopic->top_project[0]."&".session_name()."=".session_id());
+$block1->openForm("../topics/addpost.php?action=add&id=".$detailTopic->top_id[0]."&project=".$detailTopic->top_project[0]);
 
 if ($error != "") {            
 	$block1->headingError($strings["errors"]);

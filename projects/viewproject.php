@@ -261,7 +261,7 @@ $comptProjectDetail = count($projectDetail->pro_id);
 
 if ($comptProjectDetail == "0") 
 {
-	Util::headerFunction("../projects/listprojects.php?msg=blankProject&".session_name()."=".session_id());
+	Util::headerFunction("../projects/listprojects.php?msg=blankProject");
 	exit;
 }
 
@@ -306,7 +306,7 @@ else
 
 if ($teamMember == "false" && $projectsFilter == "true") 
 { 
-	header("Location:../general/permissiondenied.php?".session_name()."=".session_id()); 
+	header("Location:../general/permissiondenied.php");
 	exit; 
 } 
 
@@ -352,7 +352,7 @@ $idPriority = $projectDetail->pro_priority[0];
 $block1 = new Block();
 
 $block1->form = "pdD";
-$block1->openForm("../projects/listprojects.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
+$block1->openForm("../projects/listprojects.php#".$block1->form."Anchor");
 
 $block1->headingToggle($strings["project"]." : ".$projectDetail->pro_name[0]);
 
@@ -515,7 +515,7 @@ if ($projectDetail->pro_phase_set[0] != "0")
 {
 	$block7 = new Block();
 	$block7->form = "wbSe";
-	$block7->openForm("../projects/viewproject.php?id=$id&".session_name()."=".session_id()."#".$block7->form."Anchor");
+	$block7->openForm("../projects/viewproject.php?id=$id&#".$block7->form."Anchor");
 	$block7->headingToggle($strings["phases"]);
 	$block7->openPaletteIcon();
 
@@ -607,7 +607,7 @@ else
 {
 	$block2 = new Block();
 	$block2->form = "wbTuu";
-	$block2->openForm("../projects/viewproject.php?".session_name()."=".session_id()."&id=".$projectDetail->pro_id[0]."#".$block2->form."Anchor");
+	$block2->openForm("../projects/viewproject.php?&id=".$projectDetail->pro_id[0]."#".$block2->form."Anchor");
 
 	$block2->headingToggle($strings["tasks"]);
 
@@ -710,7 +710,7 @@ else
 		{
 			echo "
 				<div id='ganttChart_taskList' class='ganttChart'>
-					<img src='../tasks/graphtasks.php?".session_name()."=".session_id()."&project=".$projectDetail->pro_id[0]."' alt=''><br/>
+					<img src='../tasks/graphtasks.php?&project=".$projectDetail->pro_id[0]."' alt=''><br/>
 					<span class='listEvenBold''>".$blockPage->buildLink("http://www.aditus.nu/jpgraph/","JpGraph",powered)."</span>	
 				</div>
 			";
@@ -750,7 +750,7 @@ else
 
 $block3 = new Block();
 $block3->form = "pdH";
-$block3->openForm("../projects/viewproject.php?id=$id&".session_name()."=".session_id()."#".$block3->form."Anchor");
+$block3->openForm("../projects/viewproject.php?id=$id&#".$block3->form."Anchor");
 $block3->headingToggle($strings["discussions"]);
 $block3->openPaletteIcon();
 
@@ -846,7 +846,7 @@ if ($comptListTopics != "0")
 		if ($sitePublish == "true") 
 		{
 			$block3->paletteScript(3,"add_projectsite","../projects/viewproject.php?addToSiteTopic=true&project=".$projectDetail->pro_id[0]."&action=publish","false,true,true",$strings["add_project_site"]);
-			$block3->paletteScript(4,"remove_projectsite","../projects/viewproject.php?".session_name()."=".session_id()."&removeToSiteTopic=true&project=".$projectDetail->pro_id[0]."&action=publish","false,true,true",$strings["remove_project_site"]);
+			$block3->paletteScript(4,"remove_projectsite","../projects/viewproject.php?&removeToSiteTopic=true&project=".$projectDetail->pro_id[0]."&action=publish","false,true,true",$strings["remove_project_site"]);
 		}
 	}
 
@@ -855,7 +855,7 @@ $block3->closePaletteScript($comptListTopics,$listTopics->top_id);
 
 $block4 = new Block();
 $block4->form = "pdM";
-$block4->openForm("../projects/viewproject.php?".session_name()."=".session_id()."&id=".$projectDetail->pro_id[0]."#".$block4->form."Anchor");
+$block4->openForm("../projects/viewproject.php?&id=".$projectDetail->pro_id[0]."#".$block4->form."Anchor");
 $block4->headingToggle($strings["team"]);
 $block4->openPaletteIcon();
 
@@ -956,7 +956,7 @@ if ($fileManagement == "true")
 
 	$block5 = new Block();
 	$block5->form = "tdC";
-	$block5->openForm("../projects/viewproject.php?".session_name()."=".session_id()."&id=$id#".$block5->form."Anchor");
+	$block5->openForm("../projects/viewproject.php?&id=$id#".$block5->form."Anchor");
 	$block5->headingToggle($strings["linked_content"]);
 	$block5->openPaletteIcon();
 
@@ -1080,7 +1080,7 @@ if ($fileManagement == "true")
  */
 $block6 = new Block();
 $block6->form = "wbJ";
-$block6->openForm("../projects/viewproject.php?".session_name()."=".session_id()."&id=".$projectDetail->pro_id[0]."#".$block6->form."Anchor");
+$block6->openForm("../projects/viewproject.php?&id=".$projectDetail->pro_id[0]."#".$block6->form."Anchor");
 $block6->headingToggle($strings["notes"]);
 $block6->openPaletteIcon();
 

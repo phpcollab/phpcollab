@@ -88,7 +88,7 @@ if ($msg != "")
 
 $block1 = new Block();
 $block1->form = "tdD";
-$block1->openForm("../notes/viewnote.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
+$block1->openForm("../notes/viewnote.php#".$block1->form."Anchor");
 $block1->heading($strings["note"]." : ".$noteDetail->note_subject[0]);
 
 if ($teamMember == "true" && $idSession == $noteDetail->note_owner[0]) 

@@ -28,7 +28,7 @@ if ($action == "delete") {
 		include ("../mantis/user_delete.php");
 	}
 
-	Util::headerFunction("../clients/viewclient.php?id=$organization&msg=delete&".session_name()."=".session_id());
+	Util::headerFunction("../clients/viewclient.php?id=$organization&msg=delete");
 	exit;
 }
 
@@ -49,7 +49,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "client_user_delete";
-$block1->openForm("../users/deleteclientusers.php?organization=$organization&action=delete&".session_name()."=".session_id());
+$block1->openForm("../users/deleteclientusers.php?organization=$organization&action=delete");
 
 $block1->heading($strings["delete_users"]);
 

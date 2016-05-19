@@ -95,7 +95,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "send";
-$block1->openForm("../general/sendpassword.php?action=send&".session_name()."=".session_id());
+$block1->openForm("../general/sendpassword.php?action=send");
 
 if ($error != "") {            
 	$block1->headingError($strings["errors"]);

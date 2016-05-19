@@ -88,7 +88,7 @@ if ($htaccessAuth == "true") {
 
 		$_SESSION['passwordSession'] = $passwordSession;
 
-		Util::headerFunction("../preferences/updateuser.php?msg=update&".session_name()."=".session_id());
+		Util::headerFunction("../preferences/updateuser.php?msg=update");
 		exit;
 	}
 }
@@ -100,7 +100,7 @@ $userDetail->openMembers($tmpquery);
 $comptUserDetail = count($userDetail->mem_id);
 
 if ($comptUserDetail == "0") {
-	Util::headerFunction("../users/listusers.php?msg=blankUser&".session_name()."=".session_id());
+	Util::headerFunction("../users/listusers.php?msg=blankUser");
 	exit;
 }
 
@@ -126,7 +126,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "change_password";
-$block1->openForm("../preferences/updatepassword.php?action=update&".session_name()."=".session_id());
+$block1->openForm("../preferences/updatepassword.php?action=update");
 
 if ($error != "") {            
 	$block1->headingError($strings["errors"]);

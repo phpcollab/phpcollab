@@ -112,7 +112,7 @@ else
 
 if ($teamMember == "false" && $projectsFilter == "true") 
 { 
-	header("Location:../general/permissiondenied.php?".session_name()."=".session_id()); 
+	header("Location:../general/permissiondenied.php");
 	exit; 
 } 
 
@@ -142,7 +142,7 @@ if ($msg != "")
 $block1 = new Block();
 
 $block1->form = "tdD";
-$block1->openForm("../tasks/viewtask.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
+$block1->openForm("../tasks/viewtask.php#".$block1->form."Anchor");
 
 $block1->headingToggle($strings["task"]." : ".$taskDetail->tas_name[0]);
 
@@ -333,7 +333,7 @@ if ($fileManagement == "true")
 
 	$block2 = new Block();
 	$block2->form = "tdC";
-	$block2->openForm("../tasks/viewtask.php?".session_name()."=".session_id()."&id=$id#".$block2->form."Anchor");
+	$block2->openForm("../tasks/viewtask.php?id=$id#".$block2->form."Anchor");
 	$block2->headingToggle($strings["linked_content"]);
 	$block2->openPaletteIcon();
 
@@ -441,7 +441,7 @@ if ($fileManagement == "true")
 	
 	if ($teamMember == "true" || $profilSession == "5") 
 	{
-		$block2->paletteScript(5,"edit","../linkedcontent/viewfile.php?".session_name()."=".session_id()."&edit=true","false,true,false",$strings["edit"]);
+		$block2->paletteScript(5,"edit","../linkedcontent/viewfile.php?edit=true","false,true,false",$strings["edit"]);
 	}
 	$block2->closePaletteScript($comptListFiles,$listFiles->fil_id);
 }
@@ -449,7 +449,7 @@ if ($fileManagement == "true")
 $block3 = new Block();
 
 $block3->form = "ahT";
-$block3->openForm("../tasks/viewtask.php?".session_name()."=".session_id()."&id=$id#".$block3->form."Anchor");
+$block3->openForm("../tasks/viewtask.php?id=$id#".$block3->form."Anchor");
 $block3->headingToggle($strings["assignment_history"]);
 $block3->sorting("assignment",$sortingUser->sor_assignment[0],"ass.assigned DESC",$sortingFields = array(0=>"ass.comments",1=>"mem1.login",2=>"mem2.login",3=>"ass.assigned"));
 
@@ -498,7 +498,7 @@ $block3->closeFormResults();
 
 $block4 = new Block();
 $block4->form = "subT";
-$block4->openForm("../tasks/viewtask.php?".session_name()."=".session_id()."&task=$id#".$block4->form."Anchor");
+$block4->openForm("../tasks/viewtask.php?task=$id#".$block4->form."Anchor");
 $block4->headingToggle($strings["subtasks"]);
 $block4->openPaletteIcon();
 
@@ -587,7 +587,7 @@ if ($comptListSubtasks != "0")
 	{
 		echo "
 			<div id='ganttChart_taskList' class='ganttChart'>
-				<img src='../subtasks/graphsubtasks.php?".session_name()."=".session_id()."&task=".$id."' alt=''><br/>
+				<img src='../subtasks/graphsubtasks.php?task=".$id."' alt=''><br/>
 				<span class='listEvenBold''>".$blockPage->buildLink("http://www.aditus.nu/jpgraph/","JpGraph",powered)."</span>	
 			</div>
 		";

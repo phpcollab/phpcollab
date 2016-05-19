@@ -26,7 +26,7 @@ $blockPage->limitsNumber = "1";
 $block1 = new Block();
 
 $block1->form = "newsdeskList";
-$block1->openForm("../newsdesk/listnews.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
+$block1->openForm("../newsdesk/listnews.php#".$block1->form."Anchor");
 
 if ($error != "") {            
 	$block1->headingError($strings["errors"]);

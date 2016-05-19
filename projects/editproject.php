@@ -48,7 +48,7 @@ if ($id != "")
 {
 	if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5") 
 	{
-		Util::headerFunction("../projects/viewproject.php?id=$id&".session_name()."=".session_id());
+		Util::headerFunction("../projects/viewproject.php?id=$id");
 		exit;
 	}
 
@@ -64,13 +64,13 @@ if ($id != "")
 
 	if ($comptProjectDetail == "0") 
 	{
-		Util::headerFunction("../projects/listprojects.php?msg=blankProject&".session_name()."=".session_id());
+		Util::headerFunction("../projects/listprojects.php?msg=blankProject");
 		exit;
 	}
 	
 	if ($idSession != $projectDetail->pro_owner[0] && $profilSession != "0" && $profilSession != "5") 
 	{
-		Util::headerFunction("../projects/listprojects.php?msg=projectOwner&".session_name()."=".session_id());
+		Util::headerFunction("../projects/listprojects.php?msg=projectOwner");
 		exit;
 	}
 
@@ -281,7 +281,7 @@ STAMP;
 				}
 			}
 
-			Util::headerFunction("../projects/viewproject.php?id=$projectNew&msg=add&".session_name()."=".session_id());
+			Util::headerFunction("../projects/viewproject.php?id=$projectNew&msg=add");
 
 		} 
 		else
@@ -412,7 +412,7 @@ STAMP;
 			// call mantis function to copy project
 			include '../mantis/proj_update.php';
 		}
-			Util::headerFunction("../projects/viewproject.php?id=$id&msg=update&".session_name()."=".session_id());
+			Util::headerFunction("../projects/viewproject.php?id=$id&msg=update");
 		}
 	}
 
@@ -433,7 +433,7 @@ if ($id == "")
 
 	if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5") 
 	{
-		Util::headerFunction("../projects/listprojects.php?".session_name()."=".session_id());
+		Util::headerFunction("../projects/listprojects.php");
 		exit;
 	}
 
@@ -541,7 +541,7 @@ STAMP;
 			}
 		}
 
-		Util::headerFunction("../projects/viewproject.php?id=$num&msg=add&".session_name()."=".session_id());
+		Util::headerFunction("../projects/viewproject.php?id=$num&msg=add");
 	}
 }
 
@@ -589,14 +589,14 @@ $block1 = new Block();
 if ($id == "") 
 {
 	$block1->form = "epD";
-	$block1->openForm("../projects/editproject.php?action=add&".session_name()."=".session_id()."#".$block1->form."Anchor");
+	$block1->openForm("../projects/editproject.php?action=add&#".$block1->form."Anchor");
 }
 
 //case update or copy project
 if ($id != "") 
 {
 	$block1->form = "epD";
-	$block1->openForm('../projects/editproject.php?id='.$id.'&action=update&docopy='.$docopy.'&'.session_name()."=".session_id()."#".$block1->form."Anchor");
+	$block1->openForm('../projects/editproject.php?id='.$id.'&action=update&docopy='.$docopy."&#".$block1->form."Anchor");
 	echo "<input type='hidden' value='".$projectDetail->pro_published[0]."' name='projectPublished'>";
 }
 

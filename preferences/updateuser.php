@@ -60,7 +60,7 @@ if ($action == "update") {
 // Call mantis function for user profile changes..!!!
 			include ("../mantis/user_profile.php");				
 		}
-	Util::headerFunction("../preferences/updateuser.php?msg=update&".session_name()."=".session_id());
+	Util::headerFunction("../preferences/updateuser.php?msg=update");
 }
 
 $tmpquery = "WHERE mem.id = '$idSession'";
@@ -69,7 +69,7 @@ $userPrefs->openMembers($tmpquery);
 $comptUserPrefs = count($userPrefs->mem_id);
 
 if ($comptUserPrefs == "0") {
-	Util::headerFunction("../users/listusers.php?msg=blankUser&".session_name()."=".session_id());
+	Util::headerFunction("../users/listusers.php?msg=blankUser");
 	exit;
 }
 
@@ -94,7 +94,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "user_edit_profile";
-$block1->openForm("../preferences/updateuser.php?".session_name()."=".session_id());
+$block1->openForm("../preferences/updateuser.php");
 echo "<input type=\"hidden\" name=\"action\" value=\"update\">";
 
 if ($error != "") {            

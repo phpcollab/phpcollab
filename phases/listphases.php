@@ -38,7 +38,7 @@ if ($msg != "") {
 if ($teamMember == "true" || $profilSession == "5"){
 $block7 = new Block();
 $block7->form = "wbSe";
-$block7->openForm("../phases/listphases.php?id=$id&".session_name()."=".session_id()."#".$block7->form."Anchor");
+$block7->openForm("../phases/listphases.php?id=$id&#".$block7->form."Anchor");
 $block7->headingToggle($strings["phases"]);
 $block7->openPaletteIcon();
 

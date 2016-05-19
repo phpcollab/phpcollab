@@ -58,7 +58,7 @@ $private = "false";
 }
 
 if (($bookmarkDetail->boo_users[0] == "" && $bookmarkDetail->boo_owner[0] != $idSession && $bookmarkDetail->boo_shared[0] == "0") || ($private == "false" && $bookmarkDetail->boo_owner[0] != $idSession)) {
-	Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=bookmarkOwner&".session_name()."=".session_id());
+	Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=bookmarkOwner");
 }
 
 $setTitle .= " : View Bookmark (" . $bookmarkDetail->boo_name[0] . ")";
@@ -78,7 +78,7 @@ if ($msg != "") {
 
 $block1 = new Block();
 $block1->form = "tdD";
-$block1->openForm("../bookmarks/viewbookmark.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
+$block1->openForm("../bookmarks/viewbookmark.php#".$block1->form."Anchor");
 $block1->heading($strings["bookmark"]." : ".$bookmarkDetail->boo_name[0]);
 if ($bookmarkDetail->boo_owner[0] == $idSession) {
 	$block1->openPaletteIcon();

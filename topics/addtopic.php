@@ -59,7 +59,7 @@ if ($action == "add") {
 		include '../topics/noti_newtopic.php';
 	}
 
-	Util::headerFunction("../topics/viewtopic.php?project=$project&id=$num&msg=add&".session_name()."=".session_id());
+	Util::headerFunction("../topics/viewtopic.php?project=$project&id=$num&msg=add");
 }
 
 $teamMember = "false";
@@ -75,7 +75,7 @@ if ($comptMemberTest == "0") {
 }
 
 if ($teamMember == "false" && $projectsFilter == "true") { 
-	header("Location:../general/permissiondenied.php?".session_name()."=".session_id()); 
+	header("Location:../general/permissiondenied.php");
 	exit; 
 } 
 
@@ -98,7 +98,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "ctT";
-$block1->openForm("../topics/addtopic.php?project=".$projectDetail->pro_id[0]."&action=add&".session_name()."=".session_id());
+$block1->openForm("../topics/addtopic.php?project=".$projectDetail->pro_id[0]."&action=add");
 
 if ($error != "") {            
 	$block1->headingError($strings["errors"]);

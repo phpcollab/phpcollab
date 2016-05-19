@@ -9,7 +9,7 @@ include_once '../includes/library.php';
 if ($action == "delete") {
 	$tmpquery = "UPDATE ".$tableCollab["projects"]." SET published='1' WHERE id = '$project'";
 	Util::connectSql("$tmpquery");
-	Util::headerFunction("../projects/viewproject.php?id=$project&msg=removeProjectSite&".session_name()."=".session_id());
+	Util::headerFunction("../projects/viewproject.php?id=$project&msg=removeProjectSite");
 	exit;
 }
 
@@ -35,7 +35,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "projectsite_delete";
-$block1->openForm("../projects/deleteprojectsite.php?action=delete&project=$project&".session_name()."=".session_id());
+$block1->openForm("../projects/deleteprojectsite.php?action=delete&project=$project");
 
 $block1->heading($strings["delete_projectsite"]);
 

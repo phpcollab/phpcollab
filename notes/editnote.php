@@ -37,7 +37,7 @@ if ($id != "" && $action != "add") {
 	$tmpquery = "WHERE pro.id = '".$noteDetail->note_project[0]."'";
 	$project = $noteDetail->note_project[0];
 if ($noteDetail->note_owner[0] != $idSession) {
-	Util::headerFunction("../notes/listnotes.php?project=$project&msg=noteOwner&".session_name()."=".session_id());
+	Util::headerFunction("../notes/listnotes.php?project=$project&msg=noteOwner");
 	exit;
 }
 
@@ -68,7 +68,7 @@ if ($id != "") {
 		$tmpquery5 = "UPDATE ".$tableCollab["notes"]." SET project='$projectMenu',topic='$topic',subject='$subject',description='$description',date='$dd',owner='$idSession' WHERE id = '$id'";
 		$msg = "update";
 		Util::connectSql("$tmpquery5");
-		Util::headerFunction("../notes/viewnote.php?id=$id&msg=$msg&".session_name()."=".session_id());
+		Util::headerFunction("../notes/viewnote.php?id=$id&msg=$msg");
 		exit;
 	}
 
@@ -92,7 +92,7 @@ if ($id == "") {
 		Util::getLastId($tmpquery);
 		$num = $lastId[0];
 		unset($lastId);
-		Util::headerFunction("../notes/viewnote.php?id=$num&msg=add&".session_name()."=".session_id());
+		Util::headerFunction("../notes/viewnote.php?id=$num&msg=add");
 		exit;
 	}
 
@@ -124,11 +124,11 @@ if ($msg != "") {
 $block1 = new Block();
 if ($id == "") {
 	$block1->form = "etD";
-	$block1->openForm("../notes/editnote.php?project=$project&id=$id&action=add&".session_name()."=".session_id()."#".$block1->form."Anchor");
+	$block1->openForm("../notes/editnote.php?project=$project&id=$id&action=add&#".$block1->form."Anchor");
 }
 if ($id != "") {
 	$block1->form = "etD";
-	$block1->openForm("../notes/editnote.php?project=$project&id=$id&action=update&".session_name()."=".session_id()."#".$block1->form."Anchor");
+	$block1->openForm("../notes/editnote.php?project=$project&id=$id&action=update&#".$block1->form."Anchor");
 }
 if ($error != "") {
 	$block1->headingError($strings["errors"]);

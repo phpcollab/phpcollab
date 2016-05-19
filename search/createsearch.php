@@ -40,7 +40,7 @@ if ($action == "search") {
 //if searchfor not blank, redirect to searchresults
 	} else {
 		$searchfor = urlencode($searchfor);
-		Util::headerFunction("../search/resultssearch.php?searchfor=$searchfor&heading=$heading&".session_name()."=".session_id());
+		Util::headerFunction("../search/resultssearch.php?searchfor=$searchfor&heading=$heading");
 		exit;
 	}
 } 
@@ -64,7 +64,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "search";
-$block1->openForm("../search/createsearch.php?action=search&".session_name()."=".session_id());
+$block1->openForm("../search/createsearch.php?action=search");
 
 if ($error != "") {            
 	$block1->headingError($strings["errors"]);

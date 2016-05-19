@@ -418,7 +418,7 @@ $block0->closeContent();
 
 if ($comptListProjects != "0") {
     $block1->form = "ProjectForm";
-    $block1->openForm("../search/resultssearch.php?" . session_name() . "=" . session_id() . "&searchfor=$searchfor&heading=$heading#" . $block1->form . "Anchor");
+    $block1->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block1->form . "Anchor");
 
     $block1->headingToggle($strings["search_results"] . " : " . $strings["projects"] . " ($block1->recordsTotal)");
 
@@ -468,7 +468,7 @@ if ($comptListProjects != "0") {
 
 if ($comptListTasks != "0") {
     $block2->form = "TaskForm";
-    $block2->openForm("../search/resultssearch.php?" . session_name() . "=" . session_id() . "&searchfor=$searchfor&heading=$heading#" . $block2->form . "Anchor");
+    $block2->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block2->form . "Anchor");
 
     $block2->headingToggle($strings["search_results"] . " : " . $strings["tasks"] . " ($block2->recordsTotal)");
 
@@ -525,7 +525,7 @@ if ($comptListTasks != "0") {
 
 if ($comptListSubtasks != "0") {
     $block9->form = "SubtaskForm";
-    $block9->openForm("../search/resultssearch.php?" . session_name() . "=" . session_id() . "&searchfor=$searchfor&heading=$heading#" . $block9->form . "Anchor");
+    $block9->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block9->form . "Anchor");
     $block9->headingToggle($strings["search_results"] . " : " . $strings["subtasks"] . " ($block9->recordsTotal)");
 
     $block9->openResults();
@@ -566,7 +566,7 @@ if ($comptListSubtasks != "0") {
 }
 if ($comptListMembers != "0") {
     $block3->form = "UserForm";
-    $block3->openForm("../search/resultssearch.php?" . session_name() . "=" . session_id() . "&searchfor=$searchfor&heading=$heading#" . $block3->form . "Anchor");
+    $block3->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block3->form . "Anchor");
 
     $block3->headingToggle($strings["search_results"] . " : " . $strings["users"] . " ($block3->recordsTotal)");
 
@@ -612,7 +612,7 @@ if ($comptListMembers != "0") {
 
 if ($comptListOrganizations != "0") {
     $block4->form = "ClientForm";
-    $block4->openForm("../search/resultssearch.php?" . session_name() . "=" . session_id() . "&searchfor=$searchfor&heading=$heading#" . $block4->form . "Anchor");
+    $block4->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block4->form . "Anchor");
 
     $block4->headingToggle($strings["search_results"] . " : " . $strings["organizations"] . " ($block4->recordsTotal)");
 
@@ -647,7 +647,7 @@ if ($comptListOrganizations != "0") {
 
 if ($comptListTopics != "0") {
     $block5->form = "ThreadTopicForm";
-    $block5->openForm("../search/resultssearch.php?" . session_name() . "=" . session_id() . "&searchfor=$searchfor&heading=$heading#" . $block5->form . "Anchor");
+    $block5->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block5->form . "Anchor");
 
     $block5->headingToggle($strings["search_results"] . " : " . $strings["discussions"] . " ($block5->recordsTotal)");
 
@@ -695,7 +695,7 @@ if ($comptListTopics != "0") {
 
 if ($comptListNotes != "0") {
     $block6->form = "notesForm";
-    $block6->openForm("../search/resultssearch.php?" . session_name() . "=" . session_id() . "&searchfor=$searchfor&heading=$heading#" . $block6->form . "Anchor");
+    $block6->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block6->form . "Anchor");
 
     $block6->headingToggle($strings["search_results"] . " : " . $strings["notes"] . " ($block6->recordsTotal)");
 
@@ -742,7 +742,7 @@ if ($comptListNotes != "0") {
 $block7 = new Block();
 
 $block7->form = "search";
-$block7->openForm("../search/createsearch.php?action=search&" . session_name() . "=" . session_id());
+$block7->openForm("../search/createsearch.php?action=search");
 
 $block7->openContent();
 $block7->contentTitle($strings["enter_keywords"]);

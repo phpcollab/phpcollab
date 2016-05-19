@@ -38,7 +38,7 @@ $comptProjectDetail = count($projectDetail->pro_id);
 
 if ($comptProjectDetail == "0") 
 {
-	Util::headerFunction("../projects/listprojects.php?msg=blank&".session_name()."=".session_id());
+	Util::headerFunction("../projects/listprojects.php?msg=blank");
 	exit;
 }
 
@@ -54,7 +54,7 @@ $blockPage->closeBreadcrumbs();
 $block1 = new Block();
 
 $block1->form = "saM";
-$block1->openForm("../teams/listusers.php?".session_name()."=".session_id()."&id=$id#".$block1->form."Anchor");
+$block1->openForm("../teams/listusers.php?id=$id#".$block1->form."Anchor");
 
 $block1->heading($strings["team_members"]);
 

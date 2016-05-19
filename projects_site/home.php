@@ -43,7 +43,7 @@ if ($updateProject == "true") {
 
 		$_SESSION['projectSession'] = $projectSession;
 
-		Util::headerFunction("home.php?");
+		Util::headerFunction("home.php");
 	} else {
 		Util::headerFunction("home.php?changeProject=true");
 	}

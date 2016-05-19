@@ -145,7 +145,7 @@ if ($showHomeBookmarks)
 	{
 
 		$block6->form = "boo";
-		$block6->openForm("../bookmarks/listbookmarks.php?view=my&".session_name()."=".session_id()."&project=$project#".$block6->form."Anchor");
+		$block6->openForm("../bookmarks/listbookmarks.php?view=my&project=$project#".$block6->form."Anchor");
 		
 		$block6->headingToggle($strings["bookmarks_my"]);
 		
@@ -238,7 +238,7 @@ if ($showHomeProjects)
 	$block1 = new Block();
 
 	$block1->form = "wbP";
-	$block1->openForm("../general/home.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
+	$block1->openForm("../general/home.php#".$block1->form."Anchor");
 
 	$block1->headingToggle($strings["my_projects"]);
 
@@ -372,7 +372,7 @@ if ($showHomeTasks)
 	$block2 = new Block();
 
 	$block2->form = "xwbT";
-	$block2->openForm("../general/home.php?".session_name()."=".session_id()."#".$block2->form."Anchor");
+	$block2->openForm("../general/home.php#".$block2->form."Anchor");
 
 	$block2->headingToggle($strings["my_tasks"]);
 
@@ -486,7 +486,7 @@ if ($showHomeSubtasks)
     $block3 = new Block();
 
     $block3->form = "xwbR";
-    $block3->openForm("../general/home.php?".session_name()."=".session_id()."#".$block3->form."Anchor");
+    $block3->openForm("../general/home.php#".$block3->form."Anchor");
 
     $block3->headingToggle($strings["my_subtasks"]);
 
@@ -603,7 +603,7 @@ if ($showHomeDiscussions)
 	$block4 = new Block();
 
 	$block4->form = "wbTh";
-	$block4->openForm("../general/home.php?".session_name()."=".session_id()."#".$block4->form."Anchor");
+	$block4->openForm("../general/home.php#".$block4->form."Anchor");
 
 	$block4->headingToggle($strings["my_discussions"]);
 
@@ -688,7 +688,7 @@ if ($showHomeReports)
 	$block5 = new Block();
 
 	$block5->form = "wbSe";
-	$block5->openForm("../general/home.php?".session_name()."=".session_id()."#".$block5->form."Anchor");
+	$block5->openForm("../general/home.php#".$block5->form."Anchor");
 
 	$block5->headingToggle($strings["my_reports"]);
 
@@ -744,7 +744,7 @@ if ($showHomeNotes)
 {
 	$block6 = new Block();
 	$block6->form = "saJ";
-	$block6->openForm("../general/home.php?".session_name()."=".session_id()."&project=$project#".$block6->form."Anchor");
+	$block6->openForm("../general/home.php?project=$project#".$block6->form."Anchor");
 	$block6->headingToggle($strings["my_notes"]);
 
 	$block6->openPaletteIcon();
@@ -839,7 +839,7 @@ if ($showHomeNewsdesk)
 {
 	$block7 = new Block();
 	$block7->form = "saN";
-	$block7->openForm("../general/home.php?".session_name()."=".session_id()."&project=$project#".$block7->form."Anchor");
+	$block7->openForm("../general/home.php?project=$project#".$block7->form."Anchor");
 	$block7->headingToggle($strings["my_newsdesk"]);
 
 	$block7->openPaletteIcon();

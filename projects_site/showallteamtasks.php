@@ -50,7 +50,7 @@ if ($comptListTasks != "0")
 
 	if ($activeJpgraph == "true") 
 	{
-		echo "<img src='graphtasks.php?".session_name()."=".session_id()."&project=".$projectDetail->pro_id[0]."' alt=''><span class='listEvenBold'>[<a href='http://www.aditus.nu/jpgraph/' target='_blank'>JpGraph</a>]</span><br/><br/>";
+		echo "<img src='graphtasks.php?project=".$projectDetail->pro_id[0]."' alt=''><span class='listEvenBold'>[<a href='http://www.aditus.nu/jpgraph/' target='_blank'>JpGraph</a>]</span><br/><br/>";
 	}
 
 	echo "	<table cellspacing='0' width='90%' border='0' cellpadding='3' cols='4' class='listing'>
