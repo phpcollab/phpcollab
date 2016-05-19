@@ -71,7 +71,7 @@ if ($blank == "true") {
 	$blockHeader->itemNavigation($blockHeader->buildLink("../general/home.php?",$strings["home"],in));
 	$blockHeader->itemNavigation($blockHeader->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 	$blockHeader->itemNavigation($blockHeader->buildLink("../clients/listclients.php?",$strings["clients"],in));
-	$blockHeader->itemNavigation($blockHeader->buildLink("../reports/createreport.php?",$strings["reports"],in));
+	$blockHeader->itemNavigation($blockHeader->buildLink("../reports/listreports.php?",$strings["reports"],in));
 	$blockHeader->itemNavigation($blockHeader->buildLink("../search/createsearch.php?",$strings["search"],in));
 	$blockHeader->itemNavigation($blockHeader->buildLink("../calendar/viewcalendar.php?",$strings["calendar"],in));
 	$blockHeader->itemNavigation($blockHeader->buildLink("../newsdesk/listnews.php?",$strings["newsdesk"],in));
