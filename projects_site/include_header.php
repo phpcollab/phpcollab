@@ -112,22 +112,22 @@ for ($i=0;$i<7;$i++)
 if ($projectSession != "" && $changeProject != "true") 
 {
 	echo "<tr><td colspan='2'><b>".$strings["project"]." :<br/>".$projectDetail->pro_name[0]."</b></td></tr>
-	<tr><td><img src='ico_arrow_".$bouton[0].".gif' border='0' alt=''></td><td><a href='home.php?$transmitSid'>".$strings["home"]."</a></td></tr>
-	<tr><td><img src='ico_arrow_".$bouton[1].".gif' border='0' alt=''></td><td><a href='showallcontacts.php?$transmitSid'>".$strings["project_team"]."</a></td></tr>
-	<tr><td><img src='ico_arrow_".$bouton[2].".gif' border='0' alt=''></td><td><a href='showallteamtasks.php?$transmitSid'>".$strings["team_tasks"]."</a></td></tr>";
+	<tr><td><img src='ico_arrow_".$bouton[0].".gif' border='0' alt=''></td><td><a href='home.php'>".$strings["home"]."</a></td></tr>
+	<tr><td><img src='ico_arrow_".$bouton[1].".gif' border='0' alt=''></td><td><a href='showallcontacts.php'>".$strings["project_team"]."</a></td></tr>
+	<tr><td><img src='ico_arrow_".$bouton[2].".gif' border='0' alt=''></td><td><a href='showallteamtasks.php'>".$strings["team_tasks"]."</a></td></tr>";
 
 	if ($projectDetail->pro_organization[0] != "" && $projectDetail->pro_organization[0] != "1") 
 	{
-		echo "<tr><td><img src='ico_arrow_".$bouton[3].".gif' border='0' alt=''></td><td><a href='showallclienttasks.php?$transmitSid'>".$strings["client_tasks"]."</a></td></tr>";
+		echo "<tr><td><img src='ico_arrow_".$bouton[3].".gif' border='0' alt=''></td><td><a href='showallclienttasks.php'>".$strings["client_tasks"]."</a></td></tr>";
 	}
 
 	if ($fileManagement == "true") 
 	{
-		echo "<tr><td><img src='ico_arrow_".$bouton[4].".gif' border='0' alt=''></td><td><a href='doclists.php?$transmitSid'>".$strings["document_list"]."</a></td></tr>";
+		echo "<tr><td><img src='ico_arrow_".$bouton[4].".gif' border='0' alt=''></td><td><a href='doclists.php'>".$strings["document_list"]."</a></td></tr>";
 	}
 
-	echo "<tr><td><img src='ico_arrow_".$bouton[5].".gif' border='0' alt=''></td><td><a href='showallthreadtopics.php?$transmitSid'>".$strings["bulletin_board"]."</a></td></tr>";
-	echo "<tr><td><img src='ico_arrow_".$bouton[6].".gif' border='0' alt=''></td><td><a href='showcalendar.php?$transmitSid'>".$strings["calendar"]."</a></td></tr>";
+	echo "<tr><td><img src='ico_arrow_".$bouton[5].".gif' border='0' alt=''></td><td><a href='showallthreadtopics.php'>".$strings["bulletin_board"]."</a></td></tr>";
+	echo "<tr><td><img src='ico_arrow_".$bouton[6].".gif' border='0' alt=''></td><td><a href='showcalendar.php'>".$strings["calendar"]."</a></td></tr>";
 
 	if ($enableHelpSupport == "true")
 	{
@@ -160,7 +160,7 @@ echo "
 
 if ($profilSession != '3') 
 {
-	echo "<tr><td><a href='../general/home.php?$transmitSid'><img src='ico_folder.gif' border='0' alt='0'></a></td><td><a href='../general/home.php?$transmitSid'>Team Site</a></td></tr><tr><td colspan=2><br/></td></tr>";
+	echo "<tr><td><a href='../general/home.php'><img src='ico_folder.gif' border='0' alt='0'></a></td><td><a href='../general/home.php'>Team Site</a></td></tr><tr><td colspan=2><br/></td></tr>";
 }
 
 echo "<tr><td><a href='../general/login.php?logout=true'><img src='ico_logout.gif' border='0' alt=''></a></td><td><a href='../general/login.php?logout=true'>".$strings["logout"]."</a></td></tr>

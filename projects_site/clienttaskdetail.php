@@ -123,7 +123,7 @@ echo "&nbsp;$status[0]</td></tr>
 </form>";
 
 echo "<br/><br/>
-<a href=\"showallclienttasks.php?$transmitSid\">".$strings["show_all"]."</a>";
+<a href=\"showallclienttasks.php\">".$strings["show_all"]."</a>";
 
 include ("include_footer.php");
 ?>

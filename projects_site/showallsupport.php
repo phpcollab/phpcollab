@@ -66,7 +66,7 @@ echo "</table>
 echo "<table cellspacing=\"0\" border=\"0\" cellpadding=\"2\"><tr><td colspan=\"4\">".$strings["no_items"]."</td></tr></table><hr>";
 }
 echo "<br/><br/>
-<a href=\"addsupport.php?$transmitSid\" class=\"FooterCell\">".$strings["add_support_request"]."</a>";
+<a href=\"addsupport.php\" class=\"FooterCell\">".$strings["add_support_request"]."</a>";
 
 include ("include_footer.php");
 ?>

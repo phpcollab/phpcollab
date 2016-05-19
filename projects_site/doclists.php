@@ -49,7 +49,7 @@ echo "<table cellspacing=\"0\" border=\"0\" cellpadding=\"2\"><tr><td colspan=\"
 
 echo "<br/><br/>
 
-<a href=\"uploadfile.php?$transmitSid\" class=\"FooterCell\">".$strings["upload_file"]."</a>";
+<a href=\"uploadfile.php\" class=\"FooterCell\">".$strings["upload_file"]."</a>";
 
 include ("include_footer.php");
 ?>

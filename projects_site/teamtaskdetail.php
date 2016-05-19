@@ -100,7 +100,7 @@ echo "<table cellspacing=\"0\" border=\"0\" cellpadding=\"2\"><tr><td colspan=\"
 }
 
 echo "<br/><br/>
-<a href=\"showallteamtasks.php?$transmitSid\">".$strings["show_all"]."</a>";
+<a href=\"showallteamtasks.php?\">".$strings["show_all"]."</a>";
 
 include ("include_footer.php");
 ?>

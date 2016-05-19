@@ -39,7 +39,7 @@ echo "<table cellspacing=\"0\" border=\"0\" cellpadding=\"2\"><tr><td colspan=\"
 }
 
 echo "<br/><br/>
-<a href=\"createthread.php?$transmitSid\" class=\"FooterCell\">".$strings["create_topic"]."</a>";
+<a href=\"createthread.php?\" class=\"FooterCell\">".$strings["create_topic"]."</a>";
 
 include ("include_footer.php");
 ?>

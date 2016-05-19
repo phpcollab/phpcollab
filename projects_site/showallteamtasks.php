@@ -99,7 +99,7 @@ else
 			</table><hr />";
 }
 
-echo "<br/><br/><a href='addteamtask.php?$transmitSid' class='FooterCell'>".$strings["add_task"]."</a>";
+echo "<br/><br/><a href='addteamtask.php' class='FooterCell'>".$strings["add_task"]."</a>";
 
 include ("include_footer.php");
 ?>
