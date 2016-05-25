@@ -25,17 +25,16 @@ echo "<table cellspacing=\"0\" width=\"90%\" border=\"0\" cellpadding=\"3\" cols
 for ($i=0;$i<$comptListTopics;$i++) {
 	if (!($i%2)) {
 		$class = "odd";
-		$highlightOff = $block1->oddColor;
+		$highlightOff = $block1->getOddColor();
 	} else {
 		$class = "even";
-		$highlightOff = $block1->evenColor;
+		$highlightOff = $block1->getEvenColor();
 	}
-echo "<tr class=\"$class\" onmouseover=\"this.style.backgroundColor='".$block1->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td><a href=\"showallthreads.php?id=".$listTopics->top_id[$i]."\">".$listTopics->top_subject[$i]."</a></td><td>".$listTopics->top_posts[$i]."</td><td>".$listTopics->top_mem_name[$i]."</td><td>".phpCollab\Util::createDate($listTopics->top_last_post[$i],$timezoneSession)."</td></tr>";
+echo "<tr class=\"$class\" onmouseover=\"this.style.backgroundColor='".$block1->getHighlightOn()."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td><a href=\"showallthreads.php?id=".$listTopics->top_id[$i]."\">".$listTopics->top_subject[$i]."</a></td><td>".$listTopics->top_posts[$i]."</td><td>".$listTopics->top_mem_name[$i]."</td><td>".phpCollab\Util::createDate($listTopics->top_last_post[$i],$timezoneSession)."</td></tr>";
 }
-echo "</table>
-<hr />\n";
+echo '</table><hr />\n';
 } else {
-echo "<table cellspacing=\"0\" border=\"0\" cellpadding=\"2\"><tr><td colspan=\"4\">".$strings["no_items"]."</td></tr></table><hr>";
+echo '<table cellspacing="0" border="0" cellpadding="2"><tr><td colspan="4">'.$strings["no_items"].'</td></tr></table><hr>';
 }
 
 echo "<br/><br/>

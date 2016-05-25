@@ -30,10 +30,10 @@ for ($i=0;$i<$comptListRequests;$i++) {
 
 	if (!($i%2)) {
 		$class = "odd";
-		$highlightOff = $block1->oddColor;
+		$highlightOff = $block1->getOddColor();
 	} else {
 		$class = "even";
-		$highlightOff = $block1->evenColor;
+		$highlightOff = $block1->getEvenColor();
 	}
 	
 	$comptSta = count($requestStatus);
@@ -50,7 +50,7 @@ for ($i=0;$i<$comptListRequests;$i++) {
 		}
 	}		
 
-echo "<tr class=\"$class\" onmouseover=\"this.style.backgroundColor='".$block1->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\">
+echo "<tr class=\"$class\" onmouseover=\"this.style.backgroundColor='".$block1->getHighlightOn()."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\">
 <td>".$listRequests->sr_id[$i]."</td>
 <td><a href=\"suprequestdetail.php?id=".$listRequests->sr_id[$i]."\">".$listRequests->sr_subject[$i]."</a></td>
 <td>$requestPriority</td>

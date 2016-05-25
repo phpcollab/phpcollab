@@ -28,17 +28,19 @@ if ($listContacts->tea_mem_phone_work[$i] == "") {
 }
 	if (!($i%2)) {
 		$class = "odd";
-		$highlightOff = $block1->oddColor;
+		$highlightOff = $block1->getOddColor();
 	} else {
 		$class = "even";
-		$highlightOff = $block1->evenColor;
+		$highlightOff = $block1->getEvenColor();
 	}
-echo "<tr class=\"$class\" onmouseover=\"this.style.backgroundColor='".$block1->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td><a href=\"contactdetail.php?id=".$listContacts->tea_mem_id[$i]."\">".$listContacts->tea_mem_name[$i]."</a></td><td>".$listContacts->tea_mem_title[$i]."</td><td>".$listContacts->tea_org_name[$i]."</td><td><a href=\"mailto:".$listContacts->tea_mem_email_work[$i]."\">".$listContacts->tea_mem_email_work[$i]."</a></td></tr>";
+echo "<tr class=\"$class\" onmouseover=\"this.style.backgroundColor='".$block1->getHighlightOn()."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td><a href=\"contactdetail.php?id=".$listContacts->tea_mem_id[$i]."\">".$listContacts->tea_mem_name[$i]."</a></td><td>".$listContacts->tea_mem_title[$i]."</td><td>".$listContacts->tea_org_name[$i]."</td><td><a href=\"mailto:".$listContacts->tea_mem_email_work[$i]."\">".$listContacts->tea_mem_email_work[$i]."</a></td></tr>";
 }
-echo "</table>
-<hr />\n";
+echo <<<'TAG'
+</table>
+<hr />\n
+TAG;
 } else {
-echo "<table cellspacing=\"0\" border=\"0\" cellpadding=\"2\"><tr><td colspan=\"4\">".$strings["no_items"]."</td></tr></table><hr>";
+echo '<table cellspacing="0" border="0" cellpadding="2"><tr><td colspan="4">'.$strings["no_items"].'</td></tr></table><hr>';
 }
 
 include ("include_footer.php");

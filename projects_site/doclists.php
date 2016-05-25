@@ -25,13 +25,13 @@ echo "<table cellspacing=\"0\" width=\"90%\" border=\"0\" cellpadding=\"3\" cols
 for ($i=0;$i<$comptListFiles;$i++) {
 	if (!($i%2)) {
 		$class = "odd";
-		$highlightOff = $block1->oddColor;
+		$highlightOff = $block1->getOddColor();
 	} else {
 		$class = "even";
-		$highlightOff = $block1->evenColor;
+		$highlightOff = $block1->getEvenColor();
 	}
 $idStatus = $listFiles->fil_status[$i];
-echo "<tr class=\"$class\" onmouseover=\"this.style.backgroundColor='".$block1->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td>";
+echo "<tr class=\"$class\" onmouseover=\"this.style.backgroundColor='".$block1->getHighlightOn()."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td>";
 if ($listFiles->fil_task[$i] != "0") {
 echo "<a href=\"clientfiledetail.php?id=".$listFiles->fil_id[$i]."\">".$listFiles->fil_name[$i]."</a>";
 $folder = $listFiles->fil_project[0]."/".$listFiles->fil_task[0];

@@ -96,12 +96,12 @@ if ($comptPostDetail != "0")
 		if (!($i%2)) 
 		{
 			$class = "odd";
-			$highlightOff = $block1->oddColor;
+			$highlightOff = $block1->getOddColor();
 		} 
 		else 
 		{
 			$class = "even";
-			$highlightOff = $block1->evenColor;
+			$highlightOff = $block1->getEvenColor();
 		}
 
 		echo "	<tr><td colspan='4' class='$class'>&nbsp;</td></tr><tr class='$class'><th>".$strings["date"]." :</th><td colspan='3'>".$postDetail->sp_date[$i]."</td></tr>";

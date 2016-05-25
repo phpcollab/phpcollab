@@ -174,46 +174,46 @@ if ($type == "calendDetail")
 		if (!($i%2)) 
 		{
 			$class = "odd";
-			$highlightOff = $block1->oddColor;
+			$highlightOff = $block1->getOddColor();
 		} 
 		else 
 		{
 			$class = "even";
-			$highlightOff = $block1->evenColor;
+			$highlightOff = $block1->getEvenColor();
 		}
 		
-		echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td valign='top' width='20%'><strong>".$strings["shortname"].$block1->printHelp("calendar_shortname")."</strong> :</td><td width='80%'>".$detailCalendar->cal_shortname[0]."&nbsp;</td></tr>";
+		echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->getHighlightOn()."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td valign='top' width='20%'><strong>".$strings["shortname"].$block1->printHelp("calendar_shortname")."</strong> :</td><td width='80%'>".$detailCalendar->cal_shortname[0]."&nbsp;</td></tr>";
 		
 		if ($detailCalendar->cal_subject[0] != "")
 		{
-			echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td valign='top'><strong>".$strings["subject"]."</strong> :</td><td>".$detailCalendar->cal_subject[0]."</td></tr>";
+			echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->getHighlightOn()."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td valign='top'><strong>".$strings["subject"]."</strong> :</td><td>".$detailCalendar->cal_subject[0]."</td></tr>";
 		} 
 		else 
 		{
-			echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td valign='top'><strong>".$strings["subject"]."</strong> :</td><td>".$strings["none"]."</td></tr>";
+			echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->getHighlightOn()."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td valign='top'><strong>".$strings["subject"]."</strong> :</td><td>".$strings["none"]."</td></tr>";
 		}
 	
 		if ($detailCalendar->cal_description[0] != "")
 		{
-			echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td valign='top'><strong>".$strings["description"]."</strong> :</td><td>".nl2br($detailCalendar->cal_description[0])."&nbsp;</td></tr>";
+			echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->getHighlightOn()."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td valign='top'><strong>".$strings["description"]."</strong> :</td><td>".nl2br($detailCalendar->cal_description[0])."&nbsp;</td></tr>";
 		} 
 		else 
 		{
-			echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td valign='top'><strong>".$strings["description"]."</strong> :</td><td>".$strings["none"]."</td></tr></tr>";
+			echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->getHighlightOn()."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td valign='top'><strong>".$strings["description"]."</strong> :</td><td>".$strings["none"]."</td></tr></tr>";
 		}		
 
 		if ($detailCalendar->cal_location[0] == "")
 		{
-			echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td valign='top'><strong>".$strings["location"]."</strong> :</td><td>".$strings["none"]."</td></tr>";
+			echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->getHighlightOn()."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td valign='top'><strong>".$strings["location"]."</strong> :</td><td>".$strings["none"]."</td></tr>";
 		} 
 		else 
 		{
-			echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td valign='top'><strong>".$strings["location"]."</strong> :</td><td>".$detailCalendar->cal_location[0]."</td></tr>";
+			echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->getHighlightOn()."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td valign='top'><strong>".$strings["location"]."</strong> :</td><td>".$detailCalendar->cal_location[0]."</td></tr>";
 		}
 
-		echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td valign='top'><strong>".$strings["date_start"]."</strong> :</td><td>".$detailCalendar->cal_date_start[0]."</td></tr>
-		<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td valign='top'><strong>".$strings["date_end"]."</strong> :</td><td>".$detailCalendar->cal_date_end[0]."</td></tr>
-		<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td valign='top'><strong>".$strings["time_start"]."</strong> :</td><td>";
+		echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->getHighlightOn()."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td valign='top'><strong>".$strings["date_start"]."</strong> :</td><td>".$detailCalendar->cal_date_start[0]."</td></tr>
+		<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->getHighlightOn()."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td valign='top'><strong>".$strings["date_end"]."</strong> :</td><td>".$detailCalendar->cal_date_end[0]."</td></tr>
+		<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->getHighlightOn()."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td valign='top'><strong>".$strings["time_start"]."</strong> :</td><td>";
 		
 		if ($detailCalendar->cal_time_start[0] == "")
 		{
@@ -232,7 +232,7 @@ if ($type == "calendDetail")
 		}
 		
 		echo "</td></tr>";
-		echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td valign='top'><strong>".$strings["time_end"]."</strong> :</td><td>";
+		echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->getHighlightOn()."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\"><td valign='top'><strong>".$strings["time_end"]."</strong> :</td><td>";
 		
 		if ($detailCalendar->cal_time_end[0] == "")
 		{

@@ -66,12 +66,12 @@ if ($comptListTasks != "0")
 		if (!($i%2)) 
 		{
 			$class = "odd";
-			$highlightOff = $block1->oddColor;
+			$highlightOff = $block1->getOddColor();
 		} 
 		else 
 		{
 			$class = "even";
-			$highlightOff = $block1->evenColor;
+			$highlightOff = $block1->getEvenColor();
 		}
 		
 		if ($listTasks->tas_due_date[$i] == "") 
@@ -80,7 +80,7 @@ if ($comptListTasks != "0")
 		}
 
 		$idStatus = $listTasks->tas_status[$i];
-		echo "	<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\">
+		echo "	<tr class='$class' onmouseover=\"this.style.backgroundColor='".$block1->getHighlightOn()."'\" onmouseout=\"this.style.backgroundColor='".$highlightOff."'\">
 					<td><a href='teamtaskdetail.php?id=".$listTasks->tas_id[$i]."'>".$listTasks->tas_name[$i]."</a></td>
 					<td>".nl2br($listTasks->tas_description[$i])."</td>
 					<td>$status[$idStatus]</td><td>".$listTasks->tas_due_date[$i]."</td>
