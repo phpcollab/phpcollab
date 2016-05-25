@@ -496,7 +496,7 @@ class Util
             while ($file = readdir($dir)) {
                 if ($file != "." && $file != "..") {
                     if (@is_dir("$path$file/")) {
-                        $result += $recursive ? phpCollab\Util::folderInfoSize("$path$file/") : 0;
+                        $result += $recursive ? Util::folderInfoSize("$path$file/") : 0;
                     } else {
                         $result += filesize("$path$file");
                     }
