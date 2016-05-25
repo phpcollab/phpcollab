@@ -92,7 +92,7 @@ $phaseDetail = new phpCollab\Request();
 $phaseDetail->openPhases($tmpquery);
 }
 
-$fileHandler = new FileHandler();
+$fileHandler = new phpCollab\FileHandler();
 $type = $fileHandler->fileInfoType( $fileDetail->fil_extension[0]);
 $displayname = $fileDetail->fil_name[0];
 

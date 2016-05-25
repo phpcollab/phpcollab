@@ -12,7 +12,7 @@ $fileDetail->openFiles($tmpquery);
 if ($fileDetail->fil_published[0] == "1" || $fileDetail->fil_project[0] != $projectSession) {
 phpCollab\Util::headerFunction("index.php");
 }
-$fileHandler = new FileHandler();
+$fileHandler = new phpCollab\FileHandler();
 $type = $fileHandler->fileInfoType( $fileDetail->fil_extension[0]);
 
 $displayname = $fileDetail->fil_name[0];

@@ -999,7 +999,7 @@ if ($fileManagement == "true")
 
 			$idPublish = $listFiles->fil_published[$i];
 
-			$fileHandler = new FileHandler();
+			$fileHandler = new phpCollab\FileHandler();
 			$type = $fileHandler->fileInfoType( $listFiles->fil_extension[$i]);
 			
 			if (file_exists("../files/".$listFiles->fil_project[$i]."/".$listFiles->fil_name[$i])) 
