@@ -400,10 +400,10 @@ class Util
             # if there is no project dir first create it
             $path_info = pathinfo($path);
             if ($path != 'files/' . $path_info['basename']) {
-                phpCollab\Util::createDirectory($path_info['dirname']);
-                phpCollab\Util::createDirectory($path);
+                \phpCollab\Util::createDirectory($path_info['dirname']);
+                \phpCollab\Util::createDirectory($path);
             } else {
-                phpCollab\Util::createDirectory($path);
+                \phpCollab\Util::createDirectory($path);
             }
         }
 
@@ -415,7 +415,7 @@ class Util
             ftp_put($ftp, $dest, $source, FTP_BINARY);
             ftp_quit($ftp);
         } else {
-            @move_uploaded_file($source, "../" . $path . "/" . $dest);
+            move_uploaded_file($source, "../" . $path . "/" . $dest);
         }
     }
 
@@ -459,7 +459,7 @@ class Util
             $all = opendir($location);
             while ($file = readdir($all)) {
                 if (is_dir("$location/$file") && $file != ".." && $file != ".") {
-                    phpCollab\Util::deleteDirectory("$location/$file");
+                    \Util::deleteDirectory("$location/$file");
                     if (file_exists("$location/$file")) {
                         @rmdir("$location/$file");
                     }
@@ -829,7 +829,7 @@ class Util
         preg_match("/\[([0-9 ]*\/[0-9 ]*)\]/", $prj_name, $findit);;
         if ($findit[1] != "") {
             $prj_id = $projectDetail->pro_id[0];
-            $taskDetails = new phpCollab\Request();
+            $taskDetails = new \phpCollab\Request();
 //            $taskDetails = $this->request_factory->newInstance();
             $tmpquery = "WHERE tas.project = '$prj_id'";
             $taskDetails->openTasks($tmpquery);
@@ -842,7 +842,7 @@ class Util
             }
             $prj_name = preg_replace("/\[[0-9 ]*\/[0-9 ]*\]/", "[ $tasksCompleted / $tasksNumb ]", $prj_name);
             $tmpquery5 = "UPDATE " . $tableProject . " SET name='$prj_name' WHERE id = '$prj_id'";
-            $ad = phpCollab\Util::connectSql($tmpquery5);
+            $ad = Util::connectSql($tmpquery5);
         }
 
         return $prj_name;
@@ -859,13 +859,13 @@ class Util
     public static function taskComputeCompletion($taskid, $tableTask)
     {
         $tmpquery = "WHERE subtas.tasks = '$taskid'";
-        $subtaskList = new phpCollab\Request();
+        $subtaskList = new \phpCollab\Request();
 //        $subtaskList = $this->request_factory->newInstance();
         $subtaskList->openAvgTasks($taskid);
         $avg = $subtaskList->tas_avg[0];
         settype($avg, "integer");
         $tmpquery6 = "UPDATE " . $tableTask . " set completion = $avg where id='$taskid'";
-        phpCollab\Util::connectSql($tmpquery6);
+        \phpCollab\Util::connectSql($tmpquery6);
     }
 
     /**
