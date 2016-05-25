@@ -142,7 +142,7 @@ if ($id != "") {
 //    $reportDetail = new Request();
 //    $reportDetail->openReports($tmpquery);
 
-    $report = new Reports();
+    $report = new phpCollab\Reports();
 
     $reportDetail = $report->getByReportId($id);
 
@@ -276,7 +276,7 @@ if ($S_PRJSEL != "ALL" || $S_ORGSEL != "ALL" || $S_ATSEL != "ALL" || $S_STATSEL 
     }
 }
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/listreports.php?", $strings["reports"], in));
 
@@ -293,7 +293,7 @@ if ($msg != "") {
     $blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->sorting("report_tasks",
     $sortingUser->sor_report_tasks[0],
@@ -314,7 +314,7 @@ if ($projectsFilter == "true") {
     $tmpquery = "LEFT OUTER JOIN " . $tableCollab["teams"] . " teams ON teams.project = pro.id ";
     $tmpquery .= "WHERE pro.status IN(0,2,3) AND teams.member = '$idSession' ORDER BY pro.id";
 
-    $listProjectsTasks = new Request();
+    $listProjectsTasks = new phpCollab\Request();
     $listProjectsTasks->openProjects($tmpquery);
     $comptListProjectsTasks = count($listProjectsTasks->pro_id);
 
@@ -341,7 +341,7 @@ if ($projectsFilter == "true") {
     $tmpquery = "$queryStart $query ORDER BY " . $block1->sortingValue . " ";
 }
 
-$listTasks = new Request();
+$listTasks = new phpCollab\Request();
 $listTasks->openTasks($tmpquery);
 $comptListTasks = count($listTasks->tas_id);
 
@@ -351,11 +351,11 @@ if ($listTasks->tas_id != "") {
     $tmpquery = "WHERE task in (\"\")";
 }
 
-$listSubTasks = new Request();
+$listSubTasks = new phpCollab\Request();
 $listSubTasks->openSubtasks($tmpquery);
 $comptListSubTasks = count($listSubTasks->subtas_id);
 $totalTasks = $comptListTasks + $comptListSubTasks;
-$block0 = new Block();
+$block0 = new phpCollab\Block();
 
 $block0->openContent();
 $block0->contentTitle($strings["report_results"]);
@@ -432,7 +432,7 @@ if ($comptListTasks != "0") {
         $block1->closeRow();
         // begin if subtask
         $tmpquery = "WHERE task = " . $listTasks->tas_id[$i];
-        $listSubTasks = new Request();
+        $listSubTasks = new phpCollab\Request();
         $listSubTasks->openSubtasks($tmpquery);
         $comptListSubTasks = count($listSubTasks->subtas_id);
 
@@ -510,7 +510,7 @@ if ($comptListTasks != "0") {
      */
 }
 
-$block2 = new Block();
+$block2 = new phpCollab\Block();
 
 $block2->form = "save_report";
 $block2->openForm("../reports/resultsreport.php?action=add");

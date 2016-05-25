@@ -1,11 +1,14 @@
 <?php
+namespace phpCollab;
+
+use \PDO;
 
 /**
- * Created by PhpStorm.
  * User: mindblender
  * Date: 5/4/16
  * Time: 12:36 AM
  */
+
 class Database{
     private $host      = MYSERVER;
     private $user      = MYLOGIN;

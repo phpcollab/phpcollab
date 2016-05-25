@@ -1,10 +1,13 @@
 <?php
+namespace phpCollab;
 
 /**
  * User: mindblender
  * Date: 5/5/16
  * Time: 10:33 PM
  */
+
+
 class Reports
 {
     protected $db, $tableCollab, $initrequest;
@@ -16,7 +19,7 @@ class Reports
 
         $this->tableCollab = $tableCollab;
         $this->initrequest = $initrequest;
-        $this->db = new Database();
+        $this->db = new \phpCollab\Database();
 
     }
 

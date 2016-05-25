@@ -28,7 +28,6 @@
 ** =============================================================================
 */
 
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -57,7 +56,7 @@ $block1->closePaletteIcon();
 
 $block1->sorting("reports",$sortingUser->sor_reports[0],"rep.name ASC",$sortingFields = array(0=>"rep.name",1=>"rep.created"));
 
-$myReports = new Reports();
+$myReports = new phpCollab\Reports();
 
 $sorting = $block1->sortingValue;
 
@@ -90,4 +89,3 @@ $block1->paletteScript(2,"export","../reports/exportreport.php?","false,true,tru
 $block1->closePaletteScript($comptListReports,$listReports->rep_id);
 
 include '../themes/'.THEME.'/footer.php';
-?>
