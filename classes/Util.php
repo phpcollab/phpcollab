@@ -81,7 +81,7 @@ class Util
      * @param string $iCV Version to compare
      * @access public
      **/
-    public static function updatechecker($iCV)
+    public static function updateChecker($iCV)
     {
         global $strings;
 
