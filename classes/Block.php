@@ -61,6 +61,15 @@ class Block
     {
         return $this->themeImgPath;
     }
+    public function getOddColor()
+    {
+        return $this->oddColor;
+    }
+
+    public function getEvenColor()
+    {
+        return $this->evenColor;
+    }
 
 
 //    public function block()
