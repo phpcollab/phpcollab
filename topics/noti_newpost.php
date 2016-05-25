@@ -50,7 +50,7 @@ if ($posters != "")
 	$listNotifications->openNotifications($tmpquery);
 	$comptListNotifications = count($listNotifications->not_id);
 
-	$mail = new Notification();
+	$mail = new phpCollab\Notification();
 
 	$mail->getUserinfo($idSession,"from");
 

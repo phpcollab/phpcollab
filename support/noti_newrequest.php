@@ -1,5 +1,5 @@
 <?php
-$mail = new Notification();
+$mail = new phpCollab\Notification();
 
 $mail->getUserinfo($idSession,"from");
 

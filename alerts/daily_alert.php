@@ -35,7 +35,7 @@ include PHPCOLLAB_INC_DIR . 'settings.php';
 if (!isset($langDefault) || ($langDefault == '')) {
     $langDefault = 'en';
 }
-include PHPCOLLAB_LANG_DIR . 'lang_' . $langDefault . '.php');
+include PHPCOLLAB_LANG_DIR . 'lang_' . $langDefault . '.php';
 
 // Check if emailAlerts is set to true
 if ($emailAlerts == "false") {
@@ -67,7 +67,7 @@ $projectsTable = $tableCollab['projects'];
 $today = date("Y-m-d", time());
 
 // Create new notification
-$mail = new Notification();
+$mail = new phpCollab\Notification();
 $mail->message_type = "alt";
 
 // Get list of members and notification settings

@@ -57,7 +57,7 @@ if ($action == "send")
 
 			$body = $strings["user_name"]." : ".$userDetail->mem_login[0]."\n\n".$strings["password"]." : $pass_g";
 
-			$mail = new Notification();
+			$mail = new phpCollab\Notification();
 
 			$mail->getUserinfo("1","from");
 

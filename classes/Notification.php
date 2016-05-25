@@ -1,4 +1,8 @@
 <?php
+namespace phpCollab;
+
+use \phpmailer;
+
 /*
 ** Application name: phpCollab
 ** Last Edit page: 26/01/2004 
@@ -66,7 +70,7 @@ class Notification extends phpmailer
     function getUserinfo($idUser, $type)
     {
         $tmpquery = "WHERE mem.id = '$idUser'";
-        $detailUser = new phpCollab\Request();
+        $detailUser = new \phpCollab\Request();
         $detailUser->openMembers($tmpquery);
 
         if ($type == "from") {

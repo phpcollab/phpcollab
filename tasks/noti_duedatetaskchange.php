@@ -13,7 +13,7 @@ $listNotifications->openNotifications($tmpquery);
 $comptListNotifications = count($listNotifications->not_id);
 
 if ($listNotifications->not_statustaskchange[0] == "0") {
-$mail = new Notification();
+$mail = new phpCollab\Notification();
 
 $mail->getUserinfo($idSession,"from");
 
