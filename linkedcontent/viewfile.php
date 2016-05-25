@@ -589,8 +589,8 @@ if ($peerReview == "true")
 		//Calculate a revision number for display for each listing
 		$displayrev = $i + 1;
 		
-		echo "	<table width='600' cellpadding='0' cellspacing='0' class='tableRevision' onmouseover='this.style.backgroundColor=\"".$block2->highlightOn."\"' onmouseout='this.style.backgroundColor=\"".$block2->highlightOff."\"'>
-					<tr bgcolor='".$block2->fgColor."'><td>";
+		echo "	<table width='600' cellpadding='0' cellspacing='0' class='tableRevision' onmouseover='this.style.backgroundColor=\"".$block2->getHighlightOn()."\"' onmouseout='this.style.backgroundColor=\"".$block2->getHighlightOff()."\"'>
+					<tr bgcolor='".$block2->getFgColor()."'><td>";
 		if ($fileDetail->fil_owner[0]==$idSession)
 		{
 			echo"<a href=\"javascript:MM_toggleItem(document.".$block2->form."Form, '".$listReviews->fil_id[$i]."', '".$block2->form."cb".$listReviews->fil_id[$i]."','".THEME."')\"><img name='".$block2->form."cb".$listReviews->fil_id[$i]."' border='0' src='../themes/".THEME."/checkbox_off_16.gif' alt='' vspace='0'></a>";

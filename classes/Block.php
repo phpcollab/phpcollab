@@ -47,6 +47,15 @@ class Block
     {
         return $this->highlightOff;
     }
+    public function getFgColor()
+    {
+        return $this->fgColor;
+    }
+
+    public function getBgColor()
+    {
+        return $this->bgColor;
+    }
 
     public function getThemeImgPath()
     {
