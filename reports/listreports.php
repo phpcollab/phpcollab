@@ -57,16 +57,8 @@ $block1->closePaletteIcon();
 
 $block1->sorting("reports",$sortingUser->sor_reports[0],"rep.name ASC",$sortingFields = array(0=>"rep.name",1=>"rep.created"));
 
-/**
- * Use the new Database class and prepared statements to prevent SQL injection
- * Todo: look into using existing SQL statements from initrequests.php
- */
-
 $myReports = new Reports();
 
-//var_dump($block1->sortingValue);
-
-//$tmpquery = "WHERE rep.owner = '$idSession' ORDER BY ".$block1->sortingValue." ";
 $sorting = $block1->sortingValue;
 
 $dataSet = $myReports->getReportsByOwner( $idSession, $sorting );
@@ -78,15 +70,12 @@ if ( $reportCount > 0) {
 	$block1->openResults();
 	$block1->labels($labels = array(0=>$strings["name"],1=>$strings["created"]),"false");
 
-
 	foreach ( $dataSet as $data ) {
 		$block1->openRow();
 		$block1->checkboxRow($data["id"]);
 		$block1->cellRow($blockPage->buildLink("../reports/resultsreport.php?id=".$data["id"],$data["name"],in));
 		$block1->cellRow(phpCollab\Util::createDate($data["created"],$timezoneSession));
-
 	}
-
 	$block1->closeResults();
 } else {
 	$block1->noresults();
