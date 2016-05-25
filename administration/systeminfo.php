@@ -190,4 +190,3 @@ $block1->contentRow("SERVER_OS", PHP_OS);
 $block1->closeContent();
 
 include '../themes/' . THEME . '/footer.php';
-?>

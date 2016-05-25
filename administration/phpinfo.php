@@ -30,4 +30,3 @@ $checkSession = "true";
 include '../includes/library.php';
 
 phpinfo();
-?>
