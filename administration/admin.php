@@ -103,4 +103,3 @@ if (file_exists("../installation/setup.php"))
 $block1->closeContent();
 
 include '../themes/'.THEME.'/footer.php';
-?>
