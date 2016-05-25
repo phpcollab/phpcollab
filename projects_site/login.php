@@ -3,7 +3,7 @@
 #Status page: 0
 
 $checkSession = "true";
-includes("../includes/library.php");
+include "../includes/library.php";
 
 //case session fails
 if ($url != "") {
