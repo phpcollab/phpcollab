@@ -11,7 +11,7 @@ include_once '../includes/library.php';
 include '../includes/vcard.class.php';
 
 $tmpquery = "WHERE mem.id = '$id'";
-$userDetail = new Request();
+$userDetail = new phpCollab\Request();
 $userDetail->openMembers($tmpquery);
 
 $v = new vCard();

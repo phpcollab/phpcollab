@@ -7,33 +7,33 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 $tmpquery = "WHERE topic.id = '$id'";
-$detailTopic = new Request();
+$detailTopic = new phpCollab\Request();
 $detailTopic->openTopics($tmpquery);
 
 $tmpquery = "WHERE pro.id = '".$detailTopic->top_project[0]."'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 if ($action == "add") {
-	$tpm = Util::convertData($tpm);
-	Util::autoLinks($tpm);
+	$tpm = phpCollab\Util::convertData($tpm);
+	phpCollab\Util::autoLinks($tpm);
 	$detailTopic->top_posts[0] = $detailTopic->top_posts[0] + 1;
 	$tmpquery1 = "INSERT INTO ".$tableCollab["posts"]."(topic,member,created,message) VALUES('$id','$idSession','$dateheure','$newText')";
-	Util::connectSql("$tmpquery1");
+	phpCollab\Util::connectSql("$tmpquery1");
 	$tmpquery2 = "UPDATE ".$tableCollab["topics"]." SET last_post='$dateheure',posts='".$detailTopic->top_posts[0]."' WHERE id = '$id'";
-	Util::connectSql("$tmpquery2");
+	phpCollab\Util::connectSql("$tmpquery2");
 
 if ($notifications == "true") {
 	include '../topics/noti_newpost.php';
 }
-	Util::headerFunction("../topics/viewtopic.php?id=$id&msg=add");
+	phpCollab\Util::headerFunction("../topics/viewtopic.php?id=$id&msg=add");
 }
 
 $idStatus = $detailTopic->top_status[0];
 $idPublish = $detailTopic->top_published[0];
 
 $tmpquery = "WHERE pos.topic = '".$detailTopic->top_id[0]."' ORDER BY pos.created DESC";
-$listPosts = new Request();
+$listPosts = new phpCollab\Request();
 $listPosts->openPosts($tmpquery);
 $comptListPosts = count($listPosts->pos_id);
 
@@ -44,7 +44,7 @@ if ($projectDetail->pro_org_id[0] == "1") {
 $bodyCommand = "onLoad=\"document.ptTForm.tpm.focus();\"";
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -57,7 +57,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "ptT";
 $block1->openForm("../topics/addpost.php?action=add&id=".$detailTopic->top_id[0]."&project=".$detailTopic->top_project[0]);
@@ -82,7 +82,7 @@ if ($sitePublish == "true") {
 
 $block1->contentRow($strings["retired"],$statusTopicBis[$idStatus]);
 $block1->contentRow($strings["posts"],$detailTopic->top_posts[0]);
-$block1->contentRow($strings["last_post"],Util::createDate($detailTopic->top_last_post[0],$timezoneSession));
+$block1->contentRow($strings["last_post"],phpCollab\Util::createDate($detailTopic->top_last_post[0],$timezoneSession));
 
 $block1->contentTitle($strings["details"]);
 
@@ -95,9 +95,9 @@ for ($i=0;$i<$comptListPosts;$i++) {
 $block1->contentRow($strings["posted_by"],$blockPage->buildLink($listPosts->pos_mem_email_work[$i],$listPosts->pos_mem_name[$i],mail));
 
 if ($listPosts->pos_created[$i] > $lastvisiteSession) {
-	$block1->contentRow($strings["when"],"<b>".Util::createDate($listPosts->pos_created[$i],$timezoneSession)."</b>");
+	$block1->contentRow($strings["when"],"<b>".phpCollab\Util::createDate($listPosts->pos_created[$i],$timezoneSession)."</b>");
 } else {
-	$block1->contentRow($strings["when"],Util::createDate($listPosts->pos_created[$i],$timezoneSession));
+	$block1->contentRow($strings["when"],phpCollab\Util::createDate($listPosts->pos_created[$i],$timezoneSession));
 }
 $block1->contentRow("",nl2br($listPosts->pos_message[$i]));
 $block1->contentRow("","","true");

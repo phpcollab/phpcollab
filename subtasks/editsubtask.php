@@ -34,28 +34,28 @@ include_once '../includes/library.php';
 //case multiple edit tasks
 $multi = strstr($id,"**");
 if ($multi != "") {
-	Util::headerFunction("batch../tasks/edittask.php?report=$report&project=$project&id=$id");
+	phpCollab\Util::headerFunction("batch../tasks/edittask.php?report=$report&project=$project&id=$id");
 	exit;
 }
 
 $tmpquery = "WHERE tas.id = '$task'";
-$taskDetail = new Request();
+$taskDetail = new phpCollab\Request();
 $taskDetail->openTasks($tmpquery);
 $project = $taskDetail->tas_project[0];
 
 if ($id != "") {
 $tmpquery = "WHERE subtas.id = '$id'";
-$subtaskDetail = new Request();
+$subtaskDetail = new phpCollab\Request();
 $subtaskDetail->openSubtasks($tmpquery);
 }
 
 $tmpquery = "WHERE pro.id = '".$taskDetail->tas_project[0]."'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-$memberTest = new Request();
+$memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
@@ -65,7 +65,7 @@ $comptMemberTest = count($memberTest->tea_id);
 	}
 
 		if ($teamMember != "true" && $profilSession != "5") {
-			Util::headerFunction("../tasks/viewtask.php?id=$task&msg=taskOwner");
+			phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$task&msg=taskOwner");
 		}
 
 //case update or copy task
@@ -75,9 +75,9 @@ if ($id != "") {
 if ($action == "update") {
 
 //concat values from date selector and replace quotes by html code in name
-	$tn = Util::convertData($tn);
-	$d = Util::convertData($d);
-	$c = Util::convertData($c);
+	$tn = phpCollab\Util::convertData($tn);
+	$d = phpCollab\Util::convertData($d);
+	$c = phpCollab\Util::convertData($c);
 
 //case copy task
 		if ($docopy == "true") {
@@ -97,43 +97,43 @@ if ($compl == "10") {
 
 //compute the average completion of all subtaks of this tasks
 		 if ($old_completion != $compl) {
-			 Util::taskComputeCompletion($task, $tableCollab["tasks"]);
+			 phpCollab\Util::taskComputeCompletion($task, $tableCollab["tasks"]);
 		 }
 
 		if ($st == "1" && $cd == "--") {
 			$tmpquery6 = "UPDATE ".$tableCollab["subtasks"]." SET complete_date='$date' WHERE id = '$id'";
-			Util::connectSql($tmpquery6);
+			phpCollab\Util::connectSql($tmpquery6);
 		} else {
 			$tmpquery6 = "UPDATE ".$tableCollab["subtasks"]." SET complete_date='$cd' WHERE id = '$id'";
-			Util::connectSql($tmpquery6);
+			phpCollab\Util::connectSql($tmpquery6);
 		}
 		if ($old_st == "1" && $st != $old_st) {
 			$tmpquery6 = "UPDATE ".$tableCollab["subtasks"]." SET complete_date='' WHERE id = '$id'";
-			Util::connectSql($tmpquery6);
+			phpCollab\Util::connectSql($tmpquery6);
 		}
 
 //if assigned_to not blank and past assigned value blank, set assigned date
 				if ($at != "0" && $old_assigned == "") {
 					$tmpquery6 = "UPDATE ".$tableCollab["subtasks"]." SET assigned='$dateheure' WHERE id = '$id'";
-					Util::connectSql($tmpquery6);
+					phpCollab\Util::connectSql($tmpquery6);
 				}
 
 //if assigned_to different from past value, insert into assignment
 //add new assigned_to in team members (only if doesn't already exist)
 				if ($at != $old_at) {
 					$tmpquery2 = "INSERT INTO ".$tableCollab["assignments"]."(subtask,owner,assigned_to,assigned) VALUES('$id','$idSession','$at','$dateheure')";
-					Util::connectSql("$tmpquery2");
+					phpCollab\Util::connectSql("$tmpquery2");
 					$tmpquery = "WHERE tea.project = '$project' AND tea.member = '$at'";
-					$testinTeam = new Request();
+					$testinTeam = new phpCollab\Request();
 					$testinTeam->openTeams($tmpquery);
 					$comptTestinTeam = count($testinTeam->tea_id);
 						if ($comptTestinTeam == "0") {
 							$tmpquery3 = "INSERT INTO ".$tableCollab["teams"]."(project,member,published,authorized) VALUES('$project','$at','1','0')";
-							Util::connectSql("$tmpquery3");
+							phpCollab\Util::connectSql("$tmpquery3");
 						}
 					//$msg = "updateAssignment";
 					$msg = "update";
-					Util::connectSql("$tmpquery5");
+					phpCollab\Util::connectSql("$tmpquery5");
 
 //send task assignment mail if notifications = true
 						if ($notifications == "true") {
@@ -141,7 +141,7 @@ if ($compl == "10") {
 						}
 				} else {
 					$msg = "update";
-					Util::connectSql("$tmpquery5");
+					phpCollab\Util::connectSql("$tmpquery5");
 
 //send status task change mail if notifications = true
 					if ($at != "0" && $st != $old_st) {
@@ -176,11 +176,11 @@ if ($compl == "10") {
 			}
 
 			if ($cUp != "" || $st != $old_st || $pr != $old_pr || $dd != $old_dd) {
-				$cUp = Util::convertData($cUp);
+				$cUp = phpCollab\Util::convertData($cUp);
 				$tmpquery6 = "INSERT INTO ".$tableCollab["updates"]."(type,item,member,comments,created) VALUES ('2','$id','$idSession','$cUp','$dateheure')";
-				Util::connectSql($tmpquery6);
+				phpCollab\Util::connectSql($tmpquery6);
 			}
-			Util::headerFunction("../subtasks/viewsubtask.php?id=$id&task=$task&msg=$msg");
+			phpCollab\Util::headerFunction("../subtasks/viewsubtask.php?id=$id&task=$task&msg=$msg");
 		}
 }
 
@@ -206,9 +206,9 @@ if ($id == "") {
 	if ($action == "add") {
 
 //concat values from date selector and replace quotes by html code in name
-		$tn = Util::convertData($tn);
-		$d = Util::convertData($d);
-		$c = Util::convertData($c);
+		$tn = phpCollab\Util::convertData($tn);
+		$d = phpCollab\Util::convertData($d);
+		$c = phpCollab\Util::convertData($c);
 
 if ($compl == "10") {
 	$st = "1";
@@ -219,27 +219,27 @@ if ($pub == "") {
 
 //Insert task with our without parent phase
 		$tmpquery1 = "INSERT INTO ".$tableCollab["subtasks"]."(task,name,description,owner,assigned_to,status,priority,start_date,due_date,estimated_time,actual_time,comments,created,published,completion) VALUES('$task','$tn','$d','$idSession','$at','$st','$pr','$sd','$dd','$etm','$atm','$c','$dateheure','$pub','$compl')";
-		Util::connectSql("$tmpquery1");
+		phpCollab\Util::connectSql("$tmpquery1");
 		$tmpquery = $tableCollab["subtasks"];
-		Util::getLastId($tmpquery);
+		phpCollab\Util::getLastId($tmpquery);
 		$num = $lastId[0];
 		unset($lastId);
 
 		if ($st == "1") {
 			$tmpquery6 = "UPDATE ".$tableCollab["subtasks"]." SET complete_date='$date' WHERE id = '$num'";
-			Util::connectSql($tmpquery6);
+			phpCollab\Util::connectSql($tmpquery6);
 		}
 
 //compute the average completion of all subtaks of this tasks
-		Util::taskComputeCompletion($task, $tableCollab["tasks"]);
+		phpCollab\Util::taskComputeCompletion($task, $tableCollab["tasks"]);
 
 //if assigned_to not blank, set assigned date
 			if ($at != "0") {
 				$tmpquery6 = "UPDATE ".$tableCollab["subtasks"]." SET assigned='$dateheure' WHERE id = '$num'";
-				Util::connectSql($tmpquery6);
+				phpCollab\Util::connectSql($tmpquery6);
 			}
 		$tmpquery2 = "INSERT INTO ".$tableCollab["assignments"]."(subtask,owner,assigned_to,assigned) VALUES('$num','$idSession','$at','$dateheure')";
-		Util::connectSql($tmpquery2);
+		phpCollab\Util::connectSql($tmpquery2);
 
 //if assigned_to not blank, add to team members (only if doesn't already exist)
 
@@ -247,12 +247,12 @@ if ($pub == "") {
 //add assigned_to in team members (only if doesn't already exist)
 			if ($at != "0") {
 				$tmpquery = "WHERE tea.project = '$project' AND tea.member = '$at'";
-				$testinTeam = new Request();
+				$testinTeam = new phpCollab\Request();
 				$testinTeam->openTeams($tmpquery);
 				$comptTestinTeam = count($testinTeam->tea_id);
 					if ($comptTestinTeam == "0") {
 						$tmpquery3 = "INSERT INTO ".$tableCollab["teams"]."(project,member,published,authorized) VALUES('$project','$at','1','0')";
-						Util::connectSql($tmpquery3);
+						phpCollab\Util::connectSql($tmpquery3);
 					}
 
 //send task assignment mail if notifications = true
@@ -263,9 +263,9 @@ if ($pub == "") {
 
 //create task sub-folder if filemanagement = true
 			if ($fileManagement == "true") {
-				Util::createDirectory("../files/$project/$num");
+				phpCollab\Util::createDirectory("../files/$project/$num");
 			}
-		Util::headerFunction("../subtasks/viewsubtask.php?id=$num&task=$task&msg=add");
+		phpCollab\Util::headerFunction("../subtasks/viewsubtask.php?id=$num&task=$task&msg=add");
 	}
 
 //set default values
@@ -288,7 +288,7 @@ if ($projectDetail->pro_phase_set[0] != "0"){
 		$tPhase = $phase;
 		$tmpquery = "WHERE pha.project_id = '$project' AND pha.order_num = '$tPhase'";
 	}
-	$targetPhase = new Request();
+	$targetPhase = new phpCollab\Request();
 	$targetPhase->openPhases($tmpquery);
 }
 
@@ -296,7 +296,7 @@ $bodyCommand="onload=\"document.etDForm.compl.value = document.etDForm.completio
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -324,7 +324,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 if ($id == "") {
 	$block1->form = "etD";
@@ -389,7 +389,7 @@ if ($subtaskDetail->subtas_assigned_to[0] == "0") {
 }
 
 $tmpquery = "WHERE tea.project = '$project' ORDER BY mem.name";
-$assignto = new Request();
+$assignto = new phpCollab\Request();
 $assignto->openTeams($tmpquery);
 $comptAssignto = count($assignto->tea_mem_id);
 

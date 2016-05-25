@@ -38,14 +38,14 @@ include_once '../includes/library.php';
 $multi = strstr($id,"**");
 if ($multi != "")
 {
-    Util::headerFunction("../tasks/updatetasks.php?report=$report&project=$project&id=$id");
+    phpCollab\Util::headerFunction("../tasks/updatetasks.php?report=$report&project=$project&id=$id");
     exit;
 }
 
 if ($id != "" && $action != "update" && $action != "add")
 {
     $tmpquery = "WHERE tas.id = '$id'";
-    $taskDetail = new Request();
+    $taskDetail = new phpCollab\Request();
     $taskDetail->openTasks($tmpquery);
     $tmpquery = "WHERE pro.id = '".$taskDetail->tas_project[0]."'";
     $project = $taskDetail->tas_project[0];
@@ -55,12 +55,12 @@ else
     $tmpquery = "WHERE pro.id = '$project'";
 }
 
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-$memberTest = new Request();
+$memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 
@@ -75,7 +75,7 @@ else
 
 if ($teamMember == "false" && $profilSession != "5")
 {
-    Util::headerFunction("../tasks/listtasks.php?project=$project&msg=taskOwner");
+    phpCollab\Util::headerFunction("../tasks/listtasks.php?project=$project&msg=taskOwner");
     exit;
 }
 
@@ -88,9 +88,9 @@ if ($id != "")
     {
 
         //concat values from date selector and replace quotes by html code in name
-        $task_name = Util::convertData($task_name);
-        $d = Util::convertData($d);
-        $c = Util::convertData($c);
+        $task_name = phpCollab\Util::convertData($task_name);
+        $d = phpCollab\Util::convertData($d);
+        $c = phpCollab\Util::convertData($c);
 
         //case copy task
         if ($docopy == "true")
@@ -100,7 +100,7 @@ if ($id != "")
             if ($projectDetail->pro_phase_set[0] != "0")
             {
                 $tmpquery = "WHERE pha.project_id = '$project' AND pha.order_num = '$pha'";
-                $currentPhase = new Request();
+                $currentPhase = new phpCollab\Request();
                 $currentPhase->openPhases($tmpquery);
                 if ($st == 3 && $currentPhase->pha_status[0] != 1)
                 {
@@ -137,24 +137,24 @@ if ($id != "")
                 $tmpquery1 = "INSERT INTO ".$tableCollab["tasks"]."(project,name,description,owner,assigned_to,status,priority,start_date,due_date,estimated_time,actual_time,comments,created,published,completion,invoicing,worked_hours) VALUES('$project','$task_name','$d','$idSession','$at','$st','$pr','$start_date','$due_date','$etm','$atm','$c','$dateheure','$pub','$compl','$invoicing','$worked_hours')";
             }
             
-            Util::connectSql("$tmpquery1");
+            phpCollab\Util::connectSql("$tmpquery1");
             $tmpquery = $tableCollab["tasks"];
-            Util::getLastId($tmpquery);
+            phpCollab\Util::getLastId($tmpquery);
             $num = $lastId[0];
             unset($lastId);
 
 
             //subtask copying
             $tmpquery1 = "WHERE task = '$id'";
-            $subtaskDetail = new Request();
+            $subtaskDetail = new phpCollab\Request();
             $subtaskDetail->openSubtasks($tmpquery1);
 
             $comptListSubtasks = count($subtaskDetail->subtas_id);
 
             for ($j=0;$j<$comptListSubtasks;$j++)
             {
-                $s_tn = Util::convertData($subtaskDetail->subtas_name[$j]);
-                $s_d = Util::convertData($subtaskDetail->subtas_description[$j]);
+                $s_tn = phpCollab\Util::convertData($subtaskDetail->subtas_name[$j]);
+                $s_d = phpCollab\Util::convertData($subtaskDetail->subtas_description[$j]);
                 $s_ow = $subtaskDetail->subtas_owner[$j];
                 $s_at = $subtaskDetail->subtas_assigned_to[$j];
                 $s_st = $subtaskDetail->subtas_status[$j];
@@ -164,12 +164,12 @@ if ($id != "")
                 $s_cd = $subtaskDetail->subtas_complete_date[$j];
                 $s_etm = $subtaskDetail->subtas_estimated_time[$j];
                 $s_atm = $subtaskDetail->subtas_actual_time[$j];
-                $s_c = Util::convertData($subtaskDetail->subtas_comments[$j]);
+                $s_c = phpCollab\Util::convertData($subtaskDetail->subtas_comments[$j]);
                 $s_published = $subtaskDetail->subtas_published[$j];
                 $s_compl = $subtaskDetail->subtas_completion[$j];
 
                 $tmpquery1 = "INSERT INTO ".$tableCollab["subtasks"]."(task,name,description,owner,assigned_to,status,priority,start_date,due_date,complete_date,estimated_time,actual_time,comments,created,assigned,published,completion) VALUES('$num','$s_tn','$s_d','$s_ow','$s_at','$s_st','$s_pr','$s_sd','$s_dd','$s_cd','$s_etm','$s_atm','$s_c','$dateheure','$dateheure','$s_published','$s_compl')";
-                Util::connectSql("$tmpquery1");
+                phpCollab\Util::connectSql("$tmpquery1");
             }
 
             // invoice
@@ -185,43 +185,43 @@ if ($id != "")
                 }
 
                 $tmpquery = "WHERE project = '$project'";
-                $detailInvoice = new Request();
+                $detailInvoice = new phpCollab\Request();
                 $detailInvoice->openInvoices($tmpquery);
                 if ($detailInvoice->inv_status[0] == "0") {
                     //$tmpquery3 = "INSERT INTO ".$tableCollab["invoices_items"]." SET title='$task_name',description='$d',invoice='".$detailInvoice->inv_id[0]."',created='$dateheure',active='$invoicing',completed='$completeItem',mod_type='1',mod_value='$num',worked_hours='$worked_hours'";
-                    $tmpquery3 = "INSERT INTO ".$tableCollab["invoices_items"]." (title,description,invoice,created,active,completed,mod_type,mod_value,worked_hours) VALUES ('$task_name','$d','".Util::fixInt($detailInvoice->inv_id[0])."','$dateheure','$invoicing','$completeItem','1','$num','$worked_hours')";
-                    Util::connectSql($tmpquery3);
+                    $tmpquery3 = "INSERT INTO ".$tableCollab["invoices_items"]." (title,description,invoice,created,active,completed,mod_type,mod_value,worked_hours) VALUES ('$task_name','$d','".phpCollab\Util::fixInt($detailInvoice->inv_id[0])."','$dateheure','$invoicing','$completeItem','1','$num','$worked_hours')";
+                    phpCollab\Util::connectSql($tmpquery3);
             }
         }
 
         if ($st == "1" && $complete_date != "--")
         {
             $tmpquery6 = "UPDATE ".$tableCollab["tasks"]." SET complete_date='$date' WHERE id = '$num'";
-            Util::connectSql($tmpquery6);
+            phpCollab\Util::connectSql($tmpquery6);
         }
 
         //if assigned_to not blank, set assigned date
         if ($at != "0")
         {
             $tmpquery6 = "UPDATE ".$tableCollab["tasks"]." SET assigned='$dateheure' WHERE id = '$num'";
-            Util::connectSql($tmpquery6);
+            phpCollab\Util::connectSql($tmpquery6);
         }
 
         $tmpquery2 = "INSERT INTO ".$tableCollab["assignments"]."(task,owner,assigned_to,assigned) VALUES('$num','$idSession','$at','$dateheure')";
-        Util::connectSql("$tmpquery2");
+        phpCollab\Util::connectSql("$tmpquery2");
 
         //if assigned_to not blank, add to team members (only if doesn't already exist)
         if ($at != "0")
         {
             $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$at'";
-            $testinTeam = new Request();
+            $testinTeam = new phpCollab\Request();
             $testinTeam->openTeams($tmpquery);
             $comptTestinTeam = count($testinTeam->tea_id);
 
             if ($comptTestinTeam == "0")
             {
                 $tmpquery3 = "INSERT INTO ".$tableCollab["teams"]."(project,member,published,authorized) VALUES('$project','$at','1','0')";
-                Util::connectSql("$tmpquery3");
+                phpCollab\Util::connectSql("$tmpquery3");
             }
 
             //send task assignment mail if notifications = true
@@ -233,10 +233,10 @@ if ($id != "")
 
         //create task sub-folder if filemanagement = true
         if ($fileManagement == "true") {
-            Util::createDirectory("files/$project/$num");
+            phpCollab\Util::createDirectory("files/$project/$num");
         }
 
-        Util::headerFunction("../tasks/viewtask.php?id=$num&msg=addAssignment");
+        phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$num&msg=addAssignment");
         exit;
 
         //case update task
@@ -248,7 +248,7 @@ if ($id != "")
         if ($projectDetail->pro_phase_set[0] != "0")
         {
             $tmpquery = "WHERE pha.project_id = '$project' AND pha.order_num = '$pha'";
-            $currentPhase = new Request();
+            $currentPhase = new phpCollab\Request();
             $currentPhase->openPhases($tmpquery);
 
             if ($st == 3 && $currentPhase->pha_status[0] != 1)
@@ -267,7 +267,7 @@ if ($id != "")
         }
 
         //recompute number of completed tasks of the project
-        $projectDetail->pro_name[0] = Util::projectComputeCompletion(
+        $projectDetail->pro_name[0] = phpCollab\Util::projectComputeCompletion(
         $projectDetail,
         $tableCollab["projects"]);
 
@@ -289,28 +289,28 @@ if ($id != "")
         if ($st == "1" && $complete_date == "--")
         {
             $tmpquery6 = "UPDATE ".$tableCollab["tasks"]." SET complete_date='$date' WHERE id = '$id'";
-            Util::connectSql($tmpquery6);
+            phpCollab\Util::connectSql($tmpquery6);
         }
         else
         {
             $tmpquery6 = "UPDATE ".$tableCollab["tasks"]." SET complete_date='$complete_date' WHERE id = '$id'";
-            Util::connectSql($tmpquery6);
+            phpCollab\Util::connectSql($tmpquery6);
         }
 
         if ($old_st == "1" && $st != $old_st)
         {
             $tmpquery6 = "UPDATE ".$tableCollab["tasks"]." SET complete_date='' WHERE id = '$id'";
-            Util::connectSql($tmpquery6);
+            phpCollab\Util::connectSql($tmpquery6);
         }
 
         //if project different from past value, set project number in tasks table
         if ($project != $old_project)
         {
             $tmpquery6 = "UPDATE ".$tableCollab["tasks"]." SET project='$project' WHERE id = '$id'";
-            Util::connectSql($tmpquery6);
+            phpCollab\Util::connectSql($tmpquery6);
             $tmpquery7 = "UPDATE ".$tableCollab["files"]." SET project='$project' WHERE task = '$id'";
-            Util::connectSql($tmpquery7);
-            Util::createDirectory("files/$project/$id");
+            phpCollab\Util::connectSql($tmpquery7);
+            phpCollab\Util::createDirectory("files/$project/$id");
 
             $dir = opendir("../files/$old_project/$id");
             if (is_resource($dir))
@@ -327,9 +327,9 @@ if ($id != "")
 
             //recompute number of completed tasks of the old project
             $tmpquery = "WHERE pro.id = '$old_project'";
-            $oldproject = new Request();
+            $oldproject = new phpCollab\Request();
             $oldproject->openProjects($tmpquery);
-            Util::projectComputeCompletion(
+            phpCollab\Util::projectComputeCompletion(
             $oldproject,
             $tableCollab["projects"]);
 
@@ -346,13 +346,13 @@ if ($id != "")
                 $completeItem = "0";
             }
                 $tmpquery = "WHERE project = '$project'";
-                $detailInvoice = new Request();
+                $detailInvoice = new phpCollab\Request();
                 $detailInvoice->openInvoices($tmpquery);
 
                 if ($detailInvoice->inv_status[0] == "0")
                 {
                     $tmpquery3 = "UPDATE ".$tableCollab["invoices_items"]." SET active='$invoicing',completed='$completeItem',worked_hours='$worked_hours' WHERE mod_type = '1' AND mod_value = '$id'";
-                    Util::connectSql($tmpquery3);
+                    phpCollab\Util::connectSql($tmpquery3);
                 }
             }
 
@@ -360,7 +360,7 @@ if ($id != "")
             if ($at != "0" && $old_assigned == "")
             {
                 $tmpquery6 = "UPDATE ".$tableCollab["tasks"]." SET assigned='$dateheure' WHERE id = '$id'";
-                Util::connectSql($tmpquery6);
+                phpCollab\Util::connectSql($tmpquery6);
             }
 
             //if assigned_to different from past value, insert into assignment
@@ -368,22 +368,22 @@ if ($id != "")
             if ($at != $old_at)
             {
                 $tmpquery2 = "INSERT INTO ".$tableCollab["assignments"]."(task,owner,assigned_to,assigned) VALUES('$id','$idSession','$at','$dateheure')";
-                Util::connectSql("$tmpquery2");
+                phpCollab\Util::connectSql("$tmpquery2");
                 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$at'";
-                $testinTeam = new Request();
+                $testinTeam = new phpCollab\Request();
                 $testinTeam->openTeams($tmpquery);
                 $comptTestinTeam = count($testinTeam->tea_id);
 
                 if ($comptTestinTeam == "0")
                 {
                     $tmpquery3 = "INSERT INTO ".$tableCollab["teams"]."(project,member,published,authorized) VALUES('$project','$at','1','0')";
-                    Util::connectSql("$tmpquery3");
+                    phpCollab\Util::connectSql("$tmpquery3");
                 }
 
                 $msg = "updateAssignment";
-                Util::connectSql("$tmpquery5");
+                phpCollab\Util::connectSql("$tmpquery5");
                 $tmpquery = "WHERE tas.id = '$id'";
-                $taskDetail = new Request();
+                $taskDetail = new phpCollab\Request();
                 $taskDetail->openTasks($tmpquery);
 
                 //send task assignment mail if notifications = true
@@ -395,9 +395,9 @@ if ($id != "")
             else
             {
                 $msg = "update";
-                Util::connectSql("$tmpquery5");
+                phpCollab\Util::connectSql("$tmpquery5");
                 $tmpquery = "WHERE tas.id = '$id'";
-                $taskDetail = new Request();
+                $taskDetail = new phpCollab\Request();
                 $taskDetail->openTasks($tmpquery);
 
                 //send status task change mail if notifications = true
@@ -445,12 +445,12 @@ if ($id != "")
 
             if ($cUp != "" || $st != $old_st || $pr != $old_pr || $due_date != $old_dd)
             {
-                $cUp = Util::convertData($cUp);
+                $cUp = phpCollab\Util::convertData($cUp);
                 $tmpquery6 = "INSERT INTO ".$tableCollab["updates"]."(type,item,member,comments,created) VALUES ('1','$id','$idSession','$cUp','$dateheure')";
-                Util::connectSql($tmpquery6);
+                phpCollab\Util::connectSql($tmpquery6);
             }
 
-            Util::headerFunction("../tasks/viewtask.php?id=$id&msg=$msg");
+            phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$id&msg=$msg");
         }
     }
 
@@ -481,15 +481,15 @@ if ($id == "")
     {
 
         //concat values from date selector and replace quotes by html code in name
-        $task_name = Util::convertData($task_name);
-        $d = Util::convertData($d);
-        $c = Util::convertData($c);
+        $task_name = phpCollab\Util::convertData($task_name);
+        $d = phpCollab\Util::convertData($d);
+        $c = phpCollab\Util::convertData($c);
 
         //Change task status if parent phase is suspended, complete or not open.
         if ($projectDetail->pro_enable_phase[0] == "1")
         {
             $tmpquery = "WHERE pha.project_id = '$project' AND pha.order_num = '$pha'";
-            $currentPhase = new Request();
+            $currentPhase = new phpCollab\Request();
             $currentPhase->openPhases($tmpquery);
 
             if ($st == 3 && $currentPhase->pha_status[0] != 1)
@@ -528,9 +528,9 @@ if ($id == "")
             $tmpquery1 = "INSERT INTO ".$tableCollab["tasks"]."(project,name,description,owner,assigned_to,status,priority,start_date,due_date,estimated_time,actual_time,comments,created,published,completion,invoicing,worked_hours) VALUES('$project','$task_name','$d','$idSession','$at','$st','$pr','$start_date','$due_date','$etm','$atm','$c','$dateheure','$pub','$compl','$invoicing','$worked_hours')";
         }
 
-        Util::connectSql("$tmpquery1");
+        phpCollab\Util::connectSql("$tmpquery1");
         $tmpquery = $tableCollab["tasks"];
-        Util::getLastId($tmpquery);
+        phpCollab\Util::getLastId($tmpquery);
         $num = $lastId[0];
         unset($lastId);
 
@@ -546,25 +546,25 @@ if ($id == "")
             }
 
             $tmpquery = "WHERE project = '$project'";
-            $detailInvoice = new Request();
+            $detailInvoice = new phpCollab\Request();
             $detailInvoice->openInvoices($tmpquery);
 
             if ($detailInvoice->inv_status[0] == "0")
             {
                 //$tmpquery3 = "INSERT INTO ".$tableCollab["invoices_items"]." SET title='$task_name',description='$d',invoice='".$detailInvoice->inv_id[0]."',created='$dateheure',active='$invoicing',completed='$completeItem',mod_type='1',mod_value='$num',worked_hours='$worked_hours'";
-                $tmpquery3 = "INSERT INTO ".$tableCollab["invoices_items"]." (title,description,invoice,created,active,completed,mod_type,mod_value,worked_hours) VALUES ('$task_name','$d','".Util::fixInt($detailInvoice->inv_id[0])."','$dateheure','$invoicing','$completeItem','1','$num','$worked_hours')";
-                Util::connectSql($tmpquery3);
+                $tmpquery3 = "INSERT INTO ".$tableCollab["invoices_items"]." (title,description,invoice,created,active,completed,mod_type,mod_value,worked_hours) VALUES ('$task_name','$d','".phpCollab\Util::fixInt($detailInvoice->inv_id[0])."','$dateheure','$invoicing','$completeItem','1','$num','$worked_hours')";
+                phpCollab\Util::connectSql($tmpquery3);
             }
         }
 
         if ($st == "1")
         {
             $tmpquery6 = "UPDATE ".$tableCollab["tasks"]." SET complete_date='$date' WHERE id = '$num'";
-            Util::connectSql($tmpquery6);
+            phpCollab\Util::connectSql($tmpquery6);
         }
 
         //recompute number of completed tasks of the project
-        $projectDetail->pro_name[0] = Util::projectComputeCompletion(
+        $projectDetail->pro_name[0] = phpCollab\Util::projectComputeCompletion(
         $projectDetail,
         $tableCollab["projects"]);
 
@@ -572,24 +572,24 @@ if ($id == "")
         if ($at != "0")
         {
             $tmpquery6 = "UPDATE ".$tableCollab["tasks"]." SET assigned='$dateheure' WHERE id = '$num'";
-            Util::connectSql($tmpquery6);
+            phpCollab\Util::connectSql($tmpquery6);
         }
         $tmpquery2 = "INSERT INTO ".$tableCollab["assignments"]."(task,owner,assigned_to,assigned) VALUES('$num','$idSession','$at','$dateheure')";
-        Util::connectSql($tmpquery2);
+        phpCollab\Util::connectSql($tmpquery2);
 
         //if assigned_to not blank, add to team members (only if doesn't already exist)
         //add assigned_to in team members (only if doesn't already exist)
         if ($at != "0")
         {
             $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$at'";
-            $testinTeam = new Request();
+            $testinTeam = new phpCollab\Request();
             $testinTeam->openTeams($tmpquery);
             $comptTestinTeam = count($testinTeam->tea_id);
 
             if ($comptTestinTeam == "0")
             {
                 $tmpquery3 = "INSERT INTO ".$tableCollab["teams"]."(project,member,published,authorized) VALUES('$project','$at','1','0')";
-                Util::connectSql($tmpquery3);
+                phpCollab\Util::connectSql($tmpquery3);
             }
 
             //send task assignment mail if notifications = true
@@ -602,9 +602,9 @@ if ($id == "")
         //create task sub-folder if filemanagement = true
         if ($fileManagement == "true")
         {
-            Util::createDirectory("files/$project/$num");
+            phpCollab\Util::createDirectory("files/$project/$num");
         }
-        Util::headerFunction("../tasks/viewtask.php?id=$num&msg=addAssignment");
+        phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$num&msg=addAssignment");
     }
 
     //set default values
@@ -635,7 +635,7 @@ if ($projectDetail->pro_phase_set[0] != "0")
         $tmpquery = "WHERE pha.project_id = '$project' AND pha.order_num = '$tPhase'";
     }
 
-    $targetPhase = new Request();
+    $targetPhase = new phpCollab\Request();
     $targetPhase->openPhases($tmpquery);
 }
 
@@ -645,7 +645,7 @@ $headBonus = "";
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -677,7 +677,7 @@ if ($msg != "")
     $blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 
 if ($id == "")
@@ -732,7 +732,7 @@ else
     $tmpquery = "";
 }
 
-$listProjects = new Request();
+$listProjects = new phpCollab\Request();
 $listProjects->openProjects($tmpquery);
 $comptListProjects = count($listProjects->pro_id);
 
@@ -784,7 +784,7 @@ else
 }
 
 $tmpquery = "WHERE tea.project = '$project' ORDER BY mem.name";
-$assignto = new Request();
+$assignto = new phpCollab\Request();
 $assignto->openTeams($tmpquery);
 $comptAssignto = count($assignto->tea_mem_id);
 
@@ -817,7 +817,7 @@ if ($projectDetail->pro_phase_set[0] != "0")
 
     $projectTarget = $projectDetail->pro_id[0];
     $tmpquery = "WHERE pha.project_id = '$projectTarget' ORDER BY pha.order_num";
-    $projectPhaseList = new Request();
+    $projectPhaseList = new phpCollab\Request();
     $projectPhaseList->openPhases($tmpquery);
 
     $comptlistPhase = count($projectPhaseList->pha_id);

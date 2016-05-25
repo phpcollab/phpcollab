@@ -33,10 +33,9 @@
 $debug = true;
 
 define('APP_ROOT', dirname(dirname(__FILE__)));
-// require the autoloader class file
-require_once APP_ROOT . '/classes/phpCollab/Autoloader.php';
-$autoloader = new \phpCollab\Autoloader();
-spl_autoload_register(array($autoloader, 'load'));
+
+require APP_ROOT . '/vendor/autoload.php';
+
 if (ini_get('session.auto_start') == 0) {
     $profilSession = "";
 }
@@ -78,29 +77,29 @@ if ($export != "true") {
 if (ini_get(register_globals) != "1") {
     //GET and POST VARS
     while (list($key, $val) = @each($_REQUEST)) {
-        $GLOBALS[$key] = Util::replaceSpecialCharacters($val);
+        $GLOBALS[$key] = phpCollab\Util::replaceSpecialCharacters($val);
     }
     //$HTTP_SESSION_VARS
     while (list($key, $val) = @each($_SESSION)) {
-        $GLOBALS[$key] = Util::replaceSpecialCharacters($val);
+        $GLOBALS[$key] = phpCollab\Util::replaceSpecialCharacters($val);
     }
     //$HTTP_SERVER_VARS
     while (list($key, $val) = @each($_SERVER)) {
-        $GLOBALS[$key] = Util::replaceSpecialCharacters($val);
+        $GLOBALS[$key] = phpCollab\Util::replaceSpecialCharacters($val);
     }
 }
 
-$msg = Util::returnGlobal('msg', 'GET');
-$session = Util::returnGlobal('session', 'GET');
-$logout = Util::returnGlobal('logout', 'GET');
-$idSession = Util::returnGlobal('idSession', 'SESSION');
-$dateunixSession = Util::returnGlobal('dateunixSession', 'SESSION');
-$loginSession = Util::returnGlobal('loginSession', 'SESSION');
-$profilSession = Util::returnGlobal('profilSession', 'SESSION');
-$logouttimeSession = Util::returnGlobal('logouttimeSession', 'SESSION');
+$msg = phpCollab\Util::returnGlobal('msg', 'GET');
+$session = phpCollab\Util::returnGlobal('session', 'GET');
+$logout = phpCollab\Util::returnGlobal('logout', 'GET');
+$idSession = phpCollab\Util::returnGlobal('idSession', 'SESSION');
+$dateunixSession = phpCollab\Util::returnGlobal('dateunixSession', 'SESSION');
+$loginSession = phpCollab\Util::returnGlobal('loginSession', 'SESSION');
+$profilSession = phpCollab\Util::returnGlobal('profilSession', 'SESSION');
+$logouttimeSession = phpCollab\Util::returnGlobal('logouttimeSession', 'SESSION');
 
 
-$parse_start = Util::getMicroTime();
+$parse_start = phpCollab\Util::getMicroTime();
 
 //database update array
 $updateDatabase = array(
@@ -258,7 +257,7 @@ if ($installationType == "") {
 //check session validity on main phpcollab, except for demo user
 if ($checkSession != "false" && $demoSession != "true") {
     if ($profilSession == "3" && !strstr($PHP_SELF, "projects_site")) {
-        Util::headerFunction("../projects_site/home.php");
+        phpCollab\Util::headerFunction("../projects_site/home.php");
     }
 
     if ($lastvisitedpage && $profilSession != "0") { // If the user has admin permissions, do not log the last page visited.
@@ -272,8 +271,8 @@ if ($checkSession != "false" && $demoSession != "true") {
             $pieces[0] = strrev($pieces[0]);
             $pieces[1] = strrev($pieces[1]);
             $page = $pieces[1] . "/" . $pieces[0];
-            $tmpquery = "UPDATE " . $tableCollab["members"] . " SET last_page='$page' WHERE id = '" . Util::fixInt($idSession) . "'";
-            Util::connectSql("$tmpquery");
+            $tmpquery = "UPDATE " . $tableCollab["members"] . " SET last_page='$page' WHERE id = '" . phpCollab\Util::fixInt($idSession) . "'";
+            phpCollab\Util::connectSql("$tmpquery");
         }
     }
     //if auto logout feature used, store last required page before deconnection
@@ -283,7 +282,7 @@ if ($checkSession != "false" && $demoSession != "true") {
             $diff = $dateunix - $dateunixSession;
 
             if ($diff > $logouttimeSession) {
-                Util::headerFunction("../general/login.php?logout=true");
+                phpCollab\Util::headerFunction("../general/login.php?logout=true");
             } else {
                 $dateunixSession = $dateunix;
                 $_SESSION['dateunixSession'] = $dateunixSession;
@@ -291,16 +290,16 @@ if ($checkSession != "false" && $demoSession != "true") {
         }
     }
 
-    $tmpquery = "WHERE log.login = '" . Util::fixInt($loginSession) . "'";
-    $checkLog = new Request();
+    $tmpquery = "WHERE log.login = '" . phpCollab\Util::fixInt($loginSession) . "'";
+    $checkLog = new phpCollab\Request();
     $checkLog->openLogs($tmpquery);
     $comptCheckLog = count($checkLog->log_id);
     if ($comptCheckLog != "0") {
         if (session_id() != $checkLog->log_session[0]) {
-            Util::headerFunction("../index.php?session=false");
+            phpCollab\Util::headerFunction("../index.php?session=false");
         }
     } else {
-        Util::headerFunction("../index.php?session=false");
+        phpCollab\Util::headerFunction("../index.php?session=false");
     }
 }
 
@@ -308,22 +307,22 @@ if ($checkSession != "false" && $demoSession != "true") {
 if ($checkConnected != "false") {
     $dateunix = date("U");
     $tmpquery1 = "UPDATE " . $tableCollab["logs"] . " SET connected='$dateunix' WHERE login = '$loginSession'";
-    Util::connectSql("$tmpquery1");
+    phpCollab\Util::connectSql("$tmpquery1");
     $tmpsql = "SELECT * FROM " . $tableCollab["logs"] . " WHERE connected > $dateunix-5*60";
-    Util::computeTotal($tmpsql);
+    phpCollab\Util::computeTotal($tmpsql);
     $connectedUsers = $countEnregTotal;
 }
 
 //redirect if server/database in error
 if ($databaseType == "mysql") {
     if (!@mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD)) {
-        Util::headerFunction("../general/error.php?type=myserver");
+        phpCollab\Util::headerFunction("../general/error.php?type=myserver");
         exit;
     } else {
         $res = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
     }
     if (!@mysql_select_db(MYDATABASE, $res)) {
-        Util::headerFunction("../general/error.php?type=mydatabase");
+        phpCollab\Util::headerFunction("../general/error.php?type=mydatabase");
         exit;
     } else {
         @mysql_close($res);
@@ -361,16 +360,16 @@ if ($gmtTimezone == "true") {
 
 //update sorting table if query sort column
 if (!empty($sor_cible) && $sor_cible != "" && $sor_champs != "none") {
-    $sor_champs = Util::convertData($sor_champs);
-    $sor_cible = Util::convertData($sor_cible);
+    $sor_champs = phpCollab\Util::convertData($sor_champs);
+    $sor_cible = phpCollab\Util::convertData($sor_cible);
 
     $tmpquery = "UPDATE " . $tableCollab["sorting"] . " SET $sor_cible='$sor_champs $sor_ordre' WHERE member = '$idSession'";
-    Util::connectSql("$tmpquery");
+    phpCollab\Util::connectSql("$tmpquery");
 }
 
 //set all sorting values for logged user
-$tmpquery = "WHERE sor.member = '" . Util::fixInt($idSession) . "'";
-$sortingUser = new Request();
+$tmpquery = "WHERE sor.member = '" . phpCollab\Util::fixInt($idSession) . "'";
+$sortingUser = new phpCollab\Request();
 $sortingUser->openSorting($tmpquery);
 
 // :-)

@@ -34,20 +34,20 @@ if ($action == "publish") {
 
     if ($addToSite == "true") {
         $tmpquery1 = "UPDATE " . $tableCollab["subtasks"] . " SET published='0' WHERE id = '$id'";
-        Util::connectSql("$tmpquery1");
+        phpCollab\Util::connectSql("$tmpquery1");
         $msg = "addToSite";
     }
 
     if ($removeToSite == "true") {
         $tmpquery1 = "UPDATE " . $tableCollab["subtasks"] . " SET published='1' WHERE id = '$id'";
-        Util::connectSql("$tmpquery1");
+        phpCollab\Util::connectSql("$tmpquery1");
         $msg = "removeToSite";
     }
 
     if ($addToSiteFile == "true") {
         $id = str_replace("**", ",", $id);
         $tmpquery1 = "UPDATE " . $tableCollab["files"] . " SET published='0' WHERE id IN($id) OR vc_parent IN ($id)";
-        Util::connectSql("$tmpquery1");
+        phpCollab\Util::connectSql("$tmpquery1");
         $msg = "addToSite";
         $id = $task;
     }
@@ -55,7 +55,7 @@ if ($action == "publish") {
     if ($removeToSiteFile == "true") {
         $id = str_replace("**", ",", $id);
         $tmpquery1 = "UPDATE " . $tableCollab["files"] . " SET published='1' WHERE id IN($id) OR vc_parent IN ($id)";
-        Util::connectSql("$tmpquery1");
+        phpCollab\Util::connectSql("$tmpquery1");
         $msg = "removeToSite";
         $id = $task;
     }
@@ -64,15 +64,15 @@ if ($action == "publish") {
 include '../themes/' . THEME . '/header.php';
 
 $tmpquery = "WHERE subtas.id = '$id'";
-$subtaskDetail = new Request();
+$subtaskDetail = new phpCollab\Request();
 $subtaskDetail->openSubtasks($tmpquery);
 
 $tmpquery = "WHERE tas.id = '$task'";
-$taskDetail = new Request();
+$taskDetail = new phpCollab\Request();
 $taskDetail->openTasks($tmpquery);
 
 $tmpquery = "WHERE pro.id = '" . $taskDetail->tas_project[0] . "'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 if ($projectDetail->pro_enable_phase[0] != "0") {
@@ -81,13 +81,13 @@ if ($projectDetail->pro_enable_phase[0] != "0") {
         $tPhase = '0';
     }
     $tmpquery = "WHERE pha.project_id = '" . $taskDetail->tas_project[0] . "' AND pha.order_num = '$tPhase'";
-    $targetPhase = new Request();
+    $targetPhase = new phpCollab\Request();
     $targetPhase->openPhases($tmpquery);
 }
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '" . $taskDetail->tas_project[0] . "' AND tea.member = '$idSession'";
-$memberTest = new Request();
+$memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 if ($comptMemberTest == "0") {
@@ -96,7 +96,7 @@ if ($comptMemberTest == "0") {
     $teamMember = "true";
 }
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], in));
@@ -116,7 +116,7 @@ if ($msg != "") {
     $blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "tdD";
 $block1->openForm("../subtasks/viewsubtask.php#" . $block1->form . "Anchor");
@@ -153,9 +153,9 @@ if ($projectDetail->pro_phase_set[0] != "0") {
 
 $block1->contentRow($strings["task"], $blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail->tas_id[0], $taskDetail->tas_name[0], in));
 $block1->contentRow($strings["organization"], $projectDetail->pro_org_name[0]);
-$block1->contentRow($strings["created"], Util::createDate($subtaskDetail->subtas_created[0], $timezoneSession));
-$block1->contentRow($strings["assigned"], Util::createDate($subtaskDetail->subtas_assigned[0], $timezoneSession));
-$block1->contentRow($strings["modified"], Util::createDate($subtaskDetail->subtas_modified[0], $timezoneSession));
+$block1->contentRow($strings["created"], phpCollab\Util::createDate($subtaskDetail->subtas_created[0], $timezoneSession));
+$block1->contentRow($strings["assigned"], phpCollab\Util::createDate($subtaskDetail->subtas_assigned[0], $timezoneSession));
+$block1->contentRow($strings["modified"], phpCollab\Util::createDate($subtaskDetail->subtas_modified[0], $timezoneSession));
 
 $block1->contentTitle($strings["details"]);
 
@@ -181,7 +181,7 @@ if ($subtaskDetail->subtas_due_date[0] <= $date && $subtaskDetail->subtas_comple
     $block1->contentRow($strings["due_date"], $subtaskDetail->subtas_due_date[0]);
 }
 if ($subtaskDetail->subtas_complete_date[0] != "" && $subtaskDetail->subtas_complete_date[0] != "--" && $subtaskDetail->subtas_due_date[0] != "--") {
-    $diff = Util::diffDate($subtaskDetail->subtas_complete_date[0], $subtaskDetail->subtas_due_date[0]);
+    $diff = phpCollab\Util::diffDate($subtaskDetail->subtas_complete_date[0], $subtaskDetail->subtas_due_date[0]);
     if ($diff > 0) {
         $diff = "<b>+$diff</b>";
     }
@@ -198,7 +198,7 @@ $block1->contentRow($strings["comments"], nl2br($subtaskDetail->subtas_comments[
 
 $block1->contentTitle($strings["updates_subtask"]);
 $tmpquery = "WHERE upd.type='2' AND upd.item = '$id' ORDER BY upd.created DESC";
-$listUpdates = new Request();
+$listUpdates = new phpCollab\Request();
 $listUpdates->openUpdates($tmpquery);
 $comptListUpdates = count($listUpdates->upd_id);
 
@@ -223,7 +223,7 @@ if ($comptListUpdates != "0") {
         }
 
         $abbrev = stripslashes(substr($listUpdates->upd_comments[$i], 0, 100));
-        echo "<b>" . $j . ".</b> <i>" . Util::createDate($listUpdates->upd_created[$i], $timezoneSession) . "</i> $abbrev";
+        echo "<b>" . $j . ".</b> <i>" . phpCollab\Util::createDate($listUpdates->upd_created[$i], $timezoneSession) . "</i> $abbrev";
         if (100 < strlen($listUpdates->upd_comments[$i])) {
             echo "...<br/>";
         } else {
@@ -259,7 +259,7 @@ if ($teamMember == "true" || $profilSession == "5") {
 
 if ($fileManagement == "true") {
 
-$block2 = new Block();
+$block2 = new phpCollab\Block();
 
 $block2->form = "tdC";
 $block2->openForm("../subtasks/viewsubtask.php?".session_name()."=".session_id()."&id=$id#".$block2->form."Anchor");
@@ -284,7 +284,7 @@ $block2->closePaletteIcon();
 $block2->sorting("files",$sortingUser->sor_files[0],"fil.name ASC",$sortingFields = array(0=>"fil.extension",1=>"fil.name",2=>"fil.date",3=>"fil.status",4=>"fil.published"));
 
 $tmpquery = "WHERE fil.task = '$id' AND fil.vc_parent = '0' ORDER BY $block2->sortingValue";
-$listFiles = new Request();
+$listFiles = new phpCollab\Request();
 $listFiles->openFiles($tmpquery);
 $comptListFiles = count($listFiles->fil_id);
 
@@ -343,7 +343,7 @@ $block2->closePaletteScript($comptListFiles,$listFiles->fil_id);
 }
 */
 
-$block3 = new Block();
+$block3 = new phpCollab\Block();
 
 $block3->form = "ahT";
 $block3->openForm("../subtasks/viewsubtask.php?&id=$id&task=$task#" . $block3->form . "Anchor");
@@ -353,7 +353,7 @@ $block3->headingToggle($strings["assignment_history"]);
 $block3->sorting("assignment", $sortingUser->sor_assignment[0], "ass.assigned DESC", $sortingFields = array(0 => "ass.comments", 1 => "mem1.login", 2 => "mem2.login", 3 => "ass.assigned"));
 
 $tmpquery = "WHERE ass.subtask = '$id' ORDER BY $block3->sortingValue";
-$listAssign = new Request();
+$listAssign = new phpCollab\Request();
 $listAssign->openAssignments($tmpquery);
 
 
@@ -379,7 +379,7 @@ for ($i = 0; $i < $comptListAssign; $i++) {
     } else {
         $block3->cellRow($blockPage->buildLink($listAssign->ass_mem2_email_work[$i], $listAssign->ass_mem2_login[$i], mail));
     }
-    $block3->cellRow(Util::createDate($listAssign->ass_assigned[$i], $timezoneSession));
+    $block3->cellRow(phpCollab\Util::createDate($listAssign->ass_assigned[$i], $timezoneSession));
     $block3->closeRow();
 }
 $block3->closeResults();

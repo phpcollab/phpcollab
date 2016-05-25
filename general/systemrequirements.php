@@ -33,12 +33,12 @@ include_once '../includes/library.php';
 $notLogged = "true";
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs("&nbsp;");
 $blockPage->closeBreadcrumbs();
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 $block1->heading($setTitle . " : ".$strings["requirements"]);
 
 $block1->openContent();
@@ -52,7 +52,7 @@ $block1->closeContent();
 
 // 21/06/2003 kiles & mashbe
 
-$block2 = new Block();
+$block2 = new phpCollab\Block();
 $block2->heading($setTitle . " : Quick Start");
 
 $block2->openContent();

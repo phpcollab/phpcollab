@@ -13,11 +13,11 @@ if ($typeInvoices == "") {
 if ($clientsFilter == "true" && $profilSession == "2") {
 $teamMember = "false";
 $tmpquery = "WHERE tea.member = '$idSession' AND org2.id = '$client'";
-$memberTest = new Request();
+$memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
-		Util::headerFunction("../clients/listclients.php?msg=blankClient");
+		phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
 	} else {
 		$tmpquery = "WHERE org.id = '$client'";
 	}
@@ -27,17 +27,17 @@ $comptMemberTest = count($memberTest->tea_id);
 	$tmpquery = "WHERE org.id = '$client'";
 }
 
-$clientDetail = new Request();
+$clientDetail = new phpCollab\Request();
 $clientDetail->openOrganizations($tmpquery);
 $comptClientDetail = count($clientDetail->org_id);
 
 if ($comptClientDetail == "0") {
-	Util::headerFunction("../clients/listclients.php?msg=blankClient");
+	phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
 }
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?",$strings["clients"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=".$clientDetail->org_id[0],$clientDetail->org_name[0],in));
@@ -58,7 +58,7 @@ if ($msg != "") {
 
 $blockPage->limitsNumber = "1";
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "saP";
 $block1->openForm("../invoicing/listinvoices.php?client=$client&typeInvoices=$typeInvoices#".$block1->form."Anchor");
@@ -89,7 +89,7 @@ $block1->rowsLimit = "20";
 $block1->sorting("invoices",$sortingUser->sor_invoices[0],"inv.id ASC",$sortingFields = array(0=>"inv.id",1=>"pro.name",2=>"inv.total_inc_tax",3=>"inv.date_sent",4=>"inv.published"));
 
 $tmpquery = "WHERE pro.owner = '$idSession' ORDER BY pro.id";
-$projectsTest = new Request();
+$projectsTest = new phpCollab\Request();
 $projectsTest->openProjects($tmpquery);
 $comptProjectsTest = count($projectsTest->pro_id);
 
@@ -109,9 +109,9 @@ $comptProjectsTest = count($projectsTest->pro_id);
 		}
 	}
 
-$block1->recordsTotal = Util::computeTotal($initrequest["invoices"]." ".$tmpquery);
+$block1->recordsTotal = phpCollab\Util::computeTotal($initrequest["invoices"]." ".$tmpquery);
 
-$listInvoices = new Request();
+$listInvoices = new phpCollab\Request();
 $listInvoices->openInvoices($tmpquery,$block1->limit,$block1->rowsLimit);
 $comptListInvoices = count($listInvoices->inv_id);
 

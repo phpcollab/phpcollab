@@ -32,13 +32,13 @@ $setTitle .= " : Administration";
 
 if ($profilSession != "0") 
 {
-	Util::headerFunction('../general/permissiondenied.php');
+	phpCollab\Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?",$strings["administration"],in));
 $blockPage->itemBreadcrumbs($strings["admin_intro"]);
@@ -50,7 +50,7 @@ if ($msg != "")
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 $block1->heading($strings["administration"]);
 
 $block1->openContent();
@@ -87,7 +87,7 @@ $block1->contentRow($strings["update"].$blockPage->printHelp("admin_update"),"1.
 
 if ($updateChecker == "true" && $installationType == "online") 
 {
-	$block1->contentRow("",Util::updateChecker($version));
+	$block1->contentRow("",phpCollab\Util::updateChecker($version));
 }
 
 if (file_exists("../installation/setup.php")) 

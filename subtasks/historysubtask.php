@@ -31,15 +31,15 @@ include_once '../includes/library.php';
 
 if ($type == "2") {
     $tmpquery = "WHERE subtas.id = '$item'";
-    $subtaskDetail = new Request();
+    $subtaskDetail = new phpCollab\Request();
     $subtaskDetail->openSubtasks($tmpquery);
 
     $tmpquery = "WHERE tas.id = '" . $subtaskDetail->subtas_task[0] . "'";
-    $taskDetail = new Request();
+    $taskDetail = new phpCollab\Request();
     $taskDetail->openTasks($tmpquery);
 
     $tmpquery = "WHERE pro.id = '" . $taskDetail->tas_project[0] . "'";
-    $projectDetail = new Request();
+    $projectDetail = new phpCollab\Request();
     $projectDetail->openProjects($tmpquery);
 
     if ($projectDetail->pro_enable_phase[0] != "0") {
@@ -48,18 +48,18 @@ if ($type == "2") {
             $tPhase = '0';
         }
         $tmpquery = "WHERE pha.project_id = '" . $taskDetail->tas_project[0] . "' AND pha.order_num = '$tPhase'";
-        $targetPhase = new Request();
+        $targetPhase = new phpCollab\Request();
         $targetPhase->openPhases($tmpquery);
     }
 }
 
 if ($type == "1") {
     $tmpquery = "WHERE tas.id = '$item'";
-    $taskDetail = new Request();
+    $taskDetail = new phpCollab\Request();
     $taskDetail->openTasks($tmpquery);
 
     $tmpquery = "WHERE pro.id = '" . $taskDetail->tas_project[0] . "'";
-    $projectDetail = new Request();
+    $projectDetail = new phpCollab\Request();
     $projectDetail->openProjects($tmpquery);
 
     if ($projectDetail->pro_enable_phase[0] != "0") {
@@ -68,14 +68,14 @@ if ($type == "1") {
             $tPhase = '0';
         }
         $tmpquery = "WHERE pha.project_id = '" . $taskDetail->tas_project[0] . "' AND pha.order_num = '$tPhase'";
-        $targetPhase = new Request();
+        $targetPhase = new phpCollab\Request();
         $targetPhase->openPhases($tmpquery);
     }
 }
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], in));
@@ -103,7 +103,7 @@ if ($msg != "") {
     $blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "tdP";
 $block1->openForm("");
@@ -124,7 +124,7 @@ $block1->openContent();
 $block1->contentTitle($strings["details"]);
 
 $tmpquery = "WHERE upd.type='$type' AND upd.item = '$item' ORDER BY upd.created DESC";
-$listUpdates = new Request();
+$listUpdates = new phpCollab\Request();
 $listUpdates->openUpdates($tmpquery);
 $comptListUpdates = count($listUpdates->upd_id);
 
@@ -148,9 +148,9 @@ for ($i = 0; $i < $comptListUpdates; $i++) {
 
     $block1->contentRow($strings["posted_by"], $blockPage->buildLink($listUpdates->upd_mem_email_work[$i], $listUpdates->upd_mem_name[$i], mail));
     if ($listUpdates->upd_created[$i] > $lastvisiteSession) {
-        $block1->contentRow($strings["when"], "<b>" . Util::createDate($listUpdates->upd_created[$i], $timezoneSession) . "</b>");
+        $block1->contentRow($strings["when"], "<b>" . phpCollab\Util::createDate($listUpdates->upd_created[$i], $timezoneSession) . "</b>");
     } else {
-        $block1->contentRow($strings["when"], Util::createDate($listUpdates->upd_created[$i], $timezoneSession));
+        $block1->contentRow($strings["when"], phpCollab\Util::createDate($listUpdates->upd_created[$i], $timezoneSession));
     }
     $block1->contentRow("", nl2br($listUpdates->upd_comments[$i]));
     $block1->contentRow("", "", "true");

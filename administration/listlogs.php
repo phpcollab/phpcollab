@@ -32,27 +32,27 @@ include_once '../includes/library.php';
 
 if ($profilSession != "0") 
 {
-	Util::headerFunction('../general/permissiondenied.php');
+	phpCollab\Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 
 if ($action == "delete") 
 {
 	$tmpquery = "DELETE FROM ".$tableCollab["logs"];
-	Util::connectSql("$tmpquery");
+	phpCollab\Util::connectSql("$tmpquery");
 }
 
 $setTitle .= " : Logs";
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?",$strings["administration"],in));
 $blockPage->itemBreadcrumbs($strings["logs"]);
 $blockPage->closeBreadcrumbs();
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 $block1->form = "adminD";
 $block1->openForm("../administration/listlogs.php?action=delete&&id=$id#".$block1->form."Anchor");
 $block1->heading($strings["logs"]);
@@ -61,7 +61,7 @@ $block1->labels($labels = array(0=>$strings["user_name"],1=>$strings["ip"],2=>$s
 
 $tmpquery = "ORDER BY last_visite DESC";
 
-$listLogs = new Request();
+$listLogs = new phpCollab\Request();
 $listLogs->openLogs($tmpquery);
 $comptListLogs = count($listLogs->log_id);
 
@@ -75,7 +75,7 @@ for ($i=0;$i<$comptListLogs;$i++)
 	$block1->cellRow($listLogs->log_ip[$i]);
 	$block1->cellRow($listLogs->log_session[$i]);
 	$block1->cellRow($listLogs->log_compt[$i]);
-	$block1->cellRow(Util::createDate($listLogs->log_last_visite[$i],$timezoneSession));
+	$block1->cellRow(phpCollab\Util::createDate($listLogs->log_last_visite[$i],$timezoneSession));
 	
 	if ($listLogs->log_mem_profil[$i] == "3") 
 	{

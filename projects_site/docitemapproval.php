@@ -6,20 +6,20 @@ $checkSession = "true";
 include '../includes/library.php';
 
 if ($action == "update") {
-$commentField = Util::convertData($commentField);
+$commentField = phpCollab\Util::convertData($commentField);
 $tmpquery1 = "UPDATE ".$tableCollab["files"]." SET comments_approval='$commentField',date_approval='$dateheure',approver='$idSession',status='$statusField' WHERE id = '$id'";
-Util::connectSql("$tmpquery1");
+phpCollab\Util::connectSql("$tmpquery1");
 $msg = "updateFile";
-	Util::headerFunction("doclists.php");
+	phpCollab\Util::headerFunction("doclists.php");
 	exit;
 }
 
 $tmpquery = "WHERE fil.id = '$id'";
-$fileDetail = new Request();
+$fileDetail = new phpCollab\Request();
 $fileDetail->openFiles($tmpquery);
 
 if ($fileDetail->fil_published[0] == "1" || $fileDetail->fil_project[0] != $projectSession) {
-Util::headerFunction("index.php");
+phpCollab\Util::headerFunction("index.php");
 }
 
 $bouton[4] = "over";

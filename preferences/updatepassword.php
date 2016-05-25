@@ -45,12 +45,12 @@ if ($opw != $passwordSession) {
 	if ($npw != $pwa || $npw == "") {
 		$error = $strings["new_password_error"];
 	} else {
-		$cnpw = Util::getPassword($npw);
+		$cnpw = phpCollab\Util::getPassword($npw);
 
 if ($htaccessAuth == "true") {
 	$Htpasswd = new Htpasswd;
 	$tmpquery = "WHERE tea.member = '$idSession'";
-	$listProjects = new Request();
+	$listProjects = new phpCollab\Request();
 	$listProjects->openTeams($tmpquery);
 	$comptListProjects = count($listProjects->tea_id);
 
@@ -63,7 +63,7 @@ if ($htaccessAuth == "true") {
 }
 
 		$tmpquery = "UPDATE ".$tableCollab["members"]." SET password='$cnpw' WHERE id = '$idSession'";
-		Util::connectSql("$tmpquery");
+		phpCollab\Util::connectSql("$tmpquery");
 
 //if mantis bug tracker enabled
 		if ($enableMantis == "true") {
@@ -74,7 +74,7 @@ if ($htaccessAuth == "true") {
 //if CVS repository enabled
 		if ($enable_cvs == "true") {
 			$query = "WHERE tea.member = '$idSession'";
-			$cvsMembers = new Request();
+			$cvsMembers = new phpCollab\Request();
 			$cvsMembers->openTeams($query);
 
 //change the password in every repository
@@ -88,19 +88,19 @@ if ($htaccessAuth == "true") {
 
 		$_SESSION['passwordSession'] = $passwordSession;
 
-		Util::headerFunction("../preferences/updateuser.php?msg=update");
+		phpCollab\Util::headerFunction("../preferences/updateuser.php?msg=update");
 		exit;
 	}
 }
 }
 
 $tmpquery = "WHERE mem.id = '$idSession'";
-$userDetail = new Request();
+$userDetail = new phpCollab\Request();
 $userDetail->openMembers($tmpquery);
 $comptUserDetail = count($userDetail->mem_id);
 
 if ($comptUserDetail == "0") {
-	Util::headerFunction("../users/listusers.php?msg=blankUser");
+	phpCollab\Util::headerFunction("../users/listusers.php?msg=blankUser");
 	exit;
 }
 
@@ -108,7 +108,7 @@ $bodyCommand = "onLoad=\"document.change_passwordForm.opw.focus();\"";
 include '../themes/' . THEME . '/header.php';
 
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($strings["preferences"]);
 if ($notifications == "true") {
@@ -123,7 +123,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "change_password";
 $block1->openForm("../preferences/updatepassword.php?action=update");

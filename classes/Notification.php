@@ -66,7 +66,7 @@ class Notification extends phpmailer
     function getUserinfo($idUser, $type)
     {
         $tmpquery = "WHERE mem.id = '$idUser'";
-        $detailUser = new Request();
+        $detailUser = new phpCollab\Request();
         $detailUser->openMembers($tmpquery);
 
         if ($type == "from") {

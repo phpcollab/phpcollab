@@ -31,8 +31,8 @@ include_once '../includes/library.php';
 if ($action == "delete") {
 	$id = str_replace("**",",",$id);
 	$tmpquery1 = "DELETE FROM ".$tableCollab["calendar"]." WHERE id IN($id)";
-	Util::connectSql("$tmpquery1");
-	Util::headerFunction("../calendar/viewcalendar.php?msg=delete");
+	phpCollab\Util::connectSql("$tmpquery1");
+	phpCollab\Util::headerFunction("../calendar/viewcalendar.php?msg=delete");
 	exit;
 }
 
@@ -45,7 +45,7 @@ if (strpos($id, "**") !== false) {
     
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?",$strings["calendar"],in));
 $blockPage->itemBreadcrumbs($strings["delete"]);
@@ -57,7 +57,7 @@ if ($msg != "") {
 }
 
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 $block1->form = "saP";
 $block1->openForm("../calendar/deletecalendar.php?project=$project&action=delete&id=$id");
 
@@ -68,7 +68,7 @@ $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE cal.id IN($id) ORDER BY cal.subject";
-$listCalendar = new Request();
+$listCalendar = new phpCollab\Request();
 $listCalendar->openCalendar($tmpquery);
 $comptListCalendar = count($listCalendar->cal_id);
 

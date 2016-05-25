@@ -8,18 +8,18 @@ include_once '../includes/library.php';
 
 if ($action == "delete") {
 	$tmpquery = "UPDATE ".$tableCollab["projects"]." SET published='1' WHERE id = '$project'";
-	Util::connectSql("$tmpquery");
-	Util::headerFunction("../projects/viewproject.php?id=$project&msg=removeProjectSite");
+	phpCollab\Util::connectSql("$tmpquery");
+	phpCollab\Util::headerFunction("../projects/viewproject.php?id=$project&msg=removeProjectSite");
 	exit;
 }
 
 include '../themes/' . THEME . '/header.php';
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -32,7 +32,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "projectsite_delete";
 $block1->openForm("../projects/deleteprojectsite.php?action=delete&project=$project");

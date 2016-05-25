@@ -7,14 +7,14 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($profilSession != "0") {
-	Util::headerFunction('../general/permissiondenied.php');
+	phpCollab\Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 
 $setTitle .= " : List Services";
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?",$strings["administration"],in));
 $blockPage->itemBreadcrumbs($strings["service_management"]);
@@ -25,7 +25,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "servList";
 $block1->openForm("../services/listservices.php#".$block1->form."Anchor");
@@ -40,7 +40,7 @@ $block1->paletteIcon(3,"edit",$strings["edit"]);
 $block1->closePaletteIcon();
 
 $tmpquery = "ORDER BY serv.name ASC";
-$listServices = new Request();
+$listServices = new phpCollab\Request();
 $listServices->openServices($tmpquery);
 $comptListServices = count($listServices->serv_id);
 

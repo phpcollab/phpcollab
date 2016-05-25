@@ -8,7 +8,7 @@ include_once '../includes/library.php';
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?",$strings["organizations"],in));
 $blockPage->itemBreadcrumbs($strings["organizations"]);

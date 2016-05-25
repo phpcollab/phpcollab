@@ -7,36 +7,36 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 $tmpquery = "WHERE pro.id = '$id'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 $comptProjectDetail = count($projectDetail->pro_id);
 
 if ($comptProjectDetail == "0") {
-	Util::headerFunction("../projects/listprojects.php?msg=blankProject");
+	phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blankProject");
 	exit;
 }
 if ($idSession != $projectDetail->pro_owner[0] && $profilSession != "5") {
-	Util::headerFunction("../projects/listprojects.php?msg=projectOwner");
+	phpCollab\Util::headerFunction("../projects/listprojects.php?msg=projectOwner");
 	exit;
 }
 
 if ($action == "create") {
 	$tmpquery = "UPDATE ".$tableCollab["projects"]." SET published='0' WHERE id = '$id'";
-	Util::connectSql("$tmpquery");
-	Util::headerFunction("../projects/viewprojectsite.php?id=$id&msg=createProjectSite");
+	phpCollab\Util::connectSql("$tmpquery");
+	phpCollab\Util::headerFunction("../projects/viewprojectsite.php?id=$id&msg=createProjectSite");
 	exit;
 }
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=$id",$projectDetail->pro_name[0],in));
 $blockPage->itemBreadcrumbs($strings["create_projectsite"]);
 $blockPage->closeBreadcrumbs();
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "csdD";
 $block1->openForm("../projects/addprojectsite.php?action=create&id=$id");

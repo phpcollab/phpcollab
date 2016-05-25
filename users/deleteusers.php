@@ -26,7 +26,7 @@ if ($action == "delete") {
 	$tmpquery7 = "DELETE FROM ".$tableCollab["teams"]." WHERE member IN($id)";
 
 	$tmpquery = "WHERE pro.owner IN($id)";
-	$listProjects = new Request();
+	$listProjects = new phpCollab\Request();
 	$listProjects->openProjects($tmpquery);
 	$comptListProjects = count($listProjects->pro_id);
 	for ($i=0;$i<$comptListProjects;$i++) {
@@ -39,13 +39,13 @@ if ($action == "delete") {
 			$listTeams->tea_pro_id = "";
 
 			$tmpquery = "WHERE tea.project = '".$listProjects->pro_id[$i]."' AND tea.member = '$atProject'";
-			$listTeams = new Request();
+			$listTeams = new phpCollab\Request();
 			$listTeams->openTeams($tmpquery);
 			$comptListTeams = count($listTeams->tea_id);
 				if ($comptListTeams == "0") {
 					$tmpquery = "INSERT INTO ".$tableCollab["teams"]."(project,member,published,authorized) VALUES('".$listProjects->pro_id[$i]."','$atProject','1','0')";
 
-					Util::connectSql("$tmpquery");
+					phpCollab\Util::connectSql("$tmpquery");
 				}
 	}
 
@@ -64,7 +64,7 @@ if ($action == "delete") {
 			$listTeams->tea_pro_id = "";
 
 			$tmpquery = "WHERE tea.member = '$pieces[$j]'";
-			$listTeams = new Request();
+			$listTeams = new phpCollab\Request();
 			$listTeams->openTeams($tmpquery);
 			$comptListTeams = count($listTeams->tea_id);
 			for ($i=0;$i<$comptListTeams;$i++) {
@@ -72,26 +72,26 @@ if ($action == "delete") {
 			}
 		}
 	}
-	Util::connectSql("$tmpquery1");
-	Util::connectSql("$tmpquery2");
-	Util::connectSql("$tmpquery3");
-	Util::connectSql("$tmpquery4");
-	Util::connectSql("$tmpquery5");
-	Util::connectSql("$tmpquery6");
-	Util::connectSql("$tmpquery7");
+	phpCollab\Util::connectSql("$tmpquery1");
+	phpCollab\Util::connectSql("$tmpquery2");
+	phpCollab\Util::connectSql("$tmpquery3");
+	phpCollab\Util::connectSql("$tmpquery4");
+	phpCollab\Util::connectSql("$tmpquery5");
+	phpCollab\Util::connectSql("$tmpquery6");
+	phpCollab\Util::connectSql("$tmpquery7");
 //if mantis bug tracker enabled
 	if ($enableMantis == "true") {
 // Call mantis function to remove user
 		include ("../mantis/user_delete.php");
 	}
 
-	Util::headerFunction("../users/listusers.php?msg=delete");
+	phpCollab\Util::headerFunction("../users/listusers.php?msg=delete");
 	exit;
 }
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?",$strings["administration"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../users/listusers.php?",$strings["user_management"],in));
@@ -103,7 +103,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "user_delete";
 $block1->openForm("../users/deleteusers.php?action=delete");
@@ -115,7 +115,7 @@ $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE mem.id IN($id) ORDER BY mem.name";
-$listMembers = new Request();
+$listMembers = new phpCollab\Request();
 $listMembers->openMembers($tmpquery);
 $comptListMembers = count($listMembers->mem_id);
 
@@ -125,11 +125,11 @@ for ($i=0;$i<$comptListMembers;$i++) {
 }
 
 $tmpquery = "SELECT pro.id FROM ".$tableCollab["projects"]." pro WHERE pro.owner IN($id)";
-Util::computeTotal($tmpquery);
+phpCollab\Util::computeTotal($tmpquery);
 $totalProjects = $countEnregTotal;
 
 $tmpquery = "SELECT tas.id FROM ".$tableCollab["tasks"]." tas WHERE tas.assigned_to IN($id)";
-Util::computeTotal($tmpquery);
+phpCollab\Util::computeTotal($tmpquery);
 
 $totalTasks = $countEnregTotal;
 
@@ -140,7 +140,7 @@ echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td>".
 <tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td><b>".$strings["reassign_to"]." : </b> ";
 
 $tmpquery = "WHERE mem.profil != '3' AND mem.id NOT IN($id) ORDER BY mem.name";
-$reassign = new Request();
+$reassign = new phpCollab\Request();
 $reassign->openMembers($tmpquery);
 $comptReassign = count($reassign->mem_id);
 

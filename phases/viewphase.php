@@ -40,7 +40,7 @@ $tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='0' WHERE id IN($id
 } else {
 $tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='0' WHERE id = '$id'";
 }
-Util::connectSql("$tmpquery1");
+phpCollab\Util::connectSql("$tmpquery1");
 $msg = "addToSite";
 $id = $phase;
 }
@@ -53,7 +53,7 @@ $tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='1' WHERE id IN($id
 } else {
 $tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='1' WHERE id = '$id'";
 }
-Util::connectSql("$tmpquery1");
+phpCollab\Util::connectSql("$tmpquery1");
 $msg = "removeToSite";
 $id = $phase;
 }
@@ -65,7 +65,7 @@ $tmpquery1 = "UPDATE ".$tableCollab["files"]." SET published='0' WHERE id IN($id
 } else {
 $tmpquery1 = "UPDATE ".$tableCollab["files"]." SET published='0' WHERE id = '$id'";
 }
-Util::connectSql("$tmpquery1");
+phpCollab\Util::connectSql("$tmpquery1");
 $msg = "addToSite";
 $id = $phase;
 }
@@ -78,7 +78,7 @@ $tmpquery1 = "UPDATE ".$tableCollab["files"]." SET published='1' WHERE id IN($id
 } else {
 $tmpquery1 = "UPDATE ".$tableCollab["files"]." SET published='1' WHERE id = '$id'";
 }
-Util::connectSql("$tmpquery1");
+phpCollab\Util::connectSql("$tmpquery1");
 $msg = "removeToSite";
 $id = $phase;
 }
@@ -87,18 +87,18 @@ $id = $phase;
 include '../themes/' . THEME . '/header.php';
 
 $tmpquery = "WHERE pha.id = '$id'";
-$phaseDetail = new Request();
+$phaseDetail = new phpCollab\Request();
 $phaseDetail->openPhases($tmpquery);
 $project = $phaseDetail->pha_project_id[0];
 $phase = $phaseDetail->pha_id[0];
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-$memberTest = new Request();
+$memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
@@ -107,7 +107,7 @@ $comptMemberTest = count($memberTest->tea_id);
 		$teamMember = "true";
 	}
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -120,7 +120,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 $block1->form = "pppD";
 $block1->openForm("../projects/listprojects.php#".$block1->form."Anchor");
 $block1->headingToggle($strings["phase"]." : ".$phaseDetail->pha_name[0]);
@@ -140,7 +140,7 @@ $block1->contentRow($strings["status"],$phaseStatus[$phaseDetail->pha_status[0]]
 
 $parentPhase = $phaseDetail->pha_order_num[0];
 $tmpquery = "WHERE tas.project = '$project' AND tas.parent_phase = '$parentPhase'";
-$countPhaseTasks = new Request();
+$countPhaseTasks = new phpCollab\Request();
 $countPhaseTasks->openTasks($tmpquery);
 $comptlistTasks = count($countPhaseTasks->tas_id);
 
@@ -168,7 +168,7 @@ $block1->paletteScript(0,"edit","../phases/editphase.php?id=$id","true,true,true
 $block1->closePaletteScript($comptListPhaese,$listPhases->pha_id);
 }
 
-$block2 = new Block();
+$block2 = new phpCollab\Block();
 
 $block2->form = "saP";
 $block2->openForm("../phases/viewphase.php?&id=$id#".$block2->form."Anchor");
@@ -196,7 +196,7 @@ $block2->closePaletteIcon();
 $block2->sorting("tasks",$sortingUser->sor_tasks[0],"tas.name ASC",$sortingFields = array(0=>"tas.name",1=>"tas.priority",2=>"tas.status",3=>"tas.completion",4=>"tas.due_date",5=>"mem.login",6=>"tas.published"));
 
 $tmpquery = "WHERE tas.project = '$project' AND tas.parent_phase = '$parentPhase' ORDER BY $block2->sortingValue";
-$listTasks = new Request();
+$listTasks = new phpCollab\Request();
 $listTasks->openTasks($tmpquery);
 $comptListTasks = count($listTasks->tas_id);
 
@@ -274,7 +274,7 @@ $block2->closePaletteScript($comptListTasks,$listTasks->tas_id);
 if ($fileManagement == "true") 
 {
 
-	$block3 = new Block();
+	$block3 = new phpCollab\Block();
 	$block3->form = "tdC";
 	$block3->openForm("../phases/viewphase.php?&id=$id#".$block3->form."Anchor");
 	$block3->headingToggle($strings["linked_content"]);
@@ -303,7 +303,7 @@ if ($fileManagement == "true")
 	$block3->sorting("files",$sortingUser->sor_files[0],"fil.name ASC",$sortingFields = array(0=>"fil.extension",1=>"fil.name",2=>"fil.owner",3=>"fil.date",4=>"fil.status",5=>"fil.published")); 
 
 	$tmpquery = "WHERE fil.project = '".$projectDetail->pro_id[0]."' AND fil.phase = '".$phaseDetail->pha_id[0]."' AND fil.task = '0' AND fil.vc_parent = '0' ORDER BY $block3->sortingValue";
-	$listFiles = new Request();
+	$listFiles = new phpCollab\Request();
 	$listFiles->openFiles($tmpquery);
 	$comptListFiles = count($listFiles->fil_id);
 

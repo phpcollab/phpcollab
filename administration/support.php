@@ -31,13 +31,13 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($profilSession != "0" || $enableHelpSupport != "true") {
-	Util::headerFunction('../general/permissiondenied.php');
+	phpCollab\Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?",$strings["administration"],in));
 $blockPage->itemBreadcrumbs($strings["support_management"]);
@@ -52,21 +52,21 @@ if ($msg != "")
 if ($enableHelpSupport == "true")
 {
 	$tmpquery = "WHERE sr.status = '0'";
-	$listNewRequests = new Request();
+	$listNewRequests = new phpCollab\Request();
 	$listNewRequests->openSupportRequests($tmpquery);
 	$comptListNewRequests = count($listNewRequests->sr_id);
 	
 	$tmpquery = "WHERE sr.status = '1'";
-	$listOpenRequests = new Request();
+	$listOpenRequests = new phpCollab\Request();
 	$listOpenRequests->openSupportRequests($tmpquery);
 	$comptListOpenRequests = count($listOpenRequests->sr_id);
 	
 	$tmpquery = "WHERE sr.status = '2'";
-	$listCompleteRequests = new Request();
+	$listCompleteRequests = new phpCollab\Request();
 	$listCompleteRequests->openSupportRequests($tmpquery);
 	$comptListCompleteRequests = count($listCompleteRequests->sr_id);
 	
-	$block1 = new Block();
+	$block1 = new phpCollab\Block();
 	$block1->form = "help";
 	
 	if ($error != "") 

@@ -29,16 +29,16 @@
 */
 
 $tmpquery = "WHERE fil.id = '$num'";
-$detailFile = new Request();
+$detailFile = new phpCollab\Request();
 $detailFile->openFiles($tmpquery);
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 $tmpquery = "WHERE tea.project = '$project' AND tea.member != '$idSession' ORDER BY mem.id";
 
-$listTeam = new Request();
+$listTeam = new phpCollab\Request();
 $listTeam->openTeams($tmpquery);
 
 $comptListTeam = count($listTeam->tea_id);
@@ -57,7 +57,7 @@ if ($posters != "") {
 
 	$tmpquery = "WHERE noti.member IN ($posters)";
 
-	$listNotifications = new Request();
+	$listNotifications = new phpCollab\Request();
 	$listNotifications->openNotifications($tmpquery);
 	$comptListNotifications = count($listNotifications->not_id);
 

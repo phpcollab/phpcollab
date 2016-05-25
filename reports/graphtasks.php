@@ -33,7 +33,7 @@ include ("../includes/jpgraph/jpgraph.php");
 include ("../includes/jpgraph/jpgraph_gantt.php");
 
 $tmpquery = "WHERE id = '".$report."'";
-$reportDetail = new Request();
+$reportDetail = new phpCollab\Request();
 $reportDetail->openReports($tmpquery);
 $S_ORGSEL = $reportDetail->rep_clients[0];
 $S_PRJSEL = $reportDetail->rep_projects[0];
@@ -116,7 +116,7 @@ if ($S_ORGSEL != "ALL" || $S_PRJSEL != "ALL" || $S_ATSEL != "ALL" || $S_STATSEL 
 	$query .= ")";
 }
 
-$reportDetail->rep_created[0] = Util::createDate($reportDetail->rep_created[0],$timezoneSession);
+$reportDetail->rep_created[0] = phpCollab\Util::createDate($reportDetail->rep_created[0],$timezoneSession);
 
 $graph = new GanttGraph();
 $graph->SetBox();
@@ -132,7 +132,7 @@ $graph->scale->week->SetFont(FF_FONT0);
 $graph->scale->year->SetFont(FF_FONT1);
 
 $tmpquery = "$queryStart $query ORDER BY tas.name";
-$listTasks = new Request();
+$listTasks = new phpCollab\Request();
 $listTasks->openTasks($tmpquery);
 $comptListTasks = count($listTasks->tas_id);
 $posGantt = 0;
@@ -166,7 +166,7 @@ for ($i=0;$i<$comptListTasks;$i++)
 	
 	// begin if subtask
 	$tmpquery = "WHERE task = ".$listTasks->tas_id[$i];
-	$listSubTasks = new Request();
+	$listSubTasks = new phpCollab\Request();
 	$listSubTasks->openSubtasks($tmpquery);
 	$comptListSubTasks = count($listSubTasks->subtas_id);
 	

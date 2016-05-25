@@ -33,12 +33,12 @@ include_once '../includes/library.php';
 if ($id != "" && $action != "add") 
 {
 	$tmpquery = "WHERE boo.id = '$id'";
-	$bookmarkDetail = new Request();
+	$bookmarkDetail = new phpCollab\Request();
 	$bookmarkDetail->openBookmarks($tmpquery);
 
 	if ($bookmarkDetail->boo_owner[0] != $idSession) 
 	{
-		Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=bookmarkOwner");
+		phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=bookmarkOwner");
 		exit;
 	}
 }
@@ -55,18 +55,18 @@ if ($id != "") {
 		}
 		if ($category_new != "") 
 		{
-			$category_new = Util::convertData($category_new);
+			$category_new = phpCollab\Util::convertData($category_new);
 			$tmpquery = "WHERE boocat.name = '$category_new'";
-			$listCategories = new Request();
+			$listCategories = new phpCollab\Request();
 			$listCategories->openBookmarksCategories($tmpquery);
 			$comptListCategories = count($listCategories->boocat_id);
 			if ($comptListCategories == "0") 
 			{
 				$tmpquery1 = "INSERT INTO ".$tableCollab["bookmarks_categories"]."(name) VALUES('$category_new')";
-				Util::connectSql("$tmpquery1");
+				phpCollab\Util::connectSql("$tmpquery1");
 
 				$tmpquery = $tableCollab["bookmarks_categories"];
-				Util::getLastId($tmpquery);
+				phpCollab\Util::getLastId($tmpquery);
 				$num = $lastId[0];
 				unset($lastId);
 				
@@ -90,11 +90,11 @@ if ($id != "") {
 			$comments = "0";
 		}
 
-		$name = Util::convertData($name);
-		$description = Util::convertData($description);
+		$name = phpCollab\Util::convertData($name);
+		$description = phpCollab\Util::convertData($description);
 		$tmpquery5 = "UPDATE ".$tableCollab["bookmarks"]." SET url='$url',name='$name',description='$description',modified='$dateheure',category='$category',shared='$shared',home='$home',comments='$comments',users='$users' WHERE id = '$id'";
-		Util::connectSql("$tmpquery5");
-		Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=update");
+		phpCollab\Util::connectSql("$tmpquery5");
+		phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=update");
 	}
 	
 	//set value in form
@@ -137,18 +137,18 @@ if ($id == "")
 		}
 		if ($category_new != "") 
 		{
-			$category_new = Util::convertData($category_new);
+			$category_new = phpCollab\Util::convertData($category_new);
 			$tmpquery = "WHERE boocat.name = '$category_new'";
-			$listCategories = new Request();
+			$listCategories = new phpCollab\Request();
 			$listCategories->openBookmarksCategories($tmpquery);
 			$comptListCategories = count($listCategories->boocat_id);
 			if ($comptListCategories == "0") 
 			{
 				$tmpquery1 = "INSERT INTO ".$tableCollab["bookmarks_categories"]."(name) VALUES('$category_new')";
-				Util::connectSql("$tmpquery1");
+				phpCollab\Util::connectSql("$tmpquery1");
 
 				$tmpquery = $tableCollab["bookmarks_categories"];
-				Util::getLastId($tmpquery);
+				phpCollab\Util::getLastId($tmpquery);
 				$num = $lastId[0];
 				unset($lastId);
 				
@@ -173,11 +173,11 @@ if ($id == "")
 			$comments = "0";
 		}
 
-		$name = Util::convertData($name);
-		$description = Util::convertData($description);
+		$name = phpCollab\Util::convertData($name);
+		$description = phpCollab\Util::convertData($description);
 		$tmpquery1 = "INSERT INTO ".$tableCollab["bookmarks"]."(owner,category,name,url,description,shared,home,comments,users,created) VALUES('$idSession','$category','$name','$url','$description','$shared','$home','$comments','$users','$dateheure')";
-		Util::connectSql("$tmpquery1");
-		Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=add");
+		phpCollab\Util::connectSql("$tmpquery1");
+		phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=add");
 	}
 
 }
@@ -185,7 +185,7 @@ if ($id == "")
 $bodyCommand = "onLoad=\"document.booForm.name.focus();\"";
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=my",$strings["bookmarks"],in));
 
@@ -206,7 +206,7 @@ if ($msg != "")
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 if ($id == "") 
 {
 	$block1->form = "boo";
@@ -239,7 +239,7 @@ echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">".$strings["bookm
 <option value=\"0\">-</option>";
 
 $tmpquery = "ORDER BY boocat.name";
-$listCategories = new Request();
+$listCategories = new phpCollab\Request();
 $listCategories->openBookmarksCategories($tmpquery);
 $comptListCategories = count($listCategories->boocat_id);
 
@@ -272,7 +272,7 @@ else
 {
 	$tmpquery = "WHERE mem.id != '$idSession' AND mem.profil != '3' AND mem.id != '2' ORDER BY mem.login";
 }
-$listUsers = new Request();
+$listUsers = new phpCollab\Request();
 $listUsers->openMembers($tmpquery);
 $comptListUsers = count($listUsers->mem_id);
 

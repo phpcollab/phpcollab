@@ -7,10 +7,10 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($action == "update") {
-	$acomm = Util::convertData($acomm);
+	$acomm = phpCollab\Util::convertData($acomm);
 	$tmpquery6 = "UPDATE ".$tableCollab["assignments"]." SET comments='$acomm' WHERE id = '$id'";
-	Util::connectSql("$tmpquery6");
-	Util::headerFunction("../tasks/viewtask.php?id=$task&msg=update");
+	phpCollab\Util::connectSql("$tmpquery6");
+	phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$task&msg=update");
 	exit;
 }
 
@@ -18,14 +18,14 @@ $bodyCommand = "onLoad=\"document.assignment_commentForm.acomm.focus();\"";
 include '../themes/' . THEME . '/header.php';
 
 $tmpquery = "WHERE tas.id = '$task'";
-$taskDetail = new Request();
+$taskDetail = new phpCollab\Request();
 $taskDetail->openTasks($tmpquery);
 
 $tmpquery = "WHERE pro.id = '".$taskDetail->tas_project[0]."'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -34,7 +34,7 @@ $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=".$t
 $blockPage->itemBreadcrumbs($strings["assignment_comment"]);
 $blockPage->closeBreadcrumbs();
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "assignment_comment";
 $block1->openForm("../tasks/assignmentcomment.php?action=update&id=$id&task=$task");

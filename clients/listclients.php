@@ -32,7 +32,7 @@ $setTitle .= " : List Clients";
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?",$strings["organizations"],in));
 $blockPage->itemBreadcrumbs($strings["organizations"]);
@@ -45,7 +45,7 @@ if ($msg != "") {
 
 $blockPage->limitssNumber = "1";
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "clientList";
 $block1->openForm("../clients/listclients.php#".$block1->form."Anchor");
@@ -71,7 +71,7 @@ $block1->sorting("organizations",$sortingUser->sor_organizations[0],"org.name AS
 if ($clientsFilter == "true" && $profilSession == "2") {
 $teamMember = "false";
 $tmpquery = "WHERE tea.member = '$idSession'";
-$memberTest = new Request();
+$memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
@@ -95,10 +95,10 @@ $comptMemberTest = count($memberTest->tea_id);
 	$tmpquery = "WHERE org.id != '1' ORDER BY $block1->sortingValue";
 }
 
-$block1->recordsTotal = Util::computeTotal($initrequest["organizations"]." ".$tmpquery);
+$block1->recordsTotal = phpCollab\Util::computeTotal($initrequest["organizations"]." ".$tmpquery);
 
 if ($listClients != "false") {
-	$listOrganizations = new Request();
+	$listOrganizations = new phpCollab\Request();
 	$listOrganizations->openOrganizations($tmpquery,$block1->limit,$block1->rowsLimit);
 	$comptListOrganizations = count($listOrganizations->org_id);
 } else {

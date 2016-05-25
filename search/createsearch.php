@@ -40,7 +40,7 @@ if ($action == "search") {
 //if searchfor not blank, redirect to searchresults
 	} else {
 		$searchfor = urlencode($searchfor);
-		Util::headerFunction("../search/resultssearch.php?searchfor=$searchfor&heading=$heading");
+		phpCollab\Util::headerFunction("../search/resultssearch.php?searchfor=$searchfor&heading=$heading");
 		exit;
 	}
 } 
@@ -50,7 +50,7 @@ $setTitle .= " : Search";
 $bodyCommand = "onLoad=\"document.searchForm.searchfor.focus()\"";
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../search/createsearch.php?",$strings["search"],in));
 $blockPage->itemBreadcrumbs($strings["search_options"]);
@@ -61,7 +61,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "search";
 $block1->openForm("../search/createsearch.php?action=search");

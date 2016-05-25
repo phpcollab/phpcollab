@@ -12,16 +12,16 @@ include '../includes/cvslib.php';
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE pro.id IN($id) ORDER BY pro.name";
-$listProjects = new Request();
+$listProjects = new phpCollab\Request();
 $listProjects->openProjects($tmpquery);
 $comptListProjects = count($listProjects->pro_id);
 
 if ($comptListProjects == "0") {
-    Util::headerFunction("../projects/listprojects.php?msg=blankProject");
+    phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blankProject");
     exit;
 }
 if ($idSession != $listProjects->pro_owner[0] && $profilSession != "5") {
-    Util::headerFunction("../projects/listprojects.php?msg=projectOwner");
+    phpCollab\Util::headerFunction("../projects/listprojects.php?msg=projectOwner");
     exit;
 }
 
@@ -32,10 +32,10 @@ if ($action == "delete") {
     $comptPro = count($pieces);
     for ($i=0;$i<$comptPro;$i++) {
         if ($fileManagement == "true") {
-            Util::deleteDirectory("../files/$pieces[$i]");
+            phpCollab\Util::deleteDirectory("../files/$pieces[$i]");
         }
         if ($sitePublish == "true") {
-            Util::deleteDirectory("project_sites/$pieces[$i]");
+            phpCollab\Util::deleteDirectory("project_sites/$pieces[$i]");
         }
 
 //if CVS repository enabled
@@ -45,12 +45,12 @@ if ($action == "delete") {
     }
 
     $tmpquery = "WHERE tas.project IN($id)";
-    $listTasks = new Request();
+    $listTasks = new phpCollab\Request();
     $listTasks->openTasks($tmpquery);
     $comptListTasks = count($listTasks->tas_id);
     for ($i=0;$i<$comptListTasks;$i++) {
         if ($fileManagement == "true") {
-            Util::deleteDirectory("../files/$id/".$listTasks->tas_id[$i]);
+            phpCollab\Util::deleteDirectory("../files/$id/".$listTasks->tas_id[$i]);
         }
         $tasks .= $listTasks->tas_id[$i];
         if ($i != $comptListTasks-1) {
@@ -59,7 +59,7 @@ if ($action == "delete") {
     }
 
     $tmpquery = "WHERE topic.project IN($id)";
-    $listTopics = new Request();
+    $listTopics = new phpCollab\Request();
     $listTopics->openTopics($tmpquery);
     $comptListTopics = count($listTopics->top_id);
     for ($i=0;$i<$comptListTopics;$i++) {
@@ -81,33 +81,33 @@ if ($action == "delete") {
     $tmpquery11 = "DELETE FROM ".$tableCollab["phases"]." WHERE project_id IN($id)";
     $tmpquery12 = "DELETE FROM ".$tableCollab["subtasks"]." WHERE task IN($tasks)";
     
-    Util::connectSql($tmpquery1);
-    Util::connectSql($tmpquery2);
-    Util::connectSql($tmpquery3);
-    Util::connectSql($tmpquery4);
-    Util::connectSql($tmpquery5);
+    phpCollab\Util::connectSql($tmpquery1);
+    phpCollab\Util::connectSql($tmpquery2);
+    phpCollab\Util::connectSql($tmpquery3);
+    phpCollab\Util::connectSql($tmpquery4);
+    phpCollab\Util::connectSql($tmpquery5);
 if ($tasks != "") {
-    Util::connectSql($tmpquery6);
-    Util::connectSql($tmpquery12);
+    phpCollab\Util::connectSql($tmpquery6);
+    phpCollab\Util::connectSql($tmpquery12);
 }
 if ($topics != "") {
-    Util::connectSql($tmpquery7);
+    phpCollab\Util::connectSql($tmpquery7);
 }
-    Util::connectSql($tmpquery8);
-    Util::connectSql($tmpquery9);
-    Util::connectSql($tmpquery10);
-    Util::connectSql($tmpquery11);
+    phpCollab\Util::connectSql($tmpquery8);
+    phpCollab\Util::connectSql($tmpquery9);
+    phpCollab\Util::connectSql($tmpquery10);
+    phpCollab\Util::connectSql($tmpquery11);
 //if mantis bug tracker enabled
     if ($enableMantis == "true") {
 // call mantis function to delete project
         include '../mantis/proj_delete.php';
     }
-    Util::headerFunction("../projects/listprojects.php?msg=delete");
+    phpCollab\Util::headerFunction("../projects/listprojects.php?msg=delete");
 }
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($strings["delete_projects"]);
@@ -118,7 +118,7 @@ if ($msg != "") {
     $blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "saP";
 $block1->openForm("../projects/deleteproject.php?action=delete&id=$id");

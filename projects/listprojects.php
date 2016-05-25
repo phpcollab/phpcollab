@@ -20,7 +20,7 @@ if ($typeProjects == "active") {
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($strings["projects"]);
 if ($typeProjects == "inactive") {
@@ -37,7 +37,7 @@ if ($msg != "") {
 
 $blockPage->limitssNumber = "1";
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "saP";
 $block1->openForm("../projects/listprojects.php?typeProjects=$typeProjects&#".$block1->form."Anchor");
@@ -83,9 +83,9 @@ if ($typeProjects == "inactive") {
 	}
 }
 
-$block1->recordsTotal = Util::computeTotal($initrequest["projects"]." ".$tmpquery);
+$block1->recordsTotal = phpCollab\Util::computeTotal($initrequest["projects"]." ".$tmpquery);
 
-$listProjects = new Request();
+$listProjects = new phpCollab\Request();
 $listProjects->openProjects($tmpquery,$block1->limit,$block1->rowsLimit);
 $comptListProjects = count($listProjects->pro_id);
 

@@ -32,18 +32,18 @@ include_once '../includes/library.php';
 $notLogged = "true";
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs("&nbsp;");
 $blockPage->closeBreadcrumbs();
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 $block1->heading($setTitle . " : License");
 
 $block1->openContent();
 $block1->contentTitle("License");
 
-$block1->contentRow("","<pre>".Util::getFileContents("../docs/copying.txt")."</pre>");
+$block1->contentRow("","<pre>".phpCollab\Util::getFileContents("../docs/copying.txt")."</pre>");
 
 $block1->closeContent();
 

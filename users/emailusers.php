@@ -20,18 +20,18 @@ if ($action == "email")
 
 	// get name and email of user sending the email
 	$tmpquery = "WHERE mem.id = '$idSession'";
-	$userPrefs = new Request();
+	$userPrefs = new phpCollab\Request();
 	$userPrefs->openMembers($tmpquery);
 
 	// get company name
 	$tmpquery = "WHERE org.id = '1'";
-	$clientDetail = new Request();
+	$clientDetail = new phpCollab\Request();
 	$clientDetail->openOrganizations($tmpquery);
 
 	// get users to email
 	$id = str_replace("**",",",$id);
 	$tmpquery = "WHERE mem.id IN($id) ORDER BY mem.name";
-	$listMembers = new Request();
+	$listMembers = new phpCollab\Request();
 	$listMembers->openMembers($tmpquery);
 	$comptListMembers = count($listMembers->mem_id);
 
@@ -79,7 +79,7 @@ if ($action == "email")
 // start main page
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?",$strings["administration"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../users/listusers.php?",$strings["user_management"],in));
@@ -90,7 +90,7 @@ if ($msg != "") {
 	include '../themes/' . THEME . '/msg.php';
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "user_email";
 $block1->openForm("../users/emailusers.php?action=email");
@@ -107,7 +107,7 @@ $block1->contentTitle($strings["email_following"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE mem.id IN($id) ORDER BY mem.name";
-$listMembers = new Request();
+$listMembers = new phpCollab\Request();
 $listMembers->openMembers($tmpquery);
 $comptListMembers = count($listMembers->mem_id);
 

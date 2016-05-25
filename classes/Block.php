@@ -2,6 +2,8 @@
 #Application name: PhpCollab
 #Status page: 0
 
+namespace phpCollab;
+
 class Block
 {
     protected $help, $strings, $iconWidth, $iconHeight, $bgColor, $fgColor,

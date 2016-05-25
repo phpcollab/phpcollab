@@ -39,7 +39,7 @@ $tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='0' WHERE id IN($id
 } else {
 $tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='0' WHERE id = '$id'";
 }
-Util::connectSql("$tmpquery1");
+phpCollab\Util::connectSql("$tmpquery1");
 $msg = "addToSite";
 $id = $project;
 }
@@ -52,19 +52,19 @@ $tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='1' WHERE id IN($id
 } else {
 $tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='1' WHERE id = '$id'";
 }
-Util::connectSql("$tmpquery1");
+phpCollab\Util::connectSql("$tmpquery1");
 $msg = "removeToSite";
 $id = $project;
 }
 }
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-$memberTest = new Request();
+$memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
@@ -79,7 +79,7 @@ if ($teamMember == "false" && $projectsFilter == "true") {
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -93,7 +93,7 @@ if ($msg != "") {
 
 $blockPage->limitsNumber = "1";
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "saT";
 $block1->openForm("../tasks/listtasks.php?&project=$project#".$block1->form."Anchor");
@@ -124,9 +124,9 @@ $block1->sorting("tasks",$sortingUser->sor_tasks[0],"tas.name ASC",$sortingField
 
 $tmpquery = "WHERE tas.project = '$project' ORDER BY $block1->sortingValue";
 
-$block1->recordsTotal = Util::computeTotal($initrequest["tasks"]." ".$tmpquery);
+$block1->recordsTotal = phpCollab\Util::computeTotal($initrequest["tasks"]." ".$tmpquery);
 
-$listTasks = new Request();
+$listTasks = new phpCollab\Request();
 $listTasks->openTasks($tmpquery,$block1->limit,$block1->rowsLimit);
 $comptListTasks = count($listTasks->tas_id);
 

@@ -32,7 +32,7 @@ include '../includes/library.php';
 
 if ($updateProject == "true") {
 	$tmpquery = "WHERE tea.member = '$idSession' AND pro.id = '$project' AND pro.status IN(0,2,3) AND pro.published = '0'";
-	$testProject = new Request();
+	$testProject = new phpCollab\Request();
 	$testProject->openTeams($tmpquery);
 	$comptTestProject = count($testProject->tea_id);
 
@@ -43,9 +43,9 @@ if ($updateProject == "true") {
 
 		$_SESSION['projectSession'] = $projectSession;
 
-		Util::headerFunction("home.php");
+		phpCollab\Util::headerFunction("home.php");
 	} else {
-		Util::headerFunction("home.php?changeProject=true");
+		phpCollab\Util::headerFunction("home.php?changeProject=true");
 	}
 }
 
@@ -54,8 +54,8 @@ $titlePage = $strings["welcome"]." $nameSession ".$strings["your_projectsite"];
 include 'include_header.php';
 
 if ($updateProject != "true" && $changeProject != "true") {
-	$tmpquery = "WHERE org.id = '".Util::fixInt($projectDetail->pro_organization[0])."'";
-	$clientDetail = new Request();
+	$tmpquery = "WHERE org.id = '".phpCollab\Util::fixInt($projectDetail->pro_organization[0])."'";
+	$clientDetail = new phpCollab\Request();
 	$clientDetail->openOrganizations($tmpquery);
 }
 
@@ -63,12 +63,12 @@ $idStatus = $projectDetail->pro_status[0];
 $idPriority = $projectDetail->pro_priority[0];
 
 if ($projectSession == "" || $changeProject == "true") {
-	$tmpquery = "WHERE tea.member = '".Util::fixInt($idSession)."' AND pro.status IN(0,2,3) AND pro.published = '0' ORDER BY pro.name";
-	$listProjects = new Request();
+	$tmpquery = "WHERE tea.member = '".phpCollab\Util::fixInt($idSession)."' AND pro.status IN(0,2,3) AND pro.published = '0' ORDER BY pro.name";
+	$listProjects = new phpCollab\Request();
 	$listProjects->openTeams($tmpquery);
 	$comptListProjects = count($listProjects->tea_id);
 
-	$block1 = new Block();
+	$block1 = new phpCollab\Block();
 
 	$block1->heading($strings["my_projects"]);
 
@@ -143,7 +143,7 @@ if ($projectSession != "" && $changeProject != "true") {
 		echo"	<tr><th nowrap valign='top' class='FormLabel'>".$strings["current_phase"]." :</td><td>";
 
 		$tmpquery = "WHERE pha.project_id = '".$projectDetail->pro_id[0]."' AND status = '1'";
-		$currentPhase = new Request();
+		$currentPhase = new phpCollab\Request();
 		$currentPhase->openPhases($tmpquery);
 		$comptCurrentPhase = count($currentPhase->pha_id);
 		if ($comptCurrentPhase == 0){
@@ -173,16 +173,16 @@ if ($projectSession != "" && $changeProject != "true") {
 			</tr>
 			<tr>
 				<th nowrap class='FormLabel'>".$strings["created"]." :</th>
-				<td>&nbsp;".Util::createDate($projectDetail->pro_created[0],$timezoneSession)."</td>
+				<td>&nbsp;".phpCollab\Util::createDate($projectDetail->pro_created[0],$timezoneSession)."</td>
 			</tr>
 			<tr>
 				<th nowrap class='FormLabel'>".$strings["modified"]." :</th>
-				<td>&nbsp;".Util::createDate($projectDetail->pro_modified[0],$timezoneSession)."</td>
+				<td>&nbsp;".phpCollab\Util::createDate($projectDetail->pro_modified[0],$timezoneSession)."</td>
 			</tr>
 			</table>";
 
 	$tmpquery = "WHERE tea.project = '$projectSession' AND tea.member = '".$projectDetail->pro_owner[0]."'";
-	$detailContact = new Request();
+	$detailContact = new phpCollab\Request();
 	$detailContact->openTeams($tmpquery);
 
 	if ($detailContact->tea_published[0] == "0" && $detailContact->tea_project[0] == $projectSession) {

@@ -7,7 +7,7 @@ echo " - Connected users: $connectedUsers";
 }
 
 if ($footerDev == "true") {
-	$parse_end = Util::getMicroTime();
+	$parse_end = phpCollab\Util::getMicroTime();
 	$parse = $parse_end - $parse_start;
 	$parse = round($parse,3);
 	echo " - $parse secondes - databaseType $databaseType - select requests $comptRequest";

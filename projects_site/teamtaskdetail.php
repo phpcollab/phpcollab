@@ -6,18 +6,18 @@ $checkSession = "true";
 include '../includes/library.php';
 
 $tmpquery = "WHERE tas.id = '$id'";
-$taskDetail = new Request();
+$taskDetail = new phpCollab\Request();
 $taskDetail->openTasks($tmpquery);
 
 if ($taskDetail->tas_published[0] == "1" || $taskDetail->tas_project[0] != $projectSession) {
-Util::headerFunction("index.php");
+phpCollab\Util::headerFunction("index.php");
 }
 
 $bouton[2] = "over";
 $titlePage = $strings["team_task_details"];
 include 'include_header.php';
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->heading($strings["team_task_details"]);
 
@@ -44,14 +44,14 @@ echo "<tr><td>".$strings["due_date"]." :</td><td>".$taskDetail->tas_due_date[0].
 }
 echo "<tr><td>".$strings["updates_task"]." :</td><td>";
 $tmpquery = "WHERE upd.type='1' AND upd.item = '$id' ORDER BY upd.created DESC";
-$listUpdates = new Request();
+$listUpdates = new phpCollab\Request();
 $listUpdates->openUpdates($tmpquery);
 $comptListUpdates=count($listUpdates->upd_id);
 
 if ($comptListUpdates != "0") {
 $j = 1;
 for ($i=0;$i<$comptListUpdates;$i++) {
-	echo "<b>".$j.".</b> <i>".Util::createDate($listUpdates->upd_created[$i],$timezoneSession)."</i><br/>".nl2br($listUpdates->upd_comments[$i]);
+	echo "<b>".$j.".</b> <i>".phpCollab\Util::createDate($listUpdates->upd_created[$i],$timezoneSession)."</i><br/>".nl2br($listUpdates->upd_comments[$i]);
 	echo "<br/>";
 $j++;
 }
@@ -62,13 +62,13 @@ echo $strings["no_items"];
 echo "</td></tr> </table> <hr>";
 
 $tmpquery = "WHERE subtas.task = '$id' AND subtas.published = '0' ORDER BY subtas.name";
-$listSubtasks = new Request();
+$listSubtasks = new phpCollab\Request();
 $listSubtasks->openSubtasks($tmpquery);
 $comptListSubtasks = count($listSubtasks->subtas_id);
 
 echo "<br/>";
 
-$block2 = new Block();
+$block2 = new phpCollab\Block();
 
 $block2->heading($strings["subtasks"]);
 

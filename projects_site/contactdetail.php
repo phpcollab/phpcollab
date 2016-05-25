@@ -6,15 +6,15 @@ $checkSession = "true";
 include '../includes/library.php';
 
 $tmpquery = "WHERE mem.id = '$id'";
-$userDetail = new Request();
+$userDetail = new phpCollab\Request();
 $userDetail->openMembers($tmpquery);
 
 $tmpquery = "WHERE tea.project = '$projectSession' AND tea.member = '$id'";
-$detailContact = new Request();
+$detailContact = new phpCollab\Request();
 $detailContact->openTeams($tmpquery);
 
 if ($detailContact->tea_published[0] == "1" || $detailContact->tea_project[0] != $projectSession) {
-Util::headerFunction("index.php");
+phpCollab\Util::headerFunction("index.php");
 }
 
 $bouton[1] = "over";

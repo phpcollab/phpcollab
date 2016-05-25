@@ -297,8 +297,8 @@ STAMP;
         $msg = 'File settings.php created correctly.';
 
         // crypt admin and demo password
-        $demoPwd = Util::getPassword("demo");
-        $adminPwd = Util::getPassword($adminPwd);
+        $demoPwd = phpCollab\Util::getPassword("demo");
+        $adminPwd = phpCollab\Util::getPassword($adminPwd);
 
         // create all tables
         include '../includes/db_var.inc.php';
@@ -379,7 +379,7 @@ $blank = "true";
 include '../themes/' . THEME . '/header.php';
 
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs("<a href='../installation/setup.php'>Setup</a>");
 
@@ -400,7 +400,7 @@ if ($step == "1") {
 
 $blockPage->closeBreadcrumbs();
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 if ($step == "1") {
     $block1->heading("License");

@@ -7,18 +7,18 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($profilSession != "0") {
-	Util::headerFunction('../general/permissiondenied.php');
+	phpCollab\Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 
 $tmpquery = "WHERE serv.id = '$id'";
-$detailService = new Request();
+$detailService = new phpCollab\Request();
 $detailService->openServices($tmpquery);
 $comptDetailService = count($detailService->serv_id);
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?",$strings["administration"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../services/listservices.php?",$strings["service_management"],in));
@@ -30,7 +30,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "serviceD";
 $block1->openForm("../services/viewservice.php#".$block1->form."Anchor");

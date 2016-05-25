@@ -35,7 +35,7 @@ $bodyCommand = "onLoad=\"document.searchForm.searchfor.focus()\"";
 include '../themes/' . THEME . '/header.php';
 
 $searchFor = urldecode($searchFor);
-$searchfor = Util::convertData($searchfor);
+$searchfor = phpCollab\Util::convertData($searchfor);
 $searchfor = strtolower($searchfor);
 $mots = explode(" ", $searchfor);
 $nombre_mots = count($mots);
@@ -170,9 +170,9 @@ while ($y < $nombre_mots) {
     $y++;
 }
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->limit = $blockPage->returnLimit("1");
 $block1->rowsLimit = "10";
@@ -187,15 +187,15 @@ if ($projectsFilter == "true") {
 }
 $comptListProjects = "0";
 if ($validProjects == "true") {
-    $block1->recordsTotal = Util::computeTotal($initrequest["projects"] . " " . $tmpquery);
+    $block1->recordsTotal = phpCollab\Util::computeTotal($initrequest["projects"] . " " . $tmpquery);
 
-    $listProjects = new Request();
+    $listProjects = new phpCollab\Request();
     $listProjects->openProjects($tmpquery, $block1->limit, $block1->rowsLimit);
     $comptListProjects = count($listProjects->pro_id);
     //echo "$tmpquery<br/>";
 }
 
-$block2 = new Block();
+$block2 = new phpCollab\Block();
 
 $block2->limit = $blockPage->returnLimit("2");
 $block2->rowsLimit = "10";
@@ -206,7 +206,7 @@ if ($projectsFilter == "true") {
     $tmpquery = "LEFT OUTER JOIN " . $tableCollab["teams"] . " teams ON teams.project = pro.id ";
     $tmpquery .= "WHERE pro.status IN(0,2,3) AND teams.member = '$idSession' ORDER BY pro.id";
 
-    $listProjectsFilter = new Request();
+    $listProjectsFilter = new phpCollab\Request();
     $listProjectsFilter->openProjects($tmpquery);
     $comptListProjectsFilter = count($listProjectsFilter->pro_id);
 
@@ -232,15 +232,15 @@ if ($projectsFilter == "true") {
 
 $comptListTasks = "0";
 if ($validTasks == "true") {
-    $block2->recordsTotal = Util::computeTotal($initrequest["tasks"] . " " . $tmpquery);
+    $block2->recordsTotal = phpCollab\Util::computeTotal($initrequest["tasks"] . " " . $tmpquery);
 
-    $listTasks = new Request();
+    $listTasks = new phpCollab\Request();
     $listTasks->openTasks($tmpquery, $block2->limit, $block2->rowsLimit);
     $comptListTasks = count($listTasks->tas_id);
     //echo "$tmpquery<br/>";
 }
 
-$block9 = new Block();
+$block9 = new phpCollab\Block();
 $block9->limit = $blockPage->returnLimit("9");
 $block9->rowsLimit = "10";
 $block9->sorting("home_subtasks", $sortingUser->sor_home_subtasks[0], "subtas.name ASC", $sortingFields = array(0 => "subtas.name", 1 => "subtas.priority", 2 => "subtas.status", 3 => "subtas.due_date", 4 => "mem.login", 5 => "subtas.project", 6 => "subtas.published"));
@@ -249,14 +249,14 @@ $tmpquery = "$searchSubtasks ORDER BY $block9->sortingValue";
 
 $comptListSubtasks = "0";
 if ($validSubtasks == "true") {
-    $block9->recordsTotal = Util::computeTotal($initrequest["subtasks"] . " " . $tmpquery);
+    $block9->recordsTotal = phpCollab\Util::computeTotal($initrequest["subtasks"] . " " . $tmpquery);
 
-    $listSubtasks = new Request();
+    $listSubtasks = new phpCollab\Request();
     $listSubtasks->openSubtasks($tmpquery, $block9->limit, $block9->rowsLimit);
     $comptListSubtasks = count($listSubtasks->subtas_id);
     //echo "$tmpquery<br/>";
 }
-$block3 = new Block();
+$block3 = new phpCollab\Block();
 
 $block3->limit = $blockPage->returnLimit("3");
 $block3->rowsLimit = "10";
@@ -270,15 +270,15 @@ if ($demoMode == "true") {
 }
 $comptListMembers = "0";
 if ($validMembers == "true") {
-    $block3->recordsTotal = Util::computeTotal($initrequest["members"] . " " . $tmpquery);
+    $block3->recordsTotal = phpCollab\Util::computeTotal($initrequest["members"] . " " . $tmpquery);
 
-    $listMembers = new Request();
+    $listMembers = new phpCollab\Request();
     $listMembers->openMembers($tmpquery, $block3->limit, $block3->rowsLimit);
     $comptListMembers = count($listMembers->mem_id);
     //echo "$tmpquery<br/>";
 }
 
-$block4 = new Block();
+$block4 = new phpCollab\Block();
 
 $block4->limit = $blockPage->returnLimit("4");
 $block4->rowsLimit = "10";
@@ -288,7 +288,7 @@ $block4->sorting("organizations", $sortingUser->sor_organizations[0], "org.name 
 if ($clientsFilter == "true" && $profilSession == "2") {
     $teamMember = "false";
     $tmpquery = "WHERE tea.member = '$idSession'";
-    $memberTest = new Request();
+    $memberTest = new phpCollab\Request();
     $memberTest->openTeams($tmpquery);
     $comptMemberTest = count($memberTest->tea_id);
     if ($comptMemberTest == "0") {
@@ -315,15 +315,15 @@ if ($clientsFilter == "true" && $profilSession == "2") {
 
 $comptListOrganizations = "0";
 if ($validOrganizations == "true" && $listClients != "false") {
-    $block4->recordsTotal = Util::computeTotal($initrequest["organizations"] . " " . $tmpquery);
+    $block4->recordsTotal = phpCollab\Util::computeTotal($initrequest["organizations"] . " " . $tmpquery);
 
-    $listOrganizations = new Request();
+    $listOrganizations = new phpCollab\Request();
     $listOrganizations->openOrganizations($tmpquery, $block4->limit, $block4->rowsLimit);
     $comptListOrganizations = count($listOrganizations->org_id);
     //echo "$tmpquery<br/>";
 }
 
-$block5 = new Block();
+$block5 = new phpCollab\Block();
 
 $block5->limit = $blockPage->returnLimit("5");
 $block5->rowsLimit = "10";
@@ -342,15 +342,15 @@ if ($projectsFilter == "true") {
 
 $comptListTopics = "0";
 if ($validTopics == "true") {
-    $block5->recordsTotal = Util::computeTotal($initrequest["topics"] . " " . $tmpquery);
+    $block5->recordsTotal = phpCollab\Util::computeTotal($initrequest["topics"] . " " . $tmpquery);
 
-    $listTopics = new Request();
+    $listTopics = new phpCollab\Request();
     $listTopics->openTopics($tmpquery, $block5->limit, $block5->rowsLimit);
     $comptListTopics = count($listTopics->top_id);
     //echo "$tmpquery<br/>";
 }
 
-$block6 = new Block();
+$block6 = new phpCollab\Block();
 
 $comptTopic = count($topicNote);
 
@@ -376,9 +376,9 @@ if ($projectsFilter == "true") {
 $comptListNotes = "0";
 if ($validNotes == "true") {
 
-    $block6->recordsTotal = Util::computeTotal($initrequest["notes"] . " " . $tmpquery);
+    $block6->recordsTotal = phpCollab\Util::computeTotal($initrequest["notes"] . " " . $tmpquery);
 
-    $listNotes = new Request();
+    $listNotes = new phpCollab\Request();
     $listNotes->openNotes($tmpquery, $block6->limit, $block6->rowsLimit);
     $comptListNotes = count($listNotes->note_id);
     //echo "$tmpquery<br/>";
@@ -393,7 +393,7 @@ $blockPage->closeBreadcrumbs();
 
 $blockPage->limitsNumber = "6";
 
-$block0 = new Block();
+$block0 = new phpCollab\Block();
 
 $block0->openContent();
 $block0->contentTitle($strings["results_for_keywords"] . " : <b>$searchfor</b>");
@@ -739,7 +739,7 @@ if ($comptListNotes != "0") {
     $block6->closePaletteScript($comptListNotes,$listNotes->note_id);*/
 }
 
-$block7 = new Block();
+$block7 = new phpCollab\Block();
 
 $block7->form = "search";
 $block7->openForm("../search/createsearch.php?action=search");

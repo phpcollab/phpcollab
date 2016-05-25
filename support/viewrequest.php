@@ -6,29 +6,29 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($enableHelpSupport != "true") {
-	Util::headerFunction('../general/permissiondenied.php');
+	phpCollab\Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 
 if ($supportType == "admin") {
 	if ($profilSession != "0") {
-		Util::headerFunction('../general/permissiondenied.php');
+		phpCollab\Util::headerFunction('../general/permissiondenied.php');
 		exit;
 	}
 }
 
 $tmpquery = "WHERE sr.id = '$id'";
-$requestDetail = new Request();
+$requestDetail = new phpCollab\Request();
 $requestDetail->openSupportRequests($tmpquery);
 
 $tmpquery = "WHERE sp.request_id = '$id' ORDER BY sp.date DESC";
-$listPosts = new Request();
+$listPosts = new phpCollab\Request();
 $listPosts->openSupportPosts($tmpquery);
 $comptListPosts = count($listPosts->sp_id);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '".$requestDetail->sr_project[0]."' AND tea.member = '$idSession'";
-$memberTest = new Request();
+$memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
@@ -39,7 +39,7 @@ $comptMemberTest = count($memberTest->tea_id);
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 if ($supportType == "team") {
 	$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
@@ -57,7 +57,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "sdt";
 $block1->openForm("");
@@ -106,7 +106,7 @@ if ($teamMember == "true" || $profilSession != "0") {
 
 for ($i=0;$i<$comptListPosts;$i++) {
 $block1->contentRow($strings["posted_by"],$blockPage->buildLink($listPosts->sp_mem_email_work[$i],$listPosts->sp_mem_name[$i],mail));
-$block1->contentRow($strings["date"],Util::createDate($listPosts->sp_date[$i],$timezoneSession));
+$block1->contentRow($strings["date"],phpCollab\Util::createDate($listPosts->sp_date[$i],$timezoneSession));
 
 if ($teamMember == "true" || $profilSession == "0") {
 $block1->contentRow($blockPage->buildLink("../support/deleterequests.php?action=deleteP&id=".$listPosts->sp_id[$i],$strings["delete_message"],in),nl2br($listPosts->sp_message[$i]));

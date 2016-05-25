@@ -16,7 +16,7 @@ if ($action == "publish") {
 		} else {
 			$tmpquery1 = "UPDATE ".$tableCollab["notes"]." SET published='0' WHERE id = '$id'";
 		}
-		Util::connectSql("$tmpquery1");
+		phpCollab\Util::connectSql("$tmpquery1");
 		$msg = "addToSite";
 		$id = $project;
 	}
@@ -29,7 +29,7 @@ if ($action == "publish") {
 		} else {
 			$tmpquery1 = "UPDATE ".$tableCollab["notes"]." SET published='1' WHERE id = '$id'";
 		}
-		Util::connectSql("$tmpquery1");
+		phpCollab\Util::connectSql("$tmpquery1");
 		$msg = "removeToSite";
 		$id = $project;
 	}
@@ -38,12 +38,12 @@ if ($action == "publish") {
 include '../themes/' . THEME . '/header.php';
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-$memberTest = new Request();
+$memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 if ($comptMemberTest == "0") {
@@ -52,7 +52,7 @@ if ($comptMemberTest == "0") {
 	$teamMember = "true";
 }
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -64,7 +64,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 $block1->form = "saJ";
 $block1->openForm("../notes/listnotes.php?&project=$project#".$block1->form."Anchor");
 
@@ -94,7 +94,7 @@ if ($comptTopic != "0") {
 	$block1->sorting("notes",$sortingUser->sor_notes[0],"note.date DESC",$sortingFields = array(0=>"note.subject",1=>"note.date",2=>"mem.login",3=>"note.published"));
 }
 $tmpquery = "WHERE note.project = '$project' ORDER BY $block1->sortingValue";
-$listNotes = new Request();
+$listNotes = new phpCollab\Request();
 $listNotes->openNotes($tmpquery);
 $comptListNotes = count($listNotes->note_id);
 

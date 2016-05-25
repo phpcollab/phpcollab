@@ -7,7 +7,7 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($profilSession != "0") {
-	Util::headerFunction('../general/permissiondenied.php');
+	phpCollab\Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 
@@ -17,15 +17,15 @@ if ($id != "") {
 //case update user
 if ($action == "update") {
 //replace quotes by html code in name and address
-	$n = Util::convertData($n);
-	$np = Util::convertData($np);
+	$n = phpCollab\Util::convertData($n);
+	$np = phpCollab\Util::convertData($np);
 	$tmpquery = "UPDATE ".$tableCollab["services"]." SET name='$n',name_print='$np',hourly_rate='$hr' WHERE id = '$id'";
-	Util::connectSql($tmpquery);
-	Util::headerFunction("../services/listservices.php?msg=update");
+	phpCollab\Util::connectSql($tmpquery);
+	phpCollab\Util::headerFunction("../services/listservices.php?msg=update");
 	exit;
 }
 $tmpquery = "WHERE serv.id = '$id'";
-$detailService = new Request();
+$detailService = new phpCollab\Request();
 $detailService->openServices($tmpquery);
 $comptDetailService = count($detailService->serv_id);
 
@@ -39,14 +39,14 @@ $hr = $detailService->serv_hourly_rate[0];
 if ($id == "") {
 if ($action == "add") {
 //replace quotes by html code in name and address
-	$n = Util::convertData($n);
-	$np = Util::convertData($np);
+	$n = phpCollab\Util::convertData($n);
+	$np = phpCollab\Util::convertData($np);
 	
 	//$tmpquery1 = "INSERT INTO ".$tableCollab["services"]." SET name='$n',name_print='$np',hourly_rate='$hr'";
     $tmpquery1 = "INSERT INTO ".$tableCollab["services"]." (name,name_print,hourly_rate) VALUES ('$n','$np','$hr')";
 	
-	Util::connectSql($tmpquery1);
-	Util::headerFunction("../services/listservices.php?msg=add");
+	phpCollab\Util::connectSql($tmpquery1);
+	phpCollab\Util::headerFunction("../services/listservices.php?msg=add");
 	exit;
 }
 }
@@ -61,7 +61,7 @@ if ($id == '') {
 $bodyCommand = "onLoad=\"document.serv_editForm.n.focus();\"";
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?",$strings["administration"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../services/listservices.php?",$strings["service_management"],in));
@@ -80,7 +80,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 if ($id == "") {
 	$block1->form = "serv_edit";

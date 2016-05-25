@@ -30,20 +30,20 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($profilSession != "0") {
-    Util::headerFunction('../general/permissiondenied.php');
+    phpCollab\Util::headerFunction('../general/permissiondenied.php');
     exit;
 }
 
 $setTitle .= " : System Information";
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], in));
 $blockPage->itemBreadcrumbs($strings["system_information"]);
 $blockPage->closeBreadcrumbs();
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->heading($strings["system_information"]);
 
@@ -93,7 +93,7 @@ if ($databaseType == "sqlserver") {
 }
 
 $block1->contentRow("Database Type", $databaseTypeMore);
-$block1->contentRow("Files folder size", Util::convertSize(Util::folderInfoSize("../files/")));
+$block1->contentRow("Files folder size", phpCollab\Util::convertSize(phpCollab\Util::folderInfoSize("../files/")));
 
 $block1->contentTitle($strings["system_properties"]);
 $block1->contentRow("PHP Version", phpversion() . " " . $blockPage->buildLink("../administration/phpinfo.php?", "PhpInfo", inblank));
@@ -174,17 +174,17 @@ $block1->contentRow("SMTP", ini_get(SMTP));
 $block1->contentRow("upload_max_filesize", ini_get(upload_max_filesize));
 $block1->contentRow("session.name", session_name());
 $block1->contentRow("session.save_path", session_save_path());
-$block1->contentRow("HTTP_HOST", Util::returnGlobal('HTTP_HOST', 'SERVER'));
+$block1->contentRow("HTTP_HOST", phpCollab\Util::returnGlobal('HTTP_HOST', 'SERVER'));
 
 if (substr(PHP_OS, 0, 3) == "WIN") {
-    $block1->contentRow("PATH_TRANSLATED", stripslashes(Util::returnGlobal('PATH_TRANSLATED', 'SERVER')));
+    $block1->contentRow("PATH_TRANSLATED", stripslashes(phpCollab\Util::returnGlobal('PATH_TRANSLATED', 'SERVER')));
 } else {
-    $block1->contentRow("PATH_TRANSLATED", Util::returnGlobal('PATH_TRANSLATED', 'SERVER'));
+    $block1->contentRow("PATH_TRANSLATED", phpCollab\Util::returnGlobal('PATH_TRANSLATED', 'SERVER'));
 }
 
-$block1->contentRow("SERVER_NAME", Util::returnGlobal('SERVER_NAME', 'SERVER'));
-$block1->contentRow("SERVER_PORT", Util::returnGlobal('SERVER_PORT', 'SERVER'));
-$block1->contentRow("SERVER_SOFTWARE", Util::returnGlobal('SERVER_SOFTWARE', 'SERVER'));
+$block1->contentRow("SERVER_NAME", phpCollab\Util::returnGlobal('SERVER_NAME', 'SERVER'));
+$block1->contentRow("SERVER_PORT", phpCollab\Util::returnGlobal('SERVER_PORT', 'SERVER'));
+$block1->contentRow("SERVER_SOFTWARE", phpCollab\Util::returnGlobal('SERVER_SOFTWARE', 'SERVER'));
 $block1->contentRow("SERVER_OS", PHP_OS);
 
 $block1->closeContent();

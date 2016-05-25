@@ -6,20 +6,20 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$id = Util::returnGlobal('id','GET');
+$id = phpCollab\Util::returnGlobal('id','GET');
 
 $tmpquery = "WHERE org.id = '$id'";
-$clientDetail = new Request();
+$clientDetail = new phpCollab\Request();
 $clientDetail->openOrganizations($tmpquery);
 $comptClientDetail = count($clientDetail->org_id);
 
 if ($comptClientDetail == "0") {
-	Util::headerFunction("../clients/listclients.php?msg=blankClient");
+	phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
 }
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?",$strings["organizations"],in));
 $blockPage->itemBreadcrumbs($strings["organizations"]);
@@ -30,7 +30,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "ecD";
 $block1->openForm("../projects/listprojects.php#".$block1->form."Anchor");
@@ -54,7 +54,7 @@ $block1->contentRow($strings["email"],$blockPage->buildLink($clientDetail->org_e
 $block1->contentTitle($strings["details"]);
 
 $block1->contentRow($strings["comments"],nl2br($clientDetail->org_comments[0]));
-$block1->contentRow($strings["created"],Util::createDate($clientDetail->org_created[0],$timezoneSession));
+$block1->contentRow($strings["created"],phpCollab\Util::createDate($clientDetail->org_created[0],$timezoneSession));
 
 $block1->closeContent();
 $block1->closeToggle();

@@ -36,13 +36,13 @@ include_once '../includes/library.php';
 $includeCalendar = true;
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/listreports.php?",$strings["reports"],in));
 $blockPage->itemBreadcrumbs($strings["create_report"]);
 $blockPage->closeBreadcrumbs();
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "customsearch";
 $block1->openForm("../reports/resultsreport.php");
@@ -58,7 +58,7 @@ if ($clientsFilter == "true" && $profilSession == "2")
 {
 	$teamMember = "false";
 	$tmpquery = "WHERE tea.member = '$idSession'";
-	$memberTest = new Request();
+	$memberTest = new phpCollab\Request();
 	$memberTest->openTeams($tmpquery);
 	$comptMemberTest = count($memberTest->tea_id);
 
@@ -93,7 +93,7 @@ else
 	$tmpquery = "WHERE org.id != '1' ORDER BY org.name";
 }
 
-$listOrganizations = new Request();
+$listOrganizations = new phpCollab\Request();
 $listOrganizations->openOrganizations($tmpquery);
 $comptListOrganizations = count($listOrganizations->org_id);
 
@@ -113,7 +113,7 @@ if ($projectsFilter == "true") {
 } else {
 	$tmpquery = "WHERE pro.status IN(0,2,3)  ORDER BY pro.name";
 }
-$listProjects = new Request();
+$listProjects = new phpCollab\Request();
 $listProjects->openProjects($tmpquery);
 $comptListProjects = count($listProjects->pro_id);
 
@@ -133,7 +133,7 @@ if ($demoMode == "true") {
 	$tmpquery = "WHERE mem.id != '2' ORDER BY mem.name";
 }
 
-$listMembers = new Request();
+$listMembers = new phpCollab\Request();
 $listMembers->openMembers($tmpquery);
 $comptListMembers = count($listMembers->mem_id);
 

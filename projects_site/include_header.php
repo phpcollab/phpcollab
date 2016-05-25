@@ -34,12 +34,12 @@
 if ($projectSession != "" && $changeProject != "true") 
 {
 	$tmpquery = "WHERE pro.id = '$projectSession'";
-	$projectDetail = new Request();
+	$projectDetail = new phpCollab\Request();
 	$projectDetail->openProjects($tmpquery);
 
 	$teamMember = "false";
 	$tmpquery = "WHERE tea.project = '$projectSession' AND tea.member = '$idSession'";
-	$memberTest = new Request();
+	$memberTest = new phpCollab\Request();
 	$memberTest->openTeams($tmpquery);
 	$comptMemberTest = count($memberTest->tea_id);
 
@@ -54,7 +54,7 @@ if ($projectSession != "" && $changeProject != "true")
 
 	if ($teamMember == "false") 
 	{
-		Util::headerFunction("index.php");
+		phpCollab\Util::headerFunction("index.php");
 	}
 }
 

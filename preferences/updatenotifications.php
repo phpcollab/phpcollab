@@ -31,12 +31,12 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 $tmpquery = "WHERE mem.id = '$idSession'";
-$userPrefs = new Request();
+$userPrefs = new phpCollab\Request();
 $userPrefs->openMembers($tmpquery);
 $comptUserPrefs = count($userPrefs->mem_id);
 
 if ($comptUserPrefs == "0") {
-    Util::headerFunction("../users/listusers.php?msg=blankUser");
+    phpCollab\Util::headerFunction("../users/listusers.php?msg=blankUser");
     exit;
 }
 
@@ -46,15 +46,15 @@ if ($action == "update") {
             $tbl_check[$i] = "1";
         }
         //echo $tbl_check[$i]."<br/>";
-        Util::headerFunction("../preferences/updatenotifications.php?msg=update");
+        phpCollab\Util::headerFunction("../preferences/updatenotifications.php?msg=update");
     }
 
     $tmpquery = "UPDATE " . $tableCollab["notifications"] . " SET taskAssignment='$tbl_check[0]',statusTaskChange='$tbl_check[1]',priorityTaskChange='$tbl_check[2]',duedateTaskChange='$tbl_check[3]',addProjectTeam='$tbl_check[4]',removeProjectTeam='$tbl_check[5]',newPost='$tbl_check[6]',newTopic='$tbl_check[7]',clientAddTask='$tbl_check[8]',uploadFile='$tbl_check[9]',dailyAlert='$tbl_check[10]',weeklyAlert='$tbl_check[11]',pastdueAlert='$tbl_check[12]' WHERE member = '$idSession'";
-    Util::connectSql($tmpquery);
+    phpCollab\Util::connectSql($tmpquery);
 }
 
 $tmpquery = "WHERE noti.member = '$idSession'";
-$userAvert = new Request();
+$userAvert = new phpCollab\Request();
 $userAvert->openNotifications($tmpquery);
 
 if ($userAvert->not_taskassignment[0] == "0") {
@@ -135,7 +135,7 @@ function checkboxes(){
 </script>";
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($strings["preferences"]);
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../preferences/updateuser.php?", $strings["user_profile"],
@@ -148,7 +148,7 @@ if ($msg != "") {
     $blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 $block1->form = "user_avert";
 $block1->openForm("../preferences/updatenotifications.php?action=update");
 

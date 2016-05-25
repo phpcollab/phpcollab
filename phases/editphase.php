@@ -30,17 +30,17 @@ include_once '../includes/library.php';
 include '../includes/customvalues.php';
 
 $tmpquery = "WHERE pha.id = '$id'";
-$phaseDetail = new Request();
+$phaseDetail = new phpCollab\Request();
 $phaseDetail->openPhases($tmpquery);
 $project = $phaseDetail->pha_project_id[0];
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-$memberTest = new Request();
+$memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
@@ -50,7 +50,7 @@ $comptMemberTest = count($memberTest->tea_id);
 	}
 
 if ($action == "update") {
-	$c = Util::convertData($c);
+	$c = phpCollab\Util::convertData($c);
 
 	if ($st == 0) {
 		$ed = "--";
@@ -65,26 +65,26 @@ if ($action == "update") {
 	}
 
 	$tmpquery = "UPDATE ".$tableCollab["phases"]." SET status='$st', date_start='$sd', date_end='$ed', comments='$c' WHERE id = '$id'";
-	Util::connectSql("$tmpquery");
+	phpCollab\Util::connectSql("$tmpquery");
 
 	if ($st != 1) {
 		$tmpquery = "WHERE tas.parent_phase = '$id' AND tas.status = '3'";
-		$changeTasks = new Request();
+		$changeTasks = new phpCollab\Request();
 		$changeTasks->openTasks($tmpquery);
 		$comptchangeTasks = count($changeTasks->tas_id);
 		for ($i=0;$i<$comptchangeTasks;$i++) {
 			$taskID = $changeTasks->tas_id[$i];
 			$tmpquery = "UPDATE ".$tableCollab["tasks"]." SET status='4' WHERE id = '$taskID'";
-			Util::connectSql("$tmpquery");
+			phpCollab\Util::connectSql("$tmpquery");
 		}
 	}
-	Util::headerFunction("../phases/viewphase.php?id=$id");
+	phpCollab\Util::headerFunction("../phases/viewphase.php?id=$id");
 	exit;
 }
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -102,7 +102,7 @@ $sd = $phaseDetail->pha_date_start[0];
 $ed = $phaseDetail->pha_date_end[0];
 $c = $phaseDetail->pha_comments[0];
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 $block1->form = "pdD";
 $block1->headingToggle($strings["phase"]." : ".$phaseDetail->pha_name[0]);
 $block1->openContent();

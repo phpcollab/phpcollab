@@ -6,29 +6,29 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($enableHelpSupport != "true") {
-	Util::headerFunction('../general/permissiondenied.php');
+	phpCollab\Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 
 if ($supportType == "admin") {
 	if ($profilSession != "0") {
-		Util::headerFunction('../general/permissiondenied.php');
+		phpCollab\Util::headerFunction('../general/permissiondenied.php');
 		exit;
 	}
 }
 
 $tmpquery = "WHERE sr.id = '$id'";
-$requestDetail = new Request();
+$requestDetail = new phpCollab\Request();
 $requestDetail->openSupportRequests($tmpquery);
 
 if($action == "edit"){
 
 	if ($sta == 2){
 		$tmpquery2 = "UPDATE ".$tableCollab["support_requests"]." SET status='$sta',date_close='$dateheure' WHERE id = '$id'";
-		Util::connectSql("$tmpquery2");
+		phpCollab\Util::connectSql("$tmpquery2");
 	} else {
 		$tmpquery2 = "UPDATE ".$tableCollab["support_requests"]." SET status='$sta',date_close='--' WHERE id = '$id'";
-		Util::connectSql($tmpquery2);
+		phpCollab\Util::connectSql($tmpquery2);
 	}
 	
 	if ($notifications == "true") {
@@ -38,17 +38,17 @@ if($action == "edit"){
 		}
 	}
 
-	Util::headerFunction("../support/viewrequest.php?id=$id");
+	phpCollab\Util::headerFunction("../support/viewrequest.php?id=$id");
 	exit;
 }
 
 if($action == "add"){
-	$mes = Util::convertData($mes);
+	$mes = phpCollab\Util::convertData($mes);
 
 	$tmpquery1 = "INSERT INTO ".$tableCollab["support_posts"]."(request_id,message,date,owner,project) VALUES('$id','$mes','$dateheure','$idSession','".$requestDetail->sr_project[0]."')";
-	Util::connectSql("$tmpquery1");
+	phpCollab\Util::connectSql("$tmpquery1");
 	$tmpquery = $tableCollab["support_posts"];
-	Util::getLastId($tmpquery);
+	phpCollab\Util::getLastId($tmpquery);
 
 	$num = $lastId[0];
 	unset($lastId);
@@ -59,14 +59,14 @@ if($action == "add"){
 			}
 		}
 	
-	Util::headerFunction("../support/viewrequest.php?id=$id");
+	phpCollab\Util::headerFunction("../support/viewrequest.php?id=$id");
 	exit;
 }
 
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 
 if ($supportType == "team") {
@@ -98,7 +98,7 @@ if ($msg != "") {
 }
 
 
-$block2 = new Block();
+$block2 = new phpCollab\Block();
 
 	$block2->form = "sr";
 	if ($action == "status"){

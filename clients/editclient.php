@@ -37,13 +37,13 @@ if ($id != "")
 
 	//test exists selected client organization, redirect to list if not
 	$tmpquery = "WHERE org.id = '$id'";
-	$clientDetail = new Request();
+	$clientDetail = new phpCollab\Request();
 	$clientDetail->openOrganizations($tmpquery);
 	$comptClientDetail = count($clientDetail->org_id);
 	
 	if ($comptClientDetail == "0") 
 	{
-		Util::headerFunction("../clients/listclients.php?msg=blankClient");
+		phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
 		exit;
 	}
 }
@@ -56,7 +56,7 @@ if ($id != "")
 		if ($logoDel == "on") 
 		{
 			$tmpquery = "UPDATE ".$tableCollab["organizations"]." SET extension_logo='' WHERE id='$id'";
-			Util::connectSql("$tmpquery");
+			phpCollab\Util::connectSql("$tmpquery");
 			@unlink("../logos_clients/".$id.".$extensionOld");
 		}
 
@@ -66,17 +66,17 @@ if ($id != "")
 		{
 			chmod("../logos_clients/".$id.".$extension",0666);
 			$tmpquery = "UPDATE ".$tableCollab["organizations"]." SET extension_logo='$extension' WHERE id='$id'";
-			Util::connectSql("$tmpquery");
+			phpCollab\Util::connectSql("$tmpquery");
 		}
 
 		//replace quotes by html code in name and address
-		$cn = Util::convertData($cn);
-		$add = Util::convertData($add);
-		//$c = Util::convertData($c);
-		$comments = Util::convertData($comments);
-		$tmpquery = "UPDATE ".$tableCollab["organizations"]." SET name='$cn',address1='$add',phone='$client_phone',url='$url',email='$email',comments='$comments',owner='".Util::fixInt($cown)."',hourly_rate='$hourly_rate' WHERE id = '$id'";
-		Util::connectSql("$tmpquery");
-		Util::headerFunction("../clients/viewclient.php?id=$id&msg=update");
+		$cn = phpCollab\Util::convertData($cn);
+		$add = phpCollab\Util::convertData($add);
+		//$c = phpCollab\Util::convertData($c);
+		$comments = phpCollab\Util::convertData($comments);
+		$tmpquery = "UPDATE ".$tableCollab["organizations"]." SET name='$cn',address1='$add',phone='$client_phone',url='$url',email='$email',comments='$comments',owner='".phpCollab\Util::fixInt($cown)."',hourly_rate='$hourly_rate' WHERE id = '$id'";
+		phpCollab\Util::connectSql("$tmpquery");
+		phpCollab\Util::headerFunction("../clients/viewclient.php?id=$id&msg=update");
 	}
 
 	//set value in form
@@ -108,13 +108,13 @@ if ($id == "")
 		{
 
 			//replace quotes by html code in name and address
-			$cn = Util::convertData($cn);
-			$add = Util::convertData($add);
-			$comments = Util::convertData($comments);
+			$cn = phpCollab\Util::convertData($cn);
+			$add = phpCollab\Util::convertData($add);
+			$comments = phpCollab\Util::convertData($comments);
 			
 			//test if name already exists
 			$tmpquery = "WHERE org.name = '$cn'";
-			$existsClient = new Request();
+			$existsClient = new phpCollab\Request();
 			$existsClient->openOrganizations($tmpquery);
 			$comptExistsClient = count($existsClient->org_id);
 
@@ -131,11 +131,11 @@ if ($id == "")
 				}
 				
 				//insert into organizations and redirect to new client organization detail (last id)
-				$tmpquery1 = "INSERT INTO ".$tableCollab["organizations"]."(name,address1,phone,url,email,comments,created,owner,hourly_rate) VALUES('$cn','$add','$client_phone','$url','$email','$c','$dateheure','".Util::fixInt($cown)."','$hourly_rate')";
+				$tmpquery1 = "INSERT INTO ".$tableCollab["organizations"]."(name,address1,phone,url,email,comments,created,owner,hourly_rate) VALUES('$cn','$add','$client_phone','$url','$email','$c','$dateheure','".phpCollab\Util::fixInt($cown)."','$hourly_rate')";
 
-				Util::connectSql("$tmpquery1");
+				phpCollab\Util::connectSql("$tmpquery1");
 				$tmpquery = $tableCollab["organizations"];
-				Util::getLastId($tmpquery);
+				phpCollab\Util::getLastId($tmpquery);
 				$num = $lastId[0];
 				unset($lastId);
 
@@ -145,10 +145,10 @@ if ($id == "")
 				{
 					chmod("../logos_clients/".$num.".$extension", 0666);
 					$tmpquery = "UPDATE ".$tableCollab["organizations"]." SET extension_logo='$extension' WHERE id='$num'";
-					Util::connectSql("$tmpquery");
+					phpCollab\Util::connectSql("$tmpquery");
 				}
 
-				Util::headerFunction("../clients/viewclient.php?id=$num&msg=add");
+				phpCollab\Util::headerFunction("../clients/viewclient.php?id=$num&msg=add");
 			}
 		}
 	}
@@ -157,7 +157,7 @@ if ($id == "")
 $bodyCommand = "onLoad=\"document.ecDForm.cn.focus();\"";
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?",$strings["clients"],in));
 
@@ -180,7 +180,7 @@ if ($msg != "")
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 if ($id == "") 
 {
@@ -217,7 +217,7 @@ if ($clientsFilter == "true")
 {
 	$selectOwner = "<select name='cown'>";
 	$tmpquery = "WHERE (mem.profil = '1' OR mem.profil = '0') AND mem.login != 'demo' ORDER BY mem.name";
-	$clientOwner = new Request();
+	$clientOwner = new phpCollab\Request();
 	$clientOwner->openMembers($tmpquery);
 	$comptClientOwner = count($clientOwner->mem_id);
 

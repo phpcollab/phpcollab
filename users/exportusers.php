@@ -16,13 +16,13 @@ include '../includes/library.php';
 
 // session checking to prevent nonadmins from accessing file. Change or remove to give access to Users.
 if ($profilSession != (0 && 2 && 5)) {
-	Util::headerFunction('../general/permissiondenied.php');
+	phpCollab\Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 
 // get company info
 $tmpquery = "WHERE org.id = '1'";
-$clientDetail = new Request();
+$clientDetail = new phpCollab\Request();
 $clientDetail->openOrganizations($tmpquery);
 
 $cn = $clientDetail->org_name[0];
@@ -40,7 +40,7 @@ $pdf->ezText($url,12,array('justification'=>'center'));
 $pdf->ezText("\n");
 
 // get user info
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 
 if ($msg != "") {
 if (file_exists("modules/PhpCollab/pnversion.php")) {
@@ -51,7 +51,7 @@ if (file_exists("modules/PhpCollab/pnversion.php")) {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->sorting("users",$sortingUser->sor_users[0],"mem.name ASC",$sortingFields = array(0=>"mem.name",1=>"mem.login",2=>"mem.email_work",3=>"mem.profil",4=>"log.connected"));
 
@@ -60,7 +60,7 @@ if ($demoMode == "true") {
 } else {
 	$tmpquery = "WHERE mem.id != '1' AND mem.profil != '3' AND mem.id != '2' ORDER BY $block1->sortingValue";
 }
-$listMembers = new Request();
+$listMembers = new phpCollab\Request();
 $listMembers->openMembers($tmpquery);
 $comptListMembers = count($listMembers->mem_id);
 

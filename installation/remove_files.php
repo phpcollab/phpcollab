@@ -13,6 +13,6 @@ if (file_exists("setup.php")) {
     @unlink("setup.php");
 }
 
-Util::headerFunction("../administration/admin.php");
+phpCollab\Util::headerFunction("../administration/admin.php");
 
 ?>

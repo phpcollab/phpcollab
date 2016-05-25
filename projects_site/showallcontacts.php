@@ -10,11 +10,11 @@ $titlePage = $strings["project_team"];
 include 'include_header.php';
 
 $tmpquery = "WHERE tea.project = '$projectSession' AND tea.published = '0' ORDER BY mem.name";
-$listContacts = new Request();
+$listContacts = new phpCollab\Request();
 $listContacts->openTeams($tmpquery);
 $comptListTeams = count($listContacts->tea_id);
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->heading($strings["project_team"]);
 

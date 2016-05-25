@@ -42,19 +42,19 @@ if ($id == "")
 	{
 
 		//concat values from date selector and replace quotes by html code in name
-		$tn = Util::convertData($tn);
-		$d = Util::convertData($d);
-		$c = Util::convertData($c);
+		$tn = phpCollab\Util::convertData($tn);
+		$d = phpCollab\Util::convertData($d);
+		$c = phpCollab\Util::convertData($c);
 
 		$tmpquery1 = "INSERT INTO ".$tableCollab["tasks"]."(project,name,description,owner,assigned_to,status,priority,start_date,due_date,estimated_time,actual_time,comments,created,published,completion) VALUES('$projectSession','$tn','$d','$idSession','0','2','$pr','$sd','$dd','$etm','$atm','$c','$dateheure','$pub','0')";
-		Util::connectSql("$tmpquery1");
+		phpCollab\Util::connectSql("$tmpquery1");
 		$tmpquery = $tableCollab["tasks"];
-		Util::getLastId($tmpquery);
+		phpCollab\Util::getLastId($tmpquery);
 		$num = $lastId[0];
 		unset($lastId);
 
 		$tmpquery2 = "INSERT INTO ".$tableCollab["assignments"]."(task,owner,assigned_to,assigned) VALUES('$num','$idSession','$at','$dateheure')";
-		Util::connectSql("$tmpquery2");
+		phpCollab\Util::connectSql("$tmpquery2");
 
 		//send task assignment mail if notifications = true
 		if ($notifications == "true") 
@@ -65,10 +65,10 @@ if ($id == "")
 		//create task sub-folder if filemanagement = true
 		if ($fileManagement == "true") 
 		{
-			Util::createDirectory("../files/$projectSession/$num");
+			phpCollab\Util::createDirectory("../files/$projectSession/$num");
 		}
 		
-		Util::headerFunction("showallteamtasks.php");
+		phpCollab\Util::headerFunction("showallteamtasks.php");
 	}
 
 }

@@ -6,18 +6,18 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$tmpquery = "WHERE news.id = '".Util::fixInt($id)."'";
-$newsDetail = new Request();
+$tmpquery = "WHERE news.id = '".phpCollab\Util::fixInt($id)."'";
+$newsDetail = new phpCollab\Request();
 $newsDetail->openNewsDesk($tmpquery);
 $comptNewsDetail = count($newsDetail->news_id);
 
 if ($comptNewsDetail == "0") {
-	Util::headerFunction("../newsdesk/listnews.php?msg=blankNews");
+	phpCollab\Util::headerFunction("../newsdesk/listnews.php?msg=blankNews");
 }
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/listnews.php?",$strings["newsdesk"],in));
 $blockPage->itemBreadcrumbs($newsDetail->news_title[0]);
@@ -31,7 +31,7 @@ if ($msg != "") {
 $blockPage->limitsNumber = "1";
 
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "clPr";
 $block1->openForm("../newsdesk/viewnews.php?&id=$id#".$block1->form."Anchor");
@@ -52,7 +52,7 @@ if ($comptNewsDetail != "0") {
 
 	// take the news author
 	$tmpquery_user = "WHERE mem.id = '".$newsDetail->news_author[0]."' ";
-	$newsAuthor = new Request();
+	$newsAuthor = new phpCollab\Request();
 	$newsAuthor->openMembers($tmpquery_user);
 
 	$block1->openContent();
@@ -63,7 +63,7 @@ if ($comptNewsDetail != "0") {
 
 		if ($newsDetail->news_related[0]!='g') {
 			$tmpquery = "WHERE pro.id = '".$newsDetail->news_related[0]."'";
-			$projectDetail = new Request();
+			$projectDetail = new phpCollab\Request();
 			$projectDetail->openProjects($tmpquery);
 			$article_related = "<a href='../projects/viewproject.php?id=".$projectDetail->pro_id[0]."' title='".$projectDetail->pro_name[0]."'>".$projectDetail->pro_name[0]."</a>";
 		} else {
@@ -111,13 +111,13 @@ $block1->closePaletteScript($comptNewsDetail,$newsDetail->news_id);
 ///////////////////////////////// comments block //////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 
-$tmpquery = "WHERE newscom.post_id = '".Util::fixInt($id)."'";
-$newsComments = new Request();
+$tmpquery = "WHERE newscom.post_id = '".phpCollab\Util::fixInt($id)."'";
+$newsComments = new phpCollab\Request();
 $newsComments->openNewsDeskComments($tmpquery);
 $comptCommentsDetail = count($newsComments->newscom_id);
 
 
-$block2 = new Block();
+$block2 = new phpCollab\Block();
 
 $block2->form = "clPrc";
 $block2->openForm("../newsdesk/viewnews.php?&id=$id#".$block2->form."Anchor");
@@ -142,7 +142,7 @@ if ($comptCommentsDetail != "0") {
 
 	for ($i=0;$i<$comptCommentsDetail;$i++) {
 		$tmpquery_user = "WHERE mem.id = '".$newsComments->newscom_name[$i]."' ";
-		$newsAuthor = new Request();
+		$newsAuthor = new phpCollab\Request();
 		$newsAuthor->openMembers($tmpquery_user);
 
 		$block2->openRow();

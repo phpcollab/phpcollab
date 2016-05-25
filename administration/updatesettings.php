@@ -38,7 +38,7 @@ $setTitle .= " : Edit Settings";
 
 if ($profilSession != "0")
 {
-	Util::headerFunction('../general/permissiondenied.php');
+	phpCollab\Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 
@@ -260,7 +260,7 @@ define('THEME','$mythemeNew');
 # Return email address given for clients to respond too.
 \$supportEmail = "email@yourdomain.com";
 
-# Support Type, either team or admin. If team is selected a notification will be sent to everyone in the team when a new request is added
+# Support Type, either team or admin. If team is selected a notification will be sent to everyone in the team when a new phpCollab\Request is added
 \$supportType = "team";
 
 # enable the redirection to the last visited page, EXPERIMENTAL DO NOT USE IT
@@ -297,14 +297,14 @@ STAMP;
 		else 
 		{
 			fclose($fp);
-			Util::headerFunction("../administration/admin.php?msg=update");
+			phpCollab\Util::headerFunction("../administration/admin.php?msg=update");
 		}
 	}
 }
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?",$strings["administration"],in));
 $blockPage->itemBreadcrumbs($strings["edit_settings"]);
@@ -316,7 +316,7 @@ if ($msg != "")
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->heading($strings["edit_settings"]);
 

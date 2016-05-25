@@ -31,7 +31,7 @@ include '../includes/library.php';
 
 if ($logout == "true") {
     $tmpquery1 = "UPDATE " . $tableCollab["logs"] . " SET connected='' WHERE login = '$loginSession'";
-    Util::connectSql("$tmpquery1");
+    phpCollab\Util::connectSql("$tmpquery1");
 
     // delete the authentication cookies
     //setcookie('loginCookie', '', time()-86400);
@@ -41,12 +41,12 @@ if ($logout == "true") {
     $_SESSION = array();
     session_destroy();
 
-    Util::headerFunction("../general/login.php?msg=logout");
+    phpCollab\Util::headerFunction("../general/login.php?msg=logout");
 }
 
-$auth = Util::returnGlobal('auth', 'GET');
-$loginForm = Util::returnGlobal('loginForm', 'POST');
-$passwordForm = Util::returnGlobal('passwordForm', 'POST');
+$auth = phpCollab\Util::returnGlobal('auth', 'GET');
+$loginForm = phpCollab\Util::returnGlobal('loginForm', 'POST');
+$passwordForm = phpCollab\Util::returnGlobal('passwordForm', 'POST');
 
 $match = false;
 $ssl = false;
@@ -80,7 +80,7 @@ if (!empty($SSL_CLIENT_CERT) && !$logout && $auth != "test") {
 
                     if ($rememberForm == "on") {
                         $oneyear = 22896000;
-                        $storePwd = Util::getPassword($passwordForm);
+                        $storePwd = phpCollab\Util::getPassword($passwordForm);
                         setcookie("loginCookie", $loginForm, time() + $oneyear);
                         setcookie("passwordCookie", $storePwd, time() + $oneyear);
                     } else {
@@ -101,8 +101,8 @@ if (!empty($SSL_CLIENT_CERT) && !$logout && $auth != "test") {
 }
 
 //
-// $loginCookie = Util::returnGlobal('loginCookie','COOKIE');
-// $passwordCookie = Util::returnGlobal('passwordCookie','COOKIE');
+// $loginCookie = phpCollab\Util::returnGlobal('loginCookie','COOKIE');
+// $passwordCookie = phpCollab\Util::returnGlobal('passwordCookie','COOKIE');
 // if ($loginCookie != "" && $passwordCookie != "") 
 // {
 //		$auth = "on";
@@ -127,7 +127,7 @@ if ($auth == "on") {
         $tmpquery = "WHERE mem.login = '$loginForm' AND mem.profil != '4'";
     }
 
-    $loginUser = new Request();
+    $loginUser = new phpCollab\Request();
     $loginUser->openMembers($tmpquery);
     $comptLoginUser = count($loginUser->mem_id);
 
@@ -146,7 +146,7 @@ if ($auth == "on") {
                 $match = true;
             }
         } else {
-            if (!$ssl && !Util::doesPasswordMatch($loginForm, $passwordForm, $loginUser->mem_password[0])) {
+            if (!$ssl && !phpCollab\Util::doesPasswordMatch($loginForm, $passwordForm, $loginUser->mem_password[0])) {
                 $error = $strings["invalid_login"];
             } else {
                 $match = true;
@@ -197,14 +197,14 @@ if ($auth == "on") {
             //insert into or update log
             $ip = $REMOTE_ADDR;
             $tmpquery = "WHERE log.login = '$loginForm'";
-            $registerLog = new Request();
+            $registerLog = new phpCollab\Request();
             $registerLog->openLogs($tmpquery);
             $comptRegisterLog = count($registerLog->log_id);
             $session = session_id();
 
             if ($comptRegisterLog == "0") {
                 $tmpquery1 = "INSERT INTO " . $tableCollab["logs"] . "(login,password,ip,session,compt,last_visite) VALUES('$loginForm','$passwordForm','$ip','$session','1','$dateheure')";
-                Util::connectSql("$tmpquery1");
+                phpCollab\Util::connectSql("$tmpquery1");
             } else {
                 $lastvisiteSession = $registerLog->log_last_visite[0];
 
@@ -212,7 +212,7 @@ if ($auth == "on") {
 
                 $increm = $registerLog->log_compt[0] + 1;
                 $tmpquery1 = "UPDATE " . $tableCollab["logs"] . " SET ip='$ip',session='$session',compt='$increm',last_visite='$dateheure' WHERE login = '$loginForm'";
-                Util::connectSql("$tmpquery1");
+                phpCollab\Util::connectSql("$tmpquery1");
             }
 
             // we must avoid to redirect to some special pages
@@ -226,36 +226,36 @@ if ($auth == "on") {
             if ($url != "") {
 
                 if ($loginUser->mem_profil[0] == "3") {
-                    Util::headerFunction("../$url&updateProject=true");
+                    phpCollab\Util::headerFunction("../$url&updateProject=true");
                 } else {
-                    Util::headerFunction("../$url");
+                    phpCollab\Util::headerFunction("../$url");
                 }
             } //redirect to last page required (with auto log out feature)
             else {
                 if ($loginUser->mem_last_page[0] != "" && $loginUser->mem_profil[0] != "3" && $lastvisitedpage) {
                     $tmpquery = "UPDATE " . $tableCollab["members"] . " SET last_page='' WHERE login = '$loginForm'";
-                    Util::connectSql("$tmpquery");
-                    Util::headerFunction("../" . $loginUser->mem_last_page[0]);
+                    phpCollab\Util::connectSql("$tmpquery");
+                    phpCollab\Util::headerFunction("../" . $loginUser->mem_last_page[0]);
 
                 } else {
                     if ($loginUser->mem_last_page[0] != "" && ($loginCookie != "" && $passwordCookie != "") && $loginUser->mem_profil[0] != "3" && $lastvisitedpage) {
                         $tmpquery = "UPDATE " . $tableCollab["members"] . " SET last_page='' WHERE login = '$loginForm'";
-                        Util::connectSql("$tmpquery");
-                        Util::headerFunction("../" . $loginUser->mem_last_page[0]);
+                        phpCollab\Util::connectSql("$tmpquery");
+                        phpCollab\Util::headerFunction("../" . $loginUser->mem_last_page[0]);
                     } //redirect to home or admin page (if user is administrator)
                     else {
                         if ($loginUser->mem_profil[0] == "3") {
-                            Util::headerFunction("../projects_site/home.php");
+                            phpCollab\Util::headerFunction("../projects_site/home.php");
                         } else {
                             if ($loginUser->mem_profil[0] == "0") {
                                 if ($adminathome == '1') {
-                                    Util::headerFunction("../general/home.php");
+                                    phpCollab\Util::headerFunction("../general/home.php");
                                 } else {
-                                    Util::headerFunction("../administration/admin.php");
+                                    phpCollab\Util::headerFunction("../administration/admin.php");
                                 }
 
                             } else {
-                                Util::headerFunction("../general/home.php");
+                                phpCollab\Util::headerFunction("../general/home.php");
                             }
                         }
                     }
@@ -284,7 +284,7 @@ $notLogged = "true";
 $bodyCommand = "onLoad='document.loginForm.loginForm.focus();'";
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs("&nbsp;");
 $blockPage->closeBreadcrumbs();
@@ -295,7 +295,7 @@ if ($msg != "") {
 }
 
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "login";
 $block1->openForm("../general/login.php?auth=test");

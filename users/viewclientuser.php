@@ -32,12 +32,12 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 $tmpquery = "WHERE mem.id = '$id'";
-$userDetail = new Request();
+$userDetail = new phpCollab\Request();
 $userDetail->openMembers($tmpquery);
 $comptUserDetail = count($userDetail->mem_id);
 
 if ($comptUserDetail == "0") {
-	Util::headerFunction("../clients/viewclient.php?msg=blankUser&id=$organization");
+	phpCollab\Util::headerFunction("../clients/viewclient.php?msg=blankUser&id=$organization");
 	exit;
 }
 $organization = $userDetail->mem_organization[0];
@@ -45,11 +45,11 @@ $organization = $userDetail->mem_organization[0];
 if ($clientsFilter == "true" && $profilSession == "2") {
 $teamMember = "false";
 $tmpquery = "WHERE tea.member = '$idSession' AND org2.id = '$organization'";
-$memberTest = new Request();
+$memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
-		Util::headerFunction("../clients/listclients.php?msg=blankClient");
+		phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
 	} else {
 	}
 } else if ($clientsFilter == "true" && $profilSession == "1") {
@@ -59,25 +59,25 @@ $comptMemberTest = count($memberTest->tea_id);
 }
 
 $comptDetailClient = "0";
-$detailClient = new Request();
+$detailClient = new phpCollab\Request();
 $detailClient->openOrganizations($tmpquery);
 $comptDetailClient = count($detailClient->org_id);
 
 if ($comptDetailClient == "0") {
-	Util::headerFunction("../clients/listclients.php?msg=blankClient");
+	phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
 	exit;
 }
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?",$strings["clients"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=$organization",$detailClient->org_name[0],in));
 $blockPage->itemBreadcrumbs($userDetail->mem_login[0]);
 $blockPage->closeBreadcrumbs();
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "cuserD";
 $block1->openForm("../users/viewclientuser.php#".$block1->form."Anchor");
@@ -109,13 +109,13 @@ $block1->contentRow($strings["home_phone"],$userDetail->mem_phone_home[0]);
 $block1->contentRow($strings["mobile_phone"],$userDetail->mem_mobile[0]);
 $block1->contentRow($strings["fax"],$userDetail->mem_fax[0]);
 $block1->contentRow($strings["comments"],nl2br($userDetail->mem_comments[0]));
-$block1->contentRow($strings["account_created"],Util::createDate($userDetail->mem_created[0],$timezoneSession));
+$block1->contentRow($strings["account_created"],phpCollab\Util::createDate($userDetail->mem_created[0],$timezoneSession));
 $block1->contentRow($strings["last_page"],$userDetail->mem_last_page[0]);
 
 $block1->contentTitle($strings["information"]);
 
 $tmpquery = "SELECT tas.id FROM ".$tableCollab["tasks"]." tas LEFT OUTER JOIN ".$tableCollab["projects"]." pro ON pro.id = tas.project WHERE tas.assigned_to = '".$userDetail->mem_id[0]."' AND tas.status IN(0,2,3) AND pro.status IN(0,2,3)";
-Util::computeTotal($tmpquery);
+phpCollab\Util::computeTotal($tmpquery);
 $valueTasks = $countEnregTotal;
 
 $block1->contentRow($strings["tasks"],$valueTasks);

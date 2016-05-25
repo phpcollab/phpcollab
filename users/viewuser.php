@@ -32,17 +32,17 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 $tmpquery = "WHERE mem.id = '$id'";
-$userDetail = new Request();
+$userDetail = new phpCollab\Request();
 $userDetail->openMembers($tmpquery);
 $comptUserDetail = count($userDetail->mem_id);
 
 if ($userDetail->mem_profil[0] == "3") {
-	Util::headerFunction("../users/viewclientuser.php?id=$id&organization=".$userDetail->mem_organization[0]);
+	phpCollab\Util::headerFunction("../users/viewclientuser.php?id=$id&organization=".$userDetail->mem_organization[0]);
 	exit;
 }
 
 if ($comptUserDetail == "0") {
-	Util::headerFunction("../users/listusers.php?msg=blankUser");
+	phpCollab\Util::headerFunction("../users/listusers.php?msg=blankUser");
 	exit;
 }
 
@@ -51,7 +51,7 @@ $setTitle .= " : User Management (" . $userDetail->mem_login[0] . ")";
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?",$strings["administration"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../users/listusers.php?",$strings["user_management"],in));
@@ -63,7 +63,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "userD";
 $block1->openForm("../users/viewuser.php#".$block1->form."Anchor");
@@ -113,20 +113,20 @@ if ($userDetail->mem_profil[0] == "0") {
 $block1->contentRow($strings["permissions"],$permission);
 
 $block1->contentRow($strings["comments"],nl2br($userDetail->mem_comments[0]));
-$block1->contentRow($strings["account_created"],Util::createDate($userDetail->mem_created[0],$timezoneSession));
+$block1->contentRow($strings["account_created"],phpCollab\Util::createDate($userDetail->mem_created[0],$timezoneSession));
 $block1->contentRow($strings["last_page"],$userDetail->mem_last_page[0]);
 $block1->contentTitle($strings["information"]);
 
 $tmpquery = "SELECT tea.id FROM ".$tableCollab["teams"]." tea LEFT OUTER JOIN ".$tableCollab["projects"]." pro ON pro.id = tea.project WHERE tea.member = '".$userDetail->mem_id[0]."' AND pro.status IN(0,2,3)";
-Util::computeTotal($tmpquery);
+phpCollab\Util::computeTotal($tmpquery);
 $valueProjects = $countEnregTotal;
 
 $tmpquery = "SELECT tas.id FROM ".$tableCollab["tasks"]." tas LEFT OUTER JOIN ".$tableCollab["projects"]." pro ON pro.id = tas.project WHERE tas.assigned_to = '".$userDetail->mem_id[0]."' AND tas.status IN(0,2,3) AND pro.status IN(0,2,3)";
-Util::computeTotal($tmpquery);
+phpCollab\Util::computeTotal($tmpquery);
 $valueTasks = $countEnregTotal;
 
 $tmpquery = "SELECT note.id FROM ".$tableCollab["notes"]." note LEFT OUTER JOIN ".$tableCollab["projects"]." pro ON pro.id = note.project WHERE note.owner = '".$userDetail->mem_id[0]."' AND pro.status IN(0,2,3)";
-Util::computeTotal($tmpquery);
+phpCollab\Util::computeTotal($tmpquery);
 $valueNotes = $countEnregTotal;
 
 $block1->contentRow($strings["projects"],$valueProjects);

@@ -35,16 +35,16 @@ if ($action == "update") {
 	if (($logout_time < "30" && $logout_time != "0") || !is_numeric($logout_time)) {
 		$logout_time = "30";
 	}
-	$fn = Util::convertData($fn);
-	$tit = Util::convertData($tit);
-	$em = Util::convertData($em);
-	$wp = Util::convertData($wp);
-	$hp = Util::convertData($hp);
-	$mp = Util::convertData($mp);
-	$fax = Util::convertData($fax);
-	$logout_time = Util::convertData($logout_time);
+	$fn = phpCollab\Util::convertData($fn);
+	$tit = phpCollab\Util::convertData($tit);
+	$em = phpCollab\Util::convertData($em);
+	$wp = phpCollab\Util::convertData($wp);
+	$hp = phpCollab\Util::convertData($hp);
+	$mp = phpCollab\Util::convertData($mp);
+	$fax = phpCollab\Util::convertData($fax);
+	$logout_time = phpCollab\Util::convertData($logout_time);
 	$tmpquery = "UPDATE ".$tableCollab["members"]." SET name='$fn',title='$tit',email_work='$em',phone_work='$wp',phone_home='$hp',mobile='$mp',fax='$fax',logout_time='$logout_time',timezone='$tz' WHERE id = '$idSession'";
-	Util::connectSql("$tmpquery");
+	phpCollab\Util::connectSql("$tmpquery");
 	$timezoneSession = $tz;
 	$logouttimeSession = $logout_time;
 	$dateunixSession = date("U");
@@ -60,23 +60,23 @@ if ($action == "update") {
 // Call mantis function for user profile changes..!!!
 			include ("../mantis/user_profile.php");				
 		}
-	Util::headerFunction("../preferences/updateuser.php?msg=update");
+	phpCollab\Util::headerFunction("../preferences/updateuser.php?msg=update");
 }
 
 $tmpquery = "WHERE mem.id = '$idSession'";
-$userPrefs = new Request();
+$userPrefs = new phpCollab\Request();
 $userPrefs->openMembers($tmpquery);
 $comptUserPrefs = count($userPrefs->mem_id);
 
 if ($comptUserPrefs == "0") {
-	Util::headerFunction("../users/listusers.php?msg=blankUser");
+	phpCollab\Util::headerFunction("../users/listusers.php?msg=blankUser");
 	exit;
 }
 
 $bodyCommand = "onLoad=\"document.user_edit_profileForm.fn.focus();\"";
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($strings["preferences"]);
 if ($notifications == "true") {
@@ -91,7 +91,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "user_edit_profile";
 $block1->openForm("../preferences/updateuser.php");
@@ -143,7 +143,7 @@ if ($userPrefs->mem_profil[0] == "0") {
 	$block1->contentRow($strings["permissions"],$strings["project_manager_administrator_permissions"]); 
 }
 
-$block1->contentRow($strings["account_created"],Util::createDate($userPrefs->mem_created[0],$timezoneSession));
+$block1->contentRow($strings["account_created"],phpCollab\Util::createDate($userPrefs->mem_created[0],$timezoneSession));
 $block1->contentRow("","<input type=\"submit\" name=\"Save\" value=\"".$strings["save"]."\">");
 
 $block1->closeContent();

@@ -35,7 +35,7 @@ if ($action == "publish")
 	if ($addToSiteFile == "true") 
 	{
 		$tmpquery1 = "UPDATE ".$tableCollab["files"]." SET published='0' WHERE id = '$file' OR vc_parent = '$file'";
-		Util::connectSql("$tmpquery1");
+		phpCollab\Util::connectSql("$tmpquery1");
 		$msg = "addToSite";
 		$id = $file;
 	}
@@ -43,20 +43,20 @@ if ($action == "publish")
 	if ($removeToSiteFile == "true") 
 	{
 		$tmpquery1 = "UPDATE ".$tableCollab["files"]." SET published='1' WHERE id = '$file' OR vc_parent = '$file'";
-		Util::connectSql("$tmpquery1");
+		phpCollab\Util::connectSql("$tmpquery1");
 		$msg = "removeToSite";
 		$id = $file;
 	}
 }
 
 $tmpquery = "WHERE fil.id = '$id'";
-$fileDetail = new Request();
+$fileDetail = new phpCollab\Request();
 $fileDetail->openFiles($tmpquery);
 $comptFileDetail = count($fileDetail->fil_id);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '".$fileDetail->fil_project[0]."' AND tea.member = '$idSession'";
-$memberTest = new Request();
+$memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 
@@ -76,19 +76,19 @@ if ($teamMember == "false" && $projectsFilter == "true")
 } 
 
 $tmpquery = "WHERE pro.id = '".$fileDetail->fil_project[0]."'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 if ($fileDetail->fil_task[0] != "0") 
 {
 	$tmpquery = "WHERE tas.id = '".$fileDetail->fil_task[0]."'";
-	$taskDetail = new Request();
+	$taskDetail = new phpCollab\Request();
 	$taskDetail->openTasks($tmpquery);
 }	
 	
 if ($projectDetail->pro_phase_set[0] != "0"){
 $tmpquery = "WHERE pha.id = '".$fileDetail->fil_phase[0]."'";
-$phaseDetail = new Request();
+$phaseDetail = new phpCollab\Request();
 $phaseDetail->openPhases($tmpquery);
 }
 
@@ -165,7 +165,7 @@ if ($action == "update")
 	if ($docopy == "true") 
 	{
 		//Copy old file with a new file name
-		Util::moveFile($path_source,$path_destination);
+		phpCollab\Util::moveFile($path_source,$path_destination);
 		
 		//Set variables from original files details.
 		$copy_project = $fileDetail->fil_project[0];
@@ -184,7 +184,7 @@ if ($action == "update")
 		$copy_vc_version = $fileDetail->fil_vc_version[0];
 
 		//Insert a new row for the copied file
-		$copy_comments = Util::convertData($copy_comments);
+		$copy_comments = phpCollab\Util::convertData($copy_comments);
 		
 		if ($copy_approver===NULL) {// Hack to send NULL  There has to be a better way to handle this.  Perhaps the default value on the DB field should be null
 			$tmpquery = "INSERT INTO ".$tableCollab["files"]."(owner,project,task,name,date,size,extension,comments,comments_approval,approver,date_approval,upload,published,status,vc_status,vc_version,vc_parent) VALUES('$idSession','$copy_project','$copy_task','$changename','$copy_date','$copy_size','$copy_extension','$copy_comments','$copy_comments_approval',null,'$copy_date_approval','$copy_upload','$copy_pusblished','2','3','$copy_vc_version','$copy_id')";
@@ -192,9 +192,9 @@ if ($action == "update")
 			$tmpquery = "INSERT INTO ".$tableCollab["files"]."(owner,project,task,name,date,size,extension,comments,comments_approval,approver,date_approval,upload,published,status,vc_status,vc_version,vc_parent) VALUES('$idSession','$copy_project','$copy_task','$changename','$copy_date','$copy_size','$copy_extension','$copy_comments','$copy_comments_approval','$copy_approver','$copy_date_approval','$copy_upload','$copy_pusblished','2','3','$copy_vc_version','$copy_id')";
 		}
 		
-		Util::connectSql("$tmpquery");
+		phpCollab\Util::connectSql("$tmpquery");
 		$tmpquery = $tableCollab["files"];
-		Util::getLastId($tmpquery);
+		phpCollab\Util::getLastId($tmpquery);
 		$num = $lastId[0];
 		unset($lastId);
 	}
@@ -202,9 +202,9 @@ if ($action == "update")
 	//Insert details into Database
 	if ($docopy == "true") 
 	{
-		Util::uploadFile(".", $_FILES['upload']['tmp_name'], $path);
-		//$size = Util::fileInfoSize($path);
-		//$dateFile = Util::getFileDate($path);
+		phpCollab\Util::uploadFile(".", $_FILES['upload']['tmp_name'], $path);
+		//$size = phpCollab\Util::fileInfoSize($path);
+		//$dateFile = phpCollab\Util::getFileDate($path);
 		$chaine = strrev("$path");
 		$tab = explode(".",$chaine);
 		$extension = strtolower(strrev($tab[0]));
@@ -215,8 +215,8 @@ if ($action == "update")
 	{
 		$name = $upload_name;
 		$tmpquery = "UPDATE ".$tableCollab["files"]." SET date='$dateheure',size='$size',comments='$c',comments_approval=null,approver=null,date_approval=null,status='$statusField',vc_version='$newversion' WHERE id = '$id'";
-		Util::connectSql("$tmpquery");
-		Util::headerFunction("../linkedcontent/viewfile.php?id=".$fileDetail->fil_id[0]."&msg=addFile");
+		phpCollab\Util::connectSql("$tmpquery");
+		phpCollab\Util::headerFunction("../linkedcontent/viewfile.php?id=".$fileDetail->fil_id[0]."&msg=addFile");
 		exit;
 	}	
 }
@@ -225,10 +225,10 @@ if ($action == "update")
 
 if ($action == "approve") 
 {
-	$commentField = Util::convertData($c);
+	$commentField = phpCollab\Util::convertData($c);
 	$tmpquery1 = "UPDATE ".$tableCollab["files"]." SET comments_approval='$commentField',date_approval='$dateheure',approver='$idSession',status='$statusField' WHERE id = '$id'";
-	Util::connectSql("$tmpquery1");
-	Util::headerFunction("../linkedcontent/viewfile.php?id=".$fileDetail->fil_id[0]."&msg=addFile");
+	phpCollab\Util::connectSql("$tmpquery1");
+	phpCollab\Util::headerFunction("../linkedcontent/viewfile.php?id=".$fileDetail->fil_id[0]."&msg=addFile");
 	exit;
 }
 
@@ -287,11 +287,11 @@ if ($action == "add")
 	//Insert details into Database
 	if ($docopy == "true") 
 	{
-		$c = Util::convertData($c);
+		$c = phpCollab\Util::convertData($c);
 		$tmpquery = "INSERT INTO ".$tableCollab["files"]."(owner,project,task,comments,upload,published,status,vc_status,vc_parent) VALUES('$idSession','$project','$task','$c','$dateheure','$published','2','0','$parent')";
-		Util::connectSql("$tmpquery");
+		phpCollab\Util::connectSql("$tmpquery");
 		$tmpquery = $tableCollab["files"];
-		Util::getLastId($tmpquery);
+		phpCollab\Util::getLastId($tmpquery);
 		$num = $lastId[0];
 		unset($lastId);
 	}
@@ -300,9 +300,9 @@ if ($action == "add")
 	{
 		if ($docopy == "true") 
 		{
-			Util::uploadFile("files/$project/$task", $_FILES['upload']['tmp_name'], $upload_name);
-			$size = Util::fileInfoSize("../files/$project/$task/$upload_name");
-			//$dateFile = Util::getFileDate("../files/$project/$task/$upload_name");
+			phpCollab\Util::uploadFile("files/$project/$task", $_FILES['upload']['tmp_name'], $upload_name);
+			$size = phpCollab\Util::fileInfoSize("../files/$project/$task/$upload_name");
+			//$dateFile = phpCollab\Util::getFileDate("../files/$project/$task/$upload_name");
 			$chaine = strrev("../files/$project/$task/$upload_name");
 			$tab = explode(".",$chaine);
 			$extension = strtolower(strrev($tab[0]));
@@ -312,10 +312,10 @@ if ($action == "add")
 	{
 		if ($docopy == "true") 
 		{
-			Util::uploadFile("files/$project", $_FILES['upload']['tmp_name'], $upload_name);
-			$size = Util::fileInfoSize("../files/$project/$upload_name");
+			phpCollab\Util::uploadFile("files/$project", $_FILES['upload']['tmp_name'], $upload_name);
+			$size = phpCollab\Util::fileInfoSize("../files/$project/$upload_name");
 
-			//$dateFile = Util::getFileDate("../files/$project/$upload_name");
+			//$dateFile = phpCollab\Util::getFileDate("../files/$project/$upload_name");
 			$chaine = strrev("../files/$project/$upload_name");
 			$tab = explode(".",$chaine);
 			$extension = strtolower(strrev($tab[0]));
@@ -326,8 +326,8 @@ if ($action == "add")
 	{
 		$name = $upload_name;
 		$tmpquery = "UPDATE ".$tableCollab["files"]." SET name='$name',date='$dateheure',size='$size',extension='$extension',vc_version='$oldversion' WHERE id = '$num'";
-		Util::connectSql("$tmpquery");
-		Util::headerFunction("../linkedcontent/viewfile.php?id=$sendto&msg=addFile");
+		phpCollab\Util::connectSql("$tmpquery");
+		phpCollab\Util::headerFunction("../linkedcontent/viewfile.php?id=$sendto&msg=addFile");
 		exit;
 	}
 }
@@ -336,7 +336,7 @@ if ($action == "add")
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$fileDetail->fil_project[0],$projectDetail->pro_name[0],in));
@@ -365,7 +365,7 @@ if ($msg != "")
 //Begining of Display code
 
 //File details block
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 $block1->form = "vdC";
 $block1->openForm("../files/viewfile.php?&id=$id#".$block1->form."Anchor");
 
@@ -405,7 +405,7 @@ echo "
 </tr>
 <tr class='odd'>
 	<td valign='top' class='leftvalue'>".$strings["size"].":</td>
-	<td>".Util::convertSize($fileDetail->fil_size[0])."</td>
+	<td>".phpCollab\Util::convertSize($fileDetail->fil_size[0])."</td>
 </tr>
 <tr class='odd'>
 	<td valign='top' class='leftvalue'>".$strings["owner"]." :</td>
@@ -444,7 +444,7 @@ if ($fileDetail->fil_comments_approval[0] != "")
 //------------------------------------------------------------------
 
 $tmpquery = "WHERE fil.id = '$id' OR fil.vc_parent = '$id' AND fil.vc_status = '3' ORDER BY fil.date DESC";
-$listVersions = new Request();
+$listVersions = new phpCollab\Request();
 $listVersions->openFiles($tmpquery);
 $comptListVersions = count($listVersions->fil_vc_parent);
 
@@ -544,7 +544,7 @@ if ($fileDetail->fil_owner[0] == $idSession)
 if ($peerReview == "true") 
 {
 	//Revision list block
-	$block2 = new Block();
+	$block2 = new phpCollab\Block();
 	$block2->form = "tdC";
 	$block2->openForm("../files/viewfile.php?&id=$id#".$block2->form."Anchor");
 	$block2->heading($strings["ifc_revisions"]);
@@ -567,7 +567,7 @@ if ($peerReview == "true")
 	echo"<tr class='odd'><td valign='top' class='leftvalue'></td><td><br/>";
 
 	$tmpquery = "WHERE fil.vc_parent = '$id' AND fil.vc_status != '3' ORDER BY fil.date";
-	$listReviews = new Request();
+	$listReviews = new phpCollab\Request();
 	$listReviews->openFiles($tmpquery);
 	$comptListReviews = count($listReviews->fil_vc_parent);
 	
@@ -659,7 +659,7 @@ if ($peerReview == "true")
 	if ($teamMember ==  "true" || $profilSession == "5") 
 	{
 		//Add new revision Block
-		$block3 = new Block();
+		$block3 = new phpCollab\Block();
 		$block3->form = "filedetails";
 		
 		echo "
@@ -716,7 +716,7 @@ if ($peerReview == "true")
 
 if ($fileDetail->fil_owner[0] == $idSession || $projectDetail->pro_owner[0] == $idSession || $profilSession == "5")
 {
-	$block5 = new Block();
+	$block5 = new phpCollab\Block();
 	$block5->form = "filedetails";
 
 	echo "
@@ -780,7 +780,7 @@ if ($fileDetail->fil_owner[0] == $idSession || $projectDetail->pro_owner[0] == $
 //Update file Block
 if ($fileDetail->fil_owner[0] == $idSession)
 {
-	$block4 = new Block();
+	$block4 = new phpCollab\Block();
 	$block4->form = "filedetails";
 
 	echo "

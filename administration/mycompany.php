@@ -33,28 +33,28 @@ include_once '../includes/library.php';
 
 if ($profilSession != "0") 
 {
-	Util::headerFunction('../general/permissiondenied.php');
+	phpCollab\Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 
-$action = Util::returnGlobal('action','GET');
+$action = phpCollab\Util::returnGlobal('action','GET');
 
 if ($action == "update") 
 {
-	$extension = Util::returnGlobal('extension','POST');
-	$extensionOld = Util::returnGlobal('extensionOld','POST');
-	$cn = Util::returnGlobal('cn','POST');
-	$add = Util::returnGlobal('add','POST');
-	$wp = Util::returnGlobal('wp','POST');
-	$url = Util::returnGlobal('url','POST');
-	$email = Util::returnGlobal('email','POST');
-	$c = Util::returnGlobal('c','POST');
-	$logoDel = Util::returnGlobal('logoDel','POST');
+	$extension = phpCollab\Util::returnGlobal('extension','POST');
+	$extensionOld = phpCollab\Util::returnGlobal('extensionOld','POST');
+	$cn = phpCollab\Util::returnGlobal('cn','POST');
+	$add = phpCollab\Util::returnGlobal('add','POST');
+	$wp = phpCollab\Util::returnGlobal('wp','POST');
+	$url = phpCollab\Util::returnGlobal('url','POST');
+	$email = phpCollab\Util::returnGlobal('email','POST');
+	$c = phpCollab\Util::returnGlobal('c','POST');
+	$logoDel = phpCollab\Util::returnGlobal('logoDel','POST');
 
 	if ($logoDel == "on") 
 	{
 		$tmpquery = "UPDATE ".$tableCollab["organizations"]." SET extension_logo='' WHERE id='1'";
-		Util::connectSql("$tmpquery");
+		phpCollab\Util::connectSql("$tmpquery");
 		@unlink("../logos_clients/1.$extensionOld");
 	}
 	
@@ -62,17 +62,17 @@ if ($action == "update")
 	if(@move_uploaded_file($_FILES['upload']['tmp_name'], "../logos_clients/1.$extension")) 
 	{
 		$tmpquery = "UPDATE ".$tableCollab["organizations"]." SET extension_logo='$extension' WHERE id='1'";
-		Util::connectSql("$tmpquery");
+		phpCollab\Util::connectSql("$tmpquery");
 	}
-	$cn = Util::convertData($cn);
-	$add = Util::convertData($add);
-	$c = Util::convertData($c);
+	$cn = phpCollab\Util::convertData($cn);
+	$add = phpCollab\Util::convertData($add);
+	$c = phpCollab\Util::convertData($c);
 	$tmpquery = "UPDATE ".$tableCollab["organizations"]." SET name='$cn',address1='$add',phone='$wp',url='$url',email='$email',comments='$c' WHERE id = '1'";
-	Util::connectSql("$tmpquery");
-	Util::headerFunction("../administration/mycompany.php");
+	phpCollab\Util::connectSql("$tmpquery");
+	phpCollab\Util::headerFunction("../administration/mycompany.php");
 }
 $tmpquery = "WHERE org.id = '1'";
-$clientDetail = new Request();
+$clientDetail = new phpCollab\Request();
 $clientDetail->openOrganizations($tmpquery);
 
 $cn = $clientDetail->org_name[0];
@@ -91,7 +91,7 @@ include '../themes/' . THEME . '/header.php';
 
 
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?",$strings["administration"],in));
 $blockPage->itemBreadcrumbs($strings["company_details"]);
@@ -103,7 +103,7 @@ if ($msg != "")
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 echo "<a name='".$block1->form."Anchor'></a>\n
 	<form accept-charset='UNKNOWN' method='POST' action='../administration/mycompany.php?action=update&' name='adminDForm' enctype='multipart/form-data'>

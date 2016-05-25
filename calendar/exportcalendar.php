@@ -30,7 +30,7 @@ $checkSession = "false";
 include_once '../includes/library.php';
 
 $tmpquery = "WHERE cal.owner = '$idSession' AND cal.id = '$id'";
-$detailCalendar = new Request();
+$detailCalendar = new phpCollab\Request();
 $detailCalendar->openCalendar($tmpquery);
 $comptDetailCalendar = count($detailCalendar->cal_id);
 

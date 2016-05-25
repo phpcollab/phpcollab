@@ -32,26 +32,26 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 $tmpquery = "WHERE pro.id = '$id'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 $comptProjectDetail = count($projectDetail->pro_id);
 
 if ($comptProjectDetail == "0") 
 {
-	Util::headerFunction("../projects/listprojects.php?msg=blank");
+	phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blank");
 	exit;
 }
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
 $blockPage->itemBreadcrumbs($strings["team_members"]);
 $blockPage->closeBreadcrumbs();
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "saM";
 $block1->openForm("../teams/listusers.php?id=$id#".$block1->form."Anchor");
@@ -79,7 +79,7 @@ $block1->closePaletteIcon();
 $block1->sorting("team",$sortingUser->sor_team[0],"mem.name ASC",$sortingFields = array(0=>"mem.name",1=>"mem.title",2=>"mem.login",3=>"mem.phone_work",4=>"log.connected",5=>"tea.published"));
 
 $tmpquery = "WHERE tea.project = '$id' AND mem.profil != '3' ORDER BY $block1->sortingValue";
-$listTeam = new Request();
+$listTeam = new phpCollab\Request();
 $listTeam->openTeams($tmpquery);
 $comptListTeam = count($listTeam->tea_id);
 

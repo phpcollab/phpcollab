@@ -7,7 +7,7 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 $tmpquery = "WHERE org.id = '$organization'";
-$clientDetail = new Request();
+$clientDetail = new phpCollab\Request();
 $clientDetail->openOrganizations($tmpquery);
 $comptClientDetail = count($clientDetail->org_id);
 
@@ -19,7 +19,7 @@ if ($action == "add") {
         $error = $strings["alpha_only"];
     } else {
         $tmpquery = "WHERE mem.login = '$un'";
-        $existsUser = new Request();
+        $existsUser = new phpCollab\Request();
         $existsUser->openMembers($tmpquery);
         $comptExistsUser = count($existsUser->mem_id);
         if ($comptExistsUser != "0") {
@@ -32,18 +32,18 @@ if ($action == "add") {
             } else {
 
 //replace quotes by html code in name and address
-                $fn = Util::convertData($fn);
-                $tit = Util::convertData($tit);
-                $c = Util::convertData($c);
-                $pw = Util::getPassword($pw);
+                $fn = phpCollab\Util::convertData($fn);
+                $tit = phpCollab\Util::convertData($tit);
+                $c = phpCollab\Util::convertData($c);
+                $pw = phpCollab\Util::getPassword($pw);
                 $tmpquery1 = "INSERT INTO " . $tableCollab["members"] . "(organization,login,name,title,email_work,phone_work,phone_home,mobile,fax,comments,password,profil,created,timezone) VALUES('$clod','$un','$fn','$tit','$em','$wp','$hp','$mp','$fax','$c','$pw','3','$dateheure','0')";
-                Util::connectSql("$tmpquery1");
+                phpCollab\Util::connectSql("$tmpquery1");
                 $tmpquery = $tableCollab["members"];
-                Util::getLastId($tmpquery);
+                phpCollab\Util::getLastId($tmpquery);
                 $num = $lastId[0];
                 unset($lastId);
                 $tmpquery3 = "INSERT INTO " . $tableCollab["notifications"] . "(member,taskAssignment,removeProjectTeam,addProjectTeam,newTopic,newPost,statusTaskChange,priorityTaskChange,duedateTaskChange,clientAddTask) VALUES ('$num','0','0','0','0','0','0','0','0','0')";
-                Util::connectSql("$tmpquery3");
+                phpCollab\Util::connectSql("$tmpquery3");
 
 // notify user hack by urbanfalcon
 // 28/05/2003 patch by fullo
@@ -83,7 +83,7 @@ if ($action == "add") {
                     $f_access_level = $client_user_level; // Reporter
                     include '../mantis/create_new_user.php';
                 }
-                Util::headerFunction("../clients/viewclient.php?id=$clod&msg=add");
+                phpCollab\Util::headerFunction("../clients/viewclient.php?id=$clod&msg=add");
                 exit;
             }
         }
@@ -93,7 +93,7 @@ if ($action == "add") {
 $bodyCommand = "onLoad=\"document.client_user_addForm.un.focus();\"";
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?", $strings["clients"], in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $clientDetail->org_id[0], $clientDetail->org_name[0], in));
@@ -105,7 +105,7 @@ if ($msg != "") {
     $blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "client_user_add";
 $block1->openForm("../users/addclientuser.php?organization=$organization&action=add");
@@ -127,7 +127,7 @@ $block1->contentRow($strings["title"], "<input size=\"24\" style=\"width: 250px;
 $selectOrganization = "<select name=\"clod\">";
 
 $tmpquery = "WHERE org.id != '1' ORDER BY org.name";
-$listOrganizations = new Request();
+$listOrganizations = new phpCollab\Request();
 $listOrganizations->openOrganizations($tmpquery);
 $comptListOrganizations = count($listOrganizations->org_id);
 

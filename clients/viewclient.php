@@ -31,11 +31,11 @@ include_once '../includes/library.php';
 if ($clientsFilter == "true" && $profilSession == "2") {
 $teamMember = "false";
 $tmpquery = "WHERE tea.member = '$idSession' AND org2.id = '$id'";
-$memberTest = new Request();
+$memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
-		Util::headerFunction("../clients/listclients.php?msg=blankClient");
+		phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
 	} else {
 		$tmpquery = "WHERE org.id = '$id'";
 	}
@@ -45,19 +45,19 @@ $comptMemberTest = count($memberTest->tea_id);
 	$tmpquery = "WHERE org.id = '$id'";
 }
 
-$clientDetail = new Request();
+$clientDetail = new phpCollab\Request();
 $clientDetail->openOrganizations($tmpquery);
 $comptClientDetail = count($clientDetail->org_id);
 
 if ($comptClientDetail == "0") {
-	Util::headerFunction("../clients/listclients.php?msg=blankClient");
+	phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
 }
 
 $setTitle .= " : View Client (" . $clientDetail->org_name[0] . ")";
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?",$strings["clients"],in));
 $blockPage->itemBreadcrumbs($clientDetail->org_name[0]);
@@ -68,7 +68,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "ecD";
 $block1->openForm("../projects/listprojects.php#".$block1->form."Anchor");
@@ -98,7 +98,7 @@ $block1->contentRow($strings["comments"],nl2br($clientDetail->org_comments[0]));
 if ($enableInvoicing == "true" && ($profilSession == "1" || $profilSession == "0" || $profilSession == "5")) {
 $block1->contentRow($strings["hourly_rate"],$clientDetail->org_hourly_rate[0]);
 }
-$block1->contentRow($strings["created"],Util::createDate($clientDetail->org_created[0],$timezoneSession));
+$block1->contentRow($strings["created"],phpCollab\Util::createDate($clientDetail->org_created[0],$timezoneSession));
 if (file_exists("../logos_clients/".$id.".".$clientDetail->org_extension_logo[0])) {
 $block1->contentRow($strings["logo"],"<img src=\"../logos_clients/".$id.".".$clientDetail->org_extension_logo[0]."\">");
 }
@@ -114,7 +114,7 @@ $block1->paletteScript(2,"invoicing","../invoicing/listinvoices.php?client=".$cl
 $block1->closePaletteScript("","");
 }
 
-$block2 = new Block();
+$block2 = new phpCollab\Block();
 
 $block2->form = "clPr";
 $block2->openForm("../clients/viewclient.php?id=$id#".$block2->form."Anchor");
@@ -144,7 +144,7 @@ if ($projectsFilter == "true") {
 } else {
 	$tmpquery = "WHERE pro.organization = '".$clientDetail->org_id[0]."' ORDER BY $block2->sortingValue";
 }
-$listProjects = new Request();
+$listProjects = new phpCollab\Request();
 $listProjects->openProjects($tmpquery);
 $comptListProjects = count($listProjects->pro_id);
 
@@ -193,7 +193,7 @@ if ($enableMantis == "true") {
 }
 $block2->closePaletteScript($comptListProjects,$listProjects->pro_id);
 
-$block3 = new Block();
+$block3 = new phpCollab\Block();
 
 $block3->form = "clU";
 $block3->openForm("../clients/viewclient.php?id=$id#".$block3->form."Anchor");
@@ -214,7 +214,7 @@ $block3->closePaletteIcon();
 $block3->sorting("users",$sortingUser->sor_users[0],"mem.name ASC",$sortingFields = array(0=>"mem.name",1=>"mem.login",2=>"mem.email_work",3=>"mem.profil",4=>"connected"));
 
 $tmpquery = "WHERE mem.organization = '$id' ORDER BY $block3->sortingValue";
-$listMembers = new Request();
+$listMembers = new phpCollab\Request();
 $listMembers->openMembers($tmpquery);
 $comptListMembers = count($listMembers->mem_id);
 

@@ -40,7 +40,7 @@ $pw = htmlspecialchars(strip_tags($pw),ENT_QUOTES);
 if ($action == "send") 
 {
 	$tmpquery = "WHERE mem.login = '$loginForm'";
-	$userDetail = new Request();
+	$userDetail = new phpCollab\Request();
 	$userDetail->openMembers($tmpquery);
 	$comptUserDetail = count ($userDetail->mem_id);
 
@@ -50,10 +50,10 @@ if ($action == "send")
 
 //test if email of user exists
 		} else if ($userDetail->mem_email_work[0] != "") {
-			Util::passwordGenerator();
-			$pw = Util::getPassword($pass_g);
+			phpCollab\Util::passwordGenerator();
+			$pw = phpCollab\Util::getPassword($pass_g);
 			$tmpquery = "UPDATE ".$tableCollab["members"]." SET password='$pw' WHERE login = '$loginForm'";
-			Util::connectSql("$tmpquery");
+			phpCollab\Util::connectSql("$tmpquery");
 
 			$body = $strings["user_name"]." : ".$userDetail->mem_login[0]."\n\n".$strings["password"]." : $pass_g";
 
@@ -82,7 +82,7 @@ $notLogged = "true";
 $bodyCommand = "onLoad=\"document.sendForm.loginForm.focus();\"";
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs("&nbsp;");
 $blockPage->closeBreadcrumbs();
@@ -92,7 +92,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "send";
 $block1->openForm("../general/sendpassword.php?action=send");

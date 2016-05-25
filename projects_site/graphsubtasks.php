@@ -9,14 +9,14 @@ include '../includes/jpgraph/jpgraph.php';
 include '../includes/jpgraph/jpgraph_gantt.php';
 
 $tmpquery = "WHERE tas.id = '".$task."'";
-$taskDetail = new Request();
+$taskDetail = new phpCollab\Request();
 $taskDetail->openTasks($tmpquery);
 
 $tmpquery = "WHERE pro.id = '".$taskDetail->tas_project[0]."'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
-$projectDetail->pro_created[0] = Util::createDate($projectDetail->pro_created[0],$timezoneSession);
+$projectDetail->pro_created[0] = phpCollab\Util::createDate($projectDetail->pro_created[0],$timezoneSession);
 $projectDetail->pro_name[0] = str_replace('&quot;','"',$projectDetail->pro_name[0]);
 $projectDetail->pro_name[0] = str_replace("&#39;","'",$projectDetail->pro_name[0]);
 
@@ -34,7 +34,7 @@ $graph->scale->week->SetFont(FF_FONT0);
 $graph->scale->year->SetFont(FF_FONT1);
 
 $tmpquery = "WHERE subtas.task = '$task' AND subtas.start_date != '--' AND subtas.due_date != '--' AND tas.published != '1' ORDER BY subtas.due_date";
-$listTasks = new Request();
+$listTasks = new phpCollab\Request();
 $listTasks->openSubtasks($tmpquery);
 $comptListTasks = count($listTasks->subtas_id);
 

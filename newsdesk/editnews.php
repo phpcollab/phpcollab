@@ -36,7 +36,7 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5" ) {
-	Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=permissionNews");
+	phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=permissionNews");
 	exit;
 }	
 
@@ -46,39 +46,39 @@ if ($id != "")
 
 	//test exists selected client organization, redirect to list if not
 	$tmpquery = "WHERE news.id = '$id'";
-	$newsDetail = new Request();
+	$newsDetail = new phpCollab\Request();
 	$newsDetail->openNewsDesk($tmpquery);
 	$comptnewsDetail = count($newsDetail->news_id);
 
 	//only author and admin can change an article
 	if ($profilSession != "0" && $idSession != $newsDetail->news_author[0] ) 
 	{
-		Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=permissionNews");
+		phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=permissionNews");
 		exit;
 	}
 
 	if ($comptnewsDetail == "0") 
 	{
-		Util::headerFunction("../newsdesk/listnews.php?msg=blankNews");
+		phpCollab\Util::headerFunction("../newsdesk/listnews.php?msg=blankNews");
 		exit;
 	}
 
 	if ($action == "update") 
 	{
-		$title = Util::convertData($title);
+		$title = phpCollab\Util::convertData($title);
 		if (get_magic_quotes_gpc() != 1) {$content = addslashes($content);}
 		$tmpquery = "UPDATE ".$tableCollab["newsdeskposts"]." SET title = '$title', author = '$author', related = '$related', content = '$content', links = '$links', rss = '$rss' WHERE id = '$id'";
-		Util::connectSql("$tmpquery");
-		Util::headerFunction("../newsdesk/viewnews.php?id=$id&msg=update");
+		phpCollab\Util::connectSql("$tmpquery");
+		phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$id&msg=update");
 	}
 	elseif ($action == "delete") 
 	{
 		$id = str_replace("**",",",$id);
 		$tmpquery = "DELETE FROM ".$tableCollab["newsdeskposts"]." WHERE id = $id";
-		Util::connectSql("$tmpquery");
+		phpCollab\Util::connectSql("$tmpquery");
 		$tmpquery = "DELETE FROM ".$tableCollab["newsdeskcomments"]." WHERE post_id = $id";
-		Util::connectSql("$tmpquery");
-		Util::headerFunction("../newsdesk/listnews.php?msg=removeNews");
+		phpCollab\Util::connectSql("$tmpquery");
+		phpCollab\Util::headerFunction("../newsdesk/listnews.php?msg=removeNews");
 	}	
 	else 
 	{
@@ -106,20 +106,20 @@ else
 		{
 
 			//replace quotes by html code in name and address
-			$title = Util::convertData($title);
+			$title = phpCollab\Util::convertData($title);
 			if (get_magic_quotes_gpc() != 1) {$content = addslashes($content);}
-			$author = Util::convertData($author);
+			$author = phpCollab\Util::convertData($author);
 
 			//insert into organizations and redirect to new client organization detail (last id)
 
 			$tmpquery1 = "INSERT INTO ".$tableCollab["newsdeskposts"]."(title,author,related,content,links,rss,pdate) VALUES ('$title', '$author', '$related', '".addslashes($content)."', '$links', '$rss', NOW())";
-			Util::connectSql("$tmpquery1");
+			phpCollab\Util::connectSql("$tmpquery1");
 			$tmpquery = $tableCollab["newsdeskposts"];
-			Util::getLastId($tmpquery);
+			phpCollab\Util::getLastId($tmpquery);
 			$num = $lastId[0];
 			unset($lastId);
 	
-			Util::headerFunction("../newsdesk/viewnews.php?id=$num&msg=add");
+			phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$num&msg=add");
 			
 
 		}
@@ -174,7 +174,7 @@ if ($id != '' && empty($action)) {
 }
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/listnews.php?",$strings["newsdesk"],in));
 
@@ -196,7 +196,7 @@ if ($msg != "")
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 if ($error != "") 
 {            
@@ -230,7 +230,7 @@ if ($action!='remove')
 	else 
 	{ 
 		$tmpquery_user = "WHERE mem.id = '".$newsDetail->news_author[0]."' ";
-		$newsAuthor = new Request();
+		$newsAuthor = new phpCollab\Request();
 		$newsAuthor->openMembers($tmpquery_user);
 		$block1->contentRow($strings["author"],"<input type='hidden' name='author' value='".$newsDetail->news_author[0]."'><b>".$newsAuthor->mem_name[0]."</b>");	
 	}
@@ -257,7 +257,7 @@ if ($action!='remove')
 		}					
 		
 	}
-	$listProjects = new Request();
+	$listProjects = new phpCollab\Request();
 	$listProjects->openNewsDeskRelated($tmpquery);
 	$comptListProjects = count($listProjects->tea_id);
 
@@ -330,7 +330,7 @@ else
 
 	$id = str_replace("**",",",$id);
 	$tmpquery = "WHERE news.id IN($id) ORDER BY news.pdate";
-	$listNews = new Request();
+	$listNews = new phpCollab\Request();
 	$listNews->openNewsDesk($tmpquery);
 	$comptListNews = count($listNews->news_id);
 

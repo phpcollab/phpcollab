@@ -39,7 +39,7 @@ include '../includes/library.php';
 
 // get company info
 $tmpquery = "WHERE org.id = '1'";
-$clientDetail = new Request();
+$clientDetail = new phpCollab\Request();
 $clientDetail->openOrganizations($tmpquery);
 
 $cn = $clientDetail->org_name[0];
@@ -158,7 +158,7 @@ if ($id == "" && $tri != "true")
 if ($id != "") {
 	
 	$tmpquery = "WHERE id = '$id'";
-	$reportDetail = new Request();
+	$reportDetail = new phpCollab\Request();
 	$reportDetail->openReports($tmpquery);
 	$reportName = $reportDetail->rep_name[0];
 	$S_ORGSEL = $reportDetail->rep_clients[0];
@@ -267,7 +267,7 @@ if ($S_PRJSEL != "ALL" || $S_ORGSEL != "ALL" || $S_ATSEL != "ALL" || $S_STATSEL 
 }
 
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 
 if ($msg != "") {
 	include '../includes/messages.php';
@@ -275,7 +275,7 @@ if ($msg != "") {
 }
 
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->sorting("report_tasks",$sortingUser->sor_report_tasks[0],"tas.complete_date DESC",$sortingFields = array(0=>"tas.name",1=>"tas.project",2=>"tas.actual_time",3=>"tas.completion",4=>"tas.status",5=>"tas.start_date",6=>"tas.due_date",7=>"tas.complete_date",8=>"mem.login",9=>"tas.description",10=>"tas.comments"));
 
@@ -284,7 +284,7 @@ if ($projectsFilter == "true")
 	$tmpquery = "LEFT OUTER JOIN ".$tableCollab["teams"]." teams ON teams.project = pro.id ";
 	$tmpquery .= "WHERE pro.status IN(0,2,3) AND teams.member = '$idSession' ORDER BY pro.id";
 
-	$listProjectsTasks = new Request();
+	$listProjectsTasks = new phpCollab\Request();
 	$listProjectsTasks->openProjects($tmpquery);
 	$comptListProjectsTasks = count($listProjectsTasks->pro_id);
 
@@ -315,7 +315,7 @@ if ($projectsFilter == "true")
 }
 
 
-$listTasks = new Request();
+$listTasks = new phpCollab\Request();
 $listTasks->openTasks($tmpquery);
 $comptListTasks = count($listTasks->tas_id);
 
@@ -385,7 +385,7 @@ for ($i=0;$i<$comptListTasks;$i++)
 	
 	// if subtask
 	$tmpquery = "WHERE task = ".$listTasks->tas_id[$i];
-	$listSubTasks = new Request();
+	$listSubTasks = new phpCollab\Request();
 	$listSubTasks->openSubtasks($tmpquery);
 	$comptListSubTasks = count($listSubTasks->subtas_id);
 	
@@ -508,7 +508,7 @@ function ganttPDF($reportName,$listTasks)
 		
 		// begin if subtask
 		$tmpquery = "WHERE task = ".$listTasks->tas_id[$i];
-		$listSubTasks = new Request();
+		$listSubTasks = new phpCollab\Request();
 		$listSubTasks->openSubtasks($tmpquery);
 		$comptListSubTasks = count($listSubTasks->subtas_id);
 		

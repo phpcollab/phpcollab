@@ -13,43 +13,43 @@ if ($action == "delete") {
 	$tmpquery3 = "DELETE FROM ".$tableCollab["subtasks"]." WHERE task IN($id)";
 
 	$tmpquery = "WHERE tas.id IN($id)";
-	$listTasks = new Request();
+	$listTasks = new phpCollab\Request();
 	$listTasks->openTasks($tmpquery);
 	$comptListTasks = count($listTasks->tas_id);
 		for ($i=0;$i<$comptListTasks;$i++) {
 			if ($fileManagement == "true") {
-				Util::deleteDirectory("../files/".$listTasks->tas_project[$i]."/".$listTasks->tas_id[$i]);
+				phpCollab\Util::deleteDirectory("../files/".$listTasks->tas_project[$i]."/".$listTasks->tas_id[$i]);
 			}
 		}
-	Util::connectSql("$tmpquery1");
-	Util::connectSql("$tmpquery2");
-	Util::connectSql("$tmpquery3");
+	phpCollab\Util::connectSql("$tmpquery1");
+	phpCollab\Util::connectSql("$tmpquery2");
+	phpCollab\Util::connectSql("$tmpquery3");
 	
 //recompute number of completed tasks of the project
 	$tmpquery = "WHERE pro.id = '".$listTasks->tas_project[0]."'";
-	$projectDetail = new Request();
+	$projectDetail = new phpCollab\Request();
 	$projectDetail->openProjects($tmpquery);
 
-	Util::projectComputeCompletion(
+	phpCollab\Util::projectComputeCompletion(
 	$listTasks->tas_project[$i],
 	$tableCollab["projects"]);
 
 	if ($project != "") {	
-		Util::headerFunction("../projects/viewproject.php?id=$project&msg=delete");
+		phpCollab\Util::headerFunction("../projects/viewproject.php?id=$project&msg=delete");
 		exit;
 	} else {
-		Util::headerFunction("../general/home.php?msg=delete");
+		phpCollab\Util::headerFunction("../general/home.php?msg=delete");
 		exit;
 	}
 }
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 if ($project != "") {	
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
@@ -66,7 +66,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "saP";
 $block1->openForm("../tasks/deletetasks.php?project=$project&action=delete&id=$id");
@@ -78,7 +78,7 @@ $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE tas.id IN($id) ORDER BY tas.name";
-$listTasks = new Request();
+$listTasks = new phpCollab\Request();
 $listTasks->openTasks($tmpquery);
 $comptListTasks = count($listTasks->tas_id);
 

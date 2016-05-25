@@ -49,12 +49,12 @@ if ($action == "update") {
         {
             $error = $strings["new_password_error"];
         } else {
-            $cnpw = Util::getPassword($npw);
+            $cnpw = phpCollab\Util::getPassword($npw);
 
             if ($htaccessAuth == "true") {
                 $Htpasswd = new Htpasswd;
                 $tmpquery = "WHERE tea.member = '$idSession'";
-                $listProjects = new Request();
+                $listProjects = new phpCollab\Request();
                 $listProjects->openTeams($tmpquery);
                 $comptListProjects = count($listProjects->tea_id);
 
@@ -70,13 +70,13 @@ if ($action == "update") {
             }
 
             $tmpquery = "UPDATE ".$tableCollab["members"]." SET password='$cnpw' WHERE id = '$idSession'";
-            Util::connectSql("$tmpquery");
+            phpCollab\Util::connectSql("$tmpquery");
 
             //if CVS repository enabled
             if ($enable_cvs == "true") 
             {
                 $query = "WHERE tea.member = '$idSession'";
-                $cvsMembers = new Request();
+                $cvsMembers = new phpCollab\Request();
                 $cvsMembers->openTeams($query);
 
             //change the password in every repository
@@ -91,19 +91,19 @@ if ($action == "update") {
 
             $_SESSION['passwordSession'] = $passwordSession;
 
-            Util::headerFunction("changepassword.php?msg=update");
+            phpCollab\Util::headerFunction("changepassword.php?msg=update");
             exit;
         }
     }
 }
 
 $tmpquery = "WHERE mem.id = '$idSession'";
-$userDetail = new Request();
+$userDetail = new phpCollab\Request();
 $userDetail->openMembers($tmpquery);
 $comptUserDetail = count($userDetail->mem_id);
 
 if ($comptUserDetail == "0") {
-    Util::headerFunction("userlist.php?msg=blankUser");
+    phpCollab\Util::headerFunction("userlist.php?msg=blankUser");
     exit;
 }
 
@@ -112,7 +112,7 @@ include 'include_header.php';
 
 if ($msg != "") {
     include '../includes/messages.php';
-    $blockPage = new Block();
+    $blockPage = new phpCollab\Block();
     $blockPage->messagebox($msgLabel);
 }
 

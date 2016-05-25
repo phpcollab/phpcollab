@@ -34,7 +34,7 @@ if ($action == "delete") {
 		
 	//find parent task
 	$tmpquery = "WHERE subtas.id IN($id)";
-	$listSubtasks = new Request();
+	$listSubtasks = new phpCollab\Request();
 	$listSubtasks->openSubtasks($tmpquery);
 
 	$tmpquery1 = "DELETE FROM ".$tableCollab["subtasks"]." WHERE id IN($id)";
@@ -42,52 +42,52 @@ if ($action == "delete") {
 
 	/*
 	$tmpquery = "WHERE tas.id IN($id)";
-	$listTasks = new Request();
+	$listTasks = new phpCollab\Request();
 	$listTasks->openTasks($tmpquery);
 	$comptListTasks = count($listTasks->tas_id);
 		for ($i=0;$i<$comptListTasks;$i++) {
 			if ($fileManagement == "true") {
-				Util::deleteDirectory("../files/".$listTasks->tas_project[$i]."/".$listTasks->tas_id[$i]);
+				phpCollab\Util::deleteDirectory("../files/".$listTasks->tas_project[$i]."/".$listTasks->tas_id[$i]);
 			}
 		}
 	*/
-	Util::connectSql($tmpquery1);
-	Util::connectSql($tmpquery2);
+	phpCollab\Util::connectSql($tmpquery1);
+	phpCollab\Util::connectSql($tmpquery2);
 
 	//recompute average completion of the task
-	Util::taskComputeCompletion(
+	phpCollab\Util::taskComputeCompletion(
 	$listSubtasks->subtas_task[0],
 	$tableCollab["tasks"]);
 
 	if ($task != "") {	
-		Util::headerFunction("../tasks/viewtask.php?id=$task&msg=delete");
+		phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$task&msg=delete");
 		exit;
 	} else {
-		Util::headerFunction("../general/home.php?msg=delete");
+		phpCollab\Util::headerFunction("../general/home.php?msg=delete");
 		exit;
 	}
 }
 
 $tmpquery = "WHERE tas.id = '$task'";
-$taskDetail = new Request();
+$taskDetail = new phpCollab\Request();
 $taskDetail->openTasks($tmpquery);
 $project = $taskDetail->tas_project[0];
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 if ($projectDetail->pro_enable_phase[0] != "0"){
 	$tPhase = $taskDetail->tas_parent_phase[0];
     if (!$tPhase){ $tPhase = '0'; }
 	$tmpquery = "WHERE pha.project_id = '".$taskDetail->tas_project[0]."' AND pha.order_num = '$tPhase'";
-	$targetPhase = new Request();
+	$targetPhase = new phpCollab\Request();
 	$targetPhase->openPhases($tmpquery);
 }	
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 if ($task != "") {	
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
@@ -112,7 +112,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "saP";
 $block1->openForm("../subtasks/deletesubtasks.php?task=$task&action=delete&id=$id");
@@ -124,7 +124,7 @@ $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE subtas.id IN($id) ORDER BY subtas.name";
-$listSubtasks = new Request();
+$listSubtasks = new phpCollab\Request();
 $listSubtasks->openSubtasks($tmpquery);
 $comptListSubtasks = count($listSubtasks->subtas_id);
 

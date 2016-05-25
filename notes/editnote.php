@@ -32,12 +32,12 @@ include '../includes/customvalues.php';
 
 if ($id != "" && $action != "add") {
 	$tmpquery = "WHERE note.id = '$id'";
-	$noteDetail = new Request();
+	$noteDetail = new phpCollab\Request();
 	$noteDetail->openNotes($tmpquery);
 	$tmpquery = "WHERE pro.id = '".$noteDetail->note_project[0]."'";
 	$project = $noteDetail->note_project[0];
 if ($noteDetail->note_owner[0] != $idSession) {
-	Util::headerFunction("../notes/listnotes.php?project=$project&msg=noteOwner");
+	phpCollab\Util::headerFunction("../notes/listnotes.php?project=$project&msg=noteOwner");
 	exit;
 }
 
@@ -45,12 +45,12 @@ if ($noteDetail->note_owner[0] != $idSession) {
 	$tmpquery = "WHERE pro.id = '$project'";
 }
 
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-$memberTest = new Request();
+$memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 if ($comptMemberTest == "0") {
@@ -63,12 +63,12 @@ if ($comptMemberTest == "0") {
 if ($id != "") {
 	//case update note entry
 	if ($action == "update") {
-		$subject = Util::convertData($subject);
-		$description = Util::convertData($description);
+		$subject = phpCollab\Util::convertData($subject);
+		$description = phpCollab\Util::convertData($description);
 		$tmpquery5 = "UPDATE ".$tableCollab["notes"]." SET project='$projectMenu',topic='$topic',subject='$subject',description='$description',date='$dd',owner='$idSession' WHERE id = '$id'";
 		$msg = "update";
-		Util::connectSql("$tmpquery5");
-		Util::headerFunction("../notes/viewnote.php?id=$id&msg=$msg");
+		phpCollab\Util::connectSql("$tmpquery5");
+		phpCollab\Util::headerFunction("../notes/viewnote.php?id=$id&msg=$msg");
 		exit;
 	}
 
@@ -84,15 +84,15 @@ if ($id == "") {
 
 	//case add note entry
 	if ($action == "add") {
-		$subject = Util::convertData($subject);
-		$description = Util::convertData($description);
+		$subject = phpCollab\Util::convertData($subject);
+		$description = phpCollab\Util::convertData($description);
 		$tmpquery1 = "INSERT INTO ".$tableCollab["notes"]."(project,topic,subject,description,date,owner,published) VALUES('$projectMenu','$topic','$subject','$description','$dd','$idSession','1')";
-		Util::connectSql("$tmpquery1");
+		phpCollab\Util::connectSql("$tmpquery1");
 		$tmpquery = $tableCollab["notes"];
-		Util::getLastId($tmpquery);
+		phpCollab\Util::getLastId($tmpquery);
 		$num = $lastId[0];
 		unset($lastId);
-		Util::headerFunction("../notes/viewnote.php?id=$num&msg=add");
+		phpCollab\Util::headerFunction("../notes/viewnote.php?id=$num&msg=add");
 		exit;
 	}
 
@@ -102,7 +102,7 @@ $bodyCommand = "onLoad=\"document.etDForm.subject.focus();\"";
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -121,7 +121,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 if ($id == "") {
 	$block1->form = "etD";
 	$block1->openForm("../notes/editnote.php?project=$project&id=$id&action=add&#".$block1->form."Anchor");
@@ -148,7 +148,7 @@ $block1->contentTitle($strings["details"]);
 echo "<tr class='odd'><td valign='top' class='leftvalue'>".$strings["project"]." :</td><td><select name='projectMenu'>";
 
 $tmpquery = "WHERE tea.member = '$idSession' ORDER BY pro.name";
-$listProjects = new Request();
+$listProjects = new phpCollab\Request();
 $listProjects->openTeams($tmpquery);
 $comptListProjects = count($listProjects->tea_id);
 

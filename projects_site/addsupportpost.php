@@ -6,20 +6,20 @@ $checkSession = "true";
 include '../includes/library.php';
 
 $tmpquery = "WHERE sr.id = '$id'";
-$requestDetail = new Request();
+$requestDetail = new phpCollab\Request();
 $requestDetail->openSupportRequests($tmpquery);
 
 if ($requestDetail->sr_project[0] != $projectSession || $requestDetail->sr_user[0] != $idSession) {
-Util::headerFunction("index.php");
+phpCollab\Util::headerFunction("index.php");
 }
 
 if ($action == "add") {
-	$mes = Util::convertData($mes);
+	$mes = phpCollab\Util::convertData($mes);
 
 	$tmpquery1 = "INSERT INTO ".$tableCollab["support_posts"]."(request_id,message,date,owner,project) VALUES('$id','$mes','$dateheure','$idSession','".$requestDetail->sr_project[0]."')";
-	Util::connectSql("$tmpquery1");
+	phpCollab\Util::connectSql("$tmpquery1");
 	$tmpquery = $tableCollab["support_posts"];
-	Util::getLastId($tmpquery);
+	phpCollab\Util::getLastId($tmpquery);
 	$num = $lastId[0];
 	unset($lastId);
 	
@@ -29,7 +29,7 @@ if ($action == "add") {
 			}
 		}
 	
-	Util::headerFunction("suprequestdetail.php?id=$id");
+	phpCollab\Util::headerFunction("suprequestdetail.php?id=$id");
 	exit;
 }
 

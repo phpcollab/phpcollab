@@ -32,8 +32,8 @@ include_once '../includes/library.php';
 if ($action == "delete") {
 	$id = str_replace("**",",",$id);
 	$tmpquery1 = "DELETE FROM ".$tableCollab["bookmarks"]." WHERE id IN($id)";
-	Util::connectSql("$tmpquery1");
-	Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=delete");
+	phpCollab\Util::connectSql("$tmpquery1");
+	phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=delete");
 	exit;
 }
 
@@ -46,7 +46,7 @@ if (strpos($id, "**") !== false) {
 }
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=all",$strings["bookmarks"],in));
 $blockPage->itemBreadcrumbs($strings["delete_bookmarks"]);
@@ -57,7 +57,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 $block1->form = "saP";
 $block1->openForm("../bookmarks/deletebookmarks.php?action=delete&id=$id");
 
@@ -68,7 +68,7 @@ $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE boo.id IN($id) ORDER BY boo.name";
-$listBookmarks = new Request();
+$listBookmarks = new phpCollab\Request();
 $listBookmarks->openBookmarks($tmpquery);
 $comptListBookmarks = count($listBookmarks->boo_id);
 

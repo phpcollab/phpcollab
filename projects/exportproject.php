@@ -40,7 +40,7 @@ $crlf        = which_crlf();
  */
 
 $tmpquery = "WHERE pro.id = '$id'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 if ($projectDetail->pro_org_id[0] == "1") {
@@ -51,10 +51,10 @@ $idPriority = $projectDetail->pro_priority[0];
 
 $dump_buffer .= $strings["project"].$crlf;
 $dump_buffer .= "\"".$strings["name"]."\";\"".$strings["description"]."\";\"".$strings["owner"]."\";\"".$strings["priority"]."\";\"".$strings["status"]."\";\"".$strings["created"]."\";\"".$strings["organization"]."\"".$crlf;
-$dump_buffer .= "\"".$projectDetail->pro_name[0]."\";\"".$projectDetail->pro_description[0]."\";\"".$projectDetail->pro_mem_login[0]."\";\"".$priority[$idPriority]."\";\"".$status[$idStatus]."\";\"".Util::createDate($projectDetail->pro_created[0],$timezoneSession)."\";\"".$projectDetail->pro_org_name[0]."\"".$crlf.$crlf;
+$dump_buffer .= "\"".$projectDetail->pro_name[0]."\";\"".$projectDetail->pro_description[0]."\";\"".$projectDetail->pro_mem_login[0]."\";\"".$priority[$idPriority]."\";\"".$status[$idStatus]."\";\"".phpCollab\Util::createDate($projectDetail->pro_created[0],$timezoneSession)."\";\"".$projectDetail->pro_org_name[0]."\"".$crlf.$crlf;
 
 $tmpquery = "WHERE tas.project = '$id'";
-$listTasks = new Request();
+$listTasks = new phpCollab\Request();
 $listTasks->openTasks($tmpquery);
 $comptListTasks = count($listTasks->tas_id);
 
@@ -73,9 +73,9 @@ $idPublish = $listTasks->tas_published[$i];
 $complValue = ($listTasks->tas_completion[$i]>0) ? $listTasks->tas_completion[$i]."0 %": $listTasks->tas_completion[$i]." %"; 
 
 if ($listTasks->tas_complete_date[$i] != "" && $listTasks->tas_complete_date[$i] != "--" && $listTasks->tas_due_date[$i] != "--") {
-	$diff = Util::diffDate($listTasks->tas_complete_date[$i],$listTasks->tas_due_date[$i]);
+	$diff = phpCollab\Util::diffDate($listTasks->tas_complete_date[$i],$listTasks->tas_due_date[$i]);
 }
-$dump_buffer .= "\"".$listTasks->tas_name[$i]."\";\"".$listTasks->tas_description[$i]."\";\"".$listTasks->tas_mem2_login[$i]."\";\"".$priority[$idPriority]."\";\"".$status[$idStatus]."\";\"".Util::createDate($listTasks->tas_created[$i],$timezoneSession)."\";\"".$listTasks->tas_start_date[$i]."\";\"".$listTasks->tas_due_date[$i]."\";\"".$listTasks->tas_complete_date[$i]."\";\"".$complValue."\";\"$diff\";\"".$listTasks->tas_estimated_time[$i]."\";\"".$listTasks->tas_actual_time[$i]."\";\"".$statusPublish[$idPublish]."\";\"".$listTasks->tas_comments[$i]."\";\"".$listTasks->tas_assigned[$i]."\";\"".$listTasks->tas_mem_login[$i]."\"".$crlf;
+$dump_buffer .= "\"".$listTasks->tas_name[$i]."\";\"".$listTasks->tas_description[$i]."\";\"".$listTasks->tas_mem2_login[$i]."\";\"".$priority[$idPriority]."\";\"".$status[$idStatus]."\";\"".phpCollab\Util::createDate($listTasks->tas_created[$i],$timezoneSession)."\";\"".$listTasks->tas_start_date[$i]."\";\"".$listTasks->tas_due_date[$i]."\";\"".$listTasks->tas_complete_date[$i]."\";\"".$complValue."\";\"$diff\";\"".$listTasks->tas_estimated_time[$i]."\";\"".$listTasks->tas_actual_time[$i]."\";\"".$statusPublish[$idPublish]."\";\"".$listTasks->tas_comments[$i]."\";\"".$listTasks->tas_assigned[$i]."\";\"".$listTasks->tas_mem_login[$i]."\"".$crlf;
 }
 }
 

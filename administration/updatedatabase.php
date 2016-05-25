@@ -31,7 +31,7 @@ include_once '../includes/library.php';
 $setTitle .= " : Edit Database";
 
 if ($profilSession != "0") {
-	Util::headerFunction('../general/permissiondenied.php');
+	phpCollab\Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 
@@ -77,20 +77,20 @@ if ($action == "generate") {
 	    if (mssql_get_last_message() != 0){ exit('<br/><b>PANIC! <br/> Error during the update of the database.</b><br/> Error: '. mssql_get_last_message()); }
 	}
 	}
-	Util::headerFunction("../administration/admin.php?msg=update");
+	phpCollab\Util::headerFunction("../administration/admin.php?msg=update");
 }
 
 
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?",$strings["administration"],in));
 $blockPage->itemBreadcrumbs($strings["edit_database"]);
 $blockPage->closeBreadcrumbs();
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->heading($strings["edit_database"]);
 

@@ -36,13 +36,13 @@ $setTitle .= " : " . $strings["my_reports"];
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/listreports.php?",$strings["reports"],in));
 $blockPage->itemBreadcrumbs($strings["my_reports"]);
 $blockPage->closeBreadcrumbs();
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "wbSe";
 $block1->openForm("../reports/listreports.php#".$block1->form."Anchor");
@@ -83,7 +83,7 @@ if ( $reportCount > 0) {
 		$block1->openRow();
 		$block1->checkboxRow($data["id"]);
 		$block1->cellRow($blockPage->buildLink("../reports/resultsreport.php?id=".$data["id"],$data["name"],in));
-		$block1->cellRow(Util::createDate($data["created"],$timezoneSession));
+		$block1->cellRow(phpCollab\Util::createDate($data["created"],$timezoneSession));
 
 	}
 

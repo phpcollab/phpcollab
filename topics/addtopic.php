@@ -30,7 +30,7 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 if ($projectDetail->pro_org_id[0] == "1") {
@@ -43,28 +43,28 @@ if ($action == "add") {
 		$pub = "1";
 	}
 
-	$ttt = Util::convertData($ttt);
-	$tpm = Util::convertData($tpm);
+	$ttt = phpCollab\Util::convertData($ttt);
+	$tpm = phpCollab\Util::convertData($tpm);
 	$tmpquery1 = "INSERT INTO ".$tableCollab["topics"]."(project,owner,subject,status,last_post,posts,published) VALUES('$project','$idSession','$ttt','1','$dateheure','1','$pub')";
-	Util::connectSql("$tmpquery1");
+	phpCollab\Util::connectSql("$tmpquery1");
 	$tmpquery = $tableCollab["topics"];
-	Util::getLastId($tmpquery);
+	phpCollab\Util::getLastId($tmpquery);
 	$num = $lastId[0];
 	unset($lastId);
-	Util::autoLinks($tpm);
+	phpCollab\Util::autoLinks($tpm);
 	$tmpquery2 = "INSERT INTO ".$tableCollab["posts"]."(topic,member,created,message) VALUES('$num','$idSession','$dateheure','$newText')";
-	Util::connectSql("$tmpquery2");
+	phpCollab\Util::connectSql("$tmpquery2");
 
 	if ($notifications == "true") {
 		include '../topics/noti_newtopic.php';
 	}
 
-	Util::headerFunction("../topics/viewtopic.php?project=$project&id=$num&msg=add");
+	phpCollab\Util::headerFunction("../topics/viewtopic.php?project=$project&id=$num&msg=add");
 }
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '".$projectDetail->pro_id[0]."' AND tea.member = '$idSession'";
-$memberTest = new Request();
+$memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	
@@ -82,7 +82,7 @@ if ($teamMember == "false" && $projectsFilter == "true") {
 $bodyCommand = "onLoad=\"document.ctTForm.ttt.focus();\"";
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -95,7 +95,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "ctT";
 $block1->openForm("../topics/addtopic.php?project=".$projectDetail->pro_id[0]."&action=add");

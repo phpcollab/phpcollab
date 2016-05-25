@@ -3,6 +3,8 @@
 #Status page: 2
 #Path by root: ../includes/request.class.php
 
+namespace phpCollab;
+
 class Request
 {
 

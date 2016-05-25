@@ -14,13 +14,13 @@ if ($action == "delete") {
 	$tmpquery2 = "DELETE FROM ".$tableCollab["posts"]." WHERE topic = $id";
 	$pieces = explode(",",$id);
 	$num = count($pieces);
-	Util::connectSql("$tmpquery1");
-	Util::connectSql("$tmpquery2");
+	phpCollab\Util::connectSql("$tmpquery1");
+	phpCollab\Util::connectSql("$tmpquery2");
 		if ($project != "") {
-			Util::headerFunction("../projects/viewproject.php?num=$num&msg=deleteTopic&id=$project");
+			phpCollab\Util::headerFunction("../projects/viewproject.php?num=$num&msg=deleteTopic&id=$project");
 			exit;
 		} else {
-			Util::headerFunction("../general/home.php?num=$num&msg=deleteTopic");
+			phpCollab\Util::headerFunction("../general/home.php?num=$num&msg=deleteTopic");
 			exit;
 		}
 }
@@ -30,12 +30,12 @@ if($_GET['project']){
 	unset($project);
 }
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 if ($project != "") {
 	$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
@@ -53,7 +53,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "saP";
 $block1->openForm("../topics/deletetopics.php?project=$project&action=delete&id=$id");
@@ -66,7 +66,7 @@ $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE topic.id IN($id) ORDER BY topic.subject";
-$listTopics = new Request();
+$listTopics = new phpCollab\Request();
 $listTopics->openTopics($tmpquery);
 $comptListTopics = count($listTopics->top_id);
 

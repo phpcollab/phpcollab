@@ -34,10 +34,10 @@ include '../includes/jpgraph/jpgraph.php';
 include '../includes/jpgraph/jpgraph_gantt.php';
 
 $tmpquery = "WHERE pro.id = '".$project."'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
-$projectDetail->pro_created[0] = Util::createDate($projectDetail->pro_created[0],$timezoneSession);
+$projectDetail->pro_created[0] = phpCollab\Util::createDate($projectDetail->pro_created[0],$timezoneSession);
 $projectDetail->pro_name[0] = str_replace('&quot;','"',$projectDetail->pro_name[0]);
 $projectDetail->pro_name[0] = str_replace("&#39;","'",$projectDetail->pro_name[0]);
 
@@ -55,7 +55,7 @@ $graph->scale->week->SetFont(FF_FONT0);
 $graph->scale->year->SetFont(FF_FONT1);
 
 $tmpquery = "WHERE tas.project = '".$project."' AND tas.start_date != '--' AND tas.due_date != '--' ORDER BY tas.due_date";
-$listTasks = new Request();
+$listTasks = new phpCollab\Request();
 $listTasks->openTasks($tmpquery);
 $comptListTasks = count($listTasks->tas_id);
 

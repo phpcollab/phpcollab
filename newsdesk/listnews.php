@@ -10,7 +10,7 @@ $setTitle .= " : News List";
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/listnews.php?",$strings["newsdesk"],in));
 $blockPage->itemBreadcrumbs($strings["newsdesk_list"]);
@@ -23,7 +23,7 @@ if ($msg != "") {
 
 $blockPage->limitsNumber = "1";
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "newsdeskList";
 $block1->openForm("../newsdesk/listnews.php#".$block1->form."Anchor");
@@ -54,9 +54,9 @@ $block1->sorting("newsdesk",$sortingUser->sor_newsdesk[0],"news.pdate DESC",$sor
 $block1->openContent();
 
 $tmpquery = "WHERE news.id != '0' ORDER BY $block1->sortingValue ";
-$block1->recordsTotal = Util::computeTotal($initrequest["newsdeskposts"]." ".$tmpquery);
+$block1->recordsTotal = phpCollab\Util::computeTotal($initrequest["newsdeskposts"]." ".$tmpquery);
 
-$listPosts = new Request();
+$listPosts = new phpCollab\Request();
 $listPosts->openNewsDesk($tmpquery,$block1->limit,$block1->rowsLimit);
 $comptPosts = count($listPosts->news_id);
 
@@ -67,13 +67,13 @@ if ($comptPosts != "0") {
 	for ($i=0;$i<$comptPosts;$i++) {
 		// take the news author
 		$tmpquery_user = "WHERE mem.id = '".$listPosts->news_author[$i]."' ";
-		$newsAuthor = new Request();
+		$newsAuthor = new phpCollab\Request();
 		$newsAuthor->openMembers($tmpquery_user);
 
 		// take the name of the related article
 		if ($listPosts->news_related[$i]!='g') {
 			$tmpquery = "WHERE pro.id = '".$listPosts->news_related[$i]."'";
-			$projectDetail = new Request();
+			$projectDetail = new phpCollab\Request();
 			$projectDetail->openProjects($tmpquery);
 			$article_related = "<a href='../projects/viewproject.php?id=".$projectDetail->pro_id[0]."' title='".$projectDetail->pro_name[0]."'>".$projectDetail->pro_name[0]."</a>";
 		} else {

@@ -10,11 +10,11 @@ $titlePage = $strings["client_tasks"];
 include 'include_header.php';
 
 $tmpquery = "WHERE tas.project = '$projectSession' AND tas.assigned_to != '0' AND tas.published = '0' AND mem.profil = '3' ORDER BY tas.name";
-$listTasks = new Request();
+$listTasks = new phpCollab\Request();
 $listTasks->openTasks($tmpquery);
 $comptListTasks = count($listTasks->tas_id);
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->heading($strings["client_tasks"]);
 

@@ -32,13 +32,13 @@ $checkSession = "true";
 include_once '../includes/library.php';
 include '../includes/customvalues.php';
 
-$id = Util::returnGlobal('id','REQUEST');
-$project = Util::returnGlobal('project','REQUEST');
-$action = Util::returnGlobal('action','GET');
+$id = phpCollab\Util::returnGlobal('id','REQUEST');
+$project = phpCollab\Util::returnGlobal('project','REQUEST');
+$action = phpCollab\Util::returnGlobal('action','GET');
 
 if ($action == "publish") 
 {
-	$closeTopic = Util::returnGlobal('closeTopic','GET');
+	$closeTopic = phpCollab\Util::returnGlobal('closeTopic','GET');
 
 	if ($closeTopic == "true") 
 	{
@@ -53,16 +53,16 @@ if ($action == "publish")
 		} 
 		else 
 		{
-			$tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET status='0' WHERE id = '".Util::fixInt($id)."'";
+			$tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET status='0' WHERE id = '".phpCollab\Util::fixInt($id)."'";
 			$num = "1";
 		}
 		
-		Util::connectSql("$tmpquery1");
+		phpCollab\Util::connectSql("$tmpquery1");
 		$msg = "closeTopic";
 		$id = $project;
 	}
 
-	$addToSiteTask = Util::returnGlobal('addToSiteTask','GET');
+	$addToSiteTask = phpCollab\Util::returnGlobal('addToSiteTask','GET');
 
 	if ($addToSiteTask == "true") 
 	{
@@ -75,15 +75,15 @@ if ($action == "publish")
 		} 
 		else 
 		{
-			$tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='0' WHERE id = '".Util::fixInt($id)."'";
+			$tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='0' WHERE id = '".phpCollab\Util::fixInt($id)."'";
 		}
 		
-		Util::connectSql("$tmpquery1");
+		phpCollab\Util::connectSql("$tmpquery1");
 		$msg = "addToSite";
 		$id = $project;
 	}
 
-	$removeToSiteTask = Util::returnGlobal('removeToSiteTask','GET');
+	$removeToSiteTask = phpCollab\Util::returnGlobal('removeToSiteTask','GET');
 
 	if ($removeToSiteTask == "true") 
 	{
@@ -96,15 +96,15 @@ if ($action == "publish")
 		} 
 		else 
 		{
-			$tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='1' WHERE id = '".Util::fixInt($id)."'";
+			$tmpquery1 = "UPDATE ".$tableCollab["tasks"]." SET published='1' WHERE id = '".phpCollab\Util::fixInt($id)."'";
 		}
 	
-		Util::connectSql("$tmpquery1");
+		phpCollab\Util::connectSql("$tmpquery1");
 		$msg = "removeToSite";
 		$id = $project;
 	}
 
-	$addToSiteTopic = Util::returnGlobal('addToSiteTopic','GET');
+	$addToSiteTopic = phpCollab\Util::returnGlobal('addToSiteTopic','GET');
 
 	if ($addToSiteTopic == "true") 
 	{
@@ -117,15 +117,15 @@ if ($action == "publish")
 		} 
 		else 
 		{
-			$tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET published='0' WHERE id = '".Util::fixInt($id)."'";
+			$tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET published='0' WHERE id = '".phpCollab\Util::fixInt($id)."'";
 		}
 
-			Util::connectSql("$tmpquery1");
+			phpCollab\Util::connectSql("$tmpquery1");
 			$msg = "addToSite";
 			$id = $project;
 	}
 
-	$removeToSiteTopic = Util::returnGlobal('removeToSiteTopic','GET');
+	$removeToSiteTopic = phpCollab\Util::returnGlobal('removeToSiteTopic','GET');
 	if ($removeToSiteTopic == "true") 
 	{
 		$multi = strstr($id,"**");
@@ -137,15 +137,15 @@ if ($action == "publish")
 		} 
 		else 
 		{
-			$tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET published='1' WHERE id = '".Util::fixInt($id)."'";
+			$tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET published='1' WHERE id = '".phpCollab\Util::fixInt($id)."'";
 		}
 
-		Util::connectSql("$tmpquery1");
+		phpCollab\Util::connectSql("$tmpquery1");
 		$msg = "removeToSite";
 		$id = $project;
 	}
 
-	$addToSiteTeam = Util::returnGlobal('addToSiteTeam','GET');
+	$addToSiteTeam = phpCollab\Util::returnGlobal('addToSiteTeam','GET');
 	if ($addToSiteTeam == "true") 
 	{
 		$multi = strstr($id,"**");
@@ -160,12 +160,12 @@ if ($action == "publish")
 			$tmpquery1 = "UPDATE ".$tableCollab["teams"]." SET published='0' WHERE member = '$id' AND project = '$project'";
 		}
 		
-		Util::connectSql("$tmpquery1");
+		phpCollab\Util::connectSql("$tmpquery1");
 		$msg = "addToSite";
 		$id = $project;
 	}
 
-	$removeToSiteTeam = Util::returnGlobal('removeToSiteTeam','GET');
+	$removeToSiteTeam = phpCollab\Util::returnGlobal('removeToSiteTeam','GET');
 	if ($removeToSiteTeam == "true") 
 	{
 		$multi = strstr($id,"**");
@@ -180,34 +180,34 @@ if ($action == "publish")
 			$tmpquery1 = "UPDATE ".$tableCollab["teams"]." SET published='1' WHERE member = '$id' AND project = '$project'";
 		}
 
-		Util::connectSql("$tmpquery1");
+		phpCollab\Util::connectSql("$tmpquery1");
 		$msg = "removeToSite";
 		$id = $project;
 	}
 
-	$addToSiteFile = Util::returnGlobal('addToSiteFile','GET');
+	$addToSiteFile = phpCollab\Util::returnGlobal('addToSiteFile','GET');
 
 	if ($addToSiteFile == "true") 
 	{
 		$id = str_replace("**",",",$id);
 		$tmpquery1 = "UPDATE ".$tableCollab["files"]." SET published='0' WHERE id IN($id) OR vc_parent IN ($id)";
-		Util::connectSql("$tmpquery1");
+		phpCollab\Util::connectSql("$tmpquery1");
 		$msg = "addToSite";
 		$id = $project;
 	}
 
-	$removeToSiteFile = Util::returnGlobal('removeToSiteFile','GET');
+	$removeToSiteFile = phpCollab\Util::returnGlobal('removeToSiteFile','GET');
 
 	if ($removeToSiteFile == "true") 
 	{
 		$id = str_replace("**",",",$id);
 		$tmpquery1 = "UPDATE ".$tableCollab["files"]." SET published='1' WHERE id IN($id) OR vc_parent IN ($id)";
-		Util::connectSql("$tmpquery1");
+		phpCollab\Util::connectSql("$tmpquery1");
 		$msg = "removeToSite";
 		$id = $project;
 	}
 
-	$addToSiteNote = Util::returnGlobal('addToSiteNote','GET');
+	$addToSiteNote = phpCollab\Util::returnGlobal('addToSiteNote','GET');
 
 	if ($addToSiteNote == "true") 
 	{
@@ -219,15 +219,15 @@ if ($action == "publish")
 		} 
 		else 
 		{
-			$tmpquery1 = "UPDATE ".$tableCollab["notes"]." SET published='0' WHERE id = '".Util::fixInt($id)."'";
+			$tmpquery1 = "UPDATE ".$tableCollab["notes"]." SET published='0' WHERE id = '".phpCollab\Util::fixInt($id)."'";
 		}
 		
-		Util::connectSql("$tmpquery1");
+		phpCollab\Util::connectSql("$tmpquery1");
 		$msg = "addToSite";
 		$id = $project;
 	}
 
-	$removeToSiteNote = Util::returnGlobal('removeToSiteNote','GET');
+	$removeToSiteNote = phpCollab\Util::returnGlobal('removeToSiteNote','GET');
 	if ($removeToSiteNote == "true") 
 	{
 		$multi = strstr($id,"**");
@@ -239,10 +239,10 @@ if ($action == "publish")
 		} 
 		else 
 		{
-			$tmpquery1 = "UPDATE ".$tableCollab["notes"]." SET published='1' WHERE id = '".Util::fixInt($id)."'";
+			$tmpquery1 = "UPDATE ".$tableCollab["notes"]." SET published='1' WHERE id = '".phpCollab\Util::fixInt($id)."'";
 		}
 		
-		Util::connectSql("$tmpquery1");
+		phpCollab\Util::connectSql("$tmpquery1");
 		$msg = "removeToSite";
 		$id = $project;
 	}
@@ -255,18 +255,18 @@ if ($msg == "demo")
 }
 
 $tmpquery = "WHERE pro.id = '$id'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 $comptProjectDetail = count($projectDetail->pro_id);
 
 if ($comptProjectDetail == "0") 
 {
-	Util::headerFunction("../projects/listprojects.php?msg=blankProject");
+	phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blankProject");
 	exit;
 }
 
 $tmpquery = "WHERE tas.project = '$id' ORDER BY tas.name";
-$listTasksTime = new Request();
+$listTasksTime = new phpCollab\Request();
 $listTasksTime->openTasks($tmpquery);
 $comptListTasksTime = count($listTasksTime->tas_id);
 if ($comptListTasksTime != "0") 
@@ -278,7 +278,7 @@ if ($comptListTasksTime != "0")
 
 		if ($listTasksTime->tas_complete_date[$i] != "" && $listTasksTime->tas_complete_date[$i] != "--" && $listTasksTime->tas_due_date[$i] != "--") 
 		{
-			$diff = Util::diffDate($listTasksTime->tas_complete_date[$i],$listTasksTime->tas_due_date[$i]);
+			$diff = phpCollab\Util::diffDate($listTasksTime->tas_complete_date[$i],$listTasksTime->tas_due_date[$i]);
 			$diff_time = $diff_time + $diff;
 		}
 	}
@@ -290,8 +290,8 @@ if ($comptListTasksTime != "0")
 }
 
 $teamMember = "false";
-$tmpquery = "WHERE tea.project = '$id' AND tea.member = '".Util::fixInt($idSession)."'";
-$memberTest = new Request();
+$tmpquery = "WHERE tea.project = '$id' AND tea.member = '".phpCollab\Util::fixInt($idSession)."'";
+$memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 
@@ -313,17 +313,17 @@ if ($teamMember == "false" && $projectsFilter == "true")
 if ($enableHelpSupport == "true" && ($teamMember == "true" || $profilSession == "5")) 
 {
 	$tmpquery = "WHERE sr.status = '0' AND sr.project = '".$projectDetail->pro_id[0]."'";
-	$listNewRequests = new Request();
+	$listNewRequests = new phpCollab\Request();
 	$listNewRequests->openSupportRequests($tmpquery);
 	$comptListNewRequests = count($listNewRequests->sr_id);
 
 	$tmpquery = "WHERE sr.status = '1' AND sr.project = '".$projectDetail->pro_id[0]."'";
-	$listOpenRequests = new Request();
+	$listOpenRequests = new phpCollab\Request();
 	$listOpenRequests->openSupportRequests($tmpquery);
 	$comptListOpenRequests = count($listOpenRequests->sr_id);
 
 	$tmpquery = "WHERE sr.status = '2' AND sr.project = '".$projectDetail->pro_id[0]."'";
-	$listCompleteRequests = new Request();
+	$listCompleteRequests = new phpCollab\Request();
 	$listCompleteRequests->openSupportRequests($tmpquery);
 	$comptListCompleteRequests = count($listCompleteRequests->sr_id);
 }
@@ -332,7 +332,7 @@ $setTitle .= " : View Project (" . $projectDetail->pro_name[0] . ")";
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($projectDetail->pro_name[0]);
@@ -349,7 +349,7 @@ $blockPage->limitsNumber = "4";
 $idStatus = $projectDetail->pro_status[0];
 $idPriority = $projectDetail->pro_priority[0];
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "pdD";
 $block1->openForm("../projects/listprojects.php#".$block1->form."Anchor");
@@ -393,7 +393,7 @@ $block1->contentRow($strings["priority"],"<img src=\"../themes/".THEME."/images/
 if ($projectDetail->pro_phase_set[0] != "0")
 {
 	$tmpquery = "WHERE pha.project_id = '$id' AND status = '1' ORDER BY pha.order_num";
-	$currentPhase = new Request();
+	$currentPhase = new phpCollab\Request();
 	$currentPhase->openPhases($tmpquery);
 	$comptCurrentPhase = count($currentPhase->pha_id);
 
@@ -423,8 +423,8 @@ $block1->contentRow($strings["description"],nl2br($projectDetail->pro_descriptio
 $block1->contentRow($strings["url_dev"],$blockPage->buildLink($projectDetail->pro_url_dev[0],$projectDetail->pro_url_dev[0],out));
 $block1->contentRow($strings["url_prod"],$blockPage->buildLink($projectDetail->pro_url_prod[0],$projectDetail->pro_url_prod[0],out));
 $block1->contentRow($strings["owner"],$blockPage->buildLink("../users/viewuser.php?id=".$projectDetail->pro_mem_id[0],$projectDetail->pro_mem_name[0],in)." (".$blockPage->buildLink($projectDetail->pro_mem_email_work[0],$projectDetail->pro_mem_login[0],mail).")");
-$block1->contentRow($strings["created"],Util::createDate($projectDetail->pro_created[0],$timezoneSession));
-$block1->contentRow($strings["modified"],Util::createDate($projectDetail->pro_modified[0],$timezoneSession));
+$block1->contentRow($strings["created"],phpCollab\Util::createDate($projectDetail->pro_created[0],$timezoneSession));
+$block1->contentRow($strings["modified"],phpCollab\Util::createDate($projectDetail->pro_modified[0],$timezoneSession));
 
 if ($projectDetail->pro_org_id[0] == "1") 
 {
@@ -439,8 +439,8 @@ $block1->contentRow($strings["status"],$status[$idStatus]);
 
 if ($fileManagement == "true") 
 {
-	$block1->contentRow($strings["max_upload"].$blockPage->printHelp("max_file_size"),Util::convertSize($projectDetail->pro_upload_max[0]));
-	$block1->contentRow($strings["project_folder_size"].$blockPage->printHelp("project_disk_space"),Util::convertSize(Util::folderInfoSize("../files/".$projectDetail->pro_id[0]."/")));
+	$block1->contentRow($strings["max_upload"].$blockPage->printHelp("max_file_size"),phpCollab\Util::convertSize($projectDetail->pro_upload_max[0]));
+	$block1->contentRow($strings["project_folder_size"].$blockPage->printHelp("project_disk_space"),phpCollab\Util::convertSize(phpCollab\Util::folderInfoSize("../files/".$projectDetail->pro_id[0]."/")));
 }
 
 $block1->contentRow($strings["estimated_time"],$estimated_time." ".$strings["hours"]);
@@ -513,7 +513,7 @@ if ($idSession == $projectDetail->pro_owner[0] || $enable_cvs == "true" || $prof
 //Phase or Task list block
 if ($projectDetail->pro_phase_set[0] != "0")
 {
-	$block7 = new Block();
+	$block7 = new phpCollab\Block();
 	$block7->form = "wbSe";
 	$block7->openForm("../projects/viewproject.php?id=$id&#".$block7->form."Anchor");
 	$block7->headingToggle($strings["phases"]);
@@ -534,7 +534,7 @@ if ($projectDetail->pro_phase_set[0] != "0")
 	$block7->sorting("phases",$sortingUser->sor_phases[0],"pha.order_num ASC",$sortingFields = array(0=>"pha.order_num",1=>"pha.name",2=>"none",3=>"none",4=>"pha.status",5=>"pha.date_start",6=>"pha.date_end"));
 
 	$tmpquery = "WHERE pha.project_id = '$id' ORDER BY $block7->sortingValue";
-	$listPhases = new Request();
+	$listPhases = new phpCollab\Request();
 	$listPhases->openPhases($tmpquery);
 	$comptListPhases = count($listPhases->pha_id);
 
@@ -544,7 +544,7 @@ if ($projectDetail->pro_phase_set[0] != "0")
 		$block7->labels($labels = array(0=>$strings["order"],1=>$strings["name"],2=>$strings["total_tasks"],3=>$strings["uncomplete_tasks"],4=>$strings["status"],5=>$strings["date_start"],6=>$strings["date_end"]),"false");
 
 		$tmpquery = "WHERE tas.project = '$id'";
-		$countPhaseTasks = new Request();
+		$countPhaseTasks = new phpCollab\Request();
 		$countPhaseTasks->openTasks($tmpquery);
 		$comptlistTasks = count($countPhaseTasks->tas_id);
 
@@ -605,7 +605,7 @@ if ($projectDetail->pro_phase_set[0] != "0")
 }
 else
 {
-	$block2 = new Block();
+	$block2 = new phpCollab\Block();
 	$block2->form = "wbTuu";
 	$block2->openForm("../projects/viewproject.php?&id=".$projectDetail->pro_id[0]."#".$block2->form."Anchor");
 
@@ -643,9 +643,9 @@ else
 
 	$tmpquery = "WHERE tas.project = '$id' ORDER BY $block2->sortingValue";
 
-	$block2->recordsTotal = Util::computeTotal($initrequest["tasks"]." ".$tmpquery);
+	$block2->recordsTotal = phpCollab\Util::computeTotal($initrequest["tasks"]." ".$tmpquery);
 
-	$listTasks = new Request();
+	$listTasks = new phpCollab\Request();
 	$listTasks->openTasks($tmpquery,$block2->limit,$block2->rowsLimit);
 	$comptListTasks = count($listTasks->tas_id);
 
@@ -748,7 +748,7 @@ else
 	$block2->closePaletteScript($comptListTasks,$listTasks->tas_id);
 }
 
-$block3 = new Block();
+$block3 = new phpCollab\Block();
 $block3->form = "pdH";
 $block3->openForm("../projects/viewproject.php?id=$id&#".$block3->form."Anchor");
 $block3->headingToggle($strings["discussions"]);
@@ -779,9 +779,9 @@ $block3->sorting("project_discussions",$sortingUser->sor_project_discussions[0],
 
 $tmpquery = "WHERE topic.project = '$id' ORDER BY $block3->sortingValue";
 
-$block3->recordsTotal = Util::computeTotal($initrequest["topics"]." ".$tmpquery);
+$block3->recordsTotal = phpCollab\Util::computeTotal($initrequest["topics"]." ".$tmpquery);
 
-$listTopics = new Request();
+$listTopics = new phpCollab\Request();
 $listTopics->openTopics($tmpquery,$block3->limit,$block3->rowsLimit);
 $comptListTopics = count($listTopics->top_id);
 
@@ -803,11 +803,11 @@ if ($comptListTopics != "0")
 		
 		if ($listTopics->top_last_post[$i] > $lastvisiteSession) 
 		{
-			$block3->cellRow("<b>".Util::createDate($listTopics->top_last_post[$i],$timezoneSession)."</b>");
+			$block3->cellRow("<b>".phpCollab\Util::createDate($listTopics->top_last_post[$i],$timezoneSession)."</b>");
 		} 
 		else 
 		{
-			$block3->cellRow(Util::createDate($listTopics->top_last_post[$i],$timezoneSession));
+			$block3->cellRow(phpCollab\Util::createDate($listTopics->top_last_post[$i],$timezoneSession));
 		}
 		
 		$block3->cellRow($statusTopic[$idStatus]);
@@ -853,7 +853,7 @@ if ($comptListTopics != "0")
 $block3->paletteScript(5,"info","../topics/viewtopic.php?","false,true,false",$strings["view"]);
 $block3->closePaletteScript($comptListTopics,$listTopics->top_id);
 
-$block4 = new Block();
+$block4 = new phpCollab\Block();
 $block4->form = "pdM";
 $block4->openForm("../projects/viewproject.php?&id=".$projectDetail->pro_id[0]."#".$block4->form."Anchor");
 $block4->headingToggle($strings["team"]);
@@ -880,9 +880,9 @@ $block4->sorting("team",$sortingUser->sor_team[0],"mem.name ASC",$sortingFields 
 
 $tmpquery = "WHERE tea.project = '$id' AND mem.profil != '3' ORDER BY $block4->sortingValue";
 
-$block4->recordsTotal = Util::computeTotal($initrequest["teams"]." ".$tmpquery);
+$block4->recordsTotal = phpCollab\Util::computeTotal($initrequest["teams"]." ".$tmpquery);
 
-$listTeam = new Request();
+$listTeam = new phpCollab\Request();
 $listTeam->openTeams($tmpquery,$block4->limit,$block4->rowsLimit);
 $comptListTeam = count($listTeam->tea_id);
 
@@ -954,7 +954,7 @@ $block4->closePaletteScript($comptListTeam,$listTeam->tea_mem_id);
 if ($fileManagement == "true") 
 {
 
-	$block5 = new Block();
+	$block5 = new phpCollab\Block();
 	$block5->form = "tdC";
 	$block5->openForm("../projects/viewproject.php?&id=$id#".$block5->form."Anchor");
 	$block5->headingToggle($strings["linked_content"]);
@@ -983,7 +983,7 @@ if ($fileManagement == "true")
 	$block5->sorting("files",$sortingUser->sor_files[0],"fil.name ASC",$sortingFields = array(0=>"fil.extension",1=>"fil.name",2=>"fil.owner",3=>"fil.date",4=>"fil.status",5=>"fil.published"));
 
 	$tmpquery = "WHERE fil.project = '$id' AND fil.task = '0' AND fil.vc_parent = '0' AND fil.phase = '0' ORDER BY $block5->sortingValue";
-	$listFiles = new Request();
+	$listFiles = new phpCollab\Request();
 	$listFiles->openFiles($tmpquery);
 	$comptListFiles = count($listFiles->fil_id);
 
@@ -1078,7 +1078,7 @@ if ($fileManagement == "true")
  * -------------------
  * Begin Notes Section
  */
-$block6 = new Block();
+$block6 = new phpCollab\Block();
 $block6->form = "wbJ";
 $block6->openForm("../projects/viewproject.php?&id=".$projectDetail->pro_id[0]."#".$block6->form."Anchor");
 $block6->headingToggle($strings["notes"]);
@@ -1119,8 +1119,8 @@ else
 
 $tmpquery = "WHERE note.project = '$id' ORDER BY $block6->sortingValue";
 
-$block6->recordsTotal = Util::computeTotal($initrequest["notes"]." ".$tmpquery);
-$listNotes = new Request();
+$block6->recordsTotal = phpCollab\Util::computeTotal($initrequest["notes"]." ".$tmpquery);
+$listNotes = new phpCollab\Request();
 $listNotes->openNotes($tmpquery,$block6->limit,$block6->rowsLimit);
 $comptListNotes = count($listNotes->note_id);
 

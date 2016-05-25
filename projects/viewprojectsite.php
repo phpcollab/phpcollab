@@ -42,7 +42,7 @@ if ($action == "publish")
 		{
 			$tmpquery1 = "UPDATE ".$tableCollab["teams"]." SET published='0' WHERE member = '$id' AND project = '$project'";
 		}
-		Util::connectSql("$tmpquery1");
+		phpCollab\Util::connectSql("$tmpquery1");
 		$msg = "addToSite";
 		$id = $project;
 	}
@@ -60,7 +60,7 @@ if ($action == "publish")
 			$tmpquery1 = "UPDATE ".$tableCollab["teams"]." SET published='1' WHERE member = '$id' AND project = '$project'";
 		}
 
-		Util::connectSql("$tmpquery1");
+		phpCollab\Util::connectSql("$tmpquery1");
 		$msg = "removeToSite";
 		$id = $project;
 	}
@@ -72,13 +72,13 @@ if ($msg == "demo")
 }
 
 $tmpquery = "WHERE pro.id = '$id'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 $comptProjectDetail = count($projectDetail->pro_id);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '$id' AND tea.member = '$idSession'";
-$memberTest = new Request();
+$memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 
@@ -99,13 +99,13 @@ if ($teamMember == "false" && $projectsFilter == "true")
 
 if ($comptPro == "0") 
 {
-	Util::headerFunction("../projects/listprojects.php?msg=blankProject");
+	phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blankProject");
 	exit;
 }
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=$id",$projectDetail->pro_name[0],in));
@@ -118,7 +118,7 @@ if ($msg != "")
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 $block1->form = "uploadlogo";
 $block1->form = "pdD";
 $block1->openForm("../projects/viewprojectsite.php?action=update&id=$id&#".$block1->form."Anchor");
@@ -161,7 +161,7 @@ if ($idSession == $projectDetail->pro_owner[0] || $profilSession == "5")
 if ($projectDetail->pro_organization[0] != "" && $projectDetail->pro_organization[0] != "1") 
 {
 
-	$block2 = new Block();
+	$block2 = new phpCollab\Block();
 	$block2->form = "csU";
 	$block2->openForm("../projects/viewprojectsite.php?&id=".$projectDetail->pro_id[0]."#".$block2->form."Anchor");
 	$block2->heading($strings["permitted_client"]);
@@ -183,7 +183,7 @@ if ($projectDetail->pro_organization[0] != "" && $projectDetail->pro_organizatio
 	$block2->sorting("team",$sortingUser->sor_team[0],"mem.name ASC",$sortingFields = array(0=>"mem.name",1=>"mem.title",2=>"mem.login",3=>"mem.phone_work",4=>"log.connected",5=>"tea.published"));
 
 	$tmpquery = "WHERE tea.project = '$id' AND mem.profil = '3' ORDER BY $block2->sortingValue";
-	$listPermitted = new Request();
+	$listPermitted = new phpCollab\Request();
 	$listPermitted->openTeams($tmpquery);
 	$comptListPermitted = count($listPermitted->tea_id);
 

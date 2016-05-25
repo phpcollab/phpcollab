@@ -6,27 +6,27 @@ $checkSession = "true";
 include '../includes/library.php';
 
 if ($action == "update") {
-$comments = Util::convertData($comments);
+$comments = phpCollab\Util::convertData($comments);
 if ($checkbox != "") {
 	$tmpquery = "UPDATE ".$tableCollab["subtasks"]." SET comments='$comments',status='0',modified='$dateheure' WHERE id = '$id'";
 } else {
 	$tmpquery = "UPDATE ".$tableCollab["subtasks"]." SET comments='$comments',status='3',modified='$dateheure' WHERE id = '$id'";
 }
-	Util::connectSql("$tmpquery");
-	Util::headerFunction("clienttaskdetail.php?id=$task");
+	phpCollab\Util::connectSql("$tmpquery");
+	phpCollab\Util::headerFunction("clienttaskdetail.php?id=$task");
 	exit;
 }
 
 $tmpquery = "WHERE subtas.id = '$id'";
-$subtaskDetail = new Request();
+$subtaskDetail = new phpCollab\Request();
 $subtaskDetail->openSubtasks($tmpquery);
 
 $tmpquery = "WHERE tas.id = '$task'";
-$taskDetail = new Request();
+$taskDetail = new phpCollab\Request();
 $taskDetail->openTasks($tmpquery);
 
 if ($subtaskDetail->subtas_published[0] == "1" || $taskDetail->tas_project[0] != $projectSession) {
-Util::headerFunction("index.php");
+phpCollab\Util::headerFunction("index.php");
 }
 
 $bouton[3] = "over";
@@ -61,14 +61,14 @@ echo "<tr><td>".$strings["due_date"]." :</td><td>".$subtaskDetail->subtas_due_da
 }
 echo "<tr><td>".$strings["updates_subtask"]." :</td><td>";
 $tmpquery = "WHERE upd.type='2' AND upd.item = '$id' ORDER BY upd.created DESC";
-$listUpdates = new Request();
+$listUpdates = new phpCollab\Request();
 $listUpdates->openUpdates($tmpquery);
 $comptListUpdates=count($listUpdates->upd_id);
 
 if ($comptListUpdates != "0") {
 $j = 1;
 for ($i=0;$i<$comptListUpdates;$i++) {
-	echo "<b>".$j.".</b> <i>".Util::createDate($listUpdates->upd_created[$i],$timezoneSession)."</i><br/>".nl2br($listUpdates->upd_comments[$i]);
+	echo "<b>".$j.".</b> <i>".phpCollab\Util::createDate($listUpdates->upd_created[$i],$timezoneSession)."</i><br/>".nl2br($listUpdates->upd_comments[$i]);
 	echo "<br/>";
 $j++;
 }

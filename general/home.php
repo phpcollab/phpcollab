@@ -72,7 +72,7 @@ if ($action == 'publish')
 	      $num = '1';
 		}
 	
-	    Util::connectSql($tmpquery1);
+	    phpCollab\Util::connectSql($tmpquery1);
 	    $msg = 'closeTopic';
 	}
 
@@ -88,7 +88,7 @@ if ($action == 'publish')
 	$tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET published='0' WHERE id = '$id'";
 	}
 
-    Util::connectSql($tmpquery1);
+    phpCollab\Util::connectSql($tmpquery1);
     $msg = 'addToSite';
 }
 
@@ -106,14 +106,14 @@ if ($action == 'publish')
 			$tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET published='1' WHERE id = '$id'";
 		}
 	
-		Util::connectSql("$tmpquery1");
+		phpCollab\Util::connectSql("$tmpquery1");
 		$msg = "removeToSite";
 	}
 }
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../general/home.php?",$strings["home"],in));
 $blockPage->itemBreadcrumbs($nameSession);
@@ -130,13 +130,13 @@ if ($msg != "")
 */
 if ($showHomeBookmarks)
 {
-	$block6 = new Block();
+	$block6 = new phpCollab\Block();
 
 	$block6->sorting("bookmarks",$sortingUser->sor_bookmarks[0],"boo.name ASC",$sortingFields = array(0=>"boo.name",1=>"boo.category",2=>"boo.shared"));
 
 	$tmpquery = "WHERE boo.home = '1' AND boo.owner = '$idSession' ORDER BY $block6->sortingValue";
 
-	$listBookmarks = new Request();
+	$listBookmarks = new phpCollab\Request();
 	$listBookmarks->openBookmarks($tmpquery);
 
 	$comptListBookmarks = count($listBookmarks->boo_id);
@@ -168,7 +168,7 @@ if ($showHomeBookmarks)
 		
 		$tmpquery = "WHERE boo.home = '1' AND boo.owner = '$idSession' ORDER BY $block6->sortingValue";
 		
-		$listBookmarks = new Request();
+		$listBookmarks = new phpCollab\Request();
 		$listBookmarks->openBookmarks($tmpquery);
 		
 		$comptListBookmarks = count($listBookmarks->boo_id);
@@ -235,7 +235,7 @@ if ($showHomeBookmarks)
 if ($showHomeProjects)
 {
 
-	$block1 = new Block();
+	$block1 = new phpCollab\Block();
 
 	$block1->form = "wbP";
 	$block1->openForm("../general/home.php#".$block1->form."Anchor");
@@ -275,7 +275,7 @@ if ($showHomeProjects)
 	$block1->sorting("home_projects",$sortingUser->sor_home_projects[0],"pro.name ASC",$sortingFields = array(0=>"pro.id",1=>"pro.name",2=>"pro.priority",3=>"org2.name",4=>"pro.status",5=>"mem2.login",6=>"pro.published"));
 
 	$tmpquery = "WHERE tea.member = '$idSession' AND pro.status IN(2,3) ORDER BY $block1->sortingValue";
-	$listProjects = new Request();
+	$listProjects = new phpCollab\Request();
 	$listProjects->openTeams($tmpquery);
 	$comptListProjects = count($listProjects->tea_id);
 
@@ -369,7 +369,7 @@ if ($showHomeProjects)
 */
 if ($showHomeTasks)
 {
-	$block2 = new Block();
+	$block2 = new phpCollab\Block();
 
 	$block2->form = "xwbT";
 	$block2->openForm("../general/home.php#".$block2->form."Anchor");
@@ -390,7 +390,7 @@ if ($showHomeTasks)
 
 	$tmpquery = "WHERE subtas.assigned_to = '$idSession'";
 
-	$listSubtasks = new Request();
+	$listSubtasks = new phpCollab\Request();
 	$listSubtasks->openSubtasks($tmpquery);
 	$comptListSubtasks = count($listSubtasks->subtas_id);
 	for ($i=0;$i<$comptListSubtasks;$i++) {
@@ -405,7 +405,7 @@ if ($showHomeTasks)
 	} else {
 	$tmpquery = "WHERE tas.assigned_to = '$idSession' AND tas.status IN(0,2,3) AND pro.status IN(0,2,3) ORDER BY $block2->sortingValue";
 	}
-	$listTasks = new Request();
+	$listTasks = new phpCollab\Request();
 	$listTasks->openTasks($tmpquery);
 	$comptListTasks = count($listTasks->tas_id);
 
@@ -483,7 +483,7 @@ if ($showHomeTasks)
 */
 if ($showHomeSubtasks)
 {
-    $block3 = new Block();
+    $block3 = new phpCollab\Block();
 
     $block3->form = "xwbR";
     $block3->openForm("../general/home.php#".$block3->form."Anchor");
@@ -504,7 +504,7 @@ if ($showHomeSubtasks)
 
     $tmpquery = "WHERE subtas.assigned_to = '$idSession'";
 
-    $listSubtasks = new Request();
+    $listSubtasks = new phpCollab\Request();
     $listSubtasks->openSubtasks($tmpquery);
     $comptListSubtasks = count($listSubtasks->subtas_id);
 
@@ -519,7 +519,7 @@ if ($showHomeSubtasks)
         $tmpquery = "WHERE subtas.assigned_to = '$idSession' AND subtas.status IN(0,2,3) AND tas.status IN(0,2,3) ORDER BY $block3->sortingValue";
     }
 
-    $listTasks = new Request();
+    $listTasks = new phpCollab\Request();
     $listTasks->openSubtasks($tmpquery);
     $comptListTasks = count($listTasks->subtas_id);
 
@@ -600,7 +600,7 @@ if ($showHomeSubtasks)
 
 if ($showHomeDiscussions)
 {
-	$block4 = new Block();
+	$block4 = new phpCollab\Block();
 
 	$block4->form = "wbTh";
 	$block4->openForm("../general/home.php#".$block4->form."Anchor");
@@ -625,7 +625,7 @@ if ($showHomeDiscussions)
 		$projectsTopics = "0";
 	}
 	$tmpquery = "WHERE topic.project IN($projectsTopics) AND topic.last_post > '$dateFilter' AND topic.status = '1' ORDER BY $block4->sortingValue";
-	$listTopics = new Request();
+	$listTopics = new phpCollab\Request();
 	$listTopics->openTopics($tmpquery);
 	$comptListTopics = count($listTopics->top_id);
 
@@ -647,11 +647,11 @@ if ($showHomeDiscussions)
 	$block4->cellRow($listTopics->top_posts[$i]);
 	if ($listTopics->top_last_post[$i] > $lastvisiteSession) 
 	{
-		$block4->cellRow("<b>".Util::createDate($listTopics->top_last_post[$i],$timezoneSession)."</b>");
+		$block4->cellRow("<b>".phpCollab\Util::createDate($listTopics->top_last_post[$i],$timezoneSession)."</b>");
 	} 
 	else 
 	{
-		$block4->cellRow(Util::createDate($listTopics->top_last_post[$i],$timezoneSession));
+		$block4->cellRow(phpCollab\Util::createDate($listTopics->top_last_post[$i],$timezoneSession));
 	}
 	$block4->cellRow($statusTopic[$idStatus]);
 	$block4->cellRow($blockPage->buildLink("../projects/viewproject.php?id=".$listTopics->top_project[$i],$listTopics->top_pro_name[$i],in));
@@ -685,7 +685,7 @@ if ($showHomeDiscussions)
 
 if ($showHomeReports)
 {
-	$block5 = new Block();
+	$block5 = new phpCollab\Block();
 
 	$block5->form = "wbSe";
 	$block5->openForm("../general/home.php#".$block5->form."Anchor");
@@ -702,7 +702,7 @@ if ($showHomeReports)
 	$block5->sorting("home_reports",$sortingUser->sor_home_reports[0],"rep.name ASC",$sortingFields = array(0=>"rep.name",1=>"rep.created"));
 
 	$tmpquery = "WHERE rep.owner = '$idSession' ORDER BY $block5->sortingValue";
-	$listReports = new Request();
+	$listReports = new phpCollab\Request();
 	$listReports->openReports($tmpquery);
 	$comptListReports = count($listReports->rep_id);
 
@@ -717,7 +717,7 @@ if ($showHomeReports)
 	$block5->openRow();
 	$block5->checkboxRow($listReports->rep_id[$i]);
 	$block5->cellRow($blockPage->buildLink("../reports/resultsreport.php?id=".$listReports->rep_id[$i],$listReports->rep_name[$i],in));
-	$block5->cellRow(Util::createDate($listReports->rep_created[$i],$timezoneSession));
+	$block5->cellRow(phpCollab\Util::createDate($listReports->rep_created[$i],$timezoneSession));
 	$block5->closeRow();
 	}
 	$block5->closeResults();
@@ -742,7 +742,7 @@ if ($showHomeReports)
 */
 if ($showHomeNotes)
 {
-	$block6 = new Block();
+	$block6 = new phpCollab\Block();
 	$block6->form = "saJ";
 	$block6->openForm("../general/home.php?project=$project#".$block6->form."Anchor");
 	$block6->headingToggle($strings["my_notes"]);
@@ -775,7 +775,7 @@ if ($showHomeNotes)
 	}
 
 	$tmpquery = "WHERE note.owner = '$idSession' AND note.date > '$dateFilter' AND pro.status IN(0,2,3) ORDER BY $block6->sortingValue";
-	$listNotes = new Request();
+	$listNotes = new phpCollab\Request();
 	$listNotes->openNotes($tmpquery);
 	$comptListNotes = count($listNotes->note_id);
 
@@ -837,7 +837,7 @@ if ($showHomeNotes)
 */
 if ($showHomeNewsdesk)
 {
-	$block7 = new Block();
+	$block7 = new phpCollab\Block();
 	$block7->form = "saN";
 	$block7->openForm("../general/home.php?project=$project#".$block7->form."Anchor");
 	$block7->headingToggle($strings["my_newsdesk"]);
@@ -870,10 +870,10 @@ if ($showHomeNewsdesk)
 	
 	$relatedQuery = " = 'g' ";
 
-	$tmpquery = "WHERE news.author = '".Util::fixInt($sessionId)."' OR news.rss = '1' OR news.related ".$relatedQuery." ORDER BY $block7->sortingValue ";
-	$block7->recordsTotal = Util::computeTotal($initrequest["newsdeskposts"]." ".$tmpquery);
+	$tmpquery = "WHERE news.author = '".phpCollab\Util::fixInt($sessionId)."' OR news.rss = '1' OR news.related ".$relatedQuery." ORDER BY $block7->sortingValue ";
+	$block7->recordsTotal = phpCollab\Util::computeTotal($initrequest["newsdeskposts"]." ".$tmpquery);
 
-	$listPosts = new Request();
+	$listPosts = new phpCollab\Request();
 	$listPosts->openNewsDesk($tmpquery,$block7->limit,$block7->rowsLimit);
 	$comptPosts = count($listPosts->news_id);
 
@@ -886,14 +886,14 @@ if ($showHomeNewsdesk)
 		{
 			// take the news author
 			$tmpquery_user = "WHERE mem.id = '".$listPosts->news_author[$i]."' ";
-			$newsAuthor = new Request();
+			$newsAuthor = new phpCollab\Request();
 			$newsAuthor->openMembers($tmpquery_user);
 			
 			// take the name of the related article
 			if ($listPosts->news_related[$i] != 'g') 
 			{
 				$tmpquery = "WHERE pro.id = '".$listPosts->news_related[$i]."'";
-				$projectDetail = new Request();
+				$projectDetail = new phpCollab\Request();
 				$projectDetail->openProjects($tmpquery);
 				$article_related = "<a href='../projects/viewproject.php?id=".$projectDetail->pro_id[0]."' title='".$projectDetail->pro_name[0]."'>".$projectDetail->pro_name[0]."</a>";
 			} 

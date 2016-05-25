@@ -6,7 +6,7 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 $tmpquery = "WHERE org.id = '$organization'";
-$detailOrganization = new Request();
+$detailOrganization = new phpCollab\Request();
 $detailOrganization->openOrganizations($tmpquery);
 $comptDetailOrganization = count($detailOrganization->org_id);
 
@@ -17,24 +17,24 @@ if ($action == "delete") {
 	$tmpquery3 = "UPDATE ".$tableCollab["assignments"]." SET assigned_to='$at',assigned='$dateheure' WHERE assigned_to IN($id)";
 	$tmpquery4 = "DELETE FROM ".$tableCollab["notifications"]." WHERE member IN($id)";
 	$tmpquery5 = "DELETE FROM ".$tableCollab["teams"]." WHERE member IN($id)";
-	Util::connectSql("$tmpquery1");
-	Util::connectSql("$tmpquery2");
-	Util::connectSql("$tmpquery3");
-	Util::connectSql("$tmpquery4");
-	Util::connectSql("$tmpquery5");
+	phpCollab\Util::connectSql("$tmpquery1");
+	phpCollab\Util::connectSql("$tmpquery2");
+	phpCollab\Util::connectSql("$tmpquery3");
+	phpCollab\Util::connectSql("$tmpquery4");
+	phpCollab\Util::connectSql("$tmpquery5");
 //if mantis bug tracker enabled
 	if ($enableMantis == "true") {
 // Call mantis function to remove user
 		include ("../mantis/user_delete.php");
 	}
 
-	Util::headerFunction("../clients/viewclient.php?id=$organization&msg=delete");
+	phpCollab\Util::headerFunction("../clients/viewclient.php?id=$organization&msg=delete");
 	exit;
 }
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?",$strings["clients"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=".$detailOrganization->org_id[0],$detailOrganization->org_name[0],in));
@@ -46,7 +46,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "client_user_delete";
 $block1->openForm("../users/deleteclientusers.php?organization=$organization&action=delete");
@@ -59,7 +59,7 @@ $block1->contentTitle($strings["delete_following"]);
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE mem.id IN($id) ORDER BY mem.name";
 
-$listMembers = new Request();
+$listMembers = new phpCollab\Request();
 $listMembers->openMembers($tmpquery);
 $comptListMembers = count($listMembers->mem_id);
 
@@ -68,7 +68,7 @@ echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>".$listM
 }
 
 $tmpquery = "SELECT tas.id FROM ".$tableCollab["tasks"]." tas WHERE tas.assigned_to IN($id)";
-Util::computeTotal($tmpquery);
+phpCollab\Util::computeTotal($tmpquery);
 $totalTasks = $countEnregTotal;
 
 $block1->contentTitle($strings["reassignment_clientuser"]);
@@ -77,7 +77,7 @@ echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>".$strin
 <tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td><b>".$strings["reassign_to"]." : </b> ";
 
 $tmpquery = "WHERE mem.profil != '3' ORDER BY mem.name";
-$reassign = new Request();
+$reassign = new phpCollab\Request();
 $reassign->openMembers($tmpquery);
 $comptReassign = count($reassign->mem_id);
 

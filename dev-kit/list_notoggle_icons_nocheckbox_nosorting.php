@@ -8,7 +8,7 @@ include_once '../includes/library.php';
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?",$strings["organizations"],in));
 $blockPage->itemBreadcrumbs($strings["organizations"]);
@@ -19,7 +19,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "clientList";
 $block1->openForm("../clients/listclients.php#".$block1->form."Anchor");
@@ -32,7 +32,7 @@ $block1->paletteIcon(1,"remove",$strings["delete"]);
 $block1->closePaletteIcon();
 
 $tmpquery = "WHERE org.id != '1' ORDER BY org.url DESC";
-$listOrganizations = new Request();
+$listOrganizations = new phpCollab\Request();
 $listOrganizations->openOrganizations($tmpquery);
 $comptListOrganizations = count($listOrganizations->org_id);
 

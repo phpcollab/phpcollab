@@ -34,18 +34,18 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE tas.id IN($id)";
-$listTasks = new Request();
+$listTasks = new phpCollab\Request();
 $listTasks->openTasks($tmpquery);
 $comptListTasks = count($listTasks->tas_id);
 
 if ($action == "update")
 {
-	$acomm = Util::convertData($acomm);
+	$acomm = phpCollab\Util::convertData($acomm);
 
 	if ($at != $strings["no_change"])
 	{
@@ -122,7 +122,7 @@ if ($action == "update")
 			if ($at != "0" && $listTasks->tas_assigned[$i] == "")
 			{
 				$tmpquery6 = "UPDATE ".$tableCollab["tasks"]." SET assigned='$dateheure' WHERE id = '".$listTasks->tas_id[$i]."'";
-				Util::connectSql("$tmpquery6");
+				phpCollab\Util::connectSql("$tmpquery6");
 				//echo $tmpquery6."<br/>";
 			}
 
@@ -132,7 +132,7 @@ if ($action == "update")
 			}
 
 			$tmpquery = "UPDATE ".$tableCollab["tasks"]." SET $query,modified='$dateheure' WHERE id = '".$listTasks->tas_id[$i]."'";
-			Util::connectSql("$tmpquery");
+			phpCollab\Util::connectSql("$tmpquery");
 
 			//echo $tmpquery."<br/>";
 			//echo $listTasks->tas_status[$i]." $st<br/>";
@@ -170,18 +170,18 @@ if ($action == "update")
 			if ($at != "0" && $sameAssign != "true" && $assignUpdate == "true")
 			{
 				$tmpquery2 = "INSERT INTO ".$tableCollab["assignments"]."(task,owner,assigned_to,comments,assigned) VALUES('".$listTasks->tas_id[$i]."','".$listTasks->tas_owner[$i]."','$at','$acomm','$dateheure')";
-				Util::connectSql("$tmpquery2");
+				phpCollab\Util::connectSql("$tmpquery2");
 				//echo $tmpquery2."<br/>";
 
 				$tmpquery = "WHERE tea.project = '$project' AND tea.member = '$at'";
-				$testinTeam = new Request();
+				$testinTeam = new phpCollab\Request();
 				$testinTeam->openTeams($tmpquery);
 				$comptTestinTeam = count($testinTeam->tea_id);
 
 				if ($comptTestinTeam == "0")
 				{
 					$tmpquery3 = "INSERT INTO ".$tableCollab["teams"]."(project,member,published,authorized) VALUES('$project','$at','1','0')";
-					Util::connectSql("$tmpquery3");
+					phpCollab\Util::connectSql("$tmpquery3");
 				}
 
 				if ($notifications == "true")
@@ -195,20 +195,20 @@ if ($action == "update")
 		}
 	}
 
-	Util::headerFunction("../tasks/listtasks.php?project=$project&msg=update&PHPSESSID=$PHPSESSID");
+	phpCollab\Util::headerFunction("../tasks/listtasks.php?project=$project&msg=update&PHPSESSID=$PHPSESSID");
 }
 
 //$bodyCommand="onload=\"document.forms[0].compl.value = document.forms[0].completion.selectedIndex;\"";
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 
 if ($report != "")
 {
 	$tmpquery = "WHERE id = '$report'";
-	$reportDetail = new Request();
+	$reportDetail = new phpCollab\Request();
 	$reportDetail->openReports($tmpquery);
 	$blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/createreport.php?",$strings["reports"],in));
 	$blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/resultsreport.php?id=".$reportDetail->rep_id[0],$reportDetail->rep_name[0],in));
@@ -223,7 +223,7 @@ else
 $blockPage->itemBreadcrumbs($strings["edit_multiple_tasks"]);
 $blockPage->closeBreadcrumbs();
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 $block1->form = "batT";
 $block1->openForm("../tasks/updatetasks.php?action=update&#".$block1->form."Anchor");
 
@@ -254,7 +254,7 @@ if ($idSession == "1")
 }
 
 $tmpquery = "WHERE mem.id != '1' AND mem.profil != '3' ORDER BY mem.name";
-$assignTo = new Request();
+$assignTo = new phpCollab\Request();
 $assignTo->openMembers($tmpquery);
 $comptAssignTo = count($assignTo->mem_id);
 

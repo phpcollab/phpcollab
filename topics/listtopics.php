@@ -18,7 +18,7 @@ $num = count($pieces);
 $tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET status='0' WHERE id = '$id'";
 $num = "1";
 }
-Util::connectSql("$tmpquery1");
+phpCollab\Util::connectSql("$tmpquery1");
 $msg = "closeTopic";
 }
 
@@ -30,7 +30,7 @@ $tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET published='0' WHERE id IN($i
 } else {
 $tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET published='0' WHERE id = '$id'";
 }
-Util::connectSql("$tmpquery1");
+phpCollab\Util::connectSql("$tmpquery1");
 $msg = "addToSite";
 }
 
@@ -42,7 +42,7 @@ $tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET published='1' WHERE id IN($i
 } else {
 $tmpquery1 = "UPDATE ".$tableCollab["topics"]." SET published='1' WHERE id = '$id'";
 }
-Util::connectSql("$tmpquery1");
+phpCollab\Util::connectSql("$tmpquery1");
 $msg = "removeToSite";
 }
 }
@@ -50,15 +50,15 @@ $msg = "removeToSite";
 include '../themes/' . THEME . '/header.php';
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 if ($project != "") {
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-$memberTest = new Request();
+$memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
@@ -81,7 +81,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "saH";
 $block1->openForm("../topics/listtopics.php?project=$project#".$block1->form."Anchor");
@@ -115,7 +115,7 @@ $tmpquery = "WHERE topic.project = '$project' ORDER BY $block1->sortingValue";
 } else {
 $tmpquery = "WHERE topic.owner = '$idSession' ORDER BY $block1->sortingValue";
 }
-$listTopics = new Request();
+$listTopics = new phpCollab\Request();
 $listTopics->openTopics($tmpquery);
 $comptListTopics = count($listTopics->top_id);
 
@@ -134,9 +134,9 @@ $block1->cellRow($blockPage->buildLink("../topics/viewtopic.php?id=".$listTopics
 $block1->cellRow($blockPage->buildLink($listTopics->top_mem_email_work[$i],$listTopics->top_mem_login[$i],mail));
 $block1->cellRow($listTopics->top_posts[$i]);
 if ($listTopics->top_last_post[$i] > $lastvisiteSession) {
-	$block1->cellRow("<b>".Util::createDate($listTopics->top_last_post[$i],$timezoneSession)."</b>");
+	$block1->cellRow("<b>".phpCollab\Util::createDate($listTopics->top_last_post[$i],$timezoneSession)."</b>");
 } else {
-	$block1->cellRow(Util::createDate($listTopics->top_last_post[$i],$timezoneSession));
+	$block1->cellRow(phpCollab\Util::createDate($listTopics->top_last_post[$i],$timezoneSession));
 }
 $block1->cellRow($statusTopic[$idStatus]);
 if ($sitePublish == "true") {

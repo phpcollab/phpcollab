@@ -28,6 +28,6 @@
 
 $checkSession = "false";
 include_once '../includes/library.php';
-Util::headerFunction('../index.php');
+phpCollab\Util::headerFunction('../index.php');
 exit;
 ?>

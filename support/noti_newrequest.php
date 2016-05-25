@@ -4,13 +4,13 @@ $mail = new Notification();
 $mail->getUserinfo($idSession,"from");
 
 $tmpquery = "WHERE sr.id = '$num'";
-$requestDetail = new Request();
+$requestDetail = new phpCollab\Request();
 $requestDetail->openSupportRequests($tmpquery);
 
 if ($supportType == "team") {
 			
 	$tmpquery = "WHERE tea.project = '".$requestDetail->sr_project[0]."'";
-	$listTeam = new Request();
+	$listTeam = new phpCollab\Request();
 	$listTeam->openTeams($tmpquery);
 	$comptListTeam = count($listTeam->tea_id);
 
@@ -47,7 +47,7 @@ if ($supportType == "team") {
 		
 } else {
 $tmpquery = "WHERE mem.id = '1'";
-$userDetail = new Request();
+$userDetail = new phpCollab\Request();
 $userDetail->openMembers($tmpquery);
 
 if ($userDetail->mem_email_work[0] != "") {

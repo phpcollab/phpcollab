@@ -11,7 +11,7 @@ echo "Script to update published values with files updates and reviews: <a href=
 
 if ($action == "update") {
 $tmpquery = "WHERE fil.published = '0'";
-$filesPublished = new Request();
+$filesPublished = new phpCollab\Request();
 $filesPublished->openFiles($tmpquery);
 $comptFilesPublished = count($filesPublished->fil_id);
 
@@ -23,11 +23,11 @@ if ($comptFilesPublished != "0") {
 		}
 	}
 $tmpquery1 = "UPDATE ".$tableCollab["files"]." SET published='0' WHERE vc_parent IN ($filesPublishedValue)";
-Util::connectSql("$tmpquery1");
+phpCollab\Util::connectSql("$tmpquery1");
 }
 
 $tmpquery = "WHERE fil.published = '1'";
-$filesPublishedNo = new Request();
+$filesPublishedNo = new phpCollab\Request();
 $filesPublishedNo->openFiles($tmpquery);
 $comptFilesPublishedNo = count($filesPublishedNo->fil_id);
 
@@ -39,7 +39,7 @@ if ($comptFilesPublishedNo != "0") {
 		}
 	}
 $tmpquery1 = "UPDATE ".$tableCollab["files"]." SET published='1' WHERE vc_parent IN ($filesPublishedNoValue)";
-Util::connectSql("$tmpquery1");
+phpCollab\Util::connectSql("$tmpquery1");
 }
 echo "fixed :o)";
 }

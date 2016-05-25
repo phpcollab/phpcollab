@@ -36,13 +36,13 @@ if ($action == "publish")
 	if ($addToSite == "true") 
 	{
 		$tmpquery1 = "UPDATE ".$tableCollab["notes"]." SET published='0' WHERE id = '$id'";
-		Util::connectSql("$tmpquery1");
+		phpCollab\Util::connectSql("$tmpquery1");
 		$msg = "addToSite";
 	}
 	if ($removeToSite == "true") 
 	{
 		$tmpquery1 = "UPDATE ".$tableCollab["notes"]." SET published='1' WHERE id = '$id'";
-		Util::connectSql("$tmpquery1");
+		phpCollab\Util::connectSql("$tmpquery1");
 		$msg = "removeToSite";
 	}
 }
@@ -50,16 +50,16 @@ if ($action == "publish")
 include '../themes/' . THEME . '/header.php';
 
 $tmpquery = "WHERE note.id = '$id'";
-$noteDetail = new Request();
+$noteDetail = new phpCollab\Request();
 $noteDetail->openNotes($tmpquery);
 
 $tmpquery = "WHERE pro.id = '".$noteDetail->note_project[0]."'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '".$noteDetail->note_project[0]."' AND tea.member = '$idSession'";
-$memberTest = new Request();
+$memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 
@@ -72,7 +72,7 @@ else
 	$teamMember = "true";
 }
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -86,7 +86,7 @@ if ($msg != "")
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 $block1->form = "tdD";
 $block1->openForm("../notes/viewnote.php#".$block1->form."Anchor");
 $block1->heading($strings["note"]." : ".$noteDetail->note_subject[0]);

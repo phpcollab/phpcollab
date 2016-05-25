@@ -32,18 +32,18 @@ include_once '../includes/library.php';
 if ($action == "publish") {
 	if ($addToSite == "true") {
 		$tmpquery1 = "UPDATE ".$tableCollab["notes"]." SET published='0' WHERE id = '$id'";
-		Util::connectSql("$tmpquery1");
+		phpCollab\Util::connectSql("$tmpquery1");
 		$msg = "addToSite";
 	}
 	if ($removeToSite == "true") {
 		$tmpquery1 = "UPDATE ".$tableCollab["notes"]." SET published='1' WHERE id = '$id'";
-		Util::connectSql("$tmpquery1");
+		phpCollab\Util::connectSql("$tmpquery1");
 		$msg = "removeToSite";
 	}
 }
 
 $tmpquery = "WHERE boo.id = '$id'";
-$bookmarkDetail = new Request();
+$bookmarkDetail = new phpCollab\Request();
 $bookmarkDetail->openBookmarks($tmpquery);
 
 if ($bookmarkDetail->boo_users[0] != "") {
@@ -58,14 +58,14 @@ $private = "false";
 }
 
 if (($bookmarkDetail->boo_users[0] == "" && $bookmarkDetail->boo_owner[0] != $idSession && $bookmarkDetail->boo_shared[0] == "0") || ($private == "false" && $bookmarkDetail->boo_owner[0] != $idSession)) {
-	Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=bookmarkOwner");
+	phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=bookmarkOwner");
 }
 
 $setTitle .= " : View Bookmark (" . $bookmarkDetail->boo_name[0] . ")";
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=$view",$strings["bookmarks"],in));
 $blockPage->itemBreadcrumbs($bookmarkDetail->boo_name[0]);
@@ -76,7 +76,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 $block1->form = "tdD";
 $block1->openForm("../bookmarks/viewbookmark.php#".$block1->form."Anchor");
 $block1->heading($strings["bookmark"]." : ".$bookmarkDetail->boo_name[0]);

@@ -9,14 +9,14 @@ include_once '../includes/library.php';
 if ($action == "delete") {
 	$id = str_replace("**",",",$id);
 	$tmpquery1 = "DELETE FROM ".$tableCollab["notes"]." WHERE id IN($id)";
-	Util::connectSql("$tmpquery1");
-	Util::headerFunction("../projects/viewproject.php?id=$project&msg=delete");
+	phpCollab\Util::connectSql("$tmpquery1");
+	phpCollab\Util::headerFunction("../projects/viewproject.php?id=$project&msg=delete");
 	exit;
 }
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($strings["delete_note"]);
@@ -28,7 +28,7 @@ if ($msg != "") {
 }
 
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 $block1->form = "saP";
 $block1->openForm("../notes/deletenotes.php?project=$project&action=delete&id=$id");
 
@@ -39,7 +39,7 @@ $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE note.id IN($id) ORDER BY note.subject";
-$listNotes = new Request();
+$listNotes = new phpCollab\Request();
 $listNotes->openNotes($tmpquery);
 $comptListNotes = count($listNotes->note_id);
 

@@ -8,7 +8,7 @@ include_once '../includes/library.php';
 if ($supportType == "team") {
 	$teamMember = "false";
 	$tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-	$memberTest = new Request();
+	$memberTest = new phpCollab\Request();
 	$memberTest->openTeams($tmpquery);
 	$comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
@@ -19,26 +19,26 @@ if ($supportType == "team") {
 }
 
 if ($enableHelpSupport != "true") {
-	Util::headerFunction('../general/permissiondenied.php');
+	phpCollab\Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 
 if ($supportType == "admin") {
 	if ($profilSession != "0") {
-		Util::headerFunction('../general/permissiondenied.php');
+		phpCollab\Util::headerFunction('../general/permissiondenied.php');
 		exit;
 	}
 }
 
 if ($supportType == "team") {
 	$tmpquery = "WHERE pro.id = '$project'";
-	$requestProject = new Request();
+	$requestProject = new phpCollab\Request();
 	$requestProject->openProjects($tmpquery);
 }
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 if ($supportType == "team") {
 	$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
@@ -63,7 +63,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 $block1->form = "srs";
 $block1->openForm("../support/support.php?action=$action&project=$project&#".$block1->form."Anchor");
 	
@@ -104,7 +104,7 @@ if($supportType == "team") {
 }
 
 if($action != "" || $action != " "){
-	$listRequests = new Request();
+	$listRequests = new phpCollab\Request();
 	$listRequests->openSupportRequests($tmpquery);
 	$comptListRequests = count($listRequests->sr_id);
 }

@@ -10,15 +10,15 @@ $titlePage = $strings["support"];
 include 'include_header.php';
 
 $tmpquery = "WHERE mem.id = '$idSession'";
-$userDetail = new Request();
+$userDetail = new phpCollab\Request();
 $userDetail->openMembers($tmpquery);
 
 $tmpquery = "WHERE sr.member = '$idSession' AND sr.project = '$project'";
-$listRequests = new Request();
+$listRequests = new phpCollab\Request();
 $listRequests->openSupportRequests($tmpquery);
 $comptListRequests = count($listRequests->sr_id);
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->heading($strings["my_support_request"]);
 

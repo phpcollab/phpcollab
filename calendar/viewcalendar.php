@@ -139,11 +139,11 @@ if ($type == "calendEdit") {
             $dateStart_J = substr("$dateStart", 8, 2);
             $dayRecurr = _dayOfWeek(mktime(12,12,12,$dateStart_M,$dateStart_J,$dateStart_A));
         }
-        $subject = Util::convertData($subject);
-        $description = Util::convertData($description);
+        $subject = phpCollab\Util::convertData($subject);
+        $description = phpCollab\Util::convertData($description);
         $tmpquery = "UPDATE ".$tableCollab["calendar"]." SET subject='$subject',description='$description',location='$location',shortname='$shortname',date_start='$dateStart',date_end='$dateEnd',time_start='$time_start',time_end='$time_end',reminder='$reminder',recurring='$recurring',recur_day='$dayRecurr',broadcast='$broadcast' WHERE id = '$dateEnreg'";
-        Util::connectSql("$tmpquery");
-        Util::headerFunction("../calendar/viewcalendar.php?dateEnreg=$dateEnreg&dateCalend=$dateCalend&type=calendDetail&msg=update");
+        phpCollab\Util::connectSql("$tmpquery");
+        phpCollab\Util::headerFunction("../calendar/viewcalendar.php?dateEnreg=$dateEnreg&dateCalend=$dateCalend&type=calendDetail&msg=update");
     }
 
     if ($action == "add")
@@ -166,16 +166,16 @@ if ($type == "calendEdit") {
                 $dayRecurr = _dayOfWeek(mktime(12,12,12,$dateStart_M,$dateStart_J,$dateStart_A));
             }
 
-            $subject = Util::convertData($subject);
-            $description = Util::convertData($description);
-            $shortname = Util::convertData($shortname);
+            $subject = phpCollab\Util::convertData($subject);
+            $description = phpCollab\Util::convertData($description);
+            $shortname = phpCollab\Util::convertData($shortname);
             $tmpquery = "INSERT INTO ".$tableCollab["calendar"]."(owner,subject,description,location,shortname,date_start,date_end,time_start,time_end,reminder,broadcast,recurring,recur_day) VALUES('$idSession','$subject','$description','$location','$shortname','$dateStart','$dateEnd','$time_start','$time_end','$reminder','$broadcast','$recurring','$dayRecurr')";
-            Util::connectSql("$tmpquery");
+            phpCollab\Util::connectSql("$tmpquery");
             $tmpquery = $tableCollab["calendar"];
-            Util::getLastId($tmpquery);
+            phpCollab\Util::getLastId($tmpquery);
             $num = $lastId[0];
             unset($lastId);
-            Util::headerFunction("../calendar/viewcalendar.php?dateEnreg=$num&dateCalend=$dateCalend&type=calendDetail&msg=add");
+            phpCollab\Util::headerFunction("../calendar/viewcalendar.php?dateEnreg=$num&dateCalend=$dateCalend&type=calendDetail&msg=add");
         }
     }
 }
@@ -190,13 +190,13 @@ if ($type == "calendEdit")
     if ($id != "")
     {
         $tmpquery = "WHERE cal.owner = '$idSession' AND cal.id = '$dateEnreg'";
-        $detailCalendar = new Request();
+        $detailCalendar = new phpCollab\Request();
         $detailCalendar->openCalendar($tmpquery);
         $comptDetailCalendar = count($detailCalendar->cal_id);
 
         if ($comptDetailCalendar == "0")
         {
-            Util::headerFunction("../calendar/viewcalendar.php");
+            phpCollab\Util::headerFunction("../calendar/viewcalendar.php");
         }
     }
 }
@@ -209,13 +209,13 @@ if ($type == "calendDetail")
     }
 
     $tmpquery = "WHERE (cal.owner = '$idSession' AND cal.id = '$dateEnreg') OR (cal.broadcast = '1' AND cal.id = '$dateEnreg')";  //changed to $idSession
-    $detailCalendar = new Request();
+    $detailCalendar = new phpCollab\Request();
     $detailCalendar->openCalendar($tmpquery);
     $comptDetailCalendar = count($detailCalendar->cal_id);
 
     if ($comptDetailCalendar == "0")
     {
-        Util::headerFunction("../calendar/viewcalendar.php");
+        phpCollab\Util::headerFunction("../calendar/viewcalendar.php");
     }
 }
 
@@ -288,7 +288,7 @@ if ($type == "calendEdit")
         $checked2_a = "";
     }
 
-    $blockPage = new Block();
+    $blockPage = new phpCollab\Block();
     $blockPage->openBreadcrumbs();
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=monthPreview",$strings["calendar"],in));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=monthPreview&dateCalend=$dateCalend","$monthName $year",in));
@@ -311,7 +311,7 @@ if ($type == "calendEdit")
         $blockPage->messagebox($msgLabel);
     }
 
-    $block1 = new Block();
+    $block1 = new phpCollab\Block();
 
     $block1->form = "calend";
 
@@ -447,7 +447,7 @@ if ($type == "calendDetail")
         $recurring = $strings["yes"];
     }
 
-    $blockPage = new Block();
+    $blockPage = new phpCollab\Block();
     $blockPage->openBreadcrumbs();
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=monthPreview",$strings["calendar"],in));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=monthPreview&dateCalend=$dateCalend","$monthName $year",in));
@@ -461,7 +461,7 @@ if ($type == "calendDetail")
         $blockPage->messagebox($msgLabel);
     }
 
-    $block1 = new Block();
+    $block1 = new phpCollab\Block();
 
     $block1->form = "calend";
     $block1->openForm("../calendar/viewcalendar.php#".$block1->form."Anchor");
@@ -549,7 +549,7 @@ if ($type == "calendDetail")
     $block1->closePaletteScript("","");
 }
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 
 if ($type == "dayList")
 {
@@ -559,7 +559,7 @@ if ($type == "dayList")
     $blockPage->itemBreadcrumbs("$dayName $day $monthName $year");
     $blockPage->closeBreadcrumbs();
 
-    $block1 = new Block();
+    $block1 = new phpCollab\Block();
 
     $block1->form = "calendList";
     $block1->openForm("../calendar/viewcalendar.php?type=$type&dateCalend=$dateCalend&#".$block1->form."Anchor");
@@ -580,7 +580,7 @@ if ($type == "dayList")
     $dayRecurr = _dayOfWeek(mktime(12,12,12,$month,$day,$year));
     $tmpquery = "WHERE (cal.owner = '$idSession' AND ((cal.date_start <= '$dateCalend' AND cal.date_end >= '$dateCalend' AND cal.recurring = '0') OR ((cal.date_start <= '$dateCalend' AND cal.date_end >= '$dateCalend') AND cal.recurring = '1' AND cal.recur_day = '$dayRecurr'))) OR (cal.broadcast = '1' AND ((cal.date_start <= '$dateCalend' AND cal.date_end >= '$dateCalend' AND cal.recurring = '0') OR ((cal.date_start <= '$dateCalend' AND cal.date_end >= '$dateCalend') AND cal.recurring = '1' AND cal.recur_day = '$dayRecurr'))) ORDER BY cal.shortname";  //changed
     //$tmpquery = "WHERE cal.owner = '$calId' AND cal.date_start <= '$dateCalend' AND cal.date_end >= '$dateCalend' ORDER BY $block1->sortingValue";
-    $listCalendar = new Request();
+    $listCalendar = new phpCollab\Request();
     $listCalendar->openCalendar($tmpquery);
     $comptListCalendar = count($listCalendar->cal_id);
 
@@ -627,7 +627,7 @@ if ($type == "monthPreview")
 
     // include('memlist.php');
 
-    $block2 = new Block();
+    $block2 = new phpCollab\Block();
 
     $block2->heading("$monthName $year");
 
@@ -642,12 +642,12 @@ if ($type == "monthPreview")
     echo "<tr>";
 
     $tmpquery = "WHERE tas.assigned_to = '$idSession' ORDER BY tas.name";
-    $listTasks = new Request();
+    $listTasks = new phpCollab\Request();
     $listTasks->openTasks($tmpquery);
     $comptListTasks = count($listTasks->tas_id);
 
     $tmpquery = "WHERE subtas.assigned_to = '$idSession' ORDER BY subtas.name"; //Leave as calId
-    $listSubtasks = new Request();
+    $listSubtasks = new phpCollab\Request();
     $listSubtasks->openSubtasks($tmpquery);
     $comptListSubtasks = count($listSubtasks->subtas_id);
     $comptListCalendarScan = "0";
@@ -685,7 +685,7 @@ if ($type == "monthPreview")
         $dayRecurr = _dayOfWeek(mktime(12,12,12,$month,$a,$year));
 
         $tmpquery = "WHERE (cal.owner = '$idSession' AND ((cal.date_start <= '$dateLink' AND cal.date_end >= '$dateLink' AND cal.recurring = '0') OR ((cal.date_start <= '$dateLink' AND cal.date_end <= '$dateLink') AND cal.recurring = '1' AND cal.recur_day = '$dayRecurr'))) OR (cal.broadcast = '1' AND ((cal.date_start <= '$dateLink' AND cal.date_end >= '$dateLink' AND cal.recurring = '0') OR ((cal.date_start <= '$dateLink' AND cal.date_end <= '$dateLink') AND cal.recurring = '1' AND cal.recur_day = '$dayRecurr'))) ORDER BY cal.shortname";
-        $listCalendarScan = new Request();
+        $listCalendarScan = new phpCollab\Request();
         $listCalendarScan->openCalendar($tmpquery);
         $comptListCalendarScan = count($listCalendarScan->cal_id);
 

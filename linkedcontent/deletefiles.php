@@ -15,47 +15,47 @@ $id = str_replace("**",",",$id);
 $tmpquery1 = "DELETE FROM ".$tableCollab["files"]." WHERE id IN($id) OR vc_parent IN($id)";
 
 $tmpquery = "WHERE fil.id IN($id) OR fil.vc_parent IN($id) ORDER BY fil.name";
-$listFiles = new Request();
+$listFiles = new phpCollab\Request();
 $listFiles->openFiles($tmpquery);
 $comptListFiles = count($listFiles->fil_id);
 	for ($i=0;$i<$comptListFiles;$i++) {
 		if ($task != "0") {
 			if (file_exists ("../files/".$project."/".$task."/".$listFiles->fil_name[$i])) {
-				Util::deleteFile("files/".$project."/".$task."/".$listFiles->fil_name[$i]);
+				phpCollab\Util::deleteFile("files/".$project."/".$task."/".$listFiles->fil_name[$i]);
 			}
 		} else {
 			if (file_exists ("../files/".$project."/".$listFiles->fil_name[$i])) {
-				Util::deleteFile("files/".$project."/".$listFiles->fil_name[$i]);
+				phpCollab\Util::deleteFile("files/".$project."/".$listFiles->fil_name[$i]);
 			}
 		}
 	}
-	Util::connectSql("$tmpquery1");
+	phpCollab\Util::connectSql("$tmpquery1");
 	if ($sendto == "filedetails"){
-		Util::headerFunction("../linkedcontent/viewfile.php?id=".$listFiles->fil_vc_parent[0]."&msg=deleteFile");
+		phpCollab\Util::headerFunction("../linkedcontent/viewfile.php?id=".$listFiles->fil_vc_parent[0]."&msg=deleteFile");
 	} else {
 		if ($task != "0") {
-			Util::headerFunction("../tasks/viewtask.php?id=$task&msg=deleteFile");
+			phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$task&msg=deleteFile");
 			exit;
 		} else {
-			Util::headerFunction("../projects/viewproject.php?id=$project&msg=deleteFile");
+			phpCollab\Util::headerFunction("../projects/viewproject.php?id=$project&msg=deleteFile");
 			exit;
 		}
 	}
 }
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 if ($task != "0") {
 	$tmpquery = "WHERE tas.id = '$task'";
-	$taskDetail = new Request();
+	$taskDetail = new phpCollab\Request();
 	$taskDetail->openTasks($tmpquery);
 }
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -73,7 +73,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "saC";
 $block1->openForm("../linkedcontent/deletefiles.php?project=$project&task=$task&action=delete&id=$id&sendto=$sendto");
@@ -85,7 +85,7 @@ $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE fil.id IN($id) ORDER BY fil.name";
-$listFiles = new Request();
+$listFiles = new phpCollab\Request();
 $listFiles->openFiles($tmpquery);
 $comptListFiles = count($listFiles->fil_id);
 

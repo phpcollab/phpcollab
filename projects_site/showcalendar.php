@@ -113,7 +113,7 @@ if ($type == "calendDetail")
 	}
 
 	$tmpquery = "WHERE (cal.owner = '$idSession' AND cal.id = '$dateEnreg') OR (cal.broadcast = '1' AND cal.id = '$dateEnreg')";
-	$detailCalendar = new Request();
+	$detailCalendar = new phpCollab\Request();
 	$detailCalendar->openCalendar($tmpquery);
 	$comptDetailCalendar = count($detailCalendar->cal_id);
 
@@ -156,7 +156,7 @@ if ($type == "calendDetail")
 		$recurring = $strings["yes"];
 	}
 	
-	$block1 = new Block();
+	$block1 = new phpCollab\Block();
 	
 	if ($error != "")
 	{            
@@ -258,7 +258,7 @@ if ($type == "calendDetail")
 if ($type == "monthPreview") 
 {
 
-	$block2 = new Block();
+	$block2 = new phpCollab\Block();
 	$block2->heading("$monthName $year");
 
 	echo "<table border='0' cellpadding='0' cellspacing='0' width='100%' class='listing'><tr>";
@@ -274,12 +274,12 @@ if ($type == "monthPreview")
 
 	//LIMIT CALENDAR TO CURRENT PROJECT BUT SHOW ALL ASSIGNEES
 	$tmpquery = "WHERE (tas.project = '$projectSession') AND (tas.owner = '$idSession' OR tas.published = '0') ORDER BY tas.name";
-	$listTasks = new Request();
+	$listTasks = new phpCollab\Request();
 	$listTasks->openTasks($tmpquery);
 	$comptListTasks = count($listTasks->tas_id);
 
 	$tmpquery = "WHERE subtas.task = tas.id AND tas.project = '$projectSession' AND (tas.owner = '$idSession' OR tas.published = '0') ORDER BY subtas.name";
-	$listSubtasks = new Request();
+	$listSubtasks = new phpCollab\Request();
 	$listSubtasks->openSubtasks($tmpquery);
 	$comptListSubtasks = count($listSubtasks->subtas_id);
 
@@ -310,7 +310,7 @@ if ($type == "monthPreview")
 		$dayRecurr = _dayOfWeek(mktime(0,0,0,$month,$a,$year));
 		
 		$tmpquery = "WHERE (cal.owner = '$idSession' AND ((cal.date_start <= '$dateLink' AND cal.date_end >= '$dateLink' AND cal.recurring = '0') OR ((cal.date_start <= '$dateLink' AND cal.date_end >= '$dateLink') AND cal.recurring = '1' AND cal.recur_day = '$dayRecurr'))) OR (cal.broadcast = '1' AND ((cal.date_start <= '$dateLink' AND cal.date_end >= '$dateLink' AND cal.recurring = '0') OR ((cal.date_start <= '$dateLink' AND cal.date_end >= '$dateLink') AND cal.recurring = '1' AND cal.recur_day = '$dayRecurr'))) ORDER BY cal.shortname";
-		$listCalendarScan = new Request();
+		$listCalendarScan = new phpCollab\Request();
 		$listCalendarScan->openCalendar($tmpquery);
 		$comptListCalendarScan = count($listCalendarScan->cal_id);
 		

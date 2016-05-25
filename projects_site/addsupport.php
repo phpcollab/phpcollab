@@ -6,22 +6,22 @@ $checkSession = "true";
 include '../includes/library.php';
 
 $tmpquery = "WHERE mem.id = '$idSession'";
-$userDetail = new Request();
+$userDetail = new phpCollab\Request();
 $userDetail->openMembers($tmpquery);
 
 $tmpquery = "WHERE sr.member = '$idSession'";
-$listRequests = new Request();
+$listRequests = new phpCollab\Request();
 $listRequests->openSupportRequests($tmpquery);
 $comptListRequests = count($listRequests->sr_id);
 
 if ($action == "add") {
-	$sub = Util::convertData($sub);
-	$mes = Util::convertData($mes);
+	$sub = phpCollab\Util::convertData($sub);
+	$mes = phpCollab\Util::convertData($mes);
 
 	$tmpquery1 = "INSERT INTO ".$tableCollab["support_requests"]."(member,priority,subject,message,date_open,project,status) VALUES('$user','$pr','$sub','$mes','$dateheure','$project','0')";
-	Util::connectSql($tmpquery1);
+	phpCollab\Util::connectSql($tmpquery1);
 	$tmpquery = $tableCollab["support_requests"];
-	Util::getLastId($tmpquery);
+	phpCollab\Util::getLastId($tmpquery);
 	$num = $lastId[0];
 	unset($lastId);
 	
@@ -29,7 +29,7 @@ if ($action == "add") {
 		include '../support/noti_newrequest.php';
 	}	
 	
-	Util::headerFunction("suprequestdetail.php?id=$num");
+	phpCollab\Util::headerFunction("suprequestdetail.php?id=$num");
 	exit;
 }
 

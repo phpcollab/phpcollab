@@ -29,11 +29,11 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 $tmpquery = "WHERE inv.id = '$id'";
-$detailInvoice = new Request();
+$detailInvoice = new phpCollab\Request();
 $detailInvoice->openInvoices($tmpquery);
 
 $tmpquery = "WHERE pro.id = '".$detailInvoice->inv_project[0]."'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 if ($projectDetail->pro_owner[0] != $idSession) { 
@@ -52,14 +52,14 @@ if ($st == "1") {
 }
 
 	$tmpquery = "UPDATE ".$tableCollab["invoices"]." SET header_note='$header_note',footer_note='$footer_note',published='$pub',status='$st',due_date='$dd',date_sent='$datesent',total_ex_tax='$total_ex_tax',total_inc_tax='$total_inc_tax',tax_rate='$tax_rate',tax_amount='$tax_amount',modified='$dateheure' WHERE id = '$id'";
-	Util::connectSql($tmpquery);
+	phpCollab\Util::connectSql($tmpquery);
 
 for ($i=0;$i<$comptListInvoicesItems;$i++) {
 	$tmpquery = "UPDATE ".$tableCollab["invoices_items"]." SET title='".$title[$i]."',position='".$position[$i]."',amount_ex_tax='".${"item".$i}."' WHERE id = '".$itemId[$i]."'";
-	Util::connectSql($tmpquery);
+	phpCollab\Util::connectSql($tmpquery);
 }
 
-	Util::headerFunction("../invoicing/viewinvoice.php?msg=update&id=$id");
+	phpCollab\Util::headerFunction("../invoicing/viewinvoice.php?msg=update&id=$id");
 }
 
 //set value in form
@@ -81,7 +81,7 @@ $pub = $detailInvoice->inv_published[0];
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?",$strings["clients"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=".$projectDetail->pro_org_id[0],$projectDetail->pro_org_name[0],in));
@@ -98,7 +98,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 if ($id != "") {
 	$block1->form = "invoice";
@@ -121,7 +121,7 @@ $block1->contentRow($strings["header_note"],"<textarea rows=\"10\" style=\"width
 $block1->contentRow($strings["footer_note"],"<textarea rows=\"10\" style=\"width: 400px; height: 100px;\" name=\"footer_note\" cols=\"47\">$footer_note</textarea>");
 
 $tmpquery = "WHERE invitem.invoice = '$id' AND invitem.active = '1' ORDER BY invitem.position ASC";
-$listInvoicesItems = new Request();
+$listInvoicesItems = new phpCollab\Request();
 $listInvoicesItems->openInvoicesItems($tmpquery);
 $comptListInvoicesItems = count($listInvoicesItems->invitem_id);
 

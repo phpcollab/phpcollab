@@ -9,15 +9,15 @@ include_once '../includes/library.php';
 if ($action == "delete") {
 	$id = str_replace("**",",",$id);
 	$tmpquery1 = "DELETE FROM ".$tableCollab["reports"]." WHERE id IN($id)";
-	Util::connectSql("$tmpquery1");
-	Util::headerFunction("../general/home.php?msg=deleteReport");
+	phpCollab\Util::connectSql("$tmpquery1");
+	phpCollab\Util::headerFunction("../general/home.php?msg=deleteReport");
 	exit;
 }
 
 $setTitle .= " : Delete Report";
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/listreports.php?",$strings["my_reports"],in));
 $blockPage->itemBreadcrumbs($strings["delete_reports"]);
@@ -28,7 +28,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "saS";
 $block1->openForm("../reports/deletereports.php?action=delete&id=$id");
@@ -40,7 +40,7 @@ $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE rep.id IN($id) ORDER BY rep.name";
-$listReports = new Request();
+$listReports = new phpCollab\Request();
 $listReports->openReports($tmpquery);
 $comptListReports = count($listReports->rep_id);
 

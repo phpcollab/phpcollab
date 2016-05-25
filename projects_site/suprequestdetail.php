@@ -29,7 +29,7 @@ $checkSession = "true";
 include '../includes/library.php';
 
 $tmpquery = "WHERE sr.id = '$id'";
-$requestDetail = new Request();
+$requestDetail = new phpCollab\Request();
 $requestDetail->openSupportRequests($tmpquery);
 
 if ($requestDetail->sr_project[0] != $projectSession || $requestDetail->sr_user[0] != $idSession) 
@@ -40,14 +40,14 @@ if ($requestDetail->sr_project[0] != $projectSession || $requestDetail->sr_user[
 		// a request that no longer exists. If this happens the user gets stuck in a login loop and can't
 		// login.
 		$tmpquery = "UPDATE ".$tableCollab["members"]." SET last_page='' WHERE login = '{$_SESSION['loginSession']}'";
-		Util::connectSql("$tmpquery");
+		phpCollab\Util::connectSql("$tmpquery");
 	}
-	Util::headerFunction("index.php");
+	phpCollab\Util::headerFunction("index.php");
 }
 
 
 $tmpquery = "WHERE sp.request_id = '$id' ORDER BY sp.date";
-$postDetail = new Request();
+$postDetail = new phpCollab\Request();
 $postDetail->openSupportPosts($tmpquery);
 $comptPostDetail = count($postDetail->sp_id);
 
@@ -107,7 +107,7 @@ if ($comptPostDetail != "0")
 		echo "	<tr><td colspan='4' class='$class'>&nbsp;</td></tr><tr class='$class'><th>".$strings["date"]." :</th><td colspan='3'>".$postDetail->sp_date[$i]."</td></tr>";
 
 		$tmpquery = "WHERE mem.id = '".$postDetail->sp_owner[$i]."'";
-		$ownerDetail = new Request();
+		$ownerDetail = new phpCollab\Request();
 		$ownerDetail->openMembers($tmpquery);
 
 		echo "<tr class='$class'><th>".$strings["posted_by"]." :</th><td colspan='3'>".$ownerDetail->mem_name[0]."</td></tr><tr class='$class'><th>".$strings["message"]." :</th><td colspan='3'>".nl2br($postDetail->sp_message[$i])."</td></tr>";

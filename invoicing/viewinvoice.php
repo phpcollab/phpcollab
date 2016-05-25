@@ -10,24 +10,24 @@ if ($action == "publish") {
 
 if ($addToSite == "true") {
 $tmpquery1 = "UPDATE ".$tableCollab["invoices"]." SET published='0' WHERE id = '$id'";
-Util::connectSql("$tmpquery1");
+phpCollab\Util::connectSql("$tmpquery1");
 $msg = "addToSite";
 }
 
 if ($removeToSite == "true") {
 $tmpquery1 = "UPDATE ".$tableCollab["invoices"]." SET published='1' WHERE id = '$id'";
-Util::connectSql("$tmpquery1");
+phpCollab\Util::connectSql("$tmpquery1");
 $msg = "removeToSite";
 }
 
 }
 
 $tmpquery = "WHERE inv.id = '$id'";
-$detailInvoice = new Request();
+$detailInvoice = new phpCollab\Request();
 $detailInvoice->openInvoices($tmpquery);
 
 $tmpquery = "WHERE pro.id = '".$detailInvoice->inv_project[0]."'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 if ($projectDetail->pro_owner[0] != $idSession) { 
@@ -37,7 +37,7 @@ if ($projectDetail->pro_owner[0] != $idSession) {
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?",$strings["clients"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=".$projectDetail->pro_org_id[0],$projectDetail->pro_org_name[0],in));
@@ -50,7 +50,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "invoiceSheet";
 $block1->openForm("../invoicing/viewinvoice.php?id=$id&#".$block1->form."Anchor");
@@ -87,8 +87,8 @@ if ($sitePublish == "true") {
 $block1->contentRow($strings["published"],$statusPublish[$detailInvoice->inv_published[0]]);
 }
 
-$block1->contentRow($strings["created"],Util::createDate($detailInvoice->inv_created[0],$timezoneSession));
-$block1->contentRow($strings["modified"],Util::createDate($detailInvoice->inv_modified[0],$timezoneSession));
+$block1->contentRow($strings["created"],phpCollab\Util::createDate($detailInvoice->inv_created[0],$timezoneSession));
+$block1->contentRow($strings["modified"],phpCollab\Util::createDate($detailInvoice->inv_modified[0],$timezoneSession));
 
 $block1->closeContent();
 $block1->closeToggle();
@@ -104,7 +104,7 @@ $block1->paletteScript(4,"remove_projectsite","../invoicing/viewinvoice.php?remo
 $block1->paletteScript(5,"edit","../invoicing/editinvoice.php?id=".$detailInvoice->inv_id[0],"true,true,false",$strings["edit"]);
 $block1->closePaletteScript("","");
 
-$block2 = new Block();
+$block2 = new phpCollab\Block();
 
 $block2->form = "invoiceItems";
 $block2->openForm("../invoicing/viewinvoice.php?id=$id&#".$block2->form."Anchor");
@@ -117,7 +117,7 @@ $block2->paletteIcon(7,"edit",$strings["edit"]);
 $block2->closePaletteIcon();
 
 $tmpquery = "WHERE invitem.invoice = '$id' AND invitem.active = '1' ORDER BY invitem.position ASC";
-$listInvoicesItems = new Request();
+$listInvoicesItems = new phpCollab\Request();
 $listInvoicesItems->openInvoicesItems($tmpquery);
 $comptListInvoicesItems = count($listInvoicesItems->invitem_id);
 

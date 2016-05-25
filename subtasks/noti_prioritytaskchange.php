@@ -1,18 +1,18 @@
 <?php
 $tmpquery = "WHERE subtas.id IN($id)";
-$subtaskNoti = new Request();
+$subtaskNoti = new phpCollab\Request();
 $subtaskNoti->openSubtasks($tmpquery);
 
 $tmpquery = "WHERE tas.id = '".$subtaskNoti->subtas_task[0]."'";
-$taskNoti = new Request();
+$taskNoti = new phpCollab\Request();
 $taskNoti->openTasks($tmpquery);
 
 $tmpquery = "WHERE pro.id = '".$taskNoti->tas_project[0]."'";
-$projectNoti = new Request();
+$projectNoti = new phpCollab\Request();
 $projectNoti->openProjects($tmpquery);
 
 $tmpquery = "WHERE noti.member IN($at)";
-$listNotifications = new Request();
+$listNotifications = new phpCollab\Request();
 $listNotifications->openNotifications($tmpquery);
 $comptListNotifications = count($listNotifications->not_id);
 

@@ -7,21 +7,21 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 $tmpquery = "WHERE invitem.id = '$id'";
-$detailInvoiceItem = new Request();
+$detailInvoiceItem = new phpCollab\Request();
 $detailInvoiceItem->openInvoicesItems($tmpquery);
 
 $tmpquery = "WHERE inv.id = '".$detailInvoiceItem->invitem_invoice[0]."'";
-$detailInvoice = new Request();
+$detailInvoice = new phpCollab\Request();
 $detailInvoice->openInvoices($tmpquery);
 
 $tmpquery = "WHERE pro.id = '".$detailInvoice->inv_project[0]."'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 if ($action == "update") {
 	$tmpquery = "UPDATE ".$tableCollab["invoices_items"]." SET rate_type='$rate_type',rate_value='$rate_value',amount_ex_tax='$amount_ex_tax' WHERE id = '$invoiceitem'";
-	Util::connectSql($tmpquery);
-	Util::headerFunction("../invoicing/viewinvoice.php?msg=update&id=$id");
+	phpCollab\Util::connectSql($tmpquery);
+	phpCollab\Util::headerFunction("../invoicing/viewinvoice.php?msg=update&id=$id");
 }
 
 //set value in form
@@ -32,7 +32,7 @@ $rate_value = $detailInvoiceItem->invitem_rate_value[0];
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?",$strings["clients"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=".$projectDetail->pro_org_id[0],$projectDetail->pro_org_name[0],in));
@@ -48,7 +48,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 if ($invoiceitem != "") {
 	$block1->form = "invoice";
@@ -87,11 +87,11 @@ if ($detailInvoiceItem->invitem_rate_type[0] == "a") {
 }
 
 $tmpquery = "WHERE org.id = '".$projectDetail->pro_organization[0]."'";
-$detailClient = new Request();
+$detailClient = new phpCollab\Request();
 $detailClient->openOrganizations($tmpquery);
 
 $tmpquery = "ORDER BY serv.name ASC";
-$listServices = new Request();
+$listServices = new phpCollab\Request();
 $listServices->openServices($tmpquery);
 $comptListServices = count($listServices->serv_id);
 

@@ -10,7 +10,7 @@ echo "Script to remove file size labels in database: <a href='$PHP_SELF?action=u
 
 if ($action == "update") {
 $tmpquery = "";
-$listFiles = new Request();
+$listFiles = new phpCollab\Request();
 $listFiles->openFiles($tmpquery);
 $comptListFiles = count($listFiles->fil_id);
 
@@ -28,7 +28,7 @@ $sizeNew = str_replace('M','',$sizeNew);
 $sizeNew = str_replace('G','',$sizeNew);
 
 $tmpquery = "UPDATE ".$tableCollab["files"]." SET size='$sizeNew' WHERE id='".$listFiles->fil_id[$i]."'";
-Util::connectSql($tmpquery);
+phpCollab\Util::connectSql($tmpquery);
 }
 echo "$comptListFiles fixed :o)";
 } else {

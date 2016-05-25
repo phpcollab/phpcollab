@@ -50,10 +50,10 @@ if (!defined('MYSERVER') || !defined('MYLOGIN') || !defined('MYPASSWORD') || !de
 }
 
 // Create database requests
-$alert = new Request();
+$alert = new phpCollab\Request();
 $alert->connectClass();
 
-$alertSub = new Request();
+$alertSub = new phpCollab\Request();
 $alertSub->connectClass();
 
 // Get table names

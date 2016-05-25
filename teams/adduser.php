@@ -11,12 +11,12 @@ include '../includes/cvslib.php';
 }
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 $comptProjectDetail = count($projectDetail->pro_id);
 
 if ($comptProjectDetail == "0") {
-	Util::headerFunction("../projects/listprojects.php?msg=blank");
+	phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blank");
 	exit;
 }
 
@@ -29,7 +29,7 @@ if ($action == "add") {
 		$Htpasswd->initialize("../files/".$projectDetail->pro_id[0]."/.htpasswd");
 
 		$tmpquery = "WHERE mem.id IN($id)";
-		$listMembers = new Request();
+		$listMembers = new phpCollab\Request();
 		$listMembers->openMembers($tmpquery);
 		$comptListMembers = count($listMembers->mem_id);
 
@@ -46,7 +46,7 @@ if ($action == "add") {
 	$comptAjout = count($pieces);
 	for($i=0;$i<$comptAjout;$i++) {
 		$tmpquery="INSERT INTO ".$tableCollab["teams"]."(project, member,published,authorized) VALUES ('".$projectDetail->pro_id[0]."','$pieces[$i]','1','0')";
-		Util::connectSql("$tmpquery");
+		phpCollab\Util::connectSql("$tmpquery");
 //if mantis bug tracker enabled
 		if ($enableMantis == "true") {
 			// Assign user to this project in mantis
@@ -59,7 +59,7 @@ if ($action == "add") {
 //if CVS repository enabled
 		if ($enable_cvs == "true") {
 			$user_query = "WHERE mem.id = '$pieces[$i]'";
-			$cvsMembers = new Request();
+			$cvsMembers = new phpCollab\Request();
 			$cvsMembers->openMembers($user_query);
 			cvs_add_user($cvsMembers->mem_login[$i], $cvsMembers->mem_password[$i], $projectDetail->pro_id[0]);
 		}
@@ -69,14 +69,14 @@ if ($notifications == "true") {
 $organization = "1";
 	include '../teams/noti_addprojectteam.php';
 }
-	Util::headerFunction("../projects/viewproject.php?id=".$projectDetail->pro_id[0]."&msg=add");
+	phpCollab\Util::headerFunction("../projects/viewproject.php?id=".$projectDetail->pro_id[0]."&msg=add");
 }
 
 include '../themes/' . THEME . '/header.php';
 
 //echo "$tmpquery<br/>$comptMulti<br/>";
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -84,7 +84,7 @@ $blockPage->itemBreadcrumbs($blockPage->buildLink("../teams/listusers.php?id=".$
 $blockPage->itemBreadcrumbs($strings["add_team"]);
 $blockPage->closeBreadcrumbs();
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "atpt";
 $block1->openForm("../teams/adduser.php?project=$project#".$block1->form."Anchor");
@@ -100,7 +100,7 @@ $block1->closePaletteIcon();
 $block1->sorting("users",$sortingUser->sor_users[0],"mem.name ASC",$sortingFields = array(0=>"mem.name",1=>"mem.title",2=>"mem.login",3=>"mem.phone_work",4=>"log.connected"));
 
 $tmpquery = "WHERE tea.project = '$project' AND mem.profil != '3'";
-$concatMembers = new Request();
+$concatMembers = new phpCollab\Request();
 $concatMembers->openTeams($tmpquery);
 $comptConcatMembers = count($concatMembers->tea_id);
 for ($i=0;$i<$comptConcatMembers;$i++) {
@@ -115,7 +115,7 @@ $tmpquery = "WHERE mem.id NOT IN($membersTeam) AND mem.profil != '3' ORDER BY $b
 } else {
 $tmpquery = "WHERE mem.id NOT IN($membersTeam) AND mem.profil != '3' AND mem.id != '2' ORDER BY $block1->sortingValue";
 }
-$listMembers = new Request();
+$listMembers = new phpCollab\Request();
 $listMembers->openMembers($tmpquery);
 $comptListMembers = count($listMembers->mem_id);
 

@@ -7,21 +7,21 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($profilSession != "0") {
-	Util::headerFunction('../general/permissiondenied.php');
+	phpCollab\Util::headerFunction('../general/permissiondenied.php');
 	exit;
 }
 
 if ($action == "delete") {
 	$id = str_replace("**",",",$id);
 	$tmpquery1 = "DELETE FROM ".$tableCollab["services"]." WHERE id IN($id)";
-	Util::connectSql($tmpquery1);
-	Util::headerFunction("../services/listservices.php?msg=delete");
+	phpCollab\Util::connectSql($tmpquery1);
+	phpCollab\Util::headerFunction("../services/listservices.php?msg=delete");
 	exit;
 }
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?",$strings["administration"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../services/listservices.php?",$strings["service_management"],in));
@@ -33,7 +33,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "service_delete";
 $block1->openForm("../services/deleteservices.php?action=delete");
@@ -45,7 +45,7 @@ $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE serv.id IN($id) ORDER BY serv.name";
-$listServices = new Request();
+$listServices = new phpCollab\Request();
 $listServices->openServices($tmpquery);
 $comptListServices = count($listServices->serv_id);
 

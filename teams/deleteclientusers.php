@@ -7,12 +7,12 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 $comptProjectDetail = count($projectDetail->pro_id);
 
 if ($comptProjectDetail == "0") {
-	Util::headerFunction("../projects/listprojects.php?msg=blank");
+	phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blank");
 	exit;
 }
 
@@ -25,7 +25,7 @@ if ($action == "delete") {
 		$Htpasswd->initialize("../files/".$projectDetail->pro_id[0]."/.htpasswd");
 
 		$tmpquery = "WHERE mem.id IN($id)";
-		$listMembers = new Request();
+		$listMembers = new phpCollab\Request();
 		$listMembers->openMembers($tmpquery);
 		$comptListMembers = count($listMembers->mem_id);
 
@@ -42,7 +42,7 @@ if ($action == "delete") {
 	$compt = count($pieces);
 	for ($i=0;$i<$compt;$i++) {
 		$tmpquery1 = "DELETE FROM ".$tableCollab["teams"]." WHERE member = '$pieces[$i]'";
-		Util::connectSql("$tmpquery1");
+		phpCollab\Util::connectSql("$tmpquery1");
 //if mantis bug tracker enabled
 		if ($enableMantis == "true") {
 // Unassign user from this project in mantis
@@ -55,13 +55,13 @@ if ($notifications == "true") {
 $organization = "";
 	include '../teams/noti_removeprojectteam.php';
 }
-	Util::headerFunction("../projects/viewprojectsite.php?id=$project&msg=removeClientToSite");
+	phpCollab\Util::headerFunction("../projects/viewprojectsite.php?id=$project&msg=removeClientToSite");
 	exit;
 }
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -74,7 +74,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "crM";
 $block1->openForm("../teams/deleteclientusers.php?project=$project&action=delete&id=$id");
@@ -86,7 +86,7 @@ $block1->contentTitle($strings["remove_team_info"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE mem.id IN($id) ORDER BY mem.name";
-$listMembers = new Request();
+$listMembers = new phpCollab\Request();
 $listMembers->openMembers($tmpquery);
 $comptListMembers = count($listMembers->mem_id);
 

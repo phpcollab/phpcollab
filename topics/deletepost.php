@@ -7,26 +7,26 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 $tmpquery = "WHERE topic.id = '$topic'";
-$detailTopic = new Request();
+$detailTopic = new phpCollab\Request();
 $detailTopic->openTopics($tmpquery);
 
 if ($action == "delete") {
 	$detailTopic->top_posts[0] = $detailTopic->top_posts[0] - 1;
 	$tmpquery = "DELETE FROM ".$tableCollab["posts"]." WHERE id = '$id'";
-	Util::connectSql("$tmpquery");
+	phpCollab\Util::connectSql("$tmpquery");
 	$tmpquery2 = "UPDATE ".$tableCollab["topics"]." SET posts='".$detailTopic->top_posts[0]."' WHERE id = '$topic'";
-	Util::connectSql("$tmpquery2");
-	Util::headerFunction("../topics/viewtopic.php?msg=delete&id=$topic");
+	phpCollab\Util::connectSql("$tmpquery2");
+	phpCollab\Util::headerFunction("../topics/viewtopic.php?msg=delete&id=$topic");
 	exit;
 }
 
 $tmpquery = "WHERE pos.id = '$id'";
-$detailPost = new Request();
+$detailPost = new phpCollab\Request();
 $detailPost->openPosts($tmpquery);
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$detailTopic->top_pro_id[0],$detailTopic->top_pro_name[0],in));
@@ -40,7 +40,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "saP";
 $block1->openForm("../topics/deletepost.php?id=$id&topic=$topic&action=delete");

@@ -3,15 +3,15 @@ if ($num == "") {
 $num = $id;
 }
 $tmpquery = "WHERE tas.id IN($num)";
-$taskNoti = new Request();
+$taskNoti = new phpCollab\Request();
 $taskNoti->openTasks($tmpquery);
 
 $tmpquery = "WHERE pro.id = '".$taskNoti->tas_project[0]."'";
-$projectNoti = new Request();
+$projectNoti = new phpCollab\Request();
 $projectNoti->openProjects($tmpquery);
 
 $tmpquery = "WHERE noti.member IN(".$projectNoti->pro_owner[0].")";
-$listNotifications = new Request();
+$listNotifications = new phpCollab\Request();
 $listNotifications->openNotifications($tmpquery);
 $comptListNotifications = count($listNotifications->not_id);
 

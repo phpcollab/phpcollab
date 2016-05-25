@@ -31,7 +31,7 @@ include_once '../includes/library.php';
 if ($action == "delete") {
 	$id = str_replace("**",",",$id);
 	$tmpquery = "WHERE org.id IN($id)";
-	$listOrganizations = new Request();
+	$listOrganizations = new phpCollab\Request();
 	$listOrganizations->openOrganizations($tmpquery);
 	$comptListOrganizations = count($listOrganizations->org_id);
 	for ($i=0;$i<$comptListOrganizations;$i++) {
@@ -42,17 +42,17 @@ if ($action == "delete") {
 	$tmpquery1 = "DELETE FROM ".$tableCollab["organizations"]." WHERE id IN($id)";
 	$tmpquery2 = "UPDATE ".$tableCollab["projects"]." SET organization='1' WHERE organization IN($id)";
 	$tmpquery3 = "DELETE FROM ".$tableCollab["members"]." WHERE organization IN($id)";
-	Util::connectSql("$tmpquery1");
-	Util::connectSql("$tmpquery2");
-	Util::connectSql("$tmpquery3");
-	Util::headerFunction("../clients/listclients.php?msg=delete");
+	phpCollab\Util::connectSql("$tmpquery1");
+	phpCollab\Util::connectSql("$tmpquery2");
+	phpCollab\Util::connectSql("$tmpquery3");
+	phpCollab\Util::headerFunction("../clients/listclients.php?msg=delete");
 }
 
 $setTitle .= " : Delete Client";
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?",$strings["clients"],in));
 $blockPage->itemBreadcrumbs($strings["delete_organizations"]);
@@ -63,7 +63,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "saP";
 $block1->openForm("../clients/deleteclients.php?action=delete&id=$id");
@@ -75,7 +75,7 @@ $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**",",",$id);
 $tmpquery = "WHERE org.id IN($id) ORDER BY org.name";
-$listOrganizations = new Request();
+$listOrganizations = new phpCollab\Request();
 $listOrganizations->openOrganizations($tmpquery);
 $comptListOrganizations = count($listOrganizations->org_id);
 

@@ -44,7 +44,7 @@ switch ($view) {
 }
 // END
 include '../themes/' . THEME . '/header.php';
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=all",$strings["bookmarks"],in));
 if ($view == "all") {
@@ -63,7 +63,7 @@ if ($msg != "") {
 	$blockPage->messagebox($msgLabel);
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 $block1->form = "saJ";
 $block1->openForm("../bookmarks/listbookmarks.php?view=$view&project=$project#".$block1->form."Anchor");
 $block1->heading($strings["bookmarks"]);
@@ -98,7 +98,7 @@ if ($view == "my") {
 	$tmpquery = "WHERE boo.shared = '1' OR boo.owner = '$idSession' ORDER BY $block1->sortingValue";
 }
 
-$listBookmarks = new Request();
+$listBookmarks = new phpCollab\Request();
 $listBookmarks->openBookmarks($tmpquery);
 
 $comptListBookmarks = count($listBookmarks->boo_id);

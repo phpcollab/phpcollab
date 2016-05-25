@@ -41,7 +41,7 @@ if ($task == "")
 if ($action == "add") 
 {
 
-	$filename = Util::checkFileName($_FILES['upload']['name']);
+	$filename = phpCollab\Util::checkFileName($_FILES['upload']['name']);
 	
 	if ($maxCustom != "") 
 	{
@@ -102,11 +102,11 @@ if ($action == "add")
 			$versionFile = "0.0";
 		}
 
-		$c = Util::convertData($c);
-		$tmpquery = "INSERT INTO ".$tableCollab["files"]."(owner,project,phase,task,comments,upload,published,status,vc_version,vc_parent) VALUES('$idSession','$project','".Util::fixInt($phase)."','$task','$c','$dateheure','1','$statusField','$versionFile','0')";
-		Util::connectSql("$tmpquery");
+		$c = phpCollab\Util::convertData($c);
+		$tmpquery = "INSERT INTO ".$tableCollab["files"]."(owner,project,phase,task,comments,upload,published,status,vc_version,vc_parent) VALUES('$idSession','$project','".phpCollab\Util::fixInt($phase)."','$task','$c','$dateheure','1','$statusField','$versionFile','0')";
+		phpCollab\Util::connectSql("$tmpquery");
 		$tmpquery = $tableCollab["files"];
-		Util::getLastId($tmpquery);
+		phpCollab\Util::getLastId($tmpquery);
 		$num = $lastId[0];
 		unset($lastId);
 	}
@@ -115,9 +115,9 @@ if ($action == "add")
 	{
 		if ($docopy == "true") 
 		{
-			Util::uploadFile("files/$project/$task", $_FILES['upload']['tmp_name'], "$num--".$filename);
-			$size = Util::fileInfoSize("../files/".$project."/".$task."/".$num."--".$filename);
-			//$dateFile = Util::getFileDate("../files/".$project."/".$task."/".$num."--".$filename);
+			phpCollab\Util::uploadFile("files/$project/$task", $_FILES['upload']['tmp_name'], "$num--".$filename);
+			$size = phpCollab\Util::fileInfoSize("../files/".$project."/".$task."/".$num."--".$filename);
+			//$dateFile = phpCollab\Util::getFileDate("../files/".$project."/".$task."/".$num."--".$filename);
 			$chaine = strrev("../files/".$project."/".$task."/".$num."--".$filename);
 			$tab = explode(".",$chaine);
 			$extension = strtolower(strrev($tab[0]));
@@ -127,9 +127,9 @@ if ($action == "add")
 	{
 		if ($docopy == "true") 
 		{
-			Util::uploadFile("files/$project", $_FILES['upload']['tmp_name'], "$num--".$filename);
-			$size = Util::fileInfoSize("../files/".$project."/".$num."--".$filename);
-			//$dateFile = Util::getFileDate("../files/".$project."/".$num."--".$filename);
+			phpCollab\Util::uploadFile("files/$project", $_FILES['upload']['tmp_name'], "$num--".$filename);
+			$size = phpCollab\Util::fileInfoSize("../files/".$project."/".$num."--".$filename);
+			//$dateFile = phpCollab\Util::getFileDate("../files/".$project."/".$num."--".$filename);
 			$chaine = strrev("../files/".$project."/".$num."--".$filename);
 			$tab = explode(".",$chaine);
 			$extension = strtolower(strrev($tab[0]));
@@ -140,24 +140,24 @@ if ($action == "add")
 	{
 		$name = $num."--".$filename;
 		$tmpquery = "UPDATE ".$tableCollab["files"]." SET name='$name',date='$dateheure',size='$size',extension='$extension' WHERE id = '$num'";
-		Util::connectSql("$tmpquery");
+		phpCollab\Util::connectSql("$tmpquery");
 
 		if ($notifications == "true") 
 		{			
 			require("../projects_site/noti_uploadfile.php");
 		}		
 		
-		Util::headerFunction("../linkedcontent/viewfile.php?id=$num&msg=addFile");
+		phpCollab\Util::headerFunction("../linkedcontent/viewfile.php?id=$num&msg=addFile");
 	}
 }
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new Request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-$memberTest = new Request();
+$memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 
@@ -181,20 +181,20 @@ if ($projectDetail->pro_phase_set[0] != "0")
 	$phase = $projectDetail->pro_phase_set[0];
 
 	$tmpquery = "WHERE pha.id = '$phase'";
-	$phaseDetail = new Request();
+	$phaseDetail = new phpCollab\Request();
 	$phaseDetail->openPhases($tmpquery);
 }
 
 if ($task != "0") 
 {
 	$tmpquery = "WHERE tas.id = '$task'";
-	$taskDetail = new Request();
+	$taskDetail = new phpCollab\Request();
 	$taskDetail->openTasks($tmpquery);
 }
 
 include '../themes/' . THEME . '/header.php';
 
-$blockPage = new Block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=$project",$projectDetail->pro_name[0],in));
@@ -220,7 +220,7 @@ if ($msg != "")
 
 }
 
-$block1 = new Block();
+$block1 = new phpCollab\Block();
 
 
 $block1->form = "filedetails";
