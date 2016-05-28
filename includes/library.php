@@ -55,7 +55,7 @@ if ($debug) {
     ini_set('log_errors_max_len', 0);
 
     // pecify log file
-    ini_set('error_log', '/Users/mindblender/Sites/phpCollab/phpCollab/logs/php_errors.log');
+    ini_set('error_log', APP_ROOT . '/logs/php_errors.log');
 
 //    register_shutdown_function('shutdown_notify');
 
