@@ -142,9 +142,10 @@ if ($id != "") {
 //    $reportDetail = new Request();
 //    $reportDetail->openReports($tmpquery);
 
-    $report = new phpCollab\Reports();
+    $db = new \phpCollab\Database();
+    $report_gateway = new \phpCollab\Reports\ReportsGateway($db);
 
-    $reportDetail = $report->getByReportId($id);
+    $reportDetail = $report_gateway->getReportById($id);
 
 //	$reportCount = count( $reportDetail );
 
@@ -419,7 +420,7 @@ if ($comptListTasks != "0") {
         if ($listTasks->tas_assigned_to[$i] == "0") {
             $block1->cellRow($strings["unassigned"]);
         } else {
-            // Todo: change this so it points to the user instead of their email address
+            // Todo: change this so it points to the user's profile instead of their email address
             $block1->cellRow($blockPage->buildLink($listTasks->tas_mem_email_work[$i], $listTasks->tas_mem_login[$i], mail));
         }
 
@@ -464,7 +465,7 @@ if ($comptListTasks != "0") {
                 if ($listSubTasks->subtas_assigned_to[$j] == "0") {
                     $block1->cellRow($strings["unassigned"]);
                 } else {
-                    // Todo: change this so it points to the user instead of their email address
+                    // Todo: change this so it points to the user's profile instead of their email address
                     $block1->cellRow($blockPage->buildLink($listSubTasks->subtas_mem_email_work[$j], $listSubTasks->subtas_mem_login[$j], mail));
                 }
 

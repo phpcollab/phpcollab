@@ -1,4 +1,6 @@
 <?php
+//namespace phpCollab;
+
 /*
 ** Application name: phpCollab
 ** Last Edit page: 23/03/2004
@@ -56,11 +58,14 @@ $block1->closePaletteIcon();
 
 $block1->sorting("reports",$sortingUser->sor_reports[0],"rep.name ASC",$sortingFields = array(0=>"rep.name",1=>"rep.created"));
 
-$myReports = new phpCollab\Reports();
+$db = new phpCollab\Database();
+$reports_gateway = new phpCollab\Reports\ReportsGateway($db);
+
+//$myReports = new phpCollab\Reports();
 
 $sorting = $block1->sortingValue;
 
-$dataSet = $myReports->getReportsByOwner( $idSession, $sorting );
+$dataSet = $reports_gateway->getAllByOwner( $idSession, $sorting );
 
 $reportCount = count( $dataSet );
 
