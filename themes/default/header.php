@@ -2,35 +2,42 @@
 #Application name: PhpCollab
 #Status page: 0
 
-echo "$setDoctype
+
+echo <<<HEAD
+$setDoctype
 $setCopyright
+
 <html>
 <head>
-<meta http-equiv='Content-Type' content=\"text/html; charset=$setCharset\" />
+<meta http-equiv="Content-Type" content="text/html; charset=$setCharset" />
 <title>$setTitle</title>
-<meta name='robots' content='none' />
-<meta name='description' content='$setDescription' />
-<meta name='keywords' content='$setKeywords' />
-<meta name='copyright' content='PHPCollab' />
-<script type='text/Javascript'>
+<meta name="robots" content="none" />
+<meta name="description" content="$setDescription" />
+<meta name="keywords" content="$setKeywords" />
+<meta name="copyright" content="PHPCollab" />
+
+<script type="text/Javascript">
 <!--
-var gBrowserOK = true;
-var gOSOK = true;
-var gCookiesOK = true;
-var gFlashOK = true;
-// -->
+    var gBrowserOK = true;
+    var gOSOK = true;
+    var gCookiesOK = true;
+    var gFlashOK = true;
+    // -->
 </script>
-<script type='text/javascript' src='../javascript/general.js'></script>
-<script type='text/JavaScript' src='../javascript/overlib_mini.js'></script>
-<link rel='stylesheet' href='../themes/".THEME."/css/stylesheet.css' type='text/css' />";
+<script type="text/javascript" src="../javascript/general.js"></script>
+<script type="text/JavaScript" src="../javascript/overlib_mini.js"></script>
+HEAD;
+echo '<link rel="stylesheet" href="../themes/' . THEME . '/css/stylesheet.css" type="text/css" />';
+echo '<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" type="text/css" />';
+
 if ($includeCalendar && $includeCalendar == true) {
 	include '../includes/calendar.php';
 }
 
 echo "
 $headBonus
-</head>
-<body $bodyCommand>";
+</head>";
+echo "<body $bodyCommand>";
 
 echo "<div id='overDiv' style='position:absolute; visibility:hidden; z-index:1000;'></div>\n\n";
 
