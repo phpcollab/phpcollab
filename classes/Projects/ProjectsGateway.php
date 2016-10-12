@@ -11,6 +11,9 @@ use phpCollab\Database;
 class ProjectsGateway
 {
     protected $db;
+    protected $projectsFilter;
+    protected $initrequest;
+
     protected $stmt = <<<SQL
 SELECT 
 tea.id AS tea_id, 
@@ -46,38 +49,24 @@ LEFT OUTER JOIN members mem2 ON mem2.id = pro.owner
 LEFT OUTER JOIN logs log ON log.login = mem.login
 SQL;
 
-
-/*    protected $stmt = "SELECT
-tea.id, tea.project, tea.member, tea.published, tea.authorized, 
-mem.id, mem.login, mem.name, mem.email_work, mem.title, mem.phone_work, mem.profil,  
-org.name, pro.id, pro.name, pro.priority, pro.status, pro.published, 
-org2.name, org2.id,
-mem2.login, mem2.email_work, 
-log.connected
-FROM teams tea
-LEFT JOIN members mem ON mem.id = tea.member
-LEFT JOIN projects pro ON pro.id = tea.project
-LEFT JOIN organizations org ON org.id = mem.organization
-LEFT JOIN organizations org2 ON org2.id = pro.organization
-LEFT JOIN members mem2 ON mem2.id = pro.owner
-LEFT JOIN logs log ON log.login = mem.login";
-*/
-
     /**
      * Reports constructor.
+     * @param Database $db
      */
     public function __construct(Database $db)
     {
         $this->db = $db;
+        $this->projectsFilter = $GLOBALS['projectsFilter']; // TODO: refactor this
+        $this->initrequest = $GLOBALS['initrequest'];
     }
 
     /**
      * Returns a list of projects owned by ownerId
      * @param $ownerId
      * @param $sorting
+     * @param $inactive
      * @return dataset
      */
-//    public function getAllByOwner($ownerId, $sorting)
     public function getAllByOwner($ownerId, $sorting)
     {
         if (!is_null($sorting)) {
@@ -87,6 +76,43 @@ LEFT JOIN logs log ON log.login = mem.login";
         }
 
         $this->db->query($this->stmt . ' WHERE tea.member = :owner_id AND pro.status IN(2,3) ' . $sortQry);
+
+        $this->db->bind(':owner_id', $ownerId);
+
+        return $this->db->resultset();
+    }
+
+    /**
+     * @param $typeProjects
+     * @return Project List
+     */
+    public function getProjectList( $ownerId, $typeProjects, $sorting )
+    {
+        if ($typeProjects == "inactive") {
+            if ($this->projectsFilter == "true") {
+                $tmpQuery = "LEFT OUTER JOIN teams ON teams.project = pro.id ";
+                $tmpQuery .= " WHERE pro.status IN(0,1,4) AND teams.member = :owner_id";
+            } else {
+                $tmpQuery = "WHERE pro.status IN(0,1,4)";
+            }
+        } else if ($typeProjects == "active") {
+            if ($this->projectsFilter == "true") {
+                $tmpQuery = "LEFT OUTER JOIN teams teams ON teams.project = pro.id ";
+                $tmpQuery .= "WHERE pro.status IN(2,3) AND teams.member = :owner_id";
+            } else {
+                $tmpQuery = "WHERE pro.status IN(2,3)";
+            }
+        }
+
+        if (!is_null($sorting)) {
+            $sortQry = 'ORDER BY ' . $sorting;
+        } else {
+            $sortQry = '';
+        }
+
+        $query = $this->initrequest["projects"] . ' ' . $tmpQuery . ' ' . $sortQry;
+
+        $this->db->query($query);
 
         $this->db->bind(':owner_id', $ownerId);
 
