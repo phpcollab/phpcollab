@@ -235,6 +235,10 @@ if ($showHomeBookmarks)
 if ($showHomeProjects)
 {
 
+	$db = new phpCollab\Database();
+	$projects_gateway = new phpCollab\Projects\ProjectsGateway($db);
+
+
 	$block1 = new phpCollab\Block();
 
 	$block1->form = "wbP";
@@ -272,62 +276,81 @@ if ($showHomeProjects)
 
 	$block1->closePaletteIcon();
 
-	$block1->sorting("home_projects",$sortingUser->sor_home_projects[0],"pro.name ASC",$sortingFields = array(0=>"pro.id",1=>"pro.name",2=>"pro.priority",3=>"org2.name",4=>"pro.status",5=>"mem2.login",6=>"pro.published"));
+	$block1->sorting(
+		"home_projects",
+		$sortingUser->sor_home_projects[0],
+		"pro.name ASC",$sortingFields = array(
+			0=>"pro.id",
+			1=>"pro.name",
+			2=>"pro.priority",
+			3=>"org2.name",
+			4=>"pro.status",
+			5=>"mem2.login",
+			6=>"pro.published"
+		)
+	);
 
-	$tmpquery = "WHERE tea.member = '$idSession' AND pro.status IN(2,3) ORDER BY $block1->sortingValue";
-	$listProjects = new phpCollab\Request();
-	$listProjects->openTeams($tmpquery);
+	$sorting = $block1->sortingValue;
+
+	$dataSet = $projects_gateway->getAllByOwner( $idSession, $sorting );
+
+	$projectCount = count( $dataSet );
+
+
+//	$tmpquery = "WHERE tea.member = '$idSession' AND pro.status IN(2,3) ORDER BY $block1->sortingValue";
+//	$listProjects = new phpCollab\Request();
+//	$listProjects->openTeams($tmpquery);
+
 	$comptListProjects = count($listProjects->tea_id);
 
-	if ($comptListProjects != "0") 
-	{
+	if ( $projectCount > 0) {
 		$block1->openResults();
 
 		$block1->labels($labels = array(0=>$strings["id"],1=>$strings["project"],2=>$strings["priority"],3=>$strings["organization"],4=>$strings["status"],5=>$strings["owner"],6=>$strings["project_site"]),"true");
 
-		for ($i=0;$i<$comptListProjects;$i++) 
-		{
-			if ($listProjects->tea_org2_id[$i] == "1") 
-			{
-				$listProjects->tea_org2_name[$i] = $strings["none"];
-			}
-		
-			$idStatus = $listProjects->tea_pro_status[$i];
-			$idPriority = $listProjects->tea_pro_priority[$i];
-				$block1->openRow();
-				$block1->checkboxRow($listProjects->tea_pro_id[$i]);
-				$block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=".$listProjects->tea_pro_id[$i],$listProjects->tea_pro_id[$i],in));
-				$block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=".$listProjects->tea_pro_id[$i],$listProjects->tea_pro_name[$i],in));
-				$block1->cellRow("<img src=\"../themes/".THEME."/images/gfx_priority/".$idPriority.".gif\" alt=\"\"> ".$priority[$idPriority]);
-				$block1->cellRow($listProjects->tea_org2_name[$i]);
-				$block1->cellRow($status[$idStatus]);
-				$block1->cellRow($blockPage->buildLink($listProjects->tea_mem2_email_work[$i],$listProjects->tea_mem2_login[$i],mail));
+		foreach ( $dataSet as $data ) {
+
+//			if ($data["tea_org2_id"] == "1")
+//			{
+//				$data["tea_org2_name"] = $strings["none"];
+//			}
+
+			$idStatus = $data["tea_pro_status"];
+			$idPriority = $data["tea_pro_priority"];
 			
-			if ($sitePublish == "true") 
+			$block1->openRow();
+			$block1->checkboxRow($data["tea_pro_id"]);
+			$block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $data["tea_pro_id"], $data["tea_pro_id"], in));
+			$block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=".$data["tea_pro_id"],$data["tea_pro_name"],in));
+			$block1->cellRow('<img src="../themes/' . THEME . '/images/gfx_priority/' . $idPriority . '.gif" alt=""> ' . $priority[$idPriority]);
+			$block1->cellRow($data["tea_org2_name"]);
+			$block1->cellRow($status[$idStatus]);
+
+			$block1->cellRow($blockPage->buildLink( '../users/viewuser.php?id=' . $data["tea_mem2_id"], $data["tea_mem2_login"], in));
+
+			if ($sitePublish == "true")
 			{
-				if ($listProjects->tea_pro_published[$i] == "1") 
+				if ($data["tea_pro_published"] == "1")
 				{
-					$block1->cellRow("&lt;".$blockPage->buildLink("../projects/addprojectsite.php?id=".$listProjects->tea_pro_id[$i],$strings["create"]."...",in)."&gt;");
-				} 
-				else 
+					$block1->cellRow("&lt;".$blockPage->buildLink("../projects/addprojectsite.php?id=".$data["tea_pro_id"],$strings["create"]."...",in)."&gt;");
+				}
+				else
 				{
-					$block1->cellRow("&lt;".$blockPage->buildLink("../projects/viewprojectsite.php?id=".$listProjects->tea_pro_id[$i],$strings["details"],in)."&gt;");
+					$block1->cellRow("&lt;".$blockPage->buildLink("../projects/viewprojectsite.php?id=".$data["tea_pro_id"],$strings["details"],in)."&gt;");
 				}
 			}
 
 			$block1->closeRow();
-			$projectsTopics .= $listProjects->tea_pro_id[$i];
-		
-			if ($i != $comptListProjects-1) 
+			$projectsTopics .= $data["tea_pro_id"];
+
+			if ($i != $comptListProjects-1)
 			{
 				$projectsTopics .= ",";
 			}
-		}
 
+		}
 		$block1->closeResults();
-	} 
-	else 
-	{
+	} else {
 		$block1->noresults();
 	}
 
