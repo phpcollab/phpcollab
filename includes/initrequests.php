@@ -48,11 +48,34 @@ LEFT OUTER JOIN " . $tableCollab["organizations"] . " org ON org.id = mem.organi
 LEFT OUTER JOIN " . $tableCollab["logs"] . " log ON log.login = mem.login
 ";
 
-$initrequest["projects"] = "SELECT pro.*, org.id, org.name, mem.id, mem.login, mem.name, mem.email_work
-FROM " . $tableCollab["projects"] . " pro
-LEFT OUTER JOIN " . $tableCollab["organizations"] . " org ON org.id = pro.organization
-LEFT OUTER JOIN " . $tableCollab["members"] . " mem ON mem.id = pro.owner
-";
+$initrequest["projects"] = <<<SQL
+SELECT 
+pro.id AS pro_id, 
+pro.organization AS pro_organization, 
+pro.owner AS pro_owner, 
+pro.priority AS pro_priority, 
+pro.status AS pro_status, 
+pro.name AS pro_name, 
+pro.description AS pro_description, 
+pro.url_dev AS pro_url_dev, 
+pro.url_prod AS pro_url_prod, 
+pro.created AS pro_created, 
+pro.modified AS pro_modified, 
+pro.published AS pro_published, 
+pro.upload_max AS pro_upload_max, 
+pro.phase_set AS pro_phase_set, 
+pro.invoicing AS pro_invoicing, 
+pro.hourly_rate AS pro_hourly_rate, 
+org.id AS pro_org_id, 
+org.name AS pro_org_name, 
+mem.id AS pro_mem_id, 
+mem.login AS pro_mem_login, 
+mem.name AS pro_mem_name, 
+mem.email_work AS pro_mem_email_work
+FROM projects pro
+LEFT OUTER JOIN organizations org ON org.id = pro.organization
+LEFT OUTER JOIN members mem ON mem.id = pro.owner
+SQL;
 
 $initrequest["files"] = "SELECT fil.*, mem.id, mem.login, mem.name, mem.email_work, mem2.id, mem2.login, mem2.name, mem2.email_work
 FROM " . $tableCollab["files"] . " fil
