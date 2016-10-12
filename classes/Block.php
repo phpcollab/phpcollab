@@ -535,6 +535,10 @@ class Block
         }
     }
 
+    /**
+     * @param $ref
+     * @param string $checkbox
+     */
     public function checkboxRow($ref, $checkbox = "true")
     {
         if ($checkbox == "true") {
@@ -544,6 +548,9 @@ class Block
         }
     }
 
+    /**
+     * @param $content
+     */
     public function cellRow($content)
     {
         echo "<td>$content</td>";
@@ -554,6 +561,9 @@ class Block
         echo "</tr>";
     }
 
+    /**
+     * @param $title
+     */
     public function contentTitle($title)
     {
         echo "<tr><th colspan='2'>" . $title . "</th></tr>";
@@ -574,6 +584,9 @@ class Block
         echo "<p class='breadcrumbs'>";
     }
 
+    /**
+     * @param $content
+     */
     public function itemBreadcrumbs($content)
     {
         if ($this->breadcrumbsTotal == "") {
@@ -600,6 +613,9 @@ class Block
         echo "<p id='navigation'>";
     }
 
+    /**
+     * @param $content
+     */
     public function itemNavigation($content)
     {
         if ($this->navigationTotal == "") {
@@ -626,6 +642,9 @@ class Block
         echo "<p id='account'>";
     }
 
+    /**
+     * @param $content
+     */
     public function itemAccount($content)
     {
         if ($this->accountTotal == "") {
@@ -647,6 +666,12 @@ class Block
         echo "</p>";
     }
 
+    /**
+     * @param $url
+     * @param $label
+     * @param $type
+     * @return string
+     */
     public function buildLink($url, $label, $type)
     {
         if ($type == "in") {
