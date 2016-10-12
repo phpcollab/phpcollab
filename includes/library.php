@@ -41,6 +41,9 @@ if (ini_get('session.auto_start') == 0) {
 }
 
 if ($debug) {
+    ini_set('xdebug.var_display_max_depth', 5);
+    ini_set('xdebug.var_display_max_children', 256);
+    ini_set('xdebug.var_display_max_data', 3000);
 
     // Set error reporting
     error_reporting(E_ALL | E_STRICT);
