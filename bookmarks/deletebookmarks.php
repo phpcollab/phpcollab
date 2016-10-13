@@ -39,7 +39,6 @@ if ($action == "delete") {
     $bookmarks_gateway->deleteBookmark($id);
 
 	phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=delete");
-	exit;
 }
 
 $setTitle .= " : Delete ";
