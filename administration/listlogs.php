@@ -30,16 +30,10 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-if ($profilSession != "0") 
+if ($profilSession != "0")
 {
 	phpCollab\Util::headerFunction('../general/permissiondenied.php');
 	exit;
-}
-
-if ($action == "delete") 
-{
-	$tmpquery = "DELETE FROM ".$tableCollab["logs"];
-	phpCollab\Util::connectSql("$tmpquery");
 }
 
 $setTitle .= " : Logs";
