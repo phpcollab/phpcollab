@@ -29,10 +29,15 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
+$db = new phpCollab\Database();
+
+$bookmarks_gateway = new phpCollab\Bookmarks\BookmarksGateway($db);
+
 if ($action == "delete") {
 	$id = str_replace("**",",",$id);
-	$tmpquery1 = "DELETE FROM ".$tableCollab["bookmarks"]." WHERE id IN($id)";
-	phpCollab\Util::connectSql("$tmpquery1");
+
+    $bookmarks_gateway->deleteBookmark($id);
+
 	phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=delete");
 	exit;
 }
