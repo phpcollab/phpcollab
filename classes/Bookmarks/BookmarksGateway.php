@@ -12,6 +12,27 @@ class BookmarksGateway
 {
     protected $db;
     protected $initrequest;
+//    protected $stmt = <<<SQL
+//SELECT
+//  boo.id AS boo_id,
+//  boo.owner AS boo_owner,
+//  boo.category AS boo_category,
+//  boo.name AS boo_name,
+//  boo.url AS boo_url,
+//  boo.description AS boo_description,
+//  boo.shared AS boo_shared,
+//  boo.home AS boo_home,
+//  boo.comments AS boo_comments,
+//  boo.users AS boo_users,
+//  boo.created AS boo_created,
+//  boo.modified AS boo_modified,
+//  mem.login AS boo_mem_login,
+//  mem.email_work AS boo_mem_email_work,
+//  boocat.name AS boo_boocat_name
+//FROM bookmarks boo
+//LEFT OUTER JOIN bookmarks_categories boocat ON boocat.id = boo.category
+//LEFT OUTER JOIN members mem ON mem.id = boo.owner
+//SQL;
 
     /**
      * Reports constructor.
@@ -28,7 +49,7 @@ class BookmarksGateway
      * @param integer $bookmarkId
      * @return bool
      */
-    public function deleteBookmark( $bookmarkId )
+    public function deleteBookmark($bookmarkId)
     {
         $query = 'DELETE FROM bookmarks WHERE id IN(:bookmark_id)';
 
@@ -37,6 +58,63 @@ class BookmarksGateway
         $this->db->bind(':bookmark_id', $bookmarkId);
 
         return $this->db->execute();
+    }
+
+    /**
+     * @param integer $ownerId
+     * @param string $sorting
+     * @return mixed
+     */
+    public function getMyBookmarks($ownerId, $sorting)
+    {
+        $whereStatement = ' WHERE boo.owner = :owner_id ';
+
+        $this->db->query($this->initrequest["bookmarks"] . $whereStatement . $this->orderBy($sorting));
+
+        $this->db->bind(':owner_id', $ownerId);
+
+        return $this->db->resultset();
+    }
+
+    /**
+     * @param integer $ownerId
+     * @param string $sorting
+     * @return mixed
+     */
+    public function getPrivateBookmarks($ownerId, $sorting)
+    {
+        $whereStatement = ' WHERE boo.users LIKE :owner_id';
+
+        $this->db->query($this->initrequest["bookmarks"] . $whereStatement . $this->orderBy($sorting));
+
+        $this->db->bind(':owner_id', '%|' . $ownerId . '|%');
+
+        return $this->db->resultset();
+    }
+
+    /**
+     * @param integer $ownerId
+     * @param string $sorting
+     * @return mixed
+     */
+    public function getAllBookmarks($ownerId, $sorting)
+    {
+        $whereStatement = ' WHERE boo.shared = 1 OR boo.owner = :owner_id ';
+
+        $this->db->query($this->initrequest["bookmarks"] . $whereStatement . $this->orderBy($sorting));
+
+        $this->db->bind(':owner_id', $ownerId);
+
+        return $this->db->resultset();
+    }
+
+    /**
+     * @param string $sorting
+     * @return string
+     */
+    private function orderBy($sorting)
+    {
+        return (!is_null($sorting)) ? ' ORDER BY ' . $sorting : '';
     }
 
 }
