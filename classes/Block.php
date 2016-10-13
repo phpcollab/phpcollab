@@ -437,7 +437,11 @@ class Block
         echo "<table class='listing' cellpadding='0' cellspacing='0' border='0'>
 <tr>";
         if ($checkbox == "true") {
-            echo "<th width='1%' align='center'><a href=\"javascript:MM_toggleSelectedItems(document." . $this->form . "Form,'{$this->theme}')\"><img height='13' width='13' border='0' src='$this->themeImgPath/checkbox_off_16.gif' alt='' vspace='3' hspace='3'></a></th>";
+            echo '<th width="1%" align="center">';
+            echo '<a href="javascript:MM_toggleSelectedItems(document.' . $this->form . 'Form,\'{$this->theme}\')">';
+            echo '<img height="13" width="13" border="0" src="' . $this->themeImgPath . '/checkbox_off_16.gif" alt="" vspace="3" hspace="3">';
+            echo '</a>';
+            echo '</th>';
         } else {
             echo "<th width='1%' align='center'><img height='13' width='13' border='0' src='$this->themeImgPath/spacer.gif' alt='' vspace='3'></th>";
         }
