@@ -239,11 +239,11 @@ function MM_toggleItem(form, itemName, imageName, theme) {
 
     if (MM_arrayContainsString(form.selectedItems, itemName)) {
         form.selectedItems = MM_removeStringFromArray(form.selectedItems, itemName);
-        document[imageName].src = '../themes/' + theme + '/checkbox_off_16.gif';
+        document[imageName].src = '../themes/' + theme + '/images/checkbox_off_16.gif';
         //MM_swapImage(imageName, '', '../themes/'+theme+'/checkbox_off_16.gif', '1');
     } else {
         form.selectedItems[form.selectedItems.length] = itemName;
-        document[imageName].src = '../themes/' + theme + '/checkbox_on_16.gif';
+        document[imageName].src = '../themes/' + theme + '/images/checkbox_on_16.gif';
         //MM_swapImage(imageName, '', '../themes/'+theme+'/checkbox_on_16.gif', '1');
     }
 
@@ -259,7 +259,7 @@ function MM_selectAllItems(form, theme) {
         for (i = 0; i < checkboxCount; i++) {
             var checkbox = form.checkboxes[i];
             if (-1 == document[checkbox.mImageName].src.indexOf('dim_16.gif')) {
-                document[checkbox.mImageName].src = '../themes/' + theme + '/checkbox_on_16.gif';
+                document[checkbox.mImageName].src = '../themes/' + theme + '/images/checkbox_on_16.gif';
                 form.selectedItems[form.selectedItems.length] = checkbox.mName;
             }
         }
@@ -276,7 +276,7 @@ function MM_deselectAllItems(form, theme) {
         for (i = 0; i < checkboxCount; i++) {
             var checkbox = form.checkboxes[i];
             if (-1 == document[checkbox.mImageName].src.indexOf('dim_16.gif')) {
-                document[checkbox.mImageName].src = '../themes/' + theme + '/checkbox_off_16.gif';
+                document[checkbox.mImageName].src = '../themes/' + theme + '/images/checkbox_off_16.gif';
             }
         }
     }
