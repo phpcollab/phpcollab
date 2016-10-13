@@ -155,11 +155,28 @@ FROM " . $tableCollab["support_posts"] . " sp
 LEFT OUTER JOIN " . $tableCollab["members"] . " mem ON mem.id = sp.owner
 ";
 
-$initrequest["bookmarks"] = "SELECT boo.*, mem.login, mem.email_work, boocat.name
-FROM " . $tableCollab["bookmarks"] . " boo
-LEFT OUTER JOIN " . $tableCollab["bookmarks_categories"] . " boocat ON boocat.id = boo.category
-LEFT OUTER JOIN " . $tableCollab["members"] . " mem ON mem.id = boo.owner
-";
+$initrequest["bookmarks"] = <<<SQL
+SELECT
+  boo.id AS boo_id,
+  boo.owner AS boo_owner,
+  boo.category AS boo_category,
+  boo.name AS boo_name,
+  boo.url AS boo_url,
+  boo.description AS boo_description,
+  boo.shared AS boo_shared,
+  boo.home AS boo_home,
+  boo.comments AS boo_comments,
+  boo.users AS boo_users,
+  boo.created AS boo_created,
+  boo.modified AS boo_modified,
+  mem.id AS boo_mem_id,
+  mem.login AS boo_mem_login, 
+  mem.email_work AS boo_mem_email_work, 
+  boocat.name AS boo_boocat_name
+FROM bookmarks boo
+LEFT OUTER JOIN bookmarks_categories boocat ON boocat.id = boo.category
+LEFT OUTER JOIN members mem ON mem.id = boo.owner
+SQL;
 
 $initrequest["bookmarks_categories"] = "SELECT boocat.* FROM " . $tableCollab["bookmarks_categories"] . " boocat ";
 
