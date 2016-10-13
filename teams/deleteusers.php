@@ -7,7 +7,7 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($enable_cvs == "true") {
-include '../includes/cvslib.php';
+    include '../includes/cvslib.php';
 }
 
 $tmpquery = "WHERE pro.id = '$project'";
@@ -17,114 +17,113 @@ $comptProjectDetail = count($projectDetail->pro_id);
 
 //test exists selected project, redirect to list if not
 if ($comptProjectDetail == "0") {
-	phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blank");
-	exit;
+    phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blank");
 }
 
 if ($action == "delete") {
-$id = str_replace("**",",",$id);
+    $id = str_replace("**", ",", $id);
 
-	if ($htaccessAuth == "true") {
-		$Htpasswd = new Htpasswd;
-		$Htpasswd->initialize("../files/".$projectDetail->pro_id[0]."/.htpasswd");
+    if ($htaccessAuth == "true") {
+        $Htpasswd = new Htpasswd;
+        $Htpasswd->initialize("../files/" . $projectDetail->pro_id[0] . "/.htpasswd");
 
-		$tmpquery = "WHERE mem.id IN($id)";
-		$listMembers = new phpCollab\Request();
-		$listMembers->openMembers($tmpquery);
-		$comptListMembers = count($listMembers->mem_id);
+        $tmpquery = "WHERE mem.id IN($id)";
+        $listMembers = new phpCollab\Request();
+        $listMembers->openMembers($tmpquery);
+        $comptListMembers = count($listMembers->mem_id);
 
-		for ($i=0;$i<$comptListMembers;$i++) {
-			$Htpasswd->deleteUser($listMembers->mem_login[$i]);
-		}
-	}
+        for ($i = 0; $i < $comptListMembers; $i++) {
+            $Htpasswd->deleteUser($listMembers->mem_login[$i]);
+        }
+    }
 //if mantis bug tracker enabled	
-	if ($enableMantis == "true") {
-	//  include mantis library
-		include '../mantis/core_API.php';
-	}
+    if ($enableMantis == "true") {
+        //  include mantis library
+        include '../mantis/core_API.php';
+    }
 
-$multi = strstr($id,",");
-	if ($multi != "") {
-	$pieces = explode(",",$id);
-	$compt = count($pieces);
-		for ($i=0;$i<$compt;$i++) {
-			if ($projectDetail->pro_owner[0] != $pieces[$i]) {
-				$tmpquery1 = "DELETE FROM ".$tableCollab["teams"]." WHERE member = '$pieces[$i]' AND project = '$project'";
-				phpCollab\Util::connectSql("$tmpquery1");
+    $multi = strstr($id, ",");
+    if ($multi != "") {
+        $pieces = explode(",", $id);
+        $compt = count($pieces);
+        for ($i = 0; $i < $compt; $i++) {
+            if ($projectDetail->pro_owner[0] != $pieces[$i]) {
+                $tmpquery1 = "DELETE FROM " . $tableCollab["teams"] . " WHERE member = '$pieces[$i]' AND project = '$project'";
+                phpCollab\Util::connectSql("$tmpquery1");
 
 //if mantis bug tracker enabled
-			if ($enableMantis == "true") {
+                if ($enableMantis == "true") {
 // Unassign multiple user from this project in mantis
-				$f_project_id = $project;
-				$f_user_id = $pieces[$i];
-				include '../mantis/user_proj_delete.php';
-			}
+                    $f_project_id = $project;
+                    $f_user_id = $pieces[$i];
+                    include '../mantis/user_proj_delete.php';
+                }
 
 //if CVS repository enabled
-				if ($enable_cvs == "true") {
-					$user_query = "WHERE mem.id = '$pieces[$i]'";
-					$cvsMember = new phpCollab\Request();
-					$cvsMember->openMembers($user_query);
-					cvs_delete_user($cvsMember->mem_login[$i], $project);
-				}
-			}
-			if ($projectDetail->pro_owner[0] == $pieces[$i]) {
-				$foundOwner = "true";
-			}
-		}
-		if ($foundOwner == "true") {
-			$msg = "deleteTeamOwnerMix";
-		} else {
-			$msg = "delete";
-		}
-	} else {
-		$tmpquery1 = "DELETE FROM ".$tableCollab["teams"]." WHERE member = '$id' AND project = '$project'";
-		if ($projectDetail->pro_owner[0] == $id) {
-			$msg = "deleteTeamOwner";
-		} else {
-			phpCollab\Util::connectSql("$tmpquery1");
-			$msg = "delete";
+                if ($enable_cvs == "true") {
+                    $user_query = "WHERE mem.id = '$pieces[$i]'";
+                    $cvsMember = new phpCollab\Request();
+                    $cvsMember->openMembers($user_query);
+                    cvs_delete_user($cvsMember->mem_login[$i], $project);
+                }
+            }
+            if ($projectDetail->pro_owner[0] == $pieces[$i]) {
+                $foundOwner = "true";
+            }
+        }
+        if ($foundOwner == "true") {
+            $msg = "deleteTeamOwnerMix";
+        } else {
+            $msg = "delete";
+        }
+    } else {
+        $tmpquery1 = "DELETE FROM " . $tableCollab["teams"] . " WHERE member = '$id' AND project = '$project'";
+        if ($projectDetail->pro_owner[0] == $id) {
+            $msg = "deleteTeamOwner";
+        } else {
+            phpCollab\Util::connectSql("$tmpquery1");
+            $msg = "delete";
 
 //if mantis bug tracker enabled
-		if ($enableMantis == "true") {
+            if ($enableMantis == "true") {
 // Unassign single user from this project in mantis
-			$f_project_id = $project;
-			$f_user_id = $id;
-			include '../mantis/user_proj_delete.php';
-		}
+                $f_project_id = $project;
+                $f_user_id = $id;
+                include '../mantis/user_proj_delete.php';
+            }
 
 //if CVS repository enabled
-			if ($enable_cvs == "true") {
-				$user_query = "WHERE mem.id = '$id'";
-				$cvsMember = new phpCollab\Request();
-				$cvsMember->openMembers($user_query);
-				cvs_delete_user($cvsMember->mem_login[0], $project);
-			}
-		}
-	}
+            if ($enable_cvs == "true") {
+                $user_query = "WHERE mem.id = '$id'";
+                $cvsMember = new phpCollab\Request();
+                $cvsMember->openMembers($user_query);
+                cvs_delete_user($cvsMember->mem_login[0], $project);
+            }
+        }
+    }
 
 //$tmpquery3 = "UPDATE ".$tableCollab["tasks"]." SET assigned_to='0' WHERE assigned_to IN($id) AND assigned_to != '$projectDetail->pro_owner[0]'";
 //phpCollab\Util::connectSql("$tmpquery3");
 
-if ($notifications == "true") {
-$organization = "1";
-	include '../teams/noti_removeprojectteam.php';
-}
-	phpCollab\Util::headerFunction("../projects/viewproject.php?id=$project&msg=$msg");
+    if ($notifications == "true") {
+        $organization = "1";
+        include '../teams/noti_removeprojectteam.php';
+    }
+    phpCollab\Util::headerFunction("../projects/viewproject.php?id=$project&msg=$msg");
 }
 
 include '../themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], in));
 $blockPage->itemBreadcrumbs($strings["remove_team"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
-	include '../includes/messages.php';
-	$blockPage->messagebox($msgLabel);
+    include '../includes/messages.php';
+    $blockPage->messagebox($msgLabel);
 }
 
 $block1 = new phpCollab\Block();
@@ -137,20 +136,20 @@ $block1->heading($strings["remove_team"]);
 $block1->openContent();
 $block1->contentTitle($strings["remove_team_info"]);
 
-$id = str_replace("**",",",$id);
+$id = str_replace("**", ",", $id);
 $tmpquery = "WHERE mem.id IN($id) ORDER BY mem.name";
 $listMembers = new phpCollab\Request();
 $listMembers->openMembers($tmpquery);
 $comptListMembers = count($listMembers->mem_id);
 
-for ($i=0;$i<$comptListMembers;$i++) {
-$block1->contentRow("#".$listMembers->mem_id[$i],$listMembers->mem_login[$i]." (".$listMembers->mem_name[$i].")");
+for ($i = 0; $i < $comptListMembers; $i++) {
+    $block1->contentRow("#" . $listMembers->mem_id[$i], $listMembers->mem_login[$i] . " (" . $listMembers->mem_name[$i] . ")");
 }
 
-$block1->contentRow("","<input type=\"SUBMIT\" value=\"".$strings["remove"]."\">&#160;<input type=\"BUTTON\" value=\"".$strings["cancel"]."\" onClick=\"history.back();\">");
+$block1->contentRow("", "<input type=\"SUBMIT\" value=\"" . $strings["remove"] . "\">&#160;<input type=\"BUTTON\" value=\"" . $strings["cancel"] . "\" onClick=\"history.back();\">");
 
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/'.THEME.'/footer.php';
+include '../themes/' . THEME . '/footer.php';
 ?>

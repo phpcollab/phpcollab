@@ -170,4 +170,3 @@ echo "<tr><td><a href='../general/login.php?logout=true'><img src='ico_logout.gi
 <td valign='top' width='100%'>
 
 <table cellpadding='20' cellspacing='0' border='0' width='100%'><tr><td width='100%'>";
-?>

@@ -38,15 +38,14 @@ if ($enable_cvs == "true") {
 }
 
 if ($action == "update") {
-    $r = substr($opw, 0, 2); 
+    $r = substr($opw, 0, 2);
     $opw = crypt($opw, $r);
-    
+
     if ($opw != $passwordSession) {
         $error = $strings["old_password_error"];
     } else {
-        
-        if ($npw != $pwa || $npw == "") 
-        {
+
+        if ($npw != $pwa || $npw == "") {
             $error = $strings["new_password_error"];
         } else {
             $cnpw = phpCollab\Util::getPassword($npw);
@@ -58,41 +57,37 @@ if ($action == "update") {
                 $listProjects->openTeams($tmpquery);
                 $comptListProjects = count($listProjects->tea_id);
 
-                if ($comptListProjects != "0") 
-                {
-                    
-                    for ($i=0;$i<$comptListProjects;$i++) 
-                    {
-                        $Htpasswd->initialize("files/".$listProjects->tea_pro_id[$i]."/.htpasswd");
-                        $Htpasswd->changePass($loginSession,$cnpw);
+                if ($comptListProjects != "0") {
+
+                    for ($i = 0; $i < $comptListProjects; $i++) {
+                        $Htpasswd->initialize("files/" . $listProjects->tea_pro_id[$i] . "/.htpasswd");
+                        $Htpasswd->changePass($loginSession, $cnpw);
                     }
                 }
             }
 
-            $tmpquery = "UPDATE ".$tableCollab["members"]." SET password='$cnpw' WHERE id = '$idSession'";
+            $tmpquery = "UPDATE " . $tableCollab["members"] . " SET password='$cnpw' WHERE id = '$idSession'";
             phpCollab\Util::connectSql("$tmpquery");
 
             //if CVS repository enabled
-            if ($enable_cvs == "true") 
-            {
+            if ($enable_cvs == "true") {
                 $query = "WHERE tea.member = '$idSession'";
                 $cvsMembers = new phpCollab\Request();
                 $cvsMembers->openTeams($query);
 
-            //change the password in every repository
-                for ($i=0;$i<(count($cvsMembers->tea_id));$i++) {
+                //change the password in every repository
+                for ($i = 0; $i < (count($cvsMembers->tea_id)); $i++) {
                     cvs_change_password($cvsMembers->tea_mem_login[$i], $cnpw, $cvsMembers->tea_pro_id[$i]);
                 }
             }
 
-            $r = substr($npw, 0, 2); 
+            $r = substr($npw, 0, 2);
             $npw = crypt($npw, $r);
             $passwordSession = $npw;
 
             $_SESSION['passwordSession'] = $passwordSession;
 
             phpCollab\Util::headerFunction("changepassword.php?msg=update");
-            exit;
         }
     }
 }
@@ -104,7 +99,6 @@ $comptUserDetail = count($userDetail->mem_id);
 
 if ($comptUserDetail == "0") {
     phpCollab\Util::headerFunction("userlist.php?msg=blankUser");
-    exit;
 }
 
 $titlePage = $strings["change_password"];
@@ -119,27 +113,27 @@ if ($msg != "") {
 echo "  <form accept-charset='UNKNOWN' method='POST' action='../projects_site/changepassword.php?action=update' name='changepassword' enctype='application/x-www-form-urlencoded'>
             <table cellspacing='0' width='90%' border='0' cellpadding='3'>
             <tr>
-                <th colspan='2'>".$strings["change_password"]."</th>
+                <th colspan='2'>" . $strings["change_password"] . "</th>
             </tr>
             <tr>
-                <th>*&nbsp;".$strings["old_password"]." :</th>
+                <th>*&nbsp;" . $strings["old_password"] . " :</th>
                 <td><input style='width: 150px;' type='password' name='opw' value=''></td>
             </tr>
             <tr>
-                <th>*&nbsp;".$strings["new_password"]." :</th>
+                <th>*&nbsp;" . $strings["new_password"] . " :</th>
                 <td><input style='width: 150px;' type='password' name='npw' value=''></td>
             </tr>
             <tr>
-                <th>*&nbsp;".$strings["confirm_password"]." :</th>
+                <th>*&nbsp;" . $strings["confirm_password"] . " :</th>
                 <td><input style='width: 150px;' type='password' name='pwa' value=''></td>
             </tr>
             <tr>
                 <th>&nbsp;</th>
-                <td colspan='2'><input name='submit' type='submit' value='".$strings["save"]."'><br/><br/>$error</td>
+                <td colspan='2'><input name='submit' type='submit' value='" . $strings["save"] . "'><br/><br/>$error</td>
             </tr>
             </table>
         </form>
      ";
 
-include ("include_footer.php");
+include("include_footer.php");
 ?>

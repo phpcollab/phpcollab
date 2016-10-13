@@ -32,8 +32,7 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($profilSession != "0") {
-	phpCollab\Util::headerFunction('../general/permissiondenied.php');
-	exit;
+    phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 
 $setTitle .= " : DB Administration";
@@ -41,12 +40,12 @@ include '../themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?",$strings["administration"],in));
-$blockPage->itemBreadcrumbs($strings["database"]." ".MYDATABASE);
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], in));
+$blockPage->itemBreadcrumbs($strings["database"] . " " . MYDATABASE);
 $blockPage->closeBreadcrumbs();
 
 $block1 = new phpCollab\Block();
-$block1->heading($strings["database"]." ".MYDATABASE);
+$block1->heading($strings["database"] . " " . MYDATABASE);
 
 $block1->openContent();
 $block1->contentTitle("Backup database");
@@ -61,11 +60,11 @@ echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>
                 <select name='table_select[]' size='5' multiple='multiple'>";
 
 sort($tableCollab);
- while(list ($key, $val) = each ($tableCollab)) {
-	echo "<option value='$val' selected>$val</option>";
-  }
+while (list ($key, $val) = each($tableCollab)) {
+    echo "<option value='$val' selected>$val</option>";
+}
 
-			echo "</select>
+echo "</select>
             </td>
         
             <td valign='middle'>
@@ -124,9 +123,9 @@ sort($tableCollab);
         </table>
         <input type='hidden' name='server' value='1' />
         <input type='hidden' name='lang' value='en' />
-        <input type='hidden' name='db' value='".MYDATABASE."' />
+        <input type='hidden' name='db' value='" . MYDATABASE . "' />
         </form>
-".$blockPage->buildLink("http://phpwizard.net/projects/phpMyAdmin","phpMyAdmin",powered)."</a></td></tr>";
+" . $blockPage->buildLink("http://phpwizard.net/projects/phpMyAdmin", "phpMyAdmin", powered) . "</a></td></tr>";
 
 $block1->contentTitle("Restore database from sql file");
 
@@ -135,7 +134,7 @@ echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>
             <input type='hidden' name='is_js_confirmed' value='0' />
             <input type='hidden' name='lang' value='en' />
             <input type='hidden' name='server' value='1' />
-            <input type='hidden' name='db' value='".MYDATABASE."' />
+            <input type='hidden' name='db' value='" . MYDATABASE . "' />
             <input type='hidden' name='pos' value='0' />
             <input type='hidden' name='goto' value='db_details.php' />
             <input type='hidden' name='zero_rows' value='Your SQL-query has been executed successfully' />
@@ -147,9 +146,9 @@ echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>
     
             <input type='submit' name='SQL' value='Go' />
         </form>
-".$blockPage->buildLink("http://phpwizard.net/projects/phpMyAdmin","phpMyAdmin",powered)."</a>
+" . $blockPage->buildLink("http://phpwizard.net/projects/phpMyAdmin", "phpMyAdmin", powered) . "</a>
 </td></tr>";
 
 $block1->closeContent();
 
-include '../themes/'.THEME.'/footer.php';
+include '../themes/' . THEME . '/footer.php';

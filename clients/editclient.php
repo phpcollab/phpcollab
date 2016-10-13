@@ -44,7 +44,6 @@ if ($id != "")
 	if ($comptClientDetail == "0") 
 	{
 		phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
-		exit;
 	}
 }
 

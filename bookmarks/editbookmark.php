@@ -39,7 +39,6 @@ if ($id != "" && $action != "add")
 	if ($bookmarkDetail->boo_owner[0] != $idSession) 
 	{
 		phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=bookmarkOwner");
-		exit;
 	}
 }
 

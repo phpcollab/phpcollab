@@ -43,9 +43,9 @@ $block1->heading($setTitle . " : License");
 $block1->openContent();
 $block1->contentTitle("License");
 
-$block1->contentRow("","<pre>".phpCollab\Util::getFileContents("../docs/copying.txt")."</pre>");
+$block1->contentRow("", "<pre>" . phpCollab\Util::getFileContents("../docs/copying.txt") . "</pre>");
 
 $block1->closeContent();
 
-include '../themes/'.THEME.'/footer.php';
+include '../themes/' . THEME . '/footer.php';
 ?>

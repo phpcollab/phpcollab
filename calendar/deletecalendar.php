@@ -33,7 +33,6 @@ if ($action == "delete") {
 	$tmpquery1 = "DELETE FROM ".$tableCollab["calendar"]." WHERE id IN($id)";
 	phpCollab\Util::connectSql("$tmpquery1");
 	phpCollab\Util::headerFunction("../calendar/viewcalendar.php?msg=delete");
-	exit;
 }
 
 $setTitle .= " : Delete Calendar";

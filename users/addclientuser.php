@@ -84,7 +84,6 @@ if ($action == "add") {
                     include '../mantis/create_new_user.php';
                 }
                 phpCollab\Util::headerFunction("../clients/viewclient.php?id=$clod&msg=add");
-                exit;
             }
         }
     }

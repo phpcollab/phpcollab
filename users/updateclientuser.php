@@ -80,7 +80,6 @@ if ($action == "update") {
                     $tmpquery = "UPDATE " . $tableCollab["members"] . " SET password='$pw' WHERE id = '$id'";
                     phpCollab\Util::connectSql("$tmpquery");
                     phpCollab\Util::headerFunction("../clients/viewclient.php?msg=update&id=$clod");
-                    exit;
                 }
             } else {
 //if mantis bug tracker enabled
@@ -90,7 +89,6 @@ if ($action == "update") {
                     include '../mantis/user_update.php';
                 }
                 phpCollab\Util::headerFunction("../clients/viewclient.php?msg=update&id=$clod");
-                exit;
             }
         }
     }

@@ -3,15 +3,15 @@
 #Status page: 0
 echo "<p id=\"footer\">PhpCollab v$version";
 if ($notLogged != "true" && $blank != "true") {
-echo " - Connected users: $connectedUsers";
+    echo " - Connected users: $connectedUsers";
 }
 
 if ($footerDev == "true") {
-	$parse_end = phpCollab\Util::getMicroTime();
-	$parse = $parse_end - $parse_start;
-	$parse = round($parse,3);
-	echo " - $parse secondes - databaseType $databaseType - select requests $comptRequest";
-	echo " - <a href=\"http://validator.w3.org/check/referer\" target=\"w3c\">w3c</a> (in progress)&nbsp;&nbsp;&nbsp;";
+    $parse_end = phpCollab\Util::getMicroTime();
+    $parse = $parse_end - $parse_start;
+    $parse = round($parse, 3);
+    echo " - $parse secondes - databaseType $databaseType - select requests $comptRequest";
+    echo " - <a href=\"http://validator.w3.org/check/referer\" target=\"w3c\">w3c</a> (in progress)&nbsp;&nbsp;&nbsp;";
 }
 
 echo "	</p>\n\n
@@ -19,4 +19,3 @@ echo "	</p>\n\n
 		</html>
 	 ";
 
-?>

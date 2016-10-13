@@ -29,5 +29,3 @@
 $checkSession = "false";
 include_once '../includes/library.php';
 phpCollab\Util::headerFunction('../index.php');
-exit;
-?>

@@ -30,85 +30,72 @@
 $checkSession = "true";
 include '../includes/library.php';
 
-if ($action == "add") 
-{
-	$filename = phpCollab\Util::checkFileName($_FILES['upload']['name']);
-	
-	if ($maxCustom != "") 
-	{
-		$maxFileSize = $maxCustom;
-	}
+if ($action == "add") {
+    $filename = phpCollab\Util::checkFileName($_FILES['upload']['name']);
 
-	if ($_FILES['upload']['size']!=0) 
-	{
-		$taille_ko=$_FILES['upload']['size']/1024;
-	} 
-	else 
-	{
-		$taille_ko=0;
-	}
+    if ($maxCustom != "") {
+        $maxFileSize = $maxCustom;
+    }
 
-	if ($filename == "") 
-	{
-		$error.=$strings["no_file"]."<br/>";
-	}
+    if ($_FILES['upload']['size'] != 0) {
+        $taille_ko = $_FILES['upload']['size'] / 1024;
+    } else {
+        $taille_ko = 0;
+    }
 
-	if ($_FILES['upload']['size']>$maxFileSize) 
-	{
-		if($maxFileSize!=0) 
-		{
-			$taille_max_ko=$maxFileSize/1024;
-		}
-		$error.=$strings["exceed_size"]." ($taille_max_ko $byteUnits[1])<br/>";
-	}
+    if ($filename == "") {
+        $error .= $strings["no_file"] . "<br/>";
+    }
 
-	$extension= strtolower( substr( strrchr($filename, ".") ,1) );
+    if ($_FILES['upload']['size'] > $maxFileSize) {
+        if ($maxFileSize != 0) {
+            $taille_max_ko = $maxFileSize / 1024;
+        }
+        $error .= $strings["exceed_size"] . " ($taille_max_ko $byteUnits[1])<br/>";
+    }
 
-	if ($allowPhp == "false") 
-	{
-		$send = "";
-		if ($filename != "" && ($extension=="php" || $extension=="php3" || $extension=="phtml")) {
-			$error.=$strings["no_php"]."<br/>";
-			$send = "false";
-		}
-	}
+    $extension = strtolower(substr(strrchr($filename, "."), 1));
 
-	if ($filename != "" && $_FILES['upload']['size']<$maxFileSize && $_FILES['upload']['size'] != 0 && $send != "false") 
-	{
-		$docopy = "true";
-	}
-		
-	if ($docopy == "true") 
-	{
-		$commentsField = phpCollab\Util::convertData($commentsField);
-		$tmpquery = "INSERT INTO ".$tableCollab["files"]."(owner,project,task,comments,upload,published,status,vc_version,vc_parent,phase) VALUES('$idSession','$projectSession','0','$commentsField','$dateheure','0','2','0.0','0','0')";
-		phpCollab\Util::connectSql("$tmpquery");
-		$tmpquery = $tableCollab["files"];
-		phpCollab\Util::getLastId($tmpquery);
-		$num = $lastId[0];
-		unset($lastId);
+    if ($allowPhp == "false") {
+        $send = "";
+        if ($filename != "" && ($extension == "php" || $extension == "php3" || $extension == "phtml")) {
+            $error .= $strings["no_php"] . "<br/>";
+            $send = "false";
+        }
+    }
 
-		if ($notifications == "true") 
-		{
-			include '../projects_site/noti_uploadfile.php';
-		}
+    if ($filename != "" && $_FILES['upload']['size'] < $maxFileSize && $_FILES['upload']['size'] != 0 && $send != "false") {
+        $docopy = "true";
+    }
 
-		phpCollab\Util::uploadFile("files/$project", $_FILES['upload']['tmp_name'], "$num--".$filename);
-		
-		$size = phpCollab\Util::fileInfoSize("../files/".$project."/".$num."--".$filename);
-		//$dateFile = phpCollab\Util::getFileDate("files/".$project."/".$num."--".$filename);
-		
-		$chaine = strrev("../files/".$project."/".$num."--".$filename);
-		$tab = explode(".",$chaine);
-		$extension = strtolower(strrev($tab[0]));
-				
-		$name = $num."--".$filename;
-		$tmpquery = "UPDATE ".$tableCollab["files"]." SET name='$name',date='$dateheure',size='$size',extension='$extension' WHERE id = '$num'";
-			
-		phpCollab\Util::connectSql("$tmpquery");
-		phpCollab\Util::headerFunction("doclists.php");
-		exit;
-	}
+    if ($docopy == "true") {
+        $commentsField = phpCollab\Util::convertData($commentsField);
+        $tmpquery = "INSERT INTO " . $tableCollab["files"] . "(owner,project,task,comments,upload,published,status,vc_version,vc_parent,phase) VALUES('$idSession','$projectSession','0','$commentsField','$dateheure','0','2','0.0','0','0')";
+        phpCollab\Util::connectSql("$tmpquery");
+        $tmpquery = $tableCollab["files"];
+        phpCollab\Util::getLastId($tmpquery);
+        $num = $lastId[0];
+        unset($lastId);
+
+        if ($notifications == "true") {
+            include '../projects_site/noti_uploadfile.php';
+        }
+
+        phpCollab\Util::uploadFile("files/$project", $_FILES['upload']['tmp_name'], "$num--" . $filename);
+
+        $size = phpCollab\Util::fileInfoSize("../files/" . $project . "/" . $num . "--" . $filename);
+        //$dateFile = phpCollab\Util::getFileDate("files/".$project."/".$num."--".$filename);
+
+        $chaine = strrev("../files/" . $project . "/" . $num . "--" . $filename);
+        $tab = explode(".", $chaine);
+        $extension = strtolower(strrev($tab[0]));
+
+        $name = $num . "--" . $filename;
+        $tmpquery = "UPDATE " . $tableCollab["files"] . " SET name='$name',date='$dateheure',size='$size',extension='$extension' WHERE id = '$num'";
+
+        phpCollab\Util::connectSql("$tmpquery");
+        phpCollab\Util::headerFunction("doclists.php");
+    }
 
 }
 
@@ -119,29 +106,29 @@ include 'include_header.php';
 echo "
 	<form accept-charset='UNKNOWN' method='POST' action='../projects_site/uploadfile.php?action=add&project=$projectSession&task=$task#filedetailsAnchor' name='feeedback' enctype='multipart/form-data'>
 		<input type='hidden' name='MAX_FILE_SIZE' value='100000000'>
-		<input type='hidden' name='maxCustom' value='".$projectDetail->pro_upload_max[0]."'>
+		<input type='hidden' name='maxCustom' value='" . $projectDetail->pro_upload_max[0] . "'>
 	
 		<table cellpadding='3' cellspacing='0' border='0'>
 		<tr>
-			<th colspan='2'>".$strings["upload_form"]."</th>
+			<th colspan='2'>" . $strings["upload_form"] . "</th>
 		</tr>
 
 		<tr>
-			<th>".$strings["comments"]." :</th>
+			<th>" . $strings["comments"] . " :</th>
 			<td><textarea cols='60' name='commentsField' rows='6'>$commentsField</textarea></td>
 		</tr>
 
 		<tr>
-			<th>".$strings["upload"]." :</th>
+			<th>" . $strings["upload"] . " :</th>
 			<td><input size='35' value='' name='upload' type='file'></td>
 		</tr>
 
 		<tr>
 			<th>&nbsp;</th>
-			<td><input name='submit' type='submit' value='".$strings["save"]."'><br/><br/>$error</td>
+			<td><input name='submit' type='submit' value='" . $strings["save"] . "'><br/><br/>$error</td>
 		</tr>
 		</table>
 	</form>";
 
-include ("include_footer.php");
+include("include_footer.php");
 ?>

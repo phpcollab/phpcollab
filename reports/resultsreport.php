@@ -164,17 +164,17 @@ if ($id != "") {
     $S_EDATE = $reportDetail[0]['date_due_end'];
     $S_SDATE2 = $reportDetail[0]['date_complete_start'];
     $S_EDATE2 = $reportDetail[0]['date_complete_end'];
-/*
-    $S_ORGSEL = $reportDetail->rep_clients[0];
-    $S_PRJSEL = $reportDetail->rep_projects[0];
-    $S_ATSEL = $reportDetail->rep_members[0];
-    $S_STATSEL = $reportDetail->rep_status[0];
-    $S_PRIOSEL = $reportDetail->rep_priorities[0];
-    $S_SDATE = $reportDetail->rep_date_due_start[0];
-    $S_EDATE = $reportDetail->rep_date_due_end[0];
-    $S_SDATE2 = $reportDetail->rep_date_complete_start[0];
-    $S_EDATE2 = $reportDetail->rep_date_complete_end[0];
-*/
+    /*
+        $S_ORGSEL = $reportDetail->rep_clients[0];
+        $S_PRJSEL = $reportDetail->rep_projects[0];
+        $S_ATSEL = $reportDetail->rep_members[0];
+        $S_STATSEL = $reportDetail->rep_status[0];
+        $S_PRIOSEL = $reportDetail->rep_priorities[0];
+        $S_SDATE = $reportDetail->rep_date_due_start[0];
+        $S_EDATE = $reportDetail->rep_date_due_end[0];
+        $S_SDATE2 = $reportDetail->rep_date_complete_start[0];
+        $S_EDATE2 = $reportDetail->rep_date_complete_end[0];
+    */
 
     if (($S_SDATE == 0 || $S_SDATE == "") && ($S_EDATE == 0 || $S_EDATE == "")) {
         $S_DUEDATE = "ALL";

@@ -173,8 +173,7 @@ else
 if ($teamMember == "false" && $projectsFilter == "true") 
 { 
 	header("Location:../general/permissiondenied.php");
-	exit; 
-} 
+}
 
 if ($projectDetail->pro_phase_set[0] != "0")
 {

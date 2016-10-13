@@ -34,46 +34,42 @@ $checkSession = "true";
 include '../includes/library.php';
 
 //case add task
-if ($id == "") 
-{
+if ($id == "") {
 
-	//case add task
-	if ($action == "add") 
-	{
+    //case add task
+    if ($action == "add") {
 
-		//concat values from date selector and replace quotes by html code in name
-		$tn = phpCollab\Util::convertData($tn);
-		$d = phpCollab\Util::convertData($d);
-		$c = phpCollab\Util::convertData($c);
+        //concat values from date selector and replace quotes by html code in name
+        $tn = phpCollab\Util::convertData($tn);
+        $d = phpCollab\Util::convertData($d);
+        $c = phpCollab\Util::convertData($c);
 
-		$tmpquery1 = "INSERT INTO ".$tableCollab["tasks"]."(project,name,description,owner,assigned_to,status,priority,start_date,due_date,estimated_time,actual_time,comments,created,published,completion) VALUES('$projectSession','$tn','$d','$idSession','0','2','$pr','$sd','$dd','$etm','$atm','$c','$dateheure','$pub','0')";
-		phpCollab\Util::connectSql("$tmpquery1");
-		$tmpquery = $tableCollab["tasks"];
-		phpCollab\Util::getLastId($tmpquery);
-		$num = $lastId[0];
-		unset($lastId);
+        $tmpquery1 = "INSERT INTO " . $tableCollab["tasks"] . "(project,name,description,owner,assigned_to,status,priority,start_date,due_date,estimated_time,actual_time,comments,created,published,completion) VALUES('$projectSession','$tn','$d','$idSession','0','2','$pr','$sd','$dd','$etm','$atm','$c','$dateheure','$pub','0')";
+        phpCollab\Util::connectSql("$tmpquery1");
+        $tmpquery = $tableCollab["tasks"];
+        phpCollab\Util::getLastId($tmpquery);
+        $num = $lastId[0];
+        unset($lastId);
 
-		$tmpquery2 = "INSERT INTO ".$tableCollab["assignments"]."(task,owner,assigned_to,assigned) VALUES('$num','$idSession','$at','$dateheure')";
-		phpCollab\Util::connectSql("$tmpquery2");
+        $tmpquery2 = "INSERT INTO " . $tableCollab["assignments"] . "(task,owner,assigned_to,assigned) VALUES('$num','$idSession','$at','$dateheure')";
+        phpCollab\Util::connectSql("$tmpquery2");
 
-		//send task assignment mail if notifications = true
-		if ($notifications == "true") 
-		{
-				include '../tasks/noti_clientaddtask.php';
-		}
+        //send task assignment mail if notifications = true
+        if ($notifications == "true") {
+            include '../tasks/noti_clientaddtask.php';
+        }
 
-		//create task sub-folder if filemanagement = true
-		if ($fileManagement == "true") 
-		{
-			phpCollab\Util::createDirectory("../files/$projectSession/$num");
-		}
-		
-		phpCollab\Util::headerFunction("showallteamtasks.php");
-	}
+        //create task sub-folder if filemanagement = true
+        if ($fileManagement == "true") {
+            phpCollab\Util::createDirectory("../files/$projectSession/$num");
+        }
+
+        phpCollab\Util::headerFunction("showallteamtasks.php");
+    }
 
 }
 
-$bodyCommand="onload='document.etDForm.tn.focus();'";
+$bodyCommand = "onload='document.etDForm.tn.focus();'";
 
 $bouton[2] = "over";
 $titlePage = $strings["add_task"];
@@ -84,45 +80,45 @@ echo "<form accept-charset='UNKNOWN' method='POST' action='../projects_site/addt
 
 echo "
 <table cellpadding='3' cellspacing='0' border='0'>
-	<tr><th colspan='2'>".$strings["add_task"]."</th></tr>
+	<tr><th colspan='2'>" . $strings["add_task"] . "</th></tr>
 	<tr>
-		<th>*&nbsp;".$strings["name"]." :</th>
+		<th>*&nbsp;" . $strings["name"] . " :</th>
 		<td><input size='44' value='$tn' style='width: 400px' name='tn' maxlength='100' type='TEXT' /></td>
 	</tr>
 	<tr>
-		<th>".$strings["description"]." :</th>
+		<th>" . $strings["description"] . " :</th>
 		<td><textarea rows='10' style='width: 400px; height: 160px;' name='d' cols='47'>$d</textarea></td>
 	</tr>
 
-	<input type='hidden' name='owner' value='".$projectDetail->pro_owner[0]."' />
+	<input type='hidden' name='owner' value='" . $projectDetail->pro_owner[0] . "' />
 	<input type='hidden' name='at' value='0' />
 	<input type='hidden' name='st' value='2' />
 	<input type='hidden' name='completion' value='0' />
-	<input type='hidden' value='".($autoPublishTasks === false ? '0' : '1')."' name='pub' />
-	<tr><th>".$strings["priority"]." :</th>
+	<input type='hidden' value='" . ($autoPublishTasks === false ? '0' : '1') . "' name='pub' />
+	<tr><th>" . $strings["priority"] . " :</th>
 	<td><select name='pr'>";
 
 $comptPri = count($priority);
 
-for ($i=0;$i<$comptPri;$i++) {
-	if ($taskDetail->tas_priority[0] == $i) {
-		echo "<option value='$i' selected>$priority[$i]</option>";
-	} else {
-		echo "<option value='$i'>$priority[$i]</option>";
-	}
+for ($i = 0; $i < $comptPri; $i++) {
+    if ($taskDetail->tas_priority[0] == $i) {
+        echo "<option value='$i' selected>$priority[$i]</option>";
+    } else {
+        echo "<option value='$i'>$priority[$i]</option>";
+    }
 }
 
 echo "</select></td></tr>";
 
 if ($sd == "") {
-	$sd = $date;
+    $sd = $date;
 }
 if ($dd == "") {
-	$dd = "--";
+    $dd = "--";
 }
 
 echo "<tr>
-			<th>".$strings["start_date"]." :</th>
+			<th>" . $strings["start_date"] . " :</th>
 			<td><input type='text' name='sd' id='start_date' size='20' value='$sd' />
 				<input type='button' value=' ... ' id='trigStartDate' />
 				<script type='text/javascript'>
@@ -135,7 +131,7 @@ echo "<tr>
 			</td>
 	</tr>
 	<tr>
-		<th>".$strings["due_date"]." :</th>
+		<th>" . $strings["due_date"] . " :</th>
 		<td>
 			<input type='text' name='dd' id='due_date' size='20' value='$dd' />
 			<input type='button' value=' ... ' id='trigDueDate' />
@@ -149,17 +145,17 @@ echo "<tr>
 		</td>
 	</tr>
 	<tr>
-		<th>".$strings["comments"]." :</th>
+		<th>" . $strings["comments"] . " :</th>
 		<td>
 			<textarea rows='10' style='width: 400px; height: 160px;' name='c' cols='47'>$c</textarea>
 		</td>
 	</tr>
 	<tr><th>&nbsp;</th>
-		<td><input type='SUBMIT' value='".$strings["save"]."' /></td>
+		<td><input type='SUBMIT' value='" . $strings["save"] . "' /></td>
 	</tr>
 </table>
 </form>
-<p class='note'>".$strings["client_add_task_note"]."</p>";
+<p class='note'>" . $strings["client_add_task_note"] . "</p>";
 
-include ("include_footer.php");
+include("include_footer.php");
 ?>

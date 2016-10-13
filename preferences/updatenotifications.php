@@ -37,7 +37,6 @@ $comptUserPrefs = count($userPrefs->mem_id);
 
 if ($comptUserPrefs == "0") {
     phpCollab\Util::headerFunction("../users/listusers.php?msg=blankUser");
-    exit;
 }
 
 if ($action == "update") {
@@ -243,4 +242,3 @@ $block1->closeContent();
 $block1->closeForm();
 
 include '../themes/' . THEME . '/footer.php';
-?>

@@ -77,7 +77,7 @@ if ($action == "generate") {
     extract($scrubedData);
     // -- END Paranoia
 
-$content = <<<STAMP
+    $content = <<<STAMP
 <?php
 #Application name: PhpCollab
 #Status page: 2
@@ -283,7 +283,7 @@ define('THEME','default');
 \$setKeywords = "PhpCollab, phpcollab.com, Sourceforge, management, web, projects, tasks, organizations, reports, Php, MySql, Sql Server, mssql, Microsoft Sql Server, PostgreSQL, module, application, module, file management, project site, team collaboration, free, crm, CRM, cutomer relationship management, workflow, workgroup";
 ?>
 STAMP;
-    
+
     if (!$error) {
         $fp = @fopen("../includes/settings.php", 'wb+');
         $fw = fwrite($fp, $content);

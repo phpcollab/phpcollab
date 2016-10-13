@@ -35,10 +35,8 @@ $comptListFiles = count($listFiles->fil_id);
 	} else {
 		if ($task != "0") {
 			phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$task&msg=deleteFile");
-			exit;
 		} else {
 			phpCollab\Util::headerFunction("../projects/viewproject.php?id=$project&msg=deleteFile");
-			exit;
 		}
 	}
 }
@@ -99,4 +97,3 @@ $block1->closeContent();
 $block1->closeForm();
 
 include '../themes/'.THEME.'/footer.php';
-?>

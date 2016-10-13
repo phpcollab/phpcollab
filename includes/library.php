@@ -320,13 +320,11 @@ if ($checkConnected != "false") {
 if ($databaseType == "mysql") {
     if (!@mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD)) {
         phpCollab\Util::headerFunction("../general/error.php?type=myserver");
-        exit;
     } else {
         $res = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
     }
     if (!@mysql_select_db(MYDATABASE, $res)) {
         phpCollab\Util::headerFunction("../general/error.php?type=mydatabase");
-        exit;
     } else {
         @mysql_close($res);
     }

@@ -49,7 +49,6 @@ if ($id != "")
 	if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5") 
 	{
 		phpCollab\Util::headerFunction("../projects/viewproject.php?id=$id");
-		exit;
 	}
 
 //test exists selected project, redirect to list if not
@@ -65,13 +64,11 @@ if ($id != "")
 	if ($comptProjectDetail == "0") 
 	{
 		phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blankProject");
-		exit;
 	}
 	
 	if ($idSession != $projectDetail->pro_owner[0] && $profilSession != "0" && $profilSession != "5") 
 	{
 		phpCollab\Util::headerFunction("../projects/listprojects.php?msg=projectOwner");
-		exit;
 	}
 
 	//case update or copy project
@@ -434,7 +431,6 @@ if ($id == "")
 	if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5") 
 	{
 		phpCollab\Util::headerFunction("../projects/listprojects.php");
-		exit;
 	}
 
 	//set organization if add project action done from clientdetail

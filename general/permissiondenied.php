@@ -38,9 +38,8 @@ $blockPage->closeBreadcrumbs();
 
 $msg = "permissiondenied";
 if ($msg != "") {
-	include '../includes/messages.php';
-	$blockPage->messagebox($msgLabel);
+    include '../includes/messages.php';
+    $blockPage->messagebox($msgLabel);
 }
 
-include '../themes/'.THEME.'/footer.php';
-?>
+include '../themes/' . THEME . '/footer.php';

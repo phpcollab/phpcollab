@@ -74,13 +74,13 @@ $block1->sorting(
     $sortingUser->sor_projects[0],
     "pro.name ASC",
     $sortingFields = array(
-        0=>"pro.id",
-        1=>"pro.name",
-        2=>"pro.priority",
-        3=>"org.name",
-        4=>"pro.status",
-        5=>"mem.login",
-        6=>"pro.published"
+        0 => "pro.id",
+        1 => "pro.name",
+        2 => "pro.priority",
+        3 => "org.name",
+        4 => "pro.status",
+        5 => "mem.login",
+        6 => "pro.published"
     )
 );
 
@@ -93,7 +93,7 @@ $dataSet = $projects_gateway->getProjectList($idSession, $typeProjects, $sorting
 //xdebug_var_dump( $dataSet );
 $projectCount = count($dataSet);
 
-if ( $projectCount > 0) {
+if ($projectCount > 0) {
     $block1->openResults();
     $block1->labels(
         $labels = array(
@@ -108,37 +108,32 @@ if ( $projectCount > 0) {
         "true"
     );
 
-    foreach ( $dataSet as $data ) {
+    foreach ($dataSet as $data) {
         $idStatus = $data["pro_status"];
         $idPriority = $data["pro_priority"];
 
         $block1->openRow();
         $block1->checkboxRow($data["tea_pro_id"]);
         $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $data["pro_id"], $data["pro_id"], in));
-        $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=".$data["pro_id"],$data["pro_name"],in));
+        $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $data["pro_id"], $data["pro_name"], in));
         $block1->cellRow('<img src="../themes/' . THEME . '/images/gfx_priority/' . $idPriority . '.gif" alt=""> ' . $priority[$idPriority]);
         $block1->cellRow($data["pro_org_name"]);
         $block1->cellRow($status[$idStatus]);
 
-        $block1->cellRow($blockPage->buildLink( '../users/viewuser.php?id=' . $data["pro_mem_id"], $data["pro_mem_login"], in));
+        $block1->cellRow($blockPage->buildLink('../users/viewuser.php?id=' . $data["pro_mem_id"], $data["pro_mem_login"], in));
 
-        if ($sitePublish == "true")
-        {
-            if ($data["pro_published"] == "1")
-            {
-                $block1->cellRow("&lt;".$blockPage->buildLink("../projects/addprojectsite.php?id=".$data["pro_id"],$strings["create"]."...",in)."&gt;");
-            }
-            else
-            {
-                $block1->cellRow("&lt;".$blockPage->buildLink("../projects/viewprojectsite.php?id=".$data["pro_id"],$strings["details"],in)."&gt;");
+        if ($sitePublish == "true") {
+            if ($data["pro_published"] == "1") {
+                $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $data["pro_id"], $strings["create"] . "...", in) . "&gt;");
+            } else {
+                $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=" . $data["pro_id"], $strings["details"], in) . "&gt;");
             }
         }
 
         $block1->closeRow();
         $projectsTopics .= $data["pro_id"];
 
-        if ($i != $comptListProjects-1)
-        {
+        if ($i != $comptListProjects - 1) {
             $projectsTopics .= ",";
         }
     }

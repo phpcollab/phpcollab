@@ -26,37 +26,39 @@
 */
 
 /**
- * getParameter 
+ * getParameter
  * Get's a parameter from GET or POST (auto detected, POST first) that is safe for use
- * in queries or use unchecked.. will return type that's in the paramter.. 
+ * in queries or use unchecked.. will return type that's in the paramter..
  * Returns null if parameter was not found.
  * @return mixed
  * @param String $paramName
  */
-function getParameter($paramName) {
+function getParameter($paramName)
+{
     //Let's sanatize the param just in case, let's be extermly paranoid here
     $paramName = sanatize($paramName, false);
     $ret = null;
-    
+
     if (array_key_exists($paramName, $_POST)) {
         $ret = sanatize($_POST[$paramName]);
     } elseif (array_key_exists($paramName, $_GET)) {
         $ret = sanatize($_GET[$paramName]);
     }
-    
+
     return $ret;
 }
 
 /**
  * sanatize
- * Returns a clean version of data.  
+ * Returns a clean version of data.
  * If allowSpecChars is true, will allow special characters (shift of numbers) otherwise it's only
  * letters and numbers (including space and period)
  * @return String
  * @param object $data
- * @param object $allowSpecChars[optional]
+ * @param object $allowSpecChars [optional]
  */
-function sanatize($data, $allowSpecChars = false) {
+function sanatize($data, $allowSpecChars = false)
+{
     if (!$allowSpecChars) {
         $data = preg_replace('/^\W+|\W+$/', '', $data);
     }
@@ -68,7 +70,8 @@ function sanatize($data, $allowSpecChars = false) {
  * Check to see if the database should be upgraded from 2.4 to 2.5
  * @return bool
  */
-function checkDatabase($errorMsg = '') {
+function checkDatabase($errorMsg = '')
+{
     $settingsFile = dirname(realpath(__FILE__)) . "/settings.php";
     include_once($settingsFile);
 
@@ -78,15 +81,16 @@ function checkDatabase($errorMsg = '') {
             !array_key_exists("invoices_items", $tableCollab) ||
             !array_key_exists("services", $tableCollab) ||
             !array_key_exists("newsdeskcomments", $tableCollab) ||
-            !array_key_exists("newsdeskposts", $tableCollab)) {
-         
+            !array_key_exists("newsdeskposts", $tableCollab)
+        ) {
+
             //-------------
             return true; // Database should be upgraded
         } else {
             $errorMsg = "It appears that the tables have already been added.  Manual update is only possible at this time.";
         }
     }
-    
+
     return false;
 }
 
@@ -95,7 +99,8 @@ function checkDatabase($errorMsg = '') {
  * Converts the DB, check's if it should be done first (ie: adding fields/tables)
  * @return bool
  */
-function convertDB() {
+function convertDB()
+{
     $settingsFile = dirname(realpath(__FILE__)) . "/settings.php";
     include $settingsFile; // Reimport :)
 
@@ -103,7 +108,7 @@ function convertDB() {
 
     $errorMsg = null;
     $conn = connectDB($databaseType, MYSERVER, MYLOGIN, MYPASSWORD, MYDATABASE);
-    
+
     if (!empty($conn)) {
         echo "<font style='font-weight: bold;color: green'>done</font> :: <br />";
     } else {
@@ -111,35 +116,35 @@ function convertDB() {
         return false;
     }
     echo ":: Beggining Database Conversion... :: <br /><ul>";
-    
+
     //Add Tables
     echo "<li>Adding new tables...";
     //Add the DB Vars and let's try to do this stuffs.. 
-    if (addTables($databaseType, $conn, $tablePrefix, &$errorMsg)) 
+    if (addTables($databaseType, $conn, $tablePrefix, &$errorMsg))
         echo "<font style='color: green;font-weight: bold'>completed</font>";
     else {
         echo "<font style='color: red;font-weight: bold'>error</font>";
         if (!empty($errorMsg)) echo "<br /><b>Error Messages: </b>$errorMsg";
         return false;
     }
-    
+
     //Now let's reset the Error message, just in case
     $errorMsg = null;
-    
+
     //Modify existing tables
     echo "<li>Updating existing tables...";
-    if (modTables($databaseType, $conn, $tablePrefix, &$errorMsg)) 
+    if (modTables($databaseType, $conn, $tablePrefix, &$errorMsg))
         echo "<font style='color: green;font-weight: bold'>completed</font>";
     else {
         echo "<font style='color: red;font-weight: bold'>error</font>";
         if (!empty($errorMsg)) echo "<br /><b>Error Messages: </b>$errorMsg";
         return false;
     }
-    
+
     //Run tests
     $errorMsg = null;
 //    echo "<li>Verifying everything went okay...";
-    
+
     echo "</ul>:: Ending Conversion ::";
     return true;
 }
@@ -150,76 +155,79 @@ function convertDB() {
  * @return bool
  * @param String $type
  * @param object $conn
- * @param object $prefix[optional]
- * @param object $errorMsg[optional]
+ * @param object $prefix [optional]
+ * @param object $errorMsg [optional]
  */
-function addTables($type, $conn, $prefix = "", $errorMsg = null) {
-    if (empty($type) || empty($conn)) { return false;}
+function addTables($type, $conn, $prefix = "", $errorMsg = null)
+{
+    if (empty($type) || empty($conn)) {
+        return false;
+    }
 
     $tableFields = array(
         "invoices" => array(
-                            "id" => "mediumint_auto",
-                            "project" => "mediumint",
-                            "header_note" => "text",
-                            "footer_note" => "text",
-                            "date_sent" => "varchar10",
-                            "due_date" => "varchar10",
-                            "total_ex_tax" => "float",
-                            "tax_rate" => "float",
-                            "tax_amount" => "float",
-                            "total_inc_tax" => "float",
-                            "status" => "char1",
-                            "active" => "char1",
-                            "created" => "varchar16",
-                            "modified" => "varchar16",
-                            "published"  => "char1"
-                        ),
+            "id" => "mediumint_auto",
+            "project" => "mediumint",
+            "header_note" => "text",
+            "footer_note" => "text",
+            "date_sent" => "varchar10",
+            "due_date" => "varchar10",
+            "total_ex_tax" => "float",
+            "tax_rate" => "float",
+            "tax_amount" => "float",
+            "total_inc_tax" => "float",
+            "status" => "char1",
+            "active" => "char1",
+            "created" => "varchar16",
+            "modified" => "varchar16",
+            "published" => "char1"
+        ),
         "invoices_items" => array(
-                                "id" => "mediumint_auto",
-                                "invoice" => "mediumint",
-                                "position" => "mediumint",
-                                "mod_type" => "char1",
-                                "mod_value" => "mediumint",
-                                "title" => "varchar155",
-                                "description" => "text",
-                                "worked_hours" => "float",
-                                "amount_ex_tax" => "float",
-                                "rate_type" => "varchar10",
-                                "rate_value" => "float",
-                                "status" => "char1",
-                                "active" => "char1",
-                                "completed" => "char1",
-                                "created" => "varchar16",
-                                "modified" => "varchar16"
-                            ),
+            "id" => "mediumint_auto",
+            "invoice" => "mediumint",
+            "position" => "mediumint",
+            "mod_type" => "char1",
+            "mod_value" => "mediumint",
+            "title" => "varchar155",
+            "description" => "text",
+            "worked_hours" => "float",
+            "amount_ex_tax" => "float",
+            "rate_type" => "varchar10",
+            "rate_value" => "float",
+            "status" => "char1",
+            "active" => "char1",
+            "completed" => "char1",
+            "created" => "varchar16",
+            "modified" => "varchar16"
+        ),
         "services" => array(
-                            "id" => "mediumint_auto",
-                            "name" => "varchar155",
-                            "name_print" => "varchar155",
-                            "hourly_rate" => "float"
-                        ),
+            "id" => "mediumint_auto",
+            "name" => "varchar155",
+            "name_print" => "varchar155",
+            "hourly_rate" => "float"
+        ),
         "newsdeskcomments" => array(
-                                    "id" => "mediumint_auto",
-                                    "post_id" => "mediumint",
-                                    "name" => "mediumint",
-                                    "comment" => "text"
-                                ),
+            "id" => "mediumint_auto",
+            "post_id" => "mediumint",
+            "name" => "mediumint",
+            "comment" => "text"
+        ),
         "newsdeskposts" => array(
-                                "id" => "mediumint_auto",
-                                "pdate" => "varchar16",
-                                "title" => "varchar155",
-                                "author" => "mediumint",
-                                "related" => "varchar155",
-                                "content" => "text",
-                                "links" => "text",
-                                "rss" => "char1"
-                            )
+            "id" => "mediumint_auto",
+            "pdate" => "varchar16",
+            "title" => "varchar155",
+            "author" => "mediumint",
+            "related" => "varchar155",
+            "content" => "text",
+            "links" => "text",
+            "rss" => "char1"
+        )
     );
-    
+
     //Get DB Vaars
     $dbvar = dirname(realpath(__FILE__)) . "/db_var.inc.php";
     require_once($dbvar);
-    
+
     // okay let's start it up
     foreach (array_keys($tableFields) as $table) {
         //Let's do the PGSQL Stuff
@@ -228,27 +236,27 @@ function addTables($type, $conn, $prefix = "", $errorMsg = null) {
             $sql = "CREATE SEQUENCE {$prefix}{$table}_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1";
             $db_mediumint_auto[$type] = "int4 DEFAULT nextval('" . $prefix . "{$table}_seq'::text) NOT NULL";
             pg_query($conn, $sql);
-            
+
             if (pg_last_error($conn) != 0) {
                 $errorMsg = "PGSQL Panic: " . pg_last_error($conn);
                 return;
             }
         }
-        
+
         //Continuing on.. 
         // Create table and such
         $t_sql = "CREATE TABLE {$prefix}{$table} (";
         //Do all the fields
         $tf_sql = '';
-        
+
         foreach ($tableFields[$table] as $field => $ftype) {
             $mytype = '';
             eval("\$mytype = \$db_{$ftype}['$type'];");
             $tf_sql .= "$field $mytype, ";
         }
-        
+
         $t_sql .= $tf_sql . "PRIMARY KEY(id))";
-        
+
         if ($type == "mysql") {
             mysql_query($t_sql, $conn);
             if (mysql_errno($conn) != 0) {
@@ -269,7 +277,7 @@ function addTables($type, $conn, $prefix = "", $errorMsg = null) {
             }
         }
     }
-    
+
     return true;
 }
 
@@ -280,63 +288,66 @@ function addTables($type, $conn, $prefix = "", $errorMsg = null) {
  * @return bool
  * @param String $type
  * @param object $conn
- * @param object $prefix[optional]
- * @param object $errorMsg[optional]
+ * @param object $prefix [optional]
+ * @param object $errorMsg [optional]
  */
-function modTables($type, $conn, $prefix = "", $errorMsg = null) {
+function modTables($type, $conn, $prefix = "", $errorMsg = null)
+{
     //Get DB Vaars
     $dbvar = dirname(realpath(__FILE__)) . "/db_var.inc.php";
     include $dbvar;
 
-    if (empty($type) || empty($conn)) { return false;}
+    if (empty($type) || empty($conn)) {
+        return false;
+    }
 
     $tableFields = array(
         "calendar" => array(
-                            "broadcast" => "char1",
-                            "location" => "varchar155"
-                        ),
+            "broadcast" => "char1",
+            "location" => "varchar155"
+        ),
         "notifications" => array(
-                                    "uploadFile" => "char1"
-                            ),
+            "uploadFile" => "char1"
+        ),
         "organizations" => array(
-                                    "hourly_rate" => "float"
-                            ),
+            "hourly_rate" => "float"
+        ),
         "projects" => array(
-                            "invoicing" => "char1",
-                            "hourly_rate" => "float"
-                        ),
+            "invoicing" => "char1",
+            "hourly_rate" => "float"
+        ),
         "sorting" => array(
-                            "invoices" => "varchar155",
-                            "newsdesk" => "varchar155"
-                     ),
+            "invoices" => "varchar155",
+            "newsdesk" => "varchar155"
+        ),
         "tasks" => array(
-                            "invoicing" => "char1",
-                            "worked_hours" => "float"
+            "invoicing" => "char1",
+            "worked_hours" => "float"
         )
     );
 
     //Get DB Vaars
     $dbvar = dirname(realpath(__FILE__)) . "/db_var.inc.php";
     require_once($dbvar);
-    
+
     // okay let's start it up
     foreach (array_keys($tableFields) as $table) {
-        
+
         //Continuing on.. 
         // Create table and such
         $t_sql = "ALTER TABLE {$prefix}{$table} ";
         //Do all the fields
         $tf_sql = '';
-        
+
         foreach ($tableFields[$table] as $field => $ftype) {
             $mytype = '';
             eval("\$mytype = \$db_{$ftype}['$type'];");
-            if ($tf_sql != '' ) $tf_sql .= ", ADD $field $mytype";
+            if ($tf_sql != '') $tf_sql .= ", ADD $field $mytype";
             else $tf_sql = "ADD $field $mytype";
         }
-        
+
         $t_sql .= $tf_sql;
-        
+
         if ($type == "mysql") {
             mysql_query($t_sql, $conn);
             if (mysql_errno($conn) != 0) {
@@ -370,19 +381,20 @@ function modTables($type, $conn, $prefix = "", $errorMsg = null) {
  * @param String $pwd
  * @param String $dbname
  */
-function connectDB($db, $server, $user, $pwd, $dbname) {
+function connectDB($db, $server, $user, $pwd, $dbname)
+{
     $my = null;
-    
+
     switch ($db) {
         case 'mysql':
             $my = mysql_connect($server, $user, $pwd, true);
             mysql_select_db($dbname, $my);
             break;
-            
+
         case 'postgresql':
             $my = pg_connect("host=$server port=55432 dbname=$dbname user=$user password=$pwd");
             break;
-            
+
         case 'sqlserver':
             $my = @mssql_connect($server, $user, $pwd);
             mssql_select_db($dbname, $my);
@@ -392,14 +404,15 @@ function connectDB($db, $server, $user, $pwd, $dbname) {
     return $my;
 }
 
-function rewriteConfig($settingsFile) {
+function rewriteConfig($settingsFile)
+{
     //Okay this is the icky part.. We are going to open this up and you know do all the stuff
     include $settingsFile;
     $myserver = MYSERVER;
     $mylogin = MYLOGIN;
     $mypassword = MYPASSWORD;
     $mydatabase = MYDATABASE;
-    
+
     if (defined("SMTPSERVER")) $smtpserver = SMTPSERVER; else $smtpserver = '';
     if (defined("SMTPLOGIN")) $smtplogin = SMTPLOGIN; else $smtplogin = '';
     if (defined("SMTPPASSWORD")) $smtppassword = SMTPPASSWORD; else $smtppassword = '';
@@ -415,7 +428,7 @@ function rewriteConfig($settingsFile) {
     $docDesc = addslashes($setDescription);
     $docWords = addslashes($setKeywords);
 
-$content = <<<STAMP
+    $content = <<<STAMP
 <?php
 #Application name: PhpCollab
 #Status page: 2

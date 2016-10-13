@@ -4,5 +4,3 @@
 #Path by root: ../newsdesk/index.php
 
 header("Location:../index.php");
-exit;
-?>

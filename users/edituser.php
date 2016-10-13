@@ -33,7 +33,6 @@ include_once '../includes/library.php';
 
 if ($profilSession != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
-    exit;
 }
 
 //case update user
@@ -41,7 +40,6 @@ if ($id != "") {
 
     if ($id == "1" && $idSession == "1") {
         phpCollab\Util::headerFunction("../preferences/updateuser.php");
-        exit;
     }
 
 //case update user
@@ -126,7 +124,6 @@ if ($id != "") {
                         }
 
                         phpCollab\Util::headerFunction("../users/listusers.php?msg=update");
-                        exit;
                     }
                 } else {
 //if mantis bug tracker enabled
@@ -136,7 +133,6 @@ if ($id != "") {
                         include '../mantis/user_update.php';
                     }
                     phpCollab\Util::headerFunction("../users/listusers.php?msg=update");
-                    exit;
                 }
             }
         }
@@ -149,7 +145,6 @@ if ($id != "") {
 //test exists selected user, redirect to list if not
     if ($comptDetailUser == "0") {
         phpCollab\Util::headerFunction("../users/listusers.php?msg=blankUser");
-        exit;
     }
 
 //set values in form
@@ -232,7 +227,6 @@ if ($id == "") {
                         include '../mantis/create_new_user.php';
                     }
                     phpCollab\Util::headerFunction("../users/listusers.php?msg=add");
-                    exit;
                 }
             }
         }

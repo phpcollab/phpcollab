@@ -49,7 +49,6 @@ if ($id != "") {
 	
 	if ($comptcommentDetail == "0") {
 			phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=blankNews");
-			exit;
 	}
 
 	// only comment's author, admin, prj-adm and prj-man can change the comments
@@ -59,7 +58,6 @@ if ($id != "") {
 
 	if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5" && $idSession != $commentDetail->newscom_name[0] ) {
 			phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=commentpermissionNews");
-			exit;
 	}
 
 
@@ -74,7 +72,6 @@ if ($id != "") {
 		// only admin, prj-adm and prj-man can delete a comments
 		if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5" ) {
 			phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=commentpermissionNews");
-			exit;
 		}
 
 		$id = str_replace("**",",",$id);
@@ -224,4 +221,3 @@ if ($action!='remove') {
 
 include '../themes/'.THEME.'/footer.php';
 
-?>

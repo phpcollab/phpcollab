@@ -231,5 +231,3 @@ $alertSub->close();
 
 // Return successfully
 exit(0);
-
-?>

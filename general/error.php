@@ -41,21 +41,21 @@ $block1->heading($setTitle . " : Error");
 $block1->openContent();
 
 if ($databaseType == "mysql") {
-	$block1->contentTitle("MySql Error");
+    $block1->contentTitle("MySql Error");
 }
 if ($databaseType == "sqlserver") {
-	$block1->contentTitle("Sql Server Error");
+    $block1->contentTitle("Sql Server Error");
 }
 
 if ($type == "myserver") {
-$block1->contentRow("",$strings["error_server"]);
+    $block1->contentRow("", $strings["error_server"]);
 }
 if ($type == "mydatabase") {
-$block1->contentRow("",$strings["error_database"]);
+    $block1->contentRow("", $strings["error_database"]);
 }
 
 $block1->closeContent();
 
 $footerDev = "false";
-include '../themes/'.THEME.'/footer.php';
+include '../themes/' . THEME . '/footer.php';
 ?>

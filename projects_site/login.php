@@ -7,12 +7,9 @@ include "../includes/library.php";
 
 //case session fails
 if ($url != "") {
-	phpCollab\Util::headerFunction("../login.php?url=$url");
-	exit;
+    phpCollab\Util::headerFunction("../login.php?url=$url");
 
 //default case
 } else {
-	phpCollab\Util::headerFunction("../login.php");
-	exit;
+    phpCollab\Util::headerFunction("../login.php");
 }
-?>

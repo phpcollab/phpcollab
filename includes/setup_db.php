@@ -4,85 +4,85 @@
 #Path by root: ../includes/setup_db.php
 
 if ($databaseType == "postgresql") {
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}assignments_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}bookmarks_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}bookmarks_categories_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}calendar_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}files_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}logs_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}members_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}notes_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}notifications_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}organizations_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}phases_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}posts_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}projects_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}reports_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}sorting_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}subtasks_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}support_posts_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}support_requests_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}tasks_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}teams_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}topics_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}updates_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}invoices_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}invoices_items_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}services_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}newsdeskcomments_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
-$SQL[] = <<<STAMP
+    $SQL[] = <<<STAMP
 CREATE SEQUENCE {$myprefix}newsdeskposts_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
 }
@@ -90,7 +90,7 @@ STAMP;
 // Table structure for table `assignments`
 
 if ($databaseType == "postgresql") {
-$db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."assignments_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "assignments_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
@@ -110,7 +110,7 @@ STAMP;
 // Table structure for table `calendar`
 
 if ($databaseType == "postgresql") {
-$db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."calendar_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "calendar_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
@@ -137,7 +137,7 @@ STAMP;
 // Table structure for table `files`
 
 if ($databaseType == "postgresql") {
-$db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."files_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "files_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
@@ -169,7 +169,7 @@ STAMP;
 // Table structure for table `logs`
 
 if ($databaseType == "postgresql") {
-$db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."logs_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "logs_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
@@ -190,7 +190,7 @@ STAMP;
 // Table structure for table `members`
 
 if ($databaseType == "postgresql") {
-$db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."members_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "members_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
@@ -231,7 +231,7 @@ STAMP;
 // Table structure for table `notes`
 
 if ($databaseType == "postgresql") {
-$db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."notes_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "notes_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
@@ -252,7 +252,7 @@ STAMP;
 // Table structure for table `notifications`
 
 if ($databaseType == "postgresql") {
-$db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."notifications_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "notifications_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
@@ -290,7 +290,7 @@ STAMP;
 // Table structure for table `organizations`
 
 if ($databaseType == "postgresql") {
-$db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."organizations_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "organizations_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
@@ -325,7 +325,7 @@ STAMP;
 // Table structure for table `posts`
 
 if ($databaseType == "postgresql") {
-$db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."posts_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "posts_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
@@ -343,7 +343,7 @@ STAMP;
 // Table structure for table `projects`
 
 if ($databaseType == "postgresql") {
-$db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."projects_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "projects_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
@@ -372,7 +372,7 @@ STAMP;
 // Table structure for table `reports`
 
 if ($databaseType == "postgresql") {
-$db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."reports_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "reports_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
@@ -398,7 +398,7 @@ STAMP;
 // Table structure for table `sorting`
 
 if ($databaseType == "postgresql") {
-$db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."sorting_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "sorting_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
@@ -449,7 +449,7 @@ STAMP;
 // Table structure for table `tasks`
 
 if ($databaseType == "postgresql") {
-$db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."tasks_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "tasks_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
@@ -484,7 +484,7 @@ STAMP;
 // Table structure for table `subtasks`
 
 if ($databaseType == "postgresql") {
-$db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."subtasks_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "subtasks_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
@@ -516,7 +516,7 @@ STAMP;
 // Table structure for table `teams`
 
 if ($databaseType == "postgresql") {
-$db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."teams_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "teams_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
@@ -534,7 +534,7 @@ STAMP;
 // Table structure for table `topics`
 
 if ($databaseType == "postgresql") {
-$db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."topics_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "topics_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
@@ -555,7 +555,7 @@ STAMP;
 // Table structure for table `phases`
 
 if ($databaseType == "postgresql") {
-$db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."phases_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "phases_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
@@ -579,7 +579,7 @@ STAMP;
 // Table structure for table `support_posts`
 
 if ($databaseType == "postgresql") {
-$db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."support_posts_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "support_posts_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
@@ -598,7 +598,7 @@ STAMP;
 // Table structure for table `supports_requests`
 
 if ($databaseType == "postgresql") {
-$db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."support_requests_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "support_requests_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
@@ -621,7 +621,7 @@ STAMP;
 // Table structure for table `updates`
 
 if ($databaseType == "postgresql") {
-$db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."updates_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "updates_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 CREATE TABLE {$myprefix}updates (
@@ -639,7 +639,7 @@ STAMP;
 // Table structure for table `bookmarks`
 
 if ($databaseType == "postgresql") {
-$db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."bookmarks_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "bookmarks_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 CREATE TABLE {$myprefix}bookmarks (
@@ -663,7 +663,7 @@ STAMP;
 // Table structure for table `bookmarks_categories`
 
 if ($databaseType == "postgresql") {
-$db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."bookmarks_categories_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "bookmarks_categories_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 CREATE TABLE {$myprefix}bookmarks_categories (
@@ -678,7 +678,7 @@ STAMP;
 // Table structure for table `invoices`
 
 if ($databaseType == "postgresql") {
-$db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."invoices_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "invoices_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 CREATE TABLE {$myprefix}invoices (
@@ -705,7 +705,7 @@ STAMP;
 // Table structure for table `invoices_items`
 
 if ($databaseType == "postgresql") {
-$db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."invoices_items_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "invoices_items_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 CREATE TABLE {$myprefix}invoices_items (
@@ -733,7 +733,7 @@ STAMP;
 // Table structure for table `services`
 
 if ($databaseType == "postgresql") {
-$db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."services_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "services_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 CREATE TABLE {$myprefix}services (
@@ -749,7 +749,7 @@ STAMP;
 // Table structure for table `newsdeskcomments`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."newsdeskcomments_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "newsdeskcomments_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
@@ -766,7 +766,7 @@ STAMP;
 // Table structure for table `newsdesk`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('".$myprefix."newsdeskposts_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "newsdeskposts_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 

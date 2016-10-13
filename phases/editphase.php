@@ -43,57 +43,56 @@ $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
 $memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
-	if ($comptMemberTest == "0") {
-		$teamMember = "false";
-	} else {
-		$teamMember = "true";
-	}
+if ($comptMemberTest == "0") {
+    $teamMember = "false";
+} else {
+    $teamMember = "true";
+}
 
 if ($action == "update") {
-	$c = phpCollab\Util::convertData($c);
+    $c = phpCollab\Util::convertData($c);
 
-	if ($st == 0) {
-		$ed = "--";
-	}
+    if ($st == 0) {
+        $ed = "--";
+    }
 
-	if ($st == 1){
-		$ed = "--";
-	}
+    if ($st == 1) {
+        $ed = "--";
+    }
 
-	if ($st == 2 && $ed == "--") {
-		$ed = date('Y-m-d');
-	}
+    if ($st == 2 && $ed == "--") {
+        $ed = date('Y-m-d');
+    }
 
-	$tmpquery = "UPDATE ".$tableCollab["phases"]." SET status='$st', date_start='$sd', date_end='$ed', comments='$c' WHERE id = '$id'";
-	phpCollab\Util::connectSql("$tmpquery");
+    $tmpquery = "UPDATE " . $tableCollab["phases"] . " SET status='$st', date_start='$sd', date_end='$ed', comments='$c' WHERE id = '$id'";
+    phpCollab\Util::connectSql("$tmpquery");
 
-	if ($st != 1) {
-		$tmpquery = "WHERE tas.parent_phase = '$id' AND tas.status = '3'";
-		$changeTasks = new phpCollab\Request();
-		$changeTasks->openTasks($tmpquery);
-		$comptchangeTasks = count($changeTasks->tas_id);
-		for ($i=0;$i<$comptchangeTasks;$i++) {
-			$taskID = $changeTasks->tas_id[$i];
-			$tmpquery = "UPDATE ".$tableCollab["tasks"]." SET status='4' WHERE id = '$taskID'";
-			phpCollab\Util::connectSql("$tmpquery");
-		}
-	}
-	phpCollab\Util::headerFunction("../phases/viewphase.php?id=$id");
-	exit;
+    if ($st != 1) {
+        $tmpquery = "WHERE tas.parent_phase = '$id' AND tas.status = '3'";
+        $changeTasks = new phpCollab\Request();
+        $changeTasks->openTasks($tmpquery);
+        $comptchangeTasks = count($changeTasks->tas_id);
+        for ($i = 0; $i < $comptchangeTasks; $i++) {
+            $taskID = $changeTasks->tas_id[$i];
+            $tmpquery = "UPDATE " . $tableCollab["tasks"] . " SET status='4' WHERE id = '$taskID'";
+            phpCollab\Util::connectSql("$tmpquery");
+        }
+    }
+    phpCollab\Util::headerFunction("../phases/viewphase.php?id=$id");
 }
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
 include '../themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], in));
 $blockPage->itemBreadcrumbs($phaseDetail->pha_name[0]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
-	include '../includes/messages.php';
-	$blockPage->messagebox($msgLabel);
+    include '../includes/messages.php';
+    $blockPage->messagebox($msgLabel);
 }
 
 //set value in form
@@ -104,43 +103,43 @@ $c = $phaseDetail->pha_comments[0];
 
 $block1 = new phpCollab\Block();
 $block1->form = "pdD";
-$block1->headingToggle($strings["phase"]." : ".$phaseDetail->pha_name[0]);
+$block1->headingToggle($strings["phase"] . " : " . $phaseDetail->pha_name[0]);
 $block1->openContent();
 $block1->contentTitle($strings["details"]);
 $block1->form = "filedetails";
 echo "<a name='filedetailsAnchor'></a>";
 echo "<form accept-charset='UNKNOWN' method='POST' action='../phases/editphase.php?id=$id&action=update&#filedetailsAnchor' name='filedetailsForm' enctype='multipart/form-data'>
 		<input type='hidden' name='MAX_FILE_SIZE' value='100000000'>
-		<input type='hidden' name='maxCustom' value='".$projectDetail->pro_upload_max[0]."'>
+		<input type='hidden' name='maxCustom' value='" . $projectDetail->pro_upload_max[0] . "'>
 	 ";
 
 
-echo"<tr class='odd'><td valign='top' class='leftvalue'>".$strings["name"]." :</td><td>".$phaseDetail->pha_name[0]."</td></tr>";
-echo"<tr class='odd'><td valign='top' class='leftvalue'>".$strings["phase_id"]." :</td><td>".$phaseDetail->pha_id[0]."</td></tr>";
+echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["name"] . " :</td><td>" . $phaseDetail->pha_name[0] . "</td></tr>";
+echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["phase_id"] . " :</td><td>" . $phaseDetail->pha_id[0] . "</td></tr>";
 
 
-echo"<tr class='odd'><td valign='top' class='leftvalue'>".$strings["status"]." :</td><td><select name='st'>";
+echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["status"] . " :</td><td><select name='st'>";
 
 $comptSta = count($phaseStatus);
 
-for ($i=0;$i<$comptSta;$i++) {
-	if ($phaseDetail->pha_status[0] == $i) {
-		echo "<option value='$i' selected>$phaseStatus[$i]</option>";
-	} else {
-		echo "<option value='$i'>$phaseStatus[$i]</option>";
-	}
+for ($i = 0; $i < $comptSta; $i++) {
+    if ($phaseDetail->pha_status[0] == $i) {
+        echo "<option value='$i' selected>$phaseStatus[$i]</option>";
+    } else {
+        echo "<option value='$i'>$phaseStatus[$i]</option>";
+    }
 }
 
 echo "</select></td></tr>";
 
 if ($sd == "") {
-	$sd = $date;
+    $sd = $date;
 }
 if ($ed == "") {
-	$ed = "--";
+    $ed = "--";
 }
 
-$block1->contentRow($strings["date_start"],"<input type='text' name='sd' id='start_date' size='20' value='$sd'><input type='button' value=' ... ' id='trigStartDate'>");
+$block1->contentRow($strings["date_start"], "<input type='text' name='sd' id='start_date' size='20' value='$sd'><input type='button' value=' ... ' id='trigStartDate'>");
 echo "
 <script type='text/javascript'>
     Calendar.setup({
@@ -150,7 +149,7 @@ echo "
     });
 </script>
 ";
-$block1->contentRow($strings["date_end"],"<input type='text' name='ed' id='end_date' size='20' value='$ed'><input type='button' value=' ... ' id='trigDateEnd'>");
+$block1->contentRow($strings["date_end"], "<input type='text' name='ed' id='end_date' size='20' value='$ed'><input type='button' value=' ... ' id='trigDateEnd'>");
 echo "
 <script type='text/javascript'>
     Calendar.setup({
@@ -160,20 +159,19 @@ echo "
     });
 </script>
 ";
-echo	"<tr class='odd'>
-			<td valign='top' class='leftvalue'>".$strings["comments"]." :</td>
+echo "<tr class='odd'>
+			<td valign='top' class='leftvalue'>" . $strings["comments"] . " :</td>
 			<td>
 				<textarea rows='3' style='width: 400px; height: 100px;' name='c' cols='43'>$c</textarea>
 			</td>
 		</tr>
 		<tr class='odd'>
 			<td valign='top' class='leftvalue'>&nbsp;</td>
-			<td><input type='SUBMIT' value='".$strings["save"]."'></td>
+			<td><input type='SUBMIT' value='" . $strings["save"] . "'></td>
 		</tr>";
 
 $block1->closeContent();
 $block1->closeToggle();
 $block1->closeForm();
 
-include '../themes/'.THEME.'/footer.php';
-?>
+include '../themes/' . THEME . '/footer.php';

@@ -31,7 +31,7 @@ include '../includes/upgrade_funcs.inc.php';
 
 //Start the page
 $setTitle = "PhpCollab Upgrade";
-define('THEME','default');
+define('THEME', 'default');
 $blank = "true";
 
 include '../themes/' . THEME . '/header.php';
@@ -52,40 +52,38 @@ $blockPage->itemBreadcrumbs("<a href='../installation/$script'>Upgrade</a>");
 $block1 = new phpCollab\Block();
 
 if ($step == 1) {
-    
+
     $blockPage->itemBreadcrumbs("License");
     $blockPage->closeBreadcrumbs();
-    
+
     $block1->heading("License");
     $block1->openContent();
     $block1->contentTitle("&nbsp;");
-    
+
     echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>
     	<pre>";
-    	include '../docs/copying.txt';
-    	echo "</pre>
+    include '../docs/copying.txt';
+    echo "</pre>
     	</td></tr>";
-}
-
-elseif ($step == 2) {
+} elseif ($step == 2) {
     $myError = null;
-    
+
     $blockPage->itemBreadcrumbs("<a href='../installation/{$script}?step=1'>License</a>");
     $blockPage->itemBreadcrumbs("Check DB");
     $blockPage->closeBreadcrumbs();
-    
+
     $block1->heading("Checking Database...");
     $block1->openContent();
     $block1->contentTitle("Database Requirements...");
-    
+
     echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>
         We are currently checking the database to see if it needs to be updated... <br /><br /><b>Please wait...</b><br />
     	</td></tr>";
-        
+
     flush();
-    
+
     echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>";
-        
+
     if (checkDatabase(&$myError)) {
         echo "<br />Database looks <font style='color: green'>good</font>.  We are continuing the conversion...<br /><br />";
         echo "<br />Continue on to <a href='../installation/{$script}?step=3&redirect=true'>Step 3</a>.<br /><br /><b>MAKE SURE SETTINGS.PHP IS WRITEABLE!!!</b><Br /><br />";
@@ -96,18 +94,16 @@ elseif ($step == 2) {
         if (!empty($myError)) echo "<pre>$myError</pre>";
         echo "</fieldset>";
     }
-    
-    echo "</td></tr>";
-}
 
-elseif ($step == 3) {
+    echo "</td></tr>";
+} elseif ($step == 3) {
     $myError = null;
-    
+
     $blockPage->itemBreadcrumbs("<a href='../installation/{$script}?step=1'>License</a>");
     $blockPage->itemBreadcrumbs("<a href='../installation/{$script}?step=2'>Check DB</a>");
     $blockPage->itemBreadcrumbs("Conversion");
     $blockPage->closeBreadcrumbs();
-    
+
     $block1->heading("Conversion and update");
     $block1->openContent();
     $block1->contentTitle("Checking Settings.php...");
@@ -115,14 +111,14 @@ elseif ($step == 3) {
         We are making sure that settings.php is writeable, we can not continue if it's not writeable. <br /><br /><b>Please wait...</b><br />
     	</td></tr>";
     flush();
-    
+
     echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>";
 
     //TODO: Check file
-    $settingsFile = dirname(realpath(__FILE__)). "/../includes/settings.php";
+    $settingsFile = dirname(realpath(__FILE__)) . "/../includes/settings.php";
     unset($goon);
     $goon = false;
-    
+
     clearstatcache();
     if (!is_writable($settingsFile)) {
         echo "<fieldset><legend style='font-weight: bold;font-size: large;padding: 5px;color: #ff3300'>";
@@ -134,7 +130,7 @@ elseif ($step == 3) {
         echo "<br />Okay your settings.php file looks good, we are going to continue.<br />";
         $goon = true;
     }
-    
+
     echo "<br /></td></tr>";
 
     if ($goon) {
@@ -144,9 +140,9 @@ elseif ($step == 3) {
             We are now upgrading your database and writting the config file. <br /><br /><b>Please wait...</b><br />
         	</td></tr>";
         flush();
-    
+
         echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>";
-        
+
         if (convertDB()) {
             echo "<br />Writting out new settings file...";
             rewriteConfig($settingsFile);
@@ -158,19 +154,21 @@ elseif ($step == 3) {
             echo "<br><B>MAKE SURE TO DELETE  UPGRADE.PHP!";
             echo "</td></tr>";
         }
-    }    
+    }
 }
 
 $block1->closeContent();
 
 $stepNext = $step + 1;
-if ($step < "2") { echo "<form name='license' action='../installation/{$script}?step=2&redirect=true' method='post'><center><a href=\"javascript:document.license.submit();\"><br /><b>Step $stepNext</b></a><br /><br /></center></form><br/>"; }
+if ($step < "2") {
+    echo "<form name='license' action='../installation/{$script}?step=2&redirect=true' method='post'><center><a href=\"javascript:document.license.submit();\"><br /><b>Step $stepNext</b></a><br /><br /></center></form><br/>";
+}
 
 $footerDev = "false";
-include '../themes/'.THEME.'/footer.php';
+include '../themes/' . THEME . '/footer.php';
 
 //FOR DEBUG ****
-exit();
+
 // -----------------------
 
 /* End of file myfile.php */
