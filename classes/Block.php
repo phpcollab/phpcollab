@@ -246,7 +246,9 @@ class Block
      **/
     public function messageBox($msgLabel)
     {
-        echo '<br/><table class="message"><tr><td>' . $msgLabel . '</td></tr></table>';
+        echo '<br/><table class="message"><tr><td>';
+        echo ($msgLabel) ? $msgLabel : 'Action not allowed.';
+        echo '</td></tr></table>';
     }
 
     /**
