@@ -31,45 +31,48 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-if ($profilSession != "0") 
-{
-	phpCollab\Util::headerFunction('../general/permissiondenied.php');
-	exit;
+if ($profilSession != "0") {
+    phpCollab\Util::headerFunction('../general/permissiondenied.php');
+    exit;
 }
 
-$action = phpCollab\Util::returnGlobal('action','GET');
+$db = new phpCollab\Database(); // Move this to library?
 
-if ($action == "update") 
-{
-	$extension = phpCollab\Util::returnGlobal('extension','POST');
-	$extensionOld = phpCollab\Util::returnGlobal('extensionOld','POST');
-	$cn = phpCollab\Util::returnGlobal('cn','POST');
-	$add = phpCollab\Util::returnGlobal('add','POST');
-	$wp = phpCollab\Util::returnGlobal('wp','POST');
-	$url = phpCollab\Util::returnGlobal('url','POST');
-	$email = phpCollab\Util::returnGlobal('email','POST');
-	$c = phpCollab\Util::returnGlobal('c','POST');
-	$logoDel = phpCollab\Util::returnGlobal('logoDel','POST');
+$admins_gateway = new phpCollab\Admins\AdminsGateway($db);
 
-	if ($logoDel == "on") 
-	{
+$action = phpCollab\Util::returnGlobal('action', 'GET');
+
+if ($action == "update") {
+    $extension = phpCollab\Util::returnGlobal('extension', 'POST');
+    $extensionOld = phpCollab\Util::returnGlobal('extensionOld', 'POST');
+    $cn = phpCollab\Util::returnGlobal('cn', 'POST');
+    $add = phpCollab\Util::returnGlobal('add', 'POST');
+    $wp = phpCollab\Util::returnGlobal('wp', 'POST');
+    $url = phpCollab\Util::returnGlobal('url', 'POST');
+    $email = phpCollab\Util::returnGlobal('email', 'POST');
+    $c = phpCollab\Util::returnGlobal('c', 'POST');
+    $logoDel = phpCollab\Util::returnGlobal('logoDel', 'POST');
+xdebug_var_dump( $extension );
+    die();
+    if ($logoDel == "on") {
+
+//        $logoDel = $admins_gateway->deleteMyCompanyLogo();
 		$tmpquery = "UPDATE ".$tableCollab["organizations"]." SET extension_logo='' WHERE id='1'";
 		phpCollab\Util::connectSql("$tmpquery");
-		@unlink("../logos_clients/1.$extensionOld");
-	}
-	
-	$extension = strtolower( substr( strrchr($_FILES['upload']['name'], ".") ,1) );
-	if(@move_uploaded_file($_FILES['upload']['tmp_name'], "../logos_clients/1.$extension")) 
-	{
-		$tmpquery = "UPDATE ".$tableCollab["organizations"]." SET extension_logo='$extension' WHERE id='1'";
-		phpCollab\Util::connectSql("$tmpquery");
-	}
-	$cn = phpCollab\Util::convertData($cn);
-	$add = phpCollab\Util::convertData($add);
-	$c = phpCollab\Util::convertData($c);
-	$tmpquery = "UPDATE ".$tableCollab["organizations"]." SET name='$cn',address1='$add',phone='$wp',url='$url',email='$email',comments='$c' WHERE id = '1'";
-	phpCollab\Util::connectSql("$tmpquery");
-	phpCollab\Util::headerFunction("../administration/mycompany.php");
+        @unlink("../logos_clients/1.$extensionOld");
+    }
+
+    $extension = strtolower(substr(strrchr($_FILES['upload']['name'], "."), 1));
+    if (@move_uploaded_file($_FILES['upload']['tmp_name'], "../logos_clients/1.$extension")) {
+        $tmpquery = "UPDATE " . $tableCollab["organizations"] . " SET extension_logo='$extension' WHERE id='1'";
+        phpCollab\Util::connectSql("$tmpquery");
+    }
+    $cn = phpCollab\Util::convertData($cn);
+    $add = phpCollab\Util::convertData($add);
+    $c = phpCollab\Util::convertData($c);
+    $tmpquery = "UPDATE " . $tableCollab["organizations"] . " SET name='$cn',address1='$add',phone='$wp',url='$url',email='$email',comments='$c' WHERE id = '1'";
+    phpCollab\Util::connectSql("$tmpquery");
+    phpCollab\Util::headerFunction("../administration/mycompany.php");
 }
 $tmpquery = "WHERE org.id = '1'";
 $clientDetail = new phpCollab\Request();
@@ -90,29 +93,26 @@ $bodyCommand = "onLoad='document.adminDForm.cn.focus();'";
 include '../themes/' . THEME . '/header.php';
 
 
-
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?",$strings["administration"],in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], in));
 $blockPage->itemBreadcrumbs($strings["company_details"]);
 $blockPage->closeBreadcrumbs();
 
-if ($msg != "") 
-{
-	include '../includes/messages.php';
-	$blockPage->messageBox($msgLabel);
+if ($msg != "") {
+    include '../includes/messages.php';
+    $blockPage->messageBox($msgLabel);
 }
 
 $block1 = new phpCollab\Block();
 
-echo "<a name='".$block1->form."Anchor'></a>\n
+echo "<a name='" . $block1->form . "Anchor'></a>\n
 	<form accept-charset='UNKNOWN' method='POST' action='../administration/mycompany.php?action=update&' name='adminDForm' enctype='multipart/form-data'>
 	<input type='hidden' name='MAX_FILE_SIZE' value='100000000'>\n";
 
-if ($error != "") 
-{            
-	$block1->headingError($strings["errors"]);
-	$block1->contentError($error);
+if ($error != "") {
+    $block1->headingError($strings["errors"]);
+    $block1->contentError($error);
 }
 
 $block1->heading($strings["company_details"]);
@@ -120,22 +120,25 @@ $block1->heading($strings["company_details"]);
 $block1->openContent();
 
 $block1->contentTitle($strings["company_info"]);
-$block1->contentRow($strings["name"],"<input size='44' value='$cn' style='width: 400px' name='cn' maxlength='100' type='TEXT'>");
-$block1->contentRow($strings["address"],"<textarea rows='3' style='width: 400px; height: 50px;' name='add' cols='43'>$add</textarea>");
-$block1->contentRow($strings["phone"],"<input size='32' value='$wp' style='width: 250px' name='wp' maxlength='32' type='TEXT'>");
-$block1->contentRow($strings["url"],"<input size='44' value='$url' style='width: 400px' name='url' maxlength='2000' type='TEXT'>");
-$block1->contentRow($strings["email"],"<input size='44' value='$email' style='width: 400px' name='email' maxlength='2000' type='TEXT'>");
-$block1->contentRow($strings["comments"],"<textarea rows='3' style='width: 400px; height: 50px;' name='c' cols='43'>$c</textarea>");
-$block1->contentRow($strings["logo"].$blockPage->printHelp("mycompany_logo"),"<input size='44' style='width: 400px' name='upload' type='file'>");
+$block1->contentRow($strings["name"], '<input size="44" value="$cn" style="width: 400px" name="cn" maxlength="100" type="TEXT">');
+$block1->contentRow($strings["address"], "<textarea rows='3' style='width: 400px; height: 50px;' name='add' cols='43'>$add</textarea>");
+$block1->contentRow($strings["phone"], "<input size='32' value='$wp' style='width: 250px' name='wp' maxlength='32' type='TEXT'>");
+$block1->contentRow($strings["url"], "<input size='44' value='$url' style='width: 400px' name='url' maxlength='2000' type='TEXT'>");
+$block1->contentRow($strings["email"], "<input size='44' value='$email' style='width: 400px' name='email' maxlength='2000' type='TEXT'>");
+$block1->contentRow($strings["comments"], "<textarea rows='3' style='width: 400px; height: 50px;' name='c' cols='43'>$c</textarea>");
+$block1->contentRow($strings["logo"] . $blockPage->printHelp("mycompany_logo"), '<input size="44" style="width: 400px" name="upload" type="file">');
 
-if (file_exists("../logos_clients/1.".$clientDetail->org_extension_logo[0])) 
-{
-$block1->contentRow("","<img src='../logos_clients/1.".$clientDetail->org_extension_logo[0]."' border='0' alt='".$clientDetail->org_name[0]."'> <input name='extensionOld' type='hidden' value='".$clientDetail->org_extension_logo[0]."'><input name='logoDel' type='checkbox' value='on'> ".$strings["delete"]);
+if (file_exists("../logos_clients/1." . $clientDetail->org_extension_logo[0])) {
+    $block1->contentRow("",
+        '<img src="../logos_clients/1.' . $clientDetail->org_extension_logo[0] . '" border="0" alt="' . $clientDetail->org_name[0] . '">
+         <input name="extensionOld" type="hidden" value="' . $clientDetail->org_extension_logo[0] . '">
+         <input name="logoDel" type="checkbox" value="on"> ' . $strings["delete"]
+    );
 }
 
-$block1->contentRow("","<input type='SUBMIT' value='".$strings["save"]."'>");
+$block1->contentRow("", "<input type='SUBMIT' value='" . $strings["save"] . "'>");
 
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/'.THEME.'/footer.php';
+include '../themes/' . THEME . '/footer.php';

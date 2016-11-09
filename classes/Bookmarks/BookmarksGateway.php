@@ -108,6 +108,57 @@ class BookmarksGateway
         return $this->db->resultset();
     }
 
+    public function getCategory($categoryName)
+    {
+        $conditionalStatement = ' WHERE boocat.name = :category_name';
+
+        $this->db->query($this->initrequest["bookmarks_categories"] . $conditionalStatement);
+
+        $this->db->bind(':category_name', $categoryName);
+
+        return $this->db->single();
+    }
+
+    public function addNewCategory($categoryName)
+    {
+        $query = "INSERT INTO bookmarks_categories (name) VALUES(:category_name)";
+
+        $this->db->query($query);
+
+        $this->db->bind(':category_name', $categoryName);
+
+        $this->db->execute();
+
+        return $this->db->lastInsertId();
+    }
+
+    public function updateBookmark($bookmarkId, $formData)
+    {
+
+        xdebug_var_dump($formData);
+        die();
+        $query = <<<SQL
+UPDATE bookmarks 
+SET 
+url=:url, 
+name=:name, 
+description=:description, 
+modified=:modified,
+category=:category,
+shared=:shared,
+home=:home,
+comments=:comments,
+users=:users
+WHERE id = :id
+SQL;
+        $this->db->query($query);
+
+        $this->db->bind(':url', $_POST['url']);
+        $this->db->bind(':category', $categoryName);
+
+        $this->db->execute();
+    }
+
     /**
      * @param string $sorting
      * @return string

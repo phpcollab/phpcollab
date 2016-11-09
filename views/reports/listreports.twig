@@ -1,0 +1,47 @@
+{{ myStuff }}
+{% if data.dataSet|length > 0 %}
+    <table>
+        <thead>
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Created</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in data.dataSet %}
+            <tr>
+                <td><input type="checkbox" /></td>
+                {# Old path #}
+                <td><a href="./resultsreport.php?id={{ item.id }}">{{ item.name }}</a></td>
+                {# Router path #}
+                {#<td><a href="./reports/{{ item.id }}">{{ item.name }}</a></td>#}
+                <td>{{ item.created }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    no data
+{% endif %}
+
+
+{#
+for some reason this blows up...
+
+{% extends "base.twig" %}
+
+{% block title %}Index{% endblock %}
+{% block head %}
+    {{ parent() }}
+    <style type="text/css">
+        .important { color: #336699; }
+    </style>
+{% endblock %}
+{% block content %}
+    <h1>Index</h1>
+    <p class="important">
+        Welcome on my awesome homepage.
+    </p>
+{% endblock %}
+#}

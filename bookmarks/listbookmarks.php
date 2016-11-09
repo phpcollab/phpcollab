@@ -29,10 +29,11 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$db = new phpCollab\Database();
+//$db = new phpCollab\Database();
+//
+//$bookmarks_gateway = new phpCollab\Bookmarks\BookmarksGateway($db);
 
-$bookmarks_gateway = new phpCollab\Bookmarks\BookmarksGateway($db);
-
+$bookmarks_gateway = new \phpCollab\Bookmarks\Bookmarks();
 
 // ** Do the title stuff here **
 switch ($view) {

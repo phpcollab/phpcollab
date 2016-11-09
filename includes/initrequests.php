@@ -178,7 +178,13 @@ LEFT OUTER JOIN bookmarks_categories boocat ON boocat.id = boo.category
 LEFT OUTER JOIN members mem ON mem.id = boo.owner
 SQL;
 
-$initrequest["bookmarks_categories"] = "SELECT boocat.* FROM " . $tableCollab["bookmarks_categories"] . " boocat ";
+$initrequest["bookmarks_categories"] = <<<SQL
+SELECT
+boocat.id AS boocat_id, 
+boocat.name AS boocat_name, 
+boocat.description AS boocat_description 
+FROM bookmarks_categories boocat
+SQL;
 
 $initrequest["newsdeskposts"] = "SELECT news.* FROM " . $tableCollab["newsdeskposts"] . " news ";
 
