@@ -4,6 +4,7 @@
 namespace phpCollab\Bookmarks;
 
 use phpCollab\Database;
+use Respect\Validation\Validator as v;
 
 class Bookmarks
 {
@@ -40,6 +41,12 @@ class Bookmarks
         return $data;
     }
 
+    public function getBookmarkById($bookmarkId)
+    {
+        $data = $this->bookmarks_gateway->getBookmarkById($bookmarkId);
+        return $data;
+    }
+
     public function getAllBookmarks($ownerId, $sorting) {
 
         $data = $this->bookmarks_gateway->getAllBookmarks($ownerId, $sorting);
@@ -50,5 +57,18 @@ class Bookmarks
     public function updateBookmark($bookmarkId, $formData)
     {
 
+    }
+
+    public function deleteBookmark($bookmarkId) {
+        try {
+            if (!v::intType()->validate( (int) $bookmarkId)) {
+                throw new \Exception("Invalid bookmark id");
+            }
+
+            $response = $this->bookmarks_gateway->deleteBookmark( $bookmarkId );
+            return $response;
+        } catch(\Exception $e) {
+            echo 'Message: ' .$e->getMessage();
+        }
     }
 }
