@@ -31,12 +31,12 @@ include_once '../includes/library.php';
 
 $db = new phpCollab\Database();
 
-$bookmarks_gateway = new phpCollab\Bookmarks\BookmarksGateway($db);
+$bookmarks = new phpCollab\Bookmarks\Bookmarks();
 
 if ($action == "delete") {
     $id = str_replace("**", ",", $id);
 
-    $bookmarks_gateway->deleteBookmark($id);
+    $bookmarks->deleteBookmark($id);
 
     phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=delete");
 }
