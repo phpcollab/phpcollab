@@ -93,6 +93,21 @@ class BookmarksGateway
     }
 
     /**
+     * @param integer $bookmarkId
+     * @return mixed
+     */
+    public function getBookmarkById($bookmarkId)
+    {
+        $whereStatement = ' WHERE boo.id = :bookmark_id';
+
+        $this->db->query($this->initrequest["bookmarks"] . $whereStatement);
+
+        $this->db->bind(':bookmark_id', $bookmarkId);
+
+        return $this->db->single();
+    }
+
+    /**
      * @param integer $ownerId
      * @param string $sorting
      * @return mixed
