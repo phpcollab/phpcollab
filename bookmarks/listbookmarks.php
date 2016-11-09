@@ -1,10 +1,5 @@
 <?php
 /*
-** Application name: phpCollab
-** Last Edit page: 2003-10-23 
-** Path by root: ../bookmarks/listbookmarks.php
-** Authors: Ceam / Fullo 
-**
 ** =============================================================================
 **
 **               phpCollab - Project Managment 
@@ -13,25 +8,10 @@
 ** Please refer to license, copyright, and credits in README.TXT
 **
 ** -----------------------------------------------------------------------------
-** FILE: listbookmarks.php
-**
-** DESC: Screen: main bookmark page, show allo the bookmarks and categories
-**
-** HISTORY:
-** 	2003-10-23	-	added new document info
-** -----------------------------------------------------------------------------
-** TO-DO:
-**	 
-**
-** =============================================================================
 */
 
 $checkSession = "true";
 include_once '../includes/library.php';
-
-//$db = new phpCollab\Database();
-//
-//$bookmarks_gateway = new phpCollab\Bookmarks\BookmarksGateway($db);
 
 $bookmarks_gateway = new \phpCollab\Bookmarks\Bookmarks();
 
@@ -78,10 +58,7 @@ $block1->paletteIcon(0, "add", $strings["add"]);
 if ($view == "my") {
     $block1->paletteIcon(1, "remove", $strings["delete"]);
 }
-/*if ($sitePublish == "true") {
-    $block1->paletteIcon(3,"add_projectsite",$strings["add_project_site"]);
-    $block1->paletteIcon(4,"remove_projectsite",$strings["remove_project_site"]);
-}*/
+
 $block1->paletteIcon(5, "info", $strings["view"]);
 if ($view == "my") {
     $block1->paletteIcon(6, "edit", $strings["edit"]);
@@ -94,10 +71,10 @@ if ($view == "my") {
         "bookmarks",
         $sortingUser->sor_bookmarks[0],
         "boo.name ASC", $sortingFields = array(
-            0 => "boo.name",
-            1 => "boo.category",
-            2 => "boo.shared"
-        )
+        0 => "boo.name",
+        1 => "boo.category",
+        2 => "boo.shared"
+    )
     );
 } else {
     $block1->sorting(
@@ -180,10 +157,6 @@ $block1->paletteScript(0, "add", "../bookmarks/editbookmark.php?", "true,false,f
 if ($view == "my") {
     $block1->paletteScript(1, "remove", "../bookmarks/deletebookmarks.php?", "false,true,true", $strings["delete"]);
 }
-/*$if ($sitePublish == "true") {
-    $block1->paletteScript(3,"add_projectsite","../bookmarks/listbookmarks.php?addToSite=true&project=".$projectDetail->pro_id[0]."&action=publish","false,true,true",$strings["add_project_site"]);
-    $block1->paletteScript(4,"remove_projectsite","../bookmarks/listbookmarks.php?removeToSite=true&project=".$projectDetail->pro_id[0]."&action=publish","false,true,true",$strings["remove_project_site"]);
-}*/
 
 $block1->paletteScript(5, "info", "../bookmarks/viewbookmark.php?", "false,true,false", $strings["view"]);
 if ($view == "my") {
