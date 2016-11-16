@@ -11,6 +11,7 @@ class Block
         $pathImg, $themeImgPath, $accountTotal, $account, $sortingOrders,
         $sortingFields, $sortingArrows, $sortingStyles, $explode, $labels,
         $sitePublish;
+    public $form;
 
     /**
      *
