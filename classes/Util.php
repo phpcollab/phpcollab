@@ -20,6 +20,7 @@ class Util
     /**
      * Wrapper to make sure null strings display as 0 in sql queries
      * @param string $var An integer represented as a string
+     * @return int
      **/
     public static function fixInt($var)
     {
@@ -28,6 +29,19 @@ class Util
         } else {
             return $var;
         }
+    }
+
+    /**
+     * Checks to see if the passed in URL begins with http or not.  If it doesn't,
+     * then it adds it.
+     * @param string $url
+     * @return string
+     */
+    public static function addHttp($url) {
+        if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
+            $url = "http://" . $url;
+        }
+        return $url;
     }
 
     // replace spec.chars , you can add rule
