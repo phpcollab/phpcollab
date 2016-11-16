@@ -86,6 +86,17 @@ class BookmarksGateway
         return $this->db->single();
     }
 
+    public function getBookmarksInRange($range)
+    {
+        $placeholders = str_repeat ('?, ', count($range)-1) . '?';
+
+        $whereStatement = " WHERE boo.id IN ($placeholders)";
+
+        $this->db->query($this->initrequest["bookmarks"] . $whereStatement);
+        $this->db->execute($range);
+        return $this->db->fetchAll();
+    }
+
     /**
      * @param integer $ownerId
      * @param string $sorting

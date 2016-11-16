@@ -47,6 +47,12 @@ class Bookmarks
         return $data;
     }
 
+    public function getBookmarksInRange($range)
+    {
+        $data = $this->bookmarks_gateway->getBookmarksInRange($range);
+        return $data;
+    }
+
     public function getAllBookmarks($ownerId, $sorting) {
 
         $data = $this->bookmarks_gateway->getAllBookmarks($ownerId, $sorting);
