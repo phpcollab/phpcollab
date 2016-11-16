@@ -234,20 +234,11 @@ echo <<<HTML
             <option value="0">-</option>
 HTML;
 
-$tmpquery = "ORDER BY boocat.name";
+$categories = $bookmark->getBookmarkCategories();
 
-//$listCategories = $bookmark->getBookmarkCategories();
-//
-$listCategories = new phpCollab\Request();
-$listCategories->openBookmarksCategories($tmpquery);
-$comptListCategories = count($listCategories->boocat_id);
-
-for ($i = 0; $i < $comptListCategories; $i++) {
-    if ($listCategories->boocat_id[$i] == $bookmarkDetail['boo_category']) {
-        echo '<option value="' . $listCategories->boocat_id[$i] . '" selected>' . $listCategories->boocat_name[$i] . '</option>';
-    } else {
-        echo '<option value="' . $listCategories->boocat_id[$i] . '">' . $listCategories->boocat_name[$i] . '</option>';
-    }
+foreach ($categories as $item) {
+    $selected = ($item['boocat_id'] == $bookmarkDetail['boo_category']) ? 'selected' : '';
+    echo '<option value="' . $item['boocat_id'] . '" ' . $selected . '>' . $item['boocat_name'] . '</option>';
 }
 
 echo <<<HTML
