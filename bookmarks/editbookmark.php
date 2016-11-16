@@ -35,19 +35,14 @@ include_once '../includes/library.php';
 
 $bookmark = new \phpCollab\Bookmarks\Bookmarks();
 
-if ($id != "" && $action != "add") {
-    $tmpquery = "WHERE boo.id = '$id'";
-    $bookmarkDetail = new phpCollab\Request();
-    $bookmarkDetail->openBookmarks($tmpquery);
-
-    if ($bookmarkDetail->boo_owner[0] != $idSession) {
-        phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=bookmarkOwner");
-    }
+//if ($id != "" && $action != "add") {
+if ($id != "") {
+    $bookmarkId = filter_var( (int) $id, FILTER_VALIDATE_INT);
+    $bookmarkDetail = $bookmark->getBookmarkById($id);
 }
 
 //case update bookmark entry
 if ($id != "") {
-
     //case update bookmark entry
     if ($action == "update") {
         if ($piecesNew != "") {
@@ -61,13 +56,13 @@ if ($id != "") {
          * Otherwise it adds it to the $category
          */
         if ($category_new != "") {
-            $category = $bookmarks_gateway->getCategory($category_new);
+            $category = $bookmark->getBookmarkCategoryByName($category_new);
 
             /**
              * If category is false, hence it doesn't exist, then add it
              */
             if (!$category) {
-                $category = $bookmarks_gateway->addNewCategory($category_new);
+                $category = $bookmark->addNewBookmarkCategory($category_new);
             } else {
                 $category = $category["boocat_id"];
             }
@@ -85,79 +80,39 @@ if ($id != "") {
 
         /**
          * Validate form data
-         * TODO: need to implement validation on form data before passing it on
          */
-//
-//
-//        xdebug_var_dump($_POST);
-//
-////        $tmpId = (int) $id;
+
         $filteredData =  array();
-        $filteredData['id'] = filter_avar( (int) $id, FILTER_VALIDATE_INT);
-        $filteredData['url'] = filter_var( $url, FILTER_SANITIZE_URL);
-        $filteredData['name'] = filter_var( $url, FILTER_SANITIZE_STRING);
+        $filteredData['id'] = filter_var( (int) $id, FILTER_VALIDATE_INT);
+        $filteredData['url'] = filter_var( (string) \phpCollab\Util::addHttp($_POST['url']), FILTER_SANITIZE_URL);
+        $filteredData['name'] = filter_var( (string) $_POST['name'], FILTER_SANITIZE_STRING);
+        $filteredData['description'] = filter_var( (string) $_POST['description'], FILTER_SANITIZE_STRING);
+        $filteredData['comments'] = filter_var( $comments, FILTER_SANITIZE_STRING);
+        $filteredData['modified'] = $dateheure;
+        $filteredData['category'] = filter_var( (int) $category, FILTER_VALIDATE_INT);
+        $filteredData['shared'] = filter_var( (int) $shared, FILTER_VALIDATE_INT);
+        $filteredData['home'] = filter_var( (int) $home, FILTER_VALIDATE_INT);
+        $filteredData['users'] = $users;
 
-//echo "filtered";
-//var_dump($filteredId);
-//var_dump($filteredUrl);
-//
-//        echo "";
+        $updateBookmark = $bookmark->updateBookmark($filteredData);
 
-        if ($_POST) {
-//            echo '<h1>Validate!</h1>';
-            $bookmarkData = array(
-                'id' => $id,
-                'url' => $_POST['url'] ?: '',
-                'name' => $_POST['name'] ?: '',
-                'description' => $_POST['description'] ?: '',
-                'modified' => $dateheure,
-                'category' => $category,
-                'shared' => $shared,
-                'home' => $home,
-                'comments' => $comments,
-                'users' => $users
-            );
-
-        }
-//        xdebug_var_dump($bookmarkData);
-//        die();
-
-//        $name = phpCollab\Util::convertData($name);
-//        $description = phpCollab\Util::convertData($description);
-/*
-            $tmpquery5 = "UPDATE " . $tableCollab["bookmarks"] . " SET
-            url='$url',
-            name='$name',
-            description='$description',
-            modified='$dateheure',
-            category='$category',
-            shared='$shared',
-            home='$home',
-            comments='$comments',
-            users='$users' WHERE id = '$id'";
-*/
-//        phpCollab\Util::connectSql("$tmpquery5");
-
-        $updateBookmark = $bookmarks->updateBookmark($id, $bookmarkData);
-        echo "updateBookmark";
-        xdebug_var_dump($updateBookmark);
         phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=update");
     }
 
     //set value in form
-    $name = $bookmarkDetail->boo_name[0];
-    $url = $bookmarkDetail->boo_url[0];
-    $description = $bookmarkDetail->boo_description[0];
-    $category = $bookmarkDetail->boo_category[0];
-    $shared = $bookmarkDetail->boo_shared[0];
+    $name = $bookmarkDetail['boo_name'];
+    $url = $bookmarkDetail['boo_url'];
+    $description = $bookmarkDetail['boo_description'];
+    $category = $bookmarkDetail['boo_category'];
+    $shared = $bookmarkDetail['boo_shared'];
     if ($shared == "1") {
         $checkedShared = "checked";
     }
-    $home = $bookmarkDetail->boo_home[0];
+    $home = $bookmarkDetail['boo_home'];
     if ($home == "1") {
         $checkedHome = "checked";
     }
-    $comments = $bookmarkDetail->boo_comments[0];
+    $comments = $bookmarkDetail['boo_comments'];
     if ($comments == "1") {
         $checkedComments = "checked";
     }
@@ -177,26 +132,21 @@ if ($id == "") {
             $users = "|" . implode("|", $piecesNew) . "|";
         }
         if ($category_new != "") {
-            $category_new = phpCollab\Util::convertData($category_new);
-            $tmpquery = "WHERE boocat.name = '$category_new'";
-            $listCategories = new phpCollab\Request();
-            $listCategories->openBookmarksCategories($tmpquery);
-            $comptListCategories = count($listCategories->boocat_id);
+            /**
+             * Check to see if the category exists
+             */
+            $category = $bookmark->getBookmarkCategoryByName($category_new);
 
-            if ($comptListCategories == "0") {
-                $tmpquery1 = "INSERT INTO " . $tableCollab["bookmarks_categories"] . "(name) VALUES('$category_new')";
-                phpCollab\Util::connectSql("$tmpquery1");
-
-                $tmpquery = $tableCollab["bookmarks_categories"];
-                phpCollab\Util::getLastId($tmpquery);
-                $num = $lastId[0];
-                unset($lastId);
-
-                $category = $num;
+            /**
+             * If category is false, hence it doesn't exist, then add it
+             */
+            if (!$category) {
+                $category = $bookmark->addNewBookmarkCategory($category_new);
             } else {
-                $category = $listCategories->boocat_id[0];
+                $category = $category["boocat_id"];
             }
         }
+
 
         if ($shared == "" || $users != "") {
             $shared = "0";
@@ -208,10 +158,24 @@ if ($id == "") {
             $comments = "0";
         }
 
-        $name = phpCollab\Util::convertData($name);
-        $description = phpCollab\Util::convertData($description);
-        $tmpquery1 = "INSERT INTO " . $tableCollab["bookmarks"] . "(owner,category,name,url,description,shared,home,comments,users,created) VALUES('$idSession','$category','$name','$url','$description','$shared','$home','$comments','$users','$dateheure')";
-        phpCollab\Util::connectSql("$tmpquery1");
+        /**
+         * Validate form data
+         */
+
+        $filteredData =  array();
+        $filteredData['owner_id'] = filter_var( (int) $idSession, FILTER_VALIDATE_INT);
+        $filteredData['url'] = filter_var( (string) \phpCollab\Util::addHttp($_POST['url']), FILTER_SANITIZE_URL);
+        $filteredData['name'] = filter_var( (string) $_POST['name'], FILTER_SANITIZE_STRING);
+        $filteredData['description'] = filter_var( (string) $_POST['description'], FILTER_SANITIZE_STRING);
+        $filteredData['comments'] = filter_var( $comments, FILTER_SANITIZE_STRING);
+        $filteredData['created'] = $dateheure;
+        $filteredData['category'] = filter_var( (int) $category, FILTER_VALIDATE_INT);
+        $filteredData['shared'] = filter_var( (int) $shared, FILTER_VALIDATE_INT);
+        $filteredData['home'] = filter_var( (int) $home, FILTER_VALIDATE_INT);
+        $filteredData['users'] = $users;
+
+        $addBookmark = $bookmark->addBookmark($filteredData);
+
         phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=add");
     }
 
@@ -228,7 +192,7 @@ if ($id == "") {
     $blockPage->itemBreadcrumbs($strings["add_bookmark"]);
 }
 if ($id != "") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/viewbookmark.php?id=" . $bookmarkDetail->boo_id[0], $bookmarkDetail->boo_name[0], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/viewbookmark.php?id=" . $bookmarkDetail['boo_id'], $bookmarkDetail['boo_name'], in));
     $blockPage->itemBreadcrumbs($strings["edit_bookmark"]);
 }
 $blockPage->closeBreadcrumbs();
@@ -256,7 +220,7 @@ if ($id == "") {
     $block1->heading($strings["add_bookmark"]);
 }
 if ($id != "") {
-    $block1->heading($strings["edit_bookmark"] . " : " . $bookmarkDetail->boo_name[0]);
+    $block1->heading($strings["edit_bookmark"] . " : " . $bookmarkDetail['boo_name']);
 }
 
 $block1->openContent();
@@ -270,13 +234,19 @@ echo <<<HTML
             <option value="0">-</option>
 HTML;
 
+
+xdebug_var_dump($bookmarkDetail);
+
 $tmpquery = "ORDER BY boocat.name";
+
+//$listCategories = $bookmark->getBookmarkCategories();
+//
 $listCategories = new phpCollab\Request();
 $listCategories->openBookmarksCategories($tmpquery);
 $comptListCategories = count($listCategories->boocat_id);
 
 for ($i = 0; $i < $comptListCategories; $i++) {
-    if ($listCategories->boocat_id[$i] == $bookmarkDetail->boo_category[0]) {
+    if ($listCategories->boocat_id[$i] == $bookmarkDetail['boo_category']) {
         echo '<option value="' . $listCategories->boocat_id[$i] . '" selected>' . $listCategories->boocat_name[$i] . '</option>';
     } else {
         echo '<option value="' . $listCategories->boocat_id[$i] . '">' . $listCategories->boocat_name[$i] . '</option>';
@@ -329,10 +299,10 @@ $listUsers->openMembers($tmpquery);
 $comptListUsers = count($listUsers->mem_id[0]);
 
 
-$oldCaptured = $bookmarkDetail->boo_users[0];
+$oldCaptured = $bookmarkDetail['boo_users'];
 
-if ($bookmarkDetail->boo_users[0] != "") {
-    $listCaptured = explode("|", $bookmarkDetail->boo_users[0]);
+if ($bookmarkDetail['boo_users'][0] != "") {
+    $listCaptured = explode("|", $bookmarkDetail['boo_users'][0]);
     $comptListCaptured = count($listCaptured);
 }
 if ($comptListUsers != "0") {
