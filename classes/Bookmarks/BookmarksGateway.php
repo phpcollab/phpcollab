@@ -12,27 +12,6 @@ class BookmarksGateway
 {
     protected $db;
     protected $initrequest;
-//    protected $stmt = <<<SQL
-//SELECT
-//  boo.id AS boo_id,
-//  boo.owner AS boo_owner,
-//  boo.category AS boo_category,
-//  boo.name AS boo_name,
-//  boo.url AS boo_url,
-//  boo.description AS boo_description,
-//  boo.shared AS boo_shared,
-//  boo.home AS boo_home,
-//  boo.comments AS boo_comments,
-//  boo.users AS boo_users,
-//  boo.created AS boo_created,
-//  boo.modified AS boo_modified,
-//  mem.login AS boo_mem_login,
-//  mem.email_work AS boo_mem_email_work,
-//  boocat.name AS boo_boocat_name
-//FROM bookmarks boo
-//LEFT OUTER JOIN bookmarks_categories boocat ON boocat.id = boo.category
-//LEFT OUTER JOIN members mem ON mem.id = boo.owner
-//SQL;
 
     /**
      * Reports constructor.
@@ -65,7 +44,7 @@ class BookmarksGateway
      * @param string $sorting
      * @return mixed
      */
-    public function getMyBookmarks($ownerId, $sorting)
+    public function getMyBookmarks($ownerId, $sorting = '')
     {
         $whereStatement = ' WHERE boo.owner = :owner_id ';
 
@@ -81,7 +60,7 @@ class BookmarksGateway
      * @param string $sorting
      * @return mixed
      */
-    public function getPrivateBookmarks($ownerId, $sorting)
+    public function getPrivateBookmarks($ownerId, $sorting = '')
     {
         $whereStatement = ' WHERE boo.users LIKE :owner_id';
 
@@ -112,7 +91,7 @@ class BookmarksGateway
      * @param string $sorting
      * @return mixed
      */
-    public function getAllBookmarks($ownerId, $sorting)
+    public function getAllBookmarks($ownerId, $sorting = '')
     {
         $whereStatement = ' WHERE boo.shared = 1 OR boo.owner = :owner_id ';
 
@@ -123,7 +102,16 @@ class BookmarksGateway
         return $this->db->resultset();
     }
 
-    public function getCategory($categoryName)
+    public function getAllBookmarkCategories()
+    {
+        $sorting = 'name';
+
+        $this->db->query($this->initrequest["bookmarks_categories"] . $this->orderBy($sorting));
+
+        return $this->db->resultset();
+    }
+
+    public function getCategoryByName($categoryName)
     {
         $conditionalStatement = ' WHERE boocat.name = :category_name';
 
@@ -147,31 +135,72 @@ class BookmarksGateway
         return $this->db->lastInsertId();
     }
 
-    public function updateBookmark($bookmarkId, $formData)
+    public function addBookmark($bookmarkData)
     {
+        $query = <<<SQL
+INSERT INTO bookmarks 
+(owner, category, name, url, description, shared, home, comments, users, created) 
+VALUES(
+  :bookmark_owner, 
+  :bookmark_category, 
+  :bookmark_name, 
+  :bookmark_url, 
+  :bookmark_description, 
+  :bookmark_shared, 
+  :bookmark_home,
+  :bookmark_comments,
+  :bookmark_users,
+  :bookmark_created
+)
+SQL;
 
-        xdebug_var_dump($formData);
-        die();
+        $this->db->query($query);
+
+        $this->db->bind(':bookmark_owner', $bookmarkData['owner_id']);
+        $this->db->bind(':bookmark_url', $bookmarkData['url']);
+        $this->db->bind(':bookmark_name', $bookmarkData['name']);
+        $this->db->bind(':bookmark_description', $bookmarkData['description']);
+        $this->db->bind(':bookmark_comments', $bookmarkData['comments']);
+        $this->db->bind(':bookmark_created', $bookmarkData['created']);
+        $this->db->bind(':bookmark_category', $bookmarkData['category']);
+        $this->db->bind(':bookmark_shared', $bookmarkData['shared']);
+        $this->db->bind(':bookmark_home', $bookmarkData['home']);
+        $this->db->bind(':bookmark_users', $bookmarkData['users']);
+
+        return $this->db->execute();
+    }
+
+    public function updateBookmark($bookmarkData)
+    {
         $query = <<<SQL
 UPDATE bookmarks 
 SET 
-url=:url, 
-name=:name, 
-description=:description, 
-modified=:modified,
-category=:category,
-shared=:shared,
-home=:home,
-comments=:comments,
-users=:users
-WHERE id = :id
+url=:bookmark_url, 
+name=:bookmark_name, 
+description=:bookmark_description, 
+modified=:bookmark_modified,
+category=:bookmark_category,
+shared=:bookmark_shared,
+home=:bookmark_home,
+comments=:bookmark_comments,
+users=:bookmark_users
+WHERE id = :bookmark_id
 SQL;
+
         $this->db->query($query);
 
-        $this->db->bind(':url', $_POST['url']);
-        $this->db->bind(':category', $categoryName);
+        $this->db->bind(':bookmark_id', $bookmarkData['id']);
+        $this->db->bind(':bookmark_url', $bookmarkData['url']);
+        $this->db->bind(':bookmark_category', $bookmarkData['category']);
+        $this->db->bind(':bookmark_name', $bookmarkData['name']);
+        $this->db->bind(':bookmark_description', $bookmarkData['description']);
+        $this->db->bind(':bookmark_modified', $bookmarkData['modified']);
+        $this->db->bind(':bookmark_shared', $bookmarkData['shared']);
+        $this->db->bind(':bookmark_home', $bookmarkData['home']);
+        $this->db->bind(':bookmark_comments', $bookmarkData['comments']);
+        $this->db->bind(':bookmark_users', $bookmarkData['users']);
 
-        $this->db->execute();
+        return $this->db->execute();
     }
 
     /**
