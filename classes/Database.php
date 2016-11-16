@@ -65,14 +65,19 @@ class Database
         $this->stmt->bindValue($param, $value, $type);
     }
 
-    public function execute()
+    public function execute($param = null)
     {
-        return $this->stmt->execute();
+        return $this->stmt->execute($param);
     }
 
     public function resultset()
     {
         $this->execute();
+        return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function fetchAll()
+    {
         return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
