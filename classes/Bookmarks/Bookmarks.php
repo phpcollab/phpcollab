@@ -13,14 +13,8 @@ class Bookmarks
 
     public function __construct()
     {
-//        $db = new phpCollab\Database();
         $this->db = new Database();
-
         $this->bookmarks_gateway = new BookmarksGateway($this->db);
-        // phpCollab\Bookmarks\BookmarksGateway($db);
-
-
-//        $this->bookmarks_gateway = $bookmarks_gateway;
     }
 
     public function getBookmarksByOwner($ownerId)
