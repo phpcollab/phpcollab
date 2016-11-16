@@ -4,19 +4,21 @@
 
 namespace phpCollab\Projects;
 
+use phpCollab\Database;
 
 class Projects
 {
     protected $projects_gateway;
+    protected $db;
 
-    public function __construct(ProjectsGateway $projects_gateway)
+    public function __construct()
     {
-        $this->projects_gateway = $projects_gateway;
+        $this->db = new Database();
+        $this->projects_gateway = new ProjectsGateway($this->db);
     }
 
-    public function getProjectsByOwner($ownerId)
+    public function getProjectsByOwner($ownerId, $sorting)
     {
-        $rows = $this->projects_gateway->getAllByOwner($ownerId);
-        return $rows;
+        return $this->projects_gateway->getAllByOwner($ownerId, $sorting);
     }
 }
