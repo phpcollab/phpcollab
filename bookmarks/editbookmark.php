@@ -34,6 +34,7 @@ include_once '../includes/library.php';
 //$bookmarks_gateway = new phpCollab\Bookmarks\BookmarksGateway($db);
 
 $bookmark = new \phpCollab\Bookmarks\Bookmarks();
+$member = new \phpCollab\Members\Members();
 
 //if ($id != "" && $action != "add") {
 if ($id != "") {
@@ -275,25 +276,21 @@ echo <<<HTML
 </tr>
 HTML;
 
-
 if ($demoMode == "true") {
     $tmpquery = "WHERE mem.id != '$idSession' AND mem.profil != '3' ORDER BY mem.login";
 } else {
     $tmpquery = "WHERE mem.id != '$idSession' AND mem.profil != '3' AND mem.id != '2' ORDER BY mem.login";
 }
-$listUsers = new phpCollab\Request();
-$listUsers->openMembers($tmpquery);
 
-$comptListUsers = count($listUsers->mem_id[0]);
-
+$listUsers = $member->getAllMembers();
 
 $oldCaptured = $bookmarkDetail['boo_users'];
 
-if ($bookmarkDetail['boo_users'][0] != "") {
-    $listCaptured = explode("|", $bookmarkDetail['boo_users'][0]);
-    $comptListCaptured = count($listCaptured);
+if ($bookmarkDetail['boo_users'] != "") {
+    $listCaptured = explode("|", $bookmarkDetail['boo_users']);
 }
-if ($comptListUsers != "0") {
+
+if (count($listUsers) != "0") {
     echo <<<HTML
 <tr class="odd">
     <td valign="top" class="leftvalue">{$strings["private"]} :</td>
@@ -301,24 +298,15 @@ if ($comptListUsers != "0") {
         <select name="piecesNew[]" multiple size=10 style="width: 200px;">
 HTML;
 
-    //$oldCaptured = "";
-    for ($i = 0; $i < $comptListUsers; $i++) {
-        $selected[$i] = "";
-        for ($j = 0; $j < $comptListCaptured; $j++) {
-            if ($listUsers->mem_id[$i] == $listCaptured[$j]) {
-                $selected[$i] = "selected";
-                //$oldCaptured .= $listCaptured[$j].":";
-                break;
-            } else {
-                $selected[$i] = "";
-            }
+    foreach ($listUsers as $user) {
+        if ($listCaptured) {
+            $selected = (in_array($user['mem_id'], $listCaptured)) ? 'selected' : '';
         }
-
-        echo '<option value="' . $listUsers->mem_id[$i] . '" $selected[$i]>' . $listUsers->mem_login[$i] . '</option>';
+        echo '<option value="' . $user['mem_id'] . '" '. $selected.'>' . $user['mem_login'] . '</option>';
     }
 
     echo <<<HTML
-</select>
+    </select>
 </td>
 </tr>
 <input type="hidden" name="oldCaptured" value="{$oldCaptured}">
