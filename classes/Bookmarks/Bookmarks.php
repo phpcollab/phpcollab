@@ -96,9 +96,7 @@ class Bookmarks
 
     public function deleteBookmark($bookmarkId) {
         try {
-            if (!v::intType()->validate( (int) $bookmarkId)) {
-                throw new \Exception("Invalid bookmark id");
-            }
+            $bookmarkId = filter_var( (string) $bookmarkId, FILTER_SANITIZE_STRING);
 
             $response = $this->bookmarks_gateway->deleteBookmark( $bookmarkId );
             return $response;
