@@ -46,7 +46,7 @@ $blockPage->closeBreadcrumbs();
 if ($msg != "") {
     // Todo: refactor this
     include '../includes/messages.php';
-    $blockPage->messagebox($msgLabel);
+    $blockPage->messageBox($msgLabel);
 }
 
 $block1 = new phpCollab\Block();
@@ -71,22 +71,22 @@ if ($view == "my") {
     $block1->sorting(
         "bookmarks",
         $sortingUser->sor_bookmarks[0],
-        "boo.name ASC", $sortingFields = array(
+        "boo.name ASC", $sortingFields = [
         0 => "boo.name",
         1 => "boo.category",
         2 => "boo.shared"
-    )
+    ]
     );
 } else {
     $block1->sorting(
         "bookmarks",
         $sortingUser->sor_bookmarks[0],
         "boo.name ASC",
-        $sortingFields = array(
+        $sortingFields = [
             0 => "boo.name",
             1 => "boo.category",
             2 => "mem.login"
-        )
+        ]
     );
 }
 
@@ -107,20 +107,20 @@ if ($bookmarkCount > 0) {
 
     if ($view == "my") {
         $block1->labels(
-            $labels = array(
+            $labels = [
                 0 => $strings["name"],
                 1 => $strings["bookmark_category"],
                 2 => $strings["shared"]
-            ),
+            ],
             "false"
         );
     } else {
         $block1->labels(
-            $labels = array(
+            $labels = [
                 0 => $strings["name"],
                 1 => $strings["bookmark_category"],
                 2 => $strings["owner"]
-            ),
+            ],
             "false"
         );
     }

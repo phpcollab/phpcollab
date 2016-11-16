@@ -83,7 +83,7 @@ if ($id != "") {
          * Validate form data
          */
 
-        $filteredData =  array();
+        $filteredData =  [];
         $filteredData['id'] = filter_var( (int) $id, FILTER_VALIDATE_INT);
         $filteredData['url'] = filter_var( (string) \phpCollab\Util::addHttp($_POST['url']), FILTER_SANITIZE_URL);
         $filteredData['name'] = filter_var( (string) $_POST['name'], FILTER_SANITIZE_STRING);
@@ -163,7 +163,7 @@ if ($id == "") {
          * Validate form data
          */
 
-        $filteredData =  array();
+        $filteredData =  [];
         $filteredData['owner_id'] = filter_var( (int) $idSession, FILTER_VALIDATE_INT);
         $filteredData['url'] = filter_var( (string) \phpCollab\Util::addHttp($_POST['url']), FILTER_SANITIZE_URL);
         $filteredData['name'] = filter_var( (string) $_POST['name'], FILTER_SANITIZE_STRING);
@@ -200,7 +200,7 @@ $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
     include '../includes/messages.php';
-    $blockPage->messagebox($msgLabel);
+    $blockPage->messageBox($msgLabel);
 }
 
 $block1 = new phpCollab\Block();
