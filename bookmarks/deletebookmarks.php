@@ -70,17 +70,15 @@ $block1->heading($strings["delete_bookmarks"]);
 $block1->openContent();
 $block1->contentTitle($strings["delete_following"]);
 
-$id = str_replace("**", ",", $id);
-$tmpquery = "WHERE boo.id IN($id) ORDER BY boo.name";
-$listBookmarks = new phpCollab\Request();
-$listBookmarks->openBookmarks($tmpquery);
-$comptListBookmarks = count($listBookmarks->boo_id);
+$id = explode(',',str_replace("**", ",", $id));
 
-for ($i = 0; $i < $comptListBookmarks; $i++) {
-    $block1->contentRow("#" . $listBookmarks->boo_id[$i], $listBookmarks->boo_name[$i]);
+$bookmarkList = $bookmarks->getBookmarksInRange($id);
+
+foreach ($bookmarkList as $bookmark) {
+    $block1->contentRow("#" . $bookmark['boo_id'], $bookmark['boo_name']);
 }
 
-$block1->contentRow("", "<input type=\"submit\" name=\"delete\" value=\"" . $strings["delete"] . "\"> <input type=\"button\" name=\"cancel\" value=\"" . $strings["cancel"] . "\" onClick=\"history.back();\">");
+$block1->contentRow("", '<input type="submit" name="delete" value="' . $strings["delete"] . '"> <input type="button" name="cancel" value="' . $strings["cancel"] . '" onClick="history.back();">');
 
 $block1->closeContent();
 $block1->closeForm();
