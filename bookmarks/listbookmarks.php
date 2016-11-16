@@ -44,6 +44,7 @@ if ($view == "private") {
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
+    // Todo: refactor this
     include '../includes/messages.php';
     $blockPage->messagebox($msgLabel);
 }
@@ -166,5 +167,3 @@ $block1->closePaletteScript($comptListBookmarks, $listBookmarks->boo_id);
 
 
 include '../themes/' . THEME . '/footer.php';
-
-?>

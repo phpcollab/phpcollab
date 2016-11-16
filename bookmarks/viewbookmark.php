@@ -101,4 +101,3 @@ if ($bookmarkDetail['boo_owner'] == $idSession) {
 }
 
 include '../themes/' . THEME . '/footer.php';
-?>
