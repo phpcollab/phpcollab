@@ -55,13 +55,12 @@ if ($action == 'publish') {
     if ($closeTopic == 'true') {
         $multi = strstr($id, '**');
 
+        // Todo: Refactore to use PDO
         if ($multi != '') {
             $id = str_replace('**', ',', $id);
             $tmpquery1 = 'UPDATE ' . $tableCollab['topics'] . " SET status='0' WHERE id IN($id)";
             $pieces = explode(',', $id);
             $num = count($pieces);
-
-
         } else {
             $tmpquery1 = 'UPDATE ' . $tableCollab['topics'] . " SET status='0' WHERE id = '$id'";
             $num = '1';
@@ -73,6 +72,7 @@ if ($action == 'publish') {
 
     if ($addToSiteTopic == "true") {
         $multi = strstr($id, "**");
+        // Todo: Refactore to use PDO
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
             $tmpquery1 = "UPDATE " . $tableCollab["topics"] . " SET published='0' WHERE id IN($id)";
@@ -87,6 +87,7 @@ if ($action == 'publish') {
     if ($removeToSiteTopic == "true") {
         $multi = strstr($id, "**");
 
+        // Todo: Refactore to use PDO
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
             $tmpquery1 = "UPDATE " . $tableCollab["topics"] . " SET published='1' WHERE id IN($id)";
@@ -120,6 +121,7 @@ if ($showHomeBookmarks) {
 
     $block6->sorting("bookmarks", $sortingUser->sor_bookmarks[0], "boo.name ASC", $sortingFields = array(0 => "boo.name", 1 => "boo.category", 2 => "boo.shared"));
 
+    // Todo: Refactore to use PDO
     $tmpquery = "WHERE boo.home = '1' AND boo.owner = '$idSession' ORDER BY $block6->sortingValue";
 
     $listBookmarks = new phpCollab\Request();
@@ -151,6 +153,7 @@ if ($showHomeBookmarks) {
 
         $block6->sorting("bookmarks", $sortingUser->sor_bookmarks[0], "boo.name ASC", $sortingFields = array(0 => "boo.name", 1 => "boo.category", 2 => "boo.shared"));
 
+        // Todo: Refactore to use PDO
         $tmpquery = "WHERE boo.home = '1' AND boo.owner = '$idSession' ORDER BY $block6->sortingValue";
 
         $listBookmarks = new phpCollab\Request();
@@ -370,6 +373,7 @@ if ($showHomeTasks) {
 
     $block2->sorting("home_tasks", $sortingUser->sor_home_tasks[0], "tas.name ASC", $sortingFields = array(0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem.login", 6 => "tas.project", 7 => "tas.published"));
 
+    // Todo: Refactore to use PDO
     $tmpquery = "WHERE subtas.assigned_to = '$idSession'";
 
     $listSubtasks = new phpCollab\Request();
@@ -382,6 +386,7 @@ if ($showHomeTasks) {
         }
     }
 
+    // Todo: Refactore to use PDO
     if ($subtasks != "") {
         $tmpquery = "WHERE (tas.assigned_to = '$idSession' AND tas.status IN(0,2,3) AND pro.status IN(0,2,3)) OR tas.id IN($subtasks) ORDER BY $block2->sortingValue";
     } else {
@@ -474,6 +479,7 @@ if ($showHomeSubtasks) {
     */
     $block3->sorting("home_subtasks", $sortingUser->sor_home_subtasks[0], "subtas.name ASC", $sortingFields = array(0 => "subtas.name", 1 => "subtas.priority", 2 => "subtas.status", 3 => "subtas.completion", 4 => "subtas.due_date", 5 => "mem.login", 6 => "subtas.task", 7 => "subtas.published"));
 
+    // Todo: Refactore to use PDO
     $tmpquery = "WHERE subtas.assigned_to = '$idSession'";
 
     $listSubtasks = new phpCollab\Request();
@@ -487,6 +493,7 @@ if ($showHomeSubtasks) {
         }
     }
 
+    // Todo: Refactore to use PDO
     if ($subtasks != "") {
         $tmpquery = "WHERE subtas.assigned_to = '$idSession' AND subtas.status IN(0,2,3) AND tas.status IN(0,2,3) ORDER BY $block3->sortingValue";
     }
@@ -587,6 +594,7 @@ if ($showHomeDiscussions) {
         $projectsTopics = implode(',', $projectsTopics);
     }
 
+    // Todo: Refactore to use PDO
     $tmpquery = "WHERE topic.project IN($projectsTopics) AND topic.last_post > '$dateFilter' AND topic.status = '1' ORDER BY $block4->sortingValue";
 
     $listTopics = new phpCollab\Request();
@@ -656,6 +664,7 @@ if ($showHomeReports) {
 
     $block5->sorting("home_reports", $sortingUser->sor_home_reports[0], "rep.name ASC", $sortingFields = array(0 => "rep.name", 1 => "rep.created"));
 
+    // Todo: Refactore to use PDO
     $tmpquery = "WHERE rep.owner = '$idSession' ORDER BY $block5->sortingValue";
     $listReports = new phpCollab\Request();
     $listReports->openReports($tmpquery);
@@ -721,6 +730,7 @@ if ($showHomeNotes) {
         $block6->sorting("notes", $sortingUser->sor_notes[0], "note.date DESC", $sortingFields = array(0 => "note.subject", 1 => "note.date", 2 => "mem.login", 3 => "note.published"));
     }
 
+    // Todo: Refactore to use PDO
     $tmpquery = "WHERE note.owner = '$idSession' AND note.date > '$dateFilter' AND pro.status IN(0,2,3) ORDER BY $block6->sortingValue";
     $listNotes = new phpCollab\Request();
     $listNotes->openNotes($tmpquery);
@@ -808,6 +818,7 @@ if ($showHomeNewsdesk) {
 
     $relatedQuery = " = 'g' ";
 
+    // Todo: Refactore to use PDO
     $tmpquery = "WHERE news.author = '" . phpCollab\Util::fixInt($sessionId) . "' OR news.rss = '1' OR news.related " . $relatedQuery . " ORDER BY $block7->sortingValue ";
     $block7->recordsTotal = phpCollab\Util::computeTotal($initrequest["newsdeskposts"] . " " . $tmpquery);
 
@@ -821,12 +832,14 @@ if ($showHomeNewsdesk) {
 
         for ($i = 0; $i < $comptPosts; $i++) {
             // take the news author
+            // Todo: Refactore to use PDO
             $tmpquery_user = "WHERE mem.id = '" . $listPosts->news_author[$i] . "' ";
             $newsAuthor = new phpCollab\Request();
             $newsAuthor->openMembers($tmpquery_user);
 
             // take the name of the related article
             if ($listPosts->news_related[$i] != 'g') {
+                // Todo: Refactore to use PDO
                 $tmpquery = "WHERE pro.id = '" . $listPosts->news_related[$i] . "'";
                 $projectDetail = new phpCollab\Request();
                 $projectDetail->openProjects($tmpquery);
