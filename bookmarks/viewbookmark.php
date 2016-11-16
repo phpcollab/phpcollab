@@ -61,7 +61,7 @@ include '../themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=$view", $strings["bookmarks"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=$view", $strings["bookmarks"], 'in'));
 $blockPage->itemBreadcrumbs($bookmarkDetail['boo_name']);
 $blockPage->closeBreadcrumbs();
 
@@ -86,7 +86,7 @@ $block1->openContent();
 $block1->contentTitle($strings["info"]);
 
 $block1->contentRow($strings["name"], $bookmarkDetail['boo_name']);
-$block1->contentRow($strings["url"], $blockPage->buildLink($bookmarkDetail['boo_url'], $bookmarkDetail['boo_url'], out));
+$block1->contentRow($strings["url"], $blockPage->buildLink($bookmarkDetail['boo_url'], $bookmarkDetail['boo_url'], 'out'));
 $block1->contentRow($strings["description"], nl2br($bookmarkDetail['boo_description']));
 
 $block1->closeContent();

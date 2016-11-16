@@ -187,13 +187,13 @@ include '../themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=my", $strings["bookmarks"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=my", $strings["bookmarks"], 'in'));
 
 if ($id == "") {
     $blockPage->itemBreadcrumbs($strings["add_bookmark"]);
 }
 if ($id != "") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/viewbookmark.php?id=" . $bookmarkDetail['boo_id'], $bookmarkDetail['boo_name'], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/viewbookmark.php?id=" . $bookmarkDetail['boo_id'], $bookmarkDetail['boo_name'], 'in'));
     $blockPage->itemBreadcrumbs($strings["edit_bookmark"]);
 }
 $blockPage->closeBreadcrumbs();

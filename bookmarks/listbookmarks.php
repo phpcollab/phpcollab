@@ -31,15 +31,15 @@ switch ($view) {
 include '../themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=all", $strings["bookmarks"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=all", $strings["bookmarks"], 'in'));
 if ($view == "all") {
-    $blockPage->itemBreadcrumbs($strings["bookmarks_all"] . " | " . $blockPage->buildLink("../bookmarks/listbookmarks.php?view=my", $strings["my"], in) . " | " . $blockPage->buildLink("../bookmarks/listbookmarks.php?view=private", $strings["bookmarks_private"], in));
+    $blockPage->itemBreadcrumbs($strings["bookmarks_all"] . " | " . $blockPage->buildLink("../bookmarks/listbookmarks.php?view=my", $strings["my"], 'in') . " | " . $blockPage->buildLink("../bookmarks/listbookmarks.php?view=private", $strings["bookmarks_private"], 'in'));
 }
 if ($view == "my") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=all", $strings["bookmarks_all"], in) . " | " . $strings["my"] . " | " . $blockPage->buildLink("../bookmarks/listbookmarks.php?view=private", $strings["bookmarks_private"], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=all", $strings["bookmarks_all"], 'in') . " | " . $strings["my"] . " | " . $blockPage->buildLink("../bookmarks/listbookmarks.php?view=private", $strings["bookmarks_private"], 'in'));
 }
 if ($view == "private") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=all", $strings["bookmarks_all"], in) . " | " . $blockPage->buildLink("../bookmarks/listbookmarks.php?view=my", $strings["my"], in) . " | " . $strings["bookmarks_private"]);
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=all", $strings["bookmarks_all"], 'in') . " | " . $blockPage->buildLink("../bookmarks/listbookmarks.php?view=my", $strings["my"], 'in') . " | " . $strings["bookmarks_private"]);
 }
 $blockPage->closeBreadcrumbs();
 
@@ -131,7 +131,7 @@ if ($bookmarkCount > 0) {
 
         $block1->cellRow(
             $blockPage->buildLink(
-                "../bookmarks/viewbookmark.php?view=$view&id=" . $data["boo_id"], $data["boo_name"], in) . " " . $blockPage->buildLink($data["boo_url"], "(" . $strings["url"] . ")", out));
+                "../bookmarks/viewbookmark.php?view=$view&id=" . $data["boo_id"], $data["boo_name"], 'in') . " " . $blockPage->buildLink($data["boo_url"], "(" . $strings["url"] . ")", 'out'));
         $block1->cellRow($data["boo_boocat_name"]);
 
         if ($view == "my") {
@@ -142,7 +142,7 @@ if ($bookmarkCount > 0) {
             }
             $block1->cellRow($printShared);
         } else {
-            $block1->cellRow($blockPage->buildLink('../users/viewuser.php?id=' . $data["boo_mem_id"], $data["boo_mem_login"], in));
+            $block1->cellRow($blockPage->buildLink('../users/viewuser.php?id=' . $data["boo_mem_id"], $data["boo_mem_login"], 'in'));
         }
         $block1->closeRow();
     }
