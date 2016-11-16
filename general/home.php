@@ -33,8 +33,6 @@ $checkSession = "true";
 include_once '../includes/library.php';
 include '../includes/customvalues.php';
 
-$db = new phpCollab\Database();
-
 $setTitle .= " : Home Page";
 
 $test = $date;
@@ -49,7 +47,6 @@ if ($DateMois <= 0) {
 $DateMois = (strlen($DateMois) > 1) ? $DateMois : "0" . $DateMois;
 
 $dateFilter = "$DateAnnee-$DateMois-$DateJour";
-//echo $dateFilter;
 
 if ($action == 'publish') {
     if ($closeTopic == 'true') {
@@ -140,12 +137,6 @@ if ($showHomeBookmarks) {
         $block6->paletteIcon(0, "add", $strings["add"]);
         $block6->paletteIcon(1, "remove", $strings["delete"]);
 
-        /*if ($sitePublish == "true")
-        {
-            $block6->paletteIcon(3,"add_projectsite",$strings["add_project_site"]);
-            $block6->paletteIcon(4,"remove_projectsite",$strings["remove_project_site"]);
-        }*/
-
         $block6->paletteIcon(5, "info", $strings["view"]);
         $block6->paletteIcon(6, "edit", $strings["edit"]);
 
@@ -195,14 +186,6 @@ if ($showHomeBookmarks) {
         $block6->paletteScript(0, "add", "../bookmarks/editbookmark.php?", "true,false,false", $strings["add"]);
         $block6->paletteScript(1, "remove", "../bookmarks/deletebookmarks.php?", "false,true,true", $strings["delete"]);
 
-        /*
-        $if ($sitePublish == "true")
-        {
-            $block6->paletteScript(3,"add_projectsite","../general/home.php?addToSite=true&project=".$projectDetail->pro_id[0]."&action=publish","false,true,true",$strings["add_project_site"]);
-            $block6->paletteScript(4,"remove_projectsite","../general/home.php?removeToSite=true&project=".$projectDetail->pro_id[0]."&action=publish","false,true,true",$strings["remove_project_site"]);
-        }
-        */
-
         $block6->paletteScript(5, "info", "../bookmarks/viewbookmark.php?", "false,true,false", $strings["view"]);
         $block6->paletteScript(6, "edit", "../bookmarks/editbookmark.php?", "false,true,false", $strings["edit"]);
 
@@ -215,9 +198,7 @@ if ($showHomeBookmarks) {
  */
 if ($showHomeProjects) {
 
-
-    $projects_gateway = new phpCollab\Projects\ProjectsGateway($db);
-
+    $projects_gateway = new \phpCollab\Projects\Projects();
 
     $block1 = new phpCollab\Block();
 
@@ -232,8 +213,6 @@ if ($showHomeProjects) {
         $block1->paletteIcon(0, "add", $strings["add"]);
         $block1->paletteIcon(1, "remove", $strings["delete"]);
         $block1->paletteIcon(2, "copy", $strings["copy"]);
-        //$block1->paletteIcon(3,"import",$strings["import"]);
-        //$block1->paletteIcon(4,"export",$strings["export"]);
     }
     $block1->paletteIcon(5, "info", $strings["view"]);
 
@@ -268,15 +247,11 @@ if ($showHomeProjects) {
 
     $sorting = $block1->sortingValue;
 
-    $dataSet = $projects_gateway->getAllByOwner($idSession, $sorting);
+    $dataSet = $projects_gateway->getProjectsByOwner($idSession, $sorting);
 
     $projectCount = count($dataSet);
 
     $projectsTopics = array();
-
-//	$tmpquery = "WHERE tea.member = '$idSession' AND pro.status IN(2,3) ORDER BY $block1->sortingValue";
-//	$listProjects = new phpCollab\Request();
-//	$listProjects->openTeams($tmpquery);
 
     $comptListProjects = count($listProjects->tea_id);
 
@@ -286,12 +261,6 @@ if ($showHomeProjects) {
         $block1->labels($labels = array(0 => $strings["id"], 1 => $strings["project"], 2 => $strings["priority"], 3 => $strings["organization"], 4 => $strings["status"], 5 => $strings["owner"], 6 => $strings["project_site"]), "true");
 
         foreach ($dataSet as $data) {
-
-//			if ($data["tea_org2_id"] == "1")
-//			{
-//				$data["tea_org2_name"] = $strings["none"];
-//			}
-
             $idStatus = $data["tea_pro_status"];
             $idPriority = $data["tea_pro_priority"];
 
@@ -329,8 +298,6 @@ if ($showHomeProjects) {
         $block1->paletteScript(0, "add", "../projects/editproject.php?", "true,true,true", $strings["add"]);
         $block1->paletteScript(1, "remove", "../projects/deleteproject.php?", "false,true,false", $strings["delete"]);
         $block1->paletteScript(2, "copy", "../projects/editproject.php?docopy=true", "false,true,false", $strings["copy"]);
-        //$block1->paletteScript(3,"import","import.php?","true,false,false",$strings["import"]);
-        //$block1->paletteScript(4,"export","export.php?","false,true,false",$strings["export"]);
     }
 
     $block1->paletteScript(5, "info", "../projects/viewproject.php?", "false,true,false", $strings["view"]);
@@ -365,7 +332,6 @@ if ($showHomeTasks) {
 
     $block2->paletteIcon(0, "remove", $strings["delete"]);
     $block2->paletteIcon(1, "copy", $strings["copy"]);
-    //$block2->paletteIcon(2,"export",$strings["export"]);
     $block2->paletteIcon(3, "info", $strings["view"]);
     $block2->paletteIcon(4, "edit", $strings["edit"]);
 
@@ -467,16 +433,6 @@ if ($showHomeSubtasks) {
 
     $block3->headingToggle($strings["my_subtasks"]);
 
-// Can't get this working as you need to have a "id=$id&task=$tid" in the link
-    /*
-        $block3->openPaletteIcon();
-        $block3->paletteIcon(0,"remove",$strings["delete"]);
-        //$block3->paletteIcon(1,"copy",$strings["copy"]);
-        //$block3->paletteIcon(2,"export",$strings["export"]);
-        $block3->paletteIcon(3,"info",$strings["view"]);
-        $block3->paletteIcon(4,"edit",$strings["edit"]);
-        $block3->closePaletteIcon();
-    */
     $block3->sorting("home_subtasks", $sortingUser->sor_home_subtasks[0], "subtas.name ASC", $sortingFields = array(0 => "subtas.name", 1 => "subtas.priority", 2 => "subtas.status", 3 => "subtas.completion", 4 => "subtas.due_date", 5 => "mem.login", 6 => "subtas.task", 7 => "subtas.published"));
 
     // Todo: Refactore to use PDO
@@ -551,17 +507,6 @@ if ($showHomeSubtasks) {
     }
     $block3->closeToggle();
     $block3->closeFormResults();
-// Can't get this working as you need to have a "id=$id&task=$tid" in the link
-    /*
-        $block3->openPaletteScript();
-        $block3->paletteScript(0,"remove","../subtasks/deletesubtasks.php?id=$id","false,true,true",$strings["delete"]);
-        //$block3->paletteScript(1,"copy","../subtasks/editsubtask.php?docopy=true","false,true,false",$strings["copy"]);
-        //$block3->paletteScript(2,"export","export.php?","false,true,true",$strings["export"]);
-        $block3->paletteScript(3,"info","../subtasks/viewsubtask.php?id=$id","false,true,false",$strings["view"]);
-        $block3->paletteScript(4,"edit","../subtasks/editsubtask.php?id=$id","false,true,true",$strings["edit"]);
-        $block3->closePaletteScript($comptListTasks,$listTasks->subtas_id);
-    */
-
 }
 
 /**
@@ -708,16 +653,6 @@ if ($showHomeNotes) {
 
     $block6->openPaletteIcon();
 
-
-    //$block6->paletteIcon(0,"add",$strings["add"]);
-    //$block6->paletteIcon(1,"remove",$strings["delete"]);
-    //$block6->paletteIcon(2,"export",$strings["export"]);
-
-
-    /*if ($sitePublish == "true") {
-        $block6->paletteIcon(3,"add_projectsite",$strings["add_project_site"]);
-        $block6->paletteIcon(4,"remove_projectsite",$strings["remove_project_site"]);
-    }*/
     $block6->paletteIcon(5, "info", $strings["view"]);
     $block6->paletteIcon(6, "edit", $strings["edit"]);
     $block6->closePaletteIcon();
@@ -767,13 +702,6 @@ if ($showHomeNotes) {
     $block6->closeFormResults();
 
     $block6->openPaletteScript();
-    //$block6->paletteScript(0,"add","../notes/editnote.php?project=$project","true,true,true",$strings["add"]);
-    //$block6->paletteScript(1,"remove","../notes/deletenotes.php?project=$project","false,true,true",$strings["delete"]);
-    //$block6->paletteScript(2,"export","export.php?","false,true,true",$strings["export"]);
-    /*if ($sitePublish == "true") {
-        $block6->paletteScript(3,"add_projectsite","../general/home.php?addToSite=true&project=".$projectDetail->pro_id[0]."&action=publish","false,true,true",$strings["add_project_site"]);
-        $block6->paletteScript(4,"remove_projectsite","../general/home.php?removeToSite=true&project=".$projectDetail->pro_id[0]."&action=publish","false,true,true",$strings["remove_project_site"]);
-    }*/
     $block6->paletteScript(5, "info", "../notes/viewnote.php?", "false,true,false", $strings["view"]);
     $block6->paletteScript(6, "edit", "../notes/editnote.php?project=$project", "false,true,false", $strings["edit"]);
     $block6->closePaletteScript($comptListNotes, $listNotes->note_id);
@@ -794,7 +722,6 @@ if ($showHomeNewsdesk) {
         $block7->paletteIcon(0, "add", $strings["add_newsdesk"]);
         $block7->paletteIcon(1, "edit", $strings["edit_newsdesk"]);
         $block7->paletteIcon(2, "remove", $strings["del_newsdesk"]);
-        //$block7->paletteIcon(3,"export",$strings["add_newsdesk"]);
     }
 
     $block7->paletteIcon(5, "info", $strings["view"]);
@@ -870,7 +797,6 @@ if ($showHomeNewsdesk) {
         $block7->paletteScript(0, "add", "../newsdesk/editnews.php?", "true,false,false", $strings["add_newsdesk"]);
         $block7->paletteScript(1, "edit", "../newsdesk/editnews.php?", "false,true,true", $strings["edit_newsdesk"]);
         $block7->paletteScript(2, "remove", "../newsdesk/editnews.php?action=remove&", "false,true,true", $strings["del_newsdesk"]);
-        //	$block7->paletteScript(3,"export","export.php?","false,true,true",$strings["export"]);
     }
 
     $block7->paletteScript(5, "info", "../newsdesk/viewnews.php?", "false,true,false", $strings["view"]);
