@@ -25,12 +25,8 @@
 ** =============================================================================
 */
 
-
 $checkSession = "true";
 include_once '../includes/library.php';
-
-
-$db = new phpCollab\Database();
 
 $bookmarks = new phpCollab\Bookmarks\Bookmarks();
 
