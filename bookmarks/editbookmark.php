@@ -234,9 +234,6 @@ echo <<<HTML
             <option value="0">-</option>
 HTML;
 
-
-xdebug_var_dump($bookmarkDetail);
-
 $tmpquery = "ORDER BY boocat.name";
 
 //$listCategories = $bookmark->getBookmarkCategories();
