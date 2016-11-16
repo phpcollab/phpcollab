@@ -42,11 +42,35 @@ FROM " . $tableCollab["notifications"] . " noti
 LEFT OUTER JOIN " . $tableCollab["members"] . " mem ON mem.id = noti.member
 ";
 
-$initrequest["members"] = "SELECT mem.*, org.name, log.connected
-FROM " . $tableCollab["members"] . " mem
-LEFT OUTER JOIN " . $tableCollab["organizations"] . " org ON org.id = mem.organization
-LEFT OUTER JOIN " . $tableCollab["logs"] . " log ON log.login = mem.login
-";
+$initrequest["members"] = <<<SQL
+SELECT
+mem.id AS mem_id,
+mem.organization AS mem_organization,
+mem.login AS mem_login,
+mem.name AS mem_name,
+mem.title AS mem_title,
+mem.email_work AS mem_email_work,
+mem.email_home AS mem_email_home,
+mem.phone_work AS mem_phone_work,
+mem.phone_home AS mem_phone_home,
+mem.mobile AS mem_mobile,
+mem.fax AS mem_fax,
+mem.comments AS mem_comments,
+mem.profil AS mem_profile,
+mem.created AS mem_created,
+mem.logout_time AS mem_logout_time,
+mem.last_page AS mem_last_page,
+mem.timezone AS mem_timezone,
+org.id AS org_id,
+org.name AS org_name,
+log.connected AS log_connected,
+log.login AS log_login
+FROM members mem
+LEFT OUTER JOIN organizations org ON org.id = mem.organization
+LEFT OUTER JOIN logs log ON log.login = mem.login
+SQL;
+
+
 
 $initrequest["projects"] = <<<SQL
 SELECT 
