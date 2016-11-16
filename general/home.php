@@ -33,6 +33,8 @@ $checkSession = "true";
 include_once '../includes/library.php';
 include '../includes/customvalues.php';
 
+$db = new phpCollab\Database();
+
 $setTitle .= " : Home Page";
 
 $test = $date;
@@ -210,7 +212,7 @@ if ($showHomeBookmarks) {
  */
 if ($showHomeProjects) {
 
-    $db = new phpCollab\Database();
+
     $projects_gateway = new phpCollab\Projects\ProjectsGateway($db);
 
 
@@ -267,6 +269,7 @@ if ($showHomeProjects) {
 
     $projectCount = count($dataSet);
 
+    $projectsTopics = array();
 
 //	$tmpquery = "WHERE tea.member = '$idSession' AND pro.status IN(2,3) ORDER BY $block1->sortingValue";
 //	$listProjects = new phpCollab\Request();
@@ -308,12 +311,7 @@ if ($showHomeProjects) {
             }
 
             $block1->closeRow();
-            $projectsTopics .= $data["tea_pro_id"];
-
-            if ($i != $comptListProjects - 1) {
-                $projectsTopics .= ",";
-            }
-
+            array_push($projectsTopics, $data["tea_pro_id"]);
         }
         $block1->closeResults();
     } else {
@@ -583,11 +581,14 @@ if ($showHomeDiscussions) {
 
     $block4->sorting("home_discussions", $sortingUser->sor_home_discussions[0], "topic.last_post DESC", $sortingFields = array(0 => "topic.subject", 1 => "mem.login", 2 => "topic.posts", 3 => "topic.last_post", 4 => "topic.status", 5 => "topic.project", 6 => "topic.published"));
 
-
-    if ($projectsTopics == "") {
+    if (count($projectsTopics) == 0) {
         $projectsTopics = "0";
+    } else {
+        $projectsTopics = implode(',', $projectsTopics);
     }
+
     $tmpquery = "WHERE topic.project IN($projectsTopics) AND topic.last_post > '$dateFilter' AND topic.status = '1' ORDER BY $block4->sortingValue";
+
     $listTopics = new phpCollab\Request();
     $listTopics->openTopics($tmpquery);
     $comptListTopics = count($listTopics->top_id);
