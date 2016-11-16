@@ -54,9 +54,38 @@ class Bookmarks
         return $data;
     }
 
-    public function updateBookmark($bookmarkId, $formData)
-    {
+    public function getBookmarkCategories() {
+        $categories = $this->bookmarks_gateway->getAllBookmarkCategories();
 
+        return $categories;
+    }
+
+    public function getBookmarkCategoryByName($categoryName) {
+        $categoryName = filter_var( (string) $categoryName, FILTER_SANITIZE_STRING);
+
+        $data = $this->bookmarks_gateway->getCategoryByName($categoryName);
+        return $data;
+    }
+
+    public function addNewBookmarkCategory($categoryName) {
+        $categoryName = filter_var( (string) $categoryName, FILTER_SANITIZE_STRING);
+
+        $category = $this->bookmarks_gateway->addNewCategory($categoryName);
+        return $category;
+    }
+
+    public function addBookmark($formData)
+    {
+        $bookmark = $this->bookmarks_gateway->addBookmark($formData);
+
+        return $bookmark;
+    }
+
+    public function updateBookmark($formData)
+    {
+        $bookmark = $this->bookmarks_gateway->updateBookmark($formData);
+
+        return $bookmark;
     }
 
     public function deleteBookmark($bookmarkId) {
