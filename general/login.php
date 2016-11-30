@@ -28,6 +28,9 @@
 $checkSession = "false";
 include '../includes/library.php';
 
+$members = new \phpCollab\Members\Members();
+$logs = new \phpCollab\Logs\Logs();
+
 
 if ($logout == "true") {
     $tmpquery1 = "UPDATE " . $tableCollab["logs"] . " SET connected='' WHERE login = '$loginSession'";
@@ -67,6 +70,7 @@ if (!empty($SSL_CLIENT_CERT) && !$logout && $auth != "test") {
 } else {
     //test blank fields in form
     if ($auth == "test") {
+
         if ($loginForm == "" && $passwordForm == "") {
             $error = $strings["login_username"] . "<br/>" . $strings["login_password"];
         } else {
@@ -116,23 +120,17 @@ if ($auth == "on") {
         $loginForm = $loginCookie;
     }
 
-    //query in members table (demo user not listed if demo mode false, to prohibit the access)
-    if ($demoMode != true) {
-        if ($ssl) {
-            $tmpquery = "WHERE mem.email_work = '$ssl_email' AND mem.login != 'demo' AND mem.profil != '4'";
-        } else {
-            $tmpquery = "WHERE mem.login = '$loginForm' AND mem.login != 'demo' AND mem.profil != '4'";
-        }
-    } else {
-        $tmpquery = "WHERE mem.login = '$loginForm' AND mem.profil != '4'";
-    }
+    $loginData = [];
+    $loginData['login'] = $loginForm;
+    $loginData['demo'] = $demoMode;
+    $loginData['ssl'] = $ssl;
+    $loginData['ssl_email'] = $ssl_email;
 
-    $loginUser = new phpCollab\Request();
-    $loginUser->openMembers($tmpquery);
-    $comptLoginUser = count($loginUser->mem_id);
+    $member = $members->getMemberByLogin($loginData);
+
 
     //test if user exits
-    if ($comptLoginUser == "0") {
+    if (!$member) {
         $error = $strings["invalid_login"];
         setcookie("loginCookie");
         setcookie("passwordCookie");
@@ -140,13 +138,13 @@ if ($auth == "on") {
 
         //test password
         if ($loginCookie != "" && $passwordCookie != "") {
-            if (!$ssl && $passwordCookie != $loginUser->mem_password[0]) {
+            if (!$ssl && $passwordCookie != $member['mem_password']) {
                 $error = $strings["invalid_login"];
             } else {
                 $match = true;
             }
         } else {
-            if (!$ssl && !phpCollab\Util::doesPasswordMatch($loginForm, $passwordForm, $loginUser->mem_password[0])) {
+            if (!$ssl && !phpCollab\Util::doesPasswordMatch($loginForm, $passwordForm, $member['mem_password'])) {
                 $error = $strings["invalid_login"];
             } else {
                 $match = true;
@@ -161,17 +159,17 @@ if ($auth == "on") {
 
             //set session variables
             $browserSession = $_SERVER["HTTP_USER_AGENT"];
-            $idSession = $loginUser->mem_id[0];
-            $timezoneSession = $loginUser->mem_timezone[0];
+            $idSession = $member['mem_id'];
+            $timezoneSession = $member['mem_timezone'];
             $languageSession = $languageForm;
             $loginSession = $loginForm;
             $passwordSession = $passwordForm;
-            $nameSession = $loginUser->mem_name[0];
-            $profilSession = $loginUser->mem_profil[0];
+            $nameSession = $member['mem_name'];
+            $profilSession = $member['mem_profil'];
             $ipSession = $REMOTE_ADDR;
             $dateunixSession = date("U");
             $dateSession = date("d-m-Y H:i:s");
-            $logouttimeSession = $loginUser->mem_logout_time[0];
+            $logouttimeSession = $member['mem_logout_time'];
 
 
             $_SESSION["browserSession"] = $browserSession;
@@ -196,23 +194,34 @@ if ($auth == "on") {
 
             //insert into or update log
             $ip = $REMOTE_ADDR;
-            $tmpquery = "WHERE log.login = '$loginForm'";
-            $registerLog = new phpCollab\Request();
-            $registerLog->openLogs($tmpquery);
-            $comptRegisterLog = count($registerLog->log_id);
+
+            $log = $logs->getLogByLogin($loginForm);
+
+
             $session = session_id();
 
-            if ($comptRegisterLog == "0") {
-                $tmpquery1 = "INSERT INTO " . $tableCollab["logs"] . "(login,password,ip,session,compt,last_visite) VALUES('$loginForm','$passwordForm','$ip','$session','1','$dateheure')";
-                phpCollab\Util::connectSql("$tmpquery1");
+            /**
+             * Validate form data
+             */
+
+            $filteredData =  [];
+            $filteredData['login'] = filter_var( (string) $_POST['loginForm'], FILTER_SANITIZE_STRING);
+            $filteredData['password'] = filter_var( (string) $_POST['passwordForm'], FILTER_SANITIZE_STRING);
+            $filteredData['ip'] = filter_var( $ip, FILTER_SANITIZE_STRING);
+            $filteredData['session'] = $session;
+            $filteredData['last_viste'] = $dateheure;
+
+            if (!$log) {
+                $filteredData['compt'] = 1;
+                $logs->insertLogEntry($filteredData);
             } else {
-                $lastvisiteSession = $registerLog->log_last_visite[0];
+                $lastvisiteSession = $log['last_visite'];
 
                 $_SESSION['lastvisiteSession'] = $lastvisiteSession;
 
-                $increm = $registerLog->log_compt[0] + 1;
-                $tmpquery1 = "UPDATE " . $tableCollab["logs"] . " SET ip='$ip',session='$session',compt='$increm',last_visite='$dateheure' WHERE login = '$loginForm'";
-                phpCollab\Util::connectSql("$tmpquery1");
+                $filteredData['compt'] = $log['compt'] + 1;
+
+                $logs->updateLogEntry($filteredData);
             }
 
             // we must avoid to redirect to some special pages
