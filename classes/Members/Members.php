@@ -16,6 +16,12 @@ class Members
         $this->members_gateway = new MembersGateway($this->db);
     }
 
+    public function getMemberByLogin($memberLogin) {
+        $data = $this->members_gateway->getMemberByLogin($memberLogin);
+
+        return $data;
+    }
+
     public function getAllMembers() {
         $data = $this->members_gateway->getAllMembers();
 
