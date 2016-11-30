@@ -12,7 +12,7 @@ class LogsGateway
     protected $initrequest;
 
     /**
-     * Reports constructor.
+     * Logs constructor.
      * @param Database $db
      */
     public function __construct(Database $db)

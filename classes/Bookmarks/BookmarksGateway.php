@@ -14,7 +14,7 @@ class BookmarksGateway
     protected $initrequest;
 
     /**
-     * Reports constructor.
+     * Bookmarks constructor.
      * @param Database $db
      */
     public function __construct(Database $db)
