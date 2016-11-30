@@ -47,6 +47,7 @@ SELECT
 mem.id AS mem_id,
 mem.organization AS mem_organization,
 mem.login AS mem_login,
+mem.password AS mem_password,
 mem.name AS mem_name,
 mem.title AS mem_title,
 mem.email_work AS mem_email_work,
