@@ -703,8 +703,8 @@ class Util
         $comptRequest = $comptRequest + 1;
 
         if ($databaseType == "mysql") {
-            $res = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die($strings["error_server"]);
-            mysql_select_db(MYDATABASE, $res) or die($strings["error_database"]);
+            $res = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD) || die($strings["error_server"]);
+            mysql_select_db(MYDATABASE, $res) || die($strings["error_database"]);
             $sql = "$tmpsql";
             $index = mysql_query($sql, $res);
 
@@ -732,8 +732,8 @@ class Util
         }
 
         if ($databaseType == "sqlserver") {
-            $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die($strings["error_server"]);
-            mssql_select_db(MYDATABASE, $res) or die($strings["error_database"]);
+            $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD) || die($strings["error_server"]);
+            mssql_select_db(MYDATABASE, $res) || die($strings["error_database"]);
             $sql = "$tmpsql";
             $index = mssql_query($sql, $res);
 
@@ -759,8 +759,8 @@ class Util
         global $tableCollab, $databaseType;
 
         if ($databaseType == "mysql") {
-            $res = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die($strings["error_server"]);
-            mysql_select_db(MYDATABASE, $res) or die($strings["error_database"]);
+            $res = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD) || die($strings["error_server"]);
+            mysql_select_db(MYDATABASE, $res) || die($strings["error_database"]);
             $sql = $tmpsql;
             $index = mysql_query($sql, $res);
             @mysql_free_result($index);
@@ -774,8 +774,8 @@ class Util
             @pg_close($res);
         }
         if ($databaseType == "sqlserver") {
-            $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die($strings["error_server"]);
-            mssql_select_db(MYDATABASE, $res) or die($strings["error_database"]);
+            $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD) || die($strings["error_server"]);
+            mssql_select_db(MYDATABASE, $res) || die($strings["error_database"]);
             $sql = $tmpsql;
             $index = mssql_query($sql, $res);
             @mssql_free_result($index);
@@ -792,8 +792,8 @@ class Util
     {
         global $tableCollab, $databaseType;
         if ($databaseType == "mysql") {
-            $res = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die($strings["error_server"]);
-            mysql_select_db(MYDATABASE, $res) or die($strings["error_database"]);
+            $res = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD) || die($strings["error_server"]);
+            mysql_select_db(MYDATABASE, $res) || die($strings["error_database"]);
             global $lastId;
             $sql = "SELECT id FROM $tmpsql ORDER BY id DESC";
             $index = mysql_query($sql, $res);
@@ -815,8 +815,8 @@ class Util
             @pg_close($res);
         }
         if ($databaseType == "sqlserver") {
-            $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die($strings["error_server"]);
-            mssql_select_db(MYDATABASE, $res) or die($strings["error_database"]);
+            $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD) || die($strings["error_server"]);
+            mssql_select_db(MYDATABASE, $res) || die($strings["error_database"]);
             global $lastId;
             $sql = "SELECT id FROM $tmpsql ORDER BY id DESC";
             $index = mssql_query($sql, $res);
