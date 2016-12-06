@@ -165,7 +165,7 @@ class Util
         global $newText;
         $lines = explode("\n", $data);
         while (list ($key, $line) = each($lines)) {
-            $line = preg_replace('|([ \t]|^)www\.|', ' http://www.', $line);
+            $line = preg_replace('/([ \t]|^)www\./', ' http://www.', $line);
 
             $line = preg_replace('/([ \t]|^)ftp\./', ' ftp://ftp.', $line);
             $line = preg_replace('|(http://[^ )\r\n]+)|', '<a href="$1" target="_blank">$1</a>', $line);
