@@ -65,7 +65,6 @@ if ($debug) {
     include_once APP_ROOT . '/classes/Vendor/FirePHPCore/FirePHP.class.php';
 //    ob_start();
 
-    $firephp = FirePHP::getInstance(true);
 }
 
 error_reporting(2039);
@@ -274,8 +273,18 @@ if ($checkSession != "false" && $demoSession != "true") {
             $pieces[0] = strrev($pieces[0]);
             $pieces[1] = strrev($pieces[1]);
             $page = $pieces[1] . "/" . $pieces[0];
-            $tmpquery = "UPDATE " . $tableCollab["members"] . " SET last_page='$page' WHERE id = '" . phpCollab\Util::fixInt($idSession) . "'";
-            phpCollab\Util::connectSql("$tmpquery");
+            $tmpquery = "UPDATE " . $tableCollab["members"] . " SET last_page=:page WHERE id = :session_id";
+
+            $dbParams = [];
+            $dbParams['page'] = $page;
+            $dbParams['session_id'] = $idSession;
+
+            phpCollab\Util::newConnectSql($tmpquery, $dbParams);
+
+            unset($dbParams);
+
+
+
         }
     }
     //if auto logout feature used, store last required page before deconnection
@@ -309,11 +318,24 @@ if ($checkSession != "false" && $demoSession != "true") {
 //count connected users
 if ($checkConnected != "false") {
     $dateunix = date("U");
-    $tmpquery1 = "UPDATE " . $tableCollab["logs"] . " SET connected='$dateunix' WHERE login = '$loginSession'";
-    phpCollab\Util::connectSql("$tmpquery1");
-    $tmpsql = "SELECT * FROM " . $tableCollab["logs"] . " WHERE connected > $dateunix-5*60";
-    phpCollab\Util::computeTotal($tmpsql);
-    $connectedUsers = $countEnregTotal;
+    $tmpquery1 = "UPDATE " . $tableCollab["logs"] . " SET connected=:date_unix WHERE login = :login_session";
+
+    $dbParams = [];
+    $dbParams['date_unix'] = $dateunix;
+    $dbParams['login_session'] = $loginSession;
+
+    phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
+
+    unset($dbParams);
+
+    $tmpsql = "SELECT * FROM " . $tableCollab["logs"] . " WHERE connected > :date_unix";
+
+    $dbParams = [];
+    $dbParams['date_unix'] = $dateunix-5*60;
+
+    $connectedUsers = phpCollab\Util::newComputeTotal($tmpsql, $dbParams);
+
+    unset($dbParams);
 }
 
 //redirect if server/database in error
@@ -365,8 +387,16 @@ if (!empty($sor_cible) && $sor_cible != "" && $sor_champs != "none") {
     $sor_champs = phpCollab\Util::convertData($sor_champs);
     $sor_cible = phpCollab\Util::convertData($sor_cible);
 
-    $tmpquery = "UPDATE " . $tableCollab["sorting"] . " SET $sor_cible='$sor_champs $sor_ordre' WHERE member = '$idSession'";
-    phpCollab\Util::connectSql("$tmpquery");
+    $tmpquery = "UPDATE ". $tableCollab["sorting"] ." SET ".$sor_cible." = :sort_value WHERE member = :session_id;";
+
+    $dbParams = [];
+    $dbParams['sort_value'] = $sor_champs . ' ' . $sor_ordre;
+    $dbParams['session_id'] = $idSession;
+
+    phpCollab\Util::newConnectSql($tmpquery, $dbParams);
+
+    unset($dbParams);
+
 }
 
 //set all sorting values for logged user
@@ -376,4 +406,3 @@ $sortingUser->openSorting($tmpquery);
 
 // :-)
 $setCopyright = "<!-- Powered by PhpCollab v$version //-->";
-?>
