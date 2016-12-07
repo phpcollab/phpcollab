@@ -10,12 +10,9 @@ use Database;
 
 class Util
 {
-    protected $request_factory;
-    protected $firephp;
     protected $strings;
 
-    public function __construct(RequestFactory $request_factory, $firephp) {
-        $this->firephp = $firephp;
+    public function __construct() {
         $this->strings = $GLOBALS['strings'];
     }
 
