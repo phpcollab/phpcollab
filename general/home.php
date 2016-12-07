@@ -113,7 +113,7 @@ $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
     include '../includes/messages.php';
-    $blockPage->messagebox($msgLabel);
+    $blockPage->messageBox($msgLabel);
 }
 
 /**
@@ -126,7 +126,7 @@ if ($showHomeBookmarks) {
 
     // Todo: Refactore to use PDO
     $tmpquery = "WHERE boo.home = '1' AND boo.owner = '$idSession' ORDER BY $block6->sortingValue";
-    
+
     $listBookmarks = new phpCollab\Request();
     $listBookmarks->openBookmarks($tmpquery);
 
