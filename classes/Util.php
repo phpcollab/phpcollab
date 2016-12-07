@@ -6,16 +6,18 @@
  */
 
 namespace phpCollab;
+use Database;
 
 class Util
 {
     protected $request_factory;
     protected $firephp;
+    protected $strings;
 
     public function __construct(RequestFactory $request_factory, $firephp) {
         $this->firephp = $firephp;
+        $this->strings = $GLOBALS['strings'];
     }
-
 
     /**
      * Wrapper to make sure null strings display as 0 in sql queries
@@ -97,8 +99,6 @@ class Util
      **/
     public static function updateChecker($iCV)
     {
-        global $strings;
-
         $phpcollab_url = 'http://www.php-collab.org/website/version.txt';
 
         $url = parse_url($phpcollab_url);
@@ -118,17 +118,17 @@ class Util
                 $iNV = $aVersiondata[0];
 
                 if ($iCV < $iNV) {
-                    $checkMsg = "<br/><b>" . $strings["update_available"] . "</b> " . $strings["version_current"] . " $iCV. " . $strings["version_latest"] . " $iNV.<br/>";
-                    $checkMsg .= "<a href='http://www.sourceforge.net/projects/phpcollab' target='_blank'>" . $strings["sourceforge_link"] . "</a>.";
+                    $checkMsg = "<br/><b>" . self::$strings["update_available"] . "</b> " . self::$strings["version_current"] . " $iCV. " . self::$strings["version_latest"] . " $iNV.<br/>";
+                    $checkMsg .= "<a href='http://www.sourceforge.net/projects/phpcollab' target='_blank'>" . self::$strings["sourceforge_link"] . "</a>.";
                 }
             } else {
-                $checkMsg = $strings["version_check_error"];
+                $checkMsg = self::$strings["version_check_error"];
             }
 
             fclose($connection_socket);
 
         } else {
-            $checkMsg = $strings["version_check_error"] . "<br/>Error type: $errno - $errstr";
+            $checkMsg = self::$strings["version_check_error"] . "<br/>Error type: $errno - $errstr";
         }
 
         return $checkMsg;
@@ -691,6 +691,19 @@ class Util
 
     }
 
+    public function newComputeTotal($tmpsql, $params)
+    {
+        $db = new \phpCollab\Database();
+
+        $db->query($tmpsql);
+
+        foreach ($params as $key => $param) {
+            $db->bind(':' . $key, $param);
+        }
+        return count($db->resultset());
+    }
+
+
     /**
      * Count total results from a request
      * @param string $tmpsql Sql query
@@ -698,13 +711,12 @@ class Util
      **/
     public static function computeTotal($tmpsql)
     {
-        global $tableCollab, $databaseType, $countEnregTotal, $comptRequest;
 
         $comptRequest = $comptRequest + 1;
 
         if ($databaseType == "mysql") {
-            $res = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD) || die($strings["error_server"]);
-            mysql_select_db(MYDATABASE, $res) || die($strings["error_database"]);
+            $res = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die(self::$strings["error_server"]);
+            mysql_select_db(MYDATABASE, $res) or die(self::$strings["error_database"]);
             $sql = "$tmpsql";
             $index = mysql_query($sql, $res);
 
@@ -732,8 +744,8 @@ class Util
         }
 
         if ($databaseType == "sqlserver") {
-            $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD) || die($strings["error_server"]);
-            mssql_select_db(MYDATABASE, $res) || die($strings["error_database"]);
+            $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die(self::$strings["error_server"]);
+            mssql_select_db(MYDATABASE, $res) or die(self::$strings["error_database"]);
             $sql = "$tmpsql";
             $index = mssql_query($sql, $res);
 
@@ -749,6 +761,20 @@ class Util
         return $countEnregTotal;
     }
 
+
+    public function newConnectSql($tmpsql, $params)
+    {
+        $db = new \phpCollab\Database();
+
+        $db->query($tmpsql);
+
+        foreach ($params as $key => $param) {
+            $db->bind(':' . $key, $param);
+        }
+
+        return $db->execute();
+    }
+
     /**
      * Simple query
      * @param string $tmpsql Sql query
@@ -756,11 +782,11 @@ class Util
      **/
     public static function connectSql($tmpsql)
     {
-        global $tableCollab, $databaseType;
-
         if ($databaseType == "mysql") {
-            $res = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD) || die($strings["error_server"]);
-            mysql_select_db(MYDATABASE, $res) || die($strings["error_database"]);
+
+            $connection = mysqli_connect('localhost', 'username', 'password', 'database');
+            $res = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die(self::$strings["error_server"]);
+            mysql_select_db(MYDATABASE, $res) or die(self::$strings["error_database"]);
             $sql = $tmpsql;
             $index = mysql_query($sql, $res);
             @mysql_free_result($index);
@@ -774,13 +800,14 @@ class Util
             @pg_close($res);
         }
         if ($databaseType == "sqlserver") {
-            $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD) || die($strings["error_server"]);
-            mssql_select_db(MYDATABASE, $res) || die($strings["error_database"]);
+            $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die(self::$strings["error_server"]);
+            mssql_select_db(MYDATABASE, $res) or die(self::$strings["error_database"]);
             $sql = $tmpsql;
             $index = mssql_query($sql, $res);
             @mssql_free_result($index);
             @mssql_close($res);
         }
+
     }
 
     /**
@@ -792,8 +819,8 @@ class Util
     {
         global $tableCollab, $databaseType;
         if ($databaseType == "mysql") {
-            $res = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD) || die($strings["error_server"]);
-            mysql_select_db(MYDATABASE, $res) || die($strings["error_database"]);
+            $res = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die(self::$strings["error_server"]);
+            mysql_select_db(MYDATABASE, $res) or die(self::$strings["error_database"]);
             global $lastId;
             $sql = "SELECT id FROM $tmpsql ORDER BY id DESC";
             $index = mysql_query($sql, $res);
@@ -815,8 +842,8 @@ class Util
             @pg_close($res);
         }
         if ($databaseType == "sqlserver") {
-            $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD) || die($strings["error_server"]);
-            mssql_select_db(MYDATABASE, $res) || die($strings["error_database"]);
+            $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die(self::$strings["error_server"]);
+            mssql_select_db(MYDATABASE, $res) or die(self::$strings["error_database"]);
             global $lastId;
             $sql = "SELECT id FROM $tmpsql ORDER BY id DESC";
             $index = mssql_query($sql, $res);
