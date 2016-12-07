@@ -35,6 +35,8 @@ include '../includes/customvalues.php';
 
 $setTitle .= " : Home Page";
 
+$topics = new \phpCollab\Topics\Topics();
+
 $test = $date;
 $DateAnnee = substr("$test", 0, 4);
 $DateMois = substr("$test", 5, 2);
@@ -52,47 +54,51 @@ if ($action == 'publish') {
     if ($closeTopic == 'true') {
         $multi = strstr($id, '**');
 
-        // Todo: Refactore to use PDO
         if ($multi != '') {
             $id = str_replace('**', ',', $id);
-            $tmpquery1 = 'UPDATE ' . $tableCollab['topics'] . " SET status='0' WHERE id IN($id)";
             $pieces = explode(',', $id);
             $num = count($pieces);
         } else {
-            $tmpquery1 = 'UPDATE ' . $tableCollab['topics'] . " SET status='0' WHERE id = '$id'";
             $num = '1';
         }
 
-        phpCollab\Util::connectSql($tmpquery1);
+        $multi = strstr($id, "**");
+
+        if ($multi != "") {
+            $id = str_replace("**", ",", $id);
+            $topics->closeTopic($id, $tableCollab['topics']);
+        } else {
+            $topics->closeTopic($id, $tableCollab['topics']);
+        }
+
+
+
         $msg = 'closeTopic';
     }
 
     if ($addToSiteTopic == "true") {
         $multi = strstr($id, "**");
-        // Todo: Refactore to use PDO
+
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
-            $tmpquery1 = "UPDATE " . $tableCollab["topics"] . " SET published='0' WHERE id IN($id)";
+            $topics->publishTopic($id, $tableCollab['topics']);
         } else {
-            $tmpquery1 = "UPDATE " . $tableCollab["topics"] . " SET published='0' WHERE id = '$id'";
+            $topics->publishTopic($id, $tableCollab['topics']);
         }
 
-        phpCollab\Util::connectSql($tmpquery1);
         $msg = 'addToSite';
     }
 
     if ($removeToSiteTopic == "true") {
         $multi = strstr($id, "**");
 
-        // Todo: Refactore to use PDO
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
-            $tmpquery1 = "UPDATE " . $tableCollab["topics"] . " SET published='1' WHERE id IN($id)";
+            $topics->unPublishTopic($id, $tableCollab['topics']);
         } else {
-            $tmpquery1 = "UPDATE " . $tableCollab["topics"] . " SET published='1' WHERE id = '$id'";
+            $topics->unPublishTopic($id, $tableCollab['topics']);
         }
 
-        phpCollab\Util::connectSql("$tmpquery1");
         $msg = "removeToSite";
     }
 }
@@ -120,7 +126,7 @@ if ($showHomeBookmarks) {
 
     // Todo: Refactore to use PDO
     $tmpquery = "WHERE boo.home = '1' AND boo.owner = '$idSession' ORDER BY $block6->sortingValue";
-
+    
     $listBookmarks = new phpCollab\Request();
     $listBookmarks->openBookmarks($tmpquery);
 
@@ -804,4 +810,4 @@ if ($showHomeNewsdesk) {
 }
 
 include '../themes/' . THEME . '/footer.php';
-?>
+
