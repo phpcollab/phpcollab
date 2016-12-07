@@ -88,9 +88,7 @@ $block1->sorting(
 $sorting = $block1->sortingValue;
 
 $dataSet = $projects_gateway->getProjectList($idSession, $typeProjects, $sorting);
-//$dataSet = $projects_gateway->getAllByOwner($idSession, $sorting, $typeProjects);
 
-//xdebug_var_dump( $dataSet );
 $projectCount = count($dataSet);
 
 if ($projectCount > 0) {
@@ -206,8 +204,8 @@ if ($comptListProjects != "0") {
     $block1->noresults();
 }
 
-$block1->closeFormResults();
 */
+$block1->closeFormResults();
 $block1->openPaletteScript();
 if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
     $block1->paletteScript(0, "add", "../projects/editproject.php?", "true,false,false", $strings["add"]);
@@ -228,4 +226,3 @@ if ($enableMantis == "true") {
 $block1->closePaletteScript($comptListProjects, $listProjects->pro_id);
 
 include '../themes/' . THEME . '/footer.php';
-?>
