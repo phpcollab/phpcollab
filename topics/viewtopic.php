@@ -125,7 +125,7 @@ for ($i = 0; $i < $comptListPosts; $i++) {
     } else {
         $block1->contentRow($strings["when"], phpCollab\Util::createDate($listPosts->pos_created[$i], $timezoneSession));
     }
-    if ($detailProject->pro_owner[0] == $idSession || $profileSession == "0" || $listPosts->pos_member[$i] == $idSession) {
+    if ($detailProject->pro_owner[0] == $idSession || $profilSession == "0" || $listPosts->pos_member[$i] == $idSession) {
         $block1->contentRow($blockPage->buildLink("../topics/deletepost.php?topic=" . $detailTopic->top_id[0] . "&id=" . $listPosts->pos_id[$i], $strings["delete_message"], in), nl2br($listPosts->pos_message[$i]));
     } else {
         $block1->contentRow("", nl2br($listPosts->pos_message[$i]));
