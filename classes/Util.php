@@ -772,6 +772,7 @@ class Util
         return $db->execute();
     }
 
+
     /**
      * Simple query
      * @param string $tmpsql Sql query
@@ -805,6 +806,18 @@ class Util
             @mssql_close($res);
         }
 
+    }
+
+    public static function newGetLastId($tableName) {
+        $db = new \phpCollab\Database();
+
+        $table_name = filter_var($tableName, FILTER_SANITIZE_STRING);
+
+        $sql = 'SELECT id FROM ' . $table_name . ' ORDER BY id DESC';
+
+        $db->query($sql);
+
+        return $db->single();
     }
 
     /**
