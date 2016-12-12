@@ -17,15 +17,25 @@ class Bookmarks
         $this->bookmarks_gateway = new BookmarksGateway($this->db);
     }
 
-    public function getBookmarksByOwner($ownerId)
+    public function getBookmarksByOwner($ownerId, $sorting = null)
     {
-        $data = $this->bookmarks_gateway->getAllByOwner($ownerId);
+        if (isset($sorting)) {
+
+        }
+
+        $data = $this->bookmarks_gateway->getAllByOwner($ownerId, $sorting);
         return $data;
     }
 
     public function getMyBookmarks($ownerId, $sorting)
     {
         $data = $this->bookmarks_gateway->getMyBookmarks($ownerId, $sorting);
+        return $data;
+    }
+
+    public function getMyHomeBookmarks($ownerId, $sorting)
+    {
+        $data = $this->bookmarks_gateway->getMyHomeBookmarks($ownerId, $sorting);
         return $data;
     }
 

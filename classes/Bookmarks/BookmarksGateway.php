@@ -60,6 +60,22 @@ class BookmarksGateway
      * @param string $sorting
      * @return mixed
      */
+    public function getMyHomeBookmarks($ownerId, $sorting = '')
+    {
+        $whereStatement = ' WHERE boo.home = 1 AND boo.owner = :owner_id ';
+
+        $this->db->query($this->initrequest["bookmarks"] . $whereStatement . $this->orderBy($sorting));
+
+        $this->db->bind(':owner_id', $ownerId);
+
+        return $this->db->resultset();
+    }
+
+    /**
+     * @param integer $ownerId
+     * @param string $sorting
+     * @return mixed
+     */
     public function getPrivateBookmarks($ownerId, $sorting = '')
     {
         $whereStatement = ' WHERE boo.users LIKE :owner_id';
