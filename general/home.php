@@ -107,7 +107,7 @@ include '../themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../general/home.php?", $strings["home"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../general/home.php?", $strings["home"], 'in'));
 $blockPage->itemBreadcrumbs($nameSession);
 $blockPage->closeBreadcrumbs();
 
@@ -120,17 +120,15 @@ if ($msg != "") {
  * start to show bookmark block
  */
 if ($showHomeBookmarks) {
+    $bookmarks = new \phpCollab\Bookmarks\Bookmarks();
+
     $block6 = new phpCollab\Block();
 
     $block6->sorting("bookmarks", $sortingUser->sor_bookmarks[0], "boo.name ASC", $sortingFields = array(0 => "boo.name", 1 => "boo.category", 2 => "boo.shared"));
 
-    // Todo: Refactore to use PDO
-    $tmpquery = "WHERE boo.home = '1' AND boo.owner = '$idSession' ORDER BY $block6->sortingValue";
+    $bookmarksList = $bookmarks->getMyHomeBookmarks($idSession, $block6->sortingValue);
 
-    $listBookmarks = new phpCollab\Request();
-    $listBookmarks->openBookmarks($tmpquery);
-
-    $comptListBookmarks = count($listBookmarks->boo_id);
+    $comptListBookmarks = count($bookmarksList);
 
     if ($comptListBookmarks != "0") {
 
@@ -150,27 +148,22 @@ if ($showHomeBookmarks) {
 
         $block6->sorting("bookmarks", $sortingUser->sor_bookmarks[0], "boo.name ASC", $sortingFields = array(0 => "boo.name", 1 => "boo.category", 2 => "boo.shared"));
 
-        // Todo: Refactore to use PDO
-        $tmpquery = "WHERE boo.home = '1' AND boo.owner = '$idSession' ORDER BY $block6->sortingValue";
-
-        $listBookmarks = new phpCollab\Request();
-        $listBookmarks->openBookmarks($tmpquery);
-
-        $comptListBookmarks = count($listBookmarks->boo_id);
+        $bookmarkIds = [];
 
         if ($comptListBookmarks != "0") {
             $block6->openResults();
 
             $block6->labels($labels = array(0 => $strings["name"], 1 => $strings["bookmark_category"], 2 => $strings["shared"]), "false");
 
-            for ($i = 0; $i < $comptListBookmarks; $i++) {
+            foreach ($bookmarksList as $bookmark) {
+                array_push($bookmarkIds, $bookmark['boo_id']);
 
                 $block6->openRow();
-                $block6->checkboxRow($listBookmarks->boo_id[$i]);
-                $block6->cellRow($blockPage->buildLink("../bookmarks/viewbookmark.php?view=$view&id=" . $listBookmarks->boo_id[$i], $listBookmarks->boo_name[$i], in) . " " . $blockPage->buildLink($listBookmarks->boo_url[$i], "(" . $strings["url"] . ")", out));
-                $block6->cellRow($listBookmarks->boo_boocat_name[$i]);
+                $block6->checkboxRow($bookmark['boo_id']);
+                $block6->cellRow($blockPage->buildLink("../bookmarks/viewbookmark.php?view=$view&id=" . $bookmark['boo_id'], $bookmark['boo_name'], 'in') . " " . $blockPage->buildLink($bookmark['boo_url'], "(" . $strings["url"] . ")", 'out'));
+                $block6->cellRow($bookmark['boo_boocat_name']);
 
-                if ($listBookmarks->boo_shared[$i] == "1") {
+                if ($bookmark['boo_shared'] == "1") {
                     $printShared = $strings["yes"];
                 } else {
                     $printShared = $strings["no"];
@@ -195,7 +188,7 @@ if ($showHomeBookmarks) {
         $block6->paletteScript(5, "info", "../bookmarks/viewbookmark.php?", "false,true,false", $strings["view"]);
         $block6->paletteScript(6, "edit", "../bookmarks/editbookmark.php?", "false,true,false", $strings["edit"]);
 
-        $block6->closePaletteScript($comptListBookmarks, $listBookmarks->boo_id);
+        $block6->closePaletteScript($comptListBookmarks, $bookmarkIds);
     }
 }
 
