@@ -437,18 +437,73 @@ if ($id == "") {
             $worked_hours = "0.00";
         }
 
-        //Insert task with our without parent phase
-        if ($projectDetail->pro_phase_set[0] != "0") {
-            $tmpquery1 = "INSERT INTO " . $tableCollab["tasks"] . "(project,name,description,owner,assigned_to,status,priority,start_date,due_date,estimated_time,actual_time,comments,created,published,completion,parent_phase,invoicing,worked_hours) VALUES('$project','$task_name','$d','$idSession','$at','$st','$pr','$start_date','$due_date','$etm','$atm','$c','$dateheure','$pub','$compl','$pha','$invoicing','$worked_hours')";
-        } else {
-            $tmpquery1 = "INSERT INTO " . $tableCollab["tasks"] . "(project,name,description,owner,assigned_to,status,priority,start_date,due_date,estimated_time,actual_time,comments,created,published,completion,invoicing,worked_hours) VALUES('$project','$task_name','$d','$idSession','$at','$st','$pr','$start_date','$due_date','$etm','$atm','$c','$dateheure','$pub','$compl','$invoicing','$worked_hours')";
-        }
+          $tmpquery1 = <<<SQL
+INSERT INTO {$tableCollab["tasks"]} (
+  project,
+  name,
+  description,
+  owner,
+  assigned_to,
+  status,
+  priority,
+  start_date,
+  due_date,
+  estimated_time,
+  actual_time,
+  comments,
+  created,
+  published,
+  completion,
+  parent_phase,
+  invoicing,
+  worked_hours
+) VALUES(
+  :project_id,
+  :task_name,
+  :description,
+  :owner,
+  :assigned_to,
+  :status,
+  :priority,
+  :start_date,
+  :due_date,
+  :estimated_time,
+  :actual_time,
+  :comments,
+  :created,
+  :published,
+  :completion,
+  :parent_phase,
+  :invoicing,
+  :worked_hours
+)
+SQL;
 
-        phpCollab\Util::connectSql("$tmpquery1");
+        $dbParams = [];
+        $dbParams['project_id'] = $project;
+        $dbParams['task_name'] = $task_name;
+        $dbParams['description'] = $d;
+        $dbParams['owner'] = $idSession;
+        $dbParams['assigned_to'] = ($at != 0) ? $at : 0;
+        $dbParams['status'] = $st;
+        $dbParams['priority'] = $pr;
+        $dbParams['start_date'] = $start_date;
+        $dbParams['due_date'] = $due_date;
+        $dbParams['estimated_time'] = $etm;
+        $dbParams['actual_time'] = $atm;
+        $dbParams['comments'] = $c;
+        $dbParams['created'] = $dateheure;
+        $dbParams['published'] = $pub;
+        $dbParams['completion'] = $compl;
+        $dbParams['parent_phase'] = ($pha != 0) ? $pha : 0;
+        $dbParams['invoicing'] = $invoicing;
+        $dbParams['worked_hours'] = $worked_hours;
+
+        phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
+
         $tmpquery = $tableCollab["tasks"];
-        phpCollab\Util::getLastId($tmpquery);
-        $num = $lastId[0];
-        unset($lastId);
+
+        $num = phpCollab\Util::newGetLastId($tmpquery);
 
         if ($enableInvoicing == "true") {
             if ($st == "1") {
