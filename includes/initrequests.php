@@ -153,12 +153,42 @@ LEFT OUTER JOIN " . $tableCollab["members"] . " mem2 ON mem2.id = tas.owner
 LEFT OUTER JOIN " . $tableCollab["organizations"] . " org ON org.id = pro.organization
 ";
 
-$initrequest["subtasks"] = "SELECT subtas.*, mem.id, mem.name, mem.login, mem.email_work, mem2.id, mem2.name, mem2.login, mem2.email_work, mem.organization, tas.name
-FROM " . $tableCollab["subtasks"] . " subtas
-LEFT OUTER JOIN " . $tableCollab["members"] . " mem ON mem.id = subtas.assigned_to
-LEFT OUTER JOIN " . $tableCollab["tasks"] . " tas ON tas.id = subtas.task
-LEFT OUTER JOIN " . $tableCollab["members"] . " mem2 ON mem2.id = subtas.owner
-";
+$initrequest["subtasks"] = <<<SQL
+SELECT 
+  subtas.id,
+  subtas.task,
+  subtas.priority,
+  subtas.status,
+  subtas.owner,
+  subtas.assigned_to,
+  subtas.name,
+  subtas.description,
+  subtas.start_date,
+  subtas.due_date,
+  subtas.estimated_time,
+  subtas.actual_time,
+  subtas.comments,
+  subtas.completion,
+  subtas.created,
+  subtas.modified,
+  subtas.assigned,
+  subtas.published,
+  subtas.complete_date,
+  mem.id, 
+  mem.name, 
+  mem.login, 
+  mem.email_work, 
+  mem2.id, 
+  mem2.name, 
+  mem2.login, 
+  mem2.email_work, 
+  mem.organization, 
+  tas.name
+FROM subtasks subtas
+LEFT OUTER JOIN members mem ON mem.id = subtas.assigned_to
+LEFT OUTER JOIN tasks tas ON tas.id = subtas.task
+LEFT OUTER JOIN members mem2 ON mem2.id = subtas.owner
+SQL;
 
 $initrequest["phases"] = "SELECT pha.id, pha.project_id, pha.order_num, pha.status, pha.name, pha.date_start, pha.date_end, pha.comments
 FROM " . $tableCollab["phases"] . " pha
