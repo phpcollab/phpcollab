@@ -759,6 +759,12 @@ class Util
     }
 
 
+    /**
+     * @param $tmpsql
+     * @param $params
+     * @return string
+     * Makes a connection to the database and returns the last itemId
+     */
     public function newConnectSql($tmpsql, $params)
     {
         $db = new \phpCollab\Database();
@@ -769,7 +775,9 @@ class Util
             $db->bind(':' . $key, $param);
         }
 
-        return $db->execute();
+        $db->execute();
+
+        return $db->lastInsertId();
     }
 
 
