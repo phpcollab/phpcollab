@@ -57,7 +57,7 @@ if ($action == "update") {
 
 //        $logoDel = $admins_gateway->deleteMyCompanyLogo();
 		$tmpquery = "UPDATE {$tableCollab["organizations"]} SET extension_logo='' WHERE id=:org_id";
-        $dbParams = ['org_id'] => 1;
+        $dbParams = ["org_id" => 1];
 
 		phpCollab\Util::newConnectSql($tmpquery. $dbParams);
         @unlink("../logos_clients/1.$extensionOld");
