@@ -22,6 +22,14 @@ class Members
         return $data;
     }
 
+    public function getMemberById($memberId) {
+        $memberId = filter_var($memberId, FILTER_VALIDATE_INT);
+
+        $data = $this->members_gateway->getMemberById($memberId);
+
+        return $data;
+    }
+
     public function getAllMembers() {
         $data = $this->members_gateway->getAllMembers();
 
