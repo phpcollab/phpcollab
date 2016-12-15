@@ -33,15 +33,10 @@ include_once '../includes/library.php';
 
 //case update client organization
 if ($id != "") {
+    $organizations = new \phpCollab\Organizations\Organizations();
+    $org = $organizations->checkIfClientExistsById($id);
 
-    //test exists selected client organization, redirect to list if not
-
-    $tmpquery = "WHERE org.id = '$id'";
-    $clientDetail = new phpCollab\Request();
-    $clientDetail->openOrganizations($tmpquery);
-    $comptClientDetail = count($clientDetail->org_id);
-
-    if ($comptClientDetail == "0") {
+    if (empty($org)) {
         phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
     }
 }
