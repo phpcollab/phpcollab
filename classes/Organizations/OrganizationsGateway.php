@@ -40,4 +40,13 @@ class OrganizationsGateway
         return $this->db->single();
     }
 
+    public function getAllOrganizations()
+    {
+        $whereStatement = " WHERE org.id != '1' ORDER BY org.name";
+
+        $this->db->query($this->initrequest["organizations"] . $whereStatement);
+
+        return $this->db->resultset();
+    }
+
 }

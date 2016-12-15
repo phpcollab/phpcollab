@@ -37,4 +37,11 @@ class Organizations
         return $data;
     }
 
+    public function getListOfOrganizations()
+    {
+        $data = $this->organizations_gateway->getAllOrganizations();
+
+        return $data;
+    }
+
 }
