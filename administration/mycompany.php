@@ -52,26 +52,40 @@ if ($action == "update") {
     $email = phpCollab\Util::returnGlobal('email', 'POST');
     $c = phpCollab\Util::returnGlobal('c', 'POST');
     $logoDel = phpCollab\Util::returnGlobal('logoDel', 'POST');
-xdebug_var_dump( $extension );
-    die();
+
     if ($logoDel == "on") {
 
 //        $logoDel = $admins_gateway->deleteMyCompanyLogo();
-		$tmpquery = "UPDATE ".$tableCollab["organizations"]." SET extension_logo='' WHERE id='1'";
-		phpCollab\Util::connectSql("$tmpquery");
+		$tmpquery = "UPDATE {$tableCollab["organizations"]} SET extension_logo='' WHERE id=:org_id";
+        $dbParams = ['org_id'] => 1;
+
+		phpCollab\Util::newConnectSql($tmpquery. $dbParams);
         @unlink("../logos_clients/1.$extensionOld");
+
+        unset($dbParams);
     }
 
     $extension = strtolower(substr(strrchr($_FILES['upload']['name'], "."), 1));
     if (@move_uploaded_file($_FILES['upload']['tmp_name'], "../logos_clients/1.$extension")) {
-        $tmpquery = "UPDATE " . $tableCollab["organizations"] . " SET extension_logo='$extension' WHERE id='1'";
-        phpCollab\Util::connectSql("$tmpquery");
+        $tmpquery = "UPDATE {$tableCollab["organizations"]} SET extension_logo=:extension WHERE id='1'";
+        $dbParams = ['extenstion' => $extension];
+        phpCollab\Util::newConnectSql($tmpquery, $dbParams);
+        unset($dbParams);
     }
     $cn = phpCollab\Util::convertData($cn);
     $add = phpCollab\Util::convertData($add);
     $c = phpCollab\Util::convertData($c);
-    $tmpquery = "UPDATE " . $tableCollab["organizations"] . " SET name='$cn',address1='$add',phone='$wp',url='$url',email='$email',comments='$c' WHERE id = '1'";
-    phpCollab\Util::connectSql("$tmpquery");
+    $tmpquery = "UPDATE {$tableCollab["organizations"]} SET name=:name,address1=:address1,phone=:phone,url=:url,email=:email,comments=:comments WHERE id = '1'";
+    $dbParams = [];
+    $dbParams['name'] = $cn;
+    $dbParams['address1'] = $add;
+    $dbParams['phone'] = $wp;
+    $dbParams['url'] = $url;
+    $dbParams['email'] = $email;
+    $dbParams['comments'] = $c;
+
+    phpCollab\Util::newConnectSql($tmpquery, $dbParams);
+    unset($dbParams);
     phpCollab\Util::headerFunction("../administration/mycompany.php");
 }
 $tmpquery = "WHERE org.id = '1'";
