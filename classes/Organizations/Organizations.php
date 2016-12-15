@@ -29,4 +29,14 @@ class Organizations
 
     }
 
+    public function checkIfClientExistsById($clientId)
+    {
+        $clientId = filter_var($clientId, FILTER_VALIDATE_INT);
+
+        $data = $this->organizations_gateway->getClientById($clientId);
+
+        return $data;
+
+    }
+
 }

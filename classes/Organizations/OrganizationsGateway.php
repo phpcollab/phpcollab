@@ -29,4 +29,15 @@ class OrganizationsGateway
         return $this->db->single();
     }
 
+    public function getClientById($clientId)
+    {
+        $whereStatement = ' WHERE org.id = :client_id';
+
+        $this->db->query($this->initrequest["organizations"] . $whereStatement);
+
+        $this->db->bind(':client_id', $clientId);
+
+        return $this->db->single();
+    }
+
 }
