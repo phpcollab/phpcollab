@@ -100,13 +100,10 @@ if ($id == "") {
             $add = phpCollab\Util::convertData($add);
             $comments = phpCollab\Util::convertData($comments);
 
-            //test if name already exists
-            $tmpquery = "WHERE org.name = '$cn'";
-            $existsClient = new phpCollab\Request();
-            $existsClient->openOrganizations($tmpquery);
-            $comptExistsClient = count($existsClient->org_id);
+            $organizations = new \phpCollab\Organizations\Organizations();
+            $org = $organizations->checkIfClientExistsByName($cn);
 
-            if ($comptExistsClient != "0") {
+            if (!empty($org)) {
                 $error = $strings["organization_already_exists"];
             } else {
                 if ($hourly_rate == "") {
