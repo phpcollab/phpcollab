@@ -34,9 +34,9 @@ include_once '../includes/library.php';
 //case update client organization
 if ($id != "") {
     $organizations = new \phpCollab\Organizations\Organizations();
-    $org = $organizations->checkIfClientExistsById($id);
+    $clientDetail = $organizations->checkIfClientExistsById($id);
 
-    if (empty($org)) {
+    if (empty($clientDetail)) {
         phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
     }
 }
@@ -45,37 +45,77 @@ if ($id != "") {
 if ($id != "") {
     if ($action == "update") {
         if ($logoDel == "on") {
-            $tmpquery = "UPDATE " . $tableCollab["organizations"] . " SET extension_logo='' WHERE id='$id'";
-            phpCollab\Util::connectSql("$tmpquery");
-            @unlink("../logos_clients/" . $id . ".$extensionOld");
+            $deleteLogoSql = "UPDATE {$tableCollab["organizations"]} SET extension_logo='' WHERE id=:project_id";
+
+            $dbParams = ["project_id" => $id];
+            $result = phpCollab\Util::newConnectSql($deleteLogoSql, $dbParams);
+
+            if ($result == 0) {
+                @unlink("../logos_clients/" . $id . ".$extensionOld");
+            }
         }
 
         $extension = strtolower(substr(strrchr($_FILES['upload']['name'], "."), 1));
 
-        if (@move_uploaded_file($_FILES['upload']['tmp_name'], "../logos_clients/" . $id . ".$extension")) {
-            chmod("../logos_clients/" . $id . ".$extension", 0666);
-            $tmpquery = "UPDATE " . $tableCollab["organizations"] . " SET extension_logo='$extension' WHERE id='$id'";
-            phpCollab\Util::connectSql("$tmpquery");
+        $target_file = "../logos_clients/" . $id . '.' . $extension;
+
+        if (@move_uploaded_file($_FILES["upload"]["tmp_name"], $target_file)) {
+            chmod($target_file, 0666);
+
+            $updateLogoExtension = "UPDATE {$tableCollab["organizations"]} SET extension_logo=:extension WHERE id=:id";
+
+            $dbParams = [];
+            $dbParams['extension'] = $extension;
+            $dbParams['id'] = $id;
+            phpCollab\Util::newConnectSql($updateLogoExtension, $dbParams);
+
+            unset($dbParams);
         }
 
         //replace quotes by html code in name and address
         $cn = phpCollab\Util::convertData($cn);
         $add = phpCollab\Util::convertData($add);
-        //$c = phpCollab\Util::convertData($c);
         $comments = phpCollab\Util::convertData($comments);
-        $tmpquery = "UPDATE " . $tableCollab["organizations"] . " SET name='$cn',address1='$add',phone='$client_phone',url='$url',email='$email',comments='$comments',owner='" . phpCollab\Util::fixInt($cown) . "',hourly_rate='$hourly_rate' WHERE id = '$id'";
-        phpCollab\Util::connectSql("$tmpquery");
+        $updateClientSQL = <<<UPDATECLIENTSQL
+UPDATE {$tableCollab["organizations"]} 
+SET 
+    name=:name,
+    address1=:address_1,
+    phone=:phone,
+    url=:url,
+    email=:email,
+    comments=:comments,
+    owner=:owner,
+    hourly_rate=:hourly_rate 
+WHERE id = :client_id
+UPDATECLIENTSQL;
+
+        $dbParams = [];
+        $dbParams['name'] = $cn;
+        $dbParams['address_1'] = $add;
+        $dbParams['phone'] = $client_phone;
+        $dbParams['url'] = $url;
+        $dbParams['email'] = $email;
+        $dbParams['comments'] = $comments;
+        $dbParams['owner'] = phpCollab\Util::fixInt($cown);
+        $dbParams['hourly_rate'] = $hourly_rate;
+        $dbParams['client_id'] = $id;
+
+        phpCollab\Util::newConnectSql($updateClientSQL, $dbParams);
+
+        unset($dbParams);
         phpCollab\Util::headerFunction("../clients/viewclient.php?id=$id&msg=update");
+
     }
 
     //set value in form
-    $cn = $clientDetail->org_name[0];
-    $add = $clientDetail->org_address1[0];
-    $client_phone = $clientDetail->org_phone[0];
-    $url = $clientDetail->org_url[0];
-    $email = $clientDetail->org_email[0];
-    $comments = $clientDetail->org_comments[0];
-    $hourly_rate = $clientDetail->org_hourly_rate[0];
+    $cn = $clientDetail['org_name'];
+    $add = $clientDetail['org_address1'];
+    $client_phone = $clientDetail['org_phone'];
+    $url = $clientDetail['org_url'];
+    $email = $clientDetail['org_email'];
+    $comments = $clientDetail['org_comments'];
+    $hourly_rate = $clientDetail['org_hourly_rate'];
 
     $setTitle .= " : Edit Client ($cn)";
 }
@@ -182,7 +222,7 @@ if ($id == "") {
 }
 
 if ($id != "") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $clientDetail->org_id[0], $clientDetail->org_name[0], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $clientDetail['org_id'], $clientDetail['org_name'], 'in'));
     $blockPage->itemBreadcrumbs($strings["edit_organization"]);
 }
 
@@ -215,7 +255,7 @@ if ($id == "") {
 }
 
 if ($id != "") {
-    $block1->heading($strings["edit_organization"] . " : " . $clientDetail->org_name[0]);
+    $block1->heading($strings["edit_organization"] . " : " . $clientDetail['org_name']);
 }
 
 $block1->openContent();
@@ -229,7 +269,7 @@ if ($clientsFilter == "true") {
     $comptClientOwner = count($clientOwner->mem_id);
 
     for ($i = 0; $i < $comptClientOwner; $i++) {
-        if ($clientDetail->org_owner[0] == $clientOwner->mem_id[$i] || $idSession == $clientOwner->mem_id[$i]) {
+        if ($clientDetail['org_owner'] == $clientOwner->mem_id[$i] || $idSession == $clientOwner->mem_id[$i]) {
             $selectOwner .= "<option value='" . $clientOwner->mem_id[$i] . "' selected>" . $clientOwner->mem_login[$i] . " / " . $clientOwner->mem_name[$i] . "</option>";
         } else {
             $selectOwner .= "<option value='" . $clientOwner->mem_id[$i] . "'>" . $clientOwner->mem_login[$i] . " / " . $clientOwner->mem_name[$i] . "</option>";
@@ -255,8 +295,8 @@ if ($enableInvoicing == "true") {
 $block1->contentRow($strings["logo"], "<input size=\"44\" style=\"width: 400px\" name=\"upload\" type=\"file\">");
 
 if ($id != "") {
-    if (file_exists("../logos_clients/" . $id . "." . $clientDetail->org_extension_logo[0])) {
-        $block1->contentRow("", "<img src='../logos_clients/" . $id . "." . $clientDetail->org_extension_logo[0] . "' /> <input name='extensionOld' type='hidden' value='" . $clientDetail->org_extension_logo[0] . "' /><input name='logoDel' type='checkbox' value='on' /> " . $strings["delete"]);
+    if (file_exists("../logos_clients/" . $id . "." . $clientDetail['org_extension_logo'])) {
+        $block1->contentRow("", "<img src='../logos_clients/" . $id . "." . $clientDetail['org_extension_logo'] . "' /> <input name='extensionOld' type='hidden' value='" . $clientDetail['org_extension_logo'] . "' /><input name='logoDel' type='checkbox' value='on' /> " . $strings["delete"]);
     }
 }
 
