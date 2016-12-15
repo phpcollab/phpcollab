@@ -816,18 +816,6 @@ class Util
 
     }
 
-    public static function newGetLastId($tableName) {
-        $db = new \phpCollab\Database();
-
-        $table_name = filter_var($tableName, FILTER_SANITIZE_STRING);
-
-        $sql = 'SELECT id FROM ' . $table_name . ' ORDER BY id DESC';
-
-        $db->query($sql);
-
-        return $db->single();
-    }
-
     /**
      * Return last id from any table
      * @param string $tmpsql Table name
