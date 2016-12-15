@@ -30,6 +30,7 @@
 ** 2008-11-18   -   Updated the library.php to reflect the new settings object. (dab-norman77)
 **
 */
+use DebugBar\StandardDebugBar;
 $debug = true;
 
 define('APP_ROOT', dirname(dirname(__FILE__)));
@@ -64,6 +65,10 @@ if ($debug) {
 
     include_once APP_ROOT . '/classes/Vendor/FirePHPCore/FirePHP.class.php';
 //    ob_start();
+
+
+    $debugbar = new StandardDebugBar();
+    $debugbarRenderer = $debugbar->getJavascriptRenderer();
 
 }
 

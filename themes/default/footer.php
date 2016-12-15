@@ -1,6 +1,7 @@
 <?php
 #Application name: PhpCollab
 #Status page: 0
+
 echo "<p id=\"footer\">PhpCollab v$version";
 if ($notLogged != "true" && $blank != "true") {
     echo " - Connected users: $connectedUsers";
@@ -14,8 +15,11 @@ if ($footerDev == "true") {
     echo " - <a href=\"http://validator.w3.org/check/referer\" target=\"w3c\">w3c</a> (in progress)&nbsp;&nbsp;&nbsp;";
 }
 
-echo "	</p>\n\n
-		</body>
+echo "</p>";
+
+if ($debug == true && is_object($debugbarRenderer)) {
+    echo $debugbarRenderer->render();
+}
+echo "	</body>
 		</html>
 	 ";
-

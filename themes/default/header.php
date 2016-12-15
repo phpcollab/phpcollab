@@ -27,6 +27,12 @@ $setCopyright
 <script type="text/javascript" src="../javascript/general.js"></script>
 <script type="text/JavaScript" src="../javascript/overlib_mini.js"></script>
 HEAD;
+
+
+if ($debug == true && is_object($debugbarRenderer)) {
+    echo $debugbarRenderer->renderHead();
+}
+
 echo '<link rel="stylesheet" href="../themes/' . THEME . '/css/stylesheet.css" type="text/css" />';
 echo '<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" type="text/css" />';
 
