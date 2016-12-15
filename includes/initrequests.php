@@ -108,10 +108,31 @@ LEFT OUTER JOIN " . $tableCollab["members"] . " mem ON mem.id = fil.owner
 LEFT OUTER JOIN " . $tableCollab["members"] . " mem2 ON mem2.id = fil.approver
 ";
 
-$initrequest["organizations"] = "SELECT org.*,mem.id,mem.login,mem.name,mem.email_work
-FROM " . $tableCollab["organizations"] . " org
-LEFT OUTER JOIN " . $tableCollab["members"] . " mem ON mem.id = org.owner
-";
+$initrequest["organizations"] = <<<SQL
+SELECT 
+      org.id,
+  org.name,
+  org.address1,
+  org.address2,
+  org.zip_code,
+  org.city,
+  org.country,
+  org.phone,
+  org.fax,
+  org.url,
+  org.email,
+  org.comments,
+  org.created,
+  org.extension_logo,
+  org.owner,
+  org.hourly_rate,
+  mem.id,
+  mem.login,
+  mem.name,
+  mem.email_work
+FROM {$tableCollab["organizations"]} org
+LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = org.owner
+SQL;
 
 $initrequest["topics"] = "SELECT topic.id, topic.project, topic.owner, topic.subject, topic.status, topic.last_post, topic.posts, topic.published, mem.id, mem.login, mem.name, mem.email_work, pro.id, pro.name
 FROM " . $tableCollab["topics"] . " topic
