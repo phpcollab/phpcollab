@@ -110,26 +110,26 @@ LEFT OUTER JOIN " . $tableCollab["members"] . " mem2 ON mem2.id = fil.approver
 
 $initrequest["organizations"] = <<<SQL
 SELECT 
-      org.id,
-  org.name,
-  org.address1,
-  org.address2,
-  org.zip_code,
-  org.city,
-  org.country,
-  org.phone,
-  org.fax,
-  org.url,
-  org.email,
-  org.comments,
-  org.created,
-  org.extension_logo,
-  org.owner,
-  org.hourly_rate,
-  mem.id,
-  mem.login,
-  mem.name,
-  mem.email_work
+    org.id as org_id,
+    org.name as org_name,
+    org.address1 as org_address1,
+    org.address2 as org_address2,
+    org.zip_code as org_zip_code,
+    org.city as org_city,
+    org.country as org_country,
+    org.phone as org_phone,
+    org.fax as org_fax,
+    org.url as org_url,
+    org.email as org_email,
+    org.comments as org_comments,
+    org.created as org_created,
+    org.extension_logo as org_extension_logo,
+    org.owner as org_owner,
+    org.hourly_rate as org_hourly_rate,
+    mem.id as mem_id,
+    mem.login as mem_login,
+    mem.name as mem_name,
+    mem.email_work as mem_email_work
 FROM {$tableCollab["organizations"]} org
 LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = org.owner
 SQL;
