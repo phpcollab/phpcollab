@@ -26,7 +26,6 @@ class Organizations
         $data = $this->organizations_gateway->getClientByName($clientName);
 
         return $data;
-
     }
 
     public function checkIfClientExistsById($clientId)
@@ -36,7 +35,6 @@ class Organizations
         $data = $this->organizations_gateway->getClientById($clientId);
 
         return $data;
-
     }
 
 }
