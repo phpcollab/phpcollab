@@ -2,7 +2,9 @@
 #########################
 includes/settings.php
 files/**/
-logos_clients/**/
+logos_clients/*
+# exception to the above rule
+!logos_client/index.php
 
 # Logs and databases #
 ######################
