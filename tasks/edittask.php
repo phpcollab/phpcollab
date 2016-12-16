@@ -34,27 +34,32 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
+$tasks = new \phpCollab\Tasks\Tasks();
+
 //case multiple edit tasks
-$multi = strstr($id, "**");
+$multi = strstr($_GET['id'], "**");
 if ($multi != "") {
-    phpCollab\Util::headerFunction("../tasks/updatetasks.php?report=$report&project=$project&id=$id");
+    phpCollab\Util::headerFunction("../tasks/updatetasks.php?report=" . $_GET['report'] . "&project=" . $_GET['project'] . "&id=" . $_GET['id'] . "");
 }
 
-if ($id != "" && $action != "update" && $action != "add") {
-    $tmpquery = "WHERE tas.id = '$id'";
-    $taskDetail = new phpCollab\Request();
-    $taskDetail->openTasks($tmpquery);
-    $tmpquery = "WHERE pro.id = '" . $taskDetail->tas_project[0] . "'";
-    $project = $taskDetail->tas_project[0];
+if ($_GET['id'] != "" && $_GET['action'] != "update" && $_GET['action'] != "add") {
+    $taskDetail = $tasks->getTaskById(filter_var($_GET['id'], FILTER_VALIDATE_INT));
+    $project = $taskDetail['tas_project'];
 } else {
-    $tmpquery = "WHERE pro.id = '$project'";
+
+    $project = $_GET['project'];
 }
 
-$projectDetail = new phpCollab\Request();
-$projectDetail->openProjects($tmpquery);
+$projects = new \phpCollab\Projects\Projects();
+
+$projectDetail = $projects->getProjectById($project);
 
 $teamMember = "false";
-$tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
+// Todo: refactor PDO
+
+//$idSession = \phpCollab\Util::returnGlobal('idSession', 'SESSION');
+
+$tmpquery = "WHERE tea.project = '$project' AND tea.member = ' $idSession'";
 $memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
@@ -84,6 +89,7 @@ if ($id != "") {
         if ($docopy == "true") {
 
             //Change task status if parent phase is suspended, complete or not open.
+            // Todo: refactor PDO
             if ($projectDetail->pro_phase_set[0] != "0") {
                 $tmpquery = "WHERE pha.project_id = '$project' AND pha.order_num = '$pha'";
                 $currentPhase = new phpCollab\Request();
@@ -109,20 +115,44 @@ if ($id != "") {
                 $worked_hours = "0.00";
             }
             //Insert Task details with or without parent phase
-            if ($projectDetail->pro_phase_set[0] != "0") {
-                $tmpquery1 = "INSERT INTO " . $tableCollab["tasks"] . "(project,name,description,owner,assigned_to,status,priority,start_date,due_date,estimated_time,actual_time,comments,created,published,completion,parent_phase,invoicing,worked_hours) VALUES('$project','$task_name','$d','$idSession','$at','$st','$pr','$start_date','$due_date','$etm','$atm','$c','$dateheure','$pub','$compl','$pha','$invoicing','$worked_hours')";
-            } else {
-                $tmpquery1 = "INSERT INTO " . $tableCollab["tasks"] . "(project,name,description,owner,assigned_to,status,priority,start_date,due_date,estimated_time,actual_time,comments,created,published,completion,invoicing,worked_hours) VALUES('$project','$task_name','$d','$idSession','$at','$st','$pr','$start_date','$due_date','$etm','$atm','$c','$dateheure','$pub','$compl','$invoicing','$worked_hours')";
-            }
+            // Todo: refactor PDO
+//            if ($projectDetail->pro_phase_set[0] != "0") {
+            $tmpquery1 = "INSERT INTO {$tableCollab["tasks"]} (
+project,name,description,owner,assigned_to,status,priority,start_date,due_date,estimated_time,actual_time,comments,created,published,completion,parent_phase,invoicing,worked_hours) VALUES(
+:project_id,:task_name,:description,:owner,:assigned_to,:status,:priority,:start_date,:due_date,:estimated_time,:actual_time,:comments,:created,:published,:completion,:parent_phase,:worked_hours)";
 
-            phpCollab\Util::connectSql("$tmpquery1");
-            $tmpquery = $tableCollab["tasks"];
-            phpCollab\Util::getLastId($tmpquery);
-            $num = $lastId[0];
-            unset($lastId);
+            $dbParams = [];
+            $dbParams['project_id'] = $project;
+            $dbParams['task_name'] = $task_name;
+            $dbParams['description'] = $d;
+            $dbParams['owner'] = $idSession;
+            $dbParams['assigned_to'] = $at;
+            $dbParams['status'] = $st;
+            $dbParams['priority'] = $pr;
+            $dbParams['start_date'] = $start_date;
+            $dbParams['due_date'] = $due_date;
+            $dbParams['estimated_time'] = $etm;
+            $dbParams['actual_time'] = $atm;
+            $dbParams['comments'] = $c;
+            $dbParams['created'] = $dateheure;
+            $dbParams['published'] = $pub;
+            $dbParams['completion'] = $compl;
+            $dbParams['parent_phase'] = ($pha != 0) ? $pha : 0;
+            $dbParams['invoicing'] = $invoicing;
+            $dbParams['worked_hours'] = $worked_hours;
+
+            $num = phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
+
+            unset($dbParams);
+
+//            $tmpquery = $tableCollab["tasks"];
+//            phpCollab\Util::getLastId($tmpquery);
+//            $num = $lastId[0];
+//            unset($lastId);
 
 
             //subtask copying
+            // Todo: refactor PDO
             $tmpquery1 = "WHERE task = '$id'";
             $subtaskDetail = new phpCollab\Request();
             $subtaskDetail->openSubtasks($tmpquery1);
@@ -145,8 +175,30 @@ if ($id != "") {
                 $s_published = $subtaskDetail->subtas_published[$j];
                 $s_compl = $subtaskDetail->subtas_completion[$j];
 
-                $tmpquery1 = "INSERT INTO " . $tableCollab["subtasks"] . "(task,name,description,owner,assigned_to,status,priority,start_date,due_date,complete_date,estimated_time,actual_time,comments,created,assigned,published,completion) VALUES('$num','$s_tn','$s_d','$s_ow','$s_at','$s_st','$s_pr','$s_sd','$s_dd','$s_cd','$s_etm','$s_atm','$s_c','$dateheure','$dateheure','$s_published','$s_compl')";
-                phpCollab\Util::connectSql("$tmpquery1");
+                $tmpquery1 = "INSERT INTO {$tableCollab["subtasks"]} (task,name,description,owner,assigned_to,status,priority,start_date,due_date,complete_date,estimated_time,actual_time,comments,created,assigned,published,completion) VALUES(:task,:name,:description,:owner,:assigned_to,:status,:priority,:start_date,:due_date,:complete_date,:estimated_time,:actual_time,:comments,:created,:assigned,:published,:completion)";
+
+                $dbParams = [];
+                $dbParams['task'] = $num;
+                $dbParams['name'] = $s_tn;
+                $dbParams['description'] = $s_d;
+                $dbParams['owner'] = $s_ow;
+                $dbParams['assigned_to'] = $s_at;
+                $dbParams['status'] = $s_st;
+                $dbParams['priority'] = $s_pr;
+                $dbParams['start_date'] = $s_sd;
+                $dbParams['due_date'] = $s_dd;
+                $dbParams['completed_date'] = $s_cd;
+                $dbParams['estimated_time'] = $s_etm;
+                $dbParams['actual_time'] = $s_atm;
+                $dbParams['comments'] = $s_c;
+                $dbParams['created'] = $dateheure;
+                $dbParams['assigned'] = $dateheure;
+                $dbParams['published'] = $s_published;
+                $dbParams['completion'] = $s_compl;
+
+                phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
+
+                unset($dbParams);
             }
 
             // invoice
@@ -157,40 +209,78 @@ if ($id != "") {
                     $completeItem = "0";
                 }
 
+                // Todo: refactor PDO
                 $tmpquery = "WHERE project = '$project'";
                 $detailInvoice = new phpCollab\Request();
                 $detailInvoice->openInvoices($tmpquery);
                 if ($detailInvoice->inv_status[0] == "0") {
                     //$tmpquery3 = "INSERT INTO ".$tableCollab["invoices_items"]." SET title='$task_name',description='$d',invoice='".$detailInvoice->inv_id[0]."',created='$dateheure',active='$invoicing',completed='$completeItem',mod_type='1',mod_value='$num',worked_hours='$worked_hours'";
-                    $tmpquery3 = "INSERT INTO " . $tableCollab["invoices_items"] . " (title,description,invoice,created,active,completed,mod_type,mod_value,worked_hours) VALUES ('$task_name','$d','" . phpCollab\Util::fixInt($detailInvoice->inv_id[0]) . "','$dateheure','$invoicing','$completeItem','1','$num','$worked_hours')";
-                    phpCollab\Util::connectSql($tmpquery3);
+                    $tmpquery3 = "INSERT INTO {$tableCollab["invoices_items"]} (
+title,description,invoice,created,active,completed,mod_type,mod_value,worked_hours) VALUES (
+:title,:description,:invoice,:created,:active,:completed,:mod_type,:mod_value,:worked_hours)";
+                    $dbParams = [];
+                    $dbParams['title'] = $task_name;
+                    $dbParams['description'] = $d;
+                    $dbParams['invoice'] = phpCollab\Util::fixInt($detailInvoice->inv_id[0]);
+                    $dbParams['created'] = $dateheure;
+                    $dbParams['active'] = $invoicing;
+                    $dbParams['completed'] = $completeItem;
+                    $dbParams['mod_type'] = 1;
+                    $dbParams['mod_value'] = $num;
+                    $dbParams['worked_hours'] = $worked_hours;
+
+                    phpCollab\Util::newConnectSql($tmpquery3, $dbParams);
+
+                    unset($dbParams);
                 }
             }
 
             if ($st == "1" && $complete_date != "--") {
-                $tmpquery6 = "UPDATE " . $tableCollab["tasks"] . " SET complete_date='$date' WHERE id = '$num'";
-                phpCollab\Util::connectSql($tmpquery6);
+                $tmpquery6 = "UPDATE {$tableCollab["tasks"]} SET complete_date=:complete_date'$date' WHERE id = :task_td";
+                $dbParams = [];
+                $dbParams['complete_date'] = $date;
+                $dbParams['task_id'] = $num;
+                phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
+                unset($dbParams);
             }
 
             //if assigned_to not blank, set assigned date
             if ($at != "0") {
-                $tmpquery6 = "UPDATE " . $tableCollab["tasks"] . " SET assigned='$dateheure' WHERE id = '$num'";
-                phpCollab\Util::connectSql($tmpquery6);
+                $tmpquery6 = "UPDATE {$tableCollab["tasks"]} SET assigned=:assigned WHERE id = :task_id";
+                $dbParams = [];
+                $dbParams['assigned'] = $dateheure;
+                $dbParams['task_id'] = $num;
+                phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
+                unset($dbParams);
             }
 
-            $tmpquery2 = "INSERT INTO " . $tableCollab["assignments"] . "(task,owner,assigned_to,assigned) VALUES('$num','$idSession','$at','$dateheure')";
-            phpCollab\Util::connectSql("$tmpquery2");
+            $tmpquery2 = "INSERT INTO {$tableCollab["assignments"]} (task,owner,assigned_to,assigned) VALUES (:task,:owner,:assigned_to,:assigned)";
+            $dbParams = [];
+            $dbParams['task'] = $num;
+            $dbParams['owner'] = $idSession;
+            $dbParams['assigned_to'] = $at;
+            $dbParams['assigned'] = $dateheure;
+
+            phpCollab\Util::newConnectSql($tmpquery2, $dbParams);
+            unset($dbParams);
 
             //if assigned_to not blank, add to team members (only if doesn't already exist)
             if ($at != "0") {
+                // Todo: refactor PDO
                 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$at'";
                 $testinTeam = new phpCollab\Request();
                 $testinTeam->openTeams($tmpquery);
                 $comptTestinTeam = count($testinTeam->tea_id);
 
                 if ($comptTestinTeam == "0") {
-                    $tmpquery3 = "INSERT INTO " . $tableCollab["teams"] . "(project,member,published,authorized) VALUES('$project','$at','1','0')";
-                    phpCollab\Util::connectSql("$tmpquery3");
+                    $tmpquery3 = "INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES(:project,:member,:published,:authorized)";
+                    $dbParams = [];
+                    $dbParams['project'] = $project;
+                    $dbParams['member'] = $at;
+                    $dbParams['published'] = 1;
+                    $dbParams['authorized'] = 0;
+                    phpCollab\Util::newConnectSql($tmpquery3, $dbParams);
+                    unset($dbParams);
                 }
 
                 //send task assignment mail if notifications = true
@@ -211,6 +301,7 @@ if ($id != "") {
 
             //Change task status if parent phase is suspended, complete or not open.
             if ($projectDetail->pro_phase_set[0] != "0") {
+                // Todo: refactor PDO
                 $tmpquery = "WHERE pha.project_id = '$project' AND pha.order_num = '$pha'";
                 $currentPhase = new phpCollab\Request();
                 $currentPhase->openPhases($tmpquery);
@@ -237,31 +328,66 @@ if ($id != "") {
             }
 
             //Update task with our without parent phase
-            if ($projectDetail->pro_phase_set[0] != "0") {
-                $tmpquery5 = "UPDATE " . $tableCollab["tasks"] . " SET name='$task_name',description='$d',assigned_to='$at',status='$st',priority='$pr',start_date='$start_date',due_date='$due_date',estimated_time='$etm',actual_time='$atm',comments='$c',modified='$dateheure',completion='$compl',parent_phase='$pha',published='$pub',invoicing='$invoicing',worked_hours='$worked_hours' WHERE id = '$id'";
-            } else {
-                $tmpquery5 = "UPDATE " . $tableCollab["tasks"] . " SET name='$task_name',description='$d',assigned_to='$at',status='$st',priority='$pr',start_date='$start_date',due_date='$due_date',estimated_time='$etm',actual_time='$atm',comments='$c',modified='$dateheure',completion='$compl',published='$pub',invoicing='$invoicing',worked_hours='$worked_hours' WHERE id = '$id'";
-            }
+            // Todo: refactor PDO
+            $tmpquery5 = "UPDATE {$tableCollab["tasks"]} SET name=:task_name,description=:description,assigned_to=:assigned_to,status=:status,priority=:priority,start_date=:start_date,due_date=:due_date,estimated_time=:estimated_time,actual_time=:actual_time,comments=:comments,modified=:modified,completion=:completion,parent_phase=:parent_phase,published=:published,invoicing=:invoicing,worked_hours=:worked_hours WHERE id = :task_id";
+            $tmpquery5Params = [];
+            $tmpquery5Params['task_name'] = $task_name;
+            $tmpquery5Params['description'] = $d;
+            $tmpquery5Params['assigned_to'] = $at;
+            $tmpquery5Params['status'] = $st;
+            $tmpquery5Params['priority'] = $pr;
+            $tmpquery5Params['start_date'] = $start_date;
+            $tmpquery5Params['due_date'] = $due_date;
+            $tmpquery5Params['estimated_time'] = $etm;
+            $tmpquery5Params['actual_time'] = $atm;
+            $tmpquery5Params['comments'] = $c;
+            $tmpquery5Params['modified'] = $dateheure;
+            $tmpquery5Params['completion'] = $compl;
+            $tmpquery5Params['parent_phase'] = ($pha != 0) ? $pha : 0;
+            $tmpquery5Params['published'] = $pub;
+            $tmpquery5Params['invoicing'] = $invoicing;
+            $tmpquery5Params['worked_hours'] = $worked_hours;
+            $tmpquery5Params['task_id'] = $id;
 
             if ($st == "1" && $complete_date == "--") {
-                $tmpquery6 = "UPDATE " . $tableCollab["tasks"] . " SET complete_date='$date' WHERE id = '$id'";
-                phpCollab\Util::connectSql($tmpquery6);
+                $tmpquery6 = "UPDATE {$tableCollab["tasks"]} SET complete_date=:complete_date WHERE id = :task_id";
+                $dbParams = [];
+                $dbParams['complete_date'] = $date;
+                $dbParams['task_id'] = $id;
+                phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
+                unset($dbParams);
             } else {
-                $tmpquery6 = "UPDATE " . $tableCollab["tasks"] . " SET complete_date='$complete_date' WHERE id = '$id'";
-                phpCollab\Util::connectSql($tmpquery6);
+                $tmpquery6 = "UPDATE {$tableCollab["tasks"]}SET complete_date=:complete_date WHERE id = :task_id";
+                $dbParams = [];
+                $dbParams['complete_date'] = $complete_date;
+                $dbParams['task_id'] = $id;
+                phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
+                unset($dbParams);
             }
 
             if ($old_st == "1" && $st != $old_st) {
-                $tmpquery6 = "UPDATE " . $tableCollab["tasks"] . " SET complete_date='' WHERE id = '$id'";
-                phpCollab\Util::connectSql($tmpquery6);
+                $tmpquery6 = "UPDATE {$tableCollab["tasks"]} SET complete_date='' WHERE id = :task_id";
+                $dbParams = [];
+                $dbParams['task_id'] = $id;
+                phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
+                unset($dbParams);
             }
 
             //if project different from past value, set project number in tasks table
             if ($project != $old_project) {
-                $tmpquery6 = "UPDATE " . $tableCollab["tasks"] . " SET project='$project' WHERE id = '$id'";
-                phpCollab\Util::connectSql($tmpquery6);
-                $tmpquery7 = "UPDATE " . $tableCollab["files"] . " SET project='$project' WHERE task = '$id'";
-                phpCollab\Util::connectSql($tmpquery7);
+                $tmpquery6 = "UPDATE {$tableCollab["tasks"]} SET project=:project_id WHERE id = :task_id";
+                $dbParams = [];
+                $dbParams['project_id'] = $project;
+                $dbParams['task_id'] = $id;
+                phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
+                unset($dbParams);
+                
+                $tmpquery7 = "UPDATE {$tableCollab["files"]} SET project=:project_id WHERE task = :task_id";
+                $dbParams = [];
+                $dbParams['project_id'] = $project;
+                $dbParams['task_id'] = $id;
+                phpCollab\Util::newConnectSql($tmpquery7, $dbParams);
+                unset($dbParams);
                 phpCollab\Util::createDirectory("files/$project/$id");
 
                 $dir = opendir("../files/$old_project/$id");
@@ -275,6 +401,7 @@ if ($id != "") {
                 }
 
                 //recompute number of completed tasks of the old project
+                // Todo: refactor PDO
                 $tmpquery = "WHERE pro.id = '$old_project'";
                 $oldproject = new phpCollab\Request();
                 $oldproject->openProjects($tmpquery);
@@ -290,39 +417,65 @@ if ($id != "") {
                 } else {
                     $completeItem = "0";
                 }
+
                 $tmpquery = "WHERE project = '$project'";
                 $detailInvoice = new phpCollab\Request();
                 $detailInvoice->openInvoices($tmpquery);
 
                 if ($detailInvoice->inv_status[0] == "0") {
-                    $tmpquery3 = "UPDATE " . $tableCollab["invoices_items"] . " SET active='$invoicing',completed='$completeItem',worked_hours='$worked_hours' WHERE mod_type = '1' AND mod_value = '$id'";
-                    phpCollab\Util::connectSql($tmpquery3);
+                    $tmpquery3 = "UPDATE {$tableCollab["invoices_items"]} SET active=:invoicing,completed=:completeItem,worked_hours=:worked_hours WHERE mod_type = 1 AND mod_value = :mod_value";
+                    $dbParams = [];
+                    $dbParams['invoicing'] = $invoicing;
+                    $dbParams['completed'] = $completeItem;
+                    $dbParams['worked_hours'] = $worked_hours;
+                    $dbParams['mod_value'] = $id;
+                    phpCollab\Util::newConnectSql($tmpquery3, $dbParams);
+                    unset($dbParams);
                 }
             }
 
             //if assigned_to not blank and past assigned value blank, set assigned date
             if ($at != "0" && $old_assigned == "") {
-                $tmpquery6 = "UPDATE " . $tableCollab["tasks"] . " SET assigned='$dateheure' WHERE id = '$id'";
-                phpCollab\Util::connectSql($tmpquery6);
+                $tmpquery6 = "UPDATE {$tableCollab["tasks"]} SET assigned=:assigned WHERE id = :task_id";
+                $dbParams = [];
+                $dbParams['assigned'] = $dateheure;
+                $dbParams['task_id'] = $id;
+                phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
+                unset($dbParams);
             }
 
             //if assigned_to different from past value, insert into assignment
             //add new assigned_to in team members (only if doesn't already exist)
             if ($at != $old_at) {
-                $tmpquery2 = "INSERT INTO " . $tableCollab["assignments"] . "(task,owner,assigned_to,assigned) VALUES('$id','$idSession','$at','$dateheure')";
-                phpCollab\Util::connectSql("$tmpquery2");
+                $tmpquery2 = "INSERT INTO {$tableCollab["assignments"]} (task,owner,assigned_to,assigned) VALUES (:task_id,:owner_id,:assigned_to,:assigned)";
+                $dbParams = [];
+                $dbParams['task_id'] = $id;
+                $dbParams['owner_id'] = $idSession;
+                $dbParams['assigned_to'] = $at;
+                $dbParams['assigned'] = $dateheure;
+                phpCollab\Util::newConnectSql($tmpquery2, $dbParams);
+                unset($dbParams);
+                
                 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$at'";
                 $testinTeam = new phpCollab\Request();
                 $testinTeam->openTeams($tmpquery);
                 $comptTestinTeam = count($testinTeam->tea_id);
 
                 if ($comptTestinTeam == "0") {
-                    $tmpquery3 = "INSERT INTO " . $tableCollab["teams"] . "(project,member,published,authorized) VALUES('$project','$at','1','0')";
-                    phpCollab\Util::connectSql("$tmpquery3");
+                    $tmpquery3 = "INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES (:project_id,:member_id,:published,:authorized)";
+                    $dbParams = [];
+                    $dbParams['project_id'] = $project;
+                    $dbParams['member_id'] = $at;
+                    $dbParams['published'] = 1;
+                    $dbParams['authorized'] = 0;
+                    phpCollab\Util::newConnectSql($tmpquery3, $dbParams);
+                    unset($dbParams);
                 }
 
                 $msg = "updateAssignment";
-                phpCollab\Util::connectSql("$tmpquery5");
+                phpCollab\Util::newConnectSql($tmpquery5, $tmpquery5Params);
+
+                // Todo: refactor PDO
                 $tmpquery = "WHERE tas.id = '$id'";
                 $taskDetail = new phpCollab\Request();
                 $taskDetail->openTasks($tmpquery);
@@ -333,7 +486,10 @@ if ($id != "") {
                 }
             } else {
                 $msg = "update";
-                phpCollab\Util::connectSql("$tmpquery5");
+                // Todo: refactor PDO
+                $dbParams = [];
+                $dbParams[''] = '';
+                phpCollab\Util::newConnectSql($tmpquery5, $tmpquery5Params);
                 $tmpquery = "WHERE tas.id = '$id'";
                 $taskDetail = new phpCollab\Request();
                 $taskDetail->openTasks($tmpquery);
@@ -374,8 +530,15 @@ if ($id != "") {
 
             if ($cUp != "" || $st != $old_st || $pr != $old_pr || $due_date != $old_dd) {
                 $cUp = phpCollab\Util::convertData($cUp);
-                $tmpquery6 = "INSERT INTO " . $tableCollab["updates"] . "(type,item,member,comments,created) VALUES ('1','$id','$idSession','$cUp','$dateheure')";
-                phpCollab\Util::connectSql($tmpquery6);
+                $tmpquery6 = "INSERT INTO {$tableCollab["updates"]} (type,item,member,comments,created) VALUES (:type,:item,:member,:comments,:created)";
+                $dbParams = [];
+                $dbParams['type'] = 1;
+                $dbParams['item'] = $id;
+                $dbParams['member'] = $idSession;
+                $dbParams['comments'] = $cUp;
+                $dbParams['created'] = $dateheure;
+                phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
+                unset($dbParams);
             }
 
             phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$id&msg=$msg");
@@ -412,6 +575,7 @@ if ($id == "") {
 
         //Change task status if parent phase is suspended, complete or not open.
         if ($projectDetail->pro_enable_phase[0] == "1") {
+            // Todo: refactor PDO
             $tmpquery = "WHERE pha.project_id = '$project' AND pha.order_num = '$pha'";
             $currentPhase = new phpCollab\Request();
             $currentPhase->openPhases($tmpquery);
@@ -437,7 +601,7 @@ if ($id == "") {
             $worked_hours = "0.00";
         }
 
-          $tmpquery1 = <<<SQL
+        $tmpquery1 = <<<SQL
 INSERT INTO {$tableCollab["tasks"]} (
   project,
   name,
@@ -499,33 +663,55 @@ SQL;
         $dbParams['invoicing'] = $invoicing;
         $dbParams['worked_hours'] = $worked_hours;
 
-        phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
-
-        $tmpquery = $tableCollab["tasks"];
-
-        $num = phpCollab\Util::newGetLastId($tmpquery);
+        $num = phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
 
         if ($enableInvoicing == "true") {
+
+            $invoices = new \phpCollab\Invoices();
+
             if ($st == "1") {
                 $completeItem = "1";
             } else {
                 $completeItem = "0";
             }
 
+
+            // Todo: refactor PDO
+
+//            $detailInvoice = $invoices->getInvoicesByProjectId($project);
+//            xdebug_var_dump($detailInvoice);
+//            die();
             $tmpquery = "WHERE project = '$project'";
             $detailInvoice = new phpCollab\Request();
             $detailInvoice->openInvoices($tmpquery);
 
+
             if ($detailInvoice->inv_status[0] == "0") {
-                //$tmpquery3 = "INSERT INTO ".$tableCollab["invoices_items"]." SET title='$task_name',description='$d',invoice='".$detailInvoice->inv_id[0]."',created='$dateheure',active='$invoicing',completed='$completeItem',mod_type='1',mod_value='$num',worked_hours='$worked_hours'";
-                $tmpquery3 = "INSERT INTO " . $tableCollab["invoices_items"] . " (title,description,invoice,created,active,completed,mod_type,mod_value,worked_hours) VALUES ('$task_name','$d','" . phpCollab\Util::fixInt($detailInvoice->inv_id[0]) . "','$dateheure','$invoicing','$completeItem','1','$num','$worked_hours')";
-                phpCollab\Util::connectSql($tmpquery3);
+                $tmpquery3 = "INSERT INTO {$tableCollab["invoices_items"]} (title,description,invoice,created,active,completed,mod_type,mod_value,worked_hours) VALUES (:task_name, :description,:invoice_id,:created,:active,:completed_item,:mod_type,:mod_value,:worked_hours)";
+
+                $dbParams = [];
+                $dbParams['task_name'] = $task_name;
+                $dbParams['description'] = $d;
+                $dbParams['invoice_id'] = phpCollab\Util::fixInt($detailInvoice->inv_id[0]);
+                $dbParams['created'] = $dateheure;
+                $dbParams['active'] = $invoicing;
+                $dbParams['completed_item'] = $completeItem;
+                $dbParams['mod_type'] = 1;
+                $dbParams['mod_value'] = $num;
+                $dbParams['worked_hours'] = $worked_hours;
+                phpCollab\Util::newConnectSql($tmpquery3, $dbParams);
+
+                unset($dbParams);
             }
         }
 
         if ($st == "1") {
-            $tmpquery6 = "UPDATE " . $tableCollab["tasks"] . " SET complete_date='$date' WHERE id = '$num'";
-            phpCollab\Util::connectSql($tmpquery6);
+            $tmpquery6 = "UPDATE {$tableCollab["tasks"]} SET complete_date=:complete_date WHERE id = :task_id";
+            $dbParams = [];
+            $dbParams['complete_date'] = $date;
+            $dbParams['task_id'] = $num;
+            phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
+            unset($dbParams);
         }
 
         //recompute number of completed tasks of the project
@@ -535,23 +721,42 @@ SQL;
 
         //if assigned_to not blank, set assigned date
         if ($at != "0") {
-            $tmpquery6 = "UPDATE " . $tableCollab["tasks"] . " SET assigned='$dateheure' WHERE id = '$num'";
-            phpCollab\Util::connectSql($tmpquery6);
+            $tmpquery6 = "UPDATE {$tableCollab["tasks"]} SET assigned=:assigned WHERE id = :task_id";
+            $dbParams = [];
+            $dbParams['assigned'] = $dateheure;
+            $dbParams['task_id'] = $num;
+            phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
+            unset($dbParams);
         }
-        $tmpquery2 = "INSERT INTO " . $tableCollab["assignments"] . "(task,owner,assigned_to,assigned) VALUES('$num','$idSession','$at','$dateheure')";
-        phpCollab\Util::connectSql($tmpquery2);
+        $tmpquery2 = "INSERT INTO {$tableCollab["assignments"]} (task,owner,assigned_to,assigned) VALUES(:task_id, :owner_id, :assigned_to, :assigned)";
+        $dbParams = [];
+        $dbParams['task_id'] = $num;
+        $dbParams['owner'] = $idSession;
+        $dbParams['assigned_to'] = $at;
+        $dbParams['assigned'] = $dateheure;
+
+        phpCollab\Util::newConnectSql($tmpquery2, $dbParams);
+
+        unset($dbParams);
 
         //if assigned_to not blank, add to team members (only if doesn't already exist)
         //add assigned_to in team members (only if doesn't already exist)
         if ($at != "0") {
+            // Todo: refactor PDO
             $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$at'";
             $testinTeam = new phpCollab\Request();
             $testinTeam->openTeams($tmpquery);
             $comptTestinTeam = count($testinTeam->tea_id);
 
             if ($comptTestinTeam == "0") {
-                $tmpquery3 = "INSERT INTO " . $tableCollab["teams"] . "(project,member,published,authorized) VALUES('$project','$at','1','0')";
-                phpCollab\Util::connectSql($tmpquery3);
+                $tmpquery3 = "INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES(:project,:member,:published,:authorized)";
+                $dbParams = [];
+                $dbParams['project'] = $project;
+                $dbParams['member'] = $at;
+                $dbParams['published'] = 1;
+                $dbParams['authorized'] = 0;
+                phpCollab\Util::newConnectSql($tmpquery3, $dbParams);
+                unset($dbParams);
             }
 
             //send task assignment mail if notifications = true
@@ -579,6 +784,7 @@ if ($projectDetail->pro_org_id[0] == "1") {
 
 
 if ($projectDetail->pro_phase_set[0] != "0") {
+    // Todo: refactor PDO
     if ($id != "") {
         $tPhase = $taskDetail->tas_parent_phase[0];
         if (!$tPhase) {
@@ -670,6 +876,7 @@ $block1->contentTitle($strings["info"]);
 
 echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["project"] . " :</td><td><select name='project'>";
 
+// Todo: refactor PDO
 if ($projectsFilter == "true") {
     $tmpquery = "LEFT OUTER JOIN " . $tableCollab["teams"] . " teams ON teams.project = pro.id ";
     $tmpquery .= "WHERE teams.member = '$idSession'";
@@ -720,6 +927,7 @@ if ($taskDetail->tas_assigned_to[0] == "0") {
     echo "      <option value='0'>" . $strings["unassigned"] . "</option>";
 }
 
+// Todo: refactor PDO
 $tmpquery = "WHERE tea.project = '$project' ORDER BY mem.name";
 $assignto = new phpCollab\Request();
 $assignto->openTeams($tmpquery);
@@ -747,6 +955,7 @@ if ($projectDetail->pro_phase_set[0] != "0") {
     echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["phase"] . " :</td><td><select name='pha'>";
 
     $projectTarget = $projectDetail->pro_id[0];
+    // Todo: refactor PDO
     $tmpquery = "WHERE pha.project_id = '$projectTarget' ORDER BY pha.order_num";
     $projectPhaseList = new phpCollab\Request();
     $projectPhaseList->openPhases($tmpquery);
@@ -833,26 +1042,27 @@ echo "
 </script>
 ";
 $block1->contentRow($strings["due_date"], "<input type='text' name='due_date' id='due_date' size='20' value='$due_date'><input type='button' value=' ... ' id=\"trigDueDate\">");
-echo "
+echo <<<JAVASCRIPT
 <script type='text/javascript'>
     Calendar.setup({
         inputField     :    'due_date',
         button         :    'trigDueDate',
-        $calendar_common_settings
+        {$calendar_common_settings}
     });
 </script>
-";
+JAVASCRIPT;
+
 if ($id != "") {
     $block1->contentRow($strings["complete_date"], "<input type='text' name='complete_date' id='complete_date' size='20' value='$complete_date'><input type='button' value=' ... ' id=\"trigCompleteDate\">");
-    echo "
+    echo <<<JAVASCRIPT
 	<script type='text/javascript'>
 	    Calendar.setup({
 	        inputField     :    'complete_date',
 	        button         :    'trigCompleteDate',
-        $calendar_common_settings
+        {$calendar_common_settings}
 	    });
 	</script>
-	";
+JAVASCRIPT;
 }
 
 echo "  <tr class='odd'>
@@ -888,9 +1098,12 @@ if ($id != "") {
             </tr>";
 }
 
-echo "      <tr class='odd'>
+echo <<<HTML
+      <tr class='odd'>
                 <td valign='top' class='leftvalue'>&nbsp;</td>
-                <td><input type='SUBMIT' value='" . $strings["save"] . "'></td>
+                <td><input type='SUBMIT' value='
+HTML
+ . $strings["save"] . "'></td>
             </tr>";
 
 $block1->closeContent();
