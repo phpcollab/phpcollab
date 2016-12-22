@@ -146,11 +146,26 @@ LEFT OUTER JOIN " . $tableCollab["members"] . " mem ON mem.id = pos.member
 LEFT OUTER JOIN " . $tableCollab["topics"] . " topic ON topic.id = pos.topic
 ";
 
-$initrequest["assignments"] = "SELECT ass.id, ass.task, ass.owner, ass.assigned_to, ass.comments, ass.assigned, mem1.id, mem1.login, mem1.name, mem1.email_work, mem2.id, mem2.login, mem2.name, mem2.email_work
-FROM " . $tableCollab["assignments"] . " ass
-LEFT OUTER JOIN " . $tableCollab["members"] . " mem1 ON mem1.id = ass.owner
-LEFT OUTER JOIN " . $tableCollab["members"] . " mem2 ON mem2.id = ass.assigned_to
-";
+$initrequest["assignments"] = <<<ASSIGNMENTS
+SELECT 
+ass.id as ass_id, 
+ass.task as ass_task,
+ass.owner as ass_owner,
+ass.assigned_to as ass_assigned_to,
+ass.comments as ass_comments,
+ass.assigned as ass_assigned,
+mem1.id as ass_mem1_id,
+mem1.login as ass_mem1_login,
+mem1.name as ass_mem1_name,
+mem1.email_work as ass_mem1_email_work,
+mem2.id as ass_mem2_id,
+mem2.login as ass_mem2_login,
+mem2.name as ass_mem2_name,
+mem2.email_work as ass_mem2_email_work
+FROM {$tableCollab["assignments"]} ass
+LEFT OUTER JOIN {$tableCollab["members"]} mem1 ON mem1.id = ass.owner
+LEFT OUTER JOIN {$tableCollab["members"]} mem2 ON mem2.id = ass.assigned_to
+ASSIGNMENTS;
 
 $initrequest["reports"] = "SELECT *
 FROM " . $tableCollab["reports"] . " rep
