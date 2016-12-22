@@ -61,7 +61,7 @@ class Util
      * @param string $type Variable type (SERVER, POST, GET, SESSION, REQUEST, COOKIE)
      * @access public
      **/
-    public static function returnGlobal($var, $type)
+    public static function returnGlobal($var, $type = null)
     {
         if (phpversion() >= "4.1.0") {
             if ($type == "SERVER") {
@@ -765,7 +765,7 @@ class Util
      * @return string
      * Makes a connection to the database and returns the last itemId
      */
-    public function newConnectSql($tmpsql, $params)
+    public static function newConnectSql($tmpsql, $params)
     {
         $db = new \phpCollab\Database();
 
