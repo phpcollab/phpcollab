@@ -5,18 +5,32 @@
 
 namespace phpCollab;
 
+/**
+ * Class Request
+ * @package phpCollab
+ */
 class Request
 {
+    public $index;
 
+    /**
+     * Request constructor.
+     */
     public function __construct()
     {
     }
 
+    /**
+     *
+     */
     public function request()
     {
         //empty constructor
     }
 
+    /**
+     *
+     */
     public function connectClass()
     {
         global $strings, $res, $databaseType;
@@ -59,6 +73,9 @@ class Request
         }
     }
 
+    /**
+     * @param $sql
+     */
     public function query($sql)
     {
         global $res, $databaseType, $comptRequest;
@@ -78,6 +95,9 @@ class Request
         }
     }
 
+    /**
+     * @return array|null
+     */
     public function fetch()
     {
         global $row, $databaseType, $res;
@@ -85,7 +105,7 @@ class Request
         if ($databaseType == "mysql") {
             @$row = mysqli_fetch_row($this->index);
 
-            if (mysqli_errno() != 0) {
+            if (mysqli_errno($res) != 0) {
                 echo "<font color='red'><b>" . mysqli_error($res)
                     . "</b></font><br/>";
             }
@@ -102,6 +122,9 @@ class Request
         return $row;
     }
 
+    /**
+     *
+     */
     public function close()
     {
         global $res, $databaseType;
@@ -120,6 +143,11 @@ class Request
     }
 
     //results sorting
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openSorting($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -172,6 +200,11 @@ class Request
     }
 
     //results calendar
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openCalendar($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -211,6 +244,11 @@ class Request
     }
 
     //results notes
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openNotes($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -246,6 +284,11 @@ class Request
     }
 
     //results logs
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openLogs($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -278,6 +321,11 @@ class Request
     }
 
     //results notifications
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openNotifications($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -321,6 +369,11 @@ class Request
     }
 
     //results members
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openMembers($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -362,6 +415,11 @@ class Request
     }
 
     //results projects
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openProjects($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -406,6 +464,11 @@ class Request
     }
 
     //results files
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openFiles($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -458,6 +521,11 @@ class Request
     }
 
     //results organizations
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openOrganizations($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -501,6 +569,11 @@ class Request
     }
 
     //results topics
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openTopics($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -538,6 +611,11 @@ class Request
     }
 
     //results posts
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openPosts($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -569,6 +647,11 @@ class Request
     }
 
     //results assignments
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openAssignments($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -607,6 +690,11 @@ class Request
     }
 
     //results reports
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openReports($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -644,6 +732,11 @@ class Request
     }
 
     //results teams
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openTeams($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -693,6 +786,11 @@ class Request
     }
 
     //results tasks
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openTasks($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -750,6 +848,9 @@ class Request
     }
 
     //compute Average completion of a task
+    /**
+     * @param $querymore
+     */
     public function openAvgTasks($querymore)
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -765,6 +866,11 @@ class Request
     }
 
     //results subtasks
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openSubtasks($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -816,6 +922,11 @@ class Request
     }
 
     //results phases
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openPhases($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -844,6 +955,11 @@ class Request
     }
 
     //results updates
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openUpdates($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -874,6 +990,11 @@ class Request
     }
 
     //results support requests
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openSupportRequests($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -907,6 +1028,11 @@ class Request
     }
 
     //results support posts
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openSupportPosts($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -935,6 +1061,11 @@ class Request
     }
 
     //results bookmarks
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openBookmarks($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -970,6 +1101,11 @@ class Request
     }
 
     //results bookmarks_categories
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openBookmarksCategories($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -993,6 +1129,11 @@ class Request
     }
 
     //results invoices
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openInvoices($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -1030,6 +1171,11 @@ class Request
     }
 
     //results invoices_items
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openInvoicesItems($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -1066,6 +1212,11 @@ class Request
     }
 
     //results services
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openServices($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -1090,6 +1241,11 @@ class Request
     }
 
     //results newsdeskpost 29/05/2003 by fullo
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openNewsDesk($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -1118,6 +1274,11 @@ class Request
     }
 
     // results newsdeskcomments 02/06/2003 by fullo
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openNewsDeskComments($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -1145,6 +1306,11 @@ class Request
     }
 
     //results teams
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     public function openNewsDeskRelated($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -1175,6 +1341,11 @@ class Request
     }
 
 //results modules 05/02/2007 by cacu100 
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     function openModules($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -1201,6 +1372,11 @@ class Request
 
 
 //results functionalities 05/02/2007 by cacu100 
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     function openFunctionalities($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -1226,6 +1402,11 @@ class Request
     }
 
 //results controls 05/02/2007 by cacu100 
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     function openControls($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -1252,6 +1433,11 @@ class Request
 
 
 //results requirements 05/02/2007 by cacu100
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     function openRequirements($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -1292,6 +1478,11 @@ class Request
     }
 
 //results interesteds 05/02/2007 by cacu100 
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     function openInteresteds($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
@@ -1327,6 +1518,11 @@ class Request
     }
 
 //results requirement status 05/02/2007 by cacu100 
+    /**
+     * @param $querymore
+     * @param string $start
+     * @param string $rows
+     */
     function openRequirementStatus($querymore, $start = "", $rows = "")
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
