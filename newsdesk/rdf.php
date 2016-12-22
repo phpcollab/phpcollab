@@ -13,21 +13,21 @@ if (!isset($langDefault) || ($langDefault == '')) {
     $langDefault = 'en';
 }
 
-//$connection = @mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die($strings["error_server"]);
-//@mysql_select_db(MYDATABASE, $connection) or die($strings["error_database"]);
-
-$connection = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
-if (!$connection) {
-    exit(self::$strings["error_server"]);
+try {
+    $connection = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
+}
+catch (Exception $e) {
+    echo self::$strings["error_server"];
+    exit;
 }
 
-$selectedDb = mysqli_select_db($connection, MYDATABASE);
-if (!$selectedDb) {
-    exit(self::$strings["error_database"]);
+try {
+    $selectedDb = mysqli_select_db($connection, MYDATABASE);
 }
-
-
-
+catch (Exception $e) {
+    echo self::$strings["error_database"];
+    exit;
+}
 
 function createRSS()
 {
@@ -39,9 +39,12 @@ function createRSS()
     include '../languages/lang_' . $langDefault . '.php';
 
     $query = "SELECT id,title,author,content,related, DATE_FORMAT(pdate, '%Y-%m-%d') as date FROM " . $tableCollab["newsdeskposts"] . " WHERE rss = '1' ORDER BY pdate DESC LIMIT 0,5";
-    $result = mysqli_query($connection, $query);
-    if (!$result) {
-        exit("Error: " . mysqli_error($connection));
+    try {
+        $result = mysqli_query($connection, $query);
+    }
+    catch (Exception $e) {
+        echo "Error: " . mysqli_error($connection);
+        exit;
     }
 
     //loop to display all items
@@ -57,10 +60,13 @@ function createRSS()
 
         //take the author name
         $query_author = 'SELECT name FROM ' . $tableCollab["members"] . ' WHERE id = "' . $row['author'] . '"';
-        $result_author = @mysqli_query($connection, $query_author);
 
-        if (!$result_author) {
-            exit("Error: " . mysqli_error($connection));
+        try {
+            $result_author = @mysqli_query($connection, $query_author);
+        }
+        catch (Exception $e) {
+            echo "Error: " . mysqli_error($connection);
+            exit;
         }
 
         if (mysqli_num_rows($result_author) == 0) {
@@ -73,9 +79,13 @@ function createRSS()
         // take the project related
         if ($row['related'] != 'g') {
             $query_prj = 'SELECT name FROM ' . $tableCollab["projects"] . ' WHERE id = "' . $row['related'] . '"';
-            $result_prj = @mysqli_query($connection, $query_prj);
-            if (!$result_prj) {
-                exit("Error: " . mysqli_error($connection));
+
+            try {
+                $result_prj = @mysqli_query($connection, $query_prj);
+            }
+            catch (Exception $e) {
+                echo "Error: " . mysqli_error($connection);
+                exit;
             }
 
             if (mysql_num_rows($result_prj) == 0) {
@@ -90,7 +100,7 @@ function createRSS()
         }
 
         //begin display
-        $RSS = [];
+        $RSS = "";
         $RSS['items'] .= "
 					<item rdf:about='$root/newsdesk/newsdesk.php?action=show&id=$id'>
 						<title>$title</title>
