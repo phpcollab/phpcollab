@@ -8,24 +8,50 @@
  */
 header("Content-type: text/xml");
 include '../includes/settings.php';
+
+global $strings;
+
 if (!isset($langDefault) || ($langDefault == '')) {
     $langDefault = 'en';
 }
 
-$connection = @mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die($strings["error_server"]);
-@mysql_select_db(MYDATABASE, $connection) or die($strings["error_database"]);
+try {
+    $connection = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
+}
+catch (Exception $e) {
+    echo $strings["error_server"];
+    exit;
+}
 
+try {
+    $selectedDb = mysqli_select_db($connection, MYDATABASE);
+}
+catch (Exception $e) {
+    echo $strings["error_database"];
+    exit;
+}
+
+/**
+ * @return string
+ */
 function createRSS()
 {
-    global $connection, $newsdesklimit;
+    global $connection, $newsdesklimit, $strings, $tableCollab, $root;
 
     $query = "SELECT id,title,author,content,related, DATE_FORMAT(pdate, '%Y-%m-%d') as date FROM " . $tableCollab["newsdeskposts"] . " WHERE rss = '1' ORDER BY pdate DESC LIMIT 0,5";
-    $result = @mysql_query($query) or die("Error: " . mysql_error());
+    try {
+        $result = @mysqli_query($connection, $query);
+    }
+    catch (Exception $e) {
+        echo "Error: " . mysqli_error($connection);
+        exit;
+    }
 
     $RSS = "";
 
     //loop to display all items
-    while ($row = mysql_fetch_assoc($result)) {
+    $row = mysqli_fetch_assoc($result);
+    while ($row) {
         //define variables
         $date = $row['date'];
         $title = htmlentities($row['title']);
@@ -35,23 +61,38 @@ function createRSS()
 
         //take the author name
         $query_author = 'SELECT name FROM ' . $tableCollab["members"] . ' WHERE id = "' . $row['author'] . '"';
-        $result_author = @mysql_query($query_author) or die("Error: " . mysql_error());
-        if (mysql_num_rows($result_author) == 0) {
-            die('Author not exist!');
+        try {
+            $result_author = @mysqli_query($connection, $query_author);
         }
-        while ($row_a = mysql_fetch_assoc($result_author)) {
+        catch (Exception $e) {
+            echo "Error: " . mysqli_error($connection);
+            exit;
+        }
+
+        if (mysqli_num_rows($result_author) == 0) {
+            echo 'Author not exist!';
+            exit;
+        }
+
+        while ($row_a = mysqli_fetch_assoc($result_author)) {
             $author = $row_a['name'];
         }
 
         // take the project related
         if ($row['related'] != 'g') {
             $query_prj = 'SELECT name FROM ' . $tableCollab["projects"] . ' WHERE id = "' . $row['related'] . '"';
-            $result_prj = @mysql_query($query_prj) or die("Error: " . mysql_error());
-
-            if (mysql_num_rows($result_prj) == 0) {
-                die('Project doesn\'t exist!');
+            try {
+                $result_prj = @mysqli_query($connection, $query_prj);
             }
-            while ($row_p = mysql_fetch_assoc($result_prj)) {
+            catch (Exception $e) {
+                exit("Error: " . mysqli_error($connection));
+            }
+
+            if (mysqli_num_rows($result_prj) == 0) {
+                echo "Project doesn't exist!";
+                exit;
+            }
+            while ($row_p = mysqli_fetch_assoc($result_prj)) {
                 $article_related = $row_p['name'];
             }
 
@@ -74,6 +115,12 @@ function createRSS()
 					";
         //end
     }
+
+
+    @mysqli_free_result($result);
+    @mysqli_free_result($result_author);
+    @mysqli_free_result($result_prj);
+    @mysqli_close($connection);
 
     return $RSS;
 }
