@@ -714,15 +714,17 @@ class Util
         $comptRequest = $comptRequest + 1;
 
         if ($databaseType == "mysql") {
-            $res = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
-
-            if (!$res) {
+            try {
+                $res = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
+            }
+            catch (Exception $e) {
                 exit(self::$strings["error_server"]);
             }
 
-            $selectedDb = mysqli_select_db($res, MYDATABASE);
-
-            if (!$selectedDb) {
+            try {
+                $selectedDb = mysqli_select_db($res, MYDATABASE);
+            }
+            catch (Exception $e) {
                 exit(self::$strings["error_database"]);
             }
 
@@ -753,13 +755,17 @@ class Util
         }
 
         if ($databaseType == "sqlserver") {
-            $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
-            if (!$res) {
+            try {
+                $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
+            }
+            catch (Exception $e) {
                 exit(self::$strings["error_server"]);
             }
 
-            $selectedDb = mssql_select_db(MYDATABASE, $res);
-            if (!$selectedDb) {
+            try {
+                $selectedDb = mssql_select_db(MYDATABASE, $res);
+            }
+            catch (Exception $e) {
                 exit(self::$strings["error_database"]);
             }
 
@@ -811,15 +817,17 @@ class Util
         global $databaseType;
 
         if ($databaseType == "mysql") {
-            $link = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
-
-            if (!$link) {
+            try {
+                $link = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
+            }
+            catch (Exception $e) {
                 exit(self::$strings["error_server"]);
             }
 
-            $selectedDb = mysqli_select_db($link, MYDATABASE);
-
-            if (!$selectedDb) {
+            try {
+                $selectedDb = mysqli_select_db($link, MYDATABASE);
+            }
+            catch (Exception $e) {
                 exit(self::$strings["error_database"]);
             }
 
@@ -836,17 +844,19 @@ class Util
             @pg_close($res);
         }
         if ($databaseType == "sqlserver") {
-            $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
-            if (!$res) {
+            try {
+                $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
+            }
+            catch (Exception $e) {
                 exit(self::$strings["error_server"]);
             }
 
-            $selectedDb = mssql_select_db(MYDATABASE, $res);
-            if (!$selectedDb) {
+            try {
+                $selectedDb = mssql_select_db(MYDATABASE, $res);
+            }
+            catch (Exception $e) {
                 exit(self::$strings["error_database"]);
             }
-
-
 
             $sql = $tmpsql;
             $index = mssql_query($sql, $res);
@@ -864,18 +874,22 @@ class Util
     public static function getLastId($tmpsql)
     {
         global $tableCollab, $databaseType;
+        global $lastId;
+
         if ($databaseType == "mysql") {
-            $res = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
-
-            global $lastId;
-
-            if (!$res) {
-                exit(self::$strings["error_server"]);
+            try {
+                $res = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
+            }
+            catch (Exception $e) {
+                echo self::$strings["error_server"];
+                exit;
             }
 
-            $selectedDb = mysqli_select_db($res, MYDATABASE);
 
-            if (!$selectedDb) {
+            try {
+                $selectedDb = mysqli_select_db($res, MYDATABASE);
+            }
+            catch (Exception $e) {
                 exit(self::$strings["error_database"]);
             }
 
@@ -901,13 +915,17 @@ class Util
         if ($databaseType == "sqlserver") {
             global $lastId;
 
-            $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
-            if (!$res) {
+            try {
+                $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
+            }
+            catch (Exception $e) {
                 exit(self::$strings["error_server"]);
             }
 
-            $selectedDb = mssql_select_db(MYDATABASE, $res);
-            if (!$selectedDb) {
+            try {
+                $selectedDb = mssql_select_db(MYDATABASE, $res);
+            }
+            catch (Exception $e) {
                 exit(self::$strings["error_database"]);
             }
 
