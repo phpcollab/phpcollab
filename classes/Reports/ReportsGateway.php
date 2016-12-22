@@ -14,31 +14,25 @@ class ReportsGateway
 //    protected $db, $tableCollab, $initrequest;
     protected $db;
 
+    // Todo: refactor to use the initrequest strings
     protected $stmt = "SELECT id, owner, name, projects, members, priorities, status, date_due_start, date_due_end, created, 
         date_complete_start, date_complete_end, clients FROM reports rep";
 
     /**
      * Reports constructor.
+     * @param Database $db
      */
     public function __construct(Database $db)
     {
         $this->db = $db;
-//        global $tableCollab,
-//               $initrequest;
-//
-//        $this->tableCollab = $tableCollab;
-//        $this->initrequest = $initrequest;
-//        $this->db = new \phpCollab\Database();
-
     }
 
     /**
-     * Returns a list of reports owned by ownerId
      * @param $ownerId
-     * @param $sorting
-     * @return dataset
+     * @param null $sorting
+     * @return mixed
      */
-    public function getAllByOwner($ownerId, $sorting)
+    public function getAllByOwner($ownerId, $sorting = null)
     {
         // Todo: I'm sure this allows SQL injection.  How do I fix it?
         if (!is_null($sorting)) {
@@ -54,6 +48,10 @@ class ReportsGateway
         return $this->db->resultset();
     }
 
+    /**
+     * @param $reportId
+     * @return mixed
+     */
     public function getReportById($reportId)
     {
         $this->db->query($this->stmt . ' WHERE rep.id = :report_id ');

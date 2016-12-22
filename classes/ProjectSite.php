@@ -10,10 +10,17 @@ namespace phpCollab;
 
 use \PDO;
 
+/**
+ * Class ProjectSite
+ * @package phpCollab
+ */
 class ProjectSite
 {
     protected $db, $tableCollab, $initrequest;
 
+    /**
+     * ProjectSite constructor.
+     */
     public function __construct()
     {
         global $tableCollab,
@@ -25,6 +32,10 @@ class ProjectSite
 
     }
 
+    /**
+     * @param $projectId
+     * @return mixed
+     */
     public function getTeamMembers($projectId)
     {
         // Todo: I'm sure this allows SQL injection.  How do I fix it?
@@ -46,7 +57,12 @@ class ProjectSite
     }
 
 
-    public function getTeamMembersByProjAndMember(Intager $projId, Intager $memId)
+    /**
+     * @param $projId
+     * @param $memId
+     * @return mixed
+     */
+    public function getTeamMembersByProjAndMember($projId, $memId)
     {
         $projId = intval( $projId );
         $memId = intval( $memId );
@@ -66,8 +82,7 @@ echo '<pre>';
 echo '</pre>';
 
         return $resultSet;
-//        return $this->db->resultset();
     }
 
-    
+
 }

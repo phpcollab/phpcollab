@@ -8,6 +8,7 @@
 
 namespace Reports;
 
+use phpCollab\Reports\ReportsGateway;
 
 class Reports
 {

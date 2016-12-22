@@ -2,6 +2,7 @@
 namespace phpCollab;
 
 use \PDO;
+use PDOException;
 
 /**
  * User: mindblender
