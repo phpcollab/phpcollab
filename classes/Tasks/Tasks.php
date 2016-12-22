@@ -53,4 +53,18 @@ class Tasks
         return $task;
     }
 
+    public function getSubTaskById($taskId)
+    {
+        $taskId = filter_var($taskId, FILTER_VALIDATE_INT);
+        $task = $this->tasks_gateway->getSubTaskById($taskId);
+        return $task;
+    }
+
+    public function getSubtasksByParentTaskId($parentTaskId)
+    {
+        $parentTaskId = filter_var($parentTaskId, FILTER_VALIDATE_INT);
+        $task = $this->tasks_gateway->getSubtasksByParentTaskId($parentTaskId);
+        return $task;
+    }
+
 }

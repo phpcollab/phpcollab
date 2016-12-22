@@ -51,6 +51,29 @@ class TasksGateway
         return $this->db->resultset();
     }
 
+    public function getSubTaskById($subtaskId)
+    {
+        $whereStatement = " WHERE subtas.id = :sub_task_id";
+
+        $this->db->query($this->initrequest["subtasks"] . $whereStatement);
+
+        $this->db->bind(':sub_task_id', $subtaskId);
+
+        return $this->db->single();
+    }
+
+
+    public function getSubtasksByParentTaskId($parentTaskId)
+    {
+        $whereStatement = " WHERE task = :parent_task_id";
+
+        $this->db->query($this->initrequest["tasks"] . $whereStatement);
+
+        $this->db->bind(':parent_task_id', $parentTaskId);
+
+        return $this->db->single();
+    }
+
 
     /**
      * @param string $sorting
