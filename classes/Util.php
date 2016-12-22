@@ -714,10 +714,16 @@ class Util
         $comptRequest = $comptRequest + 1;
 
         if ($databaseType == "mysql") {
-            $res = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD, MYDATABASE);
+            $res = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
 
             if (!$res) {
                 exit(self::$strings["error_server"]);
+            }
+
+            $selectedDb = mysqli_select_db($res, MYDATABASE);
+
+            if (!$selectedDb) {
+                exit(self::$strings["error_database"]);
             }
 
             $sql = $tmpsql;
@@ -805,10 +811,16 @@ class Util
         global $databaseType;
 
         if ($databaseType == "mysql") {
-            $link = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD, MYDATABASE);
+            $link = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
 
             if (!$link) {
                 exit(self::$strings["error_server"]);
+            }
+
+            $selectedDb = mysqli_select_db($link, MYDATABASE);
+
+            if (!$selectedDb) {
+                exit(self::$strings["error_database"]);
             }
 
             $sql = $tmpsql;
@@ -853,12 +865,18 @@ class Util
     {
         global $tableCollab, $databaseType;
         if ($databaseType == "mysql") {
-            $res = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD, MYDATABASE);
+            $res = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
 
             global $lastId;
 
             if (!$res) {
                 exit(self::$strings["error_server"]);
+            }
+
+            $selectedDb = mysqli_select_db($res, MYDATABASE);
+
+            if (!$selectedDb) {
+                exit(self::$strings["error_database"]);
             }
 
             $sql = "SELECT id FROM $tmpsql ORDER BY id DESC";
