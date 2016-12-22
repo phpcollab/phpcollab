@@ -299,10 +299,21 @@ pha.comments as pha_comments
 FROM {$tableCollab["phases"]} pha
 PHASESSQL;
 
-$initrequest["updates"] = "SELECT upd.*, mem.id, mem.name, mem.login, mem.email_work
-FROM " . $tableCollab["updates"] . " upd
-LEFT OUTER JOIN " . $tableCollab["members"] . " mem ON mem.id = upd.member
-";
+$initrequest["updates"] = <<<UPDATES
+SELECT 
+upd.id as upd_id,
+upd.type as upd_type,
+upd.item as upd_item,
+upd.member as upd_member,
+upd.comments as upd_comments,
+upd.created as upd_created,
+mem.id as upd_mem_id,
+mem.name as upd_mem_name,
+mem.login as upd_mem_login,
+mem.email_work as upd_mem_email_work
+FROM {$tableCollab["updates"]} upd
+LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = upd.member
+UPDATES;
 
 $initrequest["support_requests"] = "SELECT sr.id, sr.status, sr.member, sr.priority, sr.subject, sr.message, sr.owner, sr.date_open, sr.date_close, sr.project, pro.name, mem.name, mem.email_work
 FROM " . $tableCollab["support_requests"] . " sr
