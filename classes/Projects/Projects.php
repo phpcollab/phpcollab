@@ -17,6 +17,13 @@ class Projects
         $this->projects_gateway = new ProjectsGateway($this->db);
     }
 
+    public function getProjectById($projectId)
+    {
+        $projectId = filter_var($projectId, FILTER_VALIDATE_INT);
+
+        return $this->projects_gateway->getProjectById($projectId);
+    }
+
     public function getProjectsByOwner($ownerId, $sorting)
     {
         return $this->projects_gateway->getAllByOwner($ownerId, $sorting);
