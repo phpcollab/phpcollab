@@ -22,10 +22,18 @@ class Request
         global $strings, $res, $databaseType;
 
         if ($databaseType == "mysql") {
-            $res = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD)
-            or die($strings["error_server"]);
-            mysql_select_db(MYDATABASE, $res)
-            or die($strings["error_database"]);
+            try {
+                $res = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
+            } catch (\Exception $e) {
+                echo $strings["error_server"];
+                exit;
+            }
+            try {
+                mysqli_select_db($res, MYDATABASE);
+            } catch (\Exception $e) {
+                echo $strings["error_database"];
+                exit;
+            }
         }
 
         if ($databaseType == "postgresql") {
@@ -36,10 +44,18 @@ class Request
         }
 
         if ($databaseType == "sqlserver") {
-            $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD)
-            or die($strings["error_server"]);
-            mssql_select_db(MYDATABASE, $res)
-            or die($strings["error_database"]);
+            try {
+                $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
+            } catch (\Exception $e) {
+                echo $strings["error_server"];
+                exit;
+            }
+            try {
+                mssql_select_db(MYDATABASE, $res);
+            } catch (\Exception $e) {
+                echo $strings["error_database"];
+                exit;
+            }
         }
     }
 
@@ -50,7 +66,7 @@ class Request
         $comptRequest = $comptRequest + 1;
 
         if ($databaseType == "mysql") {
-            $this->index = mysql_query($sql, $res);
+            $this->index = mysqli_query($res, $sql);
         }
 
         if ($databaseType == "postgresql") {
@@ -64,13 +80,13 @@ class Request
 
     public function fetch()
     {
-        global $row, $databaseType;
+        global $row, $databaseType, $res;
 
         if ($databaseType == "mysql") {
-            @$row = mysql_fetch_row($this->index);
+            @$row = mysqli_fetch_row($this->index);
 
-            if (mysql_errno() != 0) {
-                echo "<font color='red'><b>" . mysql_error()
+            if (mysqli_errno() != 0) {
+                echo "<font color='red'><b>" . mysqli_error($res)
                     . "</b></font><br/>";
             }
         }
@@ -90,8 +106,8 @@ class Request
     {
         global $res, $databaseType;
         if ($databaseType == "mysql") {
-            @mysql_free_result($this->index);
-            @mysql_close($res);
+            @mysqli_free_result($this->index);
+            @mysqli_close($res);
         }
         if ($databaseType == "postgresql") {
             @pg_free_result($this->index);
