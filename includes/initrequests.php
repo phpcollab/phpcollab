@@ -156,23 +156,83 @@ $initrequest["reports"] = "SELECT *
 FROM " . $tableCollab["reports"] . " rep
 ";
 
-$initrequest["teams"] = "SELECT tea.id, tea.project, tea.member, tea.published, tea.authorized, mem.id, mem.login, mem.name, mem.email_work, mem.title, mem.phone_work, org.name, pro.id, pro.name, pro.priority, pro.status, pro.published, org2.name, mem2.login, mem2.email_work, org2.id, log.connected, mem.profil, mem.password
-FROM " . $tableCollab["teams"] . " tea
-LEFT OUTER JOIN " . $tableCollab["members"] . " mem ON mem.id = tea.member
-LEFT OUTER JOIN " . $tableCollab["projects"] . " pro ON pro.id = tea.project
-LEFT OUTER JOIN " . $tableCollab["organizations"] . " org ON org.id = mem.organization
-LEFT OUTER JOIN " . $tableCollab["organizations"] . " org2 ON org2.id = pro.organization
-LEFT OUTER JOIN " . $tableCollab["members"] . " mem2 ON mem2.id = pro.owner
-LEFT OUTER JOIN " . $tableCollab["logs"] . " log ON log.login = mem.login
-";
+$initrequest["teams"] =<<<TEAMSSQL
+SELECT 
+    tea.id as tea_id, 
+    tea.project as tea_project, 
+    tea.member as tea_member, 
+    tea.published as tea_published, 
+    tea.authorized as tea_authorized, 
+    mem.id as tea_mem_id, 
+    mem.login as tea_mem_login, 
+    mem.name as tea_mem_name, 
+    mem.email_work as tea_mem_email_work, 
+    mem.title as tea_mem_title, 
+    mem.phone_work as tea_mem_phone_work, 
+    org.name as tea_org_name, 
+    pro.id as tea_pro_id, 
+    pro.name as tea_pro_name, 
+    pro.priority as tea_pro_priority, 
+    pro.status as tea_pro_status, 
+    pro.published as tea_pro_published, 
+    org2.name as tea_org2_name, 
+    mem2.login as tea_mem2_login, 
+    mem2.email_work as tea_mem2_email_work, 
+    org2.id as tea_org2_id, 
+    log.connected as tea_log_connected, 
+    mem.profil as tea_mem_profile, 
+    mem.password as tea_mem_password
+FROM {$tableCollab["teams"]} tea
+LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = tea.member
+LEFT OUTER JOIN {$tableCollab["projects"]} pro ON pro.id = tea.project
+LEFT OUTER JOIN {$tableCollab["organizations"]} org ON org.id = mem.organization
+LEFT OUTER JOIN {$tableCollab["organizations"]} org2 ON org2.id = pro.organization
+LEFT OUTER JOIN {$tableCollab["members"]} mem2 ON mem2.id = pro.owner
+LEFT OUTER JOIN {$tableCollab["logs"]} log ON log.login = mem.login
+TEAMSSQL;
 
-$initrequest["tasks"] = "SELECT tas.*, mem.id, mem.name, mem.login, mem.email_work, mem2.id, mem2.name, mem2.login, mem2.email_work, mem.organization, pro.name, org.id
-FROM " . $tableCollab["tasks"] . " tas
-LEFT OUTER JOIN " . $tableCollab["members"] . " mem ON mem.id = tas.assigned_to
-LEFT OUTER JOIN " . $tableCollab["projects"] . " pro ON pro.id = tas.project
-LEFT OUTER JOIN " . $tableCollab["members"] . " mem2 ON mem2.id = tas.owner
-LEFT OUTER JOIN " . $tableCollab["organizations"] . " org ON org.id = pro.organization
-";
+
+$initrequest["tasks"] = <<<TASKSSQL
+SELECT 
+    tas.id as tas_id,
+    tas.project as tas_project,
+    tas.priority as tas_priority,
+    tas.status as tas_status,
+    tas.owner as tas_owner,
+    tas.assigned_to as tas_assigned_to,
+    tas.name as tas_name,
+    tas.description as tas_description,
+    tas.start_date as tas_start_date,
+    tas.due_date as tas_due_date,
+    tas.estimated_time as tas_estimated_time,
+    tas.actual_time as tas_actual_time,
+    tas.comments as tas_comments,
+    tas.completion as tas_completion,
+    tas.created as tas_created,
+    tas.modified as tas_modified,
+    tas.assigned as tas_assigned,
+    tas.published as tas_published,
+    tas.parent_phase as tas_parent_phase,
+    tas.complete_date as tas_complete_date,
+    tas.invoicing as tas_invoicing,
+    tas.worked_hours as tas_worked_hours,
+    mem.id as mem_id, 
+    mem.name as mem_name, 
+    mem.login as mem_login, 
+    mem.email_work as mem_email_work, 
+    mem2.id as mem2_id, 
+    mem2.name as mem2_name, 
+    mem2.login as mem2_login, 
+    mem2.email_work as mem2_email_work, 
+    mem.organization as mem_organization, 
+    pro.name as pro_name, 
+    org.id as org_id
+FROM {$tableCollab["tasks"]} tas
+LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = tas.assigned_to
+LEFT OUTER JOIN {$tableCollab["projects"]} pro ON pro.id = tas.project
+LEFT OUTER JOIN {$tableCollab["members"]} mem2 ON mem2.id = tas.owner
+LEFT OUTER JOIN {$tableCollab["organizations"]} org ON org.id = pro.organization
+TASKSSQL;
 
 $initrequest["subtasks"] = <<<SQL
 SELECT 
@@ -211,9 +271,18 @@ LEFT OUTER JOIN tasks tas ON tas.id = subtas.task
 LEFT OUTER JOIN members mem2 ON mem2.id = subtas.owner
 SQL;
 
-$initrequest["phases"] = "SELECT pha.id, pha.project_id, pha.order_num, pha.status, pha.name, pha.date_start, pha.date_end, pha.comments
-FROM " . $tableCollab["phases"] . " pha
-";
+$initrequest["phases"] = <<<PHASESSQL
+SELECT 
+pha.id as pha_id, 
+pha.project_id as pha_project_id, 
+pha.order_num as pha_order_num, 
+pha.status as pha_status, 
+pha.name as pha_name, 
+pha.date_start as pha_date_start, 
+pha.date_end as pha_date, 
+pha.comments as pha_comments
+FROM {$tableCollab["phases"]} pha
+PHASESSQL;
 
 $initrequest["updates"] = "SELECT upd.*, mem.id, mem.name, mem.login, mem.email_work
 FROM " . $tableCollab["updates"] . " upd
