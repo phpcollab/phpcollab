@@ -67,4 +67,14 @@ class Tasks
         return $task;
     }
 
+    public function addToSiteFile($ids)
+    {
+        return $this->tasks_gateway->addToSiteFile($ids);
+    }
+
+    public function removeToSiteFile($ids)
+    {
+        return $this->tasks_gateway->removeToSiteFile($ids);
+    }
+
 }

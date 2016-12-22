@@ -74,6 +74,29 @@ class TasksGateway
         return $this->db->single();
     }
 
+    public function addToSiteFile($ids)
+    {
+        $ids = explode(',', $ids);
+        $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
+        $placeholders2 = str_repeat ('?, ', count($ids)-1) . '?';
+        $sql = "UPDATE files SET published=0 WHERE id IN ($placeholders) OR vc_parent IN ($placeholders2)";
+
+        $this->db->query($sql);
+
+        return $this->db->execute(array($placeholders, $placeholders2));
+    }
+
+    public function removeToSiteFile($ids)
+    {
+        $ids = explode(',', $ids);
+        $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
+        $placeholders2 = str_repeat ('?, ', count($ids)-1) . '?';
+        $sql = "UPDATE files SET published=0 WHERE id IN ($placeholders) OR vc_parent IN ($placeholders2)";
+
+        $this->db->query($sql);
+
+        return $this->db->execute(array($placeholders, $placeholders2));
+    }
 
     /**
      * @param string $sorting
