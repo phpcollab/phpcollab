@@ -7,6 +7,7 @@
 
 namespace phpCollab;
 use Database;
+use phpCollab\Tasks\Tasks;
 
 class Util
 {
@@ -872,24 +873,35 @@ class Util
      **/
     public static function projectComputeCompletion($projectDetail, $tableProject)
     {
-        $prj_name = $projectDetail->pro_name[0];
-        preg_match("/\[([0-9 ]*\/[0-9 ]*)\]/", $prj_name, $findit);;
+        $prj_name = $projectDetail['pro_name'];
+
+        preg_match("/\[([0-9 ]*\/[0-9 ]*)\]/", $prj_name, $findit);
+
         if ($findit[1] != "") {
-            $prj_id = $projectDetail->pro_id[0];
-            $taskDetails = new \phpCollab\Request();
-//            $taskDetails = $this->request_factory->newInstance();
-            $tmpquery = "WHERE tas.project = '$prj_id'";
-            $taskDetails->openTasks($tmpquery);
-            $tasksNumb = count($taskDetails->tas_id);
+            $prj_id = $projectDetail['pro_id'];
+            $tasks = new Tasks();
+
+            $taskDetails = $tasks->getTaskById($prj_id);
+
+            $tasksNumb = count($taskDetails['tas_id']);
+
             $tasksCompleted = 0;
-            foreach ($taskDetails->tas_status as $stat) {
+
+            foreach ($taskDetails['tas_status'] as $stat) {
                 if ($stat == 1) {
                     $tasksCompleted++;
                 }
             }
+
             $prj_name = preg_replace("/\[[0-9 ]*\/[0-9 ]*\]/", "[ $tasksCompleted / $tasksNumb ]", $prj_name);
-            $tmpquery5 = "UPDATE " . $tableProject . " SET name='$prj_name' WHERE id = '$prj_id'";
-            $ad = Util::connectSql($tmpquery5);
+            $tmpquery5 = "UPDATE " . $tableProject . " SET name=:project_name WHERE id = :project_id";
+
+            $dbParams = [];
+            $dbParams['project_name'] = $prj_name;
+            $dbParams['project_id'] = $prj_id;
+
+            $ad = Util::newConnectSql($tmpquery5, $dbParams);
+            unset($dbParams);
         }
 
         return $prj_name;
