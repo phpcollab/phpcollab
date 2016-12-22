@@ -741,7 +741,7 @@ if ($projectDetail['pro_phase_set'] != "0") {
         if (!$tPhase) {
             $tPhase = '0';
         }
-        $tmpquery = "WHERE pha.project_id = '" . $taskDetail['tas_project'] . "' AND pha.order_num = '$tPhase'";
+        $project = $subtaskDetail['tas_project'];
     }
 
     if ($id == "") {
@@ -749,7 +749,6 @@ if ($projectDetail['pro_phase_set'] != "0") {
         if (!$tPhase) {
             $tPhase = '0';
         }
-        $tmpquery = "WHERE pha.project_id = '$project' AND pha.order_num = '$tPhase'";
     }
 
     $targetPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($project, $tPhase);
