@@ -46,7 +46,6 @@ if ($_GET['id'] != "" && $_GET['action'] != "update" && $_GET['action'] != "add"
     $taskDetail = $tasks->getTaskById(filter_var($_GET['id'], FILTER_VALIDATE_INT));
     $project = $taskDetail['tas_project'];
 } else {
-
     $project = $_GET['project'];
 }
 
@@ -55,14 +54,13 @@ $projects = new \phpCollab\Projects\Projects();
 $projectDetail = $projects->getProjectById($project);
 
 $teamMember = "false";
-// Todo: refactor PDO
 
-//$idSession = \phpCollab\Util::returnGlobal('idSession', 'SESSION');
+$teams = new \phpCollab\Teams\Teams();
+$phases = new \phpCollab\Phases\Phases();
 
-$tmpquery = "WHERE tea.project = '$project' AND tea.member = ' $idSession'";
-$memberTest = new phpCollab\Request();
-$memberTest->openTeams($tmpquery);
-$comptMemberTest = count($memberTest->tea_id);
+$teamMembers = $teams->getTeamByProjectIdAndTeamMember($project, $idSession);
+
+$comptMemberTest = count($teamMembers);
 
 if ($comptMemberTest == "0") {
     $teamMember = "false";
@@ -71,7 +69,7 @@ if ($comptMemberTest == "0") {
 }
 
 if ($teamMember == "false" && $profilSession != "5") {
-    phpCollab\Util::headerFunction("../tasks/listtasks.php?project=$project&msg=taskOwner");
+    phpCollab\Util::headerFunction("../tasks/listtasks.php?project={$project}&msg=taskOwner");
 }
 
 //case update or copy task
@@ -90,11 +88,12 @@ if ($id != "") {
 
             //Change task status if parent phase is suspended, complete or not open.
             // Todo: refactor PDO
-            if ($projectDetail->pro_phase_set[0] != "0") {
-                $tmpquery = "WHERE pha.project_id = '$project' AND pha.order_num = '$pha'";
-                $currentPhase = new phpCollab\Request();
-                $currentPhase->openPhases($tmpquery);
-                if ($st == 3 && $currentPhase->pha_status[0] != 1) {
+            if ($projectDetail['pro_phase_set'] != "0") {
+//                $tmpquery = "WHERE pha.project_id = '$project' AND pha.order_num = '$pha'";
+//                $currentPhase = new phpCollab\Request();
+//                $currentPhase->openPhases($tmpquery);
+                $currentPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($project, $pha);
+                if ($st == 3 && $currentPhase['pha_status'] != 1) {
                     $st = 4;
                 }
             }
@@ -115,8 +114,8 @@ if ($id != "") {
                 $worked_hours = "0.00";
             }
             //Insert Task details with or without parent phase
-            // Todo: refactor PDO
-//            if ($projectDetail->pro_phase_set[0] != "0") {
+
+//            if ($projectDetail['pro_phase_set[0] != "0") {
             $tmpquery1 = "INSERT INTO {$tableCollab["tasks"]} (
 project,name,description,owner,assigned_to,status,priority,start_date,due_date,estimated_time,actual_time,comments,created,published,completion,parent_phase,invoicing,worked_hours) VALUES(
 :project_id,:task_name,:description,:owner,:assigned_to,:status,:priority,:start_date,:due_date,:estimated_time,:actual_time,:comments,:created,:published,:completion,:parent_phase,:worked_hours)";
@@ -209,12 +208,10 @@ project,name,description,owner,assigned_to,status,priority,start_date,due_date,e
                     $completeItem = "0";
                 }
 
-                // Todo: refactor PDO
                 $tmpquery = "WHERE project = '$project'";
                 $detailInvoice = new phpCollab\Request();
                 $detailInvoice->openInvoices($tmpquery);
                 if ($detailInvoice->inv_status[0] == "0") {
-                    //$tmpquery3 = "INSERT INTO ".$tableCollab["invoices_items"]." SET title='$task_name',description='$d',invoice='".$detailInvoice->inv_id[0]."',created='$dateheure',active='$invoicing',completed='$completeItem',mod_type='1',mod_value='$num',worked_hours='$worked_hours'";
                     $tmpquery3 = "INSERT INTO {$tableCollab["invoices_items"]} (
 title,description,invoice,created,active,completed,mod_type,mod_value,worked_hours) VALUES (
 :title,:description,:invoice,:created,:active,:completed,:mod_type,:mod_value,:worked_hours)";
@@ -300,13 +297,14 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
         } else {
 
             //Change task status if parent phase is suspended, complete or not open.
-            if ($projectDetail->pro_phase_set[0] != "0") {
+            if ($projectDetail['pro_phase_set'] != "0") {
                 // Todo: refactor PDO
-                $tmpquery = "WHERE pha.project_id = '$project' AND pha.order_num = '$pha'";
-                $currentPhase = new phpCollab\Request();
-                $currentPhase->openPhases($tmpquery);
+//                $tmpquery = "WHERE pha.project_id = '$project' AND pha.order_num = '$pha'";
+//                $currentPhase = new phpCollab\Request();
+//                $currentPhase->openPhases($tmpquery);
+                $currentPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($project, $pha);
 
-                if ($st == 3 && $currentPhase->pha_status[0] != 1) {
+                if ($st == 3 && $currentPhase['pha_status'] != 1) {
                     $st = 4;
                 }
             }
@@ -319,7 +317,7 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
             }
 
             //recompute number of completed tasks of the project
-            $projectDetail->pro_name[0] = phpCollab\Util::projectComputeCompletion(
+            $projectDetail['pro_name'] = phpCollab\Util::projectComputeCompletion(
                 $projectDetail,
                 $tableCollab["projects"]);
 
@@ -328,7 +326,6 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
             }
 
             //Update task with our without parent phase
-            // Todo: refactor PDO
             $tmpquery5 = "UPDATE {$tableCollab["tasks"]} SET name=:task_name,description=:description,assigned_to=:assigned_to,status=:status,priority=:priority,start_date=:start_date,due_date=:due_date,estimated_time=:estimated_time,actual_time=:actual_time,comments=:comments,modified=:modified,completion=:completion,parent_phase=:parent_phase,published=:published,invoicing=:invoicing,worked_hours=:worked_hours WHERE id = :task_id";
             $tmpquery5Params = [];
             $tmpquery5Params['task_name'] = $task_name;
@@ -478,6 +475,7 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
                 // Todo: refactor PDO
                 $tmpquery = "WHERE tas.id = '$id'";
                 $taskDetail = new phpCollab\Request();
+//                xdebug_var_dump('openTasks - line 489');
                 $taskDetail->openTasks($tmpquery);
 
                 //send task assignment mail if notifications = true
@@ -492,6 +490,7 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
                 phpCollab\Util::newConnectSql($tmpquery5, $tmpquery5Params);
                 $tmpquery = "WHERE tas.id = '$id'";
                 $taskDetail = new phpCollab\Request();
+//                xdebug_var_dump('openTasks - line 503');
                 $taskDetail->openTasks($tmpquery);
 
                 //send status task change mail if notifications = true
@@ -546,16 +545,16 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
     }
 
     //set value in form
-    $task_name = $taskDetail->tas_name[0];
-    $d = $taskDetail->tas_description[0];
-    $start_date = $taskDetail->tas_start_date[0];
-    $due_date = $taskDetail->tas_due_date[0];
-    $complete_date = $taskDetail->tas_complete_date[0];
-    $etm = $taskDetail->tas_estimated_time[0];
-    $atm = $taskDetail->tas_actual_time[0];
-    $c = $taskDetail->tas_comments[0];
-    $pub = $taskDetail->tas_published[0];
-    $worked_hours = $taskDetail->tas_worked_hours[0];
+    $task_name = $taskDetail['tas_name'];
+    $d = $taskDetail['tas_description'];
+    $start_date = $taskDetail['tas_start_date'];
+    $due_date = $taskDetail['tas_due_date'];
+    $complete_date = $taskDetail['tas_complete_date'];
+    $etm = $taskDetail['tas_estimated_time'];
+    $atm = $taskDetail['tas_actual_time'];
+    $c = $taskDetail['tas_comments'];
+    $pub = $taskDetail['tas_published'];
+    $worked_hours = $taskDetail['tas_worked_hours'];
 
     if ($pub == "0") {
         $checkedPub = "checked";
@@ -574,13 +573,10 @@ if ($id == "") {
         $c = phpCollab\Util::convertData($c);
 
         //Change task status if parent phase is suspended, complete or not open.
-        if ($projectDetail->pro_enable_phase[0] == "1") {
-            // Todo: refactor PDO
-            $tmpquery = "WHERE pha.project_id = '$project' AND pha.order_num = '$pha'";
-            $currentPhase = new phpCollab\Request();
-            $currentPhase->openPhases($tmpquery);
+        if ($projectDetail['pro_enable_phase'] == "1") {
+            $currentPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($project, $pha);
 
-            if ($st == 3 && $currentPhase->pha_status[0] != 1) {
+            if ($st == 3 && $currentPhase['pha_status'] != 1) {
                 $st = 4;
             }
         }
@@ -603,43 +599,10 @@ if ($id == "") {
 
         $tmpquery1 = <<<SQL
 INSERT INTO {$tableCollab["tasks"]} (
-  project,
-  name,
-  description,
-  owner,
-  assigned_to,
-  status,
-  priority,
-  start_date,
-  due_date,
-  estimated_time,
-  actual_time,
-  comments,
-  created,
-  published,
-  completion,
-  parent_phase,
-  invoicing,
-  worked_hours
+project, name, description,owner,assigned_to,status,priority,start_date,due_date,estimated_time,actual_time,comments,created,published,completion,parent_phase,invoicing,worked_hours
 ) VALUES(
-  :project_id,
-  :task_name,
-  :description,
-  :owner,
-  :assigned_to,
-  :status,
-  :priority,
-  :start_date,
-  :due_date,
-  :estimated_time,
-  :actual_time,
-  :comments,
-  :created,
-  :published,
-  :completion,
-  :parent_phase,
-  :invoicing,
-  :worked_hours
+:project_id,:task_name,:description,:owner,:assigned_to,:status,:priority,:start_date,:due_date,:estimated_time,:actual_time,:comments,
+:created,:published,:completion,:parent_phase,:invoicing,:worked_hours
 )
 SQL;
 
@@ -667,7 +630,7 @@ SQL;
 
         if ($enableInvoicing == "true") {
 
-            $invoices = new \phpCollab\Invoices();
+            $invoices = new \phpCollab\Invoices\Invoices();
 
             if ($st == "1") {
                 $completeItem = "1";
@@ -675,16 +638,7 @@ SQL;
                 $completeItem = "0";
             }
 
-
-            // Todo: refactor PDO
-
-//            $detailInvoice = $invoices->getInvoicesByProjectId($project);
-//            xdebug_var_dump($detailInvoice);
-//            die();
-            $tmpquery = "WHERE project = '$project'";
-            $detailInvoice = new phpCollab\Request();
-            $detailInvoice->openInvoices($tmpquery);
-
+            $detailInvoice = $invoices->getInvoicesByProjectId($project);
 
             if ($detailInvoice->inv_status[0] == "0") {
                 $tmpquery3 = "INSERT INTO {$tableCollab["invoices_items"]} (title,description,invoice,created,active,completed,mod_type,mod_value,worked_hours) VALUES (:task_name, :description,:invoice_id,:created,:active,:completed_item,:mod_type,:mod_value,:worked_hours)";
@@ -692,15 +646,15 @@ SQL;
                 $dbParams = [];
                 $dbParams['task_name'] = $task_name;
                 $dbParams['description'] = $d;
-                $dbParams['invoice_id'] = phpCollab\Util::fixInt($detailInvoice->inv_id[0]);
+                $dbParams['invoice_id'] = phpCollab\Util::fixInt($detailInvoice['inv_id']);
                 $dbParams['created'] = $dateheure;
                 $dbParams['active'] = $invoicing;
                 $dbParams['completed_item'] = $completeItem;
                 $dbParams['mod_type'] = 1;
                 $dbParams['mod_value'] = $num;
                 $dbParams['worked_hours'] = $worked_hours;
-                phpCollab\Util::newConnectSql($tmpquery3, $dbParams);
 
+                phpCollab\Util::newConnectSql($tmpquery3, $dbParams);
                 unset($dbParams);
             }
         }
@@ -715,7 +669,7 @@ SQL;
         }
 
         //recompute number of completed tasks of the project
-        $projectDetail->pro_name[0] = phpCollab\Util::projectComputeCompletion(
+        $projectDetail['pro_name'] = phpCollab\Util::projectComputeCompletion(
             $projectDetail,
             $tableCollab["projects"]);
 
@@ -731,22 +685,18 @@ SQL;
         $tmpquery2 = "INSERT INTO {$tableCollab["assignments"]} (task,owner,assigned_to,assigned) VALUES(:task_id, :owner_id, :assigned_to, :assigned)";
         $dbParams = [];
         $dbParams['task_id'] = $num;
-        $dbParams['owner'] = $idSession;
+        $dbParams['owner_id'] = $idSession;
         $dbParams['assigned_to'] = $at;
         $dbParams['assigned'] = $dateheure;
 
         phpCollab\Util::newConnectSql($tmpquery2, $dbParams);
-
         unset($dbParams);
 
         //if assigned_to not blank, add to team members (only if doesn't already exist)
         //add assigned_to in team members (only if doesn't already exist)
         if ($at != "0") {
-            // Todo: refactor PDO
-            $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$at'";
-            $testinTeam = new phpCollab\Request();
-            $testinTeam->openTeams($tmpquery);
-            $comptTestinTeam = count($testinTeam->tea_id);
+            $testinTeam = $teams->getTeamByProjectIdAndTeamMember($project, $at);
+            $comptTestinTeam = count($testinTeam['tea_id']);
 
             if ($comptTestinTeam == "0") {
                 $tmpquery3 = "INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES(:project,:member,:published,:authorized)";
@@ -769,28 +719,29 @@ SQL;
         if ($fileManagement == "true") {
             phpCollab\Util::createDirectory("files/$project/$num");
         }
+
         phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$num&msg=addAssignment");
     }
 
     //set default values
-    $taskDetail->tas_assigned_to[0] = "0";
-    $taskDetail->tas_priority[0] = $projectDetail->pro_priority[0];
-    $taskDetail->tas_status[0] = "2";
+    $taskDetail['tas_assigned_to'] = "0";
+    $taskDetail['tas_priority'] = $projectDetail['pro_priority'];
+    $taskDetail['tas_status'] = "2";
 }
 
-if ($projectDetail->pro_org_id[0] == "1") {
-    $projectDetail->pro_org_name[0] = $strings["none"];
+if ($projectDetail['pro_org_id'] == "1") {
+    $projectDetail['pro_org_name'] = $strings["none"];
 }
 
 
-if ($projectDetail->pro_phase_set[0] != "0") {
+if ($projectDetail['pro_phase_set'] != "0") {
     // Todo: refactor PDO
     if ($id != "") {
-        $tPhase = $taskDetail->tas_parent_phase[0];
+        $tPhase = $taskDetail['tas_parent_phase'];
         if (!$tPhase) {
             $tPhase = '0';
         }
-        $tmpquery = "WHERE pha.project_id = '" . $taskDetail->tas_project[0] . "' AND pha.order_num = '$tPhase'";
+        $tmpquery = "WHERE pha.project_id = '" . $taskDetail['tas_project'] . "' AND pha.order_num = '$tPhase'";
     }
 
     if ($id == "") {
@@ -801,8 +752,7 @@ if ($projectDetail->pro_phase_set[0] != "0") {
         $tmpquery = "WHERE pha.project_id = '$project' AND pha.order_num = '$tPhase'";
     }
 
-    $targetPhase = new phpCollab\Request();
-    $targetPhase->openPhases($tmpquery);
+    $targetPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($project, $tPhase);
 }
 
 $bodyCommand = "onload=\"document.etDForm.compl.value = document.etDForm.completion.selectedIndex;document.etDForm.task_name.focus();\"";
@@ -814,21 +764,21 @@ include '../themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail['pro_id'], $projectDetail['pro_name'], in));
 
-if ($projectDetail->pro_phase_set[0] != "0") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail->pro_id[0], $strings["phases"], in));
+if ($projectDetail['pro_phase_set'] != "0") {
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail['pro_id'], $strings["phases"], in));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase->pha_id[0], $targetPhase->pha_name[0], in));
 }
 
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail->pro_id[0], $strings["tasks"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail['pro_id'], $strings["tasks"], in));
 
 if ($id == "") {
     $blockPage->itemBreadcrumbs($strings["add_task"]);
 }
 
 if ($id != "") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail->tas_id[0], $taskDetail->tas_name[0], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail['tas_id'], $taskDetail['tas_name'], in));
     $blockPage->itemBreadcrumbs($strings["edit_task"]);
 }
 
@@ -850,7 +800,14 @@ if ($id == "") {
 if ($id != "") {
     $block1->form = "etD";
     $block1->openForm("../tasks/edittask.php?project=$project&id=$id&action=update&docopy=$docopy&#" . $block1->form . "Anchor");
-    echo "<input type=\"hidden\" name=\"old_at\" value=\"" . $taskDetail->tas_assigned_to[0] . "\"><input type=\"hidden\" name=\"old_assigned\" value=\"" . $taskDetail->tas_assigned[0] . "\"><input type=\"hidden\" name=\"old_pr\" value=\"" . $taskDetail->tas_priority[0] . "\"><input type=\"hidden\" name=\"old_st\" value=\"" . $taskDetail->tas_status[0] . "\"><input type=\"hidden\" name=\"old_dd\" value=\"" . $taskDetail->tas_due_date[0] . "\"><input type=\"hidden\" name=\"old_project\" value=\"" . $taskDetail->tas_project[0] . "\">";
+    echo <<<HIDDENFIELDS
+<input type="hidden" name="old_at" value="{$taskDetail['tas_assigned_to']}">
+<input type="hidden" name="old_assigned" value="{$taskDetail['tas_assigned']}">
+<input type="hidden" name="old_pr" value="{$taskDetail['tas_priority']}">
+<input type="hidden" name="old_st" value="{$taskDetail['tas_status']}">
+<input type="hidden" name="old_dd" value="{$taskDetail['tas_due_date']}">
+<input type="hidden" name="old_project" value="{$taskDetail['tas_project']}">
+HIDDENFIELDS;
 }
 
 if ($error != "") {
@@ -865,9 +822,9 @@ if ($id == "") {
 if ($id != "") {
 
     if ($docopy == "true") {
-        $block1->heading($strings["copy_task"] . " : " . $taskDetail->tas_name[0]);
+        $block1->heading($strings["copy_task"] . " : " . $taskDetail['tas_name']);
     } else {
-        $block1->heading($strings["edit_task"] . " : " . $taskDetail->tas_name[0]);
+        $block1->heading($strings["edit_task"] . " : " . $taskDetail['tas_name']);
     }
 }
 
@@ -889,7 +846,7 @@ $listProjects->openProjects($tmpquery);
 $comptListProjects = count($listProjects->pro_id);
 
 for ($i = 0; $i < $comptListProjects; $i++) {
-    if ($listProjects->pro_id[$i] == $projectDetail->pro_id[0]) {
+    if ($listProjects->pro_id[$i] == $projectDetail['pro_id']) {
         echo "<option value='" . $listProjects->pro_id[$i] . "' selected>" . $listProjects->pro_name[$i] . "</option>";
     } else {
         echo "<option value='" . $listProjects->pro_id[$i] . "'>" . $listProjects->pro_name[$i] . "</option>";
@@ -898,10 +855,10 @@ for ($i = 0; $i < $comptListProjects; $i++) {
 echo "</select></td></tr>";
 
 //Display task's phase
-if ($projectDetail->pro_phase_set[0] != "0") {
+if ($projectDetail['pro_phase_set'] != "0") {
     echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["phase"] . " :</td><td>" . $blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase->pha_id[0], $targetPhase->pha_name[0], in) . "</td></tr>";
 }
-echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["organization"] . " :</td><td>" . $projectDetail->pro_org_name[0] . "</td></tr>";
+echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["organization"] . " :</td><td>" . $projectDetail['pro_org_name'] . "</td></tr>";
 
 $block1->contentTitle($strings["details"]);
 
@@ -921,7 +878,7 @@ echo "$task_name' style='width: 400px' name='task_name' maxlength='100' type='TE
             <td valign='top' class='leftvalue'>" . $strings["assigned_to"] . " :</td>
             <td><select name='at'>";
 
-if ($taskDetail->tas_assigned_to[0] == "0") {
+if ($taskDetail['tas_assigned_to'] == "0") {
     echo "      <option value='0' selected>" . $strings["unassigned"] . "</option>";
 } else {
     echo "      <option value='0'>" . $strings["unassigned"] . "</option>";
@@ -940,7 +897,7 @@ for ($i = 0; $i < $comptAssignto; $i++) {
         $clientUser = " (" . $strings["client_user"] . ")";
     }
 
-    if ($taskDetail->tas_assigned_to[0] == $assignto->tea_mem_id[$i]) {
+    if ($taskDetail['tas_assigned_to'] == $assignto->tea_mem_id[$i]) {
         echo "      <option value='" . $assignto->tea_mem_id[$i] . "' selected>" . $assignto->tea_mem_login[$i] . " / " . $assignto->tea_mem_name[$i] . "$clientUser</option>";
     } else {
         echo "      <option value='" . $assignto->tea_mem_id[$i] . "'>" . $assignto->tea_mem_login[$i] . " / " . $assignto->tea_mem_name[$i] . "$clientUser</option>";
@@ -951,10 +908,10 @@ echo "      </select></td>
         </tr>";
 
 //Select phase
-if ($projectDetail->pro_phase_set[0] != "0") {
+if ($projectDetail['pro_phase_set'] != "0") {
     echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["phase"] . " :</td><td><select name='pha'>";
 
-    $projectTarget = $projectDetail->pro_id[0];
+    $projectTarget = $projectDetail['pro_id'];
     // Todo: refactor PDO
     $tmpquery = "WHERE pha.project_id = '$projectTarget' ORDER BY pha.order_num";
     $projectPhaseList = new phpCollab\Request();
@@ -963,7 +920,7 @@ if ($projectDetail->pro_phase_set[0] != "0") {
     $comptlistPhase = count($projectPhaseList->pha_id);
     for ($i = 0; $i < $comptlistPhase; $i++) {
         $phaseNum = $projectPhaseList->pha_order_num[$i];
-        if ($taskDetail->tas_parent_phase[0] == $phaseNum || $phase == $phaseNum) {
+        if ($taskDetail['tas_parent_phase'] == $phaseNum || $phase == $phaseNum) {
             echo "<option value='$phaseNum' selected>" . $projectPhaseList->pha_name[$i] . "</option>";
         } else {
             echo "<option value='$phaseNum'>" . $projectPhaseList->pha_name[$i] . "</option>";
@@ -977,7 +934,7 @@ echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["status"] 
 $comptSta = count($status);
 
 for ($i = 0; $i < $comptSta; $i++) {
-    if ($taskDetail->tas_status[0] == $i) {
+    if ($taskDetail['tas_status'] == $i) {
         echo "<option value='$i' selected>$status[$i]</option>";
     } else {
         echo "<option value='$i'>$status[$i]</option>";
@@ -989,13 +946,13 @@ echo "          </select>
         </tr>
         <tr class='odd'>
             <td valign='top' class='leftvalue'>" . $strings["completion"] . " :</td>
-            <td><input name='compl' type='hidden' value='" . $taskDetail->tas_completion[0] . "'>
+            <td><input name='compl' type='hidden' value='" . $taskDetail['tas_completion'] . "'>
                 <select name='completion' onchange=\"changeCompletion(this)\">";
 
 for ($i = 0; $i < 11; $i++) {
     $complValue = ($i > 0) ? $i . "0 %" : $i . " %";
 
-    if ($taskDetail->tas_completion[0] == $i) {
+    if ($taskDetail['tas_completion'] == $i) {
         echo "<option value='" . $i . "' selected>" . $complValue . "</option>";
     } else {
         echo "<option value='" . $i . "'>" . $complValue . "</option>";
@@ -1012,7 +969,7 @@ echo "          </select>
 $comptPri = count($priority);
 
 for ($i = 0; $i < $comptPri; $i++) {
-    if ($taskDetail->tas_priority[0] == $i) {
+    if ($taskDetail['tas_priority'] == $i) {
         echo "<option value='$i' selected>$priority[$i]</option>";
     } else {
         echo "<option value='$i'>$priority[$i]</option>";
@@ -1083,7 +1040,7 @@ echo "  <tr class='odd'>
         </tr>";
 
 if ($enableInvoicing == "true") {
-    if ($taskDetail->tas_invoicing[0] == "1") {
+    if ($taskDetail['tas_invoicing'] == "1") {
         $ckeckedInvoicing = "checked";
     }
     $block1->contentRow($strings["invoicing"], "<input size=\"32\" value=\"1\" name=\"invoicing\" type=\"checkbox\" $ckeckedInvoicing>");
