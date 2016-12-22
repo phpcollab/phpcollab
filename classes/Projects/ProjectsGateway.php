@@ -121,12 +121,10 @@ SQL;
 
     public function getProjectById($projectId)
     {
-
-        $this->db->query($this->stmt . ' WHERE pro.id = :project_id ');
-
+        $whereStatement = ' WHERE pro.id = :project_id';
+        $this->db->query($this->initrequest['projects'] . $whereStatement);
         $this->db->bind(':project_id', $projectId);
-
-        return $this->db->resultset();
+        return $this->db->single();
     }
 
 }
