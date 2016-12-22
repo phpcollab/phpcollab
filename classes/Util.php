@@ -709,22 +709,27 @@ class Util
      **/
     public static function computeTotal($tmpsql)
     {
+        global $comptRequest, $databaseType;
 
         $comptRequest = $comptRequest + 1;
 
         if ($databaseType == "mysql") {
-            $res = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die(self::$strings["error_server"]);
-            mysql_select_db(MYDATABASE, $res) or die(self::$strings["error_database"]);
-            $sql = "$tmpsql";
-            $index = mysql_query($sql, $res);
+            $res = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD, MYDATABASE);
 
-            while ($row = mysql_fetch_row($index)) {
-                $countEnreg[] = ($row[0]);
+            if (!$res) {
+                exit(self::$strings["error_server"]);
             }
 
+            $sql = $tmpsql;
+            $index = mysqli_query($res, $sql);
+
+            while ($row = mysqli_fetch_row($index)) {
+                $countEnreg[] = ($row[0]);
+            }
             $countEnregTotal = count($countEnreg);
-            @mysql_free_result($index);
-            @mysql_close($res);
+
+            @mysqli_free_result($index);
+            @mysqli_close($res);
         }
 
         if ($databaseType == "postgresql") {
@@ -742,8 +747,16 @@ class Util
         }
 
         if ($databaseType == "sqlserver") {
-            $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die(self::$strings["error_server"]);
-            mssql_select_db(MYDATABASE, $res) or die(self::$strings["error_database"]);
+            $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
+            if (!$res) {
+                exit(self::$strings["error_server"]);
+            }
+
+            $selectedDb = mssql_select_db(MYDATABASE, $res);
+            if (!$selectedDb) {
+                exit(self::$strings["error_database"]);
+            }
+
             $sql = "$tmpsql";
             $index = mssql_query($sql, $res);
 
@@ -789,15 +802,19 @@ class Util
      **/
     public static function connectSql($tmpsql)
     {
-        if ($databaseType == "mysql") {
+        global $databaseType;
 
-            $connection = mysqli_connect('localhost', 'username', 'password', 'database');
-            $res = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die(self::$strings["error_server"]);
-            mysql_select_db(MYDATABASE, $res) or die(self::$strings["error_database"]);
+        if ($databaseType == "mysql") {
+            $link = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD, MYDATABASE);
+
+            if (!$link) {
+                exit(self::$strings["error_server"]);
+            }
+
             $sql = $tmpsql;
-            $index = mysql_query($sql, $res);
-            @mysql_free_result($index);
-            @mysql_close($res);
+            $index = mysqli_query($link, $sql);
+            @mysqli_free_result($index);
+            @mysqli_close($link);
         }
         if ($databaseType == "postgresql") {
             $res = pg_connect("host=" . MYSERVER . " port=5432 dbname=" . MYDATABASE . " user=" . MYLOGIN . " password=" . MYPASSWORD);
@@ -807,8 +824,18 @@ class Util
             @pg_close($res);
         }
         if ($databaseType == "sqlserver") {
-            $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die(self::$strings["error_server"]);
-            mssql_select_db(MYDATABASE, $res) or die(self::$strings["error_database"]);
+            $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
+            if (!$res) {
+                exit(self::$strings["error_server"]);
+            }
+
+            $selectedDb = mssql_select_db(MYDATABASE, $res);
+            if (!$selectedDb) {
+                exit(self::$strings["error_database"]);
+            }
+
+
+
             $sql = $tmpsql;
             $index = mssql_query($sql, $res);
             @mssql_free_result($index);
@@ -826,16 +853,21 @@ class Util
     {
         global $tableCollab, $databaseType;
         if ($databaseType == "mysql") {
-            $res = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die(self::$strings["error_server"]);
-            mysql_select_db(MYDATABASE, $res) or die(self::$strings["error_database"]);
+            $res = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD, MYDATABASE);
+
             global $lastId;
+
+            if (!$res) {
+                exit(self::$strings["error_server"]);
+            }
+
             $sql = "SELECT id FROM $tmpsql ORDER BY id DESC";
-            $index = mysql_query($sql, $res);
-            while ($row = mysql_fetch_row($index)) {
+            $index = mysqli_query($res, $sql);
+            while ($row = mysqli_fetch_row($index)) {
                 $lastId[] = ($row[0]);
             }
-            @mysql_free_result($index);
-            @mysql_close($res);
+            @mysqli_free_result($index);
+            @mysqli_close($res);
         }
         if ($databaseType == "postgresql") {
             $res = pg_connect("host=" . MYSERVER . " port=5432 dbname=" . MYDATABASE . " user=" . MYLOGIN . " password=" . MYPASSWORD);
@@ -849,9 +881,18 @@ class Util
             @pg_close($res);
         }
         if ($databaseType == "sqlserver") {
-            $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die(self::$strings["error_server"]);
-            mssql_select_db(MYDATABASE, $res) or die(self::$strings["error_database"]);
             global $lastId;
+
+            $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
+            if (!$res) {
+                exit(self::$strings["error_server"]);
+            }
+
+            $selectedDb = mssql_select_db(MYDATABASE, $res);
+            if (!$selectedDb) {
+                exit(self::$strings["error_database"]);
+            }
+
             $sql = "SELECT id FROM $tmpsql ORDER BY id DESC";
             $index = mssql_query($sql, $res);
             while ($row = mssql_fetch_row($index)) {
