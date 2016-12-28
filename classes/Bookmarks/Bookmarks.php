@@ -26,22 +26,6 @@ class Bookmarks
 
     /**
      * @param $ownerId
-     * @param null $sorting
-     * @return mixed
-     */
-    public function getBookmarksByOwner($ownerId, $sorting = null)
-    {
-        $ownerId = filter_var($ownerId, FILTER_VALIDATE_INT);
-        if (isset($sorting)) {
-            $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
-        }
-
-        $data = $this->bookmarks_gateway->getAllByOwner($ownerId, $sorting);
-        return $data;
-    }
-
-    /**
-     * @param $ownerId
      * @param $sorting
      * @return mixed
      */
@@ -179,7 +163,7 @@ class Bookmarks
 
     /**
      * @param $bookmarkId
-     * @return bool
+     * @return string
      */
     public function deleteBookmark($bookmarkId)
     {
@@ -191,5 +175,6 @@ class Bookmarks
         } catch (\Exception $e) {
             echo 'Message: ' . $e->getMessage();
         }
+        return '';
     }
 }
