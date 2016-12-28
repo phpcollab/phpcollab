@@ -181,6 +181,17 @@ class Util
         }
     }
 
+
+    /**
+     * @param $timestamp
+     * @return int
+     */
+    public static function dayOfWeek($timestamp)
+    {
+        return intval(strftime("%w", $timestamp) + 1);
+    }
+
+
     /**
      * Return number of day between 2 dates
      * @param string $date1 Date to compare
