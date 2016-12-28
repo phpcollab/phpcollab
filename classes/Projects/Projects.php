@@ -26,6 +26,7 @@ class Projects
 
     public function getProjectsByOwner($ownerId, $sorting)
     {
+        $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
         return $this->projects_gateway->getAllByOwner($ownerId, $sorting);
     }
 }
