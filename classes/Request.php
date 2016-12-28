@@ -106,8 +106,7 @@ class Request
             @$row = mysqli_fetch_row($this->index);
 
             if (mysqli_errno($res) != 0) {
-                echo "<font color='red'><b>" . mysqli_error($res)
-                    . "</b></font><br/>";
+                echo '<span style="color: red; font-weight: bold;display:block;">' . mysqli_error($res) . '</span>';
             }
         }
 
