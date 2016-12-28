@@ -14,41 +14,6 @@ class ProjectsGateway
     protected $projectsFilter;
     protected $initrequest;
 
-    protected $stmt = <<<SQL
-SELECT 
-tea.id AS tea_id, 
-tea.project AS tea_project, 
-tea.member AS tea_member, 
-tea.published AS tea_published, 
-tea.authorized AS tea_authorized, 
-mem.id AS tea_mem_id, 
-mem.login AS tea_mem_login, 
-mem.name AS tea_mem_name, 
-mem.email_work AS tea_mem_email_work, 
-mem.title AS tea_mem_title, 
-mem.phone_work AS tea_mem_phone_work, 
-mem.profil AS tea_mem_profile, 
-org.name AS tea_org_name, 
-pro.id AS tea_pro_id, 
-pro.name AS tea_pro_name, 
-pro.priority AS tea_pro_priority, 
-pro.status AS tea_pro_status, 
-pro.published AS tea_pro_published, 
-org2.name AS tea_org2_name, 
-org2.id AS tea_org2_id, 
-mem2.id AS tea_mem2_id, 
-mem2.login AS tea_mem2_login, 
-mem2.email_work AS tea_mem2_email_work, 
-log.connected AS tea_log_connected
-FROM teams tea
-LEFT OUTER JOIN members mem ON mem.id = tea.member
-LEFT OUTER JOIN projects pro ON pro.id = tea.project
-LEFT OUTER JOIN organizations org ON org.id = mem.organization
-LEFT OUTER JOIN organizations org2 ON org2.id = pro.organization
-LEFT OUTER JOIN members mem2 ON mem2.id = pro.owner
-LEFT OUTER JOIN logs log ON log.login = mem.login
-SQL;
-
     /**
      * Reports constructor.
      * @param Database $db
@@ -64,27 +29,32 @@ SQL;
      * Returns a list of projects owned by ownerId
      * @param $ownerId
      * @param $sorting
-     * @param $inactive
-     * @return dataset
+     * @internal param $inactive
      */
     public function getAllByOwner($ownerId, $sorting)
     {
         if (!is_null($sorting)) {
-            $sortQry = 'ORDER BY ' . $sorting;
+            $sortQry = 'ORDER BY :order_by';
         } else {
             $sortQry = '';
         }
 
-        $this->db->query($this->stmt . ' WHERE tea.member = :owner_id AND pro.status IN(2,3) ' . $sortQry);
+        $this->db->query($this->initrequest['teams'] . ' WHERE tea.member = :owner_id AND pro.status IN(2,3) ' . $sortQry);
 
         $this->db->bind(':owner_id', $ownerId);
+
+        if (!is_null($sorting)) {
+            $this->db->bind(':order_by', $sorting);
+        }
 
         return $this->db->resultset();
     }
 
     /**
+     * @param $ownerId
      * @param $typeProjects
-     * @return Project List
+     * @param $sorting
+     * @return
      */
     public function getProjectList( $ownerId, $typeProjects, $sorting )
     {
@@ -105,7 +75,7 @@ SQL;
         }
 
         if (!is_null($sorting)) {
-            $sortQry = 'ORDER BY ' . $sorting;
+            $sortQry = 'ORDER BY :order_by';
         } else {
             $sortQry = '';
         }
@@ -115,6 +85,10 @@ SQL;
         $this->db->query($query);
 
         $this->db->bind(':owner_id', $ownerId);
+
+        if (!is_null($sorting)) {
+            $this->db->bind(':order_by', $sorting);
+        }
 
         return $this->db->resultset();
     }
