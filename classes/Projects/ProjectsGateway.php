@@ -3,10 +3,10 @@ namespace phpCollab\Projects;
 
 use phpCollab\Database;
 
+
 /**
- * User: mindblender
- * Date: 10/11/16
- * Time: 10:33 PM
+ * Class ProjectsGateway
+ * @package phpCollab\Projects
  */
 class ProjectsGateway
 {
@@ -93,6 +93,10 @@ class ProjectsGateway
         return $this->db->resultset();
     }
 
+    /**
+     * @param $projectId
+     * @return mixed
+     */
     public function getProjectById($projectId)
     {
         $whereStatement = ' WHERE pro.id = :project_id';
