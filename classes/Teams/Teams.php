@@ -28,4 +28,17 @@ class Teams
 
         return $team;
     }
+
+    public function getTeamByProjectIdAndOrderedBy($projectId, $orderBy = null)
+    {
+        $projectId = filter_var($projectId, FILTER_VALIDATE_INT);
+        if (isset($orderBy)) {
+            $orderBy = filter_var($orderBy, FILTER_SANITIZE_STRING);
+        }
+
+        $team = $this->teams_gateway->getTeamByProjectIdAndOrderBy($projectId, $orderBy);
+
+        return $team;
+    }
+
 }

@@ -29,4 +29,25 @@ class TeamsGateway
         $results = $this->db->resultset();
         return $results;
     }
+
+    public function getTeamByProjectIdAndOrderBy($projectId, $orderBy)
+    {
+        $whereStatement = " WHERE tea.project = :project_id";
+
+        if (isset($orderBy)) {
+            $orderByStatement = " ORDER BY :order_by";
+        } else {
+            $orderByStatement = '';
+        }
+        $sql = $this->initrequest["teams"] . $whereStatement . $orderByStatement;
+
+        $this->db->query($sql);
+        $this->db->bind(':project_id', $projectId);
+        if (isset($orderBy)) {
+            $this->db->bind(':order_by', $orderBy);
+        }
+        $results = $this->db->resultset();
+
+        return $results;
+    }
 }
