@@ -44,7 +44,7 @@ class BookmarksGateway
      * @param string $sorting
      * @return mixed
      */
-    public function getMyBookmarks($ownerId, $sorting = '')
+    public function getMyBookmarks($ownerId, $sorting = null)
     {
         $whereStatement = ' WHERE boo.owner = :owner_id ';
 
@@ -52,6 +52,10 @@ class BookmarksGateway
 
         $this->db->bind(':owner_id', $ownerId);
 
+        if (isset($sorting)) {
+            $this->db->bind(':order_by', $sorting);
+        }
+
         return $this->db->resultset();
     }
 
@@ -60,7 +64,7 @@ class BookmarksGateway
      * @param string $sorting
      * @return mixed
      */
-    public function getMyHomeBookmarks($ownerId, $sorting = '')
+    public function getMyHomeBookmarks($ownerId, $sorting = null)
     {
         $whereStatement = ' WHERE boo.home = 1 AND boo.owner = :owner_id ';
 
@@ -68,6 +72,10 @@ class BookmarksGateway
 
         $this->db->bind(':owner_id', $ownerId);
 
+        if (isset($sorting)) {
+            $this->db->bind(':order_by', $sorting);
+        }
+
         return $this->db->resultset();
     }
 
@@ -76,13 +84,17 @@ class BookmarksGateway
      * @param string $sorting
      * @return mixed
      */
-    public function getPrivateBookmarks($ownerId, $sorting = '')
+    public function getPrivateBookmarks($ownerId, $sorting = null)
     {
         $whereStatement = ' WHERE boo.users LIKE :owner_id';
 
         $this->db->query($this->initrequest["bookmarks"] . $whereStatement . $this->orderBy($sorting));
 
         $this->db->bind(':owner_id', '%|' . $ownerId . '|%');
+
+        if (isset($sorting)) {
+            $this->db->bind(':order_by', $sorting);
+        }
 
         return $this->db->resultset();
     }
@@ -102,6 +114,10 @@ class BookmarksGateway
         return $this->db->single();
     }
 
+    /**
+     * @param $range
+     * @return mixed
+     */
     public function getBookmarksInRange($range)
     {
         $placeholders = str_repeat ('?, ', count($range)-1) . '?';
@@ -118,7 +134,7 @@ class BookmarksGateway
      * @param string $sorting
      * @return mixed
      */
-    public function getAllBookmarks($ownerId, $sorting = '')
+    public function getAllBookmarks($ownerId, $sorting = null)
     {
         $whereStatement = ' WHERE boo.shared = 1 OR boo.owner = :owner_id ';
 
@@ -126,18 +142,31 @@ class BookmarksGateway
 
         $this->db->bind(':owner_id', $ownerId);
 
+        if (isset($sorting)) {
+            $this->db->bind(':order_by', $sorting);
+        }
+
         return $this->db->resultset();
     }
 
+    /**
+     * @return mixed
+     */
     public function getAllBookmarkCategories()
     {
         $sorting = 'name';
 
         $this->db->query($this->initrequest["bookmarks_categories"] . $this->orderBy($sorting));
 
+        $this->db->bind(':order_by', $sorting);
+
         return $this->db->resultset();
     }
 
+    /**
+     * @param $categoryName
+     * @return mixed
+     */
     public function getCategoryByName($categoryName)
     {
         $conditionalStatement = ' WHERE boocat.name = :category_name';
@@ -149,6 +178,10 @@ class BookmarksGateway
         return $this->db->single();
     }
 
+    /**
+     * @param $categoryName
+     * @return string
+     */
     public function addNewCategory($categoryName)
     {
         $query = "INSERT INTO bookmarks_categories (name) VALUES(:category_name)";
@@ -162,6 +195,10 @@ class BookmarksGateway
         return $this->db->lastInsertId();
     }
 
+    /**
+     * @param $bookmarkData
+     * @return mixed
+     */
     public function addBookmark($bookmarkData)
     {
         $query = <<<SQL
@@ -197,6 +234,10 @@ SQL;
         return $this->db->execute();
     }
 
+    /**
+     * @param $bookmarkData
+     * @return mixed
+     */
     public function updateBookmark($bookmarkData)
     {
         $query = <<<SQL
@@ -236,7 +277,7 @@ SQL;
      */
     private function orderBy($sorting)
     {
-        return (!is_null($sorting)) ? ' ORDER BY ' . $sorting : '';
+        return (isset($sorting)) ? ' ORDER BY :order_by' : '';
     }
 
 }
