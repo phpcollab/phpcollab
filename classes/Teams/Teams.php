@@ -5,6 +5,10 @@ namespace phpCollab\Teams;
 
 use phpCollab\Database;
 
+/**
+ * Class Teams
+ * @package phpCollab\Teams
+ */
 class Teams
 {
     protected $teams_gateway;
@@ -19,6 +23,11 @@ class Teams
         $this->teams_gateway = new TeamsGateway($this->db);
     }
 
+    /**
+     * @param $projectId
+     * @param $teamMember
+     * @return mixed
+     */
     public function getTeamByProjectIdAndTeamMember($projectId, $teamMember)
     {
         $projectId = filter_var($projectId, FILTER_VALIDATE_INT);
@@ -29,6 +38,11 @@ class Teams
         return $team;
     }
 
+    /**
+     * @param $projectId
+     * @param null $orderBy
+     * @return mixed
+     */
     public function getTeamByProjectIdAndOrderedBy($projectId, $orderBy = null)
     {
         $projectId = filter_var($projectId, FILTER_VALIDATE_INT);

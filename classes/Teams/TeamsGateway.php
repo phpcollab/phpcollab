@@ -5,6 +5,10 @@ namespace phpCollab\Teams;
 
 use phpCollab\Database;
 
+/**
+ * Class TeamsGateway
+ * @package phpCollab\Teams
+ */
 class TeamsGateway
 {
     protected $db;
@@ -20,6 +24,11 @@ class TeamsGateway
         $this->initrequest = $GLOBALS['initrequest'];
     }
 
+    /**
+     * @param $projectId
+     * @param $memberId
+     * @return mixed
+     */
     public function getTeamByProjectIdAndTeamMember($projectId, $memberId)
     {
         $whereStatement = " WHERE tea.project = :project_id AND tea.member = :member_id";
@@ -30,6 +39,11 @@ class TeamsGateway
         return $results;
     }
 
+    /**
+     * @param $projectId
+     * @param $orderBy
+     * @return mixed
+     */
     public function getTeamByProjectIdAndOrderBy($projectId, $orderBy)
     {
         $whereStatement = " WHERE tea.project = :project_id";
