@@ -34,9 +34,8 @@ class ReportsGateway
      */
     public function getAllByOwner($ownerId, $sorting = null)
     {
-        // Todo: I'm sure this allows SQL injection.  How do I fix it?
-        if (!is_null($sorting)) {
-            $sortQry = 'ORDER BY ' . $sorting;
+        if (isset($sorting)) {
+            $sortQry = 'ORDER BY :order_by';
         } else {
             $sortQry = '';
         }
@@ -44,6 +43,9 @@ class ReportsGateway
         $this->db->query($this->stmt . ' WHERE rep.owner = :owner_id ' . $sortQry);
 
         $this->db->bind(':owner_id', $ownerId);
+        if (isset($sorting)) {
+            $this->db->bind(':order_by', $$sorting);
+        }
 
         return $this->db->resultset();
     }
