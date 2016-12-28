@@ -108,22 +108,24 @@ class Block
      * Add a note
      * @param string $content Text printed in note
      * @access public
-     * @return none
+     * @return void
      **/
     public function note($content)
     {
         echo '<p class="note">' . $content . '</p>';
+        return;
     }
 
     /**
      * Print standard heading
      * @param string $title Text printed in heading
      * @access public
-     * @return none
+     * @return void
      **/
     public function heading($title)
     {
         echo '<h1 class="heading">' . stripslashes($title) . '</h1>';
+        return;
     }
 
     /**
@@ -185,11 +187,11 @@ class Block
 
     public function returnLimit($current)
     {
-        global ${'limit' . $current};
-        if (${'limit' . $current} == "") {
+        global ${'limit' . filter_var($current, FILTER_SANITIZE_NUMBER_INT) };
+        if (${'limit' . filter_var($current, FILTER_SANITIZE_NUMBER_INT)} == "") {
             $limitValue = "0";
         } else {
-            $limitValue = ${'limit' . $current};
+            $limitValue = ${'limit' . filter_var($current, FILTER_SANITIZE_NUMBER_INT)};
         }
 
         return $limitValue;
@@ -216,9 +218,9 @@ class Block
                 } else {
                     echo "<a href=\"$PHP_SELF?";
                     for ($k = 1; $k <= $total; $k++) {
-                        global ${'limit' . $k};
+                        global ${'limit' . filter_var($k, FILTER_SANITIZE_NUMBER_INT)};
                         if ($k != $current) {
-                            echo "&limit$k=" . ${'limit' . $k};
+                            echo "&limit$k=" . ${'limit' . filter_var($k, FILTER_SANITIZE_NUMBER_INT)};
                         } else {
                             if ($k == $current) {
                                 echo "&limit$k=$j";
@@ -709,6 +711,7 @@ class Block
                     }
                 }
             }
+            return '';
         }
     }
 }
