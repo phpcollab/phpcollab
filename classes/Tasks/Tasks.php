@@ -23,10 +23,8 @@ class Tasks
     public function getMyTasks($userId, $sorting = null)
     {
         if (isset($sorting)) {
-            // Todo: wire this up
-
+            $sorting = filter_var( (string) $sorting, FILTER_SANITIZE_STRING);
         }
-
         $userId = filter_var( (string) $userId, FILTER_SANITIZE_STRING);
 
         $data = $this->tasks_gateway->getMyTasks($userId, $sorting);

@@ -18,6 +18,17 @@ class TasksGateway
         $this->initrequest = $GLOBALS['initrequest'];
     }
 
+    public function getMyTasks($assignedToId, $sorting = null)
+    {
+        $whereStatement = " WHERE tas.assigned_to = :assigned_to";
+
+        $this->db->query($this->initrequest["tasks"] . $whereStatement . $this->orderBy($sorting));
+
+        $this->db->bind(':assigned_to', $assignedToId);
+
+        return $this->db->resultset();
+    }
+
     public function getSubtasksAssignedToMe($userId, $sorting = null)
     {
         $whereStatement = ' WHERE subtas.assigned_to = :user_id';
