@@ -47,21 +47,12 @@ $taskDetail = $tasks->getTaskById($task);
 $project = $taskDetail['tas_project'];
 
 if ($id != "") {
-//    $tmpquery = "WHERE subtas.id = '$id'";
-//    $subtaskDetail = new phpCollab\Request();
-//    $subtaskDetail['openSubtasks($tmpquery);
     $subtaskDetail = $tasks->getSubTaskById($id);
 }
 
-//$tmpquery = "WHERE pro.id = '" . $taskDetail['tas_project'] . "'";
-//$projectDetail = new phpCollab\Request();
-//$projectDetail->openProjects($tmpquery);
 $projectDetail = $projects->getProjectById($taskDetail['tas_project']);
 
 $teamMember = "false";
-//$tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-//$memberTest = new phpCollab\Request();
-//$memberTest->openTeams($tmpquery);
 
 $memberTest = $teams->getTeamByProjectIdAndTeamMember($project, $idSession);
 
@@ -79,8 +70,6 @@ if ($teamMember != "true" && $profilSession != "5") {
 
 //case update or copy task
 if ($id != "") {
-    echo 'update or copy task<br>';
-
 //case update or copy task
     if ($action == "update") {
 
@@ -171,10 +160,8 @@ if ($id != "") {
                 phpCollab\Util::newConnectSql($tmpquery2, $dbParams);
                 unset($dbParams);
 
-                $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$at'";
-                $testinTeam = new phpCollab\Request();
-                $testinTeam->openTeams($tmpquery);
-                $comptTestinTeam = count($testinTeam->tea_id);
+                $testinTeam = $teams->getTeamByProjectIdAndTeamMember($project, $at);
+                $comptTestinTeam = count($testinTeam);
 
                 if ($comptTestinTeam == "0") {
                     $tmpquery3 = "INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES(:project,:member,:published,:authorized)";
@@ -348,9 +335,6 @@ if ($id == "") {
 
 //add assigned_to in team members (only if doesn't already exist)
         if ($at != "0") {
-//            $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$at'";
-//            $testinTeam = new phpCollab\Request();
-//            $testinTeam->openTeams($tmpquery);
             $testinTeam = $teams->getTeamByProjectIdAndTeamMember($project, $at);
 
             $comptTestinTeam = count($testinTeam);
@@ -405,8 +389,6 @@ if ($projectDetail['pro_phase_set'] != "0") {
         $projectId = $project;
     }
     $targetPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($projectId, $tPhase);
-//    $targetPhase = new phpCollab\Request();
-//    $targetPhase->openPhases($tmpquery);
 }
 
 $bodyCommand = "onload=\"document.etDForm.compl.value = document.etDForm.completion.selectedIndex;document.etDForm.tn.focus();\"";
@@ -505,21 +487,17 @@ if ($subtaskDetail['subtas_assigned_to'] == "0") {
     echo "<option value='0'>" . $strings["unassigned"] . "</option>";
 }
 
-$tmpquery = "WHERE tea.project = '$project' ORDER BY mem.name";
-$assignto = new phpCollab\Request();
-$assignto->openTeams($tmpquery);
-$comptAssignto = count($assignto->tea_mem_id);
+$assignto = $teams->getTeamByProjectIdAndOrderedBy($project, 'mem.name' );
 
-for ($i = 0; $i < $comptAssignto; $i++) {
-
+foreach($assignto as $team_member) {
     $clientUser = "";
-    if ($assignto->tea_mem_profil[$i] == "3") {
+    if ($team_member['tea_mem_profil'] == "3") {
         $clientUser = " (" . $strings["client_user"] . ")";
     }
-    if ($subtaskDetail['subtas_assigned_to'] == $assignto->tea_mem_id[$i]) {
-        echo "<option value=\"" . $assignto->tea_mem_id[$i] . "\" selected>" . $assignto->tea_mem_login[$i] . " / " . $assignto->tea_mem_name[$i] . "$clientUser</option>";
+    if ($subtaskDetail['subtas_assigned_to'] == $team_member['tea_mem_id']) {
+        echo "<option value=\"" . $team_member['tea_mem_id'] . "\" selected>" . $team_member['tea_mem_login'] . " / " . $team_member['tea_mem_name'] . "$clientUser</option>";
     } else {
-        echo "<option value=\"" . $assignto->tea_mem_id[$i] . "\">" . $assignto->tea_mem_login[$i] . " / " . $assignto->tea_mem_name[$i] . "$clientUser</option>";
+        echo "<option value=\"" . $team_member['tea_mem_id'] . "\">" . $team_member['tea_mem_login'] . " / " . $team_member['tea_mem_name'] . "$clientUser</option>";
     }
 }
 
