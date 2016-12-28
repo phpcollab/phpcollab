@@ -19,8 +19,9 @@ class Bookmarks
 
     public function getBookmarksByOwner($ownerId, $sorting = null)
     {
+        $ownerId = filter_var($ownerId, FILTER_VALIDATE_INT);
         if (isset($sorting)) {
-
+            $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
         }
 
         $data = $this->bookmarks_gateway->getAllByOwner($ownerId, $sorting);
@@ -29,18 +30,30 @@ class Bookmarks
 
     public function getMyBookmarks($ownerId, $sorting)
     {
+        $ownerId = filter_var($ownerId, FILTER_VALIDATE_INT);
+        if (isset($sorting)) {
+            $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
+        }
         $data = $this->bookmarks_gateway->getMyBookmarks($ownerId, $sorting);
         return $data;
     }
 
     public function getMyHomeBookmarks($ownerId, $sorting)
     {
+        $ownerId = filter_var($ownerId, FILTER_VALIDATE_INT);
+        if (isset($sorting)) {
+            $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
+        }
         $data = $this->bookmarks_gateway->getMyHomeBookmarks($ownerId, $sorting);
         return $data;
     }
 
     public function getPrivateBookmarks($ownerId, $sorting)
     {
+        $ownerId = filter_var($ownerId, FILTER_VALIDATE_INT);
+        if (isset($sorting)) {
+            $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
+        }
         $data = $this->bookmarks_gateway->getPrivateBookmarks($ownerId, $sorting);
         return $data;
     }
@@ -57,28 +70,35 @@ class Bookmarks
         return $data;
     }
 
-    public function getAllBookmarks($ownerId, $sorting) {
-
+    public function getAllBookmarks($ownerId, $sorting)
+    {
+        $ownerId = filter_var($ownerId, FILTER_VALIDATE_INT);
+        if (isset($sorting)) {
+            $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
+        }
         $data = $this->bookmarks_gateway->getAllBookmarks($ownerId, $sorting);
 
         return $data;
     }
 
-    public function getBookmarkCategories() {
+    public function getBookmarkCategories()
+    {
         $categories = $this->bookmarks_gateway->getAllBookmarkCategories();
 
         return $categories;
     }
 
-    public function getBookmarkCategoryByName($categoryName) {
-        $categoryName = filter_var( (string) $categoryName, FILTER_SANITIZE_STRING);
+    public function getBookmarkCategoryByName($categoryName)
+    {
+        $categoryName = filter_var((string)$categoryName, FILTER_SANITIZE_STRING);
 
         $data = $this->bookmarks_gateway->getCategoryByName($categoryName);
         return $data;
     }
 
-    public function addNewBookmarkCategory($categoryName) {
-        $categoryName = filter_var( (string) $categoryName, FILTER_SANITIZE_STRING);
+    public function addNewBookmarkCategory($categoryName)
+    {
+        $categoryName = filter_var((string)$categoryName, FILTER_SANITIZE_STRING);
 
         $category = $this->bookmarks_gateway->addNewCategory($categoryName);
         return $category;
@@ -98,14 +118,15 @@ class Bookmarks
         return $bookmark;
     }
 
-    public function deleteBookmark($bookmarkId) {
+    public function deleteBookmark($bookmarkId)
+    {
         try {
-            $bookmarkId = filter_var( (string) $bookmarkId, FILTER_SANITIZE_STRING);
+            $bookmarkId = filter_var((string)$bookmarkId, FILTER_SANITIZE_STRING);
 
-            $response = $this->bookmarks_gateway->deleteBookmark( $bookmarkId );
+            $response = $this->bookmarks_gateway->deleteBookmark($bookmarkId);
             return $response;
-        } catch(\Exception $e) {
-            echo 'Message: ' .$e->getMessage();
+        } catch (\Exception $e) {
+            echo 'Message: ' . $e->getMessage();
         }
     }
 }
