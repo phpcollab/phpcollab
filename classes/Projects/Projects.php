@@ -42,4 +42,16 @@ class Projects
         $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
         return $this->projects_gateway->getAllByOwner($ownerId, $sorting);
     }
+
+    /**
+     * @param $orgId
+     * @return mixed
+     */
+    public function setDefaultOrg($orgId)
+    {
+        $orgId = filter_var($orgId, FILTER_SANITIZE_STRING);
+
+        return $this->projects_gateway->setDefaultOrg($orgId);
+        
+    }
 }
