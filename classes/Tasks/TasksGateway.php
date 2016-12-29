@@ -3,6 +3,10 @@ namespace phpCollab\Tasks;
 
 use phpCollab\Database;
 
+/**
+ * Class TasksGateway
+ * @package phpCollab\Tasks
+ */
 class TasksGateway
 {
     protected $db;
@@ -18,6 +22,11 @@ class TasksGateway
         $this->initrequest = $GLOBALS['initrequest'];
     }
 
+    /**
+     * @param $assignedToId
+     * @param null $sorting
+     * @return mixed
+     */
     public function getMyTasks($assignedToId, $sorting = null)
     {
         $whereStatement = " WHERE tas.assigned_to = :assigned_to";
@@ -29,6 +38,11 @@ class TasksGateway
         return $this->db->resultset();
     }
 
+    /**
+     * @param $userId
+     * @param null $sorting
+     * @return mixed
+     */
     public function getSubtasksAssignedToMe($userId, $sorting = null)
     {
         $whereStatement = ' WHERE subtas.assigned_to = :user_id';
@@ -44,6 +58,10 @@ class TasksGateway
         return $this->db->resultset();
     }
 
+    /**
+     * @param $taskId
+     * @return mixed
+     */
     public function getTaskById($taskId)
     {
         $whereStatement = " WHERE tas.id = :task_id";
@@ -55,6 +73,10 @@ class TasksGateway
         return $this->db->single();
     }
 
+    /**
+     * @param $projectName
+     * @return mixed
+     */
     public function getTasksByProjectName($projectName)
     {
         $whereStatement = " WHERE tas.project = :project_name";
@@ -66,6 +88,10 @@ class TasksGateway
         return $this->db->resultset();
     }
 
+    /**
+     * @param $subtaskId
+     * @return mixed
+     */
     public function getSubTaskById($subtaskId)
     {
         $whereStatement = " WHERE subtas.id = :sub_task_id";
@@ -78,6 +104,10 @@ class TasksGateway
     }
 
 
+    /**
+     * @param $parentTaskId
+     * @return mixed
+     */
     public function getSubtasksByParentTaskId($parentTaskId)
     {
         $whereStatement = " WHERE task = :parent_task_id";
@@ -89,6 +119,10 @@ class TasksGateway
         return $this->db->single();
     }
 
+    /**
+     * @param $ids
+     * @return mixed
+     */
     public function addToSiteFile($ids)
     {
         $ids = explode(',', $ids);
@@ -101,16 +135,20 @@ class TasksGateway
         return $this->db->execute(array($placeholders, $placeholders2));
     }
 
+    /**
+     * @param $ids
+     * @return mixed
+     */
     public function removeToSiteFile($ids)
     {
         $ids = explode(',', $ids);
         $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
         $placeholders2 = str_repeat ('?, ', count($ids)-1) . '?';
-        $sql = "UPDATE files SET published=0 WHERE id IN ($placeholders) OR vc_parent IN ($placeholders2)";
+        $sql = "UPDATE files SET published=0 WHERE id IN (".$placeholders.") OR vc_parent IN (".$placeholders2.")";
 
         $this->db->query($sql);
 
-        return $this->db->execute(array($placeholders, $placeholders2));
+        return $this->db->execute([$placeholders, $placeholders2]);
     }
 
     /**
