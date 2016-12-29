@@ -179,8 +179,6 @@ if ($action == "update") {
     //Insert details into Database
     if ($docopy == "true") {
         phpCollab\Util::uploadFile(".", $_FILES['upload']['tmp_name'], $path);
-        //$size = phpCollab\Util::fileInfoSize($path);
-        //$dateFile = phpCollab\Util::getFileDate($path);
         $chaine = strrev("$path");
         $tab = explode(".", $chaine);
         $extension = strtolower(strrev($tab[0]));
@@ -260,7 +258,6 @@ if ($action == "add") {
         if ($docopy == "true") {
             phpCollab\Util::uploadFile("files/$project/$task", $_FILES['upload']['tmp_name'], $upload_name);
             $size = phpCollab\Util::fileInfoSize("../files/$project/$task/$upload_name");
-            //$dateFile = phpCollab\Util::getFileDate("../files/$project/$task/$upload_name");
             $chaine = strrev("../files/$project/$task/$upload_name");
             $tab = explode(".", $chaine);
             $extension = strtolower(strrev($tab[0]));
@@ -270,7 +267,6 @@ if ($action == "add") {
             phpCollab\Util::uploadFile("files/$project", $_FILES['upload']['tmp_name'], $upload_name);
             $size = phpCollab\Util::fileInfoSize("../files/$project/$upload_name");
 
-            //$dateFile = phpCollab\Util::getFileDate("../files/$project/$upload_name");
             $chaine = strrev("../files/$project/$upload_name");
             $tab = explode(".", $chaine);
             $extension = strtolower(strrev($tab[0]));
