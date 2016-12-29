@@ -34,14 +34,10 @@ $detailCalendar = new phpCollab\Request();
 $detailCalendar->openCalendar($tmpquery);
 $comptDetailCalendar = count($detailCalendar->cal_id);
 
-//echo "$idSession - $id - $comptDetailCalendar<br/>";
-
 if ($comptDetailCalendar != "0") {
     $filename = $detailCalendar->cal_subject[0] . ".ics";
     header("Content-Type: text/x-iCalendar");
     header("Content-Disposition: attachment; filename=$filename");
-
-//echo $filename;
 
     $DescDump = str_replace("\r\n", "\\n", $detailCalendar->cal_description[0]);
 

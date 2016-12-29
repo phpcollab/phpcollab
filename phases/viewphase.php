@@ -180,7 +180,6 @@ if ($teamMember == "true" || $profilSession == "5") {
     $block2->paletteIcon(0, "add", $strings["add"]);
     $block2->paletteIcon(1, "remove", $strings["delete"]);
     $block2->paletteIcon(2, "copy", $strings["copy"]);
-    //$block1->paletteIcon(3,"export",$strings["export"]);
     if ($sitePublish == "true") {
         $block2->paletteIcon(4, "add_projectsite", $strings["add_project_site"]);
         $block2->paletteIcon(5, "remove_projectsite", $strings["remove_project_site"]);
@@ -258,7 +257,6 @@ if ($teamMember == "true" || $profilSession == "5") {
     $block2->paletteScript(0, "add", "../tasks/edittask.php?project=$project&phase=" . $phaseDetail->pha_order_num[0] . "", "true,true,true", $strings["add"]);
     $block2->paletteScript(1, "remove", "../tasks/deletetasks.php?project=$project", "false,true,true", $strings["delete"]);
     $block2->paletteScript(2, "copy", "../tasks/edittask.php?project=$project&docopy=true", "false,true,false", $strings["copy"]);
-//$block1->paletteScript(3,"export","export.php?","false,true,true",$strings["export"]);
     if ($sitePublish == "true") {
         $block2->paletteScript(4, "add_projectsite", "../phases/viewphase.php?addToSite=true&phase=$phase&action=publish", "false,true,true", $strings["add_project_site"]);
         $block2->paletteScript(5, "remove_projectsite", "../phases/viewphase.php?removeToSite=true&phase=$phase&action=publish", "false,true,true", $strings["remove_project_site"]);
@@ -367,4 +365,3 @@ if ($fileManagement == "true") {
 }
 
 include '../themes/' . THEME . '/footer.php';
-?>

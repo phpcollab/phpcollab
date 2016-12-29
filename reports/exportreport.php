@@ -130,8 +130,6 @@ if ($id == "" && $tri != "true") {
         }
     }
 
-    //echo "$S_pro - $S_org - $S_mem - $S_sta - $S_pri";
-
     $S_ORGSEL = $S_org;
     $S_PRJSEL = $S_pro;
     $S_ATSEL = $S_mem;
@@ -164,8 +162,6 @@ if ($id != "") {
         $S_COMPLETEDATE = "ALL";
     }
 }
-
-//echo "$S_PRJSEL + $S_ORGSEL + $S_ATSEL + $S_STATSEL + $S_PRIOSEL + $S_SDATE + $S_EDATE + $S_SDATE2 + $S_EDATE2";
 
 if ($S_PRJSEL != "ALL" || $S_ORGSEL != "ALL" || $S_ATSEL != "ALL" || $S_STATSEL != "ALL" || $S_PRIOSEL != "ALL" || $S_DUEDATE != "ALL" || $S_COMPLETEDATE != "ALL") {
     $queryStart = "WHERE (";
@@ -477,10 +473,8 @@ function ganttPDF($reportName, $listTasks)
                 $progress = round($listSubTasks->subtas_completion[$j] / 10, 2);
                 $printProgress = $listSubTasks->subtas_completion[$j] * 10;
                 $posGantt += 1;
-                // $activity = new GanttBar($posGantt,$listTasks->tas_pro_name[$i]." / ".$listSubTasks->subtas_name[$j],$listSubTasks->subtas_start_date[$j],$listSubTasks->subtas_due_date[$j]);
                 // change name of project for name of parent task
                 $activity = new GanttBar($posGantt, $listSubTasks->subtas_tas_name[$j] . " / " . $listSubTasks->subtas_name[$j], $listSubTasks->subtas_start_date[$j], $listSubTasks->subtas_due_date[$j]);
-                //$activity = new GanttBar($j,$strings["project"].": ".$listSubTasks->subtas_pro_name[$j]." / ".$strings["task"].": ".$listSubTasks->subtas_name[$j],$listSubTasks->subtas_start_date[$j],$listSubTasks->subtas_due_date[$j]);
                 $activity->SetPattern(BAND_LDIAG, "yellow");
                 $activity->caption->Set($listSubTasks->subtas_mem_login[$j] . " (" . $printProgress . "%)");
                 $activity->SetFillColor("gray");
@@ -503,6 +497,4 @@ function ganttPDF($reportName, $listTasks)
     return $tmpGantt;
 
 } // end ganttPDF
-
-?>
 

@@ -63,8 +63,6 @@ if ($action == "add") {
 
 include '../themes/' . THEME . '/header.php';
 
-//echo "$tmpquery<br/>$comptMulti<br/>";
-
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
@@ -149,4 +147,3 @@ $block1->paletteScript(2, "edit", "../users/updateclientuser.php?organization=" 
 $block1->closePaletteScript($comptListMembers, $listMembers->mem_id);
 
 include '../themes/' . THEME . '/footer.php';
-?>

@@ -19,6 +19,5 @@ class Setup
             header('Location: installation/setup.php');
             exit;
         }
-        //echo $this->viewLoader->load($viewName);
     }
 }

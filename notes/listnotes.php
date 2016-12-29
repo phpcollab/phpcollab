@@ -143,5 +143,3 @@ if ($teamMember == "true") {
 $block1->closePaletteScript($comptListNotes, $listNotes->note_id);
 
 include '../themes/' . THEME . '/footer.php';
-
-?>

@@ -143,7 +143,6 @@ function convertDB()
 
     //Run tests
     $errorMsg = null;
-//    echo "<li>Verifying everything went okay...";
 
     echo "</ul>:: Ending Conversion ::";
     return true;

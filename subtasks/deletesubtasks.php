@@ -40,17 +40,6 @@ if ($action == "delete") {
     $tmpquery1 = "DELETE FROM " . $tableCollab["subtasks"] . " WHERE id IN($id)";
     $tmpquery2 = "DELETE FROM " . $tableCollab["assignments"] . " WHERE subtask IN($id)";
 
-    /*
-    $tmpquery = "WHERE tas.id IN($id)";
-    $listTasks = new phpCollab\Request();
-    $listTasks->openTasks($tmpquery);
-    $comptListTasks = count($listTasks->tas_id);
-        for ($i=0;$i<$comptListTasks;$i++) {
-            if ($fileManagement == "true") {
-                phpCollab\Util::deleteDirectory("../files/".$listTasks->tas_project[$i]."/".$listTasks->tas_id[$i]);
-            }
-        }
-    */
     phpCollab\Util::connectSql($tmpquery1);
     phpCollab\Util::connectSql($tmpquery2);
 
@@ -140,4 +129,3 @@ $block1->closeContent();
 $block1->closeForm();
 
 include '../themes/' . THEME . '/footer.php';
-?>

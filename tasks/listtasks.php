@@ -104,7 +104,7 @@ if ($teamMember == "true") {
     $block1->paletteIcon(0, "add", $strings["add"]);
     $block1->paletteIcon(1, "remove", $strings["delete"]);
     $block1->paletteIcon(2, "copy", $strings["copy"]);
-    //$block1->paletteIcon(3,"export",$strings["export"]);
+
     if ($sitePublish == "true") {
         $block1->paletteIcon(4, "add_projectsite", $strings["add_project_site"]);
         $block1->paletteIcon(5, "remove_projectsite", $strings["remove_project_site"]);
@@ -189,7 +189,6 @@ if ($teamMember == "true") {
     $block1->paletteScript(0, "add", "../tasks/edittask.php?project=$project", "true,false,false", $strings["add"]);
     $block1->paletteScript(1, "remove", "../tasks/deletetasks.php?project=$project", "false,true,true", $strings["delete"]);
     $block1->paletteScript(2, "copy", "../tasks/edittask.php?project=$project&docopy=true", "false,true,false", $strings["copy"]);
-//$block1->paletteScript(3,"export","export.php?","false,true,true",$strings["export"]);
     if ($sitePublish == "true") {
         $block1->paletteScript(4, "add_projectsite", "../tasks/listtasks.php?addToSite=true&project=" . $projectDetail->pro_id[0] . "&action=publish", "false,true,true", $strings["add_project_site"]);
         $block1->paletteScript(5, "remove_projectsite", "../tasks/listtasks.php?removeToSite=true&project=" . $projectDetail->pro_id[0] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
@@ -202,4 +201,3 @@ if ($teamMember == "true") {
 $block1->closePaletteScript($comptListTasks, $listTasks->tas_id);
 
 include '../themes/' . THEME . '/footer.php';
-?>

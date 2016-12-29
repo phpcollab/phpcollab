@@ -134,9 +134,7 @@ while ($alert->fetch()) {
             $body .= "----------------------------------\n\n";
         }
         $body .= $strings['task'] . " : " . $row[1] . " (" . $row[0] . ") \n";
-        //$body .= $strings['project']." : ".$row[10]." (".$row[9].") \n";
         $body .= $strings['project'] . " : " . $row[9] . "\n";
-        //$body .= $strings['link']." : ".$root."/general/login.php?url=tasks/viewtask.php?id=".$row[0]."\n";
         $body .= $strings['link'] . " : " . $root . "/tasks/viewtask.php?id=" . $row[0] . "\n";
         $body .= $strings['start_date'] . " : " . $row[5] . "\n";
         $body .= $strings['due_date'] . " : " . $row[6] . "\n";
@@ -147,7 +145,6 @@ while ($alert->fetch()) {
         }
         $body .= $strings['priority'] . " : " . $row[2] . " - " . $priority[$row[2]] . "\n";
         $body .= $strings['status'] . " : " . $row[3] . " - " . $status[$row[3]] . "\n";
-        //$body .= $strings['description']." :\n".$row[7]."\n";
         $body .= "\n\n--------\n\n";
 
         // Set priority level if high priority

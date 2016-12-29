@@ -3,7 +3,6 @@
 #Status page: 2
 #Path by root: ../includes/settings.php
 $settings = array();
-//$settings['max_photos'] = 30;
 
 # installation type
 $settings['installationType'] = "offline"; //select "offline" or "online"

@@ -136,8 +136,6 @@ $block1->headingToggle($strings["subtask"] . " : " . $subtaskDetail['subtas_name
 if ($teamMember == "true" || $profilSession == "5") {
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "remove", $strings["delete"]);
-//$block1->paletteIcon(1,"copy",$strings["copy"]);
-//$block1->paletteIcon(2,"export",$strings["export"]);
     if ($sitePublish == "true") {
         $block1->paletteIcon(3, "add_projectsite", $strings["add_project_site"]);
         $block1->paletteIcon(4, "remove_projectsite", $strings["remove_project_site"]);
@@ -256,8 +254,6 @@ $block1->closeForm();
 if ($teamMember == "true" || $profilSession == "5") {
     $block1->openPaletteScript();
     $block1->paletteScript(0, "remove", "../subtasks/deletesubtasks.php?task=$task&id=" . $subtaskDetail['subtas_id'] . "", "true,true,false", $strings["delete"]);
-//$block1->paletteScript(1,"copy","../subtasks/editsubtask.php?task=$task&id=$id&docopy=true","true,true,false",$strings["copy"]);
-//$block1->paletteScript(2,"export","export.php?","true,true,false",$strings["export"]);
     if ($sitePublish == "true") {
         $block1->paletteScript(3, "add_projectsite", "../subtasks/viewsubtask.php?addToSite=true&task=$task&id=" . $subtaskDetail['subtas_id'] . "&action=publish", "true,true,true", $strings["add_project_site"]);
         $block1->paletteScript(4, "remove_projectsite", "../subtasks/viewsubtask.php?removeToSite=true&task=$task&id=" . $subtaskDetail['subtas_id'] . "&action=publish", "true,true,true", $strings["remove_project_site"]);
@@ -265,94 +261,6 @@ if ($teamMember == "true" || $profilSession == "5") {
     $block1->paletteScript(5, "edit", "../subtasks/editsubtask.php?task=$task&id=$id&docopy=false", "true,true,false", $strings["edit"]);
     $block1->closePaletteScript("", "");
 }
-
-/*
-
-if ($fileManagement == "true") {
-
-$block2 = new phpCollab\Block();
-
-$block2->form = "tdC";
-$block2->openForm("../subtasks/viewsubtask.php?".session_name()."=".session_id()."&id=$id#".$block2->form."Anchor");
-
-$block2->headingToggle($strings["linked_content"]);
-
-$block2->openPaletteIcon();
-if ($teamMember == "true" || $profilSession == "5") {
-$block2->paletteIcon(0,"add",$strings["add"]);
-$block2->paletteIcon(1,"remove",$strings["delete"]);
-if ($sitePublish == "true") {
-$block2->paletteIcon(2,"add_projectsite",$strings["add_project_site"]);
-$block2->paletteIcon(3,"remove_projectsite",$strings["remove_project_site"]);
-}
-}
-$block2->paletteIcon(4,"info",$strings["view"]);
-if ($teamMember == "true") {
-$block2->paletteIcon(5,"edit",$strings["edit"]);
-}
-$block2->closePaletteIcon();
-
-$block2->sorting("files",$sortingUser->sor_files[0],"fil.name ASC",$sortingFields = array(0=>"fil.extension",1=>"fil.name",2=>"fil.date",3=>"fil.status",4=>"fil.published"));
-
-$tmpquery = "WHERE fil.task = '$id' AND fil.vc_parent = '0' ORDER BY $block2->sortingValue";
-$listFiles = new phpCollab\Request();
-$listFiles->openFiles($tmpquery);
-$comptListFiles = count($listFiles->fil_id);
-
-if ($comptListFiles != "0") {
-	$block2->openResults();
-
-	$block2->labels($labels = array(0=>$strings["type"],1=>$strings["name"],2=>$strings["date"],3=>$strings["approval_tracking"],4=>$strings["published"]),"true");
-
-for ($i=0;$i<$comptListFiles;$i++) {
-$idStatus = $listFiles->fil_status[$i];
-$idPublish = $listFiles->fil_published[$i];
-$type = FileHandler::fileInfoType( $listFiles->fil_extension[$i]);
-if (file_exists("../files/".$listFiles->fil_project[$i]."/".$listFiles->fil_task[$i]."/".$listFiles->fil_name[$i])) {
-$existFile = "true";
-}
-$block2->openRow();
-$block2->checkboxRow($listFiles->fil_id[$i]);
-if ($existFile == "true") {
-$block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=".$listFiles->fil_id[$i],$type,icone));
-} else {
-$block2->cellRow("&nbsp;");
-}
-if ($existFile == "true") {
-$block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=".$listFiles->fil_id[$i],$listFiles->fil_name[$i],in));
-} else {
-$block2->cellRow($strings["missing_file"]." (".$listFiles->fil_name[$i].")");
-}
-$block2->cellRow($listFiles->fil_date[$i]);
-$block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=".$listFiles->fil_id[$i],$statusFile[$idStatus],in));
-if ($sitePublish == "true") {
-$block2->cellRow($statusPublish[$idPublish]);
-}
-$block2->closeRow();
-}
-$block2->closeResults();
-} else {
-$block2->noresults();
-}
-$block2->closeToggle();
-$block2->closeFormResults();
-
-$block2->openPaletteScript();
-if ($teamMember == "true" || $profilSession == "5") {
-$block2->paletteScript(0,"add","../linkedcontent/addfile.php?project=".$taskDetail->tas_project[0]."&task=$id","true,true,true",$strings["add"]);
-$block2->paletteScript(1,"remove","../linkedcontent/deletefiles.php?project=".$projectDetail->pro_id[0]."&task=".$taskDetail->tas_id[0]."","false,true,true",$strings["delete"]);
-if ($sitePublish == "true") {
-$block2->paletteScript(2,"add_projectsite","../subtasks/viewsubtask.php?addToSiteFile=true&task=".$taskDetail->tas_id[0]."&action=publish","false,true,true",$strings["add_project_site"]);
-$block2->paletteScript(3,"remove_projectsite","../subtasks/viewsubtask.php?removeToSiteFile=true&task=".$taskDetail->tas_id[0]."&action=publish","false,true,true",$strings["remove_project_site"]);
-}
-}
-$block2->paletteScript(4,"info","../linkedcontent/viewfile.php?","false,true,false",$strings["view"]);
-if ($teamMember == "true") {
-$block2->paletteScript(5,"edit","../linkedcontent/viewfile.php?".session_name()."=".session_id()."&edit=true","false,true,false",$strings["edit"]);
-}
-$block2->closePaletteScript($comptListFiles,$listFiles->fil_id);
-}
-*/
 
 $block3 = new phpCollab\Block();
 
@@ -399,4 +307,3 @@ $block3->closeToggle();
 $block3->closeFormResults();
 
 include '../themes/' . THEME . '/footer.php';
-?>
