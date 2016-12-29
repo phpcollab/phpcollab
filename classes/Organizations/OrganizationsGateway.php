@@ -7,6 +7,7 @@ class OrganizationsGateway
 {
     protected $db;
     protected $initrequest;
+    protected $tableCollab;
 
     /**
      * OrganizationsGateway constructor.
@@ -16,6 +17,7 @@ class OrganizationsGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
+        $this->tableCollab = $GLOBALS['tableCollab'];
     }
 
     public function getClientByName($clientName)
@@ -40,6 +42,21 @@ class OrganizationsGateway
         return $this->db->single();
     }
 
+    public function getClientIn($clientId)
+    {
+        $clientId = explode(',', $clientId);
+
+        $placeholders = str_repeat('?, ', count($clientId) - 1) . '?';
+
+        $whereStatement = "WHERE org.id IN($placeholders)";
+
+        $this->db->query($this->initrequest["organizations"] . $whereStatement);
+
+        $this->db->bind(':client_id', $clientId);
+
+        return $this->db->single();
+    }
+
     public function getAllOrganizations()
     {
         $whereStatement = " WHERE org.id != '1' ORDER BY org.name";
@@ -49,4 +66,18 @@ class OrganizationsGateway
         return $this->db->resultset();
     }
 
+    /**
+     * @param $clientId
+     * @return mixed
+     */
+    public function deleteClient($clientId)
+    {
+        $clientId = explode(',', $clientId);
+
+        $placeholders = str_repeat('?, ', count($clientId) - 1) . '?';
+
+        $sql = "DELETE FROM " . $this->tableCollab['organizations'] . " WHERE id IN ($placeholders)";
+        $this->db->query($sql);
+        return $this->db->execute($clientId);
+    }
 }

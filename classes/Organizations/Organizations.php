@@ -44,4 +44,12 @@ class Organizations
         return $data;
     }
 
+    public function deleteClient($clientId)
+    {
+        if (empty($clientId)) {
+            throw new Exception('Invalid client id');
+        }
+
+        return $this->organizations_gateway->deleteClient($clientId);
+    }
 }

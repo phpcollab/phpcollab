@@ -28,8 +28,13 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
+$clients = new \phpCollab\Organizations\Organizations();
+$projects = new \phpCollab\Projects\Projects();
+$members = new \phpCollab\Members\Members();
+
 if ($action == "delete") {
     $id = str_replace("**", ",", $id);
+
     $tmpquery = "WHERE org.id IN($id)";
     $listOrganizations = new phpCollab\Request();
     $listOrganizations->openOrganizations($tmpquery);
@@ -39,12 +44,11 @@ if ($action == "delete") {
             @unlink("logos_clients/" . $listOrganizations->org_id[$i] . "." . $listOrganizations->org_extension_logo[$i]);
         }
     }
-    $tmpquery1 = "DELETE FROM " . $tableCollab["organizations"] . " WHERE id IN($id)";
-    $tmpquery2 = "UPDATE " . $tableCollab["projects"] . " SET organization='1' WHERE organization IN($id)";
-    $tmpquery3 = "DELETE FROM " . $tableCollab["members"] . " WHERE organization IN($id)";
-    phpCollab\Util::connectSql("$tmpquery1");
-    phpCollab\Util::connectSql("$tmpquery2");
-    phpCollab\Util::connectSql("$tmpquery3");
+
+    $deleteOrg = $clients->deleteClient($id);
+    $setDefaultOrg = $projects->setDefaultOrg($id);
+    $deleteMembers = $members->deleteMemberByOrgId($id);
+
     phpCollab\Util::headerFunction("../clients/listclients.php?msg=delete");
 }
 
