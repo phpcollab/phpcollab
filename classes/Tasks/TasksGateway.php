@@ -51,10 +51,6 @@ class TasksGateway
 
         $this->db->bind(':user_id', $userId);
 
-        if (isset($sorting)){
-            $this->db->bind(':order_by', $sorting);
-        }
-
         return $this->db->resultset();
     }
 
@@ -157,7 +153,7 @@ class TasksGateway
      */
     private function orderBy($sorting)
     {
-        return (isset($sorting)) ? ' ORDER BY :order_by' : '';
+        return (!is_null($sorting)) ? ' ORDER BY ' . $sorting : '';
     }
 
 }

@@ -49,7 +49,8 @@ class TeamsGateway
         $whereStatement = " WHERE tea.project = :project_id";
 
         if (isset($orderBy)) {
-            $orderByStatement = " ORDER BY :order_by";
+            $orderBy = filter_var($orderBy, FILTER_SANITIZE_STRING);
+            $orderByStatement = " ORDER BY " . $orderBy;
         } else {
             $orderByStatement = '';
         }
@@ -57,9 +58,6 @@ class TeamsGateway
 
         $this->db->query($sql);
         $this->db->bind(':project_id', $projectId);
-        if (isset($orderBy)) {
-            $this->db->bind(':order_by', $orderBy);
-        }
         $results = $this->db->resultset();
 
         return $results;

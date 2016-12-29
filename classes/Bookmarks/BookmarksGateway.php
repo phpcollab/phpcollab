@@ -52,10 +52,6 @@ class BookmarksGateway
 
         $this->db->bind(':owner_id', $ownerId);
 
-        if (isset($sorting)) {
-            $this->db->bind(':order_by', $sorting);
-        }
-
         return $this->db->resultset();
     }
 
@@ -72,10 +68,6 @@ class BookmarksGateway
 
         $this->db->bind(':owner_id', $ownerId);
 
-        if (isset($sorting)) {
-            $this->db->bind(':order_by', $sorting);
-        }
-
         return $this->db->resultset();
     }
 
@@ -91,10 +83,6 @@ class BookmarksGateway
         $this->db->query($this->initrequest["bookmarks"] . $whereStatement . $this->orderBy($sorting));
 
         $this->db->bind(':owner_id', '%|' . $ownerId . '|%');
-
-        if (isset($sorting)) {
-            $this->db->bind(':order_by', $sorting);
-        }
 
         return $this->db->resultset();
     }
@@ -142,10 +130,6 @@ class BookmarksGateway
 
         $this->db->bind(':owner_id', $ownerId);
 
-        if (isset($sorting)) {
-            $this->db->bind(':order_by', $sorting);
-        }
-
         return $this->db->resultset();
     }
 
@@ -154,11 +138,7 @@ class BookmarksGateway
      */
     public function getAllBookmarkCategories()
     {
-        $sorting = 'name';
-
-        $this->db->query($this->initrequest["bookmarks_categories"] . $this->orderBy($sorting));
-
-        $this->db->bind(':order_by', $sorting);
+        $this->db->query($this->initrequest["bookmarks_categories"] . "ORDER BY name");
 
         return $this->db->resultset();
     }
@@ -277,7 +257,7 @@ SQL;
      */
     private function orderBy($sorting)
     {
-        return (isset($sorting)) ? ' ORDER BY :order_by' : '';
+        return (!is_null($sorting)) ? ' ORDER BY ' . $sorting : '';
     }
 
 }

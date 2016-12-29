@@ -35,7 +35,8 @@ class ReportsGateway
     public function getAllByOwner($ownerId, $sorting = null)
     {
         if (isset($sorting)) {
-            $sortQry = 'ORDER BY :order_by';
+            $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
+            $sortQry = 'ORDER BY ' . $sorting;
         } else {
             $sortQry = '';
         }
@@ -43,9 +44,6 @@ class ReportsGateway
         $this->db->query($this->stmt . ' WHERE rep.owner = :owner_id ' . $sortQry);
 
         $this->db->bind(':owner_id', $ownerId);
-        if (isset($sorting)) {
-            $this->db->bind(':order_by', $$sorting);
-        }
 
         return $this->db->resultset();
     }
