@@ -117,7 +117,6 @@ if ($action == "add")
 		{
 			phpCollab\Util::uploadFile("files/$project/$task", $_FILES['upload']['tmp_name'], "$num--".$filename);
 			$size = phpCollab\Util::fileInfoSize("../files/".$project."/".$task."/".$num."--".$filename);
-			//$dateFile = phpCollab\Util::getFileDate("../files/".$project."/".$task."/".$num."--".$filename);
 			$chaine = strrev("../files/".$project."/".$task."/".$num."--".$filename);
 			$tab = explode(".",$chaine);
 			$extension = strtolower(strrev($tab[0]));
