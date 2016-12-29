@@ -99,5 +99,19 @@ class ProjectsGateway
         $this->db->bind(':project_id', $projectId);
         return $this->db->single();
     }
-    
+
+    /**
+     * @param $orgId
+     * @return mixed
+     */
+    public function setDefaultOrg($orgId)
+    {
+        $orgId = explode(',', $orgId);
+        $placeholders = str_repeat('?, ', count($orgId) - 1) . '?';
+        $sql = "UPDATE " . $this->tableCollab['projects'] . " SET organization=1 WHERE organization IN ($placeholders)";
+        $this->db->query($sql);
+        return $this->db->execute($orgId);
+
+    }
+
 }
