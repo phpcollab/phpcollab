@@ -66,6 +66,18 @@ class OrganizationsGateway
         return $this->db->resultset();
     }
 
+    public function getOrganizationsOrderedByName($orgId)
+    {
+        $orgId = explode(',', $orgId);
+        $placeholders = str_repeat('?, ', count($orgId) - 1) . '?';
+
+        $whereStatement = " WHERE org.id IN ($placeholders) ORDER BY org.name";
+
+        $this->db->query($this->initrequest["organizations"] . $whereStatement);
+
+        return $this->db->resultset();
+    }
+
     /**
      * @param $clientId
      * @return mixed

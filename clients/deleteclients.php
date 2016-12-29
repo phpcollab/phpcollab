@@ -35,13 +35,10 @@ $members = new \phpCollab\Members\Members();
 if ($action == "delete") {
     $id = str_replace("**", ",", $id);
 
-    $tmpquery = "WHERE org.id IN($id)";
-    $listOrganizations = new phpCollab\Request();
-    $listOrganizations->openOrganizations($tmpquery);
-    $comptListOrganizations = count($listOrganizations->org_id);
-    for ($i = 0; $i < $comptListOrganizations; $i++) {
-        if (file_exists("logos_clients/" . $listOrganizations->org_id[$i] . "." . $listOrganizations->org_extension_logo[$i])) {
-            @unlink("logos_clients/" . $listOrganizations->org_id[$i] . "." . $listOrganizations->org_extension_logo[$i]);
+    $listOrganizations = $clients->getOrganizationsOrderedByName($id);
+    foreach ($listOrganizations as $org) {
+        if (file_exists("logos_clients/" . $org['org_id'] . "." . org['org_extension_logo'])) {
+            @unlink("logos_clients/" . org['org_id'] . "." . org['org_extension_logo']);
         }
     }
 
@@ -64,7 +61,7 @@ $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
     include '../includes/messages.php';
-    $blockPage->messagebox($msgLabel);
+    $blockPage->messageBox($msgLabel);
 }
 
 $block1 = new phpCollab\Block();
@@ -78,13 +75,11 @@ $block1->openContent();
 $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**", ",", $id);
-$tmpquery = "WHERE org.id IN($id) ORDER BY org.name";
-$listOrganizations = new phpCollab\Request();
-$listOrganizations->openOrganizations($tmpquery);
-$comptListOrganizations = count($listOrganizations->org_id);
 
-for ($i = 0; $i < $comptListOrganizations; $i++) {
-    $block1->contentRow("#" . $listOrganizations->org_id[$i], $listOrganizations->org_name[$i]);
+$listOrganizations = $clients->getOrganizationsOrderedByName($id);
+
+foreach ($listOrganizations as $org) {
+    $block1->contentRow("#" . $org['org_id'], $org['org_name']);
 }
 
 $block1->contentRow("", "<input type=\"submit\" name=\"delete\" value=\"" . $strings["delete"] . "\"> <input type=\"button\" name=\"cancel\" value=\"" . $strings["cancel"] . "\" onClick=\"history.back();\">");

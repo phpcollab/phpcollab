@@ -44,6 +44,15 @@ class Organizations
         return $data;
     }
 
+    public function getOrganizationsOrderedByName($orgId)
+    {
+        $orgId = filter_var($orgId, FILTER_VALIDATE_INT);
+
+        $data = $this->organizations_gateway->getOrganizationsOrderedByName($orgId);
+
+        return $data;
+    }
+
     public function deleteClient($clientId)
     {
         if (empty($clientId)) {
