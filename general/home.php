@@ -419,7 +419,6 @@ if ($showHomeTasks) {
     $block2->openPaletteScript();
     $block2->paletteScript(0, "remove", "../tasks/deletetasks.php?", "false,true,true", $strings["delete"]);
     $block2->paletteScript(1, "copy", "../tasks/edittask.php?docopy=true", "false,true,false", $strings["copy"]);
-    //$block2->paletteScript(2,"export","export.php?","false,true,true",$strings["export"]);
     $block2->paletteScript(3, "info", "../tasks/viewtask.php?", "false,true,false", $strings["view"]);
     $block2->paletteScript(4, "edit", "../tasks/edittask.php?", "false,true,false", $strings["edit"]);
     $block2->closePaletteScript($comptListTasks, $listTasks->tas_id);
