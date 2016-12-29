@@ -305,8 +305,6 @@ class Util
                 return crypt($newPassword, $salt);
             case PLAIN:
                 return $newPassword;
-
-                return $newPassword;
         }
     }
 
