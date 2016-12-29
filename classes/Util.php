@@ -8,7 +8,7 @@
 namespace phpCollab;
 use Database;
 use phpCollab\Tasks\Tasks;
-use Exception;
+use \Exception;
 
 class Util
 {
