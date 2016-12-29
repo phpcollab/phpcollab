@@ -74,7 +74,6 @@ $block1->openPaletteIcon();
 if ($teamMember == "true") {
     $block1->paletteIcon(0, "add", $strings["add"]);
     $block1->paletteIcon(1, "remove", $strings["delete"]);
-    //$block1->paletteIcon(2,"export",$strings["export"]);
     if ($sitePublish == "true") {
         $block1->paletteIcon(3, "add_projectsite", $strings["add_project_site"]);
         $block1->paletteIcon(4, "remove_projectsite", $strings["remove_project_site"]);
@@ -132,7 +131,6 @@ $block1->openPaletteScript();
 if ($teamMember == "true") {
     $block1->paletteScript(0, "add", "../notes/editnote.php?project=$project", "true,false,false", $strings["add"]);
     $block1->paletteScript(1, "remove", "../notes/deletenotes.php?project=$project", "false,true,true", $strings["delete"]);
-    //$block1->paletteScript(2,"export","export.php?","false,true,true",$strings["export"]);
     if ($sitePublish == "true") {
         $block1->paletteScript(3, "add_projectsite", "../notes/listnotes.php?addToSite=true&project=" . $projectDetail->pro_id[0] . "&action=publish", "false,true,true", $strings["add_project_site"]);
         $block1->paletteScript(4, "remove_projectsite", "../notes/listnotes.php?removeToSite=true&project=" . $projectDetail->pro_id[0] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
