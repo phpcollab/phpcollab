@@ -1005,7 +1005,6 @@ class Util
     {
         $tmpquery = "WHERE subtas.tasks = '$taskid'";
         $subtaskList = new \phpCollab\Request();
-//        $subtaskList = $this->request_factory->newInstance();
         $subtaskList->openAvgTasks($taskid);
         $avg = $subtaskList->tas_avg[0];
         settype($avg, "integer");
