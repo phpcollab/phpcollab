@@ -66,9 +66,9 @@ if ($action == 'publish') {
 
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
-            $topics->closeTopic($id, $tableCollab['topics']);
+            $topics->closeTopic($id);
         } else {
-            $topics->closeTopic($id, $tableCollab['topics']);
+            $topics->closeTopic($id);
         }
 
 
@@ -81,9 +81,9 @@ if ($action == 'publish') {
 
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
-            $topics->publishTopic($id, $tableCollab['topics']);
+            $topics->publishTopic($id);
         } else {
-            $topics->publishTopic($id, $tableCollab['topics']);
+            $topics->publishTopic($id);
         }
 
         $msg = 'addToSite';
@@ -94,9 +94,9 @@ if ($action == 'publish') {
 
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
-            $topics->unPublishTopic($id, $tableCollab['topics']);
+            $topics->unPublishTopic($id);
         } else {
-            $topics->unPublishTopic($id, $tableCollab['topics']);
+            $topics->unPublishTopic($id);
         }
 
         $msg = "removeToSite";
