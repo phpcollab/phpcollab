@@ -5,11 +5,18 @@ namespace phpCollab\Topics;
 
 use phpCollab\Database;
 
+/**
+ * Class Topics
+ * @package phpCollab\Topics
+ */
 class Topics
 {
     protected $topics_gateway;
     protected $db;
 
+    /**
+     * Topics constructor.
+     */
     public function __construct()
     {
         $this->db = new Database();
@@ -18,48 +25,42 @@ class Topics
 
     /**
      * @param integer|array $topicId
-     * @param string $table
      * @return string
      */
-    public function closeTopic($topicId, $table)
+    public function closeTopic($topicId)
     {
         // Sanitaize data
         $topicId = filter_var($topicId, FILTER_SANITIZE_STRING);
-        $table = filter_var($table, FILTER_SANITIZE_STRING);
 
-        $data = $this->topics_gateway->closeTopic($topicId, $table);
+        $data = $this->topics_gateway->closeTopic($topicId);
 
         return $data;
     }
 
     /**
      * @param integer|array $topicId
-     * @param string $table
      * @return string
      */
-    public function publishTopic($topicId, $table)
+    public function publishTopic($topicId)
     {
         // Sanitaize data
         $topicId = filter_var($topicId, FILTER_SANITIZE_STRING);
-        $table = filter_var($table, FILTER_SANITIZE_STRING);
 
-        $data = $this->topics_gateway->publishTopic($topicId, $table);
+        $data = $this->topics_gateway->publishTopic($topicId);
 
         return $data;
     }
 
     /**
      * @param integer|array $topicId
-     * @param string $table
      * @return string
      */
-    public function unPublishTopic($topicId, $table)
+    public function unPublishTopic($topicId)
     {
         // Sanitaize data
         $topicId = filter_var($topicId, FILTER_SANITIZE_STRING);
-        $table = filter_var($table, FILTER_SANITIZE_STRING);
 
-        $data = $this->topics_gateway->unPublishTopic($topicId, $table);
+        $data = $this->topics_gateway->unPublishTopic($topicId);
 
         return $data;
     }
