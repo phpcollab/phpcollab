@@ -320,6 +320,8 @@ if ($showHomeProjects) {
  * start to show the task
  */
 if ($showHomeTasks) {
+    $tasks = new \phpCollab\Tasks\Tasks();
+
     $block2 = new phpCollab\Block();
 
     $block2->form = "xwbT";
@@ -339,15 +341,17 @@ if ($showHomeTasks) {
     $block2->sorting("home_tasks", $sortingUser->sor_home_tasks[0], "tas.name ASC", $sortingFields = array(0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem.login", 6 => "tas.project", 7 => "tas.published"));
 
     // Todo: Refactore to use PDO
-    $tmpquery = "WHERE subtas.assigned_to = '$idSession'";
+//    $tmpquery = "WHERE subtas.assigned_to = '$idSession'";
 
-    $listSubtasks = new phpCollab\Request();
-    $listSubtasks->openSubtasks($tmpquery);
-    $comptListSubtasks = count($listSubtasks->subtas_id);
-    for ($i = 0; $i < $comptListSubtasks; $i++) {
-        $subtasks .= $listSubtasks->subtas_task[$i];
-        if ($i != $comptListSubtasks - 1) {
-            $subtasks .= ",";
+    $tasksList = $tasks->getSubtasksAssignedToMe($idSession);
+    $comptListSubtasks = count($tasksList);
+
+    if ($comptListSubtasks > 0) {
+        for ($i = 0; $i < $comptListSubtasks; $i++) {
+            $subtasks .= $listSubtasks->subtas_task[$i];
+            if ($i != $comptListSubtasks - 1) {
+                $subtasks .= ",";
+            }
         }
     }
 
@@ -756,6 +760,8 @@ if ($showHomeNewsdesk) {
         $block7->openResults();
         $block7->labels($labels = array(0 => $strings["topic"], 1 => $strings["date"], 2 => $strings["author"], 3 => $strings["newsdesk_related"]), "true");
 
+        $blockPage->limitNumber = "1";
+
         for ($i = 0; $i < $comptPosts; $i++) {
             // take the news author
             // Todo: Refactore to use PDO
@@ -803,4 +809,3 @@ if ($showHomeNewsdesk) {
 }
 
 include '../themes/' . THEME . '/footer.php';
-
