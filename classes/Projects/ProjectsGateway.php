@@ -13,6 +13,7 @@ class ProjectsGateway
     protected $db;
     protected $projectsFilter;
     protected $initrequest;
+    protected $tableCollab;
 
     /**
      * Reports constructor.
@@ -21,8 +22,9 @@ class ProjectsGateway
     public function __construct(Database $db)
     {
         $this->db = $db;
-        $this->projectsFilter = $GLOBALS['projectsFilter']; // TODO: refactor this
+        $this->projectsFilter = $GLOBALS['projectsFilter'];
         $this->initrequest = $GLOBALS['initrequest'];
+        $this->tableCollab = $GLOBALS['tableCollab'];
     }
 
     /**
@@ -34,7 +36,7 @@ class ProjectsGateway
     public function getAllByOwner($ownerId, $sorting)
     {
         if (!is_null($sorting)) {
-            $sortQry = 'ORDER BY :order_by';
+            $sortQry = 'ORDER BY ' . $sorting;
         } else {
             $sortQry = '';
         }
@@ -42,10 +44,6 @@ class ProjectsGateway
         $this->db->query($this->initrequest['teams'] . ' WHERE tea.member = :owner_id AND pro.status IN(2,3) ' . $sortQry);
 
         $this->db->bind(':owner_id', $ownerId);
-
-        if (!is_null($sorting)) {
-            $this->db->bind(':order_by', $sorting);
-        }
 
         return $this->db->resultset();
     }
@@ -56,8 +54,9 @@ class ProjectsGateway
      * @param $sorting
      * @return
      */
-    public function getProjectList( $ownerId, $typeProjects, $sorting )
+    public function getProjectList($ownerId, $typeProjects, $sorting)
     {
+        $tmpQuery = '';
         if ($typeProjects == "inactive") {
             if ($this->projectsFilter == "true") {
                 $tmpQuery = "LEFT OUTER JOIN teams ON teams.project = pro.id ";
@@ -75,7 +74,7 @@ class ProjectsGateway
         }
 
         if (!is_null($sorting)) {
-            $sortQry = 'ORDER BY :order_by';
+            $sortQry = 'ORDER BY ' . $sorting;
         } else {
             $sortQry = '';
         }
@@ -85,10 +84,6 @@ class ProjectsGateway
         $this->db->query($query);
 
         $this->db->bind(':owner_id', $ownerId);
-
-        if (!is_null($sorting)) {
-            $this->db->bind(':order_by', $sorting);
-        }
 
         return $this->db->resultset();
     }
@@ -104,5 +99,5 @@ class ProjectsGateway
         $this->db->bind(':project_id', $projectId);
         return $this->db->single();
     }
-
+    
 }
