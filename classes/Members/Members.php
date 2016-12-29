@@ -39,12 +39,7 @@ class Members
     public function deleteMemberByOrgId($orgId)
     {
         $orgId = filter_var($orgId, FILTER_SANITIZE_STRING);
-        if ( strpos($orgId, ',') ) {
-            $this->members_gateway->deleteMembers($orgId);
-        } else {
-            $this->members_gateway->deleteMember($orgId);
-        }
-
+        return $this->members_gateway->deleteMember($orgId);
     }
 
 }
