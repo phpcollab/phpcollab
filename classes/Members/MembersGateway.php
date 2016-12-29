@@ -9,6 +9,7 @@ class MembersGateway
 {
     protected $db;
     protected $initrequest;
+    protected $tableCollab;
 
     /**
      * Reports constructor.
@@ -18,6 +19,7 @@ class MembersGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
+        $this->tableCollab = $GLOBALS['tableCollab'];
     }
 
     public function getMemberByLogin($loginData)
@@ -66,6 +68,19 @@ class MembersGateway
         $this->db->query($this->initrequest["members"]);
 
         return $this->db->resultset();
+    }
+
+    /**
+     * @param $orgId
+     * @return mixed
+     */
+    public function deleteMember($orgId)
+    {
+        $orgId = explode(',', $orgId);
+        $placeholders = str_repeat('?, ', count($orgId) - 1) . '?';
+        $sql = "DELETE FROM " . $this->tableCollab['members'] . " WHERE organization IN ($placeholders)";
+        $this->db->query($sql);
+        return $this->db->execute($orgId);
     }
 
 
