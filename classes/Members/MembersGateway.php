@@ -25,7 +25,7 @@ class MembersGateway
     public function getMemberByLogin($loginData)
     {
         if (is_array($loginData)) {
-            if ($loginData['demo'] != true) {
+            if ($loginData['demo'] !== true) {
                 if ($loginData['ssl']) {
                     $whereStatement = "WHERE mem.email_work = :ssl_email AND mem.login != 'demo' AND mem.profil != 4";
                 } else {

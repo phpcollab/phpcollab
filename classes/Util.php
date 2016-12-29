@@ -327,7 +327,7 @@ class Util
         $letter_capital = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         $letter_number = "0123456789";
 
-        if ($with_tiny_letters == true) {
+        if ($with_tiny_letters === true) {
             $sizeof_lchar += 26;
             if (isset($letter)) {
                 $letter .= $letter_tiny;
@@ -336,7 +336,7 @@ class Util
             }
         }
 
-        if ($with_capital_letters == true) {
+        if ($with_capital_letters === true) {
             $sizeof_lchar += 26;
             if (isset($letter)) {
                 $letter .= $letter_capital;
@@ -345,7 +345,7 @@ class Util
             }
         }
 
-        if ($with_numbers == true) {
+        if ($with_numbers === true) {
             $sizeof_lchar += 10;
             if (isset($letter)) {
                 $letter .= $letter_number;

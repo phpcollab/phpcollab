@@ -295,7 +295,7 @@ $block1->contentRow($strings["work_phone"], "<input size=\"14\" style=\"width: 1
 $block1->contentRow($strings["home_phone"], "<input size=\"14\" style=\"width: 150px;\" maxlength=\"32\" type=\"text\" name=\"hp\" value=\"$hp\">");
 $block1->contentRow($strings["mobile_phone"], "<input size=\"14\" style=\"width: 150px;\" maxlength=\"32\" type=\"text\" name=\"mp\" value=\"$mp\">");
 $block1->contentRow($strings["fax"], "<input size=\"14\" style=\"width: 150px;\" maxlength=\"32\" type=\"text\" name=\"fax\" value=\"$fax\">");
-if ($lastvisitedpage == true) {
+if ($lastvisitedpage === true) {
     $block1->contentRow($strings["last_page"], "<input size=\"24\" style=\"width: 250px;\" maxlength=\"255\" type=\"text\" name=\"last_page\" value=\"$last_page\">");
 }
 $block1->contentRow($strings["comments"], "<textarea style=\"width: 350px; height: 60px;\" name=\"c\" cols=\"45\" rows=\"5\">$c</textarea>");
