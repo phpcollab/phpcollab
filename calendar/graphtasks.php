@@ -70,4 +70,3 @@ for ($i = 0; $i < $comptListTasks; $i++) {
 }
 
 $graph->Stroke();
-?>
