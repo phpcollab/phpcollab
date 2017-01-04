@@ -78,7 +78,7 @@ class MembersGateway
     {
         $orgId = explode(',', $orgId);
         $placeholders = str_repeat('?, ', count($orgId) - 1) . '?';
-        $sql = "DELETE FROM " . $this->tableCollab['members'] . " WHERE organization IN ($placeholders)";
+        $sql = "DELETE FROM {$this->tableCollab['members']} WHERE organization IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($orgId);
     }
