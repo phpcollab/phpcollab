@@ -301,7 +301,7 @@ $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
     include_once('../includes/messages.php');
-    $blockPage->messagebox($msgLabel);
+    $blockPage->messageBox($msgLabel);
 }
 
 

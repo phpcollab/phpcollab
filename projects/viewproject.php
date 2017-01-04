@@ -288,7 +288,7 @@ $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
     include '../includes/messages.php';
-    $blockPage->messagebox($msgLabel);
+    $blockPage->messageBox($msgLabel);
 }
 
 $blockPage->limitsNumber = "4";

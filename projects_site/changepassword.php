@@ -107,7 +107,7 @@ include 'include_header.php';
 if ($msg != "") {
     include '../includes/messages.php';
     $blockPage = new phpCollab\Block();
-    $blockPage->messagebox($msgLabel);
+    $blockPage->messageBox($msgLabel);
 }
 
 echo "  <form accept-charset='UNKNOWN' method='POST' action='../projects_site/changepassword.php?action=update' name='changepassword' enctype='application/x-www-form-urlencoded'>
