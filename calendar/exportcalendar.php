@@ -25,31 +25,31 @@
 ** =============================================================================
 */
 
-
 $checkSession = "false";
 include_once '../includes/library.php';
 
-$tmpquery = "WHERE cal.owner = '$idSession' AND cal.id = '$id'";
-$detailCalendar = new phpCollab\Request();
-$detailCalendar->openCalendar($tmpquery);
+$calendars = new \phpCollab\Calendars\Calendars();
+
+$detailCalendar = $calendars->openCalendarByOwnerAndId($idSession, $id);
+
 $comptDetailCalendar = count($detailCalendar->cal_id);
 
-if ($comptDetailCalendar != "0") {
-    $filename = $detailCalendar->cal_subject[0] . ".ics";
+if (count($detailCalendar) != "0") {
+    $filename = $detailCalendar['cal_subject'] . ".ics";
     header("Content-Type: text/x-iCalendar");
     header("Content-Disposition: attachment; filename=$filename");
 
-    $DescDump = str_replace("\r\n", "\\n", $detailCalendar->cal_description[0]);
+    $DescDump = str_replace("\r\n", "\\n", $detailCalendar['cal_description']);
 
-    $vCalStart = str_replace("-", "", $detailCalendar->cal_date_start[0]);
-    $vCalEnd = str_replace("-", "", $detailCalendar->cal_date_end[0]);
+    $vCalStart = str_replace("-", "", $detailCalendar['cal_date_start']);
+    $vCalEnd = str_replace("-", "", $detailCalendar['cal_date_end']);
 }
 echo "BEGIN:VCALENDAR
 PRODID:PhpCollab $version
 VERSION:2.0
 METHOD:PUBLISH
 BEGIN:VEVENT
-ORGANIZER:MAILTO:" . $detailCalendar->cal_mem_email_work[0] . "
+ORGANIZER:MAILTO:" . $detailCalendar['cal_mem_email_work'] . "
 DTSTART;VALUE=DATE:$vCalStart
 DTEND;VALUE=DATE:$vCalEnd 
 TRANSP:OPAQUE
@@ -58,10 +58,10 @@ UID:040000008200E00074C5B7101A82E00800000000A03EAED7766FC2010000000000000000100
  0000056B56C3860D17B448DC0B0DB90B2BEB6
 DTSTAMP:20021009T073253Z
 DESCRIPTION:" . $DescDump . "
-SUMMARY:" . $detailCalendar->cal_subject[0] . "
+SUMMARY:" . $detailCalendar['cal_subject'] . "
 PRIORITY:5
 CLASS:PUBLIC\n";
-if ($detailCalendar->cal_reminder[0] == "1") {
+if ($detailCalendar['cal_reminder'] == "1") {
     echo "BEGIN:VALARM
 TRIGGER:PT15M
 ACTION:DISPLAY
@@ -70,4 +70,3 @@ END:VALARM\n";
 }
 echo "END:VEVENT
 END:VCALENDAR";
-?>
