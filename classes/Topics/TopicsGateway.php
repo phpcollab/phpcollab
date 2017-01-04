@@ -35,12 +35,12 @@ class TopicsGateway
         if ( strpos($topicIds, ',') ) {
             $topicIds = explode(',', $topicIds);
             $placeholders = str_repeat ('?, ', count($topicIds)-1) . '?';
-            $sql = "UPDATE ". $this->tableCollab['topics'] ." SET published=0 WHERE id IN ($placeholders)";
+            $sql = "UPDATE {$this->tableCollab['topics']} SET published=0 WHERE id IN ($placeholders)";
             $this->db->query($sql);
 
             return $this->db->execute($topicIds);
         } else {
-            $sql = "UPDATE ". $this->tableCollab['topics'] ." SET published=0 WHERE id = :topic_ids";
+            $sql = "UPDATE {$this->tableCollab['topics']} SET published=0 WHERE id = :topic_ids";
 
             $this->db->query($sql);
 
@@ -59,11 +59,11 @@ class TopicsGateway
         if ( strpos($topicIds, ',') ) {
             $topicIds = explode(',', $topicIds);
             $placeholders = str_repeat ('?, ', count($topicIds)-1) . '?';
-            $sql = "UPDATE ". $this->tableCollab['topics'] ." SET published=1 WHERE id IN ($placeholders)";
+            $sql = "UPDATE {$this->tableCollab['topics']} SET published=1 WHERE id IN ($placeholders)";
             $this->db->query($sql);
             return $this->db->execute($topicIds);
         } else {
-            $sql = "UPDATE ". $this->tableCollab['topics'] ." SET published=1 WHERE id = :topic_ids";
+            $sql = "UPDATE {$this->tableCollab['topics']} SET published=1 WHERE id = :topic_ids";
 
             $this->db->query($sql);
 
@@ -83,11 +83,11 @@ class TopicsGateway
         if ( strpos($topicIds, ',') ) {
             $topicIds = explode(',', $topicIds);
             $placeholders = str_repeat ('?, ', count($topicIds)-1) . '?';
-            $sql = "UPDATE " . $this->tableCollab['topics'] ." SET status=0 WHERE id IN ($placeholders)";
+            $sql = "UPDATE {$this->tableCollab['topics']} SET status=0 WHERE id IN ($placeholders)";
             $this->db->query($sql);
             return $this->db->execute($topicIds);
         } else {
-            $sql = "UPDATE " . $this->tableCollab['topics'] . " SET status=0 WHERE id = :topic_ids";
+            $sql = "UPDATE {$this->tableCollab['topics']} SET status=0 WHERE id = :topic_ids";
 
             $this->db->query($sql);
 
