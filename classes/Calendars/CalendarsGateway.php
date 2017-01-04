@@ -28,7 +28,7 @@ class CalendarsGateway
      */
     public function deleteCalendar($calendarId)
     {
-        $query = "DELETE FROM " . $this->tableCollab["calendar"]. " WHERE id IN(:calendar_id)";
+        $query = "DELETE FROM {$this->tableCollab["calendar"]} WHERE id IN(:calendar_id)";
         $this->db->query($query);
         $this->db->bind(':calendar_id', $calendarId);
         return $this->db->execute();
