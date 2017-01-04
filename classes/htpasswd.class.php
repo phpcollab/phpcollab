@@ -24,6 +24,9 @@
 */
 
 
+/**
+ * Class Htpasswd
+ */
 class Htpasswd
 {
 
@@ -62,6 +65,11 @@ class Htpasswd
 //	called from new()
 
 
+    /**
+     * Htpasswd constructor.
+     * @param string $passwdFile
+     * @return Htpasswd
+     */
     function Htpasswd($passwdFile = "")
     {
         if (!empty($passwdFile)) {
@@ -76,6 +84,9 @@ class Htpasswd
 //	for sanity, then loads it into the processes memory
 //	htReadFile() should only be called using this method.
 
+    /**
+     * @param $passwdFile
+     */
     function initialize($passwdFile)
     {
         $this->FILE = $passwdFile;
@@ -86,7 +97,7 @@ class Htpasswd
             // PHP is going to bitch about this, this is here just because
 
             $this->error("Invalid initialize() or new() method: No file specified!", 1);
-            exit; // Just in case
+            exit("Invalid initialize() or new() method: No file specified!"); // Just in case
         }
 
         if (file_exists($this->FILE)) {
@@ -109,6 +120,9 @@ class Htpasswd
 //	you're an idiot, but I'll give you the rope...
 
 
+    /**
+     *
+     */
     function do_not_blame_cdi()
     {
         $this->IDIOT = true;
@@ -125,6 +139,10 @@ class Htpasswd
 
 //	Tons of junk removed Rev 0.7
 
+    /**
+     * @param $filename
+     * @return bool
+     */
     function sane($filename)
     {
         if ($this->IDIOT) {
@@ -170,6 +188,9 @@ class Htpasswd
 //	**************************************************************
 //	Not really needed but it's a legacy thing...
 
+    /**
+     * @return string
+     */
     function version()
     {
         return $this->VERSION;
@@ -180,6 +201,10 @@ class Htpasswd
 //	few errors generate a fatal exit. Most just carp a warning
 //	and continue. Logged via error_log method.
 
+    /**
+     * @param $errMsg
+     * @param $die
+     */
     function error($errMsg, $die)
     {
         $this->ERROR = $errMsg;
@@ -214,23 +239,15 @@ class Htpasswd
 //	called once per process, and it should be called internally
 //	by the initialize method. Have I mentioned that enough yet?
 
+    /**
+     *
+     */
     function htReadFile()
     {
         global $php_errormsg;
 
-        $Mytemp = array();
-        $Myjunk = array();
-        $Junk = array();
-        $count = 0;
-        $user = "";
-        $pass = "";
-        $temp = "";
-        $key = "";
-        $val = "";
-        $filesize = 0;
-        $errno = 0;
+        $Myjunk = [];
         $empty = false;
-        $contents = "";
 
         $filename = $this->FILE;
         $filesize = filesize($filename);
@@ -251,7 +268,7 @@ class Htpasswd
 
             if (empty($fd)) {
                 $this->error("FATAL File access error [$php_errormsg]", 1);
-                exit; // Just in case
+                exit('FATAL File access error'); // Just in case
             }
 
             $contents = fread($fd, filesize($filename));
@@ -260,9 +277,6 @@ class Htpasswd
             $this->CONTENTS = $contents;
             $Mytemp = explode("\n", $contents);
             for ($count = 0; $count < count($Mytemp); $count++) {
-                $user = "";
-                $pass = "";
-
                 if (empty($Mytemp[$count])) {
                     break;
                 }
@@ -306,6 +320,11 @@ class Htpasswd
 //	version. If salt is not passed or referenced, it will generate
 //	a random salt automatically.
 
+    /**
+     * @param $passwd
+     * @param string $salt
+     * @return mixed
+     */
     function cryptPass($passwd, $salt = "")
     {
         return $passwd;
@@ -317,12 +336,12 @@ class Htpasswd
 //	Returns true if UserID is found in the password file. False
 //	otherwise.
 
+    /**
+     * @param $UserID
+     * @return bool
+     */
     function isUser($UserID)
     {
-        $key = "";
-        $val = "";
-        $user = "";
-        $pass = "";
         $found = false;
 
         if (empty($UserID)) {
@@ -346,13 +365,13 @@ class Htpasswd
 //	Fetches the encrypted password from the password file and
 //	returns it. Returns null on failure.
 
+    /**
+     * @param $UserID
+     * @return bool|string
+     */
     function getPass($UserID)
     {
-        $key = "";
-        $val = "";
-        $user = "";
         $pass = "";
-        $usernum = -1;
 
         if ($this->EMPTY) {
             return $pass;
@@ -382,6 +401,11 @@ class Htpasswd
 //	method deprecated 0.5 <cdi>
 //	use verifyUser() instead
 //
+    /**
+     * @param $UserID
+     * @param $Pass
+     * @return bool
+     */
     function checkPass($UserID, $Pass)
     {
         $retval = $this->verifyUser($UserID, $Pass);
@@ -395,12 +419,14 @@ class Htpasswd
 //
 //	$Pass should be passed in un-encrypted
 
+    /**
+     * @param $UserID
+     * @param $Pass
+     * @return bool
+     */
     function verifyUser($UserID, $Pass)
     {
-        $pass = "";
         $match = false;
-        $usernum = -1;
-        $salt = "";
 
         if ($this->EMPTY) {
             return false;
@@ -445,12 +471,14 @@ class Htpasswd
 //
 //	Returns true on success, false on failure
 
+    /**
+     * @param $UserID
+     * @param $newPass
+     * @param string $oldPass
+     * @return bool
+     */
     function changePass($UserID, $newPass, $oldPass = "")
     {
-        // global $php_errormsg;
-
-        $passwdFile = $this->FILE;
-        $pass = "";
         $newname = null;
         $newpass = null;
 
@@ -519,7 +547,7 @@ class Htpasswd
 
         if (!($this->htWriteFile())) {
             $this->error("FATAL could not save new password file! [$php_errormsg]", 1);
-            exit;    // just in case
+            exit('FATAL could not save new password file!');    // just in case
         }
 
         return true;
@@ -536,6 +564,12 @@ class Htpasswd
 //		The NewID already exists
 //		The Password is sent and auth fails
 
+    /**
+     * @param $OldID
+     * @param $NewID
+     * @param string $Pass
+     * @return bool
+     */
     function renameUser($OldID, $NewID, $Pass = "")
     {
         if ($this->EMPTY) {
@@ -619,6 +653,9 @@ class Htpasswd
 //	On success, re-calls the initialize method to re-read
 //	the new password file and returns true. False on failure
 
+    /**
+     * @return bool
+     */
     function htWriteFile()
     {
         global $php_errormsg;
@@ -632,11 +669,7 @@ class Htpasswd
 
         $tempfile = tempnam("/tmp", "fort");
 
-        $name = "";
-        $pass = "";
-        $count = 0;
         $fd = null;
-        $myerror = "";
 
         if ($this->EMPTY) {
             $this->USERCOUNT = 0;
@@ -644,7 +677,7 @@ class Htpasswd
 
         if (!copy($filename, $tempfile)) {
             $this->error("FATAL cannot create backup file [$tempfile] [$php_errormsg]", 1);
-            exit; // Just in case
+            exit("FATAL cannot create backup file"); // Just in case
         }
 
         $fd = fopen($tempfile, "w");
@@ -656,7 +689,7 @@ class Htpasswd
             // already screwed anyway
             unlink($tempfile);
             $this->error("FATAL File [$tempfile] access error [$myerror]", 1);
-            exit; // Just in case
+            exit("FATAL File [{$tempfile}] access error"); // Just in case
         }
 
         for ($count = 0; $count <= $this->USERCOUNT; $count++) {
@@ -700,6 +733,11 @@ class Htpasswd
 //	Should be fairly obvious - adds a user to the htpasswd file
 //	Returns true on success, false on failure
 
+    /**
+     * @param $UserID
+     * @param $newPass
+     * @return bool
+     */
     function addUser($UserID, $newPass)
     {
         // global $php_errormsg;
@@ -747,10 +785,12 @@ class Htpasswd
 //
 //	Returns plain text password on success, null on failure
 
+    /**
+     * @param $UserID
+     * @return string
+     */
     function assignPass($UserID)
     {
-
-        $pass = "";
         $count = $this->USERCOUNT;
 
         if (empty($UserID)) {
@@ -790,12 +830,12 @@ class Htpasswd
 //	Again, fairly obvious - deletes a user from the htpasswd file
 //	Returns true on success, false on failure
 
+    /**
+     * @param $UserID
+     * @return bool
+     */
     function deleteUser($UserID)
     {
-        // global $php_errormsg;
-
-        $found = false;
-
         // Can't delete non-existant UserIDs
 
         if ($this->EMPTY) {
@@ -837,11 +877,13 @@ class Htpasswd
 //	(Glorified line number)
 //	Returns -1 if not found or errors
 
+    /**
+     * @param $UserID
+     * @return int
+     */
     function getUserNum($UserID)
     {
-        $count = 0;
         $usernum = -1;
-        $name = "";
 
         if ($this->EMPTY) {
             return $usernum;
@@ -874,6 +916,9 @@ class Htpasswd
 //	**************************************************************
 //	Calculates current microtime
 
+    /**
+     * @return float
+     */
     function utime()
     {
         $time = explode(" ", microtime());
@@ -888,6 +933,9 @@ class Htpasswd
 //	the same process.
 
 
+    /**
+     * @return string
+     */
     function genSalt()
     {
         $random = 0;
@@ -912,12 +960,11 @@ class Htpasswd
 //	generate different passwords when called multiple times by
 //	the same process.
 
+    /**
+     * @return string
+     */
     function genPass()
     {
-
-        $random = 0;
-        $rand78 = "";
-        $randpass = "";
         $pass = "";
 
         $maxcount = rand(4, 9);
@@ -926,7 +973,7 @@ class Htpasswd
         // returned by rand, so keep looping until we have a password that's
         // more than 4 characters and less than 9.
 
-        if (($maxcount > 8) or ($maxcount < 5)) {
+        if (($maxcount > 8) || ($maxcount < 5)) {
             do {
                 $maxcount = rand(4, 9);
 
@@ -952,6 +999,9 @@ class Htpasswd
 //	generate different User IDs when called multiple times by
 //	the same process.
 
+    /**
+     * @return string
+     */
     function genUser()
     {
 
@@ -962,7 +1012,7 @@ class Htpasswd
 
         $maxcount = rand(4, 9);
 
-        if (($maxcount > 8) or ($maxcount < 5)) {
+        if (($maxcount > 8) || ($maxcount < 5)) {
             do {
                 $maxcount = rand(4, 9);
 
@@ -990,6 +1040,3 @@ class Htpasswd
 
 
 }   // END CLASS.HTPASSWD
-
-
-?>
