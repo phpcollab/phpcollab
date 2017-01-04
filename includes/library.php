@@ -278,7 +278,7 @@ if ($checkSession != "false" && $demoSession != "true") {
             $pieces[0] = strrev($pieces[0]);
             $pieces[1] = strrev($pieces[1]);
             $page = $pieces[1] . "/" . $pieces[0];
-            $tmpquery = "UPDATE " . $tableCollab["members"] . " SET last_page=:page WHERE id = :session_id";
+            $tmpquery = "UPDATE {$tableCollab["members"]} SET last_page=:page WHERE id = :session_id";
 
             $dbParams = [];
             $dbParams['page'] = $page;
@@ -323,7 +323,7 @@ if ($checkSession != "false" && $demoSession != "true") {
 //count connected users
 if ($checkConnected != "false") {
     $dateunix = date("U");
-    $tmpquery1 = "UPDATE " . $tableCollab["logs"] . " SET connected=:date_unix WHERE login = :login_session";
+    $tmpquery1 = "UPDATE {$tableCollab["logs"]} SET connected=:date_unix WHERE login = :login_session";
 
     $dbParams = [];
     $dbParams['date_unix'] = $dateunix;
@@ -333,7 +333,7 @@ if ($checkConnected != "false") {
 
     unset($dbParams);
 
-    $tmpsql = "SELECT * FROM " . $tableCollab["logs"] . " WHERE connected > :date_unix";
+    $tmpsql = "SELECT * FROM {$tableCollab["logs"]} WHERE connected > :date_unix";
 
     $dbParams = [];
     $dbParams['date_unix'] = $dateunix-5*60;
@@ -392,7 +392,7 @@ if (!empty($sor_cible) && $sor_cible != "" && $sor_champs != "none") {
     $sor_champs = phpCollab\Util::convertData($sor_champs);
     $sor_cible = phpCollab\Util::convertData($sor_cible);
 
-    $tmpquery = "UPDATE ". $tableCollab["sorting"] ." SET ".$sor_cible." = :sort_value WHERE member = :session_id;";
+    $tmpquery = "UPDATE {$tableCollab["sorting"]} SET ".$sor_cible." = :sort_value WHERE member = :session_id;";
 
     $dbParams = [];
     $dbParams['sort_value'] = $sor_champs . ' ' . $sor_ordre;
