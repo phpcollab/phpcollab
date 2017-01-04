@@ -545,7 +545,7 @@ if ($type == "dayList") {
 
     $block1->closePaletteIcon();
 
-    $block1->sorting("calendar", $sortingUser->sor_calendar[0], "cal.date_end DESC", $sortingFields = array(0 => "cal.shortname", 1 => "cal.subject", 2 => "cal.date_start", 3 => "cal.date_end"));
+    $block1->sorting("calendar", $sortingUser->sor_calendar[0], "cal.date_end DESC", $sortingFields = [0 => "cal.shortname", 1 => "cal.subject", 2 => "cal.date_start", 3 => "cal.date_end"]);
 
     $dayRecurr = phpCollab\Util::dayOfWeek(mktime(12, 12, 12, $month, $day, $year));
 
