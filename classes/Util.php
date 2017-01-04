@@ -980,7 +980,7 @@ class Util
             }
 
             $prj_name = preg_replace("/\[[0-9 ]*\/[0-9 ]*\]/", "[ $tasksCompleted / $tasksNumb ]", $prj_name);
-            $tmpquery5 = "UPDATE " . $tableProject . " SET name=:project_name WHERE id = :project_id";
+            $tmpquery5 = "UPDATE {$tableProject} SET name=:project_name WHERE id = :project_id";
 
             $dbParams = [];
             $dbParams['project_name'] = $prj_name;
@@ -1008,7 +1008,7 @@ class Util
         $subtaskList->openAvgTasks($taskid);
         $avg = $subtaskList->tas_avg[0];
         settype($avg, "integer");
-        $tmpquery6 = "UPDATE " . $tableTask . " set completion = $avg where id='$taskid'";
+        $tmpquery6 = "UPDATE {$tableTask} set completion = $avg where id='$taskid'";
         \phpCollab\Util::connectSql($tmpquery6);
     }
 
