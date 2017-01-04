@@ -6,6 +6,10 @@ namespace phpCollab\Organizations;
 use phpCollab\Database;
 use Exception;
 
+/**
+ * Class Organizations
+ * @package phpCollab\Organizations
+ */
 class Organizations
 {
     protected $organizations_gateway;
@@ -20,6 +24,10 @@ class Organizations
         $this->organizations_gateway = new OrganizationsGateway($this->db);
     }
 
+    /**
+     * @param $clientName
+     * @return mixed
+     */
     public function checkIfClientExistsByName($clientName)
     {
         $clientName = filter_var($clientName, FILTER_SANITIZE_STRING);
@@ -29,6 +37,10 @@ class Organizations
         return $data;
     }
 
+    /**
+     * @param $clientId
+     * @return mixed
+     */
     public function checkIfClientExistsById($clientId)
     {
         $clientId = filter_var($clientId, FILTER_VALIDATE_INT);
@@ -38,6 +50,9 @@ class Organizations
         return $data;
     }
 
+    /**
+     * @return mixed
+     */
     public function getListOfOrganizations()
     {
         $data = $this->organizations_gateway->getAllOrganizations();
@@ -45,6 +60,10 @@ class Organizations
         return $data;
     }
 
+    /**
+     * @param $orgId
+     * @return mixed
+     */
     public function getOrganizationsOrderedByName($orgId)
     {
         $orgId = filter_var($orgId, FILTER_VALIDATE_INT);
@@ -54,6 +73,11 @@ class Organizations
         return $data;
     }
 
+    /**
+     * @param $clientId
+     * @return mixed
+     * @throws Exception
+     */
     public function deleteClient($clientId)
     {
         if (empty($clientId)) {
