@@ -18,10 +18,22 @@ if ($action == "add") {
     $tpm = phpCollab\Util::convertData($tpm);
     phpCollab\Util::autoLinks($tpm);
     $detailTopic->top_posts[0] = $detailTopic->top_posts[0] + 1;
-    $tmpquery1 = "INSERT INTO " . $tableCollab["posts"] . "(topic,member,created,message) VALUES('$id','$idSession','$dateheure','$newText')";
-    phpCollab\Util::connectSql("$tmpquery1");
-    $tmpquery2 = "UPDATE " . $tableCollab["topics"] . " SET last_post='$dateheure',posts='" . $detailTopic->top_posts[0] . "' WHERE id = '$id'";
-    phpCollab\Util::connectSql("$tmpquery2");
+    $tmpquery1 = "INSERT INTO {$tableCollab["posts"]} (topic,member,created,message) VALUES (:topic,:member,:created,:message)";
+    $dbParams = [];
+    $dbParams['topic'] = $id;
+    $dbParams['member'] = $idSession;
+    $dbParams['created'] = $dateheure;
+    $dbParams['message'] = $newText;
+    phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
+    unset($dbParams);
+
+    $tmpquery2 = "UPDATE {$tableCollab["topics"]} SET last_post=:last_post,posts=:posts WHERE id = :topic_id";
+    $dbParams = [];
+    $dbParams['last_post'] = $dateheure;
+    $dbParams['posts'] = $detailTopic->top_posts[0];
+    $dbParams['topic_id'] = $id;
+    phpCollab\Util::newConnectSql($tmpquery2, $dbParams);
+    unset($dbParams);
 
     if ($notifications == "true") {
         include '../topics/noti_newpost.php';
