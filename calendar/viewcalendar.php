@@ -555,7 +555,7 @@ if ($type == "dayList") {
     if ($comptListCalendar != "0") {
         $block1->openResults();
 
-        $block1->labels($labels = array(0 => $strings["shortname"], 1 => $strings["subject"], 2 => $strings["date_start"], 3 => $strings["date_end"]), "false");
+        $block1->labels($labels = [0 => $strings["shortname"], 1 => $strings["subject"], 2 => $strings["date_start"], 3 => $strings["date_end"]], "false");
 
         foreach ($listCalendar as $item) {
             $block1->openRow();
