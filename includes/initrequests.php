@@ -3,6 +3,8 @@
 #Status page: 2
 #Path by root: ../includes/initrequests.php
 
+global $tableCollab;
+
 $initrequest["sorting"] = "SELECT *
 FROM " . $tableCollab["sorting"] . " sor
 ";
@@ -21,10 +23,27 @@ FROM " . $tableCollab["invoices"] . " inv
 LEFT OUTER JOIN " . $tableCollab["projects"] . " pro ON pro.id = inv.project
 ";
 
-$initrequest["calendar"] = "SELECT cal.*,mem.email_work, mem.name 
-FROM " . $tableCollab["calendar"] . " cal
-LEFT OUTER JOIN " . $tableCollab["members"] . " mem ON mem.id = cal.owner
-";
+$initrequest["calendar"] = <<<CALENDAR
+SELECT 
+cal.id as cal_id,
+cal.owner as cal_owner,
+cal.subject as cal_subject,
+cal.description as cal_description,
+cal.shortname as cal_shortname,
+cal.date_start as cal_date_start,
+cal.date_end as cal_date_end,
+cal.time_start as cal_time_start,
+cal.time_end as cal_time_end,
+cal.reminder as cal_reminder,
+cal.recurring as cal_recurring,
+cal.recur_day as cal_recur_day,
+cal.broadcast as cal_broadcast,
+cal.location as cal_location,
+mem.email_work as cal_mem_email_work, 
+mem.name as cal_mem_name 
+FROM {$tableCollab["calendar"]} cal
+LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = cal.owner
+CALENDAR;
 
 $initrequest["notes"] = "SELECT note.id, note.project, note.owner, note.topic, note.subject, note.description, note.date, note.published, mem.id, mem.login, mem.name, mem.email_work
 FROM " . $tableCollab["notes"] . " note
