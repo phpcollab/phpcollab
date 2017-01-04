@@ -129,7 +129,7 @@ if ($type == "calendEdit") {
         $subject = phpCollab\Util::convertData($subject);
         $description = phpCollab\Util::convertData($description);
 
-        $tmpquery = "UPDATE " . $tableCollab["calendar"] . " SET subject=:subject,description=:description,location=:location,shortname=:shortname,date_start=:date_start,date_end=:date_end,time_start=:time_start,time_end=:time_end,reminder=:reminder,recurring=:recurring,recur_day=:recur_day,broadcast=:broadcast WHERE id = :calendar_id";
+        $tmpquery = "UPDATE {$tableCollab["calendar"]} SET subject=:subject,description=:description,location=:location,shortname=:shortname,date_start=:date_start,date_end=:date_end,time_start=:time_start,time_end=:time_end,reminder=:reminder,recurring=:recurring,recur_day=:recur_day,broadcast=:broadcast WHERE id = :calendar_id";
         $dbParams = [];
         $dbParams['subject'] = $subject;
         $dbParams['description'] = $description;
@@ -166,7 +166,7 @@ if ($type == "calendEdit") {
             $subject = phpCollab\Util::convertData($subject);
             $description = phpCollab\Util::convertData($description);
             $shortname = phpCollab\Util::convertData($shortname);
-            $tmpquery = "INSERT INTO " . $tableCollab["calendar"] . "(owner,subject,description,location,shortname,date_start,date_end,time_start,time_end,reminder,broadcast,recurring,recur_day) VALUES(:owner,:subject,:description,:location,:shortname,:date_start,:date_end,:time_start,:time_end,:reminder,:broadcast,:recurring,:recur_day)";
+            $tmpquery = "INSERT INTO {$tableCollab["calendar"]} (owner,subject,description,location,shortname,date_start,date_end,time_start,time_end,reminder,broadcast,recurring,recur_day) VALUES(:owner,:subject,:description,:location,:shortname,:date_start,:date_end,:time_start,:time_end,:reminder,:broadcast,:recurring,:recur_day)";
 
             $dbParams = [];
             $dbParams['owner'] = $idSession;
