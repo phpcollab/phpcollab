@@ -44,15 +44,35 @@ if ($id == "") {
         $d = phpCollab\Util::convertData($d);
         $c = phpCollab\Util::convertData($c);
 
-        $tmpquery1 = "INSERT INTO " . $tableCollab["tasks"] . "(project,name,description,owner,assigned_to,status,priority,start_date,due_date,estimated_time,actual_time,comments,created,published,completion) VALUES('$projectSession','$tn','$d','$idSession','0','2','$pr','$sd','$dd','$etm','$atm','$c','$dateheure','$pub','0')";
-        phpCollab\Util::connectSql("$tmpquery1");
-        $tmpquery = $tableCollab["tasks"];
-        phpCollab\Util::getLastId($tmpquery);
-        $num = $lastId[0];
-        unset($lastId);
+        $tmpquery1 = "INSERT INTO {$tableCollab["tasks"]} (project,name,description,owner,assigned_to,status,priority,start_date,due_date,estimated_time,actual_time,comments,created,published,completion) VALUES(:project,:name,:description,:owner,:assigned_to,:status,:priority,:start_date,:due_date,:estimated_time,:actual_time,:comments,:created,:published,:completion)";
+        $dbParams = [];
+        $dbParams['project'] = $projectSession;
+        $dbParams['name'] = $tn;
+        $dbParams['description'] = $d;
+        $dbParams['owner'] = $idSession;
+        $dbParams['assigned_to'] = 0;
+        $dbParams['status'] = 2;
+        $dbParams['priority'] = $pr;
+        $dbParams['start_date'] = $sd;
+        $dbParams['due_date'] = $dd;
+        $dbParams['estimated_time'] = $etm;
+        $dbParams['actual_time'] = $atm;
+        $dbParams['comments'] = $c;
+        $dbParams['created'] = $dateheure;
+        $dbParams['published'] = $pub;
+        $dbParams['completion'] = 0;
+        
+        $num = phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
+        unset($dbParams);
 
-        $tmpquery2 = "INSERT INTO " . $tableCollab["assignments"] . "(task,owner,assigned_to,assigned) VALUES('$num','$idSession','$at','$dateheure')";
-        phpCollab\Util::connectSql("$tmpquery2");
+        $tmpquery2 = "INSERT INTO {$tableCollab["assignments"]} (task,owner,assigned_to,assigned) VALUES (:task,:owner,:assigned_to,:assigned)";
+        $dbParams = [];
+        $dbParams['task'] = $num;
+        $dbParams['owner'] = $idSession;
+        $dbParams['assigned_to'] = $at;
+        $dbParams['assigned'] = $dateheure;
+        phpCollab\Util::newConnectSql($tmpquery2, $dbParams);
+        unset($dbParams);
 
         //send task assignment mail if notifications = true
         if ($notifications == "true") {
