@@ -3,6 +3,10 @@ namespace phpCollab\Organizations;
 
 use phpCollab\Database;
 
+/**
+ * Class OrganizationsGateway
+ * @package phpCollab\Organizations
+ */
 class OrganizationsGateway
 {
     protected $db;
@@ -20,6 +24,10 @@ class OrganizationsGateway
         $this->tableCollab = $GLOBALS['tableCollab'];
     }
 
+    /**
+     * @param $clientName
+     * @return mixed
+     */
     public function getClientByName($clientName)
     {
         $whereStatement = ' WHERE org.name = :client_name';
@@ -31,6 +39,10 @@ class OrganizationsGateway
         return $this->db->single();
     }
 
+    /**
+     * @param $clientId
+     * @return mixed
+     */
     public function getClientById($clientId)
     {
         $whereStatement = ' WHERE org.id = :client_id';
@@ -42,6 +54,10 @@ class OrganizationsGateway
         return $this->db->single();
     }
 
+    /**
+     * @param $clientId
+     * @return mixed
+     */
     public function getClientIn($clientId)
     {
         $clientId = explode(',', $clientId);
@@ -57,6 +73,9 @@ class OrganizationsGateway
         return $this->db->single();
     }
 
+    /**
+     * @return mixed
+     */
     public function getAllOrganizations()
     {
         $whereStatement = " WHERE org.id != '1' ORDER BY org.name";
@@ -66,6 +85,10 @@ class OrganizationsGateway
         return $this->db->resultset();
     }
 
+    /**
+     * @param $orgId
+     * @return mixed
+     */
     public function getOrganizationsOrderedByName($orgId)
     {
         $orgId = explode(',', $orgId);
@@ -88,7 +111,7 @@ class OrganizationsGateway
 
         $placeholders = str_repeat('?, ', count($clientId) - 1) . '?';
 
-        $sql = "DELETE FROM " . $this->tableCollab['organizations'] . " WHERE id IN ($placeholders)";
+        $sql = "DELETE FROM {$this->tableCollab['organizations']} WHERE id IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($clientId);
     }
