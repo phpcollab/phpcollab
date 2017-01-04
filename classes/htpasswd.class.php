@@ -55,7 +55,7 @@ class Htpasswd
     var $SANE = false;    // Boolean. True if $FILE passes all tests
     var $IDIOT = false;    // Boolean. True if user is an idiot.
     var $DEBUG = false;    // Boolean. Logs errors to error_log if set
-    var $USERS = array();    // Array of [index#][(user|pass)]=value
+    var $USERS = [];    // Array of [index#][(user|pass)]=value
     var $USERCOUNT = 0;        // Counter - total number of users in $FILE
     // Zero based indexing on $USERS
 
@@ -68,7 +68,7 @@ class Htpasswd
     /**
      * Htpasswd constructor.
      * @param string $passwdFile
-     * @return Htpasswd
+     * @return mixed
      */
     function Htpasswd($passwdFile = "")
     {
@@ -938,10 +938,6 @@ class Htpasswd
      */
     function genSalt()
     {
-        $random = 0;
-        $rand64 = "";
-        $salt = "";
-
         $random = rand();    // Seeded via initialize()
 
         // Crypt(3) can only handle A-Z a-z ./
@@ -977,7 +973,7 @@ class Htpasswd
             do {
                 $maxcount = rand(4, 9);
 
-            } while (($maxcount > 8) or ($maxcount < 5));
+            } while (($maxcount > 8) || ($maxcount < 5));
         }
 
         $rand78 = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()-=_+abcdefghijklmnopqrstuvwxyz";
@@ -1004,10 +1000,6 @@ class Htpasswd
      */
     function genUser()
     {
-
-        $random = 0;
-        $rand78 = "";
-        $randuser = "";
         $userid = "";
 
         $maxcount = rand(4, 9);
@@ -1016,7 +1008,7 @@ class Htpasswd
             do {
                 $maxcount = rand(4, 9);
 
-            } while (($maxcount > 8) or ($maxcount < 5));
+            } while (($maxcount > 8) || ($maxcount < 5));
         }
 
         $rand62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
