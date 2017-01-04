@@ -33,8 +33,9 @@ $logs = new \phpCollab\Logs\Logs();
 
 
 if ($logout == "true") {
-    $tmpquery1 = "UPDATE " . $tableCollab["logs"] . " SET connected='' WHERE login = '$loginSession'";
-    phpCollab\Util::connectSql("$tmpquery1");
+    $tmpquery1 = "UPDATE {$tableCollab["logs"]} SET connected='' WHERE login = :login_id";
+    $dbParams = ["login_id" => $idSession];
+    phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
 
     // delete the authentication cookies
     //setcookie('loginCookie', '', time()-86400);
@@ -242,14 +243,14 @@ if ($auth == "on") {
             } //redirect to last page required (with auto log out feature)
             else {
                 if ($loginUser->mem_last_page[0] != "" && $loginUser->mem_profil[0] != "3" && $lastvisitedpage) {
-                    $tmpquery = "UPDATE " . $tableCollab["members"] . " SET last_page='' WHERE login = '$loginForm'";
-                    phpCollab\Util::connectSql("$tmpquery");
+                    $tmpquery = "UPDATE {$tableCollab["members"]} SET last_page='' WHERE login = :login";
+                    phpCollab\Util::newConnectSql($tmpquery, ["login", $loginForm]);
                     phpCollab\Util::headerFunction("../" . $loginUser->mem_last_page[0]);
 
                 } else {
                     if ($loginUser->mem_last_page[0] != "" && ($loginCookie != "" && $passwordCookie != "") && $loginUser->mem_profil[0] != "3" && $lastvisitedpage) {
-                        $tmpquery = "UPDATE " . $tableCollab["members"] . " SET last_page='' WHERE login = '$loginForm'";
-                        phpCollab\Util::connectSql("$tmpquery");
+                        $tmpquery = "UPDATE {$tableCollab["members"]} SET last_page='' WHERE login = :login";
+                        phpCollab\Util::newConnectSql($tmpquery, ["login", $loginForm]);
                         phpCollab\Util::headerFunction("../" . $loginUser->mem_last_page[0]);
                     } //redirect to home or admin page (if user is administrator)
                     else {
