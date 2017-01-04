@@ -51,8 +51,9 @@ if ($action == "send") {
     } else if ($userDetail->mem_email_work[0] != "") {
         phpCollab\Util::passwordGenerator();
         $pw = phpCollab\Util::getPassword($pass_g);
-        $tmpquery = "UPDATE " . $tableCollab["members"] . " SET password='$pw' WHERE login = '$loginForm'";
-        phpCollab\Util::connectSql("$tmpquery");
+        $tmpquery = "UPDATE {$tableCollab["members"]} SET password=:password WHERE login = :login";
+
+        phpCollab\Util::newConnectSql($tmpquer, ["password" => $pw, "login" => $loginForm]);
 
         $body = $strings["user_name"] . " : " . $userDetail->mem_login[0] . "\n\n" . $strings["password"] . " : $pass_g";
 
