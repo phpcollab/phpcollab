@@ -5,6 +5,10 @@ namespace phpCollab\Members;
 
 use phpCollab\Database;
 
+/**
+ * Class MembersGateway
+ * @package phpCollab\Members
+ */
 class MembersGateway
 {
     protected $db;
@@ -22,6 +26,10 @@ class MembersGateway
         $this->tableCollab = $GLOBALS['tableCollab'];
     }
 
+    /**
+     * @param $loginData
+     * @return mixed
+     */
     public function getMemberByLogin($loginData)
     {
         if (is_array($loginData)) {
@@ -52,6 +60,10 @@ class MembersGateway
         return $this->db->single();
     }
 
+    /**
+     * @param $memberId
+     * @return mixed
+     */
     public function getMemberById($memberId)
     {
         $whereStatement = "WHERE mem.id = :member_id";
@@ -63,6 +75,9 @@ class MembersGateway
         return $this->db->single();
     }
 
+    /**
+     * @return mixed
+     */
     public function getAllMembers()
     {
         $this->db->query($this->initrequest["members"]);
