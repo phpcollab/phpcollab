@@ -609,7 +609,7 @@ if ($type == "monthPreview") {
     $listTasks = $tasks->getMyTasks($idSession, 'tas.name');
     $comptListTasks = count($listTasks);
 
-    $listSubtasks = $tasks->getSubtasksAssignedToMe($idSession, 'subtas.name');
+    $listSubtasks = $tasks->getSubtasksAssignedToMe($idSession);
     $comptListSubtasks = count($listSubtasks);
 
     $comptListCalendarScan = "0";
