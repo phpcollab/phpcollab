@@ -1315,8 +1315,7 @@ class Request
 
         $this->connectClass();
 
-        $sql = "SELECT DISTINCT pro.id, pro.name, tea.id FROM "
-            . $tableCollab["teams"] . " tea, {$tableCollab["projects"]} pro WHERE pro.id = tea.project ";
+        $sql = "SELECT DISTINCT pro.id, pro.name, tea.id FROM {$tableCollab["teams"]} tea, {$tableCollab["projects"]} pro WHERE pro.id = tea.project ";
         $sql .= ' ' . $querymore;
 
         if ($databaseType == "mysql" && $start != "") {
