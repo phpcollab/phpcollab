@@ -4,6 +4,7 @@
 namespace phpCollab\Organizations;
 
 use phpCollab\Database;
+use Exception;
 
 class Organizations
 {
