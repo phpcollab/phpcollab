@@ -854,8 +854,7 @@ class Request
     {
         global $tableCollab, $strings, $res, $row, $databaseType, $initrequest;
         $this->connectClass();
-        $sql = "select avg(completion) from " . $tableCollab["subtasks"]
-            . " where task = '$querymore'";
+        $sql = "select avg(completion) from {$tableCollab["subtasks"]} where task = '$querymore'";
 
         $index = $this->query($sql);
         while ($this->fetch()) {
@@ -1317,8 +1316,7 @@ class Request
         $this->connectClass();
 
         $sql = "SELECT DISTINCT pro.id, pro.name, tea.id FROM "
-            . $tableCollab["teams"] . " tea, " . $tableCollab["projects"]
-            . " pro WHERE pro.id = tea.project ";
+            . $tableCollab["teams"] . " tea, {$tableCollab["projects"]} pro WHERE pro.id = tea.project ";
         $sql .= ' ' . $querymore;
 
         if ($databaseType == "mysql" && $start != "") {
