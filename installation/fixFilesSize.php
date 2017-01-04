@@ -27,8 +27,8 @@ if ($action == "update") {
             $sizeNew = str_replace('M', '', $sizeNew);
             $sizeNew = str_replace('G', '', $sizeNew);
 
-            $tmpquery = "UPDATE " . $tableCollab["files"] . " SET size='$sizeNew' WHERE id='" . $listFiles->fil_id[$i] . "'";
-            phpCollab\Util::connectSql($tmpquery);
+            $tmpquery = "UPDATE {$tableCollab["files"]} SET size=:size_new'$sizeNew' WHERE id=:file_id";
+            phpCollab\Util::newConnectSql($tmpquery, ["size_new"=>$sizeNew, "file_id"=>$listFiles->fil_id[$i]]);
         }
         echo "$comptListFiles fixed :o)";
     } else {
