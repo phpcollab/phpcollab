@@ -278,7 +278,7 @@ class Htpasswd
 
                 list ($user, $pass) = explode(":", $Mytemp[$count]);
 
-                if (($user != "") and ($pass != "")) {
+                if (($user != "") && ($pass != "")) {
                     $Myjunk[$count]["user"] = $user;
                     $Myjunk[$count]["pass"] = $pass;
                 }
