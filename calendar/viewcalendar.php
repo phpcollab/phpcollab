@@ -36,13 +36,14 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
+global $tableCollab;
+
+$calendars = new \phpCollab\Calendars\Calendars();
+$tasks = new \phpCollab\Tasks\Tasks();
+$detailCalendar = null;
+
 if ($type == "") {
     $type = "monthPreview";
-}
-
-function _dayOfWeek($timestamp)
-{
-    return intval(strftime("%w", $timestamp) + 1);
 }
 
 if ($gmtTimezone != "false") {
@@ -113,7 +114,7 @@ if ($firstday == 0) {
     $firstday = 7;
 }
 
-echo "<!-- DAB - Type: $type";
+//echo "<!-- DAB - Type: $type -->";
 
 if ($type == "calendEdit") {
     if ($action == "update") {
@@ -123,12 +124,29 @@ if ($type == "calendEdit") {
             $dateStart_A = substr("$dateStart", 0, 4);
             $dateStart_M = substr("$dateStart", 5, 2);
             $dateStart_J = substr("$dateStart", 8, 2);
-            $dayRecurr = _dayOfWeek(mktime(12, 12, 12, $dateStart_M, $dateStart_J, $dateStart_A));
+            $dayRecurr = \phpCollab\Util::dayOfWeek(mktime(12, 12, 12, $dateStart_M, $dateStart_J, $dateStart_A));
         }
         $subject = phpCollab\Util::convertData($subject);
         $description = phpCollab\Util::convertData($description);
-        $tmpquery = "UPDATE " . $tableCollab["calendar"] . " SET subject='$subject',description='$description',location='$location',shortname='$shortname',date_start='$dateStart',date_end='$dateEnd',time_start='$time_start',time_end='$time_end',reminder='$reminder',recurring='$recurring',recur_day='$dayRecurr',broadcast='$broadcast' WHERE id = '$dateEnreg'";
-        phpCollab\Util::connectSql("$tmpquery");
+
+        $tmpquery = "UPDATE " . $tableCollab["calendar"] . " SET subject=:subject,description=:description,location=:location,shortname=:shortname,date_start=:date_start,date_end=:date_end,time_start=:time_start,time_end=:time_end,reminder=:reminder,recurring=:recurring,recur_day=:recur_day,broadcast=:broadcast WHERE id = :calendar_id";
+        $dbParams = [];
+        $dbParams['subject'] = $subject;
+        $dbParams['description'] = $description;
+        $dbParams['location'] = $location;
+        $dbParams['shortname'] = $shortname;
+        $dbParams['date_start'] = $dateStart;
+        $dbParams['date_end'] = $dateEnd;
+        $dbParams['time_start'] = $time_start;
+        $dbParams['time_end'] = $time_end;
+        $dbParams['reminder'] = $reminder;
+        $dbParams['recurring'] = $recurring;
+        $dbParams['recur_day'] = ($dayRecurr != 0) ? $dayRecurr : 0;
+        $dbParams['broadcast'] = $broadcast;
+        $dbParams['calendar_id'] = $dateEnreg;
+
+        phpCollab\Util::newConnectSql($tmpquery, $dbParams);
+        unset($dbParams);
         phpCollab\Util::headerFunction("../calendar/viewcalendar.php?dateEnreg=$dateEnreg&dateCalend=$dateCalend&type=calendDetail&msg=update");
     }
 
@@ -142,19 +160,34 @@ if ($type == "calendEdit") {
                 $dateStart_A = substr("$dateStart", 0, 4);
                 $dateStart_M = substr("$dateStart", 5, 2);
                 $dateStart_J = substr("$dateStart", 8, 2);
-                $dayRecurr = _dayOfWeek(mktime(12, 12, 12, $dateStart_M, $dateStart_J, $dateStart_A));
+                $dayRecurr = phpCollab\Util::dayOfWeek(mktime(12, 12, 12, $dateStart_M, $dateStart_J, $dateStart_A));
             }
 
             $subject = phpCollab\Util::convertData($subject);
             $description = phpCollab\Util::convertData($description);
             $shortname = phpCollab\Util::convertData($shortname);
-            $tmpquery = "INSERT INTO " . $tableCollab["calendar"] . "(owner,subject,description,location,shortname,date_start,date_end,time_start,time_end,reminder,broadcast,recurring,recur_day) VALUES('$idSession','$subject','$description','$location','$shortname','$dateStart','$dateEnd','$time_start','$time_end','$reminder','$broadcast','$recurring','$dayRecurr')";
-            phpCollab\Util::connectSql("$tmpquery");
-            $tmpquery = $tableCollab["calendar"];
-            phpCollab\Util::getLastId($tmpquery);
-            $num = $lastId[0];
-            unset($lastId);
-            phpCollab\Util::headerFunction("../calendar/viewcalendar.php?dateEnreg=$num&dateCalend=$dateCalend&type=calendDetail&msg=add");
+            $tmpquery = "INSERT INTO " . $tableCollab["calendar"] . "(owner,subject,description,location,shortname,date_start,date_end,time_start,time_end,reminder,broadcast,recurring,recur_day) VALUES(:owner,:subject,:description,:location,:shortname,:date_start,:date_end,:time_start,:time_end,:reminder,:broadcast,:recurring,:recur_day)";
+
+            $dbParams = [];
+            $dbParams['owner'] = $idSession;
+            $dbParams['subject'] = $subject;
+            $dbParams['description'] = $description;
+            $dbParams['location'] = $location;
+            $dbParams['shortname'] = $shortname;
+            $dbParams['date_start'] = $dateStart;
+            $dbParams['date_end'] = $dateEnd;
+            $dbParams['time_start'] = $time_start;
+            $dbParams['time_end'] = $time_end;
+            $dbParams['reminder'] = $reminder;
+            $dbParams['broadcast'] = $broadcast;
+            $dbParams['recurring'] = $recurring;
+            $dbParams['recur_day'] = ($dayRecurr != 0) ? $dayRecurr : 0;
+
+
+            $num = phpCollab\Util::newConnectSql($tmpquery, $dbParams);
+            unset($dbParams);
+
+            phpCollab\Util::headerFunction("../calendar/viewcalendar.php?dateEnreg={$num}&dateCalend={$dateCalend}&type=calendDetail&msg=add");
         }
     }
 }
@@ -165,10 +198,9 @@ if ($type == "calendEdit") {
     }
 
     if ($id != "") {
-        $tmpquery = "WHERE cal.owner = '$idSession' AND cal.id = '$dateEnreg'";
-        $detailCalendar = new phpCollab\Request();
-        $detailCalendar->openCalendar($tmpquery);
-        $comptDetailCalendar = count($detailCalendar->cal_id);
+        $detailCalendar = $calendars->openCalendarByOwnerAndId($idSession, $dateEnreg);
+
+        $comptDetailCalendar = count($detailCalendar);
 
         if ($comptDetailCalendar == "0") {
             phpCollab\Util::headerFunction("../calendar/viewcalendar.php");
@@ -181,10 +213,8 @@ if ($type == "calendDetail") {
         $dateEnreg = $id;
     }
 
-    $tmpquery = "WHERE (cal.owner = '$idSession' AND cal.id = '$dateEnreg') OR (cal.broadcast = '1' AND cal.id = '$dateEnreg')";  //changed to $idSession
-    $detailCalendar = new phpCollab\Request();
-    $detailCalendar->openCalendar($tmpquery);
-    $comptDetailCalendar = count($detailCalendar->cal_id);
+    $detailCalendar = $calendars->openCalendarDetail($idSession, $dateEnreg);
+    $comptDetailCalendar = count($detailCalendar);
 
     if ($comptDetailCalendar == "0") {
         phpCollab\Util::headerFunction("../calendar/viewcalendar.php");
@@ -192,7 +222,7 @@ if ($type == "calendDetail") {
 }
 
 if ($type == "calendEdit") {
-    $bodyCommand = "onLoad=\"document.calendForm.shortname.focus();\"";
+    $bodyCommand = 'onLoad="document.calendForm.shortname.focus()"';
 }
 
 /** Do the title calcs here.. we __HAVE__ to do it before the include **/
@@ -207,10 +237,10 @@ switch ($type) {
         if ($id == "")
             $setTitle .= " : Add Calendar Entry ($dateCalend)";
         if ($id != "")
-            $setTitle .= " : Edit Calendar Entry ($dateCalend - " . $detailCalendar->cal_shortname[0] . ")";
+            $setTitle .= " : Edit Calendar Entry ($dateCalend - " . $detailCalendar['cal_shortname'] . ")";
         break;
     case 'calendDetail':
-        $setTitle .= " : Calendar Entry (" . $detailCalendar->cal_shortname[0] . ")";
+        $setTitle .= " : Calendar Entry (" . $detailCalendar['cal_shortname'] . ")";
         break;
 }
 $includeCalendar = true; //Include Javascript files for the pop-up calendar 
@@ -218,17 +248,17 @@ include '../themes/' . THEME . '/header.php';
 
 if ($type == "calendEdit") {
     if ($id != "") {
-        $subject = $detailCalendar->cal_subject[0];
-        $description = $detailCalendar->cal_description[0];
-        $location = $detailCalendar->cal_location[0];
-        $shortname = $detailCalendar->cal_shortname[0];
-        $date_start = $detailCalendar->cal_date_start[0];
-        $date_end = $detailCalendar->cal_date_end[0];
-        $time_start = $detailCalendar->cal_time_start[0];
-        $time_end = $detailCalendar->cal_time_end[0];
-        $reminder = $detailCalendar->cal_reminder[0];
-        $broadcast = $detailCalendar->cal_broadcast[0];
-        $recurring = $detailCalendar->cal_recurring[0];
+        $subject = $detailCalendar['cal_subject'];
+        $description = $detailCalendar['cal_description'];
+        $location = $detailCalendar['cal_location'];
+        $shortname = $detailCalendar['cal_shortname'];
+        $date_start = $detailCalendar['cal_date_start'];
+        $date_end = $detailCalendar['cal_date_end'];
+        $time_start = $detailCalendar['cal_time_start'];
+        $time_end = $detailCalendar['cal_time_end'];
+        $reminder = $detailCalendar['cal_reminder'];
+        $broadcast = $detailCalendar['cal_broadcast'];
+        $recurring = $detailCalendar['cal_recurring'];
 
         if ($reminder == "0") {
             $checked1_b = "checked"; //false
@@ -257,7 +287,7 @@ if ($type == "calendEdit") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=dayList&dateCalend=$dateCalend", "$dayName $day $monthName $year", in));
 
     if ($id != "") {
-        $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=calendDetail&dateCalend=$dateCalend&dateEnreg=$dateEnreg", $detailCalendar->cal_shortname[0], in));
+        $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=calendDetail&dateCalend=$dateCalend&dateEnreg=$dateEnreg", $detailCalendar['cal_shortname'], in));
         $blockPage->itemBreadcrumbs($strings["edit"]);
     } else {
         $blockPage->itemBreadcrumbs($strings["add"]);
@@ -266,7 +296,7 @@ if ($type == "calendEdit") {
 
     if ($msg != "") {
         include '../includes/messages.php';
-        $blockPage->messagebox($msgLabel);
+        $blockPage->messageBox($msgLabel);
     }
 
     $block1 = new phpCollab\Block();
@@ -285,7 +315,7 @@ if ($type == "calendEdit") {
     }
 
     if ($id != "") {
-        $block1->heading($strings["edit"] . ": " . $detailCalendar->cal_shortname[0]);
+        $block1->heading($strings["edit"] . ": " . $detailCalendar['cal_shortname']);
     } else {
         $block1->heading($strings["add"] . ":");
     }
@@ -370,9 +400,9 @@ if ($type == "calendEdit") {
 }
 
 if ($type == "calendDetail") {
-    $reminder = $detailCalendar->cal_reminder[0];
-    $broadcast = $detailCalendar->cal_broadcast[0];
-    $recurring = $detailCalendar->cal_recurring[0];
+    $reminder = $detailCalendar['cal_reminder'];
+    $broadcast = $detailCalendar['cal_broadcast'];
+    $recurring = $detailCalendar['cal_recurring'];
 
     if ($reminder == "0") {
         $reminder = $strings["no"];
@@ -397,12 +427,12 @@ if ($type == "calendDetail") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=monthPreview", $strings["calendar"], in));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=monthPreview&dateCalend=$dateCalend", "$monthName $year", in));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=dayList&dateCalend=$dateCalend", "$dayName $day $monthName $year", in));
-    $blockPage->itemBreadcrumbs($detailCalendar->cal_shortname[0]);
+    $blockPage->itemBreadcrumbs($detailCalendar['cal_shortname']);
     $blockPage->closeBreadcrumbs();
 
     if ($msg != "") {
         include '../includes/messages.php';
-        $blockPage->messagebox($msgLabel);
+        $blockPage->messageBox($msgLabel);
     }
 
     $block1 = new phpCollab\Block();
@@ -415,12 +445,12 @@ if ($type == "calendDetail") {
         $block1->contentError($error);
     }
 
-    $block1->heading($detailCalendar->cal_shortname[0]);
+    $block1->heading($detailCalendar['cal_shortname']);
 
     $block1->openPaletteIcon();
 
     //not sure about this...
-    if ($detailCalendar->cal_owner[0] == $idSession) {
+    if ($detailCalendar['cal_owner'] == $idSession) {
         $block1->paletteIcon(0, "remove", $strings["delete"]);
         $block1->paletteIcon(1, "edit", $strings["edit"]);
     }
@@ -434,35 +464,35 @@ if ($type == "calendDetail") {
     echo "
         <tr class='odd'>
             <td valign='top' class='leftvalue'>" . $strings["subject"] . " :</td>
-            <td>" . $detailCalendar->cal_subject[0] . "</td>
+            <td>" . $detailCalendar['cal_subject'] . "</td>
         </tr>
         <tr class='odd'>
             <td valign='top' class='leftvalue'>" . $strings["description"] . " :</td>
-            <td>" . nl2br($detailCalendar->cal_description[0]) . "&nbsp;</td>
+            <td>" . nl2br($detailCalendar['cal_description']) . "&nbsp;</td>
         </tr>
         <tr class='odd'>
             <td valign='top' class='leftvalue'>" . $strings["shortname"] . $block1->printHelp("calendar_shortname") . " :</td>
-            <td>" . $detailCalendar->cal_shortname[0] . "&nbsp;</td>
+            <td>" . $detailCalendar['cal_shortname'] . "&nbsp;</td>
         </tr>
         <tr class='odd'>
             <td valign='top' class='leftvalue'>" . $strings["location"] . " :</td>
-            <td>" . $detailCalendar->cal_location[0] . "&nbsp;</td>
+            <td>" . $detailCalendar['cal_location'] . "&nbsp;</td>
         </tr>
         <tr class='odd'>
             <td valign='top' class='leftvalue'>" . $strings["date_start"] . " :</td>
-            <td>" . $detailCalendar->cal_date_start[0] . "</td>
+            <td>" . $detailCalendar['cal_date_start'] . "</td>
         </tr>
         <tr class='odd'>
             <td valign='top' class='leftvalue'>" . $strings["date_end"] . " :</td>
-            <td>" . $detailCalendar->cal_date_end[0] . "</td>
+            <td>" . $detailCalendar['cal_date_end'] . "</td>
         </tr>
         <tr class='odd'>
             <td valign='top' class='leftvalue'>" . $strings["time_start"] . " :</td>
-            <td>" . $detailCalendar->cal_time_start[0] . "</td>
+            <td>" . $detailCalendar['cal_time_start'] . "</td>
         </tr>
         <tr class='odd'>
             <td valign='top' class='leftvalue'>" . $strings["time_end"] . " :</td>
-            <td>" . $detailCalendar->cal_time_end[0] . "</td>
+            <td>" . $detailCalendar['cal_time_end'] . "</td>
         </tr>
         <tr class='odd'>
             <td valign='top' class='leftvalue'>" . $strings["calendar_reminder"] . " :</td>
@@ -481,7 +511,7 @@ if ($type == "calendDetail") {
     $block1->closeForm();
 
     $block1->openPaletteScript();
-    if ($detailCalendar->cal_owner[0] == $idSession) {
+    if ($detailCalendar['cal_owner'] == $idSession) {
         $block1->paletteScript(0, "remove", "../calendar/deletecalendar.php?id=$dateEnreg", "true,true,true", $strings["delete"]);
         $block1->paletteScript(1, "edit", "../calendar/viewcalendar.php?id=$dateEnreg&type=calendEdit&dateCalend=$dateCalend", "true,true,true", $strings["edit"]);
     }
@@ -517,25 +547,23 @@ if ($type == "dayList") {
 
     $block1->sorting("calendar", $sortingUser->sor_calendar[0], "cal.date_end DESC", $sortingFields = array(0 => "cal.shortname", 1 => "cal.subject", 2 => "cal.date_start", 3 => "cal.date_end"));
 
-    $dayRecurr = _dayOfWeek(mktime(12, 12, 12, $month, $day, $year));
-    $tmpquery = "WHERE (cal.owner = '$idSession' AND ((cal.date_start <= '$dateCalend' AND cal.date_end >= '$dateCalend' AND cal.recurring = '0') OR ((cal.date_start <= '$dateCalend' AND cal.date_end >= '$dateCalend') AND cal.recurring = '1' AND cal.recur_day = '$dayRecurr'))) OR (cal.broadcast = '1' AND ((cal.date_start <= '$dateCalend' AND cal.date_end >= '$dateCalend' AND cal.recurring = '0') OR ((cal.date_start <= '$dateCalend' AND cal.date_end >= '$dateCalend') AND cal.recurring = '1' AND cal.recur_day = '$dayRecurr'))) ORDER BY cal.shortname";  //changed
-    //$tmpquery = "WHERE cal.owner = '$calId' AND cal.date_start <= '$dateCalend' AND cal.date_end >= '$dateCalend' ORDER BY $block1->sortingValue";
-    $listCalendar = new phpCollab\Request();
-    $listCalendar->openCalendar($tmpquery);
-    $comptListCalendar = count($listCalendar->cal_id);
+    $dayRecurr = phpCollab\Util::dayOfWeek(mktime(12, 12, 12, $month, $day, $year));
+
+    $listCalendar = $calendars->openCalendarDay($idSession, $dateCalend, $dayRecurr);
+    $comptListCalendar = count($listCalendar);
 
     if ($comptListCalendar != "0") {
         $block1->openResults();
 
         $block1->labels($labels = array(0 => $strings["shortname"], 1 => $strings["subject"], 2 => $strings["date_start"], 3 => $strings["date_end"]), "false");
 
-        for ($i = 0; $i < $comptListCalendar; $i++) {
+        foreach ($listCalendar as $item) {
             $block1->openRow();
-            $block1->checkboxRow($listCalendar->cal_id[$i]);
-            $block1->cellRow($blockPage->buildLink("../calendar/viewcalendar.php?$dateEnreg=" . $listCalendar->cal_id[$i] . "&type=calendDetail&dateCalend=$dateCalend", $listCalendar->cal_shortname[$i], in));
-            $block1->cellRow($listCalendar->cal_subject[$i]);
-            $block1->cellRow($listCalendar->cal_date_start[$i]);
-            $block1->cellRow($listCalendar->cal_date_end[$i]);
+            $block1->checkboxRow($item['cal_id']);
+            $block1->cellRow($blockPage->buildLink("../calendar/viewcalendar.php?$dateEnreg=" . $item['cal_id'] . "&type=calendDetail&dateCalend=$dateCalend", $item['cal_shortname'], in));
+            $block1->cellRow($item['cal_subject']);
+            $block1->cellRow($item['cal_date_start']);
+            $block1->cellRow($item['cal_date_end']);
             $block1->closeRow();
         }
 
@@ -551,7 +579,7 @@ if ($type == "dayList") {
     $block1->paletteScript(1, "remove", "../calendar/deletecalendar.php?", "false,true,true", $strings["delete"]);
     $block1->paletteScript(2, "info", "../calendar/viewcalendar.php?dateCalend=$dateCalend&type=calendDetail", "false,true,false", $strings["view"]);
     $block1->paletteScript(3, "edit", "../calendar/viewcalendar.php?dateCalend=$dateCalend&type=calendEdit", "false,true,false", $strings["edit"]);
-    $block1->closePaletteScript($comptListCalendar, $listCalendar->cal_id);
+    $block1->closePaletteScript($comptListCalendar, $listCalendar['cal_id']);
 }
 
 if ($type == "monthPreview") {
@@ -560,7 +588,10 @@ if ($type == "monthPreview") {
     $blockPage->itemBreadcrumbs("$monthName $year");
     $blockPage->closeBreadcrumbs();
 
-    // include('memlist.php');
+    if ($msg != "") {
+        include '../includes/messages.php';
+        $blockPage->messageBox($msgLabel);
+    }
 
     $block2 = new phpCollab\Block();
 
@@ -575,18 +606,15 @@ if ($type == "monthPreview") {
     //  Print the calendar
     echo "<tr>";
 
-    $tmpquery = "WHERE tas.assigned_to = '$idSession' ORDER BY tas.name";
-    $listTasks = new phpCollab\Request();
-    $listTasks->openTasks($tmpquery);
-    $comptListTasks = count($listTasks->tas_id);
+    $listTasks = $tasks->getMyTasks($idSession, 'tas.name');
+    $comptListTasks = count($listTasks);
 
-    $tmpquery = "WHERE subtas.assigned_to = '$idSession' ORDER BY subtas.name"; //Leave as calId
-    $listSubtasks = new phpCollab\Request();
-    $listSubtasks->openSubtasks($tmpquery);
-    $comptListSubtasks = count($listSubtasks->subtas_id);
+    $listSubtasks = $tasks->getSubtasksAssignedToMe($idSession, 'subtas.name');
+    $comptListSubtasks = count($listSubtasks);
+
     $comptListCalendarScan = "0";
-    for ($g = 0; $g < $comptListTasks; $g++) {
-        if (substr($listTasks->tas_start_date[$g], 0, 7) == substr($dateCalend, 0, 7)) {
+    foreach ($listTasks as $task) {
+        if (substr($task['tas_start_date'], 0, 7) == substr($dateCalend, 0, 7)) {
             $gantt = "true";
         }
     }
@@ -611,12 +639,11 @@ if ($type == "monthPreview") {
 
         $dateLink = "$year-$month-$a";
         $todayClass = "";
-        $dayRecurr = _dayOfWeek(mktime(12, 12, 12, $month, $a, $year));
+        $dayRecurr = phpCollab\Util::dayOfWeek(mktime(12, 12, 12, $month, $a, $year));
 
-        $tmpquery = "WHERE (cal.owner = '$idSession' AND ((cal.date_start <= '$dateLink' AND cal.date_end >= '$dateLink' AND cal.recurring = '0') OR ((cal.date_start <= '$dateLink' AND cal.date_end <= '$dateLink') AND cal.recurring = '1' AND cal.recur_day = '$dayRecurr'))) OR (cal.broadcast = '1' AND ((cal.date_start <= '$dateLink' AND cal.date_end >= '$dateLink' AND cal.recurring = '0') OR ((cal.date_start <= '$dateLink' AND cal.date_end <= '$dateLink') AND cal.recurring = '1' AND cal.recur_day = '$dayRecurr'))) ORDER BY cal.shortname";
-        $listCalendarScan = new phpCollab\Request();
-        $listCalendarScan->openCalendar($tmpquery);
-        $comptListCalendarScan = count($listCalendarScan->cal_id);
+        $listCalendarScan = $calendars->openCalendarMonth($idSession, $dateLink, $dayRecurr);
+
+        $comptListCalendarScan = count($listCalendarScan);
 
         if (($i < $firstday) || ($a == "00")) {
             echo "<td width='14%' class='even'>&nbsp;</td>";
@@ -628,72 +655,70 @@ if ($type == "monthPreview") {
             }
 
             echo "<td width='14%' align='left' valign='top' class='$classCell' onmouseover=\"this.style.backgroundColor='" . $block2->getHighlightOn() . "'\" onmouseout=\"this.style.backgroundColor='" . $highlightOff . "'\"><div align='right'>" . $blockPage->buildLink("../calendar/viewcalendar.php?dateCalend=$dateLink&type=dayList", $day, in) . "</div>";
-
             if ($comptListCalendarScan != "0") {
-                for ($h = 0; $h < $comptListCalendarScan; $h++) {
-                    // echo $blockPage->buildLink("../calendar/viewcalendar.php?dateEnreg=".$listCalendarScan->cal_id[$h]."&type=calendDetail&dateCalend=$dateLink",$listCalendarScan->cal_shortname[$h],in)."<br/>";
-                    if ($listCalendarScan->cal_broadcast[$h] == "0" && $listCalendarScan->cal_owner[$h] == $idSession) {
-                        echo "<div align='center' class='calendar-regular-event'><a href='../calendar/viewcalendar.php?dateEnreg=" . $listCalendarScan->cal_id[$h] . "&type=calendDetail&dateCalend=$dateLink' class='calendar-regular-todo-event'>" . $listCalendarScan->cal_shortname[$h] . "</a></div>";
-                    } else if ($listCalendarScan->cal_broadcast[$h] != "0" && $listCalendarScan->cal_owner[$h] == $idSession) {
-                        echo "<div align='center' class='calendar-regular-event'><a href='../calendar/viewcalendar.php?dateEnreg=" . $listCalendarScan->cal_id[$h] . "&type=calendDetail&dateCalend=$dateLink' class='calendar-regular-todo-event'><b>" . $listCalendarScan->cal_shortname[$h] . "</b></a></div>";
+                foreach ($listCalendarScan as $calendar) {
+                    if ($calendar['cal_broadcast'] == "0" && $calendar['cal_owner'] == $idSession) {
+                        echo "<div align='center' class='calendar-regular-event'><a href='../calendar/viewcalendar.php?dateEnreg=" . $calendar['cal_id'] . "&type=calendDetail&dateCalend=$dateLink' class='calendar-regular-todo-event'>" . $calendar['cal_shortname'] . "</a></div>";
+                    } else if ($calendar['cal_broadcast'] != "0" && $calendar['cal_owner'] == $idSession) {
+                        echo "<div align='center' class='calendar-regular-event'><a href='../calendar/viewcalendar.php?dateEnreg=" . $calendar['cal_id'] . "&type=calendDetail&dateCalend=$dateLink' class='calendar-regular-todo-event'><b>" . $calendar['cal_shortname'] . "</b></a></div>";
                     } else {
-                        echo "<div align='center' class='calendar-broadcast-event'><a href='../calendar/viewcalendar.php?dateEnreg=" . $listCalendarScan->cal_id[$h] . "&type=calendDetail&dateCalend=$dateLink' class='calendar-broadcast-todo-event'><b>" . $listCalendarScan->cal_shortname[$h] . "</b></a></div>";
+                        echo "<div align='center' class='calendar-broadcast-event'><a href='../calendar/viewcalendar.php?dateEnreg=" . $calendar['cal_id'] . "&type=calendDetail&dateCalend=$dateLink' class='calendar-broadcast-todo-event'><b>" . $calendar['cal_shortname'] . "</b></a></div>";
                     }
                 }
             }
 
             if ($comptListTasks != "0") {
-                for ($h = 0; $h < $comptListTasks; $h++) {
-                    $idPriority = $listTasks->tas_priority[$h];
+                foreach ($listTasks as $task) {
+                    $idPriority = $task['tas_priority'];
 
-                    if ($listTasks->tas_status[$h] == "3" || $listTasks->tas_status[$h] == "2") {
-                        if ($listTasks->tas_start_date[$h] == $dateLink && $listTasks->tas_start_date[$h] != $listTasks->tas_due_date[$h]) {
+                    if ($task['tas_status'] == "3" || $task['tas_status'] == "2") {
+                        if ($task['tas_start_date'] == $dateLink && $task['tas_start_date'] != $task['tas_due_date']) {
                             echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["task"] . "</b>: ";
-                            echo "<a href='../tasks/viewtask.php?id=" . $listTasks->tas_id[$h] . "' class='calendar-results-start-date'>" . $listTasks->tas_name[$h] . "</a><br /><br />";
+                            echo "<a href='../tasks/viewtask.php?id=" . $task['tas_id'] . "' class='calendar-results-start-date'>" . $task['tas_name'] . "</a><br /><br />";
                         }
 
-                        if ($listTasks->tas_due_date[$h] == $dateLink && $listTasks->tas_start_date[$h] != $listTasks->tas_due_date[$h]) {
+                        if ($task['tas_due_date'] == $dateLink && $task['tas_start_date'] != $task['tas_due_date']) {
 
-                            if ($listTasks->tas_due_date[$h] <= $date && $listTasks->tas_completion[$h] != "10") {
+                            if ($task['tas_due_date'] <= $date && $task['tas_completion'] != "10") {
                                 echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["task"] . "</b>: ";
-                                echo "<a href='../tasks/viewtask.php?id=" . $listTasks->tas_id[$h] . "' class='calendar-results-due-date'><b>" . $listTasks->tas_name[$h] . "</b></a><br /><br />";
+                                echo "<a href='../tasks/viewtask.php?id=" . $task['tas_id'] . "' class='calendar-results-due-date'><b>" . $task['tas_name'] . "</b></a><br /><br />";
                             } else {
                                 echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["task"] . "</b>: ";
-                                echo "<a href='../tasks/viewtask.php?id=" . $listTasks->tas_id[$h] . "' class='calendar-results-due-date'>" . $listTasks->tas_name[$h] . "</a><br /><br />";
+                                echo "<a href='../tasks/viewtask.php?id=" . $task['tas_id'] . "' class='calendar-results-due-date'>" . $task['tas_name'] . "</a><br /><br />";
                             }
                         }
 
-                        if ($listTasks->tas_start_date[$h] == $dateLink && $listTasks->tas_due_date[$h] == $dateLink) {
+                        if ($task['tas_start_date'] == $dateLink && $task['tas_due_date'] == $dateLink) {
 
-                            if ($listTasks->tas_due_date[$h] <= $date && $listTasks->tas_completion[$h] != "10") {
+                            if ($task['tas_due_date'] <= $date && $task['tas_completion'] != "10") {
                                 echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["task"] . "</b>: ";
-                                echo "<a href='../tasks/viewtask.php?id=" . $listTasks->tas_id[$h] . "' class='calendar-results-due-date'><b>" . $listTasks->tas_name[$h] . "</b></a><br /><br />";
+                                echo "<a href='../tasks/viewtask.php?id=" . $task['tas_id'] . "' class='calendar-results-due-date'><b>" . $task['tas_name'] . "</b></a><br /><br />";
                             } else {
                                 echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["task"] . "</b>: ";
-                                echo "<a href='../tasks/viewtask.php?id=" . $listTasks->tas_id[$h] . "' class='calendar-results-due-date'>" . $listTasks->tas_name[$h] . "</a><br /><br />";
+                                echo "<a href='../tasks/viewtask.php?id=" . $task['tas_id'] . "' class='calendar-results-due-date'>" . $task['tas_name'] . "</a><br /><br />";
                             }
                         }
 
                     } else {
 
-                        if ($listTasks->tas_start_date[$h] == $dateLink && $listTasks->tas_start_date[$h] != $listTasks->tas_due_date[$h]) {
-                            echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $listTasks->tas_id[$h], $listTasks->tas_name[$h], in) . " (" . $strings["start_date"] . ")<br/>";
+                        if ($task['tas_start_date'] == $dateLink && $task['tas_start_date'] != $task['tas_due_date']) {
+                            echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $task['tas_id'], $task['tas_name'], in) . " (" . $strings["start_date"] . ")<br/>";
                         }
 
-                        if ($listTasks->tas_due_date[$h] == $dateLink && $listTasks->tas_start_date[$h] != $listTasks->tas_due_date[$h]) {
-                            if ($listTasks->tas_due_date[$h] <= $date && $listTasks->tas_completion[$h] != "10") {
-                                echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $listTasks->tas_id[$h], "<b>" . $listTasks->tas_name[$h] . "</b>", in) . " (" . $strings["due_date"] . ")<br/>";
+                        if ($task['tas_due_date'] == $dateLink && $task['tas_start_date'] != $task['tas_due_date']) {
+                            if ($task['tas_due_date'] <= $date && $task['tas_completion'] != "10") {
+                                echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $task['tas_id'], "<b>" . $task['tas_name'] . "</b>", in) . " (" . $strings["due_date"] . ")<br/>";
                             } else {
-                                echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $listTasks->tas_id[$h], $listTasks->tas_name[$h], in) . " (" . $strings["due_date"] . ")<br/>";
+                                echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $task['tas_id'], $task['tas_name'], in) . " (" . $strings["due_date"] . ")<br/>";
                             }
                         }
 
-                        if ($listTasks->tas_start_date[$h] == $dateLink && $listTasks->tas_due_date[$h] == $dateLink) {
+                        if ($task['tas_start_date'] == $dateLink && $task['tas_due_date'] == $dateLink) {
 
-                            if ($listTasks->tas_due_date[$h] <= $date && $listTasks->tas_completion[$h] != "10") {
-                                echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $listTasks->tas_id[$h], "<b>" . $listTasks->tas_name[$h] . "</b>", in) . "<br/>";
+                            if ($task['tas_due_date'] <= $date && $task['tas_completion'] != "10") {
+                                echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $task['tas_id'], "<b>" . $task['tas_name'] . "</b>", in) . "<br/>";
                             } else {
-                                echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $listTasks->tas_id[$h], $listTasks->tas_name[$h], in) . "<br/>";
+                                echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $task['tas_id'], $task['tas_name'], in) . "<br/>";
 
                             }
                         }
@@ -704,56 +729,56 @@ if ($type == "monthPreview") {
 
             if ($comptListSubtasks != "0") {
 
-                for ($h = 0; $h < $comptListSubtasks; $h++) {
-                    $idPriority = $listSubtasks->subtas_priority[$h];
+                foreach ($listSubtasks as $subtask) {
+                    $idPriority = $subtask['subtas_priority'];
 
-                    if ($listSubtasks->subtas_status[$h] == "3" || $listSubtasks->subtas_status[$h] == "2") {
-                        if ($listSubtasks->subtas_start_date[$h] == $dateLink && $listSubtasks->subtas_start_date[$h] != $listSubtasks->subtas_due_date[$h]) {
+                    if ($subtask['subtas_status'] == "3" || $subtask['subtas_status'] == "2") {
+                        if ($subtask['subtas_start_date'] == $dateLink && $subtask['subtas_start_date'] != $subtask['subtas_due_date']) {
                             echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["subtask"] . "</b>: ";
-                            echo "<a href='../subtasks/viewsubtask.php?id=" . $listSubtasks->subtas_id[$h] . "&task=" . $listSubtasks->subtas_task[$h] . "' class='calendar-results-start-date'>" . $listSubtasks->subtas_name[$h] . "</a><br /><br />";
+                            echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "' class='calendar-results-start-date'>" . $subtask['subtas_name'] . "</a><br /><br />";
                         }
 
-                        if ($listSubtasks->subtas_due_date[$h] == $dateLink && $listSubtasks->subtas_start_date[$h] != $listSubtasks->subtas_due_date[$h]) {
+                        if ($subtask['subtas_due_date'] == $dateLink && $subtask['subtas_start_date'] != $subtask['subtas_due_date']) {
                             echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["subtask"] . "</b>: ";
-                            if ($listSubtasks->subtas_due_date[$h] <= $date && $listSubtasks->subtas_completion[$h] != "10") {
-                                echo "<a href='../subtasks/viewsubtask.php?id=" . $listSubtasks->subtas_id[$h] . "&task=" . $listSubtasks->subtas_task[$h] . "' class='calendar-results-due-date'><b>" . $listSubtasks->subtas_name[$h] . "</b></a><br /><br />";
+                            if ($subtask['subtas_due_date'] <= $date && $subtask['subtas_completion'] != "10") {
+                                echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "' class='calendar-results-due-date'><b>" . $subtask['subtas_name'] . "</b></a><br /><br />";
                             } else {
-                                echo "<a href='../subtasks/viewsubtask.php?id=" . $listSubtasks->subtas_id[$h] . "&task=" . $listSubtasks->subtas_task[$h] . "' class='calendar-results-due-date'>" . $listSubtasks->subtas_name[$h] . "</a><br /><br />";
+                                echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "' class='calendar-results-due-date'>" . $subtask['subtas_name'] . "</a><br /><br />";
                             }
                         }
 
-                        if ($listSubtasks->subtas_start_date[$h] == $dateLink && $listSubtasks->subtas_due_date[$h] == $dateLink) {
+                        if ($subtask['subtas_start_date'] == $dateLink && $subtask['subtas_due_date'] == $dateLink) {
                             echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["subtask"] . "</b>: ";
 
-                            if ($listSubtasks->subtas_due_date[$h] <= $date && $listSubtasks->subtas_completion[$h] != "10") {
-                                echo "<a href='../subtasks/viewsubtask.php?id=" . $listSubtasks->subtas_id[$h] . "&task=" . $listSubtasks->subtas_task[$h] . "' class='calendar-results-due-date'><b>" . $listSubtasks->subtas_name[$h] . "</b></a><br /><br />";
+                            if ($subtask['subtas_due_date'] <= $date && $subtask['subtas_completion'] != "10") {
+                                echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "' class='calendar-results-due-date'><b>" . $subtask['subtas_name'] . "</b></a><br /><br />";
                             } else {
-                                echo "<a href='../subtasks/viewsubtask.php?id=" . $listSubtasks->subtas_id[$h] . "&task=" . $listSubtasks->subtas_task[$h] . "' class='calendar-results-due-date'>" . $listSubtasks->subtas_name[$h] . "</a><br /><br />";
+                                echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "' class='calendar-results-due-date'>" . $subtask['subtas_name'] . "</a><br /><br />";
                             }
                         }
                     } else {
-                        if ($listSubtasks->subtas_start_date[$h] == $dateLink && $listSubtasks->subtas_start_date[$h] != $listSubtasks->subtas_due_date[$h]) {
+                        if ($subtask['subtas_start_date'] == $dateLink && $subtask['subtas_start_date'] != $subtask['subtas_due_date']) {
                             echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["subtask"] . "</b>: ";
-                            echo "<a href='../subtasks/viewsubtask.php?id=" . $listSubtasks->subtas_id[$h] . "&task=" . $listSubtasks->subtas_task[$h] . "'>" . $listSubtasks->subtas_name[$h] . "</a><br /><br />";
+                            echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "'>" . $subtask['subtas_name'] . "</a><br /><br />";
                         }
 
-                        if ($listSubtasks->subtas_due_date[$h] == $dateLink && $listSubtasks->subtas_start_date[$h] != $listSubtasks->subtas_due_date[$h]) {
+                        if ($subtask['subtas_due_date'] == $dateLink && $subtask['subtas_start_date'] != $subtask['subtas_due_date']) {
                             echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["subtask"] . "</b>: ";
 
-                            if ($listSubtasks->subtas_due_date[$h] <= $date && $listSubtasks->subtas_completion[$h] != "10") {
-                                echo "<a href='../subtasks/viewsubtask.php?id=" . $listSubtasks->subtas_id[$h] . "&task=" . $listSubtasks->subtas_task[$h] . "'><b>" . $listSubtasks->subtas_name[$h] . "</b></a><br /><br />";
+                            if ($subtask['subtas_due_date'] <= $date && $subtask['subtas_completion'] != "10") {
+                                echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "'><b>" . $subtask['subtas_name'] . "</b></a><br /><br />";
                             } else {
-                                echo "<a href='../subtasks/viewsubtask.php?id=" . $listSubtasks->subtas_id[$h] . "&task=" . $listSubtasks->subtas_task[$h] . "'>" . $listSubtasks->subtas_name[$h] . "</a><br /><br />";
+                                echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "'>" . $subtask['subtas_name'] . "</a><br /><br />";
                             }
                         }
 
-                        if ($listSubtasks->subtas_start_date[$h] == $dateLink && $listSubtasks->subtas_due_date[$h] == $dateLink) {
+                        if ($subtask['subtas_start_date'] == $dateLink && $subtask['subtas_due_date'] == $dateLink) {
                             echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["subtask"] . "</b>: ";
 
-                            if ($listSubtasks->subtas_due_date[$h] <= $date && $listSubtasks->subtas_completion[$h] != "10") {
-                                echo "<a href='../subtasks/viewsubtask.php?id=" . $listSubtasks->subtas_id[$h] . "&task=" . $listSubtasks->subtas_task[$h] . "'><b>" . $listSubtasks->subtas_name[$h] . "</b></a><br /><br />";
+                            if ($subtask['subtas_due_date'] <= $date && $subtask['subtas_completion'] != "10") {
+                                echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "'><b>" . $subtask['subtas_name'] . "</b></a><br /><br />";
                             } else {
-                                echo "<a href='../subtasks/viewsubtask.php?id=" . $listSubtasks->subtas_id[$h] . "&task=" . $listSubtasks->subtas_task[$h] . "'>" . $listSubtasks->subtas_name[$h] . "</a><br /><br />";
+                                echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "'>" . $subtask['subtas_name'] . "</a><br /><br />";
                             }
                         }
                     }
@@ -772,7 +797,6 @@ if ($type == "monthPreview") {
             echo "</tr>\n";
         }
     }
-
 
     if ($colsremain != "7") {
         for ($j = 0; $j < $colsremain; $j++) {
@@ -840,4 +864,3 @@ if ($type == "monthPreview") {
 }
 
 include '../themes/' . THEME . '/footer.php';
-?>
