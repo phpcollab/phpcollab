@@ -28,15 +28,24 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-if ($action == "delete") {
-	$id = str_replace("**",",",$id);
-	$tmpquery1 = "DELETE FROM ".$tableCollab["calendar"]." WHERE id IN($id)";
-	phpCollab\Util::connectSql("$tmpquery1");
+global $strings;
+
+$calendars = new \phpCollab\Calendars\Calendars();
+
+if ($_GET['action'] == "delete") {
+	$id = str_replace("**",",",$_GET['id']);
+
+	try {
+	    $delete = $calendars->deleteCalendar($id);
+    } catch (\Exception $e) {
+        echo "Error: $e";
+    }
+
 	phpCollab\Util::headerFunction("../calendar/viewcalendar.php?msg=delete");
 }
 
 $setTitle .= " : Delete Calendar";
-if (strpos($id, "**") !== false) {
+if (strpos($_GET['id'], "**") !== false) {
     $setTitle .= " Entries";
 } else { 
     $setTitle .= " Entry";
@@ -46,7 +55,7 @@ include '../themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?",$strings["calendar"],in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?",$strings["calendar"],'in'));
 $blockPage->itemBreadcrumbs($strings["delete"]);
 $blockPage->closeBreadcrumbs();
 
@@ -66,19 +75,28 @@ $block1->openContent();
 $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**",",",$id);
-$tmpquery = "WHERE cal.id IN($id) ORDER BY cal.subject";
-$listCalendar = new phpCollab\Request();
-$listCalendar->openCalendar($tmpquery);
-$comptListCalendar = count($listCalendar->cal_id);
 
-for ($i=0;$i<$comptListCalendar;$i++) {
-echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">#".$listCalendar->cal_id[$i]."</td><td>".$listCalendar->cal_shortname[$i]."</td></tr>";
+$listCalendar = $calendars->openCalendarById($id);
+
+echo "<h3>Calendar:</h3>";
+
+foreach ($listCalendar as $item) {
+echo <<<ROW
+<tr class="odd">
+<td valign="top" class="leftvalue">#{$item['cal_id']}</td>
+<td>{$item['cal_shortname']}</td>
+</tr>
+ROW;
 }
 
-echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td><input type=\"submit\" name=\"delete\" value=\"".$strings["delete"]."\"> <input type=\"button\" name=\"cancel\" value=\"".$strings["cancel"]."\" onClick=\"history.back();\"></td></tr>";
+echo <<<ROW
+<tr class="odd">
+  <td valign="top" class="leftvalue">&nbsp;</td>
+  <td><input type="submit" name="delete" value="{$strings["delete"]}"> <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();"></td>
+</tr>
+ROW;
 
 $block1->closeContent();
 $block1->closeForm();
 
 include '../themes/'.THEME.'/footer.php';
-?>
