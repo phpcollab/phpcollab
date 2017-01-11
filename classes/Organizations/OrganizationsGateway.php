@@ -101,6 +101,18 @@ class OrganizationsGateway
         return $this->db->resultset();
     }
 
+    public function getOrgByIdAndOwner($orgId, $ownerId)
+    {
+        $whereStatement = ' WHERE org.owner = :owner_id AND org.id = :org_id';
+
+        $this->db->query($this->initrequest["organizations"] . $whereStatement);
+
+        $this->db->bind(':owner_id', $ownerId);
+        $this->db->bind(':org_id', $orgId);
+
+        return $this->db->resultset();
+    }
+
     /**
      * @param $clientId
      * @return mixed

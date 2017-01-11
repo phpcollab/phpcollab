@@ -74,6 +74,29 @@ class Organizations
     }
 
     /**
+     * @param $orgId
+     * @return mixed
+     */
+    public function getOrganizationById($orgId)
+    {
+        $orgId = filter_var($orgId, FILTER_VALIDATE_INT);
+
+        $data = $this->organizations_gateway->getClientById($orgId);
+
+        return $data;
+
+    }
+
+    public function getOrganizationByIdAndOwner($orgId, $ownerId) {
+        $orgId = filter_var($orgId, FILTER_VALIDATE_INT);
+        $ownerId = filter_var($ownerId, FILTER_VALIDATE_INT);
+
+        $data = $this->organizations_gateway->getOrgByIdAndOwner($orgId, $ownerId);
+
+        return $data;
+    }
+
+    /**
      * @param $clientId
      * @return mixed
      * @throws Exception

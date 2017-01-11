@@ -28,39 +28,37 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
+$teams = new \phpCollab\Teams\Teams();
+$orgs = new \phpCollab\Organizations\Organizations();
+
 if ($clientsFilter == "true" && $profilSession == "2") {
     $teamMember = "false";
-    $tmpquery = "WHERE tea.member = '$idSession' AND org2.id = '$id'";
-    $memberTest = new phpCollab\Request();
-    $memberTest->openTeams($tmpquery);
-    $comptMemberTest = count($memberTest->tea_id);
-    if ($comptMemberTest == "0") {
+
+    $memberTest = $teams->getTeamByTeamMemberAndOrgId($idSession, $id);
+
+    if (count($memberTest) == "0") {
         phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
     } else {
-        $tmpquery = "WHERE org.id = '$id'";
+        $clientDetail = $orgs->getOrganizationById($id);
     }
 } else if ($clientsFilter == "true" && $profilSession == "1") {
-    $tmpquery = "WHERE org.owner = '$idSession' AND org.id = '$id'";
+    $clientDetail = $orgs->getOrganizationByIdAndOwner($id, $idSession);
 } else {
-    $tmpquery = "WHERE org.id = '$id'";
+    $clientDetail = $orgs->getOrganizationById($id);
 }
 
-$clientDetail = new phpCollab\Request();
-$clientDetail->openOrganizations($tmpquery);
-$comptClientDetail = count($clientDetail->org_id);
-
-if ($comptClientDetail == "0") {
+if (empty($clientDetail)) {
     phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
 }
 
-$setTitle .= " : View Client (" . $clientDetail->org_name[0] . ")";
+$setTitle .= " : View Client (" . $clientDetail['org_name'] . ")";
 
 include '../themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?", $strings["clients"], in));
-$blockPage->itemBreadcrumbs($clientDetail->org_name[0]);
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?", $strings["clients"], 'in'));
+$blockPage->itemBreadcrumbs($clientDetail['org_name']);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
@@ -73,7 +71,7 @@ $block1 = new phpCollab\Block();
 $block1->form = "ecD";
 $block1->openForm("../projects/listprojects.php#" . $block1->form . "Anchor");
 
-$block1->heading($strings["organization"] . " : " . $clientDetail->org_name[0]);
+$block1->heading($strings["organization"] . " : " . $clientDetail['org_name']);
 
 if ($profilSession == "0" || $profilSession == "1") {
     $block1->openPaletteIcon();
@@ -87,20 +85,20 @@ $block1->openContent();
 $block1->contentTitle($strings["details"]);
 
 if ($clientsFilter == "true") {
-    $block1->contentRow($strings["owner"], $blockPage->buildLink("../users/viewuser.php?id=" . $clientDetail->org_mem_id[0], $clientDetail->org_mem_name[0], in) . " (" . $blockPage->buildLink($clientDetail->org_mem_email_work[0], $clientDetail->org_mem_login[0], mail) . ")");
+    $block1->contentRow($strings["owner"], $blockPage->buildLink("../users/viewuser.php?id=" . $clientDetail['org_mem_id'], $clientDetail['org_mem_name'], in) . " (" . $blockPage->buildLink($clientDetail['org_mem_email_work'], $clientDetail['org_mem_login'], 'mail') . ")");
 }
-$block1->contentRow($strings["name"], $clientDetail->org_name[0]);
-$block1->contentRow($strings["address"], $clientDetail->org_address1[0]);
-$block1->contentRow($strings["phone"], $clientDetail->org_phone[0]);
-$block1->contentRow($strings["url"], $blockPage->buildLink($clientDetail->org_url[0], $clientDetail->org_url[0], out));
-$block1->contentRow($strings["email"], $blockPage->buildLink($clientDetail->org_email[0], $clientDetail->org_email[0], mail));
-$block1->contentRow($strings["comments"], nl2br($clientDetail->org_comments[0]));
+$block1->contentRow($strings["name"], $clientDetail['org_name']);
+$block1->contentRow($strings["address"], $clientDetail['org_address1']);
+$block1->contentRow($strings["phone"], $clientDetail['org_phone']);
+$block1->contentRow($strings["url"], $blockPage->buildLink($clientDetail['org_url'], $clientDetail['org_url'], 'out'));
+$block1->contentRow($strings["email"], $blockPage->buildLink($clientDetail['org_email'], $clientDetail['org_email'], 'mail'));
+$block1->contentRow($strings["comments"], nl2br($clientDetail['org_comments']));
 if ($enableInvoicing == "true" && ($profilSession == "1" || $profilSession == "0" || $profilSession == "5")) {
-    $block1->contentRow($strings["hourly_rate"], $clientDetail->org_hourly_rate[0]);
+    $block1->contentRow($strings["hourly_rate"], $clientDetail['org_hourly_rate']);
 }
-$block1->contentRow($strings["created"], phpCollab\Util::createDate($clientDetail->org_created[0], $timezoneSession));
-if (file_exists("../logos_clients/" . $id . "." . $clientDetail->org_extension_logo[0])) {
-    $block1->contentRow($strings["logo"], "<img src=\"../logos_clients/" . $id . "." . $clientDetail->org_extension_logo[0] . "\">");
+$block1->contentRow($strings["created"], phpCollab\Util::createDate($clientDetail['org_created'], $timezoneSession));
+if (file_exists("../logos_clients/" . $id . "." . $clientDetail['org_extension_logo'])) {
+    $block1->contentRow($strings["logo"], "<img src=\"../logos_clients/" . $id . "." . $clientDetail['org_extension_logo'] . "\">");
 }
 
 $block1->closeContent();
@@ -108,9 +106,9 @@ $block1->closeForm();
 
 if ($profilSession == "0" || $profilSession == "1") {
     $block1->openPaletteScript();
-    $block1->paletteScript(0, "remove", "../clients/deleteclients.php?id=" . $clientDetail->org_id[0] . "", "true,true,false", $strings["delete"]);
-    $block1->paletteScript(1, "edit", "../clients/editclient.php?id=" . $clientDetail->org_id[0] . "", "true,true,false", $strings["edit"]);
-    $block1->paletteScript(2, "invoicing", "../invoicing/listinvoices.php?client=" . $clientDetail->org_id[0] . "", "true,true,false", $strings["invoicing"]);
+    $block1->paletteScript(0, "remove", "../clients/deleteclients.php?id=" . $clientDetail['org_id'] . "", "true,true,false", $strings["delete"]);
+    $block1->paletteScript(1, "edit", "../clients/editclient.php?id=" . $clientDetail['org_id'] . "", "true,true,false", $strings["edit"]);
+    $block1->paletteScript(2, "invoicing", "../invoicing/listinvoices.php?client=" . $clientDetail['org_id'] . "", "true,true,false", $strings["invoicing"]);
     $block1->closePaletteScript("", "");
 }
 
@@ -140,9 +138,9 @@ $block2->sorting("organization_projects", $sortingUser->sor_organization_project
 
 if ($projectsFilter == "true") {
     $tmpquery = "LEFT OUTER JOIN " . $tableCollab["teams"] . " teams ON teams.project = pro.id ";
-    $tmpquery .= "WHERE pro.organization = '" . $clientDetail->org_id[0] . "' AND teams.member = '$idSession' ORDER BY $block2->sortingValue";
+    $tmpquery .= "WHERE pro.organization = '" . $clientDetail['org_id'] . "' AND teams.member = '$idSession' ORDER BY $block2->sortingValue";
 } else {
-    $tmpquery = "WHERE pro.organization = '" . $clientDetail->org_id[0] . "' ORDER BY $block2->sortingValue";
+    $tmpquery = "WHERE pro.organization = '" . $clientDetail['org_id'] . "' ORDER BY $block2->sortingValue";
 }
 $listProjects = new phpCollab\Request();
 $listProjects->openProjects($tmpquery);
@@ -158,16 +156,16 @@ if ($comptListProjects != "0") {
         $idPriority = $listProjects->pro_priority[$i];
         $block2->openRow();
         $block2->checkboxRow($listProjects->pro_id[$i]);
-        $block2->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listProjects->pro_id[$i], $listProjects->pro_id[$i], in));
-        $block2->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listProjects->pro_id[$i], $listProjects->pro_name[$i], in));
+        $block2->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listProjects->pro_id[$i], $listProjects->pro_id[$i], 'in'));
+        $block2->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listProjects->pro_id[$i], $listProjects->pro_name[$i], 'in'));
         $block1->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
         $block2->cellRow($status[$idStatus]);
-        $block2->cellRow($blockPage->buildLink($listProjects->pro_mem_email_work[$i], $listProjects->pro_mem_login[$i], mail));
+        $block2->cellRow($blockPage->buildLink($listProjects->pro_mem_email_work[$i], $listProjects->pro_mem_login[$i], 'mail'));
         if ($sitePublish == "true") {
             if ($listProjects->pro_published[$i] == "1") {
-                $block2->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $listProjects->pro_id[$i], $strings["create"] . "...", in) . "&gt;");
+                $block2->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $listProjects->pro_id[$i], $strings["create"] . "...", 'in') . "&gt;");
             } else {
-                $block2->cellRow("&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=" . $listProjects->pro_id[$i], $strings["details"], in) . "&gt;");
+                $block2->cellRow("&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=" . $listProjects->pro_id[$i], $strings["details"], 'in') . "&gt;");
             }
         }
     }
@@ -180,7 +178,7 @@ $block2->closeFormResults();
 
 $block2->openPaletteScript();
 if ($profilSession == "0" || $profilSession == "1") {
-    $block2->paletteScript(0, "add", "../projects/editproject.php?organization=" . $clientDetail->org_id[0] . "", "true,false,false", $strings["add"]);
+    $block2->paletteScript(0, "add", "../projects/editproject.php?organization=" . $clientDetail['org_id'] . "", "true,false,false", $strings["add"]);
     $block2->paletteScript(1, "remove", "../projects/deleteproject.php?", "false,true,false", $strings["delete"]);
 }
 $block2->paletteScript(2, "info", "../projects/viewproject.php?", "false,true,false", $strings["view"]);
@@ -226,9 +224,9 @@ if ($comptListMembers != "0") {
     for ($i = 0; $i < $comptListMembers; $i++) {
         $block3->openRow();
         $block3->checkboxRow($listMembers->mem_id[$i]);
-        $block3->cellRow($blockPage->buildLink("../users/viewclientuser.php?id=" . $listMembers->mem_id[$i] . "&organization=$id", $listMembers->mem_name[$i], in));
+        $block3->cellRow($blockPage->buildLink("../users/viewclientuser.php?id=" . $listMembers->mem_id[$i] . "&organization=$id", $listMembers->mem_name[$i], 'in'));
         $block3->cellRow($listMembers->mem_login[$i]);
-        $block3->cellRow($blockPage->buildLink($listMembers->mem_email_work[$i], $listMembers->mem_email_work[$i], mail));
+        $block3->cellRow($blockPage->buildLink($listMembers->mem_email_work[$i], $listMembers->mem_email_work[$i], 'mail'));
         $block3->cellRow($listMembers->mem_phone_work[$i]);
 
         $z = "(Client on project site)";
