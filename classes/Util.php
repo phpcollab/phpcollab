@@ -421,10 +421,10 @@ class Util
             # if there is no project dir first create it
             $path_info = pathinfo($path);
             if ($path != 'files/' . $path_info['basename']) {
-                \phpCollab\Util::createDirectory($path_info['dirname']);
-                \phpCollab\Util::createDirectory($path);
+                Util::createDirectory($path_info['dirname']);
+                Util::createDirectory($path);
             } else {
-                \phpCollab\Util::createDirectory($path);
+                Util::createDirectory($path);
             }
         }
 
@@ -986,7 +986,7 @@ class Util
             $dbParams['project_name'] = $prj_name;
             $dbParams['project_id'] = $prj_id;
 
-            $ad = Util::newConnectSql($tmpquery5, $dbParams);
+            Util::newConnectSql($tmpquery5, $dbParams);
             unset($dbParams);
         }
 
@@ -1009,13 +1009,14 @@ class Util
         $avg = $subtaskList->tas_avg[0];
         settype($avg, "integer");
         $tmpquery6 = "UPDATE {$tableTask} set completion = $avg where id='$taskid'";
-        \phpCollab\Util::connectSql($tmpquery6);
+        Util::connectSql($tmpquery6);
     }
 
     /**
      * check a file name and remove backslash and spaces
      * this function remove also the file path if IE is used for upload
      * @param string $name the name of the file
+     * @return mixed|string
      */
     public static function checkFileName($name = '')
     {
