@@ -30,6 +30,15 @@ class Members
         return $data;
     }
 
+    public function getMembersByOrg($orgId, $sorting) {
+        $orgId = filter_var($orgId, FILTER_VALIDATE_INT);
+        $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
+
+        $data = $this->members_gateway->getAllByOrg($orgId, $sorting);
+
+        return $data;
+    }
+
     public function getAllMembers() {
         $data = $this->members_gateway->getAllMembers();
 

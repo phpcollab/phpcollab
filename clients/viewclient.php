@@ -31,6 +31,7 @@ include_once '../includes/library.php';
 $teams = new \phpCollab\Teams\Teams();
 $orgs = new \phpCollab\Organizations\Organizations();
 $projects = new \phpCollab\Projects\Projects();
+$members = new \phpCollab\Members\Members();
 
 if ($clientsFilter == "true" && $profilSession == "2") {
     $teamMember = "false";
@@ -208,26 +209,23 @@ $block3->closePaletteIcon();
 
 $block3->sorting("users", $sortingUser->sor_users[0], "mem.name ASC", $sortingFields = array(0 => "mem.name", 1 => "mem.login", 2 => "mem.email_work", 3 => "mem.profil", 4 => "connected"));
 
-$tmpquery = "WHERE mem.organization = '$id' ORDER BY $block3->sortingValue";
-$listMembers = new phpCollab\Request();
-$listMembers->openMembers($tmpquery);
-$comptListMembers = count($listMembers->mem_id);
+$listMembers = $members->getMembersByOrg($id, $block3->sortingValue);
 
-if ($comptListMembers != "0") {
+if ($listMembers) {
     $block3->openResults();
 
     $block3->labels($labels = array(0 => $strings["full_name"], 1 => $strings["user_name"], 2 => $strings["email"], 3 => $strings["work_phone"], 4 => $strings["connected"]), "false");
 
-    for ($i = 0; $i < $comptListMembers; $i++) {
+    foreach ($listMembers as $member) {
         $block3->openRow();
-        $block3->checkboxRow($listMembers->mem_id[$i]);
-        $block3->cellRow($blockPage->buildLink("../users/viewclientuser.php?id=" . $listMembers->mem_id[$i] . "&organization=$id", $listMembers->mem_name[$i], 'in'));
-        $block3->cellRow($listMembers->mem_login[$i]);
-        $block3->cellRow($blockPage->buildLink($listMembers->mem_email_work[$i], $listMembers->mem_email_work[$i], 'mail'));
-        $block3->cellRow($listMembers->mem_phone_work[$i]);
+        $block3->checkboxRow($member['mem_id']);
+        $block3->cellRow($blockPage->buildLink("../users/viewclientuser.php?id=" . $member['mem_id'] . "&organization=$id", $member['mem_name'], 'in'));
+        $block3->cellRow($member['mem_login']);
+        $block3->cellRow($blockPage->buildLink($member['mem_email_work'], $member['mem_email_work'], 'mail'));
+        $block3->cellRow($member['mem_phone_work']);
 
         $z = "(Client on project site)";
-        if ($listMembers->mem_log_connected[$i] > $dateunix - 5 * 60) {
+        if ($member['mem_log_connected'] > $dateunix - 5 * 60) {
             $block3->cellRow($strings["yes"] . " " . $z);
         } else {
             $block3->cellRow($strings["no"]);
@@ -250,7 +248,6 @@ $block3->paletteScript(2, "info", "../users/viewclientuser.php?organization=$id"
 if ($profilSession == "0" || $profilSession == "1") {
     $block3->paletteScript(3, "edit", "../users/updateclientuser.php?organization=$id", "false,true,false", $strings["edit"]);
 }
-$block3->closePaletteScript($comptListMembers, $listMembers->mem_id);
+$block3->closePaletteScript($comptListMembers, $listMembers['mem_id']);
 
 include '../themes/' . THEME . '/footer.php';
-?>

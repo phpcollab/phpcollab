@@ -75,6 +75,23 @@ class MembersGateway
         return $this->db->single();
     }
 
+    public function getAllByOrg($orgId, $sorting)
+    {
+        if (!is_null($sorting)) {
+            $sortQry = ' ORDER BY ' . $sorting;
+        } else {
+            $sortQry = '';
+        }
+
+        $whereStatement = "WHERE mem.organization = :org_id" . $sortQry;
+
+        $this->db->query($this->initrequest["members"] . ' ' . $whereStatement);
+
+        $this->db->bind(':org_id', $orgId);
+
+        return $this->db->resultset();
+    }
+
     /**
      * @return mixed
      */
