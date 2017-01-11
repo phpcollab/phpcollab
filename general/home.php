@@ -37,6 +37,7 @@ $setTitle .= " : Home Page";
 
 $topics = new \phpCollab\Topics\Topics();
 $members = new \phpCollab\Members\Members();
+$projects = new \phpCollab\Projects\Projects();
 
 $test = $date;
 $DateAnnee = substr("$test", 0, 4);
@@ -767,11 +768,8 @@ if ($showHomeNewsdesk) {
 
             // take the name of the related article
             if ($listPosts->news_related[$i] != 'g') {
-                // Todo: Refactore to use PDO
-                $tmpquery = "WHERE pro.id = '" . $listPosts->news_related[$i] . "'";
-                $projectDetail = new phpCollab\Request();
-                $projectDetail->openProjects($tmpquery);
-                $article_related = "<a href='../projects/viewproject.php?id=" . $projectDetail->pro_id[0] . "' title='" . $projectDetail->pro_name[0] . "'>" . $projectDetail->pro_name[0] . "</a>";
+                $projectDetail = $projects->getProjectById($listPosts->news_related[$i]);
+                $article_related = "<a href='../projects/viewproject.php?id=" . $projectDetail['pro_id'] . "' title='" . $projectDetail['pro_name'] . "'>" . $projectDetail['pro_name'] . "</a>";
             } else {
                 $article_related = '' . $strings["newsdesk_related_generic"];
             }
