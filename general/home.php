@@ -36,6 +36,7 @@ include '../includes/customvalues.php';
 $setTitle .= " : Home Page";
 
 $topics = new \phpCollab\Topics\Topics();
+$members = new \phpCollab\Members\Members();
 
 $test = $date;
 $DateAnnee = substr("$test", 0, 4);
@@ -762,11 +763,7 @@ if ($showHomeNewsdesk) {
         $blockPage->limitNumber = "1";
 
         for ($i = 0; $i < $comptPosts; $i++) {
-            // take the news author
-            // Todo: Refactore to use PDO
-            $tmpquery_user = "WHERE mem.id = '" . $listPosts->news_author[$i] . "' ";
-            $newsAuthor = new phpCollab\Request();
-            $newsAuthor->openMembers($tmpquery_user);
+            $newsAuthor = $members->getMemberById($listPosts->news_author[$i]);
 
             // take the name of the related article
             if ($listPosts->news_related[$i] != 'g') {
@@ -783,7 +780,7 @@ if ($showHomeNewsdesk) {
             $block7->checkboxRow($listPosts->news_id[$i]);
             $block7->cellRow($blockPage->buildLink("../newsdesk/viewnews.php?id=" . $listPosts->news_id[$i], $listPosts->news_title[$i], in));
             $block7->cellRow($listPosts->news_date[$i]);
-            $block7->cellRow($newsAuthor->mem_name[0]);
+            $block7->cellRow($newsAuthor['mem_name']);
             $block7->cellRow($article_related);
             $block7->closeRow();
         }
