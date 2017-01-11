@@ -49,6 +49,56 @@ class ProjectsGateway
     }
 
     /**
+     * @param $orgId
+     * @param $memberId
+     * @param $sorting
+     * @return mixed
+     */
+    public function getFilteredAllByOrganization($orgId, $memberId, $sorting)
+    {
+        if (!is_null($sorting)) {
+            $sortQry = 'ORDER BY ' . $sorting;
+        } else {
+            $sortQry = '';
+        }
+
+        $tmpquery = " LEFT OUTER JOIN {$this->tableCollab["teams"]} teams ON teams.project = pro.id";
+        $tmpquery .= " WHERE pro.organization = :org_id AND teams.member = :member_id " . $sortQry;
+
+        $this->db->query($this->initrequest['projects'] . $tmpquery);
+
+        $this->db->bind(':org_id', $orgId);
+        $this->db->bind(':member_id', $memberId);
+
+        return $this->db->resultset();
+    }
+
+    /**
+     * @param $orgId
+     * @param $sorting
+     * @return mixed
+     */
+    public function getAllByOrganization($orgId, $sorting)
+    {
+        if (!is_null($sorting)) {
+            $sortQry = 'ORDER BY ' . $sorting;
+        } else {
+            $sortQry = '';
+        }
+
+        $tmpquery = " LEFT OUTER JOIN {$this->tableCollab["teams"]} teams ON teams.project = pro.id";
+        $tmpquery .= " WHERE pro.organization = :org_id AND teams.member = :member_id " . $sortQry;
+
+        $tmpquery = "WHERE pro.organization = :org_id" . $tmpquery;
+
+        $this->db->query($this->initrequest['projects'] . $tmpquery);
+
+        $this->db->bind(':org_id', $orgId);
+
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $ownerId
      * @param $typeProjects
      * @param $sorting

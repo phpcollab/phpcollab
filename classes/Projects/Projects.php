@@ -45,6 +45,34 @@ class Projects
 
     /**
      * @param $orgId
+     * @param $sorting
+     * @return mixed
+     */
+    public function getProjectsByOrganization($orgId, $sorting)
+    {
+        $orgId = filter_var($orgId, FILTER_VALIDATE_INT);
+        $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
+
+        return $this->projects_gateway->getAllByOrganization($orgId, $sorting);
+    }
+
+    /**
+     * @param $orgId
+     * @param $memberId
+     * @param $sorting
+     * @return mixed
+     */
+    public function getFilteredProjectsByOrganization($orgId, $memberId, $sorting)
+    {
+        $orgId = filter_var($orgId, FILTER_VALIDATE_INT);
+        $memberId = filter_var($memberId, FILTER_VALIDATE_INT);
+        $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
+
+        return $this->projects_gateway->getFilteredAllByOrganization($orgId, $memberId, $sorting);
+    }
+
+    /**
+     * @param $orgId
      * @return mixed
      */
     public function setDefaultOrg($orgId)

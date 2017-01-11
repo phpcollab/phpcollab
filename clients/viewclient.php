@@ -30,6 +30,7 @@ include_once '../includes/library.php';
 
 $teams = new \phpCollab\Teams\Teams();
 $orgs = new \phpCollab\Organizations\Organizations();
+$projects = new \phpCollab\Projects\Projects();
 
 if ($clientsFilter == "true" && $profilSession == "2") {
     $teamMember = "false";
@@ -137,35 +138,31 @@ $block2->closePaletteIcon();
 $block2->sorting("organization_projects", $sortingUser->sor_organization_projects[0], "pro.name ASC", $sortingFields = array(0 => "pro.id", 1 => "pro.name", 2 => "pro.priority", 3 => "pro.status", 4 => "mem.login", 5 => "pro.published"));
 
 if ($projectsFilter == "true") {
-    $tmpquery = "LEFT OUTER JOIN " . $tableCollab["teams"] . " teams ON teams.project = pro.id ";
-    $tmpquery .= "WHERE pro.organization = '" . $clientDetail['org_id'] . "' AND teams.member = '$idSession' ORDER BY $block2->sortingValue";
+    $listProjects = $projects->getFilteredProjectsByOrganization($clientDetail['org_id'], $idSession, $block2->sortingValue);
 } else {
-    $tmpquery = "WHERE pro.organization = '" . $clientDetail['org_id'] . "' ORDER BY $block2->sortingValue";
+    $listProjects = $projects->getProjectsByOrganization($clientDetail['org_id'], $block2->sortingValue);
 }
-$listProjects = new phpCollab\Request();
-$listProjects->openProjects($tmpquery);
-$comptListProjects = count($listProjects->pro_id);
 
-if ($comptListProjects != "0") {
+if ($listProjects) {
     $block2->openResults();
 
     $block2->labels($labels = array(0 => $strings["id"], 1 => $strings["project"], 2 => $strings["priority"], 3 => $strings["status"], 4 => $strings["owner"], 5 => $strings["project_site"]), "true");
 
-    for ($i = 0; $i < $comptListProjects; $i++) {
-        $idStatus = $listProjects->pro_status[$i];
-        $idPriority = $listProjects->pro_priority[$i];
+    foreach ($listProjects as $project) {
+        $idStatus = $project['pro_status'];
+        $idPriority = $project['pro_priority'];
         $block2->openRow();
-        $block2->checkboxRow($listProjects->pro_id[$i]);
-        $block2->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listProjects->pro_id[$i], $listProjects->pro_id[$i], 'in'));
-        $block2->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listProjects->pro_id[$i], $listProjects->pro_name[$i], 'in'));
+        $block2->checkboxRow($project['pro_id']);
+        $block2->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $project['pro_id'], $project['pro_id'], 'in'));
+        $block2->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $project['pro_id'], $project['pro_name'], 'in'));
         $block1->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
         $block2->cellRow($status[$idStatus]);
-        $block2->cellRow($blockPage->buildLink($listProjects->pro_mem_email_work[$i], $listProjects->pro_mem_login[$i], 'mail'));
+        $block2->cellRow($blockPage->buildLink($project['pro_mem_email_work'], $project['pro_mem_login'], 'mail'));
         if ($sitePublish == "true") {
-            if ($listProjects->pro_published[$i] == "1") {
-                $block2->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $listProjects->pro_id[$i], $strings["create"] . "...", 'in') . "&gt;");
+            if ($project['pro_published'] == "1") {
+                $block2->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $project['pro_id'], $strings["create"] . "...", 'in') . "&gt;");
             } else {
-                $block2->cellRow("&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=" . $listProjects->pro_id[$i], $strings["details"], 'in') . "&gt;");
+                $block2->cellRow("&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=" . $project['pro_id'], $strings["details"], 'in') . "&gt;");
             }
         }
     }
@@ -189,7 +186,7 @@ if ($profilSession == "0" || $profilSession == "1") {
 if ($enableMantis == "true") {
     $block2->paletteScript(4, "bug", $pathMantis . "login.php?url=http://{$HTTP_HOST}{$REQUEST_URI}&username=$loginSession&password=$passwordSession", "false,true,false", $strings["bug"]);
 }
-$block2->closePaletteScript($comptListProjects, $listProjects->pro_id);
+$block2->closePaletteScript($comptListProjects, $listProjects['pro_id']);
 
 $block3 = new phpCollab\Block();
 
