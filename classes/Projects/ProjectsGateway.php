@@ -86,10 +86,7 @@ class ProjectsGateway
             $sortQry = '';
         }
 
-        $tmpquery = " LEFT OUTER JOIN {$this->tableCollab["teams"]} teams ON teams.project = pro.id";
-        $tmpquery .= " WHERE pro.organization = :org_id AND teams.member = :member_id " . $sortQry;
-
-        $tmpquery = "WHERE pro.organization = :org_id" . $tmpquery;
+        $tmpquery = "WHERE pro.organization = :org_id" . $sortQry;
 
         $this->db->query($this->initrequest['projects'] . $tmpquery);
 
