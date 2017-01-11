@@ -342,27 +342,22 @@ if ($showHomeTasks) {
 
     $block2->sorting("home_tasks", $sortingUser->sor_home_tasks[0], "tas.name ASC", $sortingFields = array(0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem.login", 6 => "tas.project", 7 => "tas.published"));
 
-    // Todo: Refactore to use PDO
-//    $tmpquery = "WHERE subtas.assigned_to = '$idSession'";
-
     $tasksList = $tasks->getSubtasksAssignedToMe($idSession);
-    $comptListSubtasks = count($tasksList);
 
-    if ($comptListSubtasks > 0) {
-        for ($i = 0; $i < $comptListSubtasks; $i++) {
-            $subtasks .= $listSubtasks->subtas_task[$i];
-            if ($i != $comptListSubtasks - 1) {
-                $subtasks .= ",";
-            }
+    $subtasks = '';
+    if ($tasksList) {
+        foreach ($tasksList as $task) {
+            $subtasks .= $task['subtas_task'] . ',';
         }
+        $subtasks = rtrim(rtrim($subtasks),',');
     }
 
-    // Todo: Refactore to use PDO
     if ($subtasks != "") {
         $tmpquery = "WHERE (tas.assigned_to = '$idSession' AND tas.status IN(0,2,3) AND pro.status IN(0,2,3)) OR tas.id IN($subtasks) ORDER BY $block2->sortingValue";
     } else {
         $tmpquery = "WHERE tas.assigned_to = '$idSession' AND tas.status IN(0,2,3) AND pro.status IN(0,2,3) ORDER BY $block2->sortingValue";
     }
+
     $listTasks = new phpCollab\Request();
     $listTasks->openTasks($tmpquery);
     $comptListTasks = count($listTasks->tas_id);
