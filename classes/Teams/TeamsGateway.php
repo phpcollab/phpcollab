@@ -39,6 +39,16 @@ class TeamsGateway
         return $results;
     }
 
+    public function getTeamByTeamMemberAndOrgId($memberId, $orgId)
+    {
+        $whereStatement = "WHERE tea.member = :member_id AND org2.id = :org_id";
+        $this->db->query($this->initrequest["teams"] . $whereStatement);
+        $this->db->bind(':org_id', $orgId);
+        $this->db->bind(':member_id', $memberId);
+        $results = $this->db->resultset();
+        return $results;
+    }
+
     /**
      * @param $projectId
      * @param $orderBy
