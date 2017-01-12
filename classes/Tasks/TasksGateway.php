@@ -115,6 +115,14 @@ class TasksGateway
         return $this->db->single();
     }
 
+    public function getOpenAndCompletedTasksAssignedToMe($ownerId, $sorting)
+    {
+        $tmpquery = " WHERE subtas.assigned_to = :owner_id AND subtas.status IN(0,2,3) AND tas.status IN(0,2,3) ORDER BY $sorting";
+        $this->db->query($this->initrequest["subtasks"] . $tmpquery);
+        $this->db->bind(':owner_id', $ownerId);
+        return $this->db->resultset();
+    }
+
     /**
      * @param $ids
      * @return mixed
