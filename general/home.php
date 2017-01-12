@@ -38,6 +38,7 @@ $setTitle .= " : Home Page";
 $topics = new \phpCollab\Topics\Topics();
 $members = new \phpCollab\Members\Members();
 $projects = new \phpCollab\Projects\Projects();
+$tasks = new \phpCollab\Tasks\Tasks();
 
 $test = $date;
 $DateAnnee = substr("$test", 0, 4);
@@ -320,8 +321,6 @@ if ($showHomeProjects) {
  * start to show the task
  */
 if ($showHomeTasks) {
-    $tasks = new \phpCollab\Tasks\Tasks();
-
     $block2 = new phpCollab\Block();
 
     $block2->form = "xwbT";
@@ -423,6 +422,7 @@ if ($showHomeTasks) {
  * start to show the subtask
  */
 if ($showHomeSubtasks) {
+
     $block3 = new phpCollab\Block();
 
     $block3->form = "xwbR";
@@ -432,67 +432,59 @@ if ($showHomeSubtasks) {
 
     $block3->sorting("home_subtasks", $sortingUser->sor_home_subtasks[0], "subtas.name ASC", $sortingFields = array(0 => "subtas.name", 1 => "subtas.priority", 2 => "subtas.status", 3 => "subtas.completion", 4 => "subtas.due_date", 5 => "mem.login", 6 => "subtas.task", 7 => "subtas.published"));
 
-    // Todo: Refactore to use PDO
-    $tmpquery = "WHERE subtas.assigned_to = '$idSession'";
+    $listSubtasks = $tasks->getSubtasksAssignedToMe($idSession);
 
-    $listSubtasks = new phpCollab\Request();
-    $listSubtasks->openSubtasks($tmpquery);
-    $comptListSubtasks = count($listSubtasks->subtas_id);
-
-    for ($i = 0; $i < $comptListSubtasks; $i++) {
-        $subtasks .= $listSubtasks->subtas_task[$i];
-        if ($i != $comptListSubtasks - 1) {
-            $subtasks .= ",";
-        }
+    foreach ($listSubtasks as $subtask) {
+        $subtasks .= $listSubtasks['subtas_task'] . ',';
     }
+    $subtasks = rtrim(rtrim($subtasks),',');
 
-    // Todo: Refactore to use PDO
     if ($subtasks != "") {
         $tmpquery = "WHERE subtas.assigned_to = '$idSession' AND subtas.status IN(0,2,3) AND tas.status IN(0,2,3) ORDER BY $block3->sortingValue";
     }
 
-    $listTasks = new phpCollab\Request();
-    $listTasks->openSubtasks($tmpquery);
-    $comptListTasks = count($listTasks->subtas_id);
+    // Since $listTasks was used above, let's clear it out
+    unset($listTasks);
+    $listTasks = $tasks->getOpenAndCompletedTasksAssignedToMe($idSession, $block3->sortingValue);
 
-    if ($comptListTasks != "0") {
+    if ($listTasks) {
         $block3->openResults();
 
         $block3->labels($labels = array(0 => $strings["name"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["completion"], 4 => $strings["due_date"], 5 => $strings["assigned_by"], 6 => $strings["task"], 7 => $strings["published"]), "true");
 
-        for ($i = 0; $i < $comptListTasks; $i++) {
-            if ($listTasks->subtas_due_date[$i] == "") {
-                $listTasks->subtas_due_date[$i] = $strings["none"];
+        foreach ($listTasks as $task) {
+            if ($task['subtas_due_date'] == "") {
+                $task['subtas_due_date'] = $strings["none"];
             }
-            $idStatus = $listTasks->subtas_status[$i];
-            $idPriority = $listTasks->subtas_priority[$i];
-            $idPublish = $listTasks->subtas_published[$i];
-            $complValue = ($listTasks->subtas_completion[$i] > 0) ? $listTasks->subtas_completion[$i] . "0 %" : $listTasks->subtas_completion[$i] . " %";
+            $idStatus = $task['subtas_status'];
+            $idPriority = $task['subtas_priority'];
+            $idPublish = $task['subtas_published'];
+            $complValue = ($task['subtas_completion'] > 0) ? $task['subtas_completion'] . "0 %" : $task['subtas_completion'] . " %";
 
             //skip completed tasks
             //28/05/03 Florian DECKERT
             if ($idStatus == 1) continue;
 
             $block3->openRow();
-            $block3->checkboxRow($listTasks->subtas_id[$i]);
+            $block3->checkboxRow($task['subtas_id']);
 
-            if ($listTasks->subtas_assigned_to[$i] == "0") {
-                $block3->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $listTasks->subtas_id[$i] . "&task=" . $listTasks->subtas_task[$i], $listTasks->subtas_name[$i], in) . " -> " . $strings["subtask"]);
+            if ($task['subtas_assigned_to'] == "0") {
+                $block3->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $task['subtas_id'] . "&task=" . $task['subtas_task'], $task['subtas_name'], in) . " -> " . $strings["subtask"]);
             } else {
-                $block3->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $listTasks->subtas_id[$i] . "&task=" . $listTasks->subtas_task[$i], $listTasks->subtas_name[$i], in));
+                $block3->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $task['subtas_id'] . "&task=" . $task['subtas_task'], $task['subtas_name'], in));
             }
             $block3->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
             $block3->cellRow($status[$idStatus]);
             $block3->cellRow($complValue);
 
-            if ($listTasks->subtas_due_date[$i] <= $date && $listTasks->subtas_completion[$i] != "10") {
-                $block3->cellRow("<b>" . $listTasks->subtas_due_date[$i] . "</b>");
+            if ($task['subtas_due_date'] <= $date && $task['subtas_completion'] != "10") {
+                $block3->cellRow("<b>" . $task['subtas_due_date'] . "</b>");
             } else {
-                $block3->cellRow($listTasks->subtas_due_date[$i]);
+                $block3->cellRow($task['subtas_due_date']);
             }
 
-            $block3->cellRow($blockPage->buildLink($listTasks->subtas_mem2_email_work[$i], $listTasks->subtas_mem2_login[$i], mail));
-            $block3->cellRow($listTasks->subtas_tas_name[$i]);
+            $block3->cellRow($blockPage->buildLink($task['subtas_mem2_email_work'], $task['subtas_mem2_login'], mail));
+            $block3->cellRow($task['subtas_tas_name']);
             if ($sitePublish == "true") {
                 $block3->cellRow($statusPublish[$idPublish]);
             }
