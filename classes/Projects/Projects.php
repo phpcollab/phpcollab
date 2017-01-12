@@ -43,6 +43,14 @@ class Projects
         return $this->projects_gateway->getAllByOwner($ownerId, $sorting);
     }
 
+    public function getProjectList($ownerId, $projectType, $sorting)
+    {
+        $projectType = filter_var($projectType, FILTER_SANITIZE_STRING);
+        $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
+
+        return $this->projects_gateway->getProjectList($ownerId, $projectType, $sorting);
+    }
+
     /**
      * @param $orgId
      * @param $sorting
