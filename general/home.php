@@ -199,7 +199,7 @@ if ($showHomeBookmarks) {
  */
 if ($showHomeProjects) {
 
-    $projects_gateway = new \phpCollab\Projects\Projects();
+    $projects = new \phpCollab\Projects\Projects();
 
     $block1 = new phpCollab\Block();
 
@@ -239,7 +239,7 @@ if ($showHomeProjects) {
         0 => "pro.id",
         1 => "pro.name",
         2 => "pro.priority",
-        3 => "org2.name",
+        3 => "org.name",
         4 => "pro.status",
         5 => "mem2.login",
         6 => "pro.published"
@@ -248,48 +248,46 @@ if ($showHomeProjects) {
 
     $sorting = $block1->sortingValue;
 
-    $dataSet = $projects_gateway->getProjectsByOwner($idSession, $sorting);
-
-    $projectCount = count($dataSet);
-
+    $dataSet = $projects->getProjectList($idSession, $typeProjects, $sorting);
     $projectsTopics = array();
 
-    $comptListProjects = count($listProjects->tea_id);
+    $comptListProjects = count($dataSet);
 
-    if ($projectCount > 0) {
+    if ($dataSet) {
         $block1->openResults();
 
         $block1->labels($labels = array(0 => $strings["id"], 1 => $strings["project"], 2 => $strings["priority"], 3 => $strings["organization"], 4 => $strings["status"], 5 => $strings["owner"], 6 => $strings["project_site"]), "true");
 
         foreach ($dataSet as $data) {
-            $idStatus = $data["tea_pro_status"];
-            $idPriority = $data["tea_pro_priority"];
+            $idStatus = $data["pro_status"];
+            $idPriority = $data["pro_priority"];
 
             $block1->openRow();
-            $block1->checkboxRow($data["tea_pro_id"]);
-            $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $data["tea_pro_id"], $data["tea_pro_id"], in));
-            $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $data["tea_pro_id"], $data["tea_pro_name"], in));
+            $block1->checkboxRow($data["pro_id"]);
+            $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $data["pro_id"], $data["pro_id"], in));
+            $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $data["pro_id"], $data["pro_name"], in));
             $block1->cellRow('<img src="../themes/' . THEME . '/images/gfx_priority/' . $idPriority . '.gif" alt=""> ' . $priority[$idPriority]);
-            $block1->cellRow($data["tea_org2_name"]);
+            $block1->cellRow($data["pro_org_name"]);
             $block1->cellRow($status[$idStatus]);
 
-            $block1->cellRow($blockPage->buildLink('../users/viewuser.php?id=' . $data["tea_mem2_id"], $data["tea_mem2_login"], in));
+            $block1->cellRow($blockPage->buildLink('../users/viewuser.php?id=' . $data["pro_mem_id"], $data["pro_mem_login"], in));
 
             if ($sitePublish == "true") {
-                if ($data["tea_pro_published"] == "1") {
-                    $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $data["tea_pro_id"], $strings["create"] . "...", in) . "&gt;");
+                if ($data["pro_published"] == "1") {
+                    $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $data["pro_id"], $strings["create"] . "...", in) . "&gt;");
                 } else {
-                    $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=" . $data["tea_pro_id"], $strings["details"], in) . "&gt;");
+                    $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=" . $data["pro_id"], $strings["details"], in) . "&gt;");
                 }
             }
 
             $block1->closeRow();
-            array_push($projectsTopics, $data["tea_pro_id"]);
+            array_push($projectsTopics, $data["pro_id"]);
         }
         $block1->closeResults();
     } else {
         $block1->noresults();
     }
+
 
     $block1->closeToggle();
     $block1->closeFormResults();
