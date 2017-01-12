@@ -440,57 +440,60 @@ if ($showHomeSubtasks) {
     $subtasks = rtrim(rtrim($subtasks),',');
 
     if ($subtasks != "") {
-        $tmpquery = "WHERE subtas.assigned_to = '$idSession' AND subtas.status IN(0,2,3) AND tas.status IN(0,2,3) ORDER BY $block3->sortingValue";
-    }
+        // Since $listTasks was used above, let's clear it out
+        unset($listTasks);
+        $listTasks = $tasks->getOpenAndCompletedSubTasksAssignedToMe($idSession, $block3->sortingValue);
 
-    // Since $listTasks was used above, let's clear it out
-    unset($listTasks);
-    $listTasks = $tasks->getOpenAndCompletedSubTasksAssignedToMe($idSession, $block3->sortingValue);
 
-    if ($listTasks) {
-        $block3->openResults();
+        if ($listTasks) {
+            $block3->openResults();
 
-        $block3->labels($labels = array(0 => $strings["name"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["completion"], 4 => $strings["due_date"], 5 => $strings["assigned_by"], 6 => $strings["task"], 7 => $strings["published"]), "true");
+            $block3->labels($labels = array(0 => $strings["name"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["completion"], 4 => $strings["due_date"], 5 => $strings["assigned_by"], 6 => $strings["task"], 7 => $strings["published"]), "true");
 
-        foreach ($listTasks as $task) {
-            if ($task['subtas_due_date'] == "") {
-                $task['subtas_due_date'] = $strings["none"];
+            foreach ($listTasks as $task) {
+                if ($task['subtas_due_date'] == "") {
+                    $task['subtas_due_date'] = $strings["none"];
+                }
+                $idStatus = $task['subtas_status'];
+                $idPriority = $task['subtas_priority'];
+                $idPublish = $task['subtas_published'];
+                $complValue = ($task['subtas_completion'] > 0) ? $task['subtas_completion'] . "0 %" : $task['subtas_completion'] . " %";
+
+                //skip completed tasks
+                //28/05/03 Florian DECKERT
+                if ($idStatus == 1) continue;
+
+                $block3->openRow();
+                $block3->checkboxRow($task['subtas_id']);
+
+                if ($task['subtas_assigned_to'] == "0") {
+                    $block3->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $task['subtas_id'] . "&task=" . $task['subtas_task'], $task['subtas_name'], in) . " -> " . $strings["subtask"]);
+                } else {
+                    $block3->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $task['subtas_id'] . "&task=" . $task['subtas_task'], $task['subtas_name'], in));
+                }
+                $block3->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
+                $block3->cellRow($status[$idStatus]);
+                $block3->cellRow($complValue);
+
+                if ($task['subtas_due_date'] <= $date && $task['subtas_completion'] != "10") {
+                    $block3->cellRow("<b>" . $task['subtas_due_date'] . "</b>");
+                } else {
+                    $block3->cellRow($task['subtas_due_date']);
+                }
+
+                $block3->cellRow($blockPage->buildLink($task['subtas_mem2_email_work'], $task['subtas_mem2_login'], mail));
+                $block3->cellRow($task['subtas_tas_name']);
+                if ($sitePublish == "true") {
+                    $block3->cellRow($statusPublish[$idPublish]);
+                }
+                $block3->closeRow();
             }
-            $idStatus = $task['subtas_status'];
-            $idPriority = $task['subtas_priority'];
-            $idPublish = $task['subtas_published'];
-            $complValue = ($task['subtas_completion'] > 0) ? $task['subtas_completion'] . "0 %" : $task['subtas_completion'] . " %";
+            $block3->closeResults();
 
-            //skip completed tasks
-            //28/05/03 Florian DECKERT
-            if ($idStatus == 1) continue;
-
-            $block3->openRow();
-            $block3->checkboxRow($task['subtas_id']);
-
-            if ($task['subtas_assigned_to'] == "0") {
-                $block3->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $task['subtas_id'] . "&task=" . $task['subtas_task'], $task['subtas_name'], in) . " -> " . $strings["subtask"]);
-            } else {
-                $block3->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $task['subtas_id'] . "&task=" . $task['subtas_task'], $task['subtas_name'], in));
-            }
-            $block3->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
-            $block3->cellRow($status[$idStatus]);
-            $block3->cellRow($complValue);
-
-            if ($task['subtas_due_date'] <= $date && $task['subtas_completion'] != "10") {
-                $block3->cellRow("<b>" . $task['subtas_due_date'] . "</b>");
-            } else {
-                $block3->cellRow($task['subtas_due_date']);
-            }
-
-            $block3->cellRow($blockPage->buildLink($task['subtas_mem2_email_work'], $task['subtas_mem2_login'], mail));
-            $block3->cellRow($task['subtas_tas_name']);
-            if ($sitePublish == "true") {
-                $block3->cellRow($statusPublish[$idPublish]);
-            }
-            $block3->closeRow();
+        } else {
+            $block3->noresults();
         }
-        $block3->closeResults();
+
     } else {
         $block3->noresults();
     }
