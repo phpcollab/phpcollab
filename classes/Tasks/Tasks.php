@@ -51,7 +51,7 @@ class Tasks
         return $task;
     }
 
-    public function getOpenAndCompletedTasksAssignedToMe($ownerId, $sorting)
+    public function getOpenAndCompletedSubTasksAssignedToMe($ownerId, $sorting)
     {
         if (isset($sorting)) {
             $sorting = filter_var( (string) $sorting, FILTER_SANITIZE_STRING);

@@ -445,7 +445,7 @@ if ($showHomeSubtasks) {
 
     // Since $listTasks was used above, let's clear it out
     unset($listTasks);
-    $listTasks = $tasks->getOpenAndCompletedTasksAssignedToMe($idSession, $block3->sortingValue);
+    $listTasks = $tasks->getOpenAndCompletedSubTasksAssignedToMe($idSession, $block3->sortingValue);
 
     if ($listTasks) {
         $block3->openResults();
