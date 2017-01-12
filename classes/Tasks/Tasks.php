@@ -5,6 +5,10 @@ namespace phpCollab\Tasks;
 
 use phpCollab\Database;
 
+/**
+ * Class Tasks
+ * @package phpCollab\Tasks
+ */
 class Tasks
 {
     protected $tasks_gateway;
@@ -20,6 +24,11 @@ class Tasks
     }
 
 
+    /**
+     * @param $userId
+     * @param null $sorting
+     * @return mixed
+     */
     public function getMyTasks($userId, $sorting = null)
     {
         if (isset($sorting)) {
@@ -31,12 +40,20 @@ class Tasks
         return $data;
     }
 
+    /**
+     * @param $userId
+     * @return mixed
+     */
     public function getSubtasksAssignedToMe($userId) {
         $userId = filter_var( (string) $userId, FILTER_SANITIZE_STRING);
 
         return $this->tasks_gateway->getSubtasksAssignedToMe($userId);
     }
 
+    /**
+     * @param $taskId
+     * @return mixed
+     */
     public function getTaskById($taskId)
     {
         $taskId = filter_var($taskId, FILTER_VALIDATE_INT);
@@ -44,6 +61,10 @@ class Tasks
         return $task;
     }
 
+    /**
+     * @param $projectName
+     * @return mixed
+     */
     public function getTasksByProjectName($projectName)
     {
         $projectName = filter_var($projectName, FILTER_SANITIZE_STRING);
@@ -51,6 +72,11 @@ class Tasks
         return $task;
     }
 
+    /**
+     * @param $ownerId
+     * @param $sorting
+     * @return mixed
+     */
     public function getOpenAndCompletedSubTasksAssignedToMe($ownerId, $sorting)
     {
         if (isset($sorting)) {
@@ -61,6 +87,10 @@ class Tasks
         return $this->tasks_gateway->getOpenAndCompletedSubTasksAssignedToMe($ownerId, $sorting);
     }
 
+    /**
+     * @param $taskId
+     * @return mixed
+     */
     public function getSubTaskById($taskId)
     {
         $taskId = filter_var($taskId, FILTER_VALIDATE_INT);
@@ -68,6 +98,10 @@ class Tasks
         return $task;
     }
 
+    /**
+     * @param $parentTaskId
+     * @return mixed
+     */
     public function getSubtasksByParentTaskId($parentTaskId)
     {
         $parentTaskId = filter_var($parentTaskId, FILTER_VALIDATE_INT);
@@ -75,11 +109,19 @@ class Tasks
         return $task;
     }
 
+    /**
+     * @param $ids
+     * @return mixed
+     */
     public function addToSiteFile($ids)
     {
         return $this->tasks_gateway->addToSiteFile($ids);
     }
 
+    /**
+     * @param $ids
+     * @return mixed
+     */
     public function removeToSiteFile($ids)
     {
         return $this->tasks_gateway->removeToSiteFile($ids);
