@@ -58,7 +58,7 @@ class Tasks
         }
         $ownerId = filter_var( (string) $ownerId, FILTER_SANITIZE_STRING);
 
-        return $this->tasks_gateway->getOpenAndCompletedTasksAssignedToMe($ownerId, $sorting);
+        return $this->tasks_gateway->getOpenAndCompletedSubTasksAssignedToMe($ownerId, $sorting);
     }
 
     public function getSubTaskById($taskId)
