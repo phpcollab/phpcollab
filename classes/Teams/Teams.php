@@ -38,6 +38,16 @@ class Teams
         return $team;
     }
 
+    public function getTeamByTeamMemberAndOrgId($teamMember, $orgId)
+    {
+        $orgId = filter_var($orgId, FILTER_VALIDATE_INT);
+        $teamMember = filter_var($teamMember, FILTER_VALIDATE_INT);
+
+        $team = $this->teams_gateway->getTeamByTeamMemberAndOrgId($teamMember, $orgId);
+
+        return $team;
+    }
+
     /**
      * @param $projectId
      * @param null $orderBy
