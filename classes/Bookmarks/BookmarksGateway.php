@@ -257,7 +257,21 @@ SQL;
      */
     private function orderBy($sorting)
     {
-        return (!is_null($sorting)) ? ' ORDER BY ' . $sorting : '';
+        if (!is_null($sorting)) {
+            $allowedOrderedBy = ["boo.name", "boo.category", "mem.login"];
+            $pieces = explode(' ', $sorting);
+
+            if ($pieces) {
+                $key = array_search($pieces[0], $allowedOrderedBy);
+
+                if ($key !== false) {
+                    $order = $allowedOrderedBy[$key];
+                    return " ORDER BY $order $pieces[1]";
+                }
+            }
+        }
+
+        return '';
     }
 
 }
