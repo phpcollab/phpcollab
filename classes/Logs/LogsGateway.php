@@ -35,12 +35,12 @@ class LogsGateway
 INSERT INTO logs
 (login, password, ip, session, compt, last_visite) 
 VALUES (
-  ':member_login',
-  ':password',
-  ':ip',
-  ':session',
-  ':compt',
-  ':timestamp'
+  :member_login,
+  :password,
+  :ip,
+  :session,
+  :compt,
+  :timestamp
 )
 SQL;
 
