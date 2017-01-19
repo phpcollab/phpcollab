@@ -291,7 +291,7 @@ if ($demoMode == "true") {
 
 
 $notLogged = "true";
-$bodyCommand = "onLoad='document.loginForm.loginForm.focus();'";
+$bodyCommand = "onLoad='document.signinForm.loginForm.focus();'";
 include '../themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
@@ -307,7 +307,7 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 
-$block1->form = "login";
+$block1->form = "signin";
 $block1->openForm("../general/login.php?auth=test");
 
 if ($url != "") {
