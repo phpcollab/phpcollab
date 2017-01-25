@@ -87,11 +87,7 @@ if ($id != "") {
         if ($docopy == "true") {
 
             //Change task status if parent phase is suspended, complete or not open.
-            // Todo: refactor PDO
             if ($projectDetail['pro_phase_set'] != "0") {
-//                $tmpquery = "WHERE pha.project_id = '$project' AND pha.order_num = '$pha'";
-//                $currentPhase = new phpCollab\Request();
-//                $currentPhase->openPhases($tmpquery);
                 $currentPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($project, $pha);
                 if ($st == 3 && $currentPhase['pha_status'] != 1) {
                     $st = 4;
@@ -143,12 +139,6 @@ project,name,description,owner,assigned_to,status,priority,start_date,due_date,e
             $num = phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
 
             unset($dbParams);
-
-//            $tmpquery = $tableCollab["tasks"];
-//            phpCollab\Util::getLastId($tmpquery);
-//            $num = $lastId[0];
-//            unset($lastId);
-
 
             //subtask copying
             // Todo: refactor PDO
@@ -298,10 +288,6 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
 
             //Change task status if parent phase is suspended, complete or not open.
             if ($projectDetail['pro_phase_set'] != "0") {
-                // Todo: refactor PDO
-//                $tmpquery = "WHERE pha.project_id = '$project' AND pha.order_num = '$pha'";
-//                $currentPhase = new phpCollab\Request();
-//                $currentPhase->openPhases($tmpquery);
                 $currentPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($project, $pha);
 
                 if ($st == 3 && $currentPhase['pha_status'] != 1) {
@@ -475,7 +461,6 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
                 // Todo: refactor PDO
                 $tmpquery = "WHERE tas.id = '$id'";
                 $taskDetail = new phpCollab\Request();
-//                xdebug_var_dump('openTasks - line 489');
                 $taskDetail->openTasks($tmpquery);
 
                 //send task assignment mail if notifications = true
@@ -490,7 +475,6 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
                 phpCollab\Util::newConnectSql($tmpquery5, $tmpquery5Params);
                 $tmpquery = "WHERE tas.id = '$id'";
                 $taskDetail = new phpCollab\Request();
-//                xdebug_var_dump('openTasks - line 503');
                 $taskDetail->openTasks($tmpquery);
 
                 //send status task change mail if notifications = true
@@ -762,22 +746,22 @@ include '../themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail['pro_id'], $projectDetail['pro_name'], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail['pro_id'], $projectDetail['pro_name'], "in"));
 
 if ($projectDetail['pro_phase_set'] != "0") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail['pro_id'], $strings["phases"], in));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase->pha_id[0], $targetPhase->pha_name[0], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail['pro_id'], $strings["phases"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase->pha_id[0], $targetPhase->pha_name[0], "in"));
 }
 
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail['pro_id'], $strings["tasks"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail['pro_id'], $strings["tasks"], "in"));
 
 if ($id == "") {
     $blockPage->itemBreadcrumbs($strings["add_task"]);
 }
 
 if ($id != "") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail['tas_id'], $taskDetail['tas_name'], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail['tas_id'], $taskDetail['tas_name'], "in"));
     $blockPage->itemBreadcrumbs($strings["edit_task"]);
 }
 
@@ -855,7 +839,7 @@ echo "</select></td></tr>";
 
 //Display task's phase
 if ($projectDetail['pro_phase_set'] != "0") {
-    echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["phase"] . " :</td><td>" . $blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase->pha_id[0], $targetPhase->pha_name[0], in) . "</td></tr>";
+    echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["phase"] . " :</td><td>" . $blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase->pha_id[0], $targetPhase->pha_name[0], "in") . "</td></tr>";
 }
 echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["organization"] . " :</td><td>" . $projectDetail['pro_org_name'] . "</td></tr>";
 
