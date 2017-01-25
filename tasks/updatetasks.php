@@ -95,16 +95,23 @@ if ($action == "update") {
             $sameAssign = "false";
 
             if ($at != "0" && $listTasks->tas_assigned[$i] == "") {
-                $tmpquery6 = "UPDATE " . $tableCollab["tasks"] . " SET assigned='$dateheure' WHERE id = '" . $listTasks->tas_id[$i] . "'";
-                phpCollab\Util::connectSql("$tmpquery6");
+                $dbParams = [];
+                $dbParams["assigned_date"] = $dateheure;
+                $dbParams["task_id"] = $listTasks->tas_id[$i];
+                phpCollab\Util::newConnectSql("UPDATE {$tableCollab["tasks"]} SET assigned=:assigned_date WHERE id = :task_id", $dbParams);
+                unset($dbParams);
             }
 
             if ($listTasks->tas_assigned_to[$i] == $at) {
                 $sameAssign = "true";
             }
 
-            $tmpquery = "UPDATE " . $tableCollab["tasks"] . " SET $query,modified='$dateheure' WHERE id = '" . $listTasks->tas_id[$i] . "'";
-            phpCollab\Util::connectSql("$tmpquery");
+            $dbParams = [];
+            $dbParams["modified_date"] = $dateheure;
+            $dbParams["task_id"] = $listTasks->tas_id[$i];
+            phpCollab\Util::newConnectSql("UPDATE {$tableCollab["tasks"]} SET $query,modified=:modified_date'$dateheure' WHERE id = :task_id", $dbParams);
+            unset($dbParams);
+
 
             if ($st != $strings["no_change"] && $listTasks->tas_status[$i] != $st && $assignUpdate != "true" && $listTasks->tas_assigned_to[$i] != "0") {
                 if ($notifications == "true") {
@@ -124,8 +131,15 @@ if ($action == "update") {
             }
 
             if ($at != "0" && $sameAssign != "true" && $assignUpdate == "true") {
-                $tmpquery2 = "INSERT INTO " . $tableCollab["assignments"] . "(task,owner,assigned_to,comments,assigned) VALUES('" . $listTasks->tas_id[$i] . "','" . $listTasks->tas_owner[$i] . "','$at','$acomm','$dateheure')";
-                phpCollab\Util::connectSql("$tmpquery2");
+                $dbParams = [];
+                $dbParams["task"] = $listTasks->tas_id[$i];
+                $dbParams["owner"] = $listTasks->tas_owner[$i];
+                $dbParams["assigned_to"] = $at;
+                $dbParams["comments"] = $acomm;
+                $dbParams["assigned"] = $dateheure;
+
+                phpCollab\Util::newConnectSql("INSERT INTO {$tableCollab["assignments"]} (task,owner,assigned_to,comments,assigned) VALUES (:task,:owner,:assigned_to,:comments,:assigned)", $dbParams);
+                unset($dbParams);
 
                 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$at'";
                 $testinTeam = new phpCollab\Request();
@@ -133,8 +147,14 @@ if ($action == "update") {
                 $comptTestinTeam = count($testinTeam->tea_id);
 
                 if ($comptTestinTeam == "0") {
-                    $tmpquery3 = "INSERT INTO " . $tableCollab["teams"] . "(project,member,published,authorized) VALUES('$project','$at','1','0')";
-                    phpCollab\Util::connectSql("$tmpquery3");
+                    $dbParams = [];
+                    $dbParams["project"] = $project;
+                    $dbParams["member"] = $at;
+                    $dbParams["published"] = 1;
+                    $dbParams["authorized"] = 0;
+
+                    phpCollab\Util::newConnectSql("INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES (:project,:member,:published,:authorized)", $dbParams);
+                    unset($dbParams);
                 }
 
                 if ($notifications == "true") {
