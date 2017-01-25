@@ -77,8 +77,6 @@ class MembersGateway
 
     public function getAllByOrg($orgId, $sorting = null)
     {
-        xdebug_var_dump($sorting);
-
         $whereStatement = "WHERE mem.organization = :org_id";
 
         $this->db->query($this->initrequest["members"] . ' ' . $whereStatement . $this->orderBy($sorting));
