@@ -33,15 +33,9 @@ class ProjectsGateway
      * @param $sorting
      * @internal param $inactive
      */
-    public function getAllByOwner($ownerId, $sorting)
+    public function getAllByOwner($ownerId, $sorting = null)
     {
-        if (!is_null($sorting)) {
-            $sortQry = 'ORDER BY ' . $sorting;
-        } else {
-            $sortQry = '';
-        }
-
-        $this->db->query($this->initrequest['teams'] . ' WHERE tea.member = :owner_id AND pro.status IN(2,3) ' . $sortQry);
+        $this->db->query($this->initrequest['teams'] . ' WHERE tea.member = :owner_id AND pro.status IN(2,3) ' . $this->orderBy($sorting));
 
         $this->db->bind(':owner_id', $ownerId);
 
@@ -54,18 +48,13 @@ class ProjectsGateway
      * @param $sorting
      * @return mixed
      */
-    public function getFilteredAllByOrganization($orgId, $memberId, $sorting)
+    public function getFilteredAllByOrganization($orgId, $memberId, $sorting = null)
     {
-        if (!is_null($sorting)) {
-            $sortQry = 'ORDER BY ' . $sorting;
-        } else {
-            $sortQry = '';
-        }
 
         $tmpquery = " LEFT OUTER JOIN {$this->tableCollab["teams"]} teams ON teams.project = pro.id";
-        $tmpquery .= " WHERE pro.organization = :org_id AND teams.member = :member_id " . $sortQry;
+        $tmpquery .= " WHERE pro.organization = :org_id AND teams.member = :member_id";
 
-        $this->db->query($this->initrequest['projects'] . $tmpquery);
+        $this->db->query($this->initrequest['projects'] . $tmpquery . $this->orderBy($sorting));
 
         $this->db->bind(':org_id', $orgId);
         $this->db->bind(':member_id', $memberId);
@@ -73,42 +62,17 @@ class ProjectsGateway
         return $this->db->resultset();
     }
 
-    /*
-        public function getFilteredAllByOrganization($orgId, $memberId, $sorting)
-        {
-            if (!is_null($sorting)) {
-                $sortQry = 'ORDER BY ' . $sorting;
-            } else {
-                $sortQry = '';
-            }
-
-            $tmpquery = " LEFT OUTER JOIN {$this->tableCollab["teams"]} teams ON teams.project = pro.id";
-            $tmpquery .= " WHERE pro.organization = :org_id AND teams.member = :member_id " . $sortQry;
-
-            $this->db->query($this->initrequest['projects'] . $tmpquery);
-
-            $this->db->bind(':org_id', $orgId);
-            $this->db->bind(':member_id', $memberId);
-
-            return $this->db->resultset();
-        }
-    */
     /**
      * @param $orgId
      * @param $sorting
      * @return mixed
      */
-    public function getAllByOrganization($orgId, $sorting)
+    public function getAllByOrganization($orgId, $sorting = null)
     {
-        if (!is_null($sorting)) {
-            $sortQry = ' ORDER BY ' . $sorting;
-        } else {
-            $sortQry = '';
-        }
 
-        $tmpquery = " WHERE pro.organization = :org_id" . $sortQry;
+        $tmpquery = " WHERE pro.organization = :org_id";
 
-        $this->db->query($this->initrequest['projects'] . $tmpquery);
+        $this->db->query($this->initrequest['projects'] . $tmpquery . $this->orderBy($sorting));
 
         $this->db->bind(':org_id', $orgId);
 
@@ -121,7 +85,7 @@ class ProjectsGateway
      * @param $sorting
      * @return
      */
-    public function getProjectList($ownerId, $typeProjects, $sorting)
+    public function getProjectList($ownerId, $typeProjects, $sorting = null)
     {
         $tmpQuery = '';
         if ($typeProjects == "inactive") {
@@ -140,13 +104,7 @@ class ProjectsGateway
             }
         }
 
-        if (!is_null($sorting)) {
-            $sortQry = 'ORDER BY ' . $sorting;
-        } else {
-            $sortQry = '';
-        }
-
-        $query = $this->initrequest["projects"] . ' ' . $tmpQuery . ' ' . $sortQry;
+        $query = $this->initrequest["projects"] . ' ' . $tmpQuery . $this->orderBy($sorting);
 
         $this->db->query($query);
 
@@ -181,4 +139,26 @@ class ProjectsGateway
 
     }
 
+    /**
+     * @param $sorting
+     * @return string
+     */
+    private function orderBy($sorting)
+    {
+        if (!is_null($sorting)) {
+            $allowedOrderedBy = ["tea.id", "tea.project", "tea.member", "tea.published", "tea.authorized", "mem.id", "mem.login", "mem.name", "mem.email_work", "mem.title", "mem.phone_work", "org.name", "pro.id", "pro.name", "pro.priority", "pro.status", "pro.published", "org2.name", "mem2.login", "mem2.email_work", "org2.id", "log.connected", "mem.profil", "mem.password"];
+            $pieces = explode(' ', $sorting);
+
+            if ($pieces) {
+                $key = array_search($pieces[0], $allowedOrderedBy);
+
+                if ($key !== false) {
+                    $order = $allowedOrderedBy[$key];
+                    return " ORDER BY $order $pieces[1]";
+                }
+            }
+        }
+
+        return '';
+    }
 }
