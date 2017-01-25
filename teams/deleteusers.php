@@ -10,6 +10,10 @@ if ($enable_cvs == "true") {
     include '../includes/cvslib.php';
 }
 
+$id = $_GET["id"];
+$project = $_GET["project"];
+$action = $_GET["action"];
+
 $tmpquery = "WHERE pro.id = '$project'";
 $projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
@@ -48,8 +52,7 @@ if ($action == "delete") {
         $compt = count($pieces);
         for ($i = 0; $i < $compt; $i++) {
             if ($projectDetail->pro_owner[0] != $pieces[$i]) {
-                $tmpquery1 = "DELETE FROM " . $tableCollab["teams"] . " WHERE member = '$pieces[$i]' AND project = '$project'";
-                phpCollab\Util::connectSql("$tmpquery1");
+                phpCollab\Util::newConnectSql("DELETE FROM {$tableCollab["teams"]} WHERE member = :member AND project = :project",["member" => $pieces[$i], "project" => $project]);
 
 //if mantis bug tracker enabled
                 if ($enableMantis == "true") {
@@ -77,11 +80,10 @@ if ($action == "delete") {
             $msg = "delete";
         }
     } else {
-        $tmpquery1 = "DELETE FROM " . $tableCollab["teams"] . " WHERE member = '$id' AND project = '$project'";
         if ($projectDetail->pro_owner[0] == $id) {
             $msg = "deleteTeamOwner";
         } else {
-            phpCollab\Util::connectSql("$tmpquery1");
+            phpCollab\Util::newConnectSql("DELETE FROM {$tableCollab["teams"]} WHERE member = :member AND project = :project",["member" => $id, "project" => $project]);
             $msg = "delete";
 
 //if mantis bug tracker enabled
@@ -102,9 +104,6 @@ if ($action == "delete") {
         }
     }
 
-//$tmpquery3 = "UPDATE ".$tableCollab["tasks"]." SET assigned_to='0' WHERE assigned_to IN($id) AND assigned_to != '$projectDetail->pro_owner[0]'";
-//phpCollab\Util::connectSql("$tmpquery3");
-
     if ($notifications == "true") {
         $organization = "1";
         include '../teams/noti_removeprojectteam.php';
@@ -116,8 +115,8 @@ include '../themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], "in"));
 $blockPage->itemBreadcrumbs($strings["remove_team"]);
 $blockPage->closeBreadcrumbs();
 
@@ -152,4 +151,3 @@ $block1->closeContent();
 $block1->closeForm();
 
 include '../themes/' . THEME . '/footer.php';
-?>
