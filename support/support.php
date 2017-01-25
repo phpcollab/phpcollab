@@ -39,12 +39,12 @@ include '../themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 if ($supportType == "team") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $requestProject->pro_id[0], $requestProject->pro_name[0], in));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=" . $requestProject->pro_id[0], $strings["support_requests"], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $requestProject->pro_id[0], $requestProject->pro_name[0], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=" . $requestProject->pro_id[0], $strings["support_requests"], "in"));
 } else if ($supportType == "admin") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], in));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/support.php?", $strings["support_management"], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/support.php?", $strings["support_management"], "in"));
 }
 
 if ($action == "new") {
@@ -75,7 +75,6 @@ if ($action == "new") {
 
 if ($teamMember == "true" || $profilSession == "0") {
     $block1->openPaletteIcon();
-    //$block1->paletteIcon(0,"add",$strings["add"]);
     $block1->paletteIcon(1, "edit", $strings["edit_status"]);
     $block1->paletteIcon(2, "remove", $strings["delete"]);
     $block1->paletteIcon(3, "info", $strings["view"]);
@@ -129,7 +128,7 @@ if ($comptListRequests != "0") {
         $block1->openRow();
         $block1->checkboxRow($listRequests->sr_id[$i]);
         $block1->cellRow($listRequests->sr_id[$i]);
-        $block1->cellRow($blockPage->buildLink("../support/viewrequest.php?id=" . $listRequests->sr_id[$i], $listRequests->sr_subject[$i], in));
+        $block1->cellRow($blockPage->buildLink("../support/viewrequest.php?id=" . $listRequests->sr_id[$i], $listRequests->sr_subject[$i], "in"));
         $block1->cellRow($listRequests->sr_mem_name[$i]);
         $block1->cellRow($listRequests->sr_project[$i]);
         $block1->cellRow($requestPriority);
@@ -145,7 +144,6 @@ if ($comptListRequests != "0") {
 $block1->closeFormResults();
 if ($teamMember == "true" || $profilSession == "0") {
     $block1->openPaletteScript();
-    //$block1->paletteScript(0,"add","../support/addpost.php?","false,true,true",$strings["respond"]);
     $block1->paletteScript(1, "edit", "../support/addpost.php?action=status", "false,true,false", $strings["edit_status"]);
     $block1->paletteScript(2, "remove", "../support/deleterequests.php?sendto=$action&action=deleteR", "false,true,true", $strings["delete"]);
     $block1->paletteScript(3, "info", "../support/viewrequest.php?", "false,true,false", $strings["view"]);
@@ -153,4 +151,3 @@ if ($teamMember == "true" || $profilSession == "0") {
 }
 
 include '../themes/' . THEME . '/footer.php';
-?>
