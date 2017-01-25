@@ -186,11 +186,25 @@ LEFT OUTER JOIN {$tableCollab["members"]} mem1 ON mem1.id = ass.owner
 LEFT OUTER JOIN {$tableCollab["members"]} mem2 ON mem2.id = ass.assigned_to
 ASSIGNMENTS;
 
-$initrequest["reports"] = "SELECT *
-FROM " . $tableCollab["reports"] . " rep
-";
+$initrequest["reports"] = <<<REPORTS
+SELECT 
+    rep.id as rep_id, 
+    rep.owner as rep_owner, 
+    rep.name as rep_name, 
+    rep.projects as rep_projects, 
+    rep.members as rep_members, 
+    rep.priorities as rep_priorities, 
+    rep.status as rep_status, 
+    rep.date_due_start as rep_date_due_end, 
+    rep.date_due_end as rep_date_due_end, 
+    rep.created as rep_created, 
+    rep.date_complete_start as rep_date_complete_start, 
+    rep.date_complete_end as rep_date_complete_end, 
+    rep.clients as rep_clients 
+FROM {$tableCollab["reports"]} rep
+REPORTS;
 
-$initrequest["teams"] =<<<TEAMSSQL
+$initrequest["teams"] = <<<TEAMSSQL
 SELECT 
     tea.id as tea_id, 
     tea.project as tea_project, 
