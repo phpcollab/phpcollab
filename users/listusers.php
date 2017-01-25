@@ -46,7 +46,6 @@ $block1->sorting("users", $sortingUser->sor_users[0], "mem.name ASC", $sortingFi
 if ($demoMode == "true") {
     $tmpquery = "WHERE mem.id != '1' AND mem.profil != '3' ORDER BY $block1->sortingValue";
 } else {
-    //$tmpquery = "WHERE mem.id != '1' AND mem.profil != '3' AND mem.id != '2' ORDER BY $block1->sortingValue";
     $tmpquery = "WHERE mem.id != '2' ORDER BY $block1->sortingValue";
 }
 $listMembers = new phpCollab\Request();
@@ -62,9 +61,9 @@ if ($comptListMembers != "0") {
         $idProfil = $listMembers->mem_profil[$i];
         $block1->openRow();
         $block1->checkboxRow($listMembers->mem_id[$i]);
-        $block1->cellRow($blockPage->buildLink("../users/viewuser.php?id=" . $listMembers->mem_id[$i], $listMembers->mem_name[$i], in));
+        $block1->cellRow($blockPage->buildLink("../users/viewuser.php?id=" . $listMembers->mem_id[$i], $listMembers->mem_name[$i], "in"));
         $block1->cellRow($listMembers->mem_login[$i]);
-        $block1->cellRow($blockPage->buildLink($listMembers->mem_email_work[$i], $listMembers->mem_email_work[$i], mail));
+        $block1->cellRow($blockPage->buildLink($listMembers->mem_email_work[$i], $listMembers->mem_email_work[$i], "mail"));
         $block1->cellRow($profil[$idProfil]);
         if ($listMembers->mem_log_connected[$i] > $dateunix - 5 * 60) {
             $block1->cellRow($strings["yes"] . " " . $strings["clients_connected"] . " (" . $listMembers->mem_last_page[$i] . ")");
@@ -89,4 +88,3 @@ $block1->paletteScript(5, "email", "../users/emailusers.php?", "false,true,true"
 $block1->closePaletteScript($comptListMembers, $listMembers->mem_id);
 
 include '../themes/' . THEME . '/footer.php';
-?>
