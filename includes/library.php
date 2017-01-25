@@ -61,10 +61,7 @@ if ($debug) {
     // pecify log file
     ini_set('error_log', APP_ROOT . '/logs/php_errors.log');
 
-//    register_shutdown_function('shutdown_notify');
-
     include_once APP_ROOT . '/classes/Vendor/FirePHPCore/FirePHP.class.php';
-//    ob_start();
 
 
     $debugbar = new StandardDebugBar();
@@ -199,7 +196,7 @@ $settings = null;
 //settings and date selector includes
 if ($indexRedirect == "true") {
     include 'includes/settings.php';
-//    echo "DEBUG:: Server - " . MYSERVER . "<br />User: " . MYLOGIN . "<br />Database: " . MYDATABASE;
+
     if (defined('CONVERTED') && CONVERTED) {
         include_once 'includes/classes/settings.class.php';
         $settings = new Settings(true);
