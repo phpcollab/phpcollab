@@ -47,10 +47,6 @@ for ($i = 0; $i < $comptListTeam; $i++) {
     $posters .= $listTeam->tea_member[$i] . ",";
 }
 
-
-// echo $posters;
-
-
 if (substr($posters, -1) == ",") {
     $posters = substr($posters, 0, -1);
 }
