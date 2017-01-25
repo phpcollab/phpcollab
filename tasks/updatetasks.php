@@ -97,7 +97,6 @@ if ($action == "update") {
             if ($at != "0" && $listTasks->tas_assigned[$i] == "") {
                 $tmpquery6 = "UPDATE " . $tableCollab["tasks"] . " SET assigned='$dateheure' WHERE id = '" . $listTasks->tas_id[$i] . "'";
                 phpCollab\Util::connectSql("$tmpquery6");
-                //echo $tmpquery6."<br/>";
             }
 
             if ($listTasks->tas_assigned_to[$i] == $at) {
@@ -107,29 +106,19 @@ if ($action == "update") {
             $tmpquery = "UPDATE " . $tableCollab["tasks"] . " SET $query,modified='$dateheure' WHERE id = '" . $listTasks->tas_id[$i] . "'";
             phpCollab\Util::connectSql("$tmpquery");
 
-            //echo $tmpquery."<br/>";
-            //echo $listTasks->tas_status[$i]." $st<br/>";
-            //echo $listTasks->tas_priority[$i]." $pr<br/>";
-
             if ($st != $strings["no_change"] && $listTasks->tas_status[$i] != $st && $assignUpdate != "true" && $listTasks->tas_assigned_to[$i] != "0") {
                 if ($notifications == "true") {
-                    //$statustaskchange = new Notification();
-                    //$statustaskchange->taskNotification($listTasks->tas_assigned_to[$i],$listTasks->tas_id[$i],"statustaskchange");
                     include '../tasks/noti_statustaskchange.php';
                 }
             }
 
             if ($pr != $strings["no_change"] && $listTasks->tas_priority[$i] != $pr && $assignUpdate != "true" && $listTasks->tas_assigned_to[$i] != "0") {
                 if ($notifications == "true") {
-                    //$prioritytaskchange = new Notification();
-                    //$prioritytaskchange->taskNotification($listTasks->tas_assigned_to[$i],$listTasks->tas_id[$i],"prioritytaskchange");
                     include '../tasks/noti_prioritytaskchange.php';
                 }
             }
             if ($dd != "--" && $listTasks->tas_due_date[$i] != $dd && $assignUpdate != "true" && $listTasks->tas_assigned_to[$i] != "0") {
                 if ($notifications == "true") {
-                    //$duedatetaskchange = new Notification();
-                    //$duedatetaskchange->taskNotification($listTasks->tas_assigned_to[$i],$listTasks->tas_id[$i],"duedatetaskchange");
                     include '../tasks/noti_duedatetaskchange.php';
                 }
             }
@@ -137,7 +126,6 @@ if ($action == "update") {
             if ($at != "0" && $sameAssign != "true" && $assignUpdate == "true") {
                 $tmpquery2 = "INSERT INTO " . $tableCollab["assignments"] . "(task,owner,assigned_to,comments,assigned) VALUES('" . $listTasks->tas_id[$i] . "','" . $listTasks->tas_owner[$i] . "','$at','$acomm','$dateheure')";
                 phpCollab\Util::connectSql("$tmpquery2");
-                //echo $tmpquery2."<br/>";
 
                 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$at'";
                 $testinTeam = new phpCollab\Request();
@@ -150,8 +138,6 @@ if ($action == "update") {
                 }
 
                 if ($notifications == "true") {
-                    //$taskassignment = new Notification();
-                    //$taskassignment->taskNotification($at,$listTasks->tas_id[$i],"taskassignment");
                     include '../tasks/noti_taskassignment.php';
                 }
             }
@@ -162,7 +148,6 @@ if ($action == "update") {
     phpCollab\Util::headerFunction("../tasks/listtasks.php?project=$project&msg=update&PHPSESSID=$PHPSESSID");
 }
 
-//$bodyCommand="onload=\"document.forms[0].compl.value = document.forms[0].completion.selectedIndex;\"";
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
 include '../themes/' . THEME . '/header.php';
 
