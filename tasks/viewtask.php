@@ -511,13 +511,6 @@ $block4->openPaletteScript();
 if ($teamMember == "true" || $profilSession == "5") {
     $block4->paletteScript(0, "add", "../subtasks/editsubtask.php?task=$id", "true,false,false", $strings["add"]);
     $block4->paletteScript(1, "remove", "../subtasks/deletesubtasks.php?task=$id", "false,true,true", $strings["delete"]);
-
-    //$block4->paletteScript(2,"copy","../subtasks/editsubtask.php?task=$id&docopy=true","false,true,false",$strings["copy"]);
-    //$block4->paletteScript(3,"export","export.php?","false,true,true",$strings["export"]);
-    /*if ($sitePublish == "true") {
-    $block4->paletteScript(4,"add_projectsite","../tasks/viewtask.php?addToSite=true&task=$id&action=publish","false,true,true",$strings["add_project_site"]);
-    $block4->paletteScript(5,"remove_projectsite","../tasks/viewtask.php?removeToSite=true&task=$id&action=publish","false,true,true",$strings["remove_project_site"]);
-    }*/
 }
 $block4->paletteScript(6, "info", "../subtasks/viewsubtask.php?task=$id", "false,true,false", $strings["view"]);
 
