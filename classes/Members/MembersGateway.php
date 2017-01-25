@@ -75,6 +75,11 @@ class MembersGateway
         return $this->db->single();
     }
 
+    /**
+     * @param $orgId
+     * @param null $sorting
+     * @return mixed
+     */
     public function getAllByOrg($orgId, $sorting = null)
     {
         $whereStatement = "WHERE mem.organization = :org_id";
