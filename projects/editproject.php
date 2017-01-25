@@ -106,8 +106,6 @@ if ($id != "")
 
 			if ($enableInvoicing == "true") 
 			{
-					// This doesn't work with postgresql, does it need to be database dependant?
-					//$tmpquery3 = "INSERT INTO ".$tableCollab["invoices"]." SET project='$projectNew',created='$dateheure',status='0',active='$invoicing',published='1'";
 					$tmpquery3 = "INSERT INTO ".$tableCollab["invoices"]."(project,created,status,active,published) VALUES ('$projectNew','$dateheure','0','$invoicing','1')";
 					
 					phpCollab\Util::connectSql($tmpquery3);
@@ -473,7 +471,6 @@ if ($id == "")
 
 		if ($enableInvoicing == "true") 
 		{
-			//$tmpquery3 = "INSERT INTO ".$tableCollab["invoices"]." SET project='$num',status='0',created='$dateheure',active='$invoicing',published='1'";
 			$tmpquery3 = "INSERT INTO ".$tableCollab["invoices"]." (project,status,created,active,published) VALUES ('$num','0','$dateheure','$invoicing','1')";
 			phpCollab\Util::connectSql($tmpquery3);
 		}
