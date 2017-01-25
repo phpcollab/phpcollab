@@ -136,7 +136,6 @@ if ($teamMember == "true" || $profilSession == "5") {
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "remove", $strings["delete"]);
     $block1->paletteIcon(1, "copy", $strings["copy"]);
-    //$block1->paletteIcon(2,"export",$strings["export"]);
 
     if ($sitePublish == "true") {
         $block1->paletteIcon(3, "add_projectsite", $strings["add_project_site"]);
@@ -276,7 +275,6 @@ if ($teamMember == "true" || $profilSession == "5") {
     $block1->openPaletteScript();
     $block1->paletteScript(0, "remove", "../tasks/deletetasks.php?project=" . $taskDetail->tas_project[0] . "&id=" . $taskDetail->tas_id[0] . "", "true,true,false", $strings["delete"]);
     $block1->paletteScript(1, "copy", "../tasks/edittask.php?project=" . $taskDetail->tas_project[0] . "&id=" . $taskDetail->tas_id[0] . "&docopy=true", "true,true,false", $strings["copy"]);
-    //$block1->paletteScript(2,"export","export.php?","true,true,false",$strings["export"]);
 
     if ($sitePublish == "true") {
         $block1->paletteScript(3, "add_projectsite", "../tasks/viewtask.php?addToSite=true&id=" . $taskDetail->tas_id[0] . "&action=publish", "true,true,true", $strings["add_project_site"]);
