@@ -58,7 +58,6 @@ $block1->openForm("../support/listrequests.php?&id=$id#" . $block1->form . "Anch
 $block1->heading($strings["support_requests"]);
 if ($teamMember == "true" || $profilSession == "0") {
     $block1->openPaletteIcon();
-    //$block1->paletteIcon(0,"add",$strings["add"]);
     $block1->paletteIcon(1, "edit", $strings["edit_status"]);
     $block1->paletteIcon(2, "remove", $strings["delete"]);
     $block1->paletteIcon(3, "info", $strings["view"]);
@@ -106,7 +105,6 @@ if ($comptListRequests != "0") {
 $block1->closeFormResults();
 if ($teamMember == "true" || $profilSession == "0") {
     $block1->openPaletteScript();
-    //$block1->paletteScript(0,"add","addsupport.php?","true,true,true",$strings["add"]);
     $block1->paletteScript(1, "edit", "../support/addpost.php?action=status", "false,true,false", $strings["edit_status"]);
     $block1->paletteScript(2, "remove", "../support/deleterequests.php?action=deleteR", "false,true,true", $strings["delete"]);
     $block1->paletteScript(3, "info", "../support/viewrequest.php?", "false,true,false", $strings["view"]);
