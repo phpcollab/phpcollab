@@ -6,16 +6,15 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
+$action = $_GET["action"];
+$id = $_GET["id"];
+
 if ($action == "delete") {
     $id = str_replace("**", ",", $id);
-    //$tmpquery1 = "DELETE FROM ".$tableCollab["topics"]." WHERE id IN($id)";
-    $tmpquery1 = "DELETE FROM " . $tableCollab["topics"] . " WHERE id = $id";
-    //$tmpquery2 = "DELETE FROM ".$tableCollab["posts"]." WHERE topic IN($id)";
-    $tmpquery2 = "DELETE FROM " . $tableCollab["posts"] . " WHERE topic = $id";
     $pieces = explode(",", $id);
     $num = count($pieces);
-    phpCollab\Util::connectSql("$tmpquery1");
-    phpCollab\Util::connectSql("$tmpquery2");
+    phpCollab\Util::newConnectSql("DELETE FROM {$tableCollab["topics"]} WHERE id = :topic_id", ["topic_id" => $id]);
+    phpCollab\Util::newConnectSql("DELETE FROM {$tableCollab["posts"]} WHERE topic = :topic_id", ["topic_id" => $id]);
     if ($project != "") {
         phpCollab\Util::headerFunction("../projects/viewproject.php?num=$num&msg=deleteTopic&id=$project");
     } else {
@@ -36,12 +35,12 @@ include '../themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 if ($project != "") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], in));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../topics/listtopics.php?project=" . $projectDetail->pro_id[0], $strings["discussions"], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../topics/listtopics.php?project=" . $projectDetail->pro_id[0], $strings["discussions"], "in"));
 } else {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../general/home.php?", $strings["home"], in));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../topics/listtopics.php?", $strings["my_discussions"], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../general/home.php?", $strings["home"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../topics/listtopics.php?", $strings["my_discussions"], "in"));
 }
 $blockPage->itemBreadcrumbs($strings["delete_discussions"]);
 $blockPage->closeBreadcrumbs();
@@ -78,4 +77,3 @@ $block1->closeContent();
 $block1->closeForm();
 
 include '../themes/' . THEME . '/footer.php';
-?>
