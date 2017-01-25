@@ -75,17 +75,13 @@ class MembersGateway
         return $this->db->single();
     }
 
-    public function getAllByOrg($orgId, $sorting)
+    public function getAllByOrg($orgId, $sorting = null)
     {
-        if (!is_null($sorting)) {
-            $sortQry = ' ORDER BY ' . $sorting;
-        } else {
-            $sortQry = '';
-        }
+        xdebug_var_dump($sorting);
 
-        $whereStatement = "WHERE mem.organization = :org_id" . $sortQry;
+        $whereStatement = "WHERE mem.organization = :org_id";
 
-        $this->db->query($this->initrequest["members"] . ' ' . $whereStatement);
+        $this->db->query($this->initrequest["members"] . ' ' . $whereStatement . $this->orderBy($sorting));
 
         $this->db->bind(':org_id', $orgId);
 
@@ -115,5 +111,26 @@ class MembersGateway
         return $this->db->execute($orgId);
     }
 
+    /**
+     * @param string $sorting
+     * @return string
+     */
+    private function orderBy($sorting)
+    {
+        if (!is_null($sorting)) {
+            $allowedOrderedBy = ["mem.name", "mem.login", "mem.email_work", "mem.phone_work", "connected"];
+            $pieces = explode(' ', $sorting);
 
+            if ($pieces) {
+                $key = array_search($pieces[0], $allowedOrderedBy);
+
+                if ($key !== false) {
+                    $order = $allowedOrderedBy[$key];
+                    return " ORDER BY $order $pieces[1]";
+                }
+            }
+        }
+
+        return '';
+    }
 }

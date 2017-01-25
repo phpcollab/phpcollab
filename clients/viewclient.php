@@ -207,7 +207,7 @@ if ($profilSession == "0" || $profilSession == "1") {
 }
 $block3->closePaletteIcon();
 
-$block3->sorting("users", $sortingUser->sor_users[0], "mem.name ASC", $sortingFields = array(0 => "mem.name", 1 => "mem.login", 2 => "mem.email_work", 3 => "mem.profil", 4 => "connected"));
+$block3->sorting("users", $sortingUser->sor_users[0], "mem.name ASC", $sortingFields = array(0 => "mem.name", 1 => "mem.login", 2 => "mem.email_work", 3 => "mem.phone_work", 4 => "connected"));
 
 $listMembers = $members->getMembersByOrg($id, $block3->sortingValue);
 
