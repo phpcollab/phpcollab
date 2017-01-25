@@ -215,4 +215,3 @@ if ($projectDetail->pro_organization[0] != "" && $projectDetail->pro_organizatio
 }
 
 include '../themes/' . THEME . '/footer.php';
-?>
