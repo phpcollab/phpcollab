@@ -114,8 +114,6 @@ if ($firstday == 0) {
     $firstday = 7;
 }
 
-//echo "<!-- DAB - Type: $type -->";
-
 if ($type == "calendEdit") {
     if ($action == "update") {
         if ($recurring == "") {
