@@ -11,15 +11,25 @@ if ($profilSession != "0") {
 }
 
 //case update user
+$id = $_GET['id'];
+
+$action = $_GET['action'];
+
 if ($id != "") {
 
 //case update user
     if ($action == "update") {
 //replace quotes by html code in name and address
-        $n = phpCollab\Util::convertData($n);
-        $np = phpCollab\Util::convertData($np);
-        $tmpquery = "UPDATE " . $tableCollab["services"] . " SET name='$n',name_print='$np',hourly_rate='$hr' WHERE id = '$id'";
-        phpCollab\Util::connectSql($tmpquery);
+        $n = phpCollab\Util::convertData($_POST['n']);
+        $np = phpCollab\Util::convertData($_POST['np']);
+        $tmpquery = "UPDATE {$tableCollab["services"]} SET name=:name,name_print=:name_print,hourly_rate=:hourly_rate WHERE id = :service_id";
+        $dbParams = [];
+        $dbParams["name"] = $n;
+        $dbParams["name_print"] = $np;
+        $dbParams["hourly_rate"] = $_POST['hr'];
+        $dbParams["service_id"] = $id;
+        phpCollab\Util::newConnectSql($tmpquery, $dbParams);
+        unset($dbParams);
         phpCollab\Util::headerFunction("../services/listservices.php?msg=update");
     }
     $tmpquery = "WHERE serv.id = '$id'";
@@ -37,13 +47,17 @@ if ($id != "") {
 if ($id == "") {
     if ($action == "add") {
 //replace quotes by html code in name and address
-        $n = phpCollab\Util::convertData($n);
-        $np = phpCollab\Util::convertData($np);
+        $n = phpCollab\Util::convertData($_POST['n']);
+        $np = phpCollab\Util::convertData($_POST['np']);
 
-        //$tmpquery1 = "INSERT INTO ".$tableCollab["services"]." SET name='$n',name_print='$np',hourly_rate='$hr'";
-        $tmpquery1 = "INSERT INTO " . $tableCollab["services"] . " (name,name_print,hourly_rate) VALUES ('$n','$np','$hr')";
+        $tmpquery1 = "INSERT INTO {$tableCollab["services"]} (name,name_print,hourly_rate) VALUES (:name,:name_print,:hourly_rate)";
 
-        phpCollab\Util::connectSql($tmpquery1);
+        $dbParams = [];
+        $dbParams["name"] = $n;
+        $dbParams["name_print"] = $np;
+        $dbParams["hourly_rate"] = $_POST['hr'];
+        phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
+        unset($dbParams);
         phpCollab\Util::headerFunction("../services/listservices.php?msg=add");
     }
 }
@@ -60,14 +74,14 @@ include '../themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../services/listservices.php?", $strings["service_management"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../services/listservices.php?", $strings["service_management"], "in"));
 
 if ($id == "") {
     $blockPage->itemBreadcrumbs($strings["add_service"]);
 }
 if ($id != "") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../services/viewservice.php?id=$id", $detailService->serv_name[0], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../services/viewservice.php?id=$id", $detailService->serv_name[0], "in"));
     $blockPage->itemBreadcrumbs($strings["edit_service"]);
 }
 $blockPage->closeBreadcrumbs();
@@ -119,4 +133,3 @@ $block1->closeContent();
 $block1->closeForm();
 
 include '../themes/' . THEME . '/footer.php';
-?>
