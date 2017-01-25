@@ -109,8 +109,6 @@ $block1->heading($strings["project_site"] . " : " . $projectDetail->pro_name[0])
 if ($idSession == $projectDetail->pro_owner[0] || $profilSession == "5") {
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "remove", $strings["delete"]);
-    //$block1->paletteIcon(1,"template",$strings["template"]);
-    //$block1->paletteIcon(2,"edit",$strings["edit"]);
     $block1->closePaletteIcon();
 }
 
