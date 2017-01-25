@@ -115,7 +115,6 @@ if ($projectCount > 0) {
         $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $data["pro_id"], $data["pro_id"], "in"));
         $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $data["pro_id"], $data["pro_name"], "in"));
         $block1->cellRow('<img src="../themes/' . THEME . '/images/gfx_priority/' . $idPriority . '.gif" alt=""> ' . $priority[$idPriority]);
-//        $block1->cellRow($data["pro_org_name"]);
         $block1->cellRow($blockPage->buildLink("../clients/viewclient.php?id=" . $data["pro_org_id"], $data["pro_org_name"], "in"));
         $block1->cellRow($status[$idStatus]);
 
@@ -141,71 +140,6 @@ if ($projectCount > 0) {
     $block1->noresults();
 }
 
-// OLD CODE BLOCK
-
-//$block1->sorting("projects",$sortingUser->sor_projects[0],"pro.name ASC",$sortingFields = array(0=>"pro.id",1=>"pro.name",2=>"pro.priority",3=>"org.name",4=>"pro.status",5=>"mem.login",6=>"pro.published"));
-/*
-if ($typeProjects == "inactive") {
-    if ($projectsFilter == "true") {
-        $tmpquery = "LEFT OUTER JOIN ".$tableCollab["teams"]." teams ON teams.project = pro.id ";
-        $tmpquery .= " WHERE pro.status IN(0,1,4) AND teams.member = '$idSession' ORDER BY $block1->sortingValue";
-    } else {
-        $tmpquery = "WHERE pro.status IN(0,1,4) ORDER BY $block1->sortingValue";
-    }
-} else if ($typeProjects == "active") {
-    if ($projectsFilter == "true") {
-        $tmpquery = "LEFT OUTER JOIN " . $tableCollab["teams"] . " teams ON teams.project = pro.id ";
-        $tmpquery .= "WHERE pro.status IN(2,3) AND teams.member = '$idSession' ORDER BY $block1->sortingValue";
-    } else {
-        $tmpquery = "WHERE pro.status IN(2,3)  ORDER BY $block1->sortingValue";
-    }
-}
-
-$block1->recordsTotal = phpCollab\Util::computeTotal($initrequest["projects"] . " " . $tmpquery);
-
-$listProjects = new phpCollab\Request();
-$listProjects->openProjects($tmpquery, $block1->limit, $block1->rowsLimit);
-$comptListProjects = count($listProjects->pro_id);
-
-//xdebug_var_dump( $listProjects );
-
-
-if ($comptListProjects != "0") {
-    $block1->openResults();
-    $block1->labels($labels = array(0 => $strings["id"], 1 => $strings["project"], 2 => $strings["priority"], 3 => $strings["organization"], 4 => $strings["status"], 5 => $strings["owner"], 6 => $strings["project_site"]), "true");
-
-    for ($i = 0; $i < $comptListProjects; $i++) {
-        if ($listProjects->pro_org_id[$i] == "1") {
-            $listProjects->pro_org_name[$i] = $strings["none"];
-        }
-        $idStatus = $listProjects->pro_status[$i];
-        $idPriority = $listProjects->pro_priority[$i];
-        $block1->openRow();
-        $block1->checkboxRow($listProjects->pro_id[$i]);
-        $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listProjects->pro_id[$i], $listProjects->pro_id[$i], in));
-        $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listProjects->pro_id[$i], $listProjects->pro_name[$i], in));
-        $block1->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
-        $block1->cellRow($listProjects->pro_org_name[$i]);
-        $block1->cellRow($status[$idStatus]);
-        $block1->cellRow($blockPage->buildLink($listProjects->pro_mem_email_work[$i], $listProjects->pro_mem_login[$i], mail));
-        if ($sitePublish == "true") {
-            if ($listProjects->pro_published[$i] == "1") {
-                $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $listProjects->pro_id[$i], $strings["create"] . "...", in) . "&gt;");
-            } else {
-                $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=" . $listProjects->pro_id[$i], $strings["details"], in) . "&gt;");
-            }
-        }
-        $block1->closeRow();
-    }
-    $block1->closeResults();
-
-    $block1->limitsFooter("1", $blockPage->limitsNumber, "", "typeProjects=$typeProjects");
-
-} else {
-    $block1->noresults();
-}
-
-*/
 $block1->closeFormResults();
 $block1->openPaletteScript();
 if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
