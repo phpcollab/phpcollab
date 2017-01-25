@@ -47,8 +47,6 @@ if ($S_SDATE == "" && $S_EDATE == "") {
     $S_DUEDATE = "ALL";
 }
 
-//echo "$S_PRJSEL + $S_ORGSEL + $S_ATSEL + $S_STATSEL + $S_PRIOSEL + $S_SDATE + $S_EDATE";
-
 if ($S_ORGSEL != "ALL" || $S_PRJSEL != "ALL" || $S_ATSEL != "ALL" || $S_STATSEL != "ALL" || $S_PRIOSEL != "ALL" || $S_DUEDATE != "ALL") {
     $queryStart = "WHERE (";
 
@@ -140,7 +138,6 @@ for ($i = 0; $i < $comptListTasks; $i++) {
     $printProgress = $listTasks->tas_completion[$i] * 10;
     $activity = new GanttBar($posGantt, $listTasks->tas_pro_name[$i] . " / " . $listTasks->tas_name[$i], $listTasks->tas_start_date[$i], $listTasks->tas_due_date[$i]);
 
-    //$activity = new GanttBar($i,$strings["project"].": ".$listTasks->tas_pro_name[$i]." / ".$strings["task"].": ".$listTasks->tas_name[$i],$listTasks->tas_start_date[$i],$listTasks->tas_due_date[$i]);
     $activity->SetPattern(BAND_LDIAG, "yellow");
     $activity->caption->Set($listTasks->tas_mem_login[$i] . " (" . $printProgress . "%)");
     $activity->SetFillColor("gray");
@@ -168,10 +165,8 @@ for ($i = 0; $i < $comptListTasks; $i++) {
             $progress = round($listSubTasks->subtas_completion[$j] / 10, 2);
             $printProgress = $listSubTasks->subtas_completion[$j] * 10;
             $posGantt += 1;
-            // $activity = new GanttBar($posGantt,$listTasks->tas_pro_name[$i]." / ".$listSubTasks->subtas_name[$j],$listSubTasks->subtas_start_date[$j],$listSubTasks->subtas_due_date[$j]);
             // change name of project for name of parent task
             $activity = new GanttBar($posGantt, $listSubTasks->subtas_tas_name[$j] . " / " . $listSubTasks->subtas_name[$j], $listSubTasks->subtas_start_date[$j], $listSubTasks->subtas_due_date[$j]);
-            //$activity = new GanttBar($j,$strings["project"].": ".$listSubTasks->subtas_pro_name[$j]." / ".$strings["task"].": ".$listSubTasks->subtas_name[$j],$listSubTasks->subtas_start_date[$j],$listSubTasks->subtas_due_date[$j]);
             $activity->SetPattern(BAND_LDIAG, "yellow");
             $activity->caption->Set($listSubTasks->subtas_mem_login[$j] . " (" . $printProgress . "%)");
             $activity->SetFillColor("gray");
@@ -193,4 +188,3 @@ for ($i = 0; $i < $comptListTasks; $i++) {
 }
 
 $graph->Stroke();
-?>
