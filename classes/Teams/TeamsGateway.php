@@ -39,6 +39,11 @@ class TeamsGateway
         return $results;
     }
 
+    /**
+     * @param $memberId
+     * @param $orgId
+     * @return mixed
+     */
     public function getTeamByTeamMemberAndOrgId($memberId, $orgId)
     {
         $whereStatement = "WHERE tea.member = :member_id AND org2.id = :org_id";
@@ -51,25 +56,43 @@ class TeamsGateway
 
     /**
      * @param $projectId
-     * @param $orderBy
+     * @param null $sorting
      * @return mixed
+     * @internal param $orderBy
      */
-    public function getTeamByProjectIdAndOrderBy($projectId, $orderBy)
+    public function getTeamByProjectIdAndOrderBy($projectId, $sorting = null)
     {
         $whereStatement = " WHERE tea.project = :project_id";
 
-        if (isset($orderBy)) {
-            $orderBy = filter_var($orderBy, FILTER_SANITIZE_STRING);
-            $orderByStatement = " ORDER BY " . $orderBy;
-        } else {
-            $orderByStatement = '';
-        }
-        $sql = $this->initrequest["teams"] . $whereStatement . $orderByStatement;
+        $sql = $this->initrequest["teams"] . $whereStatement . $this->orderBy($sorting);
 
         $this->db->query($sql);
         $this->db->bind(':project_id', $projectId);
         $results = $this->db->resultset();
 
         return $results;
+    }
+
+    /**
+     * @param $sorting
+     * @return string
+     */
+    private function orderBy($sorting)
+    {
+        if (!is_null($sorting)) {
+            $allowedOrderedBy = [];
+            $pieces = explode(' ', $sorting);
+
+            if ($pieces) {
+                $key = array_search($pieces[0], $allowedOrderedBy);
+
+                if ($key !== false) {
+                    $order = $allowedOrderedBy[$key];
+                    return " ORDER BY $order $pieces[1]";
+                }
+            }
+        }
+
+        return '';
     }
 }
