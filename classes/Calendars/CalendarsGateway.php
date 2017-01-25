@@ -5,6 +5,10 @@ namespace phpCollab\Calendars;
 
 use phpCollab\Database;
 
+/**
+ * Class CalendarsGateway
+ * @package phpCollab\Calendars
+ */
 class CalendarsGateway
 {
     protected $db;
@@ -35,6 +39,10 @@ class CalendarsGateway
     }
 
 
+    /**
+     * @param $calendarId
+     * @return mixed
+     */
     public function getCalendarById($calendarId)
     {
         $query = $this->initrequest["calendar"] . " WHERE cal.id IN(:calendar_id) ORDER BY cal.subject";
@@ -46,6 +54,11 @@ class CalendarsGateway
         return $this->db->resultset();
     }
 
+    /**
+     * @param $ownerId
+     * @param $calendarId
+     * @return mixed
+     */
     public function getCalendarByOwnerAndId($ownerId, $calendarId)
     {
         $query = $this->initrequest["calendar"] . " WHERE cal.owner = :cal_owner AND cal.id = :calendar_id";
@@ -55,6 +68,11 @@ class CalendarsGateway
         return $this->db->single();
     }
 
+    /**
+     * @param $ownerId
+     * @param $calendarId
+     * @return mixed
+     */
     public function getCalendarDetail($ownerId, $calendarId)
     {
         $query = $this->initrequest["calendar"] . " WHERE (cal.owner = :calendar_owner AND cal.id = :calendar_id) OR (cal.broadcast = '1' AND cal.id = :calendar_id)";
@@ -65,6 +83,12 @@ class CalendarsGateway
         return $this->db->single();
     }
 
+    /**
+     * @param $ownerId
+     * @param $calendarDate
+     * @param $recurringDay
+     * @return mixed
+     */
     public function getCalendarMonth($ownerId, $calendarDate, $recurringDay)
     {
         $query = $this->initrequest["calendar"] . " WHERE (cal.owner = :calendar_owner AND ((cal.date_start <= :calendar_day AND cal.date_end >= :calendar_day AND cal.recurring = '0') OR ((cal.date_start <= :calendar_day AND cal.date_end <= :calendar_day) AND cal.recurring = '1' AND cal.recur_day = :recurring_day))) OR (cal.broadcast = '1' AND ((cal.date_start <= :calendar_day AND cal.date_end >= :calendar_day AND cal.recurring = '0') OR ((cal.date_start <= :calendar_day AND cal.date_end <= :calendar_day) AND cal.recurring = '1' AND cal.recur_day = :recurring_day))) ORDER BY cal.shortname";
@@ -76,10 +100,15 @@ class CalendarsGateway
         return $this->db->resultset();
     }
 
+    /**
+     * @param $ownerId
+     * @param $calendarDate
+     * @param $recurringDay
+     * @return mixed
+     */
     public function getCalendarDay($ownerId, $calendarDate, $recurringDay)
     {
         $query = $this->initrequest["calendar"] . " WHERE (cal.owner = :calendar_owner AND ((cal.date_start <= :calendar_day AND cal.date_end >= :calendar_day AND cal.recurring = '0') OR ((cal.date_start <= :calendar_day AND cal.date_end >= :calendar_day) AND cal.recurring = '1' AND cal.recur_day = :recurring_day))) OR (cal.broadcast = '1' AND ((cal.date_start <= :calendar_day AND cal.date_end >= :calendar_day AND cal.recurring = '0') OR ((cal.date_start <= :calendar_day AND cal.date_end >= :calendar_day) AND cal.recurring = '1' AND cal.recur_day = :recurring_day))) ORDER BY cal.shortname";
-//xdebug_var_dump($query);
         $this->db->query($query);
         $this->db->bind(':calendar_owner', $ownerId);
         $this->db->bind(':calendar_day', $calendarDate);
