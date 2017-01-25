@@ -40,7 +40,6 @@ for ($i = 0; $i < $comptListTeam; $i++) {
 if (substr($posters, -1) == ",") {
     $posters = substr($posters, 0, -1);
 }
-//echo $posters;
 
 if ($posters != "") {
     $tmpquery = "WHERE noti.member IN($posters)";
@@ -85,4 +84,3 @@ if ($posters != "") {
         }
     }
 }
-?>
