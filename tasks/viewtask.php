@@ -38,15 +38,14 @@ if ($task != "") {
 
 if ($action == "publish") {
 
-    if ($addToSite == "true") {
-        $tmpquery1 = "UPDATE " . $tableCollab["tasks"] . " SET published='0' WHERE id = '$id'";
-        phpCollab\Util::connectSql("$tmpquery1");
+    if ($addToSite == "true") {;
+        phpCollab\Util::newConnectSql("UPDATE {$tableCollab["tasks"]} SET published = :published WHERE id = :taske_id", ["published" => 0, "task_id" => $id]);
+
         $msg = "addToSite";
     }
 
     if ($removeToSite == "true") {
-        $tmpquery1 = "UPDATE " . $tableCollab["tasks"] . " SET published='1' WHERE id = '$id'";
-        phpCollab\Util::connectSql("$tmpquery1");
+        phpCollab\Util::newConnectSql("UPDATE {$tableCollab["tasks"]} SET published= :published WHERE id = :task_id", ["published" => 1, "task_id" => $id]);
         $msg = "removeToSite";
     }
 
