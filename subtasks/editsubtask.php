@@ -174,7 +174,6 @@ if ($id != "") {
                     unset($dbParams);
 
                 }
-                //$msg = "updateAssignment";
                 $msg = "update";
                 phpCollab\Util::newConnectSql($tmpquery5, $tmpquery5Params);
                 unset($dbParams);
@@ -573,7 +572,6 @@ echo "<script type='text/javascript'>
 </script>";
 
 if ($id != "") {
-    //$block1->contentRow($strings["complete_date"],"<input type='text' name='cd' id='sel5' size='20' value='$cd'><input type='button' value=' ... ' onclick=\"return showCalendar('sel5', '%Y-%m-%d');\">");
     $block1->contentRow($strings["complete_date"], "<input type='text' name='cd' id='complete_date' size='20' value='$cd'><input type='button' value=' ... ' id='trigCompleteDate'>");
     echo "<script type='text/javascript'>
     Calendar.setup({
