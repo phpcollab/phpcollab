@@ -38,6 +38,11 @@ class Teams
         return $team;
     }
 
+    /**
+     * @param $teamMember
+     * @param $orgId
+     * @return mixed
+     */
     public function getTeamByTeamMemberAndOrgId($teamMember, $orgId)
     {
         $orgId = filter_var($orgId, FILTER_VALIDATE_INT);
