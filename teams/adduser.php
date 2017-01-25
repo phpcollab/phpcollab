@@ -79,13 +79,11 @@ if ($action == "add") {
 
 include '../themes/' . THEME . '/header.php';
 
-//echo "$tmpquery<br/>$comptMulti<br/>";
-
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../teams/listusers.php?id=" . $projectDetail->pro_id[0], $strings["team_members"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../teams/listusers.php?id=" . $projectDetail->pro_id[0], $strings["team_members"], "in"));
 $blockPage->itemBreadcrumbs($strings["add_team"]);
 $blockPage->closeBreadcrumbs();
 
@@ -135,9 +133,9 @@ if ($comptListMembers != "0") {
         }
         $block1->openRow();
         $block1->checkboxRow($listMembers->mem_id[$i]);
-        $block1->cellRow($blockPage->buildLink("../users/viewuser.php?id=" . $listMembers->mem_id[$i], $listMembers->mem_name[$i], in));
+        $block1->cellRow($blockPage->buildLink("../users/viewuser.php?id=" . $listMembers->mem_id[$i], $listMembers->mem_name[$i], "in"));
         $block1->cellRow($listMembers->mem_title[$i]);
-        $block1->cellRow($blockPage->buildLink($listMembers->mem_email_work[$i], $listMembers->mem_login[$i], in));
+        $block1->cellRow($blockPage->buildLink($listMembers->mem_email_work[$i], $listMembers->mem_login[$i], "in"));
         $block1->cellRow($listMembers->mem_phone_work[$i]);
         if ($listMembers->mem_log_connected[$i] > $dateunix - 5 * 60) {
             $block1->cellRow($strings["yes"] . " " . $z);
@@ -159,4 +157,3 @@ $block1->paletteScript(2, "edit", "../users/edituser.php?", "false,true,false", 
 $block1->closePaletteScript($comptListMembers, $listMembers->mem_id);
 
 include '../themes/' . THEME . '/footer.php';
-?>
