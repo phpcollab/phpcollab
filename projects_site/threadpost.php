@@ -29,7 +29,6 @@ if ($action == "add") {
 
         include '../topics/noti_newpost.php';
     }
-    //phpCollab\Util::headerFunction("showallthreads.php?id=$id&".session_name()."=".session_id());
 }
 
 $bouton[5] = "over";
