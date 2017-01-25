@@ -59,17 +59,18 @@ $block1->closePaletteIcon();
 $block1->sorting("reports", $sortingUser->sor_reports[0], "rep.name ASC", $sortingFields = array(0 => "rep.name", 1 => "rep.created"));
 
 $db = new phpCollab\Database();
-$reports_gateway = new phpCollab\Reports\ReportsGateway($db);
+//$reports_gateway = new phpCollab\Reports\ReportsGateway($db);
+$reports = new \phpCollab\Reports\Reports();
 
 //$myReports = new phpCollab\Reports();
 
 $sorting = $block1->sortingValue;
 
-$dataSet = $reports_gateway->getAllByOwner($idSession, $sorting);
+$dataSet = $reports->getReportsByOwner($idSession, $sorting);
 
 $reportCount = count($dataSet);
 
-if ($reportCount > 0) {
+if ($dataSet) {
 
     $block1->openResults();
     $block1->labels($labels = array(0 => $strings["name"], 1 => $strings["created"]), "false");
@@ -77,8 +78,8 @@ if ($reportCount > 0) {
     foreach ($dataSet as $data) {
         $block1->openRow();
         $block1->checkboxRow($data["id"]);
-        $block1->cellRow($blockPage->buildLink("../reports/resultsreport.php?id=" . $data["id"], $data["name"], in));
-        $block1->cellRow(phpCollab\Util::createDate($data["created"], $timezoneSession));
+        $block1->cellRow($blockPage->buildLink("../reports/resultsreport.php?id=" . $data["rep_id"], $data["rep_name"], in));
+        $block1->cellRow(phpCollab\Util::createDate($data["rep_created"], $timezoneSession));
     }
     $block1->closeResults();
 } else {
@@ -91,6 +92,6 @@ $block1->openPaletteScript();
 $block1->paletteScript(0, "add", "../reports/createreport.php?", "true,true,true", $strings["add"]);
 $block1->paletteScript(1, "remove", "../reports/deletereports.php?", "false,true,true", $strings["delete"]);
 $block1->paletteScript(2, "export", "../reports/exportreport.php?", "false,true,true", $strings["export"]);
-$block1->closePaletteScript($comptListReports, $listReports->rep_id);
+$block1->closePaletteScript($comptListReports, $dataSet['rep_id']);
 
 include '../themes/' . THEME . '/footer.php';

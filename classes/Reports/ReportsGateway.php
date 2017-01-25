@@ -13,10 +13,7 @@ class ReportsGateway
 {
 //    protected $db, $tableCollab, $initrequest;
     protected $db;
-
-    // Todo: refactor to use the initrequest strings
-    protected $stmt = "SELECT id, owner, name, projects, members, priorities, status, date_due_start, date_due_end, created, 
-        date_complete_start, date_complete_end, clients FROM reports rep";
+    protected $initrequest;
 
     /**
      * Reports constructor.
@@ -25,6 +22,8 @@ class ReportsGateway
     public function __construct(Database $db)
     {
         $this->db = $db;
+        $this->initrequest = $GLOBALS['initrequest'];
+
     }
 
     /**
@@ -34,14 +33,7 @@ class ReportsGateway
      */
     public function getAllByOwner($ownerId, $sorting = null)
     {
-        if (isset($sorting)) {
-            $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
-            $sortQry = 'ORDER BY ' . $sorting;
-        } else {
-            $sortQry = '';
-        }
-
-        $this->db->query($this->stmt . ' WHERE rep.owner = :owner_id ' . $sortQry);
+        $this->db->query($this->initrequest["reports"] . ' WHERE rep.owner = :owner_id ' . $this->orderBy($sorting));
 
         $this->db->bind(':owner_id', $ownerId);
 
@@ -54,11 +46,34 @@ class ReportsGateway
      */
     public function getReportById($reportId)
     {
-        $this->db->query($this->stmt . ' WHERE rep.id = :report_id ');
+        $this->db->query($this->initrequest["reports"] . ' WHERE rep.id = :report_id ');
 
         $this->db->bind(':report_id', $reportId);
 
-        return $this->db->resultset();
+        return $this->db->single();
     }
 
+
+    /**
+     * @param $sorting
+     * @return string
+     */
+    private function orderBy($sorting)
+    {
+        if (!is_null($sorting)) {
+            $allowedOrderedBy = ["rep.id","rep.owner","rep.name","rep.projects","rep.members","rep.priorities","rep.status","rep.date_due_start","rep.date_due_end","rep.created","rep.date_complete_start","rep.date_complete_end","rep.clients"];
+            $pieces = explode(' ', $sorting);
+
+            if ($pieces) {
+                $key = array_search($pieces[0], $allowedOrderedBy);
+
+                if ($key !== false) {
+                    $order = $allowedOrderedBy[$key];
+                    return " ORDER BY $order $pieces[1]";
+                }
+            }
+        }
+
+        return '';
+    }
 }

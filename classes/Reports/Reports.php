@@ -1,28 +1,45 @@
 <?php
+namespace phpCollab\Reports;
+
+use phpCollab\Database;
+
 /**
- * Created by mindblender.
- * User: mindblender
- * Date: 5/27/16
- * Time: 10:36 PM
+ * Class Reports
+ * @package phpCollab\Reports
  */
-
-namespace Reports;
-
-use phpCollab\Reports\ReportsGateway;
-
 class Reports
 {
     protected $reports_gateway;
+    protected $db;
 
-    public function __construct(ReportsGateway $reports_gateway)
+    /**
+     * Reports constructor.
+     */
+    public function __construct()
     {
-        $this->reports_gateway = $reports_gateway;
+        $this->db = new Database();
+        $this->reports_gateway = new ReportsGateway($this->db);
     }
 
-    public function getReportsByOwner($ownerId)
+    /**
+     * @param $ownerId
+     * @return mixed
+     */
+    public function getReportsByOwner($ownerId, $sorting)
     {
-        $rows = $this->reports_gateway->getAllByOwner($ownerId);
+        $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
+        $rows = $this->reports_gateway->getAllByOwner($ownerId, $sorting);
         return $rows;
+    }
+
+    /**
+     * @param $reportId
+     * @return mixed
+     */
+    public function getReportsById($reportId)
+    {
+        $report = $this->reports_gateway->getReportById($reportId);
+        return $report;
     }
 
 }
