@@ -411,10 +411,6 @@ if ($type == "monthPreview") {
         }
     }
 
-    //if (($i%7) != 1) {
-    //	echo "</tr><tr>\n";
-    //	}
-
     if ($colsremain != "7") {
         for ($j = 0; $j < $colsremain; $j++) {
             echo "<td class='even'>&nbsp;</td>\n";
