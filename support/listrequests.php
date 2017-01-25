@@ -36,12 +36,12 @@ include '../themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 if ($supportType == "team") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], "in"));
     $blockPage->itemBreadcrumbs($strings["support_requests"]);
 } else if ($supportType == "admin") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], in));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/support.php?", $strings["support_management"], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/support.php?", $strings["support_management"], "in"));
     $blockPage->itemBreadcrumbs($strings["support_requests"]);
 }
 $blockPage->closeBreadcrumbs();
@@ -91,7 +91,7 @@ if ($comptListRequests != "0") {
         $block1->openRow();
         $block1->checkboxRow($listRequests->sr_id[$i]);
         $block1->cellRow($listRequests->sr_id[$i]);
-        $block1->cellRow($blockPage->buildLink("../support/viewrequest.php?id=" . $listRequests->sr_id[$i], $listRequests->sr_subject[$i], in));
+        $block1->cellRow($blockPage->buildLink("../support/viewrequest.php?id=" . $listRequests->sr_id[$i], $listRequests->sr_subject[$i], "in"));
         $block1->cellRow($requestPriority);
         $block1->cellRow($currentStatus);
         $block1->cellRow($listRequests->sr_date_open[$i]);
