@@ -28,9 +28,9 @@ $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($strings["projects"]);
 if ($typeProjects == "inactive") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?typeProjects=active", $strings["active"], in) . " | " . $strings["inactive"]);
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?typeProjects=active", $strings["active"], "in") . " | " . $strings["inactive"]);
 } else if ($typeProjects == "active") {
-    $blockPage->itemBreadcrumbs($strings["active"] . " | " . $blockPage->buildLink("../projects/listprojects.php?typeProjects=inactive", $strings["inactive"], in));
+    $blockPage->itemBreadcrumbs($strings["active"] . " | " . $blockPage->buildLink("../projects/listprojects.php?typeProjects=inactive", $strings["inactive"], "in"));
 }
 $blockPage->closeBreadcrumbs();
 
@@ -112,19 +112,20 @@ if ($projectCount > 0) {
 
         $block1->openRow();
         $block1->checkboxRow($data["tea_pro_id"]);
-        $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $data["pro_id"], $data["pro_id"], in));
-        $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $data["pro_id"], $data["pro_name"], in));
+        $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $data["pro_id"], $data["pro_id"], "in"));
+        $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $data["pro_id"], $data["pro_name"], "in"));
         $block1->cellRow('<img src="../themes/' . THEME . '/images/gfx_priority/' . $idPriority . '.gif" alt=""> ' . $priority[$idPriority]);
-        $block1->cellRow($data["pro_org_name"]);
+//        $block1->cellRow($data["pro_org_name"]);
+        $block1->cellRow($blockPage->buildLink("../clients/viewclient.php?id=" . $data["pro_org_id"], $data["pro_org_name"], "in"));
         $block1->cellRow($status[$idStatus]);
 
-        $block1->cellRow($blockPage->buildLink('../users/viewuser.php?id=' . $data["pro_mem_id"], $data["pro_mem_login"], in));
+        $block1->cellRow($blockPage->buildLink('../users/viewuser.php?id=' . $data["pro_mem_id"], $data["pro_mem_login"], "in"));
 
         if ($sitePublish == "true") {
             if ($data["pro_published"] == "1") {
-                $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $data["pro_id"], $strings["create"] . "...", in) . "&gt;");
+                $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $data["pro_id"], $strings["create"] . "...", "in") . "&gt;");
             } else {
-                $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=" . $data["pro_id"], $strings["details"], in) . "&gt;");
+                $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=" . $data["pro_id"], $strings["details"], "in") . "&gt;");
             }
         }
 
