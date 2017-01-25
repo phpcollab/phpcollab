@@ -9,10 +9,17 @@ namespace phpCollab;
 use phpCollab\Tasks\Tasks;
 use \Exception;
 
+/**
+ * Class Util
+ * @package phpCollab
+ */
 class Util
 {
     protected $strings;
 
+    /**
+     * Util constructor.
+     */
     public function __construct() {
         $this->strings = $GLOBALS['strings'];
     }
@@ -45,6 +52,10 @@ class Util
     }
 
     // replace spec.chars , you can add rule
+    /**
+     * @param $return
+     * @return mixed
+     */
     public static function replaceSpecialCharacters($return)
     {
         $return = str_replace('"', '&quot', $return);
@@ -61,7 +72,9 @@ class Util
      * @param string $var Variable name
      * @param string $type Variable type (SERVER, POST, GET, SESSION, REQUEST, COOKIE)
      * @access public
-     **/
+     *
+     * @return mixed
+     */
     public static function returnGlobal($var, $type = null)
     {
         if (phpversion() >= "4.1.0") {
@@ -94,7 +107,9 @@ class Util
      * Check last version of PhpCollab
      * @param string $iCV Version to compare
      * @access public
-     **/
+     *
+     * @return string
+     */
     public static function updateChecker($iCV)
     {
         $phpcollab_url = 'http://www.php-collab.org/website/version.txt';
@@ -196,7 +211,9 @@ class Util
      * @param string $date1 Date to compare
      * @param string $date2 Date to compare
      * @access public
-     **/
+     *
+     * @return float
+     */
     public static function diffDate($date1, $date2)
     {
         $an = substr("$date1", 0, 4);
@@ -220,7 +237,9 @@ class Util
      * @param string $formPassword User name password to test
      * @param string $storedPassword Password stored in database
      * @access public
-     **/
+     *
+     * @return bool
+     */
     public static function doesPasswordMatch($formUsername, $formPassword, $storedPassword)
     {
         global $loginMethod, $useLDAP, $configLDAP;
@@ -291,7 +310,9 @@ class Util
      * Return a password using the globally specified method
      * @param string $newPassword Password to transfom
      * @access public
-     **/
+     *
+     * @return string
+     */
     public static function getPassword($newPassword)
     {
         global $loginMethod;
@@ -315,7 +336,9 @@ class Util
      * @param boolean $with_tiny_letters Option to use tiny letters
      * @param boolean $with_capital_letters Option to use capital letters
      * @access public
-     **/
+     *
+     * @return string
+     */
     public static function passwordGenerator($size = 8, $with_numbers = true, $with_tiny_letters = true, $with_capital_letters = true)
     {
         global $pass_g;
@@ -508,7 +531,9 @@ class Util
      * @param string $location Path of directory to calculate
      * @param boolean $recursive Option to use recursivity
      * @access public
-     **/
+     *
+     * @return int
+     */
     public static function folderInfoSize($path, $recursive = true)
     {
         $result = 0;
@@ -534,7 +559,9 @@ class Util
      * Return size converted with units (in the user language)
      * @param string $result Result to convert
      * @access public
-     **/
+     *
+     * @return string
+     */
     public static function convertSize($result)
     {
         global $byteUnits;
@@ -564,7 +591,9 @@ class Util
      * Return file size
      * @param string $fichier File used
      * @access public
-     **/
+     *
+     * @return int
+     */
     public static function fileInfoSize($fichier)
     {
         global $taille;
@@ -593,7 +622,9 @@ class Util
      * Return file date
      * @param string $fichier File used
      * @access public
-     **/
+     *
+     * @return false|string
+     */
     public static function getFileDate($file)
     {
         global $dateFile;
@@ -607,7 +638,9 @@ class Util
      * Read the content of a file
      * @param string $file File used
      * @access public
-     **/
+     *
+     * @return bool|string
+     */
     public static function getFileContents($file)
     {
         $content = '';
@@ -641,7 +674,9 @@ class Util
      * @param string $storedDate Date stored in database
      * @param string $gmtUser User timezone
      * @access public
-     **/
+     *
+     * @return false|string
+     */
     public static function createDate($storedDate, $gmtUser)
     {
         global $gmtTimezone;
@@ -666,7 +701,9 @@ class Util
      * Convert insert data value in form
      * @param string $data Data to convert
      * @access public
-     **/
+     *
+     * @return mixed|string
+     */
     public static function convertData($data)
     {
         global $databaseType;
@@ -698,6 +735,11 @@ class Util
 
     }
 
+    /**
+     * @param $tmpsql
+     * @param $params
+     * @return int
+     */
     public function newComputeTotal($tmpsql, $params)
     {
         $db = new \phpCollab\Database();
@@ -715,7 +757,9 @@ class Util
      * Count total results from a request
      * @param string $tmpsql Sql query
      * @access public
-     **/
+     *
+     * @return int
+     */
     public static function computeTotal($tmpsql)
     {
         global $comptRequest, $databaseType;
@@ -1008,8 +1052,7 @@ class Util
         $subtaskList->openAvgTasks($taskid);
         $avg = $subtaskList->tas_avg[0];
         settype($avg, "integer");
-        $tmpquery6 = "UPDATE {$tableTask} set completion = $avg where id='$taskid'";
-        Util::connectSql($tmpquery6);
+        Util::newConnectSql("UPDATE {$tableTask} set completion = :average where id = :task_id",["average" => $avg, "task_id" => $taskid]);
     }
 
     /**
