@@ -433,12 +433,6 @@ $block4->openPaletteIcon();
 if ($teamMember == "true" || $profilSession == "5") {
     $block4->paletteIcon(0, "add", $strings["add"]);
     $block4->paletteIcon(1, "remove", $strings["delete"]);
-    //$block4->paletteIcon(2,"copy",$strings["copy"]);
-    //$block4->paletteIcon(3,"export",$strings["export"]);
-    /*if ($sitePublish == "true") {
-        $block4->paletteIcon(4,"add_projectsite",$strings["add_project_site"]);
-        $block4->paletteIcon(5,"remove_projectsite",$strings["remove_project_site"]);
-    }*/
 }
 $block4->paletteIcon(6, "info", $strings["view"]);
 
