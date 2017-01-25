@@ -130,8 +130,6 @@ $block1->closeForm();
 if ($idSession == $projectDetail->pro_owner[0] || $profilSession == "5") {
     $block1->openPaletteScript();
     $block1->paletteScript(0, "remove", "../projects/deleteprojectsite.php?project=$id", "true,true,true", $strings["delete"]);
-    //$block1->paletteScript(1,"template","addtemplate.php?","true,true,true",$strings["template"]);
-    //$block1->paletteScript(1,"template","editprojectsite.php?","true,true,false",$strings["template"]);
     $block1->closePaletteScript("", "");
 }
 
