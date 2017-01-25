@@ -6,21 +6,21 @@
 global $tableCollab;
 
 $initrequest["sorting"] = "SELECT *
-FROM " . $tableCollab["sorting"] . " sor
+FROM {$tableCollab["sorting"]} sor
 ";
 
 $initrequest["services"] = "SELECT *
-FROM " . $tableCollab["services"] . " serv
+FROM {$tableCollab["services"]} serv
 ";
 
 $initrequest["invoices_items"] = "SELECT invitem.*
-FROM " . $tableCollab["invoices_items"] . " invitem
-LEFT OUTER JOIN " . $tableCollab["invoices"] . " inv ON inv.id = invitem.invoice
+FROM {$tableCollab["invoices_items"]} invitem
+LEFT OUTER JOIN {$tableCollab["invoices"]} inv ON inv.id = invitem.invoice
 ";
 
 $initrequest["invoices"] = "SELECT inv.*,pro.id,pro.name
-FROM " . $tableCollab["invoices"] . " inv
-LEFT OUTER JOIN " . $tableCollab["projects"] . " pro ON pro.id = inv.project
+FROM {$tableCollab["invoices"]} inv
+LEFT OUTER JOIN {$tableCollab["projects"]} pro ON pro.id = inv.project
 ";
 
 $initrequest["calendar"] = <<<CALENDAR
@@ -46,19 +46,19 @@ LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = cal.owner
 CALENDAR;
 
 $initrequest["notes"] = "SELECT note.id, note.project, note.owner, note.topic, note.subject, note.description, note.date, note.published, mem.id, mem.login, mem.name, mem.email_work
-FROM " . $tableCollab["notes"] . " note
-LEFT OUTER JOIN " . $tableCollab["members"] . " mem ON mem.id = note.owner
-LEFT OUTER JOIN " . $tableCollab["projects"] . " pro ON pro.id = note.project
+FROM {$tableCollab["notes"]} note
+LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = note.owner
+LEFT OUTER JOIN {$tableCollab["projects"]} pro ON pro.id = note.project
 ";
 
 $initrequest["logs"] = "SELECT log.id, log.login, log.password, log.ip, log.session, log.compt, log.last_visite, log.connected, mem.profil
-FROM " . $tableCollab["logs"] . " log
-LEFT OUTER JOIN " . $tableCollab["members"] . " mem ON mem.login = log.login
+FROM {$tableCollab["logs"]} log
+LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.login = log.login
 ";
 
 $initrequest["notifications"] = "SELECT noti.*,mem.id,mem.login,mem.name,mem.email_work,mem.organization,mem.profil
-FROM " . $tableCollab["notifications"] . " noti
-LEFT OUTER JOIN " . $tableCollab["members"] . " mem ON mem.id = noti.member
+FROM {$tableCollab["notifications"]} noti
+LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = noti.member
 ";
 
 $initrequest["members"] = <<<SQL
@@ -85,7 +85,7 @@ org.id AS org_id,
 org.name AS org_name,
 log.connected AS log_connected,
 log.login AS log_login
-FROM members mem
+FROM {$tableCollab["members"]} mem
 LEFT OUTER JOIN organizations org ON org.id = mem.organization
 LEFT OUTER JOIN logs log ON log.login = mem.login
 SQL;
@@ -116,15 +116,15 @@ mem.id AS pro_mem_id,
 mem.login AS pro_mem_login, 
 mem.name AS pro_mem_name, 
 mem.email_work AS pro_mem_email_work
-FROM projects pro
+FROM {$tableCollab["projects"]} pro
 LEFT OUTER JOIN organizations org ON org.id = pro.organization
 LEFT OUTER JOIN members mem ON mem.id = pro.owner
 SQL;
 
 $initrequest["files"] = "SELECT fil.*, mem.id, mem.login, mem.name, mem.email_work, mem2.id, mem2.login, mem2.name, mem2.email_work
-FROM " . $tableCollab["files"] . " fil
-LEFT OUTER JOIN " . $tableCollab["members"] . " mem ON mem.id = fil.owner
-LEFT OUTER JOIN " . $tableCollab["members"] . " mem2 ON mem2.id = fil.approver
+FROM {$tableCollab["files"]} fil
+LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = fil.owner
+LEFT OUTER JOIN {$tableCollab["members"]} mem2 ON mem2.id = fil.approver
 ";
 
 $initrequest["organizations"] = <<<SQL
@@ -154,15 +154,15 @@ LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = org.owner
 SQL;
 
 $initrequest["topics"] = "SELECT topic.id, topic.project, topic.owner, topic.subject, topic.status, topic.last_post, topic.posts, topic.published, mem.id, mem.login, mem.name, mem.email_work, pro.id, pro.name
-FROM " . $tableCollab["topics"] . " topic
-LEFT OUTER JOIN " . $tableCollab["members"] . " mem ON mem.id = topic.owner
-LEFT OUTER JOIN " . $tableCollab["projects"] . " pro ON pro.id = topic.project
+FROM {$tableCollab["topics"]} topic
+LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = topic.owner
+LEFT OUTER JOIN {$tableCollab["projects"]} pro ON pro.id = topic.project
 ";
 
 $initrequest["posts"] = "SELECT pos.id, pos.topic, pos.member, pos.created, pos.message, mem.id, mem.login, mem.name, mem.email_work
-FROM " . $tableCollab["posts"] . " pos
-LEFT OUTER JOIN " . $tableCollab["members"] . " mem ON mem.id = pos.member
-LEFT OUTER JOIN " . $tableCollab["topics"] . " topic ON topic.id = pos.topic
+FROM {$tableCollab["posts"]} pos
+LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = pos.member
+LEFT OUTER JOIN {$tableCollab["topics"]} topic ON topic.id = pos.topic
 ";
 
 $initrequest["assignments"] = <<<ASSIGNMENTS
@@ -313,7 +313,7 @@ SELECT
   mem2.email_work as subtas_mem2_email_work, 
   mem.organization as subtas_mem_organization, 
   tas.name as subtas_tas_name
-FROM subtasks subtas
+FROM {$tableCollab["subtasks"]} subtas
 LEFT OUTER JOIN members mem ON mem.id = subtas.assigned_to
 LEFT OUTER JOIN tasks tas ON tas.id = subtas.task
 LEFT OUTER JOIN members mem2 ON mem2.id = subtas.owner
@@ -349,14 +349,14 @@ LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = upd.member
 UPDATES;
 
 $initrequest["support_requests"] = "SELECT sr.id, sr.status, sr.member, sr.priority, sr.subject, sr.message, sr.owner, sr.date_open, sr.date_close, sr.project, pro.name, mem.name, mem.email_work
-FROM " . $tableCollab["support_requests"] . " sr
-LEFT OUTER JOIN " . $tableCollab["projects"] . " pro ON pro.id = sr.project
-LEFT OUTER JOIN " . $tableCollab["members"] . " mem ON mem.id = sr.member
+FROM {$tableCollab["support_requests"]} sr
+LEFT OUTER JOIN {$tableCollab["projects"]} pro ON pro.id = sr.project
+LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = sr.member
 ";
 
 $initrequest["support_posts"] = "SELECT sp.id, sp.request_id, sp.message, sp.date, sp.owner, sp.project, mem.name, mem.email_work
-FROM " . $tableCollab["support_posts"] . " sp
-LEFT OUTER JOIN " . $tableCollab["members"] . " mem ON mem.id = sp.owner
+FROM {$tableCollab["support_posts"]} sp
+LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = sp.owner
 ";
 
 $initrequest["bookmarks"] = <<<SQL
@@ -377,7 +377,7 @@ SELECT
   mem.login AS boo_mem_login, 
   mem.email_work AS boo_mem_email_work, 
   boocat.name AS boo_boocat_name
-FROM bookmarks boo
+FROM {$tableCollab["bookmarks"]} boo
 LEFT OUTER JOIN bookmarks_categories boocat ON boocat.id = boo.category
 LEFT OUTER JOIN members mem ON mem.id = boo.owner
 SQL;
@@ -387,11 +387,11 @@ SELECT
 boocat.id AS boocat_id, 
 boocat.name AS boocat_name, 
 boocat.description AS boocat_description 
-FROM bookmarks_categories boocat
+FROM {$tableCollab["bookmarks_categories"]} boocat
 SQL;
 
-$initrequest["newsdeskposts"] = "SELECT news.* FROM " . $tableCollab["newsdeskposts"] . " news ";
+$initrequest["newsdeskposts"] = "SELECT news.* FROM {$tableCollab["newsdeskposts"]} news ";
 
-$initrequest["newsdeskcomments"] = "SELECT newscom.* FROM " . $tableCollab["newsdeskcomments"] . " newscom ";
+$initrequest["newsdeskcomments"] = "SELECT newscom.* FROM {$tableCollab["newsdeskcomments"]} newscom ";
 
 ?>
