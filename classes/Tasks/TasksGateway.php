@@ -120,10 +120,10 @@ class TasksGateway
      * @param $sorting
      * @return mixed
      */
-    public function getOpenAndCompletedSubTasksAssignedToMe($ownerId, $sorting)
+    public function getOpenAndCompletedSubTasksAssignedToMe($ownerId, $sorting = null)
     {
-        $tmpquery = " WHERE subtas.assigned_to = :owner_id AND subtas.status IN(0,2,3) AND tas.status IN(0,2,3) ORDER BY $sorting";
-        $this->db->query($this->initrequest["subtasks"] . $tmpquery);
+        $tmpquery = " WHERE subtas.assigned_to = :owner_id AND subtas.status IN(0,2,3) AND tas.status IN(0,2,3)";
+        $this->db->query($this->initrequest["subtasks"] . $tmpquery . $this->orderBy($sorting));
         $this->db->bind(':owner_id', $ownerId);
         return $this->db->resultset();
     }
@@ -141,7 +141,7 @@ class TasksGateway
 
         $this->db->query($sql);
 
-        return $this->db->execute(array($placeholders, $placeholders2));
+        return $this->db->execute([$placeholders, $placeholders2]);
     }
 
     /**
@@ -166,7 +166,20 @@ class TasksGateway
      */
     private function orderBy($sorting)
     {
-        return (!is_null($sorting)) ? ' ORDER BY ' . $sorting : '';
-    }
+        if (!is_null($sorting)) {
+            $allowedOrderedBy = ["tas.id","tas.project","tas.priority","tas.status","tas.owner","tas.assigned_to","tas.name","tas.description","tas.start_date","tas.due_date","tas.estimated_time","tas.actual_time","tas.comments","tas.completion","tas.created","tas.modified","tas.assigned","tas.published","tas.parent_phase","tas.complete_date","tas.invoicing","tas.worked_hours","mem.id","mem.name","mem.login","mem.email_work","mem2.id","mem2.name","mem2.login","mem2.email_work","mem.organization","pro.name","org.id", "subtas.id","subtas.task","subtas.priority","subtas.status","subtas.owner","subtas.assigned_to","subtas.name","subtas.description","subtas.start_date","subtas.due_date","subtas.estimated_time","subtas.actual_time","subtas.comments","subtas.completion","subtas.created","subtas.modified","subtas.assigned","subtas.published","subtas.complete_date"];
+            $pieces = explode(' ', $sorting);
 
+            if ($pieces) {
+                $key = array_search($pieces[0], $allowedOrderedBy);
+
+                if ($key !== false) {
+                    $order = $allowedOrderedBy[$key];
+                    return " ORDER BY $order $pieces[1]";
+                }
+            }
+        }
+
+        return '';
+    }
 }
