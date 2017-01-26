@@ -20,13 +20,12 @@ $requestDetail = new phpCollab\Request();
 $requestDetail->openSupportRequests($tmpquery);
 
 if ($action == "edit") {
-
-    if ($sta == 2) {
-        $tmpquery2 = "UPDATE " . $tableCollab["support_requests"] . " SET status='$sta',date_close='$dateheure' WHERE id = '$id'";
-        phpCollab\Util::connectSql("$tmpquery2");
-    } else {
-        $tmpquery2 = "UPDATE " . $tableCollab["support_requests"] . " SET status='$sta',date_close='--' WHERE id = '$id'";
-        phpCollab\Util::connectSql($tmpquery2);
+        $dbParams = [];
+        $dbParams["status"] = $sta;
+        $dbParams["date_close"] = ($sta == 2) ? $dateheure : '--' ;
+        $dbParams["support_request_id"] = $id;
+        phpCollab\Util::newConnectSql("UPDATE {$tableCollab["support_requests"]} SET status=:status,date_close=:date_close WHERE id = :support_request_id", $dbParams);
+        unset($dbParams);
     }
 
     if ($notifications == "true") {
@@ -42,13 +41,9 @@ if ($action == "edit") {
 if ($action == "add") {
     $mes = phpCollab\Util::convertData($mes);
 
-    $tmpquery1 = "INSERT INTO " . $tableCollab["support_posts"] . "(request_id,message,date,owner,project) VALUES('$id','$mes','$dateheure','$idSession','" . $requestDetail->sr_project[0] . "')";
-    phpCollab\Util::connectSql("$tmpquery1");
-    $tmpquery = $tableCollab["support_posts"];
-    phpCollab\Util::getLastId($tmpquery);
-
-    $num = $lastId[0];
-    unset($lastId);
+    $num = phpCollab\Util::newConnectSql(
+        "INSERT INTO {$tableCollab["support_posts"]} (request_id,message,date,owner,project) VALUES(:request_id, :message, :date, :owner, :project)",
+        ["request_id" => $id, "message" => $mes, "date" => $dateheure, "owner" => $idSession, "project" => $requestDetail->sr_project[0]]);
 
     if ($notifications == "true") {
         if ($mes != "") {
