@@ -319,7 +319,8 @@ class Block
             $explode = explode(" ", $this->sortingValue);
         }
 
-        for ($i = 0; $i < count($this->sortingFields); $i++) {
+        $sortingFieldsCount = count($this->sortingFields);
+        for ($i = 0; $i < $sortingFieldsCount; $i++) {
             if ($this->sortingFields[$i] == $explode[0] && $explode[1] == "DESC") {
                 $this->sortingOrders[$i] = "ASC";
                 $this->sortingArrows[$i] = "&#160;<img border=\"0\" src=\"$this->themeImgPath/icon_sort_za.gif\" alt=\"\" width=\"11\" height=\"11\">";
