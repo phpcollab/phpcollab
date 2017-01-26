@@ -252,7 +252,7 @@ if ($S_PRJSEL != "ALL" || $S_ORGSEL != "ALL" || $S_ATSEL != "ALL" || $S_STATSEL 
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/listreports.php?", $strings["reports"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/listreports.php?", $strings["reports"], "in"));
 
 if ($id != "") {
     $blockPage->itemBreadcrumbs($reportDetail->rep_name[0]);
@@ -373,7 +373,7 @@ if ($comptListTasks != "0") {
 
         $block1->openRow();
         $block1->cellRow('');
-        $block1->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $listTasks->tas_id[$i], $listTasks->tas_name[$i], in));
+        $block1->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $listTasks->tas_id[$i], $listTasks->tas_name[$i], "in"));
         $block1->cellRow("<i style='background-color: yellow; '></i><img src='../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif' alt=''> " . $priority[$idPriority]);
         $block1->cellRow($status[$idStatus]);
 
@@ -393,10 +393,10 @@ if ($comptListTasks != "0") {
             $block1->cellRow($strings["unassigned"]);
         } else {
             // Todo: change this so it points to the user's profile instead of their email address
-            $block1->cellRow($blockPage->buildLink($listTasks->tas_mem_email_work[$i], $listTasks->tas_mem_login[$i], mail));
+            $block1->cellRow($blockPage->buildLink($listTasks->tas_mem_email_work[$i], $listTasks->tas_mem_login[$i], "mail"));
         }
 
-        $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listTasks->tas_project[$i], $listTasks->tas_pro_name[$i], in));
+        $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listTasks->tas_project[$i], $listTasks->tas_pro_name[$i], "in"));
 
         if ($sitePublish == "true") {
             $block1->cellRow($statusPublish[$idPublish]);
@@ -417,7 +417,7 @@ if ($comptListTasks != "0") {
                 $idPublish = $listSubTasks->subtas_published[$j];
                 $block1->openRow();
                 $block1->cellRow('');
-                $block1->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $listSubTasks->subtas_id[$j] . "&task=" . $listSubTasks->subtas_task[$j], $listSubTasks->subtas_name[$j], in));
+                $block1->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $listSubTasks->subtas_id[$j] . "&task=" . $listSubTasks->subtas_task[$j], $listSubTasks->subtas_name[$j], "in"));
                 $block1->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
                 $block1->cellRow($status[$idStatus]);
 
@@ -437,10 +437,10 @@ if ($comptListTasks != "0") {
                     $block1->cellRow($strings["unassigned"]);
                 } else {
                     // Todo: change this so it points to the user's profile instead of their email address
-                    $block1->cellRow($blockPage->buildLink($listSubTasks->subtas_mem_email_work[$j], $listSubTasks->subtas_mem_login[$j], mail));
+                    $block1->cellRow($blockPage->buildLink($listSubTasks->subtas_mem_email_work[$j], $listSubTasks->subtas_mem_login[$j], "mail"));
                 }
 
-                $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listSubTasks->subtas_project[$j], $listSubTasks->subtas_pro_name[$j], in));
+                $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listSubTasks->subtas_project[$j], $listSubTasks->subtas_pro_name[$j], "in"));
 
                 if ($sitePublish == "true") {
                     $block1->cellRow($statusPublish[$idPublish]);
@@ -458,7 +458,7 @@ if ($comptListTasks != "0") {
         echo "
 			<div id='ganttChart_taskList' class='ganttChart'>
 				<img src='graphtasks.php?&report=$id' alt=''><br/>
-				<span class='listEvenBold''>" . $blockPage->buildLink("http://www.aditus.nu/jpgraph/", "JpGraph", powered) . "</span>	
+				<span class='listEvenBold''>" . $blockPage->buildLink("http://www.aditus.nu/jpgraph/", "JpGraph", "powered") . "</span>	
 			</div>
 		";
     }
@@ -518,4 +518,3 @@ $block2->closeContent();
 $block2->closeForm();
 
 include '../themes/' . THEME . '/footer.php';
-?>
