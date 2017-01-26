@@ -45,15 +45,17 @@ if ($action == "add") {
 
     $ttt = phpCollab\Util::convertData($ttt);
     $tpm = phpCollab\Util::convertData($tpm);
-    $tmpquery1 = "INSERT INTO " . $tableCollab["topics"] . "(project,owner,subject,status,last_post,posts,published) VALUES('$project','$idSession','$ttt','1','$dateheure','1','$pub')";
-    phpCollab\Util::connectSql("$tmpquery1");
-    $tmpquery = $tableCollab["topics"];
-    phpCollab\Util::getLastId($tmpquery);
-    $num = $lastId[0];
-    unset($lastId);
+
+    $num = phpCollab\Util::newConnectSql(
+        "INSERT INTO {$tableCollab["topics"]} (project,owner,subject,status,last_post,posts,published) VALUES (:project, :owner, :subject, '1', :last_post, '1', :published)",
+        ["project" => $project, "owner" => $idSession, "subject" =>$ttt, "last_post" => $dateheure, "published" => $pub]
+    );
+
     phpCollab\Util::autoLinks($tpm);
-    $tmpquery2 = "INSERT INTO " . $tableCollab["posts"] . "(topic,member,created,message) VALUES('$num','$idSession','$dateheure','$newText')";
-    phpCollab\Util::connectSql("$tmpquery2");
+    phpCollab\Util::newConnectSql(
+        "INSERT INTO {$tableCollab["posts"]} (topic,member,created,message) VALUES (:topic, :member, :created, message)",
+        ["topic" => $num, "member" => $idSession, "created" => $dateheure, "message" => $newText]
+    );
 
     if ($notifications == "true") {
         include '../topics/noti_newtopic.php';
