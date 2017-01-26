@@ -62,15 +62,17 @@ if ($id != "") {
         if (get_magic_quotes_gpc() != 1) {
             $content = addslashes($content);
         }
-        $tmpquery = "UPDATE " . $tableCollab["newsdeskposts"] . " SET title = '$title', author = '$author', related = '$related', content = '$content', links = '$links', rss = '$rss' WHERE id = '$id'";
-        phpCollab\Util::connectSql("$tmpquery");
+
+        phpCollab\Util::newConnectSql(
+            "UPDATE {$tableCollab["newsdeskposts"]} SET title = :title, author = :author, related = :related, content = :content, links = :links, rss = :rss WHERE id = :id",
+            ["title" => $title, "author" => $author, "related" => $related, "content" => $content, "links" => $links, "rss" => $rss, "id" => $id]
+        );
         phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$id&msg=update");
     } elseif ($action == "delete") {
         $id = str_replace("**", ",", $id);
-        $tmpquery = "DELETE FROM " . $tableCollab["newsdeskposts"] . " WHERE id = $id";
-        phpCollab\Util::connectSql("$tmpquery");
-        $tmpquery = "DELETE FROM " . $tableCollab["newsdeskcomments"] . " WHERE post_id = $id";
-        phpCollab\Util::connectSql("$tmpquery");
+        phpCollab\Util::newConnectSql("DELETE FROM {$tableCollab["newsdeskposts"]} WHERE id = :id", ["id" => $id]);
+
+        phpCollab\Util::newConnectSql("DELETE FROM {$tableCollab["newsdeskcomments"]} WHERE post_id = :post_id", ["post_id" => $postid]);
         phpCollab\Util::headerFunction("../newsdesk/listnews.php?msg=removeNews");
     } else {
         //set value in form
@@ -99,12 +101,8 @@ if ($id != "") {
 
             //insert into organizations and redirect to new client organization detail (last id)
 
-            $tmpquery1 = "INSERT INTO " . $tableCollab["newsdeskposts"] . "(title,author,related,content,links,rss,pdate) VALUES ('$title', '$author', '$related', '" . addslashes($content) . "', '$links', '$rss', NOW())";
-            phpCollab\Util::connectSql("$tmpquery1");
-            $tmpquery = $tableCollab["newsdeskposts"];
-            phpCollab\Util::getLastId($tmpquery);
-            $num = $lastId[0];
-            unset($lastId);
+            $tmpquery1 = "INSERT INTO {$tableCollab["newsdeskposts"]} (title,author,related,content,links,rss,pdate) VALUES (:title, :author, :related, :content, :links, :rss, :pdate)";
+            $num = phpCollab\Util::newConnectSql($tmpquery1, ["title" => $title, "author" => $author, "related" => $related, "content" => $content, "links" => $links, "rss" => $rss, "pdate" => NOW()]);
 
             phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$num&msg=add");
 
