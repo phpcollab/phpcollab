@@ -32,15 +32,13 @@ include_once '../includes/library.php';
 
 if ($action == "publish") {
     if ($addToSiteFile == "true") {
-        $tmpquery1 = "UPDATE " . $tableCollab["files"] . " SET published='0' WHERE id = '$file' OR vc_parent = '$file'";
-        phpCollab\Util::connectSql("$tmpquery1");
+        phpCollab\Util::newConnectSql("UPDATE {$tableCollab["files"]} SET published='0' WHERE id = :file OR vc_parent = :file", ["file" => $file]);
         $msg = "addToSite";
         $id = $file;
     }
 
     if ($removeToSiteFile == "true") {
-        $tmpquery1 = "UPDATE " . $tableCollab["files"] . " SET published='1' WHERE id = '$file' OR vc_parent = '$file'";
-        phpCollab\Util::connectSql("$tmpquery1");
+        phpCollab\Util::newConnectSql("UPDATE {$tableCollab["files"]} SET published='1' WHERE id = :file OR vc_parent = :file", ["file" => $file]);
         $msg = "removeToSite";
         $id = $file;
     }
@@ -163,17 +161,32 @@ if ($action == "update") {
         //Insert a new row for the copied file
         $copy_comments = phpCollab\Util::convertData($copy_comments);
 
-        if ($copy_approver === NULL) {// Hack to send NULL  There has to be a better way to handle this.  Perhaps the default value on the DB field should be null
-            $tmpquery = "INSERT INTO " . $tableCollab["files"] . "(owner,project,task,name,date,size,extension,comments,comments_approval,approver,date_approval,upload,published,status,vc_status,vc_version,vc_parent) VALUES('$idSession','$copy_project','$copy_task','$changename','$copy_date','$copy_size','$copy_extension','$copy_comments','$copy_comments_approval',null,'$copy_date_approval','$copy_upload','$copy_pusblished','2','3','$copy_vc_version','$copy_id')";
-        } else {
-            $tmpquery = "INSERT INTO " . $tableCollab["files"] . "(owner,project,task,name,date,size,extension,comments,comments_approval,approver,date_approval,upload,published,status,vc_status,vc_version,vc_parent) VALUES('$idSession','$copy_project','$copy_task','$changename','$copy_date','$copy_size','$copy_extension','$copy_comments','$copy_comments_approval','$copy_approver','$copy_date_approval','$copy_upload','$copy_pusblished','2','3','$copy_vc_version','$copy_id')";
-        }
+        $tmpquery = "INSERT INTO {$tableCollab["files"]} (owner,project,task,name,date,size,extension,comments,comments_approval,approver,date_approval,upload,published,status,vc_status,vc_version,vc_parent) VALUES (:owner,:project,:task,:name,:date,:size,:extension,:comments,:comments_approval,:approver,:date_approval,:upload,:published,:status,:vc_status,:vc_version,:vc_parent)";
 
-        phpCollab\Util::connectSql("$tmpquery");
-        $tmpquery = $tableCollab["files"];
-        phpCollab\Util::getLastId($tmpquery);
-        $num = $lastId[0];
+        $dbParams = [];
+        $dbParams["owner"] = $idSession;
+        $dbParams["project"] = $copy_project;
+        $dbParams["task"] = $copy_task;
+        $dbParams["name"] = $changename;
+        $dbParams["date"] = $copy_date;
+        $dbParams["size"] = $copy_size;
+        $dbParams["extension"] = $copy_extension;
+        $dbParams["comments"] = $copy_comments;
+        $dbParams["comments_approval"] = $copy_comments_approval;
+        $dbParams["approver"] = (isset($copy_approver)) ? $copy_approver : null;
+        $dbParams["date_approval"] = $copy_date_approval;
+        $dbParams["upload"] = $copy_upload;
+        $dbParams["published"] = $copy_pusblished;
+        $dbParams["status"] = 2;
+        $dbParams["vc_status"] = 3;
+        $dbParams["vc_version"] = $copy_vc_version;
+        $dbParams["vc_parent"] = $copy_id;
+        
+        
+        
+        $num = phpCollab\Util::newConnectSql($tmpquery, $dbParams);
         unset($lastId);
+        unset($dbParams);
     }
 
     //Insert details into Database
@@ -187,8 +200,9 @@ if ($action == "update") {
     $newversion = $fileDetail->fil_vc_version[0] + $change_file_version;
     if ($docopy == "true") {
         $name = $upload_name;
-        $tmpquery = "UPDATE " . $tableCollab["files"] . " SET date='$dateheure',size='$size',comments='$c',comments_approval=null,approver=null,date_approval=null,status='$statusField',vc_version='$newversion' WHERE id = '$id'";
-        phpCollab\Util::connectSql("$tmpquery");
+        $tmpquery = "UPDATE {$tableCollab["files"]} SET date=:date,size=:size,comments=:comments,comments_approval=null,approver=null,date_approval=null,status=:status,vc_version=:vc_version WHERE id = :file_id";
+
+        phpCollab\Util::newConnectSql($tmpquery, ["date" => $dateheure, "size" => $size,"comments"=>$c,"status"=>$status,"vc_version"=>$vc_version,"file_id"=>$id]);
         phpCollab\Util::headerFunction("../linkedcontent/viewfile.php?id=" . $fileDetail->fil_id[0] . "&msg=addFile");
     }
 }
@@ -197,8 +211,8 @@ if ($action == "update") {
 
 if ($action == "approve") {
     $commentField = phpCollab\Util::convertData($c);
-    $tmpquery1 = "UPDATE " . $tableCollab["files"] . " SET comments_approval='$commentField',date_approval='$dateheure',approver='$idSession',status='$statusField' WHERE id = '$id'";
-    phpCollab\Util::connectSql("$tmpquery1");
+    $tmpquery1 = "UPDATE {$tableCollab["files"]} SET comments_approval=:comments_approval,date_approval=:date_approval,approver=:approver,status=:status WHERE id = :file_id";
+    phpCollab\Util::newConnectSql($tmpquery1,["comments_approval" => $commentField, "date_approval" => $dateheure, "approver" => $idSession, "status" => $statusField, "file_id" => $id ]);
     phpCollab\Util::headerFunction("../linkedcontent/viewfile.php?id=" . $fileDetail->fil_id[0] . "&msg=addFile");
 }
 
@@ -246,12 +260,21 @@ if ($action == "add") {
     //Insert details into Database
     if ($docopy == "true") {
         $c = phpCollab\Util::convertData($c);
-        $tmpquery = "INSERT INTO " . $tableCollab["files"] . "(owner,project,task,comments,upload,published,status,vc_status,vc_parent) VALUES('$idSession','$project','$task','$c','$dateheure','$published','2','0','$parent')";
-        phpCollab\Util::connectSql("$tmpquery");
-        $tmpquery = $tableCollab["files"];
-        phpCollab\Util::getLastId($tmpquery);
-        $num = $lastId[0];
+        $tmpquery = "INSERT INTO {$tableCollab["files"]} (owner,project,task,comments,upload,published,status,vc_status,vc_parent) VALUES (:owner,:project,:task,:comments,:upload,:published,:status,:vc_status,:vc_parent)";
+        $dbParams = [];
+        $dbParams["owner"] = $idSession;
+        $dbParams["project"] = $project;
+        $dbParams["task"] = $task;
+        $dbParams["comments"] = $c;
+        $dbParams["upload"] = $dateheure;
+        $dbParams["published"] = $published;
+        $dbParams["status"] = 2;
+        $dbParams["vc_status"] = 0;
+        $dbParams["vc_parent"] = $parent;
+
+        $num = phpCollab\Util::newConnectSql($tmpquery, $dbParams);
         unset($lastId);
+        unset($dbParams);
     }
 
     if ($task != "0") {
@@ -275,8 +298,8 @@ if ($action == "add") {
 
     if ($docopy == "true") {
         $name = $upload_name;
-        $tmpquery = "UPDATE " . $tableCollab["files"] . " SET name='$name',date='$dateheure',size='$size',extension='$extension',vc_version='$oldversion' WHERE id = '$num'";
-        phpCollab\Util::connectSql("$tmpquery");
+        $tmpquery = "UPDATE {$tableCollab["files"]} SET name=:name,date=:date,size=:size,extension=:extension,vc_version=:vc_version WHERE id = :file_id";
+        phpCollab\Util::newConnectSql($tmpquery, ["name" => $name,"date" => $dateheure,"size" => $size,"extension" => $extension,"vc_version" => $oldversion,"file_id" => $num]);
         phpCollab\Util::headerFunction("../linkedcontent/viewfile.php?id=$sendto&msg=addFile");
     }
 }
