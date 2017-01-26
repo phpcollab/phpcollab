@@ -66,8 +66,24 @@ if ($action == "update") {
             $mp = phpCollab\Util::convertData($mp);
             $fax = phpCollab\Util::convertData($fax);
             $last_page = phpCollab\Util::convertData($last_page);
-            $tmpquery = "UPDATE " . $tableCollab["members"] . " SET login='$un',name='$fn',title='$tit',organization='$clod',email_work='$em',phone_work='$wp',phone_home='$hp',mobile='$mp',fax='$fax',last_page='$last_page',comments='$c' WHERE id = '$id'";
-            phpCollab\Util::connectSql("$tmpquery");
+            
+            $tmpquery = "UPDATE {$tableCollab["members"]} SET login=:login, name=:name, title=:title, organization=:organiztion, email_work=:email_work, phone_work=:phone_work,phone_home=:phone_home,mobile=:mobile,fax=:fax,last_page=:last_page,comments=:comments WHERE id = member_id";
+            $dbParams = [];
+            $dbParams["login"] = $un;
+            $dbParams["name"] = $fn;
+            $dbParams["title"] = $tit;
+            $dbParams["organization"] = $clod;
+            $dbParams["email_work"] = $em;
+            $dbParams["phone_work"] = $wp;
+            $dbParams["phone_home"] = $hp;
+            $dbParams["mobile"] = $mp;
+            $dbParams["fax"] = $fax;
+            $dbParams["last_page"] = $last_page;
+            $dbParams["comments"] = $c;
+            $dbParams["member_id"] = $id;
+            
+            phpCollab\Util::newConnectSql($tmpquery, $dbParams);
+            unset($dbParams);
 
 //test if new password set
             if ($pw != "") {
@@ -77,8 +93,8 @@ if ($action == "update") {
                     $error = $strings["new_password_error"];
                 } else {
                     $pw = phpCollab\Util::getPassword($pw);
-                    $tmpquery = "UPDATE " . $tableCollab["members"] . " SET password='$pw' WHERE id = '$id'";
-                    phpCollab\Util::connectSql("$tmpquery");
+
+                    phpCollab\Util::newConnectSql("UPDATE {$tableCollab["members"]} SET password=:password WHERE id = :member_id", ["password" => $pw, "member_id" => $id]);
                     phpCollab\Util::headerFunction("../clients/viewclient.php?msg=update&id=$clod");
                 }
             } else {
@@ -163,6 +179,7 @@ echo "</select></td></tr>
 <tr class='odd'><td valign='top' class='leftvalue'>" . $strings["home_phone"] . " :</td><td><input size='14' style='width: 150px;' maxlength='32' type='text' name='hp' value='$hp'></td></tr>
 <tr class='odd'><td valign='top' class='leftvalue'>" . $strings["mobile_phone"] . " :</td><td><input size='14' style='width: 150px;' maxlength='32' type='text' name='mp' value='$mp'></td></tr>
 <tr class='odd'><td valign='top' class='leftvalue'>" . $strings["fax"] . " :</td><td class='infoValueField' width='634'><input size='14' style='width: 150px;' maxlength='32' type='text' name='fax' value='$fax'></td></tr>";
+
 if ($lastvisitedpage === true) {
     echo "<tr class='odd'>
 			<td valign='top' class='leftvalue'>" . $strings["last_page"] . " :</td>
