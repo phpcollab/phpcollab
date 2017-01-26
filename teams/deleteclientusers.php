@@ -40,8 +40,7 @@ if ($action == "delete") {
     }
     $compt = count($pieces);
     for ($i = 0; $i < $compt; $i++) {
-        $tmpquery1 = "DELETE FROM " . $tableCollab["teams"] . " WHERE member = '$pieces[$i]'";
-        phpCollab\Util::connectSql("$tmpquery1");
+        phpCollab\Util::newConnectSql("DELETE FROM {$tableCollab["teams"]} WHERE member = :member_id", ["member_id" => $pieces[$i]]);
 //if mantis bug tracker enabled
         if ($enableMantis == "true") {
 // Unassign user from this project in mantis
