@@ -64,8 +64,10 @@ if ($action == "update") {
         $ed = date('Y-m-d');
     }
 
-    $tmpquery = "UPDATE " . $tableCollab["phases"] . " SET status='$st', date_start='$sd', date_end='$ed', comments='$c' WHERE id = '$id'";
-    phpCollab\Util::connectSql("$tmpquery");
+    phpCollab\Util::newConnectSql(
+        "UPDATE {$tableCollab["phases"]} SET status=:status, date_start=:date_start, date_end=:date_end, comments=:comments WHERE id = :phase_id",
+        ["status" => $st, "date_start" => $sd, "date_end" => $ed, "comments" => $c, "phase_id" => $id]
+    );
 
     if ($st != 1) {
         $tmpquery = "WHERE tas.parent_phase = '$id' AND tas.status = '3'";
@@ -74,8 +76,7 @@ if ($action == "update") {
         $comptchangeTasks = count($changeTasks->tas_id);
         for ($i = 0; $i < $comptchangeTasks; $i++) {
             $taskID = $changeTasks->tas_id[$i];
-            $tmpquery = "UPDATE " . $tableCollab["tasks"] . " SET status='4' WHERE id = '$taskID'";
-            phpCollab\Util::connectSql("$tmpquery");
+            phpCollab\Util::newConnectSql("UPDATE {$tableCollab["tasks"]} SET status='4' WHERE id = :task_id", ["task_id" => $taskID]);
         }
     }
     phpCollab\Util::headerFunction("../phases/viewphase.php?id=$id");
