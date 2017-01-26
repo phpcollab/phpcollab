@@ -163,7 +163,7 @@ echo "</select></td></tr>
 <tr class='odd'><td valign='top' class='leftvalue'>" . $strings["home_phone"] . " :</td><td><input size='14' style='width: 150px;' maxlength='32' type='text' name='hp' value='$hp'></td></tr>
 <tr class='odd'><td valign='top' class='leftvalue'>" . $strings["mobile_phone"] . " :</td><td><input size='14' style='width: 150px;' maxlength='32' type='text' name='mp' value='$mp'></td></tr>
 <tr class='odd'><td valign='top' class='leftvalue'>" . $strings["fax"] . " :</td><td class='infoValueField' width='634'><input size='14' style='width: 150px;' maxlength='32' type='text' name='fax' value='$fax'></td></tr>";
-if ($lastvisitedpage == true) {
+if ($lastvisitedpage === true) {
     echo "<tr class='odd'>
 			<td valign='top' class='leftvalue'>" . $strings["last_page"] . " :</td>
 			<td class='infoValueField' width='634'><input size='14' style='width: 150px;' maxlength='32' type='text' name='last_page' value='$last_page'></td>
