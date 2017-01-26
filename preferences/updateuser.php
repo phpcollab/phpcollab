@@ -43,8 +43,8 @@ if ($action == "update") {
     $mp = phpCollab\Util::convertData($mp);
     $fax = phpCollab\Util::convertData($fax);
     $logout_time = phpCollab\Util::convertData($logout_time);
-    $tmpquery = "UPDATE " . $tableCollab["members"] . " SET name='$fn',title='$tit',email_work='$em',phone_work='$wp',phone_home='$hp',mobile='$mp',fax='$fax',logout_time='$logout_time',timezone='$tz' WHERE id = '$idSession'";
-    phpCollab\Util::connectSql("$tmpquery");
+    $tmpquery = "UPDATE {$tableCollab["members"]} SET name=:name,title=:title,email_work=:email_work,phone_work=:phone_work,phone_home=:phone_home,mobile=:mobile,fax=:fax,logout_time=:logout_time,timezone=:timezone WHERE id = :member_id";
+    phpCollab\Util::newConnectSql($tmpquery, ["name" => $fn, "title" => $tit, "email_work" => $em, "phone_work" => $wp, "phone_home" => $hp, "mobile" => $mp, "fax" => $fax, "logout_time" => $logout_time, "timezone" => $tz, "member_id" => $idSession]);
     $timezoneSession = $tz;
     $logouttimeSession = $logout_time;
     $dateunixSession = date("U");
