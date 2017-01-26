@@ -64,8 +64,7 @@ if ($id != "") {
 	if ($action == "update") {
 		$title = phpCollab\Util::convertData($title);
 		$content = phpCollab\Util::convertData($content);
-		$tmpquery = "UPDATE ".$tableCollab["newsdeskcomments"]." SET comment = '$comment' WHERE id = '$id'";
-		phpCollab\Util::connectSql("$tmpquery");
+		phpCollab\Util::newConnectSql("UPDATE {$tableCollab["newsdeskcomments"]} SET comment = :comment WHERE id = :comment_id", ["comment" => $comment, "comment_id" => $id]);
 		phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=update");
 	}
 	elseif ($action == "delete") {
@@ -99,14 +98,9 @@ if ($id != "") {
 			$comment = phpCollab\Util::convertData($comment);
 
 			//insert into organizations and redirect to new client organization detail (last id)
-			$tmpquery1 = "INSERT INTO ".$tableCollab["newsdeskcomments"]."(name,post_id,comment) VALUES ('$name','$postid' , '".addslashes($comment)."')";
 
-			phpCollab\Util::connectSql("$tmpquery1");
-			$tmpquery = $tableCollab["newsdeskcomments"];
-			phpCollab\Util::getLastId($tmpquery);
-			$num = $lastId[0];
-			unset($lastId);
-	
+			$num = phpCollab\Util::newConnectSql("INSERT INTO {$tableCollab["newsdeskcomments"]} (name,post_id,comment) VALUES (:name, :post_id, :comment)", ["name" => $name, "post_id" => $postid, "comment" => $comment]);
+
 			phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=add");
 
 		}
