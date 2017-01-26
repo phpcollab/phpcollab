@@ -4,13 +4,17 @@
 
 namespace phpCollab;
 
+/**
+ * Class Block
+ * @package phpCollab
+ */
 class Block
 {
     protected $help, $strings, $iconWidth, $iconHeight, $bgColor, $fgColor,
         $oddColor, $evenColor, $highlightOn, $class, $highlightOff, $theme,
         $pathImg, $themeImgPath, $accountTotal, $account, $sortingOrders,
         $sortingFields, $sortingArrows, $sortingStyles, $explode, $labels,
-        $sitePublish;
+        $sitePublish, $navigation, $navigationTotal;
     public $form;
 
     /**
@@ -37,36 +41,61 @@ class Block
         $this->pathImg = "../themes/";
         $this->themeImgPath = '../themes/' . $this->theme . '/images';
 
+        $this->sitePublish = $GLOBALS["sitePublished"];
+
     }
 
+    /**
+     * @return string
+     */
     public function getHighlightOn()
     {
         return $this->highlightOn;
     }
 
+    /**
+     * @return string
+     */
     public function getHighlightOff()
     {
         return $this->highlightOff;
     }
+
+    /**
+     * @return string
+     */
     public function getFgColor()
     {
         return $this->fgColor;
     }
 
+    /**
+     * @return string
+     */
     public function getBgColor()
     {
         return $this->bgColor;
     }
 
+    /**
+     * @return string
+     */
     public function getThemeImgPath()
     {
         return $this->themeImgPath;
     }
+
+    /**
+     * @return string
+     */
     public function getOddColor()
     {
         return $this->oddColor;
     }
 
+    /**
+     * @return string
+     */
     public function getEvenColor()
     {
         return $this->evenColor;
@@ -168,6 +197,10 @@ class Block
         echo '<table class="error"><tr><td>' . $content . '</td></tr></table>';
     }
 
+    /**
+     * @param $current
+     * @return string
+     */
     public function returnLimit($current)
     {
         global ${'limit' . filter_var($current, FILTER_SANITIZE_NUMBER_INT) };
@@ -199,7 +232,7 @@ class Block
                 if ($this->limit == $j) {
                     echo "<b>$i</b>&#160;";
                 } else {
-                    echo "<a href=\"$PHP_SELF?";
+                    echo "<a href=\"?";
                     for ($k = 1; $k <= $total; $k++) {
                         global ${'limit' . filter_var($k, FILTER_SANITIZE_NUMBER_INT)};
                         if ($k != $current) {
@@ -365,10 +398,10 @@ class Block
      * Define column labels in a list block
      * @param array $labels Array with labels strings
      * @param boolean $published Show/hide a published column
-     * @param boolean $sorting Disable sorting
-     * @param array $sortingOff Array with label number (from $labels) and order (ASC/DESC)
+     * @param bool|string $sorting Disable sorting
+     * @param array|string $sortingOff Array with label number (from $labels) and order (ASC/DESC)
      * @access public
-     **/
+     */
     public function labels($labels, $published, $sorting = "true", $sortingOff = "")
     {
         $sortingFields = $this->sortingFields;
@@ -376,14 +409,14 @@ class Block
         $sortingArrows = $this->sortingArrows;
         $sortingStyles = $this->sortingStyles;
 
-        if ($sitePublish == "false" && $published == "true") {
+        if ($this->sitePublish == "false" && $published == "true") {
             $comptLabels = count($labels) - 1;
         } else {
             $comptLabels = count($labels);
         }
         for ($i = 0; $i < $comptLabels; $i++) {
             if ($sorting == "true") {
-                echo "<th nowrap class='$sortingStyles[$i]'><a href=\"javascript:document." . $this->form . "Form.sor_cible.value='{$this->sortingRef}';document." . $this->form . "Form.sor_champs.value='{$sortingFields[$i]}';document." . $this->form . "Form.sor_ordre.value='{$sortingOrders[$i]}';document." . $this->form . "Form.submit();\" onMouseOver=\"javascript:window.status='" . $strings["sort_by"] . " " . addslashes($labels[$i]) . "'; return true;\" onMouseOut=\"javascript:window.status=''; return true\">" . $labels[$i] . "$sortingArrows[$i]</a></th>";
+                echo "<th nowrap class='$sortingStyles[$i]'><a href=\"javascript:document." . $this->form . "Form.sor_cible.value='{$this->sortingRef}';document." . $this->form . "Form.sor_champs.value='{$sortingFields[$i]}';document." . $this->form . "Form.sor_ordre.value='{$sortingOrders[$i]}';document." . $this->form . "Form.submit();\" onMouseOver=\"javascript:window.status='" . $this->strings["sort_by"] . " " . addslashes($labels[$i]) . "'; return true;\" onMouseOut=\"javascript:window.status=''; return true\">" . $labels[$i] . "$sortingArrows[$i]</a></th>";
             } else {
                 if ($sortingOff[1] == "ASC") {
                     $sortingArrow = "&#160;<img border='0' src='$this->themeImgPath/icon_sort_az.gif' alt='' width='11' height='11'>";
@@ -424,12 +457,18 @@ class Block
         }
     }
 
+    /**
+     *
+     */
     public function closeResults()
     {
         echo "</table>
 <hr />";
     }
 
+    /**
+     *
+     */
     public function noresults()
     {
         echo "<table cellspacing='0' border='0' cellpadding='2'><tr><td colspan='4'>" . $this->strings["no_items"] . "</td></tr></table><hr />";
@@ -500,6 +539,9 @@ class Block
         }
     }
 
+    /**
+     *
+     */
     public function openRow()
     {
         $change = "true";
@@ -537,6 +579,9 @@ class Block
         echo "<td>$content</td>";
     }
 
+    /**
+     *
+     */
     public function closeRow()
     {
         echo "</tr>";
@@ -550,16 +595,25 @@ class Block
         echo "<tr><th colspan='2'>" . $title . "</th></tr>";
     }
 
+    /**
+     *
+     */
     public function closeContent()
     {
         echo "</table><hr />";
     }
 
+    /**
+     *
+     */
     public function closeForm()
     {
         echo "</form>";
     }
 
+    /**
+     *
+     */
     public function openBreadcrumbs()
     {
         echo "<p class='breadcrumbs'>";
@@ -577,6 +631,9 @@ class Block
         $this->breadcrumbsTotal = $this->breadcrumbsTotal + 1;
     }
 
+    /**
+     *
+     */
     public function closeBreadcrumbs()
     {
         $items = $this->breadcrumbsTotal;
@@ -589,6 +646,9 @@ class Block
         echo "</p>";
     }
 
+    /**
+     *
+     */
     public function openNavigation()
     {
         echo "<p id='navigation'>";
@@ -600,12 +660,15 @@ class Block
     public function itemNavigation($content)
     {
         if ($this->navigationTotal == "") {
-            $this->navigationTotal = "0";
+            $this->navigationTotal = 0;
         }
         $this->navigation[$this->navigationTotal] = $content;
         $this->navigationTotal = $this->navigationTotal + 1;
     }
 
+    /**
+     *
+     */
     public function closeNavigation()
     {
         $items = $this->navigationTotal;
@@ -618,6 +681,9 @@ class Block
         echo "</p>";
     }
 
+    /**
+     *
+     */
     public function openAccount()
     {
         echo "<p id='account'>";
@@ -629,12 +695,15 @@ class Block
     public function itemAccount($content)
     {
         if ($this->accountTotal == "") {
-            $this->accountTotal = "0";
+            $this->accountTotal = 0;
         }
         $this->account[$this->accountTotal] = $content;
         $this->accountTotal = $this->accountTotal + 1;
     }
 
+    /**
+     *
+     */
     public function closeaccount()
     {
         $items = $this->accountTotal;
@@ -659,13 +728,13 @@ class Block
             return '<a href="' . $url . '">' . $label .'</a>';
         } else {
             if ($type == "icone") {
-                return "<a href='$url&'><img src='../interface/icones/$label' border='0' alt=''></a>";
+                return '<a href="'.$url.'&"><img src="../interface/icones/'.$label.'" border="0" alt=""></a>';
             } else {
                 if ($type == "inblank") {
-                    return "<a href='$url&' target='_blank'>$label</a>";
+                    return '<a href="'.$url.'&" target="_blank">'.$label.'</a>';
                 } else {
                     if ($type == "powered") {
-                        return "Powered by <a href='$url' target='_blank'>$label</a>";
+                        return 'Powered by <a href="'.$url.'" target="_blank">'.$label.'</a>';
                     } else {
                         if ($type == "out") {
                             // Verify correct urltyping
