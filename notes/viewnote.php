@@ -33,13 +33,11 @@ include '../includes/customvalues.php';
 
 if ($action == "publish") {
     if ($addToSite == "true") {
-        $tmpquery1 = "UPDATE " . $tableCollab["notes"] . " SET published='0' WHERE id = '$id'";
-        phpCollab\Util::connectSql("$tmpquery1");
+        phpCollab\Util::newConnectSql("UPDATE {$tableCollab["notes"]} SET published='0' WHERE id = :note_id",["note_id" => $id]);
         $msg = "addToSite";
     }
     if ($removeToSite == "true") {
-        $tmpquery1 = "UPDATE " . $tableCollab["notes"] . " SET published='1' WHERE id = '$id'";
-        phpCollab\Util::connectSql("$tmpquery1");
+        phpCollab\Util::newConnectSql("UPDATE {$tableCollab["notes"]} SET published='1' WHERE id = :note_id",["note_id" => $id]);
         $msg = "removeToSite";
     }
 }
