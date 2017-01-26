@@ -55,7 +55,6 @@ if ($action == "update") {
 
     if ($logoDel == "on") {
 
-//        $logoDel = $admins_gateway->deleteMyCompanyLogo();
 		$tmpquery = "UPDATE {$tableCollab["organizations"]} SET extension_logo='' WHERE id=:org_id";
         $dbParams = ["org_id" => 1];
 
