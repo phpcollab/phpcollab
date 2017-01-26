@@ -30,13 +30,9 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-//$db = new phpCollab\Database();
-//$bookmarks_gateway = new phpCollab\Bookmarks\BookmarksGateway($db);
-
 $bookmark = new \phpCollab\Bookmarks\Bookmarks();
 $member = new \phpCollab\Members\Members();
 
-//if ($id != "" && $action != "add") {
 if ($id != "") {
     $bookmarkId = filter_var( (int) $id, FILTER_VALIDATE_INT);
     $bookmarkDetail = $bookmark->getBookmarkById($id);
