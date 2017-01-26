@@ -127,8 +127,6 @@ if ($id == "" && $tri != "true") {
         }
     }
 
-    //echo "$S_pro - $S_org - $S_mem - $S_sta - $S_pri";
-
     $S_ORGSEL = $S_org;
     $S_PRJSEL = $S_pro;
     $S_ATSEL = $S_mem;
@@ -138,22 +136,10 @@ if ($id == "" && $tri != "true") {
 }
 
 if ($id != "") {
-//    $tmpquery = "WHERE id = '$id'";
-//    $reportDetail = new Request();
-//    $reportDetail->openReports($tmpquery);
-
     $db = new \phpCollab\Database();
     $report_gateway = new \phpCollab\Reports\ReportsGateway($db);
 
     $reportDetail = $report_gateway->getReportById($id);
-
-//	$reportCount = count( $reportDetail );
-
-//xdebug_var_dump( $reportDetail );/*
-//
-//    xdebug_var_dump( $reportDetail['clients'] );
-//die();
-//
 
     $S_ORGSEL = $reportDetail[0]['clients'];
     $S_PRJSEL = $reportDetail[0]['projects'];
@@ -164,17 +150,6 @@ if ($id != "") {
     $S_EDATE = $reportDetail[0]['date_due_end'];
     $S_SDATE2 = $reportDetail[0]['date_complete_start'];
     $S_EDATE2 = $reportDetail[0]['date_complete_end'];
-    /*
-        $S_ORGSEL = $reportDetail->rep_clients[0];
-        $S_PRJSEL = $reportDetail->rep_projects[0];
-        $S_ATSEL = $reportDetail->rep_members[0];
-        $S_STATSEL = $reportDetail->rep_status[0];
-        $S_PRIOSEL = $reportDetail->rep_priorities[0];
-        $S_SDATE = $reportDetail->rep_date_due_start[0];
-        $S_EDATE = $reportDetail->rep_date_due_end[0];
-        $S_SDATE2 = $reportDetail->rep_date_complete_start[0];
-        $S_EDATE2 = $reportDetail->rep_date_complete_end[0];
-    */
 
     if (($S_SDATE == 0 || $S_SDATE == "") && ($S_EDATE == 0 || $S_EDATE == "")) {
         $S_DUEDATE = "ALL";
@@ -184,8 +159,6 @@ if ($id != "") {
         $S_COMPLETEDATE = "ALL";
     }
 }
-
-//echo "$S_PRJSEL + $S_ORGSEL + $S_ATSEL + $S_STATSEL + $S_PRIOSEL + $S_SDATE + $S_EDATE + $S_SDATE2 + $S_EDATE2 + $S_DUEDATE + $S_COMPLETEDATE";
 
 if (is_array($S_PRJSEL)) {
     $S_PRJSEL = $S_PRJSEL[0];
@@ -399,7 +372,6 @@ if ($comptListTasks != "0") {
         $idPublish = $listTasks->tas_published[$i];
 
         $block1->openRow();
-        //$block1->checkboxRow($listTasks->tas_id[$i]);
         $block1->cellRow('');
         $block1->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $listTasks->tas_id[$i], $listTasks->tas_name[$i], in));
         $block1->cellRow("<i style='background-color: yellow; '></i><img src='../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif' alt=''> " . $priority[$idPriority]);
@@ -444,7 +416,6 @@ if ($comptListTasks != "0") {
                 $idPriority = $listSubTasks->subtas_priority[$j];
                 $idPublish = $listSubTasks->subtas_published[$j];
                 $block1->openRow();
-                //$block1->checkboxRow($listSubTasks->subtas_id[$j]);
                 $block1->cellRow('');
                 $block1->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $listSubTasks->subtas_id[$j] . "&task=" . $listSubTasks->subtas_task[$j], $listSubTasks->subtas_name[$j], in));
                 $block1->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
