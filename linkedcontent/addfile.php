@@ -103,12 +103,23 @@ if ($action == "add")
 		}
 
 		$c = phpCollab\Util::convertData($c);
-		$tmpquery = "INSERT INTO ".$tableCollab["files"]."(owner,project,phase,task,comments,upload,published,status,vc_version,vc_parent) VALUES('$idSession','$project','".phpCollab\Util::fixInt($phase)."','$task','$c','$dateheure','1','$statusField','$versionFile','0')";
-		phpCollab\Util::connectSql("$tmpquery");
-		$tmpquery = $tableCollab["files"];
-		phpCollab\Util::getLastId($tmpquery);
+		$tmpquery = "INSERT INTO {$tableCollab["files"]} (owner,project,phase,task,comments,upload,published,status,vc_version,vc_parent) VALUES (:owner, :project, :phase, :task, :comments, :upload, :published, :status, :vc_version, :vc_parent)";
+		$dbParams = [];
+		$dbParams["owner"] = $idSession;
+		$dbParams["project"] = $project;
+		$dbParams["phase"] = phpCollab\Util::fixInt($phase);
+		$dbParams["task"] = $task;
+		$dbParams["comments"] = $c;
+		$dbParams["upload"] = $dateheure;
+		$dbParams["published"] = 1;
+		$dbParams["status"] = $statusField;
+		$dbParams["vc_version"] = $versionFile;
+		$dbParams["vc_parent"] = 0;
+
+		$num = phpCollab\Util::newConnectSql($tmpquery, $dbParams);
 		$num = $lastId[0];
 		unset($lastId);
+		unset($dbParams);
 	}
 
 	if ($task != "0") 
@@ -137,8 +148,10 @@ if ($action == "add")
 	if ($docopy == "true") 
 	{
 		$name = $num."--".$filename;
-		$tmpquery = "UPDATE ".$tableCollab["files"]." SET name='$name',date='$dateheure',size='$size',extension='$extension' WHERE id = '$num'";
-		phpCollab\Util::connectSql("$tmpquery");
+		phpCollab\Util::newConnectSql(
+            "UPDATE {$tableCollab["files"]} SET name=:name,date=:date,size=:size,extension=:extension WHERE id = :file_id",
+            ["name" => $name, "date" => $dateheure, "size" => $size, "extension" => $extension, "file_id" => $id]
+        );
 
 		if ($notifications == "true") 
 		{			
