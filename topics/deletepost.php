@@ -12,10 +12,12 @@ $detailTopic->openTopics($tmpquery);
 
 if ($action == "delete") {
     $detailTopic->top_posts[0] = $detailTopic->top_posts[0] - 1;
-    $tmpquery = "DELETE FROM " . $tableCollab["posts"] . " WHERE id = '$id'";
-    phpCollab\Util::connectSql("$tmpquery");
-    $tmpquery2 = "UPDATE " . $tableCollab["topics"] . " SET posts='" . $detailTopic->top_posts[0] . "' WHERE id = '$topic'";
-    phpCollab\Util::connectSql("$tmpquery2");
+    phpCollab\Util::newConnectSql("DELETE FROM {$tableCollab["posts"]} WHERE id = :post_id", ["post_id" => $id]);
+
+    phpCollab\Util::newConnectSql(
+        "UPDATE {$tableCollab["topics"]} SET posts=:posts WHERE id = :topic_id",
+        ["posts" => $detailTopic->top_posts[0], "topic_id" => $topic]
+    );
     phpCollab\Util::headerFunction("../topics/viewtopic.php?msg=delete&id=$topic");
 }
 
