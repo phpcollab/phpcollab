@@ -7,21 +7,18 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($_GET['action'] == "closeTopic") {
-    $tmpquery1 = "UPDATE " . $tableCollab["topics"] . " SET status='0' WHERE id = '" . $_GET['id'] . "'";
     $num = "1";
-    phpCollab\Util::connectSql("$tmpquery1");
+    phpCollab\Util::newConnectSql("UPDATE {$tableCollab["topics"]} SET status='0' WHERE id = :topic_id", ["topic_id" => $_GET['id']]);
     $msg = "closeTopic";
 }
 
 if ($_GET['action'] == "addToSite") {
-    $tmpquery1 = "UPDATE " . $tableCollab["topics"] . " SET published='0' WHERE id = '" . $_GET['id'] . "'";
-    phpCollab\Util::connectSql("$tmpquery1");
+    phpCollab\Util::newConnectSql("UPDATE {$tableCollab["topics"]} SET published='0' WHERE id = :topic_id", ["topic_id" => $_GET['id']]);
     $msg = "addToSite";
 }
 
 if ($_GET['action'] == "removeToSite") {
-    $tmpquery1 = "UPDATE " . $tableCollab["topics"] . " SET published='1' WHERE id = '" . $_GET['id'] . "'";
-    phpCollab\Util::connectSql("$tmpquery1");
+    phpCollab\Util::newConnectSql("UPDATE {$tableCollab["topics"]} SET published='1' WHERE id = :topic_id", ["topic_id" => $_GET['id']]);
     $msg = "removeToSite";
 }
 
