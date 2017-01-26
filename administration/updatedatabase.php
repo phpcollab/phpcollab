@@ -65,7 +65,6 @@ if ($action == "generate") {
         }
         for ($con = 0; $con < count($SQL); $con++) {
             mysql_query($SQL[$con]);
-            //echo $SQL[$con] . '<br/>';
             if (mysql_errno() != 0) {
                 exit('<br/><b>PANIC! <br/> Error during the update of the database.</b><br/> Error: ' . mysql_error());
             }
@@ -82,7 +81,6 @@ if ($action == "generate") {
         }
         for ($con = 0; $con < count($SQL); $con++) {
             mssql_query($SQL[$con]);
-            //echo $SQL[$con] . '<br/>';
             if (mssql_get_last_message() != 0) {
                 exit('<br/><b>PANIC! <br/> Error during the update of the database.</b><br/> Error: ' . mssql_get_last_message());
             }
