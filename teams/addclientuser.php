@@ -40,8 +40,10 @@ if ($action == "add") {
         }
         $comptTeam = count($pieces);
         for ($i = 0; $i < $comptTeam; $i++) {
-            $tmpquery = "INSERT INTO " . $tableCollab["teams"] . "(project, member,published,authorized) VALUES ('" . $projectDetail->pro_id[0] . "','$pieces[$i]','1','0')";
-            phpCollab\Util::connectSql("$tmpquery");
+            phpCollab\Util::newConnectSql(
+                "INSERT INTO {$tableCollab["teams"]} (project, member, published, authorized) VALUES (:project, :member,'1','0')",
+                ["project" => $projectDetail->pro_id[0], "member" => $pieces[$i]]
+            );
 //if mantis bug tracker enabled		
             if ($enableMantis == "true") {
                 // Assign user to this project in mantis
