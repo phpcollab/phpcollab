@@ -64,9 +64,11 @@ if ($id != "") {
     if ($action == "update") {
         $subject = phpCollab\Util::convertData($subject);
         $description = phpCollab\Util::convertData($description);
-        $tmpquery5 = "UPDATE " . $tableCollab["notes"] . " SET project='$projectMenu',topic='$topic',subject='$subject',description='$description',date='$dd',owner='$idSession' WHERE id = '$id'";
         $msg = "update";
-        phpCollab\Util::connectSql("$tmpquery5");
+        phpCollab\Util::newConnectSql(
+            "UPDATE {$tableCollab["notes"]} SET project=:project,topic=:topic,subject=:subject,description=:description,date=:date,owner=:owner WHERE id = :id",
+            ["project" => $projectMenu, "topic" => $topic, "subject" => $subject, "description" => $description, "date" => $dd, "owner" => $idSession, "id" => $id]
+        );
         phpCollab\Util::headerFunction("../notes/viewnote.php?id=$id&msg=$msg");
     }
 
@@ -84,12 +86,11 @@ if ($id == "") {
     if ($action == "add") {
         $subject = phpCollab\Util::convertData($subject);
         $description = phpCollab\Util::convertData($description);
-        $tmpquery1 = "INSERT INTO " . $tableCollab["notes"] . "(project,topic,subject,description,date,owner,published) VALUES('$projectMenu','$topic','$subject','$description','$dd','$idSession','1')";
-        phpCollab\Util::connectSql("$tmpquery1");
-        $tmpquery = $tableCollab["notes"];
-        phpCollab\Util::getLastId($tmpquery);
-        $num = $lastId[0];
-        unset($lastId);
+
+        $num = phpCollab\Util::newConnectSql(
+            "INSERT INTO {$tableCollab["notes"]} (project,topic,subject,description,date,owner,published) VALUES(:project,:topic,:subject,:description,:date,:owner,:published)",
+            ["project" => $projectMenu, "topic" => $topic, "subject" => $subject, "description" => $description, "date" => $dd, "owner" => $idSession, "published" => 1]
+        );
         phpCollab\Util::headerFunction("../notes/viewnote.php?id=$num&msg=add");
     }
 
