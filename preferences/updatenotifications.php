@@ -48,8 +48,26 @@ if ($action == "update") {
         phpCollab\Util::headerFunction("../preferences/updatenotifications.php?msg=update");
     }
 
-    $tmpquery = "UPDATE " . $tableCollab["notifications"] . " SET taskAssignment='$tbl_check[0]',statusTaskChange='$tbl_check[1]',priorityTaskChange='$tbl_check[2]',duedateTaskChange='$tbl_check[3]',addProjectTeam='$tbl_check[4]',removeProjectTeam='$tbl_check[5]',newPost='$tbl_check[6]',newTopic='$tbl_check[7]',clientAddTask='$tbl_check[8]',uploadFile='$tbl_check[9]',dailyAlert='$tbl_check[10]',weeklyAlert='$tbl_check[11]',pastdueAlert='$tbl_check[12]' WHERE member = '$idSession'";
-    phpCollab\Util::connectSql($tmpquery);
+    $tmpquery = "UPDATE {$tableCollab["notifications"]} SET taskAssignment=:taskAssignment,statusTaskChange=:statusTaskChange,priorityTaskChange=:priorityTaskChange,duedateTaskChange=:duedateTaskChange,addProjectTeam=:addProjectTeam,removeProjectTeam=:removeProjectTeam,newPost=:newPost,newTopic=:newTopic,clientAddTask=:clientAddTask,uploadFile=:uploadFile,dailyAlert=:dailyAlert,weeklyAlert=:weeklyAlert,pastdueAlert=:pastdueAlert WHERE member = :member";
+
+    $dbParams = [];
+    $dbParams["taskAssignment"] = $tbl_check[0];
+    $dbParams["statusTaskChange"] = $tbl_check[1];
+    $dbParams["priorityTaskChange"] = $tbl_check[2];
+    $dbParams["duedateTaskChange"] = $tbl_check[3];
+    $dbParams["addProjectTeam"] = $tbl_check[4];
+    $dbParams["removeProjectTeam"] = $tbl_check[5];
+    $dbParams["newPost"] = $tbl_check[6];
+    $dbParams["newTopic"] = $tbl_check[7];
+    $dbParams["clientAddTask"] = $tbl_check[8];
+    $dbParams["uploadFile"] = $tbl_check[9];
+    $dbParams["dailyAlert"] = $tbl_check[10];
+    $dbParams["weeklyAlert"] = $tbl_check[11];
+    $dbParams["pastdueAlert"] = $tbl_check[12];
+    $dbParams["member"] = $idSession;
+        
+    phpCollab\Util::newConnectSql($tmpquery, $dbParams);
+    unset($dbParams);
 }
 
 $tmpquery = "WHERE noti.member = '$idSession'";
