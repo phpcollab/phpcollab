@@ -117,8 +117,6 @@ if ($action == "add")
 		$dbParams["vc_parent"] = 0;
 
 		$num = phpCollab\Util::newConnectSql($tmpquery, $dbParams);
-		$num = $lastId[0];
-		unset($lastId);
 		unset($dbParams);
 	}
 
