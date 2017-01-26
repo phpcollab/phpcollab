@@ -185,7 +185,6 @@ if ($action == "update") {
         
         
         $num = phpCollab\Util::newConnectSql($tmpquery, $dbParams);
-        unset($lastId);
         unset($dbParams);
     }
 
@@ -273,7 +272,6 @@ if ($action == "add") {
         $dbParams["vc_parent"] = $parent;
 
         $num = phpCollab\Util::newConnectSql($tmpquery, $dbParams);
-        unset($lastId);
         unset($dbParams);
     }
 
