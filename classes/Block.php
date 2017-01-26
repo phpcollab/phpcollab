@@ -73,23 +73,6 @@ class Block
     }
 
 
-//    public function block()
-//    {
-//        $this->iconWidth = "23";
-//        $this->iconHeight = "23";
-//        $this->bgColor = "#5B7F93";
-//        $this->fgColor = "#C4D3DB";
-//        $this->oddColor = "#F5F5F5";
-//        $this->evenColor = "#EFEFEF";
-//        $this->highlightOn = "#DEE7EB";
-//
-//        $this->class = "odd";
-//        $this->highlightOff = $this->oddColor;
-//        $this->theme = THEME;
-//        $this->pathImg = "../themes/";
-//        $this->themeImgPath = '../themes/' . THEME . '/images';
-//    }
-
     /**
      * Print tooltips
      * @param string $item Text printed in tooltip
@@ -329,8 +312,6 @@ class Block
             $this->sortingFields = $sortingFields;
         }
 
-//        global $sortingOrders, $sortingFields, $sortingArrows, $sortingStyles, $explode;
-
         if (isset($this->sortingValue) != "") {
             $explode = explode(" ", $this->sortingValue);
         } else {
@@ -355,15 +336,6 @@ class Block
                 }
             }
         }
-//        if ($this->sortingOrders != "") {
-//            $this->sortingOrders = $sortingOrders;
-//        }
-//        if ($this->sortingArrows != "") {
-//            $this->sortingArrows = $this->sortingArrows;
-//        }
-//        if ($sortingStyles != "") {
-//            $this->sortingStyles = $sortingStyles;
-//        }
     }
 
     /**
@@ -398,7 +370,6 @@ class Block
      **/
     public function labels($labels, $published, $sorting = "true", $sortingOff = "")
     {
-//        global $labels, $sortingOrders, $sortingFields, $sortingArrows, $sortingStyles, $strings, $sitePublish;
         $sortingFields = $this->sortingFields;
         $sortingOrders = $this->sortingOrders;
         $sortingArrows = $this->sortingArrows;
