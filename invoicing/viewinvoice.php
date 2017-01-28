@@ -9,14 +9,12 @@ include_once '../includes/library.php';
 if ($action == "publish") {
 
     if ($addToSite == "true") {
-        $tmpquery1 = "UPDATE " . $tableCollab["invoices"] . " SET published='0' WHERE id = '$id'";
-        phpCollab\Util::connectSql("$tmpquery1");
+        phpCollab\Util::newConnectSql("UPDATE {$tableCollab["invoices"]} SET published='0' WHERE id = :id", ["id" => $id]);
         $msg = "addToSite";
     }
 
     if ($removeToSite == "true") {
-        $tmpquery1 = "UPDATE " . $tableCollab["invoices"] . " SET published='1' WHERE id = '$id'";
-        phpCollab\Util::connectSql("$tmpquery1");
+        phpCollab\Util::newConnectSql("UPDATE {$tableCollab["invoices"]} SET published='1' WHERE id = :id", ["id" => $id]);
         $msg = "removeToSite";
     }
 

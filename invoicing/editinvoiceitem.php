@@ -19,8 +19,7 @@ $projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 if ($action == "update") {
-    $tmpquery = "UPDATE " . $tableCollab["invoices_items"] . " SET rate_type='$rate_type',rate_value='$rate_value',amount_ex_tax='$amount_ex_tax' WHERE id = '$invoiceitem'";
-    phpCollab\Util::connectSql($tmpquery);
+    phpCollab\Util::newConnectSql("UPDATE {$tableCollab["invoices_items"]} SET rate_type=:rate_type,rate_value=:rate_value,amount_ex_tax=:amount_ex_tax WHERE id = :id", ["rate_type" => $rate_type, "rate_value" => $rate_value, "amount_ex_tax" => $amount_ex_tax, "id" => $invoiceitem]);
     phpCollab\Util::headerFunction("../invoicing/viewinvoice.php?msg=update&id=$id");
 }
 
