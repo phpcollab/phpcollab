@@ -121,11 +121,39 @@ LEFT OUTER JOIN organizations org ON org.id = pro.organization
 LEFT OUTER JOIN members mem ON mem.id = pro.owner
 SQL;
 
-$initrequest["files"] = "SELECT fil.*, mem.id, mem.login, mem.name, mem.email_work, mem2.id, mem2.login, mem2.name, mem2.email_work
-FROM {$tableCollab["files"]} fil
+$initrequest["files"] = <<<FILES_SQL
+SELECT 
+    fil.id AS fil_id,
+    fil.owner AS fil_owner,
+    fil.project AS fil_project,
+    fil.task AS fil_task,
+    fil.name AS fil_name,
+    fil.date AS fil_date,
+    fil.size AS fil_sie,
+    fil.extension AS fil_extension,
+    fil.comments AS fil_comments,
+    fil.comments_approval AS fil_comments_approval,
+    fil.approver AS fil_approver,
+    fil.date_approval AS fil_date_approval,
+    fil.upload AS fil_upload,
+    fil.published AS fil_published,
+    fil.status AS fil_status,
+    fil.vc_status AS fil_vc_status,
+    fil.vc_version AS fil_vc_version,
+    fil.vc_parent AS fil_vc_parent,
+    fil.phase AS fil_phase,
+    mem.id AS fil_mem_id, 
+    mem.login AS fil_mem_login, 
+    mem.name AS fil_mem_name, 
+    mem.email_work AS fil_mem_email_work, 
+    mem2.id AS fil_mem2_id, 
+    mem2.login AS fil_mem2_login, 
+    mem2.name AS fil_mem2_name, 
+    mem2.email_work AS fil_mem2_email_work
+    FROM {$tableCollab["files"]} fil
 LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = fil.owner
 LEFT OUTER JOIN {$tableCollab["members"]} mem2 ON mem2.id = fil.approver
-";
+FILES_SQL;
 
 $initrequest["organizations"] = <<<SQL
 SELECT 
