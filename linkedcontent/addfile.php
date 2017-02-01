@@ -42,7 +42,7 @@ if ($action == "add")
 {
 
 	$filename = phpCollab\Util::checkFileName($_FILES['upload']['name']);
-	
+
 	if ($maxCustom != "") 
 	{
 		$maxFileSize = $maxCustom;
@@ -102,7 +102,6 @@ if ($action == "add")
 			$versionFile = "0.0";
 		}
 
-		$c = phpCollab\Util::convertData($c);
 		$tmpquery = "INSERT INTO {$tableCollab["files"]} (owner,project,phase,task,comments,upload,published,status,vc_version,vc_parent) VALUES (:owner, :project, :phase, :task, :comments, :upload, :published, :status, :vc_version, :vc_parent)";
 		$dbParams = [];
 		$dbParams["owner"] = $idSession;
@@ -142,14 +141,23 @@ if ($action == "add")
 			$extension = strtolower(strrev($tab[0]));
 		}
 	}
-	
+
 	if ($docopy == "true") 
 	{
-		$name = $num."--".$filename;
+		$name = $num . "--" . $filename;
+
+		$dbParams = [];
+		$dbParams["name"] = $name;
+        $dbParams["date"] = $dateheure;
+        $dbParams["size"] = $size;
+        $dbParams["extension"] = $extension;
+        $dbParams["file_id"] = $num;
+
 		phpCollab\Util::newConnectSql(
             "UPDATE {$tableCollab["files"]} SET name=:name,date=:date,size=:size,extension=:extension WHERE id = :file_id",
-            ["name" => $name, "date" => $dateheure, "size" => $size, "extension" => $extension, "file_id" => $id]
+            $dbParams
         );
+		unset($dbParams);
 
 		if ($notifications == "true") 
 		{			
