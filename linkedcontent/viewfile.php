@@ -30,7 +30,15 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
+$action = $_GET["action"];
+$id = $_GET["id"];
+$tableCollab = $GLOBALS["tableCollab"];
+$strings = $GLOBALS["strings"];
+
+$files = new \phpCollab\Files\Files();
+
 if ($action == "publish") {
+    $file = $_GET["file"];
     if ($addToSiteFile == "true") {
         phpCollab\Util::newConnectSql("UPDATE {$tableCollab["files"]} SET published='0' WHERE id = :file OR vc_parent = :file", ["file" => $file]);
         $msg = "addToSite";
@@ -44,13 +52,12 @@ if ($action == "publish") {
     }
 }
 
-$tmpquery = "WHERE fil.id = '$id'";
-$fileDetail = new phpCollab\Request();
-$fileDetail->openFiles($tmpquery);
-$comptFileDetail = count($fileDetail->fil_id);
+$fileDetail = $files->getFileById($id);
+
+xdebug_var_dump($fileDetail);
 
 $teamMember = "false";
-$tmpquery = "WHERE tea.project = '" . $fileDetail->fil_project[0] . "' AND tea.member = '$idSession'";
+$tmpquery = "WHERE tea.project = '" . $fileDetail["fil_project"] . "' AND tea.member = '$idSession'";
 $memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
@@ -65,25 +72,25 @@ if ($teamMember == "false" && $projectsFilter == "true") {
     header("Location:../general/permissiondenied.php");
 }
 
-$tmpquery = "WHERE pro.id = '" . $fileDetail->fil_project[0] . "'";
+$tmpquery = "WHERE pro.id = '" . $fileDetail["fil_project"] . "'";
 $projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
-if ($fileDetail->fil_task[0] != "0") {
-    $tmpquery = "WHERE tas.id = '" . $fileDetail->fil_task[0] . "'";
+if ($fileDetail["fil_task"] != "0") {
+    $tmpquery = "WHERE tas.id = '" . $fileDetail["fil_task"] . "'";
     $taskDetail = new phpCollab\Request();
     $taskDetail->openTasks($tmpquery);
 }
 
 if ($projectDetail->pro_phase_set[0] != "0") {
-    $tmpquery = "WHERE pha.id = '" . $fileDetail->fil_phase[0] . "'";
+    $tmpquery = "WHERE pha.id = '" . $fileDetail["fil_phase"] . "'";
     $phaseDetail = new phpCollab\Request();
     $phaseDetail->openPhases($tmpquery);
 }
 
 $fileHandler = new phpCollab\FileHandler();
-$type = $fileHandler->fileInfoType($fileDetail->fil_extension[0]);
-$displayname = $fileDetail->fil_name[0];
+$type = $fileHandler->fileInfoType($fileDetail["fil_extension"]);
+$displayname = $fileDetail["fil_name"];
 
 //---------------------------------------------------------------------------------------------------
 //Update file code
@@ -109,21 +116,21 @@ if ($action == "update") {
         $error4 .= $strings["exceed_size"] . " ($taille_max_ko $byteUnits[1])<br/>";
     }
 
-    $upload_name = $fileDetail->fil_name[0];
+    $upload_name = $fileDetail["fil_name"];
     $extension = strtolower(substr(strrchr($upload_name, "."), 1));
 
     //Add version number to the old copy's file name.
-    $changename = str_replace(".", "_v" . $fileDetail->fil_vc_version[0] . ".", $fileDetail->fil_name[0]);
+    $changename = str_replace(".", "_v" . $fileDetail["fil_vc_version"] . ".", $fileDetail["fil_name"]);
 
     //Generate paths for use further down.
-    if ($fileDetail->fil_task[0] != "0") {
-        $path = "files/" . $fileDetail->fil_project[0] . "/" . $fileDetail->fil_task[0] . "/$upload_name";
-        $path_source = "files/" . $fileDetail->fil_project[0] . "/" . $fileDetail->fil_task[0] . "/" . $fileDetail->fil_name[0];
-        $path_destination = "files/" . $fileDetail->fil_project[0] . "/" . $fileDetail->fil_task[0] . "/$changename";
+    if ($fileDetail["fil_task"] != "0") {
+        $path = "files/" . $fileDetail["fil_project"] . "/" . $fileDetail["fil_task"] . "/$upload_name";
+        $path_source = "files/" . $fileDetail["fil_project"] . "/" . $fileDetail["fil_task"] . "/" . $fileDetail["fil_name"];
+        $path_destination = "files/" . $fileDetail["fil_project"] . "/" . $fileDetail["fil_task"] . "/$changename";
     } else {
-        $path = "files/" . $fileDetail->fil_project[0] . "/$upload_name";
-        $path_source = "files/" . $fileDetail->fil_project[0] . "/" . $fileDetail->fil_name[0];
-        $path_destination = "files/" . $fileDetail->fil_project[0] . "/$changename";
+        $path = "files/" . $fileDetail["fil_project"] . "/$upload_name";
+        $path_source = "files/" . $fileDetail["fil_project"] . "/" . $fileDetail["fil_name"];
+        $path_destination = "files/" . $fileDetail["fil_project"] . "/$changename";
     }
 
     if ($allowPhp == "false") {
@@ -143,20 +150,20 @@ if ($action == "update") {
         phpCollab\Util::moveFile($path_source, $path_destination);
 
         //Set variables from original files details.
-        $copy_project = $fileDetail->fil_project[0];
-        $copy_task = $fileDetail->fil_task[0];
-        $copy_date = $fileDetail->fil_date[0];
-        $copy_size = $fileDetail->fil_size[0];
-        $copy_extension = $fileDetail->fil_extension[0];
-        $copy_comments = $fileDetail->fil_comments[0];
-        $copy_comments_approval = $fileDetail->fil_comments_approval[0];
-        $copy_approver = $fileDetail->fil_approver[0];
-        $copy_date_approval = $fileDetail->fil_date_approval[0];
-        $copy_upload = $fileDetail->fil_upload[0];
-        $copy_pusblished = $fileDetail->fil_published[0];
-        $copy_vc_parent = $fileDetail->fil_vc_parent[0];
-        $copy_id = $fileDetail->fil_id[0];
-        $copy_vc_version = $fileDetail->fil_vc_version[0];
+        $copy_project = $fileDetail["fil_project"];
+        $copy_task = $fileDetail["fil_task"];
+        $copy_date = $fileDetail["fil_date"];
+        $copy_size = $fileDetail["fil_size"];
+        $copy_extension = $fileDetail["fil_extension"];
+        $copy_comments = $fileDetail["fil_comments"];
+        $copy_comments_approval = $fileDetail["fil_comments_approval"];
+        $copy_approver = $fileDetail["fil_approver"];
+        $copy_date_approval = $fileDetail["fil_date_approval"];
+        $copy_upload = $fileDetail["fil_upload"];
+        $copy_pusblished = $fileDetail["fil_published"];
+        $copy_vc_parent = $fileDetail["fil_vc_parent"];
+        $copy_id = $fileDetail["fil_id"];
+        $copy_vc_version = $fileDetail["fil_vc_version"];
 
         //Insert a new row for the copied file
         $copy_comments = phpCollab\Util::convertData($copy_comments);
@@ -196,13 +203,13 @@ if ($action == "update") {
         $extension = strtolower(strrev($tab[0]));
     }
 
-    $newversion = $fileDetail->fil_vc_version[0] + $change_file_version;
+    $newversion = $fileDetail["fil_vc_version"] + $change_file_version;
     if ($docopy == "true") {
         $name = $upload_name;
         $tmpquery = "UPDATE {$tableCollab["files"]} SET date=:date,size=:size,comments=:comments,comments_approval=null,approver=null,date_approval=null,status=:status,vc_version=:vc_version WHERE id = :file_id";
 
         phpCollab\Util::newConnectSql($tmpquery, ["date" => $dateheure, "size" => $size,"comments"=>$c,"status"=>$status,"vc_version"=>$vc_version,"file_id"=>$id]);
-        phpCollab\Util::headerFunction("../linkedcontent/viewfile.php?id=" . $fileDetail->fil_id[0] . "&msg=addFile");
+        phpCollab\Util::headerFunction("../linkedcontent/viewfile.php?id=" . $fileDetail["fil_id"] . "&msg=addFile");
     }
 }
 
@@ -212,7 +219,7 @@ if ($action == "approve") {
     $commentField = phpCollab\Util::convertData($c);
     $tmpquery1 = "UPDATE {$tableCollab["files"]} SET comments_approval=:comments_approval,date_approval=:date_approval,approver=:approver,status=:status WHERE id = :file_id";
     phpCollab\Util::newConnectSql($tmpquery1,["comments_approval" => $commentField, "date_approval" => $dateheure, "approver" => $idSession, "status" => $statusField, "file_id" => $id ]);
-    phpCollab\Util::headerFunction("../linkedcontent/viewfile.php?id=" . $fileDetail->fil_id[0] . "&msg=addFile");
+    phpCollab\Util::headerFunction("../linkedcontent/viewfile.php?id=" . $fileDetail["fil_id"] . "&msg=addFile");
 }
 
 # end MOD
@@ -309,18 +316,18 @@ include '../themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $fileDetail->fil_project[0], $projectDetail->pro_name[0], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $fileDetail["fil_project"], $projectDetail->pro_name[0], in));
 
-if ($fileDetail->fil_phase[0] != "0" && $projectDetail->pro_phase_set[0] != "0") {
+if ($fileDetail["fil_phase"] != "0" && $projectDetail->pro_phase_set[0] != "0") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $phaseDetail->pha_id[0], $phaseDetail->pha_name[0], in));
 }
 
-if ($fileDetail->fil_task[0] != "0") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $fileDetail->fil_project[0], $strings["tasks"], in));
+if ($fileDetail["fil_task"] != "0") {
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $fileDetail["fil_project"], $strings["tasks"], in));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail->tas_id[0], $taskDetail->tas_name[0], in));
 }
 
-$blockPage->itemBreadcrumbs($fileDetail->fil_name[0]);
+$blockPage->itemBreadcrumbs($fileDetail["fil_name"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
@@ -338,7 +345,7 @@ $block1->openForm("../files/viewfile.php?&id=$id#" . $block1->form . "Anchor");
 
 $block1->heading($strings["document"]);
 
-if ($fileDetail->fil_owner[0] == $idSession) {
+if ($fileDetail["fil_owner"] == $idSession) {
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "remove", $strings["ifc_delete_version"]);
     $block1->paletteIcon(1, "add_projectsite", $strings["add_project_site"]);
@@ -360,49 +367,49 @@ echo "
 </tr>
 <tr class='odd'>
 	<td valign='top' class='leftvalue'>" . $strings["name"] . " :</td>
-	<td>" . $fileDetail->fil_name[0] . "</td>
+	<td>" . $fileDetail["fil_name"] . "</td>
 </tr>
 <tr class='odd'>
 	<td valign='top' class='leftvalue'>" . $strings["vc_version"] . " :</td>
-	<td>" . $fileDetail->fil_vc_version[0] . "</td>
+	<td>" . $fileDetail["fil_vc_version"] . "</td>
 </tr>
 <tr class='odd'>
 	<td valign='top' class='leftvalue'>" . $strings["ifc_last_date"] . " :</td>
-	<td>" . $fileDetail->fil_date[0] . "</td>
+	<td>" . $fileDetail["fil_date"] . "</td>
 </tr>
 <tr class='odd'>
 	<td valign='top' class='leftvalue'>" . $strings["size"] . ":</td>
-	<td>" . phpCollab\Util::convertSize($fileDetail->fil_size[0]) . "</td>
+	<td>" . phpCollab\Util::convertSize($fileDetail["fil_size"]) . "</td>
 </tr>
 <tr class='odd'>
 	<td valign='top' class='leftvalue'>" . $strings["owner"] . " :</td>
-	<td>" . $blockPage->buildLink("../users/viewuser.php?id=" . $fileDetail->fil_mem_id[0], $fileDetail->fil_mem_name[0], in) . " (" . $blockPage->buildLink($fileDetail->fil_mem_email_work[0], $fileDetail->fil_mem_login[0], mail) . ")</td>
+	<td>" . $blockPage->buildLink("../users/viewuser.php?id=" . $fileDetail["fil_mem_id"], $fileDetail["fil_mem_name"], in) . " (" . $blockPage->buildLink($fileDetail["fil_mem_email_work"], $fileDetail["fil_mem_login"], mail) . ")</td>
 </tr>";
 
-if ($fileDetail->fil_comments[0] != "") {
-    echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["comments"] . " :</td><td>" . nl2br($fileDetail->fil_comments[0]) . "&nbsp;</td></tr>";
+if ($fileDetail["fil_comments"] != "") {
+    echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["comments"] . " :</td><td>" . nl2br($fileDetail["fil_comments"]) . "&nbsp;</td></tr>";
 }
 
-$idPublish = $fileDetail->fil_published[0];
+$idPublish = $fileDetail["fil_published"];
 echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["published"] . " :</td><td>$statusPublish[$idPublish]</td></tr>";
 
-$idStatus = $fileDetail->fil_status[0];
+$idStatus = $fileDetail["fil_status"];
 echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["approval_tracking"] . " :</td><td>$statusFile[$idStatus]</td></tr>";
 
-if ($fileDetail->fil_mem2_id[0] != "") {
+if ($fileDetail["fil_mem2_id"] != "") {
     echo "
 	<tr class='odd'>
 		<td valign='top' class='leftvalue'>" . $strings["approver"] . " :</td>
-		<td>" . $blockPage->buildLink("../users/viewuser.php?id=" . $fileDetail->fil_mem2_id[0], $fileDetail->fil_mem2_name[0], in) . " (" . $blockPage->buildLink($fileDetail->fil_mem2_email_work[0], $fileDetail->fil_mem2_login[0], mail) . ")&nbsp;</td>
+		<td>" . $blockPage->buildLink("../users/viewuser.php?id=" . $fileDetail["fil_mem2_id"], $fileDetail["fil_mem2_name"], in) . " (" . $blockPage->buildLink($fileDetail["fil_mem2_email_work"], $fileDetail["fil_mem2_login"], mail) . ")&nbsp;</td>
 	</tr>
 	<tr class='odd'>
 		<td valign='top' class='leftvalue'>" . $strings["approval_date"] . " :</td>
-		<td>" . $fileDetail->fil_date_approval[0] . "&nbsp;</td>
+		<td>" . $fileDetail["fil_date_approval"] . "&nbsp;</td>
 	</tr>";
 }
 
-if ($fileDetail->fil_comments_approval[0] != "") {
-    echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["approval_comments"] . " :</td><td>" . nl2br($fileDetail->fil_comments_approval[0]) . "&nbsp;</td></tr>";
+if ($fileDetail["fil_comments_approval"] != "") {
+    echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["approval_comments"] . " :</td><td>" . nl2br($fileDetail["fil_comments_approval"]) . "&nbsp;</td></tr>";
 }
 
 //------------------------------------------------------------------
@@ -429,7 +436,7 @@ for ($i = 0; $i < $comptListVersions; $i++) {
     }
     echo "<tr class=\"$class\"><td>";
 
-    if ($fileDetail->fil_owner[0] == $idSession && $listVersions->fil_id[$i] != $fileDetail->fil_id[0]) {
+    if ($fileDetail["fil_owner"] == $idSession && $listVersions->fil_id[$i] != $fileDetail["fil_id"]) {
         echo "<a href=\"javascript:MM_toggleItem(document." . $block1->form . "Form, '" . $listVersions->fil_id[$i] . "', '" . $block1->form . "cb" . $listVersions->fil_id[$i] . "','" . THEME . "')\"><img name=\"" . $block1->form . "cb" . $listVersions->fil_id[$i] . "\" border=\"0\" src=\"../themes/" . THEME . "/checkbox_off_16.gif\" alt=\"\" vspace=\"0\"></a>";
     }
     echo "&nbsp;</td>
@@ -480,12 +487,12 @@ $block1->closeResults();
 $block1->closeFormResults();
 
 
-if ($fileDetail->fil_owner[0] == $idSession) {
+if ($fileDetail["fil_owner"] == $idSession) {
     $block1->openPaletteScript();
-    $block1->paletteScript(0, "remove", "../linkedcontent/deletefiles.php?project=" . $fileDetail->fil_project[0] . "&task=" . $fileDetail->fil_task[0] . "&sendto=filedetails", "false,true,true", $strings["ifc_delete_version"]);
-    $block1->paletteScript(1, "add_projectsite", "../linkedcontent/viewfile.php?addToSiteFile=true&file=" . $fileDetail->fil_id[0] . "&action=publish", "true,true,true", $strings["add_project_site"]);
-    $block1->paletteScript(2, "remove_projectsite", "../linkedcontent/viewfile.php?removeToSiteFile=true&file=" . $fileDetail->fil_id[0] . "&action=publish", "true,true,true", $strings["remove_project_site"]);
-    $block1->closePaletteScript($comptFileDetail, $fileDetail->fil_id);
+    $block1->paletteScript(0, "remove", "../linkedcontent/deletefiles.php?project=" . $fileDetail["fil_project"] . "&task=" . $fileDetail["fil_task"] . "&sendto=filedetails", "false,true,true", $strings["ifc_delete_version"]);
+    $block1->paletteScript(1, "add_projectsite", "../linkedcontent/viewfile.php?addToSiteFile=true&file=" . $fileDetail["fil_id"] . "&action=publish", "true,true,true", $strings["add_project_site"]);
+    $block1->paletteScript(2, "remove_projectsite", "../linkedcontent/viewfile.php?removeToSiteFile=true&file=" . $fileDetail["fil_id"] . "&action=publish", "true,true,true", $strings["remove_project_site"]);
+    $block1->closePaletteScript($comptFileDetail, $fileDetail["fil_id"]);
 }
 
 if ($peerReview == "true") {
@@ -495,7 +502,7 @@ if ($peerReview == "true") {
     $block2->openForm("../files/viewfile.php?&id=$id#" . $block2->form . "Anchor");
     $block2->heading($strings["ifc_revisions"]);
 
-    if ($fileDetail->fil_owner[0] == $idSession) {
+    if ($fileDetail["fil_owner"] == $idSession) {
         $block2->openPaletteIcon();
         $block2->paletteIcon(0, "remove", $strings["ifc_delete_review"]);
         $block2->closePaletteIcon();
@@ -531,7 +538,7 @@ if ($peerReview == "true") {
 
         echo "	<table width='600' cellpadding='0' cellspacing='0' class='tableRevision' onmouseover='this.style.backgroundColor=\"" . $block2->getHighlightOn() . "\"' onmouseout='this.style.backgroundColor=\"" . $block2->getHighlightOff() . "\"'>
 					<tr bgcolor='" . $block2->getFgColor() . "'><td>";
-        if ($fileDetail->fil_owner[0] == $idSession) {
+        if ($fileDetail["fil_owner"] == $idSession) {
             echo "<a href=\"javascript:MM_toggleItem(document." . $block2->form . "Form, '" . $listReviews->fil_id[$i] . "', '" . $block2->form . "cb" . $listReviews->fil_id[$i] . "','" . THEME . "')\"><img name='" . $block2->form . "cb" . $listReviews->fil_id[$i] . "' border='0' src='../themes/" . THEME . "/checkbox_off_16.gif' alt='' vspace='0'></a>";
         }
 
@@ -581,9 +588,9 @@ if ($peerReview == "true") {
     $block2->closeResults();
     $block2->closeFormResults();
 
-    if ($fileDetail->fil_owner[0] == $idSession) {
+    if ($fileDetail["fil_owner"] == $idSession) {
         $block2->openPaletteScript();
-        $block2->paletteScript(0, "remove", "../linkedcontent/deletefiles.php?project=" . $fileDetail->fil_project[0] . "&task=" . $fileDetail->fil_task[0] . "&sendto=filedetails", "false,true,true", $strings["ifc_delete_review"]);
+        $block2->paletteScript(0, "remove", "../linkedcontent/deletefiles.php?project=" . $fileDetail["fil_project"] . "&task=" . $fileDetail["fil_task"] . "&sendto=filedetails", "false,true,true", $strings["ifc_delete_review"]);
         $block2->closePaletteScript($comptListReviews, $listReviews->fil_id);
     }
 
@@ -594,7 +601,7 @@ if ($peerReview == "true") {
 
         echo "
 			<a name='filedetailsAnchor'></a>
-			<form accept-charset='UNKNOWN' method='POST' action='../linkedcontent/viewfile.php?action=add&id=" . $fileDetail->fil_id[0] . "&#filedetailsAnchor' name='filedetailsForm' enctype='multipart/form-data'>
+			<form accept-charset='UNKNOWN' method='POST' action='../linkedcontent/viewfile.php?action=add&id=" . $fileDetail["fil_id"] . "&#filedetailsAnchor' name='filedetailsForm' enctype='multipart/form-data'>
 				<input type='hidden' name='MAX_FILE_SIZE' value='100000000' />
 				<input type='hidden' name='maxCustom' value='" . $projectDetail->pro_upload_max[0] . "' />
 		";
@@ -612,14 +619,14 @@ if ($peerReview == "true") {
         $revision = $displayrev + 1;
 
         echo "
-		<input value='" . $fileDetail->fil_id[0] . "' name='sendto' type='hidden' />
-		<input value='" . $fileDetail->fil_id[0] . "' name='parent' type='hidden' />
+		<input value='" . $fileDetail["fil_id"] . "' name='sendto' type='hidden' />
+		<input value='" . $fileDetail["fil_id"] . "' name='parent' type='hidden' />
 		<input value='$revision' name='revision' type='hidden' />
-		<input value='" . $fileDetail->fil_vc_version[0] . "' name='oldversion' type='hidden' />
-		<input value='" . $fileDetail->fil_project[0] . "' name='project' type='hidden' />
-		<input value='" . $fileDetail->fil_task[0] . "' name='task' type='hidden' />
-		<input value='" . $fileDetail->fil_published[0] . "' name='published' type='hidden' />
-		<input value='" . $fileDetail->fil_name[0] . "' name='filename' type='hidden' />
+		<input value='" . $fileDetail["fil_vc_version"] . "' name='oldversion' type='hidden' />
+		<input value='" . $fileDetail["fil_project"] . "' name='project' type='hidden' />
+		<input value='" . $fileDetail["fil_task"] . "' name='task' type='hidden' />
+		<input value='" . $fileDetail["fil_published"] . "' name='published' type='hidden' />
+		<input value='" . $fileDetail["fil_name"] . "' name='filename' type='hidden' />
 
 		<tr class='odd'>
 			<td valign='top' class='leftvalue'>* " . $strings["upload"] . " :</td>
@@ -643,13 +650,13 @@ if ($peerReview == "true") {
 
 # 2005.06.01, MOD, PS (dracono) - approval filed
 
-if ($fileDetail->fil_owner[0] == $idSession || $projectDetail->pro_owner[0] == $idSession || $profilSession == "5") {
+if ($fileDetail["fil_owner"] == $idSession || $projectDetail->pro_owner[0] == $idSession || $profilSession == "5") {
     $block5 = new phpCollab\Block();
     $block5->form = "filedetails";
 
     echo "
 		<a name='filedetailsAnchor'></a>
-		<form accept-charset='UNKNOWN' method='POST' action='../linkedcontent/viewfile.php?action=approve&amp;id=" . $fileDetail->fil_id[0] . "&amp;#filedetailsAnchor' name='filedetailsForm' enctype='multipart/form-data'>
+		<form accept-charset='UNKNOWN' method='POST' action='../linkedcontent/viewfile.php?action=approve&amp;id=" . $fileDetail["fil_id"] . "&amp;#filedetailsAnchor' name='filedetailsForm' enctype='multipart/form-data'>
 			<input type='hidden' name='MAX_FILE_SIZE' value='100000000' />
 			<input type='hidden' name='maxCustom' value='" . $projectDetail->pro_upload_max[0] . "' />
 	";
@@ -700,13 +707,13 @@ if ($fileDetail->fil_owner[0] == $idSession || $projectDetail->pro_owner[0] == $
 # end MOD ---------------------
 
 //Update file Block
-if ($fileDetail->fil_owner[0] == $idSession) {
+if ($fileDetail["fil_owner"] == $idSession) {
     $block4 = new phpCollab\Block();
     $block4->form = "filedetails";
 
     echo "
 		<a name='filedetailsAnchor'></a>
-		<form accept-charset='UNKNOWN' method='POST' action='../linkedcontent/viewfile.php?action=update&id=" . $fileDetail->fil_id[0] . "&#filedetailsAnchor' name='filedetailsForm' enctype='multipart/form-data'>
+		<form accept-charset='UNKNOWN' method='POST' action='../linkedcontent/viewfile.php?action=update&id=" . $fileDetail["fil_id"] . "&#filedetailsAnchor' name='filedetailsForm' enctype='multipart/form-data'>
 			<input type='hidden' name='MAX_FILE_SIZE' value='100000000' />
 			<input type='hidden' name='maxCustom' value='" . $projectDetail->pro_upload_max[0] . "' />
 		";
