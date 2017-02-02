@@ -129,7 +129,7 @@ SELECT
     fil.task AS fil_task,
     fil.name AS fil_name,
     fil.date AS fil_date,
-    fil.size AS fil_sie,
+    fil.size AS fil_size,
     fil.extension AS fil_extension,
     fil.comments AS fil_comments,
     fil.comments_approval AS fil_comments_approval,
