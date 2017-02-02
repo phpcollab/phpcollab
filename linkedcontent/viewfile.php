@@ -1,39 +1,16 @@
 <?php
-/*
-** Application name: phpCollab
-** Last Edit page: 03/06/2005
-** Path by root: ../linkedcontent/viewfile.php
-** Authors: Ceam / Fullo / dracono
-**
-** =============================================================================
-**
-**               phpCollab - Project Managment 
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: viewfile.php
-**
-** DESC: Screen: adding file to linked content
-**
-** HISTORY:
-**  03/06/2005  -	added file comment
-**	03/06/2005	-	added dracono patch for approvation field
-** -----------------------------------------------------------------------------
-** TO-DO:
-** 
-**
-** =============================================================================
-*/
 
 $checkSession = "true";
 include_once '../includes/library.php';
 
 $action = $_GET["action"];
 $id = $_GET["id"];
+$addToSiteFile = $_GET["addToSiteFile"];
+$removeToSiteFile = $_GET["removeToSiteFile"];
 $tableCollab = $GLOBALS["tableCollab"];
 $strings = $GLOBALS["strings"];
+$idSession = phpCollab\Util::returnGlobal('idSession', 'SESSION');
+
 
 $files = new \phpCollab\Files\Files();
 
@@ -53,8 +30,6 @@ if ($action == "publish") {
 }
 
 $fileDetail = $files->getFileById($id);
-
-xdebug_var_dump($fileDetail);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '" . $fileDetail["fil_project"] . "' AND tea.member = '$idSession'";
