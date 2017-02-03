@@ -70,4 +70,16 @@ class Teams
         return $team;
     }
 
+    /**
+     * @param $projectId
+     * @param $memberId
+     * @return bool
+     */
+    public function isTeamMember($projectId, $memberId)
+    {
+        $projectId = filter_var($projectId, FILTER_VALIDATE_INT);
+        $memberId = filter_var($memberId, FILTER_VALIDATE_INT);
+        return (count($this->teams_gateway->isTeamMember($projectId, $memberId)) > 0) ? true : false;
+    }
+
 }

@@ -74,6 +74,23 @@ class TeamsGateway
     }
 
     /**
+     * @param $projectId
+     * @param $memberId
+     * @return mixed
+     */
+    public function isTeamMember($projectId, $memberId)
+    {
+        $whereStatement = " WHERE tea.project = :project_id AND tea.member = :member_id";
+
+        $sql = $this->initrequest["teams"] . $whereStatement;
+
+        $this->db->query($sql);
+        $this->db->bind(':project_id', $projectId);
+        $this->db->bind(':member_id', $memberId);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $sorting
      * @return string
      */
