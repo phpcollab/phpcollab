@@ -79,6 +79,24 @@ class FilesGateway
         }
     }
 
+    public function getFileVersions($fileId, $fileStatus)
+    {
+        $query = $this->initrequest["files"] . " WHERE fil.id = :file_id OR fil.vc_parent = :file_id AND fil.vc_status = :file_status ORDER BY fil.date DESC";
+        $this->db->query($query);
+        $this->db->bind(':file_id', $fileId);
+        $this->db->bind(':file_status', $fileStatus);
+
+        return $this->db->resultset();
+    }
+
+    public function getFilePeerReviews($fileId)
+    {
+        $query = $this->initrequest["files"] . " WHERE fil.vc_parent = :file_id AND fil.vc_status != 3 ORDER BY fil.date";
+        $this->db->query($query);
+        $this->db->bind(':file_id', $fileId);
+        return $this->db->resultset();
+    }
+
     /**
      * @param string $sorting
      * @return string

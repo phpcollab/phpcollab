@@ -74,6 +74,20 @@ class Files
 
     }
 
+    public function getFileVersions($fileId)
+    {
+        $fileId = filter_var((string)$fileId, FILTER_SANITIZE_STRING);
+        $response = $this->files_gateway->getFileVersions($fileId, 3);
+        return $response;
+    }
+
+    public function getFilePeerReviews($fileId)
+    {
+        $fileId = filter_var((string)$fileId, FILTER_SANITIZE_STRING);
+        $response = $this->files_gateway->getFilePeerReviews($fileId);
+        return $response;
+    }
+
     /**
      * @param $fileId
      * @return mixed
