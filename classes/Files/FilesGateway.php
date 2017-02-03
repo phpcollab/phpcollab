@@ -26,6 +26,10 @@ class FilesGateway
         $this->tableCollab = $GLOBALS['tableCollab'];
     }
 
+    /**
+     * @param $fileId
+     * @return mixed
+     */
     public function getFiles($fileId)
     {
         if ( strpos($fileId, ',') ) {
@@ -48,6 +52,10 @@ class FilesGateway
         }
     }
 
+    /**
+     * @param $fileId
+     * @return mixed
+     */
     public function getFileById($fileId)
     {
         $query = $this->initrequest["files"] . " WHERE fil.id IN(:file_id) OR fil.vc_parent IN(:file_id) ORDER BY fil.name";
@@ -56,6 +64,10 @@ class FilesGateway
         return $this->db->single();
     }
 
+    /**
+     * @param $fileId
+     * @return mixed
+     */
     public function deleteFiles($fileId)
     {
 
@@ -79,6 +91,11 @@ class FilesGateway
         }
     }
 
+    /**
+     * @param $fileId
+     * @param $fileStatus
+     * @return mixed
+     */
     public function getFileVersions($fileId, $fileStatus)
     {
         $query = $this->initrequest["files"] . " WHERE fil.id = :file_id OR fil.vc_parent = :file_id AND fil.vc_status = :file_status ORDER BY fil.date DESC";
@@ -89,6 +106,10 @@ class FilesGateway
         return $this->db->resultset();
     }
 
+    /**
+     * @param $fileId
+     * @return mixed
+     */
     public function getFilePeerReviews($fileId)
     {
         $query = $this->initrequest["files"] . " WHERE fil.vc_parent = :file_id AND fil.vc_status != 3 ORDER BY fil.date";
