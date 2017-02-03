@@ -383,7 +383,6 @@ if ($gmtTimezone == "true") {
     $dateheure = date("Y-m-d H:i");
 }
 
-//Todo: Refactor to use PDO
 //update sorting table if query sort column
 if (!empty($sor_cible) && $sor_cible != "" && $sor_champs != "none") {
     $sor_champs = phpCollab\Util::convertData($sor_champs);
