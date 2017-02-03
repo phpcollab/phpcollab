@@ -7,29 +7,31 @@ $checkSession = "true";
 include_once '../includes/library.php';
 include '../includes/customvalues.php';
 
+$action = $_GET["action"];
+$project = $_GET["project"];
+$id = $_GET["id"];
+$addToSite = $_GET["addToSite"];
+$removeToSite = $_GET["removeToSite"];
+$tableCollab = $GLOBALS["tableCollab"];
+$strings = $GLOBALS["strings"];
+$idSession = $_SESSION["idSession"];
+
+$notes = new \phpCollab\Notes\Notes();
+
 if ($action == "publish") {
+
+    $multi = strstr($id, "**");
+    $id = str_replace("**", ",", $id);
+
     if ($addToSite == "true") {
-        $multi = strstr($id, "**");
-        if ($multi != "") {
-            $id = str_replace("**", ",", $id);
-            $tmpquery1 = "UPDATE " . $tableCollab["notes"] . " SET published='0' WHERE id IN($id)";
-        } else {
-            $tmpquery1 = "UPDATE " . $tableCollab["notes"] . " SET published='0' WHERE id = '$id'";
-        }
-        phpCollab\Util::connectSql("$tmpquery1");
+
+        $notes->publishToSite($id);
         $msg = "addToSite";
         $id = $project;
     }
 
     if ($removeToSite == "true") {
-        $multi = strstr($id, "**");
-        if ($multi != "") {
-            $id = str_replace("**", ",", $id);
-            $tmpquery1 = "UPDATE " . $tableCollab["notes"] . " SET published='1' WHERE id IN($id)";
-        } else {
-            $tmpquery1 = "UPDATE " . $tableCollab["notes"] . " SET published='1' WHERE id = '$id'";
-        }
-        phpCollab\Util::connectSql("$tmpquery1");
+        $notes->unPublishFromSite($id);
         $msg = "removeToSite";
         $id = $project;
     }
@@ -37,25 +39,16 @@ if ($action == "publish") {
 
 include '../themes/' . THEME . '/header.php';
 
-$tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new phpCollab\Request();
-$projectDetail->openProjects($tmpquery);
+$projects = new \phpCollab\Projects\Projects();
+$projectDetail = $projects->getProjectById($project);
 
-$teamMember = "false";
-$tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-$memberTest = new phpCollab\Request();
-$memberTest->openTeams($tmpquery);
-$comptMemberTest = count($memberTest->tea_id);
-if ($comptMemberTest == "0") {
-    $teamMember = "false";
-} else {
-    $teamMember = "true";
-}
+$teams = new \phpCollab\Teams\Teams();
+$teamMember = $teams->isTeamMember($project, $idSession);
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
 $blockPage->itemBreadcrumbs($strings["notes"]);
 $blockPage->closeBreadcrumbs();
 
@@ -88,34 +81,32 @@ $block1->closePaletteIcon();
 $comptTopic = count($topicNote);
 
 if ($comptTopic != "0") {
-    $block1->sorting("notes", $sortingUser->sor_notes[0], "note.date DESC", $sortingFields = array(0 => "note.subject", 1 => "note.topic", 2 => "note.date", 3 => "mem.login", 4 => "note.published"));
+    $block1->sorting("notes", $sortingUser->sor_notes[0], "note.date DESC", $sortingFields = [0 => "note.subject", 1 => "note.topic", 2 => "note.date", 3 => "mem.login", 4 => "note.published"]);
 } else {
-    $block1->sorting("notes", $sortingUser->sor_notes[0], "note.date DESC", $sortingFields = array(0 => "note.subject", 1 => "note.date", 2 => "mem.login", 3 => "note.published"));
+    $block1->sorting("notes", $sortingUser->sor_notes[0], "note.date DESC", $sortingFields = [0 => "note.subject", 1 => "note.date", 2 => "mem.login", 3 => "note.published"]);
 }
-$tmpquery = "WHERE note.project = '$project' ORDER BY $block1->sortingValue";
-$listNotes = new phpCollab\Request();
-$listNotes->openNotes($tmpquery);
-$comptListNotes = count($listNotes->note_id);
 
-if ($comptListNotes != "0") {
+$listNotes = $notes->getNoteByProject($project, $block1->sortingValue);
+
+if ($listNotes) {
     $block1->openResults();
     $comptTopic = count($topicNote);
 
     if ($comptTopic != "0") {
-        $block1->labels($labels = array(0 => $strings["subject"], 1 => $strings["topic"], 2 => $strings["date"], 3 => $strings["owner"], 4 => $strings["published"]), "true");
+        $block1->labels($labels = [0 => $strings["subject"], 1 => $strings["topic"], 2 => $strings["date"], 3 => $strings["owner"], 4 => $strings["published"]], "true");
     } else {
-        $block1->labels($labels = array(0 => $strings["subject"], 1 => $strings["date"], 2 => $strings["owner"], 3 => $strings["published"]), "true");
+        $block1->labels($labels = [0 => $strings["subject"], 1 => $strings["date"], 2 => $strings["owner"], 3 => $strings["published"]], "true");
     }
-    for ($i = 0; $i < $comptListNotes; $i++) {
-        $idPublish = $listNotes->note_published[$i];
+    foreach ($listNotes as $note) {
+        $idPublish = $note["note_published"];
         $block1->openRow();
-        $block1->checkboxRow($listNotes->note_id[$i]);
-        $block1->cellRow($blockPage->buildLink("../notes/viewnote.php?id=" . $listNotes->note_id[$i], $listNotes->note_subject[$i], in));
+        $block1->checkboxRow($note["note_id"]);
+        $block1->cellRow($blockPage->buildLink("../notes/viewnote.php?id=" . $note["note_id"], $note["note_subject"], "in"));
         if ($comptTopic != "0") {
-            $block1->cellRow($topicNote[$listNotes->note_topic[$i]]);
+            $block1->cellRow($topicNote[$note["note_topic"]]);
         }
-        $block1->cellRow($listNotes->note_date[$i]);
-        $block1->cellRow($blockPage->buildLink($listNotes->note_mem_email_work[$i], $listNotes->note_mem_login[$i], mail));
+        $block1->cellRow($note["note_date"]);
+        $block1->cellRow($blockPage->buildLink($note["note_mem_email_work"], $note["note_mem_login"], "mail"));
         if ($sitePublish == "true") {
             $block1->cellRow($statusPublish[$idPublish]);
         }
@@ -132,14 +123,14 @@ if ($teamMember == "true") {
     $block1->paletteScript(0, "add", "../notes/editnote.php?project=$project", "true,false,false", $strings["add"]);
     $block1->paletteScript(1, "remove", "../notes/deletenotes.php?project=$project", "false,true,true", $strings["delete"]);
     if ($sitePublish == "true") {
-        $block1->paletteScript(3, "add_projectsite", "../notes/listnotes.php?addToSite=true&project=" . $projectDetail->pro_id[0] . "&action=publish", "false,true,true", $strings["add_project_site"]);
-        $block1->paletteScript(4, "remove_projectsite", "../notes/listnotes.php?removeToSite=true&project=" . $projectDetail->pro_id[0] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
+        $block1->paletteScript(3, "add_projectsite", "../notes/listnotes.php?addToSite=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["add_project_site"]);
+        $block1->paletteScript(4, "remove_projectsite", "../notes/listnotes.php?removeToSite=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
     }
 }
 $block1->paletteScript(5, "info", "../notes/viewnote.php?", "false,true,false", $strings["view"]);
 if ($teamMember == "true") {
     $block1->paletteScript(6, "edit", "../notes/editnote.php?project=$project", "false,true,false", $strings["edit"]);
 }
-$block1->closePaletteScript($comptListNotes, $listNotes->note_id);
+$block1->closePaletteScript(count($listNotes), $listNotes["note_id"]);
 
 include '../themes/' . THEME . '/footer.php';
