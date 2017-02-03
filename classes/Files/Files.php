@@ -46,8 +46,6 @@ class Files
      */
     public function getPublishedFiles()
     {
-        $this->files_gateway->getFiles();
-        return;
     }
 
     /**
