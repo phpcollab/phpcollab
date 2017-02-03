@@ -5,6 +5,10 @@ namespace phpCollab\Phases;
 
 use phpCollab\Database;
 
+/**
+ * Class Phases
+ * @package phpCollab\Phases
+ */
 class Phases
 {
     protected $phases_gateway;
@@ -19,6 +23,11 @@ class Phases
         $this->phases_gateway = new PhasesGateway($this->db);
     }
 
+    /**
+     * @param $projectId
+     * @param $phaseNum
+     * @return mixed
+     */
     public function getPhasesByProjectIdAndPhaseOrderNum($projectId, $phaseNum)
     {
         $projectId = filter_var($projectId, FILTER_VALIDATE_INT);
@@ -29,6 +38,10 @@ class Phases
         return $phases;
     }
 
+    /**
+     * @param $phaseId
+     * @return mixed
+     */
     public function getPhasesById($phaseId)
     {
         $phaseId = filter_var($phaseId, FILTER_VALIDATE_INT);
