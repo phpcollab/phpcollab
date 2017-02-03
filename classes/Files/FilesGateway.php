@@ -112,7 +112,7 @@ class FilesGateway
      */
     public function getFilePeerReviews($fileId)
     {
-        $query = $this->initrequest["files"] . " WHERE fil.vc_parent = :file_id AND fil.vc_status != 3 ORDER BY fil.date";
+        $query = $this->initrequest["files"] . " WHERE fil.vc_parent = :file_id AND fil.vc_status != 3 " . $this->orderBy('fil.date');
         $this->db->query($query);
         $this->db->bind(':file_id', $fileId);
         return $this->db->resultset();
@@ -122,11 +122,10 @@ class FilesGateway
      * @param string $sorting
      * @return string
      */
-/*
     private function orderBy($sorting)
     {
         if (!is_null($sorting)) {
-            $allowedOrderedBy = ["boo.name", "boo.category", "mem.login"];
+            $allowedOrderedBy = ["fil.type", "fil.name", "fil.owner", "fil.date", "fil.approval_tracking", "fil.published"];
             $pieces = explode(' ', $sorting);
 
             if ($pieces) {
@@ -141,5 +140,4 @@ class FilesGateway
 
         return '';
     }
-*/
 }
