@@ -74,6 +74,10 @@ class Files
 
     }
 
+    /**
+     * @param $fileId
+     * @return mixed
+     */
     public function getFileVersions($fileId)
     {
         $fileId = filter_var((string)$fileId, FILTER_SANITIZE_STRING);
@@ -81,6 +85,10 @@ class Files
         return $response;
     }
 
+    /**
+     * @param $fileId
+     * @return mixed
+     */
     public function getFilePeerReviews($fileId)
     {
         $fileId = filter_var((string)$fileId, FILTER_SANITIZE_STRING);
