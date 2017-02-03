@@ -45,11 +45,25 @@ FROM {$tableCollab["calendar"]} cal
 LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = cal.owner
 CALENDAR;
 
-$initrequest["notes"] = "SELECT note.id, note.project, note.owner, note.topic, note.subject, note.description, note.date, note.published, mem.id, mem.login, mem.name, mem.email_work
+$initrequest["notes"] = <<<NOTES
+SELECT 
+    note.id AS note_id, 
+    note.project AS note_project, 
+    note.owner AS note_owner, 
+    note.topic AS note_topic, 
+    note.subject AS note_subject, 
+    note.description AS note_description, 
+    note.date AS note_date, 
+    note.published AS note_published, 
+    mem.id AS note_mem_id, 
+    mem.login AS note_mem_login, 
+    mem.name AS note_mem_name,
+    mem.email_work AS note_mem_email_work
 FROM {$tableCollab["notes"]} note
 LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = note.owner
 LEFT OUTER JOIN {$tableCollab["projects"]} pro ON pro.id = note.project
-";
+NOTES;
+
 
 $initrequest["logs"] = "SELECT log.id, log.login, log.password, log.ip, log.session, log.compt, log.last_visite, log.connected, mem.profil
 FROM {$tableCollab["logs"]} log
