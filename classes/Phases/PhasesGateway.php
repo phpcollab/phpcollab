@@ -30,4 +30,13 @@ class PhasesGateway
         return $results;
     }
 
+    public function getPhaseById($phaseId)
+    {
+        $whereStatement = " WHERE pha.id = :phase_id";
+        $this->db->query($this->initrequest["phases"] . $whereStatement);
+        $this->db->bind(':phase_id', $phaseId);
+        $results = $this->db->resultset();
+        return $results;
+    }
+
 }

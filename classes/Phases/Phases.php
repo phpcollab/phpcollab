@@ -29,4 +29,13 @@ class Phases
         return $phases;
     }
 
+    public function getPhasesById($phaseId)
+    {
+        $phaseId = filter_var($phaseId, FILTER_VALIDATE_INT);
+
+        $phase = $this->phases_gateway->getPhaseById($phaseId);
+
+        return $phase;
+    }
+
 }
