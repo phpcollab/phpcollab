@@ -14,4 +14,3 @@ $fileDetail->openFiles($tmpquery);
 
 // serve the requested file
 include '../includes/download.php';
-?>
