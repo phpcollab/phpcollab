@@ -108,7 +108,7 @@ if ($action == "add")
 		$dbParams["project"] = $project;
 		$dbParams["phase"] = phpCollab\Util::fixInt($phase);
 		$dbParams["task"] = $task;
-		$dbParams["comments"] = $c;
+		$dbParams["comments"] = phpCollab\Util::convertData($c);
 		$dbParams["upload"] = $dateheure;
 		$dbParams["published"] = 1;
 		$dbParams["status"] = $statusField;
