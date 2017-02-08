@@ -29,7 +29,11 @@ class Notes
      */
     public function getNoteById($noteId)
     {
-        return $this->notes_gateway->getNoteById($noteId);
+        if ( strpos($noteId, ',') ) {
+            return $this->notes_gateway->getNotesById($noteId);
+        } else {
+            return $this->notes_gateway->getNoteById($noteId);
+        }
     }
 
     /**
