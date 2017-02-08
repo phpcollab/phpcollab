@@ -1,40 +1,26 @@
 <?php
-/*
-** Application name: phpCollab
-** Last Edit page: 26/01/2004
-** Path by root: ../topics/addtopic.php
-** Authors: Ceam / Fullo 
-**
-** =============================================================================
-**
-**               phpCollab - Project Managment 
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: addtopic.php
-**
-** DESC: Screen: add new topic
-**
-** HISTORY:
-** 	26/01/2004	-	file comment added
-** -----------------------------------------------------------------------------
-** TO-DO:
-** 
-**
-** =============================================================================
-*/
 
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new phpCollab\Request();
-$projectDetail->openProjects($tmpquery);
+$project = $_GET["project"];
+$action = $_GET["action"];
+$pub = $_GET["pub"];
 
-if ($projectDetail->pro_org_id[0] == "1") {
-    $projectDetail->pro_org_name[0] = $strings["none"];
+$strings = $GLOBALS["strings"];
+$tableCollab = $GLOBALS["tableCollab"];
+
+$idSession = $_SESSION["idSession"];
+
+
+$projects = new \phpCollab\Projects\Projects();
+$teams = new \phpCollab\Teams\Teams();
+
+$projectDetail = $projects->getProjectById($project);
+
+
+if ($projectDetail["pro_org_id"] == "1") {
+    $projectDetail["pro_org_name"] = $strings["none"];
 }
 
 if ($action == "add") {
@@ -43,18 +29,19 @@ if ($action == "add") {
         $pub = "1";
     }
 
-    $ttt = phpCollab\Util::convertData($ttt);
-    $tpm = phpCollab\Util::convertData($tpm);
+    $ttt = phpCollab\Util::convertData($_POST["ttt"]);
+    $tpm = phpCollab\Util::convertData($_POST["tpm"]);
 
     $num = phpCollab\Util::newConnectSql(
         "INSERT INTO {$tableCollab["topics"]} (project,owner,subject,status,last_post,posts,published) VALUES (:project, :owner, :subject, '1', :last_post, '1', :published)",
-        ["project" => $project, "owner" => $idSession, "subject" =>$ttt, "last_post" => $dateheure, "published" => $pub]
+        ["project" => $project, "owner" => $idSession, "subject" => $ttt, "last_post" => $dateheure, "published" => $pub]
     );
 
     phpCollab\Util::autoLinks($tpm);
+
     phpCollab\Util::newConnectSql(
-        "INSERT INTO {$tableCollab["posts"]} (topic,member,created,message) VALUES (:topic, :member, :created, message)",
-        ["topic" => $num, "member" => $idSession, "created" => $dateheure, "message" => $newText]
+        "INSERT INTO {$tableCollab["posts"]} (topic,member,created,message) VALUES (:topic, :member, :created, :message)",
+        ["topic" => $num, "member" => $idSession, "created" => $dateheure, "message" => $tpm]
     );
 
     if ($notifications == "true") {
@@ -65,29 +52,20 @@ if ($action == "add") {
 }
 
 $teamMember = "false";
-$tmpquery = "WHERE tea.project = '" . $projectDetail->pro_id[0] . "' AND tea.member = '$idSession'";
-$memberTest = new phpCollab\Request();
-$memberTest->openTeams($tmpquery);
-$comptMemberTest = count($memberTest->tea_id);
-
-if ($comptMemberTest == "0") {
-    $teamMember = "false";
-} else {
-    $teamMember = "true";
-}
+$teamMember = $teams->isTeamMember($projectDetail["pro_id"], $idSession);
 
 if ($teamMember == "false" && $projectsFilter == "true") {
     header("Location:../general/permissiondenied.php");
 }
 
-$bodyCommand = "onLoad=\"document.ctTForm.ttt.focus();\"";
-include '../themes/' . THEME . '/header.php';
+$bodyCommand = 'onLoad="document.ctTForm.ttt.focus();"';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../topics/listtopics.php?project=" . $projectDetail->pro_id[0], $strings["discussions"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../topics/listtopics.php?project=" . $projectDetail["pro_id"], $strings["discussions"], "in"));
 $blockPage->itemBreadcrumbs($strings["add_discussion"]);
 $blockPage->closeBreadcrumbs();
 
@@ -99,9 +77,9 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "ctT";
-$block1->openForm("../topics/addtopic.php?project=" . $projectDetail->pro_id[0] . "&action=add");
+$block1->openForm("../topics/addtopic.php?project=" . $projectDetail["pro_id"] . "&action=add");
 
-if ($error != "") {
+if ((isset($error) && $error != "")) {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
 }
@@ -111,19 +89,18 @@ $block1->heading($strings["add_discussion"]);
 $block1->openContent();
 $block1->contentTitle($strings["info"]);
 
-$block1->contentRow($strings["project"], $blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0] . " (#" . $projectDetail->pro_id[0] . ")", in));
-$block1->contentRow($strings["organization"], $projectDetail->pro_org_name[0]);
-$block1->contentRow($strings["owner"], $blockPage->buildLink("../users/viewuser.php?id=" . $projectDetail->pro_mem_id[0], $projectDetail->pro_mem_name[0], in) . " (" . $blockPage->buildLink($projectDetail->pro_mem_email_work[0], $projectDetail->pro_mem_login[0], mail) . ")");
+$block1->contentRow($strings["project"], $blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"] . " (#" . $projectDetail["pro_id"] . ")", "in"));
+$block1->contentRow($strings["organization"], $projectDetail["pro_org_name"]);
+$block1->contentRow($strings["owner"], $blockPage->buildLink("../users/viewuser.php?id=" . $projectDetail["pro_mem_id"], $projectDetail["pro_mem_name"], "in") . " (" . $blockPage->buildLink($projectDetail["pro_mem_email_work"], $projectDetail["pro_mem_login"], "mail") . ")");
 
 $block1->contentTitle($strings["details"]);
 
-$block1->contentRow($strings["topic"], "<input size='44' value='$ttt' style='width: 400px' name='ttt' maxlength='64' type='TEXT'>");
-$block1->contentRow($strings["message"], "<textarea rows='10' style='width: 400px; height: 160px;' name='tpm' cols='47'>$tpm</textarea>");
-$block1->contentRow($strings["published"], "<input size='32' value='0' name='pub' type='checkbox'>");
-$block1->contentRow("", "<input type='SUBMIT' value='" . $strings["save"] . "'>");
+$block1->contentRow($strings["topic"], '<input size="44" value="'.$ttt.'" style="width: 400px" name="ttt" maxlength="64" type="TEXT">');
+$block1->contentRow($strings["message"], '<textarea rows="10" style="width: 400px; height: 160px;" name="tpm" cols="47">'.$tpm.'</textarea>');
+$block1->contentRow($strings["published"], '<input size="32" value="0" name="pub" type="checkbox">');
+$block1->contentRow("", '<input type="submit" value="' . $strings["save"] . '">');
 
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
-?>
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
