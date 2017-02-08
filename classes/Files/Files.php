@@ -42,18 +42,19 @@ class Files
     }
 
     /**
-     *
+     * @return mixed
      */
     public function getPublishedFiles()
     {
+        return $this->files_gateway->getPublishedFiles();
     }
 
     /**
-     *
+     * @return mixed
      */
     public function getUnPublishedFiles()
     {
-
+        return $this->files_gateway->getUnPublishedFiles();
     }
 
     /**

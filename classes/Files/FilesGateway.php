@@ -65,6 +65,26 @@ class FilesGateway
     }
 
     /**
+     * @return mixed
+     */
+    public function getPublishedFiles()
+    {
+        $query = $this->initrequest["files"] . " WHERE fil.published = 0";
+        $this->db->query($query);
+        return $this->db->resultset();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUnPublishedFiles()
+    {
+        $query = $this->initrequest["files"] . " WHERE fil.published = 1";
+        $this->db->query($query);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $fileId
      * @return mixed
      */
