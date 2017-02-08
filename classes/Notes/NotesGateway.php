@@ -32,19 +32,24 @@ class NotesGateway
      */
     public function getNoteById($noteId)
     {
-        if ( strpos($noteId, ',') ) {
-            $ids = explode(',', $noteId);
-            $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
-            $sql = $this->initrequest["notes"] . " WHERE note.id IN ($placeholders) ORDER BY note.subject";
-            $this->db->query($sql);
-            $this->db->execute($ids);
-            return $this->db->fetchAll();
-        } else {
-            $query = $this->initrequest["notes"] . " WHERE note.id IN (:note_id) ORDER BY note.subject";
-            $this->db->query($query);
-            $this->db->bind(':note_id', $noteId);
-            return $this->db->resultset();
-        }
+        $query = $this->initrequest["notes"] . " WHERE note.id IN (:note_id) ORDER BY note.subject";
+        $this->db->query($query);
+        $this->db->bind(':note_id', $noteId);
+        return $this->db->single();
+    }
+
+    /**
+     * @param $noteIds
+     * @return mixed
+     */
+    public function getNotesById($noteIds)
+    {
+        $ids = explode(',', $noteIds);
+        $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
+        $sql = $this->initrequest["notes"] . " WHERE note.id IN ($placeholders) ORDER BY note.subject";
+        $this->db->query($sql);
+        $this->db->execute($ids);
+        return $this->db->fetchAll();
     }
 
     /**
