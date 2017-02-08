@@ -27,6 +27,32 @@ class TopicsGateway
     }
 
     /**
+     * @param $ownerId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getTopicsByOwner($ownerId, $sorting = null)
+    {
+        $query = $this->initrequest["topics"] . " WHERE topic.project = :owner_id" . $this->orderBy($sorting);
+        $this->db->query($query);
+        $this->db->bind(':owner_id', $ownerId);
+        return $this->db->resultset();
+    }
+
+    /**
+     * @param $projectId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getTopicsByProject($projectId, $sorting = null)
+    {
+        $query = $this->initrequest["topics"] . " WHERE topic.project = :project_id" . $this->orderBy($sorting);
+        $this->db->query($query);
+        $this->db->bind(':project_id', $projectId);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $topicIds
      * @return mixed
      * @internal param string $table
@@ -35,12 +61,12 @@ class TopicsGateway
         if ( strpos($topicIds, ',') ) {
             $topicIds = explode(',', $topicIds);
             $placeholders = str_repeat ('?, ', count($topicIds)-1) . '?';
-            $sql = "UPDATE {$this->tableCollab['topics']} SET published=0 WHERE id IN ($placeholders)";
+            $sql = "UPDATE {$this->tableCollab['topics']} SET published = 0 WHERE id IN ($placeholders)";
             $this->db->query($sql);
 
             return $this->db->execute($topicIds);
         } else {
-            $sql = "UPDATE {$this->tableCollab['topics']} SET published=0 WHERE id = :topic_ids";
+            $sql = "UPDATE {$this->tableCollab['topics']} SET published = 0 WHERE id = :topic_ids";
 
             $this->db->query($sql);
 
@@ -59,11 +85,11 @@ class TopicsGateway
         if ( strpos($topicIds, ',') ) {
             $topicIds = explode(',', $topicIds);
             $placeholders = str_repeat ('?, ', count($topicIds)-1) . '?';
-            $sql = "UPDATE {$this->tableCollab['topics']} SET published=1 WHERE id IN ($placeholders)";
+            $sql = "UPDATE {$this->tableCollab['topics']} SET published = 1 WHERE id IN ($placeholders)";
             $this->db->query($sql);
             return $this->db->execute($topicIds);
         } else {
-            $sql = "UPDATE {$this->tableCollab['topics']} SET published=1 WHERE id = :topic_ids";
+            $sql = "UPDATE {$this->tableCollab['topics']} SET published = 1 WHERE id = :topic_ids";
 
             $this->db->query($sql);
 
@@ -95,5 +121,28 @@ class TopicsGateway
 
             return $this->db->execute();
         }
+    }
+
+    /**
+     * @param string $sorting
+     * @return string
+     */
+    private function orderBy($sorting)
+    {
+        if (!is_null($sorting)) {
+            $allowedOrderedBy = ["topic.id","topic.project","topic.owner","topic.subject","topic.status","topic.last_post","topic.posts","topic.published","mem.id","mem.login","mem.name","mem.email_work","pro.id","pro.name"];
+            $pieces = explode(' ', $sorting);
+
+            if ($pieces) {
+                $key = array_search($pieces[0], $allowedOrderedBy);
+
+                if ($key !== false) {
+                    $order = $allowedOrderedBy[$key];
+                    return " ORDER BY $order $pieces[1]";
+                }
+            }
+        }
+
+        return '';
     }
 }
