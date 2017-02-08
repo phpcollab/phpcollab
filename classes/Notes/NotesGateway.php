@@ -32,10 +32,19 @@ class NotesGateway
      */
     public function getNoteById($noteId)
     {
-        $query = $this->initrequest["notes"] . " WHERE fil.id IN(:note_id) OR fil.vc_parent IN(:note_id) ORDER BY fil.name";
-        $this->db->query($query);
-        $this->db->bind(':note_id', $noteId);
-        return $this->db->single();
+        if ( strpos($noteId, ',') ) {
+            $ids = explode(',', $noteId);
+            $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
+            $sql = $this->initrequest["notes"] . " WHERE note.id IN ($placeholders) ORDER BY note.subject";
+            $this->db->query($sql);
+            $this->db->execute($ids);
+            return $this->db->fetchAll();
+        } else {
+            $query = $this->initrequest["notes"] . " WHERE note.id IN (:note_id) ORDER BY note.subject";
+            $this->db->query($query);
+            $this->db->bind(':note_id', $noteId);
+            return $this->db->resultset();
+        }
     }
 
     /**
