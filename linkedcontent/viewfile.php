@@ -242,7 +242,7 @@ if ($action == "add") {
 
     //Insert details into Database
     if ($docopy == "true") {
-//        $c = phpCollab\Util::convertData($c);
+        $c = phpCollab\Util::convertData($c);
         $tmpquery = "INSERT INTO {$tableCollab["files"]} (owner,project,task,comments,upload,published,status,vc_status,vc_parent) VALUES (:owner,:project,:task,:comments,:upload,:published,:status,:vc_status,:vc_parent)";
         $dbParams = [];
         $dbParams["owner"] = $idSession;
