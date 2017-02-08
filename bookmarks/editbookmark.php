@@ -138,7 +138,7 @@ if ($id == "") {
              * If category is false, hence it doesn't exist, then add it
              */
             if (!$category) {
-                $category = $bookmark->addNewBookmarkCategory($category_new);
+                $category = $bookmark->addNewBookmarkCategory(phpCollab\Util::convertData($category_new));
             } else {
                 $category = $category["boocat_id"];
             }
@@ -162,9 +162,9 @@ if ($id == "") {
         $filteredData =  [];
         $filteredData['owner_id'] = filter_var( (int) $idSession, FILTER_VALIDATE_INT);
         $filteredData['url'] = filter_var( (string) \phpCollab\Util::addHttp($_POST['url']), FILTER_SANITIZE_URL);
-        $filteredData['name'] = filter_var( (string) $_POST['name'], FILTER_SANITIZE_STRING);
-        $filteredData['description'] = filter_var( (string) $_POST['description'], FILTER_SANITIZE_STRING);
-        $filteredData['comments'] = filter_var( $comments, FILTER_SANITIZE_STRING);
+        $filteredData['name'] = filter_var( (string) phpCollab\Util::convertData($_POST['name']), FILTER_SANITIZE_STRING);
+        $filteredData['description'] = filter_var( (string) phpCollab\Util::convertData($_POST['description']), FILTER_SANITIZE_STRING);
+        $filteredData['comments'] = filter_var( phpCollab\Util::convertData($comments), FILTER_SANITIZE_STRING);
         $filteredData['created'] = $dateheure;
         $filteredData['category'] = filter_var( (int) $category, FILTER_VALIDATE_INT);
         $filteredData['shared'] = filter_var( (int) $shared, FILTER_VALIDATE_INT);
