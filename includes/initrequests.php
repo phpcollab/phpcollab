@@ -195,11 +195,26 @@ FROM {$tableCollab["organizations"]} org
 LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = org.owner
 SQL;
 
-$initrequest["topics"] = "SELECT topic.id, topic.project, topic.owner, topic.subject, topic.status, topic.last_post, topic.posts, topic.published, mem.id, mem.login, mem.name, mem.email_work, pro.id, pro.name
+$initrequest["topics"] = <<<TOPICS
+SELECT 
+    topic.id AS top_id, 
+    topic.project AS top_project, 
+    topic.owner AS top_owner, 
+    topic.subject AS top_subject, 
+    topic.status AS top_status, 
+    topic.last_post AS top_last_post, 
+    topic.posts AS top_posts, 
+    topic.published AS top_published, 
+    mem.id AS top_mem_id, 
+    mem.login AS top_mem_login, 
+    mem.name AS top_mem_name, 
+    mem.email_work AS top_mem_email_work, 
+    pro.id AS top_pro_id, 
+    pro.name AS top_pro_name
 FROM {$tableCollab["topics"]} topic
 LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = topic.owner
 LEFT OUTER JOIN {$tableCollab["projects"]} pro ON pro.id = topic.project
-";
+TOPICS;
 
 $initrequest["posts"] = "SELECT pos.id, pos.topic, pos.member, pos.created, pos.message, mem.id, mem.login, mem.name, mem.email_work
 FROM {$tableCollab["posts"]} pos
