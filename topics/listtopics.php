@@ -1,24 +1,39 @@
 <?php
-#Application name: PhpCollab
-#Status page: 0
-#Path by root: ../topics/listtopics.php
 
 $checkSession = "true";
 include_once '../includes/library.php';
+
+xdebug_var_dump($_SESSION["timezoneSession"]);
+
+$project = $_GET["project"];
+$id = $_GET["id"];
+$action = $_GET["action"];
+$pub = $_GET["pub"];
+$closeTopic = $_GET["closeTopic"];
+$addToSite = $_GET["addToSite"];
+$removeToSite = $_GET["removeToSite"];
+
+$strings = $GLOBALS["strings"];
+$tableCollab = $GLOBALS["tableCollab"];
+
+$idSession = $_SESSION["idSession"];
+
+
+$topics = new \phpCollab\Topics\Topics();
+$projects = new \phpCollab\Projects\Projects();
+$teams = new \phpCollab\Teams\Teams();
 
 if ($action == "publish") {
     if ($closeTopic == "true") {
         $multi = strstr($id, "**");
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
-            $tmpquery1 = "UPDATE " . $tableCollab["topics"] . " SET status='0' WHERE id IN($id)";
             $pieces = explode(",", $id);
             $num = count($pieces);
         } else {
-            $tmpquery1 = "UPDATE " . $tableCollab["topics"] . " SET status='0' WHERE id = '$id'";
             $num = "1";
         }
-        phpCollab\Util::connectSql("$tmpquery1");
+        $topics->closeTopic($id);
         $msg = "closeTopic";
     }
 
@@ -26,11 +41,8 @@ if ($action == "publish") {
         $multi = strstr($id, "**");
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
-            $tmpquery1 = "UPDATE " . $tableCollab["topics"] . " SET published='0' WHERE id IN($id)";
-        } else {
-            $tmpquery1 = "UPDATE " . $tableCollab["topics"] . " SET published='0' WHERE id = '$id'";
         }
-        phpCollab\Util::connectSql("$tmpquery1");
+        $topics->publishTopic($id);
         $msg = "addToSite";
     }
 
@@ -38,40 +50,28 @@ if ($action == "publish") {
         $multi = strstr($id, "**");
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
-            $tmpquery1 = "UPDATE " . $tableCollab["topics"] . " SET published='1' WHERE id IN($id)";
-        } else {
-            $tmpquery1 = "UPDATE " . $tableCollab["topics"] . " SET published='1' WHERE id = '$id'";
         }
-        phpCollab\Util::connectSql("$tmpquery1");
+        $topics->unPublishTopic($id);
         $msg = "removeToSite";
     }
 }
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
-$tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new phpCollab\Request();
-$projectDetail->openProjects($tmpquery);
+$projectDetail = $projects->getProjectById($project);
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-if ($project != "") {
-    $teamMember = "false";
-    $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-    $memberTest = new phpCollab\Request();
-    $memberTest->openTeams($tmpquery);
-    $comptMemberTest = count($memberTest->tea_id);
-    if ($comptMemberTest == "0") {
-        $teamMember = "false";
-    } else {
-        $teamMember = "true";
-    }
 
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], in));
+$teamMember = "false";
+if ($project != "") {
+    $teamMember = $teams->isTeamMember($project, $idSession);
+
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
     $blockPage->itemBreadcrumbs($strings["discussions"]);
 } else {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../general/home.php?", $strings["home"], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../general/home.php?", $strings["home"], "in"));
     $blockPage->itemBreadcrumbs($strings["my_discussions"]);
 }
 $blockPage->closeBreadcrumbs();
@@ -97,7 +97,7 @@ $block1->openPaletteIcon();
 if ($teamMember == "true") {
     $block1->paletteIcon(0, "add", $strings["add"]);
 }
-if ($idSession == $projectDetail->pro_owner[0]) {
+if ($idSession == $projectDetail["pro_owner"]) {
     $block1->paletteIcon(1, "remove", $strings["delete"]);
     $block1->paletteIcon(2, "lock", $strings["close"]);
     if ($sitePublish == "true") {
@@ -108,35 +108,34 @@ if ($idSession == $projectDetail->pro_owner[0]) {
 $block1->paletteIcon(5, "info", $strings["view"]);
 $block1->closePaletteIcon();
 
-$block1->sorting("discussions", $sortingUser->sor_discussions[0], "topic.last_post DESC", $sortingFields = array(0 => "topic.subject", 1 => "mem.login", 2 => "topic.posts", 3 => "topic.last_post", 4 => "topic.status", 5 => "topic.published"));
+$block1->sorting("discussions", $sortingUser->sor_discussions[0], "topic.last_post DESC", $sortingFields = [0 => "topic.subject", 1 => "mem.login", 2 => "topic.posts", 3 => "topic.last_post", 4 => "topic.status", 5 => "topic.published"]);
 
 if ($project != "") {
-    $tmpquery = "WHERE topic.project = '$project' ORDER BY $block1->sortingValue";
+    $listTopics = $topics->getTopicsByProjectId($project, $block1->sortingValue);
 } else {
-    $tmpquery = "WHERE topic.owner = '$idSession' ORDER BY $block1->sortingValue";
+    $listTopics = $topics->getTopicsByTopicOwner($idSession, $block1->sortingValue);
 }
-$listTopics = new phpCollab\Request();
-$listTopics->openTopics($tmpquery);
+
 $comptListTopics = count($listTopics->top_id);
 
-if ($comptListTopics != "0") {
+if ($listTopics) {
     $block1->openResults();
 
-    $block1->labels($labels = array(0 => $strings["topic"], 1 => $strings["owner"], 2 => $strings["posts"], 3 => $strings["last_post"], 4 => $strings["status"], 5 => $strings["published"]), "true");
+    $block1->labels($labels = [0 => $strings["topic"], 1 => $strings["owner"], 2 => $strings["posts"], 3 => $strings["last_post"], 4 => $strings["status"], 5 => $strings["published"]], "true");
 
 
-    for ($i = 0; $i < $comptListTopics; $i++) {
-        $idStatus = $listTopics->top_status[$i];
-        $idPublish = $listTopics->top_published[$i];
+    foreach ($listTopics as $topic) {
+        $idStatus = $topic["top_status"];
+        $idPublish = $topic["top_published"];
         $block1->openRow();
-        $block1->checkboxRow($listTopics->top_id[$i]);
-        $block1->cellRow($blockPage->buildLink("../topics/viewtopic.php?id=" . $listTopics->top_id[$i], $listTopics->top_subject[$i], in));
-        $block1->cellRow($blockPage->buildLink($listTopics->top_mem_email_work[$i], $listTopics->top_mem_login[$i], mail));
-        $block1->cellRow($listTopics->top_posts[$i]);
-        if ($listTopics->top_last_post[$i] > $lastvisiteSession) {
-            $block1->cellRow("<b>" . phpCollab\Util::createDate($listTopics->top_last_post[$i], $timezoneSession) . "</b>");
+        $block1->checkboxRow($topic["top_id"]);
+        $block1->cellRow($blockPage->buildLink("../topics/viewtopic.php?id=" . $topic["top_id"], $topic["top_subject"], "in"));
+        $block1->cellRow($blockPage->buildLink($topic["top_mem_email_work"], $topic["top_mem_login"], "mail"));
+        $block1->cellRow($topic["top_posts"]);
+        if ($topic["top_last_post"] > $GLOBALS["lastvisiteSession"]) {
+            $block1->cellRow("<b>" . phpCollab\Util::createDate($topic["top_last_post"], $_SESSION["timezoneSession"]) . "</b>");
         } else {
-            $block1->cellRow(phpCollab\Util::createDate($listTopics->top_last_post[$i], $timezoneSession));
+            $block1->cellRow(phpCollab\Util::createDate($topic["top_last_post"], $_SESSION["timezoneSession"]));
         }
         $block1->cellRow($statusTopic[$idStatus]);
         if ($sitePublish == "true") {
@@ -152,18 +151,17 @@ $block1->closeFormResults();
 
 $block1->openPaletteScript();
 if ($teamMember == "true") {
-    $block1->paletteScript(0, "add", "../topics/addtopic.php?project=" . $projectDetail->pro_id[0] . "", "true,true,true", $strings["add"]);
+    $block1->paletteScript(0, "add", "../topics/addtopic.php?project=" . $projectDetail["pro_id"] . "", "true,true,true", $strings["add"]);
 }
-if ($idSession == $projectDetail->pro_owner[0]) {
-    $block1->paletteScript(1, "remove", "../topics/deletetopics.php?project=" . $projectDetail->pro_id[0] . "", "false,true,true", $strings["delete"]);
+if ($idSession == $projectDetail["pro_owner"]) {
+    $block1->paletteScript(1, "remove", "../topics/deletetopics.php?project=" . $projectDetail["pro_id"] . "", "false,true,true", $strings["delete"]);
     $block1->paletteScript(2, "lock", "../topics/listtopics.php?closeTopic=true&project=$project&action=publish", "false,true,true", $strings["close"]);
     if ($sitePublish == "true") {
-        $block1->paletteScript(3, "add_projectsite", "../topics/listtopics.php?addToSite=true&project=" . $projectDetail->pro_id[0] . "&action=publish", "false,true,true", $strings["add_project_site"]);
-        $block1->paletteScript(4, "remove_projectsite", "../topics/listtopics.php?removeToSite=true&project=" . $projectDetail->pro_id[0] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
+        $block1->paletteScript(3, "add_projectsite", "../topics/listtopics.php?addToSite=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["add_project_site"]);
+        $block1->paletteScript(4, "remove_projectsite", "../topics/listtopics.php?removeToSite=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
     }
 }
 $block1->paletteScript(5, "info", "../topics/viewtopic.php?", "false,true,false", $strings["view"]);
-$block1->closePaletteScript($comptListTopics, $listTopics->top_id);
+$block1->closePaletteScript($comptListTopics, $listTopics["top_id"]);
 
-include '../themes/' . THEME . '/footer.php';
-?>
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
