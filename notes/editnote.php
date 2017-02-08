@@ -30,53 +30,51 @@ $checkSession = "true";
 include_once '../includes/library.php';
 include '../includes/customvalues.php';
 
+$action = $_GET["action"];
+$project = $_GET["project"];
+$id = $_GET["id"];
+$tableCollab = $GLOBALS["tableCollab"];
+$strings = $GLOBALS["strings"];
+$idSession = $_SESSION["idSession"];
+
+$notes = new \phpCollab\Notes\Notes();
+$projects = new \phpCollab\Projects\Projects();
+
 if ($id != "" && $action != "add") {
-    $tmpquery = "WHERE note.id = '$id'";
-    $noteDetail = new phpCollab\Request();
-    $noteDetail->openNotes($tmpquery);
-    $tmpquery = "WHERE pro.id = '" . $noteDetail->note_project[0] . "'";
-    $project = $noteDetail->note_project[0];
-    if ($noteDetail->note_owner[0] != $idSession) {
+    $noteDetail = $notes->getNoteById($id);
+    $project = $noteDetail["note_project"];
+
+    if ($noteDetail["note_owner"] != $idSession) {
         phpCollab\Util::headerFunction("../notes/listnotes.php?project=$project&msg=noteOwner");
     }
-
-} else {
-    $tmpquery = "WHERE pro.id = '$project'";
 }
-
-$projectDetail = new phpCollab\Request();
-$projectDetail->openProjects($tmpquery);
+$projectDetail = $projects->getProjectById($project);
 
 $teamMember = "false";
-$tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-$memberTest = new phpCollab\Request();
-$memberTest->openTeams($tmpquery);
-$comptMemberTest = count($memberTest->tea_id);
-if ($comptMemberTest == "0") {
-    $teamMember = "false";
-} else {
-    $teamMember = "true";
-}
+$teams = new \phpCollab\Teams\Teams();
+$teamMember = $teams->isTeamMember($project, $idSession);
 
 //case update note entry
 if ($id != "") {
     //case update note entry
     if ($action == "update") {
-        $subject = phpCollab\Util::convertData($subject);
-        $description = phpCollab\Util::convertData($description);
+
+        $noteData = $_POST;
+        $noteData["subject"] = phpCollab\Util::convertData($_POST["subject"]);
+        $noteData["description"] = phpCollab\Util::convertData($_POST["description"]);
+        $noteData["owner"] = $idSession;
+
+        $updatedNote = $notes->updateNote($id, $noteData);
+
         $msg = "update";
-        phpCollab\Util::newConnectSql(
-            "UPDATE {$tableCollab["notes"]} SET project=:project,topic=:topic,subject=:subject,description=:description,date=:date,owner=:owner WHERE id = :id",
-            ["project" => $projectMenu, "topic" => $topic, "subject" => $subject, "description" => $description, "date" => $dd, "owner" => $idSession, "id" => $id]
-        );
         phpCollab\Util::headerFunction("../notes/viewnote.php?id=$id&msg=$msg");
     }
 
     //set value in form
-    $dd = $noteDetail->note_date[0];
-    $subject = $noteDetail->note_subject[0];
-    $description = $noteDetail->note_description[0];
-    $topic = $noteDetail->note_topic[0];
+    $dd = $noteDetail["note_date"];
+    $subject = $noteDetail["note_subject"];
+    $description = $noteDetail["note_description"];
+    $topic = $noteDetail["note_topic"];
 }
 
 //case add note entry
@@ -84,13 +82,13 @@ if ($id == "") {
 
     //case add note entry
     if ($action == "add") {
-        $subject = phpCollab\Util::convertData($subject);
-        $description = phpCollab\Util::convertData($description);
+        $noteData = $_POST;
+        $noteData["subject"] = phpCollab\Util::convertData($_POST["subject"]);
+        $noteData["description"] = phpCollab\Util::convertData($_POST["description"]);
+        $noteData["owner"] = $idSession;
 
-        $num = phpCollab\Util::newConnectSql(
-            "INSERT INTO {$tableCollab["notes"]} (project,topic,subject,description,date,owner,published) VALUES(:project,:topic,:subject,:description,:date,:owner,:published)",
-            ["project" => $projectMenu, "topic" => $topic, "subject" => $subject, "description" => $description, "date" => $dd, "owner" => $idSession, "published" => 1]
-        );
+        $num = $notes->addNote($noteData);
+
         phpCollab\Util::headerFunction("../notes/viewnote.php?id=$num&msg=add");
     }
 
@@ -98,18 +96,18 @@ if ($id == "") {
 
 $bodyCommand = "onLoad=\"document.etDForm.subject.focus();\"";
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../notes/listnotes.php?project=" . $projectDetail->pro_id[0], $strings["notes"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../notes/listnotes.php?project=" . $projectDetail["pro_id"], $strings["notes"], "in"));
 if ($id == "") {
     $blockPage->itemBreadcrumbs($strings["add_note"]);
 }
 if ($id != "") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../notes/viewnote.php?id=" . $noteDetail->note_id[0], $noteDetail->note_subject[0], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../notes/viewnote.php?id=" . $noteDetail["note_id"], $noteDetail["note_subject"], "in"));
     $blockPage->itemBreadcrumbs($strings["edit_note"]);
 }
 $blockPage->closeBreadcrumbs();
@@ -128,7 +126,8 @@ if ($id != "") {
     $block1->form = "etD";
     $block1->openForm("../notes/editnote.php?project=$project&id=$id&action=update&#" . $block1->form . "Anchor");
 }
-if ($error != "") {
+
+if (isset($error) && $error != "") {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
 }
@@ -136,44 +135,47 @@ if ($id == "") {
     $block1->heading($strings["add_note"]);
 }
 if ($id != "") {
-    $block1->heading($strings["edit_note"] . " : " . $noteDetail->note_subject[0]);
+    $block1->heading($strings["edit_note"] . " : " . $noteDetail["note_subject"]);
 }
 
 $block1->openContent();
 $block1->contentTitle($strings["details"]);
 
+$listProjects = $teams->getTeamByMemberId($idSession);
 
 echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["project"] . " :</td><td><select name='projectMenu'>";
 
-$tmpquery = "WHERE tea.member = '$idSession' ORDER BY pro.name";
-$listProjects = new phpCollab\Request();
-$listProjects->openTeams($tmpquery);
-$comptListProjects = count($listProjects->tea_id);
-
-for ($i = 0; $i < $comptListProjects; $i++) {
-    if ($listProjects->tea_pro_id[$i] == $noteDetail->note_project[0] || $project == $listProjects->tea_pro_id[$i]) {
-        echo "<option value=\"" . $listProjects->tea_pro_id[$i] . "\" selected>" . $listProjects->tea_pro_name[$i] . "</option>";
+foreach ($listProjects as $project) {
+    if ($project["tea_pro_id"] == $noteDetail["note_project"] || $project == $project["tea_pro_id"]) {
+        echo '<option value="' . $project["tea_pro_id"] . '" selected>' . $project["tea_pro_name"] . '</option>';
     } else {
-        echo "<option value=\"" . $listProjects->tea_pro_id[$i] . "\">" . $listProjects->tea_pro_name[$i] . "</option>";
+        echo '<option value="' . $project["tea_pro_id"] . '">' . $project["tea_pro_name"] . '</option>';
     }
 }
 
 echo "</select></td></tr>";
 
-$block1->contentRow($strings["date"], "<input type='text' name='dd' id='noteDate' size='20' value='$dd'><input type='button' value=' ... ' id='trigNoteDate'>");
-echo "
+$block1->contentRow($strings["date"], '<input type="text" name="dd" id="noteDate" size="20" value="'.$dd.'"><input type="button" value=" ... " id="trigNoteDate">');
+echo <<<JAVASCRIPT
 <script type='text/javascript'>
     Calendar.setup({
         inputField     :    'noteDate',
         button         :    'trigNoteDate',
-        $calendar_common_settings
+        {$calendar_common_settings}
     });
 </script>
-";
+JAVASCRIPT;
+
 $comptTopic = count($topicNote);
 
 if ($comptTopic != "0") {
-    echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["topic"] . " :</td><td><select name='topic'><option value=''>" . $strings["choice"] . "</option>";
+    echo <<<ROW
+<tr class="odd">
+    <td valign="top" class="leftvalue">{$strings["topic"]} :</td>
+    <td>
+        <select name="topic">
+            <option value="">{$strings["choice"]}</option>
+ROW;
 
     for ($i = 1; $i <= $comptTopic; $i++) {
         if ($topic == $i) {
@@ -187,8 +189,8 @@ if ($comptTopic != "0") {
 
 $block1->contentRow($strings["subject"], "<input size='44' value='$subject' style='width: 400px' name='subject' maxlength='100' type='TEXT'>");
 $block1->contentRow($strings["description"], "<textarea rows='10' style='width: 400px; height: 160px;' name='description' cols='47'>$description</textarea>");
-$block1->contentRow("", "<input type=\"SUBMIT\" value=\"" . $strings["save"] . "\">");
+$block1->contentRow("", '<input type="submit" value="' . $strings["save"] . '">');
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
