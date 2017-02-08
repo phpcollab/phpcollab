@@ -13,7 +13,7 @@ $tableCollab = $GLOBALS["tableCollab"];
 $strings = $GLOBALS["strings"];
 
 if ($action == "update") {
-    phpCollab\Util::newConnectSql("UPDATE {$tableCollab["assignments"]} SET comments=:comments WHERE id = :assignment_id", ["comments" => $_POST["acomm"], "assignment_id" => $id]);
+    phpCollab\Util::newConnectSql("UPDATE {$tableCollab["assignments"]} SET comments=:comments WHERE id = :assignment_id", ["comments" => phpCollab\Util::convertData($_POST["acomm"]), "assignment_id" => $id]);
     phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$task&msg=update");
 }
 
