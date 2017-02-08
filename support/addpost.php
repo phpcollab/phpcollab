@@ -44,7 +44,7 @@ if ($action == "edit") {
 if ($action == "add") {
     $num = phpCollab\Util::newConnectSql(
         "INSERT INTO {$tableCollab["support_posts"]} (request_id,message,date,owner,project) VALUES(:request_id, :message, :date, :owner, :project)",
-        ["request_id" => $id, "message" => $mes, "date" => $dateheure, "owner" => $idSession, "project" => $requestDetail->sr_project[0]]);
+        ["request_id" => $id, "message" => phpCollab\Util::convertData($mes), "date" => $dateheure, "owner" => $idSession, "project" => $requestDetail->sr_project[0]]);
 
     if ($notifications == "true") {
         if ($mes != "") {
