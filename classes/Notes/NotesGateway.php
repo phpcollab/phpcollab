@@ -127,11 +127,11 @@ class NotesGateway
         if ( strpos($noteId, ',') ) {
             $ids = explode(',', $noteId);
             $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
-            $sql = "UPDATE {$this->tableCollab["notes"]} SET published=0 WHERE id IN($placeholders)";
+            $sql = "UPDATE {$this->tableCollab["notes"]} SET published = 0 WHERE id IN($placeholders)";
             $this->db->query($sql);
             return $this->db->execute($ids);
         } else {
-            $query = "UPDATE {$this->tableCollab["notes"]} SET published=0 WHERE id = :note_id";
+            $query = "UPDATE {$this->tableCollab["notes"]} SET published = 0 WHERE id = :note_id";
             $this->db->query($query);
             $this->db->bind(':note_id', $noteId);
             return $this->db->execute();
