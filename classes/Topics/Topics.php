@@ -24,6 +24,30 @@ class Topics
     }
 
     /**
+     * @param $projectId
+     * @param $sorting
+     * @return mixed
+     */
+    public function getTopicsByProjectId($projectId, $sorting)
+    {
+        $projectId = filter_var($projectId, FILTER_SANITIZE_STRING);
+        $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
+        return $this->topics_gateway->getTopicsByProject($projectId, $sorting);
+    }
+
+    /**
+     * @param $ownerId
+     * @param $sorting
+     * @return mixed
+     */
+    public function getTopicsByTopicOwner($ownerId, $sorting)
+    {
+        $ownerId = filter_var($ownerId, FILTER_SANITIZE_STRING);
+        $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
+        return $this->topics_gateway->getTopicsByOwner($ownerId, $sorting);
+    }
+
+    /**
      * @param integer|array $topicId
      * @return string
      */
