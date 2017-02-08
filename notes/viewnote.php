@@ -31,6 +31,14 @@ $checkSession = "true";
 include_once '../includes/library.php';
 include '../includes/customvalues.php';
 
+$action = $_GET["action"];
+$project = $_GET["project"];
+$id = $_GET["id"];
+$addToSite = $_GET["addToSite"];
+$removeToSite = $_GET["removeToSite"];
+$tableCollab = $GLOBALS["tableCollab"];
+$strings = $GLOBALS["strings"];
+
 $notes = new \phpCollab\Notes\Notes();
 
 
@@ -45,7 +53,7 @@ if ($action == "publish") {
     }
 }
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $tmpquery = "WHERE note.id = '$id'";
 $noteDetail = new phpCollab\Request();
@@ -135,4 +143,4 @@ if ($teamMember == "true" && $idSession == $noteDetail->note_owner[0]) {
     $block1->closePaletteScript("", "");
 }
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
