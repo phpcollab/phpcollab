@@ -7,9 +7,11 @@
 $checkSession = "false";
 include_once '../includes/library.php';
 
+$tableCollab = $GLOBALS["tableCollab"];
+
 echo '<p>Script to update published values with files updates and reviews: <a href="?action=update">launch</a></p>';
 
-if ($action == "update") {
+if ($_GET["action"] == "update") {
     $files = new \phpCollab\Files\Files();
 
 
