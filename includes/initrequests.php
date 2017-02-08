@@ -441,14 +441,30 @@ SQL;
 
 $initrequest["bookmarks_categories"] = <<<SQL
 SELECT
-boocat.id AS boocat_id, 
-boocat.name AS boocat_name, 
-boocat.description AS boocat_description 
+    boocat.id AS boocat_id, 
+    boocat.name AS boocat_name, 
+    boocat.description AS boocat_description 
 FROM {$tableCollab["bookmarks_categories"]} boocat
 SQL;
 
-$initrequest["newsdeskposts"] = "SELECT news.* FROM {$tableCollab["newsdeskposts"]} news ";
+$initrequest["newsdeskposts"] = <<<NEWSDESKPOSTS
+SELECT 
+    news.id AS news_id,
+    news.pdate AS news_pdate,
+    news.title AS news_title,
+    news.author AS news_author,
+    news.related AS news_related,
+    news.content AS news_content,
+    news.links AS news_links,
+    news.rss AS news_rss
+FROM {$tableCollab["newsdeskposts"]} news
+NEWSDESKPOSTS;
 
-$initrequest["newsdeskcomments"] = "SELECT newscom.* FROM {$tableCollab["newsdeskcomments"]} newscom ";
-
-?>
+$initrequest["newsdeskcomments"] = <<<NEWSDESKCOMMENTS
+SELECT 
+    newscom.id AS newscom_id,
+    newscom.post_id AS newscom_post_id,
+    newscom.name AS newscom_name,
+    newscom.comment AS newscom_comment
+FROM {$tableCollab["newsdeskcomments"]} newscom
+NEWSDESKCOMMENTS;
