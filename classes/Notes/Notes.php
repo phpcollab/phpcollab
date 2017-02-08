@@ -48,6 +48,25 @@ class Notes
     }
 
     /**
+     * @param $noteData
+     * @return string
+     */
+    public function addNote($noteData)
+    {
+        return $this->notes_gateway->insertNote($noteData);
+    }
+
+    /**
+     * @param $noteId
+     * @param $noteData
+     * @return mixed
+     */
+    public function updateNote($noteId, $noteData)
+    {
+        return $this->notes_gateway->updateNote($noteId, $noteData);
+    }
+
+    /**
      * @param $noteId
      * @return mixed
      */

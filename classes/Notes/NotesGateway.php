@@ -66,6 +66,35 @@ class NotesGateway
         return $this->db->resultset();
     }
 
+    public function insertNote($noteData)
+    {
+        $sql = "INSERT INTO {$this->tableCollab["notes"]} (project,topic,subject,description,date,owner,published) VALUES (:project,:topic,:subject,:description,:date,:owner,1)";
+        $this->db->query($sql);
+        $this->db->bind(':project',$noteData["projectMenu"]);
+        $this->db->bind(':topic',$noteData["topic"]);
+        $this->db->bind(':subject',$noteData["subject"]);
+        $this->db->bind(':description',$noteData["description"]);
+        $this->db->bind(':date',$noteData["dd"]);
+        $this->db->bind(':owner',$noteData["owner"]);
+        $this->db->execute();
+        return $this->db->lastInsertId();
+    }
+    
+    public function updateNote($noteId, $noteData)
+    {
+        $sql = "UPDATE {$this->tableCollab["notes"]} SET project=:project,topic=:topic,subject=:subject,description=:description,date=:date,owner=:owner WHERE id = :note_id";
+        $this->db->query($sql);
+        $this->db->bind(':project',$noteData["projectMenu"]);
+        $this->db->bind(':topic',$noteData["topic"]);
+        $this->db->bind(':subject',$noteData["subject"]);
+        $this->db->bind(':description',$noteData["description"]);
+        $this->db->bind(':date',$noteData["dd"]);
+        $this->db->bind(':owner',$noteData["owner"]);
+        $this->db->bind(':note_id', $noteId);
+        return $this->db->execute();
+    }
+
+
     /**
      * @param $noteId
      * @return mixed
