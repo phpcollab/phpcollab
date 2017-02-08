@@ -71,6 +71,15 @@ class Teams
     }
 
     /**
+     * @param $memberId
+     * @return mixed
+     */
+    public function getTeamByMemberId($memberId)
+    {
+        return $this->teams_gateway->getTeamByMemberId($memberId);
+    }
+
+    /**
      * @param $projectId
      * @param $memberId
      * @return bool
