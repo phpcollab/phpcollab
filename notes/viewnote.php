@@ -31,13 +31,16 @@ $checkSession = "true";
 include_once '../includes/library.php';
 include '../includes/customvalues.php';
 
+$notes = new \phpCollab\Notes\Notes();
+
+
 if ($action == "publish") {
     if ($addToSite == "true") {
-        phpCollab\Util::newConnectSql("UPDATE {$tableCollab["notes"]} SET published='0' WHERE id = :note_id",["note_id" => $id]);
+        $notes->publishToSite($id);
         $msg = "addToSite";
     }
     if ($removeToSite == "true") {
-        phpCollab\Util::newConnectSql("UPDATE {$tableCollab["notes"]} SET published='1' WHERE id = :note_id",["note_id" => $id]);
+        $notes->unPublishFromSite($id);
         $msg = "removeToSite";
     }
 }
