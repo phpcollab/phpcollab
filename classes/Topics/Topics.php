@@ -64,4 +64,21 @@ class Topics
 
         return $data;
     }
+
+    /**
+     * @param $topicData
+     */
+    public function addTopic($topicData)
+    {
+
+    }
+
+    /**
+     * @param $postData
+     */
+    public function addPost($postData)
+    {
+
+    }
+
 }
