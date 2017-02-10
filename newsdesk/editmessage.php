@@ -22,7 +22,6 @@ if ($_POST["id"] != "") {
     }
 
     // only comment's author, admin, prj-adm and prj-man can change the comments
-    $members = new \phpCollab\Members\Members();
     $commentAuthor = $members->getMemberById($commentDetail["newscom_name"]);
 
     if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5" && $idSession != $commentDetail["newscom_name"]) {
