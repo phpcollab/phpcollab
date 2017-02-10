@@ -1,34 +1,4 @@
 <?php
-/*
-** Application name: phpCollab
-** Last Edit page: 23/03/2004
-** Path by root: ../newsdesk/editmessage.php
-** Authors: Fullo 
-**
-** =============================================================================
-**
-**               phpCollab - Project Managment 
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: editmessage.php
-**
-** DESC: 
-**
-** HISTORY:
-** 	23/03/2004	-	added new document info
-**  23/03/2004  -	fixed multi delete 
-**	23/03/2004	-	xhtml code
-**  23/08/2004  -   fix error "Using $this when not in object context"
-** -----------------------------------------------------------------------------
-** TO-DO:
-** 
-**
-** =============================================================================
-*/
-
 
 $checkSession = "true";
 include_once '../includes/library.php';
@@ -36,17 +6,11 @@ include_once '../includes/library.php';
 $id = $_GET["id"];
 $postid = $_GET["postid"];
 $action = $_GET["action"];
-
 $tableCollab = $GLOBALS["tableCollab"];
-
 $idSession = $_SESSION["idSession"];
 
 $newsDesk = new \phpCollab\NewsDesk\NewsDesk();
-
-//if ($profilSession != "0" && $profilSession != "2" ) {
-//	header("Location:../general/permissiondenied.php?".session_name()."=".session_id());
-//	exit;
-//}
+$members = new \phpCollab\Members\Members();
 
 //case update post
 if ($_POST["id"] != "") {
@@ -111,14 +75,12 @@ if ($_POST["id"] != "") {
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
-$tmpquery2 = "WHERE news.id = '$postid'";
-$newsDetail = new phpCollab\Request();
-$newsDetail->openNewsDesk($tmpquery2);
+$newsDetail = $newsDesk->getPostById($postid);
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/listnews.php?", $strings["newsdesk"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/viewnews.php?id=$postid", $newsDetail->news_title[0], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/viewnews.php?id=$postid", $newsDetail["news_title"], "in"));
 
 if ($id == "") {
     $blockPage->itemBreadcrumbs($strings["add_newsdesk_comment"]);
@@ -159,7 +121,7 @@ FORMSTART;
 <a name="{$block1->form}Anchor"></a>
 <form accept-charset="UNKNOWN" method="POST" action="../newsdesk/editmessage.php?id=$id&action=update&" name="ecDForm">
 FORMSTART;
-        $block1->heading($strings["edit_newsdesk_comment"] . " : " . $newsDetail->news_title[0]);
+        $block1->heading($strings["edit_newsdesk_comment"] . " : " . $newsDetail["news_title"]);
     }
 
 
@@ -191,17 +153,12 @@ FORMSTART;
 
     $old_id = $id;
     $id = str_replace("**", ",", $id);
-    $tmpquery = "WHERE newscom.id IN($id) ORDER BY newscom.id";
-    $listNews = new phpCollab\Request();
-    $listNews->openNewsDeskComments($tmpquery);
-    $comptListComments = count($listNews->newscom_id);
 
-    for ($i = 0; $i < $comptListComments; $i++) {
+    $listNews = $newsDesk->getComments($id);
 
-        $tmpquery_user = "WHERE mem.id = '" . $listNews->newscom_name[$i] . "' ";
-        $newsAuthor = new phpCollab\Request();
-        $newsAuthor->openMembers($tmpquery_user);
-        $block1->contentRow("#" . $listNews->newscom_id[$i], $newsAuthor->mem_name[0]);
+    foreach ($listNews as $news) {
+        $newsAuthor = $members->getMemberById($news["newscom_name"]);
+        $block1->contentRow("#" . $news["newscom_id"], $newsAuthor["mem_name"]);
     }
 
     $block1->contentRow("", '<input type="hidden" name="id" value="' . $old_id . '"><input type="submit" name="delete" value="' . $strings["delete"] . '"> <input type="button" name="cancel" value="' . $strings["cancel"] . '" onClick="history.back();">');
@@ -211,6 +168,4 @@ FORMSTART;
 
 }
 
-
 include APP_ROOT . '/themes/' . THEME . '/footer.php';
-
