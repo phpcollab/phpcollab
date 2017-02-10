@@ -64,6 +64,17 @@ class FilesGateway
         return $this->db->single();
     }
 
+    public function getFilesByProjectAndPhaseWithoutTasksAndParent($projectId, $phaseId, $sorting = null)
+    {
+        $whereStatement = "WHERE fil.project = :project_id AND fil.phase = :phase_id AND fil.task = 0 AND fil.vc_parent = 0";// ORDER BY {$block3->sortingValue}";
+        $query = $this->initrequest["files"] . $whereStatement . $this->orderBy($sorting);
+        $this->db->query($query);
+        $this->db->bind(':project_id', $projectId);
+        $this->db->bind(':phase_id', $phaseId);
+        return $this->db->resultset();
+
+    }
+
     /**
      * @return mixed
      */
@@ -137,6 +148,40 @@ class FilesGateway
         $this->db->bind(':file_id', $fileId);
         return $this->db->resultset();
     }
+
+
+    public function publishFiles($fileIds)
+    {
+        if ( strpos($fileIds, ',') ) {
+            $fileIds = explode(',', $fileIds);
+            $placeholders = str_repeat ('?, ', count($fileIds)-1) . '?';
+            $sql = "UPDATE {$this->tableCollab['files']} SET published = 0 WHERE id IN ($placeholders)";
+            $this->db->query($sql);
+            return $this->db->execute($fileIds);
+        } else {
+            $sql = "UPDATE {$this->tableCollab['files']} SET published = 0 WHERE id = :topic_ids";
+            $this->db->query($sql);
+            $this->db->bind(':topic_ids', $fileIds);
+            return $this->db->execute();
+        }
+    }
+
+    public function unPublishFiles($fileIds)
+    {
+        if ( strpos($fileIds, ',') ) {
+            $fileIds = explode(',', $fileIds);
+            $placeholders = str_repeat ('?, ', count($fileIds)-1) . '?';
+            $sql = "UPDATE {$this->tableCollab['files']} SET published = 1 WHERE id IN ($placeholders)";
+            $this->db->query($sql);
+            return $this->db->execute($fileIds);
+        } else {
+            $sql = "UPDATE {$this->tableCollab['files']} SET published = 1 WHERE id = :topic_ids";
+            $this->db->query($sql);
+            $this->db->bind(':topic_ids', $fileIds);
+            return $this->db->execute();
+        }
+    }
+    
 
     /**
      * @param string $sorting
