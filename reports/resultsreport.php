@@ -37,10 +37,24 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($action == "add") {
-    $S_SAVENAME = Util::convertData($S_SAVENAME);
-    $tmpquery1 = "INSERT INTO " . $tableCollab["reports"] . "(owner,name,projects,clients,members,priorities,status,date_due_start,date_due_end,date_complete_start,date_complete_end,created) VALUES('$idSession','$S_SAVENAME','$S_PRJSEL','$S_ORGSEL','$S_ATSEL','$S_PRIOSEL','$S_STATSEL','$S_SDATE','$S_EDATE','$S_SDATE2','$S_EDATE2','$dateheure')";
-    Util::connectSql("$tmpquery1");
-    Util::headerFunction("../general/home.php?msg=addReport");
+    $S_SAVENAME = phpCollab\Util::convertData($S_SAVENAME);
+    $tmpquery1 = "INSERT INTO {$tableCollab["reports"]} (owner,name,projects,clients,members,priorities,status,date_due_start,date_due_end,date_complete_start,date_complete_end,created) VALUES('$idSession','$S_SAVENAME','$S_PRJSEL','$S_ORGSEL','$S_ATSEL','$S_PRIOSEL','$S_STATSEL','$S_SDATE','$S_EDATE','$S_SDATE2','$S_EDATE2','$dateheure')";
+    $dbParams = [];
+    $dbParams["owner"] = $idSession;
+    $dbParams["name"] = $S_SAVENAME;
+    $dbParams["projects"] = $S_PRJSEL;
+    $dbParams["clients"] = $S_ORGSEL;
+    $dbParams["members"] = $S_ATSEL;
+    $dbParams["priorities"] = $S_PRIOSEL;
+    $dbParams["status"] = $S_STATSEL;
+    $dbParams["date_due_start"] = $S_SDATE;
+    $dbParams["date_due_end"] = $S_EDATE;
+    $dbParams["date_complete_start"] = $S_SDATE2;
+    $dbParams["date_complete_end"] = $S_EDATE2;
+    $dbParams["created"] = $dateheure;
+
+    phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
+    phpCollab\Util::headerFunction("../general/home.php?msg=addReport");
 }
 
 $setTitle .= " : Report Results";
