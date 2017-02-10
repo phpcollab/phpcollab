@@ -85,6 +85,20 @@ class TasksGateway
     }
 
     /**
+     * @param $projectId
+     * @param $phaseId
+     * @return mixed
+     */
+    public function getTasksByProjectIdAndParentPhase($projectId, $phaseId, $sorting = null)
+    {
+        $whereStatement = " WHERE tas.project = :project_id AND tas.parent_phase = :parent_phase";
+        $this->db->query($this->initrequest["tasks"] . $whereStatement . $this->orderBy($sorting));
+        $this->db->bind(':project_id', $projectId);
+        $this->db->bind(':phase_id', $phaseId);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $subtaskId
      * @return mixed
      */
@@ -126,6 +140,46 @@ class TasksGateway
         $this->db->query($this->initrequest["subtasks"] . $tmpquery . $this->orderBy($sorting));
         $this->db->bind(':owner_id', $ownerId);
         return $this->db->resultset();
+    }
+
+    /**
+     * @param $taskIds
+     * @return mixed
+     */
+    public function publishTasks($taskIds)
+    {
+        if ( strpos($taskIds, ',') ) {
+            $taskIds = explode(',', $taskIds);
+            $placeholders = str_repeat ('?, ', count($taskIds)-1) . '?';
+            $sql = "UPDATE {$this->tableCollab['tasks']} SET published = 0 WHERE id IN ($placeholders)";
+            $this->db->query($sql);
+            return $this->db->execute($taskIds);
+        } else {
+            $sql = "UPDATE {$this->tableCollab['tasks']} SET published = 0 WHERE id = :topic_ids";
+            $this->db->query($sql);
+            $this->db->bind(':topic_ids', $taskIds);
+            return $this->db->execute();
+        }
+    }
+
+    /**
+     * @param $taskIds
+     * @return mixed
+     */
+    public function unPublishTasks($taskIds)
+    {
+        if ( strpos($taskIds, ',') ) {
+            $taskIds = explode(',', $taskIds);
+            $placeholders = str_repeat ('?, ', count($taskIds)-1) . '?';
+            $sql = "UPDATE {$this->tableCollab['tasks']} SET published = 1 WHERE id IN ($placeholders)";
+            $this->db->query($sql);
+            return $this->db->execute($taskIds);
+        } else {
+            $sql = "UPDATE {$this->tableCollab['tasks']} SET published = 1 WHERE id = :topic_ids";
+            $this->db->query($sql);
+            $this->db->bind(':topic_ids', $taskIds);
+            return $this->db->execute();
+        }
     }
 
     /**
