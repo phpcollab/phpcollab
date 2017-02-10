@@ -42,6 +42,10 @@ class NewsDesk
         return $this->newsdesk_gateway->getCommentById($commentId);
     }
 
+    /**
+     * @param $commentId
+     * @return mixed
+     */
     public function getComments($commentId)
     {
         return $this->newsdesk_gateway->getComments($commentId);
