@@ -73,6 +73,20 @@ class Tasks
     }
 
     /**
+     * @param int $projectId ID of the project
+     * @param int $phaseId ID of parent phase
+     * @param string $sorting column to sort on and direction
+     * @return mixed
+     */
+    public function getTasksByProjectIdAndParentPhase($projectId, $phaseId, $sorting = null)
+    {
+        $projectId = filter_var($projectId, FILTER_VALIDATE_INT);
+        $phaseId = filter_var($phaseId, FILTER_VALIDATE_INT);
+        $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
+        return $this->tasks_gateway->getTasksByProjectIdAndParentPhase($projectId, $phaseId, $sorting);
+    }
+
+    /**
      * @param $ownerId
      * @param $sorting
      * @return mixed
@@ -127,4 +141,23 @@ class Tasks
         return $this->tasks_gateway->removeToSiteFile($ids);
     }
 
+    /**
+     * @param $tasksId
+     * @return mixed
+     */
+    public function publishTasks($tasksId)
+    {
+        $tasksId = filter_var($tasksId, FILTER_SANITIZE_STRING);
+        return $this->publishTasks($tasksId);
+    }
+
+    /**
+     * @param $tasksId
+     * @return mixed
+     */
+    public function unPublishTasks($tasksId)
+    {
+        $tasksId = filter_var($tasksId, FILTER_SANITIZE_STRING);
+        return $this->unPublishTasks($tasksId);
+    }
 }
