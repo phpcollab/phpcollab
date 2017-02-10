@@ -6,10 +6,11 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
+$reports = new \phpCollab\Reports\Reports();
+
 if ($action == "delete") {
     $id = str_replace("**", ",", $id);
-    $tmpquery1 = "DELETE FROM " . $tableCollab["reports"] . " WHERE id IN($id)";
-    phpCollab\Util::connectSql("$tmpquery1");
+    $reports->deleteReports($id);
     phpCollab\Util::headerFunction("../general/home.php?msg=deleteReport");
 }
 

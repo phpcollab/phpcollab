@@ -14,6 +14,7 @@ class ReportsGateway
 //    protected $db, $tableCollab, $initrequest;
     protected $db;
     protected $initrequest;
+    protected $tableCollab;
 
     /**
      * Reports constructor.
@@ -23,6 +24,7 @@ class ReportsGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
+        $this->tableCollab = $GLOBALS['tableCollab'];
 
     }
 
@@ -53,6 +55,18 @@ class ReportsGateway
         return $this->db->single();
     }
 
+    /**
+     * @param $reportId
+     * @return mixed
+     */
+    public function deleteReports($reportId)
+    {
+        $reportId = explode(',', $reportId);
+        $placeholders = str_repeat('?, ', count($reportId) - 1) . '?';
+        $query = "DELETE FROM " . $this->tableCollab["reports"] . " WHERE id IN (".$placeholders.")";
+        $this->db->query($query);
+        return $this->db->execute($reportId);
+    }
 
     /**
      * @param $sorting

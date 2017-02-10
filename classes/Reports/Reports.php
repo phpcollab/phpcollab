@@ -42,4 +42,14 @@ class Reports
         return $report;
     }
 
+    /**
+     * @param $reportIds
+     * @return mixed
+     */
+    public function deleteReports($reportIds)
+    {
+        $reportIds = filter_var($reportIds, FILTER_SANITIZE_STRING);
+        return $this->deleteReports($reportIds);
+    }
+
 }
