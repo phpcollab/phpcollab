@@ -41,6 +41,14 @@ class Files
         return $this->files_gateway->getFileById($fileId);
     }
 
+    public function getFilesByProjectAndPhaseWithoutTasksAndParent($projectId, $phaseId, $sorting)
+    {
+        $projectId = filter_var($projectId, FILTER_VALIDATE_INT);
+        $phaseId = filter_var($phaseId, FILTER_VALIDATE_INT);
+        $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
+        return $this->files_gateway->getFilesByProjectAndPhaseWithoutTasksAndParent($projectId, $phaseId, $sorting);
+    }
+
     /**
      * @return mixed
      */
@@ -58,19 +66,23 @@ class Files
     }
 
     /**
-     *
+     * @param mixed $filesId Can be a single ID or multiple IDs
+     * @return mixed
      */
-    public function publishFile()
+    public function publishFile($filesId)
     {
-
+        $filesId = filter_var($filesId, FILTER_SANITIZE_STRING);
+        return $this->files_gateway->publishFiles($filesId);
     }
 
     /**
-     *
+     * @param $filesId
+     * @return mixed
      */
-    public function unPublishFile()
+    public function unPublishFile($filesId)
     {
-
+        $filesId = filter_var($filesId, FILTER_SANITIZE_STRING);
+        return $this->files_gateway->unPublishFiles($filesId);
     }
 
     /**
