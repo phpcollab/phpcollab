@@ -25,12 +25,26 @@ class NewsDesk
     }
 
     /**
+     * @param $newsId
+     * @return mixed
+     */
+    public function getPostById($newsId)
+    {
+        return $this->newsdesk_gateway->getNewsPostById($newsId);
+    }
+
+    /**
      * @param $commentId
      * @return mixed
      */
     public function getNewsDeskCommentById($commentId)
     {
         return $this->newsdesk_gateway->getCommentById($commentId);
+    }
+
+    public function getComments($commentId)
+    {
+        return $this->newsdesk_gateway->getComments($commentId);
     }
 
     /**
