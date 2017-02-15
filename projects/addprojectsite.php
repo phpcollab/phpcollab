@@ -6,31 +6,32 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$tmpquery = "WHERE pro.id = '$id'";
-$projectDetail = new phpCollab\Request();
-$projectDetail->openProjects($tmpquery);
-$comptProjectDetail = count($projectDetail->pro_id);
+$id = $_GET["id"];
+$strings = $GLOBALS["strings"];
+$tableCollab = $GLOBALS["tableCollab"];
 
-if ($comptProjectDetail == "0") {
+$projects = new \phpCollab\Projects\Projects();
+$projectDetail = $projects->getProjectById($id);
+
+if (!$projectDetail) {
     phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blankProject");
 }
-if ($idSession != $projectDetail->pro_owner[0] && $profilSession != "5") {
+if ($_SESSION["idSession"] != $projectDetail["pro_owner"] && $profilSession != "5") {
     phpCollab\Util::headerFunction("../projects/listprojects.php?msg=projectOwner");
 }
 
-if ($action == "create") {
-    $tmpquery = "UPDATE " . $tableCollab["projects"] . " SET published='0' WHERE id = '$id'";
-    phpCollab\Util::connectSql("$tmpquery");
-    phpCollab\Util::headerFunction("../projects/viewprojectsite.php?id=$id&msg=createProjectSite");
-
+if ($_GET["action"] == "create") {
+    $tmpquery = "UPDATE {$tableCollab["projects"]} SET published='0' WHERE id = :id";
+    phpCollab\Util::newConnectSql($tmpquery, ["id" => $id]);
+    phpCollab\Util::headerFunction("../projects/viewprojectsite.php?id={$id}&msg=createProjectSite");
 }
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=$id", $projectDetail->pro_name[0], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=$id", $projectDetail["pro_name"], "in"));
 $blockPage->itemBreadcrumbs($strings["create_projectsite"]);
 $blockPage->closeBreadcrumbs();
 
@@ -44,11 +45,11 @@ $block1->heading($strings["create_projectsite"]);
 $block1->openContent();
 $block1->contentTitle($strings["details"]);
 
-$block1->contentRow($strings["project"], $blockPage->buildLink("../projects/viewproject.php?id=$id", $projectDetail->pro_name[0], in));
+$block1->contentRow($strings["project"], $blockPage->buildLink("../projects/viewproject.php?id=$id", $projectDetail["pro_name"], "in"));
 if ($projectDetail->pro_org_id[0] == "1") {
     $block1->contentRow($strings["organization"], $strings["none"]);
 } else {
-    $block1->contentRow($strings["organization"], $blockPage->buildLink("../clients/viewclient.php?id=" . $projectDetail->pro_org_id[0], $projectDetail->pro_org_name[0], in));
+    $block1->contentRow($strings["organization"], $blockPage->buildLink("../clients/viewclient.php?id=" . $projectDetail["pro_org_id"], $projectDetail->pro_org_name[0], "in"));
 
 }
 $block1->contentRow("", "<input type=\"SUBMIT\" value=\"" . $strings["create"] . "\">");
@@ -56,4 +57,4 @@ $block1->contentRow("", "<input type=\"SUBMIT\" value=\"" . $strings["create"] .
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
