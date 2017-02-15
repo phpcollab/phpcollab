@@ -9,9 +9,14 @@ $initrequest["sorting"] = "SELECT *
 FROM {$tableCollab["sorting"]} sor
 ";
 
-$initrequest["services"] = "SELECT *
+$initrequest["services"] = <<<SERVICES
+SELECT 
+    serv.id AS serv_id,
+    serv.name AS serv_name,
+    serv.name_print AS serv_name_print,
+    serv.hourly_rate AS serv_hourly
 FROM {$tableCollab["services"]} serv
-";
+SERVICES;
 
 $initrequest["invoices_items"] = <<<INVOICE_ITEMS
 SELECT 
