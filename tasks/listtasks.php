@@ -30,64 +30,59 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-if ($action == "publish") {
-    if ($addToSite == "true") {
+$id = $_GET["id"];
+$project = $_GET["project"];
+$idSession = $_SESSION["idSession"];
+$strings = $GLOBALS["strings"];
+
+$tasks = new \phpCollab\Tasks\Tasks();
+$projects = new \phpCollab\Projects\Projects();
+$teams = new \phpCollab\Teams\Teams();
+
+if ($_GET["action"] == "publish") {
+    if ($_GET["addToSite"] == "true") {
         $multi = strstr($id, "**");
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
-            $tmpquery1 = "UPDATE " . $tableCollab["tasks"] . " SET published='0' WHERE id IN($id)";
-        } else {
-            $tmpquery1 = "UPDATE " . $tableCollab["tasks"] . " SET published='0' WHERE id = '$id'";
         }
-        phpCollab\Util::connectSql("$tmpquery1");
+        $tasks->publishTasks($id);
         $msg = "addToSite";
         $id = $project;
     }
 
-    if ($removeToSite == "true") {
+    if ($_GET["removeToSite"] == "true") {
         $multi = strstr($id, "**");
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
-            $tmpquery1 = "UPDATE " . $tableCollab["tasks"] . " SET published='1' WHERE id IN($id)";
-        } else {
-            $tmpquery1 = "UPDATE " . $tableCollab["tasks"] . " SET published='1' WHERE id = '$id'";
         }
-        phpCollab\Util::connectSql("$tmpquery1");
+        $tasks->unPublishTasks($id);
         $msg = "removeToSite";
         $id = $project;
     }
 }
 
-$tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new phpCollab\Request();
-$projectDetail->openProjects($tmpquery);
+$projectDetail = $projects->getProjectById($project);
 
 $teamMember = "false";
-$tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-$memberTest = new phpCollab\Request();
-$memberTest->openTeams($tmpquery);
-$comptMemberTest = count($memberTest->tea_id);
-if ($comptMemberTest == "0") {
-    $teamMember = "false";
-} else {
-    $teamMember = "true";
-}
+
+$teamMember = $teams->isTeamMember($project, $idSession);
+
 if ($teamMember == "false" && $projectsFilter == "true") {
     header("Location:../general/permissiondenied.php");
 }
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
 $blockPage->itemBreadcrumbs($strings["tasks"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
     include '../includes/messages.php';
-    $blockPage->messageBox($msgLabel);
+    $blockPage->messageBox($GLOBALS["msgLabel"]);
 }
 
 $blockPage->limitsNumber = "1";
@@ -119,7 +114,7 @@ $block1->closePaletteIcon();
 $block1->limit = $blockPage->returnLimit("1");
 $block1->rowsLimit = "20";
 
-$block1->sorting("tasks", $sortingUser->sor_tasks[0], "tas.name ASC", $sortingFields = array(0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem.login", 6 => "tas.published"));
+$block1->sorting("tasks", $sortingUser->sor_tasks[0], "tas.name ASC", $sortingFields = [0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem.login", 6 => "tas.published"]);
 
 $tmpquery = "WHERE tas.project = '$project' ORDER BY $block1->sortingValue";
 
@@ -174,8 +169,8 @@ if ($comptListTasks != "0") {
     if ($activeJpgraph == "true" && $gantt == "true") {
         echo "
 		<div id='ganttChart_taskList' class='ganttChart'>
-			<img src='graphtasks.php?&project=" . $projectDetail->pro_id[0] . "' alt=''><br/>
-			<span class='listEvenBold''>" . $blockPage->buildLink("http://www.aditus.nu/jpgraph/", "JpGraph", powered) . "</span>	
+			<img src='graphtasks.php?&project=" . $projectDetail["pro_id"] . "' alt=''><br/>
+			<span class='listEvenBold''>" . $blockPage->buildLink("http://www.aditus.nu/jpgraph/", "JpGraph", "powered") . "</span>	
 		</div>
 	";
     }
@@ -190,8 +185,8 @@ if ($teamMember == "true") {
     $block1->paletteScript(1, "remove", "../tasks/deletetasks.php?project=$project", "false,true,true", $strings["delete"]);
     $block1->paletteScript(2, "copy", "../tasks/edittask.php?project=$project&docopy=true", "false,true,false", $strings["copy"]);
     if ($sitePublish == "true") {
-        $block1->paletteScript(4, "add_projectsite", "../tasks/listtasks.php?addToSite=true&project=" . $projectDetail->pro_id[0] . "&action=publish", "false,true,true", $strings["add_project_site"]);
-        $block1->paletteScript(5, "remove_projectsite", "../tasks/listtasks.php?removeToSite=true&project=" . $projectDetail->pro_id[0] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
+        $block1->paletteScript(4, "add_projectsite", "../tasks/listtasks.php?addToSite=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["add_project_site"]);
+        $block1->paletteScript(5, "remove_projectsite", "../tasks/listtasks.php?removeToSite=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
     }
 }
 $block1->paletteScript(6, "info", "../tasks/viewtask.php?", "false,true,false", $strings["view"]);
@@ -200,4 +195,4 @@ if ($teamMember == "true") {
 }
 $block1->closePaletteScript($comptListTasks, $listTasks->tas_id);
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
