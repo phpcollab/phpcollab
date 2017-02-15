@@ -29,7 +29,12 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-if ($action == "delete") {
+$tasks = new \phpCollab\Tasks\Tasks();
+$assignments = new \phpCollab\Assignments\Assignments();
+
+$id = $_GET["id"];
+
+if ($_GET["action"] == "delete") {
     $id = str_replace("**", ",", $id);
 
     //find parent task
@@ -37,11 +42,8 @@ if ($action == "delete") {
     $listSubtasks = new phpCollab\Request();
     $listSubtasks->openSubtasks($tmpquery);
 
-    $tmpquery1 = "DELETE FROM " . $tableCollab["subtasks"] . " WHERE id IN($id)";
-    $tmpquery2 = "DELETE FROM " . $tableCollab["assignments"] . " WHERE subtask IN($id)";
-
-    phpCollab\Util::connectSql($tmpquery1);
-    phpCollab\Util::connectSql($tmpquery2);
+    $tasks->deleteSubTasksById($id);
+    $assignments->deleteAssignmentsBySubtasks($id);
 
     //recompute average completion of the task
     phpCollab\Util::taskComputeCompletion(
@@ -74,7 +76,7 @@ if ($projectDetail->pro_enable_phase[0] != "0") {
     $targetPhase->openPhases($tmpquery);
 }
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -128,4 +130,4 @@ onClick=\"history.back();\"></td></tr>";
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
