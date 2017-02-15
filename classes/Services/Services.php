@@ -32,4 +32,9 @@ class Services
         return $this->services_gateway->getAllServices($sorting);
     }
 
+    public function deleteServices($serviceIds)
+    {
+        return $this->services_gateway->deleteServices($serviceIds);
+    }
+
 }

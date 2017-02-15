@@ -35,7 +35,15 @@ class ServicesGateway
         $query = $this->initrequest["services"];
         $this->db->query($query . $this->orderBy($sorting));
         return $this->db->resultset();
+    }
 
+    public function deleteServices($serviceIds)
+    {
+        $serviceIds = explode(',', $serviceIds);
+        $placeholders = str_repeat ('?, ', count($serviceIds)-1) . '?';
+        $sql = "DELETE FROM {$this->tableCollab['services']} WHERE id IN ($placeholders)";
+        $this->db->query($sql);
+        return $this->db->execute($serviceIds);
     }
 
     /**
