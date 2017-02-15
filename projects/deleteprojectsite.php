@@ -6,29 +6,32 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-if ($action == "delete") {
-    $tmpquery = "UPDATE " . $tableCollab["projects"] . " SET published='1' WHERE id = '$project'";
-    phpCollab\Util::connectSql("$tmpquery");
+$project = $_GET["project"];
+$tableCollab = $GLOBALS["tableCollab"];
+$strings = $GLOBALS["strings"];
+
+if ($_GET["action"] == "delete") {
+    $tmpquery = "UPDATE {$tableCollab["projects"]} SET published='1' WHERE id = :project_id";
+    phpCollab\Util::newConnectSql($tmpquery, ["project_id" => $project]);
     phpCollab\Util::headerFunction("../projects/viewproject.php?id=$project&msg=removeProjectSite");
 }
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
-$tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new phpCollab\Request();
-$projectDetail->openProjects($tmpquery);
+$projects = new \phpCollab\Projects\Projects();
+$projectDetail = $projects->getProjectById($project);
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewprojectsite.php?id=" . $projectDetail->pro_id[0], $strings["project_site"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewprojectsite.php?id=" . $projectDetail["pro_id"], $strings["project_site"], "in"));
 $blockPage->itemBreadcrumbs($strings["delete_projectsite"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
     include '../includes/messages.php';
-    $blockPage->messageBox($msgLabel);
+    $blockPage->messageBox($GLOBALS["msgLabel"]);
 }
 
 $block1 = new phpCollab\Block();
@@ -41,11 +44,11 @@ $block1->heading($strings["delete_projectsite"]);
 $block1->openContent();
 $block1->contentTitle($strings["delete_following"]);
 
-$block1->contentRow("", $projectDetail->pro_name[0]);
+$block1->contentRow("", $projectDetail["pro_name"]);
 
 $block1->contentRow("", "<input type=\"submit\" name=\"delete\" value=\"" . $strings["delete"] . "\"> <input type=\"button\" name=\"cancel\" value=\"" . $strings["cancel"] . "\" onClick=\"history.back();\">");
 
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
