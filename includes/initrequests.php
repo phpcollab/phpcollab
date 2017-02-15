@@ -13,15 +13,50 @@ $initrequest["services"] = "SELECT *
 FROM {$tableCollab["services"]} serv
 ";
 
-$initrequest["invoices_items"] = "SELECT invitem.*
+$initrequest["invoices_items"] = <<<INVOICE_ITEMS
+SELECT 
+    invitem.id AS invitem_id,
+    invitem.invoice AS invitem_invoice,
+    invitem.position AS invitem_position,
+    invitem.mod_type AS invitem_mod_type,
+    invitem.mod_value AS invitem_mod_value,
+    invitem.title AS invitem_title,
+    invitem.description AS invitem_description,
+    invitem.worked_hours AS invitem_worked_hours,
+    invitem.amount_ex_tax AS invitem_amount_ex_tax,
+    invitem.rate_type AS invitem_rate_type,
+    invitem.rate_value AS invitem_rate_value,
+    invitem.status AS invitem_status,
+    invitem.active AS invitem_active,
+    invitem.completed AS invitem_completed,
+    invitem.created AS invitem_created,
+    invitem.modified AS invitem_modified
 FROM {$tableCollab["invoices_items"]} invitem
 LEFT OUTER JOIN {$tableCollab["invoices"]} inv ON inv.id = invitem.invoice
-";
+INVOICE_ITEMS;
 
-$initrequest["invoices"] = "SELECT inv.*,pro.id,pro.name
+$initrequest["invoices"] = <<<INVOICES
+SELECT 
+    inv.id AS inv_id,
+    inv.project AS inv_project,
+    inv.header_note AS inv_header_note,
+    inv.footer_note AS inv_footer_note,
+    inv.date_sent AS inv_date_sent,
+    inv.due_date AS inv_due_date,
+    inv.total_ex_tax AS inv_total_ex_tax,
+    inv.tax_rate AS inv_tax_rate,
+    inv.tax_amount AS inv_tax_amount,
+    inv.total_inc_tax AS inv_total_inc,
+    inv.status AS inv_status,
+    inv.active AS inv_active,
+    inv.created AS inv_created,
+    inv.modified AS inv_modified,
+    inv.published AS inv_published,
+    pro.id AS inv_pro_id,
+    pro.name AS inv_pro_name
 FROM {$tableCollab["invoices"]} inv
 LEFT OUTER JOIN {$tableCollab["projects"]} pro ON pro.id = inv.project
-";
+INVOICES;
 
 $initrequest["calendar"] = <<<CALENDAR
 SELECT 
