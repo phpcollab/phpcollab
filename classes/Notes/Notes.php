@@ -11,7 +11,7 @@ use phpCollab\Database;
  */
 class Notes
 {
-    protected $otes_gateway;
+    protected $notes_gateway;
     protected $db;
 
     /**
