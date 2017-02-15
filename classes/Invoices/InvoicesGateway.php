@@ -82,6 +82,16 @@ class InvoicesGateway
         return $this->db->resultset();
     }
 
+    public function getInvoiceItemById($invoiceItemId)
+    {
+        $invoice_item_id = filter_var($invoiceItemId, FILTER_VALIDATE_INT);
+        $whereStatement = " WHERE invitem.id = :invoice_item_id";
+
+        $this->db->query($this->initrequest["invoices_items"] . $whereStatement);
+        $this->db->bind(':invoice_item_id', $invoice_item_id);
+        return $this->db->single();
+    }
+
     /**
      * @param $sorting
      * @return string
