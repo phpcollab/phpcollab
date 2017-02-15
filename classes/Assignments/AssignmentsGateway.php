@@ -24,6 +24,10 @@ class AssignmentsGateway
         $this->initrequest = $GLOBALS['initrequest'];
     }
 
+    /**
+     * @param $assignmentIds
+     * @return mixed
+     */
     public function deleteAssignments($assignmentIds)
     {
         $assignmentIds = explode(',', $assignmentIds);
