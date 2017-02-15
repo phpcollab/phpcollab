@@ -69,6 +69,15 @@ class TasksGateway
         return $this->db->single();
     }
 
+    public function getTasksById($taskIds)
+    {
+        $taskIds = explode(',', $taskIds);
+        $placeholders = str_repeat ('?, ', count($taskIds)-1) . '?';
+        $whereStatement = " WHERE tas.id IN($placeholders)";
+        $this->db->query($this->initrequest["tasks"] . $whereStatement);
+        return $this->db->execute($taskIds);
+    }
+
     /**
      * @param $projectName
      * @return mixed
@@ -212,6 +221,32 @@ class TasksGateway
         $this->db->query($sql);
 
         return $this->db->execute([$placeholders, $placeholders2]);
+    }
+
+    /**
+     * @param $taskIds
+     * @return mixed
+     */
+    public function deleteTasks($taskIds)
+    {
+        $taskIds = explode(',', $taskIds);
+        $placeholders = str_repeat ('?, ', count($taskIds)-1) . '?';
+        $sql = "DELETE FROM {$this->tableCollab['tasks']} WHERE id IN ($placeholders)";
+        $this->db->query($sql);
+        return $this->db->execute($taskIds);
+    }
+
+    /**
+     * @param $subTaskIds
+     * @return mixed
+     */
+    public function deleteSubTasks($subTaskIds)
+    {
+        $subTaskIds = explode(',', $subTaskIds);
+        $placeholders = str_repeat ('?, ', count($subTaskIds)-1) . '?';
+        $sql = "DELETE FROM {$this->tableCollab['subtasks']} WHERE task IN ($placeholders)";
+        $this->db->query($sql);
+        return $this->db->execute($subTaskIds);
     }
 
     /**
