@@ -62,6 +62,15 @@ class Tasks
     }
 
     /**
+     * @param $taskIds
+     * @return mixed
+     */
+    public function getTasksById($taskIds)
+    {
+        return $this->tasks_gateway->getTasksById($taskIds);
+    }
+
+    /**
      * @param $projectName
      * @return mixed
      */
@@ -148,7 +157,7 @@ class Tasks
     public function publishTasks($tasksId)
     {
         $tasksId = filter_var($tasksId, FILTER_SANITIZE_STRING);
-        return $this->publishTasks($tasksId);
+        return $this->tasks_gateway->publishTasks($tasksId);
     }
 
     /**
@@ -158,6 +167,24 @@ class Tasks
     public function unPublishTasks($tasksId)
     {
         $tasksId = filter_var($tasksId, FILTER_SANITIZE_STRING);
-        return $this->unPublishTasks($tasksId);
+        return $this->tasks_gateway->unPublishTasks($tasksId);
+    }
+
+    /**
+     * @param $taskIds
+     * @return mixed
+     */
+    public function deleteTasks($taskIds)
+    {
+        return $this->tasks_gateway->deleteTasks($taskIds);
+    }
+
+    /**
+     * @param $subTaskIds
+     * @return mixed
+     */
+    public function deleteSubTasks($subTaskIds)
+    {
+        return $this->tasks_gateway->deleteSubTasks($subTaskIds);
     }
 }
