@@ -39,5 +39,18 @@ class AssignmentsGateway
         return $this->db->execute($assignmentIds);
     }
 
+    /**
+     * @param $subtaskIds
+     * @return mixed
+     */
+    public function deleteAssignmentsBySubtask($subtaskIds)
+    {
+        $subtaskIds = explode(',', $subtaskIds);
+        $placeholders = str_repeat ('?, ', count($subtaskIds)-1) . '?';
+        $sql = "DELETE FROM {$this->tableCollab['assignments']} WHERE subtask IN ($placeholders)";
+        $this->db->query($sql);
+        return $this->db->execute($subtaskIds);
+    }
+
 
 }

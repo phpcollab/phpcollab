@@ -23,9 +23,22 @@ class Assignments
         $this->assignments_gateway = new AssignmentsGateway($this->db);
     }
 
+    /**
+     * @param $assignmentIds
+     * @return mixed
+     */
     public function deleteAssignments($assignmentIds)
     {
         return $this->assignments_gateway->deleteAssignments($assignmentIds);
+    }
+
+    /**
+     * @param $subtaskIds
+     * @return mixed
+     */
+    public function deleteAssignmentsBySubtasks($subtaskIds)
+    {
+        return $this->assignments_gateway->deleteAssignmentsBySubtask($subtaskIds);
     }
 
 }
