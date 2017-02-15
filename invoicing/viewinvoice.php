@@ -137,7 +137,7 @@ if ($listInvoicesItems) {
         $block2->openRow();
         $block2->checkboxRow($item["invitem_id"]);
         $block2->cellRow($item["invitem_position"]);
-        $block2->cellRow($blockPage->buildLink("../invoicing/editinvoiceitem.php?invoiceitem=" . $item["invitem_id"], $item["invitem_title"], "in"));
+        $block2->cellRow($blockPage->buildLink("../invoicing/editinvoiceitem.php?id=" . $item["invitem_id"], $item["invitem_title"], "in"));
         $block2->cellRow($GLOBALS["rateType"][$rate_type_value]);
         $block2->cellRow($item["invitem_rate_value"]);
         $block2->cellRow($item["invitem_amount_ex_tax"]);
