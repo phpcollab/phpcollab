@@ -5,6 +5,11 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
+$support = new \phpCollab\Support\Support();
+
+$id = $_GET["id"];
+$action = $_GET["action"];
+
 if ($enableHelpSupport != "true") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
@@ -17,22 +22,20 @@ if ($supportType == "admin") {
 
 if ($action == "deleteRequest") {
     $id = str_replace("**", ",", $id);
-    $tmpquery1 = "DELETE FROM " . $tableCollab["support_requests"] . " WHERE id IN($id)";
-    $tmpquery2 = "DELETE FROM " . $tableCollab["support_posts"] . " WHERE request_id IN($id)";
     $pieces = explode(",", $id);
     $num = count($pieces);
-    phpCollab\Util::connectSql("$tmpquery1");
-    phpCollab\Util::connectSql("$tmpquery2");
+
+    $support->deleteSupportRequests($id);
+    $support->deleteSupportPostsByRequestId($id);
 
     phpCollab\Util::headerFunction("../support/support.php?msg=delete&action=$sendto&project=$project");
 }
 
 if ($action == "deletePost") {
     $id = str_replace("**", ",", $id);
-    $tmpquery3 = "DELETE FROM " . $tableCollab["support_posts"] . " WHERE id IN($id)";
     $pieces = explode(",", $id);
     $num = count($pieces);
-    phpCollab\Util::connectSql("$tmpquery3");
+    $support->deleteSupportPostsById($id);
 
     phpCollab\Util::headerFunction("../support/viewrequest.php?msg=delete&id=$sendto");
 }
@@ -57,23 +60,23 @@ if ($action == "deleteR") {
     $comptListRequest = count($listRequest->sr_id);
 }
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 if ($supportType == "team") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $listRequest->sr_project[0], $listRequest->sr_pro_name[0], in));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=" . $listRequest->sr_project[0], $strings["support_requests"], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $listRequest->sr_project[0], $listRequest->sr_pro_name[0], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=" . $listRequest->sr_project[0], $strings["support_requests"], "in"));
     if ($action == "deleteR") {
         $blockPage->itemBreadcrumbs($strings["delete_request"]);
     } else if ($action == "deleteP") {
         $blockPage->itemBreadcrumbs($strings["delete_support_post"]);
     }
 } elseif ($supportType == "admin") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], in));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/support.php?", $strings["support_management"], in));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=" . $listRequest->sr_project[0], $strings["support_requests"], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/support.php?", $strings["support_management"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=" . $listRequest->sr_project[0], $strings["support_requests"], "in"));
     if ($action == "deleteR") {
         $blockPage->itemBreadcrumbs($strings["delete_request"]);
     } else if ($action == "deleteP") {
@@ -121,5 +124,4 @@ if ($action == "deleteR") {
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
-?>
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
