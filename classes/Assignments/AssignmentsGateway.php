@@ -13,6 +13,7 @@ class AssignmentsGateway
 {
     protected $db;
     protected $initrequest;
+    protected $tableCollab;
 
     /**
      * AssignmentsGateway constructor.
@@ -22,6 +23,7 @@ class AssignmentsGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
+        $this->tableCollab = $GLOBALS['tableCollab'];
     }
 
     /**
