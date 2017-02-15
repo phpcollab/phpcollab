@@ -69,6 +69,10 @@ class TasksGateway
         return $this->db->single();
     }
 
+    /**
+     * @param $taskIds
+     * @return mixed
+     */
     public function getTasksById($taskIds)
     {
         $taskIds = explode(',', $taskIds);
@@ -247,6 +251,19 @@ class TasksGateway
         $sql = "DELETE FROM {$this->tableCollab['subtasks']} WHERE task IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($subTaskIds);
+    }
+
+    /**
+     * @param $subtaskIds
+     * @return mixed
+     */
+    public function deleteSubTasksById($subtaskIds)
+    {
+        $subtaskIds = explode(',', $subtaskIds);
+        $placeholders = str_repeat ('?, ', count($subtaskIds)-1) . '?';
+        $sql = "DELETE FROM {$this->tableCollab['subtasks']} WHERE id IN ($placeholders)";
+        $this->db->query($sql);
+        return $this->db->execute($subtaskIds);
     }
 
     /**

@@ -187,4 +187,13 @@ class Tasks
     {
         return $this->tasks_gateway->deleteSubTasks($subTaskIds);
     }
+
+    /**
+     * @param $subtaskIds
+     * @return mixed
+     */
+    public function deleteSubTasksById($subtaskIds)
+    {
+        return $this->tasks_gateway->deleteSubTasksById($subtaskIds);
+    }
 }
