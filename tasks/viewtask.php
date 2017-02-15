@@ -32,11 +32,16 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
+$tasks = new \phpCollab\Tasks\Tasks();
+
+$id = $_GET["id"];
+$task = $_GET["task"];
+
 if ($task != "") {
     $cheatCode = "true";
 }
 
-if ($action == "publish") {
+if ($_GET["action"] == "publish") {
 
     if ($addToSite == "true") {;
         phpCollab\Util::newConnectSql("UPDATE {$tableCollab["tasks"]} SET published = :published WHERE id = :taske_id", ["published" => 0, "task_id" => $id]);
@@ -51,16 +56,14 @@ if ($action == "publish") {
 
     if ($addToSiteFile == "true") {
         $id = str_replace("**", ",", $id);
-        $tmpquery1 = "UPDATE " . $tableCollab["files"] . " SET published='0' WHERE id IN($id) OR vc_parent IN ($id)";
-        phpCollab\Util::connectSql("$tmpquery1");
+        $tasks->addToSiteFile($id);
         $msg = "addToSite";
         $id = $task;
     }
 
     if ($removeToSiteFile == "true") {
         $id = str_replace("**", ",", $id);
-        $tmpquery1 = "UPDATE " . $tableCollab["files"] . " SET published='1' WHERE id IN($id) OR vc_parent IN ($id)";
-        phpCollab\Util::connectSql("$tmpquery1");
+        $tasks->removeToSiteFile($id);
         $msg = "removeToSite";
         $id = $task;
     }
@@ -104,7 +107,7 @@ if ($teamMember == "false" && $projectsFilter == "true") {
     header("Location:../general/permissiondenied.php");
 }
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -519,4 +522,4 @@ if ($teamMember == "true" || $profilSession == "5") {
 }
 $block4->closePaletteScript($comptListSubtasks, $listSubtasks->subtas_id);
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
