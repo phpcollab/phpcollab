@@ -6,14 +6,15 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
+$services = new \phpCollab\Services\Services();
 if ($profilSession != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 
 if ($action == "delete") {
     $id = str_replace("**", ",", $id);
-    $tmpquery1 = "DELETE FROM " . $tableCollab["services"] . " WHERE id IN($id)";
-    phpCollab\Util::connectSql($tmpquery1);
+
+    $services->deleteServices($id);
     phpCollab\Util::headerFunction("../services/listservices.php?msg=delete");
 }
 
