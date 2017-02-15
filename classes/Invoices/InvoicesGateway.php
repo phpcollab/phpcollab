@@ -58,13 +58,13 @@ class InvoicesGateway
     public function getActiveInvoicesByProjectId($projectId, $status, $sorting = null)
     {
         // Generate placeholders
-        $placeholders = str_repeat ('?, ', count($$projectId)-1) . '?';
+        $placeholders = str_repeat ('?, ', count($projectId)-1) . '?';
 
         // Append the status value
-        array_push($ids, $status);
+        array_push($projectId, $status);
         $whereStatement = ' WHERE inv.project IN ('.$placeholders.') AND inv.active = 1 AND inv.status = ?';
         $this->db->query($this->initrequest["invoices"] . $whereStatement . $this->orderBy($sorting));
-        $this->db->execute($ids);
+        $this->db->execute($projectId);
         return $this->db->fetchAll();
     }
 
