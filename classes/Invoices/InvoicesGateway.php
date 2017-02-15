@@ -4,6 +4,10 @@ namespace phpCollab\Invoices;
 use phpCollab\Database;
 
 
+/**
+ * Class InvoicesGateway
+ * @package phpCollab\Invoices
+ */
 class InvoicesGateway
 {
     protected $db;
@@ -19,6 +23,10 @@ class InvoicesGateway
         $this->initrequest = $GLOBALS['initrequest'];
     }
 
+    /**
+     * @param $invoiceId
+     * @return mixed
+     */
     public function getInvoiceById($invoiceId)
     {
         $invoice_id = filter_var($invoiceId, FILTER_VALIDATE_INT);
@@ -28,6 +36,10 @@ class InvoicesGateway
         return $this->db->single();
     }
 
+    /**
+     * @param $projectId
+     * @return mixed
+     */
     public function getInvoicesByProjectId($projectId)
     {
         $project_id = filter_var($projectId, FILTER_VALIDATE_INT);
@@ -37,49 +49,29 @@ class InvoicesGateway
         return $this->db->single();
     }
 
+    /**
+     * @param $projectId
+     * @param $status
+     * @param null $sorting
+     * @return mixed
+     */
     public function getActiveInvoicesByProjectId($projectId, $status, $sorting = null)
     {
-        // Break out the project Ids if there are multiple ones
-        xdebug_var_dump($projectId);
-        xdebug_var_dump($status);
-        xdebug_var_dump($sorting);
-//        $ids = explode(',', $projectId);
-        $ids = $projectId;
-//        xdebug_var_dump($ids);
-//        $ids = explode(',', $projectId);
-//        $projectId = explode(',', $projectId);
-//        xdebug_var_dump(implode(",", $projectId));
-
         // Generate placeholders
-        $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
+        $placeholders = str_repeat ('?, ', count($$projectId)-1) . '?';
 
         // Append the status value
         array_push($ids, $status);
-
-
-//        $tmpquery = "WHERE inv.project IN($projectsOk) AND inv.active = '1' AND inv.status = '$status' ORDER BY $block1->sortingValue";
         $whereStatement = ' WHERE inv.project IN ('.$placeholders.') AND inv.active = 1 AND inv.status = ?';
-//        $whereStatement = ' WHERE inv.project IN (:project_ids) AND inv.active = 1 AND inv.status = :status';
-
-//        xdebug_var_dump($this->initrequest["invoices"] . $whereStatement . $this->orderBy($sorting));
-
-//        xdebug_var_dump($this->initrequest["invoices"] . $whereStatement . $this->orderBy($sorting));
-//        xdebug_var_dump($status);
-
-        xdebug_var_dump($projectId);
-//        xdebug_var_dump(implode(",", $projectId));
-        xdebug_var_dump($status);
-xdebug_var_dump($this->initrequest["invoices"] . $whereStatement . $this->orderBy($sorting));
-
         $this->db->query($this->initrequest["invoices"] . $whereStatement . $this->orderBy($sorting));
-//        $this->db->bind(':project_ids', implode(",", $projectId));
-//        $this->db->bind(':status', $status);
-//        return $this->db->resultset();
-
         $this->db->execute($ids);
         return $this->db->fetchAll();
     }
 
+    /**
+     * @param $invoiceId
+     * @return mixed
+     */
     public function getActiveInvoiceItemsByInvoiceId($invoiceId)
     {
         $invoice_id = filter_var($invoiceId, FILTER_VALIDATE_INT);
