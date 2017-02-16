@@ -284,8 +284,10 @@ STAMP;
 					
 					if ($comptTestinTeam == "0") 
 					{
-						$tmpquery3 = "INSERT INTO ".$tableCollab["teams"]."(project,member,published,authorized) VALUES('$projectNew','$at','1','0')";
-						phpCollab\Util::connectSql("$tmpquery3");
+						phpCollab\Util::newConnectSql(
+                            "INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES (:project,:member,:published,:authorized)",
+                            ["project" => $projectNew,"member" => $at,"published" => 1,"authorized" => 0]
+                        );
 					
 						if ($htaccessAuth == "true") 
 						{
