@@ -243,16 +243,35 @@ STAMP;
 					$s_published = $subtaskDetail->subtas_published[$j];
 					$s_compl = $subtaskDetail->subtas_completion[$j];
 						
-					$tmpquery1 = "INSERT INTO ".$tableCollab["subtasks"]."(task,name,description,owner,assigned_to,status,priority,start_date,due_date,complete_date,estimated_time,actual_time,comments,created,assigned,published,completion) VALUES('$num','$s_tn','$s_d','$s_ow','$s_at','$s_st','$s_pr','$s_sd','$s_dd','$s_cd','$s_etm','$s_atm','$s_c','$dateheure','$dateheure','$s_published','$s_compl')";
-					phpCollab\Util::connectSql("$tmpquery1");
-				
-					$tmpquery = $tableCollab["subtasks"];
-					phpCollab\Util::getLastId($tmpquery);
-					$s_num = $lastId[0];
-					unset($lastId);
-		
-					$tmpquery2 = "INSERT INTO ".$tableCollab["assignments"]."(subtask,owner,assigned_to,assigned) VALUES('$s_num','$s_ow','$s_at','$dateheure')";
-					phpCollab\Util::connectSql("$tmpquery2");
+					$subTasksData = [];
+                    $subTasksData["task"] = $num;
+                    $subTasksData["name"] = $s_tn;
+                    $subTasksData["description"] = $s_d;
+                    $subTasksData["owner"] = $s_ow;
+                    $subTasksData["assigned_to"] = $s_at;
+                    $subTasksData["status"] = $s_st;
+                    $subTasksData["priority"] = $s_pr;
+                    $subTasksData["start_date"] = $s_sd;
+                    $subTasksData["due_date"] = $s_dd;
+                    $subTasksData["complete_date"] = $s_cd;
+                    $subTasksData["estimated_time"] = $s_etm;
+                    $subTasksData["actual_time"] = $s_atm;
+                    $subTasksData["comments"] = $s_c;
+                    $subTasksData["created"] = $dateheure;
+                    $subTasksData["assigned"] = $dateheure;
+                    $subTasksData["published"] = $s_published;
+                    $subTasksData["completion"] = $s_compl;
+
+					$s_num = phpCollab\Util::newConnectSql(
+                        "INSERT INTO {$tableCollab["subtasks"]} (task,name,description,owner,assigned_to,status,priority,start_date,due_date,complete_date,estimated_time,actual_time,comments,created,assigned,published,completion) VALUES(:task,:name,:description,:owner,:assigned_to,:status,:priority,:start_date,:due_date,:complete_date,:estimated_time,:actual_time,:comments,:created,:assigned,:published,:completion)",
+                        $subTasksData
+                    );
+					unset($subTasksData);
+					
+					phpCollab\Util::newConnectSql(
+                        "INSERT INTO {$tableCollab["assignments"]} (subtask,owner,assigned_to,assigned) VALUES(:subtask,:owner,:assigned_to,:assigned)",
+                        ["subtask" => $s_num,"owner" => $s_ow,"assigned_to" => $s_at,"assigned" => $dateheure]
+                    );
 				}	
 			
 				
