@@ -94,8 +94,27 @@ if ($id != "")
 			}
 
 			//insert into projects and teams (with last id project)
-			$tmpquery1 = "INSERT INTO ".$tableCollab["projects"]."(name,priority,description,owner,organization,status,created,published,upload_max,url_dev,url_prod,phase_set,invoicing,hourly_rate) VALUES('$pn','$pr','$d','$pown','$clod','$st','$dateheure','$projectPublished','$up','$url_dev','$url_prod','$thisPhase','$invoicing','$hourly_rate')";
-			phpCollab\Util::connectSql("$tmpquery1");
+			$dbParams = [];
+            $dbParams["name"] = $pn;
+            $dbParams["priority"] = $pr;
+            $dbParams["description"] = $d;
+            $dbParams["owner"] = $pown;
+            $dbParams["organization"] = $clod;
+            $dbParams["status"] = $st;
+            $dbParams["created"] = $dateheure;
+            $dbParams["published"] = $projectPublished;
+            $dbParams["upload_max"] = $up;
+            $dbParams["url_dev"] = $url_dev;
+            $dbParams["url_prod"] = $url_prod;
+            $dbParams["phase_set"] = $thisPhase;
+            $dbParams["invoicing"] = $invoicing;
+            $dbParams["hourly_rate"] = $hourly_rate;
+            
+			phpCollab\Util::newConnectSql(
+                "INSERT INTO {$tableCollab["projects"]} (name,priority,description,owner,organization,status,created,published,upload_max,url_dev,url_prod,phase_set,invoicing,hourly_rate) VALUES(:name,:priority,:description,:owner,:organization,:status,:created,:published,:upload_max,:url_dev,:url_prod,:phase_set,:invoicing,:hourly_rate)"
+			    , $dbParams
+            );
+			unset($dbParams);
 			$tmpquery = $tableCollab["projects"];
 			phpCollab\Util::getLastId($tmpquery);
 			$projectNew = $lastId[0];
