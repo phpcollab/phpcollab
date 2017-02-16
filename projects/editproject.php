@@ -127,9 +127,10 @@ if ($id != "")
 
 			if ($enableInvoicing == "true") 
 			{
-					$tmpquery3 = "INSERT INTO ".$tableCollab["invoices"]."(project,created,status,active,published) VALUES ('$projectNew','$dateheure','0','$invoicing','1')";
-					
-					phpCollab\Util::connectSql($tmpquery3);
+                phpCollab\Util::newConnectSql(
+                    "INSERT INTO {$tableCollab["invoices"]} (project,created,status,active,published) VALUES (:project,:created,:status,:active,:published)",
+                    ["project" => $projectNew,"created" => $dateheure,"status" => 0,"active" => $invoicing,"published" => 1]
+                );
 			}
 
 			//create project folder if filemanagement = true
