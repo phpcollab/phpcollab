@@ -120,8 +120,10 @@ if ($id != "")
 			$projectNew = $lastId[0];
 			unset($lastId);
 
-			$tmpquery2 = "INSERT INTO ".$tableCollab["teams"]."(project,member,published,authorized) VALUES('$projectNew','$pown','1','0')";
-			phpCollab\Util::connectSql("$tmpquery2");
+			phpCollab\Util::newConnectSql(
+                "INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES(:project,:member,:published,:authorized)",
+			    ["project" => $projectNew,"member" => $pown,"published" => 1,"authorized" => 0]
+            );
 
 			if ($enableInvoicing == "true") 
 			{
