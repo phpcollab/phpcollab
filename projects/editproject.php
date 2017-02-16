@@ -331,8 +331,10 @@ STAMP;
 			
 				for($i=0;$i<$comptThisPhase;$i++)
 				{
-					$tmpquery = "INSERT INTO ".$tableCollab["phases"]."(project_id,order_num,status,name) VALUES('$projectNew','$i','0','".$phaseArraySets[$thisPhase][$i]."')";
-					phpCollab\Util::connectSql("$tmpquery");
+					phpCollab\Util::newConnectSql(
+                        "INSERT INTO {$tableCollab["phases"]} (project_id,order_num,status,name) VALUES(:project_id,:order_num,:status,:name)",
+                        ["project_id" => $projectNew,"order_num" => $i,"status" => 0,"name" => $phaseArraySets[$thisPhase][$i]]
+                    );
 				}
 			}
 
