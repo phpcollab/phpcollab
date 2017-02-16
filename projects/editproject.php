@@ -409,8 +409,7 @@ STAMP;
 		//Delete old or unused phases
 		if ($targetProject->pro_phase_set[0] != $thisPhase)
 		{
-			$tmpquery = "DELETE FROM ".$tableCollab["phases"]." WHERE project_id = $id";
-			phpCollab\Util::connectSql("$tmpquery");
+			phpCollab\Util::newConnectSql("DELETE FROM {$tableCollab["phases"]} WHERE project_id = :project_id", ["project_id" => $id]);
 		}
 		
 		//Create new Phases
