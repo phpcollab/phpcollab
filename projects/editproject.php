@@ -110,15 +110,11 @@ if ($id != "")
             $dbParams["invoicing"] = $invoicing;
             $dbParams["hourly_rate"] = $hourly_rate;
             
-			phpCollab\Util::newConnectSql(
+			$projectNew = phpCollab\Util::newConnectSql(
                 "INSERT INTO {$tableCollab["projects"]} (name,priority,description,owner,organization,status,created,published,upload_max,url_dev,url_prod,phase_set,invoicing,hourly_rate) VALUES(:name,:priority,:description,:owner,:organization,:status,:created,:published,:upload_max,:url_dev,:url_prod,:phase_set,:invoicing,:hourly_rate)"
 			    , $dbParams
             );
 			unset($dbParams);
-			$tmpquery = $tableCollab["projects"];
-			phpCollab\Util::getLastId($tmpquery);
-			$projectNew = $lastId[0];
-			unset($lastId);
 
 			phpCollab\Util::newConnectSql(
                 "INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES(:project,:member,:published,:authorized)",
