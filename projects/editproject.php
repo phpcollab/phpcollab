@@ -187,15 +187,36 @@ STAMP;
 					$assigned = $dateheure;
 				}
 						
-				$tmpquery1 = "INSERT INTO ".$tableCollab["tasks"]."(project,name,description,owner,assigned_to,status,priority,start_date,due_date,complete_date,estimated_time,actual_time,comments,created,assigned,published,completion,parent_phase) VALUES('$projectNew','$tn','$d','$ow','$at','$st','$pr','$sd','$dd','$cd','$etm','$atm','$c','$dateheure','$assigned','$published','$compl','$pha')";
-				phpCollab\Util::connectSql("$tmpquery1");
-				$tmpquery = $tableCollab["tasks"];
-				phpCollab\Util::getLastId($tmpquery);
-				$num = $lastId[0];
-				unset($lastId);
+				$dbParams = [];
+                $dbParams["project"] = $projectNew;
+                $dbParams["name"] = $tn;
+                $dbParams["description"] = $d;
+                $dbParams["owner"] = $ow;
+                $dbParams["assigned_to"] = $at;
+                $dbParams["status"] = $st;
+                $dbParams["priority"] = $pr;
+                $dbParams["start_date"] = $sd;
+                $dbParams["due_date"] = $dd;
+                $dbParams["complete_date"] = $cd;
+                $dbParams["estimated_time"] = $etm;
+                $dbParams["actual_time"] = $atm;
+                $dbParams["comments"] = $c;
+                $dbParams["created"] = $dateheure;
+                $dbParams["assigned"] = $assigned;
+                $dbParams["published"] = $published;
+                $dbParams["completion"] = $compl;
+                $dbParams["parent_phase"] = $pha;
 
-				$tmpquery2 = "INSERT INTO ".$tableCollab["assignments"]."(task,owner,assigned_to,assigned) VALUES('$num','$ow','$at','$dateheure')";
-				phpCollab\Util::connectSql("$tmpquery2");
+				$num = phpCollab\Util::newConnectSql(
+                    "INSERT INTO {$tableCollab["tasks"]} (project,name,description,owner,assigned_to,status,priority,start_date,due_date,complete_date,estimated_time,actual_time,comments,created,assigned,published,completion,parent_phase) VALUES(:project,:name,:description,:owner,:assigned_to,:status,:priority,:start_date,:due_date,:complete_date,:estimated_time,:actual_time,:comments,:created,:assigned,:published,:completion,:parent_phase)",
+                    $dbParams
+                );
+				unset($dbParams);
+
+				phpCollab\Util::newConnectSql(
+                    "INSERT INTO {$tableCollab["assignments"]} (task,owner,assigned_to,assigned) VALUES(:task,:owner,:assigned_to,:assigned)",
+                    ["task" => $num,"owner" => $ow,"assigned_to" => $at,"assigned" => $dateheure]
+                );
 				
 				//start the subtask copy
 				$T_id=$listTasks->tas_id[$i];
