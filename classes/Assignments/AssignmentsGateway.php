@@ -40,6 +40,19 @@ class AssignmentsGateway
     }
 
     /**
+     * @param $projectIds
+     * @return mixed
+     */
+    public function deleteAssignmentsByProjectId($projectIds)
+    {
+        $projectIds = explode(',', $projectIds);
+        $placeholders = str_repeat ('?, ', count($projectIds)-1) . '?';
+        $sql = "DELETE FROM {$this->tableCollab['assignments']} WHERE task IN ($placeholders)";
+        $this->db->query($sql);
+        return $this->db->execute($projectIds);
+    }
+
+    /**
      * @param $subtaskIds
      * @return mixed
      */
