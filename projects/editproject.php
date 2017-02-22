@@ -33,6 +33,8 @@ include '../includes/customvalues.php';
 $id = phpCollab\Util::returnGlobal('id','REQUEST');
 $docopy = phpCollab\Util::returnGlobal('docopy','REQUEST');
 
+$teams = new \phpCollab\Teams\Teams();
+
 if ($htaccessAuth == "true") 
 {
 	$Htpasswd = new Htpasswd;
@@ -394,10 +396,10 @@ STAMP;
 							$Htpasswd->initialize("../files/".$id."/.htpasswd");
 							$Htpasswd->deleteUser($suppTeamClient->mem_login[$i]);
 						}
-					}
+                    }
 
-					$tmpquery4 = "DELETE FROM ".$tableCollab["teams"]." WHERE project = '$id' AND member IN($membersTeam)";
-					phpCollab\Util::connectSql("$tmpquery4");
+
+                    $teams->deleteFromTeamsByProjectIdAndMemberId($id, $membersTeam);
 				}
 		}
 
@@ -416,11 +418,12 @@ STAMP;
 		if($targetProject->pro_phase_set[0] != $thisPhase)
 		{
 			$comptThisPhase = count($phaseArraySets[$thisPhase]);
-		
+
 			for($i=0;$i<$comptThisPhase;$i++)
 			{
-				$tmpquery = "INSERT INTO ".$tableCollab["phases"]."(project_id,order_num,status,name) VALUES('$id','$i','0','".$phaseArraySets[$thisPhase][$i]."')";
-				phpCollab\Util::connectSql("$tmpquery");
+				phpCollab\Util::newConnectSql(
+                    "INSERT INTO {$tableCollab["phases"]} (project_id,order_num,status,name) VALUES(:project_id,:order_num,:status,:name)",
+                    ["project_id" => $id, "order_num" => $i, "status" => 0, "name" => $phaseArraySets[$thisPhase][$i]]);
 			}
 			
 			//Get a listing of project tasks and files and re-assign them to new phases if the phase set of a project is changed.
