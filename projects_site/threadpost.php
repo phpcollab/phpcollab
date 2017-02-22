@@ -22,8 +22,10 @@ if ($action == "add") {
         ["topic" => $id,"member" => $idSession,"created" => $dateheure,"message" => $newText]
     );
 
-    $tmpquery2 = "UPDATE " . $tableCollab["topics"] . " SET last_post='$dateheure',posts='" . $detailTopic->top_posts[0] . "' WHERE id = '$id'";
-    phpCollab\Util::connectSql("$tmpquery2");
+    phpCollab\Util::newConnectSql(
+        "UPDATE {$tableCollab["topics"]} SET last_post=:last_post,posts=:posts WHERE id = :topic_id",
+        ["last_post" => $dateheure, "posts" => $detailTopic->top_posts[0], "topic_id" => $id]
+    );
 
     if ($notifications == "true") {
         $tmpquery = "WHERE pro.id = '$projectSession'";
