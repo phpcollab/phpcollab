@@ -17,8 +17,11 @@ if ($action == "add") {
     $detailTopic->top_posts[0] = $detailTopic->top_posts[0] + 1;
     $messageField = phpCollab\Util::convertData($messageField);
     phpCollab\Util::autoLinks($messageField);
-    $tmpquery1 = "INSERT INTO " . $tableCollab["posts"] . "(topic,member,created,message) VALUES('$id','$idSession','$dateheure','$newText')";
-    phpCollab\Util::connectSql("$tmpquery1");
+    phpCollab\Util::newConnectSql(
+        "INSERT INTO {$tableCollab["posts"]} (topic,member,created,message) VALUES (:topic,:member,:created,:message)",
+        ["topic" => $id,"member" => $idSession,"created" => $dateheure,"message" => $newText]
+    );
+
     $tmpquery2 = "UPDATE " . $tableCollab["topics"] . " SET last_post='$dateheure',posts='" . $detailTopic->top_posts[0] . "' WHERE id = '$id'";
     phpCollab\Util::connectSql("$tmpquery2");
 
