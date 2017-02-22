@@ -51,4 +51,13 @@ class Phases
         return $phase;
     }
 
+    /**
+     * @param $projectIds
+     * @return mixed
+     */
+    public function deletePhasesByProjectId($projectIds)
+    {
+        return $this->phases_gateway->deletePhasesByProjectId($projectIds);
+    }
+
 }
