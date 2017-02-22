@@ -96,4 +96,13 @@ class Projects
         return $this->projects_gateway->setDefaultOrg($orgId);
         
     }
+
+    /**
+     * @param $projectId
+     * @return mixed
+     */
+    public function deleteProject($projectId)
+    {
+        return $this->projects_gateway->deleteProject($projectId);
+    }
 }
