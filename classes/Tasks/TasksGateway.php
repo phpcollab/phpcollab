@@ -11,6 +11,7 @@ class TasksGateway
 {
     protected $db;
     protected $initrequest;
+    protecteds $tableCollab;
 
     /**
      * TasksGateway constructor.
@@ -20,6 +21,7 @@ class TasksGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
+        $this->tableCollab = $GLOBALS['tableCollab'];
     }
 
     /**
