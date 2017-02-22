@@ -18,12 +18,10 @@ if ($action == "add") {
     $sub = phpCollab\Util::convertData($sub);
     $mes = phpCollab\Util::convertData($mes);
 
-    $tmpquery1 = "INSERT INTO " . $tableCollab["support_requests"] . "(member,priority,subject,message,date_open,project,status) VALUES('$user','$pr','$sub','$mes','$dateheure','$project','0')";
-    phpCollab\Util::connectSql($tmpquery1);
-    $tmpquery = $tableCollab["support_requests"];
-    phpCollab\Util::getLastId($tmpquery);
-    $num = $lastId[0];
-    unset($lastId);
+    $num = phpCollab\Util::newConnectSql(
+        "INSERT INTO {$tableCollab["support_requests"]} (member,priority,subject,message,date_open,project,status) VALUES(:member,:priority,:subject,:message,:date_open,:project,:status)",
+        ["member" => $user,"priority" => $pr,"subject" => $sub,"message" => $mes,"date_open" => $dateheure,"project" => $project,"status" => 0]
+    );
 
     if ($notifications == "true") {
         include '../support/noti_newrequest.php';
