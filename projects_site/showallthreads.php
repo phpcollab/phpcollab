@@ -15,8 +15,11 @@ if ($detailTopic->top_published[0] == "1" || $detailTopic->top_project[0] != $pr
 
 if ($action == "delete") {
     $detailTopic->top_posts[0] = $detailTopic->top_posts[0] - 1;
-    $tmpquery = "DELETE FROM " . $tableCollab["posts"] . " WHERE id = '$post'";
-    phpCollab\Util::connectSql("$tmpquery");
+    phpCollab\Util::newConnectSql(
+        "DELETE FROM {$tableCollab["posts"]} WHERE id = :post_id",
+        ["post_id" => $post]
+    );
+
     $tmpquery2 = "UPDATE " . $tableCollab["topics"] . " SET posts='" . $detailTopic->top_posts[0] . "' WHERE id = '$id'";
     phpCollab\Util::connectSql("$tmpquery2");
     phpCollab\Util::headerFunction("showallthreads.php?id=$id");
