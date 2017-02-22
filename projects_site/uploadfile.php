@@ -97,9 +97,11 @@ if ($action == "add") {
         $extension = strtolower(strrev($tab[0]));
 
         $name = $num . "--" . $filename;
-        $tmpquery = "UPDATE " . $tableCollab["files"] . " SET name='$name',date='$dateheure',size='$size',extension='$extension' WHERE id = '$num'";
 
-        phpCollab\Util::connectSql("$tmpquery");
+        phpCollab\Util::newConnectSql(
+            "UPDATE {$tableCollab["files"]} SET name=:name,date=:dateheure,size=:size,extension=:extension WHERE id = :id",
+            ["name" => $name,"date" => $dateheure,"size" => $size,"extension" => $extension,"id" => $num]
+        );
         phpCollab\Util::headerFunction("doclists.php");
     }
 
