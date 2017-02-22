@@ -16,12 +16,10 @@ if ($requestDetail->sr_project[0] != $projectSession || $requestDetail->sr_user[
 if ($action == "add") {
     $mes = phpCollab\Util::convertData($mes);
 
-    $tmpquery1 = "INSERT INTO " . $tableCollab["support_posts"] . "(request_id,message,date,owner,project) VALUES('$id','$mes','$dateheure','$idSession','" . $requestDetail->sr_project[0] . "')";
-    phpCollab\Util::connectSql("$tmpquery1");
-    $tmpquery = $tableCollab["support_posts"];
-    phpCollab\Util::getLastId($tmpquery);
-    $num = $lastId[0];
-    unset($lastId);
+    $num = phpCollab\Util::newConnectSql(
+        "INSERT INTO {$tableCollab["support_posts"]} (request_id,message,date,owner,project) VALUES(:request_id,:message,:date,:owner,:project)",
+        ["request_id" => $id,"message" => $mes,"date" => $dateheure,"owner" => $idSession,"project" => $requestDetail->sr_project[0]]
+    );
 
     if ($notifications == "true") {
         if ($mes != "") {
