@@ -168,11 +168,28 @@ class TeamsGateway
         $sql = "DELETE FROM {$this->tableCollab["teams"]} WHERE project = ? AND member IN($placeholders)";
 
         // Prepend the project id value
-        array_unshift($placeholders,$projectId);
+        if (is_array($placeholders)) {
+            array_unshift($placeholders,$projectId);
+        }
         $this->db->query($sql);
         $this->db->execute($placeholders);
         return $this->db->fetchAll();
 
+
+    }
+
+    /**
+     * @param $projectId
+     * @return mixed
+     */
+    public function deleteFromTeamsWhereProjectIdIn($projectId)
+    {
+        // Generate placeholders
+        $projectId = explode(',', $projectId);
+        $placeholders = str_repeat('?, ', count($projectId) - 1) . '?';
+        $sql = "DELETE FROM {$this->tableCollab['teams']} WHERE project IN ($placeholders)";
+        $this->db->query($sql);
+        return $this->db->execute($projectId);
 
     }
 
