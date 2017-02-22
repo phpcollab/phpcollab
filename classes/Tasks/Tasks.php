@@ -180,6 +180,15 @@ class Tasks
     }
 
     /**
+     * @param $projectIds
+     * @return mixed
+     */
+    public function deleteTasksByProjectId($projectIds)
+    {
+        return $this->tasks_gateway->deleteTasksByProject($projectIds);
+    }
+
+    /**
      * @param $subTaskIds
      * @return mixed
      */
