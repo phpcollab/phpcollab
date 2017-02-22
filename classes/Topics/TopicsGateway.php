@@ -137,6 +137,19 @@ class TopicsGateway
     }
 
     /**
+     * @param $projectId
+     * @return mixed
+     */
+    public function deletePostsByProjectId($projectId)
+    {
+        $projectId = explode(',', $projectId);
+        $placeholders = str_repeat('?, ', count($projectId) - 1) . '?';
+        $sql = "DELETE FROM {$this->tableCollab['posts']} WHERE project IN ($placeholders)";
+        $this->db->query($sql);
+        return $this->db->execute($projectId);
+    }
+
+    /**
      * @param string $sorting
      * @return string
      */
