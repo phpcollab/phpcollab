@@ -6,11 +6,26 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
+$tasks = new \phpCollab\Tasks\Tasks();
+$teams = new \phpCollab\Teams\Teams();
+$topics = new \phpCollab\Topics\Topics();
+$files = new \phpCollab\Files\Files();
+$assignments = new \phpCollab\Assignments\Assignments();
+$notes = new \phpCollab\Notes\Notes();
+$support = new \phpCollab\Support\Support();
+$phases = new \phpCollab\Phases\Phases();
+$projects = new \phpCollab\Projects\Projects();
+
 if ($enable_cvs == "true") {
     include '../includes/cvslib.php';
 }
 
-$id = str_replace("**", ",", $id);
+$id = isset($_GET["id"]) ? str_replace("**", ",", $_GET["id"]) : null;
+
+if (empty($id)) {
+    phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blankProject");
+}
+
 $tmpquery = "WHERE pro.id IN($id) ORDER BY pro.name";
 $listProjects = new phpCollab\Request();
 $listProjects->openProjects($tmpquery);
@@ -26,7 +41,6 @@ if ($idSession != $listProjects->pro_owner[0] && $profilSession != "5") {
 
 if ($action == "delete") {
     $id = str_replace("**", ",", $id);
-    $tmpquery1 = "DELETE FROM " . $tableCollab["projects"] . " WHERE id IN($id)";
     $pieces = explode(",", $id);
     $comptPro = count($pieces);
     for ($i = 0; $i < $comptPro; $i++) {
@@ -68,34 +82,26 @@ if ($action == "delete") {
         }
     }
 
-    $tmpquery2 = "DELETE FROM " . $tableCollab["tasks"] . " WHERE project IN($id)";
-    $tmpquery3 = "DELETE FROM " . $tableCollab["teams"] . " WHERE project IN($id)";
-    $tmpquery4 = "DELETE FROM " . $tableCollab["topics"] . " WHERE project IN($id)";
-    $tmpquery5 = "DELETE FROM " . $tableCollab["files"] . " WHERE project IN($id)";
-    $tmpquery6 = "DELETE FROM " . $tableCollab["assignments"] . " WHERE task IN($tasks)";
-    $tmpquery7 = "DELETE FROM " . $tableCollab["posts"] . " WHERE topic IN($topics)";
-    $tmpquery8 = "DELETE FROM " . $tableCollab["notes"] . " WHERE project IN($id)";
-    $tmpquery9 = "DELETE FROM " . $tableCollab["support_requests"] . " WHERE project IN($id)";
-    $tmpquery10 = "DELETE FROM " . $tableCollab["support_posts"] . " WHERE project IN($id)";
-    $tmpquery11 = "DELETE FROM " . $tableCollab["phases"] . " WHERE project_id IN($id)";
-    $tmpquery12 = "DELETE FROM " . $tableCollab["subtasks"] . " WHERE task IN($tasks)";
 
-    phpCollab\Util::connectSql($tmpquery1);
-    phpCollab\Util::connectSql($tmpquery2);
-    phpCollab\Util::connectSql($tmpquery3);
-    phpCollab\Util::connectSql($tmpquery4);
-    phpCollab\Util::connectSql($tmpquery5);
+    $projects->deleteProject($id);
+    $tasks->deleteTasksByProjectId($id);
+    $teams->deleteFromTeamsByProjectId($id);
+    $topics->deleteTopicWhereProjectIdIn($id);
+    $files->deleteFilesByProjectId($id);
+
     if ($tasks != "") {
-        phpCollab\Util::connectSql($tmpquery6);
-        phpCollab\Util::connectSql($tmpquery12);
+        $assignments->deleteAssignmentsByProjectId($id);
+        $tasks->deleteSubtasksByProjectId($id);
     }
     if ($topics != "") {
-        phpCollab\Util::connectSql($tmpquery7);
+        $topics->deletePostsByProjectId($id);
     }
-    phpCollab\Util::connectSql($tmpquery8);
-    phpCollab\Util::connectSql($tmpquery9);
-    phpCollab\Util::connectSql($tmpquery10);
-    phpCollab\Util::connectSql($tmpquery11);
+
+    $notes->deleteNotesByProjectId($id);
+    $support->deleteSupportPostsByProjectId($id);
+    $support->deleteSupportPostsByProjectId($id);
+    $phases->deletePhasesByProjectId($id);
+
 //if mantis bug tracker enabled
     if ($enableMantis == "true") {
 // call mantis function to delete project
@@ -104,7 +110,7 @@ if ($action == "delete") {
     phpCollab\Util::headerFunction("../projects/listprojects.php?msg=delete");
 }
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -137,5 +143,4 @@ $block1->closeContent();
 $block1->closeForm();
 
 
-include '../themes/' . THEME . '/footer.php';
-?>
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
