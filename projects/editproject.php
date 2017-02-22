@@ -481,8 +481,10 @@ STAMP;
 
 		if ($enableInvoicing == "true") 
 		{
-			$tmpquery3 = "UPDATE ".$tableCollab["invoices"]." SET active='$invoicing' WHERE project = '$id'";
-			phpCollab\Util::connectSql($tmpquery3);
+			phpCollab\Util::newConnectSql(
+			    "UPDATE {$tableCollab["invoices"]} SET active = :active WHERE project = :project_id",
+                ["active" => $invoicing, "project_id" => $id]
+            );
 		}
 
 		//if mantis bug tracker enabled
