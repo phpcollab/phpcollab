@@ -209,8 +209,9 @@ if ($action == "add") {
 
     if ($docopy == "true") {
         $name = "$upload_name";
-        $tmpquery = "UPDATE " . $tableCollab["files"] . " SET name='$name',date='$dateheure',size='$size',extension='$extension',vc_version='$oldversion' WHERE id = '$num'";
-        phpCollab\Util::connectSql("$tmpquery");
+        phpCollab\Util::newConnectSql(
+            "UPDATE {$tableCollab["files"]} SET name=:name,date=:date,size=:size,extension=:extension,vc_version=:vc_version WHERE id = :file_id",
+            ["name" => $name, "date" => $dateheure, "size" => $size, "extension" => $extension, "vc_version" => $oldversion, "file_id" => $num]);
         phpCollab\Util::headerFunction("clientfiledetail.php?id=$sendto&msg=addFile");
     }
 }
