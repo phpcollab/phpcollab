@@ -548,21 +548,38 @@ if ($id == "")
 		}
 
 		//insert into projects and teams (with last id project)
-		$tmpquery1 = "INSERT INTO ".$tableCollab["projects"]."(name,priority,description,owner,organization,status,created,published,upload_max,url_dev,url_prod,phase_set,invoicing,hourly_rate) VALUES('$pn','$pr','$d','$pown','$clod','$st','$dateheure','1','$up','$url_dev','$url_prod','$thisPhase','$invoicing','$hourly_rate')";
-		phpCollab\Util::connectSql("$tmpquery1");
-		$tmpquery = $tableCollab["projects"];
-		phpCollab\Util::getLastId($tmpquery);
-		$num = $lastId[0];
-		unset($lastId);
+		$insertProjectSql = "INSERT INTO {$tableCollab["projects"]} (name,priority,description,owner,organization,status,created,published,upload_max,url_dev,url_prod,phase_set,invoicing,hourly_rate) VALUES(:name,:priority,:description,:owner,:organization,:status,:created,:published,:upload_max,:url_dev,:url_prod,:phase_set,:invoicing,:hourly_rate)";
+		$dbParams = [];
+        $dbParams["name"] = $pn;
+        $dbParams["priority"] = $pr;
+        $dbParams["description"] = $d;
+        $dbParams["owner"] = $pown;
+        $dbParams["organization"] = $clod;
+        $dbParams["status"] = $st;
+        $dbParams["created"] = $dateheure;
+        $dbParams["published"] = 1;
+        $dbParams["upload_max"] = $up;
+        $dbParams["url_dev"] = $url_dev;
+        $dbParams["url_prod"] = $url_prod;
+        $dbParams["phase_set"] = $thisPhase;
+        $dbParams["invoicing"] = $invoicing;
+        $dbParams["hourly_rate"] = $hourly_rate;
+
+		$num = phpCollab\Util::newConnectSql($insertProjectSql, $dbParams);
+		unset($dbParams);
 
 		if ($enableInvoicing == "true") 
 		{
-			$tmpquery3 = "INSERT INTO ".$tableCollab["invoices"]." (project,status,created,active,published) VALUES ('$num','0','$dateheure','$invoicing','1')";
-			phpCollab\Util::connectSql($tmpquery3);
+			phpCollab\Util::newConnectSql(
+                "INSERT INTO {$tableCollab["invoices"]} (project,status,created,active,published) VALUES (:project,:status,:created,:active,:published)",
+                ["project" => $num,"status" => 0,"created" => $dateheure,"active" => $invoicing,"published" => 1]
+            );
 		}
 
-		$tmpquery2 = "INSERT INTO ".$tableCollab["teams"]."(project,member,published,authorized) VALUES('$num','$pown','1','0')";
-		phpCollab\Util::connectSql("$tmpquery2");
+		phpCollab\Util::newConnectSql(
+            "INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES(:project,:member,:published,:authorized)",
+            ["project" => $num,"member" => $pown,"published" => 1,"authorized" => 0]
+        );
 
 		//if CVS repository enabled
 		if ($enable_cvs == "true") 
