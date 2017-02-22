@@ -105,4 +105,13 @@ class Topics
 
     }
 
+    /**
+     * @param $projectIds
+     * @return mixed
+     */
+    public function deleteTopicWhereProjectIdIn($projectIds)
+    {
+        return $this->topics_gateway->deleteTopicsByProjectId($projectIds);
+    }
+
 }
