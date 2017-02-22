@@ -460,8 +460,24 @@ STAMP;
 			//nb if the project has not client than the invocing will be deactivated
 			$invoicing = "0";
 		}
-		$tmpquery = "UPDATE ".$tableCollab["projects"]." SET name='$pn',priority='$pr',description='$d',url_dev='$url_dev',url_prod='$url_prod',owner='$pown',organization='$clod',status='$st',modified='$dateheure',upload_max='$up',phase_set='$thisPhase',invoicing='$invoicing',hourly_rate='$hourly_rate' WHERE id = '$id'";
-		phpCollab\Util::connectSql("$tmpquery");
+		$updateProjectsSql = "UPDATE {$tableCollab["projects"]} SET name=:name,priority=:priority,description=:description,url_dev=:url_dev,url_prod=:url_prod,owner=:owner,organization=:organization,status=:status,modified=:modified,upload_max=:upload_max,phase_set=:phase_set,invoicing=:invoicing,hourly_rate=:hourly_rate WHERE id = :project_id";
+		$dbParams = [];
+		$dbParams["name"] = $pn;
+		$dbParams["priority"] = $pr;
+		$dbParams["description"] = $d;
+		$dbParams["url_dev"] = $url_dev;
+		$dbParams["url_prod"] = $url_prod;
+		$dbParams["owner"] = $pown;
+		$dbParams["organization"] = $clod;
+		$dbParams["status"] = $st;
+		$dbParams["modified"] = $dateheure;
+		$dbParams["upload_max"] = $up;
+		$dbParams["phase_set"] = $thisPhase;
+		$dbParams["invoicing"] = $invoicing;
+		$dbParams["hourly_rate"] = $hourly_rate;
+		$dbParams["project_id"] = $id;
+		phpCollab\Util::newConnectSql($updateProjectsSql, $dbParams);
+		unset($dbParams);
 
 		if ($enableInvoicing == "true") 
 		{
