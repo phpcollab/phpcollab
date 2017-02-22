@@ -64,6 +64,12 @@ class FilesGateway
         return $this->db->single();
     }
 
+    /**
+     * @param $projectId
+     * @param $phaseId
+     * @param null $sorting
+     * @return mixed
+     */
     public function getFilesByProjectAndPhaseWithoutTasksAndParent($projectId, $phaseId, $sorting = null)
     {
         $whereStatement = "WHERE fil.project = :project_id AND fil.phase = :phase_id AND fil.task = 0 AND fil.vc_parent = 0";// ORDER BY {$block3->sortingValue}";
@@ -123,6 +129,20 @@ class FilesGateway
     }
 
     /**
+     * @param $projectIds
+     * @return mixed
+     */
+    public function deleteFilesByProjectId($projectIds)
+    {
+        $projectId = explode(',', $projectIds);
+        $placeholders = str_repeat('?, ', count($projectId) - 1) . '?';
+        $sql = "DELETE FROM {$this->tableCollab['files']} WHERE project IN ($placeholders)";
+        $this->db->query($sql);
+        return $this->db->execute($projectId);
+    }
+
+
+    /**
      * @param $fileId
      * @param $fileStatus
      * @return mixed
@@ -150,6 +170,10 @@ class FilesGateway
     }
 
 
+    /**
+     * @param $fileIds
+     * @return mixed
+     */
     public function publishFiles($fileIds)
     {
         if ( strpos($fileIds, ',') ) {
@@ -166,6 +190,10 @@ class FilesGateway
         }
     }
 
+    /**
+     * @param $fileIds
+     * @return mixed
+     */
     public function unPublishFiles($fileIds)
     {
         if ( strpos($fileIds, ',') ) {
