@@ -102,6 +102,15 @@ class Teams
     }
 
     /**
+     * @param $projectIds
+     * @return mixed
+     */
+    public function deleteFromTeamsByProjectId($projectIds)
+    {
+        return $this->teams_gateway->deleteFromTeamsWhereProjectIdIn($projectIds);
+    }
+
+    /**
      * @param $projectId
      * @param $memberIds
      * @return mixed
