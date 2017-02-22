@@ -33,6 +33,15 @@ class Assignments
     }
 
     /**
+     * @param $projectIds
+     * @return mixed
+     */
+    public function deleteAssignmentsByProjectId($projectIds)
+    {
+        return $this->assignments_gateway->deleteAssignmentsByProjectId($projectIds);
+    }
+
+    /**
      * @param $subtaskIds
      * @return mixed
      */
