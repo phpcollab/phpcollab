@@ -91,4 +91,9 @@ class Teams
         return (count($this->teams_gateway->isTeamMember($projectId, $memberId)) > 0) ? true : false;
     }
 
+    public function deleteFromTeamsByProjectIdAndMemberId($projectId, $memberId)
+    {
+        return $this->teams_gateway->deleteFromTeamsWhereProjectIdEqualsAndMemberIdIn($projectId, $memberId);
+    }
+
 }
