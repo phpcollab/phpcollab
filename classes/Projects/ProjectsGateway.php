@@ -140,6 +140,20 @@ class ProjectsGateway
     }
 
     /**
+     * @param $projectId
+     * @return mixed
+     */
+    public function deleteProject($projectId)
+    {
+        $projectId = explode(',', $projectId);
+        $placeholders = str_repeat('?, ', count($projectId) - 1) . '?';
+        $sql = "DELETE FROM {$this->tableCollab['projects']} WHERE id IN ($placeholders)";
+        $this->db->query($sql);
+        return $this->db->execute($projectId);
+
+    }
+
+    /**
      * @param $sorting
      * @return string
      */
