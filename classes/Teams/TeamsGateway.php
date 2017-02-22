@@ -13,6 +13,7 @@ class TeamsGateway
 {
     protected $db;
     protected $initrequest;
+    protected $tableCollab;
 
     /**
      * TeamsGateway constructor.
@@ -22,6 +23,7 @@ class TeamsGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
+        $this->tableCollab = $GLOBALS['tableCollab'];
     }
 
     /**
@@ -104,6 +106,60 @@ class TeamsGateway
         return $this->db->resultset();
     }
 
+    /**
+     * @param $projectId
+     * @param $memberIds
+     * @return mixed
+     */
+    public function publishTeams($projectId, $memberIds)
+    {
+        if ( strpos($memberIds, ',') ) {
+            $memberIds = explode(',', $memberIds);
+            $placeholders = str_repeat ('?, ', count($memberIds)-1) . '?';
+            $sql = "UPDATE {$this->tableCollab["teams"]} SET published = 0 WHERE member IN($placeholders) AND project = ?";
+
+            array_push($memberIds, $projectId);
+            $this->db->query($sql);
+            return $this->db->execute($memberIds);
+        } else {
+            $sql = "UPDATE {$this->tableCollab["teams"]} SET published = 0 WHERE member = :member_id AND project = :project_id";
+            $this->db->query($sql);
+            $this->db->bind(':member_id', $memberIds);
+            $this->db->bind(':project_id', $projectId);
+            return $this->db->execute();
+        }
+    }
+
+    /**
+     * @param $projectId
+     * @param $memberIds
+     * @return mixed
+     */
+    public function unPublishTeams($projectId, $memberIds)
+    {
+        if ( strpos($memberIds, ',') ) {
+            $memberIds = explode(',', $memberIds);
+            $placeholders = str_repeat ('?, ', count($memberIds)-1) . '?';
+            $sql = "UPDATE {$this->tableCollab["teams"]} SET published = 1 WHERE member IN($placeholders) AND project = ?";
+
+            array_push($memberIds, $projectId);
+            $this->db->query($sql);
+            return $this->db->execute($memberIds);
+        } else {
+            $sql = "UPDATE {$this->tableCollab["teams"]} SET published = 1 WHERE member = :member_id AND project = :project_id";
+            $this->db->query($sql);
+            $this->db->bind(':member_id', $memberIds);
+            $this->db->bind(':project_id', $projectId);
+            return $this->db->execute();
+        }
+
+    }
+
+    /**
+     * @param $projectId
+     * @param $memberId
+     * @return mixed
+     */
     public function deleteFromTeamsWhereProjectIdEqualsAndMemberIdIn($projectId, $memberId)
     {
         // Generate placeholders

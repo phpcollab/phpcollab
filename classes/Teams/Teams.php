@@ -91,9 +91,34 @@ class Teams
         return (count($this->teams_gateway->isTeamMember($projectId, $memberId)) > 0) ? true : false;
     }
 
+    /**
+     * @param $projectId
+     * @param $memberId
+     * @return mixed
+     */
     public function deleteFromTeamsByProjectIdAndMemberId($projectId, $memberId)
     {
         return $this->teams_gateway->deleteFromTeamsWhereProjectIdEqualsAndMemberIdIn($projectId, $memberId);
+    }
+
+    /**
+     * @param $projectId
+     * @param $memberIds
+     * @return mixed
+     */
+    public function publishToSite($projectId, $memberIds)
+    {
+        return $this->publishToSite($projectId, $memberIds);
+    }
+
+    /**
+     * @param $projectId
+     * @param $memberIds
+     * @return mixed
+     */
+    public function unPublishToSite($projectId, $memberIds)
+    {
+        return $this->unPublishToSite($projectId, $memberIds);
     }
 
 }
