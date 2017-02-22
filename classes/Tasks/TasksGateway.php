@@ -102,6 +102,7 @@ class TasksGateway
     /**
      * @param $projectId
      * @param $phaseId
+     * @param null $sorting
      * @return mixed
      */
     public function getTasksByProjectIdAndParentPhase($projectId, $phaseId, $sorting = null)
