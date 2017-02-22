@@ -63,7 +63,7 @@ class ReportsGateway
     {
         $reportId = explode(',', $reportId);
         $placeholders = str_repeat('?, ', count($reportId) - 1) . '?';
-        $query = "DELETE FROM " . $this->tableCollab["reports"] . " WHERE id IN (".$placeholders.")";
+        $query = "DELETE FROM {$this->tableCollab["reports"]} WHERE id IN ($placeholders)";
         $this->db->query($query);
         return $this->db->execute($reportId);
     }
