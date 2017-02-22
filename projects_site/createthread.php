@@ -8,15 +8,12 @@ include '../includes/library.php';
 if ($action == "add") {
     $topicField = phpCollab\Util::convertData($topicField);
     $messageField = phpCollab\Util::convertData($messageField);
-    phpCollab\Util::newConnectSql(
+    $num = phpCollab\Util::newConnectSql(
         "INSERT INTO {$tableCollab["topics"]} (project,owner,subject,status,last_post,posts,published) VALUES (:project,:owner,:subject,:status,:last_post,:posts,:published)",
         ["project" => $projectSession,"owner" => $idSession,"subject" => $topicField,"status" => 1,"last_post" => $dateheure,"posts" => 1,"published" => 0]
     );
-    $tmpquery = $tableCollab["topics"];
-    phpCollab\Util::getLastId($tmpquery);
-    $num = $lastId[0];
-    unset($lastId);
     phpCollab\Util::autoLinks($messageField);
+
     $tmpquery2 = "INSERT INTO " . $tableCollab["posts"] . "(topic,member,created,message) VALUES('$num','$idSession','$dateheure','$newText')";
     phpCollab\Util::connectSql("$tmpquery2");
 
