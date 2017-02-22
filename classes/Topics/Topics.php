@@ -114,4 +114,13 @@ class Topics
         return $this->topics_gateway->deleteTopicsByProjectId($projectIds);
     }
 
+    /**
+     * @param $projectIds
+     * @return mixed
+     */
+    public function deletePostsByProjectId($projectIds)
+    {
+        return $this->topics_gateway->deletePostsByProjectId($projectIds);
+    }
+
 }
