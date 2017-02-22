@@ -33,6 +33,15 @@ class Support
     }
 
     /**
+     * @param $projectIds
+     * @return mixed
+     */
+    public function deleteSupportRequestsByProjectId($projectIds)
+    {
+        return $this->support_gateway->deleteSupportRequestsByProjectId($projectIds);
+    }
+
+    /**
      * @param $requestIds
      * @return mixed
      */
@@ -48,6 +57,15 @@ class Support
     public function deleteSupportPostsById($supportPostIds)
     {
         return $this->support_gateway->deleteSupportPostsById($supportPostIds);
+    }
+
+    /**
+     * @param $projectIds
+     * @return mixed
+     */
+    public function deleteSupportPostsByProjectId($projectIds)
+    {
+        return $this->support_gateway->deleteSupportPostsByProjectId($projectIds);
     }
 
 }
