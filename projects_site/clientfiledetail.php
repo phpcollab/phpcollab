@@ -119,8 +119,11 @@ if ($action == "update") {
     $newversion = $fileDetail->fil_vc_version[0] + $change_file_version;
     if ($docopy == "true") {
         $name = "$upload_name";
-        $tmpquery = "UPDATE " . $tableCollab["files"] . " SET date='$dateheure',size='$size',comments='$c',status='$statusField',vc_version='$newversion' WHERE id = '$id'";
-        phpCollab\Util::connectSql("$tmpquery");
+
+        phpCollab\Util::newConnectSql(
+            "UPDATE {$tableCollab["files"]} SET date=:date,size=:size,comments=:comments,status=:status,vc_version=:vc_version WHERE id = :file_id",
+            ["date" => $dateheure, "size" => $size, "comments" => $c,"status" => $statusField, "vc_version" => $newversion, "file_id" => $id]
+        );
         phpCollab\Util::headerFunction("clientfiledetail.php?id=" . $fileDetail->fil_id[0] . "&msg=addFile");
     }
 }
