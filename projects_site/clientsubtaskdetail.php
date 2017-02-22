@@ -8,11 +8,17 @@ include '../includes/library.php';
 if ($action == "update") {
     $comments = phpCollab\Util::convertData($comments);
     if ($checkbox != "") {
-        $tmpquery = "UPDATE " . $tableCollab["subtasks"] . " SET comments='$comments',status='0',modified='$dateheure' WHERE id = '$id'";
+        phpCollab\Util::newConnectSql(
+            "UPDATE {$tableCollab["subtasks"]} SET comments=:comments,status=:status,modified=:modified WHERE id = :subtask_id",
+            ["comments" => $comments, "status" => 0, "modified" => $dateheure, "subtask_id" => $id]
+        );
+
     } else {
-        $tmpquery = "UPDATE " . $tableCollab["subtasks"] . " SET comments='$comments',status='3',modified='$dateheure' WHERE id = '$id'";
+        phpCollab\Util::newConnectSql(
+            "UPDATE {$tableCollab["subtasks"]} SET comments=:comments,status=:status,modified=:modified WHERE id = :subtask_id",
+            ["comments" => $comments, "status" => 3, "modified" => $dateheure, "subtask_id" => $id]
+        );
     }
-    phpCollab\Util::connectSql("$tmpquery");
     phpCollab\Util::headerFunction("clienttaskdetail.php?id=$task");
 }
 
