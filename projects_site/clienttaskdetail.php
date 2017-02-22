@@ -7,12 +7,19 @@ include '../includes/library.php';
 
 if ($action == "update") {
     $comments = phpCollab\Util::convertData($comments);
+
     if ($checkbox != "") {
-        $tmpquery = "UPDATE " . $tableCollab["tasks"] . " SET comments='$comments',status='0',modified='$dateheure' WHERE id = '$id'";
+        phpCollab\Util::newConnectSql(
+            "UPDATE {$tableCollab["tasks"]} SET comments=:comments,status=:status,modified=:modified WHERE id = :task_id",
+            ["comments" => $comments, "status" => 0, "modified" => $dateheure, "task_id" => $id]
+        );
+
     } else {
-        $tmpquery = "UPDATE " . $tableCollab["tasks"] . " SET comments='$comments',status='3',modified='$dateheure' WHERE id = '$id'";
+        phpCollab\Util::newConnectSql(
+            "UPDATE {$tableCollab["tasks"]} SET comments=:comments,status=:status,modified=:modified WHERE id = :task_id",
+            ["comments" => $comments, "status" => 3, "modified" => $dateheure, "task_id" => $id]
+        );
     }
-    phpCollab\Util::connectSql("$tmpquery");
     phpCollab\Util::headerFunction("showallclienttasks.php");
 }
 
