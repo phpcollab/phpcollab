@@ -26,6 +26,10 @@ class NewsDeskGateway
         $this->tableCollab = $GLOBALS['tableCollab'];
     }
 
+    /**
+     * @param $newsId
+     * @return mixed
+     */
     public function getNewsPostById($newsId)
     {
         $query = $this->initrequest["newsdeskposts"] . " WHERE news.id = :news_id";
@@ -46,6 +50,10 @@ class NewsDeskGateway
         return $this->db->single();
     }
 
+    /**
+     * @param $commentId
+     * @return mixed
+     */
     public function getComments($commentId)
     {
         if ( strpos($commentId, ',') ) {
@@ -65,6 +73,10 @@ class NewsDeskGateway
     }
 
 
+    /**
+     * @param $commentId
+     * @return mixed
+     */
     public function getPostComments($commentId)
     {
         $query = $this->initrequest["newsdeskcomments"] . " WHERE newscom.id = :comment_id";
@@ -81,7 +93,7 @@ class NewsDeskGateway
     {
         $commentId = explode(',', $commentId);
         $placeholders = str_repeat('?, ', count($commentId) - 1) . '?';
-        $query = "DELETE FROM " . $this->tableCollab["newsdeskcomments"] . " WHERE id IN (".$placeholders.")";
+        $query = "DELETE FROM {$this->tableCollab["newsdeskcomments"]} WHERE id IN ($placeholders)";
         $this->db->query($query);
         return $this->db->execute($commentId);
     }
