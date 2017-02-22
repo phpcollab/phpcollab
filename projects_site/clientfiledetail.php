@@ -173,12 +173,20 @@ if ($action == "add") {
     //Insert details into Database
     if ($docopy == "true") {
         $comments = phpCollab\Util::convertData($comments);
-        $tmpquery = "INSERT INTO " . $tableCollab["files"] . "(owner,project,task,comments,upload,published,status,vc_status,vc_parent,phase) VALUES('$idSession','$project','$task','$c','$dateheure','0','2','0','$parent','0')";
-        phpCollab\Util::connectSql("$tmpquery");
-        $tmpquery = $tableCollab["files"];
-        phpCollab\Util::getLastId($tmpquery);
-        $num = $lastId[0];
-        unset($lastId);
+        $tmpquery = "INSERT INTO {$tableCollab["files"]} (owner,project,task,comments,upload,published,status,vc_status,vc_parent,phase) VALUES ()";
+        $dbParams = [];
+        $dbParams["owner"] = $idSession;
+        $dbParams["project"] = $project;
+        $dbParams["task"] = $task;
+        $dbParams["comments"] = $c;
+        $dbParams["upload"] = $dateheure;
+        $dbParams["published"] = 0;
+        $dbParams["status"] = 2;
+        $dbParams["vc_status"] = 0;
+        $dbParams["vc_parent"] = $parent;
+        $dbParams["phase"] = 0;
+        $num = phpCollab\Util::newConnectSql($tmpquery, $dbParams);
+        unset($dbParams);
     }
 
     if ($task != "0") {
