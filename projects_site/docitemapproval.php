@@ -7,8 +7,7 @@ include '../includes/library.php';
 
 if ($action == "update") {
     $commentField = phpCollab\Util::convertData($commentField);
-    $tmpquery1 = "UPDATE " . $tableCollab["files"] . " SET comments_approval='$commentField',date_approval='$dateheure',approver='$idSession',status='$statusField' WHERE id = '$id'";
-    phpCollab\Util::connectSql("$tmpquery1");
+    phpCollab\Util::newConnectSql("UPDATE {$tableCollab["files"]} SET comments_approval=:comments_approval,date_approval=:date_approval,approver=:approver,status=:status WHERE id = :file_id", ["comments_approval" => $commentField,"date_approval" => $dateheure,"approver" => $idSession,"status" => $statusField, "file_id" => $id]);
     $msg = "updateFile";
     phpCollab\Util::headerFunction("doclists.php");
 }
