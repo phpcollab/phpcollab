@@ -66,8 +66,10 @@ if ($action == "update") {
                 }
             }
 
-            $tmpquery = "UPDATE " . $tableCollab["members"] . " SET password='$cnpw' WHERE id = '$idSession'";
-            phpCollab\Util::connectSql("$tmpquery");
+            phpCollab\Util::newConnectSql(
+                "UPDATE {$tableCollab["members"]} SET password = :password WHERE id = :member_id",
+                ["password" => $cnpw, "member_id" => $idSession]
+            );
 
             //if CVS repository enabled
             if ($enable_cvs == "true") {
