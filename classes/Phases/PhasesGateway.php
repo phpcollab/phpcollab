@@ -5,10 +5,15 @@ namespace phpCollab\Phases;
 
 use phpCollab\Database;
 
+/**
+ * Class PhasesGateway
+ * @package phpCollab\Phases
+ */
 class PhasesGateway
 {
     protected $db;
     protected $initrequest;
+    protected $tableCollab;
 
     /**
      * PhasesGateway constructor.
@@ -18,8 +23,14 @@ class PhasesGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
+        $this->tableCollab = $GLOBALS['tableCollab'];
     }
 
+    /**
+     * @param $projectId
+     * @param $phaseNum
+     * @return mixed
+     */
     public function getPhasesByProjectIdAndPhaseOrderNum($projectId, $phaseNum)
     {
         $whereStatement = " WHERE pha.project_id = :project_id AND pha.order_num = :phase_number";
@@ -30,6 +41,10 @@ class PhasesGateway
         return $results;
     }
 
+    /**
+     * @param $phaseId
+     * @return mixed
+     */
     public function getPhaseById($phaseId)
     {
         $whereStatement = " WHERE pha.id = :phase_id";
@@ -37,6 +52,19 @@ class PhasesGateway
         $this->db->bind(':phase_id', $phaseId);
         $results = $this->db->resultset();
         return $results;
+    }
+
+    /**
+     * @param $projectIds
+     * @return mixed
+     */
+    public function deletePhasesByProjectId($projectIds)
+    {
+        $projectIds = explode(',', $projectIds);
+        $placeholders = str_repeat('?, ', count($projectIds) - 1) . '?';
+        $sql = "DELETE FROM {$this->tableCollab['phases']} WHERE project_id IN ($placeholders)";
+        $this->db->query($sql);
+        return $this->db->execute($projectIds);
     }
 
 }
