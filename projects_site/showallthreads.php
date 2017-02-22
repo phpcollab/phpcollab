@@ -20,8 +20,10 @@ if ($action == "delete") {
         ["post_id" => $post]
     );
 
-    $tmpquery2 = "UPDATE " . $tableCollab["topics"] . " SET posts='" . $detailTopic->top_posts[0] . "' WHERE id = '$id'";
-    phpCollab\Util::connectSql("$tmpquery2");
+    phpCollab\Util::newConnectSql(
+        "UPDATE {$tableCollab["topics"]} SET posts=:posts WHERE id = :topic_id",
+        ["posts" => $detailTopic->top_posts[0], "topic_id" => $id]
+    );
     phpCollab\Util::headerFunction("showallthreads.php?id=$id");
 }
 
