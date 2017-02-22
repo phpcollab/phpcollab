@@ -62,7 +62,7 @@ class InvoicesGateway
 
         // Append the status value
         array_push($projectId, $status);
-        $whereStatement = ' WHERE inv.project IN ('.$placeholders.') AND inv.active = 1 AND inv.status = ?';
+        $whereStatement = " WHERE inv.project IN ({$placeholders}) AND inv.active = 1 AND inv.status = ?";
         $this->db->query($this->initrequest["invoices"] . $whereStatement . $this->orderBy($sorting));
         $this->db->execute($projectId);
         return $this->db->fetchAll();
@@ -82,6 +82,10 @@ class InvoicesGateway
         return $this->db->resultset();
     }
 
+    /**
+     * @param $invoiceItemId
+     * @return mixed
+     */
     public function getInvoiceItemById($invoiceItemId)
     {
         $invoice_item_id = filter_var($invoiceItemId, FILTER_VALIDATE_INT);
