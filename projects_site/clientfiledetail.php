@@ -88,12 +88,24 @@ if ($action == "update") {
 
         //Insert a new row for the copied file
         $comments = phpCollab\Util::convertData($comments);
-        $tmpquery = "INSERT INTO " . $tableCollab["files"] . "(owner,project,task,name,date,size,extension,comments,upload,published,status,vc_status,vc_version,vc_parent,phase) VALUES('$idSession','$copy_project','$copy_task','$changename','$copy_date','$copy_size','$copy_extension','$copy_comments','$copy_upload','0','2','3','$copy_vc_version','$copy_id','0')";
-        phpCollab\Util::connectSql("$tmpquery");
-        $tmpquery = $tableCollab["files"];
-        phpCollab\Util::getLastId($tmpquery);
-        $num = $lastId[0];
-        unset($lastId);
+        $tmpquery = "INSERT INTO {$tableCollab["files"]} (owner,project,task,name,date,size,extension,comments,upload,published,status,vc_status,vc_version,vc_parent,phase) VALUES (:owner,:project,:task,:name,:date,:size,:extension,:comments,:upload,:published,:status,:vc_status,:vc_version,:vc_parent,:phase)";
+        $dbParams["owner"] = $idSession;
+        $dbParams["project"] = $copy_project;
+        $dbParams["task"] = $copy_task;
+        $dbParams["name"] = $changename;
+        $dbParams["date"] = $copy_date;
+        $dbParams["size"] = $copy_size;
+        $dbParams["extension"] = $copy_extension;
+        $dbParams["comments"] = $copy_comments;
+        $dbParams["upload"] = $copy_upload;
+        $dbParams["published"] = 0;
+        $dbParams["status"] = 2;
+        $dbParams["vc_status"] = 3;
+        $dbParams["vc_version"] = $copy_vc_version;
+        $dbParams["vc_parent"] = $copy_id;
+        $dbParams["phase"] = 0;
+        $num = phpCollab\Util::newConnectSql($tmpquery, $dbParams);
+        unset($dbParams);
     }
 
     //Insert details into Database
