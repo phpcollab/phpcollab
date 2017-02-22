@@ -28,16 +28,15 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
+$teams = new \phpCollab\Teams\Teams();
+
 if ($action == "publish") {
     if ($addToSiteTeam == "true") {
         $multi = strstr($id, "**");
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
-            $tmpquery1 = "UPDATE " . $tableCollab["teams"] . " SET published='0' WHERE member IN($id) AND project = '$project'";
-        } else {
-            $tmpquery1 = "UPDATE " . $tableCollab["teams"] . " SET published='0' WHERE member = '$id' AND project = '$project'";
         }
-        phpCollab\Util::connectSql("$tmpquery1");
+        $teams->publishToSite($project, $id);
         $msg = "addToSite";
         $id = $project;
     }
@@ -46,12 +45,8 @@ if ($action == "publish") {
         $multi = strstr($id, "**");
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
-            $tmpquery1 = "UPDATE " . $tableCollab["teams"] . " SET published='1' WHERE member IN($id) AND project = '$project'";
-        } else {
-            $tmpquery1 = "UPDATE " . $tableCollab["teams"] . " SET published='1' WHERE member = '$id' AND project = '$project'";
         }
-
-        phpCollab\Util::connectSql("$tmpquery1");
+        $teams->unPublishToSite($project, $id);
         $msg = "removeToSite";
         $id = $project;
     }
