@@ -70,12 +70,19 @@ if ($action == "add") {
 
     if ($docopy == "true") {
         $commentsField = phpCollab\Util::convertData($commentsField);
-        $tmpquery = "INSERT INTO " . $tableCollab["files"] . "(owner,project,task,comments,upload,published,status,vc_version,vc_parent,phase) VALUES('$idSession','$projectSession','0','$commentsField','$dateheure','0','2','0.0','0','0')";
-        phpCollab\Util::connectSql("$tmpquery");
-        $tmpquery = $tableCollab["files"];
-        phpCollab\Util::getLastId($tmpquery);
-        $num = $lastId[0];
-        unset($lastId);
+        $insertFilesSql = "INSERT INTO {$tableCollab["files"]} (owner,project,task,comments,upload,published,status,vc_version,vc_parent,phase) VALUES (:owner,:project,:task,:comments,:upload,:published,:status,:vc_version,:vc_parent,:phase)";
+        $filesData["owner"] = $idSession;
+        $filesData["project"] = $projectSession;
+        $filesData["task"] = 0;
+        $filesData["comments"] = $commentsField;
+        $filesData["upload"] = $dateheure;
+        $filesData["published"] = 0;
+        $filesData["status"] = 2;
+        $filesData["vc_version"] = '0.0';
+        $filesData["vc_parent"] = 0;
+        $filesData["phase"] = 0;
+        $num = phpCollab\Util::newConnectSql($insertFilesSql, $filesData);
+        unset($filesData);
 
         if ($notifications == "true") {
             include '../projects_site/noti_uploadfile.php';
