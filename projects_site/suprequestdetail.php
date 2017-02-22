@@ -37,8 +37,10 @@ if ($requestDetail->sr_project[0] != $projectSession || $requestDetail->sr_user[
         // The support request wasn't found. This can happen if the lastvisited page for a user is for
         // a request that no longer exists. If this happens the user gets stuck in a login loop and can't
         // login.
-        $tmpquery = "UPDATE " . $tableCollab["members"] . " SET last_page='' WHERE login = '{$_SESSION['loginSession']}'";
-        phpCollab\Util::connectSql("$tmpquery");
+        phpCollab\Util::newConnectSql(
+            "UPDATE {$tableCollab["members"]} SET last_page='' WHERE login = :login",
+            ["login" => $_SESSION['loginSession']]
+        );
     }
     phpCollab\Util::headerFunction("index.php");
 }
