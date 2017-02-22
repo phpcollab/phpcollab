@@ -447,8 +447,9 @@ STAMP;
 				phpCollab\Util::newConnectSql(
                     "UPDATE {$tableCollab["tasks"]} SET parent_phase = 0 WHERE id = :task_id",
                     ["task_id" => $listTasks->tas_id[$i]]);
-				$tmpquery = "UPDATE ".$tableCollab["files"]." SET phase='".$targetPhase->pha_id[0]."' WHERE id = '".$listFiles->fil_id[$i]."'";
-				phpCollab\Util::connectSql("$tmpquery");
+				phpCollab\Util::newConnectSql(
+                    "UPDATE {$tableCollab["files"]} SET phase = :phase WHERE id = :file_id",
+                    ["phase" => $targetPhase->pha_id[0], "file_id" => $listFiles->fil_id[$i]]);
 			}
 			
 		}
