@@ -40,6 +40,19 @@ class SupportGateway
     }
 
     /**
+     * @param $projectIds
+     * @return mixed
+     */
+    public function deleteSupportRequestsByProjectId($projectIds)
+    {
+        $projectIds = explode(',', $projectIds);
+        $placeholders = str_repeat ('?, ', count($projectIds)-1) . '?';
+        $sql = "DELETE FROM {$this->tableCollab['support_requests']} WHERE project IN ($placeholders)";
+        $this->db->query($sql);
+        return $this->db->execute($projectIds);
+    }
+
+    /**
      * @param $requestIds
      * @return mixed
      */
@@ -63,6 +76,19 @@ class SupportGateway
         $sql = "DELETE FROM {$this->tableCollab['support_posts']} WHERE id IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($supportPostIds);
+    }
+
+    /**
+     * @param $projectIds
+     * @return mixed
+     */
+    public function deleteSupportPostsByProjectId($projectIds)
+    {
+        $projectIds = explode(',', $projectIds);
+        $placeholders = str_repeat ('?, ', count($projectIds)-1) . '?';
+        $sql = "DELETE FROM {$this->tableCollab['support_posts']} WHERE project IN ($placeholders)";
+        $this->db->query($sql);
+        return $this->db->execute($projectIds);
     }
 
 }
