@@ -41,6 +41,12 @@ class Files
         return $this->files_gateway->getFileById($fileId);
     }
 
+    /**
+     * @param $projectId
+     * @param $phaseId
+     * @param $sorting
+     * @return mixed
+     */
     public function getFilesByProjectAndPhaseWithoutTasksAndParent($projectId, $phaseId, $sorting)
     {
         $projectId = filter_var($projectId, FILTER_VALIDATE_INT);
@@ -117,6 +123,16 @@ class Files
 
         $response = $this->files_gateway->deleteFiles($fileId);
         return $response;
+    }
+
+    /**
+     * @param $projectIds
+     * @return mixed
+     */
+    public function deleteFilesByProjectId($projectIds)
+    {
+        $projectIds = filter_var((string)$projectIds, FILTER_SANITIZE_STRING);
+        return $this->files_gateway->deleteFilesByProjectId($projectIds);
     }
 
 }
