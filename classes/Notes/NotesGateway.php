@@ -66,6 +66,10 @@ class NotesGateway
         return $this->db->resultset();
     }
 
+    /**
+     * @param $noteData
+     * @return string
+     */
     public function insertNote($noteData)
     {
         $sql = "INSERT INTO {$this->tableCollab["notes"]} (project,topic,subject,description,date,owner,published) VALUES (:project,:topic,:subject,:description,:date,:owner,1)";
@@ -79,7 +83,12 @@ class NotesGateway
         $this->db->execute();
         return $this->db->lastInsertId();
     }
-    
+
+    /**
+     * @param $noteId
+     * @param $noteData
+     * @return mixed
+     */
     public function updateNote($noteId, $noteData)
     {
         $sql = "UPDATE {$this->tableCollab["notes"]} SET project=:project,topic=:topic,subject=:subject,description=:description,date=:date,owner=:owner WHERE id = :note_id";
@@ -117,6 +126,20 @@ class NotesGateway
             return $this->db->execute();
         }
     }
+
+    /**
+     * @param $projectIds
+     * @return mixed
+     */
+    public function deletenotesByProjectId($projectIds)
+    {
+        $projectIds = explode(',', $projectIds);
+        $placeholders = str_repeat('?, ', count($projectIds) - 1) . '?';
+        $sql = "DELETE FROM {$this->tableCollab['notes']} WHERE project IN ($placeholders)";
+        $this->db->query($sql);
+        return $this->db->execute($projectIds);
+    }
+
 
     /**
      * @param $noteId
