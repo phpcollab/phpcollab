@@ -79,6 +79,15 @@ class Notes
     }
 
     /**
+     * @param $projectIds
+     * @return mixed
+     */
+    public function deleteNotesByProjectId($projectIds)
+    {
+        return $this->notes_gateway->deleteNotesByProjectId($projectIds);
+    }
+
+    /**
      * @param $noteId
      * @return mixed
      */
