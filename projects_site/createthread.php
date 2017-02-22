@@ -14,8 +14,10 @@ if ($action == "add") {
     );
     phpCollab\Util::autoLinks($messageField);
 
-    $tmpquery2 = "INSERT INTO " . $tableCollab["posts"] . "(topic,member,created,message) VALUES('$num','$idSession','$dateheure','$newText')";
-    phpCollab\Util::connectSql("$tmpquery2");
+    phpCollab\Util::newConnectSql(
+        "INSERT INTO {$tableCollab["posts"]} (topic,member,created,message) VALUES (:topic,:member,:created,:message)",
+        ["topic" => $num, "member" => $idSession, "created" => $dateheure, "message" => $newText]
+    );
 
     if ($notifications == "true") {
         $tmpquery = "WHERE pro.id = '$projectSession'";
