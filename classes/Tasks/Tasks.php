@@ -133,6 +133,15 @@ class Tasks
     }
 
     /**
+     * @param $newAsignee
+     * @param $assignedTo
+     */
+    public function setTasksAssignedToWhereAssignedToIn($newAsignee, $assignedTo)
+    {
+        $this->tasks_gateway->setTasksAssignedToWhereAssignedToIn($newAsignee, $assignedTo);
+    }
+
+    /**
      * @param $ids
      * @return mixed
      */
