@@ -24,6 +24,17 @@ class Assignments
     }
 
     /**
+     * @param $newAssignee
+     * @param $assignedDate
+     * @param $oldAssignee
+     * @return mixed
+     */
+    public function reassignAssignmentByAssignedTo($newAssignee, $assignedDate, $oldAssignee)
+    {
+        return $this->assignments_gateway->reassignAssignmentByAssignedTo($newAssignee, $assignedDate, $oldAssignee);
+    }
+
+    /**
      * @param $assignmentIds
      * @return mixed
      */
