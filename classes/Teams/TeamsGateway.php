@@ -190,7 +190,20 @@ class TeamsGateway
         $sql = "DELETE FROM {$this->tableCollab['teams']} WHERE project IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($projectId);
+    }
 
+    /**
+     * @param $memberId
+     * @return mixed
+     */
+    public function deleteFromTeamsWhereMemberIdIn($memberId)
+    {
+        // Generate placeholders
+        $memberId = explode(',', $memberId);
+        $placeholders = str_repeat('?, ', count($memberId) - 1) . '?';
+        $sql = "DELETE FROM {$this->tableCollab['teams']} WHERE member IN ($placeholders)";
+        $this->db->query($sql);
+        return $this->db->execute($memberId);
     }
 
     /**
