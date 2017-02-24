@@ -10,18 +10,20 @@ $detailOrganization = new phpCollab\Request();
 $detailOrganization->openOrganizations($tmpquery);
 $comptDetailOrganization = count($detailOrganization->org_id);
 
+$members = new \phpCollab\Members\Members();
+$teams = new \phpCollab\Teams\Teams();
+$tasks = new \phpCollab\Tasks\Tasks();
+$assignments = new \phpCollab\Assignments\Assignments();
+$notifications = new \phpCollab\Notifications\Notifications();
+
 if ($action == "delete") {
     $id = str_replace("**", ",", $id);
-    $tmpquery1 = "DELETE FROM " . $tableCollab["members"] . " WHERE id IN($id)";
-    $tmpquery2 = "UPDATE " . $tableCollab["tasks"] . " SET assigned_to='$at' WHERE assigned_to IN($id)";
-    $tmpquery3 = "UPDATE " . $tableCollab["assignments"] . " SET assigned_to='$at',assigned='$dateheure' WHERE assigned_to IN($id)";
-    $tmpquery4 = "DELETE FROM " . $tableCollab["notifications"] . " WHERE member IN($id)";
-    $tmpquery5 = "DELETE FROM " . $tableCollab["teams"] . " WHERE member IN($id)";
-    phpCollab\Util::connectSql("$tmpquery1");
-    phpCollab\Util::connectSql("$tmpquery2");
-    phpCollab\Util::connectSql("$tmpquery3");
-    phpCollab\Util::connectSql("$tmpquery4");
-    phpCollab\Util::connectSql("$tmpquery5");
+    $members->deleteMemberByIdIn($id);
+    $tasks->setTasksAssignedToWhereAssignedToIn($at, $id);
+    $assignments->reassignAssignmentByAssignedTo($at, $dateheure, $id);
+    $notifications->deleteNotificationsByMemberIdIn($id);
+    $teams->deleteTeamWhereMemberIn($id);
+
 //if mantis bug tracker enabled
     if ($enableMantis == "true") {
 // Call mantis function to remove user
