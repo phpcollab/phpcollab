@@ -115,6 +115,19 @@ class MembersGateway
     }
 
     /**
+     * @param $memberId
+     * @return mixed
+     */
+    public function deleteMemberByIdIn($memberId)
+    {
+        $memberId = explode(',', $memberId);
+        $placeholders = str_repeat('?, ', count($memberId) - 1) . '?';
+        $sql = "DELETE FROM {$this->tableCollab['members']} WHERE id IN ($placeholders)";
+        $this->db->query($sql);
+        return $this->db->execute($memberId);
+    }
+
+    /**
      * @param string $sorting
      * @return string
      */
