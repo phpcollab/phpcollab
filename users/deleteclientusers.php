@@ -33,7 +33,7 @@ if ($action == "delete") {
     phpCollab\Util::headerFunction("../clients/viewclient.php?id=$organization&msg=delete");
 }
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -68,7 +68,7 @@ for ($i = 0; $i < $comptListMembers; $i++) {
     echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>" . $listMembers->mem_login[$i] . "&nbsp;(" . $listMembers->mem_name[$i] . ")</td></tr>";
 }
 
-$tmpquery = "SELECT tas.id FROM " . $tableCollab["tasks"] . " tas WHERE tas.assigned_to IN($id)";
+$tmpquery = "SELECT tas.id FROM {$tableCollab["tasks"]} tas WHERE tas.assigned_to IN($id)";
 phpCollab\Util::computeTotal($tmpquery);
 $totalTasks = $countEnregTotal;
 
@@ -96,5 +96,4 @@ echo "</select></td></tr>
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
-?>
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
