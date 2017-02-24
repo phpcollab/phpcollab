@@ -24,4 +24,12 @@ class Notifications
         $this->notifications_gateway = new NotificationsGateway($this->db);
     }
 
+    /**
+     * @param $memberId
+     */
+    public function deleteNotificationsByMemberIdIn($memberId)
+    {
+        $this->notifications_gateway->deleteNotificationsByMemberIdIn($memberId);
+    }
+
 }
