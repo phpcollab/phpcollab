@@ -27,6 +27,29 @@ class AssignmentsGateway
     }
 
     /**
+     * @param $newAssignee
+     * @param $assignedDate
+     * @param $oldAssignee
+     * @return mixed
+     */
+    public function reassignAssignmentByAssignedTo($newAssignee, $assignedDate, $oldAssignee)
+    {
+        // Generate placeholders
+        $placeholders = str_repeat ('?, ', count($oldAssignee)-1) . '?';
+        $sql = "UPDATE {$this->tableCollab["assignments"]} SET assigned_to = ?, assigned = ? WHERE assigned_to IN($placeholders)";
+
+        // Prepend the project id value
+        if (is_array($oldAssignee)) {
+            $data = $newAssignee . ',' . $assignedDate . ',' . implode($oldAssignee);
+        } else {
+            $data = $newAssignee . ',' . $assignedDate . ',' . $oldAssignee;
+        }
+        $this->db->query($sql);
+        $this->db->execute(explode(',', $data));
+        return $this->db->fetchAll();
+    }
+
+    /**
      * @param $assignmentIds
      * @return mixed
      */
