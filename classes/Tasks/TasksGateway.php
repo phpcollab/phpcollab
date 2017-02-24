@@ -159,6 +159,32 @@ class TasksGateway
     }
 
     /**
+     * @param $newAssignee
+     * @param $assignedTo
+     * @return mixed
+     */
+    public function setTasksAssignedToWhereAssignedToIn($newAssignee, $assignedTo)
+    {
+        // Generate placeholders
+        $placeholders = str_repeat ('?, ', count($assignedTo)-1) . '?';
+
+        $sql = "UPDATE {$this->tableCollab["tasks"]} SET assigned_to = ? WHERE assigned_to IN ($placeholders)";
+
+        // Prepend the newAssignee value
+        if (is_array($assignedTo)) {
+            $data = array_unshift($assignedTo, $newAssignee);
+        } else {
+            $data = explode(',', $newAssignee . ',' . $assignedTo);
+        }
+        $this->db->query($sql);
+        $this->db->execute($data);
+        return $this->db->fetchAll();
+
+
+
+    }
+
+    /**
      * @param $taskIds
      * @return mixed
      */
