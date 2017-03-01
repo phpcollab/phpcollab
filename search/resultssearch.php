@@ -1,30 +1,4 @@
 <?php
-/*
-** Application name: phpCollab
-** Last Edit page: 2003-10-23 
-** Path by root: ../search/resultssearch.php
-** Authors: Ceam / Fullo
-**
-** =============================================================================
-**
-**               phpCollab - Project Managment 
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: resultssearch.php
-**
-** DESC: Screen: SEARCH RESULTS
-**
-** HISTORY:
-** 	12/04/2005	-	added the subtask search http://www.php-collab.org/community/viewtopic.php?t=1938
-** -----------------------------------------------------------------------------
-** TO-DO:
-** 
-**
-** =============================================================================
-*/
 
 $checkSession = "true";
 include_once '../includes/library.php';
@@ -32,7 +6,7 @@ include '../includes/customvalues.php';
 
 $setTitle .= " : Search Results";
 $bodyCommand = "onLoad=\"document.searchForm.searchfor.focus()\"";
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $searchFor = urldecode($searchFor);
 $searchfor = phpCollab\Util::convertData($searchfor);
@@ -192,7 +166,6 @@ if ($validProjects == "true") {
     $listProjects = new phpCollab\Request();
     $listProjects->openProjects($tmpquery, $block1->limit, $block1->rowsLimit);
     $comptListProjects = count($listProjects->pro_id);
-    //echo "$tmpquery<br/>";
 }
 
 $block2 = new phpCollab\Block();
@@ -237,14 +210,13 @@ if ($validTasks == "true") {
     $listTasks = new phpCollab\Request();
     $listTasks->openTasks($tmpquery, $block2->limit, $block2->rowsLimit);
     $comptListTasks = count($listTasks->tas_id);
-    //echo "$tmpquery<br/>";
 }
 
 $block9 = new phpCollab\Block();
 $block9->limit = $blockPage->returnLimit("9");
 $block9->rowsLimit = "10";
 $block9->sorting("home_subtasks", $sortingUser->sor_home_subtasks[0], "subtas.name ASC", $sortingFields = array(0 => "subtas.name", 1 => "subtas.priority", 2 => "subtas.status", 3 => "subtas.due_date", 4 => "mem.login", 5 => "subtas.project", 6 => "subtas.published"));
-//$tmpquery = "$searchSubtasks AND pro.id IN($filterResults) ORDER BY $block9->sortingValue";
+
 $tmpquery = "$searchSubtasks ORDER BY $block9->sortingValue";
 
 $comptListSubtasks = "0";
@@ -254,7 +226,6 @@ if ($validSubtasks == "true") {
     $listSubtasks = new phpCollab\Request();
     $listSubtasks->openSubtasks($tmpquery, $block9->limit, $block9->rowsLimit);
     $comptListSubtasks = count($listSubtasks->subtas_id);
-    //echo "$tmpquery<br/>";
 }
 $block3 = new phpCollab\Block();
 
@@ -275,7 +246,6 @@ if ($validMembers == "true") {
     $listMembers = new phpCollab\Request();
     $listMembers->openMembers($tmpquery, $block3->limit, $block3->rowsLimit);
     $comptListMembers = count($listMembers->mem_id);
-    //echo "$tmpquery<br/>";
 }
 
 $block4 = new phpCollab\Block();
@@ -320,7 +290,6 @@ if ($validOrganizations == "true" && $listClients != "false") {
     $listOrganizations = new phpCollab\Request();
     $listOrganizations->openOrganizations($tmpquery, $block4->limit, $block4->rowsLimit);
     $comptListOrganizations = count($listOrganizations->org_id);
-    //echo "$tmpquery<br/>";
 }
 
 $block5 = new phpCollab\Block();
@@ -347,7 +316,6 @@ if ($validTopics == "true") {
     $listTopics = new phpCollab\Request();
     $listTopics->openTopics($tmpquery, $block5->limit, $block5->rowsLimit);
     $comptListTopics = count($listTopics->top_id);
-    //echo "$tmpquery<br/>";
 }
 
 $block6 = new phpCollab\Block();
@@ -381,7 +349,6 @@ if ($validNotes == "true") {
     $listNotes = new phpCollab\Request();
     $listNotes->openNotes($tmpquery, $block6->limit, $block6->rowsLimit);
     $comptListNotes = count($listNotes->note_id);
-    //echo "$tmpquery<br/>";
 }
 
 $comptTotal = $block1->recordsTotal + $block2->recordsTotal + $block3->recordsTotal + $block9->recordsTotal + $block4->recordsTotal + $block5->recordsTotal + $block6->recordsTotal;
@@ -472,12 +439,6 @@ if ($comptListTasks != "0") {
 
     $block2->headingToggle($strings["search_results"] . " : " . $strings["tasks"] . " ($block2->recordsTotal)");
 
-    /*$block2->openPaletteIcon();
-    $block2->paletteIcon(0,"export",$strings["export"]);
-
-
-    $block2->closePaletteIcon();*/
-
     $block2->openResults();
 
     $block2->labels($labels = array(0 => $strings["task"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["due_date"], 4 => $strings["assigned_to"], 5 => $strings["project"], 6 => $strings["published"]), "true");
@@ -518,9 +479,6 @@ if ($comptListTasks != "0") {
     $block2->closeToggle();
     $block2->closeFormResults();
 
-    /*$block2->openPaletteScript();
-    $block2->paletteScript(0,"export","../projects/exportproject.php?languageSession=$languageSession&type=project","false,true,false",$strings["export"]);
-    $block2->closePaletteScript($comptListTasks,$listTasks->tas_id);*/
 }
 
 if ($comptListSubtasks != "0") {
@@ -570,10 +528,6 @@ if ($comptListMembers != "0") {
 
     $block3->headingToggle($strings["search_results"] . " : " . $strings["users"] . " ($block3->recordsTotal)");
 
-    /*$block3->openPaletteIcon();
-    $block3->paletteIcon(0,"export",$strings["export"]);
-    $block3->closePaletteIcon();*/
-
     $block3->openResults();
 
     $block3->labels($labels = array(0 => $strings["full_name"], 1 => $strings["user_name"], 2 => $strings["email"], 3 => $strings["work_phone"], 4 => $strings["connected"]), "false");
@@ -605,9 +559,6 @@ if ($comptListMembers != "0") {
     $block3->closeToggle();
     $block3->closeFormResults();
 
-    /*$block3->openPaletteScript();
-    $block3->paletteScript(0,"export","../projects/exportproject.php?languageSession=$languageSession&type=project","false,true,false",$strings["export"]);
-    $block3->closePaletteScript($comptListMembers,$listMembers->mem_id);*/
 }
 
 if ($comptListOrganizations != "0") {
@@ -615,10 +566,6 @@ if ($comptListOrganizations != "0") {
     $block4->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block4->form . "Anchor");
 
     $block4->headingToggle($strings["search_results"] . " : " . $strings["organizations"] . " ($block4->recordsTotal)");
-
-    /*$block4->openPaletteIcon();
-    $block4->paletteIcon(0,"export",$strings["export"]);
-    $block4->closePaletteIcon();*/
 
     $block4->openResults();
 
@@ -640,9 +587,6 @@ if ($comptListOrganizations != "0") {
     $block4->closeToggle();
     $block4->closeFormResults();
 
-    /*$block4->openPaletteScript();
-    $block4->paletteScript(0,"export","../projects/exportproject.php?languageSession=$languageSession&type=project","false,true,false",$strings["export"]);
-    $block4->closePaletteScript($comptListOrganizations,$listOrganizations->org_id);*/
 }
 
 if ($comptListTopics != "0") {
@@ -650,11 +594,6 @@ if ($comptListTopics != "0") {
     $block5->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block5->form . "Anchor");
 
     $block5->headingToggle($strings["search_results"] . " : " . $strings["discussions"] . " ($block5->recordsTotal)");
-
-    /*$block5->openPaletteIcon();
-    $block5->paletteIcon(0,"export",$strings["export"]);
-
-    $block5->closePaletteIcon();*/
 
     $block5->openResults();
 
@@ -688,9 +627,6 @@ if ($comptListTopics != "0") {
     $block5->closeToggle();
     $block5->closeFormResults();
 
-    /*$block5->openPaletteScript();
-    $block5->paletteScript(0,"export","../projects/exportproject.php?languageSession=$languageSession&type=project","false,true,false",$strings["export"]);
-    $block5->closePaletteScript($comptListTopics,$listTopics->top_id);*/
 }
 
 if ($comptListNotes != "0") {
@@ -698,10 +634,6 @@ if ($comptListNotes != "0") {
     $block6->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block6->form . "Anchor");
 
     $block6->headingToggle($strings["search_results"] . " : " . $strings["notes"] . " ($block6->recordsTotal)");
-
-    /*$block6->openPaletteIcon();
-    $block6->paletteIcon(0,"export",$strings["export"]);
-    $block6->closePaletteIcon();*/
 
     $block6->openResults();
 
@@ -734,9 +666,6 @@ if ($comptListNotes != "0") {
     $block6->closeToggle();
     $block6->closeFormResults();
 
-    /*$block6->openPaletteScript();
-    $block6->paletteScript(0,"export","../projects/exportproject.php?languageSession=$languageSession&type=project","false,true,false",$strings["export"]);
-    $block6->closePaletteScript($comptListNotes,$listNotes->note_id);*/
 }
 
 $block7 = new phpCollab\Block();
@@ -773,5 +702,4 @@ echo "
 $block7->closeContent();
 $block7->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
-?>
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
