@@ -45,13 +45,10 @@ if ($action == "delete") {
     }
 }
 
-//$tmpquery = "WHERE pro.id = '$project'";
-//$projectDetail = new phpCollab\Request();
-//$projectDetail->openProjects($tmpquery);
 $projects = new \phpCollab\Projects\Projects();
 $projectDetail = $projects->getProjectById($project);
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -70,7 +67,7 @@ $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
     include '../includes/messages.php';
-    $blockPage->messageBox($msgLabel);
+    $blockPage->messageBox($GLOBALS["msgLabel"]);
 }
 
 $block1 = new phpCollab\Block();
@@ -101,4 +98,4 @@ HTML;
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
