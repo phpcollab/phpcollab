@@ -44,7 +44,6 @@ if ($action == "update") {
         if ($tbl_check[$i] == "") {
             $tbl_check[$i] = "1";
         }
-        //echo $tbl_check[$i]."<br/>";
         phpCollab\Util::headerFunction("../preferences/updatenotifications.php?msg=update");
     }
 
