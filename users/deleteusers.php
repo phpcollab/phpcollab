@@ -155,15 +155,12 @@ OWNED_TASKS;
     }
 
     echo '<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td><b>' . $strings["reassign_to"] . ' : </b> ';
-    $tmpquery = "WHERE mem.profil != '3' AND mem.id NOT IN($id) ORDER BY mem.name";
-    $reassign = new phpCollab\Request();
-    $reassign->openMembers($tmpquery);
-    $comptReassign = count($reassign->mem_id);
+    $reassignMembersList = $members->getNonClientMembersExcept($id);
     echo '<select name="at">';
     echo '<option value="0" selected>' . $strings["unassigned"] . '</option>';
 
-    for ($i = 0; $i < $comptReassign; $i++) {
-        echo '<option value="' . $reassign->mem_id[$i] . '">' . $reassign->mem_login[$i] . ' / ' . $reassign->mem_name[$i] . '</option>';
+    foreach ($reassignMembersList as $member) {
+        echo '<option value="' . $member["mem_id"] . '">' . $member["mem_login"] . ' / ' . $member["mem_name"] . '</option>';
     }
 
     echo "</select></td></tr>";
