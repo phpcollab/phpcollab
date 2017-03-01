@@ -198,16 +198,13 @@ class TasksGateway
 
         // Prepend the newAssignee value
         if (is_array($assignedTo)) {
-            $data = array_unshift($assignedTo, $newAssignee);
+            array_unshift($assignedTo, $newAssignee);
         } else {
-            $data = explode(',', $newAssignee . ',' . $assignedTo);
+            $assignedTo = explode(',', $newAssignee . ',' . $assignedTo);
         }
         $this->db->query($sql);
-        $this->db->execute($data);
+        $this->db->execute($assignedTo);
         return $this->db->fetchAll();
-
-
-
     }
 
     /**
