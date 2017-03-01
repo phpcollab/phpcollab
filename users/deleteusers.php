@@ -12,44 +12,35 @@ $tasks = new \phpCollab\Tasks\Tasks();
 
 $strings = $GLOBALS["strings"];
 $msgLabel = $GLOBALS["msgLabel"];
+$tableCollab = $GLOBALS["tableCollab"];
 
 if ($_GET["action"] == "delete") {
-    if ($at == "0") {
+    $assignments = new \phpCollab\Assignments\Assignments();
+    $sorting = new \phpCollab\Sorting\Sorting();
+    $notifications = new \phpCollab\Notifications\Notifications();
+    $teams = new \phpCollab\Teams\Teams();
+
+    // Check for assigned to value
+    $assignTo = isset($_POST["assign_to"]) ? $_POST["assign_to"] : 0;
+
+    if ($assignTo == "0") {
         $atProject = "1";
     } else {
-        $atProject = $at;
+        $atProject = $assignTo;
     }
 
-    $id = str_replace("**", ",", $id);
-    $tmpquery1 = "DELETE FROM " . $tableCollab["members"] . " WHERE id IN($id)";
-    $tmpquery2 = "UPDATE " . $tableCollab["projects"] . " SET owner='$atProject' WHERE owner IN($id)";
-    $tmpquery3 = "UPDATE " . $tableCollab["tasks"] . " SET assigned_to='$at' WHERE assigned_to IN($id)";
-    $tmpquery4 = "UPDATE " . $tableCollab["assignments"] . " SET assigned_to='$at',assigned='$dateheure' WHERE assigned_to IN($id)";
-    $tmpquery5 = "DELETE FROM " . $tableCollab["sorting"] . " WHERE member IN($id)";
-    $tmpquery6 = "DELETE FROM " . $tableCollab["notifications"] . " WHERE member IN($id)";
-    $tmpquery7 = "DELETE FROM " . $tableCollab["teams"] . " WHERE member IN($id)";
+    $id = str_replace("**", ",", $_POST["id"]);
 
-    $tmpquery = "WHERE pro.owner IN($id)";
-    $listProjects = new phpCollab\Request();
-    $listProjects->openProjects($tmpquery);
-    $comptListProjects = count($listProjects->pro_id);
-    for ($i = 0; $i < $comptListProjects; $i++) {
-        $listTeams->tea_id = "";
-        $listTeams->tea_project = "";
-        $listTeams->tea_member = "";
-        $listTeams->tea_published = "";
-        $listTeams->tea_authorized = "";
-        $listTeams->tea_mem_login = "";
-        $listTeams->tea_pro_id = "";
+    $listProjects = $projects->getProjectsByOwner($id);
 
-        $tmpquery = "WHERE tea.project = '" . $listProjects->pro_id[$i] . "' AND tea.member = '$atProject'";
-        $listTeams = new phpCollab\Request();
-        $listTeams->openTeams($tmpquery);
-        $comptListTeams = count($listTeams->tea_id);
+    foreach ($listProjects as $project) {
+        $listTeams = $teams->getTeamByProjectIdAndTeamMember($project["pro_id"], $atProject);
+        $comptListTeams = count($listTeams);
         if ($comptListTeams == "0") {
-            $tmpquery = "INSERT INTO " . $tableCollab["teams"] . "(project,member,published,authorized) VALUES('" . $listProjects->pro_id[$i] . "','$atProject','1','0')";
-
-            phpCollab\Util::connectSql("$tmpquery");
+            phpCollab\Util::newConnectSql(
+                "INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES (:project, :member, 1, 0)",
+                ["project" => $project[""],"member" => $atProject]
+            );
         }
     }
 
@@ -57,32 +48,33 @@ if ($_GET["action"] == "delete") {
     if ($enable_cvs == "true") {
         $pieces = explode(",", $id);
         for ($j = 0; $j < (count($pieces)); $j++) {
-
-//remove the users from every repository
-            $listTeams->tea_id = "";
-            $listTeams->tea_project = "";
-            $listTeams->tea_member = "";
-            $listTeams->tea_published = "";
-            $listTeams->tea_authorized = "";
-            $listTeams->tea_mem_login = "";
-            $listTeams->tea_pro_id = "";
-
-            $tmpquery = "WHERE tea.member = '$pieces[$j]'";
-            $listTeams = new phpCollab\Request();
-            $listTeams->openTeams($tmpquery);
-            $comptListTeams = count($listTeams->tea_id);
-            for ($i = 0; $i < $comptListTeams; $i++) {
-                cvs_delete_user($listTeams->tea_mem_login[$i], $listTeams->tea_pro_id[$i]);
+            $listTeams = $teams->getTeamByMemberId($pieces[$j]);
+            foreach ($listTeams as $team) {
+                cvs_delete_user($team["tea_mem_login"], $team["tea_pro_id"]);
             }
         }
     }
-    phpCollab\Util::connectSql("$tmpquery1");
-    phpCollab\Util::connectSql("$tmpquery2");
-    phpCollab\Util::connectSql("$tmpquery3");
-    phpCollab\Util::connectSql("$tmpquery4");
-    phpCollab\Util::connectSql("$tmpquery5");
-    phpCollab\Util::connectSql("$tmpquery6");
-    phpCollab\Util::connectSql("$tmpquery7");
+
+    // Delete user from members table
+    $members->deleteMemberByIdIn($id);
+
+    // Reassign projects to new owner
+    $projects->reassignProject($id, $atProject);
+
+    // Reassign tasks to new owner
+    $tasks->reassignTasks($id, $assignTo);
+
+    // Reassign assignments to new owner
+    $assignments->reassignAssignmentByAssignedTo($assignTo, $dateheure, $id);
+
+    // Remove user form sorting table
+    $sorting->deleteByMember($id);
+
+    // Remove user notifications
+    $notifications->deleteNotificationsByMemberIdIn($id);
+
+    // Remove user from teams
+    $teams->deleteTeamWhereMemberIn($id);
 //if mantis bug tracker enabled
     if ($enableMantis == "true") {
 // Call mantis function to remove user
@@ -156,7 +148,7 @@ OWNED_TASKS;
 
     echo '<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td><b>' . $strings["reassign_to"] . ' : </b> ';
     $reassignMembersList = $members->getNonClientMembersExcept($id);
-    echo '<select name="at">';
+    echo '<select name="assign_to">';
     echo '<option value="0" selected>' . $strings["unassigned"] . '</option>';
 
     foreach ($reassignMembersList as $member) {
