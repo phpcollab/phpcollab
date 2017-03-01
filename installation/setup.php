@@ -318,7 +318,6 @@ STAMP;
 
             for ($con = 0; $con < count($SQL); $con++) {
                 mysql_query($SQL[$con]);
-                //echo $SQL[$con] . ';<br/>';
                 if (mysql_errno() != 0) {
                     exit('<br/><b>PANIC! <br/> Error during the creation of the tables.</b><br/> Error: ' . mysql_error());
                 }
@@ -333,7 +332,6 @@ STAMP;
 
             for ($con = 0; $con < count($SQL); $con++) {
                 pg_query($SQL[$con]);
-                //echo $SQL[$con] . ';<br/>';
                 if (pg_last_error() != 0) {
                     exit('<br/><b>PANIC! <br/> Error during the creation of the tables.</b><br/> Error: ' . pg_last_error());
                 }
@@ -354,7 +352,6 @@ STAMP;
 
             for ($con = 0; $con < count($SQL); $con++) {
                 mssql_query($SQL[$con]);
-                //echo $SQL[$con] . '<br/>';
                 if (mssql_get_last_message() != 0) {
                     exit('<br/><b>PANIC! <br/> Error during the creation of the tables.</b><br/> Error: ' . mssql_get_last_message());
                 }
