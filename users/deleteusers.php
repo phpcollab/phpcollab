@@ -10,7 +10,10 @@ $members = new \phpCollab\Members\Members();
 $projects = new \phpCollab\Projects\Projects();
 $tasks = new \phpCollab\Tasks\Tasks();
 
-if ($action == "delete") {
+$strings = $GLOBALS["strings"];
+$msgLabel = $GLOBALS["msgLabel"];
+
+if ($_GET["action"] == "delete") {
     if ($at == "0") {
         $atProject = "1";
     } else {
@@ -113,7 +116,7 @@ $block1->heading($strings["delete_users"]);
 $block1->openContent();
 $block1->contentTitle($strings["delete_following"]);
 
-$id = str_replace("**", ",", $id);
+$id = str_replace("**", ",", $_GET["id"]);
 $listMembers = $members->getMembersByIdIn($id);
 
 foreach ($listMembers as $member) {
@@ -126,7 +129,7 @@ ROW;
 
 }
 
-$listProjects = count($projects->getProjectsByOwner($id));
+$totalProjects = count($projects->getProjectsByOwner($id));
 
 $totalTasks = count($tasks->getTasksAssignedTo($id));
 
