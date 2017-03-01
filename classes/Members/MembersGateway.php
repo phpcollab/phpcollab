@@ -85,7 +85,22 @@ class MembersGateway
         $placeholders = str_repeat ('?, ', count($memberIds)-1) . '?';
         $whereStatement = "WHERE mem.id IN ($placeholders)";
         $this->db->query($this->initrequest["members"] . ' ' . $whereStatement);
-        return $this->db->execute($memberIds);
+        $this->db->execute($memberIds);
+        return $this->db->fetchAll();
+    }
+
+    /**
+     * @param $memberIds
+     * @return mixed
+     */
+    public function getNonClientMembersNotIn($memberIds)
+    {
+        $memberIds = explode(',', $memberIds);
+        $placeholders = str_repeat ('?, ', count($memberIds)-1) . '?';
+        $whereStatement = "WHERE mem.profil != '3' AND mem.id NOT IN($placeholders) " . $this->orderBy('mem.name'); //ORDER BY mem.name";
+        $this->db->query($this->initrequest["members"] . ' ' . $whereStatement);
+        $this->db->execute($memberIds);
+        return $this->db->fetchAll();
     }
 
     /**
