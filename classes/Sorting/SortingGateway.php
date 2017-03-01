@@ -46,13 +46,6 @@ class SortingGateway
      */
     public function updateSortingValues($ownerId)
     {
-//        $sql = "UPDATE sorting SET $sor_cible='$sor_champs $sor_ordre' WHERE member = '$idSession'";
-//
-//        $this->db->query($this->initrequest["sorting"] . $whereStatement);
-//
-//        $this->db->bind(':owner_id', $ownerId);
-//
-//        return $this->db->resultset();
     }
 
     /**
