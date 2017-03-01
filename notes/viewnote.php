@@ -74,7 +74,7 @@ $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
     include '../includes/messages.php';
-    $blockPage->messageBox($msgLabel);
+    $blockPage->messageBox($GLOBALS["msgLabel"]);
 }
 
 $block1 = new phpCollab\Block();
@@ -85,7 +85,6 @@ $block1->heading($strings["note"] . " : " . $noteDetail["note_subject"]);
 if ($teamMember == "true" && $idSession == $noteDetail["note_owner"]) {
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "remove", $strings["delete"]);
-    //$block1->paletteIcon(1,"export",$strings["export"]);
     if ($sitePublish == "true") {
         $block1->paletteIcon(2, "add_projectsite", $strings["add_project_site"]);
         $block1->paletteIcon(3, "remove_projectsite", $strings["remove_project_site"]);
@@ -123,7 +122,6 @@ $block1->closeForm();
 if ($teamMember == "true" && $idSession == $noteDetail["note_owner"]) {
     $block1->openPaletteScript();
     $block1->paletteScript(0, "remove", "../notes/deletenotes.php?project=" . $noteDetail["note_project"] . "&id=" . $noteDetail["note_id"] . "", "true,true,false", $strings["delete"]);
-    //$block1->paletteScript(1,"export","export.php?","true,true,false",$strings["export"]);
     if ($sitePublish == "true") {
         $block1->paletteScript(2, "add_projectsite", "../notes/viewnote.php?addToSite=true&id=" . $noteDetail["note_id"] . "&action=publish", "true,true,true", $strings["add_project_site"]);
         $block1->paletteScript(3, "remove_projectsite", "../notes/viewnote.php?removeToSite=true&id=" . $noteDetail["note_id"] . "&action=publish", "true,true,true", $strings["remove_project_site"]);
