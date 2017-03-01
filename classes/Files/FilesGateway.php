@@ -208,6 +208,20 @@ class FilesGateway
      * @param $fileIds
      * @return mixed
      */
+    public function unPublishFilesByIdOrInVcParent($fileIds)
+    {
+        $fileIds = explode(',', $fileIds);
+        $placeholders = str_repeat('?, ', count($fileIds) - 1) . '?';
+        $placeholders2 = $placeholders;
+        $sql = "UPDATE {$this->tableCollab['files']} SET published = 0 WHERE id IN ($placeholders) OR vc_parent IN ($placeholders2)";
+        $this->db->query($sql);
+        return $this->db->execute([$fileIds, $fileIds]);
+    }
+
+    /**
+     * @param $fileIds
+     * @return mixed
+     */
     public function unPublishFiles($fileIds)
     {
         if (strpos($fileIds, ',')) {
