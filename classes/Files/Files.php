@@ -85,6 +85,16 @@ class Files
      * @param $filesId
      * @return mixed
      */
+    public function publishFileByIdOrVcParent($filesId)
+    {
+        $filesId = filter_var($filesId, FILTER_SANITIZE_STRING);
+        return $this->files_gateway->publishFilesByIdOrInVcParent($filesId);
+    }
+
+    /**
+     * @param $filesId
+     * @return mixed
+     */
     public function unPublishFile($filesId)
     {
         $filesId = filter_var($filesId, FILTER_SANITIZE_STRING);
