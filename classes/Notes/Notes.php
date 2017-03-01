@@ -48,6 +48,16 @@ class Notes
     }
 
     /**
+     * @param $memberId
+     * @return mixed
+     */
+    public function getMyNotesWhereProjectIsNotCompletedOrSuspended($memberId)
+    {
+        $memberId = filter_var($memberId, FILTER_VALIDATE_INT);
+        return $this->notes_gateway->getMyNotesWhereProjectIsNotCompletedOrSuspended($memberId);
+    }
+
+    /**
      * @param $noteData
      * @return string
      */
