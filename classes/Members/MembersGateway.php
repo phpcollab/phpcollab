@@ -83,7 +83,7 @@ class MembersGateway
     {
         $memberIds = explode(',', $memberIds);
         $placeholders = str_repeat ('?, ', count($memberIds)-1) . '?';
-        $whereStatement = "WHERE id IN ($placeholders)";
+        $whereStatement = "WHERE mem.id IN ($placeholders)";
         $this->db->query($this->initrequest["members"] . ' ' . $whereStatement);
         return $this->db->execute($memberIds);
     }
