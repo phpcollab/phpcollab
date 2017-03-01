@@ -49,6 +49,17 @@ class Members
      * @param $memberIds
      * @return mixed
      */
+    public function getNonClientMembersExcept($memberIds)
+    {
+        $memberIds = filter_var($memberIds, FILTER_SANITIZE_STRING);
+        return $this->members_gateway->getNonClientMembersNotIn($memberIds);
+
+    }
+
+    /**
+     * @param $memberIds
+     * @return mixed
+     */
     public function getMembersByIdIn($memberIds) {
         $memberIds = filter_var($memberIds, FILTER_SANITIZE_STRING);
         return $this->members_gateway->getMembersIn($memberIds);
