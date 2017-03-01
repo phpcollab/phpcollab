@@ -1,7 +1,4 @@
 <?php
-#Application name: PhpCollab
-#Status page: 0
-#Path by root: ../users/deleteusers.php
 
 $checkSession = "true";
 include_once '../includes/library.php';
@@ -10,6 +7,8 @@ include_once '../includes/library.php';
 include '../includes/cvslib.php';
 
 $members = new \phpCollab\Members\Members();
+$projects = new \phpCollab\Projects\Projects();
+$tasks = new \phpCollab\Tasks\Tasks();
 
 if ($action == "delete") {
     if ($at == "0") {
@@ -127,35 +126,52 @@ ROW;
 
 }
 
-$tmpquery = "SELECT pro.id FROM " . $tableCollab["projects"] . " pro WHERE pro.owner IN($id)";
-phpCollab\Util::computeTotal($tmpquery);
-$totalProjects = $countEnregTotal;
+$listProjects = count($projects->getProjectsByOwner($id));
 
-$tmpquery = "SELECT tas.id FROM " . $tableCollab["tasks"] . " tas WHERE tas.assigned_to IN($id)";
-phpCollab\Util::computeTotal($tmpquery);
+$totalTasks = count($tasks->getTasksAssignedTo($id));
 
-$totalTasks = $countEnregTotal;
+// Only show if there are projects or tasks assigned to the user(s)
+if ($totalProjects || $totalTasks) {
+    $block1->contentTitle($strings["reassignment_user"]);
 
-$block1->contentTitle($strings["reassignment_user"]);
+    if ($totalProjects) {
+        echo <<<OWNED_PROJECTS
+    <tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td>{$strings["there"]} {$totalProjects} {$strings["projects"]} {$strings["owned_by"]}</td></tr>
+OWNED_PROJECTS;
 
-echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td>" . $strings["there"] . " $totalProjects " . $strings["projects"] . " " . $strings["owned_by"] . "</td></tr>
-<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td>" . $strings["there"] . " $totalTasks " . $strings["tasks"] . " " . $strings["owned_by"] . "</td></tr>
-<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td><b>" . $strings["reassign_to"] . " : </b> ";
+    }
+    
+    if ($totalTasks) {
+        echo <<<OWNED_TASKS
+    <tr class="odd">
+        <td valign="top" class="leftvalue">&nbsp;</td>
+        <td>{$strings["there"]} {$totalTasks} {$strings["tasks"]} {$strings["owned_by"]}</td>
+    </tr>
+OWNED_TASKS;
 
-$tmpquery = "WHERE mem.profil != '3' AND mem.id NOT IN($id) ORDER BY mem.name";
-$reassign = new phpCollab\Request();
-$reassign->openMembers($tmpquery);
-$comptReassign = count($reassign->mem_id);
+    }
 
-echo "<select name=\"at\">
-<option value=\"0\" selected>" . $strings["unassigned"] . "</option>";
+    echo '<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td><b>' . $strings["reassign_to"] . ' : </b> ';
+    $tmpquery = "WHERE mem.profil != '3' AND mem.id NOT IN($id) ORDER BY mem.name";
+    $reassign = new phpCollab\Request();
+    $reassign->openMembers($tmpquery);
+    $comptReassign = count($reassign->mem_id);
+    echo '<select name="at">';
+    echo '<option value="0" selected>' . $strings["unassigned"] . '</option>';
 
-for ($i = 0; $i < $comptReassign; $i++) {
-    echo "<option value=\"" . $reassign->mem_id[$i] . "\">" . $reassign->mem_login[$i] . " / " . $reassign->mem_name[$i] . "</option>";
+    for ($i = 0; $i < $comptReassign; $i++) {
+        echo '<option value="' . $reassign->mem_id[$i] . '">' . $reassign->mem_login[$i] . ' / ' . $reassign->mem_name[$i] . '</option>';
+    }
+
+    echo "</select></td></tr>";
 }
 
-echo "</select></td></tr>
-<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td><input type=\"submit\" name=\"delete\" value=\"" . $strings["delete"] . "\"> <input type=\"button\" name=\"cancel\" value=\"" . $strings["cancel"] . "\" onClick=\"history.back();\"><input type=\"hidden\" value=\"$id\" name=\"id\"></td></tr>";
+echo <<<FORM_BUTTONS
+<tr class="odd">
+    <td valign="top" class="leftvalue">&nbsp;</td>
+    <td><input type="submit" name="delete" value="{$strings["delete"]}"> <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();"><input type="hidden" value="{$id}" name="id"></td>
+</tr>
+FORM_BUTTONS;
 
 $block1->closeContent();
 $block1->closeForm();
