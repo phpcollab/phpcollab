@@ -280,6 +280,26 @@ class TasksGateway
     }
 
     /**
+     * @param $oldOwner
+     * @param $newOwner
+     * @return mixed
+     */
+    public function reassignTasks($oldOwner, $newOwner)
+    {
+        $data = explode(',', $oldOwner);
+        $placeholders = str_repeat('?, ', count($data) - 1) . '?';
+        $sql = "UPDATE {$this->tableCollab["tasks"]} SET assigned_to = ? WHERE assigned_to IN($placeholders)";
+        // Place newOwner at the beginning of array
+        if (is_array($data)) {
+            array_unshift($data, $newOwner);
+        } else {
+            $data = explode(',', $newOwner . ',' . $oldOwner);
+        }
+        $this->db->query($sql);
+        return $this->db->execute($data);
+    }
+
+    /**
      * @param $taskIds
      * @return mixed
      */
