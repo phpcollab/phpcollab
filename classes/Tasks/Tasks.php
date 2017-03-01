@@ -62,6 +62,16 @@ class Tasks
     }
 
     /**
+     * @param $assignedTo
+     * @return mixed
+     */
+    public function getTasksAssignedTo($assignedTo)
+    {
+        $assignedTo = filter_var($assignedTo, FILTER_SANITIZE_STRING);
+        return $this->tasks_gateway->getTasksAssignedTo($assignedTo);
+    }
+
+    /**
      * @param $taskIds
      * @return mixed
      */
