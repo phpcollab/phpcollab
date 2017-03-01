@@ -76,6 +76,19 @@ class MembersGateway
     }
 
     /**
+     * @param $memberIds
+     * @return mixed
+     */
+    public function getMembersIn($memberIds)
+    {
+        $memberIds = explode(',', $memberIds);
+        $placeholders = str_repeat ('?, ', count($memberIds)-1) . '?';
+        $whereStatement = "WHERE id IN ($placeholders)";
+        $this->db->query($this->initrequest["members"] . ' ' . $whereStatement);
+        return $this->db->execute($memberIds);
+    }
+
+    /**
      * @param $orgId
      * @param null $sorting
      * @return mixed
