@@ -316,12 +316,14 @@ STAMP;
                 exit('<br/><b>PANIC! <br/> Error during selection database.</b><br/>');
             }
 
-            for ($con = 0; $con < count($SQL); $con++) {
+            $countSql = count($SQL);
+            for ($con = 0; $con < $countSql; $con++) {
                 mysql_query($SQL[$con]);
                 if (mysql_errno() != 0) {
                     exit('<br/><b>PANIC! <br/> Error during the creation of the tables.</b><br/> Error: ' . mysql_error());
                 }
             }
+            unset($countSql);
         }
 
         if ($databaseType == "postgresql") {
@@ -330,12 +332,14 @@ STAMP;
                 exit('<br/><b>PANIC! <br/> Error during connection on server PostgreSQL.</b><br/>');
             }
 
-            for ($con = 0; $con < count($SQL); $con++) {
+            $countSql = count($SQL);
+            for ($con = 0; $con < $countSql; $con++) {
                 pg_query($SQL[$con]);
                 if (pg_last_error() != 0) {
                     exit('<br/><b>PANIC! <br/> Error during the creation of the tables.</b><br/> Error: ' . pg_last_error());
                 }
             }
+            unset($countSql);
         }
 
         if ($databaseType == "sqlserver") {
@@ -350,12 +354,14 @@ STAMP;
                 exit('<br/><b>PANIC! <br/> Error during selection database.</b><br/>');
             }
 
-            for ($con = 0; $con < count($SQL); $con++) {
+            $countSql = count($SQL);
+            for ($con = 0; $con < $countSql; $con++) {
                 mssql_query($SQL[$con]);
                 if (mssql_get_last_message() != 0) {
                     exit('<br/><b>PANIC! <br/> Error during the creation of the tables.</b><br/> Error: ' . mssql_get_last_message());
                 }
             }
+            unset($countSql);
         }
         $msg .= "<br/>Tables and settings file created correctly.";
         $msg .= "<br/><br/><a href='../general/login.php'>Please log in</a>";
