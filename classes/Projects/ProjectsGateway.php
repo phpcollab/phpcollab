@@ -35,11 +35,12 @@ class ProjectsGateway
      */
     public function getAllByOwner($ownerId, $sorting = null)
     {
-        $this->db->query($this->initrequest['teams'] . ' WHERE tea.member = :owner_id AND pro.status IN(2,3) ' . $this->orderBy($sorting));
-
-        $this->db->bind(':owner_id', $ownerId);
-
-        return $this->db->resultset();
+        $ids = explode(',', $ownerId);
+        $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
+        $whereStatement = " WHERE pro.owner IN($placeholders) ";
+        $this->db->query($this->initrequest["projects"] . $whereStatement . $this->orderBy($sorting));
+        $this->db->execute($ids);
+        return $this->db->fetchAll();
     }
 
     /**
