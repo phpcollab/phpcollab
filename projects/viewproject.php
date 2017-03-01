@@ -32,6 +32,12 @@ $checkSession = "true";
 include_once '../includes/library.php';
 include '../includes/customvalues.php';
 
+$topics = new \phpCollab\Topics\Topics();
+$tasks = new \phpCollab\Tasks\Tasks();
+$teams = new \phpCollab\Teams\Teams();
+$files = new \phpCollab\Files\Files();
+$notes = new \phpCollab\Notes\Notes();
+
 $id = phpCollab\Util::returnGlobal('id', 'REQUEST');
 $project = phpCollab\Util::returnGlobal('project', 'REQUEST');
 $action = phpCollab\Util::returnGlobal('action', 'GET');
@@ -44,15 +50,14 @@ if ($action == "publish") {
 
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
-            $tmpquery1 = "UPDATE " . $tableCollab["topics"] . " SET status='0' WHERE id IN($id)";
             $pieces = explode(",", $id);
             $num = count($pieces);
         } else {
-            $tmpquery1 = "UPDATE " . $tableCollab["topics"] . " SET status='0' WHERE id = '" . phpCollab\Util::fixInt($id) . "'";
             $num = "1";
         }
 
-        phpCollab\Util::connectSql("$tmpquery1");
+        $topics->closeTopic($id);
+
         $msg = "closeTopic";
         $id = $project;
     }
@@ -64,12 +69,9 @@ if ($action == "publish") {
 
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
-            $tmpquery1 = "UPDATE " . $tableCollab["tasks"] . " SET published='0' WHERE id IN($id)";
-        } else {
-            $tmpquery1 = "UPDATE " . $tableCollab["tasks"] . " SET published='0' WHERE id = '" . phpCollab\Util::fixInt($id) . "'";
         }
 
-        phpCollab\Util::connectSql("$tmpquery1");
+        $tasks->publishTasks($id);
         $msg = "addToSite";
         $id = $project;
     }
@@ -81,12 +83,9 @@ if ($action == "publish") {
 
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
-            $tmpquery1 = "UPDATE " . $tableCollab["tasks"] . " SET published='1' WHERE id IN($id)";
-        } else {
-            $tmpquery1 = "UPDATE " . $tableCollab["tasks"] . " SET published='1' WHERE id = '" . phpCollab\Util::fixInt($id) . "'";
         }
 
-        phpCollab\Util::connectSql("$tmpquery1");
+        $tasks->unPublishTasks($id);
         $msg = "removeToSite";
         $id = $project;
     }
@@ -98,12 +97,9 @@ if ($action == "publish") {
 
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
-            $tmpquery1 = "UPDATE " . $tableCollab["topics"] . " SET published='0' WHERE id IN($id)";
-        } else {
-            $tmpquery1 = "UPDATE " . $tableCollab["topics"] . " SET published='0' WHERE id = '" . phpCollab\Util::fixInt($id) . "'";
         }
 
-        phpCollab\Util::connectSql("$tmpquery1");
+        $topics->publishTopic($id);
         $msg = "addToSite";
         $id = $project;
     }
@@ -114,12 +110,9 @@ if ($action == "publish") {
 
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
-            $tmpquery1 = "UPDATE " . $tableCollab["topics"] . " SET published='1' WHERE id IN($id)";
-        } else {
-            $tmpquery1 = "UPDATE " . $tableCollab["topics"] . " SET published='1' WHERE id = '" . phpCollab\Util::fixInt($id) . "'";
         }
+        $topics->unPublishTopic($id);
 
-        phpCollab\Util::connectSql("$tmpquery1");
         $msg = "removeToSite";
         $id = $project;
     }
@@ -130,12 +123,9 @@ if ($action == "publish") {
 
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
-            $tmpquery1 = "UPDATE " . $tableCollab["teams"] . " SET published='0' WHERE member IN($id) AND project = '$project'";
-        } else {
-            $tmpquery1 = "UPDATE " . $tableCollab["teams"] . " SET published='0' WHERE member = '$id' AND project = '$project'";
         }
 
-        phpCollab\Util::connectSql("$tmpquery1");
+        $teams->publishToSite($project, $id);
         $msg = "addToSite";
         $id = $project;
     }
@@ -146,12 +136,9 @@ if ($action == "publish") {
 
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
-            $tmpquery1 = "UPDATE " . $tableCollab["teams"] . " SET published='1' WHERE member IN($id) AND project = '$project'";
-        } else {
-            $tmpquery1 = "UPDATE " . $tableCollab["teams"] . " SET published='1' WHERE member = '$id' AND project = '$project'";
         }
 
-        phpCollab\Util::connectSql("$tmpquery1");
+        $teams->unPublishToSite($project, $id);
         $msg = "removeToSite";
         $id = $project;
     }
@@ -160,8 +147,7 @@ if ($action == "publish") {
 
     if ($addToSiteFile == "true") {
         $id = str_replace("**", ",", $id);
-        $tmpquery1 = "UPDATE " . $tableCollab["files"] . " SET published='0' WHERE id IN($id) OR vc_parent IN ($id)";
-        phpCollab\Util::connectSql("$tmpquery1");
+        $files->publishFileByIdOrVcParent($id);
         $msg = "addToSite";
         $id = $project;
     }
@@ -170,8 +156,7 @@ if ($action == "publish") {
 
     if ($removeToSiteFile == "true") {
         $id = str_replace("**", ",", $id);
-        $tmpquery1 = "UPDATE " . $tableCollab["files"] . " SET published='1' WHERE id IN($id) OR vc_parent IN ($id)";
-        phpCollab\Util::connectSql("$tmpquery1");
+        $files->unPublishFileByIdOrVcParent($id);
         $msg = "removeToSite";
         $id = $project;
     }
@@ -182,12 +167,9 @@ if ($action == "publish") {
         $multi = strstr($id, "**");
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
-            $tmpquery1 = "UPDATE " . $tableCollab["notes"] . " SET published='0' WHERE id IN($id)";
-        } else {
-            $tmpquery1 = "UPDATE " . $tableCollab["notes"] . " SET published='0' WHERE id = '" . phpCollab\Util::fixInt($id) . "'";
         }
 
-        phpCollab\Util::connectSql("$tmpquery1");
+        $notes->publishToSite($id);
         $msg = "addToSite";
         $id = $project;
     }
@@ -198,12 +180,9 @@ if ($action == "publish") {
 
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
-            $tmpquery1 = "UPDATE " . $tableCollab["notes"] . " SET published='1' WHERE id IN($id)";
-        } else {
-            $tmpquery1 = "UPDATE " . $tableCollab["notes"] . " SET published='1' WHERE id = '" . phpCollab\Util::fixInt($id) . "'";
         }
 
-        phpCollab\Util::connectSql("$tmpquery1");
+        $notes->unPublishFromSite($id);
         $msg = "removeToSite";
         $id = $project;
     }
