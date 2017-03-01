@@ -71,8 +71,23 @@ if ($id != "") {
                 $fax = phpCollab\Util::convertData($fax);
                 $last_page = phpCollab\Util::convertData($last_page);
 
-                $tmpquery = "UPDATE " . $tableCollab["members"] . " SET login='$un',name='$fn',title='$tit',email_work='$em',phone_work='$wp',phone_home='$hp',mobile='$mp',fax='$fax',comments='$c',profil='$perm',last_page='$last_page' WHERE id = '$id'";
-                phpCollab\Util::connectSql("$tmpquery");
+                $tmpquery = "UPDATE " . $tableCollab["members"] . " SET login=:login,name=:name,title=:title,email_work=:email_work,phone_work=:phone_work,phone_home=:phone_home,mobile=:mobile,fax=:fax,comments=:comments,profil=:profil,last_page=:last_page WHERE id = :id";
+                $dbParams = [];
+                $dbParams["login"] = $un;
+                $dbParams["name"] = $fn;
+                $dbParams["title"] = $tit;
+                $dbParams["email_work"] = $em;
+                $dbParams["phone_work"] = $wp;
+                $dbParams["phone_home"] = $hp;
+                $dbParams["mobile"] = $mp;
+                $dbParams["fax"] = $fax;
+                $dbParams["comments"] = $c;
+                $dbParams["profil"] = $perm;
+                $dbParams["last_page"] = $last_page;
+                $dbParams["id"] = $id;
+
+                phpCollab\Util::newConnectSql($tmpquery, $dbParams);
+                unset($dbParams);
 
                 if ($htaccessAuth == "true") {
                     if ($un != $unOld) {
@@ -114,8 +129,8 @@ if ($id != "") {
                                 }
                             }
                         }
-                        $tmpquery = "UPDATE " . $tableCollab["members"] . " SET password='$pw' WHERE id = '$id'";
-                        phpCollab\Util::connectSql("$tmpquery");
+
+                        phpCollab\Util::newConnectSql("UPDATE {$tableCollab["members"]} SET password=:password WHERE id = :id", ["password" => $pw, "id" => $id]);
 //if mantis bug tracker enabled
                         if ($enableMantis == "true") {
 // Call mantis function for user changes..!!!
@@ -210,16 +225,32 @@ if ($id == "") {
                     $tit = phpCollab\Util::convertData($tit);
                     $c = phpCollab\Util::convertData($c);
                     $pw = phpCollab\Util::getPassword($pw);
-                    $tmpquery1 = "INSERT INTO " . $tableCollab["members"] . "(login,name,title,email_work,phone_work,phone_home,mobile,fax,comments,password,profil,created,organization,timezone) VALUES('$un','$fn','$tit','$em','$wp','$hp','$mp','$fax','$c','$pw','$perm','$dateheure','1','0')";
-                    phpCollab\Util::connectSql("$tmpquery1");
-                    $tmpquery = $tableCollab["members"];
-                    phpCollab\Util::getLastId($tmpquery);
-                    $num = $lastId[0];
-                    unset($lastId);
-                    $tmpquery2 = "INSERT INTO " . $tableCollab["sorting"] . "(member) VALUES('$num')";
-                    phpCollab\Util::connectSql("$tmpquery2");
-                    $tmpquery3 = "INSERT INTO " . $tableCollab["notifications"] . "(member,taskAssignment,removeProjectTeam,addProjectTeam,newTopic,newPost,statusTaskChange,priorityTaskChange,duedateTaskChange,clientAddTask) VALUES ('$num','0','0','0','0','0','0','0','0','0')";
-                    phpCollab\Util::connectSql("$tmpquery3");
+
+                    $num = phpCollab\Util::newConnectSql(
+                        "INSERT INTO {$tableCollab["members"]} (login,name,title,email_work,phone_work,phone_home,mobile,fax,comments,password,profil,created,organization,timezone) VALUES(:login,:name,:title,:email_work,:phone_work,:phone_home,:mobile,:fax,:comments,:password,:profil,:created,:organization,:timezone)",
+                        [
+                            "login" => $un,
+                            "name" => $fn,
+                            "title" => $tit,
+                            "email_work" => $em,
+                            "phone_work" => $wp,
+                            "phone_home" => $hp,
+                            "mobile" => $mp,
+                            "fax" => $fax,
+                            "comments" => $c,
+                            "password" => $pw,
+                            "profil" => $perm,
+                            "created" => $dateheure,
+                            "organization" => 1,
+                            "timezone" => 0
+                        ]);
+
+                    phpCollab\Util::newConnectSql("INSERT INTO {$tableCollab["sorting"]} (member) VALUES(:num)",["num" => $num]);
+
+                    phpCollab\Util::newConnectSql(
+                        "INSERT INTO {$tableCollab["notifications"]} (member,taskAssignment,removeProjectTeam,addProjectTeam,newTopic,newPost,statusTaskChange,priorityTaskChange,duedateTaskChange,clientAddTask) VALUES (:num,'0','0','0','0','0','0','0','0','0')",
+                        ["num" => $num]
+                    );
 //if mantis bug tracker enabled
                     if ($enableMantis == "true") {
 // Call mantis function for user changes..!!!
@@ -234,7 +265,7 @@ if ($id == "") {
 }
 
 $bodyCommand = "onLoad=\"document.user_editForm.un.focus();\"";
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -326,5 +357,4 @@ $block1->contentRow("", "<input type='submit' name='Save' value='" . $strings["s
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
-?>
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
