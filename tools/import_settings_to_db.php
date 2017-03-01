@@ -109,7 +109,6 @@ function populateDatabase($data)
     foreach ($data as $key => $val) {
         if (substr($key, 0, 2) == "MY") {
             $work = substr($key, 2);
-            eval("\$$work = '$val';");
         }
 
         if ($key == "databaseType") {
