@@ -72,6 +72,16 @@ class Tasks
     }
 
     /**
+     * @param $assignedTo
+     * @return mixed
+     */
+    public function getTasksAssignedToMeThatAreNotCompletedOrSuspended($assignedTo)
+    {
+        $assignedTo = filter_var($assignedTo, FILTER_SANITIZE_STRING);
+        return $this->tasks_gateway->getTasksAssignedToMeThatAreNotCompletedOrSuspended($assignedTo);
+    }
+
+    /**
      * @param $taskIds
      * @return mixed
      */
