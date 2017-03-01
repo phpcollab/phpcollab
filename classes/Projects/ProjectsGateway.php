@@ -141,6 +141,26 @@ class ProjectsGateway
     }
 
     /**
+     * @param $oldOwner
+     * @param $newOwner
+     * @return mixed
+     */
+    public function reassignProject($oldOwner, $newOwner)
+    {
+        $data = explode(',', $oldOwner);
+        $placeholders = str_repeat('?, ', count($data) - 1) . '?';
+        $sql = "UPDATE {$this->tableCollab["projects"]} SET owner = ? WHERE owner IN($placeholders)";
+        // Place newOwner at the beginning of array
+        if (is_array($data)) {
+            array_unshift($data, $newOwner);
+        } else {
+            $data = explode(',', $newOwner . ',' . $oldOwner);
+        }
+        $this->db->query($sql);
+        return $this->db->execute($data);
+    }
+
+    /**
      * @param $projectId
      * @return mixed
      */
