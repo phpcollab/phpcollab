@@ -4,8 +4,14 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 $members = new \phpCollab\Members\Members();
+$teams = new \phpCollab\Teams\Teams();
+$tasks = new \phpCollab\Tasks\Tasks();
+$notes = new \phpCollab\Notes\Notes();
 
 $id = $_GET["id"];
+$strings = $GLOBALS["strings"];
+$msgLabel = $GLOBALS["msgLabel"];
+$tableCollab = $GLOBALS["tableCollab"];
 
 $userDetail = $members->getMemberById($id);
 
@@ -24,8 +30,8 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../users/listusers.php?", $strings["user_management"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../users/listusers.php?", $strings["user_management"], "in"));
 $blockPage->itemBreadcrumbs($userDetail["mem_login"]);
 $blockPage->closeBreadcrumbs();
 
@@ -39,7 +45,7 @@ $block1 = new phpCollab\Block();
 $block1->form = "userD";
 $block1->openForm("../users/viewuser.php#" . $block1->form . "Anchor");
 
-if ($error != "") {
+if (isset($error) && $error != "") {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
 }
@@ -81,24 +87,18 @@ if ($userDetail["mem_profil"] == "0") {
 } else if ($userDetail["mem_profil"] == "5") {
     $permission = $strings["project_manager_administrator_permissions"];
 }
-$block1->contentRow($strings["permissions"], $permission);
+$block1->contentRow($strings["permissions"], isset($permission) ? $permission : '');
 
 $block1->contentRow($strings["comments"], nl2br($userDetail["mem_comments"]));
-$block1->contentRow($strings["account_created"], phpCollab\Util::createDate($userDetail["mem_created"], $timezoneSession));
+$block1->contentRow($strings["account_created"], phpCollab\Util::createDate($userDetail["mem_created"], $_SESSION["timezoneSession"]));
 $block1->contentRow($strings["last_page"], $userDetail["mem_last_page"]);
 $block1->contentTitle($strings["information"]);
 
-$tmpquery = "SELECT tea.id FROM " . $tableCollab["teams"] . " tea LEFT OUTER JOIN " . $tableCollab["projects"] . " pro ON pro.id = tea.project WHERE tea.member = '" . $userDetail["mem_id"] . "' AND pro.status IN(0,2,3)";
-phpCollab\Util::computeTotal($tmpquery);
-$valueProjects = $countEnregTotal;
+$valueProjects = count($teams->getTeamsImAMemberOf($userDetail["mem_id"]));
 
-$tmpquery = "SELECT tas.id FROM " . $tableCollab["tasks"] . " tas LEFT OUTER JOIN " . $tableCollab["projects"] . " pro ON pro.id = tas.project WHERE tas.assigned_to = '" . $userDetail["mem_id"] . "' AND tas.status IN(0,2,3) AND pro.status IN(0,2,3)";
-phpCollab\Util::computeTotal($tmpquery);
-$valueTasks = $countEnregTotal;
+$valueTasks = count($tasks->getTasksAssignedToMeThatAreNotCompletedOrSuspended($userDetail["mem_id"]));
 
-$tmpquery = "SELECT note.id FROM " . $tableCollab["notes"] . " note LEFT OUTER JOIN " . $tableCollab["projects"] . " pro ON pro.id = note.project WHERE note.owner = '" . $userDetail["mem_id"] . "' AND pro.status IN(0,2,3)";
-phpCollab\Util::computeTotal($tmpquery);
-$valueNotes = $countEnregTotal;
+$valueNotes = count($notes->getMyNotesWhereProjectIsNotCompletedOrSuspended($userDetail["mem_id"]));
 
 $block1->contentRow($strings["projects"], $valueProjects);
 $block1->contentRow($strings["tasks"], $valueTasks);
@@ -123,6 +123,6 @@ if ($profilSession == "0") {
 }
 $block1->paletteScript(2, "export", "../users/exportuser.php?id=$id&", "true,true,true", $strings["export"]);
 $block1->paletteScript(3, "email", "../users/emailusers.php?id=$id&", "true,true,true", $strings["email"]);
-$block1->closePaletteScript("", "");
+$block1->closePaletteScript("", []);
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';
