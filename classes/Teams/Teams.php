@@ -80,6 +80,16 @@ class Teams
     }
 
     /**
+     * @param $memberId
+     * @return mixed
+     */
+    public function getTeamsImAMemberOf($memberId)
+    {
+        $memberId = filter_var($memberId, FILTER_VALIDATE_INT);
+        return $this->teams_gateway->getTeamsImAMemberOf($memberId);
+    }
+
+    /**
      * @param $projectId
      * @param $memberId
      * @return bool
