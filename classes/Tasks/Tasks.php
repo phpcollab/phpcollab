@@ -200,6 +200,15 @@ class Tasks
     }
 
     /**
+     * @param $oldOwner
+     * @param $newOwner
+     */
+    public function reassignTasks($oldOwner, $newOwner)
+    {
+        $this->tasks_gateway->reassignTasks($oldOwner, $newOwner);
+    }
+
+    /**
      * @param $taskIds
      * @return mixed
      */
