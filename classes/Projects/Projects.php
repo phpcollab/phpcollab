@@ -37,7 +37,7 @@ class Projects
      * @param $sorting
      * @return mixed
      */
-    public function getProjectsByOwner($ownerId, $sorting)
+    public function getProjectsByOwner($ownerId, $sorting = null)
     {
         $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
         return $this->projects_gateway->getAllByOwner($ownerId, $sorting);
@@ -92,9 +92,17 @@ class Projects
     public function setDefaultOrg($orgId)
     {
         $orgId = filter_var($orgId, FILTER_SANITIZE_STRING);
-
         return $this->projects_gateway->setDefaultOrg($orgId);
-        
+    }
+
+    /**
+     * @param $oldOwner
+     * @param $newOwner
+     * @return mixed
+     */
+    public function reassignProject($oldOwner, $newOwner)
+    {
+        return $this->projects_gateway->reassignProject($oldOwner, $newOwner);
     }
 
     /**
