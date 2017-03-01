@@ -99,6 +99,18 @@ class TasksGateway
     }
 
     /**
+     * @param $assignedTo
+     * @return mixed
+     */
+    public function getTasksAssignedToMeThatAreNotCompletedOrSuspended($assignedTo)
+    {
+        $sql = "SELECT tas.id FROM {$this->tableCollab["tasks"]} tas LEFT OUTER JOIN {$this->tableCollab["projects"]} pro ON pro.id = tas.project WHERE tas.assigned_to = :assigned_to AND tas.status IN(0,2,3) AND pro.status IN(0,2,3)";
+        $this->db->query($sql);
+        $this->db->bind(':assigned_to', $assignedTo);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $projectName
      * @return mixed
      */
