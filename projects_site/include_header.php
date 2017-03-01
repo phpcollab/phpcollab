@@ -72,7 +72,7 @@ if ($projectSession != "" && $changeProject != "true")
 {
 	echo $projectDetail->pro_name[0];
 }
-if ($projectSession == "" || $changeProject == "true") 
+if ($projectSession == "" || $changeProject == "true")
 {
 	echo $strings["my_projects"];
 }
@@ -84,7 +84,7 @@ echo "<meta http-equiv='Content-Type' content='text/html; charset=$setCharset'>
 <link rel='stylesheet' href='../themes/".THEME."/css/stylesheet.css'>
 <script type='text/javascript' src='../javascript/general.js'></script>
 <script type='text/JavaScript' src='../javascript/overlib_mini.js'></script>";
-if ($includeCalendar && $includeCalendar == true) {
+if ($includeCalendar && $includeCalendar === true) {
 	include '../includes/calendar.php';
 }
 echo "</head>";
