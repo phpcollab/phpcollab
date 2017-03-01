@@ -53,6 +53,18 @@ class NotesGateway
     }
 
     /**
+     * @param $memberId
+     * @return mixed
+     */
+    public function getMyNotesWhereProjectIsNotCompletedOrSuspended($memberId)
+    {
+        $sql = "SELECT note.id FROM {$this->tableCollab["notes"]} note LEFT OUTER JOIN {$this->tableCollab["projects"]} pro ON pro.id = note.project WHERE note.owner = :member_id AND pro.status IN(0,2,3)";
+        $this->db->query($sql);
+        $this->db->bind(':member_id', $memberId);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $projectId
      * @param $sorting
      * @return mixed
