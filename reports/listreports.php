@@ -1,45 +1,17 @@
 <?php
-//namespace phpCollab;
-
-/*
-** Application name: phpCollab
-** Last Edit page: 23/03/2004
-** Path by root: ../reports/listreports.php
-** Authors: Ceam / Fullo
-**
-** =============================================================================
-**
-**               phpCollab - Project Managment 
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: listreports.php
-**
-** DESC: Screen: list the existing report
-**
-** HISTORY:
-**  24/01/2005	-	fix export report
-** 	23/03/2004	-	added new document info
-**  23/03/2004  -	new export to pdf by Angel 
-** -----------------------------------------------------------------------------
-** TO-DO:
-** 
-**
-** =============================================================================
-*/
 
 $checkSession = "true";
 include_once '../includes/library.php';
 
+$strings = $GLOBALS["strings"];
+
 $setTitle .= " : " . $strings["my_reports"];
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/listreports.php?", $strings["reports"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/listreports.php?", $strings["reports"], "in"));
 $blockPage->itemBreadcrumbs($strings["my_reports"]);
 $blockPage->closeBreadcrumbs();
 
@@ -56,13 +28,11 @@ $block1->paletteIcon(1, "remove", $strings["delete"]);
 $block1->paletteIcon(2, "export", $strings["export"]);
 $block1->closePaletteIcon();
 
-$block1->sorting("reports", $sortingUser->sor_reports[0], "rep.name ASC", $sortingFields = array(0 => "rep.name", 1 => "rep.created"));
+$block1->sorting("reports", $sortingUser->sor_reports[0], "rep.name ASC", $sortingFields = [0 => "rep.name", 1 => "rep.created"]);
 
 $db = new phpCollab\Database();
-//$reports_gateway = new phpCollab\Reports\ReportsGateway($db);
-$reports = new \phpCollab\Reports\Reports();
 
-//$myReports = new phpCollab\Reports();
+$reports = new \phpCollab\Reports\Reports();
 
 $sorting = $block1->sortingValue;
 
@@ -73,12 +43,12 @@ $reportCount = count($dataSet);
 if ($dataSet) {
 
     $block1->openResults();
-    $block1->labels($labels = array(0 => $strings["name"], 1 => $strings["created"]), "false");
+    $block1->labels($labels = [0 => $strings["name"], 1 => $strings["created"]], "false");
 
     foreach ($dataSet as $data) {
         $block1->openRow();
         $block1->checkboxRow($data["id"]);
-        $block1->cellRow($blockPage->buildLink("../reports/resultsreport.php?id=" . $data["rep_id"], $data["rep_name"], in));
+        $block1->cellRow($blockPage->buildLink("../reports/resultsreport.php?id=" . $data["rep_id"], $data["rep_name"], "in"));
         $block1->cellRow(phpCollab\Util::createDate($data["rep_created"], $timezoneSession));
     }
     $block1->closeResults();
@@ -94,4 +64,4 @@ $block1->paletteScript(1, "remove", "../reports/deletereports.php?", "false,true
 $block1->paletteScript(2, "export", "../reports/exportreport.php?", "false,true,true", $strings["export"]);
 $block1->closePaletteScript($comptListReports, $dataSet['rep_id']);
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
