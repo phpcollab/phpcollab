@@ -1,32 +1,4 @@
 <?php
-/*
-** Application name: phpCollab
-** Last Edit page: 02/08/2007
-** Path by root: ../includes/calendar.php
-** Authors: Ceam / Fullo
-**
-** =============================================================================
-**
-**               phpCollab - Project Managment 
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: viewuser.php
-**
-** DESC: Screen:	displays the details of a client user 
-**
-** HISTORY:
-** 	02/08/2007	-	added Last Viewed Page code - Mindblender
-**	
-** -----------------------------------------------------------------------------
-** TO-DO:
-** 
-**
-** =============================================================================
-*/
-
 
 $checkSession = "true";
 include_once '../includes/library.php';
@@ -47,7 +19,7 @@ if ($comptUserDetail == "0") {
 $setTitle .= " : User Management (" . $userDetail->mem_login[0] . ")";
 
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -152,5 +124,4 @@ $block1->paletteScript(2, "export", "../users/exportuser.php?id=$id&", "true,tru
 $block1->paletteScript(3, "email", "../users/emailusers.php?id=$id&", "true,true,true", $strings["email"]);
 $block1->closePaletteScript("", "");
 
-include '../themes/' . THEME . '/footer.php';
-?>
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
