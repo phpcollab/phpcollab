@@ -32,9 +32,9 @@ class FilesGateway
      */
     public function getFiles($fileId)
     {
-        if ( strpos($fileId, ',') ) {
+        if (strpos($fileId, ',')) {
             $ids = explode(',', $fileId);
-            $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
+            $placeholders = str_repeat('?, ', count($ids) - 1) . '?';
             $sql = $this->initrequest["files"] . " WHERE fil.id IN ($placeholders) OR vc_parent IN ($placeholders)";
             $this->db->query($sql);
 
@@ -108,9 +108,9 @@ class FilesGateway
     public function deleteFiles($fileId)
     {
 
-        if ( strpos($fileId, ',') ) {
+        if (strpos($fileId, ',')) {
             $ids = explode(',', $fileId);
-            $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
+            $placeholders = str_repeat('?, ', count($ids) - 1) . '?';
             $sql = "DELETE FROM {$this->tableCollab['files']} WHERE id IN ($placeholders) OR vc_parent IN($placeholders)";
             $this->db->query($sql);
 
@@ -176,9 +176,9 @@ class FilesGateway
      */
     public function publishFiles($fileIds)
     {
-        if ( strpos($fileIds, ',') ) {
+        if (strpos($fileIds, ',')) {
             $fileIds = explode(',', $fileIds);
-            $placeholders = str_repeat ('?, ', count($fileIds)-1) . '?';
+            $placeholders = str_repeat('?, ', count($fileIds) - 1) . '?';
             $sql = "UPDATE {$this->tableCollab['files']} SET published = 0 WHERE id IN ($placeholders)";
             $this->db->query($sql);
             return $this->db->execute($fileIds);
@@ -194,11 +194,25 @@ class FilesGateway
      * @param $fileIds
      * @return mixed
      */
+    public function publishFilesByIdOrInVcParent($fileIds)
+    {
+        $fileIds = explode(',', $fileIds);
+        $placeholders = str_repeat('?, ', count($fileIds) - 1) . '?';
+        $placeholders2 = $placeholders;
+        $sql = "UPDATE {$this->tableCollab['files']} SET published = 1 WHERE id IN ($placeholders) OR vc_parent IN ($placeholders2)";
+        $this->db->query($sql);
+        return $this->db->execute([$fileIds, $fileIds]);
+    }
+
+    /**
+     * @param $fileIds
+     * @return mixed
+     */
     public function unPublishFiles($fileIds)
     {
-        if ( strpos($fileIds, ',') ) {
+        if (strpos($fileIds, ',')) {
             $fileIds = explode(',', $fileIds);
-            $placeholders = str_repeat ('?, ', count($fileIds)-1) . '?';
+            $placeholders = str_repeat('?, ', count($fileIds) - 1) . '?';
             $sql = "UPDATE {$this->tableCollab['files']} SET published = 1 WHERE id IN ($placeholders)";
             $this->db->query($sql);
             return $this->db->execute($fileIds);
@@ -209,7 +223,7 @@ class FilesGateway
             return $this->db->execute();
         }
     }
-    
+
 
     /**
      * @param string $sorting
