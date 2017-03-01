@@ -46,6 +46,15 @@ class Members
     }
 
     /**
+     * @param $memberIds
+     * @return mixed
+     */
+    public function getMembersByIdIn($memberIds) {
+        $memberIds = filter_var($memberIds, FILTER_SANITIZE_STRING);
+        return $this->members_gateway->getMembersIn($memberIds);
+    }
+
+    /**
      * @param $orgId
      * @param $sorting
      * @return mixed
