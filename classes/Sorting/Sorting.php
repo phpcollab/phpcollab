@@ -27,9 +27,6 @@ class Sorting
      */
     public function getSortingValues($ownerId)
     {
-//echo 'Sorting getSortingValues';
-//        $ownerId = filter_var( (int) $ownerId, FILTER_VALIDATE_INT);
-//        return $this->sorting_gateway->getSortingValues($ownerId);
     }
 
     /**
