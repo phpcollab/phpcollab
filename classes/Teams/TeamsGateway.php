@@ -107,6 +107,18 @@ class TeamsGateway
     }
 
     /**
+     * @param $memberId
+     * @return mixed
+     */
+    public function getTeamsImAMemberOf($memberId)
+    {
+        $sql = "SELECT tea.id FROM {$this->tableCollab["teams"]} tea LEFT OUTER JOIN {$this->tableCollab["projects"]} pro ON pro.id = tea.project WHERE tea.member = :member_id AND pro.status IN(0,2,3)";
+        $this->db->query($sql);
+        $this->db->bind(':member_id', $memberId);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $projectId
      * @param $memberIds
      * @return mixed
