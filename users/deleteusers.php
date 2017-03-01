@@ -9,6 +9,8 @@ include_once '../includes/library.php';
 //CVS library
 include '../includes/cvslib.php';
 
+$members = new \phpCollab\Members\Members();
+
 if ($action == "delete") {
     if ($at == "0") {
         $atProject = "1";
@@ -113,14 +115,16 @@ $block1->openContent();
 $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**", ",", $id);
-$tmpquery = "WHERE mem.id IN($id) ORDER BY mem.name";
-$listMembers = new phpCollab\Request();
-$listMembers->openMembers($tmpquery);
-$comptListMembers = count($listMembers->mem_id);
+$listMembers = $members->getMembersByIdIn($id);
 
+foreach ($listMembers as $member) {
+    echo <<<ROW
+    <tr class="odd">
+        <td valign="top" class="leftvalue">&nbsp;</td>
+        <td>{$member["mem_login"]}&nbsp;({$member["mem_name"]})</td>
+    </tr>
+ROW;
 
-for ($i = 0; $i < $comptListMembers; $i++) {
-    echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td>" . $listMembers->mem_login[$i] . "&nbsp;(" . $listMembers->mem_name[$i] . ")</td></tr>";
 }
 
 $tmpquery = "SELECT pro.id FROM " . $tableCollab["projects"] . " pro WHERE pro.owner IN($id)";
