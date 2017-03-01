@@ -85,6 +85,20 @@ class TasksGateway
     }
 
     /**
+     * @param $assignedToIds
+     * @return mixed
+     */
+    public function getTasksAssignedTo($assignedToIds)
+    {
+        $assignedToIds = explode(',', $assignedToIds);
+        $placeholders = str_repeat ('?, ', count($assignedToIds)-1) . '?';
+        $whereStatement = " WHERE tas.assigned_to IN($placeholders)";
+        $this->db->query($this->initrequest["tasks"] . $whereStatement);
+        $this->db->execute($assignedToIds);
+        return $this->db->fetchAll();
+    }
+
+    /**
      * @param $projectName
      * @return mixed
      */
