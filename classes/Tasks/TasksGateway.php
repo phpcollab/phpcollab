@@ -200,6 +200,19 @@ class TasksGateway
     }
 
     /**
+     * @param $projectId
+     * @return mixed
+     */
+    public function getTasksByProjectIdWhereStartAndEndAreNotEmpty($projectId)
+    {
+//        $tmpquery = " WHERE (tas.start_date LIKE :task_date OR tas.due_date LIKE :task_date) AND tas.assigned_to = :assigned_to";
+        $tmpquery = " WHERE tas.project = :project_id AND tas.start_date != '--' AND tas.due_date != '--'";
+        $this->db->query($this->initrequest["tasks"] . $tmpquery . $this->orderBy('tas.due_date'));
+        $this->db->bind(':project_id', $projectId);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $newAssignee
      * @param $assignedTo
      * @return mixed
