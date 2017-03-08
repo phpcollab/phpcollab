@@ -153,6 +153,16 @@ class Tasks
     }
 
     /**
+     * @param $taskDate
+     * @param $assignedTo
+     * @return mixed
+     */
+    public function getTasksByStartDateEndDateAssignedTo($taskDate, $assignedTo)
+    {
+        return $this->tasks_gateway->getTasksByStartDateEndDateAssignedTo($taskDate, $assignedTo);
+    }
+
+    /**
      * @param $newAsignee
      * @param $assignedTo
      */
