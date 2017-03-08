@@ -184,6 +184,21 @@ class TasksGateway
         return $this->db->resultset();
     }
 
+
+    /**
+     * @param $taskDate
+     * @param $assignedTo
+     * @return mixed
+     */
+    public function getTasksByStartDateEndDateAssignedTo($taskDate, $assignedTo)
+    {
+        $tmpquery = " WHERE (tas.start_date LIKE :task_date OR tas.due_date LIKE :task_date) AND tas.assigned_to = :assigned_to";
+        $this->db->query($this->initrequest["tasks"] . $tmpquery . $this->orderBy('tas.due_date'));
+        $this->db->bind(':task_date', $taskDate . '%');
+        $this->db->bind(':assigned_to', $assignedTo);
+        return $this->db->resultset();
+    }
+
     /**
      * @param $newAssignee
      * @param $assignedTo
