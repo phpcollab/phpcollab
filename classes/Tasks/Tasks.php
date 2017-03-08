@@ -163,6 +163,15 @@ class Tasks
     }
 
     /**
+     * @param $projectId
+     * @return mixed
+     */
+    public function getTasksByProjectIdWhereStartAndEndAreNotEmpty($projectId)
+    {
+        return $this->tasks_gateway->getTasksByProjectIdWhereStartAndEndAreNotEmpty($projectId);
+    }
+
+    /**
      * @param $newAsignee
      * @param $assignedTo
      */
