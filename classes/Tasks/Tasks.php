@@ -127,6 +127,16 @@ class Tasks
     }
 
     /**
+     * @param $date
+     * @param $assignedTo
+     * @return mixed
+     */
+    public function getTasksWhereStartDateAndEndDateLikeNotPublishedAndAssignedToUserId($date, $assignedTo)
+    {
+        return $this->getTasksWhereStartDateAndEndDateLikeNotPublishedAndAssignedToUserId($date, $assignedTo);
+    }
+
+    /**
      * @param $ownerId
      * @param $sorting
      * @return mixed
