@@ -4,10 +4,12 @@ $checkSession = "true";
 include '../includes/library.php';
 
 $teams = new \phpCollab\Teams\Teams();
+$organizations = new \phpCollab\Organizations\Organizations();
 
 $updateProject = $_GET["updateProject"];
 $changeProject = $_GET["changeProject"];
 $idSession = $_SESSION["idSession"];
+$projectSession = $_SESSION["projectSession"];
 $project = $_GET["project"];
 $strings = $GLOBALS["strings"];
 
@@ -32,9 +34,7 @@ $titlePage = $strings["welcome"] {$_SESSION["nameSession"]} . $strings["your_pro
 include 'include_header.php';
 
 if ($updateProject != "true" && $changeProject != "true") {
-    $tmpquery = "WHERE org.id = '" . phpCollab\Util::fixInt($projectDetail->pro_organization[0]) . "'";
-    $clientDetail = new phpCollab\Request();
-    $clientDetail->openOrganizations($tmpquery);
+    $clientDetail = $organizations->getOrganizationById($projectDetail["pro_organization"]);
 }
 
 $idStatus = $projectDetail->pro_status[0];
@@ -93,8 +93,8 @@ if ($projectSession == "" || $changeProject == "true") {
 
 if ($projectSession != "" && $changeProject != "true") {
 
-    if (file_exists("../logos_clients/" . $clientDetail->org_id[0] . "." . $clientDetail->org_extension_logo[0])) {
-        echo "<img src=\"../logos_clients/" . $clientDetail->org_id[0] . "." . $clientDetail->org_extension_logo[0] . "\"><br/><br/>";
+    if (file_exists("../logos_clients/" . $clientDetail["org_id"] . "." . $clientDetail["org_extension_logo"])) {
+        echo "<img src=\"../logos_clients/" . $clientDetail["org_id"] . "." . $clientDetail["org_extension_logo"] . "\"><br/><br/>";
     }
 
     echo "	<table cellpadding='0' cellspacing='0' border='0'>
