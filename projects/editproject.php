@@ -34,6 +34,8 @@ $id = phpCollab\Util::returnGlobal('id','REQUEST');
 $docopy = phpCollab\Util::returnGlobal('docopy','REQUEST');
 
 $teams = new \phpCollab\Teams\Teams();
+$tasks = new \phpCollab\Tasks\Tasks();
+$projects = new \phpCollab\Projects\Projects();
 
 if ($htaccessAuth == "true") 
 {
@@ -222,28 +224,24 @@ STAMP;
 				
 				//start the subtask copy
 				$T_id=$listTasks->tas_id[$i];
-				
-				$tmpquery1 = "WHERE task = '$T_id'";
-				$subtaskDetail = new phpCollab\Request();
-				$subtaskDetail->openSubtasks($tmpquery1);
-				$comptListSubtasks = count($subtaskDetail->subtas_id);
-				
-				for ($j=0;$j<$comptListSubtasks;$j++) 
-				{
-					$s_tn = phpCollab\Util::convertData($subtaskDetail->subtas_name[$j]);
-					$s_d = phpCollab\Util::convertData($subtaskDetail->subtas_description[$j]);
-					$s_ow = $subtaskDetail->subtas_owner[$j];
-					$s_at = $subtaskDetail->subtas_assigned_to[$j];
-					$s_st = $subtaskDetail->subtas_status[$j];
-					$s_pr = $subtaskDetail->subtas_priority[$j];
-					$s_sd = $subtaskDetail->subtas_start_date[$j];
-					$s_dd = $subtaskDetail->subtas_due_date[$j];
-					$s_cd = $subtaskDetail->subtas_complete_date[$j];
-					$s_etm = $subtaskDetail->subtas_estimated_time[$j];
-					$s_atm = $subtaskDetail->subtas_actual_time[$j];
-					$s_c = phpCollab\Util::convertData($subtaskDetail->subtas_comments[$j]);
-					$s_published = $subtaskDetail->subtas_published[$j];
-					$s_compl = $subtaskDetail->subtas_completion[$j];
+
+                $subtaskDetail = $tasks->getSubTaskById($T_id);
+                
+				foreach ($subtaskDetail as $subtask) {
+					$s_tn = phpCollab\Util::convertData($subtaskDetail["subtas_name"]);
+					$s_d = phpCollab\Util::convertData($subtaskDetail["subtas_description"]);
+					$s_ow = $subtaskDetail["subtas_owner"];
+					$s_at = $subtaskDetail["subtas_assigned_to"];
+					$s_st = $subtaskDetail["subtas_status"];
+					$s_pr = $subtaskDetail["subtas_priority"];
+					$s_sd = $subtaskDetail["subtas_start_date"];
+					$s_dd = $subtaskDetail["subtas_due_date"];
+					$s_cd = $subtaskDetail["subtas_complete_date"];
+					$s_etm = $subtaskDetail["subtas_estimated_time"];
+					$s_atm = $subtaskDetail["subtas_actual_time"];
+					$s_c = phpCollab\Util::convertData($subtaskDetail["subtas_comments"]);
+					$s_published = $subtaskDetail["subtas_published"];
+					$s_compl = $subtaskDetail["subtas_completion"];
 						
 					$subTasksData = [];
                     $subTasksData["task"] = $num;
