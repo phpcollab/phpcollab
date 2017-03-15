@@ -33,6 +33,8 @@ include '../includes/library.php';
 include '../includes/jpgraph/jpgraph.php';
 include '../includes/jpgraph/jpgraph_gantt.php';
 
+$strings = $GLOBALS["strings"];
+
 $graph = new GanttGraph();
 $graph->SetBox();
 $graph->SetMarginColor("white");
@@ -136,4 +138,3 @@ if ($_GET['dateCalend'] != '') {
 }
 
 $graph->Stroke();
-?>
