@@ -254,6 +254,18 @@ class TasksGateway
 
     /**
      * @param $projectId
+     * @return mixed
+     */
+    public function getTasksByProjectIdWhereStartAndEndAreNotEmptyAndNotPublished($projectId)
+    {
+        $tmpquery = " WHERE tas.project = :project_id AND tas.start_date != '--' AND tas.due_date != '--' AND tas.published != 1";
+        $this->db->query($this->initrequest["tasks"] . $tmpquery . $this->orderBy('tas.due_date'));
+        $this->db->bind(':project_id', $projectId);
+        return $this->db->resultset();
+    }
+
+    /**
+     * @param $projectId
      * @param $phaseId
      * @return mixed
      */
