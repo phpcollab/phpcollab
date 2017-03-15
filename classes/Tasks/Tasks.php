@@ -102,6 +102,17 @@ class Tasks
     }
 
     /**
+     * @param $projectId
+     * @return mixed
+     */
+    public function getTasksByProjectId($projectId)
+    {
+        $projectId = filter_var($projectId, FILTER_SANITIZE_STRING);
+        $task = $this->tasks_gateway->getTasksByProjectId($projectId);
+        return $task;
+    }
+
+    /**
      * @param int $projectId ID of the project
      * @param int $phaseId ID of parent phase
      * @param string $sorting column to sort on and direction
