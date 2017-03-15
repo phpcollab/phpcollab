@@ -9,6 +9,7 @@ $organizations = new \phpCollab\Organizations\Organizations();
 $updateProject = $_GET["updateProject"];
 $changeProject = $_GET["changeProject"];
 $idSession = $_SESSION["idSession"];
+$nameSession = $_SESSION["nameSession"];
 $projectSession = $_SESSION["projectSession"];
 $project = $_GET["project"];
 $strings = $GLOBALS["strings"];
@@ -17,7 +18,6 @@ $status = $GLOBALS["status"];
 
 if ($updateProject == "true") {
     $testProject = $teams->getTeamByProjectIdAndTeamMemberAndStatusIsNotCompletedOrSuspendedAndIsNotPublished($project, $idSession);
-
     if ($testProject) {
         unset($_SESSION['projectSession']);
 
@@ -32,7 +32,8 @@ if ($updateProject == "true") {
 }
 
 $bouton[0] = "over";
-$titlePage = $strings["welcome"]{$_SESSION["nameSession"]} . $strings["your_projectsite"];
+$titlePage = $strings["welcome"] . " $nameSession " . $strings["your_projectsite"];
+
 include 'include_header.php';
 
 if ($updateProject != "true" && $changeProject != "true") {
@@ -147,26 +148,25 @@ TABLE;
 
     }
 
-    //-------------------------------------------------------------------------------------------
-
-    echo "	<tr>
-				<th nowrap class='FormLabel'>" . $strings["url_dev"] . " :</th>
-				<td>&nbsp;<a href='" . $projectDetail->pro_url_dev[0] . "' target='_blank'>" . $projectDetail->pro_url_dev[0] . "</a></td>
-			</tr>
-			<tr>
-				<th nowrap class='FormLabel'>" . $strings["url_prod"] . " :</th>
-				<td>&nbsp;<a href='" . $projectDetail->pro_url_prod[0] . "' target='_blank'>" . $projectDetail->pro_url_prod[0] . "</a></td>
-			</tr>
-			<tr>
-				<th nowrap class='FormLabel'>" . $strings["created"] . " :</th>
-				<td>&nbsp;" . phpCollab\Util::createDate($projectDetail->pro_created[0], $timezoneSession) . "</td>
-			</tr>
-			<tr>
-				<th nowrap class='FormLabel'>" . $strings["modified"] . " :</th>
-				<td>&nbsp;" . phpCollab\Util::createDate($projectDetail->pro_modified[0], $timezoneSession) . "</td>
-			</tr>
-			</table>";
-
+    echo <<<TR
+        <tr>
+            <th nowrap class="FormLabel">{$strings["url_dev"]} :</th>
+            <td>&nbsp;<a href="{$projectDetail->pro_url_dev[0]}" target="_blank">{$projectDetail->pro_url_dev[0]}</a></td>
+        </tr>
+        <tr>
+            <th nowrap class="FormLabel">{$strings["url_prod"]} :</th>
+            <td>&nbsp;<a href="{$projectDetail->pro_url_prod[0]}" target="_blank">{$projectDetail->pro_url_prod[0]}</a></td>
+        </tr>
+        <tr>
+            <th nowrap class="FormLabel">{$strings["created"]} :</th>
+            <td>&nbsp;{phpCollab\Util::createDate($projectDetail->pro_created[0], $timezoneSession)}</td>
+        </tr>
+        <tr>
+            <th nowrap class="FormLabel">{$strings["modified"]} :</th>
+            <td>&nbsp;{phpCollab\Util::createDate($projectDetail->pro_modified[0], $timezoneSession)}</td>
+        </tr>
+        </table>
+TR;
     $tmpquery = "WHERE tea.project = '$projectSession' AND tea.member = '" . $projectDetail->pro_owner[0] . "'";
     $detailContact = new phpCollab\Request();
     $detailContact->openTeams($tmpquery);
