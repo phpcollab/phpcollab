@@ -6,19 +6,18 @@ $checkSession = "true";
 include '../includes/library.php';
 
 $tasks = new \phpCollab\Tasks\Tasks();
+$projects = new \phpCollab\Projects\Projects();
 
 include '../includes/jpgraph/jpgraph.php';
 include '../includes/jpgraph/jpgraph_gantt.php';
 
 $taskDetail = $tasks->getTaskById($task);
 
-$tmpquery = "WHERE pro.id = '" . $taskDetail["tas_project"] . "'";
-$projectDetail = new phpCollab\Request();
-$projectDetail->openProjects($tmpquery);
+$projectDetail = $projects->getProjectById($taskDetail["tas_project"]);
 
-$projectDetail->pro_created[0] = phpCollab\Util::createDate($projectDetail->pro_created[0], $timezoneSession);
-$projectDetail->pro_name[0] = str_replace('&quot;', '"', $projectDetail->pro_name[0]);
-$projectDetail->pro_name[0] = str_replace("&#39;", "'", $projectDetail->pro_name[0]);
+$projectDetail["pro_created"] = phpCollab\Util::createDate($projectDetail["pro_created"], $timezoneSession);
+$projectDetail["pro_name"] = str_replace('&quot;', '"', $projectDetail["pro_name"]);
+$projectDetail["pro_name"] = str_replace("&#39;", "'", $projectDetail["pro_name"]);
 
 $graph = new GanttGraph();
 $graph->SetBox();
