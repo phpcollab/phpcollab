@@ -3,6 +3,8 @@
 $checkSession = "true";
 include '../includes/library.php';
 
+$teams = new \phpCollab\Teams\Teams();
+
 $updateProject = $_GET["updateProject"];
 $changeProject = $_GET["changeProject"];
 $idSession = $_SESSION["idSession"];
@@ -10,12 +12,9 @@ $project = $_GET["project"];
 $strings = $GLOBALS["strings"];
 
 if ($updateProject == "true") {
-    $tmpquery = "WHERE tea.member = '$idSession' AND pro.id = '$project' AND pro.status IN(0,2,3) AND pro.published = '0'";
-    $testProject = new phpCollab\Request();
-    $testProject->openTeams($tmpquery);
-    $comptTestProject = count($testProject->tea_id);
+    $testProject = $teams->getTeamByProjectIdAndTeamMemberAndStatusIsNotCompletedOrSuspendedAndIsNotPublished($project, $idSession);
 
-    if ($comptTestProject != "0") {
+    if ($testProject) {
         unset($_SESSION['projectSession']);
 
         $projectSession = $project;
