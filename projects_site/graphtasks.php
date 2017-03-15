@@ -39,6 +39,7 @@ include '../includes/jpgraph/jpgraph_gantt.php';
 
 $strings = $GLOBALS["strings"];
 $idSession = $_SESSION["idSession"];
+$timezoneSession = $_SESSION["timezoneSession"];
 
 $graph = new GanttGraph();
 $graph->SetBox();
