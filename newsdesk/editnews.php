@@ -202,10 +202,9 @@ if ($action != 'remove') {
         $block1->contentRow($strings["author"], "<input type='hidden' name='author' value='$idSession'><b>$nameSession</b>");
     } // edit
     else {
-        $tmpquery_user = "WHERE mem.id = '" . $newsDetail->news_author[0] . "' ";
-        $newsAuthor = new phpCollab\Request();
-        $newsAuthor->openMembers($tmpquery_user);
-        $block1->contentRow($strings["author"], "<input type='hidden' name='author' value='" . $newsDetail->news_author[0] . "'><b>" . $newsAuthor->mem_name[0] . "</b>");
+        $members = new \phpCollab\Members\Members();
+        $newsAuthor = $members->getMemberById($newsDetail->news_author[0]);
+        $block1->contentRow($strings["author"], "<input type='hidden' name='author' value='" . $newsDetail->news_author[0] . "'><b>" . $newsAuthor["mem_name"] . "</b>");
     }
 
     $block1->contentRow($strings["title"], "<input type='text' name='title' value='$title' style='width: 300px;'>");
