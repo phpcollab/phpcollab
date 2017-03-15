@@ -62,6 +62,7 @@ if ($_GET['dateCalend'] != '') {
     //add the published task to the graph
     $listTasks = $tasks->getTasksWhereStartDateAndEndDateLikeNotPublishedAndAssignedToUserId($dateCalend, $idSession);
 
+    $progress = 0;
     foreach ($listTasks as $task) {
         $task["tas_name"] = str_replace('&quot;', '"', $task["tas_name"]);
         $task["tas_name"] = str_replace("&#39;", "'", $task["tas_name"]);
@@ -84,6 +85,8 @@ if ($_GET['dateCalend'] != '') {
 
     $detailCalendar = $calendars->openCalendarByOwnerOrIsBroadcast($idSession);
 
+    $j = 0;
+    $progress = 0;
     foreach ($detailCalendar as $calendar) {
         $calendar["cal_subject"] = str_replace('&quot;', '"', $calendar["cal_subject"] . '(' . $calendar["cal_location"] . ')');
         $calendar["cal_subject"] = str_replace("&#39;", "'", $calendar["cal_subject"]);
@@ -96,6 +99,7 @@ if ($_GET['dateCalend'] != '') {
 
         $activity->progress->Set($progress);
         $graph->Add($activity);
+        $j++;
     }
 } elseif ($_GET['project'] != '') {
     $projectDetail = $projects->getProjectById($_GET["project"]);
@@ -108,22 +112,20 @@ if ($_GET['dateCalend'] != '') {
     $projectDetail["pro_name"] = str_replace('&quot;', '"', $projectDetail["pro_name"]);
     $projectDetail["pro_name"] = str_replace("&#39;", "'", $projectDetail["pro_name"]);
 
-    $tmpquery = "WHERE tas.project = '" . $_GET["project"] . "' AND tas.start_date != '--' AND tas.due_date != '--' AND tas.published != '1' ORDER BY tas.due_date";
-    $listTasks = new phpCollab\Request();
-    $listTasks->openTasks($tmpquery);
-    $comptListTasks = count($listTasks->tas_id);
+    $listTasks = $tasks->getTasksByProjectIdWhereStartAndEndAreNotEmptyAndNotPublished($_GET["project"]);
 
-    for ($i = 0; $i < $comptListTasks; $i++) {
-        $listTasks->tas_name[$i] = str_replace('&quot;', '"', $listTasks->tas_name[$i]);
-        $listTasks->tas_name[$i] = str_replace("&#39;", "'", $listTasks->tas_name[$i]);
-        $progress = round($listTasks->tas_completion[$i] / 10, 2);
-        $printProgress = $listTasks->tas_completion[$i] * 10;
-        $activity = new GanttBar($i, $listTasks->tas_name[$i], $listTasks->tas_start_date[$i], $listTasks->tas_due_date[$i]);
+    $progress = 0;
+    foreach ($listTasks as $task) {
+        $task["tas_name"] = str_replace('&quot;', '"', $task["tas_name"]);
+        $task["tas_name"] = str_replace("&#39;", "'", $task["tas_name"]);
+        $progress = round($task["tas_completion"] / 10, 2);
+        $printProgress = $task["tas_completion"] * 10;
+        $activity = new GanttBar($i, $task["tas_name"], $task["tas_start_date"], $task["tas_due_date"]);
         $activity->SetPattern(BAND_LDIAG, "yellow");
-        $activity->caption->Set($listTasks->tas_mem_login[$i] . " (" . $printProgress . "%)");
+        $activity->caption->Set($task["tas_mem_login"] . " (" . $printProgress . "%)");
         $activity->SetFillColor("gray");
 
-        if ($listTasks->tas_priority[$i] == "4" || $listTasks->tas_priority[$i] == "5") {
+        if ($task["tas_priority"] == "4" || $task["tas_priority"] == "5") {
             $activity->progress->SetPattern(BAND_SOLID, "#BB0000");
         } else {
             $activity->progress->SetPattern(BAND_SOLID, "#0000BB");
