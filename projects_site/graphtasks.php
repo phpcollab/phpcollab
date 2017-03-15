@@ -1,31 +1,4 @@
 <?php
-/*
-** Application name: phpCollab
-** Last Edit page: 04/12/2004
-** Path by root: ../projects_site/graphtasks.php
-** Authors: Ceam / Fullo
-**
-** =============================================================================
-**
-**               phpCollab - Project Managment 
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: graphtasks.php
-**
-** DESC: Screen: render the calendar or project gantt graph for project_site
-**
-** HISTORY:
-**	21/04/2005	-	added the broadcast visualization
-**	20/04/2005	-	added the calendar view
-** -----------------------------------------------------------------------------
-** TO-DO:
-** 
-**
-** =============================================================================
-*/
 
 $checkSession = "true";
 include '../includes/library.php';
