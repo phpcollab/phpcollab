@@ -64,11 +64,11 @@ if ($comptPosts != "0") {
     $block1->openResults();
     $block1->labels($labels = array(0 => $strings["topic"], 1 => $strings["date"], 2 => $strings["author"], 3 => $strings["newsdesk_related"]), "true");
 
+    $members = new \phpCollab\Members\Members();
+
     for ($i = 0; $i < $comptPosts; $i++) {
         // take the news author
-        $tmpquery_user = "WHERE mem.id = '" . $listPosts->news_author[$i] . "' ";
-        $newsAuthor = new phpCollab\Request();
-        $newsAuthor->openMembers($tmpquery_user);
+        $newsAuthor = $members->getMemberById($listPosts->news_author[$i]);
 
         // take the name of the related article
         if ($listPosts->news_related[$i] != 'g') {
@@ -85,7 +85,7 @@ if ($comptPosts != "0") {
         $block1->checkboxRow($listPosts->news_id[$i]);
         $block1->cellRow($blockPage->buildLink("../newsdesk/viewnews.php?id=" . $listPosts->news_id[$i], $listPosts->news_title[$i], in));
         $block1->cellRow($listPosts->news_date[$i]);
-        $block1->cellRow($newsAuthor->mem_name[0]);
+        $block1->cellRow($newsAuthor["mem_name"]);
         $block1->cellRow($article_related);
         $block1->closeRow();
     }
