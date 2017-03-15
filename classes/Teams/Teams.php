@@ -55,6 +55,16 @@ class Teams
 
     /**
      * @param $teamMember
+     * @return mixed
+     */
+    public function getTeamByMemberIdAndStatusIsNotCompletedAndIsNotPublished($teamMember)
+    {
+        $teamMember = filter_var($teamMember, FILTER_VALIDATE_INT);
+        return $this->teams_gateway->getTeamByMemberIdAndStatusIsNotCompletedAndIsNotPublished($teamMember);
+    }
+
+    /**
+     * @param $teamMember
      * @param $orgId
      * @return mixed
      */
