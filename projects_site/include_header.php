@@ -1,33 +1,4 @@
 <?php
-#Application name: PhpCollab
-#Status page: 0
-/*
-** Application name: phpCollab
-** Last Edit page: 26/01/2004
-** Path by root: ../project_site/include_header.php
-** Authors: Ceam / Fullo 
-**
-** =============================================================================
-**
-**               phpCollab - Project Managment 
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: include_header.php
-**
-** DESC: Screen: header for project site
-**
-** HISTORY:
-**  03/08/2005	-	[ 1241494 ] Broardcasted calender entrys on project site
-**  25/04/2006  -   removed reference to JavaScript Calendar CSS file
-** -----------------------------------------------------------------------------
-** TO-DO:
-**  - rewrite the include header procedure
-**
-** =============================================================================
-*/
 
 if ($projectSession != "" && $changeProject != "true") {
     $projectDetail = $projects->getProjectById($projectSession);
