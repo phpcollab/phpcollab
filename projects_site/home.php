@@ -4,8 +4,10 @@ $checkSession = "true";
 include '../includes/library.php';
 
 $updateProject = $_GET["updateProject"];
+$changeProject = $_GET["changeProject"];
 $idSession = $_SESSION["idSession"];
 $project = $_GET["project"];
+$strings = $GLOBALS["strings"];
 
 if ($updateProject == "true") {
     $tmpquery = "WHERE tea.member = '$idSession' AND pro.id = '$project' AND pro.status IN(0,2,3) AND pro.published = '0'";
@@ -27,7 +29,7 @@ if ($updateProject == "true") {
 }
 
 $bouton[0] = "over";
-$titlePage = $strings["welcome"] . " $nameSession " . $strings["your_projectsite"];
+$titlePage = $strings["welcome"] {$_SESSION["nameSession"]} . $strings["your_projectsite"];
 include 'include_header.php';
 
 if ($updateProject != "true" && $changeProject != "true") {
