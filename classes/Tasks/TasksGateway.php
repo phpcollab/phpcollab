@@ -127,6 +127,18 @@ class TasksGateway
 
     /**
      * @param $projectId
+     * @return mixed
+     */
+    public function getTasksByProjectId($projectId)
+    {
+        $whereStatement = " WHERE tas.project = :project_id";
+        $this->db->query($this->initrequest["tasks"] . $whereStatement);
+        $this->db->bind(':project_id', $projectId);
+        return $this->db->resultset();
+    }
+
+    /**
+     * @param $projectId
      * @param $phaseId
      * @param null $sorting
      * @return mixed
