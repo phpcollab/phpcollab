@@ -5,6 +5,7 @@ include '../includes/library.php';
 
 $teams = new \phpCollab\Teams\Teams();
 $organizations = new \phpCollab\Organizations\Organizations();
+$projects = new \phpCollab\Projects\Projects();
 
 $updateProject = $_GET["updateProject"];
 $changeProject = $_GET["changeProject"];
@@ -40,8 +41,8 @@ if ($updateProject != "true" && $changeProject != "true") {
     $clientDetail = $organizations->getOrganizationById($projectDetail["pro_organization"]);
 }
 
-$idStatus = $projectDetail->pro_status[0];
-$idPriority = $projectDetail->pro_priority[0];
+$idStatus = $projectDetail["pro_status"];
+$idPriority = $projectDetail["pro_priority"];
 
 if ($projectSession == "" || $changeProject == "true") {
     $listProjects = $teams->getTeamByMemberIdAndStatusIsNotCompletedAndIsNotPublished($idSession);
@@ -104,15 +105,16 @@ if ($projectSession != "" && $changeProject != "true") {
         echo "<img src=\"../logos_clients/" . $clientDetail["org_id"] . "." . $clientDetail["org_extension_logo"] . "\"><br/><br/>";
     }
 
+    $pro_description = nl2br($projectDetail["pro_description"]);
     echo <<<TABLE
         <table cellpadding="0" cellspacing="0" border="0">
             <tr>
                 <th nowrap class="FormLabel">{$strings["project"]} :</th>
-                <td>&nbsp;{$projectDetail->pro_name[0]}</td>
+                <td>&nbsp;{$projectDetail["pro_name"]}</td>
             </tr>
             <tr>
                 <th nowrap class="FormLabel" valign="top">{$strings["description"]} : </th>
-                <td>&nbsp;{nl2br($projectDetail->pro_description[0])}</td>
+                <td>&nbsp;{$pro_description}</td>
             </tr>
             <tr>
                 <th nowrap class="FormLabel">{$strings["status"]} :</th>
@@ -125,11 +127,11 @@ if ($projectSession != "" && $changeProject != "true") {
 TABLE;
 
     //Dispaly project active phase
-    if ($projectDetail->pro_phase_set[0] != "0") {
+    if ($projectDetail["pro_phase_set"] != "0") {
 
         echo "	<tr><th nowrap valign='top' class='FormLabel'>" . $strings["current_phase"] . " :</td><td>";
 
-        $tmpquery = "WHERE pha.project_id = '" . $projectDetail->pro_id[0] . "' AND status = '1'";
+        $tmpquery = "WHERE pha.project_id = '" . $projectDetail["pro_id"] . "' AND status = '1'";
         $currentPhase = new phpCollab\Request();
         $currentPhase->openPhases($tmpquery);
         $comptCurrentPhase = count($currentPhase->pha_id);
@@ -148,33 +150,35 @@ TABLE;
 
     }
 
+    $pro_created = phpCollab\Util::createDate($projectDetail["pro_created"], $timezoneSession);
+    $pro_modified = phpCollab\Util::createDate($projectDetail["pro_modified"], $timezoneSession);
+
     echo <<<TR
         <tr>
             <th nowrap class="FormLabel">{$strings["url_dev"]} :</th>
-            <td>&nbsp;<a href="{$projectDetail->pro_url_dev[0]}" target="_blank">{$projectDetail->pro_url_dev[0]}</a></td>
+            <td>&nbsp;<a href="{$projectDetail["pro_url_dev"]}" target="_blank">{$projectDetail["pro_url_dev"]}</a></td>
         </tr>
         <tr>
             <th nowrap class="FormLabel">{$strings["url_prod"]} :</th>
-            <td>&nbsp;<a href="{$projectDetail->pro_url_prod[0]}" target="_blank">{$projectDetail->pro_url_prod[0]}</a></td>
+            <td>&nbsp;<a href="{$projectDetail["pro_url_prod"]}" target="_blank">{$projectDetail["pro_url_prod"]}</a></td>
         </tr>
         <tr>
             <th nowrap class="FormLabel">{$strings["created"]} :</th>
-            <td>&nbsp;{phpCollab\Util::createDate($projectDetail->pro_created[0], $timezoneSession)}</td>
+            <td>&nbsp;{$pro_created}</td>
         </tr>
         <tr>
             <th nowrap class="FormLabel">{$strings["modified"]} :</th>
-            <td>&nbsp;{phpCollab\Util::createDate($projectDetail->pro_modified[0], $timezoneSession)}</td>
+            <td>&nbsp;{$pro_modified}</td>
         </tr>
         </table>
 TR;
-    $tmpquery = "WHERE tea.project = '$projectSession' AND tea.member = '" . $projectDetail->pro_owner[0] . "'";
+    $tmpquery = "WHERE tea.project = '$projectSession' AND tea.member = '" . $projectDetail["pro_owner"] . "'";
     $detailContact = new phpCollab\Request();
     $detailContact->openTeams($tmpquery);
 
     if ($detailContact->tea_published[0] == "0" && $detailContact->tea_project[0] == $projectSession) {
-        echo "<br/><div>" . $strings["contact_projectsite"] . ", <a href=\"contactdetail.php?id=" . $projectDetail->pro_owner[0] . "\">" . $projectDetail->pro_mem_name[0] . "</a>.</div>";
+        echo "<br/><div>" . $strings["contact_projectsite"] . ", <a href=\"contactdetail.php?id=" . $projectDetail["pro_owner"] . "\">" . $projectDetail["pro_mem_name"] . "</a>.</div>";
     }
 }
 
 include("include_footer.php");
-?>
