@@ -42,6 +42,20 @@ class TeamsGateway
     }
 
     /**
+     * @param $projectId
+     * @param $memberId
+     * @return mixed
+     */
+    public function getTeamByProjectIdAndTeamMemberAndStatusIsNotCompletedOrSuspendedAndIsNotPublished($projectId, $memberId)
+    {
+        $whereStatement = " WHERE tea.member = :member_id AND pro.id = :project_id AND pro.status IN(0,2,3) AND pro.published = '0'";
+        $this->db->query($this->initrequest["teams"] . $whereStatement);
+        $this->db->bind(':project_id', $projectId);
+        $this->db->bind(':member_id', $memberId);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $memberId
      * @return mixed
      */
