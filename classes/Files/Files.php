@@ -43,6 +43,15 @@ class Files
 
     /**
      * @param $projectId
+     * @return mixed
+     */
+    public function getFilesByProjectIdAndPhaseNotEqualZero($projectId)
+    {
+        return $this->files_gateway->getFilesByProjectIdAndPhaseNotEqualZero($projectId);
+    }
+
+    /**
+     * @param $projectId
      * @param $phaseId
      * @param $sorting
      * @return mixed
