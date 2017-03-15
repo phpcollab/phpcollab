@@ -172,6 +172,16 @@ class Tasks
     }
 
     /**
+     * @param $projectId
+     * @param $phaseId
+     * @return mixed
+     */
+    public function getTasksByProjectIdAndParentPhaseAndStartEndDateNotBlank($projectId, $phaseId)
+    {
+        return $this->tasks_gateway->getTasksByProjectIdAndParentPhaseAndStartEndDateNotBlank($projectId, $phaseId);
+    }
+
+    /**
      * @param $newAsignee
      * @param $assignedTo
      */
