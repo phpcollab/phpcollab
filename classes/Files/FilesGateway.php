@@ -66,6 +66,18 @@ class FilesGateway
 
     /**
      * @param $projectId
+     * @return mixed
+     */
+    public function getFilesByProjectIdAndPhaseNotEqualZero($projectId)
+    {
+        $query = $this->initrequest["files"] .  " WHERE fil.project = :project_id AND fil.phase !='0'";
+        $this->db->query($query);
+        $this->db->bind(':project_id', $projectId);
+        return $this->db->resultset();
+    }
+
+    /**
+     * @param $projectId
      * @param $phaseId
      * @param null $sorting
      * @return mixed
