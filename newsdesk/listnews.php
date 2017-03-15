@@ -11,7 +11,7 @@ $setTitle .= " : News List";
 $members = new \phpCollab\Members\Members();
 $projects = new \phpCollab\Projects\Projects();
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -107,7 +107,4 @@ if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
 $block1->paletteScript(3, "info", "../newsdesk/viewnews.php?", "false,true,false", $strings["view_newsdesk"]);
 
 $block1->closePaletteScript($comptPosts, $listPosts->news_id);
-include '../themes/' . THEME . '/footer.php';
-
-
-?>
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
