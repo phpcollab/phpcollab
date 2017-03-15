@@ -32,6 +32,7 @@ include '../includes/library.php';
 
 $tasks = new \phpCollab\Tasks\Tasks();
 $calendars = new \phpCollab\Calendars\Calendars();
+$projects = new \phpCollab\Projects\Projects();
 
 include '../includes/jpgraph/jpgraph.php';
 include '../includes/jpgraph/jpgraph_gantt.php';
@@ -96,19 +97,17 @@ if ($_GET['dateCalend'] != '') {
         $graph->Add($activity);
     }
 } elseif ($_GET['project'] != '') {
+    $projectDetail = $projects->getProjectById($_GET["project"]);
+
     // case of project graph
-    $graph->title->Set($strings["project"] . " " . $projectDetail->pro_name[0]);
-    $graph->subtitle->Set("(" . $strings["created"] . ": " . $projectDetail->pro_created[0] . ")");
+    $graph->title->Set($strings["project"] . " " . $projectDetail["pro_name"]);
+    $graph->subtitle->Set("(" . $strings["created"] . ": " . $projectDetail["pro_created"] . ")");
 
-    $tmpquery = "WHERE pro.id = '" . $project . "'";
-    $projectDetail = new phpCollab\Request();
-    $projectDetail->openProjects($tmpquery);
+    $projectDetail["pro_created"] = phpCollab\Util::createDate($projectDetail["pro_created"], $timezoneSession);
+    $projectDetail["pro_name"] = str_replace('&quot;', '"', $projectDetail["pro_name"]);
+    $projectDetail["pro_name"] = str_replace("&#39;", "'", $projectDetail["pro_name"]);
 
-    $projectDetail->pro_created[0] = phpCollab\Util::createDate($projectDetail->pro_created[0], $timezoneSession);
-    $projectDetail->pro_name[0] = str_replace('&quot;', '"', $projectDetail->pro_name[0]);
-    $projectDetail->pro_name[0] = str_replace("&#39;", "'", $projectDetail->pro_name[0]);
-
-    $tmpquery = "WHERE tas.project = '" . $project . "' AND tas.start_date != '--' AND tas.due_date != '--' AND tas.published != '1' ORDER BY tas.due_date";
+    $tmpquery = "WHERE tas.project = '" . $_GET["project"] . "' AND tas.start_date != '--' AND tas.due_date != '--' AND tas.published != '1' ORDER BY tas.due_date";
     $listTasks = new phpCollab\Request();
     $listTasks->openTasks($tmpquery);
     $comptListTasks = count($listTasks->tas_id);
