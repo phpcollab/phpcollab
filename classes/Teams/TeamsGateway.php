@@ -59,6 +59,18 @@ class TeamsGateway
      * @param $memberId
      * @return mixed
      */
+    public function getTeamByMemberIdAndStatusIsNotCompletedAndIsNotPublished($memberId)
+    {
+        $whereStatement = " WHERE tea.member = :member_id AND pro.status IN(0,2,3) AND pro.published = 0 ORDER BY pro.name";
+        $this->db->query($this->initrequest["teams"] . $whereStatement);
+        $this->db->bind(':member_id', $memberId);
+        return $this->db->resultset();
+    }
+
+    /**
+     * @param $memberId
+     * @return mixed
+     */
     public function getTeamByMemberId($memberId)
     {
         //$tmpquery = "WHERE tea.member = '$idSession' ORDER BY pro.name";
