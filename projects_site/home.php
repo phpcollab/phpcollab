@@ -1,31 +1,4 @@
 <?php
-/*
-** Application name: phpCollab
-** Last Edit page: 26/01/2004
-** Path by root: ../projects_site/home.php
-** Authors: Ceam / Fullo 
-**
-** =============================================================================
-**
-**               phpCollab - Project Managment 
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: home.php
-**
-** DESC: Screen: home for client project site
-**
-** HISTORY:
-** 	26/01/2004	-	file comment added
-**  27/01/2004  -	session bug resolved
-** -----------------------------------------------------------------------------
-** TO-DO:
-** 
-**
-** =============================================================================
-*/
 
 $checkSession = "true";
 include '../includes/library.php';
