@@ -3,6 +3,10 @@
 $checkSession = "true";
 include '../includes/library.php';
 
+$updateProject = $_GET["updateProject"];
+$idSession = $_SESSION["idSession"];
+$project = $_GET["project"];
+
 if ($updateProject == "true") {
     $tmpquery = "WHERE tea.member = '$idSession' AND pro.id = '$project' AND pro.status IN(0,2,3) AND pro.published = '0'";
     $testProject = new phpCollab\Request();
