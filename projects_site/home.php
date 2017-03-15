@@ -12,6 +12,8 @@ $idSession = $_SESSION["idSession"];
 $projectSession = $_SESSION["projectSession"];
 $project = $_GET["project"];
 $strings = $GLOBALS["strings"];
+$priority = $GLOBALS["priority"];
+$status = $GLOBALS["status"];
 
 if ($updateProject == "true") {
     $testProject = $teams->getTeamByProjectIdAndTeamMemberAndStatusIsNotCompletedOrSuspendedAndIsNotPublished($project, $idSession);
@@ -30,7 +32,7 @@ if ($updateProject == "true") {
 }
 
 $bouton[0] = "over";
-$titlePage = $strings["welcome"] {$_SESSION["nameSession"]} . $strings["your_projectsite"];
+$titlePage = $strings["welcome"]{$_SESSION["nameSession"]} . $strings["your_projectsite"];
 include 'include_header.php';
 
 if ($updateProject != "true" && $changeProject != "true") {
@@ -41,26 +43,24 @@ $idStatus = $projectDetail->pro_status[0];
 $idPriority = $projectDetail->pro_priority[0];
 
 if ($projectSession == "" || $changeProject == "true") {
-    $tmpquery = "WHERE tea.member = '" . phpCollab\Util::fixInt($idSession) . "' AND pro.status IN(0,2,3) AND pro.published = '0' ORDER BY pro.name";
-    $listProjects = new phpCollab\Request();
-    $listProjects->openTeams($tmpquery);
-    $comptListProjects = count($listProjects->tea_id);
+    $listProjects = $teams->getTeamByMemberIdAndStatusIsNotCompletedAndIsNotPublished($idSession);
 
     $block1 = new phpCollab\Block();
 
     $block1->heading($strings["my_projects"]);
 
-    if ($comptListProjects != "0") {
-        echo "	<table cellspacing='0' width='90%' border='0' cellpadding='3' cols='4' class='listing'>
-				<tr>
-					<th class='active'>" . $strings["name"] . "</th>
-					<th>" . $strings["organization"] . "</th>
-					<th>" . $strings["priority"] . "</th>
-					<th>" . $strings["status"] . "</th>
-				</tr>";
+    if ($listProjects) {
+        echo <<<TABLE
+        <table cellspacing='0' width='90%' border='0' cellpadding='3' cols='4' class='listing'>
+            <tr>
+                <th class="active">{$strings["name"]}</th>
+                <th>{$strings["organization"]}</th>
+                <th>{$strings["priority"]}</th>
+                <th>{$strings["status"]}</th>
+            </tr>
+TABLE;
 
-        for ($i = 0; $i < $comptListProjects; $i++) {
-
+        foreach ($listProjects as $project) {
             if (!($i % 2)) {
                 $class = "odd";
                 $highlightOff = $block1->getHighlightOff();
@@ -69,24 +69,30 @@ if ($projectSession == "" || $changeProject == "true") {
                 $highlightOff = $block1->getHighlightOff();
             }
 
-            $idStatus = $listProjects->tea_pro_status[$i];
-            $idPriority = $listProjects->tea_pro_priority[$i];
-            echo "	<tr class='$class' onmouseover=\"this.style.backgroundColor='" . $block1->getHighlightOn() . "'\" onmouseout=\"this.style.backgroundColor='" . $highlightOff . "'\">
-						<td width='30%'><a href='home.php?updateProject=true&project=" . $listProjects->tea_pro_id[$i] . "'>" . $listProjects->tea_pro_name[$i] . "</a></td>
-						<td>" . $listProjects->tea_org2_name[$i] . "</td>
-						<td>$priority[$idPriority]</td>
-						<td>$status[$idStatus]</td>
-					</tr>";
+            $idStatus = $project["tea_pro_status"];
+            $idPriority = $project["tea_pro_priority"];
+            
+            echo <<<TR
+            <tr class="{$class}" onmouseover="this.style.backgroundColor='{$block1->getHighlightOn()}'" onmouseout="this.style.backgroundColor='{$highlightOff}'">
+                <td width="30%"><a href="home.php?updateProject=true&project={$project["tea_pro_id"]}">{$project["tea_pro_name"]}</a></td>
+                <td>{$project["tea_org2_name"]}</td>
+                <td>{$priority[$idPriority]}</td>
+                <td>{$status[$idStatus]}</td>
+            </tr>
+TR;
         }
 
         echo "	</table>
 				<hr />\n";
     } else {
-        echo "	<table cellspacing='0' border='0' cellpadding='2'>
-				<tr>
-					<td colspan='4' class='listOddBold'>" . $strings["no_items"] . "</td>
-				</tr>
-				</table><hr />";
+        echo <<<TABLE
+        <table cellspacing="0" border="0" cellpadding="2">
+            <tr>
+                <td colspan="4" class="listOddBold">{$strings["no_items"]}</td>
+            </tr>
+        </table>
+        <hr />
+TABLE;
     }
 
 }
@@ -97,23 +103,25 @@ if ($projectSession != "" && $changeProject != "true") {
         echo "<img src=\"../logos_clients/" . $clientDetail["org_id"] . "." . $clientDetail["org_extension_logo"] . "\"><br/><br/>";
     }
 
-    echo "	<table cellpadding='0' cellspacing='0' border='0'>
-			<tr>
-				<th nowrap class='FormLabel'>" . $strings["project"] . " :</th>
-				<td>&nbsp;" . $projectDetail->pro_name[0] . "</td>
-			</tr>
-			<tr>
-				<th nowrap class='FormLabel' valign='top'>" . $strings["description"] . " : </th>
-				<td>&nbsp;" . nl2br($projectDetail->pro_description[0]) . "</td>
-			</tr>
-			<tr>
-				<th nowrap class='FormLabel'>" . $strings["status"] . " :</th>
-				<td>&nbsp;$status[$idStatus]</td>
-			</tr>
-			<tr>
-				<th nowrap class='FormLabel'>" . $strings["priority"] . " :</th>
-				<td>&nbsp;$priority[$idPriority]</td>
-			</tr>";
+    echo <<<TABLE
+        <table cellpadding="0" cellspacing="0" border="0">
+            <tr>
+                <th nowrap class="FormLabel">{$strings["project"]} :</th>
+                <td>&nbsp;{$projectDetail->pro_name[0]}</td>
+            </tr>
+            <tr>
+                <th nowrap class="FormLabel" valign="top">{$strings["description"]} : </th>
+                <td>&nbsp;{nl2br($projectDetail->pro_description[0])}</td>
+            </tr>
+            <tr>
+                <th nowrap class="FormLabel">{$strings["status"]} :</th>
+                <td>&nbsp;{$status[$idStatus]}</td>
+            </tr>
+            <tr>
+                <th nowrap class="FormLabel">{$strings["priority"]} :</th>
+                <td>&nbsp;{$priority[$idPriority]}</td>
+            </tr>
+TABLE;
 
     //Dispaly project active phase
     if ($projectDetail->pro_phase_set[0] != "0") {
