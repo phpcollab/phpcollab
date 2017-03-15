@@ -39,6 +39,21 @@ class Teams
     }
 
     /**
+     * @param $projectId
+     * @param $teamMember
+     * @return mixed
+     */
+    public function getTeamByProjectIdAndTeamMemberAndStatusIsNotCompletedOrSuspendedAndIsNotPublished($projectId, $teamMember)
+    {
+        $projectId = filter_var($projectId, FILTER_VALIDATE_INT);
+        $teamMember = filter_var($teamMember, FILTER_VALIDATE_INT);
+
+        $team = $this->teams_gateway->getTeamByProjectIdAndTeamMemberAndStatusIsNotCompletedOrSuspendedAndIsNotPublished($projectId, $teamMember);
+
+        return $team;
+    }
+
+    /**
      * @param $teamMember
      * @param $orgId
      * @return mixed
