@@ -31,6 +31,7 @@ $checkSession = "true";
 include '../includes/library.php';
 
 $tasks = new \phpCollab\Tasks\Tasks();
+$calendars = new \phpCollab\Calendars\Calendars();
 
 include '../includes/jpgraph/jpgraph.php';
 include '../includes/jpgraph/jpgraph_gantt.php';
@@ -79,19 +80,15 @@ if ($_GET['dateCalend'] != '') {
         $graph->Add($activity);
     }
 
-    $tmpquery = "WHERE cal.owner = '$idSession'  OR cal.broadcast = '1' ";
-    $detailCalendar = new phpCollab\Request();
-    $detailCalendar->openCalendar($tmpquery);
-    $comptDetailCalendar = count($detailCalendar->cal_id);
+    $detailCalendar = $calendars->openCalendarByOwnerOrIsBroadcast($idSession);
 
-    for ($j = 0; $j < $comptDetailCalendar; $j++) {
+    foreach ($detailCalendar as $calendar) {
+        $calendar["cal_subject"] = str_replace('&quot;', '"', $calendar["cal_subject"] . '(' . $calendar["cal_location"] . ')');
+        $calendar["cal_subject"] = str_replace("&#39;", "'", $calendar["cal_subject"]);
 
-        $detailCalendar->cal_subject[$j] = str_replace('&quot;', '"', $detailCalendar->cal_subject[$j] . '(' . $detailCalendar->cal_location[$j] . ')');
-        $detailCalendar->cal_subject[$j] = str_replace("&#39;", "'", $detailCalendar->cal_subject[$j]);
-
-        $activity = new GanttBar($i + $j, $detailCalendar->cal_subject[$j], $detailCalendar->cal_date_start[$j], $detailCalendar->cal_date_end[$j]);
+        $activity = new GanttBar($i + $j, $calendar["cal_subject"], $calendar["cal_date_start"], $calendar["cal_date_end"]);
         $activity->SetPattern(BAND_LDIAG, "yellow");
-        $activity->caption->Set($detailCalendar->cal_mem_name[$j]);
+        $activity->caption->Set($calendar["cal_mem_name"]);
         $activity->SetFillColor("gray");
         $activity->progress->SetPattern(BAND_SOLID, "#0000BB");
 
