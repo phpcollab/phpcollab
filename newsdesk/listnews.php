@@ -8,6 +8,9 @@ include_once '../includes/library.php';
 
 $setTitle .= " : News List";
 
+$members = new \phpCollab\Members\Members();
+$projects = new \phpCollab\Projects\Projects();
+
 include '../themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
@@ -64,18 +67,14 @@ if ($comptPosts != "0") {
     $block1->openResults();
     $block1->labels($labels = array(0 => $strings["topic"], 1 => $strings["date"], 2 => $strings["author"], 3 => $strings["newsdesk_related"]), "true");
 
-    $members = new \phpCollab\Members\Members();
-
     for ($i = 0; $i < $comptPosts; $i++) {
         // take the news author
         $newsAuthor = $members->getMemberById($listPosts->news_author[$i]);
 
         // take the name of the related article
         if ($listPosts->news_related[$i] != 'g') {
-            $tmpquery = "WHERE pro.id = '" . $listPosts->news_related[$i] . "'";
-            $projectDetail = new phpCollab\Request();
-            $projectDetail->openProjects($tmpquery);
-            $article_related = "<a href='../projects/viewproject.php?id=" . $projectDetail->pro_id[0] . "' title='" . $projectDetail->pro_name[0] . "'>" . $projectDetail->pro_name[0] . "</a>";
+            $projectDetail = $projects->getProjectById($listPosts->news_related[$i]);
+            $article_related = "<a href='../projects/viewproject.php?id=" . $projectDetail["pro_id"] . "' title='" . $projectDetail["pro_name"] . "'>" . $projectDetail["pro_name"] . "</a>";
         } else {
             $article_related = $strings["newsdesk_related_generic"];
         }
