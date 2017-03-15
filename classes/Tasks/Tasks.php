@@ -203,6 +203,15 @@ class Tasks
 
     /**
      * @param $projectId
+     * @return mixed
+     */
+    public function getTasksByProjectIdWhereStartAndEndAreNotEmptyAndNotPublished($projectId)
+    {
+        return $this->tasks_gateway->getTasksByProjectIdWhereStartAndEndAreNotEmptyAndNotPublished($projectId);
+    }
+
+    /**
+     * @param $projectId
      * @param $phaseId
      * @return mixed
      */
