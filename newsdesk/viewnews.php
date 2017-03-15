@@ -6,6 +6,9 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
+$members = new \phpCollab\Members\Members();
+$projects = new \phpCollab\Projects\Projects();
+
 $tmpquery = "WHERE news.id = '" . phpCollab\Util::fixInt($id) . "'";
 $newsDetail = new phpCollab\Request();
 $newsDetail->openNewsDesk($tmpquery);
@@ -15,7 +18,7 @@ if ($comptNewsDetail == "0") {
     phpCollab\Util::headerFunction("../newsdesk/listnews.php?msg=blankNews");
 }
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -51,21 +54,17 @@ if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
 if ($comptNewsDetail != "0") {
 
     // take the news author
-    $tmpquery_user = "WHERE mem.id = '" . $newsDetail->news_author[0] . "' ";
-    $newsAuthor = new phpCollab\Request();
-    $newsAuthor->openMembers($tmpquery_user);
+    $newsAuthor = $members->getMemberById($newsDetail->news_author[0]);
 
     $block1->openContent();
     $block1->contentTitle($strings["details"]);
     $block1->contentRow("<b>" . $strings["title"] . "</b>", $newsDetail->news_title[0]);
-    $block1->contentRow("<b>" . $strings["author"] . "</b>", $newsAuthor->mem_name[0]);
+    $block1->contentRow("<b>" . $strings["author"] . "</b>", $newsAuthor["mem_name"]);
     $block1->contentRow("<b>" . $strings["date"] . "</b>", $newsDetail->news_date[0]);
 
     if ($newsDetail->news_related[0] != 'g') {
-        $tmpquery = "WHERE pro.id = '" . $newsDetail->news_related[0] . "'";
-        $projectDetail = new phpCollab\Request();
-        $projectDetail->openProjects($tmpquery);
-        $article_related = "<a href='../projects/viewproject.php?id=" . $projectDetail->pro_id[0] . "' title='" . $projectDetail->pro_name[0] . "'>" . $projectDetail->pro_name[0] . "</a>";
+        $projectDetail = $projects->getProjectById($newsDetail->news_related[0]);
+        $article_related = "<a href='../projects/viewproject.php?id=" . $projectDetail["pro_id"] . "' title='" . $projectDetail["pro_name"] . "'>" . $projectDetail["pro_name"] . "</a>";
     } else {
         $article_related = $strings["newsdesk_related_generic"];
     }
@@ -141,13 +140,11 @@ if ($comptCommentsDetail != "0") {
     $block2->labels($labels = array(0 => $strings["name"], 1 => $strings["comment"]), "true");
 
     for ($i = 0; $i < $comptCommentsDetail; $i++) {
-        $tmpquery_user = "WHERE mem.id = '" . $newsComments->newscom_name[$i] . "' ";
-        $newsAuthor = new phpCollab\Request();
-        $newsAuthor->openMembers($tmpquery_user);
+        $newsAuthor = $members->getMemberById($newsDetail->news_author[$i]);
 
         $block2->openRow();
         $block2->checkboxRow($newsComments->newscom_id[$i]);
-        $block2->cellRow($newsAuthor->mem_name[0]);
+        $block2->cellRow($newsAuthor["mem_name"]);
         $block2->cellRow($newsComments->newscom_comment[$i]);
         $block2->closeRow();
     }
@@ -175,5 +172,4 @@ if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
 
 $block2->closePaletteScript($comptCommentsDetail, $newsComments->newscom_id);
 
-include '../themes/' . THEME . '/footer.php';
-?>
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
