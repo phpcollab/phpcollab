@@ -153,6 +153,21 @@ class TasksGateway
     }
 
     /**
+     * @param $date
+     * @param $assignedTo
+     * @return mixed
+     */
+    public function getTasksWhereStartDateAndEndDateLikeNotPublishedAndAssignedToUserId($date, $assignedTo)
+    {
+        $whereStatement = " WHERE (tas.start_date LIKE :date OR tas.due_date LIKE :date) AND tas.published = 0 AND tas.assigned_to = :assigned_to";
+        $this->db->query($this->initrequest["tasks"] . $whereStatement . $this->orderBy('tas.due_date'));
+        $this->db->bind(':date', $date . '%');
+        $this->db->bind(':assigned_to', $assignedTo);
+        return $this->db->resultset();
+
+    }
+
+    /**
      * @param $subtaskId
      * @return mixed
      */
