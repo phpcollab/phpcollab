@@ -38,7 +38,7 @@ function createRSS()
     }
     include '../languages/lang_' . $langDefault . '.php';
 
-    $query = "SELECT id,title,author,content,related, DATE_FORMAT(pdate, '%Y-%m-%d') as date FROM " . $tableCollab["newsdeskposts"] . " WHERE rss = '1' ORDER BY pdate DESC LIMIT 0,5";
+    $query = "SELECT id,title,author,content,related, DATE_FORMAT(pdate, '%Y-%m-%d') as date FROM {$tableCollab["newsdeskposts"]} WHERE rss = '1' ORDER BY pdate DESC LIMIT 0,5";
     try {
         $result = mysqli_query($connection, $query);
     }
@@ -59,10 +59,10 @@ function createRSS()
 
 
         //take the author name
-        $query_author = 'SELECT name FROM ' . $tableCollab["members"] . ' WHERE id = "' . $row['author'] . '"';
+        $query_author = "SELECT name FROM {$tableCollab["members"]} WHERE id = '{$row["author"]}'";
 
         try {
-            $result_author = @mysqli_query($connection, $query_author);
+            $result_author = mysqli_query($connection, $query_author);
         }
         catch (Exception $e) {
             echo "Error: " . mysqli_error($connection);
@@ -78,10 +78,10 @@ function createRSS()
 
         // take the project related
         if ($row['related'] != 'g') {
-            $query_prj = 'SELECT name FROM ' . $tableCollab["projects"] . ' WHERE id = "' . $row['related'] . '"';
+            $query_prj = "SELECT name FROM {$tableCollab["projects"]} WHERE id = '{$row["related"]}'";
 
             try {
-                $result_prj = @mysqli_query($connection, $query_prj);
+                $result_prj = mysqli_query($connection, $query_prj);
             }
             catch (Exception $e) {
                 echo "Error: " . mysqli_error($connection);
