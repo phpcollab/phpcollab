@@ -30,10 +30,13 @@
 $checkSession = "true";
 include '../includes/library.php';
 
+$tasks = new \phpCollab\Tasks\Tasks();
+
 include '../includes/jpgraph/jpgraph.php';
 include '../includes/jpgraph/jpgraph_gantt.php';
 
 $strings = $GLOBALS["strings"];
+$idSession = $_SESSION["idSession"];
 
 $graph = new GanttGraph();
 $graph->SetBox();
@@ -54,22 +57,19 @@ if ($_GET['dateCalend'] != '') {
     $dateCalend = substr($dateCalend, 0, 7);
 
     //add the published task to the graph
-    $tmpquery = "WHERE (tas.start_date LIKE '" . $dateCalend . "%' OR tas.due_date LIKE '" . $dateCalend . "%') AND tas.published = '0' AND tas.assigned_to = '$idSession' ORDER BY tas.due_date";
-    $listTasks = new phpCollab\Request();
-    $listTasks->openTasks($tmpquery);
-    $comptListTasks = count($listTasks->tas_id);
+    $listTasks = $tasks->getTasksWhereStartDateAndEndDateLikeNotPublishedAndAssignedToUserId($dateCalend, $idSession);
 
-    for ($i = 0; $i < $comptListTasks; $i++) {
-        $listTasks->tas_name[$i] = str_replace('&quot;', '"', $listTasks->tas_name[$i]);
-        $listTasks->tas_name[$i] = str_replace("&#39;", "'", $listTasks->tas_name[$i]);
-        $progress = round($listTasks->tas_completion[$i] / 10, 2);
-        $printProgress = $listTasks->tas_completion[$i] * 10;
-        $activity = new GanttBar($i, $listTasks->tas_name[$i], $listTasks->tas_start_date[$i], $listTasks->tas_due_date[$i]);
+    foreach ($listTasks as $task) {
+        $task["tas_name"] = str_replace('&quot;', '"', $task["tas_name"]);
+        $task["tas_name"] = str_replace("&#39;", "'", $task["tas_name"]);
+        $progress = round($task["tas_completion"] / 10, 2);
+        $printProgress = $task["tas_completion"] * 10;
+        $activity = new GanttBar($i, $task["tas_name"], $task["tas_start_date"], $task["tas_due_date"]);
         $activity->SetPattern(BAND_LDIAG, "yellow");
-        $activity->caption->Set($listTasks->tas_mem_login[$i] . " (" . $printProgress . "%)");
+        $activity->caption->Set($task["tas_mem_login"] . " (" . $printProgress . "%)");
         $activity->SetFillColor("gray");
 
-        if ($listTasks->tas_priority[$i] == "4" || $listTasks->tas_priority[$i] == "5") {
+        if ($task["tas_priority"] == "4" || $task["tas_priority"] == "5") {
             $activity->progress->SetPattern(BAND_SOLID, "#BB0000");
         } else {
             $activity->progress->SetPattern(BAND_SOLID, "#0000BB");
