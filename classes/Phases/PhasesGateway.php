@@ -42,6 +42,20 @@ class PhasesGateway
     }
 
     /**
+     * @param $projectId
+     * @return mixed
+     */
+    public function getPhasesByProjectIdAndIsCompleted($projectId)
+    {
+        $whereStatement = " WHERE pha.project_id = :project_id AND status = 1";
+        $this->db->query($this->initrequest["phases"] . $whereStatement);
+        $this->db->bind(':project_id', $projectId);
+        $results = $this->db->resultset();
+        return $results;
+
+    }
+
+    /**
      * @param $phaseId
      * @return mixed
      */
