@@ -52,6 +52,14 @@ class Phases
     }
 
     /**
+     * @param $projectId
+     */
+    public function getPhasesByProjectIdAndIsCompleted($projectId)
+    {
+        return $this->phases_gateway->getPhasesByProjectIdAndIsCompleted($projectId);
+    }
+
+    /**
      * @param $projectIds
      * @return mixed
      */
