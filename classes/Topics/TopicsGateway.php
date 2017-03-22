@@ -53,6 +53,18 @@ class TopicsGateway
     }
 
     /**
+     * @param $topicId
+     * @return mixed
+     */
+    public function getTopicById($topicId)
+    {
+        $query = $this->initrequest["topics"] . " WHERE topic.id = :topic_id";
+        $this->db->query($query);
+        $this->db->bind(':topic_id', $topicId);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $topicIds
      * @return mixed
      * @internal param string $table
