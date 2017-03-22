@@ -11,6 +11,7 @@ $updateProject = $_GET["updateProject"];
 $changeProject = $_GET["changeProject"];
 $idSession = $_SESSION["idSession"];
 $nameSession = $_SESSION["nameSession"];
+$timezoneSession = $_SESSION["timezoneSession"];
 $projectSession = $_SESSION["projectSession"];
 $project = $_GET["project"];
 $strings = $GLOBALS["strings"];
@@ -53,7 +54,7 @@ if ($projectSession == "" || $changeProject == "true") {
 
     if ($listProjects) {
         echo <<<TABLE
-        <table cellspacing='0' width='90%' border='0' cellpadding='3' cols='4' class='listing'>
+        <table cellspacing='0' width='90%' border='0' cellpadding='3' class='listing'>
             <tr>
                 <th class="active">{$strings["name"]}</th>
                 <th>{$strings["organization"]}</th>
@@ -102,7 +103,8 @@ TABLE;
 if ($projectSession != "" && $changeProject != "true") {
 
     if (file_exists("../logos_clients/" . $clientDetail["org_id"] . "." . $clientDetail["org_extension_logo"])) {
-        echo "<img src=\"../logos_clients/" . $clientDetail["org_id"] . "." . $clientDetail["org_extension_logo"] . "\"><br/><br/>";
+        $image = $clientDetail["org_id"] . '.' . $clientDetail["org_extension_logo"];
+        echo '<img src="../logos_clients/' . $image . '"><br/><br/>';
     }
 
     $pro_description = nl2br($projectDetail["pro_description"]);
@@ -131,17 +133,15 @@ TABLE;
 
         echo "	<tr><th nowrap valign='top' class='FormLabel'>" . $strings["current_phase"] . " :</td><td>";
 
-        $tmpquery = "WHERE pha.project_id = '" . $projectDetail["pro_id"] . "' AND status = '1'";
-        $currentPhase = new phpCollab\Request();
-        $currentPhase->openPhases($tmpquery);
-        $comptCurrentPhase = count($currentPhase->pha_id);
+        $currentPhase = $phases->getPhasesByProjectIdAndIsCompleted($projectDetail["pro_id"]);
+        $comptCurrentPhase = count($currentPhase);
         if ($comptCurrentPhase == 0) {
             echo "" . $strings["no_current_phase"] . " ";
         } else {
             for ($i = 0; $i < $comptCurrentPhase; $i++) {
                 if ($i != $comptCurrentPhase) {
                     $pnum = $i + 1;
-                    echo "$pnum." . $currentPhase->pha_name[$i] . "  ";
+                    echo "$pnum." . $currentPhase["pha_name"] . "  ";
                 }
             }
         }
@@ -172,11 +172,10 @@ TABLE;
         </tr>
         </table>
 TR;
-    $tmpquery = "WHERE tea.project = '$projectSession' AND tea.member = '" . $projectDetail["pro_owner"] . "'";
-    $detailContact = new phpCollab\Request();
-    $detailContact->openTeams($tmpquery);
 
-    if ($detailContact->tea_published[0] == "0" && $detailContact->tea_project[0] == $projectSession) {
+    $detailContact = $teams->getTeamByProjectIdAndTeamMember($projectSession, $projectDetail["pro_owner"]);
+
+    if ($detailContact["tea_published"] == "0" && $detailContact["tea_project"] == $projectSession) {
         echo "<br/><div>" . $strings["contact_projectsite"] . ", <a href=\"contactdetail.php?id=" . $projectDetail["pro_owner"] . "\">" . $projectDetail["pro_mem_name"] . "</a>.</div>";
     }
 }
