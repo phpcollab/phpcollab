@@ -31,6 +31,8 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
+$members = new \phpCollab\Members\Members();
+
 if ($profilSession != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
@@ -71,7 +73,7 @@ if ($id != "") {
                 $fax = phpCollab\Util::convertData($fax);
                 $last_page = phpCollab\Util::convertData($last_page);
 
-                $tmpquery = "UPDATE " . $tableCollab["members"] . " SET login=:login,name=:name,title=:title,email_work=:email_work,phone_work=:phone_work,phone_home=:phone_home,mobile=:mobile,fax=:fax,comments=:comments,profil=:profil,last_page=:last_page WHERE id = :id";
+                $tmpquery = "UPDATE {$tableCollab["members"]} SET login=:login,name=:name,title=:title,email_work=:email_work,phone_work=:phone_work,phone_home=:phone_home,mobile=:mobile,fax=:fax,comments=:comments,profil=:profil,last_page=:last_page WHERE id = :id";
                 $dbParams = [];
                 $dbParams["login"] = $un;
                 $dbParams["name"] = $fn;
