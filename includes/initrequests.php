@@ -445,11 +445,25 @@ FROM {$tableCollab["updates"]} upd
 LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = upd.member
 UPDATES;
 
-$initrequest["support_requests"] = "SELECT sr.id, sr.status, sr.member, sr.priority, sr.subject, sr.message, sr.owner, sr.date_open, sr.date_close, sr.project, pro.name, mem.name, mem.email_work
+$initrequest["support_requests"] = <<<SQL
+SELECT 
+  sr.id AS sr_id, 
+  sr.status AS sr_status, 
+  sr.member AS sr_member, 
+  sr.priority AS sr_priority, 
+  sr.subject AS sr_subject, 
+  sr.message AS sr_message, 
+  sr.owner AS sr_owner, 
+  sr.date_open AS sr_date_open, 
+  sr.date_close AS sr_date_close, 
+  sr.project AS sr_project, 
+  pro.name AS sr_pro_name, 
+  mem.name AS sr_mem_name, 
+  mem.email_work AS sr_mem_email_work
 FROM {$tableCollab["support_requests"]} sr
 LEFT OUTER JOIN {$tableCollab["projects"]} pro ON pro.id = sr.project
 LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = sr.member
-";
+SQL;
 
 $initrequest["support_posts"] = "SELECT sp.id, sp.request_id, sp.message, sp.date, sp.owner, sp.project, mem.name, mem.email_work
 FROM {$tableCollab["support_posts"]} sp
