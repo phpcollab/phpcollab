@@ -256,7 +256,16 @@ LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = topic.owner
 LEFT OUTER JOIN {$tableCollab["projects"]} pro ON pro.id = topic.project
 TOPICS;
 
-$initrequest["posts"] = "SELECT pos.id, pos.topic, pos.member, pos.created, pos.message, mem.id, mem.login, mem.name, mem.email_work
+$initrequest["posts"] = "SELECT 
+  pos.id AS pos_id, 
+  pos.topic AS pos_topic, 
+  pos.member AS pos_member, 
+  pos.created AS pos_created, 
+  pos.message AS pos_message, 
+  mem.id AS pos_mem_id, 
+  mem.login AS pos_mem_login, 
+  mem.name AS pos_mem_name, 
+  mem.email_work AS pos_mem_email_work
 FROM {$tableCollab["posts"]} pos
 LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = pos.member
 LEFT OUTER JOIN {$tableCollab["topics"]} topic ON topic.id = pos.topic
