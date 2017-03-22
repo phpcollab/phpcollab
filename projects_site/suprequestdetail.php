@@ -29,6 +29,7 @@ $checkSession = "true";
 include '../includes/library.php';
 
 $support = new \phpCollab\Support\Support();
+$members = new \phpCollab\Members\Members();
 
 $id = $_GET["id"];
 $idSession = $_SESSION["idSession"];
@@ -81,12 +82,19 @@ if ($requestDetail["sr_status"] == "2") {
     echo "<tr><th>" . $strings["date_close"] . " :</th><td>" . $requestDetail["sr_date_close"] . "</td><th>&nbsp;</th><td>&nbsp;</td></tr>";
 }
 
-echo "<tr><td colspan=\"4\">&nbsp;</td></tr>
-<tr><th colspan=\"4\">" . $strings["responses"] . ":</th></tr>
-<tr><td colspan=\"4\" align=\"right\"><a href=\"addsupportpost.php?id=$id\" class=\"FooterCell\">" . $strings["add_support_response"] . "</a></td></tr>";
+echo <<<HTML
+<tr>
+    <td colspan="4">&nbsp;</td>
+</tr>
+<tr>
+    <th colspan="4">{$strings["responses"]}:</th>
+</tr>
+<tr>
+    <td colspan="4" align="right"><a href="addsupportpost.php?id={$id}" class="FooterCell">{$strings["add_support_response"]}</a></td>
+</tr>
+HTML;
 
 if ($postDetail) {
-//    for ($i = 0; $i < $comptPostDetail; $i++) {
     foreach ($postDetail as $post) {
         if (!($i % 2)) {
             $class = "odd";
@@ -96,13 +104,13 @@ if ($postDetail) {
             $highlightOff = $block1->getEvenColor();
         }
 
-        echo "	<tr><td colspan='4' class='$class'>&nbsp;</td></tr><tr class='$class'><th>" . $strings["date"] . " :</th><td colspan='3'>" . $post["sp_date"] . "</td></tr>";
+        echo '	<tr><td colspan="4" class="' . $class . '">&nbsp;</td></tr>';
+        echo '<tr class="' . $class . '"><th>' . $strings["date"] . ' :</th><td colspan="3">' . $post["sp_date"] . '</td></tr>';
 
-        $tmpquery = "WHERE mem.id = '" . $post["sp_owner"] . "'";
-        $ownerDetail = new phpCollab\Request();
-        $ownerDetail->openMembers($tmpquery);
+        $ownerDetail = $members->getMemberById($post["sp_owner"]);
 
-        echo "<tr class='$class'><th>" . $strings["posted_by"] . " :</th><td colspan='3'>" . $ownerDetail->mem_name[0] . "</td></tr><tr class='$class'><th>" . $strings["message"] . " :</th><td colspan='3'>" . nl2br($post["sp_message"]) . "</td></tr>";
+        echo '<tr class="' . $class . '"><th>' . $strings["posted_by"] . ' :</th><td colspan="3">' . $ownerDetail["mem_name"] . '</td></tr>';
+        echo '<tr class="' . $class . '"><th>' . $strings["message"] . ' :</th><td colspan="3">' . nl2br($post["sp_message"]) . '</td></tr>';
     }
 } else {
     echo "<tr><td colspan='4' class='ListOddRow'>" . $strings["no_items"] . "</td></tr>";
@@ -110,4 +118,3 @@ if ($postDetail) {
 echo "</table>";
 
 include("include_footer.php");
-?>
