@@ -465,10 +465,19 @@ LEFT OUTER JOIN {$tableCollab["projects"]} pro ON pro.id = sr.project
 LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = sr.member
 SQL;
 
-$initrequest["support_posts"] = "SELECT sp.id, sp.request_id, sp.message, sp.date, sp.owner, sp.project, mem.name, mem.email_work
+$initrequest["support_posts"] = <<<SQL
+SELECT 
+  sp.id AS sp_id, 
+  sp.request_id AS sp_request_id, 
+  sp.message AS sp_message, 
+  sp.date AS sp_date, 
+  sp.owner AS sp_owner, 
+  sp.project AS sp_project, 
+  mem.name AS sp_mem_name, 
+  mem.email_work AS sp_mem_email_work
 FROM {$tableCollab["support_posts"]} sp
 LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = sp.owner
-";
+SQL;
 
 $initrequest["bookmarks"] = <<<SQL
 SELECT
