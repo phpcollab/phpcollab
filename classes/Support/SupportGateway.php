@@ -27,6 +27,18 @@ class SupportGateway
     }
 
     /**
+     * @param $supportRequestId
+     * @return mixed
+     */
+    public function getSupportRequestById($supportRequestId)
+    {
+        $query = $this->initrequest["support_requests"] . " WHERE sr.id = :support_request_id";
+        $this->db->query($query);
+        $this->db->bind(':support_request__id', $supportRequestId);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $supportRequestIds
      * @return mixed
      */
