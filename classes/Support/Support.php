@@ -24,6 +24,14 @@ class Support
     }
 
     /**
+     * @param $supportRequestId
+     * @return mixed
+     */
+    public function getSupportRequestById($supportRequestId)
+    {
+        return $this->support_gateway->getSupportRequestById($supportRequestId);
+    }
+    /**
      * @param $supportRequestIds
      * @return mixed
      */
