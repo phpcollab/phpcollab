@@ -5,24 +5,28 @@
 $checkSession = "true";
 include '../includes/library.php';
 
-$tmpquery = "WHERE topic.id = '$id'";
-$detailTopic = new phpCollab\Request();
-$detailTopic->openTopics($tmpquery);
+$topics = new \phpCollab\Topics\Topics();
 
-if ($detailTopic->top_published[0] == "1" || $detailTopic->top_project[0] != $projectSession) {
+$id = $_GET["id"];
+$strings = $GLOBALS["strings"];
+$tableCollab = $GLOBALS["tableCollab"];
+
+$detailTopic = $topics->getTopicByTopicId($id);
+
+if ($detailTopic["top_published"] == "1" || $detailTopic["top_project"] != $projectSession) {
     phpCollab\Util::headerFunction("index.php");
 }
 
-if ($action == "delete") {
-    $detailTopic->top_posts[0] = $detailTopic->top_posts[0] - 1;
+if ($_GET["action"] == "delete") {
+    $detailTopic["top_posts"] = $detailTopic["top_posts"] - 1;
     phpCollab\Util::newConnectSql(
         "DELETE FROM {$tableCollab["posts"]} WHERE id = :post_id",
-        ["post_id" => $post]
+        ["post_id" => $_GET["post"]]
     );
 
     phpCollab\Util::newConnectSql(
         "UPDATE {$tableCollab["topics"]} SET posts=:posts WHERE id = :topic_id",
-        ["posts" => $detailTopic->top_posts[0], "topic_id" => $id]
+        ["posts" => $detailTopic["top_posts"], "topic_id" => $id]
     );
     phpCollab\Util::headerFunction("showallthreads.php?id=$id");
 }
@@ -31,23 +35,23 @@ $bouton[5] = "over";
 $titlePage = $strings["bulletin_board_topic"];
 include 'include_header.php';
 
-$tmpquery = "WHERE pos.topic = '" . $detailTopic->top_id[0] . "' ORDER BY pos.created DESC";
+$tmpquery = "WHERE pos.topic = '" . $detailTopic["top_id"] . "' ORDER BY pos.created DESC";
 $listPosts = new phpCollab\Request();
 $listPosts->openPosts($tmpquery);
 $comptListPosts = count($listPosts->pos_id);
 
-$idStatus = $detailTopic->top_status[0];
+$idStatus = $detailTopic["top_status"];
 
 echo "<table cellspacing='0' width='90%' cellpadding='3'>
 <tr><th colspan='4'>" . $strings["information"] . ":</th></tr>
-<tr><th>" . $strings["subject"] . ":</th><td>" . $detailTopic->top_subject[0] . "</td><th>" . $strings["posts"] . ":</th><td>" . $detailTopic->top_posts[0] . "</td></tr>
-<tr><th>" . $strings["project"] . ":</th><td>" . $projectDetail->pro_name[0] . "</td><th>" . $strings["last_post"] . ":</th><td>" . phpCollab\Util::createDate($detailTopic->top_last_post[0], $timezoneSession) . "</td></tr>
+<tr><th>" . $strings["subject"] . ":</th><td>" . $detailTopic["top_subject"] . "</td><th>" . $strings["posts"] . ":</th><td>" . $detailTopic["top_posts"] . "</td></tr>
+<tr><th>" . $strings["project"] . ":</th><td>" . $projectDetail->pro_name[0] . "</td><th>" . $strings["last_post"] . ":</th><td>" . phpCollab\Util::createDate($detailTopic["top_last_post"], $timezoneSession) . "</td></tr>
 <tr><th>&nbsp;</th><td>&nbsp;</td><th>" . $strings["retired"] . ":</th><td>$statusTopicBis[$idStatus]</td></tr>
-<tr><th>" . $strings["owner"] . ":</th><td colspan='3'><a href='mailto:" . $detailTopic->top_mem_email_work[0] . "'>" . $detailTopic->top_mem_login[0] . "</a></td></tr>
+<tr><th>" . $strings["owner"] . ":</th><td colspan='3'><a href='mailto:" . $detailTopic["top_mem_email_work"] . "'>" . $detailTopic["top_mem_login"] . "</a></td></tr>
 <tr><td colspan='4'>&nbsp;</td></tr>
 <tr><th colspan='4'>" . $strings["discussion"] . ":</th></tr>";
 
-if ($detailTopic->top_status[0] == "1") {
+if ($detailTopic["top_status"] == "1") {
     echo "<tr><td colspan='4' align='right'><a href='threadpost.php?id=$id'>" . $strings["post_reply"] . "</a></td></tr>";
 }
 
