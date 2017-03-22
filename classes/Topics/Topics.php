@@ -48,6 +48,16 @@ class Topics
     }
 
     /**
+     * @param $topicId
+     * @return mixed
+     */
+    public function getTopicByTopicId($topicId)
+    {
+        $topicId = filter_var($topicId, FILTER_SANITIZE_STRING);
+        return $this->topics_gateway->getTopicById($topicId);
+    }
+
+    /**
      * @param integer|array $topicId
      * @return string
      */
