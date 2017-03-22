@@ -65,6 +65,18 @@ class TopicsGateway
     }
 
     /**
+     * @param $topicId
+     * @return mixed
+     */
+    public function getPostsByTopicId($topicId)
+    {
+        $query = $this->initrequest["posts"] . " WHERE pos.topic = :topic_id ORDER BY pos.created DESC";
+        $this->db->query($query);
+        $this->db->bind(':topic_id', $topicId);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $topicIds
      * @return mixed
      * @internal param string $table
