@@ -7,6 +7,7 @@ $projects = new \phpCollab\Projects\Projects();
 $organizations = new \phpCollab\Organizations\Organizations();
 
 $id = $_GET["id"];
+$strings = $GLOBALS["strings"];
 
 $detailInvoice = $invoices->getInvoiceById($id);
 $projectDetail = $projects->getProjectById($detailInvoice["inv_project"]);
@@ -22,8 +23,8 @@ $template->set_var(array(
     'val_CLIENTNAME' => $clientDetail["org_name"],
     'val_CLIENTADDRESS' => nl2br($clientDetail["org_address1"]),
 
-    'val_COMPANYNAME' => $mycompanyDetail["org_name"],
-    'val_COMPANYADDRESS' => nl2br($mycompanyDetail["org_address1"]),
+    'val_COMPANYNAME' => $myCompanyDetail["org_name"],
+    'val_COMPANYADDRESS' => nl2br($myCompanyDetail["org_address1"]),
 
     'str_INVOICE' => $strings["invoice"],
     'val_HEADER' => $detailInvoice["inv_header_note"],
@@ -46,7 +47,6 @@ $template->set_var(array(
 
 $template->set_block('invoice', 'items', 'block');
 
-//for ($i = 0; $i < $comptListInvoicesItems; $i++) {
 foreach ($listInvoicesItems as $invoiceItem) {
     $template->set_var(array(
         'val_TITLE' => $invoiceItem["invitem_title"],
