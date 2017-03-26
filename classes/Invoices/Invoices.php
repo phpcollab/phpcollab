@@ -65,6 +65,10 @@ class Invoices
         return $this->invoices_gateway->getActiveInvoiceItemsByInvoiceId($invoiceId);
     }
 
+    /**
+     * @param $invoiceItemId
+     * @return mixed
+     */
     public function getInvoiceItemById($invoiceItemId)
     {
         $invoiceItemId = filter_var($invoiceItemId, FILTER_VALIDATE_INT);
