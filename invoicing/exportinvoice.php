@@ -2,11 +2,13 @@
 include '../includes/library.php';
 include '../includes/phplib/template.php';
 
-$tmpquery = "WHERE inv.id = '$id'";
-$detailInvoice = new phpCollab\Request();
-$detailInvoice->openInvoices($tmpquery);
+$invoices = new \phpCollab\Invoices\Invoices();
 
-$tmpquery = "WHERE pro.id = '" . $detailInvoice->inv_project[0] . "'";
+$id = $_GET["id"];
+
+$detailInvoice = $invoices->getInvoiceById($id);
+
+$tmpquery = "WHERE pro.id = '" . $detailInvoice["inv_project"] . "'";
 $projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
@@ -37,13 +39,13 @@ $template->set_var(array(
     'val_COMPANYADDRESS' => nl2br($mycompanyDetail->org_address1[0]),
 
     'str_INVOICE' => $strings["invoice"],
-    'val_HEADER' => $detailInvoice->inv_header_note[0],
-    'val_FOOTER' => $detailInvoice->inv_footer_note[0],
+    'val_HEADER' => $detailInvoice["inv_header_note"],
+    'val_FOOTER' => $detailInvoice["inv_footer_note"],
 
-    'val_TOTALINCTAX' => $detailInvoice->inv_total_inc_tax[0],
-    'val_TOTALEXTAX' => $detailInvoice->inv_total_ex_tax[0],
-    'val_TAXRATE' => $detailInvoice->inv_tax_rate[0],
-    'val_TAXAMOUNT' => $detailInvoice->inv_tax_amount[0],
+    'val_TOTALINCTAX' => $detailInvoice["inv_total_inc_tax"],
+    'val_TOTALEXTAX' => $detailInvoice["inv_total_ex_tax"],
+    'val_TAXRATE' => $detailInvoice["inv_tax_rate"],
+    'val_TAXAMOUNT' => $detailInvoice["inv_tax_amount"],
 
     'str_TOTALINCTAX' => $strings["total_inc_tax"],
     'str_TOTALEXTAX' => $strings["total_ex_tax"],
@@ -69,7 +71,7 @@ for ($i = 0; $i < $comptListInvoicesItems; $i++) {
 
 $dump_buffer = $template->finish($template->parse('invoice', 'invoice'));
 
-$filename = $strings["invoice"] . $detailInvoice->inv_id[0];
+$filename = $strings["invoice"] . $detailInvoice["inv_id"];
 
 $ext = 'html';
 $mime_type = 'text/html';
