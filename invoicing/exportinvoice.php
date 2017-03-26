@@ -4,6 +4,7 @@ include '../includes/phplib/template.php';
 
 $invoices = new \phpCollab\Invoices\Invoices();
 $projects = new \phpCollab\Projects\Projects();
+$organizations = new \phpCollab\Organizations\Organizations();
 
 $id = $_GET["id"];
 
@@ -11,10 +12,7 @@ $detailInvoice = $invoices->getInvoiceById($id);
 
 $projectDetail = $projects->getProjectById($detailInvoice["inv_project"]);
 
-$tmpquery = "WHERE org.id = '" . ["pro_organization"] . "'";
-$clientDetail = new phpCollab\Request();
-$clientDetail->openOrganizations($tmpquery);
-$comptClientDetail = count($clientDetail->org_id);
+$clientDetail = $organizations->getOrganizationById($projectDetail["pro_organization"]);
 
 $tmpquery = "WHERE org.id = '1'";
 $mycompanyDetail = new phpCollab\Request();
@@ -31,8 +29,8 @@ $template = new Template();
 $template->set_file('invoice', 'tpl_invoice.html');
 
 $template->set_var(array(
-    'val_CLIENTNAME' => $clientDetail->org_name[0],
-    'val_CLIENTADDRESS' => nl2br($clientDetail->org_address1[0]),
+    'val_CLIENTNAME' => $clientDetail["org_name"],
+    'val_CLIENTADDRESS' => nl2br($clientDetail["org_address1"]),
 
     'val_COMPANYNAME' => $mycompanyDetail->org_name[0],
     'val_COMPANYADDRESS' => nl2br($mycompanyDetail->org_address1[0]),
