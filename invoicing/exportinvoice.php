@@ -14,10 +14,7 @@ $projectDetail = $projects->getProjectById($detailInvoice["inv_project"]);
 
 $clientDetail = $organizations->getOrganizationById($projectDetail["pro_organization"]);
 
-$tmpquery = "WHERE org.id = '1'";
-$mycompanyDetail = new phpCollab\Request();
-$mycompanyDetail->openOrganizations($tmpquery);
-$comptMycompanyDetailDetail = count($mycompanyDetail->org_id);
+$myCompanyDetail = $organizations->getOrganizationById(1);
 
 $tmpquery = "WHERE invitem.invoice = '$id' AND invitem.active = '1' ORDER BY invitem.position ASC";
 $listInvoicesItems = new phpCollab\Request();
@@ -32,8 +29,8 @@ $template->set_var(array(
     'val_CLIENTNAME' => $clientDetail["org_name"],
     'val_CLIENTADDRESS' => nl2br($clientDetail["org_address1"]),
 
-    'val_COMPANYNAME' => $mycompanyDetail->org_name[0],
-    'val_COMPANYADDRESS' => nl2br($mycompanyDetail->org_address1[0]),
+    'val_COMPANYNAME' => $mycompanyDetail["org_name"],
+    'val_COMPANYADDRESS' => nl2br($mycompanyDetail["org_address1"]),
 
     'str_INVOICE' => $strings["invoice"],
     'val_HEADER' => $detailInvoice["inv_header_note"],
