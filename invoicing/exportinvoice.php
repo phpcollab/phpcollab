@@ -9,17 +9,10 @@ $organizations = new \phpCollab\Organizations\Organizations();
 $id = $_GET["id"];
 
 $detailInvoice = $invoices->getInvoiceById($id);
-
 $projectDetail = $projects->getProjectById($detailInvoice["inv_project"]);
-
 $clientDetail = $organizations->getOrganizationById($projectDetail["pro_organization"]);
-
 $myCompanyDetail = $organizations->getOrganizationById(1);
-
-$tmpquery = "WHERE invitem.invoice = '$id' AND invitem.active = '1' ORDER BY invitem.position ASC";
-$listInvoicesItems = new phpCollab\Request();
-$listInvoicesItems->openInvoicesItems($tmpquery);
-$comptListInvoicesItems = count($listInvoicesItems->invitem_id);
+$listInvoicesItems = $invoices->getActiveInvoiceItemsByInvoiceId($id);
 
 $template = new Template();
 
@@ -53,11 +46,11 @@ $template->set_var(array(
 
 $template->set_block('invoice', 'items', 'block');
 
-for ($i = 0; $i < $comptListInvoicesItems; $i++) {
-
+//for ($i = 0; $i < $comptListInvoicesItems; $i++) {
+foreach ($listInvoicesItems as $invoiceItem) {
     $template->set_var(array(
-        'val_TITLE' => $listInvoicesItems->invitem_title[$i],
-        'val_AMOUNTEXTAX' => $listInvoicesItems->invitem_amount_ex_tax[$i],
+        'val_TITLE' => $invoiceItem["invitem_title"],
+        'val_AMOUNTEXTAX' => $invoiceItem["invitem_amount_ex_tax"],
     ));
     $template->Parse('block', 'items', true);
 
@@ -80,4 +73,3 @@ header('Expires: 0');
 
 
 echo $dump_buffer;
-?>
