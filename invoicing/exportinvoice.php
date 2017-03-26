@@ -3,16 +3,15 @@ include '../includes/library.php';
 include '../includes/phplib/template.php';
 
 $invoices = new \phpCollab\Invoices\Invoices();
+$projects = new \phpCollab\Projects\Projects();
 
 $id = $_GET["id"];
 
 $detailInvoice = $invoices->getInvoiceById($id);
 
-$tmpquery = "WHERE pro.id = '" . $detailInvoice["inv_project"] . "'";
-$projectDetail = new phpCollab\Request();
-$projectDetail->openProjects($tmpquery);
+$projectDetail = $projects->getProjectById($detailInvoice["inv_project"]);
 
-$tmpquery = "WHERE org.id = '" . $projectDetail->pro_organization[0] . "'";
+$tmpquery = "WHERE org.id = '" . ["pro_organization"] . "'";
 $clientDetail = new phpCollab\Request();
 $clientDetail->openOrganizations($tmpquery);
 $comptClientDetail = count($clientDetail->org_id);
