@@ -67,10 +67,6 @@ echo '<tr><th nowrap>*&nbsp;' . $strings["message"] . ':</th><td colspan="3"><te
 echo '<tr><td class="FormLabel">&nbsp;</td><td colspan="3"><input name="submit" type="submit" value="' . $strings["save"] . '"></td></tr>';
 echo '</form>';
 
-$tmpquery = "WHERE pos.topic = '" . $detailTopic["top_id"] . "' ORDER BY pos.created DESC";
-$listPosts = new phpCollab\Request();
-$listPosts->openPosts($tmpquery);
-
 $listPosts = $topics->getPostsByTopicId($detailTopic["top_id"]);
 
 if ($listPosts) {
