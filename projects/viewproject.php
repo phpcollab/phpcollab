@@ -37,6 +37,7 @@ $tasks = new \phpCollab\Tasks\Tasks();
 $teams = new \phpCollab\Teams\Teams();
 $files = new \phpCollab\Files\Files();
 $notes = new \phpCollab\Notes\Notes();
+$support = new \phpCollab\Support\Support();
 
 $id = phpCollab\Util::returnGlobal('id', 'REQUEST');
 $project = phpCollab\Util::returnGlobal('project', 'REQUEST');
@@ -239,20 +240,20 @@ if ($teamMember == "false" && $projectsFilter == "true") {
 }
 
 if ($enableHelpSupport == "true" && ($teamMember == "true" || $profilSession == "5")) {
-    $tmpquery = "WHERE sr.status = '0' AND sr.project = '" . $projectDetail->pro_id[0] . "'";
-    $listNewRequests = new phpCollab\Request();
-    $listNewRequests->openSupportRequests($tmpquery);
-    $comptListNewRequests = count($listNewRequests->sr_id);
+//    $tmpquery = "WHERE sr.status = '0' AND sr.project = '" . $projectDetail->pro_id[0] . "'";
+//    $listNewRequests = new phpCollab\Request();
+//    $listNewRequests->openSupportRequests($tmpquery);
+    $comptListNewRequests = count($support->getSupportRequestByStatusAndProjectId(0, $projectDetail->pro_id[0]));
 
-    $tmpquery = "WHERE sr.status = '1' AND sr.project = '" . $projectDetail->pro_id[0] . "'";
-    $listOpenRequests = new phpCollab\Request();
-    $listOpenRequests->openSupportRequests($tmpquery);
-    $comptListOpenRequests = count($listOpenRequests->sr_id);
+//    $tmpquery = "WHERE sr.status = '1' AND sr.project = '" . $projectDetail->pro_id[0] . "'";
+//    $listOpenRequests = new phpCollab\Request();
+//    $listOpenRequests->openSupportRequests($tmpquery);
+    $comptListOpenRequests = count($support->getSupportRequestByStatusAndProjectId(1, $projectDetail->pro_id[0]));
 
-    $tmpquery = "WHERE sr.status = '2' AND sr.project = '" . $projectDetail->pro_id[0] . "'";
-    $listCompleteRequests = new phpCollab\Request();
-    $listCompleteRequests->openSupportRequests($tmpquery);
-    $comptListCompleteRequests = count($listCompleteRequests->sr_id);
+//    $tmpquery = "WHERE sr.status = '2' AND sr.project = '" . $projectDetail->pro_id[0] . "'";
+//    $listCompleteRequests = new phpCollab\Request();
+//    $listCompleteRequests->openSupportRequests($tmpquery);
+    $comptListCompleteRequests = count($support->getSupportRequestByStatusAndProjectId(2, $projectDetail->pro_id[0]));
 }
 
 $setTitle .= " : View Project (" . $projectDetail->pro_name[0] . ")";
