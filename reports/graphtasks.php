@@ -28,20 +28,20 @@
 */
 $checkSession = "true";
 include '../includes/library.php';
+$reports = new \phpCollab\Reports\Reports();
 
 include("../includes/jpgraph/jpgraph.php");
 include("../includes/jpgraph/jpgraph_gantt.php");
 
-$tmpquery = "WHERE id = '" . $report . "'";
-$reportDetail = new phpCollab\Request();
-$reportDetail->openReports($tmpquery);
-$S_ORGSEL = $reportDetail->rep_clients[0];
-$S_PRJSEL = $reportDetail->rep_projects[0];
-$S_ATSEL = $reportDetail->rep_members[0];
-$S_STATSEL = $reportDetail->rep_status[0];
-$S_PRIOSEL = $reportDetail->rep_priorities[0];
-$S_SDATE = $reportDetail->rep_date_due_start[0];
-$S_EDATE = $reportDetail->rep_date_due_end[0];
+$reportDetail = $reports->getReportsById($report);
+
+$S_ORGSEL = $reportDetail["rep_clients"];
+$S_PRJSEL = $reportDetail["rep_projects"];
+$S_ATSEL = $reportDetail["rep_members"];
+$S_STATSEL = $reportDetail["rep_status"];
+$S_PRIOSEL = $reportDetail["rep_priorities"];
+$S_SDATE = $reportDetail["rep_date_due_start"];
+$S_EDATE = $reportDetail["rep_date_due_end"];
 
 if ($S_SDATE == "" && $S_EDATE == "") {
     $S_DUEDATE = "ALL";
@@ -106,14 +106,14 @@ if ($S_ORGSEL != "ALL" || $S_PRJSEL != "ALL" || $S_ATSEL != "ALL" || $S_STATSEL 
     $query .= ")";
 }
 
-$reportDetail->rep_created[0] = phpCollab\Util::createDate($reportDetail->rep_created[0], $timezoneSession);
+$reportDetail["rep_created"] = phpCollab\Util::createDate($reportDetail["rep_created"], $timezoneSession);
 
 $graph = new GanttGraph();
 $graph->SetBox();
 $graph->SetMarginColor("white");
 $graph->SetColor("white");
-$graph->title->Set($strings["report"] . " " . $reportDetail->rep_name[0]);
-$graph->subtitle->Set("(" . $strings["created"] . ": " . $reportDetail->rep_created[0] . ")");
+$graph->title->Set($strings["report"] . " " . $reportDetail["rep_name"]);
+$graph->subtitle->Set("(" . $strings["created"] . ": " . $reportDetail["rep_created"] . ")");
 $graph->title->SetFont(FF_FONT1);
 $graph->SetColor("white");
 $graph->ShowHeaders(GANTT_HYEAR | GANTT_HMONTH | GANTT_HDAY | GANTT_HWEEK);
