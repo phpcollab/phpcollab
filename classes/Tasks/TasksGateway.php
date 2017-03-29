@@ -205,7 +205,6 @@ class TasksGateway
      */
     public function getSubtasksByParentTaskIdAndStartAndEndDateAreNotEmptyAndNotPublished($parentTaskId)
     {
-//        $whereStatement = " WHERE task = :parent_task_id";
         $whereStatement = " WHERE subtas.task = :parent_task_id AND subtas.start_date != '--' AND subtas.due_date != '--' AND tas.published != 1";
         $this->db->query($this->initrequest["subtasks"] . $whereStatement . $this->orderBy('subtas.due_date'));
         $this->db->bind(':parent_task_id', $parentTaskId);
