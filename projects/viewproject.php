@@ -220,16 +220,7 @@ if ($listTasksTime) {
 }
 
 $teamMember = "false";
-$tmpquery = "WHERE tea.project = '$id' AND tea.member = '" . phpCollab\Util::fixInt($idSession) . "'";
-$memberTest = new phpCollab\Request();
-$memberTest->openTeams($tmpquery);
-$comptMemberTest = count($memberTest->tea_id);
-
-if ($comptMemberTest == "0") {
-    $teamMember = "false";
-} else {
-    $teamMember = "true";
-}
+$teamMember = $teams->isTeamMember($id, $idSession);
 
 if ($teamMember == "false" && $projectsFilter == "true") {
     header("Location:../general/permissiondenied.php");
