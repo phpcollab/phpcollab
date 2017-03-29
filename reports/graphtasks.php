@@ -33,6 +33,8 @@ $reports = new \phpCollab\Reports\Reports();
 include("../includes/jpgraph/jpgraph.php");
 include("../includes/jpgraph/jpgraph_gantt.php");
 
+$report = $_GET["report"];
+
 $reportDetail = $reports->getReportsById($report);
 
 $S_ORGSEL = $reportDetail["rep_clients"];
@@ -152,26 +154,23 @@ for ($i = 0; $i < $comptListTasks; $i++) {
     $graph->Add($activity);
 
     // begin if subtask
-    $tmpquery = "WHERE task = " . $listTasks->tas_id[$i];
-    $listSubTasks = new phpCollab\Request();
-    $listSubTasks->openSubtasks($tmpquery);
-    $comptListSubTasks = count($listSubTasks->subtas_id);
+    $listSubTasks = $tasks->getSubtasksByParentTaskId($listTasks->tas_id[$i]);
 
-    if ($comptListSubTasks >= 1) {
+    if ($listSubTasks) {
         // list subtasks
-        for ($j = 0; $j < $comptListSubTasks; $j++) {
-            $listSubTasks->subtas_name[$j] = str_replace('&quot;', '"', $listSubTasks->subtas_name[$j]);
-            $listSubTasks->subtas_name[$j] = str_replace("&#39;", "'", $listSubTasks->subtas_name[$j]);
-            $progress = round($listSubTasks->subtas_completion[$j] / 10, 2);
-            $printProgress = $listSubTasks->subtas_completion[$j] * 10;
+        foreach ($listSubTasks as $subTask) {
+            $subTask["subtas_name"] = str_replace('&quot;', '"', $subTask["subtas_name"]);
+            $subTask["subtas_name"] = str_replace("&#39;", "'", $subTask["subtas_name"]);
+            $progress = round($subTask["subtas_completion"] / 10, 2);
+            $printProgress = $subTask["subtas_completion"] * 10;
             $posGantt += 1;
             // change name of project for name of parent task
-            $activity = new GanttBar($posGantt, $listSubTasks->subtas_tas_name[$j] . " / " . $listSubTasks->subtas_name[$j], $listSubTasks->subtas_start_date[$j], $listSubTasks->subtas_due_date[$j]);
+            $activity = new GanttBar($posGantt, $subTask["subtas_tas_name"] . " / " . $subTask["subtas_name"], $subTask["subtas_start_date"], $subTask["subtas_due_date"]);
             $activity->SetPattern(BAND_LDIAG, "yellow");
-            $activity->caption->Set($listSubTasks->subtas_mem_login[$j] . " (" . $printProgress . "%)");
+            $activity->caption->Set($subTask["subtas_mem_login"] . " (" . $printProgress . "%)");
             $activity->SetFillColor("gray");
 
-            if ($listSubTasks->subtas_priority[$j] == "4" || $listSubTasks->subtas_priority[$j] == "5") {
+            if ($subTask["subtas_priority"] == "4" || $subTask["subtas_priority"] == "5") {
                 $activity->progress->SetPattern(BAND_SOLID, "#BB0000");
             } else {
                 $activity->progress->SetPattern(BAND_SOLID, "#0000BB");
