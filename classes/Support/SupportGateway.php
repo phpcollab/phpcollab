@@ -39,6 +39,20 @@ class SupportGateway
     }
 
     /**
+     * @param $status
+     * @param $projectId
+     * @return mixed
+     */
+    public function getSupportRequestByStatusAndProjectId($status, $projectId)
+    {
+        $query = $this->initrequest["support_requests"] . " WHERE sr.status = :status AND sr.project = :project_id";
+        $this->db->query($query);
+        $this->db->bind(':status', $status);
+        $this->db->bind(':project_id', $projectId);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $requestId
      * @return mixed
      */
