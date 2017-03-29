@@ -56,6 +56,21 @@ class PhasesGateway
     }
 
     /**
+     * @param $projectId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getPhasesByProjectId($projectId, $sorting = null)
+    {
+        $whereStatement = " WHERE pha.project_id = :project_id";
+        $this->db->query($this->initrequest["phases"] . $whereStatement . $this->orderBy($sorting));
+        $this->db->bind(':project_id', $projectId);
+        $results = $this->db->resultset();
+        return $results;
+
+    }
+
+    /**
      * @param $phaseId
      * @return mixed
      */
@@ -80,5 +95,29 @@ class PhasesGateway
         $this->db->query($sql);
         return $this->db->execute($projectIds);
     }
+
+    /**
+     * @param $sorting
+     * @return string
+     */
+    private function orderBy($sorting)
+    {
+        if (!is_null($sorting)) {
+            $allowedOrderedBy = ["pha.order_num", "pha.name", "pha.status", "pha.date_start", "pha.date_end"];
+            $pieces = explode(' ', $sorting);
+
+            if ($pieces) {
+                $key = array_search($pieces[0], $allowedOrderedBy);
+
+                if ($key !== false) {
+                    $order = $allowedOrderedBy[$key];
+                    return " ORDER BY $order $pieces[1]";
+                }
+            }
+        }
+
+        return '';
+    }
+
 
 }
