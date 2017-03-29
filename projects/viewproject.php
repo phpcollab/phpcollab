@@ -38,6 +38,7 @@ $teams = new \phpCollab\Teams\Teams();
 $files = new \phpCollab\Files\Files();
 $notes = new \phpCollab\Notes\Notes();
 $support = new \phpCollab\Support\Support();
+$projects = new \phpCollab\Projects\Projects();
 
 $id = phpCollab\Util::returnGlobal('id', 'REQUEST');
 $project = phpCollab\Util::returnGlobal('project', 'REQUEST');
@@ -194,12 +195,9 @@ if ($msg == "demo") {
     $id = $project;
 }
 
-$tmpquery = "WHERE pro.id = '$id'";
-$projectDetail = new phpCollab\Request();
-$projectDetail->openProjects($tmpquery);
-$comptProjectDetail = count($projectDetail->pro_id);
+$projectDetail = $projects->getProjectById($id);
 
-if ($comptProjectDetail == "0") {
+if (!$projectDetail) {
     phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blankProject");
 }
 
@@ -240,30 +238,19 @@ if ($teamMember == "false" && $projectsFilter == "true") {
 }
 
 if ($enableHelpSupport == "true" && ($teamMember == "true" || $profilSession == "5")) {
-//    $tmpquery = "WHERE sr.status = '0' AND sr.project = '" . $projectDetail->pro_id[0] . "'";
-//    $listNewRequests = new phpCollab\Request();
-//    $listNewRequests->openSupportRequests($tmpquery);
-    $comptListNewRequests = count($support->getSupportRequestByStatusAndProjectId(0, $projectDetail->pro_id[0]));
-
-//    $tmpquery = "WHERE sr.status = '1' AND sr.project = '" . $projectDetail->pro_id[0] . "'";
-//    $listOpenRequests = new phpCollab\Request();
-//    $listOpenRequests->openSupportRequests($tmpquery);
-    $comptListOpenRequests = count($support->getSupportRequestByStatusAndProjectId(1, $projectDetail->pro_id[0]));
-
-//    $tmpquery = "WHERE sr.status = '2' AND sr.project = '" . $projectDetail->pro_id[0] . "'";
-//    $listCompleteRequests = new phpCollab\Request();
-//    $listCompleteRequests->openSupportRequests($tmpquery);
-    $comptListCompleteRequests = count($support->getSupportRequestByStatusAndProjectId(2, $projectDetail->pro_id[0]));
+    $comptListNewRequests = count($support->getSupportRequestByStatusAndProjectId(0, $projectDetail["pro_id"]));
+    $comptListOpenRequests = count($support->getSupportRequestByStatusAndProjectId(1, $projectDetail["pro_id"]));
+    $comptListCompleteRequests = count($support->getSupportRequestByStatusAndProjectId(2, $projectDetail["pro_id"]));
 }
 
-$setTitle .= " : View Project (" . $projectDetail->pro_name[0] . ")";
+$setTitle .= " : View Project (" . $projectDetail["pro_name"] . ")";
 
 include '../themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-$blockPage->itemBreadcrumbs($projectDetail->pro_name[0]);
+$blockPage->itemBreadcrumbs($projectDetail["pro_name"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
@@ -273,20 +260,20 @@ if ($msg != "") {
 
 $blockPage->limitsNumber = "4";
 
-$idStatus = $projectDetail->pro_status[0];
-$idPriority = $projectDetail->pro_priority[0];
+$idStatus = $projectDetail["pro_status"];
+$idPriority = $projectDetail["pro_priority"];
 
 $block1 = new phpCollab\Block();
 
 $block1->form = "pdD";
 $block1->openForm("../projects/listprojects.php#" . $block1->form . "Anchor");
 
-$block1->headingToggle($strings["project"] . " : " . $projectDetail->pro_name[0]);
+$block1->headingToggle($strings["project"] . " : " . $projectDetail["pro_name"]);
 
-if ($idSession == $projectDetail->pro_owner[0] || $enable_cvs == "true" || $profilSession == "0" || $profilSession == "5") {
+if ($idSession == $projectDetail["pro_owner"] || $enable_cvs == "true" || $profilSession == "0" || $profilSession == "5") {
     $block1->openPaletteIcon();
 
-    if ($idSession == $projectDetail->pro_owner[0] || $profilSession == "0" || $profilSession == "5") {
+    if ($idSession == $projectDetail["pro_owner"] || $profilSession == "0" || $profilSession == "5") {
         $block1->paletteIcon(0, "remove", $strings["delete"]);
         $block1->paletteIcon(1, "copy", $strings["copy"]);
         $block1->paletteIcon(2, "export", $strings["export"]);
@@ -308,12 +295,12 @@ if ($idSession == $projectDetail->pro_owner[0] || $enable_cvs == "true" || $prof
 $block1->openContent();
 $block1->contentTitle($strings["details"]);
 
-$block1->contentRow($strings["name"], $projectDetail->pro_name[0]);
-$block1->contentRow($strings["project_id"], $projectDetail->pro_id[0]);
+$block1->contentRow($strings["name"], $projectDetail["pro_name"]);
+$block1->contentRow($strings["project_id"], $projectDetail["pro_id"]);
 $block1->contentRow($strings["priority"], "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
 
 //List open phases and link to phase details
-if ($projectDetail->pro_phase_set[0] != "0") {
+if ($projectDetail["pro_phase_set"] != "0") {
     $tmpquery = "WHERE pha.project_id = '$id' AND status = '1' ORDER BY pha.order_num";
     $currentPhase = new phpCollab\Request();
     $currentPhase->openPhases($tmpquery);
@@ -334,24 +321,24 @@ if ($projectDetail->pro_phase_set[0] != "0") {
     $block1->contentRow($strings["phase_enabled"], $strings["false"]);
 }
 
-$block1->contentRow($strings["description"], nl2br($projectDetail->pro_description[0]));
-$block1->contentRow($strings["url_dev"], $blockPage->buildLink($projectDetail->pro_url_dev[0], $projectDetail->pro_url_dev[0], out));
-$block1->contentRow($strings["url_prod"], $blockPage->buildLink($projectDetail->pro_url_prod[0], $projectDetail->pro_url_prod[0], out));
-$block1->contentRow($strings["owner"], $blockPage->buildLink("../users/viewuser.php?id=" . $projectDetail->pro_mem_id[0], $projectDetail->pro_mem_name[0], in) . " (" . $blockPage->buildLink($projectDetail->pro_mem_email_work[0], $projectDetail->pro_mem_login[0], mail) . ")");
-$block1->contentRow($strings["created"], phpCollab\Util::createDate($projectDetail->pro_created[0], $timezoneSession));
-$block1->contentRow($strings["modified"], phpCollab\Util::createDate($projectDetail->pro_modified[0], $timezoneSession));
+$block1->contentRow($strings["description"], nl2br($projectDetail["pro_description"]));
+$block1->contentRow($strings["url_dev"], $blockPage->buildLink($projectDetail["pro_url_dev"], $projectDetail["pro_url_dev"], out));
+$block1->contentRow($strings["url_prod"], $blockPage->buildLink($projectDetail["pro_url_prod"], $projectDetail["pro_url_prod"], out));
+$block1->contentRow($strings["owner"], $blockPage->buildLink("../users/viewuser.php?id=" . $projectDetail["pro_mem_id"], $projectDetail["pro_mem_name"], in) . " (" . $blockPage->buildLink($projectDetail["pro_mem_email_work"], $projectDetail["pro_mem_login"], mail) . ")");
+$block1->contentRow($strings["created"], phpCollab\Util::createDate($projectDetail["pro_created"], $timezoneSession));
+$block1->contentRow($strings["modified"], phpCollab\Util::createDate($projectDetail["pro_modified"], $timezoneSession));
 
-if ($projectDetail->pro_org_id[0] == "1") {
+if ($projectDetail["pro_org_id"] == "1") {
     $block1->contentRow($strings["organization"], $strings["none"]);
 } else {
-    $block1->contentRow($strings["organization"], $blockPage->buildLink("../clients/viewclient.php?id=" . $projectDetail->pro_org_id[0], $projectDetail->pro_org_name[0], in));
+    $block1->contentRow($strings["organization"], $blockPage->buildLink("../clients/viewclient.php?id=" . $projectDetail["pro_org_id"], $projectDetail["pro_org_name"], in));
 }
 
 $block1->contentRow($strings["status"], $status[$idStatus]);
 
 if ($fileManagement == "true") {
-    $block1->contentRow($strings["max_upload"] . $blockPage->printHelp("max_file_size"), phpCollab\Util::convertSize($projectDetail->pro_upload_max[0]));
-    $block1->contentRow($strings["project_folder_size"] . $blockPage->printHelp("project_disk_space"), phpCollab\Util::convertSize(phpCollab\Util::folderInfoSize("../files/" . $projectDetail->pro_id[0] . "/")));
+    $block1->contentRow($strings["max_upload"] . $blockPage->printHelp("max_file_size"), phpCollab\Util::convertSize($projectDetail["pro_upload_max"]));
+    $block1->contentRow($strings["project_folder_size"] . $blockPage->printHelp("project_disk_space"), phpCollab\Util::convertSize(phpCollab\Util::folderInfoSize("../files/" . $projectDetail["pro_id"] . "/")));
 }
 
 $block1->contentRow($strings["estimated_time"], $estimated_time . " " . $strings["hours"]);
@@ -359,42 +346,42 @@ $block1->contentRow($strings["actual_time"], $actual_time . " " . $strings["hour
 $block1->contentRow($strings["scope_creep"] . $blockPage->printHelp("project_scope_creep"), $diff_time . " " . $strings["days"]);
 
 if ($sitePublish == "true") {
-    if ($projectDetail->pro_published[0] == "1") {
+    if ($projectDetail["pro_published"] == "1") {
         $block1->contentRow($strings["project_site"], "&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=$id", $strings["create"] . "...", in) . "&gt;");
     } else {
         $block1->contentRow($strings["project_site"], "&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=$id", $strings["details"], in) . "&gt;");
     }
 }
 
-if ($enableInvoicing == "true" && ($idSession == $projectDetail->pro_owner[0] || $profilSession == "0" || $profilSession == "5")) {
-    if ($projectDetail->pro_invoicing[0] == "1") {
+if ($enableInvoicing == "true" && ($idSession == $projectDetail["pro_owner"] || $profilSession == "0" || $profilSession == "5")) {
+    if ($projectDetail["pro_invoicing"] == "1") {
         $block1->contentRow($strings["invoicing"], $strings["true"]);
     } else {
         $block1->contentRow($strings["invoicing"], $strings["false"]);
     }
 
-    $block1->contentRow($strings["hourly_rate"], $projectDetail->pro_hourly_rate[0]);
+    $block1->contentRow($strings["hourly_rate"], $projectDetail["pro_hourly_rate"]);
 }
 
 if ($enableHelpSupport == "true" && ($teamMember == "true" || $profilSession == "5") && $supportType == "team") {
     $block1->contentTitle($strings["support"]);
-    $block1->contentRow($strings["new_requests"], "$comptListNewRequests - " . $blockPage->buildLink("../support/support.php?action=new&project=" . $projectDetail->pro_id[0], $strings["manage_new_requests"], in));
-    $block1->contentRow($strings["open_requests"], "$comptListOpenRequests - " . $blockPage->buildLink("../support/support.php?action=open&project=" . $projectDetail->pro_id[0], $strings["manage_open_requests"], in));
-    $block1->contentRow($strings["closed_requests"], "$comptListCompleteRequests - " . $blockPage->buildLink("../support/support.php?action=complete&project=" . $projectDetail->pro_id[0], $strings["manage_closed_requests"], in));
+    $block1->contentRow($strings["new_requests"], "$comptListNewRequests - " . $blockPage->buildLink("../support/support.php?action=new&project=" . $projectDetail["pro_id"], $strings["manage_new_requests"], in));
+    $block1->contentRow($strings["open_requests"], "$comptListOpenRequests - " . $blockPage->buildLink("../support/support.php?action=open&project=" . $projectDetail["pro_id"], $strings["manage_open_requests"], in));
+    $block1->contentRow($strings["closed_requests"], "$comptListCompleteRequests - " . $blockPage->buildLink("../support/support.php?action=complete&project=" . $projectDetail["pro_id"], $strings["manage_closed_requests"], in));
 }
 
 $block1->closeContent();
 $block1->closeToggle();
 $block1->closeForm();
 
-if ($idSession == $projectDetail->pro_owner[0] || $enable_cvs == "true" || $profilSession == "0" || $profilSession == "5") {
+if ($idSession == $projectDetail["pro_owner"] || $enable_cvs == "true" || $profilSession == "0" || $profilSession == "5") {
     $block1->openPaletteScript();
 
-    if ($idSession == $projectDetail->pro_owner[0] || $profilSession == "0" || $profilSession == "5") {
+    if ($idSession == $projectDetail["pro_owner"] || $profilSession == "0" || $profilSession == "5") {
         $block1->paletteScript(0, "remove", "../projects/deleteproject.php?id=$id", "true,true,false", $strings["delete"]);
-        $block1->paletteScript(1, "copy", "../projects/editproject.php?id=" . $projectDetail->pro_id[0] . "&docopy=true", "true,true,false", $strings["copy"]);
-        $block1->paletteScript(2, "export", "../projects/exportproject.php?languageSession=$languageSession&type=project&id=" . $projectDetail->pro_id[0] . "", "true,true,false", $strings["export"]);
-        $block1->paletteScript(3, "edit", "../projects/editproject.php?id=" . $projectDetail->pro_id[0] . "&docopy=false", "true,true,false", $strings["edit"]);
+        $block1->paletteScript(1, "copy", "../projects/editproject.php?id=" . $projectDetail["pro_id"] . "&docopy=true", "true,true,false", $strings["copy"]);
+        $block1->paletteScript(2, "export", "../projects/exportproject.php?languageSession=$languageSession&type=project&id=" . $projectDetail["pro_id"] . "", "true,true,false", $strings["export"]);
+        $block1->paletteScript(3, "edit", "../projects/editproject.php?id=" . $projectDetail["pro_id"] . "&docopy=false", "true,true,false", $strings["edit"]);
     }
 
     if ($enable_cvs == "true") {
@@ -402,14 +389,14 @@ if ($idSession == $projectDetail->pro_owner[0] || $enable_cvs == "true" || $prof
     }
 
     if ($enableMantis == "true") {
-        $block1->paletteScript(5, "bug", $pathMantis . "login.php?id=" . $projectDetail->pro_id[0] . "&url=http://{$HTTP_HOST}{$REQUEST_URI}&username=$loginSession&password=$passwordSession", "true,true,false", $strings["bug"]);
+        $block1->paletteScript(5, "bug", $pathMantis . "login.php?id=" . $projectDetail["pro_id"] . "&url=http://{$HTTP_HOST}{$REQUEST_URI}&username=$loginSession&password=$passwordSession", "true,true,false", $strings["bug"]);
     }
 
     $block1->closePaletteScript("", "");
 }
 
 //Phase or Task list block
-if ($projectDetail->pro_phase_set[0] != "0") {
+if ($projectDetail["pro_phase_set"] != "0") {
     $block7 = new phpCollab\Block();
     $block7->form = "wbSe";
     $block7->openForm("../projects/viewproject.php?id=$id&#" . $block7->form . "Anchor");
@@ -419,7 +406,7 @@ if ($projectDetail->pro_phase_set[0] != "0") {
     $block7->paletteIcon(0, "info", $strings["view"]);
 
     if ($teamMember == "true" || $profilSession == "5") {
-        if ($idSession == $projectDetail->pro_owner[0] || $profilSession == "0" || $profilSession == "5") {
+        if ($idSession == $projectDetail["pro_owner"] || $profilSession == "0" || $profilSession == "5") {
             $block7->paletteIcon(1, "edit", $strings["edit"]);
         }
     }
@@ -481,7 +468,7 @@ if ($projectDetail->pro_phase_set[0] != "0") {
     $block7->paletteScript(0, "info", "../phases/viewphase.php?", "false,true,true", $strings["view"]);
 
     if ($teamMember == "true" || $profilSession == "5") {
-        if ($idSession == $projectDetail->pro_owner[0] || $profilSession == "0" || $profilSession == "5") {
+        if ($idSession == $projectDetail["pro_owner"] || $profilSession == "0" || $profilSession == "5") {
             $block7->paletteScript(1, "edit", "../phases/editphase.php?", "false,true,true", $strings["edit"]);
         }
     }
@@ -491,7 +478,7 @@ if ($projectDetail->pro_phase_set[0] != "0") {
 } else {
     $block2 = new phpCollab\Block();
     $block2->form = "wbTuu";
-    $block2->openForm("../projects/viewproject.php?&id=" . $projectDetail->pro_id[0] . "#" . $block2->form . "Anchor");
+    $block2->openForm("../projects/viewproject.php?&id=" . $projectDetail["pro_id"] . "#" . $block2->form . "Anchor");
 
     $block2->headingToggle($strings["tasks"]);
 
@@ -578,7 +565,7 @@ if ($projectDetail->pro_phase_set[0] != "0") {
         if ($activeJpgraph == "true" && $gantt == "true") {
             echo "
 				<div id='ganttChart_taskList' class='ganttChart'>
-					<img src='../tasks/graphtasks.php?&project=" . $projectDetail->pro_id[0] . "' alt=''><br/>
+					<img src='../tasks/graphtasks.php?&project=" . $projectDetail["pro_id"] . "' alt=''><br/>
 					<span class='listEvenBold''>" . $blockPage->buildLink("http://www.aditus.nu/jpgraph/", "JpGraph", powered) . "</span>	
 				</div>
 			";
@@ -593,18 +580,18 @@ if ($projectDetail->pro_phase_set[0] != "0") {
 
     $block2->openPaletteScript();
     if ($teamMember == "true" || $profilSession == "5") {
-        $block2->paletteScript(0, "add", "../tasks/edittask.php?project=" . $projectDetail->pro_id[0] . "", "true,false,false", $strings["add"]);
-        $block2->paletteScript(1, "remove", "../tasks/deletetasks.php?project=" . $projectDetail->pro_id[0] . "", "false,true,true", $strings["delete"]);
-        $block2->paletteScript(2, "copy", "../tasks/edittask.php?project=" . $projectDetail->pro_id[0] . "&docopy=true", "false,true,false", $strings["copy"]);
+        $block2->paletteScript(0, "add", "../tasks/edittask.php?project=" . $projectDetail["pro_id"] . "", "true,false,false", $strings["add"]);
+        $block2->paletteScript(1, "remove", "../tasks/deletetasks.php?project=" . $projectDetail["pro_id"] . "", "false,true,true", $strings["delete"]);
+        $block2->paletteScript(2, "copy", "../tasks/edittask.php?project=" . $projectDetail["pro_id"] . "&docopy=true", "false,true,false", $strings["copy"]);
         if ($sitePublish == "true") {
-            $block2->paletteScript(4, "add_projectsite", "../projects/viewproject.php?addToSiteTask=true&project=" . $projectDetail->pro_id[0] . "&action=publish", "false,true,true", $strings["add_project_site"]);
-            $block2->paletteScript(5, "remove_projectsite", "../projects/viewproject.php?removeToSiteTask=true&project=" . $projectDetail->pro_id[0] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
+            $block2->paletteScript(4, "add_projectsite", "../projects/viewproject.php?addToSiteTask=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["add_project_site"]);
+            $block2->paletteScript(5, "remove_projectsite", "../projects/viewproject.php?removeToSiteTask=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
         }
     }
 
     $block2->paletteScript(6, "info", "../tasks/viewtask.php?", "false,true,false", $strings["view"]);
     if ($teamMember == "true" || $profilSession == "5") {
-        $block2->paletteScript(7, "edit", "../tasks/edittask.php?project=" . $projectDetail->pro_id[0] . "", "false,true,true", $strings["edit"]);
+        $block2->paletteScript(7, "edit", "../tasks/edittask.php?project=" . $projectDetail["pro_id"] . "", "false,true,true", $strings["edit"]);
     }
 
     $block2->closePaletteScript($comptListTasks, $listTasks->tas_id);
@@ -620,7 +607,7 @@ if ($teamMember == "true" || $profilSession == "5") {
     $block3->paletteIcon(0, "add", $strings["add"]);
 }
 
-if ($idSession == $projectDetail->pro_owner[0] || $profilSession == "5") {
+if ($idSession == $projectDetail["pro_owner"] || $profilSession == "5") {
     $block3->paletteIcon(1, "remove", $strings["delete"]);
     $block3->paletteIcon(2, "lock", $strings["close"]);
 
@@ -685,16 +672,16 @@ $block3->closeFormResults();
 $block3->openPaletteScript();
 
 if ($teamMember == "true" || $profilSession == "5") {
-    $block3->paletteScript(0, "add", "../topics/addtopic.php?project=" . $projectDetail->pro_id[0] . "", "true,false,false", $strings["add"]);
+    $block3->paletteScript(0, "add", "../topics/addtopic.php?project=" . $projectDetail["pro_id"] . "", "true,false,false", $strings["add"]);
 }
 
-if ($idSession == $projectDetail->pro_owner[0] || $profilSession == "5") {
-    $block3->paletteScript(1, "remove", "../topics/deletetopics.php?project=" . $projectDetail->pro_id[0] . "", "false,true,true", $strings["delete"]);
+if ($idSession == $projectDetail["pro_owner"] || $profilSession == "5") {
+    $block3->paletteScript(1, "remove", "../topics/deletetopics.php?project=" . $projectDetail["pro_id"] . "", "false,true,true", $strings["delete"]);
     $block3->paletteScript(2, "lock", "../projects/viewproject.php?closeTopic=true&project=$id&action=publish", "false,true,true", $strings["close"]);
 
     if ($sitePublish == "true") {
-        $block3->paletteScript(3, "add_projectsite", "../projects/viewproject.php?addToSiteTopic=true&project=" . $projectDetail->pro_id[0] . "&action=publish", "false,true,true", $strings["add_project_site"]);
-        $block3->paletteScript(4, "remove_projectsite", "../projects/viewproject.php?&removeToSiteTopic=true&project=" . $projectDetail->pro_id[0] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
+        $block3->paletteScript(3, "add_projectsite", "../projects/viewproject.php?addToSiteTopic=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["add_project_site"]);
+        $block3->paletteScript(4, "remove_projectsite", "../projects/viewproject.php?&removeToSiteTopic=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
     }
 }
 
@@ -703,11 +690,11 @@ $block3->closePaletteScript($comptListTopics, $listTopics->top_id);
 
 $block4 = new phpCollab\Block();
 $block4->form = "pdM";
-$block4->openForm("../projects/viewproject.php?&id=" . $projectDetail->pro_id[0] . "#" . $block4->form . "Anchor");
+$block4->openForm("../projects/viewproject.php?&id=" . $projectDetail["pro_id"] . "#" . $block4->form . "Anchor");
 $block4->headingToggle($strings["team"]);
 $block4->openPaletteIcon();
 
-if ($idSession == $projectDetail->pro_owner[0] || $profilSession == "5") {
+if ($idSession == $projectDetail["pro_owner"] || $profilSession == "5") {
     $block4->paletteIcon(0, "add", $strings["add"]);
     $block4->paletteIcon(1, "remove", $strings["delete"]);
 
@@ -771,13 +758,13 @@ $block4->closeToggle();
 $block4->closeFormResults();
 $block4->openPaletteScript();
 
-if ($idSession == $projectDetail->pro_owner[0] || $profilSession == "5") {
-    $block4->paletteScript(0, "add", "../teams/adduser.php?project=" . $projectDetail->pro_id[0] . "", "true,true,true", $strings["add"]);
-    $block4->paletteScript(1, "remove", "../teams/deleteusers.php?project=" . $projectDetail->pro_id[0] . "", "false,true,true", $strings["delete"]);
+if ($idSession == $projectDetail["pro_owner"] || $profilSession == "5") {
+    $block4->paletteScript(0, "add", "../teams/adduser.php?project=" . $projectDetail["pro_id"] . "", "true,true,true", $strings["add"]);
+    $block4->paletteScript(1, "remove", "../teams/deleteusers.php?project=" . $projectDetail["pro_id"] . "", "false,true,true", $strings["delete"]);
 
     if ($sitePublish == "true") {
-        $block4->paletteScript(2, "add_projectsite", "../projects/viewproject.php?addToSiteTeam=true&project=" . $projectDetail->pro_id[0] . "&action=publish", "false,true,true", $strings["add_project_site"]);
-        $block4->paletteScript(3, "remove_projectsite", "../projects/viewproject.php?removeToSiteTeam=true&project=" . $projectDetail->pro_id[0] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
+        $block4->paletteScript(2, "add_projectsite", "../projects/viewproject.php?addToSiteTeam=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["add_project_site"]);
+        $block4->paletteScript(3, "remove_projectsite", "../projects/viewproject.php?removeToSiteTeam=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
     }
 }
 
@@ -878,8 +865,8 @@ if ($fileManagement == "true") {
         $block5->paletteScript(1, "remove", "../linkedcontent/deletefiles.php?project=$id", "false,true,true", $strings["delete"]);
 
         if ($sitePublish == "true") {
-            $block5->paletteScript(2, "add_projectsite", "../projects/viewproject.php?addToSiteFile=true&project=" . $projectDetail->pro_id[0] . "&action=publish", "false,true,true", $strings["add_project_site"]);
-            $block5->paletteScript(3, "remove_projectsite", "../projects/viewproject.php?removeToSiteFile=true&project=" . $projectDetail->pro_id[0] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
+            $block5->paletteScript(2, "add_projectsite", "../projects/viewproject.php?addToSiteFile=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["add_project_site"]);
+            $block5->paletteScript(3, "remove_projectsite", "../projects/viewproject.php?removeToSiteFile=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
         }
     }
 
@@ -898,7 +885,7 @@ if ($fileManagement == "true") {
  */
 $block6 = new phpCollab\Block();
 $block6->form = "wbJ";
-$block6->openForm("../projects/viewproject.php?&id=" . $projectDetail->pro_id[0] . "#" . $block6->form . "Anchor");
+$block6->openForm("../projects/viewproject.php?&id=" . $projectDetail["pro_id"] . "#" . $block6->form . "Anchor");
 $block6->headingToggle($strings["notes"]);
 $block6->openPaletteIcon();
 
@@ -977,18 +964,18 @@ $block6->closeFormResults();
 $block6->openPaletteScript();
 
 if ($teamMember == "true" || $profilSession == "5") {
-    $block6->paletteScript(0, "add", "../notes/editnote.php?project=" . $projectDetail->pro_id[0] . "", "true,true,true", $strings["add"]);
-    $block6->paletteScript(1, "remove", "../notes/deletenotes.php?project=" . $projectDetail->pro_id[0] . "", "false,true,true", $strings["delete"]);
+    $block6->paletteScript(0, "add", "../notes/editnote.php?project=" . $projectDetail["pro_id"] . "", "true,true,true", $strings["add"]);
+    $block6->paletteScript(1, "remove", "../notes/deletenotes.php?project=" . $projectDetail["pro_id"] . "", "false,true,true", $strings["delete"]);
     if ($sitePublish == "true") {
-        $block6->paletteScript(3, "add_projectsite", "../projects/viewproject.php?addToSiteNote=true&project=" . $projectDetail->pro_id[0] . "&action=publish", "false,true,true", $strings["add_project_site"]);
-        $block6->paletteScript(4, "remove_projectsite", "../projects/viewproject.php?removeToSiteNote=true&project=" . $projectDetail->pro_id[0] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
+        $block6->paletteScript(3, "add_projectsite", "../projects/viewproject.php?addToSiteNote=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["add_project_site"]);
+        $block6->paletteScript(4, "remove_projectsite", "../projects/viewproject.php?removeToSiteNote=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
     }
 }
 
 $block6->paletteScript(5, "info", "../notes/viewnote.php?", "false,true,false", $strings["view"]);
 
 if ($teamMember == "true" || $profilSession == "5") {
-    $block6->paletteScript(6, "edit", "../notes/editnote.php?project=" . $projectDetail->pro_id[0] . "", "false,true,false", $strings["edit"]);
+    $block6->paletteScript(6, "edit", "../notes/editnote.php?project=" . $projectDetail["pro_id"] . "", "false,true,false", $strings["edit"]);
 }
 
 $block6->closePaletteScript($comptListNotes, $listNotes->note_id);
