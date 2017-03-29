@@ -33,6 +33,16 @@ class Support
     }
 
     /**
+     * @param $requestStatus
+     * @param $projectId
+     * @return mixed
+     */
+    public function getSupportRequestByStatusAndProjectId($requestStatus, $projectId)
+    {
+        return $this->support_gateway->getSupportRequestByStatusAndProjectId($requestStatus, $projectId);
+    }
+
+    /**
      * @param $requestId
      * @return mixed
      */
