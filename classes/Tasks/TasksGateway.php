@@ -127,12 +127,13 @@ class TasksGateway
 
     /**
      * @param $projectId
+     * @param $sorting
      * @return mixed
      */
-    public function getTasksByProjectId($projectId)
+    public function getTasksByProjectId($projectId, $sorting = null)
     {
         $whereStatement = " WHERE tas.project = :project_id";
-        $this->db->query($this->initrequest["tasks"] . $whereStatement);
+        $this->db->query($this->initrequest["tasks"] . $whereStatement . $this->orderBy($sorting));
         $this->db->bind(':project_id', $projectId);
         return $this->db->resultset();
     }
