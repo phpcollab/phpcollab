@@ -103,12 +103,13 @@ class Tasks
 
     /**
      * @param $projectId
+     * @param null $sorting
      * @return mixed
      */
-    public function getTasksByProjectId($projectId)
+    public function getTasksByProjectId($projectId, $sorting = null)
     {
         $projectId = filter_var($projectId, FILTER_SANITIZE_STRING);
-        $task = $this->tasks_gateway->getTasksByProjectId($projectId);
+        $task = $this->tasks_gateway->getTasksByProjectId($projectId, $sorting);
         return $task;
     }
 
