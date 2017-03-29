@@ -201,17 +201,15 @@ if (!$projectDetail) {
     phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blankProject");
 }
 
-$tmpquery = "WHERE tas.project = '$id' ORDER BY tas.name";
-$listTasksTime = new phpCollab\Request();
-$listTasksTime->openTasks($tmpquery);
-$comptListTasksTime = count($listTasksTime->tas_id);
-if ($comptListTasksTime != "0") {
-    for ($i = 0; $i < $comptListTasksTime; $i++) {
-        $estimated_time = $estimated_time + $listTasksTime->tas_estimated_time[$i];
-        $actual_time = $actual_time + $listTasksTime->tas_actual_time[$i];
+$listTasksTime = $tasks->getTasksByProjectId($id, 'tas.name');
 
-        if ($listTasksTime->tas_complete_date[$i] != "" && $listTasksTime->tas_complete_date[$i] != "--" && $listTasksTime->tas_due_date[$i] != "--") {
-            $diff = phpCollab\Util::diffDate($listTasksTime->tas_complete_date[$i], $listTasksTime->tas_due_date[$i]);
+if ($listTasksTime) {
+    foreach ($listTasksTime as $task) {
+        $estimated_time = $estimated_time + $task["tas_estimated_time"];
+        $actual_time = $actual_time + $task["tas_actual_time"];
+
+        if ($task["tas_complete_date"] != "" && $task["tas_complete_date"] != "--" && $task["tas_due_date"] != "--") {
+            $diff = phpCollab\Util::diffDate($task["tas_complete_date"], $task["tas_due_date"]);
             $diff_time = $diff_time + $diff;
         }
     }
