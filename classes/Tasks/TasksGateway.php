@@ -183,6 +183,21 @@ class TasksGateway
         return $this->db->single();
     }
 
+    /**
+     * @param $subtaskId
+     * @return mixed
+     */
+    public function getSubTaskByIdIn($subtaskId)
+    {
+        $subtaskId = explode(',', $subtaskId);
+        $placeholders = str_repeat ('?, ', count($subtaskId)-1) . '?';
+        $whereStatement = " WHERE subtas.id IN($placeholders)";
+        $this->db->query($this->initrequest["subtasks"] . $whereStatement);
+        $this->db->execute($subtaskId);
+        return $this->db->fetchAll();
+
+    }
+
 
     /**
      * @param $parentTaskId
@@ -192,11 +207,26 @@ class TasksGateway
     {
         $whereStatement = " WHERE task = :parent_task_id";
 
-        $this->db->query($this->initrequest["tasks"] . $whereStatement);
+        $this->db->query($this->initrequest["subtasks"] . $whereStatement);
 
         $this->db->bind(':parent_task_id', $parentTaskId);
 
         return $this->db->single();
+    }
+
+    /**
+     * @param $parentTaskIds
+     * @return mixed
+     */
+    public function getSubtasksByParentTaskIdIn($parentTaskIds)
+    {
+        $placeholders = str_repeat ('?, ', count($parentTaskIds)-1) . '?';
+
+        $sql = $this->initrequest["subtasks"] . " WHERE task IN ($placeholders)";
+
+        $this->db->query($sql);
+        $this->db->execute($parentTaskIds);
+        return $this->db->fetchAll();
     }
 
     /**
