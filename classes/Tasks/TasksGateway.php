@@ -243,6 +243,18 @@ class TasksGateway
     }
 
     /**
+     * @param $parentTaskId
+     * @return mixed
+     */
+    public function getSubtasksByParentTaskIdAndStartAndEndDateAreNotEmpty($parentTaskId)
+    {
+        $whereStatement = " WHERE subtas.task = :parent_task_id AND subtas.start_date != '--' AND subtas.due_date != '--'";
+        $this->db->query($this->initrequest["subtasks"] . $whereStatement . $this->orderBy('subtas.due_date'));
+        $this->db->bind(':parent_task_id', $parentTaskId);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $ownerId
      * @param $sorting
      * @return mixed
