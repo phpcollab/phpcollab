@@ -192,7 +192,7 @@ class TasksGateway
         $subtaskId = explode(',', $subtaskId);
         $placeholders = str_repeat ('?, ', count($subtaskId)-1) . '?';
         $whereStatement = " WHERE subtas.id IN($placeholders)";
-        $this->db->query($this->initrequest["subtasks"] . $whereStatement);
+        $this->db->query($this->initrequest["subtasks"] . $whereStatement . $this->orderBy('subtas.name'));
         $this->db->execute($subtaskId);
         return $this->db->fetchAll();
 
