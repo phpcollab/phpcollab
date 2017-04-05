@@ -1,6 +1,10 @@
 <?php
 
 $num = isset($_GET["num"]) ? $_GET["num"] : $_GET["id"];
+$strings = $GLOBALS["strings"];
+$status = $GLOBALS["status"];
+$priority = $GLOBALS["priority"];
+$idSession = $_SESSION["idSession"];
 
 $tasks = new \phpCollab\Tasks\Tasks();
 $projects = new \phpCollab\Projects\Projects();
