@@ -6,11 +6,9 @@ $id = $_GET["id"];
 
 $subtaskNoti = $tasks->getSubTaskByIdIn($id);
 
-$tmpquery = "WHERE tas.id = '" . $subtaskNoti["subtas_task"] . "'";
-$taskNoti = new phpCollab\Request();
-$taskNoti->openTasks($tmpquery);
+$taskNoti = $tasks->getTaskById($subtaskNoti["subtas_task"]);
 
-$tmpquery = "WHERE pro.id = '" . $taskNoti->tas_project[0] . "'";
+$tmpquery = "WHERE pro.id = '" . $taskNoti["tas_project"] . "'";
 $projectNoti = new phpCollab\Request();
 $projectNoti->openProjects($tmpquery);
 
@@ -34,10 +32,10 @@ if ($listNotifications->not_statustaskchange[0] == "0") {
     $idStatus = $subtaskNoti["subtas_status"];
     $idPriority = $subtaskNoti["subtas_priority"];
 
-    $body = $mail->partMessage . "\n\n" . $strings["subtask"] . " : " . $subtaskNoti["subtas_name"] . "\n" . $strings["start_date"] . " : " . $subtaskNoti["subtas_start_date"] . "\n" . $strings["due_date"] . " : " . $subtaskNoti["subtas_due_date"] . "\n" . $strings["completion"] . " : " . $complValue . "\n" . $strings["priority"] . " : $priority[$idPriority]\n" . $strings["status"] . " : $status[$idStatus]\n" . $strings["description"] . " : " . $subtaskNoti["subtas_description"] . "\n\n" . $strings["project"] . " : " . $projectNoti->pro_name[0] . " (" . $projectNoti->pro_id[0] . ")\n" . $strings["task"] . " : " . $taskNoti->tas_name[0] . " (" . $taskNoti->tas_id[0] . ")\n" . $strings["organization"] . " : " . $projectNoti->pro_org_name[0] . "\n\n" . $strings["noti_moreinfo"] . "\n";
+    $body = $mail->partMessage . "\n\n" . $strings["subtask"] . " : " . $subtaskNoti["subtas_name"] . "\n" . $strings["start_date"] . " : " . $subtaskNoti["subtas_start_date"] . "\n" . $strings["due_date"] . " : " . $subtaskNoti["subtas_due_date"] . "\n" . $strings["completion"] . " : " . $complValue . "\n" . $strings["priority"] . " : $priority[$idPriority]\n" . $strings["status"] . " : $status[$idStatus]\n" . $strings["description"] . " : " . $subtaskNoti["subtas_description"] . "\n\n" . $strings["project"] . " : " . $projectNoti->pro_name[0] . " (" . $projectNoti->pro_id[0] . ")\n" . $strings["task"] . " : " . $taskNoti["tas_name"] . " (" . $taskNoti["tas_id"] . ")\n" . $strings["organization"] . " : " . $projectNoti->pro_org_name[0] . "\n\n" . $strings["noti_moreinfo"] . "\n";
 
     if ($subtaskNoti["subtas_mem_organization"] == "1") {
-        $body .= "$root/general/login.php?url=subtasks/viewsubtask.php%3Fid=$id%26task=" . $taskNoti->tas_id[0];
+        $body .= "$root/general/login.php?url=subtasks/viewsubtask.php%3Fid=$id%26task=" . $taskNoti["tas_id"];
 
     } else if ($subtaskNoti["subtas_mem_organization"] != "1" && $projectNoti->pro_published[0] == "0" && $subtaskNoti["subtas_published"] == "0") {
         $body .= "$root/general/login.php?url=projects_site/home.php%3Fproject=" . $projectNoti->pro_id[0];
