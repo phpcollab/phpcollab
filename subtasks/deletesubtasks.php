@@ -1,30 +1,4 @@
 <?php
-/*
-** Application name: phpCollab
-** Last Edit page: 05/11/2004
-** Path by root:  ../subtasks/deletesubtasks.php
-** Authors: Ceam / Fullo 
-**
-** =============================================================================
-**
-**               phpCollab - Project Managment 
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: deletesubtasks.php
-**
-** DESC: Screen:  delete a sub task 
-**
-** HISTORY:
-**	05/11/2004	-	fixed 1059973 
-** -----------------------------------------------------------------------------
-** TO-DO:
-** clean code
-** =============================================================================
-*/
-
 
 $checkSession = "true";
 include_once '../includes/library.php';
@@ -35,22 +9,24 @@ $phases = new \phpCollab\Phases\Phases();
 $projects = new \phpCollab\Projects\Projects();
 
 $id = $_GET["id"];
+$task = $_GET["task"];
 $strings = $GLOBALS["strings"];
+$msgLabel = $GLOBALS["msgLabel"];
+$tableCollab = $GLOBALS["tableCollab"];
+$targetPhase = $GLOBALS["targetPhase"];
 
 if ($_GET["action"] == "delete") {
     $id = str_replace("**", ",", $id);
 
     //find parent task
-    $tmpquery = "WHERE subtas.id IN($id)";
-    $listSubtasks = new phpCollab\Request();
-    $listSubtasks->openSubtasks($tmpquery);
+    $listSubtasks = $tasks->getSubTaskByIdIn($id);
 
     $tasks->deleteSubTasksById($id);
     $assignments->deleteAssignmentsBySubtasks($id);
 
     //recompute average completion of the task
     phpCollab\Util::taskComputeCompletion(
-        $listSubtasks->subtas_task[0],
+        $listSubtasks["subtas_task"],
         $tableCollab["tasks"]);
 
     if ($task != "") {
@@ -111,18 +87,16 @@ $block1->openContent();
 $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**", ",", $id);
-$tmpquery = "WHERE subtas.id IN($id) ORDER BY subtas.name";
-$listSubtasks = new phpCollab\Request();
-$listSubtasks->openSubtasks($tmpquery);
-$comptListSubtasks = count($listSubtasks->subtas_id);
+$listSubtasks = $tasks->getSubTaskByIdIn($id);
 
-for ($i = 0; $i < $comptListSubtasks; $i++) {
-    echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">#" . $listSubtasks->subtas_id[$i] . "</td><td>" . $listSubtasks->subtas_name[$i] . "</td></tr>";
+foreach ($listSubtasks as $subtask) {
+    echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">#" . $listSubtasks["subtas_id"] . "</td><td>" . $listSubtasks["subtas_name"] . "</td></tr>";
 }
 
-echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td><input type=\"submit\" name=\"delete\" 
-value=\"" . $strings["delete"] . "\"> <input type=\"button\" name=\"cancel\" value=\"" . $strings["cancel"] . "\" 
-onClick=\"history.back();\"></td></tr>";
+echo '<tr class="odd">
+  <td valign="top" class="leftvalue">&nbsp;</td>
+  <td><input type="submit" name="delete" value="' . $strings["delete"] . '"> <input type="button" name="cancel" value="' . $strings["cancel"] . '" 
+onClick="history.back();"></td></tr>';
 
 $block1->closeContent();
 $block1->closeForm();
