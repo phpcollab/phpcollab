@@ -6,6 +6,7 @@ $projects = new \phpCollab\Projects\Projects();
 
 $id = $_GET["id"];
 $idSession = $_SESSION["idSession"];
+$strings = $GLOBALS["strings"];
 
 $subtaskNoti = $tasks->getSubTaskByIdIn($id);
 
@@ -13,7 +14,7 @@ $taskNoti = $tasks->getTaskById($subtaskNoti["subtas_task"]);
 
 $projectNoti = $projects->getProjectById($taskNoti["tas_project"]);
 
-$listNotifications = $notifications->getNotificationsWhereMemeberIn($at);
+$listNotifications = $notifications->getNotificationsWhereMemeberIn($_GET["at"]);
 
 if ($listNotifications["not_statustaskchange"] == "0") {
     $mail = new phpCollab\Notification();
