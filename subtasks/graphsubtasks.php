@@ -12,6 +12,8 @@ $tasks = new \phpCollab\Tasks\Tasks();
 $projects = new \phpCollab\Projects\Projects();
 
 $task = $_GET["task"];
+$timezoneSession = $_SESSION["timezoneSession"];
+$strings = $GLOBALS["strings"];
 
 $taskDetail = $tasks->getTaskById($task);
 
