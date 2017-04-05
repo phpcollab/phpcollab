@@ -164,6 +164,15 @@ class Tasks
     }
 
     /**
+     * @param $subTaskId
+     * @return mixed
+     */
+    public function getSubTaskByIdIn($subTaskId)
+    {
+        return $this->tasks_gateway->getSubTaskByIdIn($subTaskId);
+    }
+
+    /**
      * @param $parentTaskId
      * @return mixed
      */
