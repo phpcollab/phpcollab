@@ -1,6 +1,7 @@
 <?php
 
 $tasks = new \phpCollab\Tasks\Tasks();
+$notifications = new \phpCollab\Notifications\Notifications();
 
 $id = $_GET["id"];
 
@@ -12,12 +13,9 @@ $tmpquery = "WHERE pro.id = '" . $taskNoti["tas_project"] . "'";
 $projectNoti = new phpCollab\Request();
 $projectNoti->openProjects($tmpquery);
 
-$tmpquery = "WHERE noti.member IN($at)";
-$listNotifications = new phpCollab\Request();
-$listNotifications->openNotifications($tmpquery);
-$comptListNotifications = count($listNotifications->not_id);
+$listNotifications = $notifications->getNotificationsWhereMemeberIn($at);
 
-if ($listNotifications->not_statustaskchange[0] == "0") {
+if ($listNotifications["not_statustaskchange"] == "0") {
     $mail = new phpCollab\Notification();
 
     $mail->getUserinfo($idSession, "from");
@@ -52,7 +50,7 @@ if ($listNotifications->not_statustaskchange[0] == "0") {
         $mail->Priority = "3";
     }
     $mail->Body = $body;
-    $mail->AddAddress($listNotifications->not_mem_email_work[0], $listNotifications->not_mem_name[0]);
+    $mail->AddAddress($listNotifications["not_mem_email_work"], $listNotifications["not_mem_name"]);
     $mail->Send();
     $mail->ClearAddresses();
 }
