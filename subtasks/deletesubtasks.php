@@ -59,21 +59,21 @@ if ($_GET["action"] == "delete") {
     }
 }
 
-$tmpquery = "WHERE tas.id = '$task'";
-$taskDetail = new phpCollab\Request();
-$taskDetail->openTasks($tmpquery);
-$project = $taskDetail->tas_project[0];
+
+$taskDetail = $tasks->getTaskById($task);
+
+$project = $taskDetail["tas_project"];
 
 $tmpquery = "WHERE pro.id = '$project'";
 $projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 if ($projectDetail->pro_enable_phase[0] != "0") {
-    $tPhase = $taskDetail->tas_parent_phase[0];
+    $tPhase = $taskDetail["tas_parent_phase"];
     if (!$tPhase) {
         $tPhase = '0';
     }
-    $targetPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($taskDetail->tas_project[0], $tPhase);
+    $targetPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($taskDetail["tas_project"], $tPhase);
 }
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
@@ -90,7 +90,7 @@ if ($task != "") {
     }
 
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail->pro_id[0], $strings["tasks"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail->tas_id[0], $taskDetail->tas_name[0], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail["tas_id"], $taskDetail["tas_name"], "in"));
     $blockPage->itemBreadcrumbs($strings["delete_subtasks"]);
 } else {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../general/home.php?", $strings["home"], "in"));
