@@ -8,11 +8,13 @@ include '../includes/library.php';
 include '../includes/jpgraph/jpgraph.php';
 include '../includes/jpgraph/jpgraph_gantt.php';
 
-$tmpquery = "WHERE tas.id = '" . $task . "'";
-$taskDetail = new phpCollab\Request();
-$taskDetail->openTasks($tmpquery);
+$tasks = new \phpCollab\Tasks\Tasks();
 
-$tmpquery = "WHERE pro.id = '" . $taskDetail->tas_project[0] . "'";
+$task = $_GET["task"];
+
+$taskDetail = $tasks->getTaskById($task);
+
+$tmpquery = "WHERE pro.id = '" . $taskDetail["tas_project"] . "'";
 $projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
@@ -24,8 +26,8 @@ $graph = new GanttGraph();
 $graph->SetBox();
 $graph->SetMarginColor("white");
 $graph->SetColor("white");
-$graph->title->Set($strings["task"] . " " . $taskDetail->tas_name[0]);
-$graph->subtitle->Set("(" . $strings["created"] . ": " . $taskDetail->tas_created[0] . ")");
+$graph->title->Set($strings["task"] . " " . $taskDetail["tas_name"]);
+$graph->subtitle->Set("(" . $strings["created"] . ": " . $taskDetail["tas_created"] . ")");
 $graph->title->SetFont(FF_FONT1);
 $graph->SetColor("white");
 $graph->ShowHeaders(GANTT_HYEAR | GANTT_HMONTH | GANTT_HDAY | GANTT_HWEEK);
