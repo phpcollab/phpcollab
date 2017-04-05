@@ -1,6 +1,10 @@
 <?php
 
 $id = $_GET["id"];
+$idSession = $_SESSION["idSession"];
+$strings = $GLOBALS["strings"];
+$priority = $GLOBALS["priority"];
+$status = $GLOBALS["status"];
 
 $tasks = new \phpCollab\Tasks\Tasks();
 $projects = new \phpCollab\Projects\Projects();
