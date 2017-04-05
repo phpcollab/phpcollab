@@ -1,6 +1,7 @@
 <?php
 
 $id = $_GET["id"];
+$strings = $GLOBALS["strings"];
 
 $tasks = new \phpCollab\Tasks\Tasks();
 $projects = new \phpCollab\Projects\Projects();
