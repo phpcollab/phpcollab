@@ -193,6 +193,15 @@ class Tasks
     }
 
     /**
+     * @param $parentTaskId
+     * @return mixed
+     */
+    public function getSubtasksByParentTaskIdAndStartAndEndDateAreNotEmpty($parentTaskId)
+    {
+        return $this->tasks_gateway->getSubtasksByParentTaskIdAndStartAndEndDateAreNotEmpty($parentTaskId);
+    }
+
+    /**
      * @param $taskDate
      * @param $assignedTo
      * @return mixed
