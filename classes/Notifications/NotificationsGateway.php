@@ -30,6 +30,21 @@ class NotificationsGateway
      * @param $memberId
      * @return mixed
      */
+    public function getNotificationsWhereMemeberIn($memberId)
+    {
+        $memberId = explode(',', $memberId);
+        $placeholders = str_repeat ('?, ', count($memberId)-1) . '?';
+        $whereStatement = " WHERE noti.member IN($placeholders)";
+        $this->db->query($this->initrequest["notifications"] . $whereStatement);
+        $this->db->execute($memberId);
+        return $this->db->fetchAll();
+
+    }
+
+    /**
+     * @param $memberId
+     * @return mixed
+     */
     public function deleteNotificationsByMemberIdIn($memberId)
     {
         // Generate placeholders
