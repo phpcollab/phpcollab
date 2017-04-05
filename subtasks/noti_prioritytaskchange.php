@@ -52,4 +52,3 @@ if ($listNotifications["not_statustaskchange"] == "0") {
     $mail->Send();
     $mail->ClearAddresses();
 }
-?>
