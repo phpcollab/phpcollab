@@ -329,7 +329,6 @@ for ($i = 0; $i < $comptListTasks; $i++) {
 
     // if subtask
     $listSubTasks = $tasks->getSubtasksByParentTaskId($listTasks->tas_id[$i]);
-//    $comptListSubTasks = count($listSubTasks->subtas_id);
 
     if ($listSubTasks) {
         foreach ($listSubTasks as $subTask) {
