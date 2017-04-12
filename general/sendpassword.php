@@ -27,7 +27,7 @@ if ($_GET["action"] == "send") {
 
         $body = $strings["user_name"] . " : " . $userDetail["mem_login"] . "\n\n" . $strings["password"] . " : $pass_g";
 
-        $mail = new \phpCollab\Notification\Notification();
+        $mail = new \phpCollab\Notification();
 
         $mail->getUserinfo("1", "from");
 
