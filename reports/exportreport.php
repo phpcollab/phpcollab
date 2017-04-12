@@ -26,6 +26,7 @@ $msgLabel = $GLOBALS["msgLabel"];
 
 $organizations = new \phpCollab\Organizations\Organizations();
 $reports = new \phpCollab\Reports\Reports();
+$projects = new \phpCollab\Projects\Projects();
 
 // get company info
 $clientDetail = $organizations->getOrganizationById(1);
@@ -237,21 +238,13 @@ $block1 = new phpCollab\Block();
 $block1->sorting("report_tasks", $sortingUser->sor_report_tasks[0], "tas.complete_date DESC", $sortingFields = array(0 => "tas.name", 1 => "tas.project", 2 => "tas.actual_time", 3 => "tas.completion", 4 => "tas.status", 5 => "tas.start_date", 6 => "tas.due_date", 7 => "tas.complete_date", 8 => "mem.login", 9 => "tas.description", 10 => "tas.comments"));
 
 if ($projectsFilter == "true") {
-    $tmpquery = "LEFT OUTER JOIN {$tableCollab["teams"]} teams ON teams.project = pro.id ";
-    $tmpquery .= "WHERE pro.status IN(0,2,3) AND teams.member = {$idSession} ORDER BY pro.id";
+    $listProjectsTasks = $projects->getProjectList($idSession, 'active', 'pro.id');
 
-    $listProjectsTasks = new phpCollab\Request();
-    $listProjectsTasks->openProjects($tmpquery);
-    $comptListProjectsTasks = count($listProjectsTasks->pro_id);
-
-    if ($comptListProjectsTasks != "0") {
-        for ($i = 0; $i < $comptListProjectsTasks; $i++) {
-            $filterTasks .= $listProjectsTasks->pro_id[$i];
-
-            if ($comptListProjectsTasks - 1 != $i) {
-                $filterTasks .= ",";
-            }
+    if ($listProjectsTasks) {
+        foreach ($listProjectsTasks as $task) {
+            $filterTasks .= $task["pro_id"];
         }
+        $filterTasks = rtrim(rtrim($filterTasks),',');
 
         if ($query != "") {
             $tmpquery = "$queryStart $query AND pro.id IN($filterTasks) ORDER BY {$block1->sortingValue}";
