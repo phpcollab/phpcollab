@@ -13,7 +13,16 @@ include '../includes/library.php';
 $id = isset($_GET["id"]) ? $_GET["id"] : 0;
 $tri = isset($_GET["tri"]) ? $_GET["tri"] : null;
 
+$S_PRJSEL = isset($GLOBALS["S_PRJSEL"]) ? $GLOBALS["S_PRJSEL"] : null;
+$S_ORGSEL = isset($GLOBALS["S_ORGSEL"]) ? $GLOBALS["S_ORGSEL"] : null;
+$S_ATSEL = isset($GLOBALS["S_ATSEL"]) ? $GLOBALS["S_ATSEL"] : null;
+$S_STATSEL = isset($GLOBALS["S_STATSEL"]) ? $GLOBALS["S_STATSEL"] : null;
+$S_PRIOSEL = isset($GLOBALS["S_PRIOSEL"]) ? $GLOBALS["S_PRIOSEL"] : null;
+$S_DUEDATE = isset($GLOBALS["S_DUEDATE"]) ? $GLOBALS["S_DUEDATE"] : null;
+$S_COMPLETEDATE = isset($GLOBALS["S_COMPLETEDATE"]) ? $GLOBALS["S_COMPLETEDATE"] : null;
+
 $organizations = new \phpCollab\Organizations\Organizations();
+$reports = new \phpCollab\Reports\Reports();
 
 // get company info
 $clientDetail = $organizations->getOrganizationById(1);
@@ -116,19 +125,17 @@ if ($id == "" && $tri != "true") {
 
 if ($id != "") {
 
-    $tmpquery = "WHERE id = '$id'";
-    $reportDetail = new phpCollab\Request();
-    $reportDetail->openReports($tmpquery);
-    $reportName = $reportDetail->rep_name[0];
-    $S_ORGSEL = $reportDetail->rep_clients[0];
-    $S_PRJSEL = $reportDetail->rep_projects[0];
-    $S_ATSEL = $reportDetail->rep_members[0];
-    $S_STATSEL = $reportDetail->rep_status[0];
-    $S_PRIOSEL = $reportDetail->rep_priorities[0];
-    $S_SDATE = $reportDetail->rep_date_due_start[0];
-    $S_EDATE = $reportDetail->rep_date_due_end[0];
-    $S_SDATE2 = $reportDetail->rep_date_complete_start[0];
-    $S_EDATE2 = $reportDetail->rep_date_complete_end[0];
+    $reportDetail = $reports->getReportsById($id);
+    $reportName = $reportDetail["rep_name"];
+    $S_ORGSEL = $reportDetail["rep_clients"];
+    $S_PRJSEL = $reportDetail["rep_projects"];
+    $S_ATSEL = $reportDetail["rep_members"];
+    $S_STATSEL = $reportDetail["rep_status"];
+    $S_PRIOSEL = $reportDetail["rep_priorities"];
+    $S_SDATE = $reportDetail["rep_date_due_start"];
+    $S_EDATE = $reportDetail["rep_date_due_end"];
+    $S_SDATE2 = $reportDetail["rep_date_complete_start"];
+    $S_EDATE2 = $reportDetail["rep_date_complete_end"];
 
     if ($S_SDATE == "" && $S_EDATE == "") {
         $S_DUEDATE = "ALL";
