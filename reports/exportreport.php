@@ -19,6 +19,10 @@ $S_ATSEL = isset($GLOBALS["S_ATSEL"]) ? $GLOBALS["S_ATSEL"] : null;
 $S_STATSEL = isset($GLOBALS["S_STATSEL"]) ? $GLOBALS["S_STATSEL"] : null;
 $S_PRIOSEL = isset($GLOBALS["S_PRIOSEL"]) ? $GLOBALS["S_PRIOSEL"] : null;
 $S_DUEDATE = isset($GLOBALS["S_DUEDATE"]) ? $GLOBALS["S_DUEDATE"] : null;
+$S_SDATE = isset($GLOBALS["S_SDATE"]) ? $GLOBALS["S_SDATE"] : null;
+$S_EDATE = isset($GLOBALS["S_EDATE"]) ? $GLOBALS["S_EDATE"] : null;
+$S_SDATE2 = isset($GLOBALS["S_SDATE2"]) ? $GLOBALS["S_SDATE2"] : null;
+$S_EDATE2 = isset($GLOBALS["S_EDATE2"]) ? $GLOBALS["S_EDATE2"] : null;
 $S_COMPLETEDATE = isset($GLOBALS["S_COMPLETEDATE"]) ? $GLOBALS["S_COMPLETEDATE"] : null;
 $tableCollab = $GLOBALS["tableCollab"];
 $idSession = $_SESSION["idSession"];
@@ -239,6 +243,7 @@ $block1 = new phpCollab\Block();
 
 $block1->sorting("report_tasks", $sortingUser->sor_report_tasks[0], "tas.complete_date DESC", $sortingFields = [0 => "tas.name", 1 => "tas.project", 2 => "tas.actual_time", 3 => "tas.completion", 4 => "tas.status", 5 => "tas.start_date", 6 => "tas.due_date", 7 => "tas.complete_date", 8 => "mem.login", 9 => "tas.description", 10 => "tas.comments"]);
 
+$queryStart = isset($queryStart) ? $queryStart : null;
 if ($projectsFilter == "true") {
     $listProjectsTasks = $projects->getProjectList($idSession, 'active', 'pro.id');
 
@@ -249,7 +254,7 @@ if ($projectsFilter == "true") {
         }
         $filterTasks = rtrim(rtrim($filterTasks),',');
 
-        if ($query != "") {
+        if ($query != "" && isset($queryStart)) {
             $tmpquery = "$queryStart $query AND pro.id IN($filterTasks) ORDER BY {$block1->sortingValue}";
         } else {
             $tmpquery = "WHERE pro.id IN($filterTasks) ORDER BY " . $block1->sortingValue . " ";
@@ -278,6 +283,7 @@ $pdf->ezStartPageNumbers(526, 34, 6, 'right', '', 1);
 $pdf->ezText("<b>" . $cn . "</b>", 18, ['justification' => 'center']);
 
 // report name at the top of the first page
+$reportName = isset($reportName) ? $reportName : '';
 $pdf->ezText($strings["report"] . ": " . $reportName . "\n", 16, ['justification' => 'center']);
 
 // put a line top and bottom on all the pages and company info on the bottom
