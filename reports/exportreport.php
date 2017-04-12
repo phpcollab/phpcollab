@@ -1,31 +1,4 @@
 <?php
-/*
-** Application name: phpCollab
-** Last Edit page: 23/03/2004
-** Path by root: ../reports/exportreport.php
-** Authors: Ceam / Fullo
-**
-** =============================================================================
-**
-**               phpCollab - Project Managment 
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: exportreport.php
-**
-** DESC: Screen: team member list
-**
-** HISTORY:
-** 	23/03/2004	-	added new document info
-**  23/03/2004  -	new export to PDF by Angel
-** -----------------------------------------------------------------------------
-** TO-DO:
-** 
-**
-** =============================================================================
-*/
 
 // PDF setup
 include('../includes/class.ezpdf.php');
@@ -37,17 +10,20 @@ $pdf->ezSetMargins(50, 70, 50, 50);
 $checkSession = "true";
 include '../includes/library.php';
 
-// get company info
-$tmpquery = "WHERE org.id = '1'";
-$clientDetail = new phpCollab\Request();
-$clientDetail->openOrganizations($tmpquery);
+$id = isset($_GET["id"]) ? $_GET["id"] : 0;
+$tri = isset($_GET["tri"]) ? $_GET["tri"] : null;
 
-$cn = $clientDetail->org_name[0];
-$add = $clientDetail->org_address1[0];
-$wp = $clientDetail->org_phone[0];
-$url = $clientDetail->org_url[0];
-$email = $clientDetail->org_email[0];
-$c = $clientDetail->org_comments[0];
+$organizations = new \phpCollab\Organizations\Organizations();
+
+// get company info
+$clientDetail = $organizations->getOrganizationById(1);
+
+$cn = $clientDetail["org_name"];
+$add = $clientDetail["org_address1"];
+$wp = $clientDetail["org_phone"];
+$url = $clientDetail["org_url"];
+$email = $clientDetail["org_email"];
+$c = $clientDetail["org_comments"];
 
 // get task info
 if ($id == "" && $tri != "true") {
