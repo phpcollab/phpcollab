@@ -398,10 +398,12 @@ unlink("../files/" . $graphPDF);
 // output the PDF
 $pdf->ezStream();
 
-function ganttPDF($reportName, $listTasks, $tasks)
+function ganttPDF($reportName, $listTasks)
 {
     include '../includes/jpgraph/jpgraph.php';
     include '../includes/jpgraph/jpgraph_gantt.php';
+
+    $tasks = new \phpCollab\Tasks\Tasks();
 
     $graph = new GanttGraph();
     $graph->SetBox();
