@@ -23,10 +23,12 @@ $S_COMPLETEDATE = isset($GLOBALS["S_COMPLETEDATE"]) ? $GLOBALS["S_COMPLETEDATE"]
 $tableCollab = $GLOBALS["tableCollab"];
 $idSession = $_SESSION["idSession"];
 $msgLabel = $GLOBALS["msgLabel"];
+$strings = $GLOBALS["strings"];
 
 $organizations = new \phpCollab\Organizations\Organizations();
 $reports = new \phpCollab\Reports\Reports();
 $projects = new \phpCollab\Projects\Projects();
+$tasks = new \phpCollab\Tasks\Tasks();
 
 // get company info
 $clientDetail = $organizations->getOrganizationById(1);
@@ -240,6 +242,7 @@ $block1->sorting("report_tasks", $sortingUser->sor_report_tasks[0], "tas.complet
 if ($projectsFilter == "true") {
     $listProjectsTasks = $projects->getProjectList($idSession, 'active', 'pro.id');
 
+    $filterTasks = null;
     if ($listProjectsTasks) {
         foreach ($listProjectsTasks as $task) {
             $filterTasks .= $task["pro_id"];
@@ -325,39 +328,36 @@ for ($i = 0; $i < $comptListTasks; $i++) {
     $pdf->ezText("\n");
 
     // if subtask
-    $tmpquery = "WHERE task = " . $listTasks->tas_id[$i];
-    $listSubTasks = new phpCollab\Request();
-    $listSubTasks->openSubtasks($tmpquery);
+    $listSubTasks = $tasks->getSubtasksByParentTaskId($listTasks->tas_id[$i]);
     $comptListSubTasks = count($listSubTasks->subtas_id);
 
-    if ($comptListSubTasks >= 1) {
-        // list subtasks
-        for ($j = 0; $j < $comptListSubTasks; $j++) {
-            $idStatus = $listSubTasks->subtas_status[$j];
-            $idPriority = $listSubTasks->subtas_priority[$j];
-            $actualTime = str_replace(",", ".", $listSubTasks->subtas_actual_time[$j]);
+    if ($listSubTasks) {
+        foreach ($listSubTasks as $subTask) {
+            $idStatus = $subTask["subtas_status"];
+            $idPriority = $subTask["subtas_priority"];
+            $actualTime = str_replace(",", ".", $subTask["subtas_actual_time"]);
             $sum += $actualTime;
-            if ($listSubTasks->subtas_assigned_to[$j] == "0") {
+            if ($subTask["subtas_assigned_to"] == "0") {
                 $idAssigned = $strings["unassigned"];
             } else {
-                $idAssigned = $listSubTasks->subtas_mem_login[$j];
+                $idAssigned = $subTask["subtas_mem_login"];
             }
             // stuff values into an array
             $data = array(
                 array('item' => $strings["project"], 'value' => $listTasks->tas_pro_name[$i])
             , array('item' => $strings["worked_hours"], 'value' => $actualTime)
-            , array('item' => $strings["Pct_Complete"], 'value' => ($listSubTasks->subtas_completion[$j] * 10) . '%')
+            , array('item' => $strings["Pct_Complete"], 'value' => ($subTask["subtas_completion"] * 10) . '%')
             , array('item' => $strings["status"], 'value' => $status[$idStatus])
-            , array('item' => $strings["start_date"], 'value' => $listSubTasks->subtas_start_date[$j])
-            , array('item' => $strings["due_date"], 'value' => $listSubTasks->subtas_due_date[$j])
-            , array('item' => $strings["complete_date"], 'value' => $listSubTasks->subtas_complete_date[$j])
+            , array('item' => $strings["start_date"], 'value' => $subTask["subtas_start_date"])
+            , array('item' => $strings["due_date"], 'value' => $subTask["subtas_due_date"])
+            , array('item' => $strings["complete_date"], 'value' => $subTask["subtas_complete_date"])
             , array('item' => $strings["assigned_to"], 'value' => $idAssigned)
-            , array('item' => $strings["description"], 'value' => $listSubTasks->subtas_description[$j])
-            , array('item' => $strings["comments"], 'value' => $listSubTasks->subtas_comments[$j])
+            , array('item' => $strings["description"], 'value' => $subTask["subtas_description"])
+            , array('item' => $strings["comments"], 'value' => $subTask["subtas_comments"])
             );
             // set table data and draw table
             $cols = array('item' => 'Item', 'value' => 'Value');
-            $pdf->ezText($strings["task"] . ": " . $listSubTasks->subtas_name[$j] . "\n", 12);
+            $pdf->ezText($strings["task"] . ": " . $subTask["subtas_name"] . "\n", 12);
             $pdf->saveState();
             $pdf->ezTable($data, $cols, '', array('xPos' => 50, 'xOrientation' => 'right', 'width' => 510, 'fontSize' => 10, 'showHeadings' => 0, 'protectRows' => 2, 'cols' => array('item' => array('width' => 90))));
             $pdf->restoreState();
