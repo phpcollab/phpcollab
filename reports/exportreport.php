@@ -20,6 +20,9 @@ $S_STATSEL = isset($GLOBALS["S_STATSEL"]) ? $GLOBALS["S_STATSEL"] : null;
 $S_PRIOSEL = isset($GLOBALS["S_PRIOSEL"]) ? $GLOBALS["S_PRIOSEL"] : null;
 $S_DUEDATE = isset($GLOBALS["S_DUEDATE"]) ? $GLOBALS["S_DUEDATE"] : null;
 $S_COMPLETEDATE = isset($GLOBALS["S_COMPLETEDATE"]) ? $GLOBALS["S_COMPLETEDATE"] : null;
+$tableCollab = $GLOBALS["tableCollab"];
+$idSession = $_SESSION["idSession"];
+$msgLabel = $GLOBALS["msgLabel"];
 
 $organizations = new \phpCollab\Organizations\Organizations();
 $reports = new \phpCollab\Reports\Reports();
@@ -234,8 +237,8 @@ $block1 = new phpCollab\Block();
 $block1->sorting("report_tasks", $sortingUser->sor_report_tasks[0], "tas.complete_date DESC", $sortingFields = array(0 => "tas.name", 1 => "tas.project", 2 => "tas.actual_time", 3 => "tas.completion", 4 => "tas.status", 5 => "tas.start_date", 6 => "tas.due_date", 7 => "tas.complete_date", 8 => "mem.login", 9 => "tas.description", 10 => "tas.comments"));
 
 if ($projectsFilter == "true") {
-    $tmpquery = "LEFT OUTER JOIN " . $tableCollab["teams"] . " teams ON teams.project = pro.id ";
-    $tmpquery .= "WHERE pro.status IN(0,2,3) AND teams.member = '$idSession' ORDER BY pro.id";
+    $tmpquery = "LEFT OUTER JOIN {$tableCollab["teams"]} teams ON teams.project = pro.id ";
+    $tmpquery .= "WHERE pro.status IN(0,2,3) AND teams.member = {$idSession} ORDER BY pro.id";
 
     $listProjectsTasks = new phpCollab\Request();
     $listProjectsTasks->openProjects($tmpquery);
