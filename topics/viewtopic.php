@@ -6,6 +6,12 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
+$topics = new \phpCollab\Topics\Topics();
+$projects = new \phpCollab\Projects\Projects();
+$teams = new \phpCollab\Teams\Teams();
+
+$id = $_GET["id"];
+
 if ($_GET['action'] == "closeTopic") {
     $num = "1";
     phpCollab\Util::newConnectSql("UPDATE {$tableCollab["topics"]} SET status='0' WHERE id = :topic_id", ["topic_id" => $_GET['id']]);
@@ -22,48 +28,34 @@ if ($_GET['action'] == "removeToSite") {
     $msg = "removeToSite";
 }
 
-$tmpquery = "WHERE topic.id = '$id'";
-$detailTopic = new phpCollab\Request();
-$detailTopic->openTopics($tmpquery);
+$detailTopic = $topics->getTopicByTopicId($id);
 
-$tmpquery = "WHERE pos.topic = '" . $detailTopic->top_id[0] . "' ORDER BY pos.created DESC";
-$listPosts = new phpCollab\Request();
-$listPosts->openPosts($tmpquery);
-$comptListPosts = count($listPosts->pos_id);
+$listPosts = $topics->getPostsByTopicId($detailTopic["top_id"]);
 
-$tmpquery = "WHERE pro.id = '" . $detailTopic->top_project[0] . "'";
-$detailProject = new phpCollab\Request();
-$detailProject->openProjects($tmpquery);
+$detailProject = $projects->getProjectById($detailTopic["top_project"]);
 
 $teamMember = "false";
-$tmpquery = "WHERE tea.project = '" . $detailTopic->top_project[0] . "' AND tea.member = '$idSession'";
-$memberTest = new phpCollab\Request();
-$memberTest->openTeams($tmpquery);
-$comptMemberTest = count($memberTest->tea_id);
-if ($comptMemberTest == "0") {
-    $teamMember = "false";
-} else {
-    $teamMember = "true";
-}
+
+$teamMember = $teams->isTeamMember($detailTopic["top_project"], $idSession);
 
 if ($teamMember == "false" && $projectsFilter == "true") {
     header("Location:../general/permissiondenied.php");
 }
 
-if ($detailProject->pro_org_id[0] == "1") {
-    $detailProject->pro_org_name[0] = $strings["none"];
+if ($detailProject["pro_org_id"] == "1") {
+    $detailProject["pro_org_name"] = $strings["none"];
 }
 
 $idStatus = $detailTopic->top_status[0];
 $idPublish = $detailTopic->top_published[0];
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $detailProject->pro_id[0], $detailProject->pro_name[0], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../topics/listtopics.php?project=" . $detailProject->pro_id[0], $strings["discussions"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $detailProject["pro_id"], $detailProject["pro_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../topics/listtopics.php?project=" . $detailProject["pro_id"], $strings["discussions"], "in"));
 $blockPage->itemBreadcrumbs($detailTopic->top_subject[0]);
 $blockPage->closeBreadcrumbs();
 
@@ -96,9 +88,9 @@ if ($idSession == $detailTopic->top_owner[0]) {
 $block1->openContent();
 $block1->contentTitle($strings["info"]);
 
-$block1->contentRow($strings["project"], $blockPage->buildLink("../projects/viewproject.php?id=" . $detailProject->pro_id[0], $detailProject->pro_name[0] . " (#" . $detailProject->pro_id[0] . ")", in));
-$block1->contentRow($strings["organization"], $detailProject->pro_org_name[0]);
-$block1->contentRow($strings["owner"], $blockPage->buildLink("../users/viewuser.php?id=" . $detailProject->pro_mem_id[0], $detailProject->pro_mem_name[0], in) . " (" . $blockPage->buildLink($detailProject->pro_mem_email_work[0], $detailProject->pro_mem_login[0], mail) . ")");
+$block1->contentRow($strings["project"], $blockPage->buildLink("../projects/viewproject.php?id=" . $detailProject["pro_id"], $detailProject["pro_name"] . " (#" . $detailProject["pro_id"] . ")", "in"));
+$block1->contentRow($strings["organization"], $detailProject["pro_org_name"]);
+$block1->contentRow($strings["owner"], $blockPage->buildLink("../users/viewuser.php?id=" . $detailProject["pro_mem_id"], $detailProject["pro_mem_name"], "in") . " (" . $blockPage->buildLink($detailProject["pro_mem_email_work"], $detailProject["pro_mem_login"], "mail") . ")");
 
 if ($sitePublish == "true") {
     $block1->contentRow($strings["published"], $statusPublish[$idPublish]);
@@ -111,21 +103,22 @@ $block1->contentRow($strings["last_post"], phpCollab\Util::createDate($detailTop
 $block1->contentTitle($strings["posts"]);
 
 if ($detailTopic->top_status[0] == "1" && $teamMember == "true") {
-    $block1->contentRow("", $blockPage->buildLink("../topics/addpost.php?id=" . $detailTopic->top_id[0], $strings["post_reply"], in));
+    $block1->contentRow("", $blockPage->buildLink("../topics/addpost.php?id=" . $detailTopic->top_id[0], $strings["post_reply"], "in"));
 }
 
-for ($i = 0; $i < $comptListPosts; $i++) {
-    $block1->contentRow($strings["posted_by"], $blockPage->buildLink($listPosts->pos_mem_email_work[$i], $listPosts->pos_mem_name[$i], mail));
+//for ($i = 0; $i < $comptListPosts; $i++) {
+foreach ($listPosts as $post) {
+    $block1->contentRow($strings["posted_by"], $blockPage->buildLink($post["pos_mem_email_work"], $post["pos_mem_name"], "mail"));
 
-    if ($listPosts->pos_created[$i] > $lastvisiteSession) {
-        $block1->contentRow($strings["when"], "<b>" . phpCollab\Util::createDate($listPosts->pos_created[$i], $timezoneSession) . "</b>");
+    if ($post["pos_created"] > $lastvisiteSession) {
+        $block1->contentRow($strings["when"], "<b>" . phpCollab\Util::createDate($post["pos_created"], $timezoneSession) . "</b>");
     } else {
-        $block1->contentRow($strings["when"], phpCollab\Util::createDate($listPosts->pos_created[$i], $timezoneSession));
+        $block1->contentRow($strings["when"], phpCollab\Util::createDate($post["pos_created"], $timezoneSession));
     }
-    if ($detailProject->pro_owner[0] == $idSession || $profilSession == "0" || $listPosts->pos_member[$i] == $idSession) {
-        $block1->contentRow($blockPage->buildLink("../topics/deletepost.php?topic=" . $detailTopic->top_id[0] . "&id=" . $listPosts->pos_id[$i], $strings["delete_message"], in), nl2br($listPosts->pos_message[$i]));
+    if ($detailProject["pro_owner"] == $idSession || $profilSession == "0" || $post["pos_member"] == $idSession) {
+        $block1->contentRow($blockPage->buildLink("../topics/deletepost.php?topic=" . $detailTopic->top_id[0] . "&id=" . $post["pos_id"], $strings["delete_message"], "in"), nl2br($post["pos_message"]));
     } else {
-        $block1->contentRow("", nl2br($listPosts->pos_message[$i]));
+        $block1->contentRow("", nl2br($post["pos_message"]));
     }
     $block1->contentRow("", "", "true");
 }
@@ -142,5 +135,4 @@ if ($idSession == $detailTopic->top_owner[0]) {
     $block1->closePaletteScript("", "");
 }
 
-include '../themes/' . THEME . '/footer.php';
-?>
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
