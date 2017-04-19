@@ -4,8 +4,6 @@
 #Path by root: ../languages/lang_hu.php
 
 //translator(s): ct <ct@mailbox.hu>
-$setCharset = "ISO-8859-2";
-
 $byteUnits = array('Byte', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"hétfõ", 2 =>"kedd", 3 =>"szerda", 4 =>"csütörtök", 5 =>"péntek", 6 =>"szombat", 7 =>"vasárnap");

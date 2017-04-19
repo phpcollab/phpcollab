@@ -6,8 +6,6 @@
 //translator(s): Poorlyte <poorlyte@yahoo.com> (<2.0;2.0;2.2;2.3;2.4;2.5)
 //translator(s): Felipe Fonseca <http://hipercortex.tk> (<2.0)
 
-$setCharset = "ISO-8859-1";
-
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 $dayNameArray = array(1 =>"Segunda-Feira", 2 =>"Terça-Feira", 3 =>"Quarta-Feira", 4 =>"Quinta-Feira", 5 =>"Sexta-Feira", 6 =>"Sábado", 7 =>"Domingo");
 $monthNameArray = array(1=> "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"); 

@@ -4,8 +4,6 @@
 #Path by root: ../languages/lang_is.php
 
 //translator(s): Jonas Sig (jonas@nasaweb.net)
-$setCharset = "ISO-8859-1";
-
 $byteUnits = array('Bæti', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Mánudagur", 2 =>"Þriðjudagur", 3 =>"Miðvikudagur", 4 =>"Fimmtudagur", 5 =>"Föstudagur", 6 =>"Laugardagur", 7 =>"Sunnudagur");

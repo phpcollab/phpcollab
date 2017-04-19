@@ -4,8 +4,6 @@
 #Path by root: ../languages/lang_cs-win1250.php
 
 //translator(s): Pavel Dostal <pavel.dostal@xone.cz>
-$setCharset = "windows-1250";
-
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Pondìlí", 2 =>"Úterý", 3 =>"Støeda", 4 =>"Ètvrtek", 5 =>"Pátek", 6 =>"Sobota", 7 =>"Nedìle");

@@ -4,8 +4,6 @@
 #Path by root: ../languages/lang_nl.php
 
 //translator(s): Hendrik Bijlsma, Erwin Wondergem, Dave Liefbroer
-$setCharset = "ISO-8859-1";
-
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Maandag", 2 =>"Dinsdag", 3 =>"Woensdag", 4 =>"Donderdag", 5 =>"Vrijdag", 6 =>"Zaterdag", 7 =>"Zondag");

@@ -4,8 +4,6 @@
 #Path by root: ../languages/lang_az.php
 
 //translator(s): Metin Amiroff, Hafiz Bagirli
-$setCharset = "utf-8";
-
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Bazar Ertəsi", 2 =>"Çərşənbə Axşamı", 3 =>"Çərşənbə", 4 =>"Cümə Axşamı", 5 =>"Cümə", 6 =>"Şənbə", 7 =>"Bazar");

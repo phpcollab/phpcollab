@@ -4,8 +4,6 @@
 #Path by root: ../languages/lang_cs-iso.php
 
 //translator(s): Pavel Dostal <pavel.dostal@xone.cz>
-$setCharset = "iso-8859-2";
-
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Pondělí", 2 =>"Úterý", 3 =>"Středa", 4 =>"Čtvrtek", 5 =>"Pátek", 6 =>"Sobota", 7 =>"Neděle");

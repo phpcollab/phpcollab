@@ -4,8 +4,6 @@
 #Path by root: ../languages/lang_da.php
 
 //translator(s): Mark Petersen, AlleyKat <translation@phpbb2.dk>
-$setCharset = "ISO-8859-1";
-
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Mandag", 2 =>"Tirsdag", 3 =>"Onsdag", 4 =>"Torsdag", 5 =>"Fredag", 6 =>"Lørdag", 7 =>"Søndag");

@@ -4,8 +4,6 @@
 #Path by root: ../languages/lang_ar.php
 
 //translator(s): Emad Habahabeh <shobaki@hotmail.com>
-$setCharset = "windows-1256";
-
 $byteUnits = array('بايت', 'ك', 'م.ب', 'غ.ب');
 
 $dayNameArray = array(1 =>"الأثنين", 2 =>"الثلاثاء", 3 =>"الأربعاء", 4 =>"الخميس", 5 =>"الجمعة", 6 =>"السبت", 7 =>"الأحد");

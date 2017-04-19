@@ -3,9 +3,7 @@
 #Status page: 2
 #Path by root: ../languages/lang_tr.php
 
-//translator(s): 
-$setCharset = "iso-8859-9";
-
+//translator(s):
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Pazartesi", 2 =>"Salý", 3 =>"Çarþamba", 4 =>"Perþembe", 5 =>"Cuma", 6 =>"Cumartesi", 7 =>"Pazar");

@@ -5,8 +5,6 @@
 
 //translator(s): Dariusz Kowalski <d.kowalski@dreamnet.waw.pl>, Marcin Kawalerowicz (mkawalerowicz@poczta.onet.pl)
 // changes and spell check: Pawel Suwinski (dracono@wp.pl) 2005.06.02
-$setCharset = "ISO-8859-2";
-
 $byteUnits = array('Bajty', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Poniedzia³ek", 2 =>"Wtorek", 3 =>"¦roda", 4 =>"Czwartek", 5 =>"Pi±tek", 6 =>"Sobota", 7 =>"Niedziela");

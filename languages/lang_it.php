@@ -2,8 +2,6 @@
 #Application name: PhpCollab
 #Status page: 2
 //translator(s): Luca Mercuri <siggy@siggy.info>, Francesco Fullone <fullone@csr.unibo.it>
-$setCharset = "ISO-8859-1";
-
 $byteUnits = array('Byte', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Lunedi", 2 =>"Martedi", 3 =>"Mercoledi", 4 =>"Giovedi", 5 =>"Venerdi", 6 =>"Sabato", 7 =>"Domenica");

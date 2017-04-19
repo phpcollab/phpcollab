@@ -4,8 +4,6 @@
 #Path by root: ../languages/lang_bg.php
 
 //translator(s): Veselin Malezanov <veselin@trimata.bg>,Yassen Yotov <cyberoto@abv.bg>
-$setCharset = "windows-1251";
-
 $byteUnits = array('Байта', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Понеделник", 2 =>"Вторник", 3 =>"Сряда", 4 =>"Четвъртък", 5 =>"Петък", 6 =>"Събота", 7 =>"Неделя");

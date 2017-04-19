@@ -4,8 +4,6 @@
 #Path by root: ../languages/lang_es.php
 
 //translator(s): Felipe Jaramillo, Pep PujadС Mateo, Ricardo DМaz, Carlos Ca&ntilde;averal, Juan Guillermo Gallego
-$setCharset = "ISO-8859-1";
-
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Lunes", 2 =>"Martes", 3 =>"Mi&eacute;rcoles", 4 =>"Jueves", 5 =>"Viernes", 6 =>"S&aacute;bado", 7 =>"Domingo");

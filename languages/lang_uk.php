@@ -4,8 +4,6 @@
 #Path by root: ../languages/lang_uk.php
 
 //translator(s): Roman Zinchenko
-$setCharset = "CP-1251";
-
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Monday", 2 =>"Tuesday", 3 =>"Wednesday", 4 =>"Thursday", 5 =>"Friday", 6 =>"Saturday", 7 =>"Sunday");

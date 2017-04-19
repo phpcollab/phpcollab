@@ -4,8 +4,6 @@
 #Path by root: ../languages/lang_en.php
 
 //translator(s): Krisjanis Berzins <krish@ocean.lv>
-$setCharset = "WINDOWS-1257";
-
 $byteUnits = array('Baiti', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Pirmdiena", 2 =>"Otrdiena", 3 =>"Tređdiena", 4 =>"Ceturtdiena", 5 =>"Piektdiena", 6 =>"Sestdiena", 7 =>"Svįtdiena");

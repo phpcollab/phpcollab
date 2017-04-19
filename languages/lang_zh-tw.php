@@ -4,8 +4,6 @@
 #Path by root: ../languages/lang_zh-tw.php
 
 //translator(s): Fu-Yuan Zheng <gloom@kimo.com>
-$setCharset = "Big5";
-
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Monday", 2 =>"Tuesday", 3 =>"Wednesday", 4 =>"Thursday", 5 =>"Friday", 6 =>"Saturday", 7 =>"Sunday");

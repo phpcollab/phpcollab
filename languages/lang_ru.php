@@ -4,7 +4,6 @@
 #Path by root: ../languages/lang_ru.php
 
 //translator(s): Andreu 'Doc' Ponomarev, Pavlov Nick
-$setCharset = "windows-1251";
 
 $byteUnits = array('Байт', 'Kб', 'Mб', 'Гб');
 

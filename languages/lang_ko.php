@@ -4,8 +4,6 @@
 #Path by root: ../languages/lang_ko.php
 
 //translator(s): Andy Choi <choibc@dreamwiz.com>
-$setCharset = "EUC-KR";
-
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"월요일", 2 =>"화요일", 3 =>"수요일", 4 =>"목요일", 5 =>"금요일", 6 =>"토요일", 7 =>"일요일");

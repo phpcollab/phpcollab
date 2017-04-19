@@ -4,8 +4,6 @@
 #Path by root: ../languages/lang_ca.php
 
 //translator(s): Sergi Nadal <sergi@espintime.net>
-$setCharset = "ISO-8859-1";
-
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"dilluns", 2 =>"dimarts", 3 =>"dimecres", 4 =>"dijous", 5 =>"divendres", 6 =>"dissabte", 7 =>"diumenge");
