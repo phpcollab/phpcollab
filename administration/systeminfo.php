@@ -1,44 +1,22 @@
 <?php
-/*
-** Application name: phpCollab
-** Last Edit page: 2003-10-23 
-** Path by root: ../administration/systeminfo.php
-** Authors: Ceam / Fullo
-**
-** =============================================================================
-**
-**               phpCollab - Project Managment 
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: systeminfo.php
-**
-** DESC: Screen: System information and php library
-**
-** HISTORY:
-** 	2003-10-23	-	added new document info
-** -----------------------------------------------------------------------------
-** TO-DO:
-** 	 
-**
-** =============================================================================
-*/
 
 $checkSession = "true";
 include_once '../includes/library.php';
+
+$strings = $GLOBALS["strings"];
+
+$mkdirMethodMore = $loginMethodMore = $extensions = $matches = null;
 
 if ($profilSession != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 
 $setTitle .= " : System Information";
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], "in"));
 $blockPage->itemBreadcrumbs($strings["system_information"]);
 $blockPage->closeBreadcrumbs();
 
@@ -67,37 +45,37 @@ if ($useLDAP == "true") {
 }
 $block1->contentRow("Login Method", $loginMethod . $loginMethodMore);
 
-if ($databaseType == "mysql") {
-    $databaseTypeMore = "MySql";
-    $link = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die("Connection impossible");
-    $local_query = "SELECT VERSION() as version";
-    $res = mysql_query($local_query, $link);
-    $databaseVersion = mysql_result($res, 0, 'version');
+switch ($databaseType) {
+    case "postgresql":
+        $dsn = "pgsql:host=" . MYSERVER . ";dbname=" . MYDATABASE;
+        $databaseTypeMore = "PostgreSQL";
+        break;
+    case 'sqlserver':
+        $dsn = "sqlsrv::Server=" . MYSERVER . ";Database=" . MYDATABASE;
+        $databaseTypeMore = "Sql Server";
+        break;
+    default:
+        $dsn = "mysql:host=" . MYSERVER . ";dbname=" . MYDATABASE;
+        $databaseTypeMore = "MySql";
+        break;
 }
 
-if ($databaseType == "postgresql") {
-    $databaseTypeMore = "PostgreSQL";
-    $link = pg_connect("host=" . MYSERVER . " port=5432 dbname=" . MYDATABASE . " user=" . MYLOGIN . " password=" . MYPASSWORD);
-    $local_query = "SELECT VERSION() as version";
-    $res = pg_query($link, $local_query);
-    $databaseVersion = pg_result($res, 0, 'version');
-}
+try {
+    $conn = new PDO($dsn, MYLOGIN, MYPASSWORD);
 
-if ($databaseType == "sqlserver") {
-    $databaseTypeMore = "Sql Server";
-    $link = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die("Connection impossible");
-    $local_query = "SELECT @@version as version";
-    $res = mssql_query($local_query, $link);
-    $databaseVersion = mssql_result($res, 0, 'version');
+    $databaseVersion = $conn->getAttribute(constant("PDO::ATTR_SERVER_VERSION")) . "\n";
+} catch (PDOException $e) {
+    print "Error!: " . $e->getMessage() . "<br/>";
+    die();
 }
 
 $block1->contentRow("Database Type", $databaseTypeMore);
 $block1->contentRow("Files folder size", phpCollab\Util::convertSize(phpCollab\Util::folderInfoSize("../files/")));
 
 $block1->contentTitle($strings["system_properties"]);
-$block1->contentRow("PHP Version", phpversion() . " " . $blockPage->buildLink("../administration/phpinfo.php?", "PhpInfo", inblank));
+$block1->contentRow("PHP Version", phpversion() . " " . $blockPage->buildLink("../administration/phpinfo.php?", "PhpInfo", "inblank"));
 $block1->contentRow($databaseTypeMore . " version", $databaseVersion);
-$block1->contentRow("extension_dir", ini_get(extension_dir));
+$block1->contentRow("extension_dir", ini_get('extension_dir'));
 
 $ext = get_loaded_extensions();
 $comptExt = count($ext);
@@ -111,7 +89,7 @@ for ($i = 0; $i < $comptExt; $i++) {
 
 $block1->contentRow("Loaded extensions", $extensions);
 
-$include_path = ini_get(include_path);
+$include_path = ini_get('include_path');
 if ($include_path == "") {
     $include_result = "<i>No value</i>";
 } else {
@@ -120,7 +98,7 @@ if ($include_path == "") {
 
 $block1->contentRow("include_path", $include_result);
 
-$register_globals = ini_get(register_globals);
+$register_globals = ini_get('register_globals');
 if ($register_globals == "1") {
     $register_result = "On";
 } else {
@@ -129,7 +107,7 @@ if ($register_globals == "1") {
 
 $block1->contentRow("register_globals", $register_result);
 
-$safemodeTest = ini_get(safe_mode);
+$safemodeTest = ini_get('safe_mode');
 if ($safemodeTest == "1") {
     $safe_mode_result = "On";
 } else {
@@ -169,8 +147,8 @@ if ($matches[1] != "") {
     $block1->contentRow("GD version", $matches[1]);
 }
 
-$block1->contentRow("SMTP", ini_get(SMTP));
-$block1->contentRow("upload_max_filesize", ini_get(upload_max_filesize));
+$block1->contentRow("SMTP", ini_get('SMTP'));
+$block1->contentRow("upload_max_filesize", ini_get('upload_max_filesize'));
 $block1->contentRow("session.name", session_name());
 $block1->contentRow("session.save_path", session_save_path());
 $block1->contentRow("HTTP_HOST", phpCollab\Util::returnGlobal('HTTP_HOST', 'SERVER'));
@@ -188,4 +166,4 @@ $block1->contentRow("SERVER_OS", PHP_OS);
 
 $block1->closeContent();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
