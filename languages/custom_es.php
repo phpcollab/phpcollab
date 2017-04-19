@@ -1,14 +1,14 @@
 <?php
-$topicNote = array(1 => "Conversaci髇 Telef髇ica", 2 => "Notas de Conferencia", 3 => "Notas Generales");
+$topicNote = array(1 => "Conversaci贸n Telef贸nica", 2 => "Notas de Conferencia", 3 => "Notas Generales");
 
 $phaseArraySets = array(
 		#Define the names of your phase sets
 		"sets" => array(1 => "Pagina Web", 2 => "CD"),
 		#List the indervitual items within each phase set.
 		#Website Set
-		"1" => array(0 => "Planificaci髇", 1 => "Dise駉", 2 => "Pruebas", 3 => "Cerrado", 4 => "Producci髇"),
+		"1" => array(0 => "Planificaci贸n", 1 => "Dise帽o", 2 => "Pruebas", 3 => "Cerrado", 4 => "Producci贸n"),
 		
 		#CD Set
-		"2" => array(0 => "Planificaci髇", 1 => "Dise駉", 2 => "Pruebas", 3 => "Producci髇")
+		"2" => array(0 => "Planificaci贸n", 1 => "Dise帽o", 2 => "Pruebas", 3 => "Producci贸n")
 );
 ?>
