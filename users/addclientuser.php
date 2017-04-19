@@ -93,7 +93,7 @@ if ($_GET['action'] == "add") {
                     $message .= "\n\n" . $partFooter;
 
                     // THE BELOW FROM LINE IS HARDCODED SINCE THE NOTIFICATION CLASS IS NOT BEING USED AND GLOBALS CAN'T REACH
-                    $headers = "Content-type:text/plain;charset=\"$setCharset\"\nFrom: \"Support\" <" . $supportEmail . ">\nX-Priority: $priorityMail\nX-Mailer: PhpCollab $version";
+                    $headers = "Content-type:text/plain;charset=\"UTF-8\"\nFrom: \"Support\" <" . $supportEmail . ">\nX-Priority: $priorityMail\nX-Mailer: PhpCollab $version";
                     @mail("$em", "$partSubject", "$message", "$headers");
 
                     // SEND A NOTIFICATION EMAIL TO ADMIN - HARD CODED

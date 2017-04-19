@@ -15,7 +15,7 @@ if ($profilSession != "0") {
 */
 
 if ($action == "email") {
-    global $root, $version, $setCharset;
+    global $root, $version;
 
     // get name and email of user sending the email
     $tmpquery = "WHERE mem.id = '$idSession'";
@@ -43,7 +43,7 @@ if ($action == "email") {
         // send email to each user
         $email = $listMembers->mem_email_work[$i];
         $priorityMail = "3";
-        $headers = "Content-type:text/plain;charset='$setCharset'\nFrom: '" . $userPrefs->mem_name[0] . "' <" . $userPrefs->mem_email_work[0] . ">\nX-Priority: $priorityMail\nX-Mailer: PhpCollab $version";
+        $headers = "Content-type:text/plain;charset='UTF-8'\nFrom: '" . $userPrefs->mem_name[0] . "' <" . $userPrefs->mem_email_work[0] . ">\nX-Priority: $priorityMail\nX-Mailer: PhpCollab $version";
 
         $footer = "---\n" . $strings["noti_foot1"];
         $signature = $userPrefs->mem_name[0] . "\n";

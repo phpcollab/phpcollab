@@ -6,7 +6,7 @@ echo "$setDoctype
 $setCopyright
 <html>
 <head>
-<meta http-equiv='Content-Type' content=\"text/html; charset=$setCharset\" />
+<meta http-equiv='Content-Type' content=\"text/html; charset=UTF-8\" />
 <title>$setTitle</title>
 <meta name='robots' content='none' />
 <meta name='description' content='$setDescription' />

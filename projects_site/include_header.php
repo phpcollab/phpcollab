@@ -16,7 +16,7 @@ $setDoctype
 $setCopyright
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset={$setCharset}">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="robots" content="none">
 <meta name="description" content="{$setDescription}">
 <meta name="keywords" content="{$setKeywords}">
@@ -33,7 +33,7 @@ if ($projectSession == "" || $changeProject == "true") {
 echo "</title>\n";
 
 echo <<<HEAD
-<meta http-equiv="Content-Type" content="text/html; charset={$setCharset}">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <link rel="stylesheet" href="../themes/{THEME}/css/stylesheet.css">
 <script type="text/javascript" src="../javascript/general.js"></script>
