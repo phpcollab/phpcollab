@@ -4,21 +4,21 @@
 #Path by root: ../languages/help_is.php
 
 //translator(s): Jonas Sig (jonas@nasaweb.net)
-$help["setup_mkdirMethod"] = "Ef safe-mode er virkt verğur şú ağ setja FTP ağgang til ağ geta búiğ til möppu fyrir skráarsafn.";
-$help["setup_notifications"] = "Senda notendum e-mail tilkynningar (úthlutun verka, nı skilaboğ, breytingar verka, ...)<br/>Hér şarf gildan smpt/sendmail.";
-$help["setup_forcedlogin"] = "Ef 'false' er hægt ağ nota URL meğ ağgangsorği/lykilorği í";
-$help["setup_langdefault"] = "Veldu sjálfgefiğ tungumál eğa skildu eftir autt til ağ láta vefrápara notanda ráğa tungumáli.";
-$help["setup_myprefix"] = "Settu şetta gildi ef şú hefur töflur fyrri í gagnagrunninum meğ sama nafn.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Skildu eftir autt til ağ nota ekki töfluforskeyti.";
-$help["setup_loginmethod"] = "Hvernig lykilrğ eru vistuğ í gagnagrunni.<br/>Settu á &quot;Dulkóğağ&quot; ef şú vilt nota kerfiğ meğ CVS ağgangi";
-$help["admin_update"] = "Fylgdu şessari röğ til ağ uppfæra útgáfu kerfisins<br/>1. Breyta stillingum (nánari forsendur)<br/>2. Breyta gagnagrunni (uppfæra kerfi úr núverandi útgáfu)";
-$help["task_scope_creep"] = "Mismunur í dögum milli eindaga verks og verkloka";
-$help["max_file_size"] = "Hámarksstærğ skráa sem vista má";
-$help["project_disk_space"] = "Stært skráarsvæğis fyrir hvert verkefni";
-$help["project_scope_creep"] = "Mismunur í dögum milli eindaga og verkloka fyrir öll verk verkefnis.";
-$help["mycompany_logo"] = "Vistağu merki fyrirtækis şíns.  Şá birtist myndin í haus kerfis í stağ titils.";
-$help["calendar_shortname"] = "Nafn atburğar í mánağaryfirliti (val)";
-$help["user_autologout"] = "Tími í sek. şangağ til óvirkur notandi er aftengur. 0 til ağ aftengjast aldrei";
-$help["user_timezone"] = "Settu GMT tímasvæği";
+$help["setup_mkdirMethod"] = "Ef safe-mode er virkt verÃ°ur Ã¾Ãº aÃ° setja FTP aÃ°gang til aÃ° geta bÃºiÃ° til mÃ¶ppu fyrir skrÃ¡arsafn.";
+$help["setup_notifications"] = "Senda notendum e-mail tilkynningar (Ãºthlutun verka, nÃ½ skilaboÃ°, breytingar verka, ...)<br/>HÃ©r Ã¾arf gildan smpt/sendmail.";
+$help["setup_forcedlogin"] = "Ef 'false' er hÃ¦gt aÃ° nota URL meÃ° aÃ°gangsorÃ°i/lykilorÃ°i Ã­";
+$help["setup_langdefault"] = "Veldu sjÃ¡lfgefiÃ° tungumÃ¡l eÃ°a skildu eftir autt til aÃ° lÃ¡ta vefrÃ¡para notanda rÃ¡Ã°a tungumÃ¡li.";
+$help["setup_myprefix"] = "Settu Ã¾etta gildi ef Ã¾Ãº hefur tÃ¶flur fyrri Ã­ gagnagrunninum meÃ° sama nafn.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Skildu eftir autt til aÃ° nota ekki tÃ¶fluforskeyti.";
+$help["setup_loginmethod"] = "Hvernig lykilrÃ° eru vistuÃ° Ã­ gagnagrunni.<br/>Settu Ã¡ &quot;DulkÃ³Ã°aÃ°&quot; ef Ã¾Ãº vilt nota kerfiÃ° meÃ° CVS aÃ°gangi";
+$help["admin_update"] = "Fylgdu Ã¾essari rÃ¶Ã° til aÃ° uppfÃ¦ra ÃºtgÃ¡fu kerfisins<br/>1. Breyta stillingum (nÃ¡nari forsendur)<br/>2. Breyta gagnagrunni (uppfÃ¦ra kerfi Ãºr nÃºverandi ÃºtgÃ¡fu)";
+$help["task_scope_creep"] = "Mismunur Ã­ dÃ¶gum milli eindaga verks og verkloka";
+$help["max_file_size"] = "HÃ¡marksstÃ¦rÃ° skrÃ¡a sem vista mÃ¡";
+$help["project_disk_space"] = "StÃ¦rt skrÃ¡arsvÃ¦Ã°is fyrir hvert verkefni";
+$help["project_scope_creep"] = "Mismunur Ã­ dÃ¶gum milli eindaga og verkloka fyrir Ã¶ll verk verkefnis.";
+$help["mycompany_logo"] = "VistaÃ°u merki fyrirtÃ¦kis Ã¾Ã­ns.  ÃÃ¡ birtist myndin Ã­ haus kerfis Ã­ staÃ° titils.";
+$help["calendar_shortname"] = "Nafn atburÃ°ar Ã­ mÃ¡naÃ°aryfirliti (val)";
+$help["user_autologout"] = "TÃ­mi Ã­ sek. Ã¾angaÃ° til Ã³virkur notandi er aftengur. 0 til aÃ° aftengjast aldrei";
+$help["user_timezone"] = "Settu GMT tÃ­masvÃ¦Ã°i";
 //2.4
 $help["setup_clientsfilter"] = "Filter to see only logged user clients";
 $help["setup_projectsfilter"] = "Filter to see only the project when the user are in the team";

@@ -4,21 +4,21 @@
 #Path by root: ../languages/help_hu.php
 
 //translator(s): 
-$help["setup_mkdirMethod"] = "Ha a safe-mode be van kapcsolva, szükség van egy ftp hozzáférésre, hogy filekezelésre alkalmas könyvtárat lehessen létrehozni.";
-$help["setup_notifications"] = "Felhasználói e-mail értesítések (feladat-hozzárendelések, új hozzászólás, új hozzászólás, feladat változás, ...)<br/>Valid smtp/sendmail szükséges.";
-$help["setup_forcedlogin"] = "Ha hamis, akkor ne engedd külsõ linket felhasználónévvel/jelszóval az URL-ben";
-$help["setup_langdefault"] = "Válaszd ki az alapértelmezett bejelentkezési nyelvet, vagy hagyd üresen, hogy a böngészõ detektálja automatikusan.";
-$help["setup_myprefix"] = "Állítsd be ezt az értéket, ha már van azonos nevû táblád az adatbázisban.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Hagyd üresen tábla prefix nem-használata esetén.";
-$help["setup_loginmethod"] = "Jelszavak tárolási metódusa az adatbázisban.<br/>Állíts &quot;Crypt&quot;-re a CVS és htaccess autentikáció mûködéséhez (ha a CVS support és/vagy htaccess autentikáció engedélyezett).";
-$help["admin_update"] = "Szigorúan tartsd be a sorrendet a verziófrissítéskor<br/>1. Beállítások szerkesztése (egészítsd ki az új paramétereket)<br/>2. Adatbázis szerkesztése (frissítsd a korábbi verziódhoz igazodva)";
-$help["task_scope_creep"] = "Különbség a határidõ és a teljesítés dátuma között (félkövér, ha pozitív)";
-$help["max_file_size"] = "Maximum file méret feltöltéshez";
-$help["project_disk_space"] = "A projekthez tartozó file-ok összmérete";
-$help["project_scope_creep"] = "Különbség a határidõ és a teljesítés dátuma között (félkövér, ha pozitív). Az összes feladatra vonatkozóan.";
-$help["mycompany_logo"] = "Tölts fel vállalatod tetszõleges logóját. Megjelenik a fejlécben. ";
-$help["calendar_shortname"] = "A naptár havi nézetében megjelenõ felirat. Kötelezõ";
-$help["user_autologout"] = "Az az idõintervallum másodpercekben, amely után aktivitás hiányában kijelentkezteti a felhasználót. Állíts be 0-át, ha ki akarod iktatni a funkciót.";
-$help["user_timezone"] = "Állítsd be a GMT idõzónát";
+$help["setup_mkdirMethod"] = "Ha a safe-mode be van kapcsolva, szÃ¼ksÃ©g van egy ftp hozzÃ¡fÃ©rÃ©sre, hogy filekezelÃ©sre alkalmas kÃ¶nyvtÃ¡rat lehessen lÃ©trehozni.";
+$help["setup_notifications"] = "FelhasznÃ¡lÃ³i e-mail Ã©rtesÃ­tÃ©sek (feladat-hozzÃ¡rendelÃ©sek, Ãºj hozzÃ¡szÃ³lÃ¡s, Ãºj hozzÃ¡szÃ³lÃ¡s, feladat vÃ¡ltozÃ¡s, ...)<br/>Valid smtp/sendmail szÃ¼ksÃ©ges.";
+$help["setup_forcedlogin"] = "Ha hamis, akkor ne engedd kÃ¼lsÃµ linket felhasznÃ¡lÃ³nÃ©vvel/jelszÃ³val az URL-ben";
+$help["setup_langdefault"] = "VÃ¡laszd ki az alapÃ©rtelmezett bejelentkezÃ©si nyelvet, vagy hagyd Ã¼resen, hogy a bÃ¶ngÃ©szÃµ detektÃ¡lja automatikusan.";
+$help["setup_myprefix"] = "ÃllÃ­tsd be ezt az Ã©rtÃ©ket, ha mÃ¡r van azonos nevÃ» tÃ¡blÃ¡d az adatbÃ¡zisban.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Hagyd Ã¼resen tÃ¡bla prefix nem-hasznÃ¡lata esetÃ©n.";
+$help["setup_loginmethod"] = "Jelszavak tÃ¡rolÃ¡si metÃ³dusa az adatbÃ¡zisban.<br/>ÃllÃ­ts &quot;Crypt&quot;-re a CVS Ã©s htaccess autentikÃ¡ciÃ³ mÃ»kÃ¶dÃ©sÃ©hez (ha a CVS support Ã©s/vagy htaccess autentikÃ¡ciÃ³ engedÃ©lyezett).";
+$help["admin_update"] = "SzigorÃºan tartsd be a sorrendet a verziÃ³frissÃ­tÃ©skor<br/>1. BeÃ¡llÃ­tÃ¡sok szerkesztÃ©se (egÃ©szÃ­tsd ki az Ãºj paramÃ©tereket)<br/>2. AdatbÃ¡zis szerkesztÃ©se (frissÃ­tsd a korÃ¡bbi verziÃ³dhoz igazodva)";
+$help["task_scope_creep"] = "KÃ¼lÃ¶nbsÃ©g a hatÃ¡ridÃµ Ã©s a teljesÃ­tÃ©s dÃ¡tuma kÃ¶zÃ¶tt (fÃ©lkÃ¶vÃ©r, ha pozitÃ­v)";
+$help["max_file_size"] = "Maximum file mÃ©ret feltÃ¶ltÃ©shez";
+$help["project_disk_space"] = "A projekthez tartozÃ³ file-ok Ã¶sszmÃ©rete";
+$help["project_scope_creep"] = "KÃ¼lÃ¶nbsÃ©g a hatÃ¡ridÃµ Ã©s a teljesÃ­tÃ©s dÃ¡tuma kÃ¶zÃ¶tt (fÃ©lkÃ¶vÃ©r, ha pozitÃ­v). Az Ã¶sszes feladatra vonatkozÃ³an.";
+$help["mycompany_logo"] = "TÃ¶lts fel vÃ¡llalatod tetszÃµleges logÃ³jÃ¡t. Megjelenik a fejlÃ©cben. ";
+$help["calendar_shortname"] = "A naptÃ¡r havi nÃ©zetÃ©ben megjelenÃµ felirat. KÃ¶telezÃµ";
+$help["user_autologout"] = "Az az idÃµintervallum mÃ¡sodpercekben, amely utÃ¡n aktivitÃ¡s hiÃ¡nyÃ¡ban kijelentkezteti a felhasznÃ¡lÃ³t. ÃllÃ­ts be 0-Ã¡t, ha ki akarod iktatni a funkciÃ³t.";
+$help["user_timezone"] = "ÃllÃ­tsd be a GMT idÃµzÃ³nÃ¡t";
 //2.4
 $help["setup_clientsfilter"] = "Filter to see only logged user clients";
 $help["setup_projectsfilter"] = "Filter to see only the project when the user are in the team";
