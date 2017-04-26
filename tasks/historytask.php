@@ -33,17 +33,16 @@ $type = isset($_GET["type"]) ? $_GET["type"] : null;
 $item = isset($_GET["item"]) ? $_GET["item"] : null;
 
 $tasks = new \phpCollab\Tasks\Tasks();
+$projects = new \phpCollab\Projects\Projects();
 
 if ($type == "2") {
     $subtaskDetail = $tasks->getSubTaskById($item);
 
     $taskDetail = $tasks->getTasksById($subtaskDetail["subtas_task"]);
 
-    $tmpquery = "WHERE pro.id = '" . $taskDetail["tas_project"] . "'";
-    $projectDetail = new phpCollab\Request();
-    $projectDetail->openProjects($tmpquery);
+    $projectDetail = $projects->getProjectById($taskDetail["tas_project"]);
 
-    if ($projectDetail->pro_enable_phase[0] != "0") {
+    if ($projectDetail["pro_enable_phase"] != "0") {
         $tPhase = $taskDetail["tas_parent_phase"];
         $tmpquery = "WHERE pha.project_id = '" . $taskDetail["tas_project"] . "' AND pha.order_num = '$tPhase'";
         $targetPhase = new phpCollab\Request();
@@ -54,11 +53,9 @@ if ($type == "2") {
 if ($type == "1") {
     $taskDetail = $tasks->getTasksById($item);
 
-    $tmpquery = "WHERE pro.id = '" . $taskDetail["tas_project"] . "'";
-    $projectDetail = new phpCollab\Request();
-    $projectDetail->openProjects($tmpquery);
+    $projectDetail = $projects->getProjectById($taskDetail["tas_project"]);
 
-    if ($projectDetail->pro_enable_phase[0] != "0") {
+    if ($projectDetail["pro_enable_phase"] != "0") {
         $tPhase = $taskDetail["tas_parent_phase"];
         if (!$tPhase) {
             $tPhase = '0';
@@ -74,14 +71,14 @@ include '../themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], in));
 
-if ($projectDetail->pro_phase_set[0] != "0") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail->pro_id[0], $strings["phases"], in));
+if ($projectDetail["pro_phase_set"] != "0") {
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail["pro_id"], $strings["phases"], in));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase->pha_id[0], $targetPhase->pha_name[0], in));
 }
 
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail->pro_id[0], $strings["tasks"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail["pro_id"], $strings["tasks"], in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail["tas_id"], $taskDetail["tas_name"], in));
 
 if ($type == "2") {
