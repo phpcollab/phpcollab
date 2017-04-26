@@ -42,6 +42,17 @@ class Files
     }
 
     /**
+     * @param $taskId
+     * @param null $sorting
+     * @return mixed
+     * @internal param $fileId
+     */
+    public function getFilesByTaskIdAndVCParentEqualsZero($taskId, $sorting = null)
+    {
+        return $this->files_gateway->getFilesByTaskIdAndVCParentEqualsZero($taskId, $sorting);
+    }
+
+    /**
      * @param $projectId
      * @return mixed
      */
