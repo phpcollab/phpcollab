@@ -34,6 +34,7 @@ $item = isset($_GET["item"]) ? $_GET["item"] : null;
 
 $tasks = new \phpCollab\Tasks\Tasks();
 $projects = new \phpCollab\Projects\Projects();
+$phases = new \phpCollab\Phases\Phases();
 
 $strings = $GLOBALS["strings"];
 
@@ -46,9 +47,7 @@ if ($type == "2") {
 
     if ($projectDetail["pro_enable_phase"] != "0") {
         $tPhase = $taskDetail["tas_parent_phase"];
-        $tmpquery = "WHERE pha.project_id = '" . $taskDetail["tas_project"] . "' AND pha.order_num = '$tPhase'";
-        $targetPhase = new phpCollab\Request();
-        $targetPhase->openPhases($tmpquery);
+        $targetPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($taskDetail["tas_project"], $tPhase);
     }
 }
 
@@ -62,9 +61,7 @@ if ($type == "1") {
         if (!$tPhase) {
             $tPhase = '0';
         }
-        $tmpquery = "WHERE pha.project_id = '" . $taskDetail["tas_project"] . "' AND pha.order_num = '$tPhase'";
-        $targetPhase = new phpCollab\Request();
-        $targetPhase->openPhases($tmpquery);
+        $targetPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($taskDetail["tas_project"], $tPhase);
     }
 }
 
@@ -77,7 +74,7 @@ $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?i
 
 if ($projectDetail["pro_phase_set"] != "0") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail["pro_id"], $strings["phases"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase->pha_id[0], $targetPhase->pha_name[0], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase["pha_id"], $targetPhase["pha_name"], "in"));
 }
 
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail["pro_id"], $strings["tasks"], "in"));
@@ -95,7 +92,7 @@ $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
     include '../includes/messages.php';
-    $blockPage->messageBox($msgLabel);
+    $blockPage->messageBox($GLOBALS["msgLabel"]);
 }
 
 $block1 = new phpCollab\Block();
