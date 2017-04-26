@@ -33,6 +33,7 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 $tasks = new \phpCollab\Tasks\Tasks();
+$projects = new \phpCollab\Projects\Projects();
 
 $id = $_GET["id"];
 $task = $_GET["task"];
@@ -75,11 +76,9 @@ if ($task != "" && $cheatCode == "true") {
 
 $taskDetail = $tasks->getTaskById($id);
 
-$tmpquery = "WHERE pro.id = '" . $taskDetail["tas_project"] . "'";
-$projectDetail = new phpCollab\Request();
-$projectDetail->openProjects($tmpquery);
+$projectDetail = $projects->getProjectById($taskDetail["tas_project"]);
 
-if ($projectDetail->pro_enable_phase[0] != "0") {
+if ($projectDetail["pro_enable_phase"] != "0") {
     $tPhase = $taskDetail["tas_parent_phase"];
     if (!$tPhase) {
         $tPhase = '0';
@@ -110,14 +109,14 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], in));
 
-if ($projectDetail->pro_phase_set[0] != "0") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail->pro_id[0], $strings["phases"], in));
+if ($projectDetail["pro_phase_set"] != "0") {
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail["pro_id"], $strings["phases"], in));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase->pha_id[0], $targetPhase->pha_name[0], in));
 }
 
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail->pro_id[0], $strings["tasks"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail["pro_id"], $strings["tasks"], in));
 $blockPage->itemBreadcrumbs($taskDetail["tas_name"]);
 $blockPage->closeBreadcrumbs();
 
@@ -147,20 +146,20 @@ if ($teamMember == "true" || $profilSession == "5") {
     $block1->closePaletteIcon();
 }
 
-if ($projectDetail->pro_org_id[0] == "1") {
-    $projectDetail->pro_org_name[0] = $strings["none"];
+if ($projectDetail["pro_org_id"] == "1") {
+    $projectDetail["pro_org_name"] = $strings["none"];
 }
 
 $block1->openContent();
 $block1->contentTitle($strings["info"]);
 
-$block1->contentRow($strings["project"], $blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], in));
+$block1->contentRow($strings["project"], $blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], in));
 
-if ($projectDetail->pro_phase_set[0] != "0") {
+if ($projectDetail["pro_phase_set"] != "0") {
     $block1->contentRow($strings["phase"], $blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase->pha_id[0], $targetPhase->pha_name[0], in));
 }
 
-$block1->contentRow($strings["organization"], $projectDetail->pro_org_name[0]);
+$block1->contentRow($strings["organization"], $projectDetail["pro_org_name"]);
 
 $block1->contentRow($strings["created"], phpCollab\Util::createDate($taskDetail["tas_created"], $timezoneSession));
 $block1->contentRow($strings["assigned"], phpCollab\Util::createDate($taskDetail["tas_assigned"], $timezoneSession));
@@ -368,7 +367,7 @@ if ($fileManagement == "true") {
 
     if ($teamMember == "true" || $profilSession == "5") {
         $block2->paletteScript(0, "add", "../linkedcontent/addfile.php?project=" . $taskDetail["tas_project"] . "&task=$id", "true,true,true", $strings["add"]);
-        $block2->paletteScript(1, "remove", "../linkedcontent/deletefiles.php?project=" . $projectDetail->pro_id[0] . "&task=" . $taskDetail["tas_id"] . "", "false,true,true", $strings["delete"]);
+        $block2->paletteScript(1, "remove", "../linkedcontent/deletefiles.php?project=" . $projectDetail["pro_id"] . "&task=" . $taskDetail["tas_id"] . "", "false,true,true", $strings["delete"]);
 
         if ($sitePublish == "true") {
             $block2->paletteScript(2, "add_projectsite", "../tasks/viewtask.php?addToSiteFile=true&task=" . $taskDetail["tas_id"] . "&action=publish", "false,true,true", $strings["add_project_site"]);
