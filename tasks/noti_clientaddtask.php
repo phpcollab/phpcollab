@@ -5,15 +5,13 @@ if ($num == "") {
 }
 
 $tasks = new \phpCollab\Tasks\Tasks();
+$projects = new \phpCollab\Projects\Projects();
 
 $taskNoti = $tasks->getTasksById($num);
 
+$projectNoti = $projects->getProjectById($taskNoti["tas_project"]);
 
-$tmpquery = "WHERE pro.id = '" . $taskNoti["tas_project"] . "'";
-$projectNoti = new phpCollab\Request();
-$projectNoti->openProjects($tmpquery);
-
-$tmpquery = "WHERE noti.member IN(" . $projectNoti->pro_owner[0] . ")";
+$tmpquery = "WHERE noti.member IN(" . $projectNoti["pro_owner"] . ")";
 $listNotifications = new phpCollab\Request();
 $listNotifications->openNotifications($tmpquery);
 $comptListNotifications = count($listNotifications->not_id);
@@ -26,14 +24,14 @@ if ($listNotifications->not_taskassignment[0] == "0") {
     $mail->partSubject = $strings["noti_clientaddtask1"];
     $mail->partMessage = $strings["noti_clientaddtask2"];
 
-    if ($projectNoti->pro_org_id[0] == "1") {
-        $projectNoti->pro_org_name[0] = $strings["none"];
+    if ($projectNoti["pro_org_id"] == "1") {
+        $projectNoti["pro_org_name"] = $strings["none"];
     }
     $complValue = ($taskNoti["tas_completion"] > 0) ? $taskNoti["tas_completion"] . "0 %" : $taskNoti["tas_completion"] . " %";
     $idStatus = $taskNoti["tas_status"];
     $idPriority = $taskNoti["tas_priority"];
 
-    $body = $mail->partMessage . "\n\n" . $strings["task"] . " : " . $taskNoti["tas_name"] . "\n" . $strings["start_date"] . " : " . $taskNoti["tas_start_date"] . "\n" . $strings["due_date"] . " : " . $taskNoti["tas_due_date"] . "\n" . $strings["completion"] . " : " . $complValue . "\n" . $strings["priority"] . " : $priority[$idPriority]\n" . $strings["status"] . " : $status[$idStatus]\n" . $strings["description"] . " : " . $taskNoti["tas_description"] . "\n\n" . $strings["project"] . " : " . $projectNoti->pro_name[0] . " (" . $projectNoti->pro_id[0] . ")\n" . $strings["organization"] . " : " . $projectNoti->pro_org_name[0] . "\n\n" . $strings["noti_moreinfo"] . "\n";
+    $body = $mail->partMessage . "\n\n" . $strings["task"] . " : " . $taskNoti["tas_name"] . "\n" . $strings["start_date"] . " : " . $taskNoti["tas_start_date"] . "\n" . $strings["due_date"] . " : " . $taskNoti["tas_due_date"] . "\n" . $strings["completion"] . " : " . $complValue . "\n" . $strings["priority"] . " : $priority[$idPriority]\n" . $strings["status"] . " : $status[$idStatus]\n" . $strings["description"] . " : " . $taskNoti["tas_description"] . "\n\n" . $strings["project"] . " : " . $projectNoti["pro_name"] . " (" . $projectNoti["pro_id"] . ")\n" . $strings["organization"] . " : " . $projectNoti["pro_org_name"] . "\n\n" . $strings["noti_moreinfo"] . "\n";
 
     $body .= "$root/general/login.php?url=tasks/viewtask.php%3Fid=$num";
 
