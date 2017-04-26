@@ -48,6 +48,8 @@ $tableCollab = $GLOBALS["tableCollab"];
 $status = $GLOBALS["status"];
 $strings = $GLOBALS["strings"];
 $date = $GLOBALS["date"];
+$statusPublish = $GLOBALS["statusPublish"];
+$priority = $GLOBALS["priority"];
 
 $timezoneSession = $_SESSION["timezoneSession"];
 
@@ -285,7 +287,7 @@ if ($teamMember == true || $profilSession == "5") {
         $block1->paletteScript(4, "remove_projectsite", "../tasks/viewtask.php?removeToSite=true&id=" . $taskDetail["tas_id"] . "&action=publish", "true,true,true", $strings["remove_project_site"]);
     }
     $block1->paletteScript(5, "edit", "../tasks/edittask.php?project=" . $taskDetail["tas_project"] . "&id=" . $taskDetail["tas_id"] . "&docopy=false", "true,true,false", $strings["edit"]);
-    $block1->closePaletteScript("", "");
+    $block1->closePaletteScript("", []);
 }
 
 if ($fileManagement == "true") {
@@ -313,13 +315,13 @@ if ($fileManagement == "true") {
     }
 
     $block2->closePaletteIcon();
-    $block2->sorting("files", $sortingUser->sor_files[0], "fil.name ASC", $sortingFields = array(0 => "fil.extension", 1 => "fil.name", 2 => "fil.owner", 3 => "fil.date", 4 => "fil.status", 5 => "fil.published"));
+    $block2->sorting("files", $sortingUser->sor_files[0], "fil.name ASC", $sortingFields = [0 => "fil.extension", 1 => "fil.name", 2 => "fil.owner", 3 => "fil.date", 4 => "fil.status", 5 => "fil.published"]);
 
     $listFiles = $files->getFilesByTaskIdAndVCParentEqualsZero($id, $block2->sortingValue);
 
     if ($listFiles) {
         $block2->openResults();
-        $block2->labels($labels = array(0 => $strings["type"], 1 => $strings["name"], 2 => $strings["owner"], 3 => $strings["date"], 4 => $strings["approval_tracking"], 5 => $strings["published"]), "true");
+        $block2->labels($labels = [0 => $strings["type"], 1 => $strings["name"], 2 => $strings["owner"], 3 => $strings["date"], 4 => $strings["approval_tracking"], 5 => $strings["published"]], "true");
 
         foreach ($listFiles as $file) {
             $existFile = "false";
@@ -350,7 +352,7 @@ if ($fileManagement == "true") {
 
             $block2->cellRow($blockPage->buildLink($file["fil_mem_email_work"], $file["fil_mem_login"], "mail"));
             $block2->cellRow($file["fil_date"]);
-            $block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $file["fil_id"], $statusFile[$idStatus], "in"));
+            $block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $file["fil_id"], $GLOBALS["statusFile"][$idStatus], "in"));
 
             if ($sitePublish == "true") {
                 $block2->cellRow($statusPublish[$idPublish]);
@@ -389,12 +391,12 @@ $block3 = new phpCollab\Block();
 $block3->form = "ahT";
 $block3->openForm("../tasks/viewtask.php?id=$id#" . $block3->form . "Anchor");
 $block3->headingToggle($strings["assignment_history"]);
-$block3->sorting("assignment", $sortingUser->sor_assignment[0], "ass.assigned DESC", $sortingFields = array(0 => "ass.comments", 1 => "mem1.login", 2 => "mem2.login", 3 => "ass.assigned"));
+$block3->sorting("assignment", $sortingUser->sor_assignment[0], "ass.assigned DESC", $sortingFields = [0 => "ass.comments", 1 => "mem1.login", 2 => "mem2.login", 3 => "ass.assigned"]);
 
 $listAssign = $assignments->getAssignmentsByTaskId($id, $block3->sortingValue);
 
 $block3->openResults($checkbox = "false");
-$block3->labels($labels = array(0 => $strings["comment"], 1 => $strings["assigned_by"], 2 => $strings["to"], 3 => $strings["assigned_on"]), "false");
+$block3->labels($labels = [0 => $strings["comment"], 1 => $strings["assigned_by"], 2 => $strings["to"], 3 => $strings["assigned_on"]], "false");
 
 foreach ($listAssign as $assignment) {
     $block3->openRow();
@@ -439,13 +441,13 @@ if ($teamMember == true || $profilSession == "5") {
 }
 
 $block4->closePaletteIcon();
-$block4->sorting("subtasks", $sortingUser->sor_subtasks[0], "subtas.name ASC", $sortingFields = array(0 => "subtas.name", 1 => "subtas.priority", 2 => "subtas.status", 3 => "subtas.completion", 4 => "subtas.due_date", 5 => "mem.login", 6 => "subtas.published"));
+$block4->sorting("subtasks", $sortingUser->sor_subtasks[0], "subtas.name ASC", $sortingFields = [0 => "subtas.name", 1 => "subtas.priority", 2 => "subtas.status", 3 => "subtas.completion", 4 => "subtas.due_date", 5 => "mem.login", 6 => "subtas.published"]);
 
 $listSubtasks = $tasks->getSubtasksByParentTaskId($id, $block4->sortingValue);
 
 if ($listSubtasks) {
     $block4->openResults();
-    $block4->labels($labels = array(0 => $strings["subtask"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["completion"], 4 => $strings["due_date"], 5 => $strings["assigned_to"], 6 => $strings["published"]), "true");
+    $block4->labels($labels = [0 => $strings["subtask"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["completion"], 4 => $strings["due_date"], 5 => $strings["assigned_to"], 6 => $strings["published"]], "true");
 
 //    for ($i = 0; $i < $comptListSubtasks; $i++) {
     foreach ($listSubtasks as $subtask) {
@@ -472,7 +474,7 @@ if ($listSubtasks) {
         }
 
         if ($subtask["subtas_start_date"] != "--" && $subtask["subtas_due_date"] != "--") {
-            $gantt = "true";
+            $gantt = true;
         }
 
         if ($subtask["subtas_assigned_to"] == "0") {
@@ -488,7 +490,7 @@ if ($listSubtasks) {
     }
     $block4->closeResults();
 
-    if ($activeJpgraph == "true" && $gantt == "true") {
+    if ($activeJpgraph == "true" && (isset($gantt) && $gantt == true)) {
         echo "
 			<div id='ganttChart_taskList' class='ganttChart'>
 				<img src='../subtasks/graphsubtasks.php?task=" . $id . "' alt=''><br/>
