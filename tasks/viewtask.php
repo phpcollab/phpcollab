@@ -39,31 +39,35 @@ $phases = new \phpCollab\Phases\Phases();
 $id = $_GET["id"];
 $task = $_GET["task"];
 
+// Global variables
+$tableCollab = $GLOBALS["tableCollab"];
+
+$cheatCode = false;
 if ($task != "") {
     $cheatCode = "true";
 }
 
-if ($_GET["action"] == "publish") {
+if (isset($_GET["action"]) && $_GET["action"] == "publish") {
 
-    if ($addToSite == "true") {;
+    if (isset($_GET["addToSite"]) && $_GET["addToSite"] == "true") {;
         phpCollab\Util::newConnectSql("UPDATE {$tableCollab["tasks"]} SET published = :published WHERE id = :taske_id", ["published" => 0, "task_id" => $id]);
 
         $msg = "addToSite";
     }
 
-    if ($removeToSite == "true") {
+    if (isset($_GET["removeToSite"]) && $_GET["removeToSite"] == "true") {
         phpCollab\Util::newConnectSql("UPDATE {$tableCollab["tasks"]} SET published= :published WHERE id = :task_id", ["published" => 1, "task_id" => $id]);
         $msg = "removeToSite";
     }
 
-    if ($addToSiteFile == "true") {
+    if (isset($_GET["addToSiteFile"]) && $_GET["addToSiteFile"] == "true") {
         $id = str_replace("**", ",", $id);
         $tasks->addToSiteFile($id);
         $msg = "addToSite";
         $id = $task;
     }
 
-    if ($removeToSiteFile == "true") {
+    if (isset($_GET["removeToSiteFile"]) && $_GET["removeToSiteFile"] == "true") {
         $id = str_replace("**", ",", $id);
         $tasks->removeToSiteFile($id);
         $msg = "removeToSite";
@@ -84,9 +88,6 @@ if ($projectDetail["pro_enable_phase"] != "0") {
     if (!$tPhase) {
         $tPhase = '0';
     }
-//    $tmpquery = "WHERE pha.project_id = '" . $taskDetail["tas_project"] . "' AND pha.order_num = '$tPhase'";
-//    $targetPhase = new phpCollab\Request();
-//    $targetPhase->openPhases($tmpquery);
     $targetPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($taskDetail["tas_project"], $tPhase);
 
 }
