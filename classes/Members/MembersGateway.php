@@ -120,6 +120,30 @@ class MembersGateway
     }
 
     /**
+     * @param $orgId
+     * @param null $membersTeam
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getClientMembersByOrgIdAndNotInTeam($orgId, $membersTeam = null, $sorting = null)
+    {
+        $whereStatement = "WHERE mem.organization = ?";
+        $queryParams = [$orgId];
+
+        if ($membersTeam) {
+            $membersTeam = explode(',', $membersTeam);
+            $placeholders = str_repeat ('?, ', count($membersTeam)-1) . '?';
+            $whereStatement .= " AND mem.id NOT IN($placeholders)";
+            $queryParams = array_merge($queryParams, $membersTeam);
+        }
+        $whereStatement .= " AND mem.profil = 3";
+
+        $this->db->query($this->initrequest["members"] . ' ' . $whereStatement . $this->orderBy($sorting));
+        $this->db->execute($queryParams);
+        return $this->db->fetchAll();
+    }
+
+    /**
      * @return mixed
      */
     public function getAllMembers()

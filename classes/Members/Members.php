@@ -80,6 +80,22 @@ class Members
     }
 
     /**
+     * @param $orgId
+     * @param null $membersTeam
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getClientMembersByOrgIdAndNotInTeam($orgId, $membersTeam = null, $sorting = null) {
+        $orgId = filter_var($orgId, FILTER_VALIDATE_INT);
+        $membersTeam = filter_var($membersTeam, FILTER_SANITIZE_STRING);
+        $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
+
+        return $this->members_gateway->getClientMembersByOrgIdAndNotInTeam($orgId, $membersTeam, $sorting);
+    }
+
+
+
+    /**
      * @return mixed
      */
     public function getAllMembers() {
