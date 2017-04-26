@@ -36,6 +36,7 @@ $tasks = new \phpCollab\Tasks\Tasks();
 $projects = new \phpCollab\Projects\Projects();
 $phases = new \phpCollab\Phases\Phases();
 $teams = new \phpCollab\Teams\Teams();
+$updates = new \phpCollab\Updates\Updates();
 
 $id = $_GET["id"];
 $task = $_GET["task"];
@@ -224,37 +225,35 @@ $block1->contentRow($strings["worked_hours"], $taskDetail["tas_worked_hours"]);
 $block1->contentRow($strings["comments"], nl2br($taskDetail["tas_comments"]));
 
 $block1->contentTitle($strings["updates_task"]);
-$tmpquery = "WHERE upd.type='1' AND upd.item = '$id' ORDER BY upd.created DESC";
-$listUpdates = new phpCollab\Request();
-$listUpdates->openUpdates($tmpquery);
-$comptListUpdates = count($listUpdates->upd_id);
+
+$listUpdates = $updates->getUpdates(1, $id);
 
 echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td>";
 
-if ($comptListUpdates != "0") {
+if ($listUpdates) {
     $j = 1;
 
-    for ($i = 0; $i < $comptListUpdates; $i++) {
-        if (preg_match('/\[status:([0-9])\]/', $listUpdates->upd_comments[$i])) {
-            preg_match('|\[status:([0-9])\]|i', $listUpdates->upd_comments[$i], $matches);
-            $listUpdates->upd_comments[$i] = preg_replace('/\[status:([0-9])\]/', '', $listUpdates->upd_comments[$i] . '<br/>');
-            $listUpdates->upd_comments[$i] .= $strings["status"] . " " . $status[$matches[1]];
+    foreach ($listUpdates as $update) {
+        if (preg_match('/\[status:([0-9])\]/', $update["upd_comments"])) {
+            preg_match('|\[status:([0-9])\]|i', $update["upd_comments"], $matches);
+            $update["upd_comments"] = preg_replace('/\[status:([0-9])\]/', '', $update["upd_comments"] . '<br/>');
+            $update["upd_comments"] .= $strings["status"] . " " . $status[$matches[1]];
         }
-        if (preg_match('/\[priority:([0-9])\]/', $listUpdates->upd_comments[$i])) {
-            preg_match('|\[priority:([0-9])\]|i', $listUpdates->upd_comments[$i], $matches);
-            $listUpdates->upd_comments[$i] = preg_replace('/\[priority:([0-9])\]/', '', $listUpdates->upd_comments[$i] . '<br/>');
-            $listUpdates->upd_comments[$i] .= $strings["priority"] . " " . $priority[$matches[1]];
+        if (preg_match('/\[priority:([0-9])\]/', $update["upd_comments"])) {
+            preg_match('|\[priority:([0-9])\]|i', $update["upd_comments"], $matches);
+            $update["upd_comments"] = preg_replace('/\[priority:([0-9])\]/', '', $update["upd_comments"] . '<br/>');
+            $update["upd_comments"] .= $strings["priority"] . " " . $priority[$matches[1]];
         }
-        if (preg_match('/\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]/', $listUpdates->upd_comments[$i])) {
-            preg_match('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]|i', $listUpdates->upd_comments[$i], $matches);
-            $listUpdates->upd_comments[$i] = preg_replace('/\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]/', '', $listUpdates->upd_comments[$i] . '<br/>');
-            $listUpdates->upd_comments[$i] .= $strings["due_date"] . ' ' . $matches[1];
+        if (preg_match('/\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]/', $update["upd_comments"])) {
+            preg_match('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]|i', $update["upd_comments"], $matches);
+            $update["upd_comments"] = preg_replace('/\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]/', '', $update["upd_comments"] . '<br/>');
+            $update["upd_comments"] .= $strings["due_date"] . ' ' . $matches[1];
         }
 
-        $abbrev = stripslashes(substr($listUpdates->upd_comments[$i], 0, 100));
-        echo "<b>" . $j . ".</b> <i>" . phpCollab\Util::createDate($listUpdates->upd_created[$i], $timezoneSession) . "</i> $abbrev";
+        $abbrev = stripslashes(substr($update["upd_comments"], 0, 100));
+        echo "<b>" . $j . ".</b> <i>" . phpCollab\Util::createDate($update["upd_created"], $timezoneSession) . "</i> $abbrev";
 
-        if (100 < strlen($listUpdates->upd_comments[$i])) {
+        if (100 < strlen($update["upd_comments"])) {
             echo "...<br/>";
         } else {
             echo "<br/>";
