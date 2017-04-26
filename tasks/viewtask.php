@@ -42,7 +42,11 @@ $task = $_GET["task"];
 
 // Global variables
 $tableCollab = $GLOBALS["tableCollab"];
+$status = $GLOBALS["status"];
 $strings = $GLOBALS["strings"];
+$date = $GLOBALS["date"];
+
+$timezoneSession = $_SESSION["timezoneSession"];
 
 $cheatCode = false;
 if ($task != "") {
