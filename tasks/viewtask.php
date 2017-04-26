@@ -38,6 +38,7 @@ $phases = new \phpCollab\Phases\Phases();
 $teams = new \phpCollab\Teams\Teams();
 $updates = new \phpCollab\Updates\Updates();
 $files = new \phpCollab\Files\Files();
+$assignments = new \phpCollab\Assignments\Assignments();
 
 $id = $_GET["id"];
 $task = $_GET["task"];
@@ -390,33 +391,30 @@ $block3->openForm("../tasks/viewtask.php?id=$id#" . $block3->form . "Anchor");
 $block3->headingToggle($strings["assignment_history"]);
 $block3->sorting("assignment", $sortingUser->sor_assignment[0], "ass.assigned DESC", $sortingFields = array(0 => "ass.comments", 1 => "mem1.login", 2 => "mem2.login", 3 => "ass.assigned"));
 
-$tmpquery = "WHERE ass.task = '$id' ORDER BY $block3->sortingValue";
-$listAssign = new phpCollab\Request();
-$listAssign->openAssignments($tmpquery);
-$comptListAssign = count($listAssign->ass_id);
+$listAssign = $assignments->getAssignmentsByTaskId($id, $block3->sortingValue);
 
 $block3->openResults($checkbox = "false");
 $block3->labels($labels = array(0 => $strings["comment"], 1 => $strings["assigned_by"], 2 => $strings["to"], 3 => $strings["assigned_on"]), "false");
 
-for ($i = 0; $i < $comptListAssign; $i++) {
+foreach ($listAssign as $assignment) {
     $block3->openRow();
-    $block3->checkboxRow($listAssign->ass_id[$i], $checkbox = "false");
-    if ($listAssign->ass_comments[$i] != "") {
-        $block3->cellRow($listAssign->ass_comments[$i]);
-    } else if ($listAssign->ass_assigned_to[$i] == "0") {
+    $block3->checkboxRow($assignment["ass_id"], $checkbox = "false");
+    if ($assignment["ass_comments"] != "") {
+        $block3->cellRow($assignment["ass_comments"]);
+    } else if ($assignment["ass_assigned_to"] == "0") {
         $block3->cellRow($strings["task_unassigned"]);
     } else {
-        $block3->cellRow($strings["task_assigned"] . " " . $listAssign->ass_mem2_name[$i] . " (" . $listAssign->ass_mem2_login[$i] . ")");
+        $block3->cellRow($strings["task_assigned"] . " " . $assignment["ass_mem2_name"] . " (" . $assignment["ass_mem2_login"] . ")");
     }
 
-    $block3->cellRow($blockPage->buildLink($listAssign->ass_mem1_email_work[$i], $listAssign->ass_mem1_login[$i], "mail"));
+    $block3->cellRow($blockPage->buildLink($assignment["ass_mem1_email_work"], $assignment["ass_mem1_login"], "mail"));
 
-    if ($listAssign->ass_assigned_to[$i] == "0") {
+    if ($assignment["ass_assigned_to"] == "0") {
         $block3->cellRow($strings["unassigned"]);
     } else {
-        $block3->cellRow($blockPage->buildLink($listAssign->ass_mem2_email_work[$i], $listAssign->ass_mem2_login[$i], "mail"));
+        $block3->cellRow($blockPage->buildLink($assignment["ass_mem2_email_work"], $assignment["ass_mem2_login"], "mail"));
     }
-    $block3->cellRow(phpCollab\Util::createDate($listAssign->ass_assigned[$i], $timezoneSession));
+    $block3->cellRow(phpCollab\Util::createDate($assignment["ass_assigned"], $timezoneSession));
     $block3->closeRow();
 }
 
