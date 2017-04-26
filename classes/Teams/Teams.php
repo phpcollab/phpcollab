@@ -40,6 +40,16 @@ class Teams
 
     /**
      * @param $projectId
+     * @return mixed
+     */
+    public function getClientTeamMembersByProject($projectId)
+    {
+        $projectId = filter_var($projectId, FILTER_VALIDATE_INT);
+        return $this->teams_gateway->getClientTeamMembersByProject($projectId);
+    }
+
+    /**
+     * @param $projectId
      * @param $teamMember
      * @return mixed
      */

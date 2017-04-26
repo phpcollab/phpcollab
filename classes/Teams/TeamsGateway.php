@@ -117,6 +117,21 @@ class TeamsGateway
 
     /**
      * @param $projectId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getClientTeamMembersByProject($projectId, $sorting = null)
+    {
+        $whereStatement = " WHERE tea.project = :project_id  AND mem.profil = 3";
+        $this->db->query($this->initrequest["teams"] . $whereStatement . $this->orderBy($sorting));
+        $this->db->bind(':project_id', $projectId);
+        $results = $this->db->resultset();
+
+        return $results;
+    }
+
+    /**
+     * @param $projectId
      * @param $memberId
      * @return mixed
      */
