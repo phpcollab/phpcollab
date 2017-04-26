@@ -6,11 +6,17 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
+
+if (!isset($_GET["id"]) || $_GET["id"] == "") {
+    phpCollab\Util::headerFunction($_SERVER['HTTP_REFERER']);
+}
+$id = $_GET["id"];
+
 $tasks = new \phpCollab\Tasks\Tasks();
 $assignments = new \phpCollab\Assignments\Assignments();
 $projects = new \phpCollab\Projects\Projects();
 
-$id = $_GET["id"];
+$strings = $GLOBALS["strings"];
 
 if ($_GET["action"] == "delete") {
     $id = str_replace("**", ",", $id);
@@ -43,9 +49,6 @@ if ($_GET["action"] == "delete") {
     }
 }
 
-//$tmpquery = "WHERE pro.id = '$project'";
-//$projectDetail = new phpCollab\Request();
-//$projectDetail->openProjects($tmpquery);
 $projectDetail = $projects->getProjectById($project);
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
@@ -64,7 +67,7 @@ $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
     include '../includes/messages.php';
-    $blockPage->messageBox($msgLabel);
+    $blockPage->messageBox($GLOBALS["msgLabel"]);
 }
 
 $block1 = new phpCollab\Block();
@@ -84,12 +87,15 @@ $listTasks->openTasks($tmpquery);
 $comptListTasks = count($listTasks->tas_id);
 
 for ($i = 0; $i < $comptListTasks; $i++) {
-    echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">#" . $listTasks->tas_id[$i] . "</td><td>" . $listTasks->tas_name[$i] . "</td></tr>";
+    echo '<tr class="odd"><td valign="top" class="leftvalue">#' . $listTasks->tas_id[$i] . '</td><td>' . $listTasks->tas_name[$i] . '</td></tr>';
 }
 
-echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td><input type=\"submit\" name=\"delete\" 
-value=\"" . $strings["delete"] . "\"> <input type=\"button\" name=\"cancel\" value=\"" . $strings["cancel"] . "\" 
-onClick=\"history.back();\"></td></tr>";
+echo <<< TR
+<tr class="odd">
+    <td valign="top" class="leftvalue">&nbsp;</td>
+    <td><input type="submit" name="delete" value="{$strings["delete"]}"> <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();"></td>
+</tr>
+TR;
 
 $block1->closeContent();
 $block1->closeForm();
