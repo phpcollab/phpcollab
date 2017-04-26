@@ -85,6 +85,7 @@ $taskDetail = $tasks->getTaskById($id);
 
 $projectDetail = $projects->getProjectById($taskDetail["tas_project"]);
 
+$targetPhase = null;
 if ($projectDetail["pro_enable_phase"] != "0") {
     $tPhase = $taskDetail["tas_parent_phase"];
     if (!$tPhase) {
@@ -120,7 +121,7 @@ $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
     include '../includes/messages.php';
-    $blockPage->messageBox($msgLabel);
+    $blockPage->messageBox($GLOBALS["msgLabel"]);
 }
 
 $block1 = new phpCollab\Block();
