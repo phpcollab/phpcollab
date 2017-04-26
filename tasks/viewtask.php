@@ -106,15 +106,15 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
 
 if ($projectDetail["pro_phase_set"] != "0") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail["pro_id"], $strings["phases"], in));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase["pha_id"], $targetPhase["pha_name"], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail["pro_id"], $strings["phases"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase["pha_id"], $targetPhase["pha_name"], "in"));
 }
 
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail["pro_id"], $strings["tasks"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail["pro_id"], $strings["tasks"], "in"));
 $blockPage->itemBreadcrumbs($taskDetail["tas_name"]);
 $blockPage->closeBreadcrumbs();
 
@@ -151,10 +151,10 @@ if ($projectDetail["pro_org_id"] == "1") {
 $block1->openContent();
 $block1->contentTitle($strings["info"]);
 
-$block1->contentRow($strings["project"], $blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], in));
+$block1->contentRow($strings["project"], $blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
 
 if ($projectDetail["pro_phase_set"] != "0") {
-    $block1->contentRow($strings["phase"], $blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase["pha_id"], $targetPhase["pha_name"], in));
+    $block1->contentRow($strings["phase"], $blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase["pha_id"], $targetPhase["pha_name"], "in"));
 }
 
 $block1->contentRow($strings["organization"], $projectDetail["pro_org_name"]);
@@ -171,7 +171,7 @@ $block1->contentRow($strings["description"], nl2br($taskDetail["tas_description"
 if ($taskDetail["tas_assigned_to"] == "0") {
     $block1->contentRow($strings["assigned_to"], $strings["unassigned"]);
 } else {
-    $block1->contentRow($strings["assigned_to"], $blockPage->buildLink("../users/viewuser.php?id=" . $taskDetail["tas_mem_id"], $taskDetail["tas_mem_name"], in) . " (" . $blockPage->buildLink($taskDetail["tas_mem_email_work"], $taskDetail["tas_mem_login"], mail) . ")");
+    $block1->contentRow($strings["assigned_to"], $blockPage->buildLink("../users/viewuser.php?id=" . $taskDetail["tas_mem_id"], $taskDetail["tas_mem_name"], "in") . " (" . $blockPage->buildLink($taskDetail["tas_mem_email_work"], $taskDetail["tas_mem_login"], "mail") . ")");
 }
 
 $idStatus = $taskDetail["tas_status"];
@@ -258,7 +258,7 @@ if ($comptListUpdates != "0") {
         $j++;
     }
 
-    echo "<br/>" . $blockPage->buildLink("../tasks/historytask.php?type=1&item=$id", $strings["show_details"], in);
+    echo "<br/>" . $blockPage->buildLink("../tasks/historytask.php?type=1&item=$id", $strings["show_details"], "in");
 } else {
     echo $strings["no_items"];
 }
@@ -334,20 +334,20 @@ if ($fileManagement == "true") {
             $block2->checkboxRow($listFiles->fil_id[$i]);
 
             if ($existFile == "true") {
-                $block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $listFiles->fil_id[$i], $type, icone));
+                $block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $listFiles->fil_id[$i], $type, "icone"));
             } else {
                 $block2->cellRow("&nbsp;");
             }
 
             if ($existFile == "true") {
-                $block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $listFiles->fil_id[$i], $listFiles->fil_name[$i], in));
+                $block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $listFiles->fil_id[$i], $listFiles->fil_name[$i], "in"));
             } else {
                 $block2->cellRow($strings["missing_file"] . " (" . $listFiles->fil_name[$i] . ")");
             }
 
-            $block2->cellRow($blockPage->buildLink($listFiles->fil_mem_email_work[$i], $listFiles->fil_mem_login[$i], mail));
+            $block2->cellRow($blockPage->buildLink($listFiles->fil_mem_email_work[$i], $listFiles->fil_mem_login[$i], "mail"));
             $block2->cellRow($listFiles->fil_date[$i]);
-            $block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $listFiles->fil_id[$i], $statusFile[$idStatus], in));
+            $block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $listFiles->fil_id[$i], $statusFile[$idStatus], "in"));
 
             if ($sitePublish == "true") {
                 $block2->cellRow($statusPublish[$idPublish]);
@@ -407,12 +407,12 @@ for ($i = 0; $i < $comptListAssign; $i++) {
         $block3->cellRow($strings["task_assigned"] . " " . $listAssign->ass_mem2_name[$i] . " (" . $listAssign->ass_mem2_login[$i] . ")");
     }
 
-    $block3->cellRow($blockPage->buildLink($listAssign->ass_mem1_email_work[$i], $listAssign->ass_mem1_login[$i], mail));
+    $block3->cellRow($blockPage->buildLink($listAssign->ass_mem1_email_work[$i], $listAssign->ass_mem1_login[$i], "mail"));
 
     if ($listAssign->ass_assigned_to[$i] == "0") {
         $block3->cellRow($strings["unassigned"]);
     } else {
-        $block3->cellRow($blockPage->buildLink($listAssign->ass_mem2_email_work[$i], $listAssign->ass_mem2_login[$i], mail));
+        $block3->cellRow($blockPage->buildLink($listAssign->ass_mem2_email_work[$i], $listAssign->ass_mem2_login[$i], "mail"));
     }
     $block3->cellRow(phpCollab\Util::createDate($listAssign->ass_assigned[$i], $timezoneSession));
     $block3->closeRow();
@@ -462,7 +462,7 @@ if ($comptListSubtasks != "0") {
 
         $block4->openRow();
         $block4->checkboxRow($listSubtasks->subtas_id[$i]);
-        $block4->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $listSubtasks->subtas_id[$i] . "&task=$id", $listSubtasks->subtas_name[$i], in));
+        $block4->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $listSubtasks->subtas_id[$i] . "&task=$id", $listSubtasks->subtas_name[$i], "in"));
         $block4->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
         $block4->cellRow($status[$idStatus]);
         $block4->cellRow($complValue);
@@ -480,7 +480,7 @@ if ($comptListSubtasks != "0") {
         if ($listSubtasks->subtas_assigned_to[$i] == "0") {
             $block4->cellRow($strings["unassigned"]);
         } else {
-            $block4->cellRow($blockPage->buildLink($listSubtasks->subtas_mem_email_work[$i], $listSubtasks->subtas_mem_login[$i], mail));
+            $block4->cellRow($blockPage->buildLink($listSubtasks->subtas_mem_email_work[$i], $listSubtasks->subtas_mem_login[$i], "mail"));
         }
 
         if ($sitePublish == "true") {
@@ -494,7 +494,7 @@ if ($comptListSubtasks != "0") {
         echo "
 			<div id='ganttChart_taskList' class='ganttChart'>
 				<img src='../subtasks/graphsubtasks.php?task=" . $id . "' alt=''><br/>
-				<span class='listEvenBold''>" . $blockPage->buildLink("http://www.aditus.nu/jpgraph/", "JpGraph", powered) . "</span>	
+				<span class='listEvenBold''>" . $blockPage->buildLink("http://www.aditus.nu/jpgraph/", "JpGraph", "powered") . "</span>	
 			</div>
 		";
     }
