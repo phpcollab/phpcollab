@@ -174,12 +174,13 @@ class Tasks
 
     /**
      * @param $parentTaskId
+     * @param null $sorting
      * @return mixed
      */
-    public function getSubtasksByParentTaskId($parentTaskId)
+    public function getSubtasksByParentTaskId($parentTaskId, $sorting = null)
     {
         $parentTaskId = filter_var($parentTaskId, FILTER_VALIDATE_INT);
-        $task = $this->tasks_gateway->getSubtasksByParentTaskId($parentTaskId);
+        $task = $this->tasks_gateway->getSubtasksByParentTaskId($parentTaskId, $sorting);
         return $task;
     }
 
