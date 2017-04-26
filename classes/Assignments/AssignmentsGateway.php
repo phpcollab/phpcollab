@@ -27,6 +27,19 @@ class AssignmentsGateway
     }
 
     /**
+     * @param $taskId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getAssignmentsByTaskId($taskId, $sorting = null)
+    {
+        $query = $this->initrequest["assignments"] .  " WHERE ass.task = :task_id" . $this->orderBy( ($sorting) ? $sorting : 'ass.id' );
+        $this->db->query($query);
+        $this->db->bind(':task_id', $taskId);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $newAssignee
      * @param $assignedDate
      * @param $oldAssignee
@@ -88,5 +101,27 @@ class AssignmentsGateway
         return $this->db->execute($subtaskIds);
     }
 
+    /**
+     * @param string $sorting
+     * @return string
+     */
+    private function orderBy($sorting)
+    {
+        if (!is_null($sorting)) {
+            $allowedOrderedBy = ["ass_id", "ass_task", "ass_owner", "ass_assigned_to", "ass_comments", "ass_assigned", "ass_mem1_id", "ass_mem1_login", "ass_mem1_name", "ass_mem1_email_work", "ass_mem2_id", "ass_mem2_login", "ass_mem2_name", "ass_mem2_email_work"];
+            $pieces = explode(' ', $sorting);
+
+            if ($pieces) {
+                $key = array_search($pieces[0], $allowedOrderedBy);
+
+                if ($key !== false) {
+                    $order = $allowedOrderedBy[$key];
+                    return " ORDER BY $order $pieces[1]";
+                }
+            }
+        }
+
+        return '';
+    }
 
 }
