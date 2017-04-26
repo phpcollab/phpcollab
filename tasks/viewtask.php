@@ -441,46 +441,44 @@ if ($teamMember == true || $profilSession == "5") {
 $block4->closePaletteIcon();
 $block4->sorting("subtasks", $sortingUser->sor_subtasks[0], "subtas.name ASC", $sortingFields = array(0 => "subtas.name", 1 => "subtas.priority", 2 => "subtas.status", 3 => "subtas.completion", 4 => "subtas.due_date", 5 => "mem.login", 6 => "subtas.published"));
 
-$tmpquery = "WHERE subtas.task = '$id' ORDER BY $block4->sortingValue";
-$listSubtasks = new phpCollab\Request();
-$listSubtasks->openSubtasks($tmpquery);
-$comptListSubtasks = count($listSubtasks->subtas_id);
+$listSubtasks = $tasks->getSubtasksByParentTaskId($id, $block4->sortingValue);
 
-if ($comptListSubtasks != "0") {
+if ($listSubtasks) {
     $block4->openResults();
     $block4->labels($labels = array(0 => $strings["subtask"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["completion"], 4 => $strings["due_date"], 5 => $strings["assigned_to"], 6 => $strings["published"]), "true");
 
-    for ($i = 0; $i < $comptListSubtasks; $i++) {
-        if ($listSubtasks->subtas_due_date[$i] == "") {
-            $listSubtasks->subtas_due_date[$i] = $strings["none"];
+//    for ($i = 0; $i < $comptListSubtasks; $i++) {
+    foreach ($listSubtasks as $subtask) {
+        if ($subtask["subtas_due_date"] == "") {
+            $subtask["subtas_due_date"] = $strings["none"];
         }
 
-        $idStatus = $listSubtasks->subtas_status[$i];
-        $idPriority = $listSubtasks->subtas_priority[$i];
-        $idPublish = $listSubtasks->subtas_published[$i];
-        $complValue = ($listSubtasks->subtas_completion[$i] > 0) ? $listSubtasks->subtas_completion[$i] . "0 %" : $listSubtasks->subtas_completion[$i] . " %";
+        $idStatus = $subtask["subtas_status"];
+        $idPriority = $subtask["subtas_priority"];
+        $idPublish = $subtask["subtas_published"];
+        $complValue = ($subtask["subtas_completion"] > 0) ? $subtask["subtas_completion"] . "0 %" : $subtask["subtas_completion"] . " %";
 
         $block4->openRow();
-        $block4->checkboxRow($listSubtasks->subtas_id[$i]);
-        $block4->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $listSubtasks->subtas_id[$i] . "&task=$id", $listSubtasks->subtas_name[$i], "in"));
+        $block4->checkboxRow($subtask["subtas_id"]);
+        $block4->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $subtask["subtas_id"] . "&task=$id", $subtask["subtas_name"], "in"));
         $block4->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
         $block4->cellRow($status[$idStatus]);
         $block4->cellRow($complValue);
 
-        if ($listSubtasks->subtas_due_date[$i] <= $date && $listSubtasks->subtas_completion[$i] != "10") {
-            $block4->cellRow("<b>" . $listSubtasks->subtas_due_date[$i] . "</b>");
+        if ($subtask["subtas_due_date"] <= $date && $subtask["subtas_completion"] != "10") {
+            $block4->cellRow("<b>" . $subtask["subtas_due_date"] . "</b>");
         } else {
-            $block4->cellRow($listSubtasks->subtas_due_date[$i]);
+            $block4->cellRow($subtask["subtas_due_date"]);
         }
 
-        if ($listSubtasks->subtas_start_date[$i] != "--" && $listSubtasks->subtas_due_date[$i] != "--") {
+        if ($subtask["subtas_start_date"] != "--" && $subtask["subtas_due_date"] != "--") {
             $gantt = "true";
         }
 
-        if ($listSubtasks->subtas_assigned_to[$i] == "0") {
+        if ($subtask["subtas_assigned_to"] == "0") {
             $block4->cellRow($strings["unassigned"]);
         } else {
-            $block4->cellRow($blockPage->buildLink($listSubtasks->subtas_mem_email_work[$i], $listSubtasks->subtas_mem_login[$i], "mail"));
+            $block4->cellRow($blockPage->buildLink($subtask["subtas_mem_email_work"], $subtask["subtas_mem_login"], "mail"));
         }
 
         if ($sitePublish == "true") {
