@@ -70,7 +70,7 @@ if ($debug) {
 }
 
 error_reporting(2039);
-@ini_set("session.use_trans_sid", 0);
+ini_set("session.use_trans_sid", 0);
 
 //disable session on export
 if ($export != "true") {
@@ -80,15 +80,15 @@ if ($export != "true") {
 // register_globals cheat code
 if (ini_get(register_globals) != "1") {
     //GET and POST VARS
-    while (list($key, $val) = @each($_REQUEST)) {
+    foreach ($_REQUEST as $key => $val) {
         $GLOBALS[$key] = phpCollab\Util::replaceSpecialCharacters($val);
     }
     //$HTTP_SESSION_VARS
-    while (list($key, $val) = @each($_SESSION)) {
+    foreach ($_SESSION as $key => $val) {
         $GLOBALS[$key] = phpCollab\Util::replaceSpecialCharacters($val);
     }
     //$HTTP_SERVER_VARS
-    while (list($key, $val) = @each($_SERVER)) {
+    foreach ($_SERVER as $key => $val) {
         $GLOBALS[$key] = phpCollab\Util::replaceSpecialCharacters($val);
     }
 }
