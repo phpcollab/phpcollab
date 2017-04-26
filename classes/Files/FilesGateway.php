@@ -65,6 +65,19 @@ class FilesGateway
     }
 
     /**
+     * @param $taskId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getFilesByTaskIdAndVCParentEqualsZero($taskId, $sorting = null)
+    {
+        $query = $this->initrequest["files"] . " WHERE fil.task = :task_id AND fil.vc_parent = 0" . $this->orderBy($sorting);
+        $this->db->query($query);
+        $this->db->bind(':task_id', $taskId);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $projectId
      * @return mixed
      */
