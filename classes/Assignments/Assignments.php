@@ -24,6 +24,16 @@ class Assignments
     }
 
     /**
+     * @param $taskId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getAssignmentsByTaskId($taskId, $sorting = null)
+    {
+        return $this->assignments_gateway->getAssignmentsByTaskId($taskId, $sorting);
+    }
+
+    /**
      * @param $newAssignee
      * @param $assignedDate
      * @param $oldAssignee
