@@ -73,26 +73,24 @@ if ($task != "" && $cheatCode == "true") {
     $id = $task;
 }
 
-$tmpquery = "WHERE tas.id = '$id'";
-$taskDetail = new phpCollab\Request();
-$taskDetail->openTasks($tmpquery);
+$taskDetail = $tasks->getTaskById($id);
 
-$tmpquery = "WHERE pro.id = '" . $taskDetail->tas_project[0] . "'";
+$tmpquery = "WHERE pro.id = '" . $taskDetail["tas_project"] . "'";
 $projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 if ($projectDetail->pro_enable_phase[0] != "0") {
-    $tPhase = $taskDetail->tas_parent_phase[0];
+    $tPhase = $taskDetail["tas_parent_phase"];
     if (!$tPhase) {
         $tPhase = '0';
     }
-    $tmpquery = "WHERE pha.project_id = '" . $taskDetail->tas_project[0] . "' AND pha.order_num = '$tPhase'";
+    $tmpquery = "WHERE pha.project_id = '" . $taskDetail["tas_project"] . "' AND pha.order_num = '$tPhase'";
     $targetPhase = new phpCollab\Request();
     $targetPhase->openPhases($tmpquery);
 }
 
 $teamMember = "false";
-$tmpquery = "WHERE tea.project = '" . $taskDetail->tas_project[0] . "' AND tea.member = '$idSession'";
+$tmpquery = "WHERE tea.project = '" . $taskDetail["tas_project"] . "' AND tea.member = '$idSession'";
 $memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
@@ -120,7 +118,7 @@ if ($projectDetail->pro_phase_set[0] != "0") {
 }
 
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail->pro_id[0], $strings["tasks"], in));
-$blockPage->itemBreadcrumbs($taskDetail->tas_name[0]);
+$blockPage->itemBreadcrumbs($taskDetail["tas_name"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
@@ -133,7 +131,7 @@ $block1 = new phpCollab\Block();
 $block1->form = "tdD";
 $block1->openForm("../tasks/viewtask.php#" . $block1->form . "Anchor");
 
-$block1->headingToggle($strings["task"] . " : " . $taskDetail->tas_name[0]);
+$block1->headingToggle($strings["task"] . " : " . $taskDetail["tas_name"]);
 
 if ($teamMember == "true" || $profilSession == "5") {
     $block1->openPaletteIcon();
@@ -164,64 +162,64 @@ if ($projectDetail->pro_phase_set[0] != "0") {
 
 $block1->contentRow($strings["organization"], $projectDetail->pro_org_name[0]);
 
-$block1->contentRow($strings["created"], phpCollab\Util::createDate($taskDetail->tas_created[0], $timezoneSession));
-$block1->contentRow($strings["assigned"], phpCollab\Util::createDate($taskDetail->tas_assigned[0], $timezoneSession));
-$block1->contentRow($strings["modified"], phpCollab\Util::createDate($taskDetail->tas_modified[0], $timezoneSession));
+$block1->contentRow($strings["created"], phpCollab\Util::createDate($taskDetail["tas_created"], $timezoneSession));
+$block1->contentRow($strings["assigned"], phpCollab\Util::createDate($taskDetail["tas_assigned"], $timezoneSession));
+$block1->contentRow($strings["modified"], phpCollab\Util::createDate($taskDetail["tas_modified"], $timezoneSession));
 
 $block1->contentTitle($strings["details"]);
 
-$block1->contentRow($strings["name"], $taskDetail->tas_name[0]);
+$block1->contentRow($strings["name"], $taskDetail["tas_name"]);
 
-$block1->contentRow($strings["description"], nl2br($taskDetail->tas_description[0]));
-if ($taskDetail->tas_assigned_to[0] == "0") {
+$block1->contentRow($strings["description"], nl2br($taskDetail["tas_description"]));
+if ($taskDetail["tas_assigned_to"] == "0") {
     $block1->contentRow($strings["assigned_to"], $strings["unassigned"]);
 } else {
-    $block1->contentRow($strings["assigned_to"], $blockPage->buildLink("../users/viewuser.php?id=" . $taskDetail->tas_mem_id[0], $taskDetail->tas_mem_name[0], in) . " (" . $blockPage->buildLink($taskDetail->tas_mem_email_work[0], $taskDetail->tas_mem_login[0], mail) . ")");
+    $block1->contentRow($strings["assigned_to"], $blockPage->buildLink("../users/viewuser.php?id=" . $taskDetail["tas_mem_id"], $taskDetail["tas_mem_name"], in) . " (" . $blockPage->buildLink($taskDetail["tas_mem_email_work"], $taskDetail["tas_mem_login"], mail) . ")");
 }
 
-$idStatus = $taskDetail->tas_status[0];
-$idPriority = $taskDetail->tas_priority[0];
-$idPublish = $taskDetail->tas_published[0];
-$complValue = ($taskDetail->tas_completion[0] > 0) ? $taskDetail->tas_completion[0] . "0 %" : $taskDetail->tas_completion[0] . " %";
+$idStatus = $taskDetail["tas_status"];
+$idPriority = $taskDetail["tas_priority"];
+$idPublish = $taskDetail["tas_published"];
+$complValue = ($taskDetail["tas_completion"] > 0) ? $taskDetail["tas_completion"] . "0 %" : $taskDetail["tas_completion"] . " %";
 $block1->contentRow($strings["status"], $status[$idStatus]);
 $block1->contentRow($strings["completion"], $complValue);
 $block1->contentRow($strings["priority"], "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
-$block1->contentRow($strings["start_date"], $taskDetail->tas_start_date[0]);
+$block1->contentRow($strings["start_date"], $taskDetail["tas_start_date"]);
 
-if ($taskDetail->tas_due_date[0] <= $date && $taskDetail->tas_completion[0] != "10") {
-    $block1->contentRow($strings["due_date"], "<b>" . $taskDetail->tas_due_date[0] . "</b>");
+if ($taskDetail["tas_due_date"] <= $date && $taskDetail["tas_completion"] != "10") {
+    $block1->contentRow($strings["due_date"], "<b>" . $taskDetail["tas_due_date"] . "</b>");
 } else {
-    $block1->contentRow($strings["due_date"], $taskDetail->tas_due_date[0]);
+    $block1->contentRow($strings["due_date"], $taskDetail["tas_due_date"]);
 }
 
-if ($taskDetail->tas_complete_date[0] != "" && $taskDetail->tas_complete_date[0] != "--" && $taskDetail->tas_due_date[0] != "--") {
-    $diff = phpCollab\Util::diffDate($taskDetail->tas_complete_date[0], $taskDetail->tas_due_date[0]);
+if ($taskDetail["tas_complete_date"] != "" && $taskDetail["tas_complete_date"] != "--" && $taskDetail["tas_due_date"] != "--") {
+    $diff = phpCollab\Util::diffDate($taskDetail["tas_complete_date"], $taskDetail["tas_due_date"]);
 
     if ($diff > 0) {
         $diff = "<b>+$diff</b>";
     }
 
-    $block1->contentRow($strings["complete_date"], $taskDetail->tas_complete_date[0]);
+    $block1->contentRow($strings["complete_date"], $taskDetail["tas_complete_date"]);
     $block1->contentRow($strings["scope_creep"] . $blockPage->printHelp("task_scope_creep"), "$diff " . $strings["days"]);
 }
 
-$block1->contentRow($strings["estimated_time"], $taskDetail->tas_estimated_time[0] . " " . $strings["hours"]);
-$block1->contentRow($strings["actual_time"], $taskDetail->tas_actual_time[0] . " " . $strings["hours"]);
+$block1->contentRow($strings["estimated_time"], $taskDetail["tas_estimated_time"] . " " . $strings["hours"]);
+$block1->contentRow($strings["actual_time"], $taskDetail["tas_actual_time"] . " " . $strings["hours"]);
 
 if ($sitePublish == "true") {
     $block1->contentRow($strings["published"], $statusPublish[$idPublish]);
 }
 
 if ($enableInvoicing == "true") {
-    if ($taskDetail->tas_invoicing[0] == "1") {
+    if ($taskDetail["tas_invoicing"] == "1") {
         $block1->contentRow($strings["invoicing"], $strings["true"]);
     } else {
         $block1->contentRow($strings["invoicing"], $strings["false"]);
     }
 }
 
-$block1->contentRow($strings["worked_hours"], $taskDetail->tas_worked_hours[0]);
-$block1->contentRow($strings["comments"], nl2br($taskDetail->tas_comments[0]));
+$block1->contentRow($strings["worked_hours"], $taskDetail["tas_worked_hours"]);
+$block1->contentRow($strings["comments"], nl2br($taskDetail["tas_comments"]));
 
 $block1->contentTitle($strings["updates_task"]);
 $tmpquery = "WHERE upd.type='1' AND upd.item = '$id' ORDER BY upd.created DESC";
@@ -276,14 +274,14 @@ $block1->closeForm();
 
 if ($teamMember == "true" || $profilSession == "5") {
     $block1->openPaletteScript();
-    $block1->paletteScript(0, "remove", "../tasks/deletetasks.php?project=" . $taskDetail->tas_project[0] . "&id=" . $taskDetail->tas_id[0] . "", "true,true,false", $strings["delete"]);
-    $block1->paletteScript(1, "copy", "../tasks/edittask.php?project=" . $taskDetail->tas_project[0] . "&id=" . $taskDetail->tas_id[0] . "&docopy=true", "true,true,false", $strings["copy"]);
+    $block1->paletteScript(0, "remove", "../tasks/deletetasks.php?project=" . $taskDetail["tas_project"] . "&id=" . $taskDetail["tas_id"] . "", "true,true,false", $strings["delete"]);
+    $block1->paletteScript(1, "copy", "../tasks/edittask.php?project=" . $taskDetail["tas_project"] . "&id=" . $taskDetail["tas_id"] . "&docopy=true", "true,true,false", $strings["copy"]);
 
     if ($sitePublish == "true") {
-        $block1->paletteScript(3, "add_projectsite", "../tasks/viewtask.php?addToSite=true&id=" . $taskDetail->tas_id[0] . "&action=publish", "true,true,true", $strings["add_project_site"]);
-        $block1->paletteScript(4, "remove_projectsite", "../tasks/viewtask.php?removeToSite=true&id=" . $taskDetail->tas_id[0] . "&action=publish", "true,true,true", $strings["remove_project_site"]);
+        $block1->paletteScript(3, "add_projectsite", "../tasks/viewtask.php?addToSite=true&id=" . $taskDetail["tas_id"] . "&action=publish", "true,true,true", $strings["add_project_site"]);
+        $block1->paletteScript(4, "remove_projectsite", "../tasks/viewtask.php?removeToSite=true&id=" . $taskDetail["tas_id"] . "&action=publish", "true,true,true", $strings["remove_project_site"]);
     }
-    $block1->paletteScript(5, "edit", "../tasks/edittask.php?project=" . $taskDetail->tas_project[0] . "&id=" . $taskDetail->tas_id[0] . "&docopy=false", "true,true,false", $strings["edit"]);
+    $block1->paletteScript(5, "edit", "../tasks/edittask.php?project=" . $taskDetail["tas_project"] . "&id=" . $taskDetail["tas_id"] . "&docopy=false", "true,true,false", $strings["edit"]);
     $block1->closePaletteScript("", "");
 }
 
@@ -369,12 +367,12 @@ if ($fileManagement == "true") {
     $block2->openPaletteScript();
 
     if ($teamMember == "true" || $profilSession == "5") {
-        $block2->paletteScript(0, "add", "../linkedcontent/addfile.php?project=" . $taskDetail->tas_project[0] . "&task=$id", "true,true,true", $strings["add"]);
-        $block2->paletteScript(1, "remove", "../linkedcontent/deletefiles.php?project=" . $projectDetail->pro_id[0] . "&task=" . $taskDetail->tas_id[0] . "", "false,true,true", $strings["delete"]);
+        $block2->paletteScript(0, "add", "../linkedcontent/addfile.php?project=" . $taskDetail["tas_project"] . "&task=$id", "true,true,true", $strings["add"]);
+        $block2->paletteScript(1, "remove", "../linkedcontent/deletefiles.php?project=" . $projectDetail->pro_id[0] . "&task=" . $taskDetail["tas_id"] . "", "false,true,true", $strings["delete"]);
 
         if ($sitePublish == "true") {
-            $block2->paletteScript(2, "add_projectsite", "../tasks/viewtask.php?addToSiteFile=true&task=" . $taskDetail->tas_id[0] . "&action=publish", "false,true,true", $strings["add_project_site"]);
-            $block2->paletteScript(3, "remove_projectsite", "../tasks/viewtask.php?removeToSiteFile=true&task=" . $taskDetail->tas_id[0] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
+            $block2->paletteScript(2, "add_projectsite", "../tasks/viewtask.php?addToSiteFile=true&task=" . $taskDetail["tas_id"] . "&action=publish", "false,true,true", $strings["add_project_site"]);
+            $block2->paletteScript(3, "remove_projectsite", "../tasks/viewtask.php?removeToSiteFile=true&task=" . $taskDetail["tas_id"] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
         }
     }
 
