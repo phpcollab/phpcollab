@@ -37,37 +37,33 @@ $tasks = new \phpCollab\Tasks\Tasks();
 if ($type == "2") {
     $subtaskDetail = $tasks->getSubTaskById($item);
 
-    $tmpquery = "WHERE tas.id = '" . $subtaskDetail["subtas_task"] . "'";
-    $taskDetail = new phpCollab\Request();
-    $taskDetail->openTasks($tmpquery);
+    $taskDetail = $tasks->getTasksById($subtaskDetail["subtas_task"]);
 
-    $tmpquery = "WHERE pro.id = '" . $taskDetail->tas_project[0] . "'";
+    $tmpquery = "WHERE pro.id = '" . $taskDetail["tas_project"] . "'";
     $projectDetail = new phpCollab\Request();
     $projectDetail->openProjects($tmpquery);
 
     if ($projectDetail->pro_enable_phase[0] != "0") {
-        $tPhase = $taskDetail->tas_parent_phase[0];
-        $tmpquery = "WHERE pha.project_id = '" . $taskDetail->tas_project[0] . "' AND pha.order_num = '$tPhase'";
+        $tPhase = $taskDetail["tas_parent_phase"];
+        $tmpquery = "WHERE pha.project_id = '" . $taskDetail["tas_project"] . "' AND pha.order_num = '$tPhase'";
         $targetPhase = new phpCollab\Request();
         $targetPhase->openPhases($tmpquery);
     }
 }
 
 if ($type == "1") {
-    $tmpquery = "WHERE tas.id = '$item'";
-    $taskDetail = new phpCollab\Request();
-    $taskDetail->openTasks($tmpquery);
+    $taskDetail = $tasks->getTasksById($item);
 
-    $tmpquery = "WHERE pro.id = '" . $taskDetail->tas_project[0] . "'";
+    $tmpquery = "WHERE pro.id = '" . $taskDetail["tas_project"] . "'";
     $projectDetail = new phpCollab\Request();
     $projectDetail->openProjects($tmpquery);
 
     if ($projectDetail->pro_enable_phase[0] != "0") {
-        $tPhase = $taskDetail->tas_parent_phase[0];
+        $tPhase = $taskDetail["tas_parent_phase"];
         if (!$tPhase) {
             $tPhase = '0';
         }
-        $tmpquery = "WHERE pha.project_id = '" . $taskDetail->tas_project[0] . "' AND pha.order_num = '$tPhase'";
+        $tmpquery = "WHERE pha.project_id = '" . $taskDetail["tas_project"] . "' AND pha.order_num = '$tPhase'";
         $targetPhase = new phpCollab\Request();
         $targetPhase->openPhases($tmpquery);
     }
@@ -86,10 +82,10 @@ if ($projectDetail->pro_phase_set[0] != "0") {
 }
 
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail->pro_id[0], $strings["tasks"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail->tas_id[0], $taskDetail->tas_name[0], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail["tas_id"], $taskDetail["tas_name"], in));
 
 if ($type == "2") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../subtasks/viewsubtask.php?task=" . $taskDetail->tas_id[0] . "&id=" . $subtaskDetail["subtas_id"], $subtaskDetail["subtas_name"], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../subtasks/viewsubtask.php?task=" . $taskDetail["tas_id"] . "&id=" . $subtaskDetail["subtas_id"], $subtaskDetail["subtas_name"], in));
     $blockPage->itemBreadcrumbs($strings["updates_subtask"]);
 }
 
@@ -114,7 +110,7 @@ if ($error != "") {
 }
 
 if ($type == "1") {
-    $block1->heading($strings["task"] . " : " . $taskDetail->tas_name[0]);
+    $block1->heading($strings["task"] . " : " . $taskDetail["tas_name"]);
 }
 if ($type == "2") {
     $block1->heading($strings["subtask"] . " : " . $subtaskDetail["subtas_name"]);
