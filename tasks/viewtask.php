@@ -37,6 +37,7 @@ $projects = new \phpCollab\Projects\Projects();
 $phases = new \phpCollab\Phases\Phases();
 $teams = new \phpCollab\Teams\Teams();
 $updates = new \phpCollab\Updates\Updates();
+$files = new \phpCollab\Files\Files();
 
 $id = $_GET["id"];
 $task = $_GET["task"];
@@ -313,45 +314,42 @@ if ($fileManagement == "true") {
     $block2->closePaletteIcon();
     $block2->sorting("files", $sortingUser->sor_files[0], "fil.name ASC", $sortingFields = array(0 => "fil.extension", 1 => "fil.name", 2 => "fil.owner", 3 => "fil.date", 4 => "fil.status", 5 => "fil.published"));
 
-    $tmpquery = "WHERE fil.task = '$id' AND fil.vc_parent = '0' ORDER BY $block2->sortingValue";
-    $listFiles = new phpCollab\Request();
-    $listFiles->openFiles($tmpquery);
-    $comptListFiles = count($listFiles->fil_id);
+    $listFiles = $files->getFilesByTaskIdAndVCParentEqualsZero($id, $block2->sortingValue);
 
-    if ($comptListFiles != "0") {
+    if ($listFiles) {
         $block2->openResults();
         $block2->labels($labels = array(0 => $strings["type"], 1 => $strings["name"], 2 => $strings["owner"], 3 => $strings["date"], 4 => $strings["approval_tracking"], 5 => $strings["published"]), "true");
 
-        for ($i = 0; $i < $comptListFiles; $i++) {
+        foreach ($listFiles as $file) {
             $existFile = "false";
-            $idStatus = $listFiles->fil_status[$i];
-            $idPublish = $listFiles->fil_published[$i];
+            $idStatus = $file["fil_status"];
+            $idPublish = $file["fil_published"];
 
             $fileHandler = new phpCollab\FileHandler();
-            $type = $fileHandler->fileInfoType($listFiles->fil_extension[$i]);
+            $type = $fileHandler->fileInfoType($file["fil_extension"]);
 
-            if (file_exists("../files/" . $listFiles->fil_project[$i] . "/" . $listFiles->fil_task[$i] . "/" . $listFiles->fil_name[$i])) {
+            if (file_exists("../files/" . $file["fil_project"] . "/" . $file["fil_task"] . "/" . $file["fil_name"])) {
                 $existFile = "true";
             }
 
             $block2->openRow();
-            $block2->checkboxRow($listFiles->fil_id[$i]);
+            $block2->checkboxRow($file["fil_id"]);
 
             if ($existFile == "true") {
-                $block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $listFiles->fil_id[$i], $type, "icone"));
+                $block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $file["fil_id"], $type, "icone"));
             } else {
                 $block2->cellRow("&nbsp;");
             }
 
             if ($existFile == "true") {
-                $block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $listFiles->fil_id[$i], $listFiles->fil_name[$i], "in"));
+                $block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $file["fil_id"], $file["fil_name"], "in"));
             } else {
-                $block2->cellRow($strings["missing_file"] . " (" . $listFiles->fil_name[$i] . ")");
+                $block2->cellRow($strings["missing_file"] . " (" . $file["fil_name"] . ")");
             }
 
-            $block2->cellRow($blockPage->buildLink($listFiles->fil_mem_email_work[$i], $listFiles->fil_mem_login[$i], "mail"));
-            $block2->cellRow($listFiles->fil_date[$i]);
-            $block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $listFiles->fil_id[$i], $statusFile[$idStatus], "in"));
+            $block2->cellRow($blockPage->buildLink($file["fil_mem_email_work"], $file["fil_mem_login"], "mail"));
+            $block2->cellRow($file["fil_date"]);
+            $block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $file["fil_id"], $statusFile[$idStatus], "in"));
 
             if ($sitePublish == "true") {
                 $block2->cellRow($statusPublish[$idPublish]);
