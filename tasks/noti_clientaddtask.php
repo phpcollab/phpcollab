@@ -1,12 +1,14 @@
 <?php
 
-if ($num == "") {
+if (isset($num) && $num == "") {
     $num = $id;
 }
 
 $tasks = new \phpCollab\Tasks\Tasks();
 $projects = new \phpCollab\Projects\Projects();
 $notifications = new \phpCollab\Notifications\Notifications();
+
+$strings = $GLOBALS["strings"];
 
 $taskNoti = $tasks->getTasksById($num);
 
@@ -17,7 +19,7 @@ $listNotifications = $notifications->getNotificationsWhereMemeberIn($projectNoti
 if ($listNotifications["not_taskassignment"] == "0") {
     $mail = new phpCollab\Notification();
 
-    $mail->getUserinfo($idSession, "from");
+    $mail->getUserinfo($_SESSION["idSession"], "from");
 
     $mail->partSubject = $strings["noti_clientaddtask1"];
     $mail->partMessage = $strings["noti_clientaddtask2"];
@@ -48,4 +50,3 @@ if ($listNotifications["not_taskassignment"] == "0") {
     $mail->Send();
     $mail->ClearAddresses();
 }
-?>
