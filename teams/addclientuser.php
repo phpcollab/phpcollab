@@ -1,15 +1,14 @@
 <?php
-#Application name: PhpCollab
-#Status page: 1
-#Path by root: ../teams/addclientuser.php
 
 $checkSession = "true";
 include_once '../includes/library.php';
 
 $members = new \phpCollab\Members\Members();
 $projects = new \phpCollab\Projects\Projects();
+$teams = new \phpCollab\Teams\Teams();
 
 $project = $_GET["project"];
+$strings = $GLOBALS["strings"];
 
 $projectDetail = $projects->getProjectById($project);
 
@@ -18,21 +17,19 @@ if (!$projectDetail) {
 }
 
 if ($_GET["action"] == "add") {
-    if ($id != "") {
+    if (isset($id) && $id != "") {
         $pieces = explode("**", $id);
         $id = str_replace("**", ",", $id);
+        $tableCollab = $GLOBALS["tableCollab"];
 
         if ($htaccessAuth == "true") {
             $Htpasswd = new Htpasswd;
             $Htpasswd->initialize("../files/" . $projectDetail["pro_id"] . "/.htpasswd");
 
-            $tmpquery = "WHERE mem.id IN($id)";
-            $listMembers = new phpCollab\Request();
-            $listMembers->openMembers($tmpquery);
-            $comptListMembers = count($listMembers->mem_id);
+            $listMembers = $members->getMembersByIdIn($id);
 
-            for ($i = 0; $i < $comptListMembers; $i++) {
-                $Htpasswd->addUser($listMembers->mem_login[$i], $listMembers->mem_password[$i]);
+            foreach ($listMembers as $member) {
+                $Htpasswd->addUser($member["mem_login"], $member["mem_password"]);
             }
         }
 //if mantis bug tracker enabled	
@@ -65,7 +62,7 @@ if ($_GET["action"] == "add") {
     }
 }
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -88,32 +85,25 @@ $block1->paletteIcon(1, "info", $strings["view"]);
 $block1->paletteIcon(2, "edit", $strings["edit"]);
 $block1->closePaletteIcon();
 
-$block1->sorting("team", $sortingUser->sor_users[0], "mem.name ASC", $sortingFields = array(0 => "mem.name", 1 => "mem.title", 2 => "mem.login", 3 => "mem.phone_work", 4 => "log.connected"));
+$block1->sorting("team", $sortingUser->sor_users[0], "mem.name ASC", $sortingFields = [0 => "mem.name", 1 => "mem.title", 2 => "mem.login", 3 => "mem.phone_work", 4 => "log.connected"]);
 
-$tmpquery = "WHERE tea.project = '$project' AND mem.profil = '3'";
-$concatMembers = new phpCollab\Request();
-$concatMembers->openTeams($tmpquery);
-$comptConcatMembers = count($concatMembers->tea_id);
+$concatMembers = $teams->getClientTeamMembersByProject($project);
+
 $membersTeam = null;
-if ($comptConcatMembers != "0") {
-    for ($i = 0; $i < $comptConcatMembers; $i++) {
-        $membersTeam .= $concatMembers->tea_mem_id[$i];
-        if ($i < $comptConcatMembers - 1) {
-            $membersTeam .= ",";
-
-        }
+if ($concatMembers) {
+    foreach ($concatMembers as $member) {
+        $membersTeam .= $member["tea_mem_id"] . ",";
+        $membersTeam = rtrim(rtrim($membersTeam),',');
     }
 }
 
-$comptListMembers = count($listMembers["mem_id"]);
 $listMembers = $members->getClientMembersByOrgIdAndNotInTeam($projectDetail["pro_organization"], $membersTeam, $block1->sortingValue);
 
 if ($listMembers) {
     $block1->openResults();
 
-    $block1->labels($labels = array(0 => $strings["full_name"], 1 => $strings["title"], 2 => $strings["user_name"], 3 => $strings["work_phone"], 4 => $strings["connected"]), "false");
+    $block1->labels($labels = [0 => $strings["full_name"], 1 => $strings["title"], 2 => $strings["user_name"], 3 => $strings["work_phone"], 4 => $strings["connected"]], "false");
 
-//    for ($i = 0; $i < $comptListMembers; $i++) {
     foreach ($listMembers as $member) {
         if ($member["mem_phone_work"] == "") {
             $member["mem_phone_work"] = $strings["none"];
@@ -147,6 +137,6 @@ $block1->openPaletteScript();
 $block1->paletteScript(0, "add", "../teams/addclientuser.php?project=$project&action=add", "false,true,true", $strings["add"]);
 $block1->paletteScript(1, "info", "../users/viewuser.php?", "false,true,false", $strings["view"]);
 $block1->paletteScript(2, "edit", "../users/updateclientuser.php?organization=" . $projectDetail["pro_organization"] . "", "false,true,false", $strings["edit"]);
-$block1->closePaletteScript($comptListMembers, $listMembers["mem_id"]);
+$block1->closePaletteScript(count($listMembers), $listMembers["mem_id"]);
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';
