@@ -201,11 +201,12 @@ class TasksGateway
 
     /**
      * @param $parentTaskId
+     * @param null $sorting
      * @return mixed
      */
-    public function getSubtasksByParentTaskId($parentTaskId)
+    public function getSubtasksByParentTaskId($parentTaskId, $sorting = null)
     {
-        $whereStatement = " WHERE task = :parent_task_id";
+        $whereStatement = " WHERE subtas.task = :parent_task_id" . $this->orderBy($sorting);
 
         $this->db->query($this->initrequest["subtasks"] . $whereStatement);
 
