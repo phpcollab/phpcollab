@@ -34,6 +34,7 @@ include_once '../includes/library.php';
 
 $tasks = new \phpCollab\Tasks\Tasks();
 $projects = new \phpCollab\Projects\Projects();
+$phases = new \phpCollab\Phases\Phases();
 
 $id = $_GET["id"];
 $task = $_GET["task"];
@@ -83,9 +84,11 @@ if ($projectDetail["pro_enable_phase"] != "0") {
     if (!$tPhase) {
         $tPhase = '0';
     }
-    $tmpquery = "WHERE pha.project_id = '" . $taskDetail["tas_project"] . "' AND pha.order_num = '$tPhase'";
-    $targetPhase = new phpCollab\Request();
-    $targetPhase->openPhases($tmpquery);
+//    $tmpquery = "WHERE pha.project_id = '" . $taskDetail["tas_project"] . "' AND pha.order_num = '$tPhase'";
+//    $targetPhase = new phpCollab\Request();
+//    $targetPhase->openPhases($tmpquery);
+    $targetPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($taskDetail["tas_project"], $tPhase);
+
 }
 
 $teamMember = "false";
@@ -113,7 +116,7 @@ $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?i
 
 if ($projectDetail["pro_phase_set"] != "0") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail["pro_id"], $strings["phases"], in));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase->pha_id[0], $targetPhase->pha_name[0], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase["pha_id"], $targetPhase["pha_name"], in));
 }
 
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail["pro_id"], $strings["tasks"], in));
@@ -156,7 +159,7 @@ $block1->contentTitle($strings["info"]);
 $block1->contentRow($strings["project"], $blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], in));
 
 if ($projectDetail["pro_phase_set"] != "0") {
-    $block1->contentRow($strings["phase"], $blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase->pha_id[0], $targetPhase->pha_name[0], in));
+    $block1->contentRow($strings["phase"], $blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase["pha_id"], $targetPhase["pha_name"], in));
 }
 
 $block1->contentRow($strings["organization"], $projectDetail["pro_org_name"]);
