@@ -6,23 +6,25 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new phpCollab\Request();
-$projectDetail->openProjects($tmpquery);
-$comptProjectDetail = count($projectDetail->pro_id);
+$members = new \phpCollab\Members\Members();
+$projects = new \phpCollab\Projects\Projects();
 
-if ($comptProjectDetail == "0") {
+$project = $_GET["project"];
+
+$projectDetail = $projects->getProjectById($project);
+
+if (!$projectDetail) {
     phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blank");
 }
 
-if ($action == "add") {
+if ($_GET["action"] == "add") {
     if ($id != "") {
         $pieces = explode("**", $id);
         $id = str_replace("**", ",", $id);
 
         if ($htaccessAuth == "true") {
             $Htpasswd = new Htpasswd;
-            $Htpasswd->initialize("../files/" . $projectDetail->pro_id[0] . "/.htpasswd");
+            $Htpasswd->initialize("../files/" . $projectDetail["pro_id"] . "/.htpasswd");
 
             $tmpquery = "WHERE mem.id IN($id)";
             $listMembers = new phpCollab\Request();
@@ -42,13 +44,13 @@ if ($action == "add") {
         for ($i = 0; $i < $comptTeam; $i++) {
             phpCollab\Util::newConnectSql(
                 "INSERT INTO {$tableCollab["teams"]} (project, member, published, authorized) VALUES (:project, :member,'1','0')",
-                ["project" => $projectDetail->pro_id[0], "member" => $pieces[$i]]
+                ["project" => $projectDetail["pro_id"], "member" => $pieces[$i]]
             );
 //if mantis bug tracker enabled		
             if ($enableMantis == "true") {
                 // Assign user to this project in mantis
                 $f_access_level = $client_user_level; // Reporter access
-                $f_project_id = $projectDetail->pro_id[0];
+                $f_project_id = $projectDetail["pro_id"];
                 $f_user_id = $pieces[$i];
                 include '../mantis/user_proj_add.php';
             }
@@ -59,7 +61,7 @@ if ($action == "add") {
             $organization = "";
             include '../teams/noti_addprojectteam.php';
         }
-        phpCollab\Util::headerFunction("../projects/viewprojectsite.php?id=" . $projectDetail->pro_id[0] . "&msg=addClientToSite");
+        phpCollab\Util::headerFunction("../projects/viewprojectsite.php?id=" . $projectDetail["pro_id"] . "&msg=addClientToSite");
     }
 }
 
@@ -67,9 +69,9 @@ include '../themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewprojectsite.php?id=" . $projectDetail->pro_id[0], $strings["project_site"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewprojectsite.php?id=" . $projectDetail["pro_id"], $strings["project_site"], "in"));
 $blockPage->itemBreadcrumbs($strings["grant_client"]);
 $blockPage->closeBreadcrumbs();
 
@@ -92,6 +94,7 @@ $tmpquery = "WHERE tea.project = '$project' AND mem.profil = '3'";
 $concatMembers = new phpCollab\Request();
 $concatMembers->openTeams($tmpquery);
 $comptConcatMembers = count($concatMembers->tea_id);
+$membersTeam = null;
 if ($comptConcatMembers != "0") {
     for ($i = 0; $i < $comptConcatMembers; $i++) {
         $membersTeam .= $concatMembers->tea_mem_id[$i];
@@ -100,35 +103,33 @@ if ($comptConcatMembers != "0") {
 
         }
     }
-    $queryBonus = "AND mem.id NOT IN($membersTeam)";
 }
 
-$tmpquery = "WHERE mem.organization = '" . $projectDetail->pro_organization[0] . "' $queryBonus AND mem.profil = '3' ORDER BY $block1->sortingValue";
-$listMembers = new phpCollab\Request();
-$listMembers->openMembers($tmpquery);
-$comptListMembers = count($listMembers->mem_id);
+$comptListMembers = count($listMembers["mem_id"]);
+$listMembers = $members->getClientMembersByOrgIdAndNotInTeam($projectDetail["pro_organization"], $membersTeam, $block1->sortingValue);
 
-if ($comptListMembers != "0") {
+if ($listMembers) {
     $block1->openResults();
 
     $block1->labels($labels = array(0 => $strings["full_name"], 1 => $strings["title"], 2 => $strings["user_name"], 3 => $strings["work_phone"], 4 => $strings["connected"]), "false");
 
-    for ($i = 0; $i < $comptListMembers; $i++) {
-        if ($listMembers->mem_phone_work[$i] == "") {
-            $listMembers->mem_phone_work[$i] = $strings["none"];
+//    for ($i = 0; $i < $comptListMembers; $i++) {
+    foreach ($listMembers as $member) {
+        if ($member["mem_phone_work"] == "") {
+            $member["mem_phone_work"] = $strings["none"];
         }
         $block1->openRow();
-        $block1->checkboxRow($listMembers->mem_id[$i]);
-        $block1->cellRow($blockPage->buildLink("../users/viewuser.php?id=" . $listMembers->mem_id[$i], $listMembers->mem_name[$i], in));
-        $block1->cellRow($listMembers->mem_title[$i]);
-        $block1->cellRow($blockPage->buildLink($listMembers->mem_email_work[$i], $listMembers->mem_login[$i], mail));
-        $block1->cellRow($listMembers->mem_phone_work[$i]);
-        if ($listMembers->mem_profil[$i] == "3") {
+        $block1->checkboxRow($member["mem_id"]);
+        $block1->cellRow($blockPage->buildLink("../users/viewuser.php?id=" . $member["mem_id"], $member["mem_name"], "in"));
+        $block1->cellRow($member["mem_title"]);
+        $block1->cellRow($blockPage->buildLink($member["mem_email_work"], $member["mem_login"], "mail"));
+        $block1->cellRow($member["mem_phone_work"]);
+        if ($member["mem_profil"] == "3") {
             $z = "(Client on project site)";
         } else {
             $z = "";
         }
-        if ($listMembers->mem_log_connected[$i] > $dateunix - 5 * 60) {
+        if ($member["mem_log_connected"] > $dateunix - 5 * 60) {
             $block1->cellRow($strings["yes"] . " " . $z);
         } else {
             $block1->cellRow($strings["no"]);
@@ -145,7 +146,7 @@ $block1->closeFormResults();
 $block1->openPaletteScript();
 $block1->paletteScript(0, "add", "../teams/addclientuser.php?project=$project&action=add", "false,true,true", $strings["add"]);
 $block1->paletteScript(1, "info", "../users/viewuser.php?", "false,true,false", $strings["view"]);
-$block1->paletteScript(2, "edit", "../users/updateclientuser.php?organization=" . $projectDetail->pro_organization[0] . "", "false,true,false", $strings["edit"]);
-$block1->closePaletteScript($comptListMembers, $listMembers->mem_id);
+$block1->paletteScript(2, "edit", "../users/updateclientuser.php?organization=" . $projectDetail["pro_organization"] . "", "false,true,false", $strings["edit"]);
+$block1->closePaletteScript($comptListMembers, $listMembers["mem_id"]);
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
