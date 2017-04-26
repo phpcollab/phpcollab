@@ -42,6 +42,7 @@ $task = $_GET["task"];
 
 // Global variables
 $tableCollab = $GLOBALS["tableCollab"];
+$strings = $GLOBALS["strings"];
 
 $cheatCode = false;
 if ($task != "") {
