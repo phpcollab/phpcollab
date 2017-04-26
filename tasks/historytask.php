@@ -35,8 +35,11 @@ $item = isset($_GET["item"]) ? $_GET["item"] : null;
 $tasks = new \phpCollab\Tasks\Tasks();
 $projects = new \phpCollab\Projects\Projects();
 $phases = new \phpCollab\Phases\Phases();
+$updates = new \phpCollab\Updates\Updates();
 
 $strings = $GLOBALS["strings"];
+
+$subtaskDetail = $targetPhase = $projectDetail = null;
 
 if ($type == "2") {
     $subtaskDetail = $tasks->getSubTaskById($item);
@@ -100,7 +103,7 @@ $block1 = new phpCollab\Block();
 $block1->form = "tdP";
 $block1->openForm("");
 
-if ($error != "") {
+if (isset($error) && $error != "") {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
 }
@@ -115,35 +118,33 @@ if ($type == "2") {
 $block1->openContent();
 $block1->contentTitle($strings["details"]);
 
-$tmpquery = "WHERE upd.type='$type' AND upd.item = '$item' ORDER BY upd.created DESC";
-$listUpdates = new phpCollab\Request();
-$listUpdates->openUpdates($tmpquery);
-$comptListUpdates = count($listUpdates->upd_id);
+$listUpdates = $updates->getUpdates($type, $item);
 
-for ($i = 0; $i < $comptListUpdates; $i++) {
-    if (preg_match('/\[status:([0-9])\]/', $listUpdates->upd_comments[$i])) {
-        preg_match('|\[status:([0-9])\]|i', $listUpdates->upd_comments[$i], $matches);
-        $listUpdates->upd_comments[$i] = preg_replace('/\[status:([0-9])\]/', '', $listUpdates->upd_comments[$i] . '<br/>');
-        $listUpdates->upd_comments[$i] .= $strings["status"] . " " . $status[$matches[1]];
+//for ($i = 0; $i < $comptListUpdates; $i++) {
+foreach ($listUpdates as $update) {
+    if (preg_match('/\[status:([0-9])\]/', $update["upd_comments"])) {
+        preg_match('|\[status:([0-9])\]|i', $update["upd_comments"], $matches);
+        $update["upd_comments"] = preg_replace('/\[status:([0-9])\]/', '', $update["upd_comments"] . '<br/>');
+        $update["upd_comments"] .= $strings["status"] . " " . $GLOBALS["status"][$matches[1]];
     }
-    if (preg_match('/\[priority:([0-9])\]/', $listUpdates->upd_comments[$i])) {
-        preg_match('|\[priority:([0-9])\]|i', $listUpdates->upd_comments[$i], $matches);
-        $listUpdates->upd_comments[$i] = preg_replace('/\[priority:([0-9])\]/', '', $listUpdates->upd_comments[$i] . '<br/>');
-        $listUpdates->upd_comments[$i] .= $strings["priority"] . " " . $priority[$matches[1]];
+    if (preg_match('/\[priority:([0-9])\]/', $update["upd_comments"])) {
+        preg_match('|\[priority:([0-9])\]|i', $update["upd_comments"], $matches);
+        $update["upd_comments"] = preg_replace('/\[priority:([0-9])\]/', '', $update["upd_comments"] . '<br/>');
+        $update["upd_comments"] .= $strings["priority"] . " " . $GLOBALS["priority"][$matches[1]];
     }
-    if (preg_match('/\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]/', $listUpdates->upd_comments[$i])) {
-        preg_match('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]|i', $listUpdates->upd_comments[$i], $matches);
-        $listUpdates->upd_comments[$i] = preg_replace('/\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]/', '', $listUpdates->upd_comments[$i] . '<br/>');
-        $listUpdates->upd_comments[$i] .= $strings["due_date"] . " " . $matches[1];
+    if (preg_match('/\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]/', $update["upd_comments"])) {
+        preg_match('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]|i', $update["upd_comments"], $matches);
+        $update["upd_comments"] = preg_replace('/\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]/', '', $update["upd_comments"] . '<br/>');
+        $update["upd_comments"] .= $strings["due_date"] . " " . $matches[1];
     }
 
-    $block1->contentRow($strings["posted_by"], $blockPage->buildLink($listUpdates->upd_mem_email_work[$i], $listUpdates->upd_mem_name[$i], mail));
-    if ($listUpdates->upd_created[$i] > $lastvisiteSession) {
-        $block1->contentRow($strings["when"], "<b>" . phpCollab\Util::createDate($listUpdates->upd_created[$i], $timezoneSession) . "</b>");
+    $block1->contentRow($strings["posted_by"], $blockPage->buildLink($update["upd_mem_email_work"], $update["upd_mem_name"], "mail"));
+    if ($update["upd_created"] > $_SESSION["lastvisiteSession"]) {
+        $block1->contentRow($strings["when"], "<b>" . phpCollab\Util::createDate($update["upd_created"], $_SESSION["timezoneSession"]) . "</b>");
     } else {
-        $block1->contentRow($strings["when"], phpCollab\Util::createDate($listUpdates->upd_created[$i], $timezoneSession));
+        $block1->contentRow($strings["when"], phpCollab\Util::createDate($update["upd_created"], $_SESSION["timezoneSession"]));
     }
-    $block1->contentRow("", nl2br($listUpdates->upd_comments[$i]));
+    $block1->contentRow("", nl2br($update["upd_comments"]));
     $block1->contentRow("", "", "true");
 }
 
@@ -151,5 +152,4 @@ $block1->closeContent();
 
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
-?>
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
