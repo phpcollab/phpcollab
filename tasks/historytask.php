@@ -29,12 +29,15 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-if ($type == "2") {
-    $tmpquery = "WHERE subtas.id = '$item'";
-    $subtaskDetail = new phpCollab\Request();
-    $subtaskDetail->openSubtasks($tmpquery);
+$type = isset($_GET["type"]) ? $_GET["type"] : null;
+$item = isset($_GET["item"]) ? $_GET["item"] : null;
 
-    $tmpquery = "WHERE tas.id = '" . $subtaskDetail->subtas_task[0] . "'";
+$tasks = new \phpCollab\Tasks\Tasks();
+
+if ($type == "2") {
+    $subtaskDetail = $tasks->getSubTaskById($item);
+
+    $tmpquery = "WHERE tas.id = '" . $subtaskDetail["subtas_task"] . "'";
     $taskDetail = new phpCollab\Request();
     $taskDetail->openTasks($tmpquery);
 
@@ -86,7 +89,7 @@ $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?projec
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail->tas_id[0], $taskDetail->tas_name[0], in));
 
 if ($type == "2") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../subtasks/viewsubtask.php?task=" . $taskDetail->tas_id[0] . "&id=" . $subtaskDetail->subtas_id[0], $subtaskDetail->subtas_name[0], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../subtasks/viewsubtask.php?task=" . $taskDetail->tas_id[0] . "&id=" . $subtaskDetail["subtas_id"], $subtaskDetail["subtas_name"], in));
     $blockPage->itemBreadcrumbs($strings["updates_subtask"]);
 }
 
@@ -114,7 +117,7 @@ if ($type == "1") {
     $block1->heading($strings["task"] . " : " . $taskDetail->tas_name[0]);
 }
 if ($type == "2") {
-    $block1->heading($strings["subtask"] . " : " . $subtaskDetail->subtas_name[0]);
+    $block1->heading($strings["subtask"] . " : " . $subtaskDetail["subtas_name"]);
 }
 
 $block1->openContent();
