@@ -3,7 +3,7 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-var $tasks = new \phpCollab\Tasks\Tasks();
+$tasks = new \phpCollab\Tasks\Tasks();
 
 $tableCollab = $GLOBALS["tableCollab"];
 $strings = $GLOBALS["strings"];
@@ -39,7 +39,7 @@ $id = (isset($_GET["id"]) && $_GET["id"] != '') ? $_GET["id"] : null;
 $tri = (isset($_GET["tri"]) && $_GET["tri"] != '') ? $_GET["tri"] : null;
 
 if ($id == "" && $tri != "true") {
-    
+
     $compt1 = count($_POST["S_PRJSEL"]);
     $S_pro = "";
 
@@ -177,9 +177,9 @@ if ($_POST["S_PRJSEL"] != "ALL" || $_POST["S_ORGSEL"] != "ALL" || $_POST["S_ATSE
 
     if ($_POST["S_ORGSEL"] != "ALL" && $_POST["S_ORGSEL"] != "") {
         if ($query != "") {
-            $query .= ' AND org.id IN('.$_POST["S_ORGSEL"].')';
+            $query .= ' AND org.id IN(' . $_POST["S_ORGSEL"] . ')';
         } else {
-            $query .= 'org.id IN('.$_POST["S_ORGSEL"].')';
+            $query .= 'org.id IN(' . $_POST["S_ORGSEL"] . ')';
         }
     }
 
@@ -314,7 +314,7 @@ if ($projectsFilter == "true") {
 
 if ($listTasks->tas_id != "") {
     $taskIds = implode(',', $listTasks->tas_id);
-    $tmpquery = 'WHERE task in ("'.$taskIds.'"})';
+    $tmpquery = 'WHERE task in ("' . $taskIds . '"})';
 } else {
     $tmpquery = 'WHERE task in ("")';
 }
@@ -446,7 +446,7 @@ if ($comptListTasks != "0") {
         echo <<< GANTT
 			<div id="ganttChart_taskList" class="ganttChart">
 				<img src="graphtasks.php?&report={$id}" alt=""><br/>
-				<span class="listEvenBold"">{$blockPage->buildLink("http://www.aditus.nu/jpgraph/", "JpGraph", "powered")}</span>	
+				<span class="listEvenBold"">{$blockPage->buildLink("http://www.aditus.nu/jpgraph/", "JpGraph", "powered")}</span>
 			</div>
 GANTT;
 
