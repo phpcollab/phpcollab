@@ -33,6 +33,15 @@ class Support
     }
 
     /**
+     * @param $supportRequestId
+     * @return mixed
+     */
+    public function getSupportRequestByIdIn($supportRequestId)
+    {
+        return $this->support_gateway->getSupportRequestByIdIn($supportRequestId);
+    }
+
+    /**
      * @param $requestStatus
      * @param $projectId
      * @return mixed
