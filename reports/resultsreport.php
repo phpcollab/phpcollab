@@ -308,13 +308,9 @@ if ($projectsFilter == "true") {
     $tmpquery = "$queryStart $query ORDER BY {$block1->sortingValue} ";
 }
 
-//$listTasks = new phpCollab\Request();
-//$listTasks->openTasks($tmpquery);
-//$comptListTasks = count($listTasks->tas_id);
-
 if ($listTasks->tas_id != "") {
     $taskIds = implode(',', $listTasks->tas_id);
-    $tmpquery = 'WHERE task in ("' . $taskIds . '"})';
+    $tmpquery = "WHERE task in ('{$taskIds}')";
 } else {
     $tmpquery = 'WHERE task in ("")';
 }
