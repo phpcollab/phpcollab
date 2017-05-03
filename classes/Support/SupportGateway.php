@@ -79,6 +79,21 @@ class SupportGateway
     }
 
     /**
+     * @param $supportPostIds
+     * @return mixed
+     */
+    public function getSupportPostsByRequestIdIn($supportPostIds)
+    {
+        $supportPostIds = explode(',', $supportPostIds);
+        $placeholders = str_repeat ('?, ', count($supportPostIds)-1) . '?';
+        $whereStatement = " WHERE sp.id IN($placeholders)";
+        $sql = $this->initrequest["support_posts"] . $whereStatement . " ORDER BY sp.id";
+        $this->db->query($sql);
+        $this->db->execute($supportPostIds);
+        return $this->db->fetchAll();
+    }
+
+    /**
      * @param $supportRequestIds
      * @return mixed
      */
