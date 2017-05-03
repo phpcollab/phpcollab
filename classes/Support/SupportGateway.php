@@ -39,6 +39,20 @@ class SupportGateway
     }
 
     /**
+     * @param $supportRequestIds
+     * @return mixed
+     */
+    public function getSupportRequestByIdIn($supportRequestIds)
+    {
+        $supportRequestIds = explode(',', $supportRequestIds);
+        $placeholders = str_repeat ('?, ', count($supportRequestIds)-1) . '?';
+        $sql = $this->initrequest["support_requests"] . " WHERE sr.id IN ($placeholders) ORDER BY sr.subject";
+        $this->db->query($sql);
+        $this->db->execute($supportRequestIds);
+        return $this->db->fetchAll();
+    }
+
+    /**
      * @param $status
      * @param $projectId
      * @return mixed
