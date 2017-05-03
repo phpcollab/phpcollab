@@ -1,37 +1,4 @@
 <?php
-/*
-** Application name: phpCollab
-** Last Edit page: 23/03/2004
-** Path by root: ../reports/resultsreport.php
-** Authors: Ceam / Fullo
-**
-** =============================================================================
-**
-**               phpCollab - Project Managment 
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: resultsreport.php
-**
-** DESC: 
-**
-** HISTORY:
-**  27/07/2006  -	fix for Unknown column 'Array' in 'where clause' http://www.php-collab.org/community/index.php?goto=7737
-**  08/03/2005  -	sql fix for MSSQL http://www.php-collab.org/community/viewtopic.php?p=6723
-**	24/01/2005	-	sql fix for object in query, removed paletteIcon if report is not saved
-**  29/06/2004  -	sql fix http://www.php-collab.org/community/viewtopic.php?t=1183
-** 	23/03/2004	-	added new document info
-**  23/03/2004  -	new export to pdf by Angel 
-**	23/03/2004	-	xhtml code
-** -----------------------------------------------------------------------------
-** TO-DO:
-** 
-**
-** =============================================================================
-*/
-
 
 $checkSession = "true";
 include_once '../includes/library.php';
