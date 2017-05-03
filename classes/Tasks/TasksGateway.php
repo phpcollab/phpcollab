@@ -207,7 +207,9 @@ class TasksGateway
     public function getSubtasksByParentTaskId($parentTaskId, $sorting = null)
     {
         $whereStatement = " WHERE subtas.task = :parent_task_id";
-
+        if (isset($sorting)) {
+            $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
+        }
         $this->db->query($this->initrequest["subtasks"] . $whereStatement . $this->orderBy($sorting));
 
         $this->db->bind(':parent_task_id', $parentTaskId);
