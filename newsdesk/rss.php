@@ -17,6 +17,7 @@ if (!isset($langDefault) || ($langDefault == '')) {
 
 /**
  * @return array
+ * @throws Exception
  */
 function createRSS()
 {
