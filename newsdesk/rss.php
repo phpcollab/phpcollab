@@ -34,11 +34,10 @@ function createRSS()
 
     foreach ($result as $row) {
         //define variables
-        $date = $row['date'];
+        $date = date_format($row['date'], 'Y-m-d');
         $title = htmlentities($row['title']);
         $content = nl2br($row['content']);
         $id = $row['id'];
-
 
         //take the author name
         $query_author = $members->getMemberById($row["author"]);
