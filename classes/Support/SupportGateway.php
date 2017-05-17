@@ -79,6 +79,18 @@ class SupportGateway
     }
 
     /**
+     * @param $postId
+     * @return mixed
+     */
+    public function getSupportPostById($postId)
+    {
+        $query = $this->initrequest["support_posts"] . " WHERE sp.id = :support_post_id";
+        $this->db->query($query);
+        $this->db->bind(':support_post_id', $postId);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $supportPostIds
      * @return mixed
      */
