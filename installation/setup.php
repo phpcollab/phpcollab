@@ -19,9 +19,7 @@ error_reporting(2039);
 
 define('APP_ROOT', dirname(dirname(__FILE__)));
 // require the autoloader class file
-require_once APP_ROOT . '/classes/phpCollab/Autoloader.php';
-$autoloader = new \phpCollab\Autoloader();
-spl_autoload_register(array($autoloader, 'load'));
+require_once APP_ROOT . '/vendor/autoload.php';
 
 // register_globals cheat code
 //GET and POST VARS
