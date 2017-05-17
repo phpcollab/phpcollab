@@ -77,6 +77,20 @@ class TopicsGateway
     }
 
     /**
+     * @param $topicId
+     * @param $ownerId
+     * @return mixed
+     */
+    public function getPostsByTopicIdAndNotOwner($topicId, $ownerId)
+    {
+        $query = $this->initrequest["posts"] . " WHERE pos.topic = :topic_id AND pos.member != :owner_id ORDER BY mem.id";
+        $this->db->query($query);
+        $this->db->bind(':topic_id', $topicId);
+        $this->db->bind(':owner_id', $ownerId);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $topicIds
      * @return mixed
      * @internal param string $table
