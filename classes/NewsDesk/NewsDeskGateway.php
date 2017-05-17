@@ -97,4 +97,14 @@ class NewsDeskGateway
         $this->db->query($query);
         return $this->db->execute($commentId);
     }
+
+    /**
+     * @return mixed
+     */
+    public function getRSSPosts()
+    {
+        $query = "SELECT id, title, author, content, related, pdate as date FROM {$this->tableCollab["newsdeskposts"]} WHERE rss = 1 ORDER BY pdate DESC LIMIT 0,5";
+        $this->db->query($query);
+        return $this->db->resultset();
+    }
 }
