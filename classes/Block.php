@@ -237,10 +237,10 @@ class Block
                 } else {
                     echo "<a href=\"?";
                     for ($k = 1; $k <= $total; $k++) {
-                        $limitK = 'limit' . filter_var($k, FILTER_SANITIZE_STRING);
+                        $limitK = "limit{$k}";
                         global ${$limitK};
                         if ($k != $current) {
-                            echo "&limit$k=" . $limitK;
+                            echo "&limit$k={$limitK}";
                         } else {
                             if ($k == $current) {
                                 echo "&limit$k=$j";
