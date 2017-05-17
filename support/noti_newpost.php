@@ -3,11 +3,12 @@ $mail = new phpCollab\Notification();
 
 $mail->getUserinfo($idSession,"from");
 
-$tmpquery = "WHERE sp.id = '$num'";
-$postDetail = new phpCollab\Request();
-$postDetail->openSupportPosts($tmpquery);
+$supportPosts = new \phpCollab\Support\Support();
 
-$tmpquery = "WHERE sr.id = '".$postDetail->sp_request_id[0]."'";
+$num = $_GET["num"];
+$postDetail = $supportPosts->getSupportPostById($num);
+
+$tmpquery = "WHERE sr.id = '".$postDetail["sp_request_id"]."'";
 $requestDetail = new phpCollab\Request();
 $requestDetail->openSupportRequests($tmpquery);
 
@@ -26,7 +27,7 @@ $userDetail->openMembers($tmpquery);
 		} else {
 			$body .= "$root/general/login.php?url=support/viewrequest.php%3Fid=$num \n\n";
 		}
-		$body .= $strings["message"]." : ".$postDetail->sp_message[0]."";
+		$body .= $strings["message"]." : ".$postDetail["sp_message"]."";
 
 		if ($userDetail->mem_email_work[0] != "") {
 			$mail->Subject = $subject;
@@ -36,4 +37,3 @@ $userDetail->openMembers($tmpquery);
 			$mail->Send();
 			$mail->ClearAddresses();
 		}
-?>
