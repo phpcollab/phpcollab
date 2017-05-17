@@ -68,6 +68,18 @@ class Topics
     }
 
     /**
+     * @param $topicId
+     * @param $ownerId
+     * @return mixed
+     */
+    public function getPostsByTopicIdAndNotOwner($topicId, $ownerId)
+    {
+        $topicId = filter_var($topicId, FILTER_SANITIZE_STRING);
+        $ownerId = filter_var($ownerId, FILTER_SANITIZE_STRING);
+        return $this->topics_gateway->getPostsByTopicIdAndNotOwner($topicId, $ownerId);
+    }
+
+    /**
      * @param integer|array $topicId
      * @return string
      */
