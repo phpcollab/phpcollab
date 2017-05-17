@@ -1,29 +1,27 @@
 <?php
 $mail = new phpCollab\Notification();
 
-$mail->getUserinfo($idSession,"from");
+$mail->getUserinfo($_SESSION["idSession"],"from");
 
 $supportPosts = new \phpCollab\Support\Support();
 
 $num = $_GET["num"];
 $postDetail = $supportPosts->getSupportPostById($num);
 
-$tmpquery = "WHERE sr.id = '".$postDetail["sp_request_id"]."'";
-$requestDetail = new phpCollab\Request();
-$requestDetail->openSupportRequests($tmpquery);
+$requestDetail = $supportPosts->getSupportRequestById($postDetail["sp_request_id"]);
 
-$tmpquery = "WHERE mem.id = '".$requestDetail->sr_user[0]."'";
+$tmpquery = "WHERE mem.id = '".$requestDetail["sr_user"]."'";
 $userDetail = new phpCollab\Request();
 $userDetail->openMembers($tmpquery);
 
 		$mail->partSubject = $strings["support"]." ".$strings["support_id"];
 		$mail->partMessage = $strings["noti_support_post2"];
-		$subject = $mail->partSubject.": ".$requestDetail->sr_id[0];
+		$subject = $mail->partSubject.": ".$requestDetail["sr_id"];
 		$body = $mail->partMessage."";
 
-		$body .= "\n\n".$strings["id"]." : ".$requestDetail->sr_id[0]."\n".$strings["subject"]." : ".$requestDetail->sr_subject[0]."\n".$strings["status"]." : ".$requestStatus[$requestDetail->sr_status[0]]."\n".$strings["details"]." : ";
+		$body .= "\n\n".$strings["id"]." : ".$requestDetail["sr_id"]."\n".$strings["subject"]." : ".$requestDetail["sr_subject"]."\n".$strings["status"]." : ".$requestStatus[$requestDetail["sr_status"]]."\n".$strings["details"]." : ";
 		if ($listTeam->tea_mem_profil[$i] == 3){
-			$body .= "$root/general/login.php?url=projects_site/home.php%3Fproject=".$requestDetail->sr_project[0]."\n\n";
+			$body .= "$root/general/login.php?url=projects_site/home.php%3Fproject=".$requestDetail["sr_project"]."\n\n";
 		} else {
 			$body .= "$root/general/login.php?url=support/viewrequest.php%3Fid=$num \n\n";
 		}
