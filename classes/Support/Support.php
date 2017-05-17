@@ -61,6 +61,15 @@ class Support
     }
 
     /**
+     * @param $postId
+     * @return mixed
+     */
+    public function getSupportPostById($postId)
+    {
+        return $this->support_gateway->getSupportPostById($postId);
+    }
+
+    /**
      * @param $postIds
      * @return mixed
      */
