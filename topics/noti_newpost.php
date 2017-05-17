@@ -26,17 +26,15 @@
 ** =============================================================================
 */
 
+$topics = new \phpCollab\Topics\Topics();
 
-$tmpquery = "WHERE pos.topic = '" . $detailTopic->top_id[0] . "'  AND pos.member != '$idSession' ORDER BY mem.id";
-$listPosts = new phpCollab\Request();
-$listPosts->openPosts($tmpquery);
-$comptListPosts = count($listPosts->pos_id);
+$listPosts = $topics->getPostsByTopicIdAndNotOwner($detailTopic->top_id[0], $idSession);
 
-for ($i = 0; $i < $comptListPosts; $i++) {
-    if ($listPosts->pos_mem_id[$i] != $distinct) {
-        $posters .= $listPosts->pos_mem_id[$i] . ",";
+foreach ($listPosts as $post) {
+    if ($post["pos_mem_id"] != $distinct) {
+        $posters .= $post["pos_mem_id"] . ",";
     }
-    $distinct = $listPosts->pos_mem_id[$i];
+    $distinct = $post["pos_mem_id"];
 }
 if (substr($posters, -1) == ",") {
     $posters = substr($posters, 0, -1);
