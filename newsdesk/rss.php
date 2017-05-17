@@ -7,51 +7,31 @@
  * @version 1.1
  */
 header("Content-type: text/xml");
-include '../includes/settings.php';
 
-global $strings;
+require_once '../includes/library.php';
+
 
 if (!isset($langDefault) || ($langDefault == '')) {
     $langDefault = 'en';
 }
 
-try {
-    $connection = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
-}
-catch (Exception $e) {
-    echo $strings["error_server"];
-    exit;
-}
-
-try {
-    $selectedDb = mysqli_select_db($connection, MYDATABASE);
-}
-catch (Exception $e) {
-    echo $strings["error_database"];
-    exit;
-}
-
 /**
- * @return string
+ * @return array
  */
 function createRSS()
 {
-    global $connection, $newsdesklimit, $strings, $tableCollab, $root;
+    $strings = $GLOBALS["strings"];
+    $root = $GLOBALS["root"];
 
-    $query = "SELECT id,title,author,content,related, DATE_FORMAT(pdate, '%Y-%m-%d') as date FROM " . $tableCollab["newsdeskposts"] . " WHERE rss = '1' ORDER BY pdate DESC LIMIT 0,5";
-    try {
-        $result = @mysqli_query($connection, $query);
-    }
-    catch (Exception $e) {
-        echo "Error: " . mysqli_error($connection);
-        exit;
-    }
+    $newsdeskPosts = new \phpCollab\NewsDesk\NewsDesk();
+    $members = new \phpCollab\Members\Members();
+    $projects = new \phpCollab\Projects\Projects();
 
-    $RSS = "";
+    $result = $newsdeskPosts->getRSSFeed();
 
-    //loop to display all items
-    $row = mysqli_fetch_assoc($result);
-    while ($row) {
+    $RSS = [];
+
+    foreach ($result as $row) {
         //define variables
         $date = $row['date'];
         $title = htmlentities($row['title']);
@@ -60,42 +40,23 @@ function createRSS()
 
 
         //take the author name
-        $query_author = 'SELECT name FROM ' . $tableCollab["members"] . ' WHERE id = "' . $row['author'] . '"';
-        try {
-            $result_author = @mysqli_query($connection, $query_author);
-        }
-        catch (Exception $e) {
-            echo "Error: " . mysqli_error($connection);
-            exit;
+        $query_author = $members->getMemberById($row["author"]);
+        $result_author = $query_author["mem_name"];
+
+        if (!$result_author) {
+            throw new Exception("Author does not exist");
         }
 
-        if (mysqli_num_rows($result_author) == 0) {
-            echo 'Author not exist!';
-            exit;
-        }
-
-        while ($row_a = mysqli_fetch_assoc($result_author)) {
-            $author = $row_a['name'];
-        }
+        $author = $result_author;
 
         // take the project related
         if ($row['related'] != 'g') {
-            $query_prj = 'SELECT name FROM ' . $tableCollab["projects"] . ' WHERE id = "' . $row['related'] . '"';
-            try {
-                $result_prj = @mysqli_query($connection, $query_prj);
-            }
-            catch (Exception $e) {
-                exit("Error: " . mysqli_error($connection));
+            $result_prj = $projects->getProjectById($row["related"]);
+            if (!$result_prj) {
+                throw new Exception('Project does not exist');
             }
 
-            if (mysqli_num_rows($result_prj) == 0) {
-                echo "Project doesn't exist!";
-                exit;
-            }
-            while ($row_p = mysqli_fetch_assoc($result_prj)) {
-                $article_related = $row_p['name'];
-            }
-
+            $article_related = $result_prj["pro_name"];
         } else {
             $article_related = $strings["newsdesk_related_generic"];
         }
@@ -103,9 +64,9 @@ function createRSS()
         //begin display
 
         $RSS['items'] .= "
-					<item rdf:about='$root/newsdesk/newsdesk.php?action=show&id=$id'>
+					<item rdf:about='$root/newsdesk/newsdesk.php?action=show&amp;id=$id'>
 						<title>$title</title>
-						<link>$root/newsdesk/newsdesk.php?action=show&id=$id</link>
+						<link>$root/newsdesk/newsdesk.php?action=show&amp;id=$id</link>
 						<dc:date>$date</dc:date>
 						<dc:creator>$author</dc:creator>
 						<dc:subject>$article_related</dc:subject>
@@ -116,18 +77,10 @@ function createRSS()
         //end
     }
 
-
-    @mysqli_free_result($result);
-    @mysqli_free_result($result_author);
-    @mysqli_free_result($result_prj);
-    @mysqli_close($connection);
-
     return $RSS;
 }
-
-
 ?>
-<?php echo "<?xml version=\"1.0\"?" . ">\n"; ?>
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n"; ?>
 <!-- generator="phpcollab/ phpCollab <?php echo $version; ?>" -->
 <rss version="2.0"
      xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -135,10 +88,7 @@ function createRSS()
      xmlns:admin="http://webns.net/mvcb/"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:content="http://purl.org/rss/1.0/modules/content/">
-
     <?php $_thisRSS = createRSS(); ?>
-
-
     <channel>
         <title><?php echo $setTitle; ?></title>
         <link><?php echo $root; ?></link>
@@ -152,8 +102,6 @@ function createRSS()
         <sy:updatePeriod>hourly</sy:updatePeriod>
         <sy:updateFrequency>1</sy:updateFrequency>
         <sy:updateBase>2000-01-01T12:00+00:00</sy:updateBase>
-
         <?php echo $_thisRSS['items']; ?>
-
     </channel>
 </rss>
