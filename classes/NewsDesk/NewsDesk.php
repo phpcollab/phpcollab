@@ -60,4 +60,12 @@ class NewsDesk
         return $this->newsdesk_gateway->deleteCommentById($commentId);
     }
 
+    /**
+     * @return mixed
+     */
+    public function getRSSFeed()
+    {
+        return $this->newsdesk_gateway->getRSSPosts();
+    }
+
 }
