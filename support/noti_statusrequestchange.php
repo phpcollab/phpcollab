@@ -1,5 +1,6 @@
 <?php
 $mail = new phpCollab\Notification();
+$members = new \phpCollab\Members\Members();
 
 $mail->getUserinfo($idSession, "from");
 
@@ -7,9 +8,7 @@ $tmpquery = "WHERE sr.id = '$id'";
 $requestDetail = new phpCollab\Request();
 $requestDetail->openSupportRequests($tmpquery);
 
-$tmpquery = "WHERE mem.id = '" . $requestDetail->sr_user[0] . "'";
-$userDetail = new phpCollab\Request();
-$userDetail->openMembers($tmpquery);
+$userDetail = $members->getMemberById($requestDetail->sr_user[0]);
 
 $mail->partSubject = $strings["support"] . " " . $strings["support_id"];
 $mail->partMessage = $strings["noti_support_status2"];
@@ -26,7 +25,6 @@ if ($listTeam->tea_mem_profil[$i] == 3) {
 $mail->Subject = $subject;
 $mail->Priority = "3";
 $mail->Body = $body;
-$mail->AddAddress($userDetail->mem_email_work[0], $userDetail->mem_name[0]);
+$mail->AddAddress($userDetail["mem_email_work"], $userDetail["mem_name"]);
 $mail->Send();
 $mail->ClearAddresses();
-?>
