@@ -4,15 +4,14 @@ $mail = new phpCollab\Notification();
 $mail->getUserinfo($_SESSION["idSession"],"from");
 
 $supportPosts = new \phpCollab\Support\Support();
+$members = new \phpCollab\Members\Members();
 
 $num = $_GET["num"];
 $postDetail = $supportPosts->getSupportPostById($num);
 
 $requestDetail = $supportPosts->getSupportRequestById($postDetail["sp_request_id"]);
 
-$tmpquery = "WHERE mem.id = '".$requestDetail["sr_user"]."'";
-$userDetail = new phpCollab\Request();
-$userDetail->openMembers($tmpquery);
+$userDetail = $members->getMemberById($requestDetail["sr_user"]);
 
 		$mail->partSubject = $strings["support"]." ".$strings["support_id"];
 		$mail->partMessage = $strings["noti_support_post2"];
@@ -27,11 +26,11 @@ $userDetail->openMembers($tmpquery);
 		}
 		$body .= $strings["message"]." : ".$postDetail["sp_message"]."";
 
-		if ($userDetail->mem_email_work[0] != "") {
+		if ($userDetail["mem_email_work"] != "") {
 			$mail->Subject = $subject;
 			$mail->Priority = "3";
 			$mail->Body = $body;
-			$mail->AddAddress($userDetail->mem_email_work[0], $userDetail->mem_name[0]);
+			$mail->AddAddress($userDetail["mem_email_work"], $userDetail["mem_name"]);
 			$mail->Send();
 			$mail->ClearAddresses();
 		}
