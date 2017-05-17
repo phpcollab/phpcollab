@@ -203,11 +203,12 @@ class Block
      */
     public function returnLimit($current)
     {
-        global ${'limit' . filter_var($current, FILTER_SANITIZE_NUMBER_INT) };
-        if (${'limit' . filter_var($current, FILTER_SANITIZE_NUMBER_INT)} == "") {
+        $current = filter_var($current, FILTER_SANITIZE_NUMBER_INT);
+        global ${'limit' . $current };
+        if (${'limit' . $current} == "") {
             $limitValue = "0";
         } else {
-            $limitValue = ${'limit' . filter_var($current, FILTER_SANITIZE_NUMBER_INT)};
+            $limitValue = ${'limit' . $current};
         }
 
         return $limitValue;
@@ -234,9 +235,10 @@ class Block
                 } else {
                     echo "<a href=\"?";
                     for ($k = 1; $k <= $total; $k++) {
-                        global ${'limit' . filter_var($k, FILTER_SANITIZE_NUMBER_INT)};
+                        $limitK = filter_var($k, FILTER_SANITIZE_NUMBER_INT);
+                        global ${'limit' . $limitK};
                         if ($k != $current) {
-                            echo "&limit$k=" . ${'limit' . filter_var($k, FILTER_SANITIZE_NUMBER_INT)};
+                            echo "&limit$k=" . ${'limit' . $limitK};
                         } else {
                             if ($k == $current) {
                                 echo "&limit$k=$j";
