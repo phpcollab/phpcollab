@@ -203,7 +203,8 @@ class Block
      */
     public function returnLimit($current)
     {
-        $current = 'limit' . filter_var($current, FILTER_SANITIZE_NUMBER_INT);
+        $sanitized = filter_var($current, FILTER_SANITIZE_NUMBER_INT);
+        $current = "limit{$sanitized}";
         global ${$current};
 
         if ($current == "") {
