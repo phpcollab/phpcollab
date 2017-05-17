@@ -203,12 +203,13 @@ class Block
      */
     public function returnLimit($current)
     {
-        $current = filter_var($current, FILTER_SANITIZE_NUMBER_INT);
-        global ${'limit' . $current };
-        if (${'limit' . $current} == "") {
+        $current = 'limit' . filter_var($current, FILTER_SANITIZE_NUMBER_INT);
+        global ${$current};
+
+        if ($current == "") {
             $limitValue = "0";
         } else {
-            $limitValue = ${'limit' . $current};
+            $limitValue = $current;
         }
 
         return $limitValue;
