@@ -5,6 +5,10 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
+$teams = new \phpCollab\Teams\Teams();
+
+$id = $_GET["id"];
+
 if ($enableHelpSupport != "true") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
@@ -25,17 +29,10 @@ $listPosts->openSupportPosts($tmpquery);
 $comptListPosts = count($listPosts->sp_id);
 
 $teamMember = "false";
-$tmpquery = "WHERE tea.project = '" . $requestDetail->sr_project[0] . "' AND tea.member = '$idSession'";
-$memberTest = new phpCollab\Request();
-$memberTest->openTeams($tmpquery);
-$comptMemberTest = count($memberTest->tea_id);
-if ($comptMemberTest == "0") {
-    $teamMember = "false";
-} else {
-    $teamMember = "true";
-}
 
-include '../themes/' . THEME . '/header.php';
+$teamMember = $teams->isTeamMember($requestDetail->sr_project[0], $idSession);
+
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -129,6 +126,5 @@ $block1->paletteScript(1, "remove", "../support/deleterequests.php?action=delete
 $block1->closePaletteScript($comptListRequests, $listRequests->sr_id);
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
 
-?>
