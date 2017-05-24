@@ -10,18 +10,19 @@ $setTitle .= " : News List";
 
 $members = new \phpCollab\Members\Members();
 $projects = new \phpCollab\Projects\Projects();
+$strings = $GLOBALS['strings'];
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/listnews.php?", $strings["newsdesk"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/listnews.php?", $strings["newsdesk"], 'in'));
 $blockPage->itemBreadcrumbs($strings["newsdesk_list"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
     include '../includes/messages.php';
-    $blockPage->messageBox($msgLabel);
+    $blockPage->messageBox($GLOBALS['msgLabel']);
 }
 
 $blockPage->limitsNumber = "1";
