@@ -25,6 +25,15 @@ class NewsDesk
     }
 
     /**
+     * @param null $sortBy
+     * @return mixed
+     */
+    public function getAllNewsdeskPosts($sortBy = null)
+    {
+        return $this->newsdesk_gateway->getAllPosts($sortBy);
+    }
+
+    /**
      * @param $newsId
      * @return mixed
      */
