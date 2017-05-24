@@ -204,15 +204,13 @@ class Block
     public function returnLimit($current)
     {
         $sanitized = filter_var($current, FILTER_SANITIZE_NUMBER_INT);
-        $current = "limit{$sanitized}";
-        global ${$current};
+        global ${'limit' . $sanitized};
 
-        if ($current == "") {
+        if (${'limit' . $sanitized} == "") {
             $limitValue = "0";
         } else {
-            $limitValue = $current;
+            $limitValue = ${'limit' . $sanitized};
         }
-
         return $limitValue;
     }
 
