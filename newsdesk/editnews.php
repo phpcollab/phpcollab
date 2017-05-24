@@ -101,8 +101,8 @@ if ($id != "") {
 
             //insert into organizations and redirect to new client organization detail (last id)
 
-            $tmpquery1 = "INSERT INTO {$tableCollab["newsdeskposts"]} (title,author,related,content,links,rss,pdate) VALUES (:title, :author, :related, :content, :links, :rss, :pdate)";
-            $num = phpCollab\Util::newConnectSql($tmpquery1, ["title" => $title, "author" => $author, "related" => $related, "content" => $content, "links" => $links, "rss" => isset($rss) ? $rss : 0, "pdate" => 'NOW()']);
+            $tmpquery1 = "INSERT INTO {$tableCollab["newsdeskposts"]} (title,author,related,content,links,rss,pdate) VALUES (:title, :author, :related, :content, :links, :rss, NOW())";
+            $num = phpCollab\Util::newConnectSql($tmpquery1, ["title" => $title, "author" => $author, "related" => $related, "content" => $content, "links" => $links, "rss" => isset($rss) ? $rss : 0]);
 
             phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$num&msg=add");
 
