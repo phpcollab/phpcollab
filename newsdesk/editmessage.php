@@ -13,10 +13,9 @@ $newsDesk = new \phpCollab\NewsDesk\NewsDesk();
 $members = new \phpCollab\Members\Members();
 
 //case update post
-if ($_POST["id"] != "") {
-
+if ($_GET["id"] != "") {
     //test exists selected client organization, redirect to list if not
-    $commentDetail = $newsDesk->getNewsDeskCommentById($_POST["id"]);
+    $commentDetail = $newsDesk->getNewsDeskCommentById($_GET["id"]);
     if (!$commentDetail) {
         phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=blankNews");
     }
