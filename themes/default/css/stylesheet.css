@@ -309,5 +309,6 @@ hr {
 .ganttChart {
 	margin-top: 10px;
 	margin-bottom: 10px;
-	width: 95%;
+	width: 99%;
+	overflow: auto;
 }
