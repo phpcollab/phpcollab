@@ -59,7 +59,7 @@ if (file_exists("../logos_clients/1." . $clientHeader->org_extension_logo[0]) &&
 HEADER;
 } else {
     echo <<< HEADER
-     <p id="header>{$setTitle}</p>
+     <p id="header">{$setTitle}</p>
 HEADER;
 }
 
