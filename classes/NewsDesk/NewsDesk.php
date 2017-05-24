@@ -52,6 +52,15 @@ class NewsDesk
     }
 
     /**
+     * @param $postId
+     * @return mixed
+     */
+    public function getCommentsByPostId($postId)
+    {
+        return $this->newsdesk_gateway->getCommentsByPostId($postId);
+    }
+
+    /**
      * @param $commentId
      * @return mixed
      */
