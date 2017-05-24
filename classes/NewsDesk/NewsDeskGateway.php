@@ -29,6 +29,8 @@ class NewsDeskGateway
     /**
      * @param $newsId
      * @return mixed
+     *
+     * Get a list of newsdesk posts by news.id
      */
     public function getNewsPostById($newsId)
     {
@@ -72,6 +74,19 @@ class NewsDeskGateway
         }
     }
 
+    /**
+     * @param $postId
+     * @return mixed
+     */
+    public function getCommentsByPostId($postId)
+    {
+        $ids = explode(',', $postId);
+        $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
+        $sql = $this->initrequest["newsdeskcomments"] . " WHERE newscom.post_id IN ($placeholders) ORDER BY newscom.id";
+        $this->db->query($sql);
+        $this->db->execute($ids);
+        return $this->db->fetchAll();
+    }
 
     /**
      * @param $commentId
