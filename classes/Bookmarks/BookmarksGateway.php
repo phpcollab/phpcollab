@@ -138,7 +138,7 @@ class BookmarksGateway
      */
     public function getAllBookmarkCategories()
     {
-        $this->db->query($this->initrequest["bookmarks_categories"] . "ORDER BY name");
+        $this->db->query($this->initrequest["bookmarks_categories"] . " ORDER BY name");
 
         return $this->db->resultset();
     }
