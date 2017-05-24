@@ -8,13 +8,11 @@ include_once '../includes/library.php';
 
 $members = new \phpCollab\Members\Members();
 $projects = new \phpCollab\Projects\Projects();
+$news = new \phpCollab\NewsDesk\NewsDesk();
 
-$tmpquery = "WHERE news.id = '" . phpCollab\Util::fixInt($id) . "'";
-$newsDetail = new phpCollab\Request();
-$newsDetail->openNewsDesk($tmpquery);
-$comptNewsDetail = count($newsDetail->news_id);
+$newsDetail = $news->getPostById($id);
 
-if ($comptNewsDetail == "0") {
+if (!$newsDetail) {
     phpCollab\Util::headerFunction("../newsdesk/listnews.php?msg=blankNews");
 }
 
@@ -51,35 +49,35 @@ if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
 }
 
 
-if ($comptNewsDetail != "0") {
+if ($newsDetail) {
 
     // take the news author
-    $newsAuthor = $members->getMemberById($newsDetail->news_author[0]);
+    $newsAuthor = $members->getMemberById($newsDetail['news_author']);
 
     $block1->openContent();
     $block1->contentTitle($strings["details"]);
-    $block1->contentRow("<b>" . $strings["title"] . "</b>", $newsDetail->news_title[0]);
+    $block1->contentRow("<b>" . $strings["title"] . "</b>", $newsDetail['news_title']);
     $block1->contentRow("<b>" . $strings["author"] . "</b>", $newsAuthor["mem_name"]);
-    $block1->contentRow("<b>" . $strings["date"] . "</b>", $newsDetail->news_date[0]);
+    $block1->contentRow("<b>" . $strings["date"] . "</b>", $newsDetail['news_date']);
 
-    if ($newsDetail->news_related[0] != 'g') {
-        $projectDetail = $projects->getProjectById($newsDetail->news_related[0]);
+    if ($newsDetail['news_related'] != 'g') {
+        $projectDetail = $projects->getProjectById($newsDetail['news_related']);
         $article_related = "<a href='../projects/viewproject.php?id=" . $projectDetail["pro_id"] . "' title='" . $projectDetail["pro_name"] . "'>" . $projectDetail["pro_name"] . "</a>";
     } else {
         $article_related = $strings["newsdesk_related_generic"];
     }
 
     $block1->contentRow("<b>" . $strings["newsdesk_related"] . "</b>", $article_related);
-    $block1->contentRow("<b>" . stripslashes($strings["article_newsdesk"]) . "</b>", $newsDetail->news_content[0]);
+    $block1->contentRow("<b>" . stripslashes($strings["article_newsdesk"]) . "</b>", $newsDetail['news_content']);
 
-    $newsLinksArray = explode(";", trim($newsDetail->news_links[0]));
+    $newsLinksArray = explode(";", trim($newsDetail['news_links']));
     foreach ($newsLinksArray as $item) {
         $article_links .= "<a href='" . trim($item) . "' title='$item' target='_blank'>$item</a><br/>";
     }
 
     $block1->contentRow("<b>" . $strings["newsdesk_related_links"] . "</b>", $article_links);
 
-    if ($newsDetail->news_rss[0] != '0') {
+    if ($newsDetail['news_rss'] != '0') {
         $article_rss = $strings["yes"];
     } else {
         $article_rss = $strings["no"];
@@ -104,7 +102,7 @@ if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
     $block1->paletteScript(3, "edit", "../newsdesk/editnews.php?id=$id", "true,true,true", $strings["edit_newsdesk"]);
 }
 
-$block1->closePaletteScript($comptNewsDetail, $newsDetail->news_id);
+$block1->closePaletteScript(count($newsDetail), $newsDetail['news_id']);
 
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////// comments block //////////////////////////////////
@@ -140,6 +138,7 @@ if ($comptCommentsDetail != "0") {
     $block2->labels($labels = array(0 => $strings["name"], 1 => $strings["comment"]), "true");
 
     for ($i = 0; $i < $comptCommentsDetail; $i++) {
+//    xdebug_var_dump($newsDetail->news_author[$i]);
         $newsAuthor = $members->getMemberById($newsDetail->news_author[$i]);
 
         $block2->openRow();
