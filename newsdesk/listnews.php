@@ -10,6 +10,7 @@ $setTitle .= " : News List";
 
 $members = new \phpCollab\Members\Members();
 $projects = new \phpCollab\Projects\Projects();
+$newsDesk = new \phpCollab\NewsDesk\NewsDesk();
 $strings = $GLOBALS['strings'];
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
@@ -32,7 +33,7 @@ $block1 = new phpCollab\Block();
 $block1->form = "newsdeskList";
 $block1->openForm("../newsdesk/listnews.php#" . $block1->form . "Anchor");
 
-if ($error != "") {
+if (isset($error) && $error != "") {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
 }
@@ -53,38 +54,35 @@ $block1->closePaletteIcon();
 $block1->limit = $blockPage->returnLimit("1");
 $block1->rowsLimit = "40";
 
-$block1->sorting("newsdesk", $sortingUser->sor_newsdesk[0], "news.pdate DESC", $sortingFields = array(0 => "news.title", 1 => "news.pdate"));
+$block1->sorting("newsdesk", $sortingUser->sor_newsdesk[0], "news.pdate DESC", $sortingFields = [0 => "news.title", 1 => "news.pdate", 2 => "news.author"]);
 
 $block1->openContent();
 
 $tmpquery = "WHERE news.id != '0' ORDER BY $block1->sortingValue ";
 $block1->recordsTotal = phpCollab\Util::computeTotal($initrequest["newsdeskposts"] . " " . $tmpquery);
 
-$listPosts = new phpCollab\Request();
-$listPosts->openNewsDesk($tmpquery, $block1->limit, $block1->rowsLimit);
-$comptPosts = count($listPosts->news_id);
+$listPosts = $newsDesk->getAllNewsdeskPosts($block1->sortingValue);
 
-if ($comptPosts != "0") {
+if ($listPosts) {
     $block1->openResults();
-    $block1->labels($labels = array(0 => $strings["topic"], 1 => $strings["date"], 2 => $strings["author"], 3 => $strings["newsdesk_related"]), "true");
+    $block1->labels($labels = [0 => $strings["topic"], 1 => $strings["date"], 2 => $strings["author"], 3 => $strings["newsdesk_related"]], "true");
 
-    for ($i = 0; $i < $comptPosts; $i++) {
+    foreach ($listPosts as $post) {
         // take the news author
-        $newsAuthor = $members->getMemberById($listPosts->news_author[$i]);
+        $newsAuthor = $members->getMemberById($post['news_author']);
 
         // take the name of the related article
-        if ($listPosts->news_related[$i] != 'g') {
-            $projectDetail = $projects->getProjectById($listPosts->news_related[$i]);
+        if ($post['news_related'] != 'g') {
+            $projectDetail = $projects->getProjectById($post['news_related']);
             $article_related = "<a href='../projects/viewproject.php?id=" . $projectDetail["pro_id"] . "' title='" . $projectDetail["pro_name"] . "'>" . $projectDetail["pro_name"] . "</a>";
         } else {
             $article_related = $strings["newsdesk_related_generic"];
         }
 
-
         $block1->openRow();
-        $block1->checkboxRow($listPosts->news_id[$i]);
-        $block1->cellRow($blockPage->buildLink("../newsdesk/viewnews.php?id=" . $listPosts->news_id[$i], $listPosts->news_title[$i], in));
-        $block1->cellRow($listPosts->news_date[$i]);
+        $block1->checkboxRow($post['news_id']);
+        $block1->cellRow($blockPage->buildLink("../newsdesk/viewnews.php?id=" . $post['news_id'], $post['news_title'], 'in'));
+        $block1->cellRow($post['news_date']);
         $block1->cellRow($newsAuthor["mem_name"]);
         $block1->cellRow($article_related);
         $block1->closeRow();
@@ -107,5 +105,6 @@ if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
 }
 $block1->paletteScript(3, "info", "../newsdesk/viewnews.php?", "false,true,false", $strings["view_newsdesk"]);
 
-$block1->closePaletteScript($comptPosts, $listPosts->news_id);
+$block1->closePaletteScript(count($listPosts), $listPosts['news_id']);
+
 include APP_ROOT . '/themes/' . THEME . '/footer.php';
