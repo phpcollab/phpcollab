@@ -110,7 +110,7 @@ include '../themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../general/home.php?", $strings["home"], 'in'));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../general/home.php", $strings["home"], 'in'));
 $blockPage->itemBreadcrumbs($nameSession);
 $blockPage->closeBreadcrumbs();
 
@@ -185,11 +185,11 @@ if ($showHomeBookmarks) {
         $block6->closeFormResults();
 
         $block6->openPaletteScript();
-        $block6->paletteScript(0, "add", "../bookmarks/editbookmark.php?", "true,false,false", $strings["add"]);
-        $block6->paletteScript(1, "remove", "../bookmarks/deletebookmarks.php?", "false,true,true", $strings["delete"]);
+        $block6->paletteScript(0, "add", "../bookmarks/editbookmark.php", "true,false,false", $strings["add"]);
+        $block6->paletteScript(1, "remove", "../bookmarks/deletebookmarks.php", "false,true,true", $strings["delete"]);
 
-        $block6->paletteScript(5, "info", "../bookmarks/viewbookmark.php?", "false,true,false", $strings["view"]);
-        $block6->paletteScript(6, "edit", "../bookmarks/editbookmark.php?", "false,true,false", $strings["edit"]);
+        $block6->paletteScript(5, "info", "../bookmarks/viewbookmark.php", "false,true,false", $strings["view"]);
+        $block6->paletteScript(6, "edit", "../bookmarks/editbookmark.php", "false,true,false", $strings["edit"]);
 
         $block6->closePaletteScript($comptListBookmarks, $bookmarkIds);
     }
@@ -295,19 +295,19 @@ if ($showHomeProjects) {
 
     $block1->openPaletteScript();
     if ($profilSession == "0" || $profilSession == "1") {
-        $block1->paletteScript(0, "add", "../projects/editproject.php?", "true,true,true", $strings["add"]);
-        $block1->paletteScript(1, "remove", "../projects/deleteproject.php?", "false,true,false", $strings["delete"]);
+        $block1->paletteScript(0, "add", "../projects/editproject.php", "true,true,true", $strings["add"]);
+        $block1->paletteScript(1, "remove", "../projects/deleteproject.php", "false,true,false", $strings["delete"]);
         $block1->paletteScript(2, "copy", "../projects/editproject.php?docopy=true", "false,true,false", $strings["copy"]);
     }
 
-    $block1->paletteScript(5, "info", "../projects/viewproject.php?", "false,true,false", $strings["view"]);
+    $block1->paletteScript(5, "info", "../projects/viewproject.php", "false,true,false", $strings["view"]);
 
     if ($profilSession == "0" || $profilSession == "1") {
-        $block1->paletteScript(6, "edit", "../projects/editproject.php?", "false,true,false", $strings["edit"]);
+        $block1->paletteScript(6, "edit", "../projects/editproject.php", "false,true,false", $strings["edit"]);
     }
 
     if ($enable_cvs == "true") {
-        $block1->paletteScript(7, "cvs", "../browsecvs/browsecvs.php?", "false,true,false", $strings["browse_cvs"]);
+        $block1->paletteScript(7, "cvs", "../browsecvs/browsecvs.php", "false,true,false", $strings["browse_cvs"]);
     }
     //if mantis bug tracker enabled
     if ($enableMantis == "true") {
@@ -411,10 +411,10 @@ if ($showHomeTasks) {
     $block2->closeFormResults();
 
     $block2->openPaletteScript();
-    $block2->paletteScript(0, "remove", "../tasks/deletetasks.php?", "false,true,true", $strings["delete"]);
+    $block2->paletteScript(0, "remove", "../tasks/deletetasks.php", "false,true,true", $strings["delete"]);
     $block2->paletteScript(1, "copy", "../tasks/edittask.php?docopy=true", "false,true,false", $strings["copy"]);
-    $block2->paletteScript(3, "info", "../tasks/viewtask.php?", "false,true,false", $strings["view"]);
-    $block2->paletteScript(4, "edit", "../tasks/edittask.php?", "false,true,false", $strings["edit"]);
+    $block2->paletteScript(3, "info", "../tasks/viewtask.php", "false,true,false", $strings["view"]);
+    $block2->paletteScript(4, "edit", "../tasks/edittask.php", "false,true,false", $strings["edit"]);
     $block2->closePaletteScript($comptListTasks, $listTasks->tas_id);
 }
 
@@ -572,7 +572,7 @@ if ($showHomeDiscussions) {
     $block4->closeFormResults();
 
     $block4->openPaletteScript();
-    $block4->paletteScript(0, "remove", "../topics/deletetopics.php?", "false,true,true", $strings["delete"]);
+    $block4->paletteScript(0, "remove", "../topics/deletetopics.php", "false,true,true", $strings["delete"]);
     $block4->paletteScript(1, "lock", "../general/home.php?closeTopic=true&action=publish", "false,true,true", $strings["close"]);
     $block4->paletteScript(2, "add_projectsite", "../general/home.php?addToSiteTopic=true&action=publish", "false,true,true", $strings["add_project_site"]);
     $block4->paletteScript(3, "remove_projectsite", "../general/home.php?removeToSiteTopic=true&action=publish", "false,true,true", $strings["remove_project_site"]);
@@ -627,10 +627,10 @@ if ($showHomeReports) {
     $block5->closeFormResults();
 
     $block5->openPaletteScript();
-    $block5->paletteScript(0, "add", "../reports/createreport.php?", "true,true,true", $strings["new"]);
-    $block5->paletteScript(1, "remove", "../reports/deletereports.php?", "false,true,true", $strings["delete"]);
-    $block5->paletteScript(2, "info", "../reports/resultsreport.php?", "false,true,true", $strings["view"]);
-    $block5->paletteScript(3, "export", "../reports/exportreport.php?", "false,true,true", $strings["export"]);
+    $block5->paletteScript(0, "add", "../reports/createreport.php", "true,true,true", $strings["new"]);
+    $block5->paletteScript(1, "remove", "../reports/deletereports.php", "false,true,true", $strings["delete"]);
+    $block5->paletteScript(2, "info", "../reports/resultsreport.php", "false,true,true", $strings["view"]);
+    $block5->paletteScript(3, "export", "../reports/exportreport.php", "false,true,true", $strings["export"]);
     $block5->closePaletteScript($comptListReports, $listReports->rep_id);
 }
 
@@ -694,7 +694,7 @@ if ($showHomeNotes) {
     $block6->closeFormResults();
 
     $block6->openPaletteScript();
-    $block6->paletteScript(5, "info", "../notes/viewnote.php?", "false,true,false", $strings["view"]);
+    $block6->paletteScript(5, "info", "../notes/viewnote.php", "false,true,false", $strings["view"]);
     $block6->paletteScript(6, "edit", "../notes/editnote.php?project=$project", "false,true,false", $strings["edit"]);
     $block6->closePaletteScript($comptListNotes, $listNotes->note_id);
 
@@ -781,12 +781,12 @@ if ($showHomeNewsdesk) {
 
     $block7->openPaletteScript();
     if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
-        $block7->paletteScript(0, "add", "../newsdesk/editnews.php?", "true,false,false", $strings["add_newsdesk"]);
-        $block7->paletteScript(1, "edit", "../newsdesk/editnews.php?", "false,true,true", $strings["edit_newsdesk"]);
+        $block7->paletteScript(0, "add", "../newsdesk/editnews.php", "true,false,false", $strings["add_newsdesk"]);
+        $block7->paletteScript(1, "edit", "../newsdesk/editnews.php", "false,true,true", $strings["edit_newsdesk"]);
         $block7->paletteScript(2, "remove", "../newsdesk/editnews.php?action=remove&", "false,true,true", $strings["del_newsdesk"]);
     }
 
-    $block7->paletteScript(5, "info", "../newsdesk/viewnews.php?", "false,true,false", $strings["view"]);
+    $block7->paletteScript(5, "info", "../newsdesk/viewnews.php", "false,true,false", $strings["view"]);
     $block7->closePaletteScript($comptPosts, $listPosts->news_id);
 }
 
