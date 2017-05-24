@@ -52,15 +52,15 @@ if ($_POST["id"] != "") {
 } else { // case of adding new post
 
     if ($action == "add") {
-
         //test if name blank
-        if ($comment == "") {
+        if ($_POST['comment'] == "") {
             $error = $strings["blank_newsdesk_comment"];
         } else {
 
             //replace quotes by html code in name and address
-            $name = phpCollab\Util::convertData($name);
-            $comment = phpCollab\Util::convertData($comment);
+            $name = phpCollab\Util::convertData($_POST['name']);
+            $comment = phpCollab\Util::convertData($_POST['comment']);
+            $postid = phpCollab\Util::convertData($_POST['postid']);
 
             //insert into organizations and redirect to new client organization detail (last id)
 
