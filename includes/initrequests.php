@@ -522,7 +522,7 @@ SQL;
 $initrequest["newsdeskposts"] = <<<NEWSDESKPOSTS
 SELECT 
     news.id AS news_id,
-    news.pdate AS news_pdate,
+    news.pdate AS news_date,
     news.title AS news_title,
     news.author AS news_author,
     news.related AS news_related,
