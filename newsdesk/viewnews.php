@@ -108,11 +108,7 @@ $block1->closePaletteScript(count($newsDetail), $newsDetail['news_id']);
 ///////////////////////////////// comments block //////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 
-$tmpquery = "WHERE newscom.post_id = '" . phpCollab\Util::fixInt($id) . "'";
-$newsComments = new phpCollab\Request();
-$newsComments->openNewsDeskComments($tmpquery);
-$comptCommentsDetail = count($newsComments->newscom_id);
-
+$newsComments = $news->getCommentsByPostId($id);
 
 $block2 = new phpCollab\Block();
 
@@ -133,18 +129,17 @@ $block2->closePaletteIcon();
 $block1->limit = $blockPage->returnLimit("2");
 $block2->openContent();
 
-if ($comptCommentsDetail != "0") {
+if ($newsComments) {
     $block2->openResults();
     $block2->labels($labels = array(0 => $strings["name"], 1 => $strings["comment"]), "true");
 
-    for ($i = 0; $i < $comptCommentsDetail; $i++) {
-//    xdebug_var_dump($newsDetail->news_author[$i]);
-        $newsAuthor = $members->getMemberById($newsDetail->news_author[$i]);
+    foreach ($newsComments as $comment) {
+        $newsAuthor = $members->getMemberById($comment['newscom_name']);
 
         $block2->openRow();
-        $block2->checkboxRow($newsComments->newscom_id[$i]);
+        $block2->checkboxRow($comment['newscom_id']);
         $block2->cellRow($newsAuthor["mem_name"]);
-        $block2->cellRow($newsComments->newscom_comment[$i]);
+        $block2->cellRow($comment['newscom_comment']);
         $block2->closeRow();
     }
 
@@ -162,13 +157,13 @@ $block2->closeContent();
 
 $block2->openPaletteScript();
 
-$block2->paletteScript(0, "add", "../newsdesk/editmessage.php?postid=$id&", "true,false,false", $strings["add_newsdesk_comment"]);
-$block2->paletteScript(1, "edit", "../newsdesk/editmessage.php?postid=$id&", "false,true,false", $strings["edit_newsdesk_comment"]);
+$block2->paletteScript(0, "add", "../newsdesk/editmessage.php?postid=$id", "true,false,false", $strings["add_newsdesk_comment"]);
+$block2->paletteScript(1, "edit", "../newsdesk/editmessage.php?postid=$id", "false,true,false", $strings["edit_newsdesk_comment"]);
 
 if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
     $block2->paletteScript(2, "remove", "../newsdesk/editmessage.php?postid=$id&action=remove&", "false,true,true", $strings["del_newsdesk_comment"]);
 }
 
-$block2->closePaletteScript($comptCommentsDetail, $newsComments->newscom_id);
+$block2->closePaletteScript(count($newsComments), $newsComments->newscom_id);
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';
