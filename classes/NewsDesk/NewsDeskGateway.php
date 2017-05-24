@@ -27,6 +27,17 @@ class NewsDeskGateway
     }
 
     /**
+     * @param null $sortBy
+     * @return mixed
+     */
+    public function getAllPosts($sortBy = null)
+    {
+        $query = $this->initrequest["newsdeskposts"] . " WHERE news.id != 0" . $this->orderBy($sortBy);
+        $this->db->query($query);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $newsId
      * @return mixed
      *
@@ -121,5 +132,28 @@ class NewsDeskGateway
         $query = "SELECT id, title, author, content, related, pdate as date FROM {$this->tableCollab["newsdeskposts"]} WHERE rss = 1 ORDER BY pdate DESC LIMIT 0,5";
         $this->db->query($query);
         return $this->db->resultset();
+    }
+
+    /**
+     * @param string $sorting
+     * @return string
+     */
+    private function orderBy($sorting)
+    {
+        if (!is_null($sorting)) {
+            $allowedOrderedBy = ["news.id", "news.pdate", "news.title", "news.author", "news.related", "news.content", "news.links", "news.rss", "newscom.id", "newscom.post_id", "newscom.name", "newscom.comment"];
+            $pieces = explode(' ', $sorting);
+
+            if ($pieces) {
+                $key = array_search($pieces[0], $allowedOrderedBy);
+
+                if ($key !== false) {
+                    $order = $allowedOrderedBy[$key];
+                    return " ORDER BY $order $pieces[1]";
+                }
+            }
+        }
+
+        return '';
     }
 }
