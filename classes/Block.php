@@ -477,7 +477,7 @@ class Block
      */
     public function noresults()
     {
-        echo "<table cellspacing='0' border='0' cellpadding='2'><tr><td colspan='4'>" . $this->strings["no_items"] . "</td></tr></table><hr />";
+        echo '<div class="noItemsFound">' . $this->strings["no_items"] . '</div>';
     }
 
     /**
