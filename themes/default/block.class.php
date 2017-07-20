@@ -5,8 +5,8 @@
 class block {
 
 function block() {
-	$this->iconWidth = "22";
-	$this->iconHeight = "21";
+	$this->iconWidth = "23";
+	$this->iconHeight = "23";
 	$this->bgColor = "#5B7F93";
 	$this->fgColor = "#C4D3DB";
 	$this->oddColor = "#F5F5F5";
@@ -24,9 +24,10 @@ function block() {
  * @param string $item Text printed in tooltip
  * @access public
  **/
-function printHelp($item) {
-global $help,$strings;
-return " [<a href=\"javascript:void(0);\" onmouseover=\"return overlib('".addslashes($help[$item])."',SNAPX,550,BGCOLOR,'".$this->bgColor."',FGCOLOR,'".$this->fgColor."');\" onmouseout=\"return nd();\">".$strings["help"]."</a>]";
+function printHelp($item) 
+{
+	global $help,$strings;
+	return " [<a href=\"javascript:void(0);\" onmouseover=\"return overlib('".addslashes($help[$item])."',SNAPX,550,BGCOLOR,'".$this->bgColor."',FGCOLOR,'".$this->fgColor."');\" onmouseout=\"return nd();\">".$strings["help"]."</a>]";
 }
 
 /**
@@ -61,7 +62,7 @@ if ($_COOKIE[$this->form] == "c") {
 	$style = "block";
 	$arrow = "open";
 }
-	echo "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><tr><td><a href=\"javascript:showHideModule('".$this->form."','$this->theme')\" onMouseOver=\"javascript:showHideModuleMouseOver('".$this->form."'); return true; \" onMouseOut=\"javascript:window.status=''; return true;\"><img name=\"".$this->form."Toggle\" border=\"0\" src=\"$this->pathImg/$this->theme/module_toggle_".$arrow.".gif\" alt=\"\"></a></td><td><img width=\"10\" height=\"10\" name=\"".$this->form."tl\" src=\"$this->pathImg/$this->theme/spacer.gif\" alt=\"\"></td><td width=\"100%\"><h1 class=\"heading\">".$title."</h1></td></tr></table>
+	echo "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><tr><td><a href=\"javascript:showHideModule('".$this->form."','{$this->theme}')\" onMouseOver=\"javascript:showHideModuleMouseOver('".$this->form."'); return true; \" onMouseOut=\"javascript:window.status=''; return true;\"><img name=\"".$this->form."Toggle\" border=\"0\" src=\"$this->pathImg/$this->theme/module_toggle_".$arrow.".gif\" alt=\"\"></a></td><td><img width=\"10\" height=\"10\" name=\"".$this->form."tl\" src=\"$this->pathImg/$this->theme/spacer.gif\" alt=\"\"></td><td width=\"100%\"><h1 class=\"heading\">".$title."</h1></td></tr></table>
 
 <div id=\"".$this->form."\" style=\"display: $style;\">\n\n";
 }
@@ -271,8 +272,8 @@ if ($sortingStyles != "") {
  * @access public
  **/
 function openForm($address) {
-echo "<a name=\"".$this->form."Anchor\"></a>\n
-<form accept-charset=\"UNKNOWN\" method=\"POST\" action=\"$address\" name=\"".$this->form."Form\" enctype=\"application/x-www-form-urlencoded\">\n\n";
+echo "<a name='".$this->form."Anchor'></a>\n
+<form accept-charset='UNKNOWN' method='POST' action='$address' name='".$this->form."Form' enctype='application/x-www-form-urlencoded'>\n\n";
 }
 
 /**
@@ -280,7 +281,7 @@ echo "<a name=\"".$this->form."Anchor\"></a>\n
  * @access public
  **/
 function closeFormResults() {
-echo "<input name=\"sor_cible\" type=\"HIDDEN\" value=\"$this->sortingRef\"><input name=\"sor_champs\" type=\"HIDDEN\" value=\"\"><input name=\"sor_ordre\" type=\"HIDDEN\" value=\"\">
+echo "<input name='sor_cible' type='HIDDEN' value='{$this->sortingRef}'><input name='sor_champs' type='HIDDEN' value=''><input name='sor_ordre' type='HIDDEN' value=''>
 </form>\n\n";
 }
 
@@ -306,16 +307,16 @@ if ($sitePublish == "false" && $published == "true") {
 }
 for ($i=0;$i<$comptLabels;$i++) {
 if ($sorting == "true") {
-	echo "<th nowrap class=\"$sortingStyles[$i]\"><a href=\"javascript:document.".$this->form."Form.sor_cible.value='$this->sortingRef';document.".$this->form."Form.sor_champs.value='$sortingFields[$i]';document.".$this->form."Form.sor_ordre.value='$sortingOrders[$i]';document.".$this->form."Form.submit();\" onMouseOver=\"javascript:window.status='".$strings["sort_by"]." ".addslashes($labels[$i])."'; return true;\" onMouseOut=\"javascript:window.status=''; return true\">".$labels[$i]."$sortingArrows[$i]</a></th>\n";
+	echo "<th nowrap class='$sortingStyles[$i]'><a href=\"javascript:document.".$this->form."Form.sor_cible.value='{$this->sortingRef}';document.".$this->form."Form.sor_champs.value='{$sortingFields[$i]}';document.".$this->form."Form.sor_ordre.value='{$sortingOrders[$i]}';document.".$this->form."Form.submit();\" onMouseOver=\"javascript:window.status='".$strings["sort_by"]." ".addslashes($labels[$i])."'; return true;\" onMouseOut=\"javascript:window.status=''; return true\">".$labels[$i]."$sortingArrows[$i]</a></th>\n";
 } else {
 if ($sortingOff[1] == "ASC") {
-	$sortingArrow = "&#160;<img border=\"0\" src=\"$this->pathImg/$this->theme/icon_sort_az.gif\" alt=\"\" width=\"11\" height=\"11\">";
+	$sortingArrow = "&#160;<img border='0' src='{$this->pathImg}/{$this->theme}/icon_sort_az.gif' alt='' width='11' height='11'>";
 
 } else if ($sortingOff[1] == "DESC") {
-	$sortingArrow = "&#160;<img border=\"0\" src=\"$this->pathImg/$this->theme/icon_sort_za.gif\" alt=\"\" width=\"11\" height=\"11\">";
+	$sortingArrow = "&#160;<img border='0' src='{$this->pathImg}/{$this->theme}/icon_sort_za.gif' alt='' width='11' height='11'>";
 }
 if ($i == $sortingOff[0]) {
-	echo "<th nowrap class=\"active\">".$labels[$i]."$sortingArrow";
+	echo "<th nowrap class='active'>".$labels[$i]."$sortingArrow";
 } else {
 	echo "<th nowrap>".$labels[$i];
 }
@@ -331,12 +332,12 @@ echo "</tr>\n";
  * @access public
  **/
 function openResults($checkbox="true") {
-echo "<table class=\"listing\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">
+echo "<table class='listing' cellpadding='0' cellspacing='0' border='0'>
 <tr>\n";
 if ($checkbox == "true") {
-echo "<th width=\"1%\" align=\"center\"><a href=\"javascript:MM_toggleSelectedItems(document.".$this->form."Form,'$this->theme')\"><img height=\"13\" width=\"13\" border=\"0\" src=\"$this->pathImg/$this->theme/checkbox_off_16.gif\" alt=\"\" vspace=\"3\" hspace=\"3\"></a></th>\n";
+echo "<th width='1%' align='center'><a href=\"javascript:MM_toggleSelectedItems(document.".$this->form."Form,'{$this->theme}')\"><img height='13' width='13' border='0' src='{$this->pathImg}/{$this->theme}/checkbox_off_16.gif' alt='' vspace='3' hspace='3'></a></th>\n";
 } else {
-echo "<th width=\"1%\" align=\"center\"><img height=\"13\" width=\"13\" border=\"0\" src=\"$this->pathImg/$this->theme/spacer.gif\" alt=\"\" vspace=\"3\"></th>\n";
+echo "<th width='1%' align='center'><img height='13' width='13' border='0' src='{$this->pathImg}/{$this->theme}/spacer.gif' alt='' vspace='3'></th>\n";
 }
 }
 
@@ -347,7 +348,7 @@ echo "</table>
 
 function noresults() {
 global $strings;
-echo "<table cellspacing=\"0\" border=\"0\" cellpadding=\"2\"><tr><td colspan=\"4\">".$strings["no_items"]."</td></tr></table><hr />";
+echo "<table cellspacing='0' border='0' cellpadding='2'><tr><td colspan='4'>".$strings["no_items"]."</td></tr></table><hr />";
 }
 
 /**
@@ -371,10 +372,10 @@ echo "<td width=\"30\" class=\"commandBtn\"><a href=\"javascript:var b = MM_getB
  * @see block::openPaletteIcon()
  * @access public
  **/
-function paletteScript($num,$type,$link,$options,$text) {
-echo "document.".$this->form."Form.buttons[document.".$this->form."Form.buttons.length] = new MMCommandButton('".$this->form."$num',document.".$this->form."Form,'".$link."&".session_name()."=".session_id()."','$this->pathImg/$this->theme/btn_".$type."_norm.gif','$this->pathImg/$this->theme/btn_".$type."_over.gif','$this->pathImg/$this->theme/btn_".$type."_down.gif','$this->pathImg/$this->theme/btn_".$type."_dim.gif',$options,'',\"".stripslashes($text)."\",false,'');\n";
+function paletteScript($num,$type,$link,$options,$text) 
+{
+	echo "document.".$this->form."Form.buttons[document.".$this->form."Form.buttons.length] = new MMCommandButton('".$this->form."$num',document.".$this->form."Form,'".$link."&".session_name()."=".session_id()."','{$this->pathImg}/{$this->theme}/btn_".$type."_norm.gif','{$this->pathImg}/{$this->theme}/btn_".$type."_over.gif','{$this->pathImg}/{$this->theme}/btn_".$type."_down.gif','{$this->pathImg}/{$this->theme}/btn_".$type."_dim.gif',$options,'',\"".stripslashes($text)."\",false,'');\n";
 }
-
 
 /**
  * Start a table to display sheet/form
@@ -382,7 +383,7 @@ echo "document.".$this->form."Form.buttons[document.".$this->form."Form.buttons.
  * @access public
  **/
 function openContent() {
-	echo "<table class=\"content\" cellspacing=\"0\" cellpadding=\"0\">";
+	echo "<table class='content' cellspacing='0' cellpadding='0'>";
 }
 
 /**
@@ -392,100 +393,129 @@ function openContent() {
  * @param boolean $altern Option to altern background color
  * @access public
  **/
-function contentRow($left,$right,$altern="false") {
-if ($this->class == "") {
-	$this->class = "odd";
-}
-if ($left != "") {
-	echo "<tr class=\"$this->class\"><td valign=\"top\" class=\"leftvalue\">".$left." :</td><td>".$right."&nbsp;</td></tr>\n";
-} else {
-	echo "<tr class=\"$this->class\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td>".$right."&nbsp;</td></tr>\n";
-}
-	if ($this->class == "odd" && $altern == "true") {
+function contentRow($left,$right,$altern="false") 
+{
+	if ($this->class == "") 
+	{
+		$this->class = "odd";
+	}
+
+	if ($left != "") 
+	{
+		echo "<tr class='{$this->class}'><td valign='top' class='leftvalue'>".$left." :</td><td>".$right."&nbsp;</td></tr>\n";
+	} else {
+		echo "<tr class='{$this->class}'><td valign='top' class='leftvalue'>&nbsp;</td><td>".$right."&nbsp;</td></tr>\n";
+	}
+
+	if ($this->class == "odd" && $altern == "true") 
+	{
 		$this->class = "even";
-	} else if ($this->class == "even" && $altern == "true") {
+	} 
+	else if ($this->class == "even" && $altern == "true") 
+	{
 		$this->class = "odd";
 	}
 }
 
-function openRow() {
+function openRow() 
+{
 	$change = "true";
-	echo "<tr class=\"$this->class\" onmouseover=\"this.style.backgroundColor='".$this->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$this->highlightOff."'\">\n";
-	if ($this->class == "odd") {
+	echo "<tr class='{$this->class}' onmouseover=\"this.style.backgroundColor='".$this->highlightOn."'\" onmouseout=\"this.style.backgroundColor='".$this->highlightOff."'\">\n";
+	if ($this->class == "odd") 
+	{
 		$this->class = "even";
 		$this->highlightOff = $this->evenColor;
 		$change = "false";
-	} else if ($this->class == "even" && $change != "false") {
+	} 
+	else if ($this->class == "even" && $change != "false") 
+	{
 		$this->class = "odd";
 		$this->highlightOff = $this->oddColor;
 	}
 }
 
-function checkboxRow($ref,$checkbox="true") {
-if ($checkbox == "true") {
-	echo "<td align=\"center\"><a href=\"javascript:MM_toggleItem(document.".$this->form."Form, '".$ref."', '".$this->form."cb".$ref."','$this->theme')\"><img name=\"".$this->form."cb".$ref."\" border=\"0\" src=\"$this->pathImg/$this->theme/checkbox_off_16.gif\" alt=\"\" vspace=\"3\"></a></td>";
-} else {
-	echo "<td><img height=\"13\" width=\"13\" border=\"0\" src=\"$this->pathImg/$this->theme/spacer.gif\" alt=\"\" vspace=\"3\"></td>";
-}
+function checkboxRow($ref,$checkbox="true") 
+{
+	if ($checkbox == "true") 
+	{
+		echo "<td align='center'><a href=\"javascript:MM_toggleItem(document.".$this->form."Form, '".$ref."', '".$this->form."cb".$ref."','{$this->theme}')\"><img name='".$this->form."cb".$ref."' border='0' src='{$this->pathImg}/{$this->theme}/checkbox_off_16.gif' alt='' vspace='3'></a></td>";
+	} else {
+		echo "<td><img height='13' width='13' border='0' src='{$this->pathImg}/{$this->theme}/spacer.gif' alt='' vspace='3'></td>";
+	}
 }
 
-function cellRow($content) {
+function cellRow($content) 
+{
 	echo "<td>$content</td>";
 }
 
-function closeRow() {
+function closeRow()
+{
 	echo "\n</tr>\n";
 }
 
-function contentTitle($title) {
-	echo "<tr><th colspan=\"2\">".$title."</th></tr>";
+function contentTitle($title) 
+{
+	echo "<tr><th colspan='2'>".$title."</th></tr>";
 }
 
-function closeContent() {
+function closeContent() 
+{
 	echo "</table>\n<hr />\n";
 }
 
-function closeForm() {
+function closeForm() 
+{
 	echo "</form>\n";
 }
 
-function openBreadcrumbs() {
-	echo "<p class=\"breadcrumbs\">";
+function openBreadcrumbs()
+{
+	echo "<p class='breadcrumbs'>";
 }
 
-function itemBreadcrumbs($content) {
-if ($this->breadcrumbsTotal == "") {
-	$this->breadcrumbsTotal = "0";
-}
+function itemBreadcrumbs($content) 
+{
+	if ($this->breadcrumbsTotal == "") 
+	{
+		$this->breadcrumbsTotal = "0";
+	}
 	$this->breadcrumbs[$this->breadcrumbsTotal] = stripslashes($content);
 	$this->breadcrumbsTotal = $this->breadcrumbsTotal + 1;
 }
 
-function closeBreadcrumbs() {
+function closeBreadcrumbs() 
+{
 	$items = $this->breadcrumbsTotal;
-	for ($i=0;$i<$items;$i++) {
+	for ($i=0;$i<$items;$i++) 
+	{
 		echo $this->breadcrumbs[$i];
-		if ($items-1 != $i) {
+		if ($items-1 != $i) 
+		{
 			echo " / ";
 		}
 	}
 	echo "</p>\n\n";
 }
 
-function openNavigation() {
-	echo "<p id=\"navigation\">";
+function openNavigation() 
+{
+	echo "<p id='navigation'>";
 }
 
 
-function itemNavigation($content) {
-if ($this->navigationTotal == "") {
-	$this->navigationTotal = "0";
-}
+function itemNavigation($content) 
+{
+	if ($this->navigationTotal == "") 
+	{
+		$this->navigationTotal = "0";
+	}
 	$this->navigation[$this->navigationTotal] = $content;
 	$this->navigationTotal = $this->navigationTotal + 1;
 }
 
-function closeNavigation() {
+function closeNavigation() 
+{
 	$items = $this->navigationTotal;
 	for ($i=0;$i<$items;$i++) {
 		echo $this->navigation[$i];
@@ -496,14 +526,17 @@ function closeNavigation() {
 	echo "</p>\n\n";
 }
 
-function openAccount() {
-	echo "<p id=\"account\">";
+function openAccount() 
+{
+	echo "<p id='account'>";
 }
 
-function itemAccount($content) {
-if ($this->accountTotal == "") {
-	$this->accountTotal = "0";
-}
+function itemAccount($content) 
+{
+	if ($this->accountTotal == "") 
+	{
+		$this->accountTotal = "0";
+	}
 	$this->account[$this->accountTotal] = $content;
 	$this->accountTotal = $this->accountTotal + 1;
 }
@@ -519,24 +552,36 @@ function closeaccount() {
 	echo "</p>\n\n";
 }
 
-function buildLink($url,$label,$type) {
-	if ($type == "in") {
-		return "<a href=\"$url&".session_name()."=".session_id()."\">$label</a>";
-	} else if ($type == "icone") {
-		return "<a href=\"$url&".session_name()."=".session_id()."\"><img src=\"../interface/icones/$label\" border=\"0\" alt=\"\"></a>";
-	} else if ($type == "inblank") {
-		return "<a href=\"$url&".session_name()."=".session_id()."\" target=\"_blank\">$label</a>";
-	} else if ($type == "powered") {
-		return "Powered by <a href=\"$url\" target=\"_blank\">$label</a>";
-	} else if ($type == "out") {
+function buildLink($url,$label,$type) 
+{
+	if ($type == "in") 
+	{
+		return "<a href='$url&".session_name()."=".session_id()."'>$label</a>";
+	} 
+	else if ($type == "icone") 
+	{
+		return "<a href='$url&".session_name()."=".session_id()."'><img src='../interface/icones/$label' border='0' alt=''></a>";
+	} 
+	else if ($type == "inblank") 
+	{
+		return "<a href='$url&".session_name()."=".session_id()."' target='_blank'>$label</a>";
+	} 
+	else if ($type == "powered") 
+	{
+		return "Powered by <a href='$url' target='_blank'>$label</a>";
+	} 
+	else if ($type == "out") 
+	{
 	    // Verify correct urltyping
         if (substr($url, 0, 4) != 'http') {
             // Add default http on it
             $url = "http://" . $url;
         } 
-		return "<a href=\"$url\" target=\"_blank\">$label</a>";
-	} else if ($type == "mail") {
-		return "<a href=\"mailto:$url\">$label</a>";
+		return "<a href='$url' target='_blank'>$label</a>";
+	} 
+	else if ($type == "mail") 
+	{
+		return "<a href='mailto:$url'>$label</a>";
 	}
 }
 

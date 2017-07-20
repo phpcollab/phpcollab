@@ -6,10 +6,17 @@ include '../includes/customvalues.php';
 
 $setTitle .= " : Search Results";
 $bodyCommand = "onLoad=\"document.searchForm.searchfor.focus()\"";
+<<<<<<< HEAD
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $searchFor = urldecode($searchFor);
 $searchfor = phpCollab\Util::convertData($searchfor);
+=======
+include('../themes/' . THEME . '/header.php');
+
+$searchFor = urldecode($searchFor);
+$searchfor = convertData($searchfor);
+>>>>>>> master
 $searchfor = strtolower($searchfor);
 $mots = explode(" ", $searchfor);
 $nombre_mots = count($mots);
@@ -115,6 +122,13 @@ while ($y < $nombre_mots) {
     $searchMembers .= " OR mem.name like '%$mots[$y]%' ";
     $y++;
 }
+<<<<<<< HEAD
+
+$searchOrganizations = "WHERE (org.name like '%$mots[0]%'";
+$z = 1;
+while ($z < $nombre_mots) {
+    $searchOrganizations .= " OR org.name like '%$mots[$z]%' ";
+=======
 
 $searchOrganizations = "WHERE (org.name like '%$mots[0]%'";
 $z = 1;
@@ -128,6 +142,16 @@ $searchTopics = "WHERE topic.subject like '%$mots[0]%'";
 $z = 1;
 while ($z < $nombre_mots) {
     $searchTopics .= " OR topic.subject like '%$mots[$z]%' ";
+>>>>>>> master
+    $z++;
+}
+$searchOrganizations .= ")";
+
+<<<<<<< HEAD
+$searchTopics = "WHERE topic.subject like '%$mots[0]%'";
+$z = 1;
+while ($z < $nombre_mots) {
+    $searchTopics .= " OR topic.subject like '%$mots[$z]%' ";
     $z++;
 }
 
@@ -137,6 +161,14 @@ while ($z < $nombre_mots) {
     $searchNotes .= " OR note.subject like '%$mots[$z]%' ";
     $z++;
 }
+=======
+$searchNotes = "WHERE note.subject like '%$mots[0]%'";
+$z = 1;
+while ($z < $nombre_mots) {
+    $searchNotes .= " OR note.subject like '%$mots[$z]%' ";
+    $z++;
+}
+>>>>>>> master
 $searchNotes .= " OR note.description like '%$mots[0]%'";
 $y = 1;
 while ($y < $nombre_mots) {
@@ -161,11 +193,20 @@ if ($projectsFilter == "true") {
 }
 $comptListProjects = "0";
 if ($validProjects == "true") {
+<<<<<<< HEAD
     $block1->recordsTotal = phpCollab\Util::computeTotal($initrequest["projects"] . " " . $tmpquery);
 
     $listProjects = new phpCollab\Request();
     $listProjects->openProjects($tmpquery, $block1->limit, $block1->rowsLimit);
     $comptListProjects = count($listProjects->pro_id);
+=======
+    $block1->recordsTotal = compt($initrequest["projects"] . " " . $tmpquery);
+
+    $listProjects = new request();
+    $listProjects->openProjects($tmpquery, $block1->borne, $block1->rowsLimit);
+    $comptListProjects = count($listProjects->pro_id);
+    //echo "$tmpquery<br/>";
+>>>>>>> master
 }
 
 $block2 = new phpCollab\Block();
@@ -179,7 +220,11 @@ if ($projectsFilter == "true") {
     $tmpquery = "LEFT OUTER JOIN " . $tableCollab["teams"] . " teams ON teams.project = pro.id ";
     $tmpquery .= "WHERE pro.status IN(0,2,3) AND teams.member = '$idSession' ORDER BY pro.id";
 
+<<<<<<< HEAD
     $listProjectsFilter = new phpCollab\Request();
+=======
+    $listProjectsFilter = new request();
+>>>>>>> master
     $listProjectsFilter->openProjects($tmpquery);
     $comptListProjectsFilter = count($listProjectsFilter->pro_id);
 
@@ -205,27 +250,49 @@ if ($projectsFilter == "true") {
 
 $comptListTasks = "0";
 if ($validTasks == "true") {
+<<<<<<< HEAD
     $block2->recordsTotal = phpCollab\Util::computeTotal($initrequest["tasks"] . " " . $tmpquery);
 
     $listTasks = new phpCollab\Request();
     $listTasks->openTasks($tmpquery, $block2->limit, $block2->rowsLimit);
     $comptListTasks = count($listTasks->tas_id);
+=======
+    $block2->recordsTotal = compt($initrequest["tasks"] . " " . $tmpquery);
+
+    $listTasks = new request();
+    $listTasks->openTasks($tmpquery, $block2->borne, $block2->rowsLimit);
+    $comptListTasks = count($listTasks->tas_id);
+    //echo "$tmpquery<br/>";
+>>>>>>> master
 }
 
 $block9 = new phpCollab\Block();
 $block9->limit = $blockPage->returnLimit("9");
 $block9->rowsLimit = "10";
 $block9->sorting("home_subtasks", $sortingUser->sor_home_subtasks[0], "subtas.name ASC", $sortingFields = array(0 => "subtas.name", 1 => "subtas.priority", 2 => "subtas.status", 3 => "subtas.due_date", 4 => "mem.login", 5 => "subtas.project", 6 => "subtas.published"));
+<<<<<<< HEAD
 
+=======
+//$tmpquery = "$searchSubtasks AND pro.id IN($filterResults) ORDER BY $block9->sortingValue";
+>>>>>>> master
 $tmpquery = "$searchSubtasks ORDER BY $block9->sortingValue";
 
 $comptListSubtasks = "0";
 if ($validSubtasks == "true") {
+<<<<<<< HEAD
     $block9->recordsTotal = phpCollab\Util::computeTotal($initrequest["subtasks"] . " " . $tmpquery);
 
     $listSubtasks = new phpCollab\Request();
     $listSubtasks->openSubtasks($tmpquery, $block9->limit, $block9->rowsLimit);
     $comptListSubtasks = count($listSubtasks->subtas_id);
+=======
+    $block9->recordsTotal = compt($initrequest["subtasks"] . " " . $tmpquery);
+
+    $listSubtasks = new request();
+    $listSubtasks->openSubtasks($tmpquery, $block9->borne, $block9->rowsLimit);
+    $comptListSubtasks = count($listSubtasks->subtas_id);
+    //echo "$tmpquery<br/>";
+>>>>>>> master
 }
 $block3 = new phpCollab\Block();
 
@@ -241,11 +308,20 @@ if ($demoMode == "true") {
 }
 $comptListMembers = "0";
 if ($validMembers == "true") {
+<<<<<<< HEAD
     $block3->recordsTotal = phpCollab\Util::computeTotal($initrequest["members"] . " " . $tmpquery);
 
     $listMembers = new phpCollab\Request();
     $listMembers->openMembers($tmpquery, $block3->limit, $block3->rowsLimit);
     $comptListMembers = count($listMembers->mem_id);
+=======
+    $block3->recordsTotal = compt($initrequest["members"] . " " . $tmpquery);
+
+    $listMembers = new request();
+    $listMembers->openMembers($tmpquery, $block3->borne, $block3->rowsLimit);
+    $comptListMembers = count($listMembers->mem_id);
+    //echo "$tmpquery<br/>";
+>>>>>>> master
 }
 
 $block4 = new phpCollab\Block();
@@ -258,7 +334,11 @@ $block4->sorting("organizations", $sortingUser->sor_organizations[0], "org.name 
 if ($clientsFilter == "true" && $profilSession == "2") {
     $teamMember = "false";
     $tmpquery = "WHERE tea.member = '$idSession'";
+<<<<<<< HEAD
     $memberTest = new phpCollab\Request();
+=======
+    $memberTest = new request();
+>>>>>>> master
     $memberTest->openTeams($tmpquery);
     $comptMemberTest = count($memberTest->tea_id);
     if ($comptMemberTest == "0") {
@@ -285,11 +365,20 @@ if ($clientsFilter == "true" && $profilSession == "2") {
 
 $comptListOrganizations = "0";
 if ($validOrganizations == "true" && $listClients != "false") {
+<<<<<<< HEAD
     $block4->recordsTotal = phpCollab\Util::computeTotal($initrequest["organizations"] . " " . $tmpquery);
 
     $listOrganizations = new phpCollab\Request();
     $listOrganizations->openOrganizations($tmpquery, $block4->limit, $block4->rowsLimit);
     $comptListOrganizations = count($listOrganizations->org_id);
+=======
+    $block4->recordsTotal = compt($initrequest["organizations"] . " " . $tmpquery);
+
+    $listOrganizations = new request();
+    $listOrganizations->openOrganizations($tmpquery, $block4->borne, $block4->rowsLimit);
+    $comptListOrganizations = count($listOrganizations->org_id);
+    //echo "$tmpquery<br/>";
+>>>>>>> master
 }
 
 $block5 = new phpCollab\Block();
@@ -311,11 +400,20 @@ if ($projectsFilter == "true") {
 
 $comptListTopics = "0";
 if ($validTopics == "true") {
+<<<<<<< HEAD
     $block5->recordsTotal = phpCollab\Util::computeTotal($initrequest["topics"] . " " . $tmpquery);
 
     $listTopics = new phpCollab\Request();
     $listTopics->openTopics($tmpquery, $block5->limit, $block5->rowsLimit);
     $comptListTopics = count($listTopics->top_id);
+=======
+    $block5->recordsTotal = compt($initrequest["topics"] . " " . $tmpquery);
+
+    $listTopics = new request();
+    $listTopics->openTopics($tmpquery, $block5->borne, $block5->rowsLimit);
+    $comptListTopics = count($listTopics->top_id);
+    //echo "$tmpquery<br/>";
+>>>>>>> master
 }
 
 $block6 = new phpCollab\Block();
@@ -344,11 +442,20 @@ if ($projectsFilter == "true") {
 $comptListNotes = "0";
 if ($validNotes == "true") {
 
+<<<<<<< HEAD
     $block6->recordsTotal = phpCollab\Util::computeTotal($initrequest["notes"] . " " . $tmpquery);
 
     $listNotes = new phpCollab\Request();
     $listNotes->openNotes($tmpquery, $block6->limit, $block6->rowsLimit);
     $comptListNotes = count($listNotes->note_id);
+=======
+    $block6->recordsTotal = compt($initrequest["notes"] . " " . $tmpquery);
+
+    $listNotes = new request();
+    $listNotes->openNotes($tmpquery, $block6->borne, $block6->rowsLimit);
+    $comptListNotes = count($listNotes->note_id);
+    //echo "$tmpquery<br/>";
+>>>>>>> master
 }
 
 $comptTotal = $block1->recordsTotal + $block2->recordsTotal + $block3->recordsTotal + $block9->recordsTotal + $block4->recordsTotal + $block5->recordsTotal + $block6->recordsTotal;
@@ -385,7 +492,11 @@ $block0->closeContent();
 
 if ($comptListProjects != "0") {
     $block1->form = "ProjectForm";
+<<<<<<< HEAD
     $block1->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block1->form . "Anchor");
+=======
+    $block1->openForm("../search/resultssearch.php?" . session_name() . "=" . session_id() . "&searchfor=$searchfor&heading=$heading#" . $block1->form . "Anchor");
+>>>>>>> master
 
     $block1->headingToggle($strings["search_results"] . " : " . $strings["projects"] . " ($block1->recordsTotal)");
 
@@ -408,7 +519,11 @@ if ($comptListProjects != "0") {
         $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listProjects->pro_id[$i], $listProjects->pro_id[$i], in));
         $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listProjects->pro_id[$i], $listProjects->pro_name[$i], in));
 
+<<<<<<< HEAD
         $block1->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
+=======
+        $block1->cellRow("<img src=\"../themes/" . THEME . "/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
+>>>>>>> master
         $block1->cellRow($listProjects->pro_org_name[$i]);
         $block1->cellRow($status[$idStatus]);
         $block1->cellRow($blockPage->buildLink($listProjects->pro_mem_email_work[$i], $listProjects->pro_mem_login[$i], mail));
@@ -423,7 +538,11 @@ if ($comptListProjects != "0") {
     }
     $block1->closeResults();
 
+<<<<<<< HEAD
     $block1->limitsFooter("1", $blockPage->limitsNumber, "", "searchfor=$searchfor&heading=$heading");
+=======
+    $block1->bornesFooter("1", $blockPage->bornesNumber, "", "searchfor=$searchfor&heading=$heading");
+>>>>>>> master
 
     $block1->closeToggle();
     $block1->closeFormResults();
@@ -435,10 +554,23 @@ if ($comptListProjects != "0") {
 
 if ($comptListTasks != "0") {
     $block2->form = "TaskForm";
+<<<<<<< HEAD
     $block2->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block2->form . "Anchor");
 
     $block2->headingToggle($strings["search_results"] . " : " . $strings["tasks"] . " ($block2->recordsTotal)");
 
+=======
+    $block2->openForm("../search/resultssearch.php?" . session_name() . "=" . session_id() . "&searchfor=$searchfor&heading=$heading#" . $block2->form . "Anchor");
+
+    $block2->headingToggle($strings["search_results"] . " : " . $strings["tasks"] . " ($block2->recordsTotal)");
+
+    /*$block2->openPaletteIcon();
+    $block2->paletteIcon(0,"export",$strings["export"]);
+
+
+    $block2->closePaletteIcon();*/
+
+>>>>>>> master
     $block2->openResults();
 
     $block2->labels($labels = array(0 => $strings["task"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["due_date"], 4 => $strings["assigned_to"], 5 => $strings["project"], 6 => $strings["published"]), "true");
@@ -453,7 +585,11 @@ if ($comptListTasks != "0") {
         $block2->openRow();
         $block2->checkboxRow($listTasks->tas_id[$i]);
         $block2->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $listTasks->tas_id[$i], $listTasks->tas_name[$i], in));
+<<<<<<< HEAD
         $block2->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
+=======
+        $block2->cellRow("<img src=\"../themes/" . THEME . "/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
+>>>>>>> master
         $block2->cellRow($status[$idStatus]);
         if ($listTasks->tas_due_date[$i] <= $date && $listTasks->tas_completion[$i] != "10") {
             $block2->cellRow("<b>" . $listTasks->tas_due_date[$i] . "</b>");
@@ -474,16 +610,30 @@ if ($comptListTasks != "0") {
 
     $block2->closeResults();
 
+<<<<<<< HEAD
     $block2->limitsFooter("2", $blockPage->limitsNumber, "", "searchfor=$searchfor&heading=$heading");
+=======
+    $block2->bornesFooter("2", $blockPage->bornesNumber, "", "searchfor=$searchfor&heading=$heading");
+>>>>>>> master
 
     $block2->closeToggle();
     $block2->closeFormResults();
 
+<<<<<<< HEAD
+=======
+    /*$block2->openPaletteScript();
+    $block2->paletteScript(0,"export","../projects/exportproject.php?languageSession=$languageSession&type=project","false,true,false",$strings["export"]);
+    $block2->closePaletteScript($comptListTasks,$listTasks->tas_id);*/
+>>>>>>> master
 }
 
 if ($comptListSubtasks != "0") {
     $block9->form = "SubtaskForm";
+<<<<<<< HEAD
     $block9->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block9->form . "Anchor");
+=======
+    $block9->openForm("../search/resultssearch.php?" . session_name() . "=" . session_id() . "&searchfor=$searchfor&heading=$heading#" . $block9->form . "Anchor");
+>>>>>>> master
     $block9->headingToggle($strings["search_results"] . " : " . $strings["subtasks"] . " ($block9->recordsTotal)");
 
     $block9->openResults();
@@ -498,7 +648,11 @@ if ($comptListSubtasks != "0") {
         $block9->openRow();
         $block9->checkboxRow($listSubtasks->subtas_id[$i]);
         $block9->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $listSubtasks->subtas_id[$i] . "&task=" . $listSubtasks->subtas_task[$i], $listSubtasks->subtas_name[$i], in));
+<<<<<<< HEAD
         $block9->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
+=======
+        $block9->cellRow("<img src=\"../themes/" . THEME . "/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
+>>>>>>> master
         $block9->cellRow($status[$idStatus]);
         if ($listTasks->subtas_due_date[$i] <= $date && $listSubtasks->subtas_completion[$i] != "10") {
             $block9->cellRow("<b>" . $listSubtasks->subtas_due_date[$i] . "</b>");
@@ -517,13 +671,18 @@ if ($comptListSubtasks != "0") {
         $block9->closeRow();
     }
     $block9->closeResults();
+<<<<<<< HEAD
     $block9->limitsFooter("2", $blockPage->limitsNumber, "", "searchfor=$searchfor&heading=$heading");
+=======
+    $block9->bornesFooter("2", $blockPage->bornesNumber, "", "searchfor=$searchfor&heading=$heading");
+>>>>>>> master
 
     $block9->closeToggle();
     $block9->closeFormResults();
 }
 if ($comptListMembers != "0") {
     $block3->form = "UserForm";
+<<<<<<< HEAD
     $block3->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block3->form . "Anchor");
 
     $block3->headingToggle($strings["search_results"] . " : " . $strings["users"] . " ($block3->recordsTotal)");
@@ -555,14 +714,58 @@ if ($comptListMembers != "0") {
     $block3->closeResults();
 
     $block3->limitsFooter("3", $blockPage->limitsNumber, "", "searchfor=$searchfor&heading=$heading");
+=======
+    $block3->openForm("../search/resultssearch.php?" . session_name() . "=" . session_id() . "&searchfor=$searchfor&heading=$heading#" . $block3->form . "Anchor");
+
+    $block3->headingToggle($strings["search_results"] . " : " . $strings["users"] . " ($block3->recordsTotal)");
+
+    /*$block3->openPaletteIcon();
+    $block3->paletteIcon(0,"export",$strings["export"]);
+    $block3->closePaletteIcon();*/
+
+    $block3->openResults();
+
+    $block3->labels($labels = array(0 => $strings["full_name"], 1 => $strings["user_name"], 2 => $strings["email"], 3 => $strings["work_phone"], 4 => $strings["connected"]), "false");
+
+    for ($i = 0; $i < $comptListMembers; $i++) {
+        $block3->openRow();
+        $block3->checkboxRow($listMembers->mem_id[$i]);
+        $block3->cellRow($blockPage->buildLink("../users/viewuser.php?id=" . $listMembers->mem_id[$i], $listMembers->mem_name[$i], in));
+        $block3->cellRow($listMembers->mem_login[$i]);
+        $block3->cellRow($blockPage->buildLink($listMembers->mem_email_work[$i], $listMembers->mem_email_work[$i], mail));
+        $block3->cellRow($listMembers->mem_phone_work[$i]);
+        if ($listMembers->mem_profil[$i] == "3") {
+            $z = "(Client on project site)";
+        } else {
+            $z = "";
+        }
+        if ($listMembers->mem_log_connected[$i] > $dateunix - 5 * 60) {
+            $block3->cellRow($strings["yes"] . " " . $z);
+        } else {
+            $block3->cellRow($strings["no"]);
+        }
+        $block3->closeRow();
+    }
+
+    $block3->closeResults();
+
+    $block3->bornesFooter("3", $blockPage->bornesNumber, "", "searchfor=$searchfor&heading=$heading");
+>>>>>>> master
 
     $block3->closeToggle();
     $block3->closeFormResults();
 
+<<<<<<< HEAD
+=======
+    /*$block3->openPaletteScript();
+    $block3->paletteScript(0,"export","../projects/exportproject.php?languageSession=$languageSession&type=project","false,true,false",$strings["export"]);
+    $block3->closePaletteScript($comptListMembers,$listMembers->mem_id);*/
+>>>>>>> master
 }
 
 if ($comptListOrganizations != "0") {
     $block4->form = "ClientForm";
+<<<<<<< HEAD
     $block4->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block4->form . "Anchor");
 
     $block4->headingToggle($strings["search_results"] . " : " . $strings["organizations"] . " ($block4->recordsTotal)");
@@ -583,14 +786,47 @@ if ($comptListOrganizations != "0") {
     $block4->closeResults();
 
     $block4->limitsFooter("4", $blockPage->limitsNumber, "", "searchfor=$searchfor&heading=$heading");
+=======
+    $block4->openForm("../search/resultssearch.php?" . session_name() . "=" . session_id() . "&searchfor=$searchfor&heading=$heading#" . $block4->form . "Anchor");
+
+    $block4->headingToggle($strings["search_results"] . " : " . $strings["organizations"] . " ($block4->recordsTotal)");
+
+    /*$block4->openPaletteIcon();
+    $block4->paletteIcon(0,"export",$strings["export"]);
+    $block4->closePaletteIcon();*/
+
+    $block4->openResults();
+
+    $block4->labels($labels = array(0 => $strings["name"], 1 => $strings["url"], 2 => $strings["phone"]), "false");
+
+    for ($i = 0; $i < $comptListOrganizations; $i++) {
+        $block4->openRow();
+        $block4->checkboxRow($listOrganizations->org_id[$i]);
+        $block4->cellRow($blockPage->buildLink("../clients/viewclient.php?id=" . $listOrganizations->org_id[$i], $listOrganizations->org_name[$i], in));
+        $block4->cellRow($blockPage->buildLink($listOrganizations->org_url[$i], $listOrganizations->org_url[$i], out));
+        $block4->cellRow($listOrganizations->org_phone[$i]);
+        $block4->closeRow();
+    }
+
+    $block4->closeResults();
+
+    $block4->bornesFooter("4", $blockPage->bornesNumber, "", "searchfor=$searchfor&heading=$heading");
+>>>>>>> master
 
     $block4->closeToggle();
     $block4->closeFormResults();
 
+<<<<<<< HEAD
+=======
+    /*$block4->openPaletteScript();
+    $block4->paletteScript(0,"export","../projects/exportproject.php?languageSession=$languageSession&type=project","false,true,false",$strings["export"]);
+    $block4->closePaletteScript($comptListOrganizations,$listOrganizations->org_id);*/
+>>>>>>> master
 }
 
 if ($comptListTopics != "0") {
     $block5->form = "ThreadTopicForm";
+<<<<<<< HEAD
     $block5->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block5->form . "Anchor");
 
     $block5->headingToggle($strings["search_results"] . " : " . $strings["discussions"] . " ($block5->recordsTotal)");
@@ -623,20 +859,78 @@ if ($comptListTopics != "0") {
     $block5->closeResults();
 
     $block5->limitsFooter("5", $blockPage->limitsNumber, "", "searchfor=$searchfor&heading=$heading");
+=======
+    $block5->openForm("../search/resultssearch.php?" . session_name() . "=" . session_id() . "&searchfor=$searchfor&heading=$heading#" . $block5->form . "Anchor");
+
+    $block5->headingToggle($strings["search_results"] . " : " . $strings["discussions"] . " ($block5->recordsTotal)");
+
+    /*$block5->openPaletteIcon();
+    $block5->paletteIcon(0,"export",$strings["export"]);
+
+    $block5->closePaletteIcon();*/
+
+    $block5->openResults();
+
+    $block5->labels($labels = array(0 => $strings["topic"], 1 => $strings["owner"], 2 => $strings["posts"], 3 => $strings["latest_post"], 4 => $strings["status"], 5 => $strings["project"], 6 => $strings["published"]), "true");
+
+    for ($i = 0; $i < $comptListTopics; $i++) {
+        $idStatus = $listTopics->top_status[$i];
+        $idPublish = $listTopics->top_published[$i];
+        $block5->openRow();
+        $block5->checkboxRow($listTopics->top_id[$i]);
+        $block5->cellRow($blockPage->buildLink("../topics/viewtopic.php?id=" . $listTopics->top_id[$i], $listTopics->top_subject[$i], in));
+        $block5->cellRow($blockPage->buildLink($listTopics->top_email_work[$i], $listTopics->top_mem_login[$i], mail));
+        $block5->cellRow($listTopics->top_posts[$i]);
+        if ($listTopics->top_last_post[$i] > $lastvisiteSession) {
+            $block5->cellRow("<b>" . $listTopics->top_last_post[$i] . "</b>");
+        } else {
+            $block5->cellRow($listTopics->top_last_post[$i]);
+        }
+        $block5->cellRow($statusTopic[$idStatus]);
+        $block5->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listTopics->top_pro_id[$i], $listTopics->top_pro_name[$i], in));
+        if ($sitePublish == "true") {
+            $block5->cellRow($statusPublish[$idPublish]);
+        }
+        $block5->closeRow();
+    }
+
+    $block5->closeResults();
+
+    $block5->bornesFooter("5", $blockPage->bornesNumber, "", "searchfor=$searchfor&heading=$heading");
+>>>>>>> master
 
     $block5->closeToggle();
     $block5->closeFormResults();
 
+<<<<<<< HEAD
+=======
+    /*$block5->openPaletteScript();
+    $block5->paletteScript(0,"export","../projects/exportproject.php?languageSession=$languageSession&type=project","false,true,false",$strings["export"]);
+    $block5->closePaletteScript($comptListTopics,$listTopics->top_id);*/
+>>>>>>> master
 }
 
 if ($comptListNotes != "0") {
     $block6->form = "notesForm";
+<<<<<<< HEAD
     $block6->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block6->form . "Anchor");
 
     $block6->headingToggle($strings["search_results"] . " : " . $strings["notes"] . " ($block6->recordsTotal)");
 
     $block6->openResults();
 
+=======
+    $block6->openForm("../search/resultssearch.php?" . session_name() . "=" . session_id() . "&searchfor=$searchfor&heading=$heading#" . $block6->form . "Anchor");
+
+    $block6->headingToggle($strings["search_results"] . " : " . $strings["notes"] . " ($block6->recordsTotal)");
+
+    /*$block6->openPaletteIcon();
+    $block6->paletteIcon(0,"export",$strings["export"]);
+    $block6->closePaletteIcon();*/
+
+    $block6->openResults();
+
+>>>>>>> master
     if ($comptTopic != "0") {
         $block6->labels($labels = array(0 => $strings["subject"], 1 => $strings["topic"], 2 => $strings["date"], 3 => $strings["owner"], 4 => $strings["published"]), "true");
     } else {
@@ -661,17 +955,31 @@ if ($comptListNotes != "0") {
     }
     $block6->closeResults();
 
+<<<<<<< HEAD
     $block6->limitsFooter("6", $blockPage->limitsNumber, "", "searchfor=$searchfor&heading=$heading");
+=======
+    $block6->bornesFooter("6", $blockPage->bornesNumber, "", "searchfor=$searchfor&heading=$heading");
+>>>>>>> master
 
     $block6->closeToggle();
     $block6->closeFormResults();
 
+<<<<<<< HEAD
+=======
+    /*$block6->openPaletteScript();
+    $block6->paletteScript(0,"export","../projects/exportproject.php?languageSession=$languageSession&type=project","false,true,false",$strings["export"]);
+    $block6->closePaletteScript($comptListNotes,$listNotes->note_id);*/
+>>>>>>> master
 }
 
 $block7 = new phpCollab\Block();
 
 $block7->form = "search";
+<<<<<<< HEAD
 $block7->openForm("../search/createsearch.php?action=search");
+=======
+$block7->openForm("../search/createsearch.php?action=search&" . session_name() . "=" . session_id());
+>>>>>>> master
 
 $block7->openContent();
 $block7->contentTitle($strings["enter_keywords"]);
@@ -702,4 +1010,9 @@ echo "
 $block7->closeContent();
 $block7->closeForm();
 
+<<<<<<< HEAD
 include APP_ROOT . '/themes/' . THEME . '/footer.php';
+=======
+include('../themes/' . THEME . '/footer.php');
+?>
+>>>>>>> master

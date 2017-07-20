@@ -120,7 +120,7 @@ function convertDB()
     //Add Tables
     echo "<li>Adding new tables...";
     //Add the DB Vars and let's try to do this stuffs.. 
-    if (addTables($databaseType, $conn, $tablePrefix, &$errorMsg))
+    if (addTables($databaseType, $conn, $tablePrefix, $errorMsg))
         echo "<font style='color: green;font-weight: bold'>completed</font>";
     else {
         echo "<font style='color: red;font-weight: bold'>error</font>";
@@ -133,7 +133,7 @@ function convertDB()
 
     //Modify existing tables
     echo "<li>Updating existing tables...";
-    if (modTables($databaseType, $conn, $tablePrefix, &$errorMsg))
+    if (modTables($databaseType, $conn, $tablePrefix, $errorMsg))
         echo "<font style='color: green;font-weight: bold'>completed</font>";
     else {
         echo "<font style='color: red;font-weight: bold'>error</font>";
@@ -422,7 +422,6 @@ function rewriteConfig($settingsFile)
 
     $theme = THEME;
 
-    $version = "2.5";
     $docType = addslashes($setDoctype);
     $docDesc = addslashes($setDescription);
     $docWords = addslashes($setKeywords);
@@ -471,7 +470,7 @@ define('FTPPASSWORD','$ftppassword');
 define('THEME','$theme');
 
 # newsdesk limiter
-\$newsdesklimit = 1; 
+\$newsdesklimit = 1;
 
 # if 1 the admin logs in his homepage
 \$adminathome = 0;
@@ -593,7 +592,7 @@ define('THEME','$theme');
 \$tableCollab["newsdeskposts"] = "{$myprefix}newsdeskposts";
 
 # PhpCollab version
-\$version = "$version";
+\$version = "$ver";
 
 # demo mode parameters
 \$demoMode = "false";
@@ -631,10 +630,13 @@ define('THEME','$theme');
 \$setTitle = "$setTitle";
 \$setDescription = "$docDesc";
 \$setKeywords = "$docWords";
+
+# Email alerts
+\$emailAlerts = "$emailAlerts";
 ?>
 STAMP;
 
-    file_put_contents($settingsFile, $content);
+    return file_put_contents($settingsFile, $content);
 }
 /* End of file upgrade_funcs.inc.php */
 /* Location: ./includes/upgrade_funcs.inc.php */

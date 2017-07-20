@@ -163,7 +163,7 @@ $tableCollab["newsdeskcomments"] = "newsdeskcomments";
 $tableCollab["newsdeskposts"] = "newsdeskposts";
 
 # PhpCollab version
-$version = "2.5";
+$version = "2.5.1";
 
 # demo mode parameters
 $demoMode = "false";
