@@ -106,7 +106,6 @@ if ($detailTopic->top_status[0] == "1" && $teamMember == "true") {
     $block1->contentRow("", $blockPage->buildLink("../topics/addpost.php?id=" . $detailTopic->top_id[0], $strings["post_reply"], "in"));
 }
 
-//for ($i = 0; $i < $comptListPosts; $i++) {
 foreach ($listPosts as $post) {
     $block1->contentRow($strings["posted_by"], $blockPage->buildLink($post["pos_mem_email_work"], $post["pos_mem_name"], "mail"));
 
@@ -115,10 +114,11 @@ foreach ($listPosts as $post) {
     } else {
         $block1->contentRow($strings["when"], phpCollab\Util::createDate($post["pos_created"], $timezoneSession));
     }
+    $post_message = (strlen($post["pos_message"]) > 0) ? nl2br($post["pos_message"]) : "<em>no message</em>";
     if ($detailProject["pro_owner"] == $idSession || $profilSession == "0" || $post["pos_member"] == $idSession) {
-        $block1->contentRow($blockPage->buildLink("../topics/deletepost.php?topic=" . $detailTopic->top_id[0] . "&id=" . $post["pos_id"], $strings["delete_message"], "in"), nl2br($post["pos_message"]));
+        $block1->contentRow($blockPage->buildLink("../topics/deletepost.php?topic=" . $detailTopic->top_id[0] . "&id=" . $post["pos_id"], $strings["delete_message"], "in"), $post_message);
     } else {
-        $block1->contentRow("", nl2br($post["pos_message"]));
+        $block1->contentRow("", $post_message);
     }
     $block1->contentRow("", "", "true");
 }
