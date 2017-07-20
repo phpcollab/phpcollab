@@ -207,7 +207,7 @@ $sql_file      = !empty($sql_file)    ? $sql_file     : 'none';
  * Bookmark Support: get a query back from bookmark if required
  */
 if (!empty($id_bookmark)) {
-    include('bookmark.lib.php');
+    include 'bookmark.lib.php';
     switch($action_bookmark) {
         case 0: // bookmarked query that have to be run
             $sql_query = PMA_queryBookmarks($db, $cfgBookmark, $id_bookmark);
@@ -296,7 +296,7 @@ if (!$cfgAllowUserDropDatabase
     // loic1: optimized query
     $result = @mysql_query('USE mysql');
     if (mysql_error()) {
-        include('header.inc.php');
+        include 'header.inc.php';
         PMA_mysqlDie($strNoDropDatabases, '', '', $err_url);
     }
 }
@@ -331,7 +331,7 @@ if ($sql_query != '') {
         if (eregi('^(DROP|CREATE)[[:space:]]+(IF EXISTS[[:space:]]+)?(TABLE|DATABASE)[[:space:]]+(.+)', $sql_query)) {
             $reload = 1;
         }
-        include('sql.php');
+        include 'sql.php';
         exit();
     }
 
@@ -358,7 +358,7 @@ if ($sql_query != '') {
  */
 if (isset($my_die)) {
     $js_to_run = 'functions.js';
-    include('header.inc.php');
+    include 'header.inc.php';
     PMA_mysqlDie('', $my_die, '', $err_url);
 }
 
@@ -417,6 +417,6 @@ if ($goto != 'main.php') {
     include('header.inc.php');
 }
 require('./' . $goto);*/
-headerFunction("../index.php");
+Util::headerFunction("../index.php");
 exit;
 ?>

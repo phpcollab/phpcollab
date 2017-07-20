@@ -4,8 +4,6 @@
 #Path by root: ../languages/lang_ro.php
 
 //translator(s): Adi
-$setCharset = "ISO-8859-2";
-
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Luni", 2 =>"Marti", 3 =>"Miercuri", 4 =>"Joi", 5 =>"Vineri", 6 =>"Simbata", 7 =>"Duminica");

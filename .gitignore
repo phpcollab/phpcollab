@@ -1,6 +1,10 @@
 # Project Generated Files
 #########################
 includes/settings.php
+files/**/
+logos_clients/*
+# exception to the above rule
+!logos_client/index.php
 
 # Logs and databases #
 ######################
@@ -10,29 +14,18 @@ includes/settings.php
 
 # OS generated files #
 ######################
-.DS_Store
 .DS_Store?
 ._*
 .Spotlight-V100
 .Trashes
-ehthumbs.db
-Thumbs.db
 
 # IDE files #
 #############
-nbproject
 .~lock.*
 .buildpath
-.idea
 .project
 .settings
 composer.lock
-
-# Temporary Ignores #
-test
-test.md
-Tests
-compatability*
-composer.json
-*.xml
-
+composer/
+vendor/
+tests/_output/*

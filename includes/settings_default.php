@@ -10,26 +10,26 @@ $installationType = "online"; //select "offline" or "online"
 $databaseType = "mysql"; //select "sqlserver", "postgresql" or "mysql"
 
 # database parameters
-define('MYSERVER','localhost');
-define('MYLOGIN','root');
-define('MYPASSWORD','');
-define('MYDATABASE','phpcollab');
+define('MYSERVER', 'localhost');
+define('MYLOGIN', 'root');
+define('MYPASSWORD', '');
+define('MYDATABASE', 'phpcollab');
 
 # notification method
 $notificationMethod = "mail"; //select "mail" or "smtp"
 
 # smtp parameters (only if $notificationMethod == "smtp")
-define('SMTPSERVER','');
-define('SMTPLOGIN','');
-define('SMTPPASSWORD','');
+define('SMTPSERVER', '');
+define('SMTPLOGIN', '');
+define('SMTPPASSWORD', '');
 
 # create folder method
 $mkdirMethod = "PHP"; //select "FTP" or "PHP"
 
 # ftp parameters (only if $mkdirMethod == "FTP")
-define('FTPSERVER','');
-define('FTPLOGIN','');
-define('FTPPASSWORD','');
+define('FTPSERVER', '');
+define('FTPLOGIN', '');
+define('FTPPASSWORD', '');
 
 # PhpCollab root according to ftp account (only if $mkdirMethod == "FTP")
 $ftpRoot = ""; //no slash at the end
@@ -38,10 +38,10 @@ $ftpRoot = ""; //no slash at the end
 $enableInvoicing = "true";
 
 # theme choice
-define('THEME','default');
+define('THEME', 'default');
 
 // NewsDesk
-$newsdesklimit = 1; 
+$newsdesklimit = 1;
 
 // if 1 the admin logs in his homepage
 $adminathome = 0;

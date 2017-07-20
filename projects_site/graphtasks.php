@@ -1,37 +1,18 @@
 <?php
-/*
-** Application name: phpCollab
-** Last Edit page: 04/12/2004
-** Path by root: ../projects_site/graphtasks.php
-** Authors: Ceam / Fullo
-**
-** =============================================================================
-**
-**               phpCollab - Project Managment 
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: graphtasks.php
-**
-** DESC: Screen: render the calendar or project gantt graph for project_site
-**
-** HISTORY:
-**	21/04/2005	-	added the broadcast visualization
-**	20/04/2005	-	added the calendar view
-** -----------------------------------------------------------------------------
-** TO-DO:
-** 
-**
-** =============================================================================
-*/
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
-include("../includes/jpgraph/jpgraph.php");
-include("../includes/jpgraph/jpgraph_gantt.php");
+$tasks = new \phpCollab\Tasks\Tasks();
+$calendars = new \phpCollab\Calendars\Calendars();
+$projects = new \phpCollab\Projects\Projects();
+
+include '../includes/jpgraph/jpgraph.php';
+include '../includes/jpgraph/jpgraph_gantt.php';
+
+$strings = $GLOBALS["strings"];
+$idSession = $_SESSION["idSession"];
+$timezoneSession = $_SESSION["timezoneSession"];
 
 $graph = new GanttGraph();
 $graph->SetBox();
@@ -45,108 +26,87 @@ $graph->scale->week->SetFont(FF_FONT0);
 $graph->scale->year->SetFont(FF_FONT1);
 
 // case of calendar graph
-if ($_GET['dateCalend'] != '')
-{
-	$graph->title->Set($strings["calendar"]);
-	$graph->subtitle->Set($dateCalend);
+if ($_GET['dateCalend'] != '') {
+    $graph->title->Set($strings["calendar"]);
+    $graph->subtitle->Set($dateCalend);
 
-	$dateCalend = substr($dateCalend,0,7);
-	
-	//add the published task to the graph
-	$tmpquery = "WHERE (tas.start_date LIKE '".$dateCalend."%' OR tas.due_date LIKE '".$dateCalend."%') AND tas.published = '0' AND tas.assigned_to = '$idSession' ORDER BY tas.due_date";
-	$listTasks = new request();
-	$listTasks->openTasks($tmpquery);
-	$comptListTasks = count($listTasks->tas_id);
+    $dateCalend = substr($dateCalend, 0, 7);
 
-	for ($i=0;$i<$comptListTasks;$i++) 
-	{
-		$listTasks->tas_name[$i] = str_replace('&quot;','"',$listTasks->tas_name[$i]);
-		$listTasks->tas_name[$i] = str_replace("&#39;","'",$listTasks->tas_name[$i]);
-		$progress = round($listTasks->tas_completion[$i]/10,2);
-		$printProgress = $listTasks->tas_completion[$i]*10;
-		$activity = new GanttBar($i,$listTasks->tas_name[$i],$listTasks->tas_start_date[$i],$listTasks->tas_due_date[$i]);
-		$activity->SetPattern(BAND_LDIAG,"yellow");
-		$activity->caption->Set($listTasks->tas_mem_login[$i]." (".$printProgress."%)");
-		$activity->SetFillColor("gray");
-		
-		if ($listTasks->tas_priority[$i] == "4" || $listTasks->tas_priority[$i] == "5") 
-		{
-			$activity->progress->SetPattern(BAND_SOLID,"#BB0000");
-		} 
-		else 
-		{
-			$activity->progress->SetPattern(BAND_SOLID,"#0000BB");
-		}
-		
-		$activity->progress->Set($progress);
-		$graph->Add($activity);
-	}
+    //add the published task to the graph
+    $listTasks = $tasks->getTasksWhereStartDateAndEndDateLikeNotPublishedAndAssignedToUserId($dateCalend, $idSession);
 
-	$tmpquery = "WHERE cal.owner = '$idSession'  OR cal.broadcast = '1' "; 
-	$detailCalendar = new request();
-	$detailCalendar->openCalendar($tmpquery);
-	$comptDetailCalendar = count($detailCalendar->cal_id);
-		
-	for ($j=0;$j < $comptDetailCalendar;$j++) 
-	{
+    $progress = 0;
+    foreach ($listTasks as $task) {
+        $task["tas_name"] = str_replace('&quot;', '"', $task["tas_name"]);
+        $task["tas_name"] = str_replace("&#39;", "'", $task["tas_name"]);
+        $progress = round($task["tas_completion"] / 10, 2);
+        $printProgress = $task["tas_completion"] * 10;
+        $activity = new GanttBar($i, $task["tas_name"], $task["tas_start_date"], $task["tas_due_date"]);
+        $activity->SetPattern(BAND_LDIAG, "yellow");
+        $activity->caption->Set($task["tas_mem_login"] . " (" . $printProgress . "%)");
+        $activity->SetFillColor("gray");
 
-		$detailCalendar->cal_subject[$j] = str_replace('&quot;','"',$detailCalendar->cal_subject[$j].'('.$detailCalendar->cal_location[$j].')');
-		$detailCalendar->cal_subject[$j] = str_replace("&#39;","'",$detailCalendar->cal_subject[$j]);
+        if ($task["tas_priority"] == "4" || $task["tas_priority"] == "5") {
+            $activity->progress->SetPattern(BAND_SOLID, "#BB0000");
+        } else {
+            $activity->progress->SetPattern(BAND_SOLID, "#0000BB");
+        }
 
-		$activity = new GanttBar($i+$j,$detailCalendar->cal_subject[$j],$detailCalendar->cal_date_start[$j],$detailCalendar->cal_date_end[$j]);
-		$activity->SetPattern(BAND_LDIAG,"yellow");
-		$activity->caption->Set($detailCalendar->cal_mem_name[$j]); 
-		$activity->SetFillColor("gray");
-		$activity->progress->SetPattern(BAND_SOLID,"#0000BB");
+        $activity->progress->Set($progress);
+        $graph->Add($activity);
+    }
 
-		$activity->progress->Set($progress);
-		$graph->Add($activity);
-	}
-}
+    $detailCalendar = $calendars->openCalendarByOwnerOrIsBroadcast($idSession);
 
-elseif ($_GET['project'] != '')
-{ 
-	// case of project graph
-	$graph->title->Set($strings["project"]." ".$projectDetail->pro_name[0]);
-	$graph->subtitle->Set("(".$strings["created"].": ".$projectDetail->pro_created[0].")");
-	
-	$tmpquery = "WHERE pro.id = '".$project."'";
-	$projectDetail = new request();
-	$projectDetail->openProjects($tmpquery);
+    $j = 0;
+    $progress = 0;
+    foreach ($detailCalendar as $calendar) {
+        $calendar["cal_subject"] = str_replace('&quot;', '"', $calendar["cal_subject"] . '(' . $calendar["cal_location"] . ')');
+        $calendar["cal_subject"] = str_replace("&#39;", "'", $calendar["cal_subject"]);
 
-	$projectDetail->pro_created[0] = createDate($projectDetail->pro_created[0],$timezoneSession);
-	$projectDetail->pro_name[0] = str_replace('&quot;','"',$projectDetail->pro_name[0]);
-	$projectDetail->pro_name[0] = str_replace("&#39;","'",$projectDetail->pro_name[0]);
+        $activity = new GanttBar($i + $j, $calendar["cal_subject"], $calendar["cal_date_start"], $calendar["cal_date_end"]);
+        $activity->SetPattern(BAND_LDIAG, "yellow");
+        $activity->caption->Set($calendar["cal_mem_name"]);
+        $activity->SetFillColor("gray");
+        $activity->progress->SetPattern(BAND_SOLID, "#0000BB");
 
-	$tmpquery = "WHERE tas.project = '".$project."' AND tas.start_date != '--' AND tas.due_date != '--' AND tas.published != '1' ORDER BY tas.due_date";
-	$listTasks = new request();
-	$listTasks->openTasks($tmpquery);
-	$comptListTasks = count($listTasks->tas_id);
+        $activity->progress->Set($progress);
+        $graph->Add($activity);
+        $j++;
+    }
+} elseif ($_GET['project'] != '') {
+    $projectDetail = $projects->getProjectById($_GET["project"]);
 
-	for ($i=0;$i<$comptListTasks;$i++) 
-	{
-		$listTasks->tas_name[$i] = str_replace('&quot;','"',$listTasks->tas_name[$i]);
-		$listTasks->tas_name[$i] = str_replace("&#39;","'",$listTasks->tas_name[$i]);
-		$progress = round($listTasks->tas_completion[$i]/10,2);
-		$printProgress = $listTasks->tas_completion[$i]*10;
-		$activity = new GanttBar($i,$listTasks->tas_name[$i],$listTasks->tas_start_date[$i],$listTasks->tas_due_date[$i]);
-		$activity->SetPattern(BAND_LDIAG,"yellow");
-		$activity->caption->Set($listTasks->tas_mem_login[$i]." (".$printProgress."%)");
-		$activity->SetFillColor("gray");
-		
-		if ($listTasks->tas_priority[$i] == "4" || $listTasks->tas_priority[$i] == "5") 
-		{
-			$activity->progress->SetPattern(BAND_SOLID,"#BB0000");
-		} 
-		else 
-		{
-			$activity->progress->SetPattern(BAND_SOLID,"#0000BB");
-		}
+    // case of project graph
+    $graph->title->Set($strings["project"] . " " . $projectDetail["pro_name"]);
+    $graph->subtitle->Set("(" . $strings["created"] . ": " . $projectDetail["pro_created"] . ")");
 
-		$activity->progress->Set($progress);
-		$graph->Add($activity);
-	}
+    $projectDetail["pro_created"] = phpCollab\Util::createDate($projectDetail["pro_created"], $timezoneSession);
+    $projectDetail["pro_name"] = str_replace('&quot;', '"', $projectDetail["pro_name"]);
+    $projectDetail["pro_name"] = str_replace("&#39;", "'", $projectDetail["pro_name"]);
+
+    $listTasks = $tasks->getTasksByProjectIdWhereStartAndEndAreNotEmptyAndNotPublished($_GET["project"]);
+
+    $progress = 0;
+    foreach ($listTasks as $task) {
+        $task["tas_name"] = str_replace('&quot;', '"', $task["tas_name"]);
+        $task["tas_name"] = str_replace("&#39;", "'", $task["tas_name"]);
+        $progress = round($task["tas_completion"] / 10, 2);
+        $printProgress = $task["tas_completion"] * 10;
+        $activity = new GanttBar($i, $task["tas_name"], $task["tas_start_date"], $task["tas_due_date"]);
+        $activity->SetPattern(BAND_LDIAG, "yellow");
+        $activity->caption->Set($task["tas_mem_login"] . " (" . $printProgress . "%)");
+        $activity->SetFillColor("gray");
+
+        if ($task["tas_priority"] == "4" || $task["tas_priority"] == "5") {
+            $activity->progress->SetPattern(BAND_SOLID, "#BB0000");
+        } else {
+            $activity->progress->SetPattern(BAND_SOLID, "#0000BB");
+        }
+
+        $activity->progress->Set($progress);
+        $graph->Add($activity);
+    }
 }
 
 $graph->Stroke();
-?>

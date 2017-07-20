@@ -4,21 +4,21 @@
 #Path by root: ../languages/help_sk-win1250.php
 
 //translator(s): 
-$help["setup_mkdirMethod"] = "Pokia¾ je safe-mode On, musíte poui Ftp úèet pre monos vytvára adresáre pri práci so súbormi v PHP Collab.";
-$help["setup_notifications"] = "E-mailové oznámenie uívate¾om (priradenie úlohy, novı príspevok, zmeny úlohy...)<br/>Je potrebné správne nastavi smtp/sendmail.";
-$help["setup_forcedlogin"] = "Pokia¾ nie je aktívna, nie sú povolené externé odkazy s login/heslo v url";
-$help["setup_langdefault"] = "Vyberte jazyk, ktorı bude predurèene vybranı pri kadom prihlasovaní alebo nechajte prázdne pre autodetekciu jazyka v prehliadaèi.";
-$help["setup_myprefix"] = "Nastavte túto hodnotu, pokia¾ máte v databáze tabu¾ku so zhodnım názvom.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Nechajte prázdne, pokia¾ nechcete poui prefix tabuliek.";
-$help["setup_loginmethod"] = "Spôsob uloenia hesla v databáze.<br/>Set to &quot;Crypt&quot; in order CVS authentication and htaccess authentification to work (if CVS support and/or htaccess authentification are enabled).";
-$help["admin_update"] = "Rešpektuj striktne príkaz indikujúci aktualizáciu Vašej verzie<br/>1. Upravte nastavenia (doplòte nové parametre)<br/>2. Upravte databázu (aktualizácia v súlade s Vašou predchádzajúcou verziou)";
-$help["task_scope_creep"] = "Rozdiel v dòoch medzi termínom dokonèenia a dátumom dokonèenia (tuène ak je kladnı)";
-$help["max_file_size"] = "Maximálna ve¾kos súboru pre upload";
-$help["project_disk_space"] = "Celková ve¾kos súborov pre projekt";
-$help["project_scope_creep"] = "Rozdiel v dòoch medzi termínom dokonèenia a dátumom dokonèenia (tuène ak je kladnı). Celkom pre všetky úlohy.";
-$help["mycompany_logo"] = "Nahraj logo Vašej spoloènosti. Objaví sa v záhlavı namiesto nadpisu.";
-$help["calendar_shortname"] = "Popis pre zobrazenie v mesaènom kalendári. Povinné";
-$help["user_autologout"] = "Èas v sekundách pre automatické odpojenie pri neèinnosti. 0 pre deaktiváciu";
-$help["user_timezone"] = "Nastavte Vaše èasové pásmo (GMT)";
+$help["setup_mkdirMethod"] = "PokiaÄ¾ je safe-mode On, musÃ­te pouÅ¾iÅ¥ Ftp ÃºÄet pre moÅ¾nosÅ¥ vytvÃ¡raÅ¥ adresÃ¡re pri prÃ¡ci so sÃºbormi v PHP Collab.";
+$help["setup_notifications"] = "E-mailovÃ© oznÃ¡menie uÅ¾Ã­vateÄ¾om (priradenie Ãºlohy, novÃ½ prÃ­spevok, zmeny Ãºlohy...)<br/>Je potrebnÃ© sprÃ¡vne nastaviÅ¥ smtp/sendmail.";
+$help["setup_forcedlogin"] = "PokiaÄ¾ nie je aktÃ­vna, nie sÃº povolenÃ© externÃ© odkazy s login/heslo v url";
+$help["setup_langdefault"] = "Vyberte jazyk, ktorÃ½ bude predurÄene vybranÃ½ pri kaÅ¾dom prihlasovanÃ­ alebo nechajte prÃ¡zdne pre autodetekciu jazyka v prehliadaÄi.";
+$help["setup_myprefix"] = "Nastavte tÃºto hodnotu, pokiaÄ¾ mÃ¡te v databÃ¡ze tabuÄ¾ku so zhodnÃ½m nÃ¡zvom.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Nechajte prÃ¡zdne, pokiaÄ¾ nechcete pouÅ¾iÅ¥ prefix tabuliek.";
+$help["setup_loginmethod"] = "SpÃ´sob uloÅ¾enia hesla v databÃ¡ze.<br/>Set to &quot;Crypt&quot; in order CVS authentication and htaccess authentification to work (if CVS support and/or htaccess authentification are enabled).";
+$help["admin_update"] = "ReÅ¡pektuj striktne prÃ­kaz indikujÃºci aktualizÃ¡ciu VaÅ¡ej verzie<br/>1. Upravte nastavenia (doplÅˆte novÃ© parametre)<br/>2. Upravte databÃ¡zu (aktualizÃ¡cia v sÃºlade s VaÅ¡ou predchÃ¡dzajÃºcou verziou)";
+$help["task_scope_creep"] = "Rozdiel v dÅˆoch medzi termÃ­nom dokonÄenia a dÃ¡tumom dokonÄenia (tuÄne ak je kladnÃ½)";
+$help["max_file_size"] = "MaximÃ¡lna veÄ¾kosÅ¥ sÃºboru pre upload";
+$help["project_disk_space"] = "CelkovÃ¡ veÄ¾kosÅ¥ sÃºborov pre projekt";
+$help["project_scope_creep"] = "Rozdiel v dÅˆoch medzi termÃ­nom dokonÄenia a dÃ¡tumom dokonÄenia (tuÄne ak je kladnÃ½). Celkom pre vÅ¡etky Ãºlohy.";
+$help["mycompany_logo"] = "Nahraj logo VaÅ¡ej spoloÄnosti. ObjavÃ­ sa v zÃ¡hlavÃ½ namiesto nadpisu.";
+$help["calendar_shortname"] = "Popis pre zobrazenie v mesaÄnom kalendÃ¡ri. PovinnÃ©";
+$help["user_autologout"] = "ÄŒas v sekundÃ¡ch pre automatickÃ© odpojenie pri neÄinnosti. 0 pre deaktivÃ¡ciu";
+$help["user_timezone"] = "Nastavte VaÅ¡e ÄasovÃ© pÃ¡smo (GMT)";
 //2.4
 $help["setup_clientsfilter"] = "Filter to see only logged user clients";
 $help["setup_projectsfilter"] = "Filter to see only the project when the user are in the team";

@@ -25,39 +25,37 @@
 ** =============================================================================
 */
 
-
-include("../includes/settings.php");
+include_once '../includes/library.php';
 
 $blank = "true";
-include('../themes/'.THEME.'/header.php');
-include("../themes/".THEME."/block.class.php");
+include '../themes/' . THEME . '/header.php';
 
-$blockPage = new block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs("&nbsp;");
 $blockPage->closeBreadcrumbs();
 
-$block1 = new block();
+$block1 = new phpCollab\Block();
 $block1->heading($setTitle . " : Error");
 
 $block1->openContent();
 
 if ($databaseType == "mysql") {
-	$block1->contentTitle("MySql Error");
+    $block1->contentTitle("MySql Error");
 }
 if ($databaseType == "sqlserver") {
-	$block1->contentTitle("Sql Server Error");
+    $block1->contentTitle("Sql Server Error");
 }
 
 if ($type == "myserver") {
-$block1->contentRow("",$strings["error_server"]);
+    $block1->contentRow("", $strings["error_server"]);
 }
 if ($type == "mydatabase") {
-$block1->contentRow("",$strings["error_database"]);
+    $block1->contentRow("", $strings["error_database"]);
 }
 
 $block1->closeContent();
 
 $footerDev = "false";
-include('../themes/'.THEME.'/footer.php');
+include '../themes/' . THEME . '/footer.php';
 ?>

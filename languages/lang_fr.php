@@ -4,9 +4,6 @@
 #Path by root: ../languages/lang_fr.php
 
 //translator(s): St�phane Dion <contact@sdion.net>, Christophe Combelles <ccomb@gorfou.fr>
-
-$setCharset = "ISO-8859-1";
-
 $byteUnits = array('octets', 'ko', 'Mo', 'Go');
 
 $dayNameArray = array(1 =>"lundi", 2 =>"mardi", 3 =>"mercredi", 4 =>"jeudi", 5 =>"vendredi", 6 =>"samedi", 7 =>"dimanche");

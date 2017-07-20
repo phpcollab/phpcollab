@@ -113,7 +113,6 @@ class vCard {
 		$this->properties[$key] = encode($name).";".encode($extended).";".encode($street).";".encode($city).";".encode($region).";".encode($zip).";".encode($country);
 		
 		if ($this->properties["LABEL;$type;ENCODING=QUOTED-PRINTABLE"] == "") {
-			//$this->setLabel($postoffice, $extended, $street, $city, $region, $zip, $country, $type);
 		}
 	}
 	

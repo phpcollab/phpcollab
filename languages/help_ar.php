@@ -3,13 +3,13 @@
 #Status page: 2
 #Path by root: ../languages/help_ar.php
 
-//translator(s): 
-$help["setup_mkdirMethod"] = "ÇĞÇ ßäÊ ÈÇáäãØ ÇáÂãä ÊÍÊÇÌ áÊÍÏíÏ ftp ááÊÚÇãá ãÚ ÇáãáİÇÊ.";
-$help["setup_notifications"] = "ÅÎØÇÑ ÇáãÓÊÎÏã ÈÇáÇíãíá (Úä ãåãÉ ÌÏíÏÉ¡..) <br>ÊÍÊÇÌ smtp/sendmail ÕÇáÍ.";
-$help["setup_forcedlogin"] = "ÇĞÇ  ÎØÃ íãäÚ æÖÚ ÇáÇÓã æ ßáãÉ ÇáÓÑ Öãä ÇáÚäæÇä";
-$help["setup_langdefault"] = "ÇÎÊÑ ÇááÛÉ ÇáÊí ÓÊÙåÑ ÇİÊÑÇÖíÇ Çæ ÇÊÑßå İÇÑÛ áíÎÊÇÑ ÍÓÈ ÇÚÏÇÏÇÊ ãÓÊÚÑÖ ÇáãÓÊÎÏã.";
-$help["setup_myprefix"] = "ÇÎÊÑ ŞíãÉ ÇĞÇ ßÇä áÏíß ÌÏÇæá ÈäİÓ ÇáÇÓã.<br><br>assignments<br>bookmarks<br>bookmarks_categories<br>calendar<br>files<br>logs<br>members<br>notes<br>notifications<br>organizations<br>phases<br>posts<br>projects<br>reports<br>sorting<br>subtasks<br>support_posts<br>support_requests<br>tasks<br>teams<br>topics<br>updates<br><br>Leave blank for not use table prefix.";
-$help["setup_loginmethod"] = "ÇÓáæÈ ÍİÙ ßáãÉ ÇáÓÑ ÈŞÇÚÏÉ ÇáÈíÇäÇÊ.<br>Set to &quot;Crypt&quot; in order CVS authentication and htaccess authentification to work (if CVS support and/or htaccess authentification are enabled).";
+//translator(s):
+$help["setup_mkdirMethod"] = "Ø§Ø°Ø§ ÙƒÙ†Øª Ø¨Ø§Ù„Ù†Ù…Ø· Ø§Ù„Ø¢Ù…Ù† ØªØ­ØªØ§Ø¬ Ù„ØªØ­Ø¯ÙŠØ¯ ftp Ù„Ù„ØªØ¹Ø§Ù…Ù„ Ù…Ø¹ Ø§Ù„Ù…Ù„ÙØ§Øª.";
+$help["setup_notifications"] = "Ø¥Ø®Ø·Ø§Ø± Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù… Ø¨Ø§Ù„Ø§ÙŠÙ…ÙŠÙ„ (Ø¹Ù† Ù…Ù‡Ù…Ø© Ø¬Ø¯ÙŠØ¯Ø©ØŒ..) <br>ØªØ­ØªØ§Ø¬ smtp/sendmail ØµØ§Ù„Ø­.";
+$help["setup_forcedlogin"] = "Ø§Ø°Ø§  Ø®Ø·Ø£ ÙŠÙ…Ù†Ø¹ ÙˆØ¶Ø¹ Ø§Ù„Ø§Ø³Ù… Ùˆ ÙƒÙ„Ù…Ø© Ø§Ù„Ø³Ø± Ø¶Ù…Ù† Ø§Ù„Ø¹Ù†ÙˆØ§Ù†";
+$help["setup_langdefault"] = "Ø§Ø®ØªØ± Ø§Ù„Ù„ØºØ© Ø§Ù„ØªÙŠ Ø³ØªØ¸Ù‡Ø± Ø§ÙØªØ±Ø§Ø¶ÙŠØ§ Ø§Ùˆ Ø§ØªØ±ÙƒÙ‡ ÙØ§Ø±Øº Ù„ÙŠØ®ØªØ§Ø± Ø­Ø³Ø¨ Ø§Ø¹Ø¯Ø§Ø¯Ø§Øª Ù…Ø³ØªØ¹Ø±Ø¶ Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù….";
+$help["setup_myprefix"] = "Ø§Ø®ØªØ± Ù‚ÙŠÙ…Ø© Ø§Ø°Ø§ ÙƒØ§Ù† Ù„Ø¯ÙŠÙƒ Ø¬Ø¯Ø§ÙˆÙ„ Ø¨Ù†ÙØ³ Ø§Ù„Ø§Ø³Ù….<br><br>assignments<br>bookmarks<br>bookmarks_categories<br>calendar<br>files<br>logs<br>members<br>notes<br>notifications<br>organizations<br>phases<br>posts<br>projects<br>reports<br>sorting<br>subtasks<br>support_posts<br>support_requests<br>tasks<br>teams<br>topics<br>updates<br><br>Leave blank for not use table prefix.";
+$help["setup_loginmethod"] = "Ø§Ø³Ù„ÙˆØ¨ Ø­ÙØ¸ ÙƒÙ„Ù…Ø© Ø§Ù„Ø³Ø± Ø¨Ù‚Ø§Ø¹Ø¯Ø© Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª.<br>Set to &quot;Crypt&quot; in order CVS authentication and htaccess authentification to work (if CVS support and/or htaccess authentification are enabled).";
 $help["admin_update"] = "Respect strictly the order indicated to update your version<br>1. Edit settings (supplement the new parameters)<br>2. Edit database (update in agreement with your preceding version)";
 $help["task_scope_creep"] = "Difference in days between due date and complete date (bold if positive)";
 $help["max_file_size"] = "Maximum file size of a file to upload";
@@ -18,7 +18,7 @@ $help["project_scope_creep"] = "Difference in days between due date and complete
 $help["mycompany_logo"] = "Upload any logo of your company. Appears in header, instead of title site";
 $help["calendar_shortname"] = "Label to appear in monthly calendar view. Mandatory";
 $help["user_autologout"] = "Time in sec. to be disconnected after no activity. 0 to disable";
-$help["user_timezone"] = "ÇÚÏÇÏÇÊ ÇáÊæŞíÊ";
+$help["user_timezone"] = "Ø§Ø¹Ø¯Ø§Ø¯Ø§Øª Ø§Ù„ØªÙˆÙ‚ÙŠØª";
 //2.4
 $help["setup_clientsfilter"] = "Filter to see only logged user clients";
 $help["setup_projectsfilter"] = "Filter to see only the project when the user are in the team";

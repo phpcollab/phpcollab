@@ -7,7 +7,7 @@
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -23,10 +23,13 @@
 */
 
 error_reporting(2039);
-// Include all needed files here.. show the license as well.. we want to be legal 
+// Include all needed files here.. show the license as well.. we want to be legal
 include("../includes/settings.php");
 include("../includes/upgrade_funcs.inc.php");
 
+/**
+ *
+ */
 function checkUpgrade()
 {
     global $version;
@@ -45,12 +48,18 @@ function checkUpgrade()
     }
 }
 
+/**
+ * @param string $msg
+ */
 function redirect($msg = "")
 {
     echo "<h3>$msg</h3>";
     echo '<p>Please <a href="../">click here</a> to return to the site.</p>';
 }
 
+/**
+ * Upgrade 2.5.1
+ */
 function upgrade2_5_1()
 {
     echo "upgrade2_5_1()";
@@ -65,6 +74,9 @@ function upgrade2_5_1()
     }
 }
 
+/**
+ * Upgrade 2.4
+ */
 function upgrade2_4()
 {
     include "../languages/help_en.php";

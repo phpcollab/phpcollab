@@ -4,21 +4,21 @@
 #Path by root: ../languages/help_tr.php
 
 //translator(s): 
-$help["setup_mkdirMethod"] = "Eğer güvenli-mode aktif ise [safe-mode on] Dosya yönetimi ile klasör yaratabilmeniz için önce Ftp hesabı açmanız gereklidir.";
-$help["setup_notifications"] = "Kullanıcılara e-posta bildirimleri için (görev ataması, yeni mesaj, görev değişiklikleri...)<br/> Geçerli smtp/sendmail gereklidir.";
-$help["setup_forcedlogin"] = "Eğer iptal edilmiş ise, giriş ekranı URL'sinde dış bağlantılara izin vermez.";
-$help["setup_langdefault"] = "Giriş ekranında varsayılan dil seçimi için seçin veya boş bırakarak internet gezgininin dilinin otomatik algılanmasını kullanın.";
-$help["setup_myprefix"] = "Eğer mevcut veritabanında aynı isimde tablolar var ise bu değeri kullanın <br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Tablo adlarına ön ek yapmamak için boş bırakın.";
-$help["setup_loginmethod"] = "Veritabanında şifre saklama yöntemi.<br/>CVS doğrulaması ve htaccess doğrulamasının çalışması için &quot;Crypt&quot; seçin (eğer CVS desteği ve/veya htaccess doğrulamaları aktif edilmiş ise).";
-$help["admin_update"] = "Sürüm güncellemesi için belirtilen sıralamaya kesin olarak uyun<br/>1. Ayarları düzenleyin (yeni parametreleri doldurun)<br/>2. Veritabanını düzenleyin (önceki sürümdeki anlaşmaya uygun olarak güncelleyin)";
-$help["task_scope_creep"] = "Beklenen bitiş tarihi ile tamamlanma tarihi arasındaki gün farkı (eğer sıfırdan büyük ise koyu renklidir)";
-$help["max_file_size"] = "Yüklenebilecek dosyanın maksimum boyutu";
-$help["project_disk_space"] = "Proje için toplam dosyaların büyüklüğü";
-$help["project_scope_creep"] = "Beklenen bitiş tarihi ile tamamlanma tarihi arasındaki gün farkı (eğer sıfırdan büyük ise koyu renklidir). Bütün görevler için toplamdır";
-$help["mycompany_logo"] = "Firmanızın logosunu yükleyin . Site başlığı yerine başta gözükür";
-$help["calendar_shortname"] = "Aylık takvim görüntüsünde gözükecek olan yazı. Mecburidir.";
-$help["user_autologout"] = "Sistemde faaliyet olmaması durumunda bağlantının kesileceği saniye süresi. İptal etmek için 0 yazın";
-$help["user_timezone"] = "GMT zaman dilimini [timezone] ayarlayın.";
+$help["setup_mkdirMethod"] = "EÃ°er gÃ¼venli-mode aktif ise [safe-mode on] Dosya yÃ¶netimi ile klasÃ¶r yaratabilmeniz iÃ§in Ã¶nce Ftp hesabÃ½ aÃ§manÃ½z gereklidir.";
+$help["setup_notifications"] = "KullanÃ½cÃ½lara e-posta bildirimleri iÃ§in (gÃ¶rev atamasÃ½, yeni mesaj, gÃ¶rev deÃ°iÃ¾iklikleri...)<br/> GeÃ§erli smtp/sendmail gereklidir.";
+$help["setup_forcedlogin"] = "EÃ°er iptal edilmiÃ¾ ise, giriÃ¾ ekranÃ½ URL'sinde dÃ½Ã¾ baÃ°lantÃ½lara izin vermez.";
+$help["setup_langdefault"] = "GiriÃ¾ ekranÃ½nda varsayÃ½lan dil seÃ§imi iÃ§in seÃ§in veya boÃ¾ bÃ½rakarak internet gezgininin dilinin otomatik algÃ½lanmasÃ½nÃ½ kullanÃ½n.";
+$help["setup_myprefix"] = "EÃ°er mevcut veritabanÃ½nda aynÃ½ isimde tablolar var ise bu deÃ°eri kullanÃ½n <br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Tablo adlarÃ½na Ã¶n ek yapmamak iÃ§in boÃ¾ bÃ½rakÃ½n.";
+$help["setup_loginmethod"] = "VeritabanÃ½nda Ã¾ifre saklama yÃ¶ntemi.<br/>CVS doÃ°rulamasÃ½ ve htaccess doÃ°rulamasÃ½nÃ½n Ã§alÃ½Ã¾masÃ½ iÃ§in &quot;Crypt&quot; seÃ§in (eÃ°er CVS desteÃ°i ve/veya htaccess doÃ°rulamalarÃ½ aktif edilmiÃ¾ ise).";
+$help["admin_update"] = "SÃ¼rÃ¼m gÃ¼ncellemesi iÃ§in belirtilen sÃ½ralamaya kesin olarak uyun<br/>1. AyarlarÃ½ dÃ¼zenleyin (yeni parametreleri doldurun)<br/>2. VeritabanÃ½nÃ½ dÃ¼zenleyin (Ã¶nceki sÃ¼rÃ¼mdeki anlaÃ¾maya uygun olarak gÃ¼ncelleyin)";
+$help["task_scope_creep"] = "Beklenen bitiÃ¾ tarihi ile tamamlanma tarihi arasÃ½ndaki gÃ¼n farkÃ½ (eÃ°er sÃ½fÃ½rdan bÃ¼yÃ¼k ise koyu renklidir)";
+$help["max_file_size"] = "YÃ¼klenebilecek dosyanÃ½n maksimum boyutu";
+$help["project_disk_space"] = "Proje iÃ§in toplam dosyalarÃ½n bÃ¼yÃ¼klÃ¼Ã°Ã¼";
+$help["project_scope_creep"] = "Beklenen bitiÃ¾ tarihi ile tamamlanma tarihi arasÃ½ndaki gÃ¼n farkÃ½ (eÃ°er sÃ½fÃ½rdan bÃ¼yÃ¼k ise koyu renklidir). BÃ¼tÃ¼n gÃ¶revler iÃ§in toplamdÃ½r";
+$help["mycompany_logo"] = "FirmanÃ½zÃ½n logosunu yÃ¼kleyin . Site baÃ¾lÃ½Ã°Ã½ yerine baÃ¾ta gÃ¶zÃ¼kÃ¼r";
+$help["calendar_shortname"] = "AylÃ½k takvim gÃ¶rÃ¼ntÃ¼sÃ¼nde gÃ¶zÃ¼kecek olan yazÃ½. Mecburidir.";
+$help["user_autologout"] = "Sistemde faaliyet olmamasÃ½ durumunda baÃ°lantÃ½nÃ½n kesileceÃ°i saniye sÃ¼resi. Ãptal etmek iÃ§in 0 yazÃ½n";
+$help["user_timezone"] = "GMT zaman dilimini [timezone] ayarlayÃ½n.";
 //2.4
 $help["setup_clientsfilter"] = "Filter to see only logged user clients";
 $help["setup_projectsfilter"] = "Filter to see only the project when the user are in the team";

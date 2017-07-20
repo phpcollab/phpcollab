@@ -3,7 +3,7 @@
 #Status page: 0
 /* $Id: config.inc.php,v 1.1 2003/07/02 14:47:06 fullo Exp $ */
 
-include("../settings.php");
+include '../settings.php';
 
 /**
  * phpMyAdmin Configuration File

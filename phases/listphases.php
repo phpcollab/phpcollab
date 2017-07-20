@@ -4,17 +4,17 @@
 #Path by root: ../phases/listphases.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
-include('../themes/'.THEME.'/header.php');
+include '../themes/' . THEME . '/header.php';
 
 $tmpquery = "WHERE pro.id = '$id'";
-$projectDetail = new request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '$id' AND tea.member = '$idSession'";
-$memberTest = new request();
+$memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 	if ($comptMemberTest == "0") {
@@ -23,7 +23,7 @@ $comptMemberTest = count($memberTest->tea_id);
 		$teamMember = "true";
 	}
 
-$blockPage = new block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0],$projectDetail->pro_name[0],in));
@@ -31,14 +31,14 @@ $blockPage->itemBreadcrumbs($strings["phases"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
-	include('../includes/messages.php');
-	$blockPage->messagebox($msgLabel);
+	include '../includes/messages.php';
+	$blockPage->messageBox($msgLabel);
 }
 
 if ($teamMember == "true" || $profilSession == "5"){
-$block7 = new block();
+$block7 = new phpCollab\Block();
 $block7->form = "wbSe";
-$block7->openForm("../phases/listphases.php?id=$id&".session_name()."=".session_id()."#".$block7->form."Anchor");
+$block7->openForm("../phases/listphases.php?id=$id&#".$block7->form."Anchor");
 $block7->headingToggle($strings["phases"]);
 $block7->openPaletteIcon();
 
@@ -54,7 +54,7 @@ $block7->closePaletteIcon();
 $block7->sorting("phases",$sortingUser->sor_phases[0],"pha.order_num ASC",$sortingFields = array(0=>"pha.order_num",1=>"pha.name",2=>"none",3=>"none",4=>"pha.status",5=>"pha.date_start",6=>"pha.date_end"));
 
 $tmpquery = "WHERE pha.project_id = '$id' ORDER BY $block7->sortingValue";
-$listPhases = new request();
+$listPhases = new phpCollab\Request();
 $listPhases->openPhases($tmpquery);
 $comptListPhases = count($listPhases->pha_id);
 
@@ -63,7 +63,7 @@ if ($comptListPhases != "0") {
 	$block7->labels($labels = array(0=>$strings["order"],1=>$strings["name"],2=>$strings["total_tasks"],3=>$strings["uncomplete_tasks"],4=>$strings["status"],5=>$strings["date_start"],6=>$strings["date_end"]),"false");
 
 $tmpquery = "WHERE tas.project = '$id'";
-$countPhaseTasks = new request();
+$countPhaseTasks = new phpCollab\Request();
 $countPhaseTasks->openTasks($tmpquery);
 $comptlistTasks = count($countPhaseTasks->tas_id);
 
@@ -108,5 +108,5 @@ $block7->paletteScript(1,"edit","../phases/editphase.php?","false,true,true",$st
 $block7->closePaletteScript($comptListPhases,$listPhases->pha_id);
 }
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

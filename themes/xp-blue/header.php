@@ -6,7 +6,7 @@ echo "$setDoctype
 $setCopyright
 <html>
 <head>
-<meta http-equiv='Content-Type' content=\"text/html; charset=$setCharset\" />
+<meta http-equiv='Content-Type' content=\"text/html; charset=UTF-8\" />
 <title>$setTitle</title>
 <meta name='robots' content='none' />
 <meta name='description' content='$setDescription' />
@@ -24,7 +24,7 @@ var gFlashOK = true;
 <script type='text/JavaScript' src='../javascript/overlib_mini.js'></script>
 <link rel='stylesheet' href='../themes/".THEME."/stylesheet.css' type='text/css' />";
 if ($includeCalendar && $includeCalendar == true) {
-	include("../includes/calendar.php");
+	include '../includes/calendar.php';
 }
 
 echo "
@@ -36,7 +36,7 @@ echo "<div id='overDiv' style='position:absolute; visibility:hidden; z-index:100
 
 if ($blank != "true" && $version >= "2.0") {
 $tmpquery = "WHERE org.id = '1'";
-$clientHeader = new request();
+$clientHeader = new phpCollab\Request();
 $clientHeader->openOrganizations($tmpquery);
 }
 if (file_exists("../logos_clients/1.".$clientHeader->org_extension_logo[0]) && $blank != "true" && $version >= "2.0") {
@@ -45,7 +45,7 @@ echo "<p id='header'><img src='../logos_clients/1.".$clientHeader->org_extension
 echo "<p id='header'>".$setTitle."</p>\n\n";
 }
 
-$blockHeader = new block();
+$blockHeader = new phpCollab\Block();
 
 $blockHeader->openAccount();
 if ($blank == "true") {

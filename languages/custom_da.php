@@ -6,9 +6,9 @@ $phaseArraySets = array(
 	"sets" => array(1 => "Website", 2 => "CD"),
 	#List the indervitual items within each phase set.
 	#Website Set
-	"1" => array(0 => "Planlægning", 1 => "Design", 2 => "Testning", 3 => "Sign-off", 4 => "Produktion"),
+	"1" => array(0 => "PlanlÃ¦gning", 1 => "Design", 2 => "Testning", 3 => "Sign-off", 4 => "Produktion"),
 	#CD Set
-	"2" => array(0 => "Planlægning", 1 => "Design", 2 => "Testning", 3 => "Produktion")
+	"2" => array(0 => "PlanlÃ¦gning", 1 => "Design", 2 => "Testning", 3 => "Produktion")
 );
 
 ?>

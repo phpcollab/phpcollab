@@ -29,82 +29,78 @@
 */
 
 $tmpquery = "WHERE fil.id = '$num'";
-$detailFile = new request();
+$detailFile = new phpCollab\Request();
 $detailFile->openFiles($tmpquery);
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 $tmpquery = "WHERE tea.project = '$project' AND tea.member != '$idSession' ORDER BY mem.id";
 
-$listTeam = new request();
+$listTeam = new phpCollab\Request();
 $listTeam->openTeams($tmpquery);
 
 $comptListTeam = count($listTeam->tea_id);
 
-for ($i=0;$i<$comptListTeam;$i++) {
-	$posters .= $listTeam->tea_member[$i].",";
+for ($i = 0; $i < $comptListTeam; $i++) {
+    $posters .= $listTeam->tea_member[$i] . ",";
 }
 
-
-// echo $posters;
-
-
-if (substr($posters, -1) == ",") { $posters = substr($posters, 0, -1); }
+if (substr($posters, -1) == ",") {
+    $posters = substr($posters, 0, -1);
+}
 
 if ($posters != "") {
 
-	$tmpquery = "WHERE noti.member IN ($posters)";
+    $tmpquery = "WHERE noti.member IN ($posters)";
 
-	$listNotifications = new request();
-	$listNotifications->openNotifications($tmpquery);
-	$comptListNotifications = count($listNotifications->not_id);
+    $listNotifications = new phpCollab\Request();
+    $listNotifications->openNotifications($tmpquery);
+    $comptListNotifications = count($listNotifications->not_id);
 
-	$mail = new notification();
-	$mail->getUserinfo($idSession,"from");
+    $mail = new phpCollab\Notification();
+    $mail->getUserinfo($idSession, "from");
 
-	$mail->partSubject = $strings["noti_newfile1"];
-	$mail->partMessage = $strings["noti_newfile2"];
+    $mail->partSubject = $strings["noti_newfile1"];
+    $mail->partMessage = $strings["noti_newfile2"];
 
-	$subject = $mail->partSubject." ".$detailFile->fil_name[0];
+    $subject = $mail->partSubject . " " . $detailFile->fil_name[0];
 
-	if ($projectDetail->pro_org_id[0] == "1") {
-		$projectDetail->pro_org_name[0] = $strings["none"];
-	}
+    if ($projectDetail->pro_org_id[0] == "1") {
+        $projectDetail->pro_org_name[0] = $strings["none"];
+    }
 
-	for ($i=0;$i<$comptListNotifications;$i++) {
+    for ($i = 0; $i < $comptListNotifications; $i++) {
 
-		if ( ( ( $listNotifications->not_mem_organization[$i] != "1" ) && ( $detailTopic->fil_published[0] == "0" ) && ( $projectDetail->pro_published[0] == "0" ) ) || ( $listNotifications->not_mem_organization[$i] == "1" )	) {
+        if ((($listNotifications->not_mem_organization[$i] != "1") && ($detailTopic->fil_published[0] == "0") && ($projectDetail->pro_published[0] == "0")) || ($listNotifications->not_mem_organization[$i] == "1")) {
 
-			if ( ( $listNotifications->not_uploadfile[$i] == "0" ) && ( $listNotifications->not_mem_email_work[$i] != "") && ( $listNotifications->not_mem_id[$i] != $idSession) ) {
+            if (($listNotifications->not_uploadfile[$i] == "0") && ($listNotifications->not_mem_email_work[$i] != "") && ($listNotifications->not_mem_id[$i] != $idSession)) {
 
-				$body = $mail->partMessage."\n\n".$strings["upload"]." : ".$detailFile->fil_name[0]."\n".$strings["posted_by"]." : ".$nameSession." (".$loginSession.")\n\n".$strings["project"]." : ".$projectDetail->pro_name[0]." (".$projectDetail->pro_id[0].")\n".$strings["organization"]." : ".$projectDetail->pro_org_name[0]."\n\n".$strings["noti_moreinfo"]."\n";
+                $body = $mail->partMessage . "\n\n" . $strings["upload"] . " : " . $detailFile->fil_name[0] . "\n" . $strings["posted_by"] . " : " . $nameSession . " (" . $loginSession . ")\n\n" . $strings["project"] . " : " . $projectDetail->pro_name[0] . " (" . $projectDetail->pro_id[0] . ")\n" . $strings["organization"] . " : " . $projectDetail->pro_org_name[0] . "\n\n" . $strings["noti_moreinfo"] . "\n";
 
-				if ($listNotifications->not_mem_organization[$i] == "1") { 
-					$body .= "$root/general/login.php?url=linkedcontent/viewfile.php%3Fid=".$detailFile->fil_id[0];
-				} else if ($listNotifications->not_mem_organization[$i] != "1") { 
-					$body .= "$root/general/login.php?url=projects_site/home.php%3Fproject=".$projectDetail->pro_id[0]; 
-				}
+                if ($listNotifications->not_mem_organization[$i] == "1") {
+                    $body .= "$root/general/login.php?url=linkedcontent/viewfile.php%3Fid=" . $detailFile->fil_id[0];
+                } else if ($listNotifications->not_mem_organization[$i] != "1") {
+                    $body .= "$root/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetail->pro_id[0];
+                }
 
-				$body .= "\n\n".$mail->footer;
+                $body .= "\n\n" . $mail->footer;
 
-				$mail->Subject = $subject;
-				$mail->Priority = "3";
-				$mail->Body = $body;
-				$mail->AddAddress($listNotifications->not_mem_email_work[$i], $listNotifications->not_mem_name[$i]);
-				$mail->Send();
-				$mail->ClearAddresses();
+                $mail->Subject = $subject;
+                $mail->Priority = "3";
+                $mail->Body = $body;
+                $mail->AddAddress($listNotifications->not_mem_email_work[$i], $listNotifications->not_mem_name[$i]);
+                $mail->Send();
+                $mail->ClearAddresses();
 
 
-
-			}
-		}
-	}
+            }
+        }
+    }
 
 
 }
-
 
 
 ?>

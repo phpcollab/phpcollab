@@ -2,8 +2,6 @@
 #Application name: PhpCollab
 #Status page: 2
 //translator(s): Luca Mercuri <siggy@siggy.info>, Francesco Fullone <fullone@csr.unibo.it>
-$setCharset = "ISO-8859-1";
-
 $byteUnits = array('Byte', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Lunedi", 2 =>"Martedi", 3 =>"Mercoledi", 4 =>"Giovedi", 5 =>"Venerdi", 6 =>"Sabato", 7 =>"Domenica");
@@ -393,14 +391,14 @@ $strings["noti_addprojectteam2"] = "Sei stato agggiunto al team del progetto per
 $strings["noti_removeprojectteam1"] = "Rimosso dal team del progetto :";
 $strings["noti_removeprojectteam2"] = "Sei stato rimosso dal team del progetto per :";
 $strings["noti_newpost1"] = "Nuovo post :";
-$strings["noti_newpost2"] = "Un post è stato aggiunto alla seguente discussione :";
+$strings["noti_newpost2"] = "Un post Ã¨ stato aggiunto alla seguente discussione :";
 $strings["edit_noti_taskassignment"] = "Sono stato assegnato a un nuovo task.";
-$strings["edit_noti_statustaskchange"] = "Lo stato di uno dei miei task è cambiato.";
-$strings["edit_noti_prioritytaskchange"] = "La priorit&#224; di uno dei miei task è cambiata.";
-$strings["edit_noti_duedatetaskchange"] = "La data di scadenza di uno dei miei task è cambiata.";
+$strings["edit_noti_statustaskchange"] = "Lo stato di uno dei miei task Ã¨ cambiato.";
+$strings["edit_noti_prioritytaskchange"] = "La priorit&#224; di uno dei miei task Ã¨ cambiata.";
+$strings["edit_noti_duedatetaskchange"] = "La data di scadenza di uno dei miei task Ã¨ cambiata.";
 $strings["edit_noti_addprojectteam"] = "Sono stato aggiunto al team di un progetto.";
 $strings["edit_noti_removeprojectteam"] = "Sono stato rimosso dal team di un progetto.";
-$strings["edit_noti_newpost"] = "Un nuovo messaggio è stato aggiunto nella discussione.";
+$strings["edit_noti_newpost"] = "Un nuovo messaggio Ã¨ stato aggiunto nella discussione.";
 $strings["add_optional"] = "Aggiungi un modulo";
 $strings["assignment_comment_info"] = "Aggiungi commenti a proposito delle assegnazioni per questo task";
 $strings["my_notes"] = "I miei appunti";
@@ -417,8 +415,8 @@ $strings["shortname"] = "Abbreviazione";
 $strings["calendar_recurring"] = "L'evento ricorre ogni settimana questo giorno";
 $strings["edit_database"] = "Modifica database";
 $strings["noti_newtopic1"] = "Nuova discussione :";
-$strings["noti_newtopic2"] = "Una nuova discussione è stata aggiunta al seguente progetto :";
-$strings["edit_noti_newtopic"] = "Un nuovo argomento di discussione è stato creato.";
+$strings["noti_newtopic2"] = "Una nuova discussione Ã¨ stata aggiunta al seguente progetto :";
+$strings["edit_noti_newtopic"] = "Un nuovo argomento di discussione Ã¨ stato creato.";
 $strings["today"] = "Oggi";
 $strings["previous"] = "Precedente";
 $strings["next"] = "Successivo";
@@ -428,16 +426,16 @@ $strings["scope_creep"] = "Slittamento scopo"; //cambiamento obiettivo
 $strings["days"] = "Giorni";
 $strings["logo"] = "Logo";
 $strings["remember_password"] = "Ricorda password";
-$strings["client_add_task_note"] = "Nota: Il task inserito è stato registrato nel data base, apparir&#224; qui solamente se assegnato ad un membro del team!";
+$strings["client_add_task_note"] = "Nota: Il task inserito Ã¨ stato registrato nel data base, apparir&#224; qui solamente se assegnato ad un membro del team!";
 $strings["noti_clientaddtask1"] = "Task aggiunto dal cliente :";
-$strings["noti_clientaddtask2"] = "Un nuovo task è stato aggiunto dal cliente dal project site al seguente progetto :";
+$strings["noti_clientaddtask2"] = "Un nuovo task Ã¨ stato aggiunto dal cliente dal project site al seguente progetto :";
 $strings["phase"] = "Fase";
 $strings["phases"] = "Fasi";
 $strings["phase_id"] = "ID Fase";
 $strings["current_phase"] = "Fasi attive";
 $strings["total_tasks"] = "Tasks totali";
 $strings["uncomplete_tasks"] = "Tasks incompleti";
-$strings["no_current_phase"] = "Nessuna fase è attualmente attiva";
+$strings["no_current_phase"] = "Nessuna fase Ã¨ attualmente attiva";
 $strings["true"] = "Vero";
 $strings["false"] = "Falso";
 $strings["enable_phases"] = "Abilita fasi";
@@ -470,9 +468,9 @@ $strings["manage_closed_requests"] = "Gestisci richieste completate";
 $strings["responses"] = "Risposte";
 $strings["edit_status"] = "Modifica status";
 $strings["noti_support_request_new2"] = "Hai inviato una richiesta di supporto riguardante: ";
-$strings["noti_support_post2"] = "Una nuova risposta è stata aggiunta alla tua richiesta di supporto. Per favore ricontrolla i dettagli.";
-$strings["noti_support_status2"] = "La tua richiesta di supporto è stata aggiornata. Per favore ricontrolla i dettagli.";
-$strings["noti_support_team_new2"] = "Una nuova richiesta di supporto è stata aggiunta al progetto: ";
+$strings["noti_support_post2"] = "Una nuova risposta Ã¨ stata aggiunta alla tua richiesta di supporto. Per favore ricontrolla i dettagli.";
+$strings["noti_support_status2"] = "La tua richiesta di supporto Ã¨ stata aggiornata. Per favore ricontrolla i dettagli.";
+$strings["noti_support_team_new2"] = "Una nuova richiesta di supporto Ã¨ stata aggiunta al progetto: ";
 //2.0
 $strings["delete_subtasks"] = "Cancella sotto-task";
 $strings["add_subtask"] = "Aggiungi sotto-task";
@@ -509,14 +507,14 @@ $strings["bug"] = "Gestione Bug";
 $strings["report"] = "Rapporto";
 $strings["license"] = "Licenza";
 //2.4
-$strings["settings_notwritable"] = "Il file <b>settings.php</b> non è modificabile (controlla i permessi)";
+$strings["settings_notwritable"] = "Il file <b>settings.php</b> non Ã¨ modificabile (controlla i permessi)";
 //2.5
 $strings["invoicing"] = "Fatturazione";
 $strings["invoice"] = "Fattura";
 $strings["invoices"] = "Fatture";
 $strings["date_invoice"] = "Date fatturazione";
 $strings["header_note"] = "Intestazione";
-$strings["footer_note"] = "Piè di pagina";
+$strings["footer_note"] = "PiÃ¨ di pagina";
 $strings["total_ex_tax"] = "Totale tasse escluse";
 $strings["total_inc_tax"] = "Totale tasse incluse";
 $strings["tax_rate"] = "Tariffa tasse";
@@ -553,16 +551,16 @@ $strings["edit_newsdesk"] = "Modifica l\'articolo";
 $strings["copy_newsdesk"] = "Copia l\'articolo";
 $strings["add_newsdesk"] = "Aggiungi un articolo";
 $strings["del_newsdesk"] = "Cancella un articolo";
-$strings["delete_news_note"] = "Attenzione: Questo cancellerà oltre l\'articolo anche tutti i commenti allegati";
+$strings["delete_news_note"] = "Attenzione: Questo cancellerÃ  oltre l\'articolo anche tutti i commenti allegati";
 $strings["author"] = "Autore";
-$strings["blank_newsdesk_title"] = "Attenzione il titolo è vuoto";
-$strings["blank_newsdesk"] = "L'articolo non può essere trovato";
+$strings["blank_newsdesk_title"] = "Attenzione il titolo Ã¨ vuoto";
+$strings["blank_newsdesk"] = "L'articolo non puÃ² essere trovato";
 $strings["blank_newsdesk_comment"] = "Attenzione il commento deve essere compilato";
-$strings["remove_newsdesk"] = "L'articolo è stato cancellato con tutti i commenti allegati";
+$strings["remove_newsdesk"] = "L'articolo Ã¨ stato cancellato con tutti i commenti allegati";
 $strings["add_newsdesk_comment"] = "Aggiungi un commento all\'articolo";
 $strings["edit_newsdesk_comment"] = "Modifica il commento dell\'articolo";
 $strings["del_newsdesk_comment"] = "Cancella il commento dell\'articolo";
-$strings["remove_newsdesk_comment"] = "Il commento è stato cancellato con successo";
+$strings["remove_newsdesk_comment"] = "Il commento Ã¨ stato cancellato con successo";
 $strings["errorpermission_newsdesk_comment"] = "Non hai abbastanza permessi per modificare o cancellare questo commento";
 $strings["errorpermission_newsdesk"] = "Non hai abbastanza permessi per modificare o cancellare questa notizia";
 $strings["newsdesk_related"] = "Progetto Correlato";
@@ -575,12 +573,12 @@ $strings["noti_memberactivation1"] = "Account attivato";
 $strings["noti_memberactivation2"] = "You have just been added into the phpCollab client management system.  This system has been developed and is continually being upgraded in order to help you, the client, keep tabs on the progress of your project.\n\nTo enter the system, point your browser (preferably Internet Explorer 6.x or Netscape Navigator 7.x) to $root and enter the following:";
 $strings["noti_memberactivation3"] = "username:";
 $strings["noti_memberactivation4"] = "password:";
-$strings["noti_memberactivation5"] = "Dopo aver compilato le informazioni sovrastanti ed aver premuto \"invio\" ti sarà permesso accedere al tuo account. \n\nInsieme a questa email, riceverai un messaggio riguardante la creazione e la modifica di nuovi task e per gli altri eventi che riguardano il tuo account. Queste email verranno mandate per tenerti informato sui progressi del tuo progetto.";
+$strings["noti_memberactivation5"] = "Dopo aver compilato le informazioni sovrastanti ed aver premuto \"invio\" ti sarÃ  permesso accedere al tuo account. \n\nInsieme a questa email, riceverai un messaggio riguardante la creazione e la modifica di nuovi task e per gli altri eventi che riguardano il tuo account. Queste email verranno mandate per tenerti informato sui progressi del tuo progetto.";
 
 //BEGIN email project users mod
 $strings["email_users"] = "Email Utenti"; 
 $strings["email_following"] = "Email Following"; 
-$strings["email_sent"] = "La tua email è stata inviata con successo"; 
+$strings["email_sent"] = "La tua email Ã¨ stata inviata con successo"; 
 //END email project users mod
 
 $strings["clients_connected"] = "(Clienti connessi nel project site)"; 
@@ -590,16 +588,16 @@ $strings["Total_Hours_Worked"]="Ore totali di lavoro";
 $strings["Pct_Complete"] = "Pct Complete";
 
 
-$strings["noti_filepost1"] = "Un nuovo file è stato caricato nel progetto";
-$strings["noti_filepost2"] = "Un nuovo file è stato caricato per il progetto :";
-$strings["noti_newfile1"] = "Un nuovo file è stato caricato per il progetto";
-$strings["noti_newfile2"] = "Un nuovo file è stato caricato per il progetto :";
+$strings["noti_filepost1"] = "Un nuovo file Ã¨ stato caricato nel progetto";
+$strings["noti_filepost2"] = "Un nuovo file Ã¨ stato caricato per il progetto :";
+$strings["noti_newfile1"] = "Un nuovo file Ã¨ stato caricato per il progetto";
+$strings["noti_newfile2"] = "Un nuovo file Ã¨ stato caricato per il progetto :";
 
 //2.5rc1
 $strings["location"] = "Luogo";
 $strings["calendar_broadcast"] = "Broadcast";
 
 //2.5rc2
-$strings["edit_noti_clientaddtask"] = "Un nuovo task è stato aggiunto dal cliente.";
-$strings["edit_noti_uploadfile"] = "Un nuovo allegato è stato aggiunto.";
+$strings["edit_noti_clientaddtask"] = "Un nuovo task Ã¨ stato aggiunto dal cliente.";
+$strings["edit_noti_uploadfile"] = "Un nuovo allegato Ã¨ stato aggiunto.";
 ?>

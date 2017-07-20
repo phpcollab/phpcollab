@@ -4,8 +4,6 @@
 #Path by root: ../languages/lang_pt.php
 
 //translator(s): Carlos Figueiredo
-$setCharset = "ISO-8859-1";
-
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Monday", 2 =>"Tuesday", 3 =>"Wednesday", 4 =>"Thursday", 5 =>"Friday", 6 =>"Saturday", 7 =>"Sunday");
@@ -96,7 +94,7 @@ $strings["organizations"] = "Organiza&ccedil;&otilde;es do Cliente";
 $strings["info"] = "Info";
 $strings["status"] = "Estado";
 $strings["owner"] = "Dono";
-$strings["home"] = "Início";
+$strings["home"] = "InÃ­cio";
 $strings["projects"] = "Projectos";
 $strings["files"] = "Ficheiros";
 $strings["search"] = "Procurar";
@@ -110,7 +108,7 @@ $strings["team"] = "Equipa";
 $strings["add_team"] = "Adicionar Membros de Equipa";
 $strings["team_members"] = "Membros de Equipa";
 $strings["full_name"] = "Nome Completo";
-$strings["title"] = "Título";
+$strings["title"] = "TÃ­tulo";
 $strings["user_name"] = "Nome Utilizador";
 $strings["work_phone"] = "Telefone Trabalho";
 $strings["priority"] = "Prioridade";
@@ -150,9 +148,9 @@ $strings["report_created"] = "Criado relat&oacute;rio";
 $strings["deleted_reports"] = "Relat&oacute;rios Apagados";
 $strings["modification_succeeded"] = "Modifica&ccedil;&otilde;es feitas";
 $strings["errors"] = "Erros encontrados!";
-$strings["blank_user"] = "O utilizador n&atilde;o pôde ser encontrado.";
-$strings["blank_organization"] = "O organiza&ccedil;&atilde;o do cliente n&atilde;o pôde ser localizada.";
-$strings["blank_project"] = "O projecto n&atilde;o pôde ser localizado.";
+$strings["blank_user"] = "O utilizador n&atilde;o pÃ´de ser encontrado.";
+$strings["blank_organization"] = "O organiza&ccedil;&atilde;o do cliente n&atilde;o pÃ´de ser localizada.";
+$strings["blank_project"] = "O projecto n&atilde;o pÃ´de ser localizado.";
 $strings["user_profile"] = "Perfil Utilizador";
 $strings["change_password"] = "Mudar Password";
 $strings["change_password_user"] = "Mudar a password do utilizador.";
@@ -227,7 +225,7 @@ $strings["results_with"] = "Procurar Resultados Com";
 $strings["search_topics"] = "T&oacute;picos de Procura";
 $strings["search_properties"] = "Propriedades de Procura";
 $strings["date_restrictions"] = "Restri&ccedil;&otilde;es de Datas";
-$strings["case_sensitive"] = "Sensível &agrave; letra";
+$strings["case_sensitive"] = "SensÃ­vel &agrave; letra";
 $strings["yes"] = "Sim";
 $strings["no"] = "N&atilde;o";
 $strings["sort_by"] = "Organizar Por";

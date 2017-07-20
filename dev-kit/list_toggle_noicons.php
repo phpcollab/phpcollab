@@ -4,32 +4,32 @@
 #Path by root: ../dev-kit/list_toggle_noicons.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
-include('../themes/'.THEME.'/header.php');
+include '../themes/' . THEME . '/header.php';
 
-$blockPage = new block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?",$strings["organizations"],in));
 $blockPage->itemBreadcrumbs($strings["organizations"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
-	include('../includes/messages.php');
-	$blockPage->messagebox($msgLabel);
+	include '../includes/messages.php';
+	$blockPage->messageBox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "clientList";
-$block1->openForm("../clients/listclients.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
+$block1->openForm("../clients/listclients.php#".$block1->form."Anchor");
 
 $block1->headingToggle($strings["organizations"]);
 
 $block1->sorting("organizations",$sortingUser->sor_organizations[0],"org.name ASC",$sortingFields = array(0=>"org.name",1=>"org.phone",2=>"org.url"));
 
 $tmpquery = "WHERE org.id != '1' ORDER BY $block1->sortingValue";
-$listOrganizations = new request();
+$listOrganizations = new phpCollab\Request();
 $listOrganizations->openOrganizations($tmpquery);
 $comptListOrganizations = count($listOrganizations->org_id);
 
@@ -52,5 +52,5 @@ $block1->noresults();
 $block1->closeToggle();
 $block1->closeFormResults();
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

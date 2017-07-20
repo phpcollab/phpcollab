@@ -4,22 +4,22 @@
 #Path by root: ../dev-kit/page.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
-include('../themes/'.THEME.'/header.php');
+include '../themes/' . THEME . '/header.php';
 
-$blockPage = new block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?",$strings["organizations"],in));
 $blockPage->itemBreadcrumbs($strings["organizations"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
-	include('../includes/messages.php');
-	$blockPage->messagebox($msgLabel);
+	include '../includes/messages.php';
+	$blockPage->messageBox($msgLabel);
 }
 
 //blocks here
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

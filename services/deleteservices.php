@@ -4,59 +4,58 @@
 #Path by root: ../services/deleteservices.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
+$services = new \phpCollab\Services\Services();
 if ($profilSession != "0") {
-	headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
-	exit;
+    phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 
 if ($action == "delete") {
-	$id = str_replace("**",",",$id);
-	$tmpquery1 = "DELETE FROM ".$tableCollab["services"]." WHERE id IN($id)";
-	connectSql($tmpquery1);
-	headerFunction("../services/listservices.php?msg=delete&".session_name()."=".session_id());
-	exit;
+    $id = str_replace("**", ",", $id);
+
+    $services->deleteServices($id);
+    phpCollab\Util::headerFunction("../services/listservices.php?msg=delete");
 }
 
-include('../themes/'.THEME.'/header.php');
+include '../themes/' . THEME . '/header.php';
 
-$blockPage = new block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?",$strings["administration"],in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../services/listservices.php?",$strings["service_management"],in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../services/listservices.php?", $strings["service_management"], in));
 $blockPage->itemBreadcrumbs($strings["delete_services"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
-	include('../includes/messages.php');
-	$blockPage->messagebox($msgLabel);
+    include '../includes/messages.php';
+    $blockPage->messageBox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "service_delete";
-$block1->openForm("../services/deleteservices.php?action=delete&".session_name()."=".session_id());
+$block1->openForm("../services/deleteservices.php?action=delete");
 
 $block1->heading($strings["delete_services"]);
 
 $block1->openContent();
 $block1->contentTitle($strings["delete_following"]);
 
-$id = str_replace("**",",",$id);
+$id = str_replace("**", ",", $id);
 $tmpquery = "WHERE serv.id IN($id) ORDER BY serv.name";
-$listServices = new request();
+$listServices = new phpCollab\Request();
 $listServices->openServices($tmpquery);
 $comptListServices = count($listServices->serv_id);
 
-for ($i=0;$i<$comptListServices;$i++) {
-	echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td>".$listServices->serv_name[$i]."&nbsp;(".$listServices->serv_name_print[$i].")</td></tr>";
+for ($i = 0; $i < $comptListServices; $i++) {
+    echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td>" . $listServices->serv_name[$i] . "&nbsp;(" . $listServices->serv_name_print[$i] . ")</td></tr>";
 }
 
-echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td><input type=\"submit\" name=\"delete\" value=\"".$strings["delete"]."\"> <input type=\"button\" name=\"cancel\" value=\"".$strings["cancel"]."\" onClick=\"history.back();\"><input type=\"hidden\" value=\"$id\" name=\"id\"></td></tr>";
+echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td><input type=\"submit\" name=\"delete\" value=\"" . $strings["delete"] . "\"> <input type=\"button\" name=\"cancel\" value=\"" . $strings["cancel"] . "\" onClick=\"history.back();\"><input type=\"hidden\" value=\"$id\" name=\"id\"></td></tr>";
 
 $block1->closeContent();
 $block1->closeForm();
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/' . THEME . '/footer.php';
 ?>

@@ -29,15 +29,15 @@
 
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 $tmpquery = "WHERE org.id = '$organization'";
-$detailClient = new request();
+$detailClient = new phpCollab\Request();
 $detailClient->openOrganizations($tmpquery);
 $comptDetailClient = count($detailClient->org_id);
 
 $tmpquery = "WHERE mem.id = '$id'";
-$userDetail = new request();
+$userDetail = new phpCollab\Request();
 $userDetail->openMembers($tmpquery);
 $comptUserDetail = count($userDetail->mem_id);
 
@@ -49,7 +49,7 @@ if ($action == "update") {
 
 //test if login already exists
         $tmpquery = "WHERE mem.login = '$un' AND mem.login != '$unOld'";
-        $existsUser = new request();
+        $existsUser = new phpCollab\Request();
         $existsUser->openMembers($tmpquery);
         $comptExistsUser = count($existsUser->mem_id);
         if ($comptExistsUser != "0") {
@@ -57,17 +57,33 @@ if ($action == "update") {
         } else {
 
 //replace quotes by html code in name
-            $fn = convertData($fn);
-            $tit = convertData($tit);
-            $c = convertData($c);
-            $em = convertData($em);
-            $wp = convertData($wp);
-            $hp = convertData($hp);
-            $mp = convertData($mp);
-            $fax = convertData($fax);
-            $last_page = convertData($last_page);
-            $tmpquery = "UPDATE " . $tableCollab["members"] . " SET login='$un',name='$fn',title='$tit',organization='$clod',email_work='$em',phone_work='$wp',phone_home='$hp',mobile='$mp',fax='$fax',last_page='$last_page',comments='$c' WHERE id = '$id'";
-            connectSql("$tmpquery");
+            $fn = phpCollab\Util::convertData($fn);
+            $tit = phpCollab\Util::convertData($tit);
+            $c = phpCollab\Util::convertData($c);
+            $em = phpCollab\Util::convertData($em);
+            $wp = phpCollab\Util::convertData($wp);
+            $hp = phpCollab\Util::convertData($hp);
+            $mp = phpCollab\Util::convertData($mp);
+            $fax = phpCollab\Util::convertData($fax);
+            $last_page = phpCollab\Util::convertData($last_page);
+            
+            $tmpquery = "UPDATE {$tableCollab["members"]} SET login=:login, name=:name, title=:title, organization=:organiztion, email_work=:email_work, phone_work=:phone_work,phone_home=:phone_home,mobile=:mobile,fax=:fax,last_page=:last_page,comments=:comments WHERE id = member_id";
+            $dbParams = [];
+            $dbParams["login"] = $un;
+            $dbParams["name"] = $fn;
+            $dbParams["title"] = $tit;
+            $dbParams["organization"] = $clod;
+            $dbParams["email_work"] = $em;
+            $dbParams["phone_work"] = $wp;
+            $dbParams["phone_home"] = $hp;
+            $dbParams["mobile"] = $mp;
+            $dbParams["fax"] = $fax;
+            $dbParams["last_page"] = $last_page;
+            $dbParams["comments"] = $c;
+            $dbParams["member_id"] = $id;
+            
+            phpCollab\Util::newConnectSql($tmpquery, $dbParams);
+            unset($dbParams);
 
 //test if new password set
             if ($pw != "") {
@@ -76,21 +92,19 @@ if ($action == "update") {
                 if ($pw != $pwa || $pwa == "") {
                     $error = $strings["new_password_error"];
                 } else {
-                    $pw = get_password($pw);
-                    $tmpquery = "UPDATE " . $tableCollab["members"] . " SET password='$pw' WHERE id = '$id'";
-                    connectSql("$tmpquery");
-                    headerFunction("../clients/viewclient.php?msg=update&id=$clod&" . session_name() . "=" . session_id());
-                    exit;
+                    $pw = phpCollab\Util::getPassword($pw);
+
+                    phpCollab\Util::newConnectSql("UPDATE {$tableCollab["members"]} SET password=:password WHERE id = :member_id", ["password" => $pw, "member_id" => $id]);
+                    phpCollab\Util::headerFunction("../clients/viewclient.php?msg=update&id=$clod");
                 }
             } else {
 //if mantis bug tracker enabled
                 if ($enableMantis == "true") {
                     // Call mantis function for user changes..!!!
                     $f_access_level = $client_user_level; // reporter
-                    include("../mantis/user_update.php");
+                    include '../mantis/user_update.php';
                 }
-                headerFunction("../clients/viewclient.php?msg=update&id=$clod&" . session_name() . "=" . session_id());
-                exit;
+                phpCollab\Util::headerFunction("../clients/viewclient.php?msg=update&id=$clod");
             }
         }
     }
@@ -112,9 +126,9 @@ $last_page = $userDetail->mem_last_page[0];
 $c = $userDetail->mem_comments[0];
 
 $bodyCommand = "onLoad=\"document.client_user_editForm.un.focus();\"";
-include('../themes/' . THEME . '/header.php');
+include '../themes/' . THEME . '/header.php';
 
-$blockPage = new block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?", $strings["organizations"], in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=$organization", $detailClient->org_name[0], in));
@@ -123,14 +137,14 @@ $blockPage->itemBreadcrumbs($strings["edit_client_user"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
-    include('../includes/messages.php');
-    $blockPage->messagebox($msgLabel);
+    include '../includes/messages.php';
+    $blockPage->messageBox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "client_user_edit";
-$block1->openForm("../users/updateclientuser.php?action=update&organization=$organization&" . session_name() . "=" . session_id());
+$block1->openForm("../users/updateclientuser.php?action=update&organization=$organization");
 
 if ($error != "") {
     $block1->headingError($strings["errors"]);
@@ -148,7 +162,7 @@ echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["user_name
 <tr class='odd'><td valign='top' class='leftvalue'>" . $strings["organization"] . " :</td><td><select name='clod'>";
 
 $tmpquery = "WHERE org.id != '1' ORDER BY org.name";
-$selectClient = new request();
+$selectClient = new phpCollab\Request();
 $selectClient->openOrganizations($tmpquery);
 $comptSelectClient = count($selectClient->org_id);
 for ($i = 0; $i < $comptSelectClient; $i++) {
@@ -165,7 +179,8 @@ echo "</select></td></tr>
 <tr class='odd'><td valign='top' class='leftvalue'>" . $strings["home_phone"] . " :</td><td><input size='14' style='width: 150px;' maxlength='32' type='text' name='hp' value='$hp'></td></tr>
 <tr class='odd'><td valign='top' class='leftvalue'>" . $strings["mobile_phone"] . " :</td><td><input size='14' style='width: 150px;' maxlength='32' type='text' name='mp' value='$mp'></td></tr>
 <tr class='odd'><td valign='top' class='leftvalue'>" . $strings["fax"] . " :</td><td class='infoValueField' width='634'><input size='14' style='width: 150px;' maxlength='32' type='text' name='fax' value='$fax'></td></tr>";
-if ($lastvisitedpage == true) {
+
+if ($lastvisitedpage === true) {
     echo "<tr class='odd'>
 			<td valign='top' class='leftvalue'>" . $strings["last_page"] . " :</td>
 			<td class='infoValueField' width='634'><input size='14' style='width: 150px;' maxlength='32' type='text' name='last_page' value='$last_page'></td>
@@ -182,5 +197,5 @@ echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["password"
 $block1->closeContent();
 $block1->closeForm();
 
-include('../themes/' . THEME . '/footer.php');
+include '../themes/' . THEME . '/footer.php';
 ?>

@@ -4,26 +4,26 @@
 #Path by root: ../languages/help_bg.php
 
 //translator(s): Yassen Yotov <cyberoto@abv.bg>, Veselin Malezanov <veselin@trimata.bg>
-$help["setup_mkdirMethod"] = "Ако safe-mode е ВКЛЮЧЕН, Вие трябва да направите Ftp акаунт, за да можете да създадете папка с файлово управление.";
-$help["setup_notifications"] = "Уведомяване с e-mail (добавяне на задача, нови съобщения, смяна на задачи...)<br/>Валиден smtp/sendmail е необходим.";
-$help["setup_forcedlogin"] = "Ако е false, не разрешава външни връзки с login/password в url";
-$help["setup_langdefault"] = "Избери език по подразбиране при вход на потребител или оставете blank за да използва auto_detect език на браузъра.";
-$help["setup_myprefix"] = "Настройте тази стойност ако имате таблици със еднакво име в база данни.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Оставете празно, за да не използвате префикс.";
-$help["setup_loginmethod"] = "Метод на запис на паролите и база данни.<br/>Set to &quot;Crypt&quot; in order CVS authentication and htaccess authentification to work (if CVS support and/or htaccess authentification are enabled).";
-$help["admin_update"] = "Спазвайте стриктно реда индикиран за да обновите вашата версия<br/>1. Редактирай настройките (допълнителни нови параметри)<br/>2. Редактирай база данни (обнови в съответствие на предишната версия)";
-$help["task_scope_creep"] = "Разликата в дни между дата за плащане и дата на завършване (удебелено ако е положително)";
-$help["max_file_size"] = "Максимална големина на файл за изпращане";
-$help["project_disk_space"] = "Обща големина на файловете за проекта";
-$help["project_scope_creep"] = "Разликата в дни между датите за планирано завършване и реално завършване (удебелено ако е просрочен срока). Общо за всички задачи";
-$help["mycompany_logo"] = "Изпратете лого на Вашата компания. Появява се в header, а не в заглавието на сайта";
-$help["calendar_shortname"] = "Надпис, който да се появява в месечния календар. Задължителен";
-$help["user_autologout"] = "Времето в секунди, за да бъдеш изключен, след определена неактивност. 0 (нула) за да изключиш тази опция";
-$help["user_timezone"] = "Настройте вашата времева зона (GMT)";
+$help["setup_mkdirMethod"] = "РђРєРѕ safe-mode Рµ Р’РљР›Р®Р§Р•Рќ, Р’РёРµ С‚СЂСЏР±РІР° РґР° РЅР°РїСЂР°РІРёС‚Рµ Ftp Р°РєР°СѓРЅС‚, Р·Р° РґР° РјРѕР¶РµС‚Рµ РґР° СЃСЉР·РґР°РґРµС‚Рµ РїР°РїРєР° СЃ С„Р°Р№Р»РѕРІРѕ СѓРїСЂР°РІР»РµРЅРёРµ.";
+$help["setup_notifications"] = "РЈРІРµРґРѕРјСЏРІР°РЅРµ СЃ e-mail (РґРѕР±Р°РІСЏРЅРµ РЅР° Р·Р°РґР°С‡Р°, РЅРѕРІРё СЃСЉРѕР±С‰РµРЅРёСЏ, СЃРјСЏРЅР° РЅР° Р·Р°РґР°С‡Рё...)<br/>Р’Р°Р»РёРґРµРЅ smtp/sendmail Рµ РЅРµРѕР±С…РѕРґРёРј.";
+$help["setup_forcedlogin"] = "РђРєРѕ Рµ false, РЅРµ СЂР°Р·СЂРµС€Р°РІР° РІСЉРЅС€РЅРё РІСЂСЉР·РєРё СЃ login/password РІ url";
+$help["setup_langdefault"] = "РР·Р±РµСЂРё РµР·РёРє РїРѕ РїРѕРґСЂР°Р·Р±РёСЂР°РЅРµ РїСЂРё РІС…РѕРґ РЅР° РїРѕС‚СЂРµР±РёС‚РµР» РёР»Рё РѕСЃС‚Р°РІРµС‚Рµ blank Р·Р° РґР° РёР·РїРѕР»Р·РІР° auto_detect РµР·РёРє РЅР° Р±СЂР°СѓР·СЉСЂР°.";
+$help["setup_myprefix"] = "РќР°СЃС‚СЂРѕР№С‚Рµ С‚Р°Р·Рё СЃС‚РѕР№РЅРѕСЃС‚ Р°РєРѕ РёРјР°С‚Рµ С‚Р°Р±Р»РёС†Рё СЃСЉСЃ РµРґРЅР°РєРІРѕ РёРјРµ РІ Р±Р°Р·Р° РґР°РЅРЅРё.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>РћСЃС‚Р°РІРµС‚Рµ РїСЂР°Р·РЅРѕ, Р·Р° РґР° РЅРµ РёР·РїРѕР»Р·РІР°С‚Рµ РїСЂРµС„РёРєСЃ.";
+$help["setup_loginmethod"] = "РњРµС‚РѕРґ РЅР° Р·Р°РїРёСЃ РЅР° РїР°СЂРѕР»РёС‚Рµ Рё Р±Р°Р·Р° РґР°РЅРЅРё.<br/>Set to &quot;Crypt&quot; in order CVS authentication and htaccess authentification to work (if CVS support and/or htaccess authentification are enabled).";
+$help["admin_update"] = "РЎРїР°Р·РІР°Р№С‚Рµ СЃС‚СЂРёРєС‚РЅРѕ СЂРµРґР° РёРЅРґРёРєРёСЂР°РЅ Р·Р° РґР° РѕР±РЅРѕРІРёС‚Рµ РІР°С€Р°С‚Р° РІРµСЂСЃРёСЏ<br/>1. Р РµРґР°РєС‚РёСЂР°Р№ РЅР°СЃС‚СЂРѕР№РєРёС‚Рµ (РґРѕРїСЉР»РЅРёС‚РµР»РЅРё РЅРѕРІРё РїР°СЂР°РјРµС‚СЂРё)<br/>2. Р РµРґР°РєС‚РёСЂР°Р№ Р±Р°Р·Р° РґР°РЅРЅРё (РѕР±РЅРѕРІРё РІ СЃСЉРѕС‚РІРµС‚СЃС‚РІРёРµ РЅР° РїСЂРµРґРёС€РЅР°С‚Р° РІРµСЂСЃРёСЏ)";
+$help["task_scope_creep"] = "Р Р°Р·Р»РёРєР°С‚Р° РІ РґРЅРё РјРµР¶РґСѓ РґР°С‚Р° Р·Р° РїР»Р°С‰Р°РЅРµ Рё РґР°С‚Р° РЅР° Р·Р°РІСЉСЂС€РІР°РЅРµ (СѓРґРµР±РµР»РµРЅРѕ Р°РєРѕ Рµ РїРѕР»РѕР¶РёС‚РµР»РЅРѕ)";
+$help["max_file_size"] = "РњР°РєСЃРёРјР°Р»РЅР° РіРѕР»РµРјРёРЅР° РЅР° С„Р°Р№Р» Р·Р° РёР·РїСЂР°С‰Р°РЅРµ";
+$help["project_disk_space"] = "РћР±С‰Р° РіРѕР»РµРјРёРЅР° РЅР° С„Р°Р№Р»РѕРІРµС‚Рµ Р·Р° РїСЂРѕРµРєС‚Р°";
+$help["project_scope_creep"] = "Р Р°Р·Р»РёРєР°С‚Р° РІ РґРЅРё РјРµР¶РґСѓ РґР°С‚РёС‚Рµ Р·Р° РїР»Р°РЅРёСЂР°РЅРѕ Р·Р°РІСЉСЂС€РІР°РЅРµ Рё СЂРµР°Р»РЅРѕ Р·Р°РІСЉСЂС€РІР°РЅРµ (СѓРґРµР±РµР»РµРЅРѕ Р°РєРѕ Рµ РїСЂРѕСЃСЂРѕС‡РµРЅ СЃСЂРѕРєР°). РћР±С‰Рѕ Р·Р° РІСЃРёС‡РєРё Р·Р°РґР°С‡Рё";
+$help["mycompany_logo"] = "РР·РїСЂР°С‚РµС‚Рµ Р»РѕРіРѕ РЅР° Р’Р°С€Р°С‚Р° РєРѕРјРїР°РЅРёСЏ. РџРѕСЏРІСЏРІР° СЃРµ РІ header, Р° РЅРµ РІ Р·Р°РіР»Р°РІРёРµС‚Рѕ РЅР° СЃР°Р№С‚Р°";
+$help["calendar_shortname"] = "РќР°РґРїРёСЃ, РєРѕР№С‚Рѕ РґР° СЃРµ РїРѕСЏРІСЏРІР° РІ РјРµСЃРµС‡РЅРёСЏ РєР°Р»РµРЅРґР°СЂ. Р—Р°РґСЉР»Р¶РёС‚РµР»РµРЅ";
+$help["user_autologout"] = "Р’СЂРµРјРµС‚Рѕ РІ СЃРµРєСѓРЅРґРё, Р·Р° РґР° Р±СЉРґРµС€ РёР·РєР»СЋС‡РµРЅ, СЃР»РµРґ РѕРїСЂРµРґРµР»РµРЅР° РЅРµР°РєС‚РёРІРЅРѕСЃС‚. 0 (РЅСѓР»Р°) Р·Р° РґР° РёР·РєР»СЋС‡РёС€ С‚Р°Р·Рё РѕРїС†РёСЏ";
+$help["user_timezone"] = "РќР°СЃС‚СЂРѕР№С‚Рµ РІР°С€Р°С‚Р° РІСЂРµРјРµРІР° Р·РѕРЅР° (GMT)";
 //2.4
 $help["setup_clientsfilter"] = "Filter to see only logged user clients";
-$help["setup_projectsfilter"] = "Потребители ще виждат само проектите по който са разпределени";
+$help["setup_projectsfilter"] = "РџРѕС‚СЂРµР±РёС‚РµР»Рё С‰Рµ РІРёР¶РґР°С‚ СЃР°РјРѕ РїСЂРѕРµРєС‚РёС‚Рµ РїРѕ РєРѕР№С‚Рѕ СЃР° СЂР°Р·РїСЂРµРґРµР»РµРЅРё";
 //2.5
-$help["setup_notificationMethod"] = "Настрой метода за изпращане на емайл съобщения: with internal php mail function (need for having a smtp server or sendmail configured in the parameters of php) or with a personalized smtp server";
+$help["setup_notificationMethod"] = "РќР°СЃС‚СЂРѕР№ РјРµС‚РѕРґР° Р·Р° РёР·РїСЂР°С‰Р°РЅРµ РЅР° РµРјР°Р№Р» СЃСЉРѕР±С‰РµРЅРёСЏ: with internal php mail function (need for having a smtp server or sendmail configured in the parameters of php) or with a personalized smtp server";
 //2.5 fullo
-$help["newsdesk_links"] = "За да добавиш повече линкове, използвай точка и запетая за разделител";
+$help["newsdesk_links"] = "Р—Р° РґР° РґРѕР±Р°РІРёС€ РїРѕРІРµС‡Рµ Р»РёРЅРєРѕРІРµ, РёР·РїРѕР»Р·РІР°Р№ С‚РѕС‡РєР° Рё Р·Р°РїРµС‚Р°СЏ Р·Р° СЂР°Р·РґРµР»РёС‚РµР»";
 ?>

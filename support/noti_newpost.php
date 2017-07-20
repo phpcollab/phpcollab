@@ -1,39 +1,36 @@
 <?php
-$mail = new notification();
+$mail = new phpCollab\Notification();
 
-$mail->getUserinfo($idSession,"from");
+$mail->getUserinfo($_SESSION["idSession"],"from");
 
-$tmpquery = "WHERE sp.id = '$num'";
-$postDetail = new request();
-$postDetail->openSupportPosts($tmpquery);
+$supportPosts = new \phpCollab\Support\Support();
+$members = new \phpCollab\Members\Members();
 
-$tmpquery = "WHERE sr.id = '".$postDetail->sp_request_id[0]."'";
-$requestDetail = new request();
-$requestDetail->openSupportRequests($tmpquery);
+$num = $_GET["num"];
+$postDetail = $supportPosts->getSupportPostById($num);
 
-$tmpquery = "WHERE mem.id = '".$requestDetail->sr_user[0]."'";
-$userDetail = new request();
-$userDetail->openMembers($tmpquery);
+$requestDetail = $supportPosts->getSupportRequestById($postDetail["sp_request_id"]);
+
+$userDetail = $members->getMemberById($requestDetail["sr_user"]);
 
 		$mail->partSubject = $strings["support"]." ".$strings["support_id"];
 		$mail->partMessage = $strings["noti_support_post2"];
-		$subject = $mail->partSubject.": ".$requestDetail->sr_id[0];
+		$subject = $mail->partSubject.": ".$requestDetail["sr_id"];
 		$body = $mail->partMessage."";
-	
-		$body .= "\n\n".$strings["id"]." : ".$requestDetail->sr_id[0]."\n".$strings["subject"]." : ".$requestDetail->sr_subject[0]."\n".$strings["status"]." : ".$requestStatus[$requestDetail->sr_status[0]]."\n".$strings["details"]." : ";
+
+		$body .= "\n\n".$strings["id"]." : ".$requestDetail["sr_id"]."\n".$strings["subject"]." : ".$requestDetail["sr_subject"]."\n".$strings["status"]." : ".$requestStatus[$requestDetail["sr_status"]]."\n".$strings["details"]." : ";
 		if ($listTeam->tea_mem_profil[$i] == 3){
-			$body .= "$root/general/login.php?url=projects_site/home.php%3Fproject=".$requestDetail->sr_project[0]."\n\n";
+			$body .= "$root/general/login.php?url=projects_site/home.php%3Fproject=".$requestDetail["sr_project"]."\n\n";
 		} else {
 			$body .= "$root/general/login.php?url=support/viewrequest.php%3Fid=$num \n\n";
 		}
-		$body .= $strings["message"]." : ".$postDetail->sp_message[0]."";
+		$body .= $strings["message"]." : ".$postDetail["sp_message"]."";
 
-		if ($userDetail->mem_email_work[0] != "") {
+		if ($userDetail["mem_email_work"] != "") {
 			$mail->Subject = $subject;
 			$mail->Priority = "3";
 			$mail->Body = $body;
-			$mail->AddAddress($userDetail->mem_email_work[0], $userDetail->mem_name[0]);
+			$mail->AddAddress($userDetail["mem_email_work"], $userDetail["mem_name"]);
 			$mail->Send();
 			$mail->ClearAddresses();
 		}
-?>

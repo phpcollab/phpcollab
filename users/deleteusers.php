@@ -1,161 +1,171 @@
 <?php
-#Application name: PhpCollab
-#Status page: 0
-#Path by root: ../users/deleteusers.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 //CVS library
-include("../includes/cvslib.php");
+include '../includes/cvslib.php';
 
-if ($action == "delete") {
-	if ($at == "0") {
-		$atProject = "1";
-	} else {
-		$atProject = $at;
-	}
+$members = new \phpCollab\Members\Members();
+$projects = new \phpCollab\Projects\Projects();
+$tasks = new \phpCollab\Tasks\Tasks();
 
-	$id = str_replace("**",",",$id);
-	$tmpquery1 = "DELETE FROM ".$tableCollab["members"]." WHERE id IN($id)";
-	$tmpquery2 = "UPDATE ".$tableCollab["projects"]." SET owner='$atProject' WHERE owner IN($id)";
-	$tmpquery3 = "UPDATE ".$tableCollab["tasks"]." SET assigned_to='$at' WHERE assigned_to IN($id)";
-	$tmpquery4 = "UPDATE ".$tableCollab["assignments"]." SET assigned_to='$at',assigned='$dateheure' WHERE assigned_to IN($id)";
-	$tmpquery5 = "DELETE FROM ".$tableCollab["sorting"]." WHERE member IN($id)";
-	$tmpquery6 = "DELETE FROM ".$tableCollab["notifications"]." WHERE member IN($id)";
-	$tmpquery7 = "DELETE FROM ".$tableCollab["teams"]." WHERE member IN($id)";
+$strings = $GLOBALS["strings"];
+$msgLabel = $GLOBALS["msgLabel"];
+$tableCollab = $GLOBALS["tableCollab"];
 
-	$tmpquery = "WHERE pro.owner IN($id)";
-	$listProjects = new request();
-	$listProjects->openProjects($tmpquery);
-	$comptListProjects = count($listProjects->pro_id);
-	for ($i=0;$i<$comptListProjects;$i++) {
-			$listTeams->tea_id = "";
-			$listTeams->tea_project = "";
-			$listTeams->tea_member = "";
-			$listTeams->tea_published = "";
-			$listTeams->tea_authorized = "";
-			$listTeams->tea_mem_login = "";
-			$listTeams->tea_pro_id = "";
+if ($_GET["action"] == "delete") {
+    $assignments = new \phpCollab\Assignments\Assignments();
+    $sorting = new \phpCollab\Sorting\Sorting();
+    $notifications = new \phpCollab\Notifications\Notifications();
+    $teams = new \phpCollab\Teams\Teams();
 
-			$tmpquery = "WHERE tea.project = '".$listProjects->pro_id[$i]."' AND tea.member = '$atProject'";
-			$listTeams = new request();
-			$listTeams->openTeams($tmpquery);
-			$comptListTeams = count($listTeams->tea_id);
-				if ($comptListTeams == "0") {
-					$tmpquery = "INSERT INTO ".$tableCollab["teams"]."(project,member,published,authorized) VALUES('".$listProjects->pro_id[$i]."','$atProject','1','0')";
+    // Check for assigned to value
+    $assignTo = isset($_POST["assign_to"]) ? $_POST["assign_to"] : 0;
 
-					connectSql("$tmpquery");
-				}
-	}
+    if ($assignTo == "0") {
+        $atProject = "1";
+    } else {
+        $atProject = $assignTo;
+    }
+
+    $id = str_replace("**", ",", $_POST["id"]);
+
+    $listProjects = $projects->getProjectsByOwner($id);
+
+    foreach ($listProjects as $project) {
+        $listTeams = $teams->getTeamByProjectIdAndTeamMember($project["pro_id"], $atProject);
+        $comptListTeams = count($listTeams);
+        if ($comptListTeams == "0") {
+            phpCollab\Util::newConnectSql(
+                "INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES (:project, :member, 1, 0)",
+                ["project" => $project[""],"member" => $atProject]
+            );
+        }
+    }
 
 //if CVS repository enabled
-	if ($enable_cvs == "true") {
-		$pieces = explode(",",$id);
-		for ($j=0;$j<(count($pieces));$j++) {
+    if ($enable_cvs == "true") {
+        $pieces = explode(",", $id);
+        for ($j = 0; $j < (count($pieces)); $j++) {
+            $listTeams = $teams->getTeamByMemberId($pieces[$j]);
+            foreach ($listTeams as $team) {
+                cvs_delete_user($team["tea_mem_login"], $team["tea_pro_id"]);
+            }
+        }
+    }
 
-//remove the users from every repository
-			$listTeams->tea_id = "";
-			$listTeams->tea_project = "";
-			$listTeams->tea_member = "";
-			$listTeams->tea_published = "";
-			$listTeams->tea_authorized = "";
-			$listTeams->tea_mem_login = "";
-			$listTeams->tea_pro_id = "";
+    // Delete user from members table
+    $members->deleteMemberByIdIn($id);
 
-			$tmpquery = "WHERE tea.member = '$pieces[$j]'";
-			$listTeams = new request();
-			$listTeams->openTeams($tmpquery);
-			$comptListTeams = count($listTeams->tea_id);
-			for ($i=0;$i<$comptListTeams;$i++) {
-				cvs_delete_user($listTeams->tea_mem_login[$i], $listTeams->tea_pro_id[$i]);
-			}
-		}
-	}
-	connectSql("$tmpquery1");
-	connectSql("$tmpquery2");
-	connectSql("$tmpquery3");
-	connectSql("$tmpquery4");
-	connectSql("$tmpquery5");
-	connectSql("$tmpquery6");
-	connectSql("$tmpquery7");
+    // Reassign projects to new owner
+    $projects->reassignProject($id, $atProject);
+
+    // Reassign tasks to new owner
+    $tasks->reassignTasks($id, $assignTo);
+
+    // Reassign assignments to new owner
+    $assignments->reassignAssignmentByAssignedTo($assignTo, $dateheure, $id);
+
+    // Remove user form sorting table
+    $sorting->deleteByMember($id);
+
+    // Remove user notifications
+    $notifications->deleteNotificationsByMemberIdIn($id);
+
+    // Remove user from teams
+    $teams->deleteTeamWhereMemberIn($id);
 //if mantis bug tracker enabled
-	if ($enableMantis == "true") {
+    if ($enableMantis == "true") {
 // Call mantis function to remove user
-		include ("../mantis/user_delete.php");
-	}
+        include("../mantis/user_delete.php");
+    }
 
-	headerFunction("../users/listusers.php?msg=delete&".session_name()."=".session_id());
-	exit;
+    phpCollab\Util::headerFunction("../users/listusers.php?msg=delete");
 }
 
-include('../themes/'.THEME.'/header.php');
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
-$blockPage = new block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?",$strings["administration"],in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../users/listusers.php?",$strings["user_management"],in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../users/listusers.php?", $strings["user_management"], "in"));
 $blockPage->itemBreadcrumbs($strings["delete_users"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
-	include('../includes/messages.php');
-	$blockPage->messagebox($msgLabel);
+    include '../includes/messages.php';
+    $blockPage->messageBox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "user_delete";
-$block1->openForm("../users/deleteusers.php?action=delete&".session_name()."=".session_id());
+$block1->openForm("../users/deleteusers.php?action=delete");
 
 $block1->heading($strings["delete_users"]);
 
 $block1->openContent();
 $block1->contentTitle($strings["delete_following"]);
 
-$id = str_replace("**",",",$id);
-$tmpquery = "WHERE mem.id IN($id) ORDER BY mem.name";
-$listMembers = new request();
-$listMembers->openMembers($tmpquery);
-$comptListMembers = count($listMembers->mem_id);
+$id = str_replace("**", ",", $_GET["id"]);
+$listMembers = $members->getMembersByIdIn($id);
 
+foreach ($listMembers as $member) {
+    echo <<<ROW
+    <tr class="odd">
+        <td valign="top" class="leftvalue">&nbsp;</td>
+        <td>{$member["mem_login"]}&nbsp;({$member["mem_name"]})</td>
+    </tr>
+ROW;
 
-for ($i=0;$i<$comptListMembers;$i++) {
-	echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td>".$listMembers->mem_login[$i]."&nbsp;(".$listMembers->mem_name[$i].")</td></tr>";
 }
 
-$tmpquery = "SELECT pro.id FROM ".$tableCollab["projects"]." pro WHERE pro.owner IN($id)";
-compt($tmpquery);
-$totalProjects = $countEnregTotal;
+$totalProjects = count($projects->getProjectsByOwner($id));
 
-$tmpquery = "SELECT tas.id FROM ".$tableCollab["tasks"]." tas WHERE tas.assigned_to IN($id)";
-compt($tmpquery);
+$totalTasks = count($tasks->getTasksAssignedTo($id));
 
-$totalTasks = $countEnregTotal;
+// Only show if there are projects or tasks assigned to the user(s)
+if ($totalProjects || $totalTasks) {
+    $block1->contentTitle($strings["reassignment_user"]);
 
-$block1->contentTitle($strings["reassignment_user"]);
+    if ($totalProjects) {
+        echo <<<OWNED_PROJECTS
+    <tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td>{$strings["there"]} {$totalProjects} {$strings["projects"]} {$strings["owned_by"]}</td></tr>
+OWNED_PROJECTS;
 
-echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td>".$strings["there"]." $totalProjects ".$strings["projects"]." ".$strings["owned_by"]."</td></tr>
-<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td>".$strings["there"]." $totalTasks ".$strings["tasks"]." ".$strings["owned_by"]."</td></tr>
-<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td><b>".$strings["reassign_to"]." : </b> ";
+    }
+    
+    if ($totalTasks) {
+        echo <<<OWNED_TASKS
+    <tr class="odd">
+        <td valign="top" class="leftvalue">&nbsp;</td>
+        <td>{$strings["there"]} {$totalTasks} {$strings["tasks"]} {$strings["owned_by"]}</td>
+    </tr>
+OWNED_TASKS;
 
-$tmpquery = "WHERE mem.profil != '3' AND mem.id NOT IN($id) ORDER BY mem.name";
-$reassign = new request();
-$reassign->openMembers($tmpquery);
-$comptReassign = count($reassign->mem_id);
+    }
 
-echo "<select name=\"at\">
-<option value=\"0\" selected>".$strings["unassigned"]."</option>";
+    echo '<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td><b>' . $strings["reassign_to"] . ' : </b> ';
+    $reassignMembersList = $members->getNonClientMembersExcept($id);
+    echo '<select name="assign_to">';
+    echo '<option value="0" selected>' . $strings["unassigned"] . '</option>';
 
-for ($i=0;$i<$comptReassign;$i++) {
-echo "<option value=\"".$reassign->mem_id[$i]."\">".$reassign->mem_login[$i]." / ".$reassign->mem_name[$i]."</option>";
+    foreach ($reassignMembersList as $member) {
+        echo '<option value="' . $member["mem_id"] . '">' . $member["mem_login"] . ' / ' . $member["mem_name"] . '</option>';
+    }
+
+    echo "</select></td></tr>";
 }
 
-echo "</select></td></tr>
-<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td><input type=\"submit\" name=\"delete\" value=\"".$strings["delete"]."\"> <input type=\"button\" name=\"cancel\" value=\"".$strings["cancel"]."\" onClick=\"history.back();\"><input type=\"hidden\" value=\"$id\" name=\"id\"></td></tr>";
+echo <<<FORM_BUTTONS
+<tr class="odd">
+    <td valign="top" class="leftvalue">&nbsp;</td>
+    <td><input type="submit" name="delete" value="{$strings["delete"]}"> <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();"><input type="hidden" value="{$id}" name="id"></td>
+</tr>
+FORM_BUTTONS;
 
 $block1->closeContent();
 $block1->closeForm();
 
-include('../themes/'.THEME.'/footer.php');
-?>
+include APP_ROOT . '/themes/' . THEME . '/footer.php';

@@ -30,7 +30,7 @@
 
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 //set task to "0" for project main folder upload
 if ($task == "") 
@@ -41,8 +41,8 @@ if ($task == "")
 if ($action == "add") 
 {
 
-	$filename = check_FileName($_FILES['upload']['name']);
-	
+	$filename = phpCollab\Util::checkFileName($_FILES['upload']['name']);
+
 	if ($maxCustom != "") 
 	{
 		$maxFileSize = $maxCustom;
@@ -102,22 +102,29 @@ if ($action == "add")
 			$versionFile = "0.0";
 		}
 
-		$c = convertData($c);
-		$tmpquery = "INSERT INTO ".$tableCollab["files"]."(owner,project,phase,task,comments,upload,published,status,vc_version,vc_parent) VALUES('$idSession','$project','".fixInt($phase)."','$task','$c','$dateheure','1','$statusField','$versionFile','0')";
-		connectSql("$tmpquery");
-		$tmpquery = $tableCollab["files"];
-		last_id($tmpquery);
-		$num = $lastId[0];
-		unset($lastId);
+		$tmpquery = "INSERT INTO {$tableCollab["files"]} (owner,project,phase,task,comments,upload,published,status,vc_version,vc_parent) VALUES (:owner, :project, :phase, :task, :comments, :upload, :published, :status, :vc_version, :vc_parent)";
+		$dbParams = [];
+		$dbParams["owner"] = $idSession;
+		$dbParams["project"] = $project;
+		$dbParams["phase"] = phpCollab\Util::fixInt($phase);
+		$dbParams["task"] = $task;
+		$dbParams["comments"] = phpCollab\Util::convertData($c);
+		$dbParams["upload"] = $dateheure;
+		$dbParams["published"] = 1;
+		$dbParams["status"] = $statusField;
+		$dbParams["vc_version"] = $versionFile;
+		$dbParams["vc_parent"] = 0;
+
+		$num = phpCollab\Util::newConnectSql($tmpquery, $dbParams);
+		unset($dbParams);
 	}
 
 	if ($task != "0") 
 	{
 		if ($docopy == "true") 
 		{
-			uploadFile("files/$project/$task", $_FILES['upload']['tmp_name'], "$num--".$filename);
-			$size = file_info_size("../files/".$project."/".$task."/".$num."--".$filename);
-			//$dateFile = file_info_date("../files/".$project."/".$task."/".$num."--".$filename);
+			phpCollab\Util::uploadFile("files/$project/$task", $_FILES['upload']['tmp_name'], "$num--".$filename);
+			$size = phpCollab\Util::fileInfoSize("../files/".$project."/".$task."/".$num."--".$filename);
 			$chaine = strrev("../files/".$project."/".$task."/".$num."--".$filename);
 			$tab = explode(".",$chaine);
 			$extension = strtolower(strrev($tab[0]));
@@ -127,37 +134,47 @@ if ($action == "add")
 	{
 		if ($docopy == "true") 
 		{
-			uploadFile("files/$project", $_FILES['upload']['tmp_name'], "$num--".$filename);
-			$size = file_info_size("../files/".$project."/".$num."--".$filename);
-			//$dateFile = file_info_date("../files/".$project."/".$num."--".$filename);
+			phpCollab\Util::uploadFile("files/$project", $_FILES['upload']['tmp_name'], "$num--".$filename);
+			$size = phpCollab\Util::fileInfoSize("../files/".$project."/".$num."--".$filename);
 			$chaine = strrev("../files/".$project."/".$num."--".$filename);
 			$tab = explode(".",$chaine);
 			$extension = strtolower(strrev($tab[0]));
 		}
 	}
-	
+
 	if ($docopy == "true") 
 	{
-		$name = $num."--".$filename;
-		$tmpquery = "UPDATE ".$tableCollab["files"]." SET name='$name',date='$dateheure',size='$size',extension='$extension' WHERE id = '$num'";
-		connectSql("$tmpquery");
+		$name = $num . "--" . $filename;
+
+		$dbParams = [];
+		$dbParams["name"] = $name;
+        $dbParams["date"] = $dateheure;
+        $dbParams["size"] = $size;
+        $dbParams["extension"] = $extension;
+        $dbParams["file_id"] = $num;
+
+		phpCollab\Util::newConnectSql(
+            "UPDATE {$tableCollab["files"]} SET name=:name,date=:date,size=:size,extension=:extension WHERE id = :file_id",
+            $dbParams
+        );
+		unset($dbParams);
 
 		if ($notifications == "true") 
 		{			
 			require("../projects_site/noti_uploadfile.php");
 		}		
 		
-		headerFunction("../linkedcontent/viewfile.php?id=$num&msg=addFile&".session_name()."=".session_id());
+		phpCollab\Util::headerFunction("../linkedcontent/viewfile.php?id=$num&msg=addFile");
 	}
 }
 
 $tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new request();
+$projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
 
 $teamMember = "false";
 $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-$memberTest = new request();
+$memberTest = new phpCollab\Request();
 $memberTest->openTeams($tmpquery);
 $comptMemberTest = count($memberTest->tea_id);
 
@@ -172,29 +189,28 @@ else
 
 if ($teamMember == "false" && $projectsFilter == "true") 
 { 
-	header("Location:../general/permissiondenied.php?".session_name()."=".session_id()); 
-	exit; 
-} 
+	header("Location:../general/permissiondenied.php");
+}
 
 if ($projectDetail->pro_phase_set[0] != "0")
 {
 	$phase = $projectDetail->pro_phase_set[0];
 
 	$tmpquery = "WHERE pha.id = '$phase'";
-	$phaseDetail = new request();
+	$phaseDetail = new phpCollab\Request();
 	$phaseDetail->openPhases($tmpquery);
 }
 
 if ($task != "0") 
 {
 	$tmpquery = "WHERE tas.id = '$task'";
-	$taskDetail = new request();
+	$taskDetail = new phpCollab\Request();
 	$taskDetail->openTasks($tmpquery);
 }
 
-include('../themes/'.THEME.'/header.php');
+include '../themes/' . THEME . '/header.php';
 
-$blockPage = new block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=$project",$projectDetail->pro_name[0],in));
@@ -215,18 +231,18 @@ $blockPage->closeBreadcrumbs();
 
 if ($msg != "") 
 {
-	include('../includes/messages.php');
-	$blockPage->messagebox($msgLabel);
+	include '../includes/messages.php';
+	$blockPage->messageBox($msgLabel);
 
 }
 
-$block1 = new block();
+$block1 = new phpCollab\Block();
 
 
 $block1->form = "filedetails";
 
 echo "<a name='filedetailsAnchor'></a>";
-echo "<form accept-charset='UNKNOWN' method='POST' action='../linkedcontent/addfile.php?action=add&project=$project&task=$task&phase=$phase&".session_name()."=".session_id()."' name='filedetailsForm' enctype='multipart/form-data'><input type='hidden' name='MAX_FILE_SIZE' value='100000000'><input type='hidden' name='maxCustom' value='".$projectDetail->pro_upload_max[0]."'>";
+echo "<form accept-charset='UNKNOWN' method='POST' action='../linkedcontent/addfile.php?action=add&project=$project&task=$task&phase=$phase&' name='filedetailsForm' enctype='multipart/form-data'><input type='hidden' name='MAX_FILE_SIZE' value='100000000'><input type='hidden' name='maxCustom' value='".$projectDetail->pro_upload_max[0]."'>";
 
 if ($error != "") 
 {            
@@ -265,5 +281,4 @@ echo"</select></td></tr>
 $block1->closeContent();
 $block1->closeForm();
 
-include('../themes/'.THEME.'/footer.php');
-?>
+include '../themes/'.THEME.'/footer.php';

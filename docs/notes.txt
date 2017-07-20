@@ -109,6 +109,11 @@ Status File
 3 => "No Approvals Needed"
 4 => "Not Approved"
 
+Support Requests
+0 => "New"
+1 => "Open"
+2 => "Closed"
+
 Team Member Authorized
 0 => "Yes"
 1 => "No"

@@ -1,9 +1,6 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 2004-08-23 
-** Path by root: ../installation/setup.php
-** Authors: Ceam / Fullo 
 **
 ** =============================================================================
 **
@@ -13,107 +10,72 @@
 ** Please refer to license, copyright, and credits in README.TXT
 **
 ** -----------------------------------------------------------------------------
-** FILE: setup.php
-**
-** DESC: Screen: setup file 
-**
-** HISTORY:
-**  2004-08-23  -   add/complete switch according to php version
-**  2004-08-23  -   update register_globals cheat code to be compatible with php5 
-**	19/05/2005	-	fixed and &amp; in link
-** -----------------------------------------------------------------------------
-** TO-DO:
+** DESC: Screen: setup file
 **
 ** =============================================================================
 */
 
 error_reporting(2039);
 
+define('APP_ROOT', dirname(dirname(__FILE__)));
+// require the autoloader class file
+require_once APP_ROOT . '/vendor/autoload.php';
+
 // register_globals cheat code
 //GET and POST VARS
-while (list($key, $val) = @each($_REQUEST)) 
-{
-       $GLOBALS[$key] = $val;
+while (list($key, $val) = @each($_REQUEST)) {
+    $GLOBALS[$key] = $val;
 }
 //$HTTP_SESSION_VARS
-while (list($key, $val) = @each($_SESSION)) 
-{
-       $GLOBALS[$key] = $val;
+while (list($key, $val) = @each($_SESSION)) {
+    $GLOBALS[$key] = $val;
 }
 //$HTTP_SERVER_VARS
-while (list($key, $val) = @each($_SERVER)) 
-{
-       $GLOBALS[$key] = $val;
+while (list($key, $val) = @each($_SERVER)) {
+    $GLOBALS[$key] = $val;
 }
 
-include("../languages/help_en.php");
+include '../languages/help_en.php';
 
-if ($redirect == "true" && $step == "2") 
-{
-	header("Location:../installation/setup.php?step=2&connexion=$connexion");
+if ($redirect == "true" && $step == "2") {
+    header("Location:../installation/setup.php?step=2&connection=$connection");
 }
 
-if (substr($root, -1) == "/") { $root = substr($root, 0, -1); }
-if (substr($ftpRoot, -1) == "/") { $ftpRoot = substr($ftpRoot, 0, -1); }
+if (substr($root, -1) == "/") {
+    $root = substr($root, 0, -1);
+}
+if (substr($ftpRoot, -1) == "/") {
+    $ftpRoot = substr($ftpRoot, 0, -1);
+}
 
 $version = "2.5.1";
 
 $dateheure = date("Y-m-d H:i");
 
-if ($action == "generate") 
-{
-	if ($myserver == '') 
-	{
-		$error = 'Must be insert the database Server';
-	} 
-	elseif ($mylogin == '') 
-	{
-		$error = 'Must be insert the database Login';
-	} 
-	elseif ($mydatabase == '') 
-	{
-		$error = 'Must be insert the database Name';
-	} 
-	elseif ($root == '') 
-	{
-		$error = 'Must be insert the Root path';
-	} 
-	elseif ($adminPwd == '') 
-	{
-		$error = 'Must be insert the Admin password';
-	}
+if ($action == "generate") {
+    if ($myserver == '') {
+        $error = 'Must be insert the database Server';
+    } elseif ($mylogin == '') {
+        $error = 'Must be insert the database Login';
+    } elseif ($mydatabase == '') {
+        $error = 'Must be insert the database Name';
+    } elseif ($root == '') {
+        $error = 'Must be insert the Root path';
+    } elseif ($adminPwd == '') {
+        $error = 'Must be insert the Admin password';
+    }
 
-	// return a password using the globally specified method
-	function get_password($newPassword) 
-	{
-		global $loginMethod;
-		switch ($loginMethod) 
-		{
-			case MD5:	
-				return md5($newPassword);
-			case CRYPT:	
-				$salt = substr($newPassword,0,2);
-				return crypt($newPassword,$salt);
-			case PLAIN:	
-				return $newPassword;
-//			return $newPassword;
-		}
-	}
+    if ($installationType == "offline") {
+        $updatechecker = "false";
+    }
 
-    
-	if ($installationType == "offline") 
-	{
-		$updatechecker = "false";
-	}
+    //Let's also get pretty paranoid here ;)
+    $dataFunctions = new DataFunctions();
+    $scrubedData = $dataFunctions->scrubData($_POST);
+    extract($scrubedData);
+    // -- END Paranoia
 
-//Let's also get pretty paranoid here ;)
-// DAB - scrub the data
-require_once(dirname(realpath(__FILE__)) . '/../general/data_funcs.inc.php');
-$scrubData = scrubData($_POST);
-extract($scrubData);
-// -- END Paranoia
-
-$content = <<<STAMP
+    $content = <<<STAMP
 <?php
 #Application name: PhpCollab
 #Status page: 2
@@ -319,198 +281,180 @@ define('THEME','default');
 \$setKeywords = "PhpCollab, phpcollab.com, Sourceforge, management, web, projects, tasks, organizations, reports, Php, MySql, Sql Server, mssql, Microsoft Sql Server, PostgreSQL, module, application, module, file management, project site, team collaboration, free, crm, CRM, cutomer relationship management, workflow, workgroup";
 ?>
 STAMP;
-    
-    if (!$error) 
-	{
-		$fp = @fopen("../includes/settings.php",'wb+');
-		$fw = fwrite($fp,$content);
-		
-		if (!$fw) 
-		{
-			$error = 1;
-			echo "<br/><b>PANIC! <br/> settings.php can't be written!</b><br/>";
-		}
 
-		fclose($fp);
-		$msg = 'File settings.php created correctly.';
-		
-		// crypt admin and demo password
-		$demoPwd = get_password("demo");
-		$adminPwd = get_password($adminPwd);
+    if (!$error) {
+        $fp = @fopen("../includes/settings.php", 'wb+');
+        $fw = fwrite($fp, $content);
 
-		// create all tables
-		include("../includes/db_var.inc.php");
-		include("../includes/setup_db.php");
-		
-		if ($databaseType == "mysql") 
-		{
-			$my = @mysql_connect($myserver, $mylogin, $mypassword);
-			
-			if (mysql_errno() != 0){ exit('<br/><b>PANIC! <br/> Error during connection on server MySQL.</b><br/>'); }
-			mysql_select_db($mydatabase, $my);
-			
-			if (mysql_errno() != 0){ exit('<br/><b>PANIC! <br/> Error during selection database.</b><br/>'); }
-			
-			for($con = 0; $con < count($SQL); $con++)
-			{
-				mysql_query($SQL[$con]);
-				//echo $SQL[$con] . ';<br/>';
-				if (mysql_errno() != 0){ exit('<br/><b>PANIC! <br/> Error during the creation of the tables.</b><br/> Error: '. mysql_error()); }
-			}
-		}
-	
-		if ($databaseType == "postgresql") 
-		{
-			$my = pg_connect("host=$myserver port=5432 dbname=$mydatabase user=$mylogin password=$mypassword");
-			if (pg_last_error() != 0){ exit('<br/><b>PANIC! <br/> Error during connection on server PostgreSQL.</b><br/>'); }
+        if (!$fw) {
+            $error = 1;
+            echo "<br/><b>PANIC! <br/> settings.php can't be written!</b><br/>";
+        }
 
-			for($con = 0; $con < count($SQL); $con++)
-			{
-				pg_query($SQL[$con]);
-				//echo $SQL[$con] . ';<br/>';
-				if (pg_last_error() != 0){ exit('<br/><b>PANIC! <br/> Error during the creation of the tables.</b><br/> Error: '. pg_last_error()); }
-			}
-		}
-		
-		if ($databaseType == "sqlserver") 
-		{
-			$my = @mssql_connect($myserver, $mylogin, $mypassword);
+        fclose($fp);
+        $msg = 'File settings.php created correctly.';
 
-			if (mssql_get_last_message() != 0){ exit('<br/><b>PANIC! <br/> Error during connection on server SQl Server.</b><br/>'); }
-			mssql_select_db($mydatabase, $my);
-			
-			if (mssql_get_last_message() != 0){ exit('<br/><b>PANIC! <br/> Error during selection database.</b><br/>'); }
-			
-			for($con = 0; $con < count($SQL); $con++)
-			{
-				mssql_query($SQL[$con]);
-				//echo $SQL[$con] . '<br/>';
-				if (mssql_get_last_message() != 0){ exit('<br/><b>PANIC! <br/> Error during the creation of the tables.</b><br/> Error: '. mssql_get_last_message()); }
-			}
-		}
-		$msg .= "<br/>Tables and settings file created correctly.";
-		$msg .= "<br/><br/><a href='../general/login.php'>Please log in</a>";
-		
-	} 
-	else 
-	{
-		$msg = $error;
+        // crypt admin and demo password
+        $demoPwd = phpCollab\Util::getPassword("demo");
+        $adminPwd = phpCollab\Util::getPassword($adminPwd);
+
+        // create all tables
+        include '../includes/db_var.inc.php';
+        include '../includes/setup_db.php';
+
+        if ($databaseType == "mysql") {
+            $my = @mysql_connect($myserver, $mylogin, $mypassword);
+
+            if (mysql_errno() != 0) {
+                exit('<br/><b>PANIC! <br/> Error during connection on server MySQL.</b><br/>');
+            }
+            mysql_select_db($mydatabase, $my);
+
+            if (mysql_errno() != 0) {
+                exit('<br/><b>PANIC! <br/> Error during selection database.</b><br/>');
+            }
+
+            $countSql = count($SQL);
+            for ($con = 0; $con < $countSql; $con++) {
+                mysql_query($SQL[$con]);
+                if (mysql_errno() != 0) {
+                    exit('<br/><b>PANIC! <br/> Error during the creation of the tables.</b><br/> Error: ' . mysql_error());
+                }
+            }
+            unset($countSql);
+        }
+
+        if ($databaseType == "postgresql") {
+            $my = pg_connect("host=$myserver port=5432 dbname=$mydatabase user=$mylogin password=$mypassword");
+            if (pg_last_error() != 0) {
+                exit('<br/><b>PANIC! <br/> Error during connection on server PostgreSQL.</b><br/>');
+            }
+
+            $countSql = count($SQL);
+            for ($con = 0; $con < $countSql; $con++) {
+                pg_query($SQL[$con]);
+                if (pg_last_error() != 0) {
+                    exit('<br/><b>PANIC! <br/> Error during the creation of the tables.</b><br/> Error: ' . pg_last_error());
+                }
+            }
+            unset($countSql);
+        }
+
+        if ($databaseType == "sqlserver") {
+            $my = @mssql_connect($myserver, $mylogin, $mypassword);
+
+            if (mssql_get_last_message() != 0) {
+                exit('<br/><b>PANIC! <br/> Error during connection on server SQl Server.</b><br/>');
+            }
+            mssql_select_db($mydatabase, $my);
+
+            if (mssql_get_last_message() != 0) {
+                exit('<br/><b>PANIC! <br/> Error during selection database.</b><br/>');
+            }
+
+            $countSql = count($SQL);
+            for ($con = 0; $con < $countSql; $con++) {
+                mssql_query($SQL[$con]);
+                if (mssql_get_last_message() != 0) {
+                    exit('<br/><b>PANIC! <br/> Error during the creation of the tables.</b><br/> Error: ' . mssql_get_last_message());
+                }
+            }
+            unset($countSql);
+        }
+        $msg .= "<br/>Tables and settings file created correctly.";
+        $msg .= "<br/><br/><a href='../general/login.php'>Please log in</a>";
+
+    } else {
+        $msg = $error;
     }
 }
 
-if ($step == "") 
-{ 
-	$step = "1"; 
+if ($step == "") {
+    $step = "1";
 }
 
 $setTitle = "PhpCollab";
-define('THEME','default');
+define('THEME', 'default');
 $blank = "true";
-include("../themes/".THEME."/block.class.php");
-include('../themes/'.THEME.'/header.php');
+
+include '../themes/' . THEME . '/header.php';
 
 
-$blockPage = new block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs("<a href='../installation/setup.php'>Setup</a>");
 
-if ($step == "1") 
-{
-	$blockPage->itemBreadcrumbs("License");
-} 
-elseif ($step > "1") 
-{
+if ($step == "1") {
+    $blockPage->itemBreadcrumbs("License");
+} elseif ($step > "1") {
     $blockPage->itemBreadcrumbs("<a href='../installation/setup.php?step=1'>License</a>");
 
-   	if ($step == "2") 
-	{
-		$blockPage->itemBreadcrumbs("Settings");
-	} 
-	elseif ($step > "2") 
-	{
-		$blockPage->itemBreadcrumbs("<a href='../installation/setup.php?step=2'>Settings</a>");
-		if ($step == "3") 
-		{
-			$blockPage->itemBreadcrumbs("Control");
-		}
-	}
+    if ($step == "2") {
+        $blockPage->itemBreadcrumbs("Settings");
+    } elseif ($step > "2") {
+        $blockPage->itemBreadcrumbs("<a href='../installation/setup.php?step=2'>Settings</a>");
+        if ($step == "3") {
+            $blockPage->itemBreadcrumbs("Control");
+        }
+    }
 }
 
 $blockPage->closeBreadcrumbs();
 
-$block1 = new block();
+$block1 = new phpCollab\Block();
 
-if ($step == "1") 
-{
-	$block1->heading("License");
+if ($step == "1") {
+    $block1->heading("License");
 }
-if ($step == "2") 
-{
-	$block1->heading("Settings");
+if ($step == "2") {
+    $block1->heading("Settings");
 }
-if ($step == "3") 
-{
-	$block1->heading("Control");
+if ($step == "3") {
+    $block1->heading("Control");
 }
 
-if ($step == "1") 
-{
-	$block1->openContent();
-	$block1->contentTitle("&nbsp;");
+if ($step == "1") {
+    $block1->openContent();
+    $block1->contentTitle("&nbsp;");
 
-	echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>
+    echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>
 		<pre>";
-		include("../docs/copying.txt");
-		echo "</pre>
+    include '../docs/copying.txt';
+    echo "</pre>
 		</td></tr>";
-	$block1->closeContent();
+    $block1->closeContent();
 }
 
 
+if ($step == "2") {
+    $block1->openContent();
+    $block1->contentTitle("Details");
+    $block1->form = "settings";
+    $block1->openForm("../installation/setup.php?action=generate&step=3");
 
-if ($step == "2") 
-{
-	$block1->openContent();
-	$block1->contentTitle("Details");
-	$block1->form = "settings";
-	$block1->openForm("../installation/setup.php?action=generate&step=3");
+    if ($connection == "off") {
+        echo "<input value='false' name='updatechecker' type='hidden'>";
+    } elseif (@join('', file("http://www.phpcollab.com/website/version.txt"))) {
+        echo "<input value='true' name='updatechecker' type='hidden'>";
+    } else {
+        echo "<input value='false' name='updatechecker' type='hidden'>";
+    }
 
-	if ($connexion == "off") 
-	{
-		echo "<input value='false' name='updatechecker' type='hidden'>";
-	} 
-	elseif (@join('',file("http://www.phpcollab.com/website/version.txt"))) 
-	{
-		echo "<input value='true' name='updatechecker' type='hidden'>";
-	} 
-	else 
-	{
-		echo "<input value='false' name='updatechecker' type='hidden'>";
-	}
+    if ($connection == "off") {
+        $installCheckOffline = "checked";
+    } else {
+        $installCheckOnline = "checked";
+    }
 
-	if ($connexion == "off") 
-	{
-		$installCheckOffline = "checked";
-	} 
-	else 
-	{
-		$installCheckOnline = "checked";
-	}
+    if ($databaseType == "mysql" || $databaseType == "") {
+        $dbCheckMysql = "checked";
+    } elseif ($databaseType == "sqlserver") {
+        $dbCheckSqlserver = "checked";
+    } elseif ($databaseType == "postgresql") {
+        $dbCheckPostgresql = "checked";
+    }
 
-	if ($databaseType == "mysql" || $databaseType == "") 
-	{
-		$dbCheckMysql = "checked";
-	} 
-	elseif ($databaseType == "sqlserver") 
-	{
-		$dbCheckSqlserver = "checked";
-	} 
-	elseif ($databaseType == "postgresql") 
-	{
-		$dbCheckPostgresql = "checked";
-	}
-
-	echo "	<tr class='odd'>
+    echo "	<tr class='odd'>
 				<td valign='top' class='leftvalue'>* Installation type :</td>
 				<td><input type='radio' name='installationType' value='offline' $installCheckOffline> Offline (firewall/intranet, no update checker)&nbsp;<input type='radio' name='installationType' value='online' $installCheckOnline> Online</td>
 			</tr>
@@ -535,52 +479,45 @@ if ($step == "2")
 				<td><input size='44' value='$mydatabase' style='width: 200px' name='mydatabase' maxlength='100' type='text'></td>
 			</tr>
 			<tr class='odd'>
-				<td valign='top' class='leftvalue'>Table prefix :<br/>[<a href=\"javascript:void(0);\" onmouseover=\"return overlib('".addslashes($help["setup_myprefix"])."',ABOVE,SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');\" onmouseout=\"return nd();\">Help</a>] </td>
+				<td valign='top' class='leftvalue'>Table prefix :<br/>[<a href=\"javascript:void(0);\" onmouseover=\"return overlib('" . addslashes($help["setup_myprefix"]) . "',ABOVE,SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');\" onmouseout=\"return nd();\">Help</a>] </td>
 				<td><input size='44' value='$myprefix' style='width: 200px' name='myprefix' maxlength='100' type='text'></td>
-			</tr>";    
+			</tr>";
 
     $safemodeTest = ini_get(safe_mode);
 
-	if ($safemodeTest == "1") 
-	{
-		$checked1_a = "checked"; //false
-		$safemode = "on";
-    } 
-	else 
-	{
-		$checked2_a = "checked"; //true
-		$safemode = "off";
+    if ($safemodeTest == "1") {
+        $checked1_a = "checked"; //false
+        $safemode = "on";
+    } else {
+        $checked2_a = "checked"; //true
+        $safemode = "off";
     }
 
     $notificationsTest = function_exists('mail');
-    if ($notificationsTest == "true") 
-	{
-		$checked2_b = "checked"; //false
-		$gdlibrary = "on";
-	} 
-	else 
-	{
-		$checked1_b = "checked"; //true
-		$gdlibrary = "off";
+    if ($notificationsTest == "true") {
+        $checked2_b = "checked"; //false
+        $gdlibrary = "on";
+    } else {
+        $checked1_b = "checked"; //true
+        $gdlibrary = "off";
     }
-    
-	echo "<tr class='odd'><td valign='top' class='leftvalue'>* Create folder method :<br/>[<a href=\"javascript:void(0);\" onmouseover=\"return overlib('".addslashes($help["setup_mkdirMethod"])."',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');\" onmouseout=\"return nd();\">Help</a>] </td><td>
+
+    echo "<tr class='odd'><td valign='top' class='leftvalue'>* Create folder method :<br/>[<a href=\"javascript:void(0);\" onmouseover=\"return overlib('" . addslashes($help["setup_mkdirMethod"]) . "',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');\" onmouseout=\"return nd();\">Help</a>] </td><td>
 
 	<table cellpadding=0 cellspacing=0><tr><td valign=top><input type='radio' name='mkdirMethod' value='FTP' $checked1_a> FTP&nbsp;<input type='radio' name='mkdirMethod' value='PHP' $checked2_a> PHP<br/>[Safe-mode $safemode]</td><td align=right>";
-	if ($safemodeTest == "1") 
-	{
-		echo "Ftp server <input size='44' value='$ftpserver' style='width: 200px' name='ftpserver' maxlength='100' type='text'><br/>
+    if ($safemodeTest == "1") {
+        echo "Ftp server <input size='44' value='$ftpserver' style='width: 200px' name='ftpserver' maxlength='100' type='text'><br/>
 		Ftp login <input size='44' value='$ftplogin' style='width: 200px' name='ftplogin' maxlength='100' type='text'><br/>
 		Ftp password <input size='44' value='$ftppassword' style='width: 200px' name='ftppassword' maxlength='100' type='password'><br/>
 		Ftp root <input size='44' value='$ftpRoot' style='width: 200px' name='ftpRoot' maxlength='100' type='text'>";
-	}
+    }
 
-	echo "</td></tr></table>
+    echo "</td></tr></table>
 
 	</td></tr>
-	<tr class='odd'><td valign='top' class='leftvalue'>* Notifications :<br/>[<a href=\"javascript:void(0);\" onmouseover=\"return overlib('".addslashes($help["setup_notifications"])."',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');\" onmouseout=\"return nd();\">Help</a>] </td><td><input type=\"radio\" name='notifications' value='false' $checked1_b> False&nbsp;<input type='radio' name='notifications' value='true' $checked2_b> True<br/>[Mail $gdlibrary]</td></tr>
-	<tr class='odd'><td valign='top' class='leftvalue'>* Forced login :<br/>[<a href=\"javascript:void(0);\" onmouseover=\"return overlib('".addslashes($help["setup_forcedlogin"])."',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');\" onmouseout=\"return nd();\">Help</a>] </td><td><input type=\"radio\" name='forcedlogin' value='false' checked> False&nbsp;<input type='radio' name='forcedlogin' value='true'> True</td></tr>
-	<tr class='odd'><td valign='top' class='leftvalue'>Default language :<br/>[<a href=\"javascript:void(0);\" onmouseover=\"return overlib('".addslashes($help["setup_langdefault"])."',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');\" onmouseout=\"return nd();\">Help</a>] </td><td>
+	<tr class='odd'><td valign='top' class='leftvalue'>* Notifications :<br/>[<a href=\"javascript:void(0);\" onmouseover=\"return overlib('" . addslashes($help["setup_notifications"]) . "',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');\" onmouseout=\"return nd();\">Help</a>] </td><td><input type=\"radio\" name='notifications' value='false' $checked1_b> False&nbsp;<input type='radio' name='notifications' value='true' $checked2_b> True<br/>[Mail $gdlibrary]</td></tr>
+	<tr class='odd'><td valign='top' class='leftvalue'>* Forced login :<br/>[<a href=\"javascript:void(0);\" onmouseover=\"return overlib('" . addslashes($help["setup_forcedlogin"]) . "',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');\" onmouseout=\"return nd();\">Help</a>] </td><td><input type=\"radio\" name='forcedlogin' value='false' checked> False&nbsp;<input type='radio' name='forcedlogin' value='true'> True</td></tr>
+	<tr class='odd'><td valign='top' class='leftvalue'>Default language :<br/>[<a href=\"javascript:void(0);\" onmouseover=\"return overlib('" . addslashes($help["setup_langdefault"]) . "',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');\" onmouseout=\"return nd();\">Help</a>] </td><td>
 			   <select name='langdefault'>
 				<option value=''>Blank</option>
 		<option value='ar'>Arabic</option>
@@ -618,30 +555,26 @@ if ($step == "2")
 			 </tr>";
 
 
-	$url = $SERVER_NAME;
-	if ($SERVER_PORT != 80 && $SERVER_PORT != 443) 
-	{
-		$url .= ":". $SERVER_PORT;
-	}
-	if ($HTTPS == "on") 
-	{
-		$protocol = "https://";
-	} 
-	else 
-	{
-		$protocol = "http://";
-	}
-	
-	$root = $protocol.$url.dirname($PHP_SELF);
-	$root = str_replace("installation","",$root);
+    $url = $SERVER_NAME;
+    if ($SERVER_PORT != 80 && $SERVER_PORT != 443) {
+        $url .= ":" . $SERVER_PORT;
+    }
+    if ($HTTPS == "on") {
+        $protocol = "https://";
+    } else {
+        $protocol = "http://";
+    }
 
-	echo "
+    $root = $protocol . $url . dirname($PHP_SELF);
+    $root = str_replace("installation", "", $root);
+
+    echo "
 		<tr class='odd'>
 			<td valign='top' class='leftvalue'> * Root :</td>
 			<td><input size='44' value='$root' style='width: 200px' name='root' maxlength='100' type='text'></td>
 		</tr>
 		<tr class='odd'>
-			<td valign='top' class='leftvalue'>* Login method :<br/>[<a href=\"javascript:void(0);\" onmouseover=\"return overlib('".addslashes($help["setup_loginmethod"])."',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');\" onmouseout=\"return nd();\">Help</a>] </td>
+			<td valign='top' class='leftvalue'>* Login method :<br/>[<a href=\"javascript:void(0);\" onmouseover=\"return overlib('" . addslashes($help["setup_loginmethod"]) . "',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');\" onmouseout=\"return nd();\">Help</a>] </td>
 			<td><input type='radio' name='loginMethod' value='PLAIN'> Plain&nbsp;<input type='radio' name='loginMethod' value='MD5'> Md5&nbsp;<input type='radio' name='loginMethod' value='CRYPT' checked> Crypt</td>
 		</tr>
 		<tr class='odd'>
@@ -652,23 +585,24 @@ if ($step == "2")
 			<td valign='top' class='leftvalue'>&nbsp;</td>
 			<td><input type='SUBMIT' value='Save'></td>
 		</tr>";
-	$block1->closeContent();
-	$block1->closeForm();
+    $block1->closeContent();
+    $block1->closeForm();
 }
 
-if ($step == "3") 
-{
-	$block1->openContent();
-	$block1->contentTitle("&nbsp;");
+if ($step == "3") {
+    $block1->openContent();
+    $block1->contentTitle("&nbsp;");
 
-	echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>$msg</td></tr>";
-	$block1->closeContent();
+    echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>$msg</td></tr>";
+    $block1->closeContent();
 }
 
 
 $stepNext = $step + 1;
-if ($step < "2") { echo "<form name='license' action='../installation/setup.php?step=2&redirect=true' method='post'><center><a href=\"javascript:document.license.submit();\"><b>Step $stepNext</b></a><br/><br/><input type='checkbox' value='off' name='connexion'> Offline installation (firewall/intranet, no update checker)</center></form><br/>"; }
+if ($step < "2") {
+    echo "<form name='license' action='../installation/setup.php?step=2&redirect=true' method='post'><center><a href=\"javascript:document.license.submit();\"><b>Step $stepNext</b></a><br/><br/><input type='checkbox' value='off' name='connection'> Offline installation (firewall/intranet, no update checker)</center></form><br/>";
+}
 
 $footerDev = "false";
-include('../themes/'.THEME.'/footer.php');
+include '../themes/' . THEME . '/footer.php';
 ?>

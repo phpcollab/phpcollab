@@ -1,0 +1,29 @@
+{
+  "name": "phpcollab/phpcollab",
+  "homepage": "http://phpcollab.com",
+  "description": "Project management and collaboration over the internet. Features team/client sites, task assignment, document repository/workflow, gantt charts, discussions, calendar, notifications, support requests, weblog newsdesk, invoicing, and many other tools.",
+  "authors": [
+    {
+      "name": "Jeff Sittler",
+      "email": "jsittler@mindblender.com",
+      "homepage": "http://jeffsittler.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.0",
+    "zendframework/zend-escaper": "^2.5",
+    "monolog/monolog": "^1.19",
+    "maximebf/debugbar": "^1.13"
+  },
+  "require-dev": {
+    "codeception/codeception": "^2.3"
+  },
+  "autoload": {
+    "psr-0": {
+    },
+    "psr-4": {
+      "phpCollab\\": "classes/",
+      "app\\controllers\\": "controllers/"
+    }
+  }
+}

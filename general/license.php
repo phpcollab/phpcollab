@@ -27,25 +27,25 @@
 
 
 $checkSession = "false";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
 $notLogged = "true";
-include('../themes/'.THEME.'/header.php');
+include '../themes/' . THEME . '/header.php';
 
-$blockPage = new block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs("&nbsp;");
 $blockPage->closeBreadcrumbs();
 
-$block1 = new block();
+$block1 = new phpCollab\Block();
 $block1->heading($setTitle . " : License");
 
 $block1->openContent();
 $block1->contentTitle("License");
 
-$block1->contentRow("","<pre>".recupFile("../docs/copying.txt")."</pre>");
+$block1->contentRow("", "<pre>" . phpCollab\Util::getFileContents("../docs/copying.txt") . "</pre>");
 
 $block1->closeContent();
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/' . THEME . '/footer.php';
 ?>

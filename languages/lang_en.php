@@ -4,8 +4,6 @@
 #Path by root: ../languages/lang_en.php
 
 //translator(s): St�phane Dion <contact@sdion.net>
-$setCharset = "ISO-8859-1";
-
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Monday", 2 =>"Tuesday", 3 =>"Wednesday", 4 =>"Thursday", 5 =>"Friday", 6 =>"Saturday", 7 =>"Sunday");
@@ -323,7 +321,7 @@ $strings["send"] = "Send";
 $strings["no_login"] = "Login not found in database";
 $strings["email_pwd"] = "Password sent";
 $strings["no_email"] = "User without email";
-$strings["forgot_pwd"] = "Forgot password ?";
+$strings["forgot_pwd"] = "Forgot password?";
 $strings["project_owner"] = "You can make changes only on your own projects.";
 $strings["connected"] = "Connected";
 $strings["session"] = "Session";

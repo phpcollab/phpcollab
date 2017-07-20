@@ -55,7 +55,7 @@ http://www.phpcollab.com
 	http://www.ros.co.nz/pdf
 
 # Developers 2.5
-- Stéphane Dion (Software Author, Developer)
+- StÃ©phane Dion (Software Author, Developer)
 - Francesco Fullone (Lead Developer)
 - Michelle Feldman (Project manager)
 - Jennifer Brola (Developer)
@@ -76,15 +76,15 @@ http://www.phpcollab.com
 - Gopal Patwa (Mantis bugtrakcing system integration)
 
 # Translators
-- English: Stéphane Dion
+- English: StÃ©phane Dion
 - Italian: Luca Mercuri, Francesco Fullone
-- Spanish: Felipe Jaramillo, Pep Pujadó Mateo, Jesus Corotero
-- French: Stéphane Dion
+- Spanish: Felipe Jaramillo, Pep PujadÃ³ Mateo, Jesus Corotero
+- French: StÃ©phane Dion
 - Portuguese: Carlos Figueiredo
 - Norwegian: Vladimir Petrov, Wiggo Eriksen
 - Danish: Mark Petersen
 - Dutch: Hendrik Bijlsma, Erwin Wondergem, Dave Liefbroer
-- German: Jochen Bünnagel, Wolfram Lamm, Andreas Nagler
+- German: Jochen BÃ¼nnagel, Wolfram Lamm, Andreas Nagler
 - Chinese simplified: Patrick C. Wang, deepin
 - Ukrainian: Roman Zinchenko
 - Polish: Dariusz Kowalski
@@ -101,8 +101,8 @@ http://www.phpcollab.com
 - Hungarian: ct
 - Czech (iso): Pavel Dostal
 - Czech (win1250): Pavel Dostal
-- Icelandic: Jónas Sigurðsson
-- Slovak (win1250): Marek Tomèík
+- Icelandic: JÃ³nas SigurÃ°sson
+- Slovak (win1250): Marek TomÃ¨Ã­k
 - Turkish: Irfan Uygur
 - Latvian: Krisjanis Berzins
 

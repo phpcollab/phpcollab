@@ -29,25 +29,24 @@
 
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
+
+$members = new \phpCollab\Members\Members();
 
 if ($profilSession != "0") {
-    headerFunction('../general/permissiondenied.php?' . session_name() . '=' . session_id());
-    exit;
+    phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 
 //case update user
 if ($id != "") {
 
     if ($id == "1" && $idSession == "1") {
-        headerFunction("../preferences/updateuser.php?" . session_name() . "=" . session_id());
-        exit;
+        phpCollab\Util::headerFunction("../preferences/updateuser.php");
     }
 
 //case update user
     if ($action == "update") {
         if ($htaccessAuth == "true") {
-            include("../includes/htpasswd.class.php");
             $Htpasswd = new Htpasswd;
         }
         if (!preg_match("/^[A-Za-z0-9]+$/", $un)) {
@@ -56,7 +55,7 @@ if ($id != "") {
 
 //test if login already exists
             $tmpquery = "WHERE mem.login = '$un' AND mem.login != '$unOld'";
-            $existsUser = new request();
+            $existsUser = new phpCollab\Request();
             $existsUser->openMembers($tmpquery);
             $comptExistsUser = count($existsUser->mem_id);
             if ($comptExistsUser != "0") {
@@ -64,23 +63,38 @@ if ($id != "") {
             } else {
 
 //replace quotes by html code in name and address
-                $fn = convertData($fn);
-                $tit = convertData($tit);
-                $c = convertData($c);
-                $em = convertData($em);
-                $wp = convertData($wp);
-                $hp = convertData($hp);
-                $mp = convertData($mp);
-                $fax = convertData($fax);
-                $last_page = convertData($last_page);
+                $fn = phpCollab\Util::convertData($fn);
+                $tit = phpCollab\Util::convertData($tit);
+                $c = phpCollab\Util::convertData($c);
+                $em = phpCollab\Util::convertData($em);
+                $wp = phpCollab\Util::convertData($wp);
+                $hp = phpCollab\Util::convertData($hp);
+                $mp = phpCollab\Util::convertData($mp);
+                $fax = phpCollab\Util::convertData($fax);
+                $last_page = phpCollab\Util::convertData($last_page);
 
-                $tmpquery = "UPDATE " . $tableCollab["members"] . " SET login='$un',name='$fn',title='$tit',email_work='$em',phone_work='$wp',phone_home='$hp',mobile='$mp',fax='$fax',comments='$c',profil='$perm',last_page='$last_page' WHERE id = '$id'";
-                connectSql("$tmpquery");
+                $tmpquery = "UPDATE {$tableCollab["members"]} SET login=:login,name=:name,title=:title,email_work=:email_work,phone_work=:phone_work,phone_home=:phone_home,mobile=:mobile,fax=:fax,comments=:comments,profil=:profil,last_page=:last_page WHERE id = :id";
+                $dbParams = [];
+                $dbParams["login"] = $un;
+                $dbParams["name"] = $fn;
+                $dbParams["title"] = $tit;
+                $dbParams["email_work"] = $em;
+                $dbParams["phone_work"] = $wp;
+                $dbParams["phone_home"] = $hp;
+                $dbParams["mobile"] = $mp;
+                $dbParams["fax"] = $fax;
+                $dbParams["comments"] = $c;
+                $dbParams["profil"] = $perm;
+                $dbParams["last_page"] = $last_page;
+                $dbParams["id"] = $id;
+
+                phpCollab\Util::newConnectSql($tmpquery, $dbParams);
+                unset($dbParams);
 
                 if ($htaccessAuth == "true") {
                     if ($un != $unOld) {
                         $tmpquery = "WHERE tea.member = '$id'";
-                        $listProjects = new request();
+                        $listProjects = new phpCollab\Request();
                         $listProjects->openTeams($tmpquery);
                         $comptListProjects = count($listProjects->tea_id);
 
@@ -100,12 +114,12 @@ if ($id != "") {
                     if ($pw != $pwa || $pwa == "") {
                         $error = $strings["new_password_error"];
                     } else {
-                        $pw = get_password($pw);
+                        $pw = phpCollab\Util::getPassword($pw);
 
                         if ($htaccessAuth == "true") {
                             if ($un == $unOld) {
                                 $tmpquery = "WHERE tea.member = '$id'";
-                                $listProjects = new request();
+                                $listProjects = new phpCollab\Request();
                                 $listProjects->openTeams($tmpquery);
                                 $comptListProjects = count($listProjects->tea_id);
                             }
@@ -117,40 +131,37 @@ if ($id != "") {
                                 }
                             }
                         }
-                        $tmpquery = "UPDATE " . $tableCollab["members"] . " SET password='$pw' WHERE id = '$id'";
-                        connectSql("$tmpquery");
+
+                        phpCollab\Util::newConnectSql("UPDATE {$tableCollab["members"]} SET password=:password WHERE id = :id", ["password" => $pw, "id" => $id]);
 //if mantis bug tracker enabled
                         if ($enableMantis == "true") {
 // Call mantis function for user changes..!!!
                             $f_access_level = $team_user_level; // Developer
-                            include("../mantis/user_update.php");
+                            include '../mantis/user_update.php';
                         }
 
-                        headerFunction("../users/listusers.php?msg=update&" . session_name() . "=" . session_id());
-                        exit;
+                        phpCollab\Util::headerFunction("../users/listusers.php?msg=update");
                     }
                 } else {
 //if mantis bug tracker enabled
                     if ($enableMantis == "true") {
 // Call mantis function for user changes..!!!
                         $f_access_level = $team_user_level; // Developer
-                        include("../mantis/user_update.php");
+                        include '../mantis/user_update.php';
                     }
-                    headerFunction("../users/listusers.php?msg=update&" . session_name() . "=" . session_id());
-                    exit;
+                    phpCollab\Util::headerFunction("../users/listusers.php?msg=update");
                 }
             }
         }
     }
     $tmpquery = "WHERE mem.id = '$id'";
-    $detailUser = new request();
+    $detailUser = new phpCollab\Request();
     $detailUser->openMembers($tmpquery);
     $comptDetailUser = count($detailUser->mem_id);
 
 //test exists selected user, redirect to list if not
     if ($comptDetailUser == "0") {
-        headerFunction("../users/listusers.php?msg=blankUser&" . session_name() . "=" . session_id());
-        exit;
+        phpCollab\Util::headerFunction("../users/listusers.php?msg=blankUser");
     }
 
 //set values in form
@@ -199,7 +210,7 @@ if ($id == "") {
 
 //test if login already exists
             $tmpquery = "WHERE mem.login = '$un'";
-            $existsUser = new request();
+            $existsUser = new phpCollab\Request();
             $existsUser->openMembers($tmpquery);
             $comptExistsUser = count($existsUser->mem_id);
             if ($comptExistsUser != "0") {
@@ -212,28 +223,43 @@ if ($id == "") {
                 } else {
 
 //replace quotes by html code in name and address
-                    $fn = convertData($fn);
-                    $tit = convertData($tit);
-                    $c = convertData($c);
-                    $pw = get_password($pw);
-                    $tmpquery1 = "INSERT INTO " . $tableCollab["members"] . "(login,name,title,email_work,phone_work,phone_home,mobile,fax,comments,password,profil,created,organization,timezone) VALUES('$un','$fn','$tit','$em','$wp','$hp','$mp','$fax','$c','$pw','$perm','$dateheure','1','0')";
-                    connectSql("$tmpquery1");
-                    $tmpquery = $tableCollab["members"];
-                    last_id($tmpquery);
-                    $num = $lastId[0];
-                    unset($lastId);
-                    $tmpquery2 = "INSERT INTO " . $tableCollab["sorting"] . "(member) VALUES('$num')";
-                    connectSql("$tmpquery2");
-                    $tmpquery3 = "INSERT INTO " . $tableCollab["notifications"] . "(member,taskAssignment,removeProjectTeam,addProjectTeam,newTopic,newPost,statusTaskChange,priorityTaskChange,duedateTaskChange,clientAddTask) VALUES ('$num','0','0','0','0','0','0','0','0','0')";
-                    connectSql("$tmpquery3");
+                    $fn = phpCollab\Util::convertData($fn);
+                    $tit = phpCollab\Util::convertData($tit);
+                    $c = phpCollab\Util::convertData($c);
+                    $pw = phpCollab\Util::getPassword($pw);
+
+                    $num = phpCollab\Util::newConnectSql(
+                        "INSERT INTO {$tableCollab["members"]} (login,name,title,email_work,phone_work,phone_home,mobile,fax,comments,password,profil,created,organization,timezone) VALUES(:login,:name,:title,:email_work,:phone_work,:phone_home,:mobile,:fax,:comments,:password,:profil,:created,:organization,:timezone)",
+                        [
+                            "login" => $un,
+                            "name" => $fn,
+                            "title" => $tit,
+                            "email_work" => $em,
+                            "phone_work" => $wp,
+                            "phone_home" => $hp,
+                            "mobile" => $mp,
+                            "fax" => $fax,
+                            "comments" => $c,
+                            "password" => $pw,
+                            "profil" => $perm,
+                            "created" => $dateheure,
+                            "organization" => 1,
+                            "timezone" => 0
+                        ]);
+
+                    phpCollab\Util::newConnectSql("INSERT INTO {$tableCollab["sorting"]} (member) VALUES(:num)",["num" => $num]);
+
+                    phpCollab\Util::newConnectSql(
+                        "INSERT INTO {$tableCollab["notifications"]} (member,taskAssignment,removeProjectTeam,addProjectTeam,newTopic,newPost,statusTaskChange,priorityTaskChange,duedateTaskChange,clientAddTask) VALUES (:num,'0','0','0','0','0','0','0','0','0')",
+                        ["num" => $num]
+                    );
 //if mantis bug tracker enabled
                     if ($enableMantis == "true") {
 // Call mantis function for user changes..!!!
                         $f_access_level = $team_user_level; // Developer
-                        include("../mantis/create_new_user.php");
+                        include '../mantis/create_new_user.php';
                     }
-                    headerFunction("../users/listusers.php?msg=add&" . session_name() . "=" . session_id());
-                    exit;
+                    phpCollab\Util::headerFunction("../users/listusers.php?msg=add");
                 }
             }
         }
@@ -241,9 +267,9 @@ if ($id == "") {
 }
 
 $bodyCommand = "onLoad=\"document.user_editForm.un.focus();\"";
-include('../themes/' . THEME . '/header.php');
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
-$blockPage = new block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], in));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../users/listusers.php?", $strings["user_management"], in));
@@ -258,19 +284,19 @@ if ($id != "") {
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
-    include('../includes/messages.php');
-    $blockPage->messagebox($msgLabel);
+    include '../includes/messages.php';
+    $blockPage->messageBox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new phpCollab\Block();
 
 if ($id == "") {
     $block1->form = "user_edit";
-    $block1->openForm("../users/edituser.php?id=$id&action=add&" . session_name() . "=" . session_id() . "#" . $block1->form . "Anchor");
+    $block1->openForm("../users/edituser.php?id=$id&action=add#" . $block1->form . "Anchor");
 }
 if ($id != "") {
     $block1->form = "user_edit";
-    $block1->openForm("../users/edituser.php?id=$id&action=update&" . session_name() . "=" . session_id() . "#" . $block1->form . "Anchor");
+    $block1->openForm("../users/edituser.php?id=$id&action=update#" . $block1->form . "Anchor");
 }
 
 if ($error != "") {
@@ -302,7 +328,7 @@ $block1->contentRow($strings["work_phone"], "<input size=\"14\" style=\"width: 1
 $block1->contentRow($strings["home_phone"], "<input size=\"14\" style=\"width: 150px;\" maxlength=\"32\" type=\"text\" name=\"hp\" value=\"$hp\">");
 $block1->contentRow($strings["mobile_phone"], "<input size=\"14\" style=\"width: 150px;\" maxlength=\"32\" type=\"text\" name=\"mp\" value=\"$mp\">");
 $block1->contentRow($strings["fax"], "<input size=\"14\" style=\"width: 150px;\" maxlength=\"32\" type=\"text\" name=\"fax\" value=\"$fax\">");
-if ($lastvisitedpage == true) {
+if ($lastvisitedpage === true) {
     $block1->contentRow($strings["last_page"], "<input size=\"24\" style=\"width: 250px;\" maxlength=\"255\" type=\"text\" name=\"last_page\" value=\"$last_page\">");
 }
 $block1->contentRow($strings["comments"], "<textarea style=\"width: 350px; height: 60px;\" name=\"c\" cols=\"45\" rows=\"5\">$c</textarea>");
@@ -333,5 +359,4 @@ $block1->contentRow("", "<input type='submit' name='Save' value='" . $strings["s
 $block1->closeContent();
 $block1->closeForm();
 
-include('../themes/' . THEME . '/footer.php');
-?>
+include APP_ROOT . '/themes/' . THEME . '/footer.php';

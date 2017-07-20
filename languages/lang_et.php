@@ -4,8 +4,6 @@
 #Path by root: ../languages/lang_et.php
 
 //translator(s): Priit Ballot <ballot@neo.ee>
-$setCharset = "ISO-8859-1";
-
 $byteUnits = array('baiti', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"esmasp&auml;ev", 2 =>"teisip&auml;ev", 3 =>"kolmap&auml;ev", 4 =>"neljap&auml;ev", 5 =>"reede", 6 =>"laup&auml;ev", 7 =>"p&uuml;hap&auml;ev");

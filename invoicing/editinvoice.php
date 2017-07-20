@@ -1,164 +1,183 @@
 <?php
-/*
-** Application name: phpCollab
-** Last Edit page: 04/12/2004
-** Path by root: ../invoicing/editinvoice.php
-** Authors: Ceam / Fullo 
-** =============================================================================
-**
-**               phpCollab - Project Managment 
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: editinvoice.php
-**
-** DESC: screen: edit a invoice
-**
-** HISTORY:
-** 	04/12/2004	-	added new document info
-**	04/12/2004  -	fixed [ 1077236 ] Calendar bug in Client's Project site
-**  25/04/2006  -   replaced JavaScript Calendar functions
-** -----------------------------------------------------------------------------
-** TO-DO:
-** =============================================================================
-*/
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
-$tmpquery = "WHERE inv.id = '$id'";
-$detailInvoice = new request();
-$detailInvoice->openInvoices($tmpquery);
+$id = isset($_GET["id"]) ? $_GET["id"] : null;
 
-$tmpquery = "WHERE pro.id = '".$detailInvoice->inv_project[0]."'";
-$projectDetail = new request();
-$projectDetail->openProjects($tmpquery);
+$msgLabel = $GLOBALS["msgLabel"];
+$strings = $GLOBALS["strings"];
+$tableCollab = $GLOBALS["tableCollab"];
+$idSession = $_SESSION["idSession"];
+$invoiceStatus = $GLOBALS["invoiceStatus"];
 
-if ($projectDetail->pro_owner[0] != $idSession) { 
-	header("Location:../general/permissiondenied.php?".session_name()."=".session_id()); 
-	exit; 
-} 
+if (!$id) {
+    header("Location:../general/permissiondenied.php");
+}
 
-if ($id != "") {
+$invoices = new \phpCollab\Invoices\Invoices();
+$projects = new \phpCollab\Projects\Projects();
 
+$detailInvoice = $invoices->getInvoiceById($id);
+
+$projectDetail = $projects->getProjectById($detailInvoice["inv_project"]);
+
+$listInvoicesItems = $invoices->getActiveInvoiceItemsByInvoiceId($id);
+
+$comptListInvoicesItems = count($listInvoicesItems);
+
+if ($projectDetail["pro_owner"] != $idSession) {
+    header("Location:../general/permissiondenied.php");
+
+}
+
+$action = isset($_GET['action']) ? $_GET['action'] : null;
+
+/**
+ * Update invoice
+ */
 if ($action == "update") {
-if ($pub == "") {
-	$pub = "1";
-}
-if ($st == "1") {
-	$datesent = $date;
+    $pub = isset($_POST['pub']) ? $_POST['action'] : 0;
+    $st = isset($_POST['st']) ? $_POST['st'] : 0;
+
+    if ($pub == "") {
+        $pub = "1";
+    }
+    if ($st == "1") {
+        $datesent = $GLOBALS["date"];
+    }
+
+    $tmpquery = "UPDATE {$tableCollab["invoices"]} SET header_note=:header_note,footer_note=:footer_note,published=:published,status=:status,due_date=:due_date,date_sent=:date_sent,total_ex_tax=:total_ex_tax,total_inc_tax=:total_inc_tax,tax_rate=:tax_rate,tax_amount=:tax_amount,modified=:modified WHERE id = :id";
+    phpCollab\Util::newConnectSql(
+        $tmpquery,
+        [
+            "header_note" => $_POST["header_note"],
+            "footer_note" => $_POST["footer_note"],
+            "published" => $pub,
+            "status" => $st,
+            "due_date" => $_POST["dd"],
+            "date_sent" => $_POST["datesent"],
+            "total_ex_tax" => $_POST["total_ex_tax"],
+            "total_inc_tax" => $_POST["total_inc_tax"],
+            "tax_rate" => $_POST["tax_rate"],
+            "tax_amount" => $_POST["tax_amount"],
+            "modified" => $dateheure,
+            "id" => $id
+        ]
+    );
+
+    foreach ($listInvoicesItems as $item) {
+        $tmpquery = "UPDATE {$tableCollab["invoices_items"]} SET title=:title,position=:position,amount_ex_tax=:amount_ex_tax WHERE id = :id";
+        phpCollab\Util::newConnectSql(
+            $tmpquery,
+            [
+                "title" => $item["invitem_title"],
+                "position" => $item["invitem_position"],
+                "amount_ex_tax" => $item["invitem_amount_ex_tax"],
+                "id" => $item["invitem_id"]
+            ]
+        );
+    }
+    phpCollab\Util::headerFunction("../invoicing/viewinvoice.php?msg=update&id=$id");
 }
 
-	$tmpquery = "UPDATE ".$tableCollab["invoices"]." SET header_note='$header_note',footer_note='$footer_note',published='$pub',status='$st',due_date='$dd',date_sent='$datesent',total_ex_tax='$total_ex_tax',total_inc_tax='$total_inc_tax',tax_rate='$tax_rate',tax_amount='$tax_amount',modified='$dateheure' WHERE id = '$id'";
-	connectSql($tmpquery);
-
-for ($i=0;$i<$comptListInvoicesItems;$i++) {
-	$tmpquery = "UPDATE ".$tableCollab["invoices_items"]." SET title='".$title[$i]."',position='".$position[$i]."',amount_ex_tax='".${"item".$i}."' WHERE id = '".$itemId[$i]."'";
-	connectSql($tmpquery);
-}
-
-	headerFunction("../invoicing/viewinvoice.php?msg=update&id=$id&".session_name()."=".session_id());
-}
-
+/**
+ * Edit invoice
+ */
 //set value in form
-$header_note = $detailInvoice->inv_header_note[0];
-$footer_note = $detailInvoice->inv_footer_note[0];
-$datesent = $detailInvoice->inv_date_sent[0];
-$dd = $detailInvoice->inv_due_date[0];
-$total_ex_tax = $detailInvoice->inv_total_ex_tax[0];
-$tax_rate = $detailInvoice->inv_tax_rate[0];
-$tax_amount = $detailInvoice->inv_tax_amount[0];
-$total_inc_tax = $detailInvoice->inv_total_inc_tax[0];
-$st = $detailInvoice->inv_status[0];
+$header_note = $detailInvoice["inv_header_note"];
+$footer_note = $detailInvoice["inv_footer_note"];
+$datesent = $detailInvoice["inv_date_sent"];
+$dd = $detailInvoice["inv_due_date"];
+$total_ex_tax = $detailInvoice["inv_total_ex_tax"];
+$tax_rate = $detailInvoice["inv_tax_rate"];
+$tax_amount = $detailInvoice["inv_tax_amount"];
+$total_inc_tax = $detailInvoice["inv_total_inc_tax"];
+$st = $detailInvoice["inv_status"];
 
-$pub = $detailInvoice->inv_published[0];
-	if ($pub == "0") {
-		$checkedPub = "checked";
-	}
+$pub = $detailInvoice["inv_published"];
+if ($pub == "0") {
+    $checkedPub = "checked";
 }
-$includeCalendar = true; //Include Javascript files for the pop-up calendar
-include('../themes/'.THEME.'/header.php');
 
-$blockPage = new block();
+$includeCalendar = true; //Include Javascript files for the pop-up calendar
+include APP_ROOT . '/themes/' . THEME . '/header.php';
+
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?",$strings["clients"],in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=".$projectDetail->pro_org_id[0],$projectDetail->pro_org_name[0],in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../invoicing/listinvoices.php?client=".$projectDetail->pro_organization[0],$strings["invoices"],in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?", $strings["clients"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $projectDetail["pro_org_id"], $projectDetail["pro_org_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../invoicing/listinvoices.php?client=" . $projectDetail["pro_organization"], $strings["invoices"], "in"));
 
 if ($id != "") {
-	$blockPage->itemBreadcrumbs($blockPage->buildLink("../invoicing/viewinvoice.php?id=".$detailInvoice->inv_id[0],$detailInvoice->inv_id[0],in));
-	$blockPage->itemBreadcrumbs($strings["edit_invoice"]);
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../invoicing/viewinvoice.php?id=" . $detailInvoice["inv_id"], $detailInvoice["inv_id"], "in"));
+    $blockPage->itemBreadcrumbs($strings["edit_invoice"]);
 }
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
-	include('../includes/messages.php');
-	$blockPage->messagebox($msgLabel);
+    include '../includes/messages.php';
+    $blockPage->messageBox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new phpCollab\Block();
 
 if ($id != "") {
-	$block1->form = "invoice";
-	$block1->openForm("../invoicing/editinvoice.php?id=$id&action=update&".session_name()."=".session_id()."#".$block1->form."Anchor");
+    $block1->form = "invoice";
+    $block1->openForm("../invoicing/editinvoice.php?id=$id&action=update&#" . $block1->form . "Anchor");
 }
 
-if ($error != "") {            
-	$block1->headingError($strings["errors"]);
-	$block1->contentError($error);
+if (isset($error) && !empty($error)) {
+    $block1->headingError($strings["errors"]);
+    $block1->contentError($error);
 }
 
 if ($id != "") {
-	$block1->heading($strings["edit_invoice"]." : ".$detailInvoice->inv_id[0]);
+    $block1->heading($strings["edit_invoice"] . " : " . $detailInvoice["inv_id"]);
 }
 
 $block1->openContent();
 $block1->contentTitle($strings["details"]);
 
-$block1->contentRow($strings["header_note"],"<textarea rows=\"10\" style=\"width: 400px; height: 100px;\" name=\"header_note\" cols=\"47\">$header_note</textarea>");
-$block1->contentRow($strings["footer_note"],"<textarea rows=\"10\" style=\"width: 400px; height: 100px;\" name=\"footer_note\" cols=\"47\">$footer_note</textarea>");
+$block1->contentRow($strings["header_note"], '<textarea rows="10" style="width: 400px; height: 100px;" name="header_note" cols="47">' . $header_note . '</textarea>');
+$block1->contentRow($strings["footer_note"], '<textarea rows="10" style="width: 400px; height: 100px;" name="footer_note" cols="47">' . $footer_note . '</textarea>');
 
-$tmpquery = "WHERE invitem.invoice = '$id' AND invitem.active = '1' ORDER BY invitem.position ASC";
-$listInvoicesItems = new request();
-$listInvoicesItems->openInvoicesItems($tmpquery);
-$comptListInvoicesItems = count($listInvoicesItems->invitem_id);
+$listInvoicesItems = $invoices->getActiveInvoiceItemsByInvoiceId($id);
 
-$selectStatus = "<select name=\"st\">";
+$selectStatus = '<select name="st">';
 
 $comptSta = count($invoiceStatus);
-if ($detailInvoice->inv_status[0] == "0") {
-	$begin = "0";
+if ($detailInvoice["inv_status"] == "0") {
+    $begin = "0";
 } else {
-	$begin = "1";
+    $begin = "1";
 }
 
-for ($i=0;$i<$comptListInvoicesItems;$i++) {
-	if ($listInvoicesItems->invitem_completed[$i] == "0") {
-		$comptSta = "1";
-		$notCompleted = $strings["note_invoice_items_notcompleted"];
-		break;
-	}
+foreach ($listInvoicesItems as $item) {
+    if ($listInvoicesItems["invitem_completed"] == "0") {
+        $comptSta = "1";
+        $notCompleted = $strings["note_invoice_items_notcompleted"];
+        break;
+    }
 }
 
-for ($i=$begin;$i<$comptSta;$i++) {
-	if ($detailInvoice->inv_status[0] == $i) {
-		$selectStatus .= "<option value=\"$i\" selected>$invoiceStatus[$i]</option>";
-	} else {
-		$selectStatus .= "<option value=\"$i\">$invoiceStatus[$i]</option>";
-	}
+for ($i = $begin; $i < $comptSta; $i++) {
+    if ($detailInvoice["inv_status"] == $i) {
+        $selectStatus .= '<option value="' . $i . '" selected>' . $invoiceStatus[$i] . '</option>';
+    } else {
+        $selectStatus .= '<option value="' . $i . '">' . $invoiceStatus[$i] . '</option>';
+    }
 }
 
-$selectStatus .= "</select> $notCompleted";
+$selectStatus .= '</select>' . $notCompleted;
 
-$block1->contentRow($strings["status"],$selectStatus);
+$block1->contentRow($strings["status"], $selectStatus);
 
 if ($dd == "") {
-	$dd = "--";
+    $dd = "--";
 }
 
-$block1->contentRow($strings["due_date"],"<input type='text' name='dd' id='due_date' size='20' value='$dd'><input type='button' value=' ... ' id='trigDueDate''>");
+$block1->contentRow($strings["due_date"], "<input type='text' name='dd' id='due_date' size='20' value='$dd'><input type='button' value=' ... ' id='trigDueDate''>");
 echo "
 <script type='text/javascript'>
     Calendar.setup({
@@ -168,71 +187,84 @@ echo "
     });
 </script>
 ";
-$block1->contentRow($strings["published"],"<input size=\"32\" value=\"0\" name=\"pub\" type=\"checkbox\" $checkedPub>");
+$block1->contentRow($strings["published"], "<input size=\"32\" value=\"0\" name=\"pub\" type=\"checkbox\" $checkedPub>");
 
 $block1->contentTitle($strings["calculation"]);
 
-echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">".$strings["items"]." :</td><td>";
-echo "<table cellpadding=\"0\" cellspacing=\"0\">";
+echo '<tr class="odd"><td valign="top" class="leftvalue">' . $strings["items"] . ' :</td><td>';
+echo '<table cellpadding="0" cellspacing="0">';
 
-echo "<input type=\"hidden\" name=\"comptListInvoicesItems\" value=\"$comptListInvoicesItems\">";
+echo '<input type="hidden" name="comptListInvoicesItems" value="' . $comptListInvoicesItems . '">';
 ?>
 
-<script type="text/JavaScript">
-function calc(w) {
-var item = [];
-var subtotal = 0;
+    <script type="text/JavaScript">
+        function calc(w) {
+            var item = [];
+            var subtotal = 0;
 
-for (var i = 0; i < <?php echo $comptListInvoicesItems; ?>; i++) {
-      item[i] = 1 * document.invoiceForm["item" + i].value;
-	if (item[i] == "") {
-		item[i] = 0;
-	} else {
-		subtotal += item[i];
-	}
-}
-document.invoiceForm["total_ex_tax"].value = subtotal;
+            for (var i = 0; i < <?php echo $comptListInvoicesItems; ?>; i++) {
+                item[i] = 1 * document.invoiceForm["item" + i].value;
+                if (item[i] == "") {
+                    item[i] = 0;
+                } else {
+                    subtotal += item[i];
+                }
+            }
+            document.invoiceForm["total_ex_tax"].value = subtotal;
 
-var ratePercent = document.invoiceForm["tax_rate"].value;
+            var ratePercent = document.invoiceForm["tax_rate"].value;
 
-if (subtotal != 0) {
-var amount_due = subtotal + (subtotal*ratePercent)/100;
+            if (subtotal != 0) {
+                var amount_due = subtotal + (subtotal * ratePercent) / 100;
 
-document.invoiceForm["total_inc_tax"].value = amount_due;
-}
+                document.invoiceForm["total_inc_tax"].value = amount_due;
+            }
 
-if (subtotal != 0 && ratePercent != '') {
-var tax_part = (subtotal*ratePercent)/100;
-document.invoiceForm["tax_amount"].value = tax_part;
-}
-}
-</script>
+            if (subtotal != 0 && ratePercent != '') {
+                var tax_part = (subtotal * ratePercent) / 100;
+                document.invoiceForm["tax_amount"].value = tax_part;
+            }
+        }
+    </script>
 
 <?php
-if ($comptListInvoicesItems != "0") {
-echo "<tr><td>".$strings["position"]."</td><td>".$strings["title"]."</td><td>".$strings["amount_ex_tax"]."</td><td>".$strings["completed"]."</td></tr>";
-for ($i=0;$i<$comptListInvoicesItems;$i++) {
-if ($listInvoicesItems->invitem_completed[$i] == "1") {
-	$completeValue = $strings["yes"];
-} else {
-	$completeValue = $strings["no"];
-}
-echo "<tr><td><input type=\"hidden\" name=\"itemId[$i]\" size=\"20\" value=\"".$listInvoicesItems->invitem_id[$i]."\"><input type=\"text\" name=\"position[$i]\" size=\"3\" value=\"".$listInvoicesItems->invitem_position[$i]."\"></td><td><input type=\"text\" name=\"title[$i]\" size=\"20\" value=\"".$listInvoicesItems->invitem_title[$i]."\"></td><td><input type=\"text\" name=\"item$i\" size=\"20\" value=\"".$listInvoicesItems->invitem_amount_ex_tax[$i]."\" tabindex=\"$i\" onblur=\"calc(this)\"></td><td>$completeValue</td></tr>";
-}
+if ($listInvoicesItems) {
+    echo "<tr><td>" . $strings["position"] . "</td><td>" . $strings["title"] . "</td><td>" . $strings["amount_ex_tax"] . "</td><td>" . $strings["completed"] . "</td></tr>";
+    $itemCount = 0;
+    foreach ($listInvoicesItems as $item) {
+        if ($item["invitem_completed"] == "1") {
+            $completeValue = $strings["yes"];
+        } else {
+            $completeValue = $strings["no"];
+        }
+        echo <<<TR
+        <tr>
+            <td width="50"><input type="hidden" name="itemId[{$itemCount}]" size="20" value="{$item["invitem_id"]}"><input type="text" name="position[{$itemCount}]" size="3" value="{$item["invitem_position"]}"></td>
+            <td width="200"><input type="text" name="title[{$itemCount}]" size="30" value="{$item["invitem_title"]}"></td>
+            <td width="50"><input type="text" name="item{$itemCount}" size="20" value="{$item["invitem_amount_ex_tax"]}" tabindex="{$itemCount}" onblur="calc(this)"></td>
+            <td width="50">{$completeValue}</td>
+        </tr>
+TR;
+        $itemCount++;
+    }
 }
 
 echo "</table>";
 echo "</td></tr>";
 
-$block1->contentRow($strings["total_ex_tax"],"<input type=\"text\" name=\"total_ex_tax\" size=\"20\" value=\"$total_ex_tax\">");
-$block1->contentRow($strings["tax_rate"],"<input type=\"text\" name=\"tax_rate\" size=\"20\" value=\"$tax_rate\" onblur=\"calc(this)\"> %");
-$block1->contentRow($strings["tax_amount"],"<input type=\"text\" name=\"tax_amount\" size=\"20\" value=\"$tax_amount\">");
-$block1->contentRow($strings["total_inc_tax"],"<input type=\"text\" name=\"total_inc_tax\" size=\"20\" value=\"$total_inc_tax\">");
+$block1->contentRow($strings["total_ex_tax"], "<input type=\"text\" name=\"total_ex_tax\" size=\"20\" value=\"$total_ex_tax\">");
+$block1->contentRow($strings["tax_rate"], "<input type=\"text\" name=\"tax_rate\" size=\"20\" value=\"$tax_rate\" onblur=\"calc(this)\"> %");
+$block1->contentRow($strings["tax_amount"], "<input type=\"text\" name=\"tax_amount\" size=\"20\" value=\"$tax_amount\">");
+$block1->contentRow($strings["total_inc_tax"], "<input type=\"text\" name=\"total_inc_tax\" size=\"20\" value=\"$total_inc_tax\">");
 
-echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td><input type=\"SUBMIT\" value=\"".$strings["save"]."\"></td></tr>";
+echo <<<TR
+<tr class="odd">
+    <td valign="top" class="leftvalue">&nbsp;</td>
+    <td><input type="SUBMIT" value="{$strings["save"]}"></td>
+</tr>
+TR;
 
 $block1->closeContent();
 $block1->closeForm();
 
-include('../themes/'.THEME.'/footer.php');
-?>
+include APP_ROOT . '/themes/' . THEME . '/footer.php';

@@ -1,129 +1,140 @@
 <?php
-#Application name: PhpCollab
-#Status page: 0
-
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
+
+$support = new \phpCollab\Support\Support();
+
+$id = isset($_GET["id"]) ? $_GET["id"] : null;
+$action = isset($_GET["action"]) ? $_GET["action"] : null;
+
+$sendto = isset($_GET["sendTo"]) ? $_GET["sendTo"] : null;
+$project = isset($_GET["project"]) ? $_GET["project"] : null;
+
+$strings = $GLOBALS["strings"];
 
 if ($enableHelpSupport != "true") {
-	headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
-	exit;
+    phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 
 if ($supportType == "admin") {
-	if ($profilSession != "0") {
-		headerFunction('../general/permissiondenied.php?'.session_name().'='.session_id());
-		exit;
-	}
+    if ($profilSession != "0") {
+        phpCollab\Util::headerFunction('../general/permissiondenied.php');
+    }
 }
 
 if ($action == "deleteRequest") {
-	$id = str_replace("**",",",$id);
-	$tmpquery1 = "DELETE FROM ".$tableCollab["support_requests"]." WHERE id IN($id)";
-	$tmpquery2 = "DELETE FROM ".$tableCollab["support_posts"]." WHERE request_id IN($id)";
-	$pieces = explode(",",$id);
-	$num = count($pieces);
-	connectSql("$tmpquery1");
-	connectSql("$tmpquery2");
-	
-	headerFunction("../support/support.php?msg=delete&action=$sendto&project=$project&".session_name()."=".session_id());
-	exit;	
+    $id = str_replace("**", ",", $id);
+    $pieces = explode(",", $id);
+    $num = count($pieces);
+
+    $support->deleteSupportRequests($id);
+    $support->deleteSupportPostsByRequestId($id);
+
+    phpCollab\Util::headerFunction("../support/support.php?msg=delete&action={$sendto}&project={$project}");
 }
 
 if ($action == "deletePost") {
-	$id = str_replace("**",",",$id);
-	$tmpquery3 = "DELETE FROM ".$tableCollab["support_posts"]." WHERE id IN($id)";
-	$pieces = explode(",",$id);
-	$num = count($pieces);
-	connectSql("$tmpquery3");
-	
-	headerFunction("../support/viewrequest.php?msg=delete&id=$sendto&".session_name()."=".session_id());
-	exit;	
+    $id = str_replace("**", ",", $id);
+    $pieces = explode(",", $id);
+    $num = count($pieces);
+    $support->deleteSupportPostsById($id);
+
+    phpCollab\Util::headerFunction("../support/viewrequest.php?msg=delete&id=$sendto");
 }
 
 
 if ($action == "deleteR") {
-	$id = str_replace("**",",",$id);
-	$tmpquery = "WHERE sr.id IN($id) ORDER BY sr.subject";
-	$listRequest = new request();
-	$listRequest->openSupportRequests($tmpquery);
-	$comptListRequest = count($listRequest->sr_id);
-}elseif ($action == "deleteP") {
-	$id = str_replace("**",",",$id);
-	$tmpquery = "WHERE sp.id IN($id) ORDER BY sp.id";
-	$listPost = new request();
-	$listPost->openSupportPosts($tmpquery);
-	$comptListPost = count($listPost->sp_id);
+    $id = str_replace("**", ",", $id);
+    $listRequest = $support->getSupportRequestByIdIn($id);
+} elseif ($action == "deleteP") {
+    $id = str_replace("**", ",", $id);
+    $listPost = $support->getSupportPostsByRequestIdIn($id);
 
-	$tmpquery2 = "WHERE sr.id IN(".$listPost->sp_request_id[0].") ORDER BY sr.subject";
-	$listRequest = new request();
-	$listRequest->openSupportRequests($tmpquery2);
-	$comptListRequest = count($listRequest->sr_id);
+    $listRequest = $support->getSupportRequestById($listPost["sp_request_id"]);
 }
 
-include('../themes/'.THEME.'/header.php');
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
-$blockPage = new block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 if ($supportType == "team") {
-	$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?",$strings["projects"],in));
-	$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$listRequest->sr_project[0],$listRequest->sr_pro_name[0],in));
-	$blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=".$listRequest->sr_project[0],$strings["support_requests"],in));
-	if ($action == "deleteR") {
-		$blockPage->itemBreadcrumbs($strings["delete_request"]);
-	} else if ($action == "deleteP") {
-		$blockPage->itemBreadcrumbs($strings["delete_support_post"]);
-	}
-}elseif($supportType == "admin"){
-	$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?",$strings["administration"],in));
-	$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/support.php?",$strings["support_management"],in));
-	$blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=".$listRequest->sr_project[0],$strings["support_requests"],in));
-	if ($action == "deleteR") {
-		$blockPage->itemBreadcrumbs($strings["delete_request"]);
-	} else if ($action == "deleteP") {
-		$blockPage->itemBreadcrumbs($strings["delete_support_post"]);
-	}
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
+    if (isset($listRequest) && $listRequest != '') {
+        $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $listRequest["sr_project"], $listRequest["sr_pro_name"], "in"));
+        $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=" . $listRequest["sr_project"], $strings["support_requests"], "in"));
+    }
+    if ($action == "deleteR") {
+        $blockPage->itemBreadcrumbs($strings["delete_request"]);
+    } else if ($action == "deleteP") {
+        $blockPage->itemBreadcrumbs($strings["delete_support_post"]);
+    }
+} elseif ($supportType == "admin") {
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/support.php?", $strings["support_management"], "in"));
+    if (isset($listRequest) && $listRequest != '') {
+        $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=" . $listRequest["sr_project"], $strings["support_requests"], "in"));
+    }
+    if ($action == "deleteR") {
+        $blockPage->itemBreadcrumbs($strings["delete_request"]);
+    } else if ($action == "deleteP") {
+        $blockPage->itemBreadcrumbs($strings["delete_support_post"]);
+    }
 }
 $blockPage->closeBreadcrumbs();
 
 
 if ($msg != "") {
-	include('../includes/messages.php');
-	$blockPage->messagebox($msgLabel);
+    include '../includes/messages.php';
+    $blockPage->messageBox($GLOBALS["msgLabel"]);
 }
 
-$block1 = new block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "saP";
-if ($action == "deleteR") {
-	$block1->openForm("../support/deleterequests.php?action=deleteRequest&id=$id&sendto=$sendto&project=".$listRequest->sr_project[0]."&".session_name()."=".session_id());
-}elseif($action == "deleteP"){
-	$block1->openForm("../support/deleterequests.php?action=deletePost&id=$id&sendto=".$listRequest->sr_id[0]."&".session_name()."=".session_id());
+if (isset($listRequest) && $listRequest != '') {
+    if ($action == "deleteR") {
+        $block1->openForm("../support/deleterequests.php?action=deleteRequest&id=$id&sendto=$sendto&project=" . $listRequest["sr_project"] . "");
+    } elseif ($action == "deleteP") {
+        $block1->openForm("../support/deleterequests.php?action=deletePost&id=$id&sendto=" . $listRequest["sr_id"] . "");
+    }
 }
 
 if ($action == "deleteR") {
-	$block1->heading($strings["delete_request"]);
-}elseif($action == "deleteP"){
-	$block1->heading($strings["delete_support_post"]);
+    $block1->heading($strings["delete_request"]);
+} elseif ($action == "deleteP") {
+    $block1->heading($strings["delete_support_post"]);
 }
 
 $block1->openContent();
 $block1->contentTitle($strings["delete_following"]);
 
 if ($action == "deleteR") {
-for ($i=0;$i<$comptListRequest;$i++) {
-	echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td>".$listRequest->sr_subject[$i]."</td></tr>";
-}
-echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td><input type=\"submit\" name=\"delete\" value=\"".$strings["delete"]."\"> <input type=\"button\" name=\"cancel\" value=\"".$strings["cancel"]."\" onClick=\"history.back();\"></td></tr>";
-}elseif ($action == "deleteP"){
-	for ($i=0;$i<$comptListPost;$i++) {
-		echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td>".$listPost->sp_id[$i]."</td></tr>";
-	}
-	echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td><input type=\"submit\" name=\"delete\" value=\"".$strings["delete"]."\"> <input type=\"button\" name=\"cancel\" value=\"".$strings["cancel"]."\" onClick=\"history.back();\"></td></tr>";
+    if (isset($listRequest) && $listRequest != '') {
+        foreach ($listRequest as $request) {
+            echo '<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td>' . $request["sr_subject"] . '</td></tr>';
+        }
+    }
+    echo <<< TR
+    <tr class="odd">
+      <td valign="top" class="leftvalue">&nbsp;</td>
+      <td><input type="submit" name="delete" value="{$strings["delete"]}"> <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();"></td>
+    </tr>
+TR;
+} elseif ($action == "deleteP") {
+    if (isset($listPost) && $listPost != '') {
+        foreach ($listPost as $post) {
+            echo '<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td>' . $post["sp_id"] . '</td></tr>';
+        }
+    }
+    echo <<< TR
+    <tr class="odd">
+      <td valign="top" class="leftvalue">&nbsp;</td>
+      <td><input type="submit" name="delete" value="{$strings["delete"]}"> <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();"></td>
+    </tr>
+TR;
 }
 
 $block1->closeContent();
 $block1->closeForm();
 
-include('../themes/'.THEME.'/footer.php');
-?>
+include APP_ROOT . '/themes/' . THEME . '/footer.php';

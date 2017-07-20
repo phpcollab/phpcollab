@@ -5,26 +5,26 @@
 
 //translator(s): Poorlyte <poorlyte@yahoo.com> (all versions)
 
-$help["setup_mkdirMethod"] = "Se o modo de seguranÁa est· Ativo, vocÍ precisa definir uma conta de FTP para ser capaz de criar uma pasta para o gerenciamento do arquivo.";
-$help["setup_notifications"] = "NotificaÁıes por email aos usu·rios:<br/><br/>&nbsp;&nbsp;- AtribuiÁ„o de tarefa<br/>&nbsp;&nbsp;- Nova mensagem<br/>&nbsp;&nbsp;- AlteraÁıes nas tarefas<br/>&nbsp;&nbsp;- ect<br/><br/>Requerem um servidor de SMTP/SendMail v·lido.";
-$help["setup_forcedlogin"] = "Se n„o, rejeita um link externo com o nome de usu·rio e senha na url.";
-$help["setup_langdefault"] = "Escolha o idioma padr„o selecionado na entrada do sistema ou deixe em branco para detecÁ„o autom·tica do idioma atravÈs da configuraÁ„o do navegador.";
-$help["setup_myprefix"] = "Defina esta propriedade se vocÍ tiver tabelas com mesmo nome num mesmo banco de dados.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Deixem em branco caso n„o for usar um prefixo para as tabelas.";
-$help["setup_loginmethod"] = "MÈtodo para armazenar as senhas no banco de dados.<br/><br/>Defina para &quot;Crypt&quot; para a autenticaÁ„o do CVS e htaccess funcionarem caso estejam ativos.";
-$help["admin_update"] = "Considere sempre a notificaÁ„o indicando para vocÍ atualizar sua vers„o.<br/><br/>&nbsp;&nbsp;1. Editar ConfiguraÁıes - OpÁıes gerais para FTP, servidor de email, temas, mÛdulos suplementares, etc;<br/><br/>&nbsp;&nbsp;2. Editar Banco de Dados - AtualizaÁ„o dependendo da sua vers„o anterior do PhpCollab.";
-$help["task_scope_creep"] = "DiferenÁa, em dias, entre a data de tÈrmino e a data de finalizaÁ„o (se houver a diferenÁa o valor ser· mostrado em negrito).";
-$help["max_file_size"] = "Tamanho m·ximo de um arquivo para upload.";
+$help["setup_mkdirMethod"] = "Se o modo de seguran√ßa est√° Ativo, voc√™ precisa definir uma conta de FTP para ser capaz de criar uma pasta para o gerenciamento do arquivo.";
+$help["setup_notifications"] = "Notifica√ß√µes por email aos usu√°rios:<br/><br/>&nbsp;&nbsp;- Atribui√ß√£o de tarefa<br/>&nbsp;&nbsp;- Nova mensagem<br/>&nbsp;&nbsp;- Altera√ß√µes nas tarefas<br/>&nbsp;&nbsp;- ect<br/><br/>Requerem um servidor de SMTP/SendMail v√°lido.";
+$help["setup_forcedlogin"] = "Se n√£o, rejeita um link externo com o nome de usu√°rio e senha na url.";
+$help["setup_langdefault"] = "Escolha o idioma padr√£o selecionado na entrada do sistema ou deixe em branco para detec√ß√£o autom√°tica do idioma atrav√©s da configura√ß√£o do navegador.";
+$help["setup_myprefix"] = "Defina esta propriedade se voc√™ tiver tabelas com mesmo nome num mesmo banco de dados.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Deixem em branco caso n√£o for usar um prefixo para as tabelas.";
+$help["setup_loginmethod"] = "M√©todo para armazenar as senhas no banco de dados.<br/><br/>Defina para &quot;Crypt&quot; para a autentica√ß√£o do CVS e htaccess funcionarem caso estejam ativos.";
+$help["admin_update"] = "Considere sempre a notifica√ß√£o indicando para voc√™ atualizar sua vers√£o.<br/><br/>&nbsp;&nbsp;1. Editar Configura√ß√µes - Op√ß√µes gerais para FTP, servidor de email, temas, m√≥dulos suplementares, etc;<br/><br/>&nbsp;&nbsp;2. Editar Banco de Dados - Atualiza√ß√£o dependendo da sua vers√£o anterior do PhpCollab.";
+$help["task_scope_creep"] = "Diferen√ßa, em dias, entre a data de t√©rmino e a data de finaliza√ß√£o (se houver a diferen√ßa o valor ser√° mostrado em negrito).";
+$help["max_file_size"] = "Tamanho m√°ximo de um arquivo para upload.";
 $help["project_disk_space"] = "Tamanho total dos arquivos relacionados ao projeto.";
-$help["project_scope_creep"] = "DiferenÁa, em dias, entre a data de encerraÁ„o e a data de finalizaÁ„o (se houver diferenÁa o valor ser· mostrado em negrito).<br/><br/>Tempo total para todas as tarefas do projeto.";
-$help["mycompany_logo"] = "Envia o logotipo da sua empresa. A imagem ir· aparecer no cabeÁalho no lugar do tÌtulo do site.";
-$help["calendar_shortname"] = "RÛtulo que aparecer· no calend·rio no modo de visualizaÁ„o mensal. ObrigatÛrio.";
-$help["user_autologout"] = "Tempo, em segundos, para ser desconectado apÛs inatividade. Coloque 0 (zero) para desabilitar este recurso.";
-$help["user_timezone"] = "Defina seu fuso hor·rio (GMT).";
+$help["project_scope_creep"] = "Diferen√ßa, em dias, entre a data de encerra√ß√£o e a data de finaliza√ß√£o (se houver diferen√ßa o valor ser√° mostrado em negrito).<br/><br/>Tempo total para todas as tarefas do projeto.";
+$help["mycompany_logo"] = "Envia o logotipo da sua empresa. A imagem ir√° aparecer no cabe√ßalho no lugar do t√≠tulo do site.";
+$help["calendar_shortname"] = "R√≥tulo que aparecer√° no calend√°rio no modo de visualiza√ß√£o mensal. Obrigat√≥rio.";
+$help["user_autologout"] = "Tempo, em segundos, para ser desconectado ap√≥s inatividade. Coloque 0 (zero) para desabilitar este recurso.";
+$help["user_timezone"] = "Defina seu fuso hor√°rio (GMT).";
 //2.4
-$help["setup_clientsfilter"] = "Filtrar para ver somente os usu·rios de clientes conectados.";
-$help["setup_projectsfilter"] = "Filtrar para ver somente o projeto quando o usu·rio estiver em uma equipe.";
+$help["setup_clientsfilter"] = "Filtrar para ver somente os usu√°rios de clientes conectados.";
+$help["setup_projectsfilter"] = "Filtrar para ver somente o projeto quando o usu√°rio estiver em uma equipe.";
 //2.5
-$help["setup_notificationMethod"] = "Define o mÈtodo de envio de notificaÁıes por email:<br/><br/>&nbsp;&nbsp;a) Utilizando a funÁ„o interna de email do PHP (para ter um servidor SMTP ou sendmail È necess·rio que os par‚metros necess·rios estejam configurados no PHP).<br/><br/>&nbsp;&nbsp;b) Utilizando um servidor SMTP personalizado.";
+$help["setup_notificationMethod"] = "Define o m√©todo de envio de notifica√ß√µes por email:<br/><br/>&nbsp;&nbsp;a) Utilizando a fun√ß√£o interna de email do PHP (para ter um servidor SMTP ou sendmail √© necess√°rio que os par√¢metros necess√°rios estejam configurados no PHP).<br/><br/>&nbsp;&nbsp;b) Utilizando um servidor SMTP personalizado.";
 //2.5 fullo
-$help["newsdesk_links"] = "Para adicionar m˙ltiplos links relacionados use um ponto-e-vÌrgula entre cada link. Ex: http://php.org/; http://phpcollab.com/";
+$help["newsdesk_links"] = "Para adicionar m√∫ltiplos links relacionados use um ponto-e-v√≠rgula entre cada link. Ex: http://php.org/; http://phpcollab.com/";
 ?>

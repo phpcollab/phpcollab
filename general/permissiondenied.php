@@ -27,20 +27,19 @@
 */
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
-include('../themes/'.THEME.'/header.php');
+include '../themes/' . THEME . '/header.php';
 
-$blockPage = new block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs("&nbsp;");
 $blockPage->closeBreadcrumbs();
 
 $msg = "permissiondenied";
 if ($msg != "") {
-	include('../includes/messages.php');
-	$blockPage->messagebox($msgLabel);
+    include '../includes/messages.php';
+    $blockPage->messageBox($msgLabel);
 }
 
-include('../themes/'.THEME.'/footer.php');
-?>
+include '../themes/' . THEME . '/footer.php';

@@ -1,12 +1,12 @@
 <?php
-#Application name: PhpCollab
-#Status page: 0
-echo "</td></tr></table>";
-
-echo "</td>
-</tr>
+echo <<< HTML
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
 </table>
-
 </body>
-</html>";
-?>
+</html>
+HTML;
+

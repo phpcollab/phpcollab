@@ -27,7 +27,6 @@
 */
 
 $checkSession = "true";
-include("../includes/library.php");
+include '../includes/library.php';
 
 phpinfo();
-?>

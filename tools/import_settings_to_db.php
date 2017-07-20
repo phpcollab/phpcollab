@@ -1,6 +1,6 @@
 <?php
 // Required Libraries
-include(dirname(realpath(__FILE__)) . '/../includes/adodb/adodb.inc.php');
+include dirname(realpath(__FILE__)) . '/../includes/adodb/adodb.inc.php';
 global $ourDBType;
 
 $ourDBType = null; // Default
@@ -89,6 +89,9 @@ $databaseType = \'' . $ourDBType . '\';
     return false;
 }
 
+/**
+ * @return bool
+ */
 function isConverted()
 {
     require_once(dirname(realpath(__FILE__)) . '/../includes/settings.php');
@@ -99,6 +102,9 @@ function isConverted()
     return CONVERTED;
 }
 
+/**
+ * @param $data
+ */
 function populateDatabase($data)
 {
     //First let's empty the table, we don't want anything in here..
@@ -109,7 +115,6 @@ function populateDatabase($data)
     foreach ($data as $key => $val) {
         if (substr($key, 0, 2) == "MY") {
             $work = substr($key, 2);
-            eval("\$$work = '$val';");
         }
 
         if ($key == "databaseType") {
@@ -133,6 +138,10 @@ function populateDatabase($data)
 
 }
 
+/**
+ * @param $contents
+ * @return array
+ */
 function parseSettings($contents)
 {
     global $ourDBType;
@@ -213,6 +222,10 @@ function parseSettings($contents)
 }
 
 // Functions to aid in displaying  output to the browser
+/**
+ * @param $message
+ * @param string $title
+ */
 function showInfoBox($message, $title = '.:: DEBUG ::.')
 {
     $message = nl2br($message);
@@ -231,6 +244,9 @@ function showInfoBox($message, $title = '.:: DEBUG ::.')
 ';
 }
 
+/**
+ *
+ */
 function startOutput()
 {
     echo '
@@ -258,6 +274,9 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 
 }
 
+/**
+ *
+ */
 function endOutput()
 {
     echo '

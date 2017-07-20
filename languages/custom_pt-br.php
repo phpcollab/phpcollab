@@ -5,16 +5,16 @@
 
 //translator(s): Poorlyte <poorlyte@yahoo.com> (All Versions))
 
-$topicNote = array(1 => "Conversa Telefônica", 2 => "Notas de Conferência", 3 => "Notas Gerais");
+$topicNote = array(1 => "Conversa TelefÃ´nica", 2 => "Notas de ConferÃªncia", 3 => "Notas Gerais");
 
 $phaseArraySets = array(
 	#Define the names of your phase sets
 	"sets" => array(1 => "Website", 2 => "CD"),
 	#List the indervitual items within each phase set.
 	#Website Set
-	"1" => array(0 => "Planejamento", 1 => "Design", 2 => "Testes", 3 => "Término", 4 => "Produção"),
+	"1" => array(0 => "Planejamento", 1 => "Design", 2 => "Testes", 3 => "TÃ©rmino", 4 => "ProduÃ§Ã£o"),
 	#CD Set
-	"2" => array(0 => "Planejamento", 1 => "Design", 2 => "Testes", 3 => "Produção")
+	"2" => array(0 => "Planejamento", 1 => "Design", 2 => "Testes", 3 => "ProduÃ§Ã£o")
 );
 
 ?>

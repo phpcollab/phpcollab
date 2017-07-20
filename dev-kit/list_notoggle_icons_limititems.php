@@ -4,27 +4,27 @@
 #Path by root: ../dev-kit/list_notoggle_icons_limititems.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
-include('../themes/'.THEME.'/header.php');
+include '../themes/' . THEME . '/header.php';
 
-$blockPage = new block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?",$strings["organizations"],in));
 $blockPage->itemBreadcrumbs($strings["organizations"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
-	include('../includes/messages.php');
-	$blockPage->messagebox($msgLabel);
+	include '../includes/messages.php';
+	$blockPage->messageBox($msgLabel);
 }
 
 $blockPage->bornesNumber = "2";
 
-$block1 = new block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "clientList";
-$block1->openForm("../clients/listclients.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
+$block1->openForm("../clients/listclients.php#".$block1->form."Anchor");
 
 $block1->heading($strings["organizations"]);
 
@@ -40,9 +40,9 @@ $block1->sorting("organizations",$sortingUser->sor_organizations[0],"org.name AS
 
 $tmpquery = "WHERE org.id != '1' ORDER BY $block1->sortingValue";
 
-$block1->recordsTotal = compt($initrequest["organizations"]." ".$tmpquery);
+$block1->recordsTotal = phpCollab\Util::computeTotal($initrequest["organizations"]." ".$tmpquery);
 
-$listOrganizations = new request();
+$listOrganizations = new phpCollab\Request();
 $listOrganizations->openOrganizations($tmpquery,$block1->borne,$block1->rowsLimit);
 $comptListOrganizations = count($listOrganizations->org_id);
 
@@ -72,10 +72,10 @@ $block1->paletteScript(0,"add","../clients/editclient.php?","true,false,false",$
 $block1->paletteScript(1,"remove","../clients/deleteclients.php?","false,true,true",$strings["delete"]);
 $block1->closePaletteScript($comptListOrganizations,$listOrganizations->org_id);
 
-$block2 = new block();
+$block2 = new phpCollab\Block();
 
 $block2->form = "clientList2";
-$block2->openForm("../clients/listclients.php?".session_name()."=".session_id()."#".$block2->form."Anchor");
+$block2->openForm("../clients/listclients.php#".$block2->form."Anchor");
 
 $block2->heading($strings["organizations"]);
 
@@ -91,9 +91,9 @@ $block2->sorting("organizations",$sortingUser->sor_organizations[0],"org.name AS
 
 $tmpquery = "WHERE org.id != '1' ORDER BY $block2->sortingValue";
 
-$block2->recordsTotal = compt($initrequest["organizations"]." ".$tmpquery);
+$block2->recordsTotal = phpCollab\Util::computeTotal($initrequest["organizations"]." ".$tmpquery);
 
-$listOrganizations2 = new request();
+$listOrganizations2 = new phpCollab\Request();
 $listOrganizations2->openOrganizations($tmpquery,$block2->borne,$block2->rowsLimit);
 $comptlistOrganizations2 = count($listOrganizations2->org_id);
 
@@ -123,5 +123,5 @@ $block2->paletteScript(0,"add","../clients/editclient.php?","true,false,false",$
 $block2->paletteScript(1,"remove","../clients/deleteclients.php?","false,true,true",$strings["delete"]);
 $block2->closePaletteScript($comptlistOrganizations2,$listOrganizations2->org_id);
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>

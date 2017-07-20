@@ -4,46 +4,74 @@
 #Path by root: ../users/addclientuser.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
-$tmpquery = "WHERE org.id = '$organization'";
-$clientDetail = new request();
-$clientDetail->openOrganizations($tmpquery);
-$comptClientDetail = count($clientDetail->org_id);
+if (!$_GET['organization']) {
+    phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankUser");
+}
+
+$orgId = $_GET['organization'];
+
+$organizations = new \phpCollab\Organizations\Organizations();
+$clientDetail = $organizations->checkIfClientExistsById($orgId);
+
+if (empty($clientDetail)) {
+    phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
+}
 
 //case add client user
-
 //test if login already exists
-if ($action == "add") {
+if ($_GET['action'] == "add") {
     if (!preg_match("/^[A-Za-z0-9]+$/", $un)) {
         $error = $strings["alpha_only"];
     } else {
-        $tmpquery = "WHERE mem.login = '$un'";
-        $existsUser = new request();
-        $existsUser->openMembers($tmpquery);
-        $comptExistsUser = count($existsUser->mem_id);
-        if ($comptExistsUser != "0") {
+        $members = new \phpCollab\Members\Members();
+        $memberCheck = $members->getMemberByLogin($un);
+
+        if (!empty($memberCheck)) {
             $error = $strings["user_already_exists"];
         } else {
 
-//test if 2 passwords match
+            //test if 2 passwords match
             if ($pw != $pwa || $pw == "") {
                 $error = $strings["new_password_error"];
             } else {
+                //replace quotes by html code in name and address
+                $fn = phpCollab\Util::convertData($fn);
+                $tit = phpCollab\Util::convertData($tit);
+                $c = phpCollab\Util::convertData($c);
+                $pw = phpCollab\Util::getPassword($pw);
 
-//replace quotes by html code in name and address
-                $fn = convertData($fn);
-                $tit = convertData($tit);
-                $c = convertData($c);
-                $pw = get_password($pw);
-                $tmpquery1 = "INSERT INTO " . $tableCollab["members"] . "(organization,login,name,title,email_work,phone_work,phone_home,mobile,fax,comments,password,profil,created,timezone) VALUES('$clod','$un','$fn','$tit','$em','$wp','$hp','$mp','$fax','$c','$pw','3','$dateheure','0')";
-                connectSql("$tmpquery1");
-                $tmpquery = $tableCollab["members"];
-                last_id($tmpquery);
-                $num = $lastId[0];
-                unset($lastId);
-                $tmpquery3 = "INSERT INTO " . $tableCollab["notifications"] . "(member,taskAssignment,removeProjectTeam,addProjectTeam,newTopic,newPost,statusTaskChange,priorityTaskChange,duedateTaskChange,clientAddTask) VALUES ('$num','0','0','0','0','0','0','0','0','0')";
-                connectSql("$tmpquery3");
+                $insertMemberSQL = "INSERT INTO {$tableCollab["members"]} (organization,login,name,title,email_work,phone_work,phone_home,mobile,fax,comments,password,profil,created,timezone) VALUES (:organization,:login,:name,:title,:email_work,:phone_work,:phone_home,:mobile,:fax,:comments,:password,:profile,:created,:timezone)";
+
+                $dbParams = [];
+                $dbParams['organization'] = $clod;
+                $dbParams['login'] = $un;
+                $dbParams['name'] = $fn;
+                $dbParams['title'] = $tit;
+                $dbParams['email_work'] = $em;
+                $dbParams['phone_work'] = $wp;
+                $dbParams['phone_home'] = $hp;
+                $dbParams['mobile'] = $mp;
+                $dbParams['fax'] = $fax;
+                $dbParams['comments'] = $c;
+                $dbParams['password'] = $pw;
+                $dbParams['profile'] = 3;
+                $dbParams['created'] = $dateheure;
+                $dbParams['timezone'] = 0;
+
+                $newMemberId = phpCollab\Util::newConnectSql($insertMemberSQL, $dbParams);
+
+                unset($dbParams);
+
+                $insertNotifications = "INSERT INTO {$tableCollab["notifications"]} (member,taskAssignment,removeProjectTeam,addProjectTeam,newTopic,newPost,statusTaskChange,priorityTaskChange,duedateTaskChange,clientAddTask,uploadFile,dailyAlert,weeklyAlert,pastdueAlert) VALUES (:member_id,0,0,0,0,0,0,0,0,0,0,0,0,0)";
+
+                $dbParams = [];
+                $dbParams['member_id'] = $newMemberId;
+
+                phpCollab\Util::newConnectSql($insertNotifications, $dbParams);
+
+                unset($dbParams);
 
 // notify user hack by urbanfalcon
 // 28/05/2003 patch by fullo
@@ -65,7 +93,7 @@ if ($action == "add") {
                     $message .= "\n\n" . $partFooter;
 
                     // THE BELOW FROM LINE IS HARDCODED SINCE THE NOTIFICATION CLASS IS NOT BEING USED AND GLOBALS CAN'T REACH
-                    $headers = "Content-type:text/plain;charset=\"$setCharset\"\nFrom: \"Support\" <" . $supportEmail . ">\nX-Priority: $priorityMail\nX-Mailer: PhpCollab $version";
+                    $headers = "Content-type:text/plain;charset=\"UTF-8\"\nFrom: \"Support\" <" . $supportEmail . ">\nX-Priority: $priorityMail\nX-Mailer: PhpCollab $version";
                     @mail("$em", "$partSubject", "$message", "$headers");
 
                     // SEND A NOTIFICATION EMAIL TO ADMIN - HARD CODED
@@ -81,34 +109,33 @@ if ($action == "add") {
                 if ($enableMantis == "true") {
 // Call mantis function for new user creation!!!
                     $f_access_level = $client_user_level; // Reporter
-                    include("../mantis/create_new_user.php");
+                    include '../mantis/create_new_user.php';
                 }
-                headerFunction("../clients/viewclient.php?id=$clod&msg=add&" . session_name() . "=" . session_id());
-                exit;
+                phpCollab\Util::headerFunction("../clients/viewclient.php?id={$clod}&msg=add");
             }
         }
     }
 }
 
-$bodyCommand = "onLoad=\"document.client_user_addForm.un.focus();\"";
-include('../themes/' . THEME . '/header.php');
+$bodyCommand = 'onLoad="document.client_user_addForm.un.focus();"';
+include '../themes/' . THEME . '/header.php';
 
-$blockPage = new block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?", $strings["clients"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $clientDetail->org_id[0], $clientDetail->org_name[0], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $clientDetail['org_id'], $clientDetail['org_name'], 'in'));
 $blockPage->itemBreadcrumbs($strings["add_client_user"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
-    include('../includes/messages.php');
-    $blockPage->messagebox($msgLabel);
+    include '../includes/messages.php';
+    $blockPage->messageBox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "client_user_add";
-$block1->openForm("../users/addclientuser.php?organization=$organization&action=add&" . session_name() . "=" . session_id());
+$block1->openForm("../users/addclientuser.php?organization={$organization}&action=add");
 
 if ($error != "") {
     $block1->headingError($strings["errors"]);
@@ -120,23 +147,22 @@ $block1->heading($strings["add_client_user"]);
 $block1->openContent();
 $block1->contentTitle($strings["enter_user_details"]);
 
-$block1->contentRow($strings["user_name"], "<input size=\"24\" style=\"width: 250px;\" maxlength=\"16\" type=\"text\" name=\"un\" value=\"$un\">");
-$block1->contentRow($strings["full_name"], "<input size=\"24\" style=\"width: 250px;\" maxlength=\"64\" type=\"text\" name=\"fn\" value=\"$fn\">");
-$block1->contentRow($strings["title"], "<input size=\"24\" style=\"width: 250px;\" maxlength=\"64\" type=\"text\" name=\"tit\" value=\"$tit\">");
+$block1->contentRow($strings["user_name"], '<input size="24" style="width: 250px;" maxlength="16" type="text" name="un" value="'.$un.'">');
+$block1->contentRow($strings["full_name"], '<input size="24" style="width: 250px;" maxlength="64" type="text" name="fn" value="'.$fn.'">');
+$block1->contentRow($strings["title"], '<input size="24" style="width: 250px;" maxlength="64" type="text" name="tit" value="'.$tit.'">');
 
-$selectOrganization = "<select name=\"clod\">";
+$selectOrganization = '<select name="clod">';
 
-$tmpquery = "WHERE org.id != '1' ORDER BY org.name";
-$listOrganizations = new request();
-$listOrganizations->openOrganizations($tmpquery);
-$comptListOrganizations = count($listOrganizations->org_id);
+$organizationsList = $organizations->getListOfOrganizations();
 
-for ($i = 0; $i < $comptListOrganizations; $i++) {
-    if ($organization == $listOrganizations->org_id[$i]) {
-        $selectOrganization .= "<option value=\"" . $listOrganizations->org_id[$i] . "\" selected>" . $listOrganizations->org_name[$i] . "</option>";
+
+foreach ($organizationsList as $org) {
+    if ($orgId == $org['org_id']) {
+        $selectOrganization .= "<option value=\"" . $org['org_id'] . "\" selected>" . $org['org_name'] . "</option>";
     } else {
-        $selectOrganization .= "<option value=\"" . $listOrganizations->org_id[$i] . "\">" . $listOrganizations->org_name[$i] . "</option>";
+        $selectOrganization .= "<option value=\"" . $org['org_id'] . "\">" . $org['org_name'] . "</option>";
     }
+
 }
 
 $selectOrganization .= "</select>";
@@ -157,5 +183,4 @@ $block1->contentRow("", "<input type=\"submit\" name=\"Save\" value=\"" . $strin
 $block1->closeContent();
 $block1->closeForm();
 
-include('../themes/' . THEME . '/footer.php');
-?>
+include '../themes/' . THEME . '/footer.php';

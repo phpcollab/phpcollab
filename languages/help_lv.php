@@ -4,24 +4,24 @@
 #Path by root: ../languages/help_en.php
 
 //translator(s): Krisjanis Berzins <krish@ocean.lv>
-$help["setup_mkdirMethod"] = "Ja \"safe mode\" reşims Ieslçgts, jums jâuzstâda FTP konts lai varçtu veidot mapi ar failu vadîbu.";
-$help["setup_notifications"] = "Lietotâja e-pasta ziòotâji (uzdevumu pieğíirğana, jauns ziòojums, uzdevuma izmaiòas...)<br/>Npiecieğams strâdâjoğs smtp/sendmail.";
-$help["setup_forcedlogin"] = "Ja false, neïaut ârçju linku ar login/password tajâ";
-$help["setup_langdefault"] = "Izvçlies noklusçto valodu ieieğanai sistçmâ vai atstâj Blank lai noteiktu pârlûkprogrammas valodu ar auto_detect.";
-$help["setup_myprefix"] = "Ievadiet vçrtîbu ja eksistçjoğajâ datubâzç jau ir tabulas ar ğâdiem nosaukumiem.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Atstâjiet tukğu lai nelietotu tabulu prefiksus.";
-$help["setup_loginmethod"] = "Metode ar kâdu saglabât datubâzç paroles.<br/>Uzstâdît kâ &quot;Crypt&quot; lai strâdâtu CVS auturizâcija un htaccess autentifikâcija (ja CVS atbalsts un/vai htaccess authentifikâcija ir ieslçgta).";
-$help["admin_update"] = "Strikti ievçrojiet atjauninâğanas kârtîbu<br/>1. Labot uzstâdîjumus (papildinât jaunos parametrus)<br/>2. Labot datubâzi (atjaunot atbilsotği iepriekğçjâm versijâm)";
-$help["task_scope_creep"] = "Starpîba starp termiòu un pabeigğanas datumu dienâs (bold ja pozitîvs)";
-$help["max_file_size"] = "Uzlâdçjamo failu lielâkais atïautais izmçrs";
-$help["project_disk_space"] = "Kopçjais projekta failu izmçrs";
-$help["project_scope_creep"] = "Starpîba starp projekta termiòu un pabeigğanas datumu dienâs (bold ja pozitîvs). Visiem uzdevumiem kopâ";
-$help["mycompany_logo"] = "Uzlâdçjiet kompânijas logotipu. Ar to tiks aizvietots lapas nosaukums (\"PHPCollab\") augğpusç.";
-$help["calendar_shortname"] = "Nosaukums kuru râdît ikmçneğa kalendârâ. Obligâts";
-$help["user_autologout"] = "Laiks sekundçs, pçc kura automâtiski iziet no sistçmas dîkstâves. 0 lai atslçgtu";
-$help["user_timezone"] = "Uzstâdiet GMT laika zonu";
+$help["setup_mkdirMethod"] = "Ja \"safe mode\" reÃ¾ims IeslÃ§gts, jums jÃ¢uzstÃ¢da FTP konts lai varÃ§tu veidot mapi ar failu vadÃ®bu.";
+$help["setup_notifications"] = "LietotÃ¢ja e-pasta ziÃ²otÃ¢ji (uzdevumu pieÃ°Ã­irÃ°ana, jauns ziÃ²ojums, uzdevuma izmaiÃ²as...)<br/>NpiecieÃ°ams strÃ¢dÃ¢joÃ°s smtp/sendmail.";
+$help["setup_forcedlogin"] = "Ja false, neÃ¯aut Ã¢rÃ§ju linku ar login/password tajÃ¢";
+$help["setup_langdefault"] = "IzvÃ§lies noklusÃ§to valodu ieieÃ°anai sistÃ§mÃ¢ vai atstÃ¢j Blank lai noteiktu pÃ¢rlÃ»kprogrammas valodu ar auto_detect.";
+$help["setup_myprefix"] = "Ievadiet vÃ§rtÃ®bu ja eksistÃ§joÃ°ajÃ¢ datubÃ¢zÃ§ jau ir tabulas ar Ã°Ã¢diem nosaukumiem.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>AtstÃ¢jiet tukÃ°u lai nelietotu tabulu prefiksus.";
+$help["setup_loginmethod"] = "Metode ar kÃ¢du saglabÃ¢t datubÃ¢zÃ§ paroles.<br/>UzstÃ¢dÃ®t kÃ¢ &quot;Crypt&quot; lai strÃ¢dÃ¢tu CVS auturizÃ¢cija un htaccess autentifikÃ¢cija (ja CVS atbalsts un/vai htaccess authentifikÃ¢cija ir ieslÃ§gta).";
+$help["admin_update"] = "Strikti ievÃ§rojiet atjauninÃ¢Ã°anas kÃ¢rtÃ®bu<br/>1. Labot uzstÃ¢dÃ®jumus (papildinÃ¢t jaunos parametrus)<br/>2. Labot datubÃ¢zi (atjaunot atbilsotÃ°i iepriekÃ°Ã§jÃ¢m versijÃ¢m)";
+$help["task_scope_creep"] = "StarpÃ®ba starp termiÃ²u un pabeigÃ°anas datumu dienÃ¢s (bold ja pozitÃ®vs)";
+$help["max_file_size"] = "UzlÃ¢dÃ§jamo failu lielÃ¢kais atÃ¯autais izmÃ§rs";
+$help["project_disk_space"] = "KopÃ§jais projekta failu izmÃ§rs";
+$help["project_scope_creep"] = "StarpÃ®ba starp projekta termiÃ²u un pabeigÃ°anas datumu dienÃ¢s (bold ja pozitÃ®vs). Visiem uzdevumiem kopÃ¢";
+$help["mycompany_logo"] = "UzlÃ¢dÃ§jiet kompÃ¢nijas logotipu. Ar to tiks aizvietots lapas nosaukums (\"PHPCollab\") augÃ°pusÃ§.";
+$help["calendar_shortname"] = "Nosaukums kuru rÃ¢dÃ®t ikmÃ§neÃ°a kalendÃ¢rÃ¢. ObligÃ¢ts";
+$help["user_autologout"] = "Laiks sekundÃ§s, pÃ§c kura automÃ¢tiski iziet no sistÃ§mas dÃ®kstÃ¢ves. 0 lai atslÃ§gtu";
+$help["user_timezone"] = "UzstÃ¢diet GMT laika zonu";
 //2.4
-$help["setup_clientsfilter"] = "Filtrs lai redzçtu tikai logotos klienta lietotâjus";
-$help["setup_projectsfilter"] = "Filtrs lai râdîtu tikai projektus kuru komandâs iekïauts lietotâjs";
+$help["setup_clientsfilter"] = "Filtrs lai redzÃ§tu tikai logotos klienta lietotÃ¢jus";
+$help["setup_projectsfilter"] = "Filtrs lai rÃ¢dÃ®tu tikai projektus kuru komandÃ¢s iekÃ¯auts lietotÃ¢js";
 //2.5
 $help["setup_notificationMethod"] = "Set method to send email notifications: with internal php mail function (need for having a smtp server or sendmail configured in the parameters of php) or with a personalized smtp server";
 ?>

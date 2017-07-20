@@ -5,43 +5,44 @@
 
 
 $checkSession = "false";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
-echo "Script to update published values with files updates and reviews: <a href=\"$PHP_SELF?action=update\">launch</a><br/><br/>";
+$tableCollab = $GLOBALS["tableCollab"];
 
-if ($action == "update") {
-$tmpquery = "WHERE fil.published = '0'";
-$filesPublished = new request();
-$filesPublished->openFiles($tmpquery);
-$comptFilesPublished = count($filesPublished->fil_id);
+echo '<p>Script to update published values with files updates and reviews: <a href="?action=update">launch</a></p>';
 
-if ($comptFilesPublished != "0") {
-	for ($i=0;$i<$comptFilesPublished;$i++) {
-		$filesPublishedValue .= $filesPublished->fil_id[$i];
-		if ($i != $comptFilesPublished-1) {
-			$filesPublishedValue .= ",";
-		}
-	}
-$tmpquery1 = "UPDATE ".$tableCollab["files"]." SET published='0' WHERE vc_parent IN ($filesPublishedValue)";
-connectSql("$tmpquery1");
+if ($_GET["action"] == "update") {
+    $files = new \phpCollab\Files\Files();
+
+
+    /**
+     * Fix unpublished files
+     */
+
+    $filesPublished = $files->getPublishedFiles();
+    $filesPublishedValue = [];
+    if ($filesPublished) {
+        foreach ($filesPublished as $file) {
+            array_push($filesPublishedValue, $file["fil_id"]);
+        }
+        $placeholders = str_repeat ('?, ', count($filesPublishedValue)-1) . '?';
+        $tmpquery1 = "UPDATE {$tableCollab["files"]} SET published= 0 WHERE vc_parent IN ($placeholders)";
+        phpCollab\Util::newConnectSql($tmpquery1, $filesPublishedValue);
+        unset($placeholders);
+    }
+
+    /**
+     * Fix unpublished files
+     */
+    $filesPublishedNo = $files->getUnPublishedFiles();
+    $filesPublishedNoValue = [];
+    if ($filesPublishedNo) {
+        foreach ($filesPublishedNo as $file) {
+            array_push($filesPublishedNoValue, $file["fil_id"]);
+        }
+        $placeholders = str_repeat ('?, ', count($filesPublishedNoValue)-1) . '?';
+        $tmpquery1 = "UPDATE {$tableCollab["files"]} SET published = 1 WHERE vc_parent IN ($placeholders)";
+        phpCollab\Util::newConnectSql($tmpquery1, $filesPublishedNoValue);
+    }
+    echo "fixed :o)";
 }
-
-$tmpquery = "WHERE fil.published = '1'";
-$filesPublishedNo = new request();
-$filesPublishedNo->openFiles($tmpquery);
-$comptFilesPublishedNo = count($filesPublishedNo->fil_id);
-
-if ($comptFilesPublishedNo != "0") {
-	for ($i=0;$i<$comptFilesPublishedNo;$i++) {
-		$filesPublishedNoValue .= $filesPublishedNo->fil_id[$i];
-		if ($i != $comptFilesPublishedNo-1) {
-			$filesPublishedNoValue .= ",";
-		}
-	}
-$tmpquery1 = "UPDATE ".$tableCollab["files"]." SET published='1' WHERE vc_parent IN ($filesPublishedNoValue)";
-connectSql("$tmpquery1");
-}
-echo "fixed :o)";
-}
-?>
-

@@ -26,7 +26,5 @@
 */
 
 $checkSession = "false";
-include_once('../includes/library.php');
-headerFunction('../index.php?'.session_name().'='.session_id());
-exit;
-?>
+include_once '../includes/library.php';
+phpCollab\Util::headerFunction('../index.php');

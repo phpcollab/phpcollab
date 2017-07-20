@@ -4,25 +4,25 @@
 #Path by root: ../dev-kit/list_notoggle_icons_nochecbox_nosorting.php
 
 $checkSession = "true";
-include_once('../includes/library.php');
+include_once '../includes/library.php';
 
-include('../themes/'.THEME.'/header.php');
+include '../themes/' . THEME . '/header.php';
 
-$blockPage = new block();
+$blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?",$strings["organizations"],in));
 $blockPage->itemBreadcrumbs($strings["organizations"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
-	include('../includes/messages.php');
-	$blockPage->messagebox($msgLabel);
+	include '../includes/messages.php';
+	$blockPage->messageBox($msgLabel);
 }
 
-$block1 = new block();
+$block1 = new phpCollab\Block();
 
 $block1->form = "clientList";
-$block1->openForm("../clients/listclients.php?".session_name()."=".session_id()."#".$block1->form."Anchor");
+$block1->openForm("../clients/listclients.php#".$block1->form."Anchor");
 
 $block1->heading($strings["organizations"]);
 
@@ -32,7 +32,7 @@ $block1->paletteIcon(1,"remove",$strings["delete"]);
 $block1->closePaletteIcon();
 
 $tmpquery = "WHERE org.id != '1' ORDER BY org.url DESC";
-$listOrganizations = new request();
+$listOrganizations = new phpCollab\Request();
 $listOrganizations->openOrganizations($tmpquery);
 $comptListOrganizations = count($listOrganizations->org_id);
 
@@ -59,5 +59,5 @@ $block1->paletteScript(0,"add","../clients/editclient.php?","true,false,false",$
 $block1->paletteScript(1,"remove","../clients/deleteclients.php?","false,true,true",$strings["delete"]);
 $block1->closePaletteScript($comptListOrganizations,$listOrganizations->org_id);
 
-include('../themes/'.THEME.'/footer.php');
+include '../themes/'.THEME.'/footer.php';
 ?>
