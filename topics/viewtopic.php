@@ -46,8 +46,8 @@ if ($detailProject["pro_org_id"] == "1") {
     $detailProject["pro_org_name"] = $strings["none"];
 }
 
-$idStatus = $detailTopic->top_status[0];
-$idPublish = $detailTopic->top_published[0];
+$idStatus = $detailTopic["top_status"];
+$idPublish = $detailTopic["top_published"];
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
@@ -56,7 +56,7 @@ $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $detailProject["pro_id"], $detailProject["pro_name"], "in"));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../topics/listtopics.php?project=" . $detailProject["pro_id"], $strings["discussions"], "in"));
-$blockPage->itemBreadcrumbs($detailTopic->top_subject[0]);
+$blockPage->itemBreadcrumbs($detailTopic["top_subject"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
@@ -74,9 +74,9 @@ if ($error != "") {
     $block1->contentError($error);
 }
 
-$block1->heading($strings["discussion"] . " : " . $detailTopic->top_subject[0]);
+$block1->heading($strings["discussion"] . " : " . $detailTopic["top_subject"]);
 
-if ($idSession == $detailTopic->top_owner[0]) {
+if ($idSession == $detailTopic["top_owner"]) {
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "remove", $strings["remove"]);
     $block1->paletteIcon(1, "lock", $strings["close"]);
@@ -97,13 +97,13 @@ if ($sitePublish == "true") {
 }
 
 $block1->contentRow($strings["retired"], $statusTopicBis[$idStatus]);
-$block1->contentRow($strings["posts"], $detailTopic->top_posts[0]);
-$block1->contentRow($strings["last_post"], phpCollab\Util::createDate($detailTopic->top_last_post[0], $timezoneSession));
+$block1->contentRow($strings["posts"], $detailTopic["top_posts"]);
+$block1->contentRow($strings["last_post"], phpCollab\Util::createDate($detailTopic["top_last_post"], $timezoneSession));
 
 $block1->contentTitle($strings["posts"]);
 
-if ($detailTopic->top_status[0] == "1" && $teamMember == "true") {
-    $block1->contentRow("", $blockPage->buildLink("../topics/addpost.php?id=" . $detailTopic->top_id[0], $strings["post_reply"], "in"));
+if ($detailTopic["top_status"] == "1" && $teamMember == "true") {
+    $block1->contentRow("", $blockPage->buildLink("../topics/addpost.php?id=" . $detailTopic["top_id"], $strings["post_reply"], "in"));
 }
 
 foreach ($listPosts as $post) {
@@ -116,7 +116,7 @@ foreach ($listPosts as $post) {
     }
     $post_message = (strlen($post["pos_message"]) > 0) ? nl2br($post["pos_message"]) : "<em>no message</em>";
     if ($detailProject["pro_owner"] == $idSession || $profilSession == "0" || $post["pos_member"] == $idSession) {
-        $block1->contentRow($blockPage->buildLink("../topics/deletepost.php?topic=" . $detailTopic->top_id[0] . "&id=" . $post["pos_id"], $strings["delete_message"], "in"), $post_message);
+        $block1->contentRow($blockPage->buildLink("../topics/deletepost.php?topic=" . $detailTopic["top_id"] . "&id=" . $post["pos_id"], $strings["delete_message"], "in"), $post_message);
     } else {
         $block1->contentRow("", $post_message);
     }
@@ -126,12 +126,12 @@ foreach ($listPosts as $post) {
 $block1->closeContent();
 $block1->closeForm();
 
-if ($idSession == $detailTopic->top_owner[0]) {
+if ($idSession == $detailTopic["top_owner"]) {
     $block1->openPaletteScript();
-    $block1->paletteScript(0, "remove", "../topics/deletetopics.php?project=" . $detailTopic->top_project[0] . "&id=" . $detailTopic->top_id[0] . "", "true,true,false", $strings["remove"]);
-    $block1->paletteScript(1, "lock", "../topics/viewtopic.php?id=" . $detailTopic->top_id[0] . "&action=closeTopic", "true,true,false", $strings["close"]);
-    $block1->paletteScript(2, "add_projectsite", "../topics/viewtopic.php?id=" . $detailTopic->top_id[0] . "&action=addToSite", "true,true,false", $strings["add_project_site"]);
-    $block1->paletteScript(3, "remove_projectsite", "../topics/viewtopic.php?id=" . $detailTopic->top_id[0] . "&action=removeToSite", "true,true,false", $strings["remove_project_site"]);
+    $block1->paletteScript(0, "remove", "../topics/deletetopics.php?project=" . $detailTopic["top_project"] . "&id=" . $detailTopic["top_id"] . "", "true,true,false", $strings["remove"]);
+    $block1->paletteScript(1, "lock", "../topics/viewtopic.php?id=" . $detailTopic["top_id"] . "&action=closeTopic", "true,true,false", $strings["close"]);
+    $block1->paletteScript(2, "add_projectsite", "../topics/viewtopic.php?id=" . $detailTopic["top_id"] . "&action=addToSite", "true,true,false", $strings["add_project_site"]);
+    $block1->paletteScript(3, "remove_projectsite", "../topics/viewtopic.php?id=" . $detailTopic["top_id"] . "&action=removeToSite", "true,true,false", $strings["remove_project_site"]);
     $block1->closePaletteScript("", "");
 }
 
