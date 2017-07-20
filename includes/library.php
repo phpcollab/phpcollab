@@ -31,7 +31,7 @@
 **
 */
 use DebugBar\StandardDebugBar;
-$debug = true;
+$debug = false;
 
 define('APP_ROOT', dirname(dirname(__FILE__)));
 
