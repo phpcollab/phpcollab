@@ -61,7 +61,7 @@ class TopicsGateway
         $query = $this->initrequest["topics"] . " WHERE topic.id = :topic_id";
         $this->db->query($query);
         $this->db->bind(':topic_id', $topicId);
-        return $this->db->resultset();
+        return $this->db->single();
     }
 
     /**
