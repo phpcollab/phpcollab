@@ -291,7 +291,7 @@ class TasksGateway
      */
     public function getTasksByProjectIdWhereStartAndEndAreNotEmpty($projectId)
     {
-        $tmpquery = " WHERE tas.project = :project_id AND tas.start_date != '--' AND tas.due_date != '--'";
+        $tmpquery = " WHERE tas.project = :project_id AND tas.start_date != '--' AND tas.due_date != '--' AND tas.start_date != '' AND tas.due_date != ''";
         $this->db->query($this->initrequest["tasks"] . $tmpquery . $this->orderBy('tas.due_date'));
         $this->db->bind(':project_id', $projectId);
         return $this->db->resultset();
