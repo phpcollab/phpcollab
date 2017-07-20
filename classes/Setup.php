@@ -6,10 +6,17 @@ namespace phpCollab\setup;
 
 class Setup
 {
+    /**
+     * Setup constructor.
+     * @param $viewLoader
+     */
     public function __construct($viewLoader){
 
     }
 
+    /**
+     *
+     */
     public function checkForSettingsFile(){
         /* Do Setup Check */
         /**
@@ -17,7 +24,6 @@ class Setup
          */
         if (!file_exists("includes/settings.php")) {
             header('Location: installation/setup.php');
-            exit;
         }
     }
 }
