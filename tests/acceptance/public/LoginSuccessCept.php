@@ -1,5 +1,7 @@
 <?php
+$scenario->incomplete('your message, why skipping');
 $I = new AcceptanceTester($scenario);
+
 $I->wantTo('login');
 $I->amOnPage('/general/login.php');
 $I->fillField(['name' => 'loginForm'], 'testUser');
