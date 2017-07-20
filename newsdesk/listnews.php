@@ -56,7 +56,7 @@ $block1->rowsLimit = "40";
 
 $block1->sorting("newsdesk", $sortingUser->sor_newsdesk[0], "news.pdate DESC", $sortingFields = [0 => "news.title", 1 => "news.pdate", 2 => "news.author"]);
 
-$block1->openContent();
+//$block1->openContent();
 
 $tmpquery = "WHERE news.id != '0' ORDER BY $block1->sortingValue ";
 $block1->recordsTotal = phpCollab\Util::computeTotal($initrequest["newsdeskposts"] . " " . $tmpquery);
@@ -106,5 +106,4 @@ if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
 $block1->paletteScript(3, "info", "../newsdesk/viewnews.php?", "false,true,false", $strings["view_newsdesk"]);
 
 $block1->closePaletteScript(count($listPosts), $listPosts['news_id']);
-
 include APP_ROOT . '/themes/' . THEME . '/footer.php';
