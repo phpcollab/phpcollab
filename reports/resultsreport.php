@@ -265,7 +265,7 @@ $block1 = new phpCollab\Block();
 $block1->sorting("report_tasks",
     $sortingUser->sor_report_tasks[0],
     "tas.name ASC",
-    $sortingFields = array(
+    $sortingFields = [
         0 => "tas.name",
         1 => "tas.priority",
         2 => "tas.status",
@@ -274,7 +274,7 @@ $block1->sorting("report_tasks",
         5 => "mem.login",
         6 => "tas.project",
         7 => "tas.published"
-    )
+    ]
 );
 
 if ($projectsFilter == "true") {
@@ -294,10 +294,12 @@ if ($projectsFilter == "true") {
             }
         }
 
-        if ($query != "") {
-            $tmpquery = "{$queryStart} {$query} AND pro.id IN({$filterTasks}) ORDER BY {$block1->sortingValue} ";
-        } else {
-            $tmpquery = "WHERE pro.id IN({$filterTasks}) ORDER BY {$block1->sortingValue} ";
+        if (isset($filterTasks)) {
+            if ($query != "") {
+                $tmpquery = "{$queryStart} {$query} AND pro.id IN({$filterTasks}) ORDER BY {$block1->sortingValue} ";
+            } else {
+                $tmpquery = "WHERE pro.id IN({$filterTasks}) ORDER BY {$block1->sortingValue} ";
+            }
         }
 
     } else {
