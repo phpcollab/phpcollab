@@ -2,7 +2,8 @@ phpCollab 2.x
 ===
 [![ghit.me](https://ghit.me/badge.svg?repo=phpcollab/phpcollab)](https://ghit.me/repo/phpcollab/phpcollab)
 
-This branch contains the bleeding edge code for v2.x.  Primarily it is used to fix issues.
+
+### This branch contains bleeding edge code.  Proceed with caution.
 
 
 ## Introduction
