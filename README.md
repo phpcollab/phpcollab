@@ -9,10 +9,9 @@ phpCollab 2.x
 ## Introduction
 Project management and collaboration over the internet. Features team/client sites, task assignment, document repository/workflow, gantt charts, discussions, calendar, notifications, support requests, weblog newsdesk, invoicing, and many other tools.
 
-<!--
 ## Development
-To build the project locally, please follow [this guide](http://install.me).
--->
+To build the project locally, please follow [this guide](https://github.com/phpcollab/phpcollab/wiki/Installation).
+
 
 ## Documentation
 [![Slack Status](https://slack.phpcollab.com/badge.svg)](https://slack.phpcollab.com)
