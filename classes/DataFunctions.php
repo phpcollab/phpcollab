@@ -1,5 +1,7 @@
 <?php
 
+namespace phpCollab;
+
 /**
  * Data functions that will be used through the app
  * These functions are global and should be safer

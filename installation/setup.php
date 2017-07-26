@@ -70,7 +70,7 @@ if ($action == "generate") {
     }
 
     //Let's also get pretty paranoid here ;)
-    $dataFunctions = new DataFunctions();
+    $dataFunctions = new \phpCollab\Datafunctions();
     $scrubedData = $dataFunctions->scrubData($_POST);
     extract($scrubedData);
     // -- END Paranoia
@@ -284,11 +284,15 @@ STAMP;
 
     if (!$error) {
         $fp = @fopen("../includes/settings.php", 'wb+');
+            if (!$fp) {
+                $error = 1;
+                exit("<br/><b>PANIC! <br/> settings.php can't be written!</b><br/>");
+            }
         $fw = fwrite($fp, $content);
 
         if (!$fw) {
             $error = 1;
-            echo "<br/><b>PANIC! <br/> settings.php can't be written!</b><br/>";
+                exit("<br/><b>PANIC! <br/> settings.php can't be written!</b><br/>");
         }
 
         fclose($fp);
