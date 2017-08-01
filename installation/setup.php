@@ -70,7 +70,7 @@ if ($action == "generate") {
     }
 
     //Let's also get pretty paranoid here ;)
-    $dataFunctions = new \phpCollab\Datafunctions();
+    $dataFunctions = new \phpCollab\DataFunctions();
     $scrubedData = $dataFunctions->scrubData($_POST);
     extract($scrubedData);
     // -- END Paranoia
