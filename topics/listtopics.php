@@ -3,8 +3,6 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-xdebug_var_dump($_SESSION["timezoneSession"]);
-
 $project = $_GET["project"];
 $id = $_GET["id"];
 $action = $_GET["action"];

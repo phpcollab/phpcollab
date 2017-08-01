@@ -35,7 +35,6 @@ class Sorting
      */
     public function bookmarkSorting($sorting)
     {
-        xdebug_var_dump($sorting);
         if (!is_null($sorting)) {
             $allowedOrderedBy = ["boo.name", "boo.category", "mem.login"];
             $pieces = explode(' ', $sorting);

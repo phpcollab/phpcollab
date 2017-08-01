@@ -199,7 +199,6 @@ if ($action == "approve") {
 # end MOD
 
 if ($action == "add") {
-    xdebug_var_dump($_FILES);
     if ($maxCustom != "") {
         $maxFileSize = $maxCustom;
 /**
