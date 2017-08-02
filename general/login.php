@@ -365,7 +365,7 @@ $selectLanguage .= "</select>";
 $block1->contentRow($strings["language"], $selectLanguage);
 
 $block1->contentRow("* " . $strings["user_name"], "<input value='$loginForm' type='text' name='loginForm'>");
-$block1->contentRow("* " . $strings["password"], "<input value='$passwordForm' type='password' name='passwordForm'>");
+$block1->contentRow("* " . $strings["password"], "<input value='$passwordForm' type='password' name='passwordForm' autocomplete='off'>");
 
 //$block1->contentRow("* ".$strings["remember_password"],"<input type=\"checkbox\" name=\"rememberForm\" value=\"on\">");
 
