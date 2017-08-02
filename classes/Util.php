@@ -166,6 +166,7 @@ class Util
     public static function headerFunction($url)
     {
         header("Location:$url");
+        exit;
     }
 
     /**
