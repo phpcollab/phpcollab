@@ -135,9 +135,9 @@ $block1->heading($strings["change_password"] . " : " . $userDetail->mem_login[0]
 $block1->openContent();
 $block1->contentTitle($strings["change_password_intro"]);
 
-$block1->contentRow("* " . $strings["old_password"], "<input style=\"width: 150px;\" type=\"password\" name=\"opw\" value=\"\">");
-$block1->contentRow("* " . $strings["new_password"], "<input style=\"width: 150px;\" type=\"password\" name=\"npw\" value=\"\">");
-$block1->contentRow("* " . $strings["confirm_password"], "<input style=\"width: 150px;\" type=\"password\" name=\"pwa\" value=\"\">");
+$block1->contentRow("* " . $strings["old_password"], "<input style=\"width: 150px;\" type=\"password\" name=\"opw\" value=\"\" autocomplete=\"off\">");
+$block1->contentRow("* " . $strings["new_password"], "<input style=\"width: 150px;\" type=\"password\" name=\"npw\" value=\"\" autocomplete=\"off\">");
+$block1->contentRow("* " . $strings["confirm_password"], "<input style=\"width: 150px;\" type=\"password\" name=\"pwa\" value=\"\" autocomplete=\"off\">");
 $block1->contentRow("", "<input type=\"submit\" name=\"Save\" value=\"" . $strings["save"] . "\">");
 
 $block1->closeContent();
