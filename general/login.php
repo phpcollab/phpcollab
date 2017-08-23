@@ -105,14 +105,6 @@ if (!empty($SSL_CLIENT_CERT) && !$logout && $auth != "test") {
     }
 }
 
-//
-// $loginCookie = phpCollab\Util::returnGlobal('loginCookie','COOKIE');
-// $passwordCookie = phpCollab\Util::returnGlobal('passwordCookie','COOKIE');
-// if ($loginCookie != "" && $passwordCookie != "") 
-// {
-//		$auth = "on";
-// } 
-
 if ($auth == "on") {
     $loginForm = strip_tags($loginForm);
     $passwordForm = strip_tags($passwordForm);
