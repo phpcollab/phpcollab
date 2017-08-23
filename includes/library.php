@@ -74,6 +74,8 @@ ini_set("session.use_trans_sid", 0);
 
 //disable session on export
 if ($export != "true") {
+    session_name('phpCollab_Session');
+    session_set_cookie_params(3600, '/', isset($_SERVER['SERVER_NAME']), isset($_SERVER['HTTPS']), true);
     session_start();
 }
 
