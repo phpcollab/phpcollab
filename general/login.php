@@ -38,8 +38,8 @@ if ($logout == "true") {
     phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
 
     // delete the authentication cookies
-    //setcookie('loginCookie', '', time()-86400);
-    //setcookie('passwordCookie', '', time()-86400);
+    setcookie('loginCookie', '', time()-86400);
+    setcookie('passwordCookie', '', time()-86400);
 
     session_unset();
     $_SESSION = array();
@@ -86,11 +86,11 @@ if (!empty($SSL_CLIENT_CERT) && !$logout && $auth != "test") {
                     if ($rememberForm == "on") {
                         $oneyear = 22896000;
                         $storePwd = phpCollab\Util::getPassword($passwordForm);
-                        setcookie("loginCookie", $loginForm, time() + $oneyear);
-                        setcookie("passwordCookie", $storePwd, time() + $oneyear);
+                        setcookie("loginCookie", $loginForm, time() + $oneyear, null, null, null, true);
+                        setcookie("passwordCookie", $storePwd, time() + $oneyear, null, null, null, true);
                     } else {
-                        setcookie("loginCookie");
-                        setcookie("passwordCookie");
+                        setcookie("loginCookie", null, null, null, null, null, true);
+                        setcookie("passwordCookie", null, null, null, null, null, true);
                     }
                 }
             }
@@ -133,8 +133,8 @@ if ($auth == "on") {
     //test if user exits
     if (!$member) {
         $error = $strings["invalid_login"];
-        setcookie("loginCookie");
-        setcookie("passwordCookie");
+        setcookie("loginCookie", null, null, null, null, null, true);
+        setcookie("passwordCookie", null, null, null, null, null, true);
     } else {
 
         //test password
@@ -152,7 +152,7 @@ if ($auth == "on") {
             }
         }
 
-        if ($match == true) {
+        if ($match === true) {
 
             //crypt password in session
             $r = substr($passwordForm, 0, 2);
