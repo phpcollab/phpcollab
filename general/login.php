@@ -3,11 +3,11 @@
 ** Application name: phpCollab
 ** Last Edit page: 15/01/2005
 ** Path by root: ../general/login.php
-** Authors: Ceam / Fullo 
+** Authors: Ceam / Fullo
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -42,14 +42,13 @@ if ($logout == "true") {
     setcookie('passwordCookie', '', time()-86400);
 
     session_unset();
-    $_SESSION = array();
     session_destroy();
 
     phpCollab\Util::headerFunction("../general/login.php?msg=logout");
 }
 
 $auth = phpCollab\Util::returnGlobal('auth', 'GET');
-$loginForm = phpCollab\Util::returnGlobal('loginForm', 'POST');
+$usernameForm = phpCollab\Util::returnGlobal('usernameForm', 'POST');
 $passwordForm = phpCollab\Util::returnGlobal('passwordForm', 'POST');
 
 $match = false;
@@ -72,10 +71,10 @@ if (!empty($SSL_CLIENT_CERT) && !$logout && $auth != "test") {
     //test blank fields in form
     if ($auth == "test") {
 
-        if ($loginForm == "" && $passwordForm == "") {
+        if ($usernameForm == "" && $passwordForm == "") {
             $error = $strings["login_username"] . "<br/>" . $strings["login_password"];
         } else {
-            if ($loginForm == "") {
+            if ($usernameForm == "") {
                 $error = $strings["login_username"];
             } else {
                 if ($passwordForm == "") {
@@ -86,7 +85,7 @@ if (!empty($SSL_CLIENT_CERT) && !$logout && $auth != "test") {
                     if ($rememberForm == "on") {
                         $oneyear = 22896000;
                         $storePwd = phpCollab\Util::getPassword($passwordForm);
-                        setcookie("loginCookie", $loginForm, time() + $oneyear, null, null, null, true);
+                        setcookie("loginCookie", $usernameForm, time() + $oneyear, null, null, null, true);
                         setcookie("passwordCookie", $storePwd, time() + $oneyear, null, null, null, true);
                     } else {
                         setcookie("loginCookie", null, null, null, null, null, true);
@@ -98,7 +97,7 @@ if (!empty($SSL_CLIENT_CERT) && !$logout && $auth != "test") {
     }
 
     if ($forcedLogin == "false") {
-        if ($auth == "on" && !$loginForm && !$passwordForm) {
+        if ($auth == "on" && !$usernameForm && !$passwordForm) {
             $auth = "off";
             $error = "Detecting variables poisoning ;-)";
         }
@@ -106,15 +105,15 @@ if (!empty($SSL_CLIENT_CERT) && !$logout && $auth != "test") {
 }
 
 if ($auth == "on") {
-    $loginForm = strip_tags($loginForm);
+    $usernameForm = strip_tags($usernameForm);
     $passwordForm = strip_tags($passwordForm);
 
     if ($loginCookie != "" && $passwordCookie != "") {
-        $loginForm = $loginCookie;
+        $usernameForm = $loginCookie;
     }
 
     $loginData = [];
-    $loginData['login'] = $loginForm;
+    $loginData['login'] = $usernameForm;
     $loginData['demo'] = $demoMode;
     $loginData['ssl'] = $ssl;
     $loginData['ssl_email'] = $ssl_email;
@@ -137,7 +136,7 @@ if ($auth == "on") {
                 $match = true;
             }
         } else {
-            if (!$ssl && !phpCollab\Util::doesPasswordMatch($loginForm, $passwordForm, $member['mem_password'])) {
+            if (!$ssl && !phpCollab\Util::doesPasswordMatch($usernameForm, $passwordForm, $member['mem_password'])) {
                 $error = $strings["invalid_login"];
             } else {
                 $match = true;
@@ -155,7 +154,7 @@ if ($auth == "on") {
             $idSession = $member['mem_id'];
             $timezoneSession = $member['mem_timezone'];
             $languageSession = $languageForm;
-            $loginSession = $loginForm;
+            $loginSession = $usernameForm;
             $passwordSession = $passwordForm;
             $nameSession = $member['mem_name'];
             $profilSession = $member['mem_profil'];
@@ -179,7 +178,7 @@ if ($auth == "on") {
             $_SESSION["logouttimeSession"] = $logouttimeSession;
 
             //register demosession = true in session if user = demo
-            if ($loginForm == "demo") {
+            if ($usernameForm == "demo") {
                 $demoSession = "true";
 
                 $_SESSION['demoSession'] = $demoSession;
@@ -188,17 +187,17 @@ if ($auth == "on") {
             //insert into or update log
             $ip = $REMOTE_ADDR;
 
-            $log = $logs->getLogByLogin($loginForm);
+            $log = $logs->getLogByLogin($usernameForm);
 
 
             $session = session_id();
-
+            error_log("set session to " . $session, 0);
             /**
              * Validate form data
              */
 
             $filteredData =  [];
-            $filteredData['login'] = filter_var( (string) $_POST['loginForm'], FILTER_SANITIZE_STRING);
+            $filteredData['login'] = filter_var( (string) $_POST['usernameForm'], FILTER_SANITIZE_STRING);
             $filteredData['password'] = filter_var( (string) $_POST['passwordForm'], FILTER_SANITIZE_STRING);
             $filteredData['ip'] = filter_var( $ip, FILTER_SANITIZE_STRING);
             $filteredData['session'] = $session;
@@ -236,13 +235,13 @@ if ($auth == "on") {
             else {
                 if ($loginUser->mem_last_page[0] != "" && $loginUser->mem_profil[0] != "3" && $lastvisitedpage) {
                     $tmpquery = "UPDATE {$tableCollab["members"]} SET last_page='' WHERE login = :login";
-                    phpCollab\Util::newConnectSql($tmpquery, ["login", $loginForm]);
+                    phpCollab\Util::newConnectSql($tmpquery, ["login", $usernameForm]);
                     phpCollab\Util::headerFunction("../" . $loginUser->mem_last_page[0]);
 
                 } else {
                     if ($loginUser->mem_last_page[0] != "" && ($loginCookie != "" && $passwordCookie != "") && $loginUser->mem_profil[0] != "3" && $lastvisitedpage) {
                         $tmpquery = "UPDATE {$tableCollab["members"]} SET last_page='' WHERE login = :login";
-                        phpCollab\Util::newConnectSql($tmpquery, ["login", $loginForm]);
+                        phpCollab\Util::newConnectSql($tmpquery, ["login", $usernameForm]);
                         phpCollab\Util::headerFunction("../" . $loginUser->mem_last_page[0]);
                     } //redirect to home or admin page (if user is administrator)
                     else {
@@ -266,7 +265,7 @@ if ($auth == "on") {
         }
     }
 }
-
+error_log("session = " . $session, 0);
 if ($session == "false" && $url == "") {
     $error = $strings["session_false"];
     session_regenerate_id();
@@ -277,13 +276,13 @@ if ($logout == "true") {
 }
 
 if ($demoMode == "true") {
-    $loginForm = "demo";
+    $usernameForm = "demo";
     $passwordForm = "demo";
 }
 
 
 $notLogged = "true";
-$bodyCommand = "onLoad='document.signinForm.loginForm.focus();'";
+$bodyCommand = "onLoad='document.loginForm.usernameForm.focus();'";
 include '../themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
@@ -299,7 +298,7 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 
-$block1->form = "signin";
+$block1->form = "login";
 $block1->openForm("../general/login.php?auth=test");
 
 if ($url != "") {
@@ -356,7 +355,7 @@ $selectLanguage .= "</select>";
 
 $block1->contentRow($strings["language"], $selectLanguage);
 
-$block1->contentRow("* " . $strings["user_name"], "<input value='$loginForm' type='text' name='loginForm'>");
+$block1->contentRow("* " . $strings["user_name"], "<input value='$usernameForm' type='text' name='usernameForm'>");
 $block1->contentRow("* " . $strings["password"], "<input value='$passwordForm' type='password' name='passwordForm' autocomplete='off'>");
 
 //$block1->contentRow("* ".$strings["remember_password"],"<input type=\"checkbox\" name=\"rememberForm\" value=\"on\">");
