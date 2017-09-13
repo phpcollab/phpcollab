@@ -21,6 +21,9 @@ class Database
 
     private $stmt;
 
+    /**
+     * Database constructor.
+     */
     public function __construct()
     {
         // Set DSN
@@ -40,11 +43,19 @@ class Database
         }
     }
 
+    /**
+     * @param $query
+     */
     public function query($query)
     {
         $this->stmt = $this->dbh->prepare($query);
     }
 
+    /**
+     * @param $param
+     * @param $value
+     * @param null $type
+     */
     public function bind($param, $value, $type = null)
     {
         if (is_null($type)) {
@@ -66,53 +77,84 @@ class Database
         $this->stmt->bindValue($param, $value, $type);
     }
 
+    /**
+     * @param null $param
+     * @return mixed
+     */
     public function execute($param = null)
     {
         return $this->stmt->execute($param);
     }
 
+    /**
+     * @return mixed
+     */
     public function resultset()
     {
         $this->execute();
         return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * @return mixed
+     */
     public function fetchAll()
     {
         return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * @return mixed
+     */
     public function single()
     {
         $this->execute();
         return $this->stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * @return mixed
+     */
     public function rowCount()
     {
         return $this->stmt->rowCount();
     }
 
+    /**
+     * @return string
+     */
     public function lastInsertId()
     {
         return $this->dbh->lastInsertId();
     }
 
+    /**
+     * @return bool
+     */
     public function beginTransaction()
     {
         return $this->dbh->beginTransaction();
     }
 
+    /**
+     * @return bool
+     */
     public function endTransaction()
     {
         return $this->dbh->commit();
     }
 
+    /**
+     * @return bool
+     */
     public function cancelTransaction()
     {
         return $this->dbh->rollBack();
     }
 
+    /**
+     * @return mixed
+     */
     public function debugDumpParams()
     {
         return $this->stmt->debugDumpParams();
