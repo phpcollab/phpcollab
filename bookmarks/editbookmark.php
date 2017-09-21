@@ -7,7 +7,7 @@
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -22,7 +22,7 @@
 **  30/05/2005	-	fix for [ 1211360 ] Fix for ' character in category
 ** -----------------------------------------------------------------------------
 ** TO-DO:
-**	move to the template system 
+**	move to the template system
 **
 ** =============================================================================
 */
@@ -34,7 +34,7 @@ $bookmark = new \phpCollab\Bookmarks\Bookmarks();
 $member = new \phpCollab\Members\Members();
 
 if ($id != "") {
-    $bookmarkId = filter_var( (int) $id, FILTER_VALIDATE_INT);
+    $bookmarkId = filter_var((int) $id, FILTER_VALIDATE_INT);
     $bookmarkDetail = $bookmark->getBookmarkById($id);
 }
 
@@ -80,15 +80,15 @@ if ($id != "") {
          */
 
         $filteredData =  [];
-        $filteredData['id'] = filter_var( (int) $id, FILTER_VALIDATE_INT);
-        $filteredData['url'] = filter_var( (string) \phpCollab\Util::addHttp($_POST['url']), FILTER_SANITIZE_URL);
-        $filteredData['name'] = filter_var( (string) phpCollab\Util::convertData($_POST['name']), FILTER_SANITIZE_STRING);
-        $filteredData['description'] = filter_var( (string) phpCollab\Util::convertData($_POST['description']), FILTER_SANITIZE_STRING);
-        $filteredData['comments'] = filter_var( phpCollab\Util::convertData($comments), FILTER_SANITIZE_STRING);
+        $filteredData['id'] = filter_var((int) $id, FILTER_VALIDATE_INT);
+        $filteredData['url'] = filter_var((string) \phpCollab\Util::addHttp($_POST['url']), FILTER_SANITIZE_URL);
+        $filteredData['name'] = filter_var((string) phpCollab\Util::convertData($_POST['name']), FILTER_SANITIZE_STRING);
+        $filteredData['description'] = filter_var((string) phpCollab\Util::convertData($_POST['description']), FILTER_SANITIZE_STRING);
+        $filteredData['comments'] = filter_var(phpCollab\Util::convertData($comments), FILTER_SANITIZE_STRING);
         $filteredData['modified'] = $dateheure;
-        $filteredData['category'] = filter_var( (int) $category, FILTER_VALIDATE_INT);
-        $filteredData['shared'] = filter_var( (int) $shared, FILTER_VALIDATE_INT);
-        $filteredData['home'] = filter_var( (int) $home, FILTER_VALIDATE_INT);
+        $filteredData['category'] = filter_var((int) $category, FILTER_VALIDATE_INT);
+        $filteredData['shared'] = filter_var((int) $shared, FILTER_VALIDATE_INT);
+        $filteredData['home'] = filter_var((int) $home, FILTER_VALIDATE_INT);
         $filteredData['users'] = $users;
 
         $updateBookmark = $bookmark->updateBookmark($filteredData);
@@ -160,22 +160,21 @@ if ($id == "") {
          */
 
         $filteredData =  [];
-        $filteredData['owner_id'] = filter_var( (int) $idSession, FILTER_VALIDATE_INT);
-        $filteredData['url'] = filter_var( (string) \phpCollab\Util::addHttp($_POST['url']), FILTER_SANITIZE_URL);
-        $filteredData['name'] = filter_var( (string) phpCollab\Util::convertData($_POST['name']), FILTER_SANITIZE_STRING);
-        $filteredData['description'] = filter_var( (string) phpCollab\Util::convertData($_POST['description']), FILTER_SANITIZE_STRING);
-        $filteredData['comments'] = filter_var( phpCollab\Util::convertData($comments), FILTER_SANITIZE_STRING);
+        $filteredData['owner_id'] = filter_var((int) $idSession, FILTER_VALIDATE_INT);
+        $filteredData['url'] = filter_var((string) \phpCollab\Util::addHttp($_POST['url']), FILTER_SANITIZE_URL);
+        $filteredData['name'] = filter_var((string) phpCollab\Util::convertData($_POST['name']), FILTER_SANITIZE_STRING);
+        $filteredData['description'] = filter_var((string) phpCollab\Util::convertData($_POST['description']), FILTER_SANITIZE_STRING);
+        $filteredData['comments'] = filter_var(phpCollab\Util::convertData($comments), FILTER_SANITIZE_STRING);
         $filteredData['created'] = $dateheure;
-        $filteredData['category'] = filter_var( (int) $category, FILTER_VALIDATE_INT);
-        $filteredData['shared'] = filter_var( (int) $shared, FILTER_VALIDATE_INT);
-        $filteredData['home'] = filter_var( (int) $home, FILTER_VALIDATE_INT);
+        $filteredData['category'] = filter_var((int) $category, FILTER_VALIDATE_INT);
+        $filteredData['shared'] = filter_var((int) $shared, FILTER_VALIDATE_INT);
+        $filteredData['home'] = filter_var((int) $home, FILTER_VALIDATE_INT);
         $filteredData['users'] = $users;
 
         $addBookmark = $bookmark->addBookmark($filteredData);
 
         phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=add");
     }
-
 }
 
 $bodyCommand = 'onLoad="document.booForm.name.focus();"';
@@ -211,7 +210,6 @@ if ($id != "") {
 if ($error != "") {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
-
 }
 if ($id == "") {
     $block1->heading($strings["add_bookmark"]);

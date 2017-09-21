@@ -1,13 +1,13 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 2005-03-08 
+** Last Edit page: 2005-03-08
 ** Path by root: ../preferences/updatenotifications.php
 ** Authors: Ceam / Fullo / dracono
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -19,8 +19,8 @@
 **
 ** HISTORY:
 **	03/06/2005	-	fix for http://www.php-collab.org/community/viewtopic.php?t=2018
-**	03/06/2005	-	xhtml 
-**	26/09/2006	-	add daily and weekly email notifications 
+**	03/06/2005	-	xhtml
+**	26/09/2006	-	add daily and weekly email notifications
 ** -----------------------------------------------------------------------------
 ** TO-DO:
 ** =============================================================================
@@ -154,9 +154,15 @@ include '../themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($strings["preferences"]);
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../preferences/updateuser.php?", $strings["user_profile"],
-        in) . " | " . $blockPage->buildLink("../preferences/updatepassword.php?", $strings["change_password"],
-        in) . " | " . $strings["notifications"]);
+$blockPage->itemBreadcrumbs($blockPage->buildLink(
+    "../preferences/updateuser.php?",
+    $strings["user_profile"],
+        in
+) . " | " . $blockPage->buildLink(
+            "../preferences/updatepassword.php?",
+            $strings["change_password"],
+        in
+        ) . " | " . $strings["notifications"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {

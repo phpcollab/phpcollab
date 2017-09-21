@@ -73,7 +73,6 @@ if (!empty($SSL_CLIENT_CERT) && !$logout && $auth != "test") {
 } else {
     //test blank fields in form
     if ($auth == "test") {
-
         if ($usernameForm == "" && $passwordForm == "") {
             $error = $strings["login_username"] . "<br/>" . $strings["login_password"];
         } else {
@@ -200,9 +199,9 @@ if ($auth == "on") {
              */
 
             $filteredData =  [];
-            $filteredData['login'] = filter_var( (string) $_POST['usernameForm'], FILTER_SANITIZE_STRING);
-            $filteredData['password'] = filter_var( (string) $_POST['passwordForm'], FILTER_SANITIZE_STRING);
-            $filteredData['ip'] = filter_var( $ip, FILTER_SANITIZE_STRING);
+            $filteredData['login'] = filter_var((string) $_POST['usernameForm'], FILTER_SANITIZE_STRING);
+            $filteredData['password'] = filter_var((string) $_POST['passwordForm'], FILTER_SANITIZE_STRING);
+            $filteredData['ip'] = filter_var($ip, FILTER_SANITIZE_STRING);
             $filteredData['session'] = $session;
             $filteredData['last_viste'] = $dateheure;
 
@@ -221,14 +220,19 @@ if ($auth == "on") {
 
             // we must avoid to redirect to some special pages
             // otherwise, the user can't access to phpCollab
-            $loginUser->mem_last_page[0] = str_replace('accessfile.php?mode=view&', 'viewfile.php?',
-                $loginUser->mem_last_page[0]);
-            $loginUser->mem_last_page[0] = str_replace('accessfile.php?mode=download&', 'viewfile.php?',
-                $loginUser->mem_last_page[0]);
+            $loginUser->mem_last_page[0] = str_replace(
+                'accessfile.php?mode=view&',
+                'viewfile.php?',
+                $loginUser->mem_last_page[0]
+            );
+            $loginUser->mem_last_page[0] = str_replace(
+                'accessfile.php?mode=download&',
+                'viewfile.php?',
+                $loginUser->mem_last_page[0]
+            );
 
             //redirect for external link to internal page
             if ($url != "") {
-
                 if ($loginUser->mem_profil[0] == "3") {
                     phpCollab\Util::headerFunction("../$url&updateProject=true");
                 } else {
@@ -240,7 +244,6 @@ if ($auth == "on") {
                     $tmpquery = "UPDATE {$tableCollab["members"]} SET last_page='' WHERE login = :login";
                     phpCollab\Util::newConnectSql($tmpquery, ["login", $usernameForm]);
                     phpCollab\Util::headerFunction("../" . $loginUser->mem_last_page[0]);
-
                 } else {
                     if ($loginUser->mem_last_page[0] != "" && ($loginCookie != "" && $passwordCookie != "") && $loginUser->mem_profil[0] != "3" && $lastvisitedpage) {
                         $tmpquery = "UPDATE {$tableCollab["members"]} SET last_page='' WHERE login = :login";
@@ -257,7 +260,6 @@ if ($auth == "on") {
                                 } else {
                                     phpCollab\Util::headerFunction("../administration/admin.php");
                                 }
-
                             } else {
                                 phpCollab\Util::headerFunction("../general/home.php");
                             }
@@ -361,9 +363,14 @@ $block1->contentRow($strings["language"], $selectLanguage);
 $block1->contentRow("* " . $strings["user_name"], "<input value='$usernameForm' type='text' name='usernameForm'>");
 $block1->contentRow("* " . $strings["password"], "<input value='$passwordForm' type='password' name='passwordForm' autocomplete='off'>");
 
-$block1->contentRow("",
-    "<input type='submit' name='save' value='" . $strings["login"] . "'><br/><br/><br/>" . $blockPage->buildLink("../general/sendpassword.php?",
-        $strings["forgot_pwd"], in));
+$block1->contentRow(
+    "",
+    "<input type='submit' name='save' value='" . $strings["login"] . "'><br/><br/><br/>" . $blockPage->buildLink(
+        "../general/sendpassword.php?",
+        $strings["forgot_pwd"],
+        in
+    )
+);
 
 $block1->closeContent();
 $block1->closeForm();

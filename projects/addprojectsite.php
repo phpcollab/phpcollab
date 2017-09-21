@@ -50,7 +50,6 @@ if ($projectDetail->pro_org_id[0] == "1") {
     $block1->contentRow($strings["organization"], $strings["none"]);
 } else {
     $block1->contentRow($strings["organization"], $blockPage->buildLink("../clients/viewclient.php?id=" . $projectDetail["pro_org_id"], $projectDetail->pro_org_name[0], "in"));
-
 }
 $block1->contentRow("", "<input type=\"SUBMIT\" value=\"" . $strings["create"] . "\">");
 

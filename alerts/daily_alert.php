@@ -1,13 +1,13 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 2006-09-30 
+** Last Edit page: 2006-09-30
 ** Path by root: ../alerts/daily_alert.php
 ** Authors: Rich Cave (cavemansf)
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -15,12 +15,12 @@
 ** -----------------------------------------------------------------------------
 ** FILE: daily_alert.php
 **
-** DESC: Notifications for daily alerts triggered by a cron job 
+** DESC: Notifications for daily alerts triggered by a cron job
 **
 ** HISTORY:
 ** -----------------------------------------------------------------------------
 ** TO-DO:
-**  
+**
 **
 ** =============================================================================
 */
@@ -29,7 +29,7 @@
 define("PHPCOLLAB_INC_DIR", dirname(__FILE__) . "/../includes/");
 define("PHPCOLLAB_LANG_DIR", dirname(__FILE__) . "/../languages/");
 
-// Include 
+// Include
 include PHPCOLLAB_INC_DIR . 'settings.php';
 
 if (!isset($langDefault) || ($langDefault == '')) {
@@ -105,7 +105,7 @@ while ($alert->fetch()) {
     $taskCount = 0;
     $subtaskCount = 0;
 
-    // See if there are any tasks pending 
+    // See if there are any tasks pending
     $query = "SELECT $tasksTable.id,
                      $tasksTable.name,
                      $tasksTable.priority, 
@@ -156,7 +156,7 @@ while ($alert->fetch()) {
         $taskCount++;
     }
 
-    // See if there are any subtasks pending 
+    // See if there are any subtasks pending
     $query = "SELECT $subtasksTable.id, 
                      $subtasksTable.name,
                      $subtasksTable.priority, 

@@ -3,11 +3,11 @@
 ** Application name: phpCollab
 ** Last Edit page: 05/11/2004
 ** Path by root:  ../topics/viewtopic.php
-** Authors: Ceam / Fullo 
+** Authors: Ceam / Fullo
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -18,7 +18,7 @@
 ** DESC: Screen:  view task mod history
 **
 ** HISTORY:
-**	05/11/2004	-	fixed 1059973 
+**	05/11/2004	-	fixed 1059973
 ** -----------------------------------------------------------------------------
 ** TO-DO:
 ** clean code

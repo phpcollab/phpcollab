@@ -8,7 +8,7 @@ $byteUnits = array('Baiti', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Pirmdiena", 2 =>"Otrdiena", 3 =>"Tređdiena", 4 =>"Ceturtdiena", 5 =>"Piektdiena", 6 =>"Sestdiena", 7 =>"Svįtdiena");
 
-$monthNameArray = array(1=> "Janvâris", "Februâris", "Marts", "Aprîlis", "Maijs", "Jînijs", "Jûlijs", "Augusts", "Septembris", "Oktobris", "Novembris", "Decembris"); 
+$monthNameArray = array(1=> "Janvâris", "Februâris", "Marts", "Aprîlis", "Maijs", "Jînijs", "Jûlijs", "Augusts", "Septembris", "Oktobris", "Novembris", "Decembris");
 
 $status = array(0 => "Pabeigts (Klients)", 1 => "Pabeigts", 2 => "Nav uzsâkts", 3 => "Atvįrts", 4 => "Neaktîvs");
 
@@ -504,4 +504,3 @@ $strings["report"] = "Atskaite";
 $strings["license"] = "License";
 //2.4
 $strings["settings_notwritable"] = "nevar pârrakstît failu Settings.php";
-?>

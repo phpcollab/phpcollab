@@ -24,4 +24,3 @@ $help["setup_clientsfilter"] = "Filtrér for kun at se logførte brugere";
 $help["setup_projectsfilter"] = "Filtrér for kun at se projekt, hvis brugere er en del af en gruppe.";
 //2.5
 $help["setup_notificationMethod"] = "Sæt metode for at sende email notifikationer: med intern php mail funktion (kræver en smtp server eller sendmail konfigureret i phps parametre) eller med en personlig smtp server";
-?>

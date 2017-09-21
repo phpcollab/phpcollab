@@ -1,12 +1,12 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 12/03/2005 
+** Last Edit page: 12/03/2005
 ** Path by root: ../clients/editclient.php
-** Authors: Ceam / Fullo 
+** Authors: Ceam / Fullo
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -105,7 +105,6 @@ UPDATECLIENTSQL;
 
         unset($dbParams);
         phpCollab\Util::headerFunction("../clients/viewclient.php?id=$id&msg=update");
-
     }
 
     //set value in form
@@ -201,7 +200,6 @@ SQLINSERT;
 
                         unset($dbParams);
                     }
-
                 }
 
                 phpCollab\Util::headerFunction("../clients/viewclient.php?id={$num}&msg=add");
@@ -306,4 +304,3 @@ $block1->closeContent();
 $block1->closeForm();
 
 include '../themes/' . THEME . '/footer.php';
-?>

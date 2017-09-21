@@ -19,12 +19,10 @@ $idSession = $_SESSION["idSession"];
 $notes = new \phpCollab\Notes\Notes();
 
 if ($action == "publish") {
-
     $multi = strstr($id, "**");
     $id = str_replace("**", ",", $id);
 
     if ($addToSite == "true") {
-
         $notes->publishToSite($id);
         $msg = "addToSite";
         $id = $project;

@@ -1,12 +1,12 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 2003-10-23 
+** Last Edit page: 2003-10-23
 ** Path by root: ../projects/viewproject.php
-** Authors: Ceam / Fullo 
+** Authors: Ceam / Fullo
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -22,7 +22,7 @@
 **  22/05/2005	-	added [MOD] file owner label in linked content list
 ** -----------------------------------------------------------------------------
 ** TO-DO:
-**	 
+**
 **
 ** =============================================================================
 */
@@ -188,7 +188,6 @@ if ($action == "publish") {
         $msg = "removeToSite";
         $id = $project;
     }
-
 }
 
 if ($msg == "demo") {
@@ -419,7 +418,6 @@ if ($projectDetail["pro_phase_set"] != "0") {
         $comptlistTasks = count($countPhaseTasks->tas_id);
 
         for ($i = 0; $i < $comptListPhases; $i++) {
-
             $comptlistTasksRow = "0";
             $comptUncompleteTasks = "0";
 
@@ -463,7 +461,6 @@ if ($projectDetail["pro_phase_set"] != "0") {
     }
 
     $block7->closePaletteScript($comptListPhases, $listPhases->pha_id);
-
 } else {
     $block2 = new phpCollab\Block();
     $block2->form = "wbTuu";
@@ -559,7 +556,6 @@ if ($projectDetail["pro_phase_set"] != "0") {
 				</div>
 			";
         }
-
     } else {
         $block2->noresults();
     }
@@ -651,7 +647,6 @@ if ($comptListTopics != "0") {
 
     $block3->closeResults();
     $block3->limitsFooter("2", $blockPage->limitsNumber, "../topics/listtopics.php?project=$id&", "id=$id");
-
 } else {
     $block3->noresults();
 }
@@ -765,7 +760,6 @@ $block4->closePaletteScript($comptListTeam, $listTeam->tea_mem_id);
  * Begin Linked Content
  */
 if ($fileManagement == "true") {
-
     $block5 = new phpCollab\Block();
     $block5->form = "tdC";
     $block5->openForm("../projects/viewproject.php?&id=$id#" . $block5->form . "Anchor");
@@ -818,7 +812,6 @@ if ($fileManagement == "true") {
 
             if ($existFile == "true") {
                 $block5->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $listFiles->fil_id[$i], $type, icone));
-
             } else {
                 $block5->cellRow("&nbsp;");
             }

@@ -12,13 +12,13 @@ if ($session == "false") {
     session_destroy();
     phpCollab\Util::headerFunction("../general/login.php?session=false");
 
-//case log out
-} else if ($logout == "true") {
+    //case log out
+} elseif ($logout == "true") {
     session_start();
     session_destroy();
     phpCollab\Util::headerFunction("../general/login.php?logout=true&login=$login");
 
-//default case
+    //default case
 } else {
     phpCollab\Util::headerFunction("../general/login.php");
 }

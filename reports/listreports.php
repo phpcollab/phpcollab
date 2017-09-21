@@ -41,7 +41,6 @@ $dataSet = $reports->getReportsByOwner($idSession, $sorting);
 $reportCount = count($dataSet);
 
 if ($dataSet) {
-
     $block1->openResults();
     $block1->labels($labels = [0 => $strings["name"], 1 => $strings["created"]], "false");
 

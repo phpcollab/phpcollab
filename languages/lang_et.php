@@ -8,7 +8,7 @@ $byteUnits = array('baiti', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"esmasp&auml;ev", 2 =>"teisip&auml;ev", 3 =>"kolmap&auml;ev", 4 =>"neljap&auml;ev", 5 =>"reede", 6 =>"laup&auml;ev", 7 =>"p&uuml;hap&auml;ev");
 
-$monthNameArray = array(1=> "jaanuar", "veebruar", "m&auml;rts", "aprill", "mai", "juuni", "juuli", "august", "september", "oktoober", "november", "detsember"); 
+$monthNameArray = array(1=> "jaanuar", "veebruar", "m&auml;rts", "aprill", "mai", "juuni", "juuli", "august", "september", "oktoober", "november", "detsember");
 
 $status = array(0 => "Kliendi &uuml;lesanne valmis", 1 => "Valmis", 2 => "Pole alustatud", 3 => "T&ouml;&ouml;s", 4 => "Peatatud");
 
@@ -505,4 +505,3 @@ $strings["report"] = "Report";
 $strings["license"] = "License";
 //2.4
 $strings["settings_notwritable"] = "Settings.php file is not writable";
-?>

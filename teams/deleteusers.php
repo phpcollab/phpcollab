@@ -40,7 +40,7 @@ if ($action == "delete") {
             $Htpasswd->deleteUser($listMembers->mem_login[$i]);
         }
     }
-//if mantis bug tracker enabled	
+    //if mantis bug tracker enabled
     if ($enableMantis == "true") {
         //  include mantis library
         include '../mantis/core_API.php';
@@ -52,17 +52,17 @@ if ($action == "delete") {
         $compt = count($pieces);
         for ($i = 0; $i < $compt; $i++) {
             if ($projectDetail->pro_owner[0] != $pieces[$i]) {
-                phpCollab\Util::newConnectSql("DELETE FROM {$tableCollab["teams"]} WHERE member = :member AND project = :project",["member" => $pieces[$i], "project" => $project]);
+                phpCollab\Util::newConnectSql("DELETE FROM {$tableCollab["teams"]} WHERE member = :member AND project = :project", ["member" => $pieces[$i], "project" => $project]);
 
-//if mantis bug tracker enabled
+                //if mantis bug tracker enabled
                 if ($enableMantis == "true") {
-// Unassign multiple user from this project in mantis
+                    // Unassign multiple user from this project in mantis
                     $f_project_id = $project;
                     $f_user_id = $pieces[$i];
                     include '../mantis/user_proj_delete.php';
                 }
 
-//if CVS repository enabled
+                //if CVS repository enabled
                 if ($enable_cvs == "true") {
                     $user_query = "WHERE mem.id = '$pieces[$i]'";
                     $cvsMember = new phpCollab\Request();
@@ -83,18 +83,18 @@ if ($action == "delete") {
         if ($projectDetail->pro_owner[0] == $id) {
             $msg = "deleteTeamOwner";
         } else {
-            phpCollab\Util::newConnectSql("DELETE FROM {$tableCollab["teams"]} WHERE member = :member AND project = :project",["member" => $id, "project" => $project]);
+            phpCollab\Util::newConnectSql("DELETE FROM {$tableCollab["teams"]} WHERE member = :member AND project = :project", ["member" => $id, "project" => $project]);
             $msg = "delete";
 
-//if mantis bug tracker enabled
+            //if mantis bug tracker enabled
             if ($enableMantis == "true") {
-// Unassign single user from this project in mantis
+                // Unassign single user from this project in mantis
                 $f_project_id = $project;
                 $f_user_id = $id;
                 include '../mantis/user_proj_delete.php';
             }
 
-//if CVS repository enabled
+            //if CVS repository enabled
             if ($enable_cvs == "true") {
                 $user_query = "WHERE mem.id = '$id'";
                 $cvsMember = new phpCollab\Request();

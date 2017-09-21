@@ -33,7 +33,7 @@ if ($action == "delete") {
         }
     }
 
-//if mantis bug tracker enabled	
+    //if mantis bug tracker enabled
     if ($enableMantis == "true") {
         //  include mantis library
         include '../mantis/core_API.php';
@@ -41,9 +41,9 @@ if ($action == "delete") {
     $compt = count($pieces);
     for ($i = 0; $i < $compt; $i++) {
         phpCollab\Util::newConnectSql("DELETE FROM {$tableCollab["teams"]} WHERE member = :member_id", ["member_id" => $pieces[$i]]);
-//if mantis bug tracker enabled
+        //if mantis bug tracker enabled
         if ($enableMantis == "true") {
-// Unassign user from this project in mantis
+            // Unassign user from this project in mantis
             $f_project_id = $project;
             $f_user_id = $pieces[$i];
             include '../mantis/user_proj_delete.php';
@@ -97,4 +97,3 @@ $block1->closeContent();
 $block1->closeForm();
 
 include '../themes/' . THEME . '/footer.php';
-?>

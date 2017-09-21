@@ -55,4 +55,3 @@ echo "</select></td></tr>
 </form>";
 
 include("include_footer.php");
-?>

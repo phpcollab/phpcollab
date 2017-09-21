@@ -8,7 +8,7 @@ $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Maandag", 2 =>"Dinsdag", 3 =>"Woensdag", 4 =>"Donderdag", 5 =>"Vrijdag", 6 =>"Zaterdag", 7 =>"Zondag");
 
-$monthNameArray = array(1=> "Januari", "Februari", "Maart", "April", "Mei", "Juni", "Juli", "Augustus", "September", "Oktober", "November", "December"); 
+$monthNameArray = array(1=> "Januari", "Februari", "Maart", "April", "Mei", "Juni", "Juli", "Augustus", "September", "Oktober", "November", "December");
 
 $status = array(0 => "Client Voltooid", 1 => "Voltooid", 2 => "Niet Gestart", 3 => "Open", 4 => "Opgeschort");
 
@@ -425,7 +425,7 @@ $strings["scope_creep"] = "Scope creep";
 $strings["days"] = "Dagen";
 $strings["logo"] = "Logo";
 $strings["remember_password"] = "Onthoud wachtwoord";
-$strings["client_add_task_note"] = "Opmerking: De taak is toegevoegd in de database, het word alleen zichtbaar indien het is toebedeeld aan een groepslid!";									
+$strings["client_add_task_note"] = "Opmerking: De taak is toegevoegd in de database, het word alleen zichtbaar indien het is toebedeeld aan een groepslid!";
 $strings["noti_clientaddtask1"] = "Taak toegevoegd door cliënt :";
 $strings["noti_clientaddtask2"] = "Een nieuwe taak is toegevoegd door een cliënt aan het volgende project :";
 $strings["phase"] = "Fase";
@@ -510,4 +510,3 @@ $strings["report"] = "Report";
 $strings["license"] = "License";
 //2.4
 $strings["settings_notwritable"] = "Settings.php file is not writable";
-?>

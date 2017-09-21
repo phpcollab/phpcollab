@@ -25,7 +25,7 @@ if ($_GET["action"] == "update") {
         foreach ($filesPublished as $file) {
             array_push($filesPublishedValue, $file["fil_id"]);
         }
-        $placeholders = str_repeat ('?, ', count($filesPublishedValue)-1) . '?';
+        $placeholders = str_repeat('?, ', count($filesPublishedValue)-1) . '?';
         $tmpquery1 = "UPDATE {$tableCollab["files"]} SET published= 0 WHERE vc_parent IN ($placeholders)";
         phpCollab\Util::newConnectSql($tmpquery1, $filesPublishedValue);
         unset($placeholders);
@@ -40,7 +40,7 @@ if ($_GET["action"] == "update") {
         foreach ($filesPublishedNo as $file) {
             array_push($filesPublishedNoValue, $file["fil_id"]);
         }
-        $placeholders = str_repeat ('?, ', count($filesPublishedNoValue)-1) . '?';
+        $placeholders = str_repeat('?, ', count($filesPublishedNoValue)-1) . '?';
         $tmpquery1 = "UPDATE {$tableCollab["files"]} SET published = 1 WHERE vc_parent IN ($placeholders)";
         phpCollab\Util::newConnectSql($tmpquery1, $filesPublishedNoValue);
     }

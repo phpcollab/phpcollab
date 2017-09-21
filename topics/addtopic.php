@@ -24,7 +24,6 @@ if ($projectDetail["pro_org_id"] == "1") {
 }
 
 if ($action == "add") {
-
     if ($pub == "") {
         $pub = "1";
     }

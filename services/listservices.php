@@ -69,4 +69,3 @@ $block1->paletteScript(3, "edit", "../services/editservice.php?", "false,true,fa
 $block1->closePaletteScript($comptListServices, $listServices->serv_id);
 
 include '../themes/' . THEME . '/footer.php';
-?>

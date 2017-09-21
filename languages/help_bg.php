@@ -26,4 +26,3 @@ $help["setup_projectsfilter"] = "Потребители ще виждат сам
 $help["setup_notificationMethod"] = "Настрой метода за изпращане на емайл съобщения: with internal php mail function (need for having a smtp server or sendmail configured in the parameters of php) or with a personalized smtp server";
 //2.5 fullo
 $help["newsdesk_links"] = "За да добавиш повече линкове, използвай точка и запетая за разделител";
-?>

@@ -9,7 +9,7 @@ $byteUnits = array('Bajty', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Poniedzia³ek", 2 =>"Wtorek", 3 =>"¦roda", 4 =>"Czwartek", 5 =>"Pi±tek", 6 =>"Sobota", 7 =>"Niedziela");
 
-$monthNameArray = array(1=> "Styczeñ", "Luty", "Marzec", "Kwiecieñ", "Maj", "Czerwiec", "Lipiec", "Sierpieñ", "Wrzesieñ", "Pa¼dziernik", "Listopad", "Grudzieñ"); 
+$monthNameArray = array(1=> "Styczeñ", "Luty", "Marzec", "Kwiecieñ", "Maj", "Czerwiec", "Lipiec", "Sierpieñ", "Wrzesieñ", "Pa¼dziernik", "Listopad", "Grudzieñ");
 
 $status = array(0 => "Oddany Klientowi", 1 => "Skoñczony", 2 => "Nie rozpoczêty", 3 => "Rozpoczêty", 4 => "Zawieszony");
 
@@ -576,17 +576,13 @@ $strings["noti_memberactivation4"] = "has³o:";
 $strings["noti_memberactivation5"] = "Po wpisaniu powy¿szych danych i potwierdzeniu enterem zostaniesz przeniesiony do systemu. \n\nDodatkowo na ten adres e-mail bêdziesz otrzymywa³ dodatkowe informacje dotycz±ce aktywacji zadañ i innych zdarzeñ zwi±zanych z twoim kontem. Te wiadomo¶ci pozwol± ci lepiej nadzorowaæ pracê nad projektem.";
 
 //BEGIN email project users mod
-$strings["email_users"] = "Wy¶lij e-mail"; 
-$strings["email_following"] = "Wy¶lij e-mail do..."; 
-$strings["email_sent"] = "E-mail zosta³ wys³any."; 
+$strings["email_users"] = "Wy¶lij e-mail";
+$strings["email_following"] = "Wy¶lij e-mail do...";
+$strings["email_sent"] = "E-mail zosta³ wys³any.";
 //END email project users mod
 
-$strings["clients_connected"] = "(Klient na stronie projektu)"; 
+$strings["clients_connected"] = "(Klient na stronie projektu)";
 // MOD, (dracono)
 $strings["edit_message"] = "Edytuj wiadomo¶æ";
 $strings["edit_noti_clientaddtask"] = "Gdy nowe zadanie zostanie dodane przez klienta.";
 $strings["edit_noti_uploadfile"] = "Gdy pojawi siê nowy dokument w projekcie.";
-
-
-
-?>

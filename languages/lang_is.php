@@ -8,7 +8,7 @@ $byteUnits = array('Bæti', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Mánudagur", 2 =>"Þriðjudagur", 3 =>"Miðvikudagur", 4 =>"Fimmtudagur", 5 =>"Föstudagur", 6 =>"Laugardagur", 7 =>"Sunnudagur");
 
-$monthNameArray = array(1=> "Janúar", "Febrúar", "Mars", "Apríl", "Maí", "Júní", "Júlí", "Ágúst", "September", "Október", "Nóvember", "Desember"); 
+$monthNameArray = array(1=> "Janúar", "Febrúar", "Mars", "Apríl", "Maí", "Júní", "Júlí", "Ágúst", "September", "Október", "Nóvember", "Desember");
 
 $status = array(0 => "Viðskiptaaðila lokað", 1 => "Lokið", 2 => "Ekki byrjað", 3 => "Opið", 4 => "Aflýst");
 
@@ -519,4 +519,3 @@ $strings["report"] = "Report";
 $strings["license"] = "License";
 //2.4
 $strings["settings_notwritable"] = "Settings.php file is not writable";
-?>

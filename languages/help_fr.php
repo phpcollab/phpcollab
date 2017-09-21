@@ -3,7 +3,7 @@
 #Status page: 2
 #Path by root: ../languages/help_fr.php
 
-//translator(s): 
+//translator(s):
 $help["setup_mkdirMethod"] = "Si le safe-mode est actif (on), vous avez besoin de définir un compte FTP pour pouvoir créer des dossiers avec le gestionnaire de fichiers.";
 $help["setup_notifications"] = "Notification électronique aux utilisateurs (affectation de tâches, nouvelle publication, changement de tâches...)<br/>Un SMPT/SENDMAIL valide est nécessaire.";
 $help["setup_forcedlogin"] = "Si faux, n'autorise pas les liens externes avec l'identifiant et le mot de passe dans l'URL.";
@@ -26,4 +26,3 @@ $help["setup_projectsfilter"] = "Filtre pour voir seulement les projets dont l'u
 $help["setup_notificationMethod"] = "Définissez la méthode de notification électronique : avec les fonctions internes PHP (il est nécessaire d'avoir un serveur SMTP configuré pour) ou avec un serveur SMTP spécifique.";
 //2.5b3
 $help["newsdesk_links"] = "Utiliser le point-virgule pour ajouter plusieurs liens";
-?>

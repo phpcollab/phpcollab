@@ -7,7 +7,7 @@
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -25,7 +25,7 @@
 **  11/04/2007  -   added check for $autoPublishTasks
 ** -----------------------------------------------------------------------------
 ** TO-DO:
-** 
+**
 **
 ** =============================================================================
 */
@@ -92,7 +92,6 @@ if ($id == "") {
 
         phpCollab\Util::headerFunction("showallteamtasks.php");
     }
-
 }
 
 $bodyCommand = "onload='document.etDForm.tn.focus();'";

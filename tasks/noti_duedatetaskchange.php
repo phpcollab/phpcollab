@@ -31,7 +31,7 @@ if ($listNotifications->not_statustaskchange[0] == "0") {
 
     if ($taskNoti->tas_mem_organization[0] == "1") {
         $body .= "$root/general/login.php?url=tasks/viewtask.php%3Fid=$id";
-    } else if ($taskNoti->tas_mem_organization[0] != "1" && $projectNoti->pro_published[0] == "0" && $taskNoti->tas_published[0] == "0") {
+    } elseif ($taskNoti->tas_mem_organization[0] != "1" && $projectNoti->pro_published[0] == "0" && $taskNoti->tas_published[0] == "0") {
         $body .= "$root/general/login.php?url=projects_site/home.php%3Fproject=" . $projectNoti->pro_id[0];
     }
 
@@ -50,4 +50,3 @@ if ($listNotifications->not_statustaskchange[0] == "0") {
     $mail->Send();
     $mail->ClearAddresses();
 }
-?>

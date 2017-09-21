@@ -45,7 +45,6 @@ if ($supportType == "team") {
             $mail->ClearAddresses();
         }
     }
-
 } else {
     $members = new \phpCollab\Members\Members();
     $userDetail = $members->getMemberById(1);

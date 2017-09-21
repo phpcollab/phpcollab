@@ -305,7 +305,8 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
             //recompute number of completed tasks of the project
             $projectDetail['pro_name'] = phpCollab\Util::projectComputeCompletion(
                 $projectDetail,
-                $tableCollab["projects"]);
+                $tableCollab["projects"]
+            );
 
             if ($invoicing == "") {
                 $invoicing = "0";
@@ -390,8 +391,8 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
                 $oldproject->openProjects($tmpquery);
                 phpCollab\Util::projectComputeCompletion(
                     $oldproject,
-                    $tableCollab["projects"]);
-
+                    $tableCollab["projects"]
+                );
             }
 
             if ($enableInvoicing == "true") {
@@ -613,7 +614,6 @@ SQL;
         $num = phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
 
         if ($enableInvoicing == "true") {
-
             $invoices = new \phpCollab\Invoices\Invoices();
 
             if ($st == "1") {
@@ -655,7 +655,8 @@ SQL;
         //recompute number of completed tasks of the project
         $projectDetail['pro_name'] = phpCollab\Util::projectComputeCompletion(
             $projectDetail,
-            $tableCollab["projects"]);
+            $tableCollab["projects"]
+        );
 
         //if assigned_to not blank, set assigned date
         if ($at != "0") {
@@ -803,7 +804,6 @@ if ($id == "") {
 }
 
 if ($id != "") {
-
     if ($docopy == "true") {
         $block1->heading($strings["copy_task"] . " : " . $taskDetail['tas_name']);
     } else {

@@ -43,4 +43,3 @@ if ($comptListTasks != "0") {
 }
 
 include("include_footer.php");
-?>

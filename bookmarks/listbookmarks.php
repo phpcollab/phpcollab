@@ -2,7 +2,7 @@
 /*
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -71,7 +71,8 @@ if ($view == "my") {
     $block1->sorting(
         "bookmarks",
         $sortingUser->sor_bookmarks[0],
-        "boo.name ASC", $sortingFields = [
+        "boo.name ASC",
+        $sortingFields = [
         0 => "boo.name",
         1 => "boo.category",
         2 => "boo.shared"
@@ -94,7 +95,7 @@ $sorting = $block1->sortingValue;
 
 if ($view == "my") {
     $bookmarks = $bookmarks_gateway->getMyBookmarks($idSession, $sorting);
-} else if ($view == "private") {
+} elseif ($view == "private") {
     $bookmarks = $bookmarks_gateway->getPrivateBookmarks($idSession, $sorting);
 } else {
     $bookmarks = $bookmarks_gateway->getAllBookmarks($idSession, $sorting);
@@ -131,7 +132,11 @@ if ($bookmarkCount > 0) {
 
         $block1->cellRow(
             $blockPage->buildLink(
-                "../bookmarks/viewbookmark.php?view=$view&id=" . $data["boo_id"], $data["boo_name"], 'in') . " " . $blockPage->buildLink($data["boo_url"], "(" . $strings["url"] . ")", 'out'));
+                "../bookmarks/viewbookmark.php?view=$view&id=" . $data["boo_id"],
+                $data["boo_name"],
+                'in'
+            ) . " " . $blockPage->buildLink($data["boo_url"], "(" . $strings["url"] . ")", 'out')
+        );
         $block1->cellRow($data["boo_boocat_name"]);
 
         if ($view == "my") {

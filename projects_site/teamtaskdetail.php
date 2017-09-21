@@ -73,7 +73,6 @@ $block2 = new phpCollab\Block();
 $block2->heading($strings["subtasks"]);
 
 if ($comptListSubtasks != "0") {
-
     if ($activeJpgraph == "true") {
         echo "<img src=\"graphsubtasks.php?task=" . $taskDetail->tas_id[0] . "\" alt=\"\">
 <span class=\"listEvenBold\">[<a href=\"http://www.aditus.nu/jpgraph/\" target=\"_blank\">JpGraph</a>]</span><br/><br/>";
@@ -94,7 +93,6 @@ if ($comptListSubtasks != "0") {
         echo "<tr class=\"$class\" onmouseover=\"this.style.backgroundColor='" . $block2->getHighlightOn() . "'\" onmouseout=\"this.style.backgroundColor='" . $highlightOff . "'\"><td><a href=\"teamsubtaskdetail.php?task=$id&id=" . $listSubtasks->subtas_id[$i] . "\">" . $listSubtasks->subtas_name[$i] . "</a></td><td>" . nl2br($listSubtasks->subtas_description[$i]) . "</td><td>$status[$idStatus]</td><td>" . $listSubtasks->subtas_due_date[$i] . "</td></tr>";
     }
     echo "</table> <hr>\n";
-
 } else {
     echo "<table cellspacing=\"0\" border=\"0\" cellpadding=\"2\"><tr><td colspan=\"4\" class=\"listOddBold\">" . $strings["no_items"] . "</td></tr></table><hr>";
 }
@@ -103,4 +101,3 @@ echo "<br/><br/>
 <a href=\"showallteamtasks.php?\">" . $strings["show_all"] . "</a>";
 
 include("include_footer.php");
-?>

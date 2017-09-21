@@ -8,7 +8,7 @@ $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"月曜日", 2 =>"火曜日", 3 =>"水曜日", 4 =>"木曜日", 5 =>"金曜日", 6 =>"土曜日", 7 =>"日曜日");
 
-$monthNameArray = array(1=> "１月", "２月", "３月", "４月", "５月", "６月", "７月", "８月", "９月", "10月", "11月", "12月"); 
+$monthNameArray = array(1=> "１月", "２月", "３月", "４月", "５月", "６月", "７月", "８月", "９月", "10月", "11月", "12月");
 
 $status = array(0 => "顧客折衝完了", 1 => "完了", 2 => "未着手", 3 => "進行中", 4 => "保留中");
 
@@ -577,10 +577,9 @@ $strings["noti_memberactivation4"] = "パスワード :";
 $strings["noti_memberactivation5"] = "上記の情報を入力して \"enter\" を押すと、あなたのアカウントにアクセスすることができます。\n\nまた、この電子メールと同じようにアカウントの有効化やタスクの開始、その他あなたのアカウントに関連するイベントについてのお知らせが届きます。これらの電子メールは、あなたのプロジェクトが進行していることをお知らせするために発信しております。";
 
 //BEGIN email project users mod
-$strings["email_users"] = "ユーザーに電子メールを発信"; 
-$strings["email_following"] = "以下に電子メールを発信"; 
-$strings["email_sent"] = "電子メールを発信しました。"; 
+$strings["email_users"] = "ユーザーに電子メールを発信";
+$strings["email_following"] = "以下に電子メールを発信";
+$strings["email_sent"] = "電子メールを発信しました。";
 //END email project users mod
 
-$strings["clients_connected"] = "(顧客がプロジェクトサイトに接続中)"; 
-?>
+$strings["clients_connected"] = "(顧客がプロジェクトサイトに接続中)";

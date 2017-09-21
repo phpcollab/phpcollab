@@ -595,4 +595,3 @@ $strings["noti_newfile2"] = "En ny fil blev uploadet til projektet :";
 //2.5rc1
 $strings["location"] = "Lokation";
 $strings["calendar_broadcast"] = "Broadcast"; // hmm
-?>

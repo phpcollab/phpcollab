@@ -44,7 +44,8 @@ if ($action == "edit") {
 if ($action == "add") {
     $num = phpCollab\Util::newConnectSql(
         "INSERT INTO {$tableCollab["support_posts"]} (request_id,message,date,owner,project) VALUES(:request_id, :message, :date, :owner, :project)",
-        ["request_id" => $id, "message" => phpCollab\Util::convertData($mes), "date" => $dateheure, "owner" => $idSession, "project" => $requestDetail->sr_project[0]]);
+        ["request_id" => $id, "message" => phpCollab\Util::convertData($mes), "date" => $dateheure, "owner" => $idSession, "project" => $requestDetail->sr_project[0]]
+    );
 
     if ($notifications == "true") {
         if ($mes != "") {
@@ -71,7 +72,7 @@ if ($supportType == "team") {
     } else {
         $blockPage->itemBreadcrumbs($strings["add_support_response"]);
     }
-} else if ($supportType == "admin") {
+} elseif ($supportType == "admin") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], "in"));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/support.php?", $strings["support_management"], "in"));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=" . $requestDetail->sr_project[0], $strings["support_requests"], "in"));
@@ -96,7 +97,6 @@ $block2->form = "sr";
 if ($action == "status") {
     $block2->openForm("../support/addpost.php?action=edit&id=$id&#" . $block2->form . "Anchor");
 } else {
-
     $block2->openForm("../support/addpost.php?action=add&id=$id&#" . $block2->form . "Anchor");
 }
 if ($error != "") {
@@ -129,4 +129,3 @@ echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td><i
 $block2->closeContent();
 
 include '../themes/' . THEME . '/footer.php';
-?>

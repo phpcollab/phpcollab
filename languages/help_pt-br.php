@@ -27,4 +27,3 @@ $help["setup_projectsfilter"] = "Filtrar para ver somente o projeto quando o usu
 $help["setup_notificationMethod"] = "Define o método de envio de notificações por email:<br/><br/>&nbsp;&nbsp;a) Utilizando a função interna de email do PHP (para ter um servidor SMTP ou sendmail é necessário que os parâmetros necessários estejam configurados no PHP).<br/><br/>&nbsp;&nbsp;b) Utilizando um servidor SMTP personalizado.";
 //2.5 fullo
 $help["newsdesk_links"] = "Para adicionar múltiplos links relacionados use um ponto-e-vírgula entre cada link. Ex: http://php.org/; http://phpcollab.com/";
-?>

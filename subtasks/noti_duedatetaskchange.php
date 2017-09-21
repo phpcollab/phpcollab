@@ -35,8 +35,7 @@ if ($listNotifications["not_statustaskchange"] == "0") {
 
     if ($subtaskNoti["subtas_mem_organization"] == "1") {
         $body .= "$root/general/login.php?url=subtasks/viewsubtask.php%3Fid=$id%26task=" . $taskNoti["tas_id"];
-
-    } else if ($subtaskNoti["subtas_mem_organization"] != "1" && $projectNoti["pro_published"] == "0" && $subtaskNoti["subtas_published"] == "0") {
+    } elseif ($subtaskNoti["subtas_mem_organization"] != "1" && $projectNoti["pro_published"] == "0" && $subtaskNoti["subtas_published"] == "0") {
         $body .= "$root/general/login.php?url=projects_site/home.php%3Fproject=" . $projectNoti["pro_id"];
     }
 

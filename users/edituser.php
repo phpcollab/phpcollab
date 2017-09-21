@@ -7,7 +7,7 @@
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -15,14 +15,14 @@
 ** -----------------------------------------------------------------------------
 ** FILE: edituser.php
 **
-** DESC: Screen:	displays the details of a client user 
+** DESC: Screen:	displays the details of a client user
 **
 ** HISTORY:
 ** 	02/08/2007	-	added Last Viewed Page code - Mindblender
-**	
+**
 ** -----------------------------------------------------------------------------
 ** TO-DO:
-** 
+**
 **
 ** =============================================================================
 */
@@ -39,12 +39,11 @@ if ($profilSession != "0") {
 
 //case update user
 if ($id != "") {
-
     if ($id == "1" && $idSession == "1") {
         phpCollab\Util::headerFunction("../preferences/updateuser.php");
     }
 
-//case update user
+    //case update user
     if ($action == "update") {
         if ($htaccessAuth == "true") {
             $Htpasswd = new Htpasswd;
@@ -107,7 +106,7 @@ if ($id != "") {
                     }
                 }
 
-//test if new password set
+                //test if new password set
                 if ($pw != "") {
 
 //test if 2 passwords match
@@ -133,9 +132,9 @@ if ($id != "") {
                         }
 
                         phpCollab\Util::newConnectSql("UPDATE {$tableCollab["members"]} SET password=:password WHERE id = :id", ["password" => $pw, "id" => $id]);
-//if mantis bug tracker enabled
+                        //if mantis bug tracker enabled
                         if ($enableMantis == "true") {
-// Call mantis function for user changes..!!!
+                            // Call mantis function for user changes..!!!
                             $f_access_level = $team_user_level; // Developer
                             include '../mantis/user_update.php';
                         }
@@ -143,9 +142,9 @@ if ($id != "") {
                         phpCollab\Util::headerFunction("../users/listusers.php?msg=update");
                     }
                 } else {
-//if mantis bug tracker enabled
+                    //if mantis bug tracker enabled
                     if ($enableMantis == "true") {
-// Call mantis function for user changes..!!!
+                        // Call mantis function for user changes..!!!
                         $f_access_level = $team_user_level; // Developer
                         include '../mantis/user_update.php';
                     }
@@ -159,12 +158,12 @@ if ($id != "") {
     $detailUser->openMembers($tmpquery);
     $comptDetailUser = count($detailUser->mem_id);
 
-//test exists selected user, redirect to list if not
+    //test exists selected user, redirect to list if not
     if ($comptDetailUser == "0") {
         phpCollab\Util::headerFunction("../users/listusers.php?msg=blankUser");
     }
 
-//set values in form
+    //set values in form
     $un = $detailUser->mem_login[0];
     $fn = $detailUser->mem_name[0];
     $tit = $detailUser->mem_title[0];
@@ -180,7 +179,7 @@ if ($id != "") {
 
     $setTitle .= " : Edit User ($un)";
 
-//set radio button with permissions value
+    //set radio button with permissions value
     if ($perm == "1") {
         $checked1 = "checked";
     }
@@ -202,7 +201,7 @@ if ($id != "") {
 if ($id == "") {
     $checked2 = "checked";
 
-//case add user
+    //case add user
     if ($action == "add") {
         if (!preg_match("/^[A-Za-z0-9]+$/", $un)) {
             $error = $strings["alpha_only"];
@@ -245,17 +244,18 @@ if ($id == "") {
                             "created" => $dateheure,
                             "organization" => 1,
                             "timezone" => 0
-                        ]);
+                        ]
+                    );
 
-                    phpCollab\Util::newConnectSql("INSERT INTO {$tableCollab["sorting"]} (member) VALUES(:num)",["num" => $num]);
+                    phpCollab\Util::newConnectSql("INSERT INTO {$tableCollab["sorting"]} (member) VALUES(:num)", ["num" => $num]);
 
                     phpCollab\Util::newConnectSql(
                         "INSERT INTO {$tableCollab["notifications"]} (member,taskAssignment,removeProjectTeam,addProjectTeam,newTopic,newPost,statusTaskChange,priorityTaskChange,duedateTaskChange,clientAddTask) VALUES (:num,'0','0','0','0','0','0','0','0','0')",
                         ["num" => $num]
                     );
-//if mantis bug tracker enabled
+                    //if mantis bug tracker enabled
                     if ($enableMantis == "true") {
-// Call mantis function for user changes..!!!
+                        // Call mantis function for user changes..!!!
                         $f_access_level = $team_user_level; // Developer
                         include '../mantis/create_new_user.php';
                     }

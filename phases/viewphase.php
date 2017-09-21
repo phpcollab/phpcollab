@@ -141,7 +141,7 @@ $comptlistTasksRow = 0;
 $comptUncompleteTasks = 0;
 
 foreach ($countPhaseTasks as $task) {
-//for ($k = 0; $k < $comptlistTasks; $k++) {
+    //for ($k = 0; $k < $comptlistTasks; $k++) {
     if (in_array($task["tas_status"], [2,3,4])) {
         $comptUncompleteTasks = $comptUncompleteTasks + 1;
     }
@@ -161,7 +161,6 @@ if ($idSession == $projectDetail["pro_owner"] || $profilSession == "0" || $profi
     $block1->openPaletteScript();
     $block1->paletteScript(0, "edit", "../phases/editphase.php?id=$id", "true,true,true", $strings["edit"]);
     $block1->closePaletteScript($comptlistTasks, $listPhases->pha_id);
-
 }
 
 $block2 = new phpCollab\Block();
@@ -197,7 +196,7 @@ $block2->sorting("tasks", $sortingUser->sor_tasks[0], "tas.name ASC", $sortingFi
 $listTasks = $tasks->getTasksByProjectIdAndParentPhase($project, $parentPhase, $block2->sortingValue);
 
 if ($listTasks) {
-//if ($comptListTasks != "0") {
+    //if ($comptListTasks != "0") {
     $block2->openResults();
     $block2->labels($labels = [0 => $strings["task"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["completion"], 4 => $strings["due_date"], 5 => $strings["assigned_to"], 6 => $strings["published"]], "true");
 
@@ -269,7 +268,6 @@ $block2->closePaletteScript(count($comptListTasks), $listTasks["tas_id"]);
 
 
 if ($fileManagement == "true") {
-
     $block3 = new phpCollab\Block();
     $block3->form = "tdC";
     $block3->openForm("../phases/viewphase.php?&id=$id#" . $block3->form . "Anchor");

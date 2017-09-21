@@ -1,12 +1,12 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 2003-10-23 
+** Last Edit page: 2003-10-23
 ** Path by root: ../bookmarks/viewbookmark.php
-** Authors: Ceam / Fullo 
+** Authors: Ceam / Fullo
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -20,7 +20,7 @@
 ** 	2003-10-23	-	added new document info
 ** -----------------------------------------------------------------------------
 ** TO-DO:
-**	 
+**
 **
 ** =============================================================================
 */

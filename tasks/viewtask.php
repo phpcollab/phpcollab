@@ -3,11 +3,11 @@
 ** Application name: phpCollab
 ** Last Edit page: 05/11/2004
 ** Path by root:  ../tasks/viewtask.php
-** Authors: Ceam / Fullo 
+** Authors: Ceam / Fullo
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -18,7 +18,7 @@
 ** DESC: Screen:  view  task information
 **
 ** HISTORY:
-**	05/11/2004	-	fixed 1059973 
+**	05/11/2004	-	fixed 1059973
 **	19/05/2005	-	fixed and &amp; in link
 **  22/05/2005	-	added [MOD] file owner label in linked content list
 **  10/02/2007  -   Changed JPGraph implementation
@@ -59,8 +59,8 @@ if ($task != "") {
 }
 
 if (isset($_GET["action"]) && $_GET["action"] == "publish") {
-
-    if (isset($_GET["addToSite"]) && $_GET["addToSite"] == "true") {;
+    if (isset($_GET["addToSite"]) && $_GET["addToSite"] == "true") {
+        ;
         phpCollab\Util::newConnectSql("UPDATE {$tableCollab["tasks"]} SET published = :published WHERE id = :taske_id", ["published" => 0, "task_id" => $id]);
 
         $msg = "addToSite";
@@ -101,7 +101,6 @@ if ($projectDetail["pro_enable_phase"] != "0") {
         $tPhase = '0';
     }
     $targetPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($taskDetail["tas_project"], $tPhase);
-
 }
 
 $teamMember = false;
@@ -291,7 +290,6 @@ if ($teamMember == true || $profilSession == "5") {
 }
 
 if ($fileManagement == "true") {
-
     $block2 = new phpCollab\Block();
     $block2->form = "tdC";
     $block2->openForm("../tasks/viewtask.php?id=$id#" . $block2->form . "Anchor");
@@ -403,7 +401,7 @@ foreach ($listAssign as $assignment) {
     $block3->checkboxRow($assignment["ass_id"], $checkbox = "false");
     if ($assignment["ass_comments"] != "") {
         $block3->cellRow($assignment["ass_comments"]);
-    } else if ($assignment["ass_assigned_to"] == "0") {
+    } elseif ($assignment["ass_assigned_to"] == "0") {
         $block3->cellRow($strings["task_unassigned"]);
     } else {
         $block3->cellRow($strings["task_assigned"] . " " . $assignment["ass_mem2_name"] . " (" . $assignment["ass_mem2_login"] . ")");

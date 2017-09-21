@@ -7,7 +7,7 @@
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -22,7 +22,7 @@
 **  2004-09-06  -   xhtml
 ** -----------------------------------------------------------------------------
 ** TO-DO:
-** 	move to the render engine  
+** 	move to the render engine
 **
 ** =============================================================================
 */
@@ -60,7 +60,7 @@ echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>
                 <select name='table_select[]' size='5' multiple='multiple'>";
 
 sort($tableCollab);
-while (list ($key, $val) = each($tableCollab)) {
+while (list($key, $val) = each($tableCollab)) {
     echo "<option value='$val' selected>$val</option>";
 }
 

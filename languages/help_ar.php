@@ -22,4 +22,3 @@ $help["user_timezone"] = "اعدادات التوقيت";
 //2.4
 $help["setup_clientsfilter"] = "Filter to see only logged user clients";
 $help["setup_projectsfilter"] = "Filter to see only the project when the user are in the team";
-?>

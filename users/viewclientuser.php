@@ -7,7 +7,7 @@
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -15,14 +15,14 @@
 ** -----------------------------------------------------------------------------
 ** FILE: viewclientuser.php
 **
-** DESC: Screen:	displays the details of a client user 
+** DESC: Screen:	displays the details of a client user
 **
 ** HISTORY:
 ** 	02/08/2007	-	added Last Viewed Page code - Mindblender
-**	
+**
 ** -----------------------------------------------------------------------------
 ** TO-DO:
-** 
+**
 **
 ** =============================================================================
 */
@@ -60,7 +60,7 @@ if ($clientsFilter == "true" && $profilSession == "2") {
     if (empty($memberTest)) {
         phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
     }
-} else if ($clientsFilter == "true" && $profilSession == "1") {
+} elseif ($clientsFilter == "true" && $profilSession == "1") {
     $detailClient = $organizations->getOrganizationByIdAndOwner($idSession, $orgId);
 } else {
     $detailClient = $organizations->getOrganizationById($orgId);

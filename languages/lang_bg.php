@@ -602,4 +602,3 @@ $strings["calendar_broadcast"] = "Разпращане";
 //2.5rc2
 $strings["edit_noti_clientaddtask"] = "Добавена е задача от клиент.";
 $strings["edit_noti_uploadfile"] = "Добавен е прикачен файл.";
-?>

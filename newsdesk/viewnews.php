@@ -85,8 +85,6 @@ if ($newsDetail) {
 
     $block1->contentRow("<b>" . $strings["newsdesk_rss_enabled"] . "</b>", $article_rss);
     $block1->closeContent();
-
-
 } else {
     $block1->noresults();
 }
@@ -145,7 +143,6 @@ if ($newsComments) {
 
     $block2->closeResults();
     $block2->limitsFooter("1", $blockPage->limitssNumber, "", "");
-
 } else {
     $block2->noresults();
 }

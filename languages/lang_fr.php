@@ -592,4 +592,3 @@ $strings["edit_noti_uploadfile"] = "Un fichier associ� a �t� ajout�.";
 
 //2.5rc3
 $strings["my_subtasks"] = "Mes Soust�ches";
-?>

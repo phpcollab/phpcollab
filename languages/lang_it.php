@@ -537,7 +537,7 @@ $strings["delete_services"] = "Cancella servizi";
 $strings["worked_hours"] = "Ore di lavoro";
 $strings["rate_type"] = "Tipo di tariffa";
 $strings["rate_value"] = "Valore della tariffa";
-$strings["note_invoice_items_notcompleted"] = "Non tutte le voci sono state completate"; 
+$strings["note_invoice_items_notcompleted"] = "Non tutte le voci sono state completate";
 
 $rateType = array(0 => "Tariffa personalizzata", 1 => "Tariffa per progetto", 2 => "Tariffa per organizzazione", 3 => "Tariffa per servizio");
 //HACKS
@@ -576,12 +576,12 @@ $strings["noti_memberactivation4"] = "password:";
 $strings["noti_memberactivation5"] = "Dopo aver compilato le informazioni sovrastanti ed aver premuto \"invio\" ti sarà permesso accedere al tuo account. \n\nInsieme a questa email, riceverai un messaggio riguardante la creazione e la modifica di nuovi task e per gli altri eventi che riguardano il tuo account. Queste email verranno mandate per tenerti informato sui progressi del tuo progetto.";
 
 //BEGIN email project users mod
-$strings["email_users"] = "Email Utenti"; 
-$strings["email_following"] = "Email Following"; 
-$strings["email_sent"] = "La tua email è stata inviata con successo"; 
+$strings["email_users"] = "Email Utenti";
+$strings["email_following"] = "Email Following";
+$strings["email_sent"] = "La tua email è stata inviata con successo";
 //END email project users mod
 
-$strings["clients_connected"] = "(Clienti connessi nel project site)"; 
+$strings["clients_connected"] = "(Clienti connessi nel project site)";
 
 //2.5b4
 $strings["Total_Hours_Worked"]="Ore totali di lavoro";
@@ -600,4 +600,3 @@ $strings["calendar_broadcast"] = "Broadcast";
 //2.5rc2
 $strings["edit_noti_clientaddtask"] = "Un nuovo task è stato aggiunto dal cliente.";
 $strings["edit_noti_uploadfile"] = "Un nuovo allegato è stato aggiunto.";
-?>

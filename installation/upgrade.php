@@ -85,7 +85,7 @@ function upgrade2_4()
     include "../themes/" . THEME . "/block.class.php";
     include '../themes/' . THEME . '/header.php';
 
-//Get this file..
+    //Get this file..
     $script = "upgrade.php";
     $step = getParameter('step');
 
@@ -93,16 +93,15 @@ function upgrade2_4()
         $step = 1;
     }
 
-// Create new block and start the breadcrumbs
+    // Create new block and start the breadcrumbs
     $blockPage = new block();
     $blockPage->openBreadcrumbs();
     $blockPage->itemBreadcrumbs("<a href='../installation/$script'>Upgrade</a>");
 
-//Content block
+    //Content block
     $block1 = new block();
 
     if ($step == 1) {
-
         $blockPage->itemBreadcrumbs("License");
         $blockPage->closeBreadcrumbs();
 
@@ -223,9 +222,9 @@ function upgrade2_4()
     $footerDev = "false";
     include '../themes/' . THEME . '/footer.php';
 
-//FOR DEBUG ****
+    //FOR DEBUG ****
     exit();
-// -----------------------
+    // -----------------------
 }
 
 

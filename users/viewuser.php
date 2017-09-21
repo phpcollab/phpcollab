@@ -78,13 +78,13 @@ $block1->contentRow($strings["fax"], $userDetail["mem_fax"]);
 
 if ($userDetail["mem_profil"] == "0") {
     $permission = $strings["administrator_permissions"];
-} else if ($userDetail["mem_profil"] == "1") {
+} elseif ($userDetail["mem_profil"] == "1") {
     $permission = $strings["project_manager_permissions"];
-} else if ($userDetail["mem_profil"] == "2") {
+} elseif ($userDetail["mem_profil"] == "2") {
     $permission = $strings["user_permissions"];
-} else if ($userDetail["mem_profil"] == "4") {
+} elseif ($userDetail["mem_profil"] == "4") {
     $permission = $strings["disabled_permissions"];
-} else if ($userDetail["mem_profil"] == "5") {
+} elseif ($userDetail["mem_profil"] == "5") {
     $permission = $strings["project_manager_administrator_permissions"];
 }
 $block1->contentRow($strings["permissions"], isset($permission) ? $permission : '');

@@ -1,12 +1,12 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 2003-10-23 
+** Last Edit page: 2003-10-23
 ** Path by root: ../calendar/graphtasks.php
-** Authors: Ceam / Fullo 
+** Authors: Ceam / Fullo
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -20,7 +20,7 @@
 ** 	2003-10-23	-	added new document info
 ** -----------------------------------------------------------------------------
 ** TO-DO:
-**	
+**
 ** =============================================================================
 */
 
@@ -55,7 +55,6 @@ try {
 
     $taskCount = 0;
     foreach ($listTasks2 as $task) {
-
         $task["tas_name"] = str_replace('&quot;', '"', $task["tas_name"]);
         $task["tas_name"] = str_replace("&#39;", "'", $task["tas_name"]);
 
@@ -76,9 +75,8 @@ try {
         $activity->progress->Set($progress);
         $graph->Add($activity);
         $taskCount++;
-
     }
     $graph->Stroke();
-} catch ( Exception $e ) {
+} catch (Exception $e) {
     error_log('Error generating JpGraph', 0);
 }

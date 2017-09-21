@@ -51,7 +51,7 @@ if ($action == "delete") {
             phpCollab\Util::deleteDirectory("project_sites/$pieces[$i]");
         }
 
-//if CVS repository enabled
+        //if CVS repository enabled
         if ($enable_cvs == "true") {
             cvs_delete_repository($pieces[$i]);
         }
@@ -102,9 +102,9 @@ if ($action == "delete") {
     $support->deleteSupportPostsByProjectId($id);
     $phases->deletePhasesByProjectId($id);
 
-//if mantis bug tracker enabled
+    //if mantis bug tracker enabled
     if ($enableMantis == "true") {
-// call mantis function to delete project
+        // call mantis function to delete project
         include '../mantis/proj_delete.php';
     }
     phpCollab\Util::headerFunction("../projects/listprojects.php?msg=delete");

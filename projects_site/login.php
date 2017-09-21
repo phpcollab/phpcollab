@@ -9,7 +9,7 @@ include "../includes/library.php";
 if ($url != "") {
     phpCollab\Util::headerFunction("../login.php?url=$url");
 
-//default case
+    //default case
 } else {
     phpCollab\Util::headerFunction("../login.php");
 }

@@ -1,13 +1,13 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 2005-03-08 
+** Last Edit page: 2005-03-08
 ** Path by root: ../projects/editproject.php
 ** Authors: Ceam / Fullo / dracono
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -54,14 +54,17 @@ if ($id != "") {
         phpCollab\Util::headerFunction("../projects/viewproject.php?id=$id");
     }
 
-//test exists selected project, redirect to list if not
+    //test exists selected project, redirect to list if not
     $tmpquery = "WHERE pro.id = '$id'";
     $projectDetail = new phpCollab\Request();
     $projectDetail->openProjects($tmpquery);
     $comptProjectDetail = count($projectDetail->pro_id);
 
-    if ($docopy == "true") $setTitle .= " : Copy Project (" . $projectDetail->pro_name[0] . ")";
-    else $setTitle .= " : Edit Project (" . $projectDetail->pro_name[0] . ")";
+    if ($docopy == "true") {
+        $setTitle .= " : Copy Project (" . $projectDetail->pro_name[0] . ")";
+    } else {
+        $setTitle .= " : Edit Project (" . $projectDetail->pro_name[0] . ")";
+    }
 
 
     if ($comptProjectDetail == "0") {
@@ -81,7 +84,6 @@ if ($id != "") {
 
         //case copy project
         if ($docopy == "true") {
-
             if ($invoicing == "" || $clod == "1") {
                 $invoicing = "0";
             }
@@ -108,8 +110,8 @@ if ($id != "") {
             $dbParams["hourly_rate"] = $hourly_rate;
 
             $projectNew = phpCollab\Util::newConnectSql(
-                "INSERT INTO {$tableCollab["projects"]} (name,priority,description,owner,organization,status,created,published,upload_max,url_dev,url_prod,phase_set,invoicing,hourly_rate) VALUES(:name,:priority,:description,:owner,:organization,:status,:created,:published,:upload_max,:url_dev,:url_prod,:phase_set,:invoicing,:hourly_rate)"
-                , $dbParams
+                "INSERT INTO {$tableCollab["projects"]} (name,priority,description,owner,organization,status,created,published,upload_max,url_dev,url_prod,phase_set,invoicing,hourly_rate) VALUES(:name,:priority,:description,:owner,:organization,:status,:created,:published,:upload_max,:url_dev,:url_prod,:phase_set,:invoicing,:hourly_rate)",
+                $dbParams
             );
             unset($dbParams);
 
@@ -131,7 +133,6 @@ if ($id != "") {
             }
 
             if ($htaccessAuth == "true") {
-
                 $content = <<<STAMP
 AuthName "$setTitle"
 AuthType Basic
@@ -310,7 +311,6 @@ STAMP;
             }
 
             phpCollab\Util::headerFunction("../projects/viewproject.php?id=$projectNew&msg=add");
-
         } else {
 
             //if project owner change, add new to team members (only if doesn't already exist)
@@ -360,7 +360,7 @@ STAMP;
                 }
             }
 
-//-------------------------------------------------------------------------------------------------		
+            //-------------------------------------------------------------------------------------------------
             $targetProject = $projects->getProjectById($id);
 
             //Delete old or unused phases
@@ -375,7 +375,8 @@ STAMP;
                 for ($i = 0; $i < $comptThisPhase; $i++) {
                     phpCollab\Util::newConnectSql(
                         "INSERT INTO {$tableCollab["phases"]} (project_id,order_num,status,name) VALUES(:project_id,:order_num,:status,:name)",
-                        ["project_id" => $id, "order_num" => $i, "status" => 0, "name" => $phaseArraySets[$thisPhase][$i]]);
+                        ["project_id" => $id, "order_num" => $i, "status" => 0, "name" => $phaseArraySets[$thisPhase][$i]]
+                    );
                 }
 
                 //Get a listing of project tasks and files and re-assign them to new phases if the phase set of a project is changed.
@@ -386,15 +387,16 @@ STAMP;
                 foreach ($listTasks as $task) {
                     phpCollab\Util::newConnectSql(
                         "UPDATE {$tableCollab["tasks"]} SET parent_phase = 0 WHERE id = :task_id",
-                        ["task_id" => $task["tas_id"]]);
+                        ["task_id" => $task["tas_id"]]
+                    );
                 }
 
                 foreach ($listFiles as $file) {
                     phpCollab\Util::newConnectSql(
                         "UPDATE {$tableCollab["files"]} SET phase = :phase WHERE id = :file_id",
-                        ["phase" => $targetPhase["pha_id"], "file_id" => $file["fil_id"]]);
+                        ["phase" => $targetPhase["pha_id"], "file_id" => $file["fil_id"]]
+                    );
                 }
-
             }
 
             //update project
@@ -761,4 +763,3 @@ $block1->closeContent();
 $block1->closeForm();
 
 include '../themes/' . THEME . '/footer.php';
-?>

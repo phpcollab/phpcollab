@@ -9,7 +9,9 @@ use \PDO;
  */
 class ProjectSite
 {
-    protected $db, $tableCollab, $initrequest;
+    protected $db;
+    protected $tableCollab;
+    protected $initrequest;
 
     /**
      * ProjectSite constructor.
@@ -22,7 +24,6 @@ class ProjectSite
         $this->tableCollab = $tableCollab;
         $this->initrequest = $initrequest;
         $this->db = new Database();
-
     }
 
     /**
@@ -31,7 +32,7 @@ class ProjectSite
      */
     public function getTeamMembers($projectId)
     {
-        $this->db->query( $this->initrequest['teams'] . ' WHERE tea.project = :project_id AND tea.published = 0 ORDER BY mem.name ' );
+        $this->db->query($this->initrequest['teams'] . ' WHERE tea.project = :project_id AND tea.published = 0 ORDER BY mem.name ');
 
         $this->db->bind(':project_id', $projectId);
 
@@ -46,8 +47,8 @@ class ProjectSite
      */
     public function getTeamMembersByProjAndMember($projId, $memId)
     {
-        $projId = intval( $projId );
-        $memId = intval( $memId );
+        $projId = intval($projId);
+        $memId = intval($memId);
 
         $this->db->query($this->initrequest['teams'] . ' WHERE tea.project = :proj_id AND tea.member = :mem_id');
 
@@ -55,9 +56,9 @@ class ProjectSite
         $this->db->bind(':mem_id', $memId, PDO::PARAM_INT);
 
         $resultSet = $this->db->resultset();
-echo '<pre>';
+        echo '<pre>';
         $this->db->debugDumpParams();
-echo '</pre>';
+        echo '</pre>';
 
         return $resultSet;
     }

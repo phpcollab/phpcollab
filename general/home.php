@@ -1,13 +1,13 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 12/01/2005 
+** Last Edit page: 12/01/2005
 ** Path by root: ../general/home.php
-** Authors: Ceam / Fullo 
+** Authors: Ceam / Fullo
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -21,7 +21,7 @@
 **	2003-09-01	-	added newsdesk block
 ** 	2003-10-23	-	added new document info
 **	12/01/2005	-	added show/hide block from settings
-**	26/09/2006	-	added subtask block 
+**	26/09/2006	-	added subtask block
 ** -----------------------------------------------------------------------------
 ** TO-DO:
 **	add option to customize block
@@ -134,7 +134,6 @@ if ($showHomeBookmarks) {
     $comptListBookmarks = count($bookmarksList);
 
     if ($comptListBookmarks != "0") {
-
         $block6->form = "boo";
         $block6->openForm("../bookmarks/listbookmarks.php?view=my&project=$project#" . $block6->form . "Anchor");
 
@@ -199,7 +198,6 @@ if ($showHomeBookmarks) {
  * start to show projects block
  */
 if ($showHomeProjects) {
-
     $projects = new \phpCollab\Projects\Projects();
 
     $block1 = new phpCollab\Block();
@@ -236,7 +234,8 @@ if ($showHomeProjects) {
     $block1->sorting(
         "home_projects",
         $sortingUser->sor_home_projects[0],
-        "pro.name ASC", $sortingFields = array(
+        "pro.name ASC",
+        $sortingFields = array(
         0 => "pro.id",
         1 => "pro.name",
         2 => "pro.priority",
@@ -346,7 +345,7 @@ if ($showHomeTasks) {
         foreach ($tasksList as $task) {
             $subtasks .= $task['subtas_task'] . ',';
         }
-        $subtasks = rtrim(rtrim($subtasks),',');
+        $subtasks = rtrim(rtrim($subtasks), ',');
     }
 
     if ($subtasks != "") {
@@ -375,7 +374,9 @@ if ($showHomeTasks) {
 
             //skip completed tasks
             //28/05/03 Florian DECKERT
-            if ($idStatus == 1) continue;
+            if ($idStatus == 1) {
+                continue;
+            }
 
             $block2->openRow();
             $block2->checkboxRow($listTasks->tas_id[$i]);
@@ -422,7 +423,6 @@ if ($showHomeTasks) {
  * start to show the subtask
  */
 if ($showHomeSubtasks) {
-
     $block3 = new phpCollab\Block();
 
     $block3->form = "xwbR";
@@ -437,7 +437,7 @@ if ($showHomeSubtasks) {
     foreach ($listSubtasks as $subtask) {
         $subtasks .= $listSubtasks['subtas_task'] . ',';
     }
-    $subtasks = rtrim(rtrim($subtasks),',');
+    $subtasks = rtrim(rtrim($subtasks), ',');
 
     if ($subtasks != "") {
         // Since $listTasks was used above, let's clear it out
@@ -461,7 +461,9 @@ if ($showHomeSubtasks) {
 
                 //skip completed tasks
                 //28/05/03 Florian DECKERT
-                if ($idStatus == 1) continue;
+                if ($idStatus == 1) {
+                    continue;
+                }
 
                 $block3->openRow();
                 $block3->checkboxRow($task['subtas_id']);
@@ -489,11 +491,9 @@ if ($showHomeSubtasks) {
                 $block3->closeRow();
             }
             $block3->closeResults();
-
         } else {
             $block3->noresults();
         }
-
     } else {
         $block3->noresults();
     }
@@ -539,7 +539,6 @@ if ($showHomeDiscussions) {
     $comptListTopics = count($listTopics->top_id);
 
     if ($comptListTopics != "0") {
-
         $block4->openResults();
 
         $block4->labels($labels = array(0 => $strings["topic"], 1 => $strings["owner"], 2 => $strings["posts"], 3 => $strings["last_post"], 4 => $strings["status"], 5 => $strings["project"], 6 => $strings["published"]), "true");
@@ -697,7 +696,6 @@ if ($showHomeNotes) {
     $block6->paletteScript(5, "info", "../notes/viewnote.php", "false,true,false", $strings["view"]);
     $block6->paletteScript(6, "edit", "../notes/editnote.php?project=$project", "false,true,false", $strings["edit"]);
     $block6->closePaletteScript($comptListNotes, $listNotes->note_id);
-
 }
 
 /**

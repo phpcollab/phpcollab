@@ -8,7 +8,7 @@ $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Pondìlí", 2 =>"Úterý", 3 =>"Støeda", 4 =>"Ètvrtek", 5 =>"Pátek", 6 =>"Sobota", 7 =>"Nedìle");
 
-$monthNameArray = array(1=> "Leden", "Únor", "Bøezen", "Duben", "Kvìten", "Èerven", "Èervenec", "Srpen", "Záøí", "Øíjen", "Listopad", "Prosinec"); 
+$monthNameArray = array(1=> "Leden", "Únor", "Bøezen", "Duben", "Kvìten", "Èerven", "Èervenec", "Srpen", "Záøí", "Øíjen", "Listopad", "Prosinec");
 
 $status = array(0 => "Zakázka kompletní", 1 => "Kompletní", 2 => "Nenastartovaný", 3 => "Otevøený", 4 => "Pozastavený");
 
@@ -505,4 +505,3 @@ $strings["report"] = "Report";
 $strings["license"] = "License";
 //2.4
 $strings["settings_notwritable"] = "Settings.php file is not writable";
-?>

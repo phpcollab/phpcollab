@@ -73,8 +73,8 @@ if ($_GET['action'] == "add") {
 
                 unset($dbParams);
 
-// notify user hack by urbanfalcon
-// 28/05/2003 patch by fullo
+                // notify user hack by urbanfalcon
+                // 28/05/2003 patch by fullo
                 if ($em != "") {
                     $partSubject = $strings["noti_memberactivation1"];
                     $partFirst = $strings["noti_memberactivation2"];
@@ -103,11 +103,11 @@ if ($_GET['action'] == "add") {
 	Account Username: $un
 	Account Password: $pwa", "$headers");
                 }
-// END send notification text message
+                // END send notification text message
 
-//if mantis bug tracker enabled
+                //if mantis bug tracker enabled
                 if ($enableMantis == "true") {
-// Call mantis function for new user creation!!!
+                    // Call mantis function for new user creation!!!
                     $f_access_level = $client_user_level; // Reporter
                     include '../mantis/create_new_user.php';
                 }
@@ -162,7 +162,6 @@ foreach ($organizationsList as $org) {
     } else {
         $selectOrganization .= "<option value=\"" . $org['org_id'] . "\">" . $org['org_name'] . "</option>";
     }
-
 }
 
 $selectOrganization .= "</select>";

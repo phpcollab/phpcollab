@@ -8,7 +8,7 @@ $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"星期一", 2 =>"星期二", 3 =>"星期三", 4 =>"星期四", 5 =>"星期五", 6 =>"星期六", 7 =>"星期日");
 
-$monthNameArray = array(1=> "一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"); 
+$monthNameArray = array(1=> "一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月");
 
 $status = array(0 => "客户认可", 1 => "已完成", 2 => "未开始", 3 => "开放", 4 => "暂停");
 
@@ -513,4 +513,3 @@ $strings["report"] = "Report";
 $strings["license"] = "License";
 //2.4
 $strings["settings_notwritable"] = "Settings.php file is not writable";
-?>

@@ -1,12 +1,12 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 2003-10-23 
+** Last Edit page: 2003-10-23
 ** Path by root: ../clients/listclients.php
-** Authors: Ceam / Fullo 
+** Authors: Ceam / Fullo
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -20,7 +20,7 @@
 ** 	2003-10-23	-	main page for client module
 ** -----------------------------------------------------------------------------
 ** TO-DO:
-**	
+**
 ** =============================================================================
 */
 
@@ -89,7 +89,7 @@ if ($clientsFilter == "true" && $profilSession == "2") {
             $tmpquery = "WHERE org.id IN($clientsOk) AND org.id != '1' ORDER BY $block1->sortingValue";
         }
     }
-} else if ($clientsFilter == "true" && $profilSession == "1") {
+} elseif ($clientsFilter == "true" && $profilSession == "1") {
     $tmpquery = "WHERE org.owner = '$idSession' AND org.id != '1' ORDER BY $block1->sortingValue";
 } else {
     $tmpquery = "WHERE org.id != '1' ORDER BY $block1->sortingValue";
@@ -120,7 +120,6 @@ if ($comptListOrganizations != "0") {
     $block1->closeResults();
 
     $block1->limitsFooter("1", $blockPage->limitssNumber, "", "");
-
 } else {
     $block1->noresults();
 }
@@ -138,4 +137,3 @@ if ($profilSession == "0" || $profilSession == "1") {
 $block1->closePaletteScript($comptListOrganizations, $listOrganizations->org_id);
 
 include '../themes/' . THEME . '/footer.php';
-?>

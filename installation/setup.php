@@ -4,7 +4,7 @@
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -284,15 +284,15 @@ STAMP;
 
     if (!$error) {
         $fp = @fopen("../includes/settings.php", 'wb+');
-            if (!$fp) {
-                $error = 1;
-                exit("<br/><b>PANIC! <br/> settings.php can't be written!</b><br/>");
-            }
+        if (!$fp) {
+            $error = 1;
+            exit("<br/><b>PANIC! <br/> settings.php can't be written!</b><br/>");
+        }
         $fw = fwrite($fp, $content);
 
         if (!$fw) {
             $error = 1;
-                exit("<br/><b>PANIC! <br/> settings.php can't be written!</b><br/>");
+            exit("<br/><b>PANIC! <br/> settings.php can't be written!</b><br/>");
         }
 
         fclose($fp);
@@ -367,7 +367,6 @@ STAMP;
         }
         $msg .= "<br/>Tables and settings file created correctly.";
         $msg .= "<br/><br/><a href='../general/login.php'>Please log in</a>";
-
     } else {
         $msg = $error;
     }
@@ -609,4 +608,3 @@ if ($step < "2") {
 
 $footerDev = "false";
 include '../themes/' . THEME . '/footer.php';
-?>

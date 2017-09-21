@@ -18,7 +18,7 @@ function which_crlf()
     if (USR_OS == 'Win') {
         $the_crlf = "\r\n";
     } // Mac case
-    else if (USR_OS == 'Mac') {
+    elseif (USR_OS == 'Mac') {
         $the_crlf = "\r";
     } // Others
     else {
@@ -61,7 +61,6 @@ if ($comptListTasks != "0") {
     $dump_buffer .= "\"" . $strings["name"] . "\";\"" . $strings["description"] . "\";\"" . $strings["owner"] . "\";\"" . $strings["priority"] . "\";\"" . $strings["status"] . "\";\"" . $strings["created"] . "\";\"" . $strings["start_date"] . "\";\"" . $strings["due_date"] . "\";\"" . $strings["complete_date"] . "\";\"" . $strings["completion"] . "\";\"" . $strings["scope_creep"] . "\";\"" . $strings["estimated_time"] . "\";\"" . $strings["actual_time"] . "\";\"" . $strings["published"] . "\";\"" . $strings["comments"] . "\";\"" . $strings["assigned"] . "\";\"" . $strings["assigned_to"] . "\"" . $crlf;
 
     for ($i = 0; $i < $comptListTasks; $i++) {
-
         if ($listTasks->tas_assigned_to[$i] == "0") {
             $listTasks->tas_mem_login[$i] = $strings["unassigned"];
         }

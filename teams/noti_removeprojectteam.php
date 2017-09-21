@@ -21,7 +21,7 @@ $body = $mail->partMessage . "\n\n" . $strings["project"] . " : " . $projectDeta
 
 if ($organization == "1") {
     $body .= "$root/general/login.php?url=projects/viewproject.php%3Fid=" . $projectDetail->pro_id[0];
-} else if ($organization != "1" && $projectDetail->pro_published[0] == "0") {
+} elseif ($organization != "1" && $projectDetail->pro_published[0] == "0") {
     $body .= $root;
 }
 
@@ -37,4 +37,3 @@ for ($i = 0; $i < $comptListNotifications; $i++) {
         $mail->ClearAddresses();
     }
 }
-?>

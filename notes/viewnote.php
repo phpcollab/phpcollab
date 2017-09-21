@@ -3,11 +3,11 @@
 ** Application name: phpCollab
 ** Last Edit page: 03/06/2005
 ** Path by root: ../notes/viewnote.php
-** Authors: Ceam / Fullo 
+** Authors: Ceam / Fullo
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -22,7 +22,7 @@
 **	03/06/2005	-	moved "description text" to the bottom of page
 ** -----------------------------------------------------------------------------
 ** TO-DO:
-** 
+**
 **
 ** =============================================================================
 */

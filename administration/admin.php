@@ -1,13 +1,13 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 2003-10-23 
+** Last Edit page: 2003-10-23
 ** Path by root: ../administration/admin.php
 ** Authors: Ceam / Fullo
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -21,7 +21,7 @@
 ** 	2003-10-23	-	added new document info
 ** -----------------------------------------------------------------------------
 ** TO-DO:
-** 
+**
 **
 ** =============================================================================
 */
@@ -68,9 +68,9 @@ if ($databaseType == "mysql") {
 }
 
 /* disabled
-if ($databaseType == "postgresql") 
+if ($databaseType == "postgresql")
 {
-	$block1->contentRow("",$blockPage->buildLink("../administration/phppgadmin.php?",$strings["database"],in));
+    $block1->contentRow("",$blockPage->buildLink("../administration/phppgadmin.php?",$strings["database"],in));
 }
 */
 
@@ -85,11 +85,11 @@ if ($updateChecker == "true" && $installationType == "online") {
 
 if (file_exists("../installation/setup.php")) {
     $block1->contentRow("", "<b>" . $strings["attention"] . "</b> : " . $strings["setup_erase"]);
-    if (is_writable("../setup.php"))
+    if (is_writable("../setup.php")) {
         $block1->contentRow("", "<a href='../installation/remove_files.php'>" . $strings["setup_erase_file"] . "</a>");
-    else
+    } else {
         $block1->contentRow("", "<span style='color: #F00;font-weight:bold;'>" . $strings["setup_erase_file_ua"] . "</span>");
-
+    }
 }
 
 $block1->closeContent();

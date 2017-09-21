@@ -3,7 +3,7 @@
 #Status page: 2
 #Path by root: ../languages/help_sk-win1250.php
 
-//translator(s): 
+//translator(s):
 $help["setup_mkdirMethod"] = "Pokiaľ je safe-mode On, musíte použiť Ftp účet pre možnosť vytvárať adresáre pri práci so súbormi v PHP Collab.";
 $help["setup_notifications"] = "E-mailové oznámenie užívateľom (priradenie úlohy, nový príspevok, zmeny úlohy...)<br/>Je potrebné správne nastaviť smtp/sendmail.";
 $help["setup_forcedlogin"] = "Pokiaľ nie je aktívna, nie sú povolené externé odkazy s login/heslo v url";
@@ -24,4 +24,3 @@ $help["setup_clientsfilter"] = "Filter to see only logged user clients";
 $help["setup_projectsfilter"] = "Filter to see only the project when the user are in the team";
 //2.5
 $help["setup_notificationMethod"] = "Set method to send email notifications: with internal php mail function (need for having a smtp server or sendmail configured in the parameters of php) or with a personalized smtp server";
-?>

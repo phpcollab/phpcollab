@@ -24,9 +24,9 @@ if ($action == "delete") {
     $notifications->deleteNotificationsByMemberIdIn($id);
     $teams->deleteTeamWhereMemberIn($id);
 
-//if mantis bug tracker enabled
+    //if mantis bug tracker enabled
     if ($enableMantis == "true") {
-// Call mantis function to remove user
+        // Call mantis function to remove user
         include("../mantis/user_delete.php");
     }
 

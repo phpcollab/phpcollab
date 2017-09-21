@@ -3,7 +3,7 @@
 #Status page: 2
 #Path by root: ../languages/help_es.php
 
-//translator(s): 
+//translator(s):
 $help["setup_mkdirMethod"] = "Si safe-mode esta activado, usted necesita crear una cuenta FTP que esté autorizada para crear carpetas con administración de archivos.";
 $help["setup_notifications"] = "Notificaciones vía correo electrónico (Asignación de tareas, nuevos temas, cambios en tareas...)<br/>Se requiere smtp/sendmail valido.";
 $help["setup_forcedlogin"] = "Si es falso, deshabilita que se autorice la entrada desde un url que contenga el login/password incluido.";
@@ -26,4 +26,3 @@ $help["setup_projectsfilter"] = "Filtro : Los usuarios solo podran ver los proye
 $help["setup_notificationMethod"] = "Selecciona el metodo para enviar las notificaciones por correo  : Con las funciones propias de php ( necesita tener php configurado para enviar correo) o  con un servidor SMTP externo";
 //2.5 fullo
 $help["newsdesk_links"] = "Para añadir multiples enlaces hagalo separandolos por comas";
-?>

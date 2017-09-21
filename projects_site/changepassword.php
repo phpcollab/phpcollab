@@ -7,7 +7,7 @@
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -15,16 +15,16 @@
 ** -----------------------------------------------------------------------------
 ** FILE: changepassword.php
 **
-** DESC: 
+** DESC:
 **
 ** HISTORY:
 **  23/03/2004  -   added new document info
 **  24/03/2004  -   fixed session problem
 **  24/03/2004  -   xhtml code
-**  05/11/2004  -   fixed bug 837027 
+**  05/11/2004  -   fixed bug 837027
 ** -----------------------------------------------------------------------------
 ** TO-DO:
-** 
+**
 **
 ** =============================================================================
 */
@@ -44,7 +44,6 @@ if ($action == "update") {
     if ($opw != $passwordSession) {
         $error = $strings["old_password_error"];
     } else {
-
         if ($npw != $pwa || $npw == "") {
             $error = $strings["new_password_error"];
         } else {
@@ -58,7 +57,6 @@ if ($action == "update") {
                 $comptListProjects = count($listProjects->tea_id);
 
                 if ($comptListProjects != "0") {
-
                     for ($i = 0; $i < $comptListProjects; $i++) {
                         $Htpasswd->initialize("files/" . $listProjects->tea_pro_id[$i] . "/.htpasswd");
                         $Htpasswd->changePass($loginSession, $cnpw);
@@ -138,4 +136,3 @@ echo "  <form accept-charset='UNKNOWN' method='POST' action='../projects_site/ch
      ";
 
 include("include_footer.php");
-?>

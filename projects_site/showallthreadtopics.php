@@ -41,4 +41,3 @@ echo "<br/><br/>
 <a href=\"createthread.php?\" class=\"FooterCell\">" . $strings["create_topic"] . "</a>";
 
 include("include_footer.php");
-?>

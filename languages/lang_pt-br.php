@@ -8,7 +8,7 @@
 
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 $dayNameArray = array(1 =>"Segunda-Feira", 2 =>"Terça-Feira", 3 =>"Quarta-Feira", 4 =>"Quinta-Feira", 5 =>"Sexta-Feira", 6 =>"Sábado", 7 =>"Domingo");
-$monthNameArray = array(1=> "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"); 
+$monthNameArray = array(1=> "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro");
 $status = array(0 => "Finalizado pelo Cliente", 1 => "Finalizado", 2 => "Não Iniciado", 3 => "Aberto", 4 => "Suspenso");
 $profil = array(0 => "Administrador", 1 => "Gerente de Projeto", 2 => "Usuário", 3 => "Usuário de Cliente", 4 => "Inativo", 5 => "Diretor de Projeto");
 $priority = array(0 => "Nenhuma", 1 => "Muito Baixa", 2 => "Baixa", 3 => "Média", 4 => "Alta", 5 => "Máxima");
@@ -567,14 +567,12 @@ $strings["noti_memberactivation4"] = "Senha:";
 $strings["noti_memberactivation5"] = "Once you have typed the information above and pressed \"enter\" you will be allowed to access  your account. \n\nIn tandem with this email, you will receive additional messages regarding activations, task submissions, and other events relating to your account.  These emails have been sent to keep you informed on the progress of your project.";
 
 //BEGIN email project users mod
-$strings["email_users"] = "Email Users"; 
-$strings["email_following"] = "Email Following"; 
-$strings["email_sent"] = "Seu email foi enviado com sucesso."; 
+$strings["email_users"] = "Email Users";
+$strings["email_following"] = "Email Following";
+$strings["email_sent"] = "Seu email foi enviado com sucesso.";
 //END email project users mod
 
-$strings["clients_connected"] = "(Site do Projeto)"; 
+$strings["clients_connected"] = "(Site do Projeto)";
 
 //2.5rc3
 $strings["my_subtasks"] = "Minhas Subtarefas";
-
-?>

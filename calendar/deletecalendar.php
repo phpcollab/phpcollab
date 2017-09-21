@@ -1,12 +1,12 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 2003-10-23 
+** Last Edit page: 2003-10-23
 ** Path by root: ../calendar/deletecalendar.php
-** Authors: Ceam / Fullo 
+** Authors: Ceam / Fullo
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -33,35 +33,35 @@ global $strings;
 $calendars = new \phpCollab\Calendars\Calendars();
 
 if ($_GET['action'] == "delete") {
-	$id = str_replace("**",",",$_GET['id']);
+    $id = str_replace("**", ",", $_GET['id']);
 
-	try {
-	    $delete = $calendars->deleteCalendar($id);
+    try {
+        $delete = $calendars->deleteCalendar($id);
     } catch (\Exception $e) {
         echo "Error: $e";
     }
 
-	phpCollab\Util::headerFunction("../calendar/viewcalendar.php?msg=delete");
+    phpCollab\Util::headerFunction("../calendar/viewcalendar.php?msg=delete");
 }
 
 $setTitle .= " : Delete Calendar";
 if (strpos($_GET['id'], "**") !== false) {
     $setTitle .= " Entries";
-} else { 
+} else {
     $setTitle .= " Entry";
-} 
+}
     
 include '../themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?",$strings["calendar"],'in'));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?", $strings["calendar"], 'in'));
 $blockPage->itemBreadcrumbs($strings["delete"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
-	include '../includes/messages.php';
-	$blockPage->messageBox($msgLabel);
+    include '../includes/messages.php';
+    $blockPage->messageBox($msgLabel);
 }
 
 
@@ -74,14 +74,14 @@ $block1->heading($strings["delete"]);
 $block1->openContent();
 $block1->contentTitle($strings["delete_following"]);
 
-$id = str_replace("**",",",$id);
+$id = str_replace("**", ",", $id);
 
 $listCalendar = $calendars->openCalendarById($id);
 
 echo "<h3>Calendar:</h3>";
 
 foreach ($listCalendar as $item) {
-echo <<<ROW
+    echo <<<ROW
 <tr class="odd">
 <td valign="top" class="leftvalue">#{$item['cal_id']}</td>
 <td>{$item['cal_shortname']}</td>

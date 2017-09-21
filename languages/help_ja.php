@@ -3,7 +3,7 @@
 #Status page: 2
 #Path by root: ../languages/help_ja.php
 
-//translator(s): 
+//translator(s):
 $help["setup_mkdirMethod"] = "セーフモードをオンにするには、ファイル管理機能がフォルダを作成するために FTP アカウントを有効にしなければなりません。";
 $help["setup_notifications"] = "利用者への電子メールによる通知(タスク割り当て、新規投稿、タスクの変更...)<br/>有効な SMTP/sendmail が必要です。";
 $help["setup_forcedlogin"] = " &quot;false&quot;にセットすると、URL にログイン名/パスワードを含んだ外部からのリンクを遮断します。";
@@ -26,4 +26,3 @@ $help["setup_projectsfilter"] = "ユーザーがチームに所属している�
 $help["setup_notificationMethod"] = "通知の電子メールを発信する方法を指定します : 内蔵 php mail 関数 (PHPパラメータにSMTPサーバーかsendmailが設定されている必要があります) または、個人用のSMTPサーバー";
 //2.5 fullo
 $help["newsdesk_links"] = "複数のリンクを設定するには、セミコロンで区切ってください。";
-?>

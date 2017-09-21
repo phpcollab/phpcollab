@@ -26,4 +26,3 @@ $help["setup_projectsfilter"] = "Filter for å bare se prosjektet når brukeren 
 $help["setup_notificationMethod"] = "Sett metode for å sende e-mail notifikasjon: med intern php mail funksjon (trenger en smtp server eller sendmail konfigurert i php parameterene) eller med en personlig smtp server";
 //2.5 fullo
 $help["newsdesk_links"] = "for å legge til flere linker bruk semikolon";
-?>

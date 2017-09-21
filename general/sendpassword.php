@@ -15,12 +15,12 @@ $strings = $GLOBALS["strings"];
 if ($_GET["action"] == "send") {
     $userDetail = $members->getMemberByLogin($loginForm);
 
-//test if user exists
+    //test if user exists
     if (!$userDetail) {
         $error = $strings["no_login"];
 
-//test if email of user exists
-    } else if ($userDetail["mem_email_work"] != "") {
+        //test if email of user exists
+    } elseif ($userDetail["mem_email_work"] != "") {
         $pass_g = $GLOBALS["pass_g"];
         phpCollab\Util::passwordGenerator();
         $pw = phpCollab\Util::getPassword($pass_g);

@@ -275,11 +275,10 @@ if ($clientsFilter == "true" && $profilSession == "2") {
             $tmpquery = "$searchOrganizations AND org.id IN($clientsOk) AND org.id != '1' ORDER BY $block4->sortingValue";
         }
     }
-} else if ($clientsFilter == "true" && $profilSession == "1") {
+} elseif ($clientsFilter == "true" && $profilSession == "1") {
     $tmpquery = "$searchOrganizations AND org.owner = '$idSession' AND org.id != '1' ORDER BY $block4->sortingValue";
 } else {
     $tmpquery = "$searchOrganizations AND org.id != '1' ORDER BY $block4->sortingValue";
-
 }
 
 $comptListOrganizations = "0";
@@ -342,7 +341,6 @@ if ($projectsFilter == "true") {
 
 $comptListNotes = "0";
 if ($validNotes == "true") {
-
     $block6->recordsTotal = phpCollab\Util::computeTotal($initrequest["notes"] . " " . $tmpquery);
 
     $listNotes = new phpCollab\Request();

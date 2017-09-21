@@ -1,13 +1,13 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 06/09/2004 
+** Last Edit page: 06/09/2004
 ** Path by root: ../administration/mycompany.php
 ** Authors: Ceam / Fullo
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -22,7 +22,7 @@
 **  2004-09-06  -   xhtml correction
 ** -----------------------------------------------------------------------------
 ** TO-DO:
-** 
+**
 **
 ** =============================================================================
 */
@@ -54,11 +54,10 @@ if ($action == "update") {
     $logoDel = phpCollab\Util::returnGlobal('logoDel', 'POST');
 
     if ($logoDel == "on") {
-
-		$tmpquery = "UPDATE {$tableCollab["organizations"]} SET extension_logo='' WHERE id=:org_id";
+        $tmpquery = "UPDATE {$tableCollab["organizations"]} SET extension_logo='' WHERE id=:org_id";
         $dbParams = ["org_id" => 1];
 
-		phpCollab\Util::newConnectSql($tmpquery. $dbParams);
+        phpCollab\Util::newConnectSql($tmpquery. $dbParams);
         @unlink("../logos_clients/1.$extensionOld");
 
         unset($dbParams);
@@ -142,7 +141,8 @@ $block1->contentRow($strings["comments"], "<textarea rows='3' style='width: 400p
 $block1->contentRow($strings["logo"] . $blockPage->printHelp("mycompany_logo"), '<input size="44" style="width: 400px" name="upload" type="file">');
 
 if (file_exists("../logos_clients/1." . $clientDetail->org_extension_logo[0])) {
-    $block1->contentRow("",
+    $block1->contentRow(
+        "",
         '<img src="../logos_clients/1.' . $clientDetail->org_extension_logo[0] . '" border="0" alt="' . $clientDetail->org_name[0] . '">
          <input name="extensionOld" type="hidden" value="' . $clientDetail->org_extension_logo[0] . '">
          <input name="logoDel" type="checkbox" value="on"> ' . $strings["delete"]

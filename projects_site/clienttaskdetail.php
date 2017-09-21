@@ -13,7 +13,6 @@ if ($action == "update") {
             "UPDATE {$tableCollab["tasks"]} SET comments=:comments,status=:status,modified=:modified WHERE id = :task_id",
             ["comments" => $comments, "status" => 0, "modified" => $dateheure, "task_id" => $id]
         );
-
     } else {
         phpCollab\Util::newConnectSql(
             "UPDATE {$tableCollab["tasks"]} SET comments=:comments,status=:status,modified=:modified WHERE id = :task_id",
@@ -132,4 +131,3 @@ echo "<br/><br/>
 <a href=\"showallclienttasks.php\">" . $strings["show_all"] . "</a>";
 
 include("include_footer.php");
-?>

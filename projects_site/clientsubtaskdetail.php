@@ -12,7 +12,6 @@ if ($action == "update") {
             "UPDATE {$tableCollab["subtasks"]} SET comments=:comments,status=:status,modified=:modified WHERE id = :subtask_id",
             ["comments" => $comments, "status" => 0, "modified" => $dateheure, "subtask_id" => $id]
         );
-
     } else {
         phpCollab\Util::newConnectSql(
             "UPDATE {$tableCollab["subtasks"]} SET comments=:comments,status=:status,modified=:modified WHERE id = :subtask_id",
@@ -103,4 +102,3 @@ echo "&nbsp;$status[0]</td></tr>
 </form>";
 
 include("include_footer.php");
-?>

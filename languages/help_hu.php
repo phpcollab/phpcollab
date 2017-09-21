@@ -3,7 +3,7 @@
 #Status page: 2
 #Path by root: ../languages/help_hu.php
 
-//translator(s): 
+//translator(s):
 $help["setup_mkdirMethod"] = "Ha a safe-mode be van kapcsolva, szükség van egy ftp hozzáférésre, hogy filekezelésre alkalmas könyvtárat lehessen létrehozni.";
 $help["setup_notifications"] = "Felhasználói e-mail értesítések (feladat-hozzárendelések, új hozzászólás, új hozzászólás, feladat változás, ...)<br/>Valid smtp/sendmail szükséges.";
 $help["setup_forcedlogin"] = "Ha hamis, akkor ne engedd külsõ linket felhasználónévvel/jelszóval az URL-ben";
@@ -24,4 +24,3 @@ $help["setup_clientsfilter"] = "Filter to see only logged user clients";
 $help["setup_projectsfilter"] = "Filter to see only the project when the user are in the team";
 //2.5
 $help["setup_notificationMethod"] = "Set method to send email notifications: with internal php mail function (need for having a smtp server or sendmail configured in the parameters of php) or with a personalized smtp server";
-?>

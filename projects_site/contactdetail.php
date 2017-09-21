@@ -56,4 +56,3 @@ echo "<br/><br/>
 <a href=\"showallcontacts.php\">" . $strings["show_all"] . "</a>";
 
 include("include_footer.php");
-?>

@@ -47,4 +47,3 @@ echo "<table cellspacing=\"0\" width=\"90%\" border=\"0\" cellpadding=\"3\">
 </form>";
 
 include("include_footer.php");
-?>

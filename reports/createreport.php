@@ -63,7 +63,6 @@ if ($clientsFilter == "true" && $profilSession == "2") {
     if ($comptMemberTest == "0") {
         $listClients = "false";
     } else {
-
         for ($i = 0; $i < $comptMemberTest; $i++) {
             $clientsOk .= $memberTest->tea_org2_id[$i];
 
@@ -263,4 +262,3 @@ $block1->closeContent();
 $block1->closeForm();
 
 include '../themes/' . THEME . '/footer.php';
-?>

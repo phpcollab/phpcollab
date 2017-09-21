@@ -15,16 +15,14 @@ if (!isset($langDefault) || ($langDefault == '')) {
 
 try {
     $connection = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
-}
-catch (Exception $e) {
+} catch (Exception $e) {
     echo self::$strings["error_server"];
     exit;
 }
 
 try {
     $selectedDb = mysqli_select_db($connection, MYDATABASE);
-}
-catch (Exception $e) {
+} catch (Exception $e) {
     echo self::$strings["error_database"];
     exit;
 }
@@ -41,8 +39,7 @@ function createRSS()
     $query = "SELECT id,title,author,content,related, DATE_FORMAT(pdate, '%Y-%m-%d') as date FROM {$tableCollab["newsdeskposts"]} WHERE rss = '1' ORDER BY pdate DESC LIMIT 0,5";
     try {
         $result = mysqli_query($connection, $query);
-    }
-    catch (Exception $e) {
+    } catch (Exception $e) {
         echo "Error: " . mysqli_error($connection);
         exit;
     }
@@ -63,8 +60,7 @@ function createRSS()
 
         try {
             $result_author = mysqli_query($connection, $query_author);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             echo "Error: " . mysqli_error($connection);
             exit;
         }
@@ -82,8 +78,7 @@ function createRSS()
 
             try {
                 $result_prj = mysqli_query($connection, $query_prj);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 echo "Error: " . mysqli_error($connection);
                 exit;
             }
@@ -94,7 +89,6 @@ function createRSS()
             while ($row_p = mysqli_fetch_assoc($result_prj)) {
                 $article_related = $row_p['name'];
             }
-
         } else {
             $article_related = $strings["newsdesk_related_generic"];
         }
@@ -115,7 +109,6 @@ function createRSS()
         //end
 
         $RSS['channel'] .= "<rdf:li rdf:resource='$root/newsdesk/newsdesk.php?action=show&id=$id'/>";
-
     }
 
     @mysqli_free_result($result);

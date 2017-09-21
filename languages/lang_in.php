@@ -8,7 +8,7 @@ $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Monday", 2 =>"Tuesday", 3 =>"Wednesday", 4 =>"Thursday", 5 =>"Friday", 6 =>"Saturday", 7 =>"Sunday");
 
-$monthNameArray = array(1=> "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"); 
+$monthNameArray = array(1=> "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
 
 $status = array(0 => "Selesai oleh Klien ", 1 => "Selesai", 2 => "Belum Dimulai", 3 => "Terbuka", 4 => "Non-aktif" );
 
@@ -350,7 +350,7 @@ $strings["exceed_size"] = "Melebihi batas maximum besarnya file";
 $strings["no_php"] = "Php file not allowed";
 $strings["approval_date"] = "Tanggal ACC";
 $strings["approver"] = "Pemberi ACC";
-$strings["error_database"] = "Tidak terkoneksi dengan database"; 
+$strings["error_database"] = "Tidak terkoneksi dengan database";
 $strings["error_server"] = "Tidak terkoneksi dengan server";
 $strings["version_control"] = "Kontrol Versi";
 $strings["vc_status"] = "Status";
@@ -508,4 +508,3 @@ $strings["report"] = "Report";
 $strings["license"] = "License";
 //2.4
 $strings["settings_notwritable"] = "Settings.php file is not writable";
-?>

@@ -9,8 +9,8 @@ include_once '../includes/library.php';
 /*
 //anyone can send a message
 if ($profilSession != "0") {
-	header("Location:../general/permissiondenied.php?".session_name()."=".session_id());
-	exit;
+    header("Location:../general/permissiondenied.php?".session_name()."=".session_id());
+    exit;
 }
 */
 
@@ -66,7 +66,6 @@ if ($action == "email") {
         $newmessage .= "\n" . $footer;
         @mail($email, $subject, $newmessage, $headers);
         $newmessage = "";
-
     }
 
     if ($profilSession == "0") {
@@ -74,8 +73,6 @@ if ($action == "email") {
     } else {
         header("Location:../general/home.php?msg=email");
     }
-
-
 }
 
 // start main page
@@ -114,13 +111,11 @@ $listMembers->openMembers($tmpquery);
 $comptListMembers = count($listMembers->mem_id);
 
 for ($i = 0; $i < $comptListMembers; $i++) {
-
     if ($listMembers->mem_email_work[$i] != "") {
         $block1->contentRow("", $listMembers->mem_login[$i] . "&nbsp;(" . $listMembers->mem_name[$i] . ")");
     } else {
         $block1->contentRow("", $listMembers->mem_login[$i] . "&nbsp;(" . $listMembers->mem_name[$i] . ") " . $strings["no_email"]);
     }
-
 }
 
 $block1->contentTitle($strings["email"]);
@@ -132,4 +127,3 @@ $block1->closeContent();
 $block1->closeForm();
 
 include '../themes/' . THEME . '/footer.php';
-?>

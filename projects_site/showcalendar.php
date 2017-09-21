@@ -6,7 +6,7 @@
 ** Authors: Fullo / UrbanFalcon
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -147,7 +147,6 @@ if ($type == "calendDetail") {
     echo "<table cellspacing='0' width='90%' border='0' cellpadding='3' cols='4' class='listing'><tr><th class='active' colspan='2'>&nbsp;</th>";
 
     for ($i = 0; $i < $comptDetailCalendar; $i++) {
-
         if (!($i % 2)) {
             $class = "odd";
             $highlightOff = $block1->getOddColor();
@@ -211,7 +210,6 @@ if ($type == "calendDetail") {
 }
 
 if ($type == "monthPreview") {
-
     $block2 = new phpCollab\Block();
     $block2->heading("$monthName $year");
 
@@ -270,9 +268,7 @@ if ($type == "monthPreview") {
 
         if (($i < $firstday) || ($a == "00")) {
             echo "<td width='14%' class='even'>&nbsp;</td>";
-
         } else {
-
             if ($dateLink == $dateToday) {
                 $classCell = "evenassigned";
             } else {
@@ -290,9 +286,7 @@ if ($type == "monthPreview") {
             }
 
             if ($comptListTasks != "0") {
-
                 for ($h = 0; $h < $comptListTasks; $h++) {
-
                     if ($listTasks->tas_status[$h] == "3" || $listTasks->tas_status[$h] == "2") {
                         if ($listTasks->tas_start_date[$h] == $dateLink && $listTasks->tas_start_date[$h] != $listTasks->tas_due_date[$h]) {
                             echo "<b>" . $strings["task"] . "</b>: ";
@@ -345,9 +339,7 @@ if ($type == "monthPreview") {
             }
 
             if ($comptListSubtasks != "0") {
-
                 for ($h = 0; $h < $comptListSubtasks; $h++) {
-
                     if ($listSubtasks->subtas_status[$h] == "3" || $listSubtasks->subtas_status[$h] == "2") {
                         if ($listSubtasks->subtas_start_date[$h] == $dateLink && $listSubtasks->subtas_start_date[$h] != $listSubtasks->subtas_due_date[$h]) {
                             echo "<b>" . $strings["subtask"] . "</b>: ";
@@ -478,4 +470,3 @@ if ($type == "monthPreview") {
 }
 
 include("include_footer.php");
-?>

@@ -3,11 +3,11 @@
 ** Application name: phpCollab
 ** Last Edit page: 18/05/2005
 ** Path by root: ../project_site/showllteamtasks.php
-** Authors: Ceam / Fullo 
+** Authors: Ceam / Fullo
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -15,14 +15,14 @@
 ** -----------------------------------------------------------------------------
 ** FILE: showallteamtasks.php
 **
-** DESC: Screen: library file 
+** DESC: Screen: library file
 **
 ** HISTORY:
 **	18/05/2005	-	show all the team task images
 **	26/08/2005	-	[1273927] fix jpgraph wrong link
 ** -----------------------------------------------------------------------------
 ** TO-DO:
-** 
+**
 **
 ** =============================================================================
 */
@@ -46,7 +46,6 @@ $block1 = new phpCollab\Block();
 $block1->heading($strings["team_tasks"]);
 
 if ($comptListTasks != "0") {
-
     if ($activeJpgraph == "true") {
         echo "<img src='graphtasks.php?project=" . $projectDetail->pro_id[0] . "' alt=''><span class='listEvenBold'>[<a href='http://www.aditus.nu/jpgraph/' target='_blank'>JpGraph</a>]</span><br/><br/>";
     }
@@ -81,7 +80,6 @@ if ($comptListTasks != "0") {
     }
 
     echo "</table> <hr />\n";
-
 } else {
     echo "	<table cellspacing='0' border='0' cellpadding='2'>
 			<tr>
@@ -93,4 +91,3 @@ if ($comptListTasks != "0") {
 echo "<br/><br/><a href='addteamtask.php' class='FooterCell'>" . $strings["add_task"] . "</a>";
 
 include("include_footer.php");
-?>

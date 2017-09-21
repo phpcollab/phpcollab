@@ -27,7 +27,8 @@ if ($_GET["action"] == "delete") {
     //recompute average completion of the task
     phpCollab\Util::taskComputeCompletion(
         $listSubtasks["subtas_task"],
-        $tableCollab["tasks"]);
+        $tableCollab["tasks"]
+    );
 
     if ($task != "") {
         phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$task&msg=delete");

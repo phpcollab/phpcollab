@@ -3,11 +3,11 @@
 ** Application name: phpCollab
 ** Last Edit page: 26/01/2004
 ** Path by root: ../topics/noti_newtopic.php
-** Authors: Ceam / Fullo 
+** Authors: Ceam / Fullo
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -21,7 +21,7 @@
 ** 	26/01/2004	-	file comment added
 ** -----------------------------------------------------------------------------
 ** TO-DO:
-** 
+**
 **
 ** =============================================================================
 */
@@ -63,12 +63,11 @@ if ($posters != "") {
     for ($i = 0; $i < $comptListNotifications; $i++) {
         if (($listNotifications->not_mem_organization[$i] != "1" && $detailTopic->top_published[0] == "0" && $projectDetail->pro_published[0] == "0") || $listNotifications->not_mem_organization[$i] == "1") {
             if ($listNotifications->not_newtopic[$i] == "0" && $listNotifications->not_mem_email_work[$i] != "") {
-
                 $body = $mail->partMessage . "\n\n" . $strings["discussion"] . " : " . $detailTopic->top_subject[0] . "\n" . $strings["posted_by"] . " : " . $nameSession . " (" . $loginSession . ")\n\n" . $strings["project"] . " : " . $projectDetail->pro_name[0] . " (" . $projectDetail->pro_id[0] . ")\n" . $strings["organization"] . " : " . $projectDetail->pro_org_name[0] . "\n\n" . $strings["noti_moreinfo"] . "\n";
 
                 if ($listNotifications->not_mem_organization[$i] == "1") {
                     $body .= "$root/general/login.php?url=topics/viewtopic.php%3Fid=" . $detailTopic->top_id[0];
-                } else if ($listNotifications->not_mem_organization[$i] != "1") {
+                } elseif ($listNotifications->not_mem_organization[$i] != "1") {
                     $body .= "$root/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetail->pro_id[0];
                 }
 

@@ -8,7 +8,7 @@ $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Mandag", 2 =>"Tirsdag", 3 =>"Onsdag", 4 =>"Torsdag", 5 =>"Fredag", 6 =>"Lørdag", 7 =>"Søndag");
 
-$monthNameArray = array(1=> "Januar", "Februar", "Mars", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Desember"); 
+$monthNameArray = array(1=> "Januar", "Februar", "Mars", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Desember");
 
 $status = array(0 => "Kunde fullført", 1 => "Fullført", 2 => "Ikke begynt", 3 => "Åpen", 4 => "Utsatt");
 

@@ -3,7 +3,7 @@
 #Status page: 2
 #Path by root: ../languages/help_ko.php
 
-//translator(s): 
+//translator(s):
 $help["setup_mkdirMethod"] = "If safe-mode is On, you need to set a Ftp account to be able to create folder with file management.";
 $help["setup_notifications"] = "Users e-mail notifications (task assignment, new post, task changes...)<br/>Valid smtp/sendmail needed.";
 $help["setup_forcedlogin"] = "If false, disallow external link with login/password in url";
@@ -24,4 +24,3 @@ $help["setup_clientsfilter"] = "Filter to see only logged user clients";
 $help["setup_projectsfilter"] = "Filter to see only the project when the user are in the team";
 //2.5
 $help["setup_notificationMethod"] = "Set method to send email notifications: with internal php mail function (need for having a smtp server or sendmail configured in the parameters of php) or with a personalized smtp server";
-?>

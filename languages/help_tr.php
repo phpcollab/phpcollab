@@ -3,7 +3,7 @@
 #Status page: 2
 #Path by root: ../languages/help_tr.php
 
-//translator(s): 
+//translator(s):
 $help["setup_mkdirMethod"] = "Eðer güvenli-mode aktif ise [safe-mode on] Dosya yönetimi ile klasör yaratabilmeniz için önce Ftp hesabý açmanýz gereklidir.";
 $help["setup_notifications"] = "Kullanýcýlara e-posta bildirimleri için (görev atamasý, yeni mesaj, görev deðiþiklikleri...)<br/> Geçerli smtp/sendmail gereklidir.";
 $help["setup_forcedlogin"] = "Eðer iptal edilmiþ ise, giriþ ekraný URL'sinde dýþ baðlantýlara izin vermez.";
@@ -24,4 +24,3 @@ $help["setup_clientsfilter"] = "Filter to see only logged user clients";
 $help["setup_projectsfilter"] = "Filter to see only the project when the user are in the team";
 //2.5
 $help["setup_notificationMethod"] = "Set method to send email notifications: with internal php mail function (need for having a smtp server or sendmail configured in the parameters of php) or with a personalized smtp server";
-?>

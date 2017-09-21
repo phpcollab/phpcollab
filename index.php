@@ -28,4 +28,3 @@ if ($session == "false") {
 else {
     phpCollab\Util::headerFunction("general/login.php");
 }
-?>

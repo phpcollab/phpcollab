@@ -47,4 +47,3 @@ echo "<tr><th>&nbsp;</th><td><input type=\"SUBMIT\" value=\"" . $strings["submit
 </form>";
 
 include("include_footer.php");
-?>

@@ -3,11 +3,11 @@
 ** Application name: phpCollab
 ** Last Edit page: 05/11/2004
 ** Path by root:  ../tasks/viewsubtask.php
-** Authors: Ceam / Fullo 
+** Authors: Ceam / Fullo
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -18,7 +18,7 @@
 ** DESC: Screen: view sub task information
 **
 ** HISTORY:
-**	05/11/2004	-	fixed 1059973 
+**	05/11/2004	-	fixed 1059973
 **	19/05/2005	-	fixed and &amp; in link
 ** -----------------------------------------------------------------------------
 ** TO-DO:
@@ -43,7 +43,6 @@ $id = $_GET['id'];
 $idSession = $_SESSION['idSession'];
 
 if ($_GET['action'] == "publish") {
-
     if ($addToSite == "true") {
         $tmpquery1 = "UPDATE {$tableCollab["subtasks"]} SET published=0 WHERE id = :subtask_id";
         $dbParams = ["subtask_id" => $id];
@@ -66,9 +65,6 @@ if ($_GET['action'] == "publish") {
         $tasks->addToSiteFile($id);
         $msg = "addToSite";
         $id = $task;
-
-
-
     }
 
     if ($removeToSiteFile == "true") {
@@ -287,7 +283,7 @@ for ($i = 0; $i < $comptListAssign; $i++) {
     $block3->checkboxRow($listAssign->ass_id[$i], $checkbox = "false");
     if ($listAssign->ass_comments[$i] != "") {
         $block3->cellRow($listAssign->ass_comments[$i]);
-    } else if ($listAssign->ass_assigned_to[$i] == "0") {
+    } elseif ($listAssign->ass_assigned_to[$i] == "0") {
         $block3->cellRow($strings["task_unassigned"]);
     } else {
         $block3->cellRow($strings["task_assigned"] . " " . $listAssign->ass_mem2_name[$i] . " (" . $listAssign->ass_mem2_login[$i] . ")");

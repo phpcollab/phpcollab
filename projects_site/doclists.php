@@ -52,4 +52,3 @@ echo "<br/><br/>
 <a href=\"uploadfile.php\" class=\"FooterCell\">" . $strings["upload_file"] . "</a>";
 
 include("include_footer.php");
-?>

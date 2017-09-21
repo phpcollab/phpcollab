@@ -7,7 +7,7 @@
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -22,7 +22,7 @@
 **  18/02/2005	-	added fix for php 4.3.11 and removed spaces from name
 ** -----------------------------------------------------------------------------
 ** TO-DO:
-** 
+**
 **
 ** =============================================================================
 */
@@ -104,7 +104,6 @@ if ($action == "add") {
         );
         phpCollab\Util::headerFunction("doclists.php");
     }
-
 }
 
 $bouton[4] = "over";
@@ -139,4 +138,3 @@ echo "
 	</form>";
 
 include("include_footer.php");
-?>

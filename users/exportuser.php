@@ -43,4 +43,3 @@ Header("Connection: close");
 Header("Content-Type: text/x-vCard; name=$filename");
 
 echo $output;
-?>

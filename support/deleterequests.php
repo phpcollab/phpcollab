@@ -65,7 +65,7 @@ if ($supportType == "team") {
     }
     if ($action == "deleteR") {
         $blockPage->itemBreadcrumbs($strings["delete_request"]);
-    } else if ($action == "deleteP") {
+    } elseif ($action == "deleteP") {
         $blockPage->itemBreadcrumbs($strings["delete_support_post"]);
     }
 } elseif ($supportType == "admin") {
@@ -76,7 +76,7 @@ if ($supportType == "team") {
     }
     if ($action == "deleteR") {
         $blockPage->itemBreadcrumbs($strings["delete_request"]);
-    } else if ($action == "deleteP") {
+    } elseif ($action == "deleteP") {
         $blockPage->itemBreadcrumbs($strings["delete_support_post"]);
     }
 }

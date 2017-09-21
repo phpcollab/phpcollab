@@ -8,7 +8,7 @@ $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Luni", 2 =>"Marti", 3 =>"Miercuri", 4 =>"Joi", 5 =>"Vineri", 6 =>"Simbata", 7 =>"Duminica");
 
-$monthNameArray = array(1=> "Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"); 
+$monthNameArray = array(1=> "Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie");
 
 $status = array(0 => "Client Incheiat", 1 => "Incheiat", 2 => "Neinceput", 3 => "Deschis", 4 => "Suspendat");
 
@@ -179,7 +179,7 @@ $strings["add_user"] = "Adauga Utilizator";
 $strings["enter_user_details"] = "Introdu detaliile pentru contul de utilizator pe care il creezi.";
 $strings["enter_password"] = "Introdu parola utilizatorului.";
 $strings["success_logout"] = "Ai iesit din cont. Poti reintra in cont scriind mai jos numele de utilizator si parola.";
-$strings["invalid_login"] = "Nume de utilizator si/sau parola gresita. Reintrodu datele de intrare in cont."; 
+$strings["invalid_login"] = "Nume de utilizator si/sau parola gresita. Reintrodu datele de intrare in cont.";
 $strings["profile"] = "Profil";
 $strings["user_details"] = "Detalii ale contului de utilizator.";
 $strings["edit_user_account"] = "Editeaza informatiile contului tau.";
@@ -505,4 +505,3 @@ $strings["report"] = "Report";
 $strings["license"] = "License";
 //2.4
 $strings["settings_notwritable"] = "Settings.php file is not writable";
-?>

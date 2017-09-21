@@ -1,13 +1,13 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 2003-10-23 
+** Last Edit page: 2003-10-23
 ** Path by root: ../search/createsearch.php
 ** Authors: Ceam / Fullo
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -21,7 +21,7 @@
 ** 	12/04/2005	-	added the subtask search http://www.php-collab.org/community/viewtopic.php?t=1938
 ** -----------------------------------------------------------------------------
 ** TO-DO:
-** 
+**
 **
 ** =============================================================================
 */
@@ -37,7 +37,7 @@ if ($action == "search") {
     if ($searchfor == "") {
         $error = $strings["search_note"];
 
-//if searchfor not blank, redirect to searchresults
+        //if searchfor not blank, redirect to searchresults
     } else {
         $searchfor = urlencode($searchfor);
         phpCollab\Util::headerFunction("../search/resultssearch.php?searchfor=$searchfor&heading=$heading");
@@ -102,4 +102,3 @@ $block1->closeForm();
 
 
 include '../themes/' . THEME . '/footer.php';
-?>

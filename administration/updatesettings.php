@@ -1,13 +1,13 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 2005-03-08 
+** Last Edit page: 2005-03-08
 ** Path by root: ../administration/updatesettings.php
 ** Authors: Ceam / Fullo
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -57,11 +57,11 @@ if ($action == "generate") {
         $pathMantisNew = $pathMantisNew . "/";
     }
 
-// DAB - scrub the data
+    // DAB - scrub the data
     $dataFunction = new DataFunctions();
     $scrubedData = $dataFunction->scrubData($_POST);
     extract($scrubedData);
-// -- END Paranoia
+    // -- END Paranoia
 
     $content = <<<STAMP
 <?php

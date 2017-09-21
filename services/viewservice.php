@@ -62,4 +62,3 @@ $block1->paletteScript(1, "edit", "../services/editservice.php?id=$id", "true,tr
 $block1->closePaletteScript("", "");
 
 include '../themes/' . THEME . '/footer.php';
-?>

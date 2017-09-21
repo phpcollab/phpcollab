@@ -8,7 +8,7 @@ $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"월요일", 2 =>"화요일", 3 =>"수요일", 4 =>"목요일", 5 =>"금요일", 6 =>"토요일", 7 =>"일요일");
 
-$monthNameArray = array(1=> "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월", ); 
+$monthNameArray = array(1=> "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월", );
 
 $status = array(0 => "완결", 1 => "종료", 2 => "미시작", 3 => "진행", 4 => "보류");
 
@@ -523,4 +523,3 @@ $strings["report"] = "Report";
 $strings["license"] = "License";
 //2.4
 $strings["settings_notwritable"] = "Settings.php file is not writable";
-?>

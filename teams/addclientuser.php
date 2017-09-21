@@ -32,7 +32,7 @@ if ($_GET["action"] == "add") {
                 $Htpasswd->addUser($member["mem_login"], $member["mem_password"]);
             }
         }
-//if mantis bug tracker enabled	
+        //if mantis bug tracker enabled
         if ($enableMantis == "true") {
             //  include mantis library
             include '../mantis/core_API.php';
@@ -43,7 +43,7 @@ if ($_GET["action"] == "add") {
                 "INSERT INTO {$tableCollab["teams"]} (project, member, published, authorized) VALUES (:project, :member,'1','0')",
                 ["project" => $projectDetail["pro_id"], "member" => $pieces[$i]]
             );
-//if mantis bug tracker enabled		
+            //if mantis bug tracker enabled
             if ($enableMantis == "true") {
                 // Assign user to this project in mantis
                 $f_access_level = $client_user_level; // Reporter access
@@ -51,7 +51,6 @@ if ($_GET["action"] == "add") {
                 $f_user_id = $pieces[$i];
                 include '../mantis/user_proj_add.php';
             }
-
         }
 
         if ($notifications == "true") {
@@ -93,7 +92,7 @@ $membersTeam = null;
 if ($concatMembers) {
     foreach ($concatMembers as $member) {
         $membersTeam .= $member["tea_mem_id"] . ",";
-        $membersTeam = rtrim(rtrim($membersTeam),',');
+        $membersTeam = rtrim(rtrim($membersTeam), ',');
     }
 }
 

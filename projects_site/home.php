@@ -97,11 +97,9 @@ TR;
         <hr />
 TABLE;
     }
-
 }
 
 if ($projectSession != "" && $changeProject != "true") {
-
     if (file_exists("../logos_clients/" . $clientDetail["org_id"] . "." . $clientDetail["org_extension_logo"])) {
         $image = $clientDetail["org_id"] . '.' . $clientDetail["org_extension_logo"];
         echo '<img src="../logos_clients/' . $image . '"><br/><br/>';
@@ -130,7 +128,6 @@ TABLE;
 
     //Dispaly project active phase
     if ($projectDetail["pro_phase_set"] != "0") {
-
         echo "	<tr><th nowrap valign='top' class='FormLabel'>" . $strings["current_phase"] . " :</td><td>";
 
         $currentPhase = $phases->getPhasesByProjectIdAndIsCompleted($projectDetail["pro_id"]);
@@ -147,7 +144,6 @@ TABLE;
         }
 
         echo "</td></tr>";
-
     }
 
     $pro_created = phpCollab\Util::createDate($projectDetail["pro_created"], $timezoneSession);

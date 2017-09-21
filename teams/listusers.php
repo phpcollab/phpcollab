@@ -7,7 +7,7 @@
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -22,7 +22,7 @@
 **  23/03/2004  -	added team full palette hack by Russell E Glaue <rglaue@cait.org>
 ** -----------------------------------------------------------------------------
 ** TO-DO:
-** 
+**
 **
 ** =============================================================================
 */
@@ -129,4 +129,3 @@ $block1->paletteScript(5, "email", "../users/emailusers.php?", "false,true,true"
 $block1->closePaletteScript($comptListTeam, $listTeam->tea_mem_id);
 
 include '../themes/' . THEME . '/footer.php';
-?>

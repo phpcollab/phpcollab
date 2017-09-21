@@ -13,8 +13,9 @@
  * @return array $returnData Scrubbed Data
  * @param array $data Data from Post or GET (key - val paris)
  */
-function scrubData($data) {
-    $regEx = "/[^a-zA-Z0-9 .@:\/_]*/"; // Used to remove characters, if they aren't in this list, they will be removed 
+function scrubData($data)
+{
+    $regEx = "/[^a-zA-Z0-9 .@:\/_]*/"; // Used to remove characters, if they aren't in this list, they will be removed
 
     $retData = array();
     foreach ($data as $key => $val) {
@@ -29,4 +30,3 @@ function scrubData($data) {
     }
     return $retData;
 }
-?>

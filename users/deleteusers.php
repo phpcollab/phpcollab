@@ -44,7 +44,7 @@ if ($_GET["action"] == "delete") {
         }
     }
 
-//if CVS repository enabled
+    //if CVS repository enabled
     if ($enable_cvs == "true") {
         $pieces = explode(",", $id);
         for ($j = 0; $j < (count($pieces)); $j++) {
@@ -75,9 +75,9 @@ if ($_GET["action"] == "delete") {
 
     // Remove user from teams
     $teams->deleteTeamWhereMemberIn($id);
-//if mantis bug tracker enabled
+    //if mantis bug tracker enabled
     if ($enableMantis == "true") {
-// Call mantis function to remove user
+        // Call mantis function to remove user
         include("../mantis/user_delete.php");
     }
 
@@ -118,7 +118,6 @@ foreach ($listMembers as $member) {
         <td>{$member["mem_login"]}&nbsp;({$member["mem_name"]})</td>
     </tr>
 ROW;
-
 }
 
 $totalProjects = count($projects->getProjectsByOwner($id));
@@ -133,7 +132,6 @@ if ($totalProjects || $totalTasks) {
         echo <<<OWNED_PROJECTS
     <tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td>{$strings["there"]} {$totalProjects} {$strings["projects"]} {$strings["owned_by"]}</td></tr>
 OWNED_PROJECTS;
-
     }
     
     if ($totalTasks) {
@@ -143,7 +141,6 @@ OWNED_PROJECTS;
         <td>{$strings["there"]} {$totalTasks} {$strings["tasks"]} {$strings["owned_by"]}</td>
     </tr>
 OWNED_TASKS;
-
     }
 
     echo '<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td><b>' . $strings["reassign_to"] . ' : </b> ';

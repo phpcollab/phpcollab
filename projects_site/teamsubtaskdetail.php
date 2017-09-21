@@ -69,4 +69,3 @@ echo "</td></tr>
 <hr>";
 
 include("include_footer.php");
-?>

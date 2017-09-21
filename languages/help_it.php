@@ -26,4 +26,3 @@ $help["setup_projectsfilter"] = "Filtra per vedere solo il progetto quando l'ute
 $help["setup_notificationMethod"] = "Set method to send email notifications: with internal php mail function (need for having a smtp server or sendmail configured in the parameters of php) or with a personalized smtp server";
 //2.5 fullo
 $help["newsdesk_links"] = "per aggiungere più links utilizza il punto e virgola";
-?>

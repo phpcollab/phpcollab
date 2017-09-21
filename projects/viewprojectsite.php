@@ -3,10 +3,10 @@
 ** Application name: phpCollab
 ** Last Edit page: 23/05/2005
 ** Path by root: ../projects/viewprojectsite.php
-** Authors: Ceam / Fullo 
+** Authors: Ceam / Fullo
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -21,7 +21,7 @@
 **  23/05/2005	-	fix for http://www.php-collab.org/community/viewtopic.php?p=7124
 ** -----------------------------------------------------------------------------
 ** TO-DO:
-**	
+**
 ** =============================================================================
 */
 
@@ -127,7 +127,6 @@ if ($idSession == $projectDetail->pro_owner[0] || $profilSession == "5") {
 }
 
 if ($projectDetail->pro_organization[0] != "" && $projectDetail->pro_organization[0] != "1") {
-
     $block2 = new phpCollab\Block();
     $block2->form = "csU";
     $block2->openForm("../projects/viewprojectsite.php?&id=" . $projectDetail->pro_id[0] . "#" . $block2->form . "Anchor");

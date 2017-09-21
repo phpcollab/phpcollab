@@ -15,9 +15,7 @@ if ($action == "update") {
     $comptListFiles = count($listFiles->fil_id);
 
     if ($comptListFiles != "0") {
-
         for ($i = 0; $i < $comptListFiles; $i++) {
-
             $sizeNew = $listFiles->fil_size[$i];
             $sizeNew = str_replace('o', '', $sizeNew);
             $sizeNew = str_replace('O', '', $sizeNew);
@@ -35,4 +33,3 @@ if ($action == "update") {
         echo "no results";
     }
 }
-?>

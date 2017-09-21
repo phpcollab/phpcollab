@@ -39,7 +39,6 @@ $id = (isset($_GET["id"]) && $_GET["id"] != '') ? $_GET["id"] : null;
 $tri = (isset($_GET["tri"]) && $_GET["tri"] != '') ? $_GET["tri"] : null;
 
 if ($id == "" && $tri != "true") {
-
     $compt1 = count($_POST["S_PRJSEL"]);
     $S_pro = "";
 
@@ -262,7 +261,8 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 
-$block1->sorting("report_tasks",
+$block1->sorting(
+    "report_tasks",
     $sortingUser->sor_report_tasks[0],
     "tas.name ASC",
     $sortingFields = [
@@ -301,11 +301,9 @@ if ($projectsFilter == "true") {
                 $tmpquery = "WHERE pro.id IN({$filterTasks}) ORDER BY {$block1->sortingValue} ";
             }
         }
-
     } else {
         $validTasks = "false";
     }
-
 } else {
     $tmpquery = "$queryStart $query ORDER BY {$block1->sortingValue} ";
 }
@@ -434,7 +432,6 @@ if ($comptListTasks != "0") {
 
                 $block1->closeRow();
             } //end for
-
         }// end if subtask
     }//end for
 
@@ -447,7 +444,6 @@ if ($comptListTasks != "0") {
 				<span class="listEvenBold"">{$blockPage->buildLink("http://www.aditus.nu/jpgraph/", "JpGraph", "powered")}</span>
 			</div>
 GANTT;
-
     }
 
     echo <<< HIDDEN

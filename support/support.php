@@ -42,16 +42,16 @@ if ($supportType == "team") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $requestProject->pro_id[0], $requestProject->pro_name[0], "in"));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=" . $requestProject->pro_id[0], $strings["support_requests"], "in"));
-} else if ($supportType == "admin") {
+} elseif ($supportType == "admin") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], "in"));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/support.php?", $strings["support_management"], "in"));
 }
 
 if ($action == "new") {
     $blockPage->itemBreadcrumbs($strings["new_requests"]);
-} else if ($action == "open") {
+} elseif ($action == "open") {
     $blockPage->itemBreadcrumbs($strings["open_requests"]);
-} else if ($action == "complete") {
+} elseif ($action == "complete") {
     $blockPage->itemBreadcrumbs($strings["closed_requests"]);
 }
 $blockPage->closeBreadcrumbs();

@@ -70,7 +70,7 @@ if ($teamMember != "true" && $profilSession != "5") {
 
 //case update or copy task
 if ($id != "") {
-//case update or copy task
+    //case update or copy task
     if ($action == "update") {
 
 //concat values from date selector and replace quotes by html code in name
@@ -78,12 +78,11 @@ if ($id != "") {
         $d = phpCollab\Util::convertData($d);
         $c = phpCollab\Util::convertData($c);
 
-//case copy task
+        //case copy task
         if ($docopy == "true") {
 
 //case update task
         } else {
-
             if ($pub == "") {
                 $pub = "1";
             }
@@ -91,7 +90,7 @@ if ($id != "") {
                 $st = "1";
             }
 
-//Update task with our without parent phase
+            //Update task with our without parent phase
             $tmpquery5 = "UPDATE {$tableCollab["subtasks"]} SET name=:name,description=:description,assigned_to=:assigned_to,status=:status,priority=:priority,start_date=:start_date,due_date=:due_date,estimated_time=:estimated_time,actual_time=:actual_time,comments=:comments,modified=:modified,completion=:completion,published=:published WHERE id = :subtask_id";
 
             $tmpquery5Params = [];
@@ -110,7 +109,7 @@ if ($id != "") {
             $tmpquery5Params['published'] = $pub;
             $tmpquery5Params['subtask_id'] = $id;
 
-//compute the average completion of all subtaks of this tasks
+            //compute the average completion of all subtaks of this tasks
             if ($old_completion != $compl) {
                 phpCollab\Util::taskComputeCompletion($task, $tableCollab["tasks"]);
             }
@@ -138,7 +137,7 @@ if ($id != "") {
                 unset($dbParams);
             }
 
-//if assigned_to not blank and past assigned value blank, set assigned date
+            //if assigned_to not blank and past assigned value blank, set assigned date
             if ($at != "0" && $old_assigned == "") {
                 $tmpquery6 = "UPDATE {$tableCollab["subtasks"]} SET assigned=:assigned WHERE id = :subtask_id";
                 $dbParams = [];
@@ -148,8 +147,8 @@ if ($id != "") {
                 unset($dbParams);
             }
 
-//if assigned_to different from past value, insert into assignment
-//add new assigned_to in team members (only if doesn't already exist)
+            //if assigned_to different from past value, insert into assignment
+            //add new assigned_to in team members (only if doesn't already exist)
             if ($at != $old_at) {
                 $tmpquery2 = "INSERT INTO {$tableCollab["assignments"]} (subtask,owner,assigned_to,assigned) VALUES(:subtask_id,:owner_id,:assigned_to,:assigned_date)";
                 $dbParams = [];
@@ -172,14 +171,13 @@ if ($id != "") {
                     $dbParams['authorized'] = 0;
                     phpCollab\Util::newConnectSql($tmpquery3, $dbParams);
                     unset($dbParams);
-
                 }
                 $msg = "update";
                 phpCollab\Util::newConnectSql($tmpquery5, $tmpquery5Params);
                 unset($dbParams);
 
 
-//send task assignment mail if notifications = true
+                //send task assignment mail if notifications = true
                 if ($notifications == "true") {
                     include '../subtasks/noti_taskassignment.php';
                 }
@@ -187,21 +185,21 @@ if ($id != "") {
                 $msg = "update";
                 phpCollab\Util::newConnectSql($tmpquery5, $tmpquery5Params);
 
-//send status task change mail if notifications = true
+                //send status task change mail if notifications = true
                 if ($at != "0" && $st != $old_st) {
                     if ($notifications == "true") {
                         include '../subtasks/noti_statustaskchange.php';
                     }
                 }
 
-//send priority task change mail if notifications = true
+                //send priority task change mail if notifications = true
                 if ($at != "0" && $pr != $old_pr) {
                     if ($notifications == "true") {
                         include '../subtasks/noti_prioritytaskchange.php';
                     }
                 }
 
-//send due date task change mail if notifications = true
+                //send due date task change mail if notifications = true
                 if ($at != "0" && $dd != $old_dd) {
                     if ($notifications == "true") {
                         include '../subtasks/noti_duedatetaskchange.php';
@@ -230,13 +228,12 @@ if ($id != "") {
                 $dbParams['created'] = $dateheure;
                 phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
                 unset($dbParams);
-
             }
             phpCollab\Util::headerFunction("../subtasks/viewsubtask.php?id={$id}&task={$task}&msg={$msg}");
         }
     }
 
-//set value in form
+    //set value in form
     $tn = $subtaskDetail['subtas_name'];
     $d = $subtaskDetail['subtas_description'];
     $sd = $subtaskDetail['subtas_start_date'];
@@ -269,7 +266,7 @@ if ($id == "") {
             $pub = "1";
         }
 
-//Insert task with our without parent phase
+        //Insert task with our without parent phase
         $tmpquery1 = "INSERT INTO {$tableCollab["subtasks"]} (task,name,description,owner,assigned_to,status,priority,start_date,due_date,estimated_time,actual_time,comments,created,published,completion) VALUES(:task,:name,:description,:owner,:assigned_to,:status,:priority,:start_date,:due_date,:estimated_time,:actual_time,:comments,:created,:published,:completion)";
         $dbParams = [];
         $dbParams['task'] = $task;
@@ -303,13 +300,12 @@ if ($id == "") {
             $dbParams['subtask_id'] = $num;
             phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
             unset($dbParams);
-
         }
 
-//compute the average completion of all subtaks of this tasks
+        //compute the average completion of all subtaks of this tasks
         phpCollab\Util::taskComputeCompletion($task, $tableCollab["tasks"]);
 
-//if assigned_to not blank, set assigned date
+        //if assigned_to not blank, set assigned date
         if ($at != "0") {
             $tmpquery6 = "UPDATE {$tableCollab["subtasks"]} SET assigned=:assigned WHERE id = :subtask_id";
             $dbParams = [];
@@ -317,7 +313,6 @@ if ($id == "") {
             $dbParams['subtask_id'] = $num;
             phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
             unset($dbParams);
-
         }
         $tmpquery2 = "INSERT INTO {$tableCollab["assignments"]} (subtask,owner,assigned_to,assigned) VALUES (:subtask,:owner,:assigned_to,:assigned)";
         $dbParams = [];
@@ -329,10 +324,10 @@ if ($id == "") {
         unset($dbParams);
 
 
-//if assigned_to not blank, add to team members (only if doesn't already exist)
+        //if assigned_to not blank, add to team members (only if doesn't already exist)
 
 
-//add assigned_to in team members (only if doesn't already exist)
+        //add assigned_to in team members (only if doesn't already exist)
         if ($at != "0") {
             $testinTeam = $teams->getTeamByProjectIdAndTeamMember($project, $at);
 
@@ -347,16 +342,15 @@ if ($id == "") {
                 $dbParams['authorized'] = 0;
                 phpCollab\Util::newConnectSql($tmpquery3, $dbParams);
                 unset($dbParams);
-
             }
 
-//send task assignment mail if notifications = true
+            //send task assignment mail if notifications = true
             if ($notifications == "true") {
                 include '../subtasks/noti_taskassignment.php';
             }
         }
 
-//create task sub-folder if filemanagement = true
+        //create task sub-folder if filemanagement = true
         if ($fileManagement == "true") {
             phpCollab\Util::createDirectory("../files/$project/$num");
         }
@@ -364,7 +358,7 @@ if ($id == "") {
         phpCollab\Util::headerFunction("../subtasks/viewsubtask.php?id={$num}&task={$task}&msg=add");
     }
 
-//set default values
+    //set default values
     $subtaskDetail['subtas_assigned_to'] = "0";
     $subtaskDetail['subtas_priority'] = "3";
     $subtaskDetail['subtas_status'] = "2";
@@ -410,7 +404,6 @@ if ($id == "") {
     $blockPage->itemBreadcrumbs($strings["add_subtask"]);
 }
 if ($id != "") {
-
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../subtasks/viewsubtask.php?task=$task&id=" . $subtaskDetail['subtas_id'], $subtaskDetail['subtas_name'], in));
     $blockPage->itemBreadcrumbs($strings["edit_subtask"]);
 }
@@ -486,9 +479,9 @@ if ($subtaskDetail['subtas_assigned_to'] == "0") {
     echo "<option value='0'>" . $strings["unassigned"] . "</option>";
 }
 
-$assignto = $teams->getTeamByProjectIdAndOrderedBy($project, 'mem.name' );
+$assignto = $teams->getTeamByProjectIdAndOrderedBy($project, 'mem.name');
 
-foreach($assignto as $team_member) {
+foreach ($assignto as $team_member) {
     $clientUser = "";
     if ($team_member['tea_mem_profil'] == "3") {
         $clientUser = " (" . $strings["client_user"] . ")";

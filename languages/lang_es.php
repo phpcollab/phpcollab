@@ -8,7 +8,7 @@ $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Lunes", 2 =>"Martes", 3 =>"Mi&eacute;rcoles", 4 =>"Jueves", 5 =>"Viernes", 6 =>"S&aacute;bado", 7 =>"Domingo");
 
-$monthNameArray = array(1=> "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"); 
+$monthNameArray = array(1=> "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
 
 $status = array(0 => "Cliente Finalizado", 1 => "Finalizado", 2 => "No Iniciado", 3 => "Abierto", 4 => "Suspendido");
 
@@ -585,15 +585,14 @@ $strings["noti_memberactivation4"] = "Contrase&ntilde;a : ";
 $strings["noti_memberactivation5"] = "Pulse \"intro\" y tendra acceso a su cuenta. \n\nDespu&eacute;s de este email usted recibira otros, que le iran informando del progreso de sus proyectos y otras informaciones que sean de su inter&eacute;s y tengan realci&oacute;n sus proyectos.";
 
 //BEGIN email project users mod
-$strings["email_users"] = "Enviar Correo"; 
-$strings["email_following"] = "Correo del Usuario"; 
-$strings["email_sent"] = "el correo ha sido enviado con exito."; 
+$strings["email_users"] = "Enviar Correo";
+$strings["email_following"] = "Correo del Usuario";
+$strings["email_sent"] = "el correo ha sido enviado con exito.";
 //END email project users mod
 
 //requirements new feature
-$strings["projectrequirements"]= "Requerimientos"; 
+$strings["projectrequirements"]= "Requerimientos";
 $strings["add_requirement"]="A&ntilde;adir requerimiento";
 $strings["code"]="C&oacute;digo";
 
-$strings["clients_connected"] = "( Cliente en el sito del proyecto )"; 
-?>
+$strings["clients_connected"] = "( Cliente en el sito del proyecto )";

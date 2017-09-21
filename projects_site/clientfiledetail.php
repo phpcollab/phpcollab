@@ -211,7 +211,8 @@ if ($action == "add") {
         $name = "$upload_name";
         phpCollab\Util::newConnectSql(
             "UPDATE {$tableCollab["files"]} SET name=:name,date=:date,size=:size,extension=:extension,vc_version=:vc_version WHERE id = :file_id",
-            ["name" => $name, "date" => $dateheure, "size" => $size, "extension" => $extension, "vc_version" => $oldversion, "file_id" => $num]);
+            ["name" => $name, "date" => $dateheure, "size" => $size, "extension" => $extension, "vc_version" => $oldversion, "file_id" => $num]
+        );
         phpCollab\Util::headerFunction("clientfiledetail.php?id=$sendto&msg=addFile");
     }
 }
@@ -306,7 +307,7 @@ echo "</table></td></tr>
 </table>";
 
 if ($peerReview == "true") {
-// Table 2 - LIST OF REVIEWS TABLE.
+    // Table 2 - LIST OF REVIEWS TABLE.
     echo "<table cellpadding=20 cellspacing=0 border=0 width=\"100%\">
  <tr>
    <td><h1 class=\"heading\">" . $strings["ifc_revisions"] . "</h1>
@@ -370,7 +371,7 @@ if ($peerReview == "true") {
  </tr>
 </table>";
 
-// Table 3 - ADD REVIEW TABLE.
+    // Table 3 - ADD REVIEW TABLE.
     echo "<table cellpadding=20 cellspacing=0 border=0 width=\"100%\">
 
  <tr>
@@ -441,8 +442,6 @@ if ($fileDetail->fil_owner[0] == $idSession) {
  </tr>
 
 </table>";
-
 }
 
 include("include_footer.php");
-?>

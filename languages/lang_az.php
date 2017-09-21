@@ -8,7 +8,7 @@ $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"Bazar Ertəsi", 2 =>"Çərşənbə Axşamı", 3 =>"Çərşənbə", 4 =>"Cümə Axşamı", 5 =>"Cümə", 6 =>"Şənbə", 7 =>"Bazar");
 
-$monthNameArray = array(1=> "Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"); 
+$monthNameArray = array(1=> "Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr");
 
 $status = array(0 => "İstifadəçı Sonlanmış", 1 => "Sonlanmış", 2 => "Başladılmamış", 3 => "Açıq", 4 => "Dayandırılmış");
 
@@ -526,4 +526,3 @@ $strings["report"] = "Report";
 $strings["license"] = "License";
 //2.4
 $strings["settings_notwritable"] = "Settings.php file is not writable";
-?>

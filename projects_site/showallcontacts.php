@@ -44,4 +44,3 @@ TAG;
 }
 
 include("include_footer.php");
-?>

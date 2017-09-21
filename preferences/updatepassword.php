@@ -1,13 +1,13 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 2003-10-23 
+** Last Edit page: 2003-10-23
 ** Path by root: ../preferences/updatepassword.php
-** Authors: Ceam / Fullo 
+** Authors: Ceam / Fullo
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -15,7 +15,7 @@
 ** -----------------------------------------------------------------------------
 ** FILE: updatepassword.php
 **
-** DESC: Screen: 
+** DESC: Screen:
 **
 ** HISTORY:
 ** 	2003-10-23	-	added new document info
@@ -64,19 +64,19 @@ if ($action == "update") {
 
             phpCollab\Util::newConnectSql("UPDATE {$tableCollab["members"]} SET password=:password WHERE id = :member_id", ["password" => $cnpw, "member_id" => $idSession]);
 
-//if mantis bug tracker enabled
+            //if mantis bug tracker enabled
             if ($enableMantis == "true") {
-// call mantis function to reset user password
+                // call mantis function to reset user password
                 include("../mantis/user_reset_pwd.php");
             }
 
-//if CVS repository enabled
+            //if CVS repository enabled
             if ($enable_cvs == "true") {
                 $query = "WHERE tea.member = '$idSession'";
                 $cvsMembers = new phpCollab\Request();
                 $cvsMembers->openTeams($query);
 
-//change the password in every repository
+                //change the password in every repository
                 for ($i = 0; $i < (count($cvsMembers->tea_id)); $i++) {
                     cvs_change_password($cvsMembers->tea_mem_login[$i], $cnpw, $cvsMembers->tea_pro_id[$i]);
                 }
@@ -144,4 +144,3 @@ $block1->closeContent();
 $block1->closeForm();
 
 include '../themes/' . THEME . '/footer.php';
-?>

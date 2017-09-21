@@ -27,7 +27,6 @@ if ($comptListRequests != "0") {
 <tr><th class=\"active\">" . $strings["id"] . "</th><th>" . $strings["subject"] . "</th><th>" . $strings["priority"] . "</th><th>" . $strings["status"] . "</th><th>" . $strings["project"] . "</th><th>" . $strings["date_open"] . "</th><th>" . $strings["date_close"] . "</th></tr>";
 
     for ($i = 0; $i < $comptListRequests; $i++) {
-
         if (!($i % 2)) {
             $class = "odd";
             $highlightOff = $block1->getOddColor();
@@ -69,4 +68,3 @@ echo "<br/><br/>
 <a href=\"addsupport.php\" class=\"FooterCell\">" . $strings["add_support_request"] . "</a>";
 
 include("include_footer.php");
-?>

@@ -10,6 +10,3 @@ $phaseArraySets = array(
 #CD Set
 "2" => array(0 => "Planlegging", 1 => "Design", 2 => "Testing", 3 => "Produksjon")
 );
- 
-
-?>

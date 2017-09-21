@@ -7,7 +7,7 @@
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -23,7 +23,7 @@
 **  23/12/2004	-	fix notification for linked content
 ** -----------------------------------------------------------------------------
 ** TO-DO:
-** 
+**
 **
 ** =============================================================================
 */
@@ -52,7 +52,6 @@ if (substr($posters, -1) == ",") {
 }
 
 if ($posters != "") {
-
     $tmpquery = "WHERE noti.member IN ($posters)";
 
     $listNotifications = new phpCollab\Request();
@@ -72,16 +71,13 @@ if ($posters != "") {
     }
 
     for ($i = 0; $i < $comptListNotifications; $i++) {
-
         if ((($listNotifications->not_mem_organization[$i] != "1") && ($detailTopic->fil_published[0] == "0") && ($projectDetail->pro_published[0] == "0")) || ($listNotifications->not_mem_organization[$i] == "1")) {
-
             if (($listNotifications->not_uploadfile[$i] == "0") && ($listNotifications->not_mem_email_work[$i] != "") && ($listNotifications->not_mem_id[$i] != $idSession)) {
-
                 $body = $mail->partMessage . "\n\n" . $strings["upload"] . " : " . $detailFile->fil_name[0] . "\n" . $strings["posted_by"] . " : " . $nameSession . " (" . $loginSession . ")\n\n" . $strings["project"] . " : " . $projectDetail->pro_name[0] . " (" . $projectDetail->pro_id[0] . ")\n" . $strings["organization"] . " : " . $projectDetail->pro_org_name[0] . "\n\n" . $strings["noti_moreinfo"] . "\n";
 
                 if ($listNotifications->not_mem_organization[$i] == "1") {
                     $body .= "$root/general/login.php?url=linkedcontent/viewfile.php%3Fid=" . $detailFile->fil_id[0];
-                } else if ($listNotifications->not_mem_organization[$i] != "1") {
+                } elseif ($listNotifications->not_mem_organization[$i] != "1") {
                     $body .= "$root/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetail->pro_id[0];
                 }
 
@@ -93,14 +89,7 @@ if ($posters != "") {
                 $mail->AddAddress($listNotifications->not_mem_email_work[$i], $listNotifications->not_mem_name[$i]);
                 $mail->Send();
                 $mail->ClearAddresses();
-
-
             }
         }
     }
-
-
 }
-
-
-?>

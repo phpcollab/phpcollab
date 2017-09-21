@@ -25,4 +25,3 @@ $help["setup_clientsfilter"] = "Filtruj tylko zalogowanych u¿ytkowników klient
 $help["setup_projectsfilter"] = "Filtruj, by pokazywaæ jedynie projekty, do których u¿ytkownik zosta³ przypisany.";
 //2.5
 $help["setup_notificationMethod"] = "Ustal metodê dla wysy³ania poczty elektronicznej: za pomoc± funkcji mail jêzyka php (konieczny w³asny serwer smtp lub sendmail i skonfigurowany php) lub za pomoc± innego serwera smtp.";
-?>

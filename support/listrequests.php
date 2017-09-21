@@ -39,7 +39,7 @@ if ($supportType == "team") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], "in"));
     $blockPage->itemBreadcrumbs($strings["support_requests"]);
-} else if ($supportType == "admin") {
+} elseif ($supportType == "admin") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], "in"));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/support.php?", $strings["support_management"], "in"));
     $blockPage->itemBreadcrumbs($strings["support_requests"]);

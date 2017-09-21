@@ -36,7 +36,7 @@ if ($action == "add") {
             $Htpasswd->addUser($listMembers->mem_login[$i], $listMembers->mem_password[$i]);
         }
     }
-//if mantis bug tracker enabled	
+    //if mantis bug tracker enabled
     if ($enableMantis == "true") {
         //  include mantis library
         include '../mantis/core_API.php';
@@ -50,9 +50,9 @@ if ($action == "add") {
         $dbParams['member'] = $pieces[$i];
         $dbParams['published'] = 1;
         $dbParams['authorized'] = 0;
-        phpCollab\Util::newConnectSql($tmpquery,$dbParams);
+        phpCollab\Util::newConnectSql($tmpquery, $dbParams);
         unset($dbParams);
-//if mantis bug tracker enabled
+        //if mantis bug tracker enabled
         if ($enableMantis == "true") {
             // Assign user to this project in mantis
             $f_access_level = $team_user_level; // Developer access
@@ -61,7 +61,7 @@ if ($action == "add") {
             include '../mantis/user_proj_add.php';
         }
 
-//if CVS repository enabled
+        //if CVS repository enabled
         if ($enable_cvs == "true") {
             $user_query = "WHERE mem.id = '$pieces[$i]'";
             $cvsMembers = new phpCollab\Request();

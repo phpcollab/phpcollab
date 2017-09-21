@@ -8,7 +8,7 @@ $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"dilluns", 2 =>"dimarts", 3 =>"dimecres", 4 =>"dijous", 5 =>"divendres", 6 =>"dissabte", 7 =>"diumenge");
 
-$monthNameArray = array(1=> "gener", "febrer", "març", "abril", "maig", "juny", "juliol", "agost", "setembre", "octubre", "novembre", "desembre"); 
+$monthNameArray = array(1=> "gener", "febrer", "març", "abril", "maig", "juny", "juliol", "agost", "setembre", "octubre", "novembre", "desembre");
 
 $status = array(0 => "Client Finalitzat", 1 => "Finalitzat", 2 => "No Iniciat", 3 => "Obert", 4 => "Susp&egrave;s");
 
@@ -510,4 +510,3 @@ $strings["report"] = "Informe";
 $strings["license"] = "Llicència";
 //2.4
 $strings["settings_notwritable"] = "Settings.php file is not writable";
-?>

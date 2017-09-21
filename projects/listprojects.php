@@ -29,7 +29,7 @@ $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($strings["projects"]);
 if ($typeProjects == "inactive") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?typeProjects=active", $strings["active"], "in") . " | " . $strings["inactive"]);
-} else if ($typeProjects == "active") {
+} elseif ($typeProjects == "active") {
     $blockPage->itemBreadcrumbs($strings["active"] . " | " . $blockPage->buildLink("../projects/listprojects.php?typeProjects=inactive", $strings["inactive"], "in"));
 }
 $blockPage->closeBreadcrumbs();

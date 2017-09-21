@@ -3,11 +3,11 @@
 ** Application name: phpCollab
 ** Last Edit page: 05/11/2004
 ** Path by root:  ../tasks/listtasks.php
-** Authors: Ceam / Fullo 
+** Authors: Ceam / Fullo
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -19,7 +19,7 @@
 **
 ** HISTORY:
 **	19/05/2005	-	fixed and &amp; in link
-**  10/02/2007  -   Changed JPGraph implementation 
+**  10/02/2007  -   Changed JPGraph implementation
 ** -----------------------------------------------------------------------------
 ** TO-DO:
 ** clean code

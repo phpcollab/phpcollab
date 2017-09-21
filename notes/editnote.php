@@ -58,7 +58,6 @@ $teamMember = $teams->isTeamMember($project, $idSession);
 if ($id != "") {
     //case update note entry
     if ($action == "update") {
-
         $noteData = $_POST;
         $noteData["subject"] = phpCollab\Util::convertData($_POST["subject"]);
         $noteData["description"] = phpCollab\Util::convertData($_POST["description"]);
@@ -91,7 +90,6 @@ if ($id == "") {
 
         phpCollab\Util::headerFunction("../notes/viewnote.php?id=$num&msg=add");
     }
-
 }
 
 $bodyCommand = "onLoad=\"document.etDForm.subject.focus();\"";

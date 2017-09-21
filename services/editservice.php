@@ -19,7 +19,7 @@ if ($id != "") {
 
 //case update user
     if ($action == "update") {
-//replace quotes by html code in name and address
+        //replace quotes by html code in name and address
         $n = phpCollab\Util::convertData($_POST['n']);
         $np = phpCollab\Util::convertData($_POST['np']);
         $tmpquery = "UPDATE {$tableCollab["services"]} SET name=:name,name_print=:name_print,hourly_rate=:hourly_rate WHERE id = :service_id";
@@ -37,7 +37,7 @@ if ($id != "") {
     $detailService->openServices($tmpquery);
     $comptDetailService = count($detailService->serv_id);
 
-//set values in form
+    //set values in form
     $n = $detailService->serv_name[0];
     $np = $detailService->serv_name_print[0];
     $hr = $detailService->serv_hourly_rate[0];
@@ -46,7 +46,7 @@ if ($id != "") {
 //case add user
 if ($id == "") {
     if ($action == "add") {
-//replace quotes by html code in name and address
+        //replace quotes by html code in name and address
         $n = phpCollab\Util::convertData($_POST['n']);
         $np = phpCollab\Util::convertData($_POST['np']);
 

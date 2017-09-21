@@ -1,13 +1,13 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 2003-10-23 
+** Last Edit page: 2003-10-23
 ** Path by root: ../preferences/updateuser.php
-** Authors: Ceam / Fullo 
+** Authors: Ceam / Fullo
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -15,7 +15,7 @@
 ** -----------------------------------------------------------------------------
 ** FILE: updateuser.php
 **
-** DESC: Screen: 
+** DESC: Screen:
 **
 ** HISTORY:
 ** 	2003-10-23	-	added new document info
@@ -55,9 +55,9 @@ if ($action == "update") {
     $_SESSION['dateunixSession'] = $dateunixSession;
     $_SESSION['nameSession'] = $nameSession;
 
-//if mantis bug tracker enabled
+    //if mantis bug tracker enabled
     if ($enableMantis == "true") {
-// Call mantis function for user profile changes..!!!
+        // Call mantis function for user profile changes..!!!
         include("../mantis/user_profile.php");
     }
     phpCollab\Util::headerFunction("../preferences/updateuser.php?msg=update");
@@ -134,11 +134,11 @@ if ($gmtTimezone == "true") {
 
 if ($userPrefs->mem_profil[0] == "0") {
     $block1->contentRow($strings["permissions"], $strings["administrator_permissions"]);
-} else if ($userPrefs->mem_profil[0] == "1") {
+} elseif ($userPrefs->mem_profil[0] == "1") {
     $block1->contentRow($strings["permissions"], $strings["project_manager_permissions"]);
-} else if ($userPrefs->mem_profil[0] == "2") {
+} elseif ($userPrefs->mem_profil[0] == "2") {
     $block1->contentRow($strings["permissions"], $strings["user_permissions"]);
-} else if ($userPrefs->mem_profil[0] == "5") {
+} elseif ($userPrefs->mem_profil[0] == "5") {
     $block1->contentRow($strings["permissions"], $strings["project_manager_administrator_permissions"]);
 }
 

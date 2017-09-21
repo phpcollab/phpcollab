@@ -8,7 +8,7 @@ $byteUnits = array('Byte', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"hétfõ", 2 =>"kedd", 3 =>"szerda", 4 =>"csütörtök", 5 =>"péntek", 6 =>"szombat", 7 =>"vasárnap");
 
-$monthNameArray = array(1=> "január", "február", "március", "április", "május", "június", "július", "augusztus", "szeptember", "október", "november", "december"); 
+$monthNameArray = array(1=> "január", "február", "március", "április", "május", "június", "július", "augusztus", "szeptember", "október", "november", "december");
 
 $status = array(0 => "Ügyfél által teljesített", 1 => "Teljesített", 2 => "El nem kezdett", 3 => "Nyitott", 4 => "Felfüggesztett");
 
@@ -512,4 +512,3 @@ $strings["report"] = "Report";
 $strings["license"] = "License";
 //2.4
 $strings["settings_notwritable"] = "Settings.php file is not writable";
-?>

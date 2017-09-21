@@ -47,7 +47,6 @@ if ($_GET["id"] != "") {
         $name = $commentDetail["newscom_name"];
         $comment = $commentDetail["newscom_comment"];
     }
-
 } else { // case of adding new post
 
     if ($action == "add") {
@@ -66,7 +65,6 @@ if ($_GET["id"] != "") {
             $num = phpCollab\Util::newConnectSql("INSERT INTO {$tableCollab["newsdeskcomments"]} (name,post_id,comment) VALUES (:name, :post_id, :comment)", ["name" => $name, "post_id" => $postid, "comment" => $comment]);
 
             phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=add");
-
         }
     }
 }
@@ -106,15 +104,12 @@ $block1 = new phpCollab\Block();
 
 if ($action != 'remove') {
     if ($id == "") {
-
         echo <<<FORMSTART
 <a name="{$block1->form}Anchor"></a>
 <form accept-charset="UNKNOWN" method="POST" action="../newsdesk/editmessage.php?action=add&" name="ecDForm">
 FORMSTART;
         $block1->heading($strings["add_newsdesk_comment"]);
-
     } else {
-
         echo <<<FORMSTART
 <a name="{$block1->form}Anchor"></a>
 <form accept-charset="UNKNOWN" method="POST" action="../newsdesk/editmessage.php?id=$id&action=update&" name="ecDForm">
@@ -138,7 +133,6 @@ FORMSTART;
 
     $block1->closeContent();
     $block1->closeForm();
-
 } else { //remove action
 
     $block1->form = "saP";
@@ -163,7 +157,6 @@ FORMSTART;
 
     $block1->closeContent();
     $block1->closeForm();
-
 }
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

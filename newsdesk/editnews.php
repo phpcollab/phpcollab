@@ -7,7 +7,7 @@
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -15,18 +15,18 @@
 ** -----------------------------------------------------------------------------
 ** FILE: editnews.php
 **
-** DESC: 
+** DESC:
 **
 ** HISTORY:
 ** 	23/03/2004	-	added new document info
-**  23/03/2004  -	fixed multi delete 
+**  23/03/2004  -	fixed multi delete
 **	23/03/2004	-	xhtml code
 **  23/08/2004  -   fix error "Using $this when not in object context"
 **  17/04/2005	-	fix the duplication of the projects name in the prj related select box
 **  13/07/2008  -   fix for bug 1802203
 ** -----------------------------------------------------------------------------
 ** TO-DO:
-** 
+**
 **
 ** =============================================================================
 */
@@ -82,7 +82,6 @@ if ($id != "") {
         $links = $newsDetail->news_links[0];
         $rss = $newsDetail->news_rss[0];
     }
-
 } else { // case of adding news
 
     if ($action == "add") {
@@ -105,8 +104,6 @@ if ($id != "") {
             $num = phpCollab\Util::newConnectSql($tmpquery1, ["title" => $title, "author" => $author, "related" => $related, "content" => $content, "links" => $links, "rss" => isset($rss) ? $rss : 0]);
 
             phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$num&msg=add");
-
-
         }
     }
 }
@@ -149,11 +146,12 @@ $bodyCommand = "onload='initEditor();'";
 //** Titel stuff here.. **
 if ($id != '' && empty($action)) {
     $setTitle .= " : Edit News Item (" . $newsDetail->news_title[0] . ")";
-} else if ($id != '' && $action == "remove") {
-    if (strpos($id, "**") !== false)
+} elseif ($id != '' && $action == "remove") {
+    if (strpos($id, "**") !== false) {
         $setTitle .= " : Remove News Items";
-    else
+    } else {
         $setTitle .= " : Remove News Item";
+    }
 } else {
     $setTitle .= " : Add News Item";
 }
@@ -224,7 +222,6 @@ if ($action != 'remove') {
         } else {
             $tmpquery = "AND tea.member = '$idSession' OR pro.id = '0'  GROUP BY pro.id";
         }
-
     }
     $listProjects = new phpCollab\Request();
     $listProjects->openNewsDeskRelated($tmpquery);
@@ -240,16 +237,15 @@ if ($action != 'remove') {
                 $selected = '';
             }
             $option .= '<option value="' . $listProjects->tea_pro_id[$i] . '" ' . $selected . ' >' . $listProjects->tea_pro_name[$i] . '</option>\n';
-
         }
     }
 
     $block1->contentRow($strings["newsdesk_related"], "<select name='related' style='width: 300px;'>$option</select>");
-// end
+    // end
 
     $block1->contentRow($strings["comments"], "<textarea rows='30' name='content' id='content' style='width: 400px;'>$content</textarea>");
 
-// 14/06/2003 related links & rss enabled by fullo
+    // 14/06/2003 related links & rss enabled by fullo
     $block1->contentRow($strings["newsdesk_related_links"] . $block1->printHelp("newsdesk_links"), "<input type='text' name='links' value='$links' style='width: 300px;'>");
 
 
@@ -265,13 +261,12 @@ if ($action != 'remove') {
 
     $block1->contentRow($strings["newsdesk_rss"], "<input size='32' value='1' name='rss' type='checkbox' $ckeckedrss>");
 
-// end
+    // end
 
     $block1->contentRow($strings[""], "<input type='submit' name='submit' value='" . $strings["save"] . "'> <input type='button' name='cancel' value='" . $strings["cancel"] . "' onClick='history.back();'>");
 
     $block1->closeContent();
     $block1->closeForm();
-
 } else {
     //remove
 
@@ -299,7 +294,6 @@ if ($action != 'remove') {
     $block1->closeForm();
 
     $block1->note($strings["delete_news_note"]);
-
 }
 
 

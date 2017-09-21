@@ -7,7 +7,7 @@
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -15,14 +15,14 @@
 ** -----------------------------------------------------------------------------
 ** FILE: updateclientuser.php
 **
-** DESC: Screen:	displays the details of a client user 
+** DESC: Screen:	displays the details of a client user
 **
 ** HISTORY:
 ** 	02/08/2007	-	added Last Viewed Page code - Mindblender
-**	
+**
 ** -----------------------------------------------------------------------------
 ** TO-DO:
-** 
+**
 **
 ** =============================================================================
 */
@@ -85,7 +85,7 @@ if ($action == "update") {
             phpCollab\Util::newConnectSql($tmpquery, $dbParams);
             unset($dbParams);
 
-//test if new password set
+            //test if new password set
             if ($pw != "") {
 
 //test if 2 passwords match
@@ -98,7 +98,7 @@ if ($action == "update") {
                     phpCollab\Util::headerFunction("../clients/viewclient.php?msg=update&id=$clod");
                 }
             } else {
-//if mantis bug tracker enabled
+                //if mantis bug tracker enabled
                 if ($enableMantis == "true") {
                     // Call mantis function for user changes..!!!
                     $f_access_level = $client_user_level; // reporter
@@ -198,4 +198,3 @@ $block1->closeContent();
 $block1->closeForm();
 
 include '../themes/' . THEME . '/footer.php';
-?>

@@ -30,4 +30,3 @@ $help["setup_notificationMethod"] = "Methode zum Mail-Versenden: mit der interne
 //2.5 fullo
 //$help["newsdesk_links"] = "to add multiple links use semicolon";
 $help["newsdesk_links"] = "Um mehrere Links hinzuzuf&uuml;gen Semikolon verwenden";
-?>

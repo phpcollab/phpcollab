@@ -7,7 +7,7 @@
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -15,14 +15,14 @@
 ** -----------------------------------------------------------------------------
 ** FILE: graphtasks.php
 **
-** DESC: 
+** DESC:
 **
 ** HISTORY:
 ** 	23/03/2004	-	added new document info
 **  23/03/2004  -	new export to PDF by Angel
 ** -----------------------------------------------------------------------------
 ** TO-DO:
-** 
+**
 **
 ** =============================================================================
 */
@@ -101,7 +101,6 @@ if ($S_ORGSEL != "ALL" || $S_PRJSEL != "ALL" || $S_ATSEL != "ALL" || $S_STATSEL 
             $query .= " AND tas.due_date <= '$S_EDATE'";
         } else {
             $query .= "tas.due_date <= '$S_EDATE'";
-
         }
     }
 
@@ -130,7 +129,6 @@ $comptListTasks = count($listTasks->tas_id);
 $posGantt = 0;
 
 for ($i = 0; $i < $comptListTasks; $i++) {
-
     $listTasks->tas_name[$i] = str_replace('&quot;', '"', $listTasks->tas_name[$i]);
     $listTasks->tas_name[$i] = str_replace("&#39;", "'", $listTasks->tas_name[$i]);
     $listTasks->tas_pro_name[$i] = str_replace('&quot;', '"', $listTasks->tas_pro_name[$i]);
@@ -178,7 +176,6 @@ for ($i = 0; $i < $comptListTasks; $i++) {
 
             $activity->progress->Set($progress);
             $graph->Add($activity);
-
         }
     }// end if subtask
 

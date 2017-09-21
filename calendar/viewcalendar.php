@@ -73,7 +73,6 @@ if ($dateCalend != "") {
 }
 
 if ($dateCalend == "") {
-
     if ($gmtTimezone != "false") {
         $zone = 3600 * $_SESSION['timezoneSession'];
         $year = gmdate("Y", time() + $zone);
@@ -232,16 +231,18 @@ switch ($type) {
         $setTitle .= " : View Calendar ($dateCalend)";
         break;
     case 'calendEdit':
-        if ($id == "")
+        if ($id == "") {
             $setTitle .= " : Add Calendar Entry ($dateCalend)";
-        if ($id != "")
+        }
+        if ($id != "") {
             $setTitle .= " : Edit Calendar Entry ($dateCalend - " . $detailCalendar['cal_shortname'] . ")";
+        }
         break;
     case 'calendDetail':
         $setTitle .= " : Calendar Entry (" . $detailCalendar['cal_shortname'] . ")";
         break;
 }
-$includeCalendar = true; //Include Javascript files for the pop-up calendar 
+$includeCalendar = true; //Include Javascript files for the pop-up calendar
 include '../themes/' . THEME . '/header.php';
 
 if ($type == "calendEdit") {
@@ -623,7 +624,6 @@ if ($type == "monthPreview") {
     $colsremain = ((7 - $daysremain));
 
     for ($i = 1; $i < $daysmonth + $firstday; $i++) {
-
         $a = $i - $firstday + 1;
         $day = $i - $firstday + 1;
 
@@ -657,7 +657,7 @@ if ($type == "monthPreview") {
                 foreach ($listCalendarScan as $calendar) {
                     if ($calendar['cal_broadcast'] == "0" && $calendar['cal_owner'] == $idSession) {
                         echo "<div align='center' class='calendar-regular-event'><a href='../calendar/viewcalendar.php?dateEnreg=" . $calendar['cal_id'] . "&type=calendDetail&dateCalend=$dateLink' class='calendar-regular-todo-event'>" . $calendar['cal_shortname'] . "</a></div>";
-                    } else if ($calendar['cal_broadcast'] != "0" && $calendar['cal_owner'] == $idSession) {
+                    } elseif ($calendar['cal_broadcast'] != "0" && $calendar['cal_owner'] == $idSession) {
                         echo "<div align='center' class='calendar-regular-event'><a href='../calendar/viewcalendar.php?dateEnreg=" . $calendar['cal_id'] . "&type=calendDetail&dateCalend=$dateLink' class='calendar-regular-todo-event'><b>" . $calendar['cal_shortname'] . "</b></a></div>";
                     } else {
                         echo "<div align='center' class='calendar-broadcast-event'><a href='../calendar/viewcalendar.php?dateEnreg=" . $calendar['cal_id'] . "&type=calendDetail&dateCalend=$dateLink' class='calendar-broadcast-todo-event'><b>" . $calendar['cal_shortname'] . "</b></a></div>";
@@ -676,7 +676,6 @@ if ($type == "monthPreview") {
                         }
 
                         if ($task['tas_due_date'] == $dateLink && $task['tas_start_date'] != $task['tas_due_date']) {
-
                             if ($task['tas_due_date'] <= $date && $task['tas_completion'] != "10") {
                                 echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["task"] . "</b>: ";
                                 echo "<a href='../tasks/viewtask.php?id=" . $task['tas_id'] . "' class='calendar-results-due-date'><b>" . $task['tas_name'] . "</b></a><br /><br />";
@@ -687,7 +686,6 @@ if ($type == "monthPreview") {
                         }
 
                         if ($task['tas_start_date'] == $dateLink && $task['tas_due_date'] == $dateLink) {
-
                             if ($task['tas_due_date'] <= $date && $task['tas_completion'] != "10") {
                                 echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["task"] . "</b>: ";
                                 echo "<a href='../tasks/viewtask.php?id=" . $task['tas_id'] . "' class='calendar-results-due-date'><b>" . $task['tas_name'] . "</b></a><br /><br />";
@@ -696,9 +694,7 @@ if ($type == "monthPreview") {
                                 echo "<a href='../tasks/viewtask.php?id=" . $task['tas_id'] . "' class='calendar-results-due-date'>" . $task['tas_name'] . "</a><br /><br />";
                             }
                         }
-
                     } else {
-
                         if ($task['tas_start_date'] == $dateLink && $task['tas_start_date'] != $task['tas_due_date']) {
                             echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $task['tas_id'], $task['tas_name'], in) . " (" . $strings["start_date"] . ")<br/>";
                         }
@@ -712,21 +708,17 @@ if ($type == "monthPreview") {
                         }
 
                         if ($task['tas_start_date'] == $dateLink && $task['tas_due_date'] == $dateLink) {
-
                             if ($task['tas_due_date'] <= $date && $task['tas_completion'] != "10") {
                                 echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $task['tas_id'], "<b>" . $task['tas_name'] . "</b>", in) . "<br/>";
                             } else {
                                 echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $task['tas_id'], $task['tas_name'], in) . "<br/>";
-
                             }
                         }
                     }
-
                 }
             }
 
             if ($comptListSubtasks != "0") {
-
                 foreach ($listSubtasks as $subtask) {
                     $idPriority = $subtask['subtas_priority'];
 
@@ -788,7 +780,6 @@ if ($type == "monthPreview") {
             }
 
             echo "</td>";
-
         }
 
         if (($i % 7) == "0") {
