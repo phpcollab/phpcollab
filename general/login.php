@@ -31,6 +31,9 @@ include '../includes/library.php';
 $members = new \phpCollab\Members\Members();
 $logs = new \phpCollab\Logs\Logs();
 
+$tableCollab = $GLOBALS["tableCollab"];
+$strings = $GLOBALS["strings"];
+$idSession = (isset($_SESSION["idSession"]) && $_SESSION["idSession"] !== '') ? $_SESSION["idSession"] : null;
 
 if ($logout == "true") {
     $tmpquery1 = "UPDATE {$tableCollab["logs"]} SET connected='' WHERE login = :login_id";
@@ -357,8 +360,6 @@ $block1->contentRow($strings["language"], $selectLanguage);
 
 $block1->contentRow("* " . $strings["user_name"], "<input value='$usernameForm' type='text' name='usernameForm'>");
 $block1->contentRow("* " . $strings["password"], "<input value='$passwordForm' type='password' name='passwordForm' autocomplete='off'>");
-
-//$block1->contentRow("* ".$strings["remember_password"],"<input type=\"checkbox\" name=\"rememberForm\" value=\"on\">");
 
 $block1->contentRow("",
     "<input type='submit' name='save' value='" . $strings["login"] . "'><br/><br/><br/>" . $blockPage->buildLink("../general/sendpassword.php?",
