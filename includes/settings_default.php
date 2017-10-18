@@ -46,9 +46,6 @@ $newsdesklimit = 1;
 // if 1 the admin logs in his homepage
 $adminathome = 0;
 
-# session.trans_sid forced
-$trans_sid = "true";
-
 # timezone GMT management
 $gmtTimezone = "false";
 

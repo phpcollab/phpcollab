@@ -475,9 +475,6 @@ define('THEME','$theme');
 # if 1 the admin logs in his homepage
 \$adminathome = 0;
 
-# session.trans_sid forced
-\$trans_sid = "$trans_sid";
-
 # timezone GMT management
 \$gmtTimezone = "$gmtTimezone";
 
