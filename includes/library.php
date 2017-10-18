@@ -41,6 +41,7 @@ if (ini_get('session.auto_start') == 0) {
     $profilSession = "";
 }
 
+// Setup debugging
 if ($debug) {
     ini_set('xdebug.var_display_max_depth', 5);
     ini_set('xdebug.var_display_max_children', 256);
@@ -74,8 +75,6 @@ ini_set("session.use_trans_sid", 0);
 
 //disable session on export
 if ($export != "true") {
-    session_name('phpCollab_Session');
-    session_set_cookie_params(3600, '/', isset($_SERVER['SERVER_NAME']), isset($_SERVER['HTTPS']), true);
     session_start();
 }
 
@@ -103,7 +102,6 @@ $dateunixSession = phpCollab\Util::returnGlobal('dateunixSession', 'SESSION');
 $loginSession = phpCollab\Util::returnGlobal('loginSession', 'SESSION');
 $profilSession = phpCollab\Util::returnGlobal('profilSession', 'SESSION');
 $logouttimeSession = phpCollab\Util::returnGlobal('logouttimeSession', 'SESSION');
-
 
 $parse_start = phpCollab\Util::getMicroTime();
 
@@ -226,6 +224,8 @@ if ($indexRedirect == "true") {
     include '../languages/help_' . $lang . '.php';
 }
 
+$logs = new \phpCollab\Logs\Logs();
+
 //fix if update from old version
 if ($theme == "") {
     $theme = "default";
@@ -259,8 +259,6 @@ if ($installationType == "") {
     $installationType = "online";
 }
 
-
-//check session validity on main phpcollab, except for demo user
 if ($checkSession != "false" && $demoSession != "true") {
     if ($profilSession == "3" && !strstr($PHP_SELF, "projects_site")) {
         phpCollab\Util::headerFunction("../projects_site/home.php");
@@ -305,19 +303,16 @@ if ($checkSession != "false" && $demoSession != "true") {
             }
         }
     }
-
-    $tmpquery = "WHERE log.login = '" . phpCollab\Util::fixInt($loginSession) . "'";
-    $checkLog = new phpCollab\Request();
-    $checkLog->openLogs($tmpquery);
-    $comptCheckLog = count($checkLog->log_id);
-    if ($comptCheckLog != "0") {
-        if (session_id() != $checkLog->log_session[0]) {
+    $checkLog = $logs->getLogByLogin($loginSession);
+    if ($checkLog !== false) {
+        if (session_id() != $checkLog["session"]) {
             phpCollab\Util::headerFunction("../index.php?session=false");
         }
     } else {
         phpCollab\Util::headerFunction("../index.php?session=false");
     }
 }
+
 
 //count connected users
 if ($checkConnected != "false") {
@@ -342,19 +337,6 @@ if ($checkConnected != "false") {
     unset($dbParams);
 }
 
-//redirect if server/database in error
-if ($databaseType == "mysql") {
-    if (!@mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD)) {
-        phpCollab\Util::headerFunction("../general/error.php?type=myserver");
-    } else {
-        $res = mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
-    }
-    if (!@mysql_select_db(MYDATABASE, $res)) {
-        phpCollab\Util::headerFunction("../general/error.php?type=mydatabase");
-    } else {
-        @mysql_close($res);
-    }
-}
 
 //disable actions if demo user logged in demo mode
 if ($action != "") {
@@ -369,11 +351,6 @@ if ($action != "") {
         $action = "";
         $msg = "demo";
     }
-}
-
-//provide id session if trans_sid false on server (if $trans_sid true in settings)
-if ($trans_sid == "true") {
-    global $transmitSid;
 }
 
 //time variables
