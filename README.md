@@ -20,4 +20,5 @@ To build the project locally, please follow [this guide](https://github.com/phpc
 ## Deployment
 Note: Do NOT clone or download the phpCollab codebase directly. That is ONLY required if you wish to contribute to the development of the project.
 
+----
 <a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/QkGZhJettyReEorNRGh25ihA/phpcollab/phpcollab'>  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/QkGZhJettyReEorNRGh25ihA/phpcollab/phpcollab.svg' /></a>
