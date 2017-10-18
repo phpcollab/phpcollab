@@ -21,7 +21,6 @@ $indexRedirect = "true";
 include_once('includes/library.php');
 
 //case session fails
-global $session;
 if ($session == "false") {
     phpCollab\Util::headerFunction("general/login.php?session=false");
 } //default case
