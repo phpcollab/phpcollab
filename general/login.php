@@ -189,7 +189,7 @@ if ($auth == "on") {
             //insert into or update log
             $ip = $REMOTE_ADDR;
 
-            $log = $logs->getLogByLogin($usernameForm);
+            $logEntry = $logs->getLogByLogin($usernameForm);
 
 
             $session = session_id();
@@ -198,22 +198,23 @@ if ($auth == "on") {
              * Validate form data
              */
 
+
             $filteredData =  [];
             $filteredData['login'] = filter_var((string) $_POST['usernameForm'], FILTER_SANITIZE_STRING);
-            $filteredData['password'] = filter_var((string) $_POST['passwordForm'], FILTER_SANITIZE_STRING);
+            $filteredData['password'] = filter_var((string) $passwordForm, FILTER_SANITIZE_STRING);
             $filteredData['ip'] = filter_var($ip, FILTER_SANITIZE_STRING);
             $filteredData['session'] = $session;
             $filteredData['last_viste'] = $dateheure;
 
-            if (!$log) {
+            if (!$logEntry) {
                 $filteredData['compt'] = 1;
                 $logs->insertLogEntry($filteredData);
             } else {
-                $lastvisiteSession = $log['last_visite'];
+                $lastvisiteSession = $logEntry['last_visite'];
 
                 $_SESSION['lastvisiteSession'] = $lastvisiteSession;
 
-                $filteredData['compt'] = $log['compt'] + 1;
+                $filteredData['compt'] = $logEntry['compt'] + 1;
 
                 $logs->updateLogEntry($filteredData);
             }
