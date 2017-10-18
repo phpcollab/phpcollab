@@ -123,7 +123,7 @@ for($i = 1;$i <= $nbpages;$i ++){
 if ($this->borne == $j) {
 	echo "<b>$i</b>&#160;";
 } else {
-	echo "<a href=\"$PHP_SELF?$transmitSid";
+	echo "<a href=\"$PHP_SELF";
 	for ($k=1;$k<=$total;$k++) {
 		global ${'borne'.$k};
 		if ($k != $current) {
