@@ -1,74 +1,116 @@
 <?php
+
+//include '../includes/settings.php';
+$checkSession = "false";
+include '../includes/library.php';
+
+//$news = new \phpCollab\NewsDesk\NewsDesk();
+
 /**
- * ToDo: What does newsdesk.php do?
- * Refactor all of this.
- *
- * What exact
+ * Class Foo
  */
-?>
-<!-- DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" -->
-<!-- <html xmlns="http://www.w3.org/1999/xhtml"> -->
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<HTML>
-<head>
-    <style>
-        .post {
-            font-family: Tahoma, Verdana, Helvetica;
-            border-width: thin;
-            border-style: dotted;
-            border-color: #9C9C9C;
-            padding: 5px 5px 5px 10px;
-            width: 400px;
+class NewsdeskFeed {
+    protected $news;
+    protected $members;
+    protected $strings;
+    protected $postId;
+
+    function __construct()
+    {
+        $this->news = new \phpCollab\NewsDesk\NewsDesk();
+        $this->members = new \phpCollab\Members\Members();
+        $this->strings = $GLOBALS["strings"];
+        if ($_GET['id']) {
+            $this->postId = (int)$_GET['id'];
+        }
+    }
+
+    function showSingle() {
+        $post = $this->news->getPostById($this->postId);
+
+        if (!$post) {
+            echo "No results";
+            return;
         }
 
-        .post-title {
-            font-family: Tahoma, Verdana, Helvetica;
-            text-decoration: none;
-            font-weight: bold;
-            border-bottom-width: 2px;
-            border-bottom-style: dotted;
-            border-bottom-color: #9C9C9C;
-            font-size: 13px;
+        $comments = $this->showComments($this->postId);
+//        xdebug_var_dump($comments);
+        //display
+        echo <<<POST
+<div class="post">
+    <div class="post-title">{$post['news_title']}</div>
+    <div class="post-text">{$post['news_content']}</div>
+    {$comments}
+</div>
+POST;
+//    <div>{$comments}</div>
+
+        //display comments below single item
+//        showComments($id);
+
+    }
+
+    function showPosts() {
+        $newsPosts = $this->news->getAllNewsdeskPosts();
+        xdebug_var_dump($newsPosts);
+    }
+
+    function showComments($postId)
+    {
+//        xdebug_var_dump($postId);
+        $comments = $this->news->getCommentsByPostId($postId);
+
+        if (!$comments) {
+            return;
         }
 
-        .post-text {
-            font-family: Tahoma, Verdana, Helvetica;
-            font-size: 11px;
+        $output = '<div class="post-title">Comments:</div>';
+
+        foreach ($comments as $comment) {
+
+            $author = $this->members->getMemberById($comment['newscom_name']);
+            if (!$author) {
+                $author = 'Anonymous';
+            } else {
+                $author = $author['mem_name'];
+            }
+
+            $newscom_comment = nl2br(stripslashes($comment['newscom_comment']));
+
+            $output .= <<< BLOCK
+<br>
+<div class="comment-author">by: {$author}</div>
+<div class="comment-text">{$newscom_comment}</div>
+BLOCK;
+
+            if (isset($_SESSION['idSession'])) {
+                //form to enter comments
+                $output .= <<< FORM
+                <br/>
+                <form action="{$_SERVER['PHP_SELF']}?action=addcomment&id={$postId}" method="post">
+                    <div class="post-title">{$this->strings['add_newsdesk_comment']}</div><br/>
+                    <div class="smalltext"><input type="hidden" size="50" name="name" value="{$_SESSION['idSession']}" /><stromng>{$_SESSION['nameSession']}</strong></div>
+                    <textarea cols="40" rows="5" name="comment"></textarea>
+                    <br /><input type="submit" name="submit" value="{$this->strings['send']}" />
+                
+                </form>
+FORM;
+            }
+
+            return $output;
         }
+    }
 
-        .author {
-            font-family: Tahoma, Verdana, Helvetica;
-            font-size: 11px;
-        }
+    public function addComment() {
+//        $newsPosts = $this->news->getAllNewsdeskPosts();
+//        xdebug_var_dump($newsPosts);
+        echo "addComment for {$this->postId}";
+        xdebug_var_dump($_POST);
+    }
+}
 
-        .smalltext {
-            font-family: Tahoma, Verdana, Helvetica;
-            font-size: 9px;
-        }
+$n = new NewsdeskFeed();
 
-        .comment-author {
-            font-family: Tahoma, Verdana, Helvetica;
-            font-size: 11px;
-        }
-
-        .comment-text {
-            font-family: Tahoma, Verdana, Helvetica;
-            font-size: 11px;
-        }
-    </style>
-</HEAD>
-
-<BODY bgcolor="#FFFFFF" marginwidth="0" marginheight="0" topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0">
-
-<!--//******************************************************//-->
-<!--//******************************************************//-->
-<?php
-
-include '../includes/settings.php';
-
-$connection = @mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD) or die($strings["error_server"]);
-@mysql_select_db(MYDATABASE, $connection) or die($strings["error_database"]);
 
 function showPosts()
 {
@@ -187,56 +229,7 @@ function showPosts()
     }
 }
 
-function showSingle($id)
-{
-    global $connection;
-
-    if (!isset($langDefault) || ($langDefault == '')) {
-        $langDefault = 'en';
-    }
-    include '../languages/lang_' . $langDefault . '.php';
-
-
-    //query string
-    $query = "SELECT * FROM " . $tableCollab["newsdeskposts"] . " WHERE id=$id";
-
-    //store query result in a variable
-    $result = mysql_query($query);
-
-    //in case of error display friendly message
-    if (mysql_num_rows($result) == 0) {
-        echo "No results";
-        echo "\n";
-        return;
-    }
-
-    $row = mysql_fetch_assoc($result);
-
-    //define variables
-    $title = htmlentities($row['title']);
-    $content = nl2br($row['content']);
-
-    //display
-    echo "<div class='post'>";
-
-    echo "<div class=\"post-title\">";
-    echo "\n";
-    echo "$title";
-    echo "\n";
-    echo "</div>";
-    echo "\n";
-    echo "<div class=\"post-text\">";
-    echo "$content";
-    echo "\n";
-    echo "</div>\n";
-    echo "\n";
-
-    //display comments below single item
-    showComments($id);
-
-    echo "</div>\n";
-}
-
+/*
 function showComments($id)
 {
     //variables
@@ -309,6 +302,8 @@ function showComments($id)
         echo "</form>";
     }
 }
+*/
+
 
 function addComment($id)
 {
@@ -327,7 +322,7 @@ function addComment($id)
     //NOTIFICATION OF COMMENTS POSTED
 
     //query string
-    $firstquery = "SELECT id, post_id, name, comment FROM " . $tableCollab["newsdeskcomments"] . " ORDER by id desc limit 1";
+    $firstquery = "SELECT id, post_id, name, comment FROM " . $tableCollab["newsdeskcomments"] . " ORDER BY id DESC LIMIT 1";
     $secondquery = "SELECT id,title FROM " . $tableCollab["newsdeskposts"] . " WHERE id= '$id'";
 
     //store query result in a variable
@@ -358,23 +353,80 @@ function addComment($id)
 
 switch ($_GET['action']) {
     case 'show':
-        showSingle($_GET['id']);
+        $n->showSingle($_GET['id']);
         break;
 
     case 'all':
-        showPosts(1);
+//        showPosts(1);
+        $n->showPosts();
         break;
 
     case 'addcomment':
-        addComment($_GET['id']);
+//        addComment($_GET['id']);
+        $n->addComment();
         break;
 
     default:
-        showPosts();
+        $n->showPosts();
+//        showPosts();
 }
-?>
-<!--//******************************************************//-->
-<!--//******************************************************//-->
 
-</BODY>
-</HTML>
+?>
+<!doctype html>
+<html>
+<head>
+    <style>
+        body {
+            background-color: #ffffff;
+            margin: 0;
+        }
+        .post {
+            font-family: Tahoma, Verdana, Helvetica;
+            border-width: thin;
+            border-style: dotted;
+            border-color: #9C9C9C;
+            padding: 5px 5px 5px 10px;
+            width: 400px;
+        }
+
+        .post-title {
+            font-family: Tahoma, Verdana, Helvetica;
+            text-decoration: none;
+            font-weight: bold;
+            border-bottom-width: 2px;
+            border-bottom-style: dotted;
+            border-bottom-color: #9C9C9C;
+            font-size: 13px;
+        }
+
+        .post-text {
+            font-family: Tahoma, Verdana, Helvetica;
+            font-size: 11px;
+        }
+
+        .author {
+            font-family: Tahoma, Verdana, Helvetica;
+            font-size: 11px;
+        }
+
+        .smalltext {
+            font-family: Tahoma, Verdana, Helvetica;
+            font-size: 9px;
+        }
+
+        .comment-author {
+            font-family: Tahoma, Verdana, Helvetica;
+            font-size: 11px;
+        }
+
+        .comment-text {
+            font-family: Tahoma, Verdana, Helvetica;
+            font-size: 11px;
+        }
+    </style>
+</head>
+
+<body>
+
+</body>
+</html>
