@@ -4,10 +4,11 @@
     <style>
         body {
             background-color: #ffffff;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 14px;
             margin: 0;
         }
         .post {
-            font-family: Tahoma, Verdana, Helvetica;
             border-width: thin;
             border-style: dotted;
             border-color: #9C9C9C;
@@ -16,38 +17,14 @@
         }
 
         .post-title {
-            font-family: Tahoma, Verdana, Helvetica;
             text-decoration: none;
             font-weight: bold;
-            border-bottom-width: 2px;
-            border-bottom-style: dotted;
-            border-bottom-color: #9C9C9C;
+            border-bottom: 2px dotted #9c9c9c;
             font-size: 13px;
         }
 
-        .post-text {
-            font-family: Tahoma, Verdana, Helvetica;
-            font-size: 11px;
-        }
-
-        .author {
-            font-family: Tahoma, Verdana, Helvetica;
-            font-size: 11px;
-        }
-
         .smalltext {
-            font-family: Tahoma, Verdana, Helvetica;
             font-size: 9px;
-        }
-
-        .comment-author {
-            font-family: Tahoma, Verdana, Helvetica;
-            font-size: 11px;
-        }
-
-        .comment-text {
-            font-family: Tahoma, Verdana, Helvetica;
-            font-size: 11px;
         }
     </style>
 </head>
@@ -223,7 +200,6 @@ BODY;
 
 $n = new NewsdeskFeed();
 
-
 function showPosts()
 {
     global $connection, $newsdesklimit;
@@ -341,135 +317,6 @@ function showPosts()
     }
 }
 
-/*
-function showComments($id)
-{
-    //variables
-    global $connection;
-
-    if (!isset($langDefault) || ($langDefault == '')) {
-        $langDefault = 'en';
-    }
-    include '../languages/lang_' . $langDefault . '.php';
-
-    //query string
-    $query = "SELECT * FROM " . $tableCollab["newsdeskcomments"] . " WHERE post_id=$id";
-
-    //store query result in a variable
-    $result = mysql_query($query);
-
-    //begin display
-    echo "<div class=\"post-title\">";
-    echo "Comments:\n";
-    echo "</div>\n";
-
-    //loop to display comments
-    while ($row = mysql_fetch_assoc($result)) {
-        //define variables
-
-        //get the author name
-        $query_author = 'SELECT name FROM ' . $tableCollab["members"] . ' WHERE id = "' . $row['name'] . '"';
-        $result_author = @mysql_query($query_author) or die("Error: " . mysql_error());
-        if (mysql_num_rows($result_author) == 0) {
-            $author = "anonymous";
-        }
-        while ($row_a = mysql_fetch_assoc($result_author)) {
-            $name = $row_a['name'];
-        }
-
-
-        echo "<br/><div class=\"comment-author\">";
-        echo "\n";
-        echo "by: $name";
-        echo "\n";
-        echo "</div>";
-        echo "\n";
-
-        $comment = strip_tags($row['comment'], '<a><b><i><u>');
-        $comment = nl2br($comment);
-        echo "<div class=\"comment-text\">";
-        echo "\n";
-        echo "$comment";
-        echo "\n";
-        echo "</div>";
-        echo "\n";
-    }
-
-    if (isset($_SESSION['idSession'])) {
-        //form to enter comments
-        echo "<br/><form action=\"{$_SERVER['PHP_SELF']}?action=addcomment&id=$id\" method=\"post\">";
-        echo "\n";
-        //echo "<p>";
-        echo "\n";
-        echo "<div class='post-title'>" . $strings['add_newsdesk_comment'] . "</div><br/>";
-        echo "\n";
-        echo "<div class='smalltext'><input type='hidden' size=\"50\" name=\"name\" value='" . $_SESSION['idSession'] . "' /><b>" . $_SESSION['nameSession'] . "</b></div>";
-        echo "\n";
-        echo "<textarea cols=\"40\" rows=\"5\" name='comment'>" . $strings['comment'] . "</textarea>";
-        echo "\n";
-        echo "<br /><input type=\"submit\" name=\"submit\" value='" . $strings['send'] . "' />";
-        echo "\n";
-        //echo "</p>";
-        echo "\n";
-        echo "</form>";
-    }
-}
-*/
-
-/*
-function addComment($id)
-{
-    global $connection;
-
-    //query string
-//    $query = "INSERT INTO " . $tableCollab["newsdeskcomments"] . " VALUES('',$id,'{$_POST['name']}', '{$_POST['comment']}')";
-//    mysql_query($query);
-
-    //display friendly message
-//    echo "Comment entered. Thanks!<br />";
-//    echo "\n";
-//    echo "<a href=\"{$_SERVER['PHP_SELF']}\">Back to main page</a>";
-//    echo "\n";
-
-    //NOTIFICATION OF COMMENTS POSTED
-
-    //query string
-//    $firstquery = "SELECT id, post_id, name, comment FROM " . $tableCollab["newsdeskcomments"] . " ORDER BY id DESC LIMIT 1";
-//    $secondquery = "SELECT id,title FROM " . $tableCollab["newsdeskposts"] . " WHERE id= '$id'";
-
-    //store query result in a variable
-//    $firstresult = mysql_query($firstquery);
-//    $secondresult = mysql_query($secondquery);
-
-    //in case of error display friendly message
-//    if ((mysql_num_rows($firstresult) == 0) || (mysql_num_rows($secondresult) == 0)) {
-//        echo "Bad news id";
-//        echo "\n";
-//        return;
-//    }
-
-//    $firstrow = mysql_fetch_assoc($firstresult);
-//    $secondrow = mysql_fetch_assoc($secondresult);
-
-    //define variables
-//    $date = $firstrow['date'];
-//    $title = htmlentities($secondrow['title']);
-//    $name = $firstrow['name'];
-//
-//    $headers = "From: $name <$name>";
-//    $mailSubject = "Web Log Response";
-//    $mailBody = <<< BODY
-//This message was generated by phpcollab groupware: \n
-//----------------------------------------------------\n
-//Comment Posted From: {$name} \n
-//Comment Posted For Topic: {$title} \n
-//Comment Post Timestamp: {$date}
-//BODY;
-//
-//    mail($supportEmail, $mailSubject, $mailBody, $headers);
-}
-*/
-
 //switch between functions according to action passed along with URL
 
 switch ($_GET['action']) {
@@ -478,20 +325,16 @@ switch ($_GET['action']) {
         break;
 
     case 'all':
-//        showPosts(1);
         $n->showPosts();
         break;
 
     case 'addcomment':
-//        addComment($_GET['id']);
         $n->addComment();
         break;
 
     default:
         $n->showPosts();
-//        showPosts();
 }
-
 ?>
 
 </body>
