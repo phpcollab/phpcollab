@@ -206,4 +206,3 @@ $settings['setKeywords'] = "PhpCollab, phpcollab.com, Sourceforge, management, w
 
 # Email alerts
 $settings['emailAlerts'] = "false";
-?>
