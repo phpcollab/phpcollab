@@ -118,6 +118,4 @@ class PhasesGateway
 
         return '';
     }
-
-
 }
