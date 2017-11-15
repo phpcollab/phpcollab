@@ -76,7 +76,5 @@ SQL;
         $this->db->bind(':login', $entryData['login']);
 
         return $this->db->execute();
-
-
     }
 }
