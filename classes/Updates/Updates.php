@@ -31,5 +31,4 @@ class Updates
         $updates = $this->updates_gateway->getUpdates($type, $taskId);
         return $updates;
     }
-
 }
