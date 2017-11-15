@@ -49,7 +49,7 @@ class Reports
     public function deleteReports($reportIds)
     {
         $reportIds = filter_var($reportIds, FILTER_SANITIZE_STRING);
-        return $this->deleteReports($reportIds);
+        return $this->reports_gateway->deleteReports($reportIds);
     }
 
 }
