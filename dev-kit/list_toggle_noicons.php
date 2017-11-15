@@ -53,4 +53,3 @@ $block1->closeToggle();
 $block1->closeFormResults();
 
 include '../themes/'.THEME.'/footer.php';
-?>
