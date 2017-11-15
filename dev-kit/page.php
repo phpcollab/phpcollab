@@ -22,4 +22,3 @@ if ($msg != "") {
 //blocks here
 
 include '../themes/'.THEME.'/footer.php';
-?>
