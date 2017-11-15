@@ -225,5 +225,3 @@ class vCalendar {
 		return $this->eventname;
 		}
 }
-
-?>
