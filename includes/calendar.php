@@ -49,4 +49,3 @@ END;
 echo "<link rel='stylesheet' href='../themes/".THEME."/css/calendar.css' type='text/css' />";
 
 echo $build;
-?>
