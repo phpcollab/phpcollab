@@ -740,8 +740,6 @@ class Htpasswd
      */
     function addUser($UserID, $newPass)
     {
-        // global $php_errormsg;
-
         $count = $this->USERCOUNT;
 
         if (empty($UserID)) {
