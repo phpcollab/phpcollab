@@ -70,7 +70,6 @@ function upgrade2_5_1()
         echo "there was an error.  Please try again.";
     } else {
         redirect('All done. The settings file has been updated.');
-        exit;
     }
 }
 

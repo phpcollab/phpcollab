@@ -33,7 +33,6 @@ include_once '../includes/library.php';
 
 if ($profilSession != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
-    exit;
 }
 
 $db = new phpCollab\Database(); // Move this to library?
