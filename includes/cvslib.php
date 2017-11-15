@@ -148,5 +148,3 @@ function cvs_log($level, $message)
         echo "$cvs_log_string[$level]:  $message\n";
     }
 }
-
-?>
