@@ -60,4 +60,3 @@ $block1->paletteScript(1,"remove","../clients/deleteclients.php?","false,true,tr
 $block1->closePaletteScript($comptListOrganizations,$listOrganizations->org_id);
 
 include '../themes/'.THEME.'/footer.php';
-?>
