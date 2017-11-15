@@ -447,8 +447,6 @@ class Htpasswd
 
     function changePass($UserID, $newPass, $oldPass = "")
     {
-        // global $php_errormsg;
-
         $passwdFile = $this->FILE;
         $pass = "";
         $newname = null;
@@ -702,8 +700,6 @@ class Htpasswd
 
     function addUser($UserID, $newPass)
     {
-        // global $php_errormsg;
-
         $count = $this->USERCOUNT;
 
         if (empty($UserID)) {
@@ -792,8 +788,6 @@ class Htpasswd
 
     function deleteUser($UserID)
     {
-        // global $php_errormsg;
-
         $found = false;
 
         // Can't delete non-existant UserIDs
