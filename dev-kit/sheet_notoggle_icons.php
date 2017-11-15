@@ -65,4 +65,3 @@ $block1->paletteScript(1,"edit","../clients/editclient.php?id=".$clientDetail->o
 $block1->closePaletteScript("","");
 
 include '../themes/'.THEME.'/footer.php';
-?>
