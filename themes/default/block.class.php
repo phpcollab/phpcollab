@@ -586,4 +586,3 @@ function buildLink($url,$label,$type)
 }
 
 }
-?>
