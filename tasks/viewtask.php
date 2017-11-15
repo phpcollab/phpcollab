@@ -107,7 +107,7 @@ $teamMember = false;
 $teamMember = $teams->isTeamMember($taskDetail["tas_project"], $_SESSION["idSession"]);
 
 
-if ($teamMember == false && $projectsFilter == "true") {
+if ($teamMember === false && $projectsFilter === "true") {
     header("Location:../general/permissiondenied.php");
 }
 
@@ -139,7 +139,7 @@ $block1->openForm("../tasks/viewtask.php#" . $block1->form . "Anchor");
 
 $block1->headingToggle($strings["task"] . " : " . $taskDetail["tas_name"]);
 
-if ($teamMember == true || $profilSession == "5") {
+if ($teamMember === true || $profilSession == "5") {
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "remove", $strings["delete"]);
     $block1->paletteIcon(1, "copy", $strings["copy"]);
@@ -276,7 +276,7 @@ $block1->closeContent();
 $block1->closeToggle();
 $block1->closeForm();
 
-if ($teamMember == true || $profilSession == "5") {
+if ($teamMember === true || $profilSession == "5") {
     $block1->openPaletteScript();
     $block1->paletteScript(0, "remove", "../tasks/deletetasks.php?project=" . $taskDetail["tas_project"] . "&id=" . $taskDetail["tas_id"] . "", "true,true,false", $strings["delete"]);
     $block1->paletteScript(1, "copy", "../tasks/edittask.php?project=" . $taskDetail["tas_project"] . "&id=" . $taskDetail["tas_id"] . "&docopy=true", "true,true,false", $strings["copy"]);
@@ -296,7 +296,7 @@ if ($fileManagement == "true") {
     $block2->headingToggle($strings["linked_content"]);
     $block2->openPaletteIcon();
 
-    if ($teamMember == true || $profilSession == "5") {
+    if ($teamMember === true || $profilSession == "5") {
         $block2->paletteIcon(0, "add", $strings["add"]);
         $block2->paletteIcon(1, "remove", $strings["delete"]);
 
@@ -308,7 +308,7 @@ if ($fileManagement == "true") {
 
     $block2->paletteIcon(4, "info", $strings["view"]);
 
-    if ($teamMember == true || $profilSession == "5") {
+    if ($teamMember === true || $profilSession == "5") {
         $block2->paletteIcon(5, "edit", $strings["edit"]);
     }
 
@@ -378,7 +378,7 @@ if ($fileManagement == "true") {
 
     $block2->paletteScript(4, "info", "../linkedcontent/viewfile.php?", "false,true,false", $strings["view"]);
 
-    if ($teamMember == true || $profilSession == "5") {
+    if ($teamMember === true || $profilSession == "5") {
         $block2->paletteScript(5, "edit", "../linkedcontent/viewfile.php?edit=true", "false,true,false", $strings["edit"]);
     }
     $block2->closePaletteScript($comptListFiles, $listFiles->fil_id);
@@ -428,13 +428,13 @@ $block4->openForm("../tasks/viewtask.php?task=$id#" . $block4->form . "Anchor");
 $block4->headingToggle($strings["subtasks"]);
 $block4->openPaletteIcon();
 
-if ($teamMember == true || $profilSession == "5") {
+if ($teamMember === true || $profilSession == "5") {
     $block4->paletteIcon(0, "add", $strings["add"]);
     $block4->paletteIcon(1, "remove", $strings["delete"]);
 }
 $block4->paletteIcon(6, "info", $strings["view"]);
 
-if ($teamMember == true || $profilSession == "5") {
+if ($teamMember === true || $profilSession == "5") {
     $block4->paletteIcon(7, "edit", $strings["edit"]);
 }
 
@@ -488,7 +488,7 @@ if ($listSubtasks) {
     }
     $block4->closeResults();
 
-    if ($activeJpgraph == "true" && (isset($gantt) && $gantt == true)) {
+    if ($activeJpgraph === "true" && (isset($gantt) && $gantt == true)) {
         echo "
 			<div id='ganttChart_taskList' class='ganttChart'>
 				<img src='../subtasks/graphsubtasks.php?task=" . $id . "' alt=''><br/>
@@ -504,13 +504,13 @@ $block4->closeToggle();
 $block4->closeFormResults();
 $block4->openPaletteScript();
 
-if ($teamMember == true || $profilSession == "5") {
+if ($teamMember === true || $profilSession == "5") {
     $block4->paletteScript(0, "add", "../subtasks/editsubtask.php?task=$id", "true,false,false", $strings["add"]);
     $block4->paletteScript(1, "remove", "../subtasks/deletesubtasks.php?task=$id", "false,true,true", $strings["delete"]);
 }
 $block4->paletteScript(6, "info", "../subtasks/viewsubtask.php?task=$id", "false,true,false", $strings["view"]);
 
-if ($teamMember == true || $profilSession == "5") {
+if ($teamMember === true || $profilSession == "5") {
     $block4->paletteScript(7, "edit", "../subtasks/editsubtask.php?task=$id", "false,true,true", $strings["edit"]);
 }
 $block4->closePaletteScript($comptListSubtasks, $listSubtasks->subtas_id);
