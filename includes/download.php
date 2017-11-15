@@ -17,8 +17,7 @@ if ($task == "0") {
 }
 
 if (!file_exists($path)) {
-    echo "file does not exist:-/";
-    exit;
+    throw new \Exception("file does not exist:-/");
 }
 
 // figure out mimetype, should be done using PHP mime.magic once it's out
