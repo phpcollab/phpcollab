@@ -17,7 +17,7 @@ if ($footerDev == "true") {
 
 echo "</p>";
 
-if ($debug == true && is_object($debugbarRenderer)) {
+if ($debug === true && is_object($debugbarRenderer)) {
     echo $debugbarRenderer->render();
 }
 echo "	</body>
