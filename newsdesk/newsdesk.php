@@ -8,10 +8,9 @@
             font-size: 14px;
             margin: 0;
         }
+
         .post {
-            border-width: thin;
-            border-style: dotted;
-            border-color: #9C9C9C;
+            border: thin dotted #9C9C9C;
             padding: 5px 5px 5px 10px;
             width: 400px;
         }
@@ -40,12 +39,31 @@ include '../includes/library.php';
 /**
  * Class Foo
  */
-class NewsdeskFeed {
+class NewsdeskFeed
+{
+    /**
+     * @var \phpCollab\NewsDesk\NewsDesk
+     */
     protected $news;
+    /**
+     * @var \phpCollab\Members\Members
+     */
     protected $members;
+    /**
+     * @var mixed
+     */
     protected $strings;
+    /**
+     * @var int
+     */
     protected $postId;
+    /**
+     * @var mixed
+     */
     protected $tableCollab;
+    /**
+     * @var mixed
+     */
     protected $supportEmail;
 
     /**
@@ -64,9 +82,11 @@ class NewsdeskFeed {
     }
 
     /**
-     *
+     * @param $postId
      */
-    function showSingle() {
+    function showSingle($postId)
+    {
+        $this->postId = $postId;
         if (!$this->postId) {
             echo "No results";
             return;
@@ -81,6 +101,7 @@ class NewsdeskFeed {
 
         $comments = $this->showComments($this->postId);
 
+
         echo <<<POST
 <div class="post">
     <div class="post-title">{$post['news_title']}</div>
@@ -93,9 +114,52 @@ POST;
     /**
      *
      */
-    function showPosts() {
+    function showPosts()
+    {
         $newsPosts = $this->news->getAllNewsdeskPosts();
-        xdebug_var_dump($newsPosts);
+
+        if (!$newsPosts) {
+            echo "Nothing to Display!";
+            return false;
+        }
+
+        foreach ($newsPosts as $post) {
+            $title = htmlentities($post['news_title']);
+            $content = nl2br($post['news_content']);
+
+            //begin display
+            echo <<<POST
+            <div class="post">
+                <div class="post-title">({$post['news_id']}) {$title}</div>
+                <div class="post-text">{$content}</div>
+POST;
+
+
+            //get number of comments
+            $comments = $this->news->getCommentsByPostId($post['news_id']);
+            $comments = count($comments);
+
+            //get the author name
+            $author = $this->members->getMemberById($post['news_author']);
+
+            if (!$author) {
+                $author = "anonymous";
+            }
+
+            $author = $author['mem_name'];
+
+            //display number of comments with link
+            echo <<<COMMENTS
+            <div class="author">posted by {$author} on {$post['news_date']}
+                <a href="{$_SERVER['PHP_SELF']}?action=show&id={$post['news_id']}">{$this->strings['comments']}</a>
+                {$comments}
+            </div>
+</div>
+COMMENTS;
+
+            echo '</div>';
+        }
+        return false;
     }
 
     /**
@@ -128,26 +192,30 @@ POST;
 <div class="comment-author">by: {$author}</div>
 <div class="comment-text">{$newscom_comment}</div>
 BLOCK;
-
-            if (isset($_SESSION['idSession'])) {
-                //form to enter comments
-                $output .= <<< FORM
-                <br/>
-                <form action="{$_SERVER['PHP_SELF']}?action=addcomment&id={$postId}" method="post">
-                    <div class="post-title">{$this->strings['add_newsdesk_comment']}</div><br/>
-                    <div class="smalltext"><input type="hidden" size="50" name="name" value="{$_SESSION['idSession']}" /><stromng>{$_SESSION['nameSession']}</strong></div>
-                    <textarea cols="40" rows="5" name="comment"></textarea>
-                    <br /><input type="submit" name="submit" value="{$this->strings['send']}" />
-                
-                </form>
-FORM;
-            }
-
-            return $output;
         }
+
+        if (isset($_SESSION['idSession'])) {
+            //form to enter comments
+            $output .= <<< FORM
+            <br/>
+            <form action="{$_SERVER['PHP_SELF']}?action=addcomment&id={$postId}" method="post">
+                <div class="post-title">{$this->strings['add_newsdesk_comment']}</div><br/>
+                <div class="smalltext"><input type="hidden" size="50" name="name" value="{$_SESSION['idSession']}" /><stromng>{$_SESSION['nameSession']}</strong></div>
+                <textarea cols="40" rows="5" name="comment"></textarea>
+                <br /><input type="submit" name="submit" value="{$this->strings['send']}" />
+            
+            </form>
+FORM;
+        }
+
+        return $output;
     }
 
-    public function addComment() {
+    /**
+     *
+     */
+    public function addComment()
+    {
 
         if ($_POST && $_POST['name'] && $_POST['comment']) {
 
@@ -190,135 +258,13 @@ BODY;
             }
 
         }
-
-
-
-
         // Add notifications entry
     }
 }
 
 $n = new NewsdeskFeed();
 
-function showPosts()
-{
-    global $connection, $newsdesklimit;
-
-    if (!isset($langDefault) || ($langDefault == '')) {
-        $langDefault = 'en';
-    }
-    include '../languages/lang_' . $langDefault . '.php';
-
-    $page = $_GET[page];
-    $query_count = "SELECT title FROM " . $tableCollab["newsdeskposts"];
-    $result_count = @mysql_query($query_count);
-    $totalrows = mysql_num_rows($result_count);
-
-    if (!$page) {
-        $page = 1;
-    }
-
-    $limitvalue = $page * $newsdesklimit - ($newsdesklimit);
-    $query = "SELECT id,title,author,content, DATE_FORMAT(pdate, '%Y-%m-%d') as date FROM " . $tableCollab["newsdeskposts"] . " ORDER BY pdate DESC LIMIT $limitvalue, $newsdesklimit";
-    $result = @mysql_query($query) or die("Error: " . mysql_error());
-
-    if (mysql_num_rows($result) == 0) {
-        echo "Nothing to Display!";
-    }
-
-    //loop to display all items
-    while ($row = mysql_fetch_assoc($result)) {
-        //define variables
-        $date = $row['date'];
-        $title = htmlentities($row['title']);
-        $author = $row['author'];
-        $content = nl2br($row['content']);
-
-        //begin display
-        echo "<div class=\"post\">\n";
-
-        echo "<div class=\"post-title\">\n";
-        echo "$title\n";
-        echo "</div>\n";
-        echo "<div class=\"post-text\">\n";
-        echo "$content\n";
-        echo "</div>\n";
-
-
-        //get number of comments
-        $comment_query = "SELECT count(*) FROM " . $tableCollab["newsdeskcomments"] . " WHERE post_id={$row['id']}";
-        $comment_result = mysql_query($comment_query);
-        $comment_row = mysql_fetch_row($comment_result);
-
-        //get the author name
-        $query_author = 'SELECT name FROM ' . $tableCollab["members"] . ' WHERE id = "' . $row['author'] . '"';
-        $result_author = @mysql_query($query_author) or die("Error: " . mysql_error());
-        if (mysql_num_rows($result_author) == 0) {
-            $author = "anonymous";
-        }
-        while ($row_a = mysql_fetch_assoc($result_author)) {
-            $author = $row_a['name'];
-        }
-
-        //display number of comments with link
-        echo "<div class=\"author\">\n";
-        echo "posted by $author on $date &nbsp;\n";
-        echo "<a href=\"{$_SERVER['PHP_SELF']}?action=show&id={$row['id']}\">" . $strings['comments'] . "</a>\n";
-        echo "($comment_row[0])\n";
-        echo "</div>\n";
-
-        //end
-        echo "</div>\n";
-    }
-
-    if ($page > 1) {
-        $pageprev = $page - 1;
-        echo "<a href=\"{$_SERVER['PHP_SELF']}?page=$pageprev\" class=\"smalltext\">PREV</a>&nbsp;";
-        echo "\n";
-    } else {
-        echo "<span class=\"smalltext\">PREV</span>&nbsp;";
-        echo "\n";
-    }
-
-    $numofpages = $totalrows / $newsdesklimit;
-
-    for ($i = 1; $i <= $numofpages; $i++) {
-        if ($i == $page) {
-            echo "<span class=\"smalltext\">$i</span>";
-            echo "&nbsp;";
-            echo "\n";
-        } else {
-            echo "<a href=\"{$_SERVER['PHP_SELF']}?page=$i\" class=\"smalltext\">$i</a>&nbsp;";
-            echo "\n";
-        }
-    }
-
-    if (($totalrows % $newsdesklimit) != 0) {
-        if ($i == $page) {
-            echo "<span class=\"smalltext\">$i</span>";
-            echo "&nbsp;";
-            echo "\n";
-        } else {
-            echo "<a href=\"{$_SERVER['PHP_SELF']}?page=$i\" class=\"smalltext\">$i</a>&nbsp;";
-            echo "\n";
-        }
-    }
-
-    if (($totalrows - ($newsdesklimit * $page)) > 0) {
-        if (!$page) {
-            $page = 1;
-        }
-        $pagenext = $page + 1;
-        echo "<a href=\"{$_SERVER['PHP_SELF']}?page=$pagenext\" class=\"smalltext\">NEXT</a>";
-        echo "\n";
-    } else {
-        echo "&nbsp;<span class=\"smalltext\">NEXT</span>";
-        echo "\n";
-    }
-}
-
 //switch between functions according to action passed along with URL
-
 switch ($_GET['action']) {
     case 'show':
         $n->showSingle($_GET['id']);
