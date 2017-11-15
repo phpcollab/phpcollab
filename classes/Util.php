@@ -166,7 +166,6 @@ class Util
     public static function headerFunction($url)
     {
         header("Location:$url");
-        exit;
     }
 
     /**
@@ -772,14 +771,14 @@ class Util
                 $res = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
             }
             catch (Exception $e) {
-                exit(self::$strings["error_server"]);
+                throw new \Exception(self::$strings["error_server"]);
             }
 
             try {
                 $selectedDb = mysqli_select_db($res, MYDATABASE);
             }
             catch (Exception $e) {
-                exit(self::$strings["error_database"]);
+                throw new \Exception(self::$strings["error_database"]);
             }
 
             $sql = $tmpsql;
@@ -813,14 +812,14 @@ class Util
                 $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
             }
             catch (Exception $e) {
-                exit(self::$strings["error_server"]);
+                throw new \Exception(self::$strings["error_server"]);
             }
 
             try {
                 $selectedDb = mssql_select_db(MYDATABASE, $res);
             }
             catch (Exception $e) {
-                exit(self::$strings["error_database"]);
+                throw new \Exception(self::$strings["error_database"]);
             }
 
             $sql = "$tmpsql";
@@ -875,14 +874,14 @@ class Util
                 $link = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
             }
             catch (Exception $e) {
-                exit(self::$strings["error_server"]);
+                throw new \Exception(self::$strings["error_server"]);
             }
 
             try {
                 $selectedDb = mysqli_select_db($link, MYDATABASE);
             }
             catch (Exception $e) {
-                exit(self::$strings["error_database"]);
+                throw new \Exception(self::$strings["error_database"]);
             }
 
             $sql = $tmpsql;
@@ -902,14 +901,14 @@ class Util
                 $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
             }
             catch (Exception $e) {
-                exit(self::$strings["error_server"]);
+                throw new \Exception(self::$strings["error_server"]);
             }
 
             try {
                 $selectedDb = mssql_select_db(MYDATABASE, $res);
             }
             catch (Exception $e) {
-                exit(self::$strings["error_database"]);
+                throw new \Exception(self::$strings["error_database"]);
             }
 
             $sql = $tmpsql;
@@ -935,8 +934,7 @@ class Util
                 $res = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
             }
             catch (Exception $e) {
-                echo self::$strings["error_server"];
-                exit;
+                throw new \Exception(self::$strings["error_server"]);
             }
 
 
@@ -944,7 +942,7 @@ class Util
                 $selectedDb = mysqli_select_db($res, MYDATABASE);
             }
             catch (Exception $e) {
-                exit(self::$strings["error_database"]);
+                throw new \Exception(self::$strings["error_database"]);
             }
 
             $sql = "SELECT id FROM $tmpsql ORDER BY id DESC";
@@ -973,14 +971,14 @@ class Util
                 $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
             }
             catch (Exception $e) {
-                exit(self::$strings["error_server"]);
+                throw new \Exception(self::$strings["error_server"]);
             }
 
             try {
                 $selectedDb = mssql_select_db(MYDATABASE, $res);
             }
             catch (Exception $e) {
-                exit(self::$strings["error_database"]);
+                throw new \Exception(self::$strings["error_database"]);
             }
 
             $sql = "SELECT id FROM $tmpsql ORDER BY id DESC";
