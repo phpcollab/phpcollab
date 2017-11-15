@@ -171,7 +171,7 @@ class Teams
      */
     public function publishToSite($projectId, $memberIds)
     {
-        return $this->publishToSite($projectId, $memberIds);
+        return $this->teams_gateway->publishToSite($projectId, $memberIds);
     }
 
     /**
@@ -181,7 +181,7 @@ class Teams
      */
     public function unPublishToSite($projectId, $memberIds)
     {
-        return $this->unPublishToSite($projectId, $memberIds);
+        return $this->teams_gateway->unPublishToSite($projectId, $memberIds);
     }
 
 }
