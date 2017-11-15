@@ -506,7 +506,7 @@ class Block
     public function paletteScript($num, $type, $link, $options, $text)
     {
         $link = rtrim($link,'?');
-        echo "document." . $this->form . "Form.buttons[document." . $this->form . "Form.buttons.length] = new MMCommandButton('" . $this->form . "$num',document." . $this->form . "Form,'" . $link  . "?&','$this->themeImgPath/btn_" . $type . "_norm.gif','$this->themeImgPath/btn_" . $type . "_over.gif','$this->themeImgPath/btn_" . $type . "_down.gif','$this->themeImgPath/btn_" . $type . "_dim.gif',$options,'',\"" . stripslashes($text) . "\",false,'');";
+        echo "document." . $this->form . "Form.buttons[document." . $this->form . "Form.buttons.length] = new MMCommandButton('" . $this->form . "$num',document." . $this->form . "Form,'" . $link  . "&','$this->themeImgPath/btn_" . $type . "_norm.gif','$this->themeImgPath/btn_" . $type . "_over.gif','$this->themeImgPath/btn_" . $type . "_down.gif','$this->themeImgPath/btn_" . $type . "_dim.gif',$options,'',\"" . stripslashes($text) . "\",false,'');";
     }
 
     /**
