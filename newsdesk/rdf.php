@@ -16,15 +16,13 @@ if (!isset($langDefault) || ($langDefault == '')) {
 try {
     $connection = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
 } catch (Exception $e) {
-    echo self::$strings["error_server"];
-    exit;
+    throw new \Exception(self::$strings["error_server"]);
 }
 
 try {
     $selectedDb = mysqli_select_db($connection, MYDATABASE);
 } catch (Exception $e) {
-    echo self::$strings["error_database"];
-    exit;
+    throw new \Exception(self::$strings["error_database"]);
 }
 
 function createRSS()
@@ -40,8 +38,7 @@ function createRSS()
     try {
         $result = mysqli_query($connection, $query);
     } catch (Exception $e) {
-        echo "Error: " . mysqli_error($connection);
-        exit;
+        throw new \Exception("Error: " . mysqli_error($connection));
     }
 
     //loop to display all items
@@ -61,8 +58,7 @@ function createRSS()
         try {
             $result_author = mysqli_query($connection, $query_author);
         } catch (Exception $e) {
-            echo "Error: " . mysqli_error($connection);
-            exit;
+            throw new \Exception("Error: " . mysqli_error($connection));
         }
 
         if (mysqli_num_rows($result_author) == 0) {
@@ -79,8 +75,7 @@ function createRSS()
             try {
                 $result_prj = mysqli_query($connection, $query_prj);
             } catch (Exception $e) {
-                echo "Error: " . mysqli_error($connection);
-                exit;
+                throw new \Exception("Error: " . mysqli_error($connection));
             }
 
             if (mysql_num_rows($result_prj) == 0) {
