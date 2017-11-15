@@ -283,13 +283,13 @@ STAMP;
         $fp = @fopen("../includes/settings.php", 'wb+');
         if (!$fp) {
             $error = 1;
-            exit("<br/><b>PANIC! <br/> settings.php can't be written!</b><br/>");
+            throw new \Exception("<br/><b>PANIC! <br/> settings.php can't be written!</b><br/>");
         }
         $fw = fwrite($fp, $content);
 
         if (!$fw) {
             $error = 1;
-            exit("<br/><b>PANIC! <br/> settings.php can't be written!</b><br/>");
+            throw new \Exception("<br/><b>PANIC! <br/> settings.php can't be written!</b><br/>");
         }
 
         fclose($fp);
@@ -307,19 +307,20 @@ STAMP;
             $my = @mysql_connect($myserver, $mylogin, $mypassword);
 
             if (mysql_errno() != 0) {
-                exit('<br/><b>PANIC! <br/> Error during connection on server MySQL.</b><br/>');
+                throw new \Exception('<br/><b>PANIC! <br/> Error during connection on server MySQL.</b><br/>');
             }
             mysql_select_db($mydatabase, $my);
 
             if (mysql_errno() != 0) {
-                exit('<br/><b>PANIC! <br/> Error during selection database.</b><br/>');
+                throw new \Exception('<br/><b>PANIC! <br/> Error during selection database.</b><br/>');
+
             }
 
             $countSql = count($SQL);
             for ($con = 0; $con < $countSql; $con++) {
                 mysql_query($SQL[$con]);
                 if (mysql_errno() != 0) {
-                    exit('<br/><b>PANIC! <br/> Error during the creation of the tables.</b><br/> Error: ' . mysql_error());
+                    throw new \Exception('<br/><b>PANIC! <br/> Error during the creation of the tables.</b><br/> Error: ' . mysql_error());
                 }
             }
             unset($countSql);
@@ -328,14 +329,14 @@ STAMP;
         if ($databaseType == "postgresql") {
             $my = pg_connect("host=$myserver port=5432 dbname=$mydatabase user=$mylogin password=$mypassword");
             if (pg_last_error() != 0) {
-                exit('<br/><b>PANIC! <br/> Error during connection on server PostgreSQL.</b><br/>');
+                throw new \Exception('<br/><b>PANIC! <br/> Error during connection on server PostgreSQL.</b><br/>');
             }
 
             $countSql = count($SQL);
             for ($con = 0; $con < $countSql; $con++) {
                 pg_query($SQL[$con]);
                 if (pg_last_error() != 0) {
-                    exit('<br/><b>PANIC! <br/> Error during the creation of the tables.</b><br/> Error: ' . pg_last_error());
+                    throw new \Exception('<br/><b>PANIC! <br/> Error during the creation of the tables.</b><br/> Error: ' . pg_last_error());
                 }
             }
             unset($countSql);
@@ -345,19 +346,19 @@ STAMP;
             $my = @mssql_connect($myserver, $mylogin, $mypassword);
 
             if (mssql_get_last_message() != 0) {
-                exit('<br/><b>PANIC! <br/> Error during connection on server SQl Server.</b><br/>');
+                throw new \Exception('<br/><b>PANIC! <br/> Error during connection on server SQl Server.</b><br/>');
             }
             mssql_select_db($mydatabase, $my);
 
             if (mssql_get_last_message() != 0) {
-                exit('<br/><b>PANIC! <br/> Error during selection database.</b><br/>');
+                throw new \Exception('<br/><b>PANIC! <br/> Error during selection database.</b><br/>');
             }
 
             $countSql = count($SQL);
             for ($con = 0; $con < $countSql; $con++) {
                 mssql_query($SQL[$con]);
                 if (mssql_get_last_message() != 0) {
-                    exit('<br/><b>PANIC! <br/> Error during the creation of the tables.</b><br/> Error: ' . mssql_get_last_message());
+                    throw new \Exception('<br/><b>PANIC! <br/> Error during the creation of the tables.</b><br/> Error: ' . mssql_get_last_message());
                 }
             }
             unset($countSql);
