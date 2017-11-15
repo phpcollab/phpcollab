@@ -173,4 +173,3 @@ $mimetypes["sxi"] = "application/vnd.sun.xml.impress";
 $mimetypes["sti"] = "application/vnd.sun.xml.impress.template";
 $mimetypes["sxg"] = "application/vnd.sun.xml.writer.global";
 $mimetypes["sxm"] = "application/vnd.sun.xml.math";
-?>
