@@ -74,29 +74,14 @@ if ($action == "publish") {
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
-//$tmpquery = "WHERE pha.id = '$id'";
-//$phaseDetail = new phpCollab\Request();
-//$phaseDetail->openPhases($tmpquery);
 $phaseDetail = $phases->getPhasesById($id);
 
 $project = $phaseDetail["pha_project_id"];
 $phase = $phaseDetail["pha_id"];
 
-//$tmpquery = "WHERE pro.id = '$project'";
-//$projectDetail = new phpCollab\Request();
-//$projectDetail->openProjects($tmpquery);
 $projectDetail = $projects->getProjectById($project);
 
 $teamMember = "false";
-//$tmpquery = "WHERE tea.project = '$project' AND tea.member = '$idSession'";
-//$memberTest = new phpCollab\Request();
-//$memberTest->openTeams($tmpquery);
-//$comptMemberTest = count($memberTest->tea_id);
-//if ($comptMemberTest == "0") {
-//    $teamMember = "false";
-//} else {
-//    $teamMember = "true";
-//}
 $teamMember = $teams->isTeamMember($project, $idSession);
 
 $blockPage = new phpCollab\Block();
@@ -131,9 +116,6 @@ $block1->contentRow($strings["phase_id"], $phaseDetail["pha_id"]);
 $block1->contentRow($strings["status"], $phaseStatus[$phaseDetail["pha_status"]]);
 
 $parentPhase = $phaseDetail["pha_order_num"];
-//$tmpquery = "WHERE tas.project = '$project' AND tas.parent_phase = '$parentPhase'";
-//$countPhaseTasks = new phpCollab\Request();
-//$countPhaseTasks->openTasks($tmpquery);
 $countPhaseTasks = $tasks->getTasksByProjectIdAndParentPhase($project, $parentPhase);
 $comptlistTasks = count($countPhaseTasks);
 
@@ -141,7 +123,6 @@ $comptlistTasksRow = 0;
 $comptUncompleteTasks = 0;
 
 foreach ($countPhaseTasks as $task) {
-    //for ($k = 0; $k < $comptlistTasks; $k++) {
     if (in_array($task["tas_status"], [2,3,4])) {
         $comptUncompleteTasks = $comptUncompleteTasks + 1;
     }
@@ -189,18 +170,12 @@ $block2->closePaletteIcon();
 
 $block2->sorting("tasks", $sortingUser->sor_tasks[0], "tas.name ASC", $sortingFields = [0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem.login", 6 => "tas.published"]);
 
-//$tmpquery = "WHERE tas.project = '$project' AND tas.parent_phase = '$parentPhase' ORDER BY $block2->sortingValue";
-//$listTasks = new phpCollab\Request();
-//$listTasks->openTasks($tmpquery);
-//$comptListTasks = count($listTasks->tas_id);
 $listTasks = $tasks->getTasksByProjectIdAndParentPhase($project, $parentPhase, $block2->sortingValue);
 
 if ($listTasks) {
-    //if ($comptListTasks != "0") {
     $block2->openResults();
     $block2->labels($labels = [0 => $strings["task"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["completion"], 4 => $strings["due_date"], 5 => $strings["assigned_to"], 6 => $strings["published"]], "true");
 
-//    for ($i = 0; $i < $comptListTasks; $i++) {
     foreach ($listTasks as $task) {
         if ($task["tas_due_date"] == "") {
             $task["tas_due_date"] = $strings["none"];
@@ -293,19 +268,13 @@ if ($fileManagement == "true") {
     $block3->closePaletteIcon();
     $block3->sorting("files", $sortingUser->sor_files[0], "fil.name ASC", $sortingFields = [0 => "fil.extension", 1 => "fil.name", 2 => "fil.owner", 3 => "fil.date", 4 => "fil.status", 5 => "fil.published"]);
 
-//    $tmpquery = "WHERE fil.project = {$projectDetail["pro_id"]} AND fil.phase = {$phaseDetail["pha_id"]} AND fil.task = 0 AND fil.vc_parent = 0 ORDER BY {$block3->sortingValue}";
-//    $listFiles = new phpCollab\Request();
-//    $listFiles->openFiles($tmpquery);
-//    $comptListFiles = count($listFiles->fil_id);
     $listFiles = $files->getFilesByProjectAndPhaseWithoutTasksAndParent($projectDetail["pro_id"], $phaseDetail["pha_id"], $block3->sortingValue);
 
     if ($listFiles) {
-//    if ($comptListFiles != "0") {
         $block3->openResults();
         $block3->labels($labels = array(0 => $strings["type"], 1 => $strings["name"], 2 => $strings["owner"], 3 => $strings["date"], 4 => $strings["approval_tracking"], 5 => $strings["published"]), "true");
 
         foreach ($listFiles as $file) {
-//        for ($i = 0; $i < $comptListFiles; $i++) {
             $existFile = "false";
             $idStatus = $file["fil_status"];
             $idPublish = $file["fil_published"];
