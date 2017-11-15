@@ -31,6 +31,8 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
+$id = $_GET['id'];
+
 //case update client organization
 if ($id != "") {
     $organizations = new \phpCollab\Organizations\Organizations();
@@ -55,21 +57,26 @@ if ($id != "") {
             }
         }
 
-        $extension = strtolower(substr(strrchr($_FILES['upload']['name'], "."), 1));
+        // Check to see if the attached file is an image
+        // Poor way of doing this, but its a band-aid for now
+        if (getimagesize($_FILES['upload']['tmp_name'])) {
+            $extension = strtolower(substr(strrchr($_FILES['upload']['name'], "."), 1));
 
-        $target_file = "../logos_clients/" . $id . '.' . $extension;
+            $target_file = "../logos_clients/" . $id . '.' . $extension;
 
-        if (@move_uploaded_file($_FILES["upload"]["tmp_name"], $target_file)) {
-            chmod($target_file, 0666);
+            if (@move_uploaded_file($_FILES["upload"]["tmp_name"], $target_file)) {
+                chmod($target_file, 0666);
 
-            $updateLogoExtension = "UPDATE {$tableCollab["organizations"]} SET extension_logo=:extension WHERE id=:id";
+                $updateLogoExtension = "UPDATE {$tableCollab["organizations"]} SET extension_logo=:extension WHERE id=:id";
 
-            $dbParams = [];
-            $dbParams['extension'] = $extension;
-            $dbParams['id'] = $id;
-            phpCollab\Util::newConnectSql($updateLogoExtension, $dbParams);
+                $dbParams = [];
+                $dbParams['extension'] = $extension;
+                $dbParams['id'] = $id;
+                phpCollab\Util::newConnectSql($updateLogoExtension, $dbParams);
 
-            unset($dbParams);
+                unset($dbParams);
+            }
+
         }
 
         //replace quotes by html code in name and address
