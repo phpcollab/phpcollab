@@ -73,7 +73,6 @@ class TeamsGateway
      */
     public function getTeamByMemberId($memberId)
     {
-        //$tmpquery = "WHERE tea.member = '$idSession' ORDER BY pro.name";
         $whereStatement = " WHERE tea.member = :member_id ORDER BY pro.name";
         $this->db->query($this->initrequest["teams"] . $whereStatement);
         $this->db->bind(':member_id', $memberId);
