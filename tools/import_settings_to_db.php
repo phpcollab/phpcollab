@@ -24,7 +24,6 @@ if (!isConverted()) {
     $keyval = parseSettings($contents);
 
     showInfoBox('Populating database.....', 'Database');
-    //populateDatabase($keyval);
     writeToDB($keyval);
     if (createFile()) {
         showInfoBox('All done.. Please replace settings.php with the settings-new.php file that was created.');
@@ -42,7 +41,6 @@ endOutput();
  */
 function writeToDB($data)
 {
-//    echo print_r(array_keys($data), true);
     require_once(dirname(realpath(__FILE__)) . '/../includes/classes/settings.class.php');
     $settings = new Settings();
     $settings->writeObject($data);
@@ -157,7 +155,6 @@ function parseSettings($contents)
             substr($line, 0, 2) == "//"
         ) $doit = false;
         if ($doit) {
-            //showInfoBox("DEBUG: Parse this line..<br />" . $line, "Info...");
             //Clean the line, remove any ;'s or comments and then parse it..
             //We work on two style of lines, defines and variable assignments
             if ($line[0] == '$') {
@@ -209,15 +206,11 @@ function parseSettings($contents)
                 list($key, $val) = explode(',', $work, 2);
                 $key = trim($key);
                 $val = trim($val);
-
-                //showInfoBox("KEY: $key - VAL: $val");
             }
 
             if (!$skipAssign) $settingsArray[$key] = $val;
         }
     }
-
-//    showInfoBox('Returning.. ' . print_r($settingsArray, true));
     return $settingsArray;
 }
 
