@@ -499,7 +499,7 @@ function MMCommandButton_update(selectedItems) {
     if (this.mEnabledCheckSelectionJS != '' &&
         typeof(this.mEnabledCheckSelectionJS) == "function") {
         var isEnabled = this.mEnabledCheckSelectionJS(selectedItems);
-        if (isEnabled == true) {
+        if (isEnabled === true) {
             document[this.mName].src = this.mEnabledImage;
             this.mEnabled = true;
         } else {
@@ -509,7 +509,7 @@ function MMCommandButton_update(selectedItems) {
     }
     else {
         if (selectedItems.length == 0) {
-            if (this.mEnableOnNoSelection == true) {
+            if (this.mEnableOnNoSelection === true) {
                 document[this.mName].src = this.mEnabledImage;
                 this.mEnabled = true;
             } else {
@@ -519,7 +519,7 @@ function MMCommandButton_update(selectedItems) {
         }
 
         if (selectedItems.length == 1) {
-            if (this.mEnableOnSingleSelection == true) {
+            if (this.mEnableOnSingleSelection === true) {
                 document[this.mName].src = this.mEnabledImage;
                 this.mEnabled = true;
             } else {
@@ -529,7 +529,7 @@ function MMCommandButton_update(selectedItems) {
         }
 
         if (selectedItems.length > 1) {
-            if (this.mEnableOnMultipleSelection == true) {
+            if (this.mEnableOnMultipleSelection === true) {
                 document[this.mName].src = this.mEnabledImage;
                 this.mEnabled = true;
             } else {

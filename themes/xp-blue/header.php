@@ -23,7 +23,7 @@ var gFlashOK = true;
 <script type='text/javascript' src='../javascript/general.js'></script>
 <script type='text/JavaScript' src='../javascript/overlib_mini.js'></script>
 <link rel='stylesheet' href='../themes/".THEME."/stylesheet.css' type='text/css' />";
-if ($includeCalendar && $includeCalendar == true) {
+if ($includeCalendar && $includeCalendar === true) {
 	include '../includes/calendar.php';
 }
 

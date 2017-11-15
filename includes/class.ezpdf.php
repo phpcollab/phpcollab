@@ -1413,7 +1413,7 @@ function ezImage($image,$pad = 5,$width = 0,$resize = 'full',$just = 'center',$b
 	// move y below image
 	$this->y = $this->y - $pad - $height;
 	//remove tempfile for remote images
-	if ($temp == true) unlink($image);
+	if ($temp === true) unlink($image);
 
 }
 // ------------------------------------------------------------------------------

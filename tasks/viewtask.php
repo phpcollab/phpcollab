@@ -366,7 +366,7 @@ if ($fileManagement == "true") {
     $block2->closeFormResults();
     $block2->openPaletteScript();
 
-    if ($teamMember == true || $profilSession == "5") {
+    if ($teamMember === true || $profilSession == "5") {
         $block2->paletteScript(0, "add", "../linkedcontent/addfile.php?project=" . $taskDetail["tas_project"] . "&task=$id", "true,true,true", $strings["add"]);
         $block2->paletteScript(1, "remove", "../linkedcontent/deletefiles.php?project=" . $projectDetail["pro_id"] . "&task=" . $taskDetail["tas_id"] . "", "false,true,true", $strings["delete"]);
 
@@ -488,7 +488,7 @@ if ($listSubtasks) {
     }
     $block4->closeResults();
 
-    if ($activeJpgraph === "true" && (isset($gantt) && $gantt == true)) {
+    if ($activeJpgraph === "true" && (isset($gantt) && $gantt === true)) {
         echo "
 			<div id='ganttChart_taskList' class='ganttChart'>
 				<img src='../subtasks/graphsubtasks.php?task=" . $id . "' alt=''><br/>
