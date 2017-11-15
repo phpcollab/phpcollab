@@ -34,6 +34,4 @@ class Logs
 
         return $data;
     }
-
-
 }
