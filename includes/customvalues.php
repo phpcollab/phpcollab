@@ -22,4 +22,3 @@ if (file_exists($customLanguageFile)) {
 } else {
     include "../languages/custom_en.php";
 }
-?>
