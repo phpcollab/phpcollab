@@ -22,10 +22,14 @@ class Block
      */
     public function __construct()
     {
-        global $help, $strings;
-        global $sortingOrders, $sortingFields, $sortingArrows, $sortingStyles, $explode;
-        $this->help = $help;
-        $this->strings = $strings;
+        $this->sortingOrders = $GLOBALS['sortingOrders'];
+        $this->sortingFields = $GLOBALS['sortingFields'];
+        $this->sortingArrows = $GLOBALS['sortingArrows'];
+        $this->sortingStyles = $GLOBALS['ortingStyles'];
+        $this->explode = $GLOBALS['explode'];
+
+        $this->help = $GLOBALS['help'];
+        $this->strings = $GLOBALS['strings'];
 
         $this->iconWidth = "23";
         $this->iconHeight = "23";
