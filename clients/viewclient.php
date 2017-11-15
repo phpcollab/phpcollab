@@ -59,7 +59,7 @@ include '../themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?", $strings["clients"], 'in'));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php", $strings["clients"], 'in'));
 $blockPage->itemBreadcrumbs($clientDetail['org_name']);
 $blockPage->closeBreadcrumbs();
 
