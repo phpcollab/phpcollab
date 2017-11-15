@@ -161,3 +161,4 @@ class Database
     }
 
 }
+Adding newline character at end
