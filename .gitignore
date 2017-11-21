@@ -25,7 +25,6 @@ logos_clients/*
 .buildpath
 .project
 .settings
-composer.lock
 composer/
 vendor/
 tests/_output/*
