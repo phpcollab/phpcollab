@@ -48,7 +48,7 @@ if (substr($ftpRoot, -1) == "/") {
     $ftpRoot = substr($ftpRoot, 0, -1);
 }
 
-$version = "2.5.1";
+$version = "2.6.1";
 
 $dateheure = date("Y-m-d H:i");
 
@@ -280,10 +280,18 @@ define('THEME','default');
 STAMP;
 
     if (!$error) {
+
+
+        $isWritable = is_writable("../includes");
+        if (!$isWritable) {
+            $error = 1;
+            throw new \Exception("It appears that the include directory is not writable. Please correct and try again.");
+        }
+
         $fp = @fopen("../includes/settings.php", 'wb+');
         if (!$fp) {
             $error = 1;
-            throw new \Exception("<br/><b>PANIC! <br/> settings.php can't be written!</b><br/>");
+            throw new \Exception("<br/><b>PANIC! <br/> settings.php can't be opened!</b><br/>");
         }
         $fw = fwrite($fp, $content);
 
@@ -303,66 +311,36 @@ STAMP;
         include '../includes/db_var.inc.php';
         include '../includes/setup_db.php';
 
-        if ($databaseType == "mysql") {
-            $my = @mysql_connect($myserver, $mylogin, $mypassword);
-
-            if (mysql_errno() != 0) {
-                throw new \Exception('<br/><b>PANIC! <br/> Error during connection on server MySQL.</b><br/>');
-            }
-            mysql_select_db($mydatabase, $my);
-
-            if (mysql_errno() != 0) {
-                throw new \Exception('<br/><b>PANIC! <br/> Error during selection database.</b><br/>');
-
+        try {
+            if ($databaseType == "mysql") {
+                $dbh = new PDO("mysql:host=$myserver;dbname=$mydatabase", $mylogin, $mypassword);
+            } else if ($databaseType === "postgresql") {
+                $dbh = new PDO("pgsql:dbname=$mydatabase;host=$myserver", $mylogin, $mypassword);
+            } else if ($databaseType === "dqlserver") {
+                $dbh = new PDO("dblib:host=$myserver;dbname=$mydatabase", $mylogin, $mypassword);
+            } else {
+                throw new \Exception("Can not connect to database.");
             }
 
-            $countSql = count($SQL);
-            for ($con = 0; $con < $countSql; $con++) {
-                mysql_query($SQL[$con]);
-                if (mysql_errno() != 0) {
-                    throw new \Exception('<br/><b>PANIC! <br/> Error during the creation of the tables.</b><br/> Error: ' . mysql_error());
+            if ($dbh) { // Sanity check to make sure the connection is open
+                $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                foreach ($SQL as $sqlStatement) {
+                    try {
+                        $dbh->exec($sqlStatement);
+                    }
+                    catch (PDOException $e) {
+                        echo $e->getMessage();
+                        die();
+                    }
                 }
             }
-            unset($countSql);
+            $dbh = null;
+        } catch (PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
         }
 
-        if ($databaseType == "postgresql") {
-            $my = pg_connect("host=$myserver port=5432 dbname=$mydatabase user=$mylogin password=$mypassword");
-            if (pg_last_error() != 0) {
-                throw new \Exception('<br/><b>PANIC! <br/> Error during connection on server PostgreSQL.</b><br/>');
-            }
-
-            $countSql = count($SQL);
-            for ($con = 0; $con < $countSql; $con++) {
-                pg_query($SQL[$con]);
-                if (pg_last_error() != 0) {
-                    throw new \Exception('<br/><b>PANIC! <br/> Error during the creation of the tables.</b><br/> Error: ' . pg_last_error());
-                }
-            }
-            unset($countSql);
-        }
-
-        if ($databaseType == "sqlserver") {
-            $my = @mssql_connect($myserver, $mylogin, $mypassword);
-
-            if (mssql_get_last_message() != 0) {
-                throw new \Exception('<br/><b>PANIC! <br/> Error during connection on server SQl Server.</b><br/>');
-            }
-            mssql_select_db($mydatabase, $my);
-
-            if (mssql_get_last_message() != 0) {
-                throw new \Exception('<br/><b>PANIC! <br/> Error during selection database.</b><br/>');
-            }
-
-            $countSql = count($SQL);
-            for ($con = 0; $con < $countSql; $con++) {
-                mssql_query($SQL[$con]);
-                if (mssql_get_last_message() != 0) {
-                    throw new \Exception('<br/><b>PANIC! <br/> Error during the creation of the tables.</b><br/> Error: ' . mssql_get_last_message());
-                }
-            }
-            unset($countSql);
-        }
         $msg .= "<br/>Tables and settings file created correctly.";
         $msg .= "<br/><br/><a href='../general/login.php'>Please log in</a>";
     } else {
