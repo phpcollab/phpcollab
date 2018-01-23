@@ -56,3 +56,6 @@ To test the functionality provided by a given phpCollab module, execute the foll
 ```bash
 vendor/bin/codecept run
 ```
+
+## Deploy
+Point your web server's root to the phpCollab folder
