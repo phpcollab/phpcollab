@@ -1,0 +1,30 @@
+# Project Generated Files
+#########################
+includes/settings.php
+files/**/
+logos_clients/*
+# exception to the above rule
+!logos_client/index.php
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# IDE files #
+#############
+.~lock.*
+.buildpath
+.project
+.settings
+composer/
+vendor/
+tests/_output/*
