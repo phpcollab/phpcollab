@@ -316,7 +316,7 @@ STAMP;
                 $dbh = new PDO("mysql:host=$myserver;dbname=$mydatabase", $mylogin, $mypassword);
             } else if ($databaseType === "postgresql") {
                 $dbh = new PDO("pgsql:dbname=$mydatabase;host=$myserver", $mylogin, $mypassword);
-            } else if ($databaseType === "dqlserver") {
+            } else if ($databaseType === "sqlserver") {
                 $dbh = new PDO("dblib:host=$myserver;dbname=$mydatabase", $mylogin, $mypassword);
             } else {
                 throw new \Exception("Can not connect to database.");
