@@ -1,0 +1,14 @@
+# Deny access to everything by default
+Order Deny,Allow
+deny from all
+
+# Allow access to html files
+#<Files *.php>
+<FilesMatch ".+\.(php|jpe?g|png|css|js|ico|svg|gif)$">
+    allow from all
+</FilesMatch>
+
+# Deny access to sub directory
+<Files vendor/*>
+    deny from all
+</Files>
