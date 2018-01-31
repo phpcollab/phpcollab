@@ -50,86 +50,82 @@ $block1->heading($strings["database"] . " " . MYDATABASE);
 $block1->openContent();
 $block1->contentTitle("Backup database");
 
-echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>
-<script src='../includes/phpmyadmin/functions.js' type='text/javascript' language='javascript'></script>
-       <form method='post' action='../includes/phpmyadmin/tbl_dump.php' name='db_dump'>
+
+//echo '<a href="backup.php">Backup</a>';
+
+
+//<script src='../includes/phpmyadmin/functions.js' type='text/javascript' language='javascript'></script>
+echo <<<HTML
+<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td>
+       <form method="post" action="backupMySQL.php" name="db_dump">
         <table>
         <tr>
     
             <td>
-                <select name='table_select[]' size='5' multiple='multiple'>";
+                <select name="tables[]" size="5" multiple="multiple">
+HTML;
+
 
 sort($tableCollab);
-while (list($key, $val) = each($tableCollab)) {
-    echo "<option value='$val' selected>$val</option>";
+
+foreach ($tableCollab as $item) {
+    echo "<option selected>$item</option>";
 }
 
-echo "</select>
+echo <<<HTML
+                </select>
             </td>
         
-            <td valign='middle'>
-                <input type='radio' name='what' value='structure' />
+            <td valign="middle">
+                <input type="radio" name="what" value="structureonly" />
                 Structure only<br />
-                <input type='radio' name='what' value='data' checked='checked' />
+                <input type="radio" name="what" value="all" checked="checked" />
                 Structure and data<br />
-                <input type='radio' name='what' value='dataonly' />
+                <input type="radio" name="what" value="dataonly" />
                 Data only
             </td>
         </tr>
         <tr>
-            <td colspan='2'>
-                <input type='checkbox' name='drop' value='1' checked='checked' />
-                Add 'drop table'
+            <td colspan="2">
+                <input type="checkbox" name="drop" value="1" checked="checked" />
+                Add "drop table"
             </td>
         </tr>
         <tr>
-            <td colspan='2'>
-                <input type='checkbox' name='showcolumns' value='yes' />
+            <td colspan="2">
+                <input type="checkbox" name="complete_insert" value="yes" />
                 Complete inserts
             </td>
         </tr>
         <tr>
-            <td colspan='2'>
-                <input type='checkbox' name='extended_ins' value='yes' />
+            <td colspan="2">
+                <input type="checkbox" name="extended_insert" value="yes" />
                 Extended inserts
             </td>
-
         </tr>
-            <tr>
-            <td colspan='2'>
-                <input type='checkbox' name='use_backquotes' value='1' />
-                Use backquotes with tables and fields' names
-            </td>
-        </tr>
-        
         <tr>
-            <td colspan='2'>
-                <input type='checkbox' name='asfile' value='sendit' onclick=\"return checkTransmitDump(this.form, 'transmit')\" checked='checked' />
-                Save as file
-    
-                (
-                <input type='checkbox' name='zip' value='zip' onclick=\"return checkTransmitDump(this.form, 'zip')\" />'zipped'&nbsp;
-                
-                <input type='checkbox' name='gzip' value='gzip' onclick=\"return checkTransmitDump(this.form, 'gzip')\" />'gzipped'
-                
-                )
+            <td colspan="2">
+                <input type="checkbox" name="asfile" value="sendit" checked="checked" />
+                Save as file ( <input type="checkbox" name="zip" value="zip" />"zipped" )
             </td>
         </tr>
         <tr>
-            <td colspan='2'>
-                <input type='submit' value='Go' />
+            <td colspan="2">
+                <input type="submit" value="Go" />
             </td>
         </tr>
         </table>
-        <input type='hidden' name='server' value='1' />
-        <input type='hidden' name='lang' value='en' />
-        <input type='hidden' name='db' value='" . MYDATABASE . "' />
+        <input type="hidden" name="server" value="1" />
+        <input type="hidden" name="lang" value="en" />
         </form>
-" . $blockPage->buildLink("http://phpwizard.net/projects/phpMyAdmin", "phpMyAdmin", powered) . "</a></td></tr>";
+    </td>
+</tr>
+HTML;
 
 $block1->contentTitle("Restore database from sql file");
 
-echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>
+echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>Disabled";
+/*
         <form method='post' action='../includes/phpmyadmin/read_dump.php' enctype='multipart/form-data'>
             <input type='hidden' name='is_js_confirmed' value='0' />
             <input type='hidden' name='lang' value='en' />
@@ -147,8 +143,8 @@ echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>
             <input type='submit' name='SQL' value='Go' />
         </form>
 " . $blockPage->buildLink("http://phpwizard.net/projects/phpMyAdmin", "phpMyAdmin", powered) . "</a>
-</td></tr>";
-
+*/
+echo "</td></tr>";
 $block1->closeContent();
 
 include '../themes/' . THEME . '/footer.php';
