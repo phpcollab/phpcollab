@@ -13,7 +13,9 @@
     "php": ">=5.3.0",
     "zendframework/zend-escaper": "^2.5",
     "monolog/monolog": "^1.19",
-    "maximebf/debugbar": "^1.13"
+    "maximebf/debugbar": "^1.13",
+    "ifsnop/mysqldump-php": "^2.3",
+    "apfelbox/php-file-download": "^2.1"
   },
   "require-dev": {
     "codeception/codeception": "^2.3"
