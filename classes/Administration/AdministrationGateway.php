@@ -1,5 +1,5 @@
 <?php
-namespace phpCollab\Admins;
+namespace phpCollab\Administration;
 
 use phpCollab\Database;
 
@@ -8,7 +8,7 @@ use phpCollab\Database;
  * Class AdminsGateway
  * @package phpCollab\Admins
  */
-class AdminsGateway
+class AdministrationGateway
 {
     protected $db;
     protected $initrequest;
@@ -36,6 +36,9 @@ class AdminsGateway
         return $this->db->execute();
     }
 
+    /**
+     * @return mixed
+     */
     public function deleteMyCompanyLogo() {
         $query = 'UPDATE organizations SET extension_logo="" WHERE id=1';
 
