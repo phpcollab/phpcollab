@@ -35,10 +35,6 @@ if ($profilSession != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 
-$db = new phpCollab\Database(); // Move this to library?
-
-$admins_gateway = new phpCollab\Admins\AdminsGateway($db);
-
 $action = phpCollab\Util::returnGlobal('action', 'GET');
 
 if ($action == "update") {
