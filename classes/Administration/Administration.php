@@ -6,7 +6,6 @@ namespace phpCollab\Administration;
 use Apfelbox\FileDownload\FileDownload;
 use phpCollab\Database;
 use Ifsnop\Mysqldump as IMysqldump;
-//use Apfelbox\FileDownload\FileDownload;
 
 /**
  * Class Admins
