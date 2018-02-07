@@ -51,10 +51,6 @@ $block1->openContent();
 $block1->contentTitle("Backup database");
 
 
-//echo '<a href="backup.php">Backup</a>';
-
-
-//<script src='../includes/phpmyadmin/functions.js' type='text/javascript' language='javascript'></script>
 echo <<<HTML
 <tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td>
        <form method="post" action="backupMySQL.php" name="db_dump">
