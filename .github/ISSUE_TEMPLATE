@@ -1,51 +1,25 @@
-<!--- 
-Provide a general summary of the issue in the Title above
--->
+# Thanks
 
-## Expected Behavior
-<!--- 
-If you're describing a bug, tell us what should happen.
+We want to start off by saying thank you for using phpCollab. This project is a labor of love, and we appreciate all contributions that provide pull requests, make performance improvements and help with documentation. Every contribution is meaningful, so thank you for participating. 
 
-If you're suggesting a change/improvement, tell us how it should work
--->
+That being said, here are a few guidelines that we ask you to follow so we can successfully address your issue.
 
-## Current Behavior
-<!--- 
-If describing a bug, tell us what happens instead of the expected behavior.
+# Contribute
 
-If suggesting a change/improvement, explain the difference from current behavior
--->
+If you have already identified an enhancement or a bug fix, it is STRONGLY recommended that you simply submit a pull request to address the case. There is no need for special ceremony to create separate issues. The pull request IS the issue and it will be tracked and tagged as such. Do NOT log issues hoping for the issue to get resolved in the future by someone else.
 
-## Possible Solution
-<!--- 
-Not obligatory, but suggest a fix/reason for the bug, 
-or ideas how to implement the addition or change
--->
+# Remember
 
-## Steps to Reproduce (for bugs)
-<!--- 
-Provide a link to a live example, or an unambiguous set 
-of steps to reproduce this bug. Include code to 
-reproduce, if relevant
--->
-1.
-2.
-3.
-4.
+- If your submission is not an actual issue or does not carry enough diagnostic data described and enumerated below, the issue may be automatically tagged and closed.
+- **Important:** Be prepared to test, contribute, follow through, engage and provide patches and pull requests. 
 
-## Context
-<!--- 
-How has this issue affected you? What are you trying to accomplish? 
 
-Providing context helps us come up with a solution that is most useful in the real world
--->
+# Issue Report
 
-## Your Environment
-<!--- 
-Include as many relevant details about the environment you experienced the bug in 
--->
-* phpCollab version used:
-* PHP version (e.g. 5.3, 7.x):
-* Web server and version (Apache, nginx):
-* Web Browser and version:
-* Link to your project:
+Remove the above from the issue description and make sure the following checklist is followed:
+
+- [] phpCollab version used
+- [] PHP version (e.g. 5.3, 7.x)
+- [] Web server and version (Apache, nginx)
+- [] Steps to duplicate the problem
+- [] Stacktraces and phpCollab/PHP DEBUG logs where appropriate.
