@@ -1,6 +1,6 @@
-INSTALL
+# INSTALL
 
-# Update (starting from version 1.0)
+## Update (starting from version 1.0)
 - Since 2.2, copy your inc/settings to includes/settings.php
 - Save your includes/settings.php and backup your database
 - Replace all files in your PhpCollab folder by new files in the last package you download
@@ -9,7 +9,7 @@ INSTALL
 2. edit database (to dump new commands according to precedent version)
 - If your version is lower than 1.8, launch script installation/fixFilesSize.php (to remove size units in database) 
 
-# Install (only for first install, not for update)
+## Install (only for first install, not for update)
 - Extract in one folder, "phpcollab" for example (with Xoops integration, extract as "phpcollab" in modules folder)
 - Unix/Linux: rename "includes/settings_blank.php" to "includes/settings.php"
 - Unix/Linux: chmod 777 + chown apache "includes/settings.php" file, "files" folder and "logos_clients" folder
@@ -21,7 +21,7 @@ INSTALL
 - With Xoops integration, go to admin, edit settings and set Xoops integration to "true" and set full path to your Xoops folder
 - Avanced users can edit generated file includes/settings.php
 
-# Modules
+## Modules
 - Cvs browse (/docs/modules/cvs.zip)
 - Ssl authentification with e-mail certificate (/docs/modules/ssl.zip)
 - Mantis bugtracking sytem integration (/docs/modules/mantis.zip)
