@@ -45,7 +45,7 @@ All contributions are extremely welcomed with open arms regardless of shape, siz
 
 In other words, if you happen to come across a bothersome use case and/or something you consider a perfect candidate for improvement and attention, you are most definitely, aggressively and wholeheartedly encouraged to spend time and DNA to improve the quality of your phpCollab life. There is no point in silent suffering.
 
-If you find that contributing to the project is at the moment out of your reach, don't worry. There are resources, [here](https://www.coursera.org/) and [here](commercial-affiliates.md) that can provide training and support to get you started for the win.
+If you find that contributing to the project is at the moment out of your reach, don't worry. There are resources, [here](https://www.coursera.org/) and [here](help/commercial-affiliates.md) that can provide training and support to get you started for the win.
 
 
 ## Do I need an issue first?
@@ -64,11 +64,11 @@ If you'd rather just report the issue to have others benefit from your discovery
 
 ## What if I am not a developer?
 
-If you have already diagnosed a problem or have found a use case for an attractive improvement and feature, we strongly recommend you simply [walk down the path](https://github.com/phpcollab/phpcollab/graphs/contributors) of making that all a reality and *contribute* back. If you find yourself unable to do so, you will need to find and procure resources that can [teach you the how-to](https://www.coursera.org/) or [do it for you](commercial-affiliates.md). Talk to your institution, company, organization, supervisor, boss, mentor, architect, etc and have them procure the right resources for the job.
+If you have already diagnosed a problem or have found a use case for an attractive improvement and feature, we strongly recommend you simply [walk down the path](https://github.com/phpcollab/phpcollab/graphs/contributors) of making that all a reality and *contribute* back. If you find yourself unable to do so, you will need to find and procure resources that can [teach you the how-to](https://www.coursera.org/) or [do it for you](help/commercial-affiliates.md). Talk to your institution, company, organization, supervisor, boss, mentor, architect, etc and have them procure the right resources for the job.
 
 Reporting an issue and hoping/waiting for someone else to magically come along and spend time, money and energy to provide a fix for you is never an acceptable strategy. Quit waiting for the light at the end of the tunnel and light it yourself.
 
-If you insist on being treated like a user, you then need to revisit and realign expectations with [folks and resources](commercial-affiliates.md) that can provide you with the treatment you need. All of the work that goes into the development of a rich comprehensive software platform is almost exclusively done on a voluntary basis. Therefor, if you have expectations that resemble something of a commercial support agreement with clauses that include promises, guarantee, SLAs and follow-ups, you simply need to level up with an entity that actually provides that sort of functionality.
+If you insist on being treated like a user, you then need to revisit and realign expectations with [folks and resources](help/commercial-affiliates.md) that can provide you with the treatment you need. All of the work that goes into the development of a rich comprehensive software platform is almost exclusively done on a voluntary basis. Therefor, if you have expectations that resemble something of a commercial support agreement with clauses that include promises, guarantee, SLAs and follow-ups, you simply need to level up with an entity that actually provides that sort of functionality.
 
 ## How do I know who's working on what?
 
