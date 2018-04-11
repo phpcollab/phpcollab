@@ -1,9 +1,3 @@
----
-Todo:
-- [ ] Add link to Slack? Mailing List?
-- [ ] Add Road Map
----
-
 #  Contribution Guidelines
 
 We want to start off by saying thank you for using phpCollab. This project is a labor of love, and we appreciate the work done by all who catch bugs, make performance improvements and help with documentation. Every contribution is meaningful, so thank you for participating. That being said, here are a few guidelines that we ask you to follow so we can successfully address your patch.
@@ -80,7 +74,7 @@ Or put another way:
 
 > You’re opening pull requests when you start work, not when you’re finished. 
 
-There is of course the alternative: [ask](help/mailing-lists.html).
+There is of course the alternative: [ask](../help/mailing-lists.html).
 
 ## Can I backport a change to a maintenance branch?
 
