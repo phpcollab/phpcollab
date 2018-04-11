@@ -3,7 +3,7 @@ DEVELOPERS
 # Request data since 2.2 release (update)
 
 ### new class sample ###
-...
+```php
 if ($comptListOrganizations != "0") {
 	$block1->openResults();
 	$block1->labels($labels = array(0=>$strings["name"],1=>$strings["phone"],2=>$strings["url"]),"false");
@@ -24,15 +24,14 @@ $block1->cellRow($blockPage->buildLink($listOrganizations->org_url[$i],$listOrga
 $block1->closeRow();
 }
 }
-...
-
+```
 
 # Request data since 1.6 release
 Request functions in library are replaced by a new class request.class.php
 There is no more unset to write !!
 
 ### new class sample ###
-...
+```php
 if ($comptListOrganizations != "0") {
 for ($i=0;$i<$comptListOrganizations;$i++) {
 	if (!($i%2)) {
@@ -49,10 +48,10 @@ echo "<tr class=\"$class\" onmouseover=\"this.style.backgroundColor='".$highligh
 <td><a target=\"_blank\" href=\"".$listOrganizations->org_url[$i]."\">".$listOrganizations->org_url[$i]."</a>&nbsp;</td></tr>";
 }
 }
-...
+```
 
 ### old function sample ###
-...
+```php
 if ($comptOrg != "0") {
 for ($i=0;$i<$comptOrg;$i++) {
 	if (!($i%2)) {
@@ -69,4 +68,4 @@ echo "<tr class=\"$class\" onmouseover=\"this.style.backgroundColor='".$highligh
 <td><a target=\"_blank\" href=\"$org_url[$i]\">$org_url[$i]</a>&nbsp;</td></tr>";
 }
 }
-...
+```
