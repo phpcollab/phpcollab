@@ -1,4 +1,4 @@
-phpCollab now uses Composer! Do not clone this repo right into a web directory - it requires a build step. [Learn more](https://github.com/phpcollab/phpcollab/wiki/Installation) or just [download the latest build instead](https://github.com/phpcollab/phpcollab/releases/latest).
+phpCollab now uses Composer! Do not clone this repo right into a web directory - it requires a build step. [Learn more](https://phpcollab.github.io/phpcollab/developer/Build-Process.html) or just [download the latest build instead](https://github.com/phpcollab/phpcollab/releases/latest).
 
 
 phpCollab 2.x
