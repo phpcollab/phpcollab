@@ -4,7 +4,7 @@ Todo:
 - [ ] Add Road Map
 ---
 
-#  phpCollab - Contribution Guidelines
+#  Contribution Guidelines
 
 We want to start off by saying thank you for using phpCollab. This project is a labor of love, and we appreciate the work done by all who catch bugs, make performance improvements and help with documentation. Every contribution is meaningful, so thank you for participating. That being said, here are a few guidelines that we ask you to follow so we can successfully address your patch.
 
@@ -14,8 +14,6 @@ Shed all of your fears of making a mistake as part of your contributions to the 
 we are all here to help you as much as we can so you can ultimately become an independent contributor to the project. 
 
 It's OK to make mistakes and it does take some time, effort and energy to improve the state of proposals and contributions. So do not be discouraged, keep at it and if you find anything that is unclear along the way, do not hesitate to ask questions. 
-
-~~Most if not all open source projects [should] have a [contributor guide](), whose job is to explain the project policy and pace when it comes to accepting changes from the community. Indeed and among many other things, providing guidelines and documentation that teach one how to build, test and contribute patches of all sorts and colors is a pretty good sign of a healthy project and a vibrant community. ~~
 
 The overarching theme of this guide starts with the following questions:
 
