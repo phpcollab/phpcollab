@@ -10,6 +10,7 @@ class LogsGateway
 {
     protected $db;
     protected $initrequest;
+    protected $tableCollab;
 
     /**
      * Logs constructor.
@@ -19,6 +20,7 @@ class LogsGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
+        $this->tableCollab = $GLOBALS['tableCollab'];
     }
 
     public function getLogByLogin($memberLogin)
@@ -32,7 +34,7 @@ class LogsGateway
 
     public function insertLogEntry($entryData) {
         $query = <<<SQL
-INSERT INTO logs
+INSERT INTO {$this->tableCollab["logs"]} 
 (login, password, ip, session, compt, last_visite) 
 VALUES (
   :member_login,
@@ -58,7 +60,7 @@ SQL;
 
     public function updateLogEntry($entryData) {
         $query = <<<SQL
-UPDATE logs 
+UPDATE {$this->tableCollab["logs"]} 
 SET 
 ip=:ip, 
 session=:session, 

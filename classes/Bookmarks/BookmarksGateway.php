@@ -12,6 +12,7 @@ class BookmarksGateway
 {
     protected $db;
     protected $initrequest;
+    protected $tableCollab;
 
     /**
      * Bookmarks constructor.
@@ -21,6 +22,7 @@ class BookmarksGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
+        $this->tableCollab = $GLOBALS['tableCollab'];
     }
 
     /**
@@ -30,7 +32,7 @@ class BookmarksGateway
      */
     public function deleteBookmark($bookmarkId)
     {
-        $query = 'DELETE FROM bookmarks WHERE id IN(:bookmark_id)';
+        $query = 'DELETE FROM ' . $this->tableCollab["bookmarks"] .' WHERE id IN(:bookmark_id)';
 
         $this->db->query($query);
 
@@ -164,7 +166,7 @@ class BookmarksGateway
      */
     public function addNewCategory($categoryName)
     {
-        $query = "INSERT INTO bookmarks_categories (name) VALUES(:category_name)";
+        $query = "INSERT INTO ". $this->tableCollab["bookmarks_categories"] ." (name) VALUES(:category_name)";
 
         $this->db->query($query);
 
@@ -182,7 +184,7 @@ class BookmarksGateway
     public function addBookmark($bookmarkData)
     {
         $query = <<<SQL
-INSERT INTO bookmarks 
+INSERT INTO {$this->tableCollab["bookmarks"]} 
 (owner, category, name, url, description, shared, home, comments, users, created) 
 VALUES(
   :bookmark_owner, 
@@ -221,7 +223,7 @@ SQL;
     public function updateBookmark($bookmarkData)
     {
         $query = <<<SQL
-UPDATE bookmarks 
+UPDATE {$this->tableCollab["bookmarks"]} 
 SET 
 url=:bookmark_url, 
 name=:bookmark_name, 

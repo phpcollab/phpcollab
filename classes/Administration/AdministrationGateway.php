@@ -12,6 +12,7 @@ class AdministrationGateway
 {
     protected $db;
     protected $initrequest;
+    protected $tableCollab;
 
     /**
      * Reports constructor.
@@ -21,6 +22,7 @@ class AdministrationGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
+        $this->initrequest = $GLOBALS['tableCollab'];
     }
 
     /**
@@ -29,7 +31,7 @@ class AdministrationGateway
      */
     public function deleteLogs()
     {
-        $query = 'DELETE FROM logs';
+        $query = 'DELETE FROM ' . $this->tableCollab["logs"];
 
         $this->db->query($query);
 
@@ -40,7 +42,7 @@ class AdministrationGateway
      * @return mixed
      */
     public function deleteMyCompanyLogo() {
-        $query = 'UPDATE organizations SET extension_logo="" WHERE id=1';
+        $query = 'UPDATE '. $this->tableCollab["organizations"] .'organizations SET extension_logo="" WHERE id=1';
 
         $this->db->query($query);
 

@@ -91,14 +91,14 @@ class ProjectsGateway
         $tmpQuery = '';
         if ($typeProjects == "inactive") {
             if ($this->projectsFilter == "true") {
-                $tmpQuery = "LEFT OUTER JOIN teams ON teams.project = pro.id ";
+                $tmpQuery = "LEFT OUTER JOIN ". $this->tableCollab["teams"] . " ON teams.project = pro.id ";
                 $tmpQuery .= " WHERE pro.status IN(1,4) AND teams.member = :owner_id";
             } else {
                 $tmpQuery = "WHERE pro.status IN(1,4)";
             }
         } else if ($typeProjects == "active") {
             if ($this->projectsFilter == "true") {
-                $tmpQuery = "LEFT OUTER JOIN teams teams ON teams.project = pro.id ";
+                $tmpQuery = "LEFT OUTER JOIN teams " . $this->tableCollab["teams"] . " ON teams.project = pro.id ";
                 $tmpQuery .= "WHERE pro.status IN(0,2,3) AND teams.member = :owner_id";
             } else {
                 $tmpQuery = "WHERE pro.status IN(0,2,3)";
