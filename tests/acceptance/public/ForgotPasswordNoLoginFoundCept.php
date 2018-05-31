@@ -1,4 +1,5 @@
 <?php
+$scenario->incomplete('testing Travic CI');
 $I = new AcceptanceTester($scenario);
 $I->wantTo('forgot password');
 $I->amOnPage('/general/sendpassword.php');
