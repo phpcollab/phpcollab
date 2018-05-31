@@ -46,20 +46,20 @@ env:
                 - window-size=1920x1080
           window_size: false
 
-  firefox:
-    modules:
-      config:
-        WebDriver:
-          browser: firefox
-
-  phantom:
-    modules:
-      config:
-        WebDriver:
-          browser: phantomjs
-
-  safari:
-    modules:
-      config:
-        WebDriver:
-          browser: safari
+#  firefox:
+#    modules:
+#      config:
+#        WebDriver:
+#          browser: firefox
+#
+#  phantom:
+#    modules:
+#      config:
+#        WebDriver:
+#          browser: phantomjs
+#
+#  safari:
+#    modules:
+#      config:
+#        WebDriver:
+#          browser: safari
