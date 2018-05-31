@@ -5,17 +5,8 @@
 # If you need both WebDriver and PHPBrowser tests - create a separate suite.
 
 class_name: AcceptanceTester
-#modules:
-#    enabled:
-##        - WebDriver:
-#        - PhpBrowser:
-#            url: http://phpcollab.dev/
-##            browser: chrome
-#        - \Helper\Acceptance
 modules:
   enabled:
-    #- PhpBrowser:
-    #   url: http://localhost:8000
     - WebDriver
     - \Helper\Acceptance
   config:
@@ -24,14 +15,22 @@ modules:
       port: 4444
       url: "http://localhost:8000"
       wait: 1 # seconds
+groups:
+  # add 2 tests to db group
+  public: [tests/acceptance/public]
+
+  # add all tests from a directory to api group
+  loggedIn: [tests/acceptance/loggedIn]
+
+
 
 # http://codeception.com/docs/07-AdvancedUsage
 env:
-  chrome:
-    modules:
-      config:
-        WebDriver:
-          browser: chrome
+#  chrome:
+#    modules:
+#      config:
+#        WebDriver:
+#          browser: chrome
 
   chrome-headless:
     modules:
