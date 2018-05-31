@@ -55,7 +55,7 @@ before_script:
 
 # Tell Travis CI to monitor only 'master' branch
 branches:
-  only: master
+  only: travis-ci
 
 # Cache folder, you can delete cache from Travis CI web interface
 cache:
