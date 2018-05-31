@@ -13,6 +13,9 @@ git:
 php:
   - '7.1'
 
+#services:
+#  - mysql
+
 # We don't want to run linux commands as super user
 # false means Travis will run this in a container
 sudo: false
@@ -34,7 +37,8 @@ before_script:
   - wget -c -nc --retry-connrefused --tries=0 https://goo.gl/s4o9Vx -O selenium-server-standalone.jar
 
   - echo "Download chrome driver and unzip it"
-  - wget -c -nc --retry-connrefused --tries=0 http://chromedriver.storage.googleapis.com/2.31/chromedriver_linux64.zip
+  - wget -c -nc --retry-connrefused --tries=0 http://chromedriver.storage.googleapis.com/2.39/chromedriver_linux64.zip
+#  - wget -c -nc --retry-connrefused --tries=0 http://chromedriver.storage.googleapis.com/2.39/chromedriver_mac64.zip
   - unzip -o -q chromedriver_linux64.zip
 
   - echo "Run selenium server - background process"
