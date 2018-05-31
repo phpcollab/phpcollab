@@ -11,7 +11,6 @@ git:
   depth: 1
 
 php:
-  - '5.6'
   - '7.1'
 
 # We don't want to run linux commands as super user
