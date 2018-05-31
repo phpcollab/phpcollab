@@ -34,11 +34,10 @@ before_script:
   - sleep 3 # give xvfb some time to start
 
   - echo "Download selenium-server-standalone jar file"
-  - wget -c -nc --retry-connrefused --tries=0 https://goo.gl/s4o9Vx -O selenium-server-standalone.jar
+  - wget -c -nc --retry-connrefused --tries=0 https://goo.gl/tbd1NS -O selenium-server-standalone.jar
 
   - echo "Download chrome driver and unzip it"
   - wget -c -nc --retry-connrefused --tries=0 http://chromedriver.storage.googleapis.com/2.39/chromedriver_linux64.zip
-#  - wget -c -nc --retry-connrefused --tries=0 http://chromedriver.storage.googleapis.com/2.39/chromedriver_mac64.zip
   - unzip -o -q chromedriver_linux64.zip
 
   - echo "Run selenium server - background process"
