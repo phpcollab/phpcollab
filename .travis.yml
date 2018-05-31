@@ -44,8 +44,8 @@ before_script:
   - nohup bash -c "php -S localhost:8000 2>&1 -t app &" && sleep 1; cat nohup.out
 
 # Run main commands
-script:
-  - composer test
+#script:
+#  - composer test
 
 #after_script:
 
