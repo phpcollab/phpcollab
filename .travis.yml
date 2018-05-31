@@ -45,7 +45,7 @@ before_script:
 
 # Run main commands
 script:
-  - echo "hello Travis"
+  - composer test
 
 #after_script:
 
