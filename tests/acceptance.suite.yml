@@ -14,7 +14,7 @@ modules:
       browser: chrome
       port: 4444
       url: "http://localhost:8000"
-      wait: 1 # seconds
+      wait: 3 # seconds
 groups:
   public: [tests/acceptance/public]
 
