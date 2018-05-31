@@ -16,34 +16,32 @@ modules:
       url: "http://localhost:8000"
       wait: 1 # seconds
 groups:
-  # add 2 tests to db group
   public: [tests/acceptance/public]
 
-  # add all tests from a directory to api group
   loggedIn: [tests/acceptance/loggedIn]
 
 
 
 # http://codeception.com/docs/07-AdvancedUsage
 env:
-#  chrome:
-#    modules:
-#      config:
-#        WebDriver:
-#          browser: chrome
-
-  chrome-headless:
+  chrome:
     modules:
       config:
         WebDriver:
           browser: chrome
-          capabilities:
-            chromeOptions:
-              args:
-                - "--headless"
-                - "--disable-gpu"
-                - window-size=1920x1080
-          window_size: false
+
+#  chrome-headless:
+#    modules:
+#      config:
+#        WebDriver:
+#          browser: chrome
+#          capabilities:
+#            chromeOptions:
+#              args:
+#                - "--headless"
+#                - "--disable-gpu"
+#                - window-size=1920x1080
+#          window_size: false
 
 #  firefox:
 #    modules:
