@@ -1,4 +1,65 @@
 language: php
+
+# Install google chrome latest stable
+addons:
+  apt:
+    packages:
+      - google-chrome-stable
+
+# git configs
+git:
+  depth: 1
+
 php:
   - '5.6'
   - '7.1'
+
+# We don't want to run linux commands as super user
+# false means Travis will run this in a container
+sudo: false
+
+# Disable x-debug to speed up things
+before_install: phpenv config-rm xdebug.ini
+
+# Install packages those will be required during build
+install:
+  - composer install --no-interaction
+
+# Prepare test environment
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+
+  - echo "Download selenium-server-standalone jar file"
+  - wget -c -nc --retry-connrefused --tries=0 https://goo.gl/s4o9Vx -O selenium-server-standalone.jar
+
+  - echo "Download chrome driver and unzip it"
+  - wget -c -nc --retry-connrefused --tries=0 http://chromedriver.storage.googleapis.com/2.31/chromedriver_linux64.zip
+  - unzip -o -q chromedriver_linux64.zip
+
+  - echo "Run selenium server - background process"
+  - nohup bash -c "java -jar selenium-server-standalone.jar &" && sleep 1; cat nohup.out
+  - ls -al
+  - echo "Run php in-built server - background process"
+  - nohup bash -c "php -S localhost:8000 2>&1 -t app &" && sleep 1; cat nohup.out
+
+# Run main commands
+script:
+  - composer test
+
+#after_script:
+
+#after_success:
+
+#after_failure:
+
+# Tell Travis CI to monitor only 'master' branch
+branches:
+  only: master
+
+# Cache folder, you can delete cache from Travis CI web interface
+cache:
+    directories:
+        - vendor
+        - $HOME/.composer/cache
