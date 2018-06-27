@@ -58,6 +58,16 @@ SQL;
         return $this->db->execute();
     }
 
+    public function setConnectedByLogin($login, $connected = '') {
+        $query = <<<SQL
+UPDATE {$this->tableCollab["logs"]} SET connected = :connected WHERE login = :login_id
+SQL;
+        $this->db->query($query);
+        $this->db->bind(':login_id', $login);
+        $this->db->bind(':connected', $connected);
+        return $this->db->execute();
+    }
+
     public function updateLogEntry($entryData) {
         $query = <<<SQL
 UPDATE {$this->tableCollab["logs"]} 
