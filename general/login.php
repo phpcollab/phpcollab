@@ -36,9 +36,7 @@ $strings = $GLOBALS["strings"];
 $idSession = (isset($_SESSION["idSession"]) && $_SESSION["idSession"] !== '') ? $_SESSION["idSession"] : null;
 
 if ($logout == "true") {
-    $tmpquery1 = "UPDATE {$tableCollab["logs"]} SET connected='' WHERE login = :login_id";
-    $dbParams = ["login_id" => $idSession];
-    phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
+    $logs->setConnectedByLogin($loginSession, false);
 
     // delete the authentication cookies
     setcookie('loginCookie', '', time()-86400);
