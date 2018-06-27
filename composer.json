@@ -15,7 +15,8 @@
     "monolog/monolog": "^1.19",
     "maximebf/debugbar": "^1.13",
     "ifsnop/mysqldump-php": "^2.3",
-    "apfelbox/php-file-download": "^2.1"
+    "apfelbox/php-file-download": "^2.1",
+    "symfony/http-foundation": "^4.1"
   },
   "require-dev": {
     "codeception/codeception": "^2.3"
