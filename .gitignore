@@ -5,6 +5,7 @@ files/**/
 logos_clients/*
 # exception to the above rule
 !logos_client/index.php
+compilation_cache/
 
 # Logs and databases #
 ######################
@@ -28,3 +29,8 @@ logos_clients/*
 composer/
 vendor/
 tests/_output/*
+
+# Additional Items #
+####################
+**/*.jar
+chromedriver*
