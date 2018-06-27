@@ -8,6 +8,7 @@
 namespace phpCollab;
 use phpCollab\Tasks\Tasks;
 use \Exception;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class Util
@@ -165,7 +166,8 @@ class Util
      **/
     public static function headerFunction($url)
     {
-        header("Location:$url");
+        $response = new RedirectResponse($url);
+        $response->send();
     }
 
     /**
