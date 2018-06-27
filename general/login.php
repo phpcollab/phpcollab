@@ -28,6 +28,8 @@
 $checkSession = "false";
 include '../includes/library.php';
 
+use Symfony\Component\HttpFoundation;
+
 $members = new \phpCollab\Members\Members();
 $logs = new \phpCollab\Logs\Logs();
 
@@ -45,7 +47,8 @@ if ($logout == "true") {
     session_unset();
     session_destroy();
 
-    phpCollab\Util::headerFunction("../general/login.php?msg=logout");
+    $response = new HttpFoundation\RedirectResponse("../general/login.php");
+    $response->send();
 }
 
 $auth = phpCollab\Util::returnGlobal('auth', 'GET');
@@ -233,38 +236,40 @@ if ($auth == "on") {
             //redirect for external link to internal page
             if ($url != "") {
                 if ($loginUser->mem_profil[0] == "3") {
-                    phpCollab\Util::headerFunction("../$url&updateProject=true");
+                    $response = new HttpFoundation\RedirectResponse("../$url&updateProject=true");
                 } else {
-                    phpCollab\Util::headerFunction("../$url");
+                    $response = new HttpFoundation\RedirectResponse("../$url");
                 }
+                $response->send();
             } //redirect to last page required (with auto log out feature)
             else {
                 if ($loginUser->mem_last_page[0] != "" && $loginUser->mem_profil[0] != "3" && $lastvisitedpage) {
                     $tmpquery = "UPDATE {$tableCollab["members"]} SET last_page='' WHERE login = :login";
                     phpCollab\Util::newConnectSql($tmpquery, ["login", $usernameForm]);
-                    phpCollab\Util::headerFunction("../" . $loginUser->mem_last_page[0]);
+                    $response = new HttpFoundation\RedirectResponse("../" . $loginUser->mem_last_page[0]);
                 } else {
                     if ($loginUser->mem_last_page[0] != "" && ($loginCookie != "" && $passwordCookie != "") && $loginUser->mem_profil[0] != "3" && $lastvisitedpage) {
                         $tmpquery = "UPDATE {$tableCollab["members"]} SET last_page='' WHERE login = :login";
                         phpCollab\Util::newConnectSql($tmpquery, ["login", $usernameForm]);
-                        phpCollab\Util::headerFunction("../" . $loginUser->mem_last_page[0]);
+                        $response = new HttpFoundation\RedirectResponse("../" . $loginUser->mem_last_page[0]);
                     } //redirect to home or admin page (if user is administrator)
                     else {
                         if ($loginUser->mem_profil[0] == "3") {
-                            phpCollab\Util::headerFunction("../projects_site/home.php");
+                            $response = new HttpFoundation\RedirectResponse("../projects_site/home.php");
                         } else {
                             if ($loginUser->mem_profil[0] == "0") {
                                 if ($adminathome == '1') {
-                                    phpCollab\Util::headerFunction("../general/home.php");
+                                    $response = new HttpFoundation\RedirectResponse("../general/home.php");
                                 } else {
-                                    phpCollab\Util::headerFunction("../administration/admin.php");
+                                    $response = new HttpFoundation\RedirectResponse("../administration/admin.php");
                                 }
                             } else {
-                                phpCollab\Util::headerFunction("../general/home.php");
+                                $response = new HttpFoundation\RedirectResponse("../general/home.php");
                             }
                         }
                     }
                 }
+                $response->send();
             }
         }
     }
