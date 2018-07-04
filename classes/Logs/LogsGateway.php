@@ -89,4 +89,34 @@ SQL;
 
         return $this->db->execute();
     }
+
+    /**
+     * @param $date
+     * @param $userId
+     * @return mixed
+     */
+    public function updateConnectedTimeForUser($date, $userId) {
+        $query = <<<SQL
+UPDATE {$this->tableCollab["logs"]} 
+SET connected = :date_unix 
+WHERE login = :login_session
+SQL;
+
+        $this->db->query($query);
+        $this->db->bind(':date_unix', $date);
+        $this->db->bind(':login_session', $userId);
+        return $this->db->execute();
+    }
+
+    /**
+     * @param $dateunix
+     * @return mixed
+     */
+    public function getConnectedUsers($dateunix)
+    {
+        $query = "SELECT * FROM {$this->tableCollab["logs"]} WHERE connected > :date_unix";
+        $this->db->query($query);
+        $this->db->bind(':date_unix', $dateunix);
+        return $this->db->resultset();
+    }
 }

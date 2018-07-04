@@ -51,6 +51,16 @@ class Logs
     }
 
     /**
+     * @param $entryData
+     * @return mixed
+     */
+    public function updateConnectedTimeForUser($date, $userId) {
+        $data = $this->logs_gateway->updateConnectedTimeForUser($date, $userId);
+
+        return $data;
+    }
+
+    /**
      * @param string $login
      * @param boolean $connected
      */
@@ -58,5 +68,15 @@ class Logs
     {
 //        $tmpquery1 = "UPDATE {$tableCollab["logs"]} SET connected='' WHERE login = :login_id";
         $data = $this->logs_gateway->setConnectedByLogin($login, $connected);
+    }
+
+    /**
+     *
+     */
+    public function getConnectedUsers()
+    {
+        $dateunix = date("U");
+        $dateunix = $dateunix-5*60;
+        return $this->logs_gateway->getConnectedUsers($dateunix);
     }
 }
