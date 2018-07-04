@@ -63,7 +63,7 @@ if ($teamMember == "true" || $profilSession == "0") {
     $block1->paletteIcon(3, "info", $strings["view"]);
     $block1->closePaletteIcon();
 }
-$block1->sorting("support_requests", $sortingUser->sor_support_requests[0], "sr.id ASC", $sortingFields = array(0 => "sr.id", 1 => "sr.subject", 2 => "sr.priority", 3 => "sr.status", 4 => "sr.date_open", 5 => "sr.date_close"));
+$block1->sorting("support_requests", $sortingUser["support_requests"], "sr.id ASC", $sortingFields = array(0 => "sr.id", 1 => "sr.subject", 2 => "sr.priority", 3 => "sr.status", 4 => "sr.date_open", 5 => "sr.date_close"));
 
 $tmpquery = "WHERE sr.project = '$id' ORDER BY $block1->sortingValue";
 $listRequests = new phpCollab\Request();

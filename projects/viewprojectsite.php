@@ -144,7 +144,7 @@ if ($projectDetail->pro_organization[0] != "" && $projectDetail->pro_organizatio
         $block2->closePaletteIcon();
     }
 
-    $block2->sorting("team", $sortingUser->sor_team[0], "mem.name ASC", $sortingFields = array(0 => "mem.name", 1 => "mem.title", 2 => "mem.login", 3 => "mem.phone_work", 4 => "log.connected", 5 => "tea.published"));
+    $block2->sorting("team", $sortingUser["team"], "mem.name ASC", $sortingFields = array(0 => "mem.name", 1 => "mem.title", 2 => "mem.login", 3 => "mem.phone_work", 4 => "log.connected", 5 => "tea.published"));
 
     $tmpquery = "WHERE tea.project = '$id' AND mem.profil = '3' ORDER BY $block2->sortingValue";
     $listPermitted = new phpCollab\Request();

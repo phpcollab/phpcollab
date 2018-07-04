@@ -151,7 +151,7 @@ $block1 = new phpCollab\Block();
 $block1->limit = $blockPage->returnLimit("1");
 $block1->rowsLimit = "10";
 
-$block1->sorting("projects", $sortingUser->sor_projects[0], "pro.name ASC", $sortingFields = array(0 => "pro.id", 1 => "pro.name", 2 => "pro.priority", 3 => "org.name", 4 => "pro.status", 5 => "mem.login", 6 => "pro.published"));
+$block1->sorting("projects", $sortingUser["projects"], "pro.name ASC", $sortingFields = array(0 => "pro.id", 1 => "pro.name", 2 => "pro.priority", 3 => "org.name", 4 => "pro.status", 5 => "mem.login", 6 => "pro.published"));
 
 if ($projectsFilter == "true") {
     $tmpquery = "LEFT OUTER JOIN " . $tableCollab["teams"] . " teams ON teams.project = pro.id ";
@@ -173,7 +173,7 @@ $block2 = new phpCollab\Block();
 $block2->limit = $blockPage->returnLimit("2");
 $block2->rowsLimit = "10";
 
-$block2->sorting("home_tasks", $sortingUser->sor_home_tasks[0], "tas.name ASC", $sortingFields = array(0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.due_date", 4 => "mem.login", 5 => "tas.project", 6 => "tas.published"));
+$block2->sorting("home_tasks", $sortingUser["home_tasks"], "tas.name ASC", $sortingFields = array(0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.due_date", 4 => "mem.login", 5 => "tas.project", 6 => "tas.published"));
 
 if ($projectsFilter == "true") {
     $tmpquery = "LEFT OUTER JOIN " . $tableCollab["teams"] . " teams ON teams.project = pro.id ";
@@ -215,7 +215,7 @@ if ($validTasks == "true") {
 $block9 = new phpCollab\Block();
 $block9->limit = $blockPage->returnLimit("9");
 $block9->rowsLimit = "10";
-$block9->sorting("home_subtasks", $sortingUser->sor_home_subtasks[0], "subtas.name ASC", $sortingFields = array(0 => "subtas.name", 1 => "subtas.priority", 2 => "subtas.status", 3 => "subtas.due_date", 4 => "mem.login", 5 => "subtas.project", 6 => "subtas.published"));
+$block9->sorting("home_subtasks", $sortingUser["home_subtasks"], "subtas.name ASC", $sortingFields = array(0 => "subtas.name", 1 => "subtas.priority", 2 => "subtas.status", 3 => "subtas.due_date", 4 => "mem.login", 5 => "subtas.project", 6 => "subtas.published"));
 $tmpquery = "$searchSubtasks ORDER BY $block9->sortingValue";
 
 $comptListSubtasks = "0";
@@ -231,7 +231,7 @@ $block3 = new phpCollab\Block();
 $block3->limit = $blockPage->returnLimit("3");
 $block3->rowsLimit = "10";
 
-$block3->sorting("users", $sortingUser->sor_users[0], "mem.name ASC", $sortingFields = array(0 => "mem.name", 1 => "mem.login", 2 => "mem.email_work", 3 => "mem.phone_work", 4 => "log.connected"));
+$block3->sorting("users", $sortingUser["users"], "mem.name ASC", $sortingFields = array(0 => "mem.name", 1 => "mem.login", 2 => "mem.email_work", 3 => "mem.phone_work", 4 => "log.connected"));
 
 if ($demoMode == "true") {
     $tmpquery = "$searchMembers ) ORDER BY $block3->sortingValue";
@@ -252,7 +252,7 @@ $block4 = new phpCollab\Block();
 $block4->limit = $blockPage->returnLimit("4");
 $block4->rowsLimit = "10";
 
-$block4->sorting("organizations", $sortingUser->sor_organizations[0], "org.name ASC", $sortingFields = array(0 => "org.name", 1 => "org.url", 2 => "org.phone"));
+$block4->sorting("organizations", $sortingUser["organizations"], "org.name ASC", $sortingFields = array(0 => "org.name", 1 => "org.url", 2 => "org.phone"));
 
 if ($clientsFilter == "true" && $profilSession == "2") {
     $teamMember = "false";
@@ -295,7 +295,7 @@ $block5 = new phpCollab\Block();
 $block5->limit = $blockPage->returnLimit("5");
 $block5->rowsLimit = "10";
 
-$block5->sorting("home_discussions", $sortingUser->sor_home_discussions[0], "topic.last_post DESC", $sortingFields = array(0 => "topic.subject", 1 => "mem.login", 2 => "topic.posts", 3 => "topic.last_post", 4 => "topic.status", 5 => "topic.project", 6 => "topic.published"));
+$block5->sorting("home_discussions", $sortingUser["home_discussions"], "topic.last_post DESC", $sortingFields = array(0 => "topic.subject", 1 => "mem.login", 2 => "topic.posts", 3 => "topic.last_post", 4 => "topic.status", 5 => "topic.project", 6 => "topic.published"));
 
 if ($projectsFilter == "true") {
     if ($comptListProjectsFilter != "0") {
@@ -324,9 +324,9 @@ $block6->limit = $blockPage->returnLimit("6");
 $block6->rowsLimit = "10";
 
 if ($comptTopic != "0") {
-    $block6->sorting("notes", $sortingUser->sor_notes[0], "note.date DESC", $sortingFields = array(0 => "note.subject", 1 => "note.topic", 2 => "note.date", 3 => "mem.login", 4 => "note.published"));
+    $block6->sorting("notes", $sortingUser["notes"], "note.date DESC", $sortingFields = array(0 => "note.subject", 1 => "note.topic", 2 => "note.date", 3 => "mem.login", 4 => "note.published"));
 } else {
-    $block6->sorting("notes", $sortingUser->sor_notes[0], "note.date DESC", $sortingFields = array(0 => "note.subject", 1 => "note.date", 2 => "mem.login", 3 => "note.published"));
+    $block6->sorting("notes", $sortingUser["notes"], "note.date DESC", $sortingFields = array(0 => "note.subject", 1 => "note.date", 2 => "mem.login", 3 => "note.published"));
 }
 
 if ($projectsFilter == "true") {

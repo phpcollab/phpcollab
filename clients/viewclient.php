@@ -136,7 +136,7 @@ if ($enableMantis == "true") {
 }
 $block2->closePaletteIcon();
 
-$block2->sorting("organization_projects", $sortingUser->sor_organization_projects[0], "pro.name ASC", $sortingFields = array(0 => "pro.id", 1 => "pro.name", 2 => "pro.priority", 3 => "pro.status", 4 => "mem.login", 5 => "pro.published"));
+$block2->sorting("organization_projects", $sortingUser["organization_projects"], "pro.name ASC", $sortingFields = array(0 => "pro.id", 1 => "pro.name", 2 => "pro.priority", 3 => "pro.status", 4 => "mem.login", 5 => "pro.published"));
 
 if ($projectsFilter == "true") {
     $listProjects = $projects->getFilteredProjectsByOrganization($clientDetail['org_id'], $idSession, $block2->sortingValue);
@@ -207,7 +207,7 @@ if ($profilSession == "0" || $profilSession == "1") {
 }
 $block3->closePaletteIcon();
 
-$block3->sorting("users", $sortingUser->sor_users[0], "mem.name ASC", $sortingFields = array(0 => "mem.name", 1 => "mem.login", 2 => "mem.email_work", 3 => "mem.phone_work", 4 => "connected"));
+$block3->sorting("users", $sortingUser["users"], "mem.name ASC", $sortingFields = array(0 => "mem.name", 1 => "mem.login", 2 => "mem.email_work", 3 => "mem.phone_work", 4 => "connected"));
 
 $listMembers = $members->getMembersByOrg($id, $block3->sortingValue);
 

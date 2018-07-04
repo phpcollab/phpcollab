@@ -51,7 +51,7 @@ if ($teamMember == "true" || $profilSession == "5") {
     }
     $block7->closePaletteIcon();
 
-    $block7->sorting("phases", $sortingUser->sor_phases[0], "pha.order_num ASC", $sortingFields = array(0=>"pha.order_num",1=>"pha.name",2=>"none",3=>"none",4=>"pha.status",5=>"pha.date_start",6=>"pha.date_end"));
+    $block7->sorting("phases", $sortingUser["phases"], "pha.order_num ASC", $sortingFields = array(0=>"pha.order_num",1=>"pha.name",2=>"none",3=>"none",4=>"pha.status",5=>"pha.date_start",6=>"pha.date_end"));
 
     $tmpquery = "WHERE pha.project_id = '$id' ORDER BY $block7->sortingValue";
     $listPhases = new phpCollab\Request();

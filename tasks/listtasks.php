@@ -114,7 +114,7 @@ $block1->closePaletteIcon();
 $block1->limit = $blockPage->returnLimit("1");
 $block1->rowsLimit = "20";
 
-$block1->sorting("tasks", $sortingUser->sor_tasks[0], "tas.name ASC", $sortingFields = [0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem.login", 6 => "tas.published"]);
+$block1->sorting("tasks", $sortingUser["tasks"], "tas.name ASC", $sortingFields = [0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem.login", 6 => "tas.published"]);
 
 $tmpquery = "WHERE tas.project = '$project' ORDER BY $block1->sortingValue";
 

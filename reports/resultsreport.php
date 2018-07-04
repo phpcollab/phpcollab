@@ -263,7 +263,7 @@ $block1 = new phpCollab\Block();
 
 $block1->sorting(
     "report_tasks",
-    $sortingUser->sor_report_tasks[0],
+    $sortingUser["report_tasks"],
     "tas.name ASC",
     $sortingFields = [
         0 => "tas.name",

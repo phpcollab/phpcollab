@@ -70,7 +70,7 @@ $block1->closePaletteIcon();
 if ($view == "my") {
     $block1->sorting(
         "bookmarks",
-        $sortingUser->sor_bookmarks[0],
+        $sortingUser["bookmarks"],
         "boo.name ASC",
         $sortingFields = [
         0 => "boo.name",
@@ -81,7 +81,7 @@ if ($view == "my") {
 } else {
     $block1->sorting(
         "bookmarks",
-        $sortingUser->sor_bookmarks[0],
+        $sortingUser["bookmarks"],
         "boo.name ASC",
         $sortingFields = [
             0 => "boo.name",

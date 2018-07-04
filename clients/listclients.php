@@ -66,7 +66,7 @@ $block1->closePaletteIcon();
 $block1->limit = $blockPage->returnLimit("1");
 $block1->rowsLimit = "20";
 
-$block1->sorting("organizations", $sortingUser->sor_organizations[0], "org.name ASC", $sortingFields = array(0 => "org.name", 1 => "org.phone", 2 => "org.url"));
+$block1->sorting("organizations", $sortingUser["organizations"], "org.name ASC", $sortingFields = array(0 => "org.name", 1 => "org.phone", 2 => "org.url"));
 
 if ($clientsFilter == "true" && $profilSession == "2") {
     $teamMember = "false";

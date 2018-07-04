@@ -28,7 +28,7 @@ $block1->paletteIcon(1, "remove", $strings["delete"]);
 $block1->paletteIcon(2, "export", $strings["export"]);
 $block1->closePaletteIcon();
 
-$block1->sorting("reports", $sortingUser->sor_reports[0], "rep.name ASC", $sortingFields = [0 => "rep.name", 1 => "rep.created"]);
+$block1->sorting("reports", $sortingUser["reports"], "rep.name ASC", $sortingFields = [0 => "rep.name", 1 => "rep.created"]);
 
 $db = new phpCollab\Database();
 

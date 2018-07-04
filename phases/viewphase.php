@@ -168,7 +168,7 @@ if ($teamMember == "true" || $profilSession == "5") {
 }
 $block2->closePaletteIcon();
 
-$block2->sorting("tasks", $sortingUser->sor_tasks[0], "tas.name ASC", $sortingFields = [0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem.login", 6 => "tas.published"]);
+$block2->sorting("tasks", $sortingUser["tasks"], "tas.name ASC", $sortingFields = [0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem.login", 6 => "tas.published"]);
 
 $listTasks = $tasks->getTasksByProjectIdAndParentPhase($project, $parentPhase, $block2->sortingValue);
 
@@ -266,7 +266,7 @@ if ($fileManagement == "true") {
     }
 
     $block3->closePaletteIcon();
-    $block3->sorting("files", $sortingUser->sor_files[0], "fil.name ASC", $sortingFields = [0 => "fil.extension", 1 => "fil.name", 2 => "fil.owner", 3 => "fil.date", 4 => "fil.status", 5 => "fil.published"]);
+    $block3->sorting("files", $sortingUser["files"], "fil.name ASC", $sortingFields = [0 => "fil.extension", 1 => "fil.name", 2 => "fil.owner", 3 => "fil.date", 4 => "fil.status", 5 => "fil.published"]);
 
     $listFiles = $files->getFilesByProjectAndPhaseWithoutTasksAndParent($projectDetail["pro_id"], $phaseDetail["pha_id"], $block3->sortingValue);
 

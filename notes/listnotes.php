@@ -79,9 +79,9 @@ $block1->closePaletteIcon();
 $comptTopic = count($topicNote);
 
 if ($comptTopic != "0") {
-    $block1->sorting("notes", $sortingUser->sor_notes[0], "note.date DESC", $sortingFields = [0 => "note.subject", 1 => "note.topic", 2 => "note.date", 3 => "mem.login", 4 => "note.published"]);
+    $block1->sorting("notes", $sortingUser["notes"], "note.date DESC", $sortingFields = [0 => "note.subject", 1 => "note.topic", 2 => "note.date", 3 => "mem.login", 4 => "note.published"]);
 } else {
-    $block1->sorting("notes", $sortingUser->sor_notes[0], "note.date DESC", $sortingFields = [0 => "note.subject", 1 => "note.date", 2 => "mem.login", 3 => "note.published"]);
+    $block1->sorting("notes", $sortingUser["notes"], "note.date DESC", $sortingFields = [0 => "note.subject", 1 => "note.date", 2 => "mem.login", 3 => "note.published"]);
 }
 
 $listNotes = $notes->getNoteByProject($project, $block1->sortingValue);

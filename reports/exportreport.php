@@ -241,7 +241,7 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 
-$block1->sorting("report_tasks", $sortingUser->sor_report_tasks[0], "tas.complete_date DESC", $sortingFields = [0 => "tas.name", 1 => "tas.project", 2 => "tas.actual_time", 3 => "tas.completion", 4 => "tas.status", 5 => "tas.start_date", 6 => "tas.due_date", 7 => "tas.complete_date", 8 => "mem.login", 9 => "tas.description", 10 => "tas.comments"]);
+$block1->sorting("report_tasks", $sortingUser["report_tasks"], "tas.complete_date DESC", $sortingFields = [0 => "tas.name", 1 => "tas.project", 2 => "tas.actual_time", 3 => "tas.completion", 4 => "tas.status", 5 => "tas.start_date", 6 => "tas.due_date", 7 => "tas.complete_date", 8 => "mem.login", 9 => "tas.description", 10 => "tas.comments"]);
 
 $queryStart = isset($queryStart) ? $queryStart : null;
 if ($projectsFilter == "true") {

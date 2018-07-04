@@ -97,7 +97,7 @@ $block1->closePaletteIcon();
 $block1->limit = $blockPage->returnLimit("1");
 $block1->rowsLimit = "20";
 
-$block1->sorting("invoices", $sortingUser->sor_invoices[0], "inv.id ASC", $sortingFields = [0 => "inv.id", 1 => "pro.name", 2 => "inv.total_inc_tax", 3 => "inv.date_sent", 4 => "inv.published"]);
+$block1->sorting("invoices", $sortingUser["invoices"], "inv.id ASC", $sortingFields = [0 => "inv.id", 1 => "pro.name", 2 => "inv.total_inc_tax", 3 => "inv.date_sent", 4 => "inv.published"]);
 
 $projectsTest = $projects->getProjectsByOrganization($client, 'pro.id');
 

@@ -26,7 +26,7 @@ $block1->openForm("../clients/listclients.php#".$block1->form."Anchor");
 
 $block1->headingToggle($strings["organizations"]);
 
-$block1->sorting("organizations",$sortingUser->sor_organizations[0],"org.name ASC",$sortingFields = array(0=>"org.name",1=>"org.phone",2=>"org.url"));
+$block1->sorting("organizations",$sortingUser["organizations"],"org.name ASC",$sortingFields = array(0=>"org.name",1=>"org.phone",2=>"org.url"));
 
 $tmpquery = "WHERE org.id != '1' ORDER BY $block1->sortingValue";
 $listOrganizations = new phpCollab\Request();

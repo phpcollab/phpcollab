@@ -71,7 +71,7 @@ $block1->rowsLimit = "20";
 
 $block1->sorting(
     "projects",
-    $sortingUser->sor_projects[0],
+    $sortingUser["projects"],
     "pro.name ASC",
     $sortingFields = array(
         0 => "pro.id",

@@ -72,7 +72,7 @@ $block1->paletteIcon(4, "info", $strings["view"]);
 $block1->paletteIcon(5, "email", $strings["email"]);
 $block1->closePaletteIcon();
 
-$block1->sorting("team", $sortingUser->sor_team[0], "mem.name ASC", $sortingFields = array(0 => "mem.name", 1 => "mem.title", 2 => "mem.login", 3 => "mem.phone_work", 4 => "log.connected", 5 => "tea.published"));
+$block1->sorting("team", $sortingUser["team"], "mem.name ASC", $sortingFields = array(0 => "mem.name", 1 => "mem.title", 2 => "mem.login", 3 => "mem.phone_work", 4 => "log.connected", 5 => "tea.published"));
 
 $tmpquery = "WHERE tea.project = '$id' AND mem.profil != '3' ORDER BY $block1->sortingValue";
 $listTeam = new phpCollab\Request();

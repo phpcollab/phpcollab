@@ -31,7 +31,7 @@ $block1->paletteIcon(0,"add",$strings["add"]);
 $block1->paletteIcon(1,"remove",$strings["delete"]);
 $block1->closePaletteIcon();
 
-$block1->sorting("organizations",$sortingUser->sor_organizations[0],"org.name ASC",$sortingFields = array(0=>"org.name",1=>"org.phone",2=>"org.url"));
+$block1->sorting("organizations",$sortingUser["organizations"],"org.name ASC",$sortingFields = array(0=>"org.name",1=>"org.phone",2=>"org.url"));
 
 $tmpquery = "WHERE org.id != '1' ORDER BY $block1->sortingValue";
 $listOrganizations = new phpCollab\Request();

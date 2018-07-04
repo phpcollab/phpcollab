@@ -313,7 +313,7 @@ if ($fileManagement == "true") {
     }
 
     $block2->closePaletteIcon();
-    $block2->sorting("files", $sortingUser->sor_files[0], "fil.name ASC", $sortingFields = [0 => "fil.extension", 1 => "fil.name", 2 => "fil.owner", 3 => "fil.date", 4 => "fil.status", 5 => "fil.published"]);
+    $block2->sorting("files", $sortingUser["files"], "fil.name ASC", $sortingFields = [0 => "fil.extension", 1 => "fil.name", 2 => "fil.owner", 3 => "fil.date", 4 => "fil.status", 5 => "fil.published"]);
 
     $listFiles = $files->getFilesByTaskIdAndVCParentEqualsZero($id, $block2->sortingValue);
 
@@ -389,7 +389,7 @@ $block3 = new phpCollab\Block();
 $block3->form = "ahT";
 $block3->openForm("../tasks/viewtask.php?id=$id#" . $block3->form . "Anchor");
 $block3->headingToggle($strings["assignment_history"]);
-$block3->sorting("assignment", $sortingUser->sor_assignment[0], "ass.assigned DESC", $sortingFields = [0 => "ass.comments", 1 => "mem1.login", 2 => "mem2.login", 3 => "ass.assigned"]);
+$block3->sorting("assignment", $sortingUser["assignment"], "ass.assigned DESC", $sortingFields = [0 => "ass.comments", 1 => "mem1.login", 2 => "mem2.login", 3 => "ass.assigned"]);
 
 $listAssign = $assignments->getAssignmentsByTaskId($id, $block3->sortingValue);
 
@@ -439,7 +439,7 @@ if ($teamMember === true || $profilSession == "5") {
 }
 
 $block4->closePaletteIcon();
-$block4->sorting("subtasks", $sortingUser->sor_subtasks[0], "subtas.name ASC", $sortingFields = [0 => "subtas.name", 1 => "subtas.priority", 2 => "subtas.status", 3 => "subtas.completion", 4 => "subtas.due_date", 5 => "mem.login", 6 => "subtas.published"]);
+$block4->sorting("subtasks", $sortingUser["subtasks"], "subtas.name ASC", $sortingFields = [0 => "subtas.name", 1 => "subtas.priority", 2 => "subtas.status", 3 => "subtas.completion", 4 => "subtas.due_date", 5 => "mem.login", 6 => "subtas.published"]);
 
 $listSubtasks = $tasks->getSubtasksByParentTaskId($id, $block4->sortingValue);
 

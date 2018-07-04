@@ -401,7 +401,7 @@ if ($projectDetail["pro_phase_set"] != "0") {
 
     $block7->closePaletteIcon();
 
-    $block7->sorting("phases", $sortingUser->sor_phases[0], "pha.order_num ASC", $sortingFields = array(0 => "pha.order_num", 1 => "pha.name", 2 => "none", 3 => "none", 4 => "pha.status", 5 => "pha.date_start", 6 => "pha.date_end"));
+    $block7->sorting("phases", $sortingUser["phases"], "pha.order_num ASC", $sortingFields = array(0 => "pha.order_num", 1 => "pha.name", 2 => "none", 3 => "none", 4 => "pha.status", 5 => "pha.date_start", 6 => "pha.date_end"));
 
     $tmpquery = "WHERE pha.project_id = '$id' ORDER BY $block7->sortingValue";
     $listPhases = new phpCollab\Request();
@@ -492,7 +492,7 @@ if ($projectDetail["pro_phase_set"] != "0") {
     $block2->limit = $blockPage->returnLimit("1");
     $block2->rowsLimit = "5";
 
-    $block2->sorting("project_tasks", $sortingUser->sor_project_tasks[0], "tas.name ASC", $sortingFields = array(0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem.login", 6 => "tas.published"));
+    $block2->sorting("project_tasks", $sortingUser["project_tasks"], "tas.name ASC", $sortingFields = array(0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem.login", 6 => "tas.published"));
 
     $tmpquery = "WHERE tas.project = '$id' ORDER BY $block2->sortingValue";
 
@@ -606,7 +606,7 @@ $block3->paletteIcon(5, "info", $strings["view"]);
 $block3->closePaletteIcon();
 $block3->limit = $blockPage->returnLimit("2");
 $block3->rowsLimit = "5";
-$block3->sorting("project_discussions", $sortingUser->sor_project_discussions[0], "topic.last_post DESC", $sortingFields = array(0 => "topic.subject", 1 => "mem.login", 2 => "topic.posts", 3 => "topic.last_post", 4 => "topic.status", 5 => "topic.published"));
+$block3->sorting("project_discussions", $sortingUser["project_discussions"], "topic.last_post DESC", $sortingFields = array(0 => "topic.subject", 1 => "mem.login", 2 => "topic.posts", 3 => "topic.last_post", 4 => "topic.status", 5 => "topic.published"));
 
 $tmpquery = "WHERE topic.project = '$id' ORDER BY $block3->sortingValue";
 
@@ -693,7 +693,7 @@ $block4->paletteIcon(5, "email", $strings["email"]);
 $block4->closePaletteIcon();
 $block4->limit = $blockPage->returnLimit("3");
 $block4->rowsLimit = "5";
-$block4->sorting("team", $sortingUser->sor_team[0], "mem.name ASC", $sortingFields = array(0 => "mem.name", 1 => "mem.title", 2 => "mem.login", 3 => "mem.phone_work", 4 => "log.connected", 5 => "tea.published"));
+$block4->sorting("team", $sortingUser["team"], "mem.name ASC", $sortingFields = array(0 => "mem.name", 1 => "mem.title", 2 => "mem.login", 3 => "mem.phone_work", 4 => "log.connected", 5 => "tea.published"));
 
 $tmpquery = "WHERE tea.project = '$id' AND mem.profil != '3' ORDER BY $block4->sortingValue";
 
@@ -783,7 +783,7 @@ if ($fileManagement == "true") {
     }
 
     $block5->closePaletteIcon();
-    $block5->sorting("files", $sortingUser->sor_files[0], "fil.name ASC", $sortingFields = array(0 => "fil.extension", 1 => "fil.name", 2 => "fil.owner", 3 => "fil.date", 4 => "fil.status", 5 => "fil.published"));
+    $block5->sorting("files", $sortingUser["files"], "fil.name ASC", $sortingFields = array(0 => "fil.extension", 1 => "fil.name", 2 => "fil.owner", 3 => "fil.date", 4 => "fil.status", 5 => "fil.published"));
 
     $tmpquery = "WHERE fil.project = '$id' AND fil.task = '0' AND fil.vc_parent = '0' AND fil.phase = '0' ORDER BY $block5->sortingValue";
     $listFiles = new phpCollab\Request();
@@ -892,9 +892,9 @@ $block6->rowsLimit = "5";
 $comptTopic = count($topicNote);
 
 if ($comptTopic != "0") {
-    $block6->sorting("notes", $sortingUser->sor_notes[0], "note.date DESC", $sortingFields = array(0 => "note.subject", 1 => "note.topic", 2 => "note.date", 3 => "mem.login", 4 => "note.published"));
+    $block6->sorting("notes", $sortingUser["notes"], "note.date DESC", $sortingFields = array(0 => "note.subject", 1 => "note.topic", 2 => "note.date", 3 => "mem.login", 4 => "note.published"));
 } else {
-    $block6->sorting("notes", $sortingUser->sor_notes[0], "note.date DESC", $sortingFields = array(0 => "note.subject", 1 => "note.date", 2 => "mem.login", 3 => "note.published"));
+    $block6->sorting("notes", $sortingUser["notes"], "note.date DESC", $sortingFields = array(0 => "note.subject", 1 => "note.date", 2 => "mem.login", 3 => "note.published"));
 }
 
 $tmpquery = "WHERE note.project = '$id' ORDER BY $block6->sortingValue";

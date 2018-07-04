@@ -54,7 +54,7 @@ $block1->closePaletteIcon();
 $block1->limit = $blockPage->returnLimit("1");
 $block1->rowsLimit = "40";
 
-$block1->sorting("newsdesk", $sortingUser->sor_newsdesk[0], "news.pdate DESC", $sortingFields = [0 => "news.title", 1 => "news.pdate", 2 => "news.author"]);
+$block1->sorting("newsdesk", $sortingUser["newsdesk"], "news.pdate DESC", $sortingFields = [0 => "news.title", 1 => "news.pdate", 2 => "news.author"]);
 
 $tmpquery = "WHERE news.id != '0' ORDER BY $block1->sortingValue ";
 $block1->recordsTotal = phpCollab\Util::computeTotal($initrequest["newsdeskposts"] . " " . $tmpquery);

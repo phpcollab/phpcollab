@@ -265,7 +265,7 @@ $block3->openForm("../subtasks/viewsubtask.php?&id=$id&task=$task#" . $block3->f
 
 $block3->headingToggle($strings["assignment_history"]);
 
-$block3->sorting("assignment", $sortingUser->sor_assignment[0], "ass.assigned DESC", $sortingFields = array(0 => "ass.comments", 1 => "mem1.login", 2 => "mem2.login", 3 => "ass.assigned"));
+$block3->sorting("assignment", $sortingUser["assignment"], "ass.assigned DESC", $sortingFields = array(0 => "ass.comments", 1 => "mem1.login", 2 => "mem2.login", 3 => "ass.assigned"));
 
 $tmpquery = "WHERE ass.subtask = '$id' ORDER BY $block3->sortingValue";
 $listAssign = new phpCollab\Request();

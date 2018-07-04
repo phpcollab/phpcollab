@@ -80,7 +80,7 @@ if ($teamMember == "true" || $profilSession == "0") {
     $block1->paletteIcon(3, "info", $strings["view"]);
     $block1->closePaletteIcon();
 }
-$block1->sorting("support_requests", $sortingUser->sor_support_requests[0], "sr.id ASC", $sortingFields = array(0 => "sr.id", 1 => "sr.subject", 2 => "sr.member", 3 => "sr.project", 4 => "sr.priority", 5 => "sr.status", 6 => "sr.date_open", 7 => "sr.date_close"));
+$block1->sorting("support_requests", $sortingUser["support_requests"], "sr.id ASC", $sortingFields = array(0 => "sr.id", 1 => "sr.subject", 2 => "sr.member", 3 => "sr.project", 4 => "sr.priority", 5 => "sr.status", 6 => "sr.date_open", 7 => "sr.date_close"));
 
 if ($supportType == "team") {
     if ($action == "new") {

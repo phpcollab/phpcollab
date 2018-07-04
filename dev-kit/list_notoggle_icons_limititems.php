@@ -36,7 +36,7 @@ $block1->closePaletteIcon();
 $block1->borne = $blockPage->returnBorne("1");
 $block1->rowsLimit = "5";
 
-$block1->sorting("organizations",$sortingUser->sor_organizations[0],"org.name ASC",$sortingFields = array(0=>"org.name",1=>"org.phone",2=>"org.url"));
+$block1->sorting("organizations",$sortingUser["organizations"],"org.name ASC",$sortingFields = array(0=>"org.name",1=>"org.phone",2=>"org.url"));
 
 $tmpquery = "WHERE org.id != '1' ORDER BY $block1->sortingValue";
 
@@ -87,7 +87,7 @@ $block2->closePaletteIcon();
 $block2->borne = $blockPage->returnBorne("2");
 $block2->rowsLimit = "1";
 
-$block2->sorting("organizations",$sortingUser->sor_organizations[0],"org.name ASC",$sortingFields = array(0=>"org.name",1=>"org.phone",2=>"org.url"));
+$block2->sorting("organizations",$sortingUser["organizations"],"org.name ASC",$sortingFields = array(0=>"org.name",1=>"org.phone",2=>"org.url"));
 
 $tmpquery = "WHERE org.id != '1' ORDER BY $block2->sortingValue";
 

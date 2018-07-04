@@ -106,7 +106,7 @@ if ($idSession == $projectDetail["pro_owner"]) {
 $block1->paletteIcon(5, "info", $strings["view"]);
 $block1->closePaletteIcon();
 
-$block1->sorting("discussions", $sortingUser->sor_discussions[0], "topic.last_post DESC", $sortingFields = [0 => "topic.subject", 1 => "mem.login", 2 => "topic.posts", 3 => "topic.last_post", 4 => "topic.status", 5 => "topic.published"]);
+$block1->sorting("discussions", $sortingUser["discussions"], "topic.last_post DESC", $sortingFields = [0 => "topic.subject", 1 => "mem.login", 2 => "topic.posts", 3 => "topic.last_post", 4 => "topic.status", 5 => "topic.published"]);
 
 if ($project != "") {
     $listTopics = $topics->getTopicsByProjectId($project, $block1->sortingValue);

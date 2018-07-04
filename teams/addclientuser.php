@@ -84,7 +84,7 @@ $block1->paletteIcon(1, "info", $strings["view"]);
 $block1->paletteIcon(2, "edit", $strings["edit"]);
 $block1->closePaletteIcon();
 
-$block1->sorting("team", $sortingUser->sor_users[0], "mem.name ASC", $sortingFields = [0 => "mem.name", 1 => "mem.title", 2 => "mem.login", 3 => "mem.phone_work", 4 => "log.connected"]);
+$block1->sorting("team", $sortingUser["users"], "mem.name ASC", $sortingFields = [0 => "mem.name", 1 => "mem.title", 2 => "mem.login", 3 => "mem.phone_work", 4 => "log.connected"]);
 
 $concatMembers = $teams->getClientTeamMembersByProject($project);
 
