@@ -204,8 +204,9 @@ $listTasksTime = $tasks->getTasksByProjectId($id, 'tas.name');
 
 if ($listTasksTime) {
     foreach ($listTasksTime as $task) {
-        $estimated_time = $estimated_time + $task["tas_estimated_time"];
-        $actual_time = $actual_time + $task["tas_actual_time"];
+        $estimated_time = $estimated_time + intval($task["tas_estimated_time"]);
+        $actual_time = $actual_time + intval($task["tas_actual_time"]);
+
 
         if ($task["tas_complete_date"] != "" && $task["tas_complete_date"] != "--" && $task["tas_due_date"] != "--") {
             $diff = phpCollab\Util::diffDate($task["tas_complete_date"], $task["tas_due_date"]);
