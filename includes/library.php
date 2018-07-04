@@ -323,7 +323,7 @@ if ($checkSession != "false" && $demoSession != "true") {
 if ($checkConnected != "false") {
     $dateunix = date("U");
     $logs->updateConnectedTimeForUser($dateunix, $loginSession);
-    $connectedUsers = count($logs->getConnectedUsers());
+    $connectedUsers = $logs->getConnectedUsersCount();
 }
 
 
