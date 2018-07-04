@@ -322,24 +322,8 @@ if ($checkSession != "false" && $demoSession != "true") {
 //count connected users
 if ($checkConnected != "false") {
     $dateunix = date("U");
-    $tmpquery1 = "UPDATE {$tableCollab["logs"]} SET connected=:date_unix WHERE login = :login_session";
-
-    $dbParams = [];
-    $dbParams['date_unix'] = $dateunix;
-    $dbParams['login_session'] = $loginSession;
-
-    phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
-
-    unset($dbParams);
-
-    $tmpsql = "SELECT * FROM {$tableCollab["logs"]} WHERE connected > :date_unix";
-
-    $dbParams = [];
-    $dbParams['date_unix'] = $dateunix-5*60;
-
-    $connectedUsers = phpCollab\Util::newComputeTotal($tmpsql, $dbParams);
-
-    unset($dbParams);
+    $logs->updateConnectedTimeForUser($dateunix, $loginSession);
+    $connectedUsers = count($logs->getConnectedUsers());
 }
 
 
