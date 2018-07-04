@@ -31,14 +31,13 @@ class SortingGateway
      */
     public function getSortingValues($ownerId)
     {
-        echo 'SortingGateway getSortingValues';
         $whereStatement = "WHERE sor.member = :owner_id";
 
         $this->db->query($this->initrequest["sorting"] . $whereStatement);
 
         $this->db->bind(':owner_id', $ownerId);
 
-        return $this->db->resultset();
+        return $this->db->single();
     }
 
     /**
