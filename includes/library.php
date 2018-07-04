@@ -383,10 +383,7 @@ if (!empty($sort_target) && $sort_target != "" && $sort_fields != "none") {
 
 }
 
-//set all sorting values for logged user
-$tmpquery = "WHERE sor.member = '" . phpCollab\Util::fixInt($idSession) . "'";
-$sortingUser = new phpCollab\Request();
-$sortingUser->openSorting($tmpquery);
+$sortingUser = $sort->getSortingValues($idSession);
 
 // :-)
 $setCopyright = "<!-- Powered by PhpCollab v$version //-->";
