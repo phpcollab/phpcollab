@@ -28,6 +28,7 @@ class Sorting
      */
     public function getSortingValues($ownerId)
     {
+        return $this->sorting_gateway->getSortingValues($ownerId);
     }
 
     /**
