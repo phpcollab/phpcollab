@@ -199,7 +199,6 @@ if ($auth == "on") {
 
             $filteredData =  [];
             $filteredData['login'] = filter_var((string) $_POST['usernameForm'], FILTER_SANITIZE_STRING);
-            $filteredData['password'] = filter_var((string) $passwordForm, FILTER_SANITIZE_STRING);
             $filteredData['ip'] = filter_var($ip, FILTER_SANITIZE_STRING);
             $filteredData['session'] = $session;
             $filteredData['last_viste'] = $dateheure;

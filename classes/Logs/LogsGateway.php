@@ -38,7 +38,6 @@ INSERT INTO {$this->tableCollab["logs"]}
 (login, password, ip, session, compt, last_visite) 
 VALUES (
   :member_login,
-  :password,
   :ip,
   :session,
   :compt,
@@ -49,7 +48,6 @@ SQL;
         $this->db->query($query);
 
         $this->db->bind(':member_login', $entryData['login']);
-        $this->db->bind(':password', $entryData['password']);
         $this->db->bind(':ip', $entryData['ip']);
         $this->db->bind(':session', $entryData['session']);
         $this->db->bind(':compt', $entryData['compt']);
