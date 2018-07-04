@@ -10,7 +10,7 @@
     }
   ],
   "require": {
-    "php": ">=5.3.0",
+    "php": ">=5.6.0",
     "zendframework/zend-escaper": "^2.5",
     "monolog/monolog": "^1.19",
     "maximebf/debugbar": "^1.13",
