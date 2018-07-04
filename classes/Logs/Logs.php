@@ -73,10 +73,22 @@ class Logs
     /**
      *
      */
+    public function getConnectedUsersCount()
+    {
+        $dateunix = date("U");
+        $dateunix = $dateunix-5*60;
+        $users = $this->logs_gateway->getConnectedUsers($dateunix);
+        return count($users);
+    }
+
+    /**
+     * @return mixed
+     */
     public function getConnectedUsers()
     {
         $dateunix = date("U");
         $dateunix = $dateunix-5*60;
-        return $this->logs_gateway->getConnectedUsers($dateunix);
+        $users = $this->logs_gateway->getConnectedUsers($dateunix);
+        return $users;
     }
 }
