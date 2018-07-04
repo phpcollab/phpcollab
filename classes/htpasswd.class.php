@@ -224,7 +224,7 @@ class Htpasswd
 
         if ($die == 1) {
             echo "<B> ERROR $this->ERROR </B> <br/> \n";
-            exit;
+            throw new Exception("ERROR {$this->ERROR}");
         }
 
         return;
@@ -246,8 +246,19 @@ class Htpasswd
     {
         global $php_errormsg;
 
-        $Myjunk = [];
+        $Mytemp = array();
+        $Myjunk = array();
+        $Junk = array();
+        $count = 0;
+        $user = "";
+        $pass = "";
+        $temp = "";
+        $key = "";
+        $val = "";
+        $filesize = 0;
+        $errno = 0;
         $empty = false;
+        $contents = "";
 
         $filename = $this->FILE;
         $filesize = filesize($filename);
@@ -268,7 +279,7 @@ class Htpasswd
 
             if (empty($fd)) {
                 $this->error("FATAL File access error [$php_errormsg]", 1);
-                exit('FATAL File access error'); // Just in case
+                throw new Exception('FATAL File access error'); // Just in case
             }
 
             $contents = fread($fd, filesize($filename));
@@ -277,6 +288,8 @@ class Htpasswd
             $this->CONTENTS = $contents;
             $Mytemp = explode("\n", $contents);
             for ($count = 0; $count < count($Mytemp); $count++) {
+                $user = "";
+                $pass = "";
                 if (empty($Mytemp[$count])) {
                     break;
                 }
@@ -342,6 +355,10 @@ class Htpasswd
      */
     function isUser($UserID)
     {
+        $key = "";
+        $val = "";
+        $user = "";
+        $pass = "";
         $found = false;
 
         if (empty($UserID)) {
@@ -371,7 +388,11 @@ class Htpasswd
      */
     function getPass($UserID)
     {
+        $key = "";
+        $val = "";
+        $user = "";
         $pass = "";
+        $usernum = -1;
 
         if ($this->EMPTY) {
             return $pass;
@@ -426,7 +447,10 @@ class Htpasswd
      */
     function verifyUser($UserID, $Pass)
     {
+        $pass = "";
         $match = false;
+        $usernum = -1;
+        $salt = "";
 
         if ($this->EMPTY) {
             return false;
@@ -479,6 +503,8 @@ class Htpasswd
      */
     function changePass($UserID, $newPass, $oldPass = "")
     {
+        $passwdFile = $this->FILE;
+        $pass = "";
         $newname = null;
         $newpass = null;
 
@@ -547,7 +573,7 @@ class Htpasswd
 
         if (!($this->htWriteFile())) {
             $this->error("FATAL could not save new password file! [$php_errormsg]", 1);
-            exit('FATAL could not save new password file!');    // just in case
+            throw new Exception('FATAL could not save new password file!');
         }
 
         return true;
@@ -632,7 +658,7 @@ class Htpasswd
 
         if (!($this->htWriteFile())) {
             $this->error("FATAL could not save password file! [$php_errormsg]", 1);
-            exit;    // just in case
+            throw new Exception("FATAL could not save password file! [$php_errormsg]");    // just in case
         }
 
 
@@ -669,7 +695,11 @@ class Htpasswd
 
         $tempfile = tempnam("/tmp", "fort");
 
+        $name = "";
+        $pass = "";
+        $count = 0;
         $fd = null;
+        $myerror = "";
 
         if ($this->EMPTY) {
             $this->USERCOUNT = 0;
@@ -677,7 +707,7 @@ class Htpasswd
 
         if (!copy($filename, $tempfile)) {
             $this->error("FATAL cannot create backup file [$tempfile] [$php_errormsg]", 1);
-            exit("FATAL cannot create backup file"); // Just in case
+            throw new Exception("FATAL cannot create backup file"); // Just in case
         }
 
         $fd = fopen($tempfile, "w");
@@ -689,7 +719,7 @@ class Htpasswd
             // already screwed anyway
             unlink($tempfile);
             $this->error("FATAL File [$tempfile] access error [$myerror]", 1);
-            exit("FATAL File [{$tempfile}] access error"); // Just in case
+            throw new Exception("FATAL File [{$tempfile}] access error"); // Just in case
         }
 
         for ($count = 0; $count <= $this->USERCOUNT; $count++) {
@@ -707,7 +737,7 @@ class Htpasswd
             $myerror = $php_errormsg;    // Stash the error, see above
             unlink($tempfile);
             $this->error("FATAL cannot copy file [$filename] [$myerror]", 1);
-            exit;    // Just in case
+            throw new Exception("FATAL cannot copy file [$filename] [$myerror]");    // Just in case
         }
 
         // Update successful
@@ -768,7 +798,7 @@ class Htpasswd
 
         if (!($this->htWriteFile())) {
             $this->error("FATAL could not add user due to file error! [$php_errormsg]", 1);
-            exit;    // Just in case
+            throw new Exception("FATAL could not add user due to file error! [$php_errormsg]");    // Just in case
         }
 
         // Successfully added user
@@ -789,6 +819,7 @@ class Htpasswd
      */
     function assignPass($UserID)
     {
+        $pass = "";
         $count = $this->USERCOUNT;
 
         if (empty($UserID)) {
@@ -814,7 +845,7 @@ class Htpasswd
 
         if (!($this->htWriteFile())) {
             $this->error("FATAL could not add user due to file error! [$php_errormsg]", 1);
-            exit;    // Just in case
+            throw new Exception();    // Just in case
         }
 
         // Successfully added user
@@ -834,6 +865,7 @@ class Htpasswd
      */
     function deleteUser($UserID)
     {
+        $found = false;
         // Can't delete non-existant UserIDs
 
         if ($this->EMPTY) {
@@ -860,7 +892,7 @@ class Htpasswd
 
         if (!($this->htWriteFile())) {
             $this->error("FATAL could not remove user due to file error! [$php_errormsg]", 1);
-            exit;    // Just in case
+            throw new Exception("FATAL could not remove user due to file error! [$php_errormsg]");    // Just in case
         }
 
         // Successfully deleted user
@@ -881,7 +913,9 @@ class Htpasswd
      */
     function getUserNum($UserID)
     {
+        $count = 0;
         $usernum = -1;
+        $name = "";
 
         if ($this->EMPTY) {
             return $usernum;
@@ -936,6 +970,9 @@ class Htpasswd
      */
     function genSalt()
     {
+        $random = 0;
+        $rand64 = "";
+        $salt = "";
         $random = rand();    // Seeded via initialize()
 
         // Crypt(3) can only handle A-Z a-z ./
@@ -959,6 +996,9 @@ class Htpasswd
      */
     function genPass()
     {
+        $random = 0;
+        $rand78 = "";
+        $randpass = "";
         $pass = "";
 
         $maxcount = rand(4, 9);
@@ -998,6 +1038,9 @@ class Htpasswd
      */
     function genUser()
     {
+        $random = 0;
+        $rand78 = "";
+        $randuser = "";
         $userid = "";
 
         $maxcount = rand(4, 9);
