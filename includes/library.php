@@ -363,14 +363,14 @@ if ($gmtTimezone == "true") {
 }
 
 //update sorting table if query sort column
-if (!empty($sor_cible) && $sor_cible != "" && $sor_champs != "none") {
-    $sor_champs = phpCollab\Util::convertData($sor_champs);
-    $sor_cible = phpCollab\Util::convertData($sor_cible);
+if (!empty($sort_target) && $sort_target != "" && $sort_fields != "none") {
+    $sort_fields = phpCollab\Util::convertData($sort_fields); // sort_fields
+    $sort_target = phpCollab\Util::convertData($sort_target); // sort_target
 
-    $tmpquery = "UPDATE {$tableCollab["sorting"]} SET ".$sor_cible." = :sort_value WHERE member = :session_id;";
+    $tmpquery = "UPDATE {$tableCollab["sorting"]} SET ".$sort_target." = :sort_value WHERE member = :session_id;";
 
     $dbParams = [];
-    $dbParams['sort_value'] = $sor_champs . ' ' . $sor_ordre;
+    $dbParams['sort_value'] = $sort_fields . ' ' . $sor_ordre;
     $dbParams['session_id'] = $idSession;
 
     phpCollab\Util::newConnectSql($tmpquery, $dbParams);

@@ -397,7 +397,7 @@ class Block
      **/
     public function closeFormResults()
     {
-        echo '<input name="sor_cible" type="HIDDEN" value="' . $this->sortingRef . '"><input name="sor_champs" type="HIDDEN" value=""><input name="sor_ordre" type="HIDDEN" value=""></form>';
+        echo '<input name="sort_target" type="HIDDEN" value="' . $this->sortingRef . '"><input name="sort_fields" type="HIDDEN" value=""><input name="sor_ordre" type="HIDDEN" value=""></form>';
     }
 
     /**
@@ -423,7 +423,7 @@ class Block
         for ($i = 0; $i < $comptLabels; $i++) {
             if ($sorting == "true") {
                 if (isset($sortingFields) && array_key_exists($i, $sortingFields)) {
-                    echo "<th nowrap class='$sortingStyles[$i]'><a href=\"javascript:document." . $this->form . "Form.sor_cible.value='{$this->sortingRef}';document." . $this->form . "Form.sor_champs.value='{$sortingFields[$i]}';document." . $this->form . "Form.sor_ordre.value='{$sortingOrders[$i]}';document." . $this->form . "Form.submit();\" onMouseOver=\"javascript:window.status='" . $this->strings["sort_by"] . " " . addslashes($labels[$i]) . "'; return true;\" onMouseOut=\"javascript:window.status=''; return true\">" . $labels[$i] . "$sortingArrows[$i]</a></th>";
+                    echo "<th nowrap class='$sortingStyles[$i]'><a href=\"javascript:document." . $this->form . "Form.sort_target.value='{$this->sortingRef}';document." . $this->form . "Form.sort_fields.value='{$sortingFields[$i]}';document." . $this->form . "Form.sor_ordre.value='{$sortingOrders[$i]}';document." . $this->form . "Form.submit();\" onMouseOver=\"javascript:window.status='" . $this->strings["sort_by"] . " " . addslashes($labels[$i]) . "'; return true;\" onMouseOut=\"javascript:window.status=''; return true\">" . $labels[$i] . "$sortingArrows[$i]</a></th>";
                 } else {
                     echo "<th nowrap>{$labels[$i]}</th>";
                 }
