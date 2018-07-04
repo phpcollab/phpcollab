@@ -49,6 +49,28 @@ class SortingGateway
     }
 
     /**
+     * @param $target
+     * @param $value
+     * @param $userId
+     * @return mixed
+     */
+    public function updateSortingTargetByUserId($target, $value, $userId)
+    {
+        $query = <<<SQL
+UPDATE {$this->tableCollab["sorting"]} 
+SET {$target} = :sort_value
+WHERE member = :user_id
+SQL;
+
+        $this->db->query($query);
+
+        $this->db->bind(':sort_value', $value);
+        $this->db->bind(':user_id', $userId);
+
+        return $this->db->execute();
+    }
+
+    /**
      * @param $memberId
      * @return mixed
      */

@@ -2,6 +2,7 @@
 namespace phpCollab\Sorting;
 
 use phpCollab\Database;
+use phpDocumentor\Reflection\Types\Integer;
 
 
 /**
@@ -27,6 +28,17 @@ class Sorting
      */
     public function getSortingValues($ownerId)
     {
+    }
+
+    /**
+     * @param String $target
+     * @param String $value
+     * @param Integer $userId
+     * @return
+     */
+    public function updateSortingTargetByUserId($target, $value, $userId)
+    {
+        return $this->sorting_gateway->updateSortingTargetByUserId($target, $value, $userId);
     }
 
     /**
