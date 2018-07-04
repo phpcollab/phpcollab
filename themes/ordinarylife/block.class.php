@@ -280,7 +280,7 @@ echo "<a name=\"".$this->form."Anchor\"></a>\n
  * @access public
  **/
 function closeFormResults() {
-echo "<input name=\"sort_target\" type=\"HIDDEN\" value=\"$this->sortingRef\"><input name=\"sort_fields\" type=\"HIDDEN\" value=\"\"><input name=\"sor_ordre\" type=\"HIDDEN\" value=\"\">
+echo "<input name=\"sort_target\" type=\"HIDDEN\" value=\"$this->sortingRef\"><input name=\"sort_fields\" type=\"HIDDEN\" value=\"\"><input name=\"sort_order\" type=\"HIDDEN\" value=\"\">
 </form>\n\n";
 }
 
@@ -306,7 +306,7 @@ if ($sitePublish == "false" && $published == "true") {
 }
 for ($i=0;$i<$comptLabels;$i++) {
 if ($sorting == "true") {
-	echo "<th nowrap class=\"$sortingStyles[$i]\"><a href=\"javascript:document.".$this->form."Form.sort_target.value='$this->sortingRef';document.".$this->form."Form.sort_fields.value='$sortingFields[$i]';document.".$this->form."Form.sor_ordre.value='$sortingOrders[$i]';document.".$this->form."Form.submit();\" onMouseOver=\"javascript:window.status='".$strings["sort_by"]." ".addslashes($labels[$i])."'; return true;\" onMouseOut=\"javascript:window.status=''; return true\">".$labels[$i]."$sortingArrows[$i]</a></th>\n";
+	echo "<th nowrap class=\"$sortingStyles[$i]\"><a href=\"javascript:document.".$this->form."Form.sort_target.value='$this->sortingRef';document.".$this->form."Form.sort_fields.value='$sortingFields[$i]';document.".$this->form."Form.sort_order.value='$sortingOrders[$i]';document.".$this->form."Form.submit();\" onMouseOver=\"javascript:window.status='".$strings["sort_by"]." ".addslashes($labels[$i])."'; return true;\" onMouseOut=\"javascript:window.status=''; return true\">".$labels[$i]."$sortingArrows[$i]</a></th>\n";
 } else {
 if ($sortingOff[1] == "ASC") {
 	$sortingArrow = "&#160;<img border=\"0\" src=\"$this->pathImg/$this->theme/icon_sort_az.gif\" alt=\"\" width=\"11\" height=\"11\">";
