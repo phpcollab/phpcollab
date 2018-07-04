@@ -31,6 +31,8 @@
 **
 */
 use DebugBar\StandardDebugBar;
+use Symfony\Component\HttpFoundation\Request;
+
 $debug = false;
 
 define('APP_ROOT', dirname(dirname(__FILE__)));
@@ -72,6 +74,8 @@ if ($debug) {
 
 error_reporting(2039);
 ini_set("session.use_trans_sid", 0);
+
+$request = Request::createFromGlobals();
 
 //disable session on export
 if ($export != "true") {
@@ -225,6 +229,7 @@ if ($indexRedirect == "true") {
 }
 
 $logs = new \phpCollab\Logs\Logs();
+$sort = new \phpCollab\Sorting\Sorting();
 
 //fix if update from old version
 if ($theme == "") {
@@ -363,19 +368,18 @@ if ($gmtTimezone == "true") {
 }
 
 //update sorting table if query sort column
+
+$sort_target = $request->request->get('sort_target');
+$sort_fields = $request->request->get('sort_fields');
+$sort_order = $request->request->get('sort_order');
+
 if (!empty($sort_target) && $sort_target != "" && $sort_fields != "none") {
     $sort_fields = phpCollab\Util::convertData($sort_fields); // sort_fields
     $sort_target = phpCollab\Util::convertData($sort_target); // sort_target
 
-    $tmpquery = "UPDATE {$tableCollab["sorting"]} SET ".$sort_target." = :sort_value WHERE member = :session_id;";
+    $sort_value = $sort_fields . ' ' . $sort_order;
 
-    $dbParams = [];
-    $dbParams['sort_value'] = $sort_fields . ' ' . $sor_ordre;
-    $dbParams['session_id'] = $idSession;
-
-    phpCollab\Util::newConnectSql($tmpquery, $dbParams);
-
-    unset($dbParams);
+    $sort->updateSortingTargetByUserId($sort_target, $sort_value, $idSession);
 
 }
 
