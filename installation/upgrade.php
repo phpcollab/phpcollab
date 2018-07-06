@@ -164,7 +164,7 @@ function upgrade2_4()
 
         echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>";
 
-        //TODO: Check file
+        //Check file
         $settingsFile = dirname(realpath(__FILE__)) . "/../includes/settings.php";
         unset($goon);
         $goon = false;
