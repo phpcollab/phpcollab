@@ -66,7 +66,6 @@ try {
     $databaseVersion = $conn->getAttribute(constant("PDO::ATTR_SERVER_VERSION")) . "\n";
 } catch (PDOException $e) {
     print "Error!: " . $e->getMessage() . "<br/>";
-    die();
 }
 
 $block1->contentRow("Database Type", $databaseTypeMore);
