@@ -17,5 +17,3 @@ if ($footerDev == "true") {
 echo "</p>\n\n
 </body>
 </html>";
-
-?>
