@@ -25,8 +25,6 @@ $help["setup_clientsfilter"] = "Filter aktiviert zeigt nur die amgemeldeten Kund
 //$help["setup_projectsfilter"] = "Filter to see only the project when the user are in the team";
 $help["setup_projectsfilter"] = "Filter aktiviert zeigt nur die Projekte, in denen der Benutzer im Team ist";
 //2.5
-//$help["setup_notificationMethod"] = "Set method to send email notifications: with internal php mail function (need for having a smtp server or sendmail configured in the parameters of php) or with a personalized smtp server";
 $help["setup_notificationMethod"] = "Methode zum Mail-Versenden: mit der internen PHP Mail Funktion (ben&ouml;tigt korrekte Parameter in PHP f&uuml;r einen smtp- oder sendmail-Server) oder mit personifiziertem smtp Server";
 //2.5 fullo
-//$help["newsdesk_links"] = "to add multiple links use semicolon";
 $help["newsdesk_links"] = "Um mehrere Links hinzuzuf&uuml;gen Semikolon verwenden";
