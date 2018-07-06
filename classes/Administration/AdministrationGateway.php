@@ -42,7 +42,7 @@ class AdministrationGateway
      * @return mixed
      */
     public function deleteMyCompanyLogo() {
-        $query = 'UPDATE '. $this->tableCollab["organizations"] .'organizations SET extension_logo="" WHERE id=1';
+        $query = "UPDATE {$this->tableCollab["organizations"]} organizations SET extension_logo='' WHERE id=1";
 
         $this->db->query($query);
 
