@@ -81,4 +81,3 @@ if ($blank == "true") {
 	}
 }
 $blockHeader->closeNavigation();
-?>
