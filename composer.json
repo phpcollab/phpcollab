@@ -9,6 +9,7 @@
       "homepage": "http://jeffsittler.com"
     }
   ],
+  "license": "GPL-2.0-only",
   "require": {
     "php": ">=5.6.0",
     "zendframework/zend-escaper": "^2.5",
