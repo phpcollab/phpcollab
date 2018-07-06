@@ -45,35 +45,13 @@ if (ini_get('session.auto_start') == 0) {
 
 // Setup debugging
 if ($debug) {
-    ini_set('xdebug.var_display_max_depth', 5);
-    ini_set('xdebug.var_display_max_children', 256);
-    ini_set('xdebug.var_display_max_data', 3000);
-
-    // Set error reporting
-    error_reporting(E_ALL | E_STRICT);
-
-    // Display errors
-    ini_set('display_errors', 1);
-
-    // Log errors
-    ini_set('log_errors', 1);
-
-    // No error lof message max
-    ini_set('log_errors_max_len', 0);
-
-    // pecify log file
-    ini_set('error_log', APP_ROOT . '/logs/php_errors.log');
-
     include_once APP_ROOT . '/classes/Vendor/FirePHPCore/FirePHP.class.php';
-
 
     $debugbar = new StandardDebugBar();
     $debugbarRenderer = $debugbar->getJavascriptRenderer();
-
 }
 
 error_reporting(2039);
-ini_set("session.use_trans_sid", 0);
 
 $request = Request::createFromGlobals();
 
@@ -230,6 +208,7 @@ if ($indexRedirect == "true") {
 
 $logs = new \phpCollab\Logs\Logs();
 $sort = new \phpCollab\Sorting\Sorting();
+$members = new \phpCollab\Members\Members();
 
 //fix if update from old version
 if ($theme == "") {
@@ -280,16 +259,15 @@ if ($checkSession != "false" && $demoSession != "true") {
             $pieces[0] = strrev($pieces[0]);
             $pieces[1] = strrev($pieces[1]);
             $page = $pieces[1] . "/" . $pieces[0];
-            $tmpquery = "UPDATE {$tableCollab["members"]} SET last_page=:page WHERE id = :session_id";
-
-            $dbParams = [];
-            $dbParams['page'] = $page;
-            $dbParams['session_id'] = $idSession;
-
-            phpCollab\Util::newConnectSql($tmpquery, $dbParams);
-
-            unset($dbParams);
-
+//            $tmpquery = "UPDATE {$tableCollab["members"]} SET last_page=:page WHERE id = :session_id";
+//            $dbParams = [];
+//            $dbParams['page'] = $page;
+//            $dbParams['session_id'] = $idSession;
+//
+//            phpCollab\Util::newConnectSql($tmpquery, $dbParams);
+//
+//            unset($dbParams);
+            $members->setLastPageVisited($idSession, $page);
 
 
         }
