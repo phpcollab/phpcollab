@@ -30,12 +30,12 @@ class Administration
      */
     public function dumpTables($dumpSettings = null)
     {
-        if ($dumpSettings['compress'] == true) {
+        if ($dumpSettings['compress'] === true) {
             $dumpSettings['compress'] = 'Gzip';
         }
 
         try {
-            $fileExtension = ($dumpSettings['compress'] == true) ? '.zip' : '.sql';
+            $fileExtension = ($dumpSettings['compress'] === true) ? '.zip' : '.sql';
             $fileName = MYDATABASE . '_' . date("Y_m_d",time()) . $fileExtension;
 
             $dump = new IMysqldump\Mysqldump('mysql:host='.MYSERVER.';dbname='.MYDATABASE, MYLOGIN, MYPASSWORD, $dumpSettings);
