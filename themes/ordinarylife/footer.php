@@ -19,4 +19,3 @@ echo "</p>\n\n
 	</body>
 	</html>
 	";
-?>
