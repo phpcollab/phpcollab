@@ -40,13 +40,11 @@ class Request
                 $res = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
             } catch (\Exception $e) {
                 echo $strings["error_server"];
-                exit;
             }
             try {
                 mysqli_select_db($res, MYDATABASE);
             } catch (\Exception $e) {
                 echo $strings["error_database"];
-                exit;
             }
         }
 
@@ -62,13 +60,11 @@ class Request
                 $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
             } catch (\Exception $e) {
                 echo $strings["error_server"];
-                exit;
             }
             try {
                 mssql_select_db(MYDATABASE, $res);
             } catch (\Exception $e) {
                 echo $strings["error_database"];
-                exit;
             }
         }
     }
