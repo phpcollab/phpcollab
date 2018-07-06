@@ -32,7 +32,7 @@ class BookmarksGateway
      */
     public function deleteBookmark($bookmarkId)
     {
-        $query = 'DELETE FROM ' . $this->tableCollab["bookmarks"] .' WHERE id IN(:bookmark_id)';
+        $query = "DELETE FROM {$this->tableCollab["bookmarks"]} WHERE id IN(:bookmark_id)";
 
         $this->db->query($query);
 
