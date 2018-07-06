@@ -98,4 +98,3 @@ $pdf->ezTable($data, array('name' => 'Name', 'title' => 'Title', 'email' => 'Ema
 
 // output the PDF
 $pdf->ezStream();
-?>
