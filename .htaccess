@@ -1,2 +1,29 @@
 ## Deny access to vendor sub directory
 RedirectMatch 403 ^/vendor/?$
+
+php_value error_reporting 32767
+
+php_value xdebug.var_display_max_depth 5
+php_value xdebug.var_display_max_children 256
+php_value xdebug.var_display_max_data 3000
+
+#    // Display errors
+php_value display_errors 1
+
+#    // Log errors
+php_value log_errors', 1);
+#
+#    // No error lof message max
+php_value log_errors_max_len 0
+#
+#    // pecify log file
+php_value error_log ./logs/php_errors.log
+
+php_value session.use_trans_sid 0
+
+# prevent access to PHP error log
+<Files php_errors.log>
+ Order allow,deny
+ Deny from all
+ Satisfy All
+</Files>
