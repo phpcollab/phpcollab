@@ -57,32 +57,32 @@ if ($action == "generate") {
     if ($databaseType == "mysql") {
         $my = @mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
         if (mysql_errno() != 0) {
-            exit('<br/><b>PANIC! <br/> Error during connection on server MySQL.</b><br/>');
+            echo "<br/><b>PANIC! <br/> Error during connection on server MySQL.</b><br/>";
         }
         mysql_select_db(MYDATABASE, $my);
         if (mysql_errno() != 0) {
-            exit('<br/><b>PANIC! <br/> Error during selection database.</b><br/>');
+            echo "<br/><b>PANIC! <br/> Error during selection database.</b><br/>";
         }
         for ($con = 0; $con < count($SQL); $con++) {
             mysql_query($SQL[$con]);
             if (mysql_errno() != 0) {
-                exit('<br/><b>PANIC! <br/> Error during the update of the database.</b><br/> Error: ' . mysql_error());
+                echo "<br/><b>PANIC! <br/> Error during the update of the database.</b><br/> Error: " . mysql_error();
             }
         }
     }
     if ($databaseType == "sqlserver") {
         $my = @mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
         if (mssql_get_last_message() != 0) {
-            exit('<br/><b>PANIC! <br/> Error during connection on server SQl Server.</b><br/>');
+            echo "<br/><b>PANIC! <br/> Error during connection on server SQl Server.</b><br/>";
         }
         mssql_select_db(MYDATABASE, $my);
         if (mssql_get_last_message() != 0) {
-            exit('<br/><b>PANIC! <br/> Error during selection database.</b><br/>');
+            echo "<br/><b>PANIC! <br/> Error during selection database.</b><br/>";
         }
         for ($con = 0; $con < count($SQL); $con++) {
             mssql_query($SQL[$con]);
             if (mssql_get_last_message() != 0) {
-                exit('<br/><b>PANIC! <br/> Error during the update of the database.</b><br/> Error: ' . mssql_get_last_message());
+                echo "<br/><b>PANIC! <br/> Error during the update of the database.</b><br/> Error: " . mssql_get_last_message();
             }
         }
     }
@@ -90,7 +90,7 @@ if ($action == "generate") {
 }
 
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -135,4 +135,4 @@ if ($submit == "true") {
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
