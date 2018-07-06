@@ -20,9 +20,7 @@ $help["calendar_shortname"] = "Dieser Text wird im Kalender angezeigt (Pflichtfe
 $help["user_autologout"] = "Nach wievielen Sekunden Inaktivit&auml;t soll die Verbindung getrennt werden? (0 = Nie)";
 $help["user_timezone"] = "GMT Zeitzone einstellen";
 //2.4
-//$help["setup_clientsfilter"] = "Filter to see only logged user clients";
 $help["setup_clientsfilter"] = "Filter aktiviert zeigt nur die amgemeldeten Kundenbenutzer";
-//$help["setup_projectsfilter"] = "Filter to see only the project when the user are in the team";
 $help["setup_projectsfilter"] = "Filter aktiviert zeigt nur die Projekte, in denen der Benutzer im Team ist";
 //2.5
 $help["setup_notificationMethod"] = "Methode zum Mail-Versenden: mit der internen PHP Mail Funktion (ben&ouml;tigt korrekte Parameter in PHP f&uuml;r einen smtp- oder sendmail-Server) oder mit personifiziertem smtp Server";
