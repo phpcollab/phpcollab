@@ -259,17 +259,8 @@ if ($checkSession != "false" && $demoSession != "true") {
             $pieces[0] = strrev($pieces[0]);
             $pieces[1] = strrev($pieces[1]);
             $page = $pieces[1] . "/" . $pieces[0];
-//            $tmpquery = "UPDATE {$tableCollab["members"]} SET last_page=:page WHERE id = :session_id";
-//            $dbParams = [];
-//            $dbParams['page'] = $page;
-//            $dbParams['session_id'] = $idSession;
-//
-//            phpCollab\Util::newConnectSql($tmpquery, $dbParams);
-//
-//            unset($dbParams);
+
             $members->setLastPageVisited($idSession, $page);
-
-
         }
     }
     //if auto logout feature used, store last required page before deconnection
