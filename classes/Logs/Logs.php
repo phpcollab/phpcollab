@@ -5,6 +5,10 @@ namespace phpCollab\Logs;
 use phpCollab\Database;
 
 
+/**
+ * Class Logs
+ * @package phpCollab\Logs
+ */
 class Logs
 {
     protected $logs_gateway;
@@ -51,7 +55,8 @@ class Logs
     }
 
     /**
-     * @param $entryData
+     * @param $date
+     * @param $userId
      * @return mixed
      */
     public function updateConnectedTimeForUser($date, $userId) {
@@ -63,11 +68,11 @@ class Logs
     /**
      * @param string $login
      * @param boolean $connected
+     * @return mixed
      */
     public function setConnectedByLogin($login, $connected)
     {
-//        $tmpquery1 = "UPDATE {$tableCollab["logs"]} SET connected='' WHERE login = :login_id";
-        $data = $this->logs_gateway->setConnectedByLogin($login, $connected);
+        return $this->logs_gateway->setConnectedByLogin($login, $connected);
     }
 
     /**
