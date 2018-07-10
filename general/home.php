@@ -41,17 +41,17 @@ $projects = new \phpCollab\Projects\Projects();
 $tasks = new \phpCollab\Tasks\Tasks();
 
 $test = $date;
-$DateAnnee = substr("$test", 0, 4);
-$DateMois = substr("$test", 5, 2);
-$DateJour = substr("$test", 8, 2);
-$DateMois = $DateMois - 1;
-if ($DateMois <= 0) {
-    $DateMois = $DateMois + 12;
-    $DateAnnee = $DateAnnee - 1;
+$DateYear = substr("$test", 0, 4); // DateYear
+$DateMonth = substr("$test", 5, 2); // DateMonth
+$DateDay = substr("$test", 8, 2); // DateDay
+$DateMonth = $DateMonth - 1;
+if ($DateMonth <= 0) {
+    $DateMonth = $DateMonth + 12;
+    $DateYear = $DateYear - 1;
 }
-$DateMois = (strlen($DateMois) > 1) ? $DateMois : "0" . $DateMois;
+$DateMonth = (strlen($DateMonth) > 1) ? $DateMonth : "0" . $DateMonth;
 
-$dateFilter = "$DateAnnee-$DateMois-$DateJour";
+$dateFilter = "$DateYear-$DateMonth-$DateDay";
 
 if ($action == 'publish') {
     if ($closeTopic == 'true') {
