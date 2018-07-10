@@ -180,6 +180,25 @@ class MembersGateway
     }
 
     /**
+     * @param $user
+     * @param $page
+     * @return mixed
+     */
+    public function setLastPageVisited($user, $page)
+    {
+        $query = <<<SQL
+UPDATE {$this->tableCollab["members"]} 
+SET last_page = :page 
+WHERE id = :user_id
+SQL;
+
+        $this->db->query($query);
+        $this->db->bind(':user_id', $user);
+        $this->db->bind(':page', $page);
+        return $this->db->execute();
+    }
+
+    /**
      * @param string $sorting
      * @return string
      */

@@ -122,4 +122,9 @@ class Members
     {
         return $this->members_gateway->deleteMemberByIdIn($memberIds);
     }
+
+    public function setLastPageVisited($userId, $page)
+    {
+        return $this->members_gateway->setLastPageVisited($userId, $page);
+    }
 }
