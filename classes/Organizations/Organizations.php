@@ -102,6 +102,16 @@ class Organizations
     }
 
     /**
+     * @param $orgId
+     * @param $logoExtension
+     * @return mixed
+     */
+    public function setLogoExtensionByOrgId($orgId, $logoExtension)
+    {
+        return $this->organizations_gateway->setLogoExtensionByOrgId($orgId, $logoExtension);
+    }
+
+    /**
      * @param $clientId
      * @return mixed
      * @throws Exception
