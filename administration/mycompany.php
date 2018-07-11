@@ -51,10 +51,6 @@ if ($action == "update") {
     $logoDel = phpCollab\Util::returnGlobal('logoDel', 'POST');
 
     if ($logoDel == "on") {
-//        $tmpquery = "UPDATE {$tableCollab["organizations"]} SET extension_logo='' WHERE id=:org_id";
-//        $dbParams = ["org_id" => 1];
-//
-//        phpCollab\Util::newConnectSql($tmpquery. $dbParams);
         $org->setLogoExtensionByOrgId(1, '');
 
         try {
@@ -67,48 +63,34 @@ if ($action == "update") {
 
     $extension = strtolower(substr(strrchr($_FILES['upload']['name'], "."), 1));
 
-//    xdebug_var_dump(move_uploaded_file($_FILES['upload']['tmp_name'], "../logos_clients/1.$extension"));
-xdebug_var_dump($_FILES['upload']['tmp_name']);
-xdebug_var_dump($_FILES['upload']['name']);
-    if (@move_uploaded_file($_FILES['upload']['tmp_name'], "../logos_clients/1.$extension")) {
-        $org->setLogoExtensionByOrgId(1, $extension);
+    try {
+        if (move_uploaded_file($_FILES['upload']['tmp_name'], "../logos_clients/1.$extension")) {
+            $org->setLogoExtensionByOrgId(1, $extension);
+        }
+    }
+    catch(Exception $e) {
+        echo 'Error moving file. Message: ' .$e->getMessage();
     }
 
-    $cn = phpCollab\Util::convertData($cn);
-    $add = phpCollab\Util::convertData($add);
-    $c = phpCollab\Util::convertData($c);
-    $tmpquery = "UPDATE {$tableCollab["organizations"]} SET name=:name,address1=:address1,phone=:phone,url=:url,email=:email,comments=:comments WHERE id = '1'";
     $dbParams = [];
-    $dbParams['name'] = $cn;
-    $dbParams['address1'] = $add;
+    $dbParams['name'] = phpCollab\Util::convertData($cn);
+    $dbParams['address1'] = phpCollab\Util::convertData($add);
     $dbParams['phone'] = $wp;
     $dbParams['url'] = $url;
     $dbParams['email'] = $email;
-    $dbParams['comments'] = $c;
+    $dbParams['comments'] = phpCollab\Util::convertData($c);
 
-    phpCollab\Util::newConnectSql($tmpquery, $dbParams);
-    unset($dbParams);
+    $org->updateOrganizationInformation($dbParams);
+
     phpCollab\Util::headerFunction("../administration/mycompany.php");
 }
-$tmpquery = "WHERE org.id = '1'";
-$clientDetail = new phpCollab\Request();
-$clientDetail->openOrganizations($tmpquery);
 
-xdebug_var_dump($clientDetail->org_name[0]);
-
-$cn = $clientDetail->org_name[0];
-$add = $clientDetail->org_address1[0];
-$wp = $clientDetail->org_phone[0];
-$url = $clientDetail->org_url[0];
-
-
-$email = $clientDetail->org_email[0];
-$c = $clientDetail->org_comments[0];
+$company = $org->getOrganizationById(1);
 
 $setTitle .= " : Company Details";
 
 $bodyCommand = "onLoad='document.adminDForm.cn.focus();'";
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 
 $blockPage = new phpCollab\Block();
@@ -138,19 +120,19 @@ $block1->heading($strings["company_details"]);
 $block1->openContent();
 
 $block1->contentTitle($strings["company_info"]);
-$block1->contentRow($strings["name"], '<input size="44" value="'.$cn.'" style="width: 400px" name="cn" maxlength="100" type="TEXT">');
-$block1->contentRow($strings["address"], "<textarea rows='3' style='width: 400px; height: 50px;' name='add' cols='43'>{$add}</textarea>");
-$block1->contentRow($strings["phone"], "<input size='32' value='$wp' style='width: 250px' name='wp' maxlength='32' type='TEXT'>");
-$block1->contentRow($strings["url"], "<input size='44' value='$url' style='width: 400px' name='url' maxlength='2000' type='TEXT'>");
-$block1->contentRow($strings["email"], "<input size='44' value='$email' style='width: 400px' name='email' maxlength='2000' type='TEXT'>");
-$block1->contentRow($strings["comments"], "<textarea rows='3' style='width: 400px; height: 50px;' name='c' cols='43'>$c</textarea>");
+$block1->contentRow($strings["name"], '<input size="44" value="'. $company['org_name'] .'" style="width: 400px" name="cn" maxlength="100" type="TEXT">');
+$block1->contentRow($strings["address"], "<textarea rows='3' style='width: 400px; height: 50px;' name='add' cols='43'>{$company['org_address1']}</textarea>");
+$block1->contentRow($strings["phone"], "<input size='32' value='{$company['org_phone']}' style='width: 250px' name='wp' maxlength='32' type='TEXT'>");
+$block1->contentRow($strings["url"], "<input size='44' value='{$company['org_url']}' style='width: 400px' name='url' maxlength='2000' type='TEXT'>");
+$block1->contentRow($strings["email"], "<input size='44' value='{$company['org_email']}' style='width: 400px' name='email' maxlength='2000' type='TEXT'>");
+$block1->contentRow($strings["comments"], "<textarea rows='3' style='width: 400px; height: 50px;' name='c' cols='43'>{$company['org_comments']}</textarea>");
 $block1->contentRow($strings["logo"] . $blockPage->printHelp("mycompany_logo"), '<input size="44" style="width: 400px" name="upload" type="file">');
 
-if (file_exists("../logos_clients/1." . $clientDetail->org_extension_logo[0])) {
+if (file_exists("../logos_clients/1." . $company['org_extension_logo'])) {
     $block1->contentRow(
         "",
-        '<img src="../logos_clients/1.' . $clientDetail->org_extension_logo[0] . '" border="0" alt="' . $clientDetail->org_name[0] . '">
-         <input name="extensionOld" type="hidden" value="' . $clientDetail->org_extension_logo[0] . '">
+        '<img src="../logos_clients/1.' . $company['org_extension_logo'] . '" border="0" alt="' . $company['org_name'] . '">
+         <input name="extensionOld" type="hidden" value="' . $company['org_extension_logo'] . '">
          <input name="logoDel" type="checkbox" value="on"> ' . $strings["delete"]
     );
 }
@@ -160,4 +142,4 @@ $block1->contentRow("", "<input type='SUBMIT' value='" . $strings["save"] . "'>"
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
