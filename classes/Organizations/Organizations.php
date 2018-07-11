@@ -87,6 +87,11 @@ class Organizations
 
     }
 
+    /**
+     * @param $orgId
+     * @param $ownerId
+     * @return mixed
+     */
     public function getOrganizationByIdAndOwner($orgId, $ownerId) {
         $orgId = filter_var($orgId, FILTER_VALIDATE_INT);
         $ownerId = filter_var($ownerId, FILTER_VALIDATE_INT);
