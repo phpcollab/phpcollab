@@ -114,6 +114,21 @@ class OrganizationsGateway
     }
 
     /**
+     * @param $orgId
+     * @param $logoExtension
+     * @return mixed
+     */
+    public function setLogoExtensionByOrgId($orgId, $logoExtension)
+    {
+        $query = "UPDATE {$this->tableCollab["organizations"]} SET extension_logo = :logo_ext WHERE id = :org_id";
+        $this->db->query($query);
+        $this->db->bind(':logo_ext', $logoExtension);
+        $this->db->bind(':org_id', $orgId);
+        return $this->db->execute();
+    }
+
+
+    /**
      * @param $clientId
      * @return mixed
      */
