@@ -44,6 +44,11 @@ hr {
 	height: 40px;
 }
 
+#header img {
+	width: auto;
+	height: inherit;
+}
+
 #footer {
 	background-color: #FFFFFF;
 	margin-top: 30px;
