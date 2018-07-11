@@ -36,7 +36,7 @@ if ($profilSession != "0") {
 
 $setTitle .= " : Logs";
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -85,4 +85,4 @@ for ($i = 0; $i < $comptListLogs; $i++) {
 
 $block1->closeResults();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
