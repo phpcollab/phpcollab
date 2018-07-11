@@ -8,8 +8,17 @@ use phpCollab\Database;
 
 class LogsGateway
 {
+    /**
+     * @var Database
+     */
     protected $db;
+    /**
+     * @var mixed
+     */
     protected $initrequest;
+    /**
+     * @var mixed
+     */
     protected $tableCollab;
 
     /**
@@ -23,6 +32,10 @@ class LogsGateway
         $this->tableCollab = $GLOBALS['tableCollab'];
     }
 
+    /**
+     * @param $memberLogin
+     * @return mixed
+     */
     public function getLogByLogin($memberLogin)
     {
         $this->db->query($this->initrequest["logs"] . ' WHERE log.login = :member_login');
@@ -32,6 +45,10 @@ class LogsGateway
         return $this->db->single();
     }
 
+    /**
+     * @param $entryData
+     * @return mixed
+     */
     public function insertLogEntry($entryData) {
         $query = <<<SQL
 INSERT INTO {$this->tableCollab["logs"]} 
@@ -56,6 +73,11 @@ SQL;
         return $this->db->execute();
     }
 
+    /**
+     * @param $login
+     * @param string $connected
+     * @return mixed
+     */
     public function setConnectedByLogin($login, $connected = '') {
         $query = <<<SQL
 UPDATE {$this->tableCollab["logs"]} SET connected = :connected WHERE login = :login_id
@@ -66,6 +88,10 @@ SQL;
         return $this->db->execute();
     }
 
+    /**
+     * @param $entryData
+     * @return mixed
+     */
     public function updateLogEntry($entryData) {
         $query = <<<SQL
 UPDATE {$this->tableCollab["logs"]} 
