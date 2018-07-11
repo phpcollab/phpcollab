@@ -14,7 +14,7 @@ class Block
         $oddColor, $evenColor, $highlightOn, $class, $highlightOff, $theme,
         $pathImg, $themeImgPath, $accountTotal, $account, $sortingOrders,
         $sortingFields, $sortingArrows, $sortingStyles, $explode, $labels,
-        $sitePublish, $navigation, $navigationTotal, $limit, $rowsLimit;
+        $sitePublish, $navigation, $navigationTotal, $limit, $rowsLimit, $recordsTotal;
     public $form;
 
     /**
@@ -79,6 +79,22 @@ class Block
     public function setRowsLimit($rowsLimit)
     {
         $this->rowsLimit = $rowsLimit;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRecordsTotal()
+    {
+        return $this->recordsTotal;
+    }
+
+    /**
+     * @param mixed $recordsTotal
+     */
+    public function setRecordsTotal($recordsTotal)
+    {
+        $this->recordsTotal = $recordsTotal;
     }
 
     /**
@@ -240,11 +256,11 @@ class Block
     public function returnLimit($current)
     {
         $sanitized = filter_var($current, FILTER_SANITIZE_NUMBER_INT);
-        global ${'limit' . $sanitized};
-        if (${'limit' . $sanitized} == "") {
+
+        if ($sanitized == "") {
             $limitValue = "0";
         } else {
-            $limitValue = ${'limit' . $sanitized};
+            $limitValue = $sanitized;
         }
         return $limitValue;
     }
