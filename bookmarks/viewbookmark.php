@@ -53,7 +53,7 @@ if (
 
 $setTitle .= " : View Bookmark (" . $bookmarkDetail['boo_name'] . ")";
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -96,4 +96,4 @@ if ($bookmarkDetail['boo_owner'] == $idSession) {
     $block1->closePaletteScript("", "");
 }
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '../themes/' . THEME . '/footer.php';
