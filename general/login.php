@@ -218,41 +218,39 @@ if ($auth == "on") {
 
             // we must avoid to redirect to some special pages
             // otherwise, the user can't access to phpCollab
-            $loginUser->mem_last_page[0] = str_replace(
+            $member['mem_last_page'] = str_replace(
                 'accessfile.php?mode=view&',
                 'viewfile.php?',
-                $loginUser->mem_last_page[0]
+                $member['mem_last_page']
             );
-            $loginUser->mem_last_page[0] = str_replace(
+            $member['mem_last_page'] = str_replace(
                 'accessfile.php?mode=download&',
                 'viewfile.php?',
-                $loginUser->mem_last_page[0]
+                $member['mem_last_page']
             );
 
             //redirect for external link to internal page
             if ($url != "") {
-                if ($loginUser->mem_profil[0] == "3") {
+                if ($member['mem_profil'] == "3") {
                     phpCollab\Util::headerFunction("../$url&updateProject=true");
                 } else {
                     phpCollab\Util::headerFunction("../$url");
                 }
             } //redirect to last page required (with auto log out feature)
             else {
-                if ($loginUser->mem_last_page[0] != "" && $loginUser->mem_profil[0] != "3" && $lastvisitedpage) {
-                    $tmpquery = "UPDATE {$tableCollab["members"]} SET last_page='' WHERE login = :login";
-                    phpCollab\Util::newConnectSql($tmpquery, ["login", $usernameForm]);
-                    phpCollab\Util::headerFunction("../" . $loginUser->mem_last_page[0]);
+                if ($member['mem_last_page'] != "" && $member['mem_profil'] != "3" && $lastvisitedpage) {
+                    $members->setLastPageVisitedByLogin($usernameForm, '');
+                    phpCollab\Util::headerFunction("../" . $member['mem_last_page']);
                 } else {
-                    if ($loginUser->mem_last_page[0] != "" && ($loginCookie != "" && $passwordCookie != "") && $loginUser->mem_profil[0] != "3" && $lastvisitedpage) {
-                        $tmpquery = "UPDATE {$tableCollab["members"]} SET last_page='' WHERE login = :login";
-                        phpCollab\Util::newConnectSql($tmpquery, ["login", $usernameForm]);
-                        phpCollab\Util::headerFunction("../" . $loginUser->mem_last_page[0]);
+                    if ($member['mem_last_page'] != "" && ($loginCookie != "" && $passwordCookie != "") && $member['mem_profil'] != "3" && $lastvisitedpage) {
+                        $members->setLastPageVisitedByLogin($usernameForm, '');
+                        phpCollab\Util::headerFunction("../" . $member['mem_last_page']);
                     } //redirect to home or admin page (if user is administrator)
                     else {
-                        if ($loginUser->mem_profil[0] == "3") {
+                        if ($member['mem_profil'] == "3") {
                             phpCollab\Util::headerFunction("../projects_site/home.php");
                         } else {
-                            if ($loginUser->mem_profil[0] == "0") {
+                            if ($member['mem_profil'] == "0") {
                                 if ($adminathome == '1') {
                                     phpCollab\Util::headerFunction("../general/home.php");
                                 } else {
