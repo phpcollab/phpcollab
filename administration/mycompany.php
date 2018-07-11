@@ -95,7 +95,7 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], 'in'));
 $blockPage->itemBreadcrumbs($strings["company_details"]);
 $blockPage->closeBreadcrumbs();
 
@@ -110,7 +110,7 @@ echo "<a name='" . $block1->form . "Anchor'></a>\n
 	<form accept-charset='UNKNOWN' method='POST' action='../administration/mycompany.php?action=update&' name='adminDForm' enctype='multipart/form-data'>
 	<input type='hidden' name='MAX_FILE_SIZE' value='100000000'>\n";
 
-if ($error != "") {
+if (isset($error) && $error != "") {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
 }
@@ -128,12 +128,13 @@ $block1->contentRow($strings["email"], "<input size='44' value='{$company['org_e
 $block1->contentRow($strings["comments"], "<textarea rows='3' style='width: 400px; height: 50px;' name='c' cols='43'>{$company['org_comments']}</textarea>");
 $block1->contentRow($strings["logo"] . $blockPage->printHelp("mycompany_logo"), '<input size="44" style="width: 400px" name="upload" type="file">');
 
-if (file_exists("../logos_clients/1." . $company['org_extension_logo'])) {
+if (file_exists(APP_ROOT . "/logos_clients/1." . $company['org_extension_logo'])) {
+    $logo = "../logos_clients/1." . $company['org_extension_logo'];
     $block1->contentRow(
         "",
-        '<img src="../logos_clients/1.' . $company['org_extension_logo'] . '" border="0" alt="' . $company['org_name'] . '">
-         <input name="extensionOld" type="hidden" value="' . $company['org_extension_logo'] . '">
-         <input name="logoDel" type="checkbox" value="on"> ' . $strings["delete"]
+        '<img src="' . $logo . '" border="0" alt="' . $company['org_name'] . '">' .
+         '<input name="extensionOld" type="hidden" value="' . $company['org_extension_logo'] . '">' .
+         '<input name="logoDel" type="checkbox" value="on"> ' . $strings["delete"]
     );
 }
 
