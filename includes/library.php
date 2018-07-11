@@ -176,35 +176,13 @@ if ($languageSession == "") {
 
 $settings = null;
 //settings and date selector includes
-if ($indexRedirect == "true") {
-    include 'includes/settings.php';
+include APP_ROOT . '/includes/settings.php';
 
-    if (defined('CONVERTED') && CONVERTED) {
-        include_once 'includes/classes/settings.class.php';
-        $settings = new Settings(true);
-        $settings->makeGlobal();
-    }
+include APP_ROOT . '/includes/initrequests.php';
 
-    include 'includes/initrequests.php';
-
-    include 'languages/lang_en.php';
-    include 'languages/lang_' . $lang . '.php';
-    include 'languages/help_' . $lang . '.php';
-} else {
-    include '../includes/settings.php';
-
-    if (defined('CONVERTED') && CONVERTED) {
-        include_once '../includes/classes/settings.class.php';
-        $settings = new Settings(true);
-        $settings->makeGlobal();
-    }
-
-    include '../includes/initrequests.php';
-
-    include '../languages/lang_en.php';
-    include '../languages/lang_' . $lang . '.php';
-    include '../languages/help_' . $lang . '.php';
-}
+include APP_ROOT . '/languages/lang_en.php';
+include APP_ROOT . '/languages/lang_' . $lang . '.php';
+include APP_ROOT . '/languages/help_' . $lang . '.php';
 
 $logs = new \phpCollab\Logs\Logs();
 $sort = new \phpCollab\Sorting\Sorting();
