@@ -34,6 +34,7 @@ if ($profilSession != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 
+$logs = new \phpCollab\Logs\Logs();
 $setTitle .= " : Logs";
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
@@ -51,30 +52,27 @@ $block1->heading($strings["logs"]);
 $block1->openResults($checkbox = "false");
 $block1->labels($labels = array(0 => $strings["user_name"], 1 => $strings["ip"], 2 => $strings["session"], 3 => $strings["compteur"], 4 => $strings["last_visit"], 5 => $strings["connected"]), "false", $sorting = "false", $sortingOff = array(0 => "4", 1 => "DESC"));
 
-$tmpquery = "ORDER BY last_visite DESC";
-
-$listLogs = new phpCollab\Request();
-$listLogs->openLogs($tmpquery);
+$logsData = $logs->getLogs('logs.last_visite DESC');
 $comptListLogs = count($listLogs->log_id);
 
 $dateunix = date("U");
 
-for ($i = 0; $i < $comptListLogs; $i++) {
+foreach ($logsData as $log) {
     $block1->openRow();
-    $block1->checkboxRow($listLogs->log_id[$i], $checkbox = "false");
-    $block1->cellRow($listLogs->log_login[$i]);
-    $block1->cellRow($listLogs->log_ip[$i]);
-    $block1->cellRow($listLogs->log_session[$i]);
-    $block1->cellRow($listLogs->log_compt[$i]);
-    $block1->cellRow(phpCollab\Util::createDate($listLogs->log_last_visite[$i], $timezoneSession));
+    $block1->checkboxRow($log['id'], $checkbox = "false");
+    $block1->cellRow($log['login']);
+    $block1->cellRow($log['ip']);
+    $block1->cellRow($log['session']);
+    $block1->cellRow($log['compt']);
+    $block1->cellRow(phpCollab\Util::createDate($log['last_visite'], $timezoneSession));
 
-    if ($listLogs->log_mem_profil[$i] == "3") {
+    if ($log['mem_profil'] == "3") {
         $z = "(Client on project site)";
     } else {
         $z = "";
     }
 
-    if ($listLogs->log_connected[$i] > $dateunix - 5 * 60) {
+    if ($log['connected'] > $dateunix - 5 * 60) {
         $block1->cellRow($strings["yes"] . " " . $z);
     } else {
         $block1->cellRow($strings["no"]);
