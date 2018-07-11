@@ -189,19 +189,17 @@ if ($auth == "on") {
 
             $logEntry = $logs->getLogByLogin($usernameForm);
 
-
             $session = session_id();
             error_log("set session to " . $session, 0);
             /**
              * Validate form data
              */
 
-
             $filteredData =  [];
             $filteredData['login'] = filter_var((string) $_POST['usernameForm'], FILTER_SANITIZE_STRING);
             $filteredData['ip'] = filter_var($ip, FILTER_SANITIZE_STRING);
             $filteredData['session'] = $session;
-            $filteredData['last_viste'] = $dateheure;
+            $filteredData['last_visite'] = $dateheure;
 
             if (!$logEntry) {
                 $filteredData['compt'] = 1;
