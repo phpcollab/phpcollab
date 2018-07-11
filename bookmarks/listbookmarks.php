@@ -28,7 +28,7 @@ switch ($view) {
         break;
 }
 // END
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=all", $strings["bookmarks"], 'in'));
@@ -44,7 +44,6 @@ if ($view == "private") {
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
-    // Todo: refactor this
     include '../includes/messages.php';
     $blockPage->messageBox($msgLabel);
 }
@@ -171,4 +170,4 @@ if ($view == "my") {
 $block1->closePaletteScript($comptListBookmarks, $listBookmarks->boo_id);
 
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
