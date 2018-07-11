@@ -31,7 +31,7 @@ class AdministrationGateway
      */
     public function deleteLogs()
     {
-        $query = 'DELETE FROM ' . $this->tableCollab["logs"];
+        $query = "DELETE FROM {$this->tableCollab["logs"]}";
 
         $this->db->query($query);
 
