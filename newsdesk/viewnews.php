@@ -124,7 +124,7 @@ if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
 
 $block2->closePaletteIcon();
 
-$block1->limit = $blockPage->returnLimit("2");
+$block1->setLimit($blockPage->returnLimit(2));
 $block2->openContent();
 
 if ($newsComments) {

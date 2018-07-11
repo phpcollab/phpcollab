@@ -63,8 +63,8 @@ if ($profilSession == "0" || $profilSession == "1") {
 }
 $block1->closePaletteIcon();
 
-$block1->limit = $blockPage->returnLimit("1");
-$block1->rowsLimit = "20";
+$block1->setLimit($blockPage->returnLimit(1));
+$block1->setRowsLimit(20);
 
 $block1->sorting("organizations", $sortingUser["organizations"], "org.name ASC", $sortingFields = array(0 => "org.name", 1 => "org.phone", 2 => "org.url"));
 
@@ -99,7 +99,7 @@ $block1->recordsTotal = phpCollab\Util::computeTotal($initrequest["organizations
 
 if ($listClients != "false") {
     $listOrganizations = new phpCollab\Request();
-    $listOrganizations->openOrganizations($tmpquery, $block1->limit, $block1->rowsLimit);
+    $listOrganizations->openOrganizations($tmpquery, $block1->getLimit(), $block1->getRowsLimit());
     $comptListOrganizations = count($listOrganizations->org_id);
 } else {
     $comptListOrganizations = 0;

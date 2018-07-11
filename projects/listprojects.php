@@ -66,8 +66,8 @@ if ($enableMantis == "true") {
 }
 $block1->closePaletteIcon();
 
-$block1->limit = $blockPage->returnLimit("1");
-$block1->rowsLimit = "20";
+$block1->setLimit($blockPage->returnLimit(1));
+$block1->setRowsLimit(20);
 
 $block1->sorting(
     "projects",

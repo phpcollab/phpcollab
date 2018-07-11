@@ -148,8 +148,8 @@ $blockPage = new phpCollab\Block();
 
 $block1 = new phpCollab\Block();
 
-$block1->limit = $blockPage->returnLimit("1");
-$block1->rowsLimit = "10";
+$block1->setLimit($blockPage->returnLimit(1));
+$block1->setRowsLimit(10);
 
 $block1->sorting("projects", $sortingUser["projects"], "pro.name ASC", $sortingFields = array(0 => "pro.id", 1 => "pro.name", 2 => "pro.priority", 3 => "org.name", 4 => "pro.status", 5 => "mem.login", 6 => "pro.published"));
 
@@ -164,14 +164,14 @@ if ($validProjects == "true") {
     $block1->recordsTotal = phpCollab\Util::computeTotal($initrequest["projects"] . " " . $tmpquery);
 
     $listProjects = new phpCollab\Request();
-    $listProjects->openProjects($tmpquery, $block1->limit, $block1->rowsLimit);
+    $listProjects->openProjects($tmpquery, $block1->getLimit(), $block1->getRowsLimit());
     $comptListProjects = count($listProjects->pro_id);
 }
 
 $block2 = new phpCollab\Block();
 
-$block2->limit = $blockPage->returnLimit("2");
-$block2->rowsLimit = "10";
+$block2->setLimit($blockPage->returnLimit(2));
+$block2->setRowsLimit(10);
 
 $block2->sorting("home_tasks", $sortingUser["home_tasks"], "tas.name ASC", $sortingFields = array(0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.due_date", 4 => "mem.login", 5 => "tas.project", 6 => "tas.published"));
 
@@ -208,13 +208,13 @@ if ($validTasks == "true") {
     $block2->recordsTotal = phpCollab\Util::computeTotal($initrequest["tasks"] . " " . $tmpquery);
 
     $listTasks = new phpCollab\Request();
-    $listTasks->openTasks($tmpquery, $block2->limit, $block2->rowsLimit);
+    $listTasks->openTasks($tmpquery, $block2->getLimit(), $block2->getRowsLimit());
     $comptListTasks = count($listTasks->tas_id);
 }
 
 $block9 = new phpCollab\Block();
-$block9->limit = $blockPage->returnLimit("9");
-$block9->rowsLimit = "10";
+$block9->setLimit($blockPage->returnLimit(9));
+$block9->setRowsLimit(10);
 $block9->sorting("home_subtasks", $sortingUser["home_subtasks"], "subtas.name ASC", $sortingFields = array(0 => "subtas.name", 1 => "subtas.priority", 2 => "subtas.status", 3 => "subtas.due_date", 4 => "mem.login", 5 => "subtas.project", 6 => "subtas.published"));
 $tmpquery = "$searchSubtasks ORDER BY $block9->sortingValue";
 
@@ -223,13 +223,13 @@ if ($validSubtasks == "true") {
     $block9->recordsTotal = phpCollab\Util::computeTotal($initrequest["subtasks"] . " " . $tmpquery);
 
     $listSubtasks = new phpCollab\Request();
-    $listSubtasks->openSubtasks($tmpquery, $block9->limit, $block9->rowsLimit);
+    $listSubtasks->openSubtasks($tmpquery, $block9->getLimit(), $block9->getRowsLimit());
     $comptListSubtasks = count($listSubtasks->subtas_id);
 }
 $block3 = new phpCollab\Block();
 
-$block3->limit = $blockPage->returnLimit("3");
-$block3->rowsLimit = "10";
+$block3->setLimit($blockPage->returnLimit(3));
+$block3->setRowsLimit(10);
 
 $block3->sorting("users", $sortingUser["users"], "mem.name ASC", $sortingFields = array(0 => "mem.name", 1 => "mem.login", 2 => "mem.email_work", 3 => "mem.phone_work", 4 => "log.connected"));
 
@@ -243,14 +243,14 @@ if ($validMembers == "true") {
     $block3->recordsTotal = phpCollab\Util::computeTotal($initrequest["members"] . " " . $tmpquery);
 
     $listMembers = new phpCollab\Request();
-    $listMembers->openMembers($tmpquery, $block3->limit, $block3->rowsLimit);
+    $listMembers->openMembers($tmpquery, $block3->getLimit(), $block3->getRowsLimit());
     $comptListMembers = count($listMembers->mem_id);
 }
 
 $block4 = new phpCollab\Block();
 
-$block4->limit = $blockPage->returnLimit("4");
-$block4->rowsLimit = "10";
+$block4->setLimit($blockPage->returnLimit(4));
+$block4->setRowsLimit(10);
 
 $block4->sorting("organizations", $sortingUser["organizations"], "org.name ASC", $sortingFields = array(0 => "org.name", 1 => "org.url", 2 => "org.phone"));
 
@@ -286,14 +286,14 @@ if ($validOrganizations == "true" && $listClients != "false") {
     $block4->recordsTotal = phpCollab\Util::computeTotal($initrequest["organizations"] . " " . $tmpquery);
 
     $listOrganizations = new phpCollab\Request();
-    $listOrganizations->openOrganizations($tmpquery, $block4->limit, $block4->rowsLimit);
+    $listOrganizations->openOrganizations($tmpquery, $block4->getLimit(), $block4->getRowsLimit());
     $comptListOrganizations = count($listOrganizations->org_id);
 }
 
 $block5 = new phpCollab\Block();
 
-$block5->limit = $blockPage->returnLimit("5");
-$block5->rowsLimit = "10";
+$block5->setLimit($blockPage->returnLimit(5));
+$block5->setRowsLimit(10);
 
 $block5->sorting("home_discussions", $sortingUser["home_discussions"], "topic.last_post DESC", $sortingFields = array(0 => "topic.subject", 1 => "mem.login", 2 => "topic.posts", 3 => "topic.last_post", 4 => "topic.status", 5 => "topic.project", 6 => "topic.published"));
 
@@ -312,7 +312,7 @@ if ($validTopics == "true") {
     $block5->recordsTotal = phpCollab\Util::computeTotal($initrequest["topics"] . " " . $tmpquery);
 
     $listTopics = new phpCollab\Request();
-    $listTopics->openTopics($tmpquery, $block5->limit, $block5->rowsLimit);
+    $listTopics->openTopics($tmpquery, $block5->getLimit(), $block5->getRowsLimit());
     $comptListTopics = count($listTopics->top_id);
 }
 
@@ -320,8 +320,8 @@ $block6 = new phpCollab\Block();
 
 $comptTopic = count($topicNote);
 
-$block6->limit = $blockPage->returnLimit("6");
-$block6->rowsLimit = "10";
+$block6->setLimit($blockPage->returnLimit(6));
+$block6->setRowsLimit(10);
 
 if ($comptTopic != "0") {
     $block6->sorting("notes", $sortingUser["notes"], "note.date DESC", $sortingFields = array(0 => "note.subject", 1 => "note.topic", 2 => "note.date", 3 => "mem.login", 4 => "note.published"));
@@ -344,7 +344,7 @@ if ($validNotes == "true") {
     $block6->recordsTotal = phpCollab\Util::computeTotal($initrequest["notes"] . " " . $tmpquery);
 
     $listNotes = new phpCollab\Request();
-    $listNotes->openNotes($tmpquery, $block6->limit, $block6->rowsLimit);
+    $listNotes->openNotes($tmpquery, $block6->getLimit(), $block6->getRowsLimit());
     $comptListNotes = count($listNotes->note_id);
 }
 

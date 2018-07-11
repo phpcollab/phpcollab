@@ -111,8 +111,8 @@ if ($teamMember == "true") {
 }
 $block1->closePaletteIcon();
 
-$block1->limit = $blockPage->returnLimit("1");
-$block1->rowsLimit = "20";
+$block1->setLimit($blockPage->returnLimit(1));
+$block1->setRowsLimit(20);
 
 $block1->sorting("tasks", $sortingUser["tasks"], "tas.name ASC", $sortingFields = [0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem.login", 6 => "tas.published"]);
 
@@ -121,7 +121,7 @@ $tmpquery = "WHERE tas.project = '$project' ORDER BY $block1->sortingValue";
 $block1->recordsTotal = phpCollab\Util::computeTotal($initrequest["tasks"] . " " . $tmpquery);
 
 $listTasks = new phpCollab\Request();
-$listTasks->openTasks($tmpquery, $block1->limit, $block1->rowsLimit);
+$listTasks->openTasks($tmpquery, $block1->getLimit(), $block1->getRowsLimit());
 $comptListTasks = count($listTasks->tas_id);
 
 if ($comptListTasks != "0") {

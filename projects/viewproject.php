@@ -490,8 +490,8 @@ if ($projectDetail["pro_phase_set"] != "0") {
 
     $block2->closePaletteIcon();
 
-    $block2->limit = $blockPage->returnLimit("1");
-    $block2->rowsLimit = "5";
+    $block2->setLimit($blockPage->returnLimit(1));
+    $block2->setRowsLimit(5);
 
     $block2->sorting("project_tasks", $sortingUser["project_tasks"], "tas.name ASC", $sortingFields = array(0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem.login", 6 => "tas.published"));
 
@@ -500,7 +500,7 @@ if ($projectDetail["pro_phase_set"] != "0") {
     $block2->recordsTotal = phpCollab\Util::computeTotal($initrequest["tasks"] . " " . $tmpquery);
 
     $listTasks = new phpCollab\Request();
-    $listTasks->openTasks($tmpquery, $block2->limit, $block2->rowsLimit);
+    $listTasks->openTasks($tmpquery, $block2->getLimit(), $block2->getRowsLimit());
     $comptListTasks = count($listTasks->tas_id);
 
     if ($comptListTasks != "0") {
@@ -605,8 +605,8 @@ if ($idSession == $projectDetail["pro_owner"] || $profilSession == "5") {
 
 $block3->paletteIcon(5, "info", $strings["view"]);
 $block3->closePaletteIcon();
-$block3->limit = $blockPage->returnLimit("2");
-$block3->rowsLimit = "5";
+$block3->setLimit($blockPage->returnLimit(2));
+$block3->setRowsLimit(5);
 $block3->sorting("project_discussions", $sortingUser["project_discussions"], "topic.last_post DESC", $sortingFields = array(0 => "topic.subject", 1 => "mem.login", 2 => "topic.posts", 3 => "topic.last_post", 4 => "topic.status", 5 => "topic.published"));
 
 $tmpquery = "WHERE topic.project = '$id' ORDER BY $block3->sortingValue";
@@ -614,7 +614,7 @@ $tmpquery = "WHERE topic.project = '$id' ORDER BY $block3->sortingValue";
 $block3->recordsTotal = phpCollab\Util::computeTotal($initrequest["topics"] . " " . $tmpquery);
 
 $listTopics = new phpCollab\Request();
-$listTopics->openTopics($tmpquery, $block3->limit, $block3->rowsLimit);
+$listTopics->openTopics($tmpquery, $block3->getLimit(), $block3->getRowsLimit());
 $comptListTopics = count($listTopics->top_id);
 
 if ($comptListTopics != "0") {
@@ -692,8 +692,8 @@ if ($idSession == $projectDetail["pro_owner"] || $profilSession == "5") {
 $block4->paletteIcon(4, "info", $strings["view"]);
 $block4->paletteIcon(5, "email", $strings["email"]);
 $block4->closePaletteIcon();
-$block4->limit = $blockPage->returnLimit("3");
-$block4->rowsLimit = "5";
+$block4->setLimit($blockPage->returnLimit(3));
+$block4->setRowsLimit(5);
 $block4->sorting("team", $sortingUser["team"], "mem.name ASC", $sortingFields = array(0 => "mem.name", 1 => "mem.title", 2 => "mem.login", 3 => "mem.phone_work", 4 => "log.connected", 5 => "tea.published"));
 
 $tmpquery = "WHERE tea.project = '$id' AND mem.profil != '3' ORDER BY $block4->sortingValue";
@@ -701,7 +701,7 @@ $tmpquery = "WHERE tea.project = '$id' AND mem.profil != '3' ORDER BY $block4->s
 $block4->recordsTotal = phpCollab\Util::computeTotal($initrequest["teams"] . " " . $tmpquery);
 
 $listTeam = new phpCollab\Request();
-$listTeam->openTeams($tmpquery, $block4->limit, $block4->rowsLimit);
+$listTeam->openTeams($tmpquery, $block4->getLimit(), $block4->getRowsLimit());
 $comptListTeam = count($listTeam->tea_id);
 
 $block4->openResults();
@@ -887,8 +887,8 @@ if ($teamMember == "true" || $profilSession == "5") {
 }
 
 $block6->closePaletteIcon();
-$block6->limit = $blockPage->returnLimit("4");
-$block6->rowsLimit = "5";
+$block6->setLimit($blockPage->returnLimit(4));
+$block6->setRowsLimit(5);
 
 $comptTopic = count($topicNote);
 
@@ -902,7 +902,7 @@ $tmpquery = "WHERE note.project = '$id' ORDER BY $block6->sortingValue";
 
 $block6->recordsTotal = phpCollab\Util::computeTotal($initrequest["notes"] . " " . $tmpquery);
 $listNotes = new phpCollab\Request();
-$listNotes->openNotes($tmpquery, $block6->limit, $block6->rowsLimit);
+$listNotes->openNotes($tmpquery, $block6->getLimit(), $block6->getRowsLimit());
 $comptListNotes = count($listNotes->note_id);
 
 if ($comptListNotes != "0") {
