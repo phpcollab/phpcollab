@@ -199,6 +199,25 @@ SQL;
     }
 
     /**
+     * @param String $username
+     * @param String $page
+     * @return mixed
+     */
+    public function setLastPageVisitedByLogin($username, $page)
+    {
+        $query = <<<SQL
+UPDATE {$this->tableCollab["members"]} 
+SET last_page = :page 
+WHERE login = :user_name
+SQL;
+
+        $this->db->query($query);
+        $this->db->bind(':user_id', $username);
+        $this->db->bind(':page', $page);
+        return $this->db->execute();
+    }
+
+    /**
      * @param string $sorting
      * @return string
      */
