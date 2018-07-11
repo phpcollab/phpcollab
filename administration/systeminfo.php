@@ -152,12 +152,6 @@ $block1->contentRow("session.name", session_name());
 $block1->contentRow("session.save_path", session_save_path());
 $block1->contentRow("HTTP_HOST", phpCollab\Util::returnGlobal('HTTP_HOST', 'SERVER'));
 
-if (substr(PHP_OS, 0, 3) == "WIN") {
-    $block1->contentRow("PATH_TRANSLATED", stripslashes(phpCollab\Util::returnGlobal('PATH_TRANSLATED', 'SERVER')));
-} else {
-    $block1->contentRow("PATH_TRANSLATED", phpCollab\Util::returnGlobal('PATH_TRANSLATED', 'SERVER'));
-}
-
 $block1->contentRow("SERVER_NAME", phpCollab\Util::returnGlobal('SERVER_NAME', 'SERVER'));
 $block1->contentRow("SERVER_PORT", phpCollab\Util::returnGlobal('SERVER_PORT', 'SERVER'));
 $block1->contentRow("SERVER_SOFTWARE", phpCollab\Util::returnGlobal('SERVER_SOFTWARE', 'SERVER'));
