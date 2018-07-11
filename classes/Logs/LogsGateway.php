@@ -33,6 +33,17 @@ class LogsGateway
     }
 
     /**
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getLogs($sorting = null)
+    {
+        $query = $this->initrequest["logs"]  . $this->orderBy($sorting);
+        $this->db->query($query);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $memberLogin
      * @return mixed
      */
@@ -143,4 +154,28 @@ SQL;
         $this->db->bind(':date_unix', $dateunix);
         return $this->db->resultset();
     }
+
+    /**
+     * @param $sorting
+     * @return string
+     */
+    private function orderBy($sorting)
+    {
+        if (!is_null($sorting)) {
+            $allowedOrderedBy = ["log.id", "log.login", "log.password", "log.ip", "log.session", "log.compt", "log.last_visite", "log.connected", "mem.profil"];
+            $pieces = explode(' ', $sorting);
+
+            if ($pieces) {
+                $key = array_search($pieces[0], $allowedOrderedBy);
+
+                if ($key !== false) {
+                    $order = $allowedOrderedBy[$key];
+                    return " ORDER BY $order $pieces[1]";
+                }
+            }
+        }
+
+        return '';
+    }
+
 }
