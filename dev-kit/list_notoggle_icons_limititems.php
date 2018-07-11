@@ -34,16 +34,16 @@ $block1->paletteIcon(1,"remove",$strings["delete"]);
 $block1->closePaletteIcon();
 
 $block1->borne = $blockPage->returnBorne("1");
-$block1->rowsLimit = "5";
+$block1->setRowsLimit(5);
 
 $block1->sorting("organizations",$sortingUser["organizations"],"org.name ASC",$sortingFields = array(0=>"org.name",1=>"org.phone",2=>"org.url"));
 
 $tmpquery = "WHERE org.id != '1' ORDER BY $block1->sortingValue";
 
-$block1->recordsTotal = phpCollab\Util::computeTotal($initrequest["organizations"]." ".$tmpquery);
+$block1->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["organizations"]." ".$tmpquery));
 
 $listOrganizations = new phpCollab\Request();
-$listOrganizations->openOrganizations($tmpquery,$block1->borne,$block1->rowsLimit);
+$listOrganizations->openOrganizations($tmpquery,$block1->borne,$block1->getRowsLimit());
 $comptListOrganizations = count($listOrganizations->org_id);
 
 if ($comptListOrganizations != "0") {
@@ -85,16 +85,16 @@ $block2->paletteIcon(1,"remove",$strings["delete"]);
 $block2->closePaletteIcon();
 
 $block2->borne = $blockPage->returnBorne("2");
-$block2->rowsLimit = "1";
+$block2->setRowsLimit(1);
 
 $block2->sorting("organizations",$sortingUser["organizations"],"org.name ASC",$sortingFields = array(0=>"org.name",1=>"org.phone",2=>"org.url"));
 
 $tmpquery = "WHERE org.id != '1' ORDER BY $block2->sortingValue";
 
-$block2->recordsTotal = phpCollab\Util::computeTotal($initrequest["organizations"]." ".$tmpquery);
+$block2->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["organizations"]." ".$tmpquery));
 
 $listOrganizations2 = new phpCollab\Request();
-$listOrganizations2->openOrganizations($tmpquery,$block2->borne,$block2->rowsLimit);
+$listOrganizations2->openOrganizations($tmpquery,$block2->borne,$block2->getRowsLimit());
 $comptlistOrganizations2 = count($listOrganizations2->org_id);
 
 if ($comptlistOrganizations2 != "0") {
