@@ -737,7 +737,7 @@ if ($showHomeNewsdesk) {
 
     // Todo: Refactore to use PDO
     $tmpquery = "WHERE news.author = '" . phpCollab\Util::fixInt($sessionId) . "' OR news.rss = '1' OR news.related " . $relatedQuery . " ORDER BY $block7->sortingValue ";
-    $block7->recordsTotal = phpCollab\Util::computeTotal($initrequest["newsdeskposts"] . " " . $tmpquery);
+    $block7->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["newsdeskposts"] . " " . $tmpquery));
 
     $listPosts = new phpCollab\Request();
     $listPosts->openNewsDesk($tmpquery, $block7->getLimit(), $block7->getRowsLimit());

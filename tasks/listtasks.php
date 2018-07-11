@@ -118,7 +118,7 @@ $block1->sorting("tasks", $sortingUser["tasks"], "tas.name ASC", $sortingFields 
 
 $tmpquery = "WHERE tas.project = '$project' ORDER BY $block1->sortingValue";
 
-$block1->recordsTotal = phpCollab\Util::computeTotal($initrequest["tasks"] . " " . $tmpquery);
+$block1->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["tasks"] . " " . $tmpquery));
 
 $listTasks = new phpCollab\Request();
 $listTasks->openTasks($tmpquery, $block1->getLimit(), $block1->getRowsLimit());

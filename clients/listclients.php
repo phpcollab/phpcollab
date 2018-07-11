@@ -95,7 +95,7 @@ if ($clientsFilter == "true" && $profilSession == "2") {
     $tmpquery = "WHERE org.id != '1' ORDER BY $block1->sortingValue";
 }
 
-$block1->recordsTotal = phpCollab\Util::computeTotal($initrequest["organizations"] . " " . $tmpquery);
+$block1->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["organizations"] . " " . $tmpquery));
 
 if ($listClients != "false") {
     $listOrganizations = new phpCollab\Request();
