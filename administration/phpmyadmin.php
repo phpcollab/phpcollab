@@ -121,25 +121,7 @@ HTML;
 $block1->contentTitle("Restore database from sql file");
 
 echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>Disabled";
-/*
-        <form method='post' action='../includes/phpmyadmin/read_dump.php' enctype='multipart/form-data'>
-            <input type='hidden' name='is_js_confirmed' value='0' />
-            <input type='hidden' name='lang' value='en' />
-            <input type='hidden' name='server' value='1' />
-            <input type='hidden' name='db' value='" . MYDATABASE . "' />
-            <input type='hidden' name='pos' value='0' />
-            <input type='hidden' name='goto' value='db_details.php' />
-            <input type='hidden' name='zero_rows' value='Your SQL-query has been executed successfully' />
-            <input type='hidden' name='prev_sql_query' value='' /><br />
-            Location of sql file&nbsp;:<br />
-            <div style='margin-bottom: 5px'>
-            <input type='file' name='sql_file' /><br />
-            </div>
-    
-            <input type='submit' name='SQL' value='Go' />
-        </form>
-" . $blockPage->buildLink("http://phpwizard.net/projects/phpMyAdmin", "phpMyAdmin", powered) . "</a>
-*/
+
 echo "</td></tr>";
 $block1->closeContent();
 
