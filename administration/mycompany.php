@@ -35,6 +35,8 @@ if ($profilSession != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 
+$org = new \phpCollab\Organizations\Organizations();
+
 $action = phpCollab\Util::returnGlobal('action', 'GET');
 
 if ($action == "update") {
@@ -49,22 +51,29 @@ if ($action == "update") {
     $logoDel = phpCollab\Util::returnGlobal('logoDel', 'POST');
 
     if ($logoDel == "on") {
-        $tmpquery = "UPDATE {$tableCollab["organizations"]} SET extension_logo='' WHERE id=:org_id";
-        $dbParams = ["org_id" => 1];
+//        $tmpquery = "UPDATE {$tableCollab["organizations"]} SET extension_logo='' WHERE id=:org_id";
+//        $dbParams = ["org_id" => 1];
+//
+//        phpCollab\Util::newConnectSql($tmpquery. $dbParams);
+        $org->setLogoExtensionByOrgId(1, '');
 
-        phpCollab\Util::newConnectSql($tmpquery. $dbParams);
-        @unlink("../logos_clients/1.$extensionOld");
-
-        unset($dbParams);
+        try {
+            unlink(APP_ROOT . "/logos_clients/1.$extensionOld");
+        }
+        catch(Exception $e) {
+            echo 'Error deleting file. Message: ' .$e->getMessage();
+        }
     }
 
     $extension = strtolower(substr(strrchr($_FILES['upload']['name'], "."), 1));
+
+//    xdebug_var_dump(move_uploaded_file($_FILES['upload']['tmp_name'], "../logos_clients/1.$extension"));
+xdebug_var_dump($_FILES['upload']['tmp_name']);
+xdebug_var_dump($_FILES['upload']['name']);
     if (@move_uploaded_file($_FILES['upload']['tmp_name'], "../logos_clients/1.$extension")) {
-        $tmpquery = "UPDATE {$tableCollab["organizations"]} SET extension_logo=:extension WHERE id='1'";
-        $dbParams = ['extenstion' => $extension];
-        phpCollab\Util::newConnectSql($tmpquery, $dbParams);
-        unset($dbParams);
+        $org->setLogoExtensionByOrgId(1, $extension);
     }
+
     $cn = phpCollab\Util::convertData($cn);
     $add = phpCollab\Util::convertData($add);
     $c = phpCollab\Util::convertData($c);
@@ -84,6 +93,8 @@ if ($action == "update") {
 $tmpquery = "WHERE org.id = '1'";
 $clientDetail = new phpCollab\Request();
 $clientDetail->openOrganizations($tmpquery);
+
+xdebug_var_dump($clientDetail->org_name[0]);
 
 $cn = $clientDetail->org_name[0];
 $add = $clientDetail->org_address1[0];
@@ -127,8 +138,8 @@ $block1->heading($strings["company_details"]);
 $block1->openContent();
 
 $block1->contentTitle($strings["company_info"]);
-$block1->contentRow($strings["name"], '<input size="44" value="$cn" style="width: 400px" name="cn" maxlength="100" type="TEXT">');
-$block1->contentRow($strings["address"], "<textarea rows='3' style='width: 400px; height: 50px;' name='add' cols='43'>$add</textarea>");
+$block1->contentRow($strings["name"], '<input size="44" value="'.$cn.'" style="width: 400px" name="cn" maxlength="100" type="TEXT">');
+$block1->contentRow($strings["address"], "<textarea rows='3' style='width: 400px; height: 50px;' name='add' cols='43'>{$add}</textarea>");
 $block1->contentRow($strings["phone"], "<input size='32' value='$wp' style='width: 250px' name='wp' maxlength='32' type='TEXT'>");
 $block1->contentRow($strings["url"], "<input size='44' value='$url' style='width: 400px' name='url' maxlength='2000' type='TEXT'>");
 $block1->contentRow($strings["email"], "<input size='44' value='$email' style='width: 400px' name='email' maxlength='2000' type='TEXT'>");
