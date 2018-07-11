@@ -68,7 +68,7 @@ if ($msg != "") {
     $blockPage->messageBox($msgLabel);
 }
 
-$blockPage->limitsNumber = "1";
+$blockPage->setLimitsNumber(1);
 
 $block1 = new phpCollab\Block();
 
@@ -139,7 +139,7 @@ if ($listInvoices) {
     }
     $block1->closeResults();
 
-    $block1->limitsFooter("1", $blockPage->limitssNumber, "", "typeProjects=$typeProjects");
+    $block1->limitsFooter("1", $blockPage->getLimitsNumber(), "", "typeProjects=$typeProjects");
 
 } else {
     $block1->noresults();

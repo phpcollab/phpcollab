@@ -85,7 +85,7 @@ if ($msg != "") {
     $blockPage->messageBox($GLOBALS["msgLabel"]);
 }
 
-$blockPage->limitsNumber = "1";
+$blockPage->setLimitsNumber(1);
 
 $block1 = new phpCollab\Block();
 
@@ -164,7 +164,7 @@ if ($comptListTasks != "0") {
     }
     $block1->closeResults();
 
-    $block1->limitsFooter("1", $blockPage->limitsNumber, "", "project=$project");
+    $block1->limitsFooter("1", $blockPage->getLimitsNumber(), "", "project=$project");
 
     if ($activeJpgraph == "true" && $gantt == "true") {
         echo "

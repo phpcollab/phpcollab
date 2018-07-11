@@ -355,7 +355,7 @@ $blockPage->itemBreadcrumbs($blockPage->buildLink("../search/createsearch.php?",
 $blockPage->itemBreadcrumbs($strings["search_results"]);
 $blockPage->closeBreadcrumbs();
 
-$blockPage->limitsNumber = "6";
+$blockPage->setLimitsNumber(6);
 
 $block0 = new phpCollab\Block();
 
@@ -420,7 +420,7 @@ if ($comptListProjects != "0") {
     }
     $block1->closeResults();
 
-    $block1->limitsFooter("1", $blockPage->limitsNumber, "", "searchfor=$searchfor&heading=$heading");
+    $block1->limitsFooter("1", $blockPage->getLimitsNumber(), "", "searchfor=$searchfor&heading=$heading");
 
     $block1->closeToggle();
     $block1->closeFormResults();
@@ -471,7 +471,7 @@ if ($comptListTasks != "0") {
 
     $block2->closeResults();
 
-    $block2->limitsFooter("2", $blockPage->limitsNumber, "", "searchfor=$searchfor&heading=$heading");
+    $block2->limitsFooter("2", $blockPage->getLimitsNumber(), "", "searchfor=$searchfor&heading=$heading");
 
     $block2->closeToggle();
     $block2->closeFormResults();
@@ -513,7 +513,7 @@ if ($comptListSubtasks != "0") {
         $block9->closeRow();
     }
     $block9->closeResults();
-    $block9->limitsFooter("2", $blockPage->limitsNumber, "", "searchfor=$searchfor&heading=$heading");
+    $block9->limitsFooter("2", $blockPage->getLimitsNumber(), "", "searchfor=$searchfor&heading=$heading");
 
     $block9->closeToggle();
     $block9->closeFormResults();
@@ -550,7 +550,7 @@ if ($comptListMembers != "0") {
 
     $block3->closeResults();
 
-    $block3->limitsFooter("3", $blockPage->limitsNumber, "", "searchfor=$searchfor&heading=$heading");
+    $block3->limitsFooter("3", $blockPage->getLimitsNumber(), "", "searchfor=$searchfor&heading=$heading");
 
     $block3->closeToggle();
     $block3->closeFormResults();
@@ -577,7 +577,7 @@ if ($comptListOrganizations != "0") {
 
     $block4->closeResults();
 
-    $block4->limitsFooter("4", $blockPage->limitsNumber, "", "searchfor=$searchfor&heading=$heading");
+    $block4->limitsFooter("4", $blockPage->getLimitsNumber(), "", "searchfor=$searchfor&heading=$heading");
 
     $block4->closeToggle();
     $block4->closeFormResults();
@@ -616,7 +616,7 @@ if ($comptListTopics != "0") {
 
     $block5->closeResults();
 
-    $block5->limitsFooter("5", $blockPage->limitsNumber, "", "searchfor=$searchfor&heading=$heading");
+    $block5->limitsFooter("5", $blockPage->getLimitsNumber(), "", "searchfor=$searchfor&heading=$heading");
 
     $block5->closeToggle();
     $block5->closeFormResults();
@@ -654,7 +654,7 @@ if ($comptListNotes != "0") {
     }
     $block6->closeResults();
 
-    $block6->limitsFooter("6", $blockPage->limitsNumber, "", "searchfor=$searchfor&heading=$heading");
+    $block6->limitsFooter("6", $blockPage->getLimitsNumber(), "", "searchfor=$searchfor&heading=$heading");
 
     $block6->closeToggle();
     $block6->closeFormResults();

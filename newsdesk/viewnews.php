@@ -29,7 +29,7 @@ if ($msg != "") {
     $blockPage->messageBox($msgLabel);
 }
 
-$blockPage->limitsNumber = "1";
+$blockPage->setLimitsNumber(1);
 
 
 $block1 = new phpCollab\Block();
@@ -142,7 +142,7 @@ if ($newsComments) {
     }
 
     $block2->closeResults();
-    $block2->limitsFooter("1", $blockPage->limitssNumber, "", "");
+    $block2->limitsFooter("1", $blockPage->getLimitsNumber(), "", "");
 } else {
     $block2->noresults();
 }

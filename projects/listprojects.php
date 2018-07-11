@@ -39,7 +39,7 @@ if ($msg != "") {
     $blockPage->messageBox($msgLabel);
 }
 
-$blockPage->limitssNumber = "1";
+$blockPage->setLimitsNumber(1);
 
 $block1 = new phpCollab\Block();
 

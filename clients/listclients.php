@@ -43,7 +43,7 @@ if ($msg != "") {
     $blockPage->messageBox($msgLabel);
 }
 
-$blockPage->limitssNumber = "1";
+$blockPage->setLimitsNumber(1);
 
 $block1 = new phpCollab\Block();
 
@@ -119,7 +119,7 @@ if ($comptListOrganizations != "0") {
     }
     $block1->closeResults();
 
-    $block1->limitsFooter("1", $blockPage->limitssNumber, "", "");
+    $block1->limitsFooter("1", $blockPage->getLimitsNumber(), "", "");
 } else {
     $block1->noresults();
 }

@@ -247,7 +247,7 @@ if ($msg != "") {
     $blockPage->messageBox($msgLabel);
 }
 
-$blockPage->limitsNumber = "4";
+$blockPage->setLimitsNumber(4);
 
 $idStatus = $projectDetail["pro_status"];
 $idPriority = $projectDetail["pro_priority"];
@@ -547,7 +547,7 @@ if ($projectDetail["pro_phase_set"] != "0") {
         }
 
         $block2->closeResults();
-        $block2->limitsFooter("1", $blockPage->limitsNumber, "../tasks/listtasks.php?project=$id&", "id=$id");
+        $block2->limitsFooter("1", $blockPage->getLimitsNumber(), "../tasks/listtasks.php?project=$id&", "id=$id");
 
         if ($activeJpgraph == "true" && $gantt == "true") {
             echo "
@@ -647,7 +647,7 @@ if ($comptListTopics != "0") {
     }
 
     $block3->closeResults();
-    $block3->limitsFooter("2", $blockPage->limitsNumber, "../topics/listtopics.php?project=$id&", "id=$id");
+    $block3->limitsFooter("2", $blockPage->getLimitsNumber(), "../topics/listtopics.php?project=$id&", "id=$id");
 } else {
     $block3->noresults();
 }
@@ -738,7 +738,7 @@ for ($i = 0; $i < $comptListTeam; $i++) {
 }
 
 $block4->closeResults();
-$block4->limitsFooter("3", $blockPage->limitsNumber, "../teams/listusers.php?id=$id&", "id=$id");
+$block4->limitsFooter("3", $blockPage->getLimitsNumber(), "../teams/listusers.php?id=$id&", "id=$id");
 $block4->closeToggle();
 $block4->closeFormResults();
 $block4->openPaletteScript();
@@ -937,7 +937,7 @@ if ($comptListNotes != "0") {
     }
 
     $block6->closeResults();
-    $block6->limitsFooter("4", $blockPage->limitsNumber, "../notes/listnotes.php?project=$id&", "id=$id");
+    $block6->limitsFooter("4", $blockPage->getLimitsNumber(), "../notes/listnotes.php?project=$id&", "id=$id");
 } else {
     $block6->noresults();
 }
