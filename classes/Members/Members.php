@@ -123,8 +123,23 @@ class Members
         return $this->members_gateway->deleteMemberByIdIn($memberIds);
     }
 
+    /**
+     * @param $userId
+     * @param $page
+     * @return mixed
+     */
     public function setLastPageVisited($userId, $page)
     {
         return $this->members_gateway->setLastPageVisited($userId, $page);
+    }
+
+    /**
+     * @param $userName
+     * @param $page
+     * @return mixed
+     */
+    public function setLastPageVisitedByLogin($userName, $page)
+    {
+        return $this->members_gateway->setLastPageVisited($userName, $page);
     }
 }
