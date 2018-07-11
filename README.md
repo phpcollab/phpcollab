@@ -11,7 +11,6 @@ phpCollab 2.x
 
 ### This branch contains bleeding edge code.  Proceed with caution.  Always do a backup first!
 
-
 ## Introduction
 Project management and collaboration over the internet. Features team/client sites, task assignment, document repository/workflow, gantt charts, discussions, calendar, notifications, support requests, weblog newsdesk, invoicing, and many other tools.
 
