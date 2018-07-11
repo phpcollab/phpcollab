@@ -1,29 +1,4 @@
 <?php
-/*
-** Application name: phpCollab
-** Last Edit page: 2003-10-23
-** Path by root: ../bookmarks/viewbookmark.php
-** Authors: Ceam / Fullo
-** =============================================================================
-**
-**               phpCollab - Project Managment
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: viewbookmark.php
-**
-** DESC: Screen: show bookmark details
-**
-** HISTORY:
-** 	2003-10-23	-	added new document info
-** -----------------------------------------------------------------------------
-** TO-DO:
-**
-**
-** =============================================================================
-*/
 
 $checkSession = "true";
 include_once '../includes/library.php';
