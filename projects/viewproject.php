@@ -234,7 +234,7 @@ if ($enableHelpSupport == "true" && ($teamMember == "true" || $profilSession == 
 
 $setTitle .= " : View Project (" . $projectDetail["pro_name"] . ")";
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -966,4 +966,4 @@ $block6->closePaletteScript($comptListNotes, $listNotes->note_id);
  * End Notes section
  */
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
