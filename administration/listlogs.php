@@ -41,7 +41,7 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], "in"));
 $blockPage->itemBreadcrumbs($strings["logs"]);
 $blockPage->closeBreadcrumbs();
 
@@ -50,10 +50,9 @@ $block1->form = "adminD";
 $block1->openForm("../administration/listlogs.php?action=delete&&id=$id#" . $block1->form . "Anchor");
 $block1->heading($strings["logs"]);
 $block1->openResults($checkbox = "false");
-$block1->labels($labels = array(0 => $strings["user_name"], 1 => $strings["ip"], 2 => $strings["session"], 3 => $strings["compteur"], 4 => $strings["last_visit"], 5 => $strings["connected"]), "false", $sorting = "false", $sortingOff = array(0 => "4", 1 => "DESC"));
+$block1->labels($labels = [0 => $strings["user_name"], 1 => $strings["ip"], 2 => $strings["session"], 3 => $strings["compteur"], 4 => $strings["last_visit"], 5 => $strings["connected"]], "false", $sorting = "false", $sortingOff = [0 => "4", 1 => "DESC"]);
 
 $logsData = $logs->getLogs('logs.last_visite DESC');
-$comptListLogs = count($listLogs->log_id);
 
 $dateunix = date("U");
 
