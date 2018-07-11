@@ -102,6 +102,15 @@ class Organizations
     }
 
     /**
+     * @param $organizationInfo
+     * @return mixed
+     */
+    public function updateOrganizationInformation($organizationInfo)
+    {
+        return $this->organizations_gateway->updateOrganizationInformation($organizationInfo);
+    }
+
+    /**
      * @param $orgId
      * @param $logoExtension
      * @return mixed
