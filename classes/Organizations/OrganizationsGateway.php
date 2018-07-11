@@ -101,6 +101,11 @@ class OrganizationsGateway
         return $this->db->resultset();
     }
 
+    /**
+     * @param $orgId
+     * @param $ownerId
+     * @return mixed
+     */
     public function getOrgByIdAndOwner($orgId, $ownerId)
     {
         $whereStatement = ' WHERE org.owner = :owner_id AND org.id = :org_id';
@@ -111,6 +116,34 @@ class OrganizationsGateway
         $this->db->bind(':org_id', $orgId);
 
         return $this->db->resultset();
+    }
+
+    /**
+     * @param $organizationInfo
+     * @return mixed
+     */
+    public function updateOrganizationInformation($organizationInfo)
+    {
+        $query = <<<SQL
+UPDATE {$this->tableCollab["organizations"]} 
+SET 
+name= :org_name,
+address1= :org_address1,
+phone= :org_phone,
+url= :org_url,
+email= :org_email,
+comments= :org_comments 
+WHERE id = 1
+SQL;
+        $this->db->query($query);
+        $this->db->bind(':org_name', $organizationInfo['name']);
+        $this->db->bind(':org_address1', $organizationInfo['address1']);
+        $this->db->bind(':org_phone', $organizationInfo['phone']);
+        $this->db->bind(':org_url', $organizationInfo['url']);
+        $this->db->bind(':org_email', $organizationInfo['email']);
+        $this->db->bind(':org_comments', $organizationInfo['comments']);
+        return $this->db->execute();
+
     }
 
     /**
