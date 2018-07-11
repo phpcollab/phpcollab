@@ -25,6 +25,15 @@ class Logs
     }
 
     /**
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getLogs($sorting = null)
+    {
+        return $this->logs_gateway->getLogs($sorting);
+    }
+
+    /**
      * @param $memberLogin
      * @return mixed
      */
