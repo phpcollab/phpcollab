@@ -161,7 +161,7 @@ if ($projectsFilter == "true") {
 }
 $comptListProjects = "0";
 if ($validProjects == "true") {
-    $block1->recordsTotal = phpCollab\Util::computeTotal($initrequest["projects"] . " " . $tmpquery);
+    $block1->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["projects"] . " " . $tmpquery));
 
     $listProjects = new phpCollab\Request();
     $listProjects->openProjects($tmpquery, $block1->getLimit(), $block1->getRowsLimit());
@@ -205,7 +205,7 @@ if ($projectsFilter == "true") {
 
 $comptListTasks = "0";
 if ($validTasks == "true") {
-    $block2->recordsTotal = phpCollab\Util::computeTotal($initrequest["tasks"] . " " . $tmpquery);
+    $block2->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["tasks"] . " " . $tmpquery));
 
     $listTasks = new phpCollab\Request();
     $listTasks->openTasks($tmpquery, $block2->getLimit(), $block2->getRowsLimit());
@@ -220,7 +220,7 @@ $tmpquery = "$searchSubtasks ORDER BY $block9->sortingValue";
 
 $comptListSubtasks = "0";
 if ($validSubtasks == "true") {
-    $block9->recordsTotal = phpCollab\Util::computeTotal($initrequest["subtasks"] . " " . $tmpquery);
+    $block9->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["subtasks"] . " " . $tmpquery));
 
     $listSubtasks = new phpCollab\Request();
     $listSubtasks->openSubtasks($tmpquery, $block9->getLimit(), $block9->getRowsLimit());
@@ -240,7 +240,7 @@ if ($demoMode == "true") {
 }
 $comptListMembers = "0";
 if ($validMembers == "true") {
-    $block3->recordsTotal = phpCollab\Util::computeTotal($initrequest["members"] . " " . $tmpquery);
+    $block3->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["members"] . " " . $tmpquery));
 
     $listMembers = new phpCollab\Request();
     $listMembers->openMembers($tmpquery, $block3->getLimit(), $block3->getRowsLimit());
@@ -283,7 +283,7 @@ if ($clientsFilter == "true" && $profilSession == "2") {
 
 $comptListOrganizations = "0";
 if ($validOrganizations == "true" && $listClients != "false") {
-    $block4->recordsTotal = phpCollab\Util::computeTotal($initrequest["organizations"] . " " . $tmpquery);
+    $block4->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["organizations"] . " " . $tmpquery));
 
     $listOrganizations = new phpCollab\Request();
     $listOrganizations->openOrganizations($tmpquery, $block4->getLimit(), $block4->getRowsLimit());
@@ -309,7 +309,7 @@ if ($projectsFilter == "true") {
 
 $comptListTopics = "0";
 if ($validTopics == "true") {
-    $block5->recordsTotal = phpCollab\Util::computeTotal($initrequest["topics"] . " " . $tmpquery);
+    $block5->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["topics"] . " " . $tmpquery));
 
     $listTopics = new phpCollab\Request();
     $listTopics->openTopics($tmpquery, $block5->getLimit(), $block5->getRowsLimit());
@@ -341,14 +341,14 @@ if ($projectsFilter == "true") {
 
 $comptListNotes = "0";
 if ($validNotes == "true") {
-    $block6->recordsTotal = phpCollab\Util::computeTotal($initrequest["notes"] . " " . $tmpquery);
+    $block6->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["notes"] . " " . $tmpquery));
 
     $listNotes = new phpCollab\Request();
     $listNotes->openNotes($tmpquery, $block6->getLimit(), $block6->getRowsLimit());
     $comptListNotes = count($listNotes->note_id);
 }
 
-$comptTotal = $block1->recordsTotal + $block2->recordsTotal + $block3->recordsTotal + $block9->recordsTotal + $block4->recordsTotal + $block5->recordsTotal + $block6->recordsTotal;
+$comptTotal = $block1->getRecordsTotal() + $block2->getRecordsTotal() + $block3->getRecordsTotal() + $block9->getRecordsTotal() + $block4->getRecordsTotal() + $block5->getRecordsTotal() + $block6->getRecordsTotal();
 
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../search/createsearch.php?", $strings["search"], in));
@@ -384,7 +384,7 @@ if ($comptListProjects != "0") {
     $block1->form = "ProjectForm";
     $block1->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block1->form . "Anchor");
 
-    $block1->headingToggle($strings["search_results"] . " : " . $strings["projects"] . " ($block1->recordsTotal)");
+    $block1->headingToggle($strings["search_results"] . " : " . $strings["projects"] . " ({$block1->getRecordsTotal()})");
 
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "export", $strings["export"]);
@@ -434,7 +434,7 @@ if ($comptListTasks != "0") {
     $block2->form = "TaskForm";
     $block2->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block2->form . "Anchor");
 
-    $block2->headingToggle($strings["search_results"] . " : " . $strings["tasks"] . " ($block2->recordsTotal)");
+    $block2->headingToggle($strings["search_results"] . " : " . $strings["tasks"] . " ({$block2->getRecordsTotal()})");
 
     $block2->openResults();
 
@@ -480,7 +480,7 @@ if ($comptListTasks != "0") {
 if ($comptListSubtasks != "0") {
     $block9->form = "SubtaskForm";
     $block9->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block9->form . "Anchor");
-    $block9->headingToggle($strings["search_results"] . " : " . $strings["subtasks"] . " ($block9->recordsTotal)");
+    $block9->headingToggle($strings["search_results"] . " : " . $strings["subtasks"] . " ({$block9->getRecordsTotal()})");
 
     $block9->openResults();
     $block9->labels($labels = array(0 => $strings["subtask"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["due_date"], 4 => $strings["assigned_to"], 5 => $strings["project"], 6 => $strings["published"]), "true");
@@ -522,7 +522,7 @@ if ($comptListMembers != "0") {
     $block3->form = "UserForm";
     $block3->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block3->form . "Anchor");
 
-    $block3->headingToggle($strings["search_results"] . " : " . $strings["users"] . " ($block3->recordsTotal)");
+    $block3->headingToggle($strings["search_results"] . " : " . $strings["users"] . " ({$block3->getRecordsTotal()})");
 
     $block3->openResults();
 
@@ -560,7 +560,7 @@ if ($comptListOrganizations != "0") {
     $block4->form = "ClientForm";
     $block4->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block4->form . "Anchor");
 
-    $block4->headingToggle($strings["search_results"] . " : " . $strings["organizations"] . " ($block4->recordsTotal)");
+    $block4->headingToggle($strings["search_results"] . " : " . $strings["organizations"] . " ({$block4->getRecordsTotal()})");
 
     $block4->openResults();
 
@@ -587,7 +587,7 @@ if ($comptListTopics != "0") {
     $block5->form = "ThreadTopicForm";
     $block5->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block5->form . "Anchor");
 
-    $block5->headingToggle($strings["search_results"] . " : " . $strings["discussions"] . " ($block5->recordsTotal)");
+    $block5->headingToggle($strings["search_results"] . " : " . $strings["discussions"] . " ({$block5->getRecordsTotal()})");
 
     $block5->openResults();
 
@@ -626,7 +626,7 @@ if ($comptListNotes != "0") {
     $block6->form = "notesForm";
     $block6->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block6->form . "Anchor");
 
-    $block6->headingToggle($strings["search_results"] . " : " . $strings["notes"] . " ($block6->recordsTotal)");
+    $block6->headingToggle($strings["search_results"] . " : " . $strings["notes"] . " ({$block6->getRecordsTotal()})");
 
     $block6->openResults();
 
