@@ -14,7 +14,8 @@ class Block
         $oddColor, $evenColor, $highlightOn, $class, $highlightOff, $theme,
         $pathImg, $themeImgPath, $accountTotal, $account, $sortingOrders,
         $sortingFields, $sortingArrows, $sortingStyles, $explode, $labels,
-        $sitePublish, $navigation, $navigationTotal, $limit, $rowsLimit, $recordsTotal;
+        $sitePublish, $navigation, $navigationTotal, $limit, $rowsLimit,
+        $recordsTotal, $limitsNumber;
     public $form;
 
     /**
@@ -79,6 +80,22 @@ class Block
     public function setRowsLimit($rowsLimit)
     {
         $this->rowsLimit = $rowsLimit;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLimitsNumber()
+    {
+        return $this->limitsNumber;
+    }
+
+    /**
+     * @param mixed $limitsNumber
+     */
+    public function setLimitsNumber($limitsNumber)
+    {
+        $this->limitsNumber = $limitsNumber;
     }
 
     /**
