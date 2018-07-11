@@ -718,8 +718,8 @@ if ($showHomeNewsdesk) {
 
     $block7->closePaletteIcon();
 
-    $block7->limit = $blockPage->returnLimit("1");
-    $block7->rowsLimit = "40";
+    $block7->setLimit($blockPage->returnLimit(1));
+    $block7->setRowsLimit(40);
 
     $block7->sorting("newsdesk", $sortingUser["newsdesk"], "news.pdate DESC", $sortingFields = array(0 => "news.title", 1 => "news.pdate", 2 => "news.author", 3 => "news.related"));
 
@@ -740,7 +740,7 @@ if ($showHomeNewsdesk) {
     $block7->recordsTotal = phpCollab\Util::computeTotal($initrequest["newsdeskposts"] . " " . $tmpquery);
 
     $listPosts = new phpCollab\Request();
-    $listPosts->openNewsDesk($tmpquery, $block7->limit, $block7->rowsLimit);
+    $listPosts->openNewsDesk($tmpquery, $block7->getLimit(), $block7->getRowsLimit());
     $comptPosts = count($listPosts->news_id);
 
     if ($comptPosts != "0") {
