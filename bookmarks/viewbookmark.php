@@ -71,4 +71,4 @@ if ($bookmarkDetail['boo_owner'] == $idSession) {
     $block1->closePaletteScript("", "");
 }
 
-include APP_ROOT . '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
