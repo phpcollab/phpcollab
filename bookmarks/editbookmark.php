@@ -178,7 +178,7 @@ if ($id == "") {
 }
 
 $bodyCommand = 'onLoad="document.booForm.name.focus();"';
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -317,4 +317,4 @@ HTML;
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
