@@ -497,7 +497,7 @@ if ($projectDetail["pro_phase_set"] != "0") {
 
     $tmpquery = "WHERE tas.project = '$id' ORDER BY $block2->sortingValue";
 
-    $block2->recordsTotal = phpCollab\Util::computeTotal($initrequest["tasks"] . " " . $tmpquery);
+    $block2->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["tasks"] . " " . $tmpquery));
 
     $listTasks = new phpCollab\Request();
     $listTasks->openTasks($tmpquery, $block2->getLimit(), $block2->getRowsLimit());
@@ -611,7 +611,7 @@ $block3->sorting("project_discussions", $sortingUser["project_discussions"], "to
 
 $tmpquery = "WHERE topic.project = '$id' ORDER BY $block3->sortingValue";
 
-$block3->recordsTotal = phpCollab\Util::computeTotal($initrequest["topics"] . " " . $tmpquery);
+$block3->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["topics"] . " " . $tmpquery));
 
 $listTopics = new phpCollab\Request();
 $listTopics->openTopics($tmpquery, $block3->getLimit(), $block3->getRowsLimit());
@@ -698,7 +698,7 @@ $block4->sorting("team", $sortingUser["team"], "mem.name ASC", $sortingFields = 
 
 $tmpquery = "WHERE tea.project = '$id' AND mem.profil != '3' ORDER BY $block4->sortingValue";
 
-$block4->recordsTotal = phpCollab\Util::computeTotal($initrequest["teams"] . " " . $tmpquery);
+$block4->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["teams"] . " " . $tmpquery));
 
 $listTeam = new phpCollab\Request();
 $listTeam->openTeams($tmpquery, $block4->getLimit(), $block4->getRowsLimit());
@@ -900,7 +900,7 @@ if ($comptTopic != "0") {
 
 $tmpquery = "WHERE note.project = '$id' ORDER BY $block6->sortingValue";
 
-$block6->recordsTotal = phpCollab\Util::computeTotal($initrequest["notes"] . " " . $tmpquery);
+$block6->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["notes"] . " " . $tmpquery));
 $listNotes = new phpCollab\Request();
 $listNotes->openNotes($tmpquery, $block6->getLimit(), $block6->getRowsLimit());
 $comptListNotes = count($listNotes->note_id);
