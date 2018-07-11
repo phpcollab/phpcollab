@@ -96,19 +96,19 @@ SQL;
         $query = <<<SQL
 UPDATE {$this->tableCollab["logs"]} 
 SET 
-ip=:ip, 
-session=:session, 
-compt=:compt, 
-last_visite=:last_visite 
+ip = :ip, 
+password = null,
+session = :session, 
+compt = :compt, 
+last_visite = :last_visit 
 WHERE login = :login
 SQL;
-
         $this->db->query($query);
 
-        $this->db->bind(':ip', $entryData['id']);
+        $this->db->bind(':ip', $entryData['ip']);
         $this->db->bind(':session', $entryData['session']);
         $this->db->bind(':compt', $entryData['compt']);
-        $this->db->bind(':last_visite', $entryData['last_visite']);
+        $this->db->bind(':last_visit', $entryData['last_visite']);
         $this->db->bind(':login', $entryData['login']);
 
         return $this->db->execute();
