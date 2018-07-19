@@ -195,9 +195,9 @@ class Block
     public function printHelp($item)
     {
         return ' [<a href="javascript:void(0);" onmouseover="return overlib(\'' .
-        addslashes($this->help[$item]) . '\',SNAPX,550,BGCOLOR,\'' . $this->bgColor .
-        '\',FGCOLOR,\'' . $this->fgColor . '\');" onmouseout="return nd();">' .
-        $this->strings["help"] . '</a>]';
+            addslashes($this->help[$item]) . '\',SNAPX,550,BGCOLOR,\'' . $this->bgColor .
+            '\',FGCOLOR,\'' . $this->fgColor . '\');" onmouseout="return nd();">' .
+            $this->strings["help"] . '</a>]';
     }
 
     /**
@@ -250,10 +250,10 @@ class Block
 <td width="100%"><h1 class="heading">{$title}</h1></td>
 </tr>
 </table>
-<div id="{$this->form}" style="display: $style;">
+<div id="{$this->form}">
 HTML;
 
-        
+
     }
 
     /**
@@ -298,7 +298,7 @@ HTML;
             $limitValue = "0";
         } else {
             $limitValue = $_GET["limit" . $sanitized];
-            $limitValue = ( empty($limitValue) ) ? "0" : $limitValue;
+            $limitValue = (empty($limitValue)) ? "0" : $limitValue;
         }
         return $limitValue;
     }
@@ -314,15 +314,15 @@ HTML;
     public function limitsFooter($current, $total, $showall, $parameters)
     {
         if ($this->rowsLimit < $this->recordsTotal) {
-            echo '<table cellspacing="0" width="100%" border="0" cellpadding="0"><tr><td nowrap class="footerCell">&#160;&#160;&#160;&#160;';
+            echo '<table class="pagination"><tr><td nowrap class="footerCell">';
 
             $nbpages = ceil($this->recordsTotal / $this->rowsLimit);
             $j = 0;
             for ($i = 1; $i <= $nbpages; $i++) {
                 if ($this->limit == $j) {
-                    echo "<b>$i</b>&#160;";
+                    echo "<strong>$i</strong>";
                 } else {
-                    echo "<a href=\"?";
+                    echo '<a href="?';
                     for ($k = 1; $k <= $total; $k++) {
                         $limitK = $k;
 
@@ -334,7 +334,7 @@ HTML;
                             }
                         }
                     }
-                    echo "&$parameters#" . $this->form . "Anchor\">$i</a>&#160;";
+                    echo '&' . $parameters . '#' . $this->form . 'Anchor">' . $i . '</a>';
                 }
                 $j = $j + $this->rowsLimit;
 
@@ -342,9 +342,14 @@ HTML;
             }
             echo '</td><td nowrap align="right" class="footerCell">';
             if ($showall != "") {
-                echo '<a href="' . $showall .'">' . $this->strings["show_all"] . '</a>';
+                echo '<a href="' . $showall . '">' . $this->strings["show_all"] . '</a>';
             }
-            echo '&#160;&#160;&#160;&#160;&#160;</td></tr><tr><td height="5" colspan="2"><img width="1" height="5" border="0" src="' . $this->themeImgPath . '/spacer.gif" alt=""></td></tr></table>';
+            echo <<<HTML
+    </td>
+    </tr>
+    </table>
+HTML;
+
         }
 
     }
@@ -543,7 +548,7 @@ HTML;
 <tr>";
         if ($checkbox == "true") {
             echo '<th width="1%" align="center">';
-            echo '<a href="javascript:MM_toggleSelectedItems(document.' . $this->form . 'Form,\''.$this->theme.'\')">';
+            echo '<a href="javascript:MM_toggleSelectedItems(document.' . $this->form . 'Form,\'' . $this->theme . '\')">';
             echo '<img height="13" width="13" border="0" src="' . $this->themeImgPath . '/checkbox_off_16.gif" alt="" vspace="3" hspace="3">';
             echo '</a>';
             echo '</th>';
@@ -594,8 +599,8 @@ HTML;
      */
     public function paletteScript($num, $type, $link, $options, $text)
     {
-        $link = rtrim($link,'?');
-        echo "document." . $this->form . "Form.buttons[document." . $this->form . "Form.buttons.length] = new MMCommandButton('" . $this->form . "$num',document." . $this->form . "Form,'" . $link  . "&','$this->themeImgPath/btn_" . $type . "_norm.gif','$this->themeImgPath/btn_" . $type . "_over.gif','$this->themeImgPath/btn_" . $type . "_down.gif','$this->themeImgPath/btn_" . $type . "_dim.gif',$options,'',\"" . stripslashes($text) . "\",false,'');";
+        $link = rtrim($link, '?');
+        echo "document." . $this->form . "Form.buttons[document." . $this->form . "Form.buttons.length] = new MMCommandButton('" . $this->form . "$num',document." . $this->form . "Form,'" . $link . "&','$this->themeImgPath/btn_" . $type . "_norm.gif','$this->themeImgPath/btn_" . $type . "_over.gif','$this->themeImgPath/btn_" . $type . "_down.gif','$this->themeImgPath/btn_" . $type . "_dim.gif',$options,'',\"" . stripslashes($text) . "\",false,'');";
     }
 
     /**
@@ -822,16 +827,16 @@ HTML;
     public function buildLink($url, $label, $type)
     {
         if ($type == "in") {
-            return '<a href="' . $url . '">' . $label .'</a>';
+            return '<a href="' . $url . '">' . $label . '</a>';
         } else {
             if ($type == "icone") {
-                return '<a href="'.$url.'&"><img src="../interface/icones/'.$label.'" border="0" alt=""></a>';
+                return '<a href="' . $url . '&"><img src="../interface/icones/' . $label . '" border="0" alt=""></a>';
             } else {
                 if ($type == "inblank") {
-                    return '<a href="'.$url.'&" target="_blank">'.$label.'</a>';
+                    return '<a href="' . $url . '&" target="_blank">' . $label . '</a>';
                 } else {
                     if ($type == "powered") {
-                        return 'Powered by <a href="'.$url.'" target="_blank">'.$label.'</a>';
+                        return 'Powered by <a href="' . $url . '" target="_blank">' . $label . '</a>';
                     } else {
                         if ($type == "out") {
                             // Verify correct urltyping
