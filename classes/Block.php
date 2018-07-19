@@ -47,7 +47,6 @@ class Block
         $this->themeImgPath = '../themes/' . $this->theme . '/images';
 
         $this->sitePublish = $GLOBALS["sitePublished"];
-
     }
 
     /**
@@ -298,7 +297,8 @@ HTML;
         if ($sanitized == "") {
             $limitValue = "0";
         } else {
-            $limitValue = $sanitized;
+            $limitValue = $_GET["limit" . $sanitized];
+            $limitValue = ( empty($limitValue) ) ? "0" : $limitValue;
         }
         return $limitValue;
     }
@@ -324,8 +324,8 @@ HTML;
                 } else {
                     echo "<a href=\"?";
                     for ($k = 1; $k <= $total; $k++) {
-                        $limitK = "limit{$k}";
-                        global ${$limitK};
+                        $limitK = $k;
+
                         if ($k != $current) {
                             echo "&limit$k={$limitK}";
                         } else {
