@@ -321,6 +321,10 @@ hr {
 form > table {
     margin-top: 3em;
 }
+form > table.icons, form > table.listing {
+    margin-top: 0;
+}
+
 
 table.pagination {
     margin: 5px 0;
