@@ -1,33 +1,4 @@
 <?php
-/*
-** Application name: phpCollab
-** Last Edit page: 12/01/2005
-** Path by root: ../general/home.php
-** Authors: Ceam / Fullo
-**
-** =============================================================================
-**
-**               phpCollab - Project Managment
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: home.php
-**
-** DESC: Screen: user home page
-**
-** HISTORY:
-**	2003-09-01	-	added newsdesk block
-** 	2003-10-23	-	added new document info
-**	12/01/2005	-	added show/hide block from settings
-**	26/09/2006	-	added subtask block
-** -----------------------------------------------------------------------------
-** TO-DO:
-**	add option to customize block
-**	save block info in a db
-** =============================================================================
-*/
 
 $checkSession = "true";
 include_once '../includes/library.php';
