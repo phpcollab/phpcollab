@@ -259,7 +259,7 @@ $block1->openForm("../projects/listprojects.php#" . $block1->form . "Anchor");
 
 $block1->headingToggle($strings["project"] . " : " . $projectDetail["pro_name"]);
 
-if ($idSession == $projectDetail["pro_owner"] || $enable_cvs == "true" || $profilSession == "0" || $profilSession == "5") {
+if ($idSession == $projectDetail["pro_owner"] || $profilSession == "0" || $profilSession == "5") {
     $block1->openPaletteIcon();
 
     if ($idSession == $projectDetail["pro_owner"] || $profilSession == "0" || $profilSession == "5") {
@@ -267,10 +267,6 @@ if ($idSession == $projectDetail["pro_owner"] || $enable_cvs == "true" || $profi
         $block1->paletteIcon(1, "copy", $strings["copy"]);
         $block1->paletteIcon(2, "export", $strings["export"]);
         $block1->paletteIcon(3, "edit", $strings["edit"]);
-    }
-
-    if ($enable_cvs == "true") {
-        $block1->paletteIcon(4, "cvs", $strings["browse_cvs"]);
     }
 
     //if mantis bug tracker enabled
@@ -363,7 +359,7 @@ $block1->closeContent();
 $block1->closeToggle();
 $block1->closeForm();
 
-if ($idSession == $projectDetail["pro_owner"] || $enable_cvs == "true" || $profilSession == "0" || $profilSession == "5") {
+if ($idSession == $projectDetail["pro_owner"] || $profilSession == "0" || $profilSession == "5") {
     $block1->openPaletteScript();
 
     if ($idSession == $projectDetail["pro_owner"] || $profilSession == "0" || $profilSession == "5") {
@@ -371,10 +367,6 @@ if ($idSession == $projectDetail["pro_owner"] || $enable_cvs == "true" || $profi
         $block1->paletteScript(1, "copy", "../projects/editproject.php?id=" . $projectDetail["pro_id"] . "&docopy=true", "true,true,false", $strings["copy"]);
         $block1->paletteScript(2, "export", "../projects/exportproject.php?languageSession=$languageSession&type=project&id=" . $projectDetail["pro_id"] . "", "true,true,false", $strings["export"]);
         $block1->paletteScript(3, "edit", "../projects/editproject.php?id=" . $projectDetail["pro_id"] . "&docopy=false", "true,true,false", $strings["edit"]);
-    }
-
-    if ($enable_cvs == "true") {
-        $block1->paletteScript(4, "cvs", "../browsecvs/browsecvs.php?id=$id", "true,true,false", $strings["browse_cvs"]);
     }
 
     if ($enableMantis == "true") {

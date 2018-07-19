@@ -6,10 +6,6 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-if ($enable_cvs == "true") {
-    include '../includes/cvslib.php';
-}
-
 $tmpquery = "WHERE pro.id = '$project'";
 $projectDetail = new phpCollab\Request();
 $projectDetail->openProjects($tmpquery);
@@ -59,14 +55,6 @@ if ($action == "add") {
             $f_project_id = $projectDetail->pro_id[0];
             $f_user_id = $pieces[$i];
             include '../mantis/user_proj_add.php';
-        }
-
-        //if CVS repository enabled
-        if ($enable_cvs == "true") {
-            $user_query = "WHERE mem.id = '$pieces[$i]'";
-            $cvsMembers = new phpCollab\Request();
-            $cvsMembers->openMembers($user_query);
-            cvs_add_user($cvsMembers->mem_login[$i], $cvsMembers->mem_password[$i], $projectDetail->pro_id[0]);
         }
     }
 

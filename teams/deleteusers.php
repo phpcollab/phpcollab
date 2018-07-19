@@ -6,10 +6,6 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-if ($enable_cvs == "true") {
-    include '../includes/cvslib.php';
-}
-
 $id = $_GET["id"];
 $project = $_GET["project"];
 $action = $_GET["action"];
@@ -61,14 +57,6 @@ if ($action == "delete") {
                     $f_user_id = $pieces[$i];
                     include '../mantis/user_proj_delete.php';
                 }
-
-                //if CVS repository enabled
-                if ($enable_cvs == "true") {
-                    $user_query = "WHERE mem.id = '$pieces[$i]'";
-                    $cvsMember = new phpCollab\Request();
-                    $cvsMember->openMembers($user_query);
-                    cvs_delete_user($cvsMember->mem_login[$i], $project);
-                }
             }
             if ($projectDetail->pro_owner[0] == $pieces[$i]) {
                 $foundOwner = "true";
@@ -92,14 +80,6 @@ if ($action == "delete") {
                 $f_project_id = $project;
                 $f_user_id = $id;
                 include '../mantis/user_proj_delete.php';
-            }
-
-            //if CVS repository enabled
-            if ($enable_cvs == "true") {
-                $user_query = "WHERE mem.id = '$id'";
-                $cvsMember = new phpCollab\Request();
-                $cvsMember->openMembers($user_query);
-                cvs_delete_user($cvsMember->mem_login[0], $project);
             }
         }
     }

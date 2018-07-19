@@ -3,9 +3,6 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-//CVS library
-include '../includes/cvslib.php';
-
 $members = new \phpCollab\Members\Members();
 $projects = new \phpCollab\Projects\Projects();
 $tasks = new \phpCollab\Tasks\Tasks();
@@ -41,17 +38,6 @@ if ($_GET["action"] == "delete") {
                 "INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES (:project, :member, 1, 0)",
                 ["project" => $project[""],"member" => $atProject]
             );
-        }
-    }
-
-    //if CVS repository enabled
-    if ($enable_cvs == "true") {
-        $pieces = explode(",", $id);
-        for ($j = 0; $j < (count($pieces)); $j++) {
-            $listTeams = $teams->getTeamByMemberId($pieces[$j]);
-            foreach ($listTeams as $team) {
-                cvs_delete_user($team["tea_mem_login"], $team["tea_pro_id"]);
-            }
         }
     }
 

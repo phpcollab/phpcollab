@@ -16,10 +16,6 @@ $support = new \phpCollab\Support\Support();
 $phases = new \phpCollab\Phases\Phases();
 $projects = new \phpCollab\Projects\Projects();
 
-if ($enable_cvs == "true") {
-    include '../includes/cvslib.php';
-}
-
 $id = isset($_GET["id"]) ? str_replace("**", ",", $_GET["id"]) : null;
 
 if (empty($id)) {
@@ -49,11 +45,6 @@ if ($action == "delete") {
         }
         if ($sitePublish == "true") {
             phpCollab\Util::deleteDirectory("project_sites/$pieces[$i]");
-        }
-
-        //if CVS repository enabled
-        if ($enable_cvs == "true") {
-            cvs_delete_repository($pieces[$i]);
         }
     }
 

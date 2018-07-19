@@ -488,26 +488,6 @@ define('THEME','$theme');
 // Mantis installation directory
 \$pathMantis = "$pathMantis";  // add slash at the end
 
-# CVS parameters
-// Should CVS be enabled?
-\$enable_cvs = "$enable_cvs";
-
-// Should browsing CVS be limited to project members?
-\$cvs_protected = "$cvs_protected";
-
-// Define where CVS repositories should be stored
-\$cvs_root = "$cvs_root"; //no slash at the end
-
-// Who is the owner CVS files?
-// Note that this should be user that runs the web server.
-// Most *nix systems use "httpd" or "nobody"
-\$cvs_owner = "$cvs_owner";
-
-// CVS related commands
-\$cvs_co = "$cvs_co";
-\$cvs_rlog = "$cvs_rlog";
-\$cvs_cmd = "$cvs_cmd";
-
 # https related parameters
 \$pathToOpenssl = "$pathToOpenssl";
 

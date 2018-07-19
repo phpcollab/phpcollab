@@ -193,10 +193,6 @@ if ($showHomeProjects) {
         $block1->paletteIcon(6, "edit", $strings["edit"]);
     }
 
-    if ($enable_cvs == "true") {
-        $block1->paletteIcon(7, "cvs", $strings["browse_cvs"]);
-    }
-
     //if mantis bug tracker enabled
     if ($enableMantis == "true") {
         $block1->paletteIcon(8, "bug", $strings["bug"]);
@@ -286,9 +282,6 @@ if ($showHomeProjects) {
         $block1->paletteScript(6, "edit", "../projects/editproject.php", "false,true,false", $strings["edit"]);
     }
 
-    if ($enable_cvs == "true") {
-        $block1->paletteScript(7, "cvs", "../browsecvs/browsecvs.php", "false,true,false", $strings["browse_cvs"]);
-    }
     //if mantis bug tracker enabled
     if ($enableMantis == "true") {
         $block1->paletteScript(8, "bug", $pathMantis . "login.php?url=http://{$HTTP_HOST}{$REQUEST_URI}&username=$loginSession&password=$passwordSession", "false,true,false", $strings["bug"]);

@@ -61,9 +61,6 @@ if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
     $block1->paletteIcon(3, "edit", $strings["edit"]);
     $block1->paletteIcon(4, "copy", $strings["copy"]);
 }
-if ($enable_cvs == "true") {
-    $block1->paletteIcon(7, "cvs", $strings["browse_cvs"]);
-}
 if ($enableMantis == "true") {
     $block1->paletteIcon(8, "bug", $strings["bug"]);
 }
@@ -155,9 +152,6 @@ $block1->paletteScript(2, "info", "../projects/viewproject.php?", "false,true,fa
 if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
     $block1->paletteScript(3, "edit", "../projects/editproject.php?", "false,true,false", $strings["edit"]);
     $block1->paletteScript(4, "copy", "../projects/editproject.php?docopy=true", "false,true,false", $strings["copy"]);
-}
-if ($enable_cvs == "true") {
-    $block1->paletteScript(7, "cvs", "../browsecvs/browsecvs.php?", "false,true,false", $strings["browse_cvs"]);
 }
 if ($enableMantis == "true") {
     $block1->paletteScript(8, "bug", $pathMantis . "login.php?url=http://{$HTTP_HOST}{$REQUEST_URI}&username=$loginSession&password=$passwordSession", "false,true,false", $strings["bug"]);

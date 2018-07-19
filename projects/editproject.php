@@ -44,10 +44,6 @@ if ($htaccessAuth == "true") {
     $Htpasswd = new Htpasswd;
 }
 
-if ($enable_cvs == "true") {
-    include '../includes/cvslib.php';
-}
-
 //case update or copy project
 if ($id != "") {
     if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5") {
@@ -292,12 +288,6 @@ STAMP;
                 include $pathMantis . '/proj_add.php';
             }
 
-            //if CVS repository enabled
-            if ($enable_cvs == "true") {
-                $cvsUser = $members->getMemberById($pown);
-                cvs_add_repository($cvsUser["mem_login"], $cvsUser["mem_password"], $projectNew);
-            }
-
             //create phase structure if enable phase was selected as true
             if ($thisPhase != "0") {
                 $comptThisPhase = count($phaseArraySets[$thisPhase]);
@@ -515,12 +505,6 @@ if ($id == "") {
             "INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES(:project,:member,:published,:authorized)",
             ["project" => $num, "member" => $pown, "published" => 1, "authorized" => 0]
         );
-
-        //if CVS repository enabled
-        if ($enable_cvs == "true") {
-            $cvsUser = $members->getMemberById($pown);
-            cvs_add_repository($cvsUser["mem_login"], $cvsUser["mem_password"], $num);
-        }
 
         //create project folder if filemanagement = true
         if ($fileManagement == "true") {

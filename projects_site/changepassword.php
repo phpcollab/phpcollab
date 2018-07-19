@@ -33,10 +33,6 @@
 $checkSession = "true";
 include '../includes/library.php';
 
-if ($enable_cvs == "true") {
-    include '../includes/cvslib.php';
-}
-
 if ($action == "update") {
     $r = substr($opw, 0, 2);
     $opw = crypt($opw, $r);
@@ -68,18 +64,6 @@ if ($action == "update") {
                 "UPDATE {$tableCollab["members"]} SET password = :password WHERE id = :member_id",
                 ["password" => $cnpw, "member_id" => $idSession]
             );
-
-            //if CVS repository enabled
-            if ($enable_cvs == "true") {
-                $query = "WHERE tea.member = '$idSession'";
-                $cvsMembers = new phpCollab\Request();
-                $cvsMembers->openTeams($query);
-
-                //change the password in every repository
-                for ($i = 0; $i < (count($cvsMembers->tea_id)); $i++) {
-                    cvs_change_password($cvsMembers->tea_mem_login[$i], $cnpw, $cvsMembers->tea_pro_id[$i]);
-                }
-            }
 
             $r = substr($npw, 0, 2);
             $npw = crypt($npw, $r);
