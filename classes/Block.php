@@ -233,10 +233,8 @@ class Block
     public function headingToggle($title)
     {
         if ($_COOKIE[$this->form] == "c") {
-            $style = "none";
             $arrow = "closed";
         } else {
-            $style = "block";
             $arrow = "open";
         }
 
@@ -297,7 +295,7 @@ HTML;
         if ($sanitized == "") {
             $limitValue = "0";
         } else {
-            $limitValue = $_GET["limit" . $sanitized];
+            $limitValue = $_GET["section" . $sanitized];
             $limitValue = (empty($limitValue)) ? "0" : $limitValue;
         }
         return $limitValue;
@@ -324,13 +322,11 @@ HTML;
                 } else {
                     echo '<a href="?';
                     for ($k = 1; $k <= $total; $k++) {
-                        $limitK = $k;
-
                         if ($k != $current) {
-                            echo "&limit$k={$limitK}";
+                            echo "&section$k={$k}";
                         } else {
                             if ($k == $current) {
-                                echo "&limit$k=$j";
+                                echo "&section$k=$j";
                             }
                         }
                     }
