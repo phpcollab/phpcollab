@@ -317,3 +317,7 @@ hr {
 	width: 99%;
 	overflow: auto;
 }
+
+td.footerCell a, td.footerCell strong {
+	margin-right: 10px;
+}
