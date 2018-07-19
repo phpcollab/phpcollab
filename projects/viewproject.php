@@ -906,7 +906,7 @@ $tmpquery = "WHERE note.project = '$id' ORDER BY $block6->sortingValue";
 
 $block6->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["notes"] . " " . $tmpquery));
 $listNotes = new phpCollab\Request();
-$listNotes->openNotes($tmpquery, "0", $block6->getRowsLimit());
+$listNotes->openNotes($tmpquery, $block6->getLimit(), $block6->getRowsLimit());
 $comptListNotes = count($listNotes->note_id);
 
 if ($comptListNotes != "0") {
