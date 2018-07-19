@@ -128,7 +128,7 @@ define('THEME','$mythemeNew');
 # https related parameters
 \$pathToOpenssl = "/usr/bin/openssl";
 
-# login method, set to "CRYPT" in order CVS authentication to work (if CVS support is enabled)
+# login method, set to "CRYPT"
 \$loginMethod = "$loginMethodNew"; //select "MD5", "CRYPT", or "PLAIN"
 
 # enable LDAP
@@ -495,7 +495,7 @@ echo "<tr class='odd'><td valign='top' class='leftvalue'>* Theme :</td><td><sele
 
 $all = opendir("../themes");
 while ($file = readdir($all)) {
-    if ($file != "index.php" && $file != ".." && $file != "." && $file != "CVS") {
+    if ($file != "index.php" && $file != ".." && $file != ".") {
         if ($file == THEME) {
             echo "<option value=\"$file\" selected>$file</option>";
         } else {

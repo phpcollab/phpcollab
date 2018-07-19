@@ -148,7 +148,7 @@ define('THEME','default');
 # https related parameters
 \$pathToOpenssl = "/usr/bin/openssl";
 
-# login method, set to "CRYPT" in order CVS authentication to work (if CVS support is enabled)
+# login method, set to "CRYPT"
 \$loginMethod = "$loginMethod"; //select "MD5", "CRYPT", or "PLAIN"
 
 # enable LDAP

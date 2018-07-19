@@ -18,11 +18,6 @@
 ** DESC: Functions used in the upgrade file and procedures
 **
 ** =============================================================================
-** CVS Tags and Keywords
-** Last Editor  : $Author: norman77 $
-** Last Edit    : $Date: 2009/01/21 21:29:18 $
-** Version      : $Revision: 1.2 $
-** =============================================================================
 */
 
 /**
@@ -491,7 +486,7 @@ define('THEME','$theme');
 # https related parameters
 \$pathToOpenssl = "$pathToOpenssl";
 
-# login method, set to "CRYPT" in order CVS authentication to work (if CVS support is enabled)
+# login method, set to "CRYPT"
 \$loginMethod = "$loginMethod"; //select "MD5", "CRYPT", or "PLAIN"
 
 # enable LDAP

@@ -22,6 +22,5 @@
 - Avanced users can edit generated file includes/settings.php
 
 ## Modules
-- Cvs browse (/docs/modules/cvs.zip)
 - Ssl authentification with e-mail certificate (/docs/modules/ssl.zip)
 - Mantis bugtracking sytem integration (/docs/modules/mantis.zip)

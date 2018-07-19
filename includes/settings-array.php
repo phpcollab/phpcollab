@@ -63,31 +63,10 @@ $settings['enableMantis'] = "false";
 // Mantis installation directory
 $settings['pathMantis'] = "http://localhost/mantis/";  // add slash at the end
 
-# CVS parameters
-# TODO: RIP OUT CVS!!!!!!!!!!!
-// Should CVS be enabled?
-$settings['enable_cvs'] = "false";
-
-// Should browsing CVS be limited to project members?
-$settings['cvs_protected'] = "false";
-
-// Define where CVS repositories should be stored
-$settings['cvs_root'] = "D:\cvs"; //no slash at the end
-
-// Who is the owner CVS files?
-// Note that this should be user that runs the web server.
-// Most *nix systems use "httpd" or "nobody"
-$settings['cvs_owner'] = "httpd";
-
-// CVS related commands
-$settings['cvs_co'] = "/usr/bin/co";
-$settings['cvs_rlog'] = "/usr/bin/rlog";
-$settings['cvs_cmd'] = "/usr/bin/cvs";
-
 # https related parameters
 $settings['pathToOpenssl'] = "/usr/bin/openssl";
 
-# login method, set to "CRYPT" in order CVS authentication to work (if CVS support is enabled)
+# login method, set to "CRYPT"
 $settings['loginMethod'] = "CRYPT"; //select "MD5", "CRYPT", or "PLAIN"
 
 # enable LDAP

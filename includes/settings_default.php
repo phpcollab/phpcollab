@@ -62,7 +62,7 @@ $pathMantis = "http://localhost/mantis/";  // add slash at the end
 # https related parameters
 $pathToOpenssl = "/usr/bin/openssl";
 
-# login method, set to "CRYPT" in order CVS authentication to work (if CVS support is enabled)
+# login method, set to "CRYPT"
 $loginMethod = "CRYPT"; //select "MD5", "CRYPT", or "PLAIN"
 
 # enable LDAP

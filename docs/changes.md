@@ -154,7 +154,6 @@
 ## PhpCollab 1.2 / 2002-05-04
 * Rebuilding of all the pages with POO development (except project site templates)
 * File robots.txt to avoid browse by search engine
-* Cvs repository for each project (Tolga Yalcinkaya ;-)
 * Themes/skins feature
 * Theme "default" (William Samplonius ;-)
 * Multilingual: Chinese simplified
