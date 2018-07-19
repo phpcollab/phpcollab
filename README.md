@@ -7,6 +7,7 @@ phpCollab 2.x
 [![Gitter](https://badges.gitter.im/phpcollab/phpcollab.svg)](https://gitter.im/phpcollab/phpcollab?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Slack Status](https://slack.phpcollab.com/badge.svg)](https://slack.phpcollab.com)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/665531ad20b74af4bdb293116ce3f46b)](https://www.codacy.com/app/mindblender/phpcollab?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=phpcollab/phpcollab&amp;utm_campaign=Badge_Grade)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/93ecaeb6-c941-4bdb-87c9-52209d76ed20/mini.png)](https://insight.sensiolabs.com/projects/93ecaeb6-c941-4bdb-87c9-52209d76ed20)
 
 ### This branch contains bleeding edge code.  Proceed with caution.  Always do a backup first!
 
