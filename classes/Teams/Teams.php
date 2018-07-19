@@ -133,7 +133,7 @@ class Teams
     {
         $projectId = filter_var($projectId, FILTER_VALIDATE_INT);
         $memberId = filter_var($memberId, FILTER_VALIDATE_INT);
-        return (count($this->teams_gateway->isTeamMember($projectId, $memberId)) > 0) ? true : false;
+        return (count($this->teams_gateway->isTeamMember($projectId, $memberId)) > 0) ? "true" : "false";
     }
 
     /**
