@@ -15,7 +15,7 @@ class Block
         $pathImg, $themeImgPath, $accountTotal, $account, $sortingOrders,
         $sortingFields, $sortingArrows, $sortingStyles, $explode, $labels,
         $sitePublish, $navigation, $navigationTotal, $limit, $rowsLimit,
-        $recordsTotal, $limitsNumber;
+        $recordsTotal, $limitsNumber, $sortName;
     public $form;
 
     /**
@@ -80,6 +80,22 @@ class Block
     public function setRowsLimit($rowsLimit)
     {
         $this->rowsLimit = $rowsLimit;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSortName()
+    {
+        return $this->sortName;
+    }
+
+    /**
+     * @param mixed $sortName
+     */
+    public function setSortName($sortName)
+    {
+        $this->sortName = $sortName;
     }
 
     /**
@@ -225,15 +241,20 @@ class Block
             $arrow = "open";
         }
 
-        echo "
-<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\">
+        echo <<<HTML
+<table cellspacing="0" cellpadding="0" border="0">
 <tr>
-<td><a href=\"javascript:showHideModule('" . $this->form . "','{$this->theme}')\" onMouseOver=\"javascript:showHideModuleMouseOver('" . $this->form . "'); return true; \" onMouseOut=\"javascript:window.status=''; return true;\"><img name=\"" . $this->form . "Toggle\" border=\"0\" src=\"$this->themeImgPath/module_toggle_" . $arrow . ".gif\" alt=\"\"></a></td>
-<td><img width=\"10\" height=\"10\" name=\"" . $this->form . "tl\" src=\"$this->themeImgPath/spacer.gif\" alt=\"\"></td>
-<td width=\"100%\"><h1 class=\"heading\">" . $title . "</h1></td>
+<td><a href="javascript:showHideModule('{$this->form}','{$this->theme}')" 
+       onMouseOver="showHideModuleMouseOver('{$this->form}'); return true;" 
+       onMouseOut="window.status=''; return true;"><img name="{$this->form}Toggle" border="0" src="{$this->themeImgPath}/module_toggle_{$arrow}.gif" alt=""></a></td>
+<td><img width="10" height="10" name="{$this->form}tl" src="{$this->themeImgPath}/spacer.gif" alt=""></td>
+<td width="100%"><h1 class="heading">{$title}</h1></td>
 </tr>
 </table>
-<div id=\"" . $this->form . "\" style=\"display: $style;\">";
+<div id="{$this->form}" style="display: $style;">
+HTML;
+
+        
     }
 
     /**
@@ -296,7 +317,7 @@ class Block
             echo '<table cellspacing="0" width="100%" border="0" cellpadding="0"><tr><td nowrap class="footerCell">&#160;&#160;&#160;&#160;';
 
             $nbpages = ceil($this->recordsTotal / $this->rowsLimit);
-            $j = "0";
+            $j = 0;
             for ($i = 1; $i <= $nbpages; $i++) {
                 if ($this->limit == $j) {
                     echo "<b>$i</b>&#160;";
