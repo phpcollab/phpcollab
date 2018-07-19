@@ -49,7 +49,7 @@ if ($action == 'publish') {
         $msg = 'closeTopic';
     }
 
-    if ($addToSiteTopic == "true") {
+    if ($_GET['addToSiteTopic'] == "true") {
         $multi = strstr($id, "**");
 
         if ($multi != "") {
@@ -62,7 +62,7 @@ if ($action == 'publish') {
         $msg = 'addToSite';
     }
 
-    if ($removeToSiteTopic == "true") {
+    if ($_GET['removeToSiteTopic'] == "true") {
         $multi = strstr($id, "**");
 
         if ($multi != "") {
@@ -76,7 +76,7 @@ if ($action == 'publish') {
     }
 }
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 
@@ -776,4 +776,4 @@ if ($showHomeNewsdesk) {
     $block7->closePaletteScript($comptPosts, $listPosts->news_id);
 }
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
