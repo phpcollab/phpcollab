@@ -318,6 +318,9 @@ hr {
 	overflow: auto;
 }
 
+table.pagination {
+    margin: 5px 0;
+}
 td.footerCell a, td.footerCell strong {
 	margin-right: 10px;
 }
