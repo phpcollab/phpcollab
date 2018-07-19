@@ -142,7 +142,7 @@ if ($langDefault == "") {
     if (isset($HTTP_ACCEPT_LANGUAGE)) {
         $plng = explode(",", $HTTP_ACCEPT_LANGUAGE);
         if (count($plng) > 0) {
-            while (list($k, $v) = each($plng)) {
+            foreach($plng as $k => $v) {
                 $k = explode(";", $v, 1);
                 $k = explode("-", $k[0]);
 
