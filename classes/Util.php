@@ -179,7 +179,7 @@ class Util
     {
         global $newText;
         $lines = explode("\n", $data);
-        while (list ($key, $line) = each($lines)) {
+        foreach($lines as $key => $line) {
             $line = preg_replace('/([ \t]|^)www\./', ' http://www.', $line);
 
             $line = preg_replace('/([ \t]|^)ftp\./', ' ftp://ftp.', $line);
