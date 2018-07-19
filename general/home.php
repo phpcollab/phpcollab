@@ -100,7 +100,7 @@ if ($showHomeBookmarks) {
 
     $block6 = new phpCollab\Block();
 
-    $block6->sorting("bookmarks", $sortingUser["bookmarks"], "boo.name ASC", $sortingFields = array(0 => "boo.name", 1 => "boo.category", 2 => "boo.shared"));
+    $block6->sorting("bookmarks", $sortingUser["bookmarks"], "boo.name ASC", $sortingFields = [0 => "boo.name", 1 => "boo.category", 2 => "boo.shared"]);
 
     $bookmarksList = $bookmarks->getMyHomeBookmarks($idSession, $block6->sortingValue);
 
@@ -121,14 +121,14 @@ if ($showHomeBookmarks) {
 
         $block6->closePaletteIcon();
 
-        $block6->sorting("bookmarks", $sortingUser["bookmarks"], "boo.name ASC", $sortingFields = array(0 => "boo.name", 1 => "boo.category", 2 => "boo.shared"));
+        $block6->sorting("bookmarks", $sortingUser["bookmarks"], "boo.name ASC", $sortingFields = [0 => "boo.name", 1 => "boo.category", 2 => "boo.shared"]);
 
         $bookmarkIds = [];
 
         if ($comptListBookmarks != "0") {
             $block6->openResults();
 
-            $block6->labels($labels = array(0 => $strings["name"], 1 => $strings["bookmark_category"], 2 => $strings["shared"]), "false");
+            $block6->labels($labels = [0 => $strings["name"], 1 => $strings["bookmark_category"], 2 => $strings["shared"]], "false");
 
             foreach ($bookmarksList as $bookmark) {
                 array_push($bookmarkIds, $bookmark['boo_id']);
@@ -210,7 +210,7 @@ if ($showHomeProjects) {
         "home_projects",
         $sortingUser["home_projects"],
         "pro.name ASC",
-        $sortingFields = array(
+        $sortingFields = [
         0 => "pro.id",
         1 => "pro.name",
         2 => "pro.priority",
@@ -218,7 +218,7 @@ if ($showHomeProjects) {
         4 => "pro.status",
         5 => "mem2.login",
         6 => "pro.published"
-    )
+        ]
     );
 
     $sorting = $block1->sortingValue;
@@ -229,14 +229,14 @@ if ($showHomeProjects) {
     $dataSet = $projects->getProjectList($idSession, $typeProjects, $block1->getRowsLimit(), $block1->getLimit(), $sorting);
 
 
-    $projectsTopics = array();
+    $projectsTopics = [];
 
     $comptListProjects = count($dataSet);
 
     if ($dataSet) {
         $block1->openResults();
 
-        $block1->labels($labels = array(0 => $strings["id"], 1 => $strings["project"], 2 => $strings["priority"], 3 => $strings["organization"], 4 => $strings["status"], 5 => $strings["owner"], 6 => $strings["project_site"]), "true");
+        $block1->labels($labels = [0 => $strings["id"], 1 => $strings["project"], 2 => $strings["priority"], 3 => $strings["organization"], 4 => $strings["status"], 5 => $strings["owner"], 6 => $strings["project_site"]], "true");
 
         foreach ($dataSet as $data) {
             $idStatus = $data["pro_status"];
@@ -319,7 +319,7 @@ if ($showHomeTasks) {
     $block2->setLimit($blockPage->returnLimit(3));
     $block2->setRowsLimit($defaultNumRowsToDisplay);
 
-    $block2->sorting("home_tasks", $sortingUser["home_tasks"], "tas.name ASC", $sortingFields = array(0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem.login", 6 => "tas.project", 7 => "tas.published"));
+    $block2->sorting("home_tasks", $sortingUser["home_tasks"], "tas.name ASC", $sortingFields = [0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem.login", 6 => "tas.project", 7 => "tas.published"]);
 
     $tasksList = $tasks->getSubtasksAssignedToMe($idSession);
 
@@ -348,7 +348,7 @@ if ($showHomeTasks) {
     if ($comptListTasks != "0") {
         $block2->openResults();
 
-        $block2->labels($labels = array(0 => $strings["name"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["completion"], 4 => $strings["due_date"], 5 => $strings["assigned_by"], 6 => $strings["project"], 7 => $strings["published"]), "true");
+        $block2->labels($labels = [0 => $strings["name"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["completion"], 4 => $strings["due_date"], 5 => $strings["assigned_by"], 6 => $strings["project"], 7 => $strings["published"]], "true");
 
         for ($i = 0; $i < $comptListTasks; $i++) {
             if ($listTasks->tas_due_date[$i] == "") {
@@ -418,7 +418,7 @@ if ($showHomeSubtasks) {
 
     $block3->headingToggle($strings["my_subtasks"]);
 
-    $block3->sorting("home_subtasks", $sortingUser["home_subtasks"], "subtas.name ASC", $sortingFields = array(0 => "subtas.name", 1 => "subtas.priority", 2 => "subtas.status", 3 => "subtas.completion", 4 => "subtas.due_date", 5 => "mem.login", 6 => "subtas.task", 7 => "subtas.published"));
+    $block3->sorting("home_subtasks", $sortingUser["home_subtasks"], "subtas.name ASC", $sortingFields = [0 => "subtas.name", 1 => "subtas.priority", 2 => "subtas.status", 3 => "subtas.completion", 4 => "subtas.due_date", 5 => "mem.login", 6 => "subtas.task", 7 => "subtas.published"]);
 
     $listSubtasks = $tasks->getSubtasksAssignedToMe($idSession);
 
@@ -436,7 +436,7 @@ if ($showHomeSubtasks) {
         if ($listTasks) {
             $block3->openResults();
 
-            $block3->labels($labels = array(0 => $strings["name"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["completion"], 4 => $strings["due_date"], 5 => $strings["assigned_by"], 6 => $strings["task"], 7 => $strings["published"]), "true");
+            $block3->labels($labels = [0 => $strings["name"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["completion"], 4 => $strings["due_date"], 5 => $strings["assigned_by"], 6 => $strings["task"], 7 => $strings["published"]], "true");
 
             foreach ($listTasks as $task) {
                 if ($task['subtas_due_date'] == "") {
@@ -511,7 +511,7 @@ if ($showHomeDiscussions) {
 
     $block4->closePaletteIcon();
 
-    $block4->sorting("home_discussions", $sortingUser["home_discussions"], "topic.last_post DESC", $sortingFields = array(0 => "topic.subject", 1 => "mem.login", 2 => "topic.posts", 3 => "topic.last_post", 4 => "topic.status", 5 => "topic.project", 6 => "topic.published"));
+    $block4->sorting("home_discussions", $sortingUser["home_discussions"], "topic.last_post DESC", $sortingFields = [0 => "topic.subject", 1 => "mem.login", 2 => "topic.posts", 3 => "topic.last_post", 4 => "topic.status", 5 => "topic.project", 6 => "topic.published"]);
 
     if (count($projectsTopics) == 0) {
         $projectsTopics = "0";
@@ -529,7 +529,7 @@ if ($showHomeDiscussions) {
     if ($comptListTopics != "0") {
         $block4->openResults();
 
-        $block4->labels($labels = array(0 => $strings["topic"], 1 => $strings["owner"], 2 => $strings["posts"], 3 => $strings["last_post"], 4 => $strings["status"], 5 => $strings["project"], 6 => $strings["published"]), "true");
+        $block4->labels($labels = [0 => $strings["topic"], 1 => $strings["owner"], 2 => $strings["posts"], 3 => $strings["last_post"], 4 => $strings["status"], 5 => $strings["project"], 6 => $strings["published"]], "true");
 
         for ($i = 0; $i < $comptListTopics; $i++) {
             $idStatus = $listTopics->top_status[$i];
@@ -586,7 +586,7 @@ if ($showHomeReports) {
     $block5->paletteIcon(3, "export", $strings["export"]);
     $block5->closePaletteIcon();
 
-    $block5->sorting("home_reports", $sortingUser["home_reports"], "rep.name ASC", $sortingFields = array(0 => "rep.name", 1 => "rep.created"));
+    $block5->sorting("home_reports", $sortingUser["home_reports"], "rep.name ASC", $sortingFields = [0 => "rep.name", 1 => "rep.created"]);
 
     // Todo: Refactore to use PDO
     $tmpquery = "WHERE rep.owner = '$idSession' ORDER BY $block5->sortingValue";
@@ -597,7 +597,7 @@ if ($showHomeReports) {
     if ($comptListReports != "0") {
         $block5->openResults();
 
-        $block5->labels($labels = array(0 => $strings["name"], 1 => $strings["created"]), "false");
+        $block5->labels($labels = [0 => $strings["name"], 1 => $strings["created"]], "false");
 
         for ($i = 0; $i < $comptListReports; $i++) {
             $block5->openRow();
@@ -639,9 +639,9 @@ if ($showHomeNotes) {
     $comptTopic = count($topicNote);
 
     if ($comptTopic != "0") {
-        $block6->sorting("notes", $sortingUser["notes"], "note.date DESC", $sortingFields = array(0 => "note.subject", 1 => "note.topic", 2 => "note.date", 3 => "mem.login", 4 => "note.published"));
+        $block6->sorting("notes", $sortingUser["notes"], "note.date DESC", $sortingFields = [0 => "note.subject", 1 => "note.topic", 2 => "note.date", 3 => "mem.login", 4 => "note.published"]);
     } else {
-        $block6->sorting("notes", $sortingUser["notes"], "note.date DESC", $sortingFields = array(0 => "note.subject", 1 => "note.date", 2 => "mem.login", 3 => "note.published"));
+        $block6->sorting("notes", $sortingUser["notes"], "note.date DESC", $sortingFields = [0 => "note.subject", 1 => "note.date", 2 => "mem.login", 3 => "note.published"]);
     }
 
     // Todo: Refactore to use PDO
@@ -654,9 +654,9 @@ if ($showHomeNotes) {
         $block6->openResults();
 
         if ($comptTopic != "0") {
-            $block6->labels($labels = array(0 => $strings["subject"], 1 => $strings["topic"], 2 => $strings["date"], 3 => $strings["owner"], 4 => $strings["published"]), "true");
+            $block6->labels($labels = [0 => $strings["subject"], 1 => $strings["topic"], 2 => $strings["date"], 3 => $strings["owner"], 4 => $strings["published"]], "true");
         } else {
-            $block6->labels($labels = array(0 => $strings["subject"], 1 => $strings["date"], 2 => $strings["owner"], 3 => $strings["published"]), "true");
+            $block6->labels($labels = [0 => $strings["subject"], 1 => $strings["date"], 2 => $strings["owner"], 3 => $strings["published"]], "true");
         }
         for ($i = 0; $i < $comptListNotes; $i++) {
             $idPublish = $listNotes->note_published[$i];
@@ -709,7 +709,7 @@ if ($showHomeNewsdesk) {
     $block7->setLimit($blockPage->returnLimit(1));
     $block7->setRowsLimit(10);
 
-    $block7->sorting("newsdesk", $sortingUser["newsdesk"], "news.pdate DESC", $sortingFields = array(0 => "news.title", 1 => "news.pdate", 2 => "news.author", 3 => "news.related"));
+    $block7->sorting("newsdesk", $sortingUser["newsdesk"], "news.pdate DESC", $sortingFields = [0 => "news.title", 1 => "news.pdate", 2 => "news.author", 3 => "news.related"]);
 
     $block7->openContent();
 
@@ -733,7 +733,7 @@ if ($showHomeNewsdesk) {
 
     if ($comptPosts != "0") {
         $block7->openResults();
-        $block7->labels($labels = array(0 => $strings["topic"], 1 => $strings["date"], 2 => $strings["author"], 3 => $strings["newsdesk_related"]), "true");
+        $block7->labels($labels = [0 => $strings["topic"], 1 => $strings["date"], 2 => $strings["author"], 3 => $strings["newsdesk_related"]], "true");
 
         $blockPage->limitNumber = "1";
 
