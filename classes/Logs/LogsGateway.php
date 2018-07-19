@@ -63,7 +63,7 @@ class LogsGateway
     public function insertLogEntry($entryData) {
         $query = <<<SQL
 INSERT INTO {$this->tableCollab["logs"]} 
-(login, password, ip, session, compt, last_visite) 
+(login, ip, session, compt, last_visite) 
 VALUES (
   :member_login,
   :ip,
