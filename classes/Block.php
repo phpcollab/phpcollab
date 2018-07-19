@@ -15,7 +15,7 @@ class Block
         $pathImg, $themeImgPath, $accountTotal, $account, $sortingOrders,
         $sortingFields, $sortingArrows, $sortingStyles, $explode, $labels,
         $sitePublish, $navigation, $navigationTotal, $limit, $rowsLimit,
-        $recordsTotal, $limitsNumber, $sortName;
+        $recordsTotal, $limitsNumber, $sortName, $sortingRef, $sortingDefault;
     public $form, $sortingValue;
 
     /**
