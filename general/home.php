@@ -244,19 +244,19 @@ if ($showHomeProjects) {
 
             $block1->openRow();
             $block1->checkboxRow($data["pro_id"]);
-            $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $data["pro_id"], $data["pro_id"], in));
-            $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $data["pro_id"], $data["pro_name"], in));
+            $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $data["pro_id"], $data["pro_id"], 'in'));
+            $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $data["pro_id"], $data["pro_name"], 'in'));
             $block1->cellRow('<img src="../themes/' . THEME . '/images/gfx_priority/' . $idPriority . '.gif" alt=""> ' . $priority[$idPriority]);
             $block1->cellRow($data["pro_org_name"]);
             $block1->cellRow($status[$idStatus]);
 
-            $block1->cellRow($blockPage->buildLink('../users/viewuser.php?id=' . $data["pro_mem_id"], $data["pro_mem_login"], in));
+            $block1->cellRow($blockPage->buildLink('../users/viewuser.php?id=' . $data["pro_mem_id"], $data["pro_mem_login"], 'in'));
 
             if ($sitePublish == "true") {
                 if ($data["pro_published"] == "1") {
-                    $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $data["pro_id"], $strings["create"] . "...", in) . "&gt;");
+                    $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $data["pro_id"], $strings["create"] . "...", 'in') . "&gt;");
                 } else {
-                    $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=" . $data["pro_id"], $strings["details"], in) . "&gt;");
+                    $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=" . $data["pro_id"], $strings["details"], 'in') . "&gt;");
                 }
             }
 
@@ -369,9 +369,9 @@ if ($showHomeTasks) {
             $block2->checkboxRow($listTasks->tas_id[$i]);
 
             if ($listTasks->tas_assigned_to[$i] == "0") {
-                $block2->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $listTasks->tas_id[$i], $listTasks->tas_name[$i], in) . " -> " . $strings["subtask"]);
+                $block2->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $listTasks->tas_id[$i], $listTasks->tas_name[$i], 'in') . " -> " . $strings["subtask"]);
             } else {
-                $block2->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $listTasks->tas_id[$i], $listTasks->tas_name[$i], in));
+                $block2->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $listTasks->tas_id[$i], $listTasks->tas_name[$i], 'in'));
             }
             $block2->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
             $block2->cellRow($status[$idStatus]);
@@ -383,9 +383,9 @@ if ($showHomeTasks) {
                 $block2->cellRow($listTasks->tas_due_date[$i]);
             }
 
-            $block2->cellRow($blockPage->buildLink($listTasks->tas_mem2_email_work[$i], $listTasks->tas_mem2_login[$i], mail));
+            $block2->cellRow($blockPage->buildLink($listTasks->tas_mem2_email_work[$i], $listTasks->tas_mem2_login[$i], 'mail'));
 
-            $block2->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listTasks->tas_project[$i], $listTasks->tas_pro_name[$i], in));
+            $block2->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listTasks->tas_project[$i], $listTasks->tas_pro_name[$i], 'in'));
             if ($sitePublish == "true") {
                 $block2->cellRow($statusPublish[$idPublish]);
             }
@@ -457,9 +457,9 @@ if ($showHomeSubtasks) {
                 $block3->checkboxRow($task['subtas_id']);
 
                 if ($task['subtas_assigned_to'] == "0") {
-                    $block3->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $task['subtas_id'] . "&task=" . $task['subtas_task'], $task['subtas_name'], in) . " -> " . $strings["subtask"]);
+                    $block3->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $task['subtas_id'] . "&task=" . $task['subtas_task'], $task['subtas_name'], 'in') . " -> " . $strings["subtask"]);
                 } else {
-                    $block3->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $task['subtas_id'] . "&task=" . $task['subtas_task'], $task['subtas_name'], in));
+                    $block3->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $task['subtas_id'] . "&task=" . $task['subtas_task'], $task['subtas_name'], 'in'));
                 }
                 $block3->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
                 $block3->cellRow($status[$idStatus]);
@@ -471,7 +471,7 @@ if ($showHomeSubtasks) {
                     $block3->cellRow($task['subtas_due_date']);
                 }
 
-                $block3->cellRow($blockPage->buildLink($task['subtas_mem2_email_work'], $task['subtas_mem2_login'], mail));
+                $block3->cellRow($blockPage->buildLink($task['subtas_mem2_email_work'], $task['subtas_mem2_login'], 'mail'));
                 $block3->cellRow($task['subtas_tas_name']);
                 if ($sitePublish == "true") {
                     $block3->cellRow($statusPublish[$idPublish]);
@@ -536,8 +536,8 @@ if ($showHomeDiscussions) {
             $idPublish = $listTopics->top_published[$i];
             $block4->openRow();
             $block4->checkboxRow($listTopics->top_id[$i]);
-            $block4->cellRow($blockPage->buildLink("../topics/viewtopic.php?project=" . $listTopics->top_project[$i] . "&id=" . $listTopics->top_id[$i], $listTopics->top_subject[$i], in));
-            $block4->cellRow($blockPage->buildLink($listTopics->top_mem_email_work[$i], $listTopics->top_mem_login[$i], mail));
+            $block4->cellRow($blockPage->buildLink("../topics/viewtopic.php?project=" . $listTopics->top_project[$i] . "&id=" . $listTopics->top_id[$i], $listTopics->top_subject[$i], 'in'));
+            $block4->cellRow($blockPage->buildLink($listTopics->top_mem_email_work[$i], $listTopics->top_mem_login[$i], 'mail'));
             $block4->cellRow($listTopics->top_posts[$i]);
             if ($listTopics->top_last_post[$i] > $lastvisiteSession) {
                 $block4->cellRow("<b>" . phpCollab\Util::createDate($listTopics->top_last_post[$i], $timezoneSession) . "</b>");
@@ -545,7 +545,7 @@ if ($showHomeDiscussions) {
                 $block4->cellRow(phpCollab\Util::createDate($listTopics->top_last_post[$i], $timezoneSession));
             }
             $block4->cellRow($statusTopic[$idStatus]);
-            $block4->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listTopics->top_project[$i], $listTopics->top_pro_name[$i], in));
+            $block4->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listTopics->top_project[$i], $listTopics->top_pro_name[$i], 'in'));
             if ($sitePublish == "true") {
                 $block4->cellRow($statusPublish[$idPublish]);
             }
@@ -602,7 +602,7 @@ if ($showHomeReports) {
         for ($i = 0; $i < $comptListReports; $i++) {
             $block5->openRow();
             $block5->checkboxRow($listReports->rep_id[$i]);
-            $block5->cellRow($blockPage->buildLink("../reports/resultsreport.php?id=" . $listReports->rep_id[$i], $listReports->rep_name[$i], in));
+            $block5->cellRow($blockPage->buildLink("../reports/resultsreport.php?id=" . $listReports->rep_id[$i], $listReports->rep_name[$i], 'in'));
             $block5->cellRow(phpCollab\Util::createDate($listReports->rep_created[$i], $timezoneSession));
             $block5->closeRow();
         }
@@ -662,12 +662,12 @@ if ($showHomeNotes) {
             $idPublish = $listNotes->note_published[$i];
             $block6->openRow();
             $block6->checkboxRow($listNotes->note_id[$i]);
-            $block6->cellRow($blockPage->buildLink("../notes/viewnote.php?id=" . $listNotes->note_id[$i], $listNotes->note_subject[$i], in));
+            $block6->cellRow($blockPage->buildLink("../notes/viewnote.php?id=" . $listNotes->note_id[$i], $listNotes->note_subject[$i], 'in'));
             if ($comptTopic != "0") {
                 $block6->cellRow($topicNote[$listNotes->note_topic[$i]]);
             }
             $block6->cellRow($listNotes->note_date[$i]);
-            $block6->cellRow($blockPage->buildLink($listNotes->note_mem_email_work[$i], $listNotes->note_mem_login[$i], mail));
+            $block6->cellRow($blockPage->buildLink($listNotes->note_mem_email_work[$i], $listNotes->note_mem_login[$i], 'mail'));
             if ($sitePublish == "true") {
                 $block6->cellRow($statusPublish[$idPublish]);
             }
@@ -750,7 +750,7 @@ if ($showHomeNewsdesk) {
 
             $block7->openRow();
             $block7->checkboxRow($listPosts->news_id[$i]);
-            $block7->cellRow($blockPage->buildLink("../newsdesk/viewnews.php?id=" . $listPosts->news_id[$i], $listPosts->news_title[$i], in));
+            $block7->cellRow($blockPage->buildLink("../newsdesk/viewnews.php?id=" . $listPosts->news_id[$i], $listPosts->news_title[$i], 'in'));
             $block7->cellRow($listPosts->news_date[$i]);
             $block7->cellRow($newsAuthor['mem_name']);
             $block7->cellRow($article_related);
