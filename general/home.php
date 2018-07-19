@@ -35,6 +35,8 @@ include '../includes/customvalues.php';
 
 $setTitle .= " : Home Page";
 
+$defaultNumRowsToDisplay = 40;
+
 $topics = new \phpCollab\Topics\Topics();
 $members = new \phpCollab\Members\Members();
 $projects = new \phpCollab\Projects\Projects();
@@ -233,6 +235,8 @@ if ($showHomeProjects) {
     }
 
     $block1->closePaletteIcon();
+    $block1->setLimit($blockPage->returnLimit(1));
+    $block1->setRowsLimit($defaultNumRowsToDisplay);
 
     $block1->sorting(
         "home_projects",
@@ -251,7 +255,12 @@ if ($showHomeProjects) {
 
     $sorting = $block1->sortingValue;
 
-    $dataSet = $projects->getProjectList($idSession, $typeProjects, $sorting);
+    $projectCount = $projects->getProjectList($idSession, $typeProjects);
+    $block1->setRecordsTotal(count($projectCount));
+
+    $dataSet = $projects->getProjectList($idSession, $typeProjects, $block1->getRowsLimit(), $block1->getLimit(), $sorting);
+
+
     $projectsTopics = array();
 
     $comptListProjects = count($dataSet);
@@ -287,6 +296,7 @@ if ($showHomeProjects) {
             array_push($projectsTopics, $data["pro_id"]);
         }
         $block1->closeResults();
+        $block1->limitsFooter("1", $blockPage->getLimitsNumber(), "", "");
     } else {
         $block1->noresults();
     }
@@ -339,7 +349,7 @@ if ($showHomeTasks) {
 
     $block2->closePaletteIcon();
     $block2->setLimit($blockPage->returnLimit(3));
-    $block2->setRowsLimit(40);
+    $block2->setRowsLimit($defaultNumRowsToDisplay);
 
     $block2->sorting("home_tasks", $sortingUser["home_tasks"], "tas.name ASC", $sortingFields = array(0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem.login", 6 => "tas.project", 7 => "tas.published"));
 
