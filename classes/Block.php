@@ -15,7 +15,8 @@ class Block
         $pathImg, $themeImgPath, $accountTotal, $account, $sortingOrders,
         $sortingFields, $sortingArrows, $sortingStyles, $explode, $labels,
         $sitePublish, $navigation, $navigationTotal, $limit, $rowsLimit,
-        $recordsTotal, $limitsNumber, $sortName, $sortingRef, $sortingDefault;
+        $recordsTotal, $limitsNumber, $sortName, $sortingRef, $sortingDefault,
+        $breadcrumbsTotal, $breadcrumbs;
     public $form, $sortingValue;
 
     /**
@@ -448,12 +449,12 @@ HTML;
         for ($i = 0; $i < $sortingFieldsCount; $i++) {
             if ($this->sortingFields[$i] == $explode[0] && $explode[1] == "DESC") {
                 $this->sortingOrders[$i] = "ASC";
-                $this->sortingArrows[$i] = "&#160;<img border=\"0\" src=\"$this->themeImgPath/icon_sort_za.gif\" alt=\"\" width=\"11\" height=\"11\">";
+                $this->sortingArrows[$i] = '&#160;<img border="0" src="'.$this->themeImgPath.'/icon_sort_za.gif" alt="" width="11" height="11">';
                 $this->sortingStyles[$i] = "active";
             } else {
                 if ($this->sortingFields[$i] == $explode[0] && $explode[1] == "ASC") {
                     $this->sortingOrders[$i] = "DESC";
-                    $this->sortingArrows[$i] = "&#160;<img border=\"0\" src=\"$this->themeImgPath/icon_sort_az.gif\" alt=\"\" width=\"11\" height=\"11\">";
+                    $this->sortingArrows[$i] = '&#160;<img border="0" src="'.$this->themeImgPath.'/icon_sort_az.gif" alt="" width="11" height="11">';
                     $this->sortingStyles[$i] = "active";
                 } else {
                     $this->sortingOrders[$i] = "ASC";
@@ -514,6 +515,7 @@ HTML;
                     echo "<th nowrap>{$labels[$i]}</th>";
                 }
             } else {
+                $sortingArrow = null;
                 if ($sortingOff[1] == "ASC") {
                     $sortingArrow = "&#160;<img border='0' src='$this->themeImgPath/icon_sort_az.gif' alt='' width='11' height='11'>";
 
@@ -723,7 +725,7 @@ HTML;
     public function itemBreadcrumbs($content)
     {
         if ($this->breadcrumbsTotal == "") {
-            $this->breadcrumbsTotal = "0";
+            $this->breadcrumbsTotal = 0;
         }
         $this->breadcrumbs[$this->breadcrumbsTotal] = stripslashes($content);
         $this->breadcrumbsTotal = $this->breadcrumbsTotal + 1;
