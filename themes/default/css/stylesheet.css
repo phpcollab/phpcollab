@@ -321,7 +321,9 @@ hr {
 form > table {
     margin-top: 3em;
 }
-form > table.icons, form > table.listing {
+form > table.icons,
+form > table.content,
+form > table.listing {
     margin-top: 0;
 }
 
