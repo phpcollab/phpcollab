@@ -492,6 +492,7 @@ if ($projectDetail["pro_phase_set"] != "0") {
 
     $block2->setLimit($blockPage->returnLimit(1));
     $block2->setRowsLimit(5);
+    $block2->setSortName("projects");
 
     $block2->sorting("project_tasks", $sortingUser["project_tasks"], "tas.name ASC", $sortingFields = array(0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem.login", 6 => "tas.published"));
 
@@ -607,6 +608,7 @@ $block3->paletteIcon(5, "info", $strings["view"]);
 $block3->closePaletteIcon();
 $block3->setLimit($blockPage->returnLimit(2));
 $block3->setRowsLimit(5);
+$block3->setSortName("discussion");
 $block3->sorting("project_discussions", $sortingUser["project_discussions"], "topic.last_post DESC", $sortingFields = array(0 => "topic.subject", 1 => "mem.login", 2 => "topic.posts", 3 => "topic.last_post", 4 => "topic.status", 5 => "topic.published"));
 
 $tmpquery = "WHERE topic.project = '$id' ORDER BY $block3->sortingValue";
@@ -694,6 +696,7 @@ $block4->paletteIcon(5, "email", $strings["email"]);
 $block4->closePaletteIcon();
 $block4->setLimit($blockPage->returnLimit(3));
 $block4->setRowsLimit(5);
+$block4->setSortName("team");
 $block4->sorting("team", $sortingUser["team"], "mem.name ASC", $sortingFields = array(0 => "mem.name", 1 => "mem.title", 2 => "mem.login", 3 => "mem.phone_work", 4 => "log.connected", 5 => "tea.published"));
 
 $tmpquery = "WHERE tea.project = '$id' AND mem.profil != '3' ORDER BY $block4->sortingValue";
@@ -889,6 +892,7 @@ if ($teamMember == "true" || $profilSession == "5") {
 $block6->closePaletteIcon();
 $block6->setLimit($blockPage->returnLimit(4));
 $block6->setRowsLimit(5);
+$block6->setSortName("notes");
 
 $comptTopic = count($topicNote);
 
@@ -902,7 +906,7 @@ $tmpquery = "WHERE note.project = '$id' ORDER BY $block6->sortingValue";
 
 $block6->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["notes"] . " " . $tmpquery));
 $listNotes = new phpCollab\Request();
-$listNotes->openNotes($tmpquery, $block6->getLimit(), $block6->getRowsLimit());
+$listNotes->openNotes($tmpquery, "0", $block6->getRowsLimit());
 $comptListNotes = count($listNotes->note_id);
 
 if ($comptListNotes != "0") {
