@@ -86,7 +86,7 @@ class ProjectsGateway
      * @param $sorting
      * @return
      */
-    public function getProjectList($ownerId, $typeProjects, $sorting = null)
+    public function getProjectList($ownerId, $typeProjects = null, $limit, $offset, $sorting = null)
     {
         $tmpQuery = '';
         if ($typeProjects == "inactive") {
@@ -105,11 +105,24 @@ class ProjectsGateway
             }
         }
 
-        $query = $this->initrequest["projects"] . ' ' . $tmpQuery . $this->orderBy($sorting);
+        if (isset($limit) && isset($offset)) {
+            $limitQuery = ' LIMIT :offset, :limit';
+        } else {
+            $limitQuery = null;
+        }
+
+        $query = $this->initrequest["projects"] . ' ' . $tmpQuery . $this->orderBy($sorting) . $limitQuery;
 
         $this->db->query($query);
 
-        $this->db->bind(':owner_id', $ownerId);
+        if ($this->projectsFilter == "true") {
+            $this->db->bind(':owner_id', (int)$ownerId);
+        }
+
+        if (isset($limit) && isset($offset)) {
+            $this->db->bind(':limit', (int)$limit);
+            $this->db->bind(':offset', (int)$offset);
+        }
 
         return $this->db->resultset();
     }

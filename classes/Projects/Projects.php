@@ -46,15 +46,19 @@ class Projects
     /**
      * @param $ownerId
      * @param $projectType
+     * @param $limit
+     * @param $offset
      * @param $sorting
      * @return mixed
      */
-    public function getProjectList($ownerId, $projectType, $sorting)
+    public function getProjectList($ownerId, $projectType, $limit = null, $offset = null, $sorting = null)
     {
         $projectType = filter_var($projectType, FILTER_SANITIZE_STRING);
         $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
-
-        return $this->projects_gateway->getProjectList($ownerId, $projectType, $sorting);
+        if (empty($projectType)) {
+            $projectType = "active";
+        }
+        return $this->projects_gateway->getProjectList($ownerId, $projectType, $limit, $offset, $sorting);
     }
 
     /**
