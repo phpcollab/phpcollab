@@ -109,6 +109,9 @@ if ($action == 'publish') {
 include '../themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
+
+$blockPage->setLimitsNumber(4);
+
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../general/home.php", $strings["home"], 'in'));
 $blockPage->itemBreadcrumbs($nameSession);
@@ -335,6 +338,8 @@ if ($showHomeTasks) {
     $block2->paletteIcon(4, "edit", $strings["edit"]);
 
     $block2->closePaletteIcon();
+    $block2->setLimit($blockPage->returnLimit(3));
+    $block2->setRowsLimit(40);
 
     $block2->sorting("home_tasks", $sortingUser["home_tasks"], "tas.name ASC", $sortingFields = array(0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem.login", 6 => "tas.project", 7 => "tas.published"));
 
@@ -354,9 +359,13 @@ if ($showHomeTasks) {
         $tmpquery = "WHERE tas.assigned_to = '$idSession' AND tas.status IN(0,2,3) AND pro.status IN(0,2,3) ORDER BY $block2->sortingValue";
     }
 
+    $block2->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["tasks"] . " " . $tmpquery));
+
     $listTasks = new phpCollab\Request();
-    $listTasks->openTasks($tmpquery);
+    $listTasks->openTasks($tmpquery, $block2->getLimit(), $block2->getRowsLimit());
+
     $comptListTasks = count($listTasks->tas_id);
+
 
     if ($comptListTasks != "0") {
         $block2->openResults();
@@ -405,6 +414,7 @@ if ($showHomeTasks) {
             $block2->closeRow();
         }
         $block2->closeResults();
+        $block2->limitsFooter("3", $blockPage->getLimitsNumber(), "", "");
     } else {
         $block2->noresults();
     }
