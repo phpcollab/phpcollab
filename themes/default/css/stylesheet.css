@@ -318,6 +318,10 @@ hr {
 	overflow: auto;
 }
 
+form > table {
+    margin-top: 3em;
+}
+
 table.pagination {
     margin: 5px 0;
 }
