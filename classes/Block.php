@@ -16,7 +16,7 @@ class Block
         $sortingFields, $sortingArrows, $sortingStyles, $explode, $labels,
         $sitePublish, $navigation, $navigationTotal, $limit, $rowsLimit,
         $recordsTotal, $limitsNumber, $sortName;
-    public $form;
+    public $form, $sortingValue;
 
     /**
      *
