@@ -8,9 +8,11 @@ include_once '../includes/library.php';
 
 $setTitle .= " : List **ctive Projects";
 
+$defaultNumRowsToDisplay = 40;
+
 $db = new phpCollab\Database(); // Move this to library?
 
-$projects_gateway = new phpCollab\Projects\ProjectsGateway($db);
+$projects = new \phpCollab\Projects\Projects();
 
 if ($typeProjects == "") {
     $typeProjects = "active";
@@ -25,6 +27,7 @@ if ($typeProjects == "active") {
 include '../themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
+$blockPage->setLimitsNumber(4);
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($strings["projects"]);
 if ($typeProjects == "inactive") {
@@ -67,7 +70,7 @@ if ($enableMantis == "true") {
 $block1->closePaletteIcon();
 
 $block1->setLimit($blockPage->returnLimit(1));
-$block1->setRowsLimit(20);
+$block1->setRowsLimit($defaultNumRowsToDisplay);
 
 $block1->sorting(
     "projects",
@@ -84,10 +87,11 @@ $block1->sorting(
     )
 );
 
-// TODO: add limits back in
 $sorting = $block1->sortingValue;
 
-$dataSet = $projects_gateway->getProjectList($idSession, $typeProjects, $sorting);
+$block1->setRecordsTotal(count($projects->getProjectList($idSession, $typeProjects)));
+
+$dataSet = $projects->getProjectList($idSession, $typeProjects, $block1->getRowsLimit(), $block1->getLimit(), $sorting);
 
 $projectCount = count($dataSet);
 
@@ -136,6 +140,7 @@ if ($projectCount > 0) {
         }
     }
     $block1->closeResults();
+    $block1->limitsFooter("1", $blockPage->getLimitsNumber(), "", "");
 } else {
     $block1->noresults();
 }
