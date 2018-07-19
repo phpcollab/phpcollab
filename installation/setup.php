@@ -23,15 +23,23 @@ require_once APP_ROOT . '/vendor/autoload.php';
 
 // register_globals cheat code
 //GET and POST VARS
-while (list($key, $val) = @each($_REQUEST)) {
+
+/*
+ *
+while(list($key, $value) = each($array))
+was not listing all array values, where replacing it with...
+foreach($array as $key => $value)
+ **/
+
+foreach($_REQUEST as $key => $value) {
     $GLOBALS[$key] = $val;
 }
 //$HTTP_SESSION_VARS
-while (list($key, $val) = @each($_SESSION)) {
+foreach($_SESSION as $key => $value) {
     $GLOBALS[$key] = $val;
 }
 //$HTTP_SERVER_VARS
-while (list($key, $val) = @each($_SERVER)) {
+foreach($_SERVER as $key => $value) {
     $GLOBALS[$key] = $val;
 }
 
