@@ -719,7 +719,7 @@ if ($showHomeNewsdesk) {
     $block7->closePaletteIcon();
 
     $block7->setLimit($blockPage->returnLimit(1));
-    $block7->setRowsLimit(40);
+    $block7->setRowsLimit(10);
 
     $block7->sorting("newsdesk", $sortingUser["newsdesk"], "news.pdate DESC", $sortingFields = array(0 => "news.title", 1 => "news.pdate", 2 => "news.author", 3 => "news.related"));
 
