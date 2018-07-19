@@ -198,7 +198,6 @@ function parseSettings($contents)
                     $skipAssign = true;
                 }
 
-                //showInfoBox("Key: $key - Value: $val", "DEBUG");
             } elseif (substr($line, 0, 6) == "define") {
                 //CONSTANTS
                 $work = substr($line, 6);
