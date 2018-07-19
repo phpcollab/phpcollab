@@ -75,9 +75,6 @@ if ($action == 'publish') {
         } else {
             $topics->closeTopic($id);
         }
-
-
-
         $msg = 'closeTopic';
     }
 
