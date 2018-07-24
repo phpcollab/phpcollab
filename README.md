@@ -24,3 +24,9 @@ https://phpcollab.github.io/phpcollab/
 Note: Do NOT clone or download the phpCollab codebase directly. That is ONLY required if you wish to contribute to the development of the project.
 
 ----
+
+### Big Thanks
+
+Cross-browser Testing Platform and Open Source <3 Provided by [Sauce Labs][homepage]
+
+[homepage]: https://saucelabs.com
