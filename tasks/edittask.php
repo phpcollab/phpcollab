@@ -755,7 +755,7 @@ $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?i
 
 if ($projectDetail['pro_phase_set'] != "0") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail['pro_id'], $strings["phases"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase->pha_id[0], $targetPhase->pha_name[0], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase["pha_id"], $targetPhase["pha_name"], "in"));
 }
 
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail['pro_id'], $strings["tasks"], "in"));
@@ -842,7 +842,7 @@ echo "</select></td></tr>";
 
 //Display task's phase
 if ($projectDetail['pro_phase_set'] != "0") {
-    echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["phase"] . " :</td><td>" . $blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase->pha_id[0], $targetPhase->pha_name[0], "in") . "</td></tr>";
+    echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["phase"] . " :</td><td>" . $blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase["pha_id"], $targetPhase["pha_name"], "in") . "</td></tr>";
 }
 echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["organization"] . " :</td><td>" . $projectDetail['pro_org_name'] . "</td></tr>";
 
@@ -927,13 +927,16 @@ for ($i = 0; $i < $comptSta; $i++) {
     }
 }
 
-echo "          </select>
+echo <<<HTML
+    "          </select>
             </td>
         </tr>
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["completion"] . " :</td>
-            <td><input name='compl' type='hidden' value='" . $taskDetail['tas_completion'] . "'>
-                <select name='completion' onchange=\"changeCompletion(this)\">";
+        <tr class="odd">
+            <td valign="top" class="leftvalue">{$strings["completion"]} :</td>
+            <td><input name="compl" type="hidden" value="{$taskDetail["tas_completion"]}">
+                <select name="completion" onchange="changeCompletion(this)">
+HTML;
+
 
 for ($i = 0; $i < 11; $i++) {
     $complValue = ($i > 0) ? $i . "0 %" : $i . " %";
