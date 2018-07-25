@@ -214,7 +214,7 @@ class TasksGateway
 
         $this->db->bind(':parent_task_id', $parentTaskId);
 
-        return $this->db->single();
+        return $this->db->resultset();
     }
 
     /**
