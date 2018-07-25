@@ -201,9 +201,6 @@ if ($action == "approve") {
 if ($action == "add") {
     if ($maxCustom != "") {
         $maxFileSize = $maxCustom;
-/**
- * TODO: look into why the peer review file attachment is not getting attached
- */
     }
 
     if ($_FILES['upload']['size'] != 0) {
