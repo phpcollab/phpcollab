@@ -563,7 +563,7 @@ if ($id == "") {
         $taskStatus = $_POST["taskStatus"];
 
         //Change task status if parent phase is suspended, complete or not open.
-        if ($projectDetail['pro_enable_phase'] == "1") {
+        if ($projectDetail['pro_phase_set'] == "1") {
             $currentPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($project, $phase);
             if ($taskStatus == 3 && $currentPhase['pha_status'] != 1) {
                 $taskStatus = 4;
