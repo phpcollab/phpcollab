@@ -37,7 +37,7 @@ class PhasesGateway
         $this->db->query($this->initrequest["phases"] . $whereStatement);
         $this->db->bind(':project_id', $projectId);
         $this->db->bind(':phase_number', $phaseNum);
-        $results = $this->db->resultset();
+        $results = $this->db->single();
         return $results;
     }
 
