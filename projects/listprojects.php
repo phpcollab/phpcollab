@@ -112,7 +112,7 @@ if ($projectCount > 0) {
         $idPriority = $data["pro_priority"];
 
         $block1->openRow();
-        $block1->checkboxRow($data["tea_pro_id"]);
+        $block1->checkboxRow($data["pro_id"]);
         $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $data["pro_id"], $data["pro_id"], "in"));
         $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $data["pro_id"], $data["pro_name"], "in"));
         $block1->cellRow('<img src="../themes/' . THEME . '/images/gfx_priority/' . $idPriority . '.gif" alt=""> ' . $priority[$idPriority]);
