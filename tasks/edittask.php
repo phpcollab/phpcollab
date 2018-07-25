@@ -85,6 +85,7 @@ if ($id != "") {
         $task_name = phpCollab\Util::convertData($_POST["task_name"]);
         $d = phpCollab\Util::convertData($_POST["d"]);
         $comments = phpCollab\Util::convertData($_POST["comments"]);
+        $taskStatus = $_POST['taskStatus'];
 
         //case copy task
         if ($docopy == "true") {
@@ -92,13 +93,13 @@ if ($id != "") {
             //Change task status if parent phase is suspended, complete or not open.
             if ($projectDetail['pro_phase_set'] != "0") {
                 $currentPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($project, $phase);
-                if ($st == 3 && $currentPhase['pha_status'] != 1) {
-                    $st = 4;
+                if ($taskStatus == 3 && $currentPhase['pha_status'] != 1) {
+                    $taskStatus = 4;
                 }
             }
 
             if ($compl == "10") {
-                $st = "1";
+                $taskStatus = "1";
             }
 
             if ($pub == "") {
@@ -125,7 +126,7 @@ project,name,description,owner,assigned_to,status,priority,start_date,due_date,e
             $dbParams['description'] = $d;
             $dbParams['owner'] = $idSession;
             $dbParams['assigned_to'] = $at;
-            $dbParams['status'] = $st;
+            $dbParams['status'] = $taskStatus;
             $dbParams['priority'] = $pr;
             $dbParams['start_date'] = $start_date;
             $dbParams['due_date'] = $due_date;
@@ -195,7 +196,7 @@ project,name,description,owner,assigned_to,status,priority,start_date,due_date,e
 
             // invoice
             if ($enableInvoicing == "true") {
-                if ($st == "1") {
+                if ($taskStatus == "1") {
                     $completeItem = "1";
                 } else {
                     $completeItem = "0";
@@ -225,7 +226,7 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
                 }
             }
 
-            if ($st == "1" && $complete_date != "--") {
+            if ($taskStatus == "1" && $complete_date != "--") {
                 $tmpquery6 = "UPDATE {$tableCollab["tasks"]} SET complete_date=:complete_date'$date' WHERE id = :task_td";
                 $dbParams = [];
                 $dbParams['complete_date'] = $date;
@@ -293,8 +294,8 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
             if ($projectDetail['pro_phase_set'] != "0") {
                 $currentPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($project, $phase);
 
-                if ($st == 3 && $currentPhase['pha_status'] != 1) {
-                    $st = 4;
+                if ($taskStatus == 3 && $currentPhase['pha_status'] != 1) {
+                    $taskStatus = 4;
                 }
             }
 
@@ -302,7 +303,7 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
                 $pub = "1";
             }
             if ($compl == "10") {
-                $st = "1";
+                $taskStatus = "1";
             }
 
             //recompute number of completed tasks of the project
@@ -321,7 +322,7 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
             $tmpquery5Params['task_name'] = $task_name;
             $tmpquery5Params['description'] = $d;
             $tmpquery5Params['assigned_to'] = $at;
-            $tmpquery5Params['status'] = $st;
+            $tmpquery5Params['status'] = $taskStatus;
             $tmpquery5Params['priority'] = $pr;
             $tmpquery5Params['start_date'] = $start_date;
             $tmpquery5Params['due_date'] = $due_date;
@@ -336,7 +337,7 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
             $tmpquery5Params['worked_hours'] = $worked_hours;
             $tmpquery5Params['task_id'] = $id;
 
-            if ($st == "1" && $complete_date == "--") {
+            if ($taskStatus == "1" && $complete_date == "--") {
                 $tmpquery6 = "UPDATE {$tableCollab["tasks"]} SET complete_date=:complete_date WHERE id = :task_id";
                 $dbParams = [];
                 $dbParams['complete_date'] = $date;
@@ -352,7 +353,7 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
                 unset($dbParams);
             }
 
-            if ($old_st == "1" && $st != $old_st) {
+            if ($old_st == "1" && $taskStatus != $old_st) {
                 $tmpquery6 = "UPDATE {$tableCollab["tasks"]} SET complete_date='' WHERE id = :task_id";
                 $dbParams = [];
                 $dbParams['task_id'] = $id;
@@ -399,7 +400,7 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
             }
 
             if ($enableInvoicing == "true") {
-                if ($st == "1") {
+                if ($taskStatus == "1") {
                     $completeItem = "1";
                 } else {
                     $completeItem = "0";
@@ -482,7 +483,7 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
                 $taskDetail->openTasks($tmpquery);
 
                 //send status task change mail if notifications = true
-                if ($at != "0" && $st != $old_st) {
+                if ($at != "0" && $taskStatus != $old_st) {
                     if ($notifications == "true") {
                         include '../tasks/noti_statustaskchange.php';
                     }
@@ -503,7 +504,7 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
                 }
             }
 
-            if ($st != $old_st) {
+            if ($taskStatus != $old_st) {
                 $cUp .= "\n[status:$st]";
             }
 
@@ -515,7 +516,7 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
                 $cUp .= "\n[datedue:$due_date]";
             }
 
-            if ($cUp != "" || $st != $old_st || $pr != $old_pr || $due_date != $old_dd) {
+            if ($cUp != "" || $taskStatus != $old_st || $pr != $old_pr || $due_date != $old_dd) {
                 $cUp = phpCollab\Util::convertData($cUp);
                 $tmpquery6 = "INSERT INTO {$tableCollab["updates"]} (type,item,member,comments,created) VALUES (:type,:item,:member,:comments,:created)";
                 $dbParams = [];
@@ -559,18 +560,18 @@ if ($id == "") {
         $task_name = phpCollab\Util::convertData($_POST["task_name"]);
         $d = phpCollab\Util::convertData($_POST["d"]);
         $comments = phpCollab\Util::convertData($_POST["comments"]);
+        $taskStatus = $_POST["taskStatus"];
 
         //Change task status if parent phase is suspended, complete or not open.
         if ($projectDetail['pro_enable_phase'] == "1") {
             $currentPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($project, $phase);
-
-            if ($st == 3 && $currentPhase['pha_status'] != 1) {
-                $st = 4;
+            if ($taskStatus == 3 && $currentPhase['pha_status'] != 1) {
+                $taskStatus = 4;
             }
         }
 
         if ($compl == "10") {
-            $st = "1";
+            $taskStatus = "1";
         }
 
         if ($pub == "") {
@@ -600,7 +601,7 @@ SQL;
         $dbParams['description'] = $d;
         $dbParams['owner'] = $idSession;
         $dbParams['assigned_to'] = ($at != 0) ? $at : 0;
-        $dbParams['status'] = $st;
+        $dbParams['status'] = $taskStatus;
         $dbParams['priority'] = $pr;
         $dbParams['start_date'] = $start_date;
         $dbParams['due_date'] = $due_date;
@@ -619,7 +620,7 @@ SQL;
         if ($enableInvoicing == "true") {
             $invoices = new \phpCollab\Invoices\Invoices();
 
-            if ($st == "1") {
+            if ($taskStatus == "1") {
                 $completeItem = "1";
             } else {
                 $completeItem = "0";
@@ -646,7 +647,7 @@ SQL;
             }
         }
 
-        if ($st == "1") {
+        if ($taskStatus == "1") {
             $tmpquery6 = "UPDATE {$tableCollab["tasks"]} SET complete_date=:complete_date WHERE id = :task_id";
             $dbParams = [];
             $dbParams['complete_date'] = $date;
@@ -914,7 +915,7 @@ if ($projectDetail['pro_phase_set'] != "0") {
     echo "</select></td></tr>";
 }
 
-echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["status"] . " :</td><td><select name='st' onchange=\"changeSt(this)\">";
+echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["status"] . " :</td><td><select name='taskStatus' onchange=\"changeSt(this)\">";
 
 $comptSta = count($status);
 
