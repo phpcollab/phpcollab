@@ -36,13 +36,16 @@ include_once '../includes/library.php';
 
 $tasks = new \phpCollab\Tasks\Tasks();
 
+$id = $_GET["id"];
+
 //case multiple edit tasks
 $multi = strstr($_GET['id'], "**");
+
 if ($multi != "") {
     phpCollab\Util::headerFunction("../tasks/updatetasks.php?report=" . $_GET['report'] . "&project=" . $_GET['project'] . "&id=" . $_GET['id'] . "");
 }
 
-if ($_GET['id'] != "" && $_GET['action'] != "update" && $_GET['action'] != "add") {
+if ($id != "" && $_GET['action'] != "update" && $_GET['action'] != "add") {
     $taskDetail = $tasks->getTaskById(filter_var($_GET['id'], FILTER_VALIDATE_INT));
     $project = $taskDetail['tas_project'];
 } else {
@@ -77,6 +80,9 @@ if ($id != "") {
 
     //case update or copy task
     if ($action == "update") {
+        
+        $_POST["task_name"];
+        $_POST["task_name"];
 
         //concat values from date selector and replace quotes by html code in name
         $task_name = phpCollab\Util::convertData($task_name);
@@ -551,7 +557,8 @@ if ($id == "") {
 
     //case add task
     if ($action == "add") {
-
+xdebug_var_dump($task_name);
+die();
         //concat values from date selector and replace quotes by html code in name
         $task_name = phpCollab\Util::convertData($task_name);
         $d = phpCollab\Util::convertData($d);
@@ -936,9 +943,9 @@ for ($i = 0; $i < 11; $i++) {
     $complValue = ($i > 0) ? $i . "0 %" : $i . " %";
 
     if ($taskDetail['tas_completion'] == $i) {
-        echo "<option value='" . $i . "' selected>" . $complValue . "</option>";
+        echo '<option value="' . $i . '" selected>' . $complValue . '</option>';
     } else {
-        echo "<option value='" . $i . "'>" . $complValue . "</option>";
+        echo '<option value="' . $i . '">' . $complValue . '</option>';
     }
 }
 
@@ -1005,25 +1012,33 @@ if ($id != "") {
 JAVASCRIPT;
 }
 
-echo "  <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["estimated_time"] . " :</td>
-            <td><input size='32' value='$etm' style='width: 250px' name='etm' maxlength='32' type='TEXT'>&nbsp;" . $strings["hours"] . "</td>
+echo <<<TR
+    <tr class="odd">
+            <td valign="top" class="leftvalue">{$strings["estimated_time"]} :</td>
+            <td><input size="32" value="$etm" style="width: 250px" name="etm" maxlength="32" type="TEXT">{$strings["hours"]}</td>
         </tr>
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["actual_time"] . " :</td>
-            <td><input size='32' value='$atm' style='width: 250px' name='atm' maxlength='32' type='TEXT'>&nbsp;" . $strings["hours"] . "</td>
+TR;
+echo <<<TR
+        <tr class="odd">
+            <td valign="top" class="leftvalue">{$strings["actual_time"]} :</td>
+            <td><input size="32" value="$atm" style="width: 250px" name="atm" maxlength="32" type="TEXT">{$strings["hours"]}</td>
         </tr>
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["comments"] . " :</td>
-            <td><textarea rows='10' style='width: 400px; height: 160px;' name='c' cols='47'>$c</textarea></td>
+TR;
+echo <<<TR
+        <tr class="odd">
+            <td valign="top" class="leftvalue">{$strings["comments"]} :</td>
+            <td><textarea rows="10" style="width: 400px; height: 160px;" name="c" cols="47">{$c}</textarea></td>
         </tr>
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["published"] . " :</td>
-            <td><input size='32' value='0' name='pub' type='checkbox' $checkedPub></td>
-        </tr>";
+TR;
+echo <<<TR
+        <tr class="odd">
+            <td valign="top" class="leftvalue">{$strings["published"]} :</td>
+            <td><input size="32" value="0" name="pub" type="checkbox" {$checkedPub}></td>
+        </tr>
+TR;
 
 if ($enableInvoicing == "true") {
-    if ($taskDetail['tas_invoicing'] == "1") {
+    if ($taskDetail["tas_invoicing"] == "1") {
         $ckeckedInvoicing = "checked";
     }
     $block1->contentRow($strings["invoicing"], "<input size=\"32\" value=\"1\" name=\"invoicing\" type=\"checkbox\" $ckeckedInvoicing>");
