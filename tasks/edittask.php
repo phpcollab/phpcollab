@@ -723,7 +723,6 @@ if ($projectDetail['pro_org_id'] == "1") {
 
 
 if ($projectDetail['pro_phase_set'] != "0") {
-    // Todo: refactor PDO
     if ($id != "") {
         $tPhase = $taskDetail['tas_parent_phase'];
         if (!$tPhase) {
