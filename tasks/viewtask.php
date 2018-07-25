@@ -104,8 +104,7 @@ if ($projectDetail["pro_enable_phase"] != "0") {
 }
 
 $teamMember = false;
-$teamMember = $teams->isTeamMember($taskDetail["tas_project"], $_SESSION["idSession"]);
-
+$teamMember = ($_SESSION["idSession"] == $taskDetail["tas_owner"] || $teams->isTeamMember($taskDetail["tas_project"], $_SESSION["idSession"]));
 
 if ($teamMember === false && $projectsFilter === "true") {
     header("Location:../general/permissiondenied.php");
@@ -504,6 +503,7 @@ if ($listSubtasks) {
 $block4->closeToggle();
 $block4->closeFormResults();
 $block4->openPaletteScript();
+
 
 if ($teamMember === true || $profilSession == "5") {
     $block4->paletteScript(0, "add", "../subtasks/editsubtask.php?task=$id", "true,false,false", $strings["add"]);
