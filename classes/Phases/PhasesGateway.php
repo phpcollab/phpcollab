@@ -79,7 +79,7 @@ class PhasesGateway
         $whereStatement = " WHERE pha.id = :phase_id";
         $this->db->query($this->initrequest["phases"] . $whereStatement);
         $this->db->bind(':phase_id', $phaseId);
-        $results = $this->db->resultset();
+        $results = $this->db->single();
         return $results;
     }
 
