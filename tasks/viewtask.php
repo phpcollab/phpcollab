@@ -384,6 +384,7 @@ if ($fileManagement == "true") {
     $block2->closePaletteScript($comptListFiles, $listFiles->fil_id);
 }
 
+// Assignment History block
 $block3 = new phpCollab\Block();
 
 $block3->form = "ahT";
@@ -422,6 +423,7 @@ $block3->closeResults();
 $block3->closeToggle();
 $block3->closeFormResults();
 
+// Subtasks block
 $block4 = new phpCollab\Block();
 $block4->form = "subT";
 $block4->openForm("../tasks/viewtask.php?task=$id#" . $block4->form . "Anchor");
@@ -447,7 +449,6 @@ if ($listSubtasks) {
     $block4->openResults();
     $block4->labels($labels = [0 => $strings["subtask"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["completion"], 4 => $strings["due_date"], 5 => $strings["assigned_to"], 6 => $strings["published"]], "true");
 
-//    for ($i = 0; $i < $comptListSubtasks; $i++) {
     foreach ($listSubtasks as $subtask) {
         if ($subtask["subtas_due_date"] == "") {
             $subtask["subtas_due_date"] = $strings["none"];
