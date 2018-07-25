@@ -81,20 +81,17 @@ if ($id != "") {
     //case update or copy task
     if ($action == "update") {
         
-        $_POST["task_name"];
-        $_POST["task_name"];
-
         //concat values from date selector and replace quotes by html code in name
-        $task_name = phpCollab\Util::convertData($task_name);
-        $d = phpCollab\Util::convertData($d);
-        $c = phpCollab\Util::convertData($c);
+        $task_name = phpCollab\Util::convertData($_POST["task_name"]);
+        $d = phpCollab\Util::convertData($_POST["d"]);
+        $comments = phpCollab\Util::convertData($_POST["comments"]);
 
         //case copy task
         if ($docopy == "true") {
 
             //Change task status if parent phase is suspended, complete or not open.
             if ($projectDetail['pro_phase_set'] != "0") {
-                $currentPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($project, $pha);
+                $currentPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($project, $phase);
                 if ($st == 3 && $currentPhase['pha_status'] != 1) {
                     $st = 4;
                 }
@@ -134,11 +131,11 @@ project,name,description,owner,assigned_to,status,priority,start_date,due_date,e
             $dbParams['due_date'] = $due_date;
             $dbParams['estimated_time'] = $etm;
             $dbParams['actual_time'] = $atm;
-            $dbParams['comments'] = $c;
+            $dbParams['comments'] = $comments;
             $dbParams['created'] = $dateheure;
             $dbParams['published'] = $pub;
             $dbParams['completion'] = $compl;
-            $dbParams['parent_phase'] = ($pha != 0) ? $pha : 0;
+            $dbParams['parent_phase'] = ($phase != 0) ? $phase: 0;
             $dbParams['invoicing'] = $invoicing;
             $dbParams['worked_hours'] = $worked_hours;
 
@@ -294,7 +291,7 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
 
             //Change task status if parent phase is suspended, complete or not open.
             if ($projectDetail['pro_phase_set'] != "0") {
-                $currentPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($project, $pha);
+                $currentPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($project, $phase);
 
                 if ($st == 3 && $currentPhase['pha_status'] != 1) {
                     $st = 4;
@@ -330,10 +327,10 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
             $tmpquery5Params['due_date'] = $due_date;
             $tmpquery5Params['estimated_time'] = $etm;
             $tmpquery5Params['actual_time'] = $atm;
-            $tmpquery5Params['comments'] = $c;
+            $tmpquery5Params['comments'] = $comments;
             $tmpquery5Params['modified'] = $dateheure;
             $tmpquery5Params['completion'] = $compl;
-            $tmpquery5Params['parent_phase'] = ($pha != 0) ? $pha : 0;
+            $tmpquery5Params['parent_phase'] = ($phase != 0) ? $phase: 0;
             $tmpquery5Params['published'] = $pub;
             $tmpquery5Params['invoicing'] = $invoicing;
             $tmpquery5Params['worked_hours'] = $worked_hours;
@@ -543,7 +540,7 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
     $complete_date = $taskDetail['tas_complete_date'];
     $etm = $taskDetail['tas_estimated_time'];
     $atm = $taskDetail['tas_actual_time'];
-    $c = $taskDetail['tas_comments'];
+    $comments = $taskDetail['tas_comments'];
     $pub = $taskDetail['tas_published'];
     $worked_hours = $taskDetail['tas_worked_hours'];
 
@@ -557,16 +554,15 @@ if ($id == "") {
 
     //case add task
     if ($action == "add") {
-xdebug_var_dump($task_name);
-die();
+
         //concat values from date selector and replace quotes by html code in name
-        $task_name = phpCollab\Util::convertData($task_name);
-        $d = phpCollab\Util::convertData($d);
-        $c = phpCollab\Util::convertData($c);
+        $task_name = phpCollab\Util::convertData($_POST["task_name"]);
+        $d = phpCollab\Util::convertData($_POST["d"]);
+        $comments = phpCollab\Util::convertData($_POST["comments"]);
 
         //Change task status if parent phase is suspended, complete or not open.
         if ($projectDetail['pro_enable_phase'] == "1") {
-            $currentPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($project, $pha);
+            $currentPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($project, $phase);
 
             if ($st == 3 && $currentPhase['pha_status'] != 1) {
                 $st = 4;
@@ -610,11 +606,11 @@ SQL;
         $dbParams['due_date'] = $due_date;
         $dbParams['estimated_time'] = $etm;
         $dbParams['actual_time'] = $atm;
-        $dbParams['comments'] = $c;
+        $dbParams['comments'] = $comments;
         $dbParams['created'] = $dateheure;
         $dbParams['published'] = $pub;
         $dbParams['completion'] = $compl;
-        $dbParams['parent_phase'] = ($pha != 0) ? $pha : 0;
+        $dbParams['parent_phase'] = ($phase != 0) ? $phase: 0;
         $dbParams['invoicing'] = $invoicing;
         $dbParams['worked_hours'] = $worked_hours;
 
@@ -899,7 +895,7 @@ echo "      </select></td>
 
 //Select phase
 if ($projectDetail['pro_phase_set'] != "0") {
-    echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["phase"] . " :</td><td><select name='pha'>";
+    echo '<tr class="odd"><td valign="top" class="leftvalue">' . $strings["phase"] . ' :</td><td><select name="phase">';
 
     $projectTarget = $projectDetail['pro_id'];
     // Todo: refactor PDO
@@ -1027,7 +1023,7 @@ TR;
 echo <<<TR
         <tr class="odd">
             <td valign="top" class="leftvalue">{$strings["comments"]} :</td>
-            <td><textarea rows="10" style="width: 400px; height: 160px;" name="c" cols="47">{$c}</textarea></td>
+            <td><textarea rows="10" style="width: 400px; height: 160px;" name="comments" cols="47">{$_POST["comments"]}</textarea></td>
         </tr>
 TR;
 echo <<<TR
