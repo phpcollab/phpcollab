@@ -149,7 +149,7 @@ class TasksGateway
         $whereStatement = " WHERE tas.project = :project_id AND tas.parent_phase = :parent_phase";
         $this->db->query($this->initrequest["tasks"] . $whereStatement . $this->orderBy($sorting));
         $this->db->bind(':project_id', $projectId);
-        $this->db->bind(':phase_id', $phaseId);
+        $this->db->bind(':parent_phase', $phaseId);
         return $this->db->resultset();
     }
 
