@@ -5,7 +5,7 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 $id = isset($_GET['id']) ? $_GET['id'] : 0;
-$action = isset($_GET['action']) ? $_GET['action'] : 0;
+$action = isset($_GET['action']) ? $_GET['action'] : null;
 $addToSite = isset($_GET['addToSite']) ? $_GET['addToSite'] : 0;
 $removeToSite = isset($_GET['removeToSite']) ? $_GET['removeToSite'] : 0;
 $addToSiteFile = isset($_GET['addToSiteFile']) ? $_GET['addToSiteFile'] : 0;
@@ -72,8 +72,6 @@ if ($action == "publish") {
     }
 }
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
-
 $phaseDetail = $phases->getPhasesById($id);
 
 $project = $phaseDetail["pha_project_id"];
@@ -83,6 +81,8 @@ $projectDetail = $projects->getProjectById($project);
 
 $teamMember = "false";
 $teamMember = $teams->isTeamMember($project, $idSession);
+
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
