@@ -1093,5 +1093,5 @@ include '../themes/' . THEME . '/footer.php';
         document.etDForm.compl.value = document.etDForm.completion.selectedIndex;
     }
 
-    changeSt(document.etDForm.st, true);
+    changeSt(document.etDForm.taskStatus, true);
 </script>
