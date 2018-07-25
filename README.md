@@ -26,6 +26,10 @@ Note: Do NOT clone or download the phpCollab codebase directly. That is ONLY req
 
 ### Big Thanks
 
-Cross-browser Testing Platform and Open Source <3 Provided by [Sauce Labs][homepage]
+Cross-browser Testing Platform and Open Source <3 Provided by [Sauce Labs][sauceLabs] and [<img src="https://phpcollab.github.io/phpcollab/images/browserstack-logo.svg" width="180px" height="32px">][browserStack]
 
-[homepage]: https://saucelabs.com
+[sauceLabs]: https://saucelabs.com
+[browserStack]: http://browserstack.com
+
+
+
