@@ -97,7 +97,7 @@ class FilesGateway
      */
     public function getFilesByProjectAndPhaseWithoutTasksAndParent($projectId, $phaseId, $sorting = null)
     {
-        $whereStatement = "WHERE fil.project = :project_id AND fil.phase = :phase_id AND fil.task = 0 AND fil.vc_parent = 0";// ORDER BY {$block3->sortingValue}";
+        $whereStatement = " WHERE fil.project = :project_id AND fil.phase = :phase_id AND fil.task = 0 AND fil.vc_parent = 0";// ORDER BY {$block3->sortingValue}";
         $query = $this->initrequest["files"] . $whereStatement . $this->orderBy($sorting);
         $this->db->query($query);
         $this->db->bind(':project_id', $projectId);
