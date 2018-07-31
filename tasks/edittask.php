@@ -227,12 +227,7 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
             }
 
             if ($taskStatus == "1" && $complete_date != "--") {
-                $tmpquery6 = "UPDATE {$tableCollab["tasks"]} SET complete_date=:complete_date'$date' WHERE id = :task_td";
-                $dbParams = [];
-                $dbParams['complete_date'] = $date;
-                $dbParams['task_id'] = $num;
-                phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
-                unset($dbParams);
+                $tasks->setCompletionDateForTaskById($num, $dateheure);
             }
 
             //if assigned_to not blank, set assigned date
@@ -595,23 +590,6 @@ if ($id == "") {
             $invoicing = $_POST["invoicing"];
 
             $_POST['name'] = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
-
-            /*
-  'project' => string '12' (length=2)
-  'task_name' => string 'Another phased task' (length=19)
-  'd' => string 'this is a description' (length=21)
-  'at' => string '0' (length=1)
-  'phase' => string '0' (length=1)
-  'taskStatus' => string '2' (length=1)
-  'pr' => string '3' (length=1)
-  'start_date' => string '2018-07-24' (length=10)
-  'due_date' => string '--' (length=2)
-  'etm' => string '' (length=0)
-  'atm' => string '' (length=0)
-  'comments' => string '' (length=0)
-  'worked_hours' => string '' (length=0)
-             */
-
         }
 
         //Change task status if parent phase is suspended, complete or not open.
@@ -658,15 +636,16 @@ if ($id == "") {
         $dbParams['invoicing'] = $invoicing;
         $dbParams['worked_hours'] = $worked_hours;
 
+        //if assigned_to not blank, set assigned date
+        if ($at != "0") {
+            $dbParams['assigned'] = $dateheure;
+        } else {
+            $dbParams['assigned'] = null;
+        }
+
 //        $num = phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
 
         $num = $tasks->addTask($dbParams);
-
-        xdebug_var_dump($num);
-die();
-        if (!isset($num)) {
-            echo "Error adding task";
-        }
 
         if ($enableInvoicing == "true") {
             $invoices = new \phpCollab\Invoices\Invoices();
@@ -693,7 +672,7 @@ die();
                 $dbParams['mod_value'] = $num;
                 $dbParams['worked_hours'] = $worked_hours;
 
-                $invoices->addInvoiceItem();
+//                $invoices->addInvoiceItem();
 
                 phpCollab\Util::newConnectSql($tmpquery3, $dbParams);
                 unset($dbParams);
@@ -701,12 +680,7 @@ die();
         }
 
         if ($taskStatus == "1") {
-            $tmpquery6 = "UPDATE {$tableCollab["tasks"]} SET complete_date=:complete_date WHERE id = :task_id";
-            $dbParams = [];
-            $dbParams['complete_date'] = $date;
-            $dbParams['task_id'] = $num;
-            phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
-            unset($dbParams);
+            $tasks->setCompletionDateForTaskById($num, $dateheure);
         }
 
         //recompute number of completed tasks of the project
