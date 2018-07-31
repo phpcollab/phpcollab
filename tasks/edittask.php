@@ -615,7 +615,7 @@ if ($id == "") {
         }
 
         //Change task status if parent phase is suspended, complete or not open.
-        if ($projectDetail['pro_phase_set'] == "1") {
+        if ($projectDetail['pro_phase_set'] == 1) {
             $currentPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($project, $phase);
             if ($taskStatus == 3 && $currentPhase['pha_status'] != 1) {
                 $taskStatus = 4;
@@ -623,29 +623,20 @@ if ($id == "") {
         }
 
         if ($completion == "10") {
-            $taskStatus = "1";
+            $taskStatus = 1;
         }
 
         if ($pub == "") {
-            $pub = "1";
+            $pub = 1;
         }
 
         if ($invoicing == "") {
-            $invoicing = "0";
+            $invoicing = 0;
         }
 
         if ($worked_hours == "") {
             $worked_hours = "0.00";
         }
-die();
-        $tmpquery1 = <<<SQL
-INSERT INTO {$tableCollab["tasks"]} (
-project, name, description,owner,assigned_to,status,priority,start_date,due_date,estimated_time,actual_time,comments,created,published,completion,parent_phase,invoicing,worked_hours
-) VALUES(
-:project_id,:task_name,:description,:owner,:assigned_to,:status,:priority,:start_date,:due_date,:estimated_time,:actual_time,:comments,
-:created,:published,:completion,:parent_phase,:invoicing,:worked_hours
-)
-SQL;
 
         $dbParams = [];
         $dbParams['project_id'] = $project;
@@ -667,7 +658,15 @@ SQL;
         $dbParams['invoicing'] = $invoicing;
         $dbParams['worked_hours'] = $worked_hours;
 
-        $num = phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
+//        $num = phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
+
+        $num = $tasks->addTask($dbParams);
+
+        xdebug_var_dump($num);
+die();
+        if (!isset($num)) {
+            echo "Error adding task";
+        }
 
         if ($enableInvoicing == "true") {
             $invoices = new \phpCollab\Invoices\Invoices();
@@ -693,6 +692,8 @@ SQL;
                 $dbParams['mod_type'] = 1;
                 $dbParams['mod_value'] = $num;
                 $dbParams['worked_hours'] = $worked_hours;
+
+                $invoices->addInvoiceItem();
 
                 phpCollab\Util::newConnectSql($tmpquery3, $dbParams);
                 unset($dbParams);
