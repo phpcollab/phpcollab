@@ -578,6 +578,20 @@ SQL;
     }
 
     /**
+     * @param $taskId
+     * @param $date
+     * @return mixed
+     */
+    public function setCompletionDateForTaskById($taskId, $date)
+    {
+        $sql = "UPDATE {$this->tableCollab["tasks"]} SET complete_date = :complete_date WHERE id = :task_id";
+        $this->db->query($sql);
+        $this->db->bind(':task_id', $taskId);
+        $this->db->bind(':complete_date', $date);
+        return $this->db->execute();
+    }
+
+    /**
      * @param string $sorting
      * @return string
      */
