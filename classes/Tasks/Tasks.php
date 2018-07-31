@@ -250,6 +250,15 @@ class Tasks
     }
 
     /**
+     * @param $taskData
+     * @return string
+     */
+    public function addTask($taskData)
+    {
+        return $this->tasks_gateway->addTask($taskData);
+    }
+
+    /**
      * @param $ids
      * @return mixed
      */
