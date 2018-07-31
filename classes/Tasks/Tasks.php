@@ -259,6 +259,16 @@ class Tasks
     }
 
     /**
+     * @param $taskId
+     * @param $date
+     * @return mixed
+     */
+    public function setCompletionDateForTaskById($taskId, $date)
+    {
+        return $this->tasks_gateway->setCompletionDateForTaskById($taskId, $date);
+    }
+
+    /**
      * @param $ids
      * @return mixed
      */
