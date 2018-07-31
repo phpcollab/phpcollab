@@ -504,6 +504,80 @@ class TasksGateway
     }
 
     /**
+     * @param $taskData
+     * @return string
+     */
+    public function addTask($taskData)
+    {
+        $sql = <<<SQL
+INSERT INTO {$this->tableCollab["tasks"]} (
+project, 
+name, 
+description, 
+owner, 
+assigned_to, 
+status, 
+priority, 
+start_date, 
+due_date, 
+estimated_time, 
+actual_time, 
+comments, 
+created, 
+published, 
+completion, 
+parent_phase, 
+invoicing, 
+worked_hours,
+assigned
+) VALUES(
+:project_id,
+:task_name,
+:description,
+:owner,
+:assigned_to,
+:status,
+:priority,
+:start_date,
+:due_date,
+:estimated_time,
+:actual_time,
+:comments,
+:created,
+:published,
+:completion,
+:parent_phase,
+:invoicing,
+:worked_hours,
+:assigned
+)
+SQL;
+        $this->db->query($sql);
+        $this->db->bind(':project_id', $taskData["project_id"]);
+        $this->db->bind(':task_name', $taskData["task_name"]);
+        $this->db->bind(':description', $taskData["description"]);
+        $this->db->bind(':owner', $taskData["owner"]);
+        $this->db->bind(':assigned_to', $taskData["assigned_to"]);
+        $this->db->bind(':status', $taskData["status"]);
+        $this->db->bind(':priority', $taskData["priority"]);
+        $this->db->bind(':start_date', $taskData["start_date"]);
+        $this->db->bind(':due_date', $taskData["due_date"]);
+        $this->db->bind(':estimated_time', $taskData["estimated_time"]);
+        $this->db->bind(':actual_time', $taskData["actual_time"]);
+        $this->db->bind(':comments', $taskData["comments"]);
+        $this->db->bind(':created', $taskData["created"]);
+        $this->db->bind(':published', $taskData["published"]);
+        $this->db->bind(':completion', $taskData["completion"]);
+        $this->db->bind(':parent_phase', $taskData["parent_phase"]);
+        $this->db->bind(':invoicing', $taskData["invoicing"]);
+        $this->db->bind(':worked_hours', $taskData["worked_hours"]);
+        $this->db->bind(':assigned', $taskData["assigned"]);
+
+        $this->db->execute();
+        return $this->db->lastInsertId();
+    }
+
+    /**
      * @param string $sorting
      * @return string
      */
