@@ -98,7 +98,7 @@ if ($id != "") {
                 }
             }
 
-            if ($compl == "10") {
+            if ($completion == "10") {
                 $taskStatus = "1";
             }
 
@@ -135,7 +135,7 @@ project,name,description,owner,assigned_to,status,priority,start_date,due_date,e
             $dbParams['comments'] = $comments;
             $dbParams['created'] = $dateheure;
             $dbParams['published'] = $pub;
-            $dbParams['completion'] = $compl;
+            $dbParams['completion'] = $completion;
             $dbParams['parent_phase'] = ($phase != 0) ? $phase: 0;
             $dbParams['invoicing'] = $invoicing;
             $dbParams['worked_hours'] = $worked_hours;
@@ -287,8 +287,8 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
 
             phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$num&msg=addAssignment");
 
-            //case update task
         } else {
+        //case update task
 
             //Change task status if parent phase is suspended, complete or not open.
             if ($projectDetail['pro_phase_set'] != "0") {
@@ -302,7 +302,7 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
             if ($pub == "") {
                 $pub = "1";
             }
-            if ($compl == "10") {
+            if ($completion == "10") {
                 $taskStatus = "1";
             }
 
@@ -330,7 +330,7 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
             $tmpquery5Params['actual_time'] = $atm;
             $tmpquery5Params['comments'] = $comments;
             $tmpquery5Params['modified'] = $dateheure;
-            $tmpquery5Params['completion'] = $compl;
+            $tmpquery5Params['completion'] = $completion;
             $tmpquery5Params['parent_phase'] = ($phase != 0) ? $phase: 0;
             $tmpquery5Params['published'] = $pub;
             $tmpquery5Params['invoicing'] = $invoicing;
@@ -552,15 +552,67 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
 
 //case add task
 if ($id == "") {
+/**
+ * ToDo: Isn't this logic basically repeated above for update/copy?  If so, refactor so it is only done once, then
+ * use class methods based on the action flag
+ **/
 
     //case add task
     if ($action == "add") {
 
-        //concat values from date selector and replace quotes by html code in name
-        $task_name = phpCollab\Util::convertData($_POST["task_name"]);
-        $d = phpCollab\Util::convertData($_POST["d"]);
-        $comments = phpCollab\Util::convertData($_POST["comments"]);
-        $taskStatus = $_POST["taskStatus"];
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            //concat values from date selector and replace quotes by html code in name
+            $task_name = phpCollab\Util::convertData($_POST["task_name"]);
+            $d = phpCollab\Util::convertData($_POST["d"]);
+            $comments = phpCollab\Util::convertData($_POST["comments"]);
+            $taskStatus = $_POST["taskStatus"];
+
+
+            if ($_POST['task_name'] != "") {
+                $_POST['task_name'] = filter_var($_POST['task_name'], FILTER_SANITIZE_STRING);
+                if ($_POST['task_name'] == "") {
+                    $errors .= 'Please enter a valid task name.<br/><br/>';
+                }
+            } else {
+                $errors .= 'Please enter a task name.<br/>';
+            }
+
+            $project_id = $_POST["project"];
+            $task_name = $_POST["task_name"];
+            $description = $_POST["d"];
+            $assigned_to = $_POST["at"];
+            $phase = $_POST["phase"];
+            $task_status = $_POST["taskStatus"];
+            $completion = $_POST["completion"];
+            $priority = $_POST["pr"];
+            $start_date = $_POST["start_date"];
+            $due_date = $_POST["due_date"];
+            $estimated_time = $_POST["etm"];
+            $actual_time = $_POST["atm"];
+            $comments = $_POST["comments"];
+            $worked_hours = $_POST["worked_hours"];
+            $published = $_POST["published"];
+            $invoicing = $_POST["invoicing"];
+
+            $_POST['name'] = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
+
+            /*
+  'project' => string '12' (length=2)
+  'task_name' => string 'Another phased task' (length=19)
+  'd' => string 'this is a description' (length=21)
+  'at' => string '0' (length=1)
+  'phase' => string '0' (length=1)
+  'taskStatus' => string '2' (length=1)
+  'pr' => string '3' (length=1)
+  'start_date' => string '2018-07-24' (length=10)
+  'due_date' => string '--' (length=2)
+  'etm' => string '' (length=0)
+  'atm' => string '' (length=0)
+  'comments' => string '' (length=0)
+  'worked_hours' => string '' (length=0)
+             */
+
+        }
 
         //Change task status if parent phase is suspended, complete or not open.
         if ($projectDetail['pro_phase_set'] == "1") {
@@ -570,7 +622,7 @@ if ($id == "") {
             }
         }
 
-        if ($compl == "10") {
+        if ($completion == "10") {
             $taskStatus = "1";
         }
 
@@ -585,7 +637,7 @@ if ($id == "") {
         if ($worked_hours == "") {
             $worked_hours = "0.00";
         }
-
+die();
         $tmpquery1 = <<<SQL
 INSERT INTO {$tableCollab["tasks"]} (
 project, name, description,owner,assigned_to,status,priority,start_date,due_date,estimated_time,actual_time,comments,created,published,completion,parent_phase,invoicing,worked_hours
@@ -610,7 +662,7 @@ SQL;
         $dbParams['comments'] = $comments;
         $dbParams['created'] = $dateheure;
         $dbParams['published'] = $pub;
-        $dbParams['completion'] = $compl;
+        $dbParams['completion'] = $completion;
         $dbParams['parent_phase'] = ($phase != 0) ? $phase: 0;
         $dbParams['invoicing'] = $invoicing;
         $dbParams['worked_hours'] = $worked_hours;
@@ -742,7 +794,7 @@ if ($projectDetail['pro_phase_set'] != "0") {
     $targetPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($project, $tPhase);
 }
 
-$bodyCommand = "onload=\"document.etDForm.compl.value = document.etDForm.completion.selectedIndex;document.etDForm.task_name.focus();\"";
+$bodyCommand = "onload=\"document.etDForm.task_name.focus();\"";
 
 $headBonus = "";
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
@@ -933,8 +985,9 @@ echo <<<HTML
         </tr>
         <tr class="odd">
             <td valign="top" class="leftvalue">{$strings["completion"]} :</td>
-            <td><input name="compl" type="hidden" value="{$taskDetail["tas_completion"]}">
-                <select name="completion" onchange="changeCompletion(this)">
+            <td>
+            <!--<input name="compl" type="hidden" value="{$taskDetail["tas_completion"]}">-->
+                <select name="completion">
 HTML;
 
 
@@ -1053,12 +1106,11 @@ if ($id != "") {
 }
 
 echo <<<HTML
-      <tr class='odd'>
-                <td valign='top' class='leftvalue'>&nbsp;</td>
-                <td><input type='SUBMIT' value='
-HTML
- . $strings["save"] . "'></td>
-            </tr>";
+      <tr class="odd">
+                <td valign="top" class="leftvalue">&nbsp;</td>
+                <td><input type="SUBMIT" value="{$strings["save"]}"></td>
+            </tr>
+HTML;
 
 $block1->closeContent();
 $block1->closeForm();
@@ -1071,26 +1123,16 @@ include '../themes/' . THEME . '/footer.php';
         if (theObj.selectedIndex == 3) {
 
             if (firstRun != true) document.etDForm.completion.selectedIndex = 0;
-            document.etDForm.compl.value = 0;
             document.etDForm.completion.disabled = false;
         } else {
             if (theObj.selectedIndex == 0 || theObj.selectedIndex == 1) {
                 document.etDForm.completion.selectedIndex = 10;
-
-                document.etDForm.compl.value = 10;
-
-
             } else {
                 document.etDForm.completion.selectedIndex = 0;
-                document.etDForm.compl.value = 0;
             }
             document.etDForm.completion.disabled = true;
 
         }
-    }
-
-    function changeCompletion() {
-        document.etDForm.compl.value = document.etDForm.completion.selectedIndex;
     }
 
     changeSt(document.etDForm.taskStatus, true);
