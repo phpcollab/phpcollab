@@ -511,45 +511,13 @@ class TasksGateway
     {
         $sql = <<<SQL
 INSERT INTO {$this->tableCollab["tasks"]} (
-project, 
-name, 
-description, 
-owner, 
-assigned_to, 
-status, 
-priority, 
-start_date, 
-due_date, 
-estimated_time, 
-actual_time, 
-comments, 
-created, 
-published, 
-completion, 
-parent_phase, 
-invoicing, 
-worked_hours,
-assigned
+project, name, description, owner, assigned_to, status, priority, start_date, due_date, 
+estimated_time, actual_time, comments, created, published, completion, parent_phase, 
+invoicing, worked_hours,assigned
 ) VALUES(
-:project_id,
-:task_name,
-:description,
-:owner,
-:assigned_to,
-:status,
-:priority,
-:start_date,
-:due_date,
-:estimated_time,
-:actual_time,
-:comments,
-:created,
-:published,
-:completion,
-:parent_phase,
-:invoicing,
-:worked_hours,
-:assigned
+:project_id, :task_name, :description, :owner, :assigned_to, :status, :priority, :start_date, :due_date, 
+:estimated_time, :actual_time, :comments, :created, :published, :completion, :parent_phase, 
+:invoicing, :worked_hours, :assigned
 )
 SQL;
         $this->db->query($sql);
