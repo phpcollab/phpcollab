@@ -90,6 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $id != "") {
         $old_st = $_POST["old_st"];
         $completion = $_POST["completion"] || 0;
         $invoicing = $_POST["invoicing"];
+        $worked_hours = $_POST["worked_hours"];
 
         //case copy task
         if ($docopy == "true") {
@@ -118,12 +119,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $id != "") {
                 $worked_hours = "0.00";
             }
             //Insert Task details with or without parent phase
-
-//            if ($projectDetail['pro_phase_set[0] != "0") {
-            $tmpquery1 = "INSERT INTO {$tableCollab["tasks"]} (
-project,name,description,owner,assigned_to,status,priority,start_date,due_date,estimated_time,actual_time,comments,created,published,completion,parent_phase,invoicing,worked_hours) VALUES(
-:project_id,:task_name,:description,:owner,:assigned_to,:status,:priority,:start_date,:due_date,:estimated_time,:actual_time,:comments,:created,:published,:completion,:parent_phase,:worked_hours)";
-
             $dbParams = [];
             $dbParams['project_id'] = $project;
             $dbParams['task_name'] = $task_name;
@@ -143,8 +138,9 @@ project,name,description,owner,assigned_to,status,priority,start_date,due_date,e
             $dbParams['parent_phase'] = ($phase != 0) ? $phase: 0;
             $dbParams['invoicing'] = $invoicing;
             $dbParams['worked_hours'] = $worked_hours;
+            $dbParams['assigned'] = null;
 
-            $num = phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
+            $num = $tasks->addTask($dbParams);
 
             unset($dbParams);
 
