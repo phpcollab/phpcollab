@@ -710,16 +710,15 @@ if ($id == "") {
         //add assigned_to in team members (only if doesn't already exist)
         if ($at != "0") {
             $testinTeam = $teams->getTeamByProjectIdAndTeamMember($project, $at);
-            $comptTestinTeam = count($testinTeam['tea_id']);
+            $comptTestinTeam = count($testinTeam);
 
             if ($comptTestinTeam == "0") {
-                $tmpquery3 = "INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES(:project,:member,:published,:authorized)";
                 $dbParams = [];
                 $dbParams['project'] = $project;
                 $dbParams['member'] = $at;
                 $dbParams['published'] = 1;
                 $dbParams['authorized'] = 0;
-                phpCollab\Util::newConnectSql($tmpquery3, $dbParams);
+                $teams->addTeam($dbParams);
                 unset($dbParams);
             }
 
