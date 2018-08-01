@@ -333,12 +333,6 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
             $tmpquery5Params['task_id'] = $id;
 
             if ($taskStatus == "1" && $complete_date == "--") {
-//                $tmpquery6 = "UPDATE {$tableCollab["tasks"]} SET complete_date=:complete_date WHERE id = :task_id";
-//                $dbParams = [];
-//                $dbParams['complete_date'] = $date;
-//                $dbParams['task_id'] = $id;
-//                phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
-//                unset($dbParams);
                 $tasks->setCompletionDateForTaskById($id, $date);
             } else {
                 $tmpquery6 = "UPDATE {$tableCollab["tasks"]}SET complete_date=:complete_date WHERE id = :task_id";
