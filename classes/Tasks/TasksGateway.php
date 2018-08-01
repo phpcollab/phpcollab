@@ -325,15 +325,15 @@ class TasksGateway
 
     /**
      * @param $taskId
-     * @param $assigneeId
+     * @param $assignedDate
      * @return mixed
      */
-    public function assignTaskTo($taskId, $assigneeId)
+    public function assignTaskTo($taskId, $assignedDate)
     {
-        $sql = "UPDATE {$this->tableCollab["tasks"]} SET assigned = :assignee_id WHERE id = :task_id";
+        $sql = "UPDATE {$this->tableCollab["tasks"]} SET assigned = :assigned WHERE id = :task_id";
         $this->db->query($sql);
         $this->db->bind(':task_id', $taskId);
-        $this->db->bind('assignee_id', $assigneeId);
+        $this->db->bind('assigned', $assignedDate);
         return $this->db->execute();
     }
     /**
