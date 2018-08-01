@@ -271,6 +271,15 @@ class Tasks
     }
 
     /**
+     * @param $taskData
+     * @return mixed
+     */
+    public function addSubTask($taskData)
+    {
+        return $this->tasks_gateway->addSubTask($taskData);
+    }
+
+    /**
      * @param $taskId
      * @param $date
      * @return mixed
