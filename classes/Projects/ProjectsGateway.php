@@ -28,6 +28,33 @@ class ProjectsGateway
     }
 
     /**
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getAllProjects($sorting = null)
+    {
+        $sql = $this->db->query($this->initrequest['projects'] . $this->orderBy($sorting));
+        return $this->db->resultset();
+    }
+
+    /**
+     * @param $memberId
+     * @param $sorting
+     * @return mixed
+     */
+    public function getProjectsFilteredByTeamMember($memberId, $sorting)
+    {
+        $tmpquery = " LEFT OUTER JOIN " . $this->tableCollab["teams"] . " teams ON teams.project = pro.id";
+        $tmpquery .= " WHERE teams.member = :member_id";
+
+        $sql = $this->initrequest['projects'] . $tmpquery . $this->orderBy($sorting);
+        $this->db->query($sql);
+
+        $this->db->bind(':member_id', $memberId);
+        return $this->db->resultset();
+    }
+
+    /**
      * Returns a list of projects owned by ownerId
      * @param $ownerId
      * @param $sorting
