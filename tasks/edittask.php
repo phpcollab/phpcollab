@@ -77,7 +77,11 @@ if ($teamMember == "false" && $profilSession != "5") {
 }
 
 //case update or copy task
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && $id != "") {
+if (
+    $_SERVER['REQUEST_METHOD'] == 'POST'
+    && $id != ""
+    && !empty($_POST["task_name"])
+) {
     //case update or copy task
     if ($action == "update") {
         
@@ -531,7 +535,12 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
 }
 
 //case add task
-if ($id == "") {
+if (
+    $_SERVER['REQUEST_METHOD'] == 'POST'
+    && $id == ""
+    && !empty($_POST["task_name"])
+    && !empty($_GET["action"])
+) {
 /**
  * ToDo: Isn't this logic basically repeated above for update/copy?  If so, refactor so it is only done once, then
  * use class methods based on the action flag
