@@ -22,6 +22,25 @@ class Projects
     }
 
     /**
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getAllProjects($sorting = null)
+    {
+        return $this->projects_gateway->getAllProjects($sorting);
+    }
+
+    /**
+     * @param $memberId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getFilteredProjectsByTeamMember($memberId, $sorting = null)
+    {
+        return $this->projects_gateway->getProjectsFilteredByTeamMember($memberId, $sorting);
+    }
+
+    /**
      * @param $projectId
      * @return mixed
      */
