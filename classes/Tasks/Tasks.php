@@ -249,7 +249,7 @@ class Tasks
     {
         $taskId = filter_var( (int) $taskId, FILTER_SANITIZE_NUMBER_INT);
 
-        return $this->tasks_gateway->assignTasksTo($taskId, $assignedDate);
+        return $this->tasks_gateway->assignTaskTo($taskId, $assignedDate);
     }
 
     /**
