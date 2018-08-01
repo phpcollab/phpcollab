@@ -922,21 +922,19 @@ echo "      </select></td>
 
 //Select phase
 if ($projectDetail['pro_phase_set'] != "0") {
-    echo '<tr class="odd"><td valign="top" class="leftvalue">' . $strings["phase"] . ' :</td><td><select name="phase">';
-
     $projectTarget = $projectDetail['pro_id'];
-    // Todo: refactor PDO
-    $tmpquery = "WHERE pha.project_id = '$projectTarget' ORDER BY pha.order_num";
-    $projectPhaseList = new phpCollab\Request();
-    $projectPhaseList->openPhases($tmpquery);
+    $phaseList = $phases->getPhasesByProjectId($projectTarget, 'order_num');
 
-    $comptlistPhase = count($projectPhaseList->pha_id);
-    for ($i = 0; $i < $comptlistPhase; $i++) {
-        $phaseNum = $projectPhaseList->pha_order_num[$i];
+    echo '<tr class="odd"><td valign="top" class="leftvalue">' . $strings["phase"] . ' :</td><td>';
+    echo '<select name="phase">';
+
+    $phaseCounter = 0;
+    foreach ($phaseList as $item) {
+        $phaseNum = $item['pha_order_num'];
         if ($taskDetail['tas_parent_phase'] == $phaseNum || $phase == $phaseNum) {
-            echo "<option value='$phaseNum' selected>" . $projectPhaseList->pha_name[$i] . "</option>";
+            echo '<option value="'.$phaseNum.'" selected>' . $item["pha_name"] . '</option>';
         } else {
-            echo "<option value='$phaseNum'>" . $projectPhaseList->pha_name[$i] . "</option>";
+            echo '<option value="' . $phaseNum . '">' . $item["pha_name"] . '</option>';
         }
     }
     echo "</select></td></tr>";
