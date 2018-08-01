@@ -1071,12 +1071,12 @@ include '../themes/' . THEME . '/footer.php';
 
 <script>
     function changeSt(theObj, firstRun) {
-        if (theObj.selectedIndex == 3) {
+        if (theObj.selectedIndex === 3) {
 
-            if (firstRun != true) document.etDForm.completion.selectedIndex = 0;
+            if (firstRun !== true) document.etDForm.completion.selectedIndex = 0;
             document.etDForm.completion.disabled = false;
         } else {
-            if (theObj.selectedIndex == 0 || theObj.selectedIndex == 1) {
+            if (theObj.selectedIndex === 0 || theObj.selectedIndex === 1) {
                 document.etDForm.completion.selectedIndex = 10;
             } else {
                 document.etDForm.completion.selectedIndex = 0;
