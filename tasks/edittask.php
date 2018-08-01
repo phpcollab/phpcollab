@@ -37,6 +37,7 @@ include_once '../includes/library.php';
 $tasks = new \phpCollab\Tasks\Tasks();
 
 $id = $_GET["id"];
+$action = $_GET["action"];
 
 //case multiple edit tasks
 $multi = strstr($_GET['id'], "**");
@@ -45,7 +46,7 @@ if ($multi != "") {
     phpCollab\Util::headerFunction("../tasks/updatetasks.php?report=" . $_GET['report'] . "&project=" . $_GET['project'] . "&id=" . $_GET['id'] . "");
 }
 
-if ($id != "" && $_GET['action'] != "update" && $_GET['action'] != "add") {
+if ($id != "" && $action != "update" && $action != "add") {
     $taskDetail = $tasks->getTaskById(filter_var($_GET['id'], FILTER_VALIDATE_INT));
     $project = $taskDetail['tas_project'];
 } else {
@@ -76,8 +77,7 @@ if ($teamMember == "false" && $profilSession != "5") {
 }
 
 //case update or copy task
-if ($id != "") {
-
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && $id != "") {
     //case update or copy task
     if ($action == "update") {
         
@@ -86,6 +86,10 @@ if ($id != "") {
         $d = phpCollab\Util::convertData($_POST["d"]);
         $comments = phpCollab\Util::convertData($_POST["comments"]);
         $taskStatus = $_POST['taskStatus'];
+        $complete_date = $_POST["complete_date"];
+        $old_st = $_POST["old_st"];
+        $completion = $_POST["completion"] || 0;
+        $invoicing = $_POST["invoicing"];
 
         //case copy task
         if ($docopy == "true") {
