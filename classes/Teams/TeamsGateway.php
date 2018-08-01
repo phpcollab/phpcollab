@@ -106,7 +106,6 @@ class TeamsGateway
         $whereStatement = " WHERE tea.project = :project_id";
 
         $sql = $this->initrequest["teams"] . $whereStatement . $this->orderBy($sorting);
-
         $this->db->query($sql);
         $this->db->bind(':project_id', $projectId);
         $results = $this->db->resultset();
@@ -256,6 +255,21 @@ class TeamsGateway
         $sql = "DELETE FROM {$this->tableCollab['teams']} WHERE member IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($memberId);
+    }
+
+    /**
+     * @param $teamData
+     * @return mixed
+     */
+    public function addTeam($teamData)
+    {
+        $sql = "INSERT INTO {$this->tableCollab["teams"]} (project,member,published,authorized) VALUES(:project,:member,:published,:authorized)";
+        $this->db->query($sql);
+        $this->db->bind(':project', $teamData["project"]);
+        $this->db->bind(':member', $teamData["member"]);
+        $this->db->bind(':published', $teamData["published"]);
+        $this->db->bind(':authorized', $teamData["authorized"]);
+        return $this->db->execute();
     }
 
     /**
