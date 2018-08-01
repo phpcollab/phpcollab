@@ -801,7 +801,7 @@ if ($id != "") {
 HIDDENFIELDS;
 }
 
-if ($error != "") {
+if (isset($error) && $error != "") {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
 }
