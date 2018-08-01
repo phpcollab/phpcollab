@@ -165,6 +165,15 @@ class Teams
     }
 
     /**
+     * @param $teamData
+     * @return mixed
+     */
+    public function addTeam($teamData)
+    {
+        return $this->teams_gateway->addTeam($teamData);
+    }
+
+    /**
      * @param $projectId
      * @param $memberIds
      * @return mixed
