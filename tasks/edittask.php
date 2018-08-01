@@ -578,7 +578,7 @@ if ($id == "") {
             $assigned_to = $_POST["at"];
             $phase = $_POST["phase"];
             $task_status = $_POST["taskStatus"];
-            $completion = $_POST["completion"];
+            $completion = $_POST["completion"] || 0;
             $priority = $_POST["pr"];
             $start_date = $_POST["start_date"];
             $due_date = $_POST["due_date"];
@@ -642,8 +642,6 @@ if ($id == "") {
         } else {
             $dbParams['assigned'] = null;
         }
-
-//        $num = phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
 
         $num = $tasks->addTask($dbParams);
 
@@ -882,41 +880,43 @@ if ($docopy == "true") {
 }
 
 echo "$task_name' style='width: 400px' name='task_name' maxlength='100' type='TEXT'></td>
+        </tr>";
+echo <<<Description
+    <tr class="odd">
+        <td valign="top" class="leftvalue">{$strings["description"]} :</td>
+            <td><textarea rows="10" style="width: 400px; height: 160px;" name="d" cols="47">{$d}</textarea></td>
         </tr>
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["description"] . " :</td>
-            <td><textarea rows='10' style='width: 400px; height: 160px;' name='d' cols='47'>$d</textarea></td>
-        </tr>
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["assigned_to"] . " :</td>
-            <td><select name='at'>";
+Description;
+
+echo <<<AssignedTo
+        <tr class="odd">
+            <td valign="top" class="leftvalue">{$strings["assigned_to"]} :</td>
+            <td><select name="at">
+AssignedTo;
+
 
 if ($taskDetail['tas_assigned_to'] == "0") {
-    echo "      <option value='0' selected>" . $strings["unassigned"] . "</option>";
+    echo '<option value="0" selected>' . $strings["unassigned"] . '</option>';
 } else {
-    echo "      <option value='0'>" . $strings["unassigned"] . "</option>";
+    echo '<option value="0">' . $strings["unassigned"] . '</option>';
 }
 
-// Todo: refactor PDO
-$tmpquery = "WHERE tea.project = '$project' ORDER BY mem.name";
-$assignto = new phpCollab\Request();
-$assignto->openTeams($tmpquery);
-$comptAssignto = count($assignto->tea_mem_id);
+$teamList = $teams->getTeamByProjectIdAndOrderedBy($project, 'mem.name');
 
-for ($i = 0; $i < $comptAssignto; $i++) {
+foreach ($teamList as $team_member) {
     $clientUser = "";
 
-    if ($assignto->tea_mem_profil[$i] == "3") {
+    if ($team_member["tea_mem_profil"] == "3") {
         $clientUser = " (" . $strings["client_user"] . ")";
     }
 
-    if ($taskDetail['tas_assigned_to'] == $assignto->tea_mem_id[$i]) {
-        echo "      <option value='" . $assignto->tea_mem_id[$i] . "' selected>" . $assignto->tea_mem_login[$i] . " / " . $assignto->tea_mem_name[$i] . "$clientUser</option>";
+    if ($taskDetail['tas_assigned_to'] == $team_member["tea_mem_id"]) {
+        echo '<option value="' . $team_member["tea_mem_id"] . '" selected>' . $team_member["tea_mem_login"] . ' / ' . $team_member["tea_mem_name"] . $clientUser . '</option>';
     } else {
-        echo "      <option value='" . $assignto->tea_mem_id[$i] . "'>" . $assignto->tea_mem_login[$i] . " / " . $assignto->tea_mem_name[$i] . "$clientUser</option>";
+        echo "<option value='" . $team_member["tea_mem_id"] . "'>" . $team_member["tea_mem_login"] . " / " . $team_member["tea_mem_name"] . "$clientUser</option>";
     }
-}
 
+}
 echo "      </select></td>
         </tr>";
 
@@ -953,13 +953,12 @@ for ($i = 0; $i < $comptSta; $i++) {
 }
 
 echo <<<HTML
-    "          </select>
+    </select>
             </td>
         </tr>
         <tr class="odd">
             <td valign="top" class="leftvalue">{$strings["completion"]} :</td>
             <td>
-            <!--<input name="compl" type="hidden" value="{$taskDetail["tas_completion"]}">-->
                 <select name="completion">
 HTML;
 
