@@ -242,15 +242,14 @@ class Tasks
 
     /**
      * @param $taskId
-     * @param $assigneeId
+     * @param $assignedDate
      * @return mixed
      */
-    public function assignTaskTo($taskId, $assigneeId)
+    public function assignTaskTo($taskId, $assignedDate)
     {
         $taskId = filter_var( (int) $taskId, FILTER_SANITIZE_NUMBER_INT);
-        $assigneeId = filter_var( (int) $assigneeId, FILTER_SANITIZE_NUMBER_INT);
 
-        return $this->tasks_gateway->assignTasksTo($taskId, $assigneeId);
+        return $this->tasks_gateway->assignTasksTo($taskId, $assignedDate);
     }
 
     /**
