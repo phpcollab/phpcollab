@@ -547,6 +547,9 @@ if ($id == "") {
             $comments = phpCollab\Util::convertData($_POST["comments"]);
             $taskStatus = $_POST["taskStatus"];
             $at = $_POST["at"];
+            $pr = $_POST["pr"];
+            $atm = $_POST["atm"];
+            $etm = $_POST["etm"];
 
 
             if ($_POST['task_name'] != "") {
