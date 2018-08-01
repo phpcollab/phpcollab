@@ -821,28 +821,28 @@ if ($id != "") {
 $block1->openContent();
 $block1->contentTitle($strings["info"]);
 
-echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["project"] . " :</td><td><select name='project'>";
+echo <<< Project
+    <tr class="odd">
+    <td valign="top" class="leftvalue">{$strings["project"]} :</td>
+    <td>
+    <select name="project">
+Project;
 
-// Todo: refactor PDO
 if ($projectsFilter == "true") {
-    $tmpquery = "LEFT OUTER JOIN " . $tableCollab["teams"] . " teams ON teams.project = pro.id ";
-    $tmpquery .= "WHERE teams.member = '$idSession'";
+    $listProjects = $projects->getFilteredProjectsByTeamMember($idSession);
 } else {
-    $tmpquery = "";
+    $listProjects = $projects->getAllProjects();
 }
 
-$listProjects = new phpCollab\Request();
-$listProjects->openProjects($tmpquery);
-$comptListProjects = count($listProjects->pro_id);
-
-for ($i = 0; $i < $comptListProjects; $i++) {
-    if ($listProjects->pro_id[$i] == $projectDetail['pro_id']) {
-        echo "<option value='" . $listProjects->pro_id[$i] . "' selected>" . $listProjects->pro_name[$i] . "</option>";
+foreach ($listProjects as $proj) {
+    if ($proj["pro_id"] == $projectDetail['pro_id']) {
+        echo '<option value="' . $proj["pro_id"] . '" selected>' . $proj["pro_name"] . '</option>';
     } else {
-        echo "<option value='" . $listProjects->pro_id[$i] . "'>" . $listProjects->pro_name[$i] . "</option>";
+        echo '<option value="' . $proj["pro_id"] . '">' . $proj["pro_name"] . '</option>';
     }
 }
 echo "</select></td></tr>";
+
 
 //Display task's phase
 if ($projectDetail['pro_phase_set'] != "0") {
