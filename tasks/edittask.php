@@ -232,12 +232,7 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
 
             //if assigned_to not blank, set assigned date
             if ($at != "0") {
-                $tmpquery6 = "UPDATE {$tableCollab["tasks"]} SET assigned=:assigned WHERE id = :task_id";
-                $dbParams = [];
-                $dbParams['assigned'] = $dateheure;
-                $dbParams['task_id'] = $num;
-                phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
-                unset($dbParams);
+                $tasks->assignTaskTo($num, $dateheure);
             }
 
             $tmpquery2 = "INSERT INTO {$tableCollab["assignments"]} (task,owner,assigned_to,assigned) VALUES (:task,:owner,:assigned_to,:assigned)";
@@ -679,12 +674,7 @@ if ($id == "") {
 
         //if assigned_to not blank, set assigned date
         if ($at != "0") {
-            $tmpquery6 = "UPDATE {$tableCollab["tasks"]} SET assigned=:assigned WHERE id = :task_id";
-            $dbParams = [];
-            $dbParams['assigned'] = $dateheure;
-            $dbParams['task_id'] = $num;
-            phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
-            unset($dbParams);
+            $tasks->assignTaskTo($num, $dateheure);
         }
         $tmpquery2 = "INSERT INTO {$tableCollab["assignments"]} (task,owner,assigned_to,assigned) VALUES(:task_id, :owner_id, :assigned_to, :assigned)";
         $dbParams = [];
