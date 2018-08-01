@@ -41,6 +41,45 @@ class TasksGateway
     }
 
     /**
+     * @param $taskData
+     * @return mixed
+     */
+    public function addSubTask($taskData)
+    {
+        $sql = <<<SQL
+INSERT INTO {$this->tableCollab["subtasks"]} (
+task, name, description, owner, assigned_to, status, priority, start_date, due_date, complete_date,
+estimated_time, actual_time, comments, created, assigned, published, completion
+) VALUES (
+:task, :name, :description, :owner, :assigned_to, :status, :priority, :start_date, :due_date, :complete_date, 
+:estimated_time, :actual_time, :comments, :created, :assigned, :published, :completion
+)
+SQL;
+        
+        $this->db->query($sql);
+        $this->db->bind(':task', $taskData["task"]);
+        $this->db->bind(':name', $taskData["name"]);
+        $this->db->bind(':description', $taskData["description"]);
+        $this->db->bind(':owner', $taskData["owner"]);
+        $this->db->bind(':assigned_to', $taskData["assigned_to"]);
+        $this->db->bind(':status', $taskData["status"]);
+        $this->db->bind(':priority', $taskData["priority"]);
+        $this->db->bind(':start_date', $taskData["start_date"]);
+        $this->db->bind(':due_date', $taskData["due_date"]);
+        $this->db->bind(':complete_date', $taskData["complete_date"]);
+        $this->db->bind(':estimated_time', $taskData["estimated_time"]);
+        $this->db->bind(':actual_time', $taskData["actual_time"]);
+        $this->db->bind(':comments', $taskData["comments"]);
+        $this->db->bind(':created', $taskData["created"]);
+        $this->db->bind(':assigned', $taskData["assigned"]);
+        $this->db->bind(':published', $taskData["published"]);
+        $this->db->bind(':completion', $taskData["completion"]);
+
+        return $this->db->execute();
+
+    }
+    
+    /**
      * @param $userId
      * @param null $sorting
      * @return mixed
