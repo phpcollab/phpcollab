@@ -12,6 +12,7 @@ class InvoicesGateway
 {
     protected $db;
     protected $initrequest;
+    protected $tableCollab;
 
     /**
      * InvoicesGateway constructor.
@@ -21,6 +22,35 @@ class InvoicesGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
+        $this->tableCollab = $GLOBALS['tableCollab'];
+    }
+
+    /**
+     * @param $invoiceData
+     * @return mixed
+     */
+    public function addInvoiceItem($invoiceData)
+    {
+        $sql = <<< SQL
+INSERT INTO {$this->tableCollab["invoices_items"]} (
+title,description,invoice,created,active,completed,mod_type,mod_value,worked_hours
+) VALUES (
+:title,:description,:invoice,:created,:active,:completed,:mod_type,:mod_value,:worked_hours)
+SQL;
+        $this->db->query($sql);
+        $this->db->bind(':title', $invoiceData["task_name"]);
+        $this->db->bind(':description', $invoiceData["description"]);
+        $this->db->bind(':invoice', $invoiceData["invoice_id"]);
+        $this->db->bind(':created', $invoiceData["created"]);
+        $this->db->bind(':active', $invoiceData["active"]);
+        $this->db->bind(':completed', $invoiceData["completed_item"]);
+        $this->db->bind(':mod_type', $invoiceData["mod_type"]);
+        $this->db->bind(':mod_value', $invoiceData["mod_value"]);
+        $this->db->bind(':worked_hours', $invoiceData["worked_hours"]);
+
+        $this->db->execute();
+        return $this->db->lastInsertId();
+
     }
 
     /**
