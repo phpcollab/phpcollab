@@ -23,6 +23,15 @@ class Invoices
     }
 
     /**
+     * @param $invoiceData
+     * @return mixed
+     */
+    public function addInvoiceItem($invoiceData)
+    {
+        return $this->invoices_gateway->addInvoiceItem($invoiceData);
+    }
+
+    /**
      * @param $invoiceId
      * @return mixed
      */
@@ -74,6 +83,18 @@ class Invoices
         $invoiceItemId = filter_var($invoiceItemId, FILTER_VALIDATE_INT);
 
         return $this->invoices_gateway->getInvoiceItemById($invoiceItemId);
+    }
+
+    /**
+     * @param $invoicing
+     * @param $completed
+     * @param $hoursWorked
+     * @param $taskId
+     * @return mixed
+     */
+    public function updateInvoiceItems($invoicing, $completed, $hoursWorked, $taskId)
+    {
+        return $this->invoices_gateway->updateInvoiceItems($invoicing, $completed, $hoursWorked, $taskId);
     }
 
 }
