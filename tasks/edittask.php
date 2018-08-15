@@ -225,21 +225,12 @@ if (
 
             $assignmnetId = $assignments->addAssignment($num, $idSession, $at, $dateheure);
 
-            unset($dbParams);
-
             //if assigned_to not blank, add to team members (only if doesn't already exist)
             if ($at != "0") {
                 $teamMember = $teams->isTeamMember($project, $at);
 
                 if (!$teamMember) {
-                    $dbParams = [];
-                    $dbParams['project'] = $project;
-                    $dbParams['member'] = $at;
-                    $dbParams['published'] = 1;
-                    $dbParams['authorized'] = 0;
-
-                    $teamMemberId = $teams->addTeam($dbParams);
-                    unset($dbParams);
+                    $teamMemberId = $teams->addTeam($project, $at, 1, 0);
                 }
 
                 //send task assignment mail if notifications = true

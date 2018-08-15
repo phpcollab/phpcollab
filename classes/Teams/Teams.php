@@ -165,12 +165,15 @@ class Teams
     }
 
     /**
-     * @param $teamData
+     * @param $projectId
+     * @param $memberId
+     * @param $published
+     * @param $authorized
      * @return mixed
      */
-    public function addTeam($teamData)
+    public function addTeam($projectId, $memberId, $published, $authorized)
     {
-        return $this->teams_gateway->addTeam($teamData);
+        return $this->teams_gateway->addTeam($projectId, $memberId, $published, $authorized);
     }
 
     /**

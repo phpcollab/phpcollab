@@ -258,17 +258,20 @@ class TeamsGateway
     }
 
     /**
-     * @param $teamData
+     * @param $projectId
+     * @param $memberId
+     * @param $published
+     * @param $authorized
      * @return mixed
      */
-    public function addTeam($teamData)
+    public function addTeam($projectId, $memberId, $published, $authorized)
     {
         $sql = "INSERT INTO {$this->tableCollab["teams"]} (project,member,published,authorized) VALUES(:project,:member,:published,:authorized)";
         $this->db->query($sql);
-        $this->db->bind(':project', $teamData["project"]);
-        $this->db->bind(':member', $teamData["member"]);
-        $this->db->bind(':published', $teamData["published"]);
-        $this->db->bind(':authorized', $teamData["authorized"]);
+        $this->db->bind(':project', $projectId);
+        $this->db->bind(':member', $memberId);
+        $this->db->bind(':published', $published);
+        $this->db->bind(':authorized', $authorized);
         return $this->db->execute();
     }
 
