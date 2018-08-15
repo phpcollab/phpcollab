@@ -54,6 +54,34 @@ SQL;
     }
 
     /**
+     * @param $invoicing
+     * @param $completed
+     * @param $hoursWorked
+     * @param $taskId
+     * @return mixed
+     */
+    public function updateInvoiceItems($invoicing, $completed, $hoursWorked, $taskId)
+    {
+        $sql = <<<SQL
+UPDATE {$this->tableCollab["invoices_items"]} 
+SET 
+active = :active,
+completed = :completed,
+worked_hours = :worked_hours 
+WHERE mod_type = 1 AND mod_value = :mod_value
+SQL;
+
+        $this->db->query($sql);
+        $this->db->bind('active', $invoicing);
+        $this->db->bind('completed', $completed);
+        $this->db->bind('worked_hours', $hoursWorked );
+        $this->db->bind('mod_value', $taskId );
+
+        return $this->db->execute();
+
+    }
+
+    /**
      * @param $invoiceId
      * @return mixed
      */
