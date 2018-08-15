@@ -24,12 +24,15 @@ class Assignments
     }
 
     /**
-     * @param $assignmentData
+     * @param $taskId
+     * @param $taskOwner
+     * @param $assignedTo
+     * @param $assignedDate
      * @return mixed
      */
-    public function addAssignment($assignmentData)
+    public function addAssignment($taskId, $taskOwner, $assignedTo, $assignedDate)
     {
-        return $this->assignments_gateway->addAssignment($assignmentData);
+        return $this->assignments_gateway->addAssignment($taskId, $taskOwner, $assignedTo, $assignedDate);
     }
 
     /**

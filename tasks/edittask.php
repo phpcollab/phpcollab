@@ -222,13 +222,8 @@ if (
             if ($at != "0") {
                 $tasks->updateAssignedDate($num, $dateheure);
             }
-            $dbParams = [];
-            $dbParams['task'] = $num;
-            $dbParams['owner'] = $idSession;
-            $dbParams['assigned_to'] = $at;
-            $dbParams['assigned'] = $dateheure;
 
-            $assignmnetId = $assignments->addAssignment($dbParams);
+            $assignmnetId = $assignments->addAssignment($num, $idSession, $at, $dateheure);
 
             unset($dbParams);
 
