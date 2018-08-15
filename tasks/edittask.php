@@ -82,9 +82,11 @@ if (
     && $id != ""
     && !empty($_POST["task_name"])
 ) {
+    $assignments = new \phpCollab\Assignments\Assignments();
+    $files = new \phpCollab\Files\Files();
+
     //case update or copy task
     if ($action == "update") {
-        
         //concat values from date selector and replace quotes by html code in name
         $task_name = phpCollab\Util::convertData($_POST["task_name"]);
         $d = phpCollab\Util::convertData($_POST["d"]);
@@ -95,8 +97,19 @@ if (
         $completion = $_POST["completion"] || 0;
         $invoicing = $_POST["invoicing"];
         $worked_hours = $_POST["worked_hours"];
+        $at = $_POST["at"];
+        $pr = $_POST["pr"];
+        $start_date = $_POST["start_date"];
+        $due_date = $_POST["due_date"];
+        $etm = $_POST["etm"];
+        $atm = $_POST["atm"];
+        $old_project = $_POST["old_project"];
 
-        //case copy task
+        if ($enableInvoicing == "true") {
+            $invoices = new \phpCollab\Invoices\Invoices();
+        }
+
+            //case copy task
         if ($docopy == "true") {
 
             //Change task status if parent phase is suspended, complete or not open.
@@ -148,53 +161,29 @@ if (
 
             unset($dbParams);
 
-            //subtask copying
-            // Todo: refactor PDO
-            $tmpquery1 = "WHERE task = '$id'";
-            $subtaskDetail = new phpCollab\Request();
-            $subtaskDetail->openSubtasks($tmpquery1);
 
-            $comptListSubtasks = count($subtaskDetail->subtas_id);
-
-            for ($j = 0; $j < $comptListSubtasks; $j++) {
-                $s_tn = phpCollab\Util::convertData($subtaskDetail->subtas_name[$j]);
-                $s_d = phpCollab\Util::convertData($subtaskDetail->subtas_description[$j]);
-                $s_ow = $subtaskDetail->subtas_owner[$j];
-                $s_at = $subtaskDetail->subtas_assigned_to[$j];
-                $s_st = $subtaskDetail->subtas_status[$j];
-                $s_pr = $subtaskDetail->subtas_priority[$j];
-                $s_sd = $subtaskDetail->subtas_start_date[$j];
-                $s_dd = $subtaskDetail->subtas_due_date[$j];
-                $s_cd = $subtaskDetail->subtas_complete_date[$j];
-                $s_etm = $subtaskDetail->subtas_estimated_time[$j];
-                $s_atm = $subtaskDetail->subtas_actual_time[$j];
-                $s_c = phpCollab\Util::convertData($subtaskDetail->subtas_comments[$j]);
-                $s_published = $subtaskDetail->subtas_published[$j];
-                $s_compl = $subtaskDetail->subtas_completion[$j];
-
-                $tmpquery1 = "INSERT INTO {$tableCollab["subtasks"]} (task,name,description,owner,assigned_to,status,priority,start_date,due_date,complete_date,estimated_time,actual_time,comments,created,assigned,published,completion) VALUES(:task,:name,:description,:owner,:assigned_to,:status,:priority,:start_date,:due_date,:complete_date,:estimated_time,:actual_time,:comments,:created,:assigned,:published,:completion)";
-
+            $listSubTasks = $tasks->getSubtasksByParentTaskId($id);
+            foreach ($listSubTasks as $subTask) {
                 $dbParams = [];
                 $dbParams['task'] = $num;
-                $dbParams['name'] = $s_tn;
-                $dbParams['description'] = $s_d;
-                $dbParams['owner'] = $s_ow;
-                $dbParams['assigned_to'] = $s_at;
-                $dbParams['status'] = $s_st;
-                $dbParams['priority'] = $s_pr;
-                $dbParams['start_date'] = $s_sd;
-                $dbParams['due_date'] = $s_dd;
-                $dbParams['completed_date'] = $s_cd;
-                $dbParams['estimated_time'] = $s_etm;
-                $dbParams['actual_time'] = $s_atm;
-                $dbParams['comments'] = $s_c;
+                $dbParams['name'] = $subTask["subtas_name"];
+                $dbParams['description'] = $subTask["subtas_description"];
+                $dbParams['owner'] = $subTask["subtas_owner"];
+                $dbParams['assigned_to'] = $subTask["subtas_assigned_to"];
+                $dbParams['status'] = $subTask["subtas_status"];
+                $dbParams['priority'] = $subTask["subtas_priority"];
+                $dbParams['start_date'] = $subTask["subtas_start_date"];
+                $dbParams['due_date'] = $subTask["subtas_due_date"];
+                $dbParams['completed_date'] = $subTask["subtas_complete_date"];
+                $dbParams['estimated_time'] = $subTask["subtas_estimated_time"];
+                $dbParams['actual_time'] = $subTask["subtas_actual_time"];
+                $dbParams['comments'] = $subTask["comments"];
                 $dbParams['created'] = $dateheure;
                 $dbParams['assigned'] = $dateheure;
-                $dbParams['published'] = $s_published;
-                $dbParams['completion'] = $s_compl;
+                $dbParams['published'] = $subTask["subtas_published"];
+                $dbParams['completion'] = $subTask["subtas_completion"];
 
-                phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
-
+                $tasks->addSubTask($dbParams);
                 unset($dbParams);
             }
 
@@ -206,13 +195,8 @@ if (
                     $completeItem = "0";
                 }
 
-                $tmpquery = "WHERE project = '$project'";
-                $detailInvoice = new phpCollab\Request();
-                $detailInvoice->openInvoices($tmpquery);
-                if ($detailInvoice->inv_status[0] == "0") {
-                    $tmpquery3 = "INSERT INTO {$tableCollab["invoices_items"]} (
-title,description,invoice,created,active,completed,mod_type,mod_value,worked_hours) VALUES (
-:title,:description,:invoice,:created,:active,:completed,:mod_type,:mod_value,:worked_hours)";
+                $detailInvoice = $invoices->getInvoicesByProjectId($project);
+                if ($detailInvoice["inv_status"] == "0") {
                     $dbParams = [];
                     $dbParams['title'] = $task_name;
                     $dbParams['description'] = $d;
@@ -224,7 +208,7 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
                     $dbParams['mod_value'] = $num;
                     $dbParams['worked_hours'] = $worked_hours;
 
-                    phpCollab\Util::newConnectSql($tmpquery3, $dbParams);
+                    $invoice_num = $invoices->addInvoiceItem($dbParams);
 
                     unset($dbParams);
                 }
@@ -236,35 +220,30 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
 
             //if assigned_to not blank, set assigned date
             if ($at != "0") {
-                $tasks->assignTaskTo($num, $dateheure);
+                $tasks->updateAssignedDate($num, $dateheure);
             }
-
-            $tmpquery2 = "INSERT INTO {$tableCollab["assignments"]} (task,owner,assigned_to,assigned) VALUES (:task,:owner,:assigned_to,:assigned)";
             $dbParams = [];
             $dbParams['task'] = $num;
             $dbParams['owner'] = $idSession;
             $dbParams['assigned_to'] = $at;
             $dbParams['assigned'] = $dateheure;
 
-            phpCollab\Util::newConnectSql($tmpquery2, $dbParams);
+            $assignmnetId = $assignments->addAssignment($dbParams);
+
             unset($dbParams);
 
             //if assigned_to not blank, add to team members (only if doesn't already exist)
             if ($at != "0") {
-                // Todo: refactor PDO
-                $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$at'";
-                $testinTeam = new phpCollab\Request();
-                $testinTeam->openTeams($tmpquery);
-                $comptTestinTeam = count($testinTeam->tea_id);
+                $teamMember = $teams->isTeamMember($project, $at);
 
-                if ($comptTestinTeam == "0") {
-                    $tmpquery3 = "INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES(:project,:member,:published,:authorized)";
+                if (!$teamMember) {
                     $dbParams = [];
                     $dbParams['project'] = $project;
                     $dbParams['member'] = $at;
                     $dbParams['published'] = 1;
                     $dbParams['authorized'] = 0;
-                    phpCollab\Util::newConnectSql($tmpquery3, $dbParams);
+
+                    $teamMemberId = $teams->addTeam($dbParams);
                     unset($dbParams);
                 }
 
@@ -338,31 +317,18 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
             }
 
             if ($old_st == "1" && $taskStatus != $old_st) {
-                $tmpquery6 = "UPDATE {$tableCollab["tasks"]} SET complete_date='' WHERE id = :task_id";
-                $dbParams = [];
-                $dbParams['task_id'] = $id;
-                phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
-                unset($dbParams);
+                $tasks->setCompletionDateForTaskById($id, '');
             }
 
             //if project different from past value, set project number in tasks table
             if ($project != $old_project) {
-                $tmpquery6 = "UPDATE {$tableCollab["tasks"]} SET project=:project_id WHERE id = :task_id";
-                $dbParams = [];
-                $dbParams['project_id'] = $project;
-                $dbParams['task_id'] = $id;
-                phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
-                unset($dbParams);
-                
-                $tmpquery7 = "UPDATE {$tableCollab["files"]} SET project=:project_id WHERE task = :task_id";
-                $dbParams = [];
-                $dbParams['project_id'] = $project;
-                $dbParams['task_id'] = $id;
-                phpCollab\Util::newConnectSql($tmpquery7, $dbParams);
-                unset($dbParams);
+                $tasks->setProjectByTaskId($project, $id);
+
+                $files->setProjectByTaskId($project, $id);
                 phpCollab\Util::createDirectory("files/$project/$id");
 
                 $dir = opendir("../files/$old_project/$id");
+
                 if (is_resource($dir)) {
                     while ($v = readdir($dir)) {
                         if ($v != '.' && $v != '..') {
@@ -373,10 +339,8 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
                 }
 
                 //recompute number of completed tasks of the old project
-                // Todo: refactor PDO
-                $tmpquery = "WHERE pro.id = '$old_project'";
-                $oldproject = new phpCollab\Request();
-                $oldproject->openProjects($tmpquery);
+                $oldproject = $projects->getProjectById($old_project);
+
                 phpCollab\Util::projectComputeCompletion(
                     $oldproject,
                     $tableCollab["projects"]
@@ -390,35 +354,21 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
                     $completeItem = "0";
                 }
 
-                $tmpquery = "WHERE project = '$project'";
-                $detailInvoice = new phpCollab\Request();
-                $detailInvoice->openInvoices($tmpquery);
+                $detailInvoice = $invoices->getInvoicesByProjectId($project);
 
-                if ($detailInvoice->inv_status[0] == "0") {
-                    $tmpquery3 = "UPDATE {$tableCollab["invoices_items"]} SET active=:invoicing,completed=:completeItem,worked_hours=:worked_hours WHERE mod_type = 1 AND mod_value = :mod_value";
-                    $dbParams = [];
-                    $dbParams['invoicing'] = $invoicing;
-                    $dbParams['completed'] = $completeItem;
-                    $dbParams['worked_hours'] = $worked_hours;
-                    $dbParams['mod_value'] = $id;
-                    phpCollab\Util::newConnectSql($tmpquery3, $dbParams);
-                    unset($dbParams);
+                if ($detailInvoice["inv_status"] == "0") {
+                    $invoiceItemsId = $invoices->updateInvoiceItems($invoicing, $completeItem, $worked_hours, $id);
                 }
             }
 
             //if assigned_to not blank and past assigned value blank, set assigned date
-            if ($at != "0" && $old_assigned == "") {
-                $tmpquery6 = "UPDATE {$tableCollab["tasks"]} SET assigned=:assigned WHERE id = :task_id";
-                $dbParams = [];
-                $dbParams['assigned'] = $dateheure;
-                $dbParams['task_id'] = $id;
-                phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
-                unset($dbParams);
+            if ($at != "0" && $_POST["old_assigned"] == "") {
+                $tasks->updateAssignedDate($id, $dateheure);
             }
 
             //if assigned_to different from past value, insert into assignment
             //add new assigned_to in team members (only if doesn't already exist)
-            if ($at != $old_at) {
+            if ($at != $_POST["old_at"]) {
                 $tmpquery2 = "INSERT INTO {$tableCollab["assignments"]} (task,owner,assigned_to,assigned) VALUES (:task_id,:owner_id,:assigned_to,:assigned)";
                 $dbParams = [];
                 $dbParams['task_id'] = $id;
@@ -517,23 +467,7 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
         }
     }
 
-    //set value in form
-    $task_name = $taskDetail['tas_name'];
-    $d = $taskDetail['tas_description'];
-    $start_date = $taskDetail['tas_start_date'];
-    $due_date = $taskDetail['tas_due_date'];
-    $complete_date = $taskDetail['tas_complete_date'];
-    $etm = $taskDetail['tas_estimated_time'];
-    $atm = $taskDetail['tas_actual_time'];
-    $comments = $taskDetail['tas_comments'];
-    $pub = $taskDetail['tas_published'];
-    $worked_hours = $taskDetail['tas_worked_hours'];
-
-    if ($pub == "0") {
-        $checkedPub = "checked";
-    }
 }
-
 //case add task
 if (
     $_SERVER['REQUEST_METHOD'] == 'POST'
@@ -550,17 +484,6 @@ if (
     if ($action == "add") {
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            //concat values from date selector and replace quotes by html code in name
-            $task_name = phpCollab\Util::convertData($_POST["task_name"]);
-            $d = phpCollab\Util::convertData($_POST["d"]);
-            $comments = phpCollab\Util::convertData($_POST["comments"]);
-            $taskStatus = $_POST["taskStatus"];
-            $at = $_POST["at"];
-            $pr = $_POST["pr"];
-            $atm = $_POST["atm"];
-            $etm = $_POST["etm"];
-
-
             if ($_POST['task_name'] != "") {
                 $_POST['task_name'] = filter_var($_POST['task_name'], FILTER_SANITIZE_STRING);
                 if ($_POST['task_name'] == "") {
@@ -602,8 +525,8 @@ if (
             $taskStatus = 1;
         }
 
-        if ($pub == "") {
-            $pub = 1;
+        if ($published == "") {
+            $published = 1;
         }
 
         if ($invoicing == "") {
@@ -617,31 +540,31 @@ if (
         $dbParams = [];
         $dbParams['project_id'] = $project;
         $dbParams['task_name'] = $task_name;
-        $dbParams['description'] = $d;
+        $dbParams['description'] = $description;
         $dbParams['owner'] = $idSession;
-        $dbParams['assigned_to'] = ($at != 0) ? $at : 0;
+        $dbParams['assigned_to'] = ($assigned_to != 0) ? $assigned_to : 0;
         $dbParams['status'] = $taskStatus;
-        $dbParams['priority'] = $pr;
+        $dbParams['priority'] = $priority;
         $dbParams['start_date'] = $start_date;
         $dbParams['due_date'] = $due_date;
-        $dbParams['estimated_time'] = $etm;
-        $dbParams['actual_time'] = $atm;
+        $dbParams['estimated_time'] = $estimated_time;
+        $dbParams['actual_time'] = $actual_time;
         $dbParams['comments'] = $comments;
         $dbParams['created'] = $dateheure;
-        $dbParams['published'] = $pub;
+        $dbParams['published'] = $published;
         $dbParams['completion'] = $completion;
         $dbParams['parent_phase'] = ($phase != 0) ? $phase: 0;
         $dbParams['invoicing'] = $invoicing;
         $dbParams['worked_hours'] = $worked_hours;
 
         //if assigned_to not blank, set assigned date
-        if ($at != "0") {
+        if ($assigned_to != "0") {
             $dbParams['assigned'] = $dateheure;
         } else {
             $dbParams['assigned'] = null;
         }
 
-        $num = $tasks->addTask($dbParams);
+        $newTaskId = $tasks->addTask($dbParams);
 
         if ($enableInvoicing == "true") {
             $invoices = new \phpCollab\Invoices\Invoices();
@@ -654,29 +577,24 @@ if (
 
             $detailInvoice = $invoices->getInvoicesByProjectId($project);
 
-            if ($detailInvoice->inv_status[0] == "0") {
-                $tmpquery3 = "INSERT INTO {$tableCollab["invoices_items"]} (title,description,invoice,created,active,completed,mod_type,mod_value,worked_hours) VALUES (:task_name, :description,:invoice_id,:created,:active,:completed_item,:mod_type,:mod_value,:worked_hours)";
-
+            if ($detailInvoice["inv_status"] == "0") {
                 $dbParams = [];
                 $dbParams['task_name'] = $task_name;
-                $dbParams['description'] = $d;
+                $dbParams['description'] = $description;
                 $dbParams['invoice_id'] = phpCollab\Util::fixInt($detailInvoice['inv_id']);
                 $dbParams['created'] = $dateheure;
                 $dbParams['active'] = $invoicing;
                 $dbParams['completed_item'] = $completeItem;
                 $dbParams['mod_type'] = 1;
-                $dbParams['mod_value'] = $num;
+                $dbParams['mod_value'] = $newTaskId;
                 $dbParams['worked_hours'] = $worked_hours;
-
-//                $invoices->addInvoiceItem();
-
-                phpCollab\Util::newConnectSql($tmpquery3, $dbParams);
+                $invNum = $invoices->addInvoiceItem($dbParams);
                 unset($dbParams);
             }
         }
 
         if ($taskStatus == "1") {
-            $tasks->setCompletionDateForTaskById($num, $dateheure);
+            $tasks->setCompletionDateForTaskById($newTaskId, $dateheure);
         }
 
         //recompute number of completed tasks of the project
@@ -687,11 +605,11 @@ if (
 
         //if assigned_to not blank, set assigned date
         if ($at != "0") {
-            $tasks->assignTaskTo($num, $dateheure);
+            $tasks->updateAssignedDate($newTaskId, $dateheure);
         }
         $tmpquery2 = "INSERT INTO {$tableCollab["assignments"]} (task,owner,assigned_to,assigned) VALUES(:task_id, :owner_id, :assigned_to, :assigned)";
         $dbParams = [];
-        $dbParams['task_id'] = $num;
+        $dbParams['task_id'] = $newTaskId;
         $dbParams['owner_id'] = $idSession;
         $dbParams['assigned_to'] = $at;
         $dbParams['assigned'] = $dateheure;
@@ -723,10 +641,10 @@ if (
 
         //create task sub-folder if filemanagement = true
         if ($fileManagement == "true") {
-            phpCollab\Util::createDirectory("files/$project/$num");
+            phpCollab\Util::createDirectory("files/$project/$newTaskId");
         }
 
-        phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$num&msg=addAssignment");
+        phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$newTaskId&msg=addAssignment");
     }
 
     //set default values
@@ -734,6 +652,23 @@ if (
     $taskDetail['tas_priority'] = $projectDetail['pro_priority'];
     $taskDetail['tas_status'] = "2";
 }
+
+//set value in form
+$task_name = $taskDetail['tas_name'];
+$d = $taskDetail['tas_description'];
+$start_date = $taskDetail['tas_start_date'];
+$due_date = $taskDetail['tas_due_date'];
+$complete_date = $taskDetail['tas_complete_date'];
+$etm = $taskDetail['tas_estimated_time'];
+$atm = $taskDetail['tas_actual_time'];
+$comments = $taskDetail['tas_comments'];
+$pub = $taskDetail['tas_published'];
+$worked_hours = $taskDetail['tas_worked_hours'];
+
+if ($pub == "0") {
+    $checkedPub = "checked";
+}
+
 
 if ($projectDetail['pro_org_id'] == "1") {
     $projectDetail['pro_org_name'] = $strings["none"];
@@ -769,7 +704,6 @@ $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail['pro_id'], $projectDetail['pro_name'], "in"));
-
 if ($projectDetail['pro_phase_set'] != "0") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail['pro_id'], $strings["phases"], "in"));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase["pha_id"], $targetPhase["pha_name"], "in"));
@@ -902,12 +836,17 @@ foreach ($teamList as $team_member) {
         $clientUser = " (" . $strings["client_user"] . ")";
     }
 
-    if ($taskDetail['tas_assigned_to'] == $team_member["tea_mem_id"]) {
-        echo '<option value="' . $team_member["tea_mem_id"] . '" selected>' . $team_member["tea_mem_login"] . ' / ' . $team_member["tea_mem_name"] . $clientUser . '</option>';
-    } else {
-        echo "<option value='" . $team_member["tea_mem_id"] . "'>" . $team_member["tea_mem_login"] . " / " . $team_member["tea_mem_name"] . "$clientUser</option>";
-    }
 
+    if (!empty($taskDetail['tas_assigned_to']) && $taskDetail['tas_assigned_to'] === $team_member["tea_mem_id"]) {
+        echo <<<Option
+<option value="{$team_member["tea_mem_id"]}" selected>{$team_member["tea_mem_login"]} / {$team_member["tea_mem_name"]}{$clientUser} </option>
+Option;
+    } else {
+        echo <<<Option
+<option value="{$team_member["tea_mem_id"]}">{$team_member["tea_mem_login"]} / {$team_member["tea_mem_name"]}{$clientUser}</option>
+Option;
+
+    }
 }
 echo "      </select></td>
         </tr>";
@@ -936,11 +875,15 @@ echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["status"] 
 
 $comptSta = count($status);
 
-for ($i = 0; $i < $comptSta; $i++) {
-    if ($taskDetail['tas_status'] == $i) {
-        echo "<option value='$i' selected>$status[$i]</option>";
+foreach ($status as $key => $item) {
+    if (!empty($taskDetail['tas_status']) && $taskDetail['tas_status'] == $key) {
+        echo '<option value="'.$key.'" selected>'.$item.'</option>';
     } else {
-        echo "<option value='$i'>$status[$i]</option>";
+        if (empty($taskDetail['tas_status']) && $key === 2) {
+            echo '<option value="'.$key.'" selected>'.$item.'</option>';
+        } else {
+            echo '<option value="'.$key.'">'.$item.'</option>';
+        }
     }
 }
 
