@@ -27,6 +27,20 @@ class FilesGateway
     }
 
     /**
+     * @param $projectId
+     * @param $taskId
+     * @return mixed
+     */
+    public function setProjectByTaskId($projectId, $taskId)
+    {
+        $sql = "UPDATE {$this->tableCollab["files"]} SET project = :project_id WHERE task = :task_id";
+        $this->db->query($sql);
+        $this->db->bind(":project_id", $projectId);
+        $this->db->bind(":task_id", $taskId);
+        return $this->db->execute();
+    }
+
+    /**
      * @param $fileId
      * @return mixed
      */

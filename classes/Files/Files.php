@@ -24,6 +24,16 @@ class Files
     }
 
     /**
+     * @param $projectId
+     * @param $taskId
+     * @return mixed
+     */
+    public function setProjectByTaskId($projectId, $taskId)
+    {
+        return $this->files_gateway->setProjectByTaskId($projectId, $taskId);
+    }
+
+    /**
      * @param $fileId
      * @return mixed
      */
