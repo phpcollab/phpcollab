@@ -27,6 +27,27 @@ class AssignmentsGateway
     }
 
     /**
+     * @param $assignmentData
+     * @return mixed
+     */
+    public function addAssignment($assignmentData)
+    {
+        $sql = <<<SQL
+INSERT INTO {$this->tableCollab["assignments"]} 
+(task, owner, assigned_to, assigned) 
+VALUES 
+(:task, :owner, :assigned_to, :assigned)
+SQL;
+        $this->db->query($sql);
+        $this->db->bind("task", $assignmentData["task"]);
+        $this->db->bind("owner", $assignmentData["owner"]);
+        $this->db->bind("assigned_to", $assignmentData["assigned_to"]);
+        $this->db->bind("assigned", $assignmentData["assigned"]);
+        return $this->db->execute();
+
+    }
+
+    /**
      * @param $taskId
      * @param null $sorting
      * @return mixed

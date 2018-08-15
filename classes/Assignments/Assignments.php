@@ -24,6 +24,15 @@ class Assignments
     }
 
     /**
+     * @param $assignmentData
+     * @return mixed
+     */
+    public function addAssignment($assignmentData)
+    {
+        return $this->assignments_gateway->addAssignment($assignmentData);
+    }
+
+    /**
      * @param $taskId
      * @param null $sorting
      * @return mixed
