@@ -245,7 +245,7 @@ class Tasks
      * @param $assignedDate
      * @return mixed
      */
-    public function assignTaskTo($taskId, $assignedDate)
+    public function updateAssignedDate($taskId, $assignedDate)
     {
         $taskId = filter_var( (int) $taskId, FILTER_SANITIZE_NUMBER_INT);
 
@@ -279,6 +279,15 @@ class Tasks
         return $this->tasks_gateway->addSubTask($taskData);
     }
 
+    /**
+     * @param $projectId
+     * @param $taskId
+     * @return mixed
+     */
+    public function setProjectByTaskId($projectId, $taskId)
+    {
+        return $this->tasks_gateway->setProjectByTaskId($projectId, $taskId);
+    }
     /**
      * @param $taskId
      * @param $date

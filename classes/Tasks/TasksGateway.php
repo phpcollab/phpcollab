@@ -598,6 +598,20 @@ SQL;
     }
 
     /**
+     * @param $projectId
+     * @param $taskId
+     * @return mixed
+     */
+    public function setProjectByTaskId($projectId, $taskId)
+    {
+        $sql = "UPDATE {$this->tableCollab["tasks"]} SET project = :project_id WHERE id = :task_id";
+        $this->db->query($sql);
+        $this->db->bind(":project_id", $projectId);
+        $this->db->bind(":task_id", $taskId);
+        return $this->db->execute();
+    }
+
+    /**
      * @param $taskId
      * @param $date
      * @return mixed
