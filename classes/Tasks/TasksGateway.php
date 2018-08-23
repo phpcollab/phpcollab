@@ -597,6 +597,53 @@ SQL;
         return $this->db->lastInsertId();
     }
 
+    public function updateTask($taskName, $description, $assignedTo, $status, $priority, $startDate, $dueDate,
+                               $estimatedTime, $actualTime, $comments, $modifiedDate, $completion, $parentPhase, $published, $invoicing,
+                               $workedHours, $taskId)
+    {
+        $sql = <<<SQL
+UPDATE {$this->tableCollab["tasks"]} SET 
+name = :task_name, 
+description = :description, 
+assigned_to = :assigned_to, 
+status = :status, 
+priority = :priority, 
+start_date = :start_date, 
+due_date = :due_date, 
+estimated_time = :estimated_time, 
+actual_time = :actual_time, 
+comments = :comments, 
+modified = :modified, 
+completion = :completion, 
+parent_phase = :parent_phase, 
+published = :published, 
+invoicing = :invoicing,
+worked_hours = :worked_hours 
+WHERE id = :task_id
+SQL;
+        $this->db->query($sql);
+        $this->db->bind(':task_name', $taskName);
+        $this->db->bind(':description', $description);
+        $this->db->bind(':assigned_to', $assignedTo);
+        $this->db->bind(':status', $status);
+        $this->db->bind(':priority', $priority);
+        $this->db->bind(':start_date', $startDate);
+        $this->db->bind(':due_date', $dueDate );
+        $this->db->bind(':estimated_time', $estimatedTime);
+        $this->db->bind(':actual_time', $actualTime);
+        $this->db->bind(':comments', $comments);
+        $this->db->bind(':modified', $modifiedDate);
+        $this->db->bind(':completion', $completion);
+        $this->db->bind(':parent_phase', $parentPhase);
+        $this->db->bind(':published', $published);
+        $this->db->bind(':invoicing', $invoicing);
+        $this->db->bind(':worked_hours', $workedHours);
+        $this->db->bind(':task_id', $taskId);
+
+        return $this->db->execute();
+
+    }
+
     /**
      * @param $projectId
      * @param $taskId

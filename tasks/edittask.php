@@ -276,25 +276,66 @@ if (
             }
 
             //Update task with our without parent phase
-            $tmpquery5 = "UPDATE {$tableCollab["tasks"]} SET name=:task_name,description=:description,assigned_to=:assigned_to,status=:status,priority=:priority,start_date=:start_date,due_date=:due_date,estimated_time=:estimated_time,actual_time=:actual_time,comments=:comments,modified=:modified,completion=:completion,parent_phase=:parent_phase,published=:published,invoicing=:invoicing,worked_hours=:worked_hours WHERE id = :task_id";
-            $tmpquery5Params = [];
-            $tmpquery5Params['task_name'] = $task_name;
-            $tmpquery5Params['description'] = $d;
-            $tmpquery5Params['assigned_to'] = $at;
-            $tmpquery5Params['status'] = $taskStatus;
-            $tmpquery5Params['priority'] = $pr;
-            $tmpquery5Params['start_date'] = $start_date;
-            $tmpquery5Params['due_date'] = $due_date;
-            $tmpquery5Params['estimated_time'] = $etm;
-            $tmpquery5Params['actual_time'] = $atm;
-            $tmpquery5Params['comments'] = $comments;
-            $tmpquery5Params['modified'] = $dateheure;
-            $tmpquery5Params['completion'] = $completion;
-            $tmpquery5Params['parent_phase'] = ($phase != 0) ? $phase: 0;
-            $tmpquery5Params['published'] = $pub;
-            $tmpquery5Params['invoicing'] = $invoicing;
-            $tmpquery5Params['worked_hours'] = $worked_hours;
-            $tmpquery5Params['task_id'] = $id;
+            $tmpquery5 = <<<SQL
+UPDATE {$tableCollab["tasks"]} SET 
+name = :task_name, 
+description = :description, 
+assigned_to = :assigned_to, 
+status = :status, 
+priority = :priority, 
+start_date = :start_date, 
+due_date = :due_date, 
+estimated_time = :estimated_time, 
+actual_time = :actual_time, 
+comments = :comments, 
+modified = :modified, 
+completion = :completion, 
+parent_phase = :parent_phase, 
+published = :published, 
+invoicing = :invoicing,
+worked_hours = :worked_hours 
+WHERE id = :task_id
+SQL;
+
+//            $tmpquery5Params = [];
+//            $tmpquery5Params['task_name'] = $task_name;
+//            $tmpquery5Params['description'] = $d;
+//            $tmpquery5Params['assigned_to'] = $at;
+//            $tmpquery5Params['status'] = $taskStatus;
+//            $tmpquery5Params['priority'] = $pr;
+//            $tmpquery5Params['start_date'] = $start_date;
+//            $tmpquery5Params['due_date'] = $due_date;
+//            $tmpquery5Params['estimated_time'] = $etm;
+//            $tmpquery5Params['actual_time'] = $atm;
+//            $tmpquery5Params['comments'] = $comments;
+//            $tmpquery5Params['modified'] = $dateheure;
+//            $tmpquery5Params['completion'] = $completion;
+//            $tmpquery5Params['parent_phase'] = ($phase != 0) ? $phase: 0;
+//            $tmpquery5Params['published'] = $pub;
+//            $tmpquery5Params['invoicing'] = $invoicing;
+//            $tmpquery5Params['worked_hours'] = $worked_hours;
+//            $tmpquery5Params['task_id'] = $id;
+
+
+
+//            $tasks->setTaskName();
+//            $tasks->setDescription();
+//            $tasks->setAssignedTo();
+//            $tasks->setStatus();
+//            $tasks->setPriority();
+//            $tasks->setStartDate();
+//            $tasks->setDueDate();
+//            $tasks->setEstimatedTime();
+//            $tasks->setActualTime();
+//            $tasks->setComments();
+//            $tasks->setModifiedDate();
+//            $tasks->setCompletion();
+//            $tasks->setParentPhase();
+//            $tasks->setPublished();
+//            $tasks->setInvoicing();
+//            $tasks->setWorkedHours();
+//            $tasks->setTaskId();
+
 
             if ($taskStatus == "1" && $complete_date == "--") {
                 $tasks->setCompletionDateForTaskById($id, $date);
@@ -381,7 +422,30 @@ if (
                 }
 
                 $msg = "updateAssignment";
-                phpCollab\Util::newConnectSql($tmpquery5, $tmpquery5Params);
+//                phpCollab\Util::newConnectSql($tmpquery5, $tmpquery5Params);
+//                $tmpquery5Params = [];
+//                $tmpquery5Params['task_name'] = $task_name;
+//                $tmpquery5Params['description'] = $d;
+//                $tmpquery5Params['assigned_to'] = $at;
+//                $tmpquery5Params['status'] = $taskStatus;
+//                $tmpquery5Params['priority'] = $pr;
+//                $tmpquery5Params['start_date'] = $start_date;
+//                $tmpquery5Params['due_date'] = $due_date;
+//                $tmpquery5Params['estimated_time'] = $etm;
+//                $tmpquery5Params['actual_time'] = $atm;
+//                $tmpquery5Params['comments'] = $comments;
+//                $tmpquery5Params['modified'] = $dateheure;
+//                $tmpquery5Params['completion'] = $completion;
+//                $tmpquery5Params['parent_phase'] = ($phase != 0) ? $phase: 0;
+//                $tmpquery5Params['published'] = $pub;
+//                $tmpquery5Params['invoicing'] = $invoicing;
+//                $tmpquery5Params['worked_hours'] = $worked_hours;
+//                $tmpquery5Params['task_id'] = $id;
+
+                // Todo: Finish and test this:
+                // Refactoring the above code to call method
+                $parentPhase = ($phase != 0) ? $phase: 0;
+                $tasks->updateTask($task_name, $d, $at, $taskStatus, $priority, $start_date, $due_date, $etm, $atm, $comments, $dateheure, $completion, $parentPhase, $pub, $invoicing, $worked_hours, $id);
 
                 // Todo: refactor PDO
                 $tmpquery = "WHERE tas.id = '$id'";

@@ -32,9 +32,9 @@ class Tasks
     public function getMyTasks($userId, $sorting = null)
     {
         if (isset($sorting)) {
-            $sorting = filter_var( (string) $sorting, FILTER_SANITIZE_STRING);
+            $sorting = filter_var((string)$sorting, FILTER_SANITIZE_STRING);
         }
-        $userId = filter_var( (string) $userId, FILTER_SANITIZE_STRING);
+        $userId = filter_var((string)$userId, FILTER_SANITIZE_STRING);
 
         $data = $this->tasks_gateway->getMyTasks($userId, $sorting);
         return $data;
@@ -44,8 +44,9 @@ class Tasks
      * @param $userId
      * @return mixed
      */
-    public function getSubtasksAssignedToMe($userId) {
-        $userId = filter_var( (string) $userId, FILTER_SANITIZE_STRING);
+    public function getSubtasksAssignedToMe($userId)
+    {
+        $userId = filter_var((string)$userId, FILTER_SANITIZE_STRING);
 
         return $this->tasks_gateway->getSubtasksAssignedToMe($userId);
     }
@@ -145,9 +146,9 @@ class Tasks
     public function getOpenAndCompletedSubTasksAssignedToMe($ownerId, $sorting)
     {
         if (isset($sorting)) {
-            $sorting = filter_var( (string) $sorting, FILTER_SANITIZE_STRING);
+            $sorting = filter_var((string)$sorting, FILTER_SANITIZE_STRING);
         }
-        $ownerId = filter_var( (string) $ownerId, FILTER_SANITIZE_STRING);
+        $ownerId = filter_var((string)$ownerId, FILTER_SANITIZE_STRING);
 
         return $this->tasks_gateway->getOpenAndCompletedSubTasksAssignedToMe($ownerId, $sorting);
     }
@@ -247,9 +248,18 @@ class Tasks
      */
     public function updateAssignedDate($taskId, $assignedDate)
     {
-        $taskId = filter_var( (int) $taskId, FILTER_SANITIZE_NUMBER_INT);
+        $taskId = filter_var((int)$taskId, FILTER_SANITIZE_NUMBER_INT);
 
         return $this->tasks_gateway->assignTaskTo($taskId, $assignedDate);
+    }
+
+    public function updateTask($taskName, $description, $assignedTo, $status, $priority, $startDate, $dueDate,
+                               $estimatedTime, $actualTime, $comments, $modifiedDate, $completion, $parentPhase, $published, $invoicing,
+                               $workedHours, $taskId)
+    {
+        return $this->tasks_gateway->updateTask($taskName, $description, $assignedTo, $status, $priority, $startDate, $dueDate,
+            $estimatedTime, $actualTime, $comments, $modifiedDate, $completion, $parentPhase, $published, $invoicing,
+            $workedHours, $taskId);
     }
 
     /**
@@ -288,6 +298,7 @@ class Tasks
     {
         return $this->tasks_gateway->setProjectByTaskId($projectId, $taskId);
     }
+
     /**
      * @param $taskId
      * @param $date

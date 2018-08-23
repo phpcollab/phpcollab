@@ -597,7 +597,8 @@ HTML;
      */
     public function paletteScript($num, $type, $link, $options, $text)
     {
-        $link = rtrim($link, '?');
+//        xdebug_var_dump($link);
+//        $link = rtrim($link, '?');
         echo <<<ICON
         document.{$this->form}Form.buttons[document.{$this->form}Form.buttons.length] = 
             new MMCommandButton(
