@@ -140,8 +140,8 @@ org.name AS org_name,
 log.connected AS log_connected,
 log.login AS log_login
 FROM {$tableCollab["members"]} mem
-LEFT OUTER JOIN organizations org ON org.id = mem.organization
-LEFT OUTER JOIN logs log ON log.login = mem.login
+LEFT OUTER JOIN {$tableCollab["organizations"]} org ON org.id = mem.organization
+LEFT OUTER JOIN {$tableCollab["logs"]} log ON log.login = mem.login
 SQL;
 
 
@@ -171,8 +171,8 @@ mem.login AS pro_mem_login,
 mem.name AS pro_mem_name, 
 mem.email_work AS pro_mem_email_work
 FROM {$tableCollab["projects"]} pro
-LEFT OUTER JOIN organizations org ON org.id = pro.organization
-LEFT OUTER JOIN members mem ON mem.id = pro.owner
+LEFT OUTER JOIN {$tableCollab["organizations"]} org ON org.id = pro.organization
+LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = pro.owner
 SQL;
 
 $initrequest["files"] = <<<FILES_SQL
@@ -420,9 +420,9 @@ SELECT
   mem.organization as subtas_mem_organization, 
   tas.name as subtas_tas_name
 FROM {$tableCollab["subtasks"]} subtas
-LEFT OUTER JOIN members mem ON mem.id = subtas.assigned_to
-LEFT OUTER JOIN tasks tas ON tas.id = subtas.task
-LEFT OUTER JOIN members mem2 ON mem2.id = subtas.owner
+LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = subtas.assigned_to
+LEFT OUTER JOIN {$tableCollab["tasks"]} tas ON tas.id = subtas.task
+LEFT OUTER JOIN {$tableCollab["members"]} mem2 ON mem2.id = subtas.owner
 SQL;
 
 $initrequest["phases"] = <<<PHASESSQL
@@ -507,8 +507,8 @@ SELECT
   mem.email_work AS boo_mem_email_work, 
   boocat.name AS boo_boocat_name
 FROM {$tableCollab["bookmarks"]} boo
-LEFT OUTER JOIN bookmarks_categories boocat ON boocat.id = boo.category
-LEFT OUTER JOIN members mem ON mem.id = boo.owner
+LEFT OUTER JOIN {$tableCollab["bookmarks_categories"]} boocat ON boocat.id = boo.category
+LEFT OUTER JOIN {$tableCollab["members"]} mem ON mem.id = boo.owner
 SQL;
 
 $initrequest["bookmarks_categories"] = <<<SQL
