@@ -159,7 +159,7 @@ echo "			<table border='0' cellpadding='2' cellspacing='0'>
 				</table>
 
 				<table border='0' cellpadding='2' cellspacing='0'>
-					<tr><td width='18'><img height='8' src='../themes/" . THEME . "/spacer.gif' alt='' width='18'></td>
+					<tr><td width='18'><img height='8' src='../themes/" . THEME . "/images/spacer.gif' alt='' width='18'></td>
 					<td class='infoValue' noWrap><input type='text' name='S_SDATE' id='dueDate_start' size='20' value=''><input type='button' value=' ... ' id='trigDueDateStart'></td>
 				</tr>
 				<tr>
@@ -199,7 +199,7 @@ echo "			<table border='0' cellpadding='2' cellspacing='0'>
 
 				<table border='0' cellpadding='2' cellspacing='0'>
 				<tr>
-					<td width='18'><img height='8' src='../themes/" . THEME . "/spacer.gif' alt='' width='18'></td>
+					<td width='18'><img height='8' src='../themes/" . THEME . "/images/spacer.gif' alt='' width='18'></td>
 					<td class='infoValue' noWrap><input type='text' name='S_SDATE2' id='compDate_start' size='20' value=''><input type='button' value=' ... ' id='trigCompDateStart'></td>
 				</tr>
 				<tr>

@@ -15,13 +15,13 @@ use \Exception;
  */
 class Util
 {
-    protected $strings;
+    protected static $strings;
 
     /**
      * Util constructor.
      */
     public function __construct() {
-        $this->strings = $GLOBALS['strings'];
+        self::$strings = $GLOBALS['strings'];
     }
 
     /**
