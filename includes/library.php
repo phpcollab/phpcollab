@@ -61,7 +61,7 @@ if ($export != "true") {
 }
 
 // register_globals cheat code
-if (ini_get(register_globals) != "1") {
+/*if (ini_get(register_globals) != "1") {
     //GET and POST VARS
     foreach ($_REQUEST as $key => $val) {
         $GLOBALS[$key] = phpCollab\Util::replaceSpecialCharacters($val);
@@ -74,7 +74,7 @@ if (ini_get(register_globals) != "1") {
     foreach ($_SERVER as $key => $val) {
         $GLOBALS[$key] = phpCollab\Util::replaceSpecialCharacters($val);
     }
-}
+}*/
 
 $msg = phpCollab\Util::returnGlobal('msg', 'GET');
 $session = phpCollab\Util::returnGlobal('session', 'GET');
