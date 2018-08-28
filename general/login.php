@@ -362,7 +362,7 @@ $block1->contentRow(
     "<input type='submit' name='save' value='" . $strings["login"] . "'><br/><br/><br/>" . $blockPage->buildLink(
         "../general/sendpassword.php?",
         $strings["forgot_pwd"],
-        in
+        'in'
     )
 );
 
