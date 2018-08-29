@@ -32,17 +32,23 @@ $clients = new \phpCollab\Organizations\Organizations();
 $projects = new \phpCollab\Projects\Projects();
 $members = new \phpCollab\Members\Members();
 
+
 if ($action == "delete") {
     $id = str_replace("**", ",", $id);
 
     $listOrganizations = $clients->getOrganizationsOrderedByName($id);
     foreach ($listOrganizations as $org) {
-        if (file_exists("logos_clients/" . $org['org_id'] . "." . org['org_extension_logo'])) {
-            @unlink("logos_clients/" . org['org_id'] . "." . org['org_extension_logo']);
+        if (file_exists("logos_clients/" . $org['org_id'] . "." . $org['org_extension_logo'])) {
+            unlink("logos_clients/" . $org['org_id'] . "." . $org['org_extension_logo']);
         }
     }
 
-    $deleteOrg = $clients->deleteClient($id);
+    try {
+        $deleteOrg = $clients->deleteClient($id);
+    } catch (\Exception $e) {
+        echo 'Message: ' . $e->getMessage();
+    }
+
     $setDefaultOrg = $projects->setDefaultOrg($id);
     $deleteMembers = $members->deleteMemberByOrgId($id);
 
@@ -51,7 +57,7 @@ if ($action == "delete") {
 
 $setTitle .= " : Delete Client";
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -89,4 +95,4 @@ $block1->closeForm();
 
 $block1->note($strings["delete_organizations_note"]);
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
