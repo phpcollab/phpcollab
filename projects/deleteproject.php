@@ -96,7 +96,7 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], 'in'));
 $blockPage->itemBreadcrumbs($strings["delete_projects"]);
 $blockPage->closeBreadcrumbs();
 
