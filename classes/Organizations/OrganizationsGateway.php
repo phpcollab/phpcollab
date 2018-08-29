@@ -1,4 +1,5 @@
 <?php
+
 namespace phpCollab\Organizations;
 
 use phpCollab\Database;
@@ -74,13 +75,14 @@ class OrganizationsGateway
     }
 
     /**
+     * @param $sorting
      * @return mixed
      */
-    public function getAllOrganizations()
+    public function getAllOrganizations($sorting)
     {
-        $whereStatement = " WHERE org.id != '1' ORDER BY org.name";
+        $whereStatement = " WHERE org.id != '1'";
 
-        $this->db->query($this->initrequest["organizations"] . $whereStatement);
+        $this->db->query($this->initrequest["organizations"] . $whereStatement . $this->orderBy($sorting));
 
         return $this->db->resultset();
     }
@@ -94,11 +96,13 @@ class OrganizationsGateway
         $orgId = explode(',', $orgId);
         $placeholders = str_repeat('?, ', count($orgId) - 1) . '?';
 
-        $whereStatement = " WHERE org.id IN ($placeholders) ORDER BY org.name";
+        $whereStatement = " WHERE org.id IN ($placeholders)";
 
-        $this->db->query($this->initrequest["organizations"] . $whereStatement);
+        $this->db->query($this->initrequest["organizations"] . $whereStatement . $this->orderBy('org.name'));
 
-        return $this->db->resultset();
+        $this->db->execute($orgId);
+        return $this->db->fetchAll();
+
     }
 
     /**
@@ -175,4 +179,28 @@ SQL;
         $this->db->query($sql);
         return $this->db->execute($clientId);
     }
+
+    /**
+     * @param $sorting
+     * @return string
+     */
+    private function orderBy($sorting)
+    {
+        if (!is_null($sorting)) {
+            $allowedOrderedBy = ["org.name"];
+            $pieces = explode(' ', $sorting);
+
+            if ($pieces) {
+                $key = array_search($pieces[0], $allowedOrderedBy);
+
+                if ($key !== false) {
+                    $order = $allowedOrderedBy[$key];
+                    return " ORDER BY $order $pieces[1]";
+                }
+            }
+        }
+
+        return '';
+    }
+
 }

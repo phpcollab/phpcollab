@@ -51,11 +51,12 @@ class Organizations
     }
 
     /**
+     * @param null $sorting
      * @return mixed
      */
-    public function getListOfOrganizations()
+    public function getListOfOrganizations($sorting = null)
     {
-        $data = $this->organizations_gateway->getAllOrganizations();
+        $data = $this->organizations_gateway->getAllOrganizations($sorting);
 
         return $data;
     }
@@ -66,8 +67,6 @@ class Organizations
      */
     public function getOrganizationsOrderedByName($orgId)
     {
-        $orgId = filter_var($orgId, FILTER_VALIDATE_INT);
-
         $data = $this->organizations_gateway->getOrganizationsOrderedByName($orgId);
 
         return $data;
