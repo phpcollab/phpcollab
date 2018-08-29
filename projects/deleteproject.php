@@ -22,83 +22,74 @@ if (empty($id)) {
     phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blankProject");
 }
 
-$tmpquery = "WHERE pro.id IN($id) ORDER BY pro.name";
-$listProjects = new phpCollab\Request();
-$listProjects->openProjects($tmpquery);
-$comptListProjects = count($listProjects->pro_id);
+$listProjects = $projects->getProjectByIdIn($id, 'pro.name');
 
-if ($comptListProjects == "0") {
+if (!$listProjects) {
     phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blankProject");
 }
 
-if ($idSession != $listProjects->pro_owner[0] && $profilSession != "5") {
-    phpCollab\Util::headerFunction("../projects/listprojects.php?msg=projectOwner");
+foreach($listProjects as $proj) {
+    if ($idSession != $proj['pro_owner'] && $profilSession != "5") {
+        phpCollab\Util::headerFunction("../projects/listprojects.php?msg=projectOwner");
+    }
 }
+unset($proj);
 
 if ($action == "delete") {
-    $id = str_replace("**", ",", $id);
-    $pieces = explode(",", $id);
-    $comptPro = count($pieces);
-    for ($i = 0; $i < $comptPro; $i++) {
-        if ($fileManagement == "true") {
-            phpCollab\Util::deleteDirectory("../files/$pieces[$i]");
+
+    if ($listProjects) {
+        // Loop through the projects and perform the clean-up functionality
+
+        foreach ($listProjects as $proj) {
+            // Get tasks for each project
+            $listTasks = $tasks->getTasksByProjectId($proj['pro_id']);
+            foreach ($listTasks as $task) {
+                if ($fileManagement == "true") {
+                    phpCollab\Util::deleteDirectory("../files/" . $proj['pro_id'] . "/" . $task['tas_id']);
+                    $assignments->deleteAssignmentsByProjectId($proj['pro_id']);
+                    $tasks->deleteSubtasksByProjectId($proj['pro_id']);
+                }
+            }
+            unset($task);
+
+            // Get topics for each project and delete posts
+            $listTopics = $topics->getTopicsByProjectId($proj['pro_id']);
+            if ($listTopics) {
+                $topics->deletePostsByProjectId($proj['pro_id']);
+            }
+
+            $tasks->deleteTasksByProjectId($proj['pro_id']);
+            $teams->deleteFromTeamsByProjectId($proj['pro_id']);
+            $topics->deleteTopicWhereProjectIdIn($proj['pro_id']);
+            $files->deleteFilesByProjectId($proj['pro_id']);
+            $projects->deleteProject($proj['pro_id']);
+
+            $notes->deleteNotesByProjectId($proj['pro_id']);
+            $support->deleteSupportPostsByProjectId($proj['pro_id']);
+            $support->deleteSupportPostsByProjectId($proj['pro_id']);
+            $phases->deletePhasesByProjectId($proj['pro_id']);
+
+            // Delete files
+            if ($fileManagement == "true") {
+                phpCollab\Util::deleteDirectory("../files/" . $proj['pro_id']);
+            }
+
+            if ($sitePublish == "true") {
+                phpCollab\Util::deleteDirectory("project_sites/" . $proj['pro_id']);
+            }
+
+            //if mantis bug tracker enabled
+            if ($enableMantis == "true") {
+                // call mantis function to delete project
+                include '../mantis/proj_delete.php';
+            }
+
         }
-        if ($sitePublish == "true") {
-            phpCollab\Util::deleteDirectory("project_sites/$pieces[$i]");
-        }
+        unset($proj);
+        phpCollab\Util::headerFunction("../projects/listprojects.php?msg=delete");
+    } else {
+        phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blankProject");
     }
-
-    $tmpquery = "WHERE tas.project IN($id)";
-    $listTasks = new phpCollab\Request();
-    $listTasks->openTasks($tmpquery);
-    $comptListTasks = count($listTasks->tas_id);
-    for ($i = 0; $i < $comptListTasks; $i++) {
-        if ($fileManagement == "true") {
-            phpCollab\Util::deleteDirectory("../files/$id/" . $listTasks->tas_id[$i]);
-        }
-        $tasks .= $listTasks->tas_id[$i];
-        if ($i != $comptListTasks - 1) {
-            $tasks .= ",";
-        }
-    }
-
-    $tmpquery = "WHERE topic.project IN($id)";
-    $listTopics = new phpCollab\Request();
-    $listTopics->openTopics($tmpquery);
-    $comptListTopics = count($listTopics->top_id);
-    for ($i = 0; $i < $comptListTopics; $i++) {
-        $topics .= $listTopics->top_id[$i];
-        if ($i != $comptListTopics - 1) {
-            $topics .= ",";
-        }
-    }
-
-
-    $projects->deleteProject($id);
-    $tasks->deleteTasksByProjectId($id);
-    $teams->deleteFromTeamsByProjectId($id);
-    $topics->deleteTopicWhereProjectIdIn($id);
-    $files->deleteFilesByProjectId($id);
-
-    if ($tasks != "") {
-        $assignments->deleteAssignmentsByProjectId($id);
-        $tasks->deleteSubtasksByProjectId($id);
-    }
-    if ($topics != "") {
-        $topics->deletePostsByProjectId($id);
-    }
-
-    $notes->deleteNotesByProjectId($id);
-    $support->deleteSupportPostsByProjectId($id);
-    $support->deleteSupportPostsByProjectId($id);
-    $phases->deletePhasesByProjectId($id);
-
-    //if mantis bug tracker enabled
-    if ($enableMantis == "true") {
-        // call mantis function to delete project
-        include '../mantis/proj_delete.php';
-    }
-    phpCollab\Util::headerFunction("../projects/listprojects.php?msg=delete");
 }
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
@@ -124,14 +115,14 @@ $block1->heading($strings["delete_projects"]);
 $block1->openContent();
 $block1->contentTitle($strings["delete_following"]);
 
-for ($i = 0; $i < $comptListProjects; $i++) {
-    $block1->contentRow("#" . $listProjects->pro_id[$i], $listProjects->pro_name[$i]);
+foreach ($listProjects as $proj) {
+    $block1->contentRow("#" . $proj['pro_id'], $proj['pro_name']);
 }
+unset($proj);
 
-$block1->contentRow("", "<input type=\"submit\" name=\"delete\" value=\"" . $strings["delete"] . "\"> <input type=\"button\" name=\"cancel\" value=\"" . $strings["cancel"] . "\" onClick=\"history.back();\">");
+$block1->contentRow("", '<input type="submit" name="delete" value="' . $strings["delete"] . '"> <input type="button" name="cancel" value="' . $strings["cancel"] . '" onClick="history.back();">');
 
 $block1->closeContent();
 $block1->closeForm();
-
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';
