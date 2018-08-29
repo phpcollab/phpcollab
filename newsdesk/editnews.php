@@ -39,34 +39,40 @@ if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5") {
     phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=permissionNews");
 }
 
+$news = new \phpCollab\NewsDesk\NewsDesk();
+
+$action = $_GET['action'];
+$id = $_GET['id'];
+
 //case edit news
 if ($id != "") {
 
-    //test exists selected client organization, redirect to list if not
-    $tmpquery = "WHERE news.id = '$id'";
-    $newsDetail = new phpCollab\Request();
-    $newsDetail->openNewsDesk($tmpquery);
-    $comptnewsDetail = count($newsDetail->news_id);
+    $newsDetail = $news->getPostById($id);
 
     //only author and admin can change an article
-    if ($profilSession != "0" && $idSession != $newsDetail->news_author[0]) {
+    if ($profilSession != "0" && $idSession != $newsDetail['news_author']) {
         phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=permissionNews");
     }
 
-    if ($comptnewsDetail == "0") {
+    if (!$newsDetail) {
         phpCollab\Util::headerFunction("../newsdesk/listnews.php?msg=blankNews");
     }
 
     if ($action == "update") {
+
+        $title = $_POST['title'];
+        $content = $_POST['content'];
+        $author = $_POST['author'];
+        $related = $_POST['related'];
+        $links = $_POST['links'];
+        $rss = $_POST['rss'];
+
         $title = phpCollab\Util::convertData($title);
         if (get_magic_quotes_gpc() != 1) {
             $content = addslashes($content);
         }
 
-        phpCollab\Util::newConnectSql(
-            "UPDATE {$tableCollab["newsdeskposts"]} SET title = :title, author = :author, related = :related, content = :content, links = :links, rss = :rss WHERE id = :id",
-            ["title" => $title, "author" => $author, "related" => $related, "content" => $content, "links" => $links, "rss" => $rss, "id" => $id]
-        );
+        $news->updatePostById($id, $title, $author, $related, $content, $links, $rss);
         phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$id&msg=update");
     } elseif ($action == "delete") {
         $id = str_replace("**", ",", $id);
@@ -76,11 +82,11 @@ if ($id != "") {
         phpCollab\Util::headerFunction("../newsdesk/listnews.php?msg=removeNews");
     } else {
         //set value in form
-        $title = $newsDetail->news_title[0];
-        $content = $newsDetail->news_content[0];
-        $author = $newsDetail->news_author[0];
-        $links = $newsDetail->news_links[0];
-        $rss = $newsDetail->news_rss[0];
+        $title = $newsDetail['news_title'];
+        $content = $newsDetail['news_content'];
+        $author = $newsDetail['news_author'];
+        $links = $newsDetail['news_links'];
+        $rss = $newsDetail['news_rss'];
     }
 } else { // case of adding news
 
@@ -109,43 +115,45 @@ if ($id != "") {
 }
 
 // htmlArea 3.0 initialization
-$headBonus = "	
-			<script type='text/javascript'> 
-			  _editor_url = '../includes/htmlarea/'; 
-			</script> 
+if (!isset($action) || $action != "remove") {
+    $headBonus = "	
+                <script type='text/javascript'> 
+                  _editor_url = '../includes/htmlarea/'; 
+                </script> 
+    
+                <script type='text/javascript' src='../includes/htmlarea/htmlarea.js'></script>
+                <script type='text/javascript' src='../includes/htmlarea/lang/$lang.js'></script>
+                <script type='text/javascript' src='../includes/htmlarea/dialog.js'></script>
+                <script type='text/javascript' src='../includes/htmlarea/popupdiv.js'></script>
+                <script type='text/javascript' src='../includes/htmlarea/popupwin.js'></script> 
+                
+                <style type='text/css'>@import url(../includes/htmlarea/htmlarea.css)</style>
+    
+    
+                 
+                 
+                <script type='text/javascript'>
+    
+                    HTMLArea.loadPlugin('TableOperations'); 
+                    
+                    var editor = null;
+                    
+                    function initEditor() {
+                      editor = new HTMLArea('content');
+                      editor.registerPlugin('TableOperations');
+                      editor.generate();
+                    }
+    
+                </script>
+                ";
+    $bodyCommand = "onload='initEditor();'";
+}
 
-			<script type='text/javascript' src='../includes/htmlarea/htmlarea.js'></script>
-			<script type='text/javascript' src='../includes/htmlarea/lang/$lang.js'></script>
-			<script type='text/javascript' src='../includes/htmlarea/dialog.js'></script>
-			<script type='text/javascript' src='../includes/htmlarea/popupdiv.js'></script>
-			<script type='text/javascript' src='../includes/htmlarea/popupwin.js'></script> 
-			
-			<style type='text/css'>@import url(../includes/htmlarea/htmlarea.css)</style>
-
-
-			 
-			 
-			<script type='text/javascript'>
-
-				HTMLArea.loadPlugin('TableOperations'); 
-				
-				var editor = null;
-				
-				function initEditor() {
-				  editor = new HTMLArea('content');
-  			      editor.registerPlugin('TableOperations');
-				  editor.generate();
-				}
-
-			</script>
-			";
-
-$bodyCommand = "onload='initEditor();'";
 // end
 
 //** Titel stuff here.. **
 if ($id != '' && empty($action)) {
-    $setTitle .= " : Edit News Item (" . $newsDetail->news_title[0] . ")";
+    $setTitle .= " : Edit News Item (" . $newsDetail['news_title'] . ")";
 } elseif ($id != '' && $action == "remove") {
     if (strpos($id, "**") !== false) {
         $setTitle .= " : Remove News Items";
@@ -159,12 +167,12 @@ include '../themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/listnews.php?", $strings["newsdesk"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/listnews.php?", $strings["newsdesk"], 'in'));
 
 if ($id == "") {
     $blockPage->itemBreadcrumbs($strings["add_newsdesk"]);
 } else {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/viewnews.php?id=" . $newsDetail->news_id[0], $newsDetail->news_title[0], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/viewnews.php?id=" . $newsDetail['news_id'], $newsDetail['news_title'], 'in'));
     $blockPage->itemBreadcrumbs($strings["edit_newsdesk"]);
 }
 
@@ -188,7 +196,7 @@ if ($action != 'remove') {
         $block1->heading($strings["add_newsdesk"]);
     } else {
         echo "	<a name='" . $block1->form . "Anchor'></a>\n <form accept-charset='UNKNOWN' method='POST' action='../newsdesk/editnews.php?id=$id&action=update&' name='ecDForm'>\n";
-        $block1->heading($strings["edit_newsdesk"] . " : " . $newsDetail->news_title[0]);
+        $block1->heading($strings["edit_newsdesk"] . " : " . $newsDetail['news_title']);
     }
 
 
@@ -201,8 +209,8 @@ if ($action != 'remove') {
     } // edit
     else {
         $members = new \phpCollab\Members\Members();
-        $newsAuthor = $members->getMemberById($newsDetail->news_author[0]);
-        $block1->contentRow($strings["author"], "<input type='hidden' name='author' value='" . $newsDetail->news_author[0] . "'><b>" . $newsAuthor["mem_name"] . "</b>");
+        $newsAuthor = $members->getMemberById($newsDetail['news_author']);
+        $block1->contentRow($strings["author"], "<input type='hidden' name='author' value='" . $newsDetail['news_author'] . "'><b>" . $newsAuthor["mem_name"] . "</b>");
     }
 
     $block1->contentRow($strings["title"], "<input type='text' name='title' value='$title' style='width: 300px;'>");
@@ -231,7 +239,7 @@ if ($action != 'remove') {
 
     if ($comptListProjects > 0) {
         for ($i = 0; $i < $comptListProjects; $i++) {
-            if ($newsDetail->news_related[0] == $listProjects->tea_pro_id[$i]) {
+            if ($newsDetail['news_related'] == $listProjects->tea_pro_id[$i]) {
                 $selected = 'selected';
             } else {
                 $selected = '';
@@ -243,7 +251,7 @@ if ($action != 'remove') {
     $block1->contentRow($strings["newsdesk_related"], "<select name='related' style='width: 300px;'>$option</select>");
     // end
 
-    $block1->contentRow($strings["comments"], "<textarea rows='30' name='content' id='content' style='width: 400px;'>$content</textarea>");
+    $block1->contentRow($strings["comments"], '<textarea rows="30" name="content" id="content" style="width: 400px;">'.$content.'</textarea>');
 
     // 14/06/2003 related links & rss enabled by fullo
     $block1->contentRow($strings["newsdesk_related_links"] . $block1->printHelp("newsdesk_links"), "<input type='text' name='links' value='$links' style='width: 300px;'>");
