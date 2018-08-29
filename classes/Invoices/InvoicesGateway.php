@@ -43,7 +43,7 @@ SQL;
         $this->db->bind(':invoice', $invoiceData["invoice_id"]);
         $this->db->bind(':created', $invoiceData["created"]);
         $this->db->bind(':active', $invoiceData["active"]);
-        $this->db->bind(':completed', $invoiceData["completed_item"]);
+        $this->db->bind(':completed', $invoiceData["completed"]);
         $this->db->bind(':mod_type', $invoiceData["mod_type"]);
         $this->db->bind(':mod_value', $invoiceData["mod_value"]);
         $this->db->bind(':worked_hours', $invoiceData["worked_hours"]);
