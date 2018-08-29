@@ -200,14 +200,13 @@ if (
                     $dbParams = [];
                     $dbParams['title'] = $task_name;
                     $dbParams['description'] = $d;
-                    $dbParams['invoice'] = phpCollab\Util::fixInt($detailInvoice->inv_id[0]);
+                    $dbParams['invoice_id'] = $detailInvoice['inv_id'];
                     $dbParams['created'] = $dateheure;
                     $dbParams['active'] = $invoicing;
                     $dbParams['completed'] = $completeItem;
                     $dbParams['mod_type'] = 1;
                     $dbParams['mod_value'] = $num;
                     $dbParams['worked_hours'] = $worked_hours;
-
                     $invoice_num = $invoices->addInvoiceItem($dbParams);
 
                     unset($dbParams);
@@ -223,7 +222,7 @@ if (
                 $tasks->updateAssignedDate($num, $dateheure);
             }
 
-            $assignmnetId = $assignments->addAssignment($num, $idSession, $at, $dateheure);
+            $assignmentId = $assignments->addAssignment($num, $idSession, $at, $dateheure);
 
             //if assigned_to not blank, add to team members (only if doesn't already exist)
             if ($at != "0") {
@@ -631,10 +630,10 @@ if (
                 $dbParams = [];
                 $dbParams['task_name'] = $task_name;
                 $dbParams['description'] = $description;
-                $dbParams['invoice_id'] = phpCollab\Util::fixInt($detailInvoice['inv_id']);
+                $dbParams['invoice_id'] = $detailInvoice['inv_id'];
                 $dbParams['created'] = $dateheure;
                 $dbParams['active'] = $invoicing;
-                $dbParams['completed_item'] = $completeItem;
+                $dbParams['completed'] = $completeItem;
                 $dbParams['mod_type'] = 1;
                 $dbParams['mod_value'] = $newTaskId;
                 $dbParams['worked_hours'] = $worked_hours;
