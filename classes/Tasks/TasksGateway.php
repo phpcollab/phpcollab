@@ -550,7 +550,7 @@ SQL;
     {
         $projectId = explode(',', $projectId);
         $placeholders = str_repeat ('?, ', count($projectId)-1) . '?';
-        $sql = "DELETE FROM {$this->tableCollab['subtasks']} WHERE project IN ($placeholders)";
+        $sql = "DELETE FROM {$this->tableCollab['subtasks']} WHERE task IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($projectId);
     }
