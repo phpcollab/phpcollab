@@ -28,10 +28,12 @@ class Topics
      * @param $sorting
      * @return mixed
      */
-    public function getTopicsByProjectId($projectId, $sorting)
+    public function getTopicsByProjectId($projectId, $sorting = null)
     {
         $projectId = filter_var($projectId, FILTER_SANITIZE_STRING);
-        $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
+        if (isset($sorting)) {
+            $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
+        }
         return $this->topics_gateway->getTopicsByProject($projectId, $sorting);
     }
 
