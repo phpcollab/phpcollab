@@ -52,6 +52,16 @@ class Projects
     }
 
     /**
+     * @param $projectId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getProjectByIdIn($projectId, $sorting = null)
+    {
+        return $this->projects_gateway->getProjectByIdIn($projectId, $sorting);
+    }
+
+    /**
      * @param $ownerId
      * @param $sorting
      * @return mixed

@@ -167,6 +167,23 @@ class ProjectsGateway
     }
 
     /**
+     * @param $projectId
+     * @param $sorting
+     * @return mixed
+     */
+    public function getProjectByIdIn($projectId, $sorting)
+    {
+        //$tmpquery = "WHERE pro.id IN($id) ORDER BY pro.name";
+        $ids = explode(',', $projectId);
+        $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
+        $whereStatement = " WHERE pro.id IN($placeholders) ";
+        $this->db->query($this->initrequest["projects"] . $whereStatement . $this->orderBy($sorting));
+        $this->db->execute($ids);
+        return $this->db->fetchAll();
+    }
+
+
+    /**
      * @param $orgId
      * @return mixed
      */
