@@ -182,7 +182,7 @@ class TopicsGateway
     {
         $projectId = explode(',', $projectId);
         $placeholders = str_repeat('?, ', count($projectId) - 1) . '?';
-        $sql = "DELETE FROM {$this->tableCollab['posts']} WHERE project IN ($placeholders)";
+        $sql = "DELETE FROM {$this->tableCollab['posts']} WHERE topic IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($projectId);
     }
