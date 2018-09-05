@@ -124,7 +124,6 @@ class NewsDesk
     }
 
     /**
-     * @param $postId
      * @param $title
      * @param $author
      * @param $related
