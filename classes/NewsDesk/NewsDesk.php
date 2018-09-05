@@ -43,6 +43,15 @@ class NewsDesk
     }
 
     /**
+     * @param $postId
+     * @return mixed
+     */
+    public function getPostByIdIn($postId)
+    {
+        return $this->newsdesk_gateway->getNewsPostByIdIn($postId);
+    }
+
+    /**
      * @param $commentId
      * @return mixed
      */
@@ -70,6 +79,15 @@ class NewsDesk
     }
 
     /**
+     * @param $postId
+     * @return mixed
+     */
+    public function deleteNewsDeskPost($postId)
+    {
+        return $this->newsdesk_gateway->deletePostById($postId);
+    }
+
+    /**
      * @param $commentId
      * @return mixed
      */
@@ -79,11 +97,60 @@ class NewsDesk
     }
 
     /**
+     * @param $postId
+     * @return mixed
+     */
+    public function deleteCommentByPostId($postId)
+    {
+        return $this->newsdesk_gateway->deleteCommentByPostId($postId);
+    }
+
+    /**
      * @return mixed
      */
     public function getRSSFeed()
     {
         return $this->newsdesk_gateway->getRSSPosts();
+    }
+
+    /**
+     * @param $userId
+     * @param null $profile
+     * @return mixed
+     */
+    public function getNewsdeskRelated($userId, $profile = null)
+    {
+        return $this->newsdesk_gateway->getRelated($userId, $profile);
+    }
+
+    /**
+     * @param $postId
+     * @param $title
+     * @param $author
+     * @param $related
+     * @param $content
+     * @param $links
+     * @param $rss
+     * @return mixed
+     */
+    public function addPost($title, $author, $related, $content, $links, $rss)
+    {
+        return $this->newsdesk_gateway->addPost($title, $author, $related, $content, $links, $rss);
+    }
+
+    /**
+     * @param $postId
+     * @param $title
+     * @param $author
+     * @param $related
+     * @param $content
+     * @param $links
+     * @param $rss
+     * @return mixed
+     */
+    public function updatePostById($postId, $title, $author, $related, $content, $links, $rss)
+    {
+        return $this->newsdesk_gateway->updatePostById($postId, $title, $author, $related, $content, $links, $rss);
     }
 
 }

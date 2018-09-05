@@ -52,6 +52,22 @@ class NewsDeskGateway
     }
 
     /**
+     * @param $postId
+     * @return mixed
+     *
+     * Get a list of newsdesk posts by news.id
+     */
+    public function getNewsPostByIdIn($postId)
+    {
+        $postId = explode(',', $postId);
+        $placeholders = str_repeat('?, ', count($postId) - 1) . '?';
+        $query = $this->initrequest["newsdeskposts"] . " WHERE news.id in ($placeholders)";
+        $this->db->query($query);
+        $this->db->execute($postId);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $commentId
      * @return mixed
      */
@@ -112,6 +128,19 @@ class NewsDeskGateway
     }
 
     /**
+     * @param $postId
+     * @return mixed
+     */
+    public function deletePostById($postId)
+    {
+        $postId = explode(',', $postId);
+        $placeholders = str_repeat('?, ', count($postId) - 1) . '?';
+        $query = "DELETE FROM {$this->tableCollab["newsdeskposts"]} WHERE id IN ($placeholders)";
+        $this->db->query($query);
+        return $this->db->execute($postId);
+    }
+
+    /**
      * @param $commentId
      * @return mixed
      */
@@ -125,6 +154,18 @@ class NewsDeskGateway
     }
 
     /**
+     * @param $postId
+     * @return mixed
+     */
+    public function deleteCommentByPostId($postId)
+    {
+        $postId = explode(',', $postId);
+        $placeholders = str_repeat('?, ', count($postId) - 1) . '?';
+        $query = "DELETE FROM {$this->tableCollab["newsdeskcomments"]} WHERE post_id IN ($placeholders)";
+        $this->db->query($query);
+        return $this->db->execute($postId);    }
+
+    /**
      * @return mixed
      */
     public function getRSSPosts()
@@ -132,6 +173,85 @@ class NewsDeskGateway
         $query = "SELECT id, title, author, content, related, pdate as date FROM {$this->tableCollab["newsdeskposts"]} WHERE rss = 1 ORDER BY pdate DESC LIMIT 0,5";
         $this->db->query($query);
         return $this->db->resultset();
+    }
+
+    /**
+     * @param $userId
+     * @param $profile
+     * @return mixed
+     */
+    public function getRelated($userId, $profile)
+    {
+        $sql = <<<SQL
+        
+SELECT DISTINCT pro.id as tea_pro_id, pro.name as tea_pro_name, tea.id as tea_id FROM {$this->tableCollab["teams"]} tea, {$this->tableCollab["projects"]} pro 
+WHERE pro.id = tea.project
+SQL;
+
+        if ($profile == 0) {
+            $sql .= " GROUP BY pro.id ";
+        } else {
+            $sql .= " AND tea.member = :user_id OR pro.id = 0 GROUP BY pro.id";
+        }
+
+        $this->db->query($sql);
+        $this->db->bind(':user_id', $userId);
+        return $this->db->resultset();
+    }
+
+    /**
+     * @param $title
+     * @param $author
+     * @param $related
+     * @param $content
+     * @param $links
+     * @param $rss
+     * @return mixed
+     */
+    public function addPost($title, $author, $related, $content, $links, $rss)
+    {
+        $sql = <<<SQL
+INSERT INTO {$this->tableCollab["newsdeskposts"]} 
+(title, author, related, content, links, rss, pdate) 
+VALUES 
+(:title, :author, :related, :content, :links, :rss, NOW())
+SQL;
+        $this->db->query($sql);
+        $this->db->bind(':title', $title);
+        $this->db->bind(':author', $author);
+        $this->db->bind(':related', $related);
+        $this->db->bind(':content', $content);
+        $this->db->bind(':links', $links);
+        $this->db->bind(':rss', $rss);
+
+        $this->db->execute();
+        return $this->db->lastInsertId();
+    }
+
+    /**
+     * @param $postId
+     * @param $title
+     * @param $author
+     * @param $related
+     * @param $content
+     * @param $links
+     * @param $rss
+     * @return mixed
+     */
+    public function updatePostById($postId, $title, $author, $related, $content, $links, $rss)
+    {
+        $sql = <<<SQL
+UPDATE {$this->tableCollab["newsdeskposts"]} SET title = :title, author = :author, related = :related, content = :content, links = :links, rss = :rss WHERE id = :post_id
+SQL;
+        $this->db->query($sql);
+        $this->db->bind(':post_id', $postId);
+        $this->db->bind(':title', $title);
+        $this->db->bind(':author', $author);
+        $this->db->bind(':related', $related);
+        $this->db->bind(':content', $content);
+        $this->db->bind(':links', $links);
+        $this->db->bind(':rss', $rss);
+        return $this->db->execute();
     }
 
     /**
