@@ -126,7 +126,7 @@ if (!isset($action) || $action != "remove") {
                 </script> 
     
                 <script type='text/javascript' src='../includes/htmlarea/htmlarea.js'></script>
-                <script type='text/javascript' src='../includes/htmlarea/lang/$lang.js'></script>
+                <script type='text/javascript' src='../includes/htmlarea/lang/{$GLOBALS['lang']}.js'></script>
                 <script type='text/javascript' src='../includes/htmlarea/dialog.js'></script>
                 <script type='text/javascript' src='../includes/htmlarea/popupdiv.js'></script>
                 <script type='text/javascript' src='../includes/htmlarea/popupwin.js'></script> 
