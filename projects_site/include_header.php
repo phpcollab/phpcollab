@@ -1,5 +1,8 @@
 <?php
 
+$projects = new \phpCollab\Projects\Projects();
+$teams = new \phpCollab\Teams\Teams();
+
 if ($projectSession != "" && $changeProject != "true") {
     $projectDetail = $projects->getProjectById($projectSession);
 
@@ -10,6 +13,8 @@ if ($projectSession != "" && $changeProject != "true") {
         phpCollab\Util::headerFunction("index.php");
     }
 }
+
+$bouton = $GLOBALS['bouton'];
 
 echo <<<HTML
 $setDoctype
@@ -34,8 +39,7 @@ echo "</title>\n";
 
 echo <<<HEAD
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-<link rel="stylesheet" href="../themes/{THEME}/css/stylesheet.css">
+<link rel="stylesheet" href="../themes/{$theme}/css/stylesheet.css">
 <script type="text/javascript" src="../javascript/general.js"></script>
 <script type="text/JavaScript" src="../javascript/overlib_mini.js"></script>
 HEAD;
@@ -49,13 +53,13 @@ echo <<<HTML
 <body {$bodyCommand}>
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
 
-<table cellpadding="0" cellspacing="0" border="0" width="100%" background="bg_header.jpg">
+<table cellpadding="0" cellspacing="0" border="0" width="100%" style="background: url(bg_header.jpg)">
     <tr>
         <td align="left"><img src="spacer_black.gif" width="1" height="24" border="0" alt=""></td>
         <td align="right"><img src="spacer_black.gif" width="1" height="24" border="0" alt=""></td>
     </tr>
 </table>
-<table cellpadding="0" cellspacing="0" border="0" height="95%" width="100%">
+<table cellpadding="0" cellspacing="0" border="0" style="height: 95%;" width="100%">
     <tr>
 HTML;
 echo '        <td valign="middle" width="150" bgcolor="#5B7F93" height="75"><img src="../themes/'.THEME.'/images/spacer.gif" width="150" height="75" alt=""></td>';
@@ -66,7 +70,6 @@ echo <<< HTML
         <td valign="top" bgcolor="#C4D3DB"><br/>
             <table cellspacing="2" cellpadding="3" border="0">
 HTML;
-
 
 for ($i = 0; $i < 7; $i++) {
     if ($bouton[$i] == "") {
@@ -105,18 +108,19 @@ if ($projectSession != "" && $changeProject != "true") {
 	<br/><hr>";
 }
 
-echo "
-	<table cellspacing='2' cellpadding='3' border='0'>
+echo <<<sidebar
+	<table cellspacing="2" cellpadding="3" border="0">
 		<tr>
-			<td><a href='home.php?changeProject=true'><img src='ico_folder.gif' border='0' alt=''></a></td>
-			<td><a href='home.php?changeProject=true'>" . $strings["my_projects"] . "</a></td>
+			<td><a href="home.php?changeProject=true"><img src="ico_folder.gif" border="0" alt=""></a></td>
+			<td><a href="home.php?changeProject=true">{$strings["my_projects"]}</a></td>
 		</tr>
-		<tr><td colspan='2'><br/></td></tr>
+		<tr><td colspan="2"><br/></td></tr>
 		<tr>
-			<td><a href='changepassword.php?changeProject=true'><img src='ico_prefs.gif' border='0' alt=''></a></td>
-			<td><a href='changepassword.php?changeProject=true'>" . $strings["preferences"] . "</a></td>
+			<td><a href="changepassword.php?changeProject=true"><img src="ico_prefs.gif" border="0" alt=""></a></td>
+			<td><a href="changepassword.php?changeProject=true">{$strings["preferences"]}</a></td>
 		</tr>
-		<tr><td colspan='2'><br/></td></tr>";
+		<tr><td colspan="2"><br/></td></tr>
+sidebar;
 
 if ($profilSession != '3') {
     echo "<tr><td><a href='../general/home.php'><img src='ico_folder.gif' border='0' alt='0'></a></td><td><a href='../general/home.php'>Team Site</a></td></tr><tr><td colspan=2><br/></td></tr>";
