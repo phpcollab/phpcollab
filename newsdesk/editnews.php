@@ -31,27 +31,37 @@
 ** =============================================================================
 */
 
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5") {
-    phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=permissionNews");
+    phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$id&msg=permissionNews");
 }
 
 $news = new \phpCollab\NewsDesk\NewsDesk();
+$projects = new \phpCollab\Projects\Projects();
 
 $action = $_GET['action'];
 $id = $_GET['id'];
 
 //case edit news
 if ($id != "") {
+    $id = str_replace("**", ",", $id);
 
-    $newsDetail = $news->getPostById($id);
+    if (strpos($id, ',')) {
+        $newsDetail = $news->getPostByIdIn($id);
 
-    //only author and admin can change an article
-    if ($profilSession != "0" && $idSession != $newsDetail['news_author']) {
-        phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=permissionNews");
+        foreach ($newsDetail as $newsItem) {
+            if ($profilSession != "0" && $idSession != $newsItem['news_author']) {
+                phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id={$n['id']}&msg=permissionNews");
+            }
+        }
+    } else {
+        $newsDetail = $news->getPostById($id);
+
+        if ($profilSession != "0" && $idSession != $newsDetail['news_author']) {
+            phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id={$n['id']}&msg=permissionNews");
+        }
     }
 
     if (!$newsDetail) {
@@ -76,9 +86,8 @@ if ($id != "") {
         phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$id&msg=update");
     } elseif ($action == "delete") {
         $id = str_replace("**", ",", $id);
-        phpCollab\Util::newConnectSql("DELETE FROM {$tableCollab["newsdeskposts"]} WHERE id = :id", ["id" => $id]);
-
-        phpCollab\Util::newConnectSql("DELETE FROM {$tableCollab["newsdeskcomments"]} WHERE post_id = :post_id", ["post_id" => $postid]);
+        $news->deleteCommentByPostId($id);
+        $news->deleteNewsDeskPost($id);
         phpCollab\Util::headerFunction("../newsdesk/listnews.php?msg=removeNews");
     } else {
         //set value in form
@@ -92,23 +101,18 @@ if ($id != "") {
 
     if ($action == "add") {
 
+        $title = $_POST['title'];
+        $author = $_POST['author'];
+        $related = $_POST['related'];
+        $content = $_POST['content'];
+        $links = $_POST['links'];
+        $rss = isset($_POST['rss']) ? $_POST['rss'] : 0;
+
         //test if name blank
         if ($title == "") {
             $error = $strings["blank_newsdesk_title"];
         } else {
-
-            //replace quotes by html code in name and address
-            $title = phpCollab\Util::convertData($title);
-            if (get_magic_quotes_gpc() != 1) {
-                $content = addslashes($content);
-            }
-            $author = phpCollab\Util::convertData($author);
-
-            //insert into organizations and redirect to new client organization detail (last id)
-
-            $tmpquery1 = "INSERT INTO {$tableCollab["newsdeskposts"]} (title,author,related,content,links,rss,pdate) VALUES (:title, :author, :related, :content, :links, :rss, NOW())";
-            $num = phpCollab\Util::newConnectSql($tmpquery1, ["title" => $title, "author" => $author, "related" => $related, "content" => $content, "links" => $links, "rss" => isset($rss) ? $rss : 0]);
-
+            $num = $news->addPost($title, $author, $related, $content, $links, $rss);
             phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$num&msg=add");
         }
     }
@@ -151,7 +155,7 @@ if (!isset($action) || $action != "remove") {
 
 // end
 
-//** Titel stuff here.. **
+//** Title stuff here.. **
 if ($id != '' && empty($action)) {
     $setTitle .= " : Edit News Item (" . $newsDetail['news_title'] . ")";
 } elseif ($id != '' && $action == "remove") {
@@ -163,7 +167,7 @@ if ($id != '' && empty($action)) {
 } else {
     $setTitle .= " : Add News Item";
 }
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -172,8 +176,12 @@ $blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/listnews.php?", $
 if ($id == "") {
     $blockPage->itemBreadcrumbs($strings["add_newsdesk"]);
 } else {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/viewnews.php?id=" . $newsDetail['news_id'], $newsDetail['news_title'], 'in'));
-    $blockPage->itemBreadcrumbs($strings["edit_newsdesk"]);
+    if ($action == "remove") {
+        $blockPage->itemBreadcrumbs($strings["edit_newsdesk"]);
+    } else {
+        $blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/viewnews.php?id=" . $newsDetail['news_id'], $newsDetail['news_title'], 'in'));
+        $blockPage->itemBreadcrumbs($strings["edit_newsdesk"]);
+    }
 }
 
 $blockPage->closeBreadcrumbs();
@@ -185,7 +193,7 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 
-if ($error != "") {
+if (isset($error) && $error != "") {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
 }
@@ -198,7 +206,6 @@ if ($action != 'remove') {
         echo "	<a name='" . $block1->form . "Anchor'></a>\n <form accept-charset='UNKNOWN' method='POST' action='../newsdesk/editnews.php?id=$id&action=update&' name='ecDForm'>\n";
         $block1->heading($strings["edit_newsdesk"] . " : " . $newsDetail['news_title']);
     }
-
 
     $block1->openContent();
     $block1->contentTitle($strings["details"]);
@@ -215,47 +222,30 @@ if ($action != 'remove') {
 
     $block1->contentRow($strings["title"], "<input type='text' name='title' value='$title' style='width: 300px;'>");
 
-    // 04/11/2003 related news by fullo
-    // admin can post news on all projects
-    if ($profilSession == "0") {
-        if ($databaseType == "postgresql") {
-            $tmpquery = " GROUP BY pro.id, pro.name, tea.id";
-        } else {
-            $tmpquery = "  GROUP BY pro.id ";
-        }
-    } // only team members can add news on a project
-    else {
-        if ($databaseType == "postgresql") {
-            $tmpquery = "AND tea.member = '$idSession' OR pro.id = '0' GROUP BY pro.id, pro.name, tea.id";
-        } else {
-            $tmpquery = "AND tea.member = '$idSession' OR pro.id = '0'  GROUP BY pro.id";
-        }
-    }
-    $listProjects = new phpCollab\Request();
-    $listProjects->openNewsDeskRelated($tmpquery);
-    $comptListProjects = count($listProjects->tea_id);
-
+    $listProjects = $news->getNewsdeskRelated($idSession, $profilSession);
     $option = '<option value="g">' . $strings['newsdesk_related_generic'] . '</option>\n';
 
-    if ($comptListProjects > 0) {
-        for ($i = 0; $i < $comptListProjects; $i++) {
-            if ($newsDetail['news_related'] == $listProjects->tea_pro_id[$i]) {
+    if ($listProjects) {
+        $option .= '<optgroup label="Projects">';
+        foreach ($listProjects as $listProject) {
+            if (isset($newsDetail) && $newsDetail['news_related'] == $listProject['tea_pro_id']) {
                 $selected = 'selected';
             } else {
                 $selected = '';
             }
-            $option .= '<option value="' . $listProjects->tea_pro_id[$i] . '" ' . $selected . ' >' . $listProjects->tea_pro_name[$i] . '</option>\n';
+            $option .= '<option value="' . $listProject['tea_pro_id'] . '" ' . $selected . ' >' . $listProject['tea_pro_name'] . '</option>\n';
         }
+
+        $option .= '</optgroup>';
     }
 
     $block1->contentRow($strings["newsdesk_related"], "<select name='related' style='width: 300px;'>$option</select>");
     // end
 
-    $block1->contentRow($strings["comments"], '<textarea rows="30" name="content" id="content" style="width: 400px;">'.$content.'</textarea>');
+    $block1->contentRow($strings["comments"], '<textarea rows="30" name="content" id="content" style="width: 400px;">' . $content . '</textarea>');
 
     // 14/06/2003 related links & rss enabled by fullo
     $block1->contentRow($strings["newsdesk_related_links"] . $block1->printHelp("newsdesk_links"), "<input type='text' name='links' value='$links' style='width: 300px;'>");
-
 
     if ($id != "") {
         if ($rss == '1') {
@@ -276,8 +266,9 @@ if ($action != 'remove') {
     $block1->closeContent();
     $block1->closeForm();
 } else {
-    //remove
-
+    /**
+     * remove action
+     */
     $block1->form = "saP";
     $block1->openForm("../newsdesk/editnews.php?action=delete&id=$id");
 
@@ -286,14 +277,12 @@ if ($action != 'remove') {
     $block1->openContent();
     $block1->contentTitle($strings["delete_following"]);
 
-    $id = str_replace("**", ",", $id);
-    $tmpquery = "WHERE news.id IN($id) ORDER BY news.pdate";
-    $listNews = new phpCollab\Request();
-    $listNews->openNewsDesk($tmpquery);
-    $comptListNews = count($listNews->news_id);
-
-    for ($i = 0; $i < $comptListNews; $i++) {
-        $block1->contentRow("#" . $listNews->news_id[$i], $listNews->news_title[$i]);
+    if (strpos($id, ',')) {
+        foreach ($newsDetail as $newsItem) {
+            $block1->contentRow("#" . $newsItem['news_id'], $newsItem['news_title']);
+        }
+    } else {
+        $block1->contentRow("#" . $newsDetail['news_id'], $newsDetail['news_title']);
     }
 
     $block1->contentRow("", "<input type='submit' name='delete' value='" . $strings["delete"] . "'> <input type='button' name='cancel' value='" . $strings["cancel"] . "' onClick='history.back();'>");
@@ -304,5 +293,4 @@ if ($action != 'remove') {
     $block1->note($strings["delete_news_note"]);
 }
 
-
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
