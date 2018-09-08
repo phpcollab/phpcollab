@@ -7,7 +7,7 @@ class BookmarksCest
     public function _before(AcceptanceTester $I)
     {
         $I->amOnPage('/general/login.php');
-        $I->fillField(['name' => 'loginForm'], 'testUser');
+        $I->fillField(['name' => 'usernameForm'], 'testUser');
         $I->fillField(['name' => 'passwordForm'], 'testing');
         $I->click('input[type="submit"]');
     }
@@ -21,7 +21,7 @@ class BookmarksCest
     {
         $I->wantTo('See a list of all bookmarks');
         $I->amOnPage('/bookmarks/listbookmarks.php?view=all');
-        $I->see('PhpCollab : View All Bookmarks', 'p#header');
+        $I->seeInTitle('View All Bookmarks');
         try {
             $I->seeElement('.listing');
         } catch (\Exception $e) {
@@ -33,7 +33,7 @@ class BookmarksCest
     {
         $I->wantTo('See a list of my bookmarks');
         $I->amOnPage('/bookmarks/listbookmarks.php?view=my');
-        $I->see('PhpCollab : View My Bookmarks', 'p#header');
+        $I->seeInTitle('View My Bookmarks');
         try {
             $I->seeElement('.listing');
         } catch (\Exception $e) {
@@ -45,7 +45,7 @@ class BookmarksCest
     {
         $I->wantTo('See a list of private bookmarks');
         $I->amOnPage('/bookmarks/listbookmarks.php?view=private');
-        $I->see('PhpCollab : View Private Bookmarks', 'p#header');
+        $I->seeInTitle('View Private Bookmarks');
         try {
             $I->seeElement('.listing');
         } catch (\Exception $e) {
@@ -57,7 +57,7 @@ class BookmarksCest
     {
         $I->wantTo('View a newsdesk post');
         $I->amOnPage('/bookmarks/listbookmarks.php?view=all');
-        $I->see('PhpCollab : View All Bookmarks', 'p#header');
+        $I->seeInTitle('View All Bookmarks');
         $I->seeElement('.listing');
         $I->click('//*[@class=\'listing\']/descendant::tr[2]/descendant::td[2]/descendant::a');
         $I->seeElement('.content');
