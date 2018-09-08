@@ -79,9 +79,9 @@ $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($strings["preferences"]);
 if ($notifications == "true") {
-    $blockPage->itemBreadcrumbs($strings["user_profile"] . " | " . $blockPage->buildLink("../preferences/updatepassword.php?", $strings["change_password"], in) . " | " . $blockPage->buildLink("../preferences/updatenotifications.php?", $strings["notifications"], in));
+    $blockPage->itemBreadcrumbs($strings["user_profile"] . " | " . $blockPage->buildLink("../preferences/updatepassword.php?", $strings["change_password"], 'in') . " | " . $blockPage->buildLink("../preferences/updatenotifications.php?", $strings["notifications"], 'in'));
 } else {
-    $blockPage->itemBreadcrumbs($strings["user_profile"] . " | " . $blockPage->buildLink("../preferences/updatepassword.php?", $strings["change_password"], in));
+    $blockPage->itemBreadcrumbs($strings["user_profile"] . " | " . $blockPage->buildLink("../preferences/updatepassword.php?", $strings["change_password"], 'in'));
 }
 $blockPage->closeBreadcrumbs();
 
