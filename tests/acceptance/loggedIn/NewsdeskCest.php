@@ -8,7 +8,7 @@ class NewsdeskCest
     public function _before(AcceptanceTester $I)
     {
         $I->amOnPage('/general/login.php');
-        $I->fillField(['name' => 'loginForm'], 'testUser');
+        $I->fillField(['name' => 'usernameForm'], 'testUser');
         $I->fillField(['name' => 'passwordForm'], 'testing');
         $I->click('input[type="submit"]');
     }

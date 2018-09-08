@@ -7,7 +7,7 @@ class UserCest
     public function _before(AcceptanceTester $I)
     {
         $I->amOnPage('/general/login.php');
-        $I->fillField(['name' => 'loginForm'], 'testUser');
+        $I->fillField(['name' => 'usernameForm'], 'testUser');
         $I->fillField(['name' => 'passwordForm'], 'testing');
         $I->click('input[type="submit"]');
     }
@@ -46,6 +46,7 @@ class UserCest
     {
         $I->wantTo('Change my notifications');
         $I->amOnPage('/general/home.php');
+        // Click the Preferences item
         $I->click('#account > a:nth-child(2)');
         $I->seeElement('form', ['name' => 'user_edit_profileForm']);
         $I->click('.breadcrumbs > a:nth-child(2)');
