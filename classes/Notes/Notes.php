@@ -29,11 +29,16 @@ class Notes
      */
     public function getNoteById($noteId)
     {
-        if ( strpos($noteId, ',') ) {
-            return $this->notes_gateway->getNotesById($noteId);
-        } else {
-            return $this->notes_gateway->getNoteById($noteId);
-        }
+        return $this->notes_gateway->getNoteById($noteId);
+    }
+
+    /**
+     * @param $noteId
+     * @return mixed
+     */
+    public function getNotesById($noteId)
+    {
+        return $this->notes_gateway->getNotesById($noteId);
     }
 
     /**
