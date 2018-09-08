@@ -32,7 +32,7 @@ class NotesGateway
      */
     public function getNoteById($noteId)
     {
-        $query = $this->initrequest["notes"] . " WHERE note.id IN (:note_id) ORDER BY note.subject";
+        $query = $this->initrequest["notes"] . " WHERE note.id = :note_id";
         $this->db->query($query);
         $this->db->bind(':note_id', $noteId);
         return $this->db->single();
