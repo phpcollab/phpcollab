@@ -45,7 +45,7 @@ $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**", ",", $id);
 
-$listNotes = $notes->getNoteById($id);
+$listNotes = $notes->getNotesById($id);
 
 foreach ($listNotes as $note) {
     $block1->contentRow("#" . $note["note_id"], $note["note_subject"]);
