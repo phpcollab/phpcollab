@@ -34,3 +34,7 @@ tests/_output/*
 ####################
 **/*.jar
 chromedriver*
+
+# Codeception #
+###############
+tests/support/_generated
