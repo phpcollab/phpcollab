@@ -55,7 +55,7 @@ class BookmarksCest
 
     public function viewBookmark(AcceptanceTester $I)
     {
-        $I->wantTo('View a newsdesk post');
+        $I->wantTo('View a Bookmark');
         $I->amOnPage('/bookmarks/listbookmarks.php?view=all');
         $I->seeInTitle('View All Bookmarks');
         $I->seeElement('.listing');
@@ -71,14 +71,18 @@ class BookmarksCest
     {
         $I->wantTo('Create a new bookmark');
     }
-/*
+
     public function editBookmark(AcceptanceTester $I)
     {
         $I->wantTo('Edit a bookmark');
-        $I->amOnPage('/bookmarks/viewbookmark.php?id=1');
-        $I->click('//*[@class=\'icons\']/descendant::td[2]/descendant::a');
-//        /html/body/form/table[1]/tbody/tr/td[2]/a
-        $I->seeInCurrentUrl('/bookmarks/editbookmark.php?id=1');
+//        $I->amOnPage('/bookmarks/viewbookmark.php?id=1');
+//        $I->click('//*[@class=\'icons\']/descendant::td[2]/descendant::a');
+////        /html/body/form/table[1]/tbody/tr/td[2]/a
+//        $I->seeInCurrentUrl('/bookmarks/editbookmark.php?id=1');
     }
-*/
+
+    public function DeleteBookmark(AcceptanceTester $I)
+    {
+        $I->wantTo('Delete a bookmark');
+    }
 }
