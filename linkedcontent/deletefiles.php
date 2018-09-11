@@ -30,9 +30,8 @@ if ($action == "delete") {
                 phpCollab\Util::deleteFile("files/" . $project . "/" . $file["fil_name"]);
             }
         }
+        $deleteFile = $files->deleteFile($file['fil_id']);
     }
-
-    $deleteFile = $files->deleteFile($id);
 
     if ($sendto == "filedetails") {
         phpCollab\Util::headerFunction("../linkedcontent/viewfile.php?id=" . $listFiles["fil_vc_parent"] . "&msg=deleteFile");
