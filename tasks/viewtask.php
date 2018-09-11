@@ -60,8 +60,7 @@ if ($task != "") {
 
 if (isset($_GET["action"]) && $_GET["action"] == "publish") {
     if (isset($_GET["addToSite"]) && $_GET["addToSite"] == "true") {
-        ;
-        phpCollab\Util::newConnectSql("UPDATE {$tableCollab["tasks"]} SET published = :published WHERE id = :taske_id", ["published" => 0, "task_id" => $id]);
+        phpCollab\Util::newConnectSql("UPDATE {$tableCollab["tasks"]} SET published = :published WHERE id = :task_id", ["published" => 0, "task_id" => $id]);
 
         $msg = "addToSite";
     }
