@@ -91,7 +91,7 @@ $id = str_replace("**", ",", $id);
 $listSubtasks = $tasks->getSubTaskByIdIn($id);
 
 foreach ($listSubtasks as $subtask) {
-    echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">#" . $listSubtasks["subtas_id"] . "</td><td>" . $listSubtasks["subtas_name"] . "</td></tr>";
+    echo '<tr class="odd"><td valign="top" class="leftvalue">#' . $subtask["subtas_id"] . '</td><td>' . $subtask["subtas_name"] . '</td></tr>';
 }
 
 echo '<tr class="odd">
