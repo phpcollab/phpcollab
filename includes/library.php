@@ -61,20 +61,26 @@ if ($export != "true") {
 }
 
 // register_globals cheat code
-/*if (ini_get(register_globals) != "1") {
+if (ini_get(register_globals) != "1") {
     //GET and POST VARS
-    foreach ($_REQUEST as $key => $val) {
-        $GLOBALS[$key] = phpCollab\Util::replaceSpecialCharacters($val);
+    if (!empty($_REQUEST)) {
+        foreach ($_REQUEST as $key => $val) {
+            $GLOBALS[$key] = phpCollab\Util::replaceSpecialCharacters($val);
+        }
     }
     //$HTTP_SESSION_VARS
-    foreach ($_SESSION as $key => $val) {
-        $GLOBALS[$key] = phpCollab\Util::replaceSpecialCharacters($val);
+    if (!empty($_SESSION)) {
+        foreach ($_SESSION as $key => $val) {
+            $GLOBALS[$key] = phpCollab\Util::replaceSpecialCharacters($val);
+        }
     }
     //$HTTP_SERVER_VARS
-    foreach ($_SERVER as $key => $val) {
-        $GLOBALS[$key] = phpCollab\Util::replaceSpecialCharacters($val);
+    if (!empty($_SERVER)) {
+        foreach ($_SERVER as $key => $val) {
+            $GLOBALS[$key] = phpCollab\Util::replaceSpecialCharacters($val);
+        }
     }
-}*/
+}
 
 $msg = phpCollab\Util::returnGlobal('msg', 'GET');
 $session = phpCollab\Util::returnGlobal('session', 'GET');
