@@ -746,7 +746,7 @@ UPDATE_FILE_VER;
     </td></tr>
 	<tr class="odd"><td valign="top" class="leftvalue">* {$strings["upload"]} :</td><td><input size="44" style="width: 400px" name="upload" type="FILE" /></td></tr>
 	<tr class="odd"><td valign="top" class="leftvalue">" {$strings["comments"]} :</td><td><textarea rows="3" style="width: 400px; height: 50px;" name="c" cols="43">{$c}</textarea></td></tr>
-	<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td><input type="SUBMIT" value="{$strings["ifc_update_file"]}" /></td></tr>";
+	<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td><input type="SUBMIT" value="{$strings["ifc_update_file"]}" /></td></tr>
 UPDATE_FILE;
 
 
