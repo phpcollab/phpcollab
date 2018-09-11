@@ -128,4 +128,74 @@ class CalendarsGateway
         return $this->db->resultset();
     }
 
+    public function addEvent(
+        $owner, $subject, $description, $location, $shortname, $date_start, $date_end, $time_start, $time_end,
+        $reminder, $broadcast, $recurring, $recur_day
+    )
+    {
+        $sql = <<<SQL
+INSERT INTO {$this->tableCollab["calendar"]} (
+owner,subject,description,location,shortname,date_start,date_end,time_start,time_end,reminder,broadcast,recurring,recur_day
+) VALUES(
+:owner,:subject,:description,:location,:shortname,:date_start,:date_end,:time_start,:time_end,:reminder,:broadcast,:recurring,:recur_day
+)
+SQL;
+        $this->db->query($sql);
+        $this->db->bind(':owner', $owner);
+        $this->db->bind(':subject', $subject);
+        $this->db->bind(':description', $description);
+        $this->db->bind(':location', $location);
+        $this->db->bind(':shortname', $shortname);
+        $this->db->bind(':date_start', $date_start);
+        $this->db->bind(':date_end', $date_end);
+        $this->db->bind(':time_start', $time_start);
+        $this->db->bind(':time_end', $time_end);
+        $this->db->bind(':reminder', $reminder);
+        $this->db->bind(':broadcast', $broadcast);
+        $this->db->bind(':recurring', $recurring);
+        $this->db->bind(':recur_day', $recur_day);
+        $this->db->execute();
+        return $this->db->lastInsertId();
+
+    }
+
+    public function updateEvent(
+        $calendarId, $subject, $description, $location, $shortname, $date_start, $date_end, $time_start, $time_end,
+        $reminder, $broadcast, $recurring, $recur_day
+    )
+    {
+        $sql = <<<SQL
+UPDATE {$this->tableCollab["calendar"]} 
+SET 
+subject = :subject,
+description = :description,
+location = :location,
+shortname = :shortname,
+date_start = :date_start,
+date_end = :date_end,
+time_start = :time_start,
+time_end = :time_end,
+reminder = :reminder,
+recurring = :recurring,
+recur_day = :recur_day,
+broadcast = :broadcast 
+WHERE id = :calendar_id
+SQL;
+        $this->db->query($sql);
+        $this->db->bind(':calendar_id', $calendarId);
+        $this->db->bind(':subject', $subject);
+        $this->db->bind(':description', $description);
+        $this->db->bind(':location', $location);
+        $this->db->bind(':shortname', $shortname);
+        $this->db->bind(':date_start', $date_start);
+        $this->db->bind(':date_end', $date_end);
+        $this->db->bind(':time_start', $time_start);
+        $this->db->bind(':time_end', $time_end);
+        $this->db->bind(':reminder', $reminder);
+        $this->db->bind(':broadcast', $broadcast);
+        $this->db->bind(':recurring', $recurring);
+        $this->db->bind(':recur_day', $recur_day);
+        return $this->db->execute();
+    }
+
 }
