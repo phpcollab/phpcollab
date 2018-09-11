@@ -114,4 +114,24 @@ class Calendars
         return $calendar;
     }
 
+    public function addCalendarEvent(
+        $owner, $subject, $description, $location, $shortname, $date_start, $date_end, $time_start, $time_end,
+        $reminder, $broadcast, $recurring, $recur_day
+    )
+    {
+        return $this->calendars_gateway->addEvent($owner, $subject, $description, $location, $shortname,
+            $date_start, $date_end, $time_start, $time_end, $reminder, $broadcast, $recurring, $recur_day);
+    }
+
+    public function editCalendarEvent(
+        $owner, $subject, $description, $location, $shortname, $date_start, $date_end, $time_start, $time_end,
+        $reminder, $broadcast, $recurring, $recur_day
+    )
+    {
+        return $this->calendars_gateway->updateEvent($owner, $subject, $description, $location, $shortname,
+            $date_start, $date_end, $time_start, $time_end, $reminder, $broadcast, $recurring, $recur_day);
+    }
+
+
+
 }
