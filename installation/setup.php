@@ -32,19 +32,19 @@ foreach($array as $key => $value)
  **/
 if (!empty($_REQUEST)) {
     foreach ($_REQUEST as $key => $value) {
-        $GLOBALS[$key] = $val;
+        $GLOBALS[$key] = $value;
     }
 }
 //$HTTP_SESSION_VARS
 if (!empty($_SESSION)) {
     foreach ($_SESSION as $key => $value) {
-        $GLOBALS[$key] = $val;
+        $GLOBALS[$key] = $value;
     }
 }
 //$HTTP_SERVER_VARS
 if (!empty($_SERVER)) {
     foreach ($_SERVER as $key => $value) {
-        $GLOBALS[$key] = $val;
+        $GLOBALS[$key] = $value;
     }
 }
 
