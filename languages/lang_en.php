@@ -601,7 +601,7 @@ $strings["edit_noti_clientaddtask"] = "A task is added by a client.";
 $strings["edit_noti_uploadfile"] = "A linked content is added.";
 
 //2.5rc3
-$strings["version_check_error"] = "Sorry actually the <a href='http://www.php-collab.org'>php-collab.org</a> update service is offline, please check later or take a look on the <a href='http://www.sourceforge.net/projects/phpcollab' target='_blank'>sourceforge project page</a>";
+$strings["version_check_error"] = "Sorry actually the <a href='http://www.phpcollab.com'>phpcollab.com</a> update service is offline, please check later or take a look on the <a href='http://www.sourceforge.net/projects/phpcollab' target='_blank'>sourceforge project page</a>";
 $strings["my_subtasks"] = "My Subtasks";
 $strings["edit_noti_daily_alert"] = "A daily task reminder.";
 $strings["edit_noti_weekly_alert"] = "A weekly task reminder.";
