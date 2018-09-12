@@ -305,11 +305,16 @@ STAMP;
         include '../includes/setup_db.php';
 
         try {
+            $host = '127.0.0.1';
+            $db   = $mydatabase;
+            $user = $mylogin;
+            $pass = $mypassword;
+
             if ($databaseType == "mysql") {
-                $dbh = new PDO("mysql:host=$myserver;dbname=$mydatabase", $mylogin, $mypassword);
-            } else if ($databaseType === "postgresql") {
-                $dbh = new PDO("pgsql:dbname=$mydatabase;host=$myserver", $mylogin, $mypassword);
-            } else if ($databaseType === "sqlserver") {
+                $dbh = new PDO("mysql:host=$host;dbname=$db;", $user, $pass);
+            } else if ($databaseType == "postgresql") {
+                $dbh = new PDO("pgsql:host=$myserver;port=5432;dbname=$mydatabase;user=$mylogin;password=$mypassword");
+            } else if ($databaseType == "sqlserver") {
                 $dbh = new PDO("dblib:host=$myserver;dbname=$mydatabase", $mylogin, $mypassword);
             } else {
                 throw new \Exception("Can not connect to database.");
@@ -322,14 +327,14 @@ STAMP;
                     try {
                         $dbh->exec($sqlStatement);
                     }
-                    catch (PDOException $e) {
+                    catch (\PDOException $e) {
                         echo $e->getMessage();
                         die();
                     }
                 }
             }
             $dbh = null;
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
         }
