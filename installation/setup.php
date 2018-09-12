@@ -30,17 +30,22 @@ while(list($key, $value) = each($array))
 was not listing all array values, where replacing it with...
 foreach($array as $key => $value)
  **/
-
-foreach($_REQUEST as $key => $value) {
-    $GLOBALS[$key] = $val;
+if (!empty($_REQUEST)) {
+    foreach ($_REQUEST as $key => $value) {
+        $GLOBALS[$key] = $val;
+    }
 }
 //$HTTP_SESSION_VARS
-foreach($_SESSION as $key => $value) {
-    $GLOBALS[$key] = $val;
+if (!empty($_SESSION)) {
+    foreach ($_SESSION as $key => $value) {
+        $GLOBALS[$key] = $val;
+    }
 }
 //$HTTP_SERVER_VARS
-foreach($_SERVER as $key => $value) {
-    $GLOBALS[$key] = $val;
+if (!empty($_SERVER)) {
+    foreach ($_SERVER as $key => $value) {
+        $GLOBALS[$key] = $val;
+    }
 }
 
 include '../languages/help_en.php';
