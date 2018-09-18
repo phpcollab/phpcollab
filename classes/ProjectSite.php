@@ -18,11 +18,8 @@ class ProjectSite
      */
     public function __construct()
     {
-        global $tableCollab,
-               $initrequest;
-
-        $this->tableCollab = $tableCollab;
-        $this->initrequest = $initrequest;
+        $this->tableCollab = $GLOBALS["tableCollab"];
+        $this->initrequest = $GLOBALS['initrequest'];
         $this->db = new Database();
     }
 
