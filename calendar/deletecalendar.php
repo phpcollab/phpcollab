@@ -28,7 +28,7 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-global $strings;
+$strings = $GLOBALS['strings'];
 
 $calendars = new \phpCollab\Calendars\Calendars();
 
@@ -51,7 +51,7 @@ if (strpos($_GET['id'], "**") !== false) {
     $setTitle .= " Entry";
 }
     
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -99,4 +99,4 @@ ROW;
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/'.THEME.'/footer.php';
+include APP_ROOT . '/themes/'.THEME.'/footer.php';
