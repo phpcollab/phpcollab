@@ -13,36 +13,16 @@ README
 Groupware module. Manage web projects with team collaboration, users management, tasks and projects tracking, files approval tracking, project sites clients access, customer relationship management (Php / Mysql, PostgreSQL or Sql Server).
 
 # Requirements
-- Php 4.1.x or superior (4.2.x or superior recommended)
-- register_globals not-dependent (php >= 4.1.0)
-- register_globals dependent (php < 4.1.0)
-- magic_quotes_gpc not-dependent
-- session support enabled
+- Php 5.6.x or superior
 - file_uploads On
 - MySql, PostgreSQL or Sql Server
 
 # Website (forums, news, ...)
 http://www.phpcollab.com
 
-# Developed on
-- Windows XP Professional / IIS 5.1 / Php 4.2.2 / MySql 3.23.49
-- Windows 2000 Professional / IIS 5.0(:80) - Apache 1.3.27(:82) - Apache 2.0.43(:83) / Php 4.3.0 / MySql 3.23.53 - Sql Server 7
-- Windows 2000 Server / IIS 5.0(:80) - Apache 2.0.35(:82) / Php 4.2.2 / MySql 3.23.49 - Sql Server 7
-- Linux / Apache 1.3.26 / Php 4.3.0 safe-mode / MySql 3.23.53
-- Linux / Apache 1.3.20 / Php 4.1.2 / MySql 3.23.37
-- FreeBSD / Apache 1.3.27 / Php 4.2.3 / PostgreSQL 7.1.3
-
 # External scripts integrated
-- phpMyAdmin dump stuff to backup/restore MySql
-	http://phpwizard.net/projects/phpMyAdmin
-- phpPgAdmin dump stuff to backup/restore PostgreSQL
-	http://phppgadmin.sourceforge.net
 - JpGraph to generate Gantt graph with tasks (due date, progress...)
 	http://www.aditus.nu/jpgraph
-- PHP vCard class v2.0
-	www.bitfolge.de/en
-- Mantis bugtracking system
-	http://mantisbt.sourceforge.net
 - The coolest DHTML calendar widget
 	http://students.infoiasi.ro/~mishoo/site/calendar.epl
 - OverLIB: popup information boxes (tooltips)
@@ -54,12 +34,15 @@ http://www.phpcollab.com
 - R&OS PDF Class: pdf render class
 	http://www.ros.co.nz/pdf
 
+# Contributors
+- Jeff Sittler (Lead Developer)
+
 # Developers 2.5
-- Stéphane Dion (Software Author, Developer)
-- Francesco Fullone (Lead Developer)
-- Michelle Feldman (Project manager)
-- Jennifer Brola (Developer)
-- Ed Kelly (Developer)
+- Stéphane Dion
+- Francesco Fullone
+- Michelle Feldman
+- Jennifer Brola
+- Ed Kelly
 
 # Contributors 2.5
 - jayherrick (postgres 7.3.x patch)
@@ -67,6 +50,11 @@ http://www.phpcollab.com
 - Martin Lanser 
 
 # Old Developers
+- Stéphane Dion (Software Author, Developer)
+- Francesco Fullone (Lead Developer)
+- Michelle Feldman (Project manager)
+- Jennifer Brola (Developer)
+- Ed Kelly (Developer)
 - Luca Mercuri (Teton project site template and setup script)
 - Tolga Yalcinkaya (login encryption method, browse cvs)
 - Cameron Lee (version control, phases, support requests)
