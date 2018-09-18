@@ -1,6 +1,7 @@
-README
+# Description
+Groupware module. Manage web projects with team collaboration, users management, tasks and projects tracking, files approval tracking, project sites clients access, customer relationship management (Php / Mysql, PostgreSQL or Sql Server).
 
-# Update (starting from version 1.0)
+## Update (starting from version 1.0)
 - Since 2.2, copy your inc/settings to includes/settings.php
 - Save your includes/settings.php and backup your database
 - Replace all files in your PhpCollab folder by new files in the last package you download
@@ -9,18 +10,16 @@ README
 2. edit database (to dump new commands according to precedent version)
 - If your version is lower than 1.8, launch script installation/fixFilesSize.php (to remove size units in database) 
 
-# Description
-Groupware module. Manage web projects with team collaboration, users management, tasks and projects tracking, files approval tracking, project sites clients access, customer relationship management (Php / Mysql, PostgreSQL or Sql Server).
 
-# Requirements
+## Requirements
 - Php 5.6.x or superior
 - file_uploads On
 - MySql, PostgreSQL or Sql Server
 
-# Website (forums, news, ...)
+## Website (forums, news, ...)
 http://www.phpcollab.com
 
-# External scripts integrated
+## External scripts integrated
 - JpGraph to generate Gantt graph with tasks (due date, progress...)
 	http://www.aditus.nu/jpgraph
 - The coolest DHTML calendar widget
@@ -34,22 +33,22 @@ http://www.phpcollab.com
 - R&OS PDF Class: pdf render class
 	http://www.ros.co.nz/pdf
 
-# Contributors
+## Contributors
 - Jeff Sittler (Lead Developer)
 
-# Developers 2.5
+## Developers 2.5
 - Stéphane Dion
 - Francesco Fullone
 - Michelle Feldman
 - Jennifer Brola
 - Ed Kelly
 
-# Contributors 2.5
+## Contributors 2.5
 - jayherrick (postgres 7.3.x patch)
 - Mariano Barcia (Mantis update and patch)
 - Martin Lanser 
 
-# Old Developers
+## Old Developers
 - Stéphane Dion (Software Author, Developer)
 - Francesco Fullone (Lead Developer)
 - Michelle Feldman (Project manager)
@@ -63,7 +62,7 @@ http://www.phpcollab.com
 - Henning Saul (htaccess protection on files directory and script to view/download files)
 - Gopal Patwa (Mantis bugtrakcing system integration)
 
-# Translators
+## Translators
 - English: Stéphane Dion
 - Italian: Luca Mercuri, Francesco Fullone
 - Spanish: Felipe Jaramillo, Pep Pujadó Mateo, Jesus Corotero
@@ -94,14 +93,14 @@ http://www.phpcollab.com
 - Turkish: Irfan Uygur
 - Latvian: Krisjanis Berzins
 
-# Design
+## Design
 - theme "default": William from Styrofirm.com
 - theme "xp-blue": Francesco Fullone
 - icons in "default" theme: Thomas Dubus
 - icons in "ordinarylife" theme: James Buckley from Ordinary-Life.net
 - graphics in project site: James Buckley from Ordinary-Life.net
 
-# Documentation
+## Documentation
 - administrator manual: Michelle Feldman
 - user manual: Michelle Feldman
 - installation guide: Michelle Feldman
