@@ -42,6 +42,7 @@ $assignments = new \phpCollab\Assignments\Assignments();
 
 $id = $_GET["id"];
 $task = $_GET["task"];
+$action = $_GET["action"];
 
 // Global variables
 $tableCollab = $GLOBALS["tableCollab"];
@@ -58,26 +59,30 @@ if ($task != "") {
     $cheatCode = "true";
 }
 
-if (isset($_GET["action"]) && $_GET["action"] == "publish") {
-    if (isset($_GET["addToSite"]) && $_GET["addToSite"] == "true") {
-        phpCollab\Util::newConnectSql("UPDATE {$tableCollab["tasks"]} SET published = :published WHERE id = :task_id", ["published" => 0, "task_id" => $id]);
+if (isset($action) && $action == "publish") {
+    $addToSite = $_GET["addToSite"];
+    $removeToSite = $_GET["removeToSite"];
+    $addToSiteFile = $_GET["addToSiteFile"];
+    $removeToSiteFile = $_GET["removeToSiteFile"];
 
+    if (isset($addToSite) && $addToSite == "true") {
+        $tasks->publishTasks($id);
         $msg = "addToSite";
     }
 
-    if (isset($_GET["removeToSite"]) && $_GET["removeToSite"] == "true") {
-        phpCollab\Util::newConnectSql("UPDATE {$tableCollab["tasks"]} SET published= :published WHERE id = :task_id", ["published" => 1, "task_id" => $id]);
+    if (isset($removeToSite) && $removeToSite == "true") {
+        $tasks->unPublishTasks($id);
         $msg = "removeToSite";
     }
 
-    if (isset($_GET["addToSiteFile"]) && $_GET["addToSiteFile"] == "true") {
+    if (isset($addToSiteFile) && $addToSiteFile == "true") {
         $id = str_replace("**", ",", $id);
         $tasks->addToSiteFile($id);
         $msg = "addToSite";
         $id = $task;
     }
 
-    if (isset($_GET["removeToSiteFile"]) && $_GET["removeToSiteFile"] == "true") {
+    if (isset($removeToSiteFile) && $removeToSiteFile == "true") {
         $id = str_replace("**", ",", $id);
         $tasks->removeToSiteFile($id);
         $msg = "removeToSite";
