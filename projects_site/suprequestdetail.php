@@ -1,30 +1,4 @@
 <?php
-/*
-** Application name: phpCollab
-** Last Edit page: 30/05/2005
-** Path by root: ../project_site/suprequestdestail.php
-** Authors: Ceam / Fullo
-**
-** =============================================================================
-**
-**               phpCollab - Project Managment
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: suprequestdestail.php
-**
-** DESC: Screen: manage the support request
-**
-** HISTORY:
-** 30/05/2005	-	fix for [ 1210293 ] Login fails when last_page=non-existent support req
-** -----------------------------------------------------------------------------
-** TO-DO:
-**
-** =============================================================================
-*/
-
 $checkSession = "true";
 include '../includes/library.php';
 
@@ -38,15 +12,12 @@ $tableCollab = $GLOBALS["tableCollab"];
 
 $requestDetail = $support->getSupportRequestById($id);
 
-if ($requestDetail["sr_project"] != $projectSession || $requestDetail["sr_user"] != $idSession) {
+if ($requestDetail["sr_project"] != $projectSession || $requestDetail["sr_member"] != $idSession) {
     if (!isset($requestDetail["sr_id"])) {
         // The support request wasn't found. This can happen if the lastvisited page for a user is for
         // a request that no longer exists. If this happens the user gets stuck in a login loop and can't
         // login.
-        phpCollab\Util::newConnectSql(
-            "UPDATE {$tableCollab["members"]} SET last_page='' WHERE login = :login",
-            ["login" => $_SESSION['loginSession']]
-        );
+        $members->setLastPageVisitedByLogin($_SESSION['loginSession'], '');
     }
     phpCollab\Util::headerFunction("index.php");
 }
@@ -73,10 +44,32 @@ for ($i = 0; $i < $comptPri; $i++) {
     }
 }
 
-echo "<tr><th>" . $strings["support_id"] . ":</th><td>" . $requestDetail["sr_id"] . "</td><th>" . $strings["status"] . ":</th><td>$requestStatus</td></tr>
-<tr><th>" . $strings["subject"] . ":</th><td>" . $requestDetail["sr_subject"] . "</td><th>" . $strings["priority"] . ":</th><td>$requestPriority</td></tr>
-<tr><th>" . $strings["message"] . ":</th><td>" . $requestDetail["sr_message"] . "</td><th>&nbsp;</th><td>&nbsp;</td></tr>
-<tr><th>" . $strings["date_open"] . " :</th><td>" . $requestDetail["sr_date_open"] . "</td><th>&nbsp;</th><td>&nbsp;</td></tr>";
+echo <<< TR
+    <tr>
+        <th>{$strings["support_id"]}:</th>
+        <td>{$requestDetail["sr_id"]}</td>
+        <th>{$strings["status"]}:</th>
+        <td>{$requestStatus}</td>
+    </tr>
+    <tr>
+        <th>{$strings["subject"]}:</th>
+        <td>{$requestDetail["sr_subject"]}</td>
+        <th>{$strings["priority"]}:</th>
+        <td>{$requestPriority}</td>
+    </tr>
+    <tr>
+        <th>{$strings["message"]}:</th>
+        <td>{$requestDetail["sr_message"]}</td>
+        <th>&nbsp;</th>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <th>{$strings["date_open"]}:</th>
+        <td>{$requestDetail["sr_date_open"]}</td>
+        <th>&nbsp;</th>
+        <td>&nbsp;</td>
+    </tr>
+TR;
 
 if ($requestDetail["sr_status"] == "2") {
     echo "<tr><th>" . $strings["date_close"] . " :</th><td>" . $requestDetail["sr_date_close"] . "</td><th>&nbsp;</th><td>&nbsp;</td></tr>";
@@ -94,9 +87,11 @@ echo <<<HTML
 </tr>
 HTML;
 
+$block1 = new \phpCollab\Block();
+
 if ($postDetail) {
-    foreach ($postDetail as $post) {
-        if (!($i % 2)) {
+    foreach ($postDetail as $key => $post) {
+        if (!($key % 2)) {
             $class = "odd";
             $highlightOff = $block1->getOddColor();
         } else {
@@ -104,7 +99,7 @@ if ($postDetail) {
             $highlightOff = $block1->getEvenColor();
         }
 
-        echo '	<tr><td colspan="4" class="' . $class . '">&nbsp;</td></tr>';
+        echo '<tr><td colspan="4" class="' . $class . '">&nbsp;</td></tr>';
         echo '<tr class="' . $class . '"><th>' . $strings["date"] . ' :</th><td colspan="3">' . $post["sp_date"] . '</td></tr>';
 
         $ownerDetail = $members->getMemberById($post["sp_owner"]);
