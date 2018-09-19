@@ -35,6 +35,18 @@ class SupportGateway
         $query = $this->initrequest["support_requests"] . " WHERE sr.id = :support_request_id";
         $this->db->query($query);
         $this->db->bind(':support_request_id', $supportRequestId);
+        return $this->db->single();
+    }
+
+    /**
+     * @param $memberId
+     * @return mixed
+     */
+    public function getSupportRequestByMemberId($memberId)
+    {
+        $query = $this->initrequest["support_requests"] . " WHERE sr.member = :member_id";
+        $this->db->query($query);
+        $this->db->bind(':member_id', $memberId);
         return $this->db->resultset();
     }
 
@@ -74,7 +86,7 @@ class SupportGateway
     {
         $query = $this->initrequest["support_posts"] . " WHERE sp.request_id = :support_request_id ORDER BY sp.date";
         $this->db->query($query);
-        $this->db->bind(':request_id', $requestId);
+        $this->db->bind(':support_request_id', $requestId);
         return $this->db->resultset();
     }
 
@@ -103,6 +115,34 @@ class SupportGateway
         $this->db->query($sql);
         $this->db->execute($supportPostIds);
         return $this->db->fetchAll();
+    }
+
+    /**
+     * @param $userId
+     * @param $priority
+     * @param $subject
+     * @param $message
+     * @param $project
+     * @param $status
+     * @return string
+     */
+    public function createSupportRequest($userId, $priority, $subject, $message, $project, $status)
+    {
+        $sql = <<<SQL
+INSERT INTO {$this->tableCollab["support_requests"]} (
+member, priority, subject, message, project, status, date_open
+) VALUES(
+:member_id, :priority, :subject, :message, :project, :status, NOW())
+SQL;
+        $this->db->query($sql);
+        $this->db->bind("member_id", $userId);
+        $this->db->bind("priority", $priority);
+        $this->db->bind("subject", $subject);
+        $this->db->bind("message", $message);
+        $this->db->bind("project", $project);
+        $this->db->bind("status", $status);
+        $this->db->execute();
+        return $this->db->lastInsertId();
     }
 
     /**
