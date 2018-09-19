@@ -33,6 +33,15 @@ class Support
     }
 
     /**
+     * @param $memberId
+     * @return mixed
+     */
+    public function getSupportRequestByMemberId($memberId)
+    {
+        return $this->support_gateway->getSupportRequestByMemberId($memberId);
+    }
+
+    /**
      * @param $supportRequestId
      * @return mixed
      */
@@ -76,6 +85,20 @@ class Support
     public function getSupportPostsByRequestIdIn($postIds)
     {
         return $this->support_gateway->getSupportPostsByRequestIdIn($postIds);
+    }
+
+    /**
+     * @param $userId
+     * @param $priority
+     * @param $subject
+     * @param $message
+     * @param $project
+     * @param int $status
+     * @return string
+     */
+    public function addSupportRequest($userId, $priority, $subject, $message, $project, $status = 0)
+    {
+        return $this->support_gateway->createSupportRequest($userId, $priority, $subject, $message, $project, $status);
     }
 
     /**
