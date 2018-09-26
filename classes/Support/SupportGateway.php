@@ -39,6 +39,19 @@ class SupportGateway
     }
 
     /**
+     * @param $status
+     * @param $sorting
+     * @return mixed
+     */
+    public function getSupportRequestByStatus($status, $sorting)
+    {
+        $query = $this->initrequest["support_requests"] . " WHERE sr.status = :status" . $this->orderBy($sorting);
+        $this->db->query($query);
+        $this->db->bind(':status', $status);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $memberId
      * @return mixed
      */
@@ -65,13 +78,14 @@ class SupportGateway
     }
 
     /**
-     * @param $status
-     * @param $projectId
+     * @param Int $status
+     * @param Int $projectId
+     * @param $sorting
      * @return mixed
      */
-    public function getSupportRequestByStatusAndProjectId($status, $projectId)
+    public function getSupportRequestByStatusAndProjectId($status, $projectId, $sorting)
     {
-        $query = $this->initrequest["support_requests"] . " WHERE sr.status = :status AND sr.project = :project_id";
+        $query = $this->initrequest["support_requests"] . " WHERE sr.status = :status AND sr.project = :project_id" . $this->orderBy($sorting);
         $this->db->query($query);
         $this->db->bind(':status', $status);
         $this->db->bind(':project_id', $projectId);
@@ -99,7 +113,7 @@ class SupportGateway
         $query = $this->initrequest["support_posts"] . " WHERE sp.id = :support_post_id";
         $this->db->query($query);
         $this->db->bind(':support_post_id', $postId);
-        return $this->db->resultset();
+        return $this->db->single();
     }
 
     /**
@@ -208,6 +222,29 @@ SQL;
         $sql = "DELETE FROM {$this->tableCollab['support_posts']} WHERE project IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($projectIds);
+    }
+
+    /**
+     * @param $sorting
+     * @return string
+     */
+    private function orderBy($sorting)
+    {
+        if (!is_null($sorting)) {
+            $allowedOrderedBy = ["sr.id", "sr.subject", "sr.member", "sr.project", "sr.priority", "sr.status", "sr.date_open", "sr.date_close"];
+            $pieces = explode(' ', $sorting);
+
+            if ($pieces) {
+                $key = array_search($pieces[0], $allowedOrderedBy);
+
+                if ($key !== false) {
+                    $order = $allowedOrderedBy[$key];
+                    return " ORDER BY $order $pieces[1]";
+                }
+            }
+        }
+
+        return '';
     }
 
 }
