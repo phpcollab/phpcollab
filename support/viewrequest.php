@@ -98,12 +98,16 @@ $block1->contentRow($strings["message"], nl2br($requestDetail["sr_message"]));
 $block1->contentTitle($strings["responses"]);
 
 if ($teamMember == "true" || $profilSession != "0") {
-    $block1->contentRow("", $blockPage->buildLink("../support/addpost.php?id=" . $requestDetail["sr_iΩ"], $strings["add_support_response"], "in"));
+    $block1->contentRow("", $blockPage->buildLink("../support/addpost.php?id=" . $requestDetail["sr_id"], $strings["add_support_response"], "in"));
 }
 
-//for ($i = 0; $i < $comptListPosts; $i++) {
 foreach ($listPosts as $post) {
-    $block1->contentRow($strings["posted_by"], $blockPage->buildLink($post["sp_mem_email_work"], $post["sp_mem_name"], "mail"));
+    if (!empty($post["sp_mem_email_work"])) {
+        $block1->contentRow($strings["posted_by"], $blockPage->buildLink($post["sp_mem_email_work"], $post["sp_mem_name"], "mail"));
+    } else {
+        $block1->contentRow($strings["posted_by"], $post["sp_mem_name"]);
+    }
+
     $block1->contentRow($strings["date"], phpCollab\Util::createDate($post["sp_date"], $_SESSION["timezoneSession"]));
 
     if ($teamMember == "true" || $profilSession == "0") {
