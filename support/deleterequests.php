@@ -7,7 +7,7 @@ $support = new \phpCollab\Support\Support();
 $id = isset($_GET["id"]) ? $_GET["id"] : null;
 $action = isset($_GET["action"]) ? $_GET["action"] : null;
 
-$sendto = isset($_GET["sendTo"]) ? $_GET["sendTo"] : null;
+$sendto = isset($_GET["sendto"]) ? $_GET["sendto"] : null;
 $project = isset($_GET["project"]) ? $_GET["project"] : null;
 
 $strings = $GLOBALS["strings"];
@@ -47,10 +47,14 @@ if ($action == "deleteR") {
     $id = str_replace("**", ",", $id);
     $listRequest = $support->getSupportRequestByIdIn($id);
 } elseif ($action == "deleteP") {
-    $id = str_replace("**", ",", $id);
-    $listPost = $support->getSupportPostsByRequestIdIn($id);
-
-    $listRequest = $support->getSupportRequestById($listPost["sp_request_id"]);
+    if (strpos($id, "**") !== false) {
+        $id = str_replace("**", ",", $id);
+        $listPosts = $support->getSupportPostsByRequestIdIn($id);
+        $listRequest = $support->getSupportRequestById($listPosts[0]["sp_request_id"]);
+    } else {
+        $listPost = $support->getSupportPostById($id);
+        $listRequest = $support->getSupportRequestById($listPost["sp_request_id"]);
+    }
 }
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
@@ -91,11 +95,13 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "saP";
+
 if (isset($listRequest) && $listRequest != '') {
+
     if ($action == "deleteR") {
-        $block1->openForm("../support/deleterequests.php?action=deleteRequest&id=$id&sendto=$sendto&project=" . $listRequest["sr_project"] . "");
+        $block1->openForm("deleterequests.php?action=deleteRequest&id=$id&sendto=$sendto&project=" . $listRequest["sr_project"] . "");
     } elseif ($action == "deleteP") {
-        $block1->openForm("../support/deleterequests.php?action=deletePost&id=$id&sendto=" . $listRequest["sr_id"] . "");
+        $block1->openForm("deleterequests.php?action=deletePost&id=$id&sendto=" . $listRequest["sr_id"] . "");
     }
 }
 
@@ -111,7 +117,7 @@ $block1->contentTitle($strings["delete_following"]);
 if ($action == "deleteR") {
     if (isset($listRequest) && $listRequest != '') {
         foreach ($listRequest as $request) {
-            echo '<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td>' . $request["sr_subject"] . '</td></tr>';
+            echo '<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td>' . $request["sr_id"] . ' - ' . $request["sr_subject"] . '</td></tr>';
         }
     }
     echo <<< TR
@@ -121,11 +127,14 @@ if ($action == "deleteR") {
     </tr>
 TR;
 } elseif ($action == "deleteP") {
-    if (isset($listPost) && $listPost != '') {
+    if (isset($listPosts) && $listPosts != '') {
         foreach ($listPost as $post) {
-            echo '<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td>' . $post["sp_id"] . '</td></tr>';
+            echo '<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td>' . $post["sp_id"] . ' - '. $post["sp_message"] .'</td></tr>';
         }
+    } elseif (isset($listPost) && $listPost != '') {
+        echo '<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td>' . $listPost["sp_id"] . ' - '. $listPost["sp_message"] .'</td></tr>';
     }
+
     echo <<< TR
     <tr class="odd">
       <td valign="top" class="leftvalue">&nbsp;</td>
