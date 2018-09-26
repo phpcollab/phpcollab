@@ -33,6 +33,16 @@ class Support
     }
 
     /**
+     * @param $status
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getSupportRequestByStatus($status, $sorting = null)
+    {
+        return $this->support_gateway->getSupportRequestByStatus($status, $sorting);
+    }
+
+    /**
      * @param $memberId
      * @return mixed
      */
@@ -51,13 +61,14 @@ class Support
     }
 
     /**
-     * @param $requestStatus
-     * @param $projectId
+     * @param Int $requestStatus
+     * @param Int $projectId
+     * @param null $sorting
      * @return mixed
      */
-    public function getSupportRequestByStatusAndProjectId($requestStatus, $projectId)
+    public function getSupportRequestByStatusAndProjectId($requestStatus, $projectId, $sorting = null)
     {
-        return $this->support_gateway->getSupportRequestByStatusAndProjectId($requestStatus, $projectId);
+        return $this->support_gateway->getSupportRequestByStatusAndProjectId($requestStatus, $projectId, $sorting);
     }
 
     /**
