@@ -113,7 +113,7 @@ class Util
      */
     public static function updateChecker($iCV)
     {
-        $phpcollab_url = 'http://www.phcollab.com/website/version.txt';
+        $phpcollab_url = 'http://www.phpcollab.com/website/version.txt';
 
         $url = parse_url($phpcollab_url);
 
