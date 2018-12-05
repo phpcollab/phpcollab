@@ -105,50 +105,6 @@ class Util
     }
 
     /**
-     * Check last version of PhpCollab
-     * @param string $iCV Version to compare
-     * @access public
-     *
-     * @return string
-     */
-    public static function updateChecker($iCV)
-    {
-        $phpcollab_url = 'http://www.phpcollab.com/website/version.txt';
-
-        $url = parse_url($phpcollab_url);
-
-        $connection_socket = @fsockopen($url['host'], 80, $errno, $errstr, 30);
-
-        if ($connection_socket) {
-
-            fputs($connection_socket,
-                "GET /" . $url['path'] . ($url['query'] ? '?' . $url['query'] : '') . " HTTP/1.0\r\nHost: " . $url['host'] . "\r\n\r\n");
-            $http_response = fgets($connection_socket, 22);
-
-            if (preg_match("/200 OK/", $http_response, $regs)) {
-                // WARNING: in file(), use a final URL to avoid any HTTP redirection
-                $sVersiondata = join('', file($phpcollab_url));
-                $aVersiondata = explode("|", $sVersiondata);
-                $iNV = $aVersiondata[0];
-
-                if ($iCV < $iNV) {
-                    $checkMsg = "<br/><b>" . self::$strings["update_available"] . "</b> " . self::$strings["version_current"] . " $iCV. " . self::$strings["version_latest"] . " $iNV.<br/>";
-                    $checkMsg .= "<a href='http://www.sourceforge.net/projects/phpcollab' target='_blank'>" . self::$strings["sourceforge_link"] . "</a>.";
-                }
-            } else {
-                $checkMsg = self::$strings["version_check_error"];
-            }
-
-            fclose($connection_socket);
-
-        } else {
-            $checkMsg = self::$strings["version_check_error"] . "<br/>Error type: $errno - $errstr";
-        }
-
-        return $checkMsg;
-    }
-
-    /**
      * Calculate time to parse page (used with footer.php)
      * @access public
      **/
