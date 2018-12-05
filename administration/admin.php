@@ -29,6 +29,7 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 $setTitle .= " : Administration";
+$admin = new \phpCollab\Administration\Administration();
 
 if ($profilSession != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
@@ -73,7 +74,13 @@ $block1->contentRow("", $blockPage->buildLink("../administration/listlogs.php", 
 $block1->contentRow($strings["update"] . $blockPage->printHelp("admin_update"), "1. " . $blockPage->buildLink("../administration/updatesettings.php", $strings["edit_settings"], "in") . " 2. " . $blockPage->buildLink("../administration/updatedatabase.php", $strings["edit_database"], "in"));
 
 if ($updateChecker == "true" && $installationType == "online") {
-    $block1->contentRow("", phpCollab\Util::updateChecker($version));
+    $update = $admin->checkForUpdate($version);
+    if ($update) {
+        $checkMsg = "<p><b>" . $strings["update_available"] . "</b> " . $strings["version_current"] . " $version. " . $strings["version_latest"] . " $update.<br/>";
+        $checkMsg .= "<a href='http://www.sourceforge.net/projects/phpcollab' target='_blank'>" . $strings["sourceforge_link"] . "</a>.</p>";
+
+        $block1->contentRow("", $checkMsg);
+    }
 }
 
 if (file_exists("../installation/setup.php")) {
