@@ -59,6 +59,7 @@ class ProjectsGateway
      * @param $ownerId
      * @param $sorting
      * @internal param $inactive
+     * @return mixed
      */
     public function getAllByOwner($ownerId, $sorting = null)
     {
@@ -173,7 +174,6 @@ class ProjectsGateway
      */
     public function getProjectByIdIn($projectId, $sorting)
     {
-        //$tmpquery = "WHERE pro.id IN($id) ORDER BY pro.name";
         $ids = explode(',', $projectId);
         $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
         $whereStatement = " WHERE pro.id IN($placeholders) ";
