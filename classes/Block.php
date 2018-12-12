@@ -826,35 +826,39 @@ HTML;
      */
     public function buildLink($url, $label, $type)
     {
-        if ($type == "in") {
-            return '<a href="' . $url . '">' . $label . '</a>';
-        } else {
-            if ($type == "icone") {
-                return '<a href="' . $url . '&"><img src="../interface/icones/' . $label . '" border="0" alt=""></a>';
-            } else {
-                if ($type == "inblank") {
-                    return '<a href="' . $url . '&" target="_blank">' . $label . '</a>';
-                } else {
-                    if ($type == "powered") {
-                        return 'Powered by <a href="' . $url . '" target="_blank">' . $label . '</a>';
-                    } else {
-                        if ($type == "out") {
-                            // Verify correct urltyping
-                            if (substr($url, 0, 4) != 'http') {
-                                // Add default http on it
-                                $url = "http://" . $url;
-                            }
+        if (!empty($url)) {
 
-                            return "<a href='$url' target='_blank'>$label</a>";
+            if ($type == "in") {
+                return '<a href="' . $url . '">' . $label . '</a>';
+            } else {
+                if ($type == "icone") {
+                    return '<a href="' . $url . '&"><img src="../interface/icones/' . $label . '" border="0" alt=""></a>';
+                } else {
+                    if ($type == "inblank") {
+                        return '<a href="' . $url . '&" target="_blank">' . $label . '</a>';
+                    } else {
+                        if ($type == "powered") {
+                            return 'Powered by <a href="' . $url . '" target="_blank">' . $label . '</a>';
                         } else {
-                            if ($type == "mail") {
-                                return "<a href='mailto:$url'>$label</a>";
+                            if ($type == "out") {
+                                // Verify correct urltyping
+                                if (substr($url, 0, 4) != 'http') {
+                                    // Add default http on it
+                                    $url = "http://" . $url;
+                                }
+
+                                return "<a href='$url' target='_blank'>$label</a>";
+                            } else {
+                                if ($type == "mail") {
+                                    return "<a href='mailto:$url'>$label</a>";
+                                }
                             }
                         }
                     }
                 }
+                return '';
             }
-            return '';
         }
+        return Util::doubleDash();
     }
 }
