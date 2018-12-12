@@ -1540,5 +1540,3 @@ class Request
     }
 
 }
-
-?>
