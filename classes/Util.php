@@ -1033,4 +1033,9 @@ class Util
 
         return $name;
     }
+
+    public static function doubleDash()
+    {
+        return '<span style="color: #ccc;">--</span>';
+    }
 }
