@@ -69,12 +69,14 @@ class TeamsGateway
 
     /**
      * @param $memberId
+     * @param null $sorting
      * @return mixed
      */
-    public function getTeamByMemberId($memberId)
+    public function getTeamByMemberId($memberId, $sorting = null)
     {
-        $whereStatement = " WHERE tea.member = :member_id ORDER BY pro.name";
-        $this->db->query($this->initrequest["teams"] . $whereStatement);
+        $whereStatement = " WHERE tea.member = :member_id";
+        $sql = $this->initrequest["teams"] . $whereStatement . $this->orderBy($sorting);
+        $this->db->query($sql);
         $this->db->bind(':member_id', $memberId);
         $results = $this->db->resultset();
         return $results;
