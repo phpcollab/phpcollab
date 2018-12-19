@@ -56,10 +56,27 @@ class OrganizationsGateway
     }
 
     /**
-     * @param $clientId
+     * @param $ownerId
+     * @param null $sorting
      * @return mixed
      */
-    public function getClientIn($clientId)
+    public function getOrginizationsByOwnerId($ownerId, $sorting = null)
+    {
+        $whereStatement = ' WHERE org.owner = :owner_id AND org.id != 1';
+
+        $this->db->query($this->initrequest["organizations"] . $whereStatement . $this->orderBy($sorting));
+
+        $this->db->bind(':owner_id', $ownerId);
+
+        return $this->db->resultset();
+    }
+
+    /**
+     * @param $clientId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getClientIn($clientId, $sorting = null)
     {
         $clientId = explode(',', $clientId);
 
@@ -67,7 +84,7 @@ class OrganizationsGateway
 
         $whereStatement = "WHERE org.id IN($placeholders)";
 
-        $this->db->query($this->initrequest["organizations"] . $whereStatement);
+        $this->db->query($this->initrequest["organizations"] . $whereStatement . $this->orderBy($sorting));
 
         $this->db->bind(':client_id', $clientId);
 
@@ -103,6 +120,19 @@ class OrganizationsGateway
         $this->db->execute($orgId);
         return $this->db->fetchAll();
 
+    }
+
+    public function getOrganizationsIn($orgIds, $sorting = null)
+    {
+        $orgIds = explode(',', $orgIds);
+        $placeholders = str_repeat('?, ', count($orgIds) - 1) . '?';
+
+        $whereStatement = " WHERE org.id IN ($placeholders) AND org.id != 1";
+
+        $this->db->query($this->initrequest["organizations"] . $whereStatement . $this->orderBy($sorting));
+
+        $this->db->execute($orgIds);
+        return $this->db->fetchAll();
     }
 
     /**
@@ -187,7 +217,7 @@ SQL;
     private function orderBy($sorting)
     {
         if (!is_null($sorting)) {
-            $allowedOrderedBy = ["org.name"];
+            $allowedOrderedBy = ["org.name", "org.phone", "org.url"];
             $pieces = explode(' ', $sorting);
 
             if ($pieces) {
