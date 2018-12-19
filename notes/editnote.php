@@ -139,7 +139,7 @@ if ($id != "") {
 $block1->openContent();
 $block1->contentTitle($strings["details"]);
 
-$listProjects = $teams->getTeamByMemberId($idSession);
+$listProjects = $teams->getTeamByMemberId($idSession, $block1->sortingValue);
 
 echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["project"] . " :</td><td><select name='projectMenu'>";
 
