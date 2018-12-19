@@ -1,40 +1,17 @@
 <?php
-/*
-** Application name: phpCollab
-** Last Edit page: 2003-10-23
-** Path by root: ../clients/listclients.php
-** Authors: Ceam / Fullo
-** =============================================================================
-**
-**               phpCollab - Project Managment
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: listclients.php
-**
-** DESC: screen: view client data
-**
-** HISTORY:
-** 	2003-10-23	-	main page for client module
-** -----------------------------------------------------------------------------
-** TO-DO:
-**
-** =============================================================================
-*/
-
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
 $setTitle .= " : List Clients";
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
+
+$organizations = new \phpCollab\Organizations\Organizations();
+$teams = new \phpCollab\Teams\Teams();
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php", $strings["organizations"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php", $strings["organizations"], 'in'));
 $blockPage->itemBreadcrumbs($strings["organizations"]);
 $blockPage->closeBreadcrumbs();
 
@@ -69,52 +46,52 @@ $block1->setRowsLimit(20);
 $block1->sorting("organizations", $sortingUser["organizations"], "org.name ASC", $sortingFields = array(0 => "org.name", 1 => "org.phone", 2 => "org.url"));
 
 if ($clientsFilter == "true" && $profilSession == "2") {
+    /**
+     * If the user role is "user"
+     */
     $teamMember = "false";
-    $tmpquery = "WHERE tea.member = '$idSession'";
-    $memberTest = new phpCollab\Request();
-    $memberTest->openTeams($tmpquery);
-    $comptMemberTest = count($memberTest->tea_id);
-    if ($comptMemberTest == "0") {
+
+    $myTeams = $teams->getTeamByMemberId($idSession);
+
+    if (count($myTeams) == "0") {
         $listClients = "false";
     } else {
-        for ($i = 0; $i < $comptMemberTest; $i++) {
-            $clientsOk .= $memberTest->tea_org2_id[$i];
-            if ($comptMemberTest - 1 != $i) {
-                $clientsOk .= ",";
-            }
+        $clientsOk = '';
+        foreach ($myTeams as $team) {
+            $clientsOk .= $team['tea_org2_id'] . ',';
         }
+
         if ($clientsOk == "") {
             $listClients = "false";
         } else {
-            $tmpquery = "WHERE org.id IN($clientsOk) AND org.id != '1' ORDER BY $block1->sortingValue";
+            $listOrganizations = $organizations->getFilteredOrganizations($clientsOk, $block1->sortingValue);
         }
     }
 } elseif ($clientsFilter == "true" && $profilSession == "1") {
-    $tmpquery = "WHERE org.owner = '$idSession' AND org.id != '1' ORDER BY $block1->sortingValue";
+    /**
+     * If the user role is "project manager"
+     */
+    $listOrganizations = $organizations->getOrganizationsByOwner($idSession, $block1->sortingValue);
 } else {
-    $tmpquery = "WHERE org.id != '1' ORDER BY $block1->sortingValue";
+    $listOrganizations = $organizations->getListOfOrganizations($block1->sortingValue);
 }
 
-$block1->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["organizations"] . " " . $tmpquery));
+$block1->setRecordsTotal(count($listOrganizations));
 
-if ($listClients != "false") {
-    $listOrganizations = new phpCollab\Request();
-    $listOrganizations->openOrganizations($tmpquery, $block1->getLimit(), $block1->getRowsLimit());
-    $comptListOrganizations = count($listOrganizations->org_id);
-} else {
+if ($listClients == "false") {
     $comptListOrganizations = 0;
 }
 
-if ($comptListOrganizations != "0") {
+if ($listOrganizations) {
     $block1->openResults();
     $block1->labels($labels = array(0 => $strings["name"], 1 => $strings["phone"], 2 => $strings["url"]), "false");
 
-    for ($i = 0; $i < $comptListOrganizations; $i++) {
+    foreach ($listOrganizations as $org) {
         $block1->openRow();
-        $block1->checkboxRow($listOrganizations->org_id[$i]);
-        $block1->cellRow($blockPage->buildLink("../clients/viewclient.php?id=" . $listOrganizations->org_id[$i], $listOrganizations->org_name[$i], in));
-        $block1->cellRow($listOrganizations->org_phone[$i]);
-        $block1->cellRow($blockPage->buildLink($listOrganizations->org_url[$i], $listOrganizations->org_url[$i], out));
+        $block1->checkboxRow($org["org_id"]);
+        $block1->cellRow($blockPage->buildLink("../clients/viewclient.php?id=" . $org["org_id"], $org["org_name"], 'in'));
+        $block1->cellRow( \phpCollab\Util::isBlank($org["org_phone"]) );
+        $block1->cellRow( $blockPage->buildLink($org["org_url"], $org["org_url"], 'out') );
         $block1->closeRow();
     }
     $block1->closeResults();
@@ -136,4 +113,4 @@ if ($profilSession == "0" || $profilSession == "1") {
 }
 $block1->closePaletteScript($comptListOrganizations, $listOrganizations->org_id);
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
