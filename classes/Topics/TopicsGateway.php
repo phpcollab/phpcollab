@@ -91,6 +91,25 @@ class TopicsGateway
     }
 
     /**
+     * @param $projectIds
+     * @param $dateFilter
+     * @param $sorting
+     * @return mixed
+     */
+    public function getTopicsByProjectAndFilteredByDate($projectIds, $dateFilter, $sorting)
+    {
+        $projectId = explode(',', $projectIds);
+        $placeholders = str_repeat('?, ', count($projectId) - 1) . '?';
+        $where = " WHERE topic.project IN($placeholders) AND topic.last_post > ? AND topic.status = 1";
+
+        $query = $this->initrequest["topics"] . $where . $this->orderBy($sorting);
+        array_push($projectId, $dateFilter);
+        $this->db->query($query);
+        $this->db->execute($projectId);
+        return $this->db->fetchAll();
+    }
+
+    /**
      * @param $topicIds
      * @return mixed
      * @internal param string $table
