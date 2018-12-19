@@ -26,6 +26,19 @@ class Util
     }
 
     /**
+     * Checks to see if the passed in URL begins with http or not.  If it doesn't,
+     * then it adds it.
+     * @param string $url
+     * @return string
+     */
+    public static function addHttp($url) {
+        if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
+            $url = "http://" . $url;
+        }
+        return $url;
+    }
+
+    /**
      * Wrapper to make sure null strings display as 0 in sql queries
      * @param string $var An integer represented as a string
      * @return int
@@ -37,19 +50,6 @@ class Util
         } else {
             return $var;
         }
-    }
-
-    /**
-     * Checks to see if the passed in URL begins with http or not.  If it doesn't,
-     * then it adds it.
-     * @param string $url
-     * @return string
-     */
-    public static function addHttp($url) {
-        if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
-            $url = "http://" . $url;
-        }
-        return $url;
     }
 
     // replace spec.chars , you can add rule
@@ -1034,8 +1034,24 @@ class Util
         return $name;
     }
 
+    /**
+     * @return string
+     */
     public static function doubleDash()
     {
         return '<span style="color: #ccc;">--</span>';
+    }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    public static function isBlank($value)
+    {
+        if (empty($value)) {
+            return self::doubleDash();
+        } else {
+            return $value;
+        }
     }
 }
