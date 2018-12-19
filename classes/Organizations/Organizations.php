@@ -5,6 +5,7 @@ namespace phpCollab\Organizations;
 
 use phpCollab\Database;
 use Exception;
+use phpCollab\Util;
 
 /**
  * Class Organizations
@@ -56,7 +57,18 @@ class Organizations
      */
     public function getListOfOrganizations($sorting = null)
     {
-        $data = $this->organizations_gateway->getAllOrganizations($sorting);
+        $orgs = $this->organizations_gateway->getAllOrganizations($sorting);
+
+        foreach ($orgs as $key => $org) {
+           $orgs[$key]["org_phone"] = (!empty($org["org_phone"])) ? $org["org_phone"] : Util::doubleDash();
+        }
+
+        return $orgs;
+    }
+
+    public function getFilteredOrganizations($clientIds, $sorting = null)
+    {
+        $data = $this->organizations_gateway->getOrganizationsIn($clientIds, $sorting);
 
         return $data;
     }
@@ -84,6 +96,18 @@ class Organizations
 
         return $data;
 
+    }
+
+    /**
+     * @param $ownerId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getOrganizationsByOwner($ownerId, $sorting = null)
+    {
+        $ownerId = filter_var($ownerId, FILTER_VALIDATE_INT);
+        $data = $this->organizations_gateway->getOrginizationsByOwnerId($ownerId, $sorting);
+        return $data;
     }
 
     /**
