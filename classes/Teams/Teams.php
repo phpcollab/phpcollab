@@ -107,11 +107,12 @@ class Teams
 
     /**
      * @param $memberId
+     * @param null $sorting
      * @return mixed
      */
-    public function getTeamByMemberId($memberId)
+    public function getTeamByMemberId($memberId, $sorting = null)
     {
-        return $this->teams_gateway->getTeamByMemberId($memberId);
+        return $this->teams_gateway->getTeamByMemberId($memberId, $sorting);
     }
 
     /**
