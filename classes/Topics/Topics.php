@@ -24,6 +24,18 @@ class Topics
     }
 
     /**
+     * @param $projectIds
+     * @param $dateFilter
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getHomeTopics($projectIds, $dateFilter, $sorting = null)
+    {
+        $data = $this->topics_gateway->getTopicsByProjectAndFilteredByDate($projectIds, $dateFilter, $sorting);
+        return $data;
+    }
+
+    /**
      * @param $projectId
      * @param $sorting
      * @return mixed
