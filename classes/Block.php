@@ -859,6 +859,9 @@ HTML;
                 return '';
             }
         }
+        if (!empty($label)) {
+            return $label;
+        }
         return Util::doubleDash();
     }
 }
