@@ -6,7 +6,7 @@ include '../includes/customvalues.php';
 
 $setTitle .= " : Home Page";
 
-$defaultNumRowsToDisplay = 40;
+$defaultNumRowsToDisplay = 15;
 
 $topics = new \phpCollab\Topics\Topics();
 $members = new \phpCollab\Members\Members();
@@ -136,7 +136,7 @@ if ($showHomeBookmarks) {
                 $block6->openRow();
                 $block6->checkboxRow($bookmark['boo_id']);
                 $block6->cellRow($blockPage->buildLink("../bookmarks/viewbookmark.php?view=$view&id=" . $bookmark['boo_id'], $bookmark['boo_name'], 'in') . " " . $blockPage->buildLink($bookmark['boo_url'], "(" . $strings["url"] . ")", 'out'));
-                $block6->cellRow($bookmark['boo_boocat_name']);
+                $block6->cellRow( !empty($bookmark['boo_boocat_name']) ? $bookmark['boo_boocat_name'] : \phpCollab\Util::doubleDash());
 
                 if ($bookmark['boo_shared'] == "1") {
                     $printShared = $strings["yes"];
@@ -166,6 +166,7 @@ if ($showHomeBookmarks) {
         $block6->closePaletteScript($comptListBookmarks, $bookmarkIds);
     }
 }
+// end showHomeBookmarks
 
 /**
  * start to show projects block
@@ -289,6 +290,7 @@ if ($showHomeProjects) {
 
     $block1->closePaletteScript($comptListProjects, $listProjects->tea_pro_id);
 }
+// end showHomeProjects
 
 /**
  * start to show the task
@@ -312,7 +314,7 @@ if ($showHomeTasks) {
     $block2->setLimit($blockPage->returnLimit(3));
     $block2->setRowsLimit($defaultNumRowsToDisplay);
 
-    $block2->sorting("home_tasks", $sortingUser["home_tasks"], "tas.name ASC", $sortingFields = [0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem.login", 6 => "tas.project", 7 => "tas.published"]);
+    $block2->sorting("home_tasks", $sortingUser["home_tasks"], "tas.name ASC", $sortingFields = [0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem2.login", 6 => "tas.project", 7 => "tas.published"]);
 
     $tasksList = $tasks->getSubtasksAssignedToMe($idSession);
 
@@ -324,33 +326,24 @@ if ($showHomeTasks) {
         $subtasks = rtrim(rtrim($subtasks), ',');
     }
 
-    if ($subtasks != "") {
-        $tmpquery = "WHERE (tas.assigned_to = '$idSession' AND tas.status IN(0,2,3) AND pro.status IN(0,2,3)) OR tas.id IN($subtasks) ORDER BY $block2->sortingValue";
-    } else {
-        $tmpquery = "WHERE tas.assigned_to = '$idSession' AND tas.status IN(0,2,3) AND pro.status IN(0,2,3) ORDER BY $block2->sortingValue";
-    }
+    $taskCount = $tasks->getAllMyTasks($idSession, $subtasks);
+    $block2->setRecordsTotal(count($taskCount));
 
-    $block2->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["tasks"] . " " . $tmpquery));
+    $listTasks = $tasks->getAllMyTasks($idSession, $subtasks, $block2->getLimit(), $block2->getRowsLimit(), $block2->sortingValue);
 
-    $listTasks = new phpCollab\Request();
-    $listTasks->openTasks($tmpquery, $block2->getLimit(), $block2->getRowsLimit());
-
-    $comptListTasks = count($listTasks->tas_id);
-
-
-    if ($comptListTasks != "0") {
+    if ($listTasks) {
         $block2->openResults();
 
         $block2->labels($labels = [0 => $strings["name"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["completion"], 4 => $strings["due_date"], 5 => $strings["assigned_by"], 6 => $strings["project"], 7 => $strings["published"]], "true");
 
-        for ($i = 0; $i < $comptListTasks; $i++) {
-            if ($listTasks->tas_due_date[$i] == "") {
-                $listTasks->tas_due_date[$i] = $strings["none"];
+        foreach ($listTasks as $task) {
+            if ($task["tas_due_date"] == "") {
+                $task["tas_due_date"] = $strings["none"];
             }
-            $idStatus = $listTasks->tas_status[$i];
-            $idPriority = $listTasks->tas_priority[$i];
-            $idPublish = $listTasks->tas_published[$i];
-            $complValue = ($listTasks->tas_completion[$i] > 0) ? $listTasks->tas_completion[$i] . "0 %" : $listTasks->tas_completion[$i] . " %";
+            $idStatus = $task["tas_status"];
+            $idPriority = $task["tas_priority"];
+            $idPublish = $task["tas_published"];
+            $complValue = ($task["tas_completion"] > 0) ? $task["tas_completion"] . "0 %" : $task["tas_completion"] . " %";
 
             //skip completed tasks
             //28/05/03 Florian DECKERT
@@ -359,26 +352,35 @@ if ($showHomeTasks) {
             }
 
             $block2->openRow();
-            $block2->checkboxRow($listTasks->tas_id[$i]);
+            $block2->checkboxRow($task["tas_id"]);
 
-            if ($listTasks->tas_assigned_to[$i] == "0") {
-                $block2->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $listTasks->tas_id[$i], $listTasks->tas_name[$i], 'in') . " -> " . $strings["subtask"]);
+            if ($task["tas_assigned_to"] == "0") {
+                $block2->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $task["tas_id"], $task["tas_name"], 'in') . " -> " . $strings["subtask"]);
             } else {
-                $block2->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $listTasks->tas_id[$i], $listTasks->tas_name[$i], 'in'));
+                $block2->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $task["tas_id"], $task["tas_name"], 'in'));
             }
             $block2->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
             $block2->cellRow($status[$idStatus]);
             $block2->cellRow($complValue);
 
-            if ($listTasks->tas_due_date[$i] <= $date && $listTasks->tas_completion[$i] != "10") {
-                $block2->cellRow("<b>" . $listTasks->tas_due_date[$i] . "</b>");
+            if ($task["tas_due_date"] <= $date && $task["tas_completion"] != "10") {
+                if ($task["tas_due_date"] == '--') {
+                    $block2->cellRow( \phpCollab\Util::doubleDash() );
+                } else {
+                    $block2->cellRow("<b>" . $task["tas_due_date"] . "</b>");
+                }
             } else {
-                $block2->cellRow($listTasks->tas_due_date[$i]);
+                if ($task["tas_due_date"] == '--') {
+                    $block2->cellRow( \phpCollab\Util::doubleDash() );
+                } else {
+                    $block2->cellRow($task["tas_due_date"]);
+
+                }
             }
 
-            $block2->cellRow($blockPage->buildLink($listTasks->tas_mem2_email_work[$i], $listTasks->tas_mem2_login[$i], 'mail'));
+            $block2->cellRow($blockPage->buildLink($task["tas_mem2_email_work"], $task["tas_mem2_name"], 'mail'));
 
-            $block2->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listTasks->tas_project[$i], $listTasks->tas_pro_name[$i], 'in'));
+            $block2->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $task["tas_project"], $task["tas_pro_name"], 'in'));
             if ($sitePublish == "true") {
                 $block2->cellRow($statusPublish[$idPublish]);
             }
@@ -399,6 +401,7 @@ if ($showHomeTasks) {
     $block2->paletteScript(4, "edit", "../tasks/edittask.php", "false,true,false", $strings["edit"]);
     $block2->closePaletteScript($comptListTasks, $listTasks->tas_id);
 }
+// end showHomeTasks
 
 /**
  * start to show the subtask
@@ -481,6 +484,7 @@ if ($showHomeSubtasks) {
     $block3->closeToggle();
     $block3->closeFormResults();
 }
+// end showHomeSubtasks
 
 /**
  * start to show the discussion block
@@ -488,6 +492,8 @@ if ($showHomeSubtasks) {
 
 if ($showHomeDiscussions) {
     $block4 = new phpCollab\Block();
+
+    $homeTopics = new \phpCollab\Topics\Topics();
 
     $block4->form = "wbTh";
     $block4->openForm("../general/home.php#" . $block4->form . "Anchor");
@@ -512,33 +518,29 @@ if ($showHomeDiscussions) {
         $projectsTopics = implode(',', $projectsTopics);
     }
 
-    // Todo: Refactore to use PDO
-    $tmpquery = "WHERE topic.project IN($projectsTopics) AND topic.last_post > '$dateFilter' AND topic.status = '1' ORDER BY $block4->sortingValue";
+    $listTopics = $homeTopics->getHomeTopics($projectsTopics, $dateFilter, $block4->sortingValue);
 
-    $listTopics = new phpCollab\Request();
-    $listTopics->openTopics($tmpquery);
-    $comptListTopics = count($listTopics->top_id);
-
-    if ($comptListTopics != "0") {
+    if ($listTopics) {
         $block4->openResults();
 
         $block4->labels($labels = [0 => $strings["topic"], 1 => $strings["owner"], 2 => $strings["posts"], 3 => $strings["last_post"], 4 => $strings["status"], 5 => $strings["project"], 6 => $strings["published"]], "true");
 
-        for ($i = 0; $i < $comptListTopics; $i++) {
-            $idStatus = $listTopics->top_status[$i];
-            $idPublish = $listTopics->top_published[$i];
+        foreach ($listTopics as $topic) {
+            
+            $idStatus = $topic["top_status"];
+            $idPublish = $topic["top_published"];
             $block4->openRow();
-            $block4->checkboxRow($listTopics->top_id[$i]);
-            $block4->cellRow($blockPage->buildLink("../topics/viewtopic.php?project=" . $listTopics->top_project[$i] . "&id=" . $listTopics->top_id[$i], $listTopics->top_subject[$i], 'in'));
-            $block4->cellRow($blockPage->buildLink($listTopics->top_mem_email_work[$i], $listTopics->top_mem_login[$i], 'mail'));
-            $block4->cellRow($listTopics->top_posts[$i]);
-            if ($listTopics->top_last_post[$i] > $lastvisiteSession) {
-                $block4->cellRow("<b>" . phpCollab\Util::createDate($listTopics->top_last_post[$i], $timezoneSession) . "</b>");
+            $block4->checkboxRow($topic["top_id"]);
+            $block4->cellRow($blockPage->buildLink("../topics/viewtopic.php?project=" . $topic["top_project"] . "&id=" . $topic["top_id"], $topic["top_subject"], 'in'));
+            $block4->cellRow($blockPage->buildLink($topic["top_mem_email_work"], $topic["top_mem_login"], 'mail'));
+            $block4->cellRow($topic["top_posts"]);
+            if ($topic["top_last_post"] > $lastvisiteSession) {
+                $block4->cellRow("<b>" . phpCollab\Util::createDate($topic["top_last_post"], $timezoneSession) . "</b>");
             } else {
-                $block4->cellRow(phpCollab\Util::createDate($listTopics->top_last_post[$i], $timezoneSession));
+                $block4->cellRow(phpCollab\Util::createDate($topic["top_last_post"], $timezoneSession));
             }
             $block4->cellRow($statusTopic[$idStatus]);
-            $block4->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listTopics->top_project[$i], $listTopics->top_pro_name[$i], 'in'));
+            $block4->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $topic["top_project"], $topic["top_pro_name"], 'in'));
             if ($sitePublish == "true") {
                 $block4->cellRow($statusPublish[$idPublish]);
             }
@@ -557,8 +559,9 @@ if ($showHomeDiscussions) {
     $block4->paletteScript(2, "add_projectsite", "../general/home.php?addToSiteTopic=true&action=publish", "false,true,true", $strings["add_project_site"]);
     $block4->paletteScript(3, "remove_projectsite", "../general/home.php?removeToSiteTopic=true&action=publish", "false,true,true", $strings["remove_project_site"]);
     $block4->paletteScript(4, "info", "threaddetail?", "false,true,false", $strings["view"]);
-    $block4->closePaletteScript($comptListTopics, $listTopics->top_id);
+    $block4->closePaletteScript(count($listTopics), $listTopics->top_id);
 }
+// end showHomeDiscussions
 
 /**
  * start to show the reports block
@@ -581,7 +584,6 @@ if ($showHomeReports) {
 
     $block5->sorting("home_reports", $sortingUser["home_reports"], "rep.name ASC", $sortingFields = [0 => "rep.name", 1 => "rep.created"]);
 
-    // Todo: Refactore to use PDO
     $tmpquery = "WHERE rep.owner = '$idSession' ORDER BY $block5->sortingValue";
     $listReports = new phpCollab\Request();
     $listReports->openReports($tmpquery);
@@ -613,6 +615,7 @@ if ($showHomeReports) {
     $block5->paletteScript(3, "export", "../reports/exportreport.php", "false,true,true", $strings["export"]);
     $block5->closePaletteScript($comptListReports, $listReports->rep_id);
 }
+// end showHomeReports
 
 /**
  * start to show notes block
@@ -678,6 +681,7 @@ if ($showHomeNotes) {
     $block6->paletteScript(6, "edit", "../notes/editnote.php?project=$project", "false,true,false", $strings["edit"]);
     $block6->closePaletteScript($comptListNotes, $listNotes->note_id);
 }
+// end showHomeNotes
 
 /**
  * start to show newsdesk mod
@@ -768,5 +772,6 @@ if ($showHomeNewsdesk) {
     $block7->paletteScript(5, "info", "../newsdesk/viewnews.php", "false,true,false", $strings["view"]);
     $block7->closePaletteScript($comptPosts, $listPosts->news_id);
 }
+// end showHomeNewsdesk
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';
