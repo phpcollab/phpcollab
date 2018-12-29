@@ -1,32 +1,4 @@
 <?php
-/*
-** Application name: phpCollab
-** Last Edit page: 2003-10-23
-** Path by root: ../projects/viewproject.php
-** Authors: Ceam / Fullo
-** =============================================================================
-**
-**               phpCollab - Project Managment
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: viewproject.php
-**
-** DESC: Screen: show project details
-**
-** HISTORY:
-** 	17/05/2005	-	added new document info
-**	17/05/2005	-	fixed copy task issue
-**  22/05/2005	-	added [MOD] file owner label in linked content list
-** -----------------------------------------------------------------------------
-** TO-DO:
-**
-**
-** =============================================================================
-*/
-
 
 $checkSession = "true";
 include_once '../includes/library.php';
@@ -489,47 +461,48 @@ if ($projectDetail["pro_phase_set"] != "0") {
     $block2->sorting("project_tasks", $sortingUser["project_tasks"], "tas.name ASC", $sortingFields = array(0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem.login", 6 => "tas.published"));
 
     $tmpquery = "WHERE tas.project = '$id' ORDER BY $block2->sortingValue";
-
     $block2->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["tasks"] . " " . $tmpquery));
 
     $listTasks = new phpCollab\Request();
     $listTasks->openTasks($tmpquery, $block2->getLimit(), $block2->getRowsLimit());
     $comptListTasks = count($listTasks->tas_id);
 
-    if ($comptListTasks != "0") {
+    $listTasks2 = $tasks->getTasksByProjectId($id, $block2->sortingValue);
+    if ($listTasks2) {
         $block2->openResults();
         $block2->labels($labels = array(0 => $strings["name"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["completion"], 4 => $strings["due_date"], 5 => $strings["assigned_to"], 6 => $strings["published"]), "true");
 
-        for ($i = 0; $i < $comptListTasks; $i++) {
-            if ($listTasks->tas_due_date[$i] == "") {
-                $listTasks->tas_due_date[$i] = $strings["none"];
+        foreach ($listTasks2 as $task) {
+            
+            if ($task["tas_due_date"] == "") {
+                $task["tas_due_date"] = $strings["none"];
             }
 
-            $idStatus = $listTasks->tas_status[$i];
-            $idPriority = $listTasks->tas_priority[$i];
-            $idPublish = $listTasks->tas_published[$i];
-            $complValue = ($listTasks->tas_completion[$i] > 0) ? $listTasks->tas_completion[$i] . "0 %" : $listTasks->tas_completion[$i] . " %";
+            $idStatus = $task["tas_status"];
+            $idPriority = $task["tas_priority"];
+            $idPublish = $task["tas_published"];
+            $complValue = ($task["tas_completion"] > 0) ? $task["tas_completion"] . "0 %" : $task["tas_completion"] . " %";
             $block2->openRow();
-            $block2->checkboxRow($listTasks->tas_id[$i]);
-            $block2->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $listTasks->tas_id[$i], $listTasks->tas_name[$i], in));
+            $block2->checkboxRow($task["tas_id"]);
+            $block2->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $task["tas_id"], $task["tas_name"], "in"));
             $block2->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
             $block2->cellRow($status[$idStatus]);
             $block2->cellRow($complValue);
 
-            if ($listTasks->tas_due_date[$i] <= $date && $listTasks->tas_completion[$i] != "10") {
-                $block2->cellRow("<b>" . $listTasks->tas_due_date[$i] . "</b>");
+            if ($task["tas_due_date"] <= $date && $task["tas_completion"] != "10") {
+                $block2->cellRow("<b>" . $task["tas_due_date"] . "</b>");
             } else {
-                $block2->cellRow($listTasks->tas_due_date[$i]);
+                $block2->cellRow($task["tas_due_date"]);
             }
 
-            if ($listTasks->tas_start_date[$i] != "--" && $listTasks->tas_due_date[$i] != "--") {
+            if ($task["tas_start_date"] != "--" && $task["tas_due_date"] != "--") {
                 $gantt = "true";
             }
 
-            if ($listTasks->tas_assigned_to[$i] == "0") {
+            if ($task["tas_assigned_to"] == "0") {
                 $block2->cellRow($strings["unassigned"]);
             } else {
-                $block2->cellRow($blockPage->buildLink($listTasks->tas_mem_email_work[$i], $listTasks->tas_mem_login[$i], mail));
+                $block2->cellRow($blockPage->buildLink($task["tas_mem_email_work"], $task["tas_mem_login"], "mail"));
             }
 
             if ($sitePublish == "true") {
@@ -546,7 +519,7 @@ if ($projectDetail["pro_phase_set"] != "0") {
             echo "
 				<div id='ganttChart_taskList' class='ganttChart'>
 					<img src='../tasks/graphtasks.php?&project=" . $projectDetail["pro_id"] . "' alt=''><br/>
-					<span class='listEvenBold''>" . $blockPage->buildLink("http://www.aditus.nu/jpgraph/", "JpGraph", powered) . "</span>	
+					<span class='listEvenBold''>" . $blockPage->buildLink("http://www.aditus.nu/jpgraph/", "JpGraph", "powered") . "</span>	
 				</div>
 			";
         }
