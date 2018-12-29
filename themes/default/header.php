@@ -49,13 +49,12 @@ echo "<body $bodyCommand>";
 echo "<div id='overDiv' style='position:absolute; visibility:hidden; z-index:1000;'></div>\n\n";
 
 if ($blank != "true" && $version >= "2.0") {
-    $tmpquery = "WHERE org.id = '1'";
-    $clientHeader = new phpCollab\Request();
-    $clientHeader->openOrganizations($tmpquery);
+    $organization = new \phpCollab\Organizations\Organizations();
+    $client = $organization->getOrganizationById(1);
 }
-if (file_exists("../logos_clients/1." . $clientHeader->org_extension_logo[0]) && $blank != "true" && $version >= "2.0") {
+if (file_exists("../logos_clients/1." . $client["org_extension_logo"]) && $blank != "true" && $version >= "2.0") {
     echo <<< HEADER
-    <p id="header"><img src="../logos_clients/1.{$clientHeader->org_extension_logo[0]}" border="0" alt="{$clientHeader->org_name[0]}"></p>
+    <p id="header"><img src="../logos_clients/1.{$client["org_extension_logo"]}" border="0" alt="{$client["org_name"]}"></p>
 HEADER;
 } else {
     echo <<< HEADER
