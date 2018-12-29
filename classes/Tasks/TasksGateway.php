@@ -41,6 +41,38 @@ class TasksGateway
     }
 
     /**
+     * @param $userId
+     * @param $subtasks
+     * @param null $startRow
+     * @param null $rowsLimit
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getAllMyTasks($userId, $subtasks, $startRow = null, $rowsLimit = null, $sorting = null)
+    {
+        $subtaskIds = explode(',', $subtasks);
+        $placeholders = str_repeat ('?, ', count($subtaskIds)-1) . '?';
+
+        if ($subtasks != "") {
+            $tmpquery = " WHERE (tas.assigned_to = ? AND tas.status IN(0,2,3) AND pro.status IN(0,2,3)) OR tas.id IN({$placeholders})";
+        } else {
+            $tmpquery = " WHERE tas.assigned_to = ? AND tas.status IN(0,2,3) AND pro.status IN(0,2,3)";
+        }
+
+        $tmpquery = $tmpquery . $this->orderBy($sorting) . $this->limit($startRow, $rowsLimit);
+
+        if (is_array($subtaskIds)) {
+            array_unshift($subtaskIds, $userId);
+        } else {
+            $subtaskIds = explode(',', $userId . ',' . $subtasks);
+        }
+
+        $this->db->query($this->initrequest["tasks"] . $tmpquery);
+        $this->db->execute($subtaskIds);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $taskData
      * @return mixed
      */
@@ -166,13 +198,18 @@ SQL;
 
     /**
      * @param $projectId
+     * @param null $startRow
+     * @param null $rowsLimit
      * @param $sorting
      * @return mixed
      */
-    public function getTasksByProjectId($projectId, $sorting = null)
+    public function getTasksByProjectId($projectId, $startRow = null, $rowsLimit = null, $sorting = null)
     {
         $whereStatement = " WHERE tas.project = :project_id";
-        $this->db->query($this->initrequest["tasks"] . $whereStatement . $this->orderBy($sorting));
+
+        $query = $this->initrequest["tasks"] . $whereStatement . $this->orderBy($sorting) . $this->limit($startRow, $rowsLimit);
+
+        $this->db->query($query);
         $this->db->bind(':project_id', $projectId);
         return $this->db->resultset();
     }
@@ -597,6 +634,26 @@ SQL;
         return $this->db->lastInsertId();
     }
 
+    /**
+     * @param $taskName
+     * @param $description
+     * @param $assignedTo
+     * @param $status
+     * @param $priority
+     * @param $startDate
+     * @param $dueDate
+     * @param $estimatedTime
+     * @param $actualTime
+     * @param $comments
+     * @param $modifiedDate
+     * @param $completion
+     * @param $parentPhase
+     * @param $published
+     * @param $invoicing
+     * @param $workedHours
+     * @param $taskId
+     * @return mixed
+     */
     public function updateTask($taskName, $description, $assignedTo, $status, $priority, $startDate, $dueDate,
                                $estimatedTime, $actualTime, $comments, $modifiedDate, $completion, $parentPhase, $published, $invoicing,
                                $workedHours, $taskId)
@@ -672,6 +729,21 @@ SQL;
         return $this->db->execute();
     }
 
+
+    /**
+     * Returns the LIMIT attribute for SQL strings
+     * @param $start
+     * @param $rowLimit
+     * @return string
+     */
+    private function limit($start, $rowLimit)
+    {
+        if (!is_null($start) && !is_null($rowLimit)) {
+            return " LIMIT {$start},{$rowLimit}";
+        }
+        return '';
+
+    }
     /**
      * @param string $sorting
      * @return string
@@ -679,7 +751,16 @@ SQL;
     private function orderBy($sorting)
     {
         if (!is_null($sorting)) {
-            $allowedOrderedBy = ["tas.id","tas.project","tas.priority","tas.status","tas.owner","tas.assigned_to","tas.name","tas.description","tas.start_date","tas.due_date","tas.estimated_time","tas.actual_time","tas.comments","tas.completion","tas.created","tas.modified","tas.assigned","tas.published","tas.parent_phase","tas.complete_date","tas.invoicing","tas.worked_hours","mem.id","mem.name","mem.login","mem.email_work","mem2.id","mem2.name","mem2.login","mem2.email_work","mem.organization","pro.name","org.id", "subtas.id","subtas.task","subtas.priority","subtas.status","subtas.owner","subtas.assigned_to","subtas.name","subtas.description","subtas.start_date","subtas.due_date","subtas.estimated_time","subtas.actual_time","subtas.comments","subtas.completion","subtas.created","subtas.modified","subtas.assigned","subtas.published","subtas.complete_date"];
+            $allowedOrderedBy = [
+                "tas.id","tas.project","tas.priority","tas.status","tas.owner","tas.assigned_to","tas.name",
+                "tas.description","tas.start_date","tas.due_date","tas.estimated_time","tas.actual_time",
+                "tas.comments","tas.completion","tas.created","tas.modified","tas.assigned","tas.published",
+                "tas.parent_phase","tas.complete_date","tas.invoicing","tas.worked_hours","mem.id","mem.name",
+                "mem.login","mem.email_work","mem2.id","mem2.name","mem2.login","mem2.email_work","mem.organization",
+                "pro.name","org.id", "subtas.id","subtas.task","subtas.priority","subtas.status","subtas.owner",
+                "subtas.assigned_to","subtas.name","subtas.description","subtas.start_date","subtas.due_date",
+                "subtas.estimated_time","subtas.actual_time","subtas.comments","subtas.completion","subtas.created",
+                "subtas.modified","subtas.assigned","subtas.published","subtas.complete_date"];
             $pieces = explode(' ', $sorting);
 
             if ($pieces) {
