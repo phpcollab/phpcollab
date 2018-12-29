@@ -42,6 +42,19 @@ class Tasks
 
     /**
      * @param $userId
+     * @param null $subtasks
+     * @param null $startRow
+     * @param null $rowsLimit
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getAllMyTasks($userId, $subtasks = null, $startRow = null, $rowsLimit = null, $sorting = null)
+    {
+        return $this->tasks_gateway->getAllMyTasks($userId, $subtasks, $startRow, $rowsLimit, $sorting);
+    }
+
+    /**
+     * @param $userId
      * @return mixed
      */
     public function getSubtasksAssignedToMe($userId)
@@ -104,13 +117,15 @@ class Tasks
 
     /**
      * @param $projectId
+     * @param null $startRow
+     * @param null $rowsLimit
      * @param null $sorting
      * @return mixed
      */
-    public function getTasksByProjectId($projectId, $sorting = null)
+    public function getTasksByProjectId($projectId, $startRow = null, $rowsLimit = null, $sorting = null)
     {
         $projectId = filter_var($projectId, FILTER_SANITIZE_STRING);
-        $task = $this->tasks_gateway->getTasksByProjectId($projectId, $sorting);
+        $task = $this->tasks_gateway->getTasksByProjectId($projectId, $startRow, $rowsLimit, $sorting);
         return $task;
     }
 
@@ -253,6 +268,26 @@ class Tasks
         return $this->tasks_gateway->assignTaskTo($taskId, $assignedDate);
     }
 
+    /**
+     * @param $taskName
+     * @param $description
+     * @param $assignedTo
+     * @param $status
+     * @param $priority
+     * @param $startDate
+     * @param $dueDate
+     * @param $estimatedTime
+     * @param $actualTime
+     * @param $comments
+     * @param $modifiedDate
+     * @param $completion
+     * @param $parentPhase
+     * @param $published
+     * @param $invoicing
+     * @param $workedHours
+     * @param $taskId
+     * @return mixed
+     */
     public function updateTask($taskName, $description, $assignedTo, $status, $priority, $startDate, $dueDate,
                                $estimatedTime, $actualTime, $comments, $modifiedDate, $completion, $parentPhase, $published, $invoicing,
                                $workedHours, $taskId)
