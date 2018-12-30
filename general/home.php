@@ -12,6 +12,7 @@ $topics = new \phpCollab\Topics\Topics();
 $members = new \phpCollab\Members\Members();
 $projects = new \phpCollab\Projects\Projects();
 $tasks = new \phpCollab\Tasks\Tasks();
+$reports = new \phpCollab\Reports\Reports();
 
 $test = $date;
 $DateYear = substr("$test", 0, 4); // DateYear
@@ -568,52 +569,48 @@ if ($showHomeDiscussions) {
  */
 
 if ($showHomeReports) {
-    $block5 = new phpCollab\Block();
+    $reportsBlock = new phpCollab\Block();
 
-    $block5->form = "wbSe";
-    $block5->openForm("../general/home.php#" . $block5->form . "Anchor");
+    $reportsBlock->form = "wbSe";
+    $reportsBlock->openForm("../general/home.php#" . $reportsBlock->form . "Anchor");
 
-    $block5->headingToggle($strings["my_reports"]);
+    $reportsBlock->headingToggle($strings["my_reports"]);
 
-    $block5->openPaletteIcon();
-    $block5->paletteIcon(0, "add", $strings["new"]);
-    $block5->paletteIcon(1, "remove", $strings["delete"]);
-    $block5->paletteIcon(2, "info", $strings["view"]);
-    $block5->paletteIcon(3, "export", $strings["export"]);
-    $block5->closePaletteIcon();
+    $reportsBlock->openPaletteIcon();
+    $reportsBlock->paletteIcon(0, "add", $strings["new"]);
+    $reportsBlock->paletteIcon(1, "remove", $strings["delete"]);
+    $reportsBlock->paletteIcon(2, "info", $strings["view"]);
+    $reportsBlock->paletteIcon(3, "export", $strings["export"]);
+    $reportsBlock->closePaletteIcon();
 
-    $block5->sorting("home_reports", $sortingUser["home_reports"], "rep.name ASC", $sortingFields = [0 => "rep.name", 1 => "rep.created"]);
+    $reportsBlock->sorting("home_reports", $sortingUser["home_reports"], "rep.name ASC", $sortingFields = [0 => "rep.name", 1 => "rep.created"]);
+    $listReports = $reports->getReportsByOwner($idSession, $reportsBlock->sortingValue);
 
-    $tmpquery = "WHERE rep.owner = '$idSession' ORDER BY $block5->sortingValue";
-    $listReports = new phpCollab\Request();
-    $listReports->openReports($tmpquery);
-    $comptListReports = count($listReports->rep_id);
+    if ($listReports) {
+        $reportsBlock->openResults();
 
-    if ($comptListReports != "0") {
-        $block5->openResults();
+        $reportsBlock->labels($labels = [0 => $strings["name"], 1 => $strings["created"]], "false");
 
-        $block5->labels($labels = [0 => $strings["name"], 1 => $strings["created"]], "false");
-
-        for ($i = 0; $i < $comptListReports; $i++) {
-            $block5->openRow();
-            $block5->checkboxRow($listReports->rep_id[$i]);
-            $block5->cellRow($blockPage->buildLink("../reports/resultsreport.php?id=" . $listReports->rep_id[$i], $listReports->rep_name[$i], 'in'));
-            $block5->cellRow(phpCollab\Util::createDate($listReports->rep_created[$i], $timezoneSession));
-            $block5->closeRow();
+        foreach ($listReports as $listReport) {
+            $reportsBlock->openRow();
+            $reportsBlock->checkboxRow($listReport["rep_id"]);
+            $reportsBlock->cellRow($blockPage->buildLink("../reports/resultsreport.php?id=" . $listReport["rep_id"], $listReport["rep_name"], 'in'));
+            $reportsBlock->cellRow(phpCollab\Util::createDate($listReport["rep_created"], $timezoneSession));
+            $reportsBlock->closeRow();
         }
-        $block5->closeResults();
+        $reportsBlock->closeResults();
     } else {
-        $block5->noresults();
+        $reportsBlock->noresults();
     }
-    $block5->closeToggle();
-    $block5->closeFormResults();
+    $reportsBlock->closeToggle();
+    $reportsBlock->closeFormResults();
 
-    $block5->openPaletteScript();
-    $block5->paletteScript(0, "add", "../reports/createreport.php", "true,true,true", $strings["new"]);
-    $block5->paletteScript(1, "remove", "../reports/deletereports.php", "false,true,true", $strings["delete"]);
-    $block5->paletteScript(2, "info", "../reports/resultsreport.php", "false,true,true", $strings["view"]);
-    $block5->paletteScript(3, "export", "../reports/exportreport.php", "false,true,true", $strings["export"]);
-    $block5->closePaletteScript($comptListReports, $listReports->rep_id);
+    $reportsBlock->openPaletteScript();
+    $reportsBlock->paletteScript(0, "add", "../reports/createreport.php", "true,true,true", $strings["new"]);
+    $reportsBlock->paletteScript(1, "remove", "../reports/deletereports.php", "false,true,true", $strings["delete"]);
+    $reportsBlock->paletteScript(2, "info", "../reports/resultsreport.php", "false,true,true", $strings["view"]);
+    $reportsBlock->paletteScript(3, "export", "../reports/exportreport.php", "false,true,true", $strings["export"]);
+    $reportsBlock->closePaletteScript(count($listReports), $listReports->rep_id);
 }
 // end showHomeReports
 
