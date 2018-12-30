@@ -63,6 +63,17 @@ class Notes
     }
 
     /**
+     * @param $ownerId
+     * @param $dateFilter
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getMyDateFilteredNotes($ownerId, $dateFilter = null, $sorting = null)
+    {
+        return $this->notes_gateway->getDateFilteredNotesByOwner($ownerId, $dateFilter, $sorting);
+    }
+
+    /**
      * @param $noteData
      * @return string
      */
