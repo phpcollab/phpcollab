@@ -65,6 +65,22 @@ class NotesGateway
     }
 
     /**
+     * @param $ownerId
+     * @param $dateFilter
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getDateFilteredNotesByOwner($ownerId, $dateFilter, $sorting = null)
+    {
+        $tmpQuery = " WHERE note.owner = :owner_id AND note.date > :date_filter AND pro.status IN(0,2,3)";
+        $sql = $this->initrequest["notes"] . $tmpQuery . $this->orderBy($sorting);
+        $this->db->query($sql);
+        $this->db->bind(':owner_id', $ownerId);
+        $this->db->bind(':date_filter', $dateFilter);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $projectId
      * @param $sorting
      * @return mixed
