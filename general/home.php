@@ -13,6 +13,7 @@ $members = new \phpCollab\Members\Members();
 $projects = new \phpCollab\Projects\Projects();
 $tasks = new \phpCollab\Tasks\Tasks();
 $reports = new \phpCollab\Reports\Reports();
+$notes = new \phpCollab\Notes\Notes();
 
 $test = $date;
 $DateYear = substr("$test", 0, 4); // DateYear
@@ -618,65 +619,61 @@ if ($showHomeReports) {
  * start to show notes block
  */
 if ($showHomeNotes) {
-    $block6 = new phpCollab\Block();
-    $block6->form = "saJ";
-    $block6->openForm("../general/home.php?project=$project#" . $block6->form . "Anchor");
-    $block6->headingToggle($strings["my_notes"]);
+    $notesBlock = new phpCollab\Block();
+    $notesBlock->form = "saJ";
+    $notesBlock->openForm("../general/home.php?project=$project#" . $notesBlock->form . "Anchor");
+    $notesBlock->headingToggle($strings["my_notes"]);
 
-    $block6->openPaletteIcon();
+    $notesBlock->openPaletteIcon();
 
-    $block6->paletteIcon(5, "info", $strings["view"]);
-    $block6->paletteIcon(6, "edit", $strings["edit"]);
-    $block6->closePaletteIcon();
+    $notesBlock->paletteIcon(5, "info", $strings["view"]);
+    $notesBlock->paletteIcon(6, "edit", $strings["edit"]);
+    $notesBlock->closePaletteIcon();
 
     $comptTopic = count($topicNote);
 
     if ($comptTopic != "0") {
-        $block6->sorting("notes", $sortingUser["notes"], "note.date DESC", $sortingFields = [0 => "note.subject", 1 => "note.topic", 2 => "note.date", 3 => "mem.login", 4 => "note.published"]);
+        $notesBlock->sorting("notes", $sortingUser["notes"], "note.date DESC", $sortingFields = [0 => "note.subject", 1 => "note.topic", 2 => "note.date", 3 => "mem.login", 4 => "note.published"]);
     } else {
-        $block6->sorting("notes", $sortingUser["notes"], "note.date DESC", $sortingFields = [0 => "note.subject", 1 => "note.date", 2 => "mem.login", 3 => "note.published"]);
+        $notesBlock->sorting("notes", $sortingUser["notes"], "note.date DESC", $sortingFields = [0 => "note.subject", 1 => "note.date", 2 => "mem.login", 3 => "note.published"]);
     }
 
-    // Todo: Refactore to use PDO
-    $tmpquery = "WHERE note.owner = '$idSession' AND note.date > '$dateFilter' AND pro.status IN(0,2,3) ORDER BY $block6->sortingValue";
-    $listNotes = new phpCollab\Request();
-    $listNotes->openNotes($tmpquery);
-    $comptListNotes = count($listNotes->note_id);
+    $listNotes = $notes->getMyDateFilteredNotes($idSession, $dateFilter, $notesBlock->sortingValue);
 
-    if ($comptListNotes != "0") {
-        $block6->openResults();
+    if ($listNotes) {
+        $notesBlock->openResults();
 
         if ($comptTopic != "0") {
-            $block6->labels($labels = [0 => $strings["subject"], 1 => $strings["topic"], 2 => $strings["date"], 3 => $strings["owner"], 4 => $strings["published"]], "true");
+            $notesBlock->labels($labels = [0 => $strings["subject"], 1 => $strings["topic"], 2 => $strings["date"], 3 => $strings["owner"], 4 => $strings["published"]], "true");
         } else {
-            $block6->labels($labels = [0 => $strings["subject"], 1 => $strings["date"], 2 => $strings["owner"], 3 => $strings["published"]], "true");
+            $notesBlock->labels($labels = [0 => $strings["subject"], 1 => $strings["date"], 2 => $strings["owner"], 3 => $strings["published"]], "true");
         }
-        for ($i = 0; $i < $comptListNotes; $i++) {
-            $idPublish = $listNotes->note_published[$i];
-            $block6->openRow();
-            $block6->checkboxRow($listNotes->note_id[$i]);
-            $block6->cellRow($blockPage->buildLink("../notes/viewnote.php?id=" . $listNotes->note_id[$i], $listNotes->note_subject[$i], 'in'));
+        foreach ($listNotes as $note) {
+            $idPublish = $note["note_published"];
+            $notesBlock->openRow();
+            $notesBlock->checkboxRow($note["note_id"]);
+            $notesBlock->cellRow($blockPage->buildLink("../notes/viewnote.php?id=" . $note["note_id"], $note["note_subject"], 'in'));
             if ($comptTopic != "0") {
-                $block6->cellRow($topicNote[$listNotes->note_topic[$i]]);
+                $notesBlock->cellRow( !empty($topicNote[$note["note_topic"]]) ? $topicNote[$note["note_topic"]] : \phpCollab\Util::doubleDash());
             }
-            $block6->cellRow($listNotes->note_date[$i]);
-            $block6->cellRow($blockPage->buildLink($listNotes->note_mem_email_work[$i], $listNotes->note_mem_login[$i], 'mail'));
+            $notesBlock->cellRow($note["note_date"]);
+            $notesBlock->cellRow($blockPage->buildLink($note["note_mem_email_work"], $note["note_mem_login"], 'mail'));
             if ($sitePublish == "true") {
-                $block6->cellRow($statusPublish[$idPublish]);
+                $notesBlock->cellRow($statusPublish[$idPublish]);
             }
-            $block6->closeRow();
+            $notesBlock->closeRow();
         }
-        $block6->closeResults();
+        $notesBlock->closeResults();
     } else {
-        $block6->noresults();
+        $notesBlock->noresults();
     }
-    $block6->closeToggle();
-    $block6->closeFormResults();
+    $notesBlock->closeToggle();
+    $notesBlock->closeFormResults();
 
-    $block6->openPaletteScript();
-    $block6->paletteScript(5, "info", "../notes/viewnote.php", "false,true,false", $strings["view"]);
-    $block6->paletteScript(6, "edit", "../notes/editnote.php?project=$project", "false,true,false", $strings["edit"]);
-    $block6->closePaletteScript($comptListNotes, $listNotes->note_id);
+    $notesBlock->openPaletteScript();
+    $notesBlock->paletteScript(5, "info", "../notes/viewnote.php", "false,true,false", $strings["view"]);
+    $notesBlock->paletteScript(6, "edit", "../notes/editnote.php?project=$project", "false,true,false", $strings["edit"]);
+    $notesBlock->closePaletteScript(count($listNotes), $listNotes->note_id);
 }
 // end showHomeNotes
 
