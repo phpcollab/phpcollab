@@ -100,6 +100,7 @@ class Util
         if ($type == "COOKIE") {
             return Util::replaceSpecialCharacters($_COOKIE[$var]);
         }
+        return '';
     }
 
     /**
