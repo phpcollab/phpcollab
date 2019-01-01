@@ -4,6 +4,9 @@ $checkSession = "true";
 include_once '../includes/library.php';
 include '../includes/customvalues.php';
 
+$strings = $GLOBALS["strings"];
+$passwordSession = $_SESSION["passwordSession"];
+
 $setTitle .= " : Home Page";
 
 $defaultNumRowsToDisplay = 15;
@@ -223,45 +226,45 @@ if ($showHomeProjects) {
 
     $sorting = $block1->sortingValue;
 
-    $projectCount = $projects->getProjectList($idSession, $typeProjects);
+    $projectCount = $projects->getProjectList($idSession, $_GET["typeProjects"]);
     $block1->setRecordsTotal(count($projectCount));
 
-    $dataSet = $projects->getProjectList($idSession, $typeProjects, $block1->getRowsLimit(), $block1->getLimit(), $sorting);
+    $projectsList = $projects->getProjectList($idSession, $_GET["typeProjects"], $block1->getRowsLimit(), $block1->getLimit(), $sorting);
 
 
     $projectsTopics = [];
 
-    $comptListProjects = count($dataSet);
+    $comptListProjects = count($projectsList);
 
-    if ($dataSet) {
+    if ($projectsList) {
         $block1->openResults();
 
         $block1->labels($labels = [0 => $strings["id"], 1 => $strings["project"], 2 => $strings["priority"], 3 => $strings["organization"], 4 => $strings["status"], 5 => $strings["owner"], 6 => $strings["project_site"]], "true");
 
-        foreach ($dataSet as $data) {
-            $idStatus = $data["pro_status"];
-            $idPriority = $data["pro_priority"];
+        foreach ($projectsList as $project) {
+            $idStatus = $project["pro_status"];
+            $idPriority = $project["pro_priority"];
 
             $block1->openRow();
-            $block1->checkboxRow($data["pro_id"]);
-            $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $data["pro_id"], $data["pro_id"], 'in'));
-            $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $data["pro_id"], $data["pro_name"], 'in'));
+            $block1->checkboxRow($project["pro_id"]);
+            $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $project["pro_id"], $project["pro_id"], 'in'));
+            $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $project["pro_id"], $project["pro_name"], 'in'));
             $block1->cellRow('<img src="../themes/' . THEME . '/images/gfx_priority/' . $idPriority . '.gif" alt=""> ' . $priority[$idPriority]);
-            $block1->cellRow($data["pro_org_name"]);
+            $block1->cellRow($project["pro_org_name"]);
             $block1->cellRow($status[$idStatus]);
 
-            $block1->cellRow($blockPage->buildLink('../users/viewuser.php?id=' . $data["pro_mem_id"], $data["pro_mem_login"], 'in'));
+            $block1->cellRow($blockPage->buildLink('../users/viewuser.php?id=' . $project["pro_mem_id"], $project["pro_mem_login"], 'in'));
 
             if ($sitePublish == "true") {
-                if ($data["pro_published"] == "1") {
-                    $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $data["pro_id"], $strings["create"] . "...", 'in') . "&gt;");
+                if ($project["pro_published"] == "1") {
+                    $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $project["pro_id"], $strings["create"] . "...", 'in') . "&gt;");
                 } else {
-                    $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=" . $data["pro_id"], $strings["details"], 'in') . "&gt;");
+                    $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=" . $project["pro_id"], $strings["details"], 'in') . "&gt;");
                 }
             }
 
             $block1->closeRow();
-            array_push($projectsTopics, $data["pro_id"]);
+            array_push($projectsTopics, $project["pro_id"]);
         }
         $block1->closeResults();
         $block1->limitsFooter("1", $blockPage->getLimitsNumber(), "", "");
@@ -288,7 +291,7 @@ if ($showHomeProjects) {
 
     //if mantis bug tracker enabled
     if ($enableMantis == "true") {
-        $block1->paletteScript(8, "bug", $pathMantis . "login.php?url=http://{$HTTP_HOST}{$REQUEST_URI}&username=$loginSession&password=$passwordSession", "false,true,false", $strings["bug"]);
+        $block1->paletteScript(8, "bug", $pathMantis . "login.php?url=http://{$_SERVER["HTTP_HOST"]}{$_SERVER["REQUEST_URI"]}&username=$loginSession&password=$passwordSession", "false,true,false", $strings["bug"]);
     }
 
     $block1->closePaletteScript($comptListProjects, $listProjects->tea_pro_id);
@@ -537,7 +540,7 @@ if ($showHomeDiscussions) {
             $block4->cellRow($blockPage->buildLink("../topics/viewtopic.php?project=" . $topic["top_project"] . "&id=" . $topic["top_id"], $topic["top_subject"], 'in'));
             $block4->cellRow($blockPage->buildLink($topic["top_mem_email_work"], $topic["top_mem_login"], 'mail'));
             $block4->cellRow($topic["top_posts"]);
-            if ($topic["top_last_post"] > $lastvisiteSession) {
+            if ($topic["top_last_post"] > $_SESSION["lastvisiteSession"]) {
                 $block4->cellRow("<b>" . phpCollab\Util::createDate($topic["top_last_post"], $timezoneSession) . "</b>");
             } else {
                 $block4->cellRow(phpCollab\Util::createDate($topic["top_last_post"], $timezoneSession));
@@ -703,19 +706,19 @@ if ($showHomeNewsdesk) {
     $newsdeskBlock->sorting("newsdesk", $sortingUser["newsdesk"], "news.pdate DESC", $sortingFields = [0 => "news.title", 1 => "news.pdate", 2 => "news.author", 3 => "news.related"]);
     $newsdeskBlock->openContent();
 
-    $idCount = count($dataSet);
+    $idCount = count($projectsList);
 
     // this query select the news to show in the home page
     // this news can be: write from the user, has the RSS enabled, has the Generic Value enable, is related to the user's project
     if ($idCount > 0) {
-        $relatedQuery = array_column($dataSet, 'pro_id');
+        $relatedQuery = array_column($projectsList, 'pro_id');
     } else {
         $relatedQuery = 'g';
     }
-    $newsdeskBlock->setRecordsTotal( $newsdesk->getHomePostCount($sessionId, $relatedQuery) );
+    $newsdeskBlock->setRecordsTotal( $newsdesk->getHomePostCount($idSession, $relatedQuery) );
 
     $newsdeskPosts = $newsdesk->getHomeViewNewsdeskPosts(
-        $sessionId,
+        $idSession,
         $relatedQuery,
         $newsdeskBlock->getLimit(),
         $newsdeskBlock->getRowsLimit(),
