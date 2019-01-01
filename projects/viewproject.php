@@ -12,6 +12,7 @@ $notes = new \phpCollab\Notes\Notes();
 $support = new \phpCollab\Support\Support();
 $projects = new \phpCollab\Projects\Projects();
 $topics = new \phpCollab\Topics\Topics();
+$notes = new \phpCollab\Notes\Notes();
 
 $id = phpCollab\Util::returnGlobal('id', 'REQUEST');
 $project = phpCollab\Util::returnGlobal('project', 'REQUEST');
@@ -826,103 +827,100 @@ if ($fileManagement == "true") {
  * -------------------
  * Begin Notes Section
  */
-$block6 = new phpCollab\Block();
-$block6->form = "wbJ";
-$block6->openForm("../projects/viewproject.php?&id=" . $projectDetail["pro_id"] . "#" . $block6->form . "Anchor");
-$block6->headingToggle($strings["notes"]);
-$block6->openPaletteIcon();
+$notesBlock = new phpCollab\Block();
+$notesBlock->form = "wbJ";
+$notesBlock->openForm("../projects/viewproject.php?&id=" . $projectDetail["pro_id"] . "#" . $notesBlock->form . "Anchor");
+$notesBlock->headingToggle($strings["notes"]);
+$notesBlock->openPaletteIcon();
 
 if ($teamMember == "true" || $profilSession == "5") {
-    $block6->paletteIcon(0, "add", $strings["add"]);
-    $block6->paletteIcon(1, "remove", $strings["delete"]);
+    $notesBlock->paletteIcon(0, "add", $strings["add"]);
+    $notesBlock->paletteIcon(1, "remove", $strings["delete"]);
     if ($sitePublish == "true") {
-        $block6->paletteIcon(3, "add_projectsite", $strings["add_project_site"]);
-        $block6->paletteIcon(4, "remove_projectsite", $strings["remove_project_site"]);
+        $notesBlock->paletteIcon(3, "add_projectsite", $strings["add_project_site"]);
+        $notesBlock->paletteIcon(4, "remove_projectsite", $strings["remove_project_site"]);
     }
 }
 
-$block6->paletteIcon(5, "info", $strings["view"]);
+$notesBlock->paletteIcon(5, "info", $strings["view"]);
 if ($teamMember == "true" || $profilSession == "5") {
-    $block6->paletteIcon(6, "edit", $strings["edit"]);
+    $notesBlock->paletteIcon(6, "edit", $strings["edit"]);
 }
 
-$block6->closePaletteIcon();
-$block6->setLimit($blockPage->returnLimit(4));
-$block6->setRowsLimit(5);
-$block6->setSortName("notes");
+$notesBlock->closePaletteIcon();
+$notesBlock->setLimit($blockPage->returnLimit(4));
+$notesBlock->setRowsLimit(5);
+$notesBlock->setSortName("notes");
 
 $comptTopic = count($topicNote);
 
 if ($comptTopic != "0") {
-    $block6->sorting("notes", $sortingUser["notes"], "note.date DESC", $sortingFields = array(0 => "note.subject", 1 => "note.topic", 2 => "note.date", 3 => "mem.login", 4 => "note.published"));
+    $notesBlock->sorting("notes", $sortingUser["notes"], "note.date DESC", $sortingFields = array(0 => "note.subject", 1 => "note.topic", 2 => "note.date", 3 => "mem.login", 4 => "note.published"));
 } else {
-    $block6->sorting("notes", $sortingUser["notes"], "note.date DESC", $sortingFields = array(0 => "note.subject", 1 => "note.date", 2 => "mem.login", 3 => "note.published"));
+    $notesBlock->sorting("notes", $sortingUser["notes"], "note.date DESC", $sortingFields = array(0 => "note.subject", 1 => "note.date", 2 => "mem.login", 3 => "note.published"));
 }
 
-$tmpquery = "WHERE note.project = '$id' ORDER BY $block6->sortingValue";
+$notesBlock->setRecordsTotal( count($notes->getNotesCountByProject($id)));
 
-$block6->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["notes"] . " " . $tmpquery));
-$listNotes = new phpCollab\Request();
-$listNotes->openNotes($tmpquery, $block6->getLimit(), $block6->getRowsLimit());
-$comptListNotes = count($listNotes->note_id);
+$notesList = $notes->getNoteByProject($id, $notesBlock->getLimit(), $notesBlock->getRowsLimit(), $notesBlock->sortingValue);
 
-if ($comptListNotes != "0") {
-    $block6->openResults();
+if ($notesList) {
+    $notesBlock->openResults();
 
     if ($comptTopic != "0") {
-        $block6->labels($labels = array(0 => $strings["subject"], 1 => $strings["topic"], 2 => $strings["date"], 3 => $strings["owner"], 4 => $strings["published"]), "true");
+        $notesBlock->labels($labels = array(0 => $strings["subject"], 1 => $strings["topic"], 2 => $strings["date"], 3 => $strings["owner"], 4 => $strings["published"]), "true");
     } else {
-        $block6->labels($labels = array(0 => $strings["subject"], 1 => $strings["date"], 2 => $strings["owner"], 3 => $strings["published"]), "true");
+        $notesBlock->labels($labels = array(0 => $strings["subject"], 1 => $strings["date"], 2 => $strings["owner"], 3 => $strings["published"]), "true");
     }
 
-    for ($i = 0; $i < $comptListNotes; $i++) {
-        $idPublish = $listNotes->note_published[$i];
-        $block6->openRow();
-        $block6->checkboxRow($listNotes->note_id[$i]);
-        $block6->cellRow($blockPage->buildLink("../notes/viewnote.php?id=" . $listNotes->note_id[$i], $listNotes->note_subject[$i], in));
+    foreach ($notesList as $note) {
+        $idPublish = $note["note_published"];
+        $notesBlock->openRow();
+        $notesBlock->checkboxRow($note["note_id"]);
+        $notesBlock->cellRow($blockPage->buildLink("../notes/viewnote.php?id=" . $note["note_id"], $note["note_subject"], "in"));
 
         if ($comptTopic != "0") {
-            $block6->cellRow($topicNote[$listNotes->note_topic[$i]]);
+            $notesBlock->cellRow( !empty($topicNote[$note["note_topic"]]) ? $topicNote[$note["note_topic"]] : \phpCollab\Util::doubleDash());
         }
 
-        $block6->cellRow($listNotes->note_date[$i]);
-        $block6->cellRow($blockPage->buildLink($listNotes->note_mem_email_work[$i], $listNotes->note_mem_login[$i], mail));
+        $notesBlock->cellRow($note["note_date"]);
+        $notesBlock->cellRow($blockPage->buildLink($note["note_mem_email_work"], $note["note_mem_login"], "mail"));
 
         if ($sitePublish == "true") {
-            $block6->cellRow($statusPublish[$idPublish]);
+            $notesBlock->cellRow($statusPublish[$idPublish]);
         } else {
-            $block6->cellRow("&nbsp;");
+            $notesBlock->cellRow("&nbsp;");
         }
 
-        $block6->closeRow();
+        $notesBlock->closeRow();
     }
 
-    $block6->closeResults();
-    $block6->limitsFooter("4", $blockPage->getLimitsNumber(), "../notes/listnotes.php?project=$id&", "id=$id");
+    $notesBlock->closeResults();
+    $notesBlock->limitsFooter("4", $blockPage->getLimitsNumber(), "../notes/listnotes.php?project=$id&", "id=$id");
 } else {
-    $block6->noresults();
+    $notesBlock->noresults();
 }
 
-$block6->closeToggle();
-$block6->closeFormResults();
-$block6->openPaletteScript();
+$notesBlock->closeToggle();
+$notesBlock->closeFormResults();
+$notesBlock->openPaletteScript();
 
 if ($teamMember == "true" || $profilSession == "5") {
-    $block6->paletteScript(0, "add", "../notes/editnote.php?project=" . $projectDetail["pro_id"] . "", "true,true,true", $strings["add"]);
-    $block6->paletteScript(1, "remove", "../notes/deletenotes.php?project=" . $projectDetail["pro_id"] . "", "false,true,true", $strings["delete"]);
+    $notesBlock->paletteScript(0, "add", "../notes/editnote.php?project=" . $projectDetail["pro_id"] . "", "true,true,true", $strings["add"]);
+    $notesBlock->paletteScript(1, "remove", "../notes/deletenotes.php?project=" . $projectDetail["pro_id"] . "", "false,true,true", $strings["delete"]);
     if ($sitePublish == "true") {
-        $block6->paletteScript(3, "add_projectsite", "../projects/viewproject.php?addToSiteNote=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["add_project_site"]);
-        $block6->paletteScript(4, "remove_projectsite", "../projects/viewproject.php?removeToSiteNote=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
+        $notesBlock->paletteScript(3, "add_projectsite", "../projects/viewproject.php?addToSiteNote=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["add_project_site"]);
+        $notesBlock->paletteScript(4, "remove_projectsite", "../projects/viewproject.php?removeToSiteNote=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
     }
 }
 
-$block6->paletteScript(5, "info", "../notes/viewnote.php?", "false,true,false", $strings["view"]);
+$notesBlock->paletteScript(5, "info", "../notes/viewnote.php?", "false,true,false", $strings["view"]);
 
 if ($teamMember == "true" || $profilSession == "5") {
-    $block6->paletteScript(6, "edit", "../notes/editnote.php?project=" . $projectDetail["pro_id"] . "", "false,true,false", $strings["edit"]);
+    $notesBlock->paletteScript(6, "edit", "../notes/editnote.php?project=" . $projectDetail["pro_id"] . "", "false,true,false", $strings["edit"]);
 }
 
-$block6->closePaletteScript($comptListNotes, $listNotes->note_id);
+$notesBlock->closePaletteScript(count($notesList), array_column($notesList, 'note_id'));
 /**
  * End Notes section
  */
