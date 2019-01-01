@@ -735,7 +735,12 @@ if ($showHomeNewsdesk) {
             // take the name of the related article
             if ($newsdeskPost["news_related"] != 'g') {
                 $projectDetail = $projects->getProjectById($newsdeskPost["news_related"]);
-                $article_related = "<a href='../projects/viewproject.php?id=" . $projectDetail['pro_id'] . "' title='" . $projectDetail['pro_name'] . "'>" . $projectDetail['pro_name'] . "</a>";
+
+                if ($projectDetail) {
+                    $article_related = "<a href='../projects/viewproject.php?id=" . $projectDetail['pro_id'] . "' title='" . $projectDetail['pro_name'] . "'>" . $projectDetail['pro_name'] . "</a>";
+                } else {
+                    $article_related = \phpCollab\Util::doubleDash();
+                }
             } else {
                 $article_related = '' . $strings["newsdesk_related_generic"];
             }
