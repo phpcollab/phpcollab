@@ -14,6 +14,7 @@ $projects = new \phpCollab\Projects\Projects();
 $tasks = new \phpCollab\Tasks\Tasks();
 $reports = new \phpCollab\Reports\Reports();
 $notes = new \phpCollab\Notes\Notes();
+$newsdesk = new \phpCollab\NewsDesk\NewsDesk();
 
 $test = $date;
 $DateYear = substr("$test", 0, 4); // DateYear
@@ -681,90 +682,87 @@ if ($showHomeNotes) {
  * start to show newsdesk mod
  */
 if ($showHomeNewsdesk) {
-    $block7 = new phpCollab\Block();
-    $block7->form = "saN";
-    $block7->openForm("../general/home.php?project=$project#" . $block7->form . "Anchor");
-    $block7->headingToggle($strings["my_newsdesk"]);
+    $newsdeskBlock = new phpCollab\Block();
+    $newsdeskBlock->form = "saN";
+    $newsdeskBlock->openForm("../general/home.php?project=$project#" . $newsdeskBlock->form . "Anchor");
+    $newsdeskBlock->headingToggle($strings["my_newsdesk"]);
 
-    $block7->openPaletteIcon();
+    $newsdeskBlock->openPaletteIcon();
     if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
-        $block7->paletteIcon(0, "add", $strings["add_newsdesk"]);
-        $block7->paletteIcon(1, "edit", $strings["edit_newsdesk"]);
-        $block7->paletteIcon(2, "remove", $strings["del_newsdesk"]);
+        $newsdeskBlock->paletteIcon(0, "add", $strings["add_newsdesk"]);
+        $newsdeskBlock->paletteIcon(1, "edit", $strings["edit_newsdesk"]);
+        $newsdeskBlock->paletteIcon(2, "remove", $strings["del_newsdesk"]);
     }
 
-    $block7->paletteIcon(5, "info", $strings["view"]);
+    $newsdeskBlock->paletteIcon(5, "info", $strings["view"]);
 
-    $block7->closePaletteIcon();
+    $newsdeskBlock->closePaletteIcon();
 
-    $block7->setLimit($blockPage->returnLimit(1));
-    $block7->setRowsLimit(10);
+    $newsdeskBlock->setLimit($blockPage->returnLimit(4));
+    $newsdeskBlock->setRowsLimit(10); // 5
+    $newsdeskBlock->sorting("newsdesk", $sortingUser["newsdesk"], "news.pdate DESC", $sortingFields = [0 => "news.title", 1 => "news.pdate", 2 => "news.author", 3 => "news.related"]);
+    $newsdeskBlock->openContent();
 
-    $block7->sorting("newsdesk", $sortingUser["newsdesk"], "news.pdate DESC", $sortingFields = [0 => "news.title", 1 => "news.pdate", 2 => "news.author", 3 => "news.related"]);
-
-    $block7->openContent();
+    $idCount = count($dataSet);
 
     // this query select the news to show in the home page
     // this news can be: write from the user, has the RSS enabled, has the Generic Value enable, is related to the user's project
-
-    $idCount = count($listProjects->tea_pro_id);
     if ($idCount > 0) {
-        $relatedQuery = " IN (" . implode(',', $listProjects->tea_pro_id) . " , 'g') ";
+        $relatedQuery = array_column($dataSet, 'pro_id');
+    } else {
+        $relatedQuery = 'g';
     }
+    $newsdeskBlock->setRecordsTotal( $newsdesk->getHomePostCount($sessionId, $relatedQuery) );
 
-    $relatedQuery = " = 'g' ";
+    $newsdeskPosts = $newsdesk->getHomeViewNewsdeskPosts(
+        $sessionId,
+        $relatedQuery,
+        $newsdeskBlock->getLimit(),
+        $newsdeskBlock->getRowsLimit(),
+        $newsdeskBlock->sortingValue
+    );
 
-    // Todo: Refactore to use PDO
-    $tmpquery = "WHERE news.author = '" . phpCollab\Util::fixInt($sessionId) . "' OR news.rss = '1' OR news.related " . $relatedQuery . " ORDER BY $block7->sortingValue ";
-    $block7->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["newsdeskposts"] . " " . $tmpquery));
+    if ($newsdeskPosts) {
+        $newsdeskBlock->openResults();
+        $newsdeskBlock->labels($labels = [0 => $strings["topic"], 1 => $strings["date"], 2 => $strings["author"], 3 => $strings["newsdesk_related"]], "true");
 
-    $listPosts = new phpCollab\Request();
-    $listPosts->openNewsDesk($tmpquery, $block7->getLimit(), $block7->getRowsLimit());
-    $comptPosts = count($listPosts->news_id);
-
-    if ($comptPosts != "0") {
-        $block7->openResults();
-        $block7->labels($labels = [0 => $strings["topic"], 1 => $strings["date"], 2 => $strings["author"], 3 => $strings["newsdesk_related"]], "true");
-
-        $blockPage->limitNumber = "1";
-
-        for ($i = 0; $i < $comptPosts; $i++) {
-            $newsAuthor = $members->getMemberById($listPosts->news_author[$i]);
+        foreach ($newsdeskPosts as $newsdeskPost) {
+            $newsAuthor = $members->getMemberById($newsdeskPost["news_author"]);
 
             // take the name of the related article
-            if ($listPosts->news_related[$i] != 'g') {
-                $projectDetail = $projects->getProjectById($listPosts->news_related[$i]);
+            if ($newsdeskPost["news_related"] != 'g') {
+                $projectDetail = $projects->getProjectById($newsdeskPost["news_related"]);
                 $article_related = "<a href='../projects/viewproject.php?id=" . $projectDetail['pro_id'] . "' title='" . $projectDetail['pro_name'] . "'>" . $projectDetail['pro_name'] . "</a>";
             } else {
                 $article_related = '' . $strings["newsdesk_related_generic"];
             }
 
-            $block7->openRow();
-            $block7->checkboxRow($listPosts->news_id[$i]);
-            $block7->cellRow($blockPage->buildLink("../newsdesk/viewnews.php?id=" . $listPosts->news_id[$i], $listPosts->news_title[$i], 'in'));
-            $block7->cellRow($listPosts->news_date[$i]);
-            $block7->cellRow($newsAuthor['mem_name']);
-            $block7->cellRow($article_related);
-            $block7->closeRow();
+            $newsdeskBlock->openRow();
+            $newsdeskBlock->checkboxRow($newsdeskPost["news_id"]);
+            $newsdeskBlock->cellRow($blockPage->buildLink("../newsdesk/viewnews.php?id=" . $newsdeskPost["news_id"], $newsdeskPost["news_title"], 'in'));
+            $newsdeskBlock->cellRow($newsdeskPost["news_date"]);
+            $newsdeskBlock->cellRow($newsAuthor['mem_name']);
+            $newsdeskBlock->cellRow($article_related);
+            $newsdeskBlock->closeRow();
         }
 
-        $block7->closeResults();
-        $block7->limitsFooter("1", $blockPage->limitNumber, "", "");
+        $newsdeskBlock->closeResults();
+        $newsdeskBlock->limitsFooter("4", $blockPage->getLimitsNumber(), "", "");
     } else {
-        $block7->noresults();
+        $newsdeskBlock->noresults();
     }
 
-    $block7->closeFormResults();
+    $newsdeskBlock->closeFormResults();
 
-    $block7->openPaletteScript();
+    $newsdeskBlock->openPaletteScript();
     if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
-        $block7->paletteScript(0, "add", "../newsdesk/editnews.php", "true,false,false", $strings["add_newsdesk"]);
-        $block7->paletteScript(1, "edit", "../newsdesk/editnews.php", "false,true,true", $strings["edit_newsdesk"]);
-        $block7->paletteScript(2, "remove", "../newsdesk/editnews.php?action=remove&", "false,true,true", $strings["del_newsdesk"]);
+        $newsdeskBlock->paletteScript(0, "add", "../newsdesk/editnews.php", "true,false,false", $strings["add_newsdesk"]);
+        $newsdeskBlock->paletteScript(1, "edit", "../newsdesk/editnews.php", "false,true,true", $strings["edit_newsdesk"]);
+        $newsdeskBlock->paletteScript(2, "remove", "../newsdesk/editnews.php?action=remove&", "false,true,true", $strings["del_newsdesk"]);
     }
 
-    $block7->paletteScript(5, "info", "../newsdesk/viewnews.php", "false,true,false", $strings["view"]);
-    $block7->closePaletteScript($comptPosts, $listPosts->news_id);
+    $newsdeskBlock->paletteScript(5, "info", "../newsdesk/viewnews.php", "false,true,false", $strings["view"]);
+    $newsdeskBlock->closePaletteScript(count($newsdeskPosts), $listPosts->news_id);
 }
 // end showHomeNewsdesk
 
