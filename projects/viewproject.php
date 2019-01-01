@@ -636,90 +636,87 @@ if ($idSession == $projectDetail["pro_owner"] || $profilSession == "5") {
 $discussionsBlock->paletteScript(5, "info", "../topics/viewtopic.php?", "false,true,false", $strings["view"]);
 $discussionsBlock->closePaletteScript(count($topicsList), array_column($topicsList, 'top_id'));
 
-$block4 = new phpCollab\Block();
-$block4->form = "pdM";
-$block4->openForm("../projects/viewproject.php?&id=" . $projectDetail["pro_id"] . "#" . $block4->form . "Anchor");
-$block4->headingToggle($strings["team"]);
-$block4->openPaletteIcon();
+$teamBlock = new phpCollab\Block();
+$teamBlock->form = "pdM";
+$teamBlock->openForm("../projects/viewproject.php?&id=" . $projectDetail["pro_id"] . "#" . $teamBlock->form . "Anchor");
+$teamBlock->headingToggle($strings["team"]);
+$teamBlock->openPaletteIcon();
 
 if ($idSession == $projectDetail["pro_owner"] || $profilSession == "5") {
-    $block4->paletteIcon(0, "add", $strings["add"]);
-    $block4->paletteIcon(1, "remove", $strings["delete"]);
+    $teamBlock->paletteIcon(0, "add", $strings["add"]);
+    $teamBlock->paletteIcon(1, "remove", $strings["delete"]);
 
     if ($sitePublish == "true") {
-        $block4->paletteIcon(2, "add_projectsite", $strings["add_project_site"]);
-        $block4->paletteIcon(3, "remove_projectsite", $strings["remove_project_site"]);
+        $teamBlock->paletteIcon(2, "add_projectsite", $strings["add_project_site"]);
+        $teamBlock->paletteIcon(3, "remove_projectsite", $strings["remove_project_site"]);
     }
 }
 
-$block4->paletteIcon(4, "info", $strings["view"]);
-$block4->paletteIcon(5, "email", $strings["email"]);
-$block4->closePaletteIcon();
-$block4->setLimit($blockPage->returnLimit(3));
-$block4->setRowsLimit(5);
-$block4->setSortName("team");
-$block4->sorting("team", $sortingUser["team"], "mem.name ASC", $sortingFields = array(0 => "mem.name", 1 => "mem.title", 2 => "mem.login", 3 => "mem.phone_work", 4 => "log.connected", 5 => "tea.published"));
+$teamBlock->paletteIcon(4, "info", $strings["view"]);
+$teamBlock->paletteIcon(5, "email", $strings["email"]);
+$teamBlock->closePaletteIcon();
+$teamBlock->setLimit($blockPage->returnLimit(3));
+$teamBlock->setRowsLimit(5);
+$teamBlock->setSortName("team");
+$teamBlock->sorting("team", $sortingUser["team"], "mem.name ASC", $sortingFields = array(0 => "mem.name", 1 => "mem.title", 2 => "mem.login", 3 => "mem.phone_work", 4 => "log.connected", 5 => "tea.published"));
 
-$tmpquery = "WHERE tea.project = '$id' AND mem.profil != '3' ORDER BY $block4->sortingValue";
+$teamBlock->setRecordsTotal( $teams->getTopicCountByProject($id) );
 
-$block4->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["teams"] . " " . $tmpquery));
+$teamList = $teams->getTeamByProjectId($id, $teamBlock->getLimit(), $teamBlock->getRowsLimit(), $teamBlock->sortingValue);
 
-$listTeam = new phpCollab\Request();
-$listTeam->openTeams($tmpquery, $block4->getLimit(), $block4->getRowsLimit());
-$comptListTeam = count($listTeam->tea_id);
+$teamBlock->openResults();
+$teamBlock->labels($labels = array(0 => $strings["full_name"], 1 => $strings["title"], 2 => $strings["user_name"], 3 => $strings["work_phone"], 4 => $strings["connected"], 5 => $strings["published"]), "true");
 
-$block4->openResults();
-$block4->labels($labels = array(0 => $strings["full_name"], 1 => $strings["title"], 2 => $strings["user_name"], 3 => $strings["work_phone"], 4 => $strings["connected"], 5 => $strings["published"]), "true");
-
-for ($i = 0; $i < $comptListTeam; $i++) {
-    if ($listTeam->tea_mem_phone_work[$i] == "") {
-        $listTeam->tea_mem_phone_work[$i] = $strings["none"];
+foreach ($teamList as $teamMember) {
+    
+    if ($teamMember["tea_mem_phone_work"] == "") {
+        $teamMember["tea_mem_phone_work"] = \phpCollab\Util::doubleDash();
     }
 
-    if ($listTeam->tea_mem_title[$i] == "") {
-        $listTeam->tea_mem_title[$i] = $strings["none"];
+    if ($teamMember["tea_mem_title"] == "") {
+        $teamMember["tea_mem_title"] = \phpCollab\Util::doubleDash();
     }
 
-    $idPublish = $listTeam->tea_published[$i];
-    $block4->openRow();
-    $block4->checkboxRow($listTeam->tea_mem_id[$i]);
-    $block4->cellRow($blockPage->buildLink("../users/viewuser.php?id=" . $listTeam->tea_mem_id[$i], $listTeam->tea_mem_name[$i], in));
-    $block4->cellRow($listTeam->tea_mem_title[$i]);
-    $block4->cellRow($blockPage->buildLink($listTeam->tea_mem_email_work[$i], $listTeam->tea_mem_login[$i], mail));
-    $block4->cellRow($listTeam->tea_mem_phone_work[$i]);
+    $idPublish = $teamMember["tea_published"];
+    $teamBlock->openRow();
+    $teamBlock->checkboxRow($teamMember["tea_mem_id"]);
+    $teamBlock->cellRow($blockPage->buildLink("../users/viewuser.php?id=" . $teamMember["tea_mem_id"], "(" .$teamMember["tea_mem_id"] . ") " . $teamMember["tea_mem_name"], "in"));
+    $teamBlock->cellRow($teamMember["tea_mem_title"]);
+    $teamBlock->cellRow($blockPage->buildLink($teamMember["tea_mem_email_work"], $teamMember["tea_mem_login"], "mail"));
+    $teamBlock->cellRow($teamMember["tea_mem_phone_work"]);
 
-    if ($listTeam->tea_log_connected[$i] > $dateunix - 5 * 60) {
-        $block4->cellRow($strings["yes"] . " " . $z);
+    if ($teamMember["tea_log_connected"] > $dateunix - 5 * 60) {
+        $teamBlock->cellRow($strings["yes"] . " " . $z);
     } else {
-        $block4->cellRow($strings["no"]);
+        $teamBlock->cellRow($strings["no"]);
     }
 
     if ($sitePublish == "true") {
-        $block4->cellRow($statusPublish[$idPublish]);
+        $teamBlock->cellRow($statusPublish[$idPublish]);
     }
 
-    $block4->closeRow();
+    $teamBlock->closeRow();
 }
 
-$block4->closeResults();
-$block4->limitsFooter("3", $blockPage->getLimitsNumber(), "../teams/listusers.php?id=$id&", "id=$id");
-$block4->closeToggle();
-$block4->closeFormResults();
-$block4->openPaletteScript();
+$teamBlock->closeResults();
+$teamBlock->limitsFooter("3", $blockPage->getLimitsNumber(), "../teams/listusers.php?id=$id&", "id=$id");
+$teamBlock->closeToggle();
+$teamBlock->closeFormResults();
+$teamBlock->openPaletteScript();
 
 if ($idSession == $projectDetail["pro_owner"] || $profilSession == "5") {
-    $block4->paletteScript(0, "add", "../teams/adduser.php?project=" . $projectDetail["pro_id"] . "", "true,true,true", $strings["add"]);
-    $block4->paletteScript(1, "remove", "../teams/deleteusers.php?project=" . $projectDetail["pro_id"] . "", "false,true,true", $strings["delete"]);
+    $teamBlock->paletteScript(0, "add", "../teams/adduser.php?project=" . $projectDetail["pro_id"] . "", "true,true,true", $strings["add"]);
+    $teamBlock->paletteScript(1, "remove", "../teams/deleteusers.php?project=" . $projectDetail["pro_id"] . "", "false,true,true", $strings["delete"]);
 
     if ($sitePublish == "true") {
-        $block4->paletteScript(2, "add_projectsite", "../projects/viewproject.php?addToSiteTeam=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["add_project_site"]);
-        $block4->paletteScript(3, "remove_projectsite", "../projects/viewproject.php?removeToSiteTeam=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
+        $teamBlock->paletteScript(2, "add_projectsite", "../projects/viewproject.php?addToSiteTeam=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["add_project_site"]);
+        $teamBlock->paletteScript(3, "remove_projectsite", "../projects/viewproject.php?removeToSiteTeam=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
     }
 }
 
-$block4->paletteScript(4, "info", "../users/viewuser.php?", "false,true,false", $strings["view"]);
-$block4->paletteScript(5, "email", "../users/emailusers.php?", "false,true,true", $strings["email"]);
-$block4->closePaletteScript($comptListTeam, $listTeam->tea_mem_id);
+$teamBlock->paletteScript(4, "info", "../users/viewuser.php?", "false,true,false", $strings["view"]);
+$teamBlock->paletteScript(5, "email", "../users/emailusers.php?", "false,true,true", $strings["email"]);
+$teamBlock->closePaletteScript(count($teamList), array_column($teamList, 'tea_mem_id'));
 
 /**
  * Begin Linked Content
