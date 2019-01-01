@@ -25,6 +25,30 @@ class NewsDesk
     }
 
     /**
+     * @param $userId
+     * @param $relatedPosts
+     * @return int
+     */
+    public function getHomePostCount($userId, $relatedPosts)
+    {
+        $data = $this->newsdesk_gateway->getHomePosts($userId, $relatedPosts);
+        return count($data);
+    }
+
+    /**
+     * @param $userId
+     * @param $relatedPosts
+     * @param null $offset
+     * @param null $limit
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getHomeViewNewsdeskPosts($userId, $relatedPosts, $offset = null, $limit = null, $sorting = null)
+    {
+        return $this->newsdesk_gateway->getHomePosts($userId, $relatedPosts, $offset, $limit, $sorting);
+    }
+
+    /**
      * @param null $sortBy
      * @return mixed
      */
