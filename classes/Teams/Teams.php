@@ -90,19 +90,31 @@ class Teams
 
     /**
      * @param $projectId
+     * @param null $offset
+     * @param null $limit
      * @param null $sorting
      * @return mixed
      */
-    public function getTeamByProjectId($projectId, $sorting = null)
+    public function getTeamByProjectId($projectId, $offset = null, $limit = null, $sorting = null)
     {
         $projectId = filter_var($projectId, FILTER_VALIDATE_INT);
         if (isset($sorting)) {
             $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
         }
 
-        $team = $this->teams_gateway->getTeamByProjectId($projectId, $sorting);
+        $team = $this->teams_gateway->getTeamByProjectId($projectId, $offset, $limit, $sorting);
 
         return $team;
+    }
+
+    /**
+     * @param $projectId
+     * @return int
+     */
+    public function getTopicCountByProject($projectId)
+    {
+        $team = $this->getTeamByProjectId($projectId);
+        return count($team);
     }
 
     /**
