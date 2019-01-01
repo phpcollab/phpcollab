@@ -457,19 +457,14 @@ if ($projectDetail["pro_phase_set"] != "0") {
 
     $block2->sorting("project_tasks", $sortingUser["project_tasks"], "tas.name ASC", $sortingFields = array(0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem.login", 6 => "tas.published"));
 
-    $tmpquery = "WHERE tas.project = '$id' ORDER BY $block2->sortingValue";
-    $block2->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["tasks"] . " " . $tmpquery));
+    $block2->setRecordsTotal( $tasks->getCountAllTasksForProject($id) );
 
-    $listTasks = new phpCollab\Request();
-    $listTasks->openTasks($tmpquery, $block2->getLimit(), $block2->getRowsLimit());
-    $comptListTasks = count($listTasks->tas_id);
-
-    $listTasks2 = $tasks->getTasksByProjectId($id, $block2->sortingValue);
-    if ($listTasks2) {
+    $listTasks = $tasks->getTasksByProjectId($id, $block2->getLimit(), $block2->getRowsLimit(), $block2->sortingValue);
+    if ($listTasks) {
         $block2->openResults();
         $block2->labels($labels = array(0 => $strings["name"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["completion"], 4 => $strings["due_date"], 5 => $strings["assigned_to"], 6 => $strings["published"]), "true");
 
-        foreach ($listTasks2 as $task) {
+        foreach ($listTasks as $task) {
             
             if ($task["tas_due_date"] == "") {
                 $task["tas_due_date"] = $strings["none"];
@@ -543,7 +538,7 @@ if ($projectDetail["pro_phase_set"] != "0") {
         $block2->paletteScript(7, "edit", "../tasks/edittask.php?project=" . $projectDetail["pro_id"] . "", "false,true,true", $strings["edit"]);
     }
 
-    $block2->closePaletteScript($comptListTasks, $listTasks->tas_id);
+    $block2->closePaletteScript(count($listTasks), array_column($listTasks, 'tas_id'));
 }
 
 $discussionsBlock = new phpCollab\Block();
