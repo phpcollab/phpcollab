@@ -538,7 +538,7 @@ class Util
         }
 
         if ($result == 0) {
-            $result = "-";
+            $result = self::doubleDash();
         }
 
         return $result;
