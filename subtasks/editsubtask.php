@@ -479,7 +479,7 @@ if ($subtaskDetail['subtas_assigned_to'] == "0") {
     echo "<option value='0'>" . $strings["unassigned"] . "</option>";
 }
 
-$assignto = $teams->getTeamByProjectIdAndOrderedBy($project, 'mem.name');
+$assignto = $teams->getTeamByProjectId($project, 'mem.name');
 
 foreach ($assignto as $team_member) {
     $clientUser = "";

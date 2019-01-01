@@ -90,17 +90,17 @@ class Teams
 
     /**
      * @param $projectId
-     * @param null $orderBy
+     * @param null $sorting
      * @return mixed
      */
-    public function getTeamByProjectIdAndOrderedBy($projectId, $orderBy = null)
+    public function getTeamByProjectId($projectId, $sorting = null)
     {
         $projectId = filter_var($projectId, FILTER_VALIDATE_INT);
-        if (isset($orderBy)) {
-            $orderBy = filter_var($orderBy, FILTER_SANITIZE_STRING);
+        if (isset($sorting)) {
+            $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
         }
 
-        $team = $this->teams_gateway->getTeamByProjectIdAndOrderBy($projectId, $orderBy);
+        $team = $this->teams_gateway->getTeamByProjectId($projectId, $sorting);
 
         return $team;
     }

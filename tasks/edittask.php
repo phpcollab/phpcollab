@@ -876,7 +876,7 @@ if ($taskDetail['tas_assigned_to'] == "0") {
     echo '<option value="0">' . $strings["unassigned"] . '</option>';
 }
 
-$teamList = $teams->getTeamByProjectIdAndOrderedBy($project, 'mem.name');
+$teamList = $teams->getTeamByProjectId($project, 'mem.name');
 
 foreach ($teamList as $team_member) {
     $clientUser = "";

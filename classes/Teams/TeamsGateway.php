@@ -103,7 +103,7 @@ class TeamsGateway
      * @return mixed
      * @internal param $orderBy
      */
-    public function getTeamByProjectIdAndOrderBy($projectId, $sorting = null)
+    public function getTeamByProjectId($projectId, $sorting = null)
     {
         $whereStatement = " WHERE tea.project = :project_id";
 

@@ -13,7 +13,7 @@ $requestDetail = $supportRequests->getSupportRequestById($num);
 if ($supportType == "team") {
     $teams = new \phpCollab\Teams\Teams();
     
-    $listTeam = $teams->getTeamByProjectIdAndOrderedBy($requestDetail["sr_project"]);
+    $listTeam = $teams->getTeamByProjectId($requestDetail["sr_project"]);
 
     foreach ($listTeam as $teamMember) {
         if ($_SESSION["idSession"] == $teamMember["tea_mem_id"]) {
