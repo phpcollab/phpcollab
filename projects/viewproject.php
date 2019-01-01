@@ -11,6 +11,7 @@ $files = new \phpCollab\Files\Files();
 $notes = new \phpCollab\Notes\Notes();
 $support = new \phpCollab\Support\Support();
 $projects = new \phpCollab\Projects\Projects();
+$topics = new \phpCollab\Topics\Topics();
 
 $id = phpCollab\Util::returnGlobal('id', 'REQUEST');
 $project = phpCollab\Util::returnGlobal('project', 'REQUEST');
@@ -549,96 +550,91 @@ if ($projectDetail["pro_phase_set"] != "0") {
     $block2->closePaletteScript($comptListTasks, $listTasks->tas_id);
 }
 
-$block3 = new phpCollab\Block();
-$block3->form = "pdH";
-$block3->openForm("../projects/viewproject.php?id=$id&#" . $block3->form . "Anchor");
-$block3->headingToggle($strings["discussions"]);
-$block3->openPaletteIcon();
+$discussionsBlock = new phpCollab\Block();
+$discussionsBlock->form = "pdH";
+$discussionsBlock->openForm("../projects/viewproject.php?id=$id&#" . $discussionsBlock->form . "Anchor");
+$discussionsBlock->headingToggle($strings["discussions"]);
+$discussionsBlock->openPaletteIcon();
 
 if ($teamMember == "true" || $profilSession == "5") {
-    $block3->paletteIcon(0, "add", $strings["add"]);
+    $discussionsBlock->paletteIcon(0, "add", $strings["add"]);
 }
 
 if ($idSession == $projectDetail["pro_owner"] || $profilSession == "5") {
-    $block3->paletteIcon(1, "remove", $strings["delete"]);
-    $block3->paletteIcon(2, "lock", $strings["close"]);
+    $discussionsBlock->paletteIcon(1, "remove", $strings["delete"]);
+    $discussionsBlock->paletteIcon(2, "lock", $strings["close"]);
 
     if ($sitePublish == "true") {
-        $block3->paletteIcon(3, "add_projectsite", $strings["add_project_site"]);
-        $block3->paletteIcon(4, "remove_projectsite", $strings["remove_project_site"]);
+        $discussionsBlock->paletteIcon(3, "add_projectsite", $strings["add_project_site"]);
+        $discussionsBlock->paletteIcon(4, "remove_projectsite", $strings["remove_project_site"]);
     }
 }
 
-$block3->paletteIcon(5, "info", $strings["view"]);
-$block3->closePaletteIcon();
-$block3->setLimit($blockPage->returnLimit(2));
-$block3->setRowsLimit(5);
-$block3->setSortName("discussion");
-$block3->sorting("project_discussions", $sortingUser["project_discussions"], "topic.last_post DESC", $sortingFields = array(0 => "topic.subject", 1 => "mem.login", 2 => "topic.posts", 3 => "topic.last_post", 4 => "topic.status", 5 => "topic.published"));
+$discussionsBlock->paletteIcon(5, "info", $strings["view"]);
+$discussionsBlock->closePaletteIcon();
+$discussionsBlock->setLimit($blockPage->returnLimit(2));
+$discussionsBlock->setRowsLimit(5);
+$discussionsBlock->setSortName("discussion");
+$discussionsBlock->sorting("project_discussions", $sortingUser["project_discussions"], "topic.last_post DESC", $sortingFields = array(0 => "topic.subject", 1 => "mem.login", 2 => "topic.posts", 3 => "topic.last_post", 4 => "topic.status", 5 => "topic.published"));
 
-$tmpquery = "WHERE topic.project = '$id' ORDER BY $block3->sortingValue";
+$topicsList = $topics->getTopicsByProjectId($id, $discussionsBlock->getLimit(), $discussionsBlock->getRowsLimit(), $discussionsBlock->sortingValue);
+$discussionsBlock->setRecordsTotal( $topics->getTopicCountForProject($id) );
 
-$block3->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["topics"] . " " . $tmpquery));
+if ($topicsList) {
+    $discussionsBlock->openResults();
 
-$listTopics = new phpCollab\Request();
-$listTopics->openTopics($tmpquery, $block3->getLimit(), $block3->getRowsLimit());
-$comptListTopics = count($listTopics->top_id);
+    $discussionsBlock->labels($labels = array(0 => $strings["topic"], 1 => $strings["owner"], 2 => $strings["posts"], 3 => $strings["last_post"], 4 => $strings["status"], 5 => $strings["published"]), "true");
 
-if ($comptListTopics != "0") {
-    $block3->openResults();
+    foreach ($topicsList as $topic) {
+        $idStatus = $topic["top_status"];
+        $idPublish = $topic["top_published"];
+        $discussionsBlock->openRow();
+        $discussionsBlock->checkboxRow($topic["top_id"]);
+        $discussionsBlock->cellRow($blockPage->buildLink("../topics/viewtopic.php?id=" . $topic["top_id"], $topic["top_subject"], "in"));
+        $discussionsBlock->cellRow($blockPage->buildLink($topic["top_mem_email_work"], $topic["top_mem_login"], "mail"));
+        $discussionsBlock->cellRow($topic["top_posts"]);
 
-    $block3->labels($labels = array(0 => $strings["topic"], 1 => $strings["owner"], 2 => $strings["posts"], 3 => $strings["last_post"], 4 => $strings["status"], 5 => $strings["published"]), "true");
-
-    for ($i = 0; $i < $comptListTopics; $i++) {
-        $idStatus = $listTopics->top_status[$i];
-        $idPublish = $listTopics->top_published[$i];
-        $block3->openRow();
-        $block3->checkboxRow($listTopics->top_id[$i]);
-        $block3->cellRow($blockPage->buildLink("../topics/viewtopic.php?id=" . $listTopics->top_id[$i], $listTopics->top_subject[$i], in));
-        $block3->cellRow($blockPage->buildLink($listTopics->top_mem_email_work[$i], $listTopics->top_mem_login[$i], mail));
-        $block3->cellRow($listTopics->top_posts[$i]);
-
-        if ($listTopics->top_last_post[$i] > $lastvisiteSession) {
-            $block3->cellRow("<b>" . phpCollab\Util::createDate($listTopics->top_last_post[$i], $timezoneSession) . "</b>");
+        if ($topic["top_last_post"] > $_SESSION["lastvisiteSession"]) {
+            $discussionsBlock->cellRow("<b>" . phpCollab\Util::createDate($topic["top_last_post"], $timezoneSession) . "</b>");
         } else {
-            $block3->cellRow(phpCollab\Util::createDate($listTopics->top_last_post[$i], $timezoneSession));
+            $discussionsBlock->cellRow(phpCollab\Util::createDate($topic["top_last_post"], $timezoneSession));
         }
 
-        $block3->cellRow($statusTopic[$idStatus]);
+        $discussionsBlock->cellRow($statusTopic[$idStatus]);
 
         if ($sitePublish == "true") {
-            $block3->cellRow($statusPublish[$idPublish]);
+            $discussionsBlock->cellRow($statusPublish[$idPublish]);
         }
 
-        $block3->closeRow();
+        $discussionsBlock->closeRow();
     }
 
-    $block3->closeResults();
-    $block3->limitsFooter("2", $blockPage->getLimitsNumber(), "../topics/listtopics.php?project=$id&", "id=$id");
+    $discussionsBlock->closeResults();
+    $discussionsBlock->limitsFooter("2", $blockPage->getLimitsNumber(), "../topics/listtopics.php?project=$id&", "id=$id");
 } else {
-    $block3->noresults();
+    $discussionsBlock->noresults();
 }
 
-$block3->closeToggle();
-$block3->closeFormResults();
-$block3->openPaletteScript();
+$discussionsBlock->closeToggle();
+$discussionsBlock->closeFormResults();
+$discussionsBlock->openPaletteScript();
 
 if ($teamMember == "true" || $profilSession == "5") {
-    $block3->paletteScript(0, "add", "../topics/addtopic.php?project=" . $projectDetail["pro_id"] . "", "true,false,false", $strings["add"]);
+    $discussionsBlock->paletteScript(0, "add", "../topics/addtopic.php?project=" . $projectDetail["pro_id"] . "", "true,false,false", $strings["add"]);
 }
 
 if ($idSession == $projectDetail["pro_owner"] || $profilSession == "5") {
-    $block3->paletteScript(1, "remove", "../topics/deletetopics.php?project=" . $projectDetail["pro_id"] . "", "false,true,true", $strings["delete"]);
-    $block3->paletteScript(2, "lock", "../projects/viewproject.php?closeTopic=true&project=$id&action=publish", "false,true,true", $strings["close"]);
+    $discussionsBlock->paletteScript(1, "remove", "../topics/deletetopics.php?project=" . $projectDetail["pro_id"] . "", "false,true,true", $strings["delete"]);
+    $discussionsBlock->paletteScript(2, "lock", "../projects/viewproject.php?closeTopic=true&project=$id&action=publish", "false,true,true", $strings["close"]);
 
     if ($sitePublish == "true") {
-        $block3->paletteScript(3, "add_projectsite", "../projects/viewproject.php?addToSiteTopic=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["add_project_site"]);
-        $block3->paletteScript(4, "remove_projectsite", "../projects/viewproject.php?&removeToSiteTopic=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
+        $discussionsBlock->paletteScript(3, "add_projectsite", "../projects/viewproject.php?addToSiteTopic=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["add_project_site"]);
+        $discussionsBlock->paletteScript(4, "remove_projectsite", "../projects/viewproject.php?&removeToSiteTopic=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
     }
 }
 
-$block3->paletteScript(5, "info", "../topics/viewtopic.php?", "false,true,false", $strings["view"]);
-$block3->closePaletteScript($comptListTopics, $listTopics->top_id);
+$discussionsBlock->paletteScript(5, "info", "../topics/viewtopic.php?", "false,true,false", $strings["view"]);
+$discussionsBlock->closePaletteScript(count($topicsList), array_column($topicsList, 'top_id'));
 
 $block4 = new phpCollab\Block();
 $block4->form = "pdM";
