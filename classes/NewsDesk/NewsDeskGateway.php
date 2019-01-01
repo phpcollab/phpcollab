@@ -38,6 +38,30 @@ class NewsDeskGateway
     }
 
     /**
+     * @param $userId
+     * @param $relatedPosts
+     * @param null $startRow
+     * @param null $rowsLimit
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getHomePosts($userId, $relatedPosts, $startRow = null, $rowsLimit = null, $sorting = null)
+    {
+        if ( is_array($relatedPosts) ) {
+            $relatedQuery = " IN (" . implode(',', $relatedPosts) . ", 'g')";
+        } else {
+            $relatedQuery = "= 'g'";
+        }
+
+        $tmpquery = " WHERE news.author = :author_id OR news.rss = 1 OR news.related " . $relatedQuery;
+
+        $sql = $this->initrequest["newsdeskposts"] . $tmpquery . $this->orderBy($sorting) . $this->limit($startRow, $rowsLimit);
+        $this->db->query($sql);
+        $this->db->bind(':author_id', $userId);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $newsId
      * @return mixed
      *
@@ -252,6 +276,20 @@ SQL;
         $this->db->bind(':links', $links);
         $this->db->bind(':rss', $rss);
         return $this->db->execute();
+    }
+
+    /**
+     * Returns the LIMIT attribute for SQL strings
+     * @param $start
+     * @param $rowLimit
+     * @return string
+     */
+    private function limit($start, $rowLimit)
+    {
+        if (!is_null($start) && !is_null($rowLimit)) {
+            return " LIMIT {$start},{$rowLimit}";
+        }
+        return '';
     }
 
     /**
