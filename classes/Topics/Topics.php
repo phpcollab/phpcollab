@@ -37,16 +37,28 @@ class Topics
 
     /**
      * @param $projectId
+     * @param null $offset
+     * @param null $limit
      * @param $sorting
      * @return mixed
      */
-    public function getTopicsByProjectId($projectId, $sorting = null)
+    public function getTopicsByProjectId($projectId, $offset = null, $limit = null, $sorting = null)
     {
         $projectId = filter_var($projectId, FILTER_SANITIZE_STRING);
         if (isset($sorting)) {
             $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
         }
-        return $this->topics_gateway->getTopicsByProject($projectId, $sorting);
+        return $this->topics_gateway->getTopicsByProject($projectId, $offset, $limit, $sorting);
+    }
+
+    /**
+     * @param $projectId
+     * @return int
+     */
+    public function getTopicCountForProject($projectId)
+    {
+        $topics = $this->topics_gateway->getTopicsByProject($projectId);
+        return count($topics);
     }
 
     /**
