@@ -82,13 +82,15 @@ class NotesGateway
 
     /**
      * @param $projectId
+     * @param null $offset
+     * @param null $limit
      * @param $sorting
      * @return mixed
      * @internal param $noteId
      */
-    public function getNoteByProject($projectId, $sorting)
+    public function getNoteByProject($projectId, $offset = null, $limit = null, $sorting = null)
     {
-        $query = $this->initrequest["notes"] . " WHERE note.project = :project_id" . $this->orderBy($sorting);
+        $query = $this->initrequest["notes"] . " WHERE note.project = :project_id" . $this->orderBy($sorting) . $this->limit($offset, $limit);
         $this->db->query($query);
         $this->db->bind(':project_id', $projectId);
         return $this->db->resultset();
@@ -207,6 +209,20 @@ class NotesGateway
             $this->db->bind(':note_id', $noteId);
             return $this->db->execute();
         }
+    }
+
+    /**
+     * Returns the LIMIT attribute for SQL strings
+     * @param $start
+     * @param $rowLimit
+     * @return string
+     */
+    private function limit($start, $rowLimit)
+    {
+        if (!is_null($start) && !is_null($rowLimit)) {
+            return " LIMIT {$start},{$rowLimit}";
+        }
+        return '';
     }
 
     /**
