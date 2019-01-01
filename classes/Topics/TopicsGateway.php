@@ -41,12 +41,14 @@ class TopicsGateway
 
     /**
      * @param $projectId
+     * @param null $offset
+     * @param null $limit
      * @param null $sorting
      * @return mixed
      */
-    public function getTopicsByProject($projectId, $sorting = null)
+    public function getTopicsByProject($projectId, $offset = null, $limit = null, $sorting = null)
     {
-        $query = $this->initrequest["topics"] . " WHERE topic.project = :project_id" . $this->orderBy($sorting);
+        $query = $this->initrequest["topics"] . " WHERE topic.project = :project_id" . $this->orderBy($sorting) . $this->limit($offset, $limit);
         $this->db->query($query);
         $this->db->bind(':project_id', $projectId);
         return $this->db->resultset();
@@ -204,6 +206,20 @@ class TopicsGateway
         $sql = "DELETE FROM {$this->tableCollab['posts']} WHERE topic IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($projectId);
+    }
+
+    /**
+     * Returns the LIMIT attribute for SQL strings
+     * @param $start
+     * @param $rowLimit
+     * @return string
+     */
+    private function limit($start, $rowLimit)
+    {
+        if (!is_null($start) && !is_null($rowLimit)) {
+            return " LIMIT {$start},{$rowLimit}";
+        }
+        return '';
     }
 
     /**
