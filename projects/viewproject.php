@@ -722,105 +722,104 @@ $teamBlock->closePaletteScript(count($teamList), array_column($teamList, 'tea_me
  * Begin Linked Content
  */
 if ($fileManagement == "true") {
-    $block5 = new phpCollab\Block();
-    $block5->form = "tdC";
-    $block5->openForm("../projects/viewproject.php?&id=$id#" . $block5->form . "Anchor");
-    $block5->headingToggle($strings["linked_content"]);
-    $block5->openPaletteIcon();
+    $files = new \phpCollab\Files\Files();
+
+    $filesBlock = new phpCollab\Block();
+    $filesBlock->form = "tdC";
+    $filesBlock->openForm("../projects/viewproject.php?&id=$id#" . $filesBlock->form . "Anchor");
+    $filesBlock->headingToggle($strings["linked_content"]);
+    $filesBlock->openPaletteIcon();
 
     if ($teamMember == "true" || $profilSession == "5") {
-        $block5->paletteIcon(0, "add", $strings["add"]);
-        $block5->paletteIcon(1, "remove", $strings["delete"]);
+        $filesBlock->paletteIcon(0, "add", $strings["add"]);
+        $filesBlock->paletteIcon(1, "remove", $strings["delete"]);
 
         if ($sitePublish == "true") {
-            $block5->paletteIcon(2, "add_projectsite", $strings["add_project_site"]);
-            $block5->paletteIcon(3, "remove_projectsite", $strings["remove_project_site"]);
+            $filesBlock->paletteIcon(2, "add_projectsite", $strings["add_project_site"]);
+            $filesBlock->paletteIcon(3, "remove_projectsite", $strings["remove_project_site"]);
         }
     }
 
-    $block5->paletteIcon(4, "info", $strings["view"]);
+    $filesBlock->paletteIcon(4, "info", $strings["view"]);
 
     if ($teamMember == "true" || $profilSession == "5") {
-        $block5->paletteIcon(5, "edit", $strings["edit"]);
+        $filesBlock->paletteIcon(5, "edit", $strings["edit"]);
     }
 
-    $block5->closePaletteIcon();
-    $block5->sorting("files", $sortingUser["files"], "fil.name ASC", $sortingFields = array(0 => "fil.extension", 1 => "fil.name", 2 => "fil.owner", 3 => "fil.date", 4 => "fil.status", 5 => "fil.published"));
+    $filesBlock->closePaletteIcon();
+    $filesBlock->sorting("files", $sortingUser["files"], "fil.name ASC", $sortingFields = array(0 => "fil.extension", 1 => "fil.name", 2 => "fil.owner", 3 => "fil.date", 4 => "fil.status", 5 => "fil.published"));
 
-    $tmpquery = "WHERE fil.project = '$id' AND fil.task = '0' AND fil.vc_parent = '0' AND fil.phase = '0' ORDER BY $block5->sortingValue";
-    $listFiles = new phpCollab\Request();
-    $listFiles->openFiles($tmpquery);
-    $comptListFiles = count($listFiles->fil_id);
+    $filesList = $files->getFilesByProjectAndPhaseWithoutTasksAndParent($id, 0, $filesBlock->sortingValue);
 
-    if ($comptListFiles != "0") {
-        $block5->openResults();
-        $block5->labels($labels = array(0 => $strings["type"], 1 => $strings["name"], 2 => $strings["owner"], 3 => $strings["date"], 4 => $strings["approval_tracking"], 5 => $strings["published"]), "true");
+    if ($filesList) {
+        $filesBlock->openResults();
+        $filesBlock->labels($labels = array(0 => $strings["type"], 1 => $strings["name"], 2 => $strings["owner"], 3 => $strings["date"], 4 => $strings["approval_tracking"], 5 => $strings["published"]), "true");
 
-        for ($i = 0; $i < $comptListFiles; $i++) {
+        foreach ($filesList as $file) {
             $existFile = "false";
-            $idStatus = $listFiles->fil_status[$i];
+            $idStatus = $file["fil_status"];
 
-            $idPublish = $listFiles->fil_published[$i];
+            $idPublish = $file["fil_published"];
 
             $fileHandler = new phpCollab\FileHandler();
-            $type = $fileHandler->fileInfoType($listFiles->fil_extension[$i]);
+            $type = $fileHandler->fileInfoType($file["fil_extension"]);
 
-            if (file_exists("../files/" . $listFiles->fil_project[$i] . "/" . $listFiles->fil_name[$i])) {
+            if (file_exists("../files/" . $file["fil_project"] . "/" . $file["fil_name"])) {
                 $existFile = "true";
             }
 
-            $block5->openRow();
-            $block5->checkboxRow($listFiles->fil_id[$i]);
+            $filesBlock->openRow();
+            $filesBlock->checkboxRow($file["fil_id"]);
 
             if ($existFile == "true") {
-                $block5->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $listFiles->fil_id[$i], $type, icone));
+                $filesBlock->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $file["fil_id"], $type, "icone"));
             } else {
-                $block5->cellRow("&nbsp;");
+                $filesBlock->cellRow("&nbsp;");
             }
 
             if ($existFile == "true") {
-                $block5->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $listFiles->fil_id[$i], $listFiles->fil_name[$i], in));
+                $filesBlock->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $file["fil_id"], $file["fil_name"], "in"));
             } else {
-                $block5->cellRow($strings["missing_file"] . " (" . $listFiles->fil_name[$i] . ")");
+                $filesBlock->cellRow($strings["missing_file"] . " (" . $file["fil_name"] . ")");
             }
 
-            $block5->cellRow($blockPage->buildLink($listFiles->fil_mem_email_work[$i], $listFiles->fil_mem_login[$i], mail));
-            $block5->cellRow($listFiles->fil_date[$i]);
-            $block5->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $listFiles->fil_id[$i], $statusFile[$idStatus], in));
+            $filesBlock->cellRow($blockPage->buildLink($file["fil_mem_email_work"], $file["fil_mem_login"], "mail"));
+            $filesBlock->cellRow($file["fil_date"]);
+            $filesBlock->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $file["fil_id"], $statusFile[$idStatus], "in"));
 
             if ($sitePublish == "true") {
-                $block5->cellRow($statusPublish[$idPublish]);
+                $filesBlock->cellRow($statusPublish[$idPublish]);
             }
 
-            $block5->closeRow();
+            $filesBlock->closeRow();
         }
 
-        $block5->closeResults();
+        $filesBlock->closeResults();
     } else {
-        $block5->noresults();
+        $filesBlock->noresults();
     }
 
-    $block5->closeToggle();
-    $block5->closeFormResults();
-    $block5->openPaletteScript();
+    $filesBlock->closeToggle();
+    $filesBlock->closeFormResults();
+    $filesBlock->openPaletteScript();
 
     if ($teamMember == "true" || $profilSession == "5") {
-        $block5->paletteScript(0, "add", "../linkedcontent/addfile.php?project=$id", "true,true,true", $strings["add"]);
-        $block5->paletteScript(1, "remove", "../linkedcontent/deletefiles.php?project=$id", "false,true,true", $strings["delete"]);
+        $filesBlock->paletteScript(0, "add", "../linkedcontent/addfile.php?project=$id", "true,true,true", $strings["add"]);
+        $filesBlock->paletteScript(1, "remove", "../linkedcontent/deletefiles.php?project=$id", "false,true,true", $strings["delete"]);
 
         if ($sitePublish == "true") {
-            $block5->paletteScript(2, "add_projectsite", "../projects/viewproject.php?addToSiteFile=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["add_project_site"]);
-            $block5->paletteScript(3, "remove_projectsite", "../projects/viewproject.php?removeToSiteFile=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
+            $filesBlock->paletteScript(2, "add_projectsite", "../projects/viewproject.php?addToSiteFile=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["add_project_site"]);
+            $filesBlock->paletteScript(3, "remove_projectsite", "../projects/viewproject.php?removeToSiteFile=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
         }
     }
 
-    $block5->paletteScript(4, "info", "../linkedcontent/viewfile.php?", "false,true,false", $strings["view"]);
+    $filesBlock->paletteScript(4, "info", "../linkedcontent/viewfile.php?", "false,true,false", $strings["view"]);
 
     if ($teamMember == "true" || $profilSession == "5") {
-        $block5->paletteScript(5, "edit", "../linkedcontent/viewfile.php?edit=true", "false,true,false", $strings["edit"]);
+        $filesBlock->paletteScript(5, "edit", "../linkedcontent/viewfile.php?edit=true", "false,true,false", $strings["edit"]);
     }
 
-    $block5->closePaletteScript($comptListFiles, $listFiles->fil_id);
+    $filesBlock->closePaletteScript(count($filesList), array_column($filesList, 'fil_id'));
 }
 /**
  * End Linked Content
