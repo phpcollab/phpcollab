@@ -47,17 +47,31 @@ class NewsDeskGateway
      */
     public function getHomePosts($userId, $relatedPosts, $startRow = null, $rowsLimit = null, $sorting = null)
     {
+        /**
+         *
+         */
         if ( is_array($relatedPosts) ) {
-            $relatedQuery = " IN (" . implode(',', $relatedPosts) . ", 'g')";
+            $placeholders = str_repeat('?, ', count($relatedPosts) - 1) . '?';
+
+            // Add placeholder for the 'g' flag
+            $placeholders .= ', ?';
         } else {
-            $relatedQuery = "= 'g'";
+            $placeholders = "?";
         }
 
-        $tmpquery = " WHERE news.author = :author_id OR news.rss = 1 OR news.related " . $relatedQuery;
+        $tmpquery = " WHERE news.author = ? OR news.rss = 1 OR news.related IN ({$placeholders})";
 
         $sql = $this->initrequest["newsdeskposts"] . $tmpquery . $this->orderBy($sorting) . $this->limit($startRow, $rowsLimit);
+
+        if (is_array($relatedPosts)) {
+            array_push($relatedPosts, 'g');
+            array_unshift($relatedPosts, $userId);
+        } else {
+            $relatedPosts = explode(',', $userId . ',' . $relatedPosts . ", 'g'");
+        }
+
         $this->db->query($sql);
-        $this->db->bind(':author_id', $userId);
+        $this->db->execute($relatedPosts);
         return $this->db->resultset();
     }
 
