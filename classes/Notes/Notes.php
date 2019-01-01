@@ -43,13 +43,24 @@ class Notes
 
     /**
      * @param $projectId
+     * @param null $offset
+     * @param null $limit
      * @param null $sorting
      * @return mixed
      * @internal param $noteId
      */
-    public function getNoteByProject($projectId, $sorting = null)
+    public function getNoteByProject($projectId, $offset = null, $limit = null, $sorting = null)
     {
-        return $this->notes_gateway->getNoteByProject($projectId, $sorting);
+        return $this->notes_gateway->getNoteByProject($projectId, $offset, $limit, $sorting);
+    }
+
+    /**
+     * @param $projectId
+     * @return mixed
+     */
+    public function getNotesCountByProject($projectId)
+    {
+        return $this->notes_gateway->getNoteByProject($projectId);
     }
 
     /**
