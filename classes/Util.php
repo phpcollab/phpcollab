@@ -6,6 +6,7 @@
  */
 
 namespace phpCollab;
+
 use phpCollab\Tasks\Tasks;
 use \Exception;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -21,7 +22,8 @@ class Util
     /**
      * Util constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
         self::$strings = $GLOBALS['strings'];
     }
 
@@ -31,7 +33,8 @@ class Util
      * @param string $url
      * @return string
      */
-    public static function addHttp($url) {
+    public static function addHttp($url)
+    {
         if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
             $url = "http://" . $url;
         }
@@ -53,6 +56,7 @@ class Util
     }
 
     // replace spec.chars , you can add rule
+
     /**
      * @param $return
      * @return mixed
@@ -78,29 +82,23 @@ class Util
      */
     public static function returnGlobal($var, $type = null)
     {
-        if (phpversion() >= "4.1.0") {
-            if ($type == "SERVER") {
-                return Util::replaceSpecialCharacters($_SERVER[$var]);
-            }
-            if ($type == "POST") {
-                return Util::replaceSpecialCharacters($_POST[$var]);
-            }
-            if ($type == "GET") {
-                return Util::replaceSpecialCharacters($_GET[$var]);
-            }
-            if ($type == "SESSION") {
-                return Util::replaceSpecialCharacters($_SESSION[$var]);
-            }
-            if ($type == "REQUEST") {
-                return Util::replaceSpecialCharacters($_REQUEST[$var]);
-            }
-            if ($type == "COOKIE") {
-                return Util::replaceSpecialCharacters($_COOKIE[$var]);
-            }
-        } else {
-            global $$var;
-
-            return $$var;
+        if ($type == "SERVER") {
+            return Util::replaceSpecialCharacters($_SERVER[$var]);
+        }
+        if ($type == "POST") {
+            return Util::replaceSpecialCharacters($_POST[$var]);
+        }
+        if ($type == "GET") {
+            return Util::replaceSpecialCharacters($_GET[$var]);
+        }
+        if ($type == "SESSION") {
+            return Util::replaceSpecialCharacters($_SESSION[$var]);
+        }
+        if ($type == "REQUEST") {
+            return Util::replaceSpecialCharacters($_REQUEST[$var]);
+        }
+        if ($type == "COOKIE") {
+            return Util::replaceSpecialCharacters($_COOKIE[$var]);
         }
     }
 
@@ -135,7 +133,7 @@ class Util
     {
         global $newText;
         $lines = explode("\n", $data);
-        foreach($lines as $key => $line) {
+        foreach ($lines as $key => $line) {
             $line = preg_replace('/([ \t]|^)www\./', ' http://www.', $line);
 
             $line = preg_replace('/([ \t]|^)ftp\./', ' ftp://ftp.', $line);
@@ -727,15 +725,13 @@ class Util
         if ($databaseType == "mysql") {
             try {
                 $res = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 throw new \Exception(self::$strings["error_server"]);
             }
 
             try {
                 $selectedDb = mysqli_select_db($res, MYDATABASE);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 throw new \Exception(self::$strings["error_database"]);
             }
 
@@ -768,15 +764,13 @@ class Util
         if ($databaseType == "sqlserver") {
             try {
                 $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 throw new \Exception(self::$strings["error_server"]);
             }
 
             try {
                 $selectedDb = mssql_select_db(MYDATABASE, $res);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 throw new \Exception(self::$strings["error_database"]);
             }
 
@@ -830,15 +824,13 @@ class Util
         if ($databaseType == "mysql") {
             try {
                 $link = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 throw new \Exception(self::$strings["error_server"]);
             }
 
             try {
                 $selectedDb = mysqli_select_db($link, MYDATABASE);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 throw new \Exception(self::$strings["error_database"]);
             }
 
@@ -857,15 +849,13 @@ class Util
         if ($databaseType == "sqlserver") {
             try {
                 $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 throw new \Exception(self::$strings["error_server"]);
             }
 
             try {
                 $selectedDb = mssql_select_db(MYDATABASE, $res);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 throw new \Exception(self::$strings["error_database"]);
             }
 
@@ -890,16 +880,14 @@ class Util
         if ($databaseType == "mysql") {
             try {
                 $res = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 throw new \Exception(self::$strings["error_server"]);
             }
 
 
             try {
                 $selectedDb = mysqli_select_db($res, MYDATABASE);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 throw new \Exception(self::$strings["error_database"]);
             }
 
@@ -927,15 +915,13 @@ class Util
 
             try {
                 $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 throw new \Exception(self::$strings["error_server"]);
             }
 
             try {
                 $selectedDb = mssql_select_db(MYDATABASE, $res);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 throw new \Exception(self::$strings["error_database"]);
             }
 
@@ -1009,7 +995,7 @@ class Util
         $subtaskList->openAvgTasks($taskid);
         $avg = $subtaskList->tas_avg[0];
         settype($avg, "integer");
-        Util::newConnectSql("UPDATE {$tableTask} set completion = :average where id = :task_id",["average" => $avg, "task_id" => $taskid]);
+        Util::newConnectSql("UPDATE {$tableTask} set completion = :average where id = :task_id", ["average" => $avg, "task_id" => $taskid]);
     }
 
     /**
