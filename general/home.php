@@ -141,7 +141,7 @@ if ($showHomeBookmarks) {
 
                 $block6->openRow();
                 $block6->checkboxRow($bookmark['boo_id']);
-                $block6->cellRow($blockPage->buildLink("../bookmarks/viewbookmark.php?view=$view&id=" . $bookmark['boo_id'], $bookmark['boo_name'], 'in') . " " . $blockPage->buildLink($bookmark['boo_url'], "(" . $strings["url"] . ")", 'out'));
+                $block6->cellRow($blockPage->buildLink("../bookmarks/viewbookmark.php?id=" . $bookmark['boo_id'], $bookmark['boo_name'], 'in') . " " . $blockPage->buildLink($bookmark['boo_url'], "(" . $strings["url"] . ")", 'out'));
                 $block6->cellRow( !empty($bookmark['boo_boocat_name']) ? $bookmark['boo_boocat_name'] : \phpCollab\Util::doubleDash());
 
                 if ($bookmark['boo_shared'] == "1") {
