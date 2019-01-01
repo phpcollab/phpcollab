@@ -99,15 +99,18 @@ class TeamsGateway
 
     /**
      * @param $projectId
+     * @param null $offset
+     * @param null $limit
      * @param null $sorting
      * @return mixed
      * @internal param $orderBy
      */
-    public function getTeamByProjectId($projectId, $sorting = null)
+    public function getTeamByProjectId($projectId, $offset = null, $limit = null, $sorting = null)
     {
-        $whereStatement = " WHERE tea.project = :project_id";
+        $whereStatement = " WHERE tea.project = :project_id AND mem.profil != '3'";
 
-        $sql = $this->initrequest["teams"] . $whereStatement . $this->orderBy($sorting);
+        $sql = $this->initrequest["teams"] . $whereStatement . $this->orderBy($sorting) . $this->limit($offset, $limit);
+
         $this->db->query($sql);
         $this->db->bind(':project_id', $projectId);
         $results = $this->db->resultset();
@@ -278,13 +281,27 @@ class TeamsGateway
     }
 
     /**
+     * Returns the LIMIT attribute for SQL strings
+     * @param $start
+     * @param $rowLimit
+     * @return string
+     */
+    private function limit($start, $rowLimit)
+    {
+        if (!is_null($start) && !is_null($rowLimit)) {
+            return " LIMIT {$start},{$rowLimit}";
+        }
+        return '';
+    }
+
+    /**
      * @param $sorting
      * @return string
      */
     private function orderBy($sorting)
     {
         if (!is_null($sorting)) {
-            $allowedOrderedBy = [];
+            $allowedOrderedBy = ["mem.name", "mem.title", "mem.login", "mem.phone_work", "log.connected", "tea.published", "tas.project"];
             $pieces = explode(' ', $sorting);
 
             if ($pieces) {
