@@ -144,6 +144,29 @@ class Tasks
     }
 
     /**
+     * @param $phaseId
+     * @param $projectId
+     * @return int
+     */
+    public function getCountOpenTasksByPhaseAndProject($phaseId, $projectId)
+    {
+        return count($this->getTasksByProjectIdAndParentPhase($projectId, $phaseId));
+    }
+    /**
+     * @param $phaseId
+     * @param $projectId
+     * @return int
+     */
+    public function getCountUncompletedTasks($phaseId, $projectId)
+    {
+        $tasks = $this->getTasksByProjectIdAndParentPhase($projectId, $phaseId);
+        $tasks = array_filter($tasks, function($item) {
+            return $item["tas_status"] == 2 || $item["tas_status"] == 3 || $item["tas_status"] == 4;
+        });
+        return count($tasks);
+    }
+
+    /**
      * @param $date
      * @param $assignedTo
      * @return mixed
