@@ -130,6 +130,15 @@ class Tasks
     }
 
     /**
+     * @param $projectId
+     * @return int
+     */
+    public function getCountAllTasksForProject($projectId)
+    {
+        return count( $this->getTasksByProjectId($projectId) );
+    }
+
+    /**
      * @param int $projectId ID of the project
      * @param int $phaseId ID of parent phase
      * @param string $sorting column to sort on and direction
