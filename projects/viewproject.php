@@ -13,6 +13,7 @@ $support = new \phpCollab\Support\Support();
 $projects = new \phpCollab\Projects\Projects();
 $topics = new \phpCollab\Topics\Topics();
 $notes = new \phpCollab\Notes\Notes();
+$phases = new \phpCollab\Phases\Phases();
 
 $id = phpCollab\Util::returnGlobal('id', 'REQUEST');
 $project = phpCollab\Util::returnGlobal('project', 'REQUEST');
@@ -178,12 +179,16 @@ $listTasksTime = $tasks->getTasksByProjectId($id, 'tas.name');
 
 if ($listTasksTime) {
     foreach ($listTasksTime as $task) {
+        $estimated_time = (isset($estimated_time) && $estimated_time != "") ? $estimated_time : 0;
         $estimated_time = $estimated_time + intval($task["tas_estimated_time"]);
+
+        $actual_time = (isset($actual_time) && $actual_time != "") ? $actual_time : 0;
         $actual_time = $actual_time + intval($task["tas_actual_time"]);
 
 
         if ($task["tas_complete_date"] != "" && $task["tas_complete_date"] != "--" && $task["tas_due_date"] != "--") {
             $diff = phpCollab\Util::diffDate($task["tas_complete_date"], $task["tas_due_date"]);
+            $diff_time = (isset($diff_time) && $diff_time != "") ? $diff_time : 0;
             $diff_time = $diff_time + $diff;
         }
     }
@@ -212,7 +217,7 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
 $blockPage->itemBreadcrumbs($projectDetail["pro_name"]);
 $blockPage->closeBreadcrumbs();
 
@@ -260,18 +265,16 @@ $block1->contentRow($strings["priority"], "<img src=\"../themes/" . THEME . "/im
 
 //List open phases and link to phase details
 if ($projectDetail["pro_phase_set"] != "0") {
-    $tmpquery = "WHERE pha.project_id = '$id' AND status = '1' ORDER BY pha.order_num";
-    $currentPhase = new phpCollab\Request();
-    $currentPhase->openPhases($tmpquery);
-    $comptCurrentPhase = count($currentPhase->pha_id);
+    $projectPhases = $phases->getPhasesByProjectIdAndIsCompleted($id, 'pha.order_num');
+    $comptCurrentPhase = count($projectPhases);
 
-    if ($comptCurrentPhase == 0) {
+    if (!$projectPhases) {
         $block1->contentRow($strings["current_phase"], $strings["no_current_phase"]);
     } else {
-        for ($i = 0; $i < $comptCurrentPhase; $i++) {
+        foreach ($projectPhases as $phase) {
             if ($i != $comptCurrentPhase) {
                 $pnum = $i + 1;
-                $phasesList .= "$pnum.<a href=\"../phases/viewphase.php?id=" . $currentPhase->pha_id[$i] . "\">" . $currentPhase->pha_name[$i] . "</a>  ";
+                $phasesList .= "$pnum.<a href=\"../phases/viewphase.php?id=" . $phase["pha_id"] . "\">" . $phase["pha_name"] . "</a>  ";
             }
         }
         $block1->contentRow($strings["current_phase"], $phasesList);
@@ -281,23 +284,26 @@ if ($projectDetail["pro_phase_set"] != "0") {
 }
 
 $block1->contentRow($strings["description"], nl2br($projectDetail["pro_description"]));
-$block1->contentRow($strings["url_dev"], $blockPage->buildLink($projectDetail["pro_url_dev"], $projectDetail["pro_url_dev"], out));
-$block1->contentRow($strings["url_prod"], $blockPage->buildLink($projectDetail["pro_url_prod"], $projectDetail["pro_url_prod"], out));
-$block1->contentRow($strings["owner"], $blockPage->buildLink("../users/viewuser.php?id=" . $projectDetail["pro_mem_id"], $projectDetail["pro_mem_name"], in) . " (" . $blockPage->buildLink($projectDetail["pro_mem_email_work"], $projectDetail["pro_mem_login"], mail) . ")");
+$block1->contentRow($strings["url_dev"], $blockPage->buildLink($projectDetail["pro_url_dev"], $projectDetail["pro_url_dev"], "out"));
+$block1->contentRow($strings["url_prod"], $blockPage->buildLink($projectDetail["pro_url_prod"], $projectDetail["pro_url_prod"], "out"));
+$block1->contentRow($strings["owner"], $blockPage->buildLink("../users/viewuser.php?id=" . $projectDetail["pro_mem_id"], $projectDetail["pro_mem_name"], "in") . " (" . $blockPage->buildLink($projectDetail["pro_mem_email_work"], $projectDetail["pro_mem_login"], "mail") . ")");
 $block1->contentRow($strings["created"], phpCollab\Util::createDate($projectDetail["pro_created"], $timezoneSession));
 $block1->contentRow($strings["modified"], phpCollab\Util::createDate($projectDetail["pro_modified"], $timezoneSession));
 
 if ($projectDetail["pro_org_id"] == "1") {
     $block1->contentRow($strings["organization"], $strings["none"]);
 } else {
-    $block1->contentRow($strings["organization"], $blockPage->buildLink("../clients/viewclient.php?id=" . $projectDetail["pro_org_id"], $projectDetail["pro_org_name"], in));
+    $block1->contentRow($strings["organization"], $blockPage->buildLink("../clients/viewclient.php?id=" . $projectDetail["pro_org_id"], $projectDetail["pro_org_name"], "in"));
 }
 
 $block1->contentRow($strings["status"], $status[$idStatus]);
 
 if ($fileManagement == "true") {
     $block1->contentRow($strings["max_upload"] . $blockPage->printHelp("max_file_size"), phpCollab\Util::convertSize($projectDetail["pro_upload_max"]));
-    $block1->contentRow($strings["project_folder_size"] . $blockPage->printHelp("project_disk_space"), phpCollab\Util::convertSize(phpCollab\Util::folderInfoSize("../files/" . $projectDetail["pro_id"] . "/")));
+    $block1->contentRow(
+        $strings["project_folder_size"] . $blockPage->printHelp("project_disk_space"),
+        phpCollab\Util::convertSize(phpCollab\Util::folderInfoSize("../files/" . $projectDetail["pro_id"] . "/"))
+    );
 }
 
 $block1->contentRow($strings["estimated_time"], $estimated_time . " " . $strings["hours"]);
@@ -306,9 +312,9 @@ $block1->contentRow($strings["scope_creep"] . $blockPage->printHelp("project_sco
 
 if ($sitePublish == "true") {
     if ($projectDetail["pro_published"] == "1") {
-        $block1->contentRow($strings["project_site"], "&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=$id", $strings["create"] . "...", in) . "&gt;");
+        $block1->contentRow($strings["project_site"], "&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=$id", $strings["create"] . "...", "in") . "&gt;");
     } else {
-        $block1->contentRow($strings["project_site"], "&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=$id", $strings["details"], in) . "&gt;");
+        $block1->contentRow($strings["project_site"], "&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=$id", $strings["details"], "in") . "&gt;");
     }
 }
 
@@ -324,9 +330,9 @@ if ($enableInvoicing == "true" && ($idSession == $projectDetail["pro_owner"] || 
 
 if ($enableHelpSupport == "true" && ($teamMember == "true" || $profilSession == "5") && $supportType == "team") {
     $block1->contentTitle($strings["support"]);
-    $block1->contentRow($strings["new_requests"], "$comptListNewRequests - " . $blockPage->buildLink("../support/support.php?action=new&project=" . $projectDetail["pro_id"], $strings["manage_new_requests"], in));
-    $block1->contentRow($strings["open_requests"], "$comptListOpenRequests - " . $blockPage->buildLink("../support/support.php?action=open&project=" . $projectDetail["pro_id"], $strings["manage_open_requests"], in));
-    $block1->contentRow($strings["closed_requests"], "$comptListCompleteRequests - " . $blockPage->buildLink("../support/support.php?action=complete&project=" . $projectDetail["pro_id"], $strings["manage_closed_requests"], in));
+    $block1->contentRow($strings["new_requests"], "$comptListNewRequests - " . $blockPage->buildLink("../support/support.php?action=new&project=" . $projectDetail["pro_id"], $strings["manage_new_requests"], "in"));
+    $block1->contentRow($strings["open_requests"], "$comptListOpenRequests - " . $blockPage->buildLink("../support/support.php?action=open&project=" . $projectDetail["pro_id"], $strings["manage_open_requests"], "in"));
+    $block1->contentRow($strings["closed_requests"], "$comptListCompleteRequests - " . $blockPage->buildLink("../support/support.php?action=complete&project=" . $projectDetail["pro_id"], $strings["manage_closed_requests"], "in"));
 }
 
 $block1->closeContent();
@@ -339,15 +345,15 @@ if ($idSession == $projectDetail["pro_owner"] || $profilSession == "0" || $profi
     if ($idSession == $projectDetail["pro_owner"] || $profilSession == "0" || $profilSession == "5") {
         $block1->paletteScript(0, "remove", "../projects/deleteproject.php?id=$id", "true,true,false", $strings["delete"]);
         $block1->paletteScript(1, "copy", "../projects/editproject.php?id=" . $projectDetail["pro_id"] . "&docopy=true", "true,true,false", $strings["copy"]);
-        $block1->paletteScript(2, "export", "../projects/exportproject.php?languageSession=$languageSession&type=project&id=" . $projectDetail["pro_id"] . "", "true,true,false", $strings["export"]);
+        $block1->paletteScript(2, "export", "../projects/exportproject.php?languageSession={$_SESSION["languageSession"]}&type=project&id=" . $projectDetail["pro_id"] . "", "true,true,false", $strings["export"]);
         $block1->paletteScript(3, "edit", "../projects/editproject.php?id=" . $projectDetail["pro_id"] . "&docopy=false", "true,true,false", $strings["edit"]);
     }
 
     if ($enableMantis == "true") {
-        $block1->paletteScript(5, "bug", $pathMantis . "login.php?id=" . $projectDetail["pro_id"] . "&url=http://{$HTTP_HOST}{$REQUEST_URI}&username=$loginSession&password=$passwordSession", "true,true,false", $strings["bug"]);
+        $block1->paletteScript(5, "bug", $pathMantis . "login.php?id=" . $projectDetail["pro_id"] . "&url=http://{$_SERVER["HTTP_HOST"]}{$_SERVER["REQUEST_URI"]}&username=$loginSession&password=$passwordSession", "true,true,false", $strings["bug"]);
     }
 
-    $block1->closePaletteScript("", "");
+    $block1->closePaletteScript("", []);
 }
 
 //Phase or Task list block
@@ -370,43 +376,32 @@ if ($projectDetail["pro_phase_set"] != "0") {
 
     $block7->sorting("phases", $sortingUser["phases"], "pha.order_num ASC", $sortingFields = array(0 => "pha.order_num", 1 => "pha.name", 2 => "none", 3 => "none", 4 => "pha.status", 5 => "pha.date_start", 6 => "pha.date_end"));
 
-    $tmpquery = "WHERE pha.project_id = '$id' ORDER BY $block7->sortingValue";
-    $listPhases = new phpCollab\Request();
-    $listPhases->openPhases($tmpquery);
-    $comptListPhases = count($listPhases->pha_id);
+    $listPhases = $phases->getPhasesByProjectId($id, $block7->sortingValue);
 
-    if ($comptListPhases != "0") {
+    if ($listPhases) {
         $block7->openResults();
-        $block7->labels($labels = array(0 => $strings["order"], 1 => $strings["name"], 2 => $strings["total_tasks"], 3 => $strings["uncomplete_tasks"], 4 => $strings["status"], 5 => $strings["date_start"], 6 => $strings["date_end"]), "false");
+        $block7->labels(
+            $labels = array(
+                0 => $strings["order"],
+                1 => $strings["name"],
+                2 => $strings["total_tasks"],
+                3 => $strings["uncomplete_tasks"],
+                4 => $strings["status"],
+                5 => $strings["date_start"],
+                6 => $strings["date_end"]
+            ),
+        "false");
 
-        $tmpquery = "WHERE tas.project = '$id'";
-        $countPhaseTasks = new phpCollab\Request();
-        $countPhaseTasks->openTasks($tmpquery);
-        $comptlistTasks = count($countPhaseTasks->tas_id);
-
-        for ($i = 0; $i < $comptListPhases; $i++) {
-            $comptlistTasksRow = "0";
-            $comptUncompleteTasks = "0";
-
-            for ($k = 0; $k < $comptlistTasks; $k++) {
-                if ($listPhases->pha_order_num[$i] == $countPhaseTasks->tas_parent_phase[$k]) {
-                    $comptlistTasksRow = $comptlistTasksRow + 1;
-
-                    if ($countPhaseTasks->tas_status[$k] == "2" || $countPhaseTasks->tas_status[$k] == "3" || $countPhaseTasks->tas_status[$k] == "4") {
-                        $comptUncompleteTasks = $comptUncompleteTasks + 1;
-                    }
-                }
-            }
-
+        foreach ($listPhases as $phase) {
             $block7->openRow();
-            $block7->checkboxRow($listPhases->pha_id[$i]);
-            $block7->cellRow($listPhases->pha_order_num[$i]);
-            $block7->cellRow($blockPage->buildLink("../phases/viewphase.php?id=" . $listPhases->pha_id[$i], $listPhases->pha_name[$i], in));
-            $block7->cellRow($comptlistTasksRow);
-            $block7->cellRow($comptUncompleteTasks);
-            $block7->cellRow($phaseStatus[$listPhases->pha_status[$i]]);
-            $block7->cellRow($listPhases->pha_date_start[$i]);
-            $block7->cellRow($listPhases->pha_date_end[$i]);
+            $block7->checkboxRow($phase["pha_id"]);
+            $block7->cellRow($phase["pha_order_num"]);
+            $block7->cellRow($blockPage->buildLink("../phases/viewphase.php?id=" . $phase["pha_id"], $phase["pha_name"], "in"));
+            $block7->cellRow($tasks->getCountOpenTasksByPhaseAndProject($phase["pha_order_num"], $id));
+            $block7->cellRow($tasks->getCountUncompletedTasks($phase["pha_order_num"], $id));
+            $block7->cellRow($phaseStatus[$phase["pha_status"]]);
+            $block7->cellRow($phase["pha_date_start"]);
+            $block7->cellRow($phase["pha_date_end"]);
             $block7->closeRow();
         }
 
@@ -427,7 +422,7 @@ if ($projectDetail["pro_phase_set"] != "0") {
         }
     }
 
-    $block7->closePaletteScript($comptListPhases, $listPhases->pha_id);
+    $block7->closePaletteScript(count($listPhases), array_column($listPhases, 'pha_id'));
 } else {
     $block2 = new phpCollab\Block();
     $block2->form = "wbTuu";
