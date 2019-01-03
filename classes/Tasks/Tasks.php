@@ -139,6 +139,16 @@ class Tasks
     }
 
     /**
+     * @param $userId
+     * @return int
+     */
+    public function getClientUserTasks($userId)
+    {
+        $tasks = $this->tasks_gateway->getClientUserTasks($userId);
+        return count($tasks);
+    }
+
+    /**
      * @param int $projectId ID of the project
      * @param int $phaseId ID of parent phase
      * @param string $sorting column to sort on and direction
