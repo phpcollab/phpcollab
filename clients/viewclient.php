@@ -87,7 +87,7 @@ $block1->openContent();
 $block1->contentTitle($strings["details"]);
 
 if ($clientsFilter == "true") {
-    $block1->contentRow($strings["owner"], $blockPage->buildLink("../users/viewuser.php?id=" . $clientDetail['org_mem_id'], $clientDetail['org_mem_name'], "in") . " (" . $blockPage->buildLink($clientDetail['org_mem_email_work'], $clientDetail['org_mem_login'], 'mail') . ")");
+    $block1->contentRow($strings["owner"], $blockPage->buildLink("../users/viewuser.php?id=" . $clientDetail['mem_id'], $clientDetail['mem_name'], "in") . " (" . $blockPage->buildLink($clientDetail['mem_email_work'], $clientDetail['mem_login'], 'mail') . ")");
 }
 $block1->contentRow(
     $strings["name"],
