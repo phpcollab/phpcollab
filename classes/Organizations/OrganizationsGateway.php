@@ -149,7 +149,7 @@ class OrganizationsGateway
         $this->db->bind(':owner_id', $ownerId);
         $this->db->bind(':org_id', $orgId);
 
-        return $this->db->resultset();
+        return $this->db->single();
     }
 
     /**
