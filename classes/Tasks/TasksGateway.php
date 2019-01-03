@@ -215,6 +215,18 @@ SQL;
     }
 
     /**
+     * @param $userId
+     * @return mixed
+     */
+    public function getClientUserTasks($userId)
+    {
+        $tmpquery = "SELECT tas.id FROM {$this->tableCollab["tasks"]} tas LEFT OUTER JOIN {$this->tableCollab["projects"]} pro ON pro.id = tas.project WHERE tas.assigned_to = :user_id AND tas.status IN(0,2,3) AND pro.status IN(0,2,3)";
+        $this->db->query($tmpquery);
+        $this->db->bind(":user_id", $userId);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $projectId
      * @param $phaseId
      * @param null $sorting
