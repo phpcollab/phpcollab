@@ -55,7 +55,7 @@ if (empty($clientDetail)) {
 
 $setTitle .= " : View Client (" . $clientDetail['org_name'] . ")";
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -87,14 +87,25 @@ $block1->openContent();
 $block1->contentTitle($strings["details"]);
 
 if ($clientsFilter == "true") {
-    $block1->contentRow($strings["owner"], $blockPage->buildLink("../users/viewuser.php?id=" . $clientDetail['org_mem_id'], $clientDetail['org_mem_name'], in) . " (" . $blockPage->buildLink($clientDetail['org_mem_email_work'], $clientDetail['org_mem_login'], 'mail') . ")");
+    $block1->contentRow($strings["owner"], $blockPage->buildLink("../users/viewuser.php?id=" . $clientDetail['org_mem_id'], $clientDetail['org_mem_name'], "in") . " (" . $blockPage->buildLink($clientDetail['org_mem_email_work'], $clientDetail['org_mem_login'], 'mail') . ")");
 }
-$block1->contentRow($strings["name"], $clientDetail['org_name']);
-$block1->contentRow($strings["address"], $clientDetail['org_address1']);
-$block1->contentRow($strings["phone"], $clientDetail['org_phone']);
+$block1->contentRow(
+    $strings["name"],
+    !empty($clientDetail['org_name']) ? $clientDetail['org_name'] : \phpCollab\Util::doubleDash()
+);
+$block1->contentRow($strings["address"],
+    !empty($clientDetail['org_address1']) ? $clientDetail['org_address1'] : \phpCollab\Util::doubleDash()
+);
+$block1->contentRow(
+    $strings["phone"], 
+    !empty($clientDetail['org_phone']) ? $clientDetail['org_phone'] : \phpCollab\Util::doubleDash()
+);
 $block1->contentRow($strings["url"], $blockPage->buildLink($clientDetail['org_url'], $clientDetail['org_url'], 'out'));
 $block1->contentRow($strings["email"], $blockPage->buildLink($clientDetail['org_email'], $clientDetail['org_email'], 'mail'));
-$block1->contentRow($strings["comments"], nl2br($clientDetail['org_comments']));
+$block1->contentRow(
+    $strings["comments"],
+    !empty($clientDetail['org_comments']) ? nl2br($clientDetail['org_comments']) : \phpCollab\Util::doubleDash()
+);
 if ($enableInvoicing == "true" && ($profilSession == "1" || $profilSession == "0" || $profilSession == "5")) {
     $block1->contentRow($strings["hourly_rate"], $clientDetail['org_hourly_rate']);
 }
@@ -111,7 +122,7 @@ if ($profilSession == "0" || $profilSession == "1") {
     $block1->paletteScript(0, "remove", "../clients/deleteclients.php?id=" . $clientDetail['org_id'] . "", "true,true,false", $strings["delete"]);
     $block1->paletteScript(1, "edit", "../clients/editclient.php?id=" . $clientDetail['org_id'] . "", "true,true,false", $strings["edit"]);
     $block1->paletteScript(2, "invoicing", "../invoicing/listinvoices.php?client=" . $clientDetail['org_id'] . "", "true,true,false", $strings["invoicing"]);
-    $block1->closePaletteScript("", "");
+    $block1->closePaletteScript("", []);
 }
 
 $block2 = new phpCollab\Block();
@@ -185,7 +196,7 @@ if ($profilSession == "0" || $profilSession == "1") {
 }
 //if mantis bug tracker enabled
 if ($enableMantis == "true") {
-    $block2->paletteScript(4, "bug", $pathMantis . "login.php?url=http://{$HTTP_HOST}{$REQUEST_URI}&username=$loginSession&password=$passwordSession", "false,true,false", $strings["bug"]);
+    $block2->paletteScript(4, "bug", $pathMantis . "login.php?url=http://{$_SERVER["HTTP_HOST"]}{$_SERVER["REQUEST_URI"]}&username=$loginSession&password=$passwordSession", "false,true,false", $strings["bug"]);
 }
 $block2->closePaletteScript($comptListProjects, $listProjects['pro_id']);
 
@@ -222,7 +233,7 @@ if ($listMembers) {
         $block3->cellRow($blockPage->buildLink("../users/viewclientuser.php?id=" . $member['mem_id'] . "&organization=$id", $member['mem_name'], 'in'));
         $block3->cellRow($member['mem_login']);
         $block3->cellRow($blockPage->buildLink($member['mem_email_work'], $member['mem_email_work'], 'mail'));
-        $block3->cellRow($member['mem_phone_work']);
+        $block3->cellRow(!empty($clientDetail['mem_phone_work']) ? $clientDetail['mem_phone_work'] : \phpCollab\Util::doubleDash());
 
         $z = "(Client on project site)";
         if ($member['mem_log_connected'] > $dateunix - 5 * 60) {
@@ -249,4 +260,4 @@ if ($profilSession == "0" || $profilSession == "1") {
 }
 $block3->closePaletteScript($comptListMembers, $listMembers['mem_id']);
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
