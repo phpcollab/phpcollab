@@ -61,6 +61,20 @@ class MembersGateway
     }
 
     /**
+     * @param $memberLogin
+     * @param null $memberLoginOld
+     * @return mixed
+     */
+    public function checkMemberExists($memberLogin, $memberLoginOld = null)
+    {
+        $tmpquery = "WHERE mem.login = :member_login AND mem.login != :member_login_old";
+        $this->db->query($this->initrequest["members"] . ' ' . $tmpquery );
+        $this->db->bind(':member_login', $memberLogin);
+        $this->db->bind(':member_login_old', $memberLoginOld);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $memberId
      * @return mixed
      */
