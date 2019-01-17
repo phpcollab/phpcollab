@@ -29,7 +29,6 @@ compilation_cache/
 composer/
 vendor/
 tests/_output/*
-.idea
 
 # Additional Items #
 ####################
