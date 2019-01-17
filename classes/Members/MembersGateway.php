@@ -4,6 +4,7 @@
 namespace phpCollab\Members;
 
 use phpCollab\Database;
+use Exception;
 
 /**
  * Class MembersGateway
@@ -241,6 +242,26 @@ SQL;
         $this->db->bind(':member_id', $memberId);
 
         return $this->db->execute();
+    }
+
+    /**
+     * @param $memberId
+     * @param $password
+     * @return mixed
+     * @throws Exception
+     */
+    public function setPassword($memberId, $password)
+    {
+        if (!isset($memberId) || !isset($password)) {
+            throw new Exception('Missing member id or password');
+        } else {
+
+            $sql = "UPDATE {$this->tableCollab["members"]} SET password = :password WHERE id = :member_id";
+            $this->db->query($sql);
+            $this->db->bind(':member_id', $memberId);
+            $this->db->bind(':password', $password);
+            return $this->db->execute();
+        }
     }
 
     /**
