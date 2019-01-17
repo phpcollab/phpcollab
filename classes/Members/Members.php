@@ -2,6 +2,7 @@
 
 namespace phpCollab\Members;
 
+use Exception;
 use phpCollab\Database;
 
 /**
@@ -109,7 +110,43 @@ class Members
         return $this->members_gateway->getClientMembersByOrgIdAndNotInTeam($orgId, $membersTeam, $sorting);
     }
 
+    /**
+     * @param $memberId
+     * @param $login
+     * @param $name
+     * @param $emailWork
+     * @param null $title
+     * @param null $organization
+     * @param null $phoneWork
+     * @param null $phoneHome
+     * @param null $phoneMobile
+     * @param null $fax
+     * @param null $lastPage
+     * @param null $comments
+     * @return bool|mixed
+     * @throws Exception
+     */
+    public function updateMember($memberId, $login, $name, $emailWork, $title = null, $organization = null, $phoneWork = null, $phoneHome = null, $phoneMobile = null, $fax = null, $lastPage = null, $comments = null)
+    {
+        if (!isset($memberId) || !isset($login) || !isset($name) || !isset($emailWork)) {
+            throw new Exception('Invalid member id, login, name, or email');
+        } else {
 
+            $login = filter_var($login, FILTER_SANITIZE_STRING);
+            $name = filter_var($name, FILTER_SANITIZE_STRING);
+            $organization = filter_var($organization, FILTER_SANITIZE_STRING);
+            $title = filter_var($title, FILTER_SANITIZE_STRING);
+            $emailWork = filter_var($emailWork, FILTER_SANITIZE_STRING);
+            $phoneWork = filter_var($phoneWork, FILTER_SANITIZE_STRING);
+            $phoneHome = filter_var($phoneHome, FILTER_SANITIZE_STRING);
+            $phoneMobile = filter_var($phoneMobile, FILTER_SANITIZE_STRING);
+            $fax = filter_var($fax, FILTER_SANITIZE_STRING);
+            $comments = filter_var($comments, FILTER_SANITIZE_STRING);
+            $lastPage = filter_var($lastPage, FILTER_SANITIZE_STRING);
+
+            return $this->members_gateway->updateMember($memberId, $login, $name, $title, $organization, $emailWork, $phoneWork, $phoneHome, $phoneMobile, $fax, $lastPage, $comments);
+        }
+    }
 
     /**
      * @return mixed
