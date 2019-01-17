@@ -4,6 +4,7 @@ namespace phpCollab\Members;
 
 use Exception;
 use phpCollab\Database;
+use phpCollab\Util;
 
 /**
  * Class Members
@@ -145,6 +146,23 @@ class Members
             $lastPage = filter_var($lastPage, FILTER_SANITIZE_STRING);
 
             return $this->members_gateway->updateMember($memberId, $login, $name, $title, $organization, $emailWork, $phoneWork, $phoneHome, $phoneMobile, $fax, $lastPage, $comments);
+        }
+    }
+
+    /**
+     * @param $memberId
+     * @param $password
+     * @return mixed
+     * @throws Exception
+     */
+    public function setPassword($memberId, $password)
+    {
+        if (!isset($memberId) || !isset($password)) {
+            throw new Exception('Invalid member id, login, name, or email');
+        } else {
+            $memberId = filter_var((int) $memberId, FILTER_VALIDATE_INT);
+            $password = Util::getPassword($password);
+            return $this->members_gateway->setPassword($memberId, $password);
         }
     }
 
