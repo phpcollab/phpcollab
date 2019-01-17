@@ -68,7 +68,7 @@ class MembersGateway
     public function checkMemberExists($memberLogin, $memberLoginOld = null)
     {
         $tmpquery = "WHERE mem.login = :member_login AND mem.login != :member_login_old";
-        $this->db->query($this->initrequest["members"] . ' ' . $tmpquery );
+        $this->db->query($this->initrequest["members"] . ' ' . $tmpquery);
         $this->db->bind(':member_login', $memberLogin);
         $this->db->bind(':member_login_old', $memberLoginOld);
         return $this->db->resultset();
@@ -96,7 +96,7 @@ class MembersGateway
     public function getMembersIn($memberIds)
     {
         $memberIds = explode(',', $memberIds);
-        $placeholders = str_repeat ('?, ', count($memberIds)-1) . '?';
+        $placeholders = str_repeat('?, ', count($memberIds) - 1) . '?';
         $whereStatement = "WHERE mem.id IN ($placeholders)";
         $this->db->query($this->initrequest["members"] . ' ' . $whereStatement);
         $this->db->execute($memberIds);
@@ -110,7 +110,7 @@ class MembersGateway
     public function getNonClientMembersNotIn($memberIds)
     {
         $memberIds = explode(',', $memberIds);
-        $placeholders = str_repeat ('?, ', count($memberIds)-1) . '?';
+        $placeholders = str_repeat('?, ', count($memberIds) - 1) . '?';
         $whereStatement = "WHERE mem.profil != '3' AND mem.id NOT IN($placeholders) " . $this->orderBy('mem.name'); //ORDER BY mem.name";
         $this->db->query($this->initrequest["members"] . ' ' . $whereStatement);
         $this->db->execute($memberIds);
@@ -146,7 +146,7 @@ class MembersGateway
 
         if ($membersTeam) {
             $membersTeam = explode(',', $membersTeam);
-            $placeholders = str_repeat ('?, ', count($membersTeam)-1) . '?';
+            $placeholders = str_repeat('?, ', count($membersTeam) - 1) . '?';
             $whereStatement .= " AND mem.id NOT IN($placeholders)";
             $queryParams = array_merge($queryParams, $membersTeam);
         }
@@ -191,6 +191,56 @@ class MembersGateway
         $sql = "DELETE FROM {$this->tableCollab['members']} WHERE id IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($memberId);
+    }
+
+    /**
+     * @param $memberId
+     * @param $login
+     * @param $name
+     * @param $title
+     * @param $organization
+     * @param $emailWork
+     * @param $phoneWork
+     * @param $phoneHome
+     * @param $phoneMobile
+     * @param $fax
+     * @param $lastPage
+     * @param $comments
+     * @return mixed
+     */
+    public function updateMember($memberId, $login, $name, $title, $organization, $emailWork, $phoneWork, $phoneHome, $phoneMobile, $fax, $lastPage, $comments)
+    {
+        $sql = <<<SQL
+UPDATE {$this->tableCollab["members"]} SET 
+login = :login, 
+name = :name, 
+title = :title, 
+organization = :organization, 
+email_work = :email_work, 
+phone_work = :phone_work, 
+phone_home = :phone_home, 
+mobile = :phone_mobile, 
+fax = :fax, 
+last_page = :last_page, 
+comments = :comments 
+WHERE id = :member_id
+SQL;
+
+        $this->db->query($sql);
+        $this->db->bind(':login', $login);
+        $this->db->bind(':name', $name);
+        $this->db->bind(':title', $title);
+        $this->db->bind(':organization', $organization);
+        $this->db->bind(':email_work', $emailWork);
+        $this->db->bind(':phone_work', $phoneWork);
+        $this->db->bind(':phone_home', $phoneHome);
+        $this->db->bind(':phone_mobile', $phoneMobile);
+        $this->db->bind(':fax', $fax);
+        $this->db->bind(':last_page', $lastPage);
+        $this->db->bind(':comments', $comments);
+        $this->db->bind(':member_id', $memberId);
+
+        return $this->db->execute();
     }
 
     /**
