@@ -256,7 +256,7 @@ if ($profilSession == "0" || $profilSession == "1") {
 }
 $block3->paletteScript(2, "info", "../users/viewclientuser.php?organization=$id", "false,true,false", $strings["view"]);
 if ($profilSession == "0" || $profilSession == "1") {
-    $block3->paletteScript(3, "edit", "../users/updateclientuser.php?organization=$id", "false,true,false", $strings["edit"]);
+    $block3->paletteScript(3, "edit", "../users/updateclientuser.php?orgid=$id", "false,true,false", $strings["edit"]);
 }
 $block3->closePaletteScript($comptListMembers, $listMembers['mem_id']);
 

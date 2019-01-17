@@ -135,7 +135,7 @@ $block1->closeFormResults();
 $block1->openPaletteScript();
 $block1->paletteScript(0, "add", "../teams/addclientuser.php?project=$project&action=add", "false,true,true", $strings["add"]);
 $block1->paletteScript(1, "info", "../users/viewuser.php?", "false,true,false", $strings["view"]);
-$block1->paletteScript(2, "edit", "../users/updateclientuser.php?organization=" . $projectDetail["pro_organization"] . "", "false,true,false", $strings["edit"]);
+$block1->paletteScript(2, "edit", "../users/updateclientuser.php?orgid=" . $projectDetail["pro_organization"] . "", "false,true,false", $strings["edit"]);
 $block1->closePaletteScript(count($listMembers), $listMembers["mem_id"]);
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';
