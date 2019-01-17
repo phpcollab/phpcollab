@@ -1,138 +1,157 @@
 <?php
-/*
-** Application name: phpCollab
-** Last Edit page: 02/08/2007
-** Path by root: ../includes/calendar.php
-** Authors: Ceam / Fullo
-**
-** =============================================================================
-**
-**               phpCollab - Project Managment
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: updateclientuser.php
-**
-** DESC: Screen:	displays the details of a client user
-**
-** HISTORY:
-** 	02/08/2007	-	added Last Viewed Page code - Mindblender
-**
-** -----------------------------------------------------------------------------
-** TO-DO:
-**
-**
-** =============================================================================
-*/
-
 
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$tmpquery = "WHERE org.id = '$organization'";
-$detailClient = new phpCollab\Request();
-$detailClient->openOrganizations($tmpquery);
-$comptDetailClient = count($detailClient->org_id);
+$orgId = $_GET["orgid"];
+$userId = $_GET["userid"];
 
-$tmpquery = "WHERE mem.id = '$id'";
-$userDetail = new phpCollab\Request();
-$userDetail->openMembers($tmpquery);
-$comptUserDetail = count($userDetail->mem_id);
+if (empty($userId) || empty($orgId)) {
+    phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
+}
+
+$organizations = new \phpCollab\Organizations\Organizations();
+$members = new \phpCollab\Members\Members();
+
+
+$clientDetail = $organizations->getOrganizationById($orgId);
+$comptDetailClient = count($detailClient);
+
+$userDetail = $members->getMemberById($userId);
+$comptUserDetail = count($userDetail);
 
 //case update client user
-if ($action == "update") {
-    if (!preg_match("/^[A-Za-z0-9]+$/", $un)) {
-        $error = $strings["alpha_only"];
-    } else {
+if ($_GET["action"] == "update") {
+    if ($_POST) {
+        $user_login = "";
+        $user_login_old = "";
+        $user_full_name = "";
+        $user_organization = "";
+        $user_title = "";
+        $user_email_work = "";
+        $user_phone_work = "";
+        $user_phone_home = "";
+        $user_phone_mobile = "";
+        $user_fax = "";
+        $user_comments = "";
+        $user_last_page = "";
 
-//test if login already exists
-        $tmpquery = "WHERE mem.login = '$un' AND mem.login != '$unOld'";
-        $existsUser = new phpCollab\Request();
-        $existsUser->openMembers($tmpquery);
-        $comptExistsUser = count($existsUser->mem_id);
-        if ($comptExistsUser != "0") {
-            $error = $strings["user_already_exists"];
+        if (isset($_POST['user_name'])) {
+            $user_login = filter_var($_POST['user_name'], FILTER_SANITIZE_STRING);
+        }
+
+        if (isset($_POST['user_name_old'])) {
+            $user_login_old = filter_var($_POST['user_name_old'], FILTER_SANITIZE_STRING);
+        }
+
+        if (isset($_POST['full_name'])) {
+            $user_full_name = filter_var($_POST['full_name'], FILTER_SANITIZE_STRING);
+        }
+
+        if (isset($_POST['organization'])) {
+            $user_organization = filter_var($_POST['organization'], FILTER_SANITIZE_STRING);
+        }
+
+        if (isset($_POST['title'])) {
+            $user_ = filter_var($_POST['title'], FILTER_SANITIZE_STRING);
+        }
+
+        if (isset($_POST['email_work'])) {
+            $user_email_work = filter_var($_POST['email_work'], FILTER_SANITIZE_STRING);
+        }
+
+        if (isset($_POST['phone_work'])) {
+            $user_phone_work = filter_var($_POST['phone_work'], FILTER_SANITIZE_STRING);
+        }
+
+        if (isset($_POST['phone_home'])) {
+            $user_phone_home = filter_var($_POST['phone_home'], FILTER_SANITIZE_STRING);
+        }
+
+        if (isset($_POST['phone_mobile'])) {
+            $user_phone_mobile = filter_var($_POST['phone_mobile'], FILTER_SANITIZE_STRING);
+        }
+
+        if (isset($_POST['fax'])) {
+            $user_fax = filter_var($_POST['fax'], FILTER_SANITIZE_STRING);
+        }
+
+        if (isset($_POST['comments'])) {
+            $user_comments = filter_var($_POST['comments'], FILTER_SANITIZE_STRING);
+        }
+
+        if (isset($_POST['last_page'])) {
+            $user_last_page = filter_var($_POST['last_page'], FILTER_SANITIZE_STRING);
+        }
+
+        if (isset($_POST['password'])) {
+            $user_password = $_POST['password'];
+        }
+
+        if (isset($_POST['password_confirm'])) {
+            $user_password_confirm = $_POST['password_confirm'];
+        }
+
+        if (!ctype_alnum($user_login)) {
+            $error = $strings["alpha_only"];
         } else {
-
-//replace quotes by html code in name
-            $fn = phpCollab\Util::convertData($fn);
-            $tit = phpCollab\Util::convertData($tit);
-            $c = phpCollab\Util::convertData($c);
-            $em = phpCollab\Util::convertData($em);
-            $wp = phpCollab\Util::convertData($wp);
-            $hp = phpCollab\Util::convertData($hp);
-            $mp = phpCollab\Util::convertData($mp);
-            $fax = phpCollab\Util::convertData($fax);
-            $last_page = phpCollab\Util::convertData($last_page);
-            
-            $tmpquery = "UPDATE {$tableCollab["members"]} SET login=:login, name=:name, title=:title, organization=:organiztion, email_work=:email_work, phone_work=:phone_work,phone_home=:phone_home,mobile=:mobile,fax=:fax,last_page=:last_page,comments=:comments WHERE id = member_id";
-            $dbParams = [];
-            $dbParams["login"] = $un;
-            $dbParams["name"] = $fn;
-            $dbParams["title"] = $tit;
-            $dbParams["organization"] = $clod;
-            $dbParams["email_work"] = $em;
-            $dbParams["phone_work"] = $wp;
-            $dbParams["phone_home"] = $hp;
-            $dbParams["mobile"] = $mp;
-            $dbParams["fax"] = $fax;
-            $dbParams["last_page"] = $last_page;
-            $dbParams["comments"] = $c;
-            $dbParams["member_id"] = $id;
-            
-            phpCollab\Util::newConnectSql($tmpquery, $dbParams);
-            unset($dbParams);
-
-            //test if new password set
-            if ($pw != "") {
-
-//test if 2 passwords match
-                if ($pw != $pwa || $pwa == "") {
-                    $error = $strings["new_password_error"];
-                } else {
-                    $pw = phpCollab\Util::getPassword($pw);
-
-                    phpCollab\Util::newConnectSql("UPDATE {$tableCollab["members"]} SET password=:password WHERE id = :member_id", ["password" => $pw, "member_id" => $id]);
-                    phpCollab\Util::headerFunction("../clients/viewclient.php?msg=update&id=$clod");
-                }
+            if ($members->checkIfMemberExists($user_login, $user_login_old)) {
+                $error = $strings["user_already_exists"];
             } else {
-                //if mantis bug tracker enabled
-                if ($enableMantis == "true") {
-                    // Call mantis function for user changes..!!!
-                    $f_access_level = $client_user_level; // reporter
-                    include '../mantis/user_update.php';
+                try {
+                    $updated = $members->updateMember($userId, $user_login, $user_full_name, $user_email_work, $user_title, $user_organization, $user_phone_work, $user_phone_home, $user_phone_mobile, $user_fax, $user_last_page, $user_comments);
+
+                    if ($user_password != "") {
+
+                        //test if 2 passwords match
+                        if ($user_password != $user_password_confirm || $user_password_confirm == "") {
+                            $error = $strings["new_password_error"];
+                        } else {
+                            try {
+                                $members->setPassword($userId, $user_password);
+                            } catch (\Exception $e) {
+                                echo 'Message: ' . $e->getMessage();
+                            }
+                            phpCollab\Util::headerFunction("../clients/viewclient.php?msg=update&id=$user_organization");
+                        }
+                    } else {
+                        //if mantis bug tracker enabled
+                        if ($enableMantis == "true") {
+                            // Call mantis function for user changes..!!!
+                            $f_access_level = $client_user_level; // reporter
+                            include '../mantis/user_update.php';
+                        }
+                        phpCollab\Util::headerFunction("../clients/viewclient.php?msg=update&id=$user_organization");
+                    }
+                } catch (\Exception $e) {
+                    echo $error = $e->getMessage();
                 }
-                phpCollab\Util::headerFunction("../clients/viewclient.php?msg=update&id=$clod");
             }
         }
     }
 }
 
 //set values in form
-$un = $userDetail->mem_login[0];
-$fn = $userDetail->mem_name[0];
-$clod = $userDetail->mem_organization[0];
-
-
-$tit = $userDetail->mem_title[0];
-$em = $userDetail->mem_email_work[0];
-$wp = $userDetail->mem_phone_work[0];
-$hp = $userDetail->mem_phone_home[0];
-$mp = $userDetail->mem_mobile[0];
-$fax = $userDetail->mem_fax[0];
-$last_page = $userDetail->mem_last_page[0];
-$c = $userDetail->mem_comments[0];
+$user_name = $userDetail["mem_login"];
+$full_name = $userDetail["mem_name"];
+$organization = $userDetail["mem_organization"];
+$title = $userDetail["mem_title"];
+$email_work = $userDetail["mem_email_work"];
+$phone_work = $userDetail["mem_phone_work"];
+$phone_home = $userDetail["mem_phone_home"];
+$phone_mobile = $userDetail["mem_mobile"];
+$fax = $userDetail["mem_fax"];
+$last_page = $userDetail["mem_last_page"];
+$comments = $userDetail["mem_comments"];
 
 $bodyCommand = "onLoad=\"document.client_user_editForm.un.focus();\"";
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?", $strings["organizations"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=$organization", $detailClient->org_name[0], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../users/viewclientuser.php?organization=$organization&id=" . $userDetail->mem_id[0], $userDetail->mem_login[0], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?", $strings["organizations"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=$orgId", $clientDetail["org_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../users/viewclientuser.php?organization=$orgId&id=" . $userDetail["mem_id"], $userDetail["mem_login"], "in"));
 $blockPage->itemBreadcrumbs($strings["edit_client_user"]);
 $blockPage->closeBreadcrumbs();
 
@@ -144,57 +163,113 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "client_user_edit";
-$block1->openForm("../users/updateclientuser.php?action=update&organization=$organization");
+$block1->openForm("../users/updateclientuser.php?action=update&orgid=$orgId&userid=$userId");
 
-if ($error != "") {
+if (isset($error) && $error != "") {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
 }
 
-$block1->heading($strings["edit_client_user"] . " : $un");
+$block1->heading($strings["edit_client_user"] . " : $user_name");
 
 $block1->openContent();
 $block1->contentTitle($strings["edit_user_details"]);
 
-echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["user_name"] . " :</td><td><input type='hidden' name='id' value='$id'><input size='24' style='width: 250px;' maxlength='16' type='text' name='un' value='$un'><input type='hidden' name='unOld' value='$un'></td></tr>
-<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["full_name"] . " :</td><td><input size='24' style='width: 250px;' maxlength='64' type='text' name='fn' value='$fn'></td></tr>
-<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["title"] . " :</td><td><input size='24' style='width: 250px;' maxlength='64' type='text' name='tit' value='$tit'></td></tr>
-<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["organization"] . " :</td><td><select name='clod'>";
+echo <<<HTML
+<tr class="odd">
+    <td valign="top" class="leftvalue">{$strings["user_name"]} :</td>
+    <td>
+        <input type="hidden" name="id" value="{$userId}">
+        <input size="24" style="width: 250px;" maxlength="16" type="text" name="user_name" value="{$user_name}">
+        <input type="hidden" name="user_name_old" value="{$user_name}">
+    </td>
+</tr>
+<tr class="odd">
+    <td valign="top" class="leftvalue">{$strings["full_name"]} :</td>
+    <td><input size="24" style="width: 250px;" maxlength="64" type="text" name="full_name" value="{$full_name}"></td>
+</tr>
+<tr class="odd">
+    <td valign="top" class="leftvalue">{$strings["title"]} :</td>
+    <td><input size="24" style="width: 250px;" maxlength="64" type="text" name="title" value="{$title}"></td>
+</tr>
+<tr class="odd">
+    <td valign="top" class="leftvalue">{$strings["organization"]} :</td>
+    <td>
+        <select name="organization">";
+HTML;
 
-$tmpquery = "WHERE org.id != '1' ORDER BY org.name";
-$selectClient = new phpCollab\Request();
-$selectClient->openOrganizations($tmpquery);
-$comptSelectClient = count($selectClient->org_id);
-for ($i = 0; $i < $comptSelectClient; $i++) {
-    if ($userDetail->mem_organization[0] == $selectClient->org_id[$i]) {
-        echo "<option value='" . $selectClient->org_id[$i] . "' selected>" . $selectClient->org_name[$i] . "</option>";
-    } else {
-        echo "<option value='" . $selectClient->org_id[$i] . "'>" . $selectClient->org_name[$i] . "</option>";
+$selectClient = $organizations->getListOfOrganizations('org.name ASC');
+
+if ($selectClient) {
+    foreach ($selectClient as $client) {
+        if ($userDetail["mem_organization"] == $client["org_id"]) {
+            echo "<option value='" . $client["org_id"] . "' selected>" . $client["org_name"] . "</option>";
+        } else {
+            echo "<option value='" . $client["org_id"] . "'>" . $client["org_name"] . "</option>";
+        }
     }
+} else {
+    echo "none";
 }
 
-echo "</select></td></tr>
-<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["email"] . " :</td><td><input size='24' style='width: 250px;' maxlength='128' type='text' name='em' value='$em'></td></tr>
-<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["work_phone"] . " :</td><td><input size='14' style='width: 150px;' maxlength='32' type='text' name='wp' value='$wp'></td></tr>
-<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["home_phone"] . " :</td><td><input size='14' style='width: 150px;' maxlength='32' type='text' name='hp' value='$hp'></td></tr>
-<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["mobile_phone"] . " :</td><td><input size='14' style='width: 150px;' maxlength='32' type='text' name='mp' value='$mp'></td></tr>
-<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["fax"] . " :</td><td class='infoValueField' width='634'><input size='14' style='width: 150px;' maxlength='32' type='text' name='fax' value='$fax'></td></tr>";
+echo <<<HTML
+        </select>
+    </td>
+</tr>
+<tr class="odd">
+    <td valign="top" class="leftvalue">{$strings["email"]} :</td>
+    <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="email_work" value="{$email_work}"></td>
+</tr>
+<tr class="odd">
+    <td valign="top" class="leftvalue">{$strings["work_phone"]} :</td>
+    <td><input size="14" style="width: 150px;" maxlength="32" type="text" name="phone_work" value="{$phone_work}"></td>
+</tr>
+<tr class="odd">
+    <td valign="top" class="leftvalue">{$strings["home_phone"]} :</td>
+    <td><input size="14" style="width: 150px;" maxlength="32" type="text" name="phone_home" value="{$phone_home}"></td>
+</tr>
+<tr class="odd">
+    <td valign="top" class="leftvalue">{$strings["mobile_phone"]} :</td>
+    <td><input size="14" style="width: 150px;" maxlength="32" type="text" name="phone_mobile" value="{$phone_mobile}"></td>
+</tr>
+<tr class="odd">
+    <td valign="top" class="leftvalue">{$strings["fax"]} :</td>
+    <td class="infoValueField" width="634"><input size="14" style="width: 150px;" maxlength="32" type="text" name="fax" value="{$fax}"></td>
+</tr>
+HTML;
 
 if ($lastvisitedpage === true) {
-    echo "<tr class='odd'>
-			<td valign='top' class='leftvalue'>" . $strings["last_page"] . " :</td>
-			<td class='infoValueField' width='634'><input size='14' style='width: 150px;' maxlength='32' type='text' name='last_page' value='$last_page'></td>
-		  </tr>";
+    echo <<<HTML
+<tr class="odd">
+    <td valign="top" class="leftvalue">{$strings["last_page"]} :</td>
+    <td class="infoValueField" width="634"><input size="14" style="width: 150px;" maxlength="32" type="text" name="last_page" value="{$last_page}"></td>
+</tr>
+HTML;
 }
-echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["comments"] . " :</td><td><textarea style='width: 400px; height: 50px;' name='c' cols='35' rows='2'>$c</textarea></td></tr>";
+echo <<<HTML
+<tr class="odd">
+    <td valign="top" class="leftvalue">{$strings["comments"]} :</td>
+    <td><textarea style="width: 400px; height: 50px;" name="comments" cols="35" rows="2">{$comments}</textarea></td>
+</tr>
+HTML;
 
 $block1->contentTitle($strings["change_password_user"]);
 
-echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["password"] . " :</td><td><input size='24' style='width: 250px;' maxlength='16' type='password' name='pw' value=''></td></tr>
-<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["confirm_password"] . " :</td><td><input size='24' style='width: 250px;' maxlength='16' type='password' name='pwa' value=''></td></tr>
-<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td><input type='submit' name='Save' value='" . $strings["save"] . "'></td></tr>";
-
+echo <<<HTML
+<tr class="odd">
+    <td valign="top" class="leftvalue">{$strings["password"]} :</td>
+    <td><input size="24" style="width: 250px;" maxlength="16" type="password" name="password" value=""></td>
+</tr>
+<tr class="odd">
+    <td valign="top" class="leftvalue">{$strings["confirm_password"]} :</td>
+    <td><input size="24" style="width: 250px;" maxlength="16" type="password" name="password_confirm" value=""></td>
+</tr>
+<tr class="odd">
+    <td valign="top" class="leftvalue">&nbsp;</td>
+    <td><input type="submit" name="Save" value="{$strings["save"]}"></td>
+</tr>
+HTML;
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
