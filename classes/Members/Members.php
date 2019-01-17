@@ -34,6 +34,22 @@ class Members
     }
 
     /**
+     * @param $memberLogin
+     * @param null $memberLoginOld
+     * @return bool
+     */
+    public function checkIfMemberExists($memberLogin, $memberLoginOld = null)
+    {
+        $data = $this->members_gateway->checkMemberExists($memberLogin, $memberLoginOld);
+
+        if (empty($data)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
      * @param $memberId
      * @return mixed
      */
