@@ -129,7 +129,7 @@ class Members
      */
     public function updateMember($memberId, $login, $name, $emailWork, $title = null, $organization = null, $phoneWork = null, $phoneHome = null, $phoneMobile = null, $fax = null, $lastPage = null, $comments = null)
     {
-        if (!isset($memberId) || !isset($login) || !isset($name) || !isset($emailWork)) {
+        if (empty($memberId) || empty($login) || empty($name) || empty($emailWork)) {
             throw new Exception('Invalid member id, login, name, or email');
         } else {
 
