@@ -1,32 +1,4 @@
 <?php
-/*
-** Application name: phpCollab
-** Last Edit page: 02/08/2007
-** Path by root: ../includes/calendar.php
-** Authors: Ceam / Fullo
-**
-** =============================================================================
-**
-**               phpCollab - Project Managment
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: viewclientuser.php
-**
-** DESC: Screen:	displays the details of a client user
-**
-** HISTORY:
-** 	02/08/2007	-	added Last Viewed Page code - Mindblender
-**
-** -----------------------------------------------------------------------------
-** TO-DO:
-**
-**
-** =============================================================================
-*/
-
 
 $checkSession = "true";
 include_once '../includes/library.php';
@@ -135,7 +107,7 @@ $block1->closeForm();
 $block1->openPaletteScript();
 if ($profilSession == "0" || $profilSession == "1") {
     $block1->paletteScript(0, "remove", "../users/deleteclientusers.php?id=$userId&organization=$orgId", "true,true,true", $strings["delete"]);
-    $block1->paletteScript(1, "edit", "../users/updateclientuser.php?id=$userId&organization=$orgId", "true,true,true", $strings["edit"]);
+    $block1->paletteScript(1, "edit", "../users/updateclientuser.php?userid=$userId&orgid=$orgId", "true,true,true", $strings["edit"]);
 }
 $block1->paletteScript(2, "export", "../users/exportuser.php?id=$userId", "true,true,true", $strings["export"]);
 $block1->closePaletteScript("", []);
