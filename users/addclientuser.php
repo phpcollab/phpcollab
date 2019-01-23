@@ -1,16 +1,16 @@
 <?php
-#Application name: PhpCollab
-#Status page: 0
-#Path by root: ../users/addclientuser.php
 
 $checkSession = "true";
 include_once '../includes/library.php';
 
-if (!$_GET['organization']) {
-    phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankUser");
-}
+$members = new \phpCollab\Members\Members();
+$notifications = new \phpCollab\Notifications\Notifications();
 
 $orgId = $_GET['organization'];
+
+if (!$orgId) {
+    phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankUser");
+}
 
 $organizations = new \phpCollab\Organizations\Organizations();
 $clientDetail = $organizations->checkIfClientExistsById($orgId);
@@ -20,109 +20,153 @@ if (empty($clientDetail)) {
 }
 
 //case add client user
-//test if login already exists
 if ($_GET['action'] == "add") {
-    if (!preg_match("/^[A-Za-z0-9]+$/", $un)) {
-        $error = $strings["alpha_only"];
-    } else {
-        $members = new \phpCollab\Members\Members();
-        $memberCheck = $members->getMemberByLogin($un);
+    if ($_POST) {
+        $user_login = "";
+        $user_login_old = "";
+        $user_full_name = "";
+        $user_organization = "";
+        $user_title = "";
+        $user_email_work = "";
+        $user_phone_work = "";
+        $user_phone_home = "";
+        $user_phone_mobile = "";
+        $user_fax = "";
+        $user_comments = "";
+        $user_last_page = "";
 
-        if (!empty($memberCheck)) {
-            $error = $strings["user_already_exists"];
+        if (isset($_POST['user_name'])) {
+            $user_login = filter_var($_POST['user_name'], FILTER_SANITIZE_STRING);
+        }
+
+        if (isset($_POST['full_name'])) {
+            $user_full_name = filter_var($_POST['full_name'], FILTER_SANITIZE_STRING);
+        }
+
+        if (isset($_POST['organization'])) {
+            $user_organization = filter_var($_POST['organization'], FILTER_SANITIZE_STRING);
+        }
+
+        if (isset($_POST['title'])) {
+            $user_title = filter_var($_POST['title'], FILTER_SANITIZE_STRING);
+        }
+
+        if (isset($_POST['email_work'])) {
+            $user_email_work = filter_var($_POST['email_work'], FILTER_SANITIZE_STRING);
+        }
+
+        if (isset($_POST['phone_work'])) {
+            $user_phone_work = filter_var($_POST['phone_work'], FILTER_SANITIZE_STRING);
+        }
+
+        if (isset($_POST['phone_home'])) {
+            $user_phone_home = filter_var($_POST['phone_home'], FILTER_SANITIZE_STRING);
+        }
+
+        if (isset($_POST['phone_mobile'])) {
+            $user_phone_mobile = filter_var($_POST['phone_mobile'], FILTER_SANITIZE_STRING);
+        }
+
+        if (isset($_POST['fax'])) {
+            $user_fax = filter_var($_POST['fax'], FILTER_SANITIZE_STRING);
+        }
+
+        if (isset($_POST['comments'])) {
+            $user_comments = filter_var($_POST['comments'], FILTER_SANITIZE_STRING);
+        }
+
+        if (isset($_POST['last_page'])) {
+            $user_last_page = filter_var($_POST['last_page'], FILTER_SANITIZE_STRING);
+        }
+
+        if (isset($_POST['password'])) {
+            $user_password = $_POST['password'];
+        }
+
+        if (isset($_POST['password_confirm'])) {
+            $user_password_confirm = $_POST['password_confirm'];
+        }
+
+        if (!ctype_alnum($user_login)) {
+            $error = $strings["alpha_only"];
         } else {
-
-            //test if 2 passwords match
-            if ($pw != $pwa || $pw == "") {
-                $error = $strings["new_password_error"];
+            if ($members->checkIfMemberExists($user_login)) {
+                $error = $strings["user_already_exists"];
             } else {
-                //replace quotes by html code in name and address
-                $fn = phpCollab\Util::convertData($fn);
-                $tit = phpCollab\Util::convertData($tit);
-                $c = phpCollab\Util::convertData($c);
-                $pw = phpCollab\Util::getPassword($pw);
 
-                $insertMemberSQL = "INSERT INTO {$tableCollab["members"]} (organization,login,name,title,email_work,phone_work,phone_home,mobile,fax,comments,password,profil,created,timezone) VALUES (:organization,:login,:name,:title,:email_work,:phone_work,:phone_home,:mobile,:fax,:comments,:password,:profile,:created,:timezone)";
+                $newMemberId = null;
+                //test if 2 passwords match
+                if ($user_password != $user_password_confirm || $user_password == "") {
+                    $error = $strings["new_password_error"];
+                } else {
+                    try {
+                        $newMemberId = $members->addMember($user_login, $user_full_name, $user_email_work, $user_password, 3, $user_title, $user_organization, $user_phone_work, $user_phone_home, $user_phone_mobile, $user_fax, $user_comments, $dateheure);
 
-                $dbParams = [];
-                $dbParams['organization'] = $clod;
-                $dbParams['login'] = $un;
-                $dbParams['name'] = $fn;
-                $dbParams['title'] = $tit;
-                $dbParams['email_work'] = $em;
-                $dbParams['phone_work'] = $wp;
-                $dbParams['phone_home'] = $hp;
-                $dbParams['mobile'] = $mp;
-                $dbParams['fax'] = $fax;
-                $dbParams['comments'] = $c;
-                $dbParams['password'] = $pw;
-                $dbParams['profile'] = 3;
-                $dbParams['created'] = $dateheure;
-                $dbParams['timezone'] = 0;
+                        if ($newMemberId) {
+                            // Set the member password
+                            $members->setPassword($newMemberId, $user_password);
 
-                $newMemberId = phpCollab\Util::newConnectSql($insertMemberSQL, $dbParams);
+                            $notifications->addMember($newMemberId);
 
-                unset($dbParams);
 
-                $insertNotifications = "INSERT INTO {$tableCollab["notifications"]} (member,taskAssignment,removeProjectTeam,addProjectTeam,newTopic,newPost,statusTaskChange,priorityTaskChange,duedateTaskChange,clientAddTask,uploadFile,dailyAlert,weeklyAlert,pastdueAlert) VALUES (:member_id,0,0,0,0,0,0,0,0,0,0,0,0,0)";
+                            // notify user hack by urbanfalcon
+                            // 28/05/2003 patch by fullo
+                            if ($user_email_work != "") {
+                                $partSubject = $strings["noti_memberactivation1"];
+                                $partFirst = $strings["noti_memberactivation2"];
+                                $partSecond = $strings["noti_memberactivation3"];
+                                $partThird = $strings["noti_memberactivation4"];
+                                $partFourth = $strings["noti_memberactivation5"];
+                                $partFooter = "--\n" . $strings["noti_foot1"];
 
-                $dbParams = [];
-                $dbParams['member_id'] = $newMemberId;
+                                $subject = $partSubject;
+                                $message = $partFirst . "\n\n";
+                                $message .= $partSecond . " ";
+                                $message .= $user_login . "\n";
+                                $message .= $partThird . " ";
+                                $message .= $user_password;
+                                $message .= "\n\n" . $partFourth;
+                                $message .= "\n\n" . $partFooter;
 
-                phpCollab\Util::newConnectSql($insertNotifications, $dbParams);
+                                // THE BELOW FROM LINE IS HARDCODED SINCE THE NOTIFICATION CLASS IS NOT BEING USED AND GLOBALS CAN'T REACH
+                                $headers = "Content-type:text/plain;charset=\"UTF-8\"\nFrom: \"Support\" <" . $supportEmail . ">\nX-Priority: 3\nX-Mailer: PhpCollab $version";
+                                @mail("$user_email_work", "$partSubject", "$message", "$headers");
 
-                unset($dbParams);
+                                // SEND A NOTIFICATION EMAIL TO ADMIN - HARD CODED
+                                @mail($supportEmail, "Activation Success", "This message was generated by phpCollab:
+        ----------------------------------------------------
+        Account Activated For: $user_full_name
+        Account Username: $user_login
+        Account Password: $user_password", "$headers");
+                            }
+                            // END send notification text message
 
-                // notify user hack by urbanfalcon
-                // 28/05/2003 patch by fullo
-                if ($em != "") {
-                    $partSubject = $strings["noti_memberactivation1"];
-                    $partFirst = $strings["noti_memberactivation2"];
-                    $partSecond = $strings["noti_memberactivation3"];
-                    $partThird = $strings["noti_memberactivation4"];
-                    $partFourth = $strings["noti_memberactivation5"];
-                    $partFooter = "--\n" . $strings["noti_foot1"];
+                            //if mantis bug tracker enabled
+                            if ($enableMantis == "true") {
+                                // Call mantis function for user changes..!!!
+                                $f_access_level = $client_user_level; // reporter
+                                include '../mantis/user_update.php';
+                            }
+                            phpCollab\Util::headerFunction("../clients/viewclient.php?id={$user_organization}&msg=add");
 
-                    $subject = $partSubject;
-                    $message = $partFirst . "\n\n";
-                    $message .= $partSecond . " ";
-                    $message .= $un . "\n";
-                    $message .= $partThird . " ";
-                    $message .= $pwa;
-                    $message .= "\n\n" . $partFourth;
-                    $message .= "\n\n" . $partFooter;
-
-                    // THE BELOW FROM LINE IS HARDCODED SINCE THE NOTIFICATION CLASS IS NOT BEING USED AND GLOBALS CAN'T REACH
-                    $headers = "Content-type:text/plain;charset=\"UTF-8\"\nFrom: \"Support\" <" . $supportEmail . ">\nX-Priority: $priorityMail\nX-Mailer: PhpCollab $version";
-                    @mail("$em", "$partSubject", "$message", "$headers");
-
-                    // SEND A NOTIFICATION EMAIL TO ADMIN - HARD CODED
-                    @mail($supportEmail, "Activation Success", "This message was generated by phpCollab:
-	----------------------------------------------------
-	Account Activated For: $fn
-	Account Username: $un
-	Account Password: $pwa", "$headers");
+                        } else {
+                            $error = $strings["errors"];
+                        }
+                    } catch (\Exception $e) {
+                        echo $error = $e->getMessage();
+                    }
                 }
-                // END send notification text message
-
-                //if mantis bug tracker enabled
-                if ($enableMantis == "true") {
-                    // Call mantis function for new user creation!!!
-                    $f_access_level = $client_user_level; // Reporter
-                    include '../mantis/create_new_user.php';
-                }
-                phpCollab\Util::headerFunction("../clients/viewclient.php?id={$clod}&msg=add");
             }
         }
     }
 }
 
 $bodyCommand = 'onLoad="document.client_user_addForm.un.focus();"';
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?", $strings["clients"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?", $strings["clients"], 'in'));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $clientDetail['org_id'], $clientDetail['org_name'], 'in'));
 $blockPage->itemBreadcrumbs($strings["add_client_user"]);
 $blockPage->closeBreadcrumbs();
@@ -135,9 +179,9 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "client_user_add";
-$block1->openForm("../users/addclientuser.php?organization={$organization}&action=add");
+$block1->openForm("../users/addclientuser.php?organization={$orgId}&action=add");
 
-if ($error != "") {
+if (isset($error) && $error != "") {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
 }
@@ -147,39 +191,39 @@ $block1->heading($strings["add_client_user"]);
 $block1->openContent();
 $block1->contentTitle($strings["enter_user_details"]);
 
-$block1->contentRow($strings["user_name"], '<input size="24" style="width: 250px;" maxlength="16" type="text" name="un" value="'.$un.'">');
-$block1->contentRow($strings["full_name"], '<input size="24" style="width: 250px;" maxlength="64" type="text" name="fn" value="'.$fn.'">');
-$block1->contentRow($strings["title"], '<input size="24" style="width: 250px;" maxlength="64" type="text" name="tit" value="'.$tit.'">');
+$block1->contentRow($strings["user_name"], '<input size="24" style="width: 250px;" maxlength="16" type="text" name="user_name" value="'.$_POST["user_name"].'" required>');
+$block1->contentRow($strings["full_name"], '<input size="24" style="width: 250px;" maxlength="64" type="text" name="full_name" value="'.$_POST["full_name"].'" required>');
+$block1->contentRow($strings["title"], '<input size="24" style="width: 250px;" maxlength="64" type="text" name="title" value="'.$_POST["title"].'">');
 
-$selectOrganization = '<select name="clod">';
+$selectOrganization = '<select name="organization">';
 
 $organizationsList = $organizations->getListOfOrganizations();
 
 
 foreach ($organizationsList as $org) {
     if ($orgId == $org['org_id']) {
-        $selectOrganization .= "<option value=\"" . $org['org_id'] . "\" selected>" . $org['org_name'] . "</option>";
+        $selectOrganization .= '<option value="' . $org['org_id'] . '" selected>' . $org['org_name'] . '</option>';
     } else {
-        $selectOrganization .= "<option value=\"" . $org['org_id'] . "\">" . $org['org_name'] . "</option>";
+        $selectOrganization .= '<option value="' . $org['org_id'] . '">' . $org['org_name'] . '</option>';
     }
 }
 
 $selectOrganization .= "</select>";
 $block1->contentRow($strings["organization"], $selectOrganization);
 
-$block1->contentRow($strings["email"], "<input size=\"24\" style=\"width: 250px;\" maxlength=\"128\" type=\"text\" name=\"em\" value=\"$em\">");
-$block1->contentRow($strings["work_phone"], "<input size=\"14\" style=\"width: 150px;\" maxlength=\"32\" type=\"text\" name=\"wp\" value=\"$wp\">");
-$block1->contentRow($strings["home_phone"], "<input size=\"14\" style=\"width: 150px;\" maxlength=\"32\" type=\"text\" name=\"hp\" value=\"$hp\">");
-$block1->contentRow($strings["mobile_phone"], "<input size=\"14\" style=\"width: 150px;\" maxlength=\"32\" type=\"text\" name=\"mp\" value=\"$mp\">");
-$block1->contentRow($strings["fax"], "<input size=\"14\" style=\"width: 150px;\" maxlength=\"32\" type=\"text\" name=\"fax\" value=\"$fax\">");
-$block1->contentRow($strings["comments"], "<textarea style=\"width: 400px; height: 50px;\" name=\"c\" cols=\"35\" rows=\"2\">$c</textarea>");
+$block1->contentRow($strings["email"], '<input size="24" style="width: 250px;" maxlength="128" type="email" name="email_work" value="' . $_POST["email_work"] . '" required>');
+$block1->contentRow($strings["work_phone"], '<input size="14" style="width: 150px;" maxlength="32" type="tel" name="phone_work" value="' . $_POST["phone_work"] . '">');
+$block1->contentRow($strings["home_phone"], '<input size="14" style="width: 150px;" maxlength="32" type="tel" name="phone_home" value="' . $_POST["phone_home"] . '">');
+$block1->contentRow($strings["mobile_phone"], '<input size="14" style="width: 150px;" maxlength="32" type="tel" name="phone_mobile" value="' . $_POST["phone_mobile"] . '">');
+$block1->contentRow($strings["fax"], '<input size="14" style="width: 150px;" maxlength="32" type="tel" name="fax" value="' . $_POST["fax"] . '">');
+$block1->contentRow($strings["comments"], '<textarea style="width: 400px; height: 50px;" name="comments" cols="35" rows="2">' . $_POST["comments"] . '</textarea>');
 
 $block1->contentTitle($strings["enter_password"]);
-$block1->contentRow($strings["password"], "<input size=\"24\" style=\"width: 250px;\" maxlength=\"16\" type=\"password\" name=\"pw\" value=\"\">");
-$block1->contentRow($strings["confirm_password"], "<input size=\"24\" style=\"width: 250px;\" maxlength=\"16\" type=\"password\" name=\"pwa\" value=\"\">");
-$block1->contentRow("", "<input type=\"submit\" name=\"Save\" value=\"" . $strings["save"] . "\">");
+$block1->contentRow($strings["password"], '<input size="24" style="width: 250px;" maxlength="16" type="password" name="password" value="" required>');
+$block1->contentRow($strings["confirm_password"], '<input size="24" style="width: 250px;" maxlength="16" type="password" name="password_confirm" value="" required>');
+$block1->contentRow("", '<input type="submit" name="Save" value="' . $strings["save"] . '">');
 
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
