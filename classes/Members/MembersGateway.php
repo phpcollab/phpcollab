@@ -92,14 +92,15 @@ class MembersGateway
 
     /**
      * @param $memberIds
+     * @param null $sorting
      * @return mixed
      */
-    public function getMembersIn($memberIds)
+    public function getMembersIn($memberIds, $sorting = null)
     {
         $memberIds = explode(',', $memberIds);
         $placeholders = str_repeat('?, ', count($memberIds) - 1) . '?';
         $whereStatement = "WHERE mem.id IN ($placeholders)";
-        $this->db->query($this->initrequest["members"] . ' ' . $whereStatement);
+        $this->db->query($this->initrequest["members"] . ' ' . $whereStatement . $this->orderBy($sorting));
         $this->db->execute($memberIds);
         return $this->db->fetchAll();
     }

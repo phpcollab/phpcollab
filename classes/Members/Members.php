@@ -78,11 +78,12 @@ class Members
 
     /**
      * @param $memberIds
+     * @param null $sorting
      * @return mixed
      */
-    public function getMembersByIdIn($memberIds) {
+    public function getMembersByIdIn($memberIds, $sorting = null) {
         $memberIds = filter_var($memberIds, FILTER_SANITIZE_STRING);
-        return $this->members_gateway->getMembersIn($memberIds);
+        return $this->members_gateway->getMembersIn($memberIds, $sorting);
     }
 
     /**
