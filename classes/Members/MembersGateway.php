@@ -212,23 +212,7 @@ class MembersGateway
      */
     public function updateMember($memberId, $login, $name, $title, $organization, $emailWork, $phoneWork, $phoneHome, $phoneMobile, $fax, $lastPage, $comments)
     {
-        $sql = <<<SQL
-UPDATE {$this->tableCollab["members"]} SET 
-login = :login, 
-name = :name, 
-title = :title, 
-organization = :organization, 
-email_work = :email_work, 
-phone_work = :phone_work, 
-phone_home = :phone_home, 
-mobile = :phone_mobile, 
-fax = :fax, 
-last_page = :last_page, 
-comments = :comments 
-WHERE id = :member_id
-SQL;
-
-        $this->db->query($sql);
+        $this->db->query("UPDATE {$this->tableCollab["members"]} SET login = :login, name = :name, title = :title, organization = :organization, email_work = :email_work, phone_work = :phone_work, phone_home = :phone_home, mobile = :phone_mobile, fax = :fax, last_page = :last_page, comments = :comments WHERE id = :member_id");
         $this->db->bind(':login', $login);
         $this->db->bind(':name', $name);
         $this->db->bind(':title', $title);
@@ -265,14 +249,7 @@ SQL;
     public function addMember($login, $name, $title, $organization, $emailWork, $phoneWork, $phoneHome, $phoneMobile,
                               $fax, $comments, $password, $profile, $created, $timezone)
     {
-        $sql = <<<SQL
-INSERT INTO {$this->tableCollab["members"]} 
-(login, name, title, organization, email_work, phone_work, phone_home, mobile, fax, comments, password, profil, created, timezone)
- VALUES 
-(:login, :name, :title, :organization, :email_work, :phone_work, :phone_home, :phone_mobile, :fax, :comments, :password, :profile, :created, :timezone)
-SQL;
-
-        $this->db->query($sql);
+        $this->db->query("INSERT INTO {$this->tableCollab["members"]} (login, name, title, organization, email_work, phone_work, phone_home, mobile, fax, comments, password, profil, created, timezone) VALUES (:login, :name, :title, :organization, :email_work, :phone_work, :phone_home, :phone_mobile, :fax, :comments, :password, :profile, :created, :timezone)");
         $this->db->bind(':login', $login);
         $this->db->bind(':name', $name);
         $this->db->bind(':title', $title);
