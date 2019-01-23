@@ -4,6 +4,7 @@
 namespace phpCollab\Notifications;
 
 use phpCollab\Database;
+use Exception;
 
 /**
  * Class Notifications
@@ -22,6 +23,20 @@ class Notifications
         $this->db = new Database();
 
         $this->notifications_gateway = new NotificationsGateway($this->db);
+    }
+
+    /**
+     * @param $memberId
+     * @return mixed
+     * @throws Exception
+     */
+    public function addMember($memberId)
+    {
+        if (filter_var($memberId, FILTER_VALIDATE_INT)) {
+            return $this->notifications_gateway->addMember($memberId);
+        } else {
+            throw new Exception('Invalid member id');
+        }
     }
 
     /**

@@ -45,6 +45,18 @@ class NotificationsGateway
      * @param $memberId
      * @return mixed
      */
+    public function addMember($memberId)
+    {
+        $sql = "INSERT INTO {$this->tableCollab["notifications"]} (member,taskAssignment,removeProjectTeam,addProjectTeam,newTopic,newPost,statusTaskChange,priorityTaskChange,duedateTaskChange,clientAddTask,uploadFile,dailyAlert,weeklyAlert,pastdueAlert) VALUES (:member_id,0,0,0,0,0,0,0,0,0,0,0,0,0)";
+        $this->db->query($sql);
+        $this->db->bind(":member_id", $memberId);
+        return $this->db->execute();
+    }
+
+    /**
+     * @param $memberId
+     * @return mixed
+     */
     public function deleteNotificationsByMemberIdIn($memberId)
     {
         // Generate placeholders
