@@ -245,6 +245,53 @@ SQL;
     }
 
     /**
+     * @param $login
+     * @param $name
+     * @param $title
+     * @param $organization
+     * @param $emailWork
+     * @param $phoneWork
+     * @param $phoneHome
+     * @param $phoneMobile
+     * @param $fax
+     * @param $comments
+     * @param $password
+     * @param $profile
+     * @param $created
+     * @param $timezone
+     * @return mixed
+     */
+    public function addMember($login, $name, $title, $organization, $emailWork, $phoneWork, $phoneHome, $phoneMobile,
+                              $fax, $comments, $password, $profile, $created, $timezone)
+    {
+        $sql = <<<SQL
+INSERT INTO {$this->tableCollab["members"]} 
+(login, name, title, organization, email_work, phone_work, phone_home, mobile, fax, comments, password, profil, created, timezone)
+ VALUES 
+(:login, :name, :title, :organization, :email_work, :phone_work, :phone_home, :phone_mobile, :fax, :comments, :password, :profile, :created, :timezone)
+SQL;
+
+        $this->db->query($sql);
+        $this->db->bind(':login', $login);
+        $this->db->bind(':name', $name);
+        $this->db->bind(':title', $title);
+        $this->db->bind(':organization', $organization);
+        $this->db->bind(':email_work', $emailWork);
+        $this->db->bind(':phone_work', $phoneWork);
+        $this->db->bind(':phone_home', $phoneHome);
+        $this->db->bind(':phone_mobile', $phoneMobile);
+        $this->db->bind(':fax', $fax);
+        $this->db->bind(':comments', $comments);
+        $this->db->bind(':password', $password);
+        $this->db->bind(':profile', $profile);
+        $this->db->bind(':created', $created);
+        $this->db->bind(':timezone', $timezone);
+
+        $this->db->execute();
+        return $this->db->lastInsertId();
+    }
+
+    /**
      * @param $memberId
      * @param $password
      * @return mixed

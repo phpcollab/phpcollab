@@ -42,6 +42,8 @@ class Members
      */
     public function checkIfMemberExists($memberLogin, $memberLoginOld = null)
     {
+        $memberLoginOld = (is_null($memberLoginOld)) ? '': $memberLoginOld;
+
         $data = $this->members_gateway->checkMemberExists($memberLogin, $memberLoginOld);
 
         if (empty($data)) {
@@ -112,6 +114,49 @@ class Members
     }
 
     /**
+     * @param $username
+     * @param $name
+     * @param $emailWork
+     * @param $password
+     * @param $profile
+     * @param null $title
+     * @param null $organization
+     * @param null $phoneWork
+     * @param null $phoneHome
+     * @param null $phoneMobile
+     * @param null $fax
+     * @param null $comments
+     * @param null $created
+     * @param int $timezone
+     * @return mixed
+     * @throws Exception
+     */
+    public function addMember($username, $name, $emailWork, $password, $profile, $title = null,
+                              $organization = null, $phoneWork = null, $phoneHome = null, $phoneMobile = null,
+                              $fax = null, $comments = null, $created = null, $timezone = 0) {
+        if (empty($username) || empty($name) || empty($emailWork) || empty($password)) {
+            throw new Exception('Invalid member id, login, name, or email');
+        } else {
+            $username = filter_var($username, FILTER_SANITIZE_STRING);
+            $name = filter_var($name, FILTER_SANITIZE_STRING);
+            $emailWork = filter_var($emailWork, FILTER_SANITIZE_STRING);
+            $password = filter_var($password, FILTER_SANITIZE_STRING);
+            $profile = filter_var($profile, FILTER_SANITIZE_STRING);
+            $created = filter_var($created, FILTER_SANITIZE_STRING);
+            $organization = filter_var($organization, FILTER_SANITIZE_STRING);
+            $title = filter_var($title, FILTER_SANITIZE_STRING);
+            $phoneWork = filter_var($phoneWork, FILTER_SANITIZE_STRING);
+            $phoneHome = filter_var($phoneHome, FILTER_SANITIZE_STRING);
+            $phoneMobile = filter_var($phoneMobile, FILTER_SANITIZE_STRING);
+            $fax = filter_var($fax, FILTER_SANITIZE_STRING);
+            $comments = filter_var($comments, FILTER_SANITIZE_STRING);
+            $timezone = filter_var($timezone, FILTER_SANITIZE_STRING);
+
+            return $this->members_gateway->addMember($username, $name, $title, $organization, $emailWork, $phoneWork, $phoneHome, $phoneMobile, $fax, $comments, $password, $profile, $created, $timezone);
+        }
+    }
+
+    /**
      * @param $memberId
      * @param $login
      * @param $name
@@ -158,7 +203,7 @@ class Members
     public function setPassword($memberId, $password)
     {
         if (!isset($memberId) || !isset($password)) {
-            throw new Exception('Invalid member id, login, name, or email');
+            throw new Exception('Invalid member id, password');
         } else {
             $memberId = filter_var((int) $memberId, FILTER_VALIDATE_INT);
             $password = Util::getPassword($password);
