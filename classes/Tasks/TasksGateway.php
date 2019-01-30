@@ -73,6 +73,21 @@ class TasksGateway
     }
 
     /**
+     * @param $userId
+     * @return mixed
+     */
+    public function getClientUserTasksIn($userId)
+    {
+        $userIds = explode(',', $userId);
+        $placeholders = str_repeat ('?, ', count($userIds)-1) . '?';
+        $sql = "SELECT tas.id FROM {$this->tableCollab["tasks"]} tas WHERE tas.assigned_to IN({$placeholders})";
+
+        $this->db->query($sql);
+        $this->db->execute($userIds);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $taskData
      * @return mixed
      */
@@ -443,8 +458,7 @@ SQL;
             $assignedTo = explode(',', $newAssignee . ',' . $assignedTo);
         }
         $this->db->query($sql);
-        $this->db->execute($assignedTo);
-        return $this->db->fetchAll();
+        return $this->db->execute($assignedTo);
     }
 
     /**
