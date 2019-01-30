@@ -252,7 +252,7 @@ $block3->closeFormResults();
 $block3->openPaletteScript();
 if ($profilSession == "0" || $profilSession == "1") {
     $block3->paletteScript(0, "add", "../users/addclientuser.php?organization=$id", "true,true,true", $strings["add"]);
-    $block3->paletteScript(1, "remove", "../users/deleteclientusers.php?organization=$id", "false,true,true", $strings["delete"]);
+    $block3->paletteScript(1, "remove", "../users/deleteclientusers.php?orgid=$id", "false,true,true", $strings["delete"]);
 }
 $block3->paletteScript(2, "info", "../users/viewclientuser.php?organization=$id", "false,true,false", $strings["view"]);
 if ($profilSession == "0" || $profilSession == "1") {
