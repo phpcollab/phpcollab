@@ -53,6 +53,12 @@ class Tasks
         return $this->tasks_gateway->getAllMyTasks($userId, $subtasks, $startRow, $rowsLimit, $sorting);
     }
 
+    public function getClientUserTasksCount($userId)
+    {
+        $data = $this->tasks_gateway->getClientUserTasksIn($userId);
+        return count($data);
+    }
+
     /**
      * @param $userId
      * @return mixed
@@ -342,10 +348,11 @@ class Tasks
     /**
      * @param $newAsignee
      * @param $assignedTo
+     * @return mixed
      */
     public function setTasksAssignedToWhereAssignedToIn($newAsignee, $assignedTo)
     {
-        $this->tasks_gateway->setTasksAssignedToWhereAssignedToIn($newAsignee, $assignedTo);
+        return $this->tasks_gateway->setTasksAssignedToWhereAssignedToIn($newAsignee, $assignedTo);
     }
 
     /**
