@@ -4,7 +4,7 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 $org_id = $_GET["orgid"];
-$user_id = $_GET["id"];
+$user_id = $_GET["id"] || $_POST["id"];
 
 if (empty($user_id) || empty($org_id)) {
     phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
@@ -20,7 +20,7 @@ $tasks = new \phpCollab\Tasks\Tasks();
 $assignments = new \phpCollab\Assignments\Assignments();
 $notifications = new \phpCollab\Notifications\Notifications();
 
-if ($_GET["action"] == "delete") {
+if ($_POST["action"] == "delete") {
     if ($_POST["id"]) {
         $id = str_replace("**", ",", $_POST["id"]);
 
@@ -61,7 +61,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "client_user_delete";
-$block1->openForm("../users/deleteclientusers.php?orgid=$org_id&action=delete");
+$block1->openForm("../users/deleteclientusers.php?orgid=$org_id");
 
 $block1->heading($strings["delete_users"]);
 
@@ -117,7 +117,11 @@ HTML;
 echo <<<HTML
 <tr class="odd">
     <td valign="top" class="leftvalue">&nbsp;</td>
-    <td><input type="submit" name="delete" value="{$strings["delete"]}"> <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();"><input type="hidden" value="$id" name="id"></td>
+    <td>
+    <input type="submit" value="{$strings["delete"]}">
+    <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();">
+    <input type="hidden" name="id" value="$id"></td>
+    <input type="hidden" name="action" value="delete"></td>
 </tr>
 HTML;
 
