@@ -232,6 +232,7 @@ class Members
     }
 
     /**
+     * Delete from the members table by member_id(s)
      * @param $memberIds
      * @return mixed
      */
