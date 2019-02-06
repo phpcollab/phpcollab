@@ -33,7 +33,7 @@ $graph->scale->year->SetFont(FF_FONT1);
 
 $listTasks = $tasks->getTasksByProjectIdWhereStartAndEndAreNotEmpty($project);
 
-$taskCoiunt = 0;
+$taskCount = 0;
 foreach ($listTasks as $task) {
     $task["tas_name"] = str_replace('&quot;', '"', $task["tas_name"]);
     $task["tas_name"] = str_replace("&#39;", "'", $task["tas_name"]);
