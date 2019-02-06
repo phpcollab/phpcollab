@@ -60,42 +60,42 @@ if ($msg != "") {
 
 $blockPage->setLimitsNumber(1);
 
-$block1 = new phpCollab\Block();
+$tasksBlock = new phpCollab\Block();
 
-$block1->form = "saT";
-$block1->openForm("../tasks/listtasks.php?&project=$project#" . $block1->form . "Anchor");
+$tasksBlock->form = "saT";
+$tasksBlock->openForm("../tasks/listtasks.php?&project=$project#" . $tasksBlock->form . "Anchor");
 
-$block1->heading($strings["tasks"]);
+$tasksBlock->heading($strings["tasks"]);
 
-$block1->openPaletteIcon();
+$tasksBlock->openPaletteIcon();
 if ($teamMember == "true") {
-    $block1->paletteIcon(0, "add", $strings["add"]);
-    $block1->paletteIcon(1, "remove", $strings["delete"]);
-    $block1->paletteIcon(2, "copy", $strings["copy"]);
+    $tasksBlock->paletteIcon(0, "add", $strings["add"]);
+    $tasksBlock->paletteIcon(1, "remove", $strings["delete"]);
+    $tasksBlock->paletteIcon(2, "copy", $strings["copy"]);
 
     if ($sitePublish == "true") {
-        $block1->paletteIcon(4, "add_projectsite", $strings["add_project_site"]);
-        $block1->paletteIcon(5, "remove_projectsite", $strings["remove_project_site"]);
+        $tasksBlock->paletteIcon(4, "add_projectsite", $strings["add_project_site"]);
+        $tasksBlock->paletteIcon(5, "remove_projectsite", $strings["remove_project_site"]);
     }
 }
-$block1->paletteIcon(6, "info", $strings["view"]);
+$tasksBlock->paletteIcon(6, "info", $strings["view"]);
 if ($teamMember == "true") {
-    $block1->paletteIcon(7, "edit", $strings["edit"]);
+    $tasksBlock->paletteIcon(7, "edit", $strings["edit"]);
 }
-$block1->closePaletteIcon();
+$tasksBlock->closePaletteIcon();
 
-$block1->setLimit($blockPage->returnLimit(1));
-$block1->setRowsLimit(20);
+$tasksBlock->setLimit($blockPage->returnLimit(1));
 
-$block1->sorting("tasks", $sortingUser["tasks"], "tas.name ASC", $sortingFields = [0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem.login", 6 => "tas.published"]);
+$tasksBlock->setRowsLimit(20);
 
-$taskList = $tasks->getTasksByProjectId($project, $block1->getLimit(), $block1->getRowsLimit(), $block1->sortingValue);
-$block1->setRecordsTotal(count($taskList));
+$tasksBlock->sorting("tasks", $sortingUser["tasks"], "tas.name ASC", $sortingFields = [0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem.login", 6 => "tas.published"]);
+
+$taskList = $tasks->getTasksByProjectId($project, $tasksBlock->getLimit(), $tasksBlock->getRowsLimit(), $tasksBlock->sortingValue);
+$tasksBlock->setRecordsTotal( $tasks->getCountAllTasksForProject($project));
 
 if ($taskList) {
-    $block1->openResults();
-
-    $block1->labels($labels = array(0 => $strings["task"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["completion"], 4 => $strings["due_date"], 5 => $strings["assigned_to"], 6 => $strings["published"]), "true");
+    $tasksBlock->openResults();
+    $tasksBlock->labels($labels = [0 => $strings["task"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["completion"], 4 => $strings["due_date"], 5 => $strings["assigned_to"], 6 => $strings["published"]], "true");
 
     foreach ($taskList as $task) {
 
@@ -107,33 +107,32 @@ if ($taskList) {
 
         $idPublish = $task["tas_published"];
         $complValue = ($task["tas_completion"] > 0) ? $task["tas_completion"] . "0 %" : $task["tas_completion"] . " %";
-        $block1->openRow();
-        $block1->checkboxRow($task["tas_id"]);
-        $block1->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $task["tas_id"], $task["tas_name"], "in"));
-        $block1->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> " . $priority[$idPriority]);
-        $block1->cellRow($status[$idStatus]);
-        $block1->cellRow($complValue);
+        $tasksBlock->openRow();
+        $tasksBlock->checkboxRow($task["tas_id"]);
+        $tasksBlock->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $task["tas_id"], $task["tas_name"], "in"));
+        $tasksBlock->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> " . $priority[$idPriority]);
+        $tasksBlock->cellRow($status[$idStatus]);
+        $tasksBlock->cellRow($complValue);
         if ($task["tas_due_date"] <= $date && $task["tas_completion"] != "10") {
-            $block1->cellRow("<b>" . $task["tas_due_date"] . "</b>");
+            $tasksBlock->cellRow("<b>" . $task["tas_due_date"] . "</b>");
         } else {
-            $block1->cellRow($task["tas_due_date"]);
+            $tasksBlock->cellRow($task["tas_due_date"]);
         }
         if ($task["tas_start_date"] != "--" && $task["tas_due_date"] != "--") {
             $gantt = "true";
         }
         if ($task["tas_assigned_to"] == "0") {
-            $block1->cellRow($strings["unassigned"]);
+            $tasksBlock->cellRow($strings["unassigned"]);
         } else {
-            $block1->cellRow($blockPage->buildLink($task["tas_mem_email_work"], $task["tas_mem_login"], "mail"));
+            $tasksBlock->cellRow($blockPage->buildLink($task["tas_mem_email_work"], $task["tas_mem_login"], "mail"));
         }
         if ($sitePublish == "true") {
-            $block1->cellRow($statusPublish[$idPublish]);
+            $tasksBlock->cellRow($statusPublish[$idPublish]);
         }
-        $block1->closeRow();
+        $tasksBlock->closeRow();
     }
-    $block1->closeResults();
-
-    $block1->limitsFooter("1", $blockPage->getLimitsNumber(), "", "project=$project");
+    $tasksBlock->closeResults();
+    $tasksBlock->limitsFooter("1", $blockPage->getLimitsNumber(), "", "project=$project");
 
     if ($activeJpgraph == "true" && $gantt == "true") {
         echo <<<GANTT
@@ -144,24 +143,24 @@ if ($taskList) {
 GANTT;
     }
 } else {
-    $block1->noresults();
+    $tasksBlock->noresults();
 }
-$block1->closeFormResults();
+$tasksBlock->closeFormResults();
 
-$block1->openPaletteScript();
+$tasksBlock->openPaletteScript();
 if ($teamMember == "true") {
-    $block1->paletteScript(0, "add", "../tasks/edittask.php?project=$project", "true,false,false", $strings["add"]);
-    $block1->paletteScript(1, "remove", "../tasks/deletetasks.php?project=$project", "false,true,true", $strings["delete"]);
-    $block1->paletteScript(2, "copy", "../tasks/edittask.php?project=$project&docopy=true", "false,true,false", $strings["copy"]);
+    $tasksBlock->paletteScript(0, "add", "../tasks/edittask.php?project=$project", "true,false,false", $strings["add"]);
+    $tasksBlock->paletteScript(1, "remove", "../tasks/deletetasks.php?project=$project", "false,true,true", $strings["delete"]);
+    $tasksBlock->paletteScript(2, "copy", "../tasks/edittask.php?project=$project&docopy=true", "false,true,false", $strings["copy"]);
     if ($sitePublish == "true") {
-        $block1->paletteScript(4, "add_projectsite", "../tasks/listtasks.php?addToSite=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["add_project_site"]);
-        $block1->paletteScript(5, "remove_projectsite", "../tasks/listtasks.php?removeToSite=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
+        $tasksBlock->paletteScript(4, "add_projectsite", "../tasks/listtasks.php?addToSite=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["add_project_site"]);
+        $tasksBlock->paletteScript(5, "remove_projectsite", "../tasks/listtasks.php?removeToSite=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
     }
 }
-$block1->paletteScript(6, "info", "../tasks/viewtask.php?", "false,true,false", $strings["view"]);
+$tasksBlock->paletteScript(6, "info", "../tasks/viewtask.php?", "false,true,false", $strings["view"]);
 if ($teamMember == "true") {
-    $block1->paletteScript(7, "edit", "../tasks/edittask.php?project=$project", "false,true,true", $strings["edit"]);
+    $tasksBlock->paletteScript(7, "edit", "../tasks/edittask.php?project=$project", "false,true,true", $strings["edit"]);
 }
-$block1->closePaletteScript($comptListTasks, $listTasks->tas_id);
+$tasksBlock->closePaletteScript($comptListTasks, $listTasks->tas_id);
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';
