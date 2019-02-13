@@ -13,6 +13,7 @@ class Tasks
 {
     protected $tasks_gateway;
     protected $db;
+    protected $tasksCount;
 
     /**
      * Tasks constructor.
@@ -23,6 +24,21 @@ class Tasks
         $this->tasks_gateway = new TasksGateway($this->db);
     }
 
+    /**
+     * @return mixed
+     */
+    public function getTasksCount()
+    {
+        return $this->tasksCount;
+    }
+
+    /**
+     * @param mixed $tasksCount
+     */
+    public function setTasksCount($tasksCount)
+    {
+        $this->tasksCount = $tasksCount;
+    }
 
     /**
      * @param $userId
