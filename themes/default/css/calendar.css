@@ -22,7 +22,7 @@
 }
 
 .calendar .nav {
-  background: transparent url(menuarrow.gif) no-repeat 100% 100%;
+  background: transparent url(../images/menuarrow.gif) no-repeat 100% 100%;
 }
 
 .calendar thead .title { /* This holds the current "month, year" */
