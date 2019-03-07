@@ -45,6 +45,18 @@ class NotificationsGateway
      * @param $memberId
      * @return mixed
      */
+    public function getNotificationsByMemberId($memberId)
+    {
+        $whereStatement = " WHERE noti.member = :member_id";
+        $this->db->query($this->initrequest["notifications"] . $whereStatement);
+        $this->db->bind(":member_id", $memberId);
+        return $this->db->single();
+    }
+
+    /**
+     * @param $memberId
+     * @return mixed
+     */
     public function addMember($memberId)
     {
         $sql = "INSERT INTO {$this->tableCollab["notifications"]} (member,taskAssignment,removeProjectTeam,addProjectTeam,newTopic,newPost,statusTaskChange,priorityTaskChange,duedateTaskChange,clientAddTask,uploadFile,dailyAlert,weeklyAlert,pastdueAlert) VALUES (:member_id,0,0,0,0,0,0,0,0,0,0,0,0,0)";
