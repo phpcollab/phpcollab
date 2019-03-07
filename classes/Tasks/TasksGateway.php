@@ -1,4 +1,5 @@
 <?php
+
 namespace phpCollab\Tasks;
 
 use phpCollab\Database;
@@ -41,6 +42,133 @@ class TasksGateway
     }
 
     /**
+     * @param $taskId
+     * @param $assigned_to
+     * @return mixed
+     */
+    public function setAssignedTo($taskId, $assigned_to)
+    {
+        $tmpquery = "UPDATE {$this->tableCollab["tasks"]} SET assigned_to = :assigned_to WHERE id = :task_id";
+        $this->db->query($tmpquery);
+        $this->db->bind(':assigned_to', $assigned_to);
+        $this->db->bind(':task_id', $taskId);
+        return $this->db->execute();
+    }
+
+    /**
+     * @param $taskId
+     * @param $assignedDate
+     * @return mixed
+     */
+    public function setAssignedDate($taskId, $assignedDate)
+    {
+        $tmpquery = "UPDATE {$this->tableCollab["tasks"]} SET assigned = :assigned_date WHERE id = :task_id";
+        $this->db->query($tmpquery);
+        $this->db->bind(':assigned_date', $assignedDate);
+        $this->db->bind(':task_id', $taskId);
+        return $this->db->execute();
+    }
+
+    /**
+     * @param $taskId
+     * @param $status
+     * @return mixed
+     */
+    public function setStatus($taskId, $status)
+    {
+        $tmpquery = "UPDATE {$this->tableCollab["tasks"]} SET status = :status WHERE id = :task_id";
+        $this->db->query($tmpquery);
+        $this->db->bind(':status', $status);
+        $this->db->bind(':task_id', $taskId);
+        return $this->db->execute();
+
+    }
+
+    /**
+     * @param $taskId
+     * @param $completion
+     * @return mixed
+     */
+    public function setCompletion($taskId, $completion)
+    {
+        $tmpquery = "UPDATE {$this->tableCollab["tasks"]} SET completion = :completion WHERE id = :task_id";
+        $this->db->query($tmpquery);
+        $this->db->bind(':completion', $completion);
+        $this->db->bind(':task_id', $taskId);
+        return $this->db->execute();
+    }
+
+    /**
+     * @param $taskId
+     * @param $priority
+     * @return mixed
+     */
+    public function setPriority($taskId, $priority)
+    {
+        $tmpquery = "UPDATE {$this->tableCollab["tasks"]} SET priority = :priority WHERE id = :task_id";
+        $this->db->query($tmpquery);
+        $this->db->bind(':priority', $priority);
+        $this->db->bind(':task_id', $taskId);
+        return $this->db->execute();
+    }
+
+    /**
+     * @param $taskId
+     * @param $startDate
+     * @return mixed
+     */
+    public function setStartDate($taskId, $startDate)
+    {
+        $tmpquery = "UPDATE {$this->tableCollab["tasks"]} SET start_date = :start_date WHERE id = :task_id";
+        $this->db->query($tmpquery);
+        $this->db->bind(':start_date', $startDate);
+        $this->db->bind(':task_id', $taskId);
+        return $this->db->execute();
+    }
+
+    /**
+     * @param $taskId
+     * @param $dueDate
+     * @return mixed
+     */
+    public function setDueDate($taskId, $dueDate)
+    {
+        $tmpquery = "UPDATE {$this->tableCollab["tasks"]} SET due_date = :due_date WHERE id = :task_id";
+        $this->db->query($tmpquery);
+        $this->db->bind(':due_date', $dueDate);
+        $this->db->bind(':task_id', $taskId);
+        return $this->db->execute();
+    }
+
+    /**
+     * @param $taskId
+     * @param $comment
+     * @return mixed
+     */
+    public function setComment($taskId, $comment)
+    {
+        $tmpquery = "UPDATE {$this->tableCollab["tasks"]} SET comment = :comment WHERE id = :task_id";
+        $this->db->query($tmpquery);
+        $this->db->bind(':comment', $comment);
+        $this->db->bind(':task_id', $taskId);
+        return $this->db->execute();
+    }
+
+    /**
+     * @param $taskId
+     * @return mixed
+     */
+    public function setModifiedDate($taskId)
+    {
+        $tmpquery = "UPDATE {$this->tableCollab["tasks"]} SET modified = :modified_date WHERE id = :task_id";
+        $this->db->query($tmpquery);
+        $this->db->bind(':modified_date', date('Y-m-d h:i'));
+        $this->db->bind(':task_id', $taskId);
+        return $this->db->execute();
+    }
+
+
+    /**
      * @param $userId
      * @param $subtasks
      * @param null $startRow
@@ -51,7 +179,7 @@ class TasksGateway
     public function getAllMyTasks($userId, $subtasks, $startRow = null, $rowsLimit = null, $sorting = null)
     {
         $subtaskIds = explode(',', $subtasks);
-        $placeholders = str_repeat ('?, ', count($subtaskIds)-1) . '?';
+        $placeholders = str_repeat('?, ', count($subtaskIds) - 1) . '?';
 
         if ($subtasks != "") {
             $tmpquery = " WHERE (tas.assigned_to = ? AND tas.status IN(0,2,3) AND pro.status IN(0,2,3)) OR tas.id IN({$placeholders})";
@@ -79,7 +207,7 @@ class TasksGateway
     public function getClientUserTasksIn($userId)
     {
         $userIds = explode(',', $userId);
-        $placeholders = str_repeat ('?, ', count($userIds)-1) . '?';
+        $placeholders = str_repeat('?, ', count($userIds) - 1) . '?';
         $sql = "SELECT tas.id FROM {$this->tableCollab["tasks"]} tas WHERE tas.assigned_to IN({$placeholders})";
 
         $this->db->query($sql);
@@ -102,7 +230,7 @@ estimated_time, actual_time, comments, created, assigned, published, completion
 :estimated_time, :actual_time, :comments, :created, :assigned, :published, :completion
 )
 SQL;
-        
+
         $this->db->query($sql);
         $this->db->bind(':task', $taskData["task"]);
         $this->db->bind(':name', $taskData["name"]);
@@ -125,7 +253,7 @@ SQL;
         return $this->db->execute();
 
     }
-    
+
     /**
      * @param $userId
      * @param null $sorting
@@ -164,10 +292,11 @@ SQL;
     public function getTasksById($taskIds)
     {
         $taskIds = explode(',', $taskIds);
-        $placeholders = str_repeat ('?, ', count($taskIds)-1) . '?';
+        $placeholders = str_repeat('?, ', count($taskIds) - 1) . '?';
         $whereStatement = " WHERE tas.id IN($placeholders)";
         $this->db->query($this->initrequest["tasks"] . $whereStatement);
-        return $this->db->execute($taskIds);
+        $this->db->execute($taskIds);
+        return $this->db->resultset();
     }
 
     /**
@@ -177,7 +306,7 @@ SQL;
     public function getTasksAssignedTo($assignedToIds)
     {
         $assignedToIds = explode(',', $assignedToIds);
-        $placeholders = str_repeat ('?, ', count($assignedToIds)-1) . '?';
+        $placeholders = str_repeat('?, ', count($assignedToIds) - 1) . '?';
         $whereStatement = " WHERE tas.assigned_to IN($placeholders)";
         $this->db->query($this->initrequest["tasks"] . $whereStatement);
         $this->db->execute($assignedToIds);
@@ -293,7 +422,7 @@ SQL;
     public function getSubTaskByIdIn($subtaskId)
     {
         $subtaskId = explode(',', $subtaskId);
-        $placeholders = str_repeat ('?, ', count($subtaskId)-1) . '?';
+        $placeholders = str_repeat('?, ', count($subtaskId) - 1) . '?';
         $whereStatement = " WHERE subtas.id IN($placeholders)";
         $this->db->query($this->initrequest["subtasks"] . $whereStatement . $this->orderBy('subtas.name'));
         $this->db->execute($subtaskId);
@@ -326,7 +455,7 @@ SQL;
      */
     public function getSubtasksByParentTaskIdIn($parentTaskIds)
     {
-        $placeholders = str_repeat ('?, ', count($parentTaskIds)-1) . '?';
+        $placeholders = str_repeat('?, ', count($parentTaskIds) - 1) . '?';
 
         $sql = $this->initrequest["subtasks"] . " WHERE task IN ($placeholders)";
 
@@ -439,6 +568,7 @@ SQL;
         $this->db->bind('assigned', $assignedDate);
         return $this->db->execute();
     }
+
     /**
      * @param $newAssignee
      * @param $assignedTo
@@ -447,7 +577,7 @@ SQL;
     public function setTasksAssignedToWhereAssignedToIn($newAssignee, $assignedTo)
     {
         // Generate placeholders
-        $placeholders = str_repeat ('?, ', count($assignedTo)-1) . '?';
+        $placeholders = str_repeat('?, ', count($assignedTo) - 1) . '?';
 
         $sql = "UPDATE {$this->tableCollab["tasks"]} SET assigned_to = ? WHERE assigned_to IN ($placeholders)";
 
@@ -467,9 +597,9 @@ SQL;
      */
     public function publishTasks($taskIds)
     {
-        if ( strpos($taskIds, ',') ) {
+        if (strpos($taskIds, ',')) {
             $taskIds = explode(',', $taskIds);
-            $placeholders = str_repeat ('?, ', count($taskIds)-1) . '?';
+            $placeholders = str_repeat('?, ', count($taskIds) - 1) . '?';
             $sql = "UPDATE {$this->tableCollab['tasks']} SET published = 0 WHERE id IN ($placeholders)";
             $this->db->query($sql);
             return $this->db->execute($taskIds);
@@ -487,9 +617,9 @@ SQL;
      */
     public function unPublishTasks($taskIds)
     {
-        if ( strpos($taskIds, ',') ) {
+        if (strpos($taskIds, ',')) {
             $taskIds = explode(',', $taskIds);
-            $placeholders = str_repeat ('?, ', count($taskIds)-1) . '?';
+            $placeholders = str_repeat('?, ', count($taskIds) - 1) . '?';
             $sql = "UPDATE {$this->tableCollab['tasks']} SET published = 1 WHERE id IN ($placeholders)";
             $this->db->query($sql);
             return $this->db->execute($taskIds);
@@ -508,8 +638,8 @@ SQL;
     public function addToSiteFile($ids)
     {
         $ids = explode(',', $ids);
-        $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
-        $placeholders2 = str_repeat ('?, ', count($ids)-1) . '?';
+        $placeholders = str_repeat('?, ', count($ids) - 1) . '?';
+        $placeholders2 = str_repeat('?, ', count($ids) - 1) . '?';
         $sql = "UPDATE {$this->tableCollab["files"]} SET published=0 WHERE id IN ($placeholders) OR vc_parent IN ($placeholders2)";
 
         $this->db->query($sql);
@@ -524,8 +654,8 @@ SQL;
     public function removeToSiteFile($ids)
     {
         $ids = explode(',', $ids);
-        $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
-        $placeholders2 = str_repeat ('?, ', count($ids)-1) . '?';
+        $placeholders = str_repeat('?, ', count($ids) - 1) . '?';
+        $placeholders2 = str_repeat('?, ', count($ids) - 1) . '?';
         $sql = "UPDATE {$this->tableCollab["files"]} SET published=0 WHERE id IN ({$placeholders}) OR vc_parent IN ({$placeholders2})";
 
         $this->db->query($sql);
@@ -560,7 +690,7 @@ SQL;
     public function deleteTasks($taskIds)
     {
         $taskIds = explode(',', $taskIds);
-        $placeholders = str_repeat ('?, ', count($taskIds)-1) . '?';
+        $placeholders = str_repeat('?, ', count($taskIds) - 1) . '?';
         $sql = "DELETE FROM {$this->tableCollab['tasks']} WHERE id IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($taskIds);
@@ -573,7 +703,7 @@ SQL;
     public function deleteTasksByProject($projectId)
     {
         $projectId = explode(',', $projectId);
-        $placeholders = str_repeat ('?, ', count($projectId)-1) . '?';
+        $placeholders = str_repeat('?, ', count($projectId) - 1) . '?';
         $sql = "DELETE FROM {$this->tableCollab['tasks']} WHERE project IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($projectId);
@@ -586,7 +716,7 @@ SQL;
     public function deleteSubTasks($subTaskIds)
     {
         $subTaskIds = explode(',', $subTaskIds);
-        $placeholders = str_repeat ('?, ', count($subTaskIds)-1) . '?';
+        $placeholders = str_repeat('?, ', count($subTaskIds) - 1) . '?';
         $sql = "DELETE FROM {$this->tableCollab['subtasks']} WHERE task IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($subTaskIds);
@@ -599,7 +729,7 @@ SQL;
     public function deleteSubTasksById($subtaskIds)
     {
         $subtaskIds = explode(',', $subtaskIds);
-        $placeholders = str_repeat ('?, ', count($subtaskIds)-1) . '?';
+        $placeholders = str_repeat('?, ', count($subtaskIds) - 1) . '?';
         $sql = "DELETE FROM {$this->tableCollab['subtasks']} WHERE id IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($subtaskIds);
@@ -612,7 +742,7 @@ SQL;
     public function deleteSubtasksByProjectId($projectId)
     {
         $projectId = explode(',', $projectId);
-        $placeholders = str_repeat ('?, ', count($projectId)-1) . '?';
+        $placeholders = str_repeat('?, ', count($projectId) - 1) . '?';
         $sql = "DELETE FROM {$this->tableCollab['subtasks']} WHERE task IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($projectId);
@@ -711,7 +841,7 @@ SQL;
         $this->db->bind(':status', $status);
         $this->db->bind(':priority', $priority);
         $this->db->bind(':start_date', $startDate);
-        $this->db->bind(':due_date', $dueDate );
+        $this->db->bind(':due_date', $dueDate);
         $this->db->bind(':estimated_time', $estimatedTime);
         $this->db->bind(':actual_time', $actualTime);
         $this->db->bind(':comments', $comments);
@@ -770,6 +900,7 @@ SQL;
         return '';
 
     }
+
     /**
      * @param string $sorting
      * @return string
@@ -778,15 +909,15 @@ SQL;
     {
         if (!is_null($sorting)) {
             $allowedOrderedBy = [
-                "tas.id","tas.project","tas.priority","tas.status","tas.owner","tas.assigned_to","tas.name",
-                "tas.description","tas.start_date","tas.due_date","tas.estimated_time","tas.actual_time",
-                "tas.comments","tas.completion","tas.created","tas.modified","tas.assigned","tas.published",
-                "tas.parent_phase","tas.complete_date","tas.invoicing","tas.worked_hours","mem.id","mem.name",
-                "mem.login","mem.email_work","mem2.id","mem2.name","mem2.login","mem2.email_work","mem.organization",
-                "pro.name","org.id", "subtas.id","subtas.task","subtas.priority","subtas.status","subtas.owner",
-                "subtas.assigned_to","subtas.name","subtas.description","subtas.start_date","subtas.due_date",
-                "subtas.estimated_time","subtas.actual_time","subtas.comments","subtas.completion","subtas.created",
-                "subtas.modified","subtas.assigned","subtas.published","subtas.complete_date"];
+                "tas.id", "tas.project", "tas.priority", "tas.status", "tas.owner", "tas.assigned_to", "tas.name",
+                "tas.description", "tas.start_date", "tas.due_date", "tas.estimated_time", "tas.actual_time",
+                "tas.comments", "tas.completion", "tas.created", "tas.modified", "tas.assigned", "tas.published",
+                "tas.parent_phase", "tas.complete_date", "tas.invoicing", "tas.worked_hours", "mem.id", "mem.name",
+                "mem.login", "mem.email_work", "mem2.id", "mem2.name", "mem2.login", "mem2.email_work", "mem.organization",
+                "pro.name", "org.id", "subtas.id", "subtas.task", "subtas.priority", "subtas.status", "subtas.owner",
+                "subtas.assigned_to", "subtas.name", "subtas.description", "subtas.start_date", "subtas.due_date",
+                "subtas.estimated_time", "subtas.actual_time", "subtas.comments", "subtas.completion", "subtas.created",
+                "subtas.modified", "subtas.assigned", "subtas.published", "subtas.complete_date"];
             $pieces = explode(' ', $sorting);
 
             if ($pieces) {
