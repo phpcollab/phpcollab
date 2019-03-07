@@ -1,188 +1,185 @@
 <?php
-/*
-** Application name: phpCollab
-** Last Edit page: 26/01/2004
-** Path by root: ../tasks/updatetasks.php
-** Authors: Ceam / Fullo
-**
-** =============================================================================
-**
-**               phpCollab - Project Managment
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: updatetasks.php
-**
-** DESC: Screen: modify tasks
-**
-** HISTORY:
-** 	14/05/2005	-	file comment added
-**	14/05/2005	-	fix for http://www.php-collab.org/community/viewtopic.php?t=1974
-**  25/04/2006  -   replaced JavaScript Calendar functions
-** -----------------------------------------------------------------------------
-** TO-DO:
-**
-**
-** =============================================================================
-*/
-
 
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new phpCollab\Request();
-$projectDetail->openProjects($tmpquery);
+$projects = new \phpCollab\Projects\Projects();
+$tasks = new \phpCollab\Tasks\Tasks();
+$members = new \phpCollab\Members\Members();
 
-$id = str_replace("**", ",", $id);
-$tmpquery = "WHERE tas.id IN($id)";
-$listTasks = new phpCollab\Request();
-$listTasks->openTasks($tmpquery);
-$comptListTasks = count($listTasks->tas_id);
+$project_id = $_GET["project"] ?: $_POST["project"];
 
-if ($action == "update") {
-    $acomm = phpCollab\Util::convertData($acomm);
+if (!isset($project_id)) {
+    // Redirect to where? Back to tasks list with an error mesage?
+    phpCollab\Util::headerFunction("../projects/listprojects.php?msg=permissiondenied");
+}
 
-    if ($at != $strings["no_change"]) {
-        $query = "assigned_to='$at'";
-        $assignUpdate = "true";
+$projectDetail = $projects->getProjectById($project_id);
+
+$task_id = str_replace("**", ",", $id);
+
+$listTasks = $tasks->getTasksById($task_id);
+$tasks->setTasksCount(count($listTasks));
+
+if ($_POST) {
+    $acomm = phpCollab\Util::convertData($_POST["assignment_comment"]);
+
+    $assigned_to = $_POST["assign_to"];
+    $task_status = $_POST["task_status"];
+    $completion = $_POST["completion"];
+    $task_priority = $_POST["task_priority"];
+    $start_date = $_POST["start_date"];
+    $due_date = $_POST["due_date"];
+
+    $continue = false;
+
+    if ($assigned_to != $strings["no_change"]) {
+        $continue = true;
     }
 
-    if ($st != $strings["no_change"]) {
-        if ($query != "") {
-            $query .= ",status='$st'";
-        } else {
-            $query .= "status='$st'";
-        }
+    if ($task_status != $strings["no_change"]) {
+        $continue = true;
     }
 
-    if ($compl != "") {
-        if ($query != "") {
-            $query .= ",completion='$compl'";
-        } else {
-            $query .= "completion='$compl'";
-        }
+    if ($completion != "") {
+        $continue = true;
     }
 
-    if ($pr != $strings["no_change"]) {
-        if ($query != "") {
-            $query .= ",priority='$pr'";
-        } else {
-            $query .= "priority='$pr'";
-        }
+    if ($task_priority != $strings["no_change"]) {
+        $continue = true;
     }
 
-    if ($sd != "--") {
-        if ($query != "") {
-            $query .= ",start_date='$sd'";
-        } else {
-            $query .= "start_date='$sd'";
-        }
+    if ($start_date != "--") {
+        $continue = true;
     }
 
-    if ($dd != "--") {
-        if ($query != "") {
-            $query .= ",due_date='$dd'";
-        } else {
-            $query .= "due_date='$dd'";
-        }
+    if ($due_date != "--") {
+        $continue = true;
     }
 
-    if ($query != "") {
-        for ($i = 0; $i < $comptListTasks; $i++) {
-            $sameAssign = "false";
-
-            if ($at != "0" && $listTasks->tas_assigned[$i] == "") {
-                $dbParams = [];
-                $dbParams["assigned_date"] = $dateheure;
-                $dbParams["task_id"] = $listTasks->tas_id[$i];
-                phpCollab\Util::newConnectSql("UPDATE {$tableCollab["tasks"]} SET assigned=:assigned_date WHERE id = :task_id", $dbParams);
-                unset($dbParams);
+    if ($continue) {
+        foreach ($listTasks as $listTask) {
+            if ($assigned_to != $strings["no_change"]) {
+                $tasks->setAssignedTo($listTask["tas_id"], $assigned_to);
+                $tasks->setAssignedDate($listTask["tas_id"], $dateheure);
+                $assignUpdate = true;
             }
 
-            if ($listTasks->tas_assigned_to[$i] == $at) {
-                $sameAssign = "true";
+            if ($task_status != $strings["no_change"]) {
+                $tasks->setStatus($listTask["tas_id"], $task_status);
             }
 
-            $dbParams = [];
-            $dbParams["modified_date"] = $dateheure;
-            $dbParams["task_id"] = $listTasks->tas_id[$i];
-            phpCollab\Util::newConnectSql("UPDATE {$tableCollab["tasks"]} SET $query,modified=:modified_date'$dateheure' WHERE id = :task_id", $dbParams);
-            unset($dbParams);
+            if ($completion != "") {
+                $tasks->setCompletion($listTask["tas_id"], $completion);
+            }
 
+            if ($task_priority != $strings["no_change"]) {
+                $tasks->setPriority($listTask["tas_id"], $task_priority);
+            }
 
-            if ($st != $strings["no_change"] && $listTasks->tas_status[$i] != $st && $assignUpdate != "true" && $listTasks->tas_assigned_to[$i] != "0") {
+            if ($start_date != "--") {
+                $tasks->setStartDate($listTask["tas_id"], $start_date);
+            }
+
+            if ($due_date != "--") {
+                $tasks->setDueDate($listTask["tas_id"], $due_date);
+            }
+
+            $sameAssign = $listTask["tas_assigned_to"] == $assigned_to;
+
+            $tasks->setModifiedDate($listTask["tas_id"]);
+
+            if ($notifications == "true") {
+                $notificationsClass = new \phpCollab\Notifications\Notifications();
+                if ($assigned_to != $strings["no_change"]) {
+                    $memberInfo = $members->getMemberById($assigned_to);
+                    $memberNotifications = $notificationsClass->getMemberNotifications($assigned_to);
+                } else {
+                    $memberInfo = $members->getMemberById($listTask["tas_owner"]);
+                    $memberNotifications = $notificationsClass->getMemberNotifications($listTask["tas_owner"]);
+                }
+
+                if ($task_status != $strings["no_change"] &&
+                    $listTask["tas_status"] != $task_status &&
+                    $assignUpdate !== true &&
+                    $listTask["tas_assigned_to"] != "0" &&
+                    $memberNotifications["statusTaskChange"] == "0"
+                ) {
+
+                    try {
+                        $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo, $strings["noti_statustaskchange1"], $strings["noti_statustaskchange2"]);
+                    } catch (\Exception $e) {
+                        echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+                    }
+                }
+
+                if ($task_priority != $strings["no_change"] &&
+                    $listTask["tas_priority"] != $task_priority &&
+                    $assignUpdate !== true &&
+                    $listTask["tas_assigned_to"] != "0" &&
+                    $memberNotifications["priorityTaskChange"] == "0"
+                ) {
+                    try {
+                        $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo, $strings["noti_prioritytaskchange1"], $strings["noti_prioritytaskchange2"]);
+                    } catch (\Exception $e) {
+                        echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+                    }
+                }
+
+                if ($due_date != "--" &&
+                    $listTask["tas_due_date"] != $due_date &&
+                    $assignUpdate !== true &&
+                    $listTask["tas_assigned_to"] != "0" &&
+                    $memberNotifications["duedateTaskChange"] == "0"
+                ) {
+                    try {
+                        $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo, $strings["noti_duedatetaskchange1"], $strings["noti_duedatetaskchange2"]);
+                    } catch (\Exception $e) {
+                        echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+                    }
+                }
+            }
+
+            if ($assigned_to != "0" && $sameAssign !== true && $assignUpdate === true) {
+                // Add to assignment table
+                (new \phpCollab\Assignments\Assignments())->addAssignment($listTask["tas_id"], $listTask["tas_owner"], $assigned_to, $dateheure, $acomm);
+
+                // Check teams and add if necessary
+                $teams = new \phpCollab\Teams\Teams();
+                $isTeamMember = $teams->isTeamMember($listTask["tas_project"], $assigned_to);
+
+                if ($isTeamMember === "false") {
+                    $teams->addTeam($listTask["tas_project"], $assigned_to, 1, 0);
+                }
+
                 if ($notifications == "true") {
-                    include '../tasks/noti_statustaskchange.php';
-                }
-            }
-
-            if ($pr != $strings["no_change"] && $listTasks->tas_priority[$i] != $pr && $assignUpdate != "true" && $listTasks->tas_assigned_to[$i] != "0") {
-                if ($notifications == "true") {
-                    include '../tasks/noti_prioritytaskchange.php';
-                }
-            }
-            if ($dd != "--" && $listTasks->tas_due_date[$i] != $dd && $assignUpdate != "true" && $listTasks->tas_assigned_to[$i] != "0") {
-                if ($notifications == "true") {
-                    include '../tasks/noti_duedatetaskchange.php';
-                }
-            }
-
-            if ($at != "0" && $sameAssign != "true" && $assignUpdate == "true") {
-                $dbParams = [];
-                $dbParams["task"] = $listTasks->tas_id[$i];
-                $dbParams["owner"] = $listTasks->tas_owner[$i];
-                $dbParams["assigned_to"] = $at;
-                $dbParams["comments"] = $acomm;
-                $dbParams["assigned"] = $dateheure;
-
-                phpCollab\Util::newConnectSql("INSERT INTO {$tableCollab["assignments"]} (task,owner,assigned_to,comments,assigned) VALUES (:task,:owner,:assigned_to,:comments,:assigned)", $dbParams);
-                unset($dbParams);
-
-                $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$at'";
-                $testinTeam = new phpCollab\Request();
-                $testinTeam->openTeams($tmpquery);
-                $comptTestinTeam = count($testinTeam->tea_id);
-
-                if ($comptTestinTeam == "0") {
-                    $dbParams = [];
-                    $dbParams["project"] = $project;
-                    $dbParams["member"] = $at;
-                    $dbParams["published"] = 1;
-                    $dbParams["authorized"] = 0;
-
-                    phpCollab\Util::newConnectSql("INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES (:project,:member,:published,:authorized)", $dbParams);
-                    unset($dbParams);
-                }
-
-                if ($notifications == "true") {
-                    include '../tasks/noti_taskassignment.php';
+                    try {
+                        $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo, $strings["noti_taskassignment1"], $strings["noti_taskassignment2"]);
+                    } catch (\Exception $e) {
+                        echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+                    }
                 }
             }
         }
     }
-
-    phpCollab\Util::headerFunction("../tasks/listtasks.php?project=$project&msg=update&PHPSESSID=$PHPSESSID");
+    phpCollab\Util::headerFunction("../tasks/listtasks.php?project=$project_id&msg=update");
 }
 
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 
-if ($report != "") {
-    $tmpquery = "WHERE id = '$report'";
-    $reportDetail = new phpCollab\Request();
-    $reportDetail->openReports($tmpquery);
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/createreport.php?", $strings["reports"], in));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/resultsreport.php?id=" . $reportDetail->rep_id[0], $reportDetail->rep_name[0], in));
+if ($_GET["report"] != "") {
+    $reports = new \phpCollab\Reports\Reports();
+    $reportDetail = $reports->getReportsById($_GET["report"]);
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/createreport.php?", $strings["reports"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/resultsreport.php?id=" . $reportDetail["rep_id"], $reportDetail["rep_name"], "in"));
 } else {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], in));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=$project", $strings["tasks"], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=$project_id", $strings["tasks"], "in"));
 }
 
 $blockPage->itemBreadcrumbs($strings["edit_multiple_tasks"]);
@@ -192,7 +189,7 @@ $block1 = new phpCollab\Block();
 $block1->form = "batT";
 $block1->openForm("../tasks/updatetasks.php?action=update&#" . $block1->form . "Anchor");
 
-if ($error != "") {
+if (isset($error) && $error != "") {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
 }
@@ -201,106 +198,129 @@ $block1->heading($strings["edit_multiple_tasks"]);
 $block1->openContent();
 $block1->contentTitle($strings["details"]);
 
-echo "	<tr class='odd'>
-			<td valign='top' class='leftvalue'>&nbsp;</td>
-			<td>$comptListTasks " . $strings["tasks_selected"] . "</td>
-		</tr>
-		<tr class='odd'>
-			<td valign='top' class='leftvalue'>" . $strings["assigned_to"] . "</td>
+echo <<< HTML
+<tr class="odd">
+    <td valign="top" class="leftvalue">&nbsp;</td>
+    <td>{$tasks->getTasksCount()} {$strings["tasks_selected"]}</td>
+</tr>
+HTML;
+
+$assignTo = $members->getNonClientMembers('mem.name');
+
+echo <<<HTML
+		<tr class="odd">
+			<td valign="top" class="leftvalue">{$strings["assigned_to"]}</td>
 			<td>
-				<select name='at'>
-					<option value='" . $strings["no_change"] . "' selected>" . $strings["no_change"] . " :</option>
-					<option value='0'>" . $strings["unassigned"] . "</option>";
+				<select name="assign_to">
+					<option value="{$strings["no_change"]}" selected>{$strings["no_change"]}</option>
+					<option value="0">{$strings["unassigned"]}</option>
+HTML;
 
 if ($idSession == "1") {
-    echo "<option value='1'>" . $strings["administrator"] . "</option>";
+    echo '<option value="1">' . $strings["administrator"] . '</option>';
 }
 
-$tmpquery = "WHERE mem.id != '1' AND mem.profil != '3' ORDER BY mem.name";
-$assignTo = new phpCollab\Request();
-$assignTo->openMembers($tmpquery);
-$comptAssignTo = count($assignTo->mem_id);
-
-for ($i = 0; $i < $comptAssignTo; $i++) {
-    echo "<option value='" . $assignTo->mem_id[$i] . "'>" . $assignTo->mem_name[$i] . "</option>";
+foreach ($assignTo as $assignee) {
+    echo "<option value='" . $assignee["mem_id"] . "'>" . $assignee["mem_name"] . "</option>";
 }
 
-echo "		</select></td>
+echo <<<HTML
+		</select></td>
 		</tr>
-		<tr class='odd'>
-			<td valign='top' class='leftvalue'>" . $strings["assignment_comment"] . " :</td>
-			<td><textarea rows='3' style='width: 400px; height: 50px;' name='acomm' cols='43'></textarea></td>
+		<tr class="odd">
+			<td valign="top" class="leftvalue">{$strings["assignment_comment"]} :</td>
+			<td><textarea rows="3" style="width: 400px; height: 50px;" name="assignment_comment" cols="43"></textarea></td>
 		</tr>
-		<tr class='odd'>
-			<td valign='top' class='leftvalue'>" . $strings["status"] . " :</td>
-			<td><select name='st' onchange='changeSt(this)'>
-				<option value='" . $strings["no_change"] . "' selected>" . $strings["no_change"] . "</option>";
+		<tr class="odd">
+			<td valign="top" class="leftvalue">{$strings["status"]} :</td>
+			<td><select name="task_status" onchange="changeSt(this)">
+				<option value="{$strings["no_change"]}" selected>{$strings["no_change"]}</option>
+HTML;
 
-$comptSta = count($status);
-
-for ($i = 0; $i < $comptSta; $i++) {
-    echo "<option value='$i'>$status[$i]</option>";
+if ($GLOBALS["status"] && count($GLOBALS["status"]) > 0) {
+    foreach ($status as $key => $item) {
+        echo '<option value='.$key.'>'.$item.'</option>';
+    }
 }
 
-echo "		</select></td>
+echo <<<HTML
+		</select></td>
 		</tr>
-		<tr class='odd'>
-			<td valign='top' class='leftvalue'>" . $strings["completion"] . " :</td>
-			<td><input name='compl' type='hidden' value=''>
-				<select name='completion' onchange='changeCompletion(this)'>
-					<option value='" . $strings["no_change"] . "' selected>" . $strings["no_change"] . "</option>";
+		<tr class="odd">
+			<td valign="top" class="leftvalue">{$strings["completion"]} :</td>
+			<td><input name="compl" type="hidden" value="">
+				<select name="completion" onchange="changeCompletion(this)">
+					<option value="{$strings["no_change"]}" selected>{$strings["no_change"]}</option>
+HTML;
 
 for ($i = 0; $i < 11; $i++) {
     $complValue = ($i > 0) ? $i . "0 %" : $i . " %";
     echo "<option value='" . $i . "'>" . $complValue . "</option>";
 }
 
-echo "</select></td></tr>
-<tr class='odd'>
-	<td valign='top' class='leftvalue'>" . $strings["priority"] . " : </td>
-	<td><select name='pr'>
-			<option value='" . $strings["no_change"] . "' selected>" . $strings["no_change"] . "</option>";
+echo <<<HTML
+    </select></td></tr>
+<tr class="odd">
+	<td valign="top" class="leftvalue">{$strings["priority"]} : </td>
+	<td><select name="task_priority">
+			<option value="{$strings["no_change"]}" selected>{$strings["no_change"]}</option>
+HTML;
 
-$comptPri = count($priority);
 
-for ($i = 0; $i < $comptPri; $i++) {
-    echo "<option value='$i'>$priority[$i]</option>";
+$comptPri = count($task_priority);
+if ($GLOBALS["priority"] && count($GLOBALS["priority"]) > 0) {
+//    xdebug_var_dump($GLOBALS["priority"]);
+    foreach ($GLOBALS["priority"] as $key => $item) {
+        echo '<option value="'.$key.'">'.$item.'</option>';
+    }
 }
 
-echo "	</select></td></tr>";
 
-if ($sd == "") {
-    $sd = "--";
-}
-if ($dd == "") {
-    $dd = "--";
-}
+echo "</select></td></tr>";
 
-$block1->contentRow($strings["start_date"], "<input type='text' name='sd' id='start_date' size='20' value='$sd'><input type='button' value=' ... ' id='trigStartDate'>");
-echo "<script type='text/javascript'>
+$start_date = empty($sd) ? '--' : $sd;
+$due_date = empty($dd) ? '--' : $dd;
+
+$block1->contentRow($strings["start_date"], "<input type='text' name='start_date' id='start_date' size='20' value='$start_date'><input type='button' value=' ... ' id='trigStartDate'>");
+echo <<<JavaScript
+<script type="text/javascript">
     Calendar.setup({
         inputField     :    'start_date',
         button         :    'trigStartDate',
-        $calendar_common_settings
+        {$calendar_common_settings}
     });
 </script>
-";
-$block1->contentRow($strings["due_date"], "<input type='text' name='dd' id='due_date' size='20' value='$dd'><input type='button' value=' ... ' id='trigDueDate'>");
-echo "<script type='text/javascript'>
+JavaScript;
+
+$block1->contentRow($strings["due_date"], "<input type='text' name='due_date' id='due_date' size='20' value='$due_date'><input type='button' value=' ... ' id='trigDueDate'>");
+echo <<<JavaScript
+<script type="text/javascript">
     Calendar.setup({
         inputField     :    'due_date',
         button         :    'trigDueDate',
-        $calendar_common_settings
+        {$calendar_common_settings}
     });
 </script>
-";
-echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td><input type='SUBMIT' value='" . $strings["update"] . "'></td></tr>";
-echo "<input name='id' type='HIDDEN' value='$id'><input name='project' type='HIDDEN' value='$project'>";
+JavaScript;
+
+echo <<<TR
+    <tr class="odd">
+        <td valign="top" class="leftvalue">&nbsp;</td>
+        <td><input type="SUBMIT" value="{$strings['update']}"></td>
+    </tr>
+TR;
+
+echo <<<INPUT
+<input name="id" type="HIDDEN" value="{$id}">
+<input name="action" type="HIDDEN" value="update">
+<input name="project" type="HIDDEN" value="{$project_id}">
+INPUT;
+
 
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
 ?>
 <script>
     function changeSt(theObj, firstRun) {
