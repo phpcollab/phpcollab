@@ -69,6 +69,10 @@ class Tasks
         return $this->tasks_gateway->getAllMyTasks($userId, $subtasks, $startRow, $rowsLimit, $sorting);
     }
 
+    /**
+     * @param $userId
+     * @return int
+     */
     public function getClientUserTasksCount($userId)
     {
         $data = $this->tasks_gateway->getClientUserTasksIn($userId);
@@ -157,7 +161,7 @@ class Tasks
      */
     public function getCountAllTasksForProject($projectId)
     {
-        return count( $this->getTasksByProjectId($projectId) );
+        return count($this->getTasksByProjectId($projectId));
     }
 
     /**
@@ -193,6 +197,7 @@ class Tasks
     {
         return count($this->getTasksByProjectIdAndParentPhase($projectId, $phaseId));
     }
+
     /**
      * @param $phaseId
      * @param $projectId
@@ -201,7 +206,7 @@ class Tasks
     public function getCountUncompletedTasks($phaseId, $projectId)
     {
         $tasks = $this->getTasksByProjectIdAndParentPhase($projectId, $phaseId);
-        $tasks = array_filter($tasks, function($item) {
+        $tasks = array_filter($tasks, function ($item) {
             return $item["tas_status"] == 2 || $item["tas_status"] == 3 || $item["tas_status"] == 4;
         });
         return count($tasks);
@@ -407,6 +412,97 @@ class Tasks
     public function setCompletionDateForTaskById($taskId, $date)
     {
         return $this->tasks_gateway->setCompletionDateForTaskById($taskId, $date);
+    }
+
+
+    /**
+     * @param $taskId
+     * @param $startDate
+     * @return mixed
+     */
+    public function setStartDate($taskId, $startDate)
+    {
+        return $this->tasks_gateway->setStartDate($taskId, $startDate);
+    }
+
+    /**
+     * @param $taskId
+     * @param $dueDate
+     * @return mixed
+     */
+    public function setDueDate($taskId, $dueDate)
+    {
+        return $this->tasks_gateway->setDueDate($taskId, $dueDate);
+    }
+
+    /**
+     * @param $taskId
+     * @param $assignedTo
+     * @return mixed
+     */
+    public function setAssignedTo($taskId, $assignedTo)
+    {
+        return $this->tasks_gateway->setAssignedTo($taskId, $assignedTo);
+    }
+
+    /**
+     * @param $taskId
+     * @param $assignedDate
+     * @return mixed
+     */
+    public function setAssignedDate($taskId, $assignedDate)
+    {
+        return $this->tasks_gateway->setAssignedDate($taskId, $assignedDate);
+    }
+
+    /**
+     * @param $taskId
+     * @param $status
+     * @return mixed
+     */
+    public function setStatus($taskId, $status)
+    {
+        return $this->tasks_gateway->setStatus($taskId, $status);
+    }
+
+    /**
+     * @param $taskId
+     * @param $completion
+     * @return mixed
+     */
+    public function setCompletion($taskId, $completion)
+    {
+        return $this->tasks_gateway->setCompletion($taskId, $completion);
+    }
+
+    /**
+     * @param $taskId
+     * @param $priority
+     * @return mixed
+     */
+    public function setPriority($taskId, $priority)
+    {
+        return $this->tasks_gateway->setPriority($taskId, $priority);
+
+    }
+
+    /**
+     * @param $taskId
+     * @param $comment
+     * @return mixed
+     */
+    public function setComment($taskId, $comment)
+    {
+        return $this->tasks_gateway->setComment($taskId, $comment);
+    }
+
+    /**
+     * @param $taskId
+     * @return mixed
+     */
+    public function setModifiedDate($taskId)
+    {
+        return $this->tasks_gateway->setModifiedDate($taskId);
     }
 
     /**
