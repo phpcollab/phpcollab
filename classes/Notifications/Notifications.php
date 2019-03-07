@@ -50,10 +50,18 @@ class Notifications
 
     /**
      * @param $memberId
+     * @return mixed
+     */
+    public function getMemberNotifications($memberId)
+    {
+        return $this->notifications_gateway->getNotificationsByMemberId($memberId);
+    }
+
+    /**
+     * @param $memberId
      */
     public function deleteNotificationsByMemberIdIn($memberId)
     {
         $this->notifications_gateway->deleteNotificationsByMemberIdIn($memberId);
     }
-
 }
