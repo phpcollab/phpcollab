@@ -3,8 +3,9 @@
 
 namespace phpCollab\Tasks;
 
+use Exception;
 use phpCollab\Database;
-
+use phpCollab\Notification;
 /**
  * Class Tasks
  * @package phpCollab\Tasks
@@ -14,6 +15,8 @@ class Tasks
     protected $tasks_gateway;
     protected $db;
     protected $tasksCount;
+    private $strings;
+    private $root;
 
     /**
      * Tasks constructor.
@@ -22,6 +25,8 @@ class Tasks
     {
         $this->db = new Database();
         $this->tasks_gateway = new TasksGateway($this->db);
+        $this->strings = $GLOBALS["strings"];
+        $this->root = $GLOBALS["root"];
     }
 
     /**
@@ -595,5 +600,76 @@ class Tasks
     public function deleteSubTasksById($subtaskIds)
     {
         return $this->tasks_gateway->deleteSubTasksById($subtaskIds);
+    }
+
+    /**
+     * @param $taskDetails
+     * @param $projectDetails
+     * @param $userDetails
+     * @param $subject
+     * @param $bodyOpening
+     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws Exception
+     */
+    public function sendTaskNotification($taskDetails, $projectDetails, $userDetails, $subject, $bodyOpening)
+    {
+        if ($taskDetails && $projectDetails && $userDetails && $subject && $bodyOpening) {
+            $mail = new Notification(true);
+            try {
+
+                $mail->setFrom($projectDetails["pro_mem_email_work"], $projectDetails["pro_mem_name"]);
+
+                $mail->partSubject = $subject;
+                $mail->partMessage = $bodyOpening;
+
+                if ($projectDetails["pro_org_id"] == "1") {
+                    $projectDetails["pro_org_name"] = $this->strings["none"];
+                }
+
+                $complValue = ($taskDetails["tas_completion"] > 0) ? $taskDetails["tas_completion"] . "0 %" : $taskDetails["tas_completion"] . " %";
+                $idStatus = $taskDetails["tas_status"];
+                $idPriority = $taskDetails["tas_priority"];
+
+                $body = $mail->partMessage . "\n\n";
+                $body .= $this->strings["task"] . " : " . $taskDetails["tas_name"] . "\n";
+                $body .= $this->strings["start_date"] . " : " . $taskDetails["tas_start_date"] . "\n";
+                $body .= $this->strings["due_date"] . " : " . $taskDetails["tas_due_date"] . "\n";
+                $body .= $this->strings["completion"] . " : " . $complValue . "\n";
+                $body .= $this->strings["priority"] . " : " . $GLOBALS["priority"][$idPriority] . "\n";
+                $body .= $this->strings["status"] . " : " . $GLOBALS["status"][$idStatus] . "\n";
+                $body .= $this->strings["description"] . " : " . $taskDetails["tas_description"] . "\n\n";
+                $body .= $this->strings["project"] . " : " . $projectDetails["pro_name"] . " (" . $projectDetails["pro_id"] . ")\n";
+                $body .= $this->strings["organization"] . " : " . $projectDetails["pro_org_name"] . "\n\n";
+                $body .= $this->strings["noti_moreinfo"] . "\n";
+
+                if ($taskDetails["tas_mem_organization"] == "1") {
+                    $body .= "{$this->root}/general/login.php?url=tasks/viewtask.php%3Fid={$taskDetails["tas_id"]}";
+                } elseif ($taskDetails["tas_mem_organization"] != "1" && $projectDetails["pro_published"] == "0" && $taskDetails["tas_published"] == "0") {
+                    $body .= "$this->root/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetails["pro_id"];
+                }
+
+                $body .= "\n\n" . $mail->footer;
+
+                $subject = $mail->partSubject . " " . $taskDetails["tas_name"];
+
+                $mail->Subject = $subject;
+
+                if ($taskDetails["tas_priority"] == "4" || $taskDetails["tas_priority"] == "5") {
+                    $mail->Priority = "1";
+                } else {
+                    $mail->Priority = "3";
+                }
+
+                $mail->addAddress($userDetails["mem_email_work"], $userDetails["mem_name"]);
+
+                $mail->Body = $body;
+                $mail->send();
+                $mail->clearAddresses();
+            } catch (Exception $e) {
+                echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+            }
+        } else {
+            throw new Exception('Error sending mail');
+        }
     }
 }
