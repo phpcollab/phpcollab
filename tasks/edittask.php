@@ -34,42 +34,67 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$tasks = new \phpCollab\Tasks\Tasks();
 
-$id = $_GET["id"];
-$action = $_GET["action"];
-
-//case multiple edit tasks
-$multi = strstr($_GET['id'], "**");
-
-if ($multi != "") {
-    phpCollab\Util::headerFunction("../tasks/updatetasks.php?report=" . $_GET['report'] . "&project=" . $_GET['project'] . "&id=" . $_GET['id'] . "");
+if (isset($_GET["id"])) {
+    $task_id = $_GET["id"];
+} else {
+    $task_id = $_GET["task"];
 }
 
-if ($id != "" && $action != "update" && $action != "add") {
-    $taskDetail = $tasks->getTaskById(filter_var($_GET['id'], FILTER_VALIDATE_INT));
+$docopy = $_GET["docopy"];
+
+if (strstr($task_id, "**")) {
+    phpCollab\Util::headerFunction("../tasks/updatetasks.php?report={$_GET['report']}&project={$_GET['project']}&id={$task_id}");
+}
+
+$tasks = new \phpCollab\Tasks\Tasks();
+
+$taskDetail = null;
+$errors = null;
+
+if ($_POST) {
+    if ($_POST['task_name'] != "") {
+        $_POST['task_name'] = filter_var($_POST['task_name'], FILTER_SANITIZE_STRING);
+        if ($_POST['task_name'] == "") {
+            $errors .= 'Please enter a valid task name.<br/><br/>';
+        }
+    } else {
+        $errors .= 'Please enter a task name.<br/>';
+    }
+}
+
+/*
+ * If POST and no task name, then display error.  Will need to get task details for form
+ */
+
+if ($_POST && !is_null($errors) && !empty($task_id)) {
+    $taskDetail = $tasks->getTaskById(filter_var($task_id, FILTER_VALIDATE_INT));
     $project = $taskDetail['tas_project'];
 } else {
-    $project = $_GET['project'];
+    if (!empty($task_id) && $_POST["action"] != "update" && $_POST["action"] != "add") {
+        $taskDetail = $tasks->getTaskById(filter_var($task_id, FILTER_VALIDATE_INT));
+        $project = $taskDetail['tas_project'];
+    } else {
+        $project = $_GET['project'];
+    }
+
 }
 
 $projects = new \phpCollab\Projects\Projects();
 
 $projectDetail = $projects->getProjectById($project);
 
-$teamMember = "false";
 
 $teams = new \phpCollab\Teams\Teams();
 $phases = new \phpCollab\Phases\Phases();
 
-$teamMembers = $teams->getTeamByProjectIdAndTeamMember($project, $idSession);
-
-$comptMemberTest = count($teamMembers);
-
-if ($comptMemberTest == "0") {
-    $teamMember = "false";
-} else {
+// Check to see if the task owner == the current user, if so then consider them a "team member", otherwise
+// check to see if they are in the team
+$teamMember = "false";
+if (!empty($taskDetail) && $taskDetail["tas_owner"] === $idSession) {
     $teamMember = "true";
+} else {
+    $teamMember = $teams->isTeamMember($project, $idSession);
 }
 
 if ($teamMember == "false" && $profilSession != "5") {
@@ -79,189 +104,167 @@ if ($teamMember == "false" && $profilSession != "5") {
 //case update or copy task
 if (
     $_SERVER['REQUEST_METHOD'] == 'POST'
-    && $id != ""
+    && !empty($_POST["action"])
     && !empty($_POST["task_name"])
 ) {
+
     $assignments = new \phpCollab\Assignments\Assignments();
     $files = new \phpCollab\Files\Files();
 
-    //case update or copy task
-    if ($action == "update") {
-        //concat values from date selector and replace quotes by html code in name
-        $task_name = phpCollab\Util::convertData($_POST["task_name"]);
-        $d = phpCollab\Util::convertData($_POST["d"]);
-        $comments = phpCollab\Util::convertData($_POST["comments"]);
-        $taskStatus = $_POST['taskStatus'];
-        $complete_date = $_POST["complete_date"];
-        $old_st = $_POST["old_st"];
-        $completion = $_POST["completion"] || 0;
-        $invoicing = $_POST["invoicing"];
-        $worked_hours = $_POST["worked_hours"];
-        $at = $_POST["at"];
-        $pr = $_POST["pr"];
-        $start_date = $_POST["start_date"];
-        $due_date = $_POST["due_date"];
-        $etm = $_POST["etm"];
-        $atm = $_POST["atm"];
-        $old_project = $_POST["old_project"];
+    if ($enableInvoicing == "true") {
+        $invoices = new \phpCollab\Invoices\Invoices();
+    }
 
-        if ($enableInvoicing == "true") {
-            $invoices = new \phpCollab\Invoices\Invoices();
+    if ($notifications == "true") {
+        $notificationsClass = new \phpCollab\Notifications\Notifications();
+    }
+
+    $form_data = [
+        "name" => $_POST["task_name"],
+        "description" => $_POST["description"],
+        "comments" => $_POST["comments"],
+        "status" => $_POST["taskStatus"],
+        "old_status" => $_POST["old_status"],
+        "completion" => $_POST["completion"],
+        "completion_date" => $_POST["complete_date"],
+        "invoicing" => $_POST["invoicing"],
+        "priority" => $_POST["priority"],
+        "old_priority" => $_POST["old_priority"],
+        "worked_hours" => $_POST["worked_hours"],
+        "assigned_to" => $_POST["assigned_to"],
+        "old_assigned_to" => $_POST["old_assigned_to"],
+        "start_date" => $_POST["start_date"],
+        "due_date" => $_POST["due_date"],
+        "old_due_date" => $_POST["old_due_date"],
+        "estimated_time" => $_POST["estimated_time"],
+        "actual_time" => $_POST["actual_time"],
+        "project" => $_POST["project"],
+        "old_project" => $_POST["old_project"],
+        "published" => $_POST["published"],
+        "phase" => $_POST["phase"],
+    ];
+
+    /**
+     * Common functionality between update and add
+     */
+
+
+    /*
+     * Update task
+     */
+    if (
+        is_null($errors)
+        && !empty($task_id)
+        && $_POST["action"] == "update"
+    ) {
+        if ($form_data["assgnment_comment"]) {
+            $form_data["assignment_comment"] = $form_data["assgnment_comment"];
         }
 
-            //case copy task
+        //Change task status if parent phase is suspended, complete or not open.
+        if ($projectDetail['pro_phase_set'] != "0") {
+            $currentPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($project, $phase);
+            if ($form_data["status"] == 3 && $currentPhase['pha_status'] != 1) {
+                $form_data["status"] = 4;
+            }
+        }
+
+        if (empty($form_data["published"])) {
+            $form_data["published"] = "1";
+        }
+
+        // Copy Task
         if ($docopy == "true") {
-
-            //Change task status if parent phase is suspended, complete or not open.
-            if ($projectDetail['pro_phase_set'] != "0") {
-                $currentPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($project, $phase);
-                if ($taskStatus == 3 && $currentPhase['pha_status'] != 1) {
-                    $taskStatus = 4;
-                }
+            if ($form_data["completion"] == "10") {
+                $form_data["taskStatus"] = "1";
             }
 
-            if ($completion == "10") {
-                $taskStatus = "1";
+            if (empty($form_data["invoicing"])) {
+                $form_data["invoicing"] = "0";
             }
 
-            if ($pub == "") {
-                $pub = "1";
+            if (empty($form_data["worked_hours"])) {
+                $form_data["worked_hours"] = "0.00";
             }
 
-            if ($invoicing == "") {
-                $invoicing = "0";
+            try {
+                $newTask = $tasks->addTask($form_data["project"], $form_data["name"], $form_data["description"],
+                    $idSession, $form_data["assigned_to"], $form_data["status"], $form_data["priority"],
+                    $form_data["start_date"], $form_data["due_date"], $form_data["estimated_time"],
+                    $form_data["actual_time"], $form_data["comments"], $form_data["published"], $form_data["completion"],
+                    ($form_data["phase"] != 0) ? $form_data["phase"] : 0, $form_data["invoicing"],
+                    $form_data["worked_hours"]);
+
+            } catch (Exception $e) {
+                echo "<h1>Error adding new task.</h1>";
+                echo "<pre>" . $e->getMessage() . "</pre>";
             }
 
-            if ($worked_hours == "") {
-                $worked_hours = "0.00";
-            }
-            //Insert Task details with or without parent phase
-            $dbParams = [];
-            $dbParams['project_id'] = $project;
-            $dbParams['task_name'] = $task_name;
-            $dbParams['description'] = $d;
-            $dbParams['owner'] = $idSession;
-            $dbParams['assigned_to'] = $at;
-            $dbParams['status'] = $taskStatus;
-            $dbParams['priority'] = $pr;
-            $dbParams['start_date'] = $start_date;
-            $dbParams['due_date'] = $due_date;
-            $dbParams['estimated_time'] = $etm;
-            $dbParams['actual_time'] = $atm;
-            $dbParams['comments'] = $comments;
-            $dbParams['created'] = $dateheure;
-            $dbParams['published'] = $pub;
-            $dbParams['completion'] = $completion;
-            $dbParams['parent_phase'] = ($phase != 0) ? $phase: 0;
-            $dbParams['invoicing'] = $invoicing;
-            $dbParams['worked_hours'] = $worked_hours;
-            $dbParams['assigned'] = null;
-
-            $num = $tasks->addTask($dbParams);
-
-            unset($dbParams);
-
-
-            $listSubTasks = $tasks->getSubtasksByParentTaskId($id);
-            foreach ($listSubTasks as $subTask) {
-                $dbParams = [];
-                $dbParams['task'] = $num;
-                $dbParams['name'] = $subTask["subtas_name"];
-                $dbParams['description'] = $subTask["subtas_description"];
-                $dbParams['owner'] = $subTask["subtas_owner"];
-                $dbParams['assigned_to'] = $subTask["subtas_assigned_to"];
-                $dbParams['status'] = $subTask["subtas_status"];
-                $dbParams['priority'] = $subTask["subtas_priority"];
-                $dbParams['start_date'] = $subTask["subtas_start_date"];
-                $dbParams['due_date'] = $subTask["subtas_due_date"];
-                $dbParams['completed_date'] = $subTask["subtas_complete_date"];
-                $dbParams['estimated_time'] = $subTask["subtas_estimated_time"];
-                $dbParams['actual_time'] = $subTask["subtas_actual_time"];
-                $dbParams['comments'] = $subTask["comments"];
-                $dbParams['created'] = $dateheure;
-                $dbParams['assigned'] = $dateheure;
-                $dbParams['published'] = $subTask["subtas_published"];
-                $dbParams['completion'] = $subTask["subtas_completion"];
-
-                $tasks->addSubTask($dbParams);
-                unset($dbParams);
-            }
-
-            // invoice
-            if ($enableInvoicing == "true") {
-                if ($taskStatus == "1") {
-                    $completeItem = "1";
-                } else {
-                    $completeItem = "0";
+            if ($newTask) {
+                $newTaskId = $newTask["tas_id"];
+                // Check for any subtasks
+                $listSubTasks = $tasks->getSubtasksByParentTaskId($task_id);
+                foreach ($listSubTasks as $subTask) {
+                    $tasks->addSubTask($newTaskId, $subTask["subtas_name"], $subTask["subtas_description"],
+                        $subTask["subtas_owner"], $subTask["subtas_assigned_to"], $subTask["subtas_status"],
+                        $subTask["subtas_priority"], $subTask["subtas_start_date"], $subTask["subtas_due_date"],
+                        $subTask["subtas_complete_date"], $subTask["subtas_estimated_time"], $subTask["subtas_actual_time"],
+                        $subTask["comments"], $subTask["subtas_published"], $subTask["subtas_completion"]);
                 }
 
-                $detailInvoice = $invoices->getInvoicesByProjectId($project);
-                if ($detailInvoice["inv_status"] == "0") {
-                    $dbParams = [];
-                    $dbParams['title'] = $task_name;
-                    $dbParams['description'] = $d;
-                    $dbParams['invoice_id'] = $detailInvoice['inv_id'];
-                    $dbParams['created'] = $dateheure;
-                    $dbParams['active'] = $invoicing;
-                    $dbParams['completed'] = $completeItem;
-                    $dbParams['mod_type'] = 1;
-                    $dbParams['mod_value'] = $num;
-                    $dbParams['worked_hours'] = $worked_hours;
-                    $invoice_num = $invoices->addInvoiceItem($dbParams);
+                if ($enableInvoicing == "true") {
+                    $detailInvoice = $invoices->getInvoicesByProjectId($project);
 
-                    unset($dbParams);
-                }
-            }
-
-            if ($taskStatus == "1" && $complete_date != "--") {
-                $tasks->setCompletionDateForTaskById($num, $dateheure);
-            }
-
-            //if assigned_to not blank, set assigned date
-            if ($at != "0") {
-                $tasks->updateAssignedDate($num, $dateheure);
-            }
-
-            $assignmentId = $assignments->addAssignment($num, $idSession, $at, $dateheure);
-
-            //if assigned_to not blank, add to team members (only if doesn't already exist)
-            if ($at != "0") {
-                $teamMember = $teams->isTeamMember($project, $at);
-
-                if (!$teamMember) {
-                    $teamMemberId = $teams->addTeam($project, $at, 1, 0);
+                    if ($detailInvoice["inv_status"] == "0") {
+                        try {
+                            $newInvoiceId = $invoices->addInvoiceItem($form_data["name"], $form_data["description"],
+                                $detailInvoice["inv_id"], $form_data["invoicing"], ($form_data["status"] == "1") ? 1 : 0, 1,
+                                $newTaskId, $form_data["worked_hours"]);
+                        } catch (Exception $e) {
+                            echo $e->getMessage();
+                        }
+                    }
                 }
 
-                //send task assignment mail if notifications = true
-                if ($notifications == "true") {
-                    include '../tasks/noti_taskassignment.php';
+                if ($form_data["status"] == "1" && $form_data["complete_date"] != "--") {
+                    $tasks->setCompletionDateForTaskById($newTaskId, $dateheure);
                 }
+
+                //if assigned_to not blank, set assigned date
+                if ($form_data["assigned_to"] != "0") {
+                    $tasks->updateAssignedDate($newTaskId, $dateheure);
+                }
+
+                $assignmentId = $assignments->addAssignment($newTaskId, $idSession, $form_data["assigned_to"], $dateheure);
+
+                //if assigned_to not blank, add to team members (only if doesn't already exist)
+                if ($form_data["assigned_to"] != "0") {
+                    $teamMember = $teams->isTeamMember($project, $form_data["assigned_to"]);
+
+                    if (!$teamMember) {
+                        $teamMemberId = $teams->addTeam($project, $form_data["assigned_to"], 1, 0);
+                    }
+
+                    //send task assignment mail if notifications = true
+                    if ($notifications == "true") {
+                        include '../tasks/noti_taskassignment.php';
+                    }
+                }
+
+                //create task sub-folder if filemanagement = true
+                if ($fileManagement == "true") {
+                    phpCollab\Util::createDirectory("files/{$project}/{$newTaskId}");
+                }
+
+                phpCollab\Util::headerFunction("../tasks/viewtask.php?id={$newTaskId}&msg=addAssignment");
             }
-
-            //create task sub-folder if filemanagement = true
-            if ($fileManagement == "true") {
-                phpCollab\Util::createDirectory("files/$project/$num");
-            }
-
-            phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$num&msg=addAssignment");
-
         } else {
-        //case update task
 
-            //Change task status if parent phase is suspended, complete or not open.
-            if ($projectDetail['pro_phase_set'] != "0") {
-                $currentPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($project, $phase);
-
-                if ($taskStatus == 3 && $currentPhase['pha_status'] != 1) {
-                    $taskStatus = 4;
-                }
+            if (empty($form_data["published"])) {
+                $form_data["published"] = "1";
             }
-
-            if ($pub == "") {
-                $pub = "1";
-            }
-            if ($completion == "10") {
-                $taskStatus = "1";
+            if ($form_data["completion"] == "10") {
+                $form_data["status"] = "1";
             }
 
             //recompute number of completed tasks of the project
@@ -270,102 +273,44 @@ if (
                 $tableCollab["projects"]
             );
 
-            if ($invoicing == "") {
-                $invoicing = "0";
+            if (empty($form_data["invoicing"])) {
+                $form_data["invoicing"] = "0";
             }
 
-            //Update task with our without parent phase
-            $tmpquery5 = <<<SQL
-UPDATE {$tableCollab["tasks"]} SET 
-name = :task_name, 
-description = :description, 
-assigned_to = :assigned_to, 
-status = :status, 
-priority = :priority, 
-start_date = :start_date, 
-due_date = :due_date, 
-estimated_time = :estimated_time, 
-actual_time = :actual_time, 
-comments = :comments, 
-modified = :modified, 
-completion = :completion, 
-parent_phase = :parent_phase, 
-published = :published, 
-invoicing = :invoicing,
-worked_hours = :worked_hours 
-WHERE id = :task_id
-SQL;
-
-//            $tmpquery5Params = [];
-//            $tmpquery5Params['task_name'] = $task_name;
-//            $tmpquery5Params['description'] = $d;
-//            $tmpquery5Params['assigned_to'] = $at;
-//            $tmpquery5Params['status'] = $taskStatus;
-//            $tmpquery5Params['priority'] = $pr;
-//            $tmpquery5Params['start_date'] = $start_date;
-//            $tmpquery5Params['due_date'] = $due_date;
-//            $tmpquery5Params['estimated_time'] = $etm;
-//            $tmpquery5Params['actual_time'] = $atm;
-//            $tmpquery5Params['comments'] = $comments;
-//            $tmpquery5Params['modified'] = $dateheure;
-//            $tmpquery5Params['completion'] = $completion;
-//            $tmpquery5Params['parent_phase'] = ($phase != 0) ? $phase: 0;
-//            $tmpquery5Params['published'] = $pub;
-//            $tmpquery5Params['invoicing'] = $invoicing;
-//            $tmpquery5Params['worked_hours'] = $worked_hours;
-//            $tmpquery5Params['task_id'] = $id;
-
-
-
-//            $tasks->setTaskName();
-//            $tasks->setDescription();
-//            $tasks->setAssignedTo();
-//            $tasks->setStatus();
-//            $tasks->setPriority();
-//            $tasks->setStartDate();
-//            $tasks->setDueDate();
-//            $tasks->setEstimatedTime();
-//            $tasks->setActualTime();
-//            $tasks->setComments();
-//            $tasks->setModifiedDate();
-//            $tasks->setCompletion();
-//            $tasks->setParentPhase();
-//            $tasks->setPublished();
-//            $tasks->setInvoicing();
-//            $tasks->setWorkedHours();
-//            $tasks->setTaskId();
-
-
-            if ($taskStatus == "1" && $complete_date == "--") {
-                $tasks->setCompletionDateForTaskById($id, $date);
+            if ($form_data["status"] == "1" && $form_data["complete_date"] == "--") {
+                $tasks->setCompletionDateForTaskById($task_id, $date);
             } else {
-                $tasks->setCompletionDateForTaskById($id, $complete_date);
+                $tasks->setCompletionDateForTaskById($task_id, $form_data["complete_date"]);
             }
 
-            if ($old_st == "1" && $taskStatus != $old_st) {
-                $tasks->setCompletionDateForTaskById($id, '');
+            if ($form_data["old_status"] == "1" && $form_data["status"] != $form_data["old_status"]) {
+                $tasks->setCompletionDateForTaskById($task_id, '');
             }
 
             //if project different from past value, set project number in tasks table
-            if ($project != $old_project) {
-                $tasks->setProjectByTaskId($project, $id);
+            if ($project != $form_data["old_project"]) {
+                $tasks->setProjectByTaskId($project, $task_id);
 
-                $files->setProjectByTaskId($project, $id);
-                phpCollab\Util::createDirectory("files/$project/$id");
+                $files->setProjectByTaskId($project, $task_id);
+                phpCollab\Util::createDirectory("files/$project/$task_id");
 
-                $dir = opendir("../files/$old_project/$id");
+                $dir = opendir("../files/{$form_data["old_project"]}/{$task_id}");
 
                 if (is_resource($dir)) {
                     while ($v = readdir($dir)) {
                         if ($v != '.' && $v != '..') {
-                            copy("../files/$old_project/$id/" . $v, "../files/$project/$id/" . $v);
-                            @unlink("../files/$old_project/$id/" . $v);
+                            try {
+                                copy("../files/{$form_data["old_project"]}/{$task_id}/" . $v, "../files/{$project}/{$task_id}/" . $v);
+                                unlink("../files/{$form_data["old_project"]}/{$task_id}/" . $v);
+                            } catch (Exception $e) {
+                                echo $e->getMessage();
+                            }
                         }
                     }
                 }
 
                 //recompute number of completed tasks of the old project
-                $oldproject = $projects->getProjectById($old_project);
+                $oldproject = $projects->getProjectById($form_data["old_project"]);
 
                 phpCollab\Util::projectComputeCompletion(
                     $oldproject,
@@ -374,7 +319,7 @@ SQL;
             }
 
             if ($enableInvoicing == "true") {
-                if ($taskStatus == "1") {
+                if ($form_data["status"] == "1") {
                     $completeItem = "1";
                 } else {
                     $completeItem = "0";
@@ -383,338 +328,312 @@ SQL;
                 $detailInvoice = $invoices->getInvoicesByProjectId($project);
 
                 if ($detailInvoice["inv_status"] == "0") {
-                    $invoiceItemsId = $invoices->updateInvoiceItems($invoicing, $completeItem, $worked_hours, $id);
+                    $invoiceItemsId = $invoices->updateInvoiceItems($form_data["invoicing"], $completeItem,
+                        $form_data["worked_hours"], $task_id);
                 }
             }
 
             //if assigned_to not blank and past assigned value blank, set assigned date
-            if ($at != "0" && $_POST["old_assigned"] == "") {
-                $tasks->updateAssignedDate($id, $dateheure);
+            if ($form_data["assigned_to"] != "0" && $form_data["old_assigned"] == "") {
+                $tasks->updateAssignedDate($task_id, $dateheure);
             }
 
             //if assigned_to different from past value, insert into assignment
             //add new assigned_to in team members (only if doesn't already exist)
-            if ($at != $_POST["old_at"]) {
-                $tmpquery2 = "INSERT INTO {$tableCollab["assignments"]} (task,owner,assigned_to,assigned) VALUES (:task_id,:owner_id,:assigned_to,:assigned)";
-                $dbParams = [];
-                $dbParams['task_id'] = $id;
-                $dbParams['owner_id'] = $idSession;
-                $dbParams['assigned_to'] = $at;
-                $dbParams['assigned'] = $dateheure;
-                phpCollab\Util::newConnectSql($tmpquery2, $dbParams);
-                unset($dbParams);
-                
-                $tmpquery = "WHERE tea.project = '$project' AND tea.member = '$at'";
-                $testinTeam = new phpCollab\Request();
-                $testinTeam->openTeams($tmpquery);
-                $comptTestinTeam = count($testinTeam->tea_id);
+            if ($form_data["assigned_to"] != $form_data["old_assigned_to"]) {
+                $memberInfo = $members->getMemberById($form_data["assigned_to"]);
+                $memberNotifications = $notificationsClass->getMemberNotifications($form_data["assigned_to"]);
 
-                if ($comptTestinTeam == "0") {
-                    $tmpquery3 = "INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES (:project_id,:member_id,:published,:authorized)";
-                    $dbParams = [];
-                    $dbParams['project_id'] = $project;
-                    $dbParams['member_id'] = $at;
-                    $dbParams['published'] = 1;
-                    $dbParams['authorized'] = 0;
-                    phpCollab\Util::newConnectSql($tmpquery3, $dbParams);
-                    unset($dbParams);
+                // Update the assignment table
+                $assignments->addAssignment($task_id, $idSession, $form_data["assigned_to"], $dateheure);
+
+                // Check to see if the new "assigned_to" member id is a team member, if not then add them
+                $isTeamMember = $teams->isTeamMember($project, $form_data["assigned_to"]);
+
+                if (!$isTeamMember) {
+                    $teams->addTeam($project, $form_data["assigned_to"], 1, 0);
                 }
 
                 $msg = "updateAssignment";
-//                phpCollab\Util::newConnectSql($tmpquery5, $tmpquery5Params);
-//                $tmpquery5Params = [];
-//                $tmpquery5Params['task_name'] = $task_name;
-//                $tmpquery5Params['description'] = $d;
-//                $tmpquery5Params['assigned_to'] = $at;
-//                $tmpquery5Params['status'] = $taskStatus;
-//                $tmpquery5Params['priority'] = $pr;
-//                $tmpquery5Params['start_date'] = $start_date;
-//                $tmpquery5Params['due_date'] = $due_date;
-//                $tmpquery5Params['estimated_time'] = $etm;
-//                $tmpquery5Params['actual_time'] = $atm;
-//                $tmpquery5Params['comments'] = $comments;
-//                $tmpquery5Params['modified'] = $dateheure;
-//                $tmpquery5Params['completion'] = $completion;
-//                $tmpquery5Params['parent_phase'] = ($phase != 0) ? $phase: 0;
-//                $tmpquery5Params['published'] = $pub;
-//                $tmpquery5Params['invoicing'] = $invoicing;
-//                $tmpquery5Params['worked_hours'] = $worked_hours;
-//                $tmpquery5Params['task_id'] = $id;
 
-                // Todo: Finish and test this:
-                // Refactoring the above code to call method
-                $parentPhase = ($phase != 0) ? $phase: 0;
-                $tasks->updateTask($task_name, $d, $at, $taskStatus, $priority, $start_date, $due_date, $etm, $atm, $comments, $dateheure, $completion, $parentPhase, $pub, $invoicing, $worked_hours, $id);
+                $tasks->updateTask(
+                    $form_data["name"],
+                    $form_data["description"],
+                    $form_data["assigned_to"],
+                    $form_data["status"],
+                    $form_data["priority"],
+                    $form_data["start_date"],
+                    $form_data["due_date"],
+                    $form_data["estimated_time"],
+                    $form_data["actual_time"],
+                    $form_data["comments"],
+                    date('Y-m-d h:i'),
+                    $form_data["completion"],
+                    ($form_data["phase"] != 0) ? $form_data["phase"] : 0,
+                    $form_data["published"],
+                    $form_data["invoicing"],
+                    $form_data["worked_hours"],
+                    $task_id
+                );
 
-                // Todo: refactor PDO
-                $tmpquery = "WHERE tas.id = '$id'";
-                $taskDetail = new phpCollab\Request();
-                $taskDetail->openTasks($tmpquery);
+                // Get the updated task details to be passed
+                $updatedTaskDetails = $tasks->getTaskById($task_id);
 
                 //send task assignment mail if notifications = true
                 if ($notifications == "true") {
-                    include '../tasks/noti_taskassignment.php';
+                    try {
+                        $tasks->sendTaskNotification($updatedTaskDetails, $projectDetail, $memberInfo, $strings["noti_taskassignment1"], $strings["noti_taskassignment2"]);
+                    } catch (\Exception $e) {
+                        echo '(taskassignment) Message could not be sent. Mailer Error: ', $e->getMessage();
+                    }
                 }
+
             } else {
                 $msg = "update";
-                // Todo: refactor PDO
-                $dbParams = [];
-                $dbParams[''] = '';
-                phpCollab\Util::newConnectSql($tmpquery5, $tmpquery5Params);
-                $tmpquery = "WHERE tas.id = '$id'";
-                $taskDetail = new phpCollab\Request();
-                $taskDetail->openTasks($tmpquery);
 
-                //send status task change mail if notifications = true
-                if ($at != "0" && $taskStatus != $old_st) {
-                    if ($notifications == "true") {
-                        include '../tasks/noti_statustaskchange.php';
+                $tasks->updateTask(
+                    $form_data["name"],
+                    $form_data["description"],
+                    $form_data["assigned_to"],
+                    $form_data["status"],
+                    $form_data["priority"],
+                    $form_data["start_date"],
+                    $form_data["due_date"],
+                    $form_data["estimated_time"],
+                    $form_data["actual_time"],
+                    $form_data["comments"],
+                    date('Y-m-d h:i'),
+                    $form_data["completion"],
+                    ($form_data["phase"] != 0) ? $form_data["phase"] : 0,
+                    $form_data["published"],
+                    $form_data["invoicing"],
+                    $form_data["worked_hours"],
+                    $task_id
+                );
+
+                $updatedTaskDetails = $tasks->getTaskById($task_id);
+
+                $memberInfo = $members->getMemberById($updatedTaskDetails["tas_owner"]);
+                $memberNotifications = $notificationsClass->getMemberNotifications($updatedTaskDetails["tas_owner"]);
+
+                if ($notifications == "true") {
+
+                    if (
+                        $form_data["assigned_to"] != "0" &&
+                        $form_data["status"] != $form_data["old_status"]
+                    ) {
+                        try {
+                            $tasks->sendTaskNotification(
+                                $updatedTaskDetails, $projectDetail, $memberInfo,
+                                $strings["noti_statustaskchange1"], $strings["noti_statustaskchange2"]
+                            );
+                        } catch (\Exception $e) {
+                            echo '(statustaskchange) Message could not be sent. Mailer Error: ', $e->getMessage();
+                        }
+                    }
+
+                    if (
+                        $form_data["assigned_to"] != "0" &&
+                        $form_data["priority"] != $form_data["old_priority"]
+                    ) {
+                        try {
+                            $tasks->sendTaskNotification($updatedTaskDetails, $projectDetail, $memberInfo, $strings["noti_prioritytaskchange1"], $strings["noti_prioritytaskchange2"]);
+                        } catch (\Exception $e) {
+                            echo '(prioritytaskchange) Message could not be sent. Mailer Error: ', $e->getMessage();
+                        }
+                    }
+
+                    if (
+                        $form_data["assigned_to"] != "0" &&
+                        $form_data["due_date"] != $form_data["old_due_date"]
+                    ) {
+                        try {
+                            $tasks->sendTaskNotification($updatedTaskDetails, $projectDetail, $memberInfo, $strings["noti_duedatetaskchange1"], $strings["noti_duedatetaskchange2"]);
+                        } catch (\Exception $e) {
+                            echo '(duedatetaskchange) Message could not be sent. Mailer Error: ', $e->getMessage();
+                        }
                     }
                 }
-
-                //send priority task change mail if notifications = true
-                if ($at != "0" && $pr != $old_pr) {
-                    if ($notifications == "true") {
-                        include '../tasks/noti_prioritytaskchange.php';
-                    }
-                }
-
-                //send due date task change mail if notifications = true
-                if ($at != "0" && $due_date != $old_dd) {
-                    if ($notifications == "true") {
-                        include '../tasks/noti_duedatetaskchange.php';
-                    }
-                }
+            }
+            // continue update code....
+            if ($form_data["status"] != $form_data["old_status"]) {
+                $assignment_comment .= "\n[status: {$form_data["status"]}]";
             }
 
-            if ($taskStatus != $old_st) {
-                $cUp .= "\n[status:$st]";
+            if ($form_data["priority"] != $form_data["old_priority"]) {
+                $assignment_comment .= "\n[priority: {$GLOBALS["priority"][$form_data["priority"]]} ({$form_data["priority"]})]";
             }
 
-            if ($pr != $old_pr) {
-                $cUp .= "\n[priority:$pr]";
+            if ($form_data["due_date"] != $form_data["old_due_date"]) {
+                $assignment_comment .= "\n[datedue: {$form_data["due_date"]}";
             }
 
-            if ($due_date != $old_dd) {
-                $cUp .= "\n[datedue:$due_date]";
+            if (
+                $assignment_comment != "" ||
+                $form_data["status"] != $form_data["old_status"] ||
+                $form_data["priority"] != $form_data["old_priority"] ||
+                $form_data["due_date"] != $form_data["old_due_date"]
+            ) {
+                $updates = new \phpCollab\Updates\Updates();
+                $updates->addUpdate(1, $task_id, $idSession, $assignment_comment);
             }
 
-            if ($cUp != "" || $taskStatus != $old_st || $pr != $old_pr || $due_date != $old_dd) {
-                $cUp = phpCollab\Util::convertData($cUp);
-                $tmpquery6 = "INSERT INTO {$tableCollab["updates"]} (type,item,member,comments,created) VALUES (:type,:item,:member,:comments,:created)";
-                $dbParams = [];
-                $dbParams['type'] = 1;
-                $dbParams['item'] = $id;
-                $dbParams['member'] = $idSession;
-                $dbParams['comments'] = $cUp;
-                $dbParams['created'] = $dateheure;
-                phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
-                unset($dbParams);
-            }
-
-            phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$id&msg=$msg");
+            phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$task_id&msg=$msg");
         }
+
+        die("problem with update");
     }
 
-}
-//case add task
-if (
-    $_SERVER['REQUEST_METHOD'] == 'POST'
-    && $id == ""
-    && !empty($_POST["task_name"])
-    && !empty($_GET["action"])
-) {
-/**
- * ToDo: Isn't this logic basically repeated above for update/copy?  If so, refactor so it is only done once, then
- * use class methods based on the action flag
- **/
+    /*
+     * Add task
+     */
+    if (
+        is_null($errors)
+        && empty($task_id)
+        && !empty($_POST["action"])
+        && $_POST["action"] == "add"
+        && !empty($form_data["name"])
+    ) {
 
-    //case add task
-    if ($action == "add") {
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if ($_POST['task_name'] != "") {
-                $_POST['task_name'] = filter_var($_POST['task_name'], FILTER_SANITIZE_STRING);
-                if ($_POST['task_name'] == "") {
-                    $errors .= 'Please enter a valid task name.<br/><br/>';
-                }
-            } else {
-                $errors .= 'Please enter a task name.<br/>';
-            }
-
-            $project_id = $_POST["project"];
-            $task_name = $_POST["task_name"];
-            $description = $_POST["d"];
-            $assigned_to = $_POST["at"];
-            $phase = $_POST["phase"];
-            $task_status = $_POST["taskStatus"];
-            $completion = $_POST["completion"] || 0;
-            $priority = $_POST["pr"];
-            $start_date = $_POST["start_date"];
-            $due_date = $_POST["due_date"];
-            $estimated_time = $_POST["etm"];
-            $actual_time = $_POST["atm"];
-            $comments = $_POST["comments"];
-            $worked_hours = $_POST["worked_hours"];
-            $published = $_POST["published"];
-            $invoicing = $_POST["invoicing"];
-
-            $_POST['name'] = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
-        }
-
-        //Change task status if parent phase is suspended, complete or not open.
         if ($projectDetail['pro_phase_set'] == 1) {
             $currentPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($project, $phase);
-            if ($taskStatus == 3 && $currentPhase['pha_status'] != 1) {
-                $taskStatus = 4;
+            if ($form_data["status"] == 3 && $currentPhase['pha_status'] != 1) {
+                $form_data["status"] = 4;
             }
         }
 
-        if ($completion == "10") {
-            $taskStatus = 1;
+        if ($form_data["completion"] == "10") {
+            $form_data["status"] = 1;
         }
 
-        if ($published == "") {
+        if (!empty($form_data["published"])) {
             $published = 1;
         }
 
-        if ($invoicing == "") {
+        if (!empty($form_data["invoicing"])) {
             $invoicing = 0;
         }
 
-        if ($worked_hours == "") {
+        if (!empty($form_data["worked_hours"])) {
             $worked_hours = "0.00";
         }
 
-        $dbParams = [];
-        $dbParams['project_id'] = $project;
-        $dbParams['task_name'] = $task_name;
-        $dbParams['description'] = $description;
-        $dbParams['owner'] = $idSession;
-        $dbParams['assigned_to'] = ($assigned_to != 0) ? $assigned_to : 0;
-        $dbParams['status'] = $taskStatus;
-        $dbParams['priority'] = $priority;
-        $dbParams['start_date'] = $start_date;
-        $dbParams['due_date'] = $due_date;
-        $dbParams['estimated_time'] = $estimated_time;
-        $dbParams['actual_time'] = $actual_time;
-        $dbParams['comments'] = $comments;
-        $dbParams['created'] = $dateheure;
-        $dbParams['published'] = $published;
-        $dbParams['completion'] = $completion;
-        $dbParams['parent_phase'] = ($phase != 0) ? $phase: 0;
-        $dbParams['invoicing'] = $invoicing;
-        $dbParams['worked_hours'] = $worked_hours;
+        try {
+            $newTask = $tasks->addTask(
+                $project,
+                $form_data["name"],
+                $form_data["description"],
+                $idSession,
+                $form_data["assigned_to"],
+                $form_data["status"],
+                $form_data["priority"],
+                $form_data["start_date"],
+                $form_data["due_date"],
+                $form_data["estimated_time"],
+                $form_data["actual_time"],
+                $form_data["comments"],
+                $form_data["published"],
+                $form_data["completion"],
+                ($form_data["phase"] != 0) ? $form_data["phase"] : 0,
+                $form_data["invoicing"],
+                $form_data["worked_hours"]
+            );
 
-        //if assigned_to not blank, set assigned date
-        if ($assigned_to != "0") {
-            $dbParams['assigned'] = $dateheure;
-        } else {
-            $dbParams['assigned'] = null;
+        } catch (Exception $e) {
+            echo "<h1>Error adding new task.</h1>";
+            echo "<pre>" . $e->getMessage() . "</pre>";
         }
 
-        $newTaskId = $tasks->addTask($dbParams);
+        // If new task is created suceessfully, then continue, otherwise display error
+        if ($newTask) {
+            $newTaskId = $newTask["tas_id"];
 
-        if ($enableInvoicing == "true") {
-            $invoices = new \phpCollab\Invoices\Invoices();
+            $memberInfo = $members->getMemberById($idSession);
 
-            if ($taskStatus == "1") {
-                $completeItem = "1";
-            } else {
-                $completeItem = "0";
+            if ($enableInvoicing == "true") {
+                if ($form_data["status"] == "1") {
+                    $completeItem = "1";
+                } else {
+                    $completeItem = "0";
+                }
+
+                $detailInvoice = $invoices->getInvoicesByProjectId($project);
+
+                if ($detailInvoice["inv_status"] == "0") {
+                    try {
+                        $invNum = $invoices->addInvoiceItem(
+                            $form_data["name"],
+                            $form_data["description"],
+                            $detailInvoice["inv_id"],
+                            $form_data["invoicing"],
+                            $completeItem,
+                            1,
+                            $newTaskId,
+                            $form_data["worked_hours"]
+                        );
+                    } catch (Exception $e) {
+                        echo "<h1>Error adding invoice item.</h1>";
+                    }
+                }
             }
 
-            $detailInvoice = $invoices->getInvoicesByProjectId($project);
-
-            if ($detailInvoice["inv_status"] == "0") {
-                $dbParams = [];
-                $dbParams['task_name'] = $task_name;
-                $dbParams['description'] = $description;
-                $dbParams['invoice_id'] = $detailInvoice['inv_id'];
-                $dbParams['created'] = $dateheure;
-                $dbParams['active'] = $invoicing;
-                $dbParams['completed'] = $completeItem;
-                $dbParams['mod_type'] = 1;
-                $dbParams['mod_value'] = $newTaskId;
-                $dbParams['worked_hours'] = $worked_hours;
-                $invNum = $invoices->addInvoiceItem($dbParams);
-                unset($dbParams);
-            }
-        }
-
-        if ($taskStatus == "1") {
-            $tasks->setCompletionDateForTaskById($newTaskId, $dateheure);
-        }
-
-        //recompute number of completed tasks of the project
-        $projectDetail['pro_name'] = phpCollab\Util::projectComputeCompletion(
-            $projectDetail,
-            $tableCollab["projects"]
-        );
-
-        //if assigned_to not blank, set assigned date
-        if ($at != "0") {
-            $tasks->updateAssignedDate($newTaskId, $dateheure);
-        }
-        $tmpquery2 = "INSERT INTO {$tableCollab["assignments"]} (task,owner,assigned_to,assigned) VALUES(:task_id, :owner_id, :assigned_to, :assigned)";
-        $dbParams = [];
-        $dbParams['task_id'] = $newTaskId;
-        $dbParams['owner_id'] = $idSession;
-        $dbParams['assigned_to'] = $at;
-        $dbParams['assigned'] = $dateheure;
-
-        phpCollab\Util::newConnectSql($tmpquery2, $dbParams);
-        unset($dbParams);
-
-        //if assigned_to not blank, add to team members (only if doesn't already exist)
-        //add assigned_to in team members (only if doesn't already exist)
-        if ($at != "0") {
-            $testinTeam = $teams->getTeamByProjectIdAndTeamMember($project, $at);
-            $comptTestinTeam = count($testinTeam);
-
-            if ($comptTestinTeam == "0") {
-                $dbParams = [];
-                $dbParams['project'] = $project;
-                $dbParams['member'] = $at;
-                $dbParams['published'] = 1;
-                $dbParams['authorized'] = 0;
-                $teams->addTeam($dbParams);
-                unset($dbParams);
+            if ($form_data["status"] == "1") {
+                $tasks->setCompletionDateForTaskById($newTaskId, date('Y-m-d h:i'));
             }
 
-            //send task assignment mail if notifications = true
-            if ($notifications == "true") {
-                include '../tasks/noti_taskassignment.php';
+            //if assigned_to not blank, set assigned date
+            if ($form_data["assigned_to"] != "0") {
+                // Update the assigned date
+                $tasks->updateAssignedDate($newTaskId, date('Y-m-d h:i'));
+
+                // Add entry to the assigned table
+                $assignments->addAssignment(
+                    $newTaskId,
+                    $idSession,
+                    $form_data["assigned_to"],
+                    date('Y-m-d h:i')
+                );
+
+                // Check to see if the assigned_to user is a team member
+                $isTeamMember = $teams->isTeamMember($project, $form_data["assigned_to"]);
+
+                // If not a team member, then add the assigned_to user to the team members table
+                if (!$isTeamMember) {
+                    $teams->addTeam($project, $form_data["assigned_to"], 1, 0);
+                }
+
+                if ($notifications == "true") {
+                    try {
+                        $tasks->sendTaskNotification($newTask, $projectDetail, $memberInfo, $strings["noti_taskassignment1"], $strings["noti_taskassignment2"]);
+                    } catch (\Exception $e) {
+                        echo '(taskassignment) Message could not be sent. Mailer Error: ', $e->getMessage();
+                    }
+                }
             }
-        }
 
-        //create task sub-folder if filemanagement = true
-        if ($fileManagement == "true") {
-            phpCollab\Util::createDirectory("files/$project/$newTaskId");
-        }
+            //create task sub-folder if filemanagement = true
+            if ($fileManagement == "true") {
+                phpCollab\Util::createDirectory("files/$project/$newTaskId");
+            }
 
-        phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$newTaskId&msg=addAssignment");
+            phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$newTaskId&msg=addAssignment");
+        }
     }
-
-    //set default values
-    $taskDetail['tas_assigned_to'] = "0";
-    $taskDetail['tas_priority'] = $projectDetail['pro_priority'];
-    $taskDetail['tas_status'] = "2";
 }
 
 //set value in form
 $task_name = $taskDetail['tas_name'];
-$d = $taskDetail['tas_description'];
+$task_description = $taskDetail['tas_description'];
 $start_date = $taskDetail['tas_start_date'];
 $due_date = $taskDetail['tas_due_date'];
 $complete_date = $taskDetail['tas_complete_date'];
-$etm = $taskDetail['tas_estimated_time'];
-$atm = $taskDetail['tas_actual_time'];
+$estimated_time = $taskDetail['tas_estimated_time'];
+$actual_time = $taskDetail['tas_actual_time'];
 $comments = $taskDetail['tas_comments'];
-$pub = $taskDetail['tas_published'];
+$published = $taskDetail['tas_published'];
 $worked_hours = $taskDetail['tas_worked_hours'];
 
-if ($pub == "0") {
+if ($published == "0") {
     $checkedPub = "checked";
 }
 
@@ -723,9 +642,8 @@ if ($projectDetail['pro_org_id'] == "1") {
     $projectDetail['pro_org_name'] = $strings["none"];
 }
 
-
 if ($projectDetail['pro_phase_set'] != "0") {
-    if ($id != "") {
+    if ($task_id != "") {
         $tPhase = $taskDetail['tas_parent_phase'];
         if (!$tPhase) {
             $tPhase = '0';
@@ -733,7 +651,7 @@ if ($projectDetail['pro_phase_set'] != "0") {
         $project = $subtaskDetail['tas_project'];
     }
 
-    if ($id == "") {
+    if ($task_id == "") {
         $tPhase = $phase;
         if (!$tPhase) {
             $tPhase = '0';
@@ -760,11 +678,11 @@ if ($projectDetail['pro_phase_set'] != "0") {
 
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail['pro_id'], $strings["tasks"], "in"));
 
-if ($id == "") {
+if ($task_id == "") {
     $blockPage->itemBreadcrumbs($strings["add_task"]);
 }
 
-if ($id != "") {
+if ($task_id != "") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail['tas_id'], $taskDetail['tas_name'], "in"));
     $blockPage->itemBreadcrumbs($strings["edit_task"]);
 }
@@ -779,34 +697,36 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 
-if ($id == "") {
+if ($task_id == "") {
     $block1->form = "etD";
-    $block1->openForm("../tasks/edittask.php?project=$project&action=add&#" . $block1->form . "Anchor");
+    $block1->openForm("../tasks/edittask.php?project=$project&#" . $block1->form . "Anchor");
+    echo '<input type="hidden" name="action" value="add">';
 }
 
-if ($id != "") {
+if ($task_id != "") {
     $block1->form = "etD";
-    $block1->openForm("../tasks/edittask.php?project=$project&id=$id&action=update&docopy=$docopy&#" . $block1->form . "Anchor");
+    $block1->openForm("../tasks/edittask.php?project=$project&id=$task_id&docopy=$docopy&#" . $block1->form . "Anchor");
     echo <<<HIDDENFIELDS
-<input type="hidden" name="old_at" value="{$taskDetail['tas_assigned_to']}">
-<input type="hidden" name="old_assigned" value="{$taskDetail['tas_assigned']}">
-<input type="hidden" name="old_pr" value="{$taskDetail['tas_priority']}">
-<input type="hidden" name="old_st" value="{$taskDetail['tas_status']}">
-<input type="hidden" name="old_dd" value="{$taskDetail['tas_due_date']}">
+<input type="hidden" name="old_assigned_to" value="{$taskDetail["tas_assigned_to"]}">
+<input type="hidden" name="old_assigned" value="{$taskDetail["tas_assigned"]}">
+<input type="hidden" name="old_priority" value="{$taskDetail["tas_priority"]}">
+<input type="hidden" name="old_status" value="{$taskDetail["tas_status"]}">
+<input type="hidden" name="old_due_date" value="{$taskDetail['tas_due_date']}">
 <input type="hidden" name="old_project" value="{$taskDetail['tas_project']}">
+<input type="hidden" name="action" value="update">
 HIDDENFIELDS;
 }
 
-if (isset($error) && $error != "") {
+if (!empty($errors)) {
     $block1->headingError($strings["errors"]);
-    $block1->contentError($error);
+    $block1->contentError($errors);
 }
 
-if ($id == "") {
+if ($task_id == "") {
     $block1->heading($strings["add_task"]);
 }
 
-if ($id != "") {
+if ($task_id != "") {
     if ($docopy == "true") {
         $block1->heading($strings["copy_task"] . " : " . $taskDetail['tas_name']);
     } else {
@@ -842,31 +762,49 @@ echo "</select></td></tr>";
 
 //Display task's phase
 if ($projectDetail['pro_phase_set'] != "0") {
-    echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["phase"] . " :</td><td>" . $blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase["pha_id"], $targetPhase["pha_name"], "in") . "</td></tr>";
-}
-echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["organization"] . " :</td><td>" . $projectDetail['pro_org_name'] . "</td></tr>";
+    $viewPhaseLink = $blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase["pha_id"], $targetPhase["pha_name"], "in");
+    echo <<<HTML
+    <tr class="odd">
+        <td valign="top" class="leftvalue">{$strings["phase"]} :</td>
+        <td>{$viewPhaseLink}</td>
+    </tr>
+HTML;
 
+}
+echo <<<HTML
+    <tr class="odd">
+        <td valign="top" class="leftvalue">{$strings["organization"]} :</td>
+        <td>{$projectDetail["pro_org_name"]}</td>
+    </tr>
+HTML;
 $block1->contentTitle($strings["details"]);
 
-echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["name"] . " :</td><td><input size='44' value='";
+echo <<<HTML
+    <tr class="odd">
+        <td valign="top" class="leftvalue">{$strings["name"]} :</td>
+        <td><input size="44" value="
+HTML;
 
 if ($docopy == "true") {
     echo $strings["copy_of"];
 }
 
-echo "$task_name' style='width: 400px' name='task_name' maxlength='100' type='TEXT'></td>
-        </tr>";
+echo <<<HTML
+{$task_name}" style="width: 400px" name="task_name" maxlength="100" type="text"></td>
+    </tr>
+HTML;
+
 echo <<<Description
     <tr class="odd">
         <td valign="top" class="leftvalue">{$strings["description"]} :</td>
-            <td><textarea rows="10" style="width: 400px; height: 160px;" name="d" cols="47">{$d}</textarea></td>
+            <td><textarea rows="10" style="width: 400px; height: 160px;" name="description" cols="47">{$task_description}</textarea></td>
         </tr>
 Description;
 
 echo <<<AssignedTo
         <tr class="odd">
             <td valign="top" class="leftvalue">{$strings["assigned_to"]} :</td>
-            <td><select name="at">
+            <td><select name="assigned_to">
 AssignedTo;
 
 
@@ -912,7 +850,7 @@ if ($projectDetail['pro_phase_set'] != "0") {
     foreach ($phaseList as $item) {
         $phaseNum = $item['pha_order_num'];
         if ($taskDetail['tas_parent_phase'] == $phaseNum || $phase == $phaseNum) {
-            echo '<option value="'.$phaseNum.'" selected>' . $item["pha_name"] . '</option>';
+            echo '<option value="' . $phaseNum . '" selected>' . $item["pha_name"] . '</option>';
         } else {
             echo '<option value="' . $phaseNum . '">' . $item["pha_name"] . '</option>';
         }
@@ -926,12 +864,12 @@ $comptSta = count($status);
 
 foreach ($status as $key => $item) {
     if (!empty($taskDetail['tas_status']) && $taskDetail['tas_status'] == $key) {
-        echo '<option value="'.$key.'" selected>'.$item.'</option>';
+        echo '<option value="' . $key . '" selected>' . $item . '</option>';
     } else {
         if (empty($taskDetail['tas_status']) && $key === 2) {
-            echo '<option value="'.$key.'" selected>'.$item.'</option>';
+            echo '<option value="' . $key . '" selected>' . $item . '</option>';
         } else {
-            echo '<option value="'.$key.'">'.$item.'</option>';
+            echo '<option value="' . $key . '">' . $item . '</option>';
         }
     }
 }
@@ -962,7 +900,7 @@ echo "          </select>
         </tr>
         <tr class='odd'>
             <td valign='top' class='leftvalue'>" . $strings["priority"] . " :</td>
-            <td><select name='pr'>";
+            <td><select name='priority'>";
 
 $comptPri = count($priority);
 
@@ -1003,11 +941,11 @@ echo <<<JAVASCRIPT
         inputField     :    'due_date',
         button         :    'trigDueDate',
         {$calendar_common_settings}
-    });
+    })
 </script>
 JAVASCRIPT;
 
-if ($id != "") {
+if ($task_id != "") {
     $block1->contentRow($strings["complete_date"], "<input type='text' name='complete_date' id='complete_date' size='20' value='$complete_date'><input type='button' value=' ... ' id=\"trigCompleteDate\">");
     echo <<<JAVASCRIPT
 	<script type='text/javascript'>
@@ -1015,7 +953,7 @@ if ($id != "") {
 	        inputField     :    'complete_date',
 	        button         :    'trigCompleteDate',
         {$calendar_common_settings}
-	    });
+	    })
 	</script>
 JAVASCRIPT;
 }
@@ -1023,13 +961,13 @@ JAVASCRIPT;
 echo <<<TR
     <tr class="odd">
             <td valign="top" class="leftvalue">{$strings["estimated_time"]} :</td>
-            <td><input size="32" value="$etm" style="width: 250px" name="etm" maxlength="32" type="TEXT">{$strings["hours"]}</td>
+            <td><input size="32" value="$estimated_time" style="width: 250px" name="estimated_time" maxlength="32" type="TEXT">{$strings["hours"]}</td>
         </tr>
 TR;
 echo <<<TR
         <tr class="odd">
             <td valign="top" class="leftvalue">{$strings["actual_time"]} :</td>
-            <td><input size="32" value="$atm" style="width: 250px" name="atm" maxlength="32" type="TEXT">{$strings["hours"]}</td>
+            <td><input size="32" value="$actual_time" style="width: 250px" name="actual_time" maxlength="32" type="TEXT">{$strings["hours"]}</td>
         </tr>
 TR;
 echo <<<TR
@@ -1041,23 +979,23 @@ TR;
 echo <<<TR
         <tr class="odd">
             <td valign="top" class="leftvalue">{$strings["published"]} :</td>
-            <td><input size="32" value="0" name="pub" type="checkbox" {$checkedPub}></td>
+            <td><input size="32" value="0" name="published" type="checkbox" {$checkedPub}></td>
         </tr>
 TR;
 
 if ($enableInvoicing == "true") {
     if ($taskDetail["tas_invoicing"] == "1") {
-        $ckeckedInvoicing = "checked";
+        $checkedInvoicing = "checked";
     }
-    $block1->contentRow($strings["invoicing"], "<input size=\"32\" value=\"1\" name=\"invoicing\" type=\"checkbox\" $ckeckedInvoicing>");
-    $block1->contentRow($strings["worked_hours"], "<input size=\"32\" value=\"$worked_hours\" style=\"width: 250px\" name=\"worked_hours\" type=\"TEXT\">");
+    $block1->contentRow($strings["invoicing"], '<input size="32" value="1" name="invoicing" type="checkbox" ' . $checkedInvoicing . '>');
+    $block1->contentRow($strings["worked_hours"], '<input size="32" value="' . $worked_hours . '" style="width: 250px" name="worked_hours" type="TEXT">');
 }
 
-if ($id != "") {
+if ($task_id != "") {
     $block1->contentTitle($strings["updates_task"]);
     echo "  <tr class='odd'>
                 <td valign='top' class='leftvalue'>" . $strings["comments"] . " :</td>
-                <td><textarea rows='10' style='width: 400px; height: 160px;' name='cUp' cols='47'></textarea></td>
+                <td><textarea rows='10' style='width: 400px; height: 160px;' name='assignment_comment' cols='47'></textarea></td>
             </tr>";
 }
 
