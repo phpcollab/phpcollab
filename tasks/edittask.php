@@ -196,8 +196,7 @@ if (
                     $form_data["worked_hours"]);
 
             } catch (Exception $e) {
-                echo "<h1>Error adding new task.</h1>";
-                echo "<pre>" . $e->getMessage() . "</pre>";
+                // Log the exception
             }
 
             if ($newTask) {
@@ -221,7 +220,7 @@ if (
                                 $detailInvoice["inv_id"], $form_data["invoicing"], ($form_data["status"] == "1") ? 1 : 0, 1,
                                 $newTaskId, $form_data["worked_hours"]);
                         } catch (Exception $e) {
-                            echo $e->getMessage();
+                            // Log the exception
                         }
                     }
                 }
@@ -303,7 +302,7 @@ if (
                                 copy("../files/{$form_data["old_project"]}/{$task_id}/" . $v, "../files/{$project}/{$task_id}/" . $v);
                                 unlink("../files/{$form_data["old_project"]}/{$task_id}/" . $v);
                             } catch (Exception $e) {
-                                echo $e->getMessage();
+                                // Log the exception
                             }
                         }
                     }
@@ -384,7 +383,7 @@ if (
                     try {
                         $tasks->sendTaskNotification($updatedTaskDetails, $projectDetail, $memberInfo, $strings["noti_taskassignment1"], $strings["noti_taskassignment2"]);
                     } catch (\Exception $e) {
-                        echo '(taskassignment) Message could not be sent. Mailer Error: ', $e->getMessage();
+                        // Log the exception
                     }
                 }
 
@@ -428,7 +427,7 @@ if (
                                 $strings["noti_statustaskchange1"], $strings["noti_statustaskchange2"]
                             );
                         } catch (\Exception $e) {
-                            echo '(statustaskchange) Message could not be sent. Mailer Error: ', $e->getMessage();
+                            // Log the exception
                         }
                     }
 
@@ -439,7 +438,7 @@ if (
                         try {
                             $tasks->sendTaskNotification($updatedTaskDetails, $projectDetail, $memberInfo, $strings["noti_prioritytaskchange1"], $strings["noti_prioritytaskchange2"]);
                         } catch (\Exception $e) {
-                            echo '(prioritytaskchange) Message could not be sent. Mailer Error: ', $e->getMessage();
+                            // Log the exception
                         }
                     }
 
@@ -450,7 +449,7 @@ if (
                         try {
                             $tasks->sendTaskNotification($updatedTaskDetails, $projectDetail, $memberInfo, $strings["noti_duedatetaskchange1"], $strings["noti_duedatetaskchange2"]);
                         } catch (\Exception $e) {
-                            echo '(duedatetaskchange) Message could not be sent. Mailer Error: ', $e->getMessage();
+                            // Log the exception
                         }
                     }
                 }
@@ -540,11 +539,10 @@ if (
             );
 
         } catch (Exception $e) {
-            echo "<h1>Error adding new task.</h1>";
-            echo "<pre>" . $e->getMessage() . "</pre>";
+            // Log the exception
         }
 
-        // If new task is created suceessfully, then continue, otherwise display error
+        // If new task is created successfully, then continue, otherwise display error
         if ($newTask) {
             $newTaskId = $newTask["tas_id"];
 
@@ -572,7 +570,7 @@ if (
                             $form_data["worked_hours"]
                         );
                     } catch (Exception $e) {
-                        echo "<h1>Error adding invoice item.</h1>";
+                        // Log the exception
                     }
                 }
             }
@@ -606,7 +604,7 @@ if (
                     try {
                         $tasks->sendTaskNotification($newTask, $projectDetail, $memberInfo, $strings["noti_taskassignment1"], $strings["noti_taskassignment2"]);
                     } catch (\Exception $e) {
-                        echo '(taskassignment) Message could not be sent. Mailer Error: ', $e->getMessage();
+                        // Log the exception
                     }
                 }
             }
