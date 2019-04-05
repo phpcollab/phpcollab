@@ -101,19 +101,14 @@ switch ($msg) {
         break;
 
     case "addAssignment":
-        $tmpquery = $tableCollab["assignments"];
-        phpCollab\Util::getLastId($tmpquery);
-        $num = $lastId[0];
-        unset($lastId);
-        $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["addition_succeeded"] . " " . $strings["add_optional"] . " " . $blockPage->buildLink("assignmentcomment.php?task=" . $taskDetail->tas_id[0] . "&id=$num", "<b>" . $strings["assignment_comment"] . "</b>", "in");
+        $assignmentId = $assignments->getLastEntryId();
+        $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["addition_succeeded"] . " " . $strings["add_optional"] . " " . $blockPage->buildLink("assignmentcomment.php?task=" . $taskDetail["tas_id"] . "&id=$assignmentId", "<b>" . $strings["assignment_comment"] . "</b>", "in");
         break;
 
     case "updateAssignment":
-        $tmpquery = $tableCollab["assignments"];
-        phpCollab\Util::getLastId($tmpquery);
-        $num = $lastId[0];
+        $assignmentId = $assignments->getLastEntryId();
         unset($lastId);
-        $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["modification_succeeded"] . " " . $strings["add_optional"] . " " . $blockPage->buildLink("assignmentcomment.php?task=" . $taskDetail->tas_id[0] . "&id=$num", "<b>" . $strings["assignment_comment"] . "</b>", "in");
+        $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["modification_succeeded"] . " " . $strings["add_optional"] . " " . $blockPage->buildLink("assignmentcomment.php?task=" . $taskDetail["tas_id"] . "&id=$assignmentId", "<b>" . $strings["assignment_comment"] . "</b>", "in");
         break;
 
     case "update":
