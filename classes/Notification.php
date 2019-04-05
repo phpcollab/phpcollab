@@ -30,7 +30,11 @@ class Notification extends phpmailer
         if ($this->Mailer == "smtp") {
             $this->isSMTP();
             $this->Host = SMTPSERVER;
-            $this->Port = 25;                                   // TCP port to connect to
+            if (defined('SMTPPORT')) {
+                $this->Port = (empty(SMTPPORT)) ? 25 : SMTPPORT;    // TCP port to connect to
+            } else {
+                $this->Port = 25;    // TCP port to connect to
+            }
             $this->SMTPAuth = false;
             if (!empty(SMTPLOGIN && !empty(SMTPPASSWORD))) {
                 $this->SMTPAuth = true;
