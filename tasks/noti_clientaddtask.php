@@ -10,7 +10,7 @@ $notifications = new \phpCollab\Notifications\Notifications();
 
 $strings = $GLOBALS["strings"];
 
-$taskNoti = $tasks->getTasksById($num);
+$taskNoti = $tasks->getTaskById($num);
 
 $projectNoti = $projects->getProjectById($taskNoti["tas_project"]);
 
