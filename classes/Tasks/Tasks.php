@@ -764,7 +764,8 @@ class Tasks
                 $mail->send();
                 $mail->clearAddresses();
             } catch (Exception $e) {
-                echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+                // Log this instead of echoing it?
+                throw new Exception($mail->ErrorInfo);
             }
         } else {
             throw new Exception('Error sending mail');
