@@ -18,7 +18,7 @@ if ($action == "update") {
 }
 
 $bodyCommand = "onLoad=\"document.assignment_commentForm.acomm.focus();\"";
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $tasks = new \phpCollab\Tasks\Tasks();
 $taskDetail = $tasks->getTaskById($task);
@@ -59,4 +59,4 @@ FORM;
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
