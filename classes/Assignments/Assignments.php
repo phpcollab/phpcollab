@@ -28,11 +28,12 @@ class Assignments
      * @param $taskOwner
      * @param $assignedTo
      * @param $assignedDate
+     * @param null $comments
      * @return mixed
      */
-    public function addAssignment($taskId, $taskOwner, $assignedTo, $assignedDate)
+    public function addAssignment($taskId, $taskOwner, $assignedTo, $assignedDate, $comments = null)
     {
-        return $this->assignments_gateway->addAssignment($taskId, $taskOwner, $assignedTo, $assignedDate);
+        return $this->assignments_gateway->addAssignment($taskId, $taskOwner, $assignedTo, $assignedDate, $comments);
     }
 
     /**
@@ -43,6 +44,11 @@ class Assignments
     public function getAssignmentsByTaskId($taskId, $sorting = null)
     {
         return $this->assignments_gateway->getAssignmentsByTaskId($taskId, $sorting);
+    }
+
+    public function getLastEntryId()
+    {
+        return $this->assignments_gateway->getLastId();
     }
 
     /**

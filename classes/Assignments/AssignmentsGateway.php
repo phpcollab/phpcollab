@@ -31,21 +31,23 @@ class AssignmentsGateway
      * @param $taskOwner
      * @param $assignedTo
      * @param $assignedDate
+     * @param null $comments
      * @return mixed
      */
-    public function addAssignment($taskId, $taskOwner, $assignedTo, $assignedDate)
+    public function addAssignment($taskId, $taskOwner, $assignedTo, $assignedDate, $comments = null)
     {
         $sql = <<<SQL
 INSERT INTO {$this->tableCollab["assignments"]} 
-(task, owner, assigned_to, assigned) 
+(task, owner, assigned_to, assigned, comments) 
 VALUES 
-(:task, :owner, :assigned_to, :assigned)
+(:task, :owner, :assigned_to, :assigned, :comments)
 SQL;
         $this->db->query($sql);
         $this->db->bind("task", $taskId);
         $this->db->bind("owner", $taskOwner);
         $this->db->bind("assigned_to", $assignedTo);
         $this->db->bind("assigned", $assignedDate);
+        $this->db->bind("comments", $comments);
         return $this->db->execute();
 
     }
@@ -61,6 +63,13 @@ SQL;
         $this->db->query($query);
         $this->db->bind(':task_id', $taskId);
         return $this->db->resultset();
+    }
+
+    public function getLastId()
+    {
+        $sql = "SELECT id FROM {$this->tableCollab["assignments"]} ORDER BY id DESC LIMIT 1";
+        $this->db->query($sql);
+        return $this->db->single()["id"];
     }
 
     /**
