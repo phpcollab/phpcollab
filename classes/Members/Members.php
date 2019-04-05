@@ -221,6 +221,11 @@ class Members
         return $data;
     }
 
+    public function getNonClientMembers($sorting = null)
+    {
+        return $this->members_gateway->getNonClientMembers($sorting);
+    }
+
     /**
      * @param $orgId
      * @return mixed

@@ -105,6 +105,13 @@ class MembersGateway
         return $this->db->fetchAll();
     }
 
+    public function getNonClientMembers($sorting = null)
+    {
+        $tmpquery = "WHERE mem.id != '1' AND mem.profil != '3'";
+        $this->db->query($this->initrequest["members"] . ' ' . $tmpquery . $this->orderBy($sorting));
+        return $this->db->resultset();
+    }
+
     /**
      * @param $memberIds
      * @return mixed
