@@ -282,13 +282,13 @@ $block1->closeForm();
 if ($teamMember === true || $profilSession == "5") {
     $block1->openPaletteScript();
     $block1->paletteScript(0, "remove", "../tasks/deletetasks.php?project=" . $taskDetail["tas_project"] . "&id=" . $taskDetail["tas_id"] . "", "true,true,false", $strings["delete"]);
-    $block1->paletteScript(1, "copy", "../tasks/edittask.php?project=" . $taskDetail["tas_project"] . "&id=" . $taskDetail["tas_id"] . "&docopy=true", "true,true,false", $strings["copy"]);
+    $block1->paletteScript(1, "copy", "../tasks/edittask.php?project=" . $taskDetail["tas_project"] . "&task=" . $taskDetail["tas_id"] . "&docopy=true", "true,true,false", $strings["copy"]);
 
     if ($sitePublish == "true") {
         $block1->paletteScript(3, "add_projectsite", "../tasks/viewtask.php?addToSite=true&id=" . $taskDetail["tas_id"] . "&action=publish", "true,true,true", $strings["add_project_site"]);
         $block1->paletteScript(4, "remove_projectsite", "../tasks/viewtask.php?removeToSite=true&id=" . $taskDetail["tas_id"] . "&action=publish", "true,true,true", $strings["remove_project_site"]);
     }
-    $block1->paletteScript(5, "edit", "../tasks/edittask.php?project=" . $taskDetail["tas_project"] . "&id=" . $taskDetail["tas_id"] . "&docopy=false", "true,true,false", $strings["edit"]);
+    $block1->paletteScript(5, "edit", "../tasks/edittask.php?project=" . $taskDetail["tas_project"] . "&task=" . $taskDetail["tas_id"] . "&docopy=false", "true,true,false", $strings["edit"]);
     $block1->closePaletteScript("", []);
 }
 
