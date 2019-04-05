@@ -19,9 +19,9 @@ class Updates
         $this->updates_gateway = new UpdatesGateway($this->db);
     }
 
-    public function addUpdate()
+    public function addUpdate($type, $item, $member, $comments)
     {
-        
+        return $this->updates_gateway->addUpdate($type, $item, $member, $comments);
     }
 
     public function getUpdates($type, $taskId)
