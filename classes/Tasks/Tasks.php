@@ -218,6 +218,19 @@ class Tasks
     }
 
     /**
+     * @param $projectId
+     * @return int
+     */
+    public function getCountCompletedTasks($projectId)
+    {
+        $tasks = $this->getTasksByProjectId($projectId);
+        $tasks = array_filter($tasks, function ($item) {
+            return $item["tas_status"] == 0 || $item["tas_status"] == 1;
+        });
+        return count($tasks);
+    }
+
+    /**
      * @param $date
      * @param $assignedTo
      * @return mixed
@@ -382,21 +395,81 @@ class Tasks
     }
 
     /**
-     * @param $taskData
-     * @return string
+     * @param $projectId
+     * @param $name
+     * @param $description
+     * @param $owner
+     * @param $assignedTo
+     * @param $status
+     * @param $priority
+     * @param $startDate
+     * @param $dueDate
+     * @param $estimatedTime
+     * @param $actualTime
+     * @param $comments
+     * @param $published
+     * @param $completion
+     * @param $parentPhase
+     * @param $invoicing
+     * @param $workedHours
+     * @return array
+     * @throws Exception
      */
-    public function addTask($taskData)
+    public function addTask($projectId, $name, $description, $owner, $assignedTo, $status, $priority, $startDate,
+                            $dueDate, $estimatedTime, $actualTime, $comments, $published, $completion, $parentPhase,
+                            $invoicing, $workedHours)
     {
-        return $this->tasks_gateway->addTask($taskData);
+        if ($projectId && $name ) {
+            // Check to see if assigned_to set, if so then pass over the date.
+            $assignedDate = !empty($assignedTo) ? date('Y-m-d h:i') : null;
+
+            $published = is_null($published) ? 0 : $published;
+            $invoicing = is_null($invoicing) ? 0 : $invoicing;
+            $completion = is_null($completion) ? 0 : $completion;
+
+            $newTaskId = $this->tasks_gateway->addTask($projectId, $name, $description, $owner, $assignedTo, $status, $priority, $startDate,
+                $dueDate, $estimatedTime, $actualTime, $comments, $published, $completion, $parentPhase,
+                $invoicing, $workedHours, $assignedDate);
+
+            if ($newTaskId) {
+                return $this->tasks_gateway->getTaskById($newTaskId);
+            } else {
+                throw new Exception('Error adding task');
+            }
+        } else {
+            throw new Exception('Project ID or Task name missing appear to be empty');
+        }
+
     }
 
     /**
-     * @param $taskData
+     * @param $parentTask
+     * @param $name
+     * @param $description
+     * @param $owner
+     * @param $assigned_to
+     * @param $status
+     * @param $priority
+     * @param $start_date
+     * @param $due_date
+     * @param $complete_date
+     * @param $estimated_time
+     * @param $actual_time
+     * @param $comments
+     * @param $published
+     * @param $completion
      * @return mixed
      */
-    public function addSubTask($taskData)
+    public function addSubTask($parentTask, $name, $description, $owner, $assigned_to, $status, $priority, $start_date,
+                               $due_date, $complete_date, $estimated_time, $actual_time, $comments, $published,
+                               $completion)
     {
-        return $this->tasks_gateway->addSubTask($taskData);
+
+        return $this->tasks_gateway->addSubTask($parentTask, $name, $description, $owner, $assigned_to, $status,
+            $priority, $start_date, $due_date, $complete_date, $estimated_time, $actual_time, $comments,
+            date('Y-m-d h:i'),
+            date('Y-m-d h:i'),
+            $published, $completion);
     }
 
     /**
@@ -419,6 +492,16 @@ class Tasks
         return $this->tasks_gateway->setCompletionDateForTaskById($taskId, $date);
     }
 
+
+    /**
+     * @param $taskId
+     * @param $taskName
+     * @return mixed
+     */
+    public function setName($taskId, $taskName)
+    {
+        return $this->tasks_gateway->setName($taskId, $taskName);
+    }
 
     /**
      * @param $taskId
@@ -603,12 +686,27 @@ class Tasks
     }
 
     /**
+     * @param $taskId
+     * @param $userId
+     * @return bool
+     */
+    public function isOwner($taskId, $userId)
+    {
+        $taskDetail = $this->tasks_gateway->getTaskById($taskId);
+
+        if ($taskDetail) {
+            return $taskDetail["tas_owner"] == $userId;
+        }
+
+        return false;
+    }
+
+    /**
      * @param $taskDetails
      * @param $projectDetails
      * @param $userDetails
      * @param $subject
      * @param $bodyOpening
-     * @throws \PHPMailer\PHPMailer\Exception
      * @throws Exception
      */
     public function sendTaskNotification($taskDetails, $projectDetails, $userDetails, $subject, $bodyOpening)

@@ -114,6 +114,20 @@ class TasksGateway
 
     /**
      * @param $taskId
+     * @param $taskName
+     * @return mixed
+     */
+    public function setName($taskId, $taskName)
+    {
+        $tmpquery = "UPDATE {$this->tableCollab["tasks"]} SET name = :task_name WHERE id = :task_id";
+        $this->db->query($tmpquery);
+        $this->db->bind(':task_name', $taskName);
+        $this->db->bind(':task_id', $taskId);
+        return $this->db->execute();
+    }
+
+    /**
+     * @param $taskId
      * @param $startDate
      * @return mixed
      */
@@ -216,39 +230,57 @@ class TasksGateway
     }
 
     /**
-     * @param $taskData
+     * @param $parentTask
+     * @param $name
+     * @param $description
+     * @param $owner
+     * @param $assigned_to
+     * @param $status
+     * @param $priority
+     * @param $start_date
+     * @param $due_date
+     * @param $complete_date
+     * @param $estimated_time
+     * @param $actual_time
+     * @param $comments
+     * @param $created
+     * @param $assigned
+     * @param $published
+     * @param $completion
      * @return mixed
      */
-    public function addSubTask($taskData)
+    public function addSubTask($parentTask, $name, $description, $owner, $assigned_to, $status, $priority, $start_date,
+                               $due_date, $complete_date, $estimated_time, $actual_time, $comments, $created, $assigned,
+                               $published, $completion)
     {
         $sql = <<<SQL
 INSERT INTO {$this->tableCollab["subtasks"]} (
 task, name, description, owner, assigned_to, status, priority, start_date, due_date, complete_date,
 estimated_time, actual_time, comments, created, assigned, published, completion
 ) VALUES (
-:task, :name, :description, :owner, :assigned_to, :status, :priority, :start_date, :due_date, :complete_date, 
+:parent_task, :name, :description, :owner, :assigned_to, :status, :priority, :start_date, :due_date, :complete_date, 
 :estimated_time, :actual_time, :comments, :created, :assigned, :published, :completion
 )
 SQL;
 
         $this->db->query($sql);
-        $this->db->bind(':task', $taskData["task"]);
-        $this->db->bind(':name', $taskData["name"]);
-        $this->db->bind(':description', $taskData["description"]);
-        $this->db->bind(':owner', $taskData["owner"]);
-        $this->db->bind(':assigned_to', $taskData["assigned_to"]);
-        $this->db->bind(':status', $taskData["status"]);
-        $this->db->bind(':priority', $taskData["priority"]);
-        $this->db->bind(':start_date', $taskData["start_date"]);
-        $this->db->bind(':due_date', $taskData["due_date"]);
-        $this->db->bind(':complete_date', $taskData["complete_date"]);
-        $this->db->bind(':estimated_time', $taskData["estimated_time"]);
-        $this->db->bind(':actual_time', $taskData["actual_time"]);
-        $this->db->bind(':comments', $taskData["comments"]);
-        $this->db->bind(':created', $taskData["created"]);
-        $this->db->bind(':assigned', $taskData["assigned"]);
-        $this->db->bind(':published', $taskData["published"]);
-        $this->db->bind(':completion', $taskData["completion"]);
+        $this->db->bind(':task', $parentTask);
+        $this->db->bind(':name', $name);
+        $this->db->bind(':description', $description);
+        $this->db->bind(':owner', $owner);
+        $this->db->bind(':assigned_to', $assigned_to);
+        $this->db->bind(':status', $status);
+        $this->db->bind(':priority', $priority);
+        $this->db->bind(':start_date', $start_date);
+        $this->db->bind(':due_date', $due_date);
+        $this->db->bind(':complete_date', $complete_date);
+        $this->db->bind(':estimated_time', $estimated_time);
+        $this->db->bind(':actual_time', $actual_time);
+        $this->db->bind(':comments', $comments);
+        $this->db->bind(':created', $created);
+        $this->db->bind(':assigned', $assigned);
+        $this->db->bind(':published', $published);
+        $this->db->bind(':completion', $completion);
 
         return $this->db->execute();
 
@@ -749,16 +781,35 @@ SQL;
     }
 
     /**
-     * @param $taskData
+     * @param $projectId
+     * @param $name
+     * @param $description
+     * @param $owner
+     * @param $assignedTo
+     * @param $status
+     * @param $priority
+     * @param $startDate
+     * @param $dueDate
+     * @param $estimatedTime
+     * @param $actualTime
+     * @param $comments
+     * @param $published
+     * @param $completion
+     * @param $parentPhase
+     * @param $invoicing
+     * @param $workedHours
+     * @param $assignedDate
      * @return string
      */
-    public function addTask($taskData)
+    public function addTask($projectId, $name, $description, $owner, $assignedTo, $status, $priority, $startDate,
+                            $dueDate, $estimatedTime, $actualTime, $comments, $published, $completion, $parentPhase,
+                            $invoicing, $workedHours, $assignedDate)
     {
         $sql = <<<SQL
 INSERT INTO {$this->tableCollab["tasks"]} (
 project, name, description, owner, assigned_to, status, priority, start_date, due_date, 
 estimated_time, actual_time, comments, created, published, completion, parent_phase, 
-invoicing, worked_hours,assigned
+invoicing, worked_hours, assigned
 ) VALUES(
 :project_id, :task_name, :description, :owner, :assigned_to, :status, :priority, :start_date, :due_date, 
 :estimated_time, :actual_time, :comments, :created, :published, :completion, :parent_phase, 
@@ -766,25 +817,25 @@ invoicing, worked_hours,assigned
 )
 SQL;
         $this->db->query($sql);
-        $this->db->bind(':project_id', $taskData["project_id"]);
-        $this->db->bind(':task_name', $taskData["task_name"]);
-        $this->db->bind(':description', $taskData["description"]);
-        $this->db->bind(':owner', $taskData["owner"]);
-        $this->db->bind(':assigned_to', $taskData["assigned_to"]);
-        $this->db->bind(':status', $taskData["status"]);
-        $this->db->bind(':priority', $taskData["priority"]);
-        $this->db->bind(':start_date', $taskData["start_date"]);
-        $this->db->bind(':due_date', $taskData["due_date"]);
-        $this->db->bind(':estimated_time', $taskData["estimated_time"]);
-        $this->db->bind(':actual_time', $taskData["actual_time"]);
-        $this->db->bind(':comments', $taskData["comments"]);
-        $this->db->bind(':created', $taskData["created"]);
-        $this->db->bind(':published', $taskData["published"]);
-        $this->db->bind(':completion', $taskData["completion"]);
-        $this->db->bind(':parent_phase', $taskData["parent_phase"]);
-        $this->db->bind(':invoicing', $taskData["invoicing"]);
-        $this->db->bind(':worked_hours', $taskData["worked_hours"]);
-        $this->db->bind(':assigned', $taskData["assigned"]);
+        $this->db->bind(':project_id', $projectId);
+        $this->db->bind(':task_name', $name);
+        $this->db->bind(':description', $description);
+        $this->db->bind(':owner', $owner);
+        $this->db->bind(':assigned_to', $assignedTo);
+        $this->db->bind(':status', $status);
+        $this->db->bind(':priority', $priority);
+        $this->db->bind(':start_date', $startDate);
+        $this->db->bind(':due_date', $dueDate);
+        $this->db->bind(':estimated_time', $estimatedTime);
+        $this->db->bind(':actual_time', $actualTime);
+        $this->db->bind(':comments', $comments);
+        $this->db->bind(':created', date('Y-m-d h:i'));
+        $this->db->bind(':published', $published);
+        $this->db->bind(':completion', $completion);
+        $this->db->bind(':parent_phase', $parentPhase);
+        $this->db->bind(':invoicing', $invoicing);
+        $this->db->bind(':worked_hours', $workedHours);
+        $this->db->bind(':assigned', $assignedDate);
 
         $this->db->execute();
         return $this->db->lastInsertId();
