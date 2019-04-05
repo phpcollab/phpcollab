@@ -4,166 +4,166 @@
 #Path by root: ../includes/messages.php
 
 switch ($msg) {
-    case demo:
-        $msgLabel = "<b>" . $strings["attention"] . "</b> : " . $strings["demo_mode"] . " " . $blockPage->buildLink($urlContact, $strings["sourceforge_link"], out);
+    case "demo":
+        $msgLabel = "<b>" . $strings["attention"] . "</b> : " . $strings["demo_mode"] . " " . $blockPage->buildLink($urlContact, $strings["sourceforge_link"], "out");
         break;
 
-    case permissiondenied:
+    case "permissiondenied":
         $msgLabel = $strings["no_permissions"];
         break;
 
-    case logout:
+    case "logout":
         $msgLabel = $strings["success_logout"];
         break;
 
-    case noteOwner:
+    case "noteOwner":
         $msgLabel = "<b>" . $strings["attention"] . "</b> : " . $strings["note_owner"];
         break;
 
-    case taskOwner:
+    case "taskOwner":
         $msgLabel = "<b>" . $strings["attention"] . "</b> : " . $strings["task_owner"];
         break;
 
-    case projectOwner:
+    case "projectOwner":
         $msgLabel = "<b>" . $strings["attention"] . "</b> : " . $strings["project_owner"];
         break;
 
-    case email_pwd:
+    case "email_pwd":
         $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["email_pwd"];
         break;
 
-    case deleteTopic:
+    case "deleteTopic":
         $msgLabel = "<b>" . $strings["success"] . "</b> : $num of $num discussions were deleted.";
         break;
 
-    case closeTopic:
+    case "closeTopic":
         $msgLabel = "<b>" . $strings["success"] . "</b> : $num of $num discussions were closed.";
         break;
 
-    case createProjectSite:
+    case "createProjectSite":
         $msgLabel = "<b>" . $strings["success"] . "</b> : The project site \"" . $projectDetail->pro_name[0] . "\" was successfully created.";
         break;
 
-    case removeProjectSite:
+    case "removeProjectSite":
         $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["project_site_deleted"];
         break;
 
-    case addClientToSite:
+    case "addClientToSite":
         $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["add_user_project_site"];
         break;
 
-    case removeClientToSite:
+    case "removeClientToSite":
         $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["remove_user_project_site"];
         break;
 
-    case deleteTeamOwnerMix:
+    case "deleteTeamOwnerMix":
         $msgLabel = "<b>" . $strings["attention"] . "</b> : " . $strings["delete_teamownermix"];
         break;
 
-    case deleteTeamOwner:
+    case "deleteTeamOwner":
         $msgLabel = "<b>" . $strings["attention"] . "</b> : " . $strings["delete_teamowner"];
         break;
 
-    case addToSite:
+    case "addToSite":
         $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["add_project_site_success"];
         break;
 
-    case removeToSite:
+    case "removeToSite":
         $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["remove_project_site_success"];
         break;
 
-    case updateFile:
+    case "updateFile":
         $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["update_comment_file"];
         break;
 
-    case addFile:
+    case "addFile":
         $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["add_file_success"];
         break;
 
-    case deleteFile:
+    case "deleteFile":
         $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["delete_file_success"];
         break;
 
-    case add:
+    case "add":
         $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["addition_succeeded"];
         break;
 
-    case delete:
+    case "delete":
         $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["deletion_succeeded"];
         break;
 
-    case addReport:
+    case "addReport":
         $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["report_created"];
         break;
 
-    case deleteReport:
+    case "deleteReport":
         $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["deleted_reports"];
         break;
 
-    case addAssignment:
+    case "addAssignment":
         $tmpquery = $tableCollab["assignments"];
         phpCollab\Util::getLastId($tmpquery);
         $num = $lastId[0];
         unset($lastId);
-        $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["addition_succeeded"] . " " . $strings["add_optional"] . " " . $blockPage->buildLink("assignmentcomment.php?task=" . $taskDetail->tas_id[0] . "&id=$num", "<b>" . $strings["assignment_comment"] . "</b>", in);
+        $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["addition_succeeded"] . " " . $strings["add_optional"] . " " . $blockPage->buildLink("assignmentcomment.php?task=" . $taskDetail->tas_id[0] . "&id=$num", "<b>" . $strings["assignment_comment"] . "</b>", "in");
         break;
 
-    case updateAssignment:
+    case "updateAssignment":
         $tmpquery = $tableCollab["assignments"];
         phpCollab\Util::getLastId($tmpquery);
         $num = $lastId[0];
         unset($lastId);
-        $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["modification_succeeded"] . " " . $strings["add_optional"] . " " . $blockPage->buildLink("assignmentcomment.php?task=" . $taskDetail->tas_id[0] . "&id=$num", "<b>" . $strings["assignment_comment"] . "</b>", in);
+        $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["modification_succeeded"] . " " . $strings["add_optional"] . " " . $blockPage->buildLink("assignmentcomment.php?task=" . $taskDetail->tas_id[0] . "&id=$num", "<b>" . $strings["assignment_comment"] . "</b>", "in");
         break;
 
-    case update:
+    case "update":
         $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["modification_succeeded"];
         break;
 
-    case blankUser:
+    case "blankUser":
         $msgLabel = "<b>" . $strings["attention"] . "</b> : " . $strings["blank_user"];
         break;
 
-    case blankClient:
+    case "blankClient":
         $msgLabel = "<b>" . $strings["attention"] . "</b> : " . $strings["blank_organization"];
         break;
 
-    case blankProject:
+    case "blankProject":
         $msgLabel = "<b>" . $strings["attention"] . "</b> : " . $strings["blank_project"];
         break;
 
-    case settingsNotwritable:
+    case "settingsNotwritable":
         $msgLabel = "<b>" . $strings["attention"] . "</b> : " . $strings["settings_notwritable"];
         break;
 
 // 02/06/2003 by fullo
-    case blankNews:
+    case "blankNews":
         $msgLabel = "<b>" . $strings["attention"] . "</b> : " . $strings["blank_newsdesk"];
         break;
 
-    case removeNews:
+    case "removeNews":
         $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["remove_newsdesk"];
         break;
 
-    case permissionNews:
+    case "permissionNews":
         $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["errorpermission_newsdesk"];
         break;
 
-    case blankComment:
+    case "blankComment":
         $msgLabel = "<b>" . $strings["attention"] . "</b> : " . $strings["blank_newsdesk_comment"];
         break;
 
-    case removeComment:
+    case "removeComment":
         $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["remove_newsdesk_comment"];
         break;
 
-    case commentpermissionNews:
+    case "commentpermissionNews":
         $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["errorpermission_newsdesk_comment"];
         break;
 
 
 //BEGIN email project users mod
-    case email:
+    case "email":
         $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["email_sent"];
         break;
 //END email project users mod
