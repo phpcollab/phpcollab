@@ -26,10 +26,19 @@ class InvoicesGateway
     }
 
     /**
-     * @param $invoiceData
+     * @param $title
+     * @param $description
+     * @param $invoiceId
+     * @param $created
+     * @param $active
+     * @param $completed
+     * @param $mod_type
+     * @param $mod_value
+     * @param $worked_hours
      * @return mixed
      */
-    public function addInvoiceItem($invoiceData)
+    public function addInvoiceItem($title, $description, $invoiceId, $created, $active, $completed, $mod_type, $mod_value,
+                                   $worked_hours)
     {
         $sql = <<< SQL
 INSERT INTO {$this->tableCollab["invoices_items"]} (
@@ -38,15 +47,15 @@ title,description,invoice,created,active,completed,mod_type,mod_value,worked_hou
 :title,:description,:invoice,:created,:active,:completed,:mod_type,:mod_value,:worked_hours)
 SQL;
         $this->db->query($sql);
-        $this->db->bind(':title', $invoiceData["task_name"]);
-        $this->db->bind(':description', $invoiceData["description"]);
-        $this->db->bind(':invoice', $invoiceData["invoice_id"]);
-        $this->db->bind(':created', $invoiceData["created"]);
-        $this->db->bind(':active', $invoiceData["active"]);
-        $this->db->bind(':completed', $invoiceData["completed"]);
-        $this->db->bind(':mod_type', $invoiceData["mod_type"]);
-        $this->db->bind(':mod_value', $invoiceData["mod_value"]);
-        $this->db->bind(':worked_hours', $invoiceData["worked_hours"]);
+        $this->db->bind(':title', $title);
+        $this->db->bind(':description', $description);
+        $this->db->bind(':invoice', $invoiceId);
+        $this->db->bind(':created', $created);
+        $this->db->bind(':active', $active);
+        $this->db->bind(':completed', $completed);
+        $this->db->bind(':mod_type', $mod_type);
+        $this->db->bind(':mod_value', $mod_value);
+        $this->db->bind(':worked_hours', $worked_hours);
 
         $this->db->execute();
         return $this->db->lastInsertId();

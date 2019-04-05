@@ -1,7 +1,9 @@
 <?php
+
 namespace phpCollab\Invoices;
 
 use phpCollab\Database;
+use Exception;
 
 
 /**
@@ -23,12 +25,29 @@ class Invoices
     }
 
     /**
-     * @param $invoiceData
+     * @param $title
+     * @param $description
+     * @param $invoiceId
+     * @param $active
+     * @param $completed
+     * @param $mod_type
+     * @param $mod_value
+     * @param $worked_hours
      * @return mixed
+     * @throws Exception
      */
-    public function addInvoiceItem($invoiceData)
+    public function addInvoiceItem($title, $description, $invoiceId, $active, $completed, $mod_type, $mod_value,
+                                   $worked_hours)
     {
-        return $this->invoices_gateway->addInvoiceItem($invoiceData);
+        if ($title) {
+            $active = is_null($active) ? 0 : $active;
+
+            return $this->invoices_gateway->addInvoiceItem($title, $description, $invoiceId, date('Y-m-d h:i'), $active, $completed,
+                $mod_type, $mod_value, $worked_hours);
+
+        } else {
+            throw new Exception('Task name is missing or appear to be empty');
+        }
     }
 
     /**
