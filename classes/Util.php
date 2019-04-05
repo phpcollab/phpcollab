@@ -944,6 +944,13 @@ class Util
      * recompute number of completed tasks of the project
      * Do it only if the project name contains [ / ]
      * list tasks of the same project and count the number of completed
+     *
+     * This gets a count of completed tasks and appends it to the project name
+     * ex:
+     * "Some Awesome Project" becomes "Some Awesome Project [ completed # / total # ]"
+     *
+     * I don't think this has been working properly for awhile.
+     *
      **/
     public static function projectComputeCompletion($projectDetail, $tableProject)
     {
