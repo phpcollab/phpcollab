@@ -246,7 +246,12 @@ if (
 
                     //send task assignment mail if notifications = true
                     if ($notifications == "true") {
-                        include '../tasks/noti_taskassignment.php';
+                        try {
+                            $tasks->sendTaskNotification($newTask, $projectDetail, $memberInfo, $strings["noti_taskassignment1"], $strings["noti_taskassignment2"]);
+                        } catch (\Exception $e) {
+                            // Log the exception
+                        }
+
                     }
                 }
 
