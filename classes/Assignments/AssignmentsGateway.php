@@ -59,7 +59,7 @@ SQL;
      */
     public function getAssignmentsByTaskId($taskId, $sorting = null)
     {
-        $query = $this->initrequest["assignments"] .  " WHERE ass.task = :task_id" . $this->orderBy( ($sorting) ? $sorting : 'ass.id' );
+        $query = $this->initrequest["assignments"] .  " WHERE ass.task = :task_id" . $this->orderBy( (!empty($sorting)) ? $sorting : 'ass.id' );
         $this->db->query($query);
         $this->db->bind(':task_id', $taskId);
         return $this->db->resultset();
@@ -141,7 +141,7 @@ SQL;
     private function orderBy($sorting)
     {
         if (!is_null($sorting)) {
-            $allowedOrderedBy = ["ass_id", "ass_task", "ass_owner", "ass_assigned_to", "ass_comments", "ass_assigned", "ass_mem1_id", "ass_mem1_login", "ass_mem1_name", "ass_mem1_email_work", "ass_mem2_id", "ass_mem2_login", "ass_mem2_name", "ass_mem2_email_work"];
+            $allowedOrderedBy = ["ass_id", "ass_task", "ass_owner", "ass_assigned_to", "ass_comments", "ass.comments", "ass_assigned", "ass.assigned", "ass_mem1_id", "ass_mem1_login", "ass_mem1_name", "ass_mem1_email_work", "ass_mem2_id", "ass_mem2_login", "ass_mem2_name", "ass_mem2_email_work", "mem1.login", "mem2.login"];
             $pieces = explode(' ', $sorting);
 
             if ($pieces) {
