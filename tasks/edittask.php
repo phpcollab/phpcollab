@@ -31,6 +31,16 @@
 */
 
 
+use phpCollab\Assignments\Assignments;
+use phpCollab\Files\Files;
+use phpCollab\Invoices\Invoices;
+use phpCollab\Notifications\Notifications;
+use phpCollab\Phases\Phases;
+use phpCollab\Projects\Projects;
+use phpCollab\Tasks\Tasks;
+use phpCollab\Teams\Teams;
+use phpCollab\Updates\Updates;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -47,7 +57,7 @@ if (strstr($task_id, "**")) {
     phpCollab\Util::headerFunction("../tasks/updatetasks.php?report={$_GET['report']}&project={$_GET['project']}&id={$task_id}");
 }
 
-$tasks = new \phpCollab\Tasks\Tasks();
+$tasks = new Tasks();
 
 $taskDetail = null;
 $errors = null;
@@ -80,13 +90,13 @@ if ($_POST && !is_null($errors) && !empty($task_id)) {
 
 }
 
-$projects = new \phpCollab\Projects\Projects();
+$projects = new Projects();
 
 $projectDetail = $projects->getProjectById($project);
 
 
-$teams = new \phpCollab\Teams\Teams();
-$phases = new \phpCollab\Phases\Phases();
+$teams = new Teams();
+$phases = new Phases();
 
 // Check to see if the task owner == the current user, if so then consider them a "team member", otherwise
 // check to see if they are in the team
@@ -108,15 +118,15 @@ if (
     && !empty($_POST["task_name"])
 ) {
 
-    $assignments = new \phpCollab\Assignments\Assignments();
-    $files = new \phpCollab\Files\Files();
+    $assignments = new Assignments();
+    $files = new Files();
 
     if ($enableInvoicing == "true") {
-        $invoices = new \phpCollab\Invoices\Invoices();
+        $invoices = new Invoices();
     }
 
     if ($notifications == "true") {
-        $notificationsClass = new \phpCollab\Notifications\Notifications();
+        $notificationsClass = new Notifications();
     }
 
     $form_data = [
@@ -248,7 +258,7 @@ if (
                     if ($notifications == "true") {
                         try {
                             $tasks->sendTaskNotification($newTask, $projectDetail, $memberInfo, $strings["noti_taskassignment1"], $strings["noti_taskassignment2"]);
-                        } catch (\Exception $e) {
+                        } catch (Exception $e) {
                             // Log the exception
                         }
 
@@ -387,7 +397,7 @@ if (
                 if ($notifications == "true") {
                     try {
                         $tasks->sendTaskNotification($updatedTaskDetails, $projectDetail, $memberInfo, $strings["noti_taskassignment1"], $strings["noti_taskassignment2"]);
-                    } catch (\Exception $e) {
+                    } catch (Exception $e) {
                         // Log the exception
                     }
                 }
@@ -431,7 +441,7 @@ if (
                                 $updatedTaskDetails, $projectDetail, $memberInfo,
                                 $strings["noti_statustaskchange1"], $strings["noti_statustaskchange2"]
                             );
-                        } catch (\Exception $e) {
+                        } catch (Exception $e) {
                             // Log the exception
                         }
                     }
@@ -442,7 +452,7 @@ if (
                     ) {
                         try {
                             $tasks->sendTaskNotification($updatedTaskDetails, $projectDetail, $memberInfo, $strings["noti_prioritytaskchange1"], $strings["noti_prioritytaskchange2"]);
-                        } catch (\Exception $e) {
+                        } catch (Exception $e) {
                             // Log the exception
                         }
                     }
@@ -453,7 +463,7 @@ if (
                     ) {
                         try {
                             $tasks->sendTaskNotification($updatedTaskDetails, $projectDetail, $memberInfo, $strings["noti_duedatetaskchange1"], $strings["noti_duedatetaskchange2"]);
-                        } catch (\Exception $e) {
+                        } catch (Exception $e) {
                             // Log the exception
                         }
                     }
@@ -478,14 +488,12 @@ if (
                 $form_data["priority"] != $form_data["old_priority"] ||
                 $form_data["due_date"] != $form_data["old_due_date"]
             ) {
-                $updates = new \phpCollab\Updates\Updates();
+                $updates = new Updates();
                 $updates->addUpdate(1, $task_id, $idSession, $assignment_comment);
             }
 
             phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$task_id&msg=$msg");
         }
-
-        die("problem with update");
     }
 
     /*
@@ -608,7 +616,7 @@ if (
                 if ($notifications == "true") {
                     try {
                         $tasks->sendTaskNotification($newTask, $projectDetail, $memberInfo, $strings["noti_taskassignment1"], $strings["noti_taskassignment2"]);
-                    } catch (\Exception $e) {
+                    } catch (Exception $e) {
                         // Log the exception
                     }
                 }
@@ -742,7 +750,7 @@ $block1->contentTitle($strings["info"]);
 
 echo <<< Project
     <tr class="odd">
-    <td valign="top" class="leftvalue">{$strings["project"]} :</td>
+    <td style="vertical-align:top" class="leftvalue">{$strings["project"]} :</td>
     <td>
     <select name="project">
 Project;
@@ -768,7 +776,7 @@ if ($projectDetail['pro_phase_set'] != "0") {
     $viewPhaseLink = $blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase["pha_id"], $targetPhase["pha_name"], "in");
     echo <<<HTML
     <tr class="odd">
-        <td valign="top" class="leftvalue">{$strings["phase"]} :</td>
+        <td style="vertical-align:top" class="leftvalue">{$strings["phase"]} :</td>
         <td>{$viewPhaseLink}</td>
     </tr>
 HTML;
@@ -776,7 +784,7 @@ HTML;
 }
 echo <<<HTML
     <tr class="odd">
-        <td valign="top" class="leftvalue">{$strings["organization"]} :</td>
+        <td style="vertical-align:top" class="leftvalue">{$strings["organization"]} :</td>
         <td>{$projectDetail["pro_org_name"]}</td>
     </tr>
 HTML;
@@ -784,7 +792,7 @@ $block1->contentTitle($strings["details"]);
 
 echo <<<HTML
     <tr class="odd">
-        <td valign="top" class="leftvalue">{$strings["name"]} :</td>
+        <td style="vertical-align:top" class="leftvalue">{$strings["name"]} :</td>
         <td><input size="44" value="
 HTML;
 
@@ -799,14 +807,14 @@ HTML;
 
 echo <<<Description
     <tr class="odd">
-        <td valign="top" class="leftvalue">{$strings["description"]} :</td>
+        <td style="vertical-align:top" class="leftvalue">{$strings["description"]} :</td>
             <td><textarea rows="10" style="width: 400px; height: 160px;" name="description" cols="47">{$task_description}</textarea></td>
         </tr>
 Description;
 
 echo <<<AssignedTo
         <tr class="odd">
-            <td valign="top" class="leftvalue">{$strings["assigned_to"]} :</td>
+            <td style="vertical-align:top" class="leftvalue">{$strings["assigned_to"]} :</td>
             <td><select name="assigned_to">
 AssignedTo;
 
@@ -846,7 +854,7 @@ if ($projectDetail['pro_phase_set'] != "0") {
     $projectTarget = $projectDetail['pro_id'];
     $phaseList = $phases->getPhasesByProjectId($projectTarget, 'order_num');
 
-    echo '<tr class="odd"><td valign="top" class="leftvalue">' . $strings["phase"] . ' :</td><td>';
+    echo '<tr class="odd"><td style="vertical-align:top" class="leftvalue">' . $strings["phase"] . ' :</td><td>';
     echo '<select name="phase">';
 
     $phaseCounter = 0;
@@ -861,7 +869,7 @@ if ($projectDetail['pro_phase_set'] != "0") {
     echo "</select></td></tr>";
 }
 
-echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["status"] . " :</td><td><select name='taskStatus' onchange=\"changeSt(this)\">";
+echo "<tr class='odd'><td style='vertical-align:top' class='leftvalue'>" . $strings["status"] . " :</td><td><select name='taskStatus' onchange=\"changeSt(this)\">";
 
 $comptSta = count($status);
 
@@ -882,7 +890,7 @@ echo <<<HTML
             </td>
         </tr>
         <tr class="odd">
-            <td valign="top" class="leftvalue">{$strings["completion"]} :</td>
+            <td style="vertical-align:top" class="leftvalue">{$strings["completion"]} :</td>
             <td>
                 <select name="completion">
 HTML;
@@ -902,7 +910,7 @@ echo "          </select>
             </td>
         </tr>
         <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["priority"] . " :</td>
+            <td style='vertical-align:top' class='leftvalue'>" . $strings["priority"] . " :</td>
             <td><select name='priority'>";
 
 $comptPri = count($priority);
@@ -934,7 +942,7 @@ echo "
         inputField     :    'start_date',
         button         :    'trigStartDate',
         $calendar_common_settings
-    });
+    })
 </script>
 ";
 $block1->contentRow($strings["due_date"], "<input type='text' name='due_date' id='due_date' size='20' value='$due_date'><input type='button' value=' ... ' id=\"trigDueDate\">");
@@ -963,25 +971,25 @@ JAVASCRIPT;
 
 echo <<<TR
     <tr class="odd">
-            <td valign="top" class="leftvalue">{$strings["estimated_time"]} :</td>
+            <td style="vertical-align:top" class="leftvalue">{$strings["estimated_time"]} :</td>
             <td><input size="32" value="$estimated_time" style="width: 250px" name="estimated_time" maxlength="32" type="TEXT">{$strings["hours"]}</td>
         </tr>
 TR;
 echo <<<TR
         <tr class="odd">
-            <td valign="top" class="leftvalue">{$strings["actual_time"]} :</td>
+            <td style="vertical-align:top" class="leftvalue">{$strings["actual_time"]} :</td>
             <td><input size="32" value="$actual_time" style="width: 250px" name="actual_time" maxlength="32" type="TEXT">{$strings["hours"]}</td>
         </tr>
 TR;
 echo <<<TR
         <tr class="odd">
-            <td valign="top" class="leftvalue">{$strings["comments"]} :</td>
+            <td style="vertical-align:top" class="leftvalue">{$strings["comments"]} :</td>
             <td><textarea rows="10" style="width: 400px; height: 160px;" name="comments" cols="47">{$_POST["comments"]}</textarea></td>
         </tr>
 TR;
 echo <<<TR
         <tr class="odd">
-            <td valign="top" class="leftvalue">{$strings["published"]} :</td>
+            <td style="vertical-align:top" class="leftvalue">{$strings["published"]} :</td>
             <td><input size="32" value="0" name="published" type="checkbox" {$checkedPub}></td>
         </tr>
 TR;
@@ -997,14 +1005,14 @@ if ($enableInvoicing == "true") {
 if ($task_id != "") {
     $block1->contentTitle($strings["updates_task"]);
     echo "  <tr class='odd'>
-                <td valign='top' class='leftvalue'>" . $strings["comments"] . " :</td>
+                <td style='vertical-align:top' class='leftvalue'>" . $strings["comments"] . " :</td>
                 <td><textarea rows='10' style='width: 400px; height: 160px;' name='assignment_comment' cols='47'></textarea></td>
             </tr>";
 }
 
 echo <<<HTML
       <tr class="odd">
-                <td valign="top" class="leftvalue">&nbsp;</td>
+                <td style="vertical-align:top" class="leftvalue">&nbsp;</td>
                 <td><input type="SUBMIT" value="{$strings["save"]}"></td>
             </tr>
 HTML;
