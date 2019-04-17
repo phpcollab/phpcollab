@@ -141,7 +141,7 @@ class Files
      * @param $filesId
      * @return mixed
      */
-    public function unPublishFile($filesId)
+    public function unPublishFiles($filesId)
     {
         $filesId = filter_var($filesId, FILTER_SANITIZE_STRING);
         return $this->files_gateway->unPublishFiles($filesId);
@@ -192,6 +192,18 @@ class Files
     }
 
     /**
+     * @param $approverId
+     * @param $comment
+     * @param $fileId
+     * @param $fileStatus
+     * @return mixed
+     */
+    public function updateApprovalTracking($approverId, $comment, $fileId, $fileStatus)
+    {
+        return $this->files_gateway->updateApproval($approverId, $comment, $fileId, $fileStatus);
+    }
+
+    /**
      * @param $owner
      * @param $project
      * @param $phase
@@ -199,11 +211,12 @@ class Files
      * @param $comments
      * @param $status
      * @param $vcVersion
+     * @param null $vcParent
      * @return mixed
      */
-    public function addFile($owner, $project, $phase, $task, $comments, $status, $vcVersion)
+    public function addFile($owner, $project, $phase, $task, $comments, $status, $vcVersion, $vcParent = null)
     {
-        return $this->files_gateway->addFile($owner, $project, $phase, $task, $comments, $status, $vcVersion);
+        return $this->files_gateway->addFile($owner, $project, $phase, $task, $comments, $status, $vcVersion, $vcParent);
     }
 
     /**
