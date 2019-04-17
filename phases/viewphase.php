@@ -66,7 +66,7 @@ if ($action == "publish") {
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
         }
-        $files->unPublishFile($id);
+        $files->unPublishFiles($id);
         $msg = "removeToSite";
         $id = $phase;
     }
