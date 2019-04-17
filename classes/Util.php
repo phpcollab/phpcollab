@@ -1019,13 +1019,7 @@ class Util
         $name = str_replace(" ", "_", $name);
         $name = str_replace("'", "", $name);
 
-        if (get_magic_quotes_gpc()) {
-            $name = basename(stripslashes($name));
-        } else {
-            $name = basename($name);
-        }
-
-        return $name;
+        return basename($name);
     }
 
     /**
