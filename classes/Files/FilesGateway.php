@@ -208,6 +208,48 @@ class FilesGateway
         return $this->db->resultset();
     }
 
+    /**
+     * @param $approverId
+     * @param $comment
+     * @param $fileId
+     * @param $status
+     * @return mixed
+     */
+    public function updateApproval($approverId, $comment, $fileId, $status)
+    {
+        $query = "UPDATE {$this->tableCollab["files"]} SET comments_approval = :comments_approval, date_approval = :date_approval, approver = :approver, status=:status WHERE id = :file_id";
+        $this->db->query($query);
+        $this->db->bind(":comments_approval", $comment);
+        $this->db->bind(":approver", $approverId);
+        $this->db->bind(":status", $status);
+        $this->db->bind(":date_approval", date('Y-m-d h:i'));
+        $this->db->bind(":file_id", $fileId);
+        return $this->db->execute();
+    }
+
+    /**
+     * @param $fileId
+     * @return mixed
+     */
+    public function publishFile($fileId)
+    {
+        $query = "UPDATE {$this->tableCollab["files"]} SET published = 1 WHERE id = :file OR vc_parent = :file";
+        $this->db->query($query);
+        $this->db->bind(":file", $fileId);
+        return $this->db->execute();
+    }
+
+    /**
+     * @param $fileId
+     * @return mixed
+     */
+    public function unPublishFile($fileId)
+    {
+        $query = "UPDATE {$this->tableCollab["files"]} SET published = 0 WHERE id = :file OR vc_parent = :file";
+        $this->db->query($query);
+        $this->db->bind(":file", $fileId);
+        return $this->db->execute();
+    }
 
     /**
      * @param $fileIds
@@ -285,9 +327,10 @@ class FilesGateway
      * @param $comments
      * @param $status
      * @param $vcVersion
+     * @param $vcParent
      * @return mixed
      */
-    public function addFile($owner, $project, $phase, $task, $comments, $status, $vcVersion)
+    public function addFile($owner, $project, $phase, $task, $comments, $status, $vcVersion, $vcParent)
     {
         $query = <<<SQL
 INSERT INTO {$this->tableCollab["files"]} 
@@ -305,12 +348,20 @@ SQL;
         $this->db->bind(":published", 1);
         $this->db->bind(":status", $status);
         $this->db->bind(":vc_version", $vcVersion);
-        $this->db->bind(":vc_parent", 0);
+        $this->db->bind(":vc_parent", is_null($vcParent) ? 0 : $vcParent);
         $this->db->execute();
         return $this->db->lastInsertId();
 
     }
 
+    /**
+     * @param $fileId
+     * @param $name
+     * @param $date
+     * @param $size
+     * @param $extension
+     * @return mixed
+     */
     public function updateFile($fileId, $name, $date, $size, $extension)
     {
         $query = "UPDATE {$this->tableCollab["files"]} SET name=:name, date=:date, size=:size, extension=:extension WHERE id = :file_id";
