@@ -3,7 +3,9 @@
 
 namespace phpCollab\Files;
 
+use Exception;
 use phpCollab\Database;
+use phpCollab\Notification;
 
 /**
  * Class Files
@@ -13,6 +15,8 @@ class Files
 {
     protected $files_gateway;
     protected $db;
+    protected $strings;
+    protected $root;
 
     /**
      * Files constructor.
@@ -21,6 +25,8 @@ class Files
     {
         $this->db = new Database();
         $this->files_gateway = new FilesGateway($this->db);
+        $this->strings = $GLOBALS["strings"];
+        $this->root = $GLOBALS["root"];
     }
 
     /**
@@ -185,4 +191,114 @@ class Files
         return $this->files_gateway->deleteFilesByProjectId($projectIds);
     }
 
+    /**
+     * @param $owner
+     * @param $project
+     * @param $phase
+     * @param $task
+     * @param $comments
+     * @param $status
+     * @param $vcVersion
+     * @return mixed
+     */
+    public function addFile($owner, $project, $phase, $task, $comments, $status, $vcVersion)
+    {
+        return $this->files_gateway->addFile($owner, $project, $phase, $task, $comments, $status, $vcVersion);
+    }
+
+    /**
+     * Updates the file entry and returns the updated entry
+     * @param $fileId
+     * @param $name
+     * @param $date
+     * @param $size
+     * @param $extension
+     * @return mixed
+     */
+    public function updateFile($fileId, $name, $date, $size, $extension)
+    {
+        $this->files_gateway->updateFile($fileId, $name, $date, $size, $extension);
+        return $this->getFileById($fileId);
+
+    }
+
+    /**
+     * @param $fileDetails
+     * @param $projectDetails
+     * @param $notificationDetails
+     * @param $userId
+     * @param $userName
+     * @param $userLogin
+     * @throws Exception
+     */
+    public function sendFileUploadedNotification($fileDetails, $projectDetails, $notificationDetails, $userId, $userName, $userLogin)
+    {
+        if ($fileDetails && $projectDetails && $notificationDetails) {
+            $mail = new Notification(true);
+            try {
+
+                $mail->setFrom($projectDetails["pro_mem_email_work"], $projectDetails["pro_mem_name"]);
+
+                $mail->partSubject = $this->strings["noti_newfile1"];
+                $mail->partMessage = $this->strings["noti_newfile2"];
+
+                $subject = $mail->partSubject . " " . $fileDetails["fil_name"];
+
+
+                if ($projectDetails["pro_org_id"] == "1") {
+                    $projectDetails["pro_org_name"] = $this->strings["none"];
+                }
+
+                if (
+                    (
+                        ($notificationDetails["organization"] != "1")
+                        && ($fileDetails["fil_published"] == "0")
+                        && ($projectDetails["pro_published"] == "0")
+                    ) || ($notificationDetails["organization"] == "1")
+                ) {
+                    if (
+                        ($notificationDetails["uploadFile"] == "0")
+                        && ($notificationDetails["email_work"] != "")
+                        && ($notificationDetails["member"] != $userId)
+                    ) {
+
+                        $body = <<<MAILBODY
+{$mail->partMessage}
+
+{$this->strings["upload"]} : {$fileDetails["fil_name"]}
+{$this->strings["posted_by"]} : {$userName} ({$userLogin})
+
+{$this->strings["project"]} : {$projectDetails["pro_name"]} ({$projectDetails["pro_id"]})
+{$this->strings["organization"]} : {$projectDetails["pro_org_name"]}
+
+{$this->strings["noti_moreinfo"]} 
+MAILBODY;
+
+                        if ($notificationDetails["organization"] == "1") {
+                            $body .= $this->root . "/general/login.php?url=linkedcontent/viewfile.php?id=" . $fileDetails["fil_id"];
+                        } elseif ($notificationDetails["organization"] != "1") {
+                            $body .= $this->root . "/general/login.php?url=projects_site/home.php?project=" . $projectDetails["pro_id"];
+                        }
+
+                        $body .= "\n\n" . $mail->footer;
+
+                        $mail->Subject = $subject;
+                        $mail->Priority = "3";
+                        $mail->Body = $body;
+                        $mail->AddAddress($notificationDetails["email_work"], $notificationDetails["name"]);
+                        $mail->Send();
+                        $mail->ClearAddresses();
+                    }
+                }
+
+
+            } catch (Exception $e) {
+                // Log this instead of echoing it?
+                throw new Exception($mail->ErrorInfo);
+            }
+        } else {
+            throw new Exception('Error sending mail');
+        }
+
+    }
 }

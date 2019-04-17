@@ -277,6 +277,52 @@ class FilesGateway
         }
     }
 
+    /**
+     * @param $owner
+     * @param $project
+     * @param $phase
+     * @param $task
+     * @param $comments
+     * @param $status
+     * @param $vcVersion
+     * @return mixed
+     */
+    public function addFile($owner, $project, $phase, $task, $comments, $status, $vcVersion)
+    {
+        $query = <<<SQL
+INSERT INTO {$this->tableCollab["files"]} 
+(owner, project, phase, task, comments, upload, published, status, vc_version, vc_parent) 
+VALUES 
+(:owner, :project, :phase, :task, :comments, :upload_date, :published, :status, :vc_version, :vc_parent)
+SQL;
+        $this->db->query($query);
+        $this->db->bind(":owner", $owner);
+        $this->db->bind(":project", $project);
+        $this->db->bind(":phase", $phase);
+        $this->db->bind(":task", $task);
+        $this->db->bind(":comments", $comments);
+        $this->db->bind(":upload_date", date('Y-m-d h:i'));
+        $this->db->bind(":published", 1);
+        $this->db->bind(":status", $status);
+        $this->db->bind(":vc_version", $vcVersion);
+        $this->db->bind(":vc_parent", 0);
+        $this->db->execute();
+        return $this->db->lastInsertId();
+
+    }
+
+    public function updateFile($fileId, $name, $date, $size, $extension)
+    {
+        $query = "UPDATE {$this->tableCollab["files"]} SET name=:name, date=:date, size=:size, extension=:extension WHERE id = :file_id";
+        $this->db->query($query);
+        $this->db->bind(":file_id", $fileId);
+        $this->db->bind(":name", $name);
+        $this->db->bind(":date", $date);
+        $this->db->bind(":size", $size);
+        $this->db->bind(":extension", $extension);
+        return $this->db->execute();
+
+    }
 
     /**
      * @param string $sorting
