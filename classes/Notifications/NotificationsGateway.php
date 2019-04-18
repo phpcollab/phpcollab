@@ -79,4 +79,61 @@ class NotificationsGateway
         return $this->db->execute($memberId);
 
     }
+
+    /**
+     * @param $memberId
+     * @param $taskAssignment
+     * @param $removeProjectTeam
+     * @param $addProjectTeam
+     * @param $newTopic
+     * @param $newPost
+     * @param $statusTaskChange
+     * @param $priorityTaskChange
+     * @param $dueDateTaskChange
+     * @param $clientAddTask
+     * @param $uploadFile
+     * @param $dailyAlert
+     * @param $weeklyAlert
+     * @param $pastDueAlert
+     * @return mixed
+     */
+    public function updateAlerts($memberId, $taskAssignment, $removeProjectTeam, $addProjectTeam, $newTopic, $newPost,
+                                 $statusTaskChange, $priorityTaskChange, $dueDateTaskChange, $clientAddTask,
+                                 $uploadFile, $dailyAlert, $weeklyAlert, $pastDueAlert)
+    {
+
+        $query = <<<SQL
+UPDATE {$this->tableCollab["notifications"]} SET 
+taskAssignment = :taskAssignment,
+statusTaskChange = :statusTaskChange,
+priorityTaskChange = :priorityTaskChange,
+duedateTaskChange = :dueDateTaskChange,
+addProjectTeam = :addProjectTeam,
+removeProjectTeam = :removeProjectTeam,
+newPost = :newPost,
+newTopic = :newTopic,
+clientAddTask = :clientAddTask,
+uploadFile = :uploadFile,
+dailyAlert = :dailyAlert,
+weeklyAlert = :weeklyAlert,
+pastdueAlert = :pastdueAlert 
+WHERE member = :member
+SQL;
+        $this->db->query($query);
+        $this->db->bind(":taskAssignment", $taskAssignment);
+        $this->db->bind(":statusTaskChange", $statusTaskChange);
+        $this->db->bind(":priorityTaskChange", $priorityTaskChange);
+        $this->db->bind(":dueDateTaskChange", $dueDateTaskChange);
+        $this->db->bind(":addProjectTeam", $addProjectTeam);
+        $this->db->bind(":removeProjectTeam", $removeProjectTeam);
+        $this->db->bind(":newPost", $newPost);
+        $this->db->bind(":newTopic", $newTopic);
+        $this->db->bind(":clientAddTask", $clientAddTask);
+        $this->db->bind(":uploadFile", $uploadFile);
+        $this->db->bind(":dailyAlert", $dailyAlert);
+        $this->db->bind(":weeklyAlert", $weeklyAlert);
+        $this->db->bind(":pastdueAlert", $pastDueAlert);
+        $this->db->bind(":member", $memberId);
+        return $this->db->execute();
+    }
 }
