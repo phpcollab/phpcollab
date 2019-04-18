@@ -8,9 +8,11 @@ echo <<<HEAD
 $setDoctype
 $setCopyright
 
-<html>
+<!doctype html>
+<html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="utf-8">
 <title>$setTitle</title>
 <meta name="robots" content="none" />
 <meta name="description" content="$setDescription" />
