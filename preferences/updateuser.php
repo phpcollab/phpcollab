@@ -28,52 +28,61 @@
 */
 
 
+use phpCollab\Members\Members;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-if ($action == "update") {
-    if (($logout_time < "30" && $logout_time != "0") || !is_numeric($logout_time)) {
-        $logout_time = "30";
-    }
-    $fn = phpCollab\Util::convertData($fn);
-    $tit = phpCollab\Util::convertData($tit);
-    $em = phpCollab\Util::convertData($em);
-    $wp = phpCollab\Util::convertData($wp);
-    $hp = phpCollab\Util::convertData($hp);
-    $mp = phpCollab\Util::convertData($mp);
-    $fax = phpCollab\Util::convertData($fax);
-    $logout_time = phpCollab\Util::convertData($logout_time);
-    $tmpquery = "UPDATE {$tableCollab["members"]} SET name=:name,title=:title,email_work=:email_work,phone_work=:phone_work,phone_home=:phone_home,mobile=:mobile,fax=:fax,logout_time=:logout_time,timezone=:timezone WHERE id = :member_id";
-    phpCollab\Util::newConnectSql($tmpquery, ["name" => $fn, "title" => $tit, "email_work" => $em, "phone_work" => $wp, "phone_home" => $hp, "mobile" => $mp, "fax" => $fax, "logout_time" => $logout_time, "timezone" => $tz, "member_id" => $idSession]);
-    $timezoneSession = $tz;
-    $logouttimeSession = $logout_time;
-    $dateunixSession = date("U");
-    $nameSession = $fn;
+$members = new Members();
 
-    $_SESSION['logouttimeSession'] = $logouttimeSession;
-    $_SESSION['timezoneSession'] = $timezoneSession;
-    $_SESSION['dateunixSession'] = $dateunixSession;
-    $_SESSION['nameSession'] = $nameSession;
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($_POST["action"] == "update") {
+        $logout_time = $_POST["logout_time"];
+        $full_name = $_POST["full_name"];
+        $title = $_POST["title"];
+        $email_work = $_POST["email_work"];
+        $phone_work = $_POST["phone_work"];
+        $phone_home = $_POST["phone_home"];
+        $phone_mobile = $_POST["phone_mobile"];
+        $fax = $_POST["fax"];
+        $timezone = $_POST["timezone"];
+        $organization = $_POST["organization"];
 
-    //if mantis bug tracker enabled
-    if ($enableMantis == "true") {
-        // Call mantis function for user profile changes..!!!
-        include("../mantis/user_profile.php");
+        if (($logout_time < "30" && $logout_time != "0") || !is_numeric($logout_time)) {
+            $logout_time = "30";
+        }
+
+        try {
+            $members->updateMember($idSession, $loginSession, $full_name, $email_work, $title, $organization, $phone_work, $phone_home, $phone_mobile, $fax);
+        }
+        catch (Exception $e) {
+            echo "error saving changes." . $e->getMessage();
+        }
+
+        $_SESSION['logouttimeSession'] = $logout_time;
+        $_SESSION['timezoneSession'] = $timezone;
+        $_SESSION['dateunixSession'] = date("U");
+        $_SESSION['nameSession'] = $full_name;
+
+        //if mantis bug tracker enabled
+        if ($enableMantis == "true") {
+            // Call mantis function for user profile changes..!!!
+            include("../mantis/user_profile.php");
+        }
+        phpCollab\Util::headerFunction("../preferences/updateuser.php?msg=update");
     }
-    phpCollab\Util::headerFunction("../preferences/updateuser.php?msg=update");
 }
 
-$tmpquery = "WHERE mem.id = '$idSession'";
-$userPrefs = new phpCollab\Request();
-$userPrefs->openMembers($tmpquery);
-$comptUserPrefs = count($userPrefs->mem_id);
 
-if ($comptUserPrefs == "0") {
+$userPrefs = $members->getMemberById($idSession);
+
+if (empty($userPrefs)) {
     phpCollab\Util::headerFunction("../users/listusers.php?msg=blankUser");
 }
 
-$bodyCommand = "onLoad=\"document.user_edit_profileForm.fn.focus();\"";
-include '../themes/' . THEME . '/header.php';
+$bodyCommand = 'onLoad="document.user_edit_profileForm.full_name.focus();"';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
+
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -85,7 +94,7 @@ if ($notifications == "true") {
 }
 $blockPage->closeBreadcrumbs();
 
-if ($msg != "") {
+if (!empty($msg)) {
     include '../includes/messages.php';
     $blockPage->messageBox($msgLabel);
 }
@@ -94,14 +103,15 @@ $block1 = new phpCollab\Block();
 
 $block1->form = "user_edit_profile";
 $block1->openForm("../preferences/updateuser.php");
-echo "<input type=\"hidden\" name=\"action\" value=\"update\">";
+echo '<input type="hidden" name="action" value="update">';
+echo '<input type="hidden" name="organization" value="'. $userPrefs["mem_organization"] .'">';
 
-if ($error != "") {
+if (!empty($error)) {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
 }
 
-$block1->heading($strings["user_profile"] . " : " . $userPrefs->mem_login[0]);
+$block1->heading($strings["user_profile"] . " : " . $userPrefs["mem_login"]);
 
 $block1->openPaletteIcon();
 $block1->paletteIcon(0, "export", $strings["export"]);
@@ -110,46 +120,46 @@ $block1->closePaletteIcon();
 $block1->openContent();
 $block1->contentTitle($strings["edit_user_account"]);
 
-$block1->contentRow($strings["full_name"], "<input size=\"24\" style=\"width: 250px;\" type=\"text\" name=\"fn\" value=\"" . $userPrefs->mem_name[0] . "\">");
-$block1->contentRow($strings["title"], "<input size=\"24\" style=\"width: 250px;\" type=\"text\" name=\"tit\" value=\"" . $userPrefs->mem_title[0] . "\">");
-$block1->contentRow($strings["email"], "<input size=\"24\" style=\"width: 250px;\" type=\"text\" name=\"em\" value=\"" . $userPrefs->mem_email_work[0] . "\">");
-$block1->contentRow($strings["work_phone"], "<input size=\"14\" style=\"width: 150px;\" type=\"text\" name=\"wp\" value=\"" . $userPrefs->mem_phone_work[0] . "\">");
-$block1->contentRow($strings["home_phone"], "<input size=\"14\" style=\"width: 150px;\" type=\"text\" name=\"hp\" value=\"" . $userPrefs->mem_phone_home[0] . "\">");
-$block1->contentRow($strings["mobile_phone"], "<input size=\"14\" style=\"width: 150px;\" type=\"text\" name=\"mp\" value=\"" . $userPrefs->mem_mobile[0] . "\">");
-$block1->contentRow($strings["fax"], "<input size=\"14\" style=\"width: 150px;\" type=\"text\" name=\"fax\" value=\"" . $userPrefs->mem_fax[0] . "\">");
-$block1->contentRow($strings["logout_time"] . $blockPage->printHelp("user_autologout"), "<input size=\"14\" style=\"width: 150px;\" type=\"text\" name=\"logout_time\" value=\"" . $userPrefs->mem_logout_time[0] . "\"> sec.");
+$block1->contentRow($strings["full_name"], '<input size="24" style="width: 250px;" type="text" name="full_name" value="' . $userPrefs["mem_name"] . '">');
+$block1->contentRow($strings["title"], '<input size="24" style="width: 250px;" type="text" name="title" value="' . $userPrefs["mem_title"] . '">');
+$block1->contentRow($strings["email"], '<input size="24" style="width: 250px;" type="email" name="email_work" value="' . $userPrefs["mem_email_work"] . '">');
+$block1->contentRow($strings["work_phone"], '<input size="14" style="width: 150px;" type="tel" name="phone_work" value="' . $userPrefs["mem_phone_work"] . '">');
+$block1->contentRow($strings["home_phone"], '<input size="14" style="width: 150px;" type="tel" name="phone_home" value="' . $userPrefs["mem_phone_home"] . '">');
+$block1->contentRow($strings["mobile_phone"], '<input size="14" style="width: 150px;" type="tel" name="phone_mobile" value="' . $userPrefs["mem_mobile"] . '">');
+$block1->contentRow($strings["fax"], '<input size="14" style="width: 150px;" type="tel" name="fax" value="' . $userPrefs["mem_fax"] . '">');
+$block1->contentRow($strings["logout_time"] . $blockPage->printHelp("user_autologout"), '<input size="14" style="width: 150px;" type="text" name="logout_time" value="' . $userPrefs["mem_logout_time"] . '"> sec.');
 
 if ($gmtTimezone == "true") {
-    $selectTimezone = "<select name=\"tz\">";
+    $selectTimezone = '<select name="timezone">';
     for ($i = -12; $i <= +12; $i++) {
-        if ($userPrefs->mem_timezone[0] == $i) {
-            $selectTimezone .= "<option value=\"$i\" selected>$i</option>";
+        if ($userPrefs["mem_timezone"] == $i) {
+            $selectTimezone .= '<option value="' . $i . '" selected>' .$i . '</option>';
         } else {
-            $selectTimezone .= "<option value=\"$i\">$i</option>";
+            $selectTimezone .= '<option value="' . $i . '">' . $i . '</option>';
         }
     }
-    $selectTimezone .= "</select>";
+    $selectTimezone .= '</select>';
     $block1->contentRow($strings["user_timezone"] . $blockPage->printHelp("user_timezone"), $selectTimezone);
 }
 
-if ($userPrefs->mem_profil[0] == "0") {
+if ($userPrefs["mem_profil"] == "0") {
     $block1->contentRow($strings["permissions"], $strings["administrator_permissions"]);
-} elseif ($userPrefs->mem_profil[0] == "1") {
+} elseif ($userPrefs["mem_profil"] == "1") {
     $block1->contentRow($strings["permissions"], $strings["project_manager_permissions"]);
-} elseif ($userPrefs->mem_profil[0] == "2") {
+} elseif ($userPrefs["mem_profil"] == "2") {
     $block1->contentRow($strings["permissions"], $strings["user_permissions"]);
-} elseif ($userPrefs->mem_profil[0] == "5") {
+} elseif ($userPrefs["mem_profil"] == "5") {
     $block1->contentRow($strings["permissions"], $strings["project_manager_administrator_permissions"]);
 }
 
-$block1->contentRow($strings["account_created"], phpCollab\Util::createDate($userPrefs->mem_created[0], $timezoneSession));
-$block1->contentRow("", "<input type=\"submit\" name=\"Save\" value=\"" . $strings["save"] . "\">");
+$block1->contentRow($strings["account_created"], phpCollab\Util::createDate($userPrefs["mem_created"], $timezoneSession));
+$block1->contentRow("", '<input type="submit" name="Save" value="' . $strings["save"] . '">');
 
 $block1->closeContent();
 $block1->closeForm();
 
 $block1->openPaletteScript();
-$block1->paletteScript(0, "export", "../users/exportuser.php?id=$idSession", "true,true,true", $strings["export"]);
-$block1->closePaletteScript("", "");
+$block1->paletteScript(0, "export", "../users/exportuser.php?id={$idSession}", "true,true,true", $strings["export"]);
+$block1->closePaletteScript(count($userPrefs), $userPrefs["mem_id"]);
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
