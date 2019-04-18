@@ -228,11 +228,11 @@ if ($auth == "on") {
             );
 
             //redirect for external link to internal page
-            if ($url != "") {
+            if ($_POST["url"] != "") {
                 if ($member['mem_profil'] == "3") {
-                    phpCollab\Util::headerFunction("../$url&updateProject=true");
+                    phpCollab\Util::headerFunction("../{$_POST["url"]}&updateProject=true");
                 } else {
-                    phpCollab\Util::headerFunction("../$url");
+                    phpCollab\Util::headerFunction("../{$_POST["url"]}");
                 }
             } //redirect to last page required (with auto log out feature)
             else {
@@ -300,8 +300,8 @@ $block1 = new phpCollab\Block();
 $block1->form = "login";
 $block1->openForm("../general/login.php?auth=test");
 
-if ($url != "") {
-    echo "<input value='$url' type='hidden' name='url'>";
+if (!empty($_GET["url"])) {
+    echo "<input value='{$_GET["url"]}' type='hidden' name='url'>";
 }
 
 if ($error != "") {
