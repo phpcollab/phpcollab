@@ -26,113 +26,104 @@
 ** =============================================================================
 */
 
+use phpCollab\Members\Members;
+use phpCollab\Notifications\Notifications;
+use phpCollab\Teams\Teams;
 
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$tmpquery = "WHERE mem.id = '$idSession'";
-$userPrefs = new phpCollab\Request();
-$userPrefs->openMembers($tmpquery);
-$comptUserPrefs = count($userPrefs->mem_id);
+$members = new Members();
+$teams = new Teams();
+$notifications = new Notifications();
 
-if ($comptUserPrefs == "0") {
+$userDetail = $members->getMemberById($idSession);
+
+if (empty($userDetail)) {
     phpCollab\Util::headerFunction("../users/listusers.php?msg=blankUser");
 }
 
-if ($action == "update") {
-    for ($i = 0; $i < 15; $i++) {
-        if ($tbl_check[$i] == "") {
-            $tbl_check[$i] = "1";
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($_POST["action"] == "update") {
+
+        $checkboxes = $_POST["alerts"];
+
+        try {
+            $notifications->setAlerts($idSession, $checkboxes["taskAssignment"], $checkboxes["removeProjectTeam"],
+                $checkboxes["addProjectTeam"], $checkboxes["newTopic"], $checkboxes["newPost"],
+                $checkboxes["statusTaskChange"], $checkboxes["priorityTaskChange"], $checkboxes["duedateTaskChange"],
+                $checkboxes["clientAddTask"], $checkboxes["uploadFile"], $checkboxes["dailyAlert"],
+                $checkboxes["weeklyAlert"], $checkboxes["pastDueAlert"]);
+
+            phpCollab\Util::headerFunction("../preferences/updatenotifications.php?msg=update");
+        } catch (Exception $e) {
+            echo "Error updating notifications: " . $e->getMessage();
         }
-        phpCollab\Util::headerFunction("../preferences/updatenotifications.php?msg=update");
     }
-
-    $tmpquery = "UPDATE {$tableCollab["notifications"]} SET taskAssignment=:taskAssignment,statusTaskChange=:statusTaskChange,priorityTaskChange=:priorityTaskChange,duedateTaskChange=:duedateTaskChange,addProjectTeam=:addProjectTeam,removeProjectTeam=:removeProjectTeam,newPost=:newPost,newTopic=:newTopic,clientAddTask=:clientAddTask,uploadFile=:uploadFile,dailyAlert=:dailyAlert,weeklyAlert=:weeklyAlert,pastdueAlert=:pastdueAlert WHERE member = :member";
-
-    $dbParams = [];
-    $dbParams["taskAssignment"] = $tbl_check[0];
-    $dbParams["statusTaskChange"] = $tbl_check[1];
-    $dbParams["priorityTaskChange"] = $tbl_check[2];
-    $dbParams["duedateTaskChange"] = $tbl_check[3];
-    $dbParams["addProjectTeam"] = $tbl_check[4];
-    $dbParams["removeProjectTeam"] = $tbl_check[5];
-    $dbParams["newPost"] = $tbl_check[6];
-    $dbParams["newTopic"] = $tbl_check[7];
-    $dbParams["clientAddTask"] = $tbl_check[8];
-    $dbParams["uploadFile"] = $tbl_check[9];
-    $dbParams["dailyAlert"] = $tbl_check[10];
-    $dbParams["weeklyAlert"] = $tbl_check[11];
-    $dbParams["pastdueAlert"] = $tbl_check[12];
-    $dbParams["member"] = $idSession;
-        
-    phpCollab\Util::newConnectSql($tmpquery, $dbParams);
-    unset($dbParams);
 }
 
-$tmpquery = "WHERE noti.member = '$idSession'";
-$userAvert = new phpCollab\Request();
-$userAvert->openNotifications($tmpquery);
+$userNotifications = $notifications->getMemberNotifications($idSession);
 
-if ($userAvert->not_taskassignment[0] == "0") {
+if ($userNotifications["taskAssignment"] == "0") {
     $taskAssignment = "checked";
 }
 
-if ($userAvert->not_statustaskchange[0] == "0") {
+if ($userNotifications["statusTaskChange"] == "0") {
     $statusTaskChange = "checked";
 }
 
-if ($userAvert->not_prioritytaskchange[0] == "0") {
+if ($userNotifications["priorityTaskChange"] == "0") {
     $priorityTaskChange = "checked";
 }
 
-if ($userAvert->not_duedatetaskchange[0] == "0") {
-    $duedateTaskChange = "checked";
+if ($userNotifications["duedateTaskChange"] == "0") {
+    $dueDateTaskChange = "checked";
 }
 
-if ($userAvert->not_addprojectteam[0] == "0") {
+if ($userNotifications["addProjectTeam"] == "0") {
     $addProjectTeam = "checked";
 }
 
-if ($userAvert->not_removeprojectteam[0] == "0") {
+if ($userNotifications["removeProjectTeam"] == "0") {
     $removeProjectTeam = "checked";
 }
 
-if ($userAvert->not_newpost[0] == "0") {
+if ($userNotifications["newPost"] == "0") {
     $newPost = "checked";
 }
 
-if ($userAvert->not_newtopic[0] == "0") {
+if ($userNotifications["newTopic"] == "0") {
     $newTopic = "checked";
 }
 
-if ($userAvert->not_clientaddtask[0] == "0") {
+if ($userNotifications["clientAddTask"] == "0") {
     $clientAddTask = "checked";
 }
 
-if ($userAvert->not_uploadfile[0] == "0") {
+if ($userNotifications["uploadFile"] == "0") {
     $uploadFile = "checked";
 }
 
-if ($userAvert->not_daily_alert[0] == "0") {
+if ($userNotifications["dailyAlert"] == "0") {
     $dailyAlert = "checked";
 }
 
-if ($userAvert->not_weekly_alert[0] == "0") {
+if ($userNotifications["weeklyAlert"] == "0") {
     $weeklyAlert = "checked";
 }
 
-if ($userAvert->not_pastdue_alert[0] == "0") {
+if ($userNotifications["pastDueAlert"] == "0") {
     $pastdueAlert = "checked";
 }
 
-
-$headBonus = "<script type=\"text/JavaScript\">
-<!--
+$headBonus = /** @lang javascript */
+<<<HEAD_BONUS
+<script type="text/JavaScript">
 function checkboxes(){
 	for (var i = 0; i < document.user_avertForm.elements.length; i++) {
 		var e = document.user_avertForm.elements[i];
 			if (e.type=='checkbox') {
-				if (document.user_avertForm.chkbox_slt.value == \"true\") {
+				if (document.user_avertForm.chkbox_slt.value == "true") {
 					e.checked = true;
 
 				} else {
@@ -140,29 +131,27 @@ function checkboxes(){
 				}
 			}
 	}
-	if (document.user_avertForm.chkbox_slt.value == \"true\" ) {
-		document.user_avertForm.chkbox_slt.value = \"false\";
+	if (document.user_avertForm.chkbox_slt.value == "true" ) {
+		document.user_avertForm.chkbox_slt.value = "false";
 	} else {
-		document.user_avertForm.chkbox_slt.value = \"true\";
+		document.user_avertForm.chkbox_slt.value = "true";
 	}
 
 }
-//-->
-</script>";
-include '../themes/' . THEME . '/header.php';
+</script>
+HEAD_BONUS;
+
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($strings["preferences"]);
 $blockPage->itemBreadcrumbs($blockPage->buildLink(
-    "../preferences/updateuser.php?",
-    $strings["user_profile"],
-        in
-) . " | " . $blockPage->buildLink(
-            "../preferences/updatepassword.php?",
-            $strings["change_password"],
-        in
-        ) . " | " . $strings["notifications"]);
+        "../preferences/updateuser.php?", $strings["user_profile"], "in") .
+    " | " .
+    $blockPage->buildLink(
+        "../preferences/updatepassword.php?",
+        $strings["change_password"], "in") . " | " . $strings["notifications"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
@@ -172,9 +161,9 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 $block1->form = "user_avert";
-$block1->openForm("../preferences/updatenotifications.php?action=update");
+$block1->openForm("../preferences/updatenotifications.php");
 
-if ($error != "") {
+if (!empty($error)) {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
 }
@@ -183,85 +172,103 @@ $block1->heading($strings["edit_notifications"] . " : " . $userPrefs->mem_login[
 $block1->openContent();
 $block1->contentTitle($strings["edit_notifications_info"]);
 
-echo "
-<input type='hidden' name='chkbox_slt' value='true' />
-<tr class='odd'>
-	<td valign='top' class='leftvalue'>" . $strings["select_deselect"] . " :</td>
+echo <<<HTML
+<input type="hidden" name="chkbox_slt" value="true" />
+<input type="hidden" name="action" value="update" />
+<tr class="odd">
+	<td style="vertical-align: top"  class="leftvalue">{$strings["select_deselect"]} :</td>
 	<td>
-		<a href='javascript:checkboxes();' onmouseover='window.status = \"" . $strings["select_deselect"] . "\";return true;' onmouseout='window.status = \";return true;\"'><img name='all' src='../themes/" . $block1->getThemeImgPath() . "/checkbox_off_16.gif' border='0' alt=''></a>
+		<a 
+		    href="javascript:checkboxes();" 
+		    onmouseover="window.status = '{$strings["select_deselect"]}';return true;" 
+		    onmouseout="window.status = '';return true;">
+		<img src="../themes/{$block1->getThemeImgPath()}/checkbox_off_16.gif" style="border: none;" alt=""></a>
 	</td>
 </tr>
-<tr class='odd'>
-	<td valign='top' class='leftvalue'><input type='checkbox' name='tbl_check[0]' value='0' $taskAssignment></td>
-	<td>" . $strings["edit_noti_taskassignment"] . "</td>
+<tr class="odd">
+	<td style="vertical-align: top" class="leftvalue">
+	    <input type="checkbox" name="alerts[taskAssignment]" value="0" {$taskAssignment}></td>
+	<td>{$strings["edit_noti_taskassignment"]}</td>
 </tr>	
-<tr class='odd'>
-	<td valign='top' class='leftvalue'><input type='checkbox' name='tbl_check[1]' value='0' $statusTaskChange></td>
-	<td>" . $strings["edit_noti_statustaskchange"] . "</td>
+<tr class="odd">
+	<td style="vertical-align: top" class="leftvalue">
+	    <input type="checkbox" name="alerts[statusTaskChange]" value="0" {$statusTaskChange}></td>
+	<td>{$strings["edit_noti_statustaskchange"]}</td>
 </tr>
-<tr class='odd'>
-<td valign='top' class='leftvalue'><input type='checkbox' name='tbl_check[2]' value='0' $priorityTaskChange></td>
-	<td>" . $strings["edit_noti_prioritytaskchange"] . "</td>
+<tr class="odd">
+    <td style="vertical-align: top" class="leftvalue">
+        <input type="checkbox" name="alerts[priorityTaskChange]" value="0" {$priorityTaskChange}></td>
+	<td>{$strings["edit_noti_prioritytaskchange"]}</td>
 </tr>
-<tr class='odd'>
-	<td valign='top' class='leftvalue'><input type='checkbox' name='tbl_check[3]' value='0' $duedateTaskChange></td>
-	<td>" . $strings["edit_noti_duedatetaskchange"] . "</td>
+<tr class="odd">
+	<td style="vertical-align: top" class="leftvalue">
+	    <input type="checkbox" name="alerts[duedateTaskChange]" value="0" {$dueDateTaskChange}></td>
+	<td>{$strings["edit_noti_duedatetaskchange"]}</td>
 </tr>
-<tr class='odd'>
-	<td valign='top' class='leftvalue'><input type='checkbox' name='tbl_check[4]' value='0' $addProjectTeam></td>
-	<td>" . $strings["edit_noti_addprojectteam"] . "</td>
+<tr class="odd">
+	<td style="vertical-align: top" class="leftvalue">
+	    <input type="checkbox" name="alerts[addProjectTeam]" value="0" {$addProjectTeam}></td>
+	<td>{$strings["edit_noti_addprojectteam"]}</td>
 </tr>
-<tr class='odd'>
-	<td valign='top' class='leftvalue'><input type='checkbox' name='tbl_check[5]' value='0' $removeProjectTeam></td>
-	<td>" . $strings["edit_noti_removeprojectteam"] . "</td>
+<tr class="odd">
+	<td style="vertical-align: top" class="leftvalue">
+	    <input type="checkbox" name="alerts[removeProjectTeam]" value="0" {$removeProjectTeam}></td>
+	<td>{$strings["edit_noti_removeprojectteam"]}</td>
 </tr>
-<tr class='odd'>	
-	<td valign='top' class='leftvalue'><input type='checkbox' name='tbl_check[6]' value='0' $newPost></td>
-	<td>" . $strings["edit_noti_newpost"] . "</td>
+<tr class="odd">	
+	<td style="vertical-align: top" class="leftvalue">
+	    <input type="checkbox" name="alerts[newPost]" value="0" {$newPost}></td>
+	<td>{$strings["edit_noti_newpost"]}</td>
 </tr>
-<tr class='odd'>
-	<td valign='top' class='leftvalue'><input type='checkbox' name='tbl_check[7]' value='0' $newTopic></td>
-	<td>" . $strings["edit_noti_newtopic"] . "</td>
+<tr class="odd">
+	<td style="vertical-align: top" class="leftvalue">
+	    <input type="checkbox" name="alerts[newTopic]" value="0" {$newTopic}></td>
+	<td>{$strings["edit_noti_newtopic"]}</td>
 </tr>
 
-<tr class='odd'>
-	<td valign='top' class='leftvalue'><input type='checkbox' name='tbl_check[8]' value='0' $clientAddTask></td>
-	<td>" . $strings["edit_noti_clientaddtask"] . "</td>
+<tr class="odd">
+	<td style="vertical-align: top" class="leftvalue">
+	    <input type="checkbox" name="alerts[clientAddTask]" value="0" {$clientAddTask}></td>
+	<td>{$strings["edit_noti_clientaddtask"]}</td>
 </tr>
-<tr class='odd'>
-	<td valign='top' class='leftvalue'><input type='checkbox' name='tbl_check[9]' value='0' $uploadFile></td>
-	<td>" . $strings["edit_noti_uploadfile"] . "</td>
+<tr class="odd">
+	<td style="vertical-align: top" class="leftvalue">
+	    <input type="checkbox" name="alerts[uploadFile]" value="0" {$uploadFile}></td>
+	<td>{$strings["edit_noti_uploadfile"]}</td>
 </tr>
-";
+HTML;
 
 // Check if email alerts set to "true"
-if ($emailAlerts == "true") {
-    echo "
-    <tr class='odd'>
-        <td valign='top' class='leftvalue'><input type='checkbox' name='tbl_check[10]' value='0' $dailyAlert></td>
-        <td>" . $strings["edit_noti_daily_alert"] . "</td>
+if ($emailAlerts !== "true") {
+    echo <<<HTML
+    <tr class="odd">
+        <td style="vertical-align: top;" class="leftvalue">
+            <input type="checkbox" name="alerts[dailyAlert]" value="0" {$dailyAlert}></td>
+        <td>{$strings["edit_noti_daily_alert"]}</td>
     </tr>
 
-    <tr class='odd'>
-        <td valign='top' class='leftvalue'><input type='checkbox' name='tbl_check[11]' value='0' $weeklyAlert></td>
-        <td>" . $strings["edit_noti_weekly_alert"] . "</td>
+    <tr class="odd">
+        <td style="vertical-align: top;" class="leftvalue">
+            <input type="checkbox" name="alerts[weeklyAlert]" value="0" {$weeklyAlert}></td>
+        <td>{$strings["edit_noti_weekly_alert"]}</td>
     </tr>
 
-    <tr class='odd'>
-        <td valign='top' class='leftvalue'><input type='checkbox' name='tbl_check[12]' value='0' $pastdueAlert></td>
-        <td>" . $strings["edit_noti_pastdue_alert"] . "</td>
+    <tr class="odd">
+        <td style="vertical-align: top;" class="leftvalue">
+            <input type="checkbox" name="alerts['pastDueAlert']" value="0" {$pastdueAlert}></td>
+        <td>{$strings["edit_noti_pastdue_alert"]}</td>
     </tr>
-    ";
+HTML;
 }
 
-echo "
-<tr class='odd'>
-	<td valign='top' class='leftvalue'>&nbsp;</td>
-	<td><input type='submit' name='Save' value='" . $strings["save"] . "'></td>
+echo <<<HTML
+<tr class="odd">
+	<td style="vertical-align: top;" class="leftvalue">&nbsp;</td>
+	<td><input type="submit" name="Save" value="{$strings["save"]}"></td>
 </tr>
-";
+HTML;
 
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
