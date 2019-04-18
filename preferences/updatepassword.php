@@ -29,74 +29,103 @@
 */
 
 
+use phpCollab\Members\Members;
+use phpCollab\Teams\Teams;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-if ($action == "update") {
-    $r = substr($opw, 0, 2);
-    $opw = crypt($opw, $r);
-    if ($opw != $passwordSession) {
-        $error = $strings["old_password_error"];
-    } else {
-        if ($npw != $pwa || $npw == "") {
-            $error = $strings["new_password_error"];
+$members = new Members();
+$teams = new Teams();
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($_POST["action"] == "update") {
+
+        $oldPassword = $_POST["old_password"];
+        $confirmPassword = $_POST["confirm_password"];
+        $newPassword = $_POST["new_password"];
+
+        $r = substr($oldPassword, 0, 2);
+        $oldPassword = crypt($oldPassword, $r);
+
+        if ($oldPassword != $passwordSession) {
+            $error = $strings["old_password_error"];
         } else {
-            $cnpw = phpCollab\Util::getPassword($npw);
+            if (empty($newPassword) || $newPassword != $confirmPassword) {
+                $error = $strings["new_password_error"];
+            } else {
+                // Encrypt new password
+                $encryptedPassword = phpCollab\Util::getPassword($newPassword);
 
-            if ($htaccessAuth == "true") {
-                $Htpasswd = new Htpasswd;
-                $tmpquery = "WHERE tea.member = '$idSession'";
-                $listProjects = new phpCollab\Request();
-                $listProjects->openTeams($tmpquery);
-                $comptListProjects = count($listProjects->tea_id);
+                if ($htaccessAuth == "true") {
+                    $Htpasswd = new Htpasswd;
 
-                if ($comptListProjects != "0") {
-                    for ($i = 0; $i < $comptListProjects; $i++) {
-                        $Htpasswd->initialize("../files/" . $listProjects->tea_pro_id[$i] . "/.htpasswd");
-                        $Htpasswd->changePass($loginSession, $cnpw);
+                    $myTeams = $teams->getTeamByMemberId($idSession);
+
+                    if (!empty($myTeams)) {
+                        foreach ($myTeams as $thisTeam) {
+                            try {
+                                $Htpasswd->initialize("../files/" . $thisTeam["tea_pro_id"] . "/.htpasswd");
+                                $Htpasswd->changePass($loginSession, $encryptedPassword);
+                            }
+                            catch (Exception $e) {
+                                echo "Error: " . $e->getMessage();
+                            }
+                        }
                     }
                 }
+
+                try {
+                    $members->setPassword($idSession, $newPassword);
+                }
+                catch (Exception $e) {
+                    echo "Error: " . $e->getMessage();
+                }
+
+                //if mantis bug tracker enabled
+                if ($enableMantis == "true") {
+                    // call mantis function to reset user password
+                    include("../mantis/user_reset_pwd.php");
+                }
+
+                $r = substr($newPassword, 0, 2);
+                $newPassword = crypt($newPassword, $r);
+                $passwordSession = $newPassword;
+
+                $_SESSION['passwordSession'] = $passwordSession;
+
+                phpCollab\Util::headerFunction("../preferences/updateuser.php?msg=update");
             }
-
-            phpCollab\Util::newConnectSql("UPDATE {$tableCollab["members"]} SET password=:password WHERE id = :member_id", ["password" => $cnpw, "member_id" => $idSession]);
-
-            //if mantis bug tracker enabled
-            if ($enableMantis == "true") {
-                // call mantis function to reset user password
-                include("../mantis/user_reset_pwd.php");
-            }
-
-            $r = substr($npw, 0, 2);
-            $npw = crypt($npw, $r);
-            $passwordSession = $npw;
-
-            $_SESSION['passwordSession'] = $passwordSession;
-
-            phpCollab\Util::headerFunction("../preferences/updateuser.php?msg=update");
         }
     }
 }
 
-$tmpquery = "WHERE mem.id = '$idSession'";
-$userDetail = new phpCollab\Request();
-$userDetail->openMembers($tmpquery);
-$comptUserDetail = count($userDetail->mem_id);
+$userDetail = $members->getMemberById($idSession);
 
-if ($comptUserDetail == "0") {
+if (empty($userDetail)) {
     phpCollab\Util::headerFunction("../users/listusers.php?msg=blankUser");
 }
 
-$bodyCommand = "onLoad=\"document.change_passwordForm.opw.focus();\"";
-include '../themes/' . THEME . '/header.php';
+$bodyCommand = 'onLoad="document.change_passwordForm.original_password.focus();"';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($strings["preferences"]);
 if ($notifications == "true") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../preferences/updateuser.php?", $strings["user_profile"], in) . " | " . $strings["change_password"] . " | " . $blockPage->buildLink("../preferences/updatenotifications.php?", $strings["notifications"], in));
+    $blockPage->itemBreadcrumbs(
+        $blockPage->buildLink(
+            "../preferences/updateuser.php?", $strings["user_profile"], "in") .
+        " | " . $strings["change_password"] .
+        " | " . $blockPage->buildLink("../preferences/updatenotifications.php?",
+            $strings["notifications"], "in")
+    );
 } else {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../preferences/updateuser.php?", $strings["user_profile"], in) . " | " . $strings["change_password"]);
+    $blockPage->itemBreadcrumbs(
+        $blockPage->buildLink("../preferences/updateuser.php?",
+            $strings["user_profile"], "in") . " | " . $strings["change_password"]
+    );
 }
 $blockPage->closeBreadcrumbs();
 
@@ -108,24 +137,24 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "change_password";
-$block1->openForm("../preferences/updatepassword.php?action=update");
+$block1->openForm("../preferences/updatepassword.php");
 
-if ($error != "") {
+if (!empty($error)) {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
 }
 
-$block1->heading($strings["change_password"] . " : " . $userDetail->mem_login[0]);
+$block1->heading($strings["change_password"] . " : " . $userDetail["mem_login"]);
 
 $block1->openContent();
 $block1->contentTitle($strings["change_password_intro"]);
 
-$block1->contentRow("* " . $strings["old_password"], "<input style=\"width: 150px;\" type=\"password\" name=\"opw\" value=\"\" autocomplete=\"off\">");
-$block1->contentRow("* " . $strings["new_password"], "<input style=\"width: 150px;\" type=\"password\" name=\"npw\" value=\"\" autocomplete=\"off\">");
-$block1->contentRow("* " . $strings["confirm_password"], "<input style=\"width: 150px;\" type=\"password\" name=\"pwa\" value=\"\" autocomplete=\"off\">");
-$block1->contentRow("", "<input type=\"submit\" name=\"Save\" value=\"" . $strings["save"] . "\">");
+$block1->contentRow("* " . $strings["old_password"], '<input style="width: 150px;" type="password" name="old_password" value="" autocomplete="off">');
+$block1->contentRow("* " . $strings["new_password"], '<input style="width: 150px;" type="password" name="new_password" value="" autocomplete="off">');
+$block1->contentRow("* " . $strings["confirm_password"], '<input style="width: 150px;" type="password" name="confirm_password" value="" autocomplete="off">');
+$block1->contentRow("", '<input type="hidden" name="action" value="update" /><input type="submit" name="Save" value="' . $strings["save"] . '">');
 
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
