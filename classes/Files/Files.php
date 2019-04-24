@@ -226,11 +226,12 @@ class Files
      * @param $date
      * @param $size
      * @param $extension
+     * @param null $vc_version
      * @return mixed
      */
-    public function updateFile($fileId, $name, $date, $size, $extension)
+    public function updateFile($fileId, $name, $date, $size, $extension, $vc_version = null)
     {
-        $this->files_gateway->updateFile($fileId, $name, $date, $size, $extension);
+        $this->files_gateway->updateFile($fileId, $name, $date, $size, $extension, $vc_version);
         return $this->getFileById($fileId);
 
     }
