@@ -254,6 +254,11 @@ hr {
 	border-bottom: 1px solid #999999;
 	border-left: 1px solid #999999;
 	border-right: 1px solid #999999;
+	border-collapse: collapse;
+}
+
+.tableRevision td {
+	padding: 0.5em;
 }
 
 .revisionTr {
