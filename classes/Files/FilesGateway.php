@@ -360,17 +360,25 @@ SQL;
      * @param $date
      * @param $size
      * @param $extension
+     * @param $vc_version
      * @return mixed
      */
-    public function updateFile($fileId, $name, $date, $size, $extension)
+    public function updateFile($fileId, $name, $date, $size, $extension, $vc_version)
     {
-        $query = "UPDATE {$this->tableCollab["files"]} SET name=:name, date=:date, size=:size, extension=:extension WHERE id = :file_id";
+        $query = "UPDATE {$this->tableCollab["files"]} SET name = :name, date = :date, size = :size, extension = :extension";
+        if (!is_null($vc_version)) {
+            $query .= ", vc_version = :vc_version";
+        }
+        $query .= "WHERE id  = :file_id";
         $this->db->query($query);
         $this->db->bind(":file_id", $fileId);
         $this->db->bind(":name", $name);
         $this->db->bind(":date", $date);
         $this->db->bind(":size", $size);
         $this->db->bind(":extension", $extension);
+        if (!is_null($vc_version)) {
+            $this->db->bind(":vc_version", $vc_version);
+        }
         return $this->db->execute();
 
     }
