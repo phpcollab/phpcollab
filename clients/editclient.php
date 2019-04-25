@@ -1,233 +1,148 @@
 <?php
-/*
-** Application name: phpCollab
-** Last Edit page: 12/03/2005
-** Path by root: ../clients/editclient.php
-** Authors: Ceam / Fullo
-** =============================================================================
-**
-**               phpCollab - Project Managment
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: editclient.php
-**
-** DESC: screen: modify client data
-**
-** HISTORY:
-** 	2003-10-23	-	main page for client module
-**	11/03/2005	-	cleaned html and php
-**	12/03/2005	-	fixed msSQL hourly rate bug
-** -----------------------------------------------------------------------------
-** TO-DO:
-**	add more info to client (fax, phone #2, complete address info)
-**	add export/import to VCF client data
-** =============================================================================
-*/
 
+use phpCollab\Members\Members;
+use phpCollab\Organizations\Organizations;
 
 $checkSession = "true";
 include_once '../includes/library.php';
 
+$members = new Members();
+
 $id = $_GET['id'];
 
 //case update client organization
-if ($id != "") {
-    $organizations = new \phpCollab\Organizations\Organizations();
+if (!empty($id)) {
+    $organizations = new Organizations();
     $clientDetail = $organizations->checkIfClientExistsById($id);
 
     if (empty($clientDetail)) {
         phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
     }
-}
-
-//case update client organization
-if ($id != "") {
-    if ($action == "update") {
-        if ($logoDel == "on") {
-            $deleteLogoSql = "UPDATE {$tableCollab["organizations"]} SET extension_logo='' WHERE id=:project_id";
-
-            $dbParams = ["project_id" => $id];
-            $result = phpCollab\Util::newConnectSql($deleteLogoSql, $dbParams);
-
-            if ($result == 0) {
-                @unlink("../logos_clients/" . $id . ".$extensionOld");
-            }
-        }
-
-        // Check to see if the attached file is an image
-        // Poor way of doing this, but its a band-aid for now
-        if (getimagesize($_FILES['upload']['tmp_name'])) {
-            $extension = strtolower(substr(strrchr($_FILES['upload']['name'], "."), 1));
-
-            $target_file = "../logos_clients/" . $id . '.' . $extension;
-
-            if (@move_uploaded_file($_FILES["upload"]["tmp_name"], $target_file)) {
-                chmod($target_file, 0666);
-
-                $updateLogoExtension = "UPDATE {$tableCollab["organizations"]} SET extension_logo=:extension WHERE id=:id";
-
-                $dbParams = [];
-                $dbParams['extension'] = $extension;
-                $dbParams['id'] = $id;
-                phpCollab\Util::newConnectSql($updateLogoExtension, $dbParams);
-
-                unset($dbParams);
-            }
-
-        }
-
-        //replace quotes by html code in name and address
-        $cn = phpCollab\Util::convertData($cn);
-        $add = phpCollab\Util::convertData($add);
-        $comments = phpCollab\Util::convertData($comments);
-        $updateClientSQL = <<<UPDATECLIENTSQL
-UPDATE {$tableCollab["organizations"]} 
-SET 
-    name=:name,
-    address1=:address_1,
-    phone=:phone,
-    url=:url,
-    email=:email,
-    comments=:comments,
-    owner=:owner,
-    hourly_rate=:hourly_rate 
-WHERE id = :client_id
-UPDATECLIENTSQL;
-
-        $dbParams = [];
-        $dbParams['name'] = $cn;
-        $dbParams['address_1'] = $add;
-        $dbParams['phone'] = $client_phone;
-        $dbParams['url'] = $url;
-        $dbParams['email'] = $email;
-        $dbParams['comments'] = $comments;
-        $dbParams['owner'] = phpCollab\Util::fixInt($cown);
-        $dbParams['hourly_rate'] = $hourly_rate;
-        $dbParams['client_id'] = $id;
-
-        phpCollab\Util::newConnectSql($updateClientSQL, $dbParams);
-
-        unset($dbParams);
-        phpCollab\Util::headerFunction("../clients/viewclient.php?id=$id&msg=update");
-    }
 
     //set value in form
-    $cn = $clientDetail['org_name'];
-    $add = $clientDetail['org_address1'];
-    $client_phone = $clientDetail['org_phone'];
+    $name = $clientDetail['org_name'];
+    $address = $clientDetail['org_address1'];
+    $phone = $clientDetail['org_phone'];
     $url = $clientDetail['org_url'];
     $email = $clientDetail['org_email'];
     $comments = $clientDetail['org_comments'];
     $hourly_rate = $clientDetail['org_hourly_rate'];
 
-    $setTitle .= " : Edit Client ($cn)";
+    $setTitle .= " : Edit Client ($name)";
+
+    //case update client organization
+    if ($_GET["action"] == "update") {
+
+        if ($_POST["logoDel"] == "on") {
+
+            $result = $organizations->setLogoExtensionByOrgId($id, '');
+
+            if ($result == 0) {
+                @unlink("../logos_clients/" . $id . "." . $_POST["extensionOld"]);
+            }
+        }
+
+        // Check to see if file was actually uploaded or not
+        if (!empty($_FILES["upload"]["tmp_name"]) && !empty($_FILES["upload"]["size"])) {
+            // Check to see if the attached file is an image
+            // Poor way of doing this, but its a band-aid for now
+            if (getimagesize($_FILES['upload']['tmp_name'])) {
+                $extension = strtolower(substr(strrchr($_FILES['upload']['name'], "."), 1));
+
+                $target_file = "../logos_clients/" . $id . '.' . $extension;
+
+                if (@move_uploaded_file($_FILES["upload"]["tmp_name"], $target_file)) {
+                    chmod($target_file, 0666);
+
+                    $organizations->setLogoExtensionByOrgId($id, $extension);
+                }
+
+            }
+
+        }
+
+        //replace quotes by html code in name and address
+        $name = phpCollab\Util::convertData($_POST["name"]);
+        $address = phpCollab\Util::convertData($_POST["address"]);
+        $comments = phpCollab\Util::convertData($_POST["comments"]);
+        $phone = (empty($_POST["phone"])) ? null : $_POST["phone"];
+        $url = (empty($_POST["url"])) ? null : $_POST["url"];
+        $email = (empty($_POST["email"])) ? null : $_POST["email"];
+        $hourlyRate = (empty($_POST["hourly_rate"])) ? null : $_POST["hourly_rate"];
+        $owner = (empty($_POST["owner"])) ? null : $_POST["owner"];
+
+
+        $organizations->updateClient($id, $name, $address, $phone, $url, $email, $comments, $owner, $hourlyRate);
+
+        phpCollab\Util::headerFunction("../clients/viewclient.php?id=$id&msg=update");
+    }
+
 }
 
 //case add client organization
-if ($id == "") {
+if (empty($id)) {
     $setTitle .= " : Add Client";
 
-    if ($action == "add") {
-
-        //test if name blank
-        if ($cn == "") {
+    if ($_GET["action"] == "add") {
+        if (empty($_POST["name"])) {
             $error = $strings["blank_organization_field"];
         } else {
-            //replace quotes by html code in name and address
-            $cn = phpCollab\Util::convertData($cn);
-            $add = phpCollab\Util::convertData($add);
-            $comments = phpCollab\Util::convertData($comments);
-
-            $organizations = new \phpCollab\Organizations\Organizations();
-            $org = $organizations->checkIfClientExistsByName($cn);
-
-            if (!empty($org)) {
+            $organizations = new Organizations();
+            if ($organizations->checkIfClientExistsByName($_POST["name"])) {
                 $error = $strings["organization_already_exists"];
             } else {
-                if ($hourly_rate == "") {
+
+                $clientName = phpCollab\Util::convertData($_POST["name"]);
+                $address = phpCollab\Util::convertData($_POST["address"]);
+                $comments = phpCollab\Util::convertData($_POST["comments"]);
+                $phone = (empty($_POST["phone"])) ? null : $_POST["phone"];
+                $url = (empty($_POST["url"])) ? null : $_POST["url"];
+                $email = (empty($_POST["email"])) ? null : $_POST["email"];
+                $hourlyRate = (empty($_POST["hourly_rate"])) ? null : $_POST["hourly_rate"];
+                $owner = (empty($_POST["owner"])) ? null : $_POST["owner"];
+
+
+                if (empty($hourly_rate)) {
                     $hourly_rate = 0.00;
                 }
 
-                //insert into organizations and redirect to new client organization detail (last id)
-                $tmpquery1 = <<<SQLINSERT
-INSERT INTO {$tableCollab["organizations"]} (
-    name,
-    address1,
-    phone,
-    url,
-    email,
-    comments,
-    created,
-    owner,
-    hourly_rate
-) VALUES ( 
-    :client_name,
-    :address,
-    :client_phone,
-    :url,
-    :email,
-    :comments,
-    :created,
-    :owner,
-    :hourly_rate
-)
-SQLINSERT;
+                $newClientId = $organizations->addClient($clientName, $address, $phone, $url, $email, $comments, $owner, $hourly_rate);
 
-                $dbParams = [];
-                $dbParams['client_name'] = $cn;
-                $dbParams['address'] = $add;
-                $dbParams['client_phone'] = $client_phone;
-                $dbParams['url'] = $url;
-                $dbParams['email'] = $email;
-                $dbParams['comments'] = $comments;
-                $dbParams['created'] = $dateheure;
-                $dbParams['owner'] = phpCollab\Util::fixInt($cown);
-                $dbParams['hourly_rate'] = $hourly_rate;
+                if (
+                    $newClientId
+                    && $_FILES['upload']['error'] == 0
+                    && is_uploaded_file($_FILES['upload']['tmp_name'])
+                ) {
 
-                $num = phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
-
-                unset($dbParams);
-
-                if ($num && $_FILES['upload']) {
                     $extension = strtolower(substr(strrchr($_FILES['upload']['name'], "."), 1));
 
-                    $target_file = "../logos_clients/" . $num . '.' . $extension;
+                    $target_file = "../logos_clients/" . $newClientId . '.' . $extension;
 
                     if (@move_uploaded_file($_FILES["upload"]["tmp_name"], $target_file)) {
                         chmod($target_file, 0666);
-                        $updateLogoExtension = "UPDATE {$tableCollab["organizations"]} SET extension_logo=:extension WHERE id=:id";
-
-                        $dbParams = [];
-                        $dbParams['extension'] = $extension;
-                        $dbParams['id'] = $num;
-                        phpCollab\Util::newConnectSql($updateLogoExtension, $dbParams);
-
-                        unset($dbParams);
+                        $organizations->setLogoExtensionByOrgId($newClientId, $extension);
                     }
                 }
 
-                phpCollab\Util::headerFunction("../clients/viewclient.php?id={$num}&msg=add");
+                phpCollab\Util::headerFunction("../clients/viewclient.php?id={$newClientId}&msg=add");
             }
         }
     }
 }
 
-$bodyCommand = "onLoad=\"document.ecDForm.cn.focus();\"";
-include '../themes/' . THEME . '/header.php';
+$bodyCommand = 'onLoad="document.ecDForm.cn.focus();"';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?", $strings["clients"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?", $strings["clients"], "in"));
 
 if ($id == "") {
     $blockPage->itemBreadcrumbs($strings["add_organization"]);
 }
 
 if ($id != "") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $clientDetail['org_id'], $clientDetail['org_name'], 'in'));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $clientDetail['org_id'], $clientDetail['org_name'], "in"));
     $blockPage->itemBreadcrumbs($strings["edit_organization"]);
 }
 
@@ -240,17 +155,23 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 
-if ($id == "") {
-    echo "<a name='" . $block1->form . "Anchor'></a>\n
-	<form accept-charset=\"UNKNOWN\" method=\"POST\" action=\"../clients/editclient.php?action=add&\" name=\"ecDForm\" enctype=\"multipart/form-data\"><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"100000000\">\n";
+if (empty($id)) {
+    echo <<<FORM
+        <a id="{$block1->form}Anchor"></a>
+	<form accept-charset="UNKNOWN" method="POST" action="../clients/editclient.php?action=add&" name="ecDForm" enctype="multipart/form-data">
+	    <input type="hidden" name="MAX_FILE_SIZE" value="100000000">
+FORM;
 }
 
-if ($id != "") {
-    echo "<a name='" . $block1->form . "Anchor'></a>\n
-	<form accept-charset=\"UNKNOWN\" method=\"POST\" action=\"../clients/editclient.php?id=$id&action=update&\" name=\"ecDForm\" enctype=\"multipart/form-data\"><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"100000000\">\n";
+if (!empty($id)) {
+    echo <<<FORM
+    <a id="{$block1->form}Anchor"></a>
+	<form accept-charset="UNKNOWN" method="POST" action="../clients/editclient.php?id={$id}&action=update&" name="ecDForm" enctype="multipart/form-data">
+	<input type="hidden" name="MAX_FILE_SIZE" value="100000000">
+FORM;
 }
 
-if ($error != "") {
+if (!empty($error)) {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
 }
@@ -267,17 +188,16 @@ $block1->openContent();
 $block1->contentTitle($strings["details"]);
 
 if ($clientsFilter == "true") {
-    $selectOwner = "<select name='cown'>";
-    $tmpquery = "WHERE (mem.profil = '1' OR mem.profil = '0') AND mem.login != 'demo' ORDER BY mem.name";
-    $clientOwner = new phpCollab\Request();
-    $clientOwner->openMembers($tmpquery);
-    $comptClientOwner = count($clientOwner->mem_id);
+    $selectOwner = "<select name='owner'>";
 
-    for ($i = 0; $i < $comptClientOwner; $i++) {
-        if ($clientDetail['org_owner'] == $clientOwner->mem_id[$i] || $idSession == $clientOwner->mem_id[$i]) {
-            $selectOwner .= "<option value='" . $clientOwner->mem_id[$i] . "' selected>" . $clientOwner->mem_login[$i] . " / " . $clientOwner->mem_name[$i] . "</option>";
+    $clientOwner = $members->getNonManagementMembers('mem.name');
+
+//    for ($i = 0; $i < $comptClientOwner; $i++) {
+    foreach ($clientOwner as $owner) {
+        if ($clientDetail['org_owner'] == $owner["mem_id"] || $idSession == $owner["mem_id"]) {
+            $selectOwner .= '<option value="' . $owner["mem_id"] . '" selected>' . $owner["mem_login"] . ' / ' . $owner["mem_name"] . '</option>';
         } else {
-            $selectOwner .= "<option value='" . $clientOwner->mem_id[$i] . "'>" . $clientOwner->mem_login[$i] . " / " . $clientOwner->mem_name[$i] . "</option>";
+            $selectOwner .= '<option value="' . $owner["mem_id"] . '">' . $owner["mem_login"] . ' / ' . $owner["mem_name"] . '</option>';
         }
     }
 
@@ -286,22 +206,22 @@ if ($clientsFilter == "true") {
     $block1->contentRow($strings["owner"], $selectOwner);
 }
 
-$block1->contentRow("* " . $strings["name"], "<input size='44' value='$cn' style='width: 400px' name='cn' maxlength='100' type='TEXT' />");
-$block1->contentRow($strings["address"], "<textarea rows='3' style='width: 400px; height: 50px;' name='add' cols='43'>$add</textarea>");
-$block1->contentRow($strings["phone"], "<input size='32' value='$client_phone' style='width: 250px' name='client_phone' maxlength='32' type='TEXT' />");
-$block1->contentRow($strings["url"], "<input size='44' value='$url' style='width: 400px' name='url' maxlength='2000' type='TEXT' />");
-$block1->contentRow($strings["email"], "<input size='44' value='$email' style='width: 400px' name='email' maxlength='2000' type='TEXT' />");
-$block1->contentRow($strings["comments"], "<textarea rows='3' style='width: 400px; height: 50px;' name='comments' cols='43'>$c</textarea>");
+$block1->contentRow("* " . $strings["name"], '<input size="44" value="' . $name . '" style="width: 400px" name="name" maxlength="100" type="TEXT" />');
+$block1->contentRow($strings["address"], '<textarea rows="3" style="width: 400px; height: 50px;" name="address" cols="43">' . $address . '</textarea>');
+$block1->contentRow($strings["phone"], '<input size="32" value="' . $phone . '" style="width: 250px" name="phone" maxlength="32" type="TEXT" />');
+$block1->contentRow($strings["url"], '<input size="44" value="' . $url . '" style="width: 400px" name="url" maxlength="2000" type="TEXT" />');
+$block1->contentRow($strings["email"], '<input size="44" value="' . $email . '" style="width: 400px" name="email" maxlength="2000" type="TEXT" />');
+$block1->contentRow($strings["comments"], '<textarea rows="3" style="width: 400px; height: 50px;" name="comments" cols="43">' . $comments . '</textarea>');
 
 if ($enableInvoicing == "true") {
-    $block1->contentRow($strings["hourly_rate"], "<input size='25' value='$hourly_rate' style='width: 200px' name='hourly_rate' maxlength='50' type='TEXT' />");
+    $block1->contentRow($strings["hourly_rate"], '<input size="25" value="' . $hourly_rate . '" style="width: 200px" name="hourly_rate" maxlength="50" type="TEXT" />');
 }
 
-$block1->contentRow($strings["logo"], "<input size=\"44\" style=\"width: 400px\" name=\"upload\" type=\"file\">");
+$block1->contentRow($strings["logo"], '<input size="44" style="width: 400px" name="upload" type="file">');
 
 if ($id != "") {
     if (file_exists("../logos_clients/" . $id . "." . $clientDetail['org_extension_logo'])) {
-        $block1->contentRow("", "<img src='../logos_clients/" . $id . "." . $clientDetail['org_extension_logo'] . "' /> <input name='extensionOld' type='hidden' value='" . $clientDetail['org_extension_logo'] . "' /><input name='logoDel' type='checkbox' value='on' /> " . $strings["delete"]);
+        $block1->contentRow("", '<img alt="" src="../logos_clients/' . $id . '.' . $clientDetail['org_extension_logo'] . '" /> <input name="extensionOld" type="hidden" value="' . $clientDetail['org_extension_logo'] . '" /><input name="logoDel" type="checkbox" value="on" /> ' . $strings["delete"]);
     }
 }
 
@@ -310,4 +230,4 @@ $block1->contentRow("", "<input type='SUBMIT' value='" . $strings["save"] . "' /
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
