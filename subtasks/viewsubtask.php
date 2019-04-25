@@ -275,19 +275,12 @@ $block3->headingToggle($strings["assignment_history"]);
 
 $block3->sorting("assignment", $sortingUser["assignment"], "ass.assigned DESC", $sortingFields = array(0 => "ass.comments", 1 => "mem1.login", 2 => "mem2.login", 3 => "ass.assigned"));
 
-$tmpquery = "WHERE ass.subtask = '$id' ORDER BY $block3->sortingValue";
-$listAssign = new phpCollab\Request();
-$listAssign->openAssignments($tmpquery);
-
 $listAssign = $assignments->getAssignmentsBySubtaskId($id, $block3->sortingValue);
-
-//$comptListAssign = count($listAssign->ass_id);
 
 $block3->openResults($checkbox = "false");
 
 $block3->labels($labels = array(0 => $strings["comment"], 1 => $strings["assigned_by"], 2 => $strings["to"], 3 => $strings["assigned_on"]), "false");
 
-//for ($i = 0; $i < $comptListAssign; $i++) {
 foreach ($listAssign as $assignment) {
     $block3->openRow();
     $block3->checkboxRow($assignment["ass_id"], $checkbox = "false");
