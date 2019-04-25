@@ -3,8 +3,14 @@
 #Status page: 0
 #Path by root: ../users/emailusers.php
 
+use phpCollab\Members\Members;
+use phpCollab\Organizations\Organizations;
+
 $checkSession = "true";
 include_once '../includes/library.php';
+
+$members = new Members();
+$organizations = new Organizations();
 
 /*
 //anyone can send a message
@@ -14,79 +20,73 @@ if ($profilSession != "0") {
 }
 */
 
-if ($action == "email") {
-    global $root, $version;
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    // get name and email of user sending the email
-    $tmpquery = "WHERE mem.id = '$idSession'";
-    $userPrefs = new phpCollab\Request();
-    $userPrefs->openMembers($tmpquery);
+    if ($_GET["action"] == "email") {
 
-    // get company name
-    $tmpquery = "WHERE org.id = '1'";
-    $clientDetail = new phpCollab\Request();
-    $clientDetail->openOrganizations($tmpquery);
+        // get name and email of user sending the email
+        $userPrefs = $members->getMemberById($idSession);
 
-    // get users to email
-    $id = str_replace("**", ",", $id);
-    $tmpquery = "WHERE mem.id IN($id) ORDER BY mem.name";
-    $listMembers = new phpCollab\Request();
-    $listMembers->openMembers($tmpquery);
-    $comptListMembers = count($listMembers->mem_id);
+        // get company name
+        $clientDetail = $organizations->getOrganizationById(1);
 
-    // format body and message
-    $subject = stripslashes($subject);
-    $message = stripslashes($message);
-    $message = str_replace("\r\n", "\n", $message);
+        // get users to email
+        $listMembers = $members->getMembersByIdIn($id, 'mem.name');
 
-    for ($i = 0; $i < $comptListMembers; $i++) {
-        // send email to each user
-        $email = $listMembers->mem_email_work[$i];
-        $priorityMail = "3";
-        $headers = "Content-type:text/plain;charset='UTF-8'\nFrom: '" . $userPrefs->mem_name[0] . "' <" . $userPrefs->mem_email_work[0] . ">\nX-Priority: $priorityMail\nX-Mailer: PhpCollab $version";
+        // format body and message
+        $subject = stripslashes($_POST["subject"]);
+        $message = stripslashes($_POST["message"]);
+        $message = str_replace("\r\n", "\n", $message);
 
-        $footer = "---\n" . $strings["noti_foot1"];
-        $signature = $userPrefs->mem_name[0] . "\n";
-        if ($userPrefs->mem_title[0] != "") {
-            $signature .= $userPrefs->mem_title[0] . ", " . $clientDetail->org_name[0] . "\n";
+        foreach ($listMembers as $listMember) {
+
+            $signature = $userPrefs->mem_name[0] . "\n";
+            if (!empty($userPrefs["mem_title"])) {
+                $signature .= $userPrefs["mem_title"] . ", " . $clientDetail["org_name"] . "\n";
+            } else {
+                $signature .= $clientDetail["org_name"] . "\n";
+            }
+            if (!empty($userPrefs["mem_phone_work"])) {
+                $signature .= "Phone: " . $userPrefs["mem_phone_work"] . "\n";
+            }
+            if (!empty($userPrefs["mem_mobile"])) {
+                $signature .= "Mobile: " . $userPrefs["mem_mobile"] . "\n";
+            }
+            if (!empty($userPrefs["mem_fax"])) {
+                $signature .= "Fax: " . $userPrefs["mem_fax"] . "\n";
+            }
+
+            try {
+                $members->sendEmail($listMember["mem_email_work"], $listMember["mem_name"], $subject, $message, null, null, $signature);
+            }
+            catch (Exception $e) {
+                echo "Error sending email." . $e->getMessage();
+            }
+
+
+        }
+
+        if ($profilSession == "0") {
+            header("Location:../users/listusers.php?id={$clientDetail["org_id"]}&msg=email");
         } else {
-            $signature .= $clientDetail->org_name[0] . "\n";
+            header("Location:../general/home.php?msg=email");
         }
-        if ($userPrefs->mem_phone_work[0] != "") {
-            $signature .= "Phone: " . $userPrefs->mem_phone_work[0] . "\n";
-        }
-        if ($userPrefs->mem_mobile[0] != "") {
-            $signature .= "Mobile: " . $userPrefs->mem_mobile[0] . "\n";
-        }
-        if ($userPrefs->mem_fax[0] != "") {
-            $signature .= "Fax: " . $userPrefs->mem_fax[0] . "\n";
-        }
-        $newmessage = $message;
-        $newmessage .= "\n\n" . $signature;
-        $newmessage .= "\n" . $footer;
-        @mail($email, $subject, $newmessage, $headers);
-        $newmessage = "";
-    }
-
-    if ($profilSession == "0") {
-        header("Location:../users/listusers.php?id=$clod&msg=email");
-    } else {
-        header("Location:../general/home.php?msg=email");
     }
 }
 
 // start main page
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../users/listusers.php?", $strings["user_management"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../users/listusers.php?", $strings["user_management"], "in"));
 $blockPage->itemBreadcrumbs($strings["email_users"]);
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
-    include '../themes/' . THEME . '/msg.php';
+    include_once('../includes/messages.php');
+    $blockPage->messageBox($msgLabel);
 }
 
 $block1 = new phpCollab\Block();
@@ -94,7 +94,7 @@ $block1 = new phpCollab\Block();
 $block1->form = "user_email";
 $block1->openForm("../users/emailusers.php?action=email");
 
-if ($error != "") {
+if (!empty($error)) {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
 }
@@ -104,26 +104,23 @@ $block1->heading($strings["email_users"]);
 $block1->openContent();
 $block1->contentTitle($strings["email_following"]);
 
-$id = str_replace("**", ",", $id);
-$tmpquery = "WHERE mem.id IN($id) ORDER BY mem.name";
-$listMembers = new phpCollab\Request();
-$listMembers->openMembers($tmpquery);
-$comptListMembers = count($listMembers->mem_id);
+$listMembers = $members->getMembersByIdIn($id, 'mem.name');
 
-for ($i = 0; $i < $comptListMembers; $i++) {
-    if ($listMembers->mem_email_work[$i] != "") {
-        $block1->contentRow("", $listMembers->mem_login[$i] . "&nbsp;(" . $listMembers->mem_name[$i] . ")");
+foreach ($listMembers as $listMember) {
+    if (!empty($listMembers["mem_email_work"])) {
+        $block1->contentRow("", $listMember["mem_login"] . "&nbsp;(" . $listMember["mem_name"] . ")");
     } else {
-        $block1->contentRow("", $listMembers->mem_login[$i] . "&nbsp;(" . $listMembers->mem_name[$i] . ") " . $strings["no_email"]);
+        $block1->contentRow("", $listMember["mem_login"] . "&nbsp;(" . $listMember["mem_name"] . ") " . $strings["no_email"]);
     }
 }
 
+
 $block1->contentTitle($strings["email"]);
-$block1->contentRow($strings["subject"], "<input size='44' style='width: 400px' name='subject' maxlength='100' type='text'>");
-$block1->contentRow($strings["message"], "<textarea rows='10' style='width: 400px; height: 160px;' name='message' cols='47'></textarea>");
+$block1->contentRow($strings["subject"], '<input size="44" style="width: 400px" name="subject" maxlength="100" type="text">');
+$block1->contentRow($strings["message"], '<textarea rows="10" style="width: 400px; height: 160px;" name="message" cols="47"></textarea>');
 $block1->contentRow("", "<input type='submit' name='delete' value='" . $strings["email"] . "'> <input type='button' name='cancel' value='" . $strings["cancel"] . "' onClick='history.back();'><input type='hidden' value='$id' name='id'>");
 
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
