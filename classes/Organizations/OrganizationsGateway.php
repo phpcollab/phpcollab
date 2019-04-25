@@ -26,6 +26,88 @@ class OrganizationsGateway
     }
 
     /**
+     * @param $name
+     * @param $address
+     * @param $phone
+     * @param $url
+     * @param $email
+     * @param $comments
+     * @param $owner
+     * @param $hourlyRate
+     * @param $extension
+     * @param $created
+     * @return string
+     */
+    public function addClientOrganization($name, $address, $phone, $url, $email, $comments, $owner, $hourlyRate, $extension, $created)
+    {
+        $sql = <<<SQL
+INSERT INTO {$this->tableCollab["organizations"]} (
+    name, address1, phone, url, email, comments, extension_logo, owner, hourly_rate, created
+) VALUES ( 
+    :name, :address, :phone, :url, :email, :comments, :extension, :owner, :hourly_rate, :created
+)
+SQL;
+
+        $this->db->query($sql);
+        $this->db->bind(":name", $name);
+        $this->db->bind(":address", $address);
+        $this->db->bind(":phone", $phone);
+        $this->db->bind(":url", $url);
+        $this->db->bind(":email", $email);
+        $this->db->bind(":comments", $comments);
+        $this->db->bind(":extension", $extension);
+        $this->db->bind(":owner", $owner);
+        $this->db->bind(":hourly_rate", $hourlyRate);
+        $this->db->bind(":created", $created);
+        $this->db->execute();
+        return $this->db->lastInsertId();
+
+
+    }
+
+    /**
+     * @param $clientId
+     * @param $name
+     * @param $address
+     * @param $phone
+     * @param $url
+     * @param $email
+     * @param $comments
+     * @param $owner
+     * @param $hourlyRate
+     * @return mixed
+     */
+    public function updateClientOrganization($clientId, $name, $address, $phone, $url, $email, $comments, $owner, $hourlyRate)
+    {
+        $sql = <<<SQL
+UPDATE {$this->tableCollab["organizations"]}
+SET
+    name = :name,
+    address1 = :address,
+    phone = :phone,
+    url = :url,
+    email = :email,
+    comments = :comments,
+    owner = :owner,
+    hourly_rate = :hourly_rate
+WHERE id = :client_id
+
+SQL;
+
+        $this->db->query($sql);
+        $this->db->bind(":client_id", $clientId);
+        $this->db->bind(":name", $name);
+        $this->db->bind(":address", $address);
+        $this->db->bind(":phone", $phone);
+        $this->db->bind(":url", $url);
+        $this->db->bind(":email", $email);
+        $this->db->bind(":comments", $comments);
+        $this->db->bind(":owner", $owner);
+        $this->db->bind(":hourly_rate", $hourlyRate);
+        return $this->db->execute();
+    }
+
+    /**
      * @param $clientName
      * @return mixed
      */
@@ -122,6 +204,11 @@ class OrganizationsGateway
 
     }
 
+    /**
+     * @param $orgIds
+     * @param null $sorting
+     * @return mixed
+     */
     public function getOrganizationsIn($orgIds, $sorting = null)
     {
         $orgIds = explode(',', $orgIds);
