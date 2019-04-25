@@ -15,6 +15,7 @@ class Notification extends phpmailer
     public $partMessage;
     public $footer;
     public $partSubject;
+    protected $signature;
 
     public function __construct($exceptions = null)
     {
@@ -65,5 +66,39 @@ class Notification extends phpmailer
             echo $e->getMessage();
         }
     }
+
+    /**
+     * @return string
+     */
+    public function getFooter()
+    {
+        return $this->footer;
+    }
+
+    /**
+     * @param string $footer
+     */
+    public function setFooter($footer)
+    {
+        $this->footer = $footer;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSignature()
+    {
+        return $this->signature;
+    }
+
+    /**
+     * @param mixed $signature
+     */
+    public function setSignature($signature)
+    {
+        $this->signature = $signature;
+    }
+
+
 
 }
