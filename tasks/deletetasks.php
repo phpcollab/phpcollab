@@ -3,6 +3,10 @@
 #Status page: 0
 #Path by root: ../tasks/deletetasks.php
 
+use phpCollab\Assignments\Assignments;
+use phpCollab\Projects\Projects;
+use phpCollab\Tasks\Tasks;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -12,23 +16,20 @@ if (!isset($_GET["id"]) || $_GET["id"] == "") {
 }
 $id = $_GET["id"];
 
-$tasks = new \phpCollab\Tasks\Tasks();
-$assignments = new \phpCollab\Assignments\Assignments();
-$projects = new \phpCollab\Projects\Projects();
+$tasks = new Tasks();
+$assignments = new Assignments();
+$projects = new Projects();
 
 $strings = $GLOBALS["strings"];
 
 if ($_GET["action"] == "delete") {
     $id = str_replace("**", ",", $id);
 
-    $tmpquery = "WHERE tas.id IN($id)";
-    $listTasks = new phpCollab\Request();
-    $listTasks->openTasks($tmpquery);
-    $comptListTasks = count($listTasks->tas_id);
+    $listTasks = $tasks->getTasksById($id);
 
-    for ($i = 0; $i < $comptListTasks; $i++) {
+    foreach ($listTasks as $listTask) {
         if ($fileManagement == "true") {
-            phpCollab\Util::deleteDirectory("../files/" . $listTasks->tas_project[$i] . "/" . $listTasks->tas_id[$i]);
+            phpCollab\Util::deleteDirectory("../files/" . $listTask["tas_project"] . "/" . $listTask["tas_id"]);
         }
     }
     $tasks->deleteTasks($id);
@@ -36,7 +37,7 @@ if ($_GET["action"] == "delete") {
     $tasks->deleteSubTasks($id);
 
     //recompute number of completed tasks of the project
-    $projectDetail = $projects->getProjectById($listTasks->tas_project[0]);
+    $projectDetail = $projects->getProjectById($listTasks["tas_project"][0]);
 
     phpCollab\Util::projectComputeCompletion(
         $listTasks->tas_project[$i],
@@ -82,13 +83,10 @@ $block1->openContent();
 $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**", ",", $id);
-$tmpquery = "WHERE tas.id IN($id) ORDER BY tas.name";
-$listTasks = new phpCollab\Request();
-$listTasks->openTasks($tmpquery);
-$comptListTasks = count($listTasks->tas_id);
+$listTasks = $tasks->getTasksById($id);
 
-for ($i = 0; $i < $comptListTasks; $i++) {
-    echo '<tr class="odd"><td valign="top" class="leftvalue">#' . $listTasks->tas_id[$i] . '</td><td>' . $listTasks->tas_name[$i] . '</td></tr>';
+foreach ($listTasks as $listTask) {
+    echo '<tr class="odd"><td valign="top" class="leftvalue">#' . $listTask["tas_id"] . '</td><td>' . $listTask["tas_name"] . '</td></tr>';
 }
 
 echo <<< TR
