@@ -26,6 +26,49 @@ class Organizations
     }
 
     /**
+     * @param $name
+     * @param $address
+     * @param $phone
+     * @param $url
+     * @param $email
+     * @param $comments
+     * @param $owner
+     * @param $hourlyRate
+     * @param null $extension
+     * @param null $created
+     * @return string
+     */
+    public function addClient($name, $address, $phone, $url, $email, $comments, $owner, $hourlyRate, $extension = null, $created = null)
+    {
+        if (is_null($extension)) {
+            $extension = '';
+        }
+
+        if (is_null($created)) {
+            $created = date('Y-m-d h:i');
+        }
+
+        return $this->organizations_gateway->addClientOrganization($name, $address, $phone, $url, $email, $comments, $owner, $hourlyRate, $extension, $created);
+    }
+
+    /**
+     * @param $clientId
+     * @param $name
+     * @param $address
+     * @param $phone
+     * @param $url
+     * @param $email
+     * @param $comments
+     * @param $owner
+     * @param $hourlyRate
+     * @return mixed
+     */
+    public function updateClient($clientId, $name, $address, $phone, $url, $email, $comments, $owner, $hourlyRate)
+    {
+        return $this->organizations_gateway->updateClientOrganization($clientId, $name, $address, $phone, $url, $email, $comments, $owner, $hourlyRate);
+    }
+
+    /**
      * @param $clientName
      * @return mixed
      */
@@ -35,7 +78,7 @@ class Organizations
 
         $data = $this->organizations_gateway->getClientByName($clientName);
 
-        return $data;
+        return !empty($data);
     }
 
     /**
@@ -66,6 +109,11 @@ class Organizations
         return $orgs;
     }
 
+    /**
+     * @param $clientIds
+     * @param null $sorting
+     * @return mixed
+     */
     public function getFilteredOrganizations($clientIds, $sorting = null)
     {
         $data = $this->organizations_gateway->getOrganizationsIn($clientIds, $sorting);
