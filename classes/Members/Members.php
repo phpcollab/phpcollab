@@ -225,9 +225,22 @@ class Members
         return $data;
     }
 
+    /**
+     * @param null $sorting
+     * @return mixed
+     */
     public function getNonClientMembers($sorting = null)
     {
         return $this->members_gateway->getNonClientMembers($sorting);
+    }
+
+    /**
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getNonManagementMembers($sorting = null)
+    {
+        return $this->members_gateway->getNonManagementMembers($sorting);
     }
 
     /**
