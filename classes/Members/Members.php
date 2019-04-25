@@ -4,6 +4,7 @@ namespace phpCollab\Members;
 
 use Exception;
 use phpCollab\Database;
+use phpCollab\Notification;
 use phpCollab\Util;
 
 /**
@@ -14,6 +15,7 @@ class Members
 {
     protected $members_gateway;
     protected $db;
+    protected $strings;
 
     /**
      * Members constructor.
@@ -23,6 +25,8 @@ class Members
         $this->db = new Database();
 
         $this->members_gateway = new MembersGateway($this->db);
+
+        $this->strings = $GLOBALS["strings"];
     }
 
     /**
@@ -264,5 +268,59 @@ class Members
     public function setLastPageVisitedByLogin($userName, $page)
     {
         return $this->members_gateway->setLastPageVisited($userName, $page);
+    }
+
+    /**
+     * @param $toEmail
+     * @param $toName
+     * @param $subject
+     * @param $message
+     * @param null $fromEmail
+     * @param null $fromName
+     * @param null $signature
+     * @throws Exception
+     */
+    public function sendEmail($toEmail, $toName, $subject, $message, $fromEmail = null, $fromName = null, $signature = null)
+    {
+        if ($toEmail && $toName && $subject && $message) {
+            $mail = new Notification(true);
+
+            try {
+                if (!is_null($signature)) {
+                    $mail->setSignature($signature);
+                }
+
+                if (empty($fromEmail)) {
+                    $fromEmail = $GLOBALS["supportEmail"];
+                }
+
+                if (empty($fromName)) {
+                    $fromName = $GLOBALS["setTitle"];
+                }
+
+                $mail->setFrom($fromEmail, $fromName);
+
+                $mail->setFooter("---\n" . $this->strings["noti_foot1"]);
+
+                $body = $message;
+
+                $body .= "\n\n" . $mail->getSignature();
+
+                $body .= "\n\n" . $mail->getFooter();
+
+                $mail->Subject = $subject;
+                $mail->Priority = "3";
+                $mail->Body = $body;
+                $mail->AddAddress($toEmail, $toName);
+                $mail->Send();
+                $mail->ClearAddresses();
+
+            } catch (Exception $e) {
+                // Log this instead of echoing it?
+                throw new Exception($mail->ErrorInfo);
+            }
+        } else {
+            throw new Exception('Members Class, sendEmail - Error sending mail');
+        }
     }
 }
