@@ -27,12 +27,20 @@
 */
 
 
+use phpCollab\Assignments\Assignments;
+use phpCollab\Phases\Phases;
+use phpCollab\Projects\Projects;
+use phpCollab\Tasks\Tasks;
+use phpCollab\Teams\Teams;
+use phpCollab\Updates\Updates;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$tasks = new \phpCollab\Tasks\Tasks();
-$projects = new \phpCollab\Projects\Projects();
-$teams = new \phpCollab\Teams\Teams();
+$tasks = new Tasks();
+$projects = new Projects();
+$teams = new Teams();
+$assignments = new Assignments();
 
 $task = $_GET['task'];
 $addToSite = $_GET['addToSite'];
@@ -75,7 +83,7 @@ if ($_GET['action'] == "publish") {
     }
 }
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $subtaskDetail = $tasks->getSubTaskById($id);
 
@@ -84,7 +92,7 @@ $taskDetail = $tasks->getTaskById($task);
 $projectDetail = $projects->getProjectById($taskDetail['tas_project']);
 
 if ($projectDetail['pro_enable_phase'] != "0") {
-    $phases = new \phpCollab\Phases\Phases();
+    $phases = new Phases();
     $tPhase = $taskDetail['tas_parent_phase'];
     if (!$tPhase) {
         $tPhase = '0';
@@ -202,12 +210,12 @@ $block1->contentRow($strings["comments"], nl2br($subtaskDetail['subtas_comments'
 
 $block1->contentTitle($strings["updates_subtask"]);
 
-$updates = new \phpCollab\Updates\Updates();
+$updates = new Updates();
 $listUpdates = $updates->getUpdates(2, $id);
 
 $comptListUpdates = count($listUpdates);
 
-echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td>";
+echo '<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td>';
 if ($comptListUpdates != "0") {
     $j = 1;
     foreach ($listUpdates as $update) {
@@ -236,7 +244,7 @@ if ($comptListUpdates != "0") {
         }
         $j++;
     }
-    echo "<br/>" . $blockPage->buildLink("../subtasks/historysubtask.php?type=2&item=$id", $strings["show_details"], in);
+    echo "<br/>" . $blockPage->buildLink("../subtasks/historysubtask.php?type=2&item=$id", $strings["show_details"], "in");
 } else {
     echo $strings["no_items"];
 }
@@ -255,7 +263,7 @@ if ($teamMember == "true" || $profilSession == "5") {
         $block1->paletteScript(4, "remove_projectsite", "../subtasks/viewsubtask.php?removeToSite=true&task=$task&id=" . $subtaskDetail['subtas_id'] . "&action=publish", "true,true,true", $strings["remove_project_site"]);
     }
     $block1->paletteScript(5, "edit", "../subtasks/editsubtask.php?task=$task&id=$id&docopy=false", "true,true,false", $strings["edit"]);
-    $block1->closePaletteScript("", "");
+    $block1->closePaletteScript(count($listAssign), $listAssign["ass_id"]);
 }
 
 $block3 = new phpCollab\Block();
@@ -271,30 +279,32 @@ $tmpquery = "WHERE ass.subtask = '$id' ORDER BY $block3->sortingValue";
 $listAssign = new phpCollab\Request();
 $listAssign->openAssignments($tmpquery);
 
+$listAssign = $assignments->getAssignmentsBySubtaskId($id, $block3->sortingValue);
 
-$comptListAssign = count($listAssign->ass_id);
+//$comptListAssign = count($listAssign->ass_id);
 
 $block3->openResults($checkbox = "false");
 
 $block3->labels($labels = array(0 => $strings["comment"], 1 => $strings["assigned_by"], 2 => $strings["to"], 3 => $strings["assigned_on"]), "false");
 
-for ($i = 0; $i < $comptListAssign; $i++) {
+//for ($i = 0; $i < $comptListAssign; $i++) {
+foreach ($listAssign as $assignment) {
     $block3->openRow();
-    $block3->checkboxRow($listAssign->ass_id[$i], $checkbox = "false");
-    if ($listAssign->ass_comments[$i] != "") {
-        $block3->cellRow($listAssign->ass_comments[$i]);
-    } elseif ($listAssign->ass_assigned_to[$i] == "0") {
+    $block3->checkboxRow($assignment["ass_id"], $checkbox = "false");
+    if ($assignment["ass_comments"] != "") {
+        $block3->cellRow($assignment["ass_comments"]);
+    } elseif ($assignment["ass_assigned_to"] == "0") {
         $block3->cellRow($strings["task_unassigned"]);
     } else {
-        $block3->cellRow($strings["task_assigned"] . " " . $listAssign->ass_mem2_name[$i] . " (" . $listAssign->ass_mem2_login[$i] . ")");
+        $block3->cellRow($strings["task_assigned"] . " " . $assignment["ass_mem2_name"] . " (" . $assignment["ass_mem2_login"] . ")");
     }
-    $block3->cellRow($blockPage->buildLink($listAssign->ass_mem1_email_work[$i], $listAssign->ass_mem1_login[$i], mail));
-    if ($listAssign->ass_assigned_to[$i] == "0") {
+    $block3->cellRow($blockPage->buildLink($assignment["ass_mem1_email_work"], $assignment["ass_mem1_login"], "mail"));
+    if ($assignment["ass_assigned_to"] == "0") {
         $block3->cellRow($strings["unassigned"]);
     } else {
-        $block3->cellRow($blockPage->buildLink($listAssign->ass_mem2_email_work[$i], $listAssign->ass_mem2_login[$i], mail));
+        $block3->cellRow($blockPage->buildLink($assignment["ass_mem2_email_work"], $assignment["ass_mem2_login"], "mail"));
     }
-    $block3->cellRow(phpCollab\Util::createDate($listAssign->ass_assigned[$i], $timezoneSession));
+    $block3->cellRow(phpCollab\Util::createDate($assignment["ass_assigned"], $timezoneSession));
     $block3->closeRow();
 }
 $block3->closeResults();
@@ -302,4 +312,4 @@ $block3->closeResults();
 $block3->closeToggle();
 $block3->closeFormResults();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
