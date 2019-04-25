@@ -46,6 +46,19 @@ class Assignments
         return $this->assignments_gateway->getAssignmentsByTaskId($taskId, $sorting);
     }
 
+    /**
+     * @param $subtaskId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getAssignmentsBySubtaskId($subtaskId, $sorting = null)
+    {
+        return $this->assignments_gateway->getAssignmentsBySubtaskId($subtaskId, $sorting);
+    }
+
+    /**
+     * @return mixed
+     */
     public function getLastEntryId()
     {
         return $this->assignments_gateway->getLastId();

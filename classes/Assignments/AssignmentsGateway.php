@@ -65,6 +65,22 @@ SQL;
         return $this->db->resultset();
     }
 
+    /**
+     * @param $subtaskId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getAssignmentsBySubtaskId($subtaskId, $sorting = null)
+    {
+        $query = $this->initrequest["assignments"] .  " WHERE ass.subtask = :subtask_id" . $this->orderBy( (!empty($sorting)) ? $sorting : 'ass.id' );
+        $this->db->query($query);
+        $this->db->bind(':subtask_id', $subtaskId);
+        return $this->db->resultset();
+    }
+
+    /**
+     * @return mixed
+     */
     public function getLastId()
     {
         $sql = "SELECT id FROM {$this->tableCollab["assignments"]} ORDER BY id DESC LIMIT 1";
