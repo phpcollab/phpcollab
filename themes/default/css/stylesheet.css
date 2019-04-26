@@ -179,6 +179,12 @@ hr {
 	text-decoration: none;
 }
 
+.nonStriped {
+	border: none;
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
 .striped {
 	border: none;
 	border-spacing: 0;
@@ -187,10 +193,11 @@ hr {
 
 .striped th {
 	border: none;
+	padding: .5em;
 }
 
 .striped td {
-	padding: 0;
+	padding: .5em;
 }
 
 
@@ -207,6 +214,14 @@ hr {
 .striped tr:nth-child(even):hover, .striped tr:nth-child(odd):hover {
 	background-color: #DEE7EB;
 	color: #000;
+}
+
+.darkHighlight {
+	background-color: #7B9CAE;
+}
+
+.lightHighlight {
+	background-color: #C4D3DB;
 }
 
 .odd {
@@ -368,4 +383,9 @@ table.pagination {
 }
 td.footerCell a, td.footerCell strong {
 	margin-right: 10px;
+}
+
+.no-records {
+	padding: 1em 0;
+	font-size: 0.75rem;
 }
