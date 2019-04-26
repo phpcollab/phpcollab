@@ -2,31 +2,37 @@
 #Application name: PhpCollab
 #Status page: 0
 
+use phpCollab\Tasks\Tasks;
+use phpCollab\Updates\Updates;
+
 $checkSession = "true";
 include '../includes/library.php';
 
-if ($action == "update") {
-    $comments = phpCollab\Util::convertData($comments);
+$tasks = new Tasks();
 
-    if ($checkbox != "") {
-        phpCollab\Util::newConnectSql(
-            "UPDATE {$tableCollab["tasks"]} SET comments=:comments,status=:status,modified=:modified WHERE id = :task_id",
-            ["comments" => $comments, "status" => 0, "modified" => $dateheure, "task_id" => $id]
-        );
-    } else {
-        phpCollab\Util::newConnectSql(
-            "UPDATE {$tableCollab["tasks"]} SET comments=:comments,status=:status,modified=:modified WHERE id = :task_id",
-            ["comments" => $comments, "status" => 3, "modified" => $dateheure, "task_id" => $id]
-        );
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($_POST["action"] == "update") {
+        $comments = phpCollab\Util::convertData($_POST["comments"]);
+
+        if (!empty($_POST["checkbox"])) {
+            phpCollab\Util::newConnectSql(
+                "UPDATE {$tableCollab["tasks"]} SET comments = :comments, status = :status, modified = :modified WHERE id = :task_id",
+                ["comments" => $comments, "status" => 0, "modified" => $dateheure, "task_id" => $id]
+            );
+        } else {
+            phpCollab\Util::newConnectSql(
+                "UPDATE {$tableCollab["tasks"]} SET comments = :comments, status = :status, modified = :modified WHERE id = :task_id",
+                ["comments" => $comments, "status" => 3, "modified" => $dateheure, "task_id" => $id]
+            );
+        }
+        phpCollab\Util::headerFunction("showallclienttasks.php");
     }
-    phpCollab\Util::headerFunction("showallclienttasks.php");
 }
 
-$tmpquery = "WHERE tas.id = '$id'";
-$taskDetail = new phpCollab\Request();
-$taskDetail->openTasks($tmpquery);
+$taskDetail = $tasks->getTaskById($id);
+$updates = new Updates();
 
-if ($taskDetail->tas_published[0] == "1" || $taskDetail->tas_project[0] != $projectSession) {
+if ($taskDetail["tas_published"] == "1" || $taskDetail["tas_project"] != $projectSession) {
     phpCollab\Util::headerFunction("index.php");
 }
 
@@ -38,62 +44,118 @@ $block1 = new phpCollab\Block();
 
 $block1->heading($strings["client_task_details"]);
 
-echo "<table cellspacing=\"0\" cellpadding=\"3\">";
-if ($taskDetail->tas_name[0] != "") {
-    echo "<tr><td>" . $strings["name"] . " :</td><td>" . $taskDetail->tas_name[0] . "</td></tr>";
-}
-if ($taskDetail->tas_description[0] != "") {
-    echo "<tr><td>" . $strings["description"] . " :</td><td>" . nl2br($taskDetail->tas_description[0]) . "</td></tr>";
-}
-$complValue = ($taskDetail->tas_completion[0] > 0) ? $taskDetail->tas_completion[0] . "0 %" : $taskDetail->tas_completion[0] . " %";
-echo "<tr><td>" . $strings["completion"] . " :</td><td>" . $complValue . "</td></tr>";
-if ($taskDetail->tas_mem_name[0] != "") {
-    echo "<tr><td>" . $strings["assigned_to"] . " :</td><td>" . $taskDetail->tas_mem_name[0] . "</td></tr>";
-}
-if ($taskDetail->tas_comments[0] != "") {
-    echo "<tr><td>" . $strings["comments"] . " :</td><td>" . nl2br($taskDetail->tas_comments[0]) . "</td></tr>";
-}
-if ($taskDetail->tas_start_date[0] != "") {
-    echo "<tr><td>" . $strings["start_date"] . " :</td><td>" . $taskDetail->tas_start_date[0] . "</td></tr>";
-}
-if ($taskDetail->tas_due_date[0] != "") {
-    echo "<tr><td>" . $strings["due_date"] . " :</td><td>" . $taskDetail->tas_due_date[0] . "</td></tr>";
-}
-echo "<tr><td>" . $strings["updates_task"] . " :</td><td>";
-$tmpquery = "WHERE upd.type='1' AND upd.item = '$id' ORDER BY upd.created DESC";
-$listUpdates = new phpCollab\Request();
-$listUpdates->openUpdates($tmpquery);
-$comptListUpdates = count($listUpdates->upd_id);
+echo '<table style="margin-bottom: 2em;" class="nonStriped">';
 
-if ($comptListUpdates != "0") {
+if ($taskDetail["tas_name"] != "") {
+    echo <<<TR
+        <tr>
+            <td>{$strings["name"]} :</td>
+            <td>{$taskDetail["tas_name"]}</td>
+        </tr>
+TR;
+}
+if ($taskDetail["tas_description"] != "") {
+    $taskDescription = nl2br($taskDetail["tas_description"]);
+    echo <<<TR
+        <tr>
+            <td>{$strings["description"]} :</td>
+            <td>$taskDescription</td></tr>
+TR;
+}
+
+$complValue = ($taskDetail["tas_completion"] > 0) ? $taskDetail["tas_completion"] . "0 %" : $taskDetail["tas_completion"] . " %";
+
+echo <<<TR
+        <tr>
+            <td>{$strings["completion"]} :</td>
+            <td>{$complValue}</td>
+        </tr>
+TR;
+
+if ($taskDetail["tas_mem_name"] != "") {
+    echo <<<TR
+        <tr>
+            <td>{$strings["assigned_to"]} :</td>
+            <td>{$taskDetail["tas_mem_name"]}</td>
+        </tr>
+TR;
+}
+
+if ($taskDetail["tas_comments"] != "") {
+    $taskComments = nl2br($taskDetail["tas_comments"]);
+    echo <<<TR
+        <tr>
+            <td>{$strings["comments"]} :</td>
+            <td>{$taskComments}</td>
+        </tr>
+TR;
+}
+
+if ($taskDetail["tas_start_date"] != "") {
+    echo <<<TR
+        <tr>
+            <td>{$strings["start_date"]} :</td>
+            <td>{$taskDetail["tas_start_date"]}</td>
+        </tr>
+TR;
+}
+
+if ($taskDetail["tas_due_date"] != "") {
+    echo <<<TR
+        <tr>
+            <td>{$strings["due_date"]} :</td>
+            <td>{$taskDetail["tas_due_date"]}</td>
+        </tr>
+TR;
+}
+
+echo <<<TR
+        <tr>
+            <td>{$strings["updates_task"]} :</td>
+            <td>
+TR;
+
+$listUpdates = $updates->getUpdates(1, $id, 'upd.created DESC');
+
+if ($listUpdates) {
     $j = 1;
-    for ($i = 0; $i < $comptListUpdates; $i++) {
-        echo "<b>" . $j . ".</b> <i>" . phpCollab\Util::createDate($listUpdates->upd_created[$i], $timezoneSession) . "</i><br/>" . nl2br($listUpdates->upd_comments[$i]);
-        echo "<br/>";
+    foreach ($listUpdates as $update) {
+        $updateComment = nl2br($update["upd_comments"]);
+        $updateCreated = phpCollab\Util::createDate($update["upd_created"], $timezoneSession);
+        echo <<<UPDATE
+<strong>{$j}</strong> <em>{$updateCreated}</em><br/>{$updateComment}
+<br/>
+UPDATE;
         $j++;
     }
 } else {
     echo $strings["no_items"];
 }
 
-echo "</td></tr>
+echo "</td>
+    </tr>
 </table>
 <hr>";
 
-$tmpquery = "WHERE subtas.task = '$id' AND subtas.published = '0' ORDER BY subtas.name";
-$listSubtasks = new phpCollab\Request();
-$listSubtasks->openSubtasks($tmpquery);
-$comptListSubtasks = count($listSubtasks->subtas_id);
+$listSubtasks = $tasks->getSubtasksByParentTaskId($id, 'subtas.name');
 
 $block2 = new phpCollab\Block();
 
 $block2->heading($strings["subtasks"]);
 
-if ($comptListSubtasks != "0") {
-    echo "<table cellspacing=\"0\" width=\"90%\" border=\"0\" cellpadding=\"3\" cols=\"4\" class=\"listing\">
-<tr><th class=\"active\">" . $strings["name"] . "</th><th>" . $strings["description"] . "</th><th>" . $strings["status"] . "</th><th>" . $strings["due"] . "</th></tr>";
+echo '<div id="subTasks" style="margin-bottom: 2em;">';
+if ($listSubtasks) {
+    echo <<<START_TABLE
+<table style="width: 90%" class="listing striped">
+    <tr>
+        <th class="active">{$strings["name"]}</th>
+        <th>{$strings["description"]}</th>
+        <th>{$strings["status"]}</th>
+        <th>{$strings["due"]}</th>
+    </tr>
+START_TABLE;
 
-    for ($i = 0; $i < $comptListSubtasks; $i++) {
+    foreach ($listSubtasks as $subtask) {
         if (!($i % 2)) {
             $class = "odd";
             $highlightOff = $block2->getOddColor();
@@ -101,33 +163,54 @@ if ($comptListSubtasks != "0") {
             $class = "even";
             $highlightOff = $block2->getEvenColor();
         }
-        $idStatus = $listSubtasks->subtas_status[$i];
-        echo "<tr class=\"$class\" onmouseover=\"this.style.backgroundColor='" . $block2->getHighlightOn() . "'\" onmouseout=\"this.style.backgroundColor='" . $highlightOff . "'\"><td><a href=\"clientsubtaskdetail.php?task=$id&id=" . $listSubtasks->subtas_id[$i] . "\">" . $listSubtasks->subtas_name[$i] . "</a></td><td>" . nl2br($listSubtasks->subtas_description[$i]) . "</td><td>$status[$idStatus]</td><td>" . $listSubtasks->subtas_due_date[$i] . "</td></tr>";
+        $subtaskDescription = nl2br($subtask["subtas_description"]);
+        echo <<<TR
+    <tr>
+        <td><a href="clientsubtaskdetail.php?task={$id}&id={$subtask["subtas_id"]}">{$subtask["subtas_name"]}</a></td>
+        <td>{$subtaskDescription}</td>
+        <td>{$status[$subtask["subtas_status"]]}</td>
+        <td>{$subtask["subtas_due_date"]}</td>
+    </tr>
+TR;
     }
-    echo "</table>
-<hr>\n";
+    echo "</table>";
 } else {
-    echo "<table cellspacing=\"0\" border=\"0\" cellpadding=\"2\"><tr><td colspan=\"4\" class=\"listOddBold\">" . $strings["no_items"] . "</td></tr></table><hr>";
+    echo "<div class='no-records'>{$strings["no_items"]}</div>";
 }
+echo "</div>";
 
-echo "<form accept-charset=\"UNKNOWN\" method=\"post\" action=\"../projects_site/clienttaskdetail.php?action=update\" name=\"clientTaskUpdate\" enctype=\"multipart/form-data\"><input name=\"id\" type=\"HIDDEN\" value=\"$id\">";
+$statusChecked = ($taskDetail["tas_status"] == "0") ? 'checked' : '';
 
-echo "<table cellspacing=\"0\" cellpadding=\"3\">
-<tr><th colspan=\"2\">" . $strings["client_change_status"] . "</th></tr>
-<tr><td>" . $strings["status"] . " :</td><td>";
 
-if ($taskDetail->tas_status[0] == "0") {
-    echo "<input checked value=\"checkbox\" name=\"checkbox\" type=\"checkbox\">";
-} else {
-    echo "<input value=\"checkbox\" name=\"checkbox\" type=\"checkbox\">";
-}
+$block2->heading("Complete Task");
 
-echo "&nbsp;$status[0]</td></tr>
-<tr valign=\"top\"><td>" . $strings["comments"] . " :</td><td><textarea cols=\"40\" name=\"comments\" rows=\"5\">" . $taskDetail->tas_comments[0] . "</textarea></td></tr><tr align=\"top\"><td>&#160;</td><td><input name=\"submit\" type=\"submit\" value=\"" . $strings["save"] . "\"></td></tr>
-</table>
-</form>";
+echo <<<STATUS_CHANGE_FORM
+<form method="post" action="../projects_site/clienttaskdetail.php" name="clientTaskUpdate" enctype="multipart/form-data">
+    <input name="id" type="hidden" value="{$id}">
+    <input name="action" type="hidden" value="update">
 
-echo "<br/><br/>
-<a href=\"showallclienttasks.php\">" . $strings["show_all"] . "</a>";
+    <table class="nonStriped">
+        <tr>
+            <th colspan="2">{$strings["client_change_status"]}</th>
+        </tr>
+        <tr>
+            <td>{$strings["status"]} :</td>
+            <td><input {$statusChecked} value="checkbox" name="checkbox" type="checkbox">&nbsp;$status[0]</td>
+        </tr>
+        <tr>
+            <td class="leftvalue">{$strings["comments"]} :</td>
+            <td><textarea cols="40" name="comments" rows="5">{$taskDetail["tas_comments"]}</textarea></td>
+        </tr>
+        <tr>
+            <td>&#160;</td>
+            <td><input name="submit" type="submit" value="{$strings["save"]}"></td>
+        </tr>
+    </table>
+</form>
+STATUS_CHANGE_FORM;
+
+echo <<<SHOW_ALL_LINK
+<br/><br/><a href="showallclienttasks.php">{$strings["show_all"]}</a>
+SHOW_ALL_LINK;
 
 include("include_footer.php");

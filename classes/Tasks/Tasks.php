@@ -301,6 +301,17 @@ class Tasks
 
     /**
      * @param $parentTaskId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getPublishedSubtasksByParentTaskId($parentTaskId, $sorting = null)
+    {
+        $parentTaskId = filter_var($parentTaskId, FILTER_VALIDATE_INT);
+        return $this->tasks_gateway->getSubtasksByParentTaskId($parentTaskId, $sorting);
+    }
+
+    /**
+     * @param $parentTaskId
      * @return mixed
      */
     public function getSubtasksByParentTaskIdAndStartAndEndDateAreNotEmptyAndNotPublished($parentTaskId)

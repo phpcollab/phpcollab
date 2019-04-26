@@ -499,6 +499,24 @@ SQL;
     }
 
     /**
+     * @param $parentTaskId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getPublishedSubtasksByParentTaskId($parentTaskId, $sorting = null)
+    {
+        $whereStatement = " WHERE subtas.task = :parent_task_id AND subtas.published = 0";
+        if (isset($sorting)) {
+            $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
+        }
+        $this->db->query($this->initrequest["subtasks"] . $whereStatement . $this->orderBy($sorting));
+
+        $this->db->bind(':parent_task_id', $parentTaskId);
+
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $parentTaskIds
      * @return mixed
      */
