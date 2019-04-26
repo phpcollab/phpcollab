@@ -56,6 +56,7 @@ if (!empty($listTasks)) {
 				<th>{$strings["status"]}</th>
 				<th>{$strings["due"]}</th>
 			</tr>
+            <tbody>
 TABLE;
 
         
@@ -79,7 +80,7 @@ TR;
 
     }
 
-    echo "</table><hr />";
+    echo "</tbody></table><hr />";
 } else {
     echo <<<TABLE
         <table>
