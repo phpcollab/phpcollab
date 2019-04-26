@@ -78,6 +78,17 @@ class Support
     }
 
     /**
+     * @param $memberId
+     * @param $projectId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getSupportRequestByMemberIdAndProjectId($memberId, $projectId, $sorting = null)
+    {
+        return $this->support_gateway->getSupportRequestByMemberIdAndProjectId($memberId, $projectId, $sorting);
+    }
+
+    /**
      * @param $requestId
      * @return mixed
      */
