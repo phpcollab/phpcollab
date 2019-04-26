@@ -8,11 +8,14 @@ use phpCollab\Support\Support;
 $checkSession = "true";
 include '../includes/library.php';
 
-$tmpquery = "WHERE sr.id = '$id'";
-$requestDetail = new phpCollab\Request();
-$requestDetail->openSupportRequests($tmpquery);
+$support = new Support();
+$members = new Members();
 
-if ($requestDetail->sr_project[0] != $projectSession || $requestDetail->sr_user[0] != $idSession) {
+$tmpquery = "WHERE sr.id = '$id'";
+
+$requestDetail = $support->getSupportRequestById($id);
+
+if ($requestDetail["sr_project"] != $projectSession || $requestDetail["sr_member"] != $idSession) {
     phpCollab\Util::headerFunction("index.php");
 }
 if ($_GET["action"] == "add") {
