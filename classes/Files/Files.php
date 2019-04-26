@@ -315,4 +315,21 @@ MAILBODY;
         }
 
     }
+
+    /*
+     * Project Site Related Methods
+     */
+
+    /**
+     * @param $projectId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getProjectSiteFiles($projectId, $sorting = null)
+    {
+        return $this->files_gateway->getProjectSiteFiles($projectId, $sorting);
+    }
+
+
+
 }

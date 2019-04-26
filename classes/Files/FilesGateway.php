@@ -383,6 +383,26 @@ SQL;
 
     }
 
+    /*
+     * Project Site Related Methods
+     */
+
+    /**
+     * @param $projectId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getProjectSiteFiles($projectId, $sorting = null)
+    {
+        $query = $this->initrequest["files"] . " WHERE fil.project = :project_id AND fil.published = 0 AND fil.vc_parent = 0";
+
+        $this->db->query($query . $this->orderBy($sorting));
+        $this->db->bind(":project_id", $projectId);
+        return $this->db->resultset();
+    }
+
+
+
     /**
      * @param string $sorting
      * @return string
