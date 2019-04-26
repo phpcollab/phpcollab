@@ -185,6 +185,10 @@ hr {
 	border-collapse: collapse;
 }
 
+.nonStriped th, .nonStriped td {
+	padding: .5em;
+}
+
 .striped {
 	border: none;
 	border-spacing: 0;
@@ -319,6 +323,10 @@ form {
 	border-bottom: 1px solid #999999;
 }
 
+form.noBorder {
+	border-bottom: none;
+}
+
 hr {
 	display: none;
 }
@@ -388,4 +396,12 @@ td.footerCell a, td.footerCell strong {
 .no-records {
 	padding: 1em 0;
 	font-size: 0.75rem;
+}
+
+.alert.error {
+	padding: 1em;
+	color: darkred;
+	border: 1px solid indianred;
+	font-weight: bold;
+	background-color: papayawhip;
 }
