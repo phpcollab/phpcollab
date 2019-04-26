@@ -64,6 +64,16 @@ class Teams
     }
 
     /**
+     * @param $projectId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getProjectSiteContacts($projectId, $sorting = null)
+    {
+        return $this->teams_gateway->getProjectSiteContacts($projectId, $sorting);
+    }
+
+    /**
      * @param $teamMember
      * @return mixed
      */
@@ -187,26 +197,6 @@ class Teams
     public function addTeam($projectId, $memberId, $published, $authorized)
     {
         return $this->teams_gateway->addTeam($projectId, $memberId, $published, $authorized);
-    }
-
-    /**
-     * @param $projectId
-     * @param $memberIds
-     * @return mixed
-     */
-    public function publishToSite($projectId, $memberIds)
-    {
-        return $this->teams_gateway->publishToSite($projectId, $memberIds);
-    }
-
-    /**
-     * @param $projectId
-     * @param $memberIds
-     * @return mixed
-     */
-    public function unPublishToSite($projectId, $memberIds)
-    {
-        return $this->teams_gateway->unPublishToSite($projectId, $memberIds);
     }
 
 }

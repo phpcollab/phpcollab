@@ -2,45 +2,55 @@
 #Application name: PhpCollab
 #Status page: 0
 
+use phpCollab\Teams\Teams;
+
 $checkSession = "true";
 include '../includes/library.php';
+
+$teams = new Teams();
 
 $bouton[1] = "over";
 $titlePage = $strings["project_team"];
 include 'include_header.php';
 
-$tmpquery = "WHERE tea.project = '$projectSession' AND tea.published = '0' ORDER BY mem.name";
-$listContacts = new phpCollab\Request();
-$listContacts->openTeams($tmpquery);
-$comptListTeams = count($listContacts->tea_id);
+$listContacts = $teams->getProjectSiteContacts($projectSession, 'mem.name');
 
 $block1 = new phpCollab\Block();
 
 $block1->heading($strings["project_team"]);
 
-if ($comptListTeams != "0") {
-    echo "<table cellspacing=\"0\" width=\"90%\" border=\"0\" cellpadding=\"3\" cols=\"4\" class=\"listing\">
-<tr><th class=\"active\">" . $strings["name"] . "</th><th>" . $strings["title"] . "</th><th>" . $strings["company"] . "</th><th>" . $strings["email"] . "</th></tr>";
-
-    for ($i = 0; $i < $comptListTeams; $i++) {
-        if ($listContacts->tea_mem_phone_work[$i] == "") {
-            $listContacts->tea_mem_phone_work[$i] = $strings["none"];
+if ($listContacts) {
+    echo <<<TABLE
+    <table style="width: 90%" class="listing striped">
+        <tr>
+            <th class="active">{$strings["name"]}</th>
+            <th>{$strings["title"]}</th>
+            <th>{$strings["company"]}</th>
+            <th>{$strings["email"]}</th>
+        </tr>
+TABLE;
+    foreach ($listContacts as $contact) {
+        
+        if ($contact["tea_mem_phone_work"] == "") {
+            $contact["tea_mem_phone_work"] = $strings["none"];
         }
-        if (!($i % 2)) {
-            $class = "odd";
-            $highlightOff = $block1->getOddColor();
-        } else {
-            $class = "even";
-            $highlightOff = $block1->getEvenColor();
-        }
-        echo "<tr class=\"$class\" onmouseover=\"this.style.backgroundColor='" . $block1->getHighlightOn() . "'\" onmouseout=\"this.style.backgroundColor='" . $highlightOff . "'\"><td><a href=\"contactdetail.php?id=" . $listContacts->tea_mem_id[$i] . "\">" . $listContacts->tea_mem_name[$i] . "</a></td><td>" . $listContacts->tea_mem_title[$i] . "</td><td>" . $listContacts->tea_org_name[$i] . "</td><td><a href=\"mailto:" . $listContacts->tea_mem_email_work[$i] . "\">" . $listContacts->tea_mem_email_work[$i] . "</a></td></tr>";
+        echo <<<TR
+        <tr>
+            <td><a href="contactdetail.php?id={$contact["tea_mem_id"]}">{$contact["tea_mem_name"]}</a></td>
+            <td>{$contact["tea_mem_title"]}</td>
+            <td>{$contact["tea_org_name"]}</td>
+            <td><a href="mailto:{$contact["tea_mem_email_work"]}">{$contact["tea_mem_email_work"]}</a></td>
+        </tr>
+TR;
     }
     echo <<<'TAG'
 </table>
 <hr />\n
 TAG;
 } else {
-    echo '<table cellspacing="0" border="0" cellpadding="2"><tr><td colspan="4">' . $strings["no_items"] . '</td></tr></table><hr>';
+    echo <<<NO_RECORDS
+        <div class="no-records">{$strings["no_items"]}</div>
+NO_RECORDS;
 }
 
 include("include_footer.php");

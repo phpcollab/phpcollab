@@ -135,6 +135,22 @@ class TeamsGateway
 
     /**
      * @param $projectId
+     * @param $sorting
+     * @return mixed
+     */
+    public function getProjectSiteContacts($projectId, $sorting)
+    {
+        $tmpQuery = $this->initrequest["teams"] .
+            " WHERE tea.project = :project_id AND tea.published = '0'" .
+            $this->orderBy($sorting);
+
+        $this->db->query($tmpQuery);
+        $this->db->bind(":project_id", $projectId);
+        return $this->db->resultset();
+    }
+
+    /**
+     * @param $projectId
      * @param $memberId
      * @return mixed
      */
