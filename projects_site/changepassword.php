@@ -30,58 +30,67 @@
 */
 
 
+use phpCollab\Members\Members;
+use phpCollab\Teams\Teams;
+
 $checkSession = "true";
 include '../includes/library.php';
 
-if ($action == "update") {
-    $r = substr($opw, 0, 2);
-    $opw = crypt($opw, $r);
+$members = new Members();
 
-    if ($opw != $passwordSession) {
-        $error = $strings["old_password_error"];
-    } else {
-        if ($npw != $pwa || $npw == "") {
-            $error = $strings["new_password_error"];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($_POST["action"] == "update") {
+
+        $teams = new Teams();
+
+        $r = substr($_POST["old_password"], 0, 2);
+        $encryptedOldPassword = crypt($_POST["old_password"], $r);
+
+        if ($encryptedOldPassword != $passwordSession) {
+            $error = $strings["old_password_error"];
         } else {
-            $cnpw = phpCollab\Util::getPassword($npw);
+            if (
+                empty($_POST["new_password"])
+                || empty($_POST["confirm_password"])
+                || $_POST["new_password"] != $_POST["confirm_password"]
+            ) {
+                $error = $strings["new_password_error"];
+            } else {
+                $encryptedNewPassword = phpCollab\Util::getPassword($_POST["new_password"]);
 
-            if ($htaccessAuth == "true") {
-                $Htpasswd = new Htpasswd;
-                $tmpquery = "WHERE tea.member = '$idSession'";
-                $listProjects = new phpCollab\Request();
-                $listProjects->openTeams($tmpquery);
-                $comptListProjects = count($listProjects->tea_id);
+                if ($htaccessAuth == "true") {
+                    $Htpasswd = new Htpasswd;
+                    $listTeams = $teams->getTeamByMemberId($idSession);
 
-                if ($comptListProjects != "0") {
-                    for ($i = 0; $i < $comptListProjects; $i++) {
-                        $Htpasswd->initialize("files/" . $listProjects->tea_pro_id[$i] . "/.htpasswd");
-                        $Htpasswd->changePass($loginSession, $cnpw);
+                    if ($listTeams) {
+                        foreach ($listTeams as $team) {
+                            try {
+                                $Htpasswd->initialize("files/" . $team["tea_pro_id"] . "/.htpasswd");
+                                $Htpasswd->changePass($loginSession, $encryptedNewPassword);
+                            }
+                            catch (Exception $e) {
+                                echo $e->getMessage();
+                            }
+                        }
                     }
                 }
+
+                phpCollab\Util::newConnectSql(
+                    "UPDATE {$tableCollab["members"]} SET password = :password WHERE id = :member_id",
+                    ["password" => $encryptedNewPassword, "member_id" => $idSession]
+                );
+
+                $_SESSION['passwordSession'] = $encryptedNewPassword;
+
+                phpCollab\Util::headerFunction("changepassword.php?msg=update");
             }
-
-            phpCollab\Util::newConnectSql(
-                "UPDATE {$tableCollab["members"]} SET password = :password WHERE id = :member_id",
-                ["password" => $cnpw, "member_id" => $idSession]
-            );
-
-            $r = substr($npw, 0, 2);
-            $npw = crypt($npw, $r);
-            $passwordSession = $npw;
-
-            $_SESSION['passwordSession'] = $passwordSession;
-
-            phpCollab\Util::headerFunction("changepassword.php?msg=update");
         }
     }
 }
 
-$tmpquery = "WHERE mem.id = '$idSession'";
-$userDetail = new phpCollab\Request();
-$userDetail->openMembers($tmpquery);
-$comptUserDetail = count($userDetail->mem_id);
+$userDetail = $members->getMemberById($idSession);
 
-if ($comptUserDetail == "0") {
+if (empty($userDetail)) {
     phpCollab\Util::headerFunction("userlist.php?msg=blankUser");
 }
 
@@ -94,29 +103,40 @@ if ($msg != "") {
     $blockPage->messageBox($msgLabel);
 }
 
-echo "  <form accept-charset='UNKNOWN' method='POST' action='../projects_site/changepassword.php?action=update' name='changepassword' enctype='application/x-www-form-urlencoded'>
-            <table cellspacing='0' width='90%' border='0' cellpadding='3'>
-            <tr>
-                <th colspan='2'>" . $strings["change_password"] . "</th>
-            </tr>
-            <tr>
-                <th>*&nbsp;" . $strings["old_password"] . " :</th>
-                <td><input style='width: 150px;' type='password' name='opw' value=''></td>
-            </tr>
-            <tr>
-                <th>*&nbsp;" . $strings["new_password"] . " :</th>
-                <td><input style='width: 150px;' type='password' name='npw' value=''></td>
-            </tr>
-            <tr>
-                <th>*&nbsp;" . $strings["confirm_password"] . " :</th>
-                <td><input style='width: 150px;' type='password' name='pwa' value=''></td>
-            </tr>
-            <tr>
-                <th>&nbsp;</th>
-                <td colspan='2'><input name='submit' type='submit' value='" . $strings["save"] . "'><br/><br/>$error</td>
-            </tr>
+echo <<<FORM
+    <form method="POST" 
+        action="../projects_site/changepassword.php" 
+        name="changepassword"
+        class="noBorder">
+            <table class="nonStriped">
+                <tr>
+                    <th colspan="2">{$strings["change_password"]}</th>
+                </tr>
+FORM;
+
+if (!empty($error)) {
+    echo '<tr><td colspan="2"><div class="alert error">' . $error .'</div></td></tr>';
+}
+echo <<<FORM
+                <tr>
+                    <th>*&nbsp;{$strings["old_password"]} :</th>
+                    <td><input style="width: 150px;" type="password" name="old_password" value="" required></td>
+                </tr>
+                <tr>
+                    <th>*&nbsp;{$strings["new_password"]} :</th>
+                    <td><input style="width: 150px;" type="password" name="new_password" value="" required></td>
+                </tr>
+                <tr>
+                    <th>*&nbsp;{$strings["confirm_password"]} :</th>
+                    <td><input style="width: 150px;" type="password" name="confirm_password" value="" required></td>
+                </tr>
+                <tr>
+                    <th>&nbsp;</th>
+                    <td colspan="2"><input name="submit" type="submit" value="{$strings["save"]}"></td>
+                </tr>
             </table>
+            <input type="hidden" name="action" value="update" />
         </form>
-     ";
+FORM;
 
 include("include_footer.php");
