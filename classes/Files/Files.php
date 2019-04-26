@@ -149,23 +149,26 @@ class Files
 
     /**
      * @param $fileId
+     * @param int $fileStatus
+     * @param null $sorting
      * @return mixed
      */
-    public function getFileVersions($fileId)
+    public function getFileVersions($fileId, $fileStatus = 3, $sorting = null)
     {
         $fileId = filter_var((string)$fileId, FILTER_SANITIZE_STRING);
-        $response = $this->files_gateway->getFileVersions($fileId, 3);
+        $response = $this->files_gateway->getFileVersions($fileId, $fileStatus, $sorting);
         return $response;
     }
 
     /**
      * @param $fileId
+     * @param null $sorting
      * @return mixed
      */
-    public function getFilePeerReviews($fileId)
+    public function getFilePeerReviews($fileId, $sorting = null)
     {
         $fileId = filter_var((string)$fileId, FILTER_SANITIZE_STRING);
-        $response = $this->files_gateway->getFilePeerReviews($fileId);
+        $response = $this->files_gateway->getFilePeerReviews($fileId, $sorting);
         return $response;
     }
 

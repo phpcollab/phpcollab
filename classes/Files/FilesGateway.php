@@ -184,12 +184,16 @@ class FilesGateway
     /**
      * @param $fileId
      * @param $fileStatus
+     * @param null $sorting
      * @return mixed
      */
-    public function getFileVersions($fileId, $fileStatus)
+    public function getFileVersions($fileId, $fileStatus, $sorting = null)
     {
-        $query = $this->initrequest["files"] . " WHERE fil.id = :file_id OR fil.vc_parent = :file_id AND fil.vc_status = :file_status ORDER BY fil.date DESC";
-        $this->db->query($query);
+        if (is_null($sorting)) {
+            $sorting = 'fil.date DESC';
+        }
+        $query = $this->initrequest["files"] . " WHERE fil.id = :file_id OR fil.vc_parent = :file_id AND fil.vc_status = :file_status";
+        $this->db->query($query . $this->orderBy($sorting));
         $this->db->bind(':file_id', $fileId);
         $this->db->bind(':file_status', $fileStatus);
 
@@ -198,11 +202,15 @@ class FilesGateway
 
     /**
      * @param $fileId
+     * @param null $sorting
      * @return mixed
      */
-    public function getFilePeerReviews($fileId)
+    public function getFilePeerReviews($fileId, $sorting = null)
     {
-        $query = $this->initrequest["files"] . " WHERE fil.vc_parent = :file_id AND fil.vc_status != 3 " . $this->orderBy('fil.date');
+        if (is_null($sorting)) {
+            $sorting = 'fil.date';
+        }
+        $query = $this->initrequest["files"] . " WHERE fil.vc_parent = :file_id AND fil.vc_status != 3 " . $this->orderBy($sorting);
         $this->db->query($query);
         $this->db->bind(':file_id', $fileId);
         return $this->db->resultset();
