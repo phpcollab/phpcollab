@@ -404,6 +404,23 @@ SQL;
 
     /**
      * @param $projectId
+     * @param null $startRow
+     * @param null $rowsLimit
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getProjectSiteClientTasks($projectId, $startRow = null, $rowsLimit = null, $sorting = null)
+    {
+        $whereStatement = " WHERE tas.project = :project_id AND tas.assigned_to != 0 AND tas.published = 0 AND mem.profil = 3";
+
+        $query = $this->initrequest["tasks"] . $whereStatement . $this->orderBy($sorting) . $this->limit($startRow, $rowsLimit);
+        $this->db->query($query);
+        $this->db->bind(':project_id', $projectId);
+        return $this->db->resultset();
+    }
+
+    /**
+     * @param $projectId
      * @param $phaseId
      * @param null $sorting
      * @return mixed

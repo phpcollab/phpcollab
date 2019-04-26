@@ -180,6 +180,18 @@ class Tasks
     }
 
     /**
+     * @param $projectId
+     * @param null $startRow
+     * @param null $rowsLimit
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getProjectSiteClientTasks($projectId, $startRow = null, $rowsLimit = null, $sorting = null)
+    {
+        return $this->tasks_gateway->getProjectSiteClientTasks($projectId, $startRow, $rowsLimit, $sorting);
+    }
+
+    /**
      * @param int $projectId ID of the project
      * @param int $phaseId ID of parent phase
      * @param string $sorting column to sort on and direction
