@@ -22,210 +22,224 @@ $displayname = $fileDetail["fil_name"];
 
 //---------------------------------------------------------------------------------------------------
 //Update file code
-if ($action == "update") {
-    if (!empty($_POST["maxCustom"])) {
-        $maxFileSize = $_POST["maxCustom"];
-    }
-    if ($_FILES['upload']['size'] != 0) {
-        $taille_ko = $_FILES['upload']['size'] / 1024;
-    } else {
-        $taille_ko = 0;
-    }
-    if ($_FILES['upload']['name'] == "") {
-        $error4 .= $strings["no_file"] . "<br/>";
-    }
-    if ($_FILES['upload']['size'] > $maxFileSize) {
-        if ($maxFileSize != 0) {
-            $taille_max_ko = $maxFileSize / 1024;
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($action == "update") {
+        if (!empty($_POST["maxCustom"])) {
+            $maxFileSize = $_POST["maxCustom"];
         }
-        $error4 .= $strings["exceed_size"] . " ($taille_max_ko $byteUnits[1])<br/>";
-    }
 
-    $upload_name = $fileDetail["fil_name"];
-    $extension = strtolower(substr(strrchr($upload_name, "."), 1));
-
-    //Add version number to the old copy's file name.
-    $changename = str_replace(".", " v" . $fileDetail["fil_vc_version"] . ".", $fileDetail["fil_name"]);
-
-    //Generate paths for use further down.
-    if ($fileDetail["fil_task"] != "0") {
-        $path = "files/" . $fileDetail["fil_project"] . "/" . $fileDetail["fil_task"] . "/$upload_name";
-        $path_source = "files/" . $fileDetail["fil_project"] . "/" . $fileDetail["fil_task"] . "/" . $fileDetail["fil_name"];
-        $path_destination = "files/" . $fileDetail["fil_project"] . "/" . $fileDetail["fil_task"] . "/$changename";
-    } else {
-        $path = "files/" . $fileDetail["fil_project"] . "/$upload_name";
-        $path_source = "files/" . $fileDetail["fil_project"] . "/" . $fileDetail["fil_name"];
-        $path_destination = "files/" . $fileDetail["fil_project"] . "/$changename";
-    }
-
-    if ($allowPhp == "false") {
-        $send = "";
-        if ($_FILES['upload']['name'] != "" && ($extension == "php" || $extension == "php3" || $extension == "phtml")) {
-            $error4 .= $strings["no_php"] . "<br/>";
-            $send = "false";
+        if ($_FILES['upload']['size'] != 0) {
+            $taille_ko = $_FILES['upload']['size'] / 1024;
+        } else {
+            $taille_ko = 0;
         }
-    }
 
-    if ($_FILES['upload']['name'] != "" && $_FILES['upload']['size'] < $maxFileSize && $_FILES['upload']['size'] != 0 && $send != "false") {
-        $docopy = "true";
-    }
+        if ($_FILES['upload']['name'] == "") {
+            $error4 .= $strings["no_file"] . "<br/>";
+        }
+        if ($_FILES['upload']['size'] > $maxFileSize) {
+            if ($maxFileSize != 0) {
+                $taille_max_ko = $maxFileSize / 1024;
+            }
+            $error4 .= $strings["exceed_size"] . " ($taille_max_ko $byteUnits[1])<br/>";
+        }
+
+        $upload_name = $fileDetail["fil_name"];
+
+        $extension = strtolower(substr(strrchr($upload_name, "."), 1));
+
+        //Add version number to the old copy's file name.
+        $changename = str_replace(".", " v" . $fileDetail["fil_vc_version"] . ".", $fileDetail["fil_name"]);
+
+        //Generate paths for use further down.
+        if ($fileDetail["fil_task"] != "0") {
+            $path = "files/" . $fileDetail["fil_project"] . "/" . $fileDetail["fil_task"] . "/$upload_name";
+            $path_source = "files/" . $fileDetail["fil_project"] . "/" . $fileDetail["fil_task"] . "/" . $fileDetail["fil_name"];
+            $path_destination = "files/" . $fileDetail["fil_project"] . "/" . $fileDetail["fil_task"] . "/$changename";
+        } else {
+            $path = "files/" . $fileDetail["fil_project"] . "/$upload_name";
+            $path_source = "files/" . $fileDetail["fil_project"] . "/" . $fileDetail["fil_name"];
+            $path_destination = "files/" . $fileDetail["fil_project"] . "/$changename";
+        }
+
+        if ($allowPhp == "false") {
+            $send = "";
+            if ($_FILES['upload']['name'] != "" && ($extension == "php" || $extension == "php3" || $extension == "phtml")) {
+                $error4 .= $strings["no_php"] . "<br/>";
+                $send = "false";
+            }
+        }
+
+        if ($_FILES['upload']['name'] != "" && $_FILES['upload']['size'] < $maxFileSize && $_FILES['upload']['size'] != 0 && $send != "false") {
+            $docopy = "true";
+        }
 
 
-    if ($docopy == "true") {
+        if ($docopy == "true") {
 
-        //Copy old file with a new file name
-        phpCollab\Util::moveFile($path_source, $path_destination);
+            //Copy old file with a new file name
+            phpCollab\Util::moveFile($path_source, $path_destination);
 
-        //Set variables from original files details.
-        $copy_project = $fileDetail["fil_project"];
-        $copy_task = $fileDetail["fil_task"];
-        $copy_date = $fileDetail["fil_date"];
-        $copy_size = $fileDetail["fil_size"];
-        $copy_extension = $fileDetail["fil_extension"];
-        $copy_comments = $fileDetail["fil_comments"];
-        $copy_upload = $fileDetail["fil_upload"];
-        $copy_pusblished = $fileDetail["fil_published"];
-        $copy_vc_parent = $fileDetail["fil_vc_parent"];
-        $copy_id = $fileDetail["fil_id"];
-        $copy_vc_version = $fileDetail["fil_vc_version"];
+            //Set variables from original files details.
+            $copy_project = $fileDetail["fil_project"];
+            $copy_task = $fileDetail["fil_task"];
+            $copy_date = $fileDetail["fil_date"];
+            $copy_size = $fileDetail["fil_size"];
+            $copy_extension = $fileDetail["fil_extension"];
+            $copy_comments = $fileDetail["fil_comments"];
+            $copy_upload = $fileDetail["fil_upload"];
+            $copy_pusblished = $fileDetail["fil_published"];
+            $copy_vc_parent = $fileDetail["fil_vc_parent"];
+            $copy_id = $fileDetail["fil_id"];
+            $copy_vc_version = $fileDetail["fil_vc_version"];
 
-        //Insert a new row for the copied file
-        $comments = phpCollab\Util::convertData($_POST["comments"]);
+            //Insert a new row for the copied file
+            $comments = phpCollab\Util::convertData($_POST["comments"]);
 
-        $tmpquery = <<<SQL
-INSERT INTO {$tableCollab["files"]} (
-owner, project, task, name, date, size, extension, comments, upload, published, status, vc_status, vc_version, vc_parent, phase
-) VALUES (
-:owner, :project, :task, :name, :date, :size, :extension, :comments, :upload, :published, :status, :vc_status, :vc_version, :vc_parent, :phase)
+            $tmpquery = <<<SQL
+    INSERT INTO {$tableCollab["files"]} (
+    owner, project, task, name, date, size, extension, comments, upload, published, status, vc_status, vc_version, vc_parent, phase
+    ) VALUES (
+    :owner, :project, :task, :name, :date, :size, :extension, :comments, :upload, :published, :status, :vc_status, :vc_version, :vc_parent, :phase)
 SQL;
-        $dbParams["owner"] = $idSession;
-        $dbParams["project"] = $copy_project;
-        $dbParams["task"] = $copy_task;
-        $dbParams["name"] = $changename;
-        $dbParams["date"] = $copy_date;
-        $dbParams["size"] = $copy_size;
-        $dbParams["extension"] = $copy_extension;
-        $dbParams["comments"] = $copy_comments;
-        $dbParams["upload"] = $copy_upload;
-        $dbParams["published"] = 0;
-        $dbParams["status"] = 2;
-        $dbParams["vc_status"] = 3;
-        $dbParams["vc_version"] = $copy_vc_version;
-        $dbParams["vc_parent"] = $copy_id;
-        $dbParams["phase"] = 0;
-        $num = phpCollab\Util::newConnectSql($tmpquery, $dbParams);
-        unset($dbParams);
-    }
-
-    //Insert details into Database
-    if ($docopy == "true") {
-        phpCollab\Util::uploadFile(".", $_FILES['upload']['tmp_name'], $path);
-        $chaine = strrev("$path");
-        $tab = explode(".", $chaine);
-        $extension = strtolower(strrev($tab[0]));
-    }
-
-    $newversion = $fileDetail["fil_vc_version"] + $_POST["change_file_version"];
-    if ($docopy == "true") {
-        $name = "$upload_name";
-
-        phpCollab\Util::newConnectSql(
-            "UPDATE {$tableCollab["files"]} SET date = :date, size = :size, comments = :comments, status = :status, vc_version = :vc_version WHERE id = :file_id",
-            ["date" => $dateheure, "size" => $size, "comments" => $_POST["$comments"], "status" => $_POST["statusField"], "vc_version" => $newversion, "file_id" => $id]
-        );
-        phpCollab\Util::headerFunction("clientfiledetail.php?id=" . $fileDetail["fil_id"] . "&msg=addFile");
-    }
-}
-//---------------------------------------------------------------------------------------------------
-
-
-//---------------------------------------------------------------------------------------------------
-//Add new revision code
-
-if ($action == "add") {
-    if (!empty($_POST["maxCustom"])) {
-        $maxFileSize = $_POST["maxCustom"];
-    }
-    if ($_FILES['upload']['size'] != 0) {
-        $taille_ko = $_FILES['upload']['size'] / 1024;
-    } else {
-        $taille_ko = 0;
-    }
-    if ($_FILES['upload']['name'] == "") {
-        $error3 .= $strings["no_file"] . "<br/>";
-    }
-    if ($_FILES['upload']['size'] > $maxFileSize) {
-        if ($maxFileSize != 0) {
-            $taille_max_ko = $maxFileSize / 1024;
+            $dbParams["owner"] = $idSession;
+            $dbParams["project"] = $copy_project;
+            $dbParams["task"] = $copy_task;
+            $dbParams["name"] = $changename;
+            $dbParams["date"] = $copy_date;
+            $dbParams["size"] = $copy_size;
+            $dbParams["extension"] = $copy_extension;
+            $dbParams["comments"] = $copy_comments;
+            $dbParams["upload"] = $copy_upload;
+            $dbParams["published"] = 0;
+            $dbParams["status"] = 2;
+            $dbParams["vc_status"] = 3;
+            $dbParams["vc_version"] = $copy_vc_version;
+            $dbParams["vc_parent"] = $copy_id;
+            $dbParams["phase"] = 0;
+            $num = phpCollab\Util::newConnectSql($tmpquery, $dbParams);
+            unset($dbParams);
         }
-        $error3 .= $strings["exceed_size"] . " ($taille_max_ko $byteUnits[1])<br/>";
-    }
 
-    $upload_name = $_POST["filename"];
-    //Add version and revision at the end of a file name but before the extension.
-    $upload_name = str_replace(".", " v" . $_POST["oldversion"] ." r" . $_POST["revision"] .".", $upload_name);
-
-    $extension = strtolower(substr(strrchr($upload_name, "."), 1));
-
-    if ($allowPhp == "false") {
-        $send = "";
-        if ($_FILES['upload']['name'] != "" && ($extension == "php" || $extension == "php3" || $extension == "phtml")) {
-            $error3 .= $strings["no_php"] . "<br/>";
-            $send = "false";
-        }
-    }
-
-    if ($_FILES['upload']['name'] != "" && $_FILES['upload']['size'] < $maxFileSize && $_FILES['upload']['size'] != 0 && $send != "false") {
-        $docopy = "true";
-    }
-
-    //Insert details into Database
-    if ($docopy == "true") {
-        $comments = phpCollab\Util::convertData($comments);
-        $tmpquery = "INSERT INTO {$tableCollab["files"]} (owner,project,task,comments,upload,published,status,vc_status,vc_parent,phase) VALUES ()";
-        $dbParams = [];
-        $dbParams["owner"] = $idSession;
-        $dbParams["project"] = $project;
-        $dbParams["task"] = $task;
-        $dbParams["comments"] = $_POST["$comments"];
-        $dbParams["upload"] = $dateheure;
-        $dbParams["published"] = 0;
-        $dbParams["status"] = 2;
-        $dbParams["vc_status"] = 0;
-        $dbParams["vc_parent"] = $parent;
-        $dbParams["phase"] = 0;
-        $num = phpCollab\Util::newConnectSql($tmpquery, $dbParams);
-        unset($dbParams);
-    }
-
-    if ($task != "0") {
+        //Insert details into Database
         if ($docopy == "true") {
-            phpCollab\Util::uploadFile("files/$project/$task", $_FILES['upload']['tmp_name'], $upload_name);
-            $size = phpCollab\Util::fileInfoSize("../files/$project/$task/$upload_name");
-            $chaine = strrev("../files/$project/$task/$upload_name");
+            phpCollab\Util::uploadFile(".", $_FILES['upload']['tmp_name'], $path);
+            $chaine = strrev("$path");
             $tab = explode(".", $chaine);
             $extension = strtolower(strrev($tab[0]));
         }
-    } else {
+
+        $newversion = $fileDetail["fil_vc_version"] + $_POST["change_file_version"];
         if ($docopy == "true") {
-            phpCollab\Util::uploadFile("files/$project", $_FILES['upload']['tmp_name'], $upload_name);
-            $size = phpCollab\Util::fileInfoSize("../files/$project/$upload_name");
-            $chaine = strrev("../files/$project/$upload_name");
-            $tab = explode(".", $chaine);
-            $extension = strtolower(strrev($tab[0]));
+            $name = "$upload_name";
+
+            phpCollab\Util::newConnectSql(
+                "UPDATE {$tableCollab["files"]} SET date = :date, size = :size, comments = :comments, status = :status, vc_version = :vc_version WHERE id = :file_id",
+                ["date" => $dateheure, "size" => $size, "comments" => $_POST["$comments"], "status" => $_POST["statusField"], "vc_version" => $newversion, "file_id" => $id]
+            );
+            phpCollab\Util::headerFunction("clientfiledetail.php?id=" . $fileDetail["fil_id"] . "&msg=addFile");
         }
     }
+    //---------------------------------------------------------------------------------------------------
 
-    if ($docopy == "true") {
-        $name = "$upload_name";
-        phpCollab\Util::newConnectSql(
-            "UPDATE {$tableCollab["files"]} SET name=:name,date=:date,size=:size,extension=:extension,vc_version=:vc_version WHERE id = :file_id",
-            ["name" => $name, "date" => $dateheure, "size" => $size, "extension" => $extension, "vc_version" => $_POST["oldversion"], "file_id" => $num]
-        );
-        phpCollab\Util::headerFunction("clientfiledetail.php?id=$sendto&msg=addFile");
+
+    //---------------------------------------------------------------------------------------------------
+    //Add new revision code
+
+    if ($action == "add") {
+
+//        xdebug_var_dump($_POST);
+//        xdebug_var_dump($_FILES);
+//
+//die();
+        if (!empty($_POST["maxCustom"])) {
+            $maxFileSize = $_POST["maxCustom"];
+        }
+        if ($_FILES['upload']['size'] != 0) {
+            $taille_ko = $_FILES['upload']['size'] / 1024;
+        } else {
+            $taille_ko = 0;
+        }
+        if ($_FILES['upload']['name'] == "") {
+            $error3 .= $strings["no_file"] . "<br/>";
+        }
+        if ($_FILES['upload']['size'] > $maxFileSize) {
+            if ($maxFileSize != 0) {
+                $taille_max_ko = $maxFileSize / 1024;
+            }
+            $error3 .= $strings["exceed_size"] . " ($taille_max_ko $byteUnits[1])<br/>";
+        }
+
+        $upload_name = $_POST["filename"];
+        //Add version and revision at the end of a file name but before the extension.
+        $upload_name = str_replace(".", " v" . $_POST["oldversion"] . " r" . $_POST["revision"] . ".", $upload_name);
+
+        $extension = strtolower(substr(strrchr($upload_name, "."), 1));
+
+        if ($allowPhp == "false") {
+            $send = "";
+            if ($_FILES['upload']['name'] != "" && ($extension == "php" || $extension == "php3" || $extension == "phtml")) {
+                $error3 .= $strings["no_php"] . "<br/>";
+                $send = "false";
+            }
+        }
+
+        if ($_FILES['upload']['name'] != "" && $_FILES['upload']['size'] < $maxFileSize && $_FILES['upload']['size'] != 0 && $send != "false") {
+            $docopy = "true";
+        }
+
+        //Insert details into Database
+        if ($docopy == "true") {
+            $comments = phpCollab\Util::convertData($comments);
+            $tmpquery = <<<SQL
+INSERT INTO {$tableCollab["files"]} (
+owner, project, task, comments, upload, published, status, vc_status, vc_parent, phase
+) VALUES (
+:owner, :project, :task, :comments, :upload, :published, :status, :vc_status, :vc_parent, :phase)
+SQL;
+            $dbParams = [];
+            $dbParams["owner"] = $idSession;
+            $dbParams["project"] = $project;
+            $dbParams["task"] = $task;
+            $dbParams["comments"] = $_POST["$comments"];
+            $dbParams["upload"] = $dateheure;
+            $dbParams["published"] = 0;
+            $dbParams["status"] = 2;
+            $dbParams["vc_status"] = 0;
+            $dbParams["vc_parent"] = $parent;
+            $dbParams["phase"] = 0;
+            $num = phpCollab\Util::newConnectSql($tmpquery, $dbParams);
+            unset($dbParams);
+        }
+
+        if ($task != "0") {
+            if ($docopy == "true") {
+                phpCollab\Util::uploadFile("files/$project/$task", $_FILES['upload']['tmp_name'], $upload_name);
+                $size = phpCollab\Util::fileInfoSize("../files/$project/$task/$upload_name");
+                $chaine = strrev("../files/$project/$task/$upload_name");
+                $tab = explode(".", $chaine);
+                $extension = strtolower(strrev($tab[0]));
+            }
+        } else {
+            if ($docopy == "true") {
+                phpCollab\Util::uploadFile("files/$project", $_FILES['upload']['tmp_name'], $upload_name);
+                $size = phpCollab\Util::fileInfoSize("../files/$project/$upload_name");
+                $chaine = strrev("../files/$project/$upload_name");
+                $tab = explode(".", $chaine);
+                $extension = strtolower(strrev($tab[0]));
+            }
+        }
+
+        if ($docopy == "true") {
+            $name = "$upload_name";
+            phpCollab\Util::newConnectSql(
+                "UPDATE {$tableCollab["files"]} SET name=:name,date=:date,size=:size,extension=:extension,vc_version=:vc_version WHERE id = :file_id",
+                ["name" => $name, "date" => $dateheure, "size" => $size, "extension" => $extension, "vc_version" => $_POST["oldversion"], "file_id" => $num]
+            );
+            phpCollab\Util::headerFunction("clientfiledetail.php?id=$sendto&msg=addFile");
+        }
     }
 }
-
 //---------------------------------------------------------------------------------------------------
 
 $bouton[4] = "over";
@@ -329,15 +343,8 @@ echo <<<TR
                                 <td style="vertical-align: top; text-align: center" colspan="2">
                                     <table style="width: 550px;" class="tableRevision">
 TR;
-//for ($i = 0; $i < $comptListVersions; $i++) {
-foreach ($listVersions as $version) {
-    //Sort odds and evens for bg color
-//    if ($i == "0") {
-//        $vclass = "new";
-//    } else {
-//        $vclass = "old";
-//    }
 
+foreach ($listVersions as $version) {
     echo <<<TR
                                         <tr>
                                             <td>&nbsp;</td>
@@ -418,7 +425,7 @@ TABLE;
                                     <table style="width: 550px;" class="tableRevision">
                                         <tr class="reviewHeader">
                                             <td>&nbsp;</td>
-                                            <td colspan="3">{$displayname}
+                                            <td colspan="3">{$displayname} 
 TABLE;
 
             if ($review["fil_task"] != "0") {
@@ -447,11 +454,11 @@ TABLE;
                                             <td>&nbsp;</td>
                                             <td>{$strings["ifc_revision_of"]} : {$review["fil_vc_version"]}</td>
                                             <td style="width: 150px;">{$strings["owner"]} : {$review["fil_mem_name"]}</td>
-                                            <td>{$strings["date"]} : {$review["fil_date"]}</td>
+                                            <td colspan="2">{$strings["date"]} : {$review["fil_date"]}</td>
                                         </tr>
                                         <tr>
                                             <td>&nbsp;</td>
-                                            <td colspan="4">{$strings["comments"]} : {$review["fil_comments"]}</td>
+                                            <td colspan="4">{$strings["comments"]} : <p>{$review["fil_comments"]}</p></td>
                                         </tr>
                                     </table>
 TD;
@@ -467,14 +474,6 @@ TABLE;
     } else {
         echo '<div class="no-records">' . $strings["no_items"] . '</div>';
     }
-//    if ($i == 0) {
-//        echo "<tr class=\"odd\"><td></td><td>" . $strings["ifc_no_revisions"] . "</td></tr>";
-//    }
-//    echo "</table></td></tr>
-//	</table>
-//  </td>
-// </tr>
-//</table>";
 
     // Table 3 - ADD REVIEW TABLE.
     //Add one to the number of current revisions
@@ -483,6 +482,7 @@ TABLE;
             <form method="POST" 
                 action="../projects_site/clientfiledetail.php?action=add&id={$fileDetail["fil_id"]}#filedetailsAnchor" 
                 name="filedetailsForm"
+                enctype="multipart/form-data"
                 class="noBorder">
                 <input type="hidden" name="MAX_FILE_SIZE" value="100000000">
                 <input type="hidden" name="maxCustom" value="{$projectDetail["pro_upload_max"]}">
