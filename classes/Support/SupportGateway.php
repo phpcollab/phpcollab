@@ -93,6 +93,21 @@ class SupportGateway
     }
 
     /**
+     * @param $memberId
+     * @param $projectId
+     * @param $sorting
+     * @return mixed
+     */
+    public function getSupportRequestByMemberIdAndProjectId($memberId, $projectId, $sorting)
+    {
+        $query = $this->initrequest["support_requests"] . " WHERE sr.member = :member_id AND sr.project = :project_id" . $this->orderBy($sorting);
+        $this->db->query($query);
+        $this->db->bind(':member_id', $memberId);
+        $this->db->bind(':project_id', $projectId);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $requestId
      * @return mixed
      */
