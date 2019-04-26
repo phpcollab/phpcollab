@@ -9,12 +9,12 @@
 body {
 	background-color: #FFFFFF;
 	margin: 10px 10px 10px 10px;
-	font-family: Verdana;
+	font-family: Verdana, sans-serif;
 	font-size: 11px;
 }
 
 table, td, tr, th, p, div {
-	font-family: Verdana;
+	font-family: Verdana, sans-serif;
 	font-size: 11px;
 }
 
@@ -39,8 +39,8 @@ hr {
 #header {
 	background-color: #FFFFFF;
 	font-size: 20px;
-	margin-top: 0px;
-	margin-bottom: 0px;
+	margin-top: 0;
+	margin-bottom: 0;
 	height: 40px;
 }
 
@@ -55,22 +55,22 @@ hr {
 	font-size: 10px;
 	color: gray;
 	padding-left: 4px;
-	padding-bottom: 0px;
+	padding-bottom: 0;
 }
 
 #account {
 	background-color: #FFFFFF;
-	margin-top: 0px;
-	margin-bottom: 0px;
-	padding-bottom: 0px;
-	padding-right: 0px;
+	margin-top: 0;
+	margin-bottom: 0;
+	padding-bottom: 0;
+	padding-right: 0;
 	text-align: right;
 	font-size: 10px;
 }
 
 #navigation {
 	background-color: #7B9CAE;
-	padding: 2px 0px 2px 0px;
+	padding: 2px 0 2px 0;
 	margin-top: 4px;
 	margin-bottom: 15px;
 	border-top: 1px solid #999999;
@@ -95,26 +95,26 @@ hr {
 
 .breadcrumbs {
 	background-color: #FFFFFF;
-	margin-top: 0px;
+	margin-top: 0;
 	margin-bottom: 30px;
 	padding-left: 2px;
 }
 
 .note {
 	background-color: #FFFFFF;
-	margin-top: 0px;
+	margin-top: 0;
 	margin-bottom: 30px;
 	padding-left: 2px;
 }
 
 .heading {
 	background-color: #FFFFFF;
-	margin-top: 0px;
+	margin-top: 0;
 	margin-bottom: 4px;
 	padding-bottom: 2px;
-	padding-left: 0px;
+	padding-left: 0;
 	border-bottom: 1px solid #999999;
-	font-family: Georgia;
+	font-family: Georgia, serif;
 	font-size: 15px;
 	font-weight: bold;
 	color: #821400;
@@ -122,12 +122,12 @@ hr {
 
 .headingError {
 	background-color: #FFFFFF;
-	margin-top: 0px;
+	margin-top: 0;
 	margin-bottom: 6px;
 	padding-bottom: 2px;
-	padding-left: 0px;
+	padding-left: 0;
 	border-bottom: 1px solid #999;
-	font-family: Georgia;
+	font-family: Georgia, serif;
 	font-size: 15px;
 	font-weight: bold;
 	color: #FF0000;
@@ -135,11 +135,11 @@ hr {
 
 .icons {
 	margin-left: 10px;
-	padding: 0px;
+	padding: 0;
 }
 
 .listing {
-	padding: 0px;
+	padding: 0;
 	width: 100%;
 }
 
@@ -226,7 +226,7 @@ hr {
 }
 
 .content {
-	padding: 0px;
+	padding: 0;
 	width:100%;
 }
 
