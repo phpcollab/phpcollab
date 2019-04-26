@@ -588,6 +588,26 @@ SQL;
     }
 
     /**
+     * @param $projectId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getTeamTasks($projectId, $sorting = null)
+    {
+        $tmpQuery = $this->initrequest["tasks"];
+        $tmpQuery .= <<<WHERE
+ WHERE tas.project = :project_id 
+ AND tas.assigned_to != '0' 
+ AND tas.published = '0' 
+ AND mem.organization = '1'
+WHERE;
+
+        $this->db->query($tmpQuery . $this->orderBy($sorting));
+        $this->db->bind(":project_id", $projectId);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $taskId
      * @param $assignedDate
      * @return mixed

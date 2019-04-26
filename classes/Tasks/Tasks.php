@@ -771,4 +771,14 @@ class Tasks
             throw new Exception('Error sending mail');
         }
     }
+
+    /**
+     * @param $projectId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getTeamTasks($projectId, $sorting = null)
+    {
+        return $this->tasks_gateway->getTeamTasks($projectId, $sorting);
+    }
 }
