@@ -2,57 +2,103 @@
 #Application name: PhpCollab
 #Status page: 0
 
+use phpCollab\Members\Members;
+use phpCollab\Teams\Teams;
+
 $checkSession = "true";
 include '../includes/library.php';
 
-$tmpquery = "WHERE mem.id = '$id'";
-$userDetail = new phpCollab\Request();
-$userDetail->openMembers($tmpquery);
+$members = new Members();
+$teams = new Teams();
 
-$tmpquery = "WHERE tea.project = '$projectSession' AND tea.member = '$id'";
-$detailContact = new phpCollab\Request();
-$detailContact->openTeams($tmpquery);
+$userDetail = $members->getMemberById($id);
 
-if ($detailContact->tea_published[0] == "1" || $detailContact->tea_project[0] != $projectSession) {
-    phpCollab\Util::headerFunction("index.php");
+$detailContact = $teams->getTeamByProjectIdAndTeamMember($projectSession, $id);
+
+if ($detailContact[0]["tea_published"] == "1" || $detailContact["tea_project"][0] != $projectSession) {
+    phpCollab\Util::headerFunction("home.php");
 }
 
 $bouton[1] = "over";
 $titlePage = $strings["team_member_details"];
 include 'include_header.php';
 
-echo "<h1 class=\"heading\">" . $strings["team_member_details"] . "</h1>";
+echo <<<START_PAGE
+<h1 class="heading">{$strings["team_member_details"]}</h1>
+<table class="nonStriped">
+START_PAGE;
 
-echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"3\">";
 
-if ($userDetail->mem_name[0] != "") {
-    echo "<tr><td>" . $strings["full_name"] . " :</td><td>" . $userDetail->mem_name[0] . "</td></tr>";
+if ($userDetail["mem_name"] != "") {
+    echo <<<TR
+    <tr>
+        <td>{$strings["full_name"]} :</td>
+        <td>{$userDetail["mem_name"]}</td>
+    </tr>
+TR;
 }
-if ($userDetail->mem_organization[0] != "") {
-    echo "<tr><td>" . $strings["company"] . " :</td><td>" . $userDetail->mem_org_name[0] . "</td></tr>";
+if ($userDetail["mem_organization"] != "") {
+    echo <<<TR
+    <tr>
+        <td>{$strings["company"]} :</td>
+        <td>{$userDetail["org_name"]}</td>
+    </tr>
+TR;
 }
-if ($userDetail->mem_title[0] != "") {
-    echo "<tr><td>" . $strings["title"] . " :</td><td>" . $userDetail->mem_title[0] . "</td></tr>";
+if ($userDetail["mem_title"] != "") {
+    echo <<<TR
+    <tr>
+        <td>{$strings["title"]} :</td>
+        <td>{$userDetail["mem_title"]}</td>
+    </tr>
+TR;
 }
-if ($userDetail->mem_email_work[0] != "") {
-    echo "<tr><td>" . $strings["email"] . " : </td><td><a href=\"mailto:" . $userDetail->mem_email_work[0] . "\">" . $userDetail->mem_email_work[0] . "</a></td></tr>";
+if ($userDetail["mem_email_work"] != "") {
+    echo <<<TR
+    <tr>
+        <td>{$strings["email"]} : </td>
+        <td><a href=\"mailto:{$userDetail["mem_email_work"]}\">{$userDetail["mem_email_work"]}</a></td>
+    </tr>
+TR;
 }
-if ($userDetail->mem_phone_home[0] != "") {
-    echo "<tr><td>" . $strings["home_phone"] . " :</td><td>" . $userDetail->mem_phone_home[0] . "</td></tr>";
+if ($userDetail["mem_phone_home"] != "") {
+    echo <<<TR
+    <tr>
+        <td>{$strings["home_phone"]} :</td>
+        <td>{$userDetail["mem_phone_home"]}</td>
+    </tr>
+TR;
 }
-if ($userDetail->mem_phone_work[0] != "") {
-    echo "<tr><td>" . $strings["work_phone"] . " : </td><td>" . $userDetail->mem_phone_work[0] . "</td></tr>";
+if ($userDetail["mem_phone_work"] != "") {
+    echo <<<TR
+    <tr>
+        <td>{$strings["work_phone"]} : </td>
+        <td>{$userDetail["mem_phone_work"]}</td>
+    </tr>
+TR;
 }
-if ($userDetail->mem_mobile[0] != "") {
-    echo "<tr><td>" . $strings["mobile_phone"] . " :</td><td>" . $userDetail->mem_mobile[0] . "</td></tr>";
+if ($userDetail["mem_mobile"] != "") {
+    echo <<<TR
+    <tr>
+        <td>{$strings["mobile_phone"]} :</td>
+        <td>{$userDetail["mem_mobile"]}</td>
+    </tr>
+TR;
 }
-if ($userDetail->mem_fax[0] != "") {
-    echo "<tr><td> " . $strings["fax"] . " :</td><td>" . $userDetail->mem_fax[0] . "</td></tr>";
+if ($userDetail["mem_fax"] != "") {
+    echo <<<TR
+    <tr>
+        <td> {$strings["fax"]} :</td>
+        <td>{$userDetail["mem_fax"]}</td>
+    </tr>
+TR;
 }
-echo "</table>
-<hr>";
 
-echo "<br/><br/>
-<a href=\"showallcontacts.php\">" . $strings["show_all"] . "</a>";
+echo <<<END_PAGE
+</table>
+<br/>
+<br/>
+<a href="showallcontacts.php">{$strings["show_all"]}</a>
+END_PAGE;
 
 include("include_footer.php");
