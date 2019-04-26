@@ -3,7 +3,9 @@
 
 namespace phpCollab\Support;
 
+use Exception;
 use phpCollab\Database;
+use phpCollab\Notification;
 
 /**
  * Class Support
@@ -13,6 +15,8 @@ class Support
 {
     protected $support_gateway;
     protected $db;
+    protected $strings;
+    protected $root;
 
     /**
      * Support constructor.
@@ -21,6 +25,8 @@ class Support
     {
         $this->db = new Database();
         $this->support_gateway = new SupportGateway($this->db);
+        $this->strings = $GLOBALS["strings"];
+        $this->root = $GLOBALS["root"];
     }
 
     /**
@@ -113,6 +119,19 @@ class Support
     }
 
     /**
+     * @param $requestId
+     * @param $message
+     * @param $dateCreated
+     * @param $ownerId
+     * @param $projectId
+     * @return string
+     */
+    public function addSupportPost($requestId, $message, $dateCreated, $ownerId, $projectId)
+    {
+        return $this->support_gateway->addPost($requestId, $message, $dateCreated, $ownerId, $projectId);
+    }
+
+    /**
      * @param $supportRequestIds
      * @return mixed
      */
@@ -157,4 +176,71 @@ class Support
         return $this->support_gateway->deleteSupportPostsByProjectId($projectIds);
     }
 
+    /**
+     * Notifications Section
+     * @param $requestDetail
+     * @param $postDetails
+     * @param $userDetails
+     * @throws Exception
+     */
+    public function sendNewPostNotification($requestDetail, $postDetails, $userDetails)
+    {
+        if (
+            $requestDetail
+            && $postDetails
+            && $userDetails
+            && !empty($userDetails["mem_email_work"])
+        ) {
+            $mail = new Notification(true);
+            try {
+
+                // Set the From field
+                $mail->setFrom($userDetails["mem_email_work"], $userDetails["mem_name"]);
+
+                // Start building the Subject and Body
+                $mail->partSubject = $this->strings["support"] . " " . $this->strings["support_id"];
+                $mail->partMessage = $this->strings["noti_support_post2"];
+
+
+                // Set the subject
+                $subject = $mail->partSubject . ": " . $requestDetail["sr_id"];
+
+                // Build the Email Body
+                $body = <<<MAILBODY
+{$mail->partMessage}
+
+{$this->strings["id"]} : {$requestDetail["sr_id"]}
+{$this->strings["subject"]} : {$requestDetail["sr_subject"]}
+{$this->strings["status"]} : {$GLOBALS["requestStatus"][$requestDetail["sr_status"]]}
+
+{$this->strings["details"]} : 
+
+MAILBODY;
+
+                if (isset($listTeam) && $listTeam["tea_mem_profil"] == 3) {
+                    $body .= $this->root . "/general/login.php?url=projects_site/home.php%3Fproject=" . $requestDetail["sr_project"] . "\n\n";
+                } else {
+                    $body .= $this->root . "/general/login.php?url=support/viewrequest.php%3Fid=" . $requestDetail["sr_id"] . "\n\n";
+                }
+                $body .= $this->strings["message"] . " : " . $postDetails["sp_message"] . "";
+
+
+                $body .= "\n\n" . $mail->footer;
+
+                $mail->Subject = $subject;
+                $mail->Priority = "3";
+                $mail->Body = $body;
+                $mail->AddAddress($userDetails["mem_email_work"], $userDetails["mem_name"]);
+                $mail->Send();
+                $mail->ClearAddresses();
+
+
+            } catch (Exception $e) {
+                throw new Exception($mail->ErrorInfo);
+            }
+        } else {
+            throw new Exception('Error sending mail');
+        }
+
+    }
 }
