@@ -1,6 +1,7 @@
 <?php
 #Application name: PhpCollab
-#Status page: 0
+
+use phpCollab\Topics\Topics;
 
 $checkSession = "true";
 include '../includes/library.php';
@@ -9,47 +10,46 @@ $bouton[5] = "over";
 $titlePage = $strings["bulletin_board"];
 include 'include_header.php';
 
-$tmpquery = "WHERE topic.project = '$projectSession' AND topic.published = '0' ORDER BY topic.last_post DESC";
-$listTopics = new phpCollab\Request();
-$listTopics->openTopics($tmpquery);
-$comptListTopics = count($listTopics->top_id);
+$topics = new Topics();
+
+$listTopics = $topics->getProjectSiteTopics($projectSession, 'topic.last_post DESC');
 
 $block1 = new phpCollab\Block();
 
 $block1->heading($strings["bulletin_board"]);
 
-if ($comptListTopics != "0") {
+if (!empty($listTopics)) {
     echo <<<TABLE
-<table cellspacing="0" width="90%" border="0" cellpadding="3" cols="4" class="listing">
+<table class="listing striped">
     <tr>
         <th>{$strings["topic"]}</th>
         <th>{$strings["posts"]}</th>
         <th>{$strings["owner"]}</th>
         <th class="active">{$strings["last_post"]}</th>
     </tr>
+    <tbody>
 TABLE;
 
-    for ($i = 0; $i < $comptListTopics; $i++) {
-        if (!($i % 2)) {
-            $class = "odd";
-            $highlightOff = $block1->getOddColor();
-        } else {
-            $class = "even";
-            $highlightOff = $block1->getEvenColor();
-        }
-
-        $topicDate = phpCollab\Util::createDate($listTopics->top_last_post[$i], $timezoneSession);
+    foreach ($listTopics as $listTopic) {
+        $topicDate = phpCollab\Util::createDate($listTopic["top_last_post"], $timezoneSession);
         echo <<< TR
-<tr class="{$class}" onmouseover="this.style.backgroundColor='{$block1->getHighlightOn()}'" onmouseout="this.style.backgroundColor='{$highlightOff}'">
-    <td><a href="showallthreads.php?id={$listTopics->top_id[$i]}">{$listTopics->top_subject[$i]}</a></td>
-    <td>{$listTopics->top_posts[$i]}</td>
-    <td>{$listTopics->top_mem_name[$i]}</td>
+<tr>
+    <td><a href="showallthreads.php?id={$listTopic["top_id"]}">{$listTopic["top_subject"]}</a></td>
+    <td>{$listTopic["top_posts"]}</td>
+    <td>{$listTopic["top_mem_name"]}</td>
     <td>{$topicDate}</td></tr>
 TR;
     }
-    echo '</table><hr />';
+    echo "</tbody></table><hr />";
 } else {
-    echo '<table cellspacing="0" border="0" cellpadding="2"><tr><td colspan="4">' . $strings["no_items"] . '</td></tr></table><hr>';
+    echo <<<NORESULTS
+    <table>
+        <tr>
+            <td colspan="4">{$strings["no_items"]}</td>
+        </tr>
+    </table>
+    <hr>
+NORESULTS;
 }
 
 echo <<<CREATE

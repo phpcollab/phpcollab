@@ -53,6 +53,18 @@ class Topics
 
     /**
      * @param $projectId
+     * @param null $sorting
+     * @param null $offset
+     * @param null $limit
+     * @return mixed
+     */
+    public function getProjectSiteTopics($projectId, $sorting = null, $offset = null, $limit = null)
+    {
+        return $this->topics_gateway->getProjectSiteTopics($projectId, $offset, $limit, $sorting);
+    }
+
+    /**
+     * @param $projectId
      * @return int
      */
     public function getTopicCountForProject($projectId)

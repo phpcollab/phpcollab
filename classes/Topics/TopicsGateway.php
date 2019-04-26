@@ -55,6 +55,21 @@ class TopicsGateway
     }
 
     /**
+     * @param $projectId
+     * @param null $offset
+     * @param null $limit
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getProjectSiteTopics($projectId, $offset = null, $limit = null, $sorting = null)
+    {
+        $query = $this->initrequest["topics"] .  " WHERE topic.project = :project_id AND topic.published = 0" . $this->orderBy($sorting) . $this->limit($offset, $limit);
+        $this->db->query($query);
+        $this->db->bind(':project_id', $projectId);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $topicId
      * @return mixed
      */
