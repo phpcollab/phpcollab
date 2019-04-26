@@ -25,7 +25,7 @@ $block1->heading($strings["my_support_request"]);
 
 if ($listRequests) {
     echo <<<TABLE
-        <table style="width: 90%;" class="listing">
+        <table style="width: 90%;" class="listing striped">
             <tr>
                 <th class="active">{$strings["id"]}</th>
                 <th>{$strings["subject"]}</th>
@@ -35,19 +35,10 @@ if ($listRequests) {
                 <th>{$strings["date_open"]}</th>
                 <th>{$strings["date_close"]}</th>
             </tr>
+            <tbody>
 TABLE;
 
     foreach ($listRequests as $listRequest) {
-        if (!($i % 2)) {
-            $class = "odd";
-            $highlightOff = $block1->getOddColor();
-            $highlightOn = $block1->getEvenColor();
-        } else {
-            $class = "even";
-            $highlightOff = $block1->getEvenColor();
-            $highlightOn = $block1->getOddColor();
-        }
-
         $comptSta = count($requestStatus);
         for ($sr = 0; $sr < $comptSta; $sr++) {
             if ($listRequest["sr_status"] == $sr) {
@@ -63,9 +54,7 @@ TABLE;
         }
 
         echo <<<TABLE_ROW
-            <tr class="$class" 
-                onmouseover="this.style.backgroundColor='{$highlightOn}'" 
-                onmouseout="this.style.backgroundColor='{$highlightOff}'">
+            <tr>
                 <td>{$listRequest["sr_id"]}</td>
                 <td><a href="suprequestdetail.php?id={$listRequest["sr_id"]}">{$listRequest["sr_subject"]}</a></td>
                 <td>{$requestPriority}</td>
@@ -78,7 +67,7 @@ TABLE_ROW;
 
 
     }
-    echo "</table><hr />\n";
+    echo "</tbody></table><hr />\n";
 } else {
     echo <<<NO_RESULTS
     <table><tr><td colspan="4">{$strings["no_items"]}</td></tr></table><hr>
