@@ -189,6 +189,10 @@ hr {
 	padding: .5em;
 }
 
+.nonStriped.noPadding th, .nonStriped.noPadding td {
+	padding: 0;
+}
+
 .striped {
 	border: none;
 	border-spacing: 0;
@@ -242,6 +246,10 @@ hr {
 
 .new {
 	background-color: #F6F5F5;
+}
+
+td.leftvalue {
+	vertical-align: top;
 }
 
 .content {
@@ -304,6 +312,20 @@ hr {
 	border-left: 1px solid #999999;
 	border-right: 1px solid #999999;
 	border-collapse: collapse;
+}
+
+
+.tableRevision tr:hover {
+	background-color: #DEE7EB;
+	color: #000;
+}
+
+.tableRevision tr:nth-child(odd) {
+	background-color: #DDDEDF;
+}
+
+.tableRevision tr:nth-child(even) {
+	background-color: #F6F5F5;
 }
 
 .tableRevision td {
@@ -404,4 +426,8 @@ td.footerCell a, td.footerCell strong {
 	border: 1px solid indianred;
 	font-weight: bold;
 	background-color: papayawhip;
+}
+
+span.error {
+	color: darkred;
 }
