@@ -536,7 +536,7 @@ CLOSE_TABLE;
 
 // Table 4
 // File Update Form
-if ($fileDetail["fil_owner"] != $idSession) {
+if ($fileDetail["fil_owner"] == $idSession) {
     echo <<<FILE_UPDATE_FORM
 <table id="fileVersionUpdate" style="width: 100%" class="nonStriped">
     <tr>
