@@ -319,10 +319,10 @@ $theme = THEME;
 echo <<<TR
                             <tr class="odd">
                                 <td class="leftvalue">{$strings["ifc_version_history"]} :</td>
-                                <td><img src="../themes/{$theme}/spacer.gif" width="1" height="1" alt=""></td>
+                                <td></td>
                             </tr>
                             <tr class="odd">
-                                <td class="leftvalue"><img src="../themes/{THEME}/spacer.gif" width="1" height="1" alt=""></td>
+                                <td class="leftvalue"></td>
                                 <td class="spacerReplacement"></td>
                             </tr>
                             <tr class="odd">
@@ -400,7 +400,7 @@ TABLE;
         echo <<<TABLE
             <table style="width: 90%;">
                 <tr>
-                    <th class="ModuleColumnHeaderSort"><img src="../themes/{$theme}/spacer.gif" width="1" height="1" alt=""></th>
+                    <th class="ModuleColumnHeaderSort"></th>
                 </tr>
                 <tr>
                     <td style="width: 40%;">
@@ -499,7 +499,7 @@ TABLE;
                             <h1 class="heading">{$strings["ifc_add_revision"]}</h1>
                             <table style="width: 90%;" class="nonStriped">
                                 <tr>
-                                    <th class="ModuleColumnHeaderSort"><img src="../themes/{$theme}/spacer.gif" width="1" height="1" alt="" ></th>
+                                    <th class="ModuleColumnHeaderSort"></th>
                                 </tr>
                                 <tr>
                                     <td style="width: 40%;">
