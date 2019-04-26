@@ -179,6 +179,36 @@ hr {
 	text-decoration: none;
 }
 
+.striped {
+	border: none;
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+.striped th {
+	border: none;
+}
+
+.striped td {
+	padding: 0;
+}
+
+
+.striped tr:nth-child(even) {
+	background-color: #EFEFEF;
+	color: #000;
+}
+
+.striped tr:nth-child(odd) {
+	background-color: #F5F5F5;
+	color: #000;
+}
+
+.striped tr:nth-child(even):hover, .striped tr:nth-child(odd):hover {
+	background-color: #DEE7EB;
+	color: #000;
+}
+
 .odd {
 	background-color: #F5F5F5;
 }
