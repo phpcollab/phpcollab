@@ -19,16 +19,29 @@ class Updates
         $this->updates_gateway = new UpdatesGateway($this->db);
     }
 
+    /**
+     * @param $type
+     * @param $item
+     * @param $member
+     * @param $comments
+     * @return string
+     */
     public function addUpdate($type, $item, $member, $comments)
     {
         return $this->updates_gateway->addUpdate($type, $item, $member, $comments);
     }
 
-    public function getUpdates($type, $taskId)
+    /**
+     * @param $type
+     * @param $taskId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getUpdates($type, $taskId, $sorting = null)
     {
         $type = filter_var($type, FILTER_VALIDATE_INT);
         $taskId = filter_var($taskId, FILTER_VALIDATE_INT);
-        $updates = $this->updates_gateway->getUpdates($type, $taskId);
+        $updates = $this->updates_gateway->getUpdates($type, $taskId, $sorting);
         return $updates;
     }
 }

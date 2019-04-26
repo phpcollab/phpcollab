@@ -22,6 +22,13 @@ class UpdatesGateway
         $this->tableCollab = $GLOBALS['tableCollab'];
     }
 
+    /**
+     * @param $type
+     * @param $item
+     * @param $member
+     * @param $comments
+     * @return string
+     */
     public function addUpdate($type, $item, $member, $comments)
     {
         $sql = "INSERT INTO {$this->tableCollab["updates"]} (type, item, member, comments, created) VALUES (:type, :item, :member, :comments, :created)";
@@ -35,11 +42,20 @@ class UpdatesGateway
         return $this->db->lastInsertId();
     }
 
-    public function getUpdates($type, $taskId)
+    /**
+     * @param $type
+     * @param $taskId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getUpdates($type, $taskId, $sorting = null)
     {
-        $whereStatement = " WHERE upd.type=:type AND upd.item = :task_id ORDER BY upd.created DESC";
+        if (is_null($sorting)) {
+            $sorting = 'upd.created DESC';
+        }
+        $whereStatement = " WHERE upd.type=:type AND upd.item = :task_id";
 
-        $this->db->query($this->initrequest["updates"] . $whereStatement);
+        $this->db->query($this->initrequest["updates"] . $whereStatement . $this->orderBy($sorting));
 
         $this->db->bind(':type', $type);
         $this->db->bind(':task_id', $taskId);
@@ -47,5 +63,29 @@ class UpdatesGateway
         return $this->db->resultset();
 
     }
+
+    /**
+     * @param $sorting
+     * @return string
+     */
+    private function orderBy($sorting)
+    {
+        if (!is_null($sorting)) {
+            $allowedOrderedBy = ["upd.created"];
+            $pieces = explode(' ', $sorting);
+
+            if ($pieces) {
+                $key = array_search($pieces[0], $allowedOrderedBy);
+
+                if ($key !== false) {
+                    $order = $allowedOrderedBy[$key];
+                    return " ORDER BY $order $pieces[1]";
+                }
+            }
+        }
+
+        return '';
+    }
+
 
 }
