@@ -70,7 +70,7 @@ class SupportGateway
     public function getSupportRequestByIdIn($supportRequestIds)
     {
         $supportRequestIds = explode(',', $supportRequestIds);
-        $placeholders = str_repeat ('?, ', count($supportRequestIds)-1) . '?';
+        $placeholders = str_repeat('?, ', count($supportRequestIds) - 1) . '?';
         $sql = $this->initrequest["support_requests"] . " WHERE sr.id IN ($placeholders) ORDER BY sr.subject";
         $this->db->query($sql);
         $this->db->execute($supportRequestIds);
@@ -123,7 +123,7 @@ class SupportGateway
     public function getSupportPostsByRequestIdIn($supportPostIds)
     {
         $supportPostIds = explode(',', $supportPostIds);
-        $placeholders = str_repeat ('?, ', count($supportPostIds)-1) . '?';
+        $placeholders = str_repeat('?, ', count($supportPostIds) - 1) . '?';
         $whereStatement = " WHERE sp.id IN($placeholders)";
         $sql = $this->initrequest["support_posts"] . $whereStatement . " ORDER BY sp.id";
         $this->db->query($sql);
@@ -160,13 +160,39 @@ SQL;
     }
 
     /**
+     * @param $requestId
+     * @param $message
+     * @param $dateCreated
+     * @param $ownerId
+     * @param $projectId
+     * @return string
+     */
+    public function addPost($requestId, $message, $dateCreated, $ownerId, $projectId)
+    {
+        $sql = <<<SQL
+INSERT INTO {$this->tableCollab["support_posts"]} (
+request_id, message, date, owner, project
+) VALUES (
+:request_id, :message, :date, :owner_id, :project_id)
+SQL;
+        $this->db->query($sql);
+        $this->db->bind("request_id", $requestId);
+        $this->db->bind(":message", $message);
+        $this->db->bind(":date", $dateCreated);
+        $this->db->bind(":owner_id", $ownerId);
+        $this->db->bind(":project_id", $projectId);
+        $this->db->execute();
+        return $this->db->lastInsertId();
+    }
+
+    /**
      * @param $supportRequestIds
      * @return mixed
      */
     public function deleteSupportRequests($supportRequestIds)
     {
         $supportRequestIds = explode(',', $supportRequestIds);
-        $placeholders = str_repeat ('?, ', count($supportRequestIds)-1) . '?';
+        $placeholders = str_repeat('?, ', count($supportRequestIds) - 1) . '?';
         $sql = "DELETE FROM {$this->tableCollab['support_requests']} WHERE id IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($supportRequestIds);
@@ -179,7 +205,7 @@ SQL;
     public function deleteSupportRequestsByProjectId($projectIds)
     {
         $projectIds = explode(',', $projectIds);
-        $placeholders = str_repeat ('?, ', count($projectIds)-1) . '?';
+        $placeholders = str_repeat('?, ', count($projectIds) - 1) . '?';
         $sql = "DELETE FROM {$this->tableCollab['support_requests']} WHERE project IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($projectIds);
@@ -192,7 +218,7 @@ SQL;
     public function deleteSupportPostsByRequestId($requestIds)
     {
         $requestIds = explode(',', $requestIds);
-        $placeholders = str_repeat ('?, ', count($requestIds)-1) . '?';
+        $placeholders = str_repeat('?, ', count($requestIds) - 1) . '?';
         $sql = "DELETE FROM {$this->tableCollab['support_posts']} WHERE request_id IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($requestIds);
@@ -205,7 +231,7 @@ SQL;
     public function deleteSupportPostsById($supportPostIds)
     {
         $supportPostIds = explode(',', $supportPostIds);
-        $placeholders = str_repeat ('?, ', count($supportPostIds)-1) . '?';
+        $placeholders = str_repeat('?, ', count($supportPostIds) - 1) . '?';
         $sql = "DELETE FROM {$this->tableCollab['support_posts']} WHERE id IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($supportPostIds);
@@ -218,7 +244,7 @@ SQL;
     public function deleteSupportPostsByProjectId($projectIds)
     {
         $projectIds = explode(',', $projectIds);
-        $placeholders = str_repeat ('?, ', count($projectIds)-1) . '?';
+        $placeholders = str_repeat('?, ', count($projectIds) - 1) . '?';
         $sql = "DELETE FROM {$this->tableCollab['support_posts']} WHERE project IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($projectIds);
