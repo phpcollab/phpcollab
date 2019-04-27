@@ -82,6 +82,21 @@ class TeamsGateway
         return $results;
     }
 
+
+    /**
+     * @param $projectId
+     * @param $memberId
+     * @return mixed
+     */
+    public function getOtherProjectTeamMembers($projectId, $memberId)
+    {
+        $tmpquery = $this->initrequest["teams"] . " WHERE tea.project = :project_id AND tea.member != :member_id ORDER BY mem.id";
+        $this->db->query($tmpquery);
+        $this->db->bind(":project_id", $projectId);
+        $this->db->bind(":member_id", $memberId);
+        return $this->db->resultset();
+    }
+
     /**
      * @param $memberId
      * @param $orgId

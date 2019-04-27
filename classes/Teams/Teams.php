@@ -40,6 +40,16 @@ class Teams
 
     /**
      * @param $projectId
+     * @param $memberId
+     * @return mixed
+     */
+    public function getOtherProjectTeamMembers($projectId, $memberId)
+    {
+        return $this->teams_gateway->getOtherProjectTeamMembers($projectId, $memberId);
+    }
+
+    /**
+     * @param $projectId
      * @return mixed
      */
     public function getClientTeamMembersByProject($projectId)
@@ -197,6 +207,26 @@ class Teams
     public function addTeam($projectId, $memberId, $published, $authorized)
     {
         return $this->teams_gateway->addTeam($projectId, $memberId, $published, $authorized);
+    }
+
+    /**
+     * @param $projectId
+     * @param $memberIds
+     * @return mixed
+     */
+    public function publishToSite($projectId, $memberIds)
+    {
+        return $this->teams_gateway->publishToSite($projectId, $memberIds);
+    }
+
+    /**
+     * @param $projectId
+     * @param $memberIds
+     * @return mixed
+     */
+    public function unPublishToSite($projectId, $memberIds)
+    {
+        return $this->teams_gateway->unPublishToSite($projectId, $memberIds);
     }
 
 }
