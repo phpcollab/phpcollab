@@ -27,6 +27,51 @@ class TopicsGateway
     }
 
     /**
+     * @param $topicId
+     * @param $memberId
+     * @param $message
+     * @param $created
+     * @return string
+     */
+    public function createPost($topicId, $memberId, $message, $created)
+    {
+        $query = "INSERT INTO {$this->tableCollab["posts"]} (topic, member, created, message) VALUES (:topic, :member, :created, :message)";
+        $this->db->query($query);
+        $this->db->bind(":topic", $topicId);
+        $this->db->bind(":member", $memberId);
+        $this->db->bind(":message", $message);
+        $this->db->bind(":created", $created);
+        $this->db->execute();
+        return $this->db->lastInsertId();
+    }
+
+    /**
+     * @param $projectId
+     * @param $memberId
+     * @param $subject
+     * @param $status
+     * @param $last_post
+     * @param $posts
+     * @param $published
+     * @return string
+     */
+    public function createTopic($projectId, $memberId, $subject, $status, $last_post, $posts, $published)
+    {
+
+        $query = "INSERT INTO {$this->tableCollab["topics"]} (project, owner, subject, status, last_post, posts, published) VALUES (:project, :owner, :subject, :status, :last_post, :posts, :published)";
+        $this->db->query($query);
+        $this->db->bind(":project", $projectId);
+        $this->db->bind(":owner", $memberId);
+        $this->db->bind(":subject", $subject);
+        $this->db->bind(":status", $status);
+        $this->db->bind(":last_post", $last_post);
+        $this->db->bind(":posts", $posts);
+        $this->db->bind(":published", $published);
+        $this->db->execute();
+        return $this->db->lastInsertId();
+    }
+
+    /**
      * @param $ownerId
      * @param null $sorting
      * @return mixed
