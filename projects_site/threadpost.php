@@ -2,6 +2,9 @@
 #Application name: PhpCollab
 #Status page: 0
 
+use phpCollab\Projects\Projects;
+use phpCollab\Topics\Topics;
+
 $checkSession = "true";
 include '../includes/library.php';
 
@@ -12,7 +15,8 @@ $statusTopicBis = $GLOBALS["statusTopicBis"];
 $idSession = $_SESSION["idSession"];
 $timezoneSession = $_SESSION["timezoneSession"];
 
-$topics = new \phpCollab\Topics\Topics();
+$topics = new Topics();
+$projects = new Projects();
 
 $detailTopic = $topics->getTopicByTopicId($id);
 
@@ -20,26 +24,23 @@ if ($detailTopic["top_published"] == "1" || $detailTopic["top_project"] != $proj
     phpCollab\Util::headerFunction("index.php");
 }
 
-if ($_GET["action"] == "add") {
-    $detailTopic["top_posts"] = $detailTopic["top_posts"] + 1;
-    $messageField = phpCollab\Util::convertData($_POST["messageField"]);
-    phpCollab\Util::autoLinks($messageField);
-    phpCollab\Util::newConnectSql(
-        "INSERT INTO {$tableCollab["posts"]} (topic,member,created,message) VALUES (:topic,:member,:created,:message)",
-        ["topic" => $id,"member" => $idSession,"created" => $dateheure,"message" => $GLOBALS["newText"]]
-    );
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($_POST["action"] == "add") {
+        $detailTopic["top_posts"] = $detailTopic["top_posts"] + 1;
+        $messageField = phpCollab\Util::convertData($_POST["messageField"]);
+        phpCollab\Util::autoLinks($messageField);
 
-    phpCollab\Util::newConnectSql(
-        "UPDATE {$tableCollab["topics"]} SET last_post=:last_post,posts=:posts WHERE id = :topic_id",
-        ["last_post" => $dateheure, "posts" => $detailTopic["top_posts"], "topic_id" => $id]
-    );
+        $newPost = $topics->addPost($id, $idSession, $messageField);
 
-    if ($notifications == "true") {
-        $tmpquery = "WHERE pro.id = '$projectSession'";
-        $projectDetail = new phpCollab\Request();
-        $projectDetail->openProjects($tmpquery);
+        $topics->incrementTopicPostsCount($id);
 
-        include '../topics/noti_newpost.php';
+        if ($notifications == "true") {
+            try {
+                $topics->sendNewPostNotification($newPost, $detailTopic);
+            } catch (Exception $e) {
+                echo 'Error sending mail, ' . $e->getMessage();
+            }
+        }
     }
 }
 
@@ -49,42 +50,95 @@ include 'include_header.php';
 
 $idStatus = $detailTopic["top_status"];
 
+$topicLastPostDate = phpCollab\Util::createDate($detailTopic["top_last_post"], $timezoneSession);
 echo <<<FORM
- <form accept-charset="UNKNOWN" method="POST" action="../projects_site/threadpost.php?action=add" name="post" enctype="application/x-www-form-urlencoded">
+ <form method="POST" action="../projects_site/threadpost.php?id={$id}" name="post">
     <input name="id" type="hidden" value="{$id}">
-FORM;
+    <input name="action" type="hidden" value="add">
 
-echo '<table cellspacing="0" width="90%" cellpadding="3">';
-echo '<tr><th colspan="4">' . $detailTopic["top_subject"] . '</th></tr>';
-echo '<tr><th colspan="4">' . $strings["information"] . '</th></tr>';
-echo '<tr><th>' . $strings["project"] . ':</th><td>' . $projectDetail->pro_name[0] . '</td><th>' . $strings["posts"] . ':</th><td>' . $detailTopic["top_posts"] . '</td></tr>';
-echo '<tr><th>&nbsp;</th><td>&nbsp;</td><th>' . $strings["last_post"] . ':</th><td>' . phpCollab\Util::createDate($detailTopic["top_last_post"], $timezoneSession) . '</td></tr>';
-echo '<tr><th>&nbsp;</th><td>&nbsp;</td><th>' . $strings["retired"] . ':</th><td>$statusTopicBis[$idStatus]</td></tr>';
-echo '<tr><th>' . $strings["owner"] . ':</th><td colspan="3"><a href="mailto:' . $detailTopic["top_mem_email_work"] . '">' . $detailTopic["top_mem_login"] . '</a></td></tr>';
-echo '<tr><td colspan="4">&nbsp;</td></tr>';
-echo '<tr><th colspan="4">' . $strings["enter_message"] . '</th></tr>';
-echo '<tr><th nowrap>*&nbsp;' . $strings["message"] . ':</th><td colspan="3"><textarea cols="60" name="messageField" rows="6"></textarea></td></tr>';
-echo '<tr><td class="FormLabel">&nbsp;</td><td colspan="3"><input name="submit" type="submit" value="' . $strings["save"] . '"></td></tr>';
-echo '</form>';
+<table style="width: 50%" class="nonStriped">
+    <tr>
+        <th colspan="4">{$detailTopic["top_subject"]}</th>
+    </tr>
+    <tr>
+        <th colspan="4">{$strings["information"]}</th>
+    </tr>
+    <tr>
+        <th>{$strings["project"]}:</th>
+        <td>{$detailTopic["top_pro_name"]}</td>
+        <th>{$strings["posts"]}:</th>
+        <td>{$detailTopic["top_posts"]}</td>
+    </tr>
+    <tr>
+        <th>&nbsp;</th>
+        <td>&nbsp;</td>
+        <th>{$strings["last_post"]}:</th>
+        <td>{$topicLastPostDate}</td>
+    </tr>
+    <tr>
+        <th>&nbsp;</th>
+        <td>&nbsp;</td>
+        <th>{$strings["retired"]}:</th>
+        <td>$statusTopicBis[$idStatus]</td>
+    </tr>
+    <tr>
+        <th>{$strings["owner"]}:</th>
+        <td colspan="3"><a href="mailto:{$detailTopic["top_mem_email_work"]}">{$detailTopic["top_mem_login"]}</a></td>
+    </tr>
+    <tr>
+        <td colspan="4">&nbsp;</td>
+    </tr>
+    <tr>
+        <th colspan="4">{$strings["enter_message"]}</th>
+    </tr>
+    <tr>
+        <th nowrap>*&nbsp;{$strings["message"]}:</th>
+        <td colspan="3"><textarea cols="60" name="messageField" rows="6" required></textarea></td>
+    </tr>
+    <tr>
+        <td class="FormLabel">&nbsp;</td>
+        <td colspan="3"><input name="submit" type="submit" value="{$strings["save"]}"></td>
+    </tr>
+</table>
+FORM;
 
 $listPosts = $topics->getPostsByTopicId($detailTopic["top_id"]);
 
 if ($listPosts) {
+    echo '<table style="width: 90%" class="nonStriped">';
     foreach ($listPosts as $post) {
-        if (!($i % 2)) {
-            $class = "odd";
-        } else {
-            $class = "even";
-        }
-        echo '<tr><td colspan="4" class="'.$class.'">&nbsp;</td></tr>';
-        echo '<tr class="$class"><th>' . $strings["posted_by"] . ' :</th><td>' . $post["pos_mem_name"] . '</td><td colspan="2" align="right"><a href="../projects_site/showallthreads.php?id=$id&action=delete&post=' . $post["pos_id"] . '">' . $strings["delete_message"] . '</a></td></tr>';
-        echo '<tr class="$class"><th>' . $strings["email"] . ' :</th><td colspan="3"><a href="mailto:' . $post["pos_mem_email_work"] . '">' . $post["pos_mem_email_work"] . '</a></td></tr>';
-        echo '<tr class="$class"><th nowrap>' . $strings["when"] . ' :</th><td colspan="3">' . phpCollab\Util::createDate($post["pos_created"], $timezoneSession) . '</td></tr>';
-        echo '<tr class="$class"><th>' . $strings["message"] . ' :</th><td colspan="3">' . nl2br($post["pos_message"]) . '</td></tr>';
+        $postCreatedDate = phpCollab\Util::createDate($post["pos_created"], $timezoneSession);
+        $postMessage = nl2br($post["pos_message"]);
+        echo <<<TR
+        <tr class="even">
+            <td colspan="4">&nbsp;</td>
+        </tr>
+        <tr class="even">
+            <th>{$strings["posted_by"]} :</th>
+            <td>{$post["pos_mem_name"]}</td>
+            <td colspan="2" style="text-align: right"><a href="../projects_site/showallthreads.php?id={$id}&action=delete&post={$post["pos_id"]}">{$strings["delete_message"]}</a></td>
+        </tr>
+        <tr class="even">
+            <th>{$strings["email"]} :</th>
+            <td colspan="3"><a href="mailto:{$post["pos_mem_email_work"]}">{$post["pos_mem_email_work"]}</a></td>
+        </tr>
+        <tr class="even">
+            <th nowrap>{$strings["when"]} :</th>
+            <td colspan="3">{$postCreatedDate}</td>
+        </tr>
+        <tr class="even">
+            <th>{$strings["message"]} :</th>
+            <td colspan="3">{$postMessage}</td>
+        </tr>
+        <tr>
+        <td colspan="4" class="odd"></td>
+        </tr>
+TR;
     }
+        echo "</table>";
 } else {
-    echo "<tr><td colspan=\"4\" class=\"ListOddRow\">" . $strings["no_items"] . "</td></tr>";
+    echo "<div class='no-records'>{$strings["no_items"]}</div>";
 }
-echo "</table>";
+echo "</form>";
 
 include("include_footer.php");
