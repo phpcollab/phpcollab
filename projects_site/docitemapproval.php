@@ -2,21 +2,32 @@
 #Application name: PhpCollab
 #Status page: 0
 
+use phpCollab\Files\Files;
+
 $checkSession = "true";
 include '../includes/library.php';
 
-if ($action == "update") {
-    $commentField = phpCollab\Util::convertData($commentField);
-    phpCollab\Util::newConnectSql("UPDATE {$tableCollab["files"]} SET comments_approval=:comments_approval,date_approval=:date_approval,approver=:approver,status=:status WHERE id = :file_id", ["comments_approval" => $commentField,"date_approval" => $dateheure,"approver" => $idSession,"status" => $statusField, "file_id" => $id]);
-    $msg = "updateFile";
-    phpCollab\Util::headerFunction("doclists.php");
+$files = new Files();
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($_POST["action"] == "update") {
+        $commentField = phpCollab\Util::convertData($_POST["commentField"]);
+
+        try {
+            $files->updateApprovalTracking($idSession, $commentField, $id, $_POST["statusField"]);
+            $msg = "updateFile";
+
+            phpCollab\Util::headerFunction("doclists.php?msg=$msg");
+        }
+        catch (Exception $e) {
+            echo "Error approving file";
+        }
+    }
 }
 
-$tmpquery = "WHERE fil.id = '$id'";
-$fileDetail = new phpCollab\Request();
-$fileDetail->openFiles($tmpquery);
+$fileDetail = $files->getFileById($_GET["id"]);
 
-if ($fileDetail->fil_published[0] == "1" || $fileDetail->fil_project[0] != $projectSession) {
+if ($fileDetail["fil_published"] == "1" || $fileDetail["fil_project"] != $projectSession) {
     phpCollab\Util::headerFunction("index.php");
 }
 
@@ -24,28 +35,48 @@ $bouton[4] = "over";
 $titlePage = $strings["approval_tracking"];
 include 'include_header.php';
 
-echo "<form accept-charset=\"UNKNOWN\" method=\"post\" action=\"../projects_site/docitemapproval.php?action=update\" name=\"documentitemapproval\" enctype=\"application/x-www-form-urlencoded\">";
-
-echo "<table cellspacing=\"0\" width=\"90%\" border=\"0\" cellpadding=\"3\">
-<tr><th colspan=\"2\">" . $strings["approval_tracking"] . " :</th></tr>
-<tr><th>" . $strings["document"] . " :</th><td><a href=\"clientfiledetail.php?id=" . $fileDetail->fil_id[0] . "\">" . $fileDetail->fil_name[0] . "</a></td></tr>
-<tr><th>" . $strings["status"] . " :</th><td><select name=\"statusField\">";
-
+echo <<<FORM
+<form method="post" action="../projects_site/docitemapproval.php?action=update" name="documentitemapproval">
+    <table style="width: 90%" class="nonStriped">
+        <tr>
+            <th colspan="2">{$strings["approval_tracking"]} :</th>
+        </tr>
+        <tr>
+            <th>{$strings["document"]} :</th>
+            <td><a href="clientfiledetail.php?id={$fileDetail["fil_id"]}">{$fileDetail["fil_name"]}</a></td>
+        </tr>
+        <tr>
+            <th>{$strings["status"]} :</th>
+            <td><select name="statusField">
+FORM;
 $comptSta = count($statusFile);
 
 for ($i = 0; $i < $comptSta; $i++) {
-    if ($fileDetail->fil_status[0] == $i) {
-        echo "<option value=\"$i\" selected>$statusFile[$i]</option>";
+    if ($fileDetail["fil_status"] == $i) {
+        echo <<<OPTION
+                <option value="$i" selected>{$statusFile[$i]}</option>
+OPTION;
     } else {
-        echo "<option value=\"$i\">$statusFile[$i]</option>";
+        echo <<<OPTION
+                <option value="$i">{$statusFile[$i]}</option>
+OPTION;
     }
 }
-
-echo "</select></td></tr>
-<tr><th>" . $strings["comments"] . " :</th><td><textarea rows=\"3\" name=\"commentField\" cols=\"43\">" . $fileDetail->fil_comments_approval[0] . "</textarea></td></tr>
-<tr><th>&nbsp;</th><td><input name=\"submit\" type=\"submit\" value=\"" . $strings["save"] . "\"></td></tr>
+echo <<<CLOSE_FORM
+                </select></td>
+        </tr>
+        <tr>
+            <th>{$strings["comments"]} :</th>
+            <td><textarea rows="3" name="commentField" cols="43">{$fileDetail["fil_comments_approval"]}</textarea></td>
+        </tr>
+        <tr>
+            <th>&nbsp;</th>
+            <td><input name="submit" type="submit" value="{$strings["save"]}"></td>
+        </tr>
 </table>
-<input name=\"id\" type=\"hidden\" value=\"$id\">
-</form>";
+<input name="id" type="hidden" value="{$id}">
+<input name="action" type="hidden" value="update">
+</form>
+CLOSE_FORM;
 
 include("include_footer.php");
