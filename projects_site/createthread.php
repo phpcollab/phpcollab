@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         phpCollab\Util::autoLinks($messageField);
 
-        $newPostId = $topics->addPost($newTopic["top_id"], $idSession, $messageField);
+        $newPost = $topics->addPost($newTopic["top_id"], $idSession, $messageField);
 
         if ($notifications == "true") {
             try {
