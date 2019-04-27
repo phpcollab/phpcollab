@@ -193,6 +193,33 @@ class Topics
 
     /**
      * @param $topicId
+     * @return mixed
+     */
+    public function incrementTopicPostsCount($topicId)
+    {
+        return $this->topics_gateway->incrementTopicPostsCount($topicId, date('Y-m-d h:i'));
+    }
+
+    /**
+     * @param $topicId
+     * @return mixed
+     */
+    public function decrementTopicPostsCount($topicId)
+    {
+        return $this->topics_gateway->decrementTopicPostsCount($topicId, date('Y-m-d h:i'));
+    }
+
+    /**
+     * @param $postId
+     * @return mixed
+     */
+    public function getPostById($postId)
+    {
+        return $this->topics_gateway->getPostById($postId);
+    }
+
+    /**
+     * @param $topicId
      * @param $memberId
      * @param $message
      * @param null $created
@@ -203,9 +230,8 @@ class Topics
         if (is_null($created)) {
             $created = date('Y-m-d h:i');
         }
-
-        // We don't need the whole post item, just the new ID
-        return $this->topics_gateway->createPost($topicId, $memberId, $message, $created);
+        $newPostId = $this->topics_gateway->createPost($topicId, $memberId, $message, $created);
+        return $this->getPostById($newPostId);
 
     }
 
@@ -311,6 +337,131 @@ class Topics
                                 /*
                                  * Build up the body of the message
                                  */
+                                $body = <<<MESSAGE_BODY
+{$mail->partMessage}
+
+{$this->strings["discussion"]} : {$topicDetails["top_subject"]}
+{$this->strings["posted_by"]} : {$_SESSION["nameSession"]} ({$_SESSION["loginSession"]})
+
+{$this->strings["project"]} : {$projectDetails["pro_name"]} ({$projectDetails["pro_id"]})
+{$this->strings["organization"]} : {$projectDetails["pro_org_name"]}
+
+{$this->strings["noti_moreinfo"]}
+
+MESSAGE_BODY;
+
+                                if ($listNotification["organization"] == "1") {
+                                    $body .= "{$this->root}/general/login.php?url=topics/viewtopic.php%3Fid=" . $topicDetails["top_id"];
+                                } elseif ($listNotification["organization"] != "1") {
+                                    $body .= "{$this->root}/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetails["pro_id"];
+                                }
+
+                                $body .= "\n\n" . $mail->footer;
+
+                                $mail->Subject = $subject;
+                                $mail->Priority = "3";
+
+                                // To: Address
+                                $mail->addAddress($listNotification["email_work"], $listNotification["name"]);
+
+                                $mail->Body = $body;
+                                $mail->send();
+                                $mail->clearAddresses();
+                            }
+                        }
+                    }
+                }
+            } catch (Exception $e) {
+                throw new Exception($mail->ErrorInfo);
+            }
+        } else {
+            throw new Exception('Error sending email.');
+        }
+    }
+
+    /**
+     * @param $postDetails
+     * @param $topicDetails
+     * @throws Exception
+     */
+    public function sendNewPostNotification($postDetails, $topicDetails)
+    {
+        $this->projects = new Projects();
+        $this->teams = new Teams();
+        $this->notifications = new Notifications();
+
+        /*
+         *  Get the project details, specifically we need:
+         *  pro_org_id, pro_org_name, pro_published, pro_name, pro_id
+         */
+        $projectDetails = $this->projects->getProjectById($topicDetails["top_project"]);
+
+        /*
+         * Get a list of other members that have created posts, excluding the current member
+         */
+        $listPosts = $this->getPostsByTopicIdAndNotOwner($topicDetails["top_id"], $postDetails["pos_mem_id"]);
+
+        /*
+         * We loop through the list of $teamMembers so we can pass it through to get their notification preferences
+         */
+        $posters = [];
+        foreach ($listPosts as $post) {
+            array_push($posters, $post["pos_mem_id"]);
+        }
+
+        /*
+         * Retireve a list of notifications for the list of $teamMembers retrieved above
+         */
+        $listNotifications = $this->notifications->getNotificationsWhereMemeberIn(implode(', ', $posters));
+
+
+        /*
+         * Sanity check to make sure we have all the required data before proceeding.
+         */
+        if ($topicDetails && $projectDetails && $listNotifications) {
+            /*
+             * Start creating the mail notification
+             */
+            $mail = new Notification(true);
+
+            try {
+                $mail->setFrom($topicDetails["top_mem_email_work"], $topicDetails["top_mem_name"]);
+
+                $mail->partSubject = $this->strings["noti_newpost1"];
+                $mail->partMessage = $this->strings["noti_newpost2"];
+
+
+                $subject = $mail->partSubject . " " . $topicDetails["top_subject"];
+
+
+                if ($projectDetails["pro_org_id"] == "1") {
+                    $projectDetails["pro_org_name"] = $this->strings["none"];
+                }
+
+                /*
+                 * Loop through $listNotifications
+                 */
+                if ($listNotifications) {
+                    foreach ($listNotifications as $listNotification) {
+                        if (
+                            ($listNotification["organization"] != "1"
+                             && $topicDetails["top_published"] == "0"
+                             && $projectDetails["pro_published"] == "0")
+                            || $listNotification["organization"] == "1"
+                        ) {
+                            /*
+                             * Make sure the user has an email address, and is flagged
+                             * to receive new topic notifications
+                             */
+
+                            if (
+                                !empty($listNotification["email_work"])
+                                && $listNotification["newPost"] == "0"
+                            ) {
+                                /*
+                                 * Build up the body of the message
+                                 */
+
                                 $body = <<<MESSAGE_BODY
 {$mail->partMessage}
 

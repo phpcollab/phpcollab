@@ -139,6 +139,18 @@ class TopicsGateway
     }
 
     /**
+     * @param $postId
+     * @return mixed
+     */
+    public function getPostById($postId)
+    {
+        $query = $this->initrequest["posts"] . " WHERE pos.id = :post_id";
+        $this->db->query($query);
+        $this->db->bind(':post_id', $postId);
+        return $this->db->single();
+    }
+
+    /**
      * @param $topicId
      * @param $ownerId
      * @return mixed
@@ -266,6 +278,34 @@ class TopicsGateway
         $sql = "DELETE FROM {$this->tableCollab['posts']} WHERE topic IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($projectId);
+    }
+
+    /**
+     * @param $topicId
+     * @param $updateDate
+     * @return mixed
+     */
+    public function incrementTopicPostsCount($topicId, $updateDate)
+    {
+        $query = "UPDATE {$this->tableCollab["topics"]} SET last_post = :last_post, posts = posts + 1 WHERE id = :topic_id";
+        $this->db->query($query);
+        $this->db->bind(":last_post", $updateDate);
+        $this->db->bind(":topic_id", $topicId);
+        return $this->db->execute();
+    }
+
+    /**
+     * @param $topicId
+     * @param $updateDate
+     * @return mixed
+     */
+    public function decrementTopicPostsCount($topicId, $updateDate)
+    {
+        $query = "UPDATE {$this->tableCollab["topics"]} SET last_post = :last_post, posts = posts - 1 WHERE id = :topic_id";
+        $this->db->query($query);
+        $this->db->bind(":last_post", $updateDate);
+        $this->db->bind(":topic_id", $topicId);
+        return $this->db->execute();
     }
 
     /**
