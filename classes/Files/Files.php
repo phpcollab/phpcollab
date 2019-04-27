@@ -201,9 +201,12 @@ class Files
      * @param $fileStatus
      * @return mixed
      */
-    public function updateApprovalTracking($approverId, $comment, $fileId, $fileStatus)
+    public function updateApprovalTracking($approverId, $comment, $fileId, $fileStatus, $approvalDate = null)
     {
-        return $this->files_gateway->updateApproval($approverId, $comment, $fileId, $fileStatus);
+        if (is_null($approvalDate)) {
+            $approvalDate = date('Y-m-d h:i');
+        }
+        return $this->files_gateway->updateApproval($fileId, $approverId, $comment, $approvalDate, $fileStatus);
     }
 
     /**

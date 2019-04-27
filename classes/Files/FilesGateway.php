@@ -217,20 +217,21 @@ class FilesGateway
     }
 
     /**
+     * @param $fileId
      * @param $approverId
      * @param $comment
-     * @param $fileId
+     * @param $approvalDate
      * @param $status
      * @return mixed
      */
-    public function updateApproval($approverId, $comment, $fileId, $status)
+    public function updateApproval($fileId, $approverId, $comment, $approvalDate, $status)
     {
         $query = "UPDATE {$this->tableCollab["files"]} SET comments_approval = :comments_approval, date_approval = :date_approval, approver = :approver, status=:status WHERE id = :file_id";
         $this->db->query($query);
         $this->db->bind(":comments_approval", $comment);
         $this->db->bind(":approver", $approverId);
         $this->db->bind(":status", $status);
-        $this->db->bind(":date_approval", date('Y-m-d h:i'));
+        $this->db->bind(":date_approval", $approvalDate);
         $this->db->bind(":file_id", $fileId);
         return $this->db->execute();
     }
