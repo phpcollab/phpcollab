@@ -391,6 +391,47 @@ SQL;
     }
 
     /**
+     * @param $projectId
+     * @param $ownerId
+     * @param null $startRow
+     * @param null $rowsLimit
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getTasksByProjectIdAndOwnerOrPublished($projectId, $ownerId, $startRow = null, $rowsLimit = null, $sorting = null)
+    {
+        $whereStatement = " WHERE (tas.project = :project_id) AND (tas.owner = :task_owner OR tas.published = '0') ORDER BY tas.name";
+
+        $query = $this->initrequest["tasks"] . $whereStatement . $this->orderBy($sorting) . $this->limit($startRow, $rowsLimit);
+
+        $this->db->query($query);
+        $this->db->bind(':project_id', $projectId);
+        $this->db->bind(':task_owner', $ownerId);
+        return $this->db->resultset();
+    }
+
+    /**
+     * @param $projectId
+     * @param $ownerId
+     * @param null $startRow
+     * @param null $rowsLimit
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getSubTasksByProjectIdAndOwnerOrPublished($projectId, $ownerId, $startRow = null, $rowsLimit = null, $sorting = null)
+    {
+//        $whereStatement = " WHERE (tas.project = :project_id) AND (tas.owner = :task_owner OR tas.published = '0') ORDER BY tas.name";
+        $whereStatement = " WHERE subtas.task = tas.id AND tas.project = :project_id AND (tas.owner = :task_owner OR tas.published = '0') ORDER BY subtas.name";
+
+        $query = $this->initrequest["subtasks"] . $whereStatement . $this->orderBy($sorting) . $this->limit($startRow, $rowsLimit);
+
+        $this->db->query($query);
+        $this->db->bind(':project_id', $projectId);
+        $this->db->bind(':task_owner', $ownerId);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $userId
      * @return mixed
      */

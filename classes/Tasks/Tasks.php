@@ -162,6 +162,36 @@ class Tasks
 
     /**
      * @param $projectId
+     * @param $taskOwner
+     * @param null $startRow
+     * @param null $rowsLimit
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getTasksByProjectIdAndOwnerOrPublished($projectId, $taskOwner, $startRow = null, $rowsLimit = null, $sorting = null)
+    {
+        $projectId = filter_var($projectId, FILTER_SANITIZE_STRING);
+        $task = $this->tasks_gateway->getTasksByProjectIdAndOwnerOrPublished($projectId, $taskOwner, $startRow, $rowsLimit, $sorting);
+        return $task;
+    }
+
+    /**
+     * @param $projectId
+     * @param $taskOwner
+     * @param null $startRow
+     * @param null $rowsLimit
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getSubTasksByProjectIdAndOwnerOrPublished($projectId, $taskOwner, $startRow = null, $rowsLimit = null, $sorting = null)
+    {
+        $projectId = filter_var($projectId, FILTER_SANITIZE_STRING);
+        $task = $this->tasks_gateway->getSubTasksByProjectIdAndOwnerOrPublished($projectId, $taskOwner, $startRow, $rowsLimit, $sorting);
+        return $task;
+    }
+
+    /**
+     * @param $projectId
      * @return int
      */
     public function getCountAllTasksForProject($projectId)
