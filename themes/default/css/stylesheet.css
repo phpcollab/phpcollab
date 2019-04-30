@@ -355,6 +355,53 @@ hr {
 
 /* calendar css themes */
 
+.calendarMonthDay {
+	background-color: #F5F5F5;
+}
+
+.calendar-blockout-line {
+	width: 100%;
+	border-spacing: 1px;
+}
+
+.calendar-blockout-line tr {
+	height: 150px;
+}
+
+.prev-next-table th {
+	padding: 0 1em;
+	text-align: center;
+}
+
+.calendar-blockout-line td {
+	padding: .5rem;
+	margin: .5rem;
+	width:14%;
+	height: 100px;
+	text-align: left;
+	vertical-align: top;
+}
+.calendar-blockout-line td.odd:hover {
+	background-color: #DEE7EB;
+}
+
+.calendar-blockout-line td.today {
+	background-color: #9c9c9c;
+}
+.calendar-blockout-line td.today:hover {
+	background-color: #ccc;
+}
+
+.prev-next-table {
+	margin-top: 1em;
+	float: right;
+}
+
+
+.calendarDate {
+	font-weight: 700;
+	text-align: right;
+}
 
 .calendar-regular-todo-event, a.calendar-regular-todo-event, a.calendar-regular-todo-event:hover, a.calendar-regular-todo-event:visited, a.calendar-regular-todo-event:active {
 	color: #000099;
@@ -390,6 +437,7 @@ hr {
 	border-left: 1px solid #663399;
 	border-right: 1px solid #663399;
 	margin-bottom: 3px;
+	text-align: center;
 	}
 .ganttChart {
 	margin-top: 10px;
