@@ -29,7 +29,13 @@
 ** - can a project team member see the other members tasks? *why not?*
 */
 
+use phpCollab\Calendars\Calendars;
+use phpCollab\Tasks\Tasks;
+
 include '../includes/library.php';
+
+$tasks = new Tasks();
+$calendars = new Calendars();
 
 $bouton[12] = "over";
 $titlePage = $strings["calendar"];
@@ -41,7 +47,8 @@ if ($type == "") {
 
 function _dayOfWeek($timestamp)
 {
-    return intval(strftime("%w", $timestamp) + 1);
+    $dayOfWeek = strftime("%w", $timestamp);
+    return intval($dayOfWeek) + 1;
 }
 
 $year = date("Y");
@@ -98,24 +105,19 @@ if ($firstday == 0) {
 }
 
 if ($type == "calendDetail") {
-    if ($dateEnreg == "" && $id != "") {
+    if (empty($dateEnreg) && $id != "") {
         $dateEnreg = $id;
     }
 
-    $tmpquery = "WHERE (cal.owner = '$idSession' AND cal.id = '$dateEnreg') OR (cal.broadcast = '1' AND cal.id = '$dateEnreg')";
-    $detailCalendar = new phpCollab\Request();
-    $detailCalendar->openCalendar($tmpquery);
-    $comptDetailCalendar = count($detailCalendar->cal_id);
+    $detailCalendar = $calendars->getCalendarDetail($idSession, $dateEnreg);
 
-    if ($comptDetailCalendar == "0") {
+    if (empty($detailCalendar)) {
         header("Location:../projects_site/showcalendar.php");
     }
-}
 
-if ($type == "calendDetail") {
-    $reminder = $detailCalendar->cal_reminder[0];
-    $broadcast = $detailCalendar->cal_broadcast[0];
-    $recurring = $detailCalendar->cal_recurring[0];
+    $reminder = $detailCalendar["cal_reminder"];
+    $broadcast = $detailCalendar["cal_broadcast"];
+    $recurring = $detailCalendar["cal_recurring"];
 
     if ($reminder == 0) {
         $reminder = $strings["no"];
@@ -137,16 +139,20 @@ if ($type == "calendDetail") {
 
     $block1 = new phpCollab\Block();
 
-    if ($error != "") {
+    if (isset($error) && !empty($error)) {
         $block1->headingError($strings["errors"]);
         $block1->contentError($error);
     }
 
     $block1->heading($strings["calendar"] . " " . $strings["details"]);
 
-    echo "<table cellspacing='0' width='90%' border='0' cellpadding='3' cols='4' class='listing'><tr><th class='active' colspan='2'>&nbsp;</th>";
+    echo <<<OPEN_TABLE
+    <table style="width: 90%" class="listing striped calendar-detail">
+        <tr>
+            <th class="active" colspan="2">&nbsp;</th>
+OPEN_TABLE;
 
-    for ($i = 0; $i < $comptDetailCalendar; $i++) {
+    foreach ($detailCalendar as $item) {
         if (!($i % 2)) {
             $class = "odd";
             $highlightOff = $block1->getOddColor();
@@ -155,54 +161,92 @@ if ($type == "calendDetail") {
             $highlightOff = $block1->getEvenColor();
         }
 
-        echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='" . $block1->getHighlightOn() . "'\" onmouseout=\"this.style.backgroundColor='" . $highlightOff . "'\"><td valign='top' width='20%'><strong>" . $strings["shortname"] . $block1->printHelp("calendar_shortname") . "</strong> :</td><td width='80%'>" . $detailCalendar->cal_shortname[0] . "&nbsp;</td></tr>";
+        echo <<<TR
+        <tr>
+            <td><strong>{$strings["shortname"]}{$block1->printHelp("calendar_shortname")}</strong> :</td>
+            <td>{$detailCalendar->cal_shortname[0]}&nbsp;</td>
+        </tr>
+TR;
 
         if ($detailCalendar->cal_subject[0] != "") {
-            echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='" . $block1->getHighlightOn() . "'\" onmouseout=\"this.style.backgroundColor='" . $highlightOff . "'\"><td valign='top'><strong>" . $strings["subject"] . "</strong> :</td><td>" . $detailCalendar->cal_subject[0] . "</td></tr>";
+            echo <<<TR
+            <tr>
+                <td><strong>{$strings["subject"]}</strong> :</td>
+                <td>{$detailCalendar->cal_subject[0]}</td>
+            </tr>
+TR;
         } else {
-            echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='" . $block1->getHighlightOn() . "'\" onmouseout=\"this.style.backgroundColor='" . $highlightOff . "'\"><td valign='top'><strong>" . $strings["subject"] . "</strong> :</td><td>" . $strings["none"] . "</td></tr>";
+            echo <<<TR
+            <tr>
+                <td><strong>{$strings["subject"]}</strong> :</td>
+                <td>{$strings["none"]}</td>
+            </tr>
+TR;
         }
 
         if ($detailCalendar->cal_description[0] != "") {
-            echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='" . $block1->getHighlightOn() . "'\" onmouseout=\"this.style.backgroundColor='" . $highlightOff . "'\"><td valign='top'><strong>" . $strings["description"] . "</strong> :</td><td>" . nl2br($detailCalendar->cal_description[0]) . "&nbsp;</td></tr>";
+            echo <<<TR
+            <tr>
+                <td><strong>{$strings["description"]}</strong> :</td>
+                <td>{nl2br($detailCalendar->cal_description[0])}&nbsp;</td>
+            </tr>
+TR;
         } else {
-            echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='" . $block1->getHighlightOn() . "'\" onmouseout=\"this.style.backgroundColor='" . $highlightOff . "'\"><td valign='top'><strong>" . $strings["description"] . "</strong> :</td><td>" . $strings["none"] . "</td></tr></tr>";
+            echo <<<TR
+            <tr>
+                <td><strong>{$strings["description"]}</strong> :</td>
+                <td>{$strings["none"]}</td>
+            </tr>
+TR;
         }
 
         if ($detailCalendar->cal_location[0] == "") {
-            echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='" . $block1->getHighlightOn() . "'\" onmouseout=\"this.style.backgroundColor='" . $highlightOff . "'\"><td valign='top'><strong>" . $strings["location"] . "</strong> :</td><td>" . $strings["none"] . "</td></tr>";
+            echo <<<TR
+            <tr>
+                <td><strong>{$strings["location"]}</strong> :</td>
+                <td>{$strings["none"]}</td>
+            </tr>
+TR;
         } else {
-            echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='" . $block1->getHighlightOn() . "'\" onmouseout=\"this.style.backgroundColor='" . $highlightOff . "'\"><td valign='top'><strong>" . $strings["location"] . "</strong> :</td><td>" . $detailCalendar->cal_location[0] . "</td></tr>";
+            echo <<<TR
+            <tr>
+                <td><strong>{$strings["location"]}</strong> :</td>
+                <td>{$detailCalendar->cal_location[0]}</td>
+            </tr>
+TR;
         }
 
-        echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='" . $block1->getHighlightOn() . "'\" onmouseout=\"this.style.backgroundColor='" . $highlightOff . "'\"><td valign='top'><strong>" . $strings["date_start"] . "</strong> :</td><td>" . $detailCalendar->cal_date_start[0] . "</td></tr>
-		<tr class='$class' onmouseover=\"this.style.backgroundColor='" . $block1->getHighlightOn() . "'\" onmouseout=\"this.style.backgroundColor='" . $highlightOff . "'\"><td valign='top'><strong>" . $strings["date_end"] . "</strong> :</td><td>" . $detailCalendar->cal_date_end[0] . "</td></tr>
-		<tr class='$class' onmouseover=\"this.style.backgroundColor='" . $block1->getHighlightOn() . "'\" onmouseout=\"this.style.backgroundColor='" . $highlightOff . "'\"><td valign='top'><strong>" . $strings["time_start"] . "</strong> :</td><td>";
+        echo <<<TR
+        <tr>
+            <td><strong>{$strings["date_start"]}</strong> :</td>
+            <td>{$detailCalendar->cal_date_start[0]}</td>
+        </tr>
+		<tr>
+		    <td><strong>{$strings["date_end"]}</strong> :</td>
+            <td>{$detailCalendar->cal_date_end[0]}</td>
+        </tr>
+		<tr>
+		    <td><strong>{$strings["time_start"]}</strong> :</td>
+		    <td>
+TR;
 
-        if ($detailCalendar->cal_time_start[0] == "") {
-            echo "" . $strings["none"] . "";
+        if (empty($detailCalendar["cal_time_start"])) {
+            echo $strings["none"];
         } else {
-            $comptHours = count($hourTimeArray);
-            for ($i = 0; $i < $comptHours; $i++) {
-                if ($detailCalendar->cal_time_start[0] == $longTimeArray[$i]) {
-                    echo "" . $hourTimeArray[$i] . "";
-                }
-            }
+            echo $detailCalendar["cal_time_start"];
         }
 
         echo "</td></tr>";
-        echo "<tr class='$class' onmouseover=\"this.style.backgroundColor='" . $block1->getHighlightOn() . "'\" onmouseout=\"this.style.backgroundColor='" . $highlightOff . "'\"><td valign='top'><strong>" . $strings["time_end"] . "</strong> :</td><td>";
+        echo <<<TR
+        <tr>
+            <td><strong>{$strings["time_end"]}</strong> :</td>
+            <td>
+TR;
 
-        if ($detailCalendar->cal_time_end[0] == "") {
-            echo "" . $strings["none"] . "";
+        if (empty($detailCalendar["cal_time_end"])) {
+            echo $strings["none"];
         } else {
-            $comptHours = count($hourTimeArray);
-
-            for ($i = 0; $i < $comptHours; $i++) {
-                if ($detailCalendar->cal_time_end[0] == $longTimeArray[$i]) {
-                    echo "" . $hourTimeArray[$i] . "";
-                }
-            }
+            echo $detailCalendar["cal_time_end"];
         }
     }
 
@@ -213,32 +257,26 @@ if ($type == "monthPreview") {
     $block2 = new phpCollab\Block();
     $block2->heading("$monthName $year");
 
-    echo "<table border='0' cellpadding='0' cellspacing='0' width='100%' class='listing'><tr>";
+    echo "<table style='width: 100%' class='listing nonStriped'><tr>";
 
     for ($daynumber = 1; $daynumber < 8; $daynumber++) {
-        echo "<td width='14%' class='calendDays' valign='middle' align='center'>&nbsp;$dayNameArray[$daynumber]</td>";
+        echo "<td style='width: 14%; vertical-align: middle; text-align: center' class='calendDays'>$dayNameArray[$daynumber]</td>";
     }
 
     echo "</tr></table>";
 
     //	Print the calendar
-    echo "<table border='0' cellpadding='5' cellspacing='1' width='100%' class='calendar-blockout-line'><tr>";
+    echo "<table class='calendar-blockout-line'><tr>";
 
     //LIMIT CALENDAR TO CURRENT PROJECT BUT SHOW ALL ASSIGNEES
-    $tmpquery = "WHERE (tas.project = '$projectSession') AND (tas.owner = '$idSession' OR tas.published = '0') ORDER BY tas.name";
-    $listTasks = new phpCollab\Request();
-    $listTasks->openTasks($tmpquery);
-    $comptListTasks = count($listTasks->tas_id);
+    $listTasks = $tasks->getTasksByProjectIdAndOwnerOrPublished($projectSession, $idSession);
 
-    $tmpquery = "WHERE subtas.task = tas.id AND tas.project = '$projectSession' AND (tas.owner = '$idSession' OR tas.published = '0') ORDER BY subtas.name";
-    $listSubtasks = new phpCollab\Request();
-    $listSubtasks->openSubtasks($tmpquery);
-    $comptListSubtasks = count($listSubtasks->subtas_id);
+    $listSubtasks = $tasks->getSubTasksByProjectIdAndOwnerOrPublished($projectSession, $idSession);
 
     $comptListCalendarScan = "0";
 
-    for ($g = 0; $g < $comptListTasks; $g++) {
-        if (substr($listTasks->tas_start_date[$g], 0, 7) == substr($dateCalend, 0, 7)) {
+    foreach ($listTasks as $listTask) {
+        if (substr($listTask["tas_start_date"], 0, 7) == substr($dateCalend, 0, 7)) {
             $gantt = "true";
         }
     }
@@ -261,137 +299,142 @@ if ($type == "monthPreview") {
         $todayClass = "";
         $dayRecurr = _dayOfWeek(mktime(0, 0, 0, $month, $a, $year));
 
-        $tmpquery = "WHERE (cal.owner = '$idSession' AND ((cal.date_start <= '$dateLink' AND cal.date_end >= '$dateLink' AND cal.recurring = '0') OR ((cal.date_start <= '$dateLink' AND cal.date_end >= '$dateLink') AND cal.recurring = '1' AND cal.recur_day = '$dayRecurr'))) OR (cal.broadcast = '1' AND ((cal.date_start <= '$dateLink' AND cal.date_end >= '$dateLink' AND cal.recurring = '0') OR ((cal.date_start <= '$dateLink' AND cal.date_end >= '$dateLink') AND cal.recurring = '1' AND cal.recur_day = '$dayRecurr'))) ORDER BY cal.shortname";
-        $listCalendarScan = new phpCollab\Request();
-        $listCalendarScan->openCalendar($tmpquery);
-        $comptListCalendarScan = count($listCalendarScan->cal_id);
+        $listCalendarScan = $calendars->openCalendarDay($idSession, $dateLink, $dayRecurr);
 
         if (($i < $firstday) || ($a == "00")) {
-            echo "<td width='14%' class='even'>&nbsp;</td>";
+            echo "<td  style='width: 14%' class='even'>&nbsp;</td>";
         } else {
             if ($dateLink == $dateToday) {
-                $classCell = "evenassigned";
+                $classCell = "today";
             } else {
                 $classCell = "odd";
             }
 
-            echo "<td width='14%' height='100' align='left' valign='top' class='$classCell' onmouseover=\"this.style.backgroundColor='" . $block2->getHighlightOn() . "'\" onmouseout=\"this.style.backgroundColor='" . $highlightOff . "'\"><div align='right'><h3>$day</h3></div>";
+            echo <<<TD
+<td class="{$classCell}">
+    <div class="calendarDate">$day</div>
+TD;
 
-            if ($comptListCalendarScan != "0") {
-                for ($h = 0; $h < $comptListCalendarScan; $h++) {
-                    if ($listCalendarScan->cal_broadcast[$h] == "1") {
-                        echo "<div align='center' class='calendar-broadcast-event'><a href='$PHP_SELF?dateEnreg=" . $listCalendarScan->cal_id[$h] . "&type=calendDetail&dateCalend=$dateLink' class='calendar-broadcast-todo-event'><b>" . $listCalendarScan->cal_shortname[$h] . "</b></a></div>";
+            if (!empty($listCalendarScan)) {
+                foreach ($listCalendarScan as $item) {
+                    if ($item["cal_broadcast"] == "1") {
+                        echo <<<DIV
+<div class="calendar-broadcast-event"><a href="showcalendar.php?dateEnreg={$item["cal_id"]}&type=calendDetail&dateCalend={$dateLink}" class="calendar-broadcast-todo-event"><b>{$item["cal_shortname"]}</b></a></div>
+DIV;
                     }
                 }
             }
 
-            if ($comptListTasks != "0") {
-                for ($h = 0; $h < $comptListTasks; $h++) {
-                    if ($listTasks->tas_status[$h] == "3" || $listTasks->tas_status[$h] == "2") {
-                        if ($listTasks->tas_start_date[$h] == $dateLink && $listTasks->tas_start_date[$h] != $listTasks->tas_due_date[$h]) {
-                            echo "<b>" . $strings["task"] . "</b>: ";
-                            echo "<a href='../projects_site/teamtaskdetail.php?id=" . $listTasks->tas_id[$h] . "' class='calendar-results-start-date'>" . $listTasks->tas_name[$h] . "</a><br />(" . $listTasks->tas_mem_name[$h] . ")<br /><br />";
+            if ($listTasks) {
+                foreach ($listTasks as $listTask) {
+                    if ($listTask["tas_status"] == "3" || $listTask["tas_status"] == "2") {
+                        if ($listTask["tas_start_date"] == $dateLink && $listTask["tas_start_date"] != $listTask["tas_due_date"]) {
+                            echo <<<ENTRY
+                            <strong>{$strings["task"]}</strong>: 
+                            <a href='../projects_site/teamtaskdetail.php?id={$listTask["tas_id"]}' class='calendar-results-start-date'>{$listTask["tas_name"]}</a><br />({$listTask["tas_mem_name"]})<br /><br />
+ENTRY;
+
                         }
 
-                        if ($listTasks->tas_due_date[$h] == $dateLink && $listTasks->tas_start_date[$h] != $listTasks->tas_due_date[$h]) {
+                        if ($listTask["tas_due_date"] == $dateLink && $listTask["tas_start_date"] != $listTask["tas_due_date"]) {
                             echo "<b>" . $strings["task"] . "</b>: ";
-                            if ($listTasks->tas_due_date[$h] <= $date && $listTasks->tas_completion[$h] != "10") {
-                                echo "<a href='../projects_site/teamtaskdetail.php?id=" . $listTasks->tas_id[$h] . "' class='calendar-results-due-date'><b>" . $listTasks->tas_name[$h] . "</b></a><br />(" . $listTasks->tas_mem_name[$h] . ")<br /><br />";
+                            if ($listTask["tas_due_date"] <= $date && $listTask["tas_completion"] != "10") {
+                                echo "<a href='../projects_site/teamtaskdetail.php?id=" . $listTask["tas_id"] . "' class='calendar-results-due-date'><b>" . $listTask["tas_name"] . "</b></a><br />(" . $listTask["tas_mem_name"] . ")<br /><br />";
                             } else {
-                                echo "<a href='../projects_site/teamtaskdetail.php?id=" . $listTasks->tas_id[$h] . "' class='calendar-results-due-date'>" . $listTasks->tas_name[$h] . "</a><br />(" . $listTasks->tas_mem_name[$h] . ")<br /><br />";
+                                echo "<a href='../projects_site/teamtaskdetail.php?id=" . $listTask["tas_id"] . "' class='calendar-results-due-date'>" . $listTask["tas_name"] . "</a><br />(" . $listTask["tas_mem_name"] . ")<br /><br />";
                             }
                         }
 
-                        if ($listTasks->tas_start_date[$h] == $dateLink && $listTasks->tas_due_date[$h] == $dateLink) {
+                        if ($listTask["tas_start_date"] == $dateLink && $listTask["tas_due_date"] == $dateLink) {
                             echo "<b>" . $strings["task"] . "</b>: ";
 
-                            if ($listTasks->tas_due_date[$h] <= $date && $listTasks->tas_completion[$h] != "10") {
-                                echo "<a href='../projects_site/teamtaskdetail.php?id=" . $listTasks->tas_id[$h] . "' class='calendar-results-due-date'><b>" . $listTasks->tas_name[$h] . "</b></a><br />(" . $listTasks->tas_mem_name[$h] . ")<br /><br />";
+                            if ($listTask["tas_due_date"] <= $date && $listTask["tas_completion"] != "10") {
+                                echo "<a href='../projects_site/teamtaskdetail.php?id=" . $listTask["tas_id"] . "' class='calendar-results-due-date'><b>" . $listTask["tas_name"] . "</b></a><br />(" . $listTask["tas_mem_name"] . ")<br /><br />";
                             } else {
-                                echo "<a href='../projects_site/teamtaskdetail.php?id=" . $listTasks->tas_id[$h] . "' class='calendar-results-due-date'>" . $listTasks->tas_name[$h] . "</a><br />(" . $listTasks->tas_mem_name[$h] . ")<br /><br />";
+                                echo "<a href='../projects_site/teamtaskdetail.php?id=" . $listTask["tas_id"] . "' class='calendar-results-due-date'>" . $listTask["tas_name"] . "</a><br />(" . $listTask["tas_mem_name"] . ")<br /><br />";
                             }
                         }
                     } else {
-                        if ($listTasks->tas_start_date[$h] == $dateLink && $listTasks->tas_start_date[$h] != $listTasks->tas_due_date[$h]) {
+                        if ($listTask["tas_start_date"] == $dateLink && $listTask["tas_start_date"] != $listTask["tas_due_date"]) {
                             echo "<b>" . $strings["task"] . "</b>: ";
-                            echo "<a href='../projects_site/teamtaskdetail.php?id=" . $listTasks->tas_id[$h] . "'>" . $listTasks->tas_name[$h] . "</a><br />(" . $listTasks->tas_mem_name[$h] . ")<br /><br />";
+                            echo "<a href='../projects_site/teamtaskdetail.php?id=" . $listTask["tas_id"] . "'>" . $listTask["tas_name"] . "</a><br />(" . $listTask["tas_mem_name"] . ")<br /><br />";
                         }
 
-                        if ($listTasks->tas_due_date[$h] == $dateLink && $listTasks->tas_start_date[$h] != $listTasks->tas_due_date[$h]) {
+                        if ($listTask["tas_due_date"] == $dateLink && $listTask["tas_start_date"] != $listTask["tas_due_date"]) {
                             echo "<b>" . $strings["task"] . "</b>: ";
-                            if ($listTasks->tas_due_date[$h] <= $date && $listTasks->tas_completion[$h] != "10") {
-                                echo "<a href='../projects_site/teamtaskdetail.php?id=" . $listTasks->tas_id[$h] . "'><b>" . $listTasks->tas_name[$h] . "</b></a><br />(" . $listTasks->tas_mem_name[$h] . ")<br /><br />";
+                            if ($listTask["tas_due_date"] <= $date && $listTask["tas_completion"] != "10") {
+                                echo "<a href='../projects_site/teamtaskdetail.php?id=" . $listTask["tas_id"] . "'><b>" . $listTask["tas_name"] . "</b></a><br />(" . $listTask["tas_mem_name"] . ")<br /><br />";
                             } else {
-                                echo "<a href='../projects_site/teamtaskdetail.php?id=" . $listTasks->tas_id[$h] . "'>" . $listTasks->tas_name[$h] . "</a><br />(" . $listTasks->tas_mem_name[$h] . ")<br /><br />";
+                                echo "<a href='../projects_site/teamtaskdetail.php?id=" . $listTask["tas_id"] . "'>" . $listTask["tas_name"] . "</a><br />(" . $listTask["tas_mem_name"] . ")<br /><br />";
                             }
                         }
 
-                        if ($listTasks->tas_start_date[$h] == $dateLink && $listTasks->tas_due_date[$h] == $dateLink) {
+                        if ($listTask["tas_start_date"] == $dateLink && $listTask["tas_due_date"] == $dateLink) {
                             echo "<b>" . $strings["task"] . "</b>: ";
-                            if ($listTasks->tas_due_date[$h] <= $date && $listTasks->tas_completion[$h] != "10") {
-                                echo "<a href='../projects_site/teamtaskdetail.php?id=" . $listTasks->tas_id[$h] . "'><b>" . $listTasks->tas_name[$h] . "</b></a><br />(" . $listTasks->tas_mem_name[$h] . ")<br /><br />";
+                            if ($listTask["tas_due_date"] <= $date && $listTask["tas_completion"] != "10") {
+                                echo "<a href='../projects_site/teamtaskdetail.php?id=" . $listTask["tas_id"] . "'><b>" . $listTask["tas_name"] . "</b></a><br />(" . $listTask["tas_mem_name"] . ")<br /><br />";
                             } else {
-                                echo "<a href='../projects_site/teamtaskdetail.php?id=" . $listTasks->tas_id[$h] . "'>" . $listTasks->tas_name[$h] . "</a><br />(" . $listTasks->tas_mem_name[$h] . ")<br /><br />";
+                                echo "<a href='../projects_site/teamtaskdetail.php?id=" . $listTask["tas_id"] . "'>" . $listTask["tas_name"] . "</a><br />(" . $listTask["tas_mem_name"] . ")<br /><br />";
                             }
                         }
                     }
                 }
             }
 
-            if ($comptListSubtasks != "0") {
-                for ($h = 0; $h < $comptListSubtasks; $h++) {
-                    if ($listSubtasks->subtas_status[$h] == "3" || $listSubtasks->subtas_status[$h] == "2") {
-                        if ($listSubtasks->subtas_start_date[$h] == $dateLink && $listSubtasks->subtas_start_date[$h] != $listSubtasks->subtas_due_date[$h]) {
+            if ($listSubtasks) {
+                foreach ($listSubtasks as $listSubtask) {
+                    if ($listSubtask["subtas_status"] == "3" || $listSubtask["subtas_status"] == "2") {
+                        if ($listSubtask["subtas_start_date"] == $dateLink && $listSubtask["subtas_start_date"] != $listSubtask["subtas_due_date"]) {
                             echo "<b>" . $strings["subtask"] . "</b>: ";
-                            echo "<a href='../projects_site/teamsubtaskdetail.php?task=" . $listSubtasks->subtas_task[$h] . "&id=" . $listSubtasks->subtas_id[$h] . "' class='calendar-results-start-date'>" . $listSubtasks->subtas_name[$h] . "</a><br />(" . $listSubtasks->subtas_mem_name[$h] . ")<br /><br />";
+                            echo "<a href='../projects_site/teamsubtaskdetail.php?task=" . $listSubtask["subtas_task"] . "&id=" . $listSubtask["subtas_id"] . "' class='calendar-results-start-date'>" . $listSubtask["subtas_name"] . "</a><br />(" . $listSubtask["subtas_mem_name"] . ")<br /><br />";
                         }
 
-                        if ($listSubtasks->subtas_due_date[$h] == $dateLink && $listSubtasks->subtas_start_date[$h] != $listSubtasks->subtas_due_date[$h]) {
+                        if ($listSubtask["subtas_due_date"] == $dateLink && $listSubtask["subtas_start_date"] != $listSubtask["subtas_due_date"]) {
                             echo "<b>" . $strings["subtask"] . "</b>: ";
-                            if ($listSubtasks->subtas_due_date[$h] <= $date && $listSubtasks->subtas_completion[$h] != "10") {
-                                echo "<a href='../projects_site/teamsubtaskdetail.php?task=" . $listSubtasks->subtas_task[$h] . "&id=" . $listSubtasks->subtas_id[$h] . "' class='calendar-results-due-date'><b>" . $listSubtasks->subtas_name[$h] . "</b></a><br />(" . $listSubtasks->subtas_mem_name[$h] . ")<br /><br />";
+                            if ($listSubtask["subtas_due_date"] <= $date && $listSubtask["subtas_completion"] != "10") {
+                                echo "<a href='../projects_site/teamsubtaskdetail.php?task=" . $listSubtask["subtas_task"] . "&id=" . $listSubtask["subtas_id"] . "' class='calendar-results-due-date'><b>" . $listSubtask["subtas_name"] . "</b></a><br />(" . $listSubtask["subtas_mem_name"] . ")<br /><br />";
                             } else {
-                                echo "<a href='../projects_site/teamsubtaskdetail.php?task=" . $listSubtasks->subtas_task[$h] . "&id=" . $listSubtasks->subtas_id[$h] . "' class='calendar-results-due-date'>" . $listSubtasks->subtas_name[$h] . "</a><br />(" . $listSubtasks->subtas_mem_name[$h] . ")<br /><br />";
+                                echo "<a href='../projects_site/teamsubtaskdetail.php?task=" . $listSubtask["subtas_task"] . "&id=" . $listSubtask["subtas_id"] . "' class='calendar-results-due-date'>" . $listSubtask["subtas_name"] . "</a><br />(" . $listSubtask["subtas_mem_name"] . ")<br /><br />";
                             }
                         }
 
-                        if ($listSubtasks->subtas_start_date[$h] == $dateLink && $listSubtasks->subtas_due_date[$h] == $dateLink) {
+                        if ($listSubtask["subtas_start_date"] == $dateLink && $listSubtask["subtas_due_date"] == $dateLink) {
                             echo "<b>" . $strings["subtask"] . "</b>: ";
-                            if ($listSubtasks->subtas_due_date[$h] <= $date && $listSubtasks->subtas_completion[$h] != "10") {
-                                echo "<a href='../projects_site/teamsubtaskdetail.php?task=" . $listSubtasks->subtas_task[$h] . "&id=" . $listSubtasks->subtas_id[$h] . "' class='calendar-results-due-date'><b>" . $listSubtasks->subtas_name[$h] . "</b></a>(<br />" . $listSubtasks->subtas_mem_name[$h] . ")<br /><br />";
+                            if ($listSubtask["subtas_due_date"] <= $date && $listSubtask["subtas_completion"] != "10") {
+                                echo "<a href='../projects_site/teamsubtaskdetail.php?task=" . $listSubtask["subtas_task"] . "&id=" . $listSubtask["subtas_id"] . "' class='calendar-results-due-date'><b>" . $listSubtask["subtas_name"] . "</b></a>(<br />" . $listSubtask["subtas_mem_name"] . ")<br /><br />";
                             } else {
-                                echo "<a href='../projects_site/teamsubtaskdetail.php?task=" . $listSubtasks->subtas_task[$h] . "&id=" . $listSubtasks->subtas_id[$h] . "' class='calendar-results-due-date'>" . $listSubtasks->subtas_name[$h] . "</a><br />(" . $listSubtasks->subtas_mem_name[$h] . ")<br /><br />";
+                                echo "<a href='../projects_site/teamsubtaskdetail.php?task=" . $listSubtask["subtas_task"] . "&id=" . $listSubtask["subtas_id"] . "' class='calendar-results-due-date'>" . $listSubtask["subtas_name"] . "</a><br />(" . $listSubtask["subtas_mem_name"] . ")<br /><br />";
                             }
                         }
                     } else {
-                        if ($listSubtasks->subtas_start_date[$h] == $dateLink && $listSubtasks->subtas_start_date[$h] != $listSubtasks->subtas_due_date[$h]) {
+                        if ($listSubtask["subtas_start_date"] == $dateLink && $listSubtask["subtas_start_date"] != $listSubtask["subtas_due_date"]) {
                             echo "<b>" . $strings["subtask"] . "</b>: ";
-                            echo "<a href='../projects_site/teamsubtaskdetail.php?task=" . $listSubtasks->subtas_task[$h] . "&id=" . $listSubtasks->subtas_id[$h] . "'>" . $listSubtasks->subtas_name[$h] . "</a><br />(" . $listSubtasks->subtas_mem_name[$h] . ")<br /><br />";
+                            echo "<a href='../projects_site/teamsubtaskdetail.php?task=" . $listSubtask["subtas_task"] . "&id=" . $listSubtask["subtas_id"] . "'>" . $listSubtask["subtas_name"] . "</a><br />(" . $listSubtask["subtas_mem_name"] . ")<br /><br />";
                         }
 
-                        if ($listSubtasks->subtas_due_date[$h] == $dateLink && $listSubtasks->subtas_start_date[$h] != $listSubtasks->subtas_due_date[$h]) {
+                        if ($listSubtask["subtas_due_date"] == $dateLink && $listSubtask["subtas_start_date"] != $listSubtask["subtas_due_date"]) {
                             echo "<b>" . $strings["subtask"] . "</b>: ";
-                            if ($listSubtasks->subtas_due_date[$h] <= $date && $listSubtasks->subtas_completion[$h] != "10") {
-                                echo "<a href='../projects_site/teamsubtaskdetail.php?task=" . $listSubtasks->subtas_task[$h] . "&id=" . $listSubtasks->subtas_id[$h] . "'><b>" . $listSubtasks->subtas_name[$h] . "</b></a>(<br />" . $listSubtasks->subtas_mem_name[$h] . ")<br /><br />";
+                            if ($listSubtask["subtas_due_date"] <= $date && $listSubtask["subtas_completion"] != "10") {
+                                echo "<a href='../projects_site/teamsubtaskdetail.php?task=" . $listSubtask["subtas_task"] . "&id=" . $listSubtask["subtas_id"] . "'><b>" . $listSubtask["subtas_name"] . "</b></a>(<br />" . $listSubtask["subtas_mem_name"] . ")<br /><br />";
                             } else {
-                                echo "<a href='../projects_site/teamsubtaskdetail.php?task=" . $listSubtasks->subtas_task[$h] . "&id=" . $listSubtasks->subtas_id[$h] . "'>" . $listSubtasks->subtas_name[$h] . "</a><br />(" . $listSubtasks->subtas_mem_name[$h] . ")<br /><br />";
+                                echo "<a href='../projects_site/teamsubtaskdetail.php?task=" . $listSubtask["subtas_task"] . "&id=" . $listSubtask["subtas_id"] . "'>" . $listSubtask["subtas_name"] . "</a><br />(" . $listSubtask["subtas_mem_name"] . ")<br /><br />";
                             }
                         }
 
-                        if ($listSubtasks->subtas_start_date[$h] == $dateLink && $listSubtasks->subtas_due_date[$h] == $dateLink) {
+                        if ($listSubtask["subtas_start_date"] == $dateLink && $listSubtask["subtas_due_date"] == $dateLink) {
                             echo "<b>" . $strings["subtask"] . "</b>: ";
 
-                            if ($listSubtasks->subtas_due_date[$h] <= $date && $listSubtasks->subtas_completion[$h] != "10") {
-                                echo "<a href='../projects_site/teamsubtaskdetail.php?task=" . $listSubtasks->subtas_task[$h] . "&id=" . $listSubtasks->subtas_id[$h] . "'><b>" . $listSubtasks->subtas_name[$h] . "</b></a><br />(" . $listSubtasks->subtas_mem_name[$h] . ")<br /><br />";
+                            if ($listSubtask["subtas_due_date"] <= $date && $listSubtask["subtas_completion"] != "10") {
+                                echo "<a href='../projects_site/teamsubtaskdetail.php?task=" . $listSubtask["subtas_task"] . "&id=" . $listSubtask["subtas_id"] . "'><b>" . $listSubtask["subtas_name"] . "</b></a><br />(" . $listSubtask["subtas_mem_name"] . ")<br /><br />";
                             } else {
-                                echo "<a href='../projects_site/teamsubtaskdetail.php?task=" . $listSubtasks->subtas_task[$h] . "&id=" . $listSubtasks->subtas_id[$h] . "'>" . $listSubtasks->subtas_name[$h] . "</a><br />(" . $listSubtasks->subtas_mem_name[$h] . ")<br /><br />";
+                                echo "<a href='../projects_site/teamsubtaskdetail.php?task=" . $listSubtask["subtas_task"] . "&id=" . $listSubtask["subtas_id"] . "'>" . $listSubtask["subtas_name"] . "</a><br />(" . $listSubtask["subtas_mem_name"] . ")<br /><br />";
                             }
                         }
                     }
                 }
             }
 
-            if ($comptListTasks == "0" || $comptListSubtasks == "0" || $comptListCalendarScan == "0") {
+            if (count($listTasks) == "0" || count($listSubtasks) == "0" || count($listCalendarScan) == "0") {
                 echo "<br />";
             }
 
@@ -451,21 +494,24 @@ if ($type == "monthPreview") {
     $dateNext = "$nyear-$nmonth-01";
     $dateToday = "$year-$month-$day";
 
-    echo "	<br />
-		<table cellspacing='0' border='0' cellpadding='0' align='right'>
-		<tr>
-			<th align='center'>&nbsp;&nbsp;<a href='$PHP_SELF?dateCalend=$datePast'>" . $strings["previous"] . "</a> | <a href='$PHP_SELF?dateCalend=$dateToday'>" . $strings["today"] . "</a> | <a href='$PHP_SELF?dateCalend=$dateNext'>" . $strings["next"] . "</a>&nbsp;&nbsp;</th>
-		</tr>
+    echo <<<PREV_NEXT_LINKS
+
+		<table class="prev-next-table">
+		    <tr>
+			    <th><a href="showcalendar.php?dateCalend={$datePast}">{$strings["previous"]}</a> | <a href="showcalendar.php?dateCalend={$dateToday}">{$strings["today"]}</a> | <a href="showcalendar.php?dateCalend={$dateNext}">{$strings["next"]}</a></th>
+		    </tr>
 		</table>
-		<br />";
+		<br />
+PREV_NEXT_LINKS;
 
     if ($activeJpgraph == "true" && $gantt == "true") {
-        echo "
-			<div id='ganttChart_taskList' class='ganttChart'>
-				<img src='graphtasks.php?dateCalend=$dateCalend' alt=''><br/>
-				<span class='listEvenBold''>" . $blockPage->buildLink("http://www.aditus.nu/jpgraph/", "JpGraph", powered) . "</span>	
+        $poweredByLink = $block2->buildLink("http://www.aditus.nu/jpgraph/", "JpGraph", "powered");
+        echo <<<JpGraph
+			<div id="ganttChart_taskList" class="ganttChart">
+				<img src="graphtasks.php?dateCalend={$dateCalend}" alt=""><br/>
+				<span class="listEvenBold"">{$poweredByLink}</span>	
 			</div>
-		";
+JpGraph;
     }
 }
 
