@@ -1,7 +1,10 @@
 <?php
 
-$projects = new \phpCollab\Projects\Projects();
-$teams = new \phpCollab\Teams\Teams();
+use phpCollab\Projects\Projects;
+use phpCollab\Teams\Teams;
+
+$projects = new Projects();
+$teams = new Teams();
 
 if ($projectSession != "" && $changeProject != "true") {
     $projectDetail = $projects->getProjectById($projectSession);
@@ -17,8 +20,8 @@ if ($projectSession != "" && $changeProject != "true") {
 $bouton = $GLOBALS['bouton'];
 
 echo <<<HTML
-$setDoctype
-$setCopyright
+{$setDoctype}
+{$setCopyright}
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -40,6 +43,8 @@ echo "</title>\n";
 echo <<<HEAD
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="../themes/{$theme}/css/stylesheet.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
 <script type="text/javascript" src="../javascript/general.js"></script>
 <script type="text/JavaScript" src="../javascript/overlib_mini.js"></script>
 HEAD;
