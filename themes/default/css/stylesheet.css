@@ -368,10 +368,6 @@ hr {
 	height: 150px;
 }
 
-.prev-next-table th {
-	padding: 0 1em;
-	text-align: center;
-}
 
 .calendar-blockout-line td {
 	padding: .5rem;
@@ -397,6 +393,27 @@ hr {
 	float: right;
 }
 
+.prev-next-table th {
+	padding: 0 1em;
+	text-align: center;
+}
+
+.calendar-detail {
+	
+}
+
+.calendar-detail td {
+
+}
+
+.calendar-detail td:first-child {
+	vertical-align: top;
+	width: 20%;
+}
+
+.calendar-detail td:nth-child(1) {
+	width: 80%;
+}
 
 .calendarDate {
 	font-weight: 700;
