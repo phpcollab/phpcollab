@@ -56,6 +56,16 @@ class Calendars
      * @param $calendarId
      * @return mixed
      */
+    public function getCalendarDetail($ownerId, $calendarId)
+    {
+        return $this->calendars_gateway->getCalendarDetail($ownerId, $calendarId);
+    }
+
+    /**
+     * @param $ownerId
+     * @param $calendarId
+     * @return mixed
+     */
     public function openCalendarByOwnerAndId($ownerId, $calendarId)
     {
         $ownerId = filter_var($ownerId, FILTER_VALIDATE_INT);
@@ -114,6 +124,22 @@ class Calendars
         return $calendar;
     }
 
+    /**
+     * @param $owner
+     * @param $subject
+     * @param $description
+     * @param $location
+     * @param $shortname
+     * @param $date_start
+     * @param $date_end
+     * @param $time_start
+     * @param $time_end
+     * @param $reminder
+     * @param $broadcast
+     * @param $recurring
+     * @param $recur_day
+     * @return string
+     */
     public function addCalendarEvent(
         $owner, $subject, $description, $location, $shortname, $date_start, $date_end, $time_start, $time_end,
         $reminder, $broadcast, $recurring, $recur_day
@@ -123,6 +149,22 @@ class Calendars
             $date_start, $date_end, $time_start, $time_end, $reminder, $broadcast, $recurring, $recur_day);
     }
 
+    /**
+     * @param $owner
+     * @param $subject
+     * @param $description
+     * @param $location
+     * @param $shortname
+     * @param $date_start
+     * @param $date_end
+     * @param $time_start
+     * @param $time_end
+     * @param $reminder
+     * @param $broadcast
+     * @param $recurring
+     * @param $recur_day
+     * @return mixed
+     */
     public function editCalendarEvent(
         $owner, $subject, $description, $location, $shortname, $date_start, $date_end, $time_start, $time_end,
         $reminder, $broadcast, $recurring, $recur_day
