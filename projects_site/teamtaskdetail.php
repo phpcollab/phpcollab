@@ -25,7 +25,7 @@ $block1 = new phpCollab\Block();
 
 $block1->heading($strings["team_task_details"]);
 
-echo "<table>";
+echo "<table class='nonStriped'>";
 if ($taskDetail["tas_name"] != "") {
     echo "<tr><td>" . $strings["name"] . " :</td><td>" . $taskDetail["tas_name"] . "</td></tr>";
 }
@@ -52,7 +52,7 @@ if ($taskDetail["tas_start_date"] != "") {
 if ($taskDetail["tas_due_date"] != "") {
     echo "<tr><td>" . $strings["due_date"] . " :</td><td>" . $taskDetail["tas_due_date"] . "</td></tr>";
 }
-echo "<tr><td>" . $strings["updates_task"] . " :</td><td>";
+echo "<tr><td style='vertical-align: top'>" . $strings["updates_task"] . " :</td><td>";
 
 $listUpdates = $updates->getUpdates(1, $id, 'upd.created DESC');
 
