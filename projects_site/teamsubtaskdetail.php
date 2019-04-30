@@ -2,18 +2,20 @@
 #Application name: PhpCollab
 #Status page: 0
 
+use phpCollab\Tasks\Tasks;
+use phpCollab\Updates\Updates;
+
 $checkSession = "true";
 include '../includes/library.php';
 
-$tmpquery = "WHERE subtas.id = '$id'";
-$subtaskDetail = new phpCollab\Request();
-$subtaskDetail->openSubtasks($tmpquery);
+$tasks = new Tasks();
+$updates = new Updates();
 
-$tmpquery = "WHERE tas.id = '$task'";
-$taskDetail = new phpCollab\Request();
-$taskDetail->openTasks($tmpquery);
+$subtaskDetail = $tasks->getSubTaskById($id);
 
-if ($subtaskDetail->subtas_published[0] == "1" || $taskDetail->tas_project[0] != $projectSession) {
+$taskDetail = $tasks->getTaskById($task);
+
+if ($subtaskDetail["subtas_published"] == "1" || $taskDetail["tas_project"] != $projectSession) {
     phpCollab\Util::headerFunction("index.php");
 }
 
@@ -21,51 +23,112 @@ $bouton[2] = "over";
 $titlePage = $strings["team_subtask_details"];
 include 'include_header.php';
 
-echo "<h1 class=\"heading\">" . $strings["team_subtask_details"] . "</h1>";
+echo <<<HEADING
+<h1 class="heading">{$strings["team_subtask_details"]}</h1>;
+HEADING;
 
-echo "<table cellspacing=\"0\" cellpadding=\"3\">";
-if ($taskDetail->tas_name[0] != "") {
-    echo "<tr><td>" . $strings["task"] . " :</td><td><a href=\"teamtaskdetail.php?id=" . $taskDetail->tas_id[0] . "\">" . $taskDetail->tas_name[0] . "</a></td></tr>";
+echo '<table class="nonStriped">';
+if ($taskDetail["tas_name"] != "") {
+    echo <<<TR
+        <tr>
+            <td>{$strings["task"]} :</td>
+            <td><a href="teamtaskdetail.php?id={$taskDetail["tas_id"]}">{$taskDetail["tas_name"]}</a></td>
+        </tr>
+TR;
 }
-if ($subtaskDetail->subtas_name[0] != "") {
-    echo "<tr><td>" . $strings["name"] . " :</td><td>" . $subtaskDetail->subtas_name[0] . "</td></tr>";
-}
-if ($subtaskDetail->subtas_description[0] != "") {
-    echo "<tr><td valign=\"top\">" . $strings["description"] . " :</td><td>" . nl2br($subtaskDetail->subtas_description[0]) . "</td></tr>";
-}
-$complValue = ($subtaskDetail->subtas_completion[0] > 0) ? $subtaskDetail->subtas_completion[0] . "0 %" : $subtaskDetail->subtas_completion[0] . " %";
-echo "<tr><td>" . $strings["completion"] . " :</td><td>" . $complValue . "</td></tr>";
-if ($subtaskDetail->subtas_assigned_to[0] != "0") {
-    echo "<tr><td>" . $strings["assigned_to"] . " :</td><td>" . $subtaskDetail->subtas_mem_name[0] . "</td></tr>";
-}
-if ($subtaskDetail->subtas_comments[0] != "") {
-    echo "<tr><td>" . $strings["comments"] . " :</td><td>" . $subtaskDetail->subtas_comments[0] . "</td></tr>";
-}
-if ($subtaskDetail->subtas_start_date[0] != "") {
-    echo "<tr><td>" . $strings["start_date"] . " :</td><td>" . $subtaskDetail->subtas_start_date[0] . "</td></tr>";
-}
-if ($subtaskDetail->subtas_due_date[0] != "") {
-    echo "<tr><td>" . $strings["due_date"] . " :</td><td>" . $subtaskDetail->subtas_due_date[0] . "</td></tr>";
-}
-echo "<tr><td>" . $strings["updates_subtask"] . " :</td><td>";
-$tmpquery = "WHERE upd.type='2' AND upd.item = '$id' ORDER BY upd.created DESC";
-$listUpdates = new phpCollab\Request();
-$listUpdates->openUpdates($tmpquery);
-$comptListUpdates = count($listUpdates->upd_id);
 
-if ($comptListUpdates != "0") {
+if ($subtaskDetail["subtas_name"] != "") {
+    echo <<<TR
+        <tr>
+            <td>{$strings["name"]} :</td>
+            <td>{$subtaskDetail["subtas_name"]}</td>
+        </tr>
+TR;
+}
+
+if ($subtaskDetail["subtas_description"] != "") {
+    $subtaskDescription = nl2br($subtaskDetail["subtas_description"]);
+    echo <<<TR
+        <tr>
+            <td style="vertical-align: top">{$strings["description"]} :</td>
+            <td>$subtaskDescription</td>
+        </tr>
+TR;
+}
+
+$complValue = ($subtaskDetail["subtas_completion"] > 0) ? $subtaskDetail["subtas_completion"] . "0 %" : $subtaskDetail["subtas_completion"] . " %";
+
+echo <<<TR
+        <tr>
+            <td>{$strings["completion"]} :</td>
+            <td>{$complValue}</td>
+        </tr>
+TR;
+
+if ($subtaskDetail["subtas_assigned_to"] != "0") {
+    echo <<<TR
+        <tr>
+            <td>{$strings["assigned_to"]} :</td>
+            <td>{$subtaskDetail["subtas_mem_name"]}</td>
+        </tr>
+TR;
+}
+
+if ($subtaskDetail["subtas_comments"] != "") {
+    echo <<<TR
+        <tr>
+            <td>{$strings["comments"]} :</td>
+            <td>{$subtaskDetail["subtas_comments"]}</td>
+        </tr>
+TR;
+}
+
+if ($subtaskDetail["subtas_start_date"] != "") {
+    echo <<<TR
+        <tr>
+            <td>{$strings["start_date"]} :</td>
+            <td>{$subtaskDetail["subtas_start_date"]}</td>
+        </tr>
+TR;
+}
+
+if ($subtaskDetail["subtas_due_date"] != "") {
+    echo <<<TR
+        <tr>
+            <td>{$strings["due_date"]} :</td>
+            <td>{$subtaskDetail["subtas_due_date"]}</td>
+        </tr>
+TR;
+}
+
+echo <<<TR
+        <tr>
+            <td>{$strings["updates_subtask"]} :</td>
+            <td>
+TR;
+
+$listUpdates = $updates->getUpdates(2, $id);
+
+if ($listUpdates) {
     $j = 1;
-    for ($i = 0; $i < $comptListUpdates; $i++) {
-        echo "<b>" . $j . ".</b> <i>" . phpCollab\Util::createDate($listUpdates->upd_created[$i], $timezoneSession) . "</i><br/>" . nl2br($listUpdates->upd_comments[$i]);
-        echo "<br/>";
+    foreach ($listUpdates as $update) {
+        $updateComments = nl2br($update["upd_comments"]);
+        $updateCreatedDate = phpCollab\Util::createDate($update["upd_created"], $timezoneSession);
+        echo <<<UPDATE
+                <b>{$j}</b> <i>{$updateCreatedDate}</i><br/> {$updateComments}
+                <br/>
+UPDATE;
         $j++;
     }
 } else {
     echo $strings["no_items"];
 }
 
-echo "</td></tr>
-</table>
-<hr>";
+echo <<<CLOSE_TABLE
+            </td>
+        </tr>
+    </table>
+    <hr>
+CLOSE_TABLE;
 
 include("include_footer.php");
