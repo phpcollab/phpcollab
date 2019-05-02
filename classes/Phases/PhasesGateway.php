@@ -98,6 +98,25 @@ class PhasesGateway
     }
 
     /**
+     * @param $phaseId
+     * @param $status
+     * @param $startDate
+     * @param $endDate
+     * @param $comments
+     * @return mixed
+     */
+    public function updatePhase($phaseId, $status, $startDate, $endDate, $comments)
+    {
+        $query = "UPDATE {$this->tableCollab["phases"]} SET status = :status, date_start = :date_start, date_end = :date_end, comments = :comments WHERE id = :phase_id";
+        $this->db->query($query);
+        $this->db->bind(":phase_id", $phaseId);
+        $this->db->bind(":status", $status);
+        $this->db->bind(":date_start", $startDate);
+        $this->db->bind(":date_end", $endDate);
+        $this->db->bind(":comments", $comments);
+        return $this->db->execute();
+    }
+    /**
      * @param $sorting
      * @return string
      */

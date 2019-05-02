@@ -80,4 +80,17 @@ class Phases
         return $this->phases_gateway->deletePhasesByProjectId($projectIds);
     }
 
+    /**
+     * @param $phaseId
+     * @param $status
+     * @param $startDate
+     * @param $endDate
+     * @param $comments
+     * @return mixed
+     */
+    public function updatePhase($phaseId, $status, $startDate, $endDate, $comments)
+    {
+        return $this->phases_gateway->updatePhase($phaseId, $status, $startDate, $endDate, $comments);
+    }
+
 }
