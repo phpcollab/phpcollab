@@ -2,11 +2,14 @@
 #Application name: PhpCollab
 #Status page: 0
 
+use phpCollab\Projects\Projects;
+use phpCollab\Tasks\Tasks;
+
 $checkSession = "true";
 include '../includes/library.php';
 
-$tasks = new \phpCollab\Tasks\Tasks();
-$projects = new \phpCollab\Projects\Projects();
+$tasks = new Tasks();
+$projects = new Projects();
 
 include '../includes/jpgraph/jpgraph.php';
 include '../includes/jpgraph/jpgraph_gantt.php';

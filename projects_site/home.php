@@ -1,11 +1,15 @@
 <?php
 
+use phpCollab\Organizations\Organizations;
+use phpCollab\Projects\Projects;
+use phpCollab\Teams\Teams;
+
 $checkSession = "true";
 include '../includes/library.php';
 
-$teams = new \phpCollab\Teams\Teams();
-$organizations = new \phpCollab\Organizations\Organizations();
-$projects = new \phpCollab\Projects\Projects();
+$teams = new Teams();
+$organizations = new Organizations();
+$projects = new Projects();
 
 $updateProject = $_GET["updateProject"];
 $changeProject = $_GET["changeProject"];
@@ -54,7 +58,7 @@ if ($projectSession == "" || $changeProject == "true") {
 
     if ($listProjects) {
         echo <<<TABLE
-        <table cellspacing='0' width='90%' border='0' cellpadding='3' class='listing'>
+        <table style="width: 90%" class="listing striped">
             <tr>
                 <th class="active">{$strings["name"]}</th>
                 <th>{$strings["organization"]}</th>
@@ -64,20 +68,12 @@ if ($projectSession == "" || $changeProject == "true") {
 TABLE;
 
         foreach ($listProjects as $project) {
-            if (!($i % 2)) {
-                $class = "odd";
-                $highlightOff = $block1->getHighlightOff();
-            } else {
-                $class = "even";
-                $highlightOff = $block1->getHighlightOff();
-            }
-
             $idStatus = $project["tea_pro_status"];
             $idPriority = $project["tea_pro_priority"];
             
             echo <<<TR
-            <tr class="{$class}" onmouseover="this.style.backgroundColor='{$block1->getHighlightOn()}'" onmouseout="this.style.backgroundColor='{$highlightOff}'">
-                <td width="30%"><a href="home.php?updateProject=true&project={$project["tea_pro_id"]}">{$project["tea_pro_name"]}</a></td>
+            <tr>
+                <td style="width: 30%"><a href="home.php?updateProject=true&project={$project["tea_pro_id"]}">{$project["tea_pro_name"]}</a></td>
                 <td>{$project["tea_org2_name"]}</td>
                 <td>{$priority[$idPriority]}</td>
                 <td>{$status[$idStatus]}</td>
@@ -88,32 +84,30 @@ TR;
         echo "	</table>
 				<hr />\n";
     } else {
-        echo <<<TABLE
-        <table cellspacing="0" border="0" cellpadding="2">
-            <tr>
-                <td colspan="4" class="listOddBold">{$strings["no_items"]}</td>
-            </tr>
-        </table>
+        echo <<<NO_RESULTS
+        <div class="no-records">
+            {$strings["no_items"]}
+        </div>
         <hr />
-TABLE;
+NO_RESULTS;
     }
 }
 
 if ($projectSession != "" && $changeProject != "true") {
     if (file_exists("../logos_clients/" . $clientDetail["org_id"] . "." . $clientDetail["org_extension_logo"])) {
         $image = $clientDetail["org_id"] . '.' . $clientDetail["org_extension_logo"];
-        echo '<img src="../logos_clients/' . $image . '"><br/><br/>';
+        echo '<img alt="" src="../logos_clients/' . $image . '"><br/><br/>';
     }
 
     $pro_description = nl2br($projectDetail["pro_description"]);
     echo <<<TABLE
-        <table cellpadding="0" cellspacing="0" border="0">
+        <table class="nonStriped">
             <tr>
                 <th nowrap class="FormLabel">{$strings["project"]} :</th>
                 <td>&nbsp;{$projectDetail["pro_name"]}</td>
             </tr>
             <tr>
-                <th nowrap class="FormLabel" valign="top">{$strings["description"]} : </th>
+                <th nowrap class="FormLabel" style="vertical-align: top">{$strings["description"]} : </th>
                 <td>&nbsp;{$pro_description}</td>
             </tr>
             <tr>
@@ -128,7 +122,7 @@ TABLE;
 
     //Dispaly project active phase
     if ($projectDetail["pro_phase_set"] != "0") {
-        echo "	<tr><th nowrap valign='top' class='FormLabel'>" . $strings["current_phase"] . " :</td><td>";
+        echo "	<tr><th nowrap style='vertical-align: top' class='FormLabel'>" . $strings["current_phase"] . " :</td><td>";
 
         $currentPhase = $phases->getPhasesByProjectIdAndIsCompleted($projectDetail["pro_id"]);
         $comptCurrentPhase = count($currentPhase);

@@ -1,11 +1,15 @@
 <?php
 
+use phpCollab\Calendars\Calendars;
+use phpCollab\Projects\Projects;
+use phpCollab\Tasks\Tasks;
+
 $checkSession = "true";
 include '../includes/library.php';
 
-$tasks = new \phpCollab\Tasks\Tasks();
-$calendars = new \phpCollab\Calendars\Calendars();
-$projects = new \phpCollab\Projects\Projects();
+$tasks = new Tasks();
+$calendars = new Calendars();
+$projects = new Projects();
 
 include '../includes/jpgraph/jpgraph.php';
 include '../includes/jpgraph/jpgraph_gantt.php';

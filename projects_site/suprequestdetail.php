@@ -1,9 +1,13 @@
 <?php
+
+use phpCollab\Members\Members;
+use phpCollab\Support\Support;
+
 $checkSession = "true";
 include '../includes/library.php';
 
-$support = new \phpCollab\Support\Support();
-$members = new \phpCollab\Members\Members();
+$support = new Support();
+$members = new Members();
 
 $id = $_GET["id"];
 $idSession = $_SESSION["idSession"];
@@ -28,7 +32,7 @@ $bouton[6] = "over";
 $titlePage = $strings["support"];
 include 'include_header.php';
 
-echo "<table cellspacing='0' width='90%' cellpadding='3'><tr><th colspan='4'>" . $strings["information"] . ":</th></tr>";
+echo "<table style='width: 90%' class='nonStriped'><tr><th colspan='4'>" . $strings["information"] . ":</th></tr>";
 
 $comptSupStatus = count($requestStatus);
 for ($i = 0; $i < $comptSupStatus; $i++) {
@@ -83,7 +87,7 @@ echo <<<HTML
     <th colspan="4">{$strings["responses"]}:</th>
 </tr>
 <tr>
-    <td colspan="4" align="right"><a href="addsupportpost.php?id={$id}" class="FooterCell">{$strings["add_support_response"]}</a></td>
+    <td colspan="4" style="text-align: right"><a href="addsupportpost.php?id={$id}" class="FooterCell">{$strings["add_support_response"]}</a></td>
 </tr>
 HTML;
 

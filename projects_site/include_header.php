@@ -22,7 +22,8 @@ $bouton = $GLOBALS['bouton'];
 echo <<<HTML
 {$setDoctype}
 {$setCopyright}
-<html>
+<!doctype html>
+<html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="robots" content="none">
@@ -38,7 +39,7 @@ if ($projectSession == "" || $changeProject == "true") {
     echo $strings["my_projects"];
 }
 
-echo "</title>\n";
+echo "</title>";
 
 echo <<<HEAD
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -53,27 +54,23 @@ if ($includeCalendar && $includeCalendar === true) {
     include '../includes/calendar.php';
 }
 
+$theme = THEME;
+
 echo <<<HTML
 </head>
 <body {$bodyCommand}>
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
 
-<table cellpadding="0" cellspacing="0" border="0" width="100%" style="background: url(bg_header.jpg)">
+<div id="topBar"></div>
+
+<table style="height: 95%; width: 100%" class="nonStriped">
     <tr>
-        <td align="left"><img src="spacer_black.gif" width="1" height="24" border="0" alt=""></td>
-        <td align="right"><img src="spacer_black.gif" width="1" height="24" border="0" alt=""></td>
-    </tr>
-</table>
-<table cellpadding="0" cellspacing="0" border="0" style="height: 95%;" width="100%">
-    <tr>
-HTML;
-echo '        <td valign="middle" width="150" bgcolor="#5B7F93" height="75"><img src="../themes/'.THEME.'/images/spacer.gif" width="150" height="75" alt=""></td>';
-echo <<< HTML
-        <td bgcolor="#EFEFEF" height="75">&nbsp;&nbsp;&nbsp;<b>{$titlePage}</b></td>
+        <td id="logoBox" ></td>
+        <td id="pageTitle">{$titlePage}</td>
     </tr>
     <tr>
-        <td valign="top" bgcolor="#C4D3DB"><br/>
-            <table cellspacing="2" cellpadding="3" border="0">
+        <td style="vertical-align: top; background-color: #C4D3DB;"><br/>
+            <table class="nonStriped">
 HTML;
 
 for ($i = 0; $i < 7; $i++) {
@@ -83,58 +80,108 @@ for ($i = 0; $i < 7; $i++) {
 }
 
 if ($projectSession != "" && $changeProject != "true") {
-    echo "<tr><td colspan='2'><b>" . $strings["project"] . " :<br/>" . $projectDetail["pro_name"] . "</b></td></tr>
-	<tr><td><img src='ico_arrow_" . $bouton[0] . ".gif' border='0' alt=''></td><td><a href='home.php'>" . $strings["home"] . "</a></td></tr>
-	<tr><td><img src='ico_arrow_" . $bouton[1] . ".gif' border='0' alt=''></td><td><a href='showallcontacts.php'>" . $strings["project_team"] . "</a></td></tr>
-	<tr><td><img src='ico_arrow_" . $bouton[2] . ".gif' border='0' alt=''></td><td><a href='showallteamtasks.php'>" . $strings["team_tasks"] . "</a></td></tr>";
-
+    echo <<<HTML
+                <tr>
+                    <td colspan="2"><b>{$strings["project"]} :<br/>{$projectDetail["pro_name"]}</b></td>
+                </tr>
+                <tr>
+                    <td><img src="ico_arrow_{$bouton[0]}.gif" alt=""></td>
+                    <td><a href="home.php">{$strings["home"]}</a></td>
+                </tr>
+                <tr>
+                    <td><img src="ico_arrow_{$bouton[1]}.gif" alt=""></td>
+                    <td><a href="showallcontacts.php">{$strings["project_team"]}</a></td>
+                </tr>
+                <tr>
+                    <td><img src="ico_arrow_{$bouton[2]}.gif" alt=""></td>
+                    <td><a href="showallteamtasks.php">{$strings["team_tasks"]}</a></td>
+                </tr>
+HTML;
     if ($projectDetail["pro_organization"] != "" && $projectDetail["pro_organization"] != "1") {
-        echo "<tr><td><img src='ico_arrow_" . $bouton[3] . ".gif' border='0' alt=''></td><td><a href='showallclienttasks.php'>" . $strings["client_tasks"] . "</a></td></tr>";
+        echo <<<TR
+                <tr>
+                    <td><img src="ico_arrow_{$bouton[3]}.gif" alt=""></td>
+                    <td><a href="showallclienttasks.php">{$strings["client_tasks"]}</a></td>
+                </tr>
+TR;
     }
 
     if ($fileManagement == "true") {
-        echo "<tr><td><img src='ico_arrow_" . $bouton[4] . ".gif' border='0' alt=''></td><td><a href='doclists.php'>" . $strings["document_list"] . "</a></td></tr>";
+        echo <<<TR
+                <tr>
+                    <td><img src="ico_arrow_{$bouton[4]}.gif" alt=""></td>
+                    <td><a href="doclists.php">{$strings["document_list"]}</a></td>
+                </tr>
+TR;
     }
 
-    echo "<tr><td><img src='ico_arrow_" . $bouton[5] . ".gif' border='0' alt=''></td><td><a href='showallthreadtopics.php'>" . $strings["bulletin_board"] . "</a></td></tr>";
-    echo "<tr><td><img src='ico_arrow_" . $bouton[6] . ".gif' border='0' alt=''></td><td><a href='showcalendar.php'>" . $strings["calendar"] . "</a></td></tr>";
+    echo <<<TR
+                <tr>
+                    <td><img src="ico_arrow_{$bouton[5]}.gif" alt=""></td>
+                    <td><a href="showallthreadtopics.php">{$strings["bulletin_board"]}</a></td>
+                </tr>
+                <tr>
+                    <td><img src="ico_arrow_{$bouton[6]}.gif" alt=""></td>
+                    <td><a href="showcalendar.php">{$strings["calendar"]}</a></td>
+                </tr>
+TR;
+
 
     if ($enableHelpSupport == "true") {
-        echo "<tr><td><img src='ico_arrow_" . $bouton[6] . ".gif' border='0' alt=''></td><td><a href='showallsupport.php?project=$projectSession'>" . $strings["support"] . "</a></td></tr>";
+        echo <<<TR
+                <tr>
+                    <td><img src="ico_arrow_{$bouton[6]}.gif" alt=""></td>
+                    <td><a href="showallsupport.php?project=$projectSession">{$strings["support"]}</a></td>
+                </tr>
+TR;
     }
 
     //if mantis bug tracker enabled
     if ($enableMantis == "true") {
-        include 'navigation.php';
-        echo "<tr><td><img src='ico_arrow_" . $bouton[6] . ".gif' border='0' alt=''></td><td><a href='javascript:onClick= document.login.submit();'>" . $strings["bug"] . "</a></td></tr></form>";
+        include "navigation.php";
+        echo <<<TR
+                <tr>
+                    <td><img src="ico_arrow_{$bouton[6]}.gif" alt=""></td><td><a href="javascript:onClick= document.login.submit();">{$strings["bug"]}</a></td>
+                </tr>
+                </form>
+TR;
     }
 
-    echo "</table>
-	<br/><hr>";
+    echo "</table><br/><hr>";
 }
 
 echo <<<sidebar
-	<table cellspacing="2" cellpadding="3" border="0">
+	<table class="nonStriped">
 		<tr>
-			<td><a href="home.php?changeProject=true"><img src="ico_folder.gif" border="0" alt=""></a></td>
+			<td><a href="home.php?changeProject=true"><i class="fas fa-folder"></i></a></td>
 			<td><a href="home.php?changeProject=true">{$strings["my_projects"]}</a></td>
 		</tr>
 		<tr><td colspan="2"><br/></td></tr>
 		<tr>
-			<td><a href="changepassword.php?changeProject=true"><img src="ico_prefs.gif" border="0" alt=""></a></td>
+			<td><a href="changepassword.php?changeProject=true"><img src="ico_prefs.gif" alt=""></a></td>
 			<td><a href="changepassword.php?changeProject=true">{$strings["preferences"]}</a></td>
 		</tr>
 		<tr><td colspan="2"><br/></td></tr>
 sidebar;
 
-if ($profilSession != '3') {
-    echo "<tr><td><a href='../general/home.php'><img src='ico_folder.gif' border='0' alt='0'></a></td><td><a href='../general/home.php'>Team Site</a></td></tr><tr><td colspan=2><br/></td></tr>";
+if ($profilSession != "3") {
+    echo <<<TR
+        <tr>
+            <td><a href="../general/home.php"><img src="ico_folder.gif" alt="0"></a></td>
+            <td><a href="../general/home.php">Team Site</a></td></tr><tr><td colspan=2><br/></td>
+        </tr>
+TR;
 }
 
-echo "<tr><td><a href='../general/login.php?logout=true'><img src='ico_logout.gif' border='0' alt=''></a></td><td><a href='../general/login.php?logout=true'>" . $strings["logout"] . "</a></td></tr>
-</table>
-
+echo <<<HTML
+        <tr>
+            <td><a href="../general/login.php?logout=true"><img src="ico_logout.gif" alt=""></a></td>
+            <td><a href="../general/login.php?logout=true">{$strings["logout"]}</a></td>
+        </tr>
+    </table>
 </td>
-<td valign='top' width='100%'>
-
-<table cellpadding='20' cellspacing='0' border='0' width='100%'><tr><td width='100%'>";
+<td style="vertical-align: top; width: 100%">
+    <table style="width: 100%" class="nonStriped">
+        <tr>
+            <td style="width: 100%">
+HTML;
