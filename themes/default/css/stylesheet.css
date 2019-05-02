@@ -506,3 +506,44 @@ a[href^="mailto:"]::after {
 	margin-left: .5em;
 	display:inline-block;
 }
+
+
+/*
+	Project Site Specific Styles
+ */
+#topBar {
+	background: #c2d3dd;
+	background: -moz-linear-gradient(top, #c2d3dd 0%, #769fb1 100%);
+	background: -webkit-linear-gradient(top, #c2d3dd 0%,#769fb1 100%);
+	background: linear-gradient(to bottom, #c2d3dd 0%,#769fb1 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c2d3dd', endColorstr='#769fb1',GradientType=0 );
+	border: 1px solid #000;
+	height: 24px;
+}
+
+#logoBox {
+	vertical-align: middle;
+	min-width: 150px;
+	background-color: #5B7F93;
+	height: 75px;
+}
+
+#pagetitle {
+	background-color: #efefef;
+	font-weight: bold;
+	padding-left: 2rem;
+}
+
+#sidebar {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+#sidebar li {
+	margin-bottom: 2rem;
+	padding-left: .5rem;
+}
+#sidebar li i {
+	margin-right: 1rem;
+}
