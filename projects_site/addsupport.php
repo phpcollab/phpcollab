@@ -51,7 +51,7 @@ echo <<<STARTFORM
 STARTFORM;
 
 echo <<<TABLE
-<table cellspacing="0" width="90%" border="0" cellpadding="3">
+<table style="width: 90%" class="nonStriped">
     <tr><th colspan="2">{$strings["add_support_request"]}</th></tr>
     <tr>
         <th>{$strings["priority"]} :</th>
