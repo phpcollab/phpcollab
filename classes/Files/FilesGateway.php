@@ -378,7 +378,8 @@ SQL;
         if (!is_null($vc_version)) {
             $query .= ", vc_version = :vc_version";
         }
-        $query .= "WHERE id  = :file_id";
+        $query .= " WHERE id  = :file_id";
+
         $this->db->query($query);
         $this->db->bind(":file_id", $fileId);
         $this->db->bind(":name", $name);
