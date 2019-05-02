@@ -27,82 +27,108 @@
 ** =============================================================================
 */
 
+use phpCollab\Files\Files;
+use phpCollab\Notifications\Notifications;
+use phpCollab\Projects\Projects;
+use phpCollab\Teams\Teams;
+
 $checkSession = "true";
 include '../includes/library.php';
 
-if ($action == "add") {
-    $filename = phpCollab\Util::checkFileName($_FILES['upload']['name']);
+$projects = new Projects();
 
-    if ($maxCustom != "") {
-        $maxFileSize = $maxCustom;
-    }
+$projectDetail = $projects->getProjectById($projectSession);
 
-    if ($_FILES['upload']['size'] != 0) {
-        $taille_ko = $_FILES['upload']['size'] / 1024;
-    } else {
-        $taille_ko = 0;
-    }
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($_POST["action"] == "add") {
 
-    if ($filename == "") {
-        $error .= $strings["no_file"] . "<br/>";
-    }
+        $files = new Files();
+        $teams = new Teams();
+        $notification = new Notifications();
 
-    if ($_FILES['upload']['size'] > $maxFileSize) {
-        if ($maxFileSize != 0) {
-            $taille_max_ko = $maxFileSize / 1024;
-        }
-        $error .= $strings["exceed_size"] . " ($taille_max_ko $byteUnits[1])<br/>";
-    }
+        // Clean the filename of spaces, slashes, etc
+        $filename = phpCollab\Util::checkFileName($_FILES['upload']['name']);
 
-    $extension = strtolower(substr(strrchr($filename, "."), 1));
-
-    if ($allowPhp == "false") {
-        $send = "";
-        if ($filename != "" && ($extension == "php" || $extension == "php3" || $extension == "phtml")) {
-            $error .= $strings["no_php"] . "<br/>";
-            $send = "false";
-        }
-    }
-
-    if ($filename != "" && $_FILES['upload']['size'] < $maxFileSize && $_FILES['upload']['size'] != 0 && $send != "false") {
-        $docopy = "true";
-    }
-
-    if ($docopy == "true") {
-        $commentsField = phpCollab\Util::convertData($commentsField);
-        $insertFilesSql = "INSERT INTO {$tableCollab["files"]} (owner,project,task,comments,upload,published,status,vc_version,vc_parent,phase) VALUES (:owner,:project,:task,:comments,:upload,:published,:status,:vc_version,:vc_parent,:phase)";
-        $filesData["owner"] = $idSession;
-        $filesData["project"] = $projectSession;
-        $filesData["task"] = 0;
-        $filesData["comments"] = $commentsField;
-        $filesData["upload"] = $dateheure;
-        $filesData["published"] = 0;
-        $filesData["status"] = 2;
-        $filesData["vc_version"] = '0.0';
-        $filesData["vc_parent"] = 0;
-        $filesData["phase"] = 0;
-        $num = phpCollab\Util::newConnectSql($insertFilesSql, $filesData);
-        unset($filesData);
-
-        if ($notifications == "true") {
-            include '../projects_site/noti_uploadfile.php';
+        // Check to see if the custom maximum file size is set, and if so use it.
+        if (!empty($_POST["maxCustom"])) {
+            $maxFileSize = $_POST["maxCustom"];
         }
 
-        phpCollab\Util::uploadFile("files/$project", $_FILES['upload']['tmp_name'], "$num--" . $filename);
+        if ($_FILES['upload']['size'] != 0) {
+            $taille_ko = $_FILES['upload']['size'] / 1024;
+        } else {
+            $taille_ko = 0;
+        }
 
-        $size = phpCollab\Util::fileInfoSize("../files/" . $project . "/" . $num . "--" . $filename);
+        if (empty($filename)) {
+            $error .= $strings["no_file"] . "<br/>";
+        }
 
-        $chaine = strrev("../files/" . $project . "/" . $num . "--" . $filename);
-        $tab = explode(".", $chaine);
-        $extension = strtolower(strrev($tab[0]));
 
-        $name = $num . "--" . $filename;
+        if ($_FILES['upload']['size'] > $maxFileSize) {
+            if ($maxFileSize != 0) {
+                $taille_max_ko = $maxFileSize / 1024;
+            }
+            $error .= $strings["exceed_size"] . " ($taille_max_ko $byteUnits[1])<br/>";
+        }
 
-        phpCollab\Util::newConnectSql(
-            "UPDATE {$tableCollab["files"]} SET name=:name,date=:dateheure,size=:size,extension=:extension WHERE id = :id",
-            ["name" => $name,"date" => $dateheure,"size" => $size,"extension" => $extension,"id" => $num]
-        );
-        phpCollab\Util::headerFunction("doclists.php");
+        $extension = strtolower(substr(strrchr($filename, "."), 1));
+
+        if ($allowPhp == "false") {
+            $send = "";
+            if ($filename != "" && ($extension == "php" || $extension == "php3" || $extension == "phtml")) {
+                $error .= $strings["no_php"] . "<br/>";
+                $send = "false";
+            }
+        }
+
+        if ($filename != "" && $_FILES['upload']['size'] < $maxFileSize && $_FILES['upload']['size'] != 0 && $send != "false") {
+            $docopy = "true";
+        }
+
+        if ($docopy == "true") {
+            $commentsField = phpCollab\Util::convertData($_POST["commentsField"]);
+
+            $newFileId = $files->addFile($idSession, $projectSession, 0, 0, $commentsField, 2, 0.0, 0);
+
+            phpCollab\Util::uploadFile("files/$projectSession", $_FILES['upload']['tmp_name'], "$newFileId--" . $filename);
+
+            $size = phpCollab\Util::fileInfoSize("../files/" . $projectSession . "/" . $newFileId . "--" . $filename);
+
+            $chaine = strrev("../files/" . $projectSession . "/" . $newFileId . "--" . $filename);
+            $tab = explode(".", $chaine);
+
+            $size = phpCollab\Util::fileInfoSize("../files/" . $projectSession . "/" . $newFileId . "--" . $filename);
+
+            $newFileName = $newFileId . "--" . $filename;
+
+            $fileDetails = $files->updateFile($newFileId, $newFileName, date('Y-m-d h:i'), $size, $extension);
+
+            if ($notifications == "true") {
+                try {
+                    // Get a list of notification team members
+                    $teamList = $teams->getTeamByProjectId($projectSession);
+
+                    $key = array_search($idSession, array_column($teamList, 'tea_mem_id'));
+
+                    // Remove the current user from the TeamList
+                    unset($teamList[$key]);
+
+                    foreach ($teamList as $item) {
+                        $userNotificationFlags = $notification->getMemberNotifications($item['tea_mem_id']);
+
+                        if ($userNotificationFlags) {
+                            $files->sendFileUploadedNotification($fileDetails, $projectDetail, $userNotificationFlags, $idSession, $nameSession, $loginSession);
+                        }
+                    }
+                } catch (Exception $e) {
+                    echo 'Message could not be sent. Mailer Error: ', $e->getMessage();
+                    die();
+                }
+            }
+
+            phpCollab\Util::headerFunction("doclists.php");
+        }
     }
 }
 
@@ -110,31 +136,35 @@ $bouton[4] = "over";
 $titlePage = $strings["upload_file"];
 include 'include_header.php';
 
-echo "
-	<form accept-charset='UNKNOWN' method='POST' action='../projects_site/uploadfile.php?action=add&project=$projectSession&task=$task#filedetailsAnchor' name='feeedback' enctype='multipart/form-data'>
-		<input type='hidden' name='MAX_FILE_SIZE' value='100000000'>
-		<input type='hidden' name='maxCustom' value='" . $projectDetail->pro_upload_max[0] . "'>
-	
-		<table cellpadding='3' cellspacing='0' border='0'>
-		<tr>
-			<th colspan='2'>" . $strings["upload_form"] . "</th>
-		</tr>
+echo <<<FORM
+    <form method="POST" action="../projects_site/uploadfile.php" name="feeedback" enctype="multipart/form-data">
+        <input type="hidden" name="MAX_FILE_SIZE" value="100000000">
+        <input type="hidden" name="action" value="add">
+        <input type="hidden" name="project_id" value="{$projectSession}">
+        <input type="hidden" name="task_id" value="{$task}">
+        <input type="hidden" name="maxCustom" value="{$projectDetail["pro_upload_max"]}">
+    
+        <table class="nonStriped">
+        <tr>
+            <th colspan="2">{$strings["upload_form"]}</th>
+        </tr>
 
-		<tr>
-			<th>" . $strings["comments"] . " :</th>
-			<td><textarea cols='60' name='commentsField' rows='6'>$commentsField</textarea></td>
-		</tr>
+        <tr>
+            <th style="vertical-align: top">{$strings["comments"]} :</th>
+            <td><textarea cols="60" name="commentsField" rows="6">{$_POST["commentsField"]}</textarea></td>
+        </tr>
 
-		<tr>
-			<th>" . $strings["upload"] . " :</th>
-			<td><input size='35' value='' name='upload' type='file'></td>
-		</tr>
+        <tr>
+            <th>{$strings["upload"]} :</th>
+            <td><input size="35" value="" name="upload" type="file"></td>
+        </tr>
 
-		<tr>
-			<th>&nbsp;</th>
-			<td><input name='submit' type='submit' value='" . $strings["save"] . "'><br/><br/>$error</td>
-		</tr>
-		</table>
-	</form>";
-
+        <tr>
+            <th>&nbsp;</th>
+            <td><input name="submit" type="submit" value="{$strings["save"]}"><br/><br/>{$error}</td>
+        </tr>
+        </table>
+    </form>
+FORM;
 include("include_footer.php");
+
