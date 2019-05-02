@@ -6,6 +6,10 @@ namespace phpCollab\Tasks;
 use Exception;
 use phpCollab\Database;
 use phpCollab\Notification;
+use phpCollab\Notifications\Notifications;
+use phpCollab\Projects\Projects;
+use phpCollab\Teams\Teams;
+
 /**
  * Class Tasks
  * @package phpCollab\Tasks
@@ -17,6 +21,12 @@ class Tasks
     protected $tasksCount;
     private $strings;
     private $root;
+    private $projects;
+    private $teams;
+    private $notifications;
+    private $priority;
+    private $status;
+
 
     /**
      * Tasks constructor.
@@ -27,6 +37,8 @@ class Tasks
         $this->tasks_gateway = new TasksGateway($this->db);
         $this->strings = $GLOBALS["strings"];
         $this->root = $GLOBALS["root"];
+        $this->priority = $GLOBALS["priority"];
+        $this->status = $GLOBALS["status"];
     }
 
     /**
@@ -469,8 +481,8 @@ class Tasks
      * @throws Exception
      */
     public function addTask($projectId, $name, $description, $owner, $assignedTo, $status, $priority, $startDate,
-                            $dueDate, $estimatedTime, $actualTime, $comments, $published, $completion, $parentPhase,
-                            $invoicing, $workedHours)
+                            $dueDate, $estimatedTime, $actualTime, $comments, $published, $completion, $parentPhase = 0,
+                            $invoicing = 0, $workedHours = 0.00)
     {
         if ($projectId && $name ) {
             // Check to see if assigned_to set, if so then pass over the date.
@@ -822,6 +834,135 @@ class Tasks
             }
         } else {
             throw new Exception('Error sending mail');
+        }
+    }
+
+    /**
+     * @param $taskDetails
+     * @throws Exception
+     */
+    public function sendClientAddTaskNotification($taskDetails)
+    {
+        $this->projects = new Projects();
+        $this->teams = new Teams();
+        $this->notifications = new Notifications();
+
+        /*
+         *  Get the project details, specifically we need:
+         *  pro_org_id, pro_org_name, pro_published, pro_name, pro_id
+         */
+        $projectDetails = $this->projects->getProjectById($taskDetails["tas_project"]);
+
+        /*
+         * Get a list of team members, excluding the current member
+         */
+        $teamMembers = $this->teams->getTeamByProjectId($taskDetails["tas_project"]);
+
+        /*
+         * We loop through the list of $teamMembers so we can pass it through to get their notification preferences
+         */
+        $posters = [];
+        foreach ($teamMembers as $teamMember) {
+            array_push($posters, $teamMember["tea_member"]);
+        }
+
+        /*
+         * Retrieve a list of notifications for the list of $teamMembers retrieved above
+         */
+        $listNotifications = $this->notifications->getNotificationsWhereMemeberIn(implode(', ', $posters));
+
+        /*
+         * Sanity check to make sure we have all the required data before proceeding.
+         */
+        if ($taskDetails && $projectDetails && $listNotifications) {
+            /*
+             * Start creating the mail notification
+             */
+            $mail = new Notification(true);
+
+            try {
+                $mail->setFrom($taskDetails["tas_mem2_email_work"], $taskDetails["tas_mem2_name"]);
+
+                $mail->partSubject = $this->strings["noti_clientaddtask1"];
+                $mail->partMessage = $this->strings["noti_clientaddtask2"];
+
+                $complValue = ($taskDetails["tas_completion"] > 0) ? $taskDetails["tas_completion"] . "0 %" : $taskDetails["tas_completion"] . " %";
+
+                $idStatus = $taskDetails["tas_status"];
+                $idPriority = $taskDetails["tas_priority"];
+
+                $subject = $mail->partSubject . " " . $taskDetails["tas_name"];
+
+                if ($projectDetails["pro_org_id"] == "1") {
+                    $projectDetails["pro_org_name"] = $this->strings["none"];
+                }
+
+                /*
+                 * Loop through $listNotifications
+                 */
+                if ($listNotifications) {
+                    foreach ($listNotifications as $listNotification) {
+                        if (
+                            ($listNotification["organization"] != "1"
+                                && $taskDetails["top_published"] == "0"
+                                && $projectDetails["pro_published"] == "0")
+                            || $listNotification["organization"] == "1"
+                        ) {
+
+                            /*
+                             * Make sure the user has an email address, and is flagged
+                             * to receive new topic notifications
+                             */
+
+                            if (
+                                !empty($listNotification["email_work"])
+                                && $listNotification["clientAddTask"] == "0"
+                            ) {
+                                /*
+                                 * Build up the body of the message
+                                 */
+                                $body = <<<MESSAGE_BODY
+{$mail->partMessage}
+
+{$this->strings["task"]} : {$taskDetails["tas_name"]}
+{$this->strings["start_date"]} : {$taskDetails["tas_start_date"]}
+{$this->strings["due_date"]} : {$taskDetails["tas_due_date"]}
+{$this->strings["completion"]} : {$complValue}
+{$this->strings["priority"]} : {$this->priority[$idPriority]}
+{$this->strings["status"]} : {$this->status[$idStatus]}
+{$this->strings["description"]} : {$taskDetails["tas_description"]}
+
+{$this->strings["project"]} : {$projectDetails["pro_name"]} ({$projectDetails["pro_id"]})
+{$this->strings["organization"]} : {$projectDetails["pro_org_name"]}
+
+{$this->strings["noti_moreinfo"]}
+MESSAGE_BODY;
+                                
+                                if ($listNotification["organization"] == "1") {
+                                    $body .= "{$this->root}/general/login.php?url=topics/viewtopic.php%3Fid=" . $taskDetails["tas_id"];
+                                } elseif ($listNotification["organization"] != "1") {
+                                    $body .= "{$this->root}/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetails["pro_id"];
+                                }
+
+                                $body .= "\n\n" . $mail->footer;
+
+                                $mail->Subject = $subject;
+                                $mail->Priority = "3";
+
+                                // To: Address
+                                $mail->addAddress($listNotification["email_work"], $listNotification["name"]);
+                                $mail->Body = $body;
+                                $mail->send();
+                                $mail->clearAddresses();
+                            }
+                        }
+                    }
+                }
+            } catch (Exception $e) {
+                throw new Exception($mail->ErrorInfo);
+            }
+        } else {
+            throw new Exception('Error sending email.');
         }
     }
 
