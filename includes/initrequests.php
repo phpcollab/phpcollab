@@ -433,7 +433,7 @@ pha.order_num as pha_order_num,
 pha.status as pha_status, 
 pha.name as pha_name, 
 pha.date_start as pha_date_start, 
-pha.date_end as pha_date, 
+pha.date_end as pha_date_end, 
 pha.comments as pha_comments
 FROM {$tableCollab["phases"]} pha
 PHASESSQL;

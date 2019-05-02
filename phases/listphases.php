@@ -3,30 +3,32 @@
 #Status page: 1
 #Path by root: ../phases/listphases.php
 
+use phpCollab\Phases\Phases;
+use phpCollab\Projects\Projects;
+use phpCollab\Tasks\Tasks;
+use phpCollab\Teams\Teams;
+use phpCollab\Util;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-include '../themes/' . THEME . '/header.php';
+$projects = new Projects();
+$teams = new Teams();
+$phases = new Phases();
+$tasks = new Tasks();
 
-$tmpquery = "WHERE pro.id = '$id'";
-$projectDetail = new phpCollab\Request();
-$projectDetail->openProjects($tmpquery);
+include APP_ROOT . '/themes/' . THEME . '/header.php';
+
+$projectDetail = $projects->getProjectById($id);
 
 $teamMember = "false";
-$tmpquery = "WHERE tea.project = '$id' AND tea.member = '$idSession'";
-$memberTest = new phpCollab\Request();
-$memberTest->openTeams($tmpquery);
-$comptMemberTest = count($memberTest->tea_id);
-    if ($comptMemberTest == "0") {
-        $teamMember = "false";
-    } else {
-        $teamMember = "true";
-    }
+
+$teamMember = $teams->isTeamMember($id, $idSession);
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail->pro_id[0], $projectDetail->pro_name[0], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=".$projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
 $blockPage->itemBreadcrumbs($strings["phases"]);
 $blockPage->closeBreadcrumbs();
 
@@ -45,7 +47,7 @@ if ($teamMember == "true" || $profilSession == "5") {
     $block7->paletteIcon(0, "info", $strings["view"]);
 
     if ($teamMember == "true" || $profilSession == "5") {
-        if ($idSession == $projectDetail->pro_owner[0] || $profilSession == "0" || $profilSession == "5") {
+        if ($idSession == $projectDetail["pro_owner"] || $profilSession == "0" || $profilSession == "5") {
             $block7->paletteIcon(1, "edit", $strings["edit"]);
         }
     }
@@ -53,41 +55,35 @@ if ($teamMember == "true" || $profilSession == "5") {
 
     $block7->sorting("phases", $sortingUser["phases"], "pha.order_num ASC", $sortingFields = array(0=>"pha.order_num",1=>"pha.name",2=>"none",3=>"none",4=>"pha.status",5=>"pha.date_start",6=>"pha.date_end"));
 
-    $tmpquery = "WHERE pha.project_id = '$id' ORDER BY $block7->sortingValue";
-    $listPhases = new phpCollab\Request();
-    $listPhases->openPhases($tmpquery);
-    $comptListPhases = count($listPhases->pha_id);
+    $listPhases = $phases->getPhasesByProjectId($id, $block7->sortingValue);
 
-    if ($comptListPhases != "0") {
+    if ($listPhases) {
         $block7->openResults();
         $block7->labels($labels = array(0=>$strings["order"],1=>$strings["name"],2=>$strings["total_tasks"],3=>$strings["uncomplete_tasks"],4=>$strings["status"],5=>$strings["date_start"],6=>$strings["date_end"]), "false");
 
-        $tmpquery = "WHERE tas.project = '$id'";
-        $countPhaseTasks = new phpCollab\Request();
-        $countPhaseTasks->openTasks($tmpquery);
-        $comptlistTasks = count($countPhaseTasks->tas_id);
+        $listPhaseTasks = $tasks->getTasksByProjectId($id);
 
-        for ($i=0;$i<$comptListPhases;$i++) {
-            $comptlistTasksRow = "0";
-            $comptUncompleteTasks = "0";
-            for ($k=0;$k<$comptlistTasks;$k++) {
-                if ($listPhases->pha_order_num[$i] == $countPhaseTasks->tas_parent_phase[$k]) {
-                    $comptlistTasksRow = $comptlistTasksRow + 1;
-                    if ($countPhaseTasks->tas_status[$k] == "2" || $countPhaseTasks->tas_status[$k] == "3" || $countPhaseTasks->tas_status[$k] == "4") {
-                        $comptUncompleteTasks = $comptUncompleteTasks + 1;
+        foreach ($listPhases as $phase) {
+            $comptlistTasksRow = 0;
+            $comptUncompleteTasks = 0;
+            foreach ($listPhaseTasks as $task) {
+                if ($phase["pha_order_num"] == $task["tas_parent_phase"]) {
+                    $comptlistTasksRow++;
+                    if ($task["tas_status"] == "2" || $task["tas_status"] == "3" || $task["tas_status"] == "4") {
+                        $comptUncompleteTasks++;
                     }
                 }
             }
 
             $block7->openRow();
-            $block7->checkboxRow($listPhases->pha_id[$i]);
-            $block7->cellRow($listPhases->pha_order_num[$i]);
-            $block7->cellRow($blockPage->buildLink("../phases/viewphase.php?id=".$listPhases->pha_id[$i], $listPhases->pha_name[$i], in));
+            $block7->checkboxRow($phase["pha_id"]);
+            $block7->cellRow($phase["pha_order_num"]);
+            $block7->cellRow($blockPage->buildLink("../phases/viewphase.php?id=".$phase["pha_id"], $phase["pha_name"], "in"));
             $block7->cellRow($comptlistTasksRow);
             $block7->cellRow($comptUncompleteTasks);
-            $block7->cellRow($phaseStatus[$listPhases->pha_status[$i]]);
-            $block7->cellRow($listPhases->pha_date_start[$i]);
-            $block7->cellRow($listPhases->pha_date_end[$i]);
+            $block7->cellRow($phaseStatus[$phase["pha_status"]]);
+            $block7->cellRow(Util::isBlank($phase["pha_date_start"]));
+            $block7->cellRow(Util::isBlank($phase["pha_date_end"]));
             $block7->closeRow();
         }
         $block7->closeResults();
@@ -100,11 +96,11 @@ if ($teamMember == "true" || $profilSession == "5") {
     $block7->openPaletteScript();
     $block7->paletteScript(0, "info", "../phases/viewphase.php?", "false,true,true", $strings["view"]);
     if ($teamMember == "true" || $profilSession == "5") {
-        if ($idSession == $projectDetail->pro_owner[0] || $profilSession == "0" || $profilSession == "5") {
+        if ($idSession == $projectDetail["pro_owner"] || $profilSession == "0" || $profilSession == "5") {
             $block7->paletteScript(1, "edit", "../phases/editphase.php?", "false,true,true", $strings["edit"]);
         }
     }
-    $block7->closePaletteScript($comptListPhases, $listPhases->pha_id);
+    $block7->closePaletteScript(count($listPhases), $listPhases[0]["pha_id"]);
 }
 
-include '../themes/'.THEME.'/footer.php';
+include APP_ROOT . '/themes/'.THEME.'/footer.php';
