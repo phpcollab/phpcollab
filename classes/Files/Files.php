@@ -4,6 +4,7 @@
 namespace phpCollab\Files;
 
 use Exception;
+use InvalidArgumentException;
 use phpCollab\Database;
 use phpCollab\Notification;
 
@@ -199,6 +200,7 @@ class Files
      * @param $comment
      * @param $fileId
      * @param $fileStatus
+     * @param null $approvalDate
      * @return mixed
      */
     public function updateApprovalTracking($approverId, $comment, $fileId, $fileStatus, $approvalDate = null)
@@ -317,7 +319,15 @@ MAILBODY;
                 throw new Exception($mail->ErrorInfo);
             }
         } else {
-            throw new Exception('Error sending mail');
+            if (empty($fileDetails)) {
+                throw new InvalidArgumentException('File Details is missing or empty.');
+            } else if (empty($projectDetails)) {
+                throw new InvalidArgumentException('Project Details is missing or empty.');
+            } else if (empty($notificationDetails)) {
+                throw new InvalidArgumentException('Notification Details is missing or empty.');
+            } else {
+                throw new Exception('Error sending file uploaded notification');
+            }
         }
 
     }
