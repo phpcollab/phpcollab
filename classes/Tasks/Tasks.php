@@ -119,6 +119,15 @@ class Tasks
     }
 
     /**
+     * @param $phaseId
+     * @return mixed
+     */
+    public function getOpenPhaseTasks($phaseId)
+    {
+        return $this->tasks_gateway->getOpenPhaseTasks($phaseId);
+    }
+
+    /**
      * @param $assignedTo
      * @return mixed
      */
@@ -145,6 +154,16 @@ class Tasks
     public function getTasksById($taskIds)
     {
         return $this->tasks_gateway->getTasksById($taskIds);
+    }
+
+    /**
+     * @param $taskId
+     * @param $status
+     * @return mixed
+     */
+    public function setTaskStatus($taskId, $status)
+    {
+        return $this->tasks_gateway->setTaskStatus($taskId, $status);
     }
 
     /**

@@ -460,6 +460,32 @@ SQL;
     }
 
     /**
+     * @param $phaseId
+     * @return mixed
+     */
+    public function getOpenPhaseTasks($phaseId)
+    {
+        $query = " WHERE tas.parent_phase = :phase_id AND tas.status = '3'";
+        $this->db->query($this->initrequest["tasks"] . $query);
+        $this->db->bind(":phase_id", $phaseId);
+        return $this->db->resultset();
+    }
+
+    /**
+     * @param $taskId
+     * @param $status
+     * @return mixed
+     */
+    public function setTaskStatus($taskId, $status)
+    {
+        $query = "UPDATE {$this->tableCollab["tasks"]} SET status = :status WHERE id = :task_id";
+        $this->db->query($query);
+        $this->db->bind(":task_id", $taskId);
+        $this->db->bind(":status", $status);
+        return $this->db->execute();
+    }
+
+    /**
      * @param $projectId
      * @param $phaseId
      * @param null $sorting
