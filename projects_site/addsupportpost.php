@@ -41,7 +41,6 @@ if ($_GET["action"] == "add") {
     } else {
         $error = "The message can not be blank.  Please enter a message.";
     }
-//die('added?');
 }
 
 

@@ -420,7 +420,6 @@ SQL;
      */
     public function getSubTasksByProjectIdAndOwnerOrPublished($projectId, $ownerId, $startRow = null, $rowsLimit = null, $sorting = null)
     {
-//        $whereStatement = " WHERE (tas.project = :project_id) AND (tas.owner = :task_owner OR tas.published = '0') ORDER BY tas.name";
         $whereStatement = " WHERE subtas.task = tas.id AND tas.project = :project_id AND (tas.owner = :task_owner OR tas.published = '0') ORDER BY subtas.name";
 
         $query = $this->initrequest["subtasks"] . $whereStatement . $this->orderBy($sorting) . $this->limit($startRow, $rowsLimit);

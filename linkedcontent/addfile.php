@@ -25,7 +25,6 @@ if (isset($_GET["task"])) {
 }
 
 if (empty($projectId) || empty($taskId)) {
-//    die('empty, so redirect');
     phpCollab\Util::headerFunction("/projects/listprojects.php");
 }
 

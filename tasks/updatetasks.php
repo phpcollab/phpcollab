@@ -269,7 +269,6 @@ HTML;
 
 $comptPri = count($task_priority);
 if ($GLOBALS["priority"] && count($GLOBALS["priority"]) > 0) {
-//    xdebug_var_dump($GLOBALS["priority"]);
     foreach ($GLOBALS["priority"] as $key => $item) {
         echo '<option value="'.$key.'">'.$item.'</option>';
     }

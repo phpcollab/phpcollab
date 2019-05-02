@@ -147,11 +147,6 @@ SQL;
     //Add new revision code
 
     if ($action == "add") {
-
-//        xdebug_var_dump($_POST);
-//        xdebug_var_dump($_FILES);
-//
-//die();
         if (!empty($_POST["maxCustom"])) {
             $maxFileSize = $_POST["maxCustom"];
         }
