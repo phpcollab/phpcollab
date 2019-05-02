@@ -69,10 +69,10 @@ if ($msg != "") {
 }
 
 //set value in form
-$sd = $phaseDetail["pha_date_start"];
+$start_date = $phaseDetail["pha_date_start"];
 
-$ed = $phaseDetail["pha_date_end"];
-$c = $phaseDetail["pha_comments"];
+$end_date = $phaseDetail["pha_date_end"];
+$comments = $phaseDetail["pha_comments"];
 
 $block1 = new phpCollab\Block();
 $block1->form = "pdD";
