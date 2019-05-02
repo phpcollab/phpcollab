@@ -1,6 +1,12 @@
 <?php
 
 
+use phpCollab\Files\Files;
+use phpCollab\Phases\Phases;
+use phpCollab\Projects\Projects;
+use phpCollab\Tasks\Tasks;
+use phpCollab\Teams\Teams;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -21,11 +27,11 @@ $msgLabel = $GLOBALS["msgLabel"];
 $listPhases = $GLOBALS["listPhases"];
 $idSession = $_SESSION["idSession"];
 
-$tasks = new \phpCollab\Tasks\Tasks();
-$files = new \phpCollab\Files\Files();
-$phases = new \phpCollab\Phases\Phases();
-$projects = new \phpCollab\Projects\Projects();
-$teams = new \phpCollab\Teams\Teams();
+$tasks = new Tasks();
+$files = new Files();
+$phases = new Phases();
+$projects = new Projects();
+$teams = new Teams();
 
 if ($action == "publish") {
     if ($addToSite == "true") {
@@ -147,7 +153,7 @@ if ($idSession == $projectDetail["pro_owner"] || $profilSession == "0" || $profi
 $block2 = new phpCollab\Block();
 
 $block2->form = "saP";
-$block2->openForm("../phases/viewphase.php?&id=$id#" . $block2->form . "Anchor");
+$block2->openForm("../phases/viewphase.php?&id={$id}#" . $block2->form . "Anchor");
 
 $block2->headingToggle($strings["tasks"]);
 
@@ -239,7 +245,7 @@ $block2->paletteScript(6, "info", "../tasks/viewtask.php?", "false,true,false", 
 if ($teamMember == "true" || $profilSession == "5") {
     $block2->paletteScript(7, "edit", "../tasks/edittask.php?project=$project&phase=" . $phaseDetail["pha_order_num"] . "", "false,true,false", $strings["edit"]);
 }
-$block2->closePaletteScript(count($comptListTasks), $listTasks["tas_id"]);
+$block2->closePaletteScript($comptlistTasks, $listTasks["tas_id"]);
 
 
 if ($fileManagement == "true") {
