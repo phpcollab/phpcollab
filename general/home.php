@@ -334,7 +334,7 @@ if ($showHomeTasks) {
 
     $tasksList = $tasks->getSubtasksAssignedToMe($idSession);
 
-    $subtasks = '';
+    $subtasks = null;
     if ($tasksList) {
         foreach ($tasksList as $task) {
             $subtasks .= $task['subtas_task'] . ',';
@@ -342,7 +342,12 @@ if ($showHomeTasks) {
         $subtasks = rtrim(rtrim($subtasks), ',');
     }
 
-    $taskCount = $tasks->getAllMyTasks($idSession, $subtasks);
+    $taskCount = 0;
+
+    if (!empty($subtasks)) {
+        $taskCount = $tasks->getAllMyTasks($idSession, $subtasks);
+    }
+
     $block2->setRecordsTotal(count($taskCount));
 
     $listTasks = $tasks->getAllMyTasks($idSession, $subtasks, $block2->getLimit(), $block2->getRowsLimit(), $block2->sortingValue);

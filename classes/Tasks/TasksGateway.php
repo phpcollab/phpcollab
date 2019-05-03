@@ -190,12 +190,12 @@ class TasksGateway
      * @param null $sorting
      * @return mixed
      */
-    public function getAllMyTasks($userId, $subtasks, $startRow = null, $rowsLimit = null, $sorting = null)
+    public function getAllMyTasks($userId, $subtasks = null, $startRow = null, $rowsLimit = null, $sorting = null)
     {
-        $subtaskIds = explode(',', $subtasks);
-        $placeholders = str_repeat('?, ', count($subtaskIds) - 1) . '?';
+        if (!empty($subtasks)) {
+            $subtaskIds = explode(',', $subtasks);
+            $placeholders = str_repeat('?, ', count($subtaskIds) - 1) . '?';
 
-        if ($subtasks != "") {
             $tmpquery = " WHERE (tas.assigned_to = ? AND tas.status IN(0,2,3) AND pro.status IN(0,2,3)) OR tas.id IN({$placeholders})";
         } else {
             $tmpquery = " WHERE tas.assigned_to = ? AND tas.status IN(0,2,3) AND pro.status IN(0,2,3)";
@@ -203,14 +203,23 @@ class TasksGateway
 
         $tmpquery = $tmpquery . $this->orderBy($sorting) . $this->limit($startRow, $rowsLimit);
 
-        if (is_array($subtaskIds)) {
-            array_unshift($subtaskIds, $userId);
-        } else {
-            $subtaskIds = explode(',', $userId . ',' . $subtasks);
+        if (!empty($subtasks) && !empty($subtaskIds)) {
+            if (is_array($subtaskIds)) {
+                array_unshift($subtaskIds, $userId);
+            } else {
+                $subtaskIds = explode(',', $userId . ',' . $subtasks);
+            }
         }
 
         $this->db->query($this->initrequest["tasks"] . $tmpquery);
-        $this->db->execute($subtaskIds);
+
+        if (!empty($subtasks) && !empty($subtaskIds)) {
+            $this->db->execute($subtaskIds);
+        }
+
+        if (empty($subtasks)) {
+            $this->db->execute([$userId]);
+        }
         return $this->db->resultset();
     }
 
