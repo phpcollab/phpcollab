@@ -1034,7 +1034,7 @@ class Util
      * @param $value
      * @return string
      */
-    public static function isBlank($value)
+    public static function isBlank($value = null)
     {
         if (empty($value)) {
             return self::doubleDash();
