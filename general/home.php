@@ -1,5 +1,15 @@
 <?php
 
+use phpCollab\Bookmarks\Bookmarks;
+use phpCollab\Members\Members;
+use phpCollab\NewsDesk\NewsDesk;
+use phpCollab\Notes\Notes;
+use phpCollab\Projects\Projects;
+use phpCollab\Reports\Reports;
+use phpCollab\Tasks\Tasks;
+use phpCollab\Topics\Topics;
+use phpCollab\Util;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 include '../includes/customvalues.php';
@@ -11,13 +21,13 @@ $setTitle .= " : Home Page";
 
 $defaultNumRowsToDisplay = 15;
 
-$topics = new \phpCollab\Topics\Topics();
-$members = new \phpCollab\Members\Members();
-$projects = new \phpCollab\Projects\Projects();
-$tasks = new \phpCollab\Tasks\Tasks();
-$reports = new \phpCollab\Reports\Reports();
-$notes = new \phpCollab\Notes\Notes();
-$newsdesk = new \phpCollab\NewsDesk\NewsDesk();
+$topics = new Topics();
+$members = new Members();
+$projects = new Projects();
+$tasks = new Tasks();
+$reports = new Reports();
+$notes = new Notes();
+$newsdesk = new NewsDesk();
 
 $test = $date;
 $DateYear = substr("$test", 0, 4); // DateYear
@@ -102,7 +112,7 @@ if ($msg != "") {
  * start to show bookmark block
  */
 if ($showHomeBookmarks) {
-    $bookmarks = new \phpCollab\Bookmarks\Bookmarks();
+    $bookmarks = new Bookmarks();
 
     $block6 = new phpCollab\Block();
 
@@ -142,7 +152,7 @@ if ($showHomeBookmarks) {
                 $block6->openRow();
                 $block6->checkboxRow($bookmark['boo_id']);
                 $block6->cellRow($blockPage->buildLink("../bookmarks/viewbookmark.php?id=" . $bookmark['boo_id'], $bookmark['boo_name'], 'in') . " " . $blockPage->buildLink($bookmark['boo_url'], "(" . $strings["url"] . ")", 'out'));
-                $block6->cellRow( !empty($bookmark['boo_boocat_name']) ? $bookmark['boo_boocat_name'] : \phpCollab\Util::doubleDash());
+                $block6->cellRow( !empty($bookmark['boo_boocat_name']) ? $bookmark['boo_boocat_name'] : Util::doubleDash());
 
                 if ($bookmark['boo_shared'] == "1") {
                     $printShared = $strings["yes"];
@@ -178,7 +188,7 @@ if ($showHomeBookmarks) {
  * start to show projects block
  */
 if ($showHomeProjects) {
-    $projects = new \phpCollab\Projects\Projects();
+    $projects = new Projects();
 
     $block1 = new phpCollab\Block();
 
@@ -371,13 +381,13 @@ if ($showHomeTasks) {
 
             if ($task["tas_due_date"] <= $date && $task["tas_completion"] != "10") {
                 if ($task["tas_due_date"] == '--') {
-                    $block2->cellRow( \phpCollab\Util::doubleDash() );
+                    $block2->cellRow( Util::doubleDash() );
                 } else {
                     $block2->cellRow("<b>" . $task["tas_due_date"] . "</b>");
                 }
             } else {
                 if ($task["tas_due_date"] == '--') {
-                    $block2->cellRow( \phpCollab\Util::doubleDash() );
+                    $block2->cellRow( Util::doubleDash() );
                 } else {
                     $block2->cellRow($task["tas_due_date"]);
 
@@ -499,7 +509,7 @@ if ($showHomeSubtasks) {
 if ($showHomeDiscussions) {
     $block4 = new phpCollab\Block();
 
-    $homeTopics = new \phpCollab\Topics\Topics();
+    $homeTopics = new Topics();
 
     $block4->form = "wbTh";
     $block4->openForm("../general/home.php#" . $block4->form . "Anchor");
@@ -658,7 +668,7 @@ if ($showHomeNotes) {
             $notesBlock->checkboxRow($note["note_id"]);
             $notesBlock->cellRow($blockPage->buildLink("../notes/viewnote.php?id=" . $note["note_id"], $note["note_subject"], 'in'));
             if ($comptTopic != "0") {
-                $notesBlock->cellRow( !empty($topicNote[$note["note_topic"]]) ? $topicNote[$note["note_topic"]] : \phpCollab\Util::doubleDash());
+                $notesBlock->cellRow( !empty($topicNote[$note["note_topic"]]) ? $topicNote[$note["note_topic"]] : Util::doubleDash());
             }
             $notesBlock->cellRow($note["note_date"]);
             $notesBlock->cellRow($blockPage->buildLink($note["note_mem_email_work"], $note["note_mem_login"], 'mail'));
@@ -739,7 +749,7 @@ if ($showHomeNewsdesk) {
                 if ($projectDetail) {
                     $article_related = "<a href='../projects/viewproject.php?id=" . $projectDetail['pro_id'] . "' title='" . $projectDetail['pro_name'] . "'>" . $projectDetail['pro_name'] . "</a>";
                 } else {
-                    $article_related = \phpCollab\Util::doubleDash();
+                    $article_related = Util::doubleDash();
                 }
             } else {
                 $article_related = '' . $strings["newsdesk_related_generic"];
