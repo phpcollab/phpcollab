@@ -49,6 +49,16 @@ class Support
     }
 
     /**
+     * @param $projectId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getSupportRequestByProject($projectId, $sorting = null)
+    {
+        return $this->support_gateway->getSupportRequestByProject($projectId, $sorting);
+    }
+
+    /**
      * @param $memberId
      * @return mixed
      */

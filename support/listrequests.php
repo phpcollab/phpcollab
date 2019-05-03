@@ -2,6 +2,11 @@
 #Application name: PhpCollab
 #Status page: 0
 
+use phpCollab\Projects\Projects;
+use phpCollab\Support\Support;
+use phpCollab\Teams\Teams;
+use phpCollab\Util;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -15,29 +20,24 @@ if ($supportType == "admin") {
     }
 }
 
-$tmpquery = "WHERE pro.id = '$id'";
-$projectDetail = new phpCollab\Request();
-$projectDetail->openProjects($tmpquery);
+$support = new Support();
+$projects = new Projects();
+$teams = new Teams();
+
+$projectDetail = $projects->getProjectById($id);
 
 $teamMember = "false";
-$tmpquery = "WHERE tea.project = '$id' AND tea.member = '$idSession'";
-$memberTest = new phpCollab\Request();
-$memberTest->openTeams($tmpquery);
-$comptMemberTest = count($memberTest->tea_id);
-if ($comptMemberTest == "0") {
-    $teamMember = "false";
-} else {
-    $teamMember = "true";
-}
 
-include '../themes/' . THEME . '/header.php';
+$teamMember = $teams->isTeamMember($id, $idSession);
+
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 if ($supportType == "team") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
     $blockPage->itemBreadcrumbs($strings["support_requests"]);
 } elseif ($supportType == "admin") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], "in"));
@@ -65,37 +65,36 @@ if ($teamMember == "true" || $profilSession == "0") {
 }
 $block1->sorting("support_requests", $sortingUser["support_requests"], "sr.id ASC", $sortingFields = array(0 => "sr.id", 1 => "sr.subject", 2 => "sr.priority", 3 => "sr.status", 4 => "sr.date_open", 5 => "sr.date_close"));
 
-$tmpquery = "WHERE sr.project = '$id' ORDER BY $block1->sortingValue";
-$listRequests = new phpCollab\Request();
-$listRequests->openSupportRequests($tmpquery);
-$comptListRequests = count($listRequests->sr_id);
+$listRequests = $support->getSupportRequestByProject($id, $block1->sortingValue);
 
-if ($comptListRequests != "0") {
+if (!empty($listRequests)) {
     $block1->openResults();
     $block1->labels($labels = array(0 => $strings["id"], 1 => $strings["subject"], 2 => $strings["priority"], 3 => $strings["status"], 4 => $strings["date_open"], 5 => $strings["date_close"]), "false");
 
-    for ($i = 0; $i < $comptListRequests; $i++) {
+    foreach ($listRequests as $request) {
         $comptSta = count($requestStatus);
+        $currentStatus = Util::isBlank();
+
         for ($sr = 0; $sr < $comptSta; $sr++) {
-            if ($listRequests->sr_status[$i] == $sr) {
+            if ($request["sr_status"] == $sr) {
                 $currentStatus = $requestStatus[$sr];
             }
         }
 
         $comptPri = count($priority);
         for ($rp = 0; $rp < $comptPri; $rp++) {
-            if ($listRequests->sr_priority[$i] == $rp) {
+            if ($request["sr_priority"] == $rp) {
                 $requestPriority = $priority[$rp];
             }
         }
         $block1->openRow();
-        $block1->checkboxRow($listRequests->sr_id[$i]);
-        $block1->cellRow($listRequests->sr_id[$i]);
-        $block1->cellRow($blockPage->buildLink("../support/viewrequest.php?id=" . $listRequests->sr_id[$i], $listRequests->sr_subject[$i], "in"));
+        $block1->checkboxRow($request["sr_id"]);
+        $block1->cellRow($request["sr_id"]);
+        $block1->cellRow($blockPage->buildLink("../support/viewrequest.php?id=" . $request["sr_id"], $request["sr_subject"], "in"));
         $block1->cellRow($requestPriority);
         $block1->cellRow($currentStatus);
-        $block1->cellRow($listRequests->sr_date_open[$i]);
-        $block1->cellRow($listRequests->sr_date_close[$i]);
+        $block1->cellRow($request["sr_date_open"]);
+        $block1->cellRow($request["sr_date_close"]);
         $block1->closeRow();
     }
     $block1->closeResults();
@@ -108,7 +107,7 @@ if ($teamMember == "true" || $profilSession == "0") {
     $block1->paletteScript(1, "edit", "../support/addpost.php?action=status", "false,true,false", $strings["edit_status"]);
     $block1->paletteScript(2, "remove", "../support/deleterequests.php?action=deleteR", "false,true,true", $strings["delete"]);
     $block1->paletteScript(3, "info", "../support/viewrequest.php?", "false,true,false", $strings["view"]);
-    $block1->closePaletteScript($comptListRequests, $listRequests->sr_id);
+    $block1->closePaletteScript(count($listRequests), $listRequests[0]["sr_id"]);
 }
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
