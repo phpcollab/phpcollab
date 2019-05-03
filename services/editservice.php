@@ -3,62 +3,66 @@
 #Status page: 0
 #Path by root: ../services/editservice.php
 
+use phpCollab\Services\Services;
+use phpCollab\Util;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($profilSession != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
+$services = new Services();
+
 
 //case update user
 $id = $_GET['id'];
 
 $action = $_GET['action'];
 
-if ($id != "") {
+$name = '';
+$namePrinted = '';
+$hourlyRate = '';
+
+if (!empty($id)) {
 
 //case update user
-    if ($action == "update") {
-        //replace quotes by html code in name and address
-        $n = phpCollab\Util::convertData($_POST['n']);
-        $np = phpCollab\Util::convertData($_POST['np']);
-        $tmpquery = "UPDATE {$tableCollab["services"]} SET name=:name,name_print=:name_print,hourly_rate=:hourly_rate WHERE id = :service_id";
-        $dbParams = [];
-        $dbParams["name"] = $n;
-        $dbParams["name_print"] = $np;
-        $dbParams["hourly_rate"] = $_POST['hr'];
-        $dbParams["service_id"] = $id;
-        phpCollab\Util::newConnectSql($tmpquery, $dbParams);
-        unset($dbParams);
-        phpCollab\Util::headerFunction("../services/listservices.php?msg=update");
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ($_GET["action"] == "update") {
+            $name = Util::convertData($_POST['name']);
+            $namePrinted = Util::convertData($_POST['name_printed']);
+            $hourlyRate = $_POST["hourly_rate"];
+            try {
+                $services->updateService($id, $name, $namePrinted, $hourlyRate);
+            } catch (Exception $e) {
+            }
+
+            phpCollab\Util::headerFunction("../services/listservices.php?msg=update");
+        }
     }
-    $tmpquery = "WHERE serv.id = '$id'";
-    $detailService = new phpCollab\Request();
-    $detailService->openServices($tmpquery);
-    $comptDetailService = count($detailService->serv_id);
+    $detailService = $services->getService($id);
 
     //set values in form
-    $n = $detailService->serv_name[0];
-    $np = $detailService->serv_name_print[0];
-    $hr = $detailService->serv_hourly_rate[0];
+    $name = $detailService["serv_name"];
+    $namePrinted = $detailService["serv_name_print"];
+    $hourlyRate = $detailService["serv_hourly_rate"];
 }
 
 //case add user
-if ($id == "") {
+if (empty($id) && $_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($action == "add") {
         //replace quotes by html code in name and address
-        $n = phpCollab\Util::convertData($_POST['n']);
-        $np = phpCollab\Util::convertData($_POST['np']);
+        $name = phpCollab\Util::convertData($_POST['name']);
+        $namePrinted = phpCollab\Util::convertData($_POST['name_printed']);
+        $hourlyRate = $_POST["hourly_rate"];
 
-        $tmpquery1 = "INSERT INTO {$tableCollab["services"]} (name,name_print,hourly_rate) VALUES (:name,:name_print,:hourly_rate)";
+        try {
+            $services->addService($name, $namePrinted, $hourlyRate);
 
-        $dbParams = [];
-        $dbParams["name"] = $n;
-        $dbParams["name_print"] = $np;
-        $dbParams["hourly_rate"] = $_POST['hr'];
-        phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
-        unset($dbParams);
-        phpCollab\Util::headerFunction("../services/listservices.php?msg=add");
+            phpCollab\Util::headerFunction("../services/listservices.php?msg=add");
+        } catch (Exception $e) {
+
+        }
     }
 }
 
@@ -66,11 +70,12 @@ if ($id == "") {
 if ($id == '') {
     $setTitle .= " : Add Service";
 } else {
-    $setTitle .= " : Edit Service (" . $detailService->serv_name[0] . ")";
+    $setTitle .= " : Edit Service (" . $detailService["serv_name"] . ")";
 }
 
 $bodyCommand = "onLoad=\"document.serv_editForm.n.focus();\"";
-include '../themes/' . THEME . '/header.php';
+
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -81,7 +86,7 @@ if ($id == "") {
     $blockPage->itemBreadcrumbs($strings["add_service"]);
 }
 if ($id != "") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../services/viewservice.php?id=$id", $detailService->serv_name[0], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../services/viewservice.php?id=$id", $detailService["serv_name"], "in"));
     $blockPage->itemBreadcrumbs($strings["edit_service"]);
 }
 $blockPage->closeBreadcrumbs();
@@ -102,16 +107,16 @@ if ($id != "") {
     $block1->openForm("../services/editservice.php?id=$id&action=update&#" . $block1->form . "Anchor");
 }
 
-if ($error != "") {
+if (!empty($error)) {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
 }
 
-if ($id == "") {
+if (empty($id)) {
     $block1->heading($strings["add_service"]);
 }
-if ($id != "") {
-    $block1->heading($strings["edit_service"] . " : " . $detailService->serv_name[0]);
+if (!empty($id)) {
+    $block1->heading($strings["edit_service"] . " : " . $detailService["serv_name"]);
 }
 
 $block1->openContent();
@@ -123,13 +128,26 @@ if ($id != "") {
     $block1->contentTitle($strings["details"]);
 }
 
-echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">" . $strings["name"] . " :</td><td><input size=\"24\" style=\"width: 250px;\"type=\"text\" name=\"n\" value=\"$n\"></td>
-<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">" . $strings["name_print"] . " :</td><td><input size=\"24\" style=\"width: 250px;\" type=\"text\" name=\"np\" value=\"$np\"></td></tr>
-<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">" . $strings["hourly_rate"] . " :</td><td><input size=\"24\" style=\"width: 250px;\" type=\"text\" name=\"hr\" value=\"$hr\"></td></tr>";
-
-echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td><input type=\"submit\" name=\"Save\" value=\"" . $strings["save"] . "\"></td></tr>";
+echo <<<TR
+<tr class="odd">
+    <td class="leftvalue">{$strings["name"]} :</td>
+    <td><input size="24" style="width: 250px;" type="text" name="name" value="{$name}"></td>
+</tr>
+<tr class="odd">
+    <td class="leftvalue">{$strings["name_print"]} :</td>
+    <td><input size="24" style="width: 250px;" type="text" name="name_printed" value="{$namePrinted}"></td>
+</tr>
+<tr class="odd">
+    <td class="leftvalue">{$strings["hourly_rate"]} :</td>
+    <td><input size="24" style="width: 250px;" type="text" name="hourly_rate" value="{$hourlyRate}"></td>
+</tr>
+<tr class="odd">
+    <td class="leftvalue">&nbsp;</td>
+    <td><input type="submit" name="Save" value="{$strings["save"]}"></td>
+</tr>
+TR;
 
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';

@@ -3,19 +3,23 @@
 #Status page: 1
 #Path by root: ../services/listservices.php
 
+use phpCollab\Services\Services;
+
 $checkSession = "true";
 include_once '../includes/library.php';
+
+$services = new Services();
 
 if ($profilSession != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 
 $setTitle .= " : List Services";
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], "in"));
 $blockPage->itemBreadcrumbs($strings["service_management"]);
 $blockPage->closeBreadcrumbs();
 
@@ -38,21 +42,18 @@ $block1->paletteIcon(2, "info", $strings["view"]);
 $block1->paletteIcon(3, "edit", $strings["edit"]);
 $block1->closePaletteIcon();
 
-$tmpquery = "ORDER BY serv.name ASC";
-$listServices = new phpCollab\Request();
-$listServices->openServices($tmpquery);
-$comptListServices = count($listServices->serv_id);
+$listServices = $services->getAllServices('serv.name ASC');
 
-if ($comptListServices != "0") {
+if ($listServices) {
     $block1->openResults();
 
     $block1->labels($labels = array(0 => $strings["name"], 1 => $strings["hourly_rate"]), "false", $sorting = "false", $sortingOff = array(0 => "0", 1 => "ASC"));
 
-    for ($i = 0; $i < $comptListServices; $i++) {
+    foreach ($listServices as $listService) {
         $block1->openRow();
-        $block1->checkboxRow($listServices->serv_id[$i]);
-        $block1->cellRow($blockPage->buildLink("../services/viewservice.php?id=" . $listServices->serv_id[$i], $listServices->serv_name[$i], in));
-        $block1->cellRow($listServices->serv_hourly_rate[$i]);
+        $block1->checkboxRow($listService["serv_id"]);
+        $block1->cellRow($blockPage->buildLink("../services/viewservice.php?id=" . $listService["serv_id"], $listService["serv_name"], "in"));
+        $block1->cellRow($listService["serv_hourly_rate"]);
         $block1->closeRow();
     }
     $block1->closeResults();
@@ -66,6 +67,6 @@ $block1->paletteScript(0, "add", "../services/editservice.php?", "true,true,true
 $block1->paletteScript(1, "remove", "../services/deleteservices.php?", "false,true,true", $strings["delete"]);
 $block1->paletteScript(2, "info", "../services/viewservice.php?", "false,true,false", $strings["view"]);
 $block1->paletteScript(3, "edit", "../services/editservice.php?", "false,true,false", $strings["edit"]);
-$block1->closePaletteScript($comptListServices, $listServices->serv_id);
+$block1->closePaletteScript(count($listServices), $listServices[0]["serv_id"]);
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
