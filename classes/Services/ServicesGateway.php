@@ -27,6 +27,51 @@ class ServicesGateway
     }
 
     /**
+     * @param $name
+     * @param $displayName
+     * @param $hourlyRate
+     * @return mixed
+     */
+    public function addService($name, $displayName, $hourlyRate)
+    {
+        $query = "INSERT INTO {$this->tableCollab["services"]} (name, name_print, hourly_rate) VALUES (:name, :display_name, :hourly_rate)";
+        $this->db->query($query);
+        $this->db->bind(":name", $name);
+        $this->db->bind(":display_name", $displayName);
+        $this->db->bind(":hourly_rate", $hourlyRate);
+        return $this->db->execute();
+    }
+
+    /**
+     * @param $serviceId
+     * @return mixed
+     */
+    public function getServiceById($serviceId)
+    {
+        $query = " WHERE serv.id = :service_id";
+        $this->db->query($this->initrequest["services"] . $query);
+        $this->db->bind(":service_id", $serviceId);
+        return $this->db->single();
+    }
+
+    /**
+     * Return an array of services
+     * @param $serviceIds
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getServicesById($serviceIds, $sorting = null)
+    {
+        $serviceIds = explode(',', $serviceIds);
+        $placeholders = str_repeat ('?, ', count($serviceIds)-1) . '?';
+        $sql = $this->initrequest["services"] . " WHERE id IN ($placeholders)";
+        $this->db->query($sql . $this->orderBy($sorting));
+        $this->db->execute($serviceIds);
+        return $this->db->resultset();
+    }
+
+
+    /**
      * @param null $sorting
      * @return mixed
      */
@@ -37,6 +82,29 @@ class ServicesGateway
         return $this->db->resultset();
     }
 
+    /**
+     * @param $serviceId
+     * @param $name
+     * @param $displayName
+     * @param $hourlyRate
+     * @return mixed
+     */
+    public function updateService($serviceId, $name, $displayName, $hourlyRate)
+    {
+        $query = "UPDATE {$this->tableCollab["services"]} SET name = :name, name_print = :display_name, hourly_rate = :hourly_rate WHERE id = :service_id";
+
+        $this->db->query($query);
+        $this->db->bind(":service_id", $serviceId);
+        $this->db->bind(":name", $name);
+        $this->db->bind(":display_name", $displayName);
+        $this->db->bind(":hourly_rate", $hourlyRate);
+        return $this->db->execute();
+    }
+
+    /**
+     * @param $serviceIds
+     * @return mixed
+     */
     public function deleteServices($serviceIds)
     {
         $serviceIds = explode(',', $serviceIds);
