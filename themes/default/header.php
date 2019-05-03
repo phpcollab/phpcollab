@@ -2,6 +2,8 @@
 #Application name: PhpCollab
 #Status page: 0
 
+use phpCollab\Organizations\Organizations;
+
 $strings = $GLOBALS['strings'];
 
 echo <<<HEAD
@@ -29,6 +31,9 @@ $setCopyright
 </script>
 <script type="text/javascript" src="../javascript/general.js"></script>
 <script type="text/JavaScript" src="../javascript/overlib_mini.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+
 HEAD;
 
 
@@ -37,7 +42,6 @@ if ($debug === true && isset($debugbarRenderer) && is_object($debugbarRenderer))
 }
 
 echo '<link rel="stylesheet" href="../themes/' . THEME . '/css/stylesheet.css" type="text/css" />';
-echo '<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" type="text/css" />';
 
 if ($includeCalendar && $includeCalendar === true) {
     include APP_ROOT . '/includes/calendar.php';
@@ -51,12 +55,12 @@ echo "<body $bodyCommand>";
 echo "<div id='overDiv' style='position:absolute; visibility:hidden; z-index:1000;'></div>\n\n";
 
 if ($blank != "true" && $version >= "2.0") {
-    $organization = new \phpCollab\Organizations\Organizations();
+    $organization = new Organizations();
     $client = $organization->getOrganizationById(1);
 }
 if (file_exists("../logos_clients/1." . $client["org_extension_logo"]) && $blank != "true" && $version >= "2.0") {
     echo <<< HEADER
-    <p id="header"><img src="../logos_clients/1.{$client["org_extension_logo"]}" border="0" alt="{$client["org_name"]}"></p>
+    <p id="header"><img src="../logos_clients/1.{$client["org_extension_logo"]}" alt="{$client["org_name"]}"></p>
 HEADER;
 } else {
     echo <<< HEADER
