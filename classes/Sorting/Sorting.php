@@ -24,7 +24,17 @@ class Sorting
     }
 
     /**
+     * @param $userId
+     * @return mixed
+     */
+    public function addMember($userId)
+    {
+        return $this->sorting_gateway->addMember($userId);
+    }
+
+    /**
      * @param $ownerId
+     * @return mixed
      */
     public function getSortingValues($ownerId)
     {
@@ -35,7 +45,7 @@ class Sorting
      * @param String $target
      * @param String $value
      * @param Integer $userId
-     * @return
+     * @return mixed
      */
     public function updateSortingTargetByUserId($target, $value, $userId)
     {

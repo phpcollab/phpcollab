@@ -26,6 +26,18 @@ class SortingGateway
     }
 
     /**
+     * @param $userId
+     * @return mixed
+     */
+    public function addMember($userId)
+    {
+        $queruy = "INSERT INTO {$this->tableCollab["sorting"]} (member) VALUES (:user_id)";
+        $this->db->query($queruy);
+        $this->db->bind(":user_id", $userId);
+        return $this->db->execute();
+    }
+
+    /**
      * @param $ownerId
      * @return mixed
      */
