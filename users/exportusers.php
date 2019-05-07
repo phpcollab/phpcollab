@@ -3,13 +3,11 @@
 #Status page: ?
 #Path by root: ../users/exportusers.php
 
-// PDF setup
-include('../includes/class.ezpdf.php');
-$pdf =& new Cezpdf();
-$pdf->selectFont('../includes/fonts/Helvetica.afm');
-$pdf->ezSetMargins(50, 70, 50, 50);
 
 // include files
+use phpCollab\Members\Members;
+use phpCollab\Organizations\Organizations;
+
 $checkSession = "true";
 include '../includes/library.php';
 
@@ -19,17 +17,23 @@ if ($profilSession != (0 && 2 && 5)) {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 
-// get company info
-$tmpquery = "WHERE org.id = '1'";
-$clientDetail = new phpCollab\Request();
-$clientDetail->openOrganizations($tmpquery);
+$organizations = new Organizations();
+$members = new Members();
 
-$cn = $clientDetail->org_name[0];
-$add = $clientDetail->org_address1[0];
-$wp = $clientDetail->org_phone[0];
-$url = $clientDetail->org_url[0];
-$email = $clientDetail->org_email[0];
-$c = $clientDetail->org_comments[0];
+// PDF setup
+include('../includes/class.ezpdf.php');
+$pdf = new Cezpdf();
+$pdf->selectFont('../includes/fonts/Helvetica.afm');
+$pdf->ezSetMargins(50, 70, 50, 50);
+
+$clientDetail = $organizations->getOrganizationById(1);
+
+$cn = $clientDetail["org_name"];
+$add = $clientDetail["org_address1"];
+$wp = $clientDetail["org_phone"];
+$url = $clientDetail["org_url"];
+$email = $clientDetail["org_email"];
+$c = $clientDetail["org_comments"];
 
 // print company info at top of page
 $pdf->ezText("<b>" . $cn . "</b>", 18, array('justification' => 'center'));
@@ -54,25 +58,20 @@ $block1 = new phpCollab\Block();
 
 $block1->sorting("users", $sortingUser["users"], "mem.name ASC", $sortingFields = array(0 => "mem.name", 1 => "mem.login", 2 => "mem.email_work", 3 => "mem.profil", 4 => "log.connected"));
 
+// Get a collection of members, except for Client Users, Administrator, and the demo user
 if ($demoMode == "true") {
-    $tmpquery = "WHERE mem.id != '1' AND mem.profil != '3' ORDER BY $block1->sortingValue";
+    $listMembers = $members->getNonClientMembersExcept(1);
 } else {
-    $tmpquery = "WHERE mem.id != '1' AND mem.profil != '3' AND mem.id != '2' ORDER BY $block1->sortingValue";
+    $listMembers = $members->getNonClientMembersExcept('1,2');
 }
-$listMembers = new phpCollab\Request();
-$listMembers->openMembers($tmpquery);
-$comptListMembers = count($listMembers->mem_id);
 
-
-for ($i = 0; $i < $comptListMembers; $i++) {
-
-    $name = $listMembers->mem_name[$i];
-    $title = $listMembers->mem_title[$i];
-    $email = $listMembers->mem_email_work[$i];
-    $phone = $listMembers->mem_phone_work[$i];
-    $mobile = $listMembers->mem_mobile[$i];
-    $fax = $listMembers->mem_fax[$i];
-//$ = $listMembers->[$i];
+foreach ($listMembers as $member) {
+    $name = $member["mem_name"];
+    $title = $member["mem_title"];
+    $email = $member["mem_email_work"];
+    $phone = $member["mem_phone_work"];
+    $mobile = $member["mem_mobile"];
+    $fax = $member["mem_fax"];
 
 // stuff the array with data
     $data[] = array('name' => $name, 'title' => $title, 'email' => $email, 'phone' => $phone, 'mobile' => $mobile, 'fax' => $fax);
