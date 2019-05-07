@@ -75,6 +75,8 @@ if (!empty($listRequests)) {
         $comptSta = count($requestStatus);
         $currentStatus = Util::isBlank();
 
+        $dateClosed = Util::isBlank(htmlspecialchars($request["sr_date_close"], ENT_COMPAT, 'UTF-8'));
+
         for ($sr = 0; $sr < $comptSta; $sr++) {
             if ($request["sr_status"] == $sr) {
                 $currentStatus = $requestStatus[$sr];
@@ -89,12 +91,12 @@ if (!empty($listRequests)) {
         }
         $block1->openRow();
         $block1->checkboxRow($request["sr_id"]);
-        $block1->cellRow($request["sr_id"]);
+        $block1->cellRow(htmlspecialchars($request["sr_id"], ENT_COMPAT, 'UTF-8'));
         $block1->cellRow($blockPage->buildLink("../support/viewrequest.php?id=" . $request["sr_id"], $request["sr_subject"], "in"));
-        $block1->cellRow($requestPriority);
-        $block1->cellRow($currentStatus);
-        $block1->cellRow($request["sr_date_open"]);
-        $block1->cellRow($request["sr_date_close"]);
+        $block1->cellRow(htmlspecialchars($requestPriority, ENT_COMPAT, 'UTF-8'));
+        $block1->cellRow(htmlspecialchars($currentStatus, ENT_COMPAT, 'UTF-8'));
+        $block1->cellRow(htmlspecialchars($request["sr_date_open"], ENT_COMPAT, 'UTF-8'));
+        $block1->cellRow($dateClosed);
         $block1->closeRow();
     }
     $block1->closeResults();
