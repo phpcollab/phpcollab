@@ -1,12 +1,17 @@
 <?php
 
+use phpCollab\Members\Members;
+use phpCollab\Notes\Notes;
+use phpCollab\Tasks\Tasks;
+use phpCollab\Teams\Teams;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$members = new \phpCollab\Members\Members();
-$teams = new \phpCollab\Teams\Teams();
-$tasks = new \phpCollab\Tasks\Tasks();
-$notes = new \phpCollab\Notes\Notes();
+$members = new Members();
+$teams = new Teams();
+$tasks = new Tasks();
+$notes = new Notes();
 
 $id = $_GET["id"];
 $strings = $GLOBALS["strings"];
@@ -69,7 +74,7 @@ $block1->contentTitle($strings["user_details"]);
 $block1->contentRow($strings["user_name"], $userDetail["mem_login"]);
 $block1->contentRow($strings["full_name"], $userDetail["mem_name"]);
 $block1->contentRow($strings["title"], $userDetail["mem_title"]);
-$block1->contentRow($strings["email"], $blockPage->buildLink($userDetail["mem_email_work"], $userDetail->mem_email_work[0], "mail"));
+$block1->contentRow($strings["email"], $blockPage->buildLink($userDetail["mem_email_work"], $userDetail["mem_email_work"], "mail"));
 $block1->contentRow($strings["work_phone"], $userDetail["mem_phone_work"]);
 $block1->contentRow($strings["home_phone"], $userDetail["mem_phone_home"]);
 $block1->contentRow($strings["mobile_phone"], $userDetail["mem_mobile"]);
