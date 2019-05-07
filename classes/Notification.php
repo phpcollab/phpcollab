@@ -3,6 +3,7 @@
 namespace phpCollab;
 
 use Exception;
+use InvalidArgumentException;
 use PHPMailer\PHPMailer\PHPMailer;
 use phpCollab\Members\Members;
 
@@ -99,6 +100,57 @@ class Notification extends phpmailer
         $this->signature = $signature;
     }
 
+    /**
+     * @param $to
+     * @param $from
+     * @param $subject
+     * @param $message
+     * @param int $priority
+     * @return array
+     * @throws Exception
+     */
+    public function sendMessage($to, $from, $subject, $message, $priority = 3)
+    {
+        if (
+            !empty($to)
+            || !empty($from)
+            || !empty($subject)
+            || !empty($message)
+        ) {
+            try {
 
+                $this->Subject = $subject;
+                $this->Priority = $priority;
+
+                // Set the From field
+                $this->setFrom($from["email"], $from["name"]);
+
+                $this->Body = $message;
+                $this->AddAddress($to["email"], $to["name"]);
+
+                if (!$this->Send()) {
+                    return array(false, "Mailer Error: " . $this->ErrorInfo);
+                } else {
+                    $this->ClearAddresses();
+                    return array(true);
+                }
+            } catch (Exception $e) {
+                throw new Exception($this->ErrorInfo);
+            }
+
+        } else {
+            if (empty($to)) {
+                throw new InvalidArgumentException('To details are missing or empty.');
+            } else if (empty($from)) {
+                throw new InvalidArgumentException('From details are missing or empty.');
+            } else if (empty($subject)) {
+                throw new InvalidArgumentException('Subject is missing or empty.');
+            } else if (empty($message)) {
+                throw new InvalidArgumentException('Message is missing or empty.');
+            } else {
+                throw new Exception('Error sending email notification');
+            }
+        }
+    }
 
 }
