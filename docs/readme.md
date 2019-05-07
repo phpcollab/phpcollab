@@ -8,7 +8,6 @@ Groupware module. Manage web projects with team collaboration, users management,
 - Use Update in admin page
 1. edit settings (to regenerate new settings.php with eventual new parameters)
 2. edit database (to dump new commands according to precedent version)
-- If your version is lower than 1.8, launch script installation/fixFilesSize.php (to remove size units in database) 
 
 
 ## Requirements
