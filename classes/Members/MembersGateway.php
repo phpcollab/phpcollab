@@ -231,11 +231,32 @@ class MembersGateway
      * @param $fax
      * @param $lastPage
      * @param $comments
+     * @param $profile
      * @return mixed
      */
-    public function updateMember($memberId, $login, $name, $title, $organization, $emailWork, $phoneWork, $phoneHome, $phoneMobile, $fax, $lastPage, $comments)
+    public function updateMember($memberId, $login, $name, $title, $organization, $emailWork, $phoneWork, $phoneHome, $phoneMobile, $fax, $lastPage, $comments, $profile)
     {
-        $this->db->query("UPDATE {$this->tableCollab["members"]} SET login = :login, name = :name, title = :title, organization = :organization, email_work = :email_work, phone_work = :phone_work, phone_home = :phone_home, mobile = :phone_mobile, fax = :fax, last_page = :last_page, comments = :comments WHERE id = :member_id");
+        $query = <<<SQL
+UPDATE {$this->tableCollab["members"]} SET 
+login = :login, 
+name = :name, 
+title = :title, 
+organization = :organization, 
+email_work = :email_work, 
+phone_work = :phone_work, 
+phone_home = :phone_home, 
+mobile = :phone_mobile, 
+fax = :fax, 
+last_page = :last_page, 
+comments = :comments
+SQL;
+        if (!is_null($profile)) {
+            $query .= ", profil = :profile";
+        }
+
+        $query .= " WHERE id = :member_id";
+
+        $this->db->query($query);
         $this->db->bind(':login', $login);
         $this->db->bind(':name', $name);
         $this->db->bind(':title', $title);
@@ -247,6 +268,10 @@ class MembersGateway
         $this->db->bind(':fax', $fax);
         $this->db->bind(':last_page', $lastPage);
         $this->db->bind(':comments', $comments);
+
+        if (!is_null($profile)) {
+            $this->db->bind(':profile', $profile);
+        }
         $this->db->bind(':member_id', $memberId);
 
         return $this->db->execute();

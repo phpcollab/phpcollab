@@ -174,10 +174,14 @@ class Members
      * @param null $fax
      * @param null $lastPage
      * @param null $comments
+     * @param null $profile
      * @return bool|mixed
      * @throws Exception
      */
-    public function updateMember($memberId, $login, $name, $emailWork, $title = null, $organization = null, $phoneWork = null, $phoneHome = null, $phoneMobile = null, $fax = null, $lastPage = null, $comments = null)
+    public function updateMember($memberId, $login, $name, $emailWork, $title = null, $organization = null,
+                                 $phoneWork = null, $phoneHome = null, $phoneMobile = null, $fax = null,
+                                 $lastPage = null, $comments = null, $profile = null
+    )
     {
         if (empty($memberId) || empty($login) || empty($name) || empty($emailWork)) {
             throw new Exception('Invalid member id, login, name, or email');
@@ -195,7 +199,7 @@ class Members
             $comments = filter_var($comments, FILTER_SANITIZE_STRING);
             $lastPage = filter_var($lastPage, FILTER_SANITIZE_STRING);
 
-            return $this->members_gateway->updateMember($memberId, $login, $name, $title, $organization, $emailWork, $phoneWork, $phoneHome, $phoneMobile, $fax, $lastPage, $comments);
+            return $this->members_gateway->updateMember($memberId, $login, $name, $title, $organization, $emailWork, $phoneWork, $phoneHome, $phoneMobile, $fax, $lastPage, $comments, $profile);
         }
     }
 
