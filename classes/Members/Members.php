@@ -3,6 +3,7 @@
 namespace phpCollab\Members;
 
 use Exception;
+use InvalidArgumentException;
 use phpCollab\Database;
 use phpCollab\Notification;
 use phpCollab\Util;
@@ -70,12 +71,15 @@ class Members
     }
 
     /**
-     * @param $memberIds
+     * @param mixed $memberIds single or comma separated list of member IDs
      * @return mixed
      */
     public function getNonClientMembersExcept($memberIds)
     {
         $memberIds = filter_var($memberIds, FILTER_SANITIZE_STRING);
+        if (empty($memberIds)) {
+            throw new InvalidArgumentException('No member ID(s) provided.');
+        }
         return $this->members_gateway->getNonClientMembersNotIn($memberIds);
 
     }
