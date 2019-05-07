@@ -5,7 +5,9 @@ namespace phpCollab\Support;
 
 use Exception;
 use phpCollab\Database;
+use phpCollab\Members\Members;
 use phpCollab\Notification;
+use phpCollab\Teams\Teams;
 
 /**
  * Class Support
@@ -14,9 +16,12 @@ use phpCollab\Notification;
 class Support
 {
     protected $support_gateway;
+    protected $members;
+    protected $teams;
     protected $db;
     protected $strings;
     protected $root;
+    protected $requestStatus;
 
     /**
      * Support constructor.
@@ -25,8 +30,11 @@ class Support
     {
         $this->db = new Database();
         $this->support_gateway = new SupportGateway($this->db);
+        $this->members = new Members();
+        $this->teams = new Teams();
         $this->strings = $GLOBALS["strings"];
         $this->root = $GLOBALS["root"];
+        $this->requestStatus = $GLOBALS["requestStatus"];
     }
 
     /**
@@ -149,7 +157,19 @@ class Support
      */
     public function addSupportPost($requestId, $message, $dateCreated, $ownerId, $projectId)
     {
-        return $this->support_gateway->addPost($requestId, $message, $dateCreated, $ownerId, $projectId);
+        $newPostId = $this->support_gateway->addPost($requestId, $message, $dateCreated, $ownerId, $projectId);
+        return $this->getSupportPostById($newPostId);
+    }
+
+    /**
+     * @param $requestId
+     * @param $status
+     * @param $dateClose
+     * @return mixed
+     */
+    public function updateSupportPostStatus($requestId, $status, $dateClose = null)
+    {
+        return $this->support_gateway->updateSupportRequest($requestId, $status, $dateClose);
     }
 
     /**
@@ -195,6 +215,64 @@ class Support
     public function deleteSupportPostsByProjectId($projectIds)
     {
         return $this->support_gateway->deleteSupportPostsByProjectId($projectIds);
+    }
+
+    /**
+     * @param $postDetails
+     * @return void
+     * @throws Exception
+     */
+    public function sendPostChangedNotification($postDetails)
+    {
+        // Gather the needed information for populating the email template
+        $requestDetail = $this->getSupportRequestById($postDetails["sp_request_id"]);
+        $userDetail = $this->members->getMemberById($requestDetail["sr_member"]);
+        $teamMembers = $this->teams->getTeamByProjectId($postDetails["sp_project"]);
+
+        $mail = new Notification(true);
+
+        $emailSubject = $this->strings["support"] . " " . $this->strings["support_id"] . ": " . $requestDetail["sr_id"];
+
+        $emailMessage = <<<EMAIL_MESSAGE
+{$this->strings["noti_support_status2"]}
+
+{$this->strings["id"]} : {$requestDetail["sr_id"]}
+{$this->strings["subject"]} : {$requestDetail["sr_subject"]}
+{$this->strings["status"]} : {$this->requestStatus[$requestDetail["sr_status"]]}
+{$this->strings["details"]} : 
+
+EMAIL_MESSAGE;
+
+        $from = [
+            'email' => $userDetail["mem_email_work"],
+            'name' => $userDetail["mem_name"]
+        ];
+
+        try {
+            // We want to send a notification to all team members so everyone is informed and anyone can respond
+            // if needed.
+            foreach ($teamMembers as $teamMember) {
+                // If there is no email address, then skip it
+                if ($teamMember["tea_mem_email_work"]) {
+
+                    $to = [
+                        'email' => $teamMember["tea_mem_email_work"],
+                        'name' => $teamMember["tea_mem_name"]
+                    ];
+
+                    if ($teamMember["tea_mem_profil"] == 3) {
+                        $emailMessage .= "$this->root/general/login.php?url=projects_site/home.php%3Fproject=" . $postDetails["sp_project"] . "\n\n";
+                    } else {
+                        $emailMessage .= "$this->root/general/login.php?url=support/viewrequest.php%3Fid={$requestDetail["sr_id"]}\n\n";
+                    }
+
+                    $mail->sendMessage($to, $from, $emailSubject, $emailMessage);
+                }
+            }
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+        return;
     }
 
     /**
