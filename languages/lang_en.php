@@ -616,3 +616,6 @@ $strings["alert_weekly_subtask"] = "The following subtasks are due this week.";
 $strings["alert_pastdue_task"] = "The following tasks are past due.";
 $strings["alert_pastdue_subtask"] = "The following subtasks are past due.";
 $strings["link"] = "Link";
+
+//2.6.x
+$strings["action_not_allowed"] = "Action not allowed.";
