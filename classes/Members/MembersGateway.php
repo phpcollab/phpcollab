@@ -182,11 +182,12 @@ class MembersGateway
     }
 
     /**
+     * @param null $sorting
      * @return mixed
      */
-    public function getAllMembers()
+    public function getAllMembers($sorting = null)
     {
-        $this->db->query($this->initrequest["members"]);
+        $this->db->query($this->initrequest["members"] . $this->orderBy($sorting));
 
         return $this->db->resultset();
     }

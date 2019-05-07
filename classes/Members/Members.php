@@ -217,10 +217,11 @@ class Members
     }
 
     /**
+     * @param null $sorting
      * @return mixed
      */
-    public function getAllMembers() {
-        $data = $this->members_gateway->getAllMembers();
+    public function getAllMembers($sorting = null) {
+        $data = $this->members_gateway->getAllMembers($sorting);
 
         return $data;
     }
