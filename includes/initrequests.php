@@ -14,7 +14,7 @@ SELECT
     serv.id AS serv_id,
     serv.name AS serv_name,
     serv.name_print AS serv_name_print,
-    serv.hourly_rate AS serv_hourly
+    serv.hourly_rate AS serv_hourly_rate
 FROM {$tableCollab["services"]} serv
 SERVICES;
 
