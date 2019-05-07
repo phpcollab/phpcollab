@@ -214,6 +214,23 @@ SQL;
     }
 
     /**
+     * @param $requestId
+     * @param $status
+     * @param $dateClose
+     * @return mixed
+     */
+    public function updateSupportRequest($requestId, $status, $dateClose)
+    {
+        $query = "UPDATE {$this->tableCollab["support_requests"]} SET status = :status, date_close = :date_close WHERE id = :request_id";
+
+        $this->db->query($query);
+        $this->db->bind(":request_id", $requestId);
+        $this->db->bind(":status", $status);
+        $this->db->bind(":date_close", $dateClose);
+        return $this->db->execute();
+    }
+
+    /**
      * @param $supportRequestIds
      * @return mixed
      */
