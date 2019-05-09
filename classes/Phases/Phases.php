@@ -25,6 +25,18 @@ class Phases
 
     /**
      * @param $projectId
+     * @param $orderNumber
+     * @param $status
+     * @param $name
+     * @return string
+     */
+    public function addPhase($projectId, $orderNumber, $status, $name)
+    {
+        return $this->phases_gateway->addPhase($projectId, $orderNumber, $status, $name);
+    }
+
+    /**
+     * @param $projectId
      * @param $phaseNum
      * @return mixed
      */

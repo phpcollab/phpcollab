@@ -28,6 +28,31 @@ class PhasesGateway
 
     /**
      * @param $projectId
+     * @param $orderNumber
+     * @param $status
+     * @param $name
+     * @return string
+     */
+    public function addPhase($projectId, $orderNumber, $status, $name)
+    {
+        $sql = <<<SQL
+INSERT INTO {$this->tableCollab["phases"]} (
+project_id, order_num, status, name
+) VALUES (
+:project_id, :order_num, :status, :name)
+SQL;
+        $this->db->query($sql);
+        $this->db->bind(":project_id", $projectId);
+        $this->db->bind(":order_num", $orderNumber);
+        $this->db->bind(":status", $status);
+        $this->db->bind(":name", $name);
+        $this->db->execute();
+        return $this->db->lastInsertId();
+    }
+
+
+    /**
+     * @param $projectId
      * @param $phaseNum
      * @return mixed
      */
