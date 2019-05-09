@@ -22,6 +22,61 @@ class Projects
     }
 
     /**
+     * @param $name
+     * @param $organization
+     * @param $owner
+     * @param $priority
+     * @param $status
+     * @param $description
+     * @param $published
+     * @param int $phase
+     * @param int $maxUploadSize
+     * @param null $urlDev
+     * @param null $urlProd
+     * @param int $invoicing
+     * @param float $hourlyRate
+     * @param null $modified
+     * @return string
+     */
+    public function createProject($name, $organization, $owner, $priority, $status, $description, $published,
+                                  $phase = 0, $maxUploadSize = 2048000, $urlDev = null, $urlProd = null, $invoicing = 0, $hourlyRate = 0.00, $modified = null)
+    {
+        $created = date('Y-m-d h:i');
+
+        $modified = (is_null($modified)) ? date('Y-m-d h:i') : $modified;
+
+        return $this->projects_gateway->createProject($name, $organization, $owner, $priority, $status, $description, $published,
+            $phase, $maxUploadSize, $urlDev, $urlProd, $invoicing, $hourlyRate, $modified, $created);
+    }
+
+    /**
+     * @param $id
+     * @param $name
+     * @param $organization
+     * @param $owner
+     * @param $priority
+     * @param $status
+     * @param $description
+     * @param $published
+     * @param int $phase
+     * @param int $maxUploadSize
+     * @param null $urlDev
+     * @param null $urlProd
+     * @param int $invoicing
+     * @param float $hourlyRate
+     * @param null $modified
+     * @return mixed
+     */
+    public function updateProject($id, $name, $organization, $owner, $priority, $status, $description, $published,
+                                  $phase = 0, $maxUploadSize = 2048000, $urlDev = null, $urlProd = null, $invoicing = 0, $hourlyRate = 0.00, $modified = null)
+    {
+        $modified = (is_null($modified)) ? date('Y-m-d h:i') : $modified;
+
+        return $this->projects_gateway->updateProject($id, $name, $organization, $owner, $priority, $status, $description, $published,
+            $phase, $maxUploadSize, $urlDev, $urlProd, $invoicing, $hourlyRate, $modified);
+    }
+
+    /**
      * @param null $sorting
      * @return mixed
      */

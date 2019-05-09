@@ -28,12 +28,125 @@ class ProjectsGateway
     }
 
     /**
+     * @param $name
+     * @param $organization
+     * @param $owner
+     * @param $priority
+     * @param $status
+     * @param $description
+     * @param $published
+     * @param $phase
+     * @param $maxUploadSize
+     * @param $urlDev
+     * @param $urlProd
+     * @param $invoicing
+     * @param $hourlyRate
+     * @param $modified
+     * @param $created
+     * @return string
+     */
+    public function createProject($name, $organization, $owner, $priority, $status, $description, $published,
+                                  $phase, $maxUploadSize, $urlDev, $urlProd, $invoicing, $hourlyRate, $modified, $created)
+    {
+
+        $sql = <<<SQL
+INSERT INTO {$this->tableCollab["projects"]} 
+(name, priority, description, owner, organization, status, published, upload_max, url_dev, url_prod, phase_set, 
+invoicing, hourly_rate, modified, created) 
+VALUES 
+(:name, :priority, :description, :owner, :organization, :status, :published, :upload_max, :url_dev, :url_prod,
+:phase_set, :invoicing, :hourly_rate, :modified, :created)
+SQL;
+
+        $this->db->query($sql);
+
+        $this->db->bind(":name", $name);
+        $this->db->bind(":priority", $priority);
+        $this->db->bind(":description", $description);
+        $this->db->bind(":owner", $owner);
+        $this->db->bind(":organization", $organization);
+        $this->db->bind(":status", $status);
+        $this->db->bind(":published", $published);
+        $this->db->bind(":upload_max", $maxUploadSize);
+        $this->db->bind(":url_dev", $urlDev);
+        $this->db->bind(":url_prod", $urlProd);
+        $this->db->bind(":phase_set", $phase);
+        $this->db->bind(":invoicing", $invoicing);
+        $this->db->bind(":hourly_rate", $hourlyRate);
+        $this->db->bind(":modified", $modified);
+        $this->db->bind(":created", $created);
+
+        $this->db->execute();
+        return $this->db->lastInsertId();
+    }
+
+    /**
+     * @param $id
+     * @param $name
+     * @param $organization
+     * @param $owner
+     * @param $priority
+     * @param $status
+     * @param $description
+     * @param $published
+     * @param $phase
+     * @param $maxUploadSize
+     * @param $urlDev
+     * @param $urlProd
+     * @param $invoicing
+     * @param $hourlyRate
+     * @param $modified
+     * @return mixed
+     */
+    public function updateProject($id, $name, $organization, $owner, $priority, $status, $description, $published,
+                                  $phase, $maxUploadSize, $urlDev, $urlProd, $invoicing, $hourlyRate, $modified)
+    {
+        $sql = <<<SQL
+UPDATE {$this->tableCollab["projects"]}
+SET
+    name = :name,
+    priority = :priority,
+    description = :description, 
+    owner = :owner, 
+    organization = :organization, 
+    status = :status, 
+    published = :published, 
+    phase_set = :phase, 
+    upload_max = :upload_max, 
+    url_dev = :url_dev, 
+    url_prod = :url_prod, 
+    invoicing = :invoicing, 
+    hourly_rate = :hourly_rate,
+    modified = :modified
+WHERE id = :project_id
+SQL;
+        $this->db->query($sql);
+        $this->db->bind(":project_id", $id);
+        $this->db->bind(":name", $name);
+        $this->db->bind(":priority", $priority);
+        $this->db->bind(":description", $description);
+        $this->db->bind(":owner", $owner);
+        $this->db->bind(":organization", $organization);
+        $this->db->bind(":status", $status);
+        $this->db->bind(":published", $published);
+        $this->db->bind(":phase", $phase);
+        $this->db->bind(":upload_max", $maxUploadSize);
+        $this->db->bind(":url_dev", $urlDev);
+        $this->db->bind(":url_prod", $urlProd);
+        $this->db->bind(":invoicing", $invoicing);
+        $this->db->bind(":hourly_rate", $hourlyRate);
+        $this->db->bind(":modified", $modified);
+
+        return $this->db->execute();
+    }
+    
+    /**
      * @param null $sorting
      * @return mixed
      */
     public function getAllProjects($sorting = null)
     {
-        $sql = $this->db->query($this->initrequest['projects'] . $this->orderBy($sorting));
+        $this->db->query($this->initrequest['projects'] . $this->orderBy($sorting));
         return $this->db->resultset();
     }
 
@@ -111,10 +224,12 @@ class ProjectsGateway
     /**
      * @param $ownerId
      * @param $typeProjects
+     * @param null $limit
+     * @param null $offset
      * @param $sorting
-     * @return
+     * @return mixed
      */
-    public function getProjectList($ownerId, $typeProjects = null, $limit, $offset, $sorting = null)
+    public function getProjectList($ownerId, $typeProjects = null, $limit = null, $offset = null, $sorting = null)
     {
         $tmpQuery = '';
         if ($typeProjects == "inactive") {
