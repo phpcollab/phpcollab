@@ -95,6 +95,18 @@ class Members
     }
 
     /**
+     * @param $memberIds
+     * @param null $excludeId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getMembersByProfileIn($memberIds, $excludeId = null, $sorting = null)
+    {
+        $memberIds = filter_var($memberIds, FILTER_SANITIZE_STRING);
+        return $this->members_gateway->getMembersByProfileIn($memberIds, $excludeId, $sorting);
+    }
+
+    /**
      * @param $orgId
      * @param $sorting
      * @return mixed

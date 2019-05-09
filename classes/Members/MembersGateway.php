@@ -106,6 +106,30 @@ class MembersGateway
     }
 
     /**
+     * @param $memberIds
+     * @param null $excludeId
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getMembersByProfileIn($memberIds, $excludeId = null, $sorting = null)
+    {
+        $memberIds = explode(',', $memberIds);
+        $placeholders = str_repeat('?, ', count($memberIds) - 1) . '?';
+        $whereStatement = "WHERE mem.profil IN ($placeholders)";
+
+        if (!is_null($excludeId)) {
+            $whereStatement .= " AND mem.id != ?";
+            array_push($memberIds, $excludeId);
+        }
+
+        $this->db->query($this->initrequest["members"] . ' ' . $whereStatement . $this->orderBy($sorting));
+        $this->db->execute($memberIds);
+        $data = $this->db->fetchAll();
+        return $data;
+
+    }
+
+    /**
      * @param null $sorting
      * @return mixed
      */
