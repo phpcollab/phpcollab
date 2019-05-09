@@ -26,6 +26,16 @@
 ** =============================================================================
 */
 
+use phpCollab\Assignments\Assignments;
+use phpCollab\Files\Files;
+use phpCollab\Invoices\Invoices;
+use phpCollab\Members\Members;
+use phpCollab\Organizations\Organizations;
+use phpCollab\Phases\Phases;
+use phpCollab\Projects\Projects;
+use phpCollab\Tasks\Tasks;
+use phpCollab\Teams\Teams;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 include '../includes/customvalues.php';
@@ -33,410 +43,449 @@ include '../includes/customvalues.php';
 $id = phpCollab\Util::returnGlobal('id', 'REQUEST');
 $docopy = phpCollab\Util::returnGlobal('docopy', 'REQUEST');
 
-$teams = new \phpCollab\Teams\Teams();
-$tasks = new \phpCollab\Tasks\Tasks();
-$projects = new \phpCollab\Projects\Projects();
-$files = new \phpCollab\Files\Files();
-$phases = new \phpCollab\Phases\Phases();
-$members = new \phpCollab\Members\Members();
+$teams = new Teams();
+$tasks = new Tasks();
+$projects = new Projects();
+$files = new Files();
+$phases = new Phases();
+$members = new Members();
+$invoices = new Invoices();
+$assignments = new Assignments();
+$organizations = new Organizations();
 
 if ($htaccessAuth == "true") {
     $Htpasswd = new Htpasswd;
 }
 
-//case update or copy project
+// Set default values for form fields
+$projectName = null;
+$description = null;
+$url_dev = null;
+$url_prod = null;
+$hourly_rate = null;
+$invoicing = null;
+
+
+/**
+ * case update or copy project
+ */
 if ($id != "") {
+    /*
+     * If the user is not an Admin, Project Manager, or Project Manager Administrator then redirect to project view
+     */
     if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5") {
         phpCollab\Util::headerFunction("../projects/viewproject.php?id=$id");
     }
 
-    //test exists selected project, redirect to list if not
-    $tmpquery = "WHERE pro.id = '$id'";
-    $projectDetail = new phpCollab\Request();
-    $projectDetail->openProjects($tmpquery);
-    $comptProjectDetail = count($projectDetail->pro_id);
-
-    if ($docopy == "true") {
-        $setTitle .= " : Copy Project (" . $projectDetail->pro_name[0] . ")";
-    } else {
-        $setTitle .= " : Edit Project (" . $projectDetail->pro_name[0] . ")";
-    }
+    /*
+     * See if the project exists, if it does not exist then redirect to project list
+     */
+    $projectDetail = $projects->getProjectById($id);
 
 
-    if ($comptProjectDetail == "0") {
+
+    if (empty($projectDetail)) {
         phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blankProject");
     }
 
-    if ($idSession != $projectDetail->pro_owner[0] && $profilSession != "0" && $profilSession != "5") {
+    if ($idSession != $projectDetail["pro_owner"] && $profilSession != "0" && $profilSession != "5") {
         phpCollab\Util::headerFunction("../projects/listprojects.php?msg=projectOwner");
     }
 
-    //case update or copy project
-    if ($action == "update") {
+    /*
+     * Set the page title
+     */
+    if ($docopy == "true") {
+        $setTitle .= " : Copy Project (" . $projectDetail["pro_name"] . ")";
+    } else {
+        $setTitle .= " : Edit Project (" . $projectDetail["pro_name"] . ")";
+    }
 
-        //replace quotes by html code in name and description
-        $pn = phpCollab\Util::convertData($pn);
-        $d = phpCollab\Util::convertData($d);
+    /*
+     * case update or copy project
+     * See if the form has been submitted or not and key off the action field
+     */
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ($action == "update") {
 
-        //case copy project
-        if ($docopy == "true") {
-            if ($invoicing == "" || $clod == "1") {
-                $invoicing = "0";
-            }
+            $published = filter_input(INPUT_POST, "projectPublished", FILTER_SANITIZE_NUMBER_INT);
+            $projectName = filter_input(INPUT_POST, "name", FILTER_SANITIZE_STRING);
+            $priority = filter_input(INPUT_POST, "priority", FILTER_SANITIZE_NUMBER_INT);
+            $description = htmlspecialchars($_POST["description"], ENT_QUOTES, 'UTF-8');
+            $urlDev = filter_input(INPUT_POST, "url_dev", FILTER_SANITIZE_URL);
+            $urlProd = filter_input(INPUT_POST, "url_prod", FILTER_SANITIZE_URL);
+            $owner = filter_input(INPUT_POST, "owner", FILTER_SANITIZE_NUMBER_INT);
+            $organization = filter_input(INPUT_POST, "client_organization", FILTER_SANITIZE_NUMBER_INT);
+            $thisPhase = filter_input(INPUT_POST, "thisPhase", FILTER_SANITIZE_NUMBER_INT);
+            $status = filter_input(INPUT_POST, "status", FILTER_SANITIZE_NUMBER_INT);
+            $maxUploadSize = filter_input(INPUT_POST, "max_upload_size", FILTER_SANITIZE_NUMBER_INT);
+            $invoicing = filter_input(INPUT_POST, "invoicing", FILTER_SANITIZE_NUMBER_INT);
+            $hourlyRate = filter_input(INPUT_POST, "hourly_rate", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 
-            if ($hourly_rate == "") {
-                $hourly_rate = "0.00";
-            }
 
-            //insert into projects and teams (with last id project)
-            $dbParams = [];
-            $dbParams["name"] = $pn;
-            $dbParams["priority"] = $pr;
-            $dbParams["description"] = $d;
-            $dbParams["owner"] = $pown;
-            $dbParams["organization"] = $clod;
-            $dbParams["status"] = $st;
-            $dbParams["created"] = $dateheure;
-            $dbParams["published"] = $projectPublished;
-            $dbParams["upload_max"] = $up;
-            $dbParams["url_dev"] = $url_dev;
-            $dbParams["url_prod"] = $url_prod;
-            $dbParams["phase_set"] = $thisPhase;
-            $dbParams["invoicing"] = $invoicing;
-            $dbParams["hourly_rate"] = $hourly_rate;
-
-            $projectNew = phpCollab\Util::newConnectSql(
-                "INSERT INTO {$tableCollab["projects"]} (name,priority,description,owner,organization,status,created,published,upload_max,url_dev,url_prod,phase_set,invoicing,hourly_rate) VALUES(:name,:priority,:description,:owner,:organization,:status,:created,:published,:upload_max,:url_dev,:url_prod,:phase_set,:invoicing,:hourly_rate)",
-                $dbParams
-            );
-            unset($dbParams);
-
-            phpCollab\Util::newConnectSql(
-                "INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES(:project,:member,:published,:authorized)",
-                ["project" => $projectNew, "member" => $pown, "published" => 1, "authorized" => 0]
-            );
-
-            if ($enableInvoicing == "true") {
-                phpCollab\Util::newConnectSql(
-                    "INSERT INTO {$tableCollab["invoices"]} (project,created,status,active,published) VALUES (:project,:created,:status,:active,:published)",
-                    ["project" => $projectNew, "created" => $dateheure, "status" => 0, "active" => $invoicing, "published" => 1]
-                );
-            }
-
-            //create project folder if filemanagement = true
-            if ($fileManagement == "true") {
-                phpCollab\Util::createDirectory("files/$projectNew");
-            }
-
-            if ($htaccessAuth == "true") {
-                $content = <<<STAMP
-AuthName "$setTitle"
-AuthType Basic
-Require valid-user
-AuthUserFile $fullPath/files/$projectNew/.htpasswd
-STAMP;
-                $fp = @fopen("../files/$projectNew/.htaccess", 'wb+');
-                $fw = fwrite($fp, $content);
-                $fp = @fopen("../files/$projectNew/.htpasswd", 'wb+');
-
-                $detailMember = $members->getMemberById($pown);
-
-                $Htpasswd = new Htpasswd;
-                $Htpasswd->initialize("../files/" . $projectNew . "/.htpasswd");
-                $Htpasswd->addUser($detailMember["mem_login"], $detailMember["mem_password"]);
-            }
-
-            $listTasks = $tasks->getTasksByProjectId($id);
-
-            foreach ($listTasks as $task) {
-                $assigned = "";
-                $at = "";
-                $tn = phpCollab\Util::convertData($task["tas_name"]);
-                $d = phpCollab\Util::convertData($task["tas_description"]);
-                $ow = $task["tas_owner"];
-                $at = $task["tas_assigned_to"];
-                $st = $task["tas_status"];
-                $pr = $task["tas_priority"];
-                $sd = $task["tas_start_date"];
-                $dd = $task["tas_due_date"];
-                $cd = $task["tas_complete_date"];
-                $etm = $task["tas_estimated_time"];
-                $atm = $task["tas_actual_time"];
-                $c = phpCollab\Util::convertData($task["tas_comments"]);
-                $pha = $task["tas_parent_phase"];
-                $published = $task["tas_published"];
-                $compl = $task["tas_completion"];
-
-                if ($at != "0") {
-                    $assigned = $dateheure;
+            //case copy project
+            if ($docopy == "true") {
+                if ($invoicing == "" || $organization == "1") {
+                    $invoicing = "0";
                 }
 
-                $dbParams = [];
-                $dbParams["project"] = $projectNew;
-                $dbParams["name"] = $tn;
-                $dbParams["description"] = $d;
-                $dbParams["owner"] = $ow;
-                $dbParams["assigned_to"] = $at;
-                $dbParams["status"] = $st;
-                $dbParams["priority"] = $pr;
-                $dbParams["start_date"] = $sd;
-                $dbParams["due_date"] = $dd;
-                $dbParams["complete_date"] = $cd;
-                $dbParams["estimated_time"] = $etm;
-                $dbParams["actual_time"] = $atm;
-                $dbParams["comments"] = $c;
-                $dbParams["created"] = $dateheure;
-                $dbParams["assigned"] = $assigned;
-                $dbParams["published"] = $published;
-                $dbParams["completion"] = $compl;
-                $dbParams["parent_phase"] = $pha;
-
-                $num = phpCollab\Util::newConnectSql(
-                    "INSERT INTO {$tableCollab["tasks"]} (project,name,description,owner,assigned_to,status,priority,start_date,due_date,complete_date,estimated_time,actual_time,comments,created,assigned,published,completion,parent_phase) VALUES(:project,:name,:description,:owner,:assigned_to,:status,:priority,:start_date,:due_date,:complete_date,:estimated_time,:actual_time,:comments,:created,:assigned,:published,:completion,:parent_phase)",
-                    $dbParams
-                );
-                unset($dbParams);
-
-                phpCollab\Util::newConnectSql(
-                    "INSERT INTO {$tableCollab["assignments"]} (task,owner,assigned_to,assigned) VALUES(:task,:owner,:assigned_to,:assigned)",
-                    ["task" => $num, "owner" => $ow, "assigned_to" => $at, "assigned" => $dateheure]
-                );
-
-                //start the subtask copy
-                $T_id = $listTasks["tas_id"];
-
-                $subtaskDetail = $tasks->getSubTaskById($T_id);
-
-                foreach ($subtaskDetail as $subtask) {
-                    $s_tn = phpCollab\Util::convertData($subtaskDetail["subtas_name"]);
-                    $s_d = phpCollab\Util::convertData($subtaskDetail["subtas_description"]);
-                    $s_ow = $subtaskDetail["subtas_owner"];
-                    $s_at = $subtaskDetail["subtas_assigned_to"];
-                    $s_st = $subtaskDetail["subtas_status"];
-                    $s_pr = $subtaskDetail["subtas_priority"];
-                    $s_sd = $subtaskDetail["subtas_start_date"];
-                    $s_dd = $subtaskDetail["subtas_due_date"];
-                    $s_cd = $subtaskDetail["subtas_complete_date"];
-                    $s_etm = $subtaskDetail["subtas_estimated_time"];
-                    $s_atm = $subtaskDetail["subtas_actual_time"];
-                    $s_c = phpCollab\Util::convertData($subtaskDetail["subtas_comments"]);
-                    $s_published = $subtaskDetail["subtas_published"];
-                    $s_compl = $subtaskDetail["subtas_completion"];
-
-                    $subTasksData = [];
-                    $subTasksData["task"] = $num;
-                    $subTasksData["name"] = $s_tn;
-                    $subTasksData["description"] = $s_d;
-                    $subTasksData["owner"] = $s_ow;
-                    $subTasksData["assigned_to"] = $s_at;
-                    $subTasksData["status"] = $s_st;
-                    $subTasksData["priority"] = $s_pr;
-                    $subTasksData["start_date"] = $s_sd;
-                    $subTasksData["due_date"] = $s_dd;
-                    $subTasksData["complete_date"] = $s_cd;
-                    $subTasksData["estimated_time"] = $s_etm;
-                    $subTasksData["actual_time"] = $s_atm;
-                    $subTasksData["comments"] = $s_c;
-                    $subTasksData["created"] = $dateheure;
-                    $subTasksData["assigned"] = $dateheure;
-                    $subTasksData["published"] = $s_published;
-                    $subTasksData["completion"] = $s_compl;
-
-                    $s_num = phpCollab\Util::newConnectSql(
-                        "INSERT INTO {$tableCollab["subtasks"]} (task,name,description,owner,assigned_to,status,priority,start_date,due_date,complete_date,estimated_time,actual_time,comments,created,assigned,published,completion) VALUES(:task,:name,:description,:owner,:assigned_to,:status,:priority,:start_date,:due_date,:complete_date,:estimated_time,:actual_time,:comments,:created,:assigned,:published,:completion)",
-                        $subTasksData
-                    );
-                    unset($subTasksData);
-
-                    phpCollab\Util::newConnectSql(
-                        "INSERT INTO {$tableCollab["assignments"]} (subtask,owner,assigned_to,assigned) VALUES(:subtask,:owner,:assigned_to,:assigned)",
-                        ["subtask" => $s_num, "owner" => $s_ow, "assigned_to" => $s_at, "assigned" => $dateheure]
-                    );
+                if ($hourlyRate == "") {
+                    $hourlyRate = "0.00";
                 }
 
+                try {
 
-                if ($at != "0") {
-                    $tmpquery = "WHERE tea.project = '$projectNew' AND tea.member = '$at'";
-                    $testinTeam = new phpCollab\Request();
-                    $testinTeam->openTeams($tmpquery);
-                    $comptTestinTeam = count($testinTeam->tea_id);
+                    $newProjectId = $projects->createProject($projectName, $organization, $owner, $priority, $status,
+                        $description, $published, $thisPhase, $maxUploadSize, $urlDev, $urlProd, $invoicing, $hourlyRate);
 
-                    if ($comptTestinTeam == "0") {
-                        phpCollab\Util::newConnectSql(
-                            "INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES (:project,:member,:published,:authorized)",
-                            ["project" => $projectNew, "member" => $at, "published" => 1, "authorized" => 0]
-                        );
+                    //insert into projects and teams (with last id project)
+//                $dbParams = [];
+//                $dbParams["name"] = $pn;
+//                $dbParams["priority"] = $pr;
+//                $dbParams["description"] = $d;
+//                $dbParams["owner"] = $pown;
+//                $dbParams["organization"] = $clod;
+//                $dbParams["status"] = $st;
+//                $dbParams["created"] = $dateheure;
+//                $dbParams["published"] = $projectPublished;
+//                $dbParams["upload_max"] = $up;
+//                $dbParams["url_dev"] = $url_dev;
+//                $dbParams["url_prod"] = $url_prod;
+//                $dbParams["phase_set"] = $thisPhase;
+//                $dbParams["invoicing"] = $invoicing;
+//                $dbParams["hourly_rate"] = $hourly_rate;
+//
+//                $projectNew = phpCollab\Util::newConnectSql(
+//                    "INSERT INTO {$tableCollab["projects"]} (name,priority,description,owner,organization,status,created,published,upload_max,url_dev,url_prod,phase_set,invoicing,hourly_rate) VALUES(:name,:priority,:description,:owner,:organization,:status,:created,:published,:upload_max,:url_dev,:url_prod,:phase_set,:invoicing,:hourly_rate)",
+//                    $dbParams
+//                );
+//                unset($dbParams);
 
-                        if ($htaccessAuth == "true") {
-                            $detailMember = $members->getMemberById($at);
+//                    xdebug_var_dump($newProjectId);
 
-                            $Htpasswd->initialize("../files/" . $projectNew . "/.htpasswd");
-                            $Htpasswd->addUser($detailMember["mem_login"], $detailMember["mem_password"]);
-                        }
+
+                    $newTeamId = $teams->addTeam($newProjectId, $idSession, 1, 0);
+
+//                    phpCollab\Util::newConnectSql(
+//                        "INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES(:project,:member,:published,:authorized)",
+//                        ["project" => $projectNew, "member" => $pown, "published" => 1, "authorized" => 0]
+//                    );
+
+                    if ($enableInvoicing == "true") {
+//                        phpCollab\Util::newConnectSql(
+//                            "INSERT INTO {$tableCollab["invoices"]} (project,created,status,active,published) VALUES (:project,:created,:status,:active,:published)",
+//                            ["project" => $projectNew, "created" => $dateheure, "status" => 0, "active" => $invoicing, "published" => 1]
+//                        );
+                        $newInvoiceId = $invoices->addInvoice($newProjectId, 0, $invoicing, 1);
                     }
-                }
 
-                //create task sub-folder if filemanagement = true
-                if ($fileManagement == "true") {
-                    phpCollab\Util::createDirectory("files/$projectNew/$num");
-                }
-            }
 
-            //if mantis bug tracker enabled
-            if ($enableMantis == "true") {
-                // call mantis function to copy project
-                include $pathMantis . '/proj_add.php';
-            }
-
-            //create phase structure if enable phase was selected as true
-            if ($thisPhase != "0") {
-                $comptThisPhase = count($phaseArraySets[$thisPhase]);
-
-                for ($i = 0; $i < $comptThisPhase; $i++) {
-                    phpCollab\Util::newConnectSql(
-                        "INSERT INTO {$tableCollab["phases"]} (project_id,order_num,status,name) VALUES(:project_id,:order_num,:status,:name)",
-                        ["project_id" => $projectNew, "order_num" => $i, "status" => 0, "name" => $phaseArraySets[$thisPhase][$i]]
-                    );
-                }
-            }
-
-            phpCollab\Util::headerFunction("../projects/viewproject.php?id=$projectNew&msg=add");
-        } else {
-
-            //if project owner change, add new to team members (only if doesn't already exist)
-            if ($pown != $projectDetail->pro_owner[0]) {
-                $tmpquery = "WHERE tea.project = '$id' AND tea.member = '$pown'";
-                $testinTeam = new phpCollab\Request();
-                $testinTeam->openTeams($tmpquery);
-                $comptTestinTeam = count($testinTeam->tea_id);
-
-                if ($comptTestinTeam == "0") {
-                    phpCollab\Util::newConnectSql(
-                        "INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES(:project,:member,:published,:authorized)",
-                        ["project" => $id, "member" => $pown, "published" => 1, "authorized" => 0]
-                    );
+//die('next step?');
+                    //create project folder if filemanagement = true
+                    if ($fileManagement == "true") {
+                        phpCollab\Util::createDirectory("files/$newProjectId");
+                    }
 
                     if ($htaccessAuth == "true") {
-                        $detailMember = $members->getMemberById($pown);
+                        $content = <<<STAMP
+        AuthName "$setTitle"
+        AuthType Basic
+        Require valid-user
+        AuthUserFile $fullPath/files/$newProjectId/.htpasswd
+STAMP;
+                        $fp = @fopen("../files/$newProjectId/.htaccess", 'wb+');
+                        $fw = fwrite($fp, $content);
+                        $fp = @fopen("../files/$newProjectId/.htpasswd", 'wb+');
 
-                        $Htpasswd->initialize("../files/" . $id . "/.htpasswd");
+                        $detailMember = $members->getMemberById($owner);
+
+                        $Htpasswd = new Htpasswd;
+                        $Htpasswd->initialize("../files/" . $newProjectId . "/.htpasswd");
                         $Htpasswd->addUser($detailMember["mem_login"], $detailMember["mem_password"]);
                     }
-                }
-            }
 
-            //if organization change, delete old organization permitted users from teams
-            if ($clod != $projectDetail->pro_organization[0]) {
-                $tmpquery = "WHERE tea.project = '$id' AND mem.profil = '3'";
-                $suppTeamClient = new phpCollab\Request();
-                $suppTeamClient->openTeams($tmpquery);
-                $comptSuppTeamClient = count($suppTeamClient->tea_id);
+                    $listTasks = $tasks->getTasksByProjectId($id);
 
-                if ($comptSuppTeamClient == "0") {
-                    for ($i = 0; $i < $comptSuppTeamClient; $i++) {
-                        $membersTeam .= $suppTeamClient->tea_mem_id[$i];
-                        if ($i < $comptSuppTeamClient - 1) {
-                            $membersTeam .= ",";
+                    foreach ($listTasks as $task) {
+                        $assigned = "";
+                        $taskAssignedTo = "";
+                        $taskName = phpCollab\Util::convertData($task["tas_name"]);
+                        $taskDescription = phpCollab\Util::convertData($task["tas_description"]);
+                        $taskOwner = $task["tas_owner"];
+                        $taskAssignedTo = $task["tas_assigned_to"];
+                        $taskStatus = $task["tas_status"];
+                        $taskPriority = $task["tas_priority"];
+                        $taskStartDate = $task["tas_start_date"];
+                        $taskDueDate = $task["tas_due_date"];
+                        $taskCompleteDate = $task["tas_complete_date"];
+                        $taskEstimatedTime = $task["tas_estimated_time"];
+                        $taskActualTime = $task["tas_actual_time"];
+                        $taskComments = phpCollab\Util::convertData($task["tas_comments"]);
+                        $taskParentPhase = $task["tas_parent_phase"];
+                        $taskPublished = $task["tas_published"];
+                        $taskCompleted = $task["tas_completion"];
+
+                        if ($taskAssignedTo != "0") {
+                            $assigned = $dateheure;
                         }
 
-                        if ($htaccessAuth == "true") {
-                            $Htpasswd->initialize("../files/" . $id . "/.htpasswd");
-                            $Htpasswd->deleteUser($suppTeamClient->mem_login[$i]);
+//                        $dbParams = [];
+//                        $dbParams["project"] = $newProjectId;
+//                        $dbParams["name"] = $taskName;
+//                        $dbParams["description"] = $taskDescription;
+//                        $dbParams["owner"] = $taskOwner;
+//                        $dbParams["assigned_to"] = $taskAssignedTo;
+//                        $dbParams["status"] = $taskStatus;
+//                        $dbParams["priority"] = $taskPriority;
+//                        $dbParams["start_date"] = $taskStartDate;
+//                        $dbParams["due_date"] = $taskDueDate;
+//                        $dbParams["complete_date"] = $taskCompleteDate;
+//                        $dbParams["estimated_time"] = $taskEstimatedTime;
+//                        $dbParams["actual_time"] = $taskActualTime;
+//                        $dbParams["comments"] = $taskComments;
+//                        $dbParams["created"] = $dateheure;
+//                        $dbParams["assigned"] = $assigned;
+//                        $dbParams["published"] = $taskPublished;
+//                        $dbParams["completion"] = $taskCompleted;
+//                        $dbParams["parent_phase"] = $taskParentPhase;
+
+                        $newTask = $tasks->addTask($newProjectId, $taskName, $taskDescription, $taskOwner,
+                            $taskAssignedTo, $taskStatus, $taskPriority, $taskStartDate, $taskDueDate, $taskEstimatedTime,
+                            $taskActualTime, $taskComments, $taskPublished, $taskCompleted, $taskParentPhase);
+
+                        $newTaskId = $newTask["tas_id"];
+//                        $num = phpCollab\Util::newConnectSql(
+//                            "INSERT INTO {$tableCollab["tasks"]} (project,name,description,owner,assigned_to,status,priority,start_date,due_date,complete_date,estimated_time,actual_time,comments,created,assigned,published,completion,parent_phase) VALUES(:project,:name,:description,:owner,:assigned_to,:status,:priority,:start_date,:due_date,:complete_date,:estimated_time,:actual_time,:comments,:created,:assigned,:published,:completion,:parent_phase)",
+//                            $dbParams
+//                        );
+//                        unset($dbParams);
+
+
+                        $newAssignmentId = $assignments->addAssignment($newTaskId, $taskOwner, $taskAssignedTo, date('Y-m-d h:i'));
+//                        phpCollab\Util::newConnectSql(
+//                            "INSERT INTO {$tableCollab["assignments"]} (task,owner,assigned_to,assigned) VALUES(:task,:owner,:assigned_to,:assigned)",
+//                            ["task" => $num, "owner" => $ow, "assigned_to" => $at, "assigned" => $dateheure]
+//                        );
+
+                        //start the subtask copy
+                        $subtaskDetail = $tasks->getSubTaskById($task["tas_id"]);
+
+                        if ($subtaskDetail) {
+
+                            foreach ($subtaskDetail as $subtask) {
+                                $s_tn = phpCollab\Util::convertData($subtask["subtas_name"]);
+                                $s_d = phpCollab\Util::convertData($subtask["subtas_description"]);
+                                $s_ow = $subtask["subtas_owner"];
+                                $s_at = $subtask["subtas_assigned_to"];
+                                $s_st = $subtask["subtas_status"];
+                                $s_pr = $subtask["subtas_priority"];
+                                $s_sd = $subtask["subtas_start_date"];
+                                $s_dd = $subtask["subtas_due_date"];
+                                $s_cd = $subtask["subtas_complete_date"];
+                                $s_etm = $subtask["subtas_estimated_time"];
+                                $s_atm = $subtask["subtas_actual_time"];
+                                $s_c = phpCollab\Util::convertData($subtask["subtas_comments"]);
+                                $s_published = $subtask["subtas_published"];
+                                $s_compl = $subtask["subtas_completion"];
+
+    //                            $subTasksData = [];
+    //                            $subTasksData["task"] = $num;
+    //                            $subTasksData["name"] = $s_tn;
+    //                            $subTasksData["description"] = $s_d;
+    //                            $subTasksData["owner"] = $s_ow;
+    //                            $subTasksData["assigned_to"] = $s_at;
+    //                            $subTasksData["status"] = $s_st;
+    //                            $subTasksData["priority"] = $s_pr;
+    //                            $subTasksData["start_date"] = $s_sd;
+    //                            $subTasksData["due_date"] = $s_dd;
+    //                            $subTasksData["complete_date"] = $s_cd;
+    //                            $subTasksData["estimated_time"] = $s_etm;
+    //                            $subTasksData["actual_time"] = $s_atm;
+    //                            $subTasksData["comments"] = $s_c;
+    //                            $subTasksData["created"] = $dateheure;
+    //                            $subTasksData["assigned"] = $dateheure;
+    //                            $subTasksData["published"] = $s_published;
+    //                            $subTasksData["completion"] = $s_compl;
+
+                                $newSubtaskId = $tasks->addSubTask($newTaskId, $s_tn, $s_d, $s_ow, $s_at, $s_st, $s_pr, $s_sd, $s_dd, $s_cd, $s_etm, $s_atm, $s_c, $s_published, $s_compl);
+
+    //                            $s_num = phpCollab\Util::newConnectSql(
+    //                                "INSERT INTO {$tableCollab["subtasks"]} (
+    //task, name,description,owner,assigned_to,status,priority,start_date,due_date,complete_date,estimated_time,actual_time,comments,created,assigned,published,completion) VALUES (
+    //:task,:name,:description,:owner,:assigned_to,:status,:priority,:start_date,:due_date,:complete_date,:estimated_time,:actual_time,:comments,:created,:assigned,:published,:completion)",
+    //                                $subTasksData
+    //                            );
+    //                            unset($subTasksData);
+
+                                $newSubtaskAssignmentId = $assignments->addAssignment($newSubtaskId, $s_ow, $s_at, $dateheure);
+    //                            phpCollab\Util::newConnectSql(
+    //                                "INSERT INTO {$tableCollab["assignments"]} (subtask,owner,assigned_to,assigned) VALUES(:subtask,:owner,:assigned_to,:assigned)",
+    //                                ["subtask" => $s_num, "owner" => $s_ow, "assigned_to" => $s_at, "assigned" => $dateheure]
+    //                            );
+                            }
+                        }
+
+
+                        if ($taskAssignedTo != "0") {
+//                            $tmpquery = "WHERE tea.project = '$newProjectId' AND tea.member = '$at'";
+//                            $testinTeam = new phpCollab\Request();
+//                            $testinTeam->openTeams($tmpquery);
+//                            $comptTestinTeam = count($testinTeam->tea_id);
+                            $isTeamMember = $teams->isTeamMember($newProjectId, $taskAssignedTo);
+
+                            if ($isTeamMember) {
+                                $newTeamId = $teams->addTeam($newProjectId, $taskAssignedTo, 1, 0);
+//                                phpCollab\Util::newConnectSql(
+//                                    "INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES (:project,:member,:published,:authorized)",
+//                                    ["project" => $newProjectId, "member" => $at, "published" => 1, "authorized" => 0]
+//                                );
+
+                                if ($htaccessAuth == "true") {
+                                    $detailMember = $members->getMemberById($taskAssignedTo);
+
+                                    $Htpasswd->initialize("../files/" . $newProjectId . "/.htpasswd");
+                                    $Htpasswd->addUser($detailMember["mem_login"], $detailMember["mem_password"]);
+                                }
+                            }
+                        }
+
+                        //create task sub-folder if filemanagement = true
+                        if ($fileManagement == "true") {
+                            phpCollab\Util::createDirectory("files/$newProjectId/$newTaskId");
                         }
                     }
 
+                    //if mantis bug tracker enabled
+                    if ($enableMantis == "true") {
+                        // call mantis function to copy project
+                        /** @noinspection PhpIncludeInspection */
+                        include $pathMantis . 'proj_add.php';
+                    }
 
-                    $teams->deleteFromTeamsByProjectIdAndMemberId($id, $membersTeam);
-                }
-            }
+                    //create phase structure if enable phase was selected as true
+                    if ($thisPhase != "0") {
+                        $comptThisPhase = count($phaseArraySets[$thisPhase]);
 
-            //-------------------------------------------------------------------------------------------------
-            $targetProject = $projects->getProjectById($id);
+                        for ($i = 0; $i < $comptThisPhase; $i++) {
+                            $newPhaseId = $phases->addPhase($newProjectId, $i, 0, $phaseArraySets[$thisPhase][$i]);
+//                            phpCollab\Util::newConnectSql(
+//                                "INSERT INTO {$tableCollab["phases"]} (project_id,order_num,status,name) VALUES(:project_id,:order_num,:status,:name)",
+//                                ["project_id" => $newProjectId, "order_num" => $i, "status" => 0, "name" => $phaseArraySets[$thisPhase][$i]]
+//                            );
+                        }
+                    }
 
-            //Delete old or unused phases
-            if ($targetProject["pro_phase_set"] != $thisPhase) {
-                phpCollab\Util::newConnectSql("DELETE FROM {$tableCollab["phases"]} WHERE project_id = :project_id", ["project_id" => $id]);
-            }
-
-            //Create new Phases
-            if ($targetProject["pro_phase_set"] != $thisPhase) {
-                $comptThisPhase = count($phaseArraySets[$thisPhase]);
-
-                for ($i = 0; $i < $comptThisPhase; $i++) {
-                    phpCollab\Util::newConnectSql(
-                        "INSERT INTO {$tableCollab["phases"]} (project_id,order_num,status,name) VALUES(:project_id,:order_num,:status,:name)",
-                        ["project_id" => $id, "order_num" => $i, "status" => 0, "name" => $phaseArraySets[$thisPhase][$i]]
-                    );
-                }
-
-                //Get a listing of project tasks and files and re-assign them to new phases if the phase set of a project is changed.
-                $listTasks = $tasks->getTasksByProjectId($targetProject["pro_id"]);
-                $listFiles = $files->getFilesByProjectIdAndPhaseNotEqualZero($targetProject["pro_id"]);
-                $targetPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($targetProject["pro_id"], 0);
-
-                foreach ($listTasks as $task) {
-                    phpCollab\Util::newConnectSql(
-                        "UPDATE {$tableCollab["tasks"]} SET parent_phase = 0 WHERE id = :task_id",
-                        ["task_id" => $task["tas_id"]]
-                    );
+//                    die('redirect');
+                    phpCollab\Util::headerFunction("../projects/viewproject.php?id=$newProjectId&msg=add");
+                } catch (Exception $e) {
+                    echo "ERROR: " . $e->getMessage();
                 }
 
-                foreach ($listFiles as $file) {
-                    phpCollab\Util::newConnectSql(
-                        "UPDATE {$tableCollab["files"]} SET phase = :phase WHERE id = :file_id",
-                        ["phase" => $targetPhase["pha_id"], "file_id" => $file["fil_id"]]
-                    );
+            } else {
+
+                //if project owner change, add new to team members (only if doesn't already exist)
+                if ($owner != $projectDetail["pro_owner"]) {
+                    $isTeamMember = $teams->isTeamMember($id, $owner);
+
+                    if ($isTeamMember) {
+                        $newTeamId = $teams->addTeam($id, $owner, 1, 0);
+
+                        if ($htaccessAuth == "true") {
+                            $detailMember = $members->getMemberById($owner);
+
+                            try {
+                                $Htpasswd->initialize("../files/" . $id . "/.htpasswd");
+                                $Htpasswd->addUser($detailMember["mem_login"], $detailMember["mem_password"]);
+                            } catch (Exception $e) {
+
+                            }
+                        }
+                    }
                 }
-            }
 
-            //update project
-            if ($invoicing == "" || $clod == "1") {
-                //nb if the project has not client than the invocing will be deactivated
-                $invoicing = "0";
-            }
-            $updateProjectsSql = "UPDATE {$tableCollab["projects"]} SET name=:name,priority=:priority,description=:description,url_dev=:url_dev,url_prod=:url_prod,owner=:owner,organization=:organization,status=:status,modified=:modified,upload_max=:upload_max,phase_set=:phase_set,invoicing=:invoicing,hourly_rate=:hourly_rate WHERE id = :project_id";
-            $dbParams = [];
-            $dbParams["name"] = $pn;
-            $dbParams["priority"] = $pr;
-            $dbParams["description"] = $d;
-            $dbParams["url_dev"] = $url_dev;
-            $dbParams["url_prod"] = $url_prod;
-            $dbParams["owner"] = $pown;
-            $dbParams["organization"] = $clod;
-            $dbParams["status"] = $st;
-            $dbParams["modified"] = $dateheure;
-            $dbParams["upload_max"] = $up;
-            $dbParams["phase_set"] = $thisPhase;
-            $dbParams["invoicing"] = $invoicing;
-            $dbParams["hourly_rate"] = $hourly_rate;
-            $dbParams["project_id"] = $id;
-            phpCollab\Util::newConnectSql($updateProjectsSql, $dbParams);
-            unset($dbParams);
+                //if organization change, delete old organization permitted users from teams
+                if ($organization != $projectDetail["pro_organization"]) {
+                    $suppTeamClient = $teams->getClientTeamMembersByProject($id);
+                    if ($suppTeamClient) {
+                        $clientTeam = [];
+                        foreach ($suppTeamClient as $clientUser) {
+                            array_push($clientTeam, $clientUser["tea_mem_id"]);
 
-            if ($enableInvoicing == "true") {
-                phpCollab\Util::newConnectSql(
-                    "UPDATE {$tableCollab["invoices"]} SET active = :active WHERE project = :project_id",
-                    ["active" => $invoicing, "project_id" => $id]
-                );
-            }
+                            if ($htaccessAuth == "true") {
+                                try {
+                                    $Htpasswd->initialize("../files/" . $id . "/.htpasswd");
+                                    $Htpasswd->deleteUser($clientUser["mem_login"]);
+                                } catch (Exception $e) {
 
-            //if mantis bug tracker enabled
-            if ($enableMantis == "true") {
-                // call mantis function to copy project
-                include '../mantis/proj_update.php';
+                                }
+                            }
+                        }
+                        $teams->deleteFromTeamsByProjectIdAndMemberId($id, implode(', ', $clientTeam));
+                    }
+                }
+
+                //-------------------------------------------------------------------------------------------------
+                $targetProject = $projects->getProjectById($id);
+
+                //Delete old or unused phases
+                if ($targetProject["pro_phase_set"] != $thisPhase) {
+                    $phases->deletePhasesByProjectId($id);
+                }
+
+                //Create new Phases
+                if ($targetProject["pro_phase_set"] != $thisPhase) {
+                    $comptThisPhase = count($phaseArraySets[$thisPhase]);
+
+                    for ($i = 0; $i < $comptThisPhase; $i++) {
+                        $phases->addPhase($id, $i, 0, $phaseArraySets[$thisPhase][$i]);
+                    }
+
+                    //Get a listing of project tasks and files and re-assign them to new phases if the phase set of a project is changed.
+                    $listTasks = $tasks->getTasksByProjectId($targetProject["pro_id"]);
+                    $listFiles = $files->getFilesByProjectIdAndPhaseNotEqualZero($targetProject["pro_id"]);
+                    $targetPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($targetProject["pro_id"], 0);
+
+                    foreach ($listTasks as $task) {
+                        $tasks->setParentPhase($task["tas_id"], 0);
+                    }
+
+                    foreach ($listFiles as $file) {
+                        $files->setPhase($file["fil_id"], $targetPhase["pha_id"]);
+                    }
+                }
+
+                //update project
+                if ($invoicing == "" || $organization == "1") {
+                    //nb if the project has not client than the invocing will be deactivated
+                    $invoicing = "0";
+                }
+
+                $projects->updateProject($id, $name, $organization, $owner, $priority, $status, $description, $published,
+                    $thisPhase, $maxUploadSize, $urlDev, $urlProd, $invoicing, $hourlyRate, $dateheure);
+
+
+                if ($enableInvoicing == "true") {
+                    $invoices->setActive($id, $invoicing);
+                }
+
+                //if mantis bug tracker enabled
+                if ($enableMantis == "true") {
+                    // call mantis function to copy project
+                    include '../mantis/proj_update.php';
+                }
+                phpCollab\Util::headerFunction("../projects/viewproject.php?id=$id&msg=update");
             }
-            phpCollab\Util::headerFunction("../projects/viewproject.php?id=$id&msg=update");
         }
     }
 
 
     //set value in form
-    $pn = $projectDetail->pro_name[0];
-    $d = $projectDetail->pro_description[0];
-    $url_dev = $projectDetail->pro_url_dev[0];
-    $url_prod = $projectDetail->pro_url_prod[0];
-    $hourly_rate = $projectDetail->pro_hourly_rate[0];
-    $invoicing = $projectDetail->pro_invoicing[0];
+    $projectName = $projectDetail["pro_name"];
+    $description = $projectDetail["pro_description"];
+    $url_dev = $projectDetail["pro_url_dev"];
+    $url_prod = $projectDetail["pro_url_prod"];
+    $hourly_rate = $projectDetail["pro_hourly_rate"];
+    $invoicing = $projectDetail["pro_invoicing"];
 }
 
 //case add project
@@ -449,117 +498,108 @@ if ($id == "") {
 
     //set organization if add project action done from clientdetail
     if ($organization != "") {
-        $projectDetail->pro_org_id[0] = "$organization";
+        $projectDetail["pro_org_id"] = "$organization";
     }
 
     //set default values
-    $projectDetail->pro_mem_id[0] = "$idSession";
-    $projectDetail->pro_priority[0] = "3";
+    $projectDetail["pro_mem_id"] = "$idSession";
+    $projectDetail["pro_priority"] = "3";
 
-    $projectDetail->pro_status[0] = "2";
-    $projectDetail->pro_upload_max[0] = $maxFileSize;
+    $projectDetail["pro_status"] = "2";
+    $projectDetail["pro_upload_max"] = $maxFileSize;
 
     //case add project
-    if ($action == "add") {
-        //replace quotes by html code in name and description
-        $pn = phpCollab\Util::convertData($pn);
-        $d = phpCollab\Util::convertData($d);
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ($action == "add") {
+            try {
 
-        if ($invoicing == "" || $clod == "1") {
-            $invoicing = "0";
-        }
 
-        if ($hourly_rate == "") {
-            $hourly_rate = "0.00";
-        }
+                $published = filter_input(INPUT_POST, "projectPublished", FILTER_SANITIZE_NUMBER_INT);
+                $projectName = filter_input(INPUT_POST, "name", FILTER_SANITIZE_STRING);
+                $priority = filter_input(INPUT_POST, "priority", FILTER_SANITIZE_NUMBER_INT);
+                $description = htmlspecialchars($_POST["description"], ENT_QUOTES, 'UTF-8');
+                $urlDev = filter_input(INPUT_POST, "url_dev", FILTER_SANITIZE_URL);
+                $urlProd = filter_input(INPUT_POST, "url_prod", FILTER_SANITIZE_URL);
+                $owner = filter_input(INPUT_POST, "owner", FILTER_SANITIZE_NUMBER_INT);
+                $organization = filter_input(INPUT_POST, "client_organization", FILTER_SANITIZE_NUMBER_INT);
+                $thisPhase = filter_input(INPUT_POST, "thisPhase", FILTER_SANITIZE_NUMBER_INT);
+                $status = filter_input(INPUT_POST, "status", FILTER_SANITIZE_NUMBER_INT);
+                $maxUploadSize = filter_input(INPUT_POST, "max_upload_size", FILTER_SANITIZE_NUMBER_INT);
+                $invoicing = filter_input(INPUT_POST, "invoicing", FILTER_SANITIZE_NUMBER_INT);
+                $hourlyRate = filter_input(INPUT_POST, "hourly_rate", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 
-        //insert into projects and teams (with last id project)
-        $insertProjectSql = "INSERT INTO {$tableCollab["projects"]} (name,priority,description,owner,organization,status,created,published,upload_max,url_dev,url_prod,phase_set,invoicing,hourly_rate) VALUES(:name,:priority,:description,:owner,:organization,:status,:created,:published,:upload_max,:url_dev,:url_prod,:phase_set,:invoicing,:hourly_rate)";
-        $dbParams = [];
-        $dbParams["name"] = $pn;
-        $dbParams["priority"] = $pr;
-        $dbParams["description"] = $d;
-        $dbParams["owner"] = $pown;
-        $dbParams["organization"] = $clod;
-        $dbParams["status"] = $st;
-        $dbParams["created"] = $dateheure;
-        $dbParams["published"] = 1;
-        $dbParams["upload_max"] = $up;
-        $dbParams["url_dev"] = $url_dev;
-        $dbParams["url_prod"] = $url_prod;
-        $dbParams["phase_set"] = $thisPhase;
-        $dbParams["invoicing"] = $invoicing;
-        $dbParams["hourly_rate"] = $hourly_rate;
+                if ($invoicing == "" || $organization == "1") {
+                    $invoicing = "0";
+                }
 
-        $num = phpCollab\Util::newConnectSql($insertProjectSql, $dbParams);
-        unset($dbParams);
+                if (empty($hourlyRate)) {
+                    $hourlyRate = 0.00;
+                }
 
-        if ($enableInvoicing == "true") {
-            phpCollab\Util::newConnectSql(
-                "INSERT INTO {$tableCollab["invoices"]} (project,status,created,active,published) VALUES (:project,:status,:created,:active,:published)",
-                ["project" => $num, "status" => 0, "created" => $dateheure, "active" => $invoicing, "published" => 1]
-            );
-        }
+                //insert into projects and teams (with last id project)
+                $newProjectId = $projects->createProject($projectName, $organization, $owner, $priority, $status, $description, 1, $thisPhase, $maxUploadSize, $urlDev, $urlProd, $invoicing, $hourlyRate);
 
-        phpCollab\Util::newConnectSql(
-            "INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES(:project,:member,:published,:authorized)",
-            ["project" => $num, "member" => $pown, "published" => 1, "authorized" => 0]
-        );
+                if ($enableInvoicing == "true") {
+                    $newInvoiceId = $invoices->addInvoice($newProjectId, 0, $invoicing, 1);
+                }
 
-        //create project folder if filemanagement = true
-        if ($fileManagement == "true") {
-            phpCollab\Util::createDirectory("files/$num");
-        }
+                $newTeamId = $teams->addTeam($newProjectId, $owner, 1, 0);
 
-        if ($htaccessAuth == "true") {
-            $content = <<<STAMP
-AuthName "$setTitle"
-AuthType Basic
-Require valid-user
-AuthUserFile $fullPath/files/$num/.htpasswd
+                //create project folder if filemanagement = true
+                if ($fileManagement == "true") {
+                    phpCollab\Util::createDirectory("files/$newProjectId");
+                }
+
+                if ($htaccessAuth == "true") {
+                    $content = <<<STAMP
+    AuthName "$setTitle"
+    AuthType Basic
+    Require valid-user
+    AuthUserFile $fullPath/files/$newProjectId/.htpasswd
 STAMP;
 
-            $fp = @fopen("../files/$num/.htaccess", 'wb+');
-            $fw = fwrite($fp, $content);
-            $fp = @fopen("../files/$num/.htpasswd", 'wb+');
+                    $fp = @fopen("../files/$newProjectId/.htaccess", 'wb+');
+                    $fw = fwrite($fp, $content);
+                    $fp = @fopen("../files/$num/.htpasswd", 'wb+');
 
-            $detailMember = $members->getMemberById($pown);
+                    $detailMember = $members->getMemberById($owner);
 
-            $Htpasswd = new Htpasswd;
-            $Htpasswd->initialize("../files/" . $num . "/.htpasswd");
-            $Htpasswd->addUser($detailMember["mem_login"], $detailMember["mem_password"]);
-        }
+                    $Htpasswd = new Htpasswd;
+                    $Htpasswd->initialize("../files/" . $newProjectId . "/.htpasswd");
+                    $Htpasswd->addUser($detailMember["mem_login"], $detailMember["mem_password"]);
+                }
 
-        //if mantis bug tracker enabled
-        if ($enableMantis == "true") {
-            // call mantis function to copy project
-            include '../mantis/proj_add.php';
-        }
+                //if mantis bug tracker enabled
+                if ($enableMantis == "true") {
+                    // call mantis function to copy project
+                    include '../mantis/proj_add.php';
+                }
 
-        //create phase structure if enable phase was selected as true
-        if ($thisPhase != "0") {
-            $comptThisPhase = count($phaseArraySets[$thisPhase]);
+                //create phase structure if enable phase was selected as true
+                if ($thisPhase != "0") {
+                    $comptThisPhase = count($phaseArraySets[$thisPhase]);
 
-            for ($i = 0; $i < $comptThisPhase; $i++) {
-                phpCollab\Util::newConnectSql(
-                    "INSERT INTO {$tableCollab["phases"]} (project_id,order_num,status,name) VALUES(:project_id,:order_num,:status,:name)",
-                    ["project_id" => $num, "order_num" => $i, "status" => 0, "name" => $phaseArraySets[$thisPhase][$i]]
-                );
+                    for ($i = 0; $i < $comptThisPhase; $i++) {
+                        $phases->addPhase($newProjectId, $i, 0, $phaseArraySets[$thisPhase][$i]);
+                    }
+                }
+
+                phpCollab\Util::headerFunction("../projects/viewproject.php?id=$newProjectId&msg=add");
+            } catch (Exception $e) {
+                echo "<pre>{$e->getTraceAsString()}</pre>";
+                die();
             }
         }
-
-        phpCollab\Util::headerFunction("../projects/viewproject.php?id=$num&msg=add");
     }
 }
 
-$bodyCommand = "onLoad='document.epDForm.pn.focus();'";
+$bodyCommand = "onLoad='document.epDForm.name.focus();'";
 
-
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
 
 //case add project
 
@@ -569,7 +609,7 @@ if ($id == "") {
 
 //case update or copy project
 if ($id != "") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
 
     if ($docopy == "true") {
         $blockPage->itemBreadcrumbs($strings["copy_project"]);
@@ -596,10 +636,10 @@ if ($id == "") {
 if ($id != "") {
     $block1->form = "epD";
     $block1->openForm('../projects/editproject.php?id=' . $id . '&action=update&docopy=' . $docopy . "&#" . $block1->form . "Anchor");
-    echo "<input type='hidden' value='" . $projectDetail->pro_published[0] . "' name='projectPublished'>";
+    echo "<input type='hidden' value='" . $projectDetail["pro_published"] . "' name='projectPublished'>";
 }
 
-if ($error != "") {
+if (!empty($error)) {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
 }
@@ -612,103 +652,120 @@ if ($id == "") {
 //case update or copy project
 if ($id != "") {
     if ($docopy == "true") {
-        $block1->heading($strings["copy_project"] . " : " . $projectDetail->pro_name[0]);
+        $block1->heading($strings["copy_project"] . " : " . $projectDetail["pro_name"]);
     } else {
-        $block1->heading($strings["edit_project"] . " : " . $projectDetail->pro_name[0]);
+        $block1->heading($strings["edit_project"] . " : " . $projectDetail["pro_name"]);
     }
 }
 
 $block1->openContent();
 $block1->contentTitle($strings["details"]);
 
-echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["name"] . " :</td><td><input size='44' value='";
+$projectName = ($docopy == "true") ? $strings["copy_of"] . $projectName : $projectName;
 
-//case copy project
-if ($docopy == "true") {
-    echo $strings["copy_of"];
-}
+echo <<<HTML
+<tr class="odd">
+    <td class="leftvalue">{$strings["name"]} :</td>
+    <td><input size="44" value="{$projectName}" style="width: 400px" name="name" maxlength="100" type="text"></td>
+</tr>
+<tr class="odd">
+    <td class="leftvalue">{$strings["priority"]} :</td>
+    <td><select name="priority">";
+HTML;
 
-echo "$pn' style='width: 400px' name='pn' maxlength='100' type='text'></td></tr>
-
-<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["priority"] . " :</td><td><select name='pr'>";
 
 $comptPri = count($priority);
 
 for ($i = 0; $i < $comptPri; $i++) {
-    if ($projectDetail->pro_priority[0] == $i) {
+    if ($projectDetail["pro_priority"] == $i) {
         echo "<option value='$i' selected>$priority[$i]</option>";
     } else {
         echo "<option value='$i'>$priority[$i]</option>";
     }
 }
 
-echo "</select></td></tr>
-<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["description"] . " :</td><td><textarea rows='10' style='width: 400px; height: 160px;' name='d' cols='47'>$d</textarea></td></tr>
-<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["url_dev"] . " :</td><td><input size='44' value='$url_dev' style='width: 400px' name='url_dev' maxlength='100' type='text'></td></tr>
-<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["url_prod"] . " :</td><td><input size='44' value='$url_prod' style='width: 400px' name='url_prod' maxlength='100' type='text'></td></tr>
-<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["owner"] . " :</td><td><select name='pown'>";
+echo <<<HTML
+    </select></td>
+</tr>
+<tr class='odd'>
+    <td class="leftvalue">{$strings["description"]} :</td>
+    <td><textarea rows="10" style="width: 400px; height: 160px;" name="description" cols="47">{$description}</textarea></td>
+</tr>
+<tr class="odd">
+    <td class="leftvalue">{$strings["url_dev"]} :</td>
+    <td><input size="44" value="{$url_dev}" style="width: 400px" name="url_dev" maxlength="100" type="text"></td>
+</tr>
+<tr class="odd">
+    <td class="leftvalue">{$strings["url_prod"]} :</td>
+    <td><input size="44" value="{$url_prod}" style="width: 400px" name="url_prod" maxlength="100" type="text"></td>
+</tr>
+<tr class="odd">
+    <td class="leftvalue">{$strings["owner"]} :</td>
+    <td><select name="owner">
+HTML;
 
 if ($demoMode == "true") {
-    $tmpquery = "WHERE (mem.profil = '1' OR mem.profil = '0' OR mem.profil = '5') ORDER BY mem.name";
+    $assignOwner = $members->getMembersByProfileIn('0,1,5', null,'mem.name');
 } else {
-    $tmpquery = "WHERE (mem.profil = '1' OR mem.profil = '0' OR mem.profil = '5') AND mem.id != '2' ORDER BY mem.name";
+    $assignOwner = $members->getMembersByProfileIn('0,1,5', 2,'mem.name');
 }
-$assignOwner = new phpCollab\Request();
 
-$assignOwner->openMembers($tmpquery);
-$comptAssignOwner = count($assignOwner->mem_id);
-
-for ($i = 0; $i < $comptAssignOwner; $i++) {
-    if ($projectDetail->pro_mem_id[0] == $assignOwner->mem_id[$i]) {
-        echo "<option value='" . $assignOwner->mem_id[$i] . "' selected>" . $assignOwner->mem_login[$i] . " / " . $assignOwner->mem_name[$i] . "</option>";
+foreach ($assignOwner as $option) {
+    if ($projectDetail["pro_mem_id"] == $option["mem_id"]) {
+        echo "<option value='" . $option["mem_id"] . "' selected>" . $option["mem_login"] . " / " . $option["mem_name"] . "</option>";
     } else {
-        echo "<option value='" . $assignOwner->mem_id[$i] . "'>" . $assignOwner->mem_login[$i] . " / " . $assignOwner->mem_name[$i] . "</option>";
+        echo "<option value='" . $option["mem_id"] . "'>" . $option["mem_login"] . " / " . $option["mem_name"] . "</option>";
     }
 }
 
-echo "</select></td></tr>
-<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["organization"] . " :</td><td><select name='clod'>";
+echo <<<HTML
+        </select></td>
+</tr>
+<tr class="odd"><td class="leftvalue">{$strings["organization"]} :</td>
+<td><select name="client_organization">
+HTML;
 
 if ($clientsFilter == "true" && $profilSession == "1") {
-    $tmpquery = "WHERE org.owner = '$idSession' AND org.id != '1' ORDER BY org.name";
+    $listClients = $organizations->getOrganizationsByOwner($idSession, 'org.name');
 } else {
-    $tmpquery = "WHERE org.id != '1' ORDER BY org.name";
+    $listClients = $organizations->getAllOrganizations('org.name');
 }
 
-$listClients = new phpCollab\Request();
-$listClients->openOrganizations($tmpquery);
-$comptListClients = count($listClients->org_id);
-
-if ($projectDetail->pro_org_id[0] == "1") {
+if ($projectDetail["pro_org_id"] == "1") {
     echo "<option value='1' selected>" . $strings["none"] . "</option>";
 } else {
     echo "<option value='1'>" . $strings["none"] . "</option>";
 }
 
-
-for ($i = 0; $i < $comptListClients; $i++) {
-    if ($projectDetail->pro_org_id[0] == $listClients->org_id[$i]) {
-        echo "<option value='" . $listClients->org_id[$i] . "' selected>" . $listClients->org_name[$i] . "</option>";
-    } else {
-        echo "<option value='" . $listClients->org_id[$i] . "'>" . $listClients->org_name[$i] . "</option>";
+if ($listClients) {
+    foreach ($listClients as $client) {
+        if ($projectDetail["pro_org_id"] == $client["org_id"]) {
+            echo "<option value='" . $client["org_id"] . "' selected>" . $client["org_name"] . "</option>";
+        } else {
+            echo "<option value='" . $client["org_id"] . "'>" . $client["org_name"] . "</option>";
+        }
+        
     }
 }
 
-echo "</select></td></tr>
-<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["enable_phases"] . " :</td><td>
-
-<select name='thisPhase'>";
+echo <<<HTML
+    </select></td>
+</tr>
+<tr class="odd">
+    <td class="leftvalue">{$strings["enable_phases"]} :</td>
+    <td><select name="thisPhase">
+HTML;
 
 $compSets = count($phaseArraySets["sets"]);
 
-if ($projectDetail->pro_phase_set[0] == "0") {
+if ($projectDetail["pro_phase_set"] == "0") {
     echo "<option value='0' selected>" . $strings["none"] . "</option>";
 } else {
     echo "<option value='0'>" . $strings["none"] . "</option>";
 }
 
 for ($i = 1; $i <= $compSets; $i++) {
-    if ($projectDetail->pro_phase_set[0] == "$i") {
+    if ($projectDetail["pro_phase_set"] == "$i") {
         echo "<option value='$i' selected>" . $phaseArraySets["sets"][$i] . "</option>";
     } else {
         echo "<option value='$i'>" . $phaseArraySets["sets"][$i] . "</option>";
@@ -716,34 +773,54 @@ for ($i = 1; $i <= $compSets; $i++) {
 }
 
 
-echo "</select></td></tr><tr class='odd'><td valign='top' class='leftvalue'>" . $strings["status"] . " :</td><td><select name='st'>";
+echo <<<HTML
+    </select></td>
+</tr>
+<tr class="odd">
+    <td class="leftvalue">{$strings["status"]} :</td>
+    <td><select name="status">
+HTML;
 
 $comptSta = count($status);
 
 for ($i = 0; $i < $comptSta; $i++) {
-    if ($projectDetail->pro_status[0] == $i) {
+    if ($projectDetail["pro_status"] == $i) {
         echo "<option value='$i' selected>$status[$i]</option>";
     } else {
         echo "<option value='$i'>$status[$i]</option>";
     }
 }
 
-echo "</select></td></tr>";
+echo <<<CLOSE_SELECT
+    </select></td>
+</tr>
+CLOSE_SELECT;
+
 if ($fileManagement == "true") {
-    echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["max_upload"] . " :</td><td><input size='20' value='" . $projectDetail->pro_upload_max[0] . "' style='width: 150px' name='up' maxlength='100' type='TEXT'> $byteUnits[0]</td></tr>";
+    echo <<<TR
+<tr class="odd">
+    <td class="leftvalue">{$strings["max_upload"]} :</td>
+    <td><input size="20" value="{$projectDetail["pro_upload_max"]}" style="width: 150px" name="max_upload_size" maxlength="100" type="TEXT"> {$byteUnits[0]}</td>
+</tr>
+TR;
 }
 
 if ($enableInvoicing == "true") {
-    if ($projectDetail->pro_invoicing[0] == "1") {
-        $ckeckedInvoicing = "checked";
+    if ($projectDetail["pro_invoicing"] == "1") {
+        $checkedInvoicing = "checked";
     }
-    $block1->contentRow($strings["invoicing"], "<input size='32' value='1' name='invoicing' type='checkbox' $ckeckedInvoicing>");
-    $block1->contentRow($strings["hourly_rate"], "<input size='25' value='$hourly_rate' style='width: 200px' name='hourly_rate' maxlength='50' type='TEXT'>");
+    $block1->contentRow($strings["invoicing"], '<input size="32" value="1" name="invoicing" type="checkbox" ' . $checkedInvoicing . '>');
+    $block1->contentRow($strings["hourly_rate"], '<input size="25" value="' . $hourly_rate . '" style="width: 200px" name="hourly_rate" maxlength="50" type="TEXT">');
 }
 
-echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td><input type='SUBMIT' value='" . $strings["save"] . "'></td></tr>";
+echo <<<TR
+<tr class="odd">
+    <td class="leftvalue">&nbsp;</td>
+    <td><input type="SUBMIT" value="{$strings["save"]}"></td>
+</tr>
+TR;
 
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
