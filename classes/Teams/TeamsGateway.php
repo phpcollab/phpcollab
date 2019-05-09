@@ -308,7 +308,8 @@ class TeamsGateway
         $this->db->bind(':member', $memberId);
         $this->db->bind(':published', $published);
         $this->db->bind(':authorized', $authorized);
-        return $this->db->execute();
+        $this->db->execute();
+        return $this->db->lastInsertId();
     }
 
     /**
