@@ -42,6 +42,20 @@ class FilesGateway
 
     /**
      * @param $fileId
+     * @param $phase
+     * @return mixed
+     */
+    public function setPhase($fileId, $phase)
+    {
+        $sql = "UPDATE {$this->tableCollab["files"]} SET phase = :phase WHERE id = :file_id";
+        $this->db->query($sql);
+        $this->db->bind(":file_id", $fileId);
+        $this->db->bind(":phase", $phase);
+        return $this->db->execute();
+    }
+
+    /**
+     * @param $fileId
      * @return mixed
      */
     public function getFiles($fileId)

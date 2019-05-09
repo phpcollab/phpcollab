@@ -42,6 +42,16 @@ class Files
 
     /**
      * @param $fileId
+     * @param $phase
+     * @return mixed
+     */
+    public function setPhase($fileId, $phase)
+    {
+        return $this->files_gateway->setPhase($fileId, $phase);
+    }
+
+    /**
+     * @param $fileId
      * @return mixed
      */
     public function getFiles($fileId)
