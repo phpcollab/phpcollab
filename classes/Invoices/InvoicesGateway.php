@@ -26,6 +26,31 @@ class InvoicesGateway
     }
 
     /**
+     * @param $project
+     * @param $status
+     * @param $active
+     * @param $published
+     * @param $created
+     * @return string
+     */
+    public function addInvoice($project, $status, $active, $published, $created)
+    {
+        $sql = <<<SQL
+INSERT INTO {$this->tableCollab["invoices"]} 
+(project, status, active, published, created) 
+VALUES 
+(:project, :status, :active, :published, :created)
+SQL;
+        $this->db->query($sql);
+        $this->db->bind(":project", $project);
+        $this->db->bind(":status", $status);
+        $this->db->bind(":active", $active);
+        $this->db->bind(":published", $published);
+        $this->db->bind(":created", $created);
+        $this->db->execute();
+        return $this->db->lastInsertId();
+    }
+    /**
      * @param $title
      * @param $description
      * @param $invoiceId
@@ -161,6 +186,20 @@ SQL;
         $this->db->query($this->initrequest["invoices_items"] . $whereStatement);
         $this->db->bind(':invoice_item_id', $invoice_item_id);
         return $this->db->single();
+    }
+
+    /**
+     * @param $projectId
+     * @param $activeFlag
+     * @return mixed
+     */
+    public function setActive($projectId, $activeFlag)
+    {
+        $sql = "UPDATE {$this->tableCollab["invoices"]} SET active = :active WHERE project = :project_id";
+        $this->db->query($sql);
+        $this->db->bind(":project_id", $projectId);
+        $this->db->bind(":active", $activeFlag);
+        return $this->db->execute();
     }
 
     /**

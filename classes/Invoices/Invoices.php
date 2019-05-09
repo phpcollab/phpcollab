@@ -25,6 +25,19 @@ class Invoices
     }
 
     /**
+     * @param $project
+     * @param $status
+     * @param $active
+     * @param $published
+     * @return string
+     */
+    public function addInvoice($project, $status, $active, $published)
+    {
+        $created = date('Y-m-d h:i');
+        return $this->invoices_gateway->addInvoice($project, $status, $active, $published, $created);
+    }
+
+    /**
      * @param $title
      * @param $description
      * @param $invoiceId
@@ -114,6 +127,16 @@ class Invoices
     public function updateInvoiceItems($invoicing, $completed, $hoursWorked, $taskId)
     {
         return $this->invoices_gateway->updateInvoiceItems($invoicing, $completed, $hoursWorked, $taskId);
+    }
+
+    /**
+     * @param $projectId
+     * @param $activeFlag
+     * @return mixed
+     */
+    public function setActive($projectId, $activeFlag)
+    {
+        return $this->invoices_gateway->setActive($projectId, $activeFlag);
     }
 
 }
