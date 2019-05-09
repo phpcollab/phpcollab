@@ -52,6 +52,15 @@ class Organizations
     }
 
     /**
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getAllOrganizations($sorting = null)
+    {
+        return $this->organizations_gateway->getAllOrganizations($sorting);
+    }
+
+    /**
      * @param $clientId
      * @param $name
      * @param $address
