@@ -48,7 +48,8 @@ SQL;
         $this->db->bind("assigned_to", $assignedTo);
         $this->db->bind("assigned", $assignedDate);
         $this->db->bind("comments", $comments);
-        return $this->db->execute();
+        $this->db->execute();
+        return $this->db->lastInsertId();
 
     }
 
