@@ -678,6 +678,16 @@ class Tasks
     }
 
     /**
+     * @param $taskId
+     * @param $phase
+     * @return mixed
+     */
+    public function setParentPhase($taskId, $phase)
+    {
+        return $this->tasks_gateway->setParentPhase($taskId, $phase);
+    }
+
+    /**
      * @param $ids
      * @return mixed
      */

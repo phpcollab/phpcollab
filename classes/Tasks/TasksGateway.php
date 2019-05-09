@@ -181,6 +181,20 @@ class TasksGateway
         return $this->db->execute();
     }
 
+    /**
+     * @param $taskId
+     * @param $phase
+     * @return mixed
+     */
+    public function setParentPhase($taskId, $phase)
+    {
+        $sql = "UPDATE {$this->tableCollab["tasks"]} SET parent_phase = :phase_id WHERE id = :task_id";
+        $this->db->query($sql);
+        $this->db->bind(":task_id", $taskId);
+        $this->db->bind(":phase_id", $phase);
+        return $this->db->execute();
+    }
+
 
     /**
      * @param $userId
