@@ -1,19 +1,29 @@
 <?php
 
+use phpCollab\Files\Files;
+use phpCollab\Notes\Notes;
+use phpCollab\Phases\Phases;
+use phpCollab\Projects\Projects;
+use phpCollab\Support\Support;
+use phpCollab\Tasks\Tasks;
+use phpCollab\Teams\Teams;
+use phpCollab\Topics\Topics;
+use phpCollab\Util;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 include '../includes/customvalues.php';
 
-$topics = new \phpCollab\Topics\Topics();
-$tasks = new \phpCollab\Tasks\Tasks();
-$teams = new \phpCollab\Teams\Teams();
-$files = new \phpCollab\Files\Files();
-$notes = new \phpCollab\Notes\Notes();
-$support = new \phpCollab\Support\Support();
-$projects = new \phpCollab\Projects\Projects();
-$topics = new \phpCollab\Topics\Topics();
-$notes = new \phpCollab\Notes\Notes();
-$phases = new \phpCollab\Phases\Phases();
+$topics = new Topics();
+$tasks = new Tasks();
+$teams = new Teams();
+$files = new Files();
+$notes = new Notes();
+$support = new Support();
+$projects = new Projects();
+$topics = new Topics();
+$notes = new Notes();
+$phases = new Phases();
 
 $id = phpCollab\Util::returnGlobal('id', 'REQUEST');
 $project = phpCollab\Util::returnGlobal('project', 'REQUEST');
@@ -659,14 +669,10 @@ $teamBlock->openResults();
 $teamBlock->labels($labels = array(0 => $strings["full_name"], 1 => $strings["title"], 2 => $strings["user_name"], 3 => $strings["work_phone"], 4 => $strings["connected"], 5 => $strings["published"]), "true");
 
 foreach ($teamList as $teamMember) {
-    
-    if ($teamMember["tea_mem_phone_work"] == "") {
-        $teamMember["tea_mem_phone_work"] = \phpCollab\Util::doubleDash();
-    }
 
-    if ($teamMember["tea_mem_title"] == "") {
-        $teamMember["tea_mem_title"] = \phpCollab\Util::doubleDash();
-    }
+    $teamMember["tea_mem_phone_work"] = Util::isBlank($teamMember["tea_mem_phone_work"]);
+    $teamMember["tea_mem_title"] = Util::isBlank($teamMember["tea_mem_title"]);
+
 
     $idPublish = $teamMember["tea_published"];
     $teamBlock->openRow();
@@ -713,7 +719,7 @@ $teamBlock->closePaletteScript(count($teamList), array_column($teamList, 'tea_me
  * Begin Linked Content
  */
 if ($fileManagement == "true") {
-    $files = new \phpCollab\Files\Files();
+    $files = new Files();
 
     $filesBlock = new phpCollab\Block();
     $filesBlock->form = "tdC";
@@ -870,7 +876,7 @@ if ($notesList) {
         $notesBlock->cellRow($blockPage->buildLink("../notes/viewnote.php?id=" . $note["note_id"], $note["note_subject"], "in"));
 
         if ($comptTopic != "0") {
-            $notesBlock->cellRow( !empty($topicNote[$note["note_topic"]]) ? $topicNote[$note["note_topic"]] : \phpCollab\Util::doubleDash());
+            $notesBlock->cellRow( Util::isBlank($topicNote[$note["note_topic"]]) );
         }
 
         $notesBlock->cellRow($note["note_date"]);
