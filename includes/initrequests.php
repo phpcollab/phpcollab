@@ -376,7 +376,7 @@ SELECT
     mem.email_work as tas_mem_email_work, 
     mem2.id as tas_mem2_id, 
     mem2.name as tas_mem2_name, 
-    mem2.login as mem2_login, 
+    mem2.login as tas_mem2_login, 
     mem2.email_work as tas_mem2_email_work, 
     mem.organization as tas_mem_organization, 
     pro.name as tas_pro_name, 
