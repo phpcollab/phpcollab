@@ -50,12 +50,13 @@ class Teams
 
     /**
      * @param $projectId
+     * @param null $sorting
      * @return mixed
      */
-    public function getClientTeamMembersByProject($projectId)
+    public function getClientTeamMembersByProject($projectId, $sorting = null)
     {
         $projectId = filter_var($projectId, FILTER_VALIDATE_INT);
-        return $this->teams_gateway->getClientTeamMembersByProject($projectId);
+        return $this->teams_gateway->getClientTeamMembersByProject($projectId, $sorting);
     }
 
     /**
@@ -216,7 +217,7 @@ class Teams
      */
     public function publishToSite($projectId, $memberIds)
     {
-        return $this->teams_gateway->publishToSite($projectId, $memberIds);
+        return $this->teams_gateway->publishTeams($projectId, $memberIds);
     }
 
     /**
@@ -226,7 +227,7 @@ class Teams
      */
     public function unPublishToSite($projectId, $memberIds)
     {
-        return $this->teams_gateway->unPublishToSite($projectId, $memberIds);
+        return $this->teams_gateway->unPublishTeams($projectId, $memberIds);
     }
 
 }
