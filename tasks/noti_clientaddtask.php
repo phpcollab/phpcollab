@@ -14,7 +14,7 @@ $taskNoti = $tasks->getTaskById($num);
 
 $projectNoti = $projects->getProjectById($taskNoti["tas_project"]);
 
-$listNotifications = $notifications->getNotificationsWhereMemeberIn($projectNoti["pro_owner"]);
+$listNotifications = $notifications->getNotificationsWhereMemberIn($projectNoti["pro_owner"]);
 
 if ($listNotifications["not_taskassignment"] == "0") {
     $mail = new phpCollab\Notification();

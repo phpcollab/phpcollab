@@ -30,7 +30,7 @@ class NotificationsGateway
      * @param $memberId
      * @return mixed
      */
-    public function getNotificationsWhereMemeberIn($memberId)
+    public function getNotificationsWhereMemberIn($memberId)
     {
         $memberId = explode(',', $memberId);
         $placeholders = str_repeat ('?, ', count($memberId)-1) . '?';

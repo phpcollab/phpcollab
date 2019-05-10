@@ -43,9 +43,9 @@ class Notifications
      * @param $memberId
      * @return mixed
      */
-    public function getNotificationsWhereMemeberIn($memberId)
+    public function getNotificationsWhereMemberIn($memberId)
     {
-        return $this->notifications_gateway->getNotificationsWhereMemeberIn($memberId);
+        return $this->notifications_gateway->getNotificationsWhereMemberIn($memberId);
     }
 
     /**

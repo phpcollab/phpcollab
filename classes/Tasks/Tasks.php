@@ -898,7 +898,7 @@ class Tasks
         /*
          * Retrieve a list of notifications for the list of $teamMembers retrieved above
          */
-        $listNotifications = $this->notifications->getNotificationsWhereMemeberIn(implode(', ', $posters));
+        $listNotifications = $this->notifications->getNotificationsWhereMemberIn(implode(', ', $posters));
 
         /*
          * Sanity check to make sure we have all the required data before proceeding.
