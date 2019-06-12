@@ -1,4 +1,5 @@
 <?php
+
 namespace phpCollab\Reports;
 
 use phpCollab\Database;
@@ -22,7 +23,31 @@ class Reports
     }
 
     /**
+     * @param $owner
+     * @param $name
+     * @param $projects
+     * @param $clients
+     * @param $members
+     * @param $priorities
+     * @param $status
+     * @param $dateDueStart
+     * @param $dateDueEnd
+     * @param $dateCompleteStart
+     * @param $dateCompleteEnd
+     * @return mixed
+     */
+    public function addReport($owner, $name, $projects, $clients, $members, $priorities, $status, $dateDueStart, $dateDueEnd, $dateCompleteStart, $dateCompleteEnd)
+    {
+        $newReportId = $this->reports_gateway->addReport(
+            $owner, $name, $projects, $clients, $members, $priorities, $status, $dateDueStart, $dateDueEnd,
+            $dateCompleteStart, $dateCompleteEnd, date('Y-m-d h:i')
+        );
+        return $this->getReportsById($newReportId);
+    }
+
+    /**
      * @param $ownerId
+     * @param $sorting
      * @return mixed
      */
     public function getReportsByOwner($ownerId, $sorting)
@@ -40,6 +65,16 @@ class Reports
     {
         $report = $this->reports_gateway->getReportById($reportId);
         return $report;
+    }
+
+    /**
+     * @param mixed $reportIds
+     * @param string $sorting
+     * @return mixed
+     */
+    public function getReportsByIds($reportIds, $sorting = null)
+    {
+        return $this->reports_gateway->getReportsByIds($reportIds, $sorting);
     }
 
     /**
