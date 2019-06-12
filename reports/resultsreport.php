@@ -1,9 +1,15 @@
 <?php
 
+use phpCollab\Projects\Projects;
+use phpCollab\Reports\Reports;
+use phpCollab\Tasks\Tasks;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$tasks = new \phpCollab\Tasks\Tasks();
+$tasks = new Tasks();
+$reports = new Reports();
+$projects = new Projects();
 
 $tableCollab = $GLOBALS["tableCollab"];
 $strings = $GLOBALS["strings"];
@@ -12,23 +18,20 @@ $gantt = false;
 $queryStart = null;
 
 if ($_GET["action"] == "add") {
-    $S_SAVENAME = phpCollab\Util::convertData($_POST["S_SAVENAME"]);
-    $tmpquery1 = "INSERT INTO {$tableCollab["reports"]} (owner,name,projects,clients,members,priorities,status,date_due_start,date_due_end,date_complete_start,date_complete_end,created) VALUES(:owner,:name,:projects,:clients,:members,:priorities,:status,:date_due_start,:date_due_end,:date_complete_start,:date_complete_end,:created)";
-    $dbParams = [];
-    $dbParams["owner"] = $_SESSION["idSession"];
-    $dbParams["name"] = $_POST["S_SAVENAME"];
-    $dbParams["projects"] = $_POST["S_PRJSEL"];
-    $dbParams["clients"] = $_POST["S_ORGSEL"];
-    $dbParams["members"] = $_POST["S_ATSEL"];
-    $dbParams["priorities"] = $_POST["S_PRIOSEL"];
-    $dbParams["status"] = $_POST["S_STATSEL"];
-    $dbParams["date_due_start"] = $_POST["S_SDATE"];
-    $dbParams["date_due_end"] = $_POST["S_EDATE"];
-    $dbParams["date_complete_start"] = $_POST["S_SDATE2"];
-    $dbParams["date_complete_end"] = $_POST["S_EDATE2"];
-    $dbParams["created"] = $dateheure;
+    $newReport = $reports->addReport(
+        $_SESSION["idSession"],
+        $_POST["report_name"],
+        $_POST["filterProject"],
+        $_POST["filterOrganization"],
+        $_POST["filterAssignedTo"],
+        $_POST["filterPriority"],
+        $_POST["filterStatus"],
+        $_POST["filterStartDate"],
+        $_POST["filterEndDate"],
+        $_POST["filterDateCompleteStart"],
+        $_POST["filterDateCompleteEnd"]
+    );
 
-    phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
     phpCollab\Util::headerFunction("../general/home.php?msg=addReport");
 }
 
@@ -38,207 +41,197 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $id = (isset($_GET["id"]) && $_GET["id"] != '') ? $_GET["id"] : null;
 $tri = (isset($_GET["tri"]) && $_GET["tri"] != '') ? $_GET["tri"] : null;
 
+$filterOrganization = null;
+$filterProject = null;
+$filterAssignedTo = null;
+$filterStatus = null;
+$filterPriority = null;
+$filterStartDate = null;
+$filterEndDate = null;
+$filterDateCompleteStart = null;
+$filterDateCompleteEnd = null;
+$filterDueDate = null;
+$filterCompletedDate = null;
+
+
 if ($id == "" && $tri != "true") {
-    $compt1 = count($_POST["S_PRJSEL"]);
-    $S_pro = "";
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $formData = $_POST;
 
-    for ($i = 0; $i < $compt1; $i++) {
-        if ($_POST["S_PRJSEL"][$i] == "ALL") {
+        if (is_array($_POST["S_PRJSEL"])) {
+            $S_pro = implode(',', $_POST["S_PRJSEL"]);
+        } else {
             $S_pro = "ALL";
-            break;
         }
 
-        if ($i != $compt1 - 1) {
-            $S_pro .= $_POST["S_PRJSEL"][$i] . ",";
+        if (is_array($_POST["S_ATSEL"])) {
+            $S_mem = implode(',', $_POST["S_ATSEL"]);
         } else {
-            $S_pro .= $_POST["S_PRJSEL"][$i];
-        }
-    }
-
-    $compt2 = count($_POST["S_ATSEL"]);
-    $S_mem = "";
-
-    for ($i = 0; $i < $compt2; $i++) {
-        if ($_POST["S_ATSEL"][$i] == "ALL") {
             $S_mem = "ALL";
-            break;
         }
 
-        if ($i != $compt2 - 1) {
-            $S_mem .= $_POST["S_ATSEL"][$i] . ",";
+        if (is_array($_POST["S_STATSEL"])) {
+            $S_sta = implode(',', $_POST["S_STATSEL"]);
         } else {
-            $S_mem .= $_POST["S_ATSEL"][$i];
-        }
-    }
-
-    $compt3 = count($_POST["S_STATSEL"]);
-    $S_sta = "";
-
-    for ($i = 0; $i < $compt3; $i++) {
-        if ($_POST["S_STATSEL"][$i] == "ALL") {
             $S_sta = "ALL";
-            break;
         }
 
-        if ($i != $compt3 - 1) {
-            $S_sta .= $_POST["S_STATSEL"][$i] . ",";
+        if (is_array($_POST["S_PRIOSEL"])) {
+            $S_pri = implode(',', $_POST["S_PRIOSEL"]);
         } else {
-            $S_sta .= $_POST["S_STATSEL"][$i];
-        }
-    }
-
-    $compt4 = count($_POST["S_PRIOSEL"]);
-    $S_pri = "";
-
-    for ($i = 0; $i < $compt4; $i++) {
-        if ($_POST["S_PRIOSEL"][$i] == "ALL") {
             $S_pri = "ALL";
-            break;
         }
 
-        if ($i != $compt4 - 1) {
-            $S_pri .= $_POST["S_PRIOSEL"][$i] . ",";
+        $compt5 = count($_POST["S_ORGSEL"]);
+        $S_org = "";
+
+        for ($i = 0; $i < $compt5; $i++) {
+            if ($_POST["S_ORGSEL"][$i] == "ALL") {
+                $S_org = "ALL";
+                break;
+            }
+
+            if ($i != $compt5 - 1) {
+                $S_org .= $_POST["S_ORGSEL"][$i] . ",";
+            } else {
+                $S_org .= $_POST["S_ORGSEL"][$i];
+            }
+        }
+
+        if (is_array($_POST["S_ORGSEL"])) {
+            $S_org = implode(',', $_POST["S_ORGSEL"]);
         } else {
-            $S_pri .= $_POST["S_PRIOSEL"][$i];
-        }
-    }
-
-    $compt5 = count($_POST["S_ORGSEL"]);
-    $S_org = "";
-
-    for ($i = 0; $i < $compt5; $i++) {
-        if ($_POST["S_ORGSEL"][$i] == "ALL") {
             $S_org = "ALL";
-            break;
         }
 
-        if ($i != $compt5 - 1) {
-            $S_org .= $_POST["S_ORGSEL"][$i] . ",";
-        } else {
-            $S_org .= $_POST["S_ORGSEL"][$i];
-        }
+        $filterOrganization = $S_org;
+        $filterProject = $S_pro;
+        $filterAssignedTo = $S_mem;
+
+        $filterStatus = $S_sta;
+        $filterPriority = $S_pri;
     }
 
-    $_POST["S_ORGSEL"] = $S_org;
-    $_POST["S_PRJSEL"] = $S_pro;
-    $_POST["S_ATSEL"] = $S_mem;
-
-    $_POST["S_STATSEL"] = $S_sta;
-    $_POST["S_PRIOSEL"] = $S_pri;
 }
 
-if ($id != "") {
-    $db = new \phpCollab\Database();
-    $report_gateway = new \phpCollab\Reports\ReportsGateway($db);
+if (!empty($id)) {
+    $reportDetail = $reports->getReportsById($id);
 
-    $reportDetail = $report_gateway->getReportById($id);
+    $filterOrganization = $reportDetail['rep_clients'];
+    $filterProject = $reportDetail['rep_projects'];
+    $filterAssignedTo = $reportDetail['rep_members'];
+    $filterStatus = $reportDetail['rep_status'];
+    $filterPriority = $reportDetail['rep_priorities'];
+    $filterStartDate = $reportDetail['rep_date_due_start'];
+    $filterEndDate = $reportDetail['rep_date_due_end'];
+    $filterDateCompleteStart = $reportDetail['rep_date_complete_start'];
+    $filterDateCompleteEnd = $reportDetail['rep_date_complete_end'];
 
-    $_POST["S_ORGSEL"] = $reportDetail[0]['clients'];
-    $_POST["S_PRJSEL"] = $reportDetail[0]['projects'];
-    $_POST["S_ATSEL"] = $reportDetail[0]['members'];
-    $_POST["S_STATSEL"] = $reportDetail[0]['status'];
-    $_POST["S_PRIOSEL"] = $reportDetail[0]['priorities'];
-    $S_SDATE = $reportDetail[0]['date_due_start'];
-    $S_EDATE = $reportDetail[0]['date_due_end'];
-    $_POST["S_SDATE2"] = $reportDetail[0]['date_complete_start'];
-    $S_EDATE2 = $reportDetail[0]['date_complete_end'];
-
-    if (($S_SDATE == 0 || $S_SDATE == "") && ($S_EDATE == 0 || $S_EDATE == "")) {
-        $_POST["S_DUEDATE"] = "ALL";
+    if (empty($filterStartDate) && (empty($filterEndDate))) {
+        $filterDueDate = "ALL";
     }
 
-    if (($_POST["S_SDATE2"] == 0 || $_POST["S_SDATE2"] == "") && ($S_EDATE2 == 0 || $S_EDATE2 == "")) {
-        $_POST["S_COMPLETEDATE"] = "ALL";
+    if (empty($filterDateCompleteStart) && empty($filterDateCompleteEnd)) {
+        $filterCompletedDate = "ALL";
     }
 }
 
-if (is_array($_POST["S_PRJSEL"])) {
-    $_POST["S_PRJSEL"] = $_POST["S_PRJSEL"][0];
-}
-if (is_array($_POST["S_ORGSEL"])) {
-    $_POST["S_ORGSEL"] = $_POST["S_ORGSEL"][0];
-}
-if (is_array($_POST["S_ATSEL"])) {
-    $_POST["S_ATSEL"] = $_POST["S_ATSEL"][0];
-}
-if (is_array($_POST["S_STATSEL"])) {
-    $_POST["S_STATSEL"] = $_POST["S_STATSEL"][0];
-}
-if (is_array($_POST["S_PRIOSEL"])) {
-    $_POST["S_PRIOSEL"] = $_POST["S_PRIOSEL"][0];
+if (is_array($filterProject)) {
+    $filterProject = $filterProject[0];
 }
 
-if ($_POST["S_PRJSEL"] != "ALL" || $_POST["S_ORGSEL"] != "ALL" || $_POST["S_ATSEL"] != "ALL" || $_POST["S_STATSEL"] != "ALL" || $_POST["S_PRIOSEL"] != "ALL" || $_POST["S_DUEDATE"] != "ALL" || $_POST["S_COMPLETEDATE"] != "ALL") {
+if (is_array($filterOrganization)) {
+    $filterOrganization = $filterOrganization[0];
+}
+if (is_array($filterAssignedTo)) {
+    $filterAssignedTo = $filterAssignedTo[0];
+}
+if (is_array($filterStatus)) {
+    $filterStatus = $filterStatus[0];
+}
+if (is_array($filterPriority)) {
+    $filterPriority = $filterPriority[0];
+}
+
+if (
+    $filterProject != "ALL"
+    || $filterOrganization != "ALL"
+    || $filterAssignedTo != "ALL"
+    || $filterStatus != "ALL"
+    || $filterPriority != "ALL"
+    || $filterDueDate != "ALL"
+    || $filterCompletedDate != "ALL"
+) {
     $queryStart = "WHERE (";
-    if ($_POST["S_PRJSEL"] != "ALL" && $_POST["S_PRJSEL"] != "") {
-        $query = "tas.project IN({$_POST["S_PRJSEL"]})";
+    if ($filterProject != "ALL" && $filterProject != "") {
+        $query = "tas.project IN({$filterProject})";
     }
 
-    if ($_POST["S_ORGSEL"] != "ALL" && $_POST["S_ORGSEL"] != "") {
+    if ($filterOrganization != "ALL" && $filterOrganization != "") {
         if ($query != "") {
-            $query .= ' AND org.id IN(' . $_POST["S_ORGSEL"] . ')';
+            $query .= ' AND org.id IN(' . $filterOrganization . ')';
         } else {
-            $query .= 'org.id IN(' . $_POST["S_ORGSEL"] . ')';
+            $query .= 'org.id IN(' . $filterOrganization . ')';
         }
     }
 
-    if ($_POST["S_ATSEL"] != "ALL" && $_POST["S_ATSEL"] != "") {
+    if ($filterAssignedTo != "ALL" && $filterAssignedTo != "") {
         if ($query != "") {
-            $query .= " AND tas.assigned_to IN({$_POST["S_ATSEL"]})";
+            $query .= " AND tas.assigned_to IN({$filterAssignedTo})";
         } else {
-            $query .= "tas.assigned_to IN({$_POST["S_ATSEL"]})";
+            $query .= "tas.assigned_to IN({$filterAssignedTo})";
         }
     }
 
-    if ($_POST["S_STATSEL"] != "ALL" && $_POST["S_STATSEL"] != "") {
+    if ($filterStatus != "ALL" && $filterStatus != "") {
         if ($query != "") {
-            $query .= " AND tas.status IN({$_POST["S_STATSEL"]})";
+            $query .= " AND tas.status IN({$filterStatus})";
         } else {
-            $query .= "tas.status IN({$_POST["S_STATSEL"]})";
+            $query .= "tas.status IN({$filterStatus})";
         }
     }
 
-    if ($_POST["S_PRIOSEL"] != "ALL" && $_POST["S_PRIOSEL"] != "") {
+    if ($filterPriority != "ALL" && $filterPriority != "") {
         if ($query != "") {
-            $query .= " AND tas.priority IN({$_POST["S_PRIOSEL"]})";
+            $query .= " AND tas.priority IN({$filterPriority})";
         } else {
-            $query .= "tas.priority IN({$_POST["S_PRIOSEL"]})";
+            $query .= "tas.priority IN({$filterPriority})";
         }
     }
 
-    if ($_POST["S_DUEDATE"] != "ALL" && $_POST["S_SDATE"] != "") {
+    if ($filterDueDate != "ALL" && $filterStartDate != "") {
         if ($query != "") {
-            $query .= " AND tas.due_date >= '{$_POST["S_SDATE"]}'";
+            $query .= " AND tas.due_date >= '{$filterStartDate}'";
         } else {
-            $query .= "tas.due_date >= '{$_POST["S_SDATE"]}'";
+            $query .= "tas.due_date >= '{$filterStartDate}'";
         }
     }
 
-    if ($_POST["S_DUEDATE"] != "ALL" && $_POST["S_EDATE"] != "") {
+    if ($filterDueDate != "ALL" && $filterEndDate != "") {
         if ($query != "") {
-            $query .= " AND tas.due_date <= '{$_POST["S_EDATE"]}'";
+            $query .= " AND tas.due_date <= '{$filterEndDate}'";
         } else {
-            $query .= "tas.due_date <= '{$_POST["S_EDATE"]}'";
+            $query .= "tas.due_date <= '{$filterEndDate}'";
         }
     }
-    if ($_POST["S_COMPLETEDATE"] != "ALL" && $_POST["S_SDATE2"] != "") {
+    if ($filterCompletedDate != "ALL" && $filterDateCompleteStart != "") {
         if ($query != "") {
-            $query .= " AND tas.complete_date >= '{$_POST["S_SDATE2"]}'";
+            $query .= " AND tas.complete_date >= '{$filterDateCompleteStart}'";
         } else {
-            $query .= "tas.complete_date >= '{$_POST["S_SDATE2"]}'";
+            $query .= "tas.complete_date >= '{$filterDateCompleteStart}'";
         }
     }
 
-    if ($_POST["S_COMPLETEDATE"] != "ALL" && $_POST["S_EDATE2"] != "") {
+    if ($filterCompletedDate != "ALL" && $filterDateCompleteEnd != "") {
         if ($query != "") {
-            $query .= " AND tas.complete_date <= '{$_POST["S_EDATE2"]}'";
+            $query .= " AND tas.complete_date <= '{$filterDateCompleteEnd}'";
         } else {
-            $query .= "tas.complete_date <= '{$_POST["S_EDATE2"]}'";
+            $query .= "tas.complete_date <= '{$filterDateCompleteEnd}'";
         }
     }
 
     if ($query != "") {
-        $query .= ")";
+        $query .= " )";
     }
 }
 
@@ -247,7 +240,7 @@ $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/listreports.php?", $strings["reports"], "in"));
 
 if ($id != "") {
-    $blockPage->itemBreadcrumbs($reportDetail->rep_name[0]);
+    $blockPage->itemBreadcrumbs($reportDetail["rep_name"]);
 } else {
     $blockPage->itemBreadcrumbs($strings["report_results"]);
 }
@@ -278,23 +271,14 @@ $block1->sorting(
 );
 
 if ($projectsFilter == "true") {
-    $tmpquery = "LEFT OUTER JOIN " . $tableCollab["teams"] . " teams ON teams.project = pro.id ";
-    $tmpquery .= "WHERE pro.status IN(0,2,3) AND teams.member = '{$_SESSION["idSession"]}' ORDER BY pro.id";
+    $listProjectsTasks = $projects->getProjectList($idSession, 'active', null, null, 'pro.id');
 
-    $listProjectsTasks = new phpCollab\Request();
-    $listProjectsTasks->openProjects($tmpquery);
-    $comptListProjectsTasks = count($listProjectsTasks->pro_id);
 
-    if ($comptListProjectsTasks != "0") {
-        for ($i = 0; $i < $comptListProjectsTasks; $i++) {
-            $filterTasks .= $listProjectsTasks->pro_id[$i];
+    if ($listProjectsTasks) {
+        $filterTasks = array_column($listProjectsTasks, 'pro_id');
 
-            if ($comptListProjectsTasks - 1 != $i) {
-                $filterTasks .= ",";
-            }
-        }
-
-        if (isset($filterTasks)) {
+        if (!empty($filterTasks)) {
+            $filterTasks = implode (", ", $filterTasks);
             if ($query != "") {
                 $tmpquery = "{$queryStart} {$query} AND pro.id IN({$filterTasks}) ORDER BY {$block1->sortingValue} ";
             } else {
@@ -305,20 +289,21 @@ if ($projectsFilter == "true") {
         $validTasks = "false";
     }
 } else {
-    $tmpquery = "$queryStart $query ORDER BY {$block1->sortingValue} ";
+    if (is_null($query)) {
+        $tmpquery = " ORDER BY {$block1->sortingValue} ";
+    } else {
+        $tmpquery = "$queryStart $query ORDER BY {$block1->sortingValue} ";
+    }
 }
 
-if ($listTasks->tas_id != "") {
-    $taskIds = implode(',', $listTasks->tas_id);
-    $tmpquery = "WHERE task in ('{$taskIds}')";
-} else {
-    $tmpquery = 'WHERE task in ("")';
+$listTasks = $tasks->getReportTasks($tmpquery);
+
+if ($listTasks) {
+    $taskIds = implode(',', array_column($listTasks, 'tas_id'));
 }
 
-$listSubTasks = new phpCollab\Request();
-$listSubTasks->openSubtasks($tmpquery);
-$comptListSubTasks = count($listSubTasks->subtas_id);
-$totalTasks = $comptListTasks + $comptListSubTasks;
+$listSubTasks = $tasks->getSubtasksByParentTaskIdIn($taskIds);
+$totalTasks = count($listTasks) + count($listSubTasks);
 $block0 = new phpCollab\Block();
 
 $block0->openContent();
@@ -356,47 +341,51 @@ if ($comptListTasks != "0") {
 
     $block1->labels($labels = [0 => $strings["task"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["due_date"], 4 => $strings["complete_date"], 5 => $strings["assigned_to"], 6 => $strings["project"], 7 => $strings["published"]], "true");
 
-    for ($i = 0; $i < $comptListTasks; $i++) {
-        $idStatus = $listTasks->tas_status[$i];
-        $idPriority = $listTasks->tas_priority[$i];
-        $idPublish = $listTasks->tas_published[$i];
+    foreach ($listTasks as $listTask) {
+        $idStatus = $listTask["tas_status"];
+        $idPriority = $listTask["tas_priority"];
+        $idPublish = $listTask["tas_published"];
 
         $block1->openRow();
         $block1->cellRow('');
-        $block1->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $listTasks->tas_id[$i], $listTasks->tas_name[$i], "in"));
+        $block1->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $listTask["tas_id"], $listTask["tas_name"], "in"));
         $block1->cellRow('<i style="background-color: yellow;"></i><img src="../themes/' . THEME . '/images/gfx_priority/' . $idPriority . '.gif" alt=""> ' . $GLOBALS["priority"][$idPriority]);
         $block1->cellRow($GLOBALS["status"][$idStatus]);
 
-        if ($listTasks->tas_due_date[$i] <= $GLOBALS["date"] && $listTasks->tas_completion[$i] != "10") {
-            $block1->cellRow("<b>" . $listTasks->tas_due_date[$i] . "</b>");
+        if ($listTask["tas_due_date"] <= $GLOBALS["date"] && $listTask["tas_completion"] != "10") {
+            $block1->cellRow("<b>" . $listTask["tas_due_date"] . "</b>");
         } else {
-            $block1->cellRow($listTasks->tas_due_date[$i]);
+            $block1->cellRow($listTask["tas_due_date"]);
         }
 
-        if ($listTasks->tas_start_date[$i] != "--" && $listTasks->tas_due_date[$i] != "--") {
+        if ($listTask["tas_start_date"] != "--" && $listTask["tas_due_date"] != "--") {
             $gantt = "true";
         }
 
-        $block1->cellRow($listTasks->tas_complete_date[$i]);
+        $block1->cellRow($listTask["tas_complete_date"]);
 
-        if ($listTasks->tas_assigned_to[$i] == "0") {
+        if ($listTask["tas_assigned_to"] == "0") {
             $block1->cellRow($strings["unassigned"]);
         } else {
-            $block1->cellRow($blockPage->buildLink($listTasks->tas_mem_email_work[$i], $listTasks->tas_mem_login[$i], "mail"));
+            $block1->cellRow($blockPage->buildLink($listTask["tas_mem_email_work"], $listTask["tas_mem_login"], "mail"));
         }
 
-        $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listTasks->tas_project[$i], $listTasks->tas_pro_name[$i], "in"));
+        $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listTask["tas_project"], $listTask["tas_pro_name"], "in"));
 
         if ($sitePublish == "true") {
             $block1->cellRow($GLOBALS["statusPublish"][$idPublish]);
         }
 
         $block1->closeRow();
-        // begin if subtask
-        $listSubTasks = $tasks->getSubtasksByParentTaskId($listTasks->tas_id[$i]);
 
-        if ($listSubTasks) {
-            foreach ($listSubTasks as $subTask) {
+        $thisId = $listTask["tas_id"];
+        $mySubtasks = array_filter($listSubTasks, function($subTask) use($thisId) {
+            return $subTask["subtas_task"] == $thisId;
+        });
+
+        if ($mySubtasks) {
+
+            foreach ($mySubtasks as $subTask) {
                 $idStatus = $subTask["subtas_status"];
                 $idPriority = $subTask["subtas_priority"];
                 $idPublish = $subTask["subtas_published"];
@@ -447,13 +436,13 @@ GANTT;
     }
 
     echo <<< HIDDEN
-            <input type="hidden" name="S_ORGSEL[]" value="{$_POST["S_ORGSEL"]}" />
-			<input type="hidden" name="S_PRJSEL[]" value="{$_POST["S_PRJSEL"]}" />
-			<input type="hidden" name="S_ATSEL[]" value="{$_POST["S_ATSEL"]}" />
-			<input type="hidden" name="S_STATSEL[]" value="{$_POST["S_STATSEL"]}" />
-			<input type="hidden" name="S_PRIOSEL[]" value="{$_POST["S_PRIOSEL"]}" />
-			<input type="hidden" name="S_COMPLETEDATE" value="{$_POST["S_COMPLETEDATE"]}" />
-			<input type="hidden" name="S_DUEDATE" value="{$_POST["S_DUEDATE"]}" />
+            <input type="hidden" name="filterOrganization" value="{$filterOrganization}" />
+			<input type="hidden" name="filterProject" value="{$filterProject}" />
+			<input type="hidden" name="filterAssignedTo" value="{$filterAssignedTo}" />
+			<input type="hidden" name="filterStatus" value="{$filterStatus}" />
+			<input type="hidden" name="filterPriority" value="{$filterPriority}" />
+			<input type="hidden" name="filterCompletedDate" value="{$filterCompletedDate}" />
+			<input type="hidden" name="filterDueDate" value="{$filterDueDate}" />
 HIDDEN;
 
     $block1->closeFormResults();
@@ -466,41 +455,46 @@ HIDDEN;
      */
 }
 
-$block2 = new phpCollab\Block();
+/**
+ * Only show the save report section if not viewing a saved report
+ */
+if (empty($id)) {
+    $block2 = new phpCollab\Block();
 
-$block2->form = "save_report";
-$block2->openForm("../reports/resultsreport.php?action=add");
+    $block2->form = "save_report";
+    $block2->openForm("../reports/resultsreport.php?action=add");
 
-if (isset($error) && $error != "") {
-    $block2->headingError($strings["errors"]);
-    $block2->contentError($error);
-}
+    if (isset($error) && $error != "") {
+        $block2->headingError($strings["errors"]);
+        $block2->contentError($error);
+    }
 
-$block2->openContent();
-$block2->contentTitle($strings["report_save"]);
+    $block2->openContent();
+    $block2->contentTitle($strings["report_save"]);
 
-echo <<< TR
-        <tr class="odd">
-			<td valign="top" class="leftvalue">{$strings["report_name"]} :</td>
-			<td><input type="text" name="S_SAVENAME" value="" style="width: 200px;" maxlength="64"></td>
-		</tr>
-		<tr class="odd">
-			<td valign="top" class="leftvalue">&nbsp;</td>
-			<td><input type="submit" name="{$strings["save"]}" value="{$strings["save"]}" />
-			<input type="hidden" name="S_ORGSEL" value="{$_POST["S_ORGSEL"]}" />
-			<input type="hidden" name="S_PRJSEL" value="{$_POST["S_PRJSEL"]}" />
-			<input type="hidden" name="S_ATSEL" value="{$_POST["S_ATSEL"]}" />
-			<input type="hidden" name="S_STATSEL" value="{$_POST["S_STATSEL"]}" />
-			<input type="hidden" name="S_PRIOSEL" value="{$_POST["S_PRIOSEL"]}" />
-			<input type="hidden" name="S_SDATE" value="{$_POST["S_SDATE"]}" />
-			<input type="hidden" name="S_EDATE" value="{$_POST["S_EDATE"]}" />
-			<input type="hidden" name="S_SDATE2" value="{$_POST["S_SDATE2"]}" />
-			<input type="hidden" name="S_EDATE2" value="{$_POST["S_EDATE2"]}" />
-			</td>
-		</tr>
+    echo <<< TR
+            <tr class="odd">
+                <td class="leftvalue">{$strings["report_name"]} :</td>
+                <td><input type="text" name="report_name" value="" style="width: 200px;" maxlength="64"></td>
+            </tr>
+            <tr class="odd">
+                <td class="leftvalue">&nbsp;</td>
+                <td><input type="submit" name="{$strings["save"]}" value="{$strings["save"]}" />
+                <input type="hidden" name="filterOrganization" value="{$filterOrganization}" />
+                <input type="hidden" name="filterProject" value="{$filterProject}" />
+                <input type="hidden" name="filterAssignedTo" value="{$filterAssignedTo}" />
+                <input type="hidden" name="filterStatus" value="{$filterStatus}" />
+                <input type="hidden" name="filterPriority" value="{$filterPriority}" />
+                <input type="hidden" name="filterStartDate" value="{$filterStartDate}" />
+                <input type="hidden" name="filterEndDate" value="{$filterEndDate}" />
+                <input type="hidden" name="filterDateCompleteStart" value="{$filterDateCompleteStart}" />
+                <input type="hidden" name="filterDateCompleteEnd" value="{$filterDateCompleteEnd}" />
+                </td>
+            </tr>
 TR;
 
-$block2->closeContent();
-$block2->closeForm();
+    $block2->closeContent();
+    $block2->closeForm();
+}
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';
