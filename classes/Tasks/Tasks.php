@@ -439,6 +439,15 @@ class Tasks
     }
 
     /**
+     * @param String $sql
+     * @return mixed
+     */
+    public function getReportTasks($sql)
+    {
+        return $this->tasks_gateway->getReportTasks($sql);
+    }
+
+    /**
      * @param $taskId
      * @param $assignedDate
      * @return mixed

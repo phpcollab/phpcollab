@@ -606,7 +606,7 @@ SQL;
     }
 
     /**
-     * @param $parentTaskIds
+     * @param String $parentTaskIds
      * @param null $sorting
      * @return mixed
      */
@@ -711,6 +711,18 @@ SQL;
         $this->db->bind(':project_id', $projectId);
         $this->db->bind(':phase_id', $phaseId);
         return $this->db->resultset();
+    }
+
+    /**
+     * @param String $sql
+     * @return mixed
+     */
+    public function getReportTasks($sql)
+    {
+        $query = $this->initrequest["tasks"] . ' ' . $sql;
+        $this->db->query($query);
+        return $this->db->resultset();
+
     }
 
     /**
