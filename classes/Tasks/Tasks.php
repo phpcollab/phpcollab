@@ -361,6 +361,17 @@ class Tasks
     }
 
     /**
+     * @param $parentTaskIds
+     * @param null $sorting
+     * @return mixed
+     */
+    public function getSubtasksByParentTaskIdIn($parentTaskIds, $sorting = null)
+    {
+        $task = $this->tasks_gateway->getSubtasksByParentTaskIdIn($parentTaskIds, $sorting);
+        return $task;
+    }
+
+    /**
      * @param $parentTaskId
      * @param null $sorting
      * @return mixed
