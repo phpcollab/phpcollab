@@ -1,5 +1,7 @@
 <?php
 
+use phpCollab\Reports\Reports;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -32,7 +34,7 @@ $block1->sorting("reports", $sortingUser["reports"], "rep.name ASC", $sortingFie
 
 $db = new phpCollab\Database();
 
-$reports = new \phpCollab\Reports\Reports();
+$reports = new Reports();
 
 $sorting = $block1->sortingValue;
 
@@ -61,6 +63,6 @@ $block1->openPaletteScript();
 $block1->paletteScript(0, "add", "../reports/createreport.php?", "true,true,true", $strings["add"]);
 $block1->paletteScript(1, "remove", "../reports/deletereports.php?", "false,true,true", $strings["delete"]);
 $block1->paletteScript(2, "export", "../reports/exportreport.php?", "false,true,true", $strings["export"]);
-$block1->closePaletteScript($comptListReports, $dataSet['rep_id']);
+$block1->closePaletteScript(count($dataSet), $dataSet['rep_id']);
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';
