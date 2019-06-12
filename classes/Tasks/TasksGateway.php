@@ -607,15 +607,17 @@ SQL;
 
     /**
      * @param $parentTaskIds
+     * @param null $sorting
      * @return mixed
      */
-    public function getSubtasksByParentTaskIdIn($parentTaskIds)
+    public function getSubtasksByParentTaskIdIn($parentTaskIds, $sorting = null)
     {
+        $parentTaskIds = explode(',', $parentTaskIds);
         $placeholders = str_repeat('?, ', count($parentTaskIds) - 1) . '?';
 
         $sql = $this->initrequest["subtasks"] . " WHERE task IN ($placeholders)";
 
-        $this->db->query($sql);
+        $this->db->query($sql . $this->orderBy($sorting));
         $this->db->execute($parentTaskIds);
         return $this->db->fetchAll();
     }
