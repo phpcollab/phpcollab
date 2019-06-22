@@ -63,13 +63,11 @@ class Util
      */
     public static function replaceSpecialCharacters($return)
     {
-        $return = str_replace('"', '&quot', $return);
-        $return = str_replace("'", '&#039;', $return);
-        $return = str_replace('=', '&#61;', $return);
-        $return = str_replace('$', '&#36;', $return);
-        $return = str_replace("\\", '&#92;', $return);
-
-        return $return;
+        return str_replace(
+            ['"', '\'', '=', '$', '\\'],
+            ['&quote', '&#039;', '&#61;', '&#36;', '&#92;'],
+            $return
+        );
     }
 
     /**
