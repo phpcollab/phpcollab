@@ -3,7 +3,10 @@
 
 namespace phpCollab\Teams;
 
+use Exception;
 use phpCollab\Database;
+use phpCollab\Notification;
+use phpCollab\Notifications;
 
 /**
  * Class Teams
@@ -13,6 +16,8 @@ class Teams
 {
     protected $teams_gateway;
     protected $db;
+    protected $strings;
+    protected $root;
 
     /**
      * Teams constructor.
@@ -21,6 +26,8 @@ class Teams
     {
         $this->db = new Database();
         $this->teams_gateway = new TeamsGateway($this->db);
+        $this->strings = $GLOBALS["strings"];
+        $this->root = $GLOBALS["root"];
     }
 
     /**
@@ -228,6 +235,125 @@ class Teams
     public function unPublishToSite($projectId, $memberIds)
     {
         return $this->teams_gateway->unPublishTeams($projectId, $memberIds);
+    }
+
+    /**
+     * @param $projectDetails
+     * @param $members
+     * @throws Exception
+     */
+    public function sendRemoveProjectTeamNotification($projectDetails, $members)
+    {
+        if ($projectDetails) {
+
+            $mail = new Notification(true);
+            try {
+
+                $mail->setFrom($projectDetails["pro_mem_email_work"], $projectDetails["pro_mem_name"]);
+
+                $mail->partSubject = $this->strings["noti_removeprojectteam1"];
+                $mail->partMessage = $this->strings["noti_removeprojectteam2"];
+
+
+                if ($projectDetails["pro_org_id"] == "1") {
+                    $projectDetails["pro_org_name"] = $this->strings["none"];
+                }
+
+                $body = $mail->partMessage . "\n\n";
+                $body .= $this->strings["project"] . " : " . $projectDetails["pro_name"] . " (" . $projectDetails["pro_id"] . ")\n";
+                $body .= $this->strings["organization"] . " : " . $projectDetails["pro_org_name"] . "\n\n";
+                $body .= $this->strings["noti_moreinfo"] . "\n";
+
+                // This is hard coded, so it is always "1"
+                $organization = "1";
+                if ($organization == "1") {
+                    $body .= $this->root . "/general/login.php?url=projects/viewproject.php%3Fid=" . $projectDetails["pro_id"];
+                } elseif ($organization != "1" && $projectDetails["pro_published"] == "0") {
+                    $body .= $this->root;
+                }
+
+                $body .= "\n\n" . $mail->footer;
+
+                $notifications = new Notifications\Notifications();
+                $listNotifications = $notifications->getNotificationsWhereMemberIn($members);
+
+                foreach ($listNotifications as $memberNotification) {
+
+                    if ($memberNotification["not_removeprojectteam"] == "0" && $memberNotification["not_mem_email_work"] != "") {
+                        $mail->Subject = $mail->partSubject . " " . $projectDetails["pro_name"];
+                        $mail->Priority = "3";
+                        $mail->Body = $body;
+                        $mail->AddAddress($memberNotification["not_mem_email_work"], $memberNotification["not_mem_name"]);
+                        $mail->Send();
+                        $mail->ClearAddresses();
+                    }
+                }
+            } catch (Exception $e) {
+                // Log this instead of echoing it?
+                throw new Exception($mail->ErrorInfo);
+            }
+        } else {
+            throw new Exception('Error sending mail');
+        }
+    }
+
+    /**
+     * @param $projectDetail
+     * @param $members
+     * @throws Exception
+     */
+    public function sendAddProjectTeamNotification($projectDetail, $members)
+    {
+        if ($projectDetail) {
+
+            $mail = new Notification(true);
+            try {
+                $mail->getUserinfo($GLOBALS["idSession"], "from");
+
+                $mail->partSubject = $this->strings["noti_addprojectteam1"];
+                $mail->partMessage = $this->strings["noti_addprojectteam2"];
+
+                if ($projectDetail["pro_org_id"] == "1") {
+                    $projectDetail["pro_org_name"] = $this->strings["none"];
+                }
+
+                $body = $mail->partMessage . "\n\n";
+                $body .= $this->strings["project"] . " : " . $projectDetail["pro_name"] . " (" . $projectDetail["pro_id"] . ")\n";
+                $body .= $this->strings["organization"] . " : " . $projectDetail["pro_org_name"] . "\n\n";
+                $body .= $this->strings["noti_moreinfo"] . "\n";
+
+
+                // This is hard coded, so it is always "1"
+                $organization = "1";
+                if ($organization == "1") {
+                    $body .= $this->root . "/general/login.php?url=projects/viewproject.php%3Fid=" . $projectDetail["pro_id"];
+                } elseif ($organization != "1" && $projectDetail["pro_published"] == "0") {
+                    $body .= $this->root;
+                    $body .= $this->root . "/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetail["pro_id"];
+                }
+
+                $body .= "\n\n" . $mail->footer;
+
+                $notifications = new Notifications\Notifications();
+                $listNotifications = $notifications->getNotificationsWhereMemberIn($members);
+
+                foreach ($listNotifications as $memberNotification) {
+                    if ($listNotifications["not_addprojectteam"] == "0" && $listNotifications["not_mem_email_work"] != "") {
+                        $mail->Subject = $mail->partSubject . " " . $projectDetail["pro_name"];
+                        $mail->Priority = "3";
+                        $mail->Body = $body;
+                        $mail->AddAddress($memberNotification["not_mem_email_work"], $memberNotification["not_mem_name"]);
+                        $mail->Send();
+                        $mail->ClearAddresses();
+                    }
+                }
+            } catch (Exception $e) {
+                // Log this instead of echoing it?
+                throw new Exception($mail->ErrorInfo);
+            }
+        } else {
+            throw new Exception('Error sending mail');
+        }
     }
 
 }
