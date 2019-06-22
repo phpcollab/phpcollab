@@ -542,7 +542,7 @@ HTML;
      **/
     public function openResults($checkbox = "true")
     {
-        echo "<table class='listing' cellpadding='0' cellspacing='0' border='0'>
+        echo "<table class='listing striped' cellpadding='0' cellspacing='0' border='0'>
 <tr>";
         if ($checkbox == "true") {
             echo '<th width="1%" align="center">';
