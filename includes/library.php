@@ -55,10 +55,7 @@ error_reporting(2039);
 
 $request = Request::createFromGlobals();
 
-//disable session on export
-if ($export != "true") {
-    session_start();
-}
+session_start();
 
 // register_globals cheat code
 if (ini_get(register_globals) != "1") {
