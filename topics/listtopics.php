@@ -1,5 +1,9 @@
 <?php
 
+use phpCollab\Projects\Projects;
+use phpCollab\Teams\Teams;
+use phpCollab\Topics\Topics;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -17,9 +21,9 @@ $tableCollab = $GLOBALS["tableCollab"];
 $idSession = $_SESSION["idSession"];
 
 
-$topics = new \phpCollab\Topics\Topics();
-$projects = new \phpCollab\Projects\Projects();
-$teams = new \phpCollab\Teams\Teams();
+$topics = new Topics();
+$projects = new Projects();
+$teams = new Teams();
 
 if ($action == "publish") {
     if ($closeTopic == "true") {
@@ -53,6 +57,8 @@ if ($action == "publish") {
         $msg = "removeToSite";
     }
 }
+
+$setTitle .= " : " . $strings["discussions"];
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
