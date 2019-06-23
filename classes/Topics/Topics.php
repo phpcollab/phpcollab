@@ -108,6 +108,15 @@ class Topics
     }
 
     /**
+     * @param $topicIds
+     * @return mixed
+     */
+    public function getTopicsIn($topicIds)
+    {
+        return $this->topics_gateway->getTopicsIn($topicIds);
+    }
+
+    /**
      * @param $topicId
      * @return mixed
      */
@@ -233,6 +242,30 @@ class Topics
         $newPostId = $this->topics_gateway->createPost($topicId, $memberId, $message, $created);
         return $this->getPostById($newPostId);
 
+    }
+
+    /**
+     * @param array $topicIds
+     * @return mixed
+     */
+    public function deleteTopics(array $topicIds)
+    {
+        if (isset($topicIds) && is_array($topicIds)) {
+            return $this->topics_gateway->deleteTopics($topicIds);
+        }
+        return false;
+    }
+
+    /**
+     * @param array $topicIds
+     * @return mixed
+     */
+    public function deletePostsFromTopics(array $topicIds)
+    {
+        if (isset($topicIds) && is_array($topicIds)) {
+            return $this->topics_gateway->deletePostsByTopicIds($topicIds);
+        }
+        return false;
     }
 
     /**

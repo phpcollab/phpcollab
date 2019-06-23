@@ -127,6 +127,20 @@ class TopicsGateway
     }
 
     /**
+     * @param $topicIds
+     * @return mixed
+     */
+    public function getTopicsIn($topicIds)
+    {
+        $topicIds = explode(',', $topicIds);
+        $placeholders = str_repeat('?, ', count($topicIds) - 1) . '?';
+        $whereStatement = " WHERE topic.id IN($placeholders)";
+        $this->db->query($this->initrequest["topics"] . $whereStatement);
+        $this->db->execute($topicIds);
+        return $this->db->resultset();
+    }
+
+    /**
      * @param $topicId
      * @return mixed
      */
@@ -254,6 +268,34 @@ class TopicsGateway
         }
     }
 
+    /**
+     * @param $topicIds
+     * @return mixed
+     */
+    public function deleteTopics($topicIds)
+    {
+        // Generate placeholders
+        $placeholders = str_repeat('?, ', count($topicIds) - 1) . '?';
+        $sql = "DELETE FROM {$this->tableCollab['topics']} WHERE id IN ($placeholders)";
+        $this->db->query($sql);
+
+        return $this->db->execute($topicIds);
+    }
+
+    /**
+     * @param $topicIds
+     * @return mixed
+     */
+    public function deletePostsByTopicIds($topicIds)
+    {
+        // Generate placeholders
+        $placeholders = str_repeat('?, ', count($topicIds) - 1) . '?';
+        $sql = "DELETE FROM {$this->tableCollab['posts']} WHERE topic IN ($placeholders)";
+        $this->db->query($sql);
+
+        return $this->db->execute($topicIds);
+    }
+    
     /**
      * @param $projectId
      * @return mixed
