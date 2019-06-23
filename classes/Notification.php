@@ -11,13 +11,17 @@ class Notification extends phpmailer
 {
     private $lang;
     private $notificationMethod;
-    private $strings;
-    private $root;
+    protected $strings;
+    protected $root;
     public $partMessage;
     public $footer;
     public $partSubject;
     protected $signature;
 
+    /**
+     * Notification constructor.
+     * @param null $exceptions
+     */
     public function __construct($exceptions = null)
     {
         parent::__construct($exceptions);
@@ -50,7 +54,11 @@ class Notification extends phpmailer
 
     }
 
-    function getUserinfo($idUser, $type)
+    /**
+     * @param $idUser
+     * @param $type
+     */
+    public function getUserinfo($idUser, $type)
     {
         $detailUser = (new Members)->getMemberById($idUser);
         try {
