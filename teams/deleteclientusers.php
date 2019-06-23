@@ -3,33 +3,43 @@
 #Status page: 1
 #Path by root: ../teams/deleteclientusers.php
 
+use phpCollab\Members\Members;
+use phpCollab\Notifications\RemoveProjectTeam;
+use phpCollab\Projects\Projects;
+use phpCollab\Teams\Teams;
+use phpCollab\Notifications\Notifications;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$tmpquery = "WHERE pro.id = '$project'";
-$projectDetail = new phpCollab\Request();
-$projectDetail->openProjects($tmpquery);
-$comptProjectDetail = count($projectDetail->pro_id);
+$projects = new Projects();
+$members = new Members();
+$sendNotifications = new Notifications();
 
-if ($comptProjectDetail == "0") {
+$projectDetail = $projects->getProjectById($project);
+
+if (!$projectDetail) {
     phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blank");
 }
 
 if ($action == "delete") {
     $id = str_replace("**", ",", $id);
     $pieces = explode(",", $id);
+    $teams = new Teams();
 
     if ($htaccessAuth == "true") {
         $Htpasswd = new Htpasswd;
-        $Htpasswd->initialize("../files/" . $projectDetail->pro_id[0] . "/.htpasswd");
+        $Htpasswd->initialize("../files/" . $projectDetail["pro_id"] . "/.htpasswd");
 
-        $tmpquery = "WHERE mem.id IN($id)";
-        $listMembers = new phpCollab\Request();
-        $listMembers->openMembers($tmpquery);
-        $comptListMembers = count($listMembers->mem_id);
+        $listMembers = $members->getMembersByIdIn($id);
 
-        for ($i = 0; $i < $comptListMembers; $i++) {
-            $Htpasswd->deleteUser($listMembers->mem_login[$i]);
+        foreach ($listMembers as $listMember) {
+            try {
+                $Htpasswd->deleteUser($listMember["mem_login"]);
+            }
+            catch (Exception $e) {
+                // Handle exception
+            }
         }
     }
 
@@ -39,8 +49,9 @@ if ($action == "delete") {
         include '../mantis/core_API.php';
     }
     $compt = count($pieces);
+
     for ($i = 0; $i < $compt; $i++) {
-        phpCollab\Util::newConnectSql("DELETE FROM {$tableCollab["teams"]} WHERE member = :member_id", ["member_id" => $pieces[$i]]);
+        $teams->deleteTeamWhereMemberIn($pieces[$i]);
         //if mantis bug tracker enabled
         if ($enableMantis == "true") {
             // Unassign user from this project in mantis
@@ -50,19 +61,28 @@ if ($action == "delete") {
         }
     }
     if ($notifications == "true") {
-        $organization = "";
-        include '../teams/noti_removeprojectteam.php';
+        $removeProjectTeam = new RemoveProjectTeam();
+
+        try {
+            $notificationList = $sendNotifications->getNotificationsWhereMemberIn($id);
+
+            $removeProjectTeam->generateEmail($projectDetail, $notificationList);
+
+        } catch (Exception$e) {
+            // Log exception
+
+        }
     }
     phpCollab\Util::headerFunction("../projects/viewprojectsite.php?id=$project&msg=removeClientToSite");
 }
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail->pro_id[0], $projectDetail->pro_name[0], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewprojectsite.php?id=" . $projectDetail->pro_id[0], $strings["project_site"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewprojectsite.php?id=" . $projectDetail["pro_id"], $strings["project_site"], "in"));
 $blockPage->itemBreadcrumbs($strings["remove_team_client"]);
 $blockPage->closeBreadcrumbs();
 
@@ -82,18 +102,15 @@ $block1->openContent();
 $block1->contentTitle($strings["remove_team_info"]);
 
 $id = str_replace("**", ",", $id);
-$tmpquery = "WHERE mem.id IN($id) ORDER BY mem.name";
-$listMembers = new phpCollab\Request();
-$listMembers->openMembers($tmpquery);
-$comptListMembers = count($listMembers->mem_id);
+$listMembers = $members->getMembersByIdIn($id, "mem.name");
 
-for ($i = 0; $i < $comptListMembers; $i++) {
-    $block1->contentRow("#" . $listMembers->mem_id[$i], $listMembers->mem_login[$i] . " (" . $listMembers->mem_name[$i] . ")");
+foreach ($listMembers as $listMember) {
+    $block1->contentRow("#{$listMember["mem_id"]}", " - {$listMember["mem_login"]} ({$listMember["mem_name"]})");
 }
 
-$block1->contentRow("", "<input type=\"SUBMIT\" value=\"" . $strings["delete"] . "\">&#160;<input type=\"BUTTON\" value=\"" . $strings["remove"] . "\" onClick=\"history.back();\">");
+$block1->contentRow("", '<input type="submit" value="' . $strings["delete"] . '">&#160;<input type="button" value="' . $strings["cancel"] . '" onClick="history.back();">');
 
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
