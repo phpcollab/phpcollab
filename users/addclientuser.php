@@ -1,10 +1,14 @@
 <?php
 
+use phpCollab\Members\Members;
+use phpCollab\Notifications\Notifications;
+use phpCollab\Organizations\Organizations;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$members = new \phpCollab\Members\Members();
-$notifications = new \phpCollab\Notifications\Notifications();
+$members = new Members();
+$notifications = new Notifications();
 
 $orgId = $_GET['organization'];
 
@@ -12,7 +16,7 @@ if (!$orgId) {
     phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankUser");
 }
 
-$organizations = new \phpCollab\Organizations\Organizations();
+$organizations = new Organizations();
 $clientDetail = $organizations->checkIfClientExistsById($orgId);
 
 if (empty($clientDetail)) {
@@ -152,7 +156,7 @@ if ($_GET['action'] == "add") {
                         } else {
                             $error = $strings["errors"];
                         }
-                    } catch (\Exception $e) {
+                    } catch (Exception $e) {
                         echo $error = $e->getMessage();
                     }
                 }
@@ -161,7 +165,7 @@ if ($_GET['action'] == "add") {
     }
 }
 
-$bodyCommand = 'onLoad="document.client_user_addForm.un.focus();"';
+$bodyCommand = 'onLoad="document.client_user_addForm.user_name.focus();"';
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
