@@ -1,11 +1,18 @@
 <?php
 
+use phpCollab\Members\Members;
+use phpCollab\Notifications\AddProjectTeam;
+use phpCollab\Notifications\Notifications;
+use phpCollab\Projects\Projects;
+use phpCollab\Teams\Teams;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$members = new \phpCollab\Members\Members();
-$projects = new \phpCollab\Projects\Projects();
-$teams = new \phpCollab\Teams\Teams();
+$members = new Members();
+$projects = new Projects();
+$teams = new Teams();
+$sendNotifications = new Notifications();
 
 $project = $_GET["project"];
 $strings = $GLOBALS["strings"];
@@ -29,7 +36,12 @@ if ($_GET["action"] == "add") {
             $listMembers = $members->getMembersByIdIn($id);
 
             foreach ($listMembers as $member) {
-                $Htpasswd->addUser($member["mem_login"], $member["mem_password"]);
+                try {
+                    $Htpasswd->addUser($member["mem_login"], $member["mem_password"]);
+                } catch (Exception $e) {
+                    // Handle exception
+                }
+
             }
         }
         //if mantis bug tracker enabled
@@ -54,8 +66,14 @@ if ($_GET["action"] == "add") {
         }
 
         if ($notifications == "true") {
-            $organization = "";
-            include '../teams/noti_addprojectteam.php';
+            $addProjectTeam = new AddProjectTeam();
+
+            try {
+                $notificationList = $sendNotifications->getNotificationsWhereMemberIn($id);
+                $addProjectTeam->generateEmail($projectDetail, $notificationList);
+            } catch (Exception$e) {
+                // Log exception
+            }
         }
         phpCollab\Util::headerFunction("../projects/viewprojectsite.php?id=" . $projectDetail["pro_id"] . "&msg=addClientToSite");
     }
