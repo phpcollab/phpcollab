@@ -25,13 +25,19 @@
 */
 
 
+use phpCollab\Members\Members;
+use phpCollab\Organizations\Organizations;
+use phpCollab\Projects\Projects;
+use phpCollab\Teams\Teams;
+use phpCollab\Util;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$teams = new \phpCollab\Teams\Teams();
-$orgs = new \phpCollab\Organizations\Organizations();
-$projects = new \phpCollab\Projects\Projects();
-$members = new \phpCollab\Members\Members();
+$teams = new Teams();
+$orgs = new Organizations();
+$projects = new Projects();
+$members = new Members();
 
 if ($clientsFilter == "true" && $profilSession == "2") {
     $teamMember = "false";
@@ -91,20 +97,20 @@ if ($clientsFilter == "true") {
 }
 $block1->contentRow(
     $strings["name"],
-    !empty($clientDetail['org_name']) ? $clientDetail['org_name'] : \phpCollab\Util::doubleDash()
+    !empty($clientDetail['org_name']) ? $clientDetail['org_name'] : Util::doubleDash()
 );
 $block1->contentRow($strings["address"],
-    !empty($clientDetail['org_address1']) ? $clientDetail['org_address1'] : \phpCollab\Util::doubleDash()
+    !empty($clientDetail['org_address1']) ? $clientDetail['org_address1'] : Util::doubleDash()
 );
 $block1->contentRow(
     $strings["phone"], 
-    !empty($clientDetail['org_phone']) ? $clientDetail['org_phone'] : \phpCollab\Util::doubleDash()
+    !empty($clientDetail['org_phone']) ? $clientDetail['org_phone'] : Util::doubleDash()
 );
 $block1->contentRow($strings["url"], $blockPage->buildLink($clientDetail['org_url'], $clientDetail['org_url'], 'out'));
 $block1->contentRow($strings["email"], $blockPage->buildLink($clientDetail['org_email'], $clientDetail['org_email'], 'mail'));
 $block1->contentRow(
     $strings["comments"],
-    !empty($clientDetail['org_comments']) ? nl2br($clientDetail['org_comments']) : \phpCollab\Util::doubleDash()
+    !empty($clientDetail['org_comments']) ? nl2br($clientDetail['org_comments']) : Util::doubleDash()
 );
 if ($enableInvoicing == "true" && ($profilSession == "1" || $profilSession == "0" || $profilSession == "5")) {
     $block1->contentRow($strings["hourly_rate"], $clientDetail['org_hourly_rate']);
@@ -233,7 +239,7 @@ if ($listMembers) {
         $block3->cellRow($blockPage->buildLink("../users/viewclientuser.php?id=" . $member['mem_id'] . "&organization=$id", $member['mem_name'], 'in'));
         $block3->cellRow($member['mem_login']);
         $block3->cellRow($blockPage->buildLink($member['mem_email_work'], $member['mem_email_work'], 'mail'));
-        $block3->cellRow(!empty($clientDetail['mem_phone_work']) ? $clientDetail['mem_phone_work'] : \phpCollab\Util::doubleDash());
+        $block3->cellRow(!empty($clientDetail['mem_phone_work']) ? $clientDetail['mem_phone_work'] : Util::doubleDash());
 
         $z = "(Client on project site)";
         if ($member['mem_log_connected'] > $dateunix - 5 * 60) {
