@@ -63,6 +63,8 @@ if (empty($projectDetail)) {
     phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blankProject");
 }
 
+$setTitle .= " : View Project site (" . $projectDetail["pro_name"] . ")";
+
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
