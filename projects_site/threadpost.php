@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST["action"] == "add") {
         $detailTopic["top_posts"] = $detailTopic["top_posts"] + 1;
         $messageField = phpCollab\Util::convertData($_POST["messageField"]);
-        phpCollab\Util::autoLinks($messageField);
+        $messageField = phpCollab\Util::autoLinks($messageField);
 
         $newPost = $topics->addPost($id, $idSession, $messageField);
 

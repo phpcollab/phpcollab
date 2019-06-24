@@ -40,7 +40,7 @@ if ($action == "add") {
     $newTopic = $topics->addTopic($project, $_SESSION["idSession"], $topic_subject, 1, 1, $pub, $dateheure);
 
 
-    phpCollab\Util::autoLinks($topic_message);
+    $topic_message = phpCollab\Util::autoLinks($topic_message);
 
     $newPost = $topics->addPost($newTopic["top_id"], $_SESSION["idSession"], $topic_message, $dateheure);
 

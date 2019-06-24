@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $newTopic = $topics->addTopic($projectSession, $idSession, $topicField, 1, 1, 0);
 
-        phpCollab\Util::autoLinks($messageField);
+        $messageField = phpCollab\Util::autoLinks($messageField);
 
         $newPost = $topics->addPost($newTopic["top_id"], $idSession, $messageField);
 
