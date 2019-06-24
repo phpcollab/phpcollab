@@ -2,11 +2,14 @@
 #Application name: PhpCollab
 #Status page: 0
 
+use phpCollab\Support\Support;
+use phpCollab\Teams\Teams;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$teams = new \phpCollab\Teams\Teams();
-$support = new \phpCollab\Support\Support();
+$teams = new Teams();
+$support = new Support();
 
 $id = $_GET["id"];
 
@@ -55,7 +58,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "sdt";
-$block1->openForm("");
+$block1->openForm("./viewrequest.php");
 
 if (isset($error) && $error != "") {
     $block1->headingError($strings["errors"]);

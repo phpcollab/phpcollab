@@ -26,16 +26,21 @@
 */
 
 
+use phpCollab\Phases\Phases;
+use phpCollab\Projects\Projects;
+use phpCollab\Tasks\Tasks;
+use phpCollab\Updates\Updates;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
 $type = isset($_GET["type"]) ? $_GET["type"] : null;
 $item = isset($_GET["item"]) ? $_GET["item"] : null;
 
-$tasks = new \phpCollab\Tasks\Tasks();
-$projects = new \phpCollab\Projects\Projects();
-$phases = new \phpCollab\Phases\Phases();
-$updates = new \phpCollab\Updates\Updates();
+$tasks = new Tasks();
+$projects = new Projects();
+$phases = new Phases();
+$updates = new Updates();
 
 $strings = $GLOBALS["strings"];
 
@@ -101,7 +106,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "tdP";
-$block1->openForm("");
+$block1->openForm("./historytask.php");
 
 if (isset($error) && $error != "") {
     $block1->headingError($strings["errors"]);

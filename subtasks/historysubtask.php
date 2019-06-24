@@ -1,12 +1,17 @@
 <?php
 
+use phpCollab\Phases\Phases;
+use phpCollab\Projects\Projects;
+use phpCollab\Tasks\Tasks;
+use phpCollab\Updates\Updates;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$tasks = new \phpCollab\Tasks\Tasks();
-$projects = new \phpCollab\Projects\Projects();
-$phases = new \phpCollab\Phases\Phases();
-$updates = new \phpCollab\Updates\Updates();
+$tasks = new Tasks();
+$projects = new Projects();
+$phases = new Phases();
+$updates = new Updates();
 
 if ($type == "2") {
     $subtaskDetail = $tasks->getSubTaskById($item);
@@ -38,12 +43,12 @@ if ($type == "1") {
     }
 }
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail['pro_id'], $projectDetail['pro_name'], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail['pro_id'], $projectDetail['pro_name'], "in"));
 
 if ($projectDetail['pro_phase_set'] != "0") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail['pro_id'], $strings["phases"], 'in'));
@@ -71,9 +76,9 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "tdP";
-$block1->openForm("");
+$block1->openForm("./historysubtask.php");
 
-if ($error != "") {
+if (!empty($error)) {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
 }
@@ -109,8 +114,8 @@ foreach ($listUpdates as $update) {
         $update['upd_comments'] .= $strings["due_date"] . " " . $matches[1];
     }
 
-    $block1->contentRow($strings["posted_by"], $blockPage->buildLink($update['upd_mem_email_work'], $update['upd_mem_name'], mail));
-    if ($update['upd_created'] > $lastvisiteSession) {
+    $block1->contentRow($strings["posted_by"], $blockPage->buildLink($update['upd_mem_email_work'], $update['upd_mem_name'], "mail"));
+    if ($update['upd_created'] > $_SESSION["lastvisiteSession"]) {
         $block1->contentRow($strings["when"], "<b>" . phpCollab\Util::createDate($update['upd_created'], $timezoneSession) . "</b>");
     } else {
         $block1->contentRow($strings["when"], phpCollab\Util::createDate($update['upd_created'], $timezoneSession));
@@ -123,4 +128,4 @@ $block1->closeContent();
 
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
