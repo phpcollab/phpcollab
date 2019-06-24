@@ -132,7 +132,6 @@ class Util
      */
     public static function autoLinks($data)
     {
-//        global $newText;
         $newText = '';
         $lines = explode("\n", $data);
         foreach ($lines as $key => $line) {
