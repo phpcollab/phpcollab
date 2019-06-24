@@ -3,12 +3,16 @@
 #Status page: 0
 #Path by root: ../topics/viewtopic.php
 
+use phpCollab\Projects\Projects;
+use phpCollab\Teams\Teams;
+use phpCollab\Topics\Topics;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$topics = new \phpCollab\Topics\Topics();
-$projects = new \phpCollab\Projects\Projects();
-$teams = new \phpCollab\Teams\Teams();
+$topics = new Topics();
+$projects = new Projects();
+$teams = new Teams();
 
 $id = $_GET["id"];
 
@@ -49,6 +53,8 @@ if ($detailProject["pro_org_id"] == "1") {
 $idStatus = $detailTopic["top_status"];
 $idPublish = $detailTopic["top_published"];
 
+$setTitle .= " : " . $strings["discussion"] . " : " . $detailTopic["top_subject"];
+
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
@@ -67,9 +73,9 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "tdP";
-$block1->openForm("");
+$block1->openForm("./viewtopic.php");
 
-if ($error != "") {
+if (!empty($error)) {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
 }
@@ -109,7 +115,7 @@ if ($detailTopic["top_status"] == "1" && $teamMember == "true") {
 foreach ($listPosts as $post) {
     $block1->contentRow($strings["posted_by"], $blockPage->buildLink($post["pos_mem_email_work"], $post["pos_mem_name"], "mail"));
 
-    if ($post["pos_created"] > $lastvisiteSession) {
+    if ($post["pos_created"] > $_SESSION["lastvisiteSession"]) {
         $block1->contentRow($strings["when"], "<b>" . phpCollab\Util::createDate($post["pos_created"], $timezoneSession) . "</b>");
     } else {
         $block1->contentRow($strings["when"], phpCollab\Util::createDate($post["pos_created"], $timezoneSession));
@@ -132,7 +138,7 @@ if ($idSession == $detailTopic["top_owner"]) {
     $block1->paletteScript(1, "lock", "../topics/viewtopic.php?id=" . $detailTopic["top_id"] . "&action=closeTopic", "true,true,false", $strings["close"]);
     $block1->paletteScript(2, "add_projectsite", "../topics/viewtopic.php?id=" . $detailTopic["top_id"] . "&action=addToSite", "true,true,false", $strings["add_project_site"]);
     $block1->paletteScript(3, "remove_projectsite", "../topics/viewtopic.php?id=" . $detailTopic["top_id"] . "&action=removeToSite", "true,true,false", $strings["remove_project_site"]);
-    $block1->closePaletteScript("", "");
+    $block1->closePaletteScript(count($detailTopic), $detailTopic[0]["top_id"]);
 }
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';
