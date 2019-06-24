@@ -3,46 +3,72 @@
 #Status page: 0
 #Path by root: ../topics/addpost.php
 
+use phpCollab\Notifications\Notifications;
+use phpCollab\Notifications\TopicNewPost;
+use phpCollab\Projects\Projects;
+use phpCollab\Topics\Topics;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$topics = new \phpCollab\Topics\Topics();
-$projects = new \phpCollab\Projects\Projects();
+$topics = new Topics();
+$projects = new Projects();
+$sendNotifications = new Notifications();
 
-$id = $_GET["id"];
+$topic_id = $_GET["id"];
 $strings = $GLOBALS["strings"];
 $action = $_GET["action"];
 
-$detailTopic = $topics->getTopicByTopicId($id);
+$detailTopic = $topics->getTopicByTopicId($topic_id);
 
 $projectDetail = $projects->getProjectById($detailTopic["top_project"]);
 
-if ($action == "add") {
-    $tableCollab = $GLOBALS["tableCollab"];
-    $tpm = phpCollab\Util::convertData($_POST["tpm"]);
-    phpCollab\Util::autoLinks($tpm);
-    $detailTopic["top_posts"] = $detailTopic["top_posts"] + 1;
-    $tmpquery1 = "INSERT INTO {$tableCollab["posts"]} (topic,member,created,message) VALUES (:topic,:member,:created,:message)";
-    $dbParams = [];
-    $dbParams['topic'] = $id;
-    $dbParams['member'] = $_SESSION["idSession"];
-    $dbParams['created'] = $dateheure;
-    $dbParams['message'] = $GLOBALS["newText"];
-    phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
-    unset($dbParams);
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($action == "add") {
+        $post_message = phpCollab\Util::convertData($_POST["post_message"]);
+        $post_message = phpCollab\Util::autoLinks($post_message);
 
-    $tmpquery2 = "UPDATE {$tableCollab["topics"]} SET last_post=:last_post,posts=:posts WHERE id = :topic_id";
-    $dbParams = [];
-    $dbParams['last_post'] = $dateheure;
-    $dbParams['posts'] = $detailTopic["top_posts"];
-    $dbParams['topic_id'] = $id;
-    phpCollab\Util::newConnectSql($tmpquery2, $dbParams);
-    unset($dbParams);
+        // Increment the local copy of detailTopic instead of making another DB call to update and retrieve the count
+        $detailTopic["top_posts"] = $detailTopic["top_posts"] + 1;
 
-    if ($notifications == "true") {
-        include '../topics/noti_newpost.php';
+        // Add new post
+        $newPost = $topics->addPost($topic_id, $_SESSION["idSession"], $post_message);
+
+        // Increment the
+        $topics->incrementTopicPostsCount($topic_id);
+
+        if ($notifications == "true") {
+            $listPosts = $topics->getPostsByTopicIdAndNotOwner($detailTopic["top_id"], $_SESSION["idSession"]);
+
+            $distinct = '';
+
+            foreach ($listPosts as $post) {
+                if ($post["pos_mem_id"] != $distinct) {
+                    $posters .= $post["pos_mem_id"] . ",";
+                }
+                $distinct = $post["pos_mem_id"];
+            }
+            if (substr($posters, -1) == ",") {
+                $posters = substr($posters, 0, -1);
+            }
+
+            if ($posters != "") {
+
+
+                $newPostNotice = new TopicNewPost();
+
+                try {
+                    $notificationList = $sendNotifications->getNotificationsWhereMemberIn($posters);
+
+                    $newPostNotice->generateEmail($detailTopic, $projectDetail, $notificationList);
+
+                } catch (Exception$e) {
+                    // Log exception
+                }
+            }
+        }
+        phpCollab\Util::headerFunction("../topics/viewtopic.php?id=$topic_id&msg=add");
     }
-    phpCollab\Util::headerFunction("../topics/viewtopic.php?id=$id&msg=add");
 }
 
 $idStatus = $detailTopic["top_status"];
@@ -53,6 +79,8 @@ $listPosts = $topics->getPostsByTopicId($detailTopic["top_id"]);
 if ($projectDetail["pro_org_id"] == "1") {
     $projectDetail["pro_org_name"] = $strings["none"];
 }
+
+$setTitle .= " : " . $strings["post_to_discussion"];
 
 $bodyCommand = "onLoad=\"document.ptTForm.tpm.focus();\"";
 include APP_ROOT . '/themes/' . THEME . '/header.php';
@@ -99,8 +127,8 @@ $block1->contentRow($strings["last_post"], phpCollab\Util::createDate($detailTop
 
 $block1->contentTitle($strings["details"]);
 
-$block1->contentRow($strings["message"], "<textarea rows=\"10\" style=\"width: 400px; height: 160px;\" name=\"tpm\" cols=\"47\"></textarea>");
-$block1->contentRow("", "<input type=\"SUBMIT\" value=\"" . $strings["save"] . "\">");
+$block1->contentRow($strings["message"], '<textarea rows="10" style="width: 400px; height: 160px;" name="post_message" cols="47"></textarea>');
+$block1->contentRow("", '<input type="SUBMIT" value="' . $strings["save"] . '"">');
 
 $block1->contentTitle($strings["posts"]);
 
