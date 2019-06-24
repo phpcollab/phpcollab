@@ -250,19 +250,19 @@ class TeamsGateway
     public function deleteFromTeamsWhereProjectIdEqualsAndMemberIdIn($projectId, $memberId)
     {
         // Generate placeholders
+        $memberId = explode(',', $memberId);
         $placeholders = str_repeat ('?, ', count($memberId)-1) . '?';
 
         $sql = "DELETE FROM {$this->tableCollab["teams"]} WHERE project = ? AND member IN($placeholders)";
 
-        // Prepend the project id value
-        if (is_array($placeholders)) {
-            array_unshift($placeholders,$projectId);
+        if (is_array($memberId)) {
+            array_unshift($memberId, $projectId);
+        } else {
+            $memberId = explode(',', $projectId . ',' . $memberId);
         }
+
         $this->db->query($sql);
-        $this->db->execute($placeholders);
-        return $this->db->fetchAll();
-
-
+        return $this->db->execute($memberId);
     }
 
     /**
