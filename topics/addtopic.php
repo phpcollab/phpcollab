@@ -1,11 +1,15 @@
 <?php
 
+use phpCollab\Notifications\TopicNewTopic;
+use phpCollab\Projects\Projects;
+use phpCollab\Teams\Teams;
+use phpCollab\Topics\Topics;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
 $project = $_GET["project"];
 $action = $_GET["action"];
-$pub = $_GET["pub"];
 
 $strings = $GLOBALS["strings"];
 $tableCollab = $GLOBALS["tableCollab"];
@@ -13,8 +17,9 @@ $tableCollab = $GLOBALS["tableCollab"];
 $idSession = $_SESSION["idSession"];
 
 
-$projects = new \phpCollab\Projects\Projects();
-$teams = new \phpCollab\Teams\Teams();
+$projects = new Projects();
+$teams = new Teams();
+$topics = new Topics();
 
 $projectDetail = $projects->getProjectById($project);
 
@@ -24,30 +29,65 @@ if ($projectDetail["pro_org_id"] == "1") {
 }
 
 if ($action == "add") {
+    $pub = $_POST["pub"];
     if ($pub == "") {
         $pub = "1";
     }
 
-    $ttt = phpCollab\Util::convertData($_POST["ttt"]);
-    $tpm = phpCollab\Util::convertData($_POST["tpm"]);
+    $topic_subject = phpCollab\Util::convertData($_POST["topic_subject"]);
+    $topic_message = phpCollab\Util::convertData($_POST["topic_message"]);
 
-    $num = phpCollab\Util::newConnectSql(
-        "INSERT INTO {$tableCollab["topics"]} (project,owner,subject,status,last_post,posts,published) VALUES (:project, :owner, :subject, '1', :last_post, '1', :published)",
-        ["project" => $project, "owner" => $idSession, "subject" => $ttt, "last_post" => $dateheure, "published" => $pub]
-    );
+    $newTopic = $topics->addTopic($project, $_SESSION["idSession"], $topic_subject, 1, 1, $pub, $dateheure);
 
-    phpCollab\Util::autoLinks($tpm);
 
-    phpCollab\Util::newConnectSql(
-        "INSERT INTO {$tableCollab["posts"]} (topic,member,created,message) VALUES (:topic, :member, :created, :message)",
-        ["topic" => $num, "member" => $idSession, "created" => $dateheure, "message" => $tpm]
-    );
+    phpCollab\Util::autoLinks($topic_message);
+
+    $newPost = $topics->addPost($newTopic["top_id"], $_SESSION["idSession"], $topic_message, $dateheure);
 
     if ($notifications == "true") {
-        include '../topics/noti_newtopic.php';
+        $listPosts = $topics->getPostsByTopicIdAndNotOwner($detailTopic["top_id"], $_SESSION["idSession"]);
+
+        $distinct = '';
+
+        foreach ($listPosts as $post) {
+            if ($post["pos_mem_id"] != $distinct) {
+                $posters .= $post["pos_mem_id"] . ",";
+            }
+            $distinct = $post["pos_mem_id"];
+        }
+        if (substr($posters, -1) == ",") {
+            $posters = substr($posters, 0, -1);
+        }
+
+
+        if ($posters != "") {
+            $newTopicNotice = new TopicNewTopic();
+
+            try {
+                $listPosts = $topics->getPostsByTopicIdAndNotOwner($detailTopic["top_id"], $_SESSION["idSession"]);
+
+                $distinct = '';
+
+                foreach ($listPosts as $post) {
+                    if ($post["pos_mem_id"] != $distinct) {
+                        $posters .= $post["pos_mem_id"] . ",";
+                    }
+                    $distinct = $post["pos_mem_id"];
+                }
+                if (substr($posters, -1) == ",") {
+                    $posters = substr($posters, 0, -1);
+                }
+
+                $notificationList = $sendNotifications->getNotificationsWhereMemberIn($posters);
+
+                $newTopicNotice->generateEmail($detailTopic, $projectDetail, $notificationList);
+            } catch (Exception$e) {
+                // Log exception
+            }
+        }
     }
 
-    phpCollab\Util::headerFunction("../topics/viewtopic.php?project=$project&id=$num&msg=add");
+    phpCollab\Util::headerFunction("../topics/viewtopic.php?project={$project}&id={$newTopic["top_id"]}&msg=add");
 }
 
 $teamMember = "false";
@@ -57,7 +97,7 @@ if ($teamMember == "false" && $projectsFilter == "true") {
     header("Location:../general/permissiondenied.php");
 }
 
-$bodyCommand = 'onLoad="document.ctTForm.ttt.focus();"';
+$bodyCommand = 'onLoad="document.ctTForm.topic_subject.focus();"';
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
@@ -94,9 +134,9 @@ $block1->contentRow($strings["owner"], $blockPage->buildLink("../users/viewuser.
 
 $block1->contentTitle($strings["details"]);
 
-$block1->contentRow($strings["topic"], '<input size="44" value="'.$ttt.'" style="width: 400px" name="ttt" maxlength="64" type="TEXT">');
-$block1->contentRow($strings["message"], '<textarea rows="10" style="width: 400px; height: 160px;" name="tpm" cols="47">'.$tpm.'</textarea>');
-$block1->contentRow($strings["published"], '<input size="32" value="0" name="pub" type="checkbox">');
+$block1->contentRow($strings["topic"], '<input size="44" value="' . $topic_subject . '" style="width: 400px" name="topic_subject" maxlength="64" type="TEXT">');
+$block1->contentRow($strings["message"], '<textarea rows="10" style="width: 400px; height: 160px;" name="topic_message" cols="47">' . $topic_message . '</textarea>');
+$block1->contentRow($strings["published"], '<input size="32" value="1" name="pub" type="checkbox">');
 $block1->contentRow("", '<input type="submit" value="' . $strings["save"] . '">');
 
 $block1->closeContent();
