@@ -127,10 +127,13 @@ class Util
      * Automatic links
      * @param string $data Text to parse
      * @access public
-     **/
+     *
+     * @return string|string[]|null
+     */
     public static function autoLinks($data)
     {
-        global $newText;
+//        global $newText;
+        $newText = '';
         $lines = explode("\n", $data);
         foreach ($lines as $key => $line) {
             $line = preg_replace('/([ \t]|^)www\./', ' http://www.', $line);
@@ -148,6 +151,7 @@ class Util
                 $newText .= "\n$line";
             }
         }
+        return $newText;
     }
 
 
