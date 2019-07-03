@@ -173,10 +173,10 @@ if ($langDefault != "") {
     $langSelected = "";
 }
 
-if ($languageSession == "") {
+if (empty($_SESSION["languageSession"])) {
     $lang = $langDefault;
 } else {
-    $lang = $languageSession;
+    $lang = $_SESSION["languageSession"];
 }
 
 
