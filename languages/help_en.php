@@ -26,3 +26,10 @@ $help["setup_projectsfilter"] = "Filter to see only the project when the user ar
 $help["setup_notificationMethod"] = "Set method to send email notifications: with internal php mail function (need for having a smtp server or sendmail configured in the parameters of php) or with a personalized smtp server";
 //2.5 fullo
 $help["newsdesk_links"] = "to add multiple links use semicolon";
+//2.6.x
+$help["setup_error_database_server"] = "You must enter the database Server";
+$help["setup_error_database_login"] = "Must be insert the database Login";
+$help["setup_error_database_name"] = "Must be insert the database Name";
+$help["setup_error_site_url"] = "Must be insert the Root path";
+$help["setup_error_admin_password"] = "Must be insert the Admin password";
+$help["setup_error_database"] = "Error connecting to database.  Please check that your information is correct and try again.";
