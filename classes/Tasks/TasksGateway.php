@@ -733,12 +733,12 @@ SQL;
     public function getTeamTasks($projectId, $sorting = null)
     {
         $tmpQuery = $this->initrequest["tasks"];
-        $tmpQuery .= <<<WHERE
+        $tmpQuery .= <<<SQL
  WHERE tas.project = :project_id 
  AND tas.assigned_to != '0' 
  AND tas.published = '0' 
  AND mem.organization = '1'
-WHERE;
+SQL;
 
         $this->db->query($tmpQuery . $this->orderBy($sorting));
         $this->db->bind(":project_id", $projectId);
