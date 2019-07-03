@@ -3,14 +3,18 @@
 #Status page: 1
 #Path by root: ../newsdesk/listnews.php
 
+use phpCollab\Members\Members;
+use phpCollab\NewsDesk\NewsDesk;
+use phpCollab\Projects\Projects;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
 $setTitle .= " : News List";
 
-$members = new \phpCollab\Members\Members();
-$projects = new \phpCollab\Projects\Projects();
-$newsDesk = new \phpCollab\NewsDesk\NewsDesk();
+$members = new Members();
+$projects = new Projects();
+$newsDesk = new NewsDesk();
 $strings = $GLOBALS['strings'];
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
