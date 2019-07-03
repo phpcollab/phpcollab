@@ -25,11 +25,14 @@
 */
 
 
+use phpCollab\Logs\Logs;
+use phpCollab\Members\Members;
+
 $checkSession = "false";
 include '../includes/library.php';
 
-$members = new \phpCollab\Members\Members();
-$logs = new \phpCollab\Logs\Logs();
+$members = new Members();
+$logs = new Logs();
 
 $tableCollab = $GLOBALS["tableCollab"];
 $strings = $GLOBALS["strings"];
@@ -82,7 +85,7 @@ if (!empty($SSL_CLIENT_CERT) && !$logout && $auth != "test") {
                 } else {
                     $auth = "on";
 
-                    if ($rememberForm == "on") {
+                    if (isset($rememberForm) && $rememberForm == "on") {
                         $oneyear = 22896000;
                         $storePwd = phpCollab\Util::getPassword($passwordForm);
                         setcookie("loginCookie", $usernameForm, time() + $oneyear, null, null, null, true);
@@ -108,7 +111,7 @@ if ($auth == "on") {
     $usernameForm = strip_tags($usernameForm);
     $passwordForm = strip_tags($passwordForm);
 
-    if ($loginCookie != "" && $passwordCookie != "") {
+    if (!empty($loginCookie) && !empty($passwordCookie)) {
         $usernameForm = $loginCookie;
     }
 
@@ -129,7 +132,7 @@ if ($auth == "on") {
     } else {
 
         //test password
-        if ($loginCookie != "" && $passwordCookie != "") {
+        if (!empty($loginCookie) && !empty($passwordCookie)) {
             if (!$ssl && $passwordCookie != $member['mem_password']) {
                 $error = $strings["invalid_login"];
             } else {
@@ -153,12 +156,12 @@ if ($auth == "on") {
             $browserSession = $_SERVER["HTTP_USER_AGENT"];
             $idSession = $member['mem_id'];
             $timezoneSession = $member['mem_timezone'];
-            $languageSession = $languageForm;
+            $languageSession = $_POST["languageForm"];
             $loginSession = $usernameForm;
             $passwordSession = $passwordForm;
             $nameSession = $member['mem_name'];
             $profilSession = $member['mem_profil'];
-            $ipSession = $REMOTE_ADDR;
+            $ipSession = $_SERVER["REMOTE_ADDR"];
             $dateunixSession = date("U");
             $dateSession = date("d-m-Y H:i:s");
             $logouttimeSession = $member['mem_logout_time'];
@@ -185,7 +188,7 @@ if ($auth == "on") {
             }
 
             //insert into or update log
-            $ip = $REMOTE_ADDR;
+            $ip = $_SERVER["REMOTE_ADDR"];
 
             $logEntry = $logs->getLogByLogin($usernameForm);
 
@@ -240,7 +243,7 @@ if ($auth == "on") {
                     $members->setLastPageVisitedByLogin($usernameForm, '');
                     phpCollab\Util::headerFunction("../" . $member['mem_last_page']);
                 } else {
-                    if ($member['mem_last_page'] != "" && ($loginCookie != "" && $passwordCookie != "") && $member['mem_profil'] != "3" && $lastvisitedpage) {
+                    if ($member['mem_last_page'] != "" && (!empty($loginCookie) && !empty($passwordCookie)) && $member['mem_profil'] != "3" && $lastvisitedpage) {
                         $members->setLastPageVisitedByLogin($usernameForm, '');
                         phpCollab\Util::headerFunction("../" . $member['mem_last_page']);
                     } //redirect to home or admin page (if user is administrator)
@@ -265,7 +268,7 @@ if ($auth == "on") {
     }
 }
 error_log("session = " . $session, 0);
-if ($session == "false" && $url == "") {
+if ($session == "false" && empty($url)) {
     $error = $strings["session_false"];
     session_regenerate_id();
 }
@@ -281,8 +284,12 @@ if ($demoMode == "true") {
 
 
 $notLogged = "true";
+
+$setTitle .= " : Login";
 $bodyCommand = "onLoad='document.loginForm.usernameForm.focus();'";
-include '../themes/' . THEME . '/header.php';
+
+
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -369,4 +376,4 @@ $block1->contentRow(
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
