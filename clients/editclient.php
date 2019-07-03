@@ -91,7 +91,6 @@ if (empty($id)) {
             if ($organizations->checkIfClientExistsByName($_POST["name"])) {
                 $error = $strings["organization_already_exists"];
             } else {
-
                 $clientName = phpCollab\Util::convertData($_POST["name"]);
                 $address = phpCollab\Util::convertData($_POST["address"]);
                 $comments = phpCollab\Util::convertData($_POST["comments"]);
@@ -100,7 +99,6 @@ if (empty($id)) {
                 $email = (empty($_POST["email"])) ? null : $_POST["email"];
                 $hourlyRate = (empty($_POST["hourly_rate"])) ? null : $_POST["hourly_rate"];
                 $owner = (empty($_POST["owner"])) ? null : $_POST["owner"];
-
 
                 if (empty($hourly_rate)) {
                     $hourly_rate = 0.00;
@@ -192,7 +190,6 @@ if ($clientsFilter == "true") {
 
     $clientOwner = $members->getNonManagementMembers('mem.name');
 
-//    for ($i = 0; $i < $comptClientOwner; $i++) {
     foreach ($clientOwner as $owner) {
         if ($clientDetail['org_owner'] == $owner["mem_id"] || $idSession == $owner["mem_id"]) {
             $selectOwner .= '<option value="' . $owner["mem_id"] . '" selected>' . $owner["mem_login"] . ' / ' . $owner["mem_name"] . '</option>';
@@ -204,6 +201,8 @@ if ($clientsFilter == "true") {
     $selectOwner .= "</select>";
 
     $block1->contentRow($strings["owner"], $selectOwner);
+} else {
+    echo '<input type="hidden" name="owner" value="'. $_SESSION["idSession"].'">';
 }
 
 $block1->contentRow("* " . $strings["name"], '<input size="44" value="' . $name . '" style="width: 400px" name="name" maxlength="100" type="TEXT" />');
