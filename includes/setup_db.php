@@ -5,96 +5,96 @@
 
 if ($databaseType == "postgresql") {
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}assignments_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}assignments_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}bookmarks_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}bookmarks_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}bookmarks_categories_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}bookmarks_categories_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}calendar_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}calendar_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}files_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}files_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}logs_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}logs_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}members_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}members_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}notes_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}notes_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}notifications_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}notifications_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}organizations_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}organizations_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}phases_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}phases_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}posts_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}posts_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}projects_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}projects_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}reports_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}reports_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}sorting_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}sorting_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}subtasks_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}subtasks_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}support_posts_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}support_posts_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}support_requests_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}support_requests_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}tasks_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}tasks_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}teams_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}teams_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}topics_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}topics_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}updates_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}updates_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}invoices_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}invoices_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}invoices_items_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}invoices_items_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}services_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}services_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}newsdeskcomments_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}newsdeskcomments_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
     $SQL[] = <<<STAMP
-CREATE SEQUENCE {$myprefix}newsdeskposts_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
+CREATE SEQUENCE {$dbTablePrefix}newsdeskposts_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1
 STAMP;
 }
 
 // Table structure for table `assignments`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "assignments_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "assignments_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
-CREATE TABLE {$myprefix}assignments (
+CREATE TABLE {$dbTablePrefix}assignments (
   id $db_mediumint_auto[$databaseType],
   task $db_mediumint[$databaseType],
   owner $db_mediumint[$databaseType],
@@ -110,11 +110,11 @@ STAMP;
 // Table structure for table `calendar`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "calendar_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "calendar_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
-CREATE TABLE {$myprefix}calendar (
+CREATE TABLE {$dbTablePrefix}calendar (
   id $db_mediumint_auto[$databaseType],
   owner $db_mediumint[$databaseType],
   subject $db_varchar155[$databaseType],
@@ -137,11 +137,11 @@ STAMP;
 // Table structure for table `files`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "files_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "files_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
-CREATE TABLE {$myprefix}files (
+CREATE TABLE {$dbTablePrefix}files (
   id $db_mediumint_auto[$databaseType],
   owner $db_mediumint[$databaseType],
   project $db_mediumint[$databaseType],
@@ -169,11 +169,11 @@ STAMP;
 // Table structure for table `logs`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "logs_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "logs_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
-CREATE TABLE {$myprefix}logs (
+CREATE TABLE {$dbTablePrefix}logs (
   id $db_mediumint_auto[$databaseType],
   login $db_varchar155[$databaseType],
   password $db_varchar155[$databaseType],
@@ -190,11 +190,11 @@ STAMP;
 // Table structure for table `members`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "members_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "members_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
-CREATE TABLE {$myprefix}members (
+CREATE TABLE {$dbTablePrefix}members (
   id $db_mediumint_auto[$databaseType],
   organization $db_mediumint[$databaseType],
   login $db_varchar155[$databaseType],
@@ -221,21 +221,21 @@ STAMP;
 // Dumping data for table `members`
 
 $SQL[] = <<<STAMP
-INSERT INTO {$myprefix}members(organization,login,password,name,profil,created,logout_time) VALUES('1','admin', '{$adminPwd}', 'Administrator', '0', '{$dateheure}', '0');
+INSERT INTO {$dbTablePrefix}members(organization,login,password,name,profil,created,logout_time) VALUES('1','admin', '{$adminPassword}', 'Administrator', '0', '{$dateheure}', '0');
 STAMP;
 
 $SQL[] = <<<STAMP
-INSERT INTO {$myprefix}members(organization,login,password,name,profil,created,logout_time) VALUES('1','demo', '{$demoPwd}', 'Demo user', '4', '{$dateheure}', '0');
+INSERT INTO {$dbTablePrefix}members(organization,login,password,name,profil,created,logout_time) VALUES('1','demo', '{$demoPwd}', 'Demo user', '4', '{$dateheure}', '0');
 STAMP;
 
 // Table structure for table `notes`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "notes_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "notes_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
-CREATE TABLE {$myprefix}notes (
+CREATE TABLE {$dbTablePrefix}notes (
   id $db_mediumint_auto[$databaseType],
   project $db_mediumint[$databaseType],
   owner $db_mediumint[$databaseType],
@@ -252,11 +252,11 @@ STAMP;
 // Table structure for table `notifications`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "notifications_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "notifications_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
-CREATE TABLE {$myprefix}notifications (
+CREATE TABLE {$dbTablePrefix}notifications (
   id $db_mediumint_auto[$databaseType],
   member $db_mediumint[$databaseType],
   taskAssignment $db_char1default0[$databaseType],
@@ -280,21 +280,21 @@ STAMP;
 // Dumping data for table `notifications`
 
 $SQL[] = <<<STAMP
-INSERT INTO {$myprefix}notifications(member,taskAssignment,removeProjectTeam,addProjectTeam,newTopic,newPost,statusTaskChange,priorityTaskChange,duedateTaskChange,clientAddTask,uploadFile,dailyAlert,weeklyAlert,pastdueAlert) VALUES (1,'0','0','0','0','0','0','0','0','0','0','1','1','1');
+INSERT INTO {$dbTablePrefix}notifications(member,taskAssignment,removeProjectTeam,addProjectTeam,newTopic,newPost,statusTaskChange,priorityTaskChange,duedateTaskChange,clientAddTask,uploadFile,dailyAlert,weeklyAlert,pastdueAlert) VALUES (1,'0','0','0','0','0','0','0','0','0','0','1','1','1');
 STAMP;
 
 $SQL[] = <<<STAMP
-INSERT INTO {$myprefix}notifications(member,taskAssignment,removeProjectTeam,addProjectTeam,newTopic,newPost,statusTaskChange,priorityTaskChange,duedateTaskChange,clientAddTask,uploadFile,dailyAlert,weeklyAlert,pastdueAlert) VALUES (2,'0','0','0','0','0','0','0','0','0','0','1','1','1');
+INSERT INTO {$dbTablePrefix}notifications(member,taskAssignment,removeProjectTeam,addProjectTeam,newTopic,newPost,statusTaskChange,priorityTaskChange,duedateTaskChange,clientAddTask,uploadFile,dailyAlert,weeklyAlert,pastdueAlert) VALUES (2,'0','0','0','0','0','0','0','0','0','0','1','1','1');
 STAMP;
 
 // Table structure for table `organizations`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "organizations_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "organizations_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
-CREATE TABLE {$myprefix}organizations (
+CREATE TABLE {$dbTablePrefix}organizations (
   id $db_mediumint_auto[$databaseType],
   name $db_varchar255[$databaseType],
   address1 $db_varchar255[$databaseType],
@@ -319,17 +319,17 @@ STAMP;
 // Dumping data for table `organizations`
 
 $SQL[] = <<<STAMP
-INSERT INTO {$myprefix}organizations(name,created) VALUES('My Company Name', '{$dateheure}');
+INSERT INTO {$dbTablePrefix}organizations(name,created) VALUES('My Company Name', '{$dateheure}');
 STAMP;
 
 // Table structure for table `posts`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "posts_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "posts_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
-CREATE TABLE {$myprefix}posts (
+CREATE TABLE {$dbTablePrefix}posts (
   id $db_mediumint_auto[$databaseType],
   topic $db_mediumint[$databaseType],
   member $db_mediumint[$databaseType],
@@ -343,11 +343,11 @@ STAMP;
 // Table structure for table `projects`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "projects_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "projects_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
-CREATE TABLE {$myprefix}projects (
+CREATE TABLE {$dbTablePrefix}projects (
   id $db_mediumint_auto[$databaseType],
   organization $db_mediumint[$databaseType],
   owner $db_mediumint[$databaseType],
@@ -372,11 +372,11 @@ STAMP;
 // Table structure for table `reports`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "reports_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "reports_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
-CREATE TABLE {$myprefix}reports (
+CREATE TABLE {$dbTablePrefix}reports (
   id $db_mediumint_auto[$databaseType],
   owner $db_mediumint[$databaseType],
   name $db_varchar155[$databaseType],
@@ -398,11 +398,11 @@ STAMP;
 // Table structure for table `sorting`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "sorting_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "sorting_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
-CREATE TABLE {$myprefix}sorting (
+CREATE TABLE {$dbTablePrefix}sorting (
   id $db_mediumint_auto[$databaseType],
   member $db_mediumint[$databaseType],
   home_projects $db_varchar155[$databaseType],
@@ -439,21 +439,21 @@ STAMP;
 // Dumping data for table `sorting`
 
 $SQL[] = <<<STAMP
-INSERT INTO {$myprefix}sorting(member) VALUES (1);
+INSERT INTO {$dbTablePrefix}sorting(member) VALUES (1);
 STAMP;
 
 $SQL[] = <<<STAMP
-INSERT INTO {$myprefix}sorting(member) VALUES (2);
+INSERT INTO {$dbTablePrefix}sorting(member) VALUES (2);
 STAMP;
 
 // Table structure for table `tasks`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "tasks_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "tasks_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
-CREATE TABLE {$myprefix}tasks (
+CREATE TABLE {$dbTablePrefix}tasks (
   id $db_mediumint_auto[$databaseType],
   project $db_mediumint[$databaseType],
   priority $db_mediumint[$databaseType],
@@ -484,11 +484,11 @@ STAMP;
 // Table structure for table `subtasks`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "subtasks_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "subtasks_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
-CREATE TABLE {$myprefix}subtasks (
+CREATE TABLE {$dbTablePrefix}subtasks (
   id $db_mediumint_auto[$databaseType],
   task $db_mediumint[$databaseType],
   priority $db_mediumint[$databaseType],
@@ -516,11 +516,11 @@ STAMP;
 // Table structure for table `teams`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "teams_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "teams_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
-CREATE TABLE {$myprefix}teams (
+CREATE TABLE {$dbTablePrefix}teams (
   id $db_mediumint_auto[$databaseType],
   project $db_mediumint[$databaseType],
   member $db_mediumint[$databaseType],
@@ -534,11 +534,11 @@ STAMP;
 // Table structure for table `topics`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "topics_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "topics_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
-CREATE TABLE {$myprefix}topics (
+CREATE TABLE {$dbTablePrefix}topics (
   id $db_mediumint_auto[$databaseType],
   project $db_mediumint[$databaseType],
   owner $db_mediumint[$databaseType],
@@ -555,11 +555,11 @@ STAMP;
 // Table structure for table `phases`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "phases_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "phases_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
-CREATE TABLE {$myprefix}phases (
+CREATE TABLE {$dbTablePrefix}phases (
   id $db_mediumint_auto[$databaseType],
   project_id $db_mediumint[$databaseType],
 
@@ -579,11 +579,11 @@ STAMP;
 // Table structure for table `support_posts`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "support_posts_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "support_posts_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
-CREATE TABLE {$myprefix}support_posts (
+CREATE TABLE {$dbTablePrefix}support_posts (
   id $db_mediumint_auto[$databaseType],
   request_id $db_mediumint[$databaseType],
   message $db_text[$databaseType],
@@ -598,11 +598,11 @@ STAMP;
 // Table structure for table `supports_requests`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "support_requests_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "support_requests_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
-CREATE TABLE {$myprefix}support_requests (
+CREATE TABLE {$dbTablePrefix}support_requests (
   id $db_mediumint_auto[$databaseType],
   status $db_mediumint[$databaseType],
   member $db_mediumint[$databaseType],
@@ -621,10 +621,10 @@ STAMP;
 // Table structure for table `updates`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "updates_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "updates_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
-CREATE TABLE {$myprefix}updates (
+CREATE TABLE {$dbTablePrefix}updates (
   id $db_mediumint_auto[$databaseType],
   type $db_char1[$databaseType],
   item $db_mediumint[$databaseType],
@@ -639,10 +639,10 @@ STAMP;
 // Table structure for table `bookmarks`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "bookmarks_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "bookmarks_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
-CREATE TABLE {$myprefix}bookmarks (
+CREATE TABLE {$dbTablePrefix}bookmarks (
   id $db_mediumint_auto[$databaseType],
   owner $db_mediumint[$databaseType],
   category $db_mediumint[$databaseType],
@@ -663,10 +663,10 @@ STAMP;
 // Table structure for table `bookmarks_categories`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "bookmarks_categories_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "bookmarks_categories_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
-CREATE TABLE {$myprefix}bookmarks_categories (
+CREATE TABLE {$dbTablePrefix}bookmarks_categories (
   id $db_mediumint_auto[$databaseType],
   name $db_varchar255[$databaseType],
   description $db_text[$databaseType],
@@ -678,10 +678,10 @@ STAMP;
 // Table structure for table `invoices`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "invoices_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "invoices_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
-CREATE TABLE {$myprefix}invoices (
+CREATE TABLE {$dbTablePrefix}invoices (
   id $db_mediumint_auto[$databaseType],
   project $db_mediumint[$databaseType],
   header_note $db_text[$databaseType],
@@ -705,10 +705,10 @@ STAMP;
 // Table structure for table `invoices_items`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "invoices_items_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "invoices_items_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
-CREATE TABLE {$myprefix}invoices_items (
+CREATE TABLE {$dbTablePrefix}invoices_items (
   id $db_mediumint_auto[$databaseType],
   invoice $db_mediumint[$databaseType],
   position $db_mediumint[$databaseType],
@@ -733,10 +733,10 @@ STAMP;
 // Table structure for table `services`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "services_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "services_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
-CREATE TABLE {$myprefix}services (
+CREATE TABLE {$dbTablePrefix}services (
   id $db_mediumint_auto[$databaseType],
   name $db_varchar155[$databaseType],
   name_print $db_varchar155[$databaseType],
@@ -749,11 +749,11 @@ STAMP;
 // Table structure for table `newsdeskcomments`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "newsdeskcomments_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "newsdeskcomments_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
-CREATE TABLE {$myprefix}newsdeskcomments (
+CREATE TABLE {$dbTablePrefix}newsdeskcomments (
   id $db_mediumint_auto[$databaseType],
   post_id $db_mediumint[$databaseType],
   name $db_mediumint[$databaseType],
@@ -766,11 +766,11 @@ STAMP;
 // Table structure for table `newsdesk`
 
 if ($databaseType == "postgresql") {
-    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $myprefix . "newsdeskposts_seq'::text) NOT NULL";
+    $db_mediumint_auto[$databaseType] = "int4 DEFAULT nextval('" . $dbTablePrefix . "newsdeskposts_seq'::text) NOT NULL";
 }
 $SQL[] = <<<STAMP
 
-CREATE TABLE {$myprefix}newsdeskposts (
+CREATE TABLE {$dbTablePrefix}newsdeskposts (
   id $db_mediumint_auto[$databaseType],
   pdate $db_varchar35[$databaseType],
   title $db_varchar155[$databaseType],
