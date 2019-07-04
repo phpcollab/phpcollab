@@ -395,7 +395,7 @@ HTML;
     public function openPaletteScript()
     {
         echo '<script type="text/JavaScript">
-        document.' . $this->form . 'Form.buttons = new Array();';
+        document.' . $this->form . 'Form.buttons = [];';
     }
 
     /**
@@ -599,8 +599,25 @@ HTML;
     {
         $link = rtrim($link,'?');
         $link = (strpos($link, '?')) ? $link : $link . '?&';
-
-        echo "document." . $this->form . "Form.buttons[document." . $this->form . "Form.buttons.length] = new MMCommandButton('" . $this->form . "$num',document." . $this->form . "Form,'" . $link  . "','$this->themeImgPath/btn_" . $type . "_norm.gif','$this->themeImgPath/btn_" . $type . "_over.gif','$this->themeImgPath/btn_" . $type . "_down.gif','$this->themeImgPath/btn_" . $type . "_dim.gif',$options,'',\"" . stripslashes($text) . "\",false,'');";
+        $text = stripslashes($text);
+        echo <<<SCRIPT
+document.{$this->form}Form.buttons[
+    document.{$this->form}Form.buttons.length
+] = new MMCommandButton(
+        '{$this->form}{$num}',
+        document.{$this->form}Form,
+        '{$link}',
+        '{$this->themeImgPath}/btn_{$type}_norm.gif',
+        '{$this->themeImgPath}/btn_{$type}_over.gif',
+        '{$this->themeImgPath}/btn_{$type}_down.gif',
+        '{$this->themeImgPath}/btn_{$type}_dim.gif',
+        {$options},
+        '',
+        "{$text}",
+        false,
+        ''
+    );
+SCRIPT;
     }
 
     /**
@@ -627,9 +644,9 @@ HTML;
         }
 
         if ($left != "") {
-            echo "<tr class='{$this->class}'><td valign='top' class='leftvalue'>" . $left . " :</td><td>" . $right . "&nbsp;</td></tr>";
+            echo "<tr class='{$this->class}'><td class='leftvalue'>" . $left . " :</td><td>" . $right . "&nbsp;</td></tr>";
         } else {
-            echo "<tr class='{$this->class}'><td valign='top' class='leftvalue'>&nbsp;</td><td>" . $right . "&nbsp;</td></tr>";
+            echo "<tr class='{$this->class}'><td class='leftvalue'>&nbsp;</td><td>" . $right . "&nbsp;</td></tr>";
         }
 
         if ($this->class == "odd" && $altern == "true") {
@@ -667,9 +684,9 @@ HTML;
     public function checkboxRow($ref, $checkbox = "true")
     {
         if ($checkbox == "true") {
-            echo "<td align='center'><a href=\"javascript:MM_toggleItem(document." . $this->form . "Form, '" . $ref . "', '" . $this->form . "cb" . $ref . "','{$this->theme}')\"><img name='" . $this->form . "cb" . $ref . "' border='0' src='$this->themeImgPath/checkbox_off_16.gif' alt='' vspace='3'></a></td>";
+            echo "<td style='text-align: center'><a href=\"javascript:MM_toggleItem(document." . $this->form . "Form, '" . $ref . "', '" . $this->form . "cb" . $ref . "','{$this->theme}')\"><img alt='' name='" . $this->form . "cb" . $ref . "' src='$this->themeImgPath/checkbox_off_16.gif' style='margin: 3px 0'></a></td>";
         } else {
-            echo "<td><img height='13' width='13' border='0' src='$this->themeImgPath/spacer.gif' alt='' vspace='3'></td>";
+            echo "<td><img height='13' width='13' src='$this->themeImgPath/spacer.gif' alt='' style='margin: 3px 0'></td>";
         }
     }
 
@@ -832,7 +849,7 @@ HTML;
                 return '<a href="' . $url . '">' . $label . '</a>';
             } else {
                 if ($type == "icone") {
-                    return '<a href="' . $url . '&"><img src="../interface/icones/' . $label . '" border="0" alt=""></a>';
+                    return '<a href="' . $url . '&"><img src="../interface/icones/' . $label . '" alt=""></a>';
                 } else {
                     if ($type == "inblank") {
                         return '<a href="' . $url . '&" target="_blank">' . $label . '</a>';
