@@ -1432,7 +1432,7 @@ class Request
      * @param string $start
      * @param string $rows
      */
-    public public function openRequirements($querymore, $start = "", $rows = "")
+    public function openRequirements($querymore, $start = "", $rows = "")
     {
         global $row, $databaseType, $initrequest;
         $this->connectClass();
