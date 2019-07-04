@@ -240,14 +240,14 @@ class Block
         }
 
         echo <<<HTML
-<table cellspacing="0" cellpadding="0" border="0">
-<tr>
-<td><a href="javascript:showHideModule('{$this->form}','{$this->theme}')" 
-       onMouseOver="showHideModuleMouseOver('{$this->form}'); return true;" 
-       onMouseOut="window.status=''; return true;"><img name="{$this->form}Toggle" border="0" src="{$this->themeImgPath}/module_toggle_{$arrow}.gif" alt=""></a></td>
-<td><img width="10" height="10" name="{$this->form}tl" src="{$this->themeImgPath}/spacer.gif" alt=""></td>
-<td width="100%"><h1 class="heading">{$title}</h1></td>
-</tr>
+<table cellspacing="0" cellpadding="0" border="0" class="headingToggle">
+    <tr>
+        <td><a href="javascript:showHideModule('{$this->form}','{$this->theme}')" 
+               onMouseOver="showHideModuleMouseOver('{$this->form}'); return true;" 
+               onMouseOut="window.status=''; return true;"><img name="{$this->form}Toggle" border="0" src="{$this->themeImgPath}/module_toggle_{$arrow}.gif" alt=""></a></td>
+        <td><img width="10" height="10" name="{$this->form}tl" src="{$this->themeImgPath}/spacer.gif" alt=""></td>
+        <td width="100%"><h1 class="heading">{$title}</h1></td>
+    </tr>
 </table>
 <div id="{$this->form}">
 HTML;
@@ -474,7 +474,7 @@ HTML;
      **/
     public function openForm($address)
     {
-        echo '<a name="' . $this->form . 'Anchor"></a>
+        echo '<a id="' . $this->form . 'Anchor"></a>
 <form accept-charset="UNKNOWN" method="POST" action="' . $address . '" name="' . $this->form . 'Form" enctype="application/x-www-form-urlencoded">';
     }
 
@@ -517,11 +517,11 @@ HTML;
             } else {
                 $sortingArrow = null;
                 if ($sortingOff[1] == "ASC") {
-                    $sortingArrow = "&#160;<img border='0' src='$this->themeImgPath/icon_sort_az.gif' alt='' width='11' height='11'>";
+                    $sortingArrow = "&#160;<img src='$this->themeImgPath/icon_sort_az.gif' alt='' width='11' height='11'>";
 
                 } else {
                     if ($sortingOff[1] == "DESC") {
-                        $sortingArrow = "&#160;<img border='0' src='$this->themeImgPath/icon_sort_za.gif' alt='' width='11' height='11'>";
+                        $sortingArrow = "&#160;<img src='$this->themeImgPath/icon_sort_za.gif' alt='' width='11' height='11'>";
                     }
                 }
                 if ($i == $sortingOff[0]) {
@@ -537,21 +537,21 @@ HTML;
 
     /**
      * Open results list
-     * @param boolean $checkbox Disable checkbox display
+     * @param string $checkbox Disable checkbox display
      * @access public
-     **/
+     */
     public function openResults($checkbox = "true")
     {
-        echo "<table class='listing striped' cellpadding='0' cellspacing='0' border='0'>
+        echo "<table class='listing striped'>
 <tr>";
         if ($checkbox == "true") {
-            echo '<th width="1%" align="center">';
+            echo '<th style="text-align: center; width: 1%">';
             echo '<a href="javascript:MM_toggleSelectedItems(document.' . $this->form . 'Form,\'' . $this->theme . '\')">';
             echo '<img height="13" width="13" border="0" src="' . $this->themeImgPath . '/checkbox_off_16.gif" alt="" vspace="3" hspace="3">';
             echo '</a>';
             echo '</th>';
         } else {
-            echo "<th width='1%' align='center'><img height='13' width='13' border='0' src='$this->themeImgPath/spacer.gif' alt='' vspace='3'></th>";
+            echo '<th style="text-align: center; width: 1%"><img style="width: 13px; height: 13px; margin: 3px 0; border: none" src="' . $this->themeImgPath . '/spacer.gif" alt=""></th>';
         }
     }
 
@@ -560,8 +560,7 @@ HTML;
      */
     public function closeResults()
     {
-        echo "</table>
-<hr />";
+        echo "</table><hr />";
     }
 
     /**
@@ -582,7 +581,7 @@ HTML;
      **/
     public function paletteIcon($num, $type, $text)
     {
-        echo "<td width=\"30\" class=\"commandBtn\"><a href=\"javascript:var b = MM_getButtonWithName(document." . $this->form . "Form, '" . $this->form . "$num'); if (b) b.click();\" onMouseOver=\"var over = MM_getButtonWithName(document." . $this->form . "Form, '" . $this->form . "$num'); if (over) over.over(); return true; \" onMouseOut=\"var out = MM_getButtonWithName(document." . $this->form . "Form, '" . $this->form . "$num'); if (out) out.out(); return true; \"><img width=\"$this->iconWidth\" height=\"$this->iconHeight\" border=\"0\" name=\"" . $this->form . "$num\" src=\"$this->themeImgPath/btn_" . $type . "_norm.gif\" alt='" . stripslashes($text) . "'></a></td>";
+        echo "<td style=\"width: 30px;\" class=\"commandBtn\"><a href=\"javascript:var b = MM_getButtonWithName(document." . $this->form . "Form, '" . $this->form . "$num'); if (b) b.click();\" onMouseOver=\"var over = MM_getButtonWithName(document." . $this->form . "Form, '" . $this->form . "$num'); if (over) over.over(); return true; \" onMouseOut=\"var out = MM_getButtonWithName(document." . $this->form . "Form, '" . $this->form . "$num'); if (out) out.out(); return true; \"><img style=\"border: none;\" width=\"$this->iconWidth\" height=\"$this->iconHeight\" name=\"" . $this->form . "$num\" src=\"$this->themeImgPath/btn_" . $type . "_norm.gif\" alt='" . stripslashes($text) . "'></a></td>";
     }
 
     /**
