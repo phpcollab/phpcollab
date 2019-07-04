@@ -199,7 +199,7 @@ class Util
      * @access public
      *
      */
-    public static function doesPasswordMatch($formUsername, $formPassword, $storedPassword, $loginMethod = "srypt")
+    public static function doesPasswordMatch($formUsername, $formPassword, $storedPassword, $loginMethod = "crypt")
     {
         global $useLDAP, $configLDAP;
 
