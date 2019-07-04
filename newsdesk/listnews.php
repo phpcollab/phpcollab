@@ -3,14 +3,18 @@
 #Status page: 1
 #Path by root: ../newsdesk/listnews.php
 
+use phpCollab\Members\Members;
+use phpCollab\NewsDesk\NewsDesk;
+use phpCollab\Projects\Projects;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
 $setTitle .= " : News List";
 
-$members = new \phpCollab\Members\Members();
-$projects = new \phpCollab\Projects\Projects();
-$newsDesk = new \phpCollab\NewsDesk\NewsDesk();
+$members = new Members();
+$projects = new Projects();
+$newsDesk = new NewsDesk();
 $strings = $GLOBALS['strings'];
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
@@ -56,10 +60,8 @@ $block1->setRowsLimit(40);
 
 $block1->sorting("newsdesk", $sortingUser["newsdesk"], "news.pdate DESC", $sortingFields = [0 => "news.title", 1 => "news.pdate", 2 => "news.author"]);
 
-$tmpquery = "WHERE news.id != '0' ORDER BY $block1->sortingValue ";
-$block1->setRecordsTotal(phpCollab\Util::computeTotal($initrequest["newsdeskposts"] . " " . $tmpquery));
-
 $listPosts = $newsDesk->getAllNewsdeskPosts($block1->sortingValue);
+$block1->setRecordsTotal(count($listPosts));
 
 if ($listPosts) {
     $block1->openResults();

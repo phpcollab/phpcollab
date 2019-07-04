@@ -194,31 +194,32 @@ class Util
      * @param string $formUsername User name to test
      * @param string $formPassword User name password to test
      * @param string $storedPassword Password stored in database
+     * @param string $loginMethod
+     * @return bool
      * @access public
      *
-     * @return bool
      */
-    public static function doesPasswordMatch($formUsername, $formPassword, $storedPassword)
+    public static function doesPasswordMatch($formUsername, $formPassword, $storedPassword, $loginMethod = "crypt")
     {
-        global $loginMethod, $useLDAP, $configLDAP;
+        global $useLDAP, $configLDAP;
 
         if ($useLDAP == "true") {
             if ($formUsername == "admin") {
                 switch ($loginMethod) {
-                    case MD5:
+                    case "md5":
                         if (md5($formPassword) == $storedPassword) {
                             return true;
                         } else {
                             return false;
                         }
-                    case CRYPT:
+                    case "crypt":
                         $salt = substr($storedPassword, 0, 2);
                         if (crypt($formPassword, $salt) == $storedPassword) {
                             return true;
                         } else {
                             return false;
                         }
-                    case PLAIN:
+                    case "plain":
                         if ($formPassword == $storedPassword) {
                             return true;
                         } else {
@@ -239,20 +240,20 @@ class Util
             }
         } else {
             switch ($loginMethod) {
-                case MD5:
+                case "md5":
                     if (md5($formPassword) == $storedPassword) {
                         return true;
                     } else {
                         return false;
                     }
-                case CRYPT:
+                case "crypt":
                     $salt = substr($storedPassword, 0, 2);
                     if (crypt($formPassword, $salt) == $storedPassword) {
                         return true;
                     } else {
                         return false;
                     }
-                case PLAIN:
+                case "plain":
                     if ($formPassword == $storedPassword) {
                         return true;
                     } else {
@@ -267,22 +268,21 @@ class Util
     /**
      * Return a password using the globally specified method
      * @param string $newPassword Password to transfom
+     * @param string $loginMethod
+     * @return string
      * @access public
      *
-     * @return string
      */
-    public static function getPassword($newPassword)
+    public static function getPassword($newPassword, $loginMethod = "crypt")
     {
-        global $loginMethod;
-
         switch ($loginMethod) {
-            case MD5:
+            case "md5":
                 return md5($newPassword);
-            case CRYPT:
+            case "crypt":
                 $salt = substr($newPassword, 0, 2);
 
                 return crypt($newPassword, $salt);
-            case PLAIN:
+            case "plain":
                 return $newPassword;
         }
     }

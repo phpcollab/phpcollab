@@ -51,7 +51,7 @@ include '../themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../search/createsearch.php?", $strings["search"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../search/createsearch.php?", $strings["search"], "in"));
 $blockPage->itemBreadcrumbs($strings["search_options"]);
 $blockPage->closeBreadcrumbs();
 

@@ -31,6 +31,9 @@
 **
 */
 use DebugBar\StandardDebugBar;
+use phpCollab\Logs\Logs;
+use phpCollab\Members\Members;
+use phpCollab\Sorting\Sorting;
 use Symfony\Component\HttpFoundation\Request;
 
 $debug = false;
@@ -58,7 +61,7 @@ $request = Request::createFromGlobals();
 session_start();
 
 // register_globals cheat code
-if (ini_get(register_globals) != "1") {
+if (ini_get("register_globals") != "1") {
     //GET and POST VARS
     if (!empty($_REQUEST)) {
         foreach ($_REQUEST as $key => $val) {
@@ -170,10 +173,10 @@ if ($langDefault != "") {
     $langSelected = "";
 }
 
-if ($languageSession == "") {
+if (empty($_SESSION["languageSession"])) {
     $lang = $langDefault;
 } else {
-    $lang = $languageSession;
+    $lang = $_SESSION["languageSession"];
 }
 
 
@@ -187,24 +190,24 @@ include APP_ROOT . '/languages/lang_en.php';
 include APP_ROOT . '/languages/lang_' . $lang . '.php';
 include APP_ROOT . '/languages/help_' . $lang . '.php';
 
-$logs = new \phpCollab\Logs\Logs();
-$sort = new \phpCollab\Sorting\Sorting();
-$members = new \phpCollab\Members\Members();
+$logs = new Logs();
+$sort = new Sorting();
+$members = new Members();
 
 //fix if update from old version
 if ($theme == "") {
     $theme = "default";
 }
-if (!is_resource(THEME)) {
+if (!is_resource("THEME")) {
     define('THEME', $theme);
 }
-if (!is_resource(FTPSERVER)) {
+if (!is_resource("FTPSERVER")) {
     define('FTPSERVER', '');
 }
-if (!is_resource(FTPLOGIN)) {
+if (!is_resource("FTPLOGIN")) {
     define('FTPLOGIN', '');
 }
-if (!is_resource(FTPPASSWORD)) {
+if (!is_resource("FTPPASSWORD")) {
     define('FTPPASSWORD', '');
 }
 if ($uploadMethod == "") {

@@ -345,10 +345,10 @@ if ($showHomeTasks) {
     $taskCount = 0;
 
     if (!empty($subtasks)) {
-        $taskCount = $tasks->getAllMyTasks($idSession, $subtasks);
+        $taskCount = count($tasks->getAllMyTasks($idSession, $subtasks));
     }
 
-    $block2->setRecordsTotal(count($taskCount));
+    $block2->setRecordsTotal($taskCount);
 
     $listTasks = $tasks->getAllMyTasks($idSession, $subtasks, $block2->getLimit(), $block2->getRowsLimit(), $block2->sortingValue);
 

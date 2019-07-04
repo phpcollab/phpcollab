@@ -17,6 +17,11 @@ $blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/listreports.php?",
 $blockPage->itemBreadcrumbs($strings["my_reports"]);
 $blockPage->closeBreadcrumbs();
 
+if ($msg != "") {
+    include '../includes/messages.php';
+    $blockPage->messageBox($msgLabel);
+}
+
 $block1 = new phpCollab\Block();
 
 $block1->form = "wbSe";
@@ -27,7 +32,6 @@ $block1->heading($strings["my_reports"]);
 $block1->openPaletteIcon();
 $block1->paletteIcon(0, "add", $strings["add"]);
 $block1->paletteIcon(1, "remove", $strings["delete"]);
-$block1->paletteIcon(2, "export", $strings["export"]);
 $block1->closePaletteIcon();
 
 $block1->sorting("reports", $sortingUser["reports"], "rep.name ASC", $sortingFields = [0 => "rep.name", 1 => "rep.created"]);
@@ -48,7 +52,7 @@ if ($dataSet) {
 
     foreach ($dataSet as $data) {
         $block1->openRow();
-        $block1->checkboxRow($data["id"]);
+        $block1->checkboxRow($data["rep_id"]);
         $block1->cellRow($blockPage->buildLink("../reports/resultsreport.php?id=" . $data["rep_id"], $data["rep_name"], "in"));
         $block1->cellRow(phpCollab\Util::createDate($data["rep_created"], $timezoneSession));
     }
@@ -63,6 +67,6 @@ $block1->openPaletteScript();
 $block1->paletteScript(0, "add", "../reports/createreport.php?", "true,true,true", $strings["add"]);
 $block1->paletteScript(1, "remove", "../reports/deletereports.php?", "false,true,true", $strings["delete"]);
 $block1->paletteScript(2, "export", "../reports/exportreport.php?", "false,true,true", $strings["export"]);
-$block1->closePaletteScript(count($dataSet), $dataSet['rep_id']);
+$block1->closePaletteScript(count($dataSet), $dataSet[0]['rep_id']);
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

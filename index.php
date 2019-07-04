@@ -4,26 +4,22 @@
 #Path by root: index.php
 
 /**
- * Modification Log for 2.5
- *
- * 2008-11-20   -   Added setup detection (dab - norman77)
- *
+ * Do Setup Check
  */
-/* Do Setup Check */
 if (!file_exists("includes/settings.php")) {
     header('Location: installation/setup.php');
-}
-/** END **/
+    exit;
+} else {
+    $checkSession = "false";
+    $indexRedirect = "true";
 
-$checkSession = "false";
-$indexRedirect = "true";
+    include_once('includes/library.php');
 
-include_once('includes/library.php');
-
-//case session fails
-if ($session == "false") {
-    phpCollab\Util::headerFunction("general/login.php?session=false");
-} //default case
-else {
-    phpCollab\Util::headerFunction("general/login.php");
+    //case session fails
+    if ($session == "false") {
+        phpCollab\Util::headerFunction("general/login.php?session=false");
+    } //default case
+    else {
+        phpCollab\Util::headerFunction("general/login.php");
+    }
 }

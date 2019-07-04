@@ -60,16 +60,14 @@ class NewsDeskGateway
         }
 
         $tmpquery = " WHERE news.author = ? OR news.rss = 1 OR news.related IN ({$placeholders})";
-
         $sql = $this->initrequest["newsdeskposts"] . $tmpquery . $this->orderBy($sorting) . $this->limit($startRow, $rowsLimit);
 
         if (is_array($relatedPosts)) {
             array_push($relatedPosts, 'g');
             array_unshift($relatedPosts, $userId);
         } else {
-            $relatedPosts = explode(',', $userId . ',' . $relatedPosts . ", 'g'");
+            $relatedPosts = explode(',', $userId . ',' . $relatedPosts);
         }
-
         $this->db->query($sql);
         $this->db->execute($relatedPosts);
         return $this->db->resultset();
