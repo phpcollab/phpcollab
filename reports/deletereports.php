@@ -3,23 +3,25 @@
 #Status page: 0
 #Path by root: ../reports/deletereports.php
 
+use phpCollab\Reports\Reports;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$reports = new \phpCollab\Reports\Reports();
+$reports = new Reports();
 
 if ($action == "delete") {
     $id = str_replace("**", ",", $id);
     $reports->deleteReports($id);
-    phpCollab\Util::headerFunction("../general/home.php?msg=deleteReport");
+    phpCollab\Util::headerFunction("../reports/listreports.php?msg=deleteReport");
 }
 
 $setTitle .= " : Delete Report";
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/listreports.php?", $strings["my_reports"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/listreports.php?", $strings["my_reports"], "in"));
 $blockPage->itemBreadcrumbs($strings["delete_reports"]);
 $blockPage->closeBreadcrumbs();
 
@@ -39,18 +41,16 @@ $block1->openContent();
 $block1->contentTitle($strings["delete_following"]);
 
 $id = str_replace("**", ",", $id);
-$tmpquery = "WHERE rep.id IN($id) ORDER BY rep.name";
-$listReports = new phpCollab\Request();
-$listReports->openReports($tmpquery);
-$comptListReports = count($listReports->rep_id);
 
-for ($i = 0; $i < $comptListReports; $i++) {
-    $block1->contentRow("#" . $listReports->rep_id[$i], $listReports->rep_name[$i]);
+$listReports = $reports->getReportsByIds($id);
+
+foreach ($listReports as $report) {
+    $block1->contentRow("#" . $report["rep_id"], $report["rep_name"]);
 }
 
-$block1->contentRow("", "<input type=\"submit\" name=\"delete\" value=\"" . $strings["delete"] . "\"> <input type=\"button\" name=\"cancel\" value=\"" . $strings["cancel"] . "\" onClick=\"history.back();\">");
+$block1->contentRow("", '<input type="submit" name="delete" value="' . $strings["delete"] . '"> <input type="button" name="cancel" value="' . $strings["cancel"] . '" onClick="history.back();">');
 
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
