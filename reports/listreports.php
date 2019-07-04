@@ -32,7 +32,6 @@ $block1->heading($strings["my_reports"]);
 $block1->openPaletteIcon();
 $block1->paletteIcon(0, "add", $strings["add"]);
 $block1->paletteIcon(1, "remove", $strings["delete"]);
-$block1->paletteIcon(2, "export", $strings["export"]);
 $block1->closePaletteIcon();
 
 $block1->sorting("reports", $sortingUser["reports"], "rep.name ASC", $sortingFields = [0 => "rep.name", 1 => "rep.created"]);
