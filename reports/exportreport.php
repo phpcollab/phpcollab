@@ -1,14 +1,22 @@
 <?php
 
+// begin PHPCollab code
+use phpCollab\Organizations\Organizations;
+use phpCollab\Projects\Projects;
+use phpCollab\Reports\GanttPDF;
+use phpCollab\Reports\Reports;
+use phpCollab\Tasks\Tasks;
+
+$checkSession = "true";
+include '../includes/library.php';
+
+
 // PDF setup
-include('../includes/class.ezpdf.php');
-$pdf =& new Cezpdf();
+$pdf = new Cezpdf();
+
 $pdf->selectFont('../includes/fonts/Helvetica.afm');
 $pdf->ezSetMargins(50, 70, 50, 50);
 
-// begin PHPCollab code
-$checkSession = "true";
-include '../includes/library.php';
 
 $id = isset($_GET["id"]) ? $_GET["id"] : 0;
 $tri = isset($_GET["tri"]) ? $_GET["tri"] : null;
@@ -29,10 +37,10 @@ $idSession = $_SESSION["idSession"];
 $msgLabel = $GLOBALS["msgLabel"];
 $strings = $GLOBALS["strings"];
 
-$organizations = new \phpCollab\Organizations\Organizations();
-$reports = new \phpCollab\Reports\Reports();
-$projects = new \phpCollab\Projects\Projects();
-$tasks = new \phpCollab\Tasks\Tasks();
+$organizations = new Organizations();
+$reports = new Reports();
+$projects = new Projects();
+$tasks = new Tasks();
 
 // get company info
 $clientDetail = $organizations->getOrganizationById(1);
@@ -156,7 +164,14 @@ if ($id != "") {
     }
 }
 
-if ($S_PRJSEL != "ALL" || $S_ORGSEL != "ALL" || $S_ATSEL != "ALL" || $S_STATSEL != "ALL" || $S_PRIOSEL != "ALL" || $S_DUEDATE != "ALL" || $S_COMPLETEDATE != "ALL") {
+if ($S_PRJSEL != "ALL"
+    || $S_ORGSEL != "ALL"
+    || $S_ATSEL != "ALL"
+    || $S_STATSEL != "ALL"
+    || $S_PRIOSEL != "ALL"
+    || $S_DUEDATE != "ALL"
+    || $S_COMPLETEDATE != "ALL"
+) {
     $queryStart = "WHERE (";
 
     if ($S_PRJSEL != "ALL" && $S_PRJSEL != "") {
@@ -249,32 +264,28 @@ if ($projectsFilter == "true") {
 
     $filterTasks = null;
     if ($listProjectsTasks) {
-        foreach ($listProjectsTasks as $task) {
-            $filterTasks .= $task["pro_id"];
-        }
-        $filterTasks = rtrim(rtrim($filterTasks),',');
+        $filterTasks = implode(',', array_column($listProjectsTasks, 'pro_id'));
 
         if ($query != "" && isset($queryStart)) {
-            $tmpquery = "$queryStart $query AND pro.id IN($filterTasks) ORDER BY {$block1->sortingValue}";
+            $tmpquery = "$queryStart $query AND pro.id IN($filterTasks)";
         } else {
-            $tmpquery = "WHERE pro.id IN($filterTasks) ORDER BY " . $block1->sortingValue . " ";
+            $tmpquery = "WHERE pro.id IN($filterTasks)";
         }
 
     } else {
         $validTasks = "false";
     }
 } else {
-    $tmpquery = "$queryStart $query ORDER BY " . $block1->sortingValue . " ";
+    $tmpquery = "$queryStart $query";
 }
 
 
-$listTasks = new phpCollab\Request();
-$listTasks->openTasks($tmpquery);
-$comptListTasks = count($listTasks->tas_id);
+$listTasks = $tasks->getSearchTasks($tmpquery, $block1->sortingValue);
+$comptListTasks = count($listTasks);
 
 $sum = 0.0;
 
-// begin PDF code 	
+// begin PDF code
 
 // print the page number
 $pdf->ezStartPageNumbers(526, 34, 6, 'right', '', 1);
@@ -298,43 +309,58 @@ $pdf->restoreState();
 $pdf->closeObject();
 $pdf->addObject($all, 'all');
 
+$pdfTasks = [];
+
 // iterate through tasks
-for ($i = 0; $i < $comptListTasks; $i++) {
-    $idStatus = $listTasks->tas_status[$i];
-    $idPriority = $listTasks->tas_priority[$i];
-    $actualTime = str_replace(",", ".", $listTasks->tas_actual_time[$i]);
+foreach ($listTasks as $task) {
+    $idStatus = $task["tas_status"];
+    $idPriority = $task["tas_priority"];
+    $task["tas_actual_time"] = (empty($task["tas_actual_time"])) ? 0 : $task["tas_actual_time"];
+    $actualTime = str_replace(",", ".", $task["tas_actual_time"]);
     $sum += $actualTime;
 
-    if ($listTasks->tas_assigned_to[$i] == "0") {
+    if ($task["tas_assigned_to"] == "0") {
         $idAssigned = $strings["unassigned"];
     } else {
-        $idAssigned = $listTasks->tas_mem_login[$i];
+        $idAssigned = $task["tas_mem_login"];
     }
 
-    // stuff values into an array
+// stuff values into an array
     $data = [
-        ['item' => $strings["project"], 'value' => $listTasks->tas_pro_name[$i]]
-    , ['item' => $strings["worked_hours"], 'value' => $actualTime]
-    , ['item' => $strings["Pct_Complete"], 'value' => ($listTasks->tas_completion[$i] * 10) . '%']
-    , ['item' => $strings["status"], 'value' => $status[$idStatus]]
-    , ['item' => $strings["start_date"], 'value' => $listTasks->tas_start_date[$i]]
-    , ['item' => $strings["due_date"], 'value' => $listTasks->tas_due_date[$i]]
-    , ['item' => $strings["complete_date"], 'value' => $listTasks->tas_complete_date[$i]]
-    , ['item' => $strings["assigned_to"], 'value' => $idAssigned]
-    , ['item' => $strings["description"], 'value' => $listTasks->tas_description[$i]]
-    , ['item' => $strings["comments"], 'value' => $listTasks->tas_comments[$i]]
+        ['item' => $strings["project"], 'value' => $task["tas_pro_name"]]
+        , ['item' => $strings["worked_hours"], 'value' => $actualTime]
+        , ['item' => $strings["Pct_Complete"], 'value' => ($task["tas_completion"] * 10) . '%']
+        , ['item' => $strings["status"], 'value' => $status[$idStatus]]
+        , ['item' => $strings["start_date"], 'value' => $task["tas_start_date"]]
+        , ['item' => $strings["due_date"], 'value' => $task["tas_due_date"]]
+        , ['item' => $strings["complete_date"], 'value' => $task["tas_complete_date"]]
+        , ['item' => $strings["assigned_to"], 'value' => $idAssigned]
+        , ['item' => $strings["description"], 'value' => $task["tas_description"]]
+        , ['item' => $strings["comments"], 'value' => $task["tas_comments"]]
     ];
 
-    // set table data and draw table
+    $thisPdfTask = [
+        "id" => $task["tas_id"],
+        "name" => $task["tas_name"],
+        "completion" => $task["tas_completion"],
+        "project_name" => $task["tas_pro_name"],
+        "start_date" => $task["tas_start_date"],
+        "due_date" => $task["tas_due_date"],
+        "member_login" => $task["tas_mem_login"],
+        "priority" => $task["tas_priority"],
+        "subtasks" => []
+    ];
+
+// set table data and draw table
     $cols = ['item' => 'Item', 'value' => 'Value'];
-    $pdf->ezText($strings["task"] . ": " . $listTasks->tas_name[$i] . "\n", 12);
+    $pdf->ezText($strings["task"] . ": " . $task["tas_name"] . "\n", 12);
     $pdf->saveState();
     $pdf->ezTable($data, $cols, '', ['xPos' => 50, 'xOrientation' => 'right', 'width' => 510, 'fontSize' => 10, 'showHeadings' => 0, 'protectRows' => 2, 'cols' => ['item' => ['width' => 90]]]);
     $pdf->restoreState();
     $pdf->ezText("\n");
 
-    // if subtask
-    $listSubTasks = $tasks->getSubtasksByParentTaskId($listTasks->tas_id[$i]);
+// if subtask
+    $listSubTasks = $tasks->getSubtasksByParentTaskId($task["tas_id"]);
 
     if ($listSubTasks) {
         foreach ($listSubTasks as $subTask) {
@@ -347,29 +373,40 @@ for ($i = 0; $i < $comptListTasks; $i++) {
             } else {
                 $idAssigned = $subTask["subtas_mem_login"];
             }
-            // stuff values into an array
+// stuff values into an array
             $data = [
-                ['item' => $strings["project"], 'value' => $listTasks->tas_pro_name[$i]]
-            , ['item' => $strings["worked_hours"], 'value' => $actualTime]
-            , ['item' => $strings["Pct_Complete"], 'value' => ($subTask["subtas_completion"] * 10) . '%']
-            , ['item' => $strings["status"], 'value' => $status[$idStatus]]
-            , ['item' => $strings["start_date"], 'value' => $subTask["subtas_start_date"]]
-            , ['item' => $strings["due_date"], 'value' => $subTask["subtas_due_date"]]
-            , ['item' => $strings["complete_date"], 'value' => $subTask["subtas_complete_date"]]
-            , ['item' => $strings["assigned_to"], 'value' => $idAssigned]
-            , ['item' => $strings["description"], 'value' => $subTask["subtas_description"]]
-            , ['item' => $strings["comments"], 'value' => $subTask["subtas_comments"]]
+                ['item' => $strings["project"], 'value' => $task["tas_pro_name"]]
+                , ['item' => $strings["worked_hours"], 'value' => $actualTime]
+                , ['item' => $strings["Pct_Complete"], 'value' => ($subTask["subtas_completion"] * 10) . '%']
+                , ['item' => $strings["status"], 'value' => $status[$idStatus]]
+                , ['item' => $strings["start_date"], 'value' => $subTask["subtas_start_date"]]
+                , ['item' => $strings["due_date"], 'value' => $subTask["subtas_due_date"]]
+                , ['item' => $strings["complete_date"], 'value' => $subTask["subtas_complete_date"]]
+                , ['item' => $strings["assigned_to"], 'value' => $idAssigned]
+                , ['item' => $strings["description"], 'value' => $subTask["subtas_description"]]
+                , ['item' => $strings["comments"], 'value' => $subTask["subtas_comments"]]
             ];
-            // set table data and draw table
+// set table data and draw table
             $cols = ['item' => 'Item', 'value' => 'Value'];
             $pdf->ezText($strings["task"] . ": " . $subTask["subtas_name"] . "\n", 12);
             $pdf->saveState();
             $pdf->ezTable($data, $cols, '', ['xPos' => 50, 'xOrientation' => 'right', 'width' => 510, 'fontSize' => 10, 'showHeadings' => 0, 'protectRows' => 2, 'cols' => ['item' => ['width' => 90]]]);
             $pdf->restoreState();
             $pdf->ezText("\n");
+
+            array_push($thisPdfTask["subtasks"], [
+                "id" => $subTask["subtas_id"],
+                "name" => $subTask["subtas_name"],
+                "completion" => $subTask["subtas_completion"],
+                "start_date" => $subTask["subtas_start_date"],
+                "due_date" => $subTask["subtas_due_date"],
+                "member_login" => $subTask["subtas_mem_login"],
+                "priority" => $subTask["subtas_priority"],
+            ]);
         } // end for complistsubtask
     } // end if subtask
 
+    array_push($pdfTasks, $thisPdfTask);
 } // close task loop
 
 // add a grey bar and output the hours worked
@@ -378,9 +415,18 @@ $pdf->transaction('start');
 $ok = 0;
 while (!$ok) {
     $thisPageNum = $pdf->ezPageCount;
+
+
+    $y = $pdf->y - $pdf->getFontHeight(12) + $pdf->getFontDescender(12);
+
     $pdf->saveState();
     $pdf->setColor(0.9, 0.9, 0.9);
-    $pdf->filledRectangle($pdf->ez['leftMargin'], $pdf->y - $pdf->getFontHeight(12) + $pdf->getFontDecender(12), $pdf->ez['pageWidth'] - $pdf->ez['leftMargin'] - $pdf->ez['rightMargin'], $pdf->getFontHeight(12));
+    $pdf->filledRectangle(
+        $pdf->ez['leftMargin'],
+        $pdf->y - $pdf->getFontHeight(12) + $pdf->getFontDescender(12),
+        $pdf->ez['pageWidth'] - $pdf->ez['leftMargin'] - $pdf->ez['rightMargin'],
+        $pdf->getFontHeight(12)
+    );
     $pdf->restoreState();
     $pdf->ezText($tmp, 12, ['justification' => 'left']);
 
@@ -395,88 +441,14 @@ while (!$ok) {
 }
 // begin include gantt graph in pdf
 $pdf->ezText("\n\n");
-$graphPDF = ganttPDF($reportName, $listTasks);
+
+$ganttPdf = new GanttPDF();
+$graphPDF = $ganttPdf->generateImage($reportName, $pdfTasks);
+
 $pdf->ezImage($graphPDF, -5, 510, "", "left");
 unlink("../files/" . $graphPDF);
 // end include gantt graph in pdf
 
 // output the PDF
 $pdf->ezStream();
-
-function ganttPDF($reportName, $listTasks)
-{
-    include '../includes/jpgraph/jpgraph.php';
-    include '../includes/jpgraph/jpgraph_gantt.php';
-
-    $tasks = new \phpCollab\Tasks\Tasks();
-
-    $graph = new GanttGraph();
-    $graph->SetBox();
-    $graph->SetMarginColor("white");
-    $graph->SetColor("white");
-    $graph->title->Set($GLOBALS["strings"]["project"] . " " . $reportName);
-    $graph->title->SetFont(FF_FONT1);
-    $graph->SetColor("white");
-    $graph->ShowHeaders(GANTT_HYEAR | GANTT_HMONTH | GANTT_HDAY | GANTT_HWEEK);
-    $graph->scale->week->SetStyle(WEEKSTYLE_FIRSTDAY);
-    $graph->scale->week->SetFont(FF_FONT0);
-    $graph->scale->year->SetFont(FF_FONT1);
-
-    $comptListTasks = count($listTasks->tas_id);
-    $posGantt = 0;
-
-    for ($i = 0; $i < $comptListTasks; $i++) {
-        $listTasks->tas_name[$i] = str_replace('&quot;', '"', $listTasks->tas_name[$i]);
-        $listTasks->tas_name[$i] = str_replace("&#39;", "'", $listTasks->tas_name[$i]);
-        $progress = round($listTasks->tas_completion[$i] / 10, 2);
-        $printProgress = $listTasks->tas_completion[$i] * 10;
-        $activity = new GanttBar($posGantt, $listTasks->tas_pro_name[$i] . " / " . $listTasks->tas_name[$i], $listTasks->tas_start_date[$i], $listTasks->tas_due_date[$i]);
-        $activity->SetPattern(BAND_LDIAG, "yellow");
-        $activity->caption->Set($listTasks->tas_mem_login[$i] . " (" . $printProgress . "%)");
-        $activity->SetFillColor("gray");
-
-        if ($listTasks->tas_priority[$i] == "4" || $listTasks->tas_priority[$i] == "5") {
-            $activity->progress->SetPattern(BAND_SOLID, "#BB0000");
-        } else {
-            $activity->progress->SetPattern(BAND_SOLID, "#0000BB");
-        }
-
-        $activity->progress->Set($progress);
-        $graph->Add($activity);
-
-        // begin if subtask
-        $listSubTasks = $tasks->getSubtasksByParentTaskId($listTasks->tas_id[$i]);
-
-        if ($listSubTasks) {
-            // list subtasks
-            foreach ($listSubTasks as $subTask) {
-                $subTask["subtas_name"] = str_replace('&quot;', '"', $subTask["subtas_name"]);
-                $subTask["subtas_name"] = str_replace("&#39;", "'", $subTask["subtas_name"]);
-                $progress = round($subTask["subtas_completion"] / 10, 2);
-                $printProgress = $subTask["subtas_completion"] * 10;
-                $posGantt += 1;
-                // change name of project for name of parent task
-                $activity = new GanttBar($posGantt, $subTask["subtas_tas_name"] . " / " . $subTask["subtas_name"], $subTask["subtas_start_date"], $subTask["subtas_due_date"]);
-                $activity->SetPattern(BAND_LDIAG, "yellow");
-                $activity->caption->Set($subTask["subtas_mem_login"] . " (" . $printProgress . "%)");
-                $activity->SetFillColor("gray");
-
-                if ($subTask["subtas_priority"] == "4" || $subTask["subtas_priority"] == "5") {
-                    $activity->progress->SetPattern(BAND_SOLID, "#BB0000");
-                } else {
-                    $activity->progress->SetPattern(BAND_SOLID, "#0000BB");
-                }
-
-                $activity->progress->Set($progress);
-                $graph->Add($activity);
-            } // end for compl�istsubtask
-        } // end if subtask
-        $posGantt += 1;
-    } // end for complisttask
-
-    $tmpGantt = "../files/" . md5(uniqid(rand()));
-    $graph->Stroke($tmpGantt);
-    return $tmpGantt;
-
-} // end ganttPDF
 
