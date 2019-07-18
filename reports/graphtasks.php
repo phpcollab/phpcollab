@@ -26,9 +26,14 @@
 **
 ** =============================================================================
 */
+
+use phpCollab\Reports\Reports;
+use phpCollab\Tasks\Tasks;
+
 $checkSession = "true";
 include '../includes/library.php';
-$reports = new \phpCollab\Reports\Reports();
+$reports = new Reports();
+$tasks = new Tasks();
 
 include("../includes/jpgraph/jpgraph.php");
 include("../includes/jpgraph/jpgraph_gantt.php");
@@ -122,27 +127,35 @@ $graph->scale->week->SetStyle(WEEKSTYLE_FIRSTDAY);
 $graph->scale->week->SetFont(FF_FONT0);
 $graph->scale->year->SetFont(FF_FONT1);
 
-$tmpquery = "$queryStart $query ORDER BY tas.name";
-$listTasks = new phpCollab\Request();
-$listTasks->openTasks($tmpquery);
-$comptListTasks = count($listTasks->tas_id);
+$tmpquery = "$queryStart $query";
 $posGantt = 0;
 
-for ($i = 0; $i < $comptListTasks; $i++) {
-    $listTasks->tas_name[$i] = str_replace('&quot;', '"', $listTasks->tas_name[$i]);
-    $listTasks->tas_name[$i] = str_replace("&#39;", "'", $listTasks->tas_name[$i]);
-    $listTasks->tas_pro_name[$i] = str_replace('&quot;', '"', $listTasks->tas_pro_name[$i]);
-    $listTasks->tas_pro_name[$i] = str_replace("&#39;", "'", $listTasks->tas_pro_name[$i]);
+$listTasks = $tasks->getSearchTasks($tmpquery, 'tas.name');
 
-    $progress = round($listTasks->tas_completion[$i] / 10, 2);
-    $printProgress = $listTasks->tas_completion[$i] * 10;
-    $activity = new GanttBar($posGantt, $listTasks->tas_pro_name[$i] . " / " . $listTasks->tas_name[$i], $listTasks->tas_start_date[$i], $listTasks->tas_due_date[$i]);
+foreach ($listTasks as $listTask) {
+    if (empty($listTask["tas_start_date"])) {
+        $listTask["tas_start_date"] = $listTask["tas_created"];
+    }
+    $listTask["tas_name"] = str_replace('&quot;', '"', $listTask["tas_name"]);
+    $listTask["tas_name"] = str_replace("&#39;", "'", $listTask["tas_name"]);
+    $listTask["tas_pro_name"] = str_replace('&quot;', '"', $listTask["tas_pro_name"]);
+    $listTask["tas_pro_name"] = str_replace("&#39;", "'", $listTask["tas_pro_name"]);
+
+    $tmpStartDate = $listTask["tas_start_date"];
+    $progress = round($listTask["tas_completion"] / 10, 2);
+    $printProgress = $listTask["tas_completion"] * 10;
+    $activity = new GanttBar(
+        $posGantt,
+        $listTask["tas_pro_name"] . " / " . $listTask["tas_name"],
+        $listTask["tas_start_date"],
+        $listTask["tas_due_date"]
+    );
 
     $activity->SetPattern(BAND_LDIAG, "yellow");
-    $activity->caption->Set($listTasks->tas_mem_login[$i] . " (" . $printProgress . "%)");
+    $activity->caption->Set($listTask["tas_mem_login"] . " (" . $printProgress . "%)");
     $activity->SetFillColor("gray");
 
-    if ($listTasks->tas_priority[$i] == "4" || $listTasks->tas_priority[$i] == "5") {
+    if ($listTask["tas_priority"] == "4" || $listTask["tas_priority"] == "5") {
         $activity->progress->SetPattern(BAND_SOLID, "#BB0000");
     } else {
         $activity->progress->SetPattern(BAND_SOLID, "#0000BB");
@@ -152,18 +165,24 @@ for ($i = 0; $i < $comptListTasks; $i++) {
     $graph->Add($activity);
 
     // begin if subtask
-    $listSubTasks = $tasks->getSubtasksByParentTaskId($listTasks->tas_id[$i]);
+    $listSubTasks = $tasks->getSubtasksByParentTaskId($listTask["tas_id"]);
 
     if ($listSubTasks) {
         // list subtasks
         foreach ($listSubTasks as $subTask) {
             $subTask["subtas_name"] = str_replace('&quot;', '"', $subTask["subtas_name"]);
             $subTask["subtas_name"] = str_replace("&#39;", "'", $subTask["subtas_name"]);
+            $subTask["subtas_due_date"] = ($subTask["subtas_due_date"] == "--") ? "" : $subTask["subtas_due_date"];
             $progress = round($subTask["subtas_completion"] / 10, 2);
             $printProgress = $subTask["subtas_completion"] * 10;
             $posGantt += 1;
             // change name of project for name of parent task
-            $activity = new GanttBar($posGantt, $subTask["subtas_tas_name"] . " / " . $subTask["subtas_name"], $subTask["subtas_start_date"], $subTask["subtas_due_date"]);
+            $activity = new GanttBar(
+                $posGantt,
+                $subTask["subtas_tas_name"] . " / " . $subTask["subtas_name"],
+                $subTask["subtas_start_date"],
+                $subTask["subtas_due_date"]
+            );
             $activity->SetPattern(BAND_LDIAG, "yellow");
             $activity->caption->Set($subTask["subtas_mem_login"] . " (" . $printProgress . "%)");
             $activity->SetFillColor("gray");
