@@ -286,6 +286,19 @@ class Topics
         return $this->topics_gateway->deletePostsByProjectId($projectIds);
     }
 
+    /**
+     * @param $tmpQuery
+     * @param null $sorting
+     * @param null $limit
+     * @param null $rowLimit
+     * @return mixed
+     */
+    public function getSearchTopics($tmpQuery, $sorting = null, $limit = null, $rowLimit = null)
+    {
+        return $this->topics_gateway->searchResultTopics($tmpQuery, $sorting, $limit, $rowLimit);
+    }
+
+
     /*
      * Notifications related to Topics and Posts
      */
