@@ -25,13 +25,14 @@
 */
 
 
+use Amenadiel\JpGraph\Graph\GanttGraph;
+use Amenadiel\JpGraph\Plot\GanttBar;
+use phpCollab\Tasks\Tasks;
+
 $checkSession = "true";
 include '../includes/library.php';
 
-include '../includes/jpgraph/jpgraph.php';
-include '../includes/jpgraph/jpgraph_gantt.php';
-
-$tasks = new \phpCollab\Tasks\Tasks();
+$tasks = new Tasks();
 $idSession = $_SESSION["idSession"];
 $strings = $GLOBALS["strings"];
 

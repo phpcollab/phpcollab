@@ -27,6 +27,8 @@
 ** =============================================================================
 */
 
+use Amenadiel\JpGraph\Graph\GanttGraph;
+use Amenadiel\JpGraph\Plot\GanttBar;
 use phpCollab\Reports\Reports;
 use phpCollab\Tasks\Tasks;
 
@@ -34,9 +36,6 @@ $checkSession = "true";
 include '../includes/library.php';
 $reports = new Reports();
 $tasks = new Tasks();
-
-include("../includes/jpgraph/jpgraph.php");
-include("../includes/jpgraph/jpgraph_gantt.php");
 
 $report = $_GET["report"];
 

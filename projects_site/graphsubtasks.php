@@ -2,6 +2,8 @@
 #Application name: PhpCollab
 #Status page: 0
 
+use Amenadiel\JpGraph\Graph\GanttGraph;
+use Amenadiel\JpGraph\Plot\GanttBar;
 use phpCollab\Projects\Projects;
 use phpCollab\Tasks\Tasks;
 
@@ -10,9 +12,6 @@ include '../includes/library.php';
 
 $tasks = new Tasks();
 $projects = new Projects();
-
-include '../includes/jpgraph/jpgraph.php';
-include '../includes/jpgraph/jpgraph_gantt.php';
 
 $task = $_GET["task"];
 $timezoneSession = $_SESSION["timezoneSession"];

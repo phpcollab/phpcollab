@@ -2,14 +2,16 @@
 #Application name: PhpCollab
 #Status page: 0
 
+use Amenadiel\JpGraph\Graph\GanttGraph;
+use Amenadiel\JpGraph\Plot\GanttBar;
+use phpCollab\Phases\Phases;
+use phpCollab\Tasks\Tasks;
+
 $checkSession = "true";
 include '../includes/library.php';
 
-include '../includes/jpgraph/jpgraph.php';
-include '../includes/jpgraph/jpgraph_gantt.php';
-
-$phases = new \phpCollab\Phases\Phases();
-$tasks = new \phpCollab\Tasks\Tasks();
+$phases = new Phases();
+$tasks = new Tasks();
 
 $strings = $GLOBALS["strings"];
 $project = $_GET["project"];
