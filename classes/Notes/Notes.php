@@ -144,4 +144,17 @@ class Notes
         return $this->notes_gateway->unPublishNoteFromSite($noteId);
     }
 
+    /**
+     * @param $tmpQuery
+     * @param null $sorting
+     * @param null $limit
+     * @param null $rowLimit
+     * @return mixed
+     */
+    public function getSearchNotes($tmpQuery, $sorting = null, $limit = null, $rowLimit = null)
+    {
+        return $this->notes_gateway->searchResultNotes($tmpQuery, $sorting, $limit, $rowLimit);
+    }
+
+
 }

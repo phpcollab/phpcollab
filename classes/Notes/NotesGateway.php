@@ -212,6 +212,21 @@ class NotesGateway
     }
 
     /**
+     * @param $query
+     * @param null $sorting
+     * @param null $limit
+     * @param null $rowLimit
+     * @return mixed
+     */
+    public function searchResultNotes($query, $sorting = null, $limit = null, $rowLimit = null)
+    {
+        $sql = $this->initrequest['notes'] . ' ' . $query . $this->orderBy($sorting) . $this->limit($limit, $rowLimit);
+        $this->db->query($sql);
+        $this->db->execute();
+        return $this->db->resultset();
+    }
+
+    /**
      * Returns the LIMIT attribute for SQL strings
      * @param $start
      * @param $rowLimit
