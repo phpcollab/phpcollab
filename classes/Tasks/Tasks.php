@@ -448,6 +448,30 @@ class Tasks
     }
 
     /**
+     * @param $tmpQuery
+     * @param null $sorting
+     * @param null $limit
+     * @param null $rowLimit
+     * @return mixed
+     */
+    public function getSearchTasks($tmpQuery, $sorting = null, $limit = null, $rowLimit = null)
+    {
+        return $this->tasks_gateway->searchResultTasks($tmpQuery, $sorting, $limit, $rowLimit);
+    }
+
+    /**
+     * @param $sql
+     * @param null $sorting
+     * @param null $limit
+     * @param null $rowLimit
+     * @return mixed
+     */
+    public function getSearchSubTasks($sql, $sorting = null, $limit = null, $rowLimit = null)
+    {
+        return $this->tasks_gateway->searchResultSubTasks($sql, $sorting, $limit, $rowLimit);
+    }
+
+    /**
      * @param $taskId
      * @param $assignedDate
      * @return mixed
