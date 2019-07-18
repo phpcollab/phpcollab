@@ -347,6 +347,35 @@ SQL;
     }
 
     /**
+     * @param $query
+     * @param null $sorting
+     * @param null $limit
+     * @param null $rowLimit
+     * @return mixed
+     */
+    public function searchProjects($query, $sorting = null, $limit = null, $rowLimit = null)
+    {
+        $sql = $this->initrequest['projects'] . ' ' . $query . $this->orderBy($sorting) . $this->limit($limit, $rowLimit);
+        $this->db->query($sql);
+        $this->db->execute();
+        return $this->db->resultset();
+    }
+
+    /**
+     * Returns the LIMIT attribute for SQL strings
+     * @param $start
+     * @param $rowLimit
+     * @return string
+     */
+    private function limit($start, $rowLimit)
+    {
+        if (!is_null($start) && !is_null($rowLimit)) {
+            return " LIMIT {$start},{$rowLimit}";
+        }
+        return '';
+    }
+
+    /**
      * @param $sorting
      * @return string
      */

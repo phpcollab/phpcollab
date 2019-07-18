@@ -201,4 +201,16 @@ class Projects
     {
         return $this->projects_gateway->deleteProject($projectId);
     }
+
+    /**
+     * @param $query
+     * @param null $sorting
+     * @param null $limit
+     * @param null $rowLimit
+     * @return mixed
+     */
+    public function searchProjects($query, $sorting = null, $limit = null, $rowLimit = null)
+    {
+        return $this->projects_gateway->searchProjects($query, $sorting, $limit, $rowLimit);
+    }
 }

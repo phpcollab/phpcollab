@@ -1094,6 +1094,35 @@ SQL;
         return $this->db->execute();
     }
 
+    /**
+     * @param $query
+     * @param null $sorting
+     * @param null $limit
+     * @param null $rowLimit
+     * @return mixed
+     */
+    public function searchResultTasks($query, $sorting = null, $limit = null, $rowLimit = null)
+    {
+        $sql = $this->initrequest['tasks'] . ' ' . $query . $this->orderBy($sorting) . $this->limit($limit, $rowLimit);
+        $this->db->query($sql);
+        $this->db->execute();
+        return $this->db->resultset();
+    }
+
+    /**
+     * @param $query
+     * @param null $sorting
+     * @param null $limit
+     * @param null $rowLimit
+     * @return mixed
+     */
+    public function searchResultSubTasks($query, $sorting = null, $limit = null, $rowLimit = null)
+    {
+        $sql = $this->initrequest['subtasks'] . ' ' . $query . $this->orderBy($sorting) . $this->limit($limit, $rowLimit);
+        $this->db->query($sql);
+        $this->db->execute();
+        return $this->db->resultset();
+    }
 
     /**
      * Returns the LIMIT attribute for SQL strings

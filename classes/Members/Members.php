@@ -305,6 +305,18 @@ class Members
     }
 
     /**
+     * @param $query
+     * @param null $sorting
+     * @param null $limit
+     * @param null $rowLimit
+     * @return mixed
+     */
+    public function getSearchMembers($query, $sorting = null, $limit = null, $rowLimit = null)
+    {
+        return $this->members_gateway->searchResultsUsers($query, $sorting, $limit, $rowLimit);
+    }
+
+    /**
      * @param $toEmail
      * @param $toName
      * @param $subject

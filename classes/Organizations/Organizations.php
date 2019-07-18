@@ -213,4 +213,16 @@ class Organizations
 
         return $this->organizations_gateway->deleteClient($clientId);
     }
+
+    /**
+     * @param $tmpQuery
+     * @param null $sorting
+     * @param null $limit
+     * @param null $rowLimit
+     * @return mixed
+     */
+    public function getSearchOrganizations($tmpQuery, $sorting = null, $limit = null, $rowLimit = null)
+    {
+        return $this->organizations_gateway->searchResultOrganizations($tmpQuery, $sorting, $limit, $rowLimit);
+    }
 }
