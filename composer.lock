@@ -4,8 +4,63 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1b106afc231564fe8e0f08f7c5e38ef8",
+    "content-hash": "03adc4ab9e49efd35d62de2c3d27b64a",
     "packages": [
+        {
+            "name": "amenadiel/jpgraph",
+            "version": "3.6.21",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/HuasoFoundries/jpgraph.git",
+                "reference": "10aa8d7addfb1337c5f18c7e71faa6d7a9aa63aa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/HuasoFoundries/jpgraph/zipball/10aa8d7addfb1337c5f18c7e71faa6d7a9aa63aa",
+                "reference": "10aa8d7addfb1337c5f18c7e71faa6d7a9aa63aa",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "php": ">=5.6.0",
+                "symfony/dotenv": "~3.4"
+            },
+            "require-dev": {
+                "codeception/codeception": "~2.4.1",
+                "ext-xdebug": "*",
+                "friendsofphp/php-cs-fixer": "^2.4",
+                "kint-php/kint": "^2.2",
+                "monolog/monolog": "^1.23",
+                "php-console/php-console": "^3.1",
+                "phpunit/phpunit": "^6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Amenadiel\\JpGraph\\": "src/",
+                    "Amenadiel\\JpGraph\\Graph\\": "src/graph",
+                    "Amenadiel\\JpGraph\\Image\\": "src/image",
+                    "Amenadiel\\JpGraph\\Plot\\": "src/plot",
+                    "Amenadiel\\JpGraph\\Text\\": "src/text",
+                    "Amenadiel\\JpGraph\\Themes\\": "src/themes",
+                    "Amenadiel\\JpGraph\\Util\\": "src/util"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "QPL-1.0"
+            ],
+            "description": "jpGraph, library to make graphs and charts",
+            "homepage": "http://jpgraph.net/",
+            "keywords": [
+                "chart",
+                "data",
+                "graph",
+                "jpgraph",
+                "pie"
+            ],
+            "time": "2018-10-14T21:43:30+00:00"
+        },
         {
             "name": "apfelbox/php-file-download",
             "version": "v2.1",
@@ -400,6 +455,75 @@
             "time": "2018-11-20T15:27:04+00:00"
         },
         {
+            "name": "rospdf/pdf-php",
+            "version": "0.12.53",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rospdf/pdf-php.git",
+                "reference": "2c48e5118b94802404a649520e960b3e461577c6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rospdf/pdf-php/zipball/2c48e5118b94802404a649520e960b3e461577c6",
+                "reference": "2c48e5118b94802404a649520e960b3e461577c6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.38",
+                "squizlabs/php_codesniffer": "2.8.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-experimental": "0.13.x-dev",
+                    "dev-master": "0.12.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/Cpdf.php",
+                    "src/Cezpdf.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lars Olesen",
+                    "email": "lars@intraface.dk",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Ole Koeckemann",
+                    "email": "ole.k@web.de",
+                    "role": "Project Head / Developer"
+                },
+                {
+                    "name": "Sune Jensen",
+                    "email": "sj@sunet.dk",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Nicola Asuni",
+                    "email": "info@tecnick.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Wayne Munro",
+                    "email": "pdf@ros.co.nz",
+                    "role": "Founder / Inactive"
+                }
+            ],
+            "description": "The R&OS Pdf class supports the creation of PDF documents without any adiditional modules or extensions.",
+            "homepage": "https://github.com/rospdf/pdf-php",
+            "time": "2019-07-17T09:08:51+00:00"
+        },
+        {
             "name": "skyzyx/mimetypes",
             "version": "1.1.1",
             "source": {
@@ -450,6 +574,63 @@
                 "mimetype"
             ],
             "time": "2013-03-31T11:50:02+00:00"
+        },
+        {
+            "name": "symfony/dotenv",
+            "version": "v3.4.29",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/dotenv.git",
+                "reference": "3f4fdfb551bf36f2017d75cd2e6490fbe67f9d2d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/dotenv/zipball/3f4fdfb551bf36f2017d75cd2e6490fbe67f9d2d",
+                "reference": "3f4fdfb551bf36f2017d75cd2e6490fbe67f9d2d",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5.9|>=7.0.8"
+            },
+            "require-dev": {
+                "symfony/process": "~3.2|~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Dotenv\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Registers environment variables from a .env file",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "dotenv",
+                "env",
+                "environment"
+            ],
+            "time": "2019-06-23T08:10:04+00:00"
         },
         {
             "name": "symfony/http-foundation",

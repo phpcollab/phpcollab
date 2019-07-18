@@ -18,7 +18,9 @@
     "ifsnop/mysqldump-php": "^2.3",
     "apfelbox/php-file-download": "^2.1",
     "symfony/http-foundation": "^3.4",
-    "phpmailer/phpmailer": "^6.0"
+    "phpmailer/phpmailer": "^6.0",
+    "rospdf/pdf-php": "^0.12.53",
+    "amenadiel/jpgraph": "3.6.21"
   },
   "require-dev": {
     "codeception/codeception": "^2.4"
