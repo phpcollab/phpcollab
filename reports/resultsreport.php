@@ -328,7 +328,7 @@ $block1->openForm("../reports/resultsreport.php?&tri=true&id=$id#" . $block1->fo
 
 $block1->heading($strings["report_results"]);
 
-if ($comptListTasks != "0") {
+if (!empty($listTasks)) {
     /**
      * you cannot export or delete a not saved report
      * $block1->openPaletteIcon();
