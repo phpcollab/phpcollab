@@ -21,6 +21,8 @@ class Util
     protected static $useLDAP;
     protected static $configLDAP;
     protected static $pass_g;
+    protected static $mkdirMethod;
+    protected static $ftpRoot;
 
     /**
      * Util constructor.
@@ -31,6 +33,8 @@ class Util
         self::$useLDAP = $GLOBALS["useLDAP"];
         self::$configLDAP = $GLOBALS["configLDAP"];
         self::$pass_g = $GLOBALS["pass_g"];
+        self::$mkdirMethod = $GLOBALS["mkdirMethod"];
+        self::$ftpRoot = $GLOBALS["ftpRoot"];
     }
 
     /**
@@ -356,12 +360,10 @@ class Util
      **/
     public static function moveFile($source, $dest)
     {
-        global $mkdirMethod, $ftpRoot;
-
-        if ($mkdirMethod == "FTP") {
+        if (self::$mkdirMethod == "FTP") {
             $ftp = ftp_connect(FTPSERVER);
             ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
-            ftp_rename($ftp, "$ftpRoot/$source", "$ftpRoot/$dest");
+            ftp_rename($ftp, self::$ftpRoot. "/" . $source, self::$ftpRoot . "/" . $dest);
             ftp_quit($ftp);
         } else {
             copy("../" . $source, "../" . $dest);
@@ -375,12 +377,10 @@ class Util
      **/
     public static function deleteFile($source)
     {
-        global $mkdirMethod, $ftpRoot;
-
-        if ($mkdirMethod == "FTP") {
+        if (self::$mkdirMethod == "FTP") {
             $ftp = ftp_connect(FTPSERVER);
             ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
-            ftp_delete($ftp, $ftpRoot . "/" . $source);
+            ftp_delete($ftp, self::$ftpRoot . "/" . $source);
             ftp_quit($ftp);
         } else {
             unlink("../" . $source);
@@ -396,9 +396,7 @@ class Util
      **/
     public static function uploadFile($path, $source, $dest)
     {
-        global $mkdirMethod, $ftpRoot;
-
-        $pathNew = $ftpRoot . "/" . $path;
+        $pathNew = self::$ftpRoot . "/" . $path;
 
         if (!file_exists($pathNew)) {
             # if there is no project dir first create it
@@ -412,7 +410,7 @@ class Util
         }
 
 
-        if ($mkdirMethod == "FTP") {
+        if (self::$mkdirMethod == "FTP") {
             $ftp = ftp_connect(FTPSERVER);
             ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
             ftp_chdir($ftp, $pathNew);
@@ -430,10 +428,8 @@ class Util
      **/
     public static function createDirectory($path)
     {
-        global $mkdirMethod, $ftpRoot;
-
-        if ($mkdirMethod == "FTP") {
-            $pathNew = $ftpRoot . "/" . $path;
+        if (self::$mkdirMethod == "FTP") {
+            $pathNew = self::$ftpRoot . "/" . $path;
 
             $ftp = ftp_connect(FTPSERVER);
             ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
@@ -446,7 +442,7 @@ class Util
             ftp_quit($ftp);
         }
 
-        if ($mkdirMethod == "PHP") {
+        if (self::$mkdirMethod == "PHP") {
             @mkdir("../$path", 0755);
             @chmod("../$path", 0777);
         }
