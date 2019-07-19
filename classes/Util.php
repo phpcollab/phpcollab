@@ -18,6 +18,9 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class Util
 {
     protected static $strings;
+    protected static $useLDAP;
+    protected static $configLDAP;
+    protected static $pass_g;
 
     /**
      * Util constructor.
@@ -25,6 +28,9 @@ class Util
     public function __construct()
     {
         self::$strings = $GLOBALS['strings'];
+        self::$useLDAP = $GLOBALS["useLDAP"];
+        self::$configLDAP = $GLOBALS["configLDAP"];
+        self::$pass_g = $GLOBALS["pass_g"];
     }
 
     /**
@@ -201,9 +207,7 @@ class Util
      */
     public static function doesPasswordMatch($formUsername, $formPassword, $storedPassword, $loginMethod = "crypt")
     {
-        global $useLDAP, $configLDAP;
-
-        if ($useLDAP == "true") {
+        if (self::$useLDAP == "true") {
             if ($formUsername == "admin") {
                 switch ($loginMethod) {
                     case "md5":
@@ -229,8 +233,8 @@ class Util
                         return false;
                 }
             }
-            $conn = ldap_connect($configLDAP[ldapserver]);
-            $sr = ldap_search($conn, $configLDAP[searchroot], "uid=$formUsername");
+            $conn = ldap_connect(self::$configLDAP[ldapserver]);
+            $sr = ldap_search($conn, self::$configLDAP[searchroot], "uid=$formUsername");
             $info = ldap_get_entries($conn, $sr);
             $user_dn = $info[0]["dn"];
             if (!$bind = @ldap_bind($conn, $user_dn, $formPassword)) {
@@ -289,19 +293,17 @@ class Util
 
     /**
      * Generate a random password
-     * @param string $size Size of geenrated password
+     * @param int $size Size of generated password
      * @param boolean $with_numbers Option to use numbers
      * @param boolean $with_tiny_letters Option to use tiny letters
      * @param boolean $with_capital_letters Option to use capital letters
+     * @return string
      * @access public
      *
-     * @return string
      */
     public static function passwordGenerator($size = 8, $with_numbers = true, $with_tiny_letters = true, $with_capital_letters = true)
     {
-        global $pass_g;
-
-        $pass_g = "";
+        self::$pass_g = "";
         $sizeof_lchar = 0;
         $letter = "";
         $letter_tiny = "abcdefghijklmnopqrstuvwxyz";
@@ -339,11 +341,11 @@ class Util
             srand((double)microtime() * date("YmdGis"));
             for ($cnt = 0; $cnt < $size; $cnt++) {
                 $char_select = rand(0, $sizeof_lchar - 1);
-                $pass_g .= $letter[$char_select];
+                self::$pass_g .= $letter[$char_select];
             }
         }
 
-        return $pass_g;
+        return self::$pass_g;
     }
 
     /**
