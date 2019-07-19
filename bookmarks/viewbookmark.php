@@ -68,7 +68,7 @@ if ($bookmarkDetail['boo_owner'] == $idSession) {
     $block1->paletteScript(0, "remove", "../bookmarks/deletebookmarks.php?id=" . $bookmarkDetail['boo_id'] . "", "true,true,false", $strings["delete"]);
     $block1->paletteScript(4, "edit", "../bookmarks/editbookmark.php?id=" . $bookmarkDetail['boo_id'] . "", "true,true,false", $strings["edit"]);
 
-    $block1->closePaletteScript(count($bookmarkDetail), array_column($bookmarkDetail, 'boo_id'));
+    $block1->closePaletteScript("", []);
 }
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';
