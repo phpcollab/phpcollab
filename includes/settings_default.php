@@ -67,8 +67,8 @@ $loginMethod = "CRYPT"; //select "MD5", "CRYPT", or "PLAIN"
 
 # enable LDAP
 $useLDAP = "false";
-$configLDAP[ldapserver] = "your.ldap.server.address";
-$configLDAP[searchroot] = "ou=People, ou=Intranet, dc=YourCompany, dc=com";
+$configLDAP["ldapserver"] = "your.ldap.server.address";
+$configLDAP["searchroot"] = "ou=People, ou=Intranet, dc=YourCompany, dc=com";
 
 # htaccess parameters
 $htaccessAuth = "false";
@@ -140,7 +140,7 @@ $tableCollab["newsdeskcomments"] = "newsdeskcomments";
 $tableCollab["newsdeskposts"] = "newsdeskposts";
 
 # PhpCollab version
-$version = "2.6.4";
+$version = "2.7.0";
 
 # demo mode parameters
 $demoMode = "false";
@@ -181,5 +181,3 @@ $setKeywords = "PhpCollab, phpcollab.com, Sourceforge, management, web, projects
 
 # Email alerts.
 $emailAlerts = "false";
-
-?>

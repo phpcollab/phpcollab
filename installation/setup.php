@@ -33,7 +33,7 @@ if ($redirect == "true" && $step == "2") {
 }
 
 
-$thisVersion = "2.6.4";
+$thisVersion = "2.7.0";
 
 $dateheure = date("Y-m-d H:i");
 
