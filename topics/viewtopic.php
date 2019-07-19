@@ -138,7 +138,7 @@ if ($idSession == $detailTopic["top_owner"]) {
     $block1->paletteScript(1, "lock", "../topics/viewtopic.php?id=" . $detailTopic["top_id"] . "&action=closeTopic", "true,true,false", $strings["close"]);
     $block1->paletteScript(2, "add_projectsite", "../topics/viewtopic.php?id=" . $detailTopic["top_id"] . "&action=addToSite", "true,true,false", $strings["add_project_site"]);
     $block1->paletteScript(3, "remove_projectsite", "../topics/viewtopic.php?id=" . $detailTopic["top_id"] . "&action=removeToSite", "true,true,false", $strings["remove_project_site"]);
-    $block1->closePaletteScript(count($detailTopic), $detailTopic[0]["top_id"]);
+    $block1->closePaletteScript(count($detailTopic), array_column($detailTopic, 'top_id'));
 }
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

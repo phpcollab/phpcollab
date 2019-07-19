@@ -67,6 +67,6 @@ $block1->openPaletteScript();
 $block1->paletteScript(0, "add", "../reports/createreport.php?", "true,true,true", $strings["add"]);
 $block1->paletteScript(1, "remove", "../reports/deletereports.php?", "false,true,true", $strings["delete"]);
 $block1->paletteScript(2, "export", "../reports/exportreport.php?", "false,true,true", $strings["export"]);
-$block1->closePaletteScript(count($dataSet), $dataSet[0]['rep_id']);
+$block1->closePaletteScript(count($dataSet), array_column($dataSet, 'rep_id'));
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

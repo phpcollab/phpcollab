@@ -204,7 +204,7 @@ if ($profilSession == "0" || $profilSession == "1") {
 if ($enableMantis == "true") {
     $block2->paletteScript(4, "bug", $pathMantis . "login.php?url=http://{$_SERVER["HTTP_HOST"]}{$_SERVER["REQUEST_URI"]}&username=$loginSession&password=$passwordSession", "false,true,false", $strings["bug"]);
 }
-$block2->closePaletteScript($comptListProjects, $listProjects['pro_id']);
+$block2->closePaletteScript(count($listProjects), array_column($listProjects, 'pro_id'));
 
 $block3 = new phpCollab\Block();
 
@@ -264,6 +264,6 @@ $block3->paletteScript(2, "info", "../users/viewclientuser.php?organization=$id"
 if ($profilSession == "0" || $profilSession == "1") {
     $block3->paletteScript(3, "edit", "../users/updateclientuser.php?orgid=$id", "false,true,false", $strings["edit"]);
 }
-$block3->closePaletteScript($comptListMembers, $listMembers['mem_id']);
+$block3->closePaletteScript(count($listMembers), array_column($listMembers, 'mem_id'));
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

@@ -67,6 +67,6 @@ $block1->paletteScript(0, "add", "../services/editservice.php?", "true,true,true
 $block1->paletteScript(1, "remove", "../services/deleteservices.php?", "false,true,true", $strings["delete"]);
 $block1->paletteScript(2, "info", "../services/viewservice.php?", "false,true,false", $strings["view"]);
 $block1->paletteScript(3, "edit", "../services/editservice.php?", "false,true,false", $strings["edit"]);
-$block1->closePaletteScript(count($listServices), $listServices[0]["serv_id"]);
+$block1->closePaletteScript(count($listServices), array_column($listServices, 'serv_id'));
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

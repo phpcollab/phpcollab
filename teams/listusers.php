@@ -127,6 +127,6 @@ if ($idSession == $projectDetail["pro_owner"] || $profilSession == "5") {
 }
 $block1->paletteScript(4, "info", "../users/viewuser.php?", "false,true,false", $strings["view"]);
 $block1->paletteScript(5, "email", "../users/emailusers.php?", "false,true,true", $strings["email"]);
-$block1->closePaletteScript(count($listTeam), $listTeam[0]["tea_mem_id"]);
+$block1->closePaletteScript(count($listTeam), array_column($listTeam, 'tea_mem_id'));
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

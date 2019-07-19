@@ -109,7 +109,7 @@ if ($teamMember == "true" || $profilSession == "0") {
     $block1->paletteScript(1, "edit", "../support/addpost.php?action=status", "false,true,false", $strings["edit_status"]);
     $block1->paletteScript(2, "remove", "../support/deleterequests.php?action=deleteR", "false,true,true", $strings["delete"]);
     $block1->paletteScript(3, "info", "../support/viewrequest.php?", "false,true,false", $strings["view"]);
-    $block1->closePaletteScript(count($listRequests), $listRequests[0]["sr_id"]);
+    $block1->closePaletteScript(count($listRequests), array_column($listRequests, 'sr_id'));
 }
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

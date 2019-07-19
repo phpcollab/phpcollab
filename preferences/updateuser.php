@@ -160,6 +160,6 @@ $block1->closeForm();
 
 $block1->openPaletteScript();
 $block1->paletteScript(0, "export", "../users/exportuser.php?id={$idSession}", "true,true,true", $strings["export"]);
-$block1->closePaletteScript(count($userPrefs), $userPrefs["mem_id"]);
+$block1->closePaletteScript(count($userPrefs), array_column($userPrefs, 'mem_id'));
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

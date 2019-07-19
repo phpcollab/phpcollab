@@ -111,6 +111,6 @@ $block1->paletteScript(2, "info", "../clients/viewclient.php?", "false,true,fals
 if ($profilSession == "0" || $profilSession == "1") {
     $block1->paletteScript(3, "edit", "../clients/editclient.php?", "false,true,false", $strings["edit"]);
 }
-$block1->closePaletteScript($comptListOrganizations, $listOrganizations->org_id);
+$block1->closePaletteScript(count($listOrganizations), array_column($listOrganizations, 'org_id'));
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

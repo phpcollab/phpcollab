@@ -161,6 +161,6 @@ $tasksBlock->paletteScript(6, "info", "../tasks/viewtask.php?", "false,true,fals
 if ($teamMember == "true") {
     $tasksBlock->paletteScript(7, "edit", "../tasks/edittask.php?project=$project", "false,true,true", $strings["edit"]);
 }
-$tasksBlock->closePaletteScript($comptListTasks, $listTasks->tas_id);
+$tasksBlock->closePaletteScript(count($listTasks), array_column($listTasks, 'tas_id'));
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

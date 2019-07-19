@@ -105,5 +105,5 @@ if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
 }
 $block1->paletteScript(3, "info", "../newsdesk/viewnews.php?", "false,true,false", $strings["view_newsdesk"]);
 
-$block1->closePaletteScript(count($listPosts), $listPosts['news_id']);
+$block1->closePaletteScript(count($listPosts), array_column($listPosts, 'news_id'));
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

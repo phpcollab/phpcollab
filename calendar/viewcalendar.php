@@ -564,7 +564,7 @@ if ($type == "dayList") {
     $block1->paletteScript(1, "remove", "../calendar/deletecalendar.php?", "false,true,true", $strings["delete"]);
     $block1->paletteScript(2, "info", "../calendar/viewcalendar.php?dateCalend=$dateCalend&type=calendDetail", "false,true,false", $strings["view"]);
     $block1->paletteScript(3, "edit", "../calendar/viewcalendar.php?dateCalend=$dateCalend&type=calendEdit", "false,true,false", $strings["edit"]);
-    $block1->closePaletteScript($comptListCalendar, $listCalendar['cal_id']);
+    $block1->closePaletteScript($comptListCalendar, array_column($listCalendar, 'cal_id'));
 }
 
 if ($type == "monthPreview") {

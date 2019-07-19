@@ -139,16 +139,12 @@ if ($showHomeBookmarks) {
 
         $block6->sorting("bookmarks", $sortingUser["bookmarks"], "boo.name ASC", $sortingFields = [0 => "boo.name", 1 => "boo.category", 2 => "boo.shared"]);
 
-        $bookmarkIds = [];
-
         if ($comptListBookmarks != "0") {
             $block6->openResults();
 
             $block6->labels($labels = [0 => $strings["name"], 1 => $strings["bookmark_category"], 2 => $strings["shared"]], "false");
 
             foreach ($bookmarksList as $bookmark) {
-                array_push($bookmarkIds, $bookmark['boo_id']);
-
                 $block6->openRow();
                 $block6->checkboxRow($bookmark['boo_id']);
                 $block6->cellRow($blockPage->buildLink("../bookmarks/viewbookmark.php?id=" . $bookmark['boo_id'], $bookmark['boo_name'], 'in') . " " . $blockPage->buildLink($bookmark['boo_url'], "(" . $strings["url"] . ")", 'out'));
@@ -179,7 +175,7 @@ if ($showHomeBookmarks) {
         $block6->paletteScript(5, "info", "../bookmarks/viewbookmark.php", "false,true,false", $strings["view"]);
         $block6->paletteScript(6, "edit", "../bookmarks/editbookmark.php", "false,true,false", $strings["edit"]);
 
-        $block6->closePaletteScript($comptListBookmarks, $bookmarkIds);
+        $block6->closePaletteScript($comptListBookmarks, array_column($bookmarksList, 'boo_id'));
     }
 }
 // end showHomeBookmarks
@@ -244,8 +240,6 @@ if ($showHomeProjects) {
 
     $projectsTopics = [];
 
-    $comptListProjects = count($projectsList);
-
     if ($projectsList) {
         $block1->openResults();
 
@@ -304,7 +298,7 @@ if ($showHomeProjects) {
         $block1->paletteScript(8, "bug", $pathMantis . "login.php?url=http://{$_SERVER["HTTP_HOST"]}{$_SERVER["REQUEST_URI"]}&username=$loginSession&password=$passwordSession", "false,true,false", $strings["bug"]);
     }
 
-    $block1->closePaletteScript($comptListProjects, $listProjects->tea_pro_id);
+    $block1->closePaletteScript(count($projectsList), array_column($projectsList, 'pro_id'));
 }
 // end showHomeProjects
 
@@ -420,7 +414,7 @@ if ($showHomeTasks) {
     $block2->paletteScript(1, "copy", "../tasks/edittask.php?docopy=true", "false,true,false", $strings["copy"]);
     $block2->paletteScript(3, "info", "../tasks/viewtask.php", "false,true,false", $strings["view"]);
     $block2->paletteScript(4, "edit", "../tasks/edittask.php", "false,true,false", $strings["edit"]);
-    $block2->closePaletteScript($comptListTasks, $listTasks->tas_id);
+    $block2->closePaletteScript(count($listTasks), array_column($listTasks, 'tas_id'));
 }
 // end showHomeTasks
 
@@ -580,7 +574,7 @@ if ($showHomeDiscussions) {
     $block4->paletteScript(2, "add_projectsite", "../general/home.php?addToSiteTopic=true&action=publish", "false,true,true", $strings["add_project_site"]);
     $block4->paletteScript(3, "remove_projectsite", "../general/home.php?removeToSiteTopic=true&action=publish", "false,true,true", $strings["remove_project_site"]);
     $block4->paletteScript(4, "info", "threaddetail?", "false,true,false", $strings["view"]);
-    $block4->closePaletteScript(count($listTopics), $listTopics->top_id);
+    $block4->closePaletteScript(count($listTopics), array_column($listTopics, 'top_id'));
 }
 // end showHomeDiscussions
 
@@ -630,7 +624,7 @@ if ($showHomeReports) {
     $reportsBlock->paletteScript(1, "remove", "../reports/deletereports.php", "false,true,true", $strings["delete"]);
     $reportsBlock->paletteScript(2, "info", "../reports/resultsreport.php", "false,true,true", $strings["view"]);
     $reportsBlock->paletteScript(3, "export", "../reports/exportreport.php", "false,true,true", $strings["export"]);
-    $reportsBlock->closePaletteScript(count($listReports), $listReports->rep_id);
+    $reportsBlock->closePaletteScript(count($listReports), array_column($listReports, 'rep_id'));
 }
 // end showHomeReports
 
@@ -692,7 +686,7 @@ if ($showHomeNotes) {
     $notesBlock->openPaletteScript();
     $notesBlock->paletteScript(5, "info", "../notes/viewnote.php", "false,true,false", $strings["view"]);
     $notesBlock->paletteScript(6, "edit", "../notes/editnote.php?project=$project", "false,true,false", $strings["edit"]);
-    $notesBlock->closePaletteScript(count($listNotes), $listNotes->note_id);
+    $notesBlock->closePaletteScript(count($listNotes), array_column($listNotes, 'note_id'));
 }
 // end showHomeNotes
 
@@ -785,7 +779,7 @@ if ($showHomeNewsdesk) {
     }
 
     $newsdeskBlock->paletteScript(5, "info", "../newsdesk/viewnews.php", "false,true,false", $strings["view"]);
-    $newsdeskBlock->closePaletteScript(count($newsdeskPosts), $listPosts->news_id);
+    $newsdeskBlock->closePaletteScript(count($newsdeskPosts), array_column($newsdeskPosts, 'news_id'));
 }
 // end showHomeNewsdesk
 

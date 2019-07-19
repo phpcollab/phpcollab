@@ -147,7 +147,7 @@ $block1->closeForm();
 if ($idSession == $projectDetail["pro_owner"] || $profilSession == "0" || $profilSession == "5") {
     $block1->openPaletteScript();
     $block1->paletteScript(0, "edit", "../phases/editphase.php?id=$id", "true,true,true", $strings["edit"]);
-    $block1->closePaletteScript($comptlistTasks, $listPhases->pha_id);
+    $block1->closePaletteScript($comptlistTasks, array_column($listPhases, 'pha_id'));
 }
 
 $block2 = new phpCollab\Block();
@@ -245,7 +245,7 @@ $block2->paletteScript(6, "info", "../tasks/viewtask.php?", "false,true,false", 
 if ($teamMember == "true" || $profilSession == "5") {
     $block2->paletteScript(7, "edit", "../tasks/edittask.php?project=$project&phase=" . $phaseDetail["pha_order_num"] . "", "false,true,false", $strings["edit"]);
 }
-$block2->closePaletteScript($comptlistTasks, $listTasks["tas_id"]);
+$block2->closePaletteScript($comptlistTasks, array_column($listTasks, 'tas_id'));
 
 
 if ($fileManagement == "true") {
@@ -336,7 +336,7 @@ if ($fileManagement == "true") {
     if ($teamMember == "true" || $profilSession == "5") {
         $block3->paletteScript(5, "edit", "../linkedcontent/viewfile.php?edit=true", "false,true,false", $strings["edit"]);
     }
-    $block3->closePaletteScript(count($listFiles), $listFiles["fil_id"]);
+    $block3->closePaletteScript(count($listFiles), array_column($listFiles, 'fil_id'));
 }
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

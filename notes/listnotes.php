@@ -129,6 +129,6 @@ $block1->paletteScript(5, "info", "../notes/viewnote.php?", "false,true,false", 
 if ($teamMember == "true") {
     $block1->paletteScript(6, "edit", "../notes/editnote.php?project=$project", "false,true,false", $strings["edit"]);
 }
-$block1->closePaletteScript(count($listNotes), $listNotes["note_id"]);
+$block1->closePaletteScript(count($listNotes), array_column($listNotes, 'note_id'));
 
 include '../themes/' . THEME . '/footer.php';

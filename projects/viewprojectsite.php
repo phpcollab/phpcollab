@@ -184,7 +184,7 @@ if ($projectDetail["pro_organization"] != "" && $projectDetail["pro_organization
             $block2->paletteScript(2, "add_projectsite", "../projects/viewprojectsite.php?addToSiteTeam=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["add_project_site"]);
             $block2->paletteScript(3, "remove_projectsite", "../projects/viewprojectsite.php?removeToSiteTeam=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
         }
-        $block2->closePaletteScript(count($listPermitted), $listPermitted[0]["tea_mem_id"]);
+        $block2->closePaletteScript(count($listPermitted), array_column($listPermitted, 'tea_mem_id'));
     }
 }
 

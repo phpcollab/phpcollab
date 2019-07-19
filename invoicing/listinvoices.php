@@ -155,6 +155,6 @@ if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
     $block1->paletteScript(3, "edit", "../invoicing/editinvoice.php?", "false,true,false", $strings["edit"]);
 }
 
-$block1->closePaletteScript(count($listInvoices), $listInvoices["inv_id"]);
+$block1->closePaletteScript(count($listInvoices), array_column($listInvoices, 'inv_id'));
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

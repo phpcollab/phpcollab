@@ -468,7 +468,7 @@ if ($fileDetail["fil_owner"] == $idSession) {
     $block1->paletteScript(0, "remove", "../linkedcontent/deletefiles.php?project=" . $fileDetail["fil_project"] . "&task=" . $fileDetail["fil_task"] . "&sendto=filedetails", "false,true,true", $strings["ifc_delete_version"]);
     $block1->paletteScript(1, "add_projectsite", "../linkedcontent/viewfile.php?addToSiteFile=true&file=" . $fileDetail["fil_id"] . "&action=publish", "true,true,true", $strings["add_project_site"]);
     $block1->paletteScript(2, "remove_projectsite", "../linkedcontent/viewfile.php?removeToSiteFile=true&file=" . $fileDetail["fil_id"] . "&action=publish", "true,true,true", $strings["remove_project_site"]);
-    $block1->closePaletteScript(count($fileDetail), $fileDetail["fil_id"]);
+    $block1->closePaletteScript(count($fileDetail), array_column($fileDetail, 'fil_id'));
 }
 
 if ($peerReview == "true") {
@@ -585,7 +585,7 @@ REVISION;
     if ($fileDetail["fil_owner"] == $idSession) {
         $block2->openPaletteScript();
         $block2->paletteScript(0, "remove", "../linkedcontent/deletefiles.php?project=" . $fileDetail["fil_project"] . "&task=" . $fileDetail["fil_task"] . "&sendto=filedetails", "false,true,true", $strings["ifc_delete_review"]);
-        $block2->closePaletteScript(count($fileDetail), $listReviews->fil_id);
+        $block2->closePaletteScript(count($fileDetail), array_column($listReviews, 'fil_id'));
     }
 
     if ($teamMember == "true" || $profilSession == "5") {

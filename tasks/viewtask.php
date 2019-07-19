@@ -384,7 +384,7 @@ if ($fileManagement == "true") {
     if ($teamMember === true || $profilSession == "5") {
         $block2->paletteScript(5, "edit", "../linkedcontent/viewfile.php?edit=true", "false,true,false", $strings["edit"]);
     }
-    $block2->closePaletteScript($comptListFiles, $listFiles->fil_id);
+    $block2->closePaletteScript(count($listFiles), array_column($listFiles, 'fil_id'));
 }
 
 // Assignment History block
@@ -518,6 +518,6 @@ $block4->paletteScript(6, "info", "../subtasks/viewsubtask.php?task=$id", "false
 if ($teamMember === true || $profilSession == "5") {
     $block4->paletteScript(7, "edit", "../subtasks/editsubtask.php?task=$id", "false,true,true", $strings["edit"]);
 }
-$block4->closePaletteScript($comptListSubtasks, $listSubtasks->subtas_id);
+$block4->closePaletteScript(count($listSubtasks), array_column($listSubtasks, 'subtas_id'));
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

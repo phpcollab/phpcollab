@@ -157,6 +157,6 @@ if ($enableMantis == "true") {
     $block1->paletteScript(8, "bug", $pathMantis . "login.php?url=http://{$HTTP_HOST}{$REQUEST_URI}&username=$loginSession&password=$passwordSession", "false,true,false", $strings["bug"]);
 }
 
-$block1->closePaletteScript($comptListProjects, $listProjects->pro_id);
+$block1->closePaletteScript(count($listProjects), array_column($listProjects, 'pro_id'));
 
 include '../themes/' . THEME . '/footer.php';

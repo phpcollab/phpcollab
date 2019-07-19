@@ -263,7 +263,7 @@ if ($teamMember == "true" || $profilSession == "5") {
         $block1->paletteScript(4, "remove_projectsite", "../subtasks/viewsubtask.php?removeToSite=true&task=$task&id=" . $subtaskDetail['subtas_id'] . "&action=publish", "true,true,true", $strings["remove_project_site"]);
     }
     $block1->paletteScript(5, "edit", "../subtasks/editsubtask.php?task=$task&id=$id&docopy=false", "true,true,false", $strings["edit"]);
-    $block1->closePaletteScript(count($listAssign), $listAssign["ass_id"]);
+    $block1->closePaletteScript(count($listAssign), array_column($listAssign, 'ass_id'));
 }
 
 $block3 = new phpCollab\Block();
