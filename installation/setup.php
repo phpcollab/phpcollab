@@ -26,14 +26,14 @@ require_once '../languages/help_en.php';
 
 $step = $_GET["step"];
 $redirect = $_GET["redirect"];
-$connection = $_GET["connection"];
+$connection = (!empty($_GET["connection"])) ? $_GET["connection"] : $_POST["connection"];
 
 if ($redirect == "true" && $step == "2") {
-    header("Location:../installation/setup.php?step=2&connection=$connection");
+    header("Location:../installation/setup.php?step=2&connection={$connection}");
 }
 
 
-$thisVersion = "2.7.0";
+$version = "2.7.0";
 
 $dateheure = date("Y-m-d H:i");
 
@@ -297,7 +297,7 @@ define('THEME','default');
 \$tableCollab["newsdeskposts"] = "{$dbTablePrefix}newsdeskposts";
 
 # PhpCollab version
-\$version = "$thisVersion";
+\$version = "$version";
 
 # demo mode parameters
 \$demoMode = "false";
@@ -375,7 +375,7 @@ if ($step == "") {
     $step = "1";
 }
 
-$setTitle = "PhpCollab";
+$setTitle = "PhpCollab : Installation";
 define('THEME', 'default');
 $blank = "true";
 
@@ -418,8 +418,8 @@ if ($step == "1") {
     $block1->openContent();
     $block1->contentTitle("&nbsp;");
 
-    echo "<tr class='odd'><td class='leftvalue'>&nbsp;</td><td>
-		<pre>";
+    echo "<tr class='odd'><td colspan='2'>
+		<pre style='margin-left: 2rem; height: 500px; overflow: scroll;'>";
     include '../docs/copying.txt';
     echo "</pre>
 		</td></tr>";
@@ -526,7 +526,6 @@ if ($step == "2") {
 	<tr class='odd'><td class='leftvalue'>* Forced login :<br/>[<a href=\"javascript:void(0);\" onmouseover=\"return overlib('" . addslashes($help["setup_forcedlogin"]) . "',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');\" onmouseout=\"return nd();\">Help</a>] </td><td><input type=\"radio\" name='forcedlogin' value='false' checked> False&nbsp;<input type='radio' name='forcedlogin' value='true'> True</td></tr>
 	<tr class='odd'><td class='leftvalue'>Default language :<br/>[<a href=\"javascript:void(0);\" onmouseover=\"return overlib('" . addslashes($help["setup_langdefault"]) . "',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');\" onmouseout=\"return nd();\">Help</a>] </td><td>
 			   <select name='defaultLanguage'>
-				<option value=''>Blank</option>
 		<option value='ar'>Arabic</option>
 		<option value='az'>Azerbaijani</option>
 		<option value='pt-br'>Brazilian Portuguese</option>
@@ -538,7 +537,7 @@ if ($step == "2") {
 		<option value='cs-win1250'>Czech (win1250)</option>
 		<option value='da'>Danish</option>
 		<option value='nl'>Dutch</option>
-		<option value='en'>English</option>
+		<option value='en' selected>English</option>
 		<option value='et'>Estonian</option>
 		<option value='fr'>French</option>
 		<option value='de'>German</option>
@@ -622,7 +621,12 @@ HTML;
 
 $stepNext = $step + 1;
 if ($step < "2") {
-    echo "<form name='license' action='../installation/setup.php?step=2&redirect=true' method='post' style='text-align: center;'><a href=\"javascript:document.license.submit();\"><b>Step $stepNext</b></a><br/><br/><input type='checkbox' value='off' name='connection'> Offline installation (firewall/intranet, no update checker)</form><br/>";
+    echo <<<FORM
+    <form id="license" name='license' action='../installation/setup.php?step=2&redirect=true' method='post' style='text-align: center;'>
+        <p><input type="submit" value="Step {$stepNext}" style="color: #000; font-weight: bold; background-color: transparent; border: none; text-decoration: underline" /></p>
+        <input type='checkbox' value='off' name='connection'> Offline installation (firewall/intranet, no update checker)
+    </form>
+FORM;
 }
 
 $footerDev = "false";
