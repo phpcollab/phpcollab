@@ -300,6 +300,9 @@ class Files
 {$this->strings["upload"]} : {$fileDetails["fil_name"]}
 {$this->strings["posted_by"]} : {$userName} ({$userLogin})
 
+{$this->strings["comments"]} : 
+{$fileDetails["fil_comments"]}
+
 {$this->strings["project"]} : {$projectDetails["pro_name"]} ({$projectDetails["pro_id"]})
 {$this->strings["organization"]} : {$projectDetails["pro_org_name"]}
 
