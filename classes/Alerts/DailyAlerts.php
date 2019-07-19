@@ -149,7 +149,7 @@ ORDER BY {$this->tasksTable}.priority
 SQL;
         $this->db->query($query);
         $this->db->bind(":assigned_to", $assignedTo);
-        return $data = $this->db->resultset();
+        return $this->db->resultset();
 
     }
 
