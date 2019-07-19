@@ -111,7 +111,7 @@ if ($id != "") {
 
             //compute the average completion of all subtaks of this tasks
             if ($old_completion != $compl) {
-                phpCollab\Util::taskComputeCompletion($task, $tableCollab["tasks"]);
+                $tasks->setCompletion($task, $tasks->recalculateSubtaskAverages($task));
             }
 
             if ($st == "1" && $cd == "--") {
@@ -303,7 +303,7 @@ if ($id == "") {
         }
 
         //compute the average completion of all subtaks of this tasks
-        phpCollab\Util::taskComputeCompletion($task, $tableCollab["tasks"]);
+        $tasks->setCompletion($task, $tasks->recalculateSubtaskAverages($task));
 
         //if assigned_to not blank, set assigned date
         if ($at != "0") {
