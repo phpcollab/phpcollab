@@ -10,10 +10,14 @@
 ** -----------------------------------------------------------------------------
 */
 
+use phpCollab\Bookmarks\Bookmarks;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$bookmarks_gateway = new \phpCollab\Bookmarks\Bookmarks();
+$bookmarks_gateway = new Bookmarks();
+
+$view = $_GET["view"];
 
 // ** Do the title stuff here **
 switch ($view) {
@@ -167,7 +171,6 @@ $block1->paletteScript(5, "info", "../bookmarks/viewbookmark.php?", "false,true,
 if ($view == "my") {
     $block1->paletteScript(6, "edit", "../bookmarks/editbookmark.php?", "false,true,false", $strings["edit"]);
 }
-$block1->closePaletteScript($comptListBookmarks, $listBookmarks->boo_id);
-
+$block1->closePaletteScript(count($bookmarks), array_column($bookmarks, 'boo_id'));
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';
