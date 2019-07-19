@@ -105,6 +105,6 @@ $block1->paletteScript(2, "info", "../users/viewuser.php?", "false,true,false", 
 $block1->paletteScript(3, "edit", "../users/edituser.php?", "false,true,false", $strings["edit"]);
 $block1->paletteScript(4, "export", "../users/exportusers.php?", "true,false,true", $strings["export"]);
 $block1->paletteScript(5, "email", "../users/emailusers.php?", "false,true,true", $strings["email"]);
-$block1->closePaletteScript(count($listMembers), $listMembers[0]["mem_id"]);
+$block1->closePaletteScript(count($listMembers), array_column($listMembers, 'mem_id'));
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

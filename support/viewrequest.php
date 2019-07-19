@@ -133,7 +133,7 @@ $block1->closeContent();
 $block1->openPaletteScript();
 $block1->paletteScript(0, "edit", "../support/addpost.php?action=status&id=" . $requestDetail["sr_id"] . "", "true,true,true", $strings["edit_status"]);
 $block1->paletteScript(1, "remove", "../support/deleterequests.php?action=deleteR&sendto=$status&id=" . $requestDetail["sr_id"] . "", "true,true,true", $strings["delete"]);
-$block1->closePaletteScript(count($requestDetail), $requestDetail["sr_id"]);
+$block1->closePaletteScript(count($requestDetail),  array_column($requestDetail, 'sr_id'));
 $block1->closeForm();
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

@@ -32,7 +32,7 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=$view", $strings["bookmarks"], 'in'));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=" . $_GET["view"], $strings["bookmarks"], 'in'));
 $blockPage->itemBreadcrumbs($bookmarkDetail['boo_name']);
 $blockPage->closeBreadcrumbs();
 
@@ -68,7 +68,7 @@ if ($bookmarkDetail['boo_owner'] == $idSession) {
     $block1->paletteScript(0, "remove", "../bookmarks/deletebookmarks.php?id=" . $bookmarkDetail['boo_id'] . "", "true,true,false", $strings["delete"]);
     $block1->paletteScript(4, "edit", "../bookmarks/editbookmark.php?id=" . $bookmarkDetail['boo_id'] . "", "true,true,false", $strings["edit"]);
 
-    $block1->closePaletteScript("", "");
+    $block1->closePaletteScript("", []);
 }
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

@@ -158,6 +158,6 @@ $block2->closeFormResults();
 
 $block2->openPaletteScript();
 $block2->paletteScript(7, "edit", "../invoicing/editinvoiceitem.php?id=$id", "false,true,true", $strings["edit"]);
-$block2->closePaletteScript($comptListInvoicesItems, $listInvoicesItems->invitem_id);
+$block2->closePaletteScript(count($listInvoicesItems), array_column($listInvoicesItems, 'invitem_id'));
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

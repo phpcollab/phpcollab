@@ -161,6 +161,6 @@ if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
     $block2->paletteScript(2, "remove", "../newsdesk/editmessage.php?postid=$id&action=remove&", "false,true,true", $strings["del_newsdesk_comment"]);
 }
 
-$block2->closePaletteScript(count($newsComments), $newsComments->newscom_id);
+$block2->closePaletteScript(count($newsComments), array_column($newsComments, 'newscom_id'));
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

@@ -100,7 +100,7 @@ if ($teamMember == "true" || $profilSession == "5") {
             $block7->paletteScript(1, "edit", "../phases/editphase.php?", "false,true,true", $strings["edit"]);
         }
     }
-    $block7->closePaletteScript(count($listPhases), $listPhases[0]["pha_id"]);
+    $block7->closePaletteScript(count($listPhases), array_column($listPhases, 'pha_id'));
 }
 
 include APP_ROOT . '/themes/'.THEME.'/footer.php';

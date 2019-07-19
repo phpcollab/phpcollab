@@ -120,8 +120,6 @@ if ($project != "") {
     $listTopics = $topics->getTopicsByTopicOwner($idSession, $block1->sortingValue);
 }
 
-$comptListTopics = count($listTopics->top_id);
-
 if ($listTopics) {
     $block1->openResults();
 
@@ -166,6 +164,6 @@ if ($idSession == $projectDetail["pro_owner"]) {
     }
 }
 $block1->paletteScript(5, "info", "../topics/viewtopic.php?", "false,true,false", $strings["view"]);
-$block1->closePaletteScript($comptListTopics, $listTopics["top_id"]);
+$block1->closePaletteScript(count($listTopics), array_column($listTopics, 'top_id'));
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

@@ -473,7 +473,7 @@ if (!empty($listProjects) && count($listProjects) > 0) {
 
     $block1->openPaletteScript();
     $block1->paletteScript(0, "export", "../projects/exportproject.php?languageSession={$_SESSION["languageSession"]}&type=project", "false,true,false", $strings["export"]);
-    $block1->closePaletteScript(count($listProjects), $listProjects[0]["pro_id"]);
+    $block1->closePaletteScript(count($listProjects), array_column($listProjects, 'pro_id'));
 }
 
 if (!empty($listTasks)) {
