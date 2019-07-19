@@ -13,6 +13,8 @@ class Notification extends phpmailer
     private $notificationMethod;
     protected $strings;
     protected $root;
+    protected $priority;
+    protected $status;
     public $partMessage;
     public $footer;
     public $partSubject;
@@ -21,14 +23,21 @@ class Notification extends phpmailer
     /**
      * Notification constructor.
      * @param null $exceptions
+     * @param null $lang
      */
-    public function __construct($exceptions = null)
+    public function __construct($lang = null, $exceptions = null)
     {
         parent::__construct($exceptions);
-        $this->lang = $GLOBALS["lang"];
+        if (is_null($lang)) {
+            $this->lang = (!empty($GLOBALS["lang"])) ? $GLOBALS["lang"] : "en";
+        } else {
+            $this->lang = $lang;
+        }
         $this->notificationMethod = $GLOBALS["notificationMethod"];
         $this->strings = $GLOBALS["strings"];
         $this->root = $GLOBALS["root"];
+        $this->priority = $GLOBALS["priority"];
+        $this->status = $GLOBALS["status"];
 
         $this->Mailer = $this->notificationMethod;
         $this->SetLanguage($this->lang);
