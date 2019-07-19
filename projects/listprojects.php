@@ -3,6 +3,8 @@
 #Status page: 1
 #Path by root: ../projects/listprojects.php
 
+use phpCollab\Projects\Projects;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -12,9 +14,11 @@ $defaultNumRowsToDisplay = 40;
 
 $db = new phpCollab\Database(); // Move this to library?
 
-$projects = new \phpCollab\Projects\Projects();
+$projects = new Projects();
 
-if ($typeProjects == "") {
+$typeProjects = $_GET["typeProjects"];
+
+if (empty($typeProjects)) {
     $typeProjects = "active";
 }
 
@@ -24,7 +28,7 @@ if ($typeProjects == "active") {
     $setTitle = str_replace("**", "Ina", $setTitle);
 }
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->setLimitsNumber(4);
@@ -154,9 +158,9 @@ if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
     $block1->paletteScript(4, "copy", "../projects/editproject.php?docopy=true", "false,true,false", $strings["copy"]);
 }
 if ($enableMantis == "true") {
-    $block1->paletteScript(8, "bug", $pathMantis . "login.php?url=http://{$HTTP_HOST}{$REQUEST_URI}&username=$loginSession&password=$passwordSession", "false,true,false", $strings["bug"]);
+    $block1->paletteScript(8, "bug", $pathMantis . "login.php?url=http://{$_SERVER["HTTP_HOST"]}{$_SERVER["REQUEST_URI"]}&username=$loginSession&password=$passwordSession", "false,true,false", $strings["bug"]);
 }
 
-$block1->closePaletteScript(count($listProjects), array_column($listProjects, 'pro_id'));
+$block1->closePaletteScript(count($dataSet), array_column($dataSet, 'pro_id'));
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
