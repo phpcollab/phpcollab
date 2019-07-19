@@ -990,24 +990,6 @@ class Util
     }
 
     /**
-     * @param $taskid
-     * @param $tableTask
-     * compute the average completion of all subtaks of a task
-     * update the main task completion
-     *
-     * 24/05/03: Florian DECKERT
-     **/
-    public static function taskComputeCompletion($taskid, $tableTask)
-    {
-        $tmpquery = "WHERE subtas.tasks = '$taskid'";
-        $subtaskList = new \phpCollab\Request();
-        $subtaskList->openAvgTasks($taskid);
-        $avg = $subtaskList->tas_avg[0];
-        settype($avg, "integer");
-        Util::newConnectSql("UPDATE {$tableTask} set completion = :average where id = :task_id", ["average" => $avg, "task_id" => $taskid]);
-    }
-
-    /**
      * check a file name and remove backslash and spaces
      * this function remove also the file path if IE is used for upload
      * @param string $name the name of the file

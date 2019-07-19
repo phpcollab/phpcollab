@@ -840,6 +840,18 @@ class Tasks
     }
 
     /**
+     * @param $taskId
+     * @return mixed
+     */
+    public function recalculateSubtaskAverages($taskId)
+    {
+        $avg = $this->tasks_gateway->recalculateSubtaskAverage($taskId);
+        $avg = $avg["average"];
+        settype($avg, "integer");
+        return $avg;
+    }
+
+    /**
      * @param $taskDetails
      * @param $projectDetails
      * @param $userDetails

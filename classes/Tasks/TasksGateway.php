@@ -1125,6 +1125,18 @@ SQL;
     }
 
     /**
+     * @param $taskId
+     * @return mixed
+     */
+    public function recalculateSubtaskAverage($taskId)
+    {
+        $sql = "select avg(completion) as average from {$this->tableCollab["subtasks"]} where task = :task_id";
+        $this->db->query($sql);
+        $this->db->bind(":task_id", $taskId);
+        return $this->db->single();
+    }
+
+    /**
      * Returns the LIMIT attribute for SQL strings
      * @param $start
      * @param $rowLimit

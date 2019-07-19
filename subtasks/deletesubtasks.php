@@ -1,12 +1,17 @@
 <?php
 
+use phpCollab\Assignments\Assignments;
+use phpCollab\Phases\Phases;
+use phpCollab\Projects\Projects;
+use phpCollab\Tasks\Tasks;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$tasks = new \phpCollab\Tasks\Tasks();
-$assignments = new \phpCollab\Assignments\Assignments();
-$phases = new \phpCollab\Phases\Phases();
-$projects = new \phpCollab\Projects\Projects();
+$tasks = new Tasks();
+$assignments = new Assignments();
+$phases = new Phases();
+$projects = new Projects();
 
 $id = $_GET["id"];
 $task = $_GET["task"];
@@ -23,12 +28,7 @@ if ($_GET["action"] == "delete") {
 
     $tasks->deleteSubTasksById($id);
     $assignments->deleteAssignmentsBySubtasks($id);
-
-    //recompute average completion of the task
-    phpCollab\Util::taskComputeCompletion(
-        $listSubtasks["subtas_task"],
-        $tableCollab["tasks"]
-    );
+    $tasks->setCompletion($task, $tasks->recalculateSubtaskAverages($task));
 
     if ($task != "") {
         phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$task&msg=delete");
