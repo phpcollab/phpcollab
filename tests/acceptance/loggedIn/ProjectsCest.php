@@ -42,4 +42,19 @@ class ProjectsCest
         }
     }
 
+    public function viewProject(AcceptanceTester $I)
+    {
+        $I->wantTo('View a Project');
+        $I->amOnPage('/projects/listprojects.php');
+        $I->seeInTitle('List Active Projects');
+        $I->seeElement('.listing');
+        $I->click('.listing tr:nth-child(2) td:nth-child(2) a');
+        $I->amOnPage('/projects/viewproject.php?id=1');
+        $I->seeInTitle('View Project');
+        $I->seeElement('.content');
+        $I->see('Name :');
+        $I->see('Project ID :');
+        $I->see('Description :');
+    }
+
 }
