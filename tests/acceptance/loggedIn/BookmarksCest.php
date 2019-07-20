@@ -5,6 +5,9 @@ use Exception;
 
 class BookmarksCest
 {
+    /**
+     * @param AcceptanceTester $I
+     */
     public function _before(AcceptanceTester $I)
     {
         $I->amOnPage('/general/login.php');
@@ -13,11 +16,18 @@ class BookmarksCest
         $I->click('input[type="submit"]');
     }
 
+    /**
+     * @param AcceptanceTester $I
+     */
     public function _after(AcceptanceTester $I)
     {
     }
 
     // tests
+
+    /**
+     * @param AcceptanceTester $I
+     */
     public function listAllBookmarks(AcceptanceTester $I)
     {
         $I->wantTo('See a list of all bookmarks');
@@ -30,6 +40,9 @@ class BookmarksCest
         }
     }
 
+    /**
+     * @param AcceptanceTester $I
+     */
     public function listMyBookmarks(AcceptanceTester $I)
     {
         $I->wantTo('See a list of my bookmarks');
@@ -42,6 +55,9 @@ class BookmarksCest
         }
     }
 
+    /**
+     * @param AcceptanceTester $I
+     */
     public function listPrivateBookmarks(AcceptanceTester $I)
     {
         $I->wantTo('See a list of private bookmarks');
@@ -54,6 +70,9 @@ class BookmarksCest
         }
     }
 
+    /**
+     * @param AcceptanceTester $I
+     */
     public function viewBookmark(AcceptanceTester $I)
     {
         $I->wantTo('View a Bookmark');
@@ -68,11 +87,19 @@ class BookmarksCest
         $I->see('Description :');
     }
 
+    /**
+     * @skip
+     * @param AcceptanceTester $I
+     */
     public function createBookmark(AcceptanceTester $I)
     {
         $I->wantTo('Create a new bookmark');
     }
 
+    /**
+     * @skip
+     * @param AcceptanceTester $I
+     */
     public function editBookmark(AcceptanceTester $I)
     {
         $I->wantTo('Edit a bookmark');
@@ -82,6 +109,10 @@ class BookmarksCest
 //        $I->seeInCurrentUrl('/bookmarks/editbookmark.php?id=1');
     }
 
+    /**
+     * @skip
+     * @param AcceptanceTester $I
+     */
     public function DeleteBookmark(AcceptanceTester $I)
     {
         $I->wantTo('Delete a bookmark');
