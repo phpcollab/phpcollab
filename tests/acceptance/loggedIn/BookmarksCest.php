@@ -59,7 +59,7 @@ class BookmarksCest
         $I->amOnPage('/bookmarks/listbookmarks.php?view=all');
         $I->seeInTitle('View All Bookmarks');
         $I->seeElement('.listing');
-        $I->click('//*[@class=\'listing\']/descendant::tr[2]/descendant::td[2]/descendant::a');
+        $I->click('.listing tr:nth-child(2) td:nth-child(2) a');
         $I->seeElement('.content');
         $I->see('Info');
         $I->see('Name :');
