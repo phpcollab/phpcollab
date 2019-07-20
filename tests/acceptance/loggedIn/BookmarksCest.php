@@ -1,6 +1,7 @@
 <?php
 namespace loggedIn;
 use \AcceptanceTester;
+use Exception;
 
 class BookmarksCest
 {
@@ -24,7 +25,7 @@ class BookmarksCest
         $I->seeInTitle('View All Bookmarks');
         try {
             $I->seeElement('.listing');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $I->seeElement('.noItemsFound');
         }
     }
@@ -36,7 +37,7 @@ class BookmarksCest
         $I->seeInTitle('View My Bookmarks');
         try {
             $I->seeElement('.listing');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $I->seeElement('.noItemsFound');
         }
     }
@@ -48,7 +49,7 @@ class BookmarksCest
         $I->seeInTitle('View Private Bookmarks');
         try {
             $I->seeElement('.listing');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $I->seeElement('.noItemsFound');
         }
     }
