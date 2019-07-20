@@ -291,7 +291,7 @@ if (empty($_GET["id"])) {
         }
     }
 }
-    $bodyCommand = 'onLoad="document.user_editForm.un.focus();"';
+    $bodyCommand = 'onLoad="document.user_editForm.username.focus();"';
     include APP_ROOT . '/themes/' . THEME . '/header.php';
 
     $blockPage = new phpCollab\Block();
