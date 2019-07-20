@@ -1,7 +1,6 @@
 <?php
 namespace loggedIn;
 use \AcceptanceTester;
-use \Codeception\Util\Locator;
 
 class NewsdeskCest
 {
@@ -30,7 +29,7 @@ class NewsdeskCest
         $I->wantTo('View a newsdesk post');
         $I->amOnPage('/newsdesk/listnews.php');
         $I->see('News list');
-        $I->click('//*[@class=\'listing\']/descendant::tr[2]/descendant::td[2]/descendant::a');
+        $I->click('.listing tr:nth-child(2) td:nth-child(2) a');
         $I->see('Details');
         $I->see('Comments');
     }
