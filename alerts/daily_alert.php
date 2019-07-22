@@ -25,6 +25,8 @@
 ** =============================================================================
 */
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 use phpCollab\Alerts\DailyAlerts;
 
 $app_root = dirname(dirname(__FILE__));
@@ -32,6 +34,16 @@ $app_root = dirname(dirname(__FILE__));
 // Includes
 require $app_root . '/vendor/autoload.php';
 require_once $app_root . "/includes/settings.php";
+
+try {
+    $stream = new StreamHandler($app_root . '/logs/phpcollab.log', Logger::DEBUG);
+} catch (Exception $e) {
+}
+
+$dailyAlertLogger = new Logger('security');
+$dailyAlertLogger->pushHandler($stream);
+
+$dailyAlertLogger->info('cron job started');
 
 
 if (!isset($langDefault) || ($langDefault == '')) {
@@ -43,12 +55,13 @@ include $app_root . '/languages/lang_' . $langDefault . '.php';
 // Check if emailAlerts is set to true
 if ($emailAlerts === false) {
     // Return false
+    $dailyAlertLogger->warn('emailAlerts is disabled');
     exit(1);
 }
 
 // Check that database vars are set
 if (!defined('MYSERVER') || !defined('MYLOGIN') || !defined('MYPASSWORD') || !defined('MYDATABASE')) {
-    echo($strings['error_server']);
+    $dailyAlertLogger->error($strings['error_server']);
     exit(1);
 }
 
@@ -60,11 +73,12 @@ try {
     $alert->setSubtasksTable($tableCollab['subtasks']);
     $alert->setProjectsTable($tableCollab['projects']);
     $alert->sendEmail($langDefault);
+
 } catch (Exception $e) {
-    // handle exception
-    echo($e->getMessage());
+    $dailyAlertLogger->error($e->getMessage());
     exit(1);
 }
 
 // Return successfully
+$dailyAlertLogger->info('cron job completed');
 exit(0);
