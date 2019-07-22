@@ -198,7 +198,7 @@ CREATE TABLE {$dbTablePrefix}members (
   id $db_mediumint_auto[$databaseType],
   organization $db_mediumint[$databaseType],
   login $db_varchar155[$databaseType],
-  password $db_varchar155[$databaseType],
+  password $db_varchar255[$databaseType],
   name $db_varchar155[$databaseType],
   title $db_varchar155[$databaseType],
   email_work $db_varchar155[$databaseType],
