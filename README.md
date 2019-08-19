@@ -8,7 +8,7 @@ We recommend reading the following documentation in order to plan and execute a 
 <!--* [Getting Started](planning/Getting-Started.html)-->
 * [Installation Requirements](planning/Installation-Requirements.html)
 * [Installation](installation/Installation.html)
-* [Upgrade[(installation/Upgrade.html)
+* [Upgrade](installation/upgrade.html)
 * [Mailing List](help/mailing-lists.html)
 
 ## Contribute
