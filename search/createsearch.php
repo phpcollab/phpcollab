@@ -46,8 +46,8 @@ if ($action == "search") {
 
 $setTitle .= " : Search";
 
-$bodyCommand = "onLoad=\"document.searchForm.searchfor.focus()\"";
-include '../themes/' . THEME . '/header.php';
+$bodyCommand = 'onLoad="document.searchForm.searchfor.focus()"';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -65,7 +65,7 @@ $block1 = new phpCollab\Block();
 $block1->form = "search";
 $block1->openForm("../search/createsearch.php?action=search");
 
-if ($error != "") {
+if (!empty($error)) {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
 }
@@ -75,30 +75,33 @@ $block1->heading($strings["search"]);
 $block1->openContent();
 $block1->contentTitle($strings["enter_keywords"]);
 
-echo "
-<tr class='odd'>
-	<td valign='top' class='leftvalue'>* " . $strings["search_for"] . " :</td>
+echo <<<HTML
+<tr class="odd">
+	<td class="leftvalue">* {$strings["search_for"] } :</td>
 	<td>
-		<input value='' type='text' name='searchfor' style='width: 200px;' size='30' maxlength='64' />
-		<select name='heading'>
-				<option selected value='ALL'>" . $strings["all_content"] . "</option>
-				<option value='notes'>" . $strings["notes"] . "</option>
-				<option value='organizations'>" . $strings["organizations"] . "</option>
-				<option value='projects'>" . $strings["projects"] . "</option>
-				<option value='tasks'>" . $strings["tasks"] . "</option>
-				<option value='subtasks'>" . $strings["subtasks"] . "</option>
-				<option value='discussions'>" . $strings["discussions"] . "</option>
-				<option value='members'>" . $strings["users"] . "</option>
+		<input value="" type="text" name="searchfor" style="width: 200px;" size="30" maxlength="64" />
+		<select name="heading">
+				<option selected value="ALL">{$strings["all_content"] }</option>
+				<option value="notes">{$strings["notes"] }</option>
+				<option value="organizations">{$strings["organizations"] }</option>
+				<option value="projects">{$strings["projects"] }</option>
+				<option value="tasks">{$strings["tasks"] }</option>
+				<option value="subtasks">{$strings["subtasks"] }</option>
+				<option value="discussions">{$strings["discussions"] }</option>
+				<option value="members">{$strings["users"] }</option>
 		</select>
 	</td>
 </tr>
-<tr class='odd'>
-	<td valign='top' class='leftvalue'>&nbsp;</td>
-	<td><input type='submit' name='Save' value='" . $strings["search"] . "' /></td>
-</tr>";
+<tr class="odd">
+	<td class="leftvalue">&nbsp;</td>
+	<td><input type="submit" name="Save" value="{$strings["search"] }" /></td>
+</tr>
+HTML;
+
+
 
 $block1->closeContent();
 $block1->closeForm();
 
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
