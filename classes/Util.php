@@ -25,6 +25,7 @@ class Util
     protected static $ftpRoot;
     protected static $byteUnits;
     protected static $databaseType;
+    protected static $gmtTimezone;
 
     /**
      * Util constructor.
@@ -39,6 +40,7 @@ class Util
         self::$ftpRoot = $GLOBALS["ftpRoot"];
         self::$byteUnits = $GLOBALS["byteUnits"];
         self::$databaseType = $GLOBALS["databaseType"];
+        self::$gmtTimezone = $GLOBALS["gmtTimezone"];
     }
 
     /**
@@ -621,9 +623,7 @@ class Util
      */
     public static function createDate($storedDate, $gmtUser)
     {
-        global $gmtTimezone;
-
-        if ($gmtTimezone == "true") {
+        if (self::$gmtTimezone == "true") {
             if ($storedDate != "") {
                 $extractHour = substr("$storedDate", 11, 2);
                 $extractMinute = substr("$storedDate", 14, 2);
