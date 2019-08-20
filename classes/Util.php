@@ -433,6 +433,7 @@ class Util
             try {
                 mkdir("../$path", 0755);
                 chmod("../$path", 0777);
+                return true;
             } catch (Exception $e) {
                 return $e->getMessage();
             }
@@ -452,10 +453,10 @@ class Util
             $all = opendir($location);
             while ($file = readdir($all)) {
                 if (is_dir("$location/$file") && $file != ".." && $file != ".") {
-                    \Util::deleteDirectory("$location/$file");
+                    self::deleteDirectory("$location/$file");
                     if (file_exists("$location/$file")) {
                         try {
-                            rmdir("$location/$file");
+                            return rmdir("$location/$file");
                         } catch (Exception $e) {
                             return $e->getMessage();
                         }
@@ -465,7 +466,7 @@ class Util
                     if (!is_dir("$location/$file")) {
                         if (file_exists("$location/$file")) {
                             try {
-                                unlink("$location/$file");
+                                return unlink("$location/$file");
                             } catch (Exception $e) {
                                 return $e->getMessage();
                             }
@@ -476,14 +477,14 @@ class Util
             }
             closedir($all);
             try {
-                rmdir($location);
+                return rmdir($location);
             } catch (Exception $e) {
                 return $e->getMessage();
             }
         } else {
             if (file_exists("$location")) {
                 try {
-                    unlink("$location");
+                    return unlink("$location");
                 } catch (Exception $e) {
                     return $e->getMessage();
                 }
@@ -512,6 +513,7 @@ class Util
                         } else {
                             $result += filesize("$path$file");
                         }
+                        return $result;
                     } catch (Exception $e) {
                         return $e->getMessage();
                     }
@@ -724,6 +726,7 @@ class Util
             try {
                 mysqli_free_result($index);
                 mysqli_close($res);
+                return true;
             } catch (Exception $e) {
                 return $e->getMessage();
             }
@@ -739,6 +742,7 @@ class Util
             try {
                 pg_free_result($index);
                 pg_close($res);
+                return true;
             } catch (Exception $e) {
                 return $e->getMessage();
             }
@@ -766,6 +770,7 @@ class Util
             try {
                 mssql_free_result($index);
                 mssql_close($res);
+                return true;
             } catch (Exception $e) {
                 return $e->getMessage();
             }
