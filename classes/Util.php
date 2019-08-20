@@ -418,17 +418,21 @@ class Util
      * @param string $path Path to the new directory
      * @access public
      *
-     * @return string
+     * @return mixed
      */
     public static function createDirectory($path)
     {
         if (self::$mkdirMethod == "FTP") {
-            $pathNew = self::$ftpRoot . "/" . $path;
-
-            $ftp = ftp_connect(FTPSERVER);
-            ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
-            ftp_mkdir($ftp, $pathNew);
-            ftp_quit($ftp);
+            try {
+                $pathNew = self::$ftpRoot . "/" . $path;
+                $ftp = ftp_connect(FTPSERVER);
+                ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
+                ftp_mkdir($ftp, $pathNew);
+                ftp_quit($ftp);
+                return true;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
         }
 
         if (self::$mkdirMethod == "PHP") {
@@ -447,7 +451,7 @@ class Util
      * @param string $location Path of directory to delete
      * @access public
      *
-     * @return string
+     * @return mixed
      */
     public static function deleteDirectory($location)
     {
@@ -774,6 +778,7 @@ class Util
                 return $e->getMessage();
             }
         }
+        return false;
     }
 
     /**
@@ -796,7 +801,7 @@ class Util
     {
         $prj_name = $projectDetail['pro_name'];
 
-        preg_match("/\[([0-9 ]*\/[0-9 ]*)\]/", $prj_name, $findit);
+        preg_match("/\[([0-9 ]*/[0-9 ]*)]/", $prj_name, $findit);
 
         if ($findit[1] != "") {
             $prj_id = $projectDetail['pro_id'];
@@ -814,7 +819,7 @@ class Util
                 }
             }
 
-            $prj_name = preg_replace("/\[[0-9 ]*\/[0-9 ]*\]/", "[ $tasksCompleted / $tasksNumb ]", $prj_name);
+            $prj_name = preg_replace("/\[[0-9 ]*/[0-9 ]*]/", "[ $tasksCompleted / $tasksNumb ]", $prj_name);
             $tmpquery5 = "UPDATE {$tableProject} SET name=:project_name WHERE id = :project_id";
 
             $dbParams = [];
