@@ -253,11 +253,7 @@ class Util
             $sr = ldap_search($conn, self::$configLDAP[searchroot], "uid=$formUsername");
             $info = ldap_get_entries($conn, $sr);
             $user_dn = $info[0]["dn"];
-            if (!$bind = @ldap_bind($conn, $user_dn, $formPassword)) {
-                return false;
-            } else {
-                return true;
-            }
+            return !@ldap_bind($conn, $user_dn, $formPassword) ? false : true;
         } else {
             return self::passwordMatch($formUsername, $formPassword, $storedPassword, $loginMethod);
         }
