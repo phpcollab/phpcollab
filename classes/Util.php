@@ -26,6 +26,7 @@ class Util
     protected static $byteUnits;
     protected static $databaseType;
     protected static $gmtTimezone;
+    protected static $lastId;
 
     /**
      * Util constructor.
@@ -41,6 +42,7 @@ class Util
         self::$byteUnits = $GLOBALS["byteUnits"];
         self::$databaseType = $GLOBALS["databaseType"];
         self::$gmtTimezone = $GLOBALS["gmtTimezone"];
+        self::$lastId = $GLOBALS["lastId"];
     }
 
     /**
@@ -705,15 +707,12 @@ class Util
      */
     public static function getLastId($tmpsql)
     {
-        global $lastId;
-
         if (self::$databaseType == "mysql") {
             try {
                 $res = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
             } catch (Exception $e) {
                 throw new \Exception(self::$strings["error_server"]);
             }
-
 
             try {
                 $selectedDb = mysqli_select_db($res, MYDATABASE);
@@ -723,8 +722,9 @@ class Util
 
             $sql = "SELECT id FROM $tmpsql ORDER BY id DESC";
             $index = mysqli_query($res, $sql);
+
             while ($row = mysqli_fetch_row($index)) {
-                $lastId[] = ($row[0]);
+                self::$lastId[] = ($row[0]);
             }
             try {
                 mysqli_free_result($index);
@@ -736,11 +736,11 @@ class Util
         }
         if (self::$databaseType == "postgresql") {
             $res = pg_connect("host=" . MYSERVER . " port=5432 dbname=" . MYDATABASE . " user=" . MYLOGIN . " password=" . MYPASSWORD);
-            global $lastId;
+
             $sql = "SELECT id FROM $tmpsql ORDER BY id DESC";
             $index = pg_query($res, $sql);
             while ($row = pg_fetch_row($index)) {
-                $lastId[] = ($row[0]);
+                self::$lastId[] = ($row[0]);
             }
             try {
                 pg_free_result($index);
@@ -750,9 +750,8 @@ class Util
                 return $e->getMessage();
             }
         }
-        if (self::$databaseType == "sqlserver") {
-            global $lastId;
 
+        if (self::$databaseType == "sqlserver") {
             try {
                 $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
             } catch (Exception $e) {
@@ -768,7 +767,7 @@ class Util
             $sql = "SELECT id FROM $tmpsql ORDER BY id DESC";
             $index = mssql_query($sql, $res);
             while ($row = mssql_fetch_row($index)) {
-                $lastId[] = ($row[0]);
+                self::$lastId[] = ($row[0]);
             }
             try {
                 mssql_free_result($index);
