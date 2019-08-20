@@ -247,7 +247,7 @@ class Util
     {
         if (self::$useLDAP == "true") {
             if ($formUsername == "admin") {
-                return self::passwordMatch($formUsername, $formPassword, $storedPassword, $loginMethod);
+                return self::passwordMatch($formPassword, $storedPassword, $loginMethod);
             }
             $conn = ldap_connect(self::$configLDAP[ldapserver]);
             $sr = ldap_search($conn, self::$configLDAP[searchroot], "uid=$formUsername");
@@ -255,7 +255,7 @@ class Util
             $user_dn = $info[0]["dn"];
             return !@ldap_bind($conn, $user_dn, $formPassword) ? false : true;
         } else {
-            return self::passwordMatch($formUsername, $formPassword, $storedPassword, $loginMethod);
+            return self::passwordMatch($formPassword, $storedPassword, $loginMethod);
         }
     }
 
