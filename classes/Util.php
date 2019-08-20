@@ -552,11 +552,11 @@ class Util
      */
     public static function fileInfoSize($file)
     {
-        global $taille;
+        global $fileSize;
 
-        $taille = filesize($file);
+        $fileSize = filesize($file);
 
-        return $taille;
+        return $fileSize;
     }
 
     /**
