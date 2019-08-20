@@ -24,6 +24,7 @@ class Util
     protected static $mkdirMethod;
     protected static $ftpRoot;
     protected static $byteUnits;
+    protected static $databaseType;
 
     /**
      * Util constructor.
@@ -37,6 +38,7 @@ class Util
         self::$mkdirMethod = $GLOBALS["mkdirMethod"];
         self::$ftpRoot = $GLOBALS["ftpRoot"];
         self::$byteUnits = $GLOBALS["byteUnits"];
+        self::$databaseType = $GLOBALS["databaseType"];
     }
 
     /**
@@ -642,9 +644,7 @@ class Util
      */
     public static function convertData($data)
     {
-        global $databaseType;
-
-        if ($databaseType == "sqlserver") {
+        if (self::$databaseType == "sqlserver") {
             $data = str_replace('"', '&quot;', $data);
             $data = str_replace("'", '&#39;', $data);
             $data = str_replace('<', '&lt;', $data);
@@ -701,10 +701,9 @@ class Util
      */
     public static function getLastId($tmpsql)
     {
-        global $tableCollab, $databaseType;
         global $lastId;
 
-        if ($databaseType == "mysql") {
+        if (self::$databaseType == "mysql") {
             try {
                 $res = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
             } catch (Exception $e) {
@@ -731,7 +730,7 @@ class Util
                 return $e->getMessage();
             }
         }
-        if ($databaseType == "postgresql") {
+        if (self::$databaseType == "postgresql") {
             $res = pg_connect("host=" . MYSERVER . " port=5432 dbname=" . MYDATABASE . " user=" . MYLOGIN . " password=" . MYPASSWORD);
             global $lastId;
             $sql = "SELECT id FROM $tmpsql ORDER BY id DESC";
@@ -747,7 +746,7 @@ class Util
                 return $e->getMessage();
             }
         }
-        if ($databaseType == "sqlserver") {
+        if (self::$databaseType == "sqlserver") {
             global $lastId;
 
             try {
