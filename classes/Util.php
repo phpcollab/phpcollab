@@ -18,6 +18,15 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class Util
 {
     protected static $strings;
+    protected static $useLDAP;
+    protected static $configLDAP;
+    protected static $pass_g;
+    protected static $mkdirMethod;
+    protected static $ftpRoot;
+    protected static $byteUnits;
+    protected static $databaseType;
+    protected static $gmtTimezone;
+    protected static $lastId;
 
     /**
      * Util constructor.
@@ -25,6 +34,15 @@ class Util
     public function __construct()
     {
         self::$strings = $GLOBALS['strings'];
+        self::$useLDAP = $GLOBALS["useLDAP"];
+        self::$configLDAP = $GLOBALS["configLDAP"];
+        self::$pass_g = $GLOBALS["pass_g"];
+        self::$mkdirMethod = $GLOBALS["mkdirMethod"];
+        self::$ftpRoot = $GLOBALS["ftpRoot"];
+        self::$byteUnits = $GLOBALS["byteUnits"];
+        self::$databaseType = $GLOBALS["databaseType"];
+        self::$gmtTimezone = $GLOBALS["gmtTimezone"];
+        self::$lastId = $GLOBALS["lastId"];
     }
 
     /**
@@ -190,6 +208,38 @@ class Util
     }
 
     /**
+     * @param $formPassword
+     * @param $storedPassword
+     * @param string $loginMethod
+     * @return bool
+     */
+    public static function passwordMatch($formPassword, $storedPassword, $loginMethod = "crypt") {
+        switch ($loginMethod) {
+            case "md5":
+                if (md5($formPassword) == $storedPassword) {
+                    return true;
+                } else {
+                    return false;
+                }
+            case "crypt":
+                $salt = substr($storedPassword, 0, 2);
+                if (crypt($formPassword, $salt) == $storedPassword) {
+                    return true;
+                } else {
+                    return false;
+                }
+            case "plain":
+                if ($formPassword == $storedPassword) {
+                    return true;
+                } else {
+                    return false;
+                }
+            default:
+                return false;
+        }
+    }
+
+    /**
      * Checks for password match using the globally specified login method
      * @param string $formUsername User name to test
      * @param string $formPassword User name password to test
@@ -201,67 +251,21 @@ class Util
      */
     public static function doesPasswordMatch($formUsername, $formPassword, $storedPassword, $loginMethod = "crypt")
     {
-        global $useLDAP, $configLDAP;
-
-        if ($useLDAP == "true") {
+        if (self::$useLDAP == "true") {
             if ($formUsername == "admin") {
-                switch ($loginMethod) {
-                    case "md5":
-                        if (md5($formPassword) == $storedPassword) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    case "crypt":
-                        $salt = substr($storedPassword, 0, 2);
-                        if (crypt($formPassword, $salt) == $storedPassword) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    case "plain":
-                        if ($formPassword == $storedPassword) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-
-                        return false;
-                }
+                return self::passwordMatch($formPassword, $storedPassword, $loginMethod);
             }
-            $conn = ldap_connect($configLDAP[ldapserver]);
-            $sr = ldap_search($conn, $configLDAP[searchroot], "uid=$formUsername");
+            $conn = ldap_connect(self::$configLDAP[ldapserver]);
+            $sr = ldap_search($conn, self::$configLDAP[searchroot], "uid=$formUsername");
             $info = ldap_get_entries($conn, $sr);
             $user_dn = $info[0]["dn"];
-            if (!$bind = @ldap_bind($conn, $user_dn, $formPassword)) {
-                return false;
-            } else {
-                return true;
+            try {
+                return !ldap_bind($conn, $user_dn, $formPassword) ? false : true;
+            } catch (Exception $e) {
+                return $e->getMessage();
             }
         } else {
-            switch ($loginMethod) {
-                case "md5":
-                    if (md5($formPassword) == $storedPassword) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                case "crypt":
-                    $salt = substr($storedPassword, 0, 2);
-                    if (crypt($formPassword, $salt) == $storedPassword) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                case "plain":
-                    if ($formPassword == $storedPassword) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-
-                    return false;
-            }
+            return self::passwordMatch($formPassword, $storedPassword, $loginMethod);
         }
     }
 
@@ -289,19 +293,17 @@ class Util
 
     /**
      * Generate a random password
-     * @param string $size Size of geenrated password
+     * @param int $size Size of generated password
      * @param boolean $with_numbers Option to use numbers
      * @param boolean $with_tiny_letters Option to use tiny letters
      * @param boolean $with_capital_letters Option to use capital letters
+     * @return string
      * @access public
      *
-     * @return string
      */
     public static function passwordGenerator($size = 8, $with_numbers = true, $with_tiny_letters = true, $with_capital_letters = true)
     {
-        global $pass_g;
-
-        $pass_g = "";
+        self::$pass_g = "";
         $sizeof_lchar = 0;
         $letter = "";
         $letter_tiny = "abcdefghijklmnopqrstuvwxyz";
@@ -339,11 +341,11 @@ class Util
             srand((double)microtime() * date("YmdGis"));
             for ($cnt = 0; $cnt < $size; $cnt++) {
                 $char_select = rand(0, $sizeof_lchar - 1);
-                $pass_g .= $letter[$char_select];
+                self::$pass_g .= $letter[$char_select];
             }
         }
 
-        return $pass_g;
+        return self::$pass_g;
     }
 
     /**
@@ -354,12 +356,10 @@ class Util
      **/
     public static function moveFile($source, $dest)
     {
-        global $mkdirMethod, $ftpRoot;
-
-        if ($mkdirMethod == "FTP") {
+        if (self::$mkdirMethod == "FTP") {
             $ftp = ftp_connect(FTPSERVER);
             ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
-            ftp_rename($ftp, "$ftpRoot/$source", "$ftpRoot/$dest");
+            ftp_rename($ftp, self::$ftpRoot. "/" . $source, self::$ftpRoot . "/" . $dest);
             ftp_quit($ftp);
         } else {
             copy("../" . $source, "../" . $dest);
@@ -373,12 +373,10 @@ class Util
      **/
     public static function deleteFile($source)
     {
-        global $mkdirMethod, $ftpRoot;
-
-        if ($mkdirMethod == "FTP") {
+        if (self::$mkdirMethod == "FTP") {
             $ftp = ftp_connect(FTPSERVER);
             ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
-            ftp_delete($ftp, $ftpRoot . "/" . $source);
+            ftp_delete($ftp, self::$ftpRoot . "/" . $source);
             ftp_quit($ftp);
         } else {
             unlink("../" . $source);
@@ -394,9 +392,7 @@ class Util
      **/
     public static function uploadFile($path, $source, $dest)
     {
-        global $mkdirMethod, $ftpRoot;
-
-        $pathNew = $ftpRoot . "/" . $path;
+        $pathNew = self::$ftpRoot . "/" . $path;
 
         if (!file_exists($pathNew)) {
             # if there is no project dir first create it
@@ -410,7 +406,7 @@ class Util
         }
 
 
-        if ($mkdirMethod == "FTP") {
+        if (self::$mkdirMethod == "FTP") {
             $ftp = ftp_connect(FTPSERVER);
             ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
             ftp_chdir($ftp, $pathNew);
@@ -425,28 +421,32 @@ class Util
      * Folder creation
      * @param string $path Path to the new directory
      * @access public
-     **/
+     *
+     * @return mixed
+     */
     public static function createDirectory($path)
     {
-        global $mkdirMethod, $ftpRoot;
-
-        if ($mkdirMethod == "FTP") {
-            $pathNew = $ftpRoot . "/" . $path;
-
-            $ftp = ftp_connect(FTPSERVER);
-            ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
-
-            //if (!file_exists($pathNew))
-            //{
-            ftp_mkdir($ftp, $pathNew);
-            //}
-
-            ftp_quit($ftp);
+        if (self::$mkdirMethod == "FTP") {
+            try {
+                $pathNew = self::$ftpRoot . "/" . $path;
+                $ftp = ftp_connect(FTPSERVER);
+                ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
+                ftp_mkdir($ftp, $pathNew);
+                ftp_quit($ftp);
+                return true;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
         }
 
-        if ($mkdirMethod == "PHP") {
-            @mkdir("../$path", 0755);
-            @chmod("../$path", 0777);
+        if (self::$mkdirMethod == "PHP") {
+            try {
+                mkdir("../$path", 0755);
+                chmod("../$path", 0777);
+                return true;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
         }
     }
 
@@ -454,39 +454,57 @@ class Util
      * Folder recursive deletion
      * @param string $location Path of directory to delete
      * @access public
-     **/
+     *
+     * @return mixed
+     */
     public static function deleteDirectory($location)
     {
         if (is_dir($location)) {
             $all = opendir($location);
             while ($file = readdir($all)) {
                 if (is_dir("$location/$file") && $file != ".." && $file != ".") {
-                    \Util::deleteDirectory("$location/$file");
+                    self::deleteDirectory("$location/$file");
                     if (file_exists("$location/$file")) {
-                        @rmdir("$location/$file");
+                        try {
+                            return rmdir("$location/$file");
+                        } catch (Exception $e) {
+                            return $e->getMessage();
+                        }
                     }
                     unset($file);
                 } else {
                     if (!is_dir("$location/$file")) {
                         if (file_exists("$location/$file")) {
-                            @unlink("$location/$file");
+                            try {
+                                return unlink("$location/$file");
+                            } catch (Exception $e) {
+                                return $e->getMessage();
+                            }
                         }
                         unset($file);
                     }
                 }
             }
             closedir($all);
-            @rmdir($location);
+            try {
+                return rmdir($location);
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
         } else {
             if (file_exists("$location")) {
-                @unlink("$location");
+                try {
+                    return unlink("$location");
+                } catch (Exception $e) {
+                    return $e->getMessage();
+                }
             }
         }
     }
 
     /**
      * Return recursive folder size
-     * @param string $location Path of directory to calculate
+     * @param string $path Path of directory to calculate
      * @param boolean $recursive Option to use recursivity
      * @access public
      *
@@ -499,10 +517,15 @@ class Util
             $dir = opendir($path);
             while ($file = readdir($dir)) {
                 if ($file != "." && $file != "..") {
-                    if (@is_dir("$path$file/")) {
-                        $result += $recursive ? Util::folderInfoSize("$path$file/") : 0;
-                    } else {
-                        $result += filesize("$path$file");
+                    try {
+                        if (is_dir("$path$file/")) {
+                            $result += $recursive ? Util::folderInfoSize("$path$file/") : 0;
+                        } else {
+                            $result += filesize("$path$file");
+                        }
+                        return $result;
+                    } catch (Exception $e) {
+                        return $e->getMessage();
                     }
                 }
             }
@@ -522,18 +545,16 @@ class Util
      */
     public static function convertSize($result)
     {
-        global $byteUnits;
-
         if ($result >= 1073741824) {
-            $result = round($result / 1073741824 * 100) / 100 . " " . $byteUnits[3];
+            $result = round($result / 1073741824 * 100) / 100 . " " . self::$byteUnits[3];
         } else {
             if ($result >= 1048576) {
-                $result = round($result / 1048576 * 100) / 100 . " " . $byteUnits[2];
+                $result = round($result / 1048576 * 100) / 100 . " " . self::$byteUnits[2];
             } else {
                 if ($result >= 1024) {
-                    $result = round($result / 1024 * 100) / 100 . " " . $byteUnits[1];
+                    $result = round($result / 1024 * 100) / 100 . " " . self::$byteUnits[1];
                 } else {
-                    $result = $result . " " . $byteUnits[0];
+                    $result = $result . " " . self::$byteUnits[0];
                 }
             }
         }
@@ -547,49 +568,16 @@ class Util
 
     /**
      * Return file size
-     * @param string $fichier File used
+     * @param string $file File used
      * @access public
      *
      * @return int
      */
-    public static function fileInfoSize($fichier)
+    public static function fileInfoSize($file)
     {
-        global $taille;
+        $fileSize = filesize($file);
 
-        $taille = filesize($fichier);
-
-        return $taille;
-    }
-
-    /**
-     * Return file dimensions
-     * @param string $fichier File used
-     * @access public
-     **/
-    public static function getImageDimensions($fichier)
-    {
-        global $dim;
-
-        $temp = GetImageSize($fichier);
-        $dim = ($temp[0]) . "x" . ($temp[1]);
-
-        return $dim;
-    }
-
-    /**
-     * Return file date
-     * @param string $fichier File used
-     * @access public
-     *
-     * @return false|string
-     */
-    public static function getFileDate($file)
-    {
-        global $dateFile;
-
-        $dateFile = date("Y-m-d", filemtime($file));
-
-        return $dateFile;
+        return $fileSize;
     }
 
     /**
@@ -637,9 +625,7 @@ class Util
      */
     public static function createDate($storedDate, $gmtUser)
     {
-        global $gmtTimezone;
-
-        if ($gmtTimezone == "true") {
+        if (self::$gmtTimezone == "true") {
             if ($storedDate != "") {
                 $extractHour = substr("$storedDate", 11, 2);
                 $extractMinute = substr("$storedDate", 14, 2);
@@ -664,9 +650,7 @@ class Util
      */
     public static function convertData($data)
     {
-        global $databaseType;
-
-        if ($databaseType == "sqlserver") {
+        if (self::$databaseType == "sqlserver") {
             $data = str_replace('"', '&quot;', $data);
             $data = str_replace("'", '&#39;', $data);
             $data = str_replace('<', '&lt;', $data);
@@ -696,105 +680,6 @@ class Util
     /**
      * @param $tmpsql
      * @param $params
-     * @return int
-     */
-    public function newComputeTotal($tmpsql, $params)
-    {
-        $db = new \phpCollab\Database();
-
-        $db->query($tmpsql);
-
-        foreach ($params as $key => $param) {
-            $db->bind(':' . $key, $param);
-        }
-        return count($db->resultset());
-    }
-
-
-    /**
-     * Count total results from a request
-     * @param string $tmpsql Sql query
-     * @access public
-     *
-     * @return int
-     */
-    public static function computeTotal($tmpsql)
-    {
-        global $comptRequest, $databaseType;
-
-        $comptRequest = $comptRequest + 1;
-
-        if ($databaseType == "mysql") {
-            try {
-                $res = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
-            } catch (Exception $e) {
-                throw new \Exception(self::$strings["error_server"]);
-            }
-
-            try {
-                $selectedDb = mysqli_select_db($res, MYDATABASE);
-            } catch (Exception $e) {
-                throw new \Exception(self::$strings["error_database"]);
-            }
-
-            $sql = $tmpsql;
-            $index = mysqli_query($res, $sql);
-
-            while ($row = mysqli_fetch_row($index)) {
-                $countEnreg[] = ($row[0]);
-            }
-            $countEnregTotal = count($countEnreg);
-
-            @mysqli_free_result($index);
-            @mysqli_close($res);
-        }
-
-        if ($databaseType == "postgresql") {
-            $res = pg_connect("host=" . MYSERVER . " port=5432 dbname=" . MYDATABASE . " user=" . MYLOGIN . " password=" . MYPASSWORD);
-            $sql = "$tmpsql";
-            $index = pg_query($res, $sql);
-
-            while ($row = pg_fetch_row($index)) {
-                $countEnreg[] = ($row[0]);
-            }
-
-            $countEnregTotal = count($countEnreg);
-            @pg_free_result($index);
-            @pg_close($res);
-        }
-
-        if ($databaseType == "sqlserver") {
-            try {
-                $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
-            } catch (Exception $e) {
-                throw new \Exception(self::$strings["error_server"]);
-            }
-
-            try {
-                $selectedDb = mssql_select_db(MYDATABASE, $res);
-            } catch (Exception $e) {
-                throw new \Exception(self::$strings["error_database"]);
-            }
-
-            $sql = "$tmpsql";
-            $index = mssql_query($sql, $res);
-
-            while ($row = mssql_fetch_row($index)) {
-                $countEnreg[] = ($row[0]);
-            }
-
-            $countEnregTotal = count($countEnreg);
-            @mssql_free_result($index);
-            @mssql_close($res);
-        }
-
-        return $countEnregTotal;
-    }
-
-
-    /**
-     * @param $tmpsql
-     * @param $params
      * @return string
      * Makes a connection to the database and returns the last itemId
      */
@@ -813,79 +698,21 @@ class Util
         return $db->lastInsertId();
     }
 
-
-    /**
-     * Simple query
-     * @param string $tmpsql Sql query
-     * @access public
-     **/
-    public static function connectSql($tmpsql)
-    {
-        global $databaseType;
-
-        if ($databaseType == "mysql") {
-            try {
-                $link = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
-            } catch (Exception $e) {
-                throw new \Exception(self::$strings["error_server"]);
-            }
-
-            try {
-                $selectedDb = mysqli_select_db($link, MYDATABASE);
-            } catch (Exception $e) {
-                throw new \Exception(self::$strings["error_database"]);
-            }
-
-            $sql = $tmpsql;
-            $index = mysqli_query($link, $sql);
-            @mysqli_free_result($index);
-            @mysqli_close($link);
-        }
-        if ($databaseType == "postgresql") {
-            $res = pg_connect("host=" . MYSERVER . " port=5432 dbname=" . MYDATABASE . " user=" . MYLOGIN . " password=" . MYPASSWORD);
-            $sql = $tmpsql;
-            $index = pg_query($res, $sql);
-            @pg_free_result($index);
-            @pg_close($res);
-        }
-        if ($databaseType == "sqlserver") {
-            try {
-                $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
-            } catch (Exception $e) {
-                throw new \Exception(self::$strings["error_server"]);
-            }
-
-            try {
-                $selectedDb = mssql_select_db(MYDATABASE, $res);
-            } catch (Exception $e) {
-                throw new \Exception(self::$strings["error_database"]);
-            }
-
-            $sql = $tmpsql;
-            $index = mssql_query($sql, $res);
-            @mssql_free_result($index);
-            @mssql_close($res);
-        }
-
-    }
-
     /**
      * Return last id from any table
      * @param string $tmpsql Table name
+     * @return string
+     * @throws Exception
      * @access public
-     **/
+     */
     public static function getLastId($tmpsql)
     {
-        global $tableCollab, $databaseType;
-        global $lastId;
-
-        if ($databaseType == "mysql") {
+        if (self::$databaseType == "mysql") {
             try {
                 $res = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
             } catch (Exception $e) {
                 throw new \Exception(self::$strings["error_server"]);
             }
-
 
             try {
                 $selectedDb = mysqli_select_db($res, MYDATABASE);
@@ -895,26 +722,36 @@ class Util
 
             $sql = "SELECT id FROM $tmpsql ORDER BY id DESC";
             $index = mysqli_query($res, $sql);
+
             while ($row = mysqli_fetch_row($index)) {
-                $lastId[] = ($row[0]);
+                self::$lastId[] = ($row[0]);
             }
-            @mysqli_free_result($index);
-            @mysqli_close($res);
+            try {
+                mysqli_free_result($index);
+                mysqli_close($res);
+                return true;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
         }
-        if ($databaseType == "postgresql") {
+        if (self::$databaseType == "postgresql") {
             $res = pg_connect("host=" . MYSERVER . " port=5432 dbname=" . MYDATABASE . " user=" . MYLOGIN . " password=" . MYPASSWORD);
-            global $lastId;
+
             $sql = "SELECT id FROM $tmpsql ORDER BY id DESC";
             $index = pg_query($res, $sql);
             while ($row = pg_fetch_row($index)) {
-                $lastId[] = ($row[0]);
+                self::$lastId[] = ($row[0]);
             }
-            @pg_free_result($index);
-            @pg_close($res);
+            try {
+                pg_free_result($index);
+                pg_close($res);
+                return true;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
         }
-        if ($databaseType == "sqlserver") {
-            global $lastId;
 
+        if (self::$databaseType == "sqlserver") {
             try {
                 $res = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
             } catch (Exception $e) {
@@ -930,11 +767,17 @@ class Util
             $sql = "SELECT id FROM $tmpsql ORDER BY id DESC";
             $index = mssql_query($sql, $res);
             while ($row = mssql_fetch_row($index)) {
-                $lastId[] = ($row[0]);
+                self::$lastId[] = ($row[0]);
             }
-            @mssql_free_result($index);
-            @mssql_close($res);
+            try {
+                mssql_free_result($index);
+                mssql_close($res);
+                return true;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
         }
+        return false;
     }
 
     /**
@@ -957,7 +800,7 @@ class Util
     {
         $prj_name = $projectDetail['pro_name'];
 
-        preg_match("/\[([0-9 ]*\/[0-9 ]*)\]/", $prj_name, $findit);
+        preg_match("/\[([0-9 ]*/[0-9 ]*)]/", $prj_name, $findit);
 
         if ($findit[1] != "") {
             $prj_id = $projectDetail['pro_id'];
@@ -975,7 +818,7 @@ class Util
                 }
             }
 
-            $prj_name = preg_replace("/\[[0-9 ]*\/[0-9 ]*\]/", "[ $tasksCompleted / $tasksNumb ]", $prj_name);
+            $prj_name = preg_replace("/\[[0-9 ]*/[0-9 ]*]/", "[ $tasksCompleted / $tasksNumb ]", $prj_name);
             $tmpquery5 = "UPDATE {$tableProject} SET name=:project_name WHERE id = :project_id";
 
             $dbParams = [];
