@@ -22,6 +22,7 @@ $topics = new Topics();
 
 $setTitle .= " : Search Results";
 $bodyCommand = "onLoad=\"document.searchForm.searchfor.focus()\"";
+
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $searchFor = urldecode($searchFor);
@@ -30,9 +31,16 @@ $searchfor = strtolower($searchfor);
 $mots = explode(" ", $searchfor);
 $number_words = count($mots);
 
-$initrequest = $GLOBALS["initrequest"];
-
 $heading = $_GET["heading"];
+
+$selectedAll = null;
+$selectedNotes = null;
+$selectedOrganizations = null;
+$selectedProjects = null;
+$selectedTasks = null;
+$selectedSubtasks = null;
+$selectedDiscussions = null;
+$selectedMembers = null;
 
 if ($heading == "ALL") {
     $validNotes = "true";
