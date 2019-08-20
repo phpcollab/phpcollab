@@ -23,6 +23,7 @@ class Util
     protected static $pass_g;
     protected static $mkdirMethod;
     protected static $ftpRoot;
+    protected static $byteUnits;
 
     /**
      * Util constructor.
@@ -35,6 +36,7 @@ class Util
         self::$pass_g = $GLOBALS["pass_g"];
         self::$mkdirMethod = $GLOBALS["mkdirMethod"];
         self::$ftpRoot = $GLOBALS["ftpRoot"];
+        self::$byteUnits = $GLOBALS["byteUnits"];
     }
 
     /**
@@ -520,18 +522,16 @@ class Util
      */
     public static function convertSize($result)
     {
-        global $byteUnits;
-
         if ($result >= 1073741824) {
-            $result = round($result / 1073741824 * 100) / 100 . " " . $byteUnits[3];
+            $result = round($result / 1073741824 * 100) / 100 . " " . self::$byteUnits[3];
         } else {
             if ($result >= 1048576) {
-                $result = round($result / 1048576 * 100) / 100 . " " . $byteUnits[2];
+                $result = round($result / 1048576 * 100) / 100 . " " . self::$byteUnits[2];
             } else {
                 if ($result >= 1024) {
-                    $result = round($result / 1024 * 100) / 100 . " " . $byteUnits[1];
+                    $result = round($result / 1024 * 100) / 100 . " " . self::$byteUnits[1];
                 } else {
-                    $result = $result . " " . $byteUnits[0];
+                    $result = $result . " " . self::$byteUnits[0];
                 }
             }
         }
