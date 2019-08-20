@@ -545,30 +545,30 @@ class Util
 
     /**
      * Return file size
-     * @param string $fichier File used
+     * @param string $file File used
      * @access public
      *
      * @return int
      */
-    public static function fileInfoSize($fichier)
+    public static function fileInfoSize($file)
     {
         global $taille;
 
-        $taille = filesize($fichier);
+        $taille = filesize($file);
 
         return $taille;
     }
 
     /**
      * Return file dimensions
-     * @param string $fichier File used
+     * @param string $file File used
      * @access public
      **/
-    public static function getImageDimensions($fichier)
+    public static function getImageDimensions($file)
     {
         global $dim;
 
-        $temp = GetImageSize($fichier);
+        $temp = GetImageSize($file);
         $dim = ($temp[0]) . "x" . ($temp[1]);
 
         return $dim;
@@ -576,7 +576,7 @@ class Util
 
     /**
      * Return file date
-     * @param string $fichier File used
+     * @param string $file File used
      * @access public
      *
      * @return false|string
