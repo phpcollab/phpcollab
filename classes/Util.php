@@ -253,7 +253,11 @@ class Util
             $sr = ldap_search($conn, self::$configLDAP[searchroot], "uid=$formUsername");
             $info = ldap_get_entries($conn, $sr);
             $user_dn = $info[0]["dn"];
-            return !@ldap_bind($conn, $user_dn, $formPassword) ? false : true;
+            try {
+                return !ldap_bind($conn, $user_dn, $formPassword) ? false : true;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
         } else {
             return self::passwordMatch($formPassword, $storedPassword, $loginMethod);
         }
@@ -411,7 +415,9 @@ class Util
      * Folder creation
      * @param string $path Path to the new directory
      * @access public
-     **/
+     *
+     * @return string
+     */
     public static function createDirectory($path)
     {
         if (self::$mkdirMethod == "FTP") {
@@ -419,18 +425,17 @@ class Util
 
             $ftp = ftp_connect(FTPSERVER);
             ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
-
-            //if (!file_exists($pathNew))
-            //{
             ftp_mkdir($ftp, $pathNew);
-            //}
-
             ftp_quit($ftp);
         }
 
         if (self::$mkdirMethod == "PHP") {
-            @mkdir("../$path", 0755);
-            @chmod("../$path", 0777);
+            try {
+                mkdir("../$path", 0755);
+                chmod("../$path", 0777);
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
         }
     }
 
@@ -438,7 +443,9 @@ class Util
      * Folder recursive deletion
      * @param string $location Path of directory to delete
      * @access public
-     **/
+     *
+     * @return string
+     */
     public static function deleteDirectory($location)
     {
         if (is_dir($location)) {
@@ -447,23 +454,39 @@ class Util
                 if (is_dir("$location/$file") && $file != ".." && $file != ".") {
                     \Util::deleteDirectory("$location/$file");
                     if (file_exists("$location/$file")) {
-                        @rmdir("$location/$file");
+                        try {
+                            rmdir("$location/$file");
+                        } catch (Exception $e) {
+                            return $e->getMessage();
+                        }
                     }
                     unset($file);
                 } else {
                     if (!is_dir("$location/$file")) {
                         if (file_exists("$location/$file")) {
-                            @unlink("$location/$file");
+                            try {
+                                unlink("$location/$file");
+                            } catch (Exception $e) {
+                                return $e->getMessage();
+                            }
                         }
                         unset($file);
                     }
                 }
             }
             closedir($all);
-            @rmdir($location);
+            try {
+                rmdir($location);
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
         } else {
             if (file_exists("$location")) {
-                @unlink("$location");
+                try {
+                    unlink("$location");
+                } catch (Exception $e) {
+                    return $e->getMessage();
+                }
             }
         }
     }
@@ -483,10 +506,14 @@ class Util
             $dir = opendir($path);
             while ($file = readdir($dir)) {
                 if ($file != "." && $file != "..") {
-                    if (@is_dir("$path$file/")) {
-                        $result += $recursive ? Util::folderInfoSize("$path$file/") : 0;
-                    } else {
-                        $result += filesize("$path$file");
+                    try {
+                        if (is_dir("$path$file/")) {
+                            $result += $recursive ? Util::folderInfoSize("$path$file/") : 0;
+                        } else {
+                            $result += filesize("$path$file");
+                        }
+                    } catch (Exception $e) {
+                        return $e->getMessage();
                     }
                 }
             }
@@ -728,8 +755,12 @@ class Util
             }
             $countEnregTotal = count($countEnreg);
 
-            @mysqli_free_result($index);
-            @mysqli_close($res);
+            try {
+                mysqli_free_result($index);
+                mysqli_close($res);
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
         }
 
         if ($databaseType == "postgresql") {
@@ -742,8 +773,12 @@ class Util
             }
 
             $countEnregTotal = count($countEnreg);
-            @pg_free_result($index);
-            @pg_close($res);
+            try {
+                pg_free_result($index);
+                pg_close($res);
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
         }
 
         if ($databaseType == "sqlserver") {
@@ -767,8 +802,12 @@ class Util
             }
 
             $countEnregTotal = count($countEnreg);
-            @mssql_free_result($index);
-            @mssql_close($res);
+            try {
+                mssql_free_result($index);
+                mssql_close($res);
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
         }
 
         return $countEnregTotal;
@@ -802,6 +841,7 @@ class Util
      * @param string $tmpsql Sql query
      * @access public
      *
+     * @return string
      * @throws Exception
      */
     public static function connectSql($tmpsql)
@@ -823,15 +863,23 @@ class Util
 
             $sql = $tmpsql;
             $index = mysqli_query($link, $sql);
-            @mysqli_free_result($index);
-            @mysqli_close($link);
+            try {
+                mysqli_free_result($index);
+                mysqli_close($link);
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
         }
         if ($databaseType == "postgresql") {
             $res = pg_connect("host=" . MYSERVER . " port=5432 dbname=" . MYDATABASE . " user=" . MYLOGIN . " password=" . MYPASSWORD);
             $sql = $tmpsql;
             $index = pg_query($res, $sql);
-            @pg_free_result($index);
-            @pg_close($res);
+            try {
+                pg_free_result($index);
+                pg_close($res);
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
         }
         if ($databaseType == "sqlserver") {
             try {
@@ -848,8 +896,12 @@ class Util
 
             $sql = $tmpsql;
             $index = mssql_query($sql, $res);
-            @mssql_free_result($index);
-            @mssql_close($res);
+            try {
+                mssql_free_result($index);
+                mssql_close($res);
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
         }
 
     }
@@ -857,6 +909,7 @@ class Util
     /**
      * Return last id from any table
      * @param string $tmpsql Table name
+     * @return string
      * @throws Exception
      * @access public
      */
@@ -884,8 +937,12 @@ class Util
             while ($row = mysqli_fetch_row($index)) {
                 $lastId[] = ($row[0]);
             }
-            @mysqli_free_result($index);
-            @mysqli_close($res);
+            try {
+                mysqli_free_result($index);
+                mysqli_close($res);
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
         }
         if ($databaseType == "postgresql") {
             $res = pg_connect("host=" . MYSERVER . " port=5432 dbname=" . MYDATABASE . " user=" . MYLOGIN . " password=" . MYPASSWORD);
@@ -895,8 +952,12 @@ class Util
             while ($row = pg_fetch_row($index)) {
                 $lastId[] = ($row[0]);
             }
-            @pg_free_result($index);
-            @pg_close($res);
+            try {
+                pg_free_result($index);
+                pg_close($res);
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
         }
         if ($databaseType == "sqlserver") {
             global $lastId;
@@ -918,8 +979,12 @@ class Util
             while ($row = mssql_fetch_row($index)) {
                 $lastId[] = ($row[0]);
             }
-            @mssql_free_result($index);
-            @mssql_close($res);
+            try {
+                mssql_free_result($index);
+                mssql_close($res);
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
         }
     }
 
