@@ -202,6 +202,38 @@ class Util
     }
 
     /**
+     * @param $formPassword
+     * @param $storedPassword
+     * @param string $loginMethod
+     * @return bool
+     */
+    public static function passwordMatch($formPassword, $storedPassword, $loginMethod = "crypt") {
+        switch ($loginMethod) {
+            case "md5":
+                if (md5($formPassword) == $storedPassword) {
+                    return true;
+                } else {
+                    return false;
+                }
+            case "crypt":
+                $salt = substr($storedPassword, 0, 2);
+                if (crypt($formPassword, $salt) == $storedPassword) {
+                    return true;
+                } else {
+                    return false;
+                }
+            case "plain":
+                if ($formPassword == $storedPassword) {
+                    return true;
+                } else {
+                    return false;
+                }
+            default:
+                return false;
+        }
+    }
+
+    /**
      * Checks for password match using the globally specified login method
      * @param string $formUsername User name to test
      * @param string $formPassword User name password to test
@@ -215,29 +247,7 @@ class Util
     {
         if (self::$useLDAP == "true") {
             if ($formUsername == "admin") {
-                switch ($loginMethod) {
-                    case "md5":
-                        if (md5($formPassword) == $storedPassword) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    case "crypt":
-                        $salt = substr($storedPassword, 0, 2);
-                        if (crypt($formPassword, $salt) == $storedPassword) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    case "plain":
-                        if ($formPassword == $storedPassword) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-
-                        return false;
-                }
+                return self::passwordMatch($formUsername, $formPassword, $storedPassword, $loginMethod);
             }
             $conn = ldap_connect(self::$configLDAP[ldapserver]);
             $sr = ldap_search($conn, self::$configLDAP[searchroot], "uid=$formUsername");
@@ -249,29 +259,7 @@ class Util
                 return true;
             }
         } else {
-            switch ($loginMethod) {
-                case "md5":
-                    if (md5($formPassword) == $storedPassword) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                case "crypt":
-                    $salt = substr($storedPassword, 0, 2);
-                    if (crypt($formPassword, $salt) == $storedPassword) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                case "plain":
-                    if ($formPassword == $storedPassword) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-
-                    return false;
-            }
+            return self::passwordMatch($formUsername, $formPassword, $storedPassword, $loginMethod);
         }
     }
 
