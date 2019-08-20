@@ -552,8 +552,6 @@ class Util
      */
     public static function fileInfoSize($file)
     {
-        global $fileSize;
-
         $fileSize = filesize($file);
 
         return $fileSize;
