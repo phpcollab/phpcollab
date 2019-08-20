@@ -28,7 +28,7 @@ $searchFor = urldecode($searchFor);
 $searchfor = phpCollab\Util::convertData($searchfor);
 $searchfor = strtolower($searchfor);
 $mots = explode(" ", $searchfor);
-$nombre_mots = count($mots);
+$number_words = count($mots);
 
 $initrequest = $GLOBALS["initrequest"];
 
@@ -76,13 +76,13 @@ if ($heading == "members") {
 
 $searchProjects = "WHERE (pro.name like '%$mots[0]%'";
 $z = 1;
-while ($z < $nombre_mots) {
+while ($z < $number_words) {
     $searchProjects .= " OR pro.name like '%$mots[$z]%' ";
     $z++;
 }
 $searchProjects .= " OR pro.description like '%$mots[0]%'";
 $y = 1;
-while ($y < $nombre_mots) {
+while ($y < $number_words) {
     $searchProjects .= " OR pro.description like '%$mots[$y]%' ";
     $y++;
 }
@@ -90,7 +90,7 @@ while ($y < $nombre_mots) {
 
 $searchProjects .= " OR org.name like '%$mots[0]%'";
 $x = 1;
-while ($x < $nombre_mots) {
+while ($x < $number_words) {
     $searchProjects .= " OR org.name like '%$mots[$x]%' ";
     $x++;
 }
@@ -98,13 +98,13 @@ $searchProjects .= ")";
 
 $searchTasks = "WHERE (tas.name like '%$mots[0]%'";
 $z = 1;
-while ($z < $nombre_mots) {
+while ($z < $number_words) {
     $searchTasks .= " OR tas.name like '%$mots[$z]%' ";
     $z++;
 }
 $searchTasks .= " OR tas.description like '%$mots[0]%'";
 $y = 1;
-while ($y < $nombre_mots) {
+while ($y < $number_words) {
     $searchTasks .= " OR tas.description like '%$mots[$y]%' ";
     $y++;
 }
@@ -112,33 +112,33 @@ $searchTasks .= ")";
 
 $searchSubtasks = "WHERE (subtas.name like '%$mots[0]%'";
 $z = 1;
-while ($z < $nombre_mots) {
+while ($z < $number_words) {
     $searchSubtasks .= " OR subtas.name like '%$mots[$z]%' ";
     $z++;
 }
 $searchSubtasks .= " OR subtas.description like '%$mots[0]%'";
 $y = 1;
-while ($y < $nombre_mots) {
+while ($y < $number_words) {
     $searchSubtasks .= " OR subtas.description like '%$mots[$y]%' ";
     $y++;
 }
 $searchSubtasks .= ")";
 $searchMembers = "WHERE (mem.login like '%$mots[0]%'";
 $z = 1;
-while ($z < $nombre_mots) {
+while ($z < $number_words) {
     $searchMembers .= " OR mem.login like '%$mots[$z]%' ";
     $z++;
 }
 $searchMembers .= " OR mem.name like '%$mots[0]%'";
 $y = 1;
-while ($y < $nombre_mots) {
+while ($y < $number_words) {
     $searchMembers .= " OR mem.name like '%$mots[$y]%' ";
     $y++;
 }
 
 $searchOrganizations = "WHERE (org.name like '%$mots[0]%'";
 $z = 1;
-while ($z < $nombre_mots) {
+while ($z < $number_words) {
     $searchOrganizations .= " OR org.name like '%$mots[$z]%' ";
     $z++;
 }
@@ -146,20 +146,20 @@ $searchOrganizations .= ")";
 
 $searchTopics = "WHERE topic.subject like '%$mots[0]%'";
 $z = 1;
-while ($z < $nombre_mots) {
+while ($z < $number_words) {
     $searchTopics .= " OR topic.subject like '%$mots[$z]%' ";
     $z++;
 }
 
 $searchNotes = "WHERE note.subject like '%$mots[0]%'";
 $z = 1;
-while ($z < $nombre_mots) {
+while ($z < $number_words) {
     $searchNotes .= " OR note.subject like '%$mots[$z]%' ";
     $z++;
 }
 $searchNotes .= " OR note.description like '%$mots[0]%'";
 $y = 1;
-while ($y < $nombre_mots) {
+while ($y < $number_words) {
     $searchNotes .= " OR note.description like '%$mots[$y]%' ";
     $y++;
 }
