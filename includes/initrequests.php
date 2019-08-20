@@ -3,7 +3,7 @@
 #Status page: 2
 #Path by root: ../includes/initrequests.php
 
-global $tableCollab;
+$tableCollab = $GLOBALS["tableCollab"];
 
 $initrequest["sorting"] = "SELECT *
 FROM {$tableCollab["sorting"]} sor
