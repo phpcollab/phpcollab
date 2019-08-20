@@ -486,7 +486,7 @@ class Util
 
     /**
      * Return recursive folder size
-     * @param string $location Path of directory to calculate
+     * @param string $path Path of directory to calculate
      * @param boolean $recursive Option to use recursivity
      * @access public
      *
@@ -561,7 +561,9 @@ class Util
      * Return file dimensions
      * @param string $file File used
      * @access public
-     **/
+     *
+     * @return string
+     */
     public static function getImageDimensions($file)
     {
         global $dim;
@@ -713,6 +715,7 @@ class Util
      * @access public
      *
      * @return int
+     * @throws Exception
      */
     public static function computeTotal($tmpsql)
     {
@@ -814,7 +817,9 @@ class Util
      * Simple query
      * @param string $tmpsql Sql query
      * @access public
-     **/
+     *
+     * @throws Exception
+     */
     public static function connectSql($tmpsql)
     {
         global $databaseType;
@@ -868,8 +873,9 @@ class Util
     /**
      * Return last id from any table
      * @param string $tmpsql Table name
+     * @throws Exception
      * @access public
-     **/
+     */
     public static function getLastId($tmpsql)
     {
         global $tableCollab, $databaseType;
