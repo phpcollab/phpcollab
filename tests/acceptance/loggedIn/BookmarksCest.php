@@ -88,12 +88,18 @@ class BookmarksCest
     }
 
     /**
-     * @skip
      * @param AcceptanceTester $I
      */
     public function createBookmark(AcceptanceTester $I)
     {
         $I->wantTo('Create a new bookmark');
+        $I->amOnPage('/bookmarks/editbookmark.php');
+        $I->seeInTitle('Add Bookmark');
+        $I->seeElement('form', ['name' => 'booForm']);
+        $I->fillField('name', 'Codeception');
+        $I->fillField('url', 'www.codeception.com');
+        $I->click('Save');
+        $I->see('Success : Addition succeeded');
     }
 
     /**
