@@ -103,6 +103,22 @@ class BookmarksCest
     }
 
     /**
+     * @param AcceptanceTester $I
+     */
+    public function createBookmarkWithDescription(AcceptanceTester $I)
+    {
+        $I->wantTo('Create a new bookmark with a description');
+        $I->amOnPage('/bookmarks/editbookmark.php');
+        $I->seeInTitle('Add Bookmark');
+        $I->seeElement('form', ['name' => 'booForm']);
+        $I->fillField('name', 'Codeception');
+        $I->fillField('url', 'www.codeception.com');
+        $I->fillField('form textarea[name=description]', 'This is a bookmark description');
+        $I->click('Save');
+        $I->see('Success : Addition succeeded');
+    }
+
+    /**
      * @skip
      * @param AcceptanceTester $I
      */
