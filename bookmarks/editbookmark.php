@@ -1,13 +1,12 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 30/05/2005
 ** Path by root: ../bookmarks/editbookmark.php
-** Authors: Ceam / Fullo
+** Authors: Jeff Sittler / mindblender
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment
+**               phpCollab - Project Management
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -17,84 +16,95 @@
 **
 ** DESC: Screen: modify/add bookmark in db
 **
-** HISTORY:
-** 	2003-10-23	-	added new document info
-**  30/05/2005	-	fix for [ 1211360 ] Fix for ' character in category
-** -----------------------------------------------------------------------------
-** TO-DO:
-**	move to the template system
-**
 ** =============================================================================
 */
+
+use phpCollab\Bookmarks\Bookmarks;
+use phpCollab\Members\Members;
+use phpCollab\Util;
 
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$bookmark = new \phpCollab\Bookmarks\Bookmarks();
-$member = new \phpCollab\Members\Members();
+$bookmark = new Bookmarks();
+$member = new Members();
 
-if ($id != "") {
-    $bookmarkId = filter_var((int) $id, FILTER_VALIDATE_INT);
-    $bookmarkDetail = $bookmark->getBookmarkById($id);
-}
+$name = "";
+$url = "";
+$description = "";
+$category_new = "";
 
-//case update bookmark entry
-if ($id != "") {
-    //case update bookmark entry
-    if ($action == "update") {
-        if ($piecesNew != "") {
-            $users = "|" . implode("|", $piecesNew) . "|";
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (empty($_POST["name"]) && empty($_POST["url"])) {
+        $error = "Please enter a name and URL";
+    } else if (empty($_POST["name"])) {
+        $error = "Please enter a name for the bookmark";
+    } else if (empty($_POST["url"])) {
+        $error = "Please enter a URL for the bookmark";
+    } else {
+        if ($_POST["piecesNew"] != "") {
+            $users = "|" . implode("|", $_POST["piecesNew"]) . "|";
         }
-
-        /**
-         * Below does:
-         * checks to see if the "new category" exists
-         * If it doesn't, then it inserts it.
-         * Otherwise it adds it to the $category
-         */
-        if ($category_new != "") {
-            $category = $bookmark->getBookmarkCategoryByName($category_new);
+        if ($_POST["category_new"] != "") {
+            /**
+             * Check to see if the category exists
+             */
+            $category = $bookmark->getBookmarkCategoryByName($_POST["category_new"]);
 
             /**
              * If category is false, hence it doesn't exist, then add it
              */
             if (!$category) {
-                $category = $bookmark->addNewBookmarkCategory(phpCollab\Util::convertData($category_new));
+                $category = $bookmark->addNewBookmarkCategory(phpCollab\Util::convertData($_POST["category_new"]));
             } else {
                 $category = $category["boocat_id"];
             }
         }
 
-        if ($shared == "" || $users != "") {
+        if ($_POST["shared"] == "" || $users != "") {
             $shared = "0";
         }
-        if ($home == "") {
+        if ($_POST["home"] == "") {
             $home = "0";
         }
-        if ($comments == "") {
+        if ($_POST["comments"] == "") {
             $comments = "0";
         }
 
         /**
          * Validate form data
          */
-
         $filteredData =  [];
-        $filteredData['id'] = filter_var((int) $id, FILTER_VALIDATE_INT);
-        $filteredData['url'] = filter_var((string) \phpCollab\Util::addHttp($_POST['url']), FILTER_SANITIZE_URL);
-        $filteredData['name'] = filter_var((string) phpCollab\Util::convertData($_POST['name']), FILTER_SANITIZE_STRING);
-        $filteredData['description'] = filter_var((string) phpCollab\Util::convertData($_POST['description']), FILTER_SANITIZE_STRING);
-        $filteredData['comments'] = filter_var(phpCollab\Util::convertData($comments), FILTER_SANITIZE_STRING);
-        $filteredData['modified'] = $dateheure;
+        $filteredData['url'] = filter_var((string) Util::addHttp($_POST['url']), FILTER_SANITIZE_URL);
+        $filteredData['name'] = filter_var((string) Util::convertData($_POST['name']), FILTER_SANITIZE_STRING);
+        $filteredData['description'] = filter_var((string) Util::convertData($_POST['description']), FILTER_SANITIZE_STRING);
+        $filteredData['comments'] = filter_var(Util::convertData($comments), FILTER_SANITIZE_STRING);
+        $filteredData['timestamp'] = $dateheure;
         $filteredData['category'] = filter_var((int) $category, FILTER_VALIDATE_INT);
         $filteredData['shared'] = filter_var((int) $shared, FILTER_VALIDATE_INT);
         $filteredData['home'] = filter_var((int) $home, FILTER_VALIDATE_INT);
         $filteredData['users'] = $users;
+    }
 
+    if ($_GET["action"] == "update") {
+        $filteredData['id'] = filter_var((int) $id, FILTER_VALIDATE_INT);
         $updateBookmark = $bookmark->updateBookmark($filteredData);
-
         phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=update");
     }
+
+    if ($_GET["action"] == "add") {
+        $filteredData['owner_id'] = filter_var((int) $idSession, FILTER_VALIDATE_INT);
+        $addBookmark = $bookmark->addBookmark($filteredData);
+
+        phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=add");
+    }
+}
+
+
+if (!empty($_GET["id"])) {
+    $bookmarkId = filter_var((int) $id, FILTER_VALIDATE_INT);
+    $bookmarkDetail = $bookmark->getBookmarkById($id);
 
     //set value in form
     $name = $bookmarkDetail['boo_name'];
@@ -115,66 +125,13 @@ if ($id != "") {
     }
 
     $setTitle .= " : Edit Bookmark ($name)";
-}
 
-//case add note entry
-if ($id == "") {
+} else {
     $checkedShared = "checked";
     $checkedComments = "checked";
 
     $setTitle .= " : Add Bookmark";
-    //case add note entry
-    if ($action == "add") {
-        if ($piecesNew != "") {
-            $users = "|" . implode("|", $piecesNew) . "|";
-        }
-        if ($category_new != "") {
-            /**
-             * Check to see if the category exists
-             */
-            $category = $bookmark->getBookmarkCategoryByName($category_new);
 
-            /**
-             * If category is false, hence it doesn't exist, then add it
-             */
-            if (!$category) {
-                $category = $bookmark->addNewBookmarkCategory(phpCollab\Util::convertData($category_new));
-            } else {
-                $category = $category["boocat_id"];
-            }
-        }
-
-
-        if ($shared == "" || $users != "") {
-            $shared = "0";
-        }
-        if ($home == "") {
-            $home = "0";
-        }
-        if ($comments == "") {
-            $comments = "0";
-        }
-
-        /**
-         * Validate form data
-         */
-
-        $filteredData =  [];
-        $filteredData['owner_id'] = filter_var((int) $idSession, FILTER_VALIDATE_INT);
-        $filteredData['url'] = filter_var((string) \phpCollab\Util::addHttp($_POST['url']), FILTER_SANITIZE_URL);
-        $filteredData['name'] = filter_var((string) phpCollab\Util::convertData($_POST['name']), FILTER_SANITIZE_STRING);
-        $filteredData['description'] = filter_var((string) phpCollab\Util::convertData($_POST['description']), FILTER_SANITIZE_STRING);
-        $filteredData['comments'] = filter_var(phpCollab\Util::convertData($comments), FILTER_SANITIZE_STRING);
-        $filteredData['created'] = $dateheure;
-        $filteredData['category'] = filter_var((int) $category, FILTER_VALIDATE_INT);
-        $filteredData['shared'] = filter_var((int) $shared, FILTER_VALIDATE_INT);
-        $filteredData['home'] = filter_var((int) $home, FILTER_VALIDATE_INT);
-        $filteredData['users'] = $users;
-
-        $addBookmark = $bookmark->addBookmark($filteredData);
-
-        phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=add");
-    }
 }
 
 $bodyCommand = 'onLoad="document.booForm.name.focus();"';
@@ -223,7 +180,7 @@ $block1->contentTitle($strings["details"]);
 
 echo <<<HTML
 <tr class="odd">
-    <td valign="top" class="leftvalue"> {$strings['bookmark_category']} :</td>
+    <td class="leftvalue"> {$strings['bookmark_category']} :</td>
     <td>
         <select name="category" style="width: 200px;">
             <option value="0">-</option>
@@ -241,40 +198,34 @@ echo <<<HTML
 </td>
 </tr>
 <tr class="odd">
-    <td valign="top" class="leftvalue">{$strings["bookmark_category_new"]} :</td>
+    <td class="leftvalue">{$strings["bookmark_category_new"]} :</td>
     <td><input size="44" value="{$category_new}" style="width: 400px" name="category_new" type="text"></td>
 </tr>
 <tr class="odd">
-    <td valign="top" class="leftvalue">{$strings["name"]} :</td>
+    <td class="leftvalue">{$strings["name"]} :</td>
     <td><input size="44" value="{$name}" style="width: 400px" name="name" type="text"></td>
 </tr>
 <tr class="odd">
-    <td valign="top" class="leftvalue">{$strings["url"]} :</td>
+    <td class="leftvalue">{$strings["url"]} :</td>
     <td><input size="44" value="{$url}" style="width: 400px" name="url" type="text"></td>
 </tr>
 <tr class="odd">
-    <td valign="top" class="leftvalue">{$strings["description"]} :</td>
+    <td class="leftvalue">{$strings["description"]} :</td>
     <td><textarea rows="10" style="width: 400px; height: 160px;" name="description" cols="47">{$description}</textarea></td>
 </tr>
 <tr class="odd">
-    <td valign="top" class="leftvalue">{$strings["shared"]} :</td>
+    <td class="leftvalue">{$strings["shared"]} :</td>
     <td><input size="32" value="1" name="shared" type="checkbox" {$checkedShared}></td>
 </tr>
 <tr class="odd">
-    <td valign="top" class="leftvalue">{$strings["home"]} :</td>
+    <td class="leftvalue">{$strings["home"]} :</td>
     <td><input size="32" value="1" name="home" type="checkbox" {$checkedHome}></td>
 </tr>
 <tr class="odd">
-    <td valign="top" class="leftvalue">{$strings["comments"]} :</td>
+    <td class="leftvalue">{$strings["comments"]} :</td>
     <td><input size="32" value="1" name="comments" type="checkbox" {$checkedComments}></td>
 </tr>
 HTML;
-
-if ($demoMode == "true") {
-    $tmpquery = "WHERE mem.id != '$idSession' AND mem.profil != '3' ORDER BY mem.login";
-} else {
-    $tmpquery = "WHERE mem.id != '$idSession' AND mem.profil != '3' AND mem.id != '2' ORDER BY mem.login";
-}
 
 $listUsers = $member->getAllMembers();
 
@@ -287,7 +238,7 @@ if ($bookmarkDetail['boo_users'] != "") {
 if (count($listUsers) != "0") {
     echo <<<HTML
 <tr class="odd">
-    <td valign="top" class="leftvalue">{$strings["private"]} :</td>
+    <td class="leftvalue">{$strings["private"]} :</td>
     <td>
         <select name="piecesNew[]" multiple size=10 style="width: 200px;">
 HTML;
@@ -309,8 +260,8 @@ HTML;
 
 echo <<<HTML
 <tr class="odd">
-    <td valign="top" class="leftvalue">&nbsp;</td>
-    <td><input type="SUBMIT" value="{$strings["save"]}"></td>
+    <td class="leftvalue">&nbsp;</td>
+    <td><input type="submit" value="{$strings["save"]}"></td>
 </tr>
 HTML;
 

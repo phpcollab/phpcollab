@@ -53,10 +53,13 @@ class Util
      */
     public static function addHttp($url)
     {
-        if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
-            $url = "http://" . $url;
+        if (!empty($url)) {
+            if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
+                $url = "http://" . $url;
+            }
+            return $url;
         }
-        return $url;
+        return '';
     }
 
     /**
