@@ -1,10 +1,17 @@
 <?php
 namespace loggedIn;
 use \AcceptanceTester;
+use Codeception\Util\Locator;
 use Exception;
 
 class BookmarksCest
 {
+    protected $bookmarkName;
+
+    public function __construct() {
+        $this->bookmarkName = "Codeception Bookmark Tests";
+    }
+
     /**
      * @param AcceptanceTester $I
      */
@@ -88,33 +95,81 @@ class BookmarksCest
     }
 
     /**
-     * @skip
      * @param AcceptanceTester $I
      */
     public function createBookmark(AcceptanceTester $I)
     {
         $I->wantTo('Create a new bookmark');
+        $I->amOnPage('/bookmarks/editbookmark.php');
+        $I->seeInTitle('Add Bookmark');
+        $I->seeElement('form', ['name' => 'booForm']);
+        $I->fillField('name', $this->bookmarkName);
+        $I->fillField('url', 'www.codeception.com');
+        $I->click('Save');
+        $I->see('Success : Addition succeeded');
+        $I->see($this->bookmarkName);
     }
 
     /**
-     * @skip
+     * @param AcceptanceTester $I
+     */
+    public function createBookmarkWithDescription(AcceptanceTester $I)
+    {
+        $I->wantTo('Create a new bookmark with a description');
+        $I->amOnPage('/bookmarks/editbookmark.php');
+        $I->seeInTitle('Add Bookmark');
+        $I->seeElement('form', ['name' => 'booForm']);
+        $I->fillField('name', $this->bookmarkName . " - copy");
+        $I->fillField('url', 'www.codeception.com');
+        $I->fillField('form textarea[name=description]', 'This is a bookmark description');
+        $I->click('Save');
+        $I->see('Success : Addition succeeded');
+        $I->see($this->bookmarkName);
+    }
+
+    /**
      * @param AcceptanceTester $I
      */
     public function editBookmark(AcceptanceTester $I)
     {
         $I->wantTo('Edit a bookmark');
-//        $I->amOnPage('/bookmarks/viewbookmark.php?id=1');
-//        $I->click('//*[@class=\'icons\']/descendant::td[2]/descendant::a');
-////        /html/body/form/table[1]/tbody/tr/td[2]/a
-//        $I->seeInCurrentUrl('/bookmarks/editbookmark.php?id=1');
+        $I->amOnPage('/bookmarks/listbookmarks.php?view=my');
+        $I->see($this->bookmarkName);
+        $I->seeElement('.listing');
+        $I->click(Locator::contains('a', $this->bookmarkName));
+        $I->seeElement('.content');
+        $I->see('Info');
+        $I->see('Name :');
+        $bookmark_id = $I->grabFromCurrentUrl('~id=(\d+)~');
+        $I->amOnPage('/bookmarks/editbookmark.php?id=' . $bookmark_id);
+        $I->see("Edit bookmark : " . $this->bookmarkName);
+        $I->fillField('name', $this->bookmarkName . " - edited");
+        $I->click('Save');
+        $I->see('Success : Modification succeeded');
+        $I->amOnPage('/bookmarks/listbookmarks.php?view=my');
+        $I->see($this->bookmarkName . " - edited");
     }
 
     /**
-     * @skip
      * @param AcceptanceTester $I
      */
-    public function DeleteBookmark(AcceptanceTester $I)
+    public function deleteBookmark(AcceptanceTester $I)
     {
         $I->wantTo('Delete a bookmark');
+        $I->amOnPage('/bookmarks/listbookmarks.php?view=my');
+        $I->see($this->bookmarkName);
+        $I->seeElement('.listing');
+        $I->click(Locator::contains('a', $this->bookmarkName));
+        $I->seeElement('.content');
+        $I->see('Info');
+        $I->see('Name :');
+        $bookmark_id = $I->grabFromCurrentUrl('~id=(\d+)~');
+        $I->amOnPage('/bookmarks/deletebookmarks.php?id=' . $bookmark_id);
+        $I->see("Delete bookmarks");
+        $I->seeElement('.content');
+        $I->see('#' . $bookmark_id);
+        $I->see($this->bookmarkName);
+        $I->click('Delete');
+        $I->see('Success : Deletion succeeded');
     }
 }
