@@ -103,6 +103,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 if (!empty($_GET["id"])) {
+    $id = $_GET["id"];
+
     $bookmarkId = filter_var((int) $id, FILTER_VALIDATE_INT);
     $bookmarkDetail = $bookmark->getBookmarkById($id);
 
@@ -127,6 +129,7 @@ if (!empty($_GET["id"])) {
     $setTitle .= " : Edit Bookmark ($name)";
 
 } else {
+    $id = null;
     $checkedShared = "checked";
     $checkedComments = "checked";
 
