@@ -9,7 +9,7 @@ class BookmarksCest
     protected $bookmarkName;
 
     public function __construct() {
-        $this->bookmarkName = "Codeception - " . date("Y-m-d H:i:s");
+        $this->bookmarkName = "Codeception Bookmark Tests";
     }
 
     /**
@@ -151,11 +151,25 @@ class BookmarksCest
     }
 
     /**
-     * @skip
      * @param AcceptanceTester $I
      */
-    public function DeleteBookmark(AcceptanceTester $I)
+    public function deleteBookmark(AcceptanceTester $I)
     {
         $I->wantTo('Delete a bookmark');
+        $I->amOnPage('/bookmarks/listbookmarks.php?view=my');
+        $I->see($this->bookmarkName);
+        $I->seeElement('.listing');
+        $I->click(Locator::contains('a', $this->bookmarkName));
+        $I->seeElement('.content');
+        $I->see('Info');
+        $I->see('Name :');
+        $bookmark_id = $I->grabFromCurrentUrl('~id=(\d+)~');
+        $I->amOnPage('/bookmarks/deletebookmarks.php?id=' . $bookmark_id);
+        $I->see("Delete bookmarks");
+        $I->seeElement('.content');
+        $I->see('#' . $bookmark_id);
+        $I->see($this->bookmarkName);
+        $I->click('Delete');
+        $I->see('Success : Deletion succeeded');
     }
 }
