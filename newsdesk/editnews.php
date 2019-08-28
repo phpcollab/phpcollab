@@ -74,7 +74,8 @@ if ($id != "") {
         $content = $_POST['content'];
         $author = $_POST['author'];
         $related = $_POST['related'];
-        $links = $_POST['links'];
+//        $links = $_POST['links'];
+        $links = filter_var($_POST["links"], FILTER_SANITIZE_URL);
         $rss = $_POST['rss'];
 
         $title = phpCollab\Util::convertData($title);

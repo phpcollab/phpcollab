@@ -173,6 +173,8 @@ class NewsDesk
      */
     public function updatePostById($postId, $title, $author, $related, $content, $links, $rss)
     {
+//        $links = filter_var($links, filter_)
+        $links = filter_var($links, FILTER_SANITIZE_URL);
         return $this->newsdesk_gateway->updatePostById($postId, $title, $author, $related, $content, $links, $rss);
     }
 

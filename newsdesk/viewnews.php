@@ -3,12 +3,20 @@
 #Status page: 1
 #Path by root: ../newsdesk/viewnews.php
 
+use phpCollab\Members\Members;
+use phpCollab\NewsDesk\NewsDesk;
+use phpCollab\Projects\Projects;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$members = new \phpCollab\Members\Members();
-$projects = new \phpCollab\Projects\Projects();
-$news = new \phpCollab\NewsDesk\NewsDesk();
+
+$escaper = new Zend\Escaper\Escaper('utf-8');
+
+
+$members = new Members();
+$projects = new Projects();
+$news = new NewsDesk();
 
 $newsDetail = $news->getPostById($id);
 
@@ -20,7 +28,7 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/listnews.php?", $strings["newsdesk"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/listnews.php?", $strings["newsdesk"], "in"));
 $blockPage->itemBreadcrumbs($newsDetail->news_title[0]);
 $blockPage->closeBreadcrumbs();
 
@@ -72,7 +80,9 @@ if ($newsDetail) {
 
     $newsLinksArray = explode(";", trim($newsDetail['news_links']));
     foreach ($newsLinksArray as $item) {
+        $item = $escaper->escapeHtml($item);
         $article_links .= "<a href='" . trim($item) . "' title='$item' target='_blank'>$item</a><br/>";
+//        $article_links .= "<a href='" . trim($item) . "' title='$item' target='_blank'>$item</a><br/>";
     }
 
     $block1->contentRow("<b>" . $strings["newsdesk_related_links"] . "</b>", $article_links);
