@@ -39,54 +39,62 @@ $versionNew = "2.5";
 if ($action == "printSetup") {
     include '../includes/db_var.inc.php';
     include '../includes/setup_db.php';
-    for ($con = 0; $con < count($SQL); $con++) {
+    $sqlCount = count($SQL);
+    for ($con = 0; $con < $sqlCount; $con++) {
         echo $SQL[$con] . ';<br/>';
     }
 }
 if ($action == "printUpdate") {
     include '../includes/db_var.inc.php';
     include '../includes/update_db.php';
-    for ($con = 0; $con < count($SQL); $con++) {
+    $sqlCount = count($SQL);
+    for ($con = 0; $con < $sqlCount; $con++) {
         echo $SQL[$con] . '<br/>';
     }
 }
 
 if ($action == "generate") {
-    include '../includes/db_var.inc.php';
-    include '../includes/update_db.php';
-    if ($databaseType == "mysql") {
-        $my = @mysql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
-        if (mysql_errno() != 0) {
-            echo "<br/><b>PANIC! <br/> Error during connection on server MySQL.</b><br/>";
-        }
-        mysql_select_db(MYDATABASE, $my);
-        if (mysql_errno() != 0) {
-            echo "<br/><b>PANIC! <br/> Error during selection database.</b><br/>";
-        }
-        for ($con = 0; $con < count($SQL); $con++) {
-            mysql_query($SQL[$con]);
-            if (mysql_errno() != 0) {
-                echo "<br/><b>PANIC! <br/> Error during the update of the database.</b><br/> Error: " . mysql_error();
+    try {
+        include '../includes/db_var.inc.php';
+        include '../includes/update_db.php';
+        if ($databaseType == "mysql") {
+            $my = mysqli_connect(MYSERVER, MYLOGIN, MYPASSWORD);
+            if (mysqli_errno($my) != 0) {
+                echo "<br/><b>PANIC! <br/> Error during connection on server MySQL.</b><br/>";
+            }
+            mysqli_select_db($my, MYDATABASE);
+            if (mysqli_errno($my) != 0) {
+                echo "<br/><b>PANIC! <br/> Error during selection database.</b><br/>";
+            }
+            for ($con = 0; $con < count($SQL); $con++) {
+                mysqli_query($my, $SQL[$con]);
+                if (mysqli_errno($my) != 0) {
+                    echo "<br/><b>PANIC! <br/> Error during the update of the database.</b><br/> Error: " . mysqli_error($my);
+                }
             }
         }
-    }
-    if ($databaseType == "sqlserver") {
-        $my = @mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
-        if (mssql_get_last_message() != 0) {
-            echo "<br/><b>PANIC! <br/> Error during connection on server SQl Server.</b><br/>";
-        }
-        mssql_select_db(MYDATABASE, $my);
-        if (mssql_get_last_message() != 0) {
-            echo "<br/><b>PANIC! <br/> Error during selection database.</b><br/>";
-        }
-        for ($con = 0; $con < count($SQL); $con++) {
-            mssql_query($SQL[$con]);
+        if ($databaseType == "sqlserver") {
+            $my = mssql_connect(MYSERVER, MYLOGIN, MYPASSWORD);
             if (mssql_get_last_message() != 0) {
-                echo "<br/><b>PANIC! <br/> Error during the update of the database.</b><br/> Error: " . mssql_get_last_message();
+                echo "<br/><b>PANIC! <br/> Error during connection on server SQl Server.</b><br/>";
+            }
+            mssql_select_db(MYDATABASE, $my);
+            if (mssql_get_last_message() != 0) {
+                echo "<br/><b>PANIC! <br/> Error during selection database.</b><br/>";
+            }
+            for ($con = 0; $con < count($SQL); $con++) {
+                mssql_query($SQL[$con]);
+                if (mssql_get_last_message() != 0) {
+                    echo "<br/><b>PANIC! <br/> Error during the update of the database.</b><br/> Error: " . mssql_get_last_message();
+                }
             }
         }
+
+        phpCollab\Util::headerFunction("../administration/admin.php?msg=update");
+
+    } catch (Exception $e) {
+
     }
-    phpCollab\Util::headerFunction("../administration/admin.php?msg=update");
 }
 
 
@@ -94,7 +102,7 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], "in"));
 $blockPage->itemBreadcrumbs($strings["edit_database"]);
 $blockPage->closeBreadcrumbs();
 
@@ -109,7 +117,7 @@ $block1->openForm("../administration/updatedatabase.php?action=generate");
 
 
 if ($version == $versionNew) {
-    if ($versionOld == "") {
+    if (empty($versionOld)) {
         $versionOld = $version;
     }
     echo "<input value=\"$versionOld\" name=\"versionOldNew\" type=\"hidden\">";
@@ -117,7 +125,7 @@ if ($version == $versionNew) {
     echo "<input value=\"$version\" name=\"versionOldNew\" type=\"hidden\">";
 }
 
-echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td>Old version $versionOld<br/>";
+echo "<tr class=\"odd\"><td class=\"leftvalue\">&nbsp;</td><td>Old version $versionOld<br/>";
 $comptUpdateDatabase = count($updateDatabase);
 for ($i = 0; $i < $comptUpdateDatabase; $i++) {
     if ($versionOld < $updateDatabase[$i]) {
@@ -129,7 +137,7 @@ for ($i = 0; $i < $comptUpdateDatabase; $i++) {
 echo "<br/>New version $version</td></tr>";
 
 if ($submit == "true") {
-    echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td><input type=\"SUBMIT\" value=\"" . $strings["save"] . "\"></td></tr>";
+    echo "<tr class=\"odd\"><td class=\"leftvalue\">&nbsp;</td><td><input type=\"SUBMIT\" value=\"" . $strings["save"] . "\"></td></tr>";
 }
 
 $block1->closeContent();
