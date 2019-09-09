@@ -17,7 +17,6 @@ class Database
     private $dbname = MYDATABASE;
 
     private $dbh;
-    private $error;
 
     private $stmt;
 
