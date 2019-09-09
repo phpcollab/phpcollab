@@ -11,9 +11,6 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 
-$escaper = new Zend\Escaper\Escaper('utf-8');
-
-
 $members = new Members();
 $projects = new Projects();
 $news = new NewsDesk();
@@ -64,9 +61,9 @@ if ($newsDetail) {
 
     $block1->openContent();
     $block1->contentTitle($strings["details"]);
-    $block1->contentRow("<b>" . $strings["title"] . "</b>", $newsDetail['news_title']);
-    $block1->contentRow("<b>" . $strings["author"] . "</b>", $newsAuthor["mem_name"]);
-    $block1->contentRow("<b>" . $strings["date"] . "</b>", $newsDetail['news_date']);
+    $block1->contentRow("<b>" . $strings["title"] . "</b>", $escaper->escapeHtml($newsDetail['news_title']));
+    $block1->contentRow("<b>" . $strings["author"] . "</b>", $escaper->escapeHtml($newsAuthor["mem_name"]));
+    $block1->contentRow("<b>" . $strings["date"] . "</b>", $escaper->escapeHtml($newsDetail['news_date']));
 
     if ($newsDetail['news_related'] != 'g') {
         $projectDetail = $projects->getProjectById($newsDetail['news_related']);
@@ -75,14 +72,13 @@ if ($newsDetail) {
         $article_related = $strings["newsdesk_related_generic"];
     }
 
-    $block1->contentRow("<b>" . $strings["newsdesk_related"] . "</b>", $article_related);
-    $block1->contentRow("<b>" . stripslashes($strings["article_newsdesk"]) . "</b>", $newsDetail['news_content']);
+    $block1->contentRow("<b>" . $strings["newsdesk_related"] . "</b>", $escaper->escapeHtml($article_related));
+    $block1->contentRow("<b>" . stripslashes($strings["article_newsdesk"]) . "</b>", $escaper->escapeHtml($newsDetail['news_content']));
 
     $newsLinksArray = explode(";", trim($newsDetail['news_links']));
     foreach ($newsLinksArray as $item) {
         $item = $escaper->escapeHtml($item);
         $article_links .= "<a href='" . trim($item) . "' title='$item' target='_blank'>$item</a><br/>";
-//        $article_links .= "<a href='" . trim($item) . "' title='$item' target='_blank'>$item</a><br/>";
     }
 
     $block1->contentRow("<b>" . $strings["newsdesk_related_links"] . "</b>", $article_links);
@@ -145,9 +141,9 @@ if ($newsComments) {
         $newsAuthor = $members->getMemberById($comment['newscom_name']);
 
         $block2->openRow();
-        $block2->checkboxRow($comment['newscom_id']);
-        $block2->cellRow($newsAuthor["mem_name"]);
-        $block2->cellRow($comment['newscom_comment']);
+        $block2->checkboxRow($escaper->escapeHtml($comment['newscom_id']));
+        $block2->cellRow($escaper->escapeHtml($newsAuthor["mem_name"]));
+        $block2->cellRow($escaper->escapeHtml($comment['newscom_comment']));
         $block2->closeRow();
     }
 

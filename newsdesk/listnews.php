@@ -74,14 +74,14 @@ if ($listPosts) {
         // take the name of the related article
         if ($post['news_related'] != 'g') {
             $projectDetail = $projects->getProjectById($post['news_related']);
-            $article_related = "<a href='../projects/viewproject.php?id=" . $projectDetail["pro_id"] . "' title='" . $projectDetail["pro_name"] . "'>" . $projectDetail["pro_name"] . "</a>";
+            $article_related = "<a href='../projects/viewproject.php?id=" . $projectDetail["pro_id"] . "' title='" . $projectDetail["pro_name"] . "'>" . $escaper->escapeHtml($projectDetail["pro_name"]) . "</a>";
         } else {
             $article_related = $strings["newsdesk_related_generic"];
         }
 
         $block1->openRow();
         $block1->checkboxRow($post['news_id']);
-        $block1->cellRow($blockPage->buildLink("../newsdesk/viewnews.php?id=" . $post['news_id'], $post['news_title'], 'in'));
+        $block1->cellRow($blockPage->buildLink("../newsdesk/viewnews.php?id=" . $post['news_id'], $escaper->escapeHtml($post['news_title']), 'in'));
         $block1->cellRow($post['news_date']);
         $block1->cellRow($newsAuthor["mem_name"]);
         $block1->cellRow($article_related);

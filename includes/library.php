@@ -35,6 +35,7 @@ use phpCollab\Logs\Logs;
 use phpCollab\Members\Members;
 use phpCollab\Sorting\Sorting;
 use Symfony\Component\HttpFoundation\Request;
+use Zend\Escaper\Escaper;
 
 $debug = false;
 
@@ -45,6 +46,8 @@ require APP_ROOT . '/vendor/autoload.php';
 if (ini_get('session.auto_start') == 0) {
     $profilSession = "";
 }
+
+$escaper = new Escaper('utf-8');
 
 // Setup debugging
 if ($debug) {
