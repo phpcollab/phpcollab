@@ -150,6 +150,16 @@ class Calendars
     }
 
     /**
+     * @param $timestamp
+     * @return int
+     */
+    public function dayOfWeek($timestamp)
+    {
+        $dayOfWeek = strftime("%w", $timestamp);
+        return intval($dayOfWeek) + 1;
+    }
+
+    /**
      * @param $owner
      * @param $subject
      * @param $description

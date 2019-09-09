@@ -45,11 +45,6 @@ if ($type == "") {
     $type = "monthPreview";
 }
 
-function _dayOfWeek($timestamp)
-{
-    $dayOfWeek = strftime("%w", $timestamp);
-    return intval($dayOfWeek) + 1;
-}
 
 $year = date("Y");
 $month = date("n");
@@ -297,7 +292,7 @@ if ($type == "monthPreview") {
 
         $dateLink = "$year-$month-$a";
         $todayClass = "";
-        $dayRecurr = _dayOfWeek(mktime(0, 0, 0, $month, $a, $year));
+        $dayRecurr = $calendars->dayOfWeek(mktime(0, 0, 0, $month, $a, $year));
 
         $listCalendarScan = $calendars->openCalendarDay($idSession, $dateLink, $dayRecurr);
 
