@@ -31,6 +31,10 @@
 ** =============================================================================
 */
 
+use phpCollab\Members\Members;
+use phpCollab\NewsDesk\NewsDesk;
+use phpCollab\Projects\Projects;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -38,8 +42,8 @@ if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5") {
     phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$id&msg=permissionNews");
 }
 
-$news = new \phpCollab\NewsDesk\NewsDesk();
-$projects = new \phpCollab\Projects\Projects();
+$news = new NewsDesk();
+$projects = new Projects();
 
 $action = $_GET['action'];
 $id = $_GET['id'];
@@ -74,7 +78,6 @@ if ($id != "") {
         $content = $_POST['content'];
         $author = $_POST['author'];
         $related = $_POST['related'];
-//        $links = $_POST['links'];
         $links = filter_var($_POST["links"], FILTER_SANITIZE_URL);
         $rss = $_POST['rss'];
 
@@ -141,7 +144,7 @@ if (!isset($action) || $action != "remove") {
     
                     HTMLArea.loadPlugin('TableOperations'); 
                     
-                    var editor = null;
+                    let editor = null;
                     
                     function initEditor() {
                       editor = new HTMLArea('content');
@@ -201,10 +204,10 @@ if (isset($error) && $error != "") {
 
 if ($action != 'remove') {
     if ($id == "") {
-        echo "	<a name='" . $block1->form . "Anchor'></a>\n <form accept-charset='UNKNOWN' method='POST' action='../newsdesk/editnews.php?action=add&' name='ecDForm'>\n";
+        echo "	<a id='" . $block1->form . "Anchor'></a>\n <form accept-charset='UNKNOWN' method='POST' action='../newsdesk/editnews.php?action=add&' name='ecDForm'>\n";
         $block1->heading($strings["add_newsdesk"]);
     } else {
-        echo "	<a name='" . $block1->form . "Anchor'></a>\n <form accept-charset='UNKNOWN' method='POST' action='../newsdesk/editnews.php?id=$id&action=update&' name='ecDForm'>\n";
+        echo "	<a id='" . $block1->form . "Anchor'></a>\n <form accept-charset='UNKNOWN' method='POST' action='../newsdesk/editnews.php?id=$id&action=update&' name='ecDForm'>\n";
         $block1->heading($strings["edit_newsdesk"] . " : " . $newsDetail['news_title']);
     }
 
@@ -216,7 +219,7 @@ if ($action != 'remove') {
         $block1->contentRow($strings["author"], "<input type='hidden' name='author' value='$idSession'><b>$nameSession</b>");
     } // edit
     else {
-        $members = new \phpCollab\Members\Members();
+        $members = new Members();
         $newsAuthor = $members->getMemberById($newsDetail['news_author']);
         $block1->contentRow($strings["author"], "<input type='hidden' name='author' value='" . $newsDetail['news_author'] . "'><b>" . $newsAuthor["mem_name"] . "</b>");
     }
