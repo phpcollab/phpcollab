@@ -55,14 +55,14 @@ include $app_root . '/languages/lang_' . $langDefault . '.php';
 // Check if emailAlerts is set to true
 if ($emailAlerts === false) {
     // Return false
-    $dailyAlertLogger->warn('emailAlerts is disabled');
-    exit(1);
+    $dailyAlertLogger->warn('setting, emailAlerts is disabled');
+    exit('ERROR - email alerts are disabled');
 }
 
 // Check that database vars are set
 if (!defined('MYSERVER') || !defined('MYLOGIN') || !defined('MYPASSWORD') || !defined('MYDATABASE')) {
     $dailyAlertLogger->error($strings['error_server']);
-    exit(1);
+    exit('ERROR - DATABASE' . $strings['error_server']);
 }
 
 try {
@@ -76,9 +76,9 @@ try {
 
 } catch (Exception $e) {
     $dailyAlertLogger->error($e->getMessage());
-    exit(1);
+    exit('ERROR - ' . $e->getMessage());
 }
 
 // Return successfully
 $dailyAlertLogger->info('cron job completed');
-exit(0);
+exit('cron job completed');
