@@ -66,7 +66,8 @@ if ($action == "generate") {
             if (mysqli_errno($my) != 0) {
                 echo "<br/><b>PANIC! <br/> Error during selection database.</b><br/>";
             }
-            for ($con = 0; $con < count($SQL); $con++) {
+            $sqlCount = count($SQL);
+            for ($con = 0; $con < $sqlCount; $con++) {
                 mysqli_query($my, $SQL[$con]);
                 if (mysqli_errno($my) != 0) {
                     echo "<br/><b>PANIC! <br/> Error during the update of the database.</b><br/> Error: " . mysqli_error($my);
@@ -82,7 +83,8 @@ if ($action == "generate") {
             if (mssql_get_last_message() != 0) {
                 echo "<br/><b>PANIC! <br/> Error during selection database.</b><br/>";
             }
-            for ($con = 0; $con < count($SQL); $con++) {
+            $sqlCount = count($SQL);
+            for ($con = 0; $con < $sqlCount; $con++) {
                 mssql_query($SQL[$con]);
                 if (mssql_get_last_message() != 0) {
                     echo "<br/><b>PANIC! <br/> Error during the update of the database.</b><br/> Error: " . mssql_get_last_message();
