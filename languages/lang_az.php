@@ -437,7 +437,7 @@ $strings["previous"] = "Öncəki";
 $strings["next"] = "Sonrakı";
 $strings["help"] = "Yardım";
 
-$strings["complete_date"] = "Complete date";
+$strings["complete_date"] = "Tam tarix";
 $strings["scope_creep"] = "Scope creep";
 $strings["days"] = "Days";
 $strings["logo"] = "Logo";
@@ -488,7 +488,7 @@ $strings["noti_support_post2"] = "A new response has been added to your support 
 $strings["noti_support_status2"] = "Your support request has been updated. Please review the details below.";
 $strings["noti_support_team_new2"] = "A new support request has been added to project: ";
 //2.0
-$strings["delete_subtasks"] = "Delete subtasks";
+$strings["delete_subtasks"] = "Alt düymələri silin";
 $strings["add_subtask"] = "Add subtask";
 $strings["edit_subtask"] = "Edit subtask";
 $strings["subtask"] = "Subtask";
@@ -497,7 +497,7 @@ $strings["show_details"] = "Show details";
 $strings["updates_task"] = "Task update history";
 $strings["updates_subtask"] = "Subtask update history";
 //2.1
-$strings["go_projects_site"] = "Go to projects site";
+$strings["go_projects_site"] = "Layihələr saytına keçin";
 $strings["bookmark"] = "Bookmark";
 $strings["bookmarks"] = "Bookmarks";
 $strings["bookmark_category"] = "Category";
