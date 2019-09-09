@@ -347,8 +347,8 @@ $strings["no_php"] = "Файли Php заборонені";
 $strings["approval_date"] = "Дата затвердження";
 $strings["approver"] = "Затверджує";
 
-$strings["error_database"] = "Can't connect to database";
-$strings["error_server"] = "Can't connect to server";
+$strings["error_database"] = "Can not connect to database";
+$strings["error_server"] = "Can not connect to server";
 $strings["version_control"] = "Version Control";
 $strings["vc_status"] = "Status";
 $strings["vc_last_in"] = "Date last modified";
