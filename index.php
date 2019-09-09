@@ -8,7 +8,7 @@
  */
 if (!file_exists("includes/settings.php")) {
     header('Location: installation/setup.php');
-    exit;
+    exit('redirecting');
 } else {
     $checkSession = "false";
     $indexRedirect = "true";
