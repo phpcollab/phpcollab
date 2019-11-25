@@ -20,15 +20,14 @@
     "symfony/http-foundation": "^3.4",
     "phpmailer/phpmailer": "^6.0",
     "rospdf/pdf-php": "^0.12.53",
-    "amenadiel/jpgraph": "3.6.21",
+    "amenadiel/jpgraph": "3.6.21"
+  },
+  "require-dev": {
+    "codeception/codeception": "^2.4",
     "ext-ftp": "*",
     "ext-ldap": "*",
     "ext-mysqli": "*",
-    "ext-pgsql": "*",
-    "ext-mssql": "*"
-  },
-  "require-dev": {
-    "codeception/codeception": "^2.4"
+    "ext-pgsql": "*"
   },
   "autoload": {
     "psr-0": {
