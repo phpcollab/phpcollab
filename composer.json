@@ -23,7 +23,7 @@
     "amenadiel/jpgraph": "3.6.21"
   },
   "require-dev": {
-    "codeception/codeception": "^2.4",
+    "codeception/codeception": "^3.1",
     "ext-ftp": "*",
     "ext-ldap": "*",
     "ext-mysqli": "*",
