@@ -131,8 +131,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                  * Create Database tables
                  */
                 // crypt admin and demo password
-                $demoPwd = phpCollab\Util::getPassword("demo");
-                $adminPassword = phpCollab\Util::getPassword($adminPassword);
+                $demoPwd = phpCollab\Util::getPassword("demo", $loginMethod);
+                $adminPassword = phpCollab\Util::getPassword($adminPassword, $loginMethod);
 
                 // create all tables
                 include '../includes/db_var.inc.php';

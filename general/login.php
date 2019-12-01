@@ -37,6 +37,7 @@ $logs = new Logs();
 $tableCollab = $GLOBALS["tableCollab"];
 $strings = $GLOBALS["strings"];
 $idSession = (isset($_SESSION["idSession"]) && $_SESSION["idSession"] !== '') ? $_SESSION["idSession"] : null;
+$loginMethod = $GLOBALS["loginMethod"];
 
 if ($logout == "true") {
     $logs->setConnectedByLogin($loginSession, false);
@@ -139,7 +140,7 @@ if ($auth == "on") {
                 $match = true;
             }
         } else {
-            if (!$ssl && !phpCollab\Util::doesPasswordMatch($usernameForm, $passwordForm, $member['mem_password'])) {
+            if (!$ssl && !phpCollab\Util::doesPasswordMatch($usernameForm, $passwordForm, $member['mem_password'], $loginMethod)) {
                 $error = $strings["invalid_login"];
             } else {
                 $match = true;
