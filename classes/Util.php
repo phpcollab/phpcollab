@@ -217,7 +217,7 @@ class Util
      * @return bool
      */
     public static function passwordMatch($formPassword, $storedPassword, $loginMethod = "crypt") {
-        switch ($loginMethod) {
+        switch (strtolower($loginMethod)) {
             case "md5":
                 if (md5($formPassword) == $storedPassword) {
                     return true;
