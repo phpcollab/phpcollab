@@ -179,6 +179,7 @@ define('MYDATABASE','$dbName');
 define('SMTPSERVER','');
 define('SMTPLOGIN','');
 define('SMTPPASSWORD','');
+define('SMTPPORT','');
 
 # create folder method
 \$mkdirMethod = "$mkdirMethod"; //select "FTP" or "PHP"
