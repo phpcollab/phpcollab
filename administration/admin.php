@@ -73,22 +73,38 @@ $block1->contentRow("", $blockPage->buildLink("../administration/mycompany.php",
 $block1->contentRow("", $blockPage->buildLink("../administration/listlogs.php", $strings["logs"], "in"));
 $block1->contentRow($strings["update"] . $blockPage->printHelp("admin_update"), "1. " . $blockPage->buildLink("../administration/updatesettings.php", $strings["edit_settings"], "in") . " 2. " . $blockPage->buildLink("../administration/updatedatabase.php", $strings["edit_database"], "in"));
 
-if ($updateChecker == "true" && $installationType == "online") {
-    $update = $admin->checkForUpdate($version);
-    if ($update) {
-        $checkMsg = "<p><b>" . $strings["update_available"] . "</b> " . $strings["version_current"] . " $version. " . $strings["version_latest"] . " $update.<br/>";
-        $checkMsg .= "<a href='http://www.sourceforge.net/projects/phpcollab' target='_blank'>" . $strings["sourceforge_link"] . "</a>.</p>";
+if (file_exists("../installation/setup.php")) {
+    $deleteSettingsAlert = <<<HTML
+<div class="alert error">
+    <h3>{$strings["attention"]}: {$strings["setup_erase"]}</h3>
+HTML;
 
-        $block1->contentRow("", $checkMsg);
+
+    if (is_writable("../setup.php")) {
+        $deleteSettingsAlert .= <<<HTML
+        <a href="../installation/remove_files.php">{$strings["setup_erase_file"]}</a>
+HTML;
+    } else {
+        $deleteSettingsAlert .= <<<HTML
+        <span style="color: #F00;font-weight:bold;">{$strings["setup_erase_file_ua"]}</span>
+HTML;
     }
+    $block1->contentRow("", $deleteSettingsAlert);
 }
 
-if (file_exists("../installation/setup.php")) {
-    $block1->contentRow("", "<b>" . $strings["attention"] . "</b> : " . $strings["setup_erase"]);
-    if (is_writable("../setup.php")) {
-        $block1->contentRow("", "<a href='../installation/remove_files.php'>" . $strings["setup_erase_file"] . "</a>");
-    } else {
-        $block1->contentRow("", "<span style='color: #F00;font-weight:bold;'>" . $strings["setup_erase_file_ua"] . "</span>");
+
+if ($updateChecker == "true" && $installationType == "online") {
+    $admin->checkForUpdate($version);
+
+    if ($admin->isUpdate() !== false) {
+        $checkMsg = <<<HTML
+        <div class="alert info">
+            <h3>{$strings["update_available"]}</h3>
+            <p>{$strings["version_current"]} {$version} {$strings["version_latest"]} {$admin->getNewVersion()}.<br/>
+            <a href='http://www.sourceforge.net/projects/phpcollab' target='_blank'>{$strings["sourceforge_link"]}</a>.</p>
+        </div>
+HTML;
+        $block1->contentRow("", $checkMsg);
     }
 }
 

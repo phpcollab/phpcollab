@@ -399,7 +399,7 @@ hr {
 }
 
 .calendar-detail {
-	
+
 }
 
 .calendar-detail td {
@@ -423,23 +423,23 @@ hr {
 .calendar-regular-todo-event, a.calendar-regular-todo-event, a.calendar-regular-todo-event:hover, a.calendar-regular-todo-event:visited, a.calendar-regular-todo-event:active {
 	color: #000099;
 	}
-	
+
 .calendar-broadcast-todo-event, a.calendar-broadcast-todo-event, a.calendar-broadcast-todo-event:hover, a.calendar-broadcast-todo-event:visited, a.calendar-broadcast-todo-event:active {
 	color: #663399;
 	}
-	
+
 .calendar-results-startdate, a.calendar-results-startdate, a.calendar-results-startdate:hover, a.calendar-results-startdate:visited, a.calendar-results-startdate:active {
 	color: #006600;
 	}
-	
+
 .calendar-results-duedate, a.calendar-results-duedate, a.calendar-results-duedate:hover, a.calendar-results-duedate:visited, a.calendar-results-duedate:active {
 	color: #990000;
-	}	
+	}
 
 .calendar-blockout-line{
 	background-color: #999999;
 	}
-	
+
 .calendar-regular-event{
 	border-top: 1px solid #0033CC;
 	border-bottom: 1px solid #0033CC;
@@ -447,7 +447,7 @@ hr {
 	border-right: 1px solid #0033CC;
 	margin-bottom: 3px;
 	}
-	
+
 .calendar-broadcast-event{
 	border-top: 1px solid #663399;
 	border-bottom: 1px solid #663399;
@@ -491,6 +491,17 @@ td.footerCell a, td.footerCell strong {
 	border: 1px solid indianred;
 	font-weight: bold;
 	background-color: papayawhip;
+}
+
+.alert.info {
+	padding: 1em;
+	color: #004085;
+	background-color: #cce5ff;
+	border: 1px solid #b8daff;
+	font-weight: normal;
+}
+.alert h3 {
+	font-weight: bold;
 }
 
 span.error {

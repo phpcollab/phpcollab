@@ -4,8 +4,11 @@
 namespace phpCollab\Administration;
 
 use Apfelbox\FileDownload\FileDownload;
+use Exception;
+use GuzzleHttp\Exception\GuzzleException;
 use phpCollab\Database;
 use Ifsnop\Mysqldump as IMysqldump;
+use GuzzleHttp\Client;
 
 /**
  * Class Admins
@@ -15,6 +18,8 @@ class Administration
 {
     protected $admins_gateway;
     protected $db;
+    protected $update;
+    protected $newVersion;
 
     /**
      * Assignments constructor.
@@ -23,6 +28,7 @@ class Administration
     {
         $this->db = new Database();
         $this->admins_gateway = new AdministrationGateway($this->db);
+        $this->update = false;
     }
 
     /**
@@ -31,33 +37,35 @@ class Administration
      */
     public function checkForUpdate($oldVersion)
     {
-        $phpcollab_url = 'http://www.phpcollab.com/website/version.txt';
-        $url = parse_url($phpcollab_url);
-        $connection_socket = @fsockopen($url['host'], 80, $errno, $errstr, 30);
+        if (!isset($_SESSION['updateAvailable'])) {
+            try {
+                $client = new Client([
+                    'base_uri' => 'https://www.phpcollab.com',
+                    'timeout' => 2.0,
+                ]);
 
-        if ($connection_socket) {
-            fputs($connection_socket,
-                "GET /" . $url['path'] . ($url['query'] ? '?' . $url['query'] : '') . " HTTP/1.0\r\nHost: " . $url['host'] . "\r\n\r\n");
-            $http_response = fgets($connection_socket, 22);
+                $res = $client->request('GET', '/website/version-temp.txt', ['allow_redirects' => true, 'synchronous' => true, 'timeout' => 3.0]);
 
-            if (preg_match("/200 OK/", $http_response, $regs) || preg_match("/301 Moved/", $http_response, $regs)) {
-                // WARNING: in file(), use a final URL to avoid any HTTP redirection
-                $sVersiondata = join('', file($phpcollab_url));
-                $aVersiondata = explode("|", $sVersiondata);
-                $newVersion = $aVersiondata[0];
+                $this->newVersion = $res->getBody()->getContents();
 
-                if ($oldVersion < $newVersion) {
-                    return $newVersion;
+                if ($oldVersion < $this->newVersion) {
+                    $this->update = true;
+                    $_SESSION['newVersion'] = $this->newVersion;
+                    $_SESSION['updateAvailable'] = true;
+                } else {
+                    $_SESSION['updateAvailable'] = false;
                 }
+            } catch (Exception $exception) {
+                return false;
+            } catch (GuzzleException $e) {
+                return false;
             }
-
-            fclose($connection_socket);
-
-            return false;
+        } else if ($_SESSION['updateAvailable'] === true && isset($_SESSION['newVersion'])) {
+            $this->update = true;
+            $this->newVersion = $_SESSION['newVersion'];
         } else {
-            return false;
+            $this->update = false;
         }
-
     }
 
     /**
@@ -82,5 +90,21 @@ class Administration
         } catch (\Exception $e) {
             echo 'mysqldump-php error: ' . $e->getMessage();
         }
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUpdate(): bool
+    {
+        return $this->update;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNewVersion()
+    {
+        return $this->newVersion;
     }
 }
