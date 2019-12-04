@@ -123,7 +123,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     }
                 } catch (Exception $e) {
                     echo 'Message could not be sent. Mailer Error: ', $e->getMessage();
-                    die();
                 }
             }
 
