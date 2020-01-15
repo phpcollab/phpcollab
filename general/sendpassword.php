@@ -21,8 +21,7 @@ if ($_GET["action"] == "send") {
 
         //test if email of user exists
     } elseif ($userDetail["mem_email_work"] != "") {
-        $pass_g = $GLOBALS["pass_g"];
-        phpCollab\Util::passwordGenerator();
+        $pass_g = phpCollab\Util::passwordGenerator();
         $pw = phpCollab\Util::getPassword($pass_g);
 
         $body = $strings["user_name"] . " : " . $userDetail["mem_login"] . "\n\n" . $strings["password"] . " : $pass_g";
