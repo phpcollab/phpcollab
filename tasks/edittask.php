@@ -984,7 +984,7 @@ TR;
 echo <<<TR
         <tr class="odd">
             <td style="vertical-align:top" class="leftvalue">{$strings["comments"]} :</td>
-            <td><textarea rows="10" style="width: 400px; height: 160px;" name="comments" cols="47">{$_POST["comments"]}</textarea></td>
+            <td><textarea rows="10" style="width: 400px; height: 160px;" name="comments" cols="47">{$comments}</textarea></td>
         </tr>
 TR;
 echo <<<TR
