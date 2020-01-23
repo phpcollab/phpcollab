@@ -394,8 +394,11 @@ HTML;
      **/
     public function openPaletteScript()
     {
-        echo '<script type="text/JavaScript">
-        document.' . $this->form . 'Form.buttons = [];';
+        echo <<< SCRIPT
+        <script type="text/JavaScript">
+        document.{$this->form}Form.buttons = [];
+SCRIPT;
+
     }
 
     /**
@@ -600,24 +603,26 @@ HTML;
         $link = rtrim($link,'?');
         $link = (strpos($link, '?')) ? $link : $link . '?&';
         $text = stripslashes($text);
+
         echo <<<SCRIPT
-document.{$this->form}Form.buttons[
-    document.{$this->form}Form.buttons.length
-] = new MMCommandButton(
-        '{$this->form}{$num}',
-        document.{$this->form}Form,
-        '{$link}',
-        '{$this->themeImgPath}/btn_{$type}_norm.gif',
-        '{$this->themeImgPath}/btn_{$type}_over.gif',
-        '{$this->themeImgPath}/btn_{$type}_down.gif',
-        '{$this->themeImgPath}/btn_{$type}_dim.gif',
-        {$options},
-        '',
-        "{$text}",
-        false,
-        ''
-    );
+    document.{$this->form}Form.buttons[
+        document.{$this->form}Form.buttons.length] = new MMCommandButton(
+            '{$this->form}{$num}',
+            document.{$this->form}Form,
+            '{$link}',
+            '{$this->themeImgPath}/btn_{$type}_norm.gif',
+            '{$this->themeImgPath}/btn_{$type}_over.gif',
+            '{$this->themeImgPath}/btn_{$type}_down.gif',
+            '{$this->themeImgPath}/btn_{$type}_dim.gif',
+            {$options},
+            '',
+            "{$text}",
+            false,
+            ''
+        );
 SCRIPT;
+
+
     }
 
     /**
