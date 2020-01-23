@@ -215,7 +215,13 @@ $listUpdates = $updates->getUpdates(2, $id);
 
 $comptListUpdates = count($listUpdates);
 
-echo '<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td>';
+echo <<< HTML
+    <tr class="odd">
+        <td class="leftvalue">&nbsp;</td>
+        <td>
+HTML;
+
+
 if ($comptListUpdates != "0") {
     $j = 1;
     foreach ($listUpdates as $update) {
@@ -263,7 +269,7 @@ if ($teamMember == "true" || $profilSession == "5") {
         $block1->paletteScript(4, "remove_projectsite", "../subtasks/viewsubtask.php?removeToSite=true&task=$task&id=" . $subtaskDetail['subtas_id'] . "&action=publish", "true,true,true", $strings["remove_project_site"]);
     }
     $block1->paletteScript(5, "edit", "../subtasks/editsubtask.php?task=$task&id=$id&docopy=false", "true,true,false", $strings["edit"]);
-    $block1->closePaletteScript(count($listAssign), array_column($listAssign, 'ass_id'));
+    $block1->closePaletteScript(0, 0);
 }
 
 $block3 = new phpCollab\Block();
