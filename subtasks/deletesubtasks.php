@@ -13,14 +13,16 @@ $assignments = new Assignments();
 $phases = new Phases();
 $projects = new Projects();
 
-$id = $_GET["id"];
-$task = $_GET["task"];
+$id = $request->query->get("id");
+$task = $request->query->get("task");
+
+// Global variables
 $strings = $GLOBALS["strings"];
 $msgLabel = $GLOBALS["msgLabel"];
 $tableCollab = $GLOBALS["tableCollab"];
 $targetPhase = $GLOBALS["targetPhase"];
 
-if ($_GET["action"] == "delete") {
+if ($request->query->get("action") == "delete") {
     $id = str_replace("**", ",", $id);
 
     //find parent task
@@ -31,7 +33,7 @@ if ($_GET["action"] == "delete") {
     $tasks->setCompletion($task, $tasks->recalculateSubtaskAverages($task));
 
     if ($task != "") {
-        phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$task&msg=delete");
+        phpCollab\Util::headerFunction("../tasks/viewtask.php?id={$task}&msg=delete");
     } else {
         phpCollab\Util::headerFunction("../general/home.php?msg=delete");
     }
@@ -91,13 +93,23 @@ $id = str_replace("**", ",", $id);
 $listSubtasks = $tasks->getSubTaskByIdIn($id);
 
 foreach ($listSubtasks as $subtask) {
-    echo '<tr class="odd"><td valign="top" class="leftvalue">#' . $subtask["subtas_id"] . '</td><td>' . $subtask["subtas_name"] . '</td></tr>';
+    echo <<< HTML
+        <tr class="odd">
+            <td class="leftvalue">#{$subtask["subtas_id"]}</td><td>{$subtask["subtas_name"]}</td>
+        </tr>
+HTML;
 }
 
-echo '<tr class="odd">
-  <td valign="top" class="leftvalue">&nbsp;</td>
-  <td><input type="submit" name="delete" value="' . $strings["delete"] . '"> <input type="button" name="cancel" value="' . $strings["cancel"] . '" 
-onClick="history.back();"></td></tr>';
+echo <<< HTML
+<tr class="odd">
+    <td class="leftvalue">&nbsp;</td>
+    <td>
+        <input type="submit" name="delete" value="{$strings["delete"]}"> 
+        <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();">
+    </td>
+</tr>
+HTML;
+
 
 $block1->closeContent();
 $block1->closeForm();
