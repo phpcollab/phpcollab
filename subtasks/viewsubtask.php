@@ -22,6 +22,7 @@
 use phpCollab\Assignments\Assignments;
 use phpCollab\Phases\Phases;
 use phpCollab\Projects\Projects;
+use phpCollab\Subtasks\Subtasks;
 use phpCollab\Tasks\Tasks;
 use phpCollab\Teams\Teams;
 use phpCollab\Updates\Updates;
@@ -30,6 +31,7 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 $tasks = new Tasks();
+$subtasks = new Subtasks();
 $projects = new Projects();
 $teams = new Teams();
 $assignments = new Assignments();
@@ -54,7 +56,7 @@ if ($request->query->get("action") == "publish") {
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
-$subtaskDetail = $tasks->getSubTaskById($id);
+$subtaskDetail = $subtasks->getById($id);
 
 $taskDetail = $tasks->getTaskById($task);
 
