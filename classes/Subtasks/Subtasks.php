@@ -150,7 +150,6 @@ class Subtasks
         if (!empty($this->notificationsList["email_work"])) {
             $this->subtaskNotifications->setWorkEmail($this->notificationsList["email_work"]);
             $this->subtaskNotifications->setUserName($this->notificationsList["name"]);
-
         }
 
         if (empty($this->subtaskNotifications->getTaskDetails())) {
@@ -184,7 +183,7 @@ class Subtasks
                 }
                 break;
             case "assignment":
-                if ($this->notificationsList["assignmentTaskChange"] == "0") {
+                if ($this->notificationsList["taskAssignment"] == "0") {
                     $this->subtaskNotifications->setSubject($this->strings["noti_taskassignment1"]);
                     $this->subtaskNotifications->setBody($this->strings["noti_taskassignment2"]);
                     $this->send = true;

@@ -141,10 +141,7 @@ if (!empty($id)) {
                      */
                     $assignments->addAssignment($id, $timestamp, $assignedTo, $timestamp);
 
-                    $testinTeam = $teams->getTeamByProjectIdAndTeamMember($project, $$assignedTo);
-                    $comptTestinTeam = count($testinTeam);
-
-                    if ($comptTestinTeam == 0) {
+                    if (!$teams->isTeamMember($project, $assignedTo)) {
                         /**
                          * Add to Teams table
                          */
@@ -154,15 +151,15 @@ if (!empty($id)) {
                     /**
                      * Update subTask
                      */
-                    $subtasks->update($id, $taskName, $description, $assignedTo, $taskStatus, $taskPriority, $startDate,
+                    $updatedDetails = $subtasks->update($id, $taskName, $description, $assignedTo, $taskStatus, $taskPriority, $startDate,
                         $dueDate, $estimatedTime, $actualTime, $comments, $timestamp, $completion, $publish);
 
                     //send task assignment mail if notifications = true
                     if ($notifications == "true") {
                         try {
-                            $subtasks->sendNotification("assignment", $subtaskDetail, $projectDetail);
+                            $subtasks->sendNotification("assignment", $updatedDetails, $projectDetail);
                         } catch (Exception $exception) {
-
+                            die($exception->getMessage());
                         }
                     }
                 } else {
