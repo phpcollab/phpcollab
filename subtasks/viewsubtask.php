@@ -1,9 +1,7 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 05/11/2004
 ** Path by root:  ../tasks/viewsubtask.php
-** Authors: Ceam / Fullo
 **
 ** =============================================================================
 **
@@ -17,12 +15,6 @@
 **
 ** DESC: Screen: view sub task information
 **
-** HISTORY:
-**	05/11/2004	-	fixed 1059973
-**	19/05/2005	-	fixed and &amp; in link
-** -----------------------------------------------------------------------------
-** TO-DO:
-** clean code
 ** =============================================================================
 */
 
