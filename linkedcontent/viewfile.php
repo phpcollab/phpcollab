@@ -1,19 +1,21 @@
 <?php
 
+use phpCollab\Files\ApprovalTracking;
 use phpCollab\Files\Files;
 use phpCollab\Phases\Phases;
 use phpCollab\Projects\Projects;
 use phpCollab\Tasks\Tasks;
 use phpCollab\Teams\Teams;
 use phpCollab\Util;
+use phpCollab\Notifications\Notifications;
 
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$action = $_GET["action"];
-$id = $_GET["id"];
-$addToSiteFile = $_GET["addToSiteFile"];
-$removeToSiteFile = $_GET["removeToSiteFile"];
+$action = $request->query->get("action");
+$id = $request->query->get("id");
+$addToSiteFile = $request->query->get("addToSiteFile");
+$removeToSiteFile = $request->query->get("removeToSiteFile");
 $tableCollab = $GLOBALS["tableCollab"];
 $strings = $GLOBALS["strings"];
 $idSession = phpCollab\Util::returnGlobal('idSession', 'SESSION');
@@ -22,7 +24,7 @@ $idSession = phpCollab\Util::returnGlobal('idSession', 'SESSION');
 $files = new Files();
 
 if ($action == "publish") {
-    $file = $_GET["file"];
+    $file = $request->query->get("file");
     if ($addToSiteFile == "true") {
         $files->publishFileByIdOrVcParent($file);
         $msg = "addToSite";
@@ -41,6 +43,8 @@ $fileDetail = $files->getFileById($id);
 $teamMember = "false";
 
 $teams = new Teams();
+
+$notification = new Notifications();
 
 $teamMember = $teams->isTeamMember($fileDetail["fil_project"], $idSession);
 
@@ -66,9 +70,10 @@ $type = $fileHandler->fileInfoType($fileDetail["fil_extension"]);
 $displayname = $fileDetail["fil_name"];
 
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($request->isMethod('post')) {
 
     switch ($action) {
+        // Add Peer Review
         case "add":
             if ($_POST["maxCustom"] != "") {
                 $maxFileSize = $_POST["maxCustom"];
@@ -90,9 +95,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $error3 .= $strings["exceed_size"] . " ($size_max_ko $byteUnits[1])<br/>";
             }
 
-            $upload_name = $filename;
+            $upload_name = $fileDetail["fil_name"];
+
             //Add version and revision at the end of a file name but before the extension.
-            $upload_name = str_replace(".", "_v" . $_POST["oldversion"] . $_POST["revision"] . ".", $upload_name);
+            $upload_name = str_replace(".", "_v" . $request->request->get("oldversion") . $request->request->get("version") . ".", $upload_name);
             $extension = strtolower(substr(strrchr($upload_name, "."), 1));
 
             if ($allowPhp == "false") {
@@ -140,17 +146,56 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 phpCollab\Util::headerFunction("../linkedcontent/viewfile.php?id=$sendto&msg=addFile");
             }
             break;
+        // Approval Tracking
         case "approve":
             /**
              * Approval tracking functionality
              */
-            $commentField = phpCollab\Util::convertData($_POST["approval_comment"]);
-            $statusField = $_POST["statusField"];
+            $approvalTracking = new ApprovalTracking();
 
-            $files->updateApprovalTracking($idSession, $commentField, $id, $statusField);
+            $commentField = phpCollab\Util::convertData($request->request->get("approval_comment"));
+            $statusField = $request->request->get("statusField");
+
+            try {
+                $approvalTracking->addApproval($idSession, $commentField, $id, $statusField);
+
+                if ($notifications == "true") {
+                    /**
+                     * Set these flags and values since they are the same for each notification
+                     */
+                    $approvalTracking->setNotifications(true);
+
+                    $approvalTracking->setFileDetails($fileDetail);
+
+                    $approvalTracking->setProjectDetails($projectDetail);
+
+                    try {
+                        // Get a list of notification team members
+                        $teamList = $teams->getTeamByProjectId($fileDetail["fil_project"]);
+
+                        $key = array_search($idSession, array_column($teamList, 'tea_mem_id'));
+
+                        // Remove the current user from the TeamList so we don't spam them
+                        unset($teamList[$key]);
+
+                        foreach ($teamList as $item) {
+                            $userNotificationFlags = $notification->getMemberNotifications($item['tea_mem_id']);
+
+                            if ($userNotificationFlags && $userNotificationFlags["uploadFile"] == "0") {
+                                $approvalTracking->sendEmail($item, $commentField, $statusFile[$statusField], $_SESSION["loginSession"], $_SESSION["nameSession"]);
+                            }
+                        }
+                    } catch (Exception $e) {
+                        echo 'Message could not be sent. Mailer Error: ', $e->getMessage();
+                    }
+                }
+            } catch (Exception $exception) {
+                error_log("Error adding file approval: " . $exception->getMessage(), 3, APP_ROOT . "logs/phpcollab.log");
+            }
 
             phpCollab\Util::headerFunction("../linkedcontent/viewfile.php?id=" . $fileDetail["fil_id"] . "&msg=addFile");
             break;
+        // Update File
         case "update":
             if ($_POST["maxCustom"] != "") {
                 $maxFileSize = $_POST["maxCustom"];
@@ -277,8 +322,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-//---------------------------------------------------------------------------------------------------
-
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
@@ -328,7 +371,7 @@ if (isset($error1) && $error1 != "") {
 $block1->openContent();
 $block1->contentTitle($strings["details"]);
 
-$fileDetail["fil_vc_version"] = (empty($fileDetail["fil_vc_version"])) ? Util::doubleDash() : $fileDetail["fil_vc_version"] ;
+$displayVcVersion = (empty($fileDetail["fil_vc_version"])) ? Util::doubleDash() : $fileDetail["fil_vc_version"] ;
 
 echo <<<DETAILS
 <tr class="odd">
@@ -341,7 +384,7 @@ echo <<<DETAILS
 </tr>
 <tr class="odd">
 	<td style="vertical-align: top"  class="leftvalue">{$strings["vc_version"]} :</td>
-	<td>{$fileDetail["fil_vc_version"]}</td>
+	<td>{$displayVcVersion}</td>
 </tr>
 <tr class="odd">
 	<td style="vertical-align: top"  class="leftvalue">{$strings["ifc_last_date"]} :</td>
@@ -471,26 +514,29 @@ if ($fileDetail["fil_owner"] == $idSession) {
     $block1->closePaletteScript(count($fileDetail), array_column($fileDetail, 'fil_id'));
 }
 
+/**
+ * Peer Review block
+ */
 if ($peerReview == "true") {
     //Revision list block
-    $block2 = new phpCollab\Block();
-    $block2->form = "tdC";
-    $block2->openForm("../files/viewfile.php?&id=$id#" . $block2->form . "Anchor");
-    $block2->heading($strings["ifc_revisions"]);
+    $peerReviewBlock = new phpCollab\Block();
+    $peerReviewBlock->form = "tdC";
+    $peerReviewBlock->openForm("../files/viewfile.php?&id={$id}#" . $peerReviewBlock->form . "Anchor");
+    $peerReviewBlock->heading($strings["ifc_revisions"]);
 
     if ($fileDetail["fil_owner"] == $idSession) {
-        $block2->openPaletteIcon();
-        $block2->paletteIcon(0, "remove", $strings["ifc_delete_review"]);
-        $block2->closePaletteIcon();
+        $peerReviewBlock->openPaletteIcon();
+        $peerReviewBlock->paletteIcon(0, "remove", $strings["ifc_delete_review"]);
+        $peerReviewBlock->closePaletteIcon();
     }
 
     if (!empty($error2)) {
-        $block2->headingError($strings["errors"]);
-        $block2->contentError($error2);
+        $peerReviewBlock->headingError($strings["errors"]);
+        $peerReviewBlock->contentError($error2);
     }
 
-    $block2->openContent();
-    $block2->contentTitle($strings["details"]);
+    $peerReviewBlock->openContent();
+    $peerReviewBlock->contentTitle($strings["details"]);
 
     echo <<<TR
     <tr class="odd">
@@ -516,17 +562,17 @@ TR;
         $displayrev = $count + 1;
         echo <<<TABLE
         <table style="width: 600px;" class="tableRevision" 
-            onmouseover="this.style.backgroundColor='{$block2->getHighlightOn()}'" 
-            onmouseout="this.style.backgroundColor='{$block2->getHighlightOff()}'">
-					<tr style="background-color: {$block2->getFgColor()};">
+            onmouseover="this.style.backgroundColor='{$peerReviewBlock->getHighlightOn()}'" 
+            onmouseout="this.style.backgroundColor='{$peerReviewBlock->getHighlightOff()}'">
+					<tr style="background-color: {$peerReviewBlock->getFgColor()};">
 					    <td>
 TABLE;
 
-        
+
         if ($fileDetail["fil_owner"] == $idSession) {
             echo <<<LINK
-                <a href="javascript:MM_toggleItem(document.{$block2->form}Form, '{$review["fil_id"]}', '{$block2->form}cb{$review["fil_id"]}','{$theme}')">
-                    <img id="{$block2->form}cb{$review["fil_id"]}" src="../themes/{$theme}/images/checkbox_off_16.gif" alt="" style="border: none; margin-top: 0;">
+                <a href="javascript:MM_toggleItem(document.{$peerReviewBlock->form}Form, '{$review["fil_id"]}', '{$peerReviewBlock->form}cb{$review["fil_id"]}','{$theme}')">
+                    <img id="{$peerReviewBlock->form}cb{$review["fil_id"]}" src="../themes/{$theme}/images/checkbox_off_16.gif" alt="" style="border: none; margin-top: 0;">
                 </a>
 
 LINK;
@@ -579,13 +625,13 @@ REVISION;
     }
     echo "</table></td></tr>";
 
-    $block2->closeResults();
-    $block2->closeFormResults();
+    $peerReviewBlock->closeResults();
+    $peerReviewBlock->closeFormResults();
 
     if ($fileDetail["fil_owner"] == $idSession) {
-        $block2->openPaletteScript();
-        $block2->paletteScript(0, "remove", "../linkedcontent/deletefiles.php?project=" . $fileDetail["fil_project"] . "&task=" . $fileDetail["fil_task"] . "&sendto=filedetails", "false,true,true", $strings["ifc_delete_review"]);
-        $block2->closePaletteScript(count($fileDetail), array_column($listReviews, 'fil_id'));
+        $peerReviewBlock->openPaletteScript();
+        $peerReviewBlock->paletteScript(0, "remove", "../linkedcontent/deletefiles.php?project=" . $fileDetail["fil_project"] . "&task=" . $fileDetail["fil_task"] . "&sendto=filedetails", "false,true,true", $strings["ifc_delete_review"]);
+        $peerReviewBlock->closePaletteScript(count($fileDetail), array_column($listReviews, 'fil_id'));
     }
 
     if ($teamMember == "true" || $profilSession == "5") {
@@ -595,7 +641,11 @@ REVISION;
 
         echo <<<FORM_START
 			<a id="filedetailsAnchor"></a>
-			<form accept-charset="UNKNOWN" method="POST" action="../linkedcontent/viewfile.php?action=add&id={$fileDetail["fil_id"]}&#filedetailsAnchor" name="filedetailsForm" enctype="multipart/form-data">
+			<form accept-charset="UNKNOWN" 
+			    method="POST" 
+			    action="../linkedcontent/viewfile.php?action=add&id={$fileDetail["fil_id"]}&#filedetailsAnchor" 
+			    name="filedetailsForm" 
+			    enctype="multipart/form-data">
 				<input type="hidden" name="MAX_FILE_SIZE" value="100000000" />
 				<input type="hidden" name="maxCustom" value="{$projectDetail["pro_upload_max"]}" />
 FORM_START;
@@ -615,7 +665,7 @@ FORM_START;
         echo <<<HTML
 		<input value="{$fileDetail["fil_id"]}" name="sendto" type="hidden" />
 		<input value="{$fileDetail["fil_id"]}" name="parent" type="hidden" />
-		<input value="$revision" name="revision" type="hidden" />
+		<input value="{$revision}" name="revision" type="hidden" />
 		<input value="{$fileDetail["fil_vc_version"]}" name="oldversion" type="hidden" />
 		<input value="{$fileDetail["fil_project"]}" name="project" type="hidden" />
 		<input value="{$fileDetail["fil_task"]}" name="task" type="hidden" />
@@ -641,10 +691,14 @@ HTML;
         $block3->closeForm();
     }
 }
+/**
+ * End Peer Review block
+ */
 
 
-# 2005.06.01, MOD, PS (dracono) - approval filed
-
+/**
+ * Approval Tracking
+ */
 if ($fileDetail["fil_owner"] == $idSession || $projectDetail["pro_owner"] == $idSession || $profilSession == "5") {
     $block5 = new phpCollab\Block();
     $block5->form = "filedetails";
@@ -683,8 +737,11 @@ STATUS;
         }
     }
 
-    echo "</select></td></tr>";
-    
+    echo <<< HTML
+        </select></td>
+    </tr>
+HTML;
+
     echo <<<COMMENTS
 		<tr class="odd">
 			<td style="vertical-align: top"  class="leftvalue">{$strings["comments"]} :</td>
@@ -705,11 +762,13 @@ COMMENTS;
     $block5->closeContent();
     $block5->closeForm();
 }
+/**
+ * End Approval
+ */
 
-
-# end MOD ---------------------
-
-//Update file Block
+/**
+ * Update file block
+ */
 if ($fileDetail["fil_owner"] == $idSession) {
     $block4 = new phpCollab\Block();
     $block4->form = "filedetails";
@@ -719,7 +778,6 @@ if ($fileDetail["fil_owner"] == $idSession) {
 		<form accept-charset="UNKNOWN" method="POST" action="../linkedcontent/viewfile.php?action=update&id={$fileDetail["fil_id"]}&#filedetailsAnchor" name="filedetailsForm" enctype="multipart/form-data">
 			<input type="hidden" name="MAX_FILE_SIZE" value="100000000" />
 			<input type="hidden" name="maxCustom" value="{$projectDetail["pro_upload_max"]}" />
-
 UPDATE_FILE;
 
     if (isset($error4) && $error4 != "") {
@@ -752,7 +810,11 @@ UPDATE_FILE;
 UPDATE_FILE_VER;
 
 
-    echo '<tr class="odd"><td style="vertical-align: top" class="leftvalue">'. $strings["status"] . ' :</td><td><select name="statusField">';
+    echo <<< HTML
+    <tr class="odd">
+        <td style="vertical-align: top" class="leftvalue">{$strings["status"]} :</td>
+        <td><select name="statusField">
+HTML;
 
     $comptSta = count($statusFile);
 
@@ -767,7 +829,8 @@ UPDATE_FILE_VER;
     echo "</select>";
     $c = isset($c) ? $c : '';
     echo <<<UPDATE_FILE
-    </td></tr>
+        </td>
+    </tr>
 	<tr class="odd">
 	    <td style="vertical-align: top"  class="leftvalue">* {$strings["upload"]} :</td>
 	    <td><input size="44" style="width: 400px" name="upload" type="FILE" /></td>
@@ -786,4 +849,8 @@ UPDATE_FILE;
     $block4->closeContent();
     $block4->closeForm();
 }
+/**
+ * End update file block
+ */
+
 include APP_ROOT . '/themes/' . THEME . '/footer.php';
