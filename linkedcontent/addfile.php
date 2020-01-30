@@ -61,7 +61,6 @@ if ($request->isMethod('post')) {
 
         if (!empty($request->files->get('upload')->getSize())) {
             $taille_ko = $request->files->get('upload')->getSize() / 1024;
-            $taille_koOld = $_FILES['upload']['size'] / 1024;
         } else {
             $taille_ko = 0;
         }
