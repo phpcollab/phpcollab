@@ -878,4 +878,17 @@ class Util
             return $value;
         }
     }
+
+    /**
+     * @param $number
+     * @return string
+     */
+    public static function formatFloat($number)
+    {
+        if (strlen($number) == 1) {
+            return sprintf("%0.1f",$number);
+        } else {
+            return sprintf("%0.2f",$number);
+        }
+    }
 }
