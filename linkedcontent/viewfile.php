@@ -357,7 +357,6 @@ if ($request->isMethod('post')) {
                     }
 
                     if ($fileDetail["fil_task"] != "0") {
-//                        $path = "files/{$fileDetail["fil_project"]}/{$fileDetail["fil_task"]}";
                         Util::uploadFile("files/{$fileDetail["fil_project"]}/{$fileDetail["fil_task"]}", $request->files->get("upload")->getPathName(), $uploadedFile);
                     } else {
                         Util::uploadFile("files/{$fileDetail["fil_project"]}", $request->files->get("upload")->getPathName(), $uploadedFile);
