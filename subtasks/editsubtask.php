@@ -159,7 +159,7 @@ if (!empty($id)) {
                         try {
                             $subtasks->sendNotification("assignment", $updatedDetails, $projectDetail);
                         } catch (Exception $exception) {
-                            die($exception->getMessage());
+                            echo $exception->getMessage();
                         }
                     }
                 } else {
