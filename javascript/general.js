@@ -97,26 +97,22 @@ function showHideModuleMouseOver(divID) {
         window.status = "Expand";
     }
 }
-
 function showHideModule(divID, theme) {
     var state = toggleFoldyPersistState(divID);
     var ok = false;
-    if (w3c) {
-        var divIDobj = MM_findObj(divID);
-        var tlobj = MM_findObj(divID + "tl");
-        var toggleobj = MM_findObj(divID + "Toggle");
-        if (divIDobj != null && tlobj != null && toggleobj != null) {
 
-            ok = true;
-            if (state == "c") {
-                tlobj.src = "../themes/" + theme + "/images/spacer.gif";
-                toggleobj.src = "../themes/" + theme + "/images/module_toggle_closed.gif";
-                divIDobj.style.display = "none";
-            } else {
-                tlobj.src = "../themes/" + theme + "/images/spacer.gif";
-                toggleobj.src = "../themes/" + theme + "/images/module_toggle_open.gif";
-                divIDobj.style.display = "";
-            }
+    var divIDobj = document.getElementById(divID);
+    var tlobj = document.querySelector('img[name="' + divID + 'tl"]');
+    var toggleobj = document.querySelector('img[name="' + divID + 'Toggle"]');
+
+    if (divIDobj != null && tlobj != null && toggleobj != null) {
+        ok = true;
+        if (state === "c") {
+            toggleobj.src = "../themes/" + theme + "/images/module_toggle_closed.gif";
+            divIDobj.style.display = "none";
+        } else {
+            toggleobj.src = "../themes/" + theme + "/images/module_toggle_open.gif";
+            divIDobj.style.display = "";
         }
     }
     if (!ok) {
@@ -124,15 +120,15 @@ function showHideModule(divID, theme) {
     }
 
     showHideModuleMouseOver(divID);
-    //window.status = '';
 }
+
 function toggleFoldyPersistState(divID) {
     var theCookie = readCookie(divID);
     var state = "e";
     if ((theCookie == "e") || (theCookie == "")) {
         state = "c";
     }
-    setCookie(divID, state, 'Wed 01 Jan 2020 00:00:00 GMT', '/');
+    setCookie(divID, state, 8760, '/');
     return state;
 }
 
