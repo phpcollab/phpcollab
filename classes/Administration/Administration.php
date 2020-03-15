@@ -42,9 +42,20 @@ class Administration
                 $client = new Client([
                     'base_uri' => 'https://www.phpcollab.com',
                     'timeout' => 2.0,
+                    'headers' => [
+                        'X-server' => $_SERVER['SERVER_SOFTWARE'],
+                        'X-phpc_version' => $oldVersion,
+                        'X-php_version' => phpversion(),
+                    ]
                 ]);
 
-                $res = $client->request('GET', '/website/version-temp.txt', ['allow_redirects' => true, 'synchronous' => true, 'timeout' => 3.0]);
+                $res = $client->request('GET', '/website/version.php',
+                    [
+                        'allow_redirects' => true,
+                        'synchronous' => true,
+                        'timeout' => 10.0
+                    ]
+                );
 
                 $this->newVersion = $res->getBody()->getContents();
 
@@ -87,7 +98,7 @@ class Administration
             $fileDownload = FileDownload::createFromFilePath("/tmp/" . $fileName);
             $fileDownload->sendDownload($fileName);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             echo 'mysqldump-php error: ' . $e->getMessage();
         }
     }
