@@ -755,7 +755,7 @@ SQL;
         $sql = "UPDATE {$this->tableCollab["tasks"]} SET assigned = :assigned WHERE id = :task_id";
         $this->db->query($sql);
         $this->db->bind(':task_id', $taskId);
-        $this->db->bind('assigned', $assignedDate);
+        $this->db->bind(':assigned', $assignedDate);
         return $this->db->execute();
     }
 

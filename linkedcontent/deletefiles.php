@@ -1,21 +1,28 @@
 <?php
+
+use phpCollab\Files\Files;
+use phpCollab\Projects\Projects;
+use phpCollab\Tasks\Tasks;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$files = new \phpCollab\Files\Files();
+$files = new Files();
 
-$action = $_GET["action"];
-$task = $_GET["task"];
-$project = $_GET["project"];
-$sendto = $_POST["sendto"];
-$id = $_GET["id"];
+$task = $request->query->get("task");
+$project = $request->query->get("project");
+
+$sendto = $request->request->get("sendto");
+
+$id = $request->query->get("id");
+
 $strings = $GLOBALS["strings"];
 
-if ($task == "") {
+if (empty($task)) {
     $task = "0";
 }
 
-if ($action == "delete") {
+if ($request->query->get("action") == "delete") {
     $id = str_replace("**", ",", $id);
 
     $listFiles = $files->getFiles($id);
@@ -44,7 +51,7 @@ if ($action == "delete") {
     }
 }
 
-$projects = new \phpCollab\Projects\Projects();
+$projects = new Projects();
 $projectDetail = $projects->getProjectById($project);
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
@@ -55,7 +62,7 @@ $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
 
 if ($task != "0") {
-    $tasks = new \phpCollab\Tasks\Tasks();
+    $tasks = new Tasks();
     $taskDetail = $tasks->getTaskById($task);
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail["pro_id"], $strings["tasks"], "in"));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail["tas_id"], $taskDetail["tas_name"], "in"));
@@ -83,14 +90,18 @@ $id = str_replace("**", ",", $id);
 $listFiles = $files->getFiles($id);
 
 foreach ($listFiles as $file) {
-    echo '<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td>';
-    echo '<td>' . $file["fil_name"] . '</td></tr>';
+    echo <<< HTML
+    <tr class="odd">
+        <td class="leftvalue">&nbsp;</td>
+        <td>{$file["fil_name"]}</td></tr>
+HTML;
+
 }
 
 echo <<<HTML
 <tr class="odd">
-    <td valign="top" class="leftvalue">&nbsp;</td>
-    <td><input type="SUBMIT" value="{$strings["delete"]}">&#160;<input type="BUTTON" value="{$strings["cancel"]}" onClick="history.back();"></td>
+    <td class="leftvalue">&nbsp;</td>
+    <td><input type="submit" value="{$strings["delete"]}">&#160;<input type="button" value="{$strings["cancel"]}" onClick="history.back();"></td>
 </tr>
 HTML;
 

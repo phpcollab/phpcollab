@@ -20,17 +20,6 @@ use phpCollab\DataFunctions;
 **
 ** DESC: Screen: System information and php library
 **
-** HISTORY:
-** 	2003-10-23	-	rewrite setting.php
-**  2005-03-08	-	fixed preferences for user home page
-**	2005-06-13	-	added show subtask in home
-**	2006-09-30	-	added email alerts
-**
-**  2008-11-05  -  Created more paranoid commands when saving.. Started framework for DB Save
-** -----------------------------------------------------------------------------
-** TO-DO:
-** 	add new option
-**	move option to db
 ** =============================================================================
 */
 
@@ -49,26 +38,26 @@ $langSelected = $GLOBALS["langSelected"];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($_GET["action"] == "generate") {
-        if ($installationTypeNew == "offline") {
+        if ($_POST["installationTypeNew"] == "offline") {
             $updateCheckerNew = "false";
         }
 
-        if (substr($rootNew, -1) == "/") {
-            $rootNew = substr($rootNew, 0, -1);
+        if (substr($_POST["rootNew"], -1) == "/") {
+            $rootNew = substr($_POST["rootNew"], 0, -1);
         }
 
-        if (substr($ftpRootNew, -1) == "/") {
-            $ftpRootNew = substr($ftpRootNew, 0, -1);
+        if (substr($_POST["ftpRootNew"], -1) == "/") {
+            $ftpRootNew = substr($_POST["ftpRootNew"], 0, -1);
         }
 
-        if (substr($pathMantisNew, -1) != "/") {
-            $pathMantisNew = $pathMantisNew . "/";
+        if (substr($_POST["pathMantisNew"], -1) != "/") {
+            $pathMantisNew = $_POST["pathMantisNew"] . "/";
         }
 
         // DAB - scrub the data
         $dataFunction = new DataFunctions();
-        $scrubedData = $dataFunction->scrubData($_POST);
-        extract($scrubedData);
+        $scrubbedData = $dataFunction->scrubData($_POST);
+        extract($scrubbedData);
         // -- END Paranoia
 
         $content = <<<STAMP
@@ -78,42 +67,42 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 #Path by root: ../includes/settings.php
 
 # installation type
-\$installationType = "$installationTypeNew"; //select "offline" or "online"
+\$installationType = "{$scrubbedData["installationTypeNew"]}"; //select "offline" or "online"
 
 # select database application
-\$databaseType = "$databaseTypeNew"; //select "sqlserver", "postgresql" or "mysql"
+\$databaseType = "{$scrubbedData["databaseTypeNew"]}"; //select "sqlserver", "postgresql" or "mysql"
 
 # database parameters
-define('MYSERVER','$myserverNew');
-define('MYLOGIN','$myloginNew');
-define('MYPASSWORD','$mypasswordNew');
-define('MYDATABASE','$mydatabaseNew');
+define('MYSERVER','{$scrubbedData["myserverNew"]}');
+define('MYLOGIN','{$scrubbedData["myloginNew"]}');
+define('MYPASSWORD','{$scrubbedData["mypasswordNew"]}');
+define('MYDATABASE','{$scrubbedData["mydatabaseNew"]}');
 
 # notification method
-\$notificationMethod = "$notificationMethodNew"; //select "mail" or "smtp"
+\$notificationMethod = "{$scrubbedData["notificationMethodNew"]}"; //select "mail" or "smtp"
 
 # smtp parameters (only if \$notificationMethod == "smtp")
-define('SMTPSERVER','$smtpserverNew');
-define('SMTPLOGIN','$smtploginNew');
-define('SMTPPASSWORD','$smtppasswordNew');
-define('SMTPPORT','$smtpPortNew');
+define('SMTPSERVER','{$scrubbedData["smtpserverNew"]}');
+define('SMTPLOGIN','{$scrubbedData["smtploginNew"]}');
+define('SMTPPASSWORD','{$scrubbedData["smtppasswordNew"]}');
+define('SMTPPORT','{$scrubbedData["smtpPortNew"]}');
 
 # create folder method
-\$mkdirMethod = "$mkdirMethodNew"; //select "FTP" or "PHP"
+\$mkdirMethod = "{$scrubbedData["mkdirMethodNew"]}"; //select "FTP" or "PHP"
 
 # ftp parameters (only if \$mkdirMethod == "FTP")
-define('FTPSERVER','$ftpserverNew');
-define('FTPLOGIN','$ftploginNew');
-define('FTPPASSWORD','$ftppasswordNew');
+define('FTPSERVER','{$scrubbedData["ftpserverNew"]}');
+define('FTPLOGIN','{$scrubbedData["ftploginNew"]}');
+define('FTPPASSWORD','{$scrubbedData["ftppasswordNew"]}');
 
 # PhpCollab root according to ftp account (only if \$mkdirMethod == "FTP")
-\$ftpRoot = "$ftpRootNew"; //no slash at the end
+\$ftpRoot = "{$scrubbedData["ftpRootNew"]}"; //no slash at the end
 
 # Invoicing module
 \$enableInvoicing = "true";
 
 # theme choice
-define('THEME','$mythemeNew');
+define('THEME','{$scrubbedData["mythemeNew"]}');
 
 # newsdesk limiter
 \$newsdesklimit = 1;
@@ -122,14 +111,14 @@ define('THEME','$mythemeNew');
 \$adminathome = 0;
 
 # timezone GMT management
-\$gmtTimezone = "$gmtTimezoneNew";
+\$gmtTimezone = "{$scrubbedData["gmtTimezoneNew"]}";
 
 # language choice
-\$langDefault = "$langNew";
+\$langDefault = "{$scrubbedData["langNew"]}";
 
 # Mantis bug tracking parameters
 // Should bug tracking be enabled?
-\$enableMantis = "$mantisNew";
+\$enableMantis = "{$scrubbedData["mantisNew"]}";
 
 // Mantis installation directory
 \$pathMantis = "$pathMantisNew";  // add slash at the end
@@ -138,7 +127,7 @@ define('THEME','$mythemeNew');
 \$pathToOpenssl = "/usr/bin/openssl";
 
 # login method, set to "CRYPT"
-\$loginMethod = "$loginMethodNew"; //select "MD5", "CRYPT", or "PLAIN"
+\$loginMethod = "{$scrubbedData["loginMethodNew"]}"; //select "MD5", "CRYPT", or "PLAIN"
 
 # enable LDAP
 \$useLDAP = "false";
@@ -151,8 +140,8 @@ define('THEME','$mythemeNew');
 
 # file management parameters
 \$fileManagement = "true";
-\$maxFileSize = $maxFileSizeNew; //bytes limit for upload
-\$root = "$rootNew"; //no slash at the end
+\$maxFileSize = {$scrubbedData["maxFileSizeNew"]}; //bytes limit for upload
+\$root = "{$scrubbedData["rootNew"]}"; //no slash at the end
 
 # security issue to disallow php files upload
 \$allowPhp = "false";
@@ -161,58 +150,58 @@ define('THEME','$mythemeNew');
 \$sitePublish = "true";
 
 # enable update checker
-\$updateChecker = "$updateCheckerNew";
+\$updateChecker = "{$scrubbedData["updateCheckerNew"]}";
 
 # e-mail notifications
-\$notifications = "$notificationsNew";
+\$notifications = "{$scrubbedData["notificationsNew"]}";
 
 # show peer review area
 \$peerReview = "true";
 
 # show items for home
-\$showHomeBookmarks = $showHomeBookmarksNew;
-\$showHomeProjects = $showHomeProjectsNew;
-\$showHomeTasks = $showHomeTasksNew;
-\$showHomeDiscussions = $showHomeDiscussionsNew;
-\$showHomeReports = $showHomeReportsNew;
-\$showHomeNotes = $showHomeNotesNew;
-\$showHomeNewsdesk = $showHomeNewsdeskNew;
-\$showHomeSubtasks = $showHomeSubtasksNew;
+\$showHomeBookmarks = {$scrubbedData["showHomeBookmarksNew"]};
+\$showHomeProjects = {$scrubbedData["showHomeProjectsNew"]};
+\$showHomeTasks = {$scrubbedData["showHomeTasksNew"]};
+\$showHomeDiscussions = {$scrubbedData["showHomeDiscussionsNew"]};
+\$showHomeReports = {$scrubbedData["showHomeReportsNew"]};
+\$showHomeNotes = {$scrubbedData["showHomeNotesNew"]};
+\$showHomeNewsdesk = {$scrubbedData["showHomeNewsdeskNew"]};
+\$showHomeSubtasks = {$scrubbedData["showHomeSubtasksNew"]};
 
 # security issue to disallow auto-login from external link
-\$forcedLogin = "$forcedloginNew";
+\$forcedLogin = "{$scrubbedData["forcedloginNew"]}";
 
 # table prefix
-\$tablePrefix = "$tablePrefixNew";
+\$tablePrefix = "{$scrubbedData["tablePrefixNew"]}";
 
 # database tables
-\$tableCollab["assignments"] = "$table_assignments";
-\$tableCollab["calendar"] = "$table_calendar";
-\$tableCollab["files"] = "$table_files";
-\$tableCollab["logs"] = "$table_logs";
-\$tableCollab["members"] = "$table_members";
-\$tableCollab["notes"] = "$table_notes";
-\$tableCollab["notifications"] = "$table_notifications";
-\$tableCollab["organizations"] = "$table_organizations";
-\$tableCollab["posts"] = "$table_posts";
-\$tableCollab["projects"] = "$table_projects";
-\$tableCollab["reports"] = "$table_reports";
-\$tableCollab["sorting"] = "$table_sorting";
-\$tableCollab["tasks"] = "$table_tasks";
-\$tableCollab["teams"] = "$table_teams";
-\$tableCollab["topics"] = "$table_topics";
-\$tableCollab["phases"] = "$table_phases";
-\$tableCollab["support_requests"] = "$table_support_requests";
-\$tableCollab["support_posts"] = "$table_support_posts";
-\$tableCollab["subtasks"] = "$table_subtasks";
-\$tableCollab["updates"] = "$table_updates";
-\$tableCollab["bookmarks"] = "$table_bookmarks";
-\$tableCollab["bookmarks_categories"] = "$table_bookmarks_categories";
-\$tableCollab["invoices"] = "$table_invoices";
-\$tableCollab["invoices_items"] = "$table_invoices_items";
-\$tableCollab["services"] = "$table_services";
-\$tableCollab["newsdeskcomments"] = "$table_newsdeskcomments";
-\$tableCollab["newsdeskposts"] = "$table_newsdeskposts";
+\$tableCollab["assignments"] = "{$scrubbedData["table_assignments"]}";
+\$tableCollab["calendar"] = "{$scrubbedData["table_calendar"]}";
+\$tableCollab["files"] = "{$scrubbedData["table_files"]}";
+\$tableCollab["logs"] = "{$scrubbedData["table_logs"]}";
+\$tableCollab["members"] = "{$scrubbedData["table_members"]}";
+\$tableCollab["notes"] = "{$scrubbedData["table_notes"]}";
+\$tableCollab["notifications"] = "{$scrubbedData["table_notifications"]}";
+\$tableCollab["organizations"] = "{$scrubbedData["table_organizations"]}";
+\$tableCollab["posts"] = "{$scrubbedData["tablescrubedDatas"]}";
+\$tableCollab["projects"] = "{$scrubbedData["table_projects"]}";
+\$tableCollab["reports"] = "{$scrubbedData["table_reports"]}";
+\$tableCollab["sorting"] = "{$scrubbedData["table_sorting"]}";
+\$tableCollab["tasks"] = "{$scrubbedData["table_tasks"]}";
+\$tableCollab["teams"] = "{$scrubbedData["table_teams"]}";
+\$tableCollab["topics"] = "{$scrubbedData["table_topics"]}";
+\$tableCollab["phases"] = "{$scrubbedData["table_phases"]}";
+\$tableCollab["support_requests"] = "{$scrubbedData["table_support_requests"]}";
+\$tableCollab["supportscrubedDatas"] = "{$scrubbedData["table_supportscrubedDatas"]}";
+\$tableCollab["subtasks"] = "{$scrubbedData["table_subtasks"]}";
+\$tableCollab["updates"] = "{$scrubbedData["table_updates"]}";
+\$tableCollab["bookmarks"] = "{$scrubbedData["table_bookmarks"]}";
+\$tableCollab["bookmarks_categories"] = "{$scrubbedData["table_bookmarks_categories"]}";
+\$tableCollab["invoices"] = "{$scrubbedData["table_invoices"]}";
+\$tableCollab["invoices_items"] = "{$scrubbedData["table_invoices_items"]}";
+\$tableCollab["services"] = "{$scrubbedData["table_services"]}";
+\$tableCollab["newsdeskcomments"] = "{$scrubbedData["table_newsdeskcomments"]}";
+\$tableCollab["newsdeskposts"] = "{$scrubbedData["table_newsdeskposts"]}";
 
 # PhpCollab version
 \$version = "$version";
@@ -225,13 +214,13 @@ define('THEME','$mythemeNew');
 \$activeJpgraph = "true";
 
 # developement options in footer
-\$footerDev = "$footerdevNew";
+\$footerDev = "{$scrubbedData["footerdevNew"]}";
 
 # filter to see only logged user clients (in team / owner)
-\$clientsFilter = "$clientsFilterNew";
+\$clientsFilter = "{$scrubbedData["clientsFilterNew"]}";
 
 # filter to see only logged user projects (in team / owner)
-\$projectsFilter = "$projectsFilterNew";
+\$projectsFilter = "{$scrubbedData["projectsFilterNew"]}";
 
 # Enable help center support requests, values "true" or "false"
 \$enableHelpSupport = "true";
@@ -246,7 +235,7 @@ define('THEME','$mythemeNew');
 \$lastvisitedpage = false;
 
 # auto-publish tasks?
-\$autoPublishTasks = $autoPublishTasksNew;
+\$autoPublishTasks = {$scrubbedData["autoPublishTasksNew"]};
 
 # html header parameters
 \$setDoctype = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">";
@@ -255,7 +244,7 @@ define('THEME','$mythemeNew');
 \$setKeywords = "PhpCollab, phpcollab.com, Sourceforge, management, web, projects, tasks, organizations, reports, Php, MySql, Sql Server, mssql, Microsoft Sql Server, PostgreSQL, module, application, module, file management, project site, team collaboration, free, crm, CRM, cutomer relationship management, workflow, workgroup";
 
 # Email alerts
-\$emailAlerts = $emailAlertsNew;
+\$emailAlerts = {$scrubbedData["emailAlertsNew"]};
 
 STAMP;
 
@@ -276,6 +265,32 @@ STAMP;
 
     }
 }
+$headBonus =
+    <<<HEAD_BONUS
+<script type="text/JavaScript">
+    function showInfo(el, bool) {
+        document.getElementById(el).style.display = (bool) ? "block" : "none";
+    }
+    
+    document.addEventListener("DOMContentLoaded", function(event) {
+        event.preventDefault();
+        document.getElementById("mkdirMethodFTP").addEventListener("click", function(){
+            showInfo("ftpInfo", true);
+        });
+        document.getElementById("mkdirMethodPHP").addEventListener("click", function(){
+            showInfo("ftpInfo", false);
+        });
+        document.getElementById("notificationMethodMail").addEventListener("click", function(){
+            showInfo("smtpInfo", false);
+        });
+        document.getElementById("notificationMethodSmtp").addEventListener("click", function(){
+            showInfo("smtpInfo", true);
+        });
+    });
+</script>
+HEAD_BONUS;
+
+
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
@@ -348,8 +363,6 @@ echo <<<HTML
         <input value="{$loginMethod}" name="loginMethodNew" type="hidden" />
 HTML;
 
-
-
 if ($version == $versionNew) {
     if ($versionOld == "") {
         $versionOld = $version;
@@ -359,13 +372,6 @@ if ($version == $versionNew) {
     echo "<input value=\"$version\" name=\"versionOldNew\" type=\"hidden\">";
 }
 
-//$safemodeTest = ini_get('safe_mode');
-//if ($safemodeTest == "1") {
-//    $safemode = "on";
-//} else {
-//    $safemode = "off";
-//}
-
 $notificationsTest = function_exists('mail');
 if ($notificationsTest == "true") {
     $mail = "on";
@@ -374,57 +380,57 @@ if ($notificationsTest == "true") {
 }
 
 if ($mkdirMethod == "FTP") {
-    $checked1_a = "checked";
+    $mkdirMethodFTP = "checked";
 } else {
-    $checked2_a = "checked";
+    $mkdirMethodPHP = "checked";
 }
 if ($notifications == "true") {
-    $checked2_b = "checked";
+    $notificationTrue = "checked";
 } else {
-    $checked1_b = "checked";
+    $notificationFalse = "checked";
 }
 if ($forcedLogin == "true") {
-    $checked1_c = "checked";
+    $forcedLoginTrue = "checked";
 } else {
-    $checked2_c = "checked";
+    $forcedLoginFalse = "checked";
 }
 if ($clientsFilter == "true") {
-    $checked1_d = "checked";
+    $clientsFilterTrue = "checked";
 } else {
-    $checked2_d = "checked";
+    $clientsFilterFalse = "checked";
 }
 if ($updateChecker == "true") {
-    $checked1_e = "checked";
+    $updateCheckerTrue = "checked";
 } else {
-    $checked2_e = "checked";
+    $updateCheckerFalse = "checked";
 }
 if ($gmtTimezone == "true") {
-    $checked1_f = "checked";
+    $gmtTimezoneTrue = "checked";
 } else {
-    $checked2_f = "checked";
+    $gmtTimezoneFalse = "checked";
 }
 if ($projectsFilter == "true") {
-    $checked1_h = "checked";
+    $projectsFilterTrue = "checked";
 } else {
-    $checked2_h = "checked";
+    $projectsFilterFalse = "checked";
 }
 
 if ($footerDev == "true") {
-    $checked1_j = "checked";
+    $footerDevTrue = "checked";
 } else {
-    $checked2_j = "checked";
+    $footerDevFalse = "checked";
 }
 
 if ($enableMantis == "true") {
-    $checked1_k = "checked";
+    $enableMantisTrue = "checked";
 } else {
-    $checked2_k = "checked";
+    $enableMantisFalse = "checked";
 }
 
 if ($notificationMethod == "smtp") {
-    $checked1_g = "checked";
+    $notificationMethodSMTP = "checked";
 } else {
-    $checked2_g = "checked";
+    $notificationMethodMail = "checked";
 }
 
 if ($installationType == "offline") {
@@ -495,27 +501,36 @@ if ($emailAlerts === true) {
 
 $block1->contentRow("Installation type", "<input type='radio' name='installationTypeNew' value='offline' $installCheckOffline /> Offline (firewall/intranet, no update checker)&nbsp;<input type='radio' name='installationTypeNew' value='online' $installCheckOnline /> Online");
 
-$block1->contentRow("Update checker", "<input type='radio' name='updateCheckerNew' value='false' $checked2_e /> False&nbsp;<input type='radio' name='updateCheckerNew' value='true' $checked1_e /> True");
+$block1->contentRow("Update checker", "<input type='radio' name='updateCheckerNew' value='false' $updateCheckerFalse /> False&nbsp;<input type='radio' name='updateCheckerNew' value='true' $updateCheckerTrue /> True");
 
 
 $ftpServer = FTPSERVER;
 $ftpServerLogin = FTPLOGIN;
 $ftpServerPassword = FTPPASSWORD;
 
-echo <<<HTML
+if ($mkdirMethod == "PHP") {
+    $ftpInfoStyle = 'style="display: none;"';
+}
+
+echo <<< HTML
 <tr class="odd">
-    <td valign="top" class="leftvalue">* Create folder method" {$blockPage->printHelp("setup_mkdirMethod")}</td>
+    <td class="leftvalue">* Create folder method" {$blockPage->printHelp("setup_mkdirMethod")}</td>
     <td>
-        <table cellpadding=0 cellspacing=0 width=500>
+        <table class="nonStriped" style="width: 500px;">
             <tr>
-                <td valign=top>
-                    <input type="radio" name="mkdirMethodNew" value="PHP" {$checked2_a} /> PHP&nbsp;
-                    <input type="radio" name="mkdirMethodNew" value="FTP" {$checked1_a} /> FTP</td>
-                    <td align=right>
-                        Ftp server <input size="44" value="{$ftpServer}" style="width: 200px" name="ftpserverNew" maxlength="100" type="text" autocomplete="new-password" /><br/>
-                        Ftp login <input size="44" value="{$ftpServerLogin}" style="width: 200px" name="ftploginNew" maxlength="100" type="text" autocomplete="new-password" /><br/>
-                        Ftp password <input size="44" value="{$ftpServerPassword}" style="width: 200px" name="ftppasswordNew" maxlength="100" type="password" autocomplete="new-password" /><br/>
-                        Ftp root <input size="44" value="{$ftpRoot}" style="width: 200px" name="ftpRootNew" maxlength="100" type="text" />
+                <td style="vertical-align: top;">
+                    <input type="radio" id="mkdirMethodPHP" name="mkdirMethodNew" value="PHP" {$mkdirMethodPHP} /> PHP&nbsp;
+                    <input type="radio" id="mkdirMethodFTP" name="mkdirMethodNew" value="FTP" {$mkdirMethodFTP} /> FTP
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right; padding-right: 150px;">
+                    <div id="ftpInfo" {$ftpInfoStyle}>
+                    Ftp server <input size="44" value="{$ftpServer}" style="width: 200px" name="ftpserverNew" maxlength="100" type="text" autocomplete="new-password" /><br/>
+                    Ftp login <input size="44" value="{$ftpServerLogin}" style="width: 200px" name="ftploginNew" maxlength="100" type="text" autocomplete="new-password" /><br/>
+                    Ftp password <input size="44" value="{$ftpServerPassword}" style="width: 200px" name="ftppasswordNew" maxlength="100" type="password" autocomplete="new-password" /><br/>
+                    Ftp root <input size="44" value="{$ftpRoot}" style="width: 200px" name="ftpRootNew" maxlength="100" type="text" />
+                    </div>
                 </td>
             </tr>
         </table>
@@ -529,34 +544,56 @@ $smptLogin = SMTPLOGIN;
 $smptPassword = SMTPPASSWORD;
 $smptPort = SMTPPORT;
 
-echo "<tr class='odd'><td class='leftvalue'>* Notification method" . $blockPage->printHelp("setup_notificationMethod") . "</td><td>
-<table cellpadding=0 cellspacing=0 width=500><tr><td ><input type='radio' name='notificationMethodNew' value='mail' $checked2_g /> PHP mail function&nbsp;<input type='radio' name='notificationMethodNew' value='smtp' $checked1_g /> SMTP</td><td align=right>";
-echo "Smtp server <input size='44' value='" . $smptServer . "' style='width: 200px' name='smtpserverNew' maxlength='100' type='text /'><br/>
-Smtp login <input size='44' value='" . $smptLogin . "' style='width: 200px' name='smtploginNew' maxlength='100' type='text' /><br/>
-Smtp password <input size='44' value='" . $smptPassword . "' style='width: 200px' name='smtppasswordNew' maxlength='100' type='password' /><br />
-Smtp port <input size='44' value='" . $smptPort . "' style='width: 200px' name='smtpPortNew' maxlength='5' type='number' />";
-echo "</td></tr></table>
-</td></tr>";
+if ($notificationMethod == "mail") {
+    $smtpInfoStyle = 'style="display: none;"';
+}
 
-echo "<tr class='odd'><td valign='top' class='leftvalue'>* Theme :</td><td><select name='mythemeNew'>";
+echo <<< HTML
+<tr class="odd">
+    <td class="leftvalue">* Notification method{$blockPage->printHelp("setup_notificationMethod")} </td>
+    <td>
+        <table class="nonStriped" style="width: 500px;">
+            <tr>
+                <td style="">
+                    <input type="radio" id="notificationMethodMail" name="notificationMethodNew" value="mail" {$notificationMethodMail} /> PHP mail function&nbsp;
+                    <input type="radio" id="notificationMethodSmtp" name="notificationMethodNew" value="smtp" {$notificationMethodSMTP} /> SMTP
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right; padding-right: 150px;">
+                    <div id="smtpInfo" $smtpInfoStyle>
+                        Smtp server <input size="44" value="{$smptServer}" style="width: 200px" name="smtpserverNew" maxlength="100" type="text /"><br/>
+                        Smtp login <input size="44" value="{$smptLogin}" style="width: 200px" name="smtploginNew" maxlength="100" type="text" /><br/>
+                        Smtp password <input size="44" value="{$smptPassword}" style="width: 200px" name="smtppasswordNew" maxlength="100" type="password" /><br />
+                        Smtp port <input size="44" value="{$smptPort}" style="width: 200px" name="smtpPortNew" maxlength="5" type="number" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr class="odd">
+    <td class="leftvalue">* Theme :</td>
+    <td><select name="mythemeNew">
+HTML;
 
 $dir = new DirectoryIterator(APP_ROOT . "/themes");
 foreach ($dir as $fileinfo) {
     if ($fileinfo->isDir() && !$fileinfo->isDot()) {
+        $selected = "";
         if ($fileinfo->getFilename() == THEME) {
-            echo '<option value="' . $fileinfo->getFilename() . '" selected>'. $fileinfo->getFilename() . '</option>';
-        } else {
-            echo '<option value="' . $fileinfo->getFilename() . '">'. $fileinfo->getFilename() . '</option>';
+            $selected = "selected";
         }
+        echo '<option value="' . $fileinfo->getFilename() . '" '. $selected .'>'. $fileinfo->getFilename() . '</option>';
     }
 }
 echo "</td></tr>";
 
-$block1->contentRow("Notifications" . $blockPage->printHelp("setup_notifications"), "<input type='radio' name='notificationsNew' value='false' $checked1_b /> False&nbsp;<input type='radio' name='notificationsNew' value='true' $checked2_b /> True<br/>[Mail $mail]");
+$block1->contentRow("Notifications" . $blockPage->printHelp("setup_notifications"), "<input type='radio' name='notificationsNew' value='false' $notificationFalse /> False&nbsp;<input type='radio' name='notificationsNew' value='true' $notificationTrue /> True<br/>[Mail $mail]");
 
-$block1->contentRow("Timezone (GMT)", "<input type='radio' name='gmtTimezoneNew' value='false' $checked2_f /> False&nbsp;<input type='radio' name='gmtTimezoneNew' value='true' $checked1_f /> True");
+$block1->contentRow("Timezone (GMT)", "<input type='radio' name='gmtTimezoneNew' value='false' $gmtTimezoneFalse /> False&nbsp;<input type='radio' name='gmtTimezoneNew' value='true' $gmtTimezoneTrue /> True");
 
-$block1->contentRow("* Forced login" . $blockPage->printHelp("setup_forcedlogin"), "<input type='radio' name='forcedloginNew' value='false' $checked2_c /> False&nbsp;<input type='radio' name='forcedloginNew' value='true' $checked1_c  /> True");
+$block1->contentRow("* Forced login" . $blockPage->printHelp("setup_forcedlogin"), "<input type='radio' name='forcedloginNew' value='false' $forcedLoginFalse /> False&nbsp;<input type='radio' name='forcedloginNew' value='true' $forcedLoginTrue  /> True");
 
 echo <<<HTML
 <tr class="odd">
@@ -605,8 +642,8 @@ $block1->contentRow("* Default max file size", "<input size='44' value='$maxFile
 
 $block1->contentTitle("Options");
 
-$block1->contentRow("Clients filter" . $blockPage->printHelp("setup_clientsfilter"), "<input type='radio' name='clientsFilterNew' value='false' $checked2_d /> False&nbsp;<input type='radio' name='clientsFilterNew' value='true' $checked1_d /> True");
-$block1->contentRow("Projects filter" . $blockPage->printHelp("setup_projectsfilter"), "<input type='radio' name='projectsFilterNew' value='false' $checked2_h /> False&nbsp;<input type='radio' name='projectsFilterNew' value='true' $checked1_h /> True");
+$block1->contentRow("Clients filter" . $blockPage->printHelp("setup_clientsfilter"), "<input type='radio' name='clientsFilterNew' value='false' $clientsFilterFalse /> False&nbsp;<input type='radio' name='clientsFilterNew' value='true' $clientsFilterTrue /> True");
+$block1->contentRow("Projects filter" . $blockPage->printHelp("setup_projectsfilter"), "<input type='radio' name='projectsFilterNew' value='false' $projectsFilterFalse /> False&nbsp;<input type='radio' name='projectsFilterNew' value='true' $projectsFilterTrue /> True");
 
 $block1->contentRow('Show Bookmarks', '<input type="radio" name="showHomeBookmarksNew" value="false" ' . $checkedHomeBookmarks_f . ' /> False&nbsp;<input type="radio" name="showHomeBookmarksNew" value="true" ' . $checkedHomeBookmarks_t . ' /> True');
 $block1->contentRow('Show Projects', '<input type="radio" name="showHomeProjectsNew" value="false" ' . $checkedHomeProjects_f . ' /> False&nbsp;<input type="radio" name="showHomeProjectsNew" value="true" ' . $checkedHomeProjects_t . ' /> True');
@@ -621,9 +658,9 @@ $block1->contentRow('Email Alerts', '<input type="radio" name="emailAlertsNew" v
 
 $block1->contentTitle("Advanced");
 
-$block1->contentRow("Extended footer (dev)", "<input type='radio' name='footerdevNew' value='false' $checked2_j /> False&nbsp;<input type='radio' name='footerdevNew' value='true' $checked1_j /> True");
+$block1->contentRow("Extended footer (dev)", "<input type='radio' name='footerdevNew' value='false' $footerDevFalse /> False&nbsp;<input type='radio' name='footerdevNew' value='true' $footerDevTrue /> True");
 
-$block1->contentRow("Mantis integration", "<input type='radio' name='mantisNew' value='false' $checked2_k /> False&nbsp;<input type='radio' name='mantisNew' value='true' $checked1_k /> True");
+$block1->contentRow("Mantis integration", "<input type='radio' name='mantisNew' value='false' $enableMantisFalse /> False&nbsp;<input type='radio' name='mantisNew' value='true' $enableMantisTrue /> True");
 
 $block1->contentRow("Mantis url", "<input size='44' value='$pathMantis' style='width: 200px' name='pathMantisNew' maxlength='100' type='text' />");
 

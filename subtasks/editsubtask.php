@@ -1,9 +1,7 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 05/11/2004
 ** Path by root:  ../tasks/edittask.php
-** Authors: Ceam / Fullo
 **
 ** =============================================================================
 **
@@ -17,345 +15,282 @@
 **
 ** DESC: Screen:  edit sub task information
 **
-** HISTORY:
-**	05/11/2004	-	fixed 1059973
-**	19/05/2005	-	fixed and &amp; in link
-**  25/04/2006  -   replaced JavaScript Calendar functions
-** -----------------------------------------------------------------------------
-** TO-DO:
-** clean code
 ** =============================================================================
 */
 
 
+use phpCollab\Assignments\Assignments;
+use phpCollab\Members\Members;
+use phpCollab\Phases\Phases;
+use phpCollab\Projects\Projects;
+use phpCollab\Subtasks\Subtasks;
+use phpCollab\Tasks\Tasks;
+use phpCollab\Teams\Teams;
+use phpCollab\Updates\Updates;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$tasks = new \phpCollab\Tasks\Tasks();
-$projects = new \phpCollab\Projects\Projects();
-$members = new \phpCollab\Members\Members();
-$teams = new \phpCollab\Teams\Teams();
+$tasks = new Tasks();
+$projects = new Projects();
+$members = new Members();
+$teams = new Teams();
+$subtasks = new Subtasks();
+$assignments = new Assignments();
+
+$id = $request->query->get("id");
+$parentTaskId = $request->query->get("task");
+
+$date = date('Y-m-d');
+$timestamp = date('Y-m-d h:i');
 
 //case multiple edit tasks
 $multi = strstr($id, "**");
+
 if ($multi != "") {
     phpCollab\Util::headerFunction("batch../tasks/edittask.php?report={$report}&project={$project}&id={$id}");
 }
 
-$taskDetail = $tasks->getTaskById($task);
-
-$project = $taskDetail['tas_project'];
+/**
+ * Get the parent task details
+ */
+$parentTaskDetail = $tasks->getTaskById($parentTaskId);
+// get the project id
+$project = $parentTaskDetail['tas_project'];
 
 if ($id != "") {
-    $subtaskDetail = $tasks->getSubTaskById($id);
+    $subtaskDetail = $subtasks->getById($id);
 }
 
-$projectDetail = $projects->getProjectById($taskDetail['tas_project']);
+$projectDetail = $projects->getProjectById($parentTaskDetail['tas_project']);
 
 $teamMember = "false";
 
-$memberTest = $teams->getTeamByProjectIdAndTeamMember($project, $idSession);
-
-$comptMemberTest = count($memberTest);
-
-if ($comptMemberTest == "0") {
-    $teamMember = "false";
-} else {
-    $teamMember = "true";
-}
+$teamMember = $teams->isTeamMember($projectDetail["pro_id"], $idSession);
 
 if ($teamMember != "true" && $profilSession != "5") {
-    phpCollab\Util::headerFunction("../tasks/viewtask.php?id={$task}&msg=taskOwner");
+    phpCollab\Util::headerFunction("../tasks/viewtask.php?id={$parentTaskId}&msg=taskOwner");
+}
+
+if ($request->isMethod('post')) {
+    $taskName = $request->request->get("task_name");
+    $description = $request->request->get("description");
+    $comments = $request->request->get("comments");
+    $publish = $request->request->get("published");
+    $completion = $request->request->get("completion");
+    $taskStatus = $request->request->get("status");
+    $estimatedTime = $request->request->get("estimated_time");
+    $actualTime = $request->request->get("actual_time");
+    $assignedTo = $request->request->get("assigned_to");
+    $taskPriority = $request->request->get("priority");
+    $startDate = $request->request->get("start_date");
+    $dueDate = $request->request->get("due_date");
+    $completedDate = $request->request->get("completed_date");
+    $updateComments = $request->request->get("update_comments");
+
+    $publish = (empty($publish)) ? "1" : $publish;
+
+    $completion = (empty($completion)) ? "0" : $completion;
+
+    // If the completion is 100%, then set status to completed
+    if ($completion == "10") {
+        $taskStatus = "1";
+    }
 }
 
 //case update or copy task
-if ($id != "") {
-    //case update or copy task
-    if ($action == "update") {
+if (!empty($id)) {
+    if ($request->isMethod('post')) {
+        //case update or copy task
+        if ($action == "update") {
 
-//concat values from date selector and replace quotes by html code in name
-        $tn = phpCollab\Util::convertData($tn);
-        $d = phpCollab\Util::convertData($d);
-        $c = phpCollab\Util::convertData($c);
-
-        //case copy task
-        if ($docopy == "true") {
-
-//case update task
-        } else {
-            if ($pub == "") {
-                $pub = "1";
-            }
-            if ($compl == "10") {
-                $st = "1";
-            }
-
-            //Update task with our without parent phase
-            $tmpquery5 = "UPDATE {$tableCollab["subtasks"]} SET name=:name,description=:description,assigned_to=:assigned_to,status=:status,priority=:priority,start_date=:start_date,due_date=:due_date,estimated_time=:estimated_time,actual_time=:actual_time,comments=:comments,modified=:modified,completion=:completion,published=:published WHERE id = :subtask_id";
-
-            $tmpquery5Params = [];
-            $tmpquery5Params['name'] = $tn;
-            $tmpquery5Params['description'] = $d;
-            $tmpquery5Params['assigned_to'] = $at;
-            $tmpquery5Params['status'] = $st;
-            $tmpquery5Params['priority'] = $pr;
-            $tmpquery5Params['start_date'] = $sd;
-            $tmpquery5Params['due_date'] = $dd;
-            $tmpquery5Params['estimated_time'] = $etm;
-            $tmpquery5Params['actual_time'] = $atm;
-            $tmpquery5Params['comments'] = $c;
-            $tmpquery5Params['modified'] = $dateheure;
-            $tmpquery5Params['completion'] = $compl;
-            $tmpquery5Params['published'] = $pub;
-            $tmpquery5Params['subtask_id'] = $id;
-
-            //compute the average completion of all subtaks of this tasks
-            if ($old_completion != $compl) {
-                $tasks->setCompletion($task, $tasks->recalculateSubtaskAverages($task));
-            }
-
-            if ($st == "1" && $cd == "--") {
-                $tmpquery6 = "UPDATE {$tableCollab["subtasks"]} SET complete_date=:complete_date WHERE id = :subtask_id";
-                $dbParams = [];
-                $dbParams['complete_date'] = $date;
-                $dbParams['subtask_id'] = $id;
-                phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
-                unset($dbParams);
+            //case copy task
+            if ($request->query->get("docopy") == "true") {
+                //case update task
+                echo "do something!";
             } else {
-                $tmpquery6 = "UPDATE {$tableCollab["subtasks"]} SET complete_date=:complete_date WHERE id = :subtask_id";
-                $dbParams = [];
-                $dbParams['complete_date'] = $cd;
-                $dbParams['subtask_id'] = $id;
-                phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
-                unset($dbParams);
-            }
-            if ($old_st == "1" && $st != $old_st) {
-                $tmpquery6 = "UPDATE {$tableCollab["subtasks"]} SET complete_date='' WHERE id = :subtask_id";
-                $dbParams = [];
-                $dbParams['subtask_id'] = $id;
-                phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
-                unset($dbParams);
-            }
 
-            //if assigned_to not blank and past assigned value blank, set assigned date
-            if ($at != "0" && $old_assigned == "") {
-                $tmpquery6 = "UPDATE {$tableCollab["subtasks"]} SET assigned=:assigned WHERE id = :subtask_id";
-                $dbParams = [];
-                $dbParams['assigned'] = $dateheure;
-                $dbParams['subtask_id'] = $id;
-                phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
-                unset($dbParams);
-            }
-
-            //if assigned_to different from past value, insert into assignment
-            //add new assigned_to in team members (only if doesn't already exist)
-            if ($at != $old_at) {
-                $tmpquery2 = "INSERT INTO {$tableCollab["assignments"]} (subtask,owner,assigned_to,assigned) VALUES(:subtask_id,:owner_id,:assigned_to,:assigned_date)";
-                $dbParams = [];
-                $dbParams['subtask_id'] = $id;
-                $dbParams['owner_id'] = $dateheure;
-                $dbParams['assigned_to'] = $at;
-                $dbParams['assigned_date'] = $dateheure;
-                phpCollab\Util::newConnectSql($tmpquery2, $dbParams);
-                unset($dbParams);
-
-                $testinTeam = $teams->getTeamByProjectIdAndTeamMember($project, $at);
-                $comptTestinTeam = count($testinTeam);
-
-                if ($comptTestinTeam == "0") {
-                    $tmpquery3 = "INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES(:project,:member,:published,:authorized)";
-                    $dbParams = [];
-                    $dbParams['project'] = $project;
-                    $dbParams['member'] = $at;
-                    $dbParams['published'] = 1;
-                    $dbParams['authorized'] = 0;
-                    phpCollab\Util::newConnectSql($tmpquery3, $dbParams);
-                    unset($dbParams);
+                //compute the average completion of all subtaks of this tasks
+                if ($subtaskDetail["subtas_completion"] != $completion) {
+                    $tasks->setCompletion($parentTaskId, $tasks->recalculateSubtaskAverages($parentTaskId));
                 }
-                $msg = "update";
-                phpCollab\Util::newConnectSql($tmpquery5, $tmpquery5Params);
-                unset($dbParams);
 
-
-                //send task assignment mail if notifications = true
-                if ($notifications == "true") {
-                    include '../subtasks/noti_taskassignment.php';
+                if ($taskStatus == "1" && $completedDate == "--") {
+                    /**
+                     * If status is "complete" and the completion date is not set completion date to today
+                     */
+                    $subtasks->setCompletionDate($id, $date);
+                } else {
+                    $subtasks->setCompletionDate($id, $completedDate);
                 }
-            } else {
-                $msg = "update";
-                phpCollab\Util::newConnectSql($tmpquery5, $tmpquery5Params);
 
-                //send status task change mail if notifications = true
-                if ($at != "0" && $st != $old_st) {
+                if ($subtaskDetail["subtas_status"] == "1" && $taskStatus != $subtaskDetail["subtas_status"]) {
+                    $subtasks->setCompletionDate($id, '');
+                }
+
+                //if assigned_to not blank and past assigned value blank, set assigned date
+                if ($assignedTo != "0" && $subtaskDetail["subtas_assigned_to"] == "") {
+                    $subtasks->setAssignedDate($id, $timestamp);
+                }
+
+                //if assigned_to different from past value, insert into assignment
+                //add new assigned_to in team members (only if doesn't already exist)
+                if ($assignedTo != $subtaskDetail["subtas_assigned_to"]) {
+                    /**
+                     * Add to assignment table
+                     */
+                    $assignments->addAssignment($id, $timestamp, $assignedTo, $timestamp);
+
+                    if (!$teams->isTeamMember($project, $assignedTo)) {
+                        /**
+                         * Add to Teams table
+                         */
+                        $teams->addTeam($project, $assignedTo, 1, 0);
+                    }
+                    $msg = "update";
+                    /**
+                     * Update subTask
+                     */
+                    $updatedDetails = $subtasks->update($id, $taskName, $description, $assignedTo, $taskStatus, $taskPriority, $startDate,
+                        $dueDate, $estimatedTime, $actualTime, $comments, $timestamp, $completion, $publish);
+
+                    //send task assignment mail if notifications = true
                     if ($notifications == "true") {
-                        include '../subtasks/noti_statustaskchange.php';
+                        try {
+                            $subtasks->sendNotification("assignment", $updatedDetails, $projectDetail);
+                        } catch (Exception $exception) {
+                            echo $exception->getMessage();
+                        }
+                    }
+                } else {
+                    $msg = "update";
+                    /**
+                     * Update subTask
+                     */
+                    $updatedDetails = $subtasks->update($id, $taskName, $description, $assignedTo, $taskStatus, $taskPriority, $startDate,
+                        $dueDate, $estimatedTime, $actualTime, $comments, $timestamp, $completion, $publish);
+
+                    if ($notifications == "true") {
+                        try {
+                            if ($assignedTo != "0") {
+                                //send status task change mail if notifications = true
+                                if ($taskStatus != $subtaskDetail["subtas_status"]) {
+                                    $subtasks->sendNotification("status", $updatedDetails, $projectDetail);
+                                }
+                                //send priority task change mail if notifications = true
+                                if ($taskPriority != $subtaskDetail["subtas_priority"]) {
+                                    $subtasks->sendNotification("priority", $updatedDetails, $projectDetail);
+                                }
+
+                                if ($dueDate != $subtaskDetail["subtas_due_date"]) {
+                                    $subtasks->sendNotification("dueDate", $updatedDetails, $projectDetail);
+                                }
+                            }
+                        } catch (Exception $exception) {
+
+                        }
                     }
                 }
 
-                //send priority task change mail if notifications = true
-                if ($at != "0" && $pr != $old_pr) {
-                    if ($notifications == "true") {
-                        include '../subtasks/noti_prioritytaskchange.php';
-                    }
+                if ($taskStatus != $subtaskDetail["subtas_status"]) {
+                    $updateComments .= "\n[status:$taskStatus]";
+                }
+                if ($taskPriority != $subtaskDetail["subtas_priority"]) {
+                    $updateComments .= "\n[priority:$taskPriority]";
+                }
+                if ($dueDate != $subtaskDetail["subtas_due_date"]) {
+                    $updateComments .= "\n[datedue:$dueDate]";
                 }
 
-                //send due date task change mail if notifications = true
-                if ($at != "0" && $dd != $old_dd) {
-                    if ($notifications == "true") {
-                        include '../subtasks/noti_duedatetaskchange.php';
-                    }
+                if (
+                    !empty($updateComments)
+                    || $taskStatus != $subtaskDetail["subtas_status"]
+                    || $taskPriority != $subtaskDetail["subtas_priority"]
+                    || $dueDate != $subtaskDetail["subtas_due_date"]) {
+                    /**
+                     * Add to updates table
+                     */
+                    $updates = new Updates();
+                    $updateComments = phpCollab\Util::convertData($updateComments);
+                    $updates->addUpdate(2, $id, $idSession, $updateComments);
                 }
-            }
 
-            if ($st != $old_st) {
-                $cUp .= "\n[status:$st]";
+                phpCollab\Util::headerFunction("../subtasks/viewsubtask.php?id={$id}&task={$parentTaskId}&msg={$msg}");
             }
-            if ($pr != $old_pr) {
-                $cUp .= "\n[priority:$pr]";
-            }
-            if ($dd != $old_dd) {
-                $cUp .= "\n[datedue:$dd]";
-            }
-
-            if ($cUp != "" || $st != $old_st || $pr != $old_pr || $dd != $old_dd) {
-                $cUp = phpCollab\Util::convertData($cUp);
-                $tmpquery6 = "INSERT INTO {$tableCollab["updates"]} (type,item,member,comments,created) VALUES (:type,:item,:member,:comments,:created)";
-                $dbParams = [];
-                $dbParams['type'] = 2;
-                $dbParams['item'] = $id;
-                $dbParams['member'] = $idSession;
-                $dbParams['comments'] = $cUp;
-                $dbParams['created'] = $dateheure;
-                phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
-                unset($dbParams);
-            }
-            phpCollab\Util::headerFunction("../subtasks/viewsubtask.php?id={$id}&task={$task}&msg={$msg}");
         }
     }
 
     //set value in form
-    $tn = $subtaskDetail['subtas_name'];
-    $d = $subtaskDetail['subtas_description'];
-    $sd = $subtaskDetail['subtas_start_date'];
-    $dd = $subtaskDetail['subtas_due_date'];
-    $cd = $subtaskDetail['subtas_complete_date'];
-    $etm = $subtaskDetail['subtas_estimated_time'];
-    $atm = $subtaskDetail['subtas_actual_time'];
-    $c = $subtaskDetail['subtas_comments'];
-    $pub = $subtaskDetail['subtas_published'];
-    if ($pub == "0") {
+    $taskName = $subtaskDetail['subtas_name'];
+    $description = $subtaskDetail['subtas_description'];
+    $startDate = $subtaskDetail['subtas_start_date'];
+    $dueDate = $subtaskDetail['subtas_due_date'];
+    $completedDate = $subtaskDetail['subtas_complete_date'];
+    $estimatedTime = $subtaskDetail['subtas_estimated_time'];
+    $actualTime = $subtaskDetail['subtas_actual_time'];
+    $comments = $subtaskDetail['subtas_comments'];
+    $publish = $subtaskDetail['subtas_published'];
+    if ($publish == "0") {
         $checkedPub = "checked";
     }
 }
 
 //case add task
-if ($id == "") {
+if (empty($id)) {
 
-//case add task
-    if ($action == "add") {
+    if ($request->isMethod('post')) {
+        //case add task
+        if ($action == "add") {
 
-//concat values from date selector and replace quotes by html code in name
-        $tn = phpCollab\Util::convertData($tn);
-        $d = phpCollab\Util::convertData($d);
-        $c = phpCollab\Util::convertData($c);
+            //concat values from date selector and replace quotes by html code in name
+            $taskName = phpCollab\Util::convertData($taskName);
+            $description = phpCollab\Util::convertData($description);
+            $comments = phpCollab\Util::convertData($comments);
 
-        if ($compl == "10") {
-            $st = "1";
-        }
-        if ($pub == "") {
-            $pub = "1";
-        }
+            /**
+             * Create new subtask
+             */
+            $newSubtaskId = $subtasks->add($parentTaskId, $taskName, $description, $idSession, $assignedTo, $taskStatus,
+                $taskPriority, $startDate, $dueDate, $estimatedTime, $actualTime, $comments, $completion, $publish);
 
-        //Insert task with our without parent phase
-        $tmpquery1 = "INSERT INTO {$tableCollab["subtasks"]} (task,name,description,owner,assigned_to,status,priority,start_date,due_date,estimated_time,actual_time,comments,created,published,completion) VALUES(:task,:name,:description,:owner,:assigned_to,:status,:priority,:start_date,:due_date,:estimated_time,:actual_time,:comments,:created,:published,:completion)";
-        $dbParams = [];
-        $dbParams['task'] = $task;
-        $dbParams['name'] = $tn;
-        $dbParams['description'] = $d;
-        $dbParams['owner'] = $idSession;
-        $dbParams['assigned_to'] = $at;
-        $dbParams['status'] = $st;
-        $dbParams['priority'] = $pr;
-        $dbParams['start_date'] = $sd;
-        $dbParams['due_date'] = $dd;
-        $dbParams['estimated_time'] = $etm;
-        $dbParams['actual_time'] = $atm;
-        $dbParams['comments'] = $c;
-        $dbParams['created'] = $dateheure;
-        $dbParams['published'] = $pub;
-        $dbParams['completion'] = $compl;
-        phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
-        unset($dbParams);
-
-
-        $tmpquery = $tableCollab["subtasks"];
-        phpCollab\Util::getLastId($tmpquery);
-        $num = $lastId[0];
-        unset($lastId);
-
-        if ($st == "1") {
-            $tmpquery6 = "UPDATE {$tableCollab["subtasks"]} SET complete_date=:complete_date WHERE id = :subtask_id";
-            $dbParams = [];
-            $dbParams['complete_date'] = $date;
-            $dbParams['subtask_id'] = $num;
-            phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
-            unset($dbParams);
-        }
-
-        //compute the average completion of all subtaks of this tasks
-        $tasks->setCompletion($task, $tasks->recalculateSubtaskAverages($task));
-
-        //if assigned_to not blank, set assigned date
-        if ($at != "0") {
-            $tmpquery6 = "UPDATE {$tableCollab["subtasks"]} SET assigned=:assigned WHERE id = :subtask_id";
-            $dbParams = [];
-            $dbParams['assigned'] = $dateheure;
-            $dbParams['subtask_id'] = $num;
-            phpCollab\Util::newConnectSql($tmpquery6, $dbParams);
-            unset($dbParams);
-        }
-        $tmpquery2 = "INSERT INTO {$tableCollab["assignments"]} (subtask,owner,assigned_to,assigned) VALUES (:subtask,:owner,:assigned_to,:assigned)";
-        $dbParams = [];
-        $dbParams['subtask'] = $num;
-        $dbParams['owner'] = $idSession;
-        $dbParams['assigned_to'] = $at;
-        $dbParams['assigned'] = $dateheure;
-        phpCollab\Util::newConnectSql($tmpquery2, $dbParams);
-        unset($dbParams);
-
-
-        //if assigned_to not blank, add to team members (only if doesn't already exist)
-
-
-        //add assigned_to in team members (only if doesn't already exist)
-        if ($at != "0") {
-            $testinTeam = $teams->getTeamByProjectIdAndTeamMember($project, $at);
-
-            $comptTestinTeam = count($testinTeam);
-
-            if ($comptTestinTeam == "0") {
-                $tmpquery3 = "INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES(:project,:member,:published,:authorized)";
-                $dbParams = [];
-                $dbParams['project'] = $project;
-                $dbParams['member'] = $at;
-                $dbParams['published'] = 1;
-                $dbParams['authorized'] = 0;
-                phpCollab\Util::newConnectSql($tmpquery3, $dbParams);
-                unset($dbParams);
+            if ($taskStatus == "1") {
+                $subtasks->setCompletionDate($newSubtaskId, $date);
             }
 
-            //send task assignment mail if notifications = true
-            if ($notifications == "true") {
-                include '../subtasks/noti_taskassignment.php';
+            //compute the average completion of all subtaks of this tasks
+            $tasks->setCompletion($parentTaskId, $tasks->recalculateSubtaskAverages($parentTaskId));
+
+            //if assigned_to not blank, set assigned date
+            if ($assignedTo != "0") {
+                $subtasks->setAssignedDate($newSubtaskId, $timestamp);
             }
-        }
 
-        //create task sub-folder if filemanagement = true
-        if ($fileManagement == "true") {
-            phpCollab\Util::createDirectory("../files/$project/$num");
-        }
+            $assignments->addAssignment($newSubtaskId, $idSession, $assignedTo, $timestamp);
 
-        phpCollab\Util::headerFunction("../subtasks/viewsubtask.php?id={$num}&task={$task}&msg=add");
+            //if assigned_to not blank, add to team members (only if doesn't already exist)
+            //add assigned_to in team members (only if doesn't already exist)
+            if ($assignedTo != "0") {
+                if (!$teams->isTeamMember($project, $idSession)) {
+                    $teams->addTeam($project, $assignedTo, 1, 0);
+                }
+
+                //send task assignment mail if notifications = true
+                if ($notifications == "true") {
+                    try {
+                        $subtasks->sendNotification("assignment", $subtaskDetail, $projectDetail);
+                    } catch (Exception $exception) {
+
+                    }
+                }
+            }
+
+            //create task sub-folder if filemanagement = true
+            if ($fileManagement == "true") {
+                phpCollab\Util::createDirectory("../files/$project/$newSubtaskId");
+            }
+
+            phpCollab\Util::headerFunction("../subtasks/viewsubtask.php?id={$newSubtaskId}&task={$parentTaskId}&msg=add");
+        }
     }
 
     //set default values
@@ -369,48 +304,49 @@ if ($projectDetail['pro_org_id'] == "1") {
 }
 
 if ($projectDetail['pro_phase_set'] != "0") {
-    $phases = new \phpCollab\Phases\Phases();
+    $phases = new Phases();
     if ($id != "") {
-        $tPhase = $taskDetail['tas_parent_phase'];
+        $tPhase = $parentTaskDetail['tas_parent_phase'];
         if (!$tPhase) {
             $tPhase = '0';
         }
-        $projectId = $taskDetail['tas_project'];
+        $projectId = $parentTaskDetail['tas_project'];
     }
     if ($id == "") {
         $tPhase = $phase;
         $projectId = $project;
     }
-    $targetPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($projectId, $tPhase);
+    $targetPhase = $phases->getPhasesByProjectIdAndPhaseOrderNum($projectDetail["pro_id"], $tPhase);
 }
 
-$bodyCommand = "onload=\"document.etDForm.compl.value = document.etDForm.completion.selectedIndex;document.etDForm.tn.focus();\"";
+$bodyCommand = 'onload="document.etDForm.task_name.focus();"';
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
-include '../themes/' . THEME . '/header.php';
+
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail['pro_id'], $projectDetail['pro_name'], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail['pro_id'], $projectDetail['pro_name'], "in"));
 
 if ($projectDetail['pro_phase_set'] != "0") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail['pro_id'], $strings["phases"], in));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase['pha_id'], $targetPhase['pha_name'], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail['pro_id'], $strings["phases"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase['pha_id'], $targetPhase['pha_name'], "in"));
 }
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail['pro_id'], $strings["tasks"], in));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail['tas_id'], $taskDetail['tas_name'], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail['pro_id'], $strings["tasks"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $parentTaskDetail['tas_id'], $parentTaskDetail['tas_name'], "in"));
 
 if ($id == "") {
     $blockPage->itemBreadcrumbs($strings["add_subtask"]);
 }
 if ($id != "") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../subtasks/viewsubtask.php?task=$task&id=" . $subtaskDetail['subtas_id'], $subtaskDetail['subtas_name'], in));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../subtasks/viewsubtask.php?task={$parentTaskId}&id=" . $subtaskDetail['subtas_id'], $subtaskDetail['subtas_name'], "in"));
     $blockPage->itemBreadcrumbs($strings["edit_subtask"]);
 }
 
 $blockPage->closeBreadcrumbs();
 
-if ($msg != "") {
+if (!empty($msg)) {
     include '../includes/messages.php';
     $blockPage->messageBox($msgLabel);
 }
@@ -419,21 +355,14 @@ $block1 = new phpCollab\Block();
 
 if ($id == "") {
     $block1->form = "etD";
-    $block1->openForm("../subtasks/editsubtask.php?task=$task&action=add&#" . $block1->form . "Anchor");
+    $block1->openForm("../subtasks/editsubtask.php?task={$parentTaskId}&action=add&#" . $block1->form . "Anchor");
 }
 if ($id != "") {
     $block1->form = "etD";
-    $block1->openForm("../subtasks/editsubtask.php?task=$task&id=$id&action=update&docopy=$docopy&#" . $block1->form . "Anchor");
-    echo "	<input type='hidden' name='old_at' value='" . $subtaskDetail['subtas_assigned_to'] . "'>
-			<input type='hidden' name='old_assigned' value='" . $subtaskDetail['subtas_assigned'] . "'>
-			<input type='hidden' name='old_pr' value='" . $subtaskDetail['subtas_priority'] . "'>
-			<input type='hidden' name='old_st' value='" . $subtaskDetail['subtas_status'] . "'>
-			<input type='hidden' name='old_dd' value='" . $subtaskDetail['subtas_due_date'] . "'>
-			<input type='hidden' name='old_project' value='" . $subtaskDetail['subtas_project'] . "'>
-			<input type='hidden' name='old_completion' value='" . $subtaskDetail['subtas_completion'] . "'>";
+    $block1->openForm("../subtasks/editsubtask.php?task={$parentTaskId}&id={$id}&action=update&docopy={$docopy}&#" . $block1->form . "Anchor");
 }
 
-if ($error != "") {
+if (isset($error) && !empty($error)) {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
 }
@@ -452,179 +381,254 @@ if ($id != "") {
 $block1->openContent();
 $block1->contentTitle($strings["info"]);
 
-echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["project"] . " :</td><td>" . $blockPage->buildLink("../projects/viewproject.php?id=" . $taskDetail['tas_project'], $taskDetail['tas_pro_name'], 'in') . "</td></tr>";
+$projectLink = $blockPage->buildLink("../projects/viewproject.php?id={$parentTaskDetail["tas_project"]}", $parentTaskDetail["tas_pro_name"], "in");
+echo <<< HTML
+    <tr class="odd">
+        <td class="leftvalue">{$strings["project"]} :</td>
+        <td>{$projectLink}</td>
+    </tr>
+HTML;
+
 
 //Display task's phase
 if ($projectDetail['pro_phase_set'] != "0") {
-    echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["phase"] . " :</td><td>" . $blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase['pha_id'], $targetPhase['pha_name'], in) . "</td></tr>";
+    echo <<< HTML
+    <tr class="odd">
+        <td class="leftvalue">{$strings["phase"]} :</td>
+        <td>{$blockPage->buildLink("../phases/viewphase.php?id={$targetPhase["pha_id"]}", $targetPhase["pha_name"], "in")}</td>
+    </tr>
+HTML;
+
 }
-echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["task"] . " :</td><td>" . $blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail['tas_id'], $taskDetail['tas_name'], in) . "</td></tr>
-<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["organization"] . " :</td><td>" . $projectDetail['pro_org_name'] . "</td></tr>";
+echo <<< HTML
+<tr class="odd">
+    <td class="leftvalue">{$strings["task"]} :</td>
+    <td>{$blockPage->buildLink('../tasks/viewtask.php?id=' . $parentTaskDetail["tas_id"], $parentTaskDetail["tas_name"], "in")}</td></tr>
+<tr class="odd"><td class="leftvalue">{$strings["organization"]} :</td><td>{$projectDetail["pro_org_name"]}</td></tr>
+HTML;
+
 
 $block1->contentTitle($strings["details"]);
 
-echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["name"] . " :</td><td><input size='44' value='";
+$subtaskDetail['subtas_name'] = ($docopy != "true") ? $subtaskDetail['subtas_name'] : $strings["copy_of"] . ' ' . $subtaskDetail['subtas_name'];
 
-if ($docopy == "true") {
-    echo $strings["copy_of"];
-}
-
-echo "$tn' style='width: 400px' name='tn' maxlength='100' type='TEXT'></td></tr>
-<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["description"] . " :</td><td><textarea rows='10' style='width: 400px; height: 160px;' name='d' cols='47'>$d</textarea></td></tr>
-<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["assigned_to"] . " :</td><td><select name='at'>";
+echo <<< HTML
+    <tr class="odd">
+        <td class="leftvalue">{$strings["name"]} :</td>
+        <td><input size="44" value="{$subtaskDetail['subtas_name']}" style="width: 400px" name="task_name" maxlength="100" type="text"></td>
+    </tr>
+    <tr class="odd">
+        <td class="leftvalue">{$strings["description"]} :</td>
+        <td><textarea rows="10" style="width: 400px; height: 160px;" name="description" cols="47">{$subtaskDetail['subtas_description']}</textarea></td>
+    </tr>
+    <tr class="odd">
+        <td class="leftvalue">{$strings["assigned_to"]} :</td>
+        <td><select name="assigned_to">
+HTML;
 
 if ($subtaskDetail['subtas_assigned_to'] == "0") {
-    echo "<option value='0' selected>" . $strings["unassigned"] . "</option>";
+    $selected = "selected";
 } else {
-    echo "<option value='0'>" . $strings["unassigned"] . "</option>";
+    $selected = "";
 }
+echo <<< HTML
+    <option value="0" {$selected}>{$strings["unassigned"]}</option>
+HTML;
 
-$assignto = $teams->getTeamByProjectId($project, 'mem.name');
+$teamMembers = $teams->getTeamByProjectId($project, 'mem.name');
 
-foreach ($assignto as $team_member) {
+foreach ($teamMembers as $team_member) {
     $clientUser = "";
     if ($team_member['tea_mem_profil'] == "3") {
         $clientUser = " (" . $strings["client_user"] . ")";
     }
     if ($subtaskDetail['subtas_assigned_to'] == $team_member['tea_mem_id']) {
-        echo "<option value=\"" . $team_member['tea_mem_id'] . "\" selected>" . $team_member['tea_mem_login'] . " / " . $team_member['tea_mem_name'] . "$clientUser</option>";
+        $selected = "selected";
     } else {
-        echo "<option value=\"" . $team_member['tea_mem_id'] . "\">" . $team_member['tea_mem_login'] . " / " . $team_member['tea_mem_name'] . "$clientUser</option>";
+        $selected = "";
     }
+    echo <<< HTML
+        <option value="{$team_member["tea_mem_id"]}" {$selected}>{$team_member["tea_mem_login"]} / {$team_member["tea_mem_name"]} {$clientUser}</option>
+HTML;
 }
 
-echo "</select></td></tr>";
+echo <<< HTML
+    </select></td>
+</tr>
+<tr class="odd">
+    <td class="leftvalue">{$strings["status"]} :</td>
+    <td><select name="status" onchange="changeSt(this)">
+HTML;
 
-echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["status"] . " :</td><td><select name='st' onchange='changeSt(this)'>";
 
 $comptSta = count($status);
 
 for ($i = 0; $i < $comptSta; $i++) {
     if ($subtaskDetail['subtas_status'] == $i) {
-        echo "<option value=\"$i\" selected>$status[$i]</option>";
+        $selected = "selected";
     } else {
-        echo "<option value=\"$i\">$status[$i]</option>";
+        $selected = "";
     }
+    echo <<< HTML
+        <option value="{$i}" {$selected}>{$status[$i]}</option>";
+HTML;
 }
 
-echo "</select></td></tr>
-<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["completion"] . " :</td><td><input name='compl' type='hidden' value='" . $subtaskDetail['subtas_completion'] . "'><select name='completion' onchange='changeCompletion(this)'>";
+echo <<< HTML
+    </select></td>
+</tr>
+<tr class="odd">
+    <td class="leftvalue">{$strings["completion"]} :</td>
+    <td><select name="completion" onchange="changeCompletion(this)">
+HTML;
+
 
 for ($i = 0; $i < 11; $i++) {
-    $complValue = ($i > 0) ? $i . "0 %" : $i . " %";
+    $completionValue = ($i > 0) ? $i . "0 %" : $i . " %";
     if ($subtaskDetail['subtas_completion'] == $i) {
-        echo "<option value='" . $i . "' selected>" . $complValue . "</option>";
+        $selected = "selected";
     } else {
-        echo "<option value='" . $i . "'>" . $complValue . "</option>";
+        $selected = "";
     }
+    echo <<< HTML
+        <option value="{$i}" {$selected}>{$completionValue}</option>";
+HTML;
 }
 
-echo "</select></td></tr>
-<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">" . $strings["priority"] . " :</td><td><select name=\"pr\">";
+echo <<< HTML
+    </select></td>
+</tr>
+<tr class="odd">
+    <td class="leftvalue">{$strings["priority"]} :</td>
+    <td><select name="priority">
+HTML;
+
 
 $comptPri = count($priority);
 
 for ($i = 0; $i < $comptPri; $i++) {
     if ($subtaskDetail['subtas_priority'] == $i) {
-        echo "<option value='$i' selected>$priority[$i]</option>";
+        $selected = "selected";
     } else {
-        echo "<option value='$i'>$priority[$i]</option>";
+        $selected = "";
     }
+    echo <<< HTML
+        <option value="{$i}" {$selected}>{$priority[$i]}</option>";
+HTML;
+
 }
 
-echo "</select></td></tr>";
+echo <<< HTML
+    </select></td>
+</tr>
+HTML;
 
-if ($sd == "") {
-    $sd = $date;
+if ($subtaskDetail["subtas_start_date"] == "") {
+    $subtaskDetail["subtas_start_date"] = $date;
 }
-if ($dd == "") {
-    $dd = "--";
+if ($subtaskDetail["subtas_due_date"] == "") {
+    $subtaskDetail["subtas_due_date"] = "--";
 }
-if ($cd == "") {
-    $cd = "--";
+if ($subtaskDetail["subtas_complete_date"] == "") {
+    $subtaskDetail["subtas_complete_date"] = "--";
 }
 
+$block1->contentRow($strings["start_date"], "<input type='text' name='start_date' id='start_date' size='20' value='{$subtaskDetail["subtas_start_date"]}'><input type='button' value=' ... ' id='trigStartDate'>");
 
-$block1->contentRow($strings["start_date"], "<input type='text' name='sd' id='start_date' size='20' value='$sd'><input type='button' value=' ... ' id='trigStartDate'>");
-echo "<script type='text/javascript'>
+echo <<< JavaScript
+<script type="text/javascript">
     Calendar.setup({
-        inputField     :    'start_date',
-        button         :    'trigStartDate',
-        $calendar_common_settings
-    });
+        inputField     :    "start_date",
+        button         :    "trigStartDate",
+        {$calendar_common_settings}
+    })
 </script>
-";
+JavaScript;
 
-$block1->contentRow($strings["due_date"], "<input type='text' name='dd' id='due_date' size='20' value='$dd'><input type='button' value=' ... ' id='trigDueDate'>");
-echo "<script type='text/javascript'>
+$block1->contentRow($strings["due_date"], "<input type='text' name='due_date' id='due_date' size='20' value='{$subtaskDetail["subtas_due_date"]}'><input type='button' value=' ... ' id='trigDueDate'>");
+echo <<< JavaScript
+<script type="text/javascript">
     Calendar.setup({
-        inputField     :    'due_date',
-        button         :    'trigDueDate',
-        $calendar_common_settings
-    });
-</script>";
+        inputField     :    "due_date",
+        button         :    "trigDueDate",
+        {$calendar_common_settings}
+    })
+</script>
+JavaScript;
+
 
 if ($id != "") {
-    $block1->contentRow($strings["complete_date"], "<input type='text' name='cd' id='complete_date' size='20' value='$cd'><input type='button' value=' ... ' id='trigCompleteDate'>");
-    echo "<script type='text/javascript'>
+    $block1->contentRow($strings["complete_date"], "<input type='text' name='completed_date' id='complete_date' size='20' value='{$subtaskDetail["subtas_complete_date"]}'><input type='button' value=' ... ' id='trigCompleteDate'>");
+    echo <<< JavaScript
+<script type="text/javascript">
     Calendar.setup({
-        inputField     :    'complete_date',
-        button         :    'trigCompleteDate',
-        $calendar_common_settings
-    });
-</script>";
+        inputField     :    "complete_date",
+        button         :    "trigCompleteDate",
+        {$calendar_common_settings}
+    })
+</script>
+JavaScript;
+
 }
 
-echo "	<tr class='odd'>
-			<td valign='top' class='leftvalue'>" . $strings["estimated_time"] . " :</td>
-			<td><input size='32' value='$etm' style='width: 250px' name='etm' maxlength='32' type='TEXT'>&nbsp;" . $strings["hours"] . "</td>
+echo <<< HTML
+        <tr class="odd">
+			<td class="leftvalue">{$strings["estimated_time"]} :</td>
+			<td><input size="32" value="{$subtaskDetail["subtas_estimated_time"]}" style="width: 250px" name="estimated_time" maxlength="32" type="text">&nbsp;{$strings["hours"]}</td>
 		</tr>
-		<tr class='odd'>
-			<td valign='top' class='leftvalue'>" . $strings["actual_time"] . " :</td>
-			<td><input size='32' value='$atm' style='width: 250px' name='atm' maxlength='32' type='TEXT'>&nbsp;" . $strings["hours"] . "</td>
+		<tr class="odd">
+			<td class="leftvalue">{$strings["actual_time"]} :</td>
+			<td><input size="32" value="{$subtaskDetail["subtas_actual_time"]}" style="width: 250px" name="actual_time" maxlength="32" type="text">&nbsp;{$strings["hours"]}</td>
 		</tr>
-		<tr class='odd'>
-			<td valign='top' class='leftvalue'>" . $strings["comments"] . " :</td>
-			<td><textarea rows='10' style='width: 400px; height: 160px;' name='c' cols='47'>$c</textarea></td>
+		<tr class="odd">
+			<td class="leftvalue">{$strings["comments"]} :</td>
+			<td><textarea rows="10" style="width: 400px; height: 160px;" name="comments" cols="47">{$subtaskDetail["subtas_comments"]}</textarea></td>
 		</tr>
-		<tr class='odd'>
-			<td valign='top' class='leftvalue'>" . $strings["published"] . " :</td>
-			<td><input size='32' value='0' name='pub' type='checkbox' $checkedPub></td>
-		</tr>";
+		<tr class="odd">
+			<td class="leftvalue">{$strings["published"]} :</td>
+			<td><input size="32" value="0" name="publish" type="checkbox" {$checkedPub}></td>
+		</tr>
+HTML;
+
 
 if ($id != "") {
     $block1->contentTitle($strings["updates_subtask"]);
-    echo "
-		<tr class='odd'>
-			<td valign='top' class='leftvalue'>" . $strings["comments"] . " :</td>
-			<td><textarea rows='10' style='width: 400px; height: 160px;' name='cUp' cols='47'></textarea></td>
-		</tr>";
+    echo <<< HTML
+		<tr class="odd">
+			<td class="leftvalue">{$strings["comments"]} :</td>
+			<td><textarea rows="10" style="width: 400px; height: 160px;" name="update_comments" cols="47"></textarea></td>
+		</tr>
+HTML;
+
 }
 
-echo "	<tr class='odd'>
-			<td valign='top' class='leftvalue'>&nbsp;</td>
-			<td><input type='SUBMIT' value='" . $strings["save"] . "'></td>
-		</tr>";
+echo <<< HTML
+<tr class="odd">
+    <td class="leftvalue">&nbsp;</td>
+    <td><input type="submit" value="{$strings["save"]}"></td>
+</tr>
+HTML;
+
 
 $block1->closeContent();
 $block1->closeForm();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';
 ?>
 
 <script>
     function changeSt(theObj, firstRun) {
-        if (theObj.selectedIndex == 3) {
-            if (firstRun != true) document.etDForm.completion.selectedIndex = 0;
-            document.etDForm.compl.value = 0;
+        if (theObj.selectedIndex === 3) {
+            if (firstRun !== true) document.etDForm.completion.selectedIndex = 0;
+            // document.etDForm.compl.value = 0;
             document.etDForm.completion.disabled = false;
         } else {
-            if (theObj.selectedIndex == 0 || theObj.selectedIndex == 1) {
+            if (theObj.selectedIndex === 0 || theObj.selectedIndex === 1) {
                 document.etDForm.completion.selectedIndex = 10;
-                document.etDForm.compl.value = 10;
+                // document.etDForm.compl.value = 10;
             } else {
                 document.etDForm.completion.selectedIndex = 0;
-                document.etDForm.compl.value = 0;
+                // document.etDForm.compl.value = 0;
             }
             document.etDForm.completion.disabled = true;
         }
@@ -634,5 +638,5 @@ include '../themes/' . THEME . '/footer.php';
         document.etDForm.compl.value = document.etDForm.completion.selectedIndex;
     }
 
-    changeSt(document.etDForm.st, true);
+    changeSt(document.etDForm.status, true);
 </script>

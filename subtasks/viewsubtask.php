@@ -1,9 +1,7 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 05/11/2004
 ** Path by root:  ../tasks/viewsubtask.php
-** Authors: Ceam / Fullo
 **
 ** =============================================================================
 **
@@ -17,12 +15,6 @@
 **
 ** DESC: Screen: view sub task information
 **
-** HISTORY:
-**	05/11/2004	-	fixed 1059973
-**	19/05/2005	-	fixed and &amp; in link
-** -----------------------------------------------------------------------------
-** TO-DO:
-** clean code
 ** =============================================================================
 */
 
@@ -30,6 +22,7 @@
 use phpCollab\Assignments\Assignments;
 use phpCollab\Phases\Phases;
 use phpCollab\Projects\Projects;
+use phpCollab\Subtasks\Subtasks;
 use phpCollab\Tasks\Tasks;
 use phpCollab\Teams\Teams;
 use phpCollab\Updates\Updates;
@@ -38,54 +31,32 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 $tasks = new Tasks();
+$subtasks = new Subtasks();
 $projects = new Projects();
 $teams = new Teams();
 $assignments = new Assignments();
 
-$task = $_GET['task'];
-$addToSite = $_GET['addToSite'];
-$removeToSite = $_GET['removeToSite'];
-$addToSiteFile = $_GET['addToSiteFile'];
-$removeToSiteFile = $_GET['removeToSiteFile'];
-$id = $_GET['id'];
+$id = $request->query->get("id");
+$task = $request->query->get("task");
+$addToSite = $request->query->get("addToSite");
 $idSession = $_SESSION['idSession'];
+$msg = null;
 
-if ($_GET['action'] == "publish") {
+if ($request->query->get("action") == "publish") {
     if ($addToSite == "true") {
-        $tmpquery1 = "UPDATE {$tableCollab["subtasks"]} SET published=0 WHERE id = :subtask_id";
-        $dbParams = ["subtask_id" => $id];
-        phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
-        unset($dbParams);
+        $subtasks->publish($id);
         $msg = "addToSite";
     }
 
-    if ($removeToSite == "true") {
-        $tmpquery1 = "UPDATE {$tableCollab["subtasks"]} SET published=1 WHERE id = :subtask_id";
-        $dbParams = ["subtask_id" => $id];
-        phpCollab\Util::newConnectSql($tmpquery1, $dbParams);
-        unset($dbParams);
+    if ($request->query->get("removeToSite") == "true") {
+        $subtasks->unpublish($id);
         $msg = "removeToSite";
-    }
-
-    if ($addToSiteFile == "true") {
-        $id = str_replace("**", ",", $id);
-
-        $tasks->addToSiteFile($id);
-        $msg = "addToSite";
-        $id = $task;
-    }
-
-    if ($removeToSiteFile == "true") {
-        $id = str_replace("**", ",", $id);
-        $tasks->removeToSiteFile($id);
-        $msg = "removeToSite";
-        $id = $task;
     }
 }
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
-$subtaskDetail = $tasks->getSubTaskById($id);
+$subtaskDetail = $subtasks->getById($id);
 
 $taskDetail = $tasks->getTaskById($task);
 
@@ -101,13 +72,7 @@ if ($projectDetail['pro_enable_phase'] != "0") {
 }
 
 $teamMember = "false";
-$comptMemberTest = count($teams->getTeamByProjectIdAndTeamMember($taskDetail['tas_project'], $idSession));
-
-if ($comptMemberTest == "0") {
-    $teamMember = "false";
-} else {
-    $teamMember = "true";
-}
+$teamMember = $teams->isTeamMember($taskDetail["tas_project"], $idSession);
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -124,7 +89,7 @@ $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . 
 $blockPage->itemBreadcrumbs($subtaskDetail['subtas_name']);
 $blockPage->closeBreadcrumbs();
 
-if ($msg != "") {
+if (!empty($msg)) {
     include '../includes/messages.php';
     $blockPage->messageBox($msgLabel);
 }
@@ -188,14 +153,14 @@ $block1->contentRow($strings["completion"], $complValue);
 $block1->contentRow($strings["priority"], "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
 $block1->contentRow($strings["start_date"], $subtaskDetail['subtas_start_date']);
 if ($subtaskDetail['subtas_due_date'] <= $date && $subtaskDetail['subtas_completion'] != "10") {
-    $block1->contentRow($strings["due_date"], "<b>" . $subtaskDetail['subtas_due_date'] . "</b>");
+    $block1->contentRow($strings["due_date"], "<strong>" . $subtaskDetail['subtas_due_date'] . "</strong>");
 } else {
     $block1->contentRow($strings["due_date"], $subtaskDetail['subtas_due_date']);
 }
 if ($subtaskDetail['subtas_complete_date'] != "" && $subtaskDetail['subtas_complete_date'] != "--" && $subtaskDetail['subtas_due_date'] != "--") {
     $diff = phpCollab\Util::diffDate($subtaskDetail['subtas_complete_date'], $subtaskDetail['subtas_due_date']);
     if ($diff > 0) {
-        $diff = "<b>+$diff</b>";
+        $diff = "<strong>+$diff</strong>";
     }
     $block1->contentRow($strings["complete_date"], $subtaskDetail['subtas_complete_date']);
     $block1->contentRow($strings["scope_creep"] . $blockPage->printHelp("task_scope_creep"), "$diff " . $strings["days"]);
@@ -215,28 +180,34 @@ $listUpdates = $updates->getUpdates(2, $id);
 
 $comptListUpdates = count($listUpdates);
 
-echo '<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td>';
+echo <<< HTML
+    <tr class="odd">
+        <td class="leftvalue">&nbsp;</td>
+        <td>
+HTML;
+
+
 if ($comptListUpdates != "0") {
     $j = 1;
     foreach ($listUpdates as $update) {
-        if (preg_match('|\[status:([0-9])\]|', $update['upd_comments'])) {
-            preg_match('|\[status:([0-9])\]|i', $update['upd_comments'], $matches);
-            $update['upd_comments'] = preg_replace('|\[status:([0-9])\]|', '', $update['upd_comments'] . '<br/>');
+        if (preg_match('|\[status:([0-9])]|', $update['upd_comments'])) {
+            preg_match('|\[status:([0-9])]|i', $update['upd_comments'], $matches);
+            $update['upd_comments'] = preg_replace('|\[status:([0-9])]|', '', $update['upd_comments'] . '<br/>');
             $update['upd_comments'] .= $strings["status"] . ' ' . $status[$matches[1]];
         }
-        if (preg_match('|\[priority:([0-9])\]|', $update['upd_comments'])) {
-            preg_match('|\[priority:([0-9])\]|i', $update['upd_comments'], $matches);
-            $update['upd_comments'] = preg_replace('|\[priority:([0-9])\]|', '', $update['upd_comments'] . '<br/>');
+        if (preg_match('|\[priority:([0-9])]|', $update['upd_comments'])) {
+            preg_match('|\[priority:([0-9])]|i', $update['upd_comments'], $matches);
+            $update['upd_comments'] = preg_replace('|\[priority:([0-9])]|', '', $update['upd_comments'] . '<br/>');
             $update['upd_comments'] .= $strings["priority"] . ' ' . $priority[$matches[1]];
         }
-        if (preg_match('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]|', $update['upd_comments'])) {
-            preg_match('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]|i', $update['upd_comments'], $matches);
-            $update['upd_comments'] = preg_replace('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]|', '', $update['upd_comments'] . '<br/>');
+        if (preg_match('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})]|', $update['upd_comments'])) {
+            preg_match('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})]|i', $update['upd_comments'], $matches);
+            $update['upd_comments'] = preg_replace('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})]|', '', $update['upd_comments'] . '<br/>');
             $update['upd_comments'] .= $strings["due_date"] . ' ' . $matches[1];
         }
 
         $abbrev = stripslashes(substr($update['upd_comments'], 0, 100));
-        echo "<b>" . $j . ".</b> <i>" . phpCollab\Util::createDate($update['upd_created'], $timezoneSession) . "</i> $abbrev";
+        echo "<strong>" . $j . ".</strong> <em>" . phpCollab\Util::createDate($update['upd_created'], $timezoneSession) . "</em> $abbrev";
         if (100 < strlen($update['upd_comments'])) {
             echo "...<br/>";
         } else {
@@ -249,7 +220,10 @@ if ($comptListUpdates != "0") {
     echo $strings["no_items"];
 }
 
-echo "</td></tr>";
+echo <<< HTML
+    </td>
+</tr>
+HTML;
 
 $block1->closeContent();
 $block1->closeToggle();
@@ -263,7 +237,7 @@ if ($teamMember == "true" || $profilSession == "5") {
         $block1->paletteScript(4, "remove_projectsite", "../subtasks/viewsubtask.php?removeToSite=true&task=$task&id=" . $subtaskDetail['subtas_id'] . "&action=publish", "true,true,true", $strings["remove_project_site"]);
     }
     $block1->paletteScript(5, "edit", "../subtasks/editsubtask.php?task=$task&id=$id&docopy=false", "true,true,false", $strings["edit"]);
-    $block1->closePaletteScript(count($listAssign), array_column($listAssign, 'ass_id'));
+    $block1->closePaletteScript(0, []);
 }
 
 $block3 = new phpCollab\Block();

@@ -476,7 +476,6 @@ STAMP;
                 phpCollab\Util::headerFunction("../projects/viewproject.php?id=$newProjectId&msg=add");
             } catch (Exception $e) {
                 echo "<pre>{$e->getTraceAsString()}</pre>";
-                die();
             }
         }
     }

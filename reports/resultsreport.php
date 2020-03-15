@@ -104,6 +104,22 @@ if ($id == "" && $tri != "true") {
             $S_org = "ALL";
         }
 
+        if (!empty($_POST["S_SDATE"])) {
+            $filterStartDate = DateTime::createFromFormat('Y-m-d', $_POST["S_SDATE"]) ? $_POST["S_SDATE"] : null;
+        }
+
+        if (!empty($_POST["S_EDATE"])) {
+            $filterEndDate = DateTime::createFromFormat('Y-m-d', $_POST["S_EDATE"]) ? $_POST["S_EDATE"] : null;
+        }
+
+        if (!empty($_POST["S_SDATE2"])) {
+            $filterDateCompleteStart = DateTime::createFromFormat('Y-m-d', $_POST["S_SDATE2"]) ? $_POST["S_SDATE2"] : null;
+        }
+
+        if (!empty($_POST["S_EDATE2"])) {
+            $filterDateCompleteEnd = DateTime::createFromFormat('Y-m-d', $_POST["S_EDATE2"]) ? $_POST["S_EDATE2"] : null;
+        }
+
         $filterOrganization = $S_org;
         $filterProject = $S_pro;
         $filterAssignedTo = $S_mem;

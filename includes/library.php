@@ -1,13 +1,11 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 2004-08-23 
 ** Path by root: ../includes/library.php
-** Authors: Ceam / Fullo 
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -15,20 +13,9 @@
 ** -----------------------------------------------------------------------------
 ** FILE: library.php
 **
-** DESC: Screen: library file 
-**
-** -----------------------------------------------------------------------------
-** TO-DO:
-** move to a better login system and authentication (try to db session)
+** DESC: Screen: library file
 **
 ** =============================================================================
-**
-** New Edit Blocks
-** Last Modified: $Date: 2009/02/01 13:52:37 $
-** RCS: $Id: library.php,v 1.23 2009/02/01 13:52:37 norman77 Exp $
-** -- Edit Log: --
-** 2008-11-18   -   Updated the library.php to reflect the new settings object. (dab-norman77)
-**
 */
 use DebugBar\StandardDebugBar;
 use phpCollab\Logs\Logs;
@@ -213,32 +200,32 @@ if (!is_resource("FTPLOGIN")) {
 if (!is_resource("FTPPASSWORD")) {
     define('FTPPASSWORD', '');
 }
-if ($uploadMethod == "") {
+if (empty($uploadMethod)) {
     $uploadMethod = "PHP";
 }
-if ($peerReview == "") {
+if (empty($peerReview)) {
     $peerReview = "true";
 }
 
-if ($loginMethod == "") {
+if (empty($loginMethod)) {
     $loginMethod = "PLAIN";
 }
-if ($databaseType == "") {
+if (empty($databaseType)) {
     $databaseType = "mysql";
 }
-if ($installationType == "") {
+if (empty($installationType)) {
     $installationType = "online";
 }
 
-if ($checkSession != "false" && $demoSession != "true") {
-    if ($profilSession == "3" && !strstr($PHP_SELF, "projects_site")) {
+if ($checkSession != "false" && $_SESSION["demoSession"] != "true") {
+    if ($profilSession == "3" && !strstr($request->server->get("PHP_SELF"), "projects_site")) {
         phpCollab\Util::headerFunction("../projects_site/home.php");
     }
 
     if ($lastvisitedpage && $profilSession != "0") { // If the user has admin permissions, do not log the last page visited.
         if (!strstr($_SERVER['PHP_SELF'], "graph")) {
             $sidCode = session_name();
-            $page = $_SERVER['PHP_SELF'] . "?" . $QUERY_STRING;
+            $page = $_SERVER['PHP_SELF'] . "?" . $request->server->get("QUERY_STRING");
             $page = preg_replace('/(&' . $sidCode . '=)([A-Za-z0-9.]*)($|.)/', '', $page);
             $page = preg_replace('/(' . $sidCode . '=)([A-Za-z0-9.]*)($|.)/', '', $page);
             $page = strrev($page);
@@ -250,7 +237,7 @@ if ($checkSession != "false" && $demoSession != "true") {
             $members->setLastPageVisited($idSession, $page);
         }
     }
-    //if auto logout feature used, store last required page before deconnection
+    //if auto logout feature used, store last required page before disconnecting
     if ($profilSession != "3") {
         if ($logouttimeSession != "0" && $logouttimeSession != "") {
             $dateunix = date("U");
@@ -276,7 +263,7 @@ if ($checkSession != "false" && $demoSession != "true") {
 
 
 //count connected users
-if ($checkConnected != "false") {
+if (isset($checkConnected) && $checkConnected != "false") {
     $dateunix = date("U");
     $logs->updateConnectedTimeForUser($dateunix, $loginSession);
     $connectedUsers = $logs->getConnectedUsersCount();
@@ -285,7 +272,7 @@ if ($checkConnected != "false") {
 
 //disable actions if demo user logged in demo mode
 if ($action != "") {
-    if ($demoSession == "true") {
+    if ($_SESSION["demoSession"] == "true") {
         $closeTopic = "";
         $addToSiteTask = "";
         $removeToSiteTask = "";
@@ -308,7 +295,6 @@ if ($gmtTimezone == "true") {
 }
 
 //update sorting table if query sort column
-
 $sort_target = $request->request->get('sort_target');
 $sort_fields = $request->request->get('sort_fields');
 $sort_order = $request->request->get('sort_order');

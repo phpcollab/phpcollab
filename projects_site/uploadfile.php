@@ -123,7 +123,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     }
                 } catch (Exception $e) {
                     echo 'Message could not be sent. Mailer Error: ', $e->getMessage();
-                    die();
                 }
             }
 
@@ -137,7 +136,7 @@ $titlePage = $strings["upload_file"];
 include 'include_header.php';
 
 echo <<<FORM
-    <form method="POST" action="../projects_site/uploadfile.php" name="feeedback" enctype="multipart/form-data">
+    <form method="POST" action="../projects_site/uploadfile.php" name="feedback" enctype="multipart/form-data">
         <input type="hidden" name="MAX_FILE_SIZE" value="100000000">
         <input type="hidden" name="action" value="add">
         <input type="hidden" name="project_id" value="{$projectSession}">

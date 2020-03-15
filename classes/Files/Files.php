@@ -7,6 +7,7 @@ use Exception;
 use InvalidArgumentException;
 use phpCollab\Database;
 use phpCollab\Notification;
+use phpCollab\Util;
 
 /**
  * Class Files
@@ -18,6 +19,7 @@ class Files
     protected $db;
     protected $strings;
     protected $root;
+    protected $tableCollab;
 
     /**
      * Files constructor.
@@ -28,6 +30,7 @@ class Files
         $this->files_gateway = new FilesGateway($this->db);
         $this->strings = $GLOBALS["strings"];
         $this->root = $GLOBALS["root"];
+        $this->tableCollab = $GLOBALS["tableCollab"];
     }
 
     /**
@@ -167,8 +170,7 @@ class Files
     public function getFileVersions($fileId, $fileStatus = 3, $sorting = null)
     {
         $fileId = filter_var((string)$fileId, FILTER_SANITIZE_STRING);
-        $response = $this->files_gateway->getFileVersions($fileId, $fileStatus, $sorting);
-        return $response;
+        return $this->files_gateway->getFileVersions($fileId, $fileStatus, $sorting);
     }
 
     /**
@@ -179,8 +181,7 @@ class Files
     public function getFilePeerReviews($fileId, $sorting = null)
     {
         $fileId = filter_var((string)$fileId, FILTER_SANITIZE_STRING);
-        $response = $this->files_gateway->getFilePeerReviews($fileId, $sorting);
-        return $response;
+        return $this->files_gateway->getFilePeerReviews($fileId, $sorting);
     }
 
     /**
@@ -191,8 +192,7 @@ class Files
     {
         $fileId = filter_var((string)$fileId, FILTER_SANITIZE_STRING);
 
-        $response = $this->files_gateway->deleteFiles($fileId);
-        return $response;
+        return $this->files_gateway->deleteFiles($fileId);
     }
 
     /**
@@ -234,6 +234,10 @@ class Files
      */
     public function addFile($owner, $project, $phase, $task, $comments, $status, $vcVersion, $vcParent = null)
     {
+        if (!empty($comments)) {
+            $comments = Util::convertData($comments);
+        }
+
         return $this->files_gateway->addFile($owner, $project, $phase, $task, $comments, $status, $vcVersion, $vcParent);
     }
 
@@ -358,7 +362,4 @@ MAILBODY;
     {
         return $this->files_gateway->getProjectSiteFiles($projectId, $sorting);
     }
-
-
-
 }

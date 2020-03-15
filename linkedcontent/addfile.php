@@ -11,18 +11,8 @@ use phpCollab\Notifications\Notifications;
 $checkSession = "true";
 include_once '../includes/library.php';
 
-
-if (isset($_GET["project"])) {
-    $projectId = $_GET["project"];
-} else {
-    $projectId = 0;
-}
-
-if (isset($_GET["task"])) {
-    $taskId = $_GET["task"];
-} else {
-    $taskId = 0;
-}
+$projectId = $request->query->get("project");
+$taskId = $request->query->get("task");
 
 if (empty($projectId) || empty($taskId)) {
     phpCollab\Util::headerFunction("/projects/listprojects.php");
@@ -34,14 +24,13 @@ $tasks = new Tasks();
 $phases = new Phases();
 $notification = new Notifications();
 
-
 $teamMember = "false";
 $teamMember = $teams->isTeamMember($projectId, $idSession);
 if ($teamMember == "false" && $projectsFilter == "true") {
     header("Location:../general/permissiondenied.php");
 }
 
-$projectDetail = $projects->getProjectById($project);
+$projectDetail = $projects->getProjectById($projectId);
 
 if ($projectDetail["pro_phase_set"] != "0") {
     $phase = $projectDetail["pro_phase_set"];
@@ -56,22 +45,22 @@ if ($taskId != "0") {
 /**
  * Review and refactor as needed
  */
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if ($_POST["action"] == "add") {
-
+if ($request->isMethod('post')) {
         $files = new Files();
 
         // Clean the filename of spaces, slashes, etc
-        $filename = phpCollab\Util::checkFileName($_FILES['upload']['name']);
+        $filename1 = phpCollab\Util::checkFileName($_FILES['upload']['name']);
+
+        $filename = $request->files->get('upload')->getClientOriginalName();
 
 
         // Check to see if the custom maximum file size is set, and if so use it.
-        if (!empty($_POST["maxCustom"])) {
-            $maxFileSize = $_POST["maxCustom"];
+        if (!empty($request->request->get("maxCustom"))) {
+            $maxFileSize = $request->request->get("maxCustom");
         }
 
-        if ($_FILES['upload']['size'] != 0) {
-            $taille_ko = $_FILES['upload']['size'] / 1024;
+        if (!empty($request->files->get('upload')->getSize())) {
+            $taille_ko = $request->files->get('upload')->getSize() / 1024;
         } else {
             $taille_ko = 0;
         }
@@ -80,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $error .= $strings["no_file"] . "<br/>";
         }
 
-        if ($_FILES['upload']['size'] > $maxFileSize) {
+        if ($request->files->get('upload')->getSize() > $maxFileSize) {
             if ($maxFileSize != 0) {
                 $taille_max_ko = $maxFileSize / 1024;
             }
@@ -91,18 +80,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($allowPhp == "false") {
             $send = "";
-            if ($filename != "" && ($extension == "php" || $extension == "php3" || $extension == "phtml")) {
+            if (!empty($filename) && ($extension == "php" || $extension == "php3" || $extension == "phtml")) {
                 $error .= $strings["no_php"] . "<br/>";
                 $send = "false";
             }
         }
 
-        if ($filename != "" && $_FILES['upload']['size'] < $maxFileSize && $_FILES['upload']['size'] != 0 && $send != "false") {
+        if (!empty($filename)
+            && $request->files->get('upload')->getSize() < $maxFileSize
+            && $request->files->get('upload')->getSize() != 0
+            && $send != "false") {
             $docopy = "true";
         }
+
         if ($docopy == "true") {
 
-            $versionFile = $_POST["versionFile"];
+            $versionFile = filter_var($request->request->get("versionFile"), FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 
             $match = strstr($versionFile, ".");
 
@@ -117,14 +110,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $phase = phpCollab\Util::fixInt($phase);
 
-            $num = $files->addFile($idSession, $projectId, $phase, $taskId, $_POST["c"], $_POST["statusField"], $versionFile);
+            $num = $files->addFile($idSession, $projectId, $phase, $taskId, $request->request->get("comments"),
+                $request->request->get("statusField"), $versionFile);
 
             $fileDetails = $files->getFileById($num);
         }
 
         if ($taskId != "0") {
+
             if ($docopy == "true") {
-                phpCollab\Util::uploadFile("files/$project/$task", $_FILES['upload']['tmp_name'], "$num--" . $filename);
+                phpCollab\Util::uploadFile("files/{$project}/{$task}", $request->files->get('upload')->getPathName(), "{$num}--" . $filename);
                 $size = phpCollab\Util::fileInfoSize("../files/" . $project . "/" . $task . "/" . $num . "--" . $filename);
                 $chaine = strrev("../files/" . $project . "/" . $task . "/" . $num . "--" . $filename);
                 $tab = explode(".", $chaine);
@@ -132,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         } else {
             if ($docopy == "true") {
-                phpCollab\Util::uploadFile("files/$project", $_FILES['upload']['tmp_name'], "$num--" . $filename);
+                phpCollab\Util::uploadFile("files/{$project}", $request->files->get('upload')->getPathName(), "{$num}--" . $filename);
                 $size = phpCollab\Util::fileInfoSize("../files/" . $project . "/" . $num . "--" . $filename);
                 $chaine = strrev("../files/" . $project . "/" . $num . "--" . $filename);
                 $tab = explode(".", $chaine);
@@ -141,9 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         if ($docopy == "true") {
-            $newFileName = $num . "--" . $filename;
-
-            $fileDetails = $files->updateFile($num, $newFileName, date('Y-m-d h:i'), $size, $extension);
+            $fileDetails = $files->updateFile($num, "{$num}--{$filename}", date('Y-m-d h:i'), $size, $extension);
 
             if ($notifications == "true") {
                 try {
@@ -165,12 +158,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 } catch (Exception $e) {
                     echo 'Message could not be sent. Mailer Error: ', $e->getMessage();
                 }
-
-
             }
             phpCollab\Util::headerFunction("../linkedcontent/viewfile.php?id=$num&msg=addFile");
         }
-    }
 }
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
@@ -241,20 +231,20 @@ echo <<<TABLE
         </select></td>
     </tr>
     <tr class="odd">
-        <td style="vertical-align:top" class="leftvalue">* {$strings["upload"]} :</td>
-        <td><input size="44" style="width: 400px" name="upload" type="FILE"></td>
+        <td class="leftvalue">* {$strings["upload"]} :</td>
+        <td><input size="44" style="width: 400px" name="upload" type="file"></td>
     </tr>
     <tr class="odd">
-        <td style="vertical-align:top" class="leftvalue">{$strings["comments"]} :</td>
-        <td><textarea rows="3" style="width: 400px; height: 50px;" name="c" cols="43">$c</textarea></td>
+        <td class="leftvalue">{$strings["comments"]} :</td>
+        <td><textarea rows="3" style="width: 400px; height: 50px;" name="comments" cols="43">{$comments}</textarea></td>
     </tr>
     <tr class="odd">
-        <td style="vertical-align:top" class="leftvalue">{$strings["vc_version"]} :</td>
+        <td class="leftvalue">{$strings["vc_version"]} :</td>
         <td><input size="44" style="width: 400px" name="versionFile" type="text" value="0.0"></td>
     </tr>
     <tr class="odd">
-        <td style="vertical-align:top" class="leftvalue">&nbsp;</td>
-        <td><input type="SUBMIT" value="{$strings["save"]}"></td>
+        <td class="leftvalue">&nbsp;</td>
+        <td><input type="submit" value="{$strings["save"]}"></td>
     </tr>
 TABLE;
 

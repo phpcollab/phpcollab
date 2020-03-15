@@ -395,28 +395,32 @@ class Util
      **/
     public static function uploadFile($path, $source, $dest)
     {
-        $pathNew = self::$ftpRoot . "/" . $path;
+        $pathNew = "../{$path}";
 
-        if (!file_exists($pathNew)) {
-            # if there is no project dir first create it
-            $path_info = pathinfo($path);
-            if ($path != 'files/' . $path_info['basename']) {
-                Util::createDirectory($path_info['dirname']);
-                Util::createDirectory($path);
-            } else {
-                Util::createDirectory($path);
+        try {
+            if (!file_exists($pathNew)) {
+                # if there is no project dir first create it
+                $path_info = pathinfo($path);
+                if ($path != APP_ROOT . '/files/' . $path_info['basename']) {
+                    Util::createDirectory($path_info['dirname']);
+                    Util::createDirectory($path);
+                } else {
+                    Util::createDirectory($path);
+                }
             }
-        }
 
 
-        if (self::$mkdirMethod == "FTP") {
-            $ftp = ftp_connect(FTPSERVER);
-            ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
-            ftp_chdir($ftp, $pathNew);
-            ftp_put($ftp, $dest, $source, FTP_BINARY);
-            ftp_quit($ftp);
-        } else {
-            move_uploaded_file($source, "../" . $path . "/" . $dest);
+            if ($GLOBALS["mkdirMethod"] == "FTP") {
+                $ftp = ftp_connect(FTPSERVER);
+                ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
+                ftp_chdir($ftp, $pathNew);
+                ftp_put($ftp, $dest, $source, FTP_BINARY);
+                ftp_quit($ftp);
+            } else {
+                move_uploaded_file($source, APP_ROOT . "/" . $path . "/" . $dest);
+            }
+        } catch (Exception $exception) {
+            xdebug_var_dump($exception->getMessage());
         }
     }
 
@@ -429,7 +433,7 @@ class Util
      */
     public static function createDirectory($path)
     {
-        if (self::$mkdirMethod == "FTP") {
+        if ($GLOBALS["mkdirMethod"] == "FTP") {
             try {
                 $pathNew = self::$ftpRoot . "/" . $path;
                 $ftp = ftp_connect(FTPSERVER);
@@ -442,11 +446,14 @@ class Util
             }
         }
 
-        if (self::$mkdirMethod == "PHP") {
+        if ($GLOBALS["mkdirMethod"] == "PHP") {
             try {
-                mkdir("../$path", 0755);
-                chmod("../$path", 0777);
-                return true;
+                if (!file_exists ("../{$path}")) {
+                    mkdir("../{$path}", 0755);
+                    chmod("../{$path}", 0777);
+                    return true;
+                }
+
             } catch (Exception $e) {
                 return $e->getMessage();
             }
@@ -869,6 +876,19 @@ class Util
             return self::doubleDash();
         } else {
             return $value;
+        }
+    }
+
+    /**
+     * @param $number
+     * @return string
+     */
+    public static function formatFloat($number)
+    {
+        if (strlen($number) == 1) {
+            return sprintf("%0.1f",$number);
+        } else {
+            return sprintf("%0.2f",$number);
         }
     }
 }
