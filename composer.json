@@ -13,7 +13,6 @@
   "require": {
     "php": ">=7.2.0",
     "zendframework/zend-escaper": "^2.5",
-    "monolog/monolog": "^1.19",
     "maximebf/debugbar": "^1.13",
     "ifsnop/mysqldump-php": "^2.3",
     "apfelbox/php-file-download": "^2.1",
@@ -22,14 +21,17 @@
     "rospdf/pdf-php": "^0.12.53",
     "amenadiel/jpgraph": "3.6.21",
     "guzzlehttp/guzzle": "^6.4",
-    "laminas/laminas-escaper": "^2.6"
+    "laminas/laminas-escaper": "^2.6",
+    "monolog/monolog": "^2.0"
   },
   "require-dev": {
-    "codeception/codeception": "^3.1",
     "ext-ftp": "*",
     "ext-ldap": "*",
     "ext-mysqli": "*",
-    "ext-pgsql": "*"
+    "ext-pgsql": "*",
+    "codeception/codeception": "4.0.2",
+    "codeception/module-phpbrowser": "^1.0",
+    "php-webdriver/webdriver": "^1.8"
   },
   "autoload": {
     "psr-0": {
