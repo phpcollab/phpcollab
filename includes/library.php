@@ -18,11 +18,12 @@
 ** =============================================================================
 */
 use DebugBar\StandardDebugBar;
+use Laminas\Escaper\Escaper;
 use phpCollab\Logs\Logs;
 use phpCollab\Members\Members;
 use phpCollab\Sorting\Sorting;
 use Symfony\Component\HttpFoundation\Request;
-use Zend\Escaper\Escaper;
+
 
 $debug = false;
 

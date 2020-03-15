@@ -21,7 +21,8 @@
     "phpmailer/phpmailer": "^6.0",
     "rospdf/pdf-php": "^0.12.53",
     "amenadiel/jpgraph": "3.6.21",
-    "guzzlehttp/guzzle": "^6.4"
+    "guzzlehttp/guzzle": "^6.4",
+    "laminas/laminas-escaper": "^2.6"
   },
   "require-dev": {
     "codeception/codeception": "^3.1",
