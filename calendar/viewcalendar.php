@@ -33,14 +33,22 @@
 */
 
 
+use phpCollab\Calendars\Calendars;
+use phpCollab\Tasks\Tasks;
+use phpCollab\Util;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$calendars = new \phpCollab\Calendars\Calendars();
-$tasks = new \phpCollab\Tasks\Tasks();
+$calendars = new Calendars();
+$tasks = new Tasks();
 $detailCalendar = null;
 
-if ($type == "") {
+$id = $request->query->get('id');
+$type = $request->query->get('type');
+$dateCalend = $request->query->get('dateCalend');
+
+if (empty($type)) {
     $type = "monthPreview";
 }
 
@@ -113,41 +121,41 @@ if ($firstday == 0) {
 
 if ($type == "calendEdit") {
 
-    if ($_POST) {
-        $subject = $_POST['subject'];
-        $description = $_POST['description'];
-        $location = $_POST['location'];
-        $shortname = $_POST['shortname'];
-        $dateStart = $_POST['dateEnd'];
-        $dateEnd = $_POST['dateEnd'];
-        $timeStart = $_POST['time_start'];
-        $timeEnd = $_POST['time_end'];
-        $reminder = $_POST['reminder'];
-        $broadcast = $_POST['broadcast'];
-        $recurring = $_POST['recurring'];
+    if ($request->isMethod('post')) {
+        $subject = $request->request->get("subject");
+        $description = $request->request->get("description");
+        $location = $request->request->get("location");
+        $shortname = $request->request->get("shortname");
+        $dateStart = $request->request->get("dateStart");
+        $dateEnd = $request->request->get("dateEnd");
+        $timeStart = $request->request->get("time_start");
+        $timeEnd = $request->request->get("time_end");
+        $reminder = $request->request->get("reminder");
+        $broadcast = $request->request->get("broadcast");
+        $recurring = $request->request->get("recurring");
 
-        if ($action == "update") {
+        if ($request->query->get("action") == "update") {
             if ($recurring == "") {
                 $recurring = "0";
             } else {
                 $dateStart_A = substr("$dateStart", 0, 4);
                 $dateStart_M = substr("$dateStart", 5, 2);
                 $dateStart_J = substr("$dateStart", 8, 2);
-                $dayRecurr = \phpCollab\Util::dayOfWeek(mktime(12, 12, 12, $dateStart_M, $dateStart_J, $dateStart_A));
+                $dayRecurr = Util::dayOfWeek(mktime(12, 12, 12, $dateStart_M, $dateStart_J, $dateStart_A));
             }
             $subject = phpCollab\Util::convertData($subject);
             $description = phpCollab\Util::convertData($description);
             $dayRecurr = ($dayRecurr != 0) ? $dayRecurr : 0;
 
             $calendars->editCalendarEvent(
-                $dateEnreg, $subject, $description, $location, $shortname, $dateStart, $dateEnd, $timeStart, $timeEnd,
+                $id, $subject, $description, $location, $shortname, $dateStart, $dateEnd, $timeStart, $timeEnd,
                 $reminder, $broadcast, $recurring, $dayRecurr
             );
 
-            phpCollab\Util::headerFunction("../calendar/viewcalendar.php?dateEnreg=$dateEnreg&dateCalend=$dateCalend&type=calendDetail&msg=update");
+            phpCollab\Util::headerFunction("../calendar/viewcalendar.php?id=$id&dateCalend=$dateCalend&type=calendDetail&msg=update");
         }
 
-        if ($action == "add") {
+        if ($request->query->get("action") == "add") {
 
             if ($shortname == "") {
                 $error = $strings["blank_fields"];
@@ -171,17 +179,13 @@ if ($type == "calendEdit") {
                     $idSession, $subject, $description, $location, $shortname, $dateStart, $dateEnd, $timeStart, $timeEnd,
                     $reminder, $broadcast, $recurring, $dayRecurr);
 
-                phpCollab\Util::headerFunction("../calendar/viewcalendar.php?dateEnreg={$num}&dateCalend={$dateCalend}&type=calendDetail&msg=add");
+                phpCollab\Util::headerFunction("../calendar/viewcalendar.php?id={$num}&dateCalend={$dateCalend}&type=calendDetail&msg=add");
             }
         }
     }
 
-    if ($dateEnreg == "" && $id != "") {
-        $dateEnreg = $id;
-    }
-
     if ($id != "") {
-        $detailCalendar = $calendars->openCalendarByOwnerAndId($idSession, $dateEnreg);
+        $detailCalendar = $calendars->openCalendarByOwnerAndId($idSession, $id);
 
         $comptDetailCalendar = count($detailCalendar);
 
@@ -192,11 +196,7 @@ if ($type == "calendEdit") {
 }
 
 if ($type == "calendDetail") {
-    if ($dateEnreg == "" && $id != "") {
-        $dateEnreg = $id;
-    }
-
-    $detailCalendar = $calendars->openCalendarDetail($idSession, $dateEnreg);
+    $detailCalendar = $calendars->openCalendarDetail($idSession, $id);
     $comptDetailCalendar = count($detailCalendar);
 
     if ($comptDetailCalendar == "0") {
@@ -272,7 +272,7 @@ if ($type == "calendEdit") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=dayList&dateCalend=$dateCalend", "$dayName $day $monthName $year", 'in'));
 
     if ($id != "") {
-        $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=calendDetail&dateCalend=$dateCalend&dateEnreg=$dateEnreg", $detailCalendar['cal_shortname'], 'in'));
+        $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=calendDetail&dateCalend=$dateCalend&id=$id", $detailCalendar['cal_shortname'], 'in'));
         $blockPage->itemBreadcrumbs($strings["edit"]);
     } else {
         $blockPage->itemBreadcrumbs($strings["add"]);
@@ -289,12 +289,12 @@ if ($type == "calendEdit") {
     $block1->form = "calend";
 
     if ($id != "") {
-        $block1->openForm("../calendar/viewcalendar.php?&dateEnreg=$dateEnreg&dateCalend=$dateCalend&type=$type&action=update#" . $block1->form . "Anchor");
+        $block1->openForm("../calendar/viewcalendar.php?&id=$id&dateCalend=$dateCalend&type=$type&action=update#" . $block1->form . "Anchor");
     } else {
-        $block1->openForm("../calendar/viewcalendar.php?&dateEnreg=$dateEnreg&dateCalend=$dateCalend&type=$type&action=add#" . $block1->form . "Anchor");
+        $block1->openForm("../calendar/viewcalendar.php?&id=$id&dateCalend=$dateCalend&type=$type&action=add#" . $block1->form . "Anchor");
     }
 
-    if ($error != "") {
+    if (!empty($error)) {
         $block1->headingError($strings["errors"]);
         $block1->contentError($error);
     }
@@ -308,77 +308,84 @@ if ($type == "calendEdit") {
     $block1->openContent();
     $block1->contentTitle($strings["details"]);
 
-    echo "
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>* " . $strings["shortname"] . $block1->printHelp("calendar_shortname") . " :</td>
-            <td><input size='24' style='width: 250px;' maxlength='128' type='text' name='shortname' value='$shortname'></td>
+    $shortName = $strings["shortname"] . $block1->printHelp("calendar_shortname");
+    echo <<<HTML
+        <tr class="odd">
+            <td class="leftvalue">* {$shortName} :</td>
+            <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="shortname" value="{$shortname}"></td>
         </tr>
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["subject"] . " :</td>
-            <td><input size='24' style='width: 250px;' maxlength='128' type='text' name='subject' value='$subject'></td>
+        <tr class="odd">
+            <td class="leftvalue">{$strings["subject"]} :</td>
+            <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="subject" value="{$subject}"></td>
         </tr>
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["description"] . " :</td>
-            <td><textarea style='width: 400px; height: 50px;' name='description' cols='35' rows='2'>$description</textarea></td>
+        <tr class="odd">
+            <td class="leftvalue">{$strings["description"]} :</td>
+            <td><textarea style="width: 400px; height: 50px;" name="description" cols="35" rows="2">{$description}</textarea></td>
         </tr>
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["location"] . " :</td>
-            <td><input size='24' style='width: 250px;' maxlength='128' type='text' name='location' value='$location'></td>
-        </tr>";
+        <tr class="odd">
+            <td class="leftvalue">{$strings["location"]} :</td>
+            <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="location" value="{$location}"></td>
+        </tr>
+HTML;
 
-    if ($date_start == "") {
+    if (empty($date_start)) {
         $date_start = $dateCalend;
     }
-    if ($date_end == "") {
+    if (empty($date_end)) {
         $date_end = $dateCalend;
     }
 
     $block1->contentRow($strings["date_start"], "<input type='text' name='dateStart' id='dateStart' size='20' value='$date_start'><input type='button' value=' ... ' id=\"trigDateStart\">");
-    echo "
+    echo <<<SCRIPT
 	<script type='text/javascript'>
 	    Calendar.setup({
         	inputField     :    'dateStart',
         	button         :    'trigDateStart',
-        	$calendar_common_settings
-	    });
+        	{$calendar_common_settings}
+	    })
 	</script>
-	";
+SCRIPT;
     $block1->contentRow($strings["date_end"], "<input type='text' name='dateEnd' id='dateEnd' size='20' value='$date_end'><input type='button' value=' ... ' id=\"trigDateEnd\">");
-    echo "
+    echo <<<SCRIPT
 	<script type='text/javascript'>
 	    Calendar.setup({
         	inputField     :    'dateEnd',
 	        button         :    'trigDateEnd',
-        	$calendar_common_settings
-    	});
+        	{$calendar_common_settings}
+    	})
 	</script>
-	";
-    echo "      </td>
+SCRIPT;
+
+    $time_start = isset($time_start) ? $time_start : '';
+    $time_end = isset($time_end) ? $time_end : '';
+    echo <<<HTML
+          </td>
         </tr>
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["time_start"] . " :</td>
-            <td><input size='24' style='width: 250px;' maxlength='128' type='text' name='time_start' value='$time_start'></td>
+        <tr class="odd">
+            <td class="leftvalue">{$strings["time_start"]} :</td>
+            <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="time_start" value="{$time_start}"></td>
         </tr>
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["time_end"] . " :</td>
-            <td><input size='24' style='width: 250px;' maxlength='128' type='text' name='time_end' value='$time_end'></td>
+        <tr class="odd">
+            <td class="leftvalue">{$strings["time_end"]} :</td>
+            <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="time_end" value="{$time_end}"></td>
         </tr>
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["calendar_reminder"] . " :</td>
-            <td><input type='radio' name='reminder' value='0' $checked1_b> " . $strings["no"] . "&nbsp;<input type='radio' name='reminder' value='1' $checked2_b> " . $strings["yes"] . "</td>
+        <tr class="odd">
+            <td class="leftvalue">{$strings["calendar_reminder"]} :</td>
+            <td><input type="radio" name="reminder" value="0" {$checked1_b}> {$strings["no"]}&nbsp;<input type="radio" name="reminder" value="1" {$checked2_b}> {$strings["yes"]}</td>
         </tr>
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["calendar_broadcast"] . " :</td>
-            <td><input type='radio' name='broadcast' value='0' $checked3_b> " . $strings["no"] . "&nbsp;<input type='radio' name='broadcast' value='1' $checked4_b> " . $strings["yes"] . "</td>
+        <tr class="odd">
+            <td class="leftvalue">{$strings["calendar_broadcast"]} :</td>
+            <td><input type="radio" name="broadcast" value="0" {$checked3_b}> {$strings["no"]}&nbsp;<input type="radio" name="broadcast" value="1" {$checked4_b}> {$strings["yes"]}</td>
         </tr>
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["calendar_recurring"] . " :</td>
-            <td><input type='checkbox' name='recurring' value='1' $checked2_a></td>
+        <tr class="odd">
+            <td class="leftvalue">{$strings["calendar_recurring"]} :</td>
+            <td><input type="checkbox" name="recurring" value="1" {$checked2_a}></td>
         </tr>
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>&nbsp;</td>
-            <td><input type='SUBMIT' value='" . $strings["save"] . "'></td>
-        </tr>";
+        <tr class="odd">
+            <td class="leftvalue">&nbsp;</td>
+            <td><input type="SUBMIT" value="{$strings["save"]}"></td>
+        </tr>
+HTML;
 
     $block1->closeContent();
     $block1->closeForm();
@@ -425,7 +432,7 @@ if ($type == "calendDetail") {
     $block1->form = "calend";
     $block1->openForm("../calendar/viewcalendar.php#" . $block1->form . "Anchor");
 
-    if ($error != "") {
+    if (!empty($error)) {
         $block1->headingError($strings["errors"]);
         $block1->contentError($error);
     }
@@ -446,63 +453,67 @@ if ($type == "calendDetail") {
     $block1->contentTitle($strings["details"]);
 
 
-    echo "
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["subject"] . " :</td>
-            <td>" . $detailCalendar['cal_subject'] . "</td>
+    $nl2brDescription = nl2br($detailCalendar["cal_description"]);
+    $shortName = $strings["shortname"] . $block1->printHelp("calendar_shortname");
+
+    echo <<<HTML
+        <tr class="odd">
+            <td class="leftvalue">{$strings["subject"]} :</td>
+            <td>{$detailCalendar["cal_subject"]}</td>
         </tr>
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["description"] . " :</td>
-            <td>" . nl2br($detailCalendar['cal_description']) . "&nbsp;</td>
+        <tr class="odd">
+            <td class="leftvalue">{$strings["description"]} :</td>
+            <td>{$nl2brDescription}&nbsp;</td>
         </tr>
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["shortname"] . $block1->printHelp("calendar_shortname") . " :</td>
-            <td>" . $detailCalendar['cal_shortname'] . "&nbsp;</td>
+        <tr class="odd">
+            <td class="leftvalue">{$shortName} :</td>
+            <td>{$detailCalendar["cal_shortname"]}&nbsp;</td>
         </tr>
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["location"] . " :</td>
-            <td>" . $detailCalendar['cal_location'] . "&nbsp;</td>
+        <tr class="odd">
+            <td class="leftvalue">{$strings["location"]} :</td>
+            <td>{$detailCalendar["cal_location"]}&nbsp;</td>
         </tr>
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["date_start"] . " :</td>
-            <td>" . $detailCalendar['cal_date_start'] . "</td>
+        <tr class="odd">
+            <td class="leftvalue">{$strings["date_start"]} :</td>
+            <td>{$detailCalendar["cal_date_start"]}</td>
         </tr>
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["date_end"] . " :</td>
-            <td>" . $detailCalendar['cal_date_end'] . "</td>
+        <tr class="odd">
+            <td class="leftvalue">{$strings["date_end"]} :</td>
+            <td>{$detailCalendar["cal_date_end"]}</td>
         </tr>
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["time_start"] . " :</td>
-            <td>" . $detailCalendar['cal_time_start'] . "</td>
+        <tr class="odd">
+            <td class="leftvalue">{$strings["time_start"]} :</td>
+            <td>{$detailCalendar["cal_time_start"]}</td>
         </tr>
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["time_end"] . " :</td>
-            <td>" . $detailCalendar['cal_time_end'] . "</td>
+        <tr class="odd">
+            <td class="leftvalue">{$strings["time_end"]} :</td>
+            <td>{$detailCalendar["cal_time_end"]}</td>
         </tr>
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["calendar_reminder"] . " :</td>
-            <td>$reminder</td>
+        <tr class="odd">
+            <td class="leftvalue">{$strings["calendar_reminder"]} :</td>
+            <td>{$reminder}</td>
         </tr>
-        <tr class='odd'>
-            <td valign='top' class='leftvalue'>" . $strings["calendar_broadcast"] . " :</td>
-            <td>$broadcast</td>
+        <tr class="odd">
+            <td class="leftvalue">{$strings["calendar_broadcast"]} :</td>
+            <td>{$broadcast}</td>
         </tr>
-        <tr class='odd'
-        ><td valign='top' class='leftvalue'>" . $strings["calendar_recurring"] . " :</td>
-            <td>$recurring</td>
-        </tr>";
+        <tr class="odd">
+        <td class="leftvalue">{$strings["calendar_recurring"]} :</td>
+            <td>{$recurring}</td>
+        </tr>
+HTML;
 
     $block1->closeContent();
     $block1->closeForm();
 
     $block1->openPaletteScript();
     if ($detailCalendar['cal_owner'] == $idSession) {
-        $block1->paletteScript(0, "remove", "../calendar/deletecalendar.php?id=$dateEnreg", "true,true,true", $strings["delete"]);
-        $block1->paletteScript(1, "edit", "../calendar/viewcalendar.php?id=$dateEnreg&type=calendEdit&dateCalend=$dateCalend", "true,true,true", $strings["edit"]);
+        $block1->paletteScript(0, "remove", "../calendar/deletecalendar.php?id=$id", "true,true,true", $strings["delete"]);
+        $block1->paletteScript(1, "edit", "../calendar/viewcalendar.php?id=$id&type=calendEdit&dateCalend=$dateCalend", "true,true,true", $strings["edit"]);
     }
 
-    $block1->paletteScript(2, "export", "../calendar/exportcalendar.php?id=$dateEnreg", "true,true,true", $strings["export"]);
-    $block1->closePaletteScript("", "");
+    $block1->paletteScript(2, "export", "../calendar/exportcalendar.php?id=$id", "true,true,true", $strings["export"]);
+    $block1->closePaletteScript("", []);
 }
 
 $blockPage = new phpCollab\Block();
@@ -534,18 +545,17 @@ if ($type == "dayList") {
 
     $dayRecurr = phpCollab\Util::dayOfWeek(mktime(12, 12, 12, $month, $day, $year));
 
-    $listCalendar = $calendars->openCalendarDay($idSession, $dateCalend, $dayRecurr);
+    $listCalendar = $calendars->openCalendarDay($idSession, $dateCalend, $dayRecurr, $block1->sortingValue);
     $comptListCalendar = count($listCalendar);
 
     if ($comptListCalendar != "0") {
         $block1->openResults();
-
         $block1->labels($labels = [0 => $strings["shortname"], 1 => $strings["subject"], 2 => $strings["date_start"], 3 => $strings["date_end"]], "false");
 
         foreach ($listCalendar as $item) {
             $block1->openRow();
             $block1->checkboxRow($item['cal_id']);
-            $block1->cellRow($blockPage->buildLink("../calendar/viewcalendar.php?$dateEnreg=" . $item['cal_id'] . "&type=calendDetail&dateCalend=$dateCalend", $item['cal_shortname'], 'in'));
+            $block1->cellRow($blockPage->buildLink("../calendar/viewcalendar.php?id=" . $item['cal_id'] . "&type=calendDetail&dateCalend=$dateCalend", $item['cal_shortname'], 'in'));
             $block1->cellRow($item['cal_subject']);
             $block1->cellRow($item['cal_date_start']);
             $block1->cellRow($item['cal_date_end']);
@@ -582,9 +592,9 @@ if ($type == "monthPreview") {
 
     $block2->heading("$monthName $year");
 
-    echo "<table border='0' cellpadding='0' cellspacing='2' width='100%' class='listing'><tr>";
+    echo '<table class="monthPreview listing"><tr>';
     for ($daynumber = 1; $daynumber < 8; $daynumber++) {
-        echo "<td width='14%' class='calendDays'>&nbsp;$dayNameArray[$daynumber]</td>";
+        echo "<th class='calendDays'>&nbsp;$dayNameArray[$daynumber]</th>";
     }
     echo "</tr>";
 
@@ -630,7 +640,7 @@ if ($type == "monthPreview") {
         $comptListCalendarScan = count($listCalendarScan);
 
         if (($i < $firstday) || ($a == "00")) {
-            echo "<td width='14%' class='even'>&nbsp;</td>";
+            echo "<td class='even'>&nbsp;</td>";
         } else {
             if ($dateLink == $dateToday) {
                 $classCell = "old";
@@ -638,15 +648,15 @@ if ($type == "monthPreview") {
                 $classCell = "odd";
             }
 
-            echo "<td width='14%' align='left' valign='top' class='$classCell' onmouseover=\"this.style.backgroundColor='" . $block2->getHighlightOn() . "'\" onmouseout=\"this.style.backgroundColor='" . $highlightOff . "'\"><div align='right'>" . $blockPage->buildLink("../calendar/viewcalendar.php?dateCalend=$dateLink&type=dayList", $day, 'in') . "</div>";
+            echo "<td class='$classCell'><div style='text-align: right;'>" . $blockPage->buildLink("../calendar/viewcalendar.php?dateCalend=$dateLink&type=dayList", $day, 'in') . "</div>";
             if ($comptListCalendarScan != "0") {
                 foreach ($listCalendarScan as $calendar) {
                     if ($calendar['cal_broadcast'] == "0" && $calendar['cal_owner'] == $idSession) {
-                        echo "<div align='center' class='calendar-regular-event'><a href='../calendar/viewcalendar.php?dateEnreg=" . $calendar['cal_id'] . "&type=calendDetail&dateCalend=$dateLink' class='calendar-regular-todo-event'>" . $calendar['cal_shortname'] . "</a></div>";
+                        echo "<div class='calendar-regular-event'><a href='../calendar/viewcalendar.php?id=" . $calendar['cal_id'] . "&type=calendDetail&dateCalend=$dateLink' class='calendar-regular-todo-event'>" . $calendar['cal_shortname'] . "</a></div>";
                     } elseif ($calendar['cal_broadcast'] != "0" && $calendar['cal_owner'] == $idSession) {
-                        echo "<div align='center' class='calendar-regular-event'><a href='../calendar/viewcalendar.php?dateEnreg=" . $calendar['cal_id'] . "&type=calendDetail&dateCalend=$dateLink' class='calendar-regular-todo-event'><b>" . $calendar['cal_shortname'] . "</b></a></div>";
+                        echo "<div class='calendar-regular-event'><a href='../calendar/viewcalendar.php?id=" . $calendar['cal_id'] . "&type=calendDetail&dateCalend=$dateLink' class='calendar-regular-todo-event'><b>" . $calendar['cal_shortname'] . "</b></a></div>";
                     } else {
-                        echo "<div align='center' class='calendar-broadcast-event'><a href='../calendar/viewcalendar.php?dateEnreg=" . $calendar['cal_id'] . "&type=calendDetail&dateCalend=$dateLink' class='calendar-broadcast-todo-event'><b>" . $calendar['cal_shortname'] . "</b></a></div>";
+                        echo "<div class='calendar-broadcast-event'><a href='../calendar/viewcalendar.php?id=" . $calendar['cal_id'] . "&type=calendDetail&dateCalend=$dateLink' class='calendar-broadcast-todo-event'><b>" . $calendar['cal_shortname'] . "</b></a></div>";
                     }
                 }
             }
@@ -817,24 +827,43 @@ if ($type == "monthPreview") {
     $dateNext = "$nyear-$nmonth-01";
 
     $dateToday = "$year-$month-$day";
-    echo "<table><tr><td class='calend'> </td></tr></table>";
 
-    echo "  <table cellspacing='0' width='100%' border='0' cellpadding='0'>
+    echo <<<HTML
+    <table>
+        <tr>
+            <td class="calend"> </td>
+        </tr>
+    </table>
+      <table class="nonStriped" style="width: 100%;">
             <tr>
-                <td nowrap align='right' class='footerCell'>" . $blockPage->buildLink("../calendar/viewcalendar.php?dateCalend=$datePast", $strings["previous"], 'in') . " | " . $blockPage->buildLink("../calendar/viewcalendar.php?dateCalend=$dateToday", $strings["today"], 'in') . " | " . $blockPage->buildLink("../calendar/viewcalendar.php?dateCalend=$dateNext", $strings["next"], 'in') . "</td>
+                <td nowrap style="text-align: right;" class="footerCell">
+HTML;
+
+    echo $blockPage->buildLink("../calendar/viewcalendar.php?dateCalend=$datePast", $strings["previous"], 'in') . " | " . $blockPage->buildLink("../calendar/viewcalendar.php?dateCalend=$dateToday", $strings["today"], 'in') . " | " . $blockPage->buildLink("../calendar/viewcalendar.php?dateCalend=$dateNext", $strings["next"], 'in');
+
+    $theme = THEME;
+    echo <<<HTML
+                </td>
             </tr>
             <tr>
-                <td height='5' colspan='2'><img width='1' height='5' border='0' src='../themes/" . THEME . "/images/spacer.gif' alt=''></td>
+                <td height="5" colspan="2"><img width="1" height="5" src="../themes/{$theme}/images/spacer.gif" alt=""></td>
             </tr>
-            </table>";
+            </table>
+HTML;
+
+
 
     if ($activeJpgraph == "true" && $gantt == "true") {
-        echo "
-			<div id='ganttChart_taskList' class='ganttChart'>
-				<img src='graphtasks.php?&dateCalend=$dateCalend' alt=''><br/>
-				<span class='listEvenBold''>" . $blockPage->buildLink("http://www.aditus.nu/jpgraph/", "JpGraph", 'powered') . "</span>	
+        echo <<<HTML
+			<div id="ganttChart_taskList" class="ganttChart">
+				<img src="graphtasks.php?&dateCalend={$dateCalend}" alt=""><br/>
+				<span class="listEvenBold">
+HTML;
+        echo $blockPage->buildLink("http://www.aditus.nu/jpgraph/", "JpGraph", "powered");
+        echo <<<HTML
+				</span>	
 			</div>
-		";
+HTML;
     }
 }
 

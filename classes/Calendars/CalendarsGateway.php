@@ -45,13 +45,17 @@ class CalendarsGateway
      */
     public function getCalendarById($calendarId)
     {
-        $query = $this->initrequest["calendar"] . " WHERE cal.id IN(:calendar_id) ORDER BY cal.subject";
+        $ids = explode(',', $calendarId);
+        $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
+        $whereStatement = " WHERE cal.id IN($placeholders) ";
+        $this->db->query($this->initrequest["calendar"] . $whereStatement);
+        $this->db->execute($ids);
+        return $this->db->fetchAll();
 
-        $this->db->query($query);
-
-        $this->db->bind(':calendar_id', $calendarId);
-
-        return $this->db->resultset();
+//        $query = $this->initrequest["calendar"] . " WHERE cal.id IN(:calendar_id) ORDER BY cal.subject";
+//        $this->db->query($query);
+//        $this->db->bind(':calendar_id', $calendarId);
+//        return $this->db->resultset();
     }
 
     /**
@@ -116,12 +120,13 @@ class CalendarsGateway
      * @param $ownerId
      * @param $calendarDate
      * @param $recurringDay
+     * @param null $sorting
      * @return mixed
      */
-    public function getCalendarDay($ownerId, $calendarDate, $recurringDay)
+    public function getCalendarDay($ownerId, $calendarDate, $recurringDay, $sorting = null)
     {
-        $query = $this->initrequest["calendar"] . " WHERE (cal.owner = :calendar_owner AND ((cal.date_start <= :calendar_day AND cal.date_end >= :calendar_day AND cal.recurring = '0') OR ((cal.date_start <= :calendar_day AND cal.date_end >= :calendar_day) AND cal.recurring = '1' AND cal.recur_day = :recurring_day))) OR (cal.broadcast = '1' AND ((cal.date_start <= :calendar_day AND cal.date_end >= :calendar_day AND cal.recurring = '0') OR ((cal.date_start <= :calendar_day AND cal.date_end >= :calendar_day) AND cal.recurring = '1' AND cal.recur_day = :recurring_day))) ORDER BY cal.shortname";
-        $this->db->query($query);
+        $query = $this->initrequest["calendar"] . " WHERE (cal.owner = :calendar_owner AND ((cal.date_start <= :calendar_day AND cal.date_end >= :calendar_day AND cal.recurring = '0') OR ((cal.date_start <= :calendar_day AND cal.date_end >= :calendar_day) AND cal.recurring = '1' AND cal.recur_day = :recurring_day))) OR (cal.broadcast = '1' AND ((cal.date_start <= :calendar_day AND cal.date_end >= :calendar_day AND cal.recurring = '0') OR ((cal.date_start <= :calendar_day AND cal.date_end >= :calendar_day) AND cal.recurring = '1' AND cal.recur_day = :recurring_day)))";
+        $this->db->query($query . $this->orderBy($sorting));
         $this->db->bind(':calendar_owner', $ownerId);
         $this->db->bind(':calendar_day', $calendarDate);
         $this->db->bind(':recurring_day', $recurringDay);
@@ -198,4 +203,29 @@ SQL;
         return $this->db->execute();
     }
 
+    /**
+     * @param $sorting
+     * @return string
+     */
+    private function orderBy($sorting)
+    {
+        if (!is_null($sorting)) {
+            $allowedOrderedBy = ["cal.owner", "cal.subject", "cal.description", "cal.shortname", "cal.date_start",
+                "cal.date_end", "cal.time_start", "cal.time_end", "cal.reminder", "cal.recurring", "cal.recur_day",
+                "cal.broadcast", "cal.location", "mem.email_work", "mem.name"
+            ];
+            $pieces = explode(' ', $sorting);
+
+            if ($pieces) {
+                $key = array_search($pieces[0], $allowedOrderedBy);
+
+                if ($key !== false) {
+                    $order = $allowedOrderedBy[$key];
+                    return " ORDER BY $order $pieces[1]";
+                }
+            }
+        }
+
+        return '';
+    }
 }

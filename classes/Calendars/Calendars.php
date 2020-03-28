@@ -32,8 +32,7 @@ class Calendars
         try {
             $calendarId = filter_var((string)$calendarId, FILTER_SANITIZE_STRING);
 
-            $response = $this->calendars_gateway->deleteCalendar($calendarId);
-            return $response;
+            return $this->calendars_gateway->deleteCalendar($calendarId);
         } catch (Exception $e) {
             echo 'Message: ' . $e->getMessage();
             return true;
@@ -46,9 +45,7 @@ class Calendars
      */
     public function openCalendarById($calendarId)
     {
-        $calendarId = filter_var($calendarId, FILTER_VALIDATE_INT);
-        $calendar = $this->calendars_gateway->getCalendarById($calendarId);
-        return $calendar;
+        return $this->calendars_gateway->getCalendarById($calendarId);
     }
 
     /**
@@ -70,8 +67,7 @@ class Calendars
     {
         $ownerId = filter_var($ownerId, FILTER_VALIDATE_INT);
         $calendarId = filter_var($calendarId, FILTER_VALIDATE_INT);
-        $calendar = $this->calendars_gateway->getCalendarByOwnerAndId($ownerId, $calendarId);
-        return $calendar;
+        return $this->calendars_gateway->getCalendarByOwnerAndId($ownerId, $calendarId);
     }
 
     /**
@@ -81,8 +77,7 @@ class Calendars
     public function openCalendarByOwnerOrIsBroadcast($ownerId)
     {
         $ownerId = filter_var($ownerId, FILTER_VALIDATE_INT);
-        $calendar = $this->calendars_gateway->openCalendarByOwnerOrIsBroadcast($ownerId);
-        return $calendar;
+        return $this->calendars_gateway->openCalendarByOwnerOrIsBroadcast($ownerId);
     }
 
     /**
@@ -94,8 +89,7 @@ class Calendars
     {
         $ownerId = filter_var($ownerId, FILTER_VALIDATE_INT);
         $calendarId = filter_var($calendarId, FILTER_VALIDATE_INT);
-        $calendar = $this->calendars_gateway->getCalendarByOwnerAndId($ownerId, $calendarId);
-        return $calendar;
+        return $this->calendars_gateway->getCalendarByOwnerAndId($ownerId, $calendarId);
     }
 
     /**
@@ -107,21 +101,20 @@ class Calendars
     public function openCalendarMonth($ownerId, $calendarDate, $recurringDay)
     {
         $ownerId = filter_var($ownerId, FILTER_VALIDATE_INT);
-        $calendar = $this->calendars_gateway->getCalendarMonth($ownerId, $calendarDate, $recurringDay);
-        return $calendar;
+        return $this->calendars_gateway->getCalendarMonth($ownerId, $calendarDate, $recurringDay);
     }
 
     /**
      * @param $ownerId
      * @param $calendarDate
      * @param $recurringDay
+     * @param null $sorting
      * @return mixed
      */
-    public function openCalendarDay($ownerId, $calendarDate, $recurringDay)
+    public function openCalendarDay($ownerId, $calendarDate, $recurringDay, $sorting = null)
     {
         $ownerId = filter_var($ownerId, FILTER_VALIDATE_INT);
-        $calendar = $this->calendars_gateway->getCalendarDay($ownerId, $calendarDate, $recurringDay);
-        return $calendar;
+        return $this->calendars_gateway->getCalendarDay($ownerId, $calendarDate, $recurringDay, $sorting);
     }
 
     /**
