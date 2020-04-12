@@ -25,19 +25,23 @@
 ** =============================================================================
 */
 
+use phpCollab\Calendars\Calendars;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
 $strings = $GLOBALS['strings'];
 
-$calendars = new \phpCollab\Calendars\Calendars();
+$calendars = new Calendars();
 
-if ($_GET['action'] == "delete") {
-    $id = str_replace("**", ",", $_GET['id']);
+$calendarId = $request->query->get("id");
+
+if ($request->query->get("action") == "delete") {
+    $id = str_replace("**", ",", $calendarId);
 
     try {
         $delete = $calendars->deleteCalendar($id);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         echo "Error: $e";
     }
 
@@ -45,12 +49,12 @@ if ($_GET['action'] == "delete") {
 }
 
 $setTitle .= " : Delete Calendar";
-if (strpos($_GET['id'], "**") !== false) {
+if (strpos($calendarId, "**") !== false) {
     $setTitle .= " Entries";
 } else {
     $setTitle .= " Entry";
 }
-    
+
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
@@ -69,7 +73,7 @@ $block1 = new phpCollab\Block();
 $block1->form = "saP";
 $block1->openForm("../calendar/deletecalendar.php?project=$project&action=delete&id=$id");
 
-$block1->heading($strings["delete"]);
+$block1->heading($strings["delete_calendars"]);
 
 $block1->openContent();
 $block1->contentTitle($strings["delete_following"]);
@@ -78,20 +82,20 @@ $id = str_replace("**", ",", $id);
 
 $listCalendar = $calendars->openCalendarById($id);
 
-echo "<h3>Calendar:</h3>";
+//echo "<h3>Calendar:</h3>";
 
 foreach ($listCalendar as $item) {
     echo <<<ROW
 <tr class="odd">
-<td valign="top" class="leftvalue">#{$item['cal_id']}</td>
-<td>{$item['cal_shortname']}</td>
+    <td class="leftvalue">#{$item['cal_id']}</td>
+    <td>{$item['cal_shortname']} <br /> ({$item['cal_subject']})</td>
 </tr>
 ROW;
 }
 
 echo <<<ROW
 <tr class="odd">
-  <td valign="top" class="leftvalue">&nbsp;</td>
+  <td class="leftvalue">&nbsp;</td>
   <td><input type="submit" name="delete" value="{$strings["delete"]}"> <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();"></td>
 </tr>
 ROW;
