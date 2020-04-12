@@ -51,11 +51,6 @@ class CalendarsGateway
         $this->db->query($this->initrequest["calendar"] . $whereStatement);
         $this->db->execute($ids);
         return $this->db->fetchAll();
-
-//        $query = $this->initrequest["calendar"] . " WHERE cal.id IN(:calendar_id) ORDER BY cal.subject";
-//        $this->db->query($query);
-//        $this->db->bind(':calendar_id', $calendarId);
-//        return $this->db->resultset();
     }
 
     /**

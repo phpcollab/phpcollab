@@ -82,8 +82,6 @@ $id = str_replace("**", ",", $id);
 
 $listCalendar = $calendars->openCalendarById($id);
 
-//echo "<h3>Calendar:</h3>";
-
 foreach ($listCalendar as $item) {
     echo <<<ROW
 <tr class="odd">
