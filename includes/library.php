@@ -39,8 +39,6 @@ $escaper = new Escaper('utf-8');
 
 // Setup debugging
 if ($debug) {
-    include_once APP_ROOT . '/classes/Vendor/FirePHPCore/FirePHP.class.php';
-
     $debugbar = new StandardDebugBar();
     $debugbarRenderer = $debugbar->getJavascriptRenderer();
 }
