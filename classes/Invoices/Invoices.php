@@ -151,7 +151,7 @@ class Invoices
         $pub = new Publish($this->db, $this->tableCollab);
 
         try {
-            if ($flag == true) {
+            if ($flag === true) {
                 return $pub->add($invoiceId);
             } else {
                 return $pub->remove($invoiceId);
