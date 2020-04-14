@@ -15,6 +15,7 @@ class Organizations
 {
     protected $organizations_gateway;
     protected $db;
+    protected $tableCollab;
 
     /**
      * Organizations constructor.
@@ -23,6 +24,7 @@ class Organizations
     {
         $this->db = new Database();
         $this->organizations_gateway = new OrganizationsGateway($this->db);
+        $this->tableCollab = $GLOBALS["tableCollab"];
     }
 
     /**
