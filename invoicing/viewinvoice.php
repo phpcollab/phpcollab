@@ -40,6 +40,8 @@ if ($projectDetail["pro_owner"] != $idSession) {
     header("Location:../general/permissiondenied.php");
 }
 
+$setTitle .= " : " . $strings["view_invoice"];
+
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
@@ -168,7 +170,7 @@ $block2->closeToggle();
 $block2->closeFormResults();
 
 $block2->openPaletteScript();
-$block2->paletteScript(7, "edit", "../invoicing/editinvoiceitem.php?id=$id", "false,true,true", $strings["edit"]);
+$block2->paletteScript(7, "edit", "../invoicing/editinvoiceitem.php", "false,true,false", $strings["edit"]);
 $block2->closePaletteScript(count($listInvoicesItems), array_column($listInvoicesItems, 'invitem_id'));
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';
