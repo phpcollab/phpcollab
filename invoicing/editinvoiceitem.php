@@ -39,30 +39,12 @@ if ($request->isMethod('post')) {
                 $request->request->get("rate_value"),
                 $request->request->get("amount_ex_tax")
             );
-
-//            echo "redirect to: " . "../invoicing/viewinvoice.php?msg=update&id={$detailInvoiceItem["invitem_invoice"]}";
-//            die();
             phpCollab\Util::headerFunction("../invoicing/viewinvoice.php?msg=update&id={$detailInvoiceItem["invitem_invoice"]}");
         } catch (Exception $exception) {
             $error = $strings["error_editing_invoice"];
             error_log($strings["error_editing_invoice"] . ': ' . $exception->getMessage());
         }
     }
-//        phpCollab\Util::newConnectSql("
-//    UPDATE {$tableCollab["invoices_items"]}
-//    SET
-//        rate_type=:rate_type,
-//        rate_value=:rate_value,
-//        amount_ex_tax=:amount_ex_tax
-//    WHERE id = :id
-//    ", [
-// "rate_type" => $_POST["rate_type"],
-// "rate_value" => $_POST["rate_value"],
-// "amount_ex_tax" => $_POST["amount_ex_tax"],
-// "id" => $_POST["invoiceitem"]
-// ]);
-//    }
-
 }
 
 
