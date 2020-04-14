@@ -45,16 +45,16 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 
-if (isset($_GET["id"])) {
-    $task_id = $_GET["id"];
+if (!empty($request->query->get('id'))) {
+    $task_id = $request->query->get('id');
 } else {
-    $task_id = $_GET["task"];
+    $task_id = $request->query->get('task');
 }
 
-$docopy = $_GET["docopy"];
+$docopy = $request->query->get('docopy');
 
 if (strstr($task_id, "**")) {
-    phpCollab\Util::headerFunction("../tasks/updatetasks.php?report={$_GET['report']}&project={$_GET['project']}&id={$task_id}");
+    phpCollab\Util::headerFunction("../tasks/updatetasks.php?report={$request->query->get('report')}&project={$request->query->get('project')}&id={$task_id}");
 }
 
 $tasks = new Tasks();
@@ -85,7 +85,7 @@ if ($_POST && !is_null($errors) && !empty($task_id)) {
         $taskDetail = $tasks->getTaskById(filter_var($task_id, FILTER_VALIDATE_INT));
         $project = $taskDetail['tas_project'];
     } else {
-        $project = $_GET['project'];
+        $project = $request->query->get('project');
     }
 
 }

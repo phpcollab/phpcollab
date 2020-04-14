@@ -3,9 +3,9 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$id = $_GET["id"];
-$postid = $_GET["postid"];
-$action = $_GET["action"];
+$id = $request->query->get('id');
+$postid = $request->query->get('postid');
+$action = $request->query->get('action');
 $tableCollab = $GLOBALS["tableCollab"];
 $idSession = $_SESSION["idSession"];
 
@@ -13,9 +13,9 @@ $newsDesk = new \phpCollab\NewsDesk\NewsDesk();
 $members = new \phpCollab\Members\Members();
 
 //case update post
-if ($_GET["id"] != "") {
+if ($request->query->get('id') != "") {
     //test exists selected client organization, redirect to list if not
-    $commentDetail = $newsDesk->getNewsDeskCommentById($_GET["id"]);
+    $commentDetail = $newsDesk->getNewsDeskCommentById($request->query->get('id'));
     if (!$commentDetail) {
         phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=blankNews");
     }

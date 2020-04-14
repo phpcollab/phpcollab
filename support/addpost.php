@@ -8,8 +8,8 @@ use phpCollab\Util;
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$id = $_GET["id"];
-$action = $_GET["action"];
+$id = $request->query->get('id');
+$action = $request->query->get('action');
 $idSession = $_SESSION["idSession"];
 
 

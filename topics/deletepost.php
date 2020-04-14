@@ -9,12 +9,12 @@ use phpCollab\Util;
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$topic = $_GET["topic"];
+$topic = $request->query->get('topic');
 $topics = new Topics();
 
 $detailTopic = $topics->getTopicByTopicId($topic);
 
-if ($_GET["action"] == "delete") {
+if ($request->query->get('action') == "delete") {
     $detailTopic["top_posts"]--;
     Util::newConnectSql("DELETE FROM {$tableCollab["posts"]} WHERE id = :post_id", ["post_id" => $id]);
 

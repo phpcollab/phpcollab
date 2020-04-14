@@ -65,7 +65,7 @@ if ($action == 'publish') {
         $msg = 'closeTopic';
     }
 
-    if ($_GET['addToSiteTopic'] == "true") {
+    if ($request->query->get('addToSiteTopic') == "true") {
         $multi = strstr($id, "**");
 
         if ($multi != "") {
@@ -78,7 +78,7 @@ if ($action == 'publish') {
         $msg = 'addToSite';
     }
 
-    if ($_GET['removeToSiteTopic'] == "true") {
+    if ($request->query->get('removeToSiteTopic') == "true") {
         $multi = strstr($id, "**");
 
         if ($multi != "") {
@@ -232,10 +232,10 @@ if ($showHomeProjects) {
 
     $sorting = $block1->sortingValue;
 
-    $projectCount = $projects->getProjectList($idSession, $_GET["typeProjects"]);
+    $projectCount = $projects->getProjectList($idSession, $request->query->get('typeProjects'));
     $block1->setRecordsTotal(count($projectCount));
 
-    $projectsList = $projects->getProjectList($idSession, $_GET["typeProjects"], $block1->getRowsLimit(), $block1->getLimit(), $sorting);
+    $projectsList = $projects->getProjectList($idSession, $request->query->get('typeProjects'), $block1->getRowsLimit(), $block1->getLimit(), $sorting);
 
 
     $projectsTopics = [];

@@ -11,7 +11,7 @@ include_once '../includes/library.php';
 $teams = new Teams();
 $support = new Support();
 
-$id = $_GET["id"];
+$id = $request->query->get('id');
 
 $strings = $GLOBALS["strings"];
 $status = $GLOBALS["status"];

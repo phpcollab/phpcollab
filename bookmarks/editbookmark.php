@@ -87,13 +87,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $filteredData['users'] = $users;
     }
 
-    if ($_GET["action"] == "update") {
+    if ($request->query->get('action') == "update") {
         $filteredData['id'] = filter_var((int) $id, FILTER_VALIDATE_INT);
         $updateBookmark = $bookmark->updateBookmark($filteredData);
         phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=update");
     }
 
-    if ($_GET["action"] == "add") {
+    if ($request->query->get('action') == "add") {
         $filteredData['owner_id'] = filter_var((int) $idSession, FILTER_VALIDATE_INT);
         $addBookmark = $bookmark->addBookmark($filteredData);
 
@@ -102,8 +102,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 
-if (!empty($_GET["id"])) {
-    $id = $_GET["id"];
+if (!empty($request->query->get('id'))) {
+    $id = $request->query->get('id');
 
     $bookmarkId = filter_var((int) $id, FILTER_VALIDATE_INT);
     $bookmarkDetail = $bookmark->getBookmarkById($id);

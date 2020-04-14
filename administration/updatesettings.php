@@ -37,7 +37,7 @@ $langSelected = $GLOBALS["langSelected"];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    if ($_GET["action"] == "generate") {
+    if ($request->query->get('action') == "generate") {
         if ($_POST["installationTypeNew"] == "offline") {
             $updateCheckerNew = "false";
         }

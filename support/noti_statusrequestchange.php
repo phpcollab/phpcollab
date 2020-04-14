@@ -7,7 +7,7 @@ $mail->getUserinfo($_SESSION["idSession"], "from");
 
 $strings = $GLOBALS["strings"];
 
-$requestDetail = $supportRequests->getSupportRequestById($_GET["id"]);
+$requestDetail = $supportRequests->getSupportRequestById($request->query->get('id'));
 
 $userDetail = $members->getMemberById($requestDetail["sr_user"]);
 
@@ -20,7 +20,7 @@ $body .= "\n\n" . $strings["id"] . " : " . $requestDetail["sr_id"] . "\n" . $str
 if ($listTeam->tea_mem_profil[$i] == 3) {
     $body .= "$root/general/login.php?url=projects_site/home.php%3Fproject=" . $requestDetail["sr_project"] . "\n\n";
 } else {
-    $body .= "$root/general/login.php?url=support/viewrequest.php%3Fid={$_GET["num"]}\n\n";
+    $body .= "$root/general/login.php?url=support/viewrequest.php%3Fid={$request->query->get('num')}\n\n";
 }
 
 $mail->Subject = $subject;

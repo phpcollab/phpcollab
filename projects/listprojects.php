@@ -17,7 +17,7 @@ $db = new phpCollab\Database(); // Move this to library?
 
 $projects = new Projects();
 
-$typeProjects = $_GET["typeProjects"];
+$typeProjects = $request->query->get('typeProjects');
 
 if (empty($typeProjects)) {
     $typeProjects = "active";

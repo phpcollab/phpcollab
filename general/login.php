@@ -308,8 +308,8 @@ $block1 = new phpCollab\Block();
 $block1->form = "login";
 $block1->openForm("../general/login.php?auth=test");
 
-if (!empty($_GET["url"])) {
-    echo "<input value='{$_GET["url"]}' type='hidden' name='url'>";
+if (!empty($request->query->get('url'))) {
+    echo "<input value='{$request->query->get('url')}' type='hidden' name='url'>";
 }
 
 if ($error != "") {

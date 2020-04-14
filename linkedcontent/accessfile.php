@@ -12,7 +12,7 @@ include '../includes/library.php';    // starts session and writes session cache
 
 $files = new Files();
 
-$fileDetail = $files->getFileById($_GET["id"]);
+$fileDetail = $files->getFileById($request->query->get('id'));
 
 if ($fileDetail) {
     $fileAction = new GetFile();
@@ -29,9 +29,9 @@ if ($fileDetail) {
             $fileAction->setFilesPath(APP_ROOT . "/files/" . $fileDetail["fil_project"] . "/" . $fileDetail["fil_task"] . "/" . $filename);
         }
 
-        if ($_GET["mode"] == "download") {
+        if ($request->query->get('mode') == "download") {
             $fileAction->downloadFile($filename);
-        } elseif ($_GET["mode"] == "view") {
+        } elseif ($request->query->get('mode') == "view") {
             $fileAction->viewFile($filename);
         }
     } catch (Exception $exception) {

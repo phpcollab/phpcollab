@@ -32,7 +32,7 @@ $searchfor = strtolower($searchfor);
 $mots = explode(" ", $searchfor);
 $number_words = count($mots);
 
-$heading = $_GET["heading"];
+$heading = $request->query->get('heading');
 
 $selectedAll = null;
 $selectedNotes = null;

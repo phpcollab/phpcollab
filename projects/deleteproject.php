@@ -16,7 +16,7 @@ $support = new \phpCollab\Support\Support();
 $phases = new \phpCollab\Phases\Phases();
 $projects = new \phpCollab\Projects\Projects();
 
-$id = isset($_GET["id"]) ? str_replace("**", ",", $_GET["id"]) : null;
+$id = $request->query->get('id') ? str_replace("**", ",", $request->query->get('id')) : null;
 
 if (empty($id)) {
     phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blankProject");

@@ -14,8 +14,8 @@ $phases = new Phases();
 $tasks = new Tasks();
 
 $strings = $GLOBALS["strings"];
-$project = $_GET["project"];
-$phase = $_GET["phase"];
+$project = $request->query->get('project');
+$phase = $request->query->get('phase');
 
 $phaDetail = $phases->getPhasesByProjectIdAndPhaseOrderNum($project, $phase);
 

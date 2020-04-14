@@ -14,9 +14,9 @@ $projects = new Projects();
 $members = new Members();
 $teams = new Teams();
 
-$id = $_GET["id"];
-$project = $_GET["project"];
-$action = $_GET["action"];
+$id = $request->query->get('id');
+$project = $request->query->get('project');
+$action = $request->query->get('action');
 
 $projectDetail = $projects->getProjectById($project);
 

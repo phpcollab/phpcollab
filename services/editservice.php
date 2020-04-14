@@ -16,9 +16,9 @@ $services = new Services();
 
 
 //case update user
-$id = $_GET['id'];
+$id = $request->query->get('id');
 
-$action = $_GET['action'];
+$action = $request->query->get('action');
 
 $name = '';
 $namePrinted = '';
@@ -28,7 +28,7 @@ if (!empty($id)) {
 
 //case update user
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if ($_GET["action"] == "update") {
+        if ($request->query->get('action') == "update") {
             $name = Util::convertData($_POST['name']);
             $namePrinted = Util::convertData($_POST['name_printed']);
             $hourlyRate = $_POST["hourly_rate"];

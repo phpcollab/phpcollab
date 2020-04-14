@@ -13,7 +13,7 @@ include '../includes/library.php';
 $tasks = new Tasks();
 $projects = new Projects();
 
-$task = $_GET["task"];
+$task = $request->query->get('task');
 $timezoneSession = $_SESSION["timezoneSession"];
 $strings = $GLOBALS["strings"];
 

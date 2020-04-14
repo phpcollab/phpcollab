@@ -30,7 +30,7 @@ $graph->scale->week->SetFont(FF_FONT0);
 $graph->scale->year->SetFont(FF_FONT1);
 
 // case of calendar graph
-if ($_GET['dateCalend'] != '') {
+if ($request->query->get('dateCalend') != '') {
     $graph->title->Set($strings["calendar"]);
     $graph->subtitle->Set($dateCalend);
 
@@ -78,8 +78,8 @@ if ($_GET['dateCalend'] != '') {
         $graph->Add($activity);
         $j++;
     }
-} elseif ($_GET['project'] != '') {
-    $projectDetail = $projects->getProjectById($_GET["project"]);
+} elseif ($request->query->get('project') != '') {
+    $projectDetail = $projects->getProjectById($request->query->get('project'));
 
     // case of project graph
     $graph->title->Set($strings["project"] . " " . $projectDetail["pro_name"]);
@@ -89,7 +89,7 @@ if ($_GET['dateCalend'] != '') {
     $projectDetail["pro_name"] = str_replace('&quot;', '"', $projectDetail["pro_name"]);
     $projectDetail["pro_name"] = str_replace("&#39;", "'", $projectDetail["pro_name"]);
 
-    $listTasks = $tasks->getTasksByProjectIdWhereStartAndEndAreNotEmptyAndNotPublished($_GET["project"]);
+    $listTasks = $tasks->getTasksByProjectIdWhereStartAndEndAreNotEmptyAndNotPublished($request->query->get('project'));
 
     $progress = 0;
     foreach ($listTasks as $task) {

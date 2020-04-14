@@ -9,7 +9,7 @@ include '../includes/library.php';
 
 $topics = new Topics();
 
-$id = $_GET["id"];
+$id = $request->query->get('id');
 $strings = $GLOBALS["strings"];
 $tableCollab = $GLOBALS["tableCollab"];
 $timezoneSession = $_SESSION["timezoneSession"];
@@ -21,11 +21,11 @@ if ($detailTopic["top_published"] == "1" || $detailTopic["top_project"] != $proj
     phpCollab\Util::headerFunction("index.php");
 }
 
-if ($_GET["action"] == "delete") {
+if ($request->query->get('action') == "delete") {
     $detailTopic["top_posts"] = $detailTopic["top_posts"] - 1;
     phpCollab\Util::newConnectSql(
         "DELETE FROM {$tableCollab["posts"]} WHERE id = :post_id",
-        ["post_id" => $_GET["post"]]
+        ["post_id" => $request->query->get('post')]
     );
 
     phpCollab\Util::newConnectSql(

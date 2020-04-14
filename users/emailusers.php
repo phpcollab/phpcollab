@@ -22,7 +22,7 @@ if ($profilSession != "0") {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    if ($_GET["action"] == "email") {
+    if ($request->query->get('action') == "email") {
 
         // get name and email of user sending the email
         $userPrefs = $members->getMemberById($idSession);

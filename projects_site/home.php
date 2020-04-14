@@ -11,13 +11,13 @@ $teams = new Teams();
 $organizations = new Organizations();
 $projects = new Projects();
 
-$updateProject = $_GET["updateProject"];
-$changeProject = $_GET["changeProject"];
+$updateProject = $request->query->get('updateProject');
+$changeProject = $request->query->get('changeProject');
 $idSession = $_SESSION["idSession"];
 $nameSession = $_SESSION["nameSession"];
 $timezoneSession = $_SESSION["timezoneSession"];
 $projectSession = $_SESSION["projectSession"];
-$project = $_GET["project"];
+$project = $request->query->get('project');
 $strings = $GLOBALS["strings"];
 $priority = $GLOBALS["priority"];
 $status = $GLOBALS["status"];
@@ -70,7 +70,7 @@ TABLE;
         foreach ($listProjects as $project) {
             $idStatus = $project["tea_pro_status"];
             $idPriority = $project["tea_pro_priority"];
-            
+
             echo <<<TR
             <tr>
                 <td style="width: 30%"><a href="home.php?updateProject=true&project={$project["tea_pro_id"]}">{$project["tea_pro_name"]}</a></td>

@@ -3,8 +3,8 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$orgId = $_GET["orgid"];
-$userId = $_GET["userid"];
+$orgId = $request->query->get('orgid');
+$userId = $request->query->get('userid');
 
 if (empty($userId) || empty($orgId)) {
     phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
@@ -21,7 +21,7 @@ $userDetail = $members->getMemberById($userId);
 $comptUserDetail = count($userDetail);
 
 //case update client user
-if ($_GET["action"] == "update") {
+if ($request->query->get('action') == "update") {
     if ($_POST) {
         $user_login = "";
         $user_login_old = "";

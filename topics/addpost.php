@@ -15,9 +15,9 @@ $topics = new Topics();
 $projects = new Projects();
 $sendNotifications = new Notifications();
 
-$topic_id = $_GET["id"];
+$topic_id = $request->query->get('id');
 $strings = $GLOBALS["strings"];
-$action = $_GET["action"];
+$action = $request->query->get('action');
 
 $detailTopic = $topics->getTopicByTopicId($topic_id);
 

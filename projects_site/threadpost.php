@@ -8,7 +8,7 @@ use phpCollab\Topics\Topics;
 $checkSession = "true";
 include '../includes/library.php';
 
-$id = $_GET["id"];
+$id = $request->query->get('id');
 $strings = $GLOBALS["strings"];
 $tableCollab = $GLOBALS["tableCollab"];
 $statusTopicBis = $GLOBALS["statusTopicBis"];

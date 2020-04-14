@@ -31,11 +31,11 @@ $checkSession = "true";
 include_once '../includes/library.php';
 include '../includes/customvalues.php';
 
-$action = $_GET["action"];
-$project = $_GET["project"];
-$id = $_GET["id"];
-$addToSite = $_GET["addToSite"];
-$removeToSite = $_GET["removeToSite"];
+$action = $request->query->get('action');
+$project = $request->query->get('project');
+$id = $request->query->get('id');
+$addToSite = $request->query->get('addToSite');
+$removeToSite = $request->query->get('removeToSite');
 $tableCollab = $GLOBALS["tableCollab"];
 $strings = $GLOBALS["strings"];
 $idSession = $_SESSION["idSession"];

@@ -34,8 +34,8 @@ use phpCollab\Updates\Updates;
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$type = isset($_GET["type"]) ? $_GET["type"] : null;
-$item = isset($_GET["item"]) ? $_GET["item"] : null;
+$type = $request->query->get('type');
+$item = $request->query->get('item');
 
 $tasks = new Tasks();
 $projects = new Projects();

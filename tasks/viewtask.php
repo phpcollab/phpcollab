@@ -40,9 +40,9 @@ $updates = new \phpCollab\Updates\Updates();
 $files = new \phpCollab\Files\Files();
 $assignments = new \phpCollab\Assignments\Assignments();
 
-$id = $_GET["id"];
-$task = $_GET["task"];
-$action = $_GET["action"];
+$id = $request->query->get('id');
+$task = $request->query->get('task');
+$action = $request->query->get('action');
 
 // Global variables
 $tableCollab = $GLOBALS["tableCollab"];
@@ -60,10 +60,10 @@ if ($task != "") {
 }
 
 if (isset($action) && $action == "publish") {
-    $addToSite = $_GET["addToSite"];
-    $removeToSite = $_GET["removeToSite"];
-    $addToSiteFile = $_GET["addToSiteFile"];
-    $removeToSiteFile = $_GET["removeToSiteFile"];
+    $addToSite = $request->query->get('addToSite');
+    $removeToSite = $request->query->get('removeToSite');
+    $addToSiteFile = $request->query->get('addToSiteFile');
+    $removeToSiteFile = $request->query->get('removeToSiteFile');
 
     if (isset($addToSite) && $addToSite == "true") {
         $tasks->publishTasks($id);

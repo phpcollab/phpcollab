@@ -13,7 +13,7 @@ $teams = new Teams();
 $tasks = new Tasks();
 $notes = new Notes();
 
-$id = $_GET["id"];
+$id = $request->query->get('id');
 $strings = $GLOBALS["strings"];
 $msgLabel = $GLOBALS["msgLabel"];
 $tableCollab = $GLOBALS["tableCollab"];

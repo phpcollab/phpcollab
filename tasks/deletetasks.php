@@ -11,10 +11,10 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 
-if (!isset($_GET["id"]) || $_GET["id"] == "") {
+if (empty($request->query->get('id'))) {
     phpCollab\Util::headerFunction($_SERVER['HTTP_REFERER']);
 }
-$id = $_GET["id"];
+$id = $request->query->get('id');
 
 $tasks = new Tasks();
 $assignments = new Assignments();
@@ -22,7 +22,7 @@ $projects = new Projects();
 
 $strings = $GLOBALS["strings"];
 
-if ($_GET["action"] == "delete") {
+if ($request->query->get('action') == "delete") {
     $id = str_replace("**", ",", $id);
 
     $listTasks = $tasks->getTasksById($id);

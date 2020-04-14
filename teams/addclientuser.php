@@ -14,7 +14,7 @@ $projects = new Projects();
 $teams = new Teams();
 $sendNotifications = new Notifications();
 
-$project = $_GET["project"];
+$project = $request->query->get('project');
 $strings = $GLOBALS["strings"];
 
 $projectDetail = $projects->getProjectById($project);
@@ -23,7 +23,7 @@ if (!$projectDetail) {
     phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blank");
 }
 
-if ($_GET["action"] == "add") {
+if ($request->query->get('action') == "add") {
     if (isset($id) && $id != "") {
         $pieces = explode("**", $id);
         $id = str_replace("**", ",", $id);

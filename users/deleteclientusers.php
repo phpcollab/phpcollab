@@ -3,8 +3,8 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$org_id = $_GET["orgid"];
-$user_id = $_GET["id"] || $_POST["id"];
+$org_id = $request->query->get('orgid');
+$user_id = $request->query->get('id') || $_POST["id"];
 
 if (empty($user_id) || empty($org_id)) {
     phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");

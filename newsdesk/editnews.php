@@ -45,8 +45,8 @@ if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5") {
 $news = new NewsDesk();
 $projects = new Projects();
 
-$action = $_GET['action'];
-$id = $_GET['id'];
+$action = $request->query->get('action');
+$id = $request->query->get('id');
 
 //case edit news
 if ($id != "") {

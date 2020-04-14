@@ -9,7 +9,7 @@ include '../includes/library.php';
 $support = new Support();
 $members = new Members();
 
-$id = $_GET["id"];
+$id = $request->query->get('id');
 $idSession = $_SESSION["idSession"];
 $strings = $GLOBALS["strings"];
 $tableCollab = $GLOBALS["tableCollab"];
@@ -17,7 +17,7 @@ $tableCollab = $GLOBALS["tableCollab"];
 $requestDetail = $support->getSupportRequestById($id);
 
 if ($requestDetail["sr_project"] != $projectSession || $requestDetail["sr_member"] != $idSession) {
-    if (!isset($requestDetail["sr_id"])) {
+    if (!empty($requestDetail["sr_id"])) {
         // The support request wasn't found. This can happen if the lastvisited page for a user is for
         // a request that no longer exists. If this happens the user gets stuck in a login loop and can't
         // login.

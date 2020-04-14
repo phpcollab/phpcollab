@@ -57,7 +57,7 @@ $comments = null;
 $profile = '';
 
 //case update user
-if (!empty($_GET["id"])) {
+if (!empty($request->query->get('id'))) {
     if ($id == "1" && $idSession == "1") {
         phpCollab\Util::headerFunction("../preferences/updateuser.php");
     }
@@ -164,7 +164,7 @@ if (!empty($_GET["id"])) {
         }
     }
 
-    $userDetail = $members->getMemberById($_GET["id"]);
+    $userDetail = $members->getMemberById($request->query->get('id'));
 
     //test exists selected user, redirect to list if not
     if (empty($userDetail)) {
@@ -206,7 +206,7 @@ if (!empty($_GET["id"])) {
 }
 
 //case add user
-if (empty($_GET["id"])) {
+if (empty($request->query->get('id'))) {
     $checked2 = "checked";
 
     //case add user
@@ -315,12 +315,12 @@ if (empty($_GET["id"])) {
 
     $block1 = new phpCollab\Block();
 
-    if (empty($_GET["id"])) {
+    if (empty($request->query->get('id'))) {
         $block1->form = "user_edit";
         $block1->openForm("../users/edituser.php?id=$id#" . $block1->form . "Anchor");
     }
 
-    if (!empty($_GET["id"])) {
+    if (!empty($request->query->get('id'))) {
         $block1->form = "user_edit";
         $block1->openForm("../users/edituser.php?id=$id#" . $block1->form . "Anchor");
     }
@@ -330,19 +330,19 @@ if (empty($_GET["id"])) {
         $block1->contentError($error);
     }
 
-    if (empty($_GET["id"])) {
+    if (empty($request->query->get('id'))) {
         $block1->heading($strings["add_user"]);
     }
-    if (!empty($_GET["id"])) {
+    if (!empty($request->query->get('id'))) {
         $block1->heading($strings["edit_user"] . " : " . $userDetail["mem_login"]);
     }
 
     $block1->openContent();
 
-    if (empty($_GET["id"])) {
+    if (empty($request->query->get('id'))) {
         $block1->contentTitle($strings["enter_user_details"]);
     }
-    if (!empty($_GET["id"])) {
+    if (!empty($request->query->get('id'))) {
         $block1->contentTitle($strings["edit_user_details"]);
     }
 
@@ -384,11 +384,11 @@ if (empty($_GET["id"])) {
 
     $block1->closeContent();
 
-    if (empty($_GET["id"])) {
+    if (empty($request->query->get('id'))) {
         echo '<input type="hidden" name="action" value="add" />';
     }
 
-    if (!empty($_GET["id"])) {
+    if (!empty($request->query->get('id'))) {
         echo '<input type="hidden" name="action" value="update" />';
     }
 

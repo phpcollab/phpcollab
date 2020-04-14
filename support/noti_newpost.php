@@ -6,7 +6,7 @@ $mail->getUserinfo($_SESSION["idSession"], "from");
 $supportPosts = new \phpCollab\Support\Support();
 $members = new \phpCollab\Members\Members();
 
-$num = $_GET["num"];
+$num = $request->query->get('num');
 $postDetail = $supportPosts->getSupportPostById($num);
 
 $requestDetail = $supportPosts->getSupportRequestById($postDetail["sp_request_id"]);

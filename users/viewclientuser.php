@@ -7,8 +7,8 @@ $members = new \phpCollab\Members\Members();
 $organizations = new \phpCollab\Organizations\Organizations();
 $tasks = new \phpCollab\Tasks\Tasks();
 
-$orgId = $_GET['organization'];
-$userId = $_GET['id'];
+$orgId = $request->query->get('organization');
+$userId = $request->query->get('id');
 
 if (empty($userId) || empty($orgId)) {
     phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");

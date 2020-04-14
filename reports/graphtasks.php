@@ -37,7 +37,7 @@ include '../includes/library.php';
 $reports = new Reports();
 $tasks = new Tasks();
 
-$report = $_GET["report"];
+$report = $request->query->get('report');
 
 $reportDetail = $reports->getReportsById($report);
 

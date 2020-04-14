@@ -8,8 +8,8 @@ use phpCollab\Topics\Topics;
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$project = $_GET["project"];
-$action = $_GET["action"];
+$project = $request->query->get('project');
+$action = $request->query->get('action');
 
 $strings = $GLOBALS["strings"];
 $tableCollab = $GLOBALS["tableCollab"];

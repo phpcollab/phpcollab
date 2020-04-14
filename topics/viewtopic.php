@@ -14,21 +14,21 @@ $topics = new Topics();
 $projects = new Projects();
 $teams = new Teams();
 
-$id = $_GET["id"];
+$id = $request->query->get('id');
 
-if ($_GET['action'] == "closeTopic") {
+if ($request->query->get('action') == "closeTopic") {
     $num = "1";
-    phpCollab\Util::newConnectSql("UPDATE {$tableCollab["topics"]} SET status='0' WHERE id = :topic_id", ["topic_id" => $_GET['id']]);
+    phpCollab\Util::newConnectSql("UPDATE {$tableCollab["topics"]} SET status='0' WHERE id = :topic_id", ["topic_id" => $request->query->get('id')]);
     $msg = "closeTopic";
 }
 
-if ($_GET['action'] == "addToSite") {
-    phpCollab\Util::newConnectSql("UPDATE {$tableCollab["topics"]} SET published='0' WHERE id = :topic_id", ["topic_id" => $_GET['id']]);
+if ($request->query->get('action') == "addToSite") {
+    phpCollab\Util::newConnectSql("UPDATE {$tableCollab["topics"]} SET published='0' WHERE id = :topic_id", ["topic_id" => $request->query->get('id')]);
     $msg = "addToSite";
 }
 
-if ($_GET['action'] == "removeToSite") {
-    phpCollab\Util::newConnectSql("UPDATE {$tableCollab["topics"]} SET published='1' WHERE id = :topic_id", ["topic_id" => $_GET['id']]);
+if ($request->query->get('action') == "removeToSite") {
+    phpCollab\Util::newConnectSql("UPDATE {$tableCollab["topics"]} SET published='1' WHERE id = :topic_id", ["topic_id" => $request->query->get('id')]);
     $msg = "removeToSite";
 }
 

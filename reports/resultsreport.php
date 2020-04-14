@@ -17,7 +17,7 @@ $strings = $GLOBALS["strings"];
 $gantt = false;
 $queryStart = null;
 
-if ($_GET["action"] == "add") {
+if ($request->query->get('action') == "add") {
     $newReport = $reports->addReport(
         $_SESSION["idSession"],
         $_POST["report_name"],
@@ -38,8 +38,8 @@ if ($_GET["action"] == "add") {
 $setTitle .= " : Report Results";
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
-$id = (isset($_GET["id"]) && $_GET["id"] != '') ? $_GET["id"] : null;
-$tri = (isset($_GET["tri"]) && $_GET["tri"] != '') ? $_GET["tri"] : null;
+$id = $request->query->get('id');
+$tri = $request->query->get('tri');
 
 $filterOrganization = null;
 $filterProject = null;

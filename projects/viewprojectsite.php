@@ -25,8 +25,8 @@ include_once '../includes/library.php';
 $projects = new Projects();
 $teams = new Teams();
 
-if ($_GET["action"] == "publish") {
-    if ($_GET["addToSiteTeam"] == "true") {
+if ($request->query->get('action') == "publish") {
+    if ($request->query->get('addToSiteTeam') == "true") {
         $multi = strstr($id, "**");
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
@@ -36,7 +36,7 @@ if ($_GET["action"] == "publish") {
         $id = $project;
     }
 
-    if ($_GET["removeToSiteTeam"] == "true") {
+    if ($request->query->get('removeToSiteTeam') == "true") {
         $multi = strstr($id, "**");
         if ($multi != "") {
             $id = str_replace("**", ",", $id);

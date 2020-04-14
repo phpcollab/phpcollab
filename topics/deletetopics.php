@@ -12,10 +12,10 @@ include_once '../includes/library.php';
 $projects = new Projects();
 $topics = new Topics();
 
-$action = $_GET["action"];
-$id = $_GET["id"];
+$action = $request->query->get('action');
+$id = $request->query->get('id');
 
-if ($_GET["action"] == "delete") {
+if ($request->query->get('action') == "delete") {
     $id = str_replace("**", ",", $id);
     $pieces = explode(",", $id);
     $num = count($pieces);
@@ -34,8 +34,8 @@ if ($_GET["action"] == "delete") {
         phpCollab\Util::headerFunction("../general/home.php?num=$num&msg=deleteTopic");
     }
 }
-if ($_GET['project']) {
-    $project = $_GET['project'];
+if ($request->query->get('project')) {
+    $project = $request->query->get('project');
 } else {
     unset($project);
 }

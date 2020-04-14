@@ -6,7 +6,7 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$id = $_GET["id"];
+$id = $request->query->get('id');
 $strings = $GLOBALS["strings"];
 $tableCollab = $GLOBALS["tableCollab"];
 
@@ -20,7 +20,7 @@ if ($_SESSION["idSession"] != $projectDetail["pro_owner"] && $profilSession != "
     phpCollab\Util::headerFunction("../projects/listprojects.php?msg=projectOwner");
 }
 
-if ($_GET["action"] == "create") {
+if ($request->query->get('action') == "create") {
     $tmpquery = "UPDATE {$tableCollab["projects"]} SET published='0' WHERE id = :id";
     phpCollab\Util::newConnectSql($tmpquery, ["id" => $id]);
     phpCollab\Util::headerFunction("../projects/viewprojectsite.php?id={$id}&msg=createProjectSite");

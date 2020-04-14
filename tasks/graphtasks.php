@@ -11,7 +11,7 @@ include '../includes/library.php';
 $projects = new Projects();
 $tasks = new Tasks();
 
-$project = $_GET["project"];
+$project = $request->query->get('project');
 $strings = $GLOBALS["strings"];
 $timezoneSession = $_SESSION["timezoneSession"];
 

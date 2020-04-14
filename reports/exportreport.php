@@ -18,8 +18,8 @@ $pdf->selectFont('../includes/fonts/Helvetica.afm');
 $pdf->ezSetMargins(50, 70, 50, 50);
 
 
-$id = isset($_GET["id"]) ? $_GET["id"] : 0;
-$tri = isset($_GET["tri"]) ? $_GET["tri"] : null;
+$id = $request->query->get('id', 0);
+$tri = $request->query->get('tri');
 
 $S_PRJSEL = isset($GLOBALS["S_PRJSEL"]) ? $GLOBALS["S_PRJSEL"] : null;
 $S_ORGSEL = isset($GLOBALS["S_ORGSEL"]) ? $GLOBALS["S_ORGSEL"] : null;

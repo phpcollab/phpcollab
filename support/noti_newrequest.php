@@ -4,7 +4,7 @@ $supportRequests = new \phpCollab\Support\Support();
 $mail = new phpCollab\Notification();
 
 $mail->getUserinfo($_SESSION["idSession"], "from");
-$num = $_GET["num"];
+$num = $request->query->get('num');
 
 $strings = $GLOBALS["strings"];
 
@@ -12,7 +12,7 @@ $requestDetail = $supportRequests->getSupportRequestById($num);
 
 if ($supportType == "team") {
     $teams = new \phpCollab\Teams\Teams();
-    
+
     $listTeam = $teams->getTeamByProjectId($requestDetail["sr_project"]);
 
     foreach ($listTeam as $teamMember) {

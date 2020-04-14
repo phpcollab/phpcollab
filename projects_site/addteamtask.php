@@ -40,13 +40,13 @@ $tasks = new Tasks();
 $assignments = new Assignments();
 
 //case add task
-$id = (isset($_GET["id"])) ? $_GET["id"] : null;
+$id = $request->query->get('id');
 
 $tableCollab = $GLOBALS["tableCollab"];
 $strings = $GLOBALS["strings"];
 $priority = $GLOBALS["priority"];
 
-if (empty($_GET["id"])) {
+if (empty($request->query->get('id'))) {
 
     //case add task
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {

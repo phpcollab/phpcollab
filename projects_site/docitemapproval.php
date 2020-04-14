@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-$fileDetail = $files->getFileById($_GET["id"]);
+$fileDetail = $files->getFileById($request->query->get('id'));
 
 if ($fileDetail["fil_published"] == "1" || $fileDetail["fil_project"] != $projectSession) {
     phpCollab\Util::headerFunction("index.php");

@@ -32,7 +32,7 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=" . $_GET["view"], $strings["bookmarks"], 'in'));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=" . $request->query->get('view'), $strings["bookmarks"], 'in'));
 $blockPage->itemBreadcrumbs($bookmarkDetail['boo_name']);
 $blockPage->closeBreadcrumbs();
 

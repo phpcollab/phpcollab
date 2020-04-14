@@ -11,7 +11,7 @@ $support = new \phpCollab\Support\Support();
 
 if ($supportType == "team") {
     $teamMember = "false";
-    $teamMember = $teams->isTeamMember($_GET["project"], $_SESSION["idSession"]);
+    $teamMember = $teams->isTeamMember($request->query->get('project'), $_SESSION["idSession"]);
 }
 
 if ($enableHelpSupport != "true") {
@@ -25,7 +25,7 @@ if ($supportType == "admin") {
 }
 
 if ($supportType == "team") {
-    $requestProject = $projects->getProjectById($_GET["project"]);
+    $requestProject = $projects->getProjectById($request->query->get('project'));
 
 }
 
@@ -58,7 +58,7 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 $block1->form = "srs";
-$block1->openForm("../support/support.php?action=".$_GET["action"]."&project=".$_GET["project"]."&#" . $block1->form . "Anchor");
+$block1->openForm("../support/support.php?action=".$request->query->get('action')."&project=".$request->query->get('project')."&#" . $block1->form . "Anchor");
 
 if ($action == "new") {
     $block1->heading($strings["new_requests"]);
@@ -86,11 +86,11 @@ if ($supportType == "team") {
         $listRequests = $support->getSupportRequestByStatusAndProjectId(2, $project, $block1->sortingValue);
     }
 } elseif ($supportType == "admin") {
-    if ($_GET["action"] == "new") {
+    if ($request->query->get('action') == "new") {
         $listRequests = $support->getSupportRequestByStatus(0, $block1->sortingValue);
-    } elseif ($_GET["action"] == "open") {
+    } elseif ($request->query->get('action') == "open") {
         $listRequests = $support->getSupportRequestByStatus(1, $block1->sortingValue);
-    } elseif ($_GET["action"] == "complete") {
+    } elseif ($request->query->get('action') == "complete") {
         $listRequests = $support->getSupportRequestByStatus(2, $block1->sortingValue);
     }
 }
@@ -120,7 +120,7 @@ $block1->closeFormResults();
 if ($teamMember == "true" || $profilSession == "0") {
     $block1->openPaletteScript();
     $block1->paletteScript(1, "edit", "../support/addpost.php?action=status", "false,true,false", $strings["edit_status"]);
-    $block1->paletteScript(2, "remove", "../support/deleterequests.php?sendto=".$_GET["action"]."&action=deleteR", "false,true,true", $strings["delete"]);
+    $block1->paletteScript(2, "remove", "../support/deleterequests.php?sendto=".$request->query->get('action')."&action=deleteR", "false,true,true", $strings["delete"]);
     $block1->paletteScript(3, "info", "../support/viewrequest.php?", "false,true,false", $strings["view"]);
     $block1->closePaletteScript(count($listRequests), array_column($listRequests, 'sr_id'));
 }

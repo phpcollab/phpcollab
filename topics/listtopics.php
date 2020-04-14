@@ -7,13 +7,13 @@ use phpCollab\Topics\Topics;
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$project = $_GET["project"];
-$id = $_GET["id"];
-$action = $_GET["action"];
-$pub = $_GET["pub"];
-$closeTopic = $_GET["closeTopic"];
-$addToSite = $_GET["addToSite"];
-$removeToSite = $_GET["removeToSite"];
+$project = $request->query->get('project');
+$id = $request->query->get('id');
+$action = $request->query->get('action');
+$pub = $request->query->get('pub');
+$closeTopic = $request->query->get('closeTopic');
+$addToSite = $request->query->get('addToSite');
+$removeToSite = $request->query->get('removeToSite');
 
 $strings = $GLOBALS["strings"];
 $tableCollab = $GLOBALS["tableCollab"];

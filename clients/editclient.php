@@ -8,7 +8,7 @@ include_once '../includes/library.php';
 
 $members = new Members();
 
-$id = $_GET['id'];
+$id = $request->query->get('id');
 
 //case update client organization
 if (!empty($id)) {
@@ -31,7 +31,7 @@ if (!empty($id)) {
     $setTitle .= " : Edit Client ($name)";
 
     //case update client organization
-    if ($_GET["action"] == "update") {
+    if ($request->query->get('action') == "update") {
 
         if ($_POST["logoDel"] == "on") {
 
@@ -83,7 +83,7 @@ if (!empty($id)) {
 if (empty($id)) {
     $setTitle .= " : Add Client";
 
-    if ($_GET["action"] == "add") {
+    if ($request->query->get('action') == "add") {
         if (empty($_POST["name"])) {
             $error = $strings["blank_organization_field"];
         } else {

@@ -10,7 +10,7 @@ include_once '../includes/library.php';
 $members = new Members();
 $notifications = new Notifications();
 
-$orgId = $_GET['organization'];
+$orgId = $request->query->get('organization');
 
 if (!$orgId) {
     phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankUser");
@@ -24,7 +24,7 @@ if (empty($clientDetail)) {
 }
 
 //case add client user
-if ($_GET['action'] == "add") {
+if ($request->query->get('action') == "add") {
     if ($_POST) {
         $user_login = "";
         $user_login_old = "";

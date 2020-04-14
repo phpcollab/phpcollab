@@ -20,7 +20,7 @@ $block1 = new phpCollab\Block();
 $block1->heading($strings["document_list"]);
 
 
-if (!empty($_GET["msg"])) {
+if (!empty($request->query->get('msg'))) {
     include '../includes/messages.php';
     $block1->messageBox($msgLabel);
 }

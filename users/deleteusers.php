@@ -11,7 +11,7 @@ $strings = $GLOBALS["strings"];
 $msgLabel = $GLOBALS["msgLabel"];
 $tableCollab = $GLOBALS["tableCollab"];
 
-if ($_GET["action"] == "delete") {
+if ($request->query->get('action') == "delete") {
     $assignments = new \phpCollab\Assignments\Assignments();
     $sorting = new \phpCollab\Sorting\Sorting();
     $notifications = new \phpCollab\Notifications\Notifications();
@@ -94,7 +94,7 @@ $block1->heading($strings["delete_users"]);
 $block1->openContent();
 $block1->contentTitle($strings["delete_following"]);
 
-$id = str_replace("**", ",", $_GET["id"]);
+$id = str_replace("**", ",", $request->query->get('id'));
 $listMembers = $members->getMembersByIdIn($id);
 
 foreach ($listMembers as $member) {
@@ -119,7 +119,7 @@ if ($totalProjects || $totalTasks) {
     <tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td>{$strings["there"]} {$totalProjects} {$strings["projects"]} {$strings["owned_by"]}</td></tr>
 OWNED_PROJECTS;
     }
-    
+
     if ($totalTasks) {
         echo <<<OWNED_TASKS
     <tr class="odd">

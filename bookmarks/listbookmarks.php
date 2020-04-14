@@ -17,7 +17,7 @@ include_once '../includes/library.php';
 
 $bookmarks_gateway = new Bookmarks();
 
-$view = $_GET["view"];
+$view = $request->query->get('view');
 
 // ** Do the title stuff here **
 switch ($view) {

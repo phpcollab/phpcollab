@@ -10,13 +10,13 @@ use phpCollab\Teams\Teams;
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$id = isset($_GET['id']) ? $_GET['id'] : 0;
-$action = isset($_GET['action']) ? $_GET['action'] : null;
-$addToSite = isset($_GET['addToSite']) ? $_GET['addToSite'] : 0;
-$removeToSite = isset($_GET['removeToSite']) ? $_GET['removeToSite'] : 0;
-$addToSiteFile = isset($_GET['addToSiteFile']) ? $_GET['addToSiteFile'] : 0;
-$removeToSiteFile = isset($_GET['removeToSiteFile']) ? $_GET['removeToSiteFile'] : 0;
-$phase = isset($_GET['phase']) ? $_GET['phase'] : 0;
+$id = $request->query->get('id', 0);
+$action = $request->query->get('action', null);
+$addToSite = $request->query->get('addToSite', 0);
+$removeToSite = $request->query->get('removeToSite', 0);
+$addToSiteFile = $request->query->get('addToSiteFile', 0);
+$removeToSiteFile = $request->query->get('removeToSiteFile', 0);
+$phase = $request->query->get('phase', 0);
 
 $tableCollab = $GLOBALS["tableCollab"];
 $phaseStatus = $GLOBALS["phaseStatus"];

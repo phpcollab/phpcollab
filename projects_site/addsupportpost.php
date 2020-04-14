@@ -18,7 +18,7 @@ $requestDetail = $support->getSupportRequestById($id);
 if ($requestDetail["sr_project"] != $projectSession || $requestDetail["sr_member"] != $idSession) {
     phpCollab\Util::headerFunction("index.php");
 }
-if ($_GET["action"] == "add") {
+if ($request->query->get('action') == "add") {
     $message = phpCollab\Util::convertData($_POST["response_message"]);
 
     if (!empty($message)) {

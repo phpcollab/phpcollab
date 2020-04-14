@@ -4,11 +4,11 @@ include_once '../includes/library.php';
 
 $support = new \phpCollab\Support\Support();
 
-$id = isset($_GET["id"]) ? $_GET["id"] : null;
-$action = isset($_GET["action"]) ? $_GET["action"] : null;
+$id = $request->query->get('id');
+$action = $request->query->get('action');
 
-$sendto = isset($_GET["sendto"]) ? $_GET["sendto"] : null;
-$project = isset($_GET["project"]) ? $_GET["project"] : null;
+$sendto = $request->query->get('sendto');
+$project = $request->query->get('project');
 
 $strings = $GLOBALS["strings"];
 

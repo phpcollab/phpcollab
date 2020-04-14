@@ -6,11 +6,11 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$project = $_GET["project"];
+$project = $request->query->get('project');
 $tableCollab = $GLOBALS["tableCollab"];
 $strings = $GLOBALS["strings"];
 
-if ($_GET["action"] == "delete") {
+if ($request->query->get('action') == "delete") {
     $tmpquery = "UPDATE {$tableCollab["projects"]} SET published='1' WHERE id = :project_id";
     phpCollab\Util::newConnectSql($tmpquery, ["project_id" => $project]);
     phpCollab\Util::headerFunction("../projects/viewproject.php?id=$project&msg=removeProjectSite");

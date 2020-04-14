@@ -6,9 +6,9 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$id = $_GET["id"];
-$action = $_GET["action"];
-$task = $_GET["task"];
+$id = $request->query->get('id');
+$action = $request->query->get('action');
+$task = $request->query->get('task');
 $tableCollab = $GLOBALS["tableCollab"];
 $strings = $GLOBALS["strings"];
 

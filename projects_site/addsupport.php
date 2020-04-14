@@ -13,7 +13,7 @@ $support = new Support();
 
 $userDetail = $members->getMemberById($idSession);
 
-$project = $_GET["project"];
+$project = $request->query->get('project');
 $priority = $GLOBALS["priority"];
 
 if ($action == "add") {

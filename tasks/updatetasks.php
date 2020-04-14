@@ -7,7 +7,7 @@ $projects = new \phpCollab\Projects\Projects();
 $tasks = new \phpCollab\Tasks\Tasks();
 $members = new \phpCollab\Members\Members();
 
-$project_id = $_GET["project"] ?: $_POST["project"];
+$project_id = $request->query->get('project') ?: $_POST["project"];
 
 if (!isset($project_id)) {
     // Redirect to where? Back to tasks list with an error mesage?
@@ -171,9 +171,9 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 
-if ($_GET["report"] != "") {
+if ($request->query->get('report') != "") {
     $reports = new \phpCollab\Reports\Reports();
-    $reportDetail = $reports->getReportsById($_GET["report"]);
+    $reportDetail = $reports->getReportsById($request->query->get('report'));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/createreport.php?", $strings["reports"], "in"));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/resultsreport.php?id=" . $reportDetail["rep_id"], $reportDetail["rep_name"], "in"));
 } else {

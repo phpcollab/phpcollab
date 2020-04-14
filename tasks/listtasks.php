@@ -7,8 +7,8 @@ use phpCollab\Teams\Teams;
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$id = $_GET["id"];
-$project = $_GET["project"];
+$id = $request->query->get('id');
+$project = $request->query->get('project');
 $idSession = $_SESSION["idSession"];
 $strings = $GLOBALS["strings"];
 
@@ -16,8 +16,8 @@ $tasks = new Tasks();
 $projects = new Projects();
 $teams = new Teams();
 
-if ($_GET["action"] == "publish") {
-    if ($_GET["addToSite"] == "true") {
+if ($request->query->get('action') == "publish") {
+    if ($request->query->get('addToSite') == "true") {
         $multi = strstr($id, "**");
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
@@ -27,7 +27,7 @@ if ($_GET["action"] == "publish") {
         $id = $project;
     }
 
-    if ($_GET["removeToSite"] == "true") {
+    if ($request->query->get('removeToSite') == "true") {
         $multi = strstr($id, "**");
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
