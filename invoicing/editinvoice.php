@@ -1,9 +1,12 @@
 <?php
 
+use phpCollab\Invoices\Invoices;
+use phpCollab\Projects\Projects;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$id = isset($_GET["id"]) ? $_GET["id"] : null;
+$id = $request->query->get('id', null);
 
 $msgLabel = $GLOBALS["msgLabel"];
 $strings = $GLOBALS["strings"];
@@ -15,8 +18,8 @@ if (!$id) {
     header("Location:../general/permissiondenied.php");
 }
 
-$invoices = new \phpCollab\Invoices\Invoices();
-$projects = new \phpCollab\Projects\Projects();
+$invoices = new Invoices();
+$projects = new Projects();
 
 $detailInvoice = $invoices->getInvoiceById($id);
 
@@ -31,7 +34,7 @@ if ($projectDetail["pro_owner"] != $idSession) {
 
 }
 
-$action = isset($_GET['action']) ? $_GET['action'] : null;
+$action = $request->query->get('action', null);
 
 /**
  * Update invoice
@@ -153,6 +156,8 @@ if ($detailInvoice["inv_status"] == "0") {
     $begin = "1";
 }
 
+$notCompleted = null;
+
 foreach ($listInvoicesItems as $item) {
     if ($listInvoicesItems["invitem_completed"] == "0") {
         $comptSta = "1";
@@ -178,58 +183,69 @@ if ($dd == "") {
 }
 
 $block1->contentRow($strings["due_date"], "<input type='text' name='dd' id='due_date' size='20' value='$dd'><input type='button' value=' ... ' id='trigDueDate''>");
-echo "
+echo <<<SCRIPT
 <script type='text/javascript'>
     Calendar.setup({
         inputField     :    'due_date',
         button         :    'trigDueDate',
-        $calendar_common_settings
-    });
+        {$calendar_common_settings}
+    })
 </script>
-";
-$block1->contentRow($strings["published"], "<input size=\"32\" value=\"0\" name=\"pub\" type=\"checkbox\" $checkedPub>");
+SCRIPT;
+
+$block1->contentRow($strings["published"], '<input size="32" value="0" name="pub" type="checkbox"' . $checkedPub .'>');
 
 $block1->contentTitle($strings["calculation"]);
 
-echo '<tr class="odd"><td valign="top" class="leftvalue">' . $strings["items"] . ' :</td><td>';
-echo '<table cellpadding="0" cellspacing="0">';
+echo <<<HTML
+<tr class="odd">
+    <td class="leftvalue">{$strings["items"]} :</td>
+    <td>
+        <table class="calculation">
+            <input type="hidden" name="comptListInvoicesItems" value="{$comptListInvoicesItems}">
+HTML;
+echo <<<SCRIPT
+<script type="text/JavaScript">
+    function calc(w) {
+        var item = [];
+        var subtotal = 0;
 
-echo '<input type="hidden" name="comptListInvoicesItems" value="' . $comptListInvoicesItems . '">';
-?>
-
-    <script type="text/JavaScript">
-        function calc(w) {
-            var item = [];
-            var subtotal = 0;
-
-            for (var i = 0; i < <?php echo $comptListInvoicesItems; ?>; i++) {
-                item[i] = 1 * document.invoiceForm["item" + i].value;
-                if (item[i] == "") {
-                    item[i] = 0;
-                } else {
-                    subtotal += item[i];
-                }
-            }
-            document.invoiceForm["total_ex_tax"].value = subtotal;
-
-            var ratePercent = document.invoiceForm["tax_rate"].value;
-
-            if (subtotal != 0) {
-                var amount_due = subtotal + (subtotal * ratePercent) / 100;
-
-                document.invoiceForm["total_inc_tax"].value = amount_due;
-            }
-
-            if (subtotal != 0 && ratePercent != '') {
-                var tax_part = (subtotal * ratePercent) / 100;
-                document.invoiceForm["tax_amount"].value = tax_part;
+        for (var i = 0; i < {$comptListInvoicesItems}; i++) {
+            item[i] = 1 * document.invoiceForm["item" + i].value;
+            if (item[i] === "") {
+                item[i] = 0;
+            } else {
+                subtotal += item[i];
             }
         }
-    </script>
+        document.invoiceForm["total_ex_tax"].value = subtotal.toFixed(2);
 
-<?php
+        var ratePercent = document.invoiceForm["tax_rate"].value;
+
+        if (subtotal !== 0) {
+            var amount_due = subtotal + (subtotal * ratePercent) / 100;
+
+            document.invoiceForm["total_inc_tax"].value = amount_due.toFixed(2);
+        }
+
+        if (subtotal != 0 && ratePercent != '') {
+            var tax_part = (subtotal * ratePercent) / 100;
+            document.invoiceForm["tax_amount"].value = tax_part.toFixed(2);
+        }
+    }
+</script>
+SCRIPT;
+
 if ($listInvoicesItems) {
-    echo "<tr><td>" . $strings["position"] . "</td><td>" . $strings["title"] . "</td><td>" . $strings["amount_ex_tax"] . "</td><td>" . $strings["completed"] . "</td></tr>";
+    echo <<<HTML
+    <tr>
+        <td>{$strings["position"]}</td>
+        <td>{$strings["title"]}</td>
+        <td>{$strings["amount_ex_tax"]}</td>
+        <td>{$strings["completed"]}</td>
+    </tr>
+HTML;
+
     $itemCount = 0;
     foreach ($listInvoicesItems as $item) {
         if ($item["invitem_completed"] == "1") {
@@ -239,27 +255,30 @@ if ($listInvoicesItems) {
         }
         echo <<<TR
         <tr>
-            <td width="50"><input type="hidden" name="itemId[{$itemCount}]" size="20" value="{$item["invitem_id"]}"><input type="text" name="position[{$itemCount}]" size="3" value="{$item["invitem_position"]}"></td>
-            <td width="200"><input type="text" name="title[{$itemCount}]" size="30" value="{$item["invitem_title"]}"></td>
-            <td width="50"><input type="text" name="item{$itemCount}" size="20" value="{$item["invitem_amount_ex_tax"]}" tabindex="{$itemCount}" onblur="calc(this)"></td>
-            <td width="50">{$completeValue}</td>
+            <td><input type="hidden" name="itemId[{$itemCount}]" size="20" value="{$item["invitem_id"]}"><input type="text" name="position[{$itemCount}]" size="3" value="{$item["invitem_position"]}"></td>
+            <td><input type="text" name="title[{$itemCount}]" size="30" value="{$item["invitem_title"]}"></td>
+            <td><input type="text" name="item{$itemCount}" size="20" value="{$item["invitem_amount_ex_tax"]}" tabindex="{$itemCount}" onblur="calc(this)"></td>
+            <td>{$completeValue}</td>
         </tr>
 TR;
         $itemCount++;
     }
 }
 
-echo "</table>";
-echo "</td></tr>";
+echo <<<HTML
+    </table></td>
+</tr>
+HTML;
 
-$block1->contentRow($strings["total_ex_tax"], "<input type=\"text\" name=\"total_ex_tax\" size=\"20\" value=\"$total_ex_tax\">");
-$block1->contentRow($strings["tax_rate"], "<input type=\"text\" name=\"tax_rate\" size=\"20\" value=\"$tax_rate\" onblur=\"calc(this)\"> %");
-$block1->contentRow($strings["tax_amount"], "<input type=\"text\" name=\"tax_amount\" size=\"20\" value=\"$tax_amount\">");
-$block1->contentRow($strings["total_inc_tax"], "<input type=\"text\" name=\"total_inc_tax\" size=\"20\" value=\"$total_inc_tax\">");
+
+$block1->contentRow($strings["total_ex_tax"], '<input type="text" name="total_ex_tax" size="20" value="' . $total_ex_tax . '">');
+$block1->contentRow($strings["tax_rate"], '<input type="text" name="tax_rate" size="20" value="' . $tax_rate . '" onblur="calc(this)"> %');
+$block1->contentRow($strings["tax_amount"], '<input type="text" name="tax_amount" size="20" value="' . $tax_amount . '">');
+$block1->contentRow($strings["total_inc_tax"], '<input type="text" name="total_inc_tax" size="20" value="' . $total_inc_tax . '">');
 
 echo <<<TR
 <tr class="odd">
-    <td valign="top" class="leftvalue">&nbsp;</td>
+    <td class="leftvalue"> </td>
     <td><input type="SUBMIT" value="{$strings["save"]}"></td>
 </tr>
 TR;
