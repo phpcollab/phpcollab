@@ -93,7 +93,7 @@ $block1->contentRow($strings["status"], $GLOBALS["invoiceStatus"][$detailInvoice
 $block1->contentRow($strings["total_ex_tax"], $detailInvoice["inv_total_ex_tax"]);
 $block1->contentRow($strings["tax_rate"], $detailInvoice["inv_tax_rate"]);
 $block1->contentRow($strings["tax_amount"], $detailInvoice["inv_tax_amount"]);
-$block1->contentRow($strings["total_inc_tax"], $detailInvoice["inv_total_inc_tax"]);
+$block1->contentRow($strings["total_inc_tax"], $detailInvoice["inv_total_inc"]);
 if ($sitePublish == "true") {
     $block1->contentRow($strings["published"], $GLOBALS["statusPublish"][$detailInvoice["inv_published"]]);
 }
