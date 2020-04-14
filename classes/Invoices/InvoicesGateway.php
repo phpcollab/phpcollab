@@ -150,6 +150,10 @@ SQL;
     public function getActiveInvoicesByProjectId($projectId, $status, $sorting = null)
     {
         // Generate placeholders
+        if (!is_array($projectId)) {
+            $projectId = array($projectId);
+        }
+
         $placeholders = str_repeat ('?, ', count($projectId)-1) . '?';
 
         // Append the status value
