@@ -161,4 +161,15 @@ class Invoices
             return false;
         }
     }
+
+    public function updateItem(int $itemId, string $rateType, string $rateAmount, string $exTaxAmount)
+    {
+        $invItem = new UpdateInvoiceItem($this->db, $this->tableCollab);
+        try {
+            return $invItem->update($itemId, $rateType, $rateAmount, $exTaxAmount);
+        } catch (Exception $exception) {
+            error_log('Error updating invoice item', 0);
+            return false;
+        }
+    }
 }
