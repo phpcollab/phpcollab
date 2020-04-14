@@ -591,3 +591,14 @@ a[href^="mailto:"]::after {
 #sidebar li i {
     margin-right: 1rem;
 }
+
+/**
+ * Invoicing Styles
+ */
+table.calculation {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+table.calculation td {
+    padding: .5em;
+}
