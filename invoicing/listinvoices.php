@@ -1,23 +1,27 @@
 <?php
+
+use phpCollab\Invoices\Invoices;
+use phpCollab\Organizations\Organizations;
+use phpCollab\Projects\Projects;
+use phpCollab\Teams\Teams;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$invoices = new \phpCollab\Invoices\Invoices();
-$teams = new \phpCollab\Teams\Teams();
-$organizations = new \phpCollab\Organizations\Organizations();
-$projects = new \phpCollab\Projects\Projects();
+$invoices = new Invoices();
+$teams = new Teams();
+$organizations = new Organizations();
+$projects = new Projects();
 
-$typeInvoices = (isset($_GET["typeInvoices"]) && !empty($_GET["typeInvoices"])) ? $_GET["typeInvoices"] : "open";
-$client = (isset($_GET["client"]) && !empty($_GET["client"])) ? $_GET["client"] : 0;
-$status = (isset($_GET["status"]) && !empty($_GET["status"])) ? $_GET["status"] : 0;
+$typeInvoices = (!empty($request->query->get("typeInvoices"))) ? $request->query->get("typeInvoices") : "open";
+$client = (!empty($request->query->get("client"))) ? $request->query->get("client") : 0;
+$status = (!empty($request->query->get("status"))) ? $request->query->get("status") : 0;
 $idSession = (isset($_SESSION["idSession"]) && !empty($_SESSION["idSession"])) ? $_SESSION["idSession"] : 0;
 
 $strings = $GLOBALS["strings"];
 $invoiceStatus = $GLOBALS["invoiceStatus"];
 $msgLabel = $GLOBALS["msgLabel"];
 $statusPublish = $GLOBALS["statusPublish"];
-
-
 
 if ($typeInvoices == "") {
     $typeInvoices = "open";
@@ -54,6 +58,7 @@ $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?", $strings["clients"], "in"));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $clientDetail["org_id"], $clientDetail["org_name"], "in"));
 $blockPage->itemBreadcrumbs($strings["invoices"]);
+
 if ($typeInvoices == "open") {
     $blockPage->itemBreadcrumbs($invoiceStatus[0] . " | " . $blockPage->buildLink("../invoicing/listinvoices.php?client=$client&typeInvoices=sent", $invoiceStatus[1], "in") . " | " . $blockPage->buildLink("../invoicing/listinvoices.php?client=$client&typeInvoices=paid", $invoiceStatus[2], "in"));
 } else if ($typeInvoices == "sent") {
@@ -102,6 +107,7 @@ $block1->sorting("invoices", $sortingUser["invoices"], "inv.id ASC", $sortingFie
 $projectsTest = $projects->getProjectsByOrganization($client, 'pro.id');
 
 $projectsOk = 0;
+
 if (!$projectsTest) {
     $listProjects = "false";
 } else {
@@ -111,8 +117,6 @@ if (!$projectsTest) {
     }
     if ($projectsOk == "") {
         $listProjects = "false";
-    } else {
-
     }
 }
 

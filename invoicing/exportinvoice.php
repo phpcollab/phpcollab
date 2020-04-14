@@ -1,12 +1,22 @@
 <?php
+
+use phpCollab\Invoices\Invoices;
+use phpCollab\Organizations\Organizations;
+use phpCollab\Projects\Projects;
+
 include '../includes/library.php';
 include '../includes/phplib/template.php';
 
-$invoices = new \phpCollab\Invoices\Invoices();
-$projects = new \phpCollab\Projects\Projects();
-$organizations = new \phpCollab\Organizations\Organizations();
+$invoices = new Invoices();
+$projects = new Projects();
+$organizations = new Organizations();
 
-$id = $_GET["id"];
+$id = $request->query->get('id');
+
+if (empty($id)) {
+    header("Location:../general/permissiondenied.php");
+}
+
 $strings = $GLOBALS["strings"];
 
 $detailInvoice = $invoices->getInvoiceById($id);
@@ -19,7 +29,7 @@ $template = new Template();
 
 $template->set_file('invoice', 'tpl_invoice.html');
 
-$template->set_var(array(
+$template->set_var([
     'val_CLIENTNAME' => $clientDetail["org_name"],
     'val_CLIENTADDRESS' => nl2br($clientDetail["org_address1"]),
 
@@ -43,15 +53,15 @@ $template->set_var(array(
     'str_TITLE' => $strings["title"],
     'str_AMOUNTEXTAX' => $strings["amount_ex_tax"],
 
-));
+]);
 
 $template->set_block('invoice', 'items', 'block');
 
 foreach ($listInvoicesItems as $invoiceItem) {
-    $template->set_var(array(
+    $template->set_var([
         'val_TITLE' => $invoiceItem["invitem_title"],
         'val_AMOUNTEXTAX' => $invoiceItem["invitem_amount_ex_tax"],
-    ));
+    ]);
     $template->Parse('block', 'items', true);
 
 }
@@ -65,8 +75,7 @@ $mime_type = 'text/html';
 
 // Send headers
 header('Content-Type: ' . $mime_type);
-// lem9: we need "inline" instead of "attachment" for IE 5.5
-$content_disp = (USR_BROWSER_AGENT == 'IE') ? 'inline' : 'attachment';
+$content_disp = 'attachment';
 header('Content-Disposition:  ' . $content_disp . '; filename="' . $filename . '.' . $ext . '"');
 header('Pragma: no-cache');
 header('Expires: 0');
