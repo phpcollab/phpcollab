@@ -1,31 +1,36 @@
 <?php
 
+use phpCollab\Invoices\Invoices;
+use phpCollab\Projects\Projects;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$invoices = new \phpCollab\Invoices\Invoices();
-$projects = new \phpCollab\Projects\Projects();
-
-$id = isset($_GET["id"]) ? $_GET["id"] : 0;
-$action = isset($_GET["action"]) ? $_GET["action"] : null;
-$addToSite = isset($_GET["addToSite"]) ? $_GET["addToSite"] : null;
-$removeToSite = isset($_GET["removeToSite"]) ? $_GET["removeToSite"] : null;
+$invoices = new Invoices();
+$projects = new Projects();
+$id = $request->query->get("id", 0);
+$action = $request->query->get("action");
+$addToSite = $request->query->get("addToSite", false);
+$removeToSite = $request->query->get("removeToSite", false);
 $strings = $GLOBALS["strings"];
 $idSession = $_SESSION["idSession"];
-$tableCollab = $GLOBALS["tableCollab"];
 
 if ($action == "publish") {
 
-    if ($addToSite == "true") {
-        phpCollab\Util::newConnectSql("UPDATE {$tableCollab["invoices"]} SET published='0' WHERE id = :id", ["id" => $id]);
-        $msg = "addToSite";
-    }
+        try {
+            if ($addToSite == "true") {
+                $invoices->togglePublish($id, true);
+                $msg = "addToSite";
+            }
 
-    if ($removeToSite == "true") {
-        phpCollab\Util::newConnectSql("UPDATE {$tableCollab["invoices"]} SET published='1' WHERE id = :id", ["id" => $id]);
-        $msg = "removeToSite";
-    }
-
+            if ($removeToSite == "true") {
+                $invoices->togglePublish($id, false);
+                $msg = "removeToSite";
+            }
+        } catch (Exception $exception) {
+            $error = $strings["error_publishing_invoice"];
+            error_log($strings["error_publishing_invoice"] . ': ' . $exception->getMessage());
+        }
 }
 
 $detailInvoice = $invoices->getInvoiceById($id);
@@ -44,6 +49,12 @@ $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../invoicing/listinvoices.php?client=" . $projectDetail["pro_organization"], $strings["invoices"], "in"));
 $blockPage->itemBreadcrumbs($detailInvoice["inv_id"]);
 $blockPage->closeBreadcrumbs();
+
+
+if (!empty($error)) {
+    $blockPage->headingError($strings["errors"]);
+    $blockPage->contentError($error);
+}
 
 if ($msg != "") {
     include '../includes/messages.php';

@@ -14,6 +14,7 @@ class Invoices
 {
     protected $invoices_gateway;
     protected $db;
+    protected $tableCollab;
 
     /**
      * Invoices constructor.
@@ -22,6 +23,7 @@ class Invoices
     {
         $this->db = new Database();
         $this->invoices_gateway = new InvoicesGateway($this->db);
+        $this->tableCollab = $GLOBALS["tableCollab"];
     }
 
     /**
@@ -139,4 +141,24 @@ class Invoices
         return $this->invoices_gateway->setActive($projectId, $activeFlag);
     }
 
+    /**
+     * @param $invoiceId
+     * @param $flag
+     * @return bool|mixed
+     */
+    public function togglePublish($invoiceId, $flag)
+    {
+        $pub = new Publish($this->db, $this->tableCollab);
+
+        try {
+            if ($flag == true) {
+                return $pub->add($invoiceId);
+            } else {
+                return $pub->remove($invoiceId);
+            }
+        } catch (Exception $exception) {
+            error_log('Error publishing invoice', 0);
+            return false;
+        }
+    }
 }
