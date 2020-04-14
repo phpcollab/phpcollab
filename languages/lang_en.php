@@ -633,3 +633,6 @@ $strings["error_file_update_zero_size"] = "File is empty";
 $strings["noti_file_update_added"] = "An updated file has been posted.";
 $strings["noti_file_update_details"] = "Updated File Details";
 $strings["delete_calendars"] = "Delete Calendar";
+$strings["error_publishing_invoice"] = "Error publishing invoice to site.";
+$strings["error_editing_invoice"] = "Error updating invoice, please try again or contact your administrator.";
+$strings["view_invoice"] = "View Invoice";
