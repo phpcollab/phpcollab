@@ -7,6 +7,7 @@ use phpCollab\Projects\Projects;
 use phpCollab\Tasks\Tasks;
 use phpCollab\Teams\Teams;
 use phpCollab\Topics\Topics;
+use phpCollab\Util;
 
 $checkSession = "true";
 include_once '../includes/library.php';
@@ -465,7 +466,11 @@ if (!empty($listProjects) && count($listProjects) > 0) {
         $block1->cellRow($blockPage->buildLink($listProject["pro_mem_email_work"], $listProject["pro_mem_login"], "mail"));
         if ($sitePublish == "true") {
             if ($listProject["pro_published"] == "1") {
-                $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $listProject["pro_id"], $strings["create"] . "...", "in") . "&gt;");
+                if ($listProject['pro_owner'] == $idSession) {
+                    $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $listProject["pro_id"], $strings["create"] . "...", "in") . "&gt;");
+                } else {
+                    $block1->cellRow(Util::doubleDash());
+                }
             } else {
                 $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=" . $listProject["pro_id"], $strings["details"], "in") . "&gt;");
             }

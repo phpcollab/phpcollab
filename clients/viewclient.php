@@ -103,7 +103,7 @@ $block1->contentRow($strings["address"],
     !empty($clientDetail['org_address1']) ? $clientDetail['org_address1'] : Util::doubleDash()
 );
 $block1->contentRow(
-    $strings["phone"], 
+    $strings["phone"],
     !empty($clientDetail['org_phone']) ? $clientDetail['org_phone'] : Util::doubleDash()
 );
 $block1->contentRow($strings["url"], $blockPage->buildLink($clientDetail['org_url'], $clientDetail['org_url'], 'out'));
@@ -177,11 +177,15 @@ if ($listProjects) {
         $block2->cellRow($status[$idStatus]);
         $block2->cellRow($blockPage->buildLink($project['pro_mem_email_work'], $project['pro_mem_login'], 'mail'));
         if ($sitePublish == "true") {
-            if ($project['pro_published'] == "1") {
-                $block2->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $project['pro_id'], $strings["create"] . "...", 'in') . "&gt;");
-            } else {
-                $block2->cellRow("&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=" . $project['pro_id'], $strings["details"], 'in') . "&gt;");
-            }
+                if ($project['pro_published'] == "1") {
+                    if ($project['pro_owner'] == $idSession) {
+                        $block2->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $project['pro_id'], $strings["create"] . "...", 'in') . "&gt;");
+                    } else {
+                            $block2->cellRow(Util::doubleDash());
+                    }
+                } else {
+                    $block2->cellRow("&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=" . $project['pro_id'], $strings["details"], 'in') . "&gt;");
+                }
         }
     }
     $block2->closeResults();

@@ -261,7 +261,11 @@ if ($showHomeProjects) {
 
             if ($sitePublish == "true") {
                 if ($project["pro_published"] == "1") {
-                    $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $project["pro_id"], $strings["create"] . "...", 'in') . "&gt;");
+                    if ($project['pro_owner'] == $idSession) {
+                        $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $project["pro_id"], $strings["create"] . "...", 'in') . "&gt;");
+                    } else {
+                        $block1->cellRow(Util::doubleDash());
+                    }
                 } else {
                     $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=" . $project["pro_id"], $strings["details"], 'in') . "&gt;");
                 }
@@ -541,7 +545,7 @@ if ($showHomeDiscussions) {
         $block4->labels($labels = [0 => $strings["topic"], 1 => $strings["owner"], 2 => $strings["posts"], 3 => $strings["last_post"], 4 => $strings["status"], 5 => $strings["project"], 6 => $strings["published"]], "true");
 
         foreach ($listTopics as $topic) {
-            
+
             $idStatus = $topic["top_status"];
             $idPublish = $topic["top_published"];
             $block4->openRow();

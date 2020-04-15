@@ -4,6 +4,7 @@
 #Path by root: ../projects/listprojects.php
 
 use phpCollab\Projects\Projects;
+use phpCollab\Util;
 
 $checkSession = "true";
 include_once '../includes/library.php';
@@ -127,7 +128,12 @@ if ($projectCount > 0) {
 
         if ($sitePublish == "true") {
             if ($data["pro_published"] == "1") {
-                $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $data["pro_id"], $strings["create"] . "...", "in") . "&gt;");
+                if ($data['pro_owner'] == $idSession) {
+                    $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $data["pro_id"], $strings["create"] . "...", "in") . "&gt;");
+                } else {
+                    $block1->cellRow(Util::doubleDash());
+                }
+
             } else {
                 $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=" . $data["pro_id"], $strings["details"], "in") . "&gt;");
             }

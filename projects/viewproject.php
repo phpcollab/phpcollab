@@ -322,7 +322,11 @@ $block1->contentRow($strings["scope_creep"] . $blockPage->printHelp("project_sco
 
 if ($sitePublish == "true") {
     if ($projectDetail["pro_published"] == "1") {
-        $block1->contentRow($strings["project_site"], "&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=$id", $strings["create"] . "...", "in") . "&gt;");
+        if ($projectDetail['pro_owner'] == $idSession) {
+            $block1->contentRow($strings["project_site"], "&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=$id", $strings["create"] . "...", "in") . "&gt;");
+        } else {
+            $block1->contentRow($strings["project_site"], Util::doubleDash());
+        }
     } else {
         $block1->contentRow($strings["project_site"], "&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=$id", $strings["details"], "in") . "&gt;");
     }
@@ -475,7 +479,7 @@ if ($projectDetail["pro_phase_set"] != "0") {
         $block2->labels($labels = array(0 => $strings["name"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["completion"], 4 => $strings["due_date"], 5 => $strings["assigned_to"], 6 => $strings["published"]), "true");
 
         foreach ($listTasks as $task) {
-            
+
             if ($task["tas_due_date"] == "") {
                 $task["tas_due_date"] = $strings["none"];
             }
