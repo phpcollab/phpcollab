@@ -1,9 +1,7 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 2003-10-23
 ** Path by root: ../bookmarks/deletebookmarks.php
-** Authors: Ceam / Fullo
 **
 ** =============================================================================
 **
@@ -17,27 +15,37 @@
 **
 ** DESC: Screen: remove bookmark from db
 **
-** HISTORY:
-** 	2003-10-23	-	added new document info
-** -----------------------------------------------------------------------------
-** TO-DO:
-**
-**
 ** =============================================================================
 */
+
+use phpCollab\Bookmarks\DeleteBookmarks;
 
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$bookmarks = new phpCollab\Bookmarks\Bookmarks();
 
-if ($action == "delete") {
-    $id = str_replace("**", ",", $id);
+$id = $request->query->get('id');
 
-    $bookmarks->deleteBookmark($id);
-
-    phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=delete");
+if (empty($id)) {
+    header("Location:../general/permissiondenied.php");
 }
+
+if ($request->isMethod('post')) {
+    if ($request->request->get('action') == "delete") {
+        $id = str_replace("**", ",", $id);
+
+        $deleteBookmarks = new DeleteBookmarks();
+        try {
+            $deleteBookmarks->delete($id);
+
+            phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=delete");
+        } catch (Exception $exception) {
+            $error = $strings["error_delete_bookmark"];
+        }
+    }
+}
+
+$bookmarks = new phpCollab\Bookmarks\Bookmarks();
 
 $setTitle .= " : Delete ";
 
@@ -54,6 +62,11 @@ $blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.ph
 $blockPage->itemBreadcrumbs($strings["delete_bookmarks"]);
 $blockPage->closeBreadcrumbs();
 
+if (!empty($error)) {
+    $block1->headingError($strings["errors"]);
+    $block1->contentError($error);
+}
+
 if ($msg != "") {
     include '../includes/messages.php';
     $blockPage->messageBox($msgLabel);
@@ -61,7 +74,7 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 $block1->form = "saP";
-$block1->openForm("../bookmarks/deletebookmarks.php?action=delete&id=$id");
+$block1->openForm("../bookmarks/deletebookmarks.php?id=$id");
 
 $block1->heading($strings["delete_bookmarks"]);
 
@@ -76,7 +89,7 @@ foreach ($bookmarkList as $bookmark) {
     $block1->contentRow("#" . $bookmark['boo_id'], $bookmark['boo_name']);
 }
 
-$block1->contentRow("", '<input type="submit" name="delete" value="' . $strings["delete"] . '"> <input type="button" name="cancel" value="' . $strings["cancel"] . '" onClick="history.back();">');
+$block1->contentRow("", '<input type="hidden" name="action" value="delete" /><input type="submit" name="delete" value="' . $strings["delete"] . '"> <input type="button" name="cancel" value="' . $strings["cancel"] . '" onClick="history.back();">');
 
 $block1->closeContent();
 $block1->closeForm();

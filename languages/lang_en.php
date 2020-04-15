@@ -638,3 +638,4 @@ $strings["error_editing_invoice"] = "Error updating invoice, please try again or
 $strings["view_invoice"] = "View Invoice";
 $strings["send_password_phrase"] = "If the user you specified exists in our system, we will send a password to their email address.";
 $strings["empty_field"] = "Field is empty";
+$strings["error_delete_bookmark"] = "Error deleting bookmark, please try again or contact your administrator.";
