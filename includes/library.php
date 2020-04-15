@@ -23,6 +23,8 @@ use phpCollab\Logs\Logs;
 use phpCollab\Members\Members;
 use phpCollab\Sorting\Sorting;
 use Symfony\Component\HttpFoundation\Request;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 
 $debug = false;
@@ -34,6 +36,18 @@ require APP_ROOT . '/vendor/autoload.php';
 if (ini_get('session.auto_start') == 0) {
     $profilSession = "";
 }
+
+try {
+    $stream = new StreamHandler(APP_ROOT . '/logs/phpcollab.log', Logger::DEBUG);
+} catch (Exception $e) {
+    error_log('library error: ' . $e->getMessage());
+}
+// create a log channel
+$log = new Logger('phpCollab');
+$log->pushHandler($stream);
+
+$log->warning('php');
+$log->error('c yo!');
 
 $escaper = new Escaper('utf-8');
 
