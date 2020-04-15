@@ -112,7 +112,7 @@ FORMSTART;
     } else {
         echo <<<FORMSTART
 <a name="{$block1->form}Anchor"></a>
-<form accept-charset="UNKNOWN" method="POST" action="../newsdesk/editmessage.php?id=$id&action=update&" name="ecDForm">
+<form accept-charset="UNKNOWN" method="POST" action="../newsdesk/editmessage.php?id={$id}&postid={$postid}&action=update&" name="ecDForm">
 FORMSTART;
         $block1->heading($strings["edit_newsdesk_comment"] . " : " . $newsDetail["news_title"]);
     }
