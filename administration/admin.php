@@ -74,6 +74,15 @@ $block1->contentRow("", $blockPage->buildLink("../administration/listlogs.php", 
 $block1->contentRow($strings["update"] . $blockPage->printHelp("admin_update"), "1. " . $blockPage->buildLink("../administration/updatesettings.php", $strings["edit_settings"], "in") . " 2. " . $blockPage->buildLink("../administration/updatedatabase.php", $strings["edit_database"], "in"));
 
 if (file_exists("../installation/setup.php")) {
+    /*
+        <div class="alert info">
+            <h3>{$strings["update_available"]}</h3>
+            <p>{$strings["version_current"]} {$version} {$strings["version_latest"]} {$admin->getNewVersion()}.<br/>
+            <a href='http://www.sourceforge.net/projects/phpcollab' target='_blank'>{$strings["sourceforge_link"]}</a>.</p>
+        </div>
+
+     */
+
     $deleteSettingsAlert = <<<HTML
 <div class="alert error">
     <h3>{$strings["attention"]}: {$strings["setup_erase"]}</h3>
@@ -86,9 +95,12 @@ HTML;
 HTML;
     } else {
         $deleteSettingsAlert .= <<<HTML
-        <span style="color: #F00;font-weight:bold;">{$strings["setup_erase_file_ua"]}</span>
+        <p style="color: #F00;font-weight:bold;">{$strings["setup_erase_file_ua"]}</p>
 HTML;
     }
+
+    $deleteSettingsAlert .= '</div>';
+
     $block1->contentRow("", $deleteSettingsAlert);
 }
 

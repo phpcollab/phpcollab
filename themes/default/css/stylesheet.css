@@ -303,8 +303,8 @@ td.leftvalue {
 }
 
 .error {
-    padding-top: -10px;
-    width: 100%;
+    /*padding-top: -10px;*/
+    /*width: 100%;*/
 }
 
 .error td {
@@ -530,6 +530,7 @@ td.footerCell a, td.footerCell strong {
     background-color: #cce5ff;
     border: 1px solid #b8daff;
     font-weight: normal;
+    font-size: 1rem;
 }
 
 .alert h3 {
