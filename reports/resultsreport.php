@@ -32,7 +32,7 @@ if ($_GET["action"] == "add") {
         $_POST["filterDateCompleteEnd"]
     );
 
-    phpCollab\Util::headerFunction("../general/home.php?msg=addReport");
+    phpCollab\Util::headerFunction("../reports/listreports.php?msg=addReport");
 }
 
 $setTitle .= " : Report Results";
