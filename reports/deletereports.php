@@ -8,7 +8,19 @@ use phpCollab\Reports\Reports;
 $checkSession = "true";
 include_once '../includes/library.php';
 
+$id = str_replace("**", ",", $_GET['id']);
+
+if (empty($id) || empty(preg_replace("/[^0-9s]/", "", $id))) {
+    phpCollab\Util::headerFunction("../reports/listreports.php");
+}
+
 $reports = new Reports();
+
+$listReports = $reports->getReportsByIds($id);
+
+if (empty($listReports)) {
+    phpCollab\Util::headerFunction("../reports/listreports.php");
+}
 
 if ($action == "delete") {
     $id = str_replace("**", ",", $id);
@@ -39,10 +51,6 @@ $block1->heading($strings["delete_reports"]);
 
 $block1->openContent();
 $block1->contentTitle($strings["delete_following"]);
-
-$id = str_replace("**", ",", $id);
-
-$listReports = $reports->getReportsByIds($id);
 
 foreach ($listReports as $report) {
     $block1->contentRow("#" . $report["rep_id"], $report["rep_name"]);
