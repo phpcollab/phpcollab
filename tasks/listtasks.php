@@ -1,5 +1,9 @@
 <?php
 
+use phpCollab\Projects\Projects;
+use phpCollab\Tasks\Tasks;
+use phpCollab\Teams\Teams;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -8,9 +12,9 @@ $project = $_GET["project"];
 $idSession = $_SESSION["idSession"];
 $strings = $GLOBALS["strings"];
 
-$tasks = new \phpCollab\Tasks\Tasks();
-$projects = new \phpCollab\Projects\Projects();
-$teams = new \phpCollab\Teams\Teams();
+$tasks = new Tasks();
+$projects = new Projects();
+$teams = new Teams();
 
 if ($_GET["action"] == "publish") {
     if ($_GET["addToSite"] == "true") {
@@ -161,6 +165,6 @@ $tasksBlock->paletteScript(6, "info", "../tasks/viewtask.php?", "false,true,fals
 if ($teamMember == "true") {
     $tasksBlock->paletteScript(7, "edit", "../tasks/edittask.php?project=$project", "false,true,true", $strings["edit"]);
 }
-$tasksBlock->closePaletteScript(count($listTasks), array_column($listTasks, 'tas_id'));
+$tasksBlock->closePaletteScript(count($taskList), array_column($taskList, 'tas_id'));
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';
