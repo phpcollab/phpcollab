@@ -97,10 +97,7 @@ class SearchCest
         $I->see('Search results for keywords : ' . $this->searchTerm);
         $I->see('Search Results : Notes', ['css' => 'h1.heading']);
         $I->seeInCurrentUrl('/search/resultssearch.php');
-
-        if ($I->countElements('h1.heading') > 1) {
-            throw new Exception('More than one section found');
-        }
+        $I->seeNumberOfElements('h1.heading', 1);
     }
 
     /**
@@ -122,10 +119,7 @@ class SearchCest
         $I->see('Search results for keywords : ' . $this->searchTerm);
         $I->see('Search Results : Client Organizations', ['css' => 'h1.heading']);
         $I->seeInCurrentUrl('/search/resultssearch.php');
-
-        if ($I->countElements('h1.heading') > 1) {
-            throw new Exception('More than one section found');
-        }
+        $I->seeNumberOfElements('h1.heading', 1);
     }
 
     /**
@@ -147,10 +141,7 @@ class SearchCest
         $I->see('Search results for keywords : ' . $this->searchTerm);
         $I->see('Search Results : Projects', ['css' => 'h1.heading']);
         $I->seeInCurrentUrl('/search/resultssearch.php');
-
-        if ($I->countElements('h1.heading') > 1) {
-            throw new Exception('More than one section found');
-        }
+        $I->seeNumberOfElements('h1.heading', 1);
     }
 
     /**
@@ -172,10 +163,7 @@ class SearchCest
         $I->see('Search results for keywords : ' . $this->searchTerm);
         $I->see('Search Results : Tasks', ['css' => 'h1.heading']);
         $I->seeInCurrentUrl('/search/resultssearch.php');
-
-        if ($I->countElements('h1.heading') > 1) {
-            throw new Exception('More than one section found');
-        }
+        $I->seeNumberOfElements('h1.heading', 1);
     }
 
     /**
@@ -197,10 +185,7 @@ class SearchCest
         $I->see('Search results for keywords : ' . $this->searchTerm);
         $I->see('Search Results : Subtasks', ['css' => 'h1.heading']);
         $I->seeInCurrentUrl('/search/resultssearch.php');
-
-        if ($I->countElements('h1.heading') > 1) {
-            throw new Exception('More than one section found');
-        }
+        $I->seeNumberOfElements('h1.heading', 1);
     }
 
     /**
@@ -222,10 +207,7 @@ class SearchCest
         $I->see('Search results for keywords : ' . $this->searchTerm);
         $I->see('Search Results : Discussions', ['css' => 'h1.heading']);
         $I->seeInCurrentUrl('/search/resultssearch.php');
-
-        if ($I->countElements('h1.heading') > 1) {
-            throw new Exception('More than one section found');
-        }
+        $I->seeNumberOfElements('h1.heading', 1);
     }
 
     /**
@@ -247,9 +229,6 @@ class SearchCest
         $I->see('Search results for keywords : ' . $this->searchTerm);
         $I->see('Search Results : Users', ['css' => 'h1.heading']);
         $I->seeInCurrentUrl('/search/resultssearch.php');
-
-        if ($I->countElements('h1.heading') > 1) {
-            throw new Exception('More than one section found');
-        }
+        $I->seeNumberOfElements('h1.heading', 1);
     }
 }
