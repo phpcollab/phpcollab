@@ -8,7 +8,7 @@ use phpCollab\Reports\Reports;
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$id = str_replace("**", ",", $_GET['id']);
+$id = str_replace("**", ",", $request->query->get('id'));
 
 if (empty($id) || empty(preg_replace("/[^0-9s]/", "", $id))) {
     phpCollab\Util::headerFunction("../reports/listreports.php");
