@@ -1,10 +1,11 @@
 # Project Generated Files
 #########################
 includes/settings.php
-files/**/
+files/**/*
 logos_clients/*
 # exception to the above rule
 !logos_client/index.php
+!files/index.php
 compilation_cache/
 
 # Logs and databases #
