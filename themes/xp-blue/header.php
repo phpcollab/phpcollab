@@ -86,7 +86,6 @@ if ($blank == "true") {
     $blockHeader->itemNavigation("&nbsp;");
 } else if ($notLogged == "true") {
     $blockHeader->itemNavigation($blockHeader->buildLink("../general/login.php", $strings["login"], 'in'));
-    $blockHeader->itemNavigation($blockHeader->buildLink("../general/systemrequirements.php", $strings["requirements"], 'in'));
     $blockHeader->itemNavigation($blockHeader->buildLink("../general/license.php", $strings["license"], 'in'));
 } else {
     $blockHeader->itemNavigation($blockHeader->buildLink("../general/home.php", $strings["home"], 'in'));
