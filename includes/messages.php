@@ -29,7 +29,7 @@ switch ($msg) {
         break;
 
     case "email_pwd":
-        $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["email_pwd"];
+        $msgLabel = $strings["send_password_phrase"];
         break;
 
     case "deleteTopic":
