@@ -10,7 +10,7 @@ $byteUnits = array('baiti', 'KB', 'MB', 'GB');
 
 $dayNameArray = array(1 =>"esmaspäev", 2 =>"teisipäev", 3 =>"kolmapäev", 4 =>"neljapäev", 5 =>"reede", 6 =>"laupäev", 7 =>"pühapäev");
 
-$monthNameArray = array(1=> "jaanuar", "veebruar", "märts", "aprill", "mai", "juuni", "juuli", "august", "september", "oktoober", "november", "detsember"); 
+$monthNameArray = array(1=> "jaanuar", "veebruar", "märts", "aprill", "mai", "juuni", "juuli", "august", "september", "oktoober", "november", "detsember");
 
 $status = array(0 => "Kliendi ülesanne valmis", 1 => "Valmis", 2 => "Ei ole alustatud", 3 => "Töös", 4 => "Peatatud");
 
@@ -576,4 +576,3 @@ $strings["noti_memberactivation2"] = "Tere,\n\nTeid on lisatud phpCollab kliendi
 $strings["noti_memberactivation3"] = "Kasutaja:";
 $strings["noti_memberactivation4"] = "Parool:";
 $strings["noti_memberactivation5"] = "Ülaltoodud infot logimiseks kasutades saate ligipääsu oma projektide lehele. \n\nToimingutest, mis leiavad aset teie projektidega saabuvad märkekirjad. Neid kirju kasutatakse teie teavitamiseks ja neile ei ole vaja vastata.";
-?>
