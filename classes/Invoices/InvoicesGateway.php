@@ -88,6 +88,74 @@ SQL;
     }
 
     /**
+     * @param $id
+     * @param $headerNote
+     * @param $footerNote
+     * @param $published
+     * @param $status
+     * @param $dateDue
+     * @param $dateSent
+     * @param $totalExTax
+     * @param $totalIncTax
+     * @param $taxRate
+     * @param $taxAmount
+     * @return mixed
+     */
+    public function updateInvoice($id, $headerNote, $footerNote, $published, $status, $dateDue, $dateSent,
+        $totalExTax, $totalIncTax, $taxRate, $taxAmount)
+    {
+        $sql = <<<SQL
+UPDATE {$this->tableCollab["invoices"]} 
+SET 
+header_note = :header_note,
+footer_note = :footer_note,
+published = :published,
+status = :status,
+due_date = :due_date,
+date_sent = :date_sent,
+total_ex_tax = :total_ex_tax,
+total_inc_tax = :total_inc_tax,
+tax_rate = :tax_rate,
+tax_amount = :tax_amount,
+modified = :modified
+WHERE id = :id
+SQL;
+        $this->db->query($sql);
+        $this->db->bind(':id', $id);
+        $this->db->bind(':header_note', $headerNote);
+        $this->db->bind(':footer_note', $footerNote);
+        $this->db->bind(':published', $published);
+        $this->db->bind(':status', $status);
+        $this->db->bind(':due_date', $dateDue);
+        $this->db->bind(':date_sent', $dateSent);
+        $this->db->bind(':total_ex_tax', $totalExTax);
+        $this->db->bind(':total_inc_tax', $totalIncTax);
+        $this->db->bind(':tax_rate', $taxRate);
+        $this->db->bind(':tax_amount', $taxAmount);
+        $this->db->bind(':modified', date('Y-m-d h:i'));
+
+        return $this->db->execute();
+    }
+
+    public function editInvoiceItem($id, $title, $position, $amountExTax)
+    {
+        $sql = <<<SQL
+UPDATE {$this->tableCollab["invoices_items"]} 
+SET 
+title = :title,
+position = :position,
+amount_ex_tax = :amount_ex_tax 
+WHERE id = :id
+SQL;
+        $this->db->query($sql);
+        $this->db->bind(':id', $id);
+        $this->db->bind(':title', $title);
+        $this->db->bind(':position', $position);
+        $this->db->bind(':amount_ex_tax', $amountExTax);
+        return $this->db->execute();
+    }
+
+    /**
      * @param $invoicing
      * @param $completed
      * @param $hoursWorked

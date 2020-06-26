@@ -5,6 +5,7 @@ use phpCollab\Projects\Projects;
 
 $checkSession = "true";
 include_once '../includes/library.php';
+$setTitle .= " : View Invoices";
 
 $invoices = new Invoices();
 $projects = new Projects();
