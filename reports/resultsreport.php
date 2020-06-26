@@ -11,7 +11,6 @@ $tasks = new Tasks();
 $reports = new Reports();
 $projects = new Projects();
 
-$tableCollab = $GLOBALS["tableCollab"];
 $strings = $GLOBALS["strings"];
 
 $gantt = false;
