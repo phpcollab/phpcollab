@@ -19,7 +19,6 @@ $projects = new Projects();
 $organizations = new Organizations();
 $services = new Services();
 
-$tableCollab = $GLOBALS["tableCollab"];
 $rateType = $GLOBALS["rateType"];
 
 $detailInvoiceItem = $invoices->getInvoiceItemById($id);
