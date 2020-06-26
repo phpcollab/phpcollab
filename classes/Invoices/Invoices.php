@@ -2,6 +2,7 @@
 
 namespace phpCollab\Invoices;
 
+use InvalidArgumentException;
 use phpCollab\Database;
 use Exception;
 
@@ -117,6 +118,41 @@ class Invoices
         $invoiceItemId = filter_var($invoiceItemId, FILTER_VALIDATE_INT);
 
         return $this->invoices_gateway->getInvoiceItemById($invoiceItemId);
+    }
+
+    /**
+     * @param $id
+     * @param $headerNote
+     * @param $footerNote
+     * @param $published
+     * @param $status
+     * @param $dateDue
+     * @param $dateSent
+     * @param $totalExTax
+     * @param $totalIncTax
+     * @param $taxRate
+     * @param $taxAmount
+     * @return mixed
+     */
+    public function updateInvoice($id, $headerNote, $footerNote, $published, $status, $dateDue, $dateSent,
+        $totalExTax, $totalIncTax, $taxRate, $taxAmount)
+    {
+        if (!is_int(filter_var($id, FILTER_VALIDATE_INT))) {
+            throw new InvalidArgumentException('Invoice ID is missing or invalid.');
+        }
+
+        return $this->invoices_gateway->updateInvoice($id, $headerNote, $footerNote, $published, $status, $dateDue,
+            $dateSent,
+            $totalExTax, $totalIncTax, $taxRate, $taxAmount);
+    }
+
+    public function editInvoiceItems($id, $title, $position, $amountExTax)
+    {
+        if (!is_int(filter_var($id, FILTER_VALIDATE_INT))) {
+            throw new InvalidArgumentException('Invoice Item ID is missing or invalid.');
+        }
+
+        return $this->invoices_gateway->editInvoiceItem($id, $title, $position, $amountExTax);
     }
 
     /**
