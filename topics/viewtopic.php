@@ -14,25 +14,24 @@ $topics = new Topics();
 $projects = new Projects();
 $teams = new Teams();
 
-$id = $_GET["id"];
+$topicId = $_GET["id"];
 
 if ($_GET['action'] == "closeTopic") {
-    $num = "1";
-    phpCollab\Util::newConnectSql("UPDATE {$tableCollab["topics"]} SET status='0' WHERE id = :topic_id", ["topic_id" => $_GET['id']]);
+    $topics->closeTopic($topicId);
     $msg = "closeTopic";
 }
 
 if ($_GET['action'] == "addToSite") {
-    phpCollab\Util::newConnectSql("UPDATE {$tableCollab["topics"]} SET published='0' WHERE id = :topic_id", ["topic_id" => $_GET['id']]);
+    $topics->publishTopic($topicId);
     $msg = "addToSite";
 }
 
 if ($_GET['action'] == "removeToSite") {
-    phpCollab\Util::newConnectSql("UPDATE {$tableCollab["topics"]} SET published='1' WHERE id = :topic_id", ["topic_id" => $_GET['id']]);
+    $topics->unPublishTopic($topicId);
     $msg = "removeToSite";
 }
 
-$detailTopic = $topics->getTopicByTopicId($id);
+$detailTopic = $topics->getTopicByTopicId($topicId);
 
 $listPosts = $topics->getPostsByTopicId($detailTopic["top_id"]);
 
