@@ -10,7 +10,6 @@ include '../includes/library.php';
 
 $id = $_GET["topic"];
 $strings = $GLOBALS["strings"];
-$tableCollab = $GLOBALS["tableCollab"];
 $statusTopicBis = $GLOBALS["statusTopicBis"];
 $idSession = $_SESSION["idSession"];
 $timezoneSession = $_SESSION["timezoneSession"];

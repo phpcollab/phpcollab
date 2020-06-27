@@ -42,7 +42,6 @@ $assignments = new Assignments();
 //case add task
 $id = (isset($_GET["id"])) ? $_GET["id"] : null;
 
-$tableCollab = $GLOBALS["tableCollab"];
 $strings = $GLOBALS["strings"];
 $priority = $GLOBALS["priority"];
 
