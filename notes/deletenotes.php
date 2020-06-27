@@ -9,7 +9,6 @@ include_once '../includes/library.php';
 $action = $_GET["action"];
 $project = $_GET["project"];
 $id = $_GET["id"];
-$tableCollab = $GLOBALS["tableCollab"];
 $strings = $GLOBALS["strings"];
 
 $notes = new \phpCollab\Notes\Notes();

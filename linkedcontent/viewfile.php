@@ -18,7 +18,6 @@ $action = $request->query->get("action");
 $id = $request->query->get("id");
 $addToSiteFile = $request->query->get("addToSiteFile");
 $removeToSiteFile = $request->query->get("removeToSiteFile");
-$tableCollab = $GLOBALS["tableCollab"];
 $strings = $GLOBALS["strings"];
 $idSession = Util::returnGlobal('idSession', 'SESSION');
 

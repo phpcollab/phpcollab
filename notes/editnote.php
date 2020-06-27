@@ -33,7 +33,6 @@ include '../includes/customvalues.php';
 $action = $_GET["action"];
 $project = $_GET["project"];
 $id = $_GET["id"];
-$tableCollab = $GLOBALS["tableCollab"];
 $strings = $GLOBALS["strings"];
 $idSession = $_SESSION["idSession"];
 

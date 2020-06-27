@@ -13,7 +13,6 @@ include_once '../includes/library.php';
 $assignmentId = $_GET["id"];
 $action = $_GET["action"];
 $taskId = $_GET["task"];
-$tableCollab = $GLOBALS["tableCollab"];
 $strings = $GLOBALS["strings"];
 
 $assignments = new Assignments();

@@ -10,7 +10,6 @@ include_once '../includes/library.php';
 
 $projectId = $request->query->get('id');
 $strings = $GLOBALS["strings"];
-$tableCollab = $GLOBALS["tableCollab"];
 
 $projects = new Projects();
 $projectDetail = $projects->getProjectById($projectId);
