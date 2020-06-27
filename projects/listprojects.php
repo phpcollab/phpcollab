@@ -127,7 +127,7 @@ if ($projectCount > 0) {
         $block1->cellRow($blockPage->buildLink('../users/viewuser.php?id=' . $data["pro_mem_id"], $data["pro_mem_login"], "in"));
 
         if ($sitePublish == "true") {
-            if ($data["pro_published"] == "1") {
+            if ($data["pro_published"] === "1") {
                 if ($data['pro_owner'] == $idSession) {
                     $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $data["pro_id"], $strings["create"] . "...", "in") . "&gt;");
                 } else {
