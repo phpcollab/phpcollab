@@ -639,3 +639,4 @@ $strings["view_invoice"] = "View Invoice";
 $strings["send_password_phrase"] = "If the user you specified exists in our system, we will send a password to their email address.";
 $strings["empty_field"] = "Field is empty";
 $strings["reset_password_error"] = "Error resetting password.  Please try again or contact your administrator.";
+$strings["error_delete_post"] = "Error deleting post.  Please try again or contact your administrator.";

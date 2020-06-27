@@ -4,6 +4,7 @@
 namespace phpCollab\Topics;
 
 use Exception;
+use InvalidArgumentException;
 use phpCollab\Database;
 use phpCollab\Notification;
 use phpCollab\Notifications\Notifications;
@@ -215,7 +216,11 @@ class Topics
      */
     public function decrementTopicPostsCount($topicId)
     {
-        return $this->topics_gateway->decrementTopicPostsCount($topicId, date('Y-m-d h:i'));
+        if (empty($topicId)) {
+            throw new InvalidArgumentException('Topic ID is missing or empty.');
+        }
+
+        return $this->topics_gateway->decrementTopicPostsCount($topicId);
     }
 
     /**
@@ -254,6 +259,19 @@ class Topics
             return $this->topics_gateway->deleteTopics($topicIds);
         }
         return false;
+    }
+
+    /**
+     * @param $postId
+     * @return mixed
+     */
+    public function deletePost($postId)
+    {
+        if (empty($postId)) {
+            throw new InvalidArgumentException('Post ID is missing or empty.');
+        }
+
+        return $this->topics_gateway->deletePost($postId);
     }
 
     /**
