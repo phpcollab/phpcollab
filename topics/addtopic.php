@@ -12,7 +12,6 @@ $project = $_GET["project"];
 $action = $_GET["action"];
 
 $strings = $GLOBALS["strings"];
-$tableCollab = $GLOBALS["tableCollab"];
 
 $idSession = $_SESSION["idSession"];
 

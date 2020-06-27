@@ -36,7 +36,6 @@ $project = $_GET["project"];
 $id = $_GET["id"];
 $addToSite = $_GET["addToSite"];
 $removeToSite = $_GET["removeToSite"];
-$tableCollab = $GLOBALS["tableCollab"];
 $strings = $GLOBALS["strings"];
 $idSession = $_SESSION["idSession"];
 
