@@ -291,6 +291,40 @@ SQL;
     }
 
     /**
+     * @param $commentId
+     * @param $comment
+     * @return mixed
+     */
+    public function setComment($commentId, $comment)
+    {
+        $sql = "UPDATE {$this->tableCollab["newsdeskcomments"]} SET comment = :comment WHERE id = :comment_id";
+
+        $this->db->query($sql);
+        $this->db->bind(':comment_id', $commentId);
+        $this->db->bind(':comment', $comment);
+        return $this->db->execute();
+    }
+
+    /**
+     * @param $postId
+     * @param $commenterId
+     * @param $comment
+     * @return mixed
+     */
+    public function addComment($postId, $commenterId, $comment)
+    {
+        $sql = <<<SQL
+INSERT INTO {$this->tableCollab["newsdeskcomments"]} (name, post_id, comment) VALUES (:commenter_id, :post_id, :comment)
+SQL;
+        $this->db->query($sql);
+        $this->db->bind(':post_id', $postId);
+        $this->db->bind(':commenter_id', $commenterId);
+        $this->db->bind(':comment', $comment);
+        return $this->db->execute();
+
+    }
+
+    /**
      * Returns the LIMIT attribute for SQL strings
      * @param $start
      * @param $rowLimit
