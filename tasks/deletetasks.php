@@ -39,10 +39,7 @@ if ($_GET["action"] == "delete") {
     //recompute number of completed tasks of the project
     $projectDetail = $projects->getProjectById($listTasks["tas_project"][0]);
 
-    phpCollab\Util::projectComputeCompletion(
-        $listTasks->tas_project[$i],
-        $tableCollab["projects"]
-    );
+    phpCollab\Util::projectComputeCompletion($listTasks->tas_project[$i]);
 
     if ($project != "") {
         phpCollab\Util::headerFunction("../projects/viewproject.php?id=$project&msg=delete");

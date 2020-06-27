@@ -724,8 +724,9 @@ class Util
      * I don't think this has been working properly for awhile.
      *
      **/
-    public static function projectComputeCompletion($projectDetail, $tableProject)
+    public static function projectComputeCompletion($projectDetail)
     {
+        $tableProject = $GLOBALS['tableCollab']["projects"];
         $prj_name = $projectDetail['pro_name'];
 
         preg_match("/\[([0-9 ]*/[0-9 ]*)]/", $prj_name, $findit);
