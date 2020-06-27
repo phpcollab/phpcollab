@@ -163,5 +163,8 @@ switch ($msg) {
         break;
 //END email project users mod
 
+    case "postDeleted":
+        $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["delete_post"];
+        break;
 
 }

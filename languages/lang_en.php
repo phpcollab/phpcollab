@@ -640,3 +640,4 @@ $strings["send_password_phrase"] = "If the user you specified exists in our syst
 $strings["empty_field"] = "Field is empty";
 $strings["reset_password_error"] = "Error resetting password.  Please try again or contact your administrator.";
 $strings["error_delete_post"] = "Error deleting post.  Please try again or contact your administrator.";
+$strings["delete_post"] = "Post was deleted.";
