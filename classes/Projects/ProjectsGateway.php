@@ -139,7 +139,7 @@ SQL;
 
         return $this->db->execute();
     }
-    
+
     /**
      * @param null $sorting
      * @return mixed
@@ -362,6 +362,30 @@ SQL;
     }
 
     /**
+     * @param int $projectId
+     * @param bool $flag
+     * @return mixed
+     *
+     * By default, we want to set the publish flag to false.
+     *
+     * Due to the way the old code works, it apparently stored the values backwards
+     * so we need to flip them so we don't disrupt existing code.
+     *
+     * Using (int) !$flag to flip the values. ( 0 = true, 1 = false )
+     */
+    public function publishProject(int $projectId, bool $flag = false)
+    {
+        $sql = "UPDATE {$this->tableCollab["projects"]} SET published=:publish_flag WHERE id = :project_id";
+
+        $flag = (int) !$flag;
+
+        $this->db->query($sql);
+        $this->db->bind(':project_id', $projectId);
+        $this->db->bind(':publish_flag', $flag);
+        return $this->db->execute();
+    }
+
+    /**
      * Returns the LIMIT attribute for SQL strings
      * @param $start
      * @param $rowLimit
@@ -398,4 +422,3 @@ SQL;
         return '';
     }
 }
-

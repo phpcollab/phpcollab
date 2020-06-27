@@ -1,6 +1,7 @@
 <?php
 namespace phpCollab\Projects;
 
+use InvalidArgumentException;
 use phpCollab\Database;
 
 /**
@@ -212,5 +213,18 @@ class Projects
     public function searchProjects($query, $sorting = null, $limit = null, $rowLimit = null)
     {
         return $this->projects_gateway->searchProjects($query, $sorting, $limit, $rowLimit);
+    }
+
+    /**
+     * @param int $projectId
+     * @param bool $flag
+     * @return mixed
+     */
+    public function publishProject(int $projectId, bool $flag = false)
+    {
+        if (!is_int(filter_var($projectId, FILTER_VALIDATE_INT))) {
+            throw new InvalidArgumentException('Project ID is missing or invalid.');
+        }
+        return $this->projects_gateway->publishProject($projectId, $flag);
     }
 }
