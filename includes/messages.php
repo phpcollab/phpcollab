@@ -41,7 +41,7 @@ switch ($msg) {
         break;
 
     case "createProjectSite":
-        $msgLabel = "<b>" . $strings["success"] . "</b> : The project site \"" . $projectDetail->pro_name[0] . "\" was successfully created.";
+        $msgLabel = "<b>" . $strings["success"] . "</b> : The project site \"" . $projectDetail["pro_name"] . "\" was successfully created.";
         break;
 
     case "removeProjectSite":
