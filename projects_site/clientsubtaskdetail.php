@@ -24,7 +24,7 @@ if ($request->isMethod('post') && !empty($subtaskDetail)) {
     if ($request->request->get('action') == "update") {
         $comments = phpCollab\Util::convertData($request->request->get('comments'));
 
-        if (!empty($request->request->get('completed')) && $request->request->get('checkbox') == "completed") {
+        if (!empty($request->request->get('status')) && $request->request->get('status') == "completed") {
             $subtasks->set($subtaskId, 0, $comments);
         } else {
             $subtasks->set($subtaskId, $subtaskDetail["subtas_status"], $comments);
@@ -163,7 +163,7 @@ echo <<<COMPLETE_TASK_FORM
             </tr>
             <tr>
                 <td>{$strings["status"]} :</td>
-                <td><input {$isChecked} value="completed" name="completed" type="checkbox" id="completedCheckbox"> <label for="completedCheckbox">{$status[0]}</label></td>
+                <td><input {$isChecked} value="completed" name="status" type="checkbox" id="completedCheckbox"> <label for="completedCheckbox">{$status[0]}</label></td>
             </tr>
             <tr>
                 <td class="leftvalue">{$strings["comments"]} :</td>
