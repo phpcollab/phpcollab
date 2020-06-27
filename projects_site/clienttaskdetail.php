@@ -2,34 +2,36 @@
 #Application name: PhpCollab
 #Status page: 0
 
+use phpCollab\Tasks\SetTaskStatus;
 use phpCollab\Tasks\Tasks;
 use phpCollab\Updates\Updates;
 
 $checkSession = "true";
 include '../includes/library.php';
 
+$taskId = !empty($request->query->get('id')) ? $request->query->get('id') : $request->request->get('taskId');
+
 $tasks = new Tasks();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if ($_POST["action"] == "update") {
-        $comments = phpCollab\Util::convertData($_POST["comments"]);
+$taskStatus = new SetTaskStatus();
 
-        if (!empty($_POST["checkbox"])) {
-            phpCollab\Util::newConnectSql(
-                "UPDATE {$tableCollab["tasks"]} SET comments = :comments, status = :status, modified = :modified WHERE id = :task_id",
-                ["comments" => $comments, "status" => 0, "modified" => $dateheure, "task_id" => $id]
-            );
+$taskDetail = $tasks->getTaskById($taskId);
+
+if ($request->isMethod('post')) {
+    if ($request->request->get('action') == "update") {
+        $comments = phpCollab\Util::convertData($request->request->get('comments'));
+
+        if (!empty($request->request->get('status')) && $request->request->get('status') == "completed") {
+        if (!empty($request->request->get('status'))) {
+            $taskStatus->set($taskId, 0, $comments);
+        }
         } else {
-            phpCollab\Util::newConnectSql(
-                "UPDATE {$tableCollab["tasks"]} SET comments = :comments, status = :status, modified = :modified WHERE id = :task_id",
-                ["comments" => $comments, "status" => 3, "modified" => $dateheure, "task_id" => $id]
-            );
+            $taskStatus->set($taskId, $taskDetail["tas_status"], $comments);
         }
         phpCollab\Util::headerFunction("showallclienttasks.php");
     }
 }
 
-$taskDetail = $tasks->getTaskById($id);
 $updates = new Updates();
 
 if ($taskDetail["tas_published"] == "1" || $taskDetail["tas_project"] != $projectSession) {
@@ -38,7 +40,8 @@ if ($taskDetail["tas_published"] == "1" || $taskDetail["tas_project"] != $projec
 
 $bouton[3] = "over";
 $titlePage = $strings["client_task_details"];
-include 'include_header.php';
+
+include APP_ROOT . '/projects_site/include_header.php';
 
 $block1 = new phpCollab\Block();
 
@@ -115,7 +118,7 @@ echo <<<TR
             <td>
 TR;
 
-$listUpdates = $updates->getUpdates(1, $id, 'upd.created DESC');
+$listUpdates = $updates->getUpdates(1, $taskId, 'upd.created DESC');
 
 if ($listUpdates) {
     $j = 1;
@@ -137,7 +140,7 @@ echo "</td>
 </table>
 <hr>";
 
-$listSubtasks = $tasks->getSubtasksByParentTaskId($id, 'subtas.name');
+$listSubtasks = $tasks->getSubtasksByParentTaskId($taskId, 'subtas.name');
 
 $block2 = new phpCollab\Block();
 
@@ -156,17 +159,10 @@ if ($listSubtasks) {
 START_TABLE;
 
     foreach ($listSubtasks as $subtask) {
-        if (!($i % 2)) {
-            $class = "odd";
-            $highlightOff = $block2->getOddColor();
-        } else {
-            $class = "even";
-            $highlightOff = $block2->getEvenColor();
-        }
         $subtaskDescription = nl2br($subtask["subtas_description"]);
         echo <<<TR
     <tr>
-        <td><a href="clientsubtaskdetail.php?task={$id}&id={$subtask["subtas_id"]}">{$subtask["subtas_name"]}</a></td>
+        <td><a href="clientsubtaskdetail.php?task={$taskId}&id={$subtask["subtas_id"]}">{$subtask["subtas_name"]}</a></td>
         <td>{$subtaskDescription}</td>
         <td>{$status[$subtask["subtas_status"]]}</td>
         <td>{$subtask["subtas_due_date"]}</td>
@@ -186,8 +182,7 @@ $block2->heading("Complete Task");
 
 echo <<<STATUS_CHANGE_FORM
 <form method="post" action="../projects_site/clienttaskdetail.php" name="clientTaskUpdate" enctype="multipart/form-data">
-    <input name="id" type="hidden" value="{$id}">
-    <input name="action" type="hidden" value="update">
+    <input name="taskId" type="hidden" value="{$taskId}">
 
     <table class="nonStriped">
         <tr>
@@ -195,7 +190,7 @@ echo <<<STATUS_CHANGE_FORM
         </tr>
         <tr>
             <td>{$strings["status"]} :</td>
-            <td><input {$statusChecked} value="checkbox" name="checkbox" type="checkbox">&nbsp;$status[0]</td>
+            <td><input {$statusChecked} value="completed" name="status" type="checkbox">&nbsp;$status[0]</td>
         </tr>
         <tr>
             <td class="leftvalue">{$strings["comments"]} :</td>
@@ -203,7 +198,7 @@ echo <<<STATUS_CHANGE_FORM
         </tr>
         <tr>
             <td>&#160;</td>
-            <td><input name="submit" type="submit" value="{$strings["save"]}"></td>
+            <td><button name="action" type="submit" value="update">{$strings["save"]}</button></td>
         </tr>
     </table>
 </form>
@@ -213,4 +208,4 @@ echo <<<SHOW_ALL_LINK
 <br/><br/><a href="showallclienttasks.php">{$strings["show_all"]}</a>
 SHOW_ALL_LINK;
 
-include("include_footer.php");
+include APP_ROOT . "/projects_site/include_footer.php";
