@@ -216,7 +216,17 @@ if (empty($installationType)) {
     $installationType = "online";
 }
 
+/*
+ * This code should be called if $checkSession = true and we are not in demo mode.
+ * If a session is not active, then redirect to the login page.
+ */
 if ($checkSession != "false" && $_SESSION["demoSession"] != "true") {
+
+    if (empty($_SESSION)) {
+        phpCollab\Util::headerFunction("../index.php?session=false");
+    };
+
+
     if ($profilSession == "3" && !strstr($request->server->get("PHP_SELF"), "projects_site")) {
         phpCollab\Util::headerFunction("../projects_site/home.php");
     }
@@ -250,6 +260,7 @@ if ($checkSession != "false" && $_SESSION["demoSession"] != "true") {
             }
         }
     }
+
     $checkLog = $logs->getLogByLogin($loginSession);
     if ($checkLog !== false) {
         if (session_id() != $checkLog["session"]) {

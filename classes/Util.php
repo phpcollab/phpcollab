@@ -142,6 +142,7 @@ class Util
     {
         $response = new RedirectResponse($url);
         $response->send();
+        die();
     }
 
     /**
