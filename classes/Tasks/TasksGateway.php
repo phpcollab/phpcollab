@@ -287,7 +287,7 @@ estimated_time, actual_time, comments, created, assigned, published, completion
 SQL;
 
         $this->db->query($sql);
-        $this->db->bind(':task', $parentTask);
+        $this->db->bind(':parent_task', $parentTask);
         $this->db->bind(':name', $name);
         $this->db->bind(':description', $description);
         $this->db->bind(':owner', $owner);

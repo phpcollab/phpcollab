@@ -106,7 +106,8 @@ class TasksCest
         $I->see('Assignment Comment', 'h1.heading');
         $I->see('Copy of Client task - codeception');
         $I->submitForm('form', [
-            'acomm' => 'Codeception assignment comment',
+            'comment' => 'Codeception assignment comment',
+            'action' => 'update'
         ]);
         $I->see('Success : Modification succeeded', '.message');
         $I->seeElement('#ahT');

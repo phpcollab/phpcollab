@@ -54,18 +54,18 @@ SQL;
     }
 
     /**
-     * @param $taskId
+     * @param $assignmentId
      * @param $comment
      * @return mixed
      */
-    public function addComment($taskId, $comment)
+    public function addComment($assignmentId, $comment)
     {
         $sql = <<<SQL
 UPDATE {$this->tableCollab["assignments"]} SET comments = :comments WHERE id = :assignment_id
 SQL;
         $this->db->query($sql);
-        $this->db->bind(':task_id', $taskId);
-        $this->db->bind(':comment', $comment);
+        $this->db->bind(':assignment_id', $assignmentId);
+        $this->db->bind(':comments', $comment);
         return $this->db->execute();
 
     }
