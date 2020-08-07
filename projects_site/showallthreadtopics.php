@@ -8,7 +8,8 @@ include '../includes/library.php';
 
 $bouton[5] = "over";
 $titlePage = $strings["bulletin_board"];
-include 'include_header.php';
+
+include APP_ROOT . '/projects_site/include_header.php';
 
 $topics = new Topics();
 
@@ -34,7 +35,7 @@ TABLE;
         $topicDate = phpCollab\Util::createDate($listTopic["top_last_post"], $timezoneSession);
         echo <<< TR
 <tr>
-    <td><a href="showallthreads.php?id={$listTopic["top_id"]}">{$listTopic["top_subject"]}</a></td>
+    <td><a href="showallthreads.php?topic={$listTopic["top_id"]}">{$listTopic["top_subject"]}</a></td>
     <td>{$listTopic["top_posts"]}</td>
     <td>{$listTopic["top_mem_name"]}</td>
     <td>{$topicDate}</td></tr>
@@ -58,4 +59,4 @@ echo <<<CREATE
 CREATE;
 
 
-include("include_footer.php");
+include APP_ROOT . "/projects_site/include_footer.php";

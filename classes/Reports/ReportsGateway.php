@@ -11,7 +11,6 @@ use phpCollab\Database;
  */
 class ReportsGateway
 {
-//    protected $db, $tableCollab, $initrequest;
     protected $db;
     protected $initrequest;
     protected $tableCollab;

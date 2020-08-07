@@ -75,14 +75,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     }
                 }
 
-                phpCollab\Util::newConnectSql(
-                    "UPDATE {$tableCollab["members"]} SET password = :password WHERE id = :member_id",
-                    ["password" => $encryptedNewPassword, "member_id" => $idSession]
-                );
+                try {
+                    $members->setPassword($idSession, $encryptedNewPassword);
 
-                $_SESSION['passwordSession'] = $encryptedNewPassword;
+                    $_SESSION['passwordSession'] = $encryptedNewPassword;
 
-                phpCollab\Util::headerFunction("changepassword.php?msg=update");
+                    phpCollab\Util::headerFunction("changepassword.php?msg=update");
+                } catch (Exception $exception) {
+                    error_log('Error resetting password', 0);
+                    $error = $strings["rest_password_error"];
+                }
             }
         }
     }

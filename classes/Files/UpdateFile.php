@@ -10,8 +10,17 @@ use phpCollab\Notification;
 
 class UpdateFile extends Files
 {
+    /**
+     * @var
+     */
     private $notifications;
+    /**
+     * @var
+     */
     private $projectDetails;
+    /**
+     * @var
+     */
     private $fileDetails;
 
     /**
@@ -24,23 +33,25 @@ class UpdateFile extends Files
      * @param $extension
      * @param $comments
      * @param $approver
-     * @param $approvalDate
      * @param $approvalComments
+     * @param $approvalDate
      * @param $upload
      * @param $published
      * @param $vc_version
      * @param $vc_parent
+     * @param int $status
+     * @param int $vc_status
      * @return string
      * @throws Exception
      */
     public function add($owner, $project, $task, $name, $date, $size, $extension, $comments,
                         $approver, $approvalComments, $approvalDate, $upload, $published,
-                        $vc_version, $vc_parent)
+                        $vc_version, $vc_parent, $status = 2, $vc_status = 3)
     {
-        if (!is_int(filter_var($approver, FILTER_VALIDATE_INT))) {
-            throw new InvalidArgumentException('Approver ID is missing or invalid.');
-        } elseif (empty($approverId)) {
+        if (empty($approver)) {
             $approver = 0;
+        } elseif (!is_int(filter_var($approver, FILTER_VALIDATE_INT))) {
+            throw new InvalidArgumentException('Approver ID is missing or invalid.');
         }
 
         if (empty($approvalComments)) {
@@ -49,8 +60,8 @@ class UpdateFile extends Files
 
         try {
             return $this->addUpdatedFileToDatabase($owner, $project, $task, $name, $date, $size, $extension, $comments,
-                $approver,$approvalComments,  $approvalDate, $upload, $published,
-                2, 3, $vc_version, $vc_parent);
+                $approver, $approvalComments, $approvalDate, $upload, $published,
+                $status, $vc_status, $vc_version, $vc_parent);
         } catch (Exception $exception) {
             throw new Exception($exception->getMessage());
         }
@@ -59,17 +70,34 @@ class UpdateFile extends Files
     /**
      * @param $comments
      * @param $status
-     * @param $version
+     * @param $vcVersion
      * @param $fileId
      * @return mixed
      */
-    public function update($comments, $status, $version, $fileId)
+    public function update($comments, $status, $vcVersion, $fileId)
     {
         if (!is_int(filter_var($fileId, FILTER_VALIDATE_INT))) {
             throw new InvalidArgumentException('File ID is missing or invalid.');
         }
         $timestamp = date('Y-m-d h:i');
-        return $this->updateFileInDatabase($timestamp, $comments, $status, $version, $fileId);
+        return $this->updateFileInDatabase($timestamp, $comments, $status, $vcVersion, $fileId);
+    }
+
+    /**
+     * @param int $fileId
+     * @param int $fileSize
+     * @return mixed
+     */
+    public function setFileSize(int $fileId, $fileSize)
+    {
+        if (!is_int(filter_var($fileId, FILTER_VALIDATE_INT))) {
+            throw new InvalidArgumentException('File ID is missing or invalid.');
+        }
+        if (!is_int(filter_var($fileSize, FILTER_VALIDATE_INT))) {
+            throw new InvalidArgumentException('File Size is missing or invalid.');
+        }
+
+        return $this->updateSize($fileId, $fileSize);
     }
 
     /**
@@ -101,18 +129,34 @@ SQL;
         $this->db->bind(":file_id", $fileId);
         $this->db->bind(":version", $version);
         return $this->db->execute();
+    }
 
+    /**
+     * @param $fileId
+     * @param $size
+     * @return mixed
+     */
+    private function updateSize($fileId, $size)
+    {
+        $sql = <<<SQL
+UPDATE {$this->tableCollab["files"]} SET size = :size
+WHERE id = :file_id
+SQL;
+        $this->db->query($sql);
+        $this->db->bind(":file_id", $fileId);
+        $this->db->bind(":size", $size);
+        return $this->db->execute();
     }
 
     /**
      * @param $timestamp
      * @param $comments
      * @param $status
-     * @param $version
+     * @param $vcVersion
      * @param $fileId
      * @return mixed
      */
-    private function updateFileInDatabase($timestamp, $comments, $status, $version, $fileId)
+    private function updateFileInDatabase($timestamp, $comments, $status, $vcVersion, $fileId)
     {
         $sql = <<<SQL
 UPDATE {$this->tableCollab["files"]} SET 
@@ -129,7 +173,7 @@ SQL;
         $this->db->bind(":date", $timestamp);
         $this->db->bind(":comments", $comments);
         $this->db->bind(":status", $status);
-        $this->db->bind(":vc_version", $version);
+        $this->db->bind(":vc_version", $vcVersion);
         $this->db->bind(":file_id", $fileId);
         return $this->db->execute();
     }

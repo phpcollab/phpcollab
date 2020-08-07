@@ -21,6 +21,8 @@ if ($fileDetail) {
         if (!empty($fileDetail["fil_vc_parent"])) {
             $pos = strrpos($fileDetail["fil_name"], ".");
             $filename = substr_replace($fileDetail["fil_name"], "_v{$fileDetail["fil_vc_version"]}.", $pos, 1);
+        } else {
+            $filename = $fileDetail["fil_name"];
         }
 
         if (empty($fileDetail["fil_task"])) {

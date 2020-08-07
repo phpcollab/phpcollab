@@ -3,27 +3,34 @@
 #Status page: 0
 #Path by root: ../tasks/assignmentcomment.php
 
+use phpCollab\Assignments\Assignments;
+use phpCollab\Projects\Projects;
+use phpCollab\Tasks\Tasks;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$id = $request->query->get('id');
-$action = $request->query->get('action');
-$task = $request->query->get('task');
-$tableCollab = $GLOBALS["tableCollab"];
+$assignmentId = $request->query->get('id');
+$taskId = $request->query->get('task');
 $strings = $GLOBALS["strings"];
 
-if ($action == "update") {
-    phpCollab\Util::newConnectSql("UPDATE {$tableCollab["assignments"]} SET comments=:comments WHERE id = :assignment_id", ["comments" => phpCollab\Util::convertData($_POST["acomm"]), "assignment_id" => $id]);
-    phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$task&msg=update");
+$assignments = new Assignments();
+
+if ($request->isMethod('post')) {
+    if ($request->request->get("action") == "update") {
+        $assignments->addAssignmentComment($assignmentId, $request->request->get('comment'));
+        phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$taskId&msg=update");
+
+    }
 }
 
-$bodyCommand = "onLoad=\"document.assignment_commentForm.acomm.focus();\"";
+$bodyCommand = 'onLoad="document.assignment_commentForm.acomm.focus();"';
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
-$tasks = new \phpCollab\Tasks\Tasks();
-$taskDetail = $tasks->getTaskById($task);
+$tasks = new Tasks();
+$taskDetail = $tasks->getTaskById($taskId);
 
-$projects = new \phpCollab\Projects\Projects();
+$projects = new Projects();
 $projectDetail = $projects->getProjectById($taskDetail["tas_project"]);
 
 $blockPage = new phpCollab\Block();
@@ -38,7 +45,7 @@ $blockPage->closeBreadcrumbs();
 $block1 = new phpCollab\Block();
 
 $block1->form = "assignment_comment";
-$block1->openForm("../tasks/assignmentcomment.php?action=update&id=$id&task=$task");
+$block1->openForm("../tasks/assignmentcomment.php?id=$assignmentId&task=$taskId");
 
 if (!empty($error)) {
     $block1->headingError($strings["errors"]);
@@ -51,9 +58,9 @@ $block1->openContent();
 $block1->contentTitle($strings["assignment_comment_info"]);
 
 echo <<<FORM
-<tr class="odd"><td valign="top" class="leftvalue">{$strings["task"]} :</td><td>{$taskDetail["tas_name"]}</td></tr>
-<tr class="odd"><td valign="top" class="leftvalue">{$strings["comments"]} :</td><td><input style="width: 400px;" maxlength="128" size="44" name="acomm"></input></td></tr>
-<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td><input type="submit" name="Save" value="{$strings["save"]}"></td></tr>
+<tr class="odd"><td class="leftvalue">{$strings["task"]} :</td><td>{$taskDetail["tas_name"]}</td></tr>
+<tr class="odd"><td class="leftvalue">{$strings["comments"]} :</td><td><input style="width: 400px;" maxlength="128" size="44" name="comment"/></td></tr>
+<tr class="odd"><td class="leftvalue">&nbsp;</td><td><button type="submit" name="action" value="update">{$strings["save"]}</button></td></tr>
 FORM;
 
 $block1->closeContent();

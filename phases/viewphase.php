@@ -18,7 +18,6 @@ $addToSiteFile = $request->query->get('addToSiteFile', 0);
 $removeToSiteFile = $request->query->get('removeToSiteFile', 0);
 $phase = $request->query->get('phase', 0);
 
-$tableCollab = $GLOBALS["tableCollab"];
 $phaseStatus = $GLOBALS["phaseStatus"];
 $statusFile = $GLOBALS["statusFile"];
 $statusPublish = $GLOBALS["statusPublish"];

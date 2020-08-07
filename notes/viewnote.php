@@ -27,22 +27,26 @@
 ** =============================================================================
 */
 
+use phpCollab\Notes\Notes;
+use phpCollab\Projects\Projects;
+use phpCollab\Teams\Teams;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 include '../includes/customvalues.php';
+
 
 $action = $request->query->get('action');
 $project = $request->query->get('project');
 $id = $request->query->get('id');
 $addToSite = $request->query->get('addToSite');
 $removeToSite = $request->query->get('removeToSite');
-$tableCollab = $GLOBALS["tableCollab"];
 $strings = $GLOBALS["strings"];
 $idSession = $_SESSION["idSession"];
 
-$notes = new \phpCollab\Notes\Notes();
-$projects = new \phpCollab\Projects\Projects();
-$teams = new \phpCollab\Teams\Teams();
+$notes = new Notes();
+$projects = new Projects();
+$teams = new Teams();
 
 
 if ($action == "publish") {

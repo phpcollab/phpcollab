@@ -12,7 +12,6 @@ $members = new Members();
 $id = $request->query->get('id');
 $idSession = $_SESSION["idSession"];
 $strings = $GLOBALS["strings"];
-$tableCollab = $GLOBALS["tableCollab"];
 
 $requestDetail = $support->getSupportRequestById($id);
 

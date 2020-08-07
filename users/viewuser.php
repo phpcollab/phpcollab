@@ -16,7 +16,6 @@ $notes = new Notes();
 $id = $request->query->get('id');
 $strings = $GLOBALS["strings"];
 $msgLabel = $GLOBALS["msgLabel"];
-$tableCollab = $GLOBALS["tableCollab"];
 
 $userDetail = $members->getMemberById($id);
 

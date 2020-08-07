@@ -1,73 +1,81 @@
 <?php
 
+use phpCollab\Assignments\Assignments;
+use phpCollab\Members\Members;
+use phpCollab\Notifications\Notifications;
+use phpCollab\Projects\Projects;
+use phpCollab\Sorting\Sorting;
+use phpCollab\Tasks\Tasks;
+use phpCollab\Teams\Teams;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$members = new \phpCollab\Members\Members();
-$projects = new \phpCollab\Projects\Projects();
-$tasks = new \phpCollab\Tasks\Tasks();
+$members = new Members();
+$projects = new Projects();
+$tasks = new Tasks();
 
 $strings = $GLOBALS["strings"];
 $msgLabel = $GLOBALS["msgLabel"];
-$tableCollab = $GLOBALS["tableCollab"];
 
-if ($request->query->get('action') == "delete") {
-    $assignments = new \phpCollab\Assignments\Assignments();
-    $sorting = new \phpCollab\Sorting\Sorting();
-    $notifications = new \phpCollab\Notifications\Notifications();
-    $teams = new \phpCollab\Teams\Teams();
+if ($request->isMethod('post')) {
+    if ($request->request->get("action") == "delete") {
+        $assignments = new Assignments();
+        $sorting = new Sorting();
+        $notifications = new Notifications();
+        $teams = new Teams();
 
-    // Check for assigned to value
-    $assignTo = isset($_POST["assign_to"]) ? $_POST["assign_to"] : 0;
+        // Check for assigned to value
+        $assignTo = !empty($request->request->get("assign_to")) ? $request->request->get("assign_to") : 0;
 
-    if ($assignTo == "0") {
-        $atProject = "1";
-    } else {
-        $atProject = $assignTo;
-    }
-
-    $id = str_replace("**", ",", $_POST["id"]);
-
-    $listProjects = $projects->getProjectsByOwner($id);
-
-    foreach ($listProjects as $project) {
-        $listTeams = $teams->getTeamByProjectIdAndTeamMember($project["pro_id"], $atProject);
-        $comptListTeams = count($listTeams);
-        if ($comptListTeams == "0") {
-            phpCollab\Util::newConnectSql(
-                "INSERT INTO {$tableCollab["teams"]} (project,member,published,authorized) VALUES (:project, :member, 1, 0)",
-                ["project" => $project[""],"member" => $atProject]
-            );
+        if ($assignTo == "0") {
+            $atProject = "1";
+        } else {
+            $atProject = $assignTo;
         }
+
+        $id = str_replace("**", ",", $request->request->get('id'));
+
+        $listProjects = $projects->getProjectsByOwner($id);
+
+        foreach ($listProjects as $project) {
+            $listTeams = $teams->getTeamByProjectIdAndTeamMember($project["pro_id"], $atProject);
+            $comptListTeams = count($listTeams);
+
+            // Why are we adding a team member if we are in the "delete" page?
+            if ($comptListTeams == "0") {
+                $teams->addTeam($project["pro_id"], $atProject, 1, 0);
+            }
+        }
+
+        // Delete user from members table
+        $members->deleteMemberByIdIn($id);
+
+        // Reassign projects to new owner
+        $projects->reassignProject($id, $atProject);
+
+        // Reassign tasks to new owner
+        $tasks->reassignTasks($id, $assignTo);
+
+        // Reassign assignments to new owner
+        $assignments->reassignAssignmentByAssignedTo($assignTo, $dateheure, $id);
+
+        // Remove user form sorting table
+        $sorting->deleteByMember($id);
+
+        // Remove user notifications
+        $notifications->deleteNotificationsByMemberIdIn($id);
+
+        // Remove user from teams
+        $teams->deleteTeamWhereMemberIn($id);
+        //if mantis bug tracker enabled
+        if ($enableMantis == "true") {
+            // Call mantis function to remove user
+            include("../mantis/user_delete.php");
+        }
+
+        phpCollab\Util::headerFunction("../users/listusers.php?msg=delete");
     }
-
-    // Delete user from members table
-    $members->deleteMemberByIdIn($id);
-
-    // Reassign projects to new owner
-    $projects->reassignProject($id, $atProject);
-
-    // Reassign tasks to new owner
-    $tasks->reassignTasks($id, $assignTo);
-
-    // Reassign assignments to new owner
-    $assignments->reassignAssignmentByAssignedTo($assignTo, $dateheure, $id);
-
-    // Remove user form sorting table
-    $sorting->deleteByMember($id);
-
-    // Remove user notifications
-    $notifications->deleteNotificationsByMemberIdIn($id);
-
-    // Remove user from teams
-    $teams->deleteTeamWhereMemberIn($id);
-    //if mantis bug tracker enabled
-    if ($enableMantis == "true") {
-        // Call mantis function to remove user
-        include("../mantis/user_delete.php");
-    }
-
-    phpCollab\Util::headerFunction("../users/listusers.php?msg=delete");
 }
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
@@ -87,7 +95,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "user_delete";
-$block1->openForm("../users/deleteusers.php?action=delete");
+$block1->openForm("../users/deleteusers.php");
 
 $block1->heading($strings["delete_users"]);
 
@@ -100,7 +108,7 @@ $listMembers = $members->getMembersByIdIn($id);
 foreach ($listMembers as $member) {
     echo <<<ROW
     <tr class="odd">
-        <td valign="top" class="leftvalue">&nbsp;</td>
+        <td class="leftvalue">&nbsp;</td>
         <td>{$member["mem_login"]}&nbsp;({$member["mem_name"]})</td>
     </tr>
 ROW;
@@ -116,20 +124,20 @@ if ($totalProjects || $totalTasks) {
 
     if ($totalProjects) {
         echo <<<OWNED_PROJECTS
-    <tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td>{$strings["there"]} {$totalProjects} {$strings["projects"]} {$strings["owned_by"]}</td></tr>
+    <tr class="odd"><td class="leftvalue">&nbsp;</td><td>{$strings["there"]} {$totalProjects} {$strings["projects"]} {$strings["owned_by"]}</td></tr>
 OWNED_PROJECTS;
     }
 
     if ($totalTasks) {
         echo <<<OWNED_TASKS
     <tr class="odd">
-        <td valign="top" class="leftvalue">&nbsp;</td>
+        <td class="leftvalue">&nbsp;</td>
         <td>{$strings["there"]} {$totalTasks} {$strings["tasks"]} {$strings["owned_by"]}</td>
     </tr>
 OWNED_TASKS;
     }
 
-    echo '<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td><b>' . $strings["reassign_to"] . ' : </b> ';
+    echo '<tr class="odd"><td class="leftvalue">&nbsp;</td><td><b>' . $strings["reassign_to"] . ' : </b> ';
     $reassignMembersList = $members->getNonClientMembersExcept($id);
     echo '<select name="assign_to">';
     echo '<option value="0" selected>' . $strings["unassigned"] . '</option>';
@@ -143,8 +151,12 @@ OWNED_TASKS;
 
 echo <<<FORM_BUTTONS
 <tr class="odd">
-    <td valign="top" class="leftvalue">&nbsp;</td>
-    <td><input type="submit" name="delete" value="{$strings["delete"]}"> <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();"><input type="hidden" value="{$id}" name="id"></td>
+    <td class="leftvalue">&nbsp;</td>
+    <td>
+        <button type="submit" name="action" value="delete">{$strings["delete"]}</button> 
+        <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();">
+        <input type="hidden" value="{$id}" name="id">
+    </td>
 </tr>
 FORM_BUTTONS;
 

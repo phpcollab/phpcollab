@@ -8,13 +8,15 @@ use phpCollab\Teams\Teams;
 $checkSession = "true";
 include_once '../includes/library.php';
 
+$setTitle .= " : List Invoices";
+
 $invoices = new Invoices();
 $teams = new Teams();
 $organizations = new Organizations();
 $projects = new Projects();
 
 $typeInvoices = (!empty($request->query->get("typeInvoices"))) ? $request->query->get("typeInvoices") : "open";
-$client = (!empty($request->query->get("client"))) ? $request->query->get("client") : 0;
+$clientId = (!empty($request->query->get("client"))) ? $request->query->get("client") : 0;
 $status = (!empty($request->query->get("status"))) ? $request->query->get("status") : 0;
 $idSession = (isset($_SESSION["idSession"]) && !empty($_SESSION["idSession"])) ? $_SESSION["idSession"] : 0;
 
@@ -32,19 +34,19 @@ $clientDetail = null;
 if ($clientsFilter == "true" && $profilSession == "2") {
     $teamMember = "false";
 
-    $memberTest = $teams->getTeamByTeamMemberAndOrgId($idSession, $client);
+    $memberTest = $teams->getTeamByTeamMemberAndOrgId($idSession, $clientId);
 
     $comptMemberTest = count($memberTest["tea_id"]);
 
     if ($comptMemberTest == "0") {
         phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
     } else {
-        $clientDetail = $organizations->getOrganizationById($client);
+        $clientDetail = $organizations->getOrganizationById($clientId);
     }
 } else if ($clientsFilter == "true" && $profilSession == "1") {
-    $clientDetail = $organizations->getOrganizationByIdAndOwner($client, $idSession);
+    $clientDetail = $organizations->getOrganizationByIdAndOwner($clientId, $idSession);
 } else {
-    $clientDetail = $organizations->getOrganizationById($client);
+    $clientDetail = $organizations->getOrganizationById($clientId);
 }
 
 if (empty($clientDetail)) {
@@ -60,11 +62,11 @@ $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=
 $blockPage->itemBreadcrumbs($strings["invoices"]);
 
 if ($typeInvoices == "open") {
-    $blockPage->itemBreadcrumbs($invoiceStatus[0] . " | " . $blockPage->buildLink("../invoicing/listinvoices.php?client=$client&typeInvoices=sent", $invoiceStatus[1], "in") . " | " . $blockPage->buildLink("../invoicing/listinvoices.php?client=$client&typeInvoices=paid", $invoiceStatus[2], "in"));
+    $blockPage->itemBreadcrumbs($invoiceStatus[0] . " | " . $blockPage->buildLink("../invoicing/listinvoices.php?client=$clientId&typeInvoices=sent", $invoiceStatus[1], "in") . " | " . $blockPage->buildLink("../invoicing/listinvoices.php?client=$clientId&typeInvoices=paid", $invoiceStatus[2], "in"));
 } else if ($typeInvoices == "sent") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../invoicing/listinvoices.php?client=$client&typeInvoices=open", $invoiceStatus[0], "in") . " | " . $invoiceStatus[1] . " | " . $blockPage->buildLink("../invoicing/listinvoices.php?client=$client&typeInvoices=paid", $invoiceStatus[2], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../invoicing/listinvoices.php?client=$clientId&typeInvoices=open", $invoiceStatus[0], "in") . " | " . $invoiceStatus[1] . " | " . $blockPage->buildLink("../invoicing/listinvoices.php?client=$clientId&typeInvoices=paid", $invoiceStatus[2], "in"));
 } else if ($typeInvoices == "paid") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../invoicing/listinvoices.php?client=$client&typeInvoices=open", $invoiceStatus[0], "in") . " | " . $blockPage->buildLink("../invoicing/listinvoices.php?client=$client&typeInvoices=sent", $invoiceStatus[1], "in") . " | " . $invoiceStatus[2]);
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../invoicing/listinvoices.php?client=$clientId&typeInvoices=open", $invoiceStatus[0], "in") . " | " . $blockPage->buildLink("../invoicing/listinvoices.php?client=$clientId&typeInvoices=sent", $invoiceStatus[1], "in") . " | " . $invoiceStatus[2]);
 }
 $blockPage->closeBreadcrumbs();
 
@@ -78,7 +80,7 @@ $blockPage->setLimitsNumber(1);
 $block1 = new phpCollab\Block();
 
 $block1->form = "saP";
-$block1->openForm("../invoicing/listinvoices.php?client=$client&typeInvoices=$typeInvoices#" . $block1->form . "Anchor");
+$block1->openForm("../invoicing/listinvoices.php?client=$clientId&typeInvoices=$typeInvoices#" . $block1->form . "Anchor");
 
 if ($typeInvoices == "open") {
     $status = "0";
@@ -104,7 +106,7 @@ $block1->setRowsLimit(20);
 
 $block1->sorting("invoices", $sortingUser["invoices"], "inv.id ASC", $sortingFields = [0 => "inv.id", 1 => "pro.name", 2 => "inv.total_inc_tax", 3 => "inv.date_sent", 4 => "inv.published"]);
 
-$projectsTest = $projects->getProjectsByOrganization($client, 'pro.id');
+$projectsTest = $projects->getProjectsByOrganization($clientId, 'pro.id');
 
 $projectsOk = 0;
 

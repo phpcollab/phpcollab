@@ -9,41 +9,47 @@ include '../includes/library.php';
 
 $topics = new Topics();
 
-$id = $request->query->get('id');
+$topicId = $request->query->get("topic");
+
+$postId = $request->query->get("post");
+
 $strings = $GLOBALS["strings"];
-$tableCollab = $GLOBALS["tableCollab"];
 $timezoneSession = $_SESSION["timezoneSession"];
 $idSession = $_SESSION["idSession"];
 
-$detailTopic = $topics->getTopicByTopicId($id);
+$detailTopic = $topics->getTopicByTopicId($topicId);
 
 if ($detailTopic["top_published"] == "1" || $detailTopic["top_project"] != $projectSession) {
     phpCollab\Util::headerFunction("index.php");
 }
 
-if ($request->query->get('action') == "delete") {
-    $detailTopic["top_posts"] = $detailTopic["top_posts"] - 1;
-    phpCollab\Util::newConnectSql(
-        "DELETE FROM {$tableCollab["posts"]} WHERE id = :post_id",
-        ["post_id" => $request->query->get('post')]
-    );
+if (!empty($postId) && $request->query->get('action') == "delete") {
+    $topics->deletePost($postId);
 
-    phpCollab\Util::newConnectSql(
-        "UPDATE {$tableCollab["topics"]} SET posts=:posts WHERE id = :topic_id",
-        ["posts" => $detailTopic["top_posts"], "topic_id" => $id]
-    );
-    phpCollab\Util::headerFunction("showallthreads.php?id=$id");
+    if ($detailTopic["top_posts"] != 0) {
+        $topics->decrementTopicPostsCount($topicId);
+    }
+
+    phpCollab\Util::headerFunction("showallthreads.php?topic={$topicId}&msg=postDeleted");
 }
 
 $bouton[5] = "over";
 $titlePage = $strings["bulletin_board_topic"];
-include 'include_header.php';
+
+include APP_ROOT . '/projects_site/include_header.php';
 
 $listPosts = $topics->getPostsByTopicId($detailTopic["top_id"]);
 
 $idStatus = $detailTopic["top_status"];
 
 $topicDate = phpCollab\Util::createDate($detailTopic["top_last_post"], $timezoneSession);
+
+if ($request->query->get("msg") != "") {
+    include '../includes/messages.php';
+    if ($msgLabel) {
+        echo '<table class="message"><tr><td>' . $msgLabel . '</td></tr></table>';
+    }
+}
 
 echo <<<TABLE
 <table style="width: 90%;" class="nonStriped">
@@ -52,7 +58,7 @@ echo <<<TABLE
     </tr>
     <tr class="lightHighlight">
         <th>{$strings["subject"]}:</th>
-        <td>{$detailTopic["top_subject"]}</td>
+        <td>{$detailTopic["top_id"]} - {$detailTopic["top_subject"]}</td>
         <th>{$strings["posts"]}:</th>
         <td>{$detailTopic["top_posts"]}</td>
     </tr>
@@ -84,7 +90,7 @@ TABLE;
 if ($detailTopic["top_status"] == "1") {
     echo <<<TR
         <tr class="even">
-            <td colspan="4" style="text-align: right;"><a href="threadpost.php?id={$id}">{$strings["post_reply"]}</a></td>
+            <td colspan="4" style="text-align: right;"><a href="threadpost.php?topic={$topicId}">{$strings["post_reply"]}</a></td>
         </tr>
 TR;
 }
@@ -101,7 +107,7 @@ TR;
 
         if ($detailProject["pro_owner"] == $idSession || $profilSession == "0" || $post["pos_member"] == $idSession) {
             echo <<<LINK
-                <a href="../projects_site/showallthreads.php?id={$id}&action=delete&post={$post["pos_id"]}">{$strings["delete_message"]}</a>
+                <a href="../projects_site/showallthreads.php?topic={$topicId}&action=delete&post={$post["pos_id"]}">({$post["pos_id"]}) {$strings["delete_message"]}</a>
 LINK;
         } else {
             echo "&nbsp";
@@ -132,4 +138,4 @@ TR;
 }
 echo "</table>";
 
-include("include_footer.php");
+include APP_ROOT . "/projects_site/include_footer.php";

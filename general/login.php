@@ -34,7 +34,6 @@ include '../includes/library.php';
 $members = new Members();
 $logs = new Logs();
 
-$tableCollab = $GLOBALS["tableCollab"];
 $strings = $GLOBALS["strings"];
 $idSession = (isset($_SESSION["idSession"]) && $_SESSION["idSession"] !== '') ? $_SESSION["idSession"] : null;
 $loginMethod = $GLOBALS["loginMethod"];

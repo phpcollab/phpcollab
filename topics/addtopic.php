@@ -12,7 +12,6 @@ $project = $request->query->get('project');
 $action = $request->query->get('action');
 
 $strings = $GLOBALS["strings"];
-$tableCollab = $GLOBALS["tableCollab"];
 
 $idSession = $_SESSION["idSession"];
 

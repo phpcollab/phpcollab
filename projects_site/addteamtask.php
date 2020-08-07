@@ -42,7 +42,6 @@ $assignments = new Assignments();
 //case add task
 $id = $request->query->get('id');
 
-$tableCollab = $GLOBALS["tableCollab"];
 $strings = $GLOBALS["strings"];
 $priority = $GLOBALS["priority"];
 

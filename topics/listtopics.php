@@ -16,7 +16,6 @@ $addToSite = $request->query->get('addToSite');
 $removeToSite = $request->query->get('removeToSite');
 
 $strings = $GLOBALS["strings"];
-$tableCollab = $GLOBALS["tableCollab"];
 
 $idSession = $_SESSION["idSession"];
 

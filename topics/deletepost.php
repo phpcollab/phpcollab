@@ -9,23 +9,34 @@ use phpCollab\Util;
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$topic = $request->query->get('topic');
+$topicId = $request->query->get('topic');
+
 $topics = new Topics();
+$postId = $request->query->get('id');
 
-$detailTopic = $topics->getTopicByTopicId($topic);
+$detailTopic = $topics->getTopicByTopicId($topicId);
 
-if ($request->query->get('action') == "delete") {
-    $detailTopic["top_posts"]--;
-    Util::newConnectSql("DELETE FROM {$tableCollab["posts"]} WHERE id = :post_id", ["post_id" => $id]);
+if ($request->isMethod('post')) {
+    if ($request->request->get("action") == "delete") {
+        try {
+            $topics->deletePost($postId);
 
-    Util::newConnectSql(
-        "UPDATE {$tableCollab["topics"]} SET posts=:posts WHERE id = :topic_id",
-        ["posts" => $detailTopic->top_posts[0], "topic_id" => $topic]
-    );
-    Util::headerFunction("../topics/viewtopic.php?msg=delete&id=$topic");
+            if ($detailTopic["top_posts"] != 0) {
+                $topics->decrementTopicPostsCount($topicId);
+            }
+
+            Util::headerFunction("../topics/viewtopic.php?msg=delete&id=$topicId");
+
+        } catch (Exception$exception) {
+            error_log('Error deleting post', 0);
+            $error = $strings["error_delete_post"];
+        }
+    }
+
 }
 
-$detailPost = $topics->getPostById($id);
+
+$detailPost = $topics->getPostById($postId);
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
@@ -45,11 +56,16 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 
+
 $block1->form = "saP";
-$block1->openForm("../topics/deletepost.php?id=$id&topic=$topic&action=delete");
+$block1->openForm("../topics/deletepost.php?id=$postId&topic=$topicId");
 
 $block1->heading($strings["delete_messages"]);
 
+if (isset($error) && !empty($error)) {
+    $block1->headingError($strings["errors"]);
+    $block1->contentError($error);
+}
 $block1->openContent();
 $block1->contentTitle($strings["delete_following"]);
 
@@ -61,7 +77,7 @@ echo <<<POST
     </tr>
     <tr class="odd">
         <td class="leftvalue">&nbsp;</td>
-        <td><input type="submit" name="delete" value="{$strings["delete"]}"> <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();"></td>
+        <td><button type="submit" name="action" value="delete">{$strings["delete"]}</button> <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();"></td>
     </tr>
 POST;
 

@@ -19,7 +19,6 @@ $task = $request->query->get("task");
 // Global variables
 $strings = $GLOBALS["strings"];
 $msgLabel = $GLOBALS["msgLabel"];
-$tableCollab = $GLOBALS["tableCollab"];
 $targetPhase = $GLOBALS["targetPhase"];
 
 if ($request->query->get("action") == "delete") {

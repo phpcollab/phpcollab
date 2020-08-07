@@ -45,7 +45,6 @@ $task = $request->query->get('task');
 $action = $request->query->get('action');
 
 // Global variables
-$tableCollab = $GLOBALS["tableCollab"];
 $status = $GLOBALS["status"];
 $strings = $GLOBALS["strings"];
 $date = $GLOBALS["date"];

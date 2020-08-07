@@ -3,6 +3,10 @@
 #Status page: 1
 #Path by root: ../notes/listnotes.php
 
+use phpCollab\Notes\Notes;
+use phpCollab\Projects\Projects;
+use phpCollab\Teams\Teams;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 include '../includes/customvalues.php';
@@ -12,11 +16,10 @@ $project = $request->query->get('project');
 $id = $request->query->get('id');
 $addToSite = $request->query->get('addToSite');
 $removeToSite = $request->query->get('removeToSite');
-$tableCollab = $GLOBALS["tableCollab"];
 $strings = $GLOBALS["strings"];
 $idSession = $_SESSION["idSession"];
 
-$notes = new \phpCollab\Notes\Notes();
+$notes = new Notes();
 
 if ($action == "publish") {
     $multi = strstr($id, "**");
@@ -37,10 +40,10 @@ if ($action == "publish") {
 
 include '../themes/' . THEME . '/header.php';
 
-$projects = new \phpCollab\Projects\Projects();
+$projects = new Projects();
 $projectDetail = $projects->getProjectById($project);
 
-$teams = new \phpCollab\Teams\Teams();
+$teams = new Teams();
 $teamMember = $teams->isTeamMember($project, $idSession);
 
 $blockPage = new phpCollab\Block();

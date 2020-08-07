@@ -27,7 +27,6 @@ if ($request->query->get('action') == "add") {
     if (isset($id) && $id != "") {
         $pieces = explode("**", $id);
         $id = str_replace("**", ",", $id);
-        $tableCollab = $GLOBALS["tableCollab"];
 
         if ($htaccessAuth == "true") {
             $Htpasswd = new Htpasswd;
@@ -51,10 +50,8 @@ if ($request->query->get('action') == "add") {
         }
         $comptTeam = count($pieces);
         for ($i = 0; $i < $comptTeam; $i++) {
-            phpCollab\Util::newConnectSql(
-                "INSERT INTO {$tableCollab["teams"]} (project, member, published, authorized) VALUES (:project, :member,'1','0')",
-                ["project" => $projectDetail["pro_id"], "member" => $pieces[$i]]
-            );
+            $teams->addTeam($projectDetail["pro_id"], $pieces[$i], 1, 0);
+
             //if mantis bug tracker enabled
             if ($enableMantis == "true") {
                 // Assign user to this project in mantis

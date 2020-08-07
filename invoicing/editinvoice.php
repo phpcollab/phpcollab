@@ -6,30 +6,28 @@ use phpCollab\Projects\Projects;
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$id = $request->query->get('id', null);
+$invoiceItemId = $request->query->get('id', null);
 
 $msgLabel = $GLOBALS["msgLabel"];
 $strings = $GLOBALS["strings"];
-$tableCollab = $GLOBALS["tableCollab"];
-$idSession = $_SESSION["idSession"];
 $invoiceStatus = $GLOBALS["invoiceStatus"];
 
-if (!$id) {
+if (!$invoiceItemId) {
     header("Location:../general/permissiondenied.php");
 }
 
 $invoices = new Invoices();
 $projects = new Projects();
 
-$detailInvoice = $invoices->getInvoiceById($id);
+$detailInvoice = $invoices->getInvoiceById($invoiceItemId);
 
 $projectDetail = $projects->getProjectById($detailInvoice["inv_project"]);
 
-$listInvoicesItems = $invoices->getActiveInvoiceItemsByInvoiceId($id);
+$listInvoicesItems = $invoices->getActiveInvoiceItemsByInvoiceId($invoiceItemId);
 
 $comptListInvoicesItems = count($listInvoicesItems);
 
-if ($projectDetail["pro_owner"] != $idSession) {
+if ($projectDetail["pro_owner"] != $_SESSION['idSession']) {
     header("Location:../general/permissiondenied.php");
 
 }
@@ -39,9 +37,10 @@ $action = $request->query->get('action', null);
 /**
  * Update invoice
  */
-if ($action == "update") {
-    $pub = isset($_POST['pub']) ? $_POST['action'] : 0;
-    $st = isset($_POST['st']) ? $_POST['st'] : 0;
+if ($request->isMethod('post')) {
+    if ($request->request->get('action') == "update") {
+    $pub = !empty($request->request->get('pub')) ? $request->request->get('pub') : 0;
+    $st = !empty($request->request->get('st')) ? $request->request->get('st') : 0;
 
     if ($pub == "") {
         $pub = "1";
@@ -50,38 +49,26 @@ if ($action == "update") {
         $datesent = $GLOBALS["date"];
     }
 
-    $tmpquery = "UPDATE {$tableCollab["invoices"]} SET header_note=:header_note,footer_note=:footer_note,published=:published,status=:status,due_date=:due_date,date_sent=:date_sent,total_ex_tax=:total_ex_tax,total_inc_tax=:total_inc_tax,tax_rate=:tax_rate,tax_amount=:tax_amount,modified=:modified WHERE id = :id";
-    phpCollab\Util::newConnectSql(
-        $tmpquery,
-        [
-            "header_note" => $_POST["header_note"],
-            "footer_note" => $_POST["footer_note"],
-            "published" => $pub,
-            "status" => $st,
-            "due_date" => $_POST["dd"],
-            "date_sent" => $_POST["datesent"],
-            "total_ex_tax" => $_POST["total_ex_tax"],
-            "total_inc_tax" => $_POST["total_inc_tax"],
-            "tax_rate" => $_POST["tax_rate"],
-            "tax_amount" => $_POST["tax_amount"],
-            "modified" => $dateheure,
-            "id" => $id
-        ]
+    $invoices->updateInvoice(
+        $invoiceItemId,
+        $request->request->get('header_note'),
+        $request->request->get('footer_note'),
+        $pub,
+        $st,
+        $request->request->get('dd'),
+        $request->request->get('datesent'),
+        $request->request->get('total_ex_tax'),
+        $request->request->get('total_inc_tax'),
+        $request->request->get('tax_rate'),
+        $request->request->get('tax_amount')
     );
 
     foreach ($listInvoicesItems as $item) {
-        $tmpquery = "UPDATE {$tableCollab["invoices_items"]} SET title=:title,position=:position,amount_ex_tax=:amount_ex_tax WHERE id = :id";
-        phpCollab\Util::newConnectSql(
-            $tmpquery,
-            [
-                "title" => $item["invitem_title"],
-                "position" => $item["invitem_position"],
-                "amount_ex_tax" => $item["invitem_amount_ex_tax"],
-                "id" => $item["invitem_id"]
-            ]
-        );
+        $invoices->editInvoiceItems($item['invitem_id'], $item["invitem_title"], $item["invitem_position"],
+            $item["invitem_amount_ex_tax"]);
     }
-    phpCollab\Util::headerFunction("../invoicing/viewinvoice.php?msg=update&id=$id");
+    phpCollab\Util::headerFunction("../invoicing/viewinvoice.php?msg=update&id=$invoiceItemId");
+}
 }
 
 /**
@@ -112,7 +99,7 @@ $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?",
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $projectDetail["pro_org_id"], $projectDetail["pro_org_name"], "in"));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../invoicing/listinvoices.php?client=" . $projectDetail["pro_organization"], $strings["invoices"], "in"));
 
-if ($id != "") {
+if ($invoiceItemId != "") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../invoicing/viewinvoice.php?id=" . $detailInvoice["inv_id"], $detailInvoice["inv_id"], "in"));
     $blockPage->itemBreadcrumbs($strings["edit_invoice"]);
 }
@@ -125,9 +112,9 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 
-if ($id != "") {
+if ($invoiceItemId != "") {
     $block1->form = "invoice";
-    $block1->openForm("../invoicing/editinvoice.php?id=$id&action=update&#" . $block1->form . "Anchor");
+    $block1->openForm("../invoicing/editinvoice.php?id=$invoiceItemId&#" . $block1->form . "Anchor");
 }
 
 if (isset($error) && !empty($error)) {
@@ -135,7 +122,7 @@ if (isset($error) && !empty($error)) {
     $block1->contentError($error);
 }
 
-if ($id != "") {
+if ($invoiceItemId != "") {
     $block1->heading($strings["edit_invoice"] . " : " . $detailInvoice["inv_id"]);
 }
 
@@ -145,7 +132,7 @@ $block1->contentTitle($strings["details"]);
 $block1->contentRow($strings["header_note"], '<textarea rows="10" style="width: 400px; height: 100px;" name="header_note" cols="47">' . $header_note . '</textarea>');
 $block1->contentRow($strings["footer_note"], '<textarea rows="10" style="width: 400px; height: 100px;" name="footer_note" cols="47">' . $footer_note . '</textarea>');
 
-$listInvoicesItems = $invoices->getActiveInvoiceItemsByInvoiceId($id);
+$listInvoicesItems = $invoices->getActiveInvoiceItemsByInvoiceId($invoiceItemId);
 
 $selectStatus = '<select name="st">';
 
@@ -278,8 +265,8 @@ $block1->contentRow($strings["total_inc_tax"], '<input type="text" name="total_i
 
 echo <<<TR
 <tr class="odd">
-    <td class="leftvalue"> </td>
-    <td><input type="SUBMIT" value="{$strings["save"]}"></td>
+    <td class="leftvalue"><input type="hidden" name="action" value="update"></td>
+    <td><input type="submit" value="{$strings["save"]}"></td>
 </tr>
 TR;
 

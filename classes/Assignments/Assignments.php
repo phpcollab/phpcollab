@@ -3,6 +3,7 @@
 
 namespace phpCollab\Assignments;
 
+use InvalidArgumentException;
 use phpCollab\Database;
 
 /**
@@ -54,6 +55,22 @@ class Assignments
     public function getAssignmentsBySubtaskId($subtaskId, $sorting = null)
     {
         return $this->assignments_gateway->getAssignmentsBySubtaskId($subtaskId, $sorting);
+    }
+
+    /**
+     * @param $taskId
+     * @param $comment
+     * @return mixed
+     */
+    public function addAssignmentComment($taskId, $comment)
+    {
+        if (empty($taskId)) {
+            throw new InvalidArgumentException('Task ID is missing or empty.');
+        } else if (empty($comment)) {
+            throw new InvalidArgumentException('Comment is missing or empty.');
+        }
+
+        return $this->assignments_gateway->addComment($taskId, $comment);
     }
 
     /**

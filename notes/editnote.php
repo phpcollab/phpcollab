@@ -26,6 +26,10 @@
 */
 
 
+use phpCollab\Notes\Notes;
+use phpCollab\Projects\Projects;
+use phpCollab\Teams\Teams;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 include '../includes/customvalues.php';
@@ -33,12 +37,11 @@ include '../includes/customvalues.php';
 $action = $request->query->get('action');
 $project = $request->query->get('project');
 $id = $request->query->get('id');
-$tableCollab = $GLOBALS["tableCollab"];
 $strings = $GLOBALS["strings"];
 $idSession = $_SESSION["idSession"];
 
-$notes = new \phpCollab\Notes\Notes();
-$projects = new \phpCollab\Projects\Projects();
+$notes = new Notes();
+$projects = new Projects();
 
 if ($id != "" && $action != "add") {
     $noteDetail = $notes->getNoteById($id);
@@ -51,7 +54,7 @@ if ($id != "" && $action != "add") {
 $projectDetail = $projects->getProjectById($project);
 
 $teamMember = "false";
-$teams = new \phpCollab\Teams\Teams();
+$teams = new Teams();
 $teamMember = $teams->isTeamMember($project, $idSession);
 
 //case update note entry
@@ -160,7 +163,7 @@ echo <<<JAVASCRIPT
         inputField     :    'noteDate',
         button         :    'trigNoteDate',
         {$calendar_common_settings}
-    });
+    })
 </script>
 JAVASCRIPT;
 

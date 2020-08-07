@@ -282,10 +282,7 @@ if (
             }
 
             //recompute number of completed tasks of the project
-            $projectDetail['pro_name'] = phpCollab\Util::projectComputeCompletion(
-                $projectDetail,
-                $tableCollab["projects"]
-            );
+            $projectDetail['pro_name'] = phpCollab\Util::projectComputeCompletion($projectDetail);
 
             if (empty($form_data["invoicing"])) {
                 $form_data["invoicing"] = "0";
@@ -326,10 +323,7 @@ if (
                 //recompute number of completed tasks of the old project
                 $oldproject = $projects->getProjectById($form_data["old_project"]);
 
-                phpCollab\Util::projectComputeCompletion(
-                    $oldproject,
-                    $tableCollab["projects"]
-                );
+                phpCollab\Util::projectComputeCompletion($oldproject);
             }
 
             if ($enableInvoicing == "true") {

@@ -3,16 +3,17 @@
 #Status page: 1
 #Path by root: ../notes/deletenotes.php
 
+use phpCollab\Notes\Notes;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
 $action = $request->query->get('action');
 $project = $request->query->get('project');
 $id = $request->query->get('id');
-$tableCollab = $GLOBALS["tableCollab"];
 $strings = $GLOBALS["strings"];
 
-$notes = new \phpCollab\Notes\Notes();
+$notes = new Notes();
 
 if ($action == "delete") {
     $id = str_replace("**", ",", $id);
