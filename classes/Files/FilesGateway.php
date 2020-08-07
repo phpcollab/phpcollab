@@ -86,7 +86,7 @@ class FilesGateway
      */
     public function getFileById($fileId)
     {
-        $query = $this->initrequest["files"] . " WHERE fil.id IN(:file_id) OR fil.vc_parent IN(:file_id) ORDER BY fil.name";
+        $query = $this->initrequest["files"] . " WHERE fil.id = :file_id";
         $this->db->query($query);
         $this->db->bind(':file_id', $fileId);
         return $this->db->single();

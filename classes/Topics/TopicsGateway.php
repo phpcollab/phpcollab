@@ -295,7 +295,7 @@ class TopicsGateway
 
         return $this->db->execute($topicIds);
     }
-    
+
     /**
      * @param $projectId
      * @return mixed
@@ -338,14 +338,13 @@ class TopicsGateway
 
     /**
      * @param $topicId
-     * @param $updateDate
      * @return mixed
      */
-    public function decrementTopicPostsCount($topicId, $updateDate)
+    public function decrementTopicPostsCount($topicId)
     {
         $query = "UPDATE {$this->tableCollab["topics"]} SET last_post = :last_post, posts = posts - 1 WHERE id = :topic_id";
         $this->db->query($query);
-        $this->db->bind(":last_post", $updateDate);
+        $this->db->bind(":last_post", date('Y-m-d h:i'));
         $this->db->bind(":topic_id", $topicId);
         return $this->db->execute();
     }
@@ -363,6 +362,18 @@ class TopicsGateway
         $this->db->query($sql);
         $this->db->execute();
         return $this->db->resultset();
+    }
+
+    /**
+     * @param $postId
+     * @return mixed
+     */
+    public function deletePost($postId)
+    {
+        $sql = "DELETE FROM {$this->tableCollab["posts"]} WHERE id = :post_id";
+        $this->db->query($sql);
+        $this->db->bind(':post_id', $postId);
+        return $this->db->execute();
     }
 
     /**

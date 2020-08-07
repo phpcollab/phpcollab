@@ -2,6 +2,7 @@
 #Application name: PhpCollab
 #Status page: 0
 
+use phpCollab\Subtasks\SetStatus;
 use phpCollab\Tasks\Tasks;
 use phpCollab\Updates\Updates;
 use phpCollab\Util;
@@ -11,27 +12,27 @@ include '../includes/library.php';
 
 $tasks = new Tasks();
 $updates = new Updates();
+$subtasks = new SetStatus();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if ($action == "update") {
-        $comments = phpCollab\Util::convertData($_POST["comments"]);
+$taskId = !empty($request->query->get('task')) ? $request->query->get('task') : $request->request->get('taskId');
+$subtaskId = !empty($request->query->get('id')) ? $request->query->get('id') : $request->request->get('subtaskId');
 
-        if (!empty($_POST["checkbox"]) && $_POST["checkbox"] == "completed") {
-            phpCollab\Util::newConnectSql(
-                "UPDATE {$tableCollab["subtasks"]} SET comments = :comments, status = :status, modified = :modified, complete_date = :complete_date WHERE id = :subtask_id",
-                ["comments" => $comments, "status" => 0, "modified" => $dateheure, "complete_date" => $dateheure, "subtask_id" => $id]
-            );
+$subtaskDetail = $tasks->getSubTaskById($subtaskId);
+
+
+if ($request->isMethod('post') && !empty($subtaskDetail)) {
+    if ($request->request->get('action') == "update") {
+        $comments = phpCollab\Util::convertData($request->request->get('comments'));
+
+        if (!empty($request->request->get('status')) && $request->request->get('status') == "completed") {
+            $subtasks->set($subtaskId, 0, $comments);
         } else {
-            phpCollab\Util::newConnectSql(
-                "UPDATE {$tableCollab["subtasks"]} SET comments = :comments, status = :status, modified = :modified, complete_date = :complete_date  WHERE id = :subtask_id",
-                ["comments" => $comments, "status" => 3, "modified" => $dateheure, "complete_date" => null, "subtask_id" => $id]
-            );
+            $subtasks->set($subtaskId, $subtaskDetail["subtas_status"], $comments);
         }
-        phpCollab\Util::headerFunction("clienttaskdetail.php?id=$task");
+        phpCollab\Util::headerFunction("clienttaskdetail.php?id=$taskId");
     }
 }
 
-$subtaskDetail = $tasks->getSubTaskById($id);
 
 $taskDetail = $tasks->getTaskById($task);
 
@@ -41,14 +42,15 @@ if ($subtaskDetail["subtas_published"] == "1" || $taskDetail["tas_project"] != $
 
 $bouton[3] = "over";
 $titlePage = $strings["client_subtask_details"];
-include 'include_header.php';
+
+include APP_ROOT . '/projects_site/include_header.php';
 
 echo <<<START_PAGE
 <h1 class="heading">{$strings["client_subtask_details"]}</h1>
 <table class="nonStriped">
 START_PAGE;
 
-if ($taskDetail->tas_name[0] != "") {
+if (!empty($taskDetail["tas_name"])) {
     echo <<<TR
     <tr>
         <td>{$strings["task"]} :</td>
@@ -57,7 +59,7 @@ if ($taskDetail->tas_name[0] != "") {
 TR;
 }
 
-if ($subtaskDetail["subtas_name"] != "") {
+if (!empty($subtaskDetail["subtas_name"])) {
     echo <<<TR
     <tr>
         <td>{$strings["name"]} :</td>
@@ -66,7 +68,7 @@ if ($subtaskDetail["subtas_name"] != "") {
 TR;
 }
 
-if ($subtaskDetail->subtas_description[0] != "") {
+if (!empty($subtaskDetail->subtas_description[0])) {
     $subtaskDescription = nl2br($subtaskDetail["subtas_description"]);
     echo <<<TR
     <tr>
@@ -96,7 +98,7 @@ if ($subtaskDetail["subtas_assigned_to"] != "0") {
 TR;
 }
 
-if ($subtaskDetail["subtas_comments"] != "") {
+if (!empty($subtaskDetail["subtas_comments"])) {
     echo <<<TR
     <tr>
         <td>{$strings["comments"]} :</td>
@@ -105,7 +107,7 @@ if ($subtaskDetail["subtas_comments"] != "") {
 TR;
 }
 
-if ($subtaskDetail["subtas_start_date"] != "") {
+if (!empty($subtaskDetail["subtas_start_date"])) {
     echo <<<TR
     <tr>
         <td>{$strings["start_date"]} :</td>
@@ -114,7 +116,7 @@ if ($subtaskDetail["subtas_start_date"] != "") {
 TR;
 }
 
-if ($subtaskDetail["subtas_due_date"] != "") {
+if (!empty($subtaskDetail["subtas_due_date"])) {
     echo <<<TR
     <tr>
         <td>{$strings["due_date"]} :</td>
@@ -152,9 +154,8 @@ echo <<<COMPLETE_TASK_FORM
 <div id="completeTask" style="margin-top: 2em;">
     <h1 class="heading">Complete Subtask</h1>
     <form method="post" action="../projects_site/clientsubtaskdetail.php" name="clientTaskUpdate" style="">
-        <input name="id" type="hidden" value="{$id}">
-        <input name="task" type="hidden" value="{$task}">
-        <input name="action" type="hidden" value="update">
+        <input name="subtaskId" type="hidden" value="{$subtaskId}">
+        <input name="taskId" type="hidden" value="{$task}">
     
         <table class="nonStriped" style="margin-top: 0">
             <tr>
@@ -162,7 +163,7 @@ echo <<<COMPLETE_TASK_FORM
             </tr>
             <tr>
                 <td>{$strings["status"]} :</td>
-                <td><input {$isChecked} value="completed" name="checkbox" type="checkbox" id="completedCheckbox"> <label for="completedCheckbox">{$status[0]}</label></td>
+                <td><input {$isChecked} value="completed" name="status" type="checkbox" id="completedCheckbox"> <label for="completedCheckbox">{$status[0]}</label></td>
             </tr>
             <tr>
                 <td class="leftvalue">{$strings["comments"]} :</td>
@@ -170,7 +171,7 @@ echo <<<COMPLETE_TASK_FORM
             </tr>
             <tr>
                 <td>&#160;</td>
-                <td><input name="submit" type="submit" value="{$strings["save"]}"></td>
+                <td><button name="action" type="submit" value="update">{$strings["save"]}"</button></td>
             </tr>
         </table>
     </form>

@@ -3,23 +3,26 @@
 #Status page: 1
 #Path by root: ../projects/deleteprojectsite.php
 
+use phpCollab\Projects\Projects;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$project = $_GET["project"];
-$tableCollab = $GLOBALS["tableCollab"];
+$projectId = $request->query->get('project');
 $strings = $GLOBALS["strings"];
+$projects = new Projects();
 
-if ($_GET["action"] == "delete") {
-    $tmpquery = "UPDATE {$tableCollab["projects"]} SET published='1' WHERE id = :project_id";
-    phpCollab\Util::newConnectSql($tmpquery, ["project_id" => $project]);
-    phpCollab\Util::headerFunction("../projects/viewproject.php?id=$project&msg=removeProjectSite");
+if ($request->isMethod('post')) {
+    if ($request->request->get("action") == "delete") {
+        $projects->publishProject($projectId, false);
+        phpCollab\Util::headerFunction("../projects/viewprojectsite.php?id={$projectId}&msg=removeProjectSite");
+    }
 }
+
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
-$projects = new \phpCollab\Projects\Projects();
-$projectDetail = $projects->getProjectById($project);
+$projectDetail = $projects->getProjectById($projectId);
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -37,7 +40,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "projectsite_delete";
-$block1->openForm("../projects/deleteprojectsite.php?action=delete&project=$project");
+$block1->openForm("../projects/deleteprojectsite.php?project=$projectId");
 
 $block1->heading($strings["delete_projectsite"]);
 
@@ -46,7 +49,7 @@ $block1->contentTitle($strings["delete_following"]);
 
 $block1->contentRow("", $projectDetail["pro_name"]);
 
-$block1->contentRow("", "<input type=\"submit\" name=\"delete\" value=\"" . $strings["delete"] . "\"> <input type=\"button\" name=\"cancel\" value=\"" . $strings["cancel"] . "\" onClick=\"history.back();\">");
+$block1->contentRow("", '<button type="submit" name="action" value="delete">' . $strings["delete"] . '</button> <input type="button" name="cancel" value="' . $strings["cancel"] . '" onClick="history.back();">');
 
 $block1->closeContent();
 $block1->closeForm();

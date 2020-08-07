@@ -45,7 +45,6 @@ $task = $_GET["task"];
 $action = $_GET["action"];
 
 // Global variables
-$tableCollab = $GLOBALS["tableCollab"];
 $status = $GLOBALS["status"];
 $strings = $GLOBALS["strings"];
 $date = $GLOBALS["date"];

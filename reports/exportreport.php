@@ -32,7 +32,6 @@ $S_EDATE = isset($GLOBALS["S_EDATE"]) ? $GLOBALS["S_EDATE"] : null;
 $S_SDATE2 = isset($GLOBALS["S_SDATE2"]) ? $GLOBALS["S_SDATE2"] : null;
 $S_EDATE2 = isset($GLOBALS["S_EDATE2"]) ? $GLOBALS["S_EDATE2"] : null;
 $S_COMPLETEDATE = isset($GLOBALS["S_COMPLETEDATE"]) ? $GLOBALS["S_COMPLETEDATE"] : null;
-$tableCollab = $GLOBALS["tableCollab"];
 $idSession = $_SESSION["idSession"];
 $msgLabel = $GLOBALS["msgLabel"];
 $strings = $GLOBALS["strings"];

@@ -18,7 +18,6 @@ $addToSiteFile = isset($_GET['addToSiteFile']) ? $_GET['addToSiteFile'] : 0;
 $removeToSiteFile = isset($_GET['removeToSiteFile']) ? $_GET['removeToSiteFile'] : 0;
 $phase = isset($_GET['phase']) ? $_GET['phase'] : 0;
 
-$tableCollab = $GLOBALS["tableCollab"];
 $phaseStatus = $GLOBALS["phaseStatus"];
 $statusFile = $GLOBALS["statusFile"];
 $statusPublish = $GLOBALS["statusPublish"];

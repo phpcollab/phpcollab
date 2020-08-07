@@ -8,9 +8,8 @@ use phpCollab\Topics\Topics;
 $checkSession = "true";
 include '../includes/library.php';
 
-$id = $_GET["id"];
+$id = $_GET["topic"];
 $strings = $GLOBALS["strings"];
-$tableCollab = $GLOBALS["tableCollab"];
 $statusTopicBis = $GLOBALS["statusTopicBis"];
 $idSession = $_SESSION["idSession"];
 $timezoneSession = $_SESSION["timezoneSession"];
@@ -46,7 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 $bouton[5] = "over";
 $titlePage = $strings["post_reply"];
-include 'include_header.php';
+
+include APP_ROOT . '/projects_site/include_header.php';
 
 $idStatus = $detailTopic["top_status"];
 
@@ -141,4 +141,4 @@ TR;
 }
 echo "</form>";
 
-include("include_footer.php");
+include APP_ROOT . "/projects_site/include_footer.php";

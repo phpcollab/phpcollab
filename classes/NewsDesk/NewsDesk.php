@@ -3,6 +3,7 @@
 
 namespace phpCollab\NewsDesk;
 
+use InvalidArgumentException;
 use phpCollab\Database;
 
 
@@ -173,9 +174,44 @@ class NewsDesk
      */
     public function updatePostById($postId, $title, $author, $related, $content, $links, $rss)
     {
-//        $links = filter_var($links, filter_)
         $links = filter_var($links, FILTER_SANITIZE_URL);
         return $this->newsdesk_gateway->updatePostById($postId, $title, $author, $related, $content, $links, $rss);
+    }
+
+    /**
+     * @param $commentId
+     * @param $comment
+     * @return mixed
+     */
+    public function setComment($commentId, $comment)
+    {
+        if (empty($commentId)) {
+            throw new InvalidArgumentException('Comment ID missing or empty.');
+        } else if (empty($comment)) {
+            throw new InvalidArgumentException('Comment is missing or empty.');
+        }
+
+
+        return $this->newsdesk_gateway->setComment($commentId, $comment);
+    }
+
+    /**
+     * @param $postId
+     * @param $commenterId
+     * @param $comment
+     * @return mixed
+     */
+    public function addComment($postId, $commenterId, $comment)
+    {
+        if (empty($postId)) {
+            throw new InvalidArgumentException('Post ID missing or empty.');
+        } else if (empty($commenterId)) {
+            throw new InvalidArgumentException('Commenter ID missing or empty.');
+        } else if (empty($comment)) {
+            throw new InvalidArgumentException('Comment is missing or empty.');
+        }
+
+        return $this->newsdesk_gateway->addComment($postId, $commenterId, $comment);
     }
 
 }

@@ -19,6 +19,7 @@ class Tasks
     protected $tasks_gateway;
     protected $db;
     protected $tasksCount;
+    protected $tableCollab;
     private $strings;
     private $root;
     private $projects;
@@ -39,6 +40,7 @@ class Tasks
         $this->root = $GLOBALS["root"];
         $this->priority = $GLOBALS["priority"];
         $this->status = $GLOBALS["status"];
+        $this->tableCollab = $GLOBALS["tableCollab"];
     }
 
     /**
@@ -1022,7 +1024,7 @@ class Tasks
 
 {$this->strings["noti_moreinfo"]}
 MESSAGE_BODY;
-                                
+
                                 if ($listNotification["organization"] == "1") {
                                     $body .= "{$this->root}/general/login.php?url=topics/viewtopic.php%3Fid=" . $taskDetails["tas_id"];
                                 } elseif ($listNotification["organization"] != "1") {

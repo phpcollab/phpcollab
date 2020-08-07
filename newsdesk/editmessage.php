@@ -1,21 +1,24 @@
 <?php
 
+use phpCollab\Members\Members;
+use phpCollab\NewsDesk\NewsDesk;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$id = $_GET["id"];
+$commentId = $_GET["id"];
 $postid = $_GET["postid"];
 $action = $_GET["action"];
-$tableCollab = $GLOBALS["tableCollab"];
 $idSession = $_SESSION["idSession"];
 
-$newsDesk = new \phpCollab\NewsDesk\NewsDesk();
-$members = new \phpCollab\Members\Members();
+$newsDesk = new NewsDesk();
+$members = new Members();
 
 //case update post
-if ($_GET["id"] != "") {
+if ($commentId != "") {
     //test exists selected client organization, redirect to list if not
-    $commentDetail = $newsDesk->getNewsDeskCommentById($_GET["id"]);
+    $commentDetail = $newsDesk->getNewsDeskCommentById($commentId);
+
     if (!$commentDetail) {
         phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=blankNews");
     }
@@ -28,9 +31,10 @@ if ($_GET["id"] != "") {
     }
 
     if ($action == "update") {
-        $title = phpCollab\Util::convertData($_POST["title"]);
-        $content = phpCollab\Util::convertData($_POST["content"]);
-        phpCollab\Util::newConnectSql("UPDATE {$tableCollab["newsdeskcomments"]} SET comment = :comment WHERE id = :comment_id", ["comment" => $comment, "comment_id" => $id]);
+        $comment = phpCollab\Util::convertData($request->request->get("comment"));
+
+        $newsDesk->setComment($commentId, $comment);
+
         phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=update");
     } elseif ($action == "delete") {
         // only admin, prj-adm and prj-man can delete a comments
@@ -38,31 +42,26 @@ if ($_GET["id"] != "") {
             phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=commentpermissionNews");
         }
 
-        $id = str_replace("**", ",", $_POST["id"]);
+        $commentId = str_replace("**", ",", $request->request->get('id'));
 
-        $newsDesk->deleteNewsDeskComment($id);
+        $newsDesk->deleteNewsDeskComment($commentId);
         phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=removeComment");
-    } else {
-        //set value in form
-        $name = $commentDetail["newscom_name"];
-        $comment = $commentDetail["newscom_comment"];
     }
 } else { // case of adding new post
 
     if ($action == "add") {
         //test if name blank
-        if ($_POST['comment'] == "") {
+        if (empty($request->request->get('comment'))) {
             $error = $strings["blank_newsdesk_comment"];
         } else {
 
             //replace quotes by html code in name and address
-            $name = phpCollab\Util::convertData($_POST['name']);
-            $comment = phpCollab\Util::convertData($_POST['comment']);
-            $postid = phpCollab\Util::convertData($_POST['postid']);
+            $commenterId = phpCollab\Util::convertData($request->request->get('commenterId'));
+            $comment = phpCollab\Util::convertData($request->request->get('comment'));
+            $postid = phpCollab\Util::convertData($request->request->get('postid'));
 
             //insert into organizations and redirect to new client organization detail (last id)
-
-            $num = phpCollab\Util::newConnectSql("INSERT INTO {$tableCollab["newsdeskcomments"]} (name,post_id,comment) VALUES (:name, :post_id, :comment)", ["name" => $name, "post_id" => $postid, "comment" => $comment]);
+            $newsDesk->addComment($postid, $commenterId, $comment);
 
             phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postid&msg=add");
         }
@@ -76,9 +75,10 @@ $newsDetail = $newsDesk->getPostById($postid);
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/listnews.php?", $strings["newsdesk"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/viewnews.php?id=$postid", $newsDetail["news_title"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/viewnews.php?id=$postid", $newsDetail["news_title"],
+    "in"));
 
-if ($id == "") {
+if (empty($commentId)) {
     $blockPage->itemBreadcrumbs($strings["add_newsdesk_comment"]);
 } elseif ($action == "remove") {
     $blockPage->itemBreadcrumbs($commentAuthor["mem_name"]);
@@ -90,12 +90,12 @@ if ($id == "") {
 
 $blockPage->closeBreadcrumbs();
 
-if ($msg != "") {
+if (!empty($msg)) {
     include '../includes/messages.php';
     $blockPage->messageBox($msgLabel);
 }
 
-if (isset($error) && $error != "") {
+if (isset($error) && !empty($error)) {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
 }
@@ -103,16 +103,14 @@ if (isset($error) && $error != "") {
 $block1 = new phpCollab\Block();
 
 if ($action != 'remove') {
-    if ($id == "") {
+    if (empty($commentId)) {
         echo <<<FORMSTART
-<a name="{$block1->form}Anchor"></a>
-<form accept-charset="UNKNOWN" method="POST" action="../newsdesk/editmessage.php?action=add&" name="ecDForm">
+<form id="{$block1->form}Anchor" method="POST" action="../newsdesk/editmessage.php?action=add&" name="ecDForm">
 FORMSTART;
         $block1->heading($strings["add_newsdesk_comment"]);
     } else {
         echo <<<FORMSTART
-<a name="{$block1->form}Anchor"></a>
-<form accept-charset="UNKNOWN" method="POST" action="../newsdesk/editmessage.php?id={$id}&postid={$postid}&action=update&" name="ecDForm">
+<form id="{$block1->form}Anchor" method="POST" action="../newsdesk/editmessage.php?id={$commentId}&postid={$postid}&action=update&" name="ecDForm">
 FORMSTART;
         $block1->heading($strings["edit_newsdesk_comment"] . " : " . $newsDetail["news_title"]);
     }
@@ -122,14 +120,18 @@ FORMSTART;
     $block1->contentTitle($strings["details"]);
 
     // add or edit comment
-    if ($id == "") {
-        $block1->contentRow($strings["author"], "<input type='hidden' name='name' value='$idSession'><b>$nameSession</b>");
+    if (empty($commentId)) {
+        $block1->contentRow($strings["author"],
+            "<input type='hidden' name='commenterId' value='$idSession'><b>$nameSession</b>");
     } else {
-        $block1->contentRow($strings["author"], "<input type='hidden' name='name' value='" . $commentDetail["newscom_name"] . "'><b>" . $commentAuthor["mem_name"] . "</b>");
+        $block1->contentRow($strings["author"],
+            "<input type='hidden' name='commenterId' value='" . $commentDetail["newscom_name"] . "'><b>" . $commentAuthor["mem_name"] . "</b>");
     }
 
-    $block1->contentRow($strings["comment"], "<textarea rows='30' name='comment' style='{width: 400px;}'>$comment</textarea>");
-    $block1->contentRow($strings[""], "<input type='hidden' name='postid' value='$postid' /><input type='submit' name='submit' value='" . $strings["save"] . "' />  <input type='button' name='cancel' value='" . $strings["cancel"] . "' onClick='history.back();'>");
+    $block1->contentRow($strings["comment"],
+        '<textarea rows="30" name="comment" style="width: 400px;">' . $commentDetail["newscom_comment"] . '</textarea>');
+    $block1->contentRow($strings[""],
+        '<input type="hidden" name="postid" value="$postid" /><input type="submit" name="submit" value="' . $strings["save"] . '" />  <input type="button" name="cancel" value="' . $strings["cancel"] . '" onClick="history.back();">');
 
     $block1->closeContent();
     $block1->closeForm();
@@ -143,17 +145,18 @@ FORMSTART;
     $block1->openContent();
     $block1->contentTitle($strings["delete_following"]);
 
-    $old_id = $id;
-    $id = str_replace("**", ",", $id);
+    $old_id = $commentId;
+    $commentId = str_replace("**", ",", $commentId);
 
-    $listNews = $newsDesk->getComments($id);
+    $listNews = $newsDesk->getComments($commentId);
 
     foreach ($listNews as $news) {
         $newsAuthor = $members->getMemberById($news["newscom_name"]);
         $block1->contentRow("#" . $news["newscom_id"], $newsAuthor["mem_name"]);
     }
 
-    $block1->contentRow("", '<input type="hidden" name="id" value="' . $old_id . '"><input type="submit" name="delete" value="' . $strings["delete"] . '"> <input type="button" name="cancel" value="' . $strings["cancel"] . '" onClick="history.back();">');
+    $block1->contentRow("",
+        '<input type="hidden" name="id" value="' . $old_id . '"><input type="submit" name="delete" value="' . $strings["delete"] . '"> <input type="button" name="cancel" value="' . $strings["cancel"] . '" onClick="history.back();">');
 
     $block1->closeContent();
     $block1->closeForm();

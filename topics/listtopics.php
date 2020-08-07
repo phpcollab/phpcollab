@@ -16,7 +16,6 @@ $addToSite = $_GET["addToSite"];
 $removeToSite = $_GET["removeToSite"];
 
 $strings = $GLOBALS["strings"];
-$tableCollab = $GLOBALS["tableCollab"];
 
 $idSession = $_SESSION["idSession"];
 

@@ -16,6 +16,7 @@ class Subtasks
     protected $notifications;
     protected $notificationsList;
     protected $subtaskNotifications;
+    protected $tableCollab;
     private $send;
 
     /**
@@ -28,6 +29,7 @@ class Subtasks
         $this->notifications = new Notifications();
         $this->subtaskNotifications = new SubtaskNotifications();
         $this->strings = $GLOBALS["strings"];
+        $this->tableCollab = $GLOBALS["tableCollab"];
     }
 
     /**
