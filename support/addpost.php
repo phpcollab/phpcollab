@@ -27,18 +27,18 @@ $support = new Support();
 
 $requestDetail = $support->getSupportRequestById($id);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if ($_POST["action"] == "edit") {
+if ($request->isMethod('post')) {
+    if ($request->request->get('action') == "edit") {
 
         try {
-            $status = $_POST["status"];
-            $dateClose = ($_POST["status"] == 2) ? $dateheure : null;
+            $status = $request->request->get('status');
+            $dateClose = ($request->request->get('status') == 2) ? $dateheure : null;
 
             $support->updateSupportPostStatus($id, $status, $dateClose);
 
             $postDetails = $support->getSupportPostById($id);
             if ($notifications == "true") {
-                if ($requestDetail["sr_status"] != $_POST["status"]) {
+                if ($requestDetail["sr_status"] != $request->request->get('status')) {
                     $num = $id;
                     $support->sendPostChangedNotification($postDetails);
                 }
@@ -50,9 +50,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    if ($_POST["action"] == "add") {
+    if ($request->request->get('action') == "add") {
         try {
-            $newPost = $support->addSupportPost($id, Util::convertData($_POST["message"]), $dateheure, $idSession, $requestDetail["sr_project"]);
+            $newPost = $support->addSupportPost($id, Util::convertData($request->request->get('message')), $dateheure, $idSession, $requestDetail["sr_project"]);
 
             if (!empty($newPost) && $notifications == "true") {
                 $support->sendPostChangedNotification($newPost);
@@ -143,7 +143,7 @@ TR;
     echo <<<HTML
         <tr class="odd">
             <td class="leftvalue">{$strings["message"]}</td>
-            <td><textarea rows="3" style="width: 400px; height: 200px;" name="message" cols="43">{$_POST["message"]}</textarea></td>
+            <td><textarea rows="3" style="width: 400px; height: 200px;" name="message" cols="43">{$request->request->get('message')}</textarea></td>
         </tr>
 HTML;
 }

@@ -164,7 +164,7 @@ if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
     $block1->paletteScript(4, "copy", "../projects/editproject.php?docopy=true", "false,true,false", $strings["copy"]);
 }
 if ($enableMantis == "true") {
-    $block1->paletteScript(8, "bug", $pathMantis . "login.php?url=http://{$_SERVER["HTTP_HOST"]}{$_SERVER["REQUEST_URI"]}&username=$loginSession&password=$passwordSession", "false,true,false", $strings["bug"]);
+    $block1->paletteScript(8, "bug", $pathMantis . "login.php?url=http://{$request->server->get("HTTP_HOST")}{$request->server->get("REQUEST_URI")}&username=$loginSession&password=$passwordSession", "false,true,false", $strings["bug"]);
 }
 
 $block1->closePaletteScript(count($dataSet), array_column($dataSet, 'pro_id'));

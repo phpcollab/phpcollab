@@ -71,14 +71,14 @@ if (ini_get("register_globals") != "1") {
     }
 }
 
-$msg = phpCollab\Util::returnGlobal('msg', 'GET');
-$session = phpCollab\Util::returnGlobal('session', 'GET');
-$logout = phpCollab\Util::returnGlobal('logout', 'GET');
-$idSession = phpCollab\Util::returnGlobal('idSession', 'SESSION');
-$dateunixSession = phpCollab\Util::returnGlobal('dateunixSession', 'SESSION');
-$loginSession = phpCollab\Util::returnGlobal('loginSession', 'SESSION');
-$profilSession = phpCollab\Util::returnGlobal('profilSession', 'SESSION');
-$logouttimeSession = phpCollab\Util::returnGlobal('logouttimeSession', 'SESSION');
+$msg = $request->query->get("msg");
+$session = $request->query->get("session");
+$logout = $request->query->get("logout");
+$idSession = $_SESSION["idSession"];
+$dateunixSession = $_SESSION["dateunixSession"];
+$loginSession = $_SESSION["loginSession"];
+$profilSession = $_SESSION["profilSession"];
+$logouttimeSession = $_SESSION["logouttimeSession"];
 
 $parse_start = phpCollab\Util::getMicroTime();
 
@@ -232,9 +232,9 @@ if ($checkSession != "false" && $_SESSION["demoSession"] != "true") {
     }
 
     if ($lastvisitedpage && $profilSession != "0") { // If the user has admin permissions, do not log the last page visited.
-        if (!strstr($_SERVER['PHP_SELF'], "graph")) {
+        if (!strstr($request->server->get("PHP_SELF"), "graph")) {
             $sidCode = session_name();
-            $page = $_SERVER['PHP_SELF'] . "?" . $request->server->get("QUERY_STRING");
+            $page = $request->server->get("PHP_SELF") . "?" . $request->server->get("QUERY_STRING");
             $page = preg_replace('/(&' . $sidCode . '=)([A-Za-z0-9.]*)($|.)/', '', $page);
             $page = preg_replace('/(' . $sidCode . '=)([A-Za-z0-9.]*)($|.)/', '', $page);
             $page = strrev($page);

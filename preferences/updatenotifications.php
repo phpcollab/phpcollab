@@ -43,10 +43,10 @@ if (empty($userDetail)) {
     phpCollab\Util::headerFunction("../users/listusers.php?msg=blankUser");
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if ($_POST["action"] == "update") {
+if ($request->isMethod('post')) {
+    if ($request->request->get('action') == "update") {
 
-        $checkboxes = $_POST["alerts"];
+        $checkboxes = $request->request->get('alerts');
 
         try {
             $notifications->setAlerts($idSession, $checkboxes["taskAssignment"], $checkboxes["removeProjectTeam"],

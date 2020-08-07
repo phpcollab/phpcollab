@@ -206,7 +206,7 @@ if ($profilSession == "0" || $profilSession == "1") {
 }
 //if mantis bug tracker enabled
 if ($enableMantis == "true") {
-    $block2->paletteScript(4, "bug", $pathMantis . "login.php?url=http://{$_SERVER["HTTP_HOST"]}{$_SERVER["REQUEST_URI"]}&username=$loginSession&password=$passwordSession", "false,true,false", $strings["bug"]);
+    $block2->paletteScript(4, "bug", $pathMantis . "login.php?url=http://{$request->server->get("HTTP_HOST")}{$request->server->get("REQUEST_URI")}&username=$loginSession&password=$passwordSession", "false,true,false", $strings["bug"]);
 }
 $block2->closePaletteScript(count($listProjects), array_column($listProjects, 'pro_id'));
 

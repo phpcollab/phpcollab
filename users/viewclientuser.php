@@ -1,11 +1,16 @@
 <?php
 
+use phpCollab\Members\Members;
+use phpCollab\Organizations\Organizations;
+use phpCollab\Tasks\Tasks;
+use phpCollab\Teams\Teams;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$members = new \phpCollab\Members\Members();
-$organizations = new \phpCollab\Organizations\Organizations();
-$tasks = new \phpCollab\Tasks\Tasks();
+$members = new Members();
+$organizations = new Organizations();
+$tasks = new Tasks();
 
 $orgId = $request->query->get('organization');
 $userId = $request->query->get('id');
@@ -20,11 +25,11 @@ if (empty($userDetail)) {
 }
 $memberOrganization = $userDetail['mem_organization'];
 
-$idSession = \phpCollab\Util::returnGlobal('idSession', 'SESSION');
-$profilSession = \phpCollab\Util::returnGlobal('profilSession', 'SESSION');
+$idSession = $_SESSION["idSession"];
+$profilSession = $_SESSION["profilSession"];
 
 if ($clientsFilter == "true" && $profilSession == "2") {
-    $teams = new \phpCollab\Teams\Teams();
+    $teams = new Teams();
     $teamMember = "false";
 
     $memberTest = $teams->getTeamByTeamMemberAndOrgId($idSession, $memberOrganization);

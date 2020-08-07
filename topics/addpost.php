@@ -23,9 +23,9 @@ $detailTopic = $topics->getTopicByTopicId($topic_id);
 
 $projectDetail = $projects->getProjectById($detailTopic["top_project"]);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($request->isMethod('post')) {
     if ($action == "add") {
-        $post_message = phpCollab\Util::convertData($_POST["post_message"]);
+        $post_message = phpCollab\Util::convertData($request->request->get('post_message'));
         $post_message = phpCollab\Util::autoLinks($post_message);
 
         // Increment the local copy of detailTopic instead of making another DB call to update and retrieve the count

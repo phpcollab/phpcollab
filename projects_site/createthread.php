@@ -11,10 +11,10 @@ include '../includes/library.php';
 $projects = new Projects();
 $topics = new Topics();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($request->isMethod('post')) {
     if ($action == "add") {
-        $topicField = phpCollab\Util::convertData($_POST["topicField"]);
-        $messageField = phpCollab\Util::convertData($_POST["messageField"]);
+        $topicField = phpCollab\Util::convertData($request->request->get('topicField'));
+        $messageField = phpCollab\Util::convertData($request->request->get('messageField'));
 
         $newTopic = $topics->addTopic($projectSession, $idSession, $topicField, 1, 1, 0);
 

@@ -70,7 +70,7 @@ $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
     include '../includes/messages.php';
-    $blockPage->messageBox(phpCollab\Util::returnGlobal("msgLabel"));
+    $blockPage->messageBox($msgLabel);
 }
 
 $block1 = new phpCollab\Block();

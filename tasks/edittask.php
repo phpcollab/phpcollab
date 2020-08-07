@@ -62,10 +62,10 @@ $tasks = new Tasks();
 $taskDetail = null;
 $errors = null;
 
-if ($_POST) {
-    if ($_POST['task_name'] != "") {
-        $_POST['task_name'] = filter_var($_POST['task_name'], FILTER_SANITIZE_STRING);
-        if ($_POST['task_name'] == "") {
+if ($request->isMethod('post')) {
+    if ($request->request->get('task_name') != "") {
+        $request->request->get('task_name', filter_var($request->request->get('task_name'), FILTER_SANITIZE_STRING));
+        if ($request->request->get('task_name') == "") {
             $errors .= 'Please enter a valid task name.<br/><br/>';
         }
     } else {
@@ -77,11 +77,11 @@ if ($_POST) {
  * If POST and no task name, then display error.  Will need to get task details for form
  */
 
-if ($_POST && !is_null($errors) && !empty($task_id)) {
+if ($request->isMethod('post') && !is_null($errors) && !empty($task_id)) {
     $taskDetail = $tasks->getTaskById(filter_var($task_id, FILTER_VALIDATE_INT));
     $project = $taskDetail['tas_project'];
 } else {
-    if (!empty($task_id) && $_POST["action"] != "update" && $_POST["action"] != "add") {
+    if (!empty($task_id) && $request->request->get('action') != "update" && $request->request->get('action') != "add") {
         $taskDetail = $tasks->getTaskById(filter_var($task_id, FILTER_VALIDATE_INT));
         $project = $taskDetail['tas_project'];
     } else {
@@ -113,9 +113,9 @@ if ($teamMember == "false" && $profilSession != "5") {
 
 //case update or copy task
 if (
-    $_SERVER['REQUEST_METHOD'] == 'POST'
-    && !empty($_POST["action"])
-    && !empty($_POST["task_name"])
+    $request->isMethod('post')
+    && !empty($request->request->get('action'))
+    && !empty($request->request->get('task_name'))
 ) {
 
     $assignments = new Assignments();
@@ -130,28 +130,28 @@ if (
     }
 
     $form_data = [
-        "name" => $_POST["task_name"],
-        "description" => $_POST["description"],
-        "comments" => $_POST["comments"],
-        "status" => $_POST["taskStatus"],
-        "old_status" => $_POST["old_status"],
-        "completion" => $_POST["completion"],
-        "completion_date" => $_POST["complete_date"],
-        "invoicing" => $_POST["invoicing"],
-        "priority" => $_POST["priority"],
-        "old_priority" => $_POST["old_priority"],
-        "worked_hours" => $_POST["worked_hours"],
-        "assigned_to" => $_POST["assigned_to"],
-        "old_assigned_to" => $_POST["old_assigned_to"],
-        "start_date" => $_POST["start_date"],
-        "due_date" => $_POST["due_date"],
-        "old_due_date" => $_POST["old_due_date"],
-        "estimated_time" => $_POST["estimated_time"],
-        "actual_time" => $_POST["actual_time"],
-        "project" => $_POST["project"],
-        "old_project" => $_POST["old_project"],
-        "published" => $_POST["published"],
-        "phase" => $_POST["phase"],
+        "name" => $request->request->get('task_name'),
+        "description" => $request->request->get('description'),
+        "comments" => $request->request->get('comments'),
+        "status" => $request->request->get('taskStatus'),
+        "old_status" => $request->request->get('old_status'),
+        "completion" => $request->request->get('completion'),
+        "completion_date" => $request->request->get('complete_date'),
+        "invoicing" => $request->request->get('invoicing'),
+        "priority" => $request->request->get('priority'),
+        "old_priority" => $request->request->get('old_priority'),
+        "worked_hours" => $request->request->get('worked_hours'),
+        "assigned_to" => $request->request->get('assigned_to'),
+        "old_assigned_to" => $request->request->get('old_assigned_to'),
+        "start_date" => $request->request->get('start_date'),
+        "due_date" => $request->request->get('due_date'),
+        "old_due_date" => $request->request->get('old_due_date'),
+        "estimated_time" => $request->request->get('estimated_time'),
+        "actual_time" => $request->request->get('actual_time'),
+        "project" => $request->request->get('project'),
+        "old_project" => $request->request->get('old_project'),
+        "published" => $request->request->get('published'),
+        "phase" => $request->request->get('phase'),
     ];
 
     /**
@@ -165,7 +165,7 @@ if (
     if (
         is_null($errors)
         && !empty($task_id)
-        && $_POST["action"] == "update"
+        && $request->request->get('action') == "update"
     ) {
         if ($form_data["assgnment_comment"]) {
             $form_data["assignment_comment"] = $form_data["assgnment_comment"];
@@ -496,8 +496,8 @@ if (
     if (
         is_null($errors)
         && empty($task_id)
-        && !empty($_POST["action"])
-        && $_POST["action"] == "add"
+        && !empty($request->request->get('action'))
+        && $request->request->get('action') == "add"
         && !empty($form_data["name"])
     ) {
 

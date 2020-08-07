@@ -48,19 +48,19 @@ $priority = $GLOBALS["priority"];
 if (empty($request->query->get('id'))) {
 
     //case add task
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if ($_POST["action"] == "add") {
+    if ($request->isMethod('post')) {
+        if ($request->request->get('action') == "add") {
 
             //concat values from date selector and replace quotes by html code in name
-            $taskName = phpCollab\Util::convertData($_POST["task_name"]);
-            $description = phpCollab\Util::convertData($_POST["description"]);
-            $comments = phpCollab\Util::convertData($_POST["comments"]);
-            $priority = $_POST["priority"];
-            $startDate = $_POST["start_date"];
-            $dueDate = $_POST["due_date"];
-            $publshed = $_POST["published"];
-            $assignedTo = $_POST["assigned_to"];
-            $projectId = $_POST["project_id"];
+            $taskName = phpCollab\Util::convertData($request->request->get('task_name'));
+            $description = phpCollab\Util::convertData($request->request->get('description'));
+            $comments = phpCollab\Util::convertData($request->request->get('comments'));
+            $priority = $request->request->get('priority');
+            $startDate = $request->request->get('start_date');
+            $dueDate = $request->request->get('due_date');
+            $publshed = $request->request->get('published');
+            $assignedTo = $request->request->get('assigned_to');
+            $projectId = $request->request->get('project_id');
 
             try {
                 $newTask = $tasks->addTask($projectId, $taskName, $description, $idSession, 0, 2, $priority, $startDate, $dueDate, 0, 0, $comments, $publshed, 0);
@@ -112,11 +112,11 @@ echo <<< HTML
     </tr>
 	<tr>
 		<th>*&nbsp;{$strings["name"]} :</th>
-		<td><input size="44" value="{$_POST["task_name"]}" style="width: 400px" name="task_name" maxlength="100" type="TEXT" /></td>
+		<td><input size="44" value="{$request->request->get('task_name')}" style="width: 400px" name="task_name" maxlength="100" type="TEXT" /></td>
 	</tr>
 	<tr>
 		<th style="vertical-align: top">{$strings["description"]} :</th>
-		<td><textarea rows="10" style="width: 400px; height: 160px;" name="description" cols="47">{$_POST["description"]}</textarea></td>
+		<td><textarea rows="10" style="width: 400px; height: 160px;" name="description" cols="47">{$request->request->get('description')}</textarea></td>
 	</tr>
 
 	<tr><th>{$strings["priority"]} :</th>
@@ -136,17 +136,17 @@ for ($i = 0; $i < $comptPri; $i++) {
 
 echo "</select></td></tr>";
 
-if (empty($_POST["start_date"])) {
-    $_POST["start_date"] = $GLOBALS["date"];
+if (empty($request->request->get('start_date'))) {
+    $request->request->set('start_date', $GLOBALS["date"]);
 }
-if (empty($_POST["due_date"])) {
-    $_POST["due_date"] = "--";
+if (empty($request->request->get('due_date'))) {
+    $request->request->set('due_date', "--");
 }
 
 echo <<< STARTDATE
  <tr>
 			<th>{$strings["start_date"]} :</th>
-			<td><input type="text" name="start_date" id="start_date" size="20" value="{$_POST["start_date"]}" />
+			<td><input type="text" name="start_date" id="start_date" size="20" value="{$request->request->get('start_date')}" />
 				<input type="button" value=" ... " id="trigStartDate" />
 				<script type="text/javascript">
 				    Calendar.setup({
@@ -163,7 +163,7 @@ echo <<< DUEDATE
 	<tr>
 		<th>{$strings["due_date"]} :</th>
 		<td>
-			<input type="text" name="due_date" id="due_date" size="20" value="{$_POST["due_date"]}" />
+			<input type="text" name="due_date" id="due_date" size="20" value="{$request->request->get('due_date')}" />
 			<input type="button" value=" ... " id="trigDueDate" />
 			<script type="text/javascript">
 			    Calendar.setup({
@@ -180,7 +180,7 @@ echo <<< COMMENT
 	<tr>
 		<th style="vertical-align: top">{$strings["comments"]} :</th>
 		<td>
-			<textarea rows='10' style='width: 400px; height: 160px;' name='comments' cols='47'>{$_POST["comments"]}</textarea>
+			<textarea rows='10' style='width: 400px; height: 160px;' name='comments' cols='47'>{$request->request->get('comments')}</textarea>
 		</td>
 	</tr>
 	<tr><th>&nbsp;</th>

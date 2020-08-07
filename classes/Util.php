@@ -92,37 +92,6 @@ class Util
     }
 
     /**
-     * Return global variable
-     * @param string $var Variable name
-     * @param string $type Variable type (SERVER, POST, GET, SESSION, REQUEST, COOKIE)
-     * @access public
-     *
-     * @return mixed
-     */
-    public static function returnGlobal($var, $type = null)
-    {
-        if ($type == "SERVER") {
-            return Util::replaceSpecialCharacters($_SERVER[$var]);
-        }
-        if ($type == "POST") {
-            return Util::replaceSpecialCharacters($_POST[$var]);
-        }
-        if ($type == "GET") {
-            return Util::replaceSpecialCharacters($_GET[$var]);
-        }
-        if ($type == "SESSION") {
-            return Util::replaceSpecialCharacters($_SESSION[$var]);
-        }
-        if ($type == "REQUEST") {
-            return Util::replaceSpecialCharacters($_REQUEST[$var]);
-        }
-        if ($type == "COOKIE") {
-            return Util::replaceSpecialCharacters($_COOKIE[$var]);
-        }
-        return '';
-    }
-
-    /**
      * Calculate time to parse page (used with footer.php)
      * @access public
      **/

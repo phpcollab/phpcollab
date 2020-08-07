@@ -36,11 +36,11 @@ if ($profilSession != "0") {
 }
 
 $setTitle .= " : DB Administration";
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], in));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], 'in'));
 $blockPage->itemBreadcrumbs($strings["database"] . " " . MYDATABASE);
 $blockPage->closeBreadcrumbs();
 
@@ -52,7 +52,7 @@ $block1->contentTitle("Backup database");
 
 
 echo <<<HTML
-<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td>
+<tr class="odd"><td class="leftvalue">&nbsp;</td><td>
        <form method="post" action="backupMySQL.php" name="db_dump">
         <table>
         <tr>
@@ -72,7 +72,7 @@ echo <<<HTML
                 </select>
             </td>
         
-            <td valign="middle">
+            <td>
                 <input type="radio" name="what" value="structureonly" />
                 Structure only<br />
                 <input type="radio" name="what" value="all" checked="checked" />
@@ -120,9 +120,11 @@ HTML;
 
 $block1->contentTitle("Restore database from sql file");
 
-echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>Disabled";
+echo <<<HTML
+<tr class="odd"><td class="leftvalue">&nbsp;</td><td>Disabled</td></tr>
+HTML;
 
-echo "</td></tr>";
+
 $block1->closeContent();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';

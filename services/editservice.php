@@ -27,11 +27,11 @@ $hourlyRate = '';
 if (!empty($id)) {
 
 //case update user
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($request->isMethod('post')) {
         if ($request->query->get('action') == "update") {
-            $name = Util::convertData($_POST['name']);
-            $namePrinted = Util::convertData($_POST['name_printed']);
-            $hourlyRate = $_POST["hourly_rate"];
+            $name = Util::convertData($request->request->get('name'));
+            $namePrinted = Util::convertData($request->request->get('name_printed'));
+            $hourlyRate = $request->request->get('hourly_rate');
             try {
                 $services->updateService($id, $name, $namePrinted, $hourlyRate);
             } catch (Exception $e) {
@@ -49,12 +49,12 @@ if (!empty($id)) {
 }
 
 //case add user
-if (empty($id) && $_SERVER['REQUEST_METHOD'] == 'POST') {
+if (empty($id) && $request->isMethod('post')) {
     if ($action == "add") {
         //replace quotes by html code in name and address
-        $name = phpCollab\Util::convertData($_POST['name']);
-        $namePrinted = phpCollab\Util::convertData($_POST['name_printed']);
-        $hourlyRate = $_POST["hourly_rate"];
+        $name = phpCollab\Util::convertData($request->request->get('name'));
+        $namePrinted = phpCollab\Util::convertData($request->request->get('name_printed'));
+        $hourlyRate = $request->request->get('hourly_rate');
 
         try {
             $services->addService($name, $namePrinted, $hourlyRate);

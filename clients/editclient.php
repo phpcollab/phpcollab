@@ -33,12 +33,12 @@ if (!empty($id)) {
     //case update client organization
     if ($request->query->get('action') == "update") {
 
-        if ($_POST["logoDel"] == "on") {
+        if ($request->request->get('logoDel') == "on") {
 
             $result = $organizations->setLogoExtensionByOrgId($id, '');
 
             if ($result == 0) {
-                @unlink("../logos_clients/" . $id . "." . $_POST["extensionOld"]);
+                @unlink("../logos_clients/" . $id . "." . $request->request->get('extensionOld'));
             }
         }
 
@@ -62,14 +62,14 @@ if (!empty($id)) {
         }
 
         //replace quotes by html code in name and address
-        $name = phpCollab\Util::convertData($_POST["name"]);
-        $address = phpCollab\Util::convertData($_POST["address"]);
-        $comments = phpCollab\Util::convertData($_POST["comments"]);
-        $phone = (empty($_POST["phone"])) ? null : $_POST["phone"];
-        $url = (empty($_POST["url"])) ? null : $_POST["url"];
-        $email = (empty($_POST["email"])) ? null : $_POST["email"];
-        $hourlyRate = (empty($_POST["hourly_rate"])) ? null : $_POST["hourly_rate"];
-        $owner = (empty($_POST["owner"])) ? null : $_POST["owner"];
+        $name = phpCollab\Util::convertData($request->request->get('name'));
+        $address = phpCollab\Util::convertData($request->request->get('address'));
+        $comments = phpCollab\Util::convertData($request->request->get('comments'));
+        $phone = (empty($request->request->get('phone'))) ? null : $request->request->get('phone');
+        $url = (empty($request->request->get('url'))) ? null : $request->request->get('url');
+        $email = (empty($request->request->get('email'))) ? null : $request->request->get('email');
+        $hourlyRate = (empty($request->request->get('hourly_rate'))) ? null : $request->request->get('hourly_rate');
+        $owner = (empty($request->request->get('owner'))) ? null : $request->request->get('owner');
 
 
         $organizations->updateClient($id, $name, $address, $phone, $url, $email, $comments, $owner, $hourlyRate);
@@ -84,21 +84,21 @@ if (empty($id)) {
     $setTitle .= " : Add Client";
 
     if ($request->query->get('action') == "add") {
-        if (empty($_POST["name"])) {
+        if (empty($request->request->get('name'))) {
             $error = $strings["blank_organization_field"];
         } else {
             $organizations = new Organizations();
-            if ($organizations->checkIfClientExistsByName($_POST["name"])) {
+            if ($organizations->checkIfClientExistsByName($request->request->get('name'))) {
                 $error = $strings["organization_already_exists"];
             } else {
-                $clientName = phpCollab\Util::convertData($_POST["name"]);
-                $address = phpCollab\Util::convertData($_POST["address"]);
-                $comments = phpCollab\Util::convertData($_POST["comments"]);
-                $phone = (empty($_POST["phone"])) ? null : $_POST["phone"];
-                $url = (empty($_POST["url"])) ? null : $_POST["url"];
-                $email = (empty($_POST["email"])) ? null : $_POST["email"];
-                $hourlyRate = (empty($_POST["hourly_rate"])) ? null : $_POST["hourly_rate"];
-                $owner = (empty($_POST["owner"])) ? null : $_POST["owner"];
+                $clientName = phpCollab\Util::convertData($request->request->get('name'));
+                $address = phpCollab\Util::convertData($request->request->get('address'));
+                $comments = phpCollab\Util::convertData($request->request->get('comments'));
+                $phone = (empty($request->request->get('phone'))) ? null : $request->request->get('phone');
+                $url = (empty($request->request->get('url'))) ? null : $request->request->get('url');
+                $email = (empty($request->request->get('email'))) ? null : $request->request->get('email');
+                $hourlyRate = (empty($request->request->get('hourly_rate'))) ? null : $request->request->get('hourly_rate');
+                $owner = (empty($request->request->get('owner'))) ? null : $request->request->get('owner');
 
                 if (empty($hourly_rate)) {
                     $hourly_rate = 0.00;

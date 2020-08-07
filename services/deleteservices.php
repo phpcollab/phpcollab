@@ -14,7 +14,7 @@ if ($profilSession != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($request->isMethod('post')) {
     if ($action == "delete") {
         $id = str_replace("**", ",", $id);
 

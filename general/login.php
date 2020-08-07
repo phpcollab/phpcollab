@@ -51,9 +51,9 @@ if ($logout == "true") {
     phpCollab\Util::headerFunction("../general/login.php?msg=logout");
 }
 
-$auth = phpCollab\Util::returnGlobal('auth', 'GET');
-$usernameForm = phpCollab\Util::returnGlobal('usernameForm', 'POST');
-$passwordForm = phpCollab\Util::returnGlobal('passwordForm', 'POST');
+$auth = $request->query->get("auth");
+$usernameForm = $request->request->get("usernameForm");
+$passwordForm = $request->request->get("passwordForm");
 
 $match = false;
 $ssl = false;
@@ -153,15 +153,15 @@ if ($auth == "on") {
             $passwordForm = crypt($passwordForm, $r);
 
             //set session variables
-            $browserSession = $_SERVER["HTTP_USER_AGENT"];
+            $browserSession = $request->server->get("HTTP_USER_AGENT");
             $idSession = $member['mem_id'];
             $timezoneSession = $member['mem_timezone'];
-            $languageSession = $_POST["languageForm"];
+            $languageSession = $request->request->get('languageForm');
             $loginSession = $usernameForm;
             $passwordSession = $passwordForm;
             $nameSession = $member['mem_name'];
             $profilSession = $member['mem_profil'];
-            $ipSession = $_SERVER["REMOTE_ADDR"];
+            $ipSession = $request->server->get("REMOTE_ADDR");
             $dateunixSession = date("U");
             $dateSession = date("d-m-Y H:i:s");
             $logouttimeSession = $member['mem_logout_time'];
@@ -188,7 +188,7 @@ if ($auth == "on") {
             }
 
             //insert into or update log
-            $ip = $_SERVER["REMOTE_ADDR"];
+            $ip = $request->server->get("REMOTE_ADDR");
 
             $logEntry = $logs->getLogByLogin($usernameForm);
 
@@ -199,7 +199,7 @@ if ($auth == "on") {
              */
 
             $filteredData =  [];
-            $filteredData['login'] = filter_var((string) $_POST['usernameForm'], FILTER_SANITIZE_STRING);
+            $filteredData['login'] = filter_var((string) $request->request->get('usernameForm'), FILTER_SANITIZE_STRING);
             $filteredData['ip'] = filter_var($ip, FILTER_SANITIZE_STRING);
             $filteredData['session'] = $session;
             $filteredData['last_visite'] = $dateheure;
@@ -231,11 +231,11 @@ if ($auth == "on") {
             );
 
             //redirect for external link to internal page
-            if ($_POST["url"] != "") {
+            if ($request->request->get('url') != "") {
                 if ($member['mem_profil'] == "3") {
-                    phpCollab\Util::headerFunction("../{$_POST["url"]}&updateProject=true");
+                    phpCollab\Util::headerFunction("../{$request->request->get('url')}&updateProject=true");
                 } else {
-                    phpCollab\Util::headerFunction("../{$_POST["url"]}");
+                    phpCollab\Util::headerFunction("../{$request->request->get('url')}");
                 }
             } //redirect to last page required (with auto log out feature)
             else {

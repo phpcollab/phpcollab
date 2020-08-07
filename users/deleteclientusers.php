@@ -1,32 +1,39 @@
 <?php
 
+use phpCollab\Assignments\Assignments;
+use phpCollab\Members\Members;
+use phpCollab\Notifications\Notifications;
+use phpCollab\Organizations\Organizations;
+use phpCollab\Tasks\Tasks;
+use phpCollab\Teams\Teams;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
 $org_id = $request->query->get('orgid');
-$user_id = $request->query->get('id') || $_POST["id"];
+$user_id = $request->query->get('id') || $request->request->get('id');
 
 if (empty($user_id) || empty($org_id)) {
     phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
 }
 
-$organizations = new \phpCollab\Organizations\Organizations();
+$organizations = new Organizations();
 
 $detailOrganization = $organizations->getOrganizationById($org_id);
 
-$members = new \phpCollab\Members\Members();
-$teams = new \phpCollab\Teams\Teams();
-$tasks = new \phpCollab\Tasks\Tasks();
-$assignments = new \phpCollab\Assignments\Assignments();
-$notifications = new \phpCollab\Notifications\Notifications();
+$members = new Members();
+$teams = new Teams();
+$tasks = new Tasks();
+$assignments = new Assignments();
+$notifications = new Notifications();
 
-if ($_POST["action"] == "delete") {
-    if ($_POST["id"]) {
-        $id = str_replace("**", ",", $_POST["id"]);
+if ($request->request->get('action') == "delete") {
+    if ($request->request->get('id')) {
+        $id = str_replace("**", ",", $request->request->get('id'));
 
-        if (isset( $_POST["assign_to"]) ) {
-            $tasks->setTasksAssignedToWhereAssignedToIn($_POST["assign_to"], $id);
-            $assignments->reassignAssignmentByAssignedTo($_POST["assign_to"], $dateheure, $id);
+        if (!empty( $request->request->get('assign_to')) ) {
+            $tasks->setTasksAssignedToWhereAssignedToIn($request->request->get('assign_to'), $id);
+            $assignments->reassignAssignmentByAssignedTo($request->request->get('assign_to'), $dateheure, $id);
         }
 
         $notifications->deleteNotificationsByMemberIdIn($id);

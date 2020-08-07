@@ -63,14 +63,14 @@ if (!empty($request->query->get('id'))) {
     }
 
     //case update user
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($request->isMethod('post')) {
 
-        if ($_POST["action"] == "update") {
+        if ($request->request->get('action') == "update") {
 
             $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING);
             $oldUsername = filter_input(INPUT_POST, "username_old", FILTER_SANITIZE_STRING);
-            $password = $_POST["password"];
-            $passwordConfirm = $_POST["password_confirm"];
+            $password = $request->request->get('password');
+            $passwordConfirm = $request->request->get('password_confirm');
             $fullName = filter_input(INPUT_POST, "full_name", FILTER_SANITIZE_STRING);
             $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_STRING);
             $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
@@ -80,7 +80,7 @@ if (!empty($request->query->get('id'))) {
             $fax = filter_input(INPUT_POST, "fax", FILTER_SANITIZE_STRING);
             $lastPage = filter_input(INPUT_POST, "last_page", FILTER_SANITIZE_STRING);
             $profile = filter_input(INPUT_POST, "profile", FILTER_SANITIZE_NUMBER_INT);
-            $comments = htmlspecialchars($_POST["comments"], ENT_QUOTES, 'UTF-8');
+            $comments = htmlspecialchars($request->request->get('comments'), ENT_QUOTES, 'UTF-8');
 
 
             if ($htaccessAuth == "true") {
@@ -210,13 +210,13 @@ if (empty($request->query->get('id'))) {
     $checked2 = "checked";
 
     //case add user
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($request->isMethod('post')) {
         if ($action == "add") {
 
             $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING);
             $oldUsername = filter_input(INPUT_POST, "username_old", FILTER_SANITIZE_STRING);
-            $password = $_POST["password"];
-            $passwordConfirm = $_POST["password_confirm"];
+            $password = $request->request->get('password');
+            $passwordConfirm = $request->request->get('password_confirm');
             $fullName = filter_input(INPUT_POST, "full_name", FILTER_SANITIZE_STRING);
             $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_STRING);
             $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
@@ -226,7 +226,7 @@ if (empty($request->query->get('id'))) {
             $fax = filter_input(INPUT_POST, "fax", FILTER_SANITIZE_STRING);
             $lastPage = filter_input(INPUT_POST, "last_page", FILTER_SANITIZE_STRING);
             $profile = filter_input(INPUT_POST, "profile", FILTER_SANITIZE_NUMBER_INT);
-            $comments = htmlspecialchars($_POST["comments"], ENT_QUOTES, 'UTF-8');
+            $comments = htmlspecialchars($request->request->get('comments'), ENT_QUOTES, 'UTF-8');
 
             if (!preg_match("/^[A-Za-z0-9]+$/", $username)) {
                 $error = $strings["alpha_only"];
@@ -275,18 +275,18 @@ if (empty($request->query->get('id'))) {
             }
 
             // Populate form fields, incase there was an error
-            $username = $_POST["username"];
-            $full_name = $_POST["full_name"];
-            $title = $_POST["title"];
+            $username = $request->request->get('username');
+            $full_name = $request->request->get('full_name');
+            $title = $request->request->get('title');
 
-            $email = $_POST["email"];
-            $phone_work = $_POST["phone_work"];
-            $phone_home = $_POST["phone_home"];
-            $phone_mobile = $_POST["phone_mobile"];
-            $fax = $_POST["fax"];
-            $last_page = $_POST["last_page"];
-            $comments = $_POST["comments"];
-            $profile = $_POST["profile"];
+            $email = $request->request->get('email');
+            $phone_work = $request->request->get('phone_work');
+            $phone_home = $request->request->get('phone_home');
+            $phone_mobile = $request->request->get('phone_mobile');
+            $fax = $request->request->get('fax');
+            $last_page = $request->request->get('last_page');
+            $comments = $request->request->get('comments');
+            $profile = $request->request->get('profile');
 
         }
     }

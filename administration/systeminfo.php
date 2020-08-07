@@ -1,7 +1,13 @@
 <?php
 
+use phpCollab\Database;
+use phpCollab\Util;
+
 $checkSession = "true";
 include_once '../includes/library.php';
+
+
+$db = new Database();
 
 $strings = $GLOBALS["strings"];
 
@@ -28,10 +34,10 @@ $block1->openContent();
 $block1->contentTitle($strings["product_information"]);
 
 $block1->contentRow("PhpCollab Version", $version);
-$block1->contentRow("File Management", $fileManagement . " (default max file size $maxFileSize $byteUnits[0])");
+$block1->contentRow("File Management", $fileManagement . " (default max file size $maxFileSize $byteUnits[0]) " . Util::convertSize($maxFileSize));
 
 if ($mkdirMethod == "FTP") {
-    $mkdirMethodMore = " (Path to root with mentionned account: \"$ftpRoot\")";
+    $mkdirMethodMore = " (Path to root with mentioned account: \"$ftpRoot\")";
 }
 
 $block1->contentRow("Create folder method", $mkdirMethod . $mkdirMethodMore);
@@ -47,25 +53,14 @@ $block1->contentRow("Login Method", $loginMethod . $loginMethodMore);
 
 switch ($databaseType) {
     case "postgresql":
-        $dsn = "pgsql:host=" . MYSERVER . ";dbname=" . MYDATABASE;
         $databaseTypeMore = "PostgreSQL";
         break;
     case 'sqlserver':
-        $dsn = "sqlsrv::Server=" . MYSERVER . ";Database=" . MYDATABASE;
         $databaseTypeMore = "Sql Server";
         break;
     default:
-        $dsn = "mysql:host=" . MYSERVER . ";dbname=" . MYDATABASE;
         $databaseTypeMore = "MySql";
         break;
-}
-
-try {
-    $conn = new PDO($dsn, MYLOGIN, MYPASSWORD);
-
-    $databaseVersion = $conn->getAttribute(constant("PDO::ATTR_SERVER_VERSION")) . "\n";
-} catch (PDOException $e) {
-    print "Error!: " . $e->getMessage() . "<br/>";
 }
 
 $block1->contentRow("Database Type", $databaseTypeMore);
@@ -73,7 +68,7 @@ $block1->contentRow("Files folder size", phpCollab\Util::convertSize(phpCollab\U
 
 $block1->contentTitle($strings["system_properties"]);
 $block1->contentRow("PHP Version", phpversion() . " " . $blockPage->buildLink("../administration/phpinfo.php?", "PhpInfo", "inblank"));
-$block1->contentRow($databaseTypeMore . " version", $databaseVersion);
+$block1->contentRow($databaseTypeMore . " version", $db->getVersion());
 $block1->contentRow("extension_dir", ini_get('extension_dir'));
 
 $ext = get_loaded_extensions();
@@ -150,11 +145,11 @@ $block1->contentRow("SMTP", ini_get('SMTP'));
 $block1->contentRow("upload_max_filesize", ini_get('upload_max_filesize'));
 $block1->contentRow("session.name", session_name());
 $block1->contentRow("session.save_path", session_save_path());
-$block1->contentRow("HTTP_HOST", phpCollab\Util::returnGlobal('HTTP_HOST', 'SERVER'));
+$block1->contentRow("HTTP_HOST", $request->server->get('HTTP_HOST'));
 
-$block1->contentRow("SERVER_NAME", phpCollab\Util::returnGlobal('SERVER_NAME', 'SERVER'));
-$block1->contentRow("SERVER_PORT", phpCollab\Util::returnGlobal('SERVER_PORT', 'SERVER'));
-$block1->contentRow("SERVER_SOFTWARE", phpCollab\Util::returnGlobal('SERVER_SOFTWARE', 'SERVER'));
+$block1->contentRow("SERVER_NAME", $request->server->get('SERVER_NAME'));
+$block1->contentRow("SERVER_PORT", $request->server->get('SERVER_PORT'));
+$block1->contentRow("SERVER_SOFTWARE", $request->server->get('SERVER_SOFTWARE'));
 $block1->contentRow("SERVER_OS", PHP_OS);
 
 $block1->closeContent();

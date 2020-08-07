@@ -38,25 +38,25 @@ include '../includes/library.php';
 
 $members = new Members();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if ($_POST["action"] == "update") {
+if ($request->isMethod('post')) {
+    if ($request->request->get('action') == "update") {
 
         $teams = new Teams();
 
-        $r = substr($_POST["old_password"], 0, 2);
-        $encryptedOldPassword = crypt($_POST["old_password"], $r);
+        $r = substr($request->request->get('old_password'), 0, 2);
+        $encryptedOldPassword = crypt($request->request->get('old_password'), $r);
 
         if ($encryptedOldPassword != $passwordSession) {
             $error = $strings["old_password_error"];
         } else {
             if (
-                empty($_POST["new_password"])
-                || empty($_POST["confirm_password"])
-                || $_POST["new_password"] != $_POST["confirm_password"]
+                empty($request->request->get('new_password'))
+                || empty($request->request->get('confirm_password'))
+                || $request->request->get('new_password') != $request->request->get('confirm_password')
             ) {
                 $error = $strings["new_password_error"];
             } else {
-                $encryptedNewPassword = phpCollab\Util::getPassword($_POST["new_password"]);
+                $encryptedNewPassword = phpCollab\Util::getPassword($request->request->get('new_password'));
 
                 if ($htaccessAuth == "true") {
                     $Htpasswd = new Htpasswd;

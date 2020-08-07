@@ -23,10 +23,10 @@ if ($detailTopic["top_published"] == "1" || $detailTopic["top_project"] != $proj
     phpCollab\Util::headerFunction("index.php");
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if ($_POST["action"] == "add") {
+if ($request->isMethod('post')) {
+    if ($request->request->get('action') == "add") {
         $detailTopic["top_posts"] = $detailTopic["top_posts"] + 1;
-        $messageField = phpCollab\Util::convertData($_POST["messageField"]);
+        $messageField = phpCollab\Util::convertData($request->request->get('messageField'));
         $messageField = phpCollab\Util::autoLinks($messageField);
 
         $newPost = $topics->addPost($id, $idSession, $messageField);

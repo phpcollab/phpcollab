@@ -25,7 +25,7 @@ if (empty($clientDetail)) {
 
 //case add client user
 if ($request->query->get('action') == "add") {
-    if ($_POST) {
+    if ($request->isMethod('post')) {
         $user_login = "";
         $user_login_old = "";
         $user_full_name = "";
@@ -39,56 +39,56 @@ if ($request->query->get('action') == "add") {
         $user_comments = "";
         $user_last_page = "";
 
-        if (isset($_POST['user_name'])) {
-            $user_login = filter_var($_POST['user_name'], FILTER_SANITIZE_STRING);
+        if (!empty($request->request->get('user_name'))) {
+            $user_login = filter_var($request->request->get('user_name'), FILTER_SANITIZE_STRING);
         }
 
-        if (isset($_POST['full_name'])) {
-            $user_full_name = filter_var($_POST['full_name'], FILTER_SANITIZE_STRING);
+        if (!empty($request->request->get('full_name'))) {
+            $user_full_name = filter_var($request->request->get('full_name'), FILTER_SANITIZE_STRING);
         }
 
-        if (isset($_POST['organization'])) {
-            $user_organization = filter_var($_POST['organization'], FILTER_SANITIZE_STRING);
+        if (!empty($request->request->get('organization'))) {
+            $user_organization = filter_var($request->request->get('organization'), FILTER_SANITIZE_STRING);
         }
 
-        if (isset($_POST['title'])) {
-            $user_title = filter_var($_POST['title'], FILTER_SANITIZE_STRING);
+        if (!empty($request->request->get('title'))) {
+            $user_title = filter_var($request->request->get('title'), FILTER_SANITIZE_STRING);
         }
 
-        if (isset($_POST['email_work'])) {
-            $user_email_work = filter_var($_POST['email_work'], FILTER_SANITIZE_STRING);
+        if (!empty($request->request->get('email_work'))) {
+            $user_email_work = filter_var($request->request->get('email_work'), FILTER_SANITIZE_STRING);
         }
 
-        if (isset($_POST['phone_work'])) {
-            $user_phone_work = filter_var($_POST['phone_work'], FILTER_SANITIZE_STRING);
+        if (!empty($request->request->get('phone_work'))) {
+            $user_phone_work = filter_var($request->request->get('phone_work'), FILTER_SANITIZE_STRING);
         }
 
-        if (isset($_POST['phone_home'])) {
-            $user_phone_home = filter_var($_POST['phone_home'], FILTER_SANITIZE_STRING);
+        if (!empty($request->request->get('phone_home'))) {
+            $user_phone_home = filter_var($request->request->get('phone_home'), FILTER_SANITIZE_STRING);
         }
 
-        if (isset($_POST['phone_mobile'])) {
-            $user_phone_mobile = filter_var($_POST['phone_mobile'], FILTER_SANITIZE_STRING);
+        if (!empty($request->request->get('phone_mobile'))) {
+            $user_phone_mobile = filter_var($request->request->get('phone_mobile'), FILTER_SANITIZE_STRING);
         }
 
-        if (isset($_POST['fax'])) {
-            $user_fax = filter_var($_POST['fax'], FILTER_SANITIZE_STRING);
+        if (!empty($request->request->get('fax'))) {
+            $user_fax = filter_var($request->request->get('fax'), FILTER_SANITIZE_STRING);
         }
 
-        if (isset($_POST['comments'])) {
-            $user_comments = filter_var($_POST['comments'], FILTER_SANITIZE_STRING);
+        if (!empty($request->request->get('comments'))) {
+            $user_comments = filter_var($request->request->get('comments'), FILTER_SANITIZE_STRING);
         }
 
-        if (isset($_POST['last_page'])) {
-            $user_last_page = filter_var($_POST['last_page'], FILTER_SANITIZE_STRING);
+        if (!empty($request->request->get('last_page'))) {
+            $user_last_page = filter_var($request->request->get('last_page'), FILTER_SANITIZE_STRING);
         }
 
-        if (isset($_POST['password'])) {
-            $user_password = $_POST['password'];
+        if (!empty($request->request->get('password'))) {
+            $user_password = $request->request->get('password');
         }
 
-        if (isset($_POST['password_confirm'])) {
-            $user_password_confirm = $_POST['password_confirm'];
+        if (!empty($request->request->get('password_confirm'))) {
+            $user_password_confirm = $request->request->get('password_confirm');
         }
 
         if (!ctype_alnum($user_login)) {
@@ -195,9 +195,9 @@ $block1->heading($strings["add_client_user"]);
 $block1->openContent();
 $block1->contentTitle($strings["enter_user_details"]);
 
-$block1->contentRow($strings["user_name"], '<input size="24" style="width: 250px;" maxlength="16" type="text" name="user_name" value="'.$_POST["user_name"].'" required>');
-$block1->contentRow($strings["full_name"], '<input size="24" style="width: 250px;" maxlength="64" type="text" name="full_name" value="'.$_POST["full_name"].'" required>');
-$block1->contentRow($strings["title"], '<input size="24" style="width: 250px;" maxlength="64" type="text" name="title" value="'.$_POST["title"].'">');
+$block1->contentRow($strings["user_name"], '<input size="24" style="width: 250px;" maxlength="16" type="text" name="user_name" value="'.$request->request->get('user_name').'" required>');
+$block1->contentRow($strings["full_name"], '<input size="24" style="width: 250px;" maxlength="64" type="text" name="full_name" value="'.$request->request->get('full_name').'" required>');
+$block1->contentRow($strings["title"], '<input size="24" style="width: 250px;" maxlength="64" type="text" name="title" value="'.$request->request->get('title').'">');
 
 $selectOrganization = '<select name="organization">';
 
@@ -215,12 +215,12 @@ foreach ($organizationsList as $org) {
 $selectOrganization .= "</select>";
 $block1->contentRow($strings["organization"], $selectOrganization);
 
-$block1->contentRow($strings["email"], '<input size="24" style="width: 250px;" maxlength="128" type="email" name="email_work" value="' . $_POST["email_work"] . '" required>');
-$block1->contentRow($strings["work_phone"], '<input size="14" style="width: 150px;" maxlength="32" type="tel" name="phone_work" value="' . $_POST["phone_work"] . '">');
-$block1->contentRow($strings["home_phone"], '<input size="14" style="width: 150px;" maxlength="32" type="tel" name="phone_home" value="' . $_POST["phone_home"] . '">');
-$block1->contentRow($strings["mobile_phone"], '<input size="14" style="width: 150px;" maxlength="32" type="tel" name="phone_mobile" value="' . $_POST["phone_mobile"] . '">');
-$block1->contentRow($strings["fax"], '<input size="14" style="width: 150px;" maxlength="32" type="tel" name="fax" value="' . $_POST["fax"] . '">');
-$block1->contentRow($strings["comments"], '<textarea style="width: 400px; height: 50px;" name="comments" cols="35" rows="2">' . $_POST["comments"] . '</textarea>');
+$block1->contentRow($strings["email"], '<input size="24" style="width: 250px;" maxlength="128" type="email" name="email_work" value="' . $request->request->get('email_work') . '" required>');
+$block1->contentRow($strings["work_phone"], '<input size="14" style="width: 150px;" maxlength="32" type="tel" name="phone_work" value="' . $request->request->get('phone_work') . '">');
+$block1->contentRow($strings["home_phone"], '<input size="14" style="width: 150px;" maxlength="32" type="tel" name="phone_home" value="' . $request->request->get('phone_home') . '">');
+$block1->contentRow($strings["mobile_phone"], '<input size="14" style="width: 150px;" maxlength="32" type="tel" name="phone_mobile" value="' . $request->request->get('phone_mobile') . '">');
+$block1->contentRow($strings["fax"], '<input size="14" style="width: 150px;" maxlength="32" type="tel" name="fax" value="' . $request->request->get('fax') . '">');
+$block1->contentRow($strings["comments"], '<textarea style="width: 400px; height: 50px;" name="comments" cols="35" rows="2">' . $request->request->get('comments') . '</textarea>');
 
 $block1->contentTitle($strings["enter_password"]);
 $block1->contentRow($strings["password"], '<input size="24" style="width: 250px;" maxlength="16" type="password" name="password" value="" required>');

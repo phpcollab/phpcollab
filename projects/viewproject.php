@@ -25,12 +25,12 @@ $topics = new Topics();
 $notes = new Notes();
 $phases = new Phases();
 
-$id = phpCollab\Util::returnGlobal('id', 'REQUEST');
-$project = phpCollab\Util::returnGlobal('project', 'REQUEST');
-$action = phpCollab\Util::returnGlobal('action', 'GET');
+$id = $request->query->get("id");
+$project = $request->query->get("project");
+$action = $request->query->get("action");
 
 if ($action == "publish") {
-    $closeTopic = phpCollab\Util::returnGlobal('closeTopic', 'GET');
+    $closeTopic = $request->query->get("closeTopic");
 
     if ($closeTopic == "true") {
         $multi = strstr($id, "**");
@@ -49,7 +49,7 @@ if ($action == "publish") {
         $id = $project;
     }
 
-    $addToSiteTask = phpCollab\Util::returnGlobal('addToSiteTask', 'GET');
+    $addToSiteTask = $request->query->get("addToSiteTask");
 
     if ($addToSiteTask == "true") {
         $multi = strstr($id, "**");
@@ -63,7 +63,7 @@ if ($action == "publish") {
         $id = $project;
     }
 
-    $removeToSiteTask = phpCollab\Util::returnGlobal('removeToSiteTask', 'GET');
+    $removeToSiteTask = $request->query->get("removeToSiteTask");
 
     if ($removeToSiteTask == "true") {
         $multi = strstr($id, "**");
@@ -77,7 +77,7 @@ if ($action == "publish") {
         $id = $project;
     }
 
-    $addToSiteTopic = phpCollab\Util::returnGlobal('addToSiteTopic', 'GET');
+    $addToSiteTopic = $request->query->get("addToSiteTopic");
 
     if ($addToSiteTopic == "true") {
         $multi = strstr($id, "**");
@@ -91,7 +91,7 @@ if ($action == "publish") {
         $id = $project;
     }
 
-    $removeToSiteTopic = phpCollab\Util::returnGlobal('removeToSiteTopic', 'GET');
+    $removeToSiteTopic = $request->query->get("removeToSiteTopic");
     if ($removeToSiteTopic == "true") {
         $multi = strstr($id, "**");
 
@@ -104,7 +104,7 @@ if ($action == "publish") {
         $id = $project;
     }
 
-    $addToSiteTeam = phpCollab\Util::returnGlobal('addToSiteTeam', 'GET');
+    $addToSiteTeam = $request->query->get("addToSiteTeam");
     if ($addToSiteTeam == "true") {
         $multi = strstr($id, "**");
 
@@ -117,7 +117,7 @@ if ($action == "publish") {
         $id = $project;
     }
 
-    $removeToSiteTeam = phpCollab\Util::returnGlobal('removeToSiteTeam', 'GET');
+    $removeToSiteTeam = $request->query->get("removeToSiteTeam");
     if ($removeToSiteTeam == "true") {
         $multi = strstr($id, "**");
 
@@ -130,7 +130,7 @@ if ($action == "publish") {
         $id = $project;
     }
 
-    $addToSiteFile = phpCollab\Util::returnGlobal('addToSiteFile', 'GET');
+    $addToSiteFile = $request->query->get("addToSiteFile");
 
     if ($addToSiteFile == "true") {
         $id = str_replace("**", ",", $id);
@@ -139,7 +139,7 @@ if ($action == "publish") {
         $id = $project;
     }
 
-    $removeToSiteFile = phpCollab\Util::returnGlobal('removeToSiteFile', 'GET');
+    $removeToSiteFile = $request->query->get("removeToSiteFile");
 
     if ($removeToSiteFile == "true") {
         $id = str_replace("**", ",", $id);
@@ -148,7 +148,7 @@ if ($action == "publish") {
         $id = $project;
     }
 
-    $addToSiteNote = phpCollab\Util::returnGlobal('addToSiteNote', 'GET');
+    $addToSiteNote = $request->query->get("addToSiteNote");
 
     if ($addToSiteNote == "true") {
         $multi = strstr($id, "**");
@@ -161,7 +161,7 @@ if ($action == "publish") {
         $id = $project;
     }
 
-    $removeToSiteNote = phpCollab\Util::returnGlobal('removeToSiteNote', 'GET');
+    $removeToSiteNote = $request->query->get("removeToSiteNote");
     if ($removeToSiteNote == "true") {
         $multi = strstr($id, "**");
 
@@ -364,7 +364,7 @@ if ($idSession == $projectDetail["pro_owner"] || $profilSession == "0" || $profi
     }
 
     if ($enableMantis == "true") {
-        $block1->paletteScript(5, "bug", $pathMantis . "login.php?id=" . $projectDetail["pro_id"] . "&url=http://{$_SERVER["HTTP_HOST"]}{$_SERVER["REQUEST_URI"]}&username=$loginSession&password=$passwordSession", "true,true,false", $strings["bug"]);
+        $block1->paletteScript(5, "bug", $pathMantis . "login.php?id=" . $projectDetail["pro_id"] . "&url=http://{$request->server->get("HTTP_HOST")}{$request->server->get("REQUEST_URI")}&username=$loginSession&password=$passwordSession", "true,true,false", $strings["bug"]);
     }
 
     $block1->closePaletteScript("", []);

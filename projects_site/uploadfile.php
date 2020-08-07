@@ -39,8 +39,8 @@ $projects = new Projects();
 
 $projectDetail = $projects->getProjectById($projectSession);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if ($_POST["action"] == "add") {
+if ($request->isMethod('post')) {
+    if ($request->request->get('action') == "add") {
 
         $files = new Files();
         $teams = new Teams();
@@ -50,8 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $filename = phpCollab\Util::checkFileName($_FILES['upload']['name']);
 
         // Check to see if the custom maximum file size is set, and if so use it.
-        if (!empty($_POST["maxCustom"])) {
-            $maxFileSize = $_POST["maxCustom"];
+        if (!empty($request->request->get('maxCustom'))) {
+            $maxFileSize = $request->request->get('maxCustom');
         }
 
         if ($_FILES['upload']['size'] != 0) {
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         if ($docopy == "true") {
-            $commentsField = phpCollab\Util::convertData($_POST["commentsField"]);
+            $commentsField = phpCollab\Util::convertData($request->request->get('commentsField'));
 
             $newFileId = $files->addFile($idSession, $projectSession, 0, 0, $commentsField, 2, 0.0, 0);
 
@@ -150,7 +150,7 @@ echo <<<FORM
 
         <tr>
             <th style="vertical-align: top">{$strings["comments"]} :</th>
-            <td><textarea cols="60" name="commentsField" rows="6">{$_POST["commentsField"]}</textarea></td>
+            <td><textarea cols="60" name="commentsField" rows="6">{$request->request->get('commentsField')}</textarea></td>
         </tr>
 
         <tr>

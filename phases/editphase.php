@@ -20,12 +20,12 @@ $projectdetail = $projects->getProjectById($project);
 
 $teamMember = $teams->isTeamMember($project, $idSession);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($request->isMethod('post')) {
     if ($action == "update") {
-        $comments = phpCollab\Util::convertData($_POST["comments"]);
-        $start_date = $_POST["start_date"];
-        $end_date = $_POST["end_date"];
-        $status = $_POST["status"];
+        $comments = phpCollab\Util::convertData($request->request->get('comments'));
+        $start_date = $request->request->get('start_date');
+        $end_date = $request->request->get('end_date');
+        $status = $request->request->get('status');
 
         if ($start_date == 0 || $start_date == 1) {
             $end_date = "--";

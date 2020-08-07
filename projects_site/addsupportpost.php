@@ -19,7 +19,7 @@ if ($requestDetail["sr_project"] != $projectSession || $requestDetail["sr_member
     phpCollab\Util::headerFunction("index.php");
 }
 if ($request->query->get('action') == "add") {
-    $message = phpCollab\Util::convertData($_POST["response_message"]);
+    $message = phpCollab\Util::convertData($request->request->get('response_message'));
 
     if (!empty($message)) {
         $newPostId = $support->addSupportPost($id, $message, $dateheure, $idSession, $requestDetail["sr_project"]);
@@ -68,7 +68,7 @@ echo <<<FORM
     </tr>
     <tr>
         <th style="vertical-align: top"><label for="response_message" >{$strings["message"]}</label></th>
-        <td><textarea required rows="3" style="width: 400px; height: 200px;" name="response_message" id="response_message" cols="43">{$_POST["response_message"]}</textarea></td>
+        <td><textarea required rows="3" style="width: 400px; height: 200px;" name="response_message" id="response_message" cols="43">{$request->request->get('response_message')}</textarea></td>
     </tr>
     <tr>
         <th>&nbsp;</th>

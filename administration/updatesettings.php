@@ -35,28 +35,28 @@ if ($profilSession != "0") {
 $langSelected = $GLOBALS["langSelected"];
 
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($request->isMethod('post')) {
 
     if ($request->query->get('action') == "generate") {
-        if ($_POST["installationTypeNew"] == "offline") {
+        if ($request->request->get('installationTypeNew') == "offline") {
             $updateCheckerNew = "false";
         }
 
-        if (substr($_POST["rootNew"], -1) == "/") {
-            $rootNew = substr($_POST["rootNew"], 0, -1);
+        if (substr($request->request->get('rootNew'), -1) == "/") {
+            $rootNew = substr($request->request->get('rootNew'), 0, -1);
         }
 
-        if (substr($_POST["ftpRootNew"], -1) == "/") {
-            $ftpRootNew = substr($_POST["ftpRootNew"], 0, -1);
+        if (substr($request->request->get('ftpRootNew'), -1) == "/") {
+            $ftpRootNew = substr($request->request->get('ftpRootNew'), 0, -1);
         }
 
-        if (substr($_POST["pathMantisNew"], -1) != "/") {
-            $pathMantisNew = $_POST["pathMantisNew"] . "/";
+        if (substr($request->request->get('pathMantisNew'), -1) != "/") {
+            $pathMantisNew = $request->request->get('pathMantisNew') . "/";
         }
 
         // DAB - scrub the data
         $dataFunction = new DataFunctions();
-        $scrubbedData = $dataFunction->scrubData($_POST);
+        $scrubbedData = $dataFunction->scrubData($request->request->all());
         extract($scrubbedData);
         // -- END Paranoia
 

@@ -38,12 +38,12 @@ include_once '../includes/library.php';
 $members = new Members();
 $teams = new Teams();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if ($_POST["action"] == "update") {
+if ($request->isMethod('post')) {
+    if ($request->request->get('action') == "update") {
 
-        $oldPassword = $_POST["old_password"];
-        $confirmPassword = $_POST["confirm_password"];
-        $newPassword = $_POST["new_password"];
+        $oldPassword = $request->request->get('old_password');
+        $confirmPassword = $request->request->get('confirm_password');
+        $newPassword = $request->request->get('new_password');
 
         $r = substr($oldPassword, 0, 2);
         $oldPassword = crypt($oldPassword, $r);

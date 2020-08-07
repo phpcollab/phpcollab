@@ -1,41 +1,43 @@
 <?php
 
+use phpCollab\Administration\Administration;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-if ($_POST) {
+if ($request->isMethod('post')) {
 
-    if ($_POST["tables"]) {
+    if ($request->request->get('tables')) {
 
         $dumpSettings = [
-            'include-tables' => $_POST["tables"],
+            'include-tables' => $request->request->get('tables'),
         ];
 
-        if ($_POST["what"] == "structureonly") {
+        if ($request->request->get('what') == "structureonly") {
             $dumpSettings['no-data'] = true;
         }
 
-        if ($_POST["what"] == "dataonly") {
+        if ($request->request->get('what') == "dataonly") {
             $dumpSettings['no-create-info'] = true; // Data only
         }
 
-        if ((bool) $_POST["drop"]) {
+        if ((bool) $request->request->get('drop')) {
             $dumpSettings['add-drop-table'] = true;
         }
 
-        if ((bool) $_POST["extended_insert"]) {
+        if ((bool) $request->request->get('extended_insert')) {
             $dumpSettings['extended-insert'] = true;
         }
 
-        if ((bool) $_POST["complete_insert"]) {
+        if ((bool) $request->request->get('complete_insert')) {
             $dumpSettings['complete-insert'] = true;
         }
 
-        if ($_POST['zip'] == 'zip') {
+        if ($request->request->get('zip') == 'zip') {
             $dumpSettings['compress'] = true;
         }
 
-        $admins = new \phpCollab\Administration\Administration();
+        $admins = new Administration();
 
         $admins->dumpTables($dumpSettings);
 

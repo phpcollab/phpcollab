@@ -12,7 +12,7 @@ include_once '../includes/library.php';
 
 
 if (empty($request->query->get('id'))) {
-    phpCollab\Util::headerFunction($_SERVER['HTTP_REFERER']);
+    phpCollab\Util::headerFunction($request->server->get("HTTP_REFERER"));
 }
 $id = $request->query->get('id');
 

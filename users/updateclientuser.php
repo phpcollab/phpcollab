@@ -1,5 +1,8 @@
 <?php
 
+use phpCollab\Members\Members;
+use phpCollab\Organizations\Organizations;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -10,8 +13,8 @@ if (empty($userId) || empty($orgId)) {
     phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
 }
 
-$organizations = new \phpCollab\Organizations\Organizations();
-$members = new \phpCollab\Members\Members();
+$organizations = new Organizations();
+$members = new Members();
 
 
 $clientDetail = $organizations->getOrganizationById($orgId);
@@ -22,7 +25,7 @@ $comptUserDetail = count($userDetail);
 
 //case update client user
 if ($request->query->get('action') == "update") {
-    if ($_POST) {
+    if ($request->isMethod('post')) {
         $user_login = "";
         $user_login_old = "";
         $user_full_name = "";
@@ -36,60 +39,60 @@ if ($request->query->get('action') == "update") {
         $user_comments = "";
         $user_last_page = "";
 
-        if (isset($_POST['user_name'])) {
-            $user_login = filter_var($_POST['user_name'], FILTER_SANITIZE_STRING);
+        if (!empty($request->request->get('user_name'))) {
+            $user_login = filter_var($request->request->get('user_name'), FILTER_SANITIZE_STRING);
         }
 
-        if (isset($_POST['user_name_old'])) {
-            $user_login_old = filter_var($_POST['user_name_old'], FILTER_SANITIZE_STRING);
+        if (!empty($request->request->get('user_name_old'))) {
+            $user_login_old = filter_var($request->request->get('user_name_old'), FILTER_SANITIZE_STRING);
         }
 
-        if (isset($_POST['full_name'])) {
-            $user_full_name = filter_var($_POST['full_name'], FILTER_SANITIZE_STRING);
+        if (!empty($request->request->get('full_name'))) {
+            $user_full_name = filter_var($request->request->get('full_name'), FILTER_SANITIZE_STRING);
         }
 
-        if (isset($_POST['organization'])) {
-            $user_organization = filter_var($_POST['organization'], FILTER_SANITIZE_STRING);
+        if (!empty($request->request->get('organization'))) {
+            $user_organization = filter_var($request->request->get('organization'), FILTER_SANITIZE_STRING);
         }
 
-        if (isset($_POST['title'])) {
-            $user_ = filter_var($_POST['title'], FILTER_SANITIZE_STRING);
+        if (!empty($request->request->get('title'))) {
+            $user_ = filter_var($request->request->get('title'), FILTER_SANITIZE_STRING);
         }
 
-        if (isset($_POST['email_work'])) {
-            $user_email_work = filter_var($_POST['email_work'], FILTER_SANITIZE_STRING);
+        if (!empty($request->request->get('email_work'))) {
+            $user_email_work = filter_var($request->request->get('email_work'), FILTER_SANITIZE_STRING);
         }
 
-        if (isset($_POST['phone_work'])) {
-            $user_phone_work = filter_var($_POST['phone_work'], FILTER_SANITIZE_STRING);
+        if (!empty($request->request->get('phone_work'))) {
+            $user_phone_work = filter_var($request->request->get('phone_work'), FILTER_SANITIZE_STRING);
         }
 
-        if (isset($_POST['phone_home'])) {
-            $user_phone_home = filter_var($_POST['phone_home'], FILTER_SANITIZE_STRING);
+        if (!empty($request->request->get('phone_home'))) {
+            $user_phone_home = filter_var($request->request->get('phone_home'), FILTER_SANITIZE_STRING);
         }
 
-        if (isset($_POST['phone_mobile'])) {
-            $user_phone_mobile = filter_var($_POST['phone_mobile'], FILTER_SANITIZE_STRING);
+        if (!empty($request->request->get('phone_mobile'))) {
+            $user_phone_mobile = filter_var($request->request->get('phone_mobile'), FILTER_SANITIZE_STRING);
         }
 
-        if (isset($_POST['fax'])) {
-            $user_fax = filter_var($_POST['fax'], FILTER_SANITIZE_STRING);
+        if (!empty($request->request->get('fax'))) {
+            $user_fax = filter_var($request->request->get('fax'), FILTER_SANITIZE_STRING);
         }
 
-        if (isset($_POST['comments'])) {
-            $user_comments = filter_var($_POST['comments'], FILTER_SANITIZE_STRING);
+        if (!empty($request->request->get('comments'))) {
+            $user_comments = filter_var($request->request->get('comments'), FILTER_SANITIZE_STRING);
         }
 
-        if (isset($_POST['last_page'])) {
-            $user_last_page = filter_var($_POST['last_page'], FILTER_SANITIZE_STRING);
+        if (!empty($request->request->get('last_page'))) {
+            $user_last_page = filter_var($request->request->get('last_page'), FILTER_SANITIZE_STRING);
         }
 
-        if (isset($_POST['password'])) {
-            $user_password = $_POST['password'];
+        if (!empty($request->request->get('password'))) {
+            $user_password = $request->request->get('password');
         }
 
-        if (isset($_POST['password_confirm'])) {
-            $user_password_confirm = $_POST['password_confirm'];
+        if (!empty($request->request->get('password_confirm'))) {
+            $user_password_confirm = $request->request->get('password_confirm');
         }
 
         if (!ctype_alnum($user_login)) {
@@ -109,7 +112,7 @@ if ($request->query->get('action') == "update") {
                         } else {
                             try {
                                 $members->setPassword($userId, $user_password);
-                            } catch (\Exception $e) {
+                            } catch (Exception $e) {
                                 echo 'Message: ' . $e->getMessage();
                             }
                             phpCollab\Util::headerFunction("../clients/viewclient.php?msg=update&id=$user_organization");
@@ -123,7 +126,7 @@ if ($request->query->get('action') == "update") {
                         }
                         phpCollab\Util::headerFunction("../clients/viewclient.php?msg=update&id=$user_organization");
                     }
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     echo $error = $e->getMessage();
                 }
             }

@@ -20,7 +20,7 @@ if ($profilSession != "0") {
 }
 */
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($request->isMethod('post')) {
 
     if ($request->query->get('action') == "email") {
 
@@ -34,8 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $listMembers = $members->getMembersByIdIn($id, 'mem.name');
 
         // format body and message
-        $subject = stripslashes($_POST["subject"]);
-        $message = stripslashes($_POST["message"]);
+        $subject = stripslashes($request->request->get('subject'));
+        $message = stripslashes($request->request->get('message'));
         $message = str_replace("\r\n", "\n", $message);
 
         foreach ($listMembers as $listMember) {

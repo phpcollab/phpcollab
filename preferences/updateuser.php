@@ -35,18 +35,18 @@ include_once '../includes/library.php';
 
 $members = new Members();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if ($_POST["action"] == "update") {
-        $logout_time = $_POST["logout_time"];
-        $full_name = $_POST["full_name"];
-        $title = $_POST["title"];
-        $email_work = $_POST["email_work"];
-        $phone_work = $_POST["phone_work"];
-        $phone_home = $_POST["phone_home"];
-        $phone_mobile = $_POST["phone_mobile"];
-        $fax = $_POST["fax"];
-        $timezone = $_POST["timezone"];
-        $organization = $_POST["organization"];
+if ($request->isMethod('post')) {
+    if ($request->request->get('action') == "update") {
+        $logout_time = $request->request->get('logout_time');
+        $full_name = $request->request->get('full_name');
+        $title = $request->request->get('title');
+        $email_work = $request->request->get('email_work');
+        $phone_work = $request->request->get('phone_work');
+        $phone_home = $request->request->get('phone_home');
+        $phone_mobile = $request->request->get('phone_mobile');
+        $fax = $request->request->get('fax');
+        $timezone = $request->request->get('timezone');
+        $organization = $request->request->get('organization');
 
         if (($logout_time < "30" && $logout_time != "0") || !is_numeric($logout_time)) {
             $logout_time = "30";

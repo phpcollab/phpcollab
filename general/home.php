@@ -299,7 +299,7 @@ if ($showHomeProjects) {
 
     //if mantis bug tracker enabled
     if ($enableMantis == "true") {
-        $block1->paletteScript(8, "bug", $pathMantis . "login.php?url=http://{$_SERVER["HTTP_HOST"]}{$_SERVER["REQUEST_URI"]}&username=$loginSession&password=$passwordSession", "false,true,false", $strings["bug"]);
+        $block1->paletteScript(8, "bug", $pathMantis . "login.php?url=http://{$request->server->get("HTTP_HOST")}{$request->server->get("REQUEST_URI")}&username=$loginSession&password=$passwordSession", "false,true,false", $strings["bug"]);
     }
 
     $block1->closePaletteScript(count($projectsList), array_column($projectsList, 'pro_id'));

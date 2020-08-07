@@ -40,8 +40,8 @@ $checkSession = "true";
 include_once '../includes/library.php';
 include '../includes/customvalues.php';
 
-$id = phpCollab\Util::returnGlobal('id', 'REQUEST');
-$docopy = phpCollab\Util::returnGlobal('docopy', 'REQUEST');
+$id = $request->query->get("id");
+$docopy = $request->query->get("docopy");
 
 $teams = new Teams();
 $tasks = new Tasks();
@@ -104,13 +104,13 @@ if ($id != "") {
      * case update or copy project
      * See if the form has been submitted or not and key off the action field
      */
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($request->isMethod('post')) {
         if ($action == "update") {
 
             $published = filter_input(INPUT_POST, "projectPublished", FILTER_SANITIZE_NUMBER_INT);
             $projectName = filter_input(INPUT_POST, "name", FILTER_SANITIZE_STRING);
             $priority = filter_input(INPUT_POST, "priority", FILTER_SANITIZE_NUMBER_INT);
-            $description = htmlspecialchars($_POST["description"], ENT_QUOTES, 'UTF-8');
+            $description = htmlspecialchars($request->request->get('description'), ENT_QUOTES, 'UTF-8');
             $urlDev = filter_input(INPUT_POST, "url_dev", FILTER_SANITIZE_URL);
             $urlProd = filter_input(INPUT_POST, "url_prod", FILTER_SANITIZE_URL);
             $owner = filter_input(INPUT_POST, "owner", FILTER_SANITIZE_NUMBER_INT);
@@ -398,7 +398,7 @@ if ($id == "") {
     $projectDetail["pro_upload_max"] = $maxFileSize;
 
     //case add project
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($request->isMethod('post')) {
         if ($action == "add") {
             try {
 
@@ -406,7 +406,7 @@ if ($id == "") {
                 $published = filter_input(INPUT_POST, "projectPublished", FILTER_SANITIZE_NUMBER_INT);
                 $projectName = filter_input(INPUT_POST, "name", FILTER_SANITIZE_STRING);
                 $priority = filter_input(INPUT_POST, "priority", FILTER_SANITIZE_NUMBER_INT);
-                $description = htmlspecialchars($_POST["description"], ENT_QUOTES, 'UTF-8');
+                $description = htmlspecialchars($request->request->get('description'), ENT_QUOTES, 'UTF-8');
                 $urlDev = filter_input(INPUT_POST, "url_dev", FILTER_SANITIZE_URL);
                 $urlProd = filter_input(INPUT_POST, "url_prod", FILTER_SANITIZE_URL);
                 $owner = filter_input(INPUT_POST, "owner", FILTER_SANITIZE_NUMBER_INT);

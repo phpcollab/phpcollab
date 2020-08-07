@@ -19,16 +19,16 @@ $queryStart = null;
 if ($request->query->get('action') == "add") {
     $newReport = $reports->addReport(
         $_SESSION["idSession"],
-        $_POST["report_name"],
-        $_POST["filterProject"],
-        $_POST["filterOrganization"],
-        $_POST["filterAssignedTo"],
-        $_POST["filterPriority"],
-        $_POST["filterStatus"],
-        $_POST["filterStartDate"],
-        $_POST["filterEndDate"],
-        $_POST["filterDateCompleteStart"],
-        $_POST["filterDateCompleteEnd"]
+        $request->request->get('report_name'),
+        $request->request->get('filterProject'),
+        $request->request->get('filterOrganization'),
+        $request->request->get('filterAssignedTo'),
+        $request->request->get('filterPriority'),
+        $request->request->get('filterStatus'),
+        $request->request->get('filterStartDate'),
+        $request->request->get('filterEndDate'),
+        $request->request->get('filterDateCompleteStart'),
+        $request->request->get('filterDateCompleteEnd')
     );
 
     phpCollab\Util::headerFunction("../reports/listreports.php?msg=addReport");
@@ -54,69 +54,69 @@ $filterCompletedDate = null;
 
 
 if ($id == "" && $tri != "true") {
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $formData = $_POST;
+    if ($request->isMethod('post')) {
+        $formData = $request->request->all();
 
-        if (is_array($_POST["S_PRJSEL"])) {
-            $S_pro = implode(',', $_POST["S_PRJSEL"]);
+        if (is_array($request->request->get('S_PRJSEL'))) {
+            $S_pro = implode(',', $request->request->get('S_PRJSEL'));
         } else {
             $S_pro = "ALL";
         }
 
-        if (is_array($_POST["S_ATSEL"])) {
-            $S_mem = implode(',', $_POST["S_ATSEL"]);
+        if (is_array($request->request->get('S_ATSEL'))) {
+            $S_mem = implode(',', $request->request->get('S_ATSEL'));
         } else {
             $S_mem = "ALL";
         }
 
-        if (is_array($_POST["S_STATSEL"])) {
-            $S_sta = implode(',', $_POST["S_STATSEL"]);
+        if (is_array($request->request->get('S_STATSEL'))) {
+            $S_sta = implode(',', $request->request->get('S_STATSEL'));
         } else {
             $S_sta = "ALL";
         }
 
-        if (is_array($_POST["S_PRIOSEL"])) {
-            $S_pri = implode(',', $_POST["S_PRIOSEL"]);
+        if (is_array($request->request->get('S_PRIOSEL'))) {
+            $S_pri = implode(',', $request->request->get('S_PRIOSEL'));
         } else {
             $S_pri = "ALL";
         }
 
-        $compt5 = count($_POST["S_ORGSEL"]);
+        $compt5 = count($request->request->get('S_ORGSEL'));
         $S_org = "";
 
         for ($i = 0; $i < $compt5; $i++) {
-            if ($_POST["S_ORGSEL"][$i] == "ALL") {
+            if ($request->request->get('S_ORGSEL')[$i] == "ALL") {
                 $S_org = "ALL";
                 break;
             }
 
             if ($i != $compt5 - 1) {
-                $S_org .= $_POST["S_ORGSEL"][$i] . ",";
+                $S_org .= $request->request->get('S_ORGSEL')[$i] . ",";
             } else {
-                $S_org .= $_POST["S_ORGSEL"][$i];
+                $S_org .= $request->request->get('S_ORGSEL')[$i];
             }
         }
 
-        if (is_array($_POST["S_ORGSEL"])) {
-            $S_org = implode(',', $_POST["S_ORGSEL"]);
+        if (is_array($request->request->get('S_ORGSEL'))) {
+            $S_org = implode(',', $request->request->get('S_ORGSEL'));
         } else {
             $S_org = "ALL";
         }
 
-        if (!empty($_POST["S_SDATE"])) {
-            $filterStartDate = DateTime::createFromFormat('Y-m-d', $_POST["S_SDATE"]) ? $_POST["S_SDATE"] : null;
+        if (!empty($request->request->get('S_SDATE'))) {
+            $filterStartDate = DateTime::createFromFormat('Y-m-d', $request->request->get('S_SDATE')) ? $request->request->get('S_SDATE') : null;
         }
 
-        if (!empty($_POST["S_EDATE"])) {
-            $filterEndDate = DateTime::createFromFormat('Y-m-d', $_POST["S_EDATE"]) ? $_POST["S_EDATE"] : null;
+        if (!empty($request->request->get('S_EDATE'))) {
+            $filterEndDate = DateTime::createFromFormat('Y-m-d', $request->request->get('S_EDATE')) ? $request->request->get('S_EDATE') : null;
         }
 
-        if (!empty($_POST["S_SDATE2"])) {
-            $filterDateCompleteStart = DateTime::createFromFormat('Y-m-d', $_POST["S_SDATE2"]) ? $_POST["S_SDATE2"] : null;
+        if (!empty($request->request->get('S_SDATE2'))) {
+            $filterDateCompleteStart = DateTime::createFromFormat('Y-m-d', $request->request->get('S_SDATE2')) ? $request->request->get('S_SDATE2') : null;
         }
 
-        if (!empty($_POST["S_EDATE2"])) {
-            $filterDateCompleteEnd = DateTime::createFromFormat('Y-m-d', $_POST["S_EDATE2"]) ? $_POST["S_EDATE2"] : null;
+        if (!empty($request->request->get('S_EDATE2'))) {
+            $filterDateCompleteEnd = DateTime::createFromFormat('Y-m-d', $request->request->get('S_EDATE2')) ? $request->request->get('S_EDATE2') : null;
         }
 
         $filterOrganization = $S_org;

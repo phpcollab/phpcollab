@@ -19,7 +19,7 @@ $id = $request->query->get("id");
 $addToSiteFile = $request->query->get("addToSiteFile");
 $removeToSiteFile = $request->query->get("removeToSiteFile");
 $strings = $GLOBALS["strings"];
-$idSession = Util::returnGlobal('idSession', 'SESSION');
+$idSession = $_SESSION["idSession"];
 
 
 $files = new Files();

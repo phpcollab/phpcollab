@@ -28,13 +28,13 @@ if ($projectDetail["pro_org_id"] == "1") {
 }
 
 if ($action == "add") {
-    $pub = $_POST["pub"];
+    $pub = $request->request->get('pub');
     if ($pub == "") {
         $pub = "1";
     }
 
-    $topic_subject = phpCollab\Util::convertData($_POST["topic_subject"]);
-    $topic_message = phpCollab\Util::convertData($_POST["topic_message"]);
+    $topic_subject = phpCollab\Util::convertData($request->request->get('topic_subject'));
+    $topic_message = phpCollab\Util::convertData($request->request->get('topic_message'));
 
     $newTopic = $topics->addTopic($project, $_SESSION["idSession"], $topic_subject, 1, 1, $pub, $dateheure);
 

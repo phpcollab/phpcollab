@@ -158,4 +158,9 @@ class Database
         return $this->stmt->debugDumpParams();
     }
 
+    public function getVersion()
+    {
+        return $this->dbh->getAttribute(constant("PDO::ATTR_SERVER_VERSION"));
+    }
+
 }

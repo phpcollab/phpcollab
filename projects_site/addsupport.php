@@ -17,11 +17,11 @@ $project = $request->query->get('project');
 $priority = $GLOBALS["priority"];
 
 if ($action == "add") {
-    $request_priority = $_POST["priority"];
-    $subject = $_POST["subject"];
-    $message = $_POST["message"];
-    $userId = $_POST["userId"];
-    $projectId = $_POST["projectId"];
+    $request_priority = $request->request->get('priority');
+    $subject = $request->request->get('subject');
+    $message = $request->request->get('message');
+    $userId = $request->request->get('userId');
+    $projectId = $request->request->get('projectId');
 
     if (empty($subject) || empty($message)) {
         $errorMessage = "Please enter a subject and message";

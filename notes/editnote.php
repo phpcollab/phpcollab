@@ -61,9 +61,9 @@ $teamMember = $teams->isTeamMember($project, $idSession);
 if ($id != "") {
     //case update note entry
     if ($action == "update") {
-        $noteData = $_POST;
-        $noteData["subject"] = phpCollab\Util::convertData($_POST["subject"]);
-        $noteData["description"] = phpCollab\Util::convertData($_POST["description"]);
+        $noteData = $request->request->all();
+        $noteData["subject"] = phpCollab\Util::convertData($request->request->get('subject'));
+        $noteData["description"] = phpCollab\Util::convertData($request->request->get('description'));
         $noteData["owner"] = $idSession;
 
         $updatedNote = $notes->updateNote($id, $noteData);
@@ -84,9 +84,9 @@ if ($id == "") {
 
     //case add note entry
     if ($action == "add") {
-        $noteData = $_POST;
-        $noteData["subject"] = phpCollab\Util::convertData($_POST["subject"]);
-        $noteData["description"] = phpCollab\Util::convertData($_POST["description"]);
+        $noteData = $request->request->all();
+        $noteData["subject"] = phpCollab\Util::convertData($request->request->get('subject'));
+        $noteData["description"] = phpCollab\Util::convertData($request->request->get('description'));
         $noteData["owner"] = $idSession;
 
         $num = $notes->addNote($noteData);

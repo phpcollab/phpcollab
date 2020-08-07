@@ -9,12 +9,12 @@ include '../includes/library.php';
 
 $files = new Files();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if ($_POST["action"] == "update") {
-        $commentField = phpCollab\Util::convertData($_POST["commentField"]);
+if ($request->isMethod('post')) {
+    if ($request->request->get('action') == "update") {
+        $commentField = phpCollab\Util::convertData($request->request->get('commentField'));
 
         try {
-            $files->updateApprovalTracking($idSession, $commentField, $id, $_POST["statusField"]);
+            $files->updateApprovalTracking($idSession, $commentField, $id, $request->request->get('statusField'));
             $msg = "updateFile";
 
             phpCollab\Util::headerFunction("doclists.php?msg=$msg");

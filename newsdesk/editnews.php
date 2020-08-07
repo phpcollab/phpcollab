@@ -74,12 +74,12 @@ if ($id != "") {
 
     if ($action == "update") {
 
-        $title = $_POST['title'];
-        $content = $_POST['content'];
-        $author = $_POST['author'];
-        $related = $_POST['related'];
-        $links = filter_var($_POST["links"], FILTER_SANITIZE_URL);
-        $rss = $_POST['rss'];
+        $title = $request->request->get('title');
+        $content = $request->request->get('content');
+        $author = $request->request->get('author');
+        $related = $request->request->get('related');
+        $links = filter_var($request->request->get('links'), FILTER_SANITIZE_URL);
+        $rss = $request->request->get('rss');
 
         $title = phpCollab\Util::convertData($title);
         if (get_magic_quotes_gpc() != 1) {
@@ -105,12 +105,12 @@ if ($id != "") {
 
     if ($action == "add") {
 
-        $title = $_POST['title'];
-        $author = $_POST['author'];
-        $related = $_POST['related'];
-        $content = $_POST['content'];
-        $links = $_POST['links'];
-        $rss = isset($_POST['rss']) ? $_POST['rss'] : 0;
+        $title = $request->request->get('title');
+        $author = $request->request->get('author');
+        $related = $request->request->get('related');
+        $content = $request->request->get('content');
+        $links = $request->request->get('links');
+        $rss = !empty($request->request->get('rss')) ? $request->request->get('rss') : 0;
 
         //test if name blank
         if ($title == "") {

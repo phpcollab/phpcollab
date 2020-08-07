@@ -8,15 +8,15 @@ include_once '../includes/library.php';
 $strings = $GLOBALS["strings"];
 
 //test send query
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($request->isMethod('post')) {
 
-    if (empty($_POST['username'])) {
+    if (empty($request->request->get('username'))) {
         $error = $strings["empty_field"];
     } else {
         $msg = 'email_pwd';
 
         $resetPassword = new ResetPassword();
-        $resetPassword->reset($_POST['username']);
+        $resetPassword->reset($request->request->get('username'));
     }
 }
 

@@ -7,7 +7,7 @@ $projects = new \phpCollab\Projects\Projects();
 $tasks = new \phpCollab\Tasks\Tasks();
 $members = new \phpCollab\Members\Members();
 
-$project_id = $request->query->get('project') ?: $_POST["project"];
+$project_id = $request->query->get('project') ?: $request->request->get('project');
 
 if (!isset($project_id)) {
     // Redirect to where? Back to tasks list with an error mesage?
@@ -21,15 +21,15 @@ $task_id = str_replace("**", ",", $id);
 $listTasks = $tasks->getTasksById($task_id);
 $tasks->setTasksCount(count($listTasks));
 
-if ($_POST) {
-    $acomm = phpCollab\Util::convertData($_POST["assignment_comment"]);
+if ($request->isMethod('post')) {
+    $acomm = phpCollab\Util::convertData($request->request->get('assignment_comment'));
 
-    $assigned_to = $_POST["assign_to"];
-    $task_status = $_POST["task_status"];
-    $completion = $_POST["completion"];
-    $task_priority = $_POST["task_priority"];
-    $start_date = $_POST["start_date"];
-    $due_date = $_POST["due_date"];
+    $assigned_to = $request->request->get('assign_to');
+    $task_status = $request->request->get('task_status');
+    $completion = $request->request->get('completion');
+    $task_priority = $request->request->get('task_priority');
+    $start_date = $request->request->get('start_date');
+    $due_date = $request->request->get('due_date');
 
     $continue = false;
 

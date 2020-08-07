@@ -35,40 +35,40 @@ $description = "";
 $category_new = "";
 
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (empty($_POST["name"]) && empty($_POST["url"])) {
+if ($request->isMethod('post')) {
+    if (empty($request->request->get('name')) && empty($request->request->get('url'))) {
         $error = "Please enter a name and URL";
-    } else if (empty($_POST["name"])) {
+    } else if (empty($request->request->get('name'))) {
         $error = "Please enter a name for the bookmark";
-    } else if (empty($_POST["url"])) {
+    } else if (empty($request->request->get('url'))) {
         $error = "Please enter a URL for the bookmark";
     } else {
-        if ($_POST["piecesNew"] != "") {
-            $users = "|" . implode("|", $_POST["piecesNew"]) . "|";
+        if ($request->request->get('piecesNew') != "") {
+            $users = "|" . implode("|", $request->request->get('piecesNew')) . "|";
         }
-        if ($_POST["category_new"] != "") {
+        if ($request->request->get('category_new') != "") {
             /**
              * Check to see if the category exists
              */
-            $category = $bookmark->getBookmarkCategoryByName($_POST["category_new"]);
+            $category = $bookmark->getBookmarkCategoryByName($request->request->get('category_new'));
 
             /**
              * If category is false, hence it doesn't exist, then add it
              */
             if (!$category) {
-                $category = $bookmark->addNewBookmarkCategory(phpCollab\Util::convertData($_POST["category_new"]));
+                $category = $bookmark->addNewBookmarkCategory(phpCollab\Util::convertData($request->request->get('category_new')));
             } else {
                 $category = $category["boocat_id"];
             }
         }
 
-        if ($_POST["shared"] == "" || $users != "") {
+        if ($request->request->get('shared') == "" || $users != "") {
             $shared = "0";
         }
-        if ($_POST["home"] == "") {
+        if ($request->request->get('home') == "") {
             $home = "0";
         }
-        if ($_POST["comments"] == "") {
+        if ($request->request->get('comments') == "") {
             $comments = "0";
         }
 
@@ -76,9 +76,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
          * Validate form data
          */
         $filteredData =  [];
-        $filteredData['url'] = filter_var((string) Util::addHttp($_POST['url']), FILTER_SANITIZE_URL);
-        $filteredData['name'] = filter_var((string) Util::convertData($_POST['name']), FILTER_SANITIZE_STRING);
-        $filteredData['description'] = filter_var((string) Util::convertData($_POST['description']), FILTER_SANITIZE_STRING);
+        $filteredData['url'] = filter_var((string) Util::addHttp($request->request->get('url')), FILTER_SANITIZE_URL);
+        $filteredData['name'] = filter_var((string) Util::convertData($request->request->get('name')), FILTER_SANITIZE_STRING);
+        $filteredData['description'] = filter_var((string) Util::convertData($request->request->get('description')), FILTER_SANITIZE_STRING);
         $filteredData['comments'] = filter_var(Util::convertData($comments), FILTER_SANITIZE_STRING);
         $filteredData['timestamp'] = $dateheure;
         $filteredData['category'] = filter_var((int) $category, FILTER_VALIDATE_INT);
