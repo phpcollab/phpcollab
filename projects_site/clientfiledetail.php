@@ -29,6 +29,8 @@ $displayName = $fileDetail["fil_name"];
 //---------------------------------------------------------------------------------------------------
 //Update file code
 if ($request->isMethod('post')) {
+    $fileDetail["fil_size"] = (!empty($fileDetail["fil_size"])) ? $fileDetail["fil_size"] : 0;
+
     if ($request->request->get("action") == "update") {
         if (!empty($request->request->get("maxCustom"))) {
             $maxFileSize = $request->request->get('maxCustom');
