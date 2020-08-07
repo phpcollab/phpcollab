@@ -641,3 +641,5 @@ $strings["empty_field"] = "Field is empty";
 $strings["reset_password_error"] = "Error resetting password.  Please try again or contact your administrator.";
 $strings["error_delete_post"] = "Error deleting post.  Please try again or contact your administrator.";
 $strings["delete_post"] = "Post was deleted.";
+$strings["error_file_add"] = "Error adding file.";
+$strings["error_file_does_not_exist"] = "Error: File does not exist.";
