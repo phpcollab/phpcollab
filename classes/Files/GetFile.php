@@ -57,6 +57,7 @@ class GetFile
     /**
      * @param $fileName
      * @return Exception|void
+     * @throws Exception
      */
     public function viewFile($fileName)
     {
@@ -65,13 +66,14 @@ class GetFile
                 $this->setMimeType();
                 header("Content-Length: " . filesize($this->filesPath));
                 header("Content-Type: {$this->mimeType}");
-                header("Content-Disposition: inline; filename={$fileName}");
+                header('Content-Disposition: inline;filename="' . $fileName . '"');
                 header("Last-Modified: " . date("D, j M Y G:i:s T", filemtime($this->filesPath)));
                 readfile($this->filesPath);
             }
             return;
         } catch (Exception $exception) {
-            return $exception;
+            error_log('Error accessing file: ' . $exception);
+            throw new Exception('Error: File does not exist.');
         }
     }
 
@@ -86,7 +88,7 @@ class GetFile
                 $this->setMimeType();
                 header("Content-Length: " . filesize($this->filesPath));
                 header("Content-Type: {$this->mimeType}");
-                header("Content-Disposition: attachment; filename={$fileName}");
+                header('Content-Disposition: attachment;filename="'.$fileName.'"');
                 readfile($this->filesPath);
             }
             return;
