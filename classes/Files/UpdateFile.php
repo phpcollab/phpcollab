@@ -88,13 +88,13 @@ class UpdateFile extends Files
      * @param int $fileSize
      * @return mixed
      */
-    public function setFileSize(int $fileId, int $fileSize)
+    public function setFileSize(int $fileId, $fileSize)
     {
         if (!is_int(filter_var($fileId, FILTER_VALIDATE_INT))) {
-            throw new InvalidArgumentException('Invoice ID is missing or invalid.');
+            throw new InvalidArgumentException('File ID is missing or invalid.');
         }
         if (!is_int(filter_var($fileSize, FILTER_VALIDATE_INT))) {
-            throw new InvalidArgumentException('Invoice ID is missing or invalid.');
+            throw new InvalidArgumentException('File Size is missing or invalid.');
         }
 
         return $this->updateSize($fileId, $fileSize);
