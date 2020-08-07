@@ -67,7 +67,9 @@ class NewsdeskCest
         $I->amOnPage('/newsdesk/editmessage.php?postid=' . $this->postId);
         $I->see('Add a comment to the News Article');
         $I->submitForm('form', [
-            'comment' => 'Codeception comment'
+            'comment' => 'Codeception comment',
+            'postId'  => $this->postId,
+            'action'  => 'add'
         ]);
         $I->see('Success : Addition succeeded', ['css' => '.message']);
         $I->see('Codeception comment', ['css' => '#clPrc']);
@@ -87,9 +89,12 @@ class NewsdeskCest
         $I->amOnPage('/newsdesk/editmessage.php?postid=' . $this->postId . '&id=' . $this->commentId);
         $I->see('Edit the comment of the News Article :');
         $I->submitForm('form', [
-            'comment' => 'Codeception comment - edited'
+            'comment' => 'Codeception comment - edited',
+            'postId'  => $this->postId,
+            'commentId' => $this->commentId,
+            'action'  => 'update'
         ]);
-        $I->see('Success : Modification succeeded');
+        $I->see('Success : Modification succeeded', ['css' => '.message']);
         $I->see('Codeception comment - edited', ['css' => '#clPrc']);
     }
 }
