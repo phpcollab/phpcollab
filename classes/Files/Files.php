@@ -253,6 +253,10 @@ class Files
      */
     public function updateFile($fileId, $name, $date, $size, $extension, $vc_version = null)
     {
+        if (empty($date)) {
+            $date = date('Y-m-d h:i');
+        }
+
         $this->files_gateway->updateFile($fileId, $name, $date, $size, $extension, $vc_version);
         return $this->getFileById($fileId);
 
