@@ -15,6 +15,8 @@ $members = new Members();
 $projects = new Projects();
 $tasks = new Tasks();
 
+$setTitle .= " : Delete User";
+
 $strings = $GLOBALS["strings"];
 $msgLabel = $GLOBALS["msgLabel"];
 

@@ -207,6 +207,7 @@ if (!empty($request->query->get('id'))) {
 
 //case add user
 if (empty($request->query->get('id'))) {
+    $setTitle .= " : Add User";
     $checked2 = "checked";
 
     //case add user
