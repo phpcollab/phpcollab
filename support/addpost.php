@@ -23,7 +23,7 @@ if ($supportType == "admin") {
     }
 }
 
-$support = new Support();
+$support = new Support($logger);
 
 $requestDetail = $support->getSupportRequestById($id);
 

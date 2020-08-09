@@ -1,9 +1,13 @@
 <?php
-$supportRequests = new \phpCollab\Support\Support();
+
+use phpCollab\Support\Support;
+use phpCollab\Teams\Teams;
+
+$supportRequests = new Support($logger);
 
 $mail = new phpCollab\Notification();
 
-$mail->getUserinfo($_SESSION["idSession"], "from");
+$mail->getUserinfo($_SESSION["idSession"], "from", $logger);
 $num = $request->query->get('num');
 
 $strings = $GLOBALS["strings"];
@@ -11,7 +15,7 @@ $strings = $GLOBALS["strings"];
 $requestDetail = $supportRequests->getSupportRequestById($num);
 
 if ($supportType == "team") {
-    $teams = new \phpCollab\Teams\Teams();
+    $teams = new Teams();
 
     $listTeam = $teams->getTeamByProjectId($requestDetail["sr_project"]);
 
@@ -46,7 +50,6 @@ if ($supportType == "team") {
         }
     }
 } else {
-    $members = new \phpCollab\Members\Members();
     $userDetail = $members->getMemberById(1);
 
     if ($userDetail["mem_email_work"] != "") {

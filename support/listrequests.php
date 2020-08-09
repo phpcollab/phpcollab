@@ -20,7 +20,7 @@ if ($supportType == "admin") {
     }
 }
 
-$support = new Support();
+$support = new Support($logger);
 $projects = new Projects();
 $teams = new Teams();
 

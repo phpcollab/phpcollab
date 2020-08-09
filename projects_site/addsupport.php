@@ -7,7 +7,7 @@ use phpCollab\Support\Support;
 $checkSession = "true";
 include '../includes/library.php';
 
-$support = new Support();
+$support = new Support($logger);
 
 $userDetail = $members->getMemberById($idSession);
 

@@ -9,7 +9,7 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 $teams = new Teams();
-$support = new Support();
+$support = new Support($logger);
 
 $id = $request->query->get('id');
 
