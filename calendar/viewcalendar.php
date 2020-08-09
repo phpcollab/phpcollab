@@ -107,6 +107,9 @@ $dayDay = date("d");
 
 $dayName = date("w", mktime(0, 0, 0, $month, $day, $year));
 $monthName = date("n", mktime(0, 0, 0, $month, $day, $year));
+
+$dayName = ($dayName != "0") ? $dayName : 7;
+
 $dayName = $dayNameArray[$dayName];
 $monthName = $monthNameArray[$monthName];
 
