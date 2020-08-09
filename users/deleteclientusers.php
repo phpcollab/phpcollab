@@ -80,7 +80,7 @@ $listMembers = $members->getMembersByIdIn($id, "mem.name");
 foreach ($listMembers as $listMember) {
     echo <<< HTML
 <tr class="odd">
-    <td valign="top" class="leftvalue">&nbsp;</td>
+    <td class="leftvalue">&nbsp;</td>
     <td>{$listMember["mem_login"]} ({$listMember["mem_name"]})</td>
 </tr>
 HTML;
@@ -96,11 +96,11 @@ if ($totalTasks) {
     $block1->contentTitle($strings["reassignment_clientuser"]);
     echo <<<HTML
     <tr class="odd">
-        <td valign="top" class="leftvalue">&nbsp;</td>
+        <td class="leftvalue">&nbsp;</td>
         <td>{$strings["there"]} $totalTasks {$strings["tasks"]} {$strings["owned_by"]}</td>
     </tr>
     <tr class="odd">
-        <td valign="top" class="leftvalue">&nbsp;</td>
+        <td class="leftvalue">&nbsp;</td>
         <td><b>{$strings["reassign_to"]} : </b>
 HTML;
 
@@ -121,7 +121,7 @@ HTML;
 }
 echo <<<HTML
 <tr class="odd">
-    <td valign="top" class="leftvalue">&nbsp;</td>
+    <td class="leftvalue">&nbsp;</td>
     <td>
     <input type="submit" value="{$strings["delete"]}">
     <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();">

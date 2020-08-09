@@ -83,12 +83,12 @@ $id = str_replace("**", ",", $id);
 $listTasks = $tasks->getTasksById($id);
 
 foreach ($listTasks as $listTask) {
-    echo '<tr class="odd"><td valign="top" class="leftvalue">#' . $listTask["tas_id"] . '</td><td>' . $listTask["tas_name"] . '</td></tr>';
+    echo '<tr class="odd"><td class="leftvalue">#' . $listTask["tas_id"] . '</td><td>' . $listTask["tas_name"] . '</td></tr>';
 }
 
 echo <<< TR
 <tr class="odd">
-    <td valign="top" class="leftvalue">&nbsp;</td>
+    <td class="leftvalue">&nbsp;</td>
     <td><input type="submit" name="delete" value="{$strings["delete"]}"> <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();"></td>
 </tr>
 TR;

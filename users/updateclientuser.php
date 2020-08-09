@@ -177,7 +177,7 @@ $block1->contentTitle($strings["edit_user_details"]);
 
 echo <<<HTML
 <tr class="odd">
-    <td valign="top" class="leftvalue">{$strings["user_name"]} :</td>
+    <td class="leftvalue">{$strings["user_name"]} :</td>
     <td>
         <input type="hidden" name="id" value="{$userId}">
         <input size="24" style="width: 250px;" maxlength="16" type="text" name="user_name" value="{$user_name}">
@@ -185,15 +185,15 @@ echo <<<HTML
     </td>
 </tr>
 <tr class="odd">
-    <td valign="top" class="leftvalue">{$strings["full_name"]} :</td>
+    <td class="leftvalue">{$strings["full_name"]} :</td>
     <td><input size="24" style="width: 250px;" maxlength="64" type="text" name="full_name" value="{$full_name}"></td>
 </tr>
 <tr class="odd">
-    <td valign="top" class="leftvalue">{$strings["title"]} :</td>
+    <td class="leftvalue">{$strings["title"]} :</td>
     <td><input size="24" style="width: 250px;" maxlength="64" type="text" name="title" value="{$title}"></td>
 </tr>
 <tr class="odd">
-    <td valign="top" class="leftvalue">{$strings["organization"]} :</td>
+    <td class="leftvalue">{$strings["organization"]} :</td>
     <td>
         <select name="organization">";
 HTML;
@@ -217,23 +217,23 @@ echo <<<HTML
     </td>
 </tr>
 <tr class="odd">
-    <td valign="top" class="leftvalue">{$strings["email"]} :</td>
+    <td class="leftvalue">{$strings["email"]} :</td>
     <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="email_work" value="{$email_work}"></td>
 </tr>
 <tr class="odd">
-    <td valign="top" class="leftvalue">{$strings["work_phone"]} :</td>
+    <td class="leftvalue">{$strings["work_phone"]} :</td>
     <td><input size="14" style="width: 150px;" maxlength="32" type="text" name="phone_work" value="{$phone_work}"></td>
 </tr>
 <tr class="odd">
-    <td valign="top" class="leftvalue">{$strings["home_phone"]} :</td>
+    <td class="leftvalue">{$strings["home_phone"]} :</td>
     <td><input size="14" style="width: 150px;" maxlength="32" type="text" name="phone_home" value="{$phone_home}"></td>
 </tr>
 <tr class="odd">
-    <td valign="top" class="leftvalue">{$strings["mobile_phone"]} :</td>
+    <td class="leftvalue">{$strings["mobile_phone"]} :</td>
     <td><input size="14" style="width: 150px;" maxlength="32" type="text" name="phone_mobile" value="{$phone_mobile}"></td>
 </tr>
 <tr class="odd">
-    <td valign="top" class="leftvalue">{$strings["fax"]} :</td>
+    <td class="leftvalue">{$strings["fax"]} :</td>
     <td class="infoValueField" width="634"><input size="14" style="width: 150px;" maxlength="32" type="text" name="fax" value="{$fax}"></td>
 </tr>
 HTML;
@@ -241,14 +241,14 @@ HTML;
 if ($lastvisitedpage === true) {
     echo <<<HTML
 <tr class="odd">
-    <td valign="top" class="leftvalue">{$strings["last_page"]} :</td>
+    <td class="leftvalue">{$strings["last_page"]} :</td>
     <td class="infoValueField" width="634"><input size="14" style="width: 150px;" maxlength="32" type="text" name="last_page" value="{$last_page}"></td>
 </tr>
 HTML;
 }
 echo <<<HTML
 <tr class="odd">
-    <td valign="top" class="leftvalue">{$strings["comments"]} :</td>
+    <td class="leftvalue">{$strings["comments"]} :</td>
     <td><textarea style="width: 400px; height: 50px;" name="comments" cols="35" rows="2">{$comments}</textarea></td>
 </tr>
 HTML;
@@ -257,15 +257,15 @@ $block1->contentTitle($strings["change_password_user"]);
 
 echo <<<HTML
 <tr class="odd">
-    <td valign="top" class="leftvalue">{$strings["password"]} :</td>
+    <td class="leftvalue">{$strings["password"]} :</td>
     <td><input size="24" style="width: 250px;" maxlength="16" type="password" name="password" value=""></td>
 </tr>
 <tr class="odd">
-    <td valign="top" class="leftvalue">{$strings["confirm_password"]} :</td>
+    <td class="leftvalue">{$strings["confirm_password"]} :</td>
     <td><input size="24" style="width: 250px;" maxlength="16" type="password" name="password_confirm" value=""></td>
 </tr>
 <tr class="odd">
-    <td valign="top" class="leftvalue">&nbsp;</td>
+    <td class="leftvalue">&nbsp;</td>
     <td><input type="submit" name="Save" value="{$strings["save"]}"></td>
 </tr>
 HTML;

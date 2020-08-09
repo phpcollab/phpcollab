@@ -200,7 +200,7 @@ $block1->contentTitle($strings["details"]);
 
 echo <<< HTML
 <tr class="odd">
-    <td valign="top" class="leftvalue">&nbsp;</td>
+    <td class="leftvalue">&nbsp;</td>
     <td>{$tasks->getTasksCount()} {$strings["tasks_selected"]}</td>
 </tr>
 HTML;
@@ -209,7 +209,7 @@ $assignTo = $members->getNonClientMembers('mem.name');
 
 echo <<<HTML
 		<tr class="odd">
-			<td valign="top" class="leftvalue">{$strings["assigned_to"]}</td>
+			<td class="leftvalue">{$strings["assigned_to"]}</td>
 			<td>
 				<select name="assign_to">
 					<option value="{$strings["no_change"]}" selected>{$strings["no_change"]}</option>
@@ -228,11 +228,11 @@ echo <<<HTML
 		</select></td>
 		</tr>
 		<tr class="odd">
-			<td valign="top" class="leftvalue">{$strings["assignment_comment"]} :</td>
+			<td class="leftvalue">{$strings["assignment_comment"]} :</td>
 			<td><textarea rows="3" style="width: 400px; height: 50px;" name="assignment_comment" cols="43"></textarea></td>
 		</tr>
 		<tr class="odd">
-			<td valign="top" class="leftvalue">{$strings["status"]} :</td>
+			<td class="leftvalue">{$strings["status"]} :</td>
 			<td><select name="task_status" onchange="changeSt(this)">
 				<option value="{$strings["no_change"]}" selected>{$strings["no_change"]}</option>
 HTML;
@@ -247,7 +247,7 @@ echo <<<HTML
 		</select></td>
 		</tr>
 		<tr class="odd">
-			<td valign="top" class="leftvalue">{$strings["completion"]} :</td>
+			<td class="leftvalue">{$strings["completion"]} :</td>
 			<td><input name="compl" type="hidden" value="">
 				<select name="completion" onchange="changeCompletion(this)">
 					<option value="{$strings["no_change"]}" selected>{$strings["no_change"]}</option>
@@ -261,7 +261,7 @@ for ($i = 0; $i < 11; $i++) {
 echo <<<HTML
     </select></td></tr>
 <tr class="odd">
-	<td valign="top" class="leftvalue">{$strings["priority"]} : </td>
+	<td class="leftvalue">{$strings["priority"]} : </td>
 	<td><select name="task_priority">
 			<option value="{$strings["no_change"]}" selected>{$strings["no_change"]}</option>
 HTML;
@@ -304,7 +304,7 @@ JavaScript;
 
 echo <<<TR
     <tr class="odd">
-        <td valign="top" class="leftvalue">&nbsp;</td>
+        <td class="leftvalue">&nbsp;</td>
         <td><input type="SUBMIT" value="{$strings['update']}"></td>
     </tr>
 TR;

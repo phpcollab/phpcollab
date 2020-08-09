@@ -144,7 +144,7 @@ $block1->contentTitle($strings["details"]);
 
 $listProjects = $teams->getTeamByMemberId($idSession, $block1->sortingValue);
 
-echo "<tr class='odd'><td valign='top' class='leftvalue'>" . $strings["project"] . " :</td><td><select name='projectMenu'>";
+echo "<tr class='odd'><td class='leftvalue'>" . $strings["project"] . " :</td><td><select name='projectMenu'>";
 
 foreach ($listProjects as $project) {
     if ($project["tea_pro_id"] == $noteDetail["note_project"] || $project == $project["tea_pro_id"]) {
@@ -172,7 +172,7 @@ $comptTopic = count($topicNote);
 if ($comptTopic != "0") {
     echo <<<ROW
 <tr class="odd">
-    <td valign="top" class="leftvalue">{$strings["topic"]} :</td>
+    <td class="leftvalue">{$strings["topic"]} :</td>
     <td>
         <select name="topic">
             <option value="">{$strings["choice"]}</option>

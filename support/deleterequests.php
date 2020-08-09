@@ -120,27 +120,27 @@ $block1->contentTitle($strings["delete_following"]);
 if ($action == "deleteR") {
     if (isset($listRequest) && $listRequest != '') {
         foreach ($listRequest as $request) {
-            echo '<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td>' . $request["sr_id"] . ' - ' . $request["sr_subject"] . '</td></tr>';
+            echo '<tr class="odd"><td class="leftvalue">&nbsp;</td><td>' . $request["sr_id"] . ' - ' . $request["sr_subject"] . '</td></tr>';
         }
     }
     echo <<< TR
     <tr class="odd">
-      <td valign="top" class="leftvalue">&nbsp;</td>
+      <td class="leftvalue">&nbsp;</td>
       <td><input type="submit" name="delete" value="{$strings["delete"]}"> <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();"></td>
     </tr>
 TR;
 } elseif ($action == "deleteP") {
     if (isset($listPosts) && $listPosts != '') {
         foreach ($listPost as $post) {
-            echo '<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td>' . $post["sp_id"] . ' - '. $post["sp_message"] .'</td></tr>';
+            echo '<tr class="odd"><td class="leftvalue">&nbsp;</td><td>' . $post["sp_id"] . ' - '. $post["sp_message"] .'</td></tr>';
         }
     } elseif (isset($listPost) && $listPost != '') {
-        echo '<tr class="odd"><td valign="top" class="leftvalue">&nbsp;</td><td>' . $listPost["sp_id"] . ' - '. $listPost["sp_message"] .'</td></tr>';
+        echo '<tr class="odd"><td class="leftvalue">&nbsp;</td><td>' . $listPost["sp_id"] . ' - '. $listPost["sp_message"] .'</td></tr>';
     }
 
     echo <<< TR
     <tr class="odd">
-      <td valign="top" class="leftvalue">&nbsp;</td>
+      <td class="leftvalue">&nbsp;</td>
       <td><input type="submit" name="delete" value="{$strings["delete"]}"> <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();"></td>
     </tr>
 TR;

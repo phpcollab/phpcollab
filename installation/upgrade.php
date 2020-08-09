@@ -108,7 +108,7 @@ function upgrade2_4()
         $block1->openContent();
         $block1->contentTitle("&nbsp;");
 
-        echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>
+        echo "<tr class='odd'><td class='leftvalue'>&nbsp;</td><td>
     	<pre>";
         include "../docs/copying.txt";
         echo "</pre>
@@ -124,13 +124,13 @@ function upgrade2_4()
         $block1->openContent();
         $block1->contentTitle("Database Requirements...");
 
-        echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>
+        echo "<tr class='odd'><td class='leftvalue'>&nbsp;</td><td>
         We are currently checking the database to see if it needs to be updated... <br /><br /><b>Please wait...</b><br />
     	</td></tr>";
 
         flush();
 
-        echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>";
+        echo "<tr class='odd'><td class='leftvalue'>&nbsp;</td><td>";
 
         if (checkDatabase($myError)) {
             echo "<br />Database looks <font style='color: green'>good</font>.  We are continuing the conversion...<br /><br />";
@@ -157,12 +157,12 @@ function upgrade2_4()
         $block1->heading("Conversion and update");
         $block1->openContent();
         $block1->contentTitle("Checking Settings.php...");
-        echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>
+        echo "<tr class='odd'><td class='leftvalue'>&nbsp;</td><td>
         We are making sure that settings.php is writeable, we can not continue if it's not writeable. <br /><br /><b>Please wait...</b><br />
     	</td></tr>";
         flush();
 
-        echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>";
+        echo "<tr class='odd'><td class='leftvalue'>&nbsp;</td><td>";
 
         //Check file
         $settingsFile = dirname(realpath(__FILE__)) . "/../includes/settings.php";
@@ -188,12 +188,12 @@ function upgrade2_4()
         if ($goon) {
             //Next
             $block1->contentTitle("Converting...");
-            echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>
+            echo "<tr class='odd'><td class='leftvalue'>&nbsp;</td><td>
             We are now upgrading your database and writting the config file. <br /><br /><b>Please wait...</b><br />
         	</td></tr>";
             flush();
 
-            echo "<tr class='odd'><td valign='top' class='leftvalue'>&nbsp;</td><td>";
+            echo "<tr class='odd'><td class='leftvalue'>&nbsp;</td><td>";
 
             if (convertDB()) {
                 echo "<br />Writting out new settings file...";
