@@ -3,7 +3,6 @@
 #Status page: 1
 #Path by root: ../newsdesk/listnews.php
 
-use phpCollab\Members\Members;
 use phpCollab\NewsDesk\NewsDesk;
 use phpCollab\Projects\Projects;
 
@@ -12,7 +11,6 @@ include_once '../includes/library.php';
 
 $setTitle .= " : News List";
 
-$members = new Members();
 $projects = new Projects();
 $newsDesk = new NewsDesk();
 $strings = $GLOBALS['strings'];

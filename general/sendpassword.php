@@ -15,7 +15,7 @@ if ($request->isMethod('post')) {
     } else {
         $msg = 'email_pwd';
 
-        $resetPassword = new ResetPassword();
+        $resetPassword = new ResetPassword($logger);
         $resetPassword->reset($request->request->get('username'));
     }
 }

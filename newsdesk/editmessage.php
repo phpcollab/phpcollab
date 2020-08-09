@@ -1,6 +1,5 @@
 <?php
 
-use phpCollab\Members\Members;
 use phpCollab\NewsDesk\NewsDesk;
 
 $checkSession = "true";
@@ -13,7 +12,6 @@ $tableCollab = $GLOBALS["tableCollab"];
 $idSession = $_SESSION["idSession"];
 
 $newsDesk = new NewsDesk();
-$members = new Members();
 
 //case update post
 if (!empty($commentId)) {

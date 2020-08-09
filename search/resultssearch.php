@@ -1,6 +1,5 @@
 <?php
 
-use phpCollab\Members\Members;
 use phpCollab\Notes\Notes;
 use phpCollab\Organizations\Organizations;
 use phpCollab\Projects\Projects;
@@ -15,7 +14,6 @@ include '../includes/customvalues.php';
 
 $projects = new Projects();
 $tasks = new Tasks();
-$members = new Members();
 $teams = new Teams();
 $organizations = new Organizations();
 $notes = new Notes();

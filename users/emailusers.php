@@ -3,13 +3,11 @@
 #Status page: 0
 #Path by root: ../users/emailusers.php
 
-use phpCollab\Members\Members;
 use phpCollab\Organizations\Organizations;
 
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$members = new Members();
 $organizations = new Organizations();
 
 /*

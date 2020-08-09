@@ -1,6 +1,5 @@
 <?php
 
-use phpCollab\Members\Members;
 use phpCollab\Notifications\AddProjectTeam;
 use phpCollab\Notifications\Notifications;
 use phpCollab\Projects\Projects;
@@ -9,7 +8,6 @@ use phpCollab\Teams\Teams;
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$members = new Members();
 $projects = new Projects();
 $teams = new Teams();
 $sendNotifications = new Notifications();

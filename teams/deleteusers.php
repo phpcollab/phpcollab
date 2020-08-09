@@ -3,7 +3,6 @@
 #Status page: 1
 #Path by root: ../teams/deleteusers.php
 
-use phpCollab\Members\Members;
 use phpCollab\Projects\Projects;
 use phpCollab\Teams\Teams;
 
@@ -11,7 +10,6 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 $projects = new Projects();
-$members = new Members();
 $teams = new Teams();
 
 $id = $request->query->get('id');

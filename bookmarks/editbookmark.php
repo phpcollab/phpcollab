@@ -20,14 +20,12 @@
 */
 
 use phpCollab\Bookmarks\Bookmarks;
-use phpCollab\Members\Members;
 use phpCollab\Util;
 
 $checkSession = "true";
 include_once '../includes/library.php';
 
 $bookmark = new Bookmarks();
-$member = new Members();
 
 $name = "";
 $url = "";
@@ -230,7 +228,7 @@ echo <<<HTML
 </tr>
 HTML;
 
-$listUsers = $member->getAllMembers();
+$listUsers = $members->getAllMembers();
 
 $oldCaptured = $bookmarkDetail['boo_users'];
 

@@ -3,16 +3,12 @@
 #Status page: 0
 #Path by root: ../users/exportuser.php
 
-use phpCollab\Members\Members;
-
 $export = "true";
 
 $checkSession = "false";
 include_once '../includes/library.php';
 
 include '../includes/vcard.class.php';
-
-$members = new Members();
 
 $userDetail = $members->getMemberById($id);
 

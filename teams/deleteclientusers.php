@@ -3,7 +3,6 @@
 #Status page: 1
 #Path by root: ../teams/deleteclientusers.php
 
-use phpCollab\Members\Members;
 use phpCollab\Notifications\RemoveProjectTeam;
 use phpCollab\Projects\Projects;
 use phpCollab\Teams\Teams;
@@ -13,7 +12,6 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 $projects = new Projects();
-$members = new Members();
 $sendNotifications = new Notifications();
 
 $projectDetail = $projects->getProjectById($project);

@@ -20,7 +20,6 @@
 
 
 use phpCollab\Assignments\Assignments;
-use phpCollab\Members\Members;
 use phpCollab\Phases\Phases;
 use phpCollab\Projects\Projects;
 use phpCollab\Subtasks\Subtasks;
@@ -33,7 +32,6 @@ include_once '../includes/library.php';
 
 $tasks = new Tasks();
 $projects = new Projects();
-$members = new Members();
 $teams = new Teams();
 $subtasks = new Subtasks();
 $assignments = new Assignments();

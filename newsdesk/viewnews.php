@@ -3,15 +3,12 @@
 #Status page: 1
 #Path by root: ../newsdesk/viewnews.php
 
-use phpCollab\Members\Members;
 use phpCollab\NewsDesk\NewsDesk;
 use phpCollab\Projects\Projects;
 
 $checkSession = "true";
 include_once '../includes/library.php';
 
-
-$members = new Members();
 $projects = new Projects();
 $news = new NewsDesk();
 

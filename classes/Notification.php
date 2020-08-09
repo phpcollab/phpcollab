@@ -66,10 +66,11 @@ class Notification extends phpmailer
     /**
      * @param $idUser
      * @param $type
+     * @param $logger
      */
-    public function getUserinfo($idUser, $type)
+    public function getUserinfo($idUser, $type, $logger)
     {
-        $detailUser = (new Members)->getMemberById($idUser);
+        $detailUser = (new Members($logger))->getMemberById($idUser);
         try {
             if ($type == "from") {
                 $this->setFrom($detailUser["mem_email_work"], $detailUser["mem_name"]);

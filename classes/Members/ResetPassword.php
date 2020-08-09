@@ -44,7 +44,7 @@ class ResetPassword extends Members
 {$this->strings["password"]} : {$this->newPassword}
 BODY;
 
-            $mail->getUserinfo("1", "from");
+            $mail->getUserinfo("1", "from", $this->logger);
 
             $subject = $GLOBALS["setTitle"] . " " . $this->strings["password"];
 

@@ -2,13 +2,11 @@
 #Application name: PhpCollab
 #Status page: 0
 
-use phpCollab\Members\Members;
 use phpCollab\Support\Support;
 
 $checkSession = "true";
 include '../includes/library.php';
 
-$members = new Members();
 $support = new Support();
 
 $bouton[6] = "over";

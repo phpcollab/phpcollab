@@ -29,7 +29,6 @@
 use phpCollab\Assignments\Assignments;
 use phpCollab\Files\Files;
 use phpCollab\Invoices\Invoices;
-use phpCollab\Members\Members;
 use phpCollab\Organizations\Organizations;
 use phpCollab\Phases\Phases;
 use phpCollab\Projects\Projects;
@@ -48,7 +47,6 @@ $tasks = new Tasks();
 $projects = new Projects();
 $files = new Files();
 $phases = new Phases();
-$members = new Members();
 $invoices = new Invoices();
 $assignments = new Assignments();
 $organizations = new Organizations();

@@ -28,7 +28,6 @@
 */
 
 
-use phpCollab\Members\Members;
 use phpCollab\Notifications\Notifications;
 use phpCollab\Sorting\Sorting;
 use phpCollab\Teams\Teams;
@@ -36,7 +35,6 @@ use phpCollab\Teams\Teams;
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$members = new Members();
 $teams = new Teams();
 
 if ($profilSession != "0") {

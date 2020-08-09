@@ -24,13 +24,8 @@
 ** =============================================================================
 */
 
-
-use phpCollab\Members\Members;
-
 $checkSession = "false";
 include '../includes/library.php';
-
-$members = new Members($logger);
 
 $strings = $GLOBALS["strings"];
 $idSession = (isset($_SESSION["idSession"]) && !empty($_SESSION["idSession"])) ? $_SESSION["idSession"] : null;

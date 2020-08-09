@@ -31,7 +31,6 @@
 ** =============================================================================
 */
 
-use phpCollab\Members\Members;
 use phpCollab\NewsDesk\NewsDesk;
 use phpCollab\Projects\Projects;
 
@@ -219,7 +218,6 @@ if ($action != 'remove') {
         $block1->contentRow($strings["author"], "<input type='hidden' name='author' value='$idSession'><b>$nameSession</b>");
     } // edit
     else {
-        $members = new Members();
         $newsAuthor = $members->getMemberById($newsDetail['news_author']);
         $block1->contentRow($strings["author"], "<input type='hidden' name='author' value='" . $newsDetail['news_author'] . "'><b>" . $newsAuthor["mem_name"] . "</b>");
     }

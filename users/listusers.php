@@ -3,16 +3,12 @@
 #Status page: 1
 #Path by root: ../users/listusers.php
 
-use phpCollab\Members\Members;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($profilSession != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
-
-$members = new Members();
 
 $setTitle .= " : List Users";
 
@@ -69,11 +65,11 @@ if ($listMembers) {
     $block1->openResults();
 
     $block1->labels($labels = array(
-        0 => $strings["full_name"], 
-        1 => $strings["user_name"], 
-        2 => $strings["email"], 
-        3 => $strings["profile"], 
-        4 => $strings["connected"]), 
+        0 => $strings["full_name"],
+        1 => $strings["user_name"],
+        2 => $strings["email"],
+        3 => $strings["profile"],
+        4 => $strings["connected"]),
         "false"
     );
 

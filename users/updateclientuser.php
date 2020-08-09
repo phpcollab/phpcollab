@@ -1,6 +1,5 @@
 <?php
 
-use phpCollab\Members\Members;
 use phpCollab\Organizations\Organizations;
 
 $checkSession = "true";
@@ -14,8 +13,6 @@ if (empty($userId) || empty($orgId)) {
 }
 
 $organizations = new Organizations();
-$members = new Members();
-
 
 $clientDetail = $organizations->getOrganizationById($orgId);
 $comptDetailClient = count($detailClient);

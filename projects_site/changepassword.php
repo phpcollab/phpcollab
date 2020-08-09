@@ -29,14 +29,10 @@
 ** =============================================================================
 */
 
-
-use phpCollab\Members\Members;
 use phpCollab\Teams\Teams;
 
 $checkSession = "true";
 include '../includes/library.php';
-
-$members = new Members();
 
 if ($request->isMethod('post')) {
     if ($request->request->get('action') == "update") {

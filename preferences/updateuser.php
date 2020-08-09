@@ -27,13 +27,8 @@
 ** =============================================================================
 */
 
-
-use phpCollab\Members\Members;
-
 $checkSession = "true";
 include_once '../includes/library.php';
-
-$members = new Members();
 
 if ($request->isMethod('post')) {
     if ($request->request->get('action') == "update") {

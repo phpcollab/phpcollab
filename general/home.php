@@ -1,7 +1,6 @@
 <?php
 
 use phpCollab\Bookmarks\Bookmarks;
-use phpCollab\Members\Members;
 use phpCollab\NewsDesk\NewsDesk;
 use phpCollab\Notes\Notes;
 use phpCollab\Projects\Projects;
@@ -22,7 +21,6 @@ $setTitle .= " : Home Page";
 $defaultNumRowsToDisplay = 15;
 
 $topics = new Topics();
-$members = new Members();
 $projects = new Projects();
 $tasks = new Tasks();
 $reports = new Reports();

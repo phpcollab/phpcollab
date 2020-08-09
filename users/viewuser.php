@@ -1,6 +1,5 @@
 <?php
 
-use phpCollab\Members\Members;
 use phpCollab\Notes\Notes;
 use phpCollab\Tasks\Tasks;
 use phpCollab\Teams\Teams;
@@ -8,7 +7,6 @@ use phpCollab\Teams\Teams;
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$members = new Members();
 $teams = new Teams();
 $tasks = new Tasks();
 $notes = new Notes();

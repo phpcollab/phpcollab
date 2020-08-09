@@ -5,7 +5,6 @@
 
 
 // include files
-use phpCollab\Members\Members;
 use phpCollab\Organizations\Organizations;
 
 $checkSession = "true";
@@ -18,7 +17,6 @@ if ($profilSession != (0 && 2 && 5)) {
 }
 
 $organizations = new Organizations();
-$members = new Members();
 
 // PDF setup
 include('../includes/class.ezpdf.php');
@@ -77,7 +75,7 @@ foreach ($listMembers as $member) {
     $data[] = array('name' => $name, 'title' => $title, 'email' => $email, 'phone' => $phone, 'mobile' => $mobile, 'fax' => $fax);
 }
 
-// print the page number 
+// print the page number
 $pdf->ezStartPageNumbers(526, 34, 6, 'right', '', 1);
 
 // put a line top and bottom on all the pages and company info on the bottom

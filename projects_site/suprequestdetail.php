@@ -1,13 +1,11 @@
 <?php
 
-use phpCollab\Members\Members;
 use phpCollab\Support\Support;
 
 $checkSession = "true";
 include '../includes/library.php';
 
 $support = new Support();
-$members = new Members();
 
 $id = $request->query->get('id');
 $idSession = $_SESSION["idSession"];

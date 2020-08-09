@@ -1,7 +1,6 @@
 <?php
 
 use phpCollab\Assignments\Assignments;
-use phpCollab\Members\Members;
 use phpCollab\Notifications\Notifications;
 use phpCollab\Organizations\Organizations;
 use phpCollab\Tasks\Tasks;
@@ -21,7 +20,6 @@ $organizations = new Organizations();
 
 $detailOrganization = $organizations->getOrganizationById($org_id);
 
-$members = new Members();
 $teams = new Teams();
 $tasks = new Tasks();
 $assignments = new Assignments();

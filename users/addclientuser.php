@@ -1,13 +1,11 @@
 <?php
 
-use phpCollab\Members\Members;
 use phpCollab\Notifications\Notifications;
 use phpCollab\Organizations\Organizations;
 
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$members = new Members();
 $notifications = new Notifications();
 
 $orgId = $request->query->get('organization');

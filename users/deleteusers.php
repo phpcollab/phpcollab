@@ -1,7 +1,6 @@
 <?php
 
 use phpCollab\Assignments\Assignments;
-use phpCollab\Members\Members;
 use phpCollab\Notifications\Notifications;
 use phpCollab\Projects\Projects;
 use phpCollab\Sorting\Sorting;
@@ -11,7 +10,6 @@ use phpCollab\Teams\Teams;
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$members = new Members();
 $projects = new Projects();
 $tasks = new Tasks();
 

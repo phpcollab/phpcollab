@@ -24,8 +24,6 @@
 ** =============================================================================
 */
 
-
-use phpCollab\Members\Members;
 use phpCollab\Organizations\Organizations;
 use phpCollab\Projects\Projects;
 use phpCollab\Teams\Teams;
@@ -37,7 +35,6 @@ include_once '../includes/library.php';
 $teams = new Teams();
 $orgs = new Organizations();
 $projects = new Projects();
-$members = new Members();
 
 if ($clientsFilter == "true" && $profilSession == "2") {
     $teamMember = "false";

@@ -2,14 +2,12 @@
 #Application name: PhpCollab
 #Status page: 0
 
-use phpCollab\Members\Members;
 use phpCollab\Support\Support;
 
 $checkSession = "true";
 include '../includes/library.php';
 
 $support = new Support();
-$members = new Members();
 
 $tmpquery = "WHERE sr.id = '$id'";
 
