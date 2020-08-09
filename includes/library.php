@@ -25,7 +25,7 @@ use phpCollab\Sorting\Sorting;
 use Symfony\Component\HttpFoundation\Request;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
-
+use Monolog\Processor\IntrospectionProcessor;
 
 $debug = false;
 
@@ -43,11 +43,9 @@ try {
     error_log('library error: ' . $e->getMessage());
 }
 // create a log channel
-$log = new Logger('phpCollab');
-$log->pushHandler($stream);
-
-$log->warning('php');
-$log->error('c yo!');
+$logger = new Logger('phpCollab');
+$logger->pushHandler($stream);
+$logger->pushProcessor(new IntrospectionProcessor());
 
 $escaper = new Escaper('utf-8');
 
@@ -195,7 +193,7 @@ include APP_ROOT . '/languages/help_' . $lang . '.php';
 
 $logs = new Logs();
 $sort = new Sorting();
-$members = new Members();
+$members = new Members($logger);
 
 //fix if update from old version
 if ($theme == "") {

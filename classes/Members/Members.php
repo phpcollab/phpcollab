@@ -4,6 +4,7 @@ namespace phpCollab\Members;
 
 use Exception;
 use InvalidArgumentException;
+use Monolog\Logger;
 use phpCollab\Database;
 use phpCollab\Notification;
 use phpCollab\Util;
@@ -17,12 +18,16 @@ class Members
     protected $members_gateway;
     protected $db;
     protected $strings;
+    protected $logger;
 
     /**
      * Members constructor.
+     * @param Logger $logger
      */
-    public function __construct()
+    public function __construct(Logger $logger)
     {
+        $this->logger = $logger;
+
         $this->db = new Database();
 
         $this->members_gateway = new MembersGateway($this->db);
@@ -36,7 +41,6 @@ class Members
      */
     public function getMemberByLogin($memberLogin) {
         $data = $this->members_gateway->getMemberByLogin($memberLogin);
-
         return $data;
     }
 
@@ -366,7 +370,8 @@ class Members
                 throw new Exception($mail->ErrorInfo);
             }
         } else {
-            throw new Exception('Members Class, sendEmail - Error sending mail');
+            $this->logger->critical('Error sending mail');
+            throw new Exception('Error sending mail');
         }
     }
 }

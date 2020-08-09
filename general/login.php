@@ -31,15 +31,17 @@ use phpCollab\Members\Members;
 $checkSession = "false";
 include '../includes/library.php';
 
-$members = new Members();
+$members = new Members($logger);
 $logs = new Logs();
 
 $strings = $GLOBALS["strings"];
-$idSession = (isset($_SESSION["idSession"]) && $_SESSION["idSession"] !== '') ? $_SESSION["idSession"] : null;
+$idSession = (isset($_SESSION["idSession"]) && !empty($_SESSION["idSession"])) ? $_SESSION["idSession"] : null;
 $loginMethod = $GLOBALS["loginMethod"];
 
 if ($logout == "true") {
     $logs->setConnectedByLogin($loginSession, false);
+
+    $logger->info('User logged out', ['username' => $_SESSION["loginSession"]]);
 
     // delete the authentication cookies
     setcookie('loginCookie', '', time()-86400);
@@ -47,6 +49,7 @@ if ($logout == "true") {
 
     session_unset();
     session_destroy();
+
 
     phpCollab\Util::headerFunction("../general/login.php?msg=logout");
 }
@@ -126,6 +129,7 @@ if ($auth == "on") {
 
     //test if user exits
     if (!$member) {
+        $logger->notice('Member not found', ['username' => $usernameForm]);
         $error = $strings["invalid_login"];
         setcookie("loginCookie", null, null, null, null, null, true);
         setcookie("passwordCookie", null, null, null, null, null, true);
@@ -134,12 +138,14 @@ if ($auth == "on") {
         //test password
         if (!empty($loginCookie) && !empty($passwordCookie)) {
             if (!$ssl && $passwordCookie != $member['mem_password']) {
+                $logger->notice('Invalid password', ['username' => $usernameForm]);
                 $error = $strings["invalid_login"];
             } else {
                 $match = true;
             }
         } else {
             if (!$ssl && !phpCollab\Util::doesPasswordMatch($usernameForm, $passwordForm, $member['mem_password'], $loginMethod)) {
+                $logger->notice('Invalid password', ['username' => $usernameForm]);
                 $error = $strings["invalid_login"];
             } else {
                 $match = true;
@@ -230,6 +236,8 @@ if ($auth == "on") {
                 $member['mem_last_page']
             );
 
+            $logger->info('User logged in', ['username' => $usernameForm]);
+
             //redirect for external link to internal page
             if ($request->request->get('url') != "") {
                 if ($member['mem_profil'] == "3") {
@@ -269,6 +277,7 @@ if ($auth == "on") {
 }
 error_log("session = " . $session, 0);
 if ($session == "false" && empty($url)) {
+    $logger->notice('Invalid session for user', ['username' => $usernameForm]);
     $error = $strings["session_false"];
     session_regenerate_id();
 }
