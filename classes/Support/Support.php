@@ -4,6 +4,7 @@
 namespace phpCollab\Support;
 
 use Exception;
+use Monolog\Logger;
 use phpCollab\Database;
 use phpCollab\Members\Members;
 use phpCollab\Notification;
@@ -25,12 +26,13 @@ class Support
 
     /**
      * Support constructor.
+     * @param Logger|null $logger
      */
-    public function __construct()
+    public function __construct(Logger $logger)
     {
         $this->db = new Database();
         $this->support_gateway = new SupportGateway($this->db);
-        $this->members = new Members();
+        $this->members = new Members($logger);
         $this->teams = new Teams();
         $this->strings = $GLOBALS["strings"];
         $this->root = $GLOBALS["root"];
@@ -272,7 +274,6 @@ EMAIL_MESSAGE;
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
-        return;
     }
 
     /**

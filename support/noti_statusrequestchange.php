@@ -1,9 +1,11 @@
 <?php
-$mail = new phpCollab\Notification();
-$members = new \phpCollab\Members\Members();
-$supportRequests = new \phpCollab\Support\Support();
 
-$mail->getUserinfo($_SESSION["idSession"], "from");
+use phpCollab\Support\Support;
+
+$mail = new phpCollab\Notification();
+$supportRequests = new Support($logger);
+
+$mail->getUserinfo($_SESSION["idSession"], "from", $logger);
 
 $strings = $GLOBALS["strings"];
 

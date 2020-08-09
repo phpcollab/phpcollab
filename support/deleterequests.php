@@ -1,8 +1,11 @@
 <?php
+
+use phpCollab\Support\Support;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$support = new \phpCollab\Support\Support();
+$support = new Support($logger);
 
 $id = $request->query->get('id');
 $action = $request->query->get('action');

@@ -2,12 +2,16 @@
 #Application name: PhpCollab
 #Status page: 0
 
+use phpCollab\Projects\Projects;
+use phpCollab\Support\Support;
+use phpCollab\Teams\Teams;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$teams = new \phpCollab\Teams\Teams();
-$projects = new \phpCollab\Projects\Projects();
-$support = new \phpCollab\Support\Support();
+$teams = new Teams();
+$projects = new Projects();
+$support = new Support($logger);
 
 if ($supportType == "team") {
     $teamMember = "false";

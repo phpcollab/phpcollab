@@ -1,10 +1,12 @@
 <?php
+
+use phpCollab\Support\Support;
+
 $mail = new phpCollab\Notification();
 
-$mail->getUserinfo($_SESSION["idSession"], "from");
+$mail->getUserinfo($_SESSION["idSession"], "from", $logger);
 
-$supportPosts = new \phpCollab\Support\Support();
-$members = new \phpCollab\Members\Members();
+$supportPosts = new Support($logger);
 
 $num = $request->query->get('num');
 $postDetail = $supportPosts->getSupportPostById($num);

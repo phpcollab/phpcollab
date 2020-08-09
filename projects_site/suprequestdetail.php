@@ -5,7 +5,7 @@ use phpCollab\Support\Support;
 $checkSession = "true";
 include '../includes/library.php';
 
-$support = new Support();
+$support = new Support($logger);
 
 $id = $request->query->get('id');
 $idSession = $_SESSION["idSession"];
