@@ -518,32 +518,21 @@ class Util
 
     /**
      * Return size converted with units (in the user language)
-     * @param string $result Result to convert
      * @access public
      *
+     * @param $bytes
+     * @param int $decimals
      * @return string
      */
-    public static function convertSize($result)
+    public static function convertSize($bytes, $decimals = 2)
     {
-        if ($result >= 1073741824) {
-            $result = round($result / 1073741824 * 100) / 100 . " " . self::$byteUnits[3];
+        $sizeLabels = array('bytes','KB','MB','GB');
+        if (empty($bytes)) {
+            return "0 " . $sizeLabels[0];
         } else {
-            if ($result >= 1048576) {
-                $result = round($result / 1048576 * 100) / 100 . " " . self::$byteUnits[2];
-            } else {
-                if ($result >= 1024) {
-                    $result = round($result / 1024 * 100) / 100 . " " . self::$byteUnits[1];
-                } else {
-                    $result = $result . " " . self::$byteUnits[0];
-                }
-            }
+            $factor = floor((strlen($bytes) - 1) / 3);
+            return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . ' ' . $sizeLabels[$factor];
         }
-
-        if ($result == 0) {
-            $result = self::doubleDash();
-        }
-
-        return $result;
     }
 
     /**
