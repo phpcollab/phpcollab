@@ -1,6 +1,6 @@
 <?php
 
-namespace phpCollab\Logs;
+namespace phpCollab\LoginLogs;
 
 use phpCollab\Database;
 
@@ -9,7 +9,7 @@ use phpCollab\Database;
  * Class Logs
  * @package phpCollab\Logs
  */
-class Logs
+class LoginLogs
 {
     protected $logs_gateway;
     protected $db;
@@ -21,7 +21,7 @@ class Logs
     {
         $this->db = new Database();
 
-        $this->logs_gateway = new LogsGateway($this->db);
+        $this->logs_gateway = new LoginLogsGateway($this->db);
     }
 
     /**

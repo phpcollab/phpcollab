@@ -19,7 +19,7 @@
 */
 use DebugBar\StandardDebugBar;
 use Laminas\Escaper\Escaper;
-use phpCollab\Logs\Logs;
+use phpCollab\LoginLogs\LoginLogs;
 use phpCollab\Members\Members;
 use phpCollab\Sorting\Sorting;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,7 +38,7 @@ if (ini_get('session.auto_start') == 0) {
 }
 
 try {
-    $stream = new StreamHandler(APP_ROOT . '/logs/phpcollab.log', Logger::DEBUG);
+    $stream = new StreamHandler(APP_ROOT . '/loginLogs/phpcollab.log', Logger::DEBUG);
 } catch (Exception $e) {
     error_log('library error: ' . $e->getMessage());
 }
@@ -191,7 +191,7 @@ include APP_ROOT . '/languages/lang_en.php';
 include APP_ROOT . '/languages/lang_' . $lang . '.php';
 include APP_ROOT . '/languages/help_' . $lang . '.php';
 
-$logs = new Logs();
+$loginLogs = new LoginLogs();
 $sort = new Sorting();
 $members = new Members($logger);
 
@@ -273,7 +273,7 @@ if ($checkSession != "false" && $_SESSION["demoSession"] != "true") {
         }
     }
 
-    $checkLog = $logs->getLogByLogin($loginSession);
+    $checkLog = $loginLogs->getLogByLogin($loginSession);
     if ($checkLog !== false) {
         if (session_id() != $checkLog["session"]) {
             phpCollab\Util::headerFunction("../index.php?session=false");
@@ -287,8 +287,8 @@ if ($checkSession != "false" && $_SESSION["demoSession"] != "true") {
 //count connected users
 if (isset($checkConnected) && $checkConnected != "false") {
     $dateunix = date("U");
-    $logs->updateConnectedTimeForUser($dateunix, $loginSession);
-    $connectedUsers = $logs->getConnectedUsersCount();
+    $loginLogs->updateConnectedTimeForUser($dateunix, $loginSession);
+    $connectedUsers = $loginLogs->getConnectedUsersCount();
 }
 
 

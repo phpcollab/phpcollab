@@ -34,7 +34,6 @@ if ($profilSession != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 
-$logs = new \phpCollab\Logs\Logs();
 $setTitle .= " : Logs";
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';

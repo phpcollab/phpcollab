@@ -1,12 +1,12 @@
 <?php
 
 
-namespace phpCollab\Logs;
+namespace phpCollab\LoginLogs;
 
 use phpCollab\Database;
 
 
-class LogsGateway
+class LoginLogsGateway
 {
     /**
      * @var Database

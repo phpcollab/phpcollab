@@ -25,21 +25,19 @@
 */
 
 
-use phpCollab\Logs\Logs;
 use phpCollab\Members\Members;
 
 $checkSession = "false";
 include '../includes/library.php';
 
 $members = new Members($logger);
-$logs = new Logs();
 
 $strings = $GLOBALS["strings"];
 $idSession = (isset($_SESSION["idSession"]) && !empty($_SESSION["idSession"])) ? $_SESSION["idSession"] : null;
 $loginMethod = $GLOBALS["loginMethod"];
 
 if ($logout == "true") {
-    $logs->setConnectedByLogin($loginSession, false);
+    $loginLogs->setConnectedByLogin($loginSession, false);
 
     $logger->info('User logged out', ['username' => $_SESSION["loginSession"]]);
 
@@ -196,7 +194,7 @@ if ($auth == "on") {
             //insert into or update log
             $ip = $request->server->get("REMOTE_ADDR");
 
-            $logEntry = $logs->getLogByLogin($usernameForm);
+            $logEntry = $loginLogs->getLogByLogin($usernameForm);
 
             $session = session_id();
             error_log("set session to " . $session, 0);
@@ -212,7 +210,7 @@ if ($auth == "on") {
 
             if (!$logEntry) {
                 $filteredData['compt'] = 1;
-                $logs->insertLogEntry($filteredData);
+                $loginLogs->insertLogEntry($filteredData);
             } else {
                 $lastvisiteSession = $logEntry['last_visite'];
 
@@ -220,7 +218,7 @@ if ($auth == "on") {
 
                 $filteredData['compt'] = $logEntry['compt'] + 1;
 
-                $logs->updateLogEntry($filteredData);
+                $loginLogs->updateLogEntry($filteredData);
             }
 
             // we must avoid to redirect to some special pages
