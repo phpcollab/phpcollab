@@ -86,7 +86,7 @@ if ($request->isMethod('post')) {
     $completedDate = $request->request->get("completed_date");
     $updateComments = $request->request->get("update_comments");
 
-    $publish = (empty($publish)) ? "1" : $publish;
+    $publish = ($publish === "true") ? "0" : "1";
 
     $completion = (empty($completion)) ? "0" : $completion;
 
@@ -584,7 +584,7 @@ echo <<< HTML
 		</tr>
 		<tr class="odd">
 			<td class="leftvalue">{$strings["published"]} :</td>
-			<td><input size="32" value="0" name="publish" type="checkbox" {$checkedPub}></td>
+			<td><input size="32" value="true" name="published" type="checkbox" {$checkedPub}></td>
 		</tr>
 HTML;
 
@@ -618,15 +618,12 @@ include APP_ROOT . '/themes/' . THEME . '/footer.php';
     function changeSt(theObj, firstRun) {
         if (theObj.selectedIndex === 3) {
             if (firstRun !== true) document.etDForm.completion.selectedIndex = 0;
-            // document.etDForm.compl.value = 0;
             document.etDForm.completion.disabled = false;
         } else {
             if (theObj.selectedIndex === 0 || theObj.selectedIndex === 1) {
                 document.etDForm.completion.selectedIndex = 10;
-                // document.etDForm.compl.value = 10;
             } else {
                 document.etDForm.completion.selectedIndex = 0;
-                // document.etDForm.compl.value = 0;
             }
             document.etDForm.completion.disabled = true;
         }
