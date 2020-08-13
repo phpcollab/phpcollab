@@ -98,19 +98,19 @@ $listUpdates = $updates->getUpdates($type, $item);
 $comptListUpdates = count($listUpdates);
 
 foreach ($listUpdates as $update) {
-    if (preg_match('|\[status:([0-9])\]|', $update['upd_comments'])) {
-        preg_match('|\[status:([0-9])\]|i', $update['upd_comments'], $matches);
-        $update['upd_comments'] = preg_replace('|\[status:([0-9])\]|', '', $update['upd_comments'] . '<br/>');
+    if (preg_match('|\[status:([0-9])]|', $update['upd_comments'])) {
+        preg_match('|\[status:([0-9])]|i', $update['upd_comments'], $matches);
+        $update['upd_comments'] = preg_replace('|\[status:([0-9])]|', '', $update['upd_comments'] . '<br/>');
         $update['upd_comments'] .= $strings["status"] . ' ' . $status[$matches[1]];
     }
-    if (preg_match('|\[priority:([0-9])\]|', $update['upd_comments'])) {
-        preg_match('|\[priority:([0-9])\]|i', $update['upd_comments'], $matches);
-        $update['upd_comments'] = preg_replace('|\[priority:([0-9])\]|', '', $update['upd_comments'] . '<br/>');
+    if (preg_match('|\[priority:([0-9])]|', $update['upd_comments'])) {
+        preg_match('|\[priority:([0-9])]|i', $update['upd_comments'], $matches);
+        $update['upd_comments'] = preg_replace('|\[priority:([0-9])]|', '', $update['upd_comments'] . '<br/>');
         $update['upd_comments'] .= $strings["priority"] . ' ' . $priority[$matches[1]];
     }
-    if (preg_match('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]|', $update['upd_comments'])) {
-        preg_match('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]|i', $update['upd_comments'], $matches);
-        $update['upd_comments'] = preg_replace('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]|', '', $update['upd_comments'] . '<br/>');
+    if (preg_match('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})]|', $update['upd_comments'])) {
+        preg_match('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})]|i', $update['upd_comments'], $matches);
+        $update['upd_comments'] = preg_replace('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})]|', '', $update['upd_comments'] . '<br/>');
         $update['upd_comments'] .= $strings["due_date"] . " " . $matches[1];
     }
 
