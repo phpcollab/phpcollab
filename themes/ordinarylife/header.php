@@ -69,7 +69,7 @@ if ($blank == "true") {
 	$blockHeader->itemAccount("&nbsp;");
 } else {
 	$blockHeader->itemAccount($strings["user"].":". $session->get("nameSession"));
-	$blockHeader->itemAccount($blockHeader->buildLink("../general/login.php?logout=true",$strings["logout"],"in"));
+	$blockHeader->itemAccount($blockHeader->buildLink("../general/logout.php",$strings["logout"],"in"));
 	$blockHeader->itemAccount($blockHeader->buildLink("../preferences/updateuser.php?",$strings["preferences"],"in"));
 	$blockHeader->itemAccount($blockHeader->buildLink("../projects_site/home.php?changeProject=true",$strings["go_projects_site"],"inblank"));
 }

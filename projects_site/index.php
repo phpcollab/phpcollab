@@ -16,7 +16,7 @@ if ($session == "false") {
 } elseif ($logout == "true") {
     session_start();
     session_destroy();
-    phpCollab\Util::headerFunction("../general/login.php?logout=true&login=$login");
+    phpCollab\Util::headerFunction("../general/logout.php");
 
     //default case
 } else {

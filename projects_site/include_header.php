@@ -175,8 +175,8 @@ TR;
 
 echo <<<HTML
         <tr>
-            <td><a href="../general/login.php?logout=true"><img src="ico_logout.gif" alt=""></a></td>
-            <td><a href="../general/login.php?logout=true">{$strings["logout"]}</a></td>
+            <td><a href="../general/logout.php"><img src="ico_logout.gif" alt=""></a></td>
+            <td><a href="../general/logout.php">{$strings["logout"]}</a></td>
         </tr>
     </table>
 </td>

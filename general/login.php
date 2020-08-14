@@ -24,32 +24,11 @@
 ** =============================================================================
 */
 
-use Symfony\Component\HttpFoundation\Response;
-
 $checkSession = "false";
 include '../includes/library.php';
 
 $strings = $GLOBALS["strings"];
 $loginMethod = $GLOBALS["loginMethod"];
-
-if ($request->query->get("logout") == "true") {
-    // Todo: migrate this out of here to separate concerns
-    $loginLogs->setConnectedByLogin($session->get('loginSession'), false);
-
-    $logger->info('User logged out', ['username' => $session->get('loginSession')]);
-
-    $response = new Response(
-        'Content',
-        Response::HTTP_OK,
-        ['content-type' => 'text/html']
-    );
-
-    // delete the authentication cookies
-    $response->headers->clearCookie('loginCookie');
-    $session->clear();
-    $session->invalidate();
-    phpCollab\Util::headerFunction("../general/login.php?msg=logout");
-}
 
 $auth = $request->query->get("auth");
 $usernameForm = $request->request->get("usernameForm");
@@ -239,7 +218,7 @@ if ($auth == "on") {
         }
     }
 }
-//error_log("session not set? = " . $session->getId(), 0);
+
 if ($session == "false" && empty($url)) {
     $logger->notice('Invalid session for user', ['username' => $usernameForm]);
     $error = $strings["session_false"];

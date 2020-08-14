@@ -233,7 +233,7 @@ if ($checkSession != "false" && $session->get('demoSession') != "true") {
             $diff = $dateunix - $session->get('dateunixSession');
 
             if ($diff > $session->get('logouttimeSession')) {
-                phpCollab\Util::headerFunction("../general/login.php?logout=true");
+                phpCollab\Util::headerFunction("../general/logout.php");
             } else {
                 $session->set('dateunixSession', $dateunix);
             }
