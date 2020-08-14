@@ -13,7 +13,7 @@ $strings = $GLOBALS["strings"];
 
 $mkdirMethodMore = $loginMethodMore = $extensions = $matches = null;
 
-if ($profilSession != "0") {
+if ($session->get('profilSession') != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 

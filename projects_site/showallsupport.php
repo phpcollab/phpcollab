@@ -13,9 +13,9 @@ $bouton[6] = "over";
 $titlePage = $strings["support"];
 include 'include_header.php';
 
-$userDetail = $members->getMemberById($idSession);
+$userDetail = $members->getMemberById($session->get("idSession"));
 
-$listRequests = $support->getSupportRequestByMemberIdAndProjectId($idSession, $project);
+$listRequests = $support->getSupportRequestByMemberIdAndProjectId($session->get("idSession"), $project);
 
 $block1 = new phpCollab\Block();
 

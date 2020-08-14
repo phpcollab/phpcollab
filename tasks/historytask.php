@@ -144,10 +144,10 @@ foreach ($listUpdates as $update) {
     }
 
     $block1->contentRow($strings["posted_by"], $blockPage->buildLink($update["upd_mem_email_work"], $update["upd_mem_name"], "mail"));
-    if ($update["upd_created"] > $_SESSION["lastvisiteSession"]) {
-        $block1->contentRow($strings["when"], "<b>" . phpCollab\Util::createDate($update["upd_created"], $_SESSION["timezoneSession"]) . "</b>");
+    if ($update["upd_created"] > $session->get('lastvisiteSession')) {
+        $block1->contentRow($strings["when"], "<b>" . phpCollab\Util::createDate($update["upd_created"], $session->get('timezoneSession')) . "</b>");
     } else {
-        $block1->contentRow($strings["when"], phpCollab\Util::createDate($update["upd_created"], $_SESSION["timezoneSession"]));
+        $block1->contentRow($strings["when"], phpCollab\Util::createDate($update["upd_created"], $session->get('timezoneSession')));
     }
     $block1->contentRow("", nl2br($update["upd_comments"]));
     $block1->contentRow("", "", "true");

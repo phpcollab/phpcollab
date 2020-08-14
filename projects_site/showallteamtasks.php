@@ -41,7 +41,7 @@ $titlePage = $strings["team_tasks"];
 include 'include_header.php';
 
 
-$listTasks = $tasks->getTeamTasks($projectSession);
+$listTasks = $tasks->getTeamTasks($session->get("projectSession"));
 
 $block1 = new phpCollab\Block();
 
@@ -59,7 +59,7 @@ if (!empty($listTasks)) {
             <tbody>
 TABLE;
 
-        
+
 
     foreach ($listTasks as $task) {
         if ($task["tas_due_date"] == "") {

@@ -17,9 +17,6 @@ $removeToSite = $request->query->get('removeToSite');
 
 $strings = $GLOBALS["strings"];
 
-$idSession = $_SESSION["idSession"];
-
-
 $topics = new Topics();
 $projects = new Projects();
 $teams = new Teams();
@@ -68,7 +65,7 @@ $blockPage->openBreadcrumbs();
 
 $teamMember = "false";
 if ($project != "") {
-    $teamMember = $teams->isTeamMember($project, $idSession);
+    $teamMember = $teams->isTeamMember($project, $session->get("idSession"));
 
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
@@ -100,7 +97,7 @@ $block1->openPaletteIcon();
 if ($teamMember == "true") {
     $block1->paletteIcon(0, "add", $strings["add"]);
 }
-if ($idSession == $projectDetail["pro_owner"]) {
+if ($session->get("idSession") == $projectDetail["pro_owner"]) {
     $block1->paletteIcon(1, "remove", $strings["delete"]);
     $block1->paletteIcon(2, "lock", $strings["close"]);
     if ($sitePublish == "true") {
@@ -116,7 +113,7 @@ $block1->sorting("discussions", $sortingUser["discussions"], "topic.last_post DE
 if ($project != "") {
     $listTopics = $topics->getTopicsByProjectId($project, $block1->sortingValue);
 } else {
-    $listTopics = $topics->getTopicsByTopicOwner($idSession, $block1->sortingValue);
+    $listTopics = $topics->getTopicsByTopicOwner($session->get("idSession"), $block1->sortingValue);
 }
 
 if ($listTopics) {
@@ -133,10 +130,10 @@ if ($listTopics) {
         $block1->cellRow($blockPage->buildLink("../topics/viewtopic.php?id=" . $topic["top_id"], $topic["top_subject"], "in"));
         $block1->cellRow($blockPage->buildLink($topic["top_mem_email_work"], $topic["top_mem_login"], "mail"));
         $block1->cellRow($topic["top_posts"]);
-        if ($topic["top_last_post"] > $GLOBALS["lastvisiteSession"]) {
-            $block1->cellRow("<b>" . phpCollab\Util::createDate($topic["top_last_post"], $_SESSION["timezoneSession"]) . "</b>");
+        if ($topic["top_last_post"] > $session->get("lastvisiteSession")) {
+            $block1->cellRow("<b>" . phpCollab\Util::createDate($topic["top_last_post"], $session->get('timezoneSession')) . "</b>");
         } else {
-            $block1->cellRow(phpCollab\Util::createDate($topic["top_last_post"], $_SESSION["timezoneSession"]));
+            $block1->cellRow(phpCollab\Util::createDate($topic["top_last_post"], $session->get('timezoneSession')));
         }
         $block1->cellRow($statusTopic[$idStatus]);
         if ($sitePublish == "true") {
@@ -154,7 +151,7 @@ $block1->openPaletteScript();
 if ($teamMember == "true") {
     $block1->paletteScript(0, "add", "../topics/addtopic.php?project=" . $projectDetail["pro_id"] . "", "true,true,true", $strings["add"]);
 }
-if ($idSession == $projectDetail["pro_owner"]) {
+if ($session->get("idSession") == $projectDetail["pro_owner"]) {
     $block1->paletteScript(1, "remove", "../topics/deletetopics.php?project=" . $projectDetail["pro_id"] . "", "false,true,true", $strings["delete"]);
     $block1->paletteScript(2, "lock", "../topics/listtopics.php?closeTopic=true&project=$project&action=publish", "false,true,true", $strings["close"]);
     if ($sitePublish == "true") {

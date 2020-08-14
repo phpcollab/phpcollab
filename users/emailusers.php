@@ -23,7 +23,7 @@ if ($request->isMethod('post')) {
     if ($request->query->get('action') == "email") {
 
         // get name and email of user sending the email
-        $userPrefs = $members->getMemberById($idSession);
+        $userPrefs = $members->getMemberById($session->get("idSession"));
 
         // get company name
         $clientDetail = $organizations->getOrganizationById(1);
@@ -64,7 +64,7 @@ if ($request->isMethod('post')) {
 
         }
 
-        if ($profilSession == "0") {
+        if ($session->get("profilSession") == "0") {
             header("Location:../users/listusers.php?id={$clientDetail["org_id"]}&msg=email");
         } else {
             header("Location:../general/home.php?msg=email");

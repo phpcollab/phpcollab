@@ -18,7 +18,7 @@ $phaseDetail = $phases->getPhasesById($id);
 
 $projectdetail = $projects->getProjectById($project);
 
-$teamMember = $teams->isTeamMember($project, $idSession);
+$teamMember = $teams->isTeamMember($project, $session->get("idSession"));
 
 if ($request->isMethod('post')) {
     if ($action == "update") {

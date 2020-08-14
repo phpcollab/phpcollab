@@ -65,7 +65,7 @@ if ($request->query->get('action') == "add") {
 
             try {
                 $notificationList = $sendNotifications->getNotificationsWhereMemberIn($id);
-                $addProjectTeam->generateEmail($projectDetail, $notificationList);
+                $addProjectTeam->generateEmail($projectDetail, $notificationList, $session, $logger);
             } catch (Exception$e) {
                 // Log exception
             }

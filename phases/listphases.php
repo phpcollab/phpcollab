@@ -23,7 +23,7 @@ $projectDetail = $projects->getProjectById($id);
 
 $teamMember = "false";
 
-$teamMember = $teams->isTeamMember($id, $idSession);
+$teamMember = $teams->isTeamMember($id, $session->get("idSession"));
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -37,7 +37,7 @@ if ($msg != "") {
     $blockPage->messageBox($msgLabel);
 }
 
-if ($teamMember == "true" || $profilSession == "5") {
+if ($teamMember == "true" || $session->get("profilSession") == "5") {
     $block7 = new phpCollab\Block();
     $block7->form = "wbSe";
     $block7->openForm("../phases/listphases.php?id=$id&#".$block7->form."Anchor");
@@ -46,8 +46,8 @@ if ($teamMember == "true" || $profilSession == "5") {
 
     $block7->paletteIcon(0, "info", $strings["view"]);
 
-    if ($teamMember == "true" || $profilSession == "5") {
-        if ($idSession == $projectDetail["pro_owner"] || $profilSession == "0" || $profilSession == "5") {
+    if ($teamMember == "true" || $session->get("profilSession") == "5") {
+        if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profilSession") == "0" || $session->get("profilSession") == "5") {
             $block7->paletteIcon(1, "edit", $strings["edit"]);
         }
     }
@@ -95,8 +95,8 @@ if ($teamMember == "true" || $profilSession == "5") {
 
     $block7->openPaletteScript();
     $block7->paletteScript(0, "info", "../phases/viewphase.php?", "false,true,true", $strings["view"]);
-    if ($teamMember == "true" || $profilSession == "5") {
-        if ($idSession == $projectDetail["pro_owner"] || $profilSession == "0" || $profilSession == "5") {
+    if ($teamMember == "true" || $session->get("profilSession") == "5") {
+        if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profilSession") == "0" || $session->get("profilSession") == "5") {
             $block7->paletteScript(1, "edit", "../phases/editphase.php?", "false,true,true", $strings["edit"]);
         }
     }

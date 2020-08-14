@@ -13,14 +13,14 @@ $tmpquery = "WHERE sr.id = '$id'";
 
 $requestDetail = $support->getSupportRequestById($id);
 
-if ($requestDetail["sr_project"] != $projectSession || $requestDetail["sr_member"] != $idSession) {
+if ($requestDetail["sr_project"] != $session->get("projectSession") || $requestDetail["sr_member"] != $session->get("idSession")) {
     phpCollab\Util::headerFunction("index.php");
 }
 if ($request->query->get('action') == "add") {
     $message = phpCollab\Util::convertData($request->request->get('response_message'));
 
     if (!empty($message)) {
-        $newPostId = $support->addSupportPost($id, $message, $dateheure, $idSession, $requestDetail["sr_project"]);
+        $newPostId = $support->addSupportPost($id, $message, $dateheure, $session->get("idSession"), $requestDetail["sr_project"]);
 
         if ($notifications == "true") {
             // Gather additional information for the notification
@@ -56,7 +56,7 @@ ERROR;
 echo <<<FORM
 <form accept-charset="UNKNOWN" 
     method="POST" 
-    action="../projects_site/addsupportpost.php?id={$id}&action=add&project={$projectSession}#filedetailsAnchor" 
+    action="../projects_site/addsupportpost.php?id={$id}&action=add&project={$session->get("projectSession")}#filedetailsAnchor" 
     name="addsupport" 
     enctype="multipart/form-data">
 
@@ -73,7 +73,7 @@ echo <<<FORM
         <td><input type="SUBMIT" value="{$strings["submit"]}"></td>
     </tr>
 </table>
-    <input type="hidden" name="user" value="{$idSession}">
+    <input type="hidden" name="user" value="{$session->get("idSession")}">
 </form>
 FORM;
 

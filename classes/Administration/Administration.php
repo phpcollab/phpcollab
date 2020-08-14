@@ -5,10 +5,10 @@ namespace phpCollab\Administration;
 
 use Apfelbox\FileDownload\FileDownload;
 use Exception;
-use GuzzleHttp\Exception\GuzzleException;
 use phpCollab\Database;
 use Ifsnop\Mysqldump as IMysqldump;
 use GuzzleHttp\Client;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Class Admins
@@ -33,11 +33,12 @@ class Administration
 
     /**
      * @param $oldVersion
+     * @param Session $session
      * @return bool | string
      */
-    public function checkForUpdate($oldVersion)
+    public function checkForUpdate($oldVersion, Session $session)
     {
-        if (!isset($_SESSION['updateAvailable'])) {
+        if (empty($session->get('updateAvailable'))) {
             try {
                 $client = new Client([
                     'base_uri' => 'https://www.phpcollab.com',
@@ -61,22 +62,23 @@ class Administration
 
                 if ($oldVersion < $this->newVersion) {
                     $this->update = true;
-                    $_SESSION['newVersion'] = $this->newVersion;
-                    $_SESSION['updateAvailable'] = true;
+                    $session->set('newVersion', $this->newVersion);
+                    $session->set('updateAvailable', true);
                 } else {
-                    $_SESSION['updateAvailable'] = false;
+                    $session->set('updateAvailable', false);
                 }
             } catch (Exception $exception) {
                 return false;
-            } catch (GuzzleException $e) {
-                return false;
             }
-        } else if ($_SESSION['updateAvailable'] === true && isset($_SESSION['newVersion'])) {
+        }
+
+        if ($session->get('updateAvailable') === true && !empty($session->get('newVersion'))) {
             $this->update = true;
-            $this->newVersion = $_SESSION['newVersion'];
+            $this->newVersion = $session->get('newVersion');
         } else {
             $this->update = false;
         }
+        return $this->update;
     }
 
     /**

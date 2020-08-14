@@ -13,7 +13,7 @@ $updates = new Updates();
 
 $taskDetail = $tasks->getTaskById($id);
 
-if ($taskDetail["tas_published"] == "1" || $taskDetail["tas_project"] != $projectSession) {
+if ($taskDetail["tas_published"] == "1" || $taskDetail["tas_project"] != $session->get("projectSession")) {
     phpCollab\Util::headerFunction("index.php");
 }
 
@@ -59,7 +59,7 @@ $listUpdates = $updates->getUpdates(1, $id, 'upd.created DESC');
 if ($listUpdates) {
     $j = 1;
     foreach ($listUpdates as $update) {
-        echo "<b>" . $j . ".</b> <i>" . phpCollab\Util::createDate($update["upd_created"], $timezoneSession) . "</i><br/>" . nl2br($update["upd_comments"]);
+        echo "<b>" . $j . ".</b> <i>" . phpCollab\Util::createDate($update["upd_created"], $session->get("timezoneSession")) . "</i><br/>" . nl2br($update["upd_comments"]);
         echo "<br/>";
         $j++;
     }

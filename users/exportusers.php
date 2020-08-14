@@ -12,7 +12,7 @@ include '../includes/library.php';
 
 
 // session checking to prevent nonadmins from accessing file. Change or remove to give access to Users.
-if ($profilSession != (0 && 2 && 5)) {
+if ($session->get("profilSession") != (0 && 2 && 5)) {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 

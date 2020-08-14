@@ -53,7 +53,7 @@ if ($msg == "demo") {
 
 $projectDetail = $projects->getProjectById($id);
 
-$memberTest = $teams->isTeamMember($id, $idSession);
+$memberTest = $teams->isTeamMember($id, $session->get("idSession"));
 
 if ($teamMember == "false" && $projectsFilter == "true") {
     header("Location:../general/permissiondenied.php");
@@ -85,7 +85,7 @@ $block1->form = "pdD";
 $block1->openForm("../projects/viewprojectsite.php?id=$id&#" . $block1->form . "Anchor");
 $block1->heading($strings["project_site"] . " : " . $projectDetail["pro_name"]);
 
-if ($idSession == $projectDetail["pro_owner"] || $profilSession == "5") {
+if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profilSession") == "5") {
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "remove", $strings["delete"]);
     $block1->closePaletteIcon();
@@ -104,7 +104,7 @@ if ($projectDetail["pro_org_id"] == "1") {
 $block1->closeContent();
 $block1->closeForm();
 
-if ($idSession == $projectDetail["pro_owner"] || $profilSession == "5") {
+if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profilSession") == "5") {
     $block1->openPaletteScript();
     $block1->paletteScript(0, "remove", "../projects/deleteprojectsite.php?project=$id", "true,true,true", $strings["delete"]);
     $block1->closePaletteScript(1, $projectDetail["pro_id"]);
@@ -117,7 +117,7 @@ if ($projectDetail["pro_organization"] != "" && $projectDetail["pro_organization
 
     $block2->heading($strings["permitted_client"]);
 
-    if ($idSession == $projectDetail["pro_owner"] || $profilSession == "5") {
+    if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profilSession") == "5") {
         $block2->openPaletteIcon();
         $block2->paletteIcon(0, "add", $strings["add"]);
         $block2->paletteIcon(1, "remove", $strings["delete"]);
@@ -175,7 +175,7 @@ if ($projectDetail["pro_organization"] != "" && $projectDetail["pro_organization
 
     $block2->closeFormResults();
 
-    if ($idSession == $projectDetail["pro_owner"] || $profilSession == "5") {
+    if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profilSession") == "5") {
         $block2->openPaletteScript();
         $block2->paletteScript(0, "add", "../teams/addclientuser.php?project=$id", "true,false,false", $strings["add"]);
         $block2->paletteScript(1, "remove", "../teams/deleteclientusers.php?project=$id", "false,true,true", $strings["delete"]);

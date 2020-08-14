@@ -15,6 +15,10 @@
 **
 ** DESC: Screen: library file
 **
+** -----------------------------------------------------------------------------
+** TO-DO:
+** move to a better login system and authentication (try to db session)
+**
 ** =============================================================================
 */
 use DebugBar\StandardDebugBar;
@@ -26,16 +30,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Processor\IntrospectionProcessor;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Attribute\NamespacedAttributeBag;
+use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 
 $debug = false;
 
 define('APP_ROOT', dirname(dirname(__FILE__)));
 
 require APP_ROOT . '/vendor/autoload.php';
-
-if (ini_get('session.auto_start') == 0) {
-    $profilSession = "";
-}
 
 try {
     $stream = new StreamHandler(APP_ROOT . '/loginLogs/phpcollab.log', Logger::DEBUG);
@@ -59,38 +62,12 @@ error_reporting(2039);
 
 $request = Request::createFromGlobals();
 
-session_start();
+$session = new Session(new NativeSessionStorage(), new NamespacedAttributeBag());
+$session->start();
 
-// register_globals cheat code
-if (ini_get("register_globals") != "1") {
-    //GET and POST VARS
-    if (!empty($_REQUEST)) {
-        foreach ($_REQUEST as $key => $val) {
-            $GLOBALS[$key] = phpCollab\Util::replaceSpecialCharacters($val);
-        }
-    }
-    //$HTTP_SESSION_VARS
-    if (!empty($_SESSION)) {
-        foreach ($_SESSION as $key => $val) {
-            $GLOBALS[$key] = phpCollab\Util::replaceSpecialCharacters($val);
-        }
-    }
-    //$HTTP_SERVER_VARS
-    if (!empty($_SERVER)) {
-        foreach ($_SERVER as $key => $val) {
-            $GLOBALS[$key] = phpCollab\Util::replaceSpecialCharacters($val);
-        }
-    }
-}
+$session->set('phpCollab', []);
 
 $msg = $request->query->get("msg");
-$session = $request->query->get("session");
-$logout = $request->query->get("logout");
-$idSession = $_SESSION["idSession"];
-$dateunixSession = $_SESSION["dateunixSession"];
-$loginSession = $_SESSION["loginSession"];
-$profilSession = $_SESSION["profilSession"];
-$logouttimeSession = $_SESSION["logouttimeSession"];
 
 $parse_start = phpCollab\Util::getMicroTime();
 
@@ -145,7 +122,8 @@ $langValue = array(
 
 
 //language browser detection
-if ($langDefault == "") {
+if ($session->get('langDefault') == "") {
+    $session->set('langDefault', 'en');
     if (isset($HTTP_ACCEPT_LANGUAGE)) {
         $plng = explode(",", $HTTP_ACCEPT_LANGUAGE);
         if (count($plng) > 0) {
@@ -154,42 +132,30 @@ if ($langDefault == "") {
                 $k = explode("-", $k[0]);
 
                 if (file_exists("../languages/lang_" . $k[0] . ".php")) {
-                    $langDefault = $k[0];
+                    $session->set('langDefault', $k[0]);
                     break;
                 }
-                $langDefault = "en";
             }
-        } else {
-            $langDefault = "en";
         }
-    } else {
-        $langDefault = "en";
     }
 }
 
 //set language session
-if ($langDefault != "") {
+if (!empty($session->get('langDefault'))) {
     $langSelected[$langDefault] = "selected";
 } else {
     $langSelected = "";
 }
 
-if (empty($_SESSION["languageSession"])) {
-    $lang = $langDefault;
-} else {
-    $lang = $_SESSION["languageSession"];
-}
-
-
 $settings = null;
 //settings and date selector includes
-include APP_ROOT . '/includes/settings.php';
+require_once APP_ROOT . '/includes/settings.php';
 
 include APP_ROOT . '/includes/initrequests.php';
 
-include APP_ROOT . '/languages/lang_en.php';
-include APP_ROOT . '/languages/lang_' . $lang . '.php';
-include APP_ROOT . '/languages/help_' . $lang . '.php';
+require_once APP_ROOT . '/languages/lang_en.php';
+require_once APP_ROOT . '/languages/lang_' . $session->get("langDefault") . '.php';
+require_once APP_ROOT . '/languages/help_' . $session->get("langDefault") . '.php';
 
 $loginLogs = new LoginLogs();
 $sort = new Sorting();
@@ -203,23 +169,25 @@ if (!is_resource("THEME")) {
     define('THEME', $theme);
 }
 if (!is_resource("FTPSERVER")) {
-    define('FTPSERVER', '');
+//    define('FTPSERVER', '');
+    $session->set('phpCollab/ftpServer', '');
 }
 if (!is_resource("FTPLOGIN")) {
-    define('FTPLOGIN', '');
+//    define('FTPLOGIN', '');
+    $session->set('phpCollab/ftpLogin', '');
 }
 if (!is_resource("FTPPASSWORD")) {
-    define('FTPPASSWORD', '');
+//    define('FTPPASSWORD', '');
+    $session->set('phpCollab/ftpPassword', '');
 }
-if (empty($uploadMethod)) {
-    $uploadMethod = "PHP";
-}
-if (empty($peerReview)) {
+if ($peerReview == "") {
     $peerReview = "true";
+    $session->set('phpCollab/peerReview', true);
 }
 
 if (empty($loginMethod)) {
-    $loginMethod = "PLAIN";
+    $session->set('phpCollab/loginMethod', 'CRYPT');
+//    $loginMethod = "PLAIN";
 }
 if (empty($databaseType)) {
     $databaseType = "mysql";
@@ -232,20 +200,20 @@ if (empty($installationType)) {
  * This code should be called if $checkSession = true and we are not in demo mode.
  * If a session is not active, then redirect to the login page.
  */
-if ($checkSession != "false" && $_SESSION["demoSession"] != "true") {
+if ($checkSession != "false" && $session->get('demoSession') != "true") {
 
-    if (empty($_SESSION)) {
+    if (empty($session->getId())) {
         phpCollab\Util::headerFunction("../index.php?session=false");
-    };
+    }
 
 
-    if ($profilSession == "3" && !strstr($request->server->get("PHP_SELF"), "projects_site")) {
+    if ($session->get('profilSession') == "3" && !strstr($request->server->get('PHP_SELF'), "projects_site")) {
         phpCollab\Util::headerFunction("../projects_site/home.php");
     }
 
-    if ($lastvisitedpage && $profilSession != "0") { // If the user has admin permissions, do not log the last page visited.
+    if ($lastvisitedpage && $session->get('profilSession') != "0") { // If the user has admin permissions, do not log the last page visited.
         if (!strstr($request->server->get("PHP_SELF"), "graph")) {
-            $sidCode = session_name();
+            $sidCode = $session->getName();
             $page = $request->server->get("PHP_SELF") . "?" . $request->server->get("QUERY_STRING");
             $page = preg_replace('/(&' . $sidCode . '=)([A-Za-z0-9.]*)($|.)/', '', $page);
             $page = preg_replace('/(' . $sidCode . '=)([A-Za-z0-9.]*)($|.)/', '', $page);
@@ -255,25 +223,24 @@ if ($checkSession != "false" && $_SESSION["demoSession"] != "true") {
             $pieces[1] = strrev($pieces[1]);
             $page = $pieces[1] . "/" . $pieces[0];
 
-            $members->setLastPageVisited($idSession, $page);
+            $members->setLastPageVisited($session->getId(), $page);
         }
     }
     //if auto logout feature used, store last required page before disconnecting
-    if ($profilSession != "3") {
-        if ($logouttimeSession != "0" && $logouttimeSession != "") {
+    if ($session->get('profilSession') != "3") {
+        if ($session->get('logouttimeSession') != "0" && $session->get('logouttimeSession') != "") {
             $dateunix = date("U");
-            $diff = $dateunix - $dateunixSession;
+            $diff = $dateunix - $session->get('dateunixSession');
 
-            if ($diff > $logouttimeSession) {
+            if ($diff > $session->get('logouttimeSession')) {
                 phpCollab\Util::headerFunction("../general/login.php?logout=true");
             } else {
-                $dateunixSession = $dateunix;
-                $_SESSION['dateunixSession'] = $dateunixSession;
+                $session->set('dateunixSession', $dateunix);
             }
         }
     }
 
-    $checkLog = $loginLogs->getLogByLogin($loginSession);
+    $checkLog = $loginLogs->getLogByLogin($session->get('loginSession'));
     if ($checkLog !== false) {
         if (session_id() != $checkLog["session"]) {
             phpCollab\Util::headerFunction("../index.php?session=false");
@@ -293,8 +260,8 @@ if (isset($checkConnected) && $checkConnected != "false") {
 
 
 //disable actions if demo user logged in demo mode
-if ($action != "") {
-    if ($_SESSION["demoSession"] == "true") {
+if ($request->query->get('action') != "") {
+    if ($session->get('demoSession') == "true") {
         $closeTopic = "";
         $addToSiteTask = "";
         $removeToSiteTask = "";
@@ -327,11 +294,11 @@ if (!empty($sort_target) && $sort_target != "" && $sort_fields != "none") {
 
     $sort_value = $sort_fields . ' ' . $sort_order;
 
-    $sort->updateSortingTargetByUserId($sort_target, $sort_value, $idSession);
+    $sort->updateSortingTargetByUserId($sort_target, $sort_value, $session->get("idSession"));
 
 }
 
-$sortingUser = $sort->getSortingValues($idSession);
+$sortingUser = $sort->getSortingValues($session->getId());
 
 // :-)
 $setCopyright = "<!-- Powered by PhpCollab v$version //-->";

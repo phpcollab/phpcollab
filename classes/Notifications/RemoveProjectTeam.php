@@ -5,21 +5,24 @@ namespace phpCollab\Notifications;
 
 
 use Exception;
+use Monolog\Logger;
 use phpCollab\Notification;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class RemoveProjectTeam extends Notification
 {
     /**
      * @param $projectDetail
      * @param $notificationsList
+     * @param Session $session
+     * @param Logger $logger
      * @throws Exception
      */
-    public function generateEmail($projectDetail, $notificationsList)
+    public function generateEmail($projectDetail, $notificationsList, Session $session, Logger $logger)
     {
         if ($projectDetail) {
-
             try {
-                $this->getUserinfo($GLOBALS["idSession"], "from");
+                $this->getUserinfo($session->get("idSession"), "from", $logger);
 
                 $this->partSubject = $this->strings["noti_removeprojectteam1"];
                 $this->partMessage = $this->strings["noti_removeprojectteam2"];

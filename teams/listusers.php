@@ -61,7 +61,7 @@ $block1->heading($strings["team_members"]);
 
 $block1->openPaletteIcon();
 
-if ($idSession == $projectDetail["pro_owner"] || $profilSession == "5") {
+if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profilSession") == "5") {
     $block1->paletteIcon(0, "add", $strings["add"]);
     $block1->paletteIcon(1, "remove", $strings["delete"]);
 
@@ -116,7 +116,7 @@ $block1->closeResults();
 $block1->closeFormResults();
 
 $block1->openPaletteScript();
-if ($idSession == $projectDetail["pro_owner"] || $profilSession == "5") {
+if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profilSession") == "5") {
     $block1->paletteScript(0, "add", "../teams/adduser.php?project=" . $projectDetail["pro_id"] . "", "true,true,true", $strings["add"]);
     $block1->paletteScript(1, "remove", "../teams/deleteusers.php?project=" . $projectDetail["pro_id"] . "", "false,true,true", $strings["delete"]);
 

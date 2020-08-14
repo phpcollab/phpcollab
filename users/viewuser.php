@@ -55,7 +55,7 @@ if (isset($error) && $error != "") {
 $block1->heading($strings["user_profile"]);
 
 $block1->openPaletteIcon();
-if ($profilSession == "0") {
+if ($session->get("profilSession") == "0") {
     if ($id != "1" && $id != "2") {
         $block1->paletteIcon(0, "remove", $strings["delete"]);
     }
@@ -92,7 +92,7 @@ if ($userDetail["mem_profil"] == "0") {
 $block1->contentRow($strings["permissions"], isset($permission) ? $permission : '');
 
 $block1->contentRow($strings["comments"], nl2br($userDetail["mem_comments"]));
-$block1->contentRow($strings["account_created"], phpCollab\Util::createDate($userDetail["mem_created"], $_SESSION["timezoneSession"]));
+$block1->contentRow($strings["account_created"], phpCollab\Util::createDate($userDetail["mem_created"], $session->get('timezoneSession')));
 $block1->contentRow($strings["last_page"], $userDetail["mem_last_page"]);
 $block1->contentTitle($strings["information"]);
 
@@ -117,7 +117,7 @@ $block1->closeContent();
 $block1->closeForm();
 
 $block1->openPaletteScript();
-if ($profilSession == "0") {
+if ($session->get("profilSession") == "0") {
     if ($id != "1" && $id != "2") {
         $block1->paletteScript(0, "remove", "../users/deleteusers.php?id=$id&", "true,true,true", $strings["delete"]);
     }

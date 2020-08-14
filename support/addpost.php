@@ -10,15 +10,13 @@ include_once '../includes/library.php';
 
 $id = $request->query->get('id');
 $action = $request->query->get('action');
-$idSession = $_SESSION["idSession"];
-
 
 if ($enableHelpSupport != "true") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 
 if ($supportType == "admin") {
-    if ($profilSession != "0") {
+    if ($session->get("profilSession") != "0") {
         phpCollab\Util::headerFunction('../general/permissiondenied.php');
     }
 }
@@ -52,7 +50,7 @@ if ($request->isMethod('post')) {
 
     if ($request->request->get('action') == "add") {
         try {
-            $newPost = $support->addSupportPost($id, Util::convertData($request->request->get('message')), $dateheure, $idSession, $requestDetail["sr_project"]);
+            $newPost = $support->addSupportPost($id, Util::convertData($request->request->get('message')), $dateheure, $session->get("idSession"), $requestDetail["sr_project"]);
 
             if (!empty($newPost) && $notifications == "true") {
                 $support->sendPostChangedNotification($newPost);
@@ -157,7 +155,7 @@ TR;
 $block2->closeContent();
 
 echo <<<FORM
-    <input type="hidden" name="user" value="$idSession">
+    <input type="hidden" name="user" value="{$session->get("idSession")}>
 FORM;
 
 $block2->closeForm();

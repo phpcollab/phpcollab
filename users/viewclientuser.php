@@ -23,19 +23,16 @@ if (empty($userDetail)) {
 }
 $memberOrganization = $userDetail['mem_organization'];
 
-$idSession = $_SESSION["idSession"];
-$profilSession = $_SESSION["profilSession"];
-
-if ($clientsFilter == "true" && $profilSession == "2") {
+if ($clientsFilter == "true" && $session->get("profilSession") == "2") {
     $teams = new Teams();
     $teamMember = "false";
 
-    $memberTest = $teams->getTeamByTeamMemberAndOrgId($idSession, $memberOrganization);
+    $memberTest = $teams->getTeamByTeamMemberAndOrgId($session->get("idSession"), $memberOrganization);
     if (empty($memberTest)) {
         phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
     }
-} elseif ($clientsFilter == "true" && $profilSession == "1") {
-    $detailClient = $organizations->getOrganizationByIdAndOwner($orgId, $idSession);
+} elseif ($clientsFilter == "true" && $session->get("profilSession") == "1") {
+    $detailClient = $organizations->getOrganizationByIdAndOwner($orgId, $session->get("idSession"));
 } else {
     $detailClient = $organizations->getOrganizationById($orgId);
 }
@@ -68,7 +65,7 @@ if (isset($error) && $error != "") {
 $block1->heading($strings["client_user"]);
 
 $block1->openPaletteIcon();
-if ($profilSession == "0" || $profilSession == "1") {
+if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1") {
     $block1->paletteIcon(0, "remove", $strings["delete"]);
     $block1->paletteIcon(1, "edit", $strings["edit"]);
 }
@@ -87,7 +84,7 @@ $block1->contentRow($strings["home_phone"], $userDetail['mem_phone_home']);
 $block1->contentRow($strings["mobile_phone"], $userDetail['mem_mobile']);
 $block1->contentRow($strings["fax"], $userDetail['mem_fax']);
 $block1->contentRow($strings["comments"], nl2br($userDetail['mem_comments']));
-$block1->contentRow($strings["account_created"], phpCollab\Util::createDate($userDetail['mem_created'], $timezoneSession));
+$block1->contentRow($strings["account_created"], phpCollab\Util::createDate($userDetail['mem_created'], $session->get("timezoneSession")));
 $block1->contentRow($strings["last_page"], $userDetail['mem_last_page']);
 
 $block1->contentTitle($strings["information"]);
@@ -108,7 +105,7 @@ $block1->closeContent();
 $block1->closeForm();
 
 $block1->openPaletteScript();
-if ($profilSession == "0" || $profilSession == "1") {
+if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1") {
     $block1->paletteScript(0, "remove", "../users/deleteclientusers.php?id=$userId&organization=$orgId", "true,true,true", $strings["delete"]);
     $block1->paletteScript(1, "edit", "../users/updateclientuser.php?userid=$userId&orgid=$orgId", "true,true,true", $strings["edit"]);
 }

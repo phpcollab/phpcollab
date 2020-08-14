@@ -36,7 +36,7 @@ if ($request->isMethod('post') && !empty($subtaskDetail)) {
 
 $taskDetail = $tasks->getTaskById($task);
 
-if ($subtaskDetail["subtas_published"] == "1" || $taskDetail["tas_project"] != $projectSession) {
+if ($subtaskDetail["subtas_published"] == "1" || $taskDetail["tas_project"] != $session->get("projectSession")) {
     Util::headerFunction("index.php");
 }
 
@@ -134,7 +134,7 @@ $listUpdates = $updates->getUpdates(2, $id, 'upd.created DESC');
 if ($listUpdates) {
     $updateCount = 1;
     foreach ($listUpdates as $update) {
-        $updateCreatedDate = phpCollab\Util::createDate($listUpdates->upd_created[$i], $timezoneSession);
+        $updateCreatedDate = phpCollab\Util::createDate($listUpdates->upd_created[$i], $session->get("timezoneSession"));
         $updateComments = nl2br($listUpdates->upd_comments[$i]);
         echo <<<UPDATE
             <strong>{$updateCount}</strong> <em>{$updateCreatedDate}</em><br/>{$updateComments}<br/>

@@ -40,53 +40,46 @@ if ($request->isMethod('post')) {
         $teams = new Teams();
 
         $r = substr($request->request->get('old_password'), 0, 2);
-        $encryptedOldPassword = crypt($request->request->get('old_password'), $r);
 
-        if ($encryptedOldPassword != $passwordSession) {
-            $error = $strings["old_password_error"];
+        if (
+            empty($request->request->get('new_password'))
+            || empty($request->request->get('confirm_password'))
+            || $request->request->get('new_password') != $request->request->get('confirm_password')
+        ) {
+            $error = $strings["new_password_error"];
         } else {
-            if (
-                empty($request->request->get('new_password'))
-                || empty($request->request->get('confirm_password'))
-                || $request->request->get('new_password') != $request->request->get('confirm_password')
-            ) {
-                $error = $strings["new_password_error"];
-            } else {
-                $encryptedNewPassword = phpCollab\Util::getPassword($request->request->get('new_password'));
+            $encryptedNewPassword = phpCollab\Util::getPassword($request->request->get('new_password'));
 
-                if ($htaccessAuth == "true") {
-                    $Htpasswd = new Htpasswd;
-                    $listTeams = $teams->getTeamByMemberId($idSession);
+            if ($htaccessAuth == "true") {
+                $Htpasswd = new Htpasswd;
+                $listTeams = $teams->getTeamByMemberId($session->get("idSession"));
 
-                    if ($listTeams) {
-                        foreach ($listTeams as $team) {
-                            try {
-                                $Htpasswd->initialize("files/" . $team["tea_pro_id"] . "/.htpasswd");
-                                $Htpasswd->changePass($loginSession, $encryptedNewPassword);
-                            }
-                            catch (Exception $e) {
-                                echo $e->getMessage();
-                            }
+                if ($listTeams) {
+                    foreach ($listTeams as $team) {
+                        try {
+                            $Htpasswd->initialize("files/" . $team["tea_pro_id"] . "/.htpasswd");
+                            $Htpasswd->changePass($session->get("loginSession"), $encryptedNewPassword);
+                        }
+                        catch (Exception $e) {
+                            echo $e->getMessage();
                         }
                     }
                 }
+            }
 
-                try {
-                    $members->setPassword($idSession, $encryptedNewPassword);
+            try {
+                $members->setPassword($session->get("idSession"), $encryptedNewPassword);
 
-                    $_SESSION['passwordSession'] = $encryptedNewPassword;
-
-                    phpCollab\Util::headerFunction("changepassword.php?msg=update");
-                } catch (Exception $exception) {
-                    error_log('Error resetting password', 0);
-                    $error = $strings["rest_password_error"];
-                }
+                phpCollab\Util::headerFunction("changepassword.php?msg=update");
+            } catch (Exception $exception) {
+                error_log('Error resetting password', 0);
+                $error = $strings["rest_password_error"];
             }
         }
     }
 }
 
-$userDetail = $members->getMemberById($idSession);
+$userDetail = $members->getMemberById($session->get("idSession"));
 
 if (empty($userDetail)) {
     phpCollab\Util::headerFunction("userlist.php?msg=blankUser");

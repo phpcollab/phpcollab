@@ -63,9 +63,9 @@ $block1->contentTitle($strings["report_intro"]);
 
 echo "<tr class='odd'><td class='leftvalue'>" . $strings["clients"] . " :</td><td>";
 
-if ($clientsFilter == "true" && $profilSession == "2") {
+if ($clientsFilter == "true" && $session->get("profilSession") == "2") {
     $teamMember = "false";
-    $teamsList = $teams->getTeamByMemberId($idSession);
+    $teamsList = $teams->getTeamByMemberId($session->get("idSession"));
 
     if (empty($teamsList)) {
         $listClients = "false";
@@ -84,8 +84,8 @@ if ($clientsFilter == "true" && $profilSession == "2") {
             $listOrganizations = $organizations->getFilteredOrganizations($clientsOk, 'org.name');
         }
     }
-} elseif ($clientsFilter == "true" && $profilSession == "1") {
-    $listOrganizations = $organizations->getOrganizationsByOwner($idSession, 'org.name');
+} elseif ($clientsFilter == "true" && $session->get("profilSession") == "1") {
+    $listOrganizations = $organizations->getOrganizationsByOwner($session->get("idSession"), 'org.name');
 } else {
     $listOrganizations = $organizations->getAllOrganizations('org.name');
 }
@@ -109,7 +109,7 @@ echo <<<HTML
 	    <td>
 HTML;
 
-$listProjects = $projects->getProjectList($idSession, 'active', null, null, 'pro.name');
+$listProjects = $projects->getProjectList($session->get("idSession"), 'active', null, null, 'pro.name');
 
 echo <<<HTML
     <select name="S_PRJSEL[]" size="4" multiple>

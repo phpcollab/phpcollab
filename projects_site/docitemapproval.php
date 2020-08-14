@@ -14,7 +14,7 @@ if ($request->isMethod('post')) {
         $commentField = phpCollab\Util::convertData($request->request->get('commentField'));
 
         try {
-            $files->updateApprovalTracking($idSession, $commentField, $id, $request->request->get('statusField'));
+            $files->updateApprovalTracking($session->get("idSession"), $commentField, $id, $request->request->get('statusField'));
             $msg = "updateFile";
 
             phpCollab\Util::headerFunction("doclists.php?msg=$msg");
@@ -27,7 +27,7 @@ if ($request->isMethod('post')) {
 
 $fileDetail = $files->getFileById($request->query->get('id'));
 
-if ($fileDetail["fil_published"] == "1" || $fileDetail["fil_project"] != $projectSession) {
+if ($fileDetail["fil_published"] == "1" || $fileDetail["fil_project"] != $session->get("projectSession")) {
     phpCollab\Util::headerFunction("index.php");
 }
 

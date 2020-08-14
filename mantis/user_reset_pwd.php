@@ -14,7 +14,7 @@
 	//check_access( ADMINISTRATOR );
 
 	# get all form values from phpcollab
-	$f_id	= $idSession;
+	$f_id	= $session->get("idSession");
 
 	# update action
 	$query = "UPDATE $g_mantis_user_table

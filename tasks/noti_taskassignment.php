@@ -1,5 +1,8 @@
 <?php
-$notificationsClass = new \phpCollab\Notifications\Notifications();
+
+use phpCollab\Notifications\Notifications;
+
+$notificationsClass = new Notifications();
 
 $taskNoti = $tasks->getTaskById($listTask["tas_id"]);
 
@@ -14,7 +17,7 @@ if ($listNotifications["taskAssignment"] == "0") {
 
     try {
 
-        $mail->getUserinfo($idSession, "from");
+        $mail->getUserinfo($session->get("idSession"), "from");
 
         $mail->partSubject = $strings["noti_taskassignment1"];
         $mail->partMessage = $strings["noti_taskassignment2"];

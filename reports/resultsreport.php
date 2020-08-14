@@ -18,7 +18,7 @@ $queryStart = null;
 
 if ($request->query->get('action') == "add") {
     $newReport = $reports->addReport(
-        $_SESSION["idSession"],
+        $session->get("idSession"),
         $request->request->get('report_name'),
         $request->request->get('filterProject'),
         $request->request->get('filterOrganization'),
@@ -53,7 +53,7 @@ $filterDueDate = null;
 $filterCompletedDate = null;
 
 
-if ($id == "" && $tri != "true") {
+if (empty($id) && $tri != "true") {
     if ($request->isMethod('post')) {
         $formData = $request->request->all();
 
@@ -286,7 +286,7 @@ $block1->sorting(
 );
 
 if ($projectsFilter == "true") {
-    $listProjectsTasks = $projects->getProjectList($idSession, 'active', null, null, 'pro.id');
+    $listProjectsTasks = $projects->getProjectList($session->get("idSession"), 'active', null, null, 'pro.id');
 
 
     if ($listProjectsTasks) {

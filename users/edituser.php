@@ -37,7 +37,7 @@ include_once '../includes/library.php';
 
 $teams = new Teams();
 
-if ($profilSession != "0") {
+if ($session->get('profilSession') != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 
@@ -54,12 +54,13 @@ $last_page = null;
 $comments = null;
 $profile = '';
 
+// Redirect to Preferences if it is the "root/super" admin
+if ($request->query->get('id') == "1" && $session->get("idSession") == "1") {
+    phpCollab\Util::headerFunction("../preferences/updateuser.php");
+}
+
 //case update user
 if (!empty($request->query->get('id'))) {
-    if ($id == "1" && $idSession == "1") {
-        phpCollab\Util::headerFunction("../preferences/updateuser.php");
-    }
-
     //case update user
     if ($request->isMethod('post')) {
 
@@ -100,10 +101,10 @@ if (!empty($request->query->get('id'))) {
                     $fax = phpCollab\Util::convertData($fax);
                     $last_page = phpCollab\Util::convertData($last_page);
 
-                    $listTeams = $teams->getTeamByMemberId($id);
+                    $listTeams = $teams->getTeamByMemberId($request->query->get("id"));
 
                     try {
-                        $members->updateMember($id, $username, $fullName, $email, $title, null, $phoneWork, $phoneHome, $phoneMobile, $fax, $lastPage, $comments, $profile);
+                        $members->updateMember($request->query->get("id"), $username, $fullName, $email, $title, null, $phoneWork, $phoneHome, $phoneMobile, $fax, $lastPage, $comments, $profile);
 
                         if ($htaccessAuth == "true") {
                             if ($username != $oldUsername) {
@@ -134,7 +135,7 @@ if (!empty($request->query->get('id'))) {
                                     }
                                 }
 
-                                $members->setPassword($id, $password);
+                                $members->setPassword($request->query->get("id"), $password);
 
                                 //if mantis bug tracker enabled
                                 if ($enableMantis == "true") {
@@ -210,7 +211,7 @@ if (empty($request->query->get('id'))) {
 
     //case add user
     if ($request->isMethod('post')) {
-        if ($action == "add") {
+        if ($request->request->get("action") == "add") {
 
             $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING);
             $oldUsername = filter_input(INPUT_POST, "username_old", FILTER_SANITIZE_STRING);
@@ -298,11 +299,11 @@ if (empty($request->query->get('id'))) {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], "in"));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../users/listusers.php?", $strings["user_management"], "in"));
 
-    if ($id == "") {
+    if ($request->query->get("id") == "") {
         $blockPage->itemBreadcrumbs($strings["add_user"]);
     }
-    if ($id != "") {
-        $blockPage->itemBreadcrumbs($blockPage->buildLink("../users/viewuser.php?id=$id", $userDetail["mem_login"], "in"));
+    if ($request->query->get("id") != "") {
+        $blockPage->itemBreadcrumbs($blockPage->buildLink("../users/viewuser.php?id={$request->query->get("id")}", $userDetail["mem_login"], "in"));
         $blockPage->itemBreadcrumbs($strings["edit_user"]);
     }
     $blockPage->closeBreadcrumbs();
@@ -316,12 +317,12 @@ if (empty($request->query->get('id'))) {
 
     if (empty($request->query->get('id'))) {
         $block1->form = "user_edit";
-        $block1->openForm("../users/edituser.php?id=$id#" . $block1->form . "Anchor");
+        $block1->openForm("../users/edituser.php?id={$request->query->get("id")}#" . $block1->form . "Anchor");
     }
 
     if (!empty($request->query->get('id'))) {
         $block1->form = "user_edit";
-        $block1->openForm("../users/edituser.php?id=$id#" . $block1->form . "Anchor");
+        $block1->openForm("../users/edituser.php?id={$request->query->get("id")}#" . $block1->form . "Anchor");
     }
 
     if (!empty($error)) {
@@ -358,10 +359,10 @@ if (empty($request->query->get('id'))) {
     }
     $block1->contentRow($strings["comments"], '<textarea style="width: 350px; height: 60px;" name="comments" cols="45" rows="5">' . $comments . '</textarea>');
 
-    if ($id == "") {
+    if (empty($request->query->get("id"))) {
         $block1->contentTitle($strings["enter_password"]);
     }
-    if ($id != "") {
+    if (!empty($request->query->get("id"))) {
         $block1->contentTitle($strings["change_password_user"]);
     }
 

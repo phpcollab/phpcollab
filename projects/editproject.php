@@ -71,7 +71,7 @@ if ($id != "") {
     /*
      * If the user is not an Admin, Project Manager, or Project Manager Administrator then redirect to project view
      */
-    if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5") {
+    if ($session->get("profilSession") != "0" && $session->get("profilSession") != "1" && $session->get("profilSession") != "5") {
         phpCollab\Util::headerFunction("../projects/viewproject.php?id=$id");
     }
 
@@ -85,7 +85,7 @@ if ($id != "") {
         phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blankProject");
     }
 
-    if ($idSession != $projectDetail["pro_owner"] && $profilSession != "0" && $profilSession != "5") {
+    if ($session->get("idSession") != $projectDetail["pro_owner"] && $session->get("profilSession") != "0" && $session->get("profilSession") != "5") {
         phpCollab\Util::headerFunction("../projects/listprojects.php?msg=projectOwner");
     }
 
@@ -136,7 +136,7 @@ if ($id != "") {
                     $newProjectId = $projects->createProject($projectName, $organization, $owner, $priority, $status,
                         $description, $published, $thisPhase, $maxUploadSize, $urlDev, $urlProd, $invoicing, $hourlyRate);
 
-                    $newTeamId = $teams->addTeam($newProjectId, $idSession, 1, 0);
+                    $newTeamId = $teams->addTeam($newProjectId, $session->get("idSession"), 1, 0);
 
                     if ($enableInvoicing == "true") {
                         $newInvoiceId = $invoices->addInvoice($newProjectId, 0, $invoicing, 1);
@@ -379,7 +379,10 @@ STAMP;
 if ($id == "") {
     $setTitle .= " : Add Project";
 
-    if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5") {
+    if ($session->get("profilSession") != "0"
+        && $session->get("profilSession") != "1"
+        && $session->get("profilSession") != "5"
+    ) {
         phpCollab\Util::headerFunction("../projects/listprojects.php");
     }
 
@@ -389,7 +392,7 @@ if ($id == "") {
     }
 
     //set default values
-    $projectDetail["pro_mem_id"] = "$idSession";
+    $projectDetail["pro_mem_id"] = $session->get("idSession");
     $projectDetail["pro_priority"] = "3";
 
     $projectDetail["pro_status"] = "2";
@@ -611,8 +614,8 @@ echo <<<HTML
 <td><select name="client_organization">
 HTML;
 
-if ($clientsFilter == "true" && $profilSession == "1") {
-    $listClients = $organizations->getOrganizationsByOwner($idSession, 'org.name');
+if ($clientsFilter == "true" && $session->get("profilSession") == "1") {
+    $listClients = $organizations->getOrganizationsByOwner($session->get("idSession"), 'org.name');
 } else {
     $listClients = $organizations->getAllOrganizations('org.name');
 }

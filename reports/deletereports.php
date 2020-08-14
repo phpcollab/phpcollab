@@ -22,7 +22,7 @@ if (empty($listReports)) {
     phpCollab\Util::headerFunction("../reports/listreports.php");
 }
 
-if ($action == "delete") {
+if ($request->query->get("action") == "delete") {
     $id = str_replace("**", ",", $id);
     $reports->deleteReports($id);
     phpCollab\Util::headerFunction("../reports/listreports.php?msg=deleteReport");

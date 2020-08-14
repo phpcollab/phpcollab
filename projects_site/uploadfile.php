@@ -37,7 +37,7 @@ include '../includes/library.php';
 
 $projects = new Projects();
 
-$projectDetail = $projects->getProjectById($projectSession);
+$projectDetail = $projects->getProjectById($session->get("projectSession"));
 
 if ($request->isMethod('post')) {
     if ($request->request->get('action') == "add") {
@@ -89,16 +89,16 @@ if ($request->isMethod('post')) {
         if ($docopy == "true") {
             $commentsField = phpCollab\Util::convertData($request->request->get('commentsField'));
 
-            $newFileId = $files->addFile($idSession, $projectSession, 0, 0, $commentsField, 2, 0.0, 0);
+            $newFileId = $files->addFile($session->get("idSession"), $session->get("projectSession"), 0, 0, $commentsField, 2, 0.0, 0);
 
-            phpCollab\Util::uploadFile("files/$projectSession", $_FILES['upload']['tmp_name'], "$newFileId--" . $filename);
+            phpCollab\Util::uploadFile("files/" . $session->get("projectSession"), $_FILES['upload']['tmp_name'], "$newFileId--" . $filename);
 
-            $size = phpCollab\Util::fileInfoSize("../files/" . $projectSession . "/" . $newFileId . "--" . $filename);
+            $size = phpCollab\Util::fileInfoSize("../files/" . $session->get("projectSession") . "/" . $newFileId . "--" . $filename);
 
-            $chaine = strrev("../files/" . $projectSession . "/" . $newFileId . "--" . $filename);
+            $chaine = strrev("../files/" . $session->get("projectSession") . "/" . $newFileId . "--" . $filename);
             $tab = explode(".", $chaine);
 
-            $size = phpCollab\Util::fileInfoSize("../files/" . $projectSession . "/" . $newFileId . "--" . $filename);
+            $size = phpCollab\Util::fileInfoSize("../files/" . $session->get("projectSession") . "/" . $newFileId . "--" . $filename);
 
             $newFileName = $newFileId . "--" . $filename;
 
@@ -107,9 +107,9 @@ if ($request->isMethod('post')) {
             if ($notifications == "true") {
                 try {
                     // Get a list of notification team members
-                    $teamList = $teams->getTeamByProjectId($projectSession);
+                    $teamList = $teams->getTeamByProjectId($session->get("projectSession"));
 
-                    $key = array_search($idSession, array_column($teamList, 'tea_mem_id'));
+                    $key = array_search($session->get("idSession"), array_column($teamList, 'tea_mem_id'));
 
                     // Remove the current user from the TeamList
                     unset($teamList[$key]);
@@ -118,7 +118,7 @@ if ($request->isMethod('post')) {
                         $userNotificationFlags = $notification->getMemberNotifications($item['tea_mem_id']);
 
                         if ($userNotificationFlags) {
-                            $files->sendFileUploadedNotification($fileDetails, $projectDetail, $userNotificationFlags, $idSession, $nameSession, $loginSession);
+                            $files->sendFileUploadedNotification($fileDetails, $projectDetail, $userNotificationFlags, $session->get("idSession"), $session->get("nameSession"), $session->get("loginSession"));
                         }
                     }
                 } catch (Exception $e) {
@@ -139,7 +139,7 @@ echo <<<FORM
     <form method="POST" action="../projects_site/uploadfile.php" name="feedback" enctype="multipart/form-data">
         <input type="hidden" name="MAX_FILE_SIZE" value="100000000">
         <input type="hidden" name="action" value="add">
-        <input type="hidden" name="project_id" value="{$projectSession}">
+        <input type="hidden" name="project_id" value="{$session->get("projectSession")}">
         <input type="hidden" name="task_id" value="{$task}">
         <input type="hidden" name="maxCustom" value="{$projectDetail["pro_upload_max"]}">
     

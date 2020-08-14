@@ -28,7 +28,7 @@ $checkSession = "true";
 include_once '../includes/library.php';
 $setTitle .= " : Edit Settings";
 
-if ($profilSession != "0") {
+if ($session->get('profilSession') != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 

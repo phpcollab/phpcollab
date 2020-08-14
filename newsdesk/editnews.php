@@ -37,7 +37,7 @@ use phpCollab\Projects\Projects;
 $checkSession = "true";
 include_once '../includes/library.php';
 
-if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5") {
+if ($session->get("profilSession") != "0" && $session->get("profilSession") != "1" && $session->get("profilSession") != "5") {
     phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$id&msg=permissionNews");
 }
 
@@ -55,14 +55,14 @@ if ($id != "") {
         $newsDetail = $news->getPostByIdIn($id);
 
         foreach ($newsDetail as $newsItem) {
-            if ($profilSession != "0" && $idSession != $newsItem['news_author']) {
+            if ($session->get("profilSession") != "0" && $session->get("idSession") != $newsItem['news_author']) {
                 phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id={$n['id']}&msg=permissionNews");
             }
         }
     } else {
         $newsDetail = $news->getPostById($id);
 
-        if ($profilSession != "0" && $idSession != $newsDetail['news_author']) {
+        if ($session->get("profilSession") != "0" && $session->get("idSession") != $newsDetail['news_author']) {
             phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id={$n['id']}&msg=permissionNews");
         }
     }
@@ -215,7 +215,7 @@ if ($action != 'remove') {
 
     // add
     if ($id == "") {
-        $block1->contentRow($strings["author"], "<input type='hidden' name='author' value='$idSession'><b>$nameSession</b>");
+        $block1->contentRow($strings["author"], '<input type="hidden" name="author" value="' . $session->get("idSession") . '"><b>' . $session->get("nameSession") . '</b>');
     } // edit
     else {
         $newsAuthor = $members->getMemberById($newsDetail['news_author']);
@@ -224,7 +224,7 @@ if ($action != 'remove') {
 
     $block1->contentRow($strings["title"], "<input type='text' name='title' value='$title' style='width: 300px;'>");
 
-    $listProjects = $news->getNewsdeskRelated($idSession, $profilSession);
+    $listProjects = $news->getNewsdeskRelated($session->get("idSession"), $session->get("profilSession"));
     $option = '<option value="g">' . $strings['newsdesk_related_generic'] . '</option>\n';
 
     if ($listProjects) {

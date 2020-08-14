@@ -64,9 +64,9 @@ $projectDetail = $projects->getProjectById($parentTaskDetail['tas_project']);
 
 $teamMember = "false";
 
-$teamMember = $teams->isTeamMember($projectDetail["pro_id"], $idSession);
+$teamMember = $teams->isTeamMember($projectDetail["pro_id"], $session->get("idSession"));
 
-if ($teamMember != "true" && $profilSession != "5") {
+if ($teamMember != "true" && $session->get("profilSession") != "5") {
     phpCollab\Util::headerFunction("../tasks/viewtask.php?id={$parentTaskId}&msg=taskOwner");
 }
 
@@ -155,7 +155,7 @@ if (!empty($id)) {
                     //send task assignment mail if notifications = true
                     if ($notifications == "true") {
                         try {
-                            $subtasks->sendNotification("assignment", $updatedDetails, $projectDetail);
+                            $subtasks->sendNotification("assignment", $updatedDetails, $projectDetail, $session);
                         } catch (Exception $exception) {
                             echo $exception->getMessage();
                         }
@@ -173,15 +173,15 @@ if (!empty($id)) {
                             if ($assignedTo != "0") {
                                 //send status task change mail if notifications = true
                                 if ($taskStatus != $subtaskDetail["subtas_status"]) {
-                                    $subtasks->sendNotification("status", $updatedDetails, $projectDetail);
+                                    $subtasks->sendNotification("status", $updatedDetails, $projectDetail, $session);
                                 }
                                 //send priority task change mail if notifications = true
                                 if ($taskPriority != $subtaskDetail["subtas_priority"]) {
-                                    $subtasks->sendNotification("priority", $updatedDetails, $projectDetail);
+                                    $subtasks->sendNotification("priority", $updatedDetails, $projectDetail, $session);
                                 }
 
                                 if ($dueDate != $subtaskDetail["subtas_due_date"]) {
-                                    $subtasks->sendNotification("dueDate", $updatedDetails, $projectDetail);
+                                    $subtasks->sendNotification("dueDate", $updatedDetails, $projectDetail, $session);
                                 }
                             }
                         } catch (Exception $exception) {
@@ -210,7 +210,7 @@ if (!empty($id)) {
                      */
                     $updates = new Updates();
                     $updateComments = phpCollab\Util::convertData($updateComments);
-                    $updates->addUpdate(2, $id, $idSession, $updateComments);
+                    $updates->addUpdate(2, $id, $session->get("idSession"), $updateComments);
                 }
 
                 phpCollab\Util::headerFunction("../subtasks/viewsubtask.php?id={$id}&task={$parentTaskId}&msg={$msg}");
@@ -248,7 +248,7 @@ if (empty($id)) {
             /**
              * Create new subtask
              */
-            $newSubtaskId = $subtasks->add($parentTaskId, $taskName, $description, $idSession, $assignedTo, $taskStatus,
+            $newSubtaskId = $subtasks->add($parentTaskId, $taskName, $description, $session->get("idSession"), $assignedTo, $taskStatus,
                 $taskPriority, $startDate, $dueDate, $estimatedTime, $actualTime, $comments, $completion, $publish);
 
             if ($taskStatus == "1") {
@@ -263,19 +263,19 @@ if (empty($id)) {
                 $subtasks->setAssignedDate($newSubtaskId, $timestamp);
             }
 
-            $assignments->addAssignment($newSubtaskId, $idSession, $assignedTo, $timestamp);
+            $assignments->addAssignment($newSubtaskId, $session->get("idSession"), $assignedTo, $timestamp);
 
             //if assigned_to not blank, add to team members (only if doesn't already exist)
             //add assigned_to in team members (only if doesn't already exist)
             if ($assignedTo != "0") {
-                if (!$teams->isTeamMember($project, $idSession)) {
+                if (!$teams->isTeamMember($project, $session->get("idSession"))) {
                     $teams->addTeam($project, $assignedTo, 1, 0);
                 }
 
                 //send task assignment mail if notifications = true
                 if ($notifications == "true") {
                     try {
-                        $subtasks->sendNotification("assignment", $subtaskDetail, $projectDetail);
+                        $subtasks->sendNotification("assignment", $subtaskDetail, $projectDetail, $session);
                     } catch (Exception $exception) {
 
                     }

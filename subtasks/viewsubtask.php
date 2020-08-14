@@ -39,7 +39,6 @@ $assignments = new Assignments();
 $id = $request->query->get("id");
 $task = $request->query->get("task");
 $addToSite = $request->query->get("addToSite");
-$idSession = $_SESSION['idSession'];
 $msg = null;
 
 if ($request->query->get("action") == "publish") {
@@ -72,7 +71,7 @@ if ($projectDetail['pro_enable_phase'] != "0") {
 }
 
 $teamMember = "false";
-$teamMember = $teams->isTeamMember($taskDetail["tas_project"], $idSession);
+$teamMember = $teams->isTeamMember($taskDetail["tas_project"], $session->get("idSession"));
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -102,7 +101,7 @@ $block1->openForm("../subtasks/viewsubtask.php#" . $block1->form . "Anchor");
 $block1->headingToggle($strings["subtask"] . " : " . $subtaskDetail['subtas_name']);
 
 
-if ($teamMember == "true" || $profilSession == "5") {
+if ($teamMember == "true" || $session->get("profilSession") == "5") {
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "remove", $strings["delete"]);
     if ($sitePublish == "true") {
@@ -130,9 +129,9 @@ if ($projectDetail['pro_phase_set'] != "0") {
 
 $block1->contentRow($strings["task"], $blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail['tas_id'], $taskDetail['tas_name'], 'in'));
 $block1->contentRow($strings["organization"], $projectDetail['pro_org_name']);
-$block1->contentRow($strings["created"], phpCollab\Util::createDate($subtaskDetail['subtas_created'], $timezoneSession));
-$block1->contentRow($strings["assigned"], phpCollab\Util::createDate($subtaskDetail['subtas_assigned'], $timezoneSession));
-$block1->contentRow($strings["modified"], phpCollab\Util::createDate($subtaskDetail['subtas_modified'], $timezoneSession));
+$block1->contentRow($strings["created"], phpCollab\Util::createDate($subtaskDetail['subtas_created'], $session->get("timezoneSession")));
+$block1->contentRow($strings["assigned"], phpCollab\Util::createDate($subtaskDetail['subtas_assigned'], $session->get("timezoneSession")));
+$block1->contentRow($strings["modified"], phpCollab\Util::createDate($subtaskDetail['subtas_modified'], $session->get("timezoneSession")));
 
 $block1->contentTitle($strings["details"]);
 
@@ -207,7 +206,7 @@ if ($comptListUpdates != "0") {
         }
 
         $abbrev = stripslashes(substr($update['upd_comments'], 0, 100));
-        echo "<strong>" . $j . ".</strong> <em>" . phpCollab\Util::createDate($update['upd_created'], $timezoneSession) . "</em> $abbrev";
+        echo "<strong>" . $j . ".</strong> <em>" . phpCollab\Util::createDate($update['upd_created'], $session->get("timezoneSession")) . "</em> $abbrev";
         if (100 < strlen($update['upd_comments'])) {
             echo "...<br/>";
         } else {
@@ -229,7 +228,7 @@ $block1->closeContent();
 $block1->closeToggle();
 $block1->closeForm();
 
-if ($teamMember == "true" || $profilSession == "5") {
+if ($teamMember == "true" || $session->get("profilSession") == "5") {
     $block1->openPaletteScript();
     $block1->paletteScript(0, "remove", "../subtasks/deletesubtasks.php?task=$task&id=" . $subtaskDetail['subtas_id'] . "", "true,true,false", $strings["delete"]);
     if ($sitePublish == "true") {
@@ -271,7 +270,7 @@ foreach ($listAssign as $assignment) {
     } else {
         $block3->cellRow($blockPage->buildLink($assignment["ass_mem2_email_work"], $assignment["ass_mem2_login"], "mail"));
     }
-    $block3->cellRow(phpCollab\Util::createDate($assignment["ass_assigned"], $timezoneSession));
+    $block3->cellRow(phpCollab\Util::createDate($assignment["ass_assigned"], $session->get("timezoneSession")));
     $block3->closeRow();
 }
 $block3->closeResults();

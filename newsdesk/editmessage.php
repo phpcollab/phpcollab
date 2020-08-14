@@ -8,8 +8,6 @@ include_once '../includes/library.php';
 $commentId = $request->query->get('id');
 $postId = $request->query->get('postid');
 $action = $request->request->get('action');
-$tableCollab = $GLOBALS["tableCollab"];
-$idSession = $_SESSION["idSession"];
 
 $newsDesk = new NewsDesk();
 
@@ -25,7 +23,7 @@ if (!empty($commentId)) {
     // only comment's author, admin, prj-adm and prj-man can change the comments
     $commentAuthor = $members->getMemberById($commentDetail["newscom_name"]);
 
-    if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5" && $idSession != $commentDetail["newscom_name"]) {
+    if ($session->get("profilSession") != "0" && $session->get("profilSession") != "1" && $session->get("profilSession") != "5" && $session->get("idSession") != $commentDetail["newscom_name"]) {
         phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postId&msg=commentpermissionNews");
     }
 
@@ -40,7 +38,7 @@ if (!empty($commentId)) {
             phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postId&msg=update");
         } elseif ($action == "delete") {
             // only admin, prj-adm and prj-man can delete a comments
-            if ($profilSession != "0" && $profilSession != "1" && $profilSession != "5") {
+            if ($session->get("profilSession") != "0" && $session->get("profilSession") != "1" && $session->get("profilSession") != "5") {
                 phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postId&msg=commentpermissionNews");
             }
 
@@ -130,7 +128,7 @@ FORMSTART;
     // add or edit comment
     if (empty($commentId)) {
         $block1->contentRow($strings["author"],
-            "<input type='hidden' name='commenterId' value='$idSession'><strongb>$nameSession</strongb>");
+            '<input type="hidden" name="commenterId" value="' . $session->get("idSession") . '"><strongb>' . $session->get("nameSession") . '</strongb>');
     } else {
         $block1->contentRow($strings["author"],
             "<input type='hidden' name='commenterId' value='" . $commentDetail["newscom_name"] . "'><strong>" . $commentAuthor["mem_name"] . "</strong>");

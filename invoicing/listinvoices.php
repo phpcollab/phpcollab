@@ -18,7 +18,6 @@ $projects = new Projects();
 $typeInvoices = (!empty($request->query->get("typeInvoices"))) ? $request->query->get("typeInvoices") : "open";
 $clientId = (!empty($request->query->get("client"))) ? $request->query->get("client") : 0;
 $status = (!empty($request->query->get("status"))) ? $request->query->get("status") : 0;
-$idSession = (isset($_SESSION["idSession"]) && !empty($_SESSION["idSession"])) ? $_SESSION["idSession"] : 0;
 
 $strings = $GLOBALS["strings"];
 $invoiceStatus = $GLOBALS["invoiceStatus"];
@@ -31,10 +30,10 @@ if ($typeInvoices == "") {
 
 $clientDetail = null;
 
-if ($clientsFilter == "true" && $profilSession == "2") {
+if ($clientsFilter == "true" && $session->get("profilSession") == "2") {
     $teamMember = "false";
 
-    $memberTest = $teams->getTeamByTeamMemberAndOrgId($idSession, $clientId);
+    $memberTest = $teams->getTeamByTeamMemberAndOrgId($session->get("idSession"), $clientId);
 
     $comptMemberTest = count($memberTest["tea_id"]);
 
@@ -43,8 +42,8 @@ if ($clientsFilter == "true" && $profilSession == "2") {
     } else {
         $clientDetail = $organizations->getOrganizationById($clientId);
     }
-} else if ($clientsFilter == "true" && $profilSession == "1") {
-    $clientDetail = $organizations->getOrganizationByIdAndOwner($clientId, $idSession);
+} else if ($clientsFilter == "true" && $session->get("profilSession") == "1") {
+    $clientDetail = $organizations->getOrganizationByIdAndOwner($clientId, $session->get("idSession"));
 } else {
     $clientDetail = $organizations->getOrganizationById($clientId);
 }
@@ -92,11 +91,11 @@ if ($typeInvoices == "open") {
 $block1->heading($strings["invoices"] . " : " . $invoiceStatus[$status]);
 
 $block1->openPaletteIcon();
-if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
+if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1" || $session->get("profilSession") == "5") {
     $block1->paletteIcon(1, "remove", $strings["delete"]);
 }
 $block1->paletteIcon(2, "info", $strings["view"]);
-if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
+if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1" || $session->get("profilSession") == "5") {
     $block1->paletteIcon(3, "edit", $strings["edit"]);
 }
 $block1->closePaletteIcon();
@@ -153,11 +152,11 @@ if ($listInvoices) {
 $block1->closeFormResults();
 
 $block1->openPaletteScript();
-if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
+if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1" || $session->get("profilSession") == "5") {
     $block1->paletteScript(1, "remove", "../invoicing/deleteinvoices.php?", "false,true,false", $strings["delete"]);
 }
 $block1->paletteScript(2, "info", "../invoicing/viewinvoice.php?", "false,true,false", $strings["view"]);
-if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
+if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1" || $session->get("profilSession") == "5") {
     $block1->paletteScript(3, "edit", "../invoicing/editinvoice.php?", "false,true,false", $strings["edit"]);
 }
 

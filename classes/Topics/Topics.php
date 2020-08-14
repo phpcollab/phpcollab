@@ -10,6 +10,7 @@ use phpCollab\Notification;
 use phpCollab\Notifications\Notifications;
 use phpCollab\Projects\Projects;
 use phpCollab\Teams\Teams;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Class Topics
@@ -323,9 +324,10 @@ class Topics
 
     /**
      * @param $topicDetails
+     * @param Session $session
      * @throws Exception
      */
-    public function sendNewTopicNotification($topicDetails)
+    public function sendNewTopicNotification($topicDetails, Session $session)
     {
         $this->projects = new Projects();
         $this->teams = new Teams();
@@ -405,7 +407,7 @@ class Topics
 {$mail->partMessage}
 
 {$this->strings["discussion"]} : {$topicDetails["top_subject"]}
-{$this->strings["posted_by"]} : {$_SESSION["nameSession"]} ({$_SESSION["loginSession"]})
+{$this->strings["posted_by"]} : {$session->get('nameSession')} ({$session->get('loginSession')})
 
 {$this->strings["project"]} : {$projectDetails["pro_name"]} ({$projectDetails["pro_id"]})
 {$this->strings["organization"]} : {$projectDetails["pro_org_name"]}
@@ -446,9 +448,10 @@ MESSAGE_BODY;
     /**
      * @param $postDetails
      * @param $topicDetails
+     * @param Session $session
      * @throws Exception
      */
-    public function sendNewPostNotification($postDetails, $topicDetails)
+    public function sendNewPostNotification($postDetails, $topicDetails, Session $session)
     {
         $this->projects = new Projects();
         $this->teams = new Teams();
@@ -530,7 +533,7 @@ MESSAGE_BODY;
 {$mail->partMessage}
 
 {$this->strings["discussion"]} : {$topicDetails["top_subject"]}
-{$this->strings["posted_by"]} : {$_SESSION["nameSession"]} ({$_SESSION["loginSession"]})
+{$this->strings["posted_by"]} : {$session->get('nameSession')} ({$session->get('loginSession')})
 
 {$this->strings["project"]} : {$projectDetails["pro_name"]} ({$projectDetails["pro_id"]})
 {$this->strings["organization"]} : {$projectDetails["pro_org_name"]}

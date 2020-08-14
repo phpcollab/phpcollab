@@ -13,7 +13,7 @@ $bouton[1] = "over";
 $titlePage = $strings["project_team"];
 include 'include_header.php';
 
-$listContacts = $teams->getProjectSiteContacts($projectSession, 'mem.name');
+$listContacts = $teams->getProjectSiteContacts($session->get("projectSession"), 'mem.name');
 
 $block1 = new phpCollab\Block();
 
@@ -30,7 +30,7 @@ if ($listContacts) {
         </tr>
 TABLE;
     foreach ($listContacts as $contact) {
-        
+
         if ($contact["tea_mem_phone_work"] == "") {
             $contact["tea_mem_phone_work"] = $strings["none"];
         }

@@ -38,7 +38,6 @@ $action = $request->query->get('action');
 $project = $request->query->get('project');
 $id = $request->query->get('id');
 $strings = $GLOBALS["strings"];
-$idSession = $_SESSION["idSession"];
 
 $notes = new Notes();
 $projects = new Projects();
@@ -47,15 +46,15 @@ if ($id != "" && $action != "add") {
     $noteDetail = $notes->getNoteById($id);
     $project = $noteDetail["note_project"];
 
-    if ($noteDetail["note_owner"] != $idSession) {
-        phpCollab\Util::headerFunction("../notes/listnotes.php?project=$project&msg=noteOwner");
+    if ($noteDetail["note_owner"] != $session->get("idSession")) {
+        phpCollab\Util::headerFunction("../notes/listnotes.php?project=" . $project . "&msg=noteOwner");
     }
 }
 $projectDetail = $projects->getProjectById($project);
 
 $teamMember = "false";
 $teams = new Teams();
-$teamMember = $teams->isTeamMember($project, $idSession);
+$teamMember = $teams->isTeamMember($project, $session->get("idSession"));
 
 //case update note entry
 if ($id != "") {
@@ -64,12 +63,12 @@ if ($id != "") {
         $noteData = $request->request->all();
         $noteData["subject"] = phpCollab\Util::convertData($request->request->get('subject'));
         $noteData["description"] = phpCollab\Util::convertData($request->request->get('description'));
-        $noteData["owner"] = $idSession;
+        $noteData["owner"] = $session->get("idSession");
 
         $updatedNote = $notes->updateNote($id, $noteData);
 
         $msg = "update";
-        phpCollab\Util::headerFunction("../notes/viewnote.php?id=$id&msg=$msg");
+        phpCollab\Util::headerFunction("../notes/viewnote.php?id=" . $id . "&msg=" . $msg);
     }
 
     //set value in form
@@ -87,11 +86,11 @@ if ($id == "") {
         $noteData = $request->request->all();
         $noteData["subject"] = phpCollab\Util::convertData($request->request->get('subject'));
         $noteData["description"] = phpCollab\Util::convertData($request->request->get('description'));
-        $noteData["owner"] = $idSession;
+        $noteData["owner"] = $session->get("idSession");
 
         $num = $notes->addNote($noteData);
 
-        phpCollab\Util::headerFunction("../notes/viewnote.php?id=$num&msg=add");
+        phpCollab\Util::headerFunction("../notes/viewnote.php?id=" . $num . "&msg=add");
     }
 }
 
@@ -121,11 +120,11 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 if ($id == "") {
     $block1->form = "etD";
-    $block1->openForm("../notes/editnote.php?project=$project&id=$id&action=add&#" . $block1->form . "Anchor");
+    $block1->openForm("../notes/editnote.php?project=" . $project . "&id=" . $id . "&action=add&#" . $block1->form . "Anchor");
 }
 if ($id != "") {
     $block1->form = "etD";
-    $block1->openForm("../notes/editnote.php?project=$project&id=$id&action=update&#" . $block1->form . "Anchor");
+    $block1->openForm("../notes/editnote.php?project=" . $project . "&id=" . $id . "&action=update&#" . $block1->form . "Anchor");
 }
 
 if (isset($error) && $error != "") {
@@ -142,7 +141,7 @@ if ($id != "") {
 $block1->openContent();
 $block1->contentTitle($strings["details"]);
 
-$listProjects = $teams->getTeamByMemberId($idSession, $block1->sortingValue);
+$listProjects = $teams->getTeamByMemberId($session->get("idSession"), $block1->sortingValue);
 
 echo "<tr class='odd'><td class='leftvalue'>" . $strings["project"] . " :</td><td><select name='projectMenu'>";
 

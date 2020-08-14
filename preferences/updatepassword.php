@@ -1,9 +1,7 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 2003-10-23
 ** Path by root: ../preferences/updatepassword.php
-** Authors: Ceam / Fullo
 **
 ** =============================================================================
 **
@@ -14,16 +12,6 @@
 **
 ** -----------------------------------------------------------------------------
 ** FILE: updatepassword.php
-**
-** DESC: Screen:
-**
-** HISTORY:
-** 	2003-10-23	-	added new document info
-**	2003-10-27	-	session problem fixed
-**  2004-08-23  -   session check for older php
-** -----------------------------------------------------------------------------
-** TO-DO:
-** move to a better login system and authentication (try to db session)
 **
 ** =============================================================================
 */
@@ -45,59 +33,49 @@ if ($request->isMethod('post')) {
         $r = substr($oldPassword, 0, 2);
         $oldPassword = crypt($oldPassword, $r);
 
-        if ($oldPassword != $passwordSession) {
-            $error = $strings["old_password_error"];
+        if (empty($newPassword) || $newPassword != $confirmPassword) {
+            $error = $strings["new_password_error"];
         } else {
-            if (empty($newPassword) || $newPassword != $confirmPassword) {
-                $error = $strings["new_password_error"];
-            } else {
-                // Encrypt new password
-                $encryptedPassword = phpCollab\Util::getPassword($newPassword);
+            // Encrypt new password
+            $encryptedPassword = phpCollab\Util::getPassword($newPassword);
 
-                if ($htaccessAuth == "true") {
-                    $Htpasswd = new Htpasswd;
+            if ($htaccessAuth == "true") {
+                $Htpasswd = new Htpasswd;
 
-                    $myTeams = $teams->getTeamByMemberId($idSession);
+                $myTeams = $teams->getTeamByMemberId($session->get("idSession"));
 
-                    if (!empty($myTeams)) {
-                        foreach ($myTeams as $thisTeam) {
-                            try {
-                                $Htpasswd->initialize("../files/" . $thisTeam["tea_pro_id"] . "/.htpasswd");
-                                $Htpasswd->changePass($loginSession, $encryptedPassword);
-                            }
-                            catch (Exception $e) {
-                                echo "Error: " . $e->getMessage();
-                            }
+                if (!empty($myTeams)) {
+                    foreach ($myTeams as $thisTeam) {
+                        try {
+                            $Htpasswd->initialize("../files/" . $thisTeam["tea_pro_id"] . "/.htpasswd");
+                            $Htpasswd->changePass($session->get("loginSession"), $encryptedPassword);
+                        }
+                        catch (Exception $e) {
+                            echo "Error: " . $e->getMessage();
                         }
                     }
                 }
-
-                try {
-                    $members->setPassword($idSession, $newPassword);
-                }
-                catch (Exception $e) {
-                    echo "Error: " . $e->getMessage();
-                }
-
-                //if mantis bug tracker enabled
-                if ($enableMantis == "true") {
-                    // call mantis function to reset user password
-                    include("../mantis/user_reset_pwd.php");
-                }
-
-                $r = substr($newPassword, 0, 2);
-                $newPassword = crypt($newPassword, $r);
-                $passwordSession = $newPassword;
-
-                $_SESSION['passwordSession'] = $passwordSession;
-
-                phpCollab\Util::headerFunction("../preferences/updateuser.php?msg=update");
             }
+
+            try {
+                $members->setPassword($session->get("idSession"), $newPassword);
+            }
+            catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
+            }
+
+            //if mantis bug tracker enabled
+            if ($enableMantis == "true") {
+                // call mantis function to reset user password
+                include("../mantis/user_reset_pwd.php");
+            }
+
+            phpCollab\Util::headerFunction("../preferences/updateuser.php?msg=update");
         }
     }
 }
 
-$userDetail = $members->getMemberById($idSession);
+$userDetail = $members->getMemberById($session->get("idSession"));
 
 if (empty($userDetail)) {
     phpCollab\Util::headerFunction("../users/listusers.php?msg=blankUser");

@@ -9,7 +9,6 @@ include_once '../includes/library.php';
 
 $id = $request->query->get('id');
 $project = $request->query->get('project');
-$idSession = $_SESSION["idSession"];
 $strings = $GLOBALS["strings"];
 
 $tasks = new Tasks();
@@ -42,7 +41,7 @@ $projectDetail = $projects->getProjectById($project);
 
 $teamMember = "false";
 
-$teamMember = $teams->isTeamMember($project, $idSession);
+$teamMember = $teams->isTeamMember($project, $session->get("idSession"));
 
 if ($teamMember == "false" && $projectsFilter == "true") {
     header("Location:../general/permissiondenied.php");

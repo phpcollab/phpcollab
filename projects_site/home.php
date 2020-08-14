@@ -13,23 +13,17 @@ $projects = new Projects();
 
 $updateProject = $request->query->get('updateProject');
 $changeProject = $request->query->get('changeProject');
-$idSession = $_SESSION["idSession"];
-$nameSession = $_SESSION["nameSession"];
-$timezoneSession = $_SESSION["timezoneSession"];
-$projectSession = $_SESSION["projectSession"];
 $project = $request->query->get('project');
 $strings = $GLOBALS["strings"];
 $priority = $GLOBALS["priority"];
 $status = $GLOBALS["status"];
 
 if ($updateProject == "true") {
-    $testProject = $teams->getTeamByProjectIdAndTeamMemberAndStatusIsNotCompletedOrSuspendedAndIsNotPublished($project, $idSession);
+    $testProject = $teams->getTeamByProjectIdAndTeamMemberAndStatusIsNotCompletedOrSuspendedAndIsNotPublished($project, $session->get("idSession"));
     if ($testProject) {
-        unset($_SESSION['projectSession']);
+        $session->remove("projectSession");
 
-        $projectSession = $project;
-
-        $_SESSION['projectSession'] = $projectSession;
+        $session->set('projectSession', $project);
 
         phpCollab\Util::headerFunction("home.php");
     } else {
@@ -38,7 +32,7 @@ if ($updateProject == "true") {
 }
 
 $bouton[0] = "over";
-$titlePage = $strings["welcome"] . " $nameSession " . $strings["your_projectsite"];
+$titlePage = $strings["welcome"] . " " . $session->get("nameSession") . " " . $strings["your_projectsite"];
 
 include 'include_header.php';
 
@@ -49,8 +43,8 @@ if ($updateProject != "true" && $changeProject != "true") {
 $idStatus = $projectDetail["pro_status"];
 $idPriority = $projectDetail["pro_priority"];
 
-if ($projectSession == "" || $changeProject == "true") {
-    $listProjects = $teams->getTeamByMemberIdAndStatusIsNotCompletedAndIsNotPublished($idSession);
+if ($session->get("projectSession") == "" || $changeProject == "true") {
+    $listProjects = $teams->getTeamByMemberIdAndStatusIsNotCompletedAndIsNotPublished($session->get("idSession"));
 
     $block1 = new phpCollab\Block();
 
@@ -93,7 +87,7 @@ NO_RESULTS;
     }
 }
 
-if ($projectSession != "" && $changeProject != "true") {
+if (!empty($session->get("projectSession")) && $changeProject != "true") {
     if (file_exists("../logos_clients/" . $clientDetail["org_id"] . "." . $clientDetail["org_extension_logo"])) {
         $image = $clientDetail["org_id"] . '.' . $clientDetail["org_extension_logo"];
         echo '<img alt="" src="../logos_clients/' . $image . '"><br/><br/>';
@@ -140,8 +134,8 @@ TABLE;
         echo "</td></tr>";
     }
 
-    $pro_created = phpCollab\Util::createDate($projectDetail["pro_created"], $timezoneSession);
-    $pro_modified = phpCollab\Util::createDate($projectDetail["pro_modified"], $timezoneSession);
+    $pro_created = phpCollab\Util::createDate($projectDetail["pro_created"], $session->get("timezoneSession"));
+    $pro_modified = phpCollab\Util::createDate($projectDetail["pro_modified"], $session->get("timezoneSession"));
 
     echo <<<TR
         <tr>
@@ -163,9 +157,9 @@ TABLE;
         </table>
 TR;
 
-    $detailContact = $teams->getTeamByProjectIdAndTeamMember($projectSession, $projectDetail["pro_owner"]);
+    $detailContact = $teams->getTeamByProjectIdAndTeamMember($session->get("projectSession"), $projectDetail["pro_owner"]);
 
-    if ($detailContact["tea_published"] == "0" && $detailContact["tea_project"] == $projectSession) {
+    if ($detailContact["tea_published"] == "0" && $detailContact["tea_project"] == $session->get("projectSession")) {
         echo "<br/><div>" . $strings["contact_projectsite"] . ", <a href=\"contactdetail.php?id=" . $projectDetail["pro_owner"] . "\">" . $projectDetail["pro_mem_name"] . "</a>.</div>";
     }
 }

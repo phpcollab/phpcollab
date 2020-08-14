@@ -3,18 +3,28 @@
 #Status page: 1
 #Path by root: ../projects/deleteproject.php
 
+use phpCollab\Assignments\Assignments;
+use phpCollab\Files\Files;
+use phpCollab\Notes\Notes;
+use phpCollab\Phases\Phases;
+use phpCollab\Projects\Projects;
+use phpCollab\Support\Support;
+use phpCollab\Tasks\Tasks;
+use phpCollab\Teams\Teams;
+use phpCollab\Topics\Topics;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$tasks = new \phpCollab\Tasks\Tasks();
-$teams = new \phpCollab\Teams\Teams();
-$topics = new \phpCollab\Topics\Topics();
-$files = new \phpCollab\Files\Files();
-$assignments = new \phpCollab\Assignments\Assignments();
-$notes = new \phpCollab\Notes\Notes();
-$support = new \phpCollab\Support\Support();
-$phases = new \phpCollab\Phases\Phases();
-$projects = new \phpCollab\Projects\Projects();
+$tasks = new Tasks();
+$teams = new Teams();
+$topics = new Topics();
+$files = new Files();
+$assignments = new Assignments();
+$notes = new Notes();
+$support = new Support();
+$phases = new Phases();
+$projects = new Projects();
 
 $id = $request->query->get('id') ? str_replace("**", ",", $request->query->get('id')) : null;
 
@@ -29,7 +39,7 @@ if (!$listProjects) {
 }
 
 foreach($listProjects as $proj) {
-    if ($idSession != $proj['pro_owner'] && $profilSession != "5") {
+    if ($session->get("idSession") != $proj['pro_owner'] && $session->get("profilSession") != "5") {
         phpCollab\Util::headerFunction("../projects/listprojects.php?msg=projectOwner");
     }
 }

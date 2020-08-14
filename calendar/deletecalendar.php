@@ -37,10 +37,10 @@ $calendars = new Calendars();
 $calendarId = $request->query->get("id");
 
 if ($request->query->get("action") == "delete") {
-    $id = str_replace("**", ",", $calendarId);
+    $calendarId = str_replace("**", ",", $calendarId);
 
     try {
-        $delete = $calendars->deleteCalendar($id);
+        $delete = $calendars->deleteCalendar($calendarId);
     } catch (Exception $e) {
         echo "Error: $e";
     }
@@ -71,16 +71,16 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 $block1->form = "saP";
-$block1->openForm("../calendar/deletecalendar.php?project=$project&action=delete&id=$id");
+$block1->openForm("../calendar/deletecalendar.php?project={$project}&action=delete&id={$calendarId}");
 
 $block1->heading($strings["delete_calendars"]);
 
 $block1->openContent();
 $block1->contentTitle($strings["delete_following"]);
 
-$id = str_replace("**", ",", $id);
+$calendarId = str_replace("**", ",", $calendarId);
 
-$listCalendar = $calendars->openCalendarById($id);
+$listCalendar = $calendars->openCalendarById($calendarId);
 
 foreach ($listCalendar as $item) {
     echo <<<ROW

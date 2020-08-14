@@ -11,9 +11,9 @@ $teams = new Teams();
 
 $userDetail = $members->getMemberById($id);
 
-$detailContact = $teams->getTeamByProjectIdAndTeamMember($projectSession, $id);
+$detailContact = $teams->getTeamByProjectIdAndTeamMember($session->get("projectSession"), $request->query->get("id"));
 
-if ($detailContact[0]["tea_published"] == "1" || $detailContact["tea_project"][0] != $projectSession) {
+if ($detailContact[0]["tea_published"] == "1" || $detailContact["tea_project"][0] != $session->get("projectSession")) {
     phpCollab\Util::headerFunction("home.php");
 }
 

@@ -25,13 +25,14 @@
 */
 
 
+use phpCollab\Organizations\Organizations;
+use phpCollab\Projects\Projects;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$clients = new \phpCollab\Organizations\Organizations();
-$projects = new \phpCollab\Projects\Projects();
-$members = new \phpCollab\Members\Members();
-
+$clients = new Organizations();
+$projects = new Projects();
 
 if ($action == "delete") {
     $id = str_replace("**", ",", $id);
@@ -45,7 +46,7 @@ if ($action == "delete") {
 
     try {
         $deleteOrg = $clients->deleteClient($id);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         echo 'Message: ' . $e->getMessage();
     }
 

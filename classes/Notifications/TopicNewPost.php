@@ -6,6 +6,7 @@ namespace phpCollab\Notifications;
 
 use Exception;
 use phpCollab\Notification;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class TopicNewPost extends Notification
 {
@@ -13,14 +14,15 @@ class TopicNewPost extends Notification
      * @param $topicDetail
      * @param $projectDetail
      * @param $notificationsList
+     * @param Session $session
      * @throws Exception
      */
-    public function generateEmail($topicDetail, $projectDetail, $notificationsList)
+    public function generateEmail($topicDetail, $projectDetail, $notificationsList, Session $session)
     {
         if ($topicDetail) {
 
             try {
-                $this->getUserinfo($_SESSION["idSession"], "from");
+                $this->getUserinfo($session->get('idSession'), "from");
 
                 $this->partSubject = $this->strings["noti_newpost1"];
                 $this->partMessage = $this->strings["noti_newpost2"];
@@ -33,7 +35,7 @@ class TopicNewPost extends Notification
 
                 $body = $this->partMessage . "\n\n";
                 $body .= $this->strings["discussion"] . " : {$topicDetail["top_subject"]} \n";
-                $body .= $this->strings["posted_by"] . " : {$_SESSION["nameSession"]} ({$_SESSION["loginSession"]})\n\n";
+                $body .= $this->strings["posted_by"] . " : {$session->get('nameSession')} ({$session->get('loginSession')})\n\n";
                 $body .= $this->strings["project"] . " : {$projectDetail["pro_name"]} ({$projectDetail["pro_id"]})\n";
                 $body .= $this->strings["organization"] . " : {$projectDetail["pro_org_name"]}\n\n";
                 $body .= $this->strings["noti_moreinfo"] . "\n";

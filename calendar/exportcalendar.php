@@ -32,7 +32,7 @@ include_once '../includes/library.php';
 
 $calendars = new Calendars();
 
-$detailCalendar = $calendars->openCalendarByOwnerAndId($idSession, $id);
+$detailCalendar = $calendars->openCalendarByOwnerAndId($session->get("idSession"), $request->query->get("id"));
 
 $comptDetailCalendar = count($detailCalendar->cal_id);
 

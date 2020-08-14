@@ -1,4 +1,9 @@
 <?php
+
+use phpCollab\Organizations\Organizations;
+use phpCollab\Teams\Teams;
+use phpCollab\Util;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -6,8 +11,8 @@ $setTitle .= " : List Clients";
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
-$organizations = new \phpCollab\Organizations\Organizations();
-$teams = new \phpCollab\Teams\Teams();
+$organizations = new Organizations();
+$teams = new Teams();
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -30,12 +35,12 @@ $block1->openForm("../clients/listclients.php#" . $block1->form . "Anchor");
 $block1->heading($strings["organizations"]);
 
 $block1->openPaletteIcon();
-if ($profilSession == "0" || $profilSession == "1") {
+if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1") {
     $block1->paletteIcon(0, "add", $strings["add"]);
     $block1->paletteIcon(1, "remove", $strings["delete"]);
 }
 $block1->paletteIcon(2, "info", $strings["view"]);
-if ($profilSession == "0" || $profilSession == "1") {
+if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1") {
     $block1->paletteIcon(3, "edit", $strings["edit"]);
 }
 $block1->closePaletteIcon();
@@ -45,13 +50,13 @@ $block1->setRowsLimit(20);
 
 $block1->sorting("organizations", $sortingUser["organizations"], "org.name ASC", $sortingFields = array(0 => "org.name", 1 => "org.phone", 2 => "org.url"));
 
-if ($clientsFilter == "true" && $profilSession == "2") {
+if ($clientsFilter == "true" && $session->get("profilSession") == "2") {
     /**
      * If the user role is "user"
      */
     $teamMember = "false";
 
-    $myTeams = $teams->getTeamByMemberId($idSession);
+    $myTeams = $teams->getTeamByMemberId($session->get("idSession"));
 
     if (count($myTeams) == "0") {
         $listClients = "false";
@@ -67,11 +72,11 @@ if ($clientsFilter == "true" && $profilSession == "2") {
             $listOrganizations = $organizations->getFilteredOrganizations($clientsOk, $block1->sortingValue);
         }
     }
-} elseif ($clientsFilter == "true" && $profilSession == "1") {
+} elseif ($clientsFilter == "true" && $session->get("profilSession") == "1") {
     /**
      * If the user role is "project manager"
      */
-    $listOrganizations = $organizations->getOrganizationsByOwner($idSession, $block1->sortingValue);
+    $listOrganizations = $organizations->getOrganizationsByOwner($session->get("idSession"), $block1->sortingValue);
 } else {
     $listOrganizations = $organizations->getListOfOrganizations($block1->sortingValue);
 }
@@ -90,7 +95,7 @@ if ($listOrganizations) {
         $block1->openRow();
         $block1->checkboxRow($org["org_id"]);
         $block1->cellRow($blockPage->buildLink("../clients/viewclient.php?id=" . $org["org_id"], $org["org_name"], 'in'));
-        $block1->cellRow( \phpCollab\Util::isBlank($org["org_phone"]) );
+        $block1->cellRow( Util::isBlank($org["org_phone"]) );
         $block1->cellRow( $blockPage->buildLink($org["org_url"], $org["org_url"], 'out') );
         $block1->closeRow();
     }
@@ -103,12 +108,12 @@ if ($listOrganizations) {
 $block1->closeFormResults();
 
 $block1->openPaletteScript();
-if ($profilSession == "0" || $profilSession == "1") {
+if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1") {
     $block1->paletteScript(0, "add", "../clients/editclient.php?", "true,false,false", $strings["add"]);
     $block1->paletteScript(1, "remove", "../clients/deleteclients.php?", "false,true,true", $strings["delete"]);
 }
 $block1->paletteScript(2, "info", "../clients/viewclient.php?", "false,true,false", $strings["view"]);
-if ($profilSession == "0" || $profilSession == "1") {
+if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1") {
     $block1->paletteScript(3, "edit", "../clients/editclient.php?", "false,true,false", $strings["edit"]);
 }
 $block1->closePaletteScript(count($listOrganizations), array_column($listOrganizations, 'org_id'));

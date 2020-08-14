@@ -17,7 +17,7 @@ $projectDetail = $projects->getProjectById($projectId);
 if (!$projectDetail) {
     phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blankProject");
 }
-if ($_SESSION["idSession"] != $projectDetail["pro_owner"] && $_SESSION["profilSession"] != "5") {
+if ($session->get('idSession') != $projectDetail["pro_owner"] && $session->get('profilSession') != "5") {
     phpCollab\Util::headerFunction("../projects/listprojects.php?msg=projectOwner");
 }
 

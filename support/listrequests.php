@@ -15,7 +15,7 @@ if ($enableHelpSupport != "true") {
 }
 
 if ($supportType == "admin") {
-    if ($profilSession != "0") {
+    if ($session->get("profilSession") != "0") {
         phpCollab\Util::headerFunction('../general/permissiondenied.php');
     }
 }
@@ -28,7 +28,7 @@ $projectDetail = $projects->getProjectById($id);
 
 $teamMember = "false";
 
-$teamMember = $teams->isTeamMember($id, $idSession);
+$teamMember = $teams->isTeamMember($id, $session->get("idSession"));
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
@@ -56,7 +56,7 @@ $block1 = new phpCollab\Block();
 $block1->form = "srs";
 $block1->openForm("../support/listrequests.php?&id=$id#" . $block1->form . "Anchor");
 $block1->heading($strings["support_requests"]);
-if ($teamMember == "true" || $profilSession == "0") {
+if ($teamMember == "true" || $session->get("profilSession") == "0") {
     $block1->openPaletteIcon();
     $block1->paletteIcon(1, "edit", $strings["edit_status"]);
     $block1->paletteIcon(2, "remove", $strings["delete"]);
@@ -104,7 +104,7 @@ if (!empty($listRequests)) {
     $block1->noresults();
 }
 $block1->closeFormResults();
-if ($teamMember == "true" || $profilSession == "0") {
+if ($teamMember == "true" || $session->get("profilSession") == "0") {
     $block1->openPaletteScript();
     $block1->paletteScript(1, "edit", "../support/addpost.php?action=status", "false,true,false", $strings["edit_status"]);
     $block1->paletteScript(2, "remove", "../support/deleterequests.php?action=deleteR", "false,true,true", $strings["delete"]);

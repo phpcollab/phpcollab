@@ -14,14 +14,13 @@ $tasks = new Tasks();
 $projects = new Projects();
 
 $task = $request->query->get("task");
-$timezoneSession = $_SESSION["timezoneSession"];
 $strings = $GLOBALS["strings"];
 
 $taskDetail = $tasks->getTaskById($task);
 
 $projectDetail = $projects->getProjectById($taskDetail["tas_project"]);
 
-$projectDetail["pro_created"] = phpCollab\Util::createDate($projectDetail["pro_created"], $timezoneSession);
+$projectDetail["pro_created"] = phpCollab\Util::createDate($projectDetail["pro_created"], $session->get("timezoneSession"));
 $projectDetail["pro_name"] = str_replace('&quot;', '"', $projectDetail["pro_name"]);
 $projectDetail["pro_name"] = str_replace("&#39;", "'", $projectDetail["pro_name"]);
 

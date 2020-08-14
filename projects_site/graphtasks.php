@@ -15,8 +15,6 @@ include '../includes/jpgraph/jpgraph.php';
 include '../includes/jpgraph/jpgraph_gantt.php';
 
 $strings = $GLOBALS["strings"];
-$idSession = $_SESSION["idSession"];
-$timezoneSession = $_SESSION["timezoneSession"];
 
 $graph = new GanttGraph();
 $graph->SetBox();
@@ -37,7 +35,7 @@ if ($request->query->get('dateCalend') != '') {
     $dateCalend = substr($dateCalend, 0, 7);
 
     //add the published task to the graph
-    $listTasks = $tasks->getTasksWhereStartDateAndEndDateLikeNotPublishedAndAssignedToUserId($dateCalend, $idSession);
+    $listTasks = $tasks->getTasksWhereStartDateAndEndDateLikeNotPublishedAndAssignedToUserId($dateCalend, $session->get("idSession"));
 
     $progress = 0;
     foreach ($listTasks as $task) {
@@ -60,7 +58,7 @@ if ($request->query->get('dateCalend') != '') {
         $graph->Add($activity);
     }
 
-    $detailCalendar = $calendars->openCalendarByOwnerOrIsBroadcast($idSession);
+    $detailCalendar = $calendars->openCalendarByOwnerOrIsBroadcast($session->get("idSession"));
 
     $j = 0;
     $progress = 0;
@@ -85,7 +83,7 @@ if ($request->query->get('dateCalend') != '') {
     $graph->title->Set($strings["project"] . " " . $projectDetail["pro_name"]);
     $graph->subtitle->Set("(" . $strings["created"] . ": " . $projectDetail["pro_created"] . ")");
 
-    $projectDetail["pro_created"] = phpCollab\Util::createDate($projectDetail["pro_created"], $timezoneSession);
+    $projectDetail["pro_created"] = phpCollab\Util::createDate($projectDetail["pro_created"], $session->get("timezoneSession"));
     $projectDetail["pro_name"] = str_replace('&quot;', '"', $projectDetail["pro_name"]);
     $projectDetail["pro_name"] = str_replace("&#39;", "'", $projectDetail["pro_name"]);
 

@@ -13,7 +13,7 @@ include APP_ROOT . '/projects_site/include_header.php';
 
 $topics = new Topics();
 
-$listTopics = $topics->getProjectSiteTopics($projectSession, 'topic.last_post DESC');
+$listTopics = $topics->getProjectSiteTopics($session->get("projectSession"), 'topic.last_post DESC');
 
 $block1 = new phpCollab\Block();
 
@@ -32,7 +32,7 @@ if (!empty($listTopics)) {
 TABLE;
 
     foreach ($listTopics as $listTopic) {
-        $topicDate = phpCollab\Util::createDate($listTopic["top_last_post"], $timezoneSession);
+        $topicDate = phpCollab\Util::createDate($listTopic["top_last_post"], $session->get("timezoneSession"));
         echo <<< TR
 <tr>
     <td><a href="showallthreads.php?topic={$listTopic["top_id"]}">{$listTopic["top_subject"]}</a></td>

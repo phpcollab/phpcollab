@@ -17,7 +17,6 @@ $id = $request->query->get('id');
 $addToSite = $request->query->get('addToSite');
 $removeToSite = $request->query->get('removeToSite');
 $strings = $GLOBALS["strings"];
-$idSession = $_SESSION["idSession"];
 
 $notes = new Notes();
 
@@ -44,7 +43,7 @@ $projects = new Projects();
 $projectDetail = $projects->getProjectById($project);
 
 $teams = new Teams();
-$teamMember = $teams->isTeamMember($project, $idSession);
+$teamMember = $teams->isTeamMember($project, $session->get("idSession"));
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();

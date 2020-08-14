@@ -26,12 +26,14 @@
 ** =============================================================================
 */
 
+use phpCollab\Administration\Administration;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 $setTitle .= " : Administration";
-$admin = new \phpCollab\Administration\Administration();
+$admin = new Administration();
 
-if ($profilSession != "0") {
+if ($session->get('profilSession') != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 
@@ -106,7 +108,7 @@ HTML;
 
 
 if ($updateChecker == "true" && $installationType == "online") {
-    $admin->checkForUpdate($version);
+    $admin->checkForUpdate($version, $session);
 
     if ($admin->isUpdate() !== false) {
         $checkMsg = <<<HTML

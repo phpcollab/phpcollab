@@ -63,9 +63,9 @@ if (empty($request->query->get('id'))) {
             $projectId = $request->request->get('project_id');
 
             try {
-                $newTask = $tasks->addTask($projectId, $taskName, $description, $idSession, 0, 2, $priority, $startDate, $dueDate, 0, 0, $comments, $publshed, 0);
+                $newTask = $tasks->addTask($projectId, $taskName, $description, $session->get("idSession"), 0, 2, $priority, $startDate, $dueDate, 0, 0, $comments, $publshed, 0);
 
-                $assignments->addAssignment($newTask["tas_id"], $idSession, $assignedTo, $dateheure);
+                $assignments->addAssignment($newTask["tas_id"], $session->get("idSession"), $assignedTo, $dateheure);
 
                 //send task assignment mail if notifications = true
                 if ($notifications == "true") {
@@ -74,7 +74,7 @@ if (empty($request->query->get('id'))) {
 
                 //create task sub-folder if filemanagement = true
                 if ($fileManagement == "true") {
-                    phpCollab\Util::createDirectory("../files/$projectSession/" . $newTask["tas_id"]);
+                    phpCollab\Util::createDirectory("../files/{$session->get("projectSession")}/" . $newTask["tas_id"]);
                 }
                 phpCollab\Util::headerFunction("showallteamtasks.php");
             }
@@ -104,7 +104,7 @@ echo <<< HTML
 <input type="hidden" name="assigned_to" value="0" />
 <input type="hidden" name="status" value="2" />
 <input type="hidden" name="completion" value="0" />
-<input type="hidden" name="project_id" value="$projectSession" />
+<input type="hidden" name="project_id" value="{$session->get("projectSession")}" />
 <input type="hidden" value="{$publishTask}" name="publish" />
 <table class="nonStriped">
 	<tr>

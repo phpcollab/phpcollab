@@ -9,7 +9,7 @@ include '../includes/library.php';
 
 $support = new Support($logger);
 
-$userDetail = $members->getMemberById($idSession);
+$userDetail = $members->getMemberById($session->get("idSession"));
 
 $project = $request->query->get('project');
 $priority = $GLOBALS["priority"];
@@ -45,7 +45,7 @@ ERROR;
 }
 
 echo <<<STARTFORM
-<form method="POST" action="../projects_site/addsupport.php?action=add&project={$projectSession}#filedetailsAnchor" name="addsupport">
+<form method="POST" action="../projects_site/addsupport.php?action=add&project={$session->get("projectSession")}#filedetailsAnchor" name="addsupport">
 STARTFORM;
 
 echo <<<TABLE
@@ -77,7 +77,7 @@ echo <<<CLOSETABLE
         <th>&nbsp;</th>
         <td>
             <input type="submit" value="{$strings["submit"]}">
-            <input type="hidden" name="userId" value="{$idSession}">
+            <input type="hidden" name="userId" value="{$session->get("idSession")}">
             <input type="hidden" name="projectId" value="{$project}">
         </td>
     </tr>

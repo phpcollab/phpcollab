@@ -4,6 +4,9 @@ use \AcceptanceTester;
 
 class UserCest
 {
+    /**
+     * @param AcceptanceTester $I
+     */
     public function _before(AcceptanceTester $I)
     {
         $I->amOnPage('/general/login.php');
@@ -12,11 +15,18 @@ class UserCest
         $I->click('input[type="submit"]');
     }
 
+    /**
+     * @param AcceptanceTester $I
+     */
     public function _after(AcceptanceTester $I)
     {
     }
 
     // tests
+
+    /**
+     * @param AcceptanceTester $I
+     */
     public function viewHomePage(AcceptanceTester $I)
     {
         $I->wantTo('See the home page');
@@ -24,14 +34,20 @@ class UserCest
         $I->see('PhpCollab : Home Page');
     }
 
+    /**
+     * @param AcceptanceTester $I
+     */
     public function viewProfile(AcceptanceTester $I)
     {
-        $I->wantTo('Logout');
+        $I->wantTo('View my Profile');
         $I->amOnPage('/general/home.php');
         $I->click('#account > a:nth-child(2)');
         $I->seeElement('form', ['name' => 'user_edit_profileForm']);
     }
 
+    /**
+     * @param AcceptanceTester $I
+     */
     public function changePassword(AcceptanceTester $I)
     {
         $I->wantTo('Change my password');
@@ -42,6 +58,9 @@ class UserCest
         $I->seeElement('form', ['name' => 'change_passwordForm']);
     }
 
+    /**
+     * @param AcceptanceTester $I
+     */
     public function changeNotifications(AcceptanceTester $I)
     {
         $I->wantTo('Change my notifications');
@@ -53,6 +72,9 @@ class UserCest
         $I->seeElement('form', ['name' => 'user_avertForm']);
     }
 
+    /**
+     * @param AcceptanceTester $I
+     */
     public function logout(AcceptanceTester $I)
     {
         $I->wantTo('Logout');

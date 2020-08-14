@@ -1,9 +1,13 @@
 <?php
 
+use phpCollab\Bookmarks\Bookmarks;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$bookmarks = new phpCollab\Bookmarks\Bookmarks();
+$bookmarks = new Bookmarks();
+
+$id = $request->query->get("id");
 
 $bookmarkDetail = $bookmarks->getBookmarkById($id);
 
@@ -12,16 +16,16 @@ if ($bookmarkDetail['boo_users'] != "") {
     $comptPieces = count($pieces);
     $private = "false";
     for ($i = 0; $i < $comptPieces; $i++) {
-        if ($idSession == $pieces[$i]) {
+        if ($session->get("idSession") == $pieces[$i]) {
             $private = "true";
         }
     }
 }
 
 if (
-    ($bookmarkDetail['boo_users'] == "" && $bookmarkDetail['boo_owner'] != $idSession && $bookmarkDetail['boo_shared'] == "0")
+    ($bookmarkDetail['boo_users'] == "" && $bookmarkDetail['boo_owner'] != $session->get("idSession") && $bookmarkDetail['boo_shared'] == "0")
     ||
-    ($private == "false" && $bookmarkDetail['boo_owner'] != $idSession)
+    ($private == "false" && $bookmarkDetail['boo_owner'] != $session->get("idSession"))
 ) {
     phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=bookmarkOwner");
 }
@@ -45,7 +49,7 @@ $block1 = new phpCollab\Block();
 $block1->form = "tdD";
 $block1->openForm("../bookmarks/viewbookmark.php#" . $block1->form . "Anchor");
 $block1->heading($strings["bookmark"] . " : " . $bookmarkDetail['boo_name']);
-if ($bookmarkDetail['boo_owner'] == $idSession) {
+if ($bookmarkDetail['boo_owner'] == $session->get("idSession")) {
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "remove", $strings["delete"]);
 
@@ -63,7 +67,7 @@ $block1->contentRow($strings["description"], nl2br($bookmarkDetail['boo_descript
 $block1->closeContent();
 $block1->closeForm();
 
-if ($bookmarkDetail['boo_owner'] == $idSession) {
+if ($bookmarkDetail['boo_owner'] == $session->get("idSession")) {
     $block1->openPaletteScript();
     $block1->paletteScript(0, "remove", "../bookmarks/deletebookmarks.php?id=" . $bookmarkDetail['boo_id'] . "", "true,true,false", $strings["delete"]);
     $block1->paletteScript(4, "edit", "../bookmarks/editbookmark.php?id=" . $bookmarkDetail['boo_id'] . "", "true,true,false", $strings["edit"]);

@@ -14,7 +14,6 @@ $action = $request->query->get("action");
 $addToSite = $request->query->get("addToSite", false);
 $removeToSite = $request->query->get("removeToSite", false);
 $strings = $GLOBALS["strings"];
-$idSession = $_SESSION["idSession"];
 
 if ($action == "publish") {
 
@@ -37,7 +36,7 @@ if ($action == "publish") {
 $detailInvoice = $invoices->getInvoiceById($id);
 $projectDetail = $projects->getProjectById($detailInvoice["inv_project"]);
 
-if ($projectDetail["pro_owner"] != $idSession) {
+if ($projectDetail["pro_owner"] != $session->get("idSession")) {
     header("Location:../general/permissiondenied.php");
 }
 
@@ -101,8 +100,8 @@ if ($sitePublish == "true") {
     $block1->contentRow($strings["published"], $GLOBALS["statusPublish"][$detailInvoice["inv_published"]]);
 }
 
-$block1->contentRow($strings["created"], phpCollab\Util::createDate($detailInvoice["inv_created"], $_SESSION["timezoneSession"]));
-$block1->contentRow($strings["modified"], phpCollab\Util::createDate($detailInvoice["inv_modified"], $_SESSION["timezoneSession"]));
+$block1->contentRow($strings["created"], phpCollab\Util::createDate($detailInvoice["inv_created"], $session->get('timezoneSession')));
+$block1->contentRow($strings["modified"], phpCollab\Util::createDate($detailInvoice["inv_modified"], $session->get('timezoneSession')));
 
 $block1->closeContent();
 $block1->closeToggle();

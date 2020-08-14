@@ -86,13 +86,13 @@ if ($request->isMethod('post')) {
     }
 
     if ($request->query->get('action') == "update") {
-        $filteredData['id'] = filter_var((int) $id, FILTER_VALIDATE_INT);
+        $filteredData['id'] = filter_var((int) $request->query->get("id"), FILTER_VALIDATE_INT);
         $updateBookmark = $bookmark->updateBookmark($filteredData);
         phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=update");
     }
 
     if ($request->query->get('action') == "add") {
-        $filteredData['owner_id'] = filter_var((int) $idSession, FILTER_VALIDATE_INT);
+        $filteredData['owner_id'] = filter_var((int) $session->get("idSession"), FILTER_VALIDATE_INT);
         $addBookmark = $bookmark->addBookmark($filteredData);
 
         phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=add");

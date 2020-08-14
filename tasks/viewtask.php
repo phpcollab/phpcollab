@@ -29,16 +29,24 @@
 */
 
 
+use phpCollab\Assignments\Assignments;
+use phpCollab\Files\Files;
+use phpCollab\Phases\Phases;
+use phpCollab\Projects\Projects;
+use phpCollab\Tasks\Tasks;
+use phpCollab\Teams\Teams;
+use phpCollab\Updates\Updates;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$tasks = new \phpCollab\Tasks\Tasks();
-$projects = new \phpCollab\Projects\Projects();
-$phases = new \phpCollab\Phases\Phases();
-$teams = new \phpCollab\Teams\Teams();
-$updates = new \phpCollab\Updates\Updates();
-$files = new \phpCollab\Files\Files();
-$assignments = new \phpCollab\Assignments\Assignments();
+$tasks = new Tasks();
+$projects = new Projects();
+$phases = new Phases();
+$teams = new Teams();
+$updates = new Updates();
+$files = new Files();
+$assignments = new Assignments();
 
 $id = $request->query->get('id');
 $task = $request->query->get('task');
@@ -50,8 +58,6 @@ $strings = $GLOBALS["strings"];
 $date = $GLOBALS["date"];
 $statusPublish = $GLOBALS["statusPublish"];
 $priority = $GLOBALS["priority"];
-
-$timezoneSession = $_SESSION["timezoneSession"];
 
 $cheatCode = false;
 if ($task != "") {
@@ -107,7 +113,7 @@ if ($projectDetail["pro_enable_phase"] != "0") {
 }
 
 $teamMember = false;
-$teamMember = ($_SESSION["idSession"] == $taskDetail["tas_owner"] || $teams->isTeamMember($taskDetail["tas_project"], $_SESSION["idSession"]));
+$teamMember = ($session->get('idSession') == $taskDetail["tas_owner"] || $teams->isTeamMember($taskDetail["tas_project"], $session->get('idSession')));
 
 if ($teamMember === false && $projectsFilter === "true") {
     header("Location:../general/permissiondenied.php");
@@ -141,7 +147,7 @@ $block1->openForm("../tasks/viewtask.php#" . $block1->form . "Anchor");
 
 $block1->headingToggle($strings["task"] . " : " . $taskDetail["tas_name"]);
 
-if ($teamMember === true || $profilSession == "5") {
+if ($teamMember === true || $session->get("profilSession") == "5") {
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "remove", $strings["delete"]);
     $block1->paletteIcon(1, "copy", $strings["copy"]);
@@ -170,9 +176,9 @@ if ($projectDetail["pro_phase_set"] != "0") {
 
 $block1->contentRow($strings["organization"], $projectDetail["pro_org_name"]);
 
-$block1->contentRow($strings["created"], phpCollab\Util::createDate($taskDetail["tas_created"], $timezoneSession));
-$block1->contentRow($strings["assigned"], phpCollab\Util::createDate($taskDetail["tas_assigned"], $timezoneSession));
-$block1->contentRow($strings["modified"], phpCollab\Util::createDate($taskDetail["tas_modified"], $timezoneSession));
+$block1->contentRow($strings["created"], phpCollab\Util::createDate($taskDetail["tas_created"], $session->get("timezoneSession")));
+$block1->contentRow($strings["assigned"], phpCollab\Util::createDate($taskDetail["tas_assigned"], $session->get("timezoneSession")));
+$block1->contentRow($strings["modified"], phpCollab\Util::createDate($taskDetail["tas_modified"], $session->get("timezoneSession")));
 
 $block1->contentTitle($strings["details"]);
 
@@ -256,7 +262,7 @@ if ($listUpdates) {
         }
 
         $abbrev = stripslashes(substr($update["upd_comments"], 0, 100));
-        echo "<b>" . $j . ".</b> <i>" . phpCollab\Util::createDate($update["upd_created"], $timezoneSession) . "</i> $abbrev";
+        echo "<b>" . $j . ".</b> <i>" . phpCollab\Util::createDate($update["upd_created"], $session->get("timezoneSession")) . "</i> $abbrev";
 
         if (100 < strlen($update["upd_comments"])) {
             echo "...<br/>";
@@ -278,7 +284,7 @@ $block1->closeContent();
 $block1->closeToggle();
 $block1->closeForm();
 
-if ($teamMember === true || $profilSession == "5") {
+if ($teamMember === true || $session->get("profilSession") == "5") {
     $block1->openPaletteScript();
     $block1->paletteScript(0, "remove", "../tasks/deletetasks.php?project=" . $taskDetail["tas_project"] . "&id=" . $taskDetail["tas_id"] . "", "true,true,false", $strings["delete"]);
     $block1->paletteScript(1, "copy", "../tasks/edittask.php?project=" . $taskDetail["tas_project"] . "&task=" . $taskDetail["tas_id"] . "&docopy=true", "true,true,false", $strings["copy"]);
@@ -298,7 +304,7 @@ if ($fileManagement == "true") {
     $block2->headingToggle($strings["linked_content"]);
     $block2->openPaletteIcon();
 
-    if ($teamMember === true || $profilSession == "5") {
+    if ($teamMember === true || $session->get("profilSession") == "5") {
         $block2->paletteIcon(0, "add", $strings["add"]);
         $block2->paletteIcon(1, "remove", $strings["delete"]);
 
@@ -310,7 +316,7 @@ if ($fileManagement == "true") {
 
     $block2->paletteIcon(4, "info", $strings["view"]);
 
-    if ($teamMember === true || $profilSession == "5") {
+    if ($teamMember === true || $session->get("profilSession") == "5") {
         $block2->paletteIcon(5, "edit", $strings["edit"]);
     }
 
@@ -368,7 +374,7 @@ if ($fileManagement == "true") {
     $block2->closeFormResults();
     $block2->openPaletteScript();
 
-    if ($teamMember === true || $profilSession == "5") {
+    if ($teamMember === true || $session->get("profilSession") == "5") {
         $block2->paletteScript(0, "add", "../linkedcontent/addfile.php?project=" . $taskDetail["tas_project"] . "&task=$id", "true,true,true", $strings["add"]);
         $block2->paletteScript(1, "remove", "../linkedcontent/deletefiles.php?project=" . $projectDetail["pro_id"] . "&task=" . $taskDetail["tas_id"] . "", "false,true,true", $strings["delete"]);
 
@@ -380,7 +386,7 @@ if ($fileManagement == "true") {
 
     $block2->paletteScript(4, "info", "../linkedcontent/viewfile.php?", "false,true,false", $strings["view"]);
 
-    if ($teamMember === true || $profilSession == "5") {
+    if ($teamMember === true || $session->get("profilSession") == "5") {
         $block2->paletteScript(5, "edit", "../linkedcontent/viewfile.php?edit=true", "false,true,false", $strings["edit"]);
     }
     $block2->closePaletteScript(count($listFiles), array_column($listFiles, 'fil_id'));
@@ -417,7 +423,7 @@ foreach ($listAssign as $assignment) {
     } else {
         $block3->cellRow($blockPage->buildLink($assignment["ass_mem2_email_work"], $assignment["ass_mem2_login"], "mail"));
     }
-    $block3->cellRow(phpCollab\Util::createDate($assignment["ass_assigned"], $timezoneSession));
+    $block3->cellRow(phpCollab\Util::createDate($assignment["ass_assigned"], $session->get("timezoneSession")));
     $block3->closeRow();
 }
 
@@ -432,13 +438,13 @@ $block4->openForm("../tasks/viewtask.php?task=$id#" . $block4->form . "Anchor");
 $block4->headingToggle($strings["subtasks"]);
 $block4->openPaletteIcon();
 
-if ($teamMember === true || $profilSession == "5") {
+if ($teamMember === true || $session->get("profilSession") == "5") {
     $block4->paletteIcon(0, "add", $strings["add"]);
     $block4->paletteIcon(1, "remove", $strings["delete"]);
 }
 $block4->paletteIcon(6, "info", $strings["view"]);
 
-if ($teamMember === true || $profilSession == "5") {
+if ($teamMember === true || $session->get("profilSession") == "5") {
     $block4->paletteIcon(7, "edit", $strings["edit"]);
 }
 
@@ -508,13 +514,13 @@ $block4->closeFormResults();
 $block4->openPaletteScript();
 
 
-if ($teamMember === true || $profilSession == "5") {
+if ($teamMember === true || $session->get("profilSession") == "5") {
     $block4->paletteScript(0, "add", "../subtasks/editsubtask.php?task=$id", "true,false,false", $strings["add"]);
     $block4->paletteScript(1, "remove", "../subtasks/deletesubtasks.php?task=$id", "false,true,true", $strings["delete"]);
 }
 $block4->paletteScript(6, "info", "../subtasks/viewsubtask.php?task=$id", "false,true,false", $strings["view"]);
 
-if ($teamMember === true || $profilSession == "5") {
+if ($teamMember === true || $session->get("profilSession") == "5") {
     $block4->paletteScript(7, "edit", "../subtasks/editsubtask.php?task=$id", "false,true,true", $strings["edit"]);
 }
 $block4->closePaletteScript(count($listSubtasks), array_column($listSubtasks, 'subtas_id'));

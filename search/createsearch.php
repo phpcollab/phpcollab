@@ -1,9 +1,7 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 2003-10-23
 ** Path by root: ../search/createsearch.php
-** Authors: Ceam / Fullo
 **
 ** =============================================================================
 **
@@ -17,30 +15,28 @@
 **
 ** DESC: Screen: CREATE SEARCH
 **
-** HISTORY:
-** 	12/04/2005	-	added the subtask search http://www.php-collab.org/community/viewtopic.php?t=1938
-** -----------------------------------------------------------------------------
-** TO-DO:
-**
-**
-** =============================================================================
 */
 
 
 $checkSession = "true";
 include_once '../includes/library.php';
 
-//test required field searchfor
-if ($action == "search") {
+$error = null;
 
-//if searchfor blank, $error set
+//test required field searchfor
+if ($request->query->get("action") == "search") {
+
+    //if searchfor blank, $error set
+    $searchfor = $request->request->get("searchfor");
+    $heading = $request->request->get("heading");
+
     if ($searchfor == "") {
         $error = $strings["search_note"];
 
         //if searchfor not blank, redirect to searchresults
     } else {
         $searchfor = urlencode($searchfor);
-        phpCollab\Util::headerFunction("../search/resultssearch.php?searchfor=$searchfor&heading=$heading");
+        phpCollab\Util::headerFunction("../search/resultssearch.php?searchfor={$searchfor}&heading={$heading}");
     }
 }
 
@@ -55,7 +51,7 @@ $blockPage->itemBreadcrumbs($blockPage->buildLink("../search/createsearch.php?",
 $blockPage->itemBreadcrumbs($strings["search_options"]);
 $blockPage->closeBreadcrumbs();
 
-if ($msg != "") {
+if ($request->query->get("msg") != "") {
     include '../includes/messages.php';
     $blockPage->messageBox($msgLabel);
 }

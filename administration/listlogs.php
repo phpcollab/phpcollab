@@ -30,7 +30,7 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-if ($profilSession != "0") {
+if ($session->get('profilSession') != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 
@@ -62,7 +62,7 @@ foreach ($logsData as $log) {
     $block1->cellRow($log['ip']);
     $block1->cellRow($log['session']);
     $block1->cellRow($log['compt']);
-    $block1->cellRow(phpCollab\Util::createDate($log['last_visite'], $timezoneSession));
+    $block1->cellRow(phpCollab\Util::createDate($log['last_visite'], $session->get("timezoneSession")));
 
     if ($log['mem_profil'] == "3") {
         $z = "(Client on project site)";

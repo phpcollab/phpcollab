@@ -57,12 +57,12 @@ $block1->openForm("../projects/listprojects.php?typeProjects=$typeProjects&#" . 
 $block1->heading($strings["projects"]);
 
 $block1->openPaletteIcon();
-if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
+if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1" || $session->get("profilSession") == "5") {
     $block1->paletteIcon(0, "add", $strings["add"]);
     $block1->paletteIcon(1, "remove", $strings["delete"]);
 }
 $block1->paletteIcon(2, "info", $strings["view"]);
-if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
+if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1" || $session->get("profilSession") == "5") {
     $block1->paletteIcon(3, "edit", $strings["edit"]);
     $block1->paletteIcon(4, "copy", $strings["copy"]);
 }
@@ -91,9 +91,9 @@ $block1->sorting(
 
 $sorting = $block1->sortingValue;
 
-$block1->setRecordsTotal(count($projects->getProjectList($idSession, $typeProjects)));
+$block1->setRecordsTotal(count($projects->getProjectList($session->get("idSession"), $typeProjects)));
 
-$dataSet = $projects->getProjectList($idSession, $typeProjects, $block1->getRowsLimit(), $block1->getLimit(), $sorting);
+$dataSet = $projects->getProjectList($session->get("idSession"), $typeProjects, $block1->getRowsLimit(), $block1->getLimit(), $sorting);
 
 $projectCount = count($dataSet);
 
@@ -128,7 +128,7 @@ if ($projectCount > 0) {
 
         if ($sitePublish == "true") {
             if ($data["pro_published"] === "1") {
-                if ($data['pro_owner'] == $idSession) {
+                if ($data['pro_owner'] == $session->get("idSession")) {
                     $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $data["pro_id"], $strings["create"] . "...", "in") . "&gt;");
                 } else {
                     $block1->cellRow(Util::doubleDash());
@@ -154,17 +154,17 @@ if ($projectCount > 0) {
 
 $block1->closeFormResults();
 $block1->openPaletteScript();
-if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
+if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1" || $session->get("profilSession") == "5") {
     $block1->paletteScript(0, "add", "../projects/editproject.php?", "true,false,false", $strings["add"]);
     $block1->paletteScript(1, "remove", "../projects/deleteproject.php?", "false,true,false", $strings["delete"]);
 }
 $block1->paletteScript(2, "info", "../projects/viewproject.php?", "false,true,false", $strings["view"]);
-if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
+if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1" || $session->get("profilSession") == "5") {
     $block1->paletteScript(3, "edit", "../projects/editproject.php?", "false,true,false", $strings["edit"]);
     $block1->paletteScript(4, "copy", "../projects/editproject.php?docopy=true", "false,true,false", $strings["copy"]);
 }
 if ($enableMantis == "true") {
-    $block1->paletteScript(8, "bug", $pathMantis . "login.php?url=http://{$request->server->get("HTTP_HOST")}{$request->server->get("REQUEST_URI")}&username=$loginSession&password=$passwordSession", "false,true,false", $strings["bug"]);
+    $block1->paletteScript(8, "bug", $pathMantis . "login.php?url=http://{$request->server->get("HTTP_HOST")}{$request->server->get("REQUEST_URI")}&username={$session->get("loginSession")}&password=$passwordSession", "false,true,false", $strings["bug"]);
 }
 
 $block1->closePaletteScript(count($dataSet), array_column($dataSet, 'pro_id'));

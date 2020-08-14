@@ -24,26 +24,30 @@
 ** =============================================================================
 */
 
+use Symfony\Component\HttpFoundation\Response;
+
 $checkSession = "false";
 include '../includes/library.php';
 
 $strings = $GLOBALS["strings"];
-$idSession = (isset($_SESSION["idSession"]) && !empty($_SESSION["idSession"])) ? $_SESSION["idSession"] : null;
 $loginMethod = $GLOBALS["loginMethod"];
 
-if ($logout == "true") {
-    $loginLogs->setConnectedByLogin($loginSession, false);
+if ($request->query->get("logout") == "true") {
+    // Todo: migrate this out of here to separate concerns
+    $loginLogs->setConnectedByLogin($session->get('loginSession'), false);
 
-    $logger->info('User logged out', ['username' => $_SESSION["loginSession"]]);
+    $logger->info('User logged out', ['username' => $session->get('loginSession')]);
+
+    $response = new Response(
+        'Content',
+        Response::HTTP_OK,
+        ['content-type' => 'text/html']
+    );
 
     // delete the authentication cookies
-    setcookie('loginCookie', '', time()-86400);
-    setcookie('passwordCookie', '', time()-86400);
-
-    session_unset();
-    session_destroy();
-
-
+    $response->headers->clearCookie('loginCookie');
+    $session->clear();
+    $session->invalidate();
     phpCollab\Util::headerFunction("../general/login.php?msg=logout");
 }
 
@@ -54,7 +58,7 @@ $passwordForm = $request->request->get("passwordForm");
 $match = false;
 $ssl = false;
 
-if (!empty($SSL_CLIENT_CERT) && !$logout && $auth != "test") {
+if (!empty($SSL_CLIENT_CERT) && !$request->query->get('logout') && $request->query->get('auth') != "test") {
     $auth = "on";
     $ssl = true;
 
@@ -80,16 +84,6 @@ if (!empty($SSL_CLIENT_CERT) && !$logout && $auth != "test") {
                     $error = $strings["login_password"];
                 } else {
                     $auth = "on";
-
-                    if (isset($rememberForm) && $rememberForm == "on") {
-                        $oneyear = 22896000;
-                        $storePwd = phpCollab\Util::getPassword($passwordForm);
-                        setcookie("loginCookie", $usernameForm, time() + $oneyear, null, null, null, true);
-                        setcookie("passwordCookie", $storePwd, time() + $oneyear, null, null, null, true);
-                    } else {
-                        setcookie("loginCookie", null, null, null, null, null, true);
-                        setcookie("passwordCookie", null, null, null, null, null, true);
-                    }
                 }
             }
         }
@@ -124,8 +118,6 @@ if ($auth == "on") {
     if (!$member) {
         $logger->notice('Member not found', ['username' => $usernameForm]);
         $error = $strings["invalid_login"];
-        setcookie("loginCookie", null, null, null, null, null, true);
-        setcookie("passwordCookie", null, null, null, null, null, true);
     } else {
 
         //test password
@@ -152,64 +144,43 @@ if ($auth == "on") {
             $passwordForm = crypt($passwordForm, $r);
 
             //set session variables
-            $browserSession = $request->server->get("HTTP_USER_AGENT");
-            $idSession = $member['mem_id'];
-            $timezoneSession = $member['mem_timezone'];
-            $languageSession = $request->request->get('languageForm');
-            $loginSession = $usernameForm;
-            $passwordSession = $passwordForm;
-            $nameSession = $member['mem_name'];
-            $profilSession = $member['mem_profil'];
-            $ipSession = $request->server->get("REMOTE_ADDR");
-            $dateunixSession = date("U");
-            $dateSession = date("d-m-Y H:i:s");
-            $logouttimeSession = $member['mem_logout_time'];
-
-
-            $_SESSION["browserSession"] = $browserSession;
-            $_SESSION["idSession"] = $idSession;
-            $_SESSION["timezoneSession"] = $timezoneSession;
-            $_SESSION["languageSession"] = $languageSession;
-            $_SESSION["loginSession"] = $loginSession;
-            $_SESSION["passwordSession"] = $passwordSession;
-            $_SESSION["nameSession"] = $nameSession;
-            $_SESSION["profilSession"] = $profilSession;
-            $_SESSION["ipSession"] = $ipSession;
-            $_SESSION["dateunixSession"] = $dateunixSession;
-            $_SESSION["dateSession"] = $dateSession;
-            $_SESSION["logouttimeSession"] = $logouttimeSession;
+            $session->set('idSession', $member['mem_id']);
+            $session->set('timezoneSession', $member['mem_timezone']);
+            $session->set('languageSession', $request->request->get("languageForm"));
+            $session->set('loginSession', $usernameForm);
+            $session->set('nameSession', $member['mem_name']);
+            $session->set('profilSession', $member['mem_profil']);
+            $session->set('ipSession', $request->server->get("REMOTE_ADDR"));
+            $session->set('dateunixSession', date("U"));
+            $session->set('dateSession', date("d-m-Y H:i:s"));
+            $session->set('logouttimeSession', $member['mem_logout_time']);
 
             //register demosession = true in session if user = demo
             if ($usernameForm == "demo") {
-                $demoSession = "true";
-
-                $_SESSION['demoSession'] = $demoSession;
+                $session->set('demoSession', "true");
             }
 
             //insert into or update log
-            $ip = $request->server->get("REMOTE_ADDR");
+//            $ip = $request->server->get("REMOTE_ADDR");
 
             $logEntry = $loginLogs->getLogByLogin($usernameForm);
 
-            $session = session_id();
-            error_log("set session to " . $session, 0);
+            $logger->info('Set session to', ['sessionId' => $session->getId()]);
             /**
              * Validate form data
              */
 
             $filteredData =  [];
             $filteredData['login'] = filter_var((string) $request->request->get('usernameForm'), FILTER_SANITIZE_STRING);
-            $filteredData['ip'] = filter_var($ip, FILTER_SANITIZE_STRING);
-            $filteredData['session'] = $session;
+            $filteredData['ip'] = filter_var($request->server->get("REMOTE_ADDR"), FILTER_SANITIZE_STRING);
+            $filteredData['session'] = $session->getId();
             $filteredData['last_visite'] = $dateheure;
 
             if (!$logEntry) {
                 $filteredData['compt'] = 1;
                 $loginLogs->insertLogEntry($filteredData);
             } else {
-                $lastvisiteSession = $logEntry['last_visite'];
-
-                $_SESSION['lastvisiteSession'] = $lastvisiteSession;
+                $session->set('lastvisiteSession', $logEntry['last_visite']);
 
                 $filteredData['compt'] = $logEntry['compt'] + 1;
 
@@ -268,14 +239,14 @@ if ($auth == "on") {
         }
     }
 }
-error_log("session = " . $session, 0);
+//error_log("session not set? = " . $session->getId(), 0);
 if ($session == "false" && empty($url)) {
     $logger->notice('Invalid session for user', ['username' => $usernameForm]);
     $error = $strings["session_false"];
-    session_regenerate_id();
+//    session_regenerate_id();
 }
 
-if ($logout == "true") {
+if ($request->query->get('logout') == "true") {
     $msg = "logout";
 }
 
@@ -363,8 +334,8 @@ $selectLanguage .= "</select>";
 
 $block1->contentRow($strings["language"], $selectLanguage);
 
-$block1->contentRow("* " . $strings["user_name"], "<input value='$usernameForm' type='text' name='usernameForm'>");
-$block1->contentRow("* " . $strings["password"], "<input value='$passwordForm' type='password' name='passwordForm' autocomplete='off'>");
+$block1->contentRow("* " . $strings["user_name"], "<input value='$usernameForm' type='text' name='usernameForm' required>");
+$block1->contentRow("* " . $strings["password"], "<input value='$passwordForm' type='password' name='passwordForm' autocomplete='off' required>");
 
 $block1->contentRow(
     "",

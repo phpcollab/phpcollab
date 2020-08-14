@@ -13,9 +13,6 @@ $action = $request->query->get('action');
 
 $strings = $GLOBALS["strings"];
 
-$idSession = $_SESSION["idSession"];
-
-
 $projects = new Projects();
 $teams = new Teams();
 $topics = new Topics();
@@ -36,15 +33,15 @@ if ($action == "add") {
     $topic_subject = phpCollab\Util::convertData($request->request->get('topic_subject'));
     $topic_message = phpCollab\Util::convertData($request->request->get('topic_message'));
 
-    $newTopic = $topics->addTopic($project, $_SESSION["idSession"], $topic_subject, 1, 1, $pub, $dateheure);
+    $newTopic = $topics->addTopic($project, $session->get('idSession'), $topic_subject, 1, 1, $pub, $dateheure);
 
 
     $topic_message = phpCollab\Util::autoLinks($topic_message);
 
-    $newPost = $topics->addPost($newTopic["top_id"], $_SESSION["idSession"], $topic_message, $dateheure);
+    $newPost = $topics->addPost($newTopic["top_id"], $session->get('idSession'), $topic_message, $dateheure);
 
     if ($notifications == "true") {
-        $listPosts = $topics->getPostsByTopicIdAndNotOwner($detailTopic["top_id"], $_SESSION["idSession"]);
+        $listPosts = $topics->getPostsByTopicIdAndNotOwner($detailTopic["top_id"], $session->get('idSession'));
 
         $distinct = '';
 
@@ -63,7 +60,7 @@ if ($action == "add") {
             $newTopicNotice = new TopicNewTopic();
 
             try {
-                $listPosts = $topics->getPostsByTopicIdAndNotOwner($detailTopic["top_id"], $_SESSION["idSession"]);
+                $listPosts = $topics->getPostsByTopicIdAndNotOwner($detailTopic["top_id"], $session->get('idSession'));
 
                 $distinct = '';
 
@@ -79,7 +76,7 @@ if ($action == "add") {
 
                 $notificationList = $sendNotifications->getNotificationsWhereMemberIn($posters);
 
-                $newTopicNotice->generateEmail($detailTopic, $projectDetail, $notificationList);
+                $newTopicNotice->generateEmail($detailTopic, $projectDetail, $notificationList, $session);
             } catch (Exception$e) {
                 // Log exception
             }
@@ -90,7 +87,7 @@ if ($action == "add") {
 }
 
 $teamMember = "false";
-$teamMember = $teams->isTeamMember($projectDetail["pro_id"], $idSession);
+$teamMember = $teams->isTeamMember($projectDetail["pro_id"], $session->get("idSession"));
 
 if ($teamMember == "false" && $projectsFilter == "true") {
     header("Location:../general/permissiondenied.php");

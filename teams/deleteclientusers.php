@@ -64,7 +64,7 @@ if ($action == "delete") {
         try {
             $notificationList = $sendNotifications->getNotificationsWhereMemberIn($id);
 
-            $removeProjectTeam->generateEmail($projectDetail, $notificationList);
+            $removeProjectTeam->generateEmail($projectDetail, $notificationList, $session, $logger);
 
         } catch (Exception$e) {
             // Log exception

@@ -11,15 +11,13 @@ include '../includes/library.php';
 $id = $request->query->get('id');
 $strings = $GLOBALS["strings"];
 $statusTopicBis = $GLOBALS["statusTopicBis"];
-$idSession = $_SESSION["idSession"];
-$timezoneSession = $_SESSION["timezoneSession"];
 
 $topics = new Topics();
 $projects = new Projects();
 
 $detailTopic = $topics->getTopicByTopicId($id);
 
-if ($detailTopic["top_published"] == "1" || $detailTopic["top_project"] != $projectSession) {
+if ($detailTopic["top_published"] == "1" || $detailTopic["top_project"] != $session->get("projectSession")) {
     phpCollab\Util::headerFunction("index.php");
 }
 
@@ -29,13 +27,13 @@ if ($request->isMethod('post')) {
         $messageField = phpCollab\Util::convertData($request->request->get('messageField'));
         $messageField = phpCollab\Util::autoLinks($messageField);
 
-        $newPost = $topics->addPost($id, $idSession, $messageField);
+        $newPost = $topics->addPost($id, $session->get("idSession"), $messageField);
 
         $topics->incrementTopicPostsCount($id);
 
         if ($notifications == "true") {
             try {
-                $topics->sendNewPostNotification($newPost, $detailTopic);
+                $topics->sendNewPostNotification($newPost, $detailTopic, $session);
             } catch (Exception $e) {
                 echo 'Error sending mail, ' . $e->getMessage();
             }
@@ -50,7 +48,7 @@ include APP_ROOT . '/projects_site/include_header.php';
 
 $idStatus = $detailTopic["top_status"];
 
-$topicLastPostDate = phpCollab\Util::createDate($detailTopic["top_last_post"], $timezoneSession);
+$topicLastPostDate = phpCollab\Util::createDate($detailTopic["top_last_post"], $session->get("timezoneSession"));
 echo <<<FORM
  <form method="POST" action="../projects_site/threadpost.php?id={$id}" name="post">
     <input name="id" type="hidden" value="{$id}">
@@ -107,7 +105,7 @@ $listPosts = $topics->getPostsByTopicId($detailTopic["top_id"]);
 if ($listPosts) {
     echo '<table style="width: 90%" class="nonStriped">';
     foreach ($listPosts as $post) {
-        $postCreatedDate = phpCollab\Util::createDate($post["pos_created"], $timezoneSession);
+        $postCreatedDate = phpCollab\Util::createDate($post["pos_created"], $session->get("timezoneSession"));
         $postMessage = nl2br($post["pos_message"]);
         echo <<<TR
         <tr class="even">

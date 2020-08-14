@@ -61,7 +61,7 @@ if ($action == "add") {
 
     if ($notifications == "true") {
         try {
-            $teams->sendAddProjectTeamNotification($projectDetail, $id);
+            $teams->sendAddProjectTeamNotification($projectDetail, $id, $session, $logger);
         } catch (Exception $e) {
             // log exception
             echo $e->getMessage();

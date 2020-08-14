@@ -27,7 +27,7 @@ $export_csv = [];
 array_push($export_csv, array($strings["this_report_generated_by"]));
 array_push($export_csv, array($strings["project"]));
 array_push($export_csv, array($strings["name"], $strings["description"], $strings["owner"], $strings["priority"], $strings["status"], $strings["created"], $strings["organization"]));
-array_push($export_csv, array($projectDetail["pro_name"], $projectDetail["pro_description"], $projectDetail["pro_mem_login"], $priority[$idPriority], $status[$idStatus], Util::createDate($projectDetail["pro_created"], $timezoneSession), $projectDetail["pro_org_name"]));
+array_push($export_csv, array($projectDetail["pro_name"], $projectDetail["pro_description"], $projectDetail["pro_mem_login"], $priority[$idPriority], $status[$idStatus], Util::createDate($projectDetail["pro_created"], $session->get("timezoneSession")), $projectDetail["pro_org_name"]));
 
 $listTasks = $tasks->getTasksByProjectId($id);
 
@@ -74,7 +74,7 @@ if ($listTasks) {
                 $task["tas_mem2_login"],
                 $priority[$idPriority],
                 $status[$idStatus],
-                phpCollab\Util::createDate($task["tas_created"], $timezoneSession),
+                phpCollab\Util::createDate($task["tas_created"], $session->get("timezoneSession")),
                 $task["tas_start_date"],
                 $task["tas_due_date"],
                 $task["tas_complete_date"],

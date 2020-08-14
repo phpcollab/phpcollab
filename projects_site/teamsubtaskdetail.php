@@ -15,7 +15,7 @@ $subtaskDetail = $tasks->getSubTaskById($id);
 
 $taskDetail = $tasks->getTaskById($task);
 
-if ($subtaskDetail["subtas_published"] == "1" || $taskDetail["tas_project"] != $projectSession) {
+if ($subtaskDetail["subtas_published"] == "1" || $taskDetail["tas_project"] != $session->get("projectSession")) {
     phpCollab\Util::headerFunction("index.php");
 }
 
@@ -113,7 +113,7 @@ if ($listUpdates) {
     $j = 1;
     foreach ($listUpdates as $update) {
         $updateComments = nl2br($update["upd_comments"]);
-        $updateCreatedDate = phpCollab\Util::createDate($update["upd_created"], $timezoneSession);
+        $updateCreatedDate = phpCollab\Util::createDate($update["upd_created"], $session->get("timezoneSession"));
         echo <<<UPDATE
                 <b>{$j}</b> <i>{$updateCreatedDate}</i><br/> {$updateComments}
                 <br/>

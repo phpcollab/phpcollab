@@ -1,11 +1,19 @@
 <?php
 
+use phpCollab\Assignments\Assignments;
+use phpCollab\Members\Members;
+use phpCollab\Notifications\Notifications;
+use phpCollab\Projects\Projects;
+use phpCollab\Reports\Reports;
+use phpCollab\Tasks\Tasks;
+use phpCollab\Teams\Teams;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$projects = new \phpCollab\Projects\Projects();
-$tasks = new \phpCollab\Tasks\Tasks();
-$members = new \phpCollab\Members\Members();
+$projects = new Projects();
+$tasks = new Tasks();
+$members = new Members();
 
 $project_id = $request->query->get('project') ?: $request->request->get('project');
 
@@ -90,7 +98,7 @@ if ($request->isMethod('post')) {
             $tasks->setModifiedDate($listTask["tas_id"]);
 
             if ($notifications == "true") {
-                $notificationsClass = new \phpCollab\Notifications\Notifications();
+                $notificationsClass = new Notifications();
                 if ($assigned_to != $strings["no_change"]) {
                     $memberInfo = $members->getMemberById($assigned_to);
                     $memberNotifications = $notificationsClass->getMemberNotifications($assigned_to);
@@ -108,7 +116,7 @@ if ($request->isMethod('post')) {
 
                     try {
                         $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo, $strings["noti_statustaskchange1"], $strings["noti_statustaskchange2"]);
-                    } catch (\Exception $e) {
+                    } catch (Exception $e) {
                         echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
                     }
                 }
@@ -121,7 +129,7 @@ if ($request->isMethod('post')) {
                 ) {
                     try {
                         $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo, $strings["noti_prioritytaskchange1"], $strings["noti_prioritytaskchange2"]);
-                    } catch (\Exception $e) {
+                    } catch (Exception $e) {
                         echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
                     }
                 }
@@ -134,7 +142,7 @@ if ($request->isMethod('post')) {
                 ) {
                     try {
                         $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo, $strings["noti_duedatetaskchange1"], $strings["noti_duedatetaskchange2"]);
-                    } catch (\Exception $e) {
+                    } catch (Exception $e) {
                         echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
                     }
                 }
@@ -142,10 +150,10 @@ if ($request->isMethod('post')) {
 
             if ($assigned_to != "0" && $sameAssign !== true && $assignUpdate === true) {
                 // Add to assignment table
-                (new \phpCollab\Assignments\Assignments())->addAssignment($listTask["tas_id"], $listTask["tas_owner"], $assigned_to, $dateheure, $acomm);
+                (new Assignments())->addAssignment($listTask["tas_id"], $listTask["tas_owner"], $assigned_to, $dateheure, $acomm);
 
                 // Check teams and add if necessary
-                $teams = new \phpCollab\Teams\Teams();
+                $teams = new Teams();
                 $isTeamMember = $teams->isTeamMember($listTask["tas_project"], $assigned_to);
 
                 if ($isTeamMember === "false") {
@@ -155,7 +163,7 @@ if ($request->isMethod('post')) {
                 if ($notifications == "true") {
                     try {
                         $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo, $strings["noti_taskassignment1"], $strings["noti_taskassignment2"]);
-                    } catch (\Exception $e) {
+                    } catch (Exception $e) {
                         echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
                     }
                 }
@@ -172,7 +180,7 @@ $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 
 if ($request->query->get('report') != "") {
-    $reports = new \phpCollab\Reports\Reports();
+    $reports = new Reports();
     $reportDetail = $reports->getReportsById($request->query->get('report'));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/createreport.php?", $strings["reports"], "in"));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/resultsreport.php?id=" . $reportDetail["rep_id"], $reportDetail["rep_name"], "in"));
@@ -216,7 +224,7 @@ echo <<<HTML
 					<option value="0">{$strings["unassigned"]}</option>
 HTML;
 
-if ($idSession == "1") {
+if ($session->get("idSession") == "1") {
     echo '<option value="1">' . $strings["administrator"] . '</option>';
 }
 
@@ -287,7 +295,7 @@ echo <<<JavaScript
         inputField     :    'start_date',
         button         :    'trigStartDate',
         {$calendar_common_settings}
-    });
+    })
 </script>
 JavaScript;
 
@@ -298,7 +306,7 @@ echo <<<JavaScript
         inputField     :    'due_date',
         button         :    'trigDueDate',
         {$calendar_common_settings}
-    });
+    })
 </script>
 JavaScript;
 

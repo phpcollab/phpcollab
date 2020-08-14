@@ -33,12 +33,11 @@ $checkSession = "true";
 include '../includes/library.php';
 
 $tasks = new Tasks();
-$idSession = $_SESSION["idSession"];
 $strings = $GLOBALS["strings"];
 
 $dateCalend = substr($dateCalend, 0, 7);
 
-$listTasks2 = $tasks->getTasksByStartDateEndDateAssignedTo($dateCalend, $idSession);
+$listTasks2 = $tasks->getTasksByStartDateEndDateAssignedTo($dateCalend, $session->get("idSession"));
 
 try {
     $graph = new GanttGraph();

@@ -42,7 +42,6 @@ $id = $request->query->get('id');
 $addToSite = $request->query->get('addToSite');
 $removeToSite = $request->query->get('removeToSite');
 $strings = $GLOBALS["strings"];
-$idSession = $_SESSION["idSession"];
 
 $notes = new Notes();
 $projects = new Projects();
@@ -66,7 +65,7 @@ $noteDetail = $notes->getNoteById($id);
 $projectDetail = $projects->getProjectById($noteDetail["note_project"]);
 
 $teamMember = "false";
-$teamMember = $teams->isTeamMember($noteDetail["note_project"], $idSession);
+$teamMember = $teams->isTeamMember($noteDetail["note_project"], $session->get("idSession"));
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -86,7 +85,7 @@ $block1->form = "tdD";
 $block1->openForm("../notes/viewnote.php#" . $block1->form . "Anchor");
 $block1->heading($strings["note"] . " : " . $noteDetail["note_subject"]);
 
-if ($teamMember == "true" && $idSession == $noteDetail["note_owner"]) {
+if ($teamMember == "true" && $session->get("idSession") == $noteDetail["note_owner"]) {
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "remove", $strings["delete"]);
     if ($sitePublish == "true") {
@@ -123,7 +122,7 @@ if ($sitePublish == "true") {
 $block1->closeContent();
 $block1->closeForm();
 
-if ($teamMember == "true" && $idSession == $noteDetail["note_owner"]) {
+if ($teamMember == "true" && $session->get("idSession") == $noteDetail["note_owner"]) {
     $block1->openPaletteScript();
     $block1->paletteScript(0, "remove", "../notes/deletenotes.php?project=" . $noteDetail["note_project"] . "&id=" . $noteDetail["note_id"] . "", "true,true,false", $strings["delete"]);
     if ($sitePublish == "true") {

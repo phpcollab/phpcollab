@@ -16,15 +16,15 @@ if ($request->isMethod('post')) {
         $topicField = phpCollab\Util::convertData($request->request->get('topicField'));
         $messageField = phpCollab\Util::convertData($request->request->get('messageField'));
 
-        $newTopic = $topics->addTopic($projectSession, $idSession, $topicField, 1, 1, 0);
+        $newTopic = $topics->addTopic($session->get("projectSession"), $session->get("idSession"), $topicField, 1, 1, 0);
 
         $messageField = phpCollab\Util::autoLinks($messageField);
 
-        $newPost = $topics->addPost($newTopic["top_id"], $idSession, $messageField);
+        $newPost = $topics->addPost($newTopic["top_id"], $session->get("idSession"), $messageField);
 
         if ($notifications == "true") {
             try {
-                $topics->sendNewTopicNotification($newTopic);
+                $topics->sendNewTopicNotification($newTopic, $session);
             } catch (Exception $e) {
                 echo 'Error sending mail, ' . $e->getMessage();
             }
@@ -40,7 +40,7 @@ $titlePage = $strings["create_topic"];
 include 'include_header.php';
 
 echo <<<FORM
-<form method="post" action="../projects_site/createthread.php?project={$projectSession}&action=add&id={$id}" name="createThreadTopic">
+<form method="post" action="../projects_site/createthread.php?project={$session->get("projectSession")}&action=add&id={$request->query->get("id")}" name="createThreadTopic">
     <table style="width: 90%;" class="nonStriped">
         <tr>
             <th colspan="2">{$strings["create_topic"]}</th>

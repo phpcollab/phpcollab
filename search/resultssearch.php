@@ -20,13 +20,14 @@ $notes = new Notes();
 $topics = new Topics();
 
 $setTitle .= " : Search Results";
-$bodyCommand = "onLoad=\"document.searchForm.searchfor.focus()\"";
+$bodyCommand = 'onLoad="document.searchForm.searchfor.focus()"';
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
-
-$searchFor = urldecode($searchFor);
+$searchfor = $request->query->get("searchfor");
+$searchfor = urldecode($searchfor);
 $searchfor = phpCollab\Util::convertData($searchfor);
 $searchfor = strtolower($searchfor);
+
 $mots = explode(" ", $searchfor);
 $number_words = count($mots);
 
@@ -194,7 +195,7 @@ $block1->sorting("projects",
 
 if ($projectsFilter == "true") {
     $projectsQuery = "LEFT OUTER JOIN " . $tableCollab["teams"] . " teams ON teams.project = pro.id ";
-    $projectsQuery .= "$searchProjects AND teams.member = '$idSession'";
+    $projectsQuery .= "$searchProjects AND teams.member = " . $session->get("idSession");
 } else {
     $projectsQuery = "$searchProjects";
 }
@@ -214,7 +215,7 @@ $block2->sorting("home_tasks", $sortingUser["home_tasks"], "tas.name ASC", $sort
 
 if ($projectsFilter == "true") {
     $projectsQuery = "LEFT OUTER JOIN " . $tableCollab["teams"] . " teams ON teams.project = pro.id ";
-    $projectsQuery .= "WHERE pro.status IN(0,2,3) AND teams.member = '$idSession'";
+    $projectsQuery .= "WHERE pro.status IN(0,2,3) AND teams.member = " . $session->get("idSession");
 
     $listProjectsFilter = $projects->searchProjects($projectsQuery);
 
@@ -228,7 +229,7 @@ if ($projectsFilter == "true") {
         $validTasks = "false";
     }
 } else {
-    $tasksQuery = "$searchTasks";
+    $tasksQuery = $searchTasks;
 }
 
 if ($validTasks == "true") {
@@ -298,10 +299,10 @@ $block4->setRowsLimit(10);
 
 $block4->sorting("organizations", $sortingUser["organizations"], "org.name ASC", $sortingFields = array(0 => "org.name", 1 => "org.url", 2 => "org.phone"));
 
-if ($clientsFilter == "true" && $profilSession == "2") {
+if ($clientsFilter == "true" && $session->get("profilSession") == "2") {
     $teamMember = "false";
 
-    $listTeams = $teams->getTeamByMemberId($idSession);
+    $listTeams = $teams->getTeamByMemberId($session->get("idSession"));
 
     if (empty($listTeams)) {
         $listClients = "false";
@@ -314,8 +315,8 @@ if ($clientsFilter == "true" && $profilSession == "2") {
             $clientQuery = "$searchOrganizations AND org.id IN($clientsOk) AND org.id != '1'";
         }
     }
-} elseif ($clientsFilter == "true" && $profilSession == "1") {
-    $clientQuery = "$searchOrganizations AND org.owner = '$idSession' AND org.id != '1'";
+} elseif ($clientsFilter == "true" && $session->get("profilSession") == "1") {
+    $clientQuery = "$searchOrganizations AND org.owner = " . $session->get("idSession") . " AND org.id != '1'";
 } else {
     $clientQuery = "$searchOrganizations AND org.id != '1'";
 }
@@ -414,9 +415,9 @@ $blockPage->setLimitsNumber(6);
 $block0 = new phpCollab\Block();
 
 $block0->openContent();
-$block0->contentTitle($strings["results_for_keywords"] . " : <b>$searchfor</b>");
+$block0->contentTitle($strings["results_for_keywords"] . " : <b>" . $searchfor . "</b>");
 
-echo "<tr class=\"odd\"><td class=\"leftvalue\">&nbsp;</td><td>";
+echo '<tr class="odd"><td class="leftvalue">&nbsp;</td><td>';
 
 if ($comptTotal == "1") {
     echo "1&#160;" . $strings["match"];
@@ -435,7 +436,7 @@ $block0->closeContent();
 
 if (!empty($listProjects) && count($listProjects) > 0) {
     $block1->form = "ProjectForm";
-    $block1->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block1->form . "Anchor");
+    $block1->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block1->form . "Anchor");
 
     $block1->headingToggle($strings["search_results"] . " : " . $strings["projects"] . " ({$block1->getRecordsTotal()})");
 
@@ -464,7 +465,7 @@ if (!empty($listProjects) && count($listProjects) > 0) {
         $block1->cellRow($blockPage->buildLink($listProject["pro_mem_email_work"], $listProject["pro_mem_login"], "mail"));
         if ($sitePublish == "true") {
             if ($listProject["pro_published"] == "1") {
-                if ($listProject['pro_owner'] == $idSession) {
+                if ($listProject['pro_owner'] == $session->get("idSession")) {
                     $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $listProject["pro_id"], $strings["create"] . "...", "in") . "&gt;");
                 } else {
                     $block1->cellRow(Util::doubleDash());
@@ -477,19 +478,19 @@ if (!empty($listProjects) && count($listProjects) > 0) {
     }
     $block1->closeResults();
 
-    $block1->limitsFooter("1", $blockPage->getLimitsNumber(), "", "searchfor=$searchfor&heading=$heading");
+    $block1->limitsFooter("1", $blockPage->getLimitsNumber(), "", "searchfor={$searchfor}&heading={$heading}");
 
     $block1->closeToggle();
     $block1->closeFormResults();
 
     $block1->openPaletteScript();
-    $block1->paletteScript(0, "export", "../projects/exportproject.php?languageSession={$_SESSION["languageSession"]}&type=project", "false,true,false", $strings["export"]);
+    $block1->paletteScript(0, "export", "../projects/exportproject.php?languageSession={$session->get("languageSession")}&type=project", "false,true,false", $strings["export"]);
     $block1->closePaletteScript(count($listProjects), array_column($listProjects, 'pro_id'));
 }
 
 if (!empty($listTasks)) {
     $block2->form = "TaskForm";
-    $block2->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block2->form . "Anchor");
+    $block2->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block2->form . "Anchor");
 
     $block2->headingToggle($strings["search_results"] . " : " . $strings["tasks"] . " ({$block2->getRecordsTotal()})");
 
@@ -528,7 +529,7 @@ if (!empty($listTasks)) {
 
     $block2->closeResults();
 
-    $block2->limitsFooter("2", $blockPage->getLimitsNumber(), "", "searchfor=$searchfor&heading=$heading");
+    $block2->limitsFooter("2", $blockPage->getLimitsNumber(), "", "searchfor={$searchfor}&heading={$heading}");
 
     $block2->closeToggle();
     $block2->closeFormResults();
@@ -536,7 +537,7 @@ if (!empty($listTasks)) {
 
 if ($listSubtasks) {
     $block9->form = "SubtaskForm";
-    $block9->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block9->form . "Anchor");
+    $block9->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block9->form . "Anchor");
     $block9->headingToggle($strings["search_results"] . " : " . $strings["subtasks"] . " ({$block9->getRecordsTotal()})");
 
     $block9->openResults();
@@ -571,14 +572,14 @@ if ($listSubtasks) {
         $block9->closeRow();
     }
     $block9->closeResults();
-    $block9->limitsFooter("2", $blockPage->getLimitsNumber(), "", "searchfor=$searchfor&heading=$heading");
+    $block9->limitsFooter("2", $blockPage->getLimitsNumber(), "", "searchfor={$searchfor}&heading={$heading}");
 
     $block9->closeToggle();
     $block9->closeFormResults();
 }
 if ($listMembers) {
     $block3->form = "UserForm";
-    $block3->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block3->form . "Anchor");
+    $block3->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block3->form . "Anchor");
 
     $block3->headingToggle($strings["search_results"] . " : " . $strings["users"] . " ({$block3->getRecordsTotal()})");
 
@@ -608,7 +609,7 @@ if ($listMembers) {
 
     $block3->closeResults();
 
-    $block3->limitsFooter("3", $blockPage->getLimitsNumber(), "", "searchfor=$searchfor&heading=$heading");
+    $block3->limitsFooter("3", $blockPage->getLimitsNumber(), "", "searchfor={$searchfor}&heading={$heading}");
 
     $block3->closeToggle();
     $block3->closeFormResults();
@@ -616,7 +617,7 @@ if ($listMembers) {
 
 if (!empty($listOrganizations)) {
     $block4->form = "ClientForm";
-    $block4->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block4->form . "Anchor");
+    $block4->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block4->form . "Anchor");
 
     $block4->headingToggle($strings["search_results"] . " : " . $strings["organizations"] . " ({$block4->getRecordsTotal()})");
 
@@ -635,7 +636,7 @@ if (!empty($listOrganizations)) {
 
     $block4->closeResults();
 
-    $block4->limitsFooter("4", $blockPage->getLimitsNumber(), "", "searchfor=$searchfor&heading=$heading");
+    $block4->limitsFooter("4", $blockPage->getLimitsNumber(), "", "searchfor={$searchfor}&heading={$heading}");
 
     $block4->closeToggle();
     $block4->closeFormResults();
@@ -643,7 +644,7 @@ if (!empty($listOrganizations)) {
 
 if (!empty($listTopics)) {
     $block5->form = "ThreadTopicForm";
-    $block5->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block5->form . "Anchor");
+    $block5->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block5->form . "Anchor");
 
     $block5->headingToggle($strings["search_results"] . " : " . $strings["discussions"] . " ({$block5->getRecordsTotal()})");
 
@@ -659,7 +660,7 @@ if (!empty($listTopics)) {
         $block5->cellRow($blockPage->buildLink("../topics/viewtopic.php?id=" . $listTopic["top_id"], $listTopic["top_subject"], "in"));
         $block5->cellRow($blockPage->buildLink($listTopic["top_email_work"], $listTopic["top_mem_login"], "mail"));
         $block5->cellRow($listTopic["top_posts"]);
-        if ($listTopic["top_last_post"] > $_SESSION["lastvisiteSession"]) {
+        if ($listTopic["top_last_post"] > $session->get("lastvisiteSession")) {
             $block5->cellRow("<b>" . $listTopic["top_last_post"] . "</b>");
         } else {
             $block5->cellRow($listTopic["top_last_post"]);
@@ -674,7 +675,7 @@ if (!empty($listTopics)) {
 
     $block5->closeResults();
 
-    $block5->limitsFooter("5", $blockPage->getLimitsNumber(), "", "searchfor=$searchfor&heading=$heading");
+    $block5->limitsFooter("5", $blockPage->getLimitsNumber(), "", "searchfor={$searchfor}&heading={$heading}");
 
     $block5->closeToggle();
     $block5->closeFormResults();
@@ -682,7 +683,7 @@ if (!empty($listTopics)) {
 
 if (!empty($listNotes)) {
     $block6->form = "notesForm";
-    $block6->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block6->form . "Anchor");
+    $block6->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block6->form . "Anchor");
 
     $block6->headingToggle($strings["search_results"] . " : " . $strings["notes"] . " ({$block6->getRecordsTotal()})");
 
@@ -712,7 +713,7 @@ if (!empty($listNotes)) {
     }
     $block6->closeResults();
 
-    $block6->limitsFooter("6", $blockPage->getLimitsNumber(), "", "searchfor=$searchfor&heading=$heading");
+    $block6->limitsFooter("6", $blockPage->getLimitsNumber(), "", "searchfor={$searchfor}&heading={$heading}");
 
     $block6->closeToggle();
     $block6->closeFormResults();

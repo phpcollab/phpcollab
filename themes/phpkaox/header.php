@@ -68,7 +68,7 @@ if ($blank == "true") {
 } else if ($notLogged == "true") {
 	$blockHeader->itemAccount("&nbsp;");
 } else {
-	$blockHeader->itemAccount($strings["user"].":". $nameSession);
+	$blockHeader->itemAccount($strings["user"].":". $session->get("nameSession"));
 	$blockHeader->itemAccount($blockHeader->buildLink("../general/login.php?logout=true",$strings["logout"],"in"));
 	$blockHeader->itemAccount($blockHeader->buildLink("../preferences/updateuser.php?",$strings["preferences"],"in"));
 	$blockHeader->itemAccount($blockHeader->buildLink("../projects_site/home.php?changeProject=true",$strings["go_projects_site"],"inblank"));
@@ -90,7 +90,7 @@ if ($blank == "true") {
 	$blockHeader->itemNavigation($blockHeader->buildLink("../calendar/viewcalendar.php?",$strings["calendar"],"in"));
 	$blockHeader->itemNavigation($blockHeader->buildLink("../newsdesk/listnews.php?",$strings["newsdesk"],"in"));
 	$blockHeader->itemNavigation($blockHeader->buildLink("../bookmarks/listbookmarks.php?view=all",$strings["bookmarks"],"in"));
-	if ($profilSession == "0") { // Remove the Admin menu item if user does not have admin privilages
+	if ($session->get("profilSession") == "0") { // Remove the Admin menu item if user does not have admin privilages
 		$blockHeader->itemNavigation($blockHeader->buildLink("../administration/admin.php?",$strings["admin"],"in"));
 	}
 }

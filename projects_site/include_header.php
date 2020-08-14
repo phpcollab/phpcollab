@@ -6,11 +6,11 @@ use phpCollab\Teams\Teams;
 $projects = new Projects();
 $teams = new Teams();
 
-if ($projectSession != "" && $changeProject != "true") {
-    $projectDetail = $projects->getProjectById($projectSession);
+if ($session->get("projectSession") != "" && $changeProject != "true") {
+    $projectDetail = $projects->getProjectById($session->get("projectSession"));
 
     $teamMember = "false";
-    $teamMember = $teams->isTeamMember($projectSession, $idSession);
+    $teamMember = $teams->isTeamMember($session->get("projectSession"), $session->get("idSession"));
 
     if ($teamMember == "false") {
         phpCollab\Util::headerFunction("index.php");
@@ -32,10 +32,10 @@ echo <<<HTML
 <title>{$setTitle} - 
 HTML;
 
-if ($projectSession != "" && $changeProject != "true") {
+if ($session->get("projectSession") != "" && $changeProject != "true") {
     echo $projectDetail["pro_name"];
 }
-if ($projectSession == "" || $changeProject == "true") {
+if ($session->get("projectSession") == "" || $changeProject == "true") {
     echo $strings["my_projects"];
 }
 
@@ -79,7 +79,7 @@ for ($i = 0; $i < 7; $i++) {
     }
 }
 
-if ($projectSession != "" && $changeProject != "true") {
+if ($session->get("projectSession") != "" && $changeProject != "true") {
     echo <<<HTML
                 <tr>
                     <td colspan="2"><b>{$strings["project"]} :<br/>{$projectDetail["pro_name"]}</b></td>
@@ -131,7 +131,7 @@ TR;
         echo <<<TR
                 <tr>
                     <td><img src="ico_arrow_{$bouton[6]}.gif" alt=""></td>
-                    <td><a href="showallsupport.php?project=$projectSession">{$strings["support"]}</a></td>
+                    <td><a href="showallsupport.php?project={$session->get("projectSession")}">{$strings["support"]}</a></td>
                 </tr>
 TR;
     }
@@ -164,7 +164,7 @@ echo <<<sidebar
 		<tr><td colspan="2"><br/></td></tr>
 sidebar;
 
-if ($profilSession != "3") {
+if ($session->get("profilSession") != "3") {
     echo <<<TR
         <tr>
             <td><a href="../general/home.php"><img src="ico_folder.gif" alt="0"></a></td>

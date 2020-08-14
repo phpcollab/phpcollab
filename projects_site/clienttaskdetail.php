@@ -34,7 +34,7 @@ if ($request->isMethod('post')) {
 
 $updates = new Updates();
 
-if ($taskDetail["tas_published"] == "1" || $taskDetail["tas_project"] != $projectSession) {
+if ($taskDetail["tas_published"] == "1" || $taskDetail["tas_project"] != $session->get("projectSession")) {
     phpCollab\Util::headerFunction("index.php");
 }
 
@@ -124,7 +124,7 @@ if ($listUpdates) {
     $j = 1;
     foreach ($listUpdates as $update) {
         $updateComment = nl2br($update["upd_comments"]);
-        $updateCreated = phpCollab\Util::createDate($update["upd_created"], $timezoneSession);
+        $updateCreated = phpCollab\Util::createDate($update["upd_created"], $session->get("timezoneSession"));
         echo <<<UPDATE
 <strong>{$j}</strong> <em>{$updateCreated}</em><br/>{$updateComment}
 <br/>

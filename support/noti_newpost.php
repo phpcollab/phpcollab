@@ -4,7 +4,7 @@ use phpCollab\Support\Support;
 
 $mail = new phpCollab\Notification();
 
-$mail->getUserinfo($_SESSION["idSession"], "from", $logger);
+$mail->getUserinfo($session->get('idSession'), "from", $logger);
 
 $supportPosts = new Support($logger);
 

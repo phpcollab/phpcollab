@@ -25,7 +25,7 @@ $phases = new Phases();
 $notification = new Notifications();
 
 $teamMember = "false";
-$teamMember = $teams->isTeamMember($projectId, $idSession);
+$teamMember = $teams->isTeamMember($projectId, $session->get("idSession"));
 if ($teamMember == "false" && $projectsFilter == "true") {
     header("Location:../general/permissiondenied.php");
 }
@@ -110,7 +110,7 @@ if ($request->isMethod('post')) {
 
             $phase = phpCollab\Util::fixInt($phase);
 
-            $num = $files->addFile($idSession, $projectId, $phase, $taskId, $request->request->get("comments"),
+            $num = $files->addFile($session->get("idSession"), $projectId, $phase, $taskId, $request->request->get("comments"),
                 $request->request->get("statusField"), $versionFile);
 
             $fileDetails = $files->getFileById($num);
@@ -143,7 +143,7 @@ if ($request->isMethod('post')) {
                     // Get a list of notification team members
                     $teamList = $teams->getTeamByProjectId($projectId);
 
-                    $key = array_search($idSession, array_column($teamList, 'tea_mem_id'));
+                    $key = array_search($session->get("idSession"), array_column($teamList, 'tea_mem_id'));
 
                     // Remove the current user from the TeamList
                     unset($teamList[$key]);
@@ -152,7 +152,7 @@ if ($request->isMethod('post')) {
                         $userNotificationFlags = $notification->getMemberNotifications($item['tea_mem_id']);
 
                         if ($userNotificationFlags) {
-                            $files->sendFileUploadedNotification($fileDetails, $projectDetail, $userNotificationFlags, $idSession, $nameSession, $loginSession);
+                            $files->sendFileUploadedNotification($fileDetails, $projectDetail, $userNotificationFlags, $session->get("idSession"), $session->get("nameSession"), $session->get("loginSession"));
                         }
                     }
                 } catch (Exception $e) {

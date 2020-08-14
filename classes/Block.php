@@ -27,7 +27,7 @@ class Block
         $this->sortingOrders = $GLOBALS['sortingOrders'];
         $this->sortingFields = $GLOBALS['sortingFields'];
         $this->sortingArrows = $GLOBALS['sortingArrows'];
-        $this->sortingStyles = $GLOBALS['ortingStyles'];
+        $this->sortingStyles = $GLOBALS['sortingStyles'];
         $this->explode = $GLOBALS['explode'];
 
         $this->help = $GLOBALS['help'];

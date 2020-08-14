@@ -19,8 +19,6 @@ $id = $request->query->get("id");
 $addToSiteFile = $request->query->get("addToSiteFile");
 $removeToSiteFile = $request->query->get("removeToSiteFile");
 $strings = $GLOBALS["strings"];
-$idSession = $_SESSION["idSession"];
-
 
 $files = new Files();
 
@@ -47,7 +45,7 @@ $teams = new Teams();
 
 $notification = new Notifications();
 
-$teamMember = $teams->isTeamMember($fileDetail["fil_project"], $idSession);
+$teamMember = $teams->isTeamMember($fileDetail["fil_project"], $session->get("idSession"));
 
 if ($teamMember == "false" && $projectsFilter == "true") {
     header("Location:../general/permissiondenied.php");
@@ -126,7 +124,7 @@ if ($request->isMethod('post')) {
 
                 //Insert details into Database
                 if ($docopy == "true") {
-                    $num = $files->addFile($idSession, $project, 0, $task, $comments, 2, 0, $parent);
+                    $num = $files->addFile($session->get("idSession"), $project, 0, $task, $comments, 2, 0, $parent);
                 }
 
                 if ($task != "0") {
@@ -169,7 +167,7 @@ if ($request->isMethod('post')) {
                             // Get a list of notification team members
                             $teamList = $teams->getTeamByProjectId($fileDetail["fil_project"]);
 
-                            $key = array_search($idSession, array_column($teamList, 'tea_mem_id'));
+                            $key = array_search($session->get("idSession"), array_column($teamList, 'tea_mem_id'));
 
                             // Remove the current user from the teamList so we don't spam them
                             unset($teamList[$key]);
@@ -204,7 +202,7 @@ if ($request->isMethod('post')) {
             $statusField = $request->request->get("statusField");
 
             try {
-                $approvalTracking->addApproval($idSession, $commentField, $id, $statusField);
+                $approvalTracking->addApproval($session->get("idSession"), $commentField, $id, $statusField);
 
                 if ($notifications == "true") {
                     /**
@@ -218,7 +216,7 @@ if ($request->isMethod('post')) {
                         // Get a list of notification team members
                         $teamList = $teams->getTeamByProjectId($fileDetail["fil_project"]);
 
-                        $key = array_search($idSession, array_column($teamList, 'tea_mem_id'));
+                        $key = array_search($session->get("idSession"), array_column($teamList, 'tea_mem_id'));
 
                         // Remove the current user from the TeamList so we don't spam them
                         unset($teamList[$key]);
@@ -227,7 +225,7 @@ if ($request->isMethod('post')) {
                             $userNotificationFlags = $notification->getMemberNotifications($item['tea_mem_id']);
 
                             if ($userNotificationFlags && $userNotificationFlags["uploadFile"] == "0") {
-                                $approvalTracking->sendEmail($item, $commentField, $statusFile[$statusField], $_SESSION["loginSession"], $_SESSION["nameSession"]);
+                                $approvalTracking->sendEmail($item, $commentField, $statusFile[$statusField], $session->get('loginSession'), $session->get('nameSession'));
                             }
                         }
                     } catch (Exception $e) {
@@ -321,7 +319,7 @@ if ($request->isMethod('post')) {
 
                     // Check if the status is anything but "needs approval", if so then set the approval date to today
                     if ($statusField != "2") {
-                        $approver = $idSession;
+                        $approver = $session->get("idSession");
                         $approvalDate = date('Y-m-d h:i');
                     } else {
                         $approvalDate = null;
@@ -332,7 +330,7 @@ if ($request->isMethod('post')) {
                     $updatedVersion = Util::formatFloat($updatedVersion);
 
                     $num = $updateFile->add(
-                        $idSession, // owner
+                        $session->get("idSession"), // owner
                         $fileDetail["fil_project"], // projectId (inherited from the parent file)
                         $fileDetail["fil_task"], // taskId (inherited from the parent file)
                         $uploadedFile, // name of the uploaded file with parent file ID prepended
@@ -378,7 +376,7 @@ if ($request->isMethod('post')) {
                             // Get a list of notification team members
                             $teamList = $teams->getTeamByProjectId($fileDetail["fil_project"]);
 
-                            $key = array_search($idSession, array_column($teamList, 'tea_mem_id'));
+                            $key = array_search($session->get("idSession"), array_column($teamList, 'tea_mem_id'));
 
                             // Remove the current user from the teamList so we don't spam them
                             unset($teamList[$key]);
@@ -455,7 +453,7 @@ $block1->openForm("../files/viewfile.php?&id=$id#" . $block1->form . "Anchor");
 
 $block1->heading($strings["document"]);
 
-if ($fileDetail["fil_owner"] == $idSession) {
+if ($fileDetail["fil_owner"] == $session->get("idSession")) {
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "remove", $strings["ifc_delete_version"]);
     $block1->paletteIcon(1, "add_projectsite", $strings["add_project_site"]);
@@ -560,7 +558,7 @@ $rowClass = '';
 
         echo "<tr><td>";
 
-        if ($fileDetail["fil_owner"] == $idSession && $version["fil_id"] != $fileDetail["fil_id"]) {
+        if ($fileDetail["fil_owner"] == $session->get("idSession") && $version["fil_id"] != $fileDetail["fil_id"]) {
             $theme = THEME;
             echo <<<LINK
                 <a href="javascript:MM_toggleItem(document.{$block1->form}Form, '{$version["fil_id"]}', '{$block1->form}cb{$version["fil_id"]}','{$theme}')"><img id="{$block1->form}cb{$version["fil_id"]}" src="../themes/{$theme}/images/checkbox_off_16.gif" alt="checkbox" style="border: none; margin-top: 0;" ></a>
@@ -630,7 +628,7 @@ $block1->closeResults();
 $block1->closeFormResults();
 
 
-if ($fileDetail["fil_owner"] == $idSession) {
+if ($fileDetail["fil_owner"] == $session->get("idSession")) {
     $block1->openPaletteScript();
     $block1->paletteScript(0, "remove", "../linkedcontent/deletefiles.php?project=" . $fileDetail["fil_project"] . "&task=" . $fileDetail["fil_task"] . "&sendto=filedetails", "false,true,true", $strings["ifc_delete_version"]);
     $block1->paletteScript(1, "add_projectsite", "../linkedcontent/viewfile.php?addToSiteFile=true&file=" . $fileDetail["fil_id"] . "&action=publish", "true,true,true", $strings["add_project_site"]);
@@ -650,7 +648,7 @@ if ($peerReview == "true") {
         $peerReviewBlock->openForm("../files/viewfile.php?&id={$id}#" . $peerReviewBlock->form . "Anchor");
         $peerReviewBlock->heading($strings["ifc_revisions"]);
 
-        if ($fileDetail["fil_owner"] == $idSession) {
+        if ($fileDetail["fil_owner"] == $session->get("idSession")) {
             $peerReviewBlock->openPaletteIcon();
             $peerReviewBlock->paletteIcon(0, "remove", $strings["ifc_delete_review"]);
             $peerReviewBlock->closePaletteIcon();
@@ -693,7 +691,7 @@ TR;
 TABLE;
 
 
-            if ($fileDetail["fil_owner"] == $idSession) {
+            if ($fileDetail["fil_owner"] == $session->get("idSession")) {
                 echo <<<LINK
                     <a href="javascript:MM_toggleItem(document.{$peerReviewBlock->form}Form, '{$review["fil_id"]}', '{$peerReviewBlock->form}cb{$review["fil_id"]}','{$theme}')">
                         <img id="{$peerReviewBlock->form}cb{$review["fil_id"]}" src="../themes/{$theme}/images/checkbox_off_16.gif" alt="" style="border: none; margin-top: 0;">
@@ -766,13 +764,13 @@ HTML;
     $peerReviewBlock->closeResults();
     $peerReviewBlock->closeFormResults();
 
-    if ($fileDetail["fil_owner"] == $idSession) {
+    if ($fileDetail["fil_owner"] == $session->get("idSession")) {
         $peerReviewBlock->openPaletteScript();
         $peerReviewBlock->paletteScript(0, "remove", "../linkedcontent/deletefiles.php?project=" . $fileDetail["fil_project"] . "&task=" . $fileDetail["fil_task"] . "&sendto=filedetails", "false,true,true", $strings["ifc_delete_review"]);
         $peerReviewBlock->closePaletteScript(count($fileDetail), array_column($peerReviews, 'fil_id'));
     }
 
-    if ($teamMember == "true" || $profilSession == "5") {
+    if ($teamMember == "true" || $session->get("profilSession") == "5") {
         //Add new revision Block
         $block3 = new phpCollab\Block();
         $block3->form = "filedetails";
@@ -837,7 +835,7 @@ HTML;
 /**
  * Approval Tracking
  */
-if ($fileDetail["fil_owner"] == $idSession || $projectDetail["pro_owner"] == $idSession || $profilSession == "5") {
+if ($fileDetail["fil_owner"] == $session->get("idSession") || $projectDetail["pro_owner"] == $session->get("idSession") || $session->get("profilSession") == "5") {
     $block5 = new phpCollab\Block();
     $block5->form = "filedetails";
 
@@ -907,7 +905,7 @@ COMMENTS;
 /**
  * Update file block
  */
-if ($fileDetail["fil_owner"] == $idSession) {
+if ($fileDetail["fil_owner"] == $session->get("idSession")) {
     $block4 = new phpCollab\Block();
     $block4->form = "filedetails";
 

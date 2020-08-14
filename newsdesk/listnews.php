@@ -44,7 +44,7 @@ $block1->heading($strings["newsdesk"]);
 
 $block1->openPaletteIcon();
 
-if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
+if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1" || $session->get("profilSession") == "5") {
     $block1->paletteIcon(0, "add", $strings["add_newsdesk"]);
     $block1->paletteIcon(1, "remove", $strings["del_newsdesk"]);
     $block1->paletteIcon(2, "edit", $strings["edit_newsdesk"]);
@@ -96,7 +96,7 @@ if ($listPosts) {
 $block1->closeFormResults();
 
 $block1->openPaletteScript();
-if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
+if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1" || $session->get("profilSession") == "5") {
     $block1->paletteScript(0, "add", "../newsdesk/editnews.php?", "true,false,false", $strings["add_newsdesk"]);
     $block1->paletteScript(1, "remove", "../newsdesk/editnews.php?action=remove&", "false,true,true", $strings["del_newsdesk"]);
     $block1->paletteScript(2, "edit", "../newsdesk/editnews.php?", "false,true,false", $strings["edit_newsdesk"]);

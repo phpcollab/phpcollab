@@ -7,6 +7,7 @@ use Exception;
 use phpCollab\Database;
 use phpCollab\Notifications\Notifications;
 use phpCollab\Notifications\SubtaskNotifications;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class Subtasks
 {
@@ -140,7 +141,7 @@ class Subtasks
      * array @param $projectDetails
      * @throws Exception
      */
-    public function sendNotification($notification, $subtaskDetails, $projectDetails)
+    public function sendNotification($notification, $subtaskDetails, $projectDetails, Session $session)
     {
         $this->send = false;
 
@@ -197,7 +198,7 @@ class Subtasks
 
         if ($this->send) {
             try {
-                $this->subtaskNotifications->sendEmail();
+                $this->subtaskNotifications->sendEmail($session);
             } catch (Exception $e) {
                 // Log this instead of echoing it?
                 throw new Exception($e->getMessage());

@@ -17,7 +17,6 @@ $pdf = new Cezpdf();
 $pdf->selectFont('../includes/fonts/Helvetica.afm');
 $pdf->ezSetMargins(50, 70, 50, 50);
 
-
 $id = $request->query->get('id', 0);
 $tri = $request->query->get('tri');
 
@@ -32,7 +31,7 @@ $S_EDATE = isset($GLOBALS["S_EDATE"]) ? $GLOBALS["S_EDATE"] : null;
 $S_SDATE2 = isset($GLOBALS["S_SDATE2"]) ? $GLOBALS["S_SDATE2"] : null;
 $S_EDATE2 = isset($GLOBALS["S_EDATE2"]) ? $GLOBALS["S_EDATE2"] : null;
 $S_COMPLETEDATE = isset($GLOBALS["S_COMPLETEDATE"]) ? $GLOBALS["S_COMPLETEDATE"] : null;
-$idSession = $_SESSION["idSession"];
+
 $msgLabel = $GLOBALS["msgLabel"];
 $strings = $GLOBALS["strings"];
 
@@ -259,7 +258,7 @@ $block1->sorting("report_tasks", $sortingUser["report_tasks"], "tas.complete_dat
 
 $queryStart = isset($queryStart) ? $queryStart : null;
 if ($projectsFilter == "true") {
-    $listProjectsTasks = $projects->getProjectList($idSession, 'active', 'pro.id');
+    $listProjectsTasks = $projects->getProjectList($session->get("idSession"), 'active', 'pro.id');
 
     $filterTasks = null;
     if ($listProjectsTasks) {

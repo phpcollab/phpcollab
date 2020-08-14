@@ -22,7 +22,7 @@ if ($enableHelpSupport != "true") {
 }
 
 if ($supportType == "admin") {
-    if ($profilSession != "0") {
+    if ($session->get("profilSession") != "0") {
         phpCollab\Util::headerFunction('../general/permissiondenied.php');
     }
 }
@@ -33,7 +33,7 @@ $listPosts = $support->getSupportPostsByRequestId($id);
 
 $teamMember = "false";
 
-$teamMember = $teams->isTeamMember($requestDetail["sr_project"], $_SESSION["idSession"]);
+$teamMember = $teams->isTeamMember($requestDetail["sr_project"], $session->get('idSession'));
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
@@ -66,7 +66,7 @@ if (isset($error) && $error != "") {
 }
 
 $block1->heading($strings["support_request"] . " : " . $requestDetail["sr_subject"]);
-if ($teamMember == "true" || $profilSession == "0") {
+if ($teamMember == "true" || $session->get("profilSession") == "0") {
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "edit", $strings["edit_status"]);
     $block1->paletteIcon(1, "remove", $strings["delete"]);
@@ -100,7 +100,7 @@ $block1->contentRow($strings["message"], nl2br($requestDetail["sr_message"]));
 
 $block1->contentTitle($strings["responses"]);
 
-if ($teamMember == "true" || $profilSession != "0") {
+if ($teamMember == "true" || $session->get("profilSession") != "0") {
     $block1->contentRow("", $blockPage->buildLink("../support/addpost.php?id=" . $requestDetail["sr_id"], $strings["add_support_response"], "in"));
 }
 
@@ -111,9 +111,9 @@ foreach ($listPosts as $post) {
         $block1->contentRow($strings["posted_by"], $post["sp_mem_name"]);
     }
 
-    $block1->contentRow($strings["date"], phpCollab\Util::createDate($post["sp_date"], $_SESSION["timezoneSession"]));
+    $block1->contentRow($strings["date"], phpCollab\Util::createDate($post["sp_date"], $session->get('timezoneSession')));
 
-    if ($teamMember == "true" || $profilSession == "0") {
+    if ($teamMember == "true" || $session->get("profilSession") == "0") {
         $block1->contentRow($blockPage->buildLink("../support/deleterequests.php?action=deleteP&id=" . $post["sp_id"], $strings["delete_message"], "in"), nl2br($post["sp_message"]));
     } else {
         $block1->contentRow("", nl2br($post["sp_message"]));

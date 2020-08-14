@@ -40,7 +40,7 @@ $detailProject = $projects->getProjectById($detailTopic["top_project"]);
 
 $teamMember = "false";
 
-$teamMember = $teams->isTeamMember($detailTopic["top_project"], $idSession);
+$teamMember = $teams->isTeamMember($detailTopic["top_project"], $session->get("idSession"));
 
 if ($teamMember == "false" && $projectsFilter == "true") {
     header("Location:../general/permissiondenied.php");
@@ -82,7 +82,7 @@ if (!empty($error)) {
 
 $block1->heading($strings["discussion"] . " : " . $detailTopic["top_subject"]);
 
-if ($idSession == $detailTopic["top_owner"]) {
+if ($session->get("idSession") == $detailTopic["top_owner"]) {
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "remove", $strings["remove"]);
     $block1->paletteIcon(1, "lock", $strings["close"]);
@@ -104,7 +104,7 @@ if ($sitePublish == "true") {
 
 $block1->contentRow($strings["retired"], $statusTopicBis[$idStatus]);
 $block1->contentRow($strings["posts"], $detailTopic["top_posts"]);
-$block1->contentRow($strings["last_post"], phpCollab\Util::createDate($detailTopic["top_last_post"], $timezoneSession));
+$block1->contentRow($strings["last_post"], phpCollab\Util::createDate($detailTopic["top_last_post"], $session->get("timezoneSession")));
 
 $block1->contentTitle($strings["posts"]);
 
@@ -115,13 +115,13 @@ if ($detailTopic["top_status"] == "1" && $teamMember == "true") {
 foreach ($listPosts as $post) {
     $block1->contentRow($strings["posted_by"], $blockPage->buildLink($post["pos_mem_email_work"], $post["pos_mem_name"], "mail"));
 
-    if ($post["pos_created"] > $_SESSION["lastvisiteSession"]) {
-        $block1->contentRow($strings["when"], "<b>" . phpCollab\Util::createDate($post["pos_created"], $timezoneSession) . "</b>");
+    if ($post["pos_created"] > $session->get('lastvisiteSession')) {
+        $block1->contentRow($strings["when"], "<b>" . phpCollab\Util::createDate($post["pos_created"], $session->get("timezoneSession")) . "</b>");
     } else {
-        $block1->contentRow($strings["when"], phpCollab\Util::createDate($post["pos_created"], $timezoneSession));
+        $block1->contentRow($strings["when"], phpCollab\Util::createDate($post["pos_created"], $session->get("timezoneSession")));
     }
     $post_message = (strlen($post["pos_message"]) > 0) ? nl2br($post["pos_message"]) : "<em>no message</em>";
-    if ($detailProject["pro_owner"] == $idSession || $profilSession == "0" || $post["pos_member"] == $idSession) {
+    if ($detailProject["pro_owner"] == $session->get("idSession") || $session->get("profilSession") == "0" || $post["pos_member"] == $session->get("idSession")) {
         $block1->contentRow($blockPage->buildLink("../topics/deletepost.php?topic=" . $detailTopic["top_id"] . "&id=" . $post["pos_id"], $strings["delete_message"], "in"), $post_message);
     } else {
         $block1->contentRow("", $post_message);
@@ -132,7 +132,7 @@ foreach ($listPosts as $post) {
 $block1->closeContent();
 $block1->closeForm();
 
-if ($idSession == $detailTopic["top_owner"]) {
+if ($session->get("idSession") == $detailTopic["top_owner"]) {
     $block1->openPaletteScript();
     $block1->paletteScript(0, "remove", "../topics/deletetopics.php?project=" . $detailTopic["top_project"] . "&id=" . $detailTopic["top_id"] . "", "true,true,false", $strings["remove"]);
     $block1->paletteScript(1, "lock", "../topics/viewtopic.php?id=" . $detailTopic["top_id"] . "&action=closeTopic", "true,true,false", $strings["close"]);

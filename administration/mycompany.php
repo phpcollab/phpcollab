@@ -33,7 +33,7 @@ use phpCollab\Organizations\Organizations;
 $checkSession = "true";
 include_once '../includes/library.php';
 
-if ($profilSession != "0") {
+if ($session->get('profilSession') != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 

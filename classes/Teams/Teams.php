@@ -4,9 +4,11 @@
 namespace phpCollab\Teams;
 
 use Exception;
+use Monolog\Logger;
 use phpCollab\Database;
 use phpCollab\Notification;
 use phpCollab\Notifications;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Class Teams
@@ -40,9 +42,7 @@ class Teams
         $projectId = filter_var($projectId, FILTER_VALIDATE_INT);
         $teamMember = filter_var($teamMember, FILTER_VALIDATE_INT);
 
-        $team = $this->teams_gateway->getTeamByProjectIdAndTeamMember($projectId, $teamMember);
-
-        return $team;
+        return $this->teams_gateway->getTeamByProjectIdAndTeamMember($projectId, $teamMember);
     }
 
     /**
@@ -76,9 +76,7 @@ class Teams
         $projectId = filter_var($projectId, FILTER_VALIDATE_INT);
         $teamMember = filter_var($teamMember, FILTER_VALIDATE_INT);
 
-        $team = $this->teams_gateway->getTeamByProjectIdAndTeamMemberAndStatusIsNotCompletedOrSuspendedAndIsNotPublished($projectId, $teamMember);
-
-        return $team;
+        return $this->teams_gateway->getTeamByProjectIdAndTeamMemberAndStatusIsNotCompletedOrSuspendedAndIsNotPublished($projectId, $teamMember);
     }
 
     /**
@@ -111,9 +109,7 @@ class Teams
         $orgId = filter_var($orgId, FILTER_VALIDATE_INT);
         $teamMember = filter_var($teamMember, FILTER_VALIDATE_INT);
 
-        $team = $this->teams_gateway->getTeamByTeamMemberAndOrgId($teamMember, $orgId);
-
-        return $team;
+        return $this->teams_gateway->getTeamByTeamMemberAndOrgId($teamMember, $orgId);
     }
 
     /**
@@ -130,9 +126,7 @@ class Teams
             $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
         }
 
-        $team = $this->teams_gateway->getTeamByProjectId($projectId, $offset, $limit, $sorting);
-
-        return $team;
+        return $this->teams_gateway->getTeamByProjectId($projectId, $offset, $limit, $sorting);
     }
 
     /**
@@ -300,16 +294,18 @@ class Teams
     /**
      * @param $projectDetail
      * @param $members
+     * @param Session $session
+     * @param Logger $logger
      * @throws Exception
      */
-    public function sendAddProjectTeamNotification($projectDetail, $members)
+    public function sendAddProjectTeamNotification($projectDetail, $members, Session $session, Logger $logger)
     {
         if ($projectDetail) {
 
             $mail = new Notification(true);
             try {
-                $mail->getUserinfo($GLOBALS["idSession"], "from");
-
+                $logger->debug('Nofitication: Send project team notification', ['projectDetail' => $projectDetail]);
+                $mail->getUserinfo($session->get("idSession"), "from", $logger);
                 $mail->partSubject = $this->strings["noti_addprojectteam1"];
                 $mail->partMessage = $this->strings["noti_addprojectteam2"];
 

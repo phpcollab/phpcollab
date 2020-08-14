@@ -111,7 +111,7 @@ if ($S_ORGSEL != "ALL" || $S_PRJSEL != "ALL" || $S_ATSEL != "ALL" || $S_STATSEL 
     $query .= ")";
 }
 
-$reportDetail["rep_created"] = phpCollab\Util::createDate($reportDetail["rep_created"], $timezoneSession);
+$reportDetail["rep_created"] = phpCollab\Util::createDate($reportDetail["rep_created"], $session->get("timezoneSession"));
 
 $graph = new GanttGraph();
 $graph->SetBox();

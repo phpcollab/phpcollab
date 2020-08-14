@@ -12,7 +12,7 @@ include_once '../includes/library.php';
 $projects = new Projects();
 $news = new NewsDesk();
 
-$newsDetail = $news->getPostById($id);
+$newsDetail = $news->getPostById($request->query->get("id"));
 
 if (!$newsDetail) {
     phpCollab\Util::headerFunction("../newsdesk/listnews.php?msg=blankNews");
@@ -37,12 +37,12 @@ $blockPage->setLimitsNumber(1);
 $block1 = new phpCollab\Block();
 
 $block1->form = "clPr";
-$block1->openForm("../newsdesk/viewnews.php?&id=$id#" . $block1->form . "Anchor");
+$block1->openForm("../newsdesk/viewnews.php?&id=" . $request->query->get("id"). "#" . $block1->form . "Anchor");
 
 $block1->headingToggle($strings["newsdesk"]);
 
 
-if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
+if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1" || $session->get("profilSession") == "5") {
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "add", $strings["add_newsdesk"]);
     $block1->paletteIcon(1, "remove", $strings["del_newsdesk"]);
@@ -97,10 +97,10 @@ $block1->closeFormResults();
 
 $block1->openPaletteScript();
 
-if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
+if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1" || $session->get("profilSession") == "5") {
     $block1->paletteScript(0, "add", "../newsdesk/editnews.php?", "true,true,true", $strings["add_newsdesk"]);
-    $block1->paletteScript(1, "remove", "../newsdesk/editnews.php?action=remove&id=$id", "true,false,true", $strings["del_newsdesk"]);
-    $block1->paletteScript(3, "edit", "../newsdesk/editnews.php?id=$id", "true,true,true", $strings["edit_newsdesk"]);
+    $block1->paletteScript(1, "remove", "../newsdesk/editnews.php?action=remove&id=" . $request->query->get("id"), "true,false,true", $strings["del_newsdesk"]);
+    $block1->paletteScript(3, "edit", "../newsdesk/editnews.php?id=" . $request->query->get("id"), "true,true,true", $strings["edit_newsdesk"]);
 }
 
 $block1->closePaletteScript(count($newsDetail), $newsDetail['news_id']);
@@ -109,19 +109,19 @@ $block1->closePaletteScript(count($newsDetail), $newsDetail['news_id']);
 ///////////////////////////////// comments block //////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 
-$newsComments = $news->getCommentsByPostId($id);
+$newsComments = $news->getCommentsByPostId($request->query->get("id"));
 
 $block2 = new phpCollab\Block();
 
 $block2->form = "clPrc";
-$block2->openForm("../newsdesk/viewnews.php?&id=$id#" . $block2->form . "Anchor");
+$block2->openForm("../newsdesk/viewnews.php?&id=" . $request->query->get("id") . "#" . $block2->form . "Anchor");
 
 $block2->headingToggle($strings["comments"]);
 
 $block2->openPaletteIcon();
 $block2->paletteIcon(0, "add", $strings["add_newsdesk_comment"]);
 $block2->paletteIcon(1, "edit", $strings["edit_newsdesk_comment"]);
-if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
+if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1" || $session->get("profilSession") == "5") {
     $block2->paletteIcon(2, "remove", $strings["del_newsdesk_comment"]);
 }
 
@@ -157,11 +157,11 @@ $block2->closeContent();
 
 $block2->openPaletteScript();
 
-$block2->paletteScript(0, "add", "../newsdesk/editmessage.php?postid=$id", "true,false,false", $strings["add_newsdesk_comment"]);
-$block2->paletteScript(1, "edit", "../newsdesk/editmessage.php?postid=$id", "false,true,false", $strings["edit_newsdesk_comment"]);
+$block2->paletteScript(0, "add", "../newsdesk/editmessage.php?postid=" . $request->query->get("id"), "true,false,false", $strings["add_newsdesk_comment"]);
+$block2->paletteScript(1, "edit", "../newsdesk/editmessage.php?postid=" . $request->query->get("id"), "false,true,false", $strings["edit_newsdesk_comment"]);
 
-if ($profilSession == "0" || $profilSession == "1" || $profilSession == "5") {
-    $block2->paletteScript(2, "remove", "../newsdesk/editmessage.php?postid=$id&action=remove&", "false,true,true", $strings["del_newsdesk_comment"]);
+if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1" || $session->get("profilSession") == "5") {
+    $block2->paletteScript(2, "remove", "../newsdesk/editmessage.php?postid=" . $request->query->get("id") . "&action=remove&", "false,true,true", $strings["del_newsdesk_comment"]);
 }
 
 $block2->closePaletteScript(count($newsComments), array_column($newsComments, 'newscom_id'));
