@@ -54,7 +54,7 @@ $blockPage->closeBreadcrumbs();
 $block1 = new phpCollab\Block();
 
 $block1->form = "customsearch";
-$block1->openForm("../reports/resultsreport.php");
+$block1->openForm("../reports/resultsreport.php", null, $csrfHandler);
 
 $block1->heading($strings["create_report"]);
 

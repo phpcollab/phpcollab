@@ -37,6 +37,8 @@ include_once '../includes/library.php';
 $projects = new Projects();
 $teams = new Teams();
 
+$id = $request->query->get("id");
+
 $projectDetail = $projects->getProjectById($id);
 
 if (empty($projectDetail)) {
@@ -55,7 +57,7 @@ $blockPage->closeBreadcrumbs();
 $block1 = new phpCollab\Block();
 
 $block1->form = "saM";
-$block1->openForm("../teams/listusers.php?id=$id#" . $block1->form . "Anchor");
+$block1->openForm("../teams/listusers.php?id=$id#" . $block1->form . "Anchor", null, $csrfHandler);
 
 $block1->heading($strings["team_members"]);
 

@@ -14,41 +14,55 @@ $projects = new Projects();
 $teams = new Teams();
 $tasks = new Tasks();
 
+$id = $request->query->get("id");
+
 $phaseDetail = $phases->getPhasesById($id);
 
-$projectdetail = $projects->getProjectById($project);
+$projectDetail = $projects->getProjectById($phaseDetail["pha_project_id"]);
 
-$teamMember = $teams->isTeamMember($project, $session->get("idSession"));
+$teamMember = $teams->isTeamMember($phaseDetail["pha_project_id"], $session->get("idSession"));
+
 
 if ($request->isMethod('post')) {
-    if ($action == "update") {
-        $comments = phpCollab\Util::convertData($request->request->get('comments'));
-        $start_date = $request->request->get('start_date');
-        $end_date = $request->request->get('end_date');
-        $status = $request->request->get('status');
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get("action") == "update") {
+                $comments = phpCollab\Util::convertData($request->request->get('comments'));
+                $start_date = $request->request->get('start_date');
+                $end_date = $request->request->get('end_date');
+                $status = $request->request->get('status');
 
-        if ($start_date == 0 || $start_date == 1) {
-            $end_date = "--";
-        }
+                if ($start_date == 0 || $start_date == 1) {
+                    $end_date = "--";
+                }
 
-        if ($start_date == 2 && $end_date == "--") {
-            $end_date = date('Y-m-d');
-        }
+                if ($start_date == 2 && $end_date == "--") {
+                    $end_date = date('Y-m-d');
+                }
 
-        try {
-            $phases->updatePhase($id, $status, $start_date, $end_date, $comments);
-        } catch (Exception $e) {
+                try {
+                    $phases->updatePhase($id, $status, $start_date, $end_date, $comments);
+                } catch (Exception $e) {
+                    $logger->critical('Phase Update: ' . $e->getMessage());
+                }
 
-        }
+                if ($status != 1) {
+                    $changeTasks = $tasks->getOpenPhaseTasks($id);
 
-        if ($status != 1) {
-            $changeTasks = $tasks->getOpenPhaseTasks($id);
-
-            foreach ($changeTasks as $task) {
-                $tasks->setTaskStatus($task["tas_id"], 4);
+                    foreach ($changeTasks as $task) {
+                        $tasks->setTaskStatus($task["tas_id"], 4);
+                    }
+                }
+                phpCollab\Util::headerFunction("../phases/viewphase.php?id=" . $id);
             }
         }
-        phpCollab\Util::headerFunction("../phases/viewphase.php?id=$id");
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
 
@@ -80,9 +94,9 @@ $block1->headingToggle($strings["phase"] . " : " . $phaseDetail["pha_name"]);
 
 echo <<<FORM
 <a id="filedetailsAnchor"></a>
-<form method="POST" action="../phases/editphase.php?id=$id&action=update&#filedetailsAnchor" name="filedetailsForm" enctype="multipart/form-data">
-    <input type="hidden" name="MAX_FILE_SIZE" value="100000000">
+<form method="POST" action="../phases/editphase.php?id={$id}" name="filedetailsForm" enctype="multipart/form-data">
     <input type="hidden" name="maxCustom" value="{$projectDetail["pro_upload_max"]}">
+    <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}">
 FORM;
 $block1->openContent();
 $block1->contentTitle($strings["details"]);
@@ -154,7 +168,7 @@ echo <<<HTML
 </tr>
 <tr class="odd">
     <td class="leftvalue">&nbsp;</td>
-    <td><input type="submit" value="{$strings["save"]}"></td>
+    <td><button type="submit" name="action" value="update">{$strings["save"]}</button></td>
 </tr>
 HTML;
 

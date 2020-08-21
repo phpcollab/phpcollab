@@ -106,7 +106,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "tdP";
-$block1->openForm("./historytask.php");
+$block1->openForm("./historytask.php", null, $csrfHandler);
 
 if (isset($error) && $error != "") {
     $block1->headingError($strings["errors"]);

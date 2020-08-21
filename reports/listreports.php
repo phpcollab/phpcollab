@@ -25,7 +25,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "wbSe";
-$block1->openForm("../reports/listreports.php#" . $block1->form . "Anchor");
+$block1->openForm("../reports/listreports.php#" . $block1->form . "Anchor", null, $csrfHandler);
 
 $block1->heading($strings["my_reports"]);
 

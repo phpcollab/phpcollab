@@ -63,103 +63,113 @@ if ($request->query->get('id') == "1" && $session->get("idSession") == "1") {
 if (!empty($request->query->get('id'))) {
     //case update user
     if ($request->isMethod('post')) {
+        try {
+            if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+                if ($request->request->get('action') == "update") {
 
-        if ($request->request->get('action') == "update") {
-
-            $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING);
-            $oldUsername = filter_input(INPUT_POST, "username_old", FILTER_SANITIZE_STRING);
-            $password = $request->request->get('password');
-            $passwordConfirm = $request->request->get('password_confirm');
-            $fullName = filter_input(INPUT_POST, "full_name", FILTER_SANITIZE_STRING);
-            $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_STRING);
-            $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
-            $phoneWork = filter_input(INPUT_POST, "phone_work", FILTER_SANITIZE_STRING);
-            $phoneMobile = filter_input(INPUT_POST, "phone_mobile", FILTER_SANITIZE_STRING);
-            $phoneHome = filter_input(INPUT_POST, "phone_home", FILTER_SANITIZE_STRING);
-            $fax = filter_input(INPUT_POST, "fax", FILTER_SANITIZE_STRING);
-            $lastPage = filter_input(INPUT_POST, "last_page", FILTER_SANITIZE_STRING);
-            $profile = filter_input(INPUT_POST, "profile", FILTER_SANITIZE_NUMBER_INT);
-            $comments = htmlspecialchars($request->request->get('comments'), ENT_QUOTES, 'UTF-8');
+                    $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING);
+                    $oldUsername = filter_input(INPUT_POST, "username_old", FILTER_SANITIZE_STRING);
+                    $password = $request->request->get('password');
+                    $passwordConfirm = $request->request->get('password_confirm');
+                    $fullName = filter_input(INPUT_POST, "full_name", FILTER_SANITIZE_STRING);
+                    $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_STRING);
+                    $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
+                    $phoneWork = filter_input(INPUT_POST, "phone_work", FILTER_SANITIZE_STRING);
+                    $phoneMobile = filter_input(INPUT_POST, "phone_mobile", FILTER_SANITIZE_STRING);
+                    $phoneHome = filter_input(INPUT_POST, "phone_home", FILTER_SANITIZE_STRING);
+                    $fax = filter_input(INPUT_POST, "fax", FILTER_SANITIZE_STRING);
+                    $lastPage = filter_input(INPUT_POST, "last_page", FILTER_SANITIZE_STRING);
+                    $profile = filter_input(INPUT_POST, "profile", FILTER_SANITIZE_NUMBER_INT);
+                    $comments = htmlspecialchars($request->request->get('comments'), ENT_QUOTES, 'UTF-8');
 
 
-            if ($htaccessAuth == "true") {
-                $Htpasswd = new Htpasswd;
-            }
-            if (!preg_match("/^[A-Za-z0-9]+$/", $username)) {
-                $error = $strings["alpha_only"];
-            } else {
-                if ($members->checkIfMemberExists($username, $oldUsername)) {
-                    $error = $strings["user_already_exists"];
-                } else {
-                    $fullName = phpCollab\Util::convertData($fullName);
-                    $title = phpCollab\Util::convertData($title);
-                    $comments = phpCollab\Util::convertData($comments);
-                    $email = phpCollab\Util::convertData($email);
-                    $phone_work = phpCollab\Util::convertData($phone_work);
-                    $phone_home = phpCollab\Util::convertData($phone_home);
-                    $phone_mobile = phpCollab\Util::convertData($phone_mobile);
-                    $fax = phpCollab\Util::convertData($fax);
-                    $last_page = phpCollab\Util::convertData($last_page);
+                    if ($htaccessAuth == "true") {
+                        $Htpasswd = new Htpasswd;
+                    }
+                    if (!preg_match("/^[A-Za-z0-9]+$/", $username)) {
+                        $error = $strings["alpha_only"];
+                    } else {
+                        if ($members->checkIfMemberExists($username, $oldUsername)) {
+                            $error = $strings["user_already_exists"];
+                        } else {
+                            $fullName = phpCollab\Util::convertData($fullName);
+                            $title = phpCollab\Util::convertData($title);
+                            $comments = phpCollab\Util::convertData($comments);
+                            $email = phpCollab\Util::convertData($email);
+                            $phone_work = phpCollab\Util::convertData($phone_work);
+                            $phone_home = phpCollab\Util::convertData($phone_home);
+                            $phone_mobile = phpCollab\Util::convertData($phone_mobile);
+                            $fax = phpCollab\Util::convertData($fax);
+                            $last_page = phpCollab\Util::convertData($last_page);
 
-                    $listTeams = $teams->getTeamByMemberId($request->query->get("id"));
+                            $listTeams = $teams->getTeamByMemberId($request->query->get("id"));
 
-                    try {
-                        $members->updateMember($request->query->get("id"), $username, $fullName, $email, $title, null, $phoneWork, $phoneHome, $phoneMobile, $fax, $lastPage, $comments, $profile);
-
-                        if ($htaccessAuth == "true") {
-                            if ($username != $oldUsername) {
-                                if ($listTeams) {
-                                    foreach ($listTeams as $team) {
-                                        $Htpasswd->initialize("../files/" . $team["tea_pro_id"] . "/.htpasswd");
-                                        $Htpasswd->renameUser($oldUsername, $username);
-                                    }
-                                }
-                            }
-                        }
-
-                        //test if new password set
-                        if ($password != "") {
-
-                            //test if 2 passwords match
-                            if ($password != $passwordConfirm || $passwordConfirm == "") {
-                                $error = $strings["new_password_error"];
-                            } else {
-                                $password = phpCollab\Util::getPassword($password);
+                            try {
+                                $members->updateMember($request->query->get("id"), $username, $fullName, $email, $title, null, $phoneWork, $phoneHome, $phoneMobile, $fax, $lastPage, $comments, $profile);
 
                                 if ($htaccessAuth == "true") {
-                                    if ($username == $oldUsername && $listTeams) {
-                                        foreach ($listTeams as $team) {
-                                            $Htpasswd->initialize("../files/" . $team["tea_pro_id"] . "/.htpasswd");
-                                            $Htpasswd->changePass($username, $password);
+                                    if ($username != $oldUsername) {
+                                        if ($listTeams) {
+                                            foreach ($listTeams as $team) {
+                                                $Htpasswd->initialize("../files/" . $team["tea_pro_id"] . "/.htpasswd");
+                                                $Htpasswd->renameUser($oldUsername, $username);
+                                            }
                                         }
                                     }
                                 }
 
-                                $members->setPassword($request->query->get("id"), $password);
+                                //test if new password set
+                                if ($password != "") {
 
-                                //if mantis bug tracker enabled
-                                if ($enableMantis == "true") {
-                                    // Call mantis function for user changes..!!!
-                                    $f_access_level = $team_user_level; // Developer
-                                    include '../mantis/user_update.php';
+                                    //test if 2 passwords match
+                                    if ($password != $passwordConfirm || $passwordConfirm == "") {
+                                        $error = $strings["new_password_error"];
+                                    } else {
+                                        $password = phpCollab\Util::getPassword($password);
+
+                                        if ($htaccessAuth == "true") {
+                                            if ($username == $oldUsername && $listTeams) {
+                                                foreach ($listTeams as $team) {
+                                                    $Htpasswd->initialize("../files/" . $team["tea_pro_id"] . "/.htpasswd");
+                                                    $Htpasswd->changePass($username, $password);
+                                                }
+                                            }
+                                        }
+
+                                        $members->setPassword($request->query->get("id"), $password);
+
+                                        //if mantis bug tracker enabled
+                                        if ($enableMantis == "true") {
+                                            // Call mantis function for user changes..!!!
+                                            $f_access_level = $team_user_level; // Developer
+                                            include '../mantis/user_update.php';
+                                        }
+                                    }
+                                } else {
+                                    //if mantis bug tracker enabled
+                                    if ($enableMantis == "true") {
+                                        // Call mantis function for user changes..!!!
+                                        $f_access_level = $team_user_level; // Developer
+                                        include '../mantis/user_update.php';
+                                    }
                                 }
+                                phpCollab\Util::headerFunction("../users/listusers.php?msg=update");
+                            } catch (Exception $e) {
+                                echo "<h3>{$e->getMessage()}</h3>";
+                                $error = $strings["action_not_allowed"];
                             }
-                        } else {
-                            //if mantis bug tracker enabled
-                            if ($enableMantis == "true") {
-                                // Call mantis function for user changes..!!!
-                                $f_access_level = $team_user_level; // Developer
-                                include '../mantis/user_update.php';
-                            }
-                        }
-                        phpCollab\Util::headerFunction("../users/listusers.php?msg=update");
-                    } catch (Exception $e) {
-                        echo "<h3>{$e->getMessage()}</h3>";
-                        $error = $strings["action_not_allowed"];
-                    }
 
+                        }
+                    }
                 }
             }
+        } catch (Exception $e) {
+            $logger->critical('CSRF Token Error', [
+                'edit bookmark' => $request->request->get("id"),
+                '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+                '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+            ]);
+            $msg = 'permissiondenied';
         }
     }
 
@@ -317,12 +327,12 @@ if (empty($request->query->get('id'))) {
 
     if (empty($request->query->get('id'))) {
         $block1->form = "user_edit";
-        $block1->openForm("../users/edituser.php?id={$request->query->get("id")}#" . $block1->form . "Anchor");
+        $block1->openForm("../users/edituser.php?id={$request->query->get("id")}#" . $block1->form . "Anchor", null, $csrfHandler);
     }
 
     if (!empty($request->query->get('id'))) {
         $block1->form = "user_edit";
-        $block1->openForm("../users/edituser.php?id={$request->query->get("id")}#" . $block1->form . "Anchor");
+        $block1->openForm("../users/edituser.php?id={$request->query->get("id")}#" . $block1->form . "Anchor", null, $csrfHandler);
     }
 
     if (!empty($error)) {

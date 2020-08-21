@@ -121,7 +121,7 @@ if ($showHomeBookmarks) {
 
     if ($comptListBookmarks != "0") {
         $block6->form = "boo";
-        $block6->openForm("../bookmarks/listbookmarks.php?view=my&project=$project#" . $block6->form . "Anchor");
+        $block6->openForm("../bookmarks/listbookmarks.php?view=my&project=$project#" . $block6->form . "Anchor", null, $csrfHandler);
 
         $block6->headingToggle($strings["bookmarks_my"]);
 
@@ -186,7 +186,7 @@ if ($showHomeProjects) {
     $block1 = new phpCollab\Block();
 
     $block1->form = "wbP";
-    $block1->openForm("../general/home.php#" . $block1->form . "Anchor");
+    $block1->openForm("../general/home.php#" . $block1->form . "Anchor", null, $csrfHandler);
 
     $block1->headingToggle($strings["my_projects"]);
 
@@ -310,7 +310,7 @@ if ($showHomeTasks) {
     $block2 = new phpCollab\Block();
 
     $block2->form = "xwbT";
-    $block2->openForm("../general/home.php#" . $block2->form . "Anchor");
+    $block2->openForm("../general/home.php#" . $block2->form . "Anchor", null, $csrfHandler);
 
     $block2->headingToggle($strings["my_tasks"]);
 
@@ -426,7 +426,7 @@ if ($showHomeSubtasks) {
     $block3 = new phpCollab\Block();
 
     $block3->form = "xwbR";
-    $block3->openForm("../general/home.php#" . $block3->form . "Anchor");
+    $block3->openForm("../general/home.php#" . $block3->form . "Anchor", null, $csrfHandler);
 
     $block3->headingToggle($strings["my_subtasks"]);
 
@@ -512,7 +512,7 @@ if ($showHomeDiscussions) {
     $homeTopics = new Topics();
 
     $block4->form = "wbTh";
-    $block4->openForm("../general/home.php#" . $block4->form . "Anchor");
+    $block4->openForm("../general/home.php#" . $block4->form . "Anchor", null, $csrfHandler);
 
     $block4->headingToggle($strings["my_discussions"]);
 
@@ -587,7 +587,7 @@ if ($showHomeReports) {
     $reportsBlock = new phpCollab\Block();
 
     $reportsBlock->form = "wbSe";
-    $reportsBlock->openForm("../general/home.php#" . $reportsBlock->form . "Anchor");
+    $reportsBlock->openForm("../general/home.php#" . $reportsBlock->form . "Anchor", null, $csrfHandler);
 
     $reportsBlock->headingToggle($strings["my_reports"]);
 
@@ -635,7 +635,7 @@ if ($showHomeReports) {
 if ($showHomeNotes) {
     $notesBlock = new phpCollab\Block();
     $notesBlock->form = "saJ";
-    $notesBlock->openForm("../general/home.php?project=$project#" . $notesBlock->form . "Anchor");
+    $notesBlock->openForm("../general/home.php?project=$project#" . $notesBlock->form . "Anchor", null, $csrfHandler);
     $notesBlock->headingToggle($strings["my_notes"]);
 
     $notesBlock->openPaletteIcon();
@@ -697,7 +697,7 @@ if ($showHomeNotes) {
 if ($showHomeNewsdesk) {
     $newsdeskBlock = new phpCollab\Block();
     $newsdeskBlock->form = "saN";
-    $newsdeskBlock->openForm("../general/home.php?project=$project#" . $newsdeskBlock->form . "Anchor");
+    $newsdeskBlock->openForm("../general/home.php?project=$project#" . $newsdeskBlock->form . "Anchor", null, $csrfHandler);
     $newsdeskBlock->headingToggle($strings["my_newsdesk"]);
 
     $newsdeskBlock->openPaletteIcon();

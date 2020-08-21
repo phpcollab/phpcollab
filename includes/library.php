@@ -23,6 +23,7 @@
 */
 use DebugBar\StandardDebugBar;
 use Laminas\Escaper\Escaper;
+use phpCollab\CsrfHandler;
 use phpCollab\LoginLogs\LoginLogs;
 use phpCollab\Members\Members;
 use phpCollab\Sorting\Sorting;
@@ -40,8 +41,11 @@ define('APP_ROOT', dirname(dirname(__FILE__)));
 
 require APP_ROOT . '/vendor/autoload.php';
 
+/*
+ * Setup logger
+ */
 try {
-    $stream = new StreamHandler(APP_ROOT . '/loginLogs/phpcollab.log', Logger::DEBUG);
+    $stream = new StreamHandler(APP_ROOT . '/logs/phpcollab.log', Logger::DEBUG);
 } catch (Exception $e) {
     error_log('library error: ' . $e->getMessage());
 }
@@ -49,6 +53,10 @@ try {
 $logger = new Logger('phpCollab');
 $logger->pushHandler($stream);
 $logger->pushProcessor(new IntrospectionProcessor());
+/*
+ * End logger init
+ */
+
 
 $escaper = new Escaper('utf-8');
 
@@ -60,8 +68,14 @@ if ($debug) {
 
 error_reporting(2039);
 
+/*
+ * Init Http Foundation
+ */
 $request = Request::createFromGlobals();
 
+/*
+ * Start the session
+ */
 $session = new Session(new NativeSessionStorage(), new NamespacedAttributeBag());
 $session->start();
 
@@ -161,7 +175,6 @@ $loginLogs = new LoginLogs();
 $sort = new Sorting();
 $members = new Members($logger);
 
-//fix if update from old version
 if ($theme == "") {
     $theme = "default";
 }
@@ -169,15 +182,12 @@ if (!is_resource("THEME")) {
     define('THEME', $theme);
 }
 if (!is_resource("FTPSERVER")) {
-//    define('FTPSERVER', '');
     $session->set('phpCollab/ftpServer', '');
 }
 if (!is_resource("FTPLOGIN")) {
-//    define('FTPLOGIN', '');
     $session->set('phpCollab/ftpLogin', '');
 }
 if (!is_resource("FTPPASSWORD")) {
-//    define('FTPPASSWORD', '');
     $session->set('phpCollab/ftpPassword', '');
 }
 if ($peerReview == "") {
@@ -187,7 +197,6 @@ if ($peerReview == "") {
 
 if (empty($loginMethod)) {
     $session->set('phpCollab/loginMethod', 'CRYPT');
-//    $loginMethod = "PLAIN";
 }
 if (empty($databaseType)) {
     $databaseType = "mysql";
@@ -206,6 +215,15 @@ if ($checkSession != "false" && $session->get('demoSession') != "true") {
         phpCollab\Util::headerFunction("../index.php?session=false");
     }
 
+
+    /*
+     * CSRF Setup
+     */
+    // Set the CSRF token in the session
+    if (!$session->has('csrfToken')) {
+        $session->set('csrfToken', bin2hex(random_bytes(32)));
+    }
+    $csrfHandler = new CsrfHandler($session);
 
     if ($session->get('profilSession') == "3" && !strstr($request->server->get('PHP_SELF'), "projects_site")) {
         phpCollab\Util::headerFunction("../projects_site/home.php");
@@ -301,4 +319,4 @@ if (!empty($sort_target) && $sort_target != "" && $sort_fields != "none") {
 $sortingUser = $sort->getSortingValues($session->getId());
 
 // :-)
-$setCopyright = "<!-- Powered by PhpCollab v$version //-->";
+$setCopyright = "<!-- Powered by PhpCollab (show us some ❤️! #phpcollab & phpcollab.com) //-->";

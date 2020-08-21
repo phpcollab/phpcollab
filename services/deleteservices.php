@@ -15,12 +15,24 @@ if ($session->get("profilSession") != "0") {
 }
 
 if ($request->isMethod('post')) {
-    if ($action == "delete") {
-        $id = str_replace("**", ",", $id);
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get("action") == "delete") {
+                $id = str_replace("**", ",", $request->request->get("id"));
 
-        $services->deleteServices($id);
-        phpCollab\Util::headerFunction("../services/listservices.php?msg=delete");
+                $services->deleteServices($id);
+                phpCollab\Util::headerFunction("../services/listservices.php?msg=delete");
+            }
+        }
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
+
 }
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
@@ -40,14 +52,14 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "service_delete";
-$block1->openForm("../services/deleteservices.php?action=delete");
+$block1->openForm("../services/deleteservices.php?", null, $csrfHandler);
 
 $block1->heading($strings["delete_services"]);
 
 $block1->openContent();
 $block1->contentTitle($strings["delete_following"]);
 
-$id = str_replace("**", ",", $id);
+$id = str_replace("**", ",", $request->query->get("id"));
 $listServices = $services->getServicesByIds($id);
 
 foreach ($listServices as $listService) {
@@ -63,7 +75,7 @@ echo <<<TR
         <tr class="odd">
             <td class="leftvalue">&nbsp;</td>
             <td>
-                <input type="submit" name="delete" value="{$strings["delete"]}">
+                <button type="submit" value="delete" name="action">{$strings["delete"]}</button>
                 <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();">
                 <input type="hidden" value="$id" name="id">
             </td>

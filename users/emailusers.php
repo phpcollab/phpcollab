@@ -19,56 +19,66 @@ if ($profilSession != "0") {
 */
 
 if ($request->isMethod('post')) {
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->query->get('action') == "email") {
 
-    if ($request->query->get('action') == "email") {
+                // get name and email of user sending the email
+                $userPrefs = $members->getMemberById($session->get("idSession"));
 
-        // get name and email of user sending the email
-        $userPrefs = $members->getMemberById($session->get("idSession"));
+                // get company name
+                $clientDetail = $organizations->getOrganizationById(1);
 
-        // get company name
-        $clientDetail = $organizations->getOrganizationById(1);
+                // get users to email
+                $listMembers = $members->getMembersByIdIn($id, 'mem.name');
 
-        // get users to email
-        $listMembers = $members->getMembersByIdIn($id, 'mem.name');
+                // format body and message
+                $subject = stripslashes($request->request->get('subject'));
+                $message = stripslashes($request->request->get('message'));
+                $message = str_replace("\r\n", "\n", $message);
 
-        // format body and message
-        $subject = stripslashes($request->request->get('subject'));
-        $message = stripslashes($request->request->get('message'));
-        $message = str_replace("\r\n", "\n", $message);
+                foreach ($listMembers as $listMember) {
 
-        foreach ($listMembers as $listMember) {
+                    $signature = $userPrefs->mem_name[0] . "\n";
+                    if (!empty($userPrefs["mem_title"])) {
+                        $signature .= $userPrefs["mem_title"] . ", " . $clientDetail["org_name"] . "\n";
+                    } else {
+                        $signature .= $clientDetail["org_name"] . "\n";
+                    }
+                    if (!empty($userPrefs["mem_phone_work"])) {
+                        $signature .= "Phone: " . $userPrefs["mem_phone_work"] . "\n";
+                    }
+                    if (!empty($userPrefs["mem_mobile"])) {
+                        $signature .= "Mobile: " . $userPrefs["mem_mobile"] . "\n";
+                    }
+                    if (!empty($userPrefs["mem_fax"])) {
+                        $signature .= "Fax: " . $userPrefs["mem_fax"] . "\n";
+                    }
 
-            $signature = $userPrefs->mem_name[0] . "\n";
-            if (!empty($userPrefs["mem_title"])) {
-                $signature .= $userPrefs["mem_title"] . ", " . $clientDetail["org_name"] . "\n";
-            } else {
-                $signature .= $clientDetail["org_name"] . "\n";
+                    try {
+                        $members->sendEmail($listMember["mem_email_work"], $listMember["mem_name"], $subject, $message, null, null, $signature);
+                    }
+                    catch (Exception $e) {
+                        echo "Error sending email." . $e->getMessage();
+                    }
+
+
+                }
+
+                if ($session->get("profilSession") == "0") {
+                    header("Location:../users/listusers.php?id={$clientDetail["org_id"]}&msg=email");
+                } else {
+                    header("Location:../general/home.php?msg=email");
+                }
             }
-            if (!empty($userPrefs["mem_phone_work"])) {
-                $signature .= "Phone: " . $userPrefs["mem_phone_work"] . "\n";
-            }
-            if (!empty($userPrefs["mem_mobile"])) {
-                $signature .= "Mobile: " . $userPrefs["mem_mobile"] . "\n";
-            }
-            if (!empty($userPrefs["mem_fax"])) {
-                $signature .= "Fax: " . $userPrefs["mem_fax"] . "\n";
-            }
-
-            try {
-                $members->sendEmail($listMember["mem_email_work"], $listMember["mem_name"], $subject, $message, null, null, $signature);
-            }
-            catch (Exception $e) {
-                echo "Error sending email." . $e->getMessage();
-            }
-
-
         }
-
-        if ($session->get("profilSession") == "0") {
-            header("Location:../users/listusers.php?id={$clientDetail["org_id"]}&msg=email");
-        } else {
-            header("Location:../general/home.php?msg=email");
-        }
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
 
@@ -90,7 +100,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "user_email";
-$block1->openForm("../users/emailusers.php?action=email");
+$block1->openForm("../users/emailusers.php?action=email", null, $csrfHandler);
 
 if (!empty($error)) {
     $block1->headingError($strings["errors"]);

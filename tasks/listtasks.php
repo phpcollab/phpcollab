@@ -66,7 +66,7 @@ $blockPage->setLimitsNumber(1);
 $tasksBlock = new phpCollab\Block();
 
 $tasksBlock->form = "saT";
-$tasksBlock->openForm("../tasks/listtasks.php?&project=$project#" . $tasksBlock->form . "Anchor");
+$tasksBlock->openForm("../tasks/listtasks.php?&project=$project#" . $tasksBlock->form . "Anchor", null, $csrfHandler);
 
 $tasksBlock->heading($strings["tasks"]);
 

@@ -40,94 +40,105 @@ $projects = new Projects();
 $projectDetail = $projects->getProjectById($session->get("projectSession"));
 
 if ($request->isMethod('post')) {
-    if ($request->request->get('action') == "add") {
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get('action') == "add") {
 
-        $files = new Files();
-        $teams = new Teams();
-        $notification = new Notifications();
+                $files = new Files();
+                $teams = new Teams();
+                $notification = new Notifications();
 
-        // Clean the filename of spaces, slashes, etc
-        $filename = phpCollab\Util::checkFileName($_FILES['upload']['name']);
+                // Clean the filename of spaces, slashes, etc
+                $filename = phpCollab\Util::checkFileName($_FILES['upload']['name']);
 
-        // Check to see if the custom maximum file size is set, and if so use it.
-        if (!empty($request->request->get('maxCustom'))) {
-            $maxFileSize = $request->request->get('maxCustom');
-        }
+                // Check to see if the custom maximum file size is set, and if so use it.
+                if (!empty($request->request->get('maxCustom'))) {
+                    $maxFileSize = $request->request->get('maxCustom');
+                }
 
-        if ($_FILES['upload']['size'] != 0) {
-            $taille_ko = $_FILES['upload']['size'] / 1024;
-        } else {
-            $taille_ko = 0;
-        }
+                if ($_FILES['upload']['size'] != 0) {
+                    $taille_ko = $_FILES['upload']['size'] / 1024;
+                } else {
+                    $taille_ko = 0;
+                }
 
-        if (empty($filename)) {
-            $error .= $strings["no_file"] . "<br/>";
-        }
+                if (empty($filename)) {
+                    $error .= $strings["no_file"] . "<br/>";
+                }
 
 
-        if ($_FILES['upload']['size'] > $maxFileSize) {
-            if ($maxFileSize != 0) {
-                $taille_max_ko = $maxFileSize / 1024;
-            }
-            $error .= $strings["exceed_size"] . " ($taille_max_ko $byteUnits[1])<br/>";
-        }
+                if ($_FILES['upload']['size'] > $maxFileSize) {
+                    if ($maxFileSize != 0) {
+                        $taille_max_ko = $maxFileSize / 1024;
+                    }
+                    $error .= $strings["exceed_size"] . " ($taille_max_ko $byteUnits[1])<br/>";
+                }
 
-        $extension = strtolower(substr(strrchr($filename, "."), 1));
+                $extension = strtolower(substr(strrchr($filename, "."), 1));
 
-        if ($allowPhp == "false") {
-            $send = "";
-            if ($filename != "" && ($extension == "php" || $extension == "php3" || $extension == "phtml")) {
-                $error .= $strings["no_php"] . "<br/>";
-                $send = "false";
-            }
-        }
+                if ($allowPhp == "false") {
+                    $send = "";
+                    if ($filename != "" && ($extension == "php" || $extension == "php3" || $extension == "phtml")) {
+                        $error .= $strings["no_php"] . "<br/>";
+                        $send = "false";
+                    }
+                }
 
-        if ($filename != "" && $_FILES['upload']['size'] < $maxFileSize && $_FILES['upload']['size'] != 0 && $send != "false") {
-            $docopy = "true";
-        }
+                if ($filename != "" && $_FILES['upload']['size'] < $maxFileSize && $_FILES['upload']['size'] != 0 && $send != "false") {
+                    $docopy = "true";
+                }
 
-        if ($docopy == "true") {
-            $commentsField = phpCollab\Util::convertData($request->request->get('commentsField'));
+                if ($docopy == "true") {
+                    $commentsField = phpCollab\Util::convertData($request->request->get('commentsField'));
 
-            $newFileId = $files->addFile($session->get("idSession"), $session->get("projectSession"), 0, 0, $commentsField, 2, 0.0, 0);
+                    $newFileId = $files->addFile($session->get("idSession"), $session->get("projectSession"), 0, 0, $commentsField, 2, 0.0, 0);
 
-            phpCollab\Util::uploadFile("files/" . $session->get("projectSession"), $_FILES['upload']['tmp_name'], "$newFileId--" . $filename);
+                    phpCollab\Util::uploadFile("files/" . $session->get("projectSession"), $_FILES['upload']['tmp_name'], "$newFileId--" . $filename);
 
-            $size = phpCollab\Util::fileInfoSize("../files/" . $session->get("projectSession") . "/" . $newFileId . "--" . $filename);
+                    $size = phpCollab\Util::fileInfoSize("../files/" . $session->get("projectSession") . "/" . $newFileId . "--" . $filename);
 
-            $chaine = strrev("../files/" . $session->get("projectSession") . "/" . $newFileId . "--" . $filename);
-            $tab = explode(".", $chaine);
+                    $chaine = strrev("../files/" . $session->get("projectSession") . "/" . $newFileId . "--" . $filename);
+                    $tab = explode(".", $chaine);
 
-            $size = phpCollab\Util::fileInfoSize("../files/" . $session->get("projectSession") . "/" . $newFileId . "--" . $filename);
+                    $size = phpCollab\Util::fileInfoSize("../files/" . $session->get("projectSession") . "/" . $newFileId . "--" . $filename);
 
-            $newFileName = $newFileId . "--" . $filename;
+                    $newFileName = $newFileId . "--" . $filename;
 
-            $fileDetails = $files->updateFile($newFileId, $newFileName, date('Y-m-d h:i'), $size, $extension);
+                    $fileDetails = $files->updateFile($newFileId, $newFileName, date('Y-m-d h:i'), $size, $extension);
 
-            if ($notifications == "true") {
-                try {
-                    // Get a list of notification team members
-                    $teamList = $teams->getTeamByProjectId($session->get("projectSession"));
+                    if ($notifications == "true") {
+                        try {
+                            // Get a list of notification team members
+                            $teamList = $teams->getTeamByProjectId($session->get("projectSession"));
 
-                    $key = array_search($session->get("idSession"), array_column($teamList, 'tea_mem_id'));
+                            $key = array_search($session->get("idSession"), array_column($teamList, 'tea_mem_id'));
 
-                    // Remove the current user from the TeamList
-                    unset($teamList[$key]);
+                            // Remove the current user from the TeamList
+                            unset($teamList[$key]);
 
-                    foreach ($teamList as $item) {
-                        $userNotificationFlags = $notification->getMemberNotifications($item['tea_mem_id']);
+                            foreach ($teamList as $item) {
+                                $userNotificationFlags = $notification->getMemberNotifications($item['tea_mem_id']);
 
-                        if ($userNotificationFlags) {
-                            $files->sendFileUploadedNotification($fileDetails, $projectDetail, $userNotificationFlags, $session->get("idSession"), $session->get("nameSession"), $session->get("loginSession"));
+                                if ($userNotificationFlags) {
+                                    $files->sendFileUploadedNotification($fileDetails, $projectDetail, $userNotificationFlags, $session->get("idSession"), $session->get("nameSession"), $session->get("loginSession"));
+                                }
+                            }
+                        } catch (Exception $e) {
+                            echo 'Message could not be sent. Mailer Error: ', $e->getMessage();
                         }
                     }
-                } catch (Exception $e) {
-                    echo 'Message could not be sent. Mailer Error: ', $e->getMessage();
+
+                    phpCollab\Util::headerFunction("doclists.php");
                 }
             }
-
-            phpCollab\Util::headerFunction("doclists.php");
         }
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
 
@@ -142,6 +153,7 @@ echo <<<FORM
         <input type="hidden" name="project_id" value="{$session->get("projectSession")}">
         <input type="hidden" name="task_id" value="{$task}">
         <input type="hidden" name="maxCustom" value="{$projectDetail["pro_upload_max"]}">
+        <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}" />
     
         <table class="nonStriped">
         <tr>

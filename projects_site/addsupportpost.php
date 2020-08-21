@@ -16,30 +16,45 @@ $requestDetail = $support->getSupportRequestById($id);
 if ($requestDetail["sr_project"] != $session->get("projectSession") || $requestDetail["sr_member"] != $session->get("idSession")) {
     phpCollab\Util::headerFunction("index.php");
 }
-if ($request->query->get('action') == "add") {
-    $message = phpCollab\Util::convertData($request->request->get('response_message'));
 
-    if (!empty($message)) {
-        $newPostId = $support->addSupportPost($id, $message, $dateheure, $session->get("idSession"), $requestDetail["sr_project"]);
+if ($request->isMethod('post')) {
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->query->get('action') == "add") {
+                $message = phpCollab\Util::convertData($request->request->get('response_message'));
 
-        if ($notifications == "true") {
-            // Gather additional information for the notification
-            $postDetail = $support->getSupportPostById($newPostId);
-            $requestDetail = $support->getSupportRequestById($postDetail["sp_request_id"]);
-            $userDetail = $members->getMemberById($requestDetail["sr_member"]);
+                if (!empty($message)) {
+                    $newPostId = $support->addSupportPost($id, $message, $dateheure, $session->get("idSession"), $requestDetail["sr_project"]);
 
-            try {
-                $support->sendNewPostNotification($requestDetail, $postDetail, $userDetail);
-            }
-            catch (Exception $e) {
-                echo $e->getMessage();
+                    if ($notifications == "true") {
+                        // Gather additional information for the notification
+                        $postDetail = $support->getSupportPostById($newPostId);
+                        $requestDetail = $support->getSupportRequestById($postDetail["sp_request_id"]);
+                        $userDetail = $members->getMemberById($requestDetail["sr_member"]);
+
+                        try {
+                            $support->sendNewPostNotification($requestDetail, $postDetail, $userDetail);
+                        }
+                        catch (Exception $e) {
+                            echo $e->getMessage();
+                        }
+                    }
+                    phpCollab\Util::headerFunction("suprequestdetail.php?id=$id");
+                } else {
+                    $error = "The message can not be blank.  Please enter a message.";
+                }
             }
         }
-        phpCollab\Util::headerFunction("suprequestdetail.php?id=$id");
-    } else {
-        $error = "The message can not be blank.  Please enter a message.";
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
+
 
 
 $bouton[6] = "over";
@@ -59,7 +74,7 @@ echo <<<FORM
     action="../projects_site/addsupportpost.php?id={$id}&action=add&project={$session->get("projectSession")}#filedetailsAnchor" 
     name="addsupport" 
     enctype="multipart/form-data">
-
+    <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}" />
 <table style="width: 90%; margin-bottom: 3em;">
     <tr>
         <th colspan="2" style="text-align: left; padding-bottom: 2em; font-size: 1rem;">{$strings["add_support_response"]}</th>

@@ -17,22 +17,32 @@ $postId = $request->query->get('id');
 $detailTopic = $topics->getTopicByTopicId($topicId);
 
 if ($request->isMethod('post')) {
-    if ($request->request->get("action") == "delete") {
-        try {
-            $topics->deletePost($postId);
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get("action") == "delete") {
+                try {
+                    $topics->deletePost($postId);
 
-            if ($detailTopic["top_posts"] != 0) {
-                $topics->decrementTopicPostsCount($topicId);
+                    if ($detailTopic["top_posts"] != 0) {
+                        $topics->decrementTopicPostsCount($topicId);
+                    }
+
+                    Util::headerFunction("../topics/viewtopic.php?msg=delete&id=" . $topicId);
+
+                } catch (Exception$exception) {
+                    error_log('Error deleting post', 0);
+                    $error = $strings["error_delete_post"];
+                }
             }
-
-            Util::headerFunction("../topics/viewtopic.php?msg=delete&id=$topicId");
-
-        } catch (Exception$exception) {
-            error_log('Error deleting post', 0);
-            $error = $strings["error_delete_post"];
         }
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
-
 }
 
 
@@ -58,7 +68,7 @@ $block1 = new phpCollab\Block();
 
 
 $block1->form = "saP";
-$block1->openForm("../topics/deletepost.php?id=$postId&topic=$topicId");
+$block1->openForm("../topics/deletepost.php?id=$postId&topic=" . $topicId, null, $csrfHandler);
 
 $block1->heading($strings["delete_messages"]);
 

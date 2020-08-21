@@ -25,31 +25,46 @@ if ($supportType == "admin") {
     }
 }
 
+if ($request->isMethod('post')) {
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($action == "deleteRequest") {
+                $id = str_replace("**", ",", $id);
+                $pieces = explode(",", $id);
+                $num = count($pieces);
+
+                $support->deleteSupportRequests($id);
+                $support->deleteSupportPostsByRequestId($id);
+
+                phpCollab\Util::headerFunction("../support/support.php?msg=delete&action={$sendto}&project={$project}");
+            }
+
+            if ($action == "deletePost") {
+                $id = str_replace("**", ",", $id);
+                $pieces = explode(",", $id);
+                $num = count($pieces);
+                $support->deleteSupportPostsById($id);
+
+                phpCollab\Util::headerFunction("../support/viewrequest.php?msg=delete&id=$sendto");
+            }
+        }
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
+    }
+}
+
+
+
+
 if ($action == "deleteRequest") {
     $id = str_replace("**", ",", $id);
-    $pieces = explode(",", $id);
-    $num = count($pieces);
-
-    $support->deleteSupportRequests($id);
-    $support->deleteSupportPostsByRequestId($id);
-
-    phpCollab\Util::headerFunction("../support/support.php?msg=delete&action={$sendto}&project={$project}");
-}
-
-if ($action == "deletePost") {
-    $id = str_replace("**", ",", $id);
-    $pieces = explode(",", $id);
-    $num = count($pieces);
-    $support->deleteSupportPostsById($id);
-
-    phpCollab\Util::headerFunction("../support/viewrequest.php?msg=delete&id=$sendto");
-}
-
-
-if ($action == "deleteR") {
-    $id = str_replace("**", ",", $id);
     $listRequest = $support->getSupportRequestByIdIn($id);
-} elseif ($action == "deleteP") {
+} elseif ($action == "deletePost") {
     if (strpos($id, "**") !== false) {
         $id = str_replace("**", ",", $id);
         $listPosts = $support->getSupportPostsByRequestIdIn($id);
@@ -70,9 +85,9 @@ if ($supportType == "team") {
         $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $listRequest["sr_project"], $listRequest["sr_pro_name"], "in"));
         $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=" . $listRequest["sr_project"], $strings["support_requests"], "in"));
     }
-    if ($action == "deleteR") {
+    if ($action == "deleteRequest") {
         $blockPage->itemBreadcrumbs($strings["delete_request"]);
-    } elseif ($action == "deleteP") {
+    } elseif ($action == "deletePost") {
         $blockPage->itemBreadcrumbs($strings["delete_support_post"]);
     }
 } elseif ($supportType == "admin") {
@@ -81,9 +96,9 @@ if ($supportType == "team") {
     if (isset($listRequest) && $listRequest != '') {
         $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=" . $listRequest["sr_project"], $strings["support_requests"], "in"));
     }
-    if ($action == "deleteR") {
+    if ($action == "deleteRequest") {
         $blockPage->itemBreadcrumbs($strings["delete_request"]);
-    } elseif ($action == "deleteP") {
+    } elseif ($action == "deletePost") {
         $blockPage->itemBreadcrumbs($strings["delete_support_post"]);
     }
 }
@@ -101,23 +116,23 @@ $block1->form = "saP";
 
 if (isset($listRequest) && $listRequest != '') {
 
-    if ($action == "deleteR") {
-        $block1->openForm("deleterequests.php?action=deleteRequest&id=$id&sendto=$sendto&project=" . $listRequest["sr_project"] . "");
-    } elseif ($action == "deleteP") {
-        $block1->openForm("deleterequests.php?action=deletePost&id=$id&sendto=" . $listRequest["sr_id"] . "");
+    if ($action == "deleteRequest") {
+        $block1->openForm("deleterequests.php?action=deleteRequest&id=$id&sendto=$sendto&project=" . $listRequest["sr_project"], null, $csrfHandler);
+    } elseif ($action == "deletePost") {
+        $block1->openForm("deleterequests.php?action=deletePost&id=$id&sendto=" . $listRequest["sr_id"], null, $csrfHandler);
     }
 }
 
-if ($action == "deleteR") {
+if ($action == "deleteRequest") {
     $block1->heading($strings["delete_request"]);
-} elseif ($action == "deleteP") {
+} elseif ($action == "deletePost") {
     $block1->heading($strings["delete_support_post"]);
 }
 
 $block1->openContent();
 $block1->contentTitle($strings["delete_following"]);
 
-if ($action == "deleteR") {
+if ($action == "deleteRequest") {
     if (isset($listRequest) && $listRequest != '') {
         foreach ($listRequest as $request) {
             echo '<tr class="odd"><td class="leftvalue">&nbsp;</td><td>' . $request["sr_id"] . ' - ' . $request["sr_subject"] . '</td></tr>';
@@ -129,7 +144,7 @@ if ($action == "deleteR") {
       <td><input type="submit" name="delete" value="{$strings["delete"]}"> <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();"></td>
     </tr>
 TR;
-} elseif ($action == "deleteP") {
+} elseif ($action == "deletePost") {
     if (isset($listPosts) && $listPosts != '') {
         foreach ($listPost as $post) {
             echo '<tr class="odd"><td class="leftvalue">&nbsp;</td><td>' . $post["sp_id"] . ' - '. $post["sp_message"] .'</td></tr>';

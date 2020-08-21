@@ -82,7 +82,7 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 $block1->form = "tdD";
-$block1->openForm("../notes/viewnote.php#" . $block1->form . "Anchor");
+$block1->openForm("../notes/viewnote.php#" . $block1->form . "Anchor", null, $csrfHandler);
 $block1->heading($strings["note"] . " : " . $noteDetail["note_subject"]);
 
 if ($teamMember == "true" && $session->get("idSession") == $noteDetail["note_owner"]) {

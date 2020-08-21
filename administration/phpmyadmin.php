@@ -54,6 +54,7 @@ $block1->contentTitle("Backup database");
 echo <<<HTML
 <tr class="odd"><td class="leftvalue">&nbsp;</td><td>
        <form method="post" action="backupMySQL.php" name="db_dump">
+           <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}" />
         <table>
         <tr>
     

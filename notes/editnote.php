@@ -60,15 +60,28 @@ $teamMember = $teams->isTeamMember($project, $session->get("idSession"));
 if ($id != "") {
     //case update note entry
     if ($action == "update") {
-        $noteData = $request->request->all();
-        $noteData["subject"] = phpCollab\Util::convertData($request->request->get('subject'));
-        $noteData["description"] = phpCollab\Util::convertData($request->request->get('description'));
-        $noteData["owner"] = $session->get("idSession");
 
-        $updatedNote = $notes->updateNote($id, $noteData);
+        if ($request->isMethod('post')) {
+            try {
+                if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+                    $noteData = $request->request->all();
+                    $noteData["subject"] = phpCollab\Util::convertData($request->request->get('subject'));
+                    $noteData["description"] = phpCollab\Util::convertData($request->request->get('description'));
+                    $noteData["owner"] = $session->get("idSession");
 
-        $msg = "update";
-        phpCollab\Util::headerFunction("../notes/viewnote.php?id=" . $id . "&msg=" . $msg);
+                    $updatedNote = $notes->updateNote($id, $noteData);
+
+                    phpCollab\Util::headerFunction("../notes/viewnote.php?id=" . $id . "&msg=update");
+                }
+            } catch (Exception $e) {
+                $logger->critical('CSRF Token Error', [
+                    'edit bookmark' => $request->request->get("id"),
+                    '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+                    '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+                ]);
+                $msg = 'permissiondenied';
+            }
+        }
     }
 
     //set value in form
@@ -83,14 +96,27 @@ if ($id == "") {
 
     //case add note entry
     if ($action == "add") {
-        $noteData = $request->request->all();
-        $noteData["subject"] = phpCollab\Util::convertData($request->request->get('subject'));
-        $noteData["description"] = phpCollab\Util::convertData($request->request->get('description'));
-        $noteData["owner"] = $session->get("idSession");
+        if ($request->isMethod('post')) {
+            try {
+                if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+                    $noteData = $request->request->all();
+                    $noteData["subject"] = phpCollab\Util::convertData($request->request->get('subject'));
+                    $noteData["description"] = phpCollab\Util::convertData($request->request->get('description'));
+                    $noteData["owner"] = $session->get("idSession");
 
-        $num = $notes->addNote($noteData);
+                    $num = $notes->addNote($noteData);
 
-        phpCollab\Util::headerFunction("../notes/viewnote.php?id=" . $num . "&msg=add");
+                    phpCollab\Util::headerFunction("../notes/viewnote.php?id=" . $num . "&msg=add");
+                }
+            } catch (Exception $e) {
+                $logger->critical('CSRF Token Error', [
+                    'edit bookmark' => $request->request->get("id"),
+                    '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+                    '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+                ]);
+                $msg = 'permissiondenied';
+            }
+        }
     }
 }
 
@@ -120,11 +146,11 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 if ($id == "") {
     $block1->form = "etD";
-    $block1->openForm("../notes/editnote.php?project=" . $project . "&id=" . $id . "&action=add&#" . $block1->form . "Anchor");
+    $block1->openForm("../notes/editnote.php?project=" . $project . "&id=" . $id . "&action=add&#" . $block1->form . "Anchor", null, $csrfHandler);
 }
 if ($id != "") {
     $block1->form = "etD";
-    $block1->openForm("../notes/editnote.php?project=" . $project . "&id=" . $id . "&action=update&#" . $block1->form . "Anchor");
+    $block1->openForm("../notes/editnote.php?project=" . $project . "&id=" . $id . "&action=update&#" . $block1->form . "Anchor", null, $csrfHandler);
 }
 
 if (isset($error) && $error != "") {

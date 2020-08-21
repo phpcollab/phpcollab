@@ -92,7 +92,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "crM";
-$block1->openForm("../teams/deleteclientusers.php?project=$project&action=delete&id=$id");
+$block1->openForm("../teams/deleteclientusers.php?project=$project&action=delete&id=" . $id, null, $csrfHandler);
 
 $block1->heading($strings["remove_team_client"]);
 

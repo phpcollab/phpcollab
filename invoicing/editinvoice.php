@@ -38,37 +38,48 @@ $action = $request->query->get('action', null);
  * Update invoice
  */
 if ($request->isMethod('post')) {
-    if ($request->request->get('action') == "update") {
-    $pub = !empty($request->request->get('pub')) ? $request->request->get('pub') : 0;
-    $st = !empty($request->request->get('st')) ? $request->request->get('st') : 0;
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get('action') == "update") {
+                $pub = !empty($request->request->get('pub')) ? $request->request->get('pub') : 0;
+                $st = !empty($request->request->get('st')) ? $request->request->get('st') : 0;
 
-    if ($pub == "") {
-        $pub = "1";
-    }
-    if ($st == "1") {
-        $datesent = $GLOBALS["date"];
-    }
+                if ($pub == "") {
+                    $pub = "1";
+                }
+                if ($st == "1") {
+                    $datesent = $GLOBALS["date"];
+                }
 
-    $invoices->updateInvoice(
-        $invoiceItemId,
-        $request->request->get('header_note'),
-        $request->request->get('footer_note'),
-        $pub,
-        $st,
-        $request->request->get('dd'),
-        $request->request->get('datesent'),
-        $request->request->get('total_ex_tax'),
-        $request->request->get('total_inc_tax'),
-        $request->request->get('tax_rate'),
-        $request->request->get('tax_amount')
-    );
+                $invoices->updateInvoice(
+                    $invoiceItemId,
+                    $request->request->get('header_note'),
+                    $request->request->get('footer_note'),
+                    $pub,
+                    $st,
+                    $request->request->get('dd'),
+                    $request->request->get('datesent'),
+                    $request->request->get('total_ex_tax'),
+                    $request->request->get('total_inc_tax'),
+                    $request->request->get('tax_rate'),
+                    $request->request->get('tax_amount')
+                );
 
-    foreach ($listInvoicesItems as $item) {
-        $invoices->editInvoiceItems($item['invitem_id'], $item["invitem_title"], $item["invitem_position"],
-            $item["invitem_amount_ex_tax"]);
+                foreach ($listInvoicesItems as $item) {
+                    $invoices->editInvoiceItems($item['invitem_id'], $item["invitem_title"], $item["invitem_position"],
+                        $item["invitem_amount_ex_tax"]);
+                }
+                phpCollab\Util::headerFunction("../invoicing/viewinvoice.php?msg=update&id=$invoiceItemId");
+            }
+        }
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
-    phpCollab\Util::headerFunction("../invoicing/viewinvoice.php?msg=update&id=$invoiceItemId");
-}
 }
 
 /**
@@ -96,11 +107,14 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?", $strings["clients"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $projectDetail["pro_org_id"], $projectDetail["pro_org_name"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../invoicing/listinvoices.php?client=" . $projectDetail["pro_organization"], $strings["invoices"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $projectDetail["pro_org_id"],
+    $projectDetail["pro_org_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../invoicing/listinvoices.php?client=" . $projectDetail["pro_organization"],
+    $strings["invoices"], "in"));
 
 if ($invoiceItemId != "") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../invoicing/viewinvoice.php?id=" . $detailInvoice["inv_id"], $detailInvoice["inv_id"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../invoicing/viewinvoice.php?id=" . $detailInvoice["inv_id"],
+        $detailInvoice["inv_id"], "in"));
     $blockPage->itemBreadcrumbs($strings["edit_invoice"]);
 }
 $blockPage->closeBreadcrumbs();
@@ -114,7 +128,8 @@ $block1 = new phpCollab\Block();
 
 if ($invoiceItemId != "") {
     $block1->form = "invoice";
-    $block1->openForm("../invoicing/editinvoice.php?id=$invoiceItemId&#" . $block1->form . "Anchor");
+    $block1->openForm("../invoicing/editinvoice.php?id=$invoiceItemId&#" . $block1->form . "Anchor", null,
+        $csrfHandler);
 }
 
 if (isset($error) && !empty($error)) {
@@ -129,8 +144,10 @@ if ($invoiceItemId != "") {
 $block1->openContent();
 $block1->contentTitle($strings["details"]);
 
-$block1->contentRow($strings["header_note"], '<textarea rows="10" style="width: 400px; height: 100px;" name="header_note" cols="47">' . $header_note . '</textarea>');
-$block1->contentRow($strings["footer_note"], '<textarea rows="10" style="width: 400px; height: 100px;" name="footer_note" cols="47">' . $footer_note . '</textarea>');
+$block1->contentRow($strings["header_note"],
+    '<textarea rows="10" style="width: 400px; height: 100px;" name="header_note" cols="47">' . $header_note . '</textarea>');
+$block1->contentRow($strings["footer_note"],
+    '<textarea rows="10" style="width: 400px; height: 100px;" name="footer_note" cols="47">' . $footer_note . '</textarea>');
 
 $listInvoicesItems = $invoices->getActiveInvoiceItemsByInvoiceId($invoiceItemId);
 
@@ -169,7 +186,8 @@ if ($dd == "") {
     $dd = "--";
 }
 
-$block1->contentRow($strings["due_date"], "<input type='text' name='dd' id='due_date' size='20' value='$dd'><input type='button' value=' ... ' id='trigDueDate''>");
+$block1->contentRow($strings["due_date"],
+    "<input type='text' name='dd' id='due_date' size='20' value='$dd'><input type='button' value=' ... ' id='trigDueDate''>");
 echo <<<SCRIPT
 <script type='text/javascript'>
     Calendar.setup({
@@ -180,7 +198,7 @@ echo <<<SCRIPT
 </script>
 SCRIPT;
 
-$block1->contentRow($strings["published"], '<input size="32" value="0" name="pub" type="checkbox"' . $checkedPub .'>');
+$block1->contentRow($strings["published"], '<input size="32" value="0" name="pub" type="checkbox"' . $checkedPub . '>');
 
 $block1->contentTitle($strings["calculation"]);
 
@@ -258,10 +276,14 @@ echo <<<HTML
 HTML;
 
 
-$block1->contentRow($strings["total_ex_tax"], '<input type="text" name="total_ex_tax" size="20" value="' . $total_ex_tax . '">');
-$block1->contentRow($strings["tax_rate"], '<input type="text" name="tax_rate" size="20" value="' . $tax_rate . '" onblur="calc(this)"> %');
-$block1->contentRow($strings["tax_amount"], '<input type="text" name="tax_amount" size="20" value="' . $tax_amount . '">');
-$block1->contentRow($strings["total_inc_tax"], '<input type="text" name="total_inc_tax" size="20" value="' . $total_inc_tax . '">');
+$block1->contentRow($strings["total_ex_tax"],
+    '<input type="text" name="total_ex_tax" size="20" value="' . $total_ex_tax . '">');
+$block1->contentRow($strings["tax_rate"],
+    '<input type="text" name="tax_rate" size="20" value="' . $tax_rate . '" onblur="calc(this)"> %');
+$block1->contentRow($strings["tax_amount"],
+    '<input type="text" name="tax_amount" size="20" value="' . $tax_amount . '">');
+$block1->contentRow($strings["total_inc_tax"],
+    '<input type="text" name="total_inc_tax" size="20" value="' . $total_inc_tax . '">');
 
 echo <<<TR
 <tr class="odd">

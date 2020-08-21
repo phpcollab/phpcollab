@@ -25,29 +25,43 @@ $tasks = new Tasks();
 $assignments = new Assignments();
 $notifications = new Notifications();
 
-if ($request->request->get('action') == "delete") {
-    if ($request->request->get('id')) {
-        $id = str_replace("**", ",", $request->request->get('id'));
+if ($request->isMethod('post')) {
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get('action') == "delete") {
+                if ($request->request->get('id')) {
+                    $id = str_replace("**", ",", $request->request->get('id'));
 
-        if (!empty( $request->request->get('assign_to')) ) {
-            $tasks->setTasksAssignedToWhereAssignedToIn($request->request->get('assign_to'), $id);
-            $assignments->reassignAssignmentByAssignedTo($request->request->get('assign_to'), $dateheure, $id);
+                    if (!empty( $request->request->get('assign_to')) ) {
+                        $tasks->setTasksAssignedToWhereAssignedToIn($request->request->get('assign_to'), $id);
+                        $assignments->reassignAssignmentByAssignedTo($request->request->get('assign_to'), $dateheure, $id);
+                    }
+
+                    $notifications->deleteNotificationsByMemberIdIn($id);
+                    $teams->deleteTeamWhereMemberIn($id);
+
+                    $members->deleteMemberByIdIn($id);
+
+                    //if mantis bug tracker enabled
+                    if ($enableMantis == "true") {
+                        // Call mantis function to remove user
+                        include("../mantis/user_delete.php");
+                    }
+
+                    phpCollab\Util::headerFunction("../clients/viewclient.php?id={$org_id}&msg=delete");
+                }
+            }
         }
-
-        $notifications->deleteNotificationsByMemberIdIn($id);
-        $teams->deleteTeamWhereMemberIn($id);
-
-        $members->deleteMemberByIdIn($id);
-
-        //if mantis bug tracker enabled
-        if ($enableMantis == "true") {
-            // Call mantis function to remove user
-            include("../mantis/user_delete.php");
-        }
-
-        phpCollab\Util::headerFunction("../clients/viewclient.php?id=$org_id&msg=delete");
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
+
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
@@ -66,7 +80,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "client_user_delete";
-$block1->openForm("../users/deleteclientusers.php?orgid=$org_id");
+$block1->openForm("../users/deleteclientusers.php?orgid=" . $org_id, null, $csrfHandler);
 
 $block1->heading($strings["delete_users"]);
 
@@ -123,10 +137,9 @@ echo <<<HTML
 <tr class="odd">
     <td class="leftvalue">&nbsp;</td>
     <td>
-    <input type="submit" value="{$strings["delete"]}">
+    <button type="submit" name="action" value="delete">{$strings["delete"]}</button>
     <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();">
-    <input type="hidden" name="id" value="$id"></td>
-    <input type="hidden" name="action" value="delete"></td>
+    <input type="hidden" name="id" value="{$id}"></td>
 </tr>
 HTML;
 

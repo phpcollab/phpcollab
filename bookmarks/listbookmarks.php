@@ -54,7 +54,7 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 $block1->form = "saJ";
-$block1->openForm("../bookmarks/listbookmarks.php?view=$view&project=$project#" . $block1->form . "Anchor");
+$block1->openForm("../bookmarks/listbookmarks.php?view=$view&project=$project#" . $block1->form . "Anchor", null, $csrfHandler);
 $block1->heading($strings["bookmarks"]);
 $block1->openPaletteIcon();
 $block1->paletteIcon(0, "add", $strings["add"]);

@@ -7,6 +7,7 @@ use Exception;
 class BookmarksCest
 {
     protected $bookmarkName;
+    protected $bookmarkId;
 
     public function __construct() {
         $this->bookmarkName = "Codeception Bookmark Tests";
@@ -113,6 +114,54 @@ class BookmarksCest
     /**
      * @param AcceptanceTester $I
      */
+    public function createBookmarkWithoutName(AcceptanceTester $I)
+    {
+        $I->wantTo('See an error when creating a new bookmark with a blank name');
+        $I->amOnPage('/bookmarks/editbookmark.php');
+        $I->seeInTitle('Add Bookmark');
+        $I->seeElement('form', ['name' => 'booForm']);
+        $I->fillField('name', '');
+        $I->fillField('url', 'www.codeception.com');
+        $I->click('Save');
+        $I->see('Errors found!');
+        $I->see('Please enter a name for the bookmark');
+    }
+
+    /**
+     * @param AcceptanceTester $I
+     */
+    public function createBookmarkWithoutNameAndUrl(AcceptanceTester $I)
+    {
+        $I->wantTo('See an error when creating a new bookmark with a blank name and URL');
+        $I->amOnPage('/bookmarks/editbookmark.php');
+        $I->seeInTitle('Add Bookmark');
+        $I->seeElement('form', ['name' => 'booForm']);
+        $I->fillField('name', '');
+        $I->fillField('url', '');
+        $I->click('Save');
+        $I->see('Errors found!', ".headingError");
+        $I->see('Please enter a name and URL for the bookmark');
+    }
+
+    /**
+     * @param AcceptanceTester $I
+     */
+    public function createBookmarkWithoutUrl(AcceptanceTester $I)
+    {
+        $I->wantTo('See an error when creating a new bookmark with a URL');
+        $I->amOnPage('/bookmarks/editbookmark.php');
+        $I->seeInTitle('Add Bookmark');
+        $I->seeElement('form', ['name' => 'booForm']);
+        $I->fillField('name', $this->bookmarkName);
+        $I->fillField('url', '');
+        $I->click('Save');
+        $I->see('Errors found!', ".headingError");
+        $I->see('Please enter a URL for the bookmark');
+    }
+
+    /**
+     * @param AcceptanceTester $I
+     */
     public function createBookmarkWithDescription(AcceptanceTester $I)
     {
         $I->wantTo('Create a new bookmark with a description');
@@ -130,9 +179,9 @@ class BookmarksCest
     /**
      * @param AcceptanceTester $I
      */
-    public function editBookmark(AcceptanceTester $I)
+    public function editBookmarkNoName(AcceptanceTester $I)
     {
-        $I->wantTo('Edit a bookmark');
+        $I->wantTo('See error when editing a Bookmark with empty name field');
         $I->amOnPage('/bookmarks/listbookmarks.php?view=my');
         $I->see($this->bookmarkName);
         $I->seeElement('.listing');
@@ -140,8 +189,48 @@ class BookmarksCest
         $I->seeElement('.content');
         $I->see('Info');
         $I->see('Name :');
-        $bookmark_id = $I->grabFromCurrentUrl('~id=(\d+)~');
-        $I->amOnPage('/bookmarks/editbookmark.php?id=' . $bookmark_id);
+        $this->bookmarkId = $I->grabFromCurrentUrl('~id=(\d+)~');
+        $I->amOnPage('/bookmarks/editbookmark.php?id=' . $this->bookmarkId);
+        $I->see("Edit bookmark : " . $this->bookmarkName);
+        $I->fillField('name', "");
+        $I->click('Save');
+        $I->see('Errors found!', '.headingError');
+        $I->see('Please enter a name for the bookmark');
+    }
+
+    /**
+     * @param AcceptanceTester $I
+     */
+    public function editBookmarkNoUrl(AcceptanceTester $I)
+    {
+        $I->wantTo('See error when editing a Bookmark with empty url field');
+        $I->amOnPage('/bookmarks/editbookmark.php?id=' . $this->bookmarkId);
+        $I->see("Edit bookmark : " . $this->bookmarkName);
+        $I->fillField('url', '');
+        $I->click('Save');
+        $I->see('Errors found!', '.headingError');
+        $I->see('Please enter a URL for the bookmark');
+    }
+
+    /**
+     * @param AcceptanceTester $I
+     */
+    public function editBookmarkWithNoNameAndUrl(AcceptanceTester $I)
+    {
+        $I->wantTo('See error when editing a Bookmark with empty name and epmty url fields');
+        $I->amOnPage('/bookmarks/editbookmark.php?id=' . $this->bookmarkId);
+        $I->see("Edit bookmark : " . $this->bookmarkName);
+        $I->fillField('name', '');
+        $I->fillField('url', '');
+        $I->click('Save');
+        $I->see('Errors found!');
+        $I->see('Please enter a name and URL for the bookmark');
+    }
+
+    public function editBookmark(AcceptanceTester $I)
+    {
+        $I->wantTo('Edit a bookmark');
+        $I->amOnPage('/bookmarks/editbookmark.php?id=' . $this->bookmarkId);
         $I->see("Edit bookmark : " . $this->bookmarkName);
         $I->fillField('name', $this->bookmarkName . " - edited");
         $I->click('Save');

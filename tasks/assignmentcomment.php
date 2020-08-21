@@ -45,7 +45,7 @@ $blockPage->closeBreadcrumbs();
 $block1 = new phpCollab\Block();
 
 $block1->form = "assignment_comment";
-$block1->openForm("../tasks/assignmentcomment.php?id=$assignmentId&task=$taskId");
+$block1->openForm("../tasks/assignmentcomment.php?id=$assignmentId&task=" . $taskId, null, $csrfHandler);
 
 if (!empty($error)) {
     $block1->headingError($strings["errors"]);

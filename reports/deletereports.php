@@ -22,10 +22,23 @@ if (empty($listReports)) {
     phpCollab\Util::headerFunction("../reports/listreports.php");
 }
 
-if ($request->query->get("action") == "delete") {
-    $id = str_replace("**", ",", $id);
-    $reports->deleteReports($id);
-    phpCollab\Util::headerFunction("../reports/listreports.php?msg=deleteReport");
+if ($request->isMethod('post')) {
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get("action") == "delete") {
+                $id = str_replace("**", ",", $id);
+                $reports->deleteReports($id);
+                phpCollab\Util::headerFunction("../reports/listreports.php?msg=deleteReport");
+            }
+        }
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
+    }
 }
 
 $setTitle .= " : Delete Report";
@@ -45,7 +58,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "saS";
-$block1->openForm("../reports/deletereports.php?action=delete&id=$id");
+$block1->openForm("../reports/deletereports.php?action=delete&id=" . $id, null, $csrfHandler);
 
 $block1->heading($strings["delete_reports"]);
 
@@ -56,7 +69,7 @@ foreach ($listReports as $report) {
     $block1->contentRow("#" . $report["rep_id"], $report["rep_name"]);
 }
 
-$block1->contentRow("", '<input type="submit" name="delete" value="' . $strings["delete"] . '"> <input type="button" name="cancel" value="' . $strings["cancel"] . '" onClick="history.back();">');
+$block1->contentRow("", '<button type="submit" name="action" value="delete">' . $strings["delete"] . '</button> <input type="button" name="cancel" value="' . $strings["cancel"] . '" onClick="history.back();">');
 
 $block1->closeContent();
 $block1->closeForm();

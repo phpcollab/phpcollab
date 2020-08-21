@@ -34,27 +34,46 @@ include_once '../includes/library.php';
 $clients = new Organizations();
 $projects = new Projects();
 
-if ($action == "delete") {
-    $id = str_replace("**", ",", $id);
+$id = $request->query->get("id");
 
-    $listOrganizations = $clients->getOrganizationsOrderedByName($id);
-    foreach ($listOrganizations as $org) {
-        if (file_exists("logos_clients/" . $org['org_id'] . "." . $org['org_extension_logo'])) {
-            unlink("logos_clients/" . $org['org_id'] . "." . $org['org_extension_logo']);
-        }
-    }
-
+if ($request->isMethod('post')) {
     try {
-        $deleteOrg = $clients->deleteClient($id);
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+
+            if ($request->request->get("action") == "delete") {
+
+                $id = str_replace("**", ",", $id);
+
+                $listOrganizations = $clients->getOrganizationsOrderedByName($id);
+
+                foreach ($listOrganizations as $org) {
+                    if (file_exists("logos_clients/" . $org['org_id'] . "." . $org['org_extension_logo'])) {
+                        unlink("logos_clients/" . $org['org_id'] . "." . $org['org_extension_logo']);
+                    }
+                }
+
+                try {
+                    $deleteOrg = $clients->deleteClient($id);
+
+                    $setDefaultOrg = $projects->setDefaultOrg($id);
+                    $deleteMembers = $members->deleteMemberByOrgId($id);
+
+                    phpCollab\Util::headerFunction("../clients/listclients.php?msg=delete");
+                } catch (Exception $e) {
+                    echo 'Message: ' . $e->getMessage();
+                }
+            }
+        }
     } catch (Exception $e) {
-        echo 'Message: ' . $e->getMessage();
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
-
-    $setDefaultOrg = $projects->setDefaultOrg($id);
-    $deleteMembers = $members->deleteMemberByOrgId($id);
-
-    phpCollab\Util::headerFunction("../clients/listclients.php?msg=delete");
 }
+
 
 $setTitle .= " : Delete Client";
 
@@ -74,7 +93,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "saP";
-$block1->openForm("../clients/deleteclients.php?action=delete&id=$id");
+$block1->openForm("../clients/deleteclients.php?action=delete&id=$id", null, $csrfHandler);
 
 $block1->heading($strings["delete_organizations"]);
 
@@ -89,7 +108,7 @@ foreach ($listOrganizations as $org) {
     $block1->contentRow("#" . $org['org_id'], $org['org_name']);
 }
 
-$block1->contentRow("", "<input type=\"submit\" name=\"delete\" value=\"" . $strings["delete"] . "\"> <input type=\"button\" name=\"cancel\" value=\"" . $strings["cancel"] . "\" onClick=\"history.back();\">");
+$block1->contentRow("", '<button type="submit" name="action" value="delete">' . $strings["delete"] . '</button> <input type="button" name="cancel" value="' . $strings["cancel"] . '" onClick="history.back();">');
 
 $block1->closeContent();
 $block1->closeForm();

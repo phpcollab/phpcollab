@@ -644,3 +644,6 @@ $strings["error_delete_post"] = "Error deleting post.  Please try again or conta
 $strings["delete_post"] = "Post was deleted.";
 $strings["error_file_add"] = "Error adding file.";
 $strings["error_file_does_not_exist"] = "Error: File does not exist.";
+$strings["bookmark_error_blank_name_and_url"] = "Please enter a name and URL for the bookmark";
+$strings["bookmark_error_blank_name"] = "Please enter a name for the bookmark";
+$strings["bookmark_error_blank_url"] = "Please enter a URL for the bookmark";

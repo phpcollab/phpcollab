@@ -23,22 +23,35 @@ include_once '../includes/library.php';
 
 $error = null;
 
-//test required field searchfor
-if ($request->query->get("action") == "search") {
+if ($request->isMethod('post')) {
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            //test required field searchfor
+            if ($request->request->get("action") == "search") {
+                //if searchfor blank, $error set
+                $searchfor = $request->request->get("searchfor");
+                $heading = $request->request->get("heading");
 
-    //if searchfor blank, $error set
-    $searchfor = $request->request->get("searchfor");
-    $heading = $request->request->get("heading");
+                if ($searchfor == "") {
+                    $error = $strings["search_note"];
 
-    if ($searchfor == "") {
-        $error = $strings["search_note"];
-
-        //if searchfor not blank, redirect to searchresults
-    } else {
-        $searchfor = urlencode($searchfor);
-        phpCollab\Util::headerFunction("../search/resultssearch.php?searchfor={$searchfor}&heading={$heading}");
+                    //if searchfor not blank, redirect to searchresults
+                } else {
+                    $searchfor = urlencode($searchfor);
+                    phpCollab\Util::headerFunction("../search/resultssearch.php?searchfor={$searchfor}&heading={$heading}");
+                }
+            }
+        }
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
+
 
 $setTitle .= " : Search";
 
@@ -59,7 +72,7 @@ if ($request->query->get("msg") != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "search";
-$block1->openForm("../search/createsearch.php?action=search");
+$block1->openForm("../search/createsearch.php?", null, $csrfHandler);
 
 if (!empty($error)) {
     $block1->headingError($strings["errors"]);
@@ -90,7 +103,7 @@ echo <<<HTML
 </tr>
 <tr class="odd">
 	<td class="leftvalue">&nbsp;</td>
-	<td><input type="submit" name="Save" value="{$strings["search"] }" /></td>
+	<td><button type="submit" name="action" value="search">{$strings["search"]}</button></td>
 </tr>
 HTML;
 

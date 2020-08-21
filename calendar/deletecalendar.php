@@ -36,16 +36,29 @@ $calendars = new Calendars();
 
 $calendarId = $request->query->get("id");
 
-if ($request->query->get("action") == "delete") {
-    $calendarId = str_replace("**", ",", $calendarId);
-
+if ($request->isMethod('post')) {
     try {
-        $delete = $calendars->deleteCalendar($calendarId);
-    } catch (Exception $e) {
-        echo "Error: $e";
-    }
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->query->get("action") == "delete") {
+                $calendarId = str_replace("**", ",", $calendarId);
 
-    phpCollab\Util::headerFunction("../calendar/viewcalendar.php?msg=delete");
+                try {
+                    $delete = $calendars->deleteCalendar($calendarId);
+                } catch (Exception $e) {
+                    echo "Error: $e";
+                }
+
+                phpCollab\Util::headerFunction("../calendar/viewcalendar.php?msg=delete");
+            }
+        }
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
+    }
 }
 
 $setTitle .= " : Delete Calendar";
@@ -71,7 +84,7 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 $block1->form = "saP";
-$block1->openForm("../calendar/deletecalendar.php?project={$project}&action=delete&id={$calendarId}");
+$block1->openForm("../calendar/deletecalendar.php?project={$project}&action=delete&id={$calendarId}", null, $csrfHandler);
 
 $block1->heading($strings["delete_calendars"]);
 

@@ -4,6 +4,7 @@
 namespace phpCollab\Notifications;
 
 use Exception;
+use Monolog\Logger;
 use phpCollab\Notification;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -18,13 +19,14 @@ class SubtaskNotifications extends Notification
 
     /**
      * @param Session $session
+     * @param Logger $logger
      * @throws Exception
      */
-    public function sendEmail(Session $session)
+    public function sendEmail(Session $session, Logger $logger)
     {
         if ($this->workEmail && $this->emailSubject && $this->emailBody && $this->taskDetails && $this->projectDetails) {
             try {
-                $this->getUserinfo($session->get('idSession'), "from");
+                $this->getUserinfo($session->get('idSession'), "from", $logger);
 
                 $tmpSubject = $this->emailSubject . " " . $this->taskDetails["subtas_name"];
                 $this->partMessage = $this->emailBody;

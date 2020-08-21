@@ -66,7 +66,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "invoiceSheet";
-$block1->openForm("../invoicing/viewinvoice.php?id=$id&#" . $block1->form . "Anchor");
+$block1->openForm("../invoicing/viewinvoice.php?id=$id&#" . $block1->form . "Anchor", null, $csrfHandler);
 
 $block1->headingToggle($strings["invoice"] . " : " . $detailInvoice["inv_id"]);
 
@@ -120,7 +120,7 @@ $block1->closePaletteScript("", []);
 $block2 = new phpCollab\Block();
 
 $block2->form = "invoiceItems";
-$block2->openForm("../invoicing/viewinvoice.php?id=$id&#" . $block2->form . "Anchor");
+$block2->openForm("../invoicing/viewinvoice.php?id=$id&#" . $block2->form . "Anchor", null, $csrfHandler);
 
 $block2->headingToggle($strings["invoice_items"]);
 

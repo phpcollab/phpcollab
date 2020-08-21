@@ -23,7 +23,6 @@ $statusFile = $GLOBALS["statusFile"];
 $statusPublish = $GLOBALS["statusPublish"];
 $strings = $GLOBALS["strings"];
 $msgLabel = $GLOBALS["msgLabel"];
-$listPhases = $GLOBALS["listPhases"];
 
 $tasks = new Tasks();
 $files = new Files();
@@ -82,6 +81,7 @@ $project = $phaseDetail["pha_project_id"];
 $phase = $phaseDetail["pha_id"];
 
 $projectDetail = $projects->getProjectById($project);
+$listPhases = $phases->getPhasesByProjectId($project);
 
 $teamMember = "false";
 $teamMember = $teams->isTeamMember($project, $session->get("idSession"));
@@ -103,7 +103,7 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 $block1->form = "pppD";
-$block1->openForm("../projects/listprojects.php#" . $block1->form . "Anchor");
+$block1->openForm("../projects/listprojects.php#" . $block1->form . "Anchor", null, $csrfHandler);
 $block1->headingToggle($strings["phase"] . " : " . $phaseDetail["pha_name"]);
 
 if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profilSession") == "0" || $session->get("profilSession") == "5") {
@@ -151,7 +151,7 @@ if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("
 $block2 = new phpCollab\Block();
 
 $block2->form = "saP";
-$block2->openForm("../phases/viewphase.php?&id={$id}#" . $block2->form . "Anchor");
+$block2->openForm("../phases/viewphase.php?&id={$id}#" . $block2->form . "Anchor", null, $csrfHandler);
 
 $block2->headingToggle($strings["tasks"]);
 
@@ -249,7 +249,7 @@ $block2->closePaletteScript($comptlistTasks, array_column($listTasks, 'tas_id'))
 if ($fileManagement == "true") {
     $block3 = new phpCollab\Block();
     $block3->form = "tdC";
-    $block3->openForm("../phases/viewphase.php?&id=$id#" . $block3->form . "Anchor");
+    $block3->openForm("../phases/viewphase.php?&id=$id#" . $block3->form . "Anchor", null, $csrfHandler);
     $block3->headingToggle($strings["linked_content"]);
     $block3->openPaletteIcon();
 

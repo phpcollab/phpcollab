@@ -16,22 +16,35 @@ $strings = $GLOBALS["strings"];
 $gantt = false;
 $queryStart = null;
 
-if ($request->query->get('action') == "add") {
-    $newReport = $reports->addReport(
-        $session->get("idSession"),
-        $request->request->get('report_name'),
-        $request->request->get('filterProject'),
-        $request->request->get('filterOrganization'),
-        $request->request->get('filterAssignedTo'),
-        $request->request->get('filterPriority'),
-        $request->request->get('filterStatus'),
-        $request->request->get('filterStartDate'),
-        $request->request->get('filterEndDate'),
-        $request->request->get('filterDateCompleteStart'),
-        $request->request->get('filterDateCompleteEnd')
-    );
+if ($request->isMethod('post')) {
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get('action') == "add") {
+                $newReport = $reports->addReport(
+                    $session->get("idSession"),
+                    $request->request->get('report_name'),
+                    $request->request->get('filterProject'),
+                    $request->request->get('filterOrganization'),
+                    $request->request->get('filterAssignedTo'),
+                    $request->request->get('filterPriority'),
+                    $request->request->get('filterStatus'),
+                    $request->request->get('filterStartDate'),
+                    $request->request->get('filterEndDate'),
+                    $request->request->get('filterDateCompleteStart'),
+                    $request->request->get('filterDateCompleteEnd')
+                );
 
-    phpCollab\Util::headerFunction("../reports/listreports.php?msg=addReport");
+                phpCollab\Util::headerFunction("../reports/listreports.php?msg=addReport");
+            }
+        }
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
+    }
 }
 
 $setTitle .= " : Report Results";
@@ -339,7 +352,7 @@ if ($totalTasks > "1") {
 $block0->closeContent();
 
 $block1->form = "Tasks";
-$block1->openForm("../reports/resultsreport.php?&tri=true&id=$id#" . $block1->form . "Anchor");
+$block1->openForm("../reports/resultsreport.php?&tri=true&id=$id#" . $block1->form . "Anchor", null, $csrfHandler);
 
 $block1->heading($strings["report_results"]);
 
@@ -477,7 +490,7 @@ if (empty($id)) {
     $block2 = new phpCollab\Block();
 
     $block2->form = "save_report";
-    $block2->openForm("../reports/resultsreport.php?action=add");
+    $block2->openForm("../reports/resultsreport.php?action=add", null, $csrfHandler);
 
     if (isset($error) && $error != "") {
         $block2->headingError($strings["errors"]);
@@ -494,7 +507,7 @@ if (empty($id)) {
             </tr>
             <tr class="odd">
                 <td class="leftvalue">&nbsp;</td>
-                <td><input type="submit" name="{$strings["save"]}" value="{$strings["save"]}" />
+                <td><button type="submit" name="action" value="add">{$strings["save"]}</button>
                 <input type="hidden" name="filterOrganization" value="{$filterOrganization}" />
                 <input type="hidden" name="filterProject" value="{$filterProject}" />
                 <input type="hidden" name="filterAssignedTo" value="{$filterAssignedTo}" />

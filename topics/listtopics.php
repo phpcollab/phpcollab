@@ -84,7 +84,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "saH";
-$block1->openForm("../topics/listtopics.php?project=$project#" . $block1->form . "Anchor");
+$block1->openForm("../topics/listtopics.php?project=$project#" . $block1->form . "Anchor", null, $csrfHandler);
 
 if ($project != "") {
     $block1->heading($strings["discussions"]);

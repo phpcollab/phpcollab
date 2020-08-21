@@ -27,51 +27,65 @@ if (!empty($id)) {
 
     $setTitle .= " : Edit Client ($name)";
 
-    //case update client organization
-    if ($request->query->get('action') == "update") {
+    if ($request->isMethod('post')) {
+        try {
+            if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
 
-        if ($request->request->get('logoDel') == "on") {
+                //case update client organization
+                if ($request->query->get('action') == "update") {
 
-            $result = $organizations->setLogoExtensionByOrgId($id, '');
+                    if ($request->request->get('logoDel') == "on") {
 
-            if ($result == 0) {
-                @unlink("../logos_clients/" . $id . "." . $request->request->get('extensionOld'));
-            }
-        }
+                        $result = $organizations->setLogoExtensionByOrgId($id, '');
 
-        // Check to see if file was actually uploaded or not
-        if (!empty($_FILES["upload"]["tmp_name"]) && !empty($_FILES["upload"]["size"])) {
-            // Check to see if the attached file is an image
-            // Poor way of doing this, but its a band-aid for now
-            if (getimagesize($_FILES['upload']['tmp_name'])) {
-                $extension = strtolower(substr(strrchr($_FILES['upload']['name'], "."), 1));
+                        if ($result == 0) {
+                            @unlink("../logos_clients/" . $id . "." . $request->request->get('extensionOld'));
+                        }
+                    }
 
-                $target_file = "../logos_clients/" . $id . '.' . $extension;
+                    // Check to see if file was actually uploaded or not
+                    if (!empty($_FILES["upload"]["tmp_name"]) && !empty($_FILES["upload"]["size"])) {
+                        // Check to see if the attached file is an image
+                        // Poor way of doing this, but its a band-aid for now
+                        if (getimagesize($_FILES['upload']['tmp_name'])) {
+                            $extension = strtolower(substr(strrchr($_FILES['upload']['name'], "."), 1));
 
-                if (@move_uploaded_file($_FILES["upload"]["tmp_name"], $target_file)) {
-                    chmod($target_file, 0666);
+                            $target_file = "../logos_clients/" . $id . '.' . $extension;
 
-                    $organizations->setLogoExtensionByOrgId($id, $extension);
+                            if (@move_uploaded_file($_FILES["upload"]["tmp_name"], $target_file)) {
+                                chmod($target_file, 0666);
+
+                                $organizations->setLogoExtensionByOrgId($id, $extension);
+                            }
+
+                        }
+
+                    }
+
+                    //replace quotes by html code in name and address
+                    $name = phpCollab\Util::convertData($request->request->get('name'));
+                    $address = phpCollab\Util::convertData($request->request->get('address'));
+                    $comments = phpCollab\Util::convertData($request->request->get('comments'));
+                    $phone = (empty($request->request->get('phone'))) ? null : $request->request->get('phone');
+                    $url = (empty($request->request->get('url'))) ? null : $request->request->get('url');
+                    $email = (empty($request->request->get('email'))) ? null : $request->request->get('email');
+                    $hourlyRate = (empty($request->request->get('hourly_rate'))) ? null : $request->request->get('hourly_rate');
+                    $owner = (empty($request->request->get('owner'))) ? null : $request->request->get('owner');
+
+
+                    $organizations->updateClient($id, $name, $address, $phone, $url, $email, $comments, $owner, $hourlyRate);
+
+                    phpCollab\Util::headerFunction("../clients/viewclient.php?id=$id&msg=update");
                 }
-
             }
-
+        } catch (Exception $e) {
+            $logger->critical('CSRF Token Error', [
+                'edit bookmark' => $request->request->get("id"),
+                '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+                '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+            ]);
+            $msg = 'permissiondenied';
         }
-
-        //replace quotes by html code in name and address
-        $name = phpCollab\Util::convertData($request->request->get('name'));
-        $address = phpCollab\Util::convertData($request->request->get('address'));
-        $comments = phpCollab\Util::convertData($request->request->get('comments'));
-        $phone = (empty($request->request->get('phone'))) ? null : $request->request->get('phone');
-        $url = (empty($request->request->get('url'))) ? null : $request->request->get('url');
-        $email = (empty($request->request->get('email'))) ? null : $request->request->get('email');
-        $hourlyRate = (empty($request->request->get('hourly_rate'))) ? null : $request->request->get('hourly_rate');
-        $owner = (empty($request->request->get('owner'))) ? null : $request->request->get('owner');
-
-
-        $organizations->updateClient($id, $name, $address, $phone, $url, $email, $comments, $owner, $hourlyRate);
-
-        phpCollab\Util::headerFunction("../clients/viewclient.php?id=$id&msg=update");
     }
 
 }
@@ -80,47 +94,61 @@ if (!empty($id)) {
 if (empty($id)) {
     $setTitle .= " : Add Client";
 
-    if ($request->query->get('action') == "add") {
-        if (empty($request->request->get('name'))) {
-            $error = $strings["blank_organization_field"];
-        } else {
-            $organizations = new Organizations();
-            if ($organizations->checkIfClientExistsByName($request->request->get('name'))) {
-                $error = $strings["organization_already_exists"];
-            } else {
-                $clientName = phpCollab\Util::convertData($request->request->get('name'));
-                $address = phpCollab\Util::convertData($request->request->get('address'));
-                $comments = phpCollab\Util::convertData($request->request->get('comments'));
-                $phone = (empty($request->request->get('phone'))) ? null : $request->request->get('phone');
-                $url = (empty($request->request->get('url'))) ? null : $request->request->get('url');
-                $email = (empty($request->request->get('email'))) ? null : $request->request->get('email');
-                $hourlyRate = (empty($request->request->get('hourly_rate'))) ? null : $request->request->get('hourly_rate');
-                $owner = (empty($request->request->get('owner'))) ? null : $request->request->get('owner');
+    if ($request->isMethod('post')) {
+        try {
+            if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
 
-                if (empty($hourly_rate)) {
-                    $hourly_rate = 0.00;
-                }
+                if ($request->query->get('action') == "add") {
+                    if (empty($request->request->get('name'))) {
+                        $error = $strings["blank_organization_field"];
+                    } else {
+                        $organizations = new Organizations();
+                        if ($organizations->checkIfClientExistsByName($request->request->get('name'))) {
+                            $error = $strings["organization_already_exists"];
+                        } else {
+                            $clientName = phpCollab\Util::convertData($request->request->get('name'));
+                            $address = phpCollab\Util::convertData($request->request->get('address'));
+                            $comments = phpCollab\Util::convertData($request->request->get('comments'));
+                            $phone = (empty($request->request->get('phone'))) ? null : $request->request->get('phone');
+                            $url = (empty($request->request->get('url'))) ? null : $request->request->get('url');
+                            $email = (empty($request->request->get('email'))) ? null : $request->request->get('email');
+                            $hourlyRate = (empty($request->request->get('hourly_rate'))) ? null : $request->request->get('hourly_rate');
+                            $owner = (empty($request->request->get('owner'))) ? null : $request->request->get('owner');
 
-                $newClientId = $organizations->addClient($clientName, $address, $phone, $url, $email, $comments, $owner, $hourly_rate);
+                            if (empty($hourly_rate)) {
+                                $hourly_rate = 0.00;
+                            }
 
-                if (
-                    $newClientId
-                    && $_FILES['upload']['error'] == 0
-                    && is_uploaded_file($_FILES['upload']['tmp_name'])
-                ) {
+                            $newClientId = $organizations->addClient($clientName, $address, $phone, $url, $email, $comments, $owner, $hourlyRate);
 
-                    $extension = strtolower(substr(strrchr($_FILES['upload']['name'], "."), 1));
+                            if (
+                                $newClientId
+                                && $_FILES['upload']['error'] == 0
+                                && is_uploaded_file($_FILES['upload']['tmp_name'])
+                            ) {
 
-                    $target_file = "../logos_clients/" . $newClientId . '.' . $extension;
+                                $extension = strtolower(substr(strrchr($_FILES['upload']['name'], "."), 1));
 
-                    if (@move_uploaded_file($_FILES["upload"]["tmp_name"], $target_file)) {
-                        chmod($target_file, 0666);
-                        $organizations->setLogoExtensionByOrgId($newClientId, $extension);
+                                $target_file = "../logos_clients/" . $newClientId . '.' . $extension;
+
+                                if (@move_uploaded_file($_FILES["upload"]["tmp_name"], $target_file)) {
+                                    chmod($target_file, 0666);
+                                    $organizations->setLogoExtensionByOrgId($newClientId, $extension);
+                                }
+                            }
+
+                            phpCollab\Util::headerFunction("../clients/viewclient.php?id={$newClientId}&msg=add");
+                        }
                     }
                 }
-
-                phpCollab\Util::headerFunction("../clients/viewclient.php?id={$newClientId}&msg=add");
             }
+        } catch (Exception $e) {
+            $logger->critical('CSRF Token Error', [
+                'edit bookmark' => $request->request->get("id"),
+                '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+                '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+            ]);
+            $msg = 'permissiondenied';
         }
     }
 }
@@ -150,21 +178,22 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 
+//echo '<a id="' . $block1->form . 'Anchor"></a>';
 if (empty($id)) {
     echo <<<FORM
-        <a id="{$block1->form}Anchor"></a>
 	<form accept-charset="UNKNOWN" method="POST" action="../clients/editclient.php?action=add&" name="ecDForm" enctype="multipart/form-data">
-	    <input type="hidden" name="MAX_FILE_SIZE" value="100000000">
 FORM;
 }
 
 if (!empty($id)) {
     echo <<<FORM
-    <a id="{$block1->form}Anchor"></a>
 	<form accept-charset="UNKNOWN" method="POST" action="../clients/editclient.php?id={$id}&action=update&" name="ecDForm" enctype="multipart/form-data">
-	<input type="hidden" name="MAX_FILE_SIZE" value="100000000">
 FORM;
 }
+echo <<<CSRF
+    <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}">
+CSRF;
+
 
 if (!empty($error)) {
     $block1->headingError($strings["errors"]);
@@ -210,7 +239,7 @@ $block1->contentRow($strings["email"], '<input size="44" value="' . $email . '" 
 $block1->contentRow($strings["comments"], '<textarea rows="3" style="width: 400px; height: 50px;" name="comments" cols="43">' . $comments . '</textarea>');
 
 if ($enableInvoicing == "true") {
-    $block1->contentRow($strings["hourly_rate"], '<input size="25" value="' . $hourly_rate . '" style="width: 200px" name="hourly_rate" maxlength="50" type="TEXT" />');
+    $block1->contentRow($strings["hourly_rate"], '<input size="25" value="' . $hourly_rate . '" style="width: 200px" name="hourly_rate" maxlength="50" type="text" />');
 }
 
 $block1->contentRow($strings["logo"], '<input size="44" style="width: 400px" name="upload" type="file">');

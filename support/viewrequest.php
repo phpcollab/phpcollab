@@ -58,7 +58,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "sdt";
-$block1->openForm("./viewrequest.php");
+$block1->openForm("./viewrequest.php", null, $csrfHandler);
 
 if (isset($error) && $error != "") {
     $block1->headingError($strings["errors"]);

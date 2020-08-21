@@ -10,18 +10,29 @@ include '../includes/library.php';
 $files = new Files();
 
 if ($request->isMethod('post')) {
-    if ($request->request->get('action') == "update") {
-        $commentField = phpCollab\Util::convertData($request->request->get('commentField'));
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get('action') == "update") {
+                $commentField = phpCollab\Util::convertData($request->request->get('commentField'));
 
-        try {
-            $files->updateApprovalTracking($session->get("idSession"), $commentField, $id, $request->request->get('statusField'));
-            $msg = "updateFile";
+                try {
+                    $files->updateApprovalTracking($session->get("idSession"), $commentField, $id, $request->request->get('statusField'));
+                    $msg = "updateFile";
 
-            phpCollab\Util::headerFunction("doclists.php?msg=$msg");
+                    phpCollab\Util::headerFunction("doclists.php?msg=$msg");
+                }
+                catch (Exception $e) {
+                    echo "Error approving file";
+                }
+            }
         }
-        catch (Exception $e) {
-            echo "Error approving file";
-        }
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
 
@@ -37,6 +48,7 @@ include 'include_header.php';
 
 echo <<<FORM
 <form method="post" action="../projects_site/docitemapproval.php?action=update" name="documentitemapproval">
+    <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}" />
     <table style="width: 90%" class="nonStriped">
         <tr>
             <th colspan="2">{$strings["approval_tracking"]} :</th>

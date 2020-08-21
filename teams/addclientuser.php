@@ -87,7 +87,7 @@ $blockPage->closeBreadcrumbs();
 $block1 = new phpCollab\Block();
 
 $block1->form = "atpt";
-$block1->openForm("../teams/addclientuser.php?project=$project#" . $block1->form . "Anchor");
+$block1->openForm("../teams/addclientuser.php?project=$project#" . $block1->form . "Anchor", null, $csrfHandler);
 
 $block1->heading($strings["add_team"]);
 

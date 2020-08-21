@@ -31,17 +31,29 @@ if (empty($id)) {
 }
 
 if ($request->isMethod('post')) {
-    if ($request->request->get('action') == "delete") {
-        $id = str_replace("**", ",", $id);
+    try {
 
-        $deleteBookmarks = new DeleteBookmarks();
-        try {
-            $deleteBookmarks->delete($id);
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get('action') == "delete") {
+                $id = str_replace("**", ",", $id);
 
-            phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=delete");
-        } catch (Exception $exception) {
-            $error = $strings["error_delete_bookmark"];
+                $deleteBookmarks = new DeleteBookmarks();
+                try {
+                    $deleteBookmarks->delete($id);
+
+                    phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=delete");
+                } catch (Exception $exception) {
+                    $error = $strings["error_delete_bookmark"];
+                }
+            }
         }
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'delete bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
 
@@ -74,7 +86,7 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 $block1->form = "saP";
-$block1->openForm("../bookmarks/deletebookmarks.php?id=$id");
+$block1->openForm("../bookmarks/deletebookmarks.php?id=$id", null, $csrfHandler);
 
 $block1->heading($strings["delete_bookmarks"]);
 

@@ -82,7 +82,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 $block1->form = "uploadlogo";
 $block1->form = "pdD";
-$block1->openForm("../projects/viewprojectsite.php?id=$id&#" . $block1->form . "Anchor");
+$block1->openForm("../projects/viewprojectsite.php?id=$id&#" . $block1->form . "Anchor", null, $csrfHandler);
 $block1->heading($strings["project_site"] . " : " . $projectDetail["pro_name"]);
 
 if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profilSession") == "5") {
@@ -113,7 +113,7 @@ if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("
 if ($projectDetail["pro_organization"] != "" && $projectDetail["pro_organization"] != "1") {
     $block2 = new phpCollab\Block();
     $block2->form = "csU";
-    $block2->openForm("../projects/viewprojectsite.php?action=update&id=" . $projectDetail["pro_id"] . "#" . $block2->form . "Anchor");
+    $block2->openForm("../projects/viewprojectsite.php?action=update&id=" . $projectDetail["pro_id"] . "#" . $block2->form . "Anchor", null, $csrfHandler);
 
     $block2->heading($strings["permitted_client"]);
 

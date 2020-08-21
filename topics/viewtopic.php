@@ -73,7 +73,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "tdP";
-$block1->openForm("./viewtopic.php");
+$block1->openForm("./viewtopic.php", null, $csrfHandler);
 
 if (!empty($error)) {
     $block1->headingError($strings["errors"]);

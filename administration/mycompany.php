@@ -40,49 +40,60 @@ if ($session->get('profilSession') != "0") {
 $org = new Organizations();
 
 if ($request->isMethod('post')) {
-    if ($request->request->get("action") == "update") {
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get("action") == "update") {
 
-        $extension = $request->request->get("extension");
-        $extensionOld = $request->request->get("extensionOld");
-        $orgName = $request->request->get("org_name");
-        $orgAddress = $request->request->get("org_address");
-        $orgPhone = $request->request->get("org_phone");
-        $url = $request->request->get("website");
-        $email = $request->request->get("email");
-        $comments = $request->request->get("comments");
-        $logoDel = $request->request->get("logoDel");
+                $extension = $request->request->get("extension");
+                $extensionOld = $request->request->get("extensionOld");
+                $orgName = $request->request->get("org_name");
+                $orgAddress = $request->request->get("org_address");
+                $orgPhone = $request->request->get("org_phone");
+                $url = $request->request->get("website");
+                $email = $request->request->get("email");
+                $comments = $request->request->get("comments");
+                $logoDel = $request->request->get("logoDel");
 
-        if ($logoDel == "on") {
-            $org->setLogoExtensionByOrgId(1, '');
+                if ($logoDel == "on") {
+                    $org->setLogoExtensionByOrgId(1, '');
 
-            try {
-                unlink(APP_ROOT . "/logos_clients/1.$extensionOld");
-            } catch (Exception $e) {
-                echo 'Error deleting file. Message: ' . $e->getMessage();
+                    try {
+                        unlink(APP_ROOT . "/logos_clients/1.$extensionOld");
+                    } catch (Exception $e) {
+                        echo 'Error deleting file. Message: ' . $e->getMessage();
+                    }
+                }
+
+                $extension = strtolower(substr(strrchr($_FILES['logo']['name'], "."), 1));
+
+                try {
+                    if (move_uploaded_file($_FILES['logo']['tmp_name'], "../logos_clients/1.$extension")) {
+                        $org->setLogoExtensionByOrgId(1, $extension);
+                    }
+                } catch (Exception $e) {
+                    echo 'Error moving file. Message: ' . $e->getMessage();
+                }
+
+                $dbParams = [];
+                $dbParams['name'] = phpCollab\Util::convertData($orgName);
+                $dbParams['address1'] = phpCollab\Util::convertData($orgAddress);
+                $dbParams['phone'] = $orgPhone;
+                $dbParams['url'] = $url;
+                $dbParams['email'] = $email;
+                $dbParams['comments'] = phpCollab\Util::convertData($comments);
+
+                $org->updateOrganizationInformation($dbParams);
+
+                phpCollab\Util::headerFunction("../administration/mycompany.php?msg=update");
             }
         }
-
-        $extension = strtolower(substr(strrchr($_FILES['logo']['name'], "."), 1));
-
-        try {
-            if (move_uploaded_file($_FILES['logo']['tmp_name'], "../logos_clients/1.$extension")) {
-                $org->setLogoExtensionByOrgId(1, $extension);
-            }
-        } catch (Exception $e) {
-            echo 'Error moving file. Message: ' . $e->getMessage();
-        }
-
-        $dbParams = [];
-        $dbParams['name'] = phpCollab\Util::convertData($orgName);
-        $dbParams['address1'] = phpCollab\Util::convertData($orgAddress);
-        $dbParams['phone'] = $orgPhone;
-        $dbParams['url'] = $url;
-        $dbParams['email'] = $email;
-        $dbParams['comments'] = phpCollab\Util::convertData($comments);
-
-        $org->updateOrganizationInformation($dbParams);
-
-        phpCollab\Util::headerFunction("../administration/mycompany.php?msg=update");
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
 $company = $org->getOrganizationById(1);
@@ -108,7 +119,8 @@ $block1 = new phpCollab\Block();
 
 echo <<<HTML
 	<form id="{$block1->form}Anchor" method='post' action='../administration/mycompany.php?' name='adminDForm' enctype='multipart/form-data'>
-	<input type='hidden' name='MAX_FILE_SIZE' value='100000000'>
+        <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}" />
+	    <input type='hidden' name='MAX_FILE_SIZE' value='100000000'>
 HTML;
 
 

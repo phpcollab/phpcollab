@@ -47,7 +47,7 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 $block1->form = "tdD";
-$block1->openForm("../bookmarks/viewbookmark.php#" . $block1->form . "Anchor");
+$block1->openForm("../bookmarks/viewbookmark.php#" . $block1->form . "Anchor", null, $csrfHandler);
 $block1->heading($strings["bookmark"] . " : " . $bookmarkDetail['boo_name']);
 if ($bookmarkDetail['boo_owner'] == $session->get("idSession")) {
     $block1->openPaletteIcon();

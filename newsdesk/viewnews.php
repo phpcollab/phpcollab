@@ -37,7 +37,7 @@ $blockPage->setLimitsNumber(1);
 $block1 = new phpCollab\Block();
 
 $block1->form = "clPr";
-$block1->openForm("../newsdesk/viewnews.php?&id=" . $request->query->get("id"). "#" . $block1->form . "Anchor");
+$block1->openForm("../newsdesk/viewnews.php?&id=" . $request->query->get("id"). "#" . $block1->form . "Anchor", null, $csrfHandler);
 
 $block1->headingToggle($strings["newsdesk"]);
 
@@ -114,7 +114,7 @@ $newsComments = $news->getCommentsByPostId($request->query->get("id"));
 $block2 = new phpCollab\Block();
 
 $block2->form = "clPrc";
-$block2->openForm("../newsdesk/viewnews.php?&id=" . $request->query->get("id") . "#" . $block2->form . "Anchor");
+$block2->openForm("../newsdesk/viewnews.php?&id=" . $request->query->get("id") . "#" . $block2->form . "Anchor", null, $csrfHandler);
 
 $block2->headingToggle($strings["comments"]);
 

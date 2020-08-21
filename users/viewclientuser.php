@@ -55,7 +55,7 @@ $blockPage->closeBreadcrumbs();
 $block1 = new phpCollab\Block();
 
 $block1->form = "cuserD";
-$block1->openForm("../users/viewclientuser.php#" . $block1->form . "Anchor");
+$block1->openForm("../users/viewclientuser.php#" . $block1->form . "Anchor", null, $csrfHandler);
 
 if (isset($error) && $error != "") {
     $block1->headingError($strings["errors"]);

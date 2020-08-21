@@ -1,7 +1,6 @@
 <?php
 
 use phpCollab\Assignments\Assignments;
-use phpCollab\Members\Members;
 use phpCollab\Notifications\Notifications;
 use phpCollab\Projects\Projects;
 use phpCollab\Reports\Reports;
@@ -13,7 +12,6 @@ include_once '../includes/library.php';
 
 $projects = new Projects();
 $tasks = new Tasks();
-$members = new Members();
 
 $project_id = $request->query->get('project') ?: $request->request->get('project');
 
@@ -30,147 +28,160 @@ $listTasks = $tasks->getTasksById($task_id);
 $tasks->setTasksCount(count($listTasks));
 
 if ($request->isMethod('post')) {
-    $acomm = phpCollab\Util::convertData($request->request->get('assignment_comment'));
 
-    $assigned_to = $request->request->get('assign_to');
-    $task_status = $request->request->get('task_status');
-    $completion = $request->request->get('completion');
-    $task_priority = $request->request->get('task_priority');
-    $start_date = $request->request->get('start_date');
-    $due_date = $request->request->get('due_date');
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            $acomm = phpCollab\Util::convertData($request->request->get('assignment_comment'));
 
-    $continue = false;
+            $assigned_to = $request->request->get('assign_to');
+            $task_status = $request->request->get('task_status');
+            $completion = $request->request->get('completion');
+            $task_priority = $request->request->get('task_priority');
+            $start_date = $request->request->get('start_date');
+            $due_date = $request->request->get('due_date');
 
-    if ($assigned_to != $strings["no_change"]) {
-        $continue = true;
-    }
+            $continue = false;
 
-    if ($task_status != $strings["no_change"]) {
-        $continue = true;
-    }
-
-    if ($completion != "") {
-        $continue = true;
-    }
-
-    if ($task_priority != $strings["no_change"]) {
-        $continue = true;
-    }
-
-    if ($start_date != "--") {
-        $continue = true;
-    }
-
-    if ($due_date != "--") {
-        $continue = true;
-    }
-
-    if ($continue) {
-        foreach ($listTasks as $listTask) {
             if ($assigned_to != $strings["no_change"]) {
-                $tasks->setAssignedTo($listTask["tas_id"], $assigned_to);
-                $tasks->setAssignedDate($listTask["tas_id"], $dateheure);
-                $assignUpdate = true;
+                $continue = true;
             }
 
             if ($task_status != $strings["no_change"]) {
-                $tasks->setStatus($listTask["tas_id"], $task_status);
+                $continue = true;
             }
 
             if ($completion != "") {
-                $tasks->setCompletion($listTask["tas_id"], $completion);
+                $continue = true;
             }
 
             if ($task_priority != $strings["no_change"]) {
-                $tasks->setPriority($listTask["tas_id"], $task_priority);
+                $continue = true;
             }
 
             if ($start_date != "--") {
-                $tasks->setStartDate($listTask["tas_id"], $start_date);
+                $continue = true;
             }
 
             if ($due_date != "--") {
-                $tasks->setDueDate($listTask["tas_id"], $due_date);
+                $continue = true;
             }
 
-            $sameAssign = $listTask["tas_assigned_to"] == $assigned_to;
-
-            $tasks->setModifiedDate($listTask["tas_id"]);
-
-            if ($notifications == "true") {
-                $notificationsClass = new Notifications();
-                if ($assigned_to != $strings["no_change"]) {
-                    $memberInfo = $members->getMemberById($assigned_to);
-                    $memberNotifications = $notificationsClass->getMemberNotifications($assigned_to);
-                } else {
-                    $memberInfo = $members->getMemberById($listTask["tas_owner"]);
-                    $memberNotifications = $notificationsClass->getMemberNotifications($listTask["tas_owner"]);
-                }
-
-                if ($task_status != $strings["no_change"] &&
-                    $listTask["tas_status"] != $task_status &&
-                    $assignUpdate !== true &&
-                    $listTask["tas_assigned_to"] != "0" &&
-                    $memberNotifications["statusTaskChange"] == "0"
-                ) {
-
-                    try {
-                        $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo, $strings["noti_statustaskchange1"], $strings["noti_statustaskchange2"]);
-                    } catch (Exception $e) {
-                        echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+            if ($continue) {
+                foreach ($listTasks as $listTask) {
+                    if ($assigned_to != $strings["no_change"]) {
+                        $tasks->setAssignedTo($listTask["tas_id"], $assigned_to);
+                        $tasks->setAssignedDate($listTask["tas_id"], $dateheure);
+                        $assignUpdate = true;
                     }
-                }
 
-                if ($task_priority != $strings["no_change"] &&
-                    $listTask["tas_priority"] != $task_priority &&
-                    $assignUpdate !== true &&
-                    $listTask["tas_assigned_to"] != "0" &&
-                    $memberNotifications["priorityTaskChange"] == "0"
-                ) {
-                    try {
-                        $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo, $strings["noti_prioritytaskchange1"], $strings["noti_prioritytaskchange2"]);
-                    } catch (Exception $e) {
-                        echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+                    if ($task_status != $strings["no_change"]) {
+                        $tasks->setStatus($listTask["tas_id"], $task_status);
                     }
-                }
 
-                if ($due_date != "--" &&
-                    $listTask["tas_due_date"] != $due_date &&
-                    $assignUpdate !== true &&
-                    $listTask["tas_assigned_to"] != "0" &&
-                    $memberNotifications["duedateTaskChange"] == "0"
-                ) {
-                    try {
-                        $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo, $strings["noti_duedatetaskchange1"], $strings["noti_duedatetaskchange2"]);
-                    } catch (Exception $e) {
-                        echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+                    if ($completion != "") {
+                        $tasks->setCompletion($listTask["tas_id"], $completion);
+                    }
+
+                    if ($task_priority != $strings["no_change"]) {
+                        $tasks->setPriority($listTask["tas_id"], $task_priority);
+                    }
+
+                    if ($start_date != "--") {
+                        $tasks->setStartDate($listTask["tas_id"], $start_date);
+                    }
+
+                    if ($due_date != "--") {
+                        $tasks->setDueDate($listTask["tas_id"], $due_date);
+                    }
+
+                    $sameAssign = $listTask["tas_assigned_to"] == $assigned_to;
+
+                    $tasks->setModifiedDate($listTask["tas_id"]);
+
+                    if ($notifications == "true") {
+                        $notificationsClass = new Notifications();
+                        if ($assigned_to != $strings["no_change"]) {
+                            $memberInfo = $members->getMemberById($assigned_to);
+                            $memberNotifications = $notificationsClass->getMemberNotifications($assigned_to);
+                        } else {
+                            $memberInfo = $members->getMemberById($listTask["tas_owner"]);
+                            $memberNotifications = $notificationsClass->getMemberNotifications($listTask["tas_owner"]);
+                        }
+
+                        if ($task_status != $strings["no_change"] &&
+                            $listTask["tas_status"] != $task_status &&
+                            $assignUpdate !== true &&
+                            $listTask["tas_assigned_to"] != "0" &&
+                            $memberNotifications["statusTaskChange"] == "0"
+                        ) {
+
+                            try {
+                                $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo, $strings["noti_statustaskchange1"], $strings["noti_statustaskchange2"]);
+                            } catch (Exception $e) {
+                                echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+                            }
+                        }
+
+                        if ($task_priority != $strings["no_change"] &&
+                            $listTask["tas_priority"] != $task_priority &&
+                            $assignUpdate !== true &&
+                            $listTask["tas_assigned_to"] != "0" &&
+                            $memberNotifications["priorityTaskChange"] == "0"
+                        ) {
+                            try {
+                                $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo, $strings["noti_prioritytaskchange1"], $strings["noti_prioritytaskchange2"]);
+                            } catch (Exception $e) {
+                                echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+                            }
+                        }
+
+                        if ($due_date != "--" &&
+                            $listTask["tas_due_date"] != $due_date &&
+                            $assignUpdate !== true &&
+                            $listTask["tas_assigned_to"] != "0" &&
+                            $memberNotifications["duedateTaskChange"] == "0"
+                        ) {
+                            try {
+                                $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo, $strings["noti_duedatetaskchange1"], $strings["noti_duedatetaskchange2"]);
+                            } catch (Exception $e) {
+                                echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+                            }
+                        }
+                    }
+
+                    if ($assigned_to != "0" && $sameAssign !== true && $assignUpdate === true) {
+                        // Add to assignment table
+                        (new Assignments())->addAssignment($listTask["tas_id"], $listTask["tas_owner"], $assigned_to, $dateheure, $acomm);
+
+                        // Check teams and add if necessary
+                        $teams = new Teams();
+                        $isTeamMember = $teams->isTeamMember($listTask["tas_project"], $assigned_to);
+
+                        if ($isTeamMember === "false") {
+                            $teams->addTeam($listTask["tas_project"], $assigned_to, 1, 0);
+                        }
+
+                        if ($notifications == "true") {
+                            try {
+                                $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo, $strings["noti_taskassignment1"], $strings["noti_taskassignment2"]);
+                            } catch (Exception $e) {
+                                echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+                            }
+                        }
                     }
                 }
             }
-
-            if ($assigned_to != "0" && $sameAssign !== true && $assignUpdate === true) {
-                // Add to assignment table
-                (new Assignments())->addAssignment($listTask["tas_id"], $listTask["tas_owner"], $assigned_to, $dateheure, $acomm);
-
-                // Check teams and add if necessary
-                $teams = new Teams();
-                $isTeamMember = $teams->isTeamMember($listTask["tas_project"], $assigned_to);
-
-                if ($isTeamMember === "false") {
-                    $teams->addTeam($listTask["tas_project"], $assigned_to, 1, 0);
-                }
-
-                if ($notifications == "true") {
-                    try {
-                        $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo, $strings["noti_taskassignment1"], $strings["noti_taskassignment2"]);
-                    } catch (Exception $e) {
-                        echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
-                    }
-                }
-            }
+            phpCollab\Util::headerFunction("../tasks/listtasks.php?project=$project_id&msg=update");
         }
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
-    phpCollab\Util::headerFunction("../tasks/listtasks.php?project=$project_id&msg=update");
+
 }
 
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
@@ -195,7 +206,7 @@ $blockPage->closeBreadcrumbs();
 
 $block1 = new phpCollab\Block();
 $block1->form = "batT";
-$block1->openForm("../tasks/updatetasks.php?action=update&#" . $block1->form . "Anchor");
+$block1->openForm("../tasks/updatetasks.php?action=update&#" . $block1->form . "Anchor", null, $csrfHandler);
 
 if (isset($error) && $error != "") {
     $block1->headingError($strings["errors"]);

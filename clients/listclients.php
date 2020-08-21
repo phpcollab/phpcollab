@@ -30,7 +30,7 @@ $blockPage->setLimitsNumber(1);
 $block1 = new phpCollab\Block();
 
 $block1->form = "clientList";
-$block1->openForm("../clients/listclients.php#" . $block1->form . "Anchor");
+$block1->openForm("../clients/listclients.php#" . $block1->form . "Anchor", null, $csrfHandler);
 
 $block1->heading($strings["organizations"]);
 

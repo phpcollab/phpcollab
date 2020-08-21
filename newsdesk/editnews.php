@@ -71,52 +71,81 @@ if ($id != "") {
         phpCollab\Util::headerFunction("../newsdesk/listnews.php?msg=blankNews");
     }
 
-    if ($action == "update") {
+    if ($request->isMethod('post')) {
+        try {
+            if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+                if ($action == "update") {
+                    $title = $request->request->get('title');
+                    $content = $request->request->get('content');
+                    $author = $request->request->get('author');
+                    $related = $request->request->get('related');
+                    $links = filter_var($request->request->get('links'), FILTER_SANITIZE_URL);
+                    $rss = !empty($request->request->get('rss')) ? $request->request->get('rss') : 0;
 
-        $title = $request->request->get('title');
-        $content = $request->request->get('content');
-        $author = $request->request->get('author');
-        $related = $request->request->get('related');
-        $links = filter_var($request->request->get('links'), FILTER_SANITIZE_URL);
-        $rss = $request->request->get('rss');
+                    $title = phpCollab\Util::convertData($title);
+                    if (get_magic_quotes_gpc() != 1) {
+                        $content = addslashes($content);
+                    }
 
-        $title = phpCollab\Util::convertData($title);
-        if (get_magic_quotes_gpc() != 1) {
-            $content = addslashes($content);
+                    $news->updatePostById($id, $title, $author, $related, $content, $links, $rss);
+                    phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$id&msg=update");
+                }
+
+                if ($action == "delete") {
+                    $id = str_replace("**", ",", $id);
+                    $news->deleteCommentByPostId($id);
+                    $news->deleteNewsDeskPost($id);
+                    phpCollab\Util::headerFunction("../newsdesk/listnews.php?msg=removeNews");
+                }
+
+            }
+        } catch (Exception $e) {
+            $logger->critical('CSRF Token Error', [
+                'edit bookmark' => $request->request->get("id"),
+                '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+                '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+            ]);
+            $msg = 'permissiondenied';
         }
-
-        $news->updatePostById($id, $title, $author, $related, $content, $links, $rss);
-        phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$id&msg=update");
-    } elseif ($action == "delete") {
-        $id = str_replace("**", ",", $id);
-        $news->deleteCommentByPostId($id);
-        $news->deleteNewsDeskPost($id);
-        phpCollab\Util::headerFunction("../newsdesk/listnews.php?msg=removeNews");
-    } else {
-        //set value in form
-        $title = $newsDetail['news_title'];
-        $content = $newsDetail['news_content'];
-        $author = $newsDetail['news_author'];
-        $links = $newsDetail['news_links'];
-        $rss = $newsDetail['news_rss'];
     }
+
+    //set value in form
+    $title = $newsDetail['news_title'];
+    $content = $newsDetail['news_content'];
+    $author = $newsDetail['news_author'];
+    $links = $newsDetail['news_links'];
+    $rss = $newsDetail['news_rss'];
+
 } else { // case of adding news
 
     if ($action == "add") {
 
-        $title = $request->request->get('title');
-        $author = $request->request->get('author');
-        $related = $request->request->get('related');
-        $content = $request->request->get('content');
-        $links = $request->request->get('links');
-        $rss = !empty($request->request->get('rss')) ? $request->request->get('rss') : 0;
+        if ($request->isMethod('post')) {
+            try {
+                if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+                    $title = $request->request->get('title');
+                    $author = $request->request->get('author');
+                    $related = $request->request->get('related');
+                    $content = $request->request->get('content');
+                    $links = $request->request->get('links');
+                    $rss = !empty($request->request->get('rss')) ? $request->request->get('rss') : 0;
 
-        //test if name blank
-        if ($title == "") {
-            $error = $strings["blank_newsdesk_title"];
-        } else {
-            $num = $news->addPost($title, $author, $related, $content, $links, $rss);
-            phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$num&msg=add");
+                    //test if name blank
+                    if ($title == "") {
+                        $error = $strings["blank_newsdesk_title"];
+                    } else {
+                        $num = $news->addPost($title, $author, $related, $content, $links, $rss);
+                        phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$num&msg=add");
+                    }
+                }
+            } catch (Exception $e) {
+                $logger->critical('CSRF Token Error', [
+                    'edit bookmark' => $request->request->get("id"),
+                    '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+                    '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+                ]);
+                $msg = 'permissiondenied';
+            }
         }
     }
 }
@@ -129,7 +158,7 @@ if (!isset($action) || $action != "remove") {
                 </script> 
     
                 <script type='text/javascript' src='../includes/htmlarea/htmlarea.js'></script>
-                <script type='text/javascript' src='../includes/htmlarea/lang/{$GLOBALS['lang']}.js'></script>
+                <script type='text/javascript' src='../includes/htmlarea/lang/{$session->get("langDefault")}.js'></script>
                 <script type='text/javascript' src='../includes/htmlarea/dialog.js'></script>
                 <script type='text/javascript' src='../includes/htmlarea/popupdiv.js'></script>
                 <script type='text/javascript' src='../includes/htmlarea/popupwin.js'></script> 
@@ -206,9 +235,13 @@ if ($action != 'remove') {
         echo "	<a id='" . $block1->form . "Anchor'></a>\n <form accept-charset='UNKNOWN' method='POST' action='../newsdesk/editnews.php?action=add&' name='ecDForm'>\n";
         $block1->heading($strings["add_newsdesk"]);
     } else {
-        echo "	<a id='" . $block1->form . "Anchor'></a>\n <form accept-charset='UNKNOWN' method='POST' action='../newsdesk/editnews.php?id=$id&action=update&' name='ecDForm'>\n";
+        echo "	<a id='" . $block1->form . "Anchor'></a>\n <form accept-charset='UNKNOWN' method='POST' action='../newsdesk/editnews.php?id={$id}&action=update&' name='ecDForm'>\n";
         $block1->heading($strings["edit_newsdesk"] . " : " . $newsDetail['news_title']);
     }
+
+    echo <<<CSRF
+    <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}">
+CSRF;
 
     $block1->openContent();
     $block1->contentTitle($strings["details"]);
@@ -272,7 +305,7 @@ if ($action != 'remove') {
      * remove action
      */
     $block1->form = "saP";
-    $block1->openForm("../newsdesk/editnews.php?action=delete&id=$id");
+    $block1->openForm("../newsdesk/editnews.php?action=delete&id=" . $id, null, $csrfHandler);
 
     $block1->heading($strings["del_newsdesk"]);
 

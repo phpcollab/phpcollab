@@ -18,17 +18,28 @@ $taskStatus = new SetTaskStatus();
 $taskDetail = $tasks->getTaskById($taskId);
 
 if ($request->isMethod('post')) {
-    if ($request->request->get('action') == "update") {
-        $comments = phpCollab\Util::convertData($request->request->get('comments'));
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get('action') == "update") {
+                $comments = phpCollab\Util::convertData($request->request->get('comments'));
 
-        if (!empty($request->request->get('status')) && $request->request->get('status') == "completed") {
-        if (!empty($request->request->get('status'))) {
-            $taskStatus->set($taskId, 0, $comments);
+                if (!empty($request->request->get('status')) && $request->request->get('status') == "completed") {
+                if (!empty($request->request->get('status'))) {
+                    $taskStatus->set($taskId, 0, $comments);
+                }
+                } else {
+                    $taskStatus->set($taskId, $taskDetail["tas_status"], $comments);
+                }
+                phpCollab\Util::headerFunction("showallclienttasks.php");
+            }
         }
-        } else {
-            $taskStatus->set($taskId, $taskDetail["tas_status"], $comments);
-        }
-        phpCollab\Util::headerFunction("showallclienttasks.php");
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
 
@@ -182,6 +193,7 @@ $block2->heading("Complete Task");
 
 echo <<<STATUS_CHANGE_FORM
 <form method="post" action="../projects_site/clienttaskdetail.php" name="clientTaskUpdate" enctype="multipart/form-data">
+    <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}" />
     <input name="taskId" type="hidden" value="{$taskId}">
 
     <table class="nonStriped">

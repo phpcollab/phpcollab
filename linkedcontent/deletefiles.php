@@ -22,32 +22,46 @@ if (empty($task)) {
     $task = "0";
 }
 
-if ($request->query->get("action") == "delete") {
-    $id = str_replace("**", ",", $id);
 
-    $listFiles = $files->getFiles($id);
+if ($request->isMethod('post')) {
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get("action") == "delete") {
+                $id = str_replace("**", ",", $id);
 
-    foreach ($listFiles as $file) {
-        if ($task != "0") {
-            if (file_exists("../files/" . $project . "/" . $task . "/" . $file["fil_name"])) {
-                phpCollab\Util::deleteFile("files/" . $project . "/" . $task . "/" . $file["fil_name"]);
-            }
-        } else {
-            if (file_exists("../files/" . $project . "/" . $file["fil_name"])) {
-                phpCollab\Util::deleteFile("files/" . $project . "/" . $file["fil_name"]);
+                $listFiles = $files->getFiles($id);
+
+                foreach ($listFiles as $file) {
+                    if ($task != "0") {
+                        if (file_exists("../files/" . $project . "/" . $task . "/" . $file["fil_name"])) {
+                            phpCollab\Util::deleteFile("files/" . $project . "/" . $task . "/" . $file["fil_name"]);
+                        }
+                    } else {
+                        if (file_exists("../files/" . $project . "/" . $file["fil_name"])) {
+                            phpCollab\Util::deleteFile("files/" . $project . "/" . $file["fil_name"]);
+                        }
+                    }
+                    $deleteFile = $files->deleteFile($file['fil_id']);
+                }
+
+                if ($sendto == "filedetails") {
+                    phpCollab\Util::headerFunction("../linkedcontent/viewfile.php?id=" . $listFiles["fil_vc_parent"] . "&msg=deleteFile");
+                } else {
+                    if ($task != "0") {
+                        phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$task&msg=deleteFile");
+                    } else {
+                        phpCollab\Util::headerFunction("../projects/viewproject.php?id=$project&msg=deleteFile");
+                    }
+                }
             }
         }
-        $deleteFile = $files->deleteFile($file['fil_id']);
-    }
-
-    if ($sendto == "filedetails") {
-        phpCollab\Util::headerFunction("../linkedcontent/viewfile.php?id=" . $listFiles["fil_vc_parent"] . "&msg=deleteFile");
-    } else {
-        if ($task != "0") {
-            phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$task&msg=deleteFile");
-        } else {
-            phpCollab\Util::headerFunction("../projects/viewproject.php?id=$project&msg=deleteFile");
-        }
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
 
@@ -79,7 +93,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "saC";
-$block1->openForm("../linkedcontent/deletefiles.php?project=$project&task=$task&action=delete&id=$id&sendto=$sendto");
+$block1->openForm("../linkedcontent/deletefiles.php?project={$project}&task={$task}&id={$id}&sendto={$sendto}", null, $csrfHandler);
 
 $block1->heading($strings["unlink_files"]);
 
@@ -101,7 +115,7 @@ HTML;
 echo <<<HTML
 <tr class="odd">
     <td class="leftvalue">&nbsp;</td>
-    <td><input type="submit" value="{$strings["delete"]}">&#160;<input type="button" value="{$strings["cancel"]}" onClick="history.back();"></td>
+    <td><button type="submit" name="action" value="delete">{$strings["delete"]}</button> <input type="button" value="{$strings["cancel"]}" onClick="history.back();"></td>
 </tr>
 HTML;
 

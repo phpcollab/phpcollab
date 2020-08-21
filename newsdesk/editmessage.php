@@ -29,42 +29,67 @@ if (!empty($commentId)) {
 
     // Make sure the form was submitted
     if ($request->isMethod('post')) {
+        try {
+            if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+                if ($action == "update") {
+                    $comment = phpCollab\Util::convertData($request->request->get("comment"));
 
-        if ($action == "update") {
-            $comment = phpCollab\Util::convertData($request->request->get("comment"));
+                    $newsDesk->setComment($commentId, $comment);
 
-            $newsDesk->setComment($commentId, $comment);
+                    phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postId&msg=update");
+                } elseif ($action == "delete") {
+                    // only admin, prj-adm and prj-man can delete a comments
+                    if ($session->get("profilSession") != "0" && $session->get("profilSession") != "1" && $session->get("profilSession") != "5") {
+                        phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postId&msg=commentpermissionNews");
+                    }
 
-            phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postId&msg=update");
-        } elseif ($action == "delete") {
-            // only admin, prj-adm and prj-man can delete a comments
-            if ($session->get("profilSession") != "0" && $session->get("profilSession") != "1" && $session->get("profilSession") != "5") {
-                phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postId&msg=commentpermissionNews");
+                    $commentId = str_replace("**", ",", $request->request->get('id'));
+
+                    $newsDesk->deleteNewsDeskComment($commentId);
+                    phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postId&msg=removeComment");
+                }
             }
-
-            $commentId = str_replace("**", ",", $request->request->get('id'));
-
-            $newsDesk->deleteNewsDeskComment($commentId);
-            phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postId&msg=removeComment");
+        } catch (Exception $e) {
+            $logger->critical('CSRF Token Error', [
+                'edit bookmark' => $request->request->get("id"),
+                '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+                '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+            ]);
+            $msg = 'permissiondenied';
         }
     }
+
+
 } else { // case of adding new post
 
     if ($action == "add") {
-        //test if name blank
-        if (empty($request->request->get('comment'))) {
-            $error = $strings["blank_newsdesk_comment"];
-        } else {
+        if ($request->isMethod('post')) {
+            try {
+                if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+                    //test if name blank
+                    if (empty($request->request->get('comment'))) {
+                        $error = $strings["blank_newsdesk_comment"];
+                    } else {
 
-            //replace quotes by html code in name and address
-            $commenterId = phpCollab\Util::convertData($request->request->get('commenterId'));
-            $comment = phpCollab\Util::convertData($request->request->get('comment'));
-            $postId = phpCollab\Util::convertData($request->request->get('postId'));
+                        //replace quotes by html code in name and address
+                        $commenterId = phpCollab\Util::convertData($request->request->get('commenterId'));
+                        $comment = phpCollab\Util::convertData($request->request->get('comment'));
+                        $postId = phpCollab\Util::convertData($request->request->get('postId'));
 
-            //insert into organizations and redirect to new client organization detail (last id)
-            $newsDesk->addComment($postId, $commenterId, $comment);
+                        //insert into organizations and redirect to new client organization detail (last id)
+                        $newsDesk->addComment($postId, $commenterId, $comment);
 
-            phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postId&msg=add");
+                        phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postId&msg=add");
+                    }
+                }
+            } catch (Exception $e) {
+                $logger->critical('CSRF Token Error', [
+                    'edit bookmark' => $request->request->get("id"),
+                    '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+                    '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+                ]);
+                $msg = 'permissiondenied';
+            }
         }
     }
 }
@@ -120,7 +145,10 @@ FORMSTART;
         $block1->heading($strings["edit_newsdesk_comment"] . " : " . $newsDetail["news_title"]);
     }
 
-    echo $formTag . '">';
+    echo <<<FORM_END
+{$formTag}">
+    <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}">
+FORM_END;
 
     $block1->openContent();
     $block1->contentTitle($strings["details"]);
@@ -147,9 +175,8 @@ FORMSTART;
 }
 
 if ($action == "remove") { //remove action
-
     $block1->form = "saP";
-    $block1->openForm("../newsdesk/editmessage.php?postId=$postId");
+    $block1->openForm("../newsdesk/editmessage.php?postId=$postId", null, $csrfHandler);
 
     $block1->heading($strings["del_newsdesk_comment"]);
 

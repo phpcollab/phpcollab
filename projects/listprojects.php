@@ -52,7 +52,7 @@ $blockPage->setLimitsNumber(1);
 $block1 = new phpCollab\Block();
 
 $block1->form = "saP";
-$block1->openForm("../projects/listprojects.php?typeProjects=$typeProjects&#" . $block1->form . "Anchor");
+$block1->openForm("../projects/listprojects.php?typeProjects=$typeProjects&#" . $block1->form . "Anchor", null, $csrfHandler);
 
 $block1->heading($strings["projects"]);
 

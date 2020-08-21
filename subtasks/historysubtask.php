@@ -13,6 +13,9 @@ $projects = new Projects();
 $phases = new Phases();
 $updates = new Updates();
 
+$type = $request->query->get("type");
+$item = $request->query->get("item");
+
 if ($type == "2") {
     $subtaskDetail = $tasks->getSubTaskById($item);
 
@@ -76,7 +79,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "tdP";
-$block1->openForm("./historysubtask.php");
+$block1->openForm("./historysubtask.php", null, $csrfHandler);
 
 if (!empty($error)) {
     $block1->headingError($strings["errors"]);

@@ -28,7 +28,7 @@ if (!empty($msg)) {
 $block1 = new phpCollab\Block();
 
 $block1->form = "ulU";
-$block1->openForm("../users/listusers.php#" . $block1->form . "Anchor");
+$block1->openForm("../users/listusers.php#" . $block1->form . "Anchor", null, $csrfHandler);
 
 $block1->heading($strings["user_management"]);
 

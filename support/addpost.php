@@ -26,40 +26,52 @@ $support = new Support($logger);
 $requestDetail = $support->getSupportRequestById($id);
 
 if ($request->isMethod('post')) {
-    if ($request->request->get('action') == "edit") {
 
-        try {
-            $status = $request->request->get('status');
-            $dateClose = ($request->request->get('status') == 2) ? $dateheure : null;
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get('action') == "edit") {
 
-            $support->updateSupportPostStatus($id, $status, $dateClose);
+                try {
+                    $status = $request->request->get('status');
+                    $dateClose = ($request->request->get('status') == 2) ? $dateheure : null;
 
-            $postDetails = $support->getSupportPostById($id);
-            if ($notifications == "true") {
-                if ($requestDetail["sr_status"] != $request->request->get('status')) {
-                    $num = $id;
-                    $support->sendPostChangedNotification($postDetails);
+                    $support->updateSupportPostStatus($id, $status, $dateClose);
+
+                    $postDetails = $support->getSupportPostById($id);
+                    if ($notifications == "true") {
+                        if ($requestDetail["sr_status"] != $request->request->get('status')) {
+                            $num = $id;
+                            $support->sendPostChangedNotification($postDetails);
+                        }
+                    }
+
+                    phpCollab\Util::headerFunction("../support/viewrequest.php?id=$id");
+                } catch (Exception $e) {
+                    echo '<div class="alert error">' . $e->getMessage() . '</div>';
                 }
             }
 
-            phpCollab\Util::headerFunction("../support/viewrequest.php?id=$id");
-        } catch (Exception $e) {
-            echo '<div class="alert error">' . $e->getMessage() . '</div>';
-        }
-    }
+            if ($request->request->get('action') == "add") {
+                try {
+                    $newPost = $support->addSupportPost($id, Util::convertData($request->request->get('message')), $dateheure, $session->get("idSession"), $requestDetail["sr_project"]);
 
-    if ($request->request->get('action') == "add") {
-        try {
-            $newPost = $support->addSupportPost($id, Util::convertData($request->request->get('message')), $dateheure, $session->get("idSession"), $requestDetail["sr_project"]);
+                    if (!empty($newPost) && $notifications == "true") {
+                        $support->sendPostChangedNotification($newPost);
+                    }
+                } catch (Exception $e) {
+                    echo '<div class="alert error">' . $e->getMessage() . '</div>';
+                }
 
-            if (!empty($newPost) && $notifications == "true") {
-                $support->sendPostChangedNotification($newPost);
+                phpCollab\Util::headerFunction("../support/viewrequest.php?id=$id");
             }
-        } catch (Exception $e) {
-            echo '<div class="alert error">' . $e->getMessage() . '</div>';
         }
-
-        phpCollab\Util::headerFunction("../support/viewrequest.php?id=$id");
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
 include APP_ROOT . '/themes/' . THEME . '/header.php';
@@ -100,12 +112,12 @@ $block2 = new phpCollab\Block();
 
 $block2->form = "sr";
 if ($action == "status") {
-    $block2->openForm("../support/addpost.php?id=$id&#" . $block2->form . "Anchor");
+    $block2->openForm("../support/addpost.php?id=$id&#" . $block2->form . "Anchor", null, $csrfHandler);
     echo <<<FORM
     <input type="hidden" name="action" value="edit">
 FORM;
 } else {
-    $block2->openForm("../support/addpost.php?id=$id&#" . $block2->form . "Anchor");
+    $block2->openForm("../support/addpost.php?id=$id&#" . $block2->form . "Anchor", null, $csrfHandler);
     echo <<<FORM
     <input type="hidden" name="action" value="add">
 FORM;

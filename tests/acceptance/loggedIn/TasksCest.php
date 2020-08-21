@@ -88,9 +88,8 @@ class TasksCest
         $I->amOnPage('/tasks/edittask.php?project=1&task=185&docopy=true');
         $I->see('Copy Task : Client task', 'h1.heading');
         $I->seeInField(['name' => 'task_name'], 'Copy of Client task');
-        $I->submitForm('form', [
-            'task_name' => 'Copy of Client task - codeception',
-        ]);
+        $I->fillField(['name' => 'task_name'], 'Copy of Client task - codeception');
+        $I->click('button[type="submit"]');
         $I->see('Success : Addition succeeded', 'table.message td');
         $this->newTaskId = $I->grabFromCurrentUrl('~id=([^&#]*)~');
         $this->commentLink = $I->grabAttributeFrom('.message a', 'href');
@@ -105,10 +104,8 @@ class TasksCest
         $I->amOnPage('/tasks/' . $this->commentLink); // assignmentcomment.php?task=281&id=314');
         $I->see('Assignment Comment', 'h1.heading');
         $I->see('Copy of Client task - codeception');
-        $I->submitForm('form', [
-            'comment' => 'Codeception assignment comment',
-            'action' => 'update'
-        ]);
+        $I->fillField(['name' => 'comment'], 'Codeception assignment comment');
+        $I->click('button[type="submit"]');
         $I->see('Success : Modification succeeded', '.message');
         $I->seeElement('#ahT');
         $I->see('Codeception assignment comment', '#ahT');
@@ -123,9 +120,8 @@ class TasksCest
         $I->amOnPage('/tasks/edittask.php?project=1&docopy=false&task=' . $this->newTaskId);
         $I->see('Copy of Client task - codeception', 'h1.heading');
         $I->seeInField(['name' => 'task_name'], 'Copy of Client task - codeception');
-        $I->submitForm('form', [
-            'task_name' => 'Copy of Client task - codeception - edit',
-        ]);
+        $I->fillField(['name' => 'task_name'], 'Copy of Client task - codeception - edit');
+        $I->click('button[type="submit"]');
         $I->see('Success : Modification succeeded', 'table.message td');
         $I->see('Copy of Client task - codeception - edit', ".//tr/td[contains(text(),'Name')]/following-sibling::td");
     }
@@ -140,7 +136,7 @@ class TasksCest
         $I->see('Delete Tasks', 'h1.heading');
         $I->see('#' . $this->newTaskId, '.content td.leftvalue');
         $I->see('Copy of Client task - codeception - edit');
-        $I->click('input[type="submit"]');
+        $I->click('button[type="submit"]');
         $I->see('Success : Deletion succeeded', '.message td');
     }
 }

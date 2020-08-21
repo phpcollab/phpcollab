@@ -22,9 +22,20 @@ if ($session->get('idSession') != $projectDetail["pro_owner"] && $session->get('
 }
 
 if ($request->isMethod('post')) {
-    if ($request->request->get("create")) {
-        $projects->publishProject($projectId, true);
-        phpCollab\Util::headerFunction("../projects/viewprojectsite.php?id={$projectId}&msg=createProjectSite");
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get("create")) {
+                $projects->publishProject($projectId, true);
+                phpCollab\Util::headerFunction("../projects/viewprojectsite.php?id={$projectId}&msg=createProjectSite");
+            }
+        }
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
 
@@ -40,7 +51,7 @@ $blockPage->closeBreadcrumbs();
 $block1 = new phpCollab\Block();
 
 $block1->form = "csdD";
-$block1->openForm("../projects/addprojectsite.php?id=$projectId");
+$block1->openForm("../projects/addprojectsite.php?id=" . $projectId, null, $csrfHandler);
 
 $block1->heading($strings["create_projectsite"]);
 

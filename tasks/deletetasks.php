@@ -14,6 +14,7 @@ include_once '../includes/library.php';
 if (empty($request->query->get('id'))) {
     phpCollab\Util::headerFunction($request->server->get("HTTP_REFERER"));
 }
+
 $id = $request->query->get('id');
 
 $tasks = new Tasks();
@@ -22,29 +23,42 @@ $projects = new Projects();
 
 $strings = $GLOBALS["strings"];
 
-if ($request->query->get('action') == "delete") {
-    $id = str_replace("**", ",", $id);
+if ($request->isMethod('post')) {
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get('action') == "delete") {
+                $id = str_replace("**", ",", $id);
 
-    $listTasks = $tasks->getTasksById($id);
+                $listTasks = $tasks->getTasksById($id);
 
-    foreach ($listTasks as $listTask) {
-        if ($fileManagement == "true") {
-            phpCollab\Util::deleteDirectory("../files/" . $listTask["tas_project"] . "/" . $listTask["tas_id"]);
+                foreach ($listTasks as $listTask) {
+                    if ($fileManagement == "true") {
+                        phpCollab\Util::deleteDirectory("../files/" . $listTask["tas_project"] . "/" . $listTask["tas_id"]);
+                    }
+                }
+                $tasks->deleteTasks($id);
+                $assignments->deleteAssignments($id);
+                $tasks->deleteSubTasks($id);
+
+                //recompute number of completed tasks of the project
+                $projectDetail = $projects->getProjectById($listTasks["tas_project"][0]);
+
+                phpCollab\Util::projectComputeCompletion($listTasks->tas_project[$i]);
+
+                if ($project != "") {
+                    phpCollab\Util::headerFunction("../projects/viewproject.php?id=$project&msg=delete");
+                } else {
+                    phpCollab\Util::headerFunction("../general/home.php?msg=delete");
+                }
+            }
         }
-    }
-    $tasks->deleteTasks($id);
-    $assignments->deleteAssignments($id);
-    $tasks->deleteSubTasks($id);
-
-    //recompute number of completed tasks of the project
-    $projectDetail = $projects->getProjectById($listTasks["tas_project"][0]);
-
-    phpCollab\Util::projectComputeCompletion($listTasks->tas_project[$i]);
-
-    if ($project != "") {
-        phpCollab\Util::headerFunction("../projects/viewproject.php?id=$project&msg=delete");
-    } else {
-        phpCollab\Util::headerFunction("../general/home.php?msg=delete");
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
 
@@ -72,7 +86,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "saP";
-$block1->openForm("../tasks/deletetasks.php?project=$project&action=delete&id=$id");
+$block1->openForm("../tasks/deletetasks.php?project=$project&action=delete&id=" . $id, null, $csrfHandler);
 
 $block1->heading($strings["delete_tasks"]);
 
@@ -89,7 +103,7 @@ foreach ($listTasks as $listTask) {
 echo <<< TR
 <tr class="odd">
     <td class="leftvalue">&nbsp;</td>
-    <td><input type="submit" name="delete" value="{$strings["delete"]}"> <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();"></td>
+    <td><button type="submit" name="action" value="delete">{$strings["delete"]}</button> <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();"></td>
 </tr>
 TR;
 

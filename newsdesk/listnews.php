@@ -33,7 +33,7 @@ $blockPage->setLimitsNumber(1);
 $block1 = new phpCollab\Block();
 
 $block1->form = "newsdeskList";
-$block1->openForm("../newsdesk/listnews.php#" . $block1->form . "Anchor");
+$block1->openForm("../newsdesk/listnews.php#" . $block1->form . "Anchor", null, $csrfHandler);
 
 if (isset($error) && $error != "") {
     $block1->headingError($strings["errors"]);

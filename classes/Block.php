@@ -472,14 +472,23 @@ SCRIPT;
      * Open a standard form
      * @param string $address Action form value
      * @param null $additionalAttributes
+     * @param CsrfHandler|null $csrfHandler
      * @see block::closeFormResults()
      * @see block::closeForm()
      * @access public
      */
-    public function openForm($address, $additionalAttributes = null)
+    public function openForm($address, $additionalAttributes = null, CsrfHandler $csrfHandler = null)
     {
-        echo '<a id="' . $this->form . 'Anchor"></a>
-<form accept-charset="UNKNOWN" method="POST" action="' . $address . '" name="' . $this->form . 'Form" enctype="application/x-www-form-urlencoded"' . $additionalAttributes . '>';
+        echo <<<FORM
+<a id="{$this->form}Anchor"></a>
+<form method="POST" action="{$address}" name="{$this->form}Form" enctype="application/x-www-form-urlencoded" {$additionalAttributes}>
+FORM;
+        if ($csrfHandler) {
+            echo <<<CSRF_INPUT
+    <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}">
+CSRF_INPUT;
+
+        }
     }
 
     /**

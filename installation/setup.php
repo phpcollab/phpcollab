@@ -432,7 +432,7 @@ if ($step == "2") {
     $block1->openContent();
     $block1->contentTitle("Details");
     $block1->form = "settings";
-    $block1->openForm("../installation/setup.php?step=3");
+    $block1->openForm("../installation/setup.php?step=3", null, $csrfHandler);
 
     if ($connection == "off") {
         echo "<input value='false' name='updatechecker' type='hidden'>";

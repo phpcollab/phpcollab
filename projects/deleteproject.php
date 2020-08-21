@@ -22,11 +22,11 @@ $topics = new Topics();
 $files = new Files();
 $assignments = new Assignments();
 $notes = new Notes();
-$support = new Support();
+$support = new Support($logger);
 $phases = new Phases();
 $projects = new Projects();
 
-$id = $request->query->get('id') ? str_replace("**", ",", $request->query->get('id')) : null;
+$id = ($request->query->get('id')) ? str_replace("**", ",", $request->query->get('id')) : null;
 
 if (empty($id)) {
     phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blankProject");
@@ -45,60 +45,73 @@ foreach($listProjects as $proj) {
 }
 unset($proj);
 
-if ($action == "delete") {
+if ($request->isMethod('post')) {
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($action == "delete") {
 
-    if ($listProjects) {
-        // Loop through the projects and perform the clean-up functionality
+                if ($listProjects) {
+                    // Loop through the projects and perform the clean-up functionality
 
-        foreach ($listProjects as $proj) {
-            // Get tasks for each project
-            $listTasks = $tasks->getTasksByProjectId($proj['pro_id']);
-            foreach ($listTasks as $task) {
-                if ($fileManagement == "true") {
-                    phpCollab\Util::deleteDirectory("../files/" . $proj['pro_id'] . "/" . $task['tas_id']);
-                    $assignments->deleteAssignmentsByProjectId($proj['pro_id']);
-                    $tasks->deleteSubtasksByProjectId($proj['pro_id']);
+                    foreach ($listProjects as $proj) {
+                        // Get tasks for each project
+                        $listTasks = $tasks->getTasksByProjectId($proj['pro_id']);
+                        foreach ($listTasks as $task) {
+                            if ($fileManagement == "true") {
+                                phpCollab\Util::deleteDirectory("../files/" . $proj['pro_id'] . "/" . $task['tas_id']);
+                                $assignments->deleteAssignmentsByProjectId($proj['pro_id']);
+                                $tasks->deleteSubtasksByProjectId($proj['pro_id']);
+                            }
+                        }
+                        unset($task);
+
+                        // Get topics for each project and delete posts
+                        $listTopics = $topics->getTopicsByProjectId($proj['pro_id']);
+                        if ($listTopics) {
+                            $topics->deletePostsByProjectId($proj['pro_id']);
+                        }
+
+                        $tasks->deleteTasksByProjectId($proj['pro_id']);
+                        $teams->deleteFromTeamsByProjectId($proj['pro_id']);
+                        $topics->deleteTopicWhereProjectIdIn($proj['pro_id']);
+                        $files->deleteFilesByProjectId($proj['pro_id']);
+                        $projects->deleteProject($proj['pro_id']);
+
+                        $notes->deleteNotesByProjectId($proj['pro_id']);
+                        $support->deleteSupportPostsByProjectId($proj['pro_id']);
+                        $support->deleteSupportPostsByProjectId($proj['pro_id']);
+                        $phases->deletePhasesByProjectId($proj['pro_id']);
+
+                        // Delete files
+                        if ($fileManagement == "true") {
+                            phpCollab\Util::deleteDirectory("../files/" . $proj['pro_id']);
+                        }
+
+                        if ($sitePublish == "true") {
+                            phpCollab\Util::deleteDirectory("project_sites/" . $proj['pro_id']);
+                        }
+
+                        //if mantis bug tracker enabled
+                        if ($enableMantis == "true") {
+                            // call mantis function to delete project
+                            include '../mantis/proj_delete.php';
+                        }
+
+                    }
+                    unset($proj);
+                    phpCollab\Util::headerFunction("../projects/listprojects.php?msg=delete");
+                } else {
+                    phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blankProject");
                 }
             }
-            unset($task);
-
-            // Get topics for each project and delete posts
-            $listTopics = $topics->getTopicsByProjectId($proj['pro_id']);
-            if ($listTopics) {
-                $topics->deletePostsByProjectId($proj['pro_id']);
-            }
-
-            $tasks->deleteTasksByProjectId($proj['pro_id']);
-            $teams->deleteFromTeamsByProjectId($proj['pro_id']);
-            $topics->deleteTopicWhereProjectIdIn($proj['pro_id']);
-            $files->deleteFilesByProjectId($proj['pro_id']);
-            $projects->deleteProject($proj['pro_id']);
-
-            $notes->deleteNotesByProjectId($proj['pro_id']);
-            $support->deleteSupportPostsByProjectId($proj['pro_id']);
-            $support->deleteSupportPostsByProjectId($proj['pro_id']);
-            $phases->deletePhasesByProjectId($proj['pro_id']);
-
-            // Delete files
-            if ($fileManagement == "true") {
-                phpCollab\Util::deleteDirectory("../files/" . $proj['pro_id']);
-            }
-
-            if ($sitePublish == "true") {
-                phpCollab\Util::deleteDirectory("project_sites/" . $proj['pro_id']);
-            }
-
-            //if mantis bug tracker enabled
-            if ($enableMantis == "true") {
-                // call mantis function to delete project
-                include '../mantis/proj_delete.php';
-            }
-
         }
-        unset($proj);
-        phpCollab\Util::headerFunction("../projects/listprojects.php?msg=delete");
-    } else {
-        phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blankProject");
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
 
@@ -118,7 +131,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "saP";
-$block1->openForm("../projects/deleteproject.php?action=delete&id=$id");
+$block1->openForm("../projects/deleteproject.php?id=" . $id, null, $csrfHandler);
 
 $block1->heading($strings["delete_projects"]);
 
@@ -130,7 +143,7 @@ foreach ($listProjects as $proj) {
 }
 unset($proj);
 
-$block1->contentRow("", '<input type="submit" name="delete" value="' . $strings["delete"] . '"> <input type="button" name="cancel" value="' . $strings["cancel"] . '" onClick="history.back();">');
+$block1->contentRow("", '<button type="submit" name="action" value="delete">' . $strings["delete"] . '</button> <input type="button" name="cancel" value="' . $strings["cancel"] . '" onClick="history.back();">');
 
 $block1->closeContent();
 $block1->closeForm();

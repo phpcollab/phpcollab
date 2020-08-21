@@ -20,40 +20,51 @@ $checkSession = "true";
 include_once '../includes/library.php';
 
 if ($request->isMethod('post')) {
-    if ($request->request->get('action') == "update") {
-        $logout_time = $request->request->get('logout_time');
-        $full_name = $request->request->get('full_name');
-        $title = $request->request->get('title');
-        $email_work = $request->request->get('email_work');
-        $phone_work = $request->request->get('phone_work');
-        $phone_home = $request->request->get('phone_home');
-        $phone_mobile = $request->request->get('phone_mobile');
-        $fax = $request->request->get('fax');
-        $timezone = $request->request->get('timezone');
-        $organization = $request->request->get('organization');
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get('action') == "update") {
+                $logout_time = $request->request->get('logout_time');
+                $full_name = $request->request->get('full_name');
+                $title = $request->request->get('title');
+                $email_work = $request->request->get('email_work');
+                $phone_work = $request->request->get('phone_work');
+                $phone_home = $request->request->get('phone_home');
+                $phone_mobile = $request->request->get('phone_mobile');
+                $fax = $request->request->get('fax');
+                $timezone = $request->request->get('timezone');
+                $organization = $request->request->get('organization');
 
-        if (($logout_time < "30" && $logout_time != "0") || !is_numeric($logout_time)) {
-            $logout_time = "30";
-        }
+                if (($logout_time < "30" && $logout_time != "0") || !is_numeric($logout_time)) {
+                    $logout_time = "30";
+                }
 
-        try {
-            $members->updateMember($session->get("idSession"), $session->get("loginSession"), $full_name, $email_work, $title, $organization, $phone_work, $phone_home, $phone_mobile, $fax);
-        }
-        catch (Exception $e) {
-            echo "error saving changes." . $e->getMessage();
-        }
+                try {
+                    $members->updateMember($session->get("idSession"), $session->get("loginSession"), $full_name, $email_work, $title, $organization, $phone_work, $phone_home, $phone_mobile, $fax);
+                }
+                catch (Exception $e) {
+                    echo "error saving changes." . $e->getMessage();
+                }
 
-        $session->set('logouttimeSession', $logout_time);
-        $session->set('timezoneSession', $timezone);
-        $session->set('dateunixSession', date("U"));
-        $session->set('nameSession', $full_name);
+                $session->set('logouttimeSession', $logout_time);
+                $session->set('timezoneSession', $timezone);
+                $session->set('dateunixSession', date("U"));
+                $session->set('nameSession', $full_name);
 
-        //if mantis bug tracker enabled
-        if ($enableMantis == "true") {
-            // Call mantis function for user profile changes..!!!
-            include("../mantis/user_profile.php");
+                //if mantis bug tracker enabled
+                if ($enableMantis == "true") {
+                    // Call mantis function for user profile changes..!!!
+                    include("../mantis/user_profile.php");
+                }
+                phpCollab\Util::headerFunction("../preferences/updateuser.php?msg=update");
+            }
         }
-        phpCollab\Util::headerFunction("../preferences/updateuser.php?msg=update");
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
 
@@ -86,8 +97,7 @@ if (!empty($msg)) {
 $block1 = new phpCollab\Block();
 
 $block1->form = "user_edit_profile";
-$block1->openForm("../preferences/updateuser.php");
-echo '<input type="hidden" name="action" value="update">';
+$block1->openForm("../preferences/updateuser.php", null, $csrfHandler);
 echo '<input type="hidden" name="organization" value="'. $userPrefs["mem_organization"] .'">';
 
 if (!empty($error)) {
@@ -137,7 +147,7 @@ if ($userPrefs["mem_profil"] == "0") {
 }
 
 $block1->contentRow($strings["account_created"], phpCollab\Util::createDate($userPrefs["mem_created"], $session->get("timezoneSession")));
-$block1->contentRow("", '<input type="submit" name="Save" value="' . $strings["save"] . '">');
+$block1->contentRow("", '<button type="submit" name="action" value="update">' . $strings["save"] . '</button>');
 
 $block1->closeContent();
 $block1->closeForm();

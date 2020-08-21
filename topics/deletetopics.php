@@ -15,30 +15,46 @@ $topics = new Topics();
 $action = $request->query->get('action');
 $id = $request->query->get('id');
 
-if ($request->query->get('action') == "delete") {
-    $id = str_replace("**", ",", $id);
-    $pieces = explode(",", $id);
-    $num = count($pieces);
-
+if ($request->isMethod('post')) {
     try {
-        $topics->deleteTopics($pieces);
-        $topics->deletePostsFromTopics($pieces);
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get('action') == "delete") {
+                $id = str_replace("**", ",", $id);
+                $pieces = explode(",", $id);
+                $num = count($pieces);
 
+                try {
+                    $topics->deleteTopics($pieces);
+                    $topics->deletePostsFromTopics($pieces);
+
+                } catch (Exception $e) {
+                    // handle exception
+                }
+
+                if ($project != "") {
+                    phpCollab\Util::headerFunction("../projects/viewproject.php?num={$num}&msg=deleteTopic&id=" . $project);
+                } else {
+                    phpCollab\Util::headerFunction("../general/home.php?msg=deleteTopic&num=" . $num);
+                }
+            }
+        }
     } catch (Exception $e) {
-        // handle exception
-    }
-
-    if ($project != "") {
-        phpCollab\Util::headerFunction("../projects/viewproject.php?num=$num&msg=deleteTopic&id=$project");
-    } else {
-        phpCollab\Util::headerFunction("../general/home.php?num=$num&msg=deleteTopic");
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
+
+
 if ($request->query->get('project')) {
     $project = $request->query->get('project');
 } else {
     unset($project);
 }
+
 $projectDetail = $projects->getProjectById($project);
 
 $setTitle .= " : " . $strings["delete_discussions"];
@@ -66,7 +82,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "saP";
-$block1->openForm("../topics/deletetopics.php?project=$project&action=delete&id=$id");
+$block1->openForm("../topics/deletetopics.php?project=$project&id=" . $id, null, $csrfHandler);
 
 $block1->heading($strings["delete_discussions"]);
 
@@ -89,7 +105,7 @@ TR;
 echo <<<TR
     <tr class="odd">
         <td class="leftvalue">&nbsp;</td>
-        <td><input type="submit" name="delete" value="{$strings["delete"]}"> <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();"></td>
+        <td><button type="submit" name="action" value="delete">{$strings["delete"]}</button> <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();"></td>
     </tr>
 TR;
 

@@ -29,187 +29,200 @@ $displayName = $fileDetail["fil_name"];
 //---------------------------------------------------------------------------------------------------
 //Update file code
 if ($request->isMethod('post')) {
-    $fileDetail["fil_size"] = (!empty($fileDetail["fil_size"])) ? $fileDetail["fil_size"] : 0;
 
-    if ($request->request->get("action") == "update") {
-        if (!empty($request->request->get("maxCustom"))) {
-            $maxFileSize = $request->request->get('maxCustom');
-        }
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            $fileDetail["fil_size"] = (!empty($fileDetail["fil_size"])) ? $fileDetail["fil_size"] : 0;
 
-        if ($_FILES['upload']['size'] != 0) {
-            $size_kb = $_FILES['upload']['size'] / 1024;
-        } else {
-            $size_kb = 0;
-        }
-
-        if ($_FILES['upload']['name'] == "") {
-            $error4 .= $strings["no_file"] . "<br/>";
-        }
-        if ($_FILES['upload']['size'] > $maxFileSize) {
-            if ($maxFileSize != 0) {
-                $size_max_kb = $maxFileSize / 1024;
-            }
-            $error4 .= $strings["exceed_size"] . " ($size_max_kb $byteUnits[1])<br/>";
-        }
-
-        $upload_name = $fileDetail["fil_name"];
-
-        $extension = strtolower(substr(strrchr($upload_name, "."), 1));
-
-        //Add version number to the old copy's file name.
-        $changename = str_replace(".", " v" . $fileDetail["fil_vc_version"] . ".", $fileDetail["fil_name"]);
-
-        //Generate paths for use further down.
-        if ($fileDetail["fil_task"] != "0") {
-            $path = "files/" . $fileDetail["fil_project"] . "/" . $fileDetail["fil_task"] . "/$upload_name";
-            $path_source = "files/" . $fileDetail["fil_project"] . "/" . $fileDetail["fil_task"] . "/" . $fileDetail["fil_name"];
-            $path_destination = "files/" . $fileDetail["fil_project"] . "/" . $fileDetail["fil_task"] . "/$changename";
-        } else {
-            $path = "files/" . $fileDetail["fil_project"] . "/$upload_name";
-            $path_source = "files/" . $fileDetail["fil_project"] . "/" . $fileDetail["fil_name"];
-            $path_destination = "files/" . $fileDetail["fil_project"] . "/$changename";
-        }
-
-        if ($allowPhp == "false") {
-            $send = "";
-            if ($_FILES['upload']['name'] != "" && ($extension == "php" || $extension == "php3" || $extension == "phtml")) {
-                $error4 .= $strings["no_php"] . "<br/>";
-                $send = "false";
-            }
-        }
-
-        if ($_FILES['upload']['name'] != "" && $_FILES['upload']['size'] < $maxFileSize && $_FILES['upload']['size'] != 0 && $send != "false") {
-            $docopy = "true";
-        }
-
-
-        if ($docopy == "true") {
-
-            //Copy old file with a new file name
-            phpCollab\Util::moveFile($path_source, $path_destination);
-
-            //Set variables from original files details.
-            $copy_project = $fileDetail["fil_project"];
-            $copy_task = $fileDetail["fil_task"];
-            $copy_date = $fileDetail["fil_date"];
-            $copy_size = $fileDetail["fil_size"];
-            $copy_extension = $fileDetail["fil_extension"];
-            $copy_comments = $fileDetail["fil_comments"];
-            $copy_upload = $fileDetail["fil_upload"];
-            $copy_pusblished = $fileDetail["fil_published"];
-            $copy_vc_parent = $fileDetail["fil_vc_parent"];
-            $copy_id = $fileDetail["fil_id"];
-            $copy_vc_version = $fileDetail["fil_vc_version"];
-
-            //Insert a new row for the copied file
-            $comments = phpCollab\Util::convertData($request->request->get('comments'));
-
-            try {
-                $num = $files->add($session->get("idSession"), $copy_project, $copy_task, $changename, $copy_date, $copy_size,
-                    $copy_extension, $copy_comments, null, null, null, $copy_upload, 0, $copy_vc_version, $copy_vc_parent);
-            } catch (Exception $exception) {
-                error_log('Error adding file', 0);
-                $error1 = $strings["error_file_add"];
-            }
-        }
-
-        //Insert details into Database
-        if ($docopy == "true") {
-            phpCollab\Util::uploadFile(".", $_FILES['upload']['tmp_name'], $path);
-            $chaine = strrev("$path");
-            $tab = explode(".", $chaine);
-            $extension = strtolower(strrev($tab[0]));
-        }
-
-        $newVersion = $fileDetail["fil_vc_version"] + $request->request->get('change_file_version');
-
-        if ($docopy == "true") {
-            $name = "$upload_name";
-
-            $files->update($request->request->get("comments"), $request->request->get("statusField"), $newVersion, $fileId);
-
-            $files->setFileSize($fileId, $fileDetail["fil_size"]);
-
-            phpCollab\Util::headerFunction("clientfiledetail.php?id=" . $fileDetail["fil_id"] . "&msg=addFile");
-        }
-    }
-    //---------------------------------------------------------------------------------------------------
-
-
-    //---------------------------------------------------------------------------------------------------
-    //Add peer review / new revision code
-    //---------------------------------------------------------------------------------------------------
-    if ($request->request->get("action") == "add") {
-        if (!empty($request->request->get('maxCustom'))) {
-            $maxFileSize = $request->request->get('maxCustom');
-        }
-        if ($_FILES['upload']['size'] != 0) {
-            $size_kb = $_FILES['upload']['size'] / 1024;
-        } else {
-            $size_kb = 0;
-        }
-        if ($_FILES['upload']['name'] == "") {
-            $error3 .= $strings["no_file"] . "<br/>";
-        }
-        if ($_FILES['upload']['size'] > $maxFileSize) {
-            if ($maxFileSize != 0) {
-                $size_max_kb = $maxFileSize / 1024;
-            }
-            $error3 .= $strings["exceed_size"] . " ($size_max_kb $byteUnits[1])<br/>";
-        }
-
-        $upload_name = $request->request->get('filename');
-
-        //Add version and revision at the end of a file name but before the extension.
-        $upload_name = str_replace(".", " v" . $request->request->get('oldversion') . " r" . $request->request->get('revision') . ".", $upload_name);
-
-        $extension = strtolower(substr(strrchr($upload_name, "."), 1));
-
-        if ($allowPhp == "false") {
-            $send = "";
-            if ($_FILES['upload']['name'] != "" && ($extension == "php" || $extension == "php3" || $extension == "phtml")) {
-                $error3 .= $strings["no_php"] . "<br/>";
-                $send = "false";
-            }
-        }
-
-        if ($_FILES['upload']['name'] != "" && $_FILES['upload']['size'] < $maxFileSize && $_FILES['upload']['size'] != 0 && $send != "false") {
-            //Insert details into Database
-
-            $comments = phpCollab\Util::convertData($request->request->get("comments"));
-
-            try {
-                $num = $files->add($session->get("idSession"), $project, $task, null, null, null, null, $comments,
-                    null, null, null, $dateheure, 0, 0, $request->request->get('parent'), 2, 0);
-
-                if (!empty($num)) {
-                    if ($task != "0") {
-                        phpCollab\Util::uploadFile("files/$project/$task", $_FILES['upload']['tmp_name'], $upload_name);
-                        $size = phpCollab\Util::fileInfoSize("../files/$project/$task/$upload_name");
-                        $chaine = strrev("../files/$project/$task/$upload_name");
-                        $tab = explode(".", $chaine);
-                        $extension = strtolower(strrev($tab[0]));
-                    } else {
-                        phpCollab\Util::uploadFile("files/$project", $_FILES['upload']['tmp_name'], $upload_name);
-                        $size = phpCollab\Util::fileInfoSize("../files/$project/$upload_name");
-                        $chaine = strrev("../files/$project/$upload_name");
-                        $tab = explode(".", $chaine);
-                        $extension = strtolower(strrev($tab[0]));
-                    }
-
-                    $name = $upload_name;
-
-                    $files->updateFile($num, $name, $dateheure, $size, $extension, $request->request->get('oldversion'));
-
-                    phpCollab\Util::headerFunction("clientfiledetail.php?id={$request->request->get('parent')}&msg=addFile");
+            if ($request->request->get("action") == "update") {
+                if (!empty($request->request->get("maxCustom"))) {
+                    $maxFileSize = $request->request->get('maxCustom');
                 }
-            } catch (Exception $exception) {
-                error_log('Error adding file: ' . $exception, 0);
-                $error2 = $strings["error_file_add"];
+
+                if ($_FILES['upload']['size'] != 0) {
+                    $size_kb = $_FILES['upload']['size'] / 1024;
+                } else {
+                    $size_kb = 0;
+                }
+
+                if ($_FILES['upload']['name'] == "") {
+                    $error4 .= $strings["no_file"] . "<br/>";
+                }
+                if ($_FILES['upload']['size'] > $maxFileSize) {
+                    if ($maxFileSize != 0) {
+                        $size_max_kb = $maxFileSize / 1024;
+                    }
+                    $error4 .= $strings["exceed_size"] . " ($size_max_kb $byteUnits[1])<br/>";
+                }
+
+                $upload_name = $fileDetail["fil_name"];
+
+                $extension = strtolower(substr(strrchr($upload_name, "."), 1));
+
+                //Add version number to the old copy's file name.
+                $changename = str_replace(".", " v" . $fileDetail["fil_vc_version"] . ".", $fileDetail["fil_name"]);
+
+                //Generate paths for use further down.
+                if ($fileDetail["fil_task"] != "0") {
+                    $path = "files/" . $fileDetail["fil_project"] . "/" . $fileDetail["fil_task"] . "/$upload_name";
+                    $path_source = "files/" . $fileDetail["fil_project"] . "/" . $fileDetail["fil_task"] . "/" . $fileDetail["fil_name"];
+                    $path_destination = "files/" . $fileDetail["fil_project"] . "/" . $fileDetail["fil_task"] . "/$changename";
+                } else {
+                    $path = "files/" . $fileDetail["fil_project"] . "/$upload_name";
+                    $path_source = "files/" . $fileDetail["fil_project"] . "/" . $fileDetail["fil_name"];
+                    $path_destination = "files/" . $fileDetail["fil_project"] . "/$changename";
+                }
+
+                if ($allowPhp == "false") {
+                    $send = "";
+                    if ($_FILES['upload']['name'] != "" && ($extension == "php" || $extension == "php3" || $extension == "phtml")) {
+                        $error4 .= $strings["no_php"] . "<br/>";
+                        $send = "false";
+                    }
+                }
+
+                if ($_FILES['upload']['name'] != "" && $_FILES['upload']['size'] < $maxFileSize && $_FILES['upload']['size'] != 0 && $send != "false") {
+                    $docopy = "true";
+                }
+
+
+                if ($docopy == "true") {
+
+                    //Copy old file with a new file name
+                    phpCollab\Util::moveFile($path_source, $path_destination);
+
+                    //Set variables from original files details.
+                    $copy_project = $fileDetail["fil_project"];
+                    $copy_task = $fileDetail["fil_task"];
+                    $copy_date = $fileDetail["fil_date"];
+                    $copy_size = $fileDetail["fil_size"];
+                    $copy_extension = $fileDetail["fil_extension"];
+                    $copy_comments = $fileDetail["fil_comments"];
+                    $copy_upload = $fileDetail["fil_upload"];
+                    $copy_pusblished = $fileDetail["fil_published"];
+                    $copy_vc_parent = $fileDetail["fil_vc_parent"];
+                    $copy_id = $fileDetail["fil_id"];
+                    $copy_vc_version = $fileDetail["fil_vc_version"];
+
+                    //Insert a new row for the copied file
+                    $comments = phpCollab\Util::convertData($request->request->get('comments'));
+
+                    try {
+                        $num = $files->add($session->get("idSession"), $copy_project, $copy_task, $changename, $copy_date, $copy_size,
+                            $copy_extension, $copy_comments, null, null, null, $copy_upload, 0, $copy_vc_version, $copy_vc_parent);
+                    } catch (Exception $exception) {
+                        error_log('Error adding file', 0);
+                        $error1 = $strings["error_file_add"];
+                    }
+                }
+
+                //Insert details into Database
+                if ($docopy == "true") {
+                    phpCollab\Util::uploadFile(".", $_FILES['upload']['tmp_name'], $path);
+                    $chaine = strrev("$path");
+                    $tab = explode(".", $chaine);
+                    $extension = strtolower(strrev($tab[0]));
+                }
+
+                $newVersion = $fileDetail["fil_vc_version"] + $request->request->get('change_file_version');
+
+                if ($docopy == "true") {
+                    $name = "$upload_name";
+
+                    $files->update($request->request->get("comments"), $request->request->get("statusField"), $newVersion, $fileId);
+
+                    $files->setFileSize($fileId, $fileDetail["fil_size"]);
+
+                    phpCollab\Util::headerFunction("clientfiledetail.php?id=" . $fileDetail["fil_id"] . "&msg=addFile");
+                }
+            }
+            //---------------------------------------------------------------------------------------------------
+
+
+            //---------------------------------------------------------------------------------------------------
+            //Add peer review / new revision code
+            //---------------------------------------------------------------------------------------------------
+            if ($request->request->get("action") == "add") {
+                if (!empty($request->request->get('maxCustom'))) {
+                    $maxFileSize = $request->request->get('maxCustom');
+                }
+                if ($_FILES['upload']['size'] != 0) {
+                    $size_kb = $_FILES['upload']['size'] / 1024;
+                } else {
+                    $size_kb = 0;
+                }
+                if ($_FILES['upload']['name'] == "") {
+                    $error3 .= $strings["no_file"] . "<br/>";
+                }
+                if ($_FILES['upload']['size'] > $maxFileSize) {
+                    if ($maxFileSize != 0) {
+                        $size_max_kb = $maxFileSize / 1024;
+                    }
+                    $error3 .= $strings["exceed_size"] . " ($size_max_kb $byteUnits[1])<br/>";
+                }
+
+                $upload_name = $request->request->get('filename');
+
+                //Add version and revision at the end of a file name but before the extension.
+                $upload_name = str_replace(".", " v" . $request->request->get('oldversion') . " r" . $request->request->get('revision') . ".", $upload_name);
+
+                $extension = strtolower(substr(strrchr($upload_name, "."), 1));
+
+                if ($allowPhp == "false") {
+                    $send = "";
+                    if ($_FILES['upload']['name'] != "" && ($extension == "php" || $extension == "php3" || $extension == "phtml")) {
+                        $error3 .= $strings["no_php"] . "<br/>";
+                        $send = "false";
+                    }
+                }
+
+                if ($_FILES['upload']['name'] != "" && $_FILES['upload']['size'] < $maxFileSize && $_FILES['upload']['size'] != 0 && $send != "false") {
+                    //Insert details into Database
+
+                    $comments = phpCollab\Util::convertData($request->request->get("comments"));
+
+                    try {
+                        $num = $files->add($session->get("idSession"), $project, $task, null, null, null, null, $comments,
+                            null, null, null, $dateheure, 0, 0, $request->request->get('parent'), 2, 0);
+
+                        if (!empty($num)) {
+                            if ($task != "0") {
+                                phpCollab\Util::uploadFile("files/$project/$task", $_FILES['upload']['tmp_name'], $upload_name);
+                                $size = phpCollab\Util::fileInfoSize("../files/$project/$task/$upload_name");
+                                $chaine = strrev("../files/$project/$task/$upload_name");
+                                $tab = explode(".", $chaine);
+                                $extension = strtolower(strrev($tab[0]));
+                            } else {
+                                phpCollab\Util::uploadFile("files/$project", $_FILES['upload']['tmp_name'], $upload_name);
+                                $size = phpCollab\Util::fileInfoSize("../files/$project/$upload_name");
+                                $chaine = strrev("../files/$project/$upload_name");
+                                $tab = explode(".", $chaine);
+                                $extension = strtolower(strrev($tab[0]));
+                            }
+
+                            $name = $upload_name;
+
+                            $files->updateFile($num, $name, $dateheure, $size, $extension, $request->request->get('oldversion'));
+
+                            phpCollab\Util::headerFunction("clientfiledetail.php?id={$request->request->get('parent')}&msg=addFile");
+                        }
+                    } catch (Exception $exception) {
+                        error_log('Error adding file: ' . $exception, 0);
+                        $error2 = $strings["error_file_add"];
+                    }
+                }
+
             }
         }
-
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
+
 }
 //---------------------------------------------------------------------------------------------------
 
@@ -458,6 +471,7 @@ TABLE;
                 name="peerReviewForm"
                 enctype="multipart/form-data"
                 class="noBorder">
+                <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}" />
                 <input type="hidden" name="MAX_FILE_SIZE" value="100000000">
                 <input type="hidden" name="maxCustom" value="{$projectDetail["pro_upload_max"]}">
                 <input value="{$fileDetail["fil_id"]}" name="sendto" type="hidden">
@@ -527,6 +541,7 @@ if ($fileDetail["fil_owner"] == $session->get("idSession")) {
                         name="filedetailsForm" 
                         enctype="multipart/form-data"
                         class="noBorder">
+                        <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}" />
                         <input type="hidden" name="MAX_FILE_SIZE" value="100000000">
                         <input type="hidden" name="maxCustom" value="{$projectDetail["pro_upload_max"]}">
                         <table style="width: 100%" class="nonStriped">

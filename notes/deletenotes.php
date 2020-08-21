@@ -16,9 +16,22 @@ $strings = $GLOBALS["strings"];
 $notes = new Notes();
 
 if ($action == "delete") {
-    $id = str_replace("**", ",", $id);
-    $notes->deleteNotes($id);
-    phpCollab\Util::headerFunction("../projects/viewproject.php?id=$project&msg=delete");
+    if ($request->isMethod('post')) {
+        try {
+            if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+                $id = str_replace("**", ",", $id);
+                $notes->deleteNotes($id);
+                phpCollab\Util::headerFunction("../projects/viewproject.php?id=$project&msg=delete");
+            }
+        } catch (Exception $e) {
+            $logger->critical('CSRF Token Error', [
+                'edit bookmark' => $request->request->get("id"),
+                '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+                '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+            ]);
+            $msg = 'permissiondenied';
+        }
+    }
 }
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
@@ -37,7 +50,7 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 $block1->form = "saP";
-$block1->openForm("../notes/deletenotes.php?project=$project&action=delete&id=$id");
+$block1->openForm("../notes/deletenotes.php?project=$project&action=delete&id=$id", null, $csrfHandler);
 
 $block1->heading($strings["delete_note"]);
 

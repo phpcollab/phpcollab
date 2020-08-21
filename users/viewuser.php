@@ -45,7 +45,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "userD";
-$block1->openForm("../users/viewuser.php#" . $block1->form . "Anchor");
+$block1->openForm("../users/viewuser.php#" . $block1->form . "Anchor", null, $csrfHandler);
 
 if (isset($error) && $error != "") {
     $block1->headingError($strings["errors"]);

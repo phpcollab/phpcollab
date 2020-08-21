@@ -21,22 +21,37 @@ $strings = $GLOBALS["strings"];
 $msgLabel = $GLOBALS["msgLabel"];
 $targetPhase = $GLOBALS["targetPhase"];
 
-if ($request->query->get("action") == "delete") {
-    $id = str_replace("**", ",", $id);
 
-    //find parent task
-    $listSubtasks = $tasks->getSubTaskByIdIn($id);
+if ($request->isMethod('post')) {
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get("action") == "delete") {
+                $id = str_replace("**", ",", $id);
 
-    $tasks->deleteSubTasksById($id);
-    $assignments->deleteAssignmentsBySubtasks($id);
-    $tasks->setCompletion($task, $tasks->recalculateSubtaskAverages($task));
+                //find parent task
+                $listSubtasks = $tasks->getSubTaskByIdIn($id);
 
-    if ($task != "") {
-        phpCollab\Util::headerFunction("../tasks/viewtask.php?id={$task}&msg=delete");
-    } else {
-        phpCollab\Util::headerFunction("../general/home.php?msg=delete");
+                $tasks->deleteSubTasksById($id);
+                $assignments->deleteAssignmentsBySubtasks($id);
+                $tasks->setCompletion($task, $tasks->recalculateSubtaskAverages($task));
+
+                if ($task != "") {
+                    phpCollab\Util::headerFunction("../tasks/viewtask.php?id={$task}&msg=delete");
+                } else {
+                    phpCollab\Util::headerFunction("../general/home.php?msg=delete");
+                }
+            }
+        }
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
+
 
 
 $taskDetail = $tasks->getTaskById($task);
@@ -81,7 +96,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "saP";
-$block1->openForm("../subtasks/deletesubtasks.php?task=$task&action=delete&id=$id");
+$block1->openForm("../subtasks/deletesubtasks.php?task={$task}&id=" . $id, null, $csrfHandler);
 
 $block1->heading($strings["delete_subtasks"]);
 
@@ -103,7 +118,7 @@ echo <<< HTML
 <tr class="odd">
     <td class="leftvalue">&nbsp;</td>
     <td>
-        <input type="submit" name="delete" value="{$strings["delete"]}"> 
+        <button type="submit" name="action" value="delete">{$strings["delete"]}</button> 
         <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();">
     </td>
 </tr>

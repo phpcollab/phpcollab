@@ -49,38 +49,49 @@ if (empty($request->query->get('id'))) {
 
     //case add task
     if ($request->isMethod('post')) {
-        if ($request->request->get('action') == "add") {
+        try {
+            if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+                if ($request->request->get('action') == "add") {
 
-            //concat values from date selector and replace quotes by html code in name
-            $taskName = phpCollab\Util::convertData($request->request->get('task_name'));
-            $description = phpCollab\Util::convertData($request->request->get('description'));
-            $comments = phpCollab\Util::convertData($request->request->get('comments'));
-            $priority = $request->request->get('priority');
-            $startDate = $request->request->get('start_date');
-            $dueDate = $request->request->get('due_date');
-            $publshed = $request->request->get('published');
-            $assignedTo = $request->request->get('assigned_to');
-            $projectId = $request->request->get('project_id');
+                    //concat values from date selector and replace quotes by html code in name
+                    $taskName = phpCollab\Util::convertData($request->request->get('task_name'));
+                    $description = phpCollab\Util::convertData($request->request->get('description'));
+                    $comments = phpCollab\Util::convertData($request->request->get('comments'));
+                    $priority = $request->request->get('priority');
+                    $startDate = $request->request->get('start_date');
+                    $dueDate = $request->request->get('due_date');
+                    $publshed = $request->request->get('published');
+                    $assignedTo = $request->request->get('assigned_to');
+                    $projectId = $request->request->get('project_id');
 
-            try {
-                $newTask = $tasks->addTask($projectId, $taskName, $description, $session->get("idSession"), 0, 2, $priority, $startDate, $dueDate, 0, 0, $comments, $publshed, 0);
+                    try {
+                        $newTask = $tasks->addTask($projectId, $taskName, $description, $session->get("idSession"), 0, 2, $priority, $startDate, $dueDate, 0, 0, $comments, $publshed, 0);
 
-                $assignments->addAssignment($newTask["tas_id"], $session->get("idSession"), $assignedTo, $dateheure);
+                        $assignments->addAssignment($newTask["tas_id"], $session->get("idSession"), $assignedTo, $dateheure);
 
-                //send task assignment mail if notifications = true
-                if ($notifications == "true") {
-                    $tasks->sendClientAddTaskNotification($newTask);
+                        //send task assignment mail if notifications = true
+                        if ($notifications == "true") {
+                            $tasks->sendClientAddTaskNotification($newTask);
+                        }
+
+                        //create task sub-folder if filemanagement = true
+                        if ($fileManagement == "true") {
+                            phpCollab\Util::createDirectory("../files/{$session->get("projectSession")}/" . $newTask["tas_id"]);
+                        }
+                        phpCollab\Util::headerFunction("showallteamtasks.php");
+                    }
+                    catch (Exception $e) {
+                        echo $e->getMessage();
+                    }
                 }
-
-                //create task sub-folder if filemanagement = true
-                if ($fileManagement == "true") {
-                    phpCollab\Util::createDirectory("../files/{$session->get("projectSession")}/" . $newTask["tas_id"]);
-                }
-                phpCollab\Util::headerFunction("showallteamtasks.php");
             }
-            catch (Exception $e) {
-                echo $e->getMessage();
-            }
+        } catch (Exception $e) {
+            $logger->critical('CSRF Token Error', [
+                'edit bookmark' => $request->request->get("id"),
+                '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+                '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+            ]);
+            $msg = 'permissiondenied';
         }
     }
 }
@@ -106,6 +117,7 @@ echo <<< HTML
 <input type="hidden" name="completion" value="0" />
 <input type="hidden" name="project_id" value="{$session->get("projectSession")}" />
 <input type="hidden" value="{$publishTask}" name="publish" />
+<input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}" />
 <table class="nonStriped">
 	<tr>
 	    <th colspan="2">{$strings["add_task"]}</th>

@@ -52,9 +52,8 @@ class SearchCest
         $I->seeInTitle('Search');
         $I->seeElement('form', ['name' => 'searchForm']);
         $I->dontSeeElement('h1.headingError');
-        $I->submitForm('form', [
-            'searchfor' => 'codeception'
-        ]);
+        $I->fillField(['name' => 'searchfor'], 'codeception');
+        $I->click('button[type="submit"]');
         $I->seeInCurrentUrl('/search/resultssearch.php');
         $I->see('Search results for keywords : codeception');
         $I->see('The search returned no results.');
@@ -70,9 +69,8 @@ class SearchCest
         $I->seeInTitle('Search');
         $I->seeElement('form', ['name' => 'searchForm']);
         $I->dontSeeElement('h1.headingError');
-        $I->submitForm('form', [
-            'searchfor' => $this->searchTerm
-        ]);
+        $I->fillField(['name' => 'searchfor'], $this->searchTerm);
+        $I->click('button[type="submit"]');
         $I->see('Search results for keywords : ' . $this->searchTerm);
         $I->dontSee('The search returned no results.');
         $I->seeInCurrentUrl('/search/resultssearch.php');
@@ -92,7 +90,7 @@ class SearchCest
 
         $I->fillField(['name' => 'searchfor'], $this->searchTerm);
         $I->selectOption('form select[name=heading]', 'Notes');
-        $I->click('input[type="submit"]');
+        $I->click('button[type="submit"]');
         $I->dontSee('The search returned no results.');
         $I->see('Search results for keywords : ' . $this->searchTerm);
         $I->see('Search Results : Notes', ['css' => 'h1.heading']);
@@ -114,7 +112,7 @@ class SearchCest
 
         $I->fillField(['name' => 'searchfor'], $this->searchTerm);
         $I->selectOption('form select[name=heading]', 'Client Organizations');
-        $I->click('input[type="submit"]');
+        $I->click('button[type="submit"]');
         $I->dontSee('The search returned no results.');
         $I->see('Search results for keywords : ' . $this->searchTerm);
         $I->see('Search Results : Client Organizations', ['css' => 'h1.heading']);
@@ -136,7 +134,7 @@ class SearchCest
 
         $I->fillField(['name' => 'searchfor'], $this->searchTerm);
         $I->selectOption('form select[name=heading]', 'Projects');
-        $I->click('input[type="submit"]');
+        $I->click('button[type="submit"]');
         $I->dontSee('The search returned no results.');
         $I->see('Search results for keywords : ' . $this->searchTerm);
         $I->see('Search Results : Projects', ['css' => 'h1.heading']);
@@ -158,7 +156,7 @@ class SearchCest
 
         $I->fillField(['name' => 'searchfor'], $this->searchTerm);
         $I->selectOption('form select[name=heading]', 'Tasks');
-        $I->click('input[type="submit"]');
+        $I->click('button[type="submit"]');
         $I->dontSee('The search returned no results.');
         $I->see('Search results for keywords : ' . $this->searchTerm);
         $I->see('Search Results : Tasks', ['css' => 'h1.heading']);
@@ -180,7 +178,7 @@ class SearchCest
 
         $I->fillField(['name' => 'searchfor'], $this->searchTerm);
         $I->selectOption('form select[name=heading]', 'Subtasks');
-        $I->click('input[type="submit"]');
+        $I->click('button[type="submit"]');
         $I->dontSee('The search returned no results.');
         $I->see('Search results for keywords : ' . $this->searchTerm);
         $I->see('Search Results : Subtasks', ['css' => 'h1.heading']);
@@ -202,7 +200,7 @@ class SearchCest
 
         $I->fillField(['name' => 'searchfor'], $this->searchTerm);
         $I->selectOption('form select[name=heading]', 'Discussions');
-        $I->click('input[type="submit"]');
+        $I->click('button[type="submit"]');
         $I->dontSee('The search returned no results.');
         $I->see('Search results for keywords : ' . $this->searchTerm);
         $I->see('Search Results : Discussions', ['css' => 'h1.heading']);
@@ -224,7 +222,7 @@ class SearchCest
 
         $I->fillField(['name' => 'searchfor'], $this->searchTerm);
         $I->selectOption('form select[name=heading]', 'Users');
-        $I->click('input[type="submit"]');
+        $I->click('button[type="submit"]');
         $I->dontSee('The search returned no results.');
         $I->see('Search results for keywords : ' . $this->searchTerm);
         $I->see('Search Results : Users', ['css' => 'h1.heading']);

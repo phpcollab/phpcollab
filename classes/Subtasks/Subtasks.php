@@ -4,6 +4,7 @@
 namespace phpCollab\Subtasks;
 
 use Exception;
+use Monolog\Logger;
 use phpCollab\Database;
 use phpCollab\Notifications\Notifications;
 use phpCollab\Notifications\SubtaskNotifications;
@@ -136,12 +137,17 @@ class Subtasks
 
 
     /**
-     * string @param $notification
-     * array @param $subtaskDetails
-     * array @param $projectDetails
+     * string
+     * @param $notification
+     * @param $subtaskDetails
+     * @param $notification
+     * array * @param $subtaskDetails
+     * array * @param $projectDetails
+     * @param Session $session
+     * @param Logger $logger
      * @throws Exception
      */
-    public function sendNotification($notification, $subtaskDetails, $projectDetails, Session $session)
+    public function sendNotification($notification, $subtaskDetails, $projectDetails, Session $session, Logger $logger)
     {
         $this->send = false;
 
@@ -198,7 +204,7 @@ class Subtasks
 
         if ($this->send) {
             try {
-                $this->subtaskNotifications->sendEmail($session);
+                $this->subtaskNotifications->sendEmail($session, $logger);
             } catch (Exception $e) {
                 // Log this instead of echoing it?
                 throw new Exception($e->getMessage());

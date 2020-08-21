@@ -42,21 +42,32 @@ if (empty($userDetail)) {
 }
 
 if ($request->isMethod('post')) {
-    if ($request->request->get('action') == "update") {
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get('action') == "update") {
 
-        $checkboxes = $request->request->get('alerts');
+                $checkboxes = $request->request->get('alerts');
 
-        try {
-            $notifications->setAlerts($session->get("idSession"), $checkboxes["taskAssignment"], $checkboxes["removeProjectTeam"],
-                $checkboxes["addProjectTeam"], $checkboxes["newTopic"], $checkboxes["newPost"],
-                $checkboxes["statusTaskChange"], $checkboxes["priorityTaskChange"], $checkboxes["duedateTaskChange"],
-                $checkboxes["clientAddTask"], $checkboxes["uploadFile"], $checkboxes["dailyAlert"],
-                $checkboxes["weeklyAlert"], $checkboxes["pastDueAlert"]);
+                try {
+                    $notifications->setAlerts($session->get("idSession"), $checkboxes["taskAssignment"], $checkboxes["removeProjectTeam"],
+                        $checkboxes["addProjectTeam"], $checkboxes["newTopic"], $checkboxes["newPost"],
+                        $checkboxes["statusTaskChange"], $checkboxes["priorityTaskChange"], $checkboxes["duedateTaskChange"],
+                        $checkboxes["clientAddTask"], $checkboxes["uploadFile"], $checkboxes["dailyAlert"],
+                        $checkboxes["weeklyAlert"], $checkboxes["pastDueAlert"]);
 
-            phpCollab\Util::headerFunction("../preferences/updatenotifications.php?msg=update");
-        } catch (Exception $e) {
-            echo "Error updating notifications: " . $e->getMessage();
+                    phpCollab\Util::headerFunction("../preferences/updatenotifications.php?msg=update");
+                } catch (Exception $e) {
+                    echo "Error updating notifications: " . $e->getMessage();
+                }
+            }
         }
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
 
@@ -159,7 +170,7 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 $block1->form = "user_avert";
-$block1->openForm("../preferences/updatenotifications.php");
+$block1->openForm("../preferences/updatenotifications.php", null, $csrfHandler);
 
 if (!empty($error)) {
     $block1->headingError($strings["errors"]);

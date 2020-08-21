@@ -17,57 +17,67 @@ $sendNotifications = new Notifications();
 
 $topic_id = $request->query->get('id');
 $strings = $GLOBALS["strings"];
-$action = $request->query->get('action');
 
 $detailTopic = $topics->getTopicByTopicId($topic_id);
 
 $projectDetail = $projects->getProjectById($detailTopic["top_project"]);
 
 if ($request->isMethod('post')) {
-    if ($action == "add") {
-        $post_message = phpCollab\Util::convertData($request->request->get('post_message'));
-        $post_message = phpCollab\Util::autoLinks($post_message);
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get("action") == "add") {
+                $post_message = phpCollab\Util::convertData($request->request->get('post_message'));
+                $post_message = phpCollab\Util::autoLinks($post_message);
 
-        // Increment the local copy of detailTopic instead of making another DB call to update and retrieve the count
-        $detailTopic["top_posts"] = $detailTopic["top_posts"] + 1;
+                // Increment the local copy of detailTopic instead of making another DB call to update and retrieve the count
+                $detailTopic["top_posts"] = $detailTopic["top_posts"] + 1;
 
-        // Add new post
-        $newPost = $topics->addPost($topic_id, $session->get('idSession'), $post_message);
+                // Add new post
+                $newPost = $topics->addPost($topic_id, $session->get('idSession'), $post_message);
 
-        // Increment the
-        $topics->incrementTopicPostsCount($topic_id);
+                // Increment the
+                $topics->incrementTopicPostsCount($topic_id);
 
-        if ($notifications == "true") {
-            $listPosts = $topics->getPostsByTopicIdAndNotOwner($detailTopic["top_id"], $session->get('idSession'));
+                if ($notifications == "true") {
+                    $listPosts = $topics->getPostsByTopicIdAndNotOwner($detailTopic["top_id"], $session->get('idSession'));
 
-            $distinct = '';
+                    $distinct = '';
 
-            foreach ($listPosts as $post) {
-                if ($post["pos_mem_id"] != $distinct) {
-                    $posters .= $post["pos_mem_id"] . ",";
+                    foreach ($listPosts as $post) {
+                        if ($post["pos_mem_id"] != $distinct) {
+                            $posters .= $post["pos_mem_id"] . ",";
+                        }
+                        $distinct = $post["pos_mem_id"];
+                    }
+                    if (substr($posters, -1) == ",") {
+                        $posters = substr($posters, 0, -1);
+                    }
+
+                    if ($posters != "") {
+
+
+                        $newPostNotice = new TopicNewPost();
+
+                        try {
+                            $notificationList = $sendNotifications->getNotificationsWhereMemberIn($posters);
+
+                            $newPostNotice->generateEmail($detailTopic, $projectDetail, $notificationList, $session);
+
+                        } catch (Exception$e) {
+                            // Log exception
+                        }
+                    }
                 }
-                $distinct = $post["pos_mem_id"];
-            }
-            if (substr($posters, -1) == ",") {
-                $posters = substr($posters, 0, -1);
-            }
-
-            if ($posters != "") {
-
-
-                $newPostNotice = new TopicNewPost();
-
-                try {
-                    $notificationList = $sendNotifications->getNotificationsWhereMemberIn($posters);
-
-                    $newPostNotice->generateEmail($detailTopic, $projectDetail, $notificationList, $session);
-
-                } catch (Exception$e) {
-                    // Log exception
-                }
+                phpCollab\Util::headerFunction("../topics/viewtopic.php?id=$topic_id&msg=add");
             }
         }
-        phpCollab\Util::headerFunction("../topics/viewtopic.php?id=$topic_id&msg=add");
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
 
@@ -101,7 +111,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "ptT";
-$block1->openForm("../topics/addpost.php?action=add&id=" . $detailTopic["top_id"] . "&project=" . $detailTopic["top_project"]);
+$block1->openForm("../topics/addpost.php?id=" . $detailTopic["top_id"] . "&project=" . $detailTopic["top_project"], null, $csrfHandler);
 
 if (isset($error) && $error != "") {
     $block1->headingError($strings["errors"]);
@@ -128,7 +138,7 @@ $block1->contentRow($strings["last_post"], phpCollab\Util::createDate($detailTop
 $block1->contentTitle($strings["details"]);
 
 $block1->contentRow($strings["message"], '<textarea rows="10" style="width: 400px; height: 160px;" name="post_message" cols="47"></textarea>');
-$block1->contentRow("", '<input type="SUBMIT" value="' . $strings["save"] . '"">');
+$block1->contentRow("", '<button type="submit" name="action" value="add">' . $strings["save"] . '</button>');
 
 $block1->contentTitle($strings["posts"]);
 

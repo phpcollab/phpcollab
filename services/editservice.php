@@ -14,32 +14,40 @@ if ($session->get("profilSession") != "0") {
 }
 $services = new Services();
 
-
-//case update user
 $id = $request->query->get('id');
-
-$action = $request->query->get('action');
 
 $name = '';
 $namePrinted = '';
 $hourlyRate = '';
 
 if (!empty($id)) {
-
-//case update user
     if ($request->isMethod('post')) {
-        if ($request->query->get('action') == "update") {
-            $name = Util::convertData($request->request->get('name'));
-            $namePrinted = Util::convertData($request->request->get('name_printed'));
-            $hourlyRate = $request->request->get('hourly_rate');
-            try {
-                $services->updateService($id, $name, $namePrinted, $hourlyRate);
-            } catch (Exception $e) {
-            }
 
-            phpCollab\Util::headerFunction("../services/listservices.php?msg=update");
+        try {
+            if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+                if ($request->request->get('action') == "update") {
+                    $name = Util::convertData($request->request->get('name'));
+                    $namePrinted = Util::convertData($request->request->get('name_printed'));
+                    $hourlyRate = $request->request->get('hourly_rate');
+                    try {
+                        $services->updateService($id, $name, $namePrinted, $hourlyRate);
+                    } catch (Exception $e) {
+                    }
+
+                    phpCollab\Util::headerFunction("../services/listservices.php?msg=update");
+                }
+            }
+        } catch (Exception $e) {
+            $logger->critical('CSRF Token Error', [
+                'edit bookmark' => $request->request->get("id"),
+                '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+                '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+            ]);
+            $msg = 'permissiondenied';
         }
+
     }
+
     $detailService = $services->getService($id);
 
     //set values in form
@@ -50,20 +58,33 @@ if (!empty($id)) {
 
 //case add user
 if (empty($id) && $request->isMethod('post')) {
-    if ($action == "add") {
-        //replace quotes by html code in name and address
-        $name = phpCollab\Util::convertData($request->request->get('name'));
-        $namePrinted = phpCollab\Util::convertData($request->request->get('name_printed'));
-        $hourlyRate = $request->request->get('hourly_rate');
 
-        try {
-            $services->addService($name, $namePrinted, $hourlyRate);
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get("action") == "add") {
+                //replace quotes by html code in name and address
+                $name = phpCollab\Util::convertData($request->request->get('name'));
+                $namePrinted = phpCollab\Util::convertData($request->request->get('name_printed'));
+                $hourlyRate = $request->request->get('hourly_rate');
 
-            phpCollab\Util::headerFunction("../services/listservices.php?msg=add");
-        } catch (Exception $e) {
+                try {
+                    $services->addService($name, $namePrinted, $hourlyRate);
 
+                    phpCollab\Util::headerFunction("../services/listservices.php?msg=add");
+                } catch (Exception $e) {
+
+                }
+            }
         }
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
+
 }
 
 /* Titles */
@@ -73,7 +94,7 @@ if ($id == '') {
     $setTitle .= " : Edit Service (" . $detailService["serv_name"] . ")";
 }
 
-$bodyCommand = "onLoad=\"document.serv_editForm.n.focus();\"";
+$bodyCommand = 'onLoad="document.serv_editForm.name.focus();"';
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
@@ -100,11 +121,13 @@ $block1 = new phpCollab\Block();
 
 if ($id == "") {
     $block1->form = "serv_edit";
-    $block1->openForm("../services/editservice.php?id=$id&action=add&#" . $block1->form . "Anchor");
+    $submitValue = "add";
+    $block1->openForm("../services/editservice.php?#" . $block1->form . "Anchor", null, $csrfHandler);
 }
 if ($id != "") {
     $block1->form = "serv_edit";
-    $block1->openForm("../services/editservice.php?id=$id&action=update&#" . $block1->form . "Anchor");
+    $submitValue = "update";
+    $block1->openForm("../services/editservice.php?id=$id#" . $block1->form . "Anchor", null, $csrfHandler);
 }
 
 if (!empty($error)) {
@@ -143,7 +166,7 @@ echo <<<TR
 </tr>
 <tr class="odd">
     <td class="leftvalue">&nbsp;</td>
-    <td><input type="submit" name="Save" value="{$strings["save"]}"></td>
+    <td><button type="submit" name="action" value="{$submitValue}">{$strings["save"]}</button></td>
 </tr>
 TR;
 

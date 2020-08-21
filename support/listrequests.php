@@ -54,7 +54,7 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 $block1->form = "srs";
-$block1->openForm("../support/listrequests.php?&id=$id#" . $block1->form . "Anchor");
+$block1->openForm("../support/listrequests.php?&id=$id#" . $block1->form . "Anchor", null, $csrfHandler);
 $block1->heading($strings["support_requests"]);
 if ($teamMember == "true" || $session->get("profilSession") == "0") {
     $block1->openPaletteIcon();

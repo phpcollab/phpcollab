@@ -40,7 +40,7 @@ if ($msg != "") {
 if ($teamMember == "true" || $session->get("profilSession") == "5") {
     $block7 = new phpCollab\Block();
     $block7->form = "wbSe";
-    $block7->openForm("../phases/listphases.php?id=$id&#".$block7->form."Anchor");
+    $block7->openForm("../phases/listphases.php?id=$id&#".$block7->form."Anchor", null, $csrfHandler);
     $block7->headingToggle($strings["phases"]);
     $block7->openPaletteIcon();
 

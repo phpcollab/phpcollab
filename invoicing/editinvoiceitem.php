@@ -30,19 +30,30 @@ if ($detailInvoiceItem) {
 }
 
 if ($request->isMethod('post')) {
-    if ($request->query->get("action") == "update") {
-        try {
-            $success = $invoices->updateItem(
-                $id,
-                $request->request->get("rate_type"),
-                $request->request->get("rate_value"),
-                $request->request->get("amount_ex_tax")
-            );
-            phpCollab\Util::headerFunction("../invoicing/viewinvoice.php?msg=update&id={$detailInvoiceItem["invitem_invoice"]}");
-        } catch (Exception $exception) {
-            $error = $strings["error_editing_invoice"];
-            error_log($strings["error_editing_invoice"] . ': ' . $exception->getMessage());
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get("action") == "update") {
+                try {
+                    $success = $invoices->updateItem(
+                        $id,
+                        $request->request->get("rate_type"),
+                        $request->request->get("rate_value"),
+                        $request->request->get("amount_ex_tax")
+                    );
+                    phpCollab\Util::headerFunction("../invoicing/viewinvoice.php?msg=update&id={$detailInvoiceItem["invitem_invoice"]}");
+                } catch (Exception $exception) {
+                    $error = $strings["error_editing_invoice"];
+                    $logger->error($strings["error_editing_invoice"] . ': ' . $exception->getMessage());
+                }
+            }
         }
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
 
@@ -77,7 +88,7 @@ $block1 = new phpCollab\Block();
 
 if (!empty($detailInvoiceItem)) {
     $block1->form = "invoice";
-    $block1->openForm("../invoicing/editinvoiceitem.php?id=" . $id . "&action=update&#" . $block1->form . "Anchor");
+    $block1->openForm("../invoicing/editinvoiceitem.php?id=" . $id . "&#" . $block1->form . "Anchor", null, $csrfHandler);
 }
 
 if (!empty($error)) {
@@ -118,30 +129,28 @@ $detailClient = $organizations->getOrganizationById($projectDetail["pro_organiza
 $listServices = $services->getAllServices('serv.name ASC');
 
 if ($listServices) {
-    $servicesCount = 0;
     $selectService = '';
+
     foreach ($listServices as $service) {
-        $j = $servicesCount + 1;
         $selectService .= <<<RADIOITEM
-<label style="display: block">
+<label style="display: block; width: fit-content">
     <input 
         type="radio" 
         name="rate_type" 
         value="{$service["serv_id"]}" 
         onclick="rateField('{$service["serv_hourly_rate"]}');" 
         id="service{$service["serv_id"]}"
-        {$checked[$j]}> {$rateType["3"]} [{$service["serv_name"]}]
+        {$checked[$service["serv_id"]]}> {$rateType["3"]} [{$service["serv_name"]}]
 </label>
 RADIOITEM;
-        $servicesCount++;
     }
 }
 
 $block1->contentRow($strings["worked_hours"], '<input type="hidden" name="worked_hours" value="' . $worked_hours . '">' . $worked_hours);
 $radioButtons = <<<HTML
-<label style="display: block"><input type="radio" name="rate_type" value="a" {$checkeda} id="custom"> {$rateType["0"]}</label>
-<label style="display: block"><input type="radio" name="rate_type" value="b" onclick="rateField('{$projectDetail["pro_hourly_rate"]}');" {$checkedb} id="project"> {$rateType["1"]}</label>
-<label style="display: block"><input type="radio" name="rate_type" value="c" onclick="rateField('{$detailClient["org_hourly_rate"]}');" {$checkedc} id="organization"> {$rateType["2"]}</label>
+<label style="display: block; width: fit-content"><input type="radio" name="rate_type" value="a" {$checkeda} id="custom"> {$rateType["0"]}</label>
+<label style="display: block; width: fit-content"><input type="radio" name="rate_type" value="b" onclick="rateField('{$projectDetail["pro_hourly_rate"]}');" {$checkedb} id="project"> {$rateType["1"]}</label>
+<label style="display: block; width: fit-content"><input type="radio" name="rate_type" value="c" onclick="rateField('{$detailClient["org_hourly_rate"]}');" {$checkedc} id="organization"> {$rateType["2"]}</label>
 {$selectService}
 HTML;
 
@@ -152,7 +161,7 @@ $block1->contentRow($strings["amount_ex_tax"], '<input type="text" name="amount_
 echo <<<HTML
     <tr class="odd">
         <td class="leftvalue">&nbsp;</td>
-        <td><input type="submit" value="{$strings["save"]}"></td>
+        <td><button type="submit" name="action" value="update">{$strings["save"]}</button></td>
     </tr>
 HTML;
 

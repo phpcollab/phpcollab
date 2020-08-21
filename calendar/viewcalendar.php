@@ -125,65 +125,79 @@ if ($firstday == 0) {
 if ($type == "calendEdit") {
 
     if ($request->isMethod('post')) {
-        $subject = $request->request->get("subject");
-        $description = $request->request->get("description");
-        $location = $request->request->get("location");
-        $shortname = $request->request->get("shortname");
-        $dateStart = $request->request->get("dateStart");
-        $dateEnd = $request->request->get("dateEnd");
-        $timeStart = $request->request->get("time_start");
-        $timeEnd = $request->request->get("time_end");
-        $reminder = $request->request->get("reminder");
-        $broadcast = $request->request->get("broadcast");
-        $recurring = $request->request->get("recurring");
+        try {
 
-        if ($request->query->get("action") == "update") {
-            if ($recurring == "") {
-                $recurring = "0";
-            } else {
-                $dateStart_A = substr("$dateStart", 0, 4);
-                $dateStart_M = substr("$dateStart", 5, 2);
-                $dateStart_J = substr("$dateStart", 8, 2);
-                $dayRecurr = Util::dayOfWeek(mktime(12, 12, 12, $dateStart_M, $dateStart_J, $dateStart_A));
-            }
-            $subject = phpCollab\Util::convertData($subject);
-            $description = phpCollab\Util::convertData($description);
-            $dayRecurr = ($dayRecurr != 0) ? $dayRecurr : 0;
+            if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+                $subject = $request->request->get("subject");
+                $description = $request->request->get("description");
+                $location = $request->request->get("location");
+                $shortname = $request->request->get("shortname");
+                $dateStart = $request->request->get("dateStart");
+                $dateEnd = $request->request->get("dateEnd");
+                $timeStart = $request->request->get("time_start");
+                $timeEnd = $request->request->get("time_end");
+                $reminder = $request->request->get("reminder");
+                $broadcast = $request->request->get("broadcast");
+                $recurring = $request->request->get("recurring");
 
-            $calendars->editCalendarEvent(
-                $id, $subject, $description, $location, $shortname, $dateStart, $dateEnd, $timeStart, $timeEnd,
-                $reminder, $broadcast, $recurring, $dayRecurr
-            );
+                if ($request->query->get("action") == "update") {
+                    if ($recurring == "") {
+                        $recurring = "0";
+                    } else {
+                        $dateStart_A = substr("$dateStart", 0, 4);
+                        $dateStart_M = substr("$dateStart", 5, 2);
+                        $dateStart_J = substr("$dateStart", 8, 2);
+                        $dayRecurr = Util::dayOfWeek(mktime(12, 12, 12, $dateStart_M, $dateStart_J, $dateStart_A));
+                    }
+                    $subject = phpCollab\Util::convertData($subject);
+                    $description = phpCollab\Util::convertData($description);
+                    $dayRecurr = ($dayRecurr != 0) ? $dayRecurr : 0;
 
-            phpCollab\Util::headerFunction("../calendar/viewcalendar.php?id=$id&dateCalend=$dateCalend&type=calendDetail&msg=update");
-        }
+                    $calendars->editCalendarEvent(
+                        $id, $subject, $description, $location, $shortname, $dateStart, $dateEnd, $timeStart, $timeEnd,
+                        $reminder, $broadcast, $recurring, $dayRecurr
+                    );
 
-        if ($request->query->get("action") == "add") {
-
-            if ($shortname == "") {
-                $error = $strings["blank_fields"];
-            } else {
-                if ($recurring == "") {
-                    $recurring = "0";
-                } else {
-                    $dateStart_A = substr($dateStart, 0, 4);
-                    $dateStart_M = substr($dateStart, 5, 2);
-                    $dateStart_J = substr($dateStart, 8, 2);
-                    $dayRecurr = phpCollab\Util::dayOfWeek(mktime(12, 12, 12, $dateStart_M, $dateStart_J, $dateStart_A));
+                    phpCollab\Util::headerFunction("../calendar/viewcalendar.php?id=$id&dateCalend=$dateCalend&type=calendDetail&msg=update");
                 }
 
-                $dayRecurr = (empty($dayRecurr)) ? '0' : $dayRecurr;
+                if ($request->query->get("action") == "add") {
 
-                $subject = phpCollab\Util::convertData($subject);
-                $description = phpCollab\Util::convertData($description);
-                $shortname = phpCollab\Util::convertData($shortname);
+                    if ($shortname == "") {
+                        $error = $strings["blank_fields"];
+                    } else {
+                        if ($recurring == "") {
+                            $recurring = "0";
+                        } else {
+                            $dateStart_A = substr($dateStart, 0, 4);
+                            $dateStart_M = substr($dateStart, 5, 2);
+                            $dateStart_J = substr($dateStart, 8, 2);
+                            $dayRecurr = phpCollab\Util::dayOfWeek(mktime(12, 12, 12, $dateStart_M, $dateStart_J,
+                                $dateStart_A));
+                        }
 
-                $num = $calendars->addCalendarEvent(
-                    $session->get("idSession"), $subject, $description, $location, $shortname, $dateStart, $dateEnd, $timeStart, $timeEnd,
-                    $reminder, $broadcast, $recurring, $dayRecurr);
+                        $dayRecurr = (empty($dayRecurr)) ? '0' : $dayRecurr;
 
-                phpCollab\Util::headerFunction("../calendar/viewcalendar.php?id={$num}&dateCalend={$dateCalend}&type=calendDetail&msg=add");
+                        $subject = phpCollab\Util::convertData($subject);
+                        $description = phpCollab\Util::convertData($description);
+                        $shortname = phpCollab\Util::convertData($shortname);
+
+                        $num = $calendars->addCalendarEvent(
+                            $session->get("idSession"), $subject, $description, $location, $shortname, $dateStart,
+                            $dateEnd, $timeStart, $timeEnd,
+                            $reminder, $broadcast, $recurring, $dayRecurr);
+
+                        phpCollab\Util::headerFunction("../calendar/viewcalendar.php?id={$num}&dateCalend={$dateCalend}&type=calendDetail&msg=add");
+                    }
+                }
             }
+        } catch (Exception $e) {
+            $logger->critical('CSRF Token Error', [
+                'edit bookmark' => $id,
+                '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+                '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+            ]);
+            $msg = 'permissiondenied';
         }
     }
 
@@ -292,9 +306,9 @@ if ($type == "calendEdit") {
     $block1->form = "calend";
 
     if ($id != "") {
-        $block1->openForm("../calendar/viewcalendar.php?&id=$id&dateCalend=$dateCalend&type=$type&action=update#" . $block1->form . "Anchor");
+        $block1->openForm("../calendar/viewcalendar.php?&id=$id&dateCalend=$dateCalend&type=$type&action=update#" . $block1->form . "Anchor", null, $csrfHandler);
     } else {
-        $block1->openForm("../calendar/viewcalendar.php?&id=$id&dateCalend=$dateCalend&type=$type&action=add#" . $block1->form . "Anchor");
+        $block1->openForm("../calendar/viewcalendar.php?&id=$id&dateCalend=$dateCalend&type=$type&action=add#" . $block1->form . "Anchor", null, $csrfHandler);
     }
 
     if (!empty($error)) {
@@ -433,7 +447,7 @@ if ($type == "calendDetail") {
     $block1 = new phpCollab\Block();
 
     $block1->form = "calend";
-    $block1->openForm("../calendar/viewcalendar.php#" . $block1->form . "Anchor");
+    $block1->openForm("../calendar/viewcalendar.php#" . $block1->form . "Anchor", null, $csrfHandler);
 
     if (!empty($error)) {
         $block1->headingError($strings["errors"]);
@@ -531,7 +545,7 @@ if ($type == "dayList") {
     $block1 = new phpCollab\Block();
 
     $block1->form = "calendList";
-    $block1->openForm("../calendar/viewcalendar.php?type=$type&dateCalend=$dateCalend&#" . $block1->form . "Anchor");
+    $block1->openForm("../calendar/viewcalendar.php?type=$type&dateCalend=$dateCalend&#" . $block1->form . "Anchor", null, $csrfHandler);
 
     $block1->heading("$dayName $day $monthName $year");
 

@@ -64,16 +64,13 @@ class ReportsCest
         $I->see('Report Results', ['css' => 'h1.heading']);
 
         $I->amGoingTo('enter a report name and save');
-        $I->submitForm('form[name=save_reportForm]', [
-            'report_name' => $this->reportName,
-            'filterOrganization' => 'ALL',
-            'filterProject' => 'ALL',
-            'filterAssignedTo' => 'ALL',
-            'filterStatus' => 'ALL',
-            'filterPriority' => 'ALL',
-            'Save'
-        ]);
-
+        $I->fillField(['name' => 'report_name'], $this->reportName);
+        $I->fillField(['name' => 'filterOrganization'], 'ALL');
+        $I->fillField(['name' => 'filterProject'], 'ALL');
+        $I->fillField(['name' => 'filterAssignedTo'], 'ALL');
+        $I->fillField(['name' => 'filterStatus'], 'ALL');
+        $I->fillField(['name' => 'filterStatus'], 'ALL');
+        $I->click('button[type="submit"]');
         $I->see('Success : Created report');
         $I->see($this->reportName, ['css' => 'table.listing']);
         $I->seeInCurrentUrl('/reports/listreports.php?msg=addReport');
@@ -119,7 +116,7 @@ class ReportsCest
         $I->seeInTitle('Delete Report');
         $I->see('#' . $this->reportId);
         $I->see('Codeception Report', ['css' => '.content td']);
-        $I->click('input[type="submit"]');
+        $I->click('button[type="submit"]');
         $I->see('Success : Deleted reports');
         $I->seeElement('.noItemsFound');
     }

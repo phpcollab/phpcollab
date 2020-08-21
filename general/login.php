@@ -257,7 +257,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "login";
-$block1->openForm("../general/login.php?auth=test");
+$block1->openForm("../general/login.php?auth=test", null, $csrfHandler);
 
 if (!empty($request->query->get('url'))) {
     echo "<input value='{$request->query->get('url')}' type='hidden' name='url'>";

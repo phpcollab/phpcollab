@@ -13,9 +13,21 @@ $strings = $GLOBALS["strings"];
 $projects = new Projects();
 
 if ($request->isMethod('post')) {
-    if ($request->request->get("action") == "delete") {
-        $projects->publishProject($projectId, false);
-        phpCollab\Util::headerFunction("../projects/viewprojectsite.php?id={$projectId}&msg=removeProjectSite");
+
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get("action") == "delete") {
+                $projects->publishProject($projectId, false);
+                phpCollab\Util::headerFunction("../projects/viewprojectsite.php?id={$projectId}&msg=removeProjectSite");
+            }
+        }
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
 
@@ -40,7 +52,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "projectsite_delete";
-$block1->openForm("../projects/deleteprojectsite.php?project=$projectId");
+$block1->openForm("../projects/deleteprojectsite.php?project=$projectId", null, $csrfHandler);
 
 $block1->heading($strings["delete_projectsite"]);
 

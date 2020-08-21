@@ -8,6 +8,12 @@ use phpCollab\Services\Services;
 $checkSession = "true";
 include_once '../includes/library.php';
 
+$id = $request->query->get("id");
+
+if (empty($id)) {
+    phpCollab\Util::headerFunction('listservices.php?msg=permissiondenied');
+}
+
 $services = new Services();
 
 if ($session->get("profilSession") != "0") {
@@ -33,7 +39,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "serviceD";
-$block1->openForm("../services/viewservice.php#" . $block1->form . "Anchor");
+$block1->openForm("../services/viewservice.php#" . $block1->form . "Anchor", null, $csrfHandler);
 
 if (!empty($error)) {
     $block1->headingError($strings["errors"]);
@@ -52,7 +58,7 @@ $block1->contentTitle($strings["details"]);
 
 $block1->contentRow($strings["name"], $detailService["serv_name"]);
 $block1->contentRow($strings["name_print"], $detailService["serv_name_print"]);
-$block1->contentRow($strings["hourly_rate"], $detailService["serv_hourly"]);
+$block1->contentRow($strings["hourly_rate"], $detailService["serv_hourly_rate"]);
 
 $block1->closeContent();
 $block1->closeForm();

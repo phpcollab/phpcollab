@@ -37,7 +37,7 @@ if (!empty($msg)) {
 $block1 = new phpCollab\Block();
 
 $block1->form = "send";
-$block1->openForm("../general/sendpassword.php");
+$block1->openForm("../general/sendpassword.php", null, $csrfHandler);
 
 if (!empty($error)) {
     $block1->headingError($strings["errors"]);

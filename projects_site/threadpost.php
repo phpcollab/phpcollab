@@ -22,22 +22,33 @@ if ($detailTopic["top_published"] == "1" || $detailTopic["top_project"] != $sess
 }
 
 if ($request->isMethod('post')) {
-    if ($request->request->get('action') == "add") {
-        $detailTopic["top_posts"] = $detailTopic["top_posts"] + 1;
-        $messageField = phpCollab\Util::convertData($request->request->get('messageField'));
-        $messageField = phpCollab\Util::autoLinks($messageField);
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get('action') == "add") {
+                $detailTopic["top_posts"] = $detailTopic["top_posts"] + 1;
+                $messageField = phpCollab\Util::convertData($request->request->get('messageField'));
+                $messageField = phpCollab\Util::autoLinks($messageField);
 
-        $newPost = $topics->addPost($id, $session->get("idSession"), $messageField);
+                $newPost = $topics->addPost($id, $session->get("idSession"), $messageField);
 
-        $topics->incrementTopicPostsCount($id);
+                $topics->incrementTopicPostsCount($id);
 
-        if ($notifications == "true") {
-            try {
-                $topics->sendNewPostNotification($newPost, $detailTopic, $session);
-            } catch (Exception $e) {
-                echo 'Error sending mail, ' . $e->getMessage();
+                if ($notifications == "true") {
+                    try {
+                        $topics->sendNewPostNotification($newPost, $detailTopic, $session);
+                    } catch (Exception $e) {
+                        echo 'Error sending mail, ' . $e->getMessage();
+                    }
+                }
             }
         }
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
 
@@ -53,6 +64,7 @@ echo <<<FORM
  <form method="POST" action="../projects_site/threadpost.php?id={$id}" name="post">
     <input name="id" type="hidden" value="{$id}">
     <input name="action" type="hidden" value="add">
+    <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}" />
 
 <table style="width: 50%" class="nonStriped">
     <tr>

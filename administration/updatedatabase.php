@@ -115,31 +115,31 @@ $block1->heading($strings["edit_database"]);
 $block1->openContent();
 $block1->contentTitle("Details");
 $block1->form = "settings";
-$block1->openForm("../administration/updatedatabase.php?action=generate");
+$block1->openForm("../administration/updatedatabase.php?action=generate", null, $csrfHandler);
 
 
 if ($version == $versionNew) {
     if (empty($versionOld)) {
         $versionOld = $version;
     }
-    echo "<input value=\"$versionOld\" name=\"versionOldNew\" type=\"hidden\">";
+    echo '<input value="' . $versionOld . '" name="versionOldNew" type="hidden">';
 } else {
-    echo "<input value=\"$version\" name=\"versionOldNew\" type=\"hidden\">";
+    echo '<input value="' . $version . '" name="versionOldNew" type="hidden">';
 }
 
-echo "<tr class=\"odd\"><td class=\"leftvalue\">&nbsp;</td><td>Old version $versionOld<br/>";
+echo '<tr class="odd"><td class="leftvalue">&nbsp;</td><td>Old version ' . $versionOld . '<br/>';
 $comptUpdateDatabase = count($updateDatabase);
 for ($i = 0; $i < $comptUpdateDatabase; $i++) {
     if ($versionOld < $updateDatabase[$i]) {
-        echo "<input type=\"checkbox\" value=\"1\" name=\"dumpVersion[$updateDatabase[$i]]\" checked>$updateDatabase[$i]";
+        echo '<input type="checkbox" value="1" name="dumpVersion[' . $updateDatabase[$i] . ']" checked>' . $updateDatabase[$i];
         $submit = "true";
     }
 }
 
-echo "<br/>New version $version</td></tr>";
+echo "<p>New version $version</p></td></tr>";
 
 if ($submit == "true") {
-    echo "<tr class=\"odd\"><td class=\"leftvalue\">&nbsp;</td><td><input type=\"SUBMIT\" value=\"" . $strings["save"] . "\"></td></tr>";
+    echo '<tr class="odd"><td class="leftvalue">&nbsp;</td><td><input type="SUBMIT" value="' . $strings["save"] . '"></td></tr>';
 }
 
 $block1->closeContent();

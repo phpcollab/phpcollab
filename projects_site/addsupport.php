@@ -14,25 +14,39 @@ $userDetail = $members->getMemberById($session->get("idSession"));
 $project = $request->query->get('project');
 $priority = $GLOBALS["priority"];
 
-if ($action == "add") {
-    $request_priority = $request->request->get('priority');
-    $subject = $request->request->get('subject');
-    $message = $request->request->get('message');
-    $userId = $request->request->get('userId');
-    $projectId = $request->request->get('projectId');
+if ($request->isMethod('post')) {
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->query->get("action") == "add") {
+                $request_priority = $request->request->get('priority');
+                $subject = $request->request->get('subject');
+                $message = $request->request->get('message');
+                $userId = $request->request->get('userId');
+                $projectId = $request->request->get('projectId');
 
-    if (empty($subject) || empty($message)) {
-        $errorMessage = "Please enter a subject and message";
-    } else {
-        $supportRequestId = $support->addSupportRequest($userId, $request_priority, $subject, $message, $projectId);
+                if (empty($subject) || empty($message)) {
+                    $errorMessage = "Please enter a subject and message";
+                } else {
+                    $supportRequestId = $support->addSupportRequest($userId, $request_priority, $subject, $message, $projectId);
 
-        if ($notifications == "true") {
-            include '../support/noti_newrequest.php';
+                    if ($notifications == "true") {
+                        include '../support/noti_newrequest.php';
+                    }
+
+                    phpCollab\Util::headerFunction("suprequestdetail.php?id=$supportRequestId");
+                }
+            }
         }
-
-        phpCollab\Util::headerFunction("suprequestdetail.php?id=$supportRequestId");
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
+
 
 $bouton[6] = "over";
 $titlePage = $strings["support"];
@@ -46,6 +60,7 @@ ERROR;
 
 echo <<<STARTFORM
 <form method="POST" action="../projects_site/addsupport.php?action=add&project={$session->get("projectSession")}#filedetailsAnchor" name="addsupport">
+    <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}" />
 STARTFORM;
 
 echo <<<TABLE

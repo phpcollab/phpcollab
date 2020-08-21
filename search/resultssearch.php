@@ -23,6 +23,7 @@ $setTitle .= " : Search Results";
 $bodyCommand = 'onLoad="document.searchForm.searchfor.focus()"';
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
+
 $searchfor = $request->query->get("searchfor");
 $searchfor = urldecode($searchfor);
 $searchfor = phpCollab\Util::convertData($searchfor);
@@ -436,7 +437,7 @@ $block0->closeContent();
 
 if (!empty($listProjects) && count($listProjects) > 0) {
     $block1->form = "ProjectForm";
-    $block1->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block1->form . "Anchor");
+    $block1->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block1->form . "Anchor", null, $csrfHandler);
 
     $block1->headingToggle($strings["search_results"] . " : " . $strings["projects"] . " ({$block1->getRecordsTotal()})");
 
@@ -490,7 +491,7 @@ if (!empty($listProjects) && count($listProjects) > 0) {
 
 if (!empty($listTasks)) {
     $block2->form = "TaskForm";
-    $block2->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block2->form . "Anchor");
+    $block2->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block2->form . "Anchor", null, $csrfHandler);
 
     $block2->headingToggle($strings["search_results"] . " : " . $strings["tasks"] . " ({$block2->getRecordsTotal()})");
 
@@ -537,7 +538,7 @@ if (!empty($listTasks)) {
 
 if ($listSubtasks) {
     $block9->form = "SubtaskForm";
-    $block9->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block9->form . "Anchor");
+    $block9->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block9->form . "Anchor", null, $csrfHandler);
     $block9->headingToggle($strings["search_results"] . " : " . $strings["subtasks"] . " ({$block9->getRecordsTotal()})");
 
     $block9->openResults();
@@ -579,7 +580,7 @@ if ($listSubtasks) {
 }
 if ($listMembers) {
     $block3->form = "UserForm";
-    $block3->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block3->form . "Anchor");
+    $block3->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block3->form . "Anchor", null, $csrfHandler);
 
     $block3->headingToggle($strings["search_results"] . " : " . $strings["users"] . " ({$block3->getRecordsTotal()})");
 
@@ -617,7 +618,7 @@ if ($listMembers) {
 
 if (!empty($listOrganizations)) {
     $block4->form = "ClientForm";
-    $block4->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block4->form . "Anchor");
+    $block4->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block4->form . "Anchor", null, $csrfHandler);
 
     $block4->headingToggle($strings["search_results"] . " : " . $strings["organizations"] . " ({$block4->getRecordsTotal()})");
 
@@ -644,7 +645,7 @@ if (!empty($listOrganizations)) {
 
 if (!empty($listTopics)) {
     $block5->form = "ThreadTopicForm";
-    $block5->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block5->form . "Anchor");
+    $block5->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block5->form . "Anchor", null, $csrfHandler);
 
     $block5->headingToggle($strings["search_results"] . " : " . $strings["discussions"] . " ({$block5->getRecordsTotal()})");
 
@@ -683,7 +684,7 @@ if (!empty($listTopics)) {
 
 if (!empty($listNotes)) {
     $block6->form = "notesForm";
-    $block6->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block6->form . "Anchor");
+    $block6->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block6->form . "Anchor", null, $csrfHandler);
 
     $block6->headingToggle($strings["search_results"] . " : " . $strings["notes"] . " ({$block6->getRecordsTotal()})");
 
@@ -722,7 +723,7 @@ if (!empty($listNotes)) {
 $block7 = new phpCollab\Block();
 
 $block7->form = "search";
-$block7->openForm("../search/createsearch.php?action=search");
+$block7->openForm("../search/createsearch.php?", null, $csrfHandler);
 
 $block7->openContent();
 $block7->contentTitle($strings["enter_keywords"]);
@@ -746,7 +747,7 @@ echo <<<HTML
 </tr>
 <tr class="odd">
 	<td class="leftvalue">&nbsp;</td>
-	<td><input type="submit" name="Save" value="{$strings["search"]}" /></td>
+	<td><button type="submit" name="action" value="search">{$strings["search"]}</button></td>
 </tr>
 HTML;
 

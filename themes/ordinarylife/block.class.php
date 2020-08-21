@@ -2,6 +2,8 @@
 #Application name: PhpCollab
 #Status page: 0
 
+use phpCollab\CsrfHandler;
+
 class block {
 
 function block() {
@@ -263,16 +265,26 @@ if ($sortingStyles != "") {
 }
 }
 
-/**
- * Open a standard form
- * @param string $address Action form value
- * @see block::closeFormResults()
- * @see block::closeForm()
- * @access public
- **/
-function openForm($address) {
-echo "<a name=\"".$this->form."Anchor\"></a>\n
-<form accept-charset=\"UNKNOWN\" method=\"POST\" action=\"$address\" name=\"".$this->form."Form\" enctype=\"application/x-www-form-urlencoded\">\n\n";
+    /**
+     * Open a standard form
+     * @param string $address Action form value
+     * @param null $additionalAttributes
+     * @param CsrfHandler|null $csrfHandler
+     * @see block::closeFormResults()
+     * @see block::closeForm()
+     * @access public
+     */
+function openForm($address, $additionalAttributes = null, CsrfHandler $csrfHandler = null) {
+    echo <<<FORM
+<a id="{$this->form}Anchor"></a>
+<form method="POST" action="{$address}" name="{$this->form}Form" enctype="application/x-www-form-urlencoded" {$additionalAttributes}>
+FORM;
+    if ($csrfHandler) {
+        echo <<<CSRF_INPUT
+    <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}">
+CSRF_INPUT;
+
+    }
 }
 
 /**
@@ -533,7 +545,7 @@ function buildLink($url,$label,$type) {
         if (substr($url, 0, 4) != 'http') {
             // Add default http on it
             $url = "http://" . $url;
-        } 
+        }
 		return "<a href=\"$url\" target=\"_blank\">$label</a>";
 	} else if ($type == "mail") {
 		return "<a href=\"mailto:$url\">$label</a>";

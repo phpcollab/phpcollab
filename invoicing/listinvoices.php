@@ -79,7 +79,7 @@ $blockPage->setLimitsNumber(1);
 $block1 = new phpCollab\Block();
 
 $block1->form = "saP";
-$block1->openForm("../invoicing/listinvoices.php?client=$clientId&typeInvoices=$typeInvoices#" . $block1->form . "Anchor");
+$block1->openForm("../invoicing/listinvoices.php?client=$clientId&typeInvoices=$typeInvoices#" . $block1->form . "Anchor", null, $csrfHandler);
 
 if ($typeInvoices == "open") {
     $status = "0";

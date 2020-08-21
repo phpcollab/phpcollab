@@ -24,54 +24,65 @@ include_once '../includes/library.php';
 $teams = new Teams();
 
 if ($request->isMethod('post')) {
-    if ($request->request->get('action') == "update") {
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get('action') == "update") {
 
-        $oldPassword = $request->request->get('old_password');
-        $confirmPassword = $request->request->get('confirm_password');
-        $newPassword = $request->request->get('new_password');
+                $oldPassword = $request->request->get('old_password');
+                $confirmPassword = $request->request->get('confirm_password');
+                $newPassword = $request->request->get('new_password');
 
-        $r = substr($oldPassword, 0, 2);
-        $oldPassword = crypt($oldPassword, $r);
+                $r = substr($oldPassword, 0, 2);
+                $oldPassword = crypt($oldPassword, $r);
 
-        if (empty($newPassword) || $newPassword != $confirmPassword) {
-            $error = $strings["new_password_error"];
-        } else {
-            // Encrypt new password
-            $encryptedPassword = phpCollab\Util::getPassword($newPassword);
+                if (empty($newPassword) || $newPassword != $confirmPassword) {
+                    $error = $strings["new_password_error"];
+                } else {
+                    // Encrypt new password
+                    $encryptedPassword = phpCollab\Util::getPassword($newPassword);
 
-            if ($htaccessAuth == "true") {
-                $Htpasswd = new Htpasswd;
+                    if ($htaccessAuth == "true") {
+                        $Htpasswd = new Htpasswd;
 
-                $myTeams = $teams->getTeamByMemberId($session->get("idSession"));
+                        $myTeams = $teams->getTeamByMemberId($session->get("idSession"));
 
-                if (!empty($myTeams)) {
-                    foreach ($myTeams as $thisTeam) {
-                        try {
-                            $Htpasswd->initialize("../files/" . $thisTeam["tea_pro_id"] . "/.htpasswd");
-                            $Htpasswd->changePass($session->get("loginSession"), $encryptedPassword);
-                        }
-                        catch (Exception $e) {
-                            echo "Error: " . $e->getMessage();
+                        if (!empty($myTeams)) {
+                            foreach ($myTeams as $thisTeam) {
+                                try {
+                                    $Htpasswd->initialize("../files/" . $thisTeam["tea_pro_id"] . "/.htpasswd");
+                                    $Htpasswd->changePass($session->get("loginSession"), $encryptedPassword);
+                                }
+                                catch (Exception $e) {
+                                    echo "Error: " . $e->getMessage();
+                                }
+                            }
                         }
                     }
+
+                    try {
+                        $members->setPassword($session->get("idSession"), $newPassword);
+                    }
+                    catch (Exception $e) {
+                        echo "Error: " . $e->getMessage();
+                    }
+
+                    //if mantis bug tracker enabled
+                    if ($enableMantis == "true") {
+                        // call mantis function to reset user password
+                        include("../mantis/user_reset_pwd.php");
+                    }
+
+                    phpCollab\Util::headerFunction("../preferences/updateuser.php?msg=update");
                 }
             }
-
-            try {
-                $members->setPassword($session->get("idSession"), $newPassword);
-            }
-            catch (Exception $e) {
-                echo "Error: " . $e->getMessage();
-            }
-
-            //if mantis bug tracker enabled
-            if ($enableMantis == "true") {
-                // call mantis function to reset user password
-                include("../mantis/user_reset_pwd.php");
-            }
-
-            phpCollab\Util::headerFunction("../preferences/updateuser.php?msg=update");
         }
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
 
@@ -112,7 +123,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "change_password";
-$block1->openForm("../preferences/updatepassword.php");
+$block1->openForm("../preferences/updatepassword.php", null, $csrfHandler);
 
 if (!empty($error)) {
     $block1->headingError($strings["errors"]);

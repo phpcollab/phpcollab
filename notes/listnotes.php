@@ -59,7 +59,7 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 $block1->form = "saJ";
-$block1->openForm("../notes/listnotes.php?&project=$project#" . $block1->form . "Anchor");
+$block1->openForm("../notes/listnotes.php?&project=$project#" . $block1->form . "Anchor", null, $csrfHandler);
 
 $block1->heading($strings["notes"]);
 

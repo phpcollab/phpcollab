@@ -62,7 +62,7 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 $block1->form = "srs";
-$block1->openForm("../support/support.php?action=".$request->query->get('action')."&project=".$request->query->get('project')."&#" . $block1->form . "Anchor");
+$block1->openForm("../support/support.php?action=".$request->query->get('action')."&project=".$request->query->get('project')."&#" . $block1->form . "Anchor", null, $csrfHandler);
 
 if ($action == "new") {
     $block1->heading($strings["new_requests"]);

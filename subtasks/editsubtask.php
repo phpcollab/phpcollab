@@ -46,7 +46,7 @@ $timestamp = date('Y-m-d h:i');
 $multi = strstr($id, "**");
 
 if ($multi != "") {
-    phpCollab\Util::headerFunction("batch../tasks/edittask.php?report={$report}&project={$project}&id={$id}");
+    phpCollab\Util::headerFunction("../tasks/edittask.php?report={$report}&project={$project}&id={$id}");
 }
 
 /**
@@ -99,123 +99,136 @@ if ($request->isMethod('post')) {
 //case update or copy task
 if (!empty($id)) {
     if ($request->isMethod('post')) {
-        //case update or copy task
-        if ($action == "update") {
 
-            //case copy task
-            if ($request->query->get("docopy") == "true") {
-                //case update task
-                echo "do something!";
-            } else {
+        try {
+            if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+                //case update or copy task
+                if ($request->request->get("action") == "update") {
 
-                //compute the average completion of all subtaks of this tasks
-                if ($subtaskDetail["subtas_completion"] != $completion) {
-                    $tasks->setCompletion($parentTaskId, $tasks->recalculateSubtaskAverages($parentTaskId));
-                }
+                    //case copy task
+                    if ($request->query->get("docopy") == "true") {
+                        //case update task
+                        echo "do something!";
+                    } else {
 
-                if ($taskStatus == "1" && $completedDate == "--") {
-                    /**
-                     * If status is "complete" and the completion date is not set completion date to today
-                     */
-                    $subtasks->setCompletionDate($id, $date);
-                } else {
-                    $subtasks->setCompletionDate($id, $completedDate);
-                }
-
-                if ($subtaskDetail["subtas_status"] == "1" && $taskStatus != $subtaskDetail["subtas_status"]) {
-                    $subtasks->setCompletionDate($id, '');
-                }
-
-                //if assigned_to not blank and past assigned value blank, set assigned date
-                if ($assignedTo != "0" && $subtaskDetail["subtas_assigned_to"] == "") {
-                    $subtasks->setAssignedDate($id, $timestamp);
-                }
-
-                //if assigned_to different from past value, insert into assignment
-                //add new assigned_to in team members (only if doesn't already exist)
-                if ($assignedTo != $subtaskDetail["subtas_assigned_to"]) {
-                    /**
-                     * Add to assignment table
-                     */
-                    $assignments->addAssignment($id, $timestamp, $assignedTo, $timestamp);
-
-                    if (!$teams->isTeamMember($project, $assignedTo)) {
-                        /**
-                         * Add to Teams table
-                         */
-                        $teams->addTeam($project, $assignedTo, 1, 0);
-                    }
-                    $msg = "update";
-                    /**
-                     * Update subTask
-                     */
-                    $updatedDetails = $subtasks->update($id, $taskName, $description, $assignedTo, $taskStatus, $taskPriority, $startDate,
-                        $dueDate, $estimatedTime, $actualTime, $comments, $timestamp, $completion, $publish);
-
-                    //send task assignment mail if notifications = true
-                    if ($notifications == "true") {
-                        try {
-                            $subtasks->sendNotification("assignment", $updatedDetails, $projectDetail, $session);
-                        } catch (Exception $exception) {
-                            echo $exception->getMessage();
+                        //compute the average completion of all subtaks of this tasks
+                        if ($subtaskDetail["subtas_completion"] != $completion) {
+                            $tasks->setCompletion($parentTaskId, $tasks->recalculateSubtaskAverages($parentTaskId));
                         }
-                    }
-                } else {
-                    $msg = "update";
-                    /**
-                     * Update subTask
-                     */
-                    $updatedDetails = $subtasks->update($id, $taskName, $description, $assignedTo, $taskStatus, $taskPriority, $startDate,
-                        $dueDate, $estimatedTime, $actualTime, $comments, $timestamp, $completion, $publish);
 
-                    if ($notifications == "true") {
-                        try {
-                            if ($assignedTo != "0") {
-                                //send status task change mail if notifications = true
-                                if ($taskStatus != $subtaskDetail["subtas_status"]) {
-                                    $subtasks->sendNotification("status", $updatedDetails, $projectDetail, $session);
-                                }
-                                //send priority task change mail if notifications = true
-                                if ($taskPriority != $subtaskDetail["subtas_priority"]) {
-                                    $subtasks->sendNotification("priority", $updatedDetails, $projectDetail, $session);
-                                }
+                        if ($taskStatus == "1" && $completedDate == "--") {
+                            /**
+                             * If status is "complete" and the completion date is not set completion date to today
+                             */
+                            $subtasks->setCompletionDate($id, $date);
+                        } else {
+                            $subtasks->setCompletionDate($id, $completedDate);
+                        }
 
-                                if ($dueDate != $subtaskDetail["subtas_due_date"]) {
-                                    $subtasks->sendNotification("dueDate", $updatedDetails, $projectDetail, $session);
+                        if ($subtaskDetail["subtas_status"] == "1" && $taskStatus != $subtaskDetail["subtas_status"]) {
+                            $subtasks->setCompletionDate($id, '');
+                        }
+
+                        //if assigned_to not blank and past assigned value blank, set assigned date
+                        if ($assignedTo != "0" && $subtaskDetail["subtas_assigned_to"] == "") {
+                            $subtasks->setAssignedDate($id, $timestamp);
+                        }
+
+                        //if assigned_to different from past value, insert into assignment
+                        //add new assigned_to in team members (only if doesn't already exist)
+                        if ($assignedTo != $subtaskDetail["subtas_assigned_to"]) {
+                            /**
+                             * Add to assignment table
+                             */
+                            $assignments->addAssignment($id, $timestamp, $assignedTo, $timestamp);
+
+                            if (!$teams->isTeamMember($project, $assignedTo)) {
+                                /**
+                                 * Add to Teams table
+                                 */
+                                $teams->addTeam($project, $assignedTo, 1, 0);
+                            }
+                            $msg = "update";
+                            /**
+                             * Update subTask
+                             */
+                            $updatedDetails = $subtasks->update($id, $taskName, $description, $assignedTo, $taskStatus, $taskPriority, $startDate,
+                                $dueDate, $estimatedTime, $actualTime, $comments, $timestamp, $completion, $publish);
+
+                            //send task assignment mail if notifications = true
+                            if ($notifications == "true") {
+                                try {
+                                    $subtasks->sendNotification("assignment", $updatedDetails, $projectDetail, $session, $logger);
+                                } catch (Exception $exception) {
+                                    echo $exception->getMessage();
                                 }
                             }
-                        } catch (Exception $exception) {
+                        } else {
+                            $msg = "update";
+                            /**
+                             * Update subTask
+                             */
+                            $updatedDetails = $subtasks->update($id, $taskName, $description, $assignedTo, $taskStatus, $taskPriority, $startDate,
+                                $dueDate, $estimatedTime, $actualTime, $comments, $timestamp, $completion, $publish);
 
+                            if ($notifications == "true") {
+                                try {
+                                    if ($assignedTo != "0") {
+                                        //send status task change mail if notifications = true
+                                        if ($taskStatus != $subtaskDetail["subtas_status"]) {
+                                            $subtasks->sendNotification("status", $updatedDetails, $projectDetail, $session, $logger);
+                                        }
+                                        //send priority task change mail if notifications = true
+                                        if ($taskPriority != $subtaskDetail["subtas_priority"]) {
+                                            $subtasks->sendNotification("priority", $updatedDetails, $projectDetail, $session, $logger);
+                                        }
+
+                                        if ($dueDate != $subtaskDetail["subtas_due_date"]) {
+                                            $subtasks->sendNotification("dueDate", $updatedDetails, $projectDetail, $session, $logger);
+                                        }
+                                    }
+                                } catch (Exception $exception) {
+
+                                }
+                            }
                         }
+
+                        if ($taskStatus != $subtaskDetail["subtas_status"]) {
+                            $updateComments .= "\n[status:$taskStatus]";
+                        }
+                        if ($taskPriority != $subtaskDetail["subtas_priority"]) {
+                            $updateComments .= "\n[priority:$taskPriority]";
+                        }
+                        if ($dueDate != $subtaskDetail["subtas_due_date"]) {
+                            $updateComments .= "\n[datedue:$dueDate]";
+                        }
+
+                        if (
+                            !empty($updateComments)
+                            || $taskStatus != $subtaskDetail["subtas_status"]
+                            || $taskPriority != $subtaskDetail["subtas_priority"]
+                            || $dueDate != $subtaskDetail["subtas_due_date"]) {
+                            /**
+                             * Add to updates table
+                             */
+                            $updates = new Updates();
+                            $updateComments = phpCollab\Util::convertData($updateComments);
+                            $updates->addUpdate(2, $id, $session->get("idSession"), $updateComments);
+                        }
+
+                        phpCollab\Util::headerFunction("../subtasks/viewsubtask.php?id={$id}&task={$parentTaskId}&msg={$msg}");
                     }
                 }
-
-                if ($taskStatus != $subtaskDetail["subtas_status"]) {
-                    $updateComments .= "\n[status:$taskStatus]";
-                }
-                if ($taskPriority != $subtaskDetail["subtas_priority"]) {
-                    $updateComments .= "\n[priority:$taskPriority]";
-                }
-                if ($dueDate != $subtaskDetail["subtas_due_date"]) {
-                    $updateComments .= "\n[datedue:$dueDate]";
-                }
-
-                if (
-                    !empty($updateComments)
-                    || $taskStatus != $subtaskDetail["subtas_status"]
-                    || $taskPriority != $subtaskDetail["subtas_priority"]
-                    || $dueDate != $subtaskDetail["subtas_due_date"]) {
-                    /**
-                     * Add to updates table
-                     */
-                    $updates = new Updates();
-                    $updateComments = phpCollab\Util::convertData($updateComments);
-                    $updates->addUpdate(2, $id, $session->get("idSession"), $updateComments);
-                }
-
-                phpCollab\Util::headerFunction("../subtasks/viewsubtask.php?id={$id}&task={$parentTaskId}&msg={$msg}");
             }
+        } catch (Exception $e) {
+            $logger->critical('CSRF Token Error', [
+                'edit bookmark' => $request->request->get("id"),
+                '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+                '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+            ]);
+            $msg = 'permissiondenied';
         }
+
     }
 
     //set value in form
@@ -237,57 +250,68 @@ if (!empty($id)) {
 if (empty($id)) {
 
     if ($request->isMethod('post')) {
-        //case add task
-        if ($action == "add") {
+        try {
+            if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+                //case add task
+                if ($request->request->get("action") == "add") {
 
-            //concat values from date selector and replace quotes by html code in name
-            $taskName = phpCollab\Util::convertData($taskName);
-            $description = phpCollab\Util::convertData($description);
-            $comments = phpCollab\Util::convertData($comments);
+                    //concat values from date selector and replace quotes by html code in name
+                    $taskName = phpCollab\Util::convertData($taskName);
+                    $description = phpCollab\Util::convertData($description);
+                    $comments = phpCollab\Util::convertData($comments);
 
-            /**
-             * Create new subtask
-             */
-            $newSubtaskId = $subtasks->add($parentTaskId, $taskName, $description, $session->get("idSession"), $assignedTo, $taskStatus,
-                $taskPriority, $startDate, $dueDate, $estimatedTime, $actualTime, $comments, $completion, $publish);
+                    /**
+                     * Create new subtask
+                     */
+                    $newSubtaskId = $subtasks->add($parentTaskId, $taskName, $description, $session->get("idSession"), $assignedTo, $taskStatus,
+                        $taskPriority, $startDate, $dueDate, $estimatedTime, $actualTime, $comments, $completion, $publish);
 
-            if ($taskStatus == "1") {
-                $subtasks->setCompletionDate($newSubtaskId, $date);
-            }
-
-            //compute the average completion of all subtaks of this tasks
-            $tasks->setCompletion($parentTaskId, $tasks->recalculateSubtaskAverages($parentTaskId));
-
-            //if assigned_to not blank, set assigned date
-            if ($assignedTo != "0") {
-                $subtasks->setAssignedDate($newSubtaskId, $timestamp);
-            }
-
-            $assignments->addAssignment($newSubtaskId, $session->get("idSession"), $assignedTo, $timestamp);
-
-            //if assigned_to not blank, add to team members (only if doesn't already exist)
-            //add assigned_to in team members (only if doesn't already exist)
-            if ($assignedTo != "0") {
-                if (!$teams->isTeamMember($project, $session->get("idSession"))) {
-                    $teams->addTeam($project, $assignedTo, 1, 0);
-                }
-
-                //send task assignment mail if notifications = true
-                if ($notifications == "true") {
-                    try {
-                        $subtasks->sendNotification("assignment", $subtaskDetail, $projectDetail, $session);
-                    } catch (Exception $exception) {
-
+                    if ($taskStatus == "1") {
+                        $subtasks->setCompletionDate($newSubtaskId, $date);
                     }
+
+                    //compute the average completion of all subtaks of this tasks
+                    $tasks->setCompletion($parentTaskId, $tasks->recalculateSubtaskAverages($parentTaskId));
+
+                    //if assigned_to not blank, set assigned date
+                    if ($assignedTo != "0") {
+                        $subtasks->setAssignedDate($newSubtaskId, $timestamp);
+                    }
+
+                    $assignments->addAssignment($newSubtaskId, $session->get("idSession"), $assignedTo, $timestamp);
+
+                    //if assigned_to not blank, add to team members (only if doesn't already exist)
+                    //add assigned_to in team members (only if doesn't already exist)
+                    if ($assignedTo != "0") {
+                        if (!$teams->isTeamMember($project, $session->get("idSession"))) {
+                            $teams->addTeam($project, $assignedTo, 1, 0);
+                        }
+
+                        //send task assignment mail if notifications = true
+                        if ($notifications == "true") {
+                            try {
+                                $subtasks->sendNotification("assignment", $subtaskDetail, $projectDetail, $session, $logger);
+                            } catch (Exception $exception) {
+
+                            }
+                        }
+                    }
+
+                    //create task sub-folder if filemanagement = true
+                    if ($fileManagement == "true") {
+                        phpCollab\Util::createDirectory("../files/$project/$newSubtaskId");
+                    }
+
+                    phpCollab\Util::headerFunction("../subtasks/viewsubtask.php?id={$newSubtaskId}&task={$parentTaskId}&msg=add");
                 }
             }
-
-            //create task sub-folder if filemanagement = true
-            if ($fileManagement == "true") {
-                phpCollab\Util::createDirectory("../files/$project/$newSubtaskId");
-            }
-
-            phpCollab\Util::headerFunction("../subtasks/viewsubtask.php?id={$newSubtaskId}&task={$parentTaskId}&msg=add");
+        } catch (Exception $e) {
+            $logger->critical('CSRF Token Error', [
+                'edit bookmark' => $request->request->get("id"),
+                '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+                '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+            ]);
+            $msg = 'permissiondenied';
         }
     }
 
@@ -353,11 +377,13 @@ $block1 = new phpCollab\Block();
 
 if ($id == "") {
     $block1->form = "etD";
-    $block1->openForm("../subtasks/editsubtask.php?task={$parentTaskId}&action=add&#" . $block1->form . "Anchor");
+    $submitValue = "add";
+    $block1->openForm("../subtasks/editsubtask.php?task={$parentTaskId}&#" . $block1->form . "Anchor", null, $csrfHandler);
 }
 if ($id != "") {
     $block1->form = "etD";
-    $block1->openForm("../subtasks/editsubtask.php?task={$parentTaskId}&id={$id}&action=update&docopy={$docopy}&#" . $block1->form . "Anchor");
+    $submitValue = "update";
+    $block1->openForm("../subtasks/editsubtask.php?task={$parentTaskId}&id={$id}&docopy={$docopy}&#" . $block1->form . "Anchor", null, $csrfHandler);
 }
 
 if (isset($error) && !empty($error)) {
@@ -603,7 +629,7 @@ HTML;
 echo <<< HTML
 <tr class="odd">
     <td class="leftvalue">&nbsp;</td>
-    <td><input type="submit" value="{$strings["save"]}"></td>
+    <td><button type="submit" name="action" value="{$submitValue}">{$strings["save"]}</button></td>
 </tr>
 HTML;
 

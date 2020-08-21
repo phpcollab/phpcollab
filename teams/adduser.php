@@ -12,13 +12,15 @@ include_once '../includes/library.php';
 $projects = new Projects();
 $teams = new Teams();
 
+$project = $request->query->get("project");
+
 $projectDetail = $projects->getProjectById($project);
 
 if (empty($projectDetail)) {
     phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blank");
 }
 
-if ($action == "add") {
+if ($request->query->get("action") == "add") {
     $pieces = explode("**", $id);
     $id = str_replace("**", ",", $id);
 
@@ -84,7 +86,7 @@ $blockPage->closeBreadcrumbs();
 $block1 = new phpCollab\Block();
 
 $block1->form = "atpt";
-$block1->openForm("../teams/adduser.php?project=$project#" . $block1->form . "Anchor");
+$block1->openForm("../teams/adduser.php?project=$project#" . $block1->form . "Anchor", null, $csrfHandler);
 
 $block1->heading($strings["add_team"]);
 

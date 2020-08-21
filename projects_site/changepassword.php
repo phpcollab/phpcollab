@@ -35,47 +35,58 @@ $checkSession = "true";
 include '../includes/library.php';
 
 if ($request->isMethod('post')) {
-    if ($request->request->get('action') == "update") {
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if ($request->request->get('action') == "update") {
 
-        $teams = new Teams();
+                $teams = new Teams();
 
-        $r = substr($request->request->get('old_password'), 0, 2);
+                $r = substr($request->request->get('old_password'), 0, 2);
 
-        if (
-            empty($request->request->get('new_password'))
-            || empty($request->request->get('confirm_password'))
-            || $request->request->get('new_password') != $request->request->get('confirm_password')
-        ) {
-            $error = $strings["new_password_error"];
-        } else {
-            $encryptedNewPassword = phpCollab\Util::getPassword($request->request->get('new_password'));
+                if (
+                    empty($request->request->get('new_password'))
+                    || empty($request->request->get('confirm_password'))
+                    || $request->request->get('new_password') != $request->request->get('confirm_password')
+                ) {
+                    $error = $strings["new_password_error"];
+                } else {
+                    $encryptedNewPassword = phpCollab\Util::getPassword($request->request->get('new_password'));
 
-            if ($htaccessAuth == "true") {
-                $Htpasswd = new Htpasswd;
-                $listTeams = $teams->getTeamByMemberId($session->get("idSession"));
+                    if ($htaccessAuth == "true") {
+                        $Htpasswd = new Htpasswd;
+                        $listTeams = $teams->getTeamByMemberId($session->get("idSession"));
 
-                if ($listTeams) {
-                    foreach ($listTeams as $team) {
-                        try {
-                            $Htpasswd->initialize("files/" . $team["tea_pro_id"] . "/.htpasswd");
-                            $Htpasswd->changePass($session->get("loginSession"), $encryptedNewPassword);
+                        if ($listTeams) {
+                            foreach ($listTeams as $team) {
+                                try {
+                                    $Htpasswd->initialize("files/" . $team["tea_pro_id"] . "/.htpasswd");
+                                    $Htpasswd->changePass($session->get("loginSession"), $encryptedNewPassword);
+                                }
+                                catch (Exception $e) {
+                                    echo $e->getMessage();
+                                }
+                            }
                         }
-                        catch (Exception $e) {
-                            echo $e->getMessage();
-                        }
+                    }
+
+                    try {
+                        $members->setPassword($session->get("idSession"), $encryptedNewPassword);
+
+                        phpCollab\Util::headerFunction("changepassword.php?msg=update");
+                    } catch (Exception $exception) {
+                        error_log('Error resetting password', 0);
+                        $error = $strings["rest_password_error"];
                     }
                 }
             }
-
-            try {
-                $members->setPassword($session->get("idSession"), $encryptedNewPassword);
-
-                phpCollab\Util::headerFunction("changepassword.php?msg=update");
-            } catch (Exception $exception) {
-                error_log('Error resetting password', 0);
-                $error = $strings["rest_password_error"];
-            }
         }
+    } catch (Exception $e) {
+        $logger->critical('CSRF Token Error', [
+            'edit bookmark' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $msg = 'permissiondenied';
     }
 }
 
@@ -99,6 +110,7 @@ echo <<<FORM
         action="../projects_site/changepassword.php" 
         name="changepassword"
         class="noBorder">
+        <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}" />
             <table class="nonStriped">
                 <tr>
                     <th colspan="2">{$strings["change_password"]}</th>

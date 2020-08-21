@@ -74,7 +74,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "ecD";
-$block1->openForm("../projects/listprojects.php#" . $block1->form . "Anchor");
+$block1->openForm("../projects/listprojects.php#" . $block1->form . "Anchor", null, $csrfHandler);
 
 $block1->heading($strings["organization"] . " : " . $clientDetail['org_name']);
 
@@ -131,7 +131,7 @@ if ($session->get("profilSession") == "0" || $session->get("profilSession") == "
 $block2 = new phpCollab\Block();
 
 $block2->form = "clPr";
-$block2->openForm("../clients/viewclient.php?id=" . $request->query->get("id") . "#" . $block2->form . "Anchor");
+$block2->openForm("../clients/viewclient.php?id=" . $request->query->get("id") . "#" . $block2->form . "Anchor", null, $csrfHandler);
 
 $block2->headingToggle($strings["client_projects"]);
 
@@ -210,7 +210,7 @@ $block2->closePaletteScript(count($listProjects), array_column($listProjects, 'p
 $block3 = new phpCollab\Block();
 
 $block3->form = "clU";
-$block3->openForm("../clients/viewclient.php?id=" . $request->query->get("id") . "#" . $block3->form . "Anchor");
+$block3->openForm("../clients/viewclient.php?id=" . $request->query->get("id") . "#" . $block3->form . "Anchor", null, $csrfHandler);
 
 $block3->headingToggle($strings["client_users"]);
 
