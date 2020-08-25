@@ -603,3 +603,13 @@ table.calculation {
 table.calculation td {
     padding: .5em;
 }
+
+.logoContainer {
+    max-width: 150px;
+    height: auto;
+    position: relative;
+}
+
+.logoContainer img {
+    width: 100%;
+}

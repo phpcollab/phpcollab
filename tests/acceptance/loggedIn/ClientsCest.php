@@ -35,11 +35,7 @@ class ClientsCest
         $I->wantTo('See an empty list of Clients');
         $I->amOnPage('/clients/listclients.php');
         $I->seeInTitle('List Clients');
-//        try {
-//            $I->seeElement('.listing');
-//        } catch (Exception $e) {
-            $I->seeElement('.noItemsFound');
-//        }
+        $I->seeElement('.noItemsFound');
     }
 
     /**
@@ -48,7 +44,7 @@ class ClientsCest
     public function addClient(AcceptanceTester $I)
     {
         $I->wantTo('Add new Client');
-        $I->amOnPage('/clients/editclient.php');
+        $I->amOnPage('/clients/addclient.php');
         $I->seeInTitle('PhpCollab : Add Client');
         $I->see('Add Client Organization', '.heading');
         $I->see('Add Client', ['css' => '.heading']);

@@ -109,7 +109,7 @@ $block1->closeFormResults();
 
 $block1->openPaletteScript();
 if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1") {
-    $block1->paletteScript(0, "add", "../clients/editclient.php?", "true,false,false", $strings["add"]);
+    $block1->paletteScript(0, "add", "../clients/addclient.php?", "true,false,false", $strings["add"]);
     $block1->paletteScript(1, "remove", "../clients/deleteclients.php?", "false,true,true", $strings["delete"]);
 }
 $block1->paletteScript(2, "info", "../clients/viewclient.php?", "false,true,false", $strings["view"]);

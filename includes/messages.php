@@ -167,4 +167,15 @@ switch ($msg) {
         $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["delete_post"];
         break;
 
+    case "clientAddError":
+        $msgLabel = "<b>" . $strings["attention"] . "</b> : " . $strings["client_error_add"];
+        break;
+
+    case "clientEditError":
+        $msgLabel = "<b>" . $strings["attention"] . "</b> : " . $strings["client_error_edit"];
+        break;
+    case "genericError":
+        $msgLabel = "<strong>{$strings["attention"]}</strong> : {$strings["genericError"]}";
+        break;
+
 }

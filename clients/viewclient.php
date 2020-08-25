@@ -1,9 +1,7 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 2003-10-23
 ** Path by root: ../clients/viewclient.php
-** Authors: Ceam / Fullo
 ** =============================================================================
 **
 **               phpCollab - Project Managment
@@ -15,11 +13,6 @@
 ** FILE: viewclient.php
 **
 ** DESC: screen: view client info and projects
-**
-** HISTORY:
-** 	2003-10-23	-	added new document info
-** -----------------------------------------------------------------------------
-** TO-DO:
 **
 ** =============================================================================
 */
@@ -114,7 +107,7 @@ if ($enableInvoicing == "true" && ($session->get("profilSession") == "1" || $ses
 }
 $block1->contentRow($strings["created"], phpCollab\Util::createDate($clientDetail['org_created'], $session->get("timezoneSession")));
 if (file_exists("../logos_clients/" . $request->query->get("id") . "." . $clientDetail['org_extension_logo'])) {
-    $block1->contentRow($strings["logo"], "<img src=\"../logos_clients/" . $request->query->get("id") . "." . $clientDetail['org_extension_logo'] . "\">");
+    $block1->contentRow($strings["logo"], '<div class="logoContainer"><img alt="' . $clientDetail['org_name'] . '" src="../logos_clients/' . $request->query->get("id") . '.' . $clientDetail['org_extension_logo'] . '"></div>');
 }
 
 $block1->closeContent();

@@ -647,3 +647,6 @@ $strings["error_file_does_not_exist"] = "Error: File does not exist.";
 $strings["bookmark_error_blank_name_and_url"] = "Please enter a name and URL for the bookmark";
 $strings["bookmark_error_blank_name"] = "Please enter a name for the bookmark";
 $strings["bookmark_error_blank_url"] = "Please enter a URL for the bookmark";
+$strings["client_error_add"] = "There was an error while adding the client, please try again or contact your administrator.";
+$strings["client_error_edit"] = "There was an error while editing the client, please try again or contact your administrator.";
+$strings["genericError"] = "There was a problem processing your request.";

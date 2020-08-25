@@ -1,173 +1,103 @@
 <?php
 
+use phpCollab\Files\FileUploader;
 use phpCollab\Organizations\Organizations;
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
 $checkSession = "true";
 include_once '../includes/library.php';
 
 $id = $request->query->get('id');
 
-//case update client organization
-if (!empty($id)) {
-    $organizations = new Organizations();
-    $clientDetail = $organizations->checkIfClientExistsById($id);
-
-    if (empty($clientDetail)) {
-        phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
-    }
-
-    //set value in form
-    $name = $clientDetail['org_name'];
-    $address = $clientDetail['org_address1'];
-    $phone = $clientDetail['org_phone'];
-    $url = $clientDetail['org_url'];
-    $email = $clientDetail['org_email'];
-    $comments = $clientDetail['org_comments'];
-    $hourly_rate = $clientDetail['org_hourly_rate'];
-
-    $setTitle .= " : Edit Client ($name)";
-
-    if ($request->isMethod('post')) {
-        try {
-            if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
-
-                //case update client organization
-                if ($request->query->get('action') == "update") {
-
-                    if ($request->request->get('logoDel') == "on") {
-
-                        $result = $organizations->setLogoExtensionByOrgId($id, '');
-
-                        if ($result == 0) {
-                            @unlink("../logos_clients/" . $id . "." . $request->request->get('extensionOld'));
-                        }
-                    }
-
-                    // Check to see if file was actually uploaded or not
-                    if (!empty($_FILES["upload"]["tmp_name"]) && !empty($_FILES["upload"]["size"])) {
-                        // Check to see if the attached file is an image
-                        // Poor way of doing this, but its a band-aid for now
-                        if (getimagesize($_FILES['upload']['tmp_name'])) {
-                            $extension = strtolower(substr(strrchr($_FILES['upload']['name'], "."), 1));
-
-                            $target_file = "../logos_clients/" . $id . '.' . $extension;
-
-                            if (@move_uploaded_file($_FILES["upload"]["tmp_name"], $target_file)) {
-                                chmod($target_file, 0666);
-
-                                $organizations->setLogoExtensionByOrgId($id, $extension);
-                            }
-
-                        }
-
-                    }
-
-                    //replace quotes by html code in name and address
-                    $name = phpCollab\Util::convertData($request->request->get('name'));
-                    $address = phpCollab\Util::convertData($request->request->get('address'));
-                    $comments = phpCollab\Util::convertData($request->request->get('comments'));
-                    $phone = (empty($request->request->get('phone'))) ? null : $request->request->get('phone');
-                    $url = (empty($request->request->get('url'))) ? null : $request->request->get('url');
-                    $email = (empty($request->request->get('email'))) ? null : $request->request->get('email');
-                    $hourlyRate = (empty($request->request->get('hourly_rate'))) ? null : $request->request->get('hourly_rate');
-                    $owner = (empty($request->request->get('owner'))) ? null : $request->request->get('owner');
-
-
-                    $organizations->updateClient($id, $name, $address, $phone, $url, $email, $comments, $owner, $hourlyRate);
-
-                    phpCollab\Util::headerFunction("../clients/viewclient.php?id=$id&msg=update");
-                }
-            }
-        } catch (Exception $e) {
-            $logger->critical('CSRF Token Error', [
-                'edit bookmark' => $request->request->get("id"),
-                '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
-                '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
-            ]);
-            $msg = 'permissiondenied';
-        }
-    }
-
-}
-
-//case add client organization
+// If no ID is passed in, then we can not proceed.  Redirect back to the client list
 if (empty($id)) {
-    $setTitle .= " : Add Client";
+    phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
+}
 
-    if ($request->isMethod('post')) {
-        try {
-            if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+//Get client organization
+$organizations = new Organizations();
+$clientDetail = $organizations->checkIfClientExistsById($id);
 
-                if ($request->query->get('action') == "add") {
-                    if (empty($request->request->get('name'))) {
-                        $error = $strings["blank_organization_field"];
-                    } else {
-                        $organizations = new Organizations();
-                        if ($organizations->checkIfClientExistsByName($request->request->get('name'))) {
-                            $error = $strings["organization_already_exists"];
-                        } else {
-                            $clientName = phpCollab\Util::convertData($request->request->get('name'));
-                            $address = phpCollab\Util::convertData($request->request->get('address'));
-                            $comments = phpCollab\Util::convertData($request->request->get('comments'));
-                            $phone = (empty($request->request->get('phone'))) ? null : $request->request->get('phone');
-                            $url = (empty($request->request->get('url'))) ? null : $request->request->get('url');
-                            $email = (empty($request->request->get('email'))) ? null : $request->request->get('email');
-                            $hourlyRate = (empty($request->request->get('hourly_rate'))) ? null : $request->request->get('hourly_rate');
-                            $owner = (empty($request->request->get('owner'))) ? null : $request->request->get('owner');
+if (empty($clientDetail)) {
+    phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
+}
 
-                            if (empty($hourly_rate)) {
-                                $hourly_rate = 0.00;
-                            }
+if ($request->isMethod('post')) {
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            //case update client organization
+            try {
+                // Check to see if we need to delete the file, which we should
+                if ($request->request->get('logoDel') == "on") {
 
-                            $newClientId = $organizations->addClient($clientName, $address, $phone, $url, $email, $comments, $owner, $hourlyRate);
+                    $result = $organizations->setLogoExtensionByOrgId($id, '');
 
-                            if (
-                                $newClientId
-                                && $_FILES['upload']['error'] == 0
-                                && is_uploaded_file($_FILES['upload']['tmp_name'])
-                            ) {
-
-                                $extension = strtolower(substr(strrchr($_FILES['upload']['name'], "."), 1));
-
-                                $target_file = "../logos_clients/" . $newClientId . '.' . $extension;
-
-                                if (@move_uploaded_file($_FILES["upload"]["tmp_name"], $target_file)) {
-                                    chmod($target_file, 0666);
-                                    $organizations->setLogoExtensionByOrgId($newClientId, $extension);
-                                }
-                            }
-
-                            phpCollab\Util::headerFunction("../clients/viewclient.php?id={$newClientId}&msg=add");
-                        }
+                    if ($result == 0) {
+                        unlink(APP_ROOT . "/logos_clients/" . $id . "." . $request->request->get('extensionOld'));
                     }
                 }
+
+                // Check to see if a file was uploaded
+                if ($request->files->get('upload')) {
+                    $fileUpload = new FileUploader($request->files->get('upload'));
+
+                    $fileUpload->checkFileUpload();
+
+                    $fileUpload->move(APP_ROOT . '/logos_clients/', $id);
+                        $organizations->setLogoExtensionByOrgId($id, $fileUpload->getFileExtension());
+                }
+
+                //replace quotes by html code in name and address
+                $name = phpCollab\Util::convertData($request->request->get('name'));
+                $address = phpCollab\Util::convertData($request->request->get('address'));
+                $comments = phpCollab\Util::convertData($request->request->get('comments'));
+                $phone = (empty($request->request->get('phone'))) ? null : $request->request->get('phone');
+                $url = (empty($request->request->get('url'))) ? null : $request->request->get('url');
+                $email = (empty($request->request->get('email'))) ? null : $request->request->get('email');
+                $hourlyRate = (empty($request->request->get('hourly_rate'))) ? null : $request->request->get('hourly_rate');
+                $owner = (empty($request->request->get('owner'))) ? null : $request->request->get('owner');
+
+
+                $organizations->updateClient($id, $name, $address, $phone, $url, $email, $comments, $owner, $hourlyRate);
+
+                phpCollab\Util::headerFunction("../clients/viewclient.php?id=$id&msg=update");
+            } catch (Exception $exception) {
+                $logger->critical('Edit Client Error ' . $e->getMessage(), []);
+                $msg = 'clientEditError';
             }
-        } catch (Exception $e) {
-            $logger->critical('CSRF Token Error', [
-                'edit bookmark' => $request->request->get("id"),
-                '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
-                '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
-            ]);
-            $msg = 'permissiondenied';
         }
+    } catch (InvalidCsrfTokenException $csrfTokenException) {
+        $logger->critical('CSRF Token Error', [
+            'edit client' => $request->request->get("id"),
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+    } catch (Exception $e) {
+        $logger->critical('Exception', ['Error' => $e->getMessage()]);
+        $error = $strings["client_error_edit"];
     }
 }
 
-$bodyCommand = 'onLoad="document.ecDForm.cn.focus();"';
+//set value in form
+$name = $clientDetail['org_name'];
+$address = $clientDetail['org_address1'];
+$phone = $clientDetail['org_phone'];
+$url = $clientDetail['org_url'];
+$email = $clientDetail['org_email'];
+$comments = $clientDetail['org_comments'];
+$hourly_rate = $clientDetail['org_hourly_rate'];
+
+$setTitle .= " : Edit Client ($name)";
+
+$bodyCommand = 'onLoad="document.editForm.name.focus();"';
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?", $strings["clients"], "in"));
 
-if ($id == "") {
-    $blockPage->itemBreadcrumbs($strings["add_organization"]);
-}
-
-if ($id != "") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $clientDetail['org_id'], $clientDetail['org_name'], "in"));
-    $blockPage->itemBreadcrumbs($strings["edit_organization"]);
-}
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $clientDetail['org_id'], $clientDetail['org_name'], "in"));
+$blockPage->itemBreadcrumbs($strings["edit_organization"]);
 
 $blockPage->closeBreadcrumbs();
 
@@ -178,53 +108,37 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 
-//echo '<a id="' . $block1->form . 'Anchor"></a>';
-if (empty($id)) {
-    echo <<<FORM
-	<form accept-charset="UNKNOWN" method="POST" action="../clients/editclient.php?action=add&" name="ecDForm" enctype="multipart/form-data">
-FORM;
-}
-
-if (!empty($id)) {
-    echo <<<FORM
-	<form accept-charset="UNKNOWN" method="POST" action="../clients/editclient.php?id={$id}&action=update&" name="ecDForm" enctype="multipart/form-data">
-FORM;
-}
-echo <<<CSRF
+echo <<<FORM
+	<form method="POST" action="../clients/editclient.php?id={$id}" name="editForm" enctype="multipart/form-data">
     <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}">
-CSRF;
-
+FORM;
 
 if (!empty($error)) {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
 }
 
-if ($id == "") {
-    $block1->heading($strings["add_organization"]);
-}
-
-if ($id != "") {
-    $block1->heading($strings["edit_organization"] . " : " . $clientDetail['org_name']);
-}
+$block1->heading($strings["edit_organization"] . " : " . $clientDetail['org_name']);
 
 $block1->openContent();
 $block1->contentTitle($strings["details"]);
 
 if ($clientsFilter == "true") {
-    $selectOwner = "<select name='owner'>";
 
     $clientOwner = $members->getNonManagementMembers('mem.name');
-
+    $selectOwnerOptions = '';
     foreach ($clientOwner as $owner) {
         if ($clientDetail['org_owner'] == $owner["mem_id"] || $session->get("idSession") == $owner["mem_id"]) {
-            $selectOwner .= '<option value="' . $owner["mem_id"] . '" selected>' . $owner["mem_login"] . ' / ' . $owner["mem_name"] . '</option>';
+            $selectOwnerOptions .= '<option value="' . $owner["mem_id"] . '" selected>' . $owner["mem_login"] . ' / ' . $owner["mem_name"] . '</option>';
         } else {
-            $selectOwner .= '<option value="' . $owner["mem_id"] . '">' . $owner["mem_login"] . ' / ' . $owner["mem_name"] . '</option>';
+            $selectOwnerOptions .= '<option value="' . $owner["mem_id"] . '">' . $owner["mem_login"] . ' / ' . $owner["mem_name"] . '</option>';
         }
     }
-
-    $selectOwner .= "</select>";
+    $selectOwner = <<<SELECT
+    <select name="owner">
+        {$selectOwnerOptions}
+    </select>
+SELECT;
 
     $block1->contentRow($strings["owner"], $selectOwner);
 } else {
@@ -244,13 +158,11 @@ if ($enableInvoicing == "true") {
 
 $block1->contentRow($strings["logo"], '<input size="44" style="width: 400px" name="upload" type="file">');
 
-if ($id != "") {
     if (file_exists("../logos_clients/" . $id . "." . $clientDetail['org_extension_logo'])) {
-        $block1->contentRow("", '<img alt="" src="../logos_clients/' . $id . '.' . $clientDetail['org_extension_logo'] . '" /> <input name="extensionOld" type="hidden" value="' . $clientDetail['org_extension_logo'] . '" /><input name="logoDel" type="checkbox" value="on" /> ' . $strings["delete"]);
+        $block1->contentRow("", '<div class="logoContainer"><img alt="" src="../logos_clients/' . $id . '.' . $clientDetail['org_extension_logo'] . '" /></div> <input name="extensionOld" type="hidden" value="' . $clientDetail['org_extension_logo'] . '" /><input name="logoDel" type="checkbox" value="on" /> ' . $strings["delete"]);
     }
-}
 
-$block1->contentRow("", "<input type='SUBMIT' value='" . $strings["save"] . "' />");
+$block1->contentRow("", '<button type="submit" name="action" value="update">' . $strings["save"] . '</button> <a href="./viewclient.php?id=' . $id . '" style="margin-left: 1rem;">Cancel</a>');
 
 $block1->closeContent();
 $block1->closeForm();
