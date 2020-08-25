@@ -16,7 +16,7 @@ if ($enableHelpSupport != "true") {
 }
 
 if ($supportType == "admin") {
-    if ($session->get("profilSession") != "0") {
+    if ($session->get("profile") != "0") {
         phpCollab\Util::headerFunction('../general/permissiondenied.php');
     }
 }

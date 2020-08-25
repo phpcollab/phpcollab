@@ -23,7 +23,7 @@ if (empty($userDetail)) {
 }
 $memberOrganization = $userDetail['mem_organization'];
 
-if ($clientsFilter == "true" && $session->get("profilSession") == "2") {
+if ($clientsFilter == "true" && $session->get("profile") == "2") {
     $teams = new Teams();
     $teamMember = "false";
 
@@ -31,7 +31,7 @@ if ($clientsFilter == "true" && $session->get("profilSession") == "2") {
     if (empty($memberTest)) {
         phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
     }
-} elseif ($clientsFilter == "true" && $session->get("profilSession") == "1") {
+} elseif ($clientsFilter == "true" && $session->get("profile") == "1") {
     $detailClient = $organizations->getOrganizationByIdAndOwner($orgId, $session->get("idSession"));
 } else {
     $detailClient = $organizations->getOrganizationById($orgId);
@@ -65,7 +65,7 @@ if (isset($error) && $error != "") {
 $block1->heading($strings["client_user"]);
 
 $block1->openPaletteIcon();
-if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1") {
+if ($session->get("profile") == "0" || $session->get("profile") == "1") {
     $block1->paletteIcon(0, "remove", $strings["delete"]);
     $block1->paletteIcon(1, "edit", $strings["edit"]);
 }
@@ -105,7 +105,7 @@ $block1->closeContent();
 $block1->closeForm();
 
 $block1->openPaletteScript();
-if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1") {
+if ($session->get("profile") == "0" || $session->get("profile") == "1") {
     $block1->paletteScript(0, "remove", "../users/deleteclientusers.php?id=$userId&organization=$orgId", "true,true,true", $strings["delete"]);
     $block1->paletteScript(1, "edit", "../users/updateclientuser.php?userid=$userId&orgid=$orgId", "true,true,true", $strings["edit"]);
 }

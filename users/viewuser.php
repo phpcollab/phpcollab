@@ -55,7 +55,7 @@ if (isset($error) && $error != "") {
 $block1->heading($strings["user_profile"]);
 
 $block1->openPaletteIcon();
-if ($session->get("profilSession") == "0") {
+if ($session->get("profile") == "0") {
     if ($id != "1" && $id != "2") {
         $block1->paletteIcon(0, "remove", $strings["delete"]);
     }
@@ -117,7 +117,7 @@ $block1->closeContent();
 $block1->closeForm();
 
 $block1->openPaletteScript();
-if ($session->get("profilSession") == "0") {
+if ($session->get("profile") == "0") {
     if ($id != "1" && $id != "2") {
         $block1->paletteScript(0, "remove", "../users/deleteusers.php?id=$id&", "true,true,true", $strings["delete"]);
     }

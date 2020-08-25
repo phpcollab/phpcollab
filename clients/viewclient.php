@@ -29,7 +29,7 @@ $teams = new Teams();
 $orgs = new Organizations();
 $projects = new Projects();
 
-if ($clientsFilter == "true" && $session->get("profilSession") == "2") {
+if ($clientsFilter == "true" && $session->get("profile") == "2") {
     $teamMember = "false";
 
     $memberTest = $teams->getTeamByTeamMemberAndOrgId($session->get("idSession"), $request->query->get("id"));
@@ -39,7 +39,7 @@ if ($clientsFilter == "true" && $session->get("profilSession") == "2") {
     } else {
         $clientDetail = $orgs->getOrganizationById($request->query->get("id"));
     }
-} elseif ($clientsFilter == "true" && $session->get("profilSession") == "1") {
+} elseif ($clientsFilter == "true" && $session->get("profile") == "1") {
     $clientDetail = $orgs->getOrganizationByIdAndOwner($request->query->get("id"), $session->get("idSession"));
 } else {
     $clientDetail = $orgs->getOrganizationById($request->query->get("id"));
@@ -71,7 +71,7 @@ $block1->openForm("../projects/listprojects.php#" . $block1->form . "Anchor", nu
 
 $block1->heading($strings["organization"] . " : " . $clientDetail['org_name']);
 
-if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1") {
+if ($session->get("profile") == "0" || $session->get("profile") == "1") {
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "remove", $strings["delete"]);
     $block1->paletteIcon(1, "edit", $strings["edit"]);
@@ -102,7 +102,7 @@ $block1->contentRow(
     $strings["comments"],
     !empty($clientDetail['org_comments']) ? nl2br($clientDetail['org_comments']) : Util::doubleDash()
 );
-if ($enableInvoicing == "true" && ($session->get("profilSession") == "1" || $session->get("profilSession") == "0" || $session->get("profilSession") == "5")) {
+if ($enableInvoicing == "true" && ($session->get("profile") == "1" || $session->get("profile") == "0" || $session->get("profile") == "5")) {
     $block1->contentRow($strings["hourly_rate"], $clientDetail['org_hourly_rate']);
 }
 $block1->contentRow($strings["created"], phpCollab\Util::createDate($clientDetail['org_created'], $session->get("timezoneSession")));
@@ -113,7 +113,7 @@ if (file_exists("../logos_clients/" . $request->query->get("id") . "." . $client
 $block1->closeContent();
 $block1->closeForm();
 
-if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1") {
+if ($session->get("profile") == "0" || $session->get("profile") == "1") {
     $block1->openPaletteScript();
     $block1->paletteScript(0, "remove", "../clients/deleteclients.php?id=" . $clientDetail['org_id'] . "", "true,true,false", $strings["delete"]);
     $block1->paletteScript(1, "edit", "../clients/editclient.php?id=" . $clientDetail['org_id'] . "", "true,true,false", $strings["edit"]);
@@ -129,12 +129,12 @@ $block2->openForm("../clients/viewclient.php?id=" . $request->query->get("id") .
 $block2->headingToggle($strings["client_projects"]);
 
 $block2->openPaletteIcon();
-if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1") {
+if ($session->get("profile") == "0" || $session->get("profile") == "1") {
     $block2->paletteIcon(0, "add", $strings["add"]);
     $block2->paletteIcon(1, "remove", $strings["delete"]);
 }
 $block2->paletteIcon(2, "info", $strings["view"]);
-if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1") {
+if ($session->get("profile") == "0" || $session->get("profile") == "1") {
     $block2->paletteIcon(3, "edit", $strings["edit"]);
 }
 //if mantis bug tracker enabled
@@ -186,12 +186,12 @@ $block2->closeToggle();
 $block2->closeFormResults();
 
 $block2->openPaletteScript();
-if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1") {
+if ($session->get("profile") == "0" || $session->get("profile") == "1") {
     $block2->paletteScript(0, "add", "../projects/editproject.php?organization=" . $clientDetail['org_id'] . "", "true,false,false", $strings["add"]);
     $block2->paletteScript(1, "remove", "../projects/deleteproject.php?", "false,true,false", $strings["delete"]);
 }
 $block2->paletteScript(2, "info", "../projects/viewproject.php?", "false,true,false", $strings["view"]);
-if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1") {
+if ($session->get("profile") == "0" || $session->get("profile") == "1") {
     $block2->paletteScript(3, "edit", "../projects/editproject.php?", "false,true,false", $strings["edit"]);
 }
 //if mantis bug tracker enabled
@@ -208,12 +208,12 @@ $block3->openForm("../clients/viewclient.php?id=" . $request->query->get("id") .
 $block3->headingToggle($strings["client_users"]);
 
 $block3->openPaletteIcon();
-if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1") {
+if ($session->get("profile") == "0" || $session->get("profile") == "1") {
     $block3->paletteIcon(0, "add", $strings["add"]);
     $block3->paletteIcon(1, "remove", $strings["delete"]);
 }
 $block3->paletteIcon(2, "info", $strings["view"]);
-if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1") {
+if ($session->get("profile") == "0" || $session->get("profile") == "1") {
     $block3->paletteIcon(3, "edit", $strings["edit"]);
 }
 $block3->closePaletteIcon();
@@ -250,12 +250,12 @@ $block3->closeToggle();
 $block3->closeFormResults();
 
 $block3->openPaletteScript();
-if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1") {
+if ($session->get("profile") == "0" || $session->get("profile") == "1") {
     $block3->paletteScript(0, "add", "../users/addclientuser.php?organization=" . $request->query->get("id"), "true,true,true", $strings["add"]);
     $block3->paletteScript(1, "remove", "../users/deleteclientusers.php?orgid=" . $request->query->get("id"), "false,true,true", $strings["delete"]);
 }
 $block3->paletteScript(2, "info", "../users/viewclientuser.php?organization=" . $request->query->get("id"), "false,true,false", $strings["view"]);
-if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1") {
+if ($session->get("profile") == "0" || $session->get("profile") == "1") {
     $block3->paletteScript(3, "edit", "../users/updateclientuser.php?orgid=" . $request->query->get("id"), "false,true,false", $strings["edit"]);
 }
 $block3->closePaletteScript(count($listMembers), array_column($listMembers, 'mem_id'));

@@ -63,7 +63,7 @@ $block1->contentTitle($strings["report_intro"]);
 
 echo "<tr class='odd'><td class='leftvalue'>" . $strings["clients"] . " :</td><td>";
 
-if ($clientsFilter == "true" && $session->get("profilSession") == "2") {
+if ($clientsFilter == "true" && $session->get("profile") == "2") {
     $teamMember = "false";
     $teamsList = $teams->getTeamByMemberId($session->get("idSession"));
 
@@ -84,7 +84,7 @@ if ($clientsFilter == "true" && $session->get("profilSession") == "2") {
             $listOrganizations = $organizations->getFilteredOrganizations($clientsOk, 'org.name');
         }
     }
-} elseif ($clientsFilter == "true" && $session->get("profilSession") == "1") {
+} elseif ($clientsFilter == "true" && $session->get("profile") == "1") {
     $listOrganizations = $organizations->getOrganizationsByOwner($session->get("idSession"), 'org.name');
 } else {
     $listOrganizations = $organizations->getAllOrganizations('org.name');

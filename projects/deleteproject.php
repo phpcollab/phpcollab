@@ -39,7 +39,7 @@ if (!$listProjects) {
 }
 
 foreach($listProjects as $proj) {
-    if ($session->get("idSession") != $proj['pro_owner'] && $session->get("profilSession") != "5") {
+    if ($session->get("idSession") != $proj['pro_owner'] && $session->get("profile") != "5") {
         phpCollab\Util::headerFunction("../projects/listprojects.php?msg=projectOwner");
     }
 }

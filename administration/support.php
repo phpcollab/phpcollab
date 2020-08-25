@@ -5,7 +5,7 @@ include_once '../includes/library.php';
 
 $support = new \phpCollab\Support\Support();
 
-if ($session->get('profilSession') != "0" || $enableHelpSupport != "true") {
+if ($session->get('profile') != "0" || $enableHelpSupport != "true") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 

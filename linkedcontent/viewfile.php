@@ -823,7 +823,7 @@ HTML;
         $peerReviewBlock->closePaletteScript(count($fileDetail), array_column($peerReviews, 'fil_id'));
     }
 
-    if ($teamMember == "true" || $session->get("profilSession") == "5") {
+    if ($teamMember == "true" || $session->get("profile") == "5") {
         //Add new revision Block
         $block3 = new phpCollab\Block();
         $block3->form = "filedetails";
@@ -889,7 +889,7 @@ HTML;
 /**
  * Approval Tracking
  */
-if ($fileDetail["fil_owner"] == $session->get("idSession") || $projectDetail["pro_owner"] == $session->get("idSession") || $session->get("profilSession") == "5") {
+if ($fileDetail["fil_owner"] == $session->get("idSession") || $projectDetail["pro_owner"] == $session->get("idSession") || $session->get("profile") == "5") {
     $block5 = new phpCollab\Block();
     $block5->form = "filedetails";
 

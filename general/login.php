@@ -128,7 +128,7 @@ if ($auth == "on") {
             $session->set('languageSession', $request->request->get("languageForm"));
             $session->set('loginSession', $usernameForm);
             $session->set('nameSession', $member['mem_name']);
-            $session->set('profilSession', $member['mem_profil']);
+            $session->set('profile', $member['mem_profil']);
             $session->set('ipSession', $request->server->get("REMOTE_ADDR"));
             $session->set('dateunixSession', date("U"));
             $session->set('dateSession', date("d-m-Y H:i:s"));

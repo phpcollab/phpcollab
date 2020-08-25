@@ -23,7 +23,7 @@ if ($enableHelpSupport != "true") {
 }
 
 if ($supportType == "admin") {
-    if ($session->get("profilSession") != "0") {
+    if ($session->get("profile") != "0") {
         phpCollab\Util::headerFunction('../general/permissiondenied.php');
     }
 }
@@ -72,7 +72,7 @@ if ($action == "new") {
     $block1->heading($strings["closed_requests"]);
 }
 
-if ($teamMember == "true" || $session->get("profilSession") == "0") {
+if ($teamMember == "true" || $session->get("profile") == "0") {
     $block1->openPaletteIcon();
     $block1->paletteIcon(1, "edit", $strings["edit_status"]);
     $block1->paletteIcon(2, "remove", $strings["delete"]);
@@ -121,7 +121,7 @@ if ($listRequests) {
     $block1->noresults();
 }
 $block1->closeFormResults();
-if ($teamMember == "true" || $session->get("profilSession") == "0") {
+if ($teamMember == "true" || $session->get("profile") == "0") {
     $block1->openPaletteScript();
     $block1->paletteScript(1, "edit", "../support/addpost.php?action=status", "false,true,false", $strings["edit_status"]);
     $block1->paletteScript(2, "remove", "../support/deleterequests.php?sendto=".$request->query->get('action')."&action=deleteR", "false,true,true", $strings["delete"]);

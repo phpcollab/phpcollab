@@ -107,7 +107,7 @@ if (!empty($taskDetail) && $taskDetail["tas_owner"] === $session->get("idSession
     $teamMember = $teams->isTeamMember($project, $session->get("idSession"));
 }
 
-if ($teamMember == "false" && $session->get("profilSession") != "5") {
+if ($teamMember == "false" && $session->get("profile") != "5") {
     phpCollab\Util::headerFunction("../tasks/listtasks.php?project={$project}&msg=taskOwner");
 }
 

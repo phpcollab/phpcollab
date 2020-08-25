@@ -42,7 +42,7 @@ $block1->openForm("../newsdesk/viewnews.php?&id=" . $request->query->get("id"). 
 $block1->headingToggle($strings["newsdesk"]);
 
 
-if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1" || $session->get("profilSession") == "5") {
+if ($session->get("profile") == "0" || $session->get("profile") == "1" || $session->get("profile") == "5") {
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "add", $strings["add_newsdesk"]);
     $block1->paletteIcon(1, "remove", $strings["del_newsdesk"]);
@@ -97,7 +97,7 @@ $block1->closeFormResults();
 
 $block1->openPaletteScript();
 
-if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1" || $session->get("profilSession") == "5") {
+if ($session->get("profile") == "0" || $session->get("profile") == "1" || $session->get("profile") == "5") {
     $block1->paletteScript(0, "add", "../newsdesk/editnews.php?", "true,true,true", $strings["add_newsdesk"]);
     $block1->paletteScript(1, "remove", "../newsdesk/editnews.php?action=remove&id=" . $request->query->get("id"), "true,false,true", $strings["del_newsdesk"]);
     $block1->paletteScript(3, "edit", "../newsdesk/editnews.php?id=" . $request->query->get("id"), "true,true,true", $strings["edit_newsdesk"]);
@@ -121,7 +121,7 @@ $block2->headingToggle($strings["comments"]);
 $block2->openPaletteIcon();
 $block2->paletteIcon(0, "add", $strings["add_newsdesk_comment"]);
 $block2->paletteIcon(1, "edit", $strings["edit_newsdesk_comment"]);
-if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1" || $session->get("profilSession") == "5") {
+if ($session->get("profile") == "0" || $session->get("profile") == "1" || $session->get("profile") == "5") {
     $block2->paletteIcon(2, "remove", $strings["del_newsdesk_comment"]);
 }
 
@@ -160,7 +160,7 @@ $block2->openPaletteScript();
 $block2->paletteScript(0, "add", "../newsdesk/editmessage.php?postid=" . $request->query->get("id"), "true,false,false", $strings["add_newsdesk_comment"]);
 $block2->paletteScript(1, "edit", "../newsdesk/editmessage.php?postid=" . $request->query->get("id"), "false,true,false", $strings["edit_newsdesk_comment"]);
 
-if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1" || $session->get("profilSession") == "5") {
+if ($session->get("profile") == "0" || $session->get("profile") == "1" || $session->get("profile") == "5") {
     $block2->paletteScript(2, "remove", "../newsdesk/editmessage.php?postid=" . $request->query->get("id") . "&action=remove&", "false,true,true", $strings["del_newsdesk_comment"]);
 }
 

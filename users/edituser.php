@@ -37,7 +37,7 @@ include_once '../includes/library.php';
 
 $teams = new Teams();
 
-if ($session->get('profilSession') != "0") {
+if ($session->get('profile') != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 

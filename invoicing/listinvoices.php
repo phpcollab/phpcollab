@@ -30,7 +30,7 @@ if ($typeInvoices == "") {
 
 $clientDetail = null;
 
-if ($clientsFilter == "true" && $session->get("profilSession") == "2") {
+if ($clientsFilter == "true" && $session->get("profile") == "2") {
     $teamMember = "false";
 
     $memberTest = $teams->getTeamByTeamMemberAndOrgId($session->get("idSession"), $clientId);
@@ -42,7 +42,7 @@ if ($clientsFilter == "true" && $session->get("profilSession") == "2") {
     } else {
         $clientDetail = $organizations->getOrganizationById($clientId);
     }
-} else if ($clientsFilter == "true" && $session->get("profilSession") == "1") {
+} else if ($clientsFilter == "true" && $session->get("profile") == "1") {
     $clientDetail = $organizations->getOrganizationByIdAndOwner($clientId, $session->get("idSession"));
 } else {
     $clientDetail = $organizations->getOrganizationById($clientId);
@@ -91,11 +91,11 @@ if ($typeInvoices == "open") {
 $block1->heading($strings["invoices"] . " : " . $invoiceStatus[$status]);
 
 $block1->openPaletteIcon();
-if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1" || $session->get("profilSession") == "5") {
+if ($session->get("profile") == "0" || $session->get("profile") == "1" || $session->get("profile") == "5") {
     $block1->paletteIcon(1, "remove", $strings["delete"]);
 }
 $block1->paletteIcon(2, "info", $strings["view"]);
-if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1" || $session->get("profilSession") == "5") {
+if ($session->get("profile") == "0" || $session->get("profile") == "1" || $session->get("profile") == "5") {
     $block1->paletteIcon(3, "edit", $strings["edit"]);
 }
 $block1->closePaletteIcon();
@@ -152,11 +152,11 @@ if ($listInvoices) {
 $block1->closeFormResults();
 
 $block1->openPaletteScript();
-if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1" || $session->get("profilSession") == "5") {
+if ($session->get("profile") == "0" || $session->get("profile") == "1" || $session->get("profile") == "5") {
     $block1->paletteScript(1, "remove", "../invoicing/deleteinvoices.php?", "false,true,false", $strings["delete"]);
 }
 $block1->paletteScript(2, "info", "../invoicing/viewinvoice.php?", "false,true,false", $strings["view"]);
-if ($session->get("profilSession") == "0" || $session->get("profilSession") == "1" || $session->get("profilSession") == "5") {
+if ($session->get("profile") == "0" || $session->get("profile") == "1" || $session->get("profile") == "5") {
     $block1->paletteScript(3, "edit", "../invoicing/editinvoice.php?", "false,true,false", $strings["edit"]);
 }
 

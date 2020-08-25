@@ -71,7 +71,7 @@ if ($id != "") {
     /*
      * If the user is not an Admin, Project Manager, or Project Manager Administrator then redirect to project view
      */
-    if ($session->get("profilSession") != "0" && $session->get("profilSession") != "1" && $session->get("profilSession") != "5") {
+    if ($session->get("profile") != "0" && $session->get("profile") != "1" && $session->get("profile") != "5") {
         phpCollab\Util::headerFunction("../projects/viewproject.php?id=$id");
     }
 
@@ -85,7 +85,7 @@ if ($id != "") {
         phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blankProject");
     }
 
-    if ($session->get("idSession") != $projectDetail["pro_owner"] && $session->get("profilSession") != "0" && $session->get("profilSession") != "5") {
+    if ($session->get("idSession") != $projectDetail["pro_owner"] && $session->get("profile") != "0" && $session->get("profile") != "5") {
         phpCollab\Util::headerFunction("../projects/listprojects.php?msg=projectOwner");
     }
 
@@ -400,9 +400,9 @@ STAMP;
 if ($id == "") {
     $setTitle .= " : Add Project";
 
-    if ($session->get("profilSession") != "0"
-        && $session->get("profilSession") != "1"
-        && $session->get("profilSession") != "5"
+    if ($session->get("profile") != "0"
+        && $session->get("profile") != "1"
+        && $session->get("profile") != "5"
     ) {
         phpCollab\Util::headerFunction("../projects/listprojects.php");
     }
@@ -651,7 +651,7 @@ echo <<<HTML
 <td><select name="client_organization">
 HTML;
 
-if ($clientsFilter == "true" && $session->get("profilSession") == "1") {
+if ($clientsFilter == "true" && $session->get("profile") == "1") {
     $listClients = $organizations->getOrganizationsByOwner($session->get("idSession"), 'org.name');
 } else {
     $listClients = $organizations->getAllOrganizations('org.name');

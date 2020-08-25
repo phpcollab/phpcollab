@@ -192,14 +192,14 @@ if ($showHomeProjects) {
 
     $block1->openPaletteIcon();
 
-    if ($session->get('profilSession') == "0" || $session->get('profilSession') == "1") {
+    if ($session->get('profile') == "0" || $session->get('profile') == "1") {
         $block1->paletteIcon(0, "add", $strings["add"]);
         $block1->paletteIcon(1, "remove", $strings["delete"]);
         $block1->paletteIcon(2, "copy", $strings["copy"]);
     }
     $block1->paletteIcon(5, "info", $strings["view"]);
 
-    if ($session->get('profilSession') == "0" || $session->get('profilSession') == "1") {
+    if ($session->get('profile') == "0" || $session->get('profile') == "1") {
         $block1->paletteIcon(6, "edit", $strings["edit"]);
     }
 
@@ -282,7 +282,7 @@ if ($showHomeProjects) {
     $block1->closeFormResults();
 
     $block1->openPaletteScript();
-    if ($session->get('profilSession') == "0" || $session->get('profilSession') == "1") {
+    if ($session->get('profile') == "0" || $session->get('profile') == "1") {
         $block1->paletteScript(0, "add", "../projects/editproject.php", "true,true,true", $strings["add"]);
         $block1->paletteScript(1, "remove", "../projects/deleteproject.php", "false,true,false", $strings["delete"]);
         $block1->paletteScript(2, "copy", "../projects/editproject.php?docopy=true", "false,true,false", $strings["copy"]);
@@ -290,7 +290,7 @@ if ($showHomeProjects) {
 
     $block1->paletteScript(5, "info", "../projects/viewproject.php", "false,true,false", $strings["view"]);
 
-    if ($session->get('profilSession') == "0" || $session->get('profilSession') == "1") {
+    if ($session->get('profile') == "0" || $session->get('profile') == "1") {
         $block1->paletteScript(6, "edit", "../projects/editproject.php", "false,true,false", $strings["edit"]);
     }
 
@@ -701,7 +701,7 @@ if ($showHomeNewsdesk) {
     $newsdeskBlock->headingToggle($strings["my_newsdesk"]);
 
     $newsdeskBlock->openPaletteIcon();
-    if ($session->get('profilSession') == "0" || $session->get('profilSession') == "1" || $session->get('profilSession') == "5") {
+    if ($session->get('profile') == "0" || $session->get('profile') == "1" || $session->get('profile') == "5") {
         $newsdeskBlock->paletteIcon(0, "add", $strings["add_newsdesk"]);
         $newsdeskBlock->paletteIcon(1, "edit", $strings["edit_newsdesk"]);
         $newsdeskBlock->paletteIcon(2, "remove", $strings["del_newsdesk"]);
@@ -773,7 +773,7 @@ if ($showHomeNewsdesk) {
     $newsdeskBlock->closeFormResults();
 
     $newsdeskBlock->openPaletteScript();
-    if ($session->get('profilSession') == "0" || $session->get('profilSession') == "1" || $session->get('profilSession') == "5") {
+    if ($session->get('profile') == "0" || $session->get('profile') == "1" || $session->get('profile') == "5") {
         $newsdeskBlock->paletteScript(0, "add", "../newsdesk/editnews.php", "true,false,false", $strings["add_newsdesk"]);
         $newsdeskBlock->paletteScript(1, "edit", "../newsdesk/editnews.php", "false,true,true", $strings["edit_newsdesk"]);
         $newsdeskBlock->paletteScript(2, "remove", "../newsdesk/editnews.php?action=remove&", "false,true,true", $strings["del_newsdesk"]);

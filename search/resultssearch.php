@@ -300,7 +300,7 @@ $block4->setRowsLimit(10);
 
 $block4->sorting("organizations", $sortingUser["organizations"], "org.name ASC", $sortingFields = array(0 => "org.name", 1 => "org.url", 2 => "org.phone"));
 
-if ($clientsFilter == "true" && $session->get("profilSession") == "2") {
+if ($clientsFilter == "true" && $session->get("profile") == "2") {
     $teamMember = "false";
 
     $listTeams = $teams->getTeamByMemberId($session->get("idSession"));
@@ -316,7 +316,7 @@ if ($clientsFilter == "true" && $session->get("profilSession") == "2") {
             $clientQuery = "$searchOrganizations AND org.id IN($clientsOk) AND org.id != '1'";
         }
     }
-} elseif ($clientsFilter == "true" && $session->get("profilSession") == "1") {
+} elseif ($clientsFilter == "true" && $session->get("profile") == "1") {
     $clientQuery = "$searchOrganizations AND org.owner = " . $session->get("idSession") . " AND org.id != '1'";
 } else {
     $clientQuery = "$searchOrganizations AND org.id != '1'";

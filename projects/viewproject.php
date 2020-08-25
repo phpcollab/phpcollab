@@ -219,7 +219,7 @@ if ($teamMember == "false" && $projectsFilter == "true") {
     header("Location:../general/permissiondenied.php");
 }
 
-if ($enableHelpSupport == "true" && ($teamMember == "true" || $session->get("profilSession") == "5")) {
+if ($enableHelpSupport == "true" && ($teamMember == "true" || $session->get("profile") == "5")) {
     $comptListNewRequests = count($support->getSupportRequestByStatusAndProjectId(0, $projectDetail["pro_id"]));
     $comptListOpenRequests = count($support->getSupportRequestByStatusAndProjectId(1, $projectDetail["pro_id"]));
     $comptListCompleteRequests = count($support->getSupportRequestByStatusAndProjectId(2, $projectDetail["pro_id"]));
@@ -252,10 +252,10 @@ $block1->openForm("../projects/listprojects.php#" . $block1->form . "Anchor", nu
 
 $block1->headingToggle($strings["project"] . " : " . $projectDetail["pro_name"]);
 
-if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profilSession") == "0" || $session->get("profilSession") == "5") {
+if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
     $block1->openPaletteIcon();
 
-    if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profilSession") == "0" || $session->get("profilSession") == "5") {
+    if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
         $block1->paletteIcon(0, "remove", $strings["delete"]);
         $block1->paletteIcon(1, "copy", $strings["copy"]);
         $block1->paletteIcon(2, "export", $strings["export"]);
@@ -352,7 +352,7 @@ if ($sitePublish == "true") {
     }
 }
 
-if ($enableInvoicing == "true" && ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profilSession") == "0" || $session->get("profilSession") == "5")) {
+if ($enableInvoicing == "true" && ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5")) {
     if ($projectDetail["pro_invoicing"] == "1") {
         $block1->contentRow($strings["invoicing"], $strings["true"]);
     } else {
@@ -362,7 +362,7 @@ if ($enableInvoicing == "true" && ($session->get("idSession") == $projectDetail[
     $block1->contentRow($strings["hourly_rate"], $projectDetail["pro_hourly_rate"]);
 }
 
-if ($enableHelpSupport == "true" && ($teamMember == "true" || $session->get("profilSession") == "5") && $supportType == "team") {
+if ($enableHelpSupport == "true" && ($teamMember == "true" || $session->get("profile") == "5") && $supportType == "team") {
     $block1->contentTitle($strings["support"]);
     $block1->contentRow($strings["new_requests"],
         "$comptListNewRequests - " . $blockPage->buildLink("../support/support.php?action=new&project=" . $projectDetail["pro_id"],
@@ -379,10 +379,10 @@ $block1->closeContent();
 $block1->closeToggle();
 $block1->closeForm();
 
-if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profilSession") == "0" || $session->get("profilSession") == "5") {
+if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
     $block1->openPaletteScript();
 
-    if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profilSession") == "0" || $session->get("profilSession") == "5") {
+    if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
         $block1->paletteScript(0, "remove", "../projects/deleteproject.php?id=$id", "true,true,false",
             $strings["delete"]);
         $block1->paletteScript(1, "copy", "../projects/editproject.php?id=" . $projectDetail["pro_id"] . "&docopy=true",
@@ -414,8 +414,8 @@ if ($projectDetail["pro_phase_set"] != "0") {
 
     $block7->paletteIcon(0, "info", $strings["view"]);
 
-    if ($teamMember == "true" || $session->get("profilSession") == "5") {
-        if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profilSession") == "0" || $session->get("profilSession") == "5") {
+    if ($teamMember == "true" || $session->get("profile") == "5") {
+        if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
             $block7->paletteIcon(1, "edit", $strings["edit"]);
         }
     }
@@ -473,8 +473,8 @@ if ($projectDetail["pro_phase_set"] != "0") {
     $block7->openPaletteScript();
     $block7->paletteScript(0, "info", "../phases/viewphase.php?", "false,true,true", $strings["view"]);
 
-    if ($teamMember == "true" || $session->get("profilSession") == "5") {
-        if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profilSession") == "0" || $session->get("profilSession") == "5") {
+    if ($teamMember == "true" || $session->get("profile") == "5") {
+        if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
             $block7->paletteScript(1, "edit", "../phases/editphase.php?", "false,true,true", $strings["edit"]);
         }
     }
@@ -490,7 +490,7 @@ if ($projectDetail["pro_phase_set"] != "0") {
 
     $block2->openPaletteIcon();
 
-    if ($teamMember == "true" || $session->get("profilSession") == "5") {
+    if ($teamMember == "true" || $session->get("profile") == "5") {
         $block2->paletteIcon(0, "add", $strings["add"]);
         $block2->paletteIcon(1, "remove", $strings["delete"]);
         $block2->paletteIcon(2, "copy", $strings["copy"]);
@@ -503,7 +503,7 @@ if ($projectDetail["pro_phase_set"] != "0") {
 
     $block2->paletteIcon(6, "info", $strings["view"]);
 
-    if ($teamMember == "true" || $session->get("profilSession") == "5") {
+    if ($teamMember == "true" || $session->get("profile") == "5") {
         $block2->paletteIcon(7, "edit", $strings["edit"]);
     }
 
@@ -599,7 +599,7 @@ if ($projectDetail["pro_phase_set"] != "0") {
     $block2->closeFormResults();
 
     $block2->openPaletteScript();
-    if ($teamMember == "true" || $session->get("profilSession") == "5") {
+    if ($teamMember == "true" || $session->get("profile") == "5") {
         $block2->paletteScript(0, "add", "../tasks/edittask.php?project=" . $projectDetail["pro_id"] . "",
             "true,false,false", $strings["add"]);
         $block2->paletteScript(1, "remove", "../tasks/deletetasks.php?project=" . $projectDetail["pro_id"] . "",
@@ -617,7 +617,7 @@ if ($projectDetail["pro_phase_set"] != "0") {
     }
 
     $block2->paletteScript(6, "info", "../tasks/viewtask.php?", "false,true,false", $strings["view"]);
-    if ($teamMember == "true" || $session->get("profilSession") == "5") {
+    if ($teamMember == "true" || $session->get("profile") == "5") {
         $block2->paletteScript(7, "edit", "../tasks/edittask.php?project=" . $projectDetail["pro_id"] . "",
             "false,true,true", $strings["edit"]);
     }
@@ -632,11 +632,11 @@ $discussionsBlock->openForm("../projects/viewproject.php?id=$id&#" . $discussion
 $discussionsBlock->headingToggle($strings["discussions"]);
 $discussionsBlock->openPaletteIcon();
 
-if ($teamMember == "true" || $session->get("profilSession") == "5") {
+if ($teamMember == "true" || $session->get("profile") == "5") {
     $discussionsBlock->paletteIcon(0, "add", $strings["add"]);
 }
 
-if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profilSession") == "5") {
+if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "5") {
     $discussionsBlock->paletteIcon(1, "remove", $strings["delete"]);
     $discussionsBlock->paletteIcon(2, "lock", $strings["close"]);
 
@@ -716,12 +716,12 @@ $discussionsBlock->closeToggle();
 $discussionsBlock->closeFormResults();
 $discussionsBlock->openPaletteScript();
 
-if ($teamMember == "true" || $session->get("profilSession") == "5") {
+if ($teamMember == "true" || $session->get("profile") == "5") {
     $discussionsBlock->paletteScript(0, "add", "../topics/addtopic.php?project=" . $projectDetail["pro_id"] . "",
         "true,false,false", $strings["add"]);
 }
 
-if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profilSession") == "5") {
+if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "5") {
     $discussionsBlock->paletteScript(1, "remove", "../topics/deletetopics.php?project=" . $projectDetail["pro_id"] . "",
         "false,true,true", $strings["delete"]);
     $discussionsBlock->paletteScript(2, "lock",
@@ -747,7 +747,7 @@ $teamBlock->openForm("../projects/viewproject.php?&id=" . $projectDetail["pro_id
 $teamBlock->headingToggle($strings["team"]);
 $teamBlock->openPaletteIcon();
 
-if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profilSession") == "5") {
+if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "5") {
     $teamBlock->paletteIcon(0, "add", $strings["add"]);
     $teamBlock->paletteIcon(1, "remove", $strings["delete"]);
 
@@ -821,7 +821,7 @@ $teamBlock->closeToggle();
 $teamBlock->closeFormResults();
 $teamBlock->openPaletteScript();
 
-if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profilSession") == "5") {
+if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "5") {
     $teamBlock->paletteScript(0, "add", "../teams/adduser.php?project=" . $projectDetail["pro_id"] . "",
         "true,true,true", $strings["add"]);
     $teamBlock->paletteScript(1, "remove", "../teams/deleteusers.php?project=" . $projectDetail["pro_id"] . "",
@@ -853,7 +853,7 @@ if ($fileManagement == "true") {
     $filesBlock->headingToggle($strings["linked_content"]);
     $filesBlock->openPaletteIcon();
 
-    if ($teamMember == "true" || $session->get("profilSession") == "5") {
+    if ($teamMember == "true" || $session->get("profile") == "5") {
         $filesBlock->paletteIcon(0, "add", $strings["add"]);
         $filesBlock->paletteIcon(1, "remove", $strings["delete"]);
 
@@ -865,7 +865,7 @@ if ($fileManagement == "true") {
 
     $filesBlock->paletteIcon(4, "info", $strings["view"]);
 
-    if ($teamMember == "true" || $session->get("profilSession") == "5") {
+    if ($teamMember == "true" || $session->get("profile") == "5") {
         $filesBlock->paletteIcon(5, "edit", $strings["edit"]);
     }
 
@@ -943,7 +943,7 @@ if ($fileManagement == "true") {
     $filesBlock->closeFormResults();
     $filesBlock->openPaletteScript();
 
-    if ($teamMember == "true" || $session->get("profilSession") == "5") {
+    if ($teamMember == "true" || $session->get("profile") == "5") {
         $filesBlock->paletteScript(0, "add", "../linkedcontent/addfile.php?project=$id", "true,true,true",
             $strings["add"]);
         $filesBlock->paletteScript(1, "remove", "../linkedcontent/deletefiles.php?project=$id", "false,true,true",
@@ -961,7 +961,7 @@ if ($fileManagement == "true") {
 
     $filesBlock->paletteScript(4, "info", "../linkedcontent/viewfile.php?", "false,true,false", $strings["view"]);
 
-    if ($teamMember == "true" || $session->get("profilSession") == "5") {
+    if ($teamMember == "true" || $session->get("profile") == "5") {
         $filesBlock->paletteScript(5, "edit", "../linkedcontent/viewfile.php?edit=true", "false,true,false",
             $strings["edit"]);
     }
@@ -980,7 +980,7 @@ $notesBlock->openForm("../projects/viewproject.php?&id=" . $projectDetail["pro_i
 $notesBlock->headingToggle($strings["notes"]);
 $notesBlock->openPaletteIcon();
 
-if ($teamMember == "true" || $session->get("profilSession") == "5") {
+if ($teamMember == "true" || $session->get("profile") == "5") {
     $notesBlock->paletteIcon(0, "add", $strings["add"]);
     $notesBlock->paletteIcon(1, "remove", $strings["delete"]);
     if ($sitePublish == "true") {
@@ -990,7 +990,7 @@ if ($teamMember == "true" || $session->get("profilSession") == "5") {
 }
 
 $notesBlock->paletteIcon(5, "info", $strings["view"]);
-if ($teamMember == "true" || $session->get("profilSession") == "5") {
+if ($teamMember == "true" || $session->get("profile") == "5") {
     $notesBlock->paletteIcon(6, "edit", $strings["edit"]);
 }
 
@@ -1072,7 +1072,7 @@ $notesBlock->closeToggle();
 $notesBlock->closeFormResults();
 $notesBlock->openPaletteScript();
 
-if ($teamMember == "true" || $session->get("profilSession") == "5") {
+if ($teamMember == "true" || $session->get("profile") == "5") {
     $notesBlock->paletteScript(0, "add", "../notes/editnote.php?project=" . $projectDetail["pro_id"] . "",
         "true,true,true", $strings["add"]);
     $notesBlock->paletteScript(1, "remove", "../notes/deletenotes.php?project=" . $projectDetail["pro_id"] . "",
@@ -1089,7 +1089,7 @@ if ($teamMember == "true" || $session->get("profilSession") == "5") {
 
 $notesBlock->paletteScript(5, "info", "../notes/viewnote.php?", "false,true,false", $strings["view"]);
 
-if ($teamMember == "true" || $session->get("profilSession") == "5") {
+if ($teamMember == "true" || $session->get("profile") == "5") {
     $notesBlock->paletteScript(6, "edit", "../notes/editnote.php?project=" . $projectDetail["pro_id"] . "",
         "false,true,false", $strings["edit"]);
 }

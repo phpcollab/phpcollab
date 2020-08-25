@@ -66,7 +66,7 @@ $teamMember = "false";
 
 $teamMember = $teams->isTeamMember($projectDetail["pro_id"], $session->get("idSession"));
 
-if ($teamMember != "true" && $session->get("profilSession") != "5") {
+if ($teamMember != "true" && $session->get("profile") != "5") {
     phpCollab\Util::headerFunction("../tasks/viewtask.php?id={$parentTaskId}&msg=taskOwner");
 }
 

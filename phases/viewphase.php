@@ -106,7 +106,7 @@ $block1->form = "pppD";
 $block1->openForm("../projects/listprojects.php#" . $block1->form . "Anchor", null, $csrfHandler);
 $block1->headingToggle($strings["phase"] . " : " . $phaseDetail["pha_name"]);
 
-if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profilSession") == "0" || $session->get("profilSession") == "5") {
+if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "edit", $strings["edit"]);
     $block1->closePaletteIcon();
@@ -142,7 +142,7 @@ $block1->closeContent();
 $block1->closeToggle();
 $block1->closeForm();
 
-if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profilSession") == "0" || $session->get("profilSession") == "5") {
+if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
     $block1->openPaletteScript();
     $block1->paletteScript(0, "edit", "../phases/editphase.php?id=$id", "true,true,true", $strings["edit"]);
     $block1->closePaletteScript($comptlistTasks, array_column($listPhases, 'pha_id'));
@@ -156,7 +156,7 @@ $block2->openForm("../phases/viewphase.php?&id={$id}#" . $block2->form . "Anchor
 $block2->headingToggle($strings["tasks"]);
 
 $block2->openPaletteIcon();
-if ($teamMember == "true" || $session->get("profilSession") == "5") {
+if ($teamMember == "true" || $session->get("profile") == "5") {
     $block2->paletteIcon(0, "add", $strings["add"]);
     $block2->paletteIcon(1, "remove", $strings["delete"]);
     $block2->paletteIcon(2, "copy", $strings["copy"]);
@@ -167,7 +167,7 @@ if ($teamMember == "true" || $session->get("profilSession") == "5") {
 }
 
 $block2->paletteIcon(6, "info", $strings["view"]);
-if ($teamMember == "true" || $session->get("profilSession") == "5") {
+if ($teamMember == "true" || $session->get("profile") == "5") {
     $block2->paletteIcon(7, "edit", $strings["edit"]);
 }
 $block2->closePaletteIcon();
@@ -230,7 +230,7 @@ $block2->closeToggle();
 $block2->closeFormResults();
 
 $block2->openPaletteScript();
-if ($teamMember == "true" || $session->get("profilSession") == "5") {
+if ($teamMember == "true" || $session->get("profile") == "5") {
     $block2->paletteScript(0, "add", "../tasks/edittask.php?project=$project&phase=" . $phaseDetail["pha_order_num"] . "", "true,true,true", $strings["add"]);
     $block2->paletteScript(1, "remove", "../tasks/deletetasks.php?project=$project", "false,true,true", $strings["delete"]);
     $block2->paletteScript(2, "copy", "../tasks/edittask.php?project=$project&docopy=true", "false,true,false", $strings["copy"]);
@@ -240,7 +240,7 @@ if ($teamMember == "true" || $session->get("profilSession") == "5") {
     }
 }
 $block2->paletteScript(6, "info", "../tasks/viewtask.php?", "false,true,false", $strings["view"]);
-if ($teamMember == "true" || $session->get("profilSession") == "5") {
+if ($teamMember == "true" || $session->get("profile") == "5") {
     $block2->paletteScript(7, "edit", "../tasks/edittask.php?project=$project&phase=" . $phaseDetail["pha_order_num"] . "", "false,true,false", $strings["edit"]);
 }
 $block2->closePaletteScript($comptlistTasks, array_column($listTasks, 'tas_id'));
@@ -253,7 +253,7 @@ if ($fileManagement == "true") {
     $block3->headingToggle($strings["linked_content"]);
     $block3->openPaletteIcon();
 
-    if ($teamMember == "true" || $session->get("profilSession") == "5") {
+    if ($teamMember == "true" || $session->get("profile") == "5") {
         $block3->paletteIcon(0, "add", $strings["add"]);
         $block3->paletteIcon(1, "remove", $strings["delete"]);
 
@@ -265,7 +265,7 @@ if ($fileManagement == "true") {
 
     $block3->paletteIcon(4, "info", $strings["view"]);
 
-    if ($teamMember == "true" || $session->get("profilSession") == "5") {
+    if ($teamMember == "true" || $session->get("profile") == "5") {
         $block3->paletteIcon(5, "edit", $strings["edit"]);
     }
 
@@ -321,7 +321,7 @@ if ($fileManagement == "true") {
     $block3->closeFormResults();
     $block3->openPaletteScript();
 
-    if ($teamMember == "true" || $session->get("profilSession") == "5") {
+    if ($teamMember == "true" || $session->get("profile") == "5") {
         $block3->paletteScript(0, "add", "../linkedcontent/addfile.php?project=" . $projectDetail["pro_id"] . "&phase=" . $phaseDetail["pha_id"] . "", "true,true,true", $strings["add"]);
         $block3->paletteScript(1, "remove", "../linkedcontent/deletefiles.php?project=" . $projectDetail["pro_id"] . "&phase=" . $phaseDetail["pha_id"] . "&sendto=phasedetail", "false,true,true", $strings["delete"]);
         if ($sitePublish == "true") {
@@ -331,7 +331,7 @@ if ($fileManagement == "true") {
     }
 
     $block3->paletteScript(4, "info", "../linkedcontent/viewfile.php?", "false,true,false", $strings["view"]);
-    if ($teamMember == "true" || $session->get("profilSession") == "5") {
+    if ($teamMember == "true" || $session->get("profile") == "5") {
         $block3->paletteScript(5, "edit", "../linkedcontent/viewfile.php?edit=true", "false,true,false", $strings["edit"]);
     }
     $block3->closePaletteScript(count($listFiles), array_column($listFiles, 'fil_id'));

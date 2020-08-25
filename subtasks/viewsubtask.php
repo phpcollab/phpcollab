@@ -101,7 +101,7 @@ $block1->openForm("../subtasks/viewsubtask.php#" . $block1->form . "Anchor", nul
 $block1->headingToggle($strings["subtask"] . " : " . $subtaskDetail['subtas_name']);
 
 
-if ($teamMember == "true" || $session->get("profilSession") == "5") {
+if ($teamMember == "true" || $session->get("profile") == "5") {
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "remove", $strings["delete"]);
     if ($sitePublish == "true") {
@@ -228,7 +228,7 @@ $block1->closeContent();
 $block1->closeToggle();
 $block1->closeForm();
 
-if ($teamMember == "true" || $session->get("profilSession") == "5") {
+if ($teamMember == "true" || $session->get("profile") == "5") {
     $block1->openPaletteScript();
     $block1->paletteScript(0, "remove", "../subtasks/deletesubtasks.php?task=$task&id=" . $subtaskDetail['subtas_id'] . "", "true,true,false", $strings["delete"]);
     if ($sitePublish == "true") {

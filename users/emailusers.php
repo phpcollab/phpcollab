@@ -12,7 +12,7 @@ $organizations = new Organizations();
 
 /*
 //anyone can send a message
-if ($profilSession != "0") {
+if ($session->get("profile") != "0") {
     header("Location:../general/permissiondenied.php?".session_name()."=".session_id());
     exit;
 }
@@ -65,7 +65,7 @@ if ($request->isMethod('post')) {
 
                 }
 
-                if ($session->get("profilSession") == "0") {
+                if ($session->get("profile") == "0") {
                     header("Location:../users/listusers.php?id={$clientDetail["org_id"]}&msg=email");
                 } else {
                     header("Location:../general/home.php?msg=email");

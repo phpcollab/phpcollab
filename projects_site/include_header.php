@@ -164,7 +164,7 @@ echo <<<sidebar
 		<tr><td colspan="2"><br/></td></tr>
 sidebar;
 
-if ($session->get("profilSession") != "3") {
+if ($session->get("profile") != "3") {
     echo <<<TR
         <tr>
             <td><a href="../general/home.php"><img src="ico_folder.gif" alt="0"></a></td>

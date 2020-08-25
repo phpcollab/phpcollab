@@ -225,11 +225,11 @@ if ($checkSession != "false" && $session->get('demoSession') != "true") {
     }
     $csrfHandler = new CsrfHandler($session);
 
-    if ($session->get('profilSession') == "3" && !strstr($request->server->get('PHP_SELF'), "projects_site")) {
+    if ($session->get('profile') == "3" && !strstr($request->server->get('PHP_SELF'), "projects_site")) {
         phpCollab\Util::headerFunction("../projects_site/home.php");
     }
 
-    if ($lastvisitedpage && $session->get('profilSession') != "0") { // If the user has admin permissions, do not log the last page visited.
+    if ($lastvisitedpage && $session->get('profile') != "0") { // If the user has admin permissions, do not log the last page visited.
         if (!strstr($request->server->get("PHP_SELF"), "graph")) {
             $sidCode = $session->getName();
             $page = $request->server->get("PHP_SELF") . "?" . $request->server->get("QUERY_STRING");
@@ -245,7 +245,7 @@ if ($checkSession != "false" && $session->get('demoSession') != "true") {
         }
     }
     //if auto logout feature used, store last required page before disconnecting
-    if ($session->get('profilSession') != "3") {
+    if ($session->get('profile') != "3") {
         if ($session->get('logouttimeSession') != "0" && $session->get('logouttimeSession') != "") {
             $dateunix = date("U");
             $diff = $dateunix - $session->get('dateunixSession');

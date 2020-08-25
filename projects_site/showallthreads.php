@@ -103,7 +103,7 @@ if ($listPosts) {
             <td colspan="2" style="text-align: right;">
 TR;
 
-        if ($detailProject["pro_owner"] == $session->get("idSession") || $session->get("profilSession") == "0" || $post["pos_member"] == $session->get("idSession")) {
+        if ($detailProject["pro_owner"] == $session->get("idSession") || $session->get("profile") == "0" || $post["pos_member"] == $session->get("idSession")) {
             echo <<<LINK
                 <a href="../projects_site/showallthreads.php?topic={$topicId}&action=delete&post={$post["pos_id"]}">({$post["pos_id"]}) {$strings["delete_message"]}</a>
 LINK;

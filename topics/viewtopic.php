@@ -121,7 +121,7 @@ foreach ($listPosts as $post) {
         $block1->contentRow($strings["when"], phpCollab\Util::createDate($post["pos_created"], $session->get("timezoneSession")));
     }
     $post_message = (strlen($post["pos_message"]) > 0) ? nl2br($post["pos_message"]) : "<em>no message</em>";
-    if ($detailProject["pro_owner"] == $session->get("idSession") || $session->get("profilSession") == "0" || $post["pos_member"] == $session->get("idSession")) {
+    if ($detailProject["pro_owner"] == $session->get("idSession") || $session->get("profile") == "0" || $post["pos_member"] == $session->get("idSession")) {
         $block1->contentRow($blockPage->buildLink("../topics/deletepost.php?topic=" . $detailTopic["top_id"] . "&id=" . $post["pos_id"], $strings["delete_message"], "in"), $post_message);
     } else {
         $block1->contentRow("", $post_message);

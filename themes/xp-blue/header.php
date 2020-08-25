@@ -96,7 +96,7 @@ if ($blank == "true") {
     $blockHeader->itemNavigation($blockHeader->buildLink("../calendar/viewcalendar.php", $strings["calendar"], 'in'));
     $blockHeader->itemNavigation($blockHeader->buildLink("../newsdesk/listnews.php", $strings["newsdesk"], 'in'));
     $blockHeader->itemNavigation($blockHeader->buildLink("../bookmarks/listbookmarks.php?view=all", $strings["bookmarks"], 'in'));
-    if ($session->get("profilSession") == "0") { // Remove the Admin menu item if user does not have admin privilages
+    if ($session->get("profile") == "0") { // Remove the Admin menu item if user does not have admin privilages
         $blockHeader->itemNavigation($blockHeader->buildLink("../administration/admin.php", $strings["admin"], 'in'));
     }
 }
