@@ -42,7 +42,7 @@ $reports = new Reports();
 
 $sorting = $block1->sortingValue;
 
-$dataSet = $reports->getReportsByOwner($session->get("idSession"), $sorting);
+$dataSet = $reports->getReportsByOwner($session->get("id"), $sorting);
 
 $reportCount = count($dataSet);
 
@@ -54,7 +54,7 @@ if ($dataSet) {
         $block1->openRow();
         $block1->checkboxRow($data["rep_id"]);
         $block1->cellRow($blockPage->buildLink("../reports/resultsreport.php?id=" . $data["rep_id"], $data["rep_name"], "in"));
-        $block1->cellRow(phpCollab\Util::createDate($data["rep_created"], $session->get("timezoneSession")));
+        $block1->cellRow(phpCollab\Util::createDate($data["rep_created"], $session->get("timezone")));
     }
     $block1->closeResults();
 } else {

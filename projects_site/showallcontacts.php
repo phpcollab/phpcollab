@@ -13,7 +13,7 @@ $bouton[1] = "over";
 $titlePage = $strings["project_team"];
 include 'include_header.php';
 
-$listContacts = $teams->getProjectSiteContacts($session->get("projectSession"), 'mem.name');
+$listContacts = $teams->getProjectSiteContacts($session->get("project"), 'mem.name');
 
 $block1 = new phpCollab\Block();
 

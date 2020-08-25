@@ -22,7 +22,7 @@ class TopicNewPost extends Notification
         if ($topicDetail) {
 
             try {
-                $this->getUserinfo($session->get('idSession'), "from");
+                $this->getUserinfo($session->get("id"), "from");
 
                 $this->partSubject = $this->strings["noti_newpost1"];
                 $this->partMessage = $this->strings["noti_newpost2"];
@@ -35,7 +35,7 @@ class TopicNewPost extends Notification
 
                 $body = $this->partMessage . "\n\n";
                 $body .= $this->strings["discussion"] . " : {$topicDetail["top_subject"]} \n";
-                $body .= $this->strings["posted_by"] . " : {$session->get('nameSession')} ({$session->get('loginSession')})\n\n";
+                $body .= $this->strings["posted_by"] . " : {$session->get('name')} ({$session->get('login')})\n\n";
                 $body .= $this->strings["project"] . " : {$projectDetail["pro_name"]} ({$projectDetail["pro_id"]})\n";
                 $body .= $this->strings["organization"] . " : {$projectDetail["pro_org_name"]}\n\n";
                 $body .= $this->strings["noti_moreinfo"] . "\n";

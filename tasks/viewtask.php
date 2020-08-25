@@ -113,7 +113,7 @@ if ($projectDetail["pro_enable_phase"] != "0") {
 }
 
 $teamMember = false;
-$teamMember = ($session->get('idSession') == $taskDetail["tas_owner"] || $teams->isTeamMember($taskDetail["tas_project"], $session->get('idSession')));
+$teamMember = ($session->get("id") == $taskDetail["tas_owner"] || $teams->isTeamMember($taskDetail["tas_project"], $session->get("id")));
 
 if ($teamMember === false && $projectsFilter === "true") {
     header("Location:../general/permissiondenied.php");
@@ -176,9 +176,9 @@ if ($projectDetail["pro_phase_set"] != "0") {
 
 $block1->contentRow($strings["organization"], $projectDetail["pro_org_name"]);
 
-$block1->contentRow($strings["created"], phpCollab\Util::createDate($taskDetail["tas_created"], $session->get("timezoneSession")));
-$block1->contentRow($strings["assigned"], phpCollab\Util::createDate($taskDetail["tas_assigned"], $session->get("timezoneSession")));
-$block1->contentRow($strings["modified"], phpCollab\Util::createDate($taskDetail["tas_modified"], $session->get("timezoneSession")));
+$block1->contentRow($strings["created"], phpCollab\Util::createDate($taskDetail["tas_created"], $session->get("timezone")));
+$block1->contentRow($strings["assigned"], phpCollab\Util::createDate($taskDetail["tas_assigned"], $session->get("timezone")));
+$block1->contentRow($strings["modified"], phpCollab\Util::createDate($taskDetail["tas_modified"], $session->get("timezone")));
 
 $block1->contentTitle($strings["details"]);
 
@@ -262,7 +262,7 @@ if ($listUpdates) {
         }
 
         $abbrev = stripslashes(substr($update["upd_comments"], 0, 100));
-        echo "<b>" . $j . ".</b> <i>" . phpCollab\Util::createDate($update["upd_created"], $session->get("timezoneSession")) . "</i> $abbrev";
+        echo "<b>" . $j . ".</b> <i>" . phpCollab\Util::createDate($update["upd_created"], $session->get("timezone")) . "</i> $abbrev";
 
         if (100 < strlen($update["upd_comments"])) {
             echo "...<br/>";
@@ -423,7 +423,7 @@ foreach ($listAssign as $assignment) {
     } else {
         $block3->cellRow($blockPage->buildLink($assignment["ass_mem2_email_work"], $assignment["ass_mem2_login"], "mail"));
     }
-    $block3->cellRow(phpCollab\Util::createDate($assignment["ass_assigned"], $session->get("timezoneSession")));
+    $block3->cellRow(phpCollab\Util::createDate($assignment["ass_assigned"], $session->get("timezone")));
     $block3->closeRow();
 }
 

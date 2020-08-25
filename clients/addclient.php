@@ -107,7 +107,7 @@ if ($clientsFilter == "true") {
     $clientOwner = $members->getNonManagementMembers('mem.name');
     $selectOwnerOptions = '';
     foreach ($clientOwner as $owner) {
-        if ($clientDetail['org_owner'] == $owner["mem_id"] || $session->get("idSession") == $owner["mem_id"]) {
+        if ($clientDetail['org_owner'] == $owner["mem_id"] || $session->get("id") == $owner["mem_id"]) {
             $selectOwnerOptions .= '<option value="' . $owner["mem_id"] . '" selected>' . $owner["mem_login"] . ' / ' . $owner["mem_name"] . '</option>';
         } else {
             $selectOwnerOptions .= '<option value="' . $owner["mem_id"] . '">' . $owner["mem_login"] . ' / ' . $owner["mem_name"] . '</option>';
@@ -121,7 +121,7 @@ SELECT;
 
     $block1->contentRow($strings["owner"], $selectOwner);
 } else {
-    echo '<input type="hidden" name="owner" value="'. $session->get("idSession") .'">';
+    echo '<input type="hidden" name="owner" value="'. $session->get("id") .'">';
 }
 
 $block1->contentRow("* " . $strings["name"], '<input size="44" value="' . $name . '" style="width: 400px" name="name" maxlength="100" type="TEXT" />');

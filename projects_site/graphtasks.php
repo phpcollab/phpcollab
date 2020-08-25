@@ -35,7 +35,7 @@ if ($request->query->get('dateCalend') != '') {
     $dateCalend = substr($dateCalend, 0, 7);
 
     //add the published task to the graph
-    $listTasks = $tasks->getTasksWhereStartDateAndEndDateLikeNotPublishedAndAssignedToUserId($dateCalend, $session->get("idSession"));
+    $listTasks = $tasks->getTasksWhereStartDateAndEndDateLikeNotPublishedAndAssignedToUserId($dateCalend, $session->get("id"));
 
     $progress = 0;
     foreach ($listTasks as $task) {
@@ -58,7 +58,7 @@ if ($request->query->get('dateCalend') != '') {
         $graph->Add($activity);
     }
 
-    $detailCalendar = $calendars->openCalendarByOwnerOrIsBroadcast($session->get("idSession"));
+    $detailCalendar = $calendars->openCalendarByOwnerOrIsBroadcast($session->get("id"));
 
     $j = 0;
     $progress = 0;
@@ -83,7 +83,7 @@ if ($request->query->get('dateCalend') != '') {
     $graph->title->Set($strings["project"] . " " . $projectDetail["pro_name"]);
     $graph->subtitle->Set("(" . $strings["created"] . ": " . $projectDetail["pro_created"] . ")");
 
-    $projectDetail["pro_created"] = phpCollab\Util::createDate($projectDetail["pro_created"], $session->get("timezoneSession"));
+    $projectDetail["pro_created"] = phpCollab\Util::createDate($projectDetail["pro_created"], $session->get("timezone"));
     $projectDetail["pro_name"] = str_replace('&quot;', '"', $projectDetail["pro_name"]);
     $projectDetail["pro_name"] = str_replace("&#39;", "'", $projectDetail["pro_name"]);
 

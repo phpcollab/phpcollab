@@ -16,7 +16,7 @@ if ($listNotifications["duedateTaskChange"] == "0") {
     $mail = new phpCollab\Notification(true);
 
     try {
-        $mail->getUserinfo($session->get("idSession"), "from");
+        $mail->getUserinfo($session->get("id"), "from");
 
         $mail->partSubject = $strings["noti_duedatetaskchange1"];
         $mail->partMessage = $strings["noti_duedatetaskchange2"];

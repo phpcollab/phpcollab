@@ -53,7 +53,7 @@ if (empty($type)) {
 }
 
 if ($gmtTimezone != "false") {
-    $zone = 3600 * $session->get('timezoneSession');
+    $zone = 3600 * $session->get('timezone');
     $year = gmdate("Y", time() + $zone);
     $month = gmdate("n", time() + $zone);
     $day = gmdate("j", time() + $zone);
@@ -80,7 +80,7 @@ if ($dateCalend != "") {
 
 if ($dateCalend == "") {
     if ($gmtTimezone != "false") {
-        $zone = 3600 * $session->get('timezoneSession');
+        $zone = 3600 * $session->get('timezone');
         $year = gmdate("Y", time() + $zone);
         $month = gmdate("n", time() + $zone);
         $day = gmdate("d", time() + $zone);
@@ -183,7 +183,7 @@ if ($type == "calendEdit") {
                         $shortname = phpCollab\Util::convertData($shortname);
 
                         $num = $calendars->addCalendarEvent(
-                            $session->get("idSession"), $subject, $description, $location, $shortname, $dateStart,
+                            $session->get("id"), $subject, $description, $location, $shortname, $dateStart,
                             $dateEnd, $timeStart, $timeEnd,
                             $reminder, $broadcast, $recurring, $dayRecurr);
 
@@ -202,7 +202,7 @@ if ($type == "calendEdit") {
     }
 
     if ($id != "") {
-        $detailCalendar = $calendars->openCalendarByOwnerAndId($session->get("idSession"), $id);
+        $detailCalendar = $calendars->openCalendarByOwnerAndId($session->get("id"), $id);
 
         $comptDetailCalendar = count($detailCalendar);
 
@@ -213,7 +213,7 @@ if ($type == "calendEdit") {
 }
 
 if ($type == "calendDetail") {
-    $detailCalendar = $calendars->openCalendarDetail($session->get("idSession"), $id);
+    $detailCalendar = $calendars->openCalendarDetail($session->get("id"), $id);
     $comptDetailCalendar = count($detailCalendar);
 
     if ($comptDetailCalendar == "0") {
@@ -459,7 +459,7 @@ if ($type == "calendDetail") {
     $block1->openPaletteIcon();
 
     //not sure about this...
-    if ($detailCalendar['cal_owner'] == $session->get("idSession")) {
+    if ($detailCalendar['cal_owner'] == $session->get("id")) {
         $block1->paletteIcon(0, "remove", $strings["delete"]);
         $block1->paletteIcon(1, "edit", $strings["edit"]);
     }
@@ -524,7 +524,7 @@ HTML;
     $block1->closeForm();
 
     $block1->openPaletteScript();
-    if ($detailCalendar['cal_owner'] == $session->get("idSession")) {
+    if ($detailCalendar['cal_owner'] == $session->get("id")) {
         $block1->paletteScript(0, "remove", "../calendar/deletecalendar.php?id=$id", "true,true,true", $strings["delete"]);
         $block1->paletteScript(1, "edit", "../calendar/viewcalendar.php?id=$id&type=calendEdit&dateCalend=$dateCalend", "true,true,true", $strings["edit"]);
     }
@@ -562,7 +562,7 @@ if ($type == "dayList") {
 
     $dayRecurr = phpCollab\Util::dayOfWeek(mktime(12, 12, 12, $month, $day, $year));
 
-    $listCalendar = $calendars->openCalendarDay($session->get("idSession"), $dateCalend, $dayRecurr, $block1->sortingValue);
+    $listCalendar = $calendars->openCalendarDay($session->get("id"), $dateCalend, $dayRecurr, $block1->sortingValue);
     $comptListCalendar = count($listCalendar);
 
     if ($comptListCalendar != "0") {
@@ -618,10 +618,10 @@ if ($type == "monthPreview") {
     //  Print the calendar
     echo "<tr>";
 
-    $listTasks = $tasks->getMyTasks($session->get("idSession"), 'tas.name');
+    $listTasks = $tasks->getMyTasks($session->get("id"), 'tas.name');
     $comptListTasks = count($listTasks);
 
-    $listSubtasks = $tasks->getSubtasksAssignedToMe($session->get("idSession"));
+    $listSubtasks = $tasks->getSubtasksAssignedToMe($session->get("id"));
     $comptListSubtasks = count($listSubtasks);
 
     $comptListCalendarScan = "0";
@@ -652,7 +652,7 @@ if ($type == "monthPreview") {
         $todayClass = "";
         $dayRecurr = phpCollab\Util::dayOfWeek(mktime(12, 12, 12, $month, $a, $year));
 
-        $listCalendarScan = $calendars->openCalendarMonth($session->get("idSession"), $dateLink, $dayRecurr);
+        $listCalendarScan = $calendars->openCalendarMonth($session->get("id"), $dateLink, $dayRecurr);
 
         $comptListCalendarScan = count($listCalendarScan);
 
@@ -668,9 +668,9 @@ if ($type == "monthPreview") {
             echo "<td class='$classCell'><div style='text-align: right;'>" . $blockPage->buildLink("../calendar/viewcalendar.php?dateCalend=$dateLink&type=dayList", $day, 'in') . "</div>";
             if ($comptListCalendarScan != "0") {
                 foreach ($listCalendarScan as $calendar) {
-                    if ($calendar['cal_broadcast'] == "0" && $calendar['cal_owner'] == $session->get("idSession")) {
+                    if ($calendar['cal_broadcast'] == "0" && $calendar['cal_owner'] == $session->get("id")) {
                         echo "<div class='calendar-regular-event'><a href='../calendar/viewcalendar.php?id=" . $calendar['cal_id'] . "&type=calendDetail&dateCalend=$dateLink' class='calendar-regular-todo-event'>" . $calendar['cal_shortname'] . "</a></div>";
-                    } elseif ($calendar['cal_broadcast'] != "0" && $calendar['cal_owner'] == $session->get("idSession")) {
+                    } elseif ($calendar['cal_broadcast'] != "0" && $calendar['cal_owner'] == $session->get("id")) {
                         echo "<div class='calendar-regular-event'><a href='../calendar/viewcalendar.php?id=" . $calendar['cal_id'] . "&type=calendDetail&dateCalend=$dateLink' class='calendar-regular-todo-event'><b>" . $calendar['cal_shortname'] . "</b></a></div>";
                     } else {
                         echo "<div class='calendar-broadcast-event'><a href='../calendar/viewcalendar.php?id=" . $calendar['cal_id'] . "&type=calendDetail&dateCalend=$dateLink' class='calendar-broadcast-todo-event'><b>" . $calendar['cal_shortname'] . "</b></a></div>";

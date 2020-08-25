@@ -35,15 +35,15 @@ if ($request->isMethod('post')) {
                 $topic_subject = phpCollab\Util::convertData($request->request->get('topic_subject'));
                 $topic_message = phpCollab\Util::convertData($request->request->get('topic_message'));
 
-                $newTopic = $topics->addTopic($project, $session->get('idSession'), $topic_subject, 1, 1, $pub, $dateheure);
+                $newTopic = $topics->addTopic($project, $session->get("id"), $topic_subject, 1, 1, $pub, $dateheure);
 
 
                 $topic_message = phpCollab\Util::autoLinks($topic_message);
 
-                $newPost = $topics->addPost($newTopic["top_id"], $session->get('idSession'), $topic_message, $dateheure);
+                $newPost = $topics->addPost($newTopic["top_id"], $session->get("id"), $topic_message, $dateheure);
 
                 if ($notifications == "true") {
-                    $listPosts = $topics->getPostsByTopicIdAndNotOwner($detailTopic["top_id"], $session->get('idSession'));
+                    $listPosts = $topics->getPostsByTopicIdAndNotOwner($detailTopic["top_id"], $session->get("id"));
 
                     $distinct = '';
 
@@ -62,7 +62,7 @@ if ($request->isMethod('post')) {
                         $newTopicNotice = new TopicNewTopic();
 
                         try {
-                            $listPosts = $topics->getPostsByTopicIdAndNotOwner($detailTopic["top_id"], $session->get('idSession'));
+                            $listPosts = $topics->getPostsByTopicIdAndNotOwner($detailTopic["top_id"], $session->get("id"));
 
                             $distinct = '';
 
@@ -100,7 +100,7 @@ if ($request->isMethod('post')) {
 
 
 $teamMember = "false";
-$teamMember = $teams->isTeamMember($projectDetail["pro_id"], $session->get("idSession"));
+$teamMember = $teams->isTeamMember($projectDetail["pro_id"], $session->get("id"));
 
 if ($teamMember == "false" && $projectsFilter == "true") {
     header("Location:../general/permissiondenied.php");

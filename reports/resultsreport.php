@@ -21,7 +21,7 @@ if ($request->isMethod('post')) {
         if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
             if ($request->request->get('action') == "add") {
                 $newReport = $reports->addReport(
-                    $session->get("idSession"),
+                    $session->get("id"),
                     $request->request->get('report_name'),
                     $request->request->get('filterProject'),
                     $request->request->get('filterOrganization'),
@@ -299,7 +299,7 @@ $block1->sorting(
 );
 
 if ($projectsFilter == "true") {
-    $listProjectsTasks = $projects->getProjectList($session->get("idSession"), 'active', null, null, 'pro.id');
+    $listProjectsTasks = $projects->getProjectList($session->get("id"), 'active', null, null, 'pro.id');
 
 
     if ($listProjectsTasks) {

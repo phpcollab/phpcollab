@@ -23,7 +23,7 @@ $listNotifications = $notifications->getNotificationsWhereMemberIn($projectNoti[
 if ($listNotifications["not_taskassignment"] == "0") {
     $mail = new phpCollab\Notification();
 
-    $mail->getUserinfo($session->get('idSession'), "from");
+    $mail->getUserinfo($session->get("id"), "from");
 
     $mail->partSubject = $strings["noti_clientaddtask1"];
     $mail->partMessage = $strings["noti_clientaddtask2"];

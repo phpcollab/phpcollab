@@ -24,7 +24,7 @@ if ($request->isMethod('post')) {
             if ($request->query->get('action') == "email") {
 
                 // get name and email of user sending the email
-                $userPrefs = $members->getMemberById($session->get("idSession"));
+                $userPrefs = $members->getMemberById($session->get("id"));
 
                 // get company name
                 $clientDetail = $organizations->getOrganizationById(1);

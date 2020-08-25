@@ -41,7 +41,7 @@ $projectDetail = $projects->getProjectById($project);
 
 $teamMember = "false";
 
-$teamMember = $teams->isTeamMember($project, $session->get("idSession"));
+$teamMember = $teams->isTeamMember($project, $session->get("id"));
 
 if ($teamMember == "false" && $projectsFilter == "true") {
     header("Location:../general/permissiondenied.php");

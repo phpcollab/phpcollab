@@ -44,13 +44,13 @@ if ($request->isMethod('post')) {
                     if ($htaccessAuth == "true") {
                         $Htpasswd = new Htpasswd;
 
-                        $myTeams = $teams->getTeamByMemberId($session->get("idSession"));
+                        $myTeams = $teams->getTeamByMemberId($session->get("id"));
 
                         if (!empty($myTeams)) {
                             foreach ($myTeams as $thisTeam) {
                                 try {
                                     $Htpasswd->initialize("../files/" . $thisTeam["tea_pro_id"] . "/.htpasswd");
-                                    $Htpasswd->changePass($session->get("loginSession"), $encryptedPassword);
+                                    $Htpasswd->changePass($session->get("login"), $encryptedPassword);
                                 }
                                 catch (Exception $e) {
                                     echo "Error: " . $e->getMessage();
@@ -60,7 +60,7 @@ if ($request->isMethod('post')) {
                     }
 
                     try {
-                        $members->setPassword($session->get("idSession"), $newPassword);
+                        $members->setPassword($session->get("id"), $newPassword);
                     }
                     catch (Exception $e) {
                         echo "Error: " . $e->getMessage();
@@ -86,7 +86,7 @@ if ($request->isMethod('post')) {
     }
 }
 
-$userDetail = $members->getMemberById($session->get("idSession"));
+$userDetail = $members->getMemberById($session->get("id"));
 
 if (empty($userDetail)) {
     phpCollab\Util::headerFunction("../users/listusers.php?msg=blankUser");

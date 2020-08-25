@@ -55,7 +55,7 @@ $comments = null;
 $profile = '';
 
 // Redirect to Preferences if it is the "root/super" admin
-if ($request->query->get('id') == "1" && $session->get("idSession") == "1") {
+if ($request->query->get('id') == "1" && $session->get("id") == "1") {
     phpCollab\Util::headerFunction("../preferences/updateuser.php");
 }
 

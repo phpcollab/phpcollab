@@ -41,7 +41,7 @@ $titlePage = $strings["team_tasks"];
 include 'include_header.php';
 
 
-$listTasks = $tasks->getTeamTasks($session->get("projectSession"));
+$listTasks = $tasks->getTeamTasks($session->get("project"));
 
 $block1 = new phpCollab\Block();
 

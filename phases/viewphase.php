@@ -84,7 +84,7 @@ $projectDetail = $projects->getProjectById($project);
 $listPhases = $phases->getPhasesByProjectId($project);
 
 $teamMember = "false";
-$teamMember = $teams->isTeamMember($project, $session->get("idSession"));
+$teamMember = $teams->isTeamMember($project, $session->get("id"));
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
@@ -106,7 +106,7 @@ $block1->form = "pppD";
 $block1->openForm("../projects/listprojects.php#" . $block1->form . "Anchor", null, $csrfHandler);
 $block1->headingToggle($strings["phase"] . " : " . $phaseDetail["pha_name"]);
 
-if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
+if ($session->get("id") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "edit", $strings["edit"]);
     $block1->closePaletteIcon();
@@ -142,7 +142,7 @@ $block1->closeContent();
 $block1->closeToggle();
 $block1->closeForm();
 
-if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
+if ($session->get("id") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
     $block1->openPaletteScript();
     $block1->paletteScript(0, "edit", "../phases/editphase.php?id=$id", "true,true,true", $strings["edit"]);
     $block1->closePaletteScript($comptlistTasks, array_column($listPhases, 'pha_id'));

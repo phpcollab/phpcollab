@@ -23,7 +23,7 @@ $projectDetail = $projects->getProjectById($id);
 
 $teamMember = "false";
 
-$teamMember = $teams->isTeamMember($id, $session->get("idSession"));
+$teamMember = $teams->isTeamMember($id, $session->get("id"));
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -47,7 +47,7 @@ if ($teamMember == "true" || $session->get("profile") == "5") {
     $block7->paletteIcon(0, "info", $strings["view"]);
 
     if ($teamMember == "true" || $session->get("profile") == "5") {
-        if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
+        if ($session->get("id") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
             $block7->paletteIcon(1, "edit", $strings["edit"]);
         }
     }
@@ -96,7 +96,7 @@ if ($teamMember == "true" || $session->get("profile") == "5") {
     $block7->openPaletteScript();
     $block7->paletteScript(0, "info", "../phases/viewphase.php?", "false,true,true", $strings["view"]);
     if ($teamMember == "true" || $session->get("profile") == "5") {
-        if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
+        if ($session->get("id") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
             $block7->paletteScript(1, "edit", "../phases/editphase.php?", "false,true,true", $strings["edit"]);
         }
     }

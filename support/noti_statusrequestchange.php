@@ -5,7 +5,7 @@ use phpCollab\Support\Support;
 $mail = new phpCollab\Notification();
 $supportRequests = new Support($logger);
 
-$mail->getUserinfo($session->get('idSession'), "from", $logger);
+$mail->getUserinfo($session->get("id"), "from", $logger);
 
 $strings = $GLOBALS["strings"];
 

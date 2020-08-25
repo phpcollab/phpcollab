@@ -17,7 +17,7 @@ $projects = new Projects();
 
 $detailTopic = $topics->getTopicByTopicId($id);
 
-if ($detailTopic["top_published"] == "1" || $detailTopic["top_project"] != $session->get("projectSession")) {
+if ($detailTopic["top_published"] == "1" || $detailTopic["top_project"] != $session->get("project")) {
     phpCollab\Util::headerFunction("index.php");
 }
 
@@ -29,7 +29,7 @@ if ($request->isMethod('post')) {
                 $messageField = phpCollab\Util::convertData($request->request->get('messageField'));
                 $messageField = phpCollab\Util::autoLinks($messageField);
 
-                $newPost = $topics->addPost($id, $session->get("idSession"), $messageField);
+                $newPost = $topics->addPost($id, $session->get("id"), $messageField);
 
                 $topics->incrementTopicPostsCount($id);
 
@@ -59,7 +59,7 @@ include APP_ROOT . '/projects_site/include_header.php';
 
 $idStatus = $detailTopic["top_status"];
 
-$topicLastPostDate = phpCollab\Util::createDate($detailTopic["top_last_post"], $session->get("timezoneSession"));
+$topicLastPostDate = phpCollab\Util::createDate($detailTopic["top_last_post"], $session->get("timezone"));
 echo <<<FORM
  <form method="POST" action="../projects_site/threadpost.php?id={$id}" name="post">
     <input name="id" type="hidden" value="{$id}">
@@ -117,7 +117,7 @@ $listPosts = $topics->getPostsByTopicId($detailTopic["top_id"]);
 if ($listPosts) {
     echo '<table style="width: 90%" class="nonStriped">';
     foreach ($listPosts as $post) {
-        $postCreatedDate = phpCollab\Util::createDate($post["pos_created"], $session->get("timezoneSession"));
+        $postCreatedDate = phpCollab\Util::createDate($post["pos_created"], $session->get("timezone"));
         $postMessage = nl2br($post["pos_message"]);
         echo <<<TR
         <tr class="even">

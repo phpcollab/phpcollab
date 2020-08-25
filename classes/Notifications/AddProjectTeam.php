@@ -22,7 +22,7 @@ class AddProjectTeam extends Notification
     {
         if ($projectDetail) {
             try {
-                $this->getUserinfo($session->get("idSession"), "from", $logger);
+                $this->getUserinfo($session->get("id"), "from", $logger);
 
                 $this->partSubject = $this->strings["noti_addprojectteam1"];
                 $this->partMessage = $this->strings["noti_addprojectteam2"];

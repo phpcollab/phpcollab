@@ -33,13 +33,13 @@ if ($request->isMethod('post')) {
                 $detailTopic["top_posts"] = $detailTopic["top_posts"] + 1;
 
                 // Add new post
-                $newPost = $topics->addPost($topic_id, $session->get('idSession'), $post_message);
+                $newPost = $topics->addPost($topic_id, $session->get("id"), $post_message);
 
                 // Increment the
                 $topics->incrementTopicPostsCount($topic_id);
 
                 if ($notifications == "true") {
-                    $listPosts = $topics->getPostsByTopicIdAndNotOwner($detailTopic["top_id"], $session->get('idSession'));
+                    $listPosts = $topics->getPostsByTopicIdAndNotOwner($detailTopic["top_id"], $session->get("id"));
 
                     $distinct = '';
 
@@ -133,7 +133,7 @@ if ($sitePublish == "true") {
 
 $block1->contentRow($strings["retired"], $GLOBALS["statusTopicBis"][$idStatus]);
 $block1->contentRow($strings["posts"], $detailTopic["top_posts"]);
-$block1->contentRow($strings["last_post"], phpCollab\Util::createDate($detailTopic["top_last_post"], $session->get("timezoneSession")));
+$block1->contentRow($strings["last_post"], phpCollab\Util::createDate($detailTopic["top_last_post"], $session->get("timezone")));
 
 $block1->contentTitle($strings["details"]);
 
@@ -146,10 +146,10 @@ $block1->contentTitle($strings["posts"]);
 foreach ($listPosts as $post) {
     $block1->contentRow($strings["posted_by"], $blockPage->buildLink($post["pos_mem_email_work"], $post["pos_mem_name"], "mail"));
 
-    if ($post["pos_created"] > $session->get("lastvisiteSession")) {
-        $block1->contentRow($strings["when"], "<b>" . phpCollab\Util::createDate($post["pos_created"], $session->get("timezoneSession")) . "</b>");
+    if ($post["pos_created"] > $session->get("lastVisited")) {
+        $block1->contentRow($strings["when"], "<b>" . phpCollab\Util::createDate($post["pos_created"], $session->get("timezone")) . "</b>");
     } else {
-        $block1->contentRow($strings["when"], phpCollab\Util::createDate($post["pos_created"], $session->get("timezoneSession")));
+        $block1->contentRow($strings["when"], phpCollab\Util::createDate($post["pos_created"], $session->get("timezone")));
     }
     $block1->contentRow("", nl2br($post["pos_message"]));
     $block1->contentRow("", "", "true");

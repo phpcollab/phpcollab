@@ -20,7 +20,7 @@ $phaseDetail = $phases->getPhasesById($id);
 
 $projectDetail = $projects->getProjectById($phaseDetail["pha_project_id"]);
 
-$teamMember = $teams->isTeamMember($phaseDetail["pha_project_id"], $session->get("idSession"));
+$teamMember = $teams->isTeamMember($phaseDetail["pha_project_id"], $session->get("id"));
 
 
 if ($request->isMethod('post')) {

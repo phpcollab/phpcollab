@@ -36,7 +36,7 @@ if ($action == "publish") {
 $detailInvoice = $invoices->getInvoiceById($id);
 $projectDetail = $projects->getProjectById($detailInvoice["inv_project"]);
 
-if ($projectDetail["pro_owner"] != $session->get("idSession")) {
+if ($projectDetail["pro_owner"] != $session->get("id")) {
     header("Location:../general/permissiondenied.php");
 }
 
@@ -100,8 +100,8 @@ if ($sitePublish == "true") {
     $block1->contentRow($strings["published"], $GLOBALS["statusPublish"][$detailInvoice["inv_published"]]);
 }
 
-$block1->contentRow($strings["created"], phpCollab\Util::createDate($detailInvoice["inv_created"], $session->get('timezoneSession')));
-$block1->contentRow($strings["modified"], phpCollab\Util::createDate($detailInvoice["inv_modified"], $session->get('timezoneSession')));
+$block1->contentRow($strings["created"], phpCollab\Util::createDate($detailInvoice["inv_created"], $session->get('timezone')));
+$block1->contentRow($strings["modified"], phpCollab\Util::createDate($detailInvoice["inv_modified"], $session->get('timezone')));
 
 $block1->closeContent();
 $block1->closeToggle();

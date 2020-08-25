@@ -23,7 +23,7 @@ if (!empty($commentId)) {
     // only comment's author, admin, prj-adm and prj-man can change the comments
     $commentAuthor = $members->getMemberById($commentDetail["newscom_name"]);
 
-    if ($session->get("profile") != "0" && $session->get("profile") != "1" && $session->get("profile") != "5" && $session->get("idSession") != $commentDetail["newscom_name"]) {
+    if ($session->get("profile") != "0" && $session->get("profile") != "1" && $session->get("profile") != "5" && $session->get("id") != $commentDetail["newscom_name"]) {
         phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postId&msg=commentpermissionNews");
     }
 
@@ -156,7 +156,7 @@ FORM_END;
     // add or edit comment
     if (empty($commentId)) {
         $block1->contentRow($strings["author"],
-            '<input type="hidden" name="commenterId" value="' . $session->get("idSession") . '"><strongb>' . $session->get("nameSession") . '</strongb>');
+            '<input type="hidden" name="commenterId" value="' . $session->get("id") . '"><strongb>' . $session->get("name") . '</strongb>');
     } else {
         $block1->contentRow($strings["author"],
             "<input type='hidden' name='commenterId' value='" . $commentDetail["newscom_name"] . "'><strong>" . $commentAuthor["mem_name"] . "</strong>");

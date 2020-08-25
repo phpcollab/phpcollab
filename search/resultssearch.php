@@ -196,7 +196,7 @@ $block1->sorting("projects",
 
 if ($projectsFilter == "true") {
     $projectsQuery = "LEFT OUTER JOIN " . $tableCollab["teams"] . " teams ON teams.project = pro.id ";
-    $projectsQuery .= "$searchProjects AND teams.member = " . $session->get("idSession");
+    $projectsQuery .= "$searchProjects AND teams.member = " . $session->get("id");
 } else {
     $projectsQuery = "$searchProjects";
 }
@@ -216,7 +216,7 @@ $block2->sorting("home_tasks", $sortingUser["home_tasks"], "tas.name ASC", $sort
 
 if ($projectsFilter == "true") {
     $projectsQuery = "LEFT OUTER JOIN " . $tableCollab["teams"] . " teams ON teams.project = pro.id ";
-    $projectsQuery .= "WHERE pro.status IN(0,2,3) AND teams.member = " . $session->get("idSession");
+    $projectsQuery .= "WHERE pro.status IN(0,2,3) AND teams.member = " . $session->get("id");
 
     $listProjectsFilter = $projects->searchProjects($projectsQuery);
 
@@ -303,7 +303,7 @@ $block4->sorting("organizations", $sortingUser["organizations"], "org.name ASC",
 if ($clientsFilter == "true" && $session->get("profile") == "2") {
     $teamMember = "false";
 
-    $listTeams = $teams->getTeamByMemberId($session->get("idSession"));
+    $listTeams = $teams->getTeamByMemberId($session->get("id"));
 
     if (empty($listTeams)) {
         $listClients = "false";
@@ -317,7 +317,7 @@ if ($clientsFilter == "true" && $session->get("profile") == "2") {
         }
     }
 } elseif ($clientsFilter == "true" && $session->get("profile") == "1") {
-    $clientQuery = "$searchOrganizations AND org.owner = " . $session->get("idSession") . " AND org.id != '1'";
+    $clientQuery = "$searchOrganizations AND org.owner = " . $session->get("id") . " AND org.id != '1'";
 } else {
     $clientQuery = "$searchOrganizations AND org.id != '1'";
 }
@@ -466,7 +466,7 @@ if (!empty($listProjects) && count($listProjects) > 0) {
         $block1->cellRow($blockPage->buildLink($listProject["pro_mem_email_work"], $listProject["pro_mem_login"], "mail"));
         if ($sitePublish == "true") {
             if ($listProject["pro_published"] == "1") {
-                if ($listProject['pro_owner'] == $session->get("idSession")) {
+                if ($listProject['pro_owner'] == $session->get("id")) {
                     $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $listProject["pro_id"], $strings["create"] . "...", "in") . "&gt;");
                 } else {
                     $block1->cellRow(Util::doubleDash());
@@ -485,7 +485,7 @@ if (!empty($listProjects) && count($listProjects) > 0) {
     $block1->closeFormResults();
 
     $block1->openPaletteScript();
-    $block1->paletteScript(0, "export", "../projects/exportproject.php?languageSession={$session->get("languageSession")}&type=project", "false,true,false", $strings["export"]);
+    $block1->paletteScript(0, "export", "../projects/exportproject.php?languageSession={$session->get("language")}&type=project", "false,true,false", $strings["export"]);
     $block1->closePaletteScript(count($listProjects), array_column($listProjects, 'pro_id'));
 }
 
@@ -661,7 +661,7 @@ if (!empty($listTopics)) {
         $block5->cellRow($blockPage->buildLink("../topics/viewtopic.php?id=" . $listTopic["top_id"], $listTopic["top_subject"], "in"));
         $block5->cellRow($blockPage->buildLink($listTopic["top_email_work"], $listTopic["top_mem_login"], "mail"));
         $block5->cellRow($listTopic["top_posts"]);
-        if ($listTopic["top_last_post"] > $session->get("lastvisiteSession")) {
+        if ($listTopic["top_last_post"] > $session->get("lastVisited")) {
             $block5->cellRow("<b>" . $listTopic["top_last_post"] . "</b>");
         } else {
             $block5->cellRow($listTopic["top_last_post"]);

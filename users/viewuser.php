@@ -92,7 +92,7 @@ if ($userDetail["mem_profil"] == "0") {
 $block1->contentRow($strings["permissions"], isset($permission) ? $permission : '');
 
 $block1->contentRow($strings["comments"], nl2br($userDetail["mem_comments"]));
-$block1->contentRow($strings["account_created"], phpCollab\Util::createDate($userDetail["mem_created"], $session->get('timezoneSession')));
+$block1->contentRow($strings["account_created"], phpCollab\Util::createDate($userDetail["mem_created"], $session->get('timezone')));
 $block1->contentRow($strings["last_page"], $userDetail["mem_last_page"]);
 $block1->contentTitle($strings["information"]);
 

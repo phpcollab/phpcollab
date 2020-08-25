@@ -39,16 +39,16 @@ if ($request->isMethod('post')) {
                 }
 
                 try {
-                    $members->updateMember($session->get("idSession"), $session->get("loginSession"), $full_name, $email_work, $title, $organization, $phone_work, $phone_home, $phone_mobile, $fax);
+                    $members->updateMember($session->get("id"), $session->get("login"), $full_name, $email_work, $title, $organization, $phone_work, $phone_home, $phone_mobile, $fax);
                 }
                 catch (Exception $e) {
                     echo "error saving changes." . $e->getMessage();
                 }
 
-                $session->set('logouttimeSession', $logout_time);
-                $session->set('timezoneSession', $timezone);
-                $session->set('dateunixSession', date("U"));
-                $session->set('nameSession', $full_name);
+                $session->set('logoutTime', $logout_time);
+                $session->set('timezone', $timezone);
+                $session->set('dateunix', date("U"));
+                $session->set('name', $full_name);
 
                 //if mantis bug tracker enabled
                 if ($enableMantis == "true") {
@@ -69,7 +69,7 @@ if ($request->isMethod('post')) {
 }
 
 
-$userPrefs = $members->getMemberById($session->get("idSession"));
+$userPrefs = $members->getMemberById($session->get("id"));
 
 if (empty($userPrefs)) {
     phpCollab\Util::headerFunction("../users/listusers.php?msg=blankUser");
@@ -146,14 +146,14 @@ if ($userPrefs["mem_profil"] == "0") {
     $block1->contentRow($strings["permissions"], $strings["project_manager_administrator_permissions"]);
 }
 
-$block1->contentRow($strings["account_created"], phpCollab\Util::createDate($userPrefs["mem_created"], $session->get("timezoneSession")));
+$block1->contentRow($strings["account_created"], phpCollab\Util::createDate($userPrefs["mem_created"], $session->get("timezone")));
 $block1->contentRow("", '<button type="submit" name="action" value="update">' . $strings["save"] . '</button>');
 
 $block1->closeContent();
 $block1->closeForm();
 
 $block1->openPaletteScript();
-$block1->paletteScript(0, "export", "../users/exportuser.php?id={$session->get("idSession")}", "true,true,true", $strings["export"]);
+$block1->paletteScript(0, "export", "../users/exportuser.php?id={$session->get("id")}", "true,true,true", $strings["export"]);
 $block1->closePaletteScript(count($userPrefs), array_column($userPrefs, 'mem_id'));
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

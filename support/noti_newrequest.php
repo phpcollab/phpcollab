@@ -7,7 +7,7 @@ $supportRequests = new Support($logger);
 
 $mail = new phpCollab\Notification();
 
-$mail->getUserinfo($session->get('idSession'), "from", $logger);
+$mail->getUserinfo($session->get("id"), "from", $logger);
 $num = $request->query->get('num');
 
 $strings = $GLOBALS["strings"];
@@ -20,7 +20,7 @@ if ($supportType == "team") {
     $listTeam = $teams->getTeamByProjectId($requestDetail["sr_project"]);
 
     foreach ($listTeam as $teamMember) {
-        if ($session->get('idSession') == $teamMember["tea_mem_id"]) {
+        if ($session->get("id") == $teamMember["tea_mem_id"]) {
             $mail->partSubject = $strings["support"] . " " . $strings["support_id"];
             $mail->partMessage = $strings["noti_support_request_new2"];
             $subject = $mail->partSubject . ": " . $requestDetail["sr_id"];

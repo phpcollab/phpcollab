@@ -15,7 +15,7 @@ $fileDetail = $files->getFileById($request->query->get('id'));
 
 if ($fileDetail) {
     // test if file is published and part of the current project
-    if ($fileDetail["fil_published"] == "1" || $fileDetail["fil_project"] != $session->get("projectSession")) {
+    if ($fileDetail["fil_published"] == "1" || $fileDetail["fil_project"] != $session->get("project")) {
         phpCollab\Util::headerFunction("index.php");
     } else {
         $fileAction = new GetFile();

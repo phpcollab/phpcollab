@@ -6,11 +6,11 @@ use phpCollab\Teams\Teams;
 $projects = new Projects();
 $teams = new Teams();
 
-if ($session->get("projectSession") != "" && $changeProject != "true") {
-    $projectDetail = $projects->getProjectById($session->get("projectSession"));
+if ($session->get("project") != "" && $changeProject != "true") {
+    $projectDetail = $projects->getProjectById($session->get("project"));
 
     $teamMember = "false";
-    $teamMember = $teams->isTeamMember($session->get("projectSession"), $session->get("idSession"));
+    $teamMember = $teams->isTeamMember($session->get("project"), $session->get("id"));
 
     if ($teamMember == "false") {
         phpCollab\Util::headerFunction("index.php");
@@ -32,10 +32,10 @@ echo <<<HTML
 <title>{$setTitle} - 
 HTML;
 
-if ($session->get("projectSession") != "" && $changeProject != "true") {
+if ($session->get("project") != "" && $changeProject != "true") {
     echo $projectDetail["pro_name"];
 }
-if ($session->get("projectSession") == "" || $changeProject == "true") {
+if ($session->get("project") == "" || $changeProject == "true") {
     echo $strings["my_projects"];
 }
 
@@ -79,7 +79,7 @@ for ($i = 0; $i < 7; $i++) {
     }
 }
 
-if ($session->get("projectSession") != "" && $changeProject != "true") {
+if ($session->get("project") != "" && $changeProject != "true") {
     echo <<<HTML
                 <tr>
                     <td colspan="2"><b>{$strings["project"]} :<br/>{$projectDetail["pro_name"]}</b></td>
@@ -131,7 +131,7 @@ TR;
         echo <<<TR
                 <tr>
                     <td><img src="ico_arrow_{$bouton[6]}.gif" alt=""></td>
-                    <td><a href="showallsupport.php?project={$session->get("projectSession")}">{$strings["support"]}</a></td>
+                    <td><a href="showallsupport.php?project={$session->get("project")}">{$strings["support"]}</a></td>
                 </tr>
 TR;
     }

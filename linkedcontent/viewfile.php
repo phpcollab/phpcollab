@@ -45,7 +45,7 @@ $teams = new Teams();
 
 $notification = new Notifications();
 
-$teamMember = $teams->isTeamMember($fileDetail["fil_project"], $session->get("idSession"));
+$teamMember = $teams->isTeamMember($fileDetail["fil_project"], $session->get("id"));
 
 if ($teamMember == "false" && $projectsFilter == "true") {
     header("Location:../general/permissiondenied.php");
@@ -128,7 +128,7 @@ if ($request->isMethod('post')) {
 
                         //Insert details into Database
                         if ($docopy == "true") {
-                            $num = $files->addFile($session->get("idSession"), $fileDetail["fil_project"], 0, $fileDetail["fil_task"], $comments, 2, 0,
+                            $num = $files->addFile($session->get("id"), $fileDetail["fil_project"], 0, $fileDetail["fil_task"], $comments, 2, 0,
                                 $parent);
                         }
 
@@ -174,7 +174,7 @@ if ($request->isMethod('post')) {
                                     // Get a list of notification team members
                                     $teamList = $teams->getTeamByProjectId($fileDetail["fil_project"]);
 
-                                    $key = array_search($session->get("idSession"),
+                                    $key = array_search($session->get("id"),
                                         array_column($teamList, 'tea_mem_id'));
 
                                     // Remove the current user from the teamList so we don't spam them
@@ -210,7 +210,7 @@ if ($request->isMethod('post')) {
                     $statusField = $request->request->get("statusField");
 
                     try {
-                        $approvalTracking->addApproval($session->get("idSession"), $commentField, $id, $statusField);
+                        $approvalTracking->addApproval($session->get("id"), $commentField, $id, $statusField);
 
                         if ($notifications == "true") {
                             /**
@@ -224,7 +224,7 @@ if ($request->isMethod('post')) {
                                 // Get a list of notification team members
                                 $teamList = $teams->getTeamByProjectId($fileDetail["fil_project"]);
 
-                                $key = array_search($session->get("idSession"), array_column($teamList, 'tea_mem_id'));
+                                $key = array_search($session->get("id"), array_column($teamList, 'tea_mem_id'));
 
                                 // Remove the current user from the TeamList so we don't spam them
                                 unset($teamList[$key]);
@@ -234,7 +234,7 @@ if ($request->isMethod('post')) {
 
                                     if ($userNotificationFlags && $userNotificationFlags["uploadFile"] == "0") {
                                         $approvalTracking->sendEmail($item, $commentField, $statusFile[$statusField],
-                                            $session->get('loginSession'), $session->get('nameSession'));
+                                            $session->get('login'), $session->get('name'));
                                     }
                                 }
                             } catch (Exception $e) {
@@ -331,7 +331,7 @@ if ($request->isMethod('post')) {
 
                             // Check if the status is anything but "needs approval", if so then set the approval date to today
                             if ($statusField != "2") {
-                                $approver = $session->get("idSession");
+                                $approver = $session->get("id");
                                 $approvalDate = date('Y-m-d h:i');
                             } else {
                                 $approvalDate = null;
@@ -342,7 +342,7 @@ if ($request->isMethod('post')) {
                             $updatedVersion = Util::formatFloat($updatedVersion);
 
                             $num = $updateFile->add(
-                                $session->get("idSession"), // owner
+                                $session->get("id"), // owner
                                 $fileDetail["fil_project"], // projectId (inherited from the parent file)
                                 $fileDetail["fil_task"], // taskId (inherited from the parent file)
                                 $uploadedFile, // name of the uploaded file with parent file ID prepended
@@ -390,7 +390,7 @@ if ($request->isMethod('post')) {
                                     // Get a list of notification team members
                                     $teamList = $teams->getTeamByProjectId($fileDetail["fil_project"]);
 
-                                    $key = array_search($session->get("idSession"),
+                                    $key = array_search($session->get("id"),
                                         array_column($teamList, 'tea_mem_id'));
 
                                     // Remove the current user from the teamList so we don't spam them
@@ -485,7 +485,7 @@ $block1->openForm("../files/viewfile.php?&id=$id#" . $block1->form . "Anchor", n
 
 $block1->heading($strings["document"]);
 
-if ($fileDetail["fil_owner"] == $session->get("idSession")) {
+if ($fileDetail["fil_owner"] == $session->get("id")) {
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "remove", $strings["ifc_delete_version"]);
     $block1->paletteIcon(1, "add_projectsite", $strings["add_project_site"]);
@@ -594,7 +594,7 @@ foreach ($listVersions as $version) {
 
     echo "<tr><td>";
 
-    if ($fileDetail["fil_owner"] == $session->get("idSession") && $version["fil_id"] != $fileDetail["fil_id"]) {
+    if ($fileDetail["fil_owner"] == $session->get("id") && $version["fil_id"] != $fileDetail["fil_id"]) {
         $theme = THEME;
         echo <<<LINK
                 <a href="javascript:MM_toggleItem(document.{$block1->form}Form, '{$version["fil_id"]}', '{$block1->form}cb{$version["fil_id"]}','{$theme}')"><img id="{$block1->form}cb{$version["fil_id"]}" src="../themes/{$theme}/images/checkbox_off_16.gif" alt="checkbox" style="border: none; margin-top: 0;" ></a>
@@ -669,7 +669,7 @@ $block1->closeResults();
 $block1->closeFormResults();
 
 
-if ($fileDetail["fil_owner"] == $session->get("idSession")) {
+if ($fileDetail["fil_owner"] == $session->get("id")) {
     $block1->openPaletteScript();
     $block1->paletteScript(0, "remove",
         "../linkedcontent/deletefiles.php?project=" . $fileDetail["fil_project"] . "&task=" . $fileDetail["fil_task"] . "&sendto=filedetails",
@@ -696,7 +696,7 @@ if ($peerReview == "true") {
         $csrfHandler);
     $peerReviewBlock->heading($strings["ifc_revisions"]);
 
-    if ($fileDetail["fil_owner"] == $session->get("idSession")) {
+    if ($fileDetail["fil_owner"] == $session->get("id")) {
         $peerReviewBlock->openPaletteIcon();
         $peerReviewBlock->paletteIcon(0, "remove", $strings["ifc_delete_review"]);
         $peerReviewBlock->closePaletteIcon();
@@ -739,7 +739,7 @@ TR;
 TABLE;
 
 
-        if ($fileDetail["fil_owner"] == $session->get("idSession")) {
+        if ($fileDetail["fil_owner"] == $session->get("id")) {
             echo <<<LINK
                     <a href="javascript:MM_toggleItem(document.{$peerReviewBlock->form}Form, '{$review["fil_id"]}', '{$peerReviewBlock->form}cb{$review["fil_id"]}','{$theme}')">
                         <img id="{$peerReviewBlock->form}cb{$review["fil_id"]}" src="../themes/{$theme}/images/checkbox_off_16.gif" alt="" style="border: none; margin-top: 0;">
@@ -815,7 +815,7 @@ HTML;
     $peerReviewBlock->closeResults();
     $peerReviewBlock->closeFormResults();
 
-    if ($fileDetail["fil_owner"] == $session->get("idSession")) {
+    if ($fileDetail["fil_owner"] == $session->get("id")) {
         $peerReviewBlock->openPaletteScript();
         $peerReviewBlock->paletteScript(0, "remove",
             "../linkedcontent/deletefiles.php?project=" . $fileDetail["fil_project"] . "&task=" . $fileDetail["fil_task"] . "&sendto=filedetails",
@@ -889,7 +889,7 @@ HTML;
 /**
  * Approval Tracking
  */
-if ($fileDetail["fil_owner"] == $session->get("idSession") || $projectDetail["pro_owner"] == $session->get("idSession") || $session->get("profile") == "5") {
+if ($fileDetail["fil_owner"] == $session->get("id") || $projectDetail["pro_owner"] == $session->get("id") || $session->get("profile") == "5") {
     $block5 = new phpCollab\Block();
     $block5->form = "filedetails";
 
@@ -960,7 +960,7 @@ COMMENTS;
 /**
  * Update file block
  */
-if ($fileDetail["fil_owner"] == $session->get("idSession")) {
+if ($fileDetail["fil_owner"] == $session->get("id")) {
     $block4 = new phpCollab\Block();
     $block4->form = "filedetails";
 

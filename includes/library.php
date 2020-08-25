@@ -209,7 +209,7 @@ if (empty($installationType)) {
  * This code should be called if $checkSession = true and we are not in demo mode.
  * If a session is not active, then redirect to the login page.
  */
-if ($checkSession != "false" && $session->get('demoSession') != "true") {
+if ($checkSession != "false" && $session->get('demo') != "true") {
 
     if (empty($session->getId())) {
         phpCollab\Util::headerFunction("../index.php?session=false");
@@ -246,19 +246,19 @@ if ($checkSession != "false" && $session->get('demoSession') != "true") {
     }
     //if auto logout feature used, store last required page before disconnecting
     if ($session->get('profile') != "3") {
-        if ($session->get('logouttimeSession') != "0" && $session->get('logouttimeSession') != "") {
+        if ($session->get('logoutTime') != "0" && $session->get('logoutTime') != "") {
             $dateunix = date("U");
-            $diff = $dateunix - $session->get('dateunixSession');
+            $diff = $dateunix - $session->get('dateunix');
 
-            if ($diff > $session->get('logouttimeSession')) {
+            if ($diff > $session->get('logoutTime')) {
                 phpCollab\Util::headerFunction("../general/logout.php");
             } else {
-                $session->set('dateunixSession', $dateunix);
+                $session->set('dateunix', $dateunix);
             }
         }
     }
 
-    $checkLog = $loginLogs->getLogByLogin($session->get('loginSession'));
+    $checkLog = $loginLogs->getLogByLogin($session->get('login'));
     if ($checkLog !== false) {
         if (session_id() != $checkLog["session"]) {
             phpCollab\Util::headerFunction("../index.php?session=false");
@@ -272,14 +272,14 @@ if ($checkSession != "false" && $session->get('demoSession') != "true") {
 //count connected users
 if (isset($checkConnected) && $checkConnected != "false") {
     $dateunix = date("U");
-    $loginLogs->updateConnectedTimeForUser($dateunix, $loginSession);
+    $loginLogs->updateConnectedTimeForUser($dateunix, $session->get("login"));
     $connectedUsers = $loginLogs->getConnectedUsersCount();
 }
 
 
 //disable actions if demo user logged in demo mode
 if ($request->query->get('action') != "") {
-    if ($session->get('demoSession') == "true") {
+    if ($session->get('demo') == "true") {
         $closeTopic = "";
         $addToSiteTask = "";
         $removeToSiteTask = "";
@@ -312,7 +312,7 @@ if (!empty($sort_target) && $sort_target != "" && $sort_fields != "none") {
 
     $sort_value = $sort_fields . ' ' . $sort_order;
 
-    $sort->updateSortingTargetByUserId($sort_target, $sort_value, $session->get("idSession"));
+    $sort->updateSortingTargetByUserId($sort_target, $sort_value, $session->get("id"));
 
 }
 

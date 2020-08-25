@@ -104,7 +104,7 @@ if ($type == "calendDetail") {
         $dateEnreg = $id;
     }
 
-    $detailCalendar = $calendars->getCalendarDetail($session->get("idSession"), $dateEnreg);
+    $detailCalendar = $calendars->getCalendarDetail($session->get("id"), $dateEnreg);
 
     if (empty($detailCalendar)) {
         header("Location:../projects_site/showcalendar.php");
@@ -264,9 +264,9 @@ if ($type == "monthPreview") {
     echo "<table class='calendar-blockout-line'><tr>";
 
     //LIMIT CALENDAR TO CURRENT PROJECT BUT SHOW ALL ASSIGNEES
-    $listTasks = $tasks->getTasksByProjectIdAndOwnerOrPublished($session->get("projectSession"), $session->get("idSession"));
+    $listTasks = $tasks->getTasksByProjectIdAndOwnerOrPublished($session->get("project"), $session->get("id"));
 
-    $listSubtasks = $tasks->getSubTasksByProjectIdAndOwnerOrPublished($session->get("projectSession"), $session->get("idSession"));
+    $listSubtasks = $tasks->getSubTasksByProjectIdAndOwnerOrPublished($session->get("project"), $session->get("id"));
 
     $comptListCalendarScan = "0";
 
@@ -294,7 +294,7 @@ if ($type == "monthPreview") {
         $todayClass = "";
         $dayRecurr = $calendars->dayOfWeek(mktime(0, 0, 0, $month, $a, $year));
 
-        $listCalendarScan = $calendars->openCalendarDay($session->get("idSession"), $dateLink, $dayRecurr);
+        $listCalendarScan = $calendars->openCalendarDay($session->get("id"), $dateLink, $dayRecurr);
 
         if (($i < $firstday) || ($a == "00")) {
             echo "<td  style='width: 14%' class='even'>&nbsp;</td>";

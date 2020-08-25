@@ -16,7 +16,7 @@ $strings = $GLOBALS["strings"];
 
 $projectDetail = $projects->getProjectById($project);
 
-$projectDetail["pro_created"] = phpCollab\Util::createDate($projectDetail["pro_created"], $session->get("timezoneSession"));
+$projectDetail["pro_created"] = phpCollab\Util::createDate($projectDetail["pro_created"], $session->get("timezone"));
 $projectDetail["pro_name"] = str_replace('&quot;', '"', $projectDetail["pro_name"]);
 $projectDetail["pro_name"] = str_replace("&#39;", "'", $projectDetail["pro_name"]);
 

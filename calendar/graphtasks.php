@@ -37,7 +37,7 @@ $strings = $GLOBALS["strings"];
 
 $dateCalend = substr($dateCalend, 0, 7);
 
-$listTasks2 = $tasks->getTasksByStartDateEndDateAssignedTo($dateCalend, $session->get("idSession"));
+$listTasks2 = $tasks->getTasksByStartDateEndDateAssignedTo($dateCalend, $session->get("id"));
 
 try {
     $graph = new GanttGraph();

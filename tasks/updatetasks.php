@@ -235,7 +235,7 @@ echo <<<HTML
 					<option value="0">{$strings["unassigned"]}</option>
 HTML;
 
-if ($session->get("idSession") == "1") {
+if ($session->get("id") == "1") {
     echo '<option value="1">' . $strings["administrator"] . '</option>';
 }
 

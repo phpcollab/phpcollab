@@ -16,16 +16,16 @@ if ($bookmarkDetail['boo_users'] != "") {
     $comptPieces = count($pieces);
     $private = "false";
     for ($i = 0; $i < $comptPieces; $i++) {
-        if ($session->get("idSession") == $pieces[$i]) {
+        if ($session->get("id") == $pieces[$i]) {
             $private = "true";
         }
     }
 }
 
 if (
-    ($bookmarkDetail['boo_users'] == "" && $bookmarkDetail['boo_owner'] != $session->get("idSession") && $bookmarkDetail['boo_shared'] == "0")
+    ($bookmarkDetail['boo_users'] == "" && $bookmarkDetail['boo_owner'] != $session->get("id") && $bookmarkDetail['boo_shared'] == "0")
     ||
-    ($private == "false" && $bookmarkDetail['boo_owner'] != $session->get("idSession"))
+    ($private == "false" && $bookmarkDetail['boo_owner'] != $session->get("id"))
 ) {
     phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=bookmarkOwner");
 }
@@ -49,7 +49,7 @@ $block1 = new phpCollab\Block();
 $block1->form = "tdD";
 $block1->openForm("../bookmarks/viewbookmark.php#" . $block1->form . "Anchor", null, $csrfHandler);
 $block1->heading($strings["bookmark"] . " : " . $bookmarkDetail['boo_name']);
-if ($bookmarkDetail['boo_owner'] == $session->get("idSession")) {
+if ($bookmarkDetail['boo_owner'] == $session->get("id")) {
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "remove", $strings["delete"]);
 
@@ -67,7 +67,7 @@ $block1->contentRow($strings["description"], nl2br($bookmarkDetail['boo_descript
 $block1->closeContent();
 $block1->closeForm();
 
-if ($bookmarkDetail['boo_owner'] == $session->get("idSession")) {
+if ($bookmarkDetail['boo_owner'] == $session->get("id")) {
     $block1->openPaletteScript();
     $block1->paletteScript(0, "remove", "../bookmarks/deletebookmarks.php?id=" . $bookmarkDetail['boo_id'] . "", "true,true,false", $strings["delete"]);
     $block1->paletteScript(4, "edit", "../bookmarks/editbookmark.php?id=" . $bookmarkDetail['boo_id'] . "", "true,true,false", $strings["edit"]);

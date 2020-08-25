@@ -97,11 +97,11 @@ if ($view == "my") {
 $sorting = $block1->sortingValue;
 
 if ($view == "my") {
-    $bookmarks = $bookmarks_gateway->getMyBookmarks($session->get("idSession"), $sorting);
+    $bookmarks = $bookmarks_gateway->getMyBookmarks($session->get("id"), $sorting);
 } elseif ($view == "private") {
-    $bookmarks = $bookmarks_gateway->getPrivateBookmarks($session->get("idSession"), $sorting);
+    $bookmarks = $bookmarks_gateway->getPrivateBookmarks($session->get("id"), $sorting);
 } else {
-    $bookmarks = $bookmarks_gateway->getAllBookmarks($session->get("idSession"), $sorting);
+    $bookmarks = $bookmarks_gateway->getAllBookmarks($session->get("id"), $sorting);
 }
 
 $bookmarkCount = count($bookmarks);

@@ -5,9 +5,9 @@ use Symfony\Component\HttpFoundation\Response;
 $checkSession = "false";
 include '../includes/library.php';
 
-$loginLogs->setConnectedByLogin($session->get('loginSession'), false);
+$loginLogs->setConnectedByLogin($session->get('login'), false);
 
-$logger->info('User logged out', ['username' => $session->get('loginSession')]);
+$logger->info('User logged out', ['username' => $session->get('login')]);
 
 $response = new Response(
     'Content',

@@ -32,7 +32,7 @@ $projects = new Projects();
 if ($clientsFilter == "true" && $session->get("profile") == "2") {
     $teamMember = "false";
 
-    $memberTest = $teams->getTeamByTeamMemberAndOrgId($session->get("idSession"), $request->query->get("id"));
+    $memberTest = $teams->getTeamByTeamMemberAndOrgId($session->get("id"), $request->query->get("id"));
 
     if (count($memberTest) == "0") {
         phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
@@ -40,7 +40,7 @@ if ($clientsFilter == "true" && $session->get("profile") == "2") {
         $clientDetail = $orgs->getOrganizationById($request->query->get("id"));
     }
 } elseif ($clientsFilter == "true" && $session->get("profile") == "1") {
-    $clientDetail = $orgs->getOrganizationByIdAndOwner($request->query->get("id"), $session->get("idSession"));
+    $clientDetail = $orgs->getOrganizationByIdAndOwner($request->query->get("id"), $session->get("id"));
 } else {
     $clientDetail = $orgs->getOrganizationById($request->query->get("id"));
 }
@@ -105,7 +105,7 @@ $block1->contentRow(
 if ($enableInvoicing == "true" && ($session->get("profile") == "1" || $session->get("profile") == "0" || $session->get("profile") == "5")) {
     $block1->contentRow($strings["hourly_rate"], $clientDetail['org_hourly_rate']);
 }
-$block1->contentRow($strings["created"], phpCollab\Util::createDate($clientDetail['org_created'], $session->get("timezoneSession")));
+$block1->contentRow($strings["created"], phpCollab\Util::createDate($clientDetail['org_created'], $session->get("timezone")));
 if (file_exists("../logos_clients/" . $request->query->get("id") . "." . $clientDetail['org_extension_logo'])) {
     $block1->contentRow($strings["logo"], '<div class="logoContainer"><img alt="' . $clientDetail['org_name'] . '" src="../logos_clients/' . $request->query->get("id") . '.' . $clientDetail['org_extension_logo'] . '"></div>');
 }
@@ -146,7 +146,7 @@ $block2->closePaletteIcon();
 $block2->sorting("organization_projects", $sortingUser["organization_projects"], "pro.name ASC", $sortingFields = array(0 => "pro.id", 1 => "pro.name", 2 => "pro.priority", 3 => "pro.status", 4 => "mem.login", 5 => "pro.published"));
 
 if ($projectsFilter == "true") {
-    $listProjects = $projects->getFilteredProjectsByOrganization($clientDetail['org_id'], $session->get("idSession"), $block2->sortingValue);
+    $listProjects = $projects->getFilteredProjectsByOrganization($clientDetail['org_id'], $session->get("id"), $block2->sortingValue);
 } else {
     $listProjects = $projects->getProjectsByOrganization($clientDetail['org_id'], $block2->sortingValue);
 }
@@ -168,7 +168,7 @@ if ($listProjects) {
         $block2->cellRow($blockPage->buildLink($project['pro_mem_email_work'], $project['pro_mem_login'], 'mail'));
         if ($sitePublish == "true") {
                 if ($project['pro_published'] == "1") {
-                    if ($project['pro_owner'] == $session->get("idSession")) {
+                    if ($project['pro_owner'] == $session->get("id")) {
                         $block2->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $project['pro_id'], $strings["create"] . "...", 'in') . "&gt;");
                     } else {
                             $block2->cellRow(Util::doubleDash());
@@ -196,7 +196,7 @@ if ($session->get("profile") == "0" || $session->get("profile") == "1") {
 }
 //if mantis bug tracker enabled
 if ($enableMantis == "true") {
-    $block2->paletteScript(4, "bug", $pathMantis . "login.php?url=http://{$request->server->get("HTTP_HOST")}{$request->server->get("REQUEST_URI")}&username={$session->get("loginSession")}&password={$session->get("passwordSession")}", "false,true,false", $strings["bug"]);
+    $block2->paletteScript(4, "bug", $pathMantis . "login.php?url=http://{$request->server->get("HTTP_HOST")}{$request->server->get("REQUEST_URI")}&username={$session->get("login")}", "false,true,false", $strings["bug"]);
 }
 $block2->closePaletteScript(count($listProjects), array_column($listProjects, 'pro_id'));
 

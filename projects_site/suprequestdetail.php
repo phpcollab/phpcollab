@@ -12,12 +12,12 @@ $strings = $GLOBALS["strings"];
 
 $requestDetail = $support->getSupportRequestById($id);
 
-if ($requestDetail["sr_project"] != $session->get("projectSession") || $requestDetail["sr_member"] != $session->get("idSession")) {
+if ($requestDetail["sr_project"] != $session->get("project") || $requestDetail["sr_member"] != $session->get("id")) {
     if (!empty($requestDetail["sr_id"])) {
         // The support request wasn't found. This can happen if the lastvisited page for a user is for
         // a request that no longer exists. If this happens the user gets stuck in a login loop and can't
         // login.
-        $members->setLastPageVisitedByLogin($session->get('loginSession'), '');
+        $members->setLastPageVisitedByLogin($session->get('login'), '');
     }
     phpCollab\Util::headerFunction("index.php");
 }

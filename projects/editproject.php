@@ -85,7 +85,7 @@ if ($id != "") {
         phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blankProject");
     }
 
-    if ($session->get("idSession") != $projectDetail["pro_owner"] && $session->get("profile") != "0" && $session->get("profile") != "5") {
+    if ($session->get("id") != $projectDetail["pro_owner"] && $session->get("profile") != "0" && $session->get("profile") != "5") {
         phpCollab\Util::headerFunction("../projects/listprojects.php?msg=projectOwner");
     }
 
@@ -141,7 +141,7 @@ if ($id != "") {
                                 $description, $published, $thisPhase, $maxUploadSize, $urlDev, $urlProd, $invoicing,
                                 $hourlyRate);
 
-                            $newTeamId = $teams->addTeam($newProjectId, $session->get("idSession"), 1, 0);
+                            $newTeamId = $teams->addTeam($newProjectId, $session->get("id"), 1, 0);
 
                             if ($enableInvoicing == "true") {
                                 $newInvoiceId = $invoices->addInvoice($newProjectId, 0, $invoicing, 1);
@@ -413,7 +413,7 @@ if ($id == "") {
     }
 
     //set default values
-    $projectDetail["pro_mem_id"] = $session->get("idSession");
+    $projectDetail["pro_mem_id"] = $session->get("id");
     $projectDetail["pro_priority"] = "3";
 
     $projectDetail["pro_status"] = "2";
@@ -652,7 +652,7 @@ echo <<<HTML
 HTML;
 
 if ($clientsFilter == "true" && $session->get("profile") == "1") {
-    $listClients = $organizations->getOrganizationsByOwner($session->get("idSession"), 'org.name');
+    $listClients = $organizations->getOrganizationsByOwner($session->get("id"), 'org.name');
 } else {
     $listClients = $organizations->getAllOrganizations('org.name');
 }

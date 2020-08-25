@@ -258,7 +258,7 @@ $block1->sorting("report_tasks", $sortingUser["report_tasks"], "tas.complete_dat
 
 $queryStart = isset($queryStart) ? $queryStart : null;
 if ($projectsFilter == "true") {
-    $listProjectsTasks = $projects->getProjectList($session->get("idSession"), 'active', 'pro.id');
+    $listProjectsTasks = $projects->getProjectList($session->get("id"), 'active', 'pro.id');
 
     $filterTasks = null;
     if ($listProjectsTasks) {

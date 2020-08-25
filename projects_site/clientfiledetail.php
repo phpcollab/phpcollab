@@ -17,7 +17,7 @@ if (empty($fileId)) {
 
 $fileDetail = $files->getFileById($fileId);
 
-if ($fileDetail["fil_published"] == "1" || $fileDetail["fil_project"] != $session->get("projectSession")) {
+if ($fileDetail["fil_published"] == "1" || $fileDetail["fil_project"] != $session->get("project")) {
     phpCollab\Util::headerFunction("index.php");
 }
 
@@ -108,7 +108,7 @@ if ($request->isMethod('post')) {
                     $comments = phpCollab\Util::convertData($request->request->get('comments'));
 
                     try {
-                        $num = $files->add($session->get("idSession"), $copy_project, $copy_task, $changename, $copy_date, $copy_size,
+                        $num = $files->add($session->get("id"), $copy_project, $copy_task, $changename, $copy_date, $copy_size,
                             $copy_extension, $copy_comments, null, null, null, $copy_upload, 0, $copy_vc_version, $copy_vc_parent);
                     } catch (Exception $exception) {
                         error_log('Error adding file', 0);
@@ -182,7 +182,7 @@ if ($request->isMethod('post')) {
                     $comments = phpCollab\Util::convertData($request->request->get("comments"));
 
                     try {
-                        $num = $files->add($session->get("idSession"), $project, $task, null, null, null, null, $comments,
+                        $num = $files->add($session->get("id"), $project, $task, null, null, null, null, $comments,
                             null, null, null, $dateheure, 0, 0, $request->request->get('parent'), 2, 0);
 
                         if (!empty($num)) {
@@ -524,7 +524,7 @@ CLOSE_TABLE;
 
 // Table 4
 // File Update Form
-if ($fileDetail["fil_owner"] == $session->get("idSession")) {
+if ($fileDetail["fil_owner"] == $session->get("id")) {
     echo <<<FILE_UPDATE_FORM
 <table id="fileVersionUpdate" style="width: 100%" class="nonStriped">
     <tr>

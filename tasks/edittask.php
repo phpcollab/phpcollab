@@ -101,10 +101,10 @@ $phases = new Phases();
 // Check to see if the task owner == the current user, if so then consider them a "team member", otherwise
 // check to see if they are in the team
 $teamMember = "false";
-if (!empty($taskDetail) && $taskDetail["tas_owner"] === $session->get("idSession")) {
+if (!empty($taskDetail) && $taskDetail["tas_owner"] === $session->get("id")) {
     $teamMember = "true";
 } else {
-    $teamMember = $teams->isTeamMember($project, $session->get("idSession"));
+    $teamMember = $teams->isTeamMember($project, $session->get("id"));
 }
 
 if ($teamMember == "false" && $session->get("profile") != "5") {
@@ -201,7 +201,7 @@ if (
 
                     try {
                         $newTask = $tasks->addTask($form_data["project"], $form_data["name"], $form_data["description"],
-                            $session->get("idSession"), $form_data["assigned_to"], $form_data["status"], $form_data["priority"],
+                            $session->get("id"), $form_data["assigned_to"], $form_data["status"], $form_data["priority"],
                             $form_data["start_date"], $form_data["due_date"], $form_data["estimated_time"],
                             $form_data["actual_time"], $form_data["comments"], $form_data["published"], $form_data["completion"],
                             ($form_data["phase"] != 0) ? $form_data["phase"] : 0, $form_data["invoicing"],
@@ -246,7 +246,7 @@ if (
                             $tasks->updateAssignedDate($newTaskId, $dateheure);
                         }
 
-                        $assignmentId = $assignments->addAssignment($newTaskId, $session->get("idSession"), $form_data["assigned_to"], $dateheure);
+                        $assignmentId = $assignments->addAssignment($newTaskId, $session->get("id"), $form_data["assigned_to"], $dateheure);
 
                         //if assigned_to not blank, add to team members (only if doesn't already exist)
                         if ($form_data["assigned_to"] != "0") {
@@ -355,7 +355,7 @@ if (
                         $memberNotifications = $notificationsClass->getMemberNotifications($form_data["assigned_to"]);
 
                         // Update the assignment table
-                        $assignments->addAssignment($task_id, $session->get("idSession"), $form_data["assigned_to"], $dateheure);
+                        $assignments->addAssignment($task_id, $session->get("id"), $form_data["assigned_to"], $dateheure);
 
                         // Check to see if the new "assigned_to" member id is a team member, if not then add them
                         $isTeamMember = $teams->isTeamMember($project, $form_data["assigned_to"]);
@@ -485,7 +485,7 @@ if (
                         $form_data["due_date"] != $form_data["old_due_date"]
                     ) {
                         $updates = new Updates();
-                        $updates->addUpdate(1, $task_id, $session->get("idSession"), $assignment_comment);
+                        $updates->addUpdate(1, $task_id, $session->get("id"), $assignment_comment);
                     }
 
                     phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$task_id&msg=$msg");
@@ -531,7 +531,7 @@ if (
                         $project,
                         $form_data["name"],
                         $form_data["description"],
-                        $session->get("idSession"),
+                        $session->get("id"),
                         $form_data["assigned_to"],
                         $form_data["status"],
                         $form_data["priority"],
@@ -555,7 +555,7 @@ if (
                 if ($newTask) {
                     $newTaskId = $newTask["tas_id"];
 
-                    $memberInfo = $members->getMemberById($session->get("idSession"));
+                    $memberInfo = $members->getMemberById($session->get("id"));
 
                     if ($enableInvoicing == "true") {
                         if ($form_data["status"] == "1") {
@@ -596,7 +596,7 @@ if (
                         // Add entry to the assigned table
                         $assignments->addAssignment(
                             $newTaskId,
-                            $session->get("idSession"),
+                            $session->get("id"),
                             $form_data["assigned_to"],
                             date('Y-m-d h:i')
                         );
@@ -762,7 +762,7 @@ echo <<< Project
 Project;
 
 if ($projectsFilter == "true") {
-    $listProjects = $projects->getFilteredProjectsByTeamMember($session->get("idSession"));
+    $listProjects = $projects->getFilteredProjectsByTeamMember($session->get("id"));
 } else {
     $listProjects = $projects->getAllProjects();
 }

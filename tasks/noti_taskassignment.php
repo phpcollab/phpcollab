@@ -17,7 +17,7 @@ if ($listNotifications["taskAssignment"] == "0") {
 
     try {
 
-        $mail->getUserinfo($session->get("idSession"), "from");
+        $mail->getUserinfo($session->get("id"), "from");
 
         $mail->partSubject = $strings["noti_taskassignment1"];
         $mail->partMessage = $strings["noti_taskassignment2"];

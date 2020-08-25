@@ -65,7 +65,7 @@ echo "<tr class='odd'><td class='leftvalue'>" . $strings["clients"] . " :</td><t
 
 if ($clientsFilter == "true" && $session->get("profile") == "2") {
     $teamMember = "false";
-    $teamsList = $teams->getTeamByMemberId($session->get("idSession"));
+    $teamsList = $teams->getTeamByMemberId($session->get("id"));
 
     if (empty($teamsList)) {
         $listClients = "false";
@@ -85,7 +85,7 @@ if ($clientsFilter == "true" && $session->get("profile") == "2") {
         }
     }
 } elseif ($clientsFilter == "true" && $session->get("profile") == "1") {
-    $listOrganizations = $organizations->getOrganizationsByOwner($session->get("idSession"), 'org.name');
+    $listOrganizations = $organizations->getOrganizationsByOwner($session->get("id"), 'org.name');
 } else {
     $listOrganizations = $organizations->getAllOrganizations('org.name');
 }
@@ -109,7 +109,7 @@ echo <<<HTML
 	    <td>
 HTML;
 
-$listProjects = $projects->getProjectList($session->get("idSession"), 'active', null, null, 'pro.name');
+$listProjects = $projects->getProjectList($session->get("id"), 'active', null, null, 'pro.name');
 
 echo <<<HTML
     <select name="S_PRJSEL[]" size="4" multiple>

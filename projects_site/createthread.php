@@ -18,11 +18,11 @@ if ($request->isMethod('post')) {
                 $topicField = phpCollab\Util::convertData($request->request->get('topicField'));
                 $messageField = phpCollab\Util::convertData($request->request->get('messageField'));
 
-                $newTopic = $topics->addTopic($session->get("projectSession"), $session->get("idSession"), $topicField, 1, 1, 0);
+                $newTopic = $topics->addTopic($session->get("project"), $session->get("id"), $topicField, 1, 1, 0);
 
                 $messageField = phpCollab\Util::autoLinks($messageField);
 
-                $newPost = $topics->addPost($newTopic["top_id"], $session->get("idSession"), $messageField);
+                $newPost = $topics->addPost($newTopic["top_id"], $session->get("id"), $messageField);
 
                 if ($notifications == "true") {
                     try {
@@ -51,7 +51,7 @@ $titlePage = $strings["create_topic"];
 include 'include_header.php';
 
 echo <<<FORM
-<form method="post" action="../projects_site/createthread.php?project={$session->get("projectSession")}&action=add&id={$request->query->get("id")}" name="createThreadTopic">
+<form method="post" action="../projects_site/createthread.php?project={$session->get("project")}&action=add&id={$request->query->get("id")}" name="createThreadTopic">
     <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}" />
     <table style="width: 90%;" class="nonStriped">
         <tr>

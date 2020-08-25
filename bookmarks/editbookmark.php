@@ -100,7 +100,7 @@ if ($request->isMethod('post')) {
                         }
 
                         if ($request->query->get('action') == "add") {
-                            $filteredData['owner_id'] = filter_var((int)$session->get("idSession"), FILTER_VALIDATE_INT);
+                            $filteredData['owner_id'] = filter_var((int)$session->get("id"), FILTER_VALIDATE_INT);
                             $addBookmark = $bookmark->addBookmark($filteredData);
 
                             phpCollab\Util::headerFunction("../bookmarks/listbookmarks.php?view=my&msg=add");

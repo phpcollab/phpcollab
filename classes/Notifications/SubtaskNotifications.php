@@ -26,7 +26,7 @@ class SubtaskNotifications extends Notification
     {
         if ($this->workEmail && $this->emailSubject && $this->emailBody && $this->taskDetails && $this->projectDetails) {
             try {
-                $this->getUserinfo($session->get('idSession'), "from", $logger);
+                $this->getUserinfo($session->get("id"), "from", $logger);
 
                 $tmpSubject = $this->emailSubject . " " . $this->taskDetails["subtas_name"];
                 $this->partMessage = $this->emailBody;

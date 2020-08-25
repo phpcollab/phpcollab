@@ -28,7 +28,7 @@ $projectDetail = $projects->getProjectById($id);
 
 $teamMember = "false";
 
-$teamMember = $teams->isTeamMember($id, $session->get("idSession"));
+$teamMember = $teams->isTeamMember($id, $session->get("id"));
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 

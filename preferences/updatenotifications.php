@@ -35,7 +35,7 @@ include_once '../includes/library.php';
 $teams = new Teams();
 $notifications = new Notifications();
 
-$userDetail = $members->getMemberById($session->get("idSession"));
+$userDetail = $members->getMemberById($session->get("id"));
 
 if (empty($userDetail)) {
     phpCollab\Util::headerFunction("../users/listusers.php?msg=blankUser");
@@ -49,7 +49,7 @@ if ($request->isMethod('post')) {
                 $checkboxes = $request->request->get('alerts');
 
                 try {
-                    $notifications->setAlerts($session->get("idSession"), $checkboxes["taskAssignment"], $checkboxes["removeProjectTeam"],
+                    $notifications->setAlerts($session->get("id"), $checkboxes["taskAssignment"], $checkboxes["removeProjectTeam"],
                         $checkboxes["addProjectTeam"], $checkboxes["newTopic"], $checkboxes["newPost"],
                         $checkboxes["statusTaskChange"], $checkboxes["priorityTaskChange"], $checkboxes["duedateTaskChange"],
                         $checkboxes["clientAddTask"], $checkboxes["uploadFile"], $checkboxes["dailyAlert"],
@@ -71,7 +71,7 @@ if ($request->isMethod('post')) {
     }
 }
 
-$userNotifications = $notifications->getMemberNotifications($session->get("idSession"));
+$userNotifications = $notifications->getMemberNotifications($session->get("id"));
 
 if ($userNotifications["taskAssignment"] == "0") {
     $taskAssignment = "checked";

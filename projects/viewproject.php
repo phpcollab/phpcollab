@@ -213,7 +213,7 @@ if ($listTasksTime) {
 }
 
 $teamMember = "false";
-$teamMember = $teams->isTeamMember($id, $session->get("idSession"));
+$teamMember = $teams->isTeamMember($id, $session->get("id"));
 
 if ($teamMember == "false" && $projectsFilter == "true") {
     header("Location:../general/permissiondenied.php");
@@ -252,10 +252,10 @@ $block1->openForm("../projects/listprojects.php#" . $block1->form . "Anchor", nu
 
 $block1->headingToggle($strings["project"] . " : " . $projectDetail["pro_name"]);
 
-if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
+if ($session->get("id") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
     $block1->openPaletteIcon();
 
-    if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
+    if ($session->get("id") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
         $block1->paletteIcon(0, "remove", $strings["delete"]);
         $block1->paletteIcon(1, "copy", $strings["copy"]);
         $block1->paletteIcon(2, "export", $strings["export"]);
@@ -308,9 +308,9 @@ $block1->contentRow($strings["owner"],
         "in") . " (" . $blockPage->buildLink($projectDetail["pro_mem_email_work"], $projectDetail["pro_mem_login"],
         "mail") . ")");
 $block1->contentRow($strings["created"],
-    phpCollab\Util::createDate($projectDetail["pro_created"], $session->get("timezoneSession")));
+    phpCollab\Util::createDate($projectDetail["pro_created"], $session->get("timezone")));
 $block1->contentRow($strings["modified"],
-    phpCollab\Util::createDate($projectDetail["pro_modified"], $session->get("timezoneSession")));
+    phpCollab\Util::createDate($projectDetail["pro_modified"], $session->get("timezone")));
 
 if ($projectDetail["pro_org_id"] == "1") {
     $block1->contentRow($strings["organization"], $strings["none"]);
@@ -338,7 +338,7 @@ $block1->contentRow($strings["scope_creep"] . $blockPage->printHelp("project_sco
 
 if ($sitePublish == "true") {
     if ($projectDetail["pro_published"] == "1") {
-        if ($projectDetail['pro_owner'] == $session->get("idSession")) {
+        if ($projectDetail['pro_owner'] == $session->get("id")) {
             $block1->contentRow($strings["project_site"],
                 "&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=$id", $strings["create"] . "...",
                     "in") . "&gt;");
@@ -352,7 +352,7 @@ if ($sitePublish == "true") {
     }
 }
 
-if ($enableInvoicing == "true" && ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5")) {
+if ($enableInvoicing == "true" && ($session->get("id") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5")) {
     if ($projectDetail["pro_invoicing"] == "1") {
         $block1->contentRow($strings["invoicing"], $strings["true"]);
     } else {
@@ -379,16 +379,16 @@ $block1->closeContent();
 $block1->closeToggle();
 $block1->closeForm();
 
-if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
+if ($session->get("id") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
     $block1->openPaletteScript();
 
-    if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
+    if ($session->get("id") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
         $block1->paletteScript(0, "remove", "../projects/deleteproject.php?id=$id", "true,true,false",
             $strings["delete"]);
         $block1->paletteScript(1, "copy", "../projects/editproject.php?id=" . $projectDetail["pro_id"] . "&docopy=true",
             "true,true,false", $strings["copy"]);
         $block1->paletteScript(2, "export",
-            "../projects/exportproject.php?languageSession={$session->get('languageSession')}&type=project&id=" . $projectDetail["pro_id"] . "",
+            "../projects/exportproject.php?languageSession={$session->get('language')}&type=project&id=" . $projectDetail["pro_id"] . "",
             "true,true,false", $strings["export"]);
         $block1->paletteScript(3, "edit",
             "../projects/editproject.php?id=" . $projectDetail["pro_id"] . "&docopy=false", "true,true,false",
@@ -397,7 +397,7 @@ if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("
 
     if ($enableMantis == "true") {
         $block1->paletteScript(5, "bug",
-            $pathMantis . "login.php?id=" . $projectDetail["pro_id"] . "&url=http://{$request->server->get("HTTP_HOST")}{$request->server->get("REQUEST_URI")}&username={$session->get("loginSession")}",
+            $pathMantis . "login.php?id=" . $projectDetail["pro_id"] . "&url=http://{$request->server->get("HTTP_HOST")}{$request->server->get("REQUEST_URI")}&username={$session->get("login")}",
             "true,true,false", $strings["bug"]);
     }
 
@@ -415,7 +415,7 @@ if ($projectDetail["pro_phase_set"] != "0") {
     $block7->paletteIcon(0, "info", $strings["view"]);
 
     if ($teamMember == "true" || $session->get("profile") == "5") {
-        if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
+        if ($session->get("id") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
             $block7->paletteIcon(1, "edit", $strings["edit"]);
         }
     }
@@ -474,7 +474,7 @@ if ($projectDetail["pro_phase_set"] != "0") {
     $block7->paletteScript(0, "info", "../phases/viewphase.php?", "false,true,true", $strings["view"]);
 
     if ($teamMember == "true" || $session->get("profile") == "5") {
-        if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
+        if ($session->get("id") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
             $block7->paletteScript(1, "edit", "../phases/editphase.php?", "false,true,true", $strings["edit"]);
         }
     }
@@ -636,7 +636,7 @@ if ($teamMember == "true" || $session->get("profile") == "5") {
     $discussionsBlock->paletteIcon(0, "add", $strings["add"]);
 }
 
-if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "5") {
+if ($session->get("id") == $projectDetail["pro_owner"] || $session->get("profile") == "5") {
     $discussionsBlock->paletteIcon(1, "remove", $strings["delete"]);
     $discussionsBlock->paletteIcon(2, "lock", $strings["close"]);
 
@@ -688,12 +688,12 @@ if ($topicsList) {
             "mail"));
         $discussionsBlock->cellRow($topic["top_posts"]);
 
-        if ($topic["top_last_post"] > $session->get('lastvisiteSession')) {
+        if ($topic["top_last_post"] > $session->get('lastVisited')) {
             $discussionsBlock->cellRow("<b>" . phpCollab\Util::createDate($topic["top_last_post"],
-                    $session->get("timezoneSession")) . "</b>");
+                    $session->get("timezone")) . "</b>");
         } else {
             $discussionsBlock->cellRow(phpCollab\Util::createDate($topic["top_last_post"],
-                $session->get("timezoneSession")));
+                $session->get("timezone")));
         }
 
         $discussionsBlock->cellRow($statusTopic[$idStatus]);
@@ -721,7 +721,7 @@ if ($teamMember == "true" || $session->get("profile") == "5") {
         "true,false,false", $strings["add"]);
 }
 
-if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "5") {
+if ($session->get("id") == $projectDetail["pro_owner"] || $session->get("profile") == "5") {
     $discussionsBlock->paletteScript(1, "remove", "../topics/deletetopics.php?project=" . $projectDetail["pro_id"] . "",
         "false,true,true", $strings["delete"]);
     $discussionsBlock->paletteScript(2, "lock",
@@ -747,7 +747,7 @@ $teamBlock->openForm("../projects/viewproject.php?&id=" . $projectDetail["pro_id
 $teamBlock->headingToggle($strings["team"]);
 $teamBlock->openPaletteIcon();
 
-if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "5") {
+if ($session->get("id") == $projectDetail["pro_owner"] || $session->get("profile") == "5") {
     $teamBlock->paletteIcon(0, "add", $strings["add"]);
     $teamBlock->paletteIcon(1, "remove", $strings["delete"]);
 
@@ -821,7 +821,7 @@ $teamBlock->closeToggle();
 $teamBlock->closeFormResults();
 $teamBlock->openPaletteScript();
 
-if ($session->get("idSession") == $projectDetail["pro_owner"] || $session->get("profile") == "5") {
+if ($session->get("id") == $projectDetail["pro_owner"] || $session->get("profile") == "5") {
     $teamBlock->paletteScript(0, "add", "../teams/adduser.php?project=" . $projectDetail["pro_id"] . "",
         "true,true,true", $strings["add"]);
     $teamBlock->paletteScript(1, "remove", "../teams/deleteusers.php?project=" . $projectDetail["pro_id"] . "",

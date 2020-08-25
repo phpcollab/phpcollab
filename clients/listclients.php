@@ -56,7 +56,7 @@ if ($clientsFilter == "true" && $session->get("profile") == "2") {
      */
     $teamMember = "false";
 
-    $myTeams = $teams->getTeamByMemberId($session->get("idSession"));
+    $myTeams = $teams->getTeamByMemberId($session->get("id"));
 
     if (count($myTeams) == "0") {
         $listClients = "false";
@@ -76,7 +76,7 @@ if ($clientsFilter == "true" && $session->get("profile") == "2") {
     /**
      * If the user role is "project manager"
      */
-    $listOrganizations = $organizations->getOrganizationsByOwner($session->get("idSession"), $block1->sortingValue);
+    $listOrganizations = $organizations->getOrganizationsByOwner($session->get("id"), $block1->sortingValue);
 } else {
     $listOrganizations = $organizations->getListOfOrganizations($block1->sortingValue);
 }

@@ -305,7 +305,7 @@ class Teams
             $mail = new Notification(true);
             try {
                 $logger->debug('Nofitication: Send project team notification', ['projectDetail' => $projectDetail]);
-                $mail->getUserinfo($session->get("idSession"), "from", $logger);
+                $mail->getUserinfo($session->get("id"), "from", $logger);
                 $mail->partSubject = $this->strings["noti_addprojectteam1"];
                 $mail->partMessage = $this->strings["noti_addprojectteam2"];
 

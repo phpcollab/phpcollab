@@ -97,7 +97,7 @@ $blockPage->setLimitsNumber(4);
 
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../general/home.php", $strings["home"], 'in'));
-$blockPage->itemBreadcrumbs($session->get('nameSession'));
+$blockPage->itemBreadcrumbs($session->get('name'));
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
@@ -115,7 +115,7 @@ if ($showHomeBookmarks) {
 
     $block6->sorting("bookmarks", $sortingUser["bookmarks"], "boo.name ASC", $sortingFields = [0 => "boo.name", 1 => "boo.category", 2 => "boo.shared"]);
 
-    $bookmarksList = $bookmarks->getMyHomeBookmarks($session->get('idSession'), $block6->sortingValue);
+    $bookmarksList = $bookmarks->getMyHomeBookmarks($session->get("id"), $block6->sortingValue);
 
     $comptListBookmarks = count($bookmarksList);
 
@@ -229,10 +229,10 @@ if ($showHomeProjects) {
 
 //    $sorting = $block1->sortingValue;
 
-    $projectCount = $projects->getProjectList($session->get('idSession'), $request->query->get('typeProjects'));
+    $projectCount = $projects->getProjectList($session->get("id"), $request->query->get('typeProjects'));
     $block1->setRecordsTotal(count($projectCount));
 
-    $projectsList = $projects->getProjectList($session->get('idSession'), $request->query->get('typeProjects'), $block1->getRowsLimit(), $block1->getLimit(), $block1->sortingValue);
+    $projectsList = $projects->getProjectList($session->get("id"), $request->query->get('typeProjects'), $block1->getRowsLimit(), $block1->getLimit(), $block1->sortingValue);
 
 
     $projectsTopics = [];
@@ -258,11 +258,7 @@ if ($showHomeProjects) {
 
             if ($sitePublish == "true") {
                 if ($project["pro_published"] == "1") {
-//                    if ($project['pro_owner'] == $idSession) {
-                        $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $project["pro_id"], $strings["create"] . "...", 'in') . "&gt;");
-//                    } else {
-//                        $block1->cellRow(Util::doubleDash());
-//                    }
+                    $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $project["pro_id"], $strings["create"] . "...", 'in') . "&gt;");
                 } else {
                     $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=" . $project["pro_id"], $strings["details"], 'in') . "&gt;");
                 }
@@ -296,7 +292,7 @@ if ($showHomeProjects) {
 
     //if mantis bug tracker enabled
     if ($enableMantis == "true") {
-        $block1->paletteScript(8, "bug", $GLOBALS['pathMantis'] . "login.php?url=http://{$request->server->get("HTTP_HOST")}{$request->server->get("REQUEST_URI")}&username={$session->get('loginSession')}&password={$session->get('passwordSession')}", "false,true,false", $strings["bug"]);
+        $block1->paletteScript(8, "bug", $GLOBALS['pathMantis'] . "login.php?url=http://{$request->server->get("HTTP_HOST")}{$request->server->get("REQUEST_URI")}&username={$session->get('login')}", "false,true,false", $strings["bug"]);
     }
 
     $block1->closePaletteScript(count($projectsList), array_column($projectsList, 'pro_id'));
@@ -327,7 +323,7 @@ if ($showHomeTasks) {
 
     $block2->sorting("home_tasks", $sortingUser["home_tasks"], "tas.name ASC", $sortingFields = [0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem2.login", 6 => "tas.project", 7 => "tas.published"]);
 
-    $tasksList = $tasks->getSubtasksAssignedToMe($session->get('idSession'));
+    $tasksList = $tasks->getSubtasksAssignedToMe($session->get("id"));
 
     $subtasks = null;
     if ($tasksList) {
@@ -340,12 +336,12 @@ if ($showHomeTasks) {
     $taskCount = 0;
 
     if (!empty($subtasks)) {
-        $taskCount = count($tasks->getAllMyTasks($session->get('idSession'), $subtasks));
+        $taskCount = count($tasks->getAllMyTasks($session->get("id"), $subtasks));
     }
 
     $block2->setRecordsTotal($taskCount);
 
-    $listTasks = $tasks->getAllMyTasks($session->get('idSession'), $subtasks, $block2->getLimit(), $block2->getRowsLimit(), $block2->sortingValue);
+    $listTasks = $tasks->getAllMyTasks($session->get("id"), $subtasks, $block2->getLimit(), $block2->getRowsLimit(), $block2->sortingValue);
 
     if ($listTasks) {
         $block2->openResults();
@@ -432,7 +428,7 @@ if ($showHomeSubtasks) {
 
     $block3->sorting("home_subtasks", $sortingUser["home_subtasks"], "subtas.name ASC", $sortingFields = [0 => "subtas.name", 1 => "subtas.priority", 2 => "subtas.status", 3 => "subtas.completion", 4 => "subtas.due_date", 5 => "mem.login", 6 => "subtas.task", 7 => "subtas.published"]);
 
-    $listSubtasks = $tasks->getSubtasksAssignedToMe($session->get('idSession'));
+    $listSubtasks = $tasks->getSubtasksAssignedToMe($session->get("id"));
 
     foreach ($listSubtasks as $subtask) {
         $subtasks .= $listSubtasks['subtas_task'] . ',';
@@ -442,7 +438,7 @@ if ($showHomeSubtasks) {
     if ($subtasks != "") {
         // Since $listTasks was used above, let's clear it out
         unset($listTasks);
-        $listTasks = $tasks->getOpenAndCompletedSubTasksAssignedToMe($session->get('idSession'), $block3->sortingValue);
+        $listTasks = $tasks->getOpenAndCompletedSubTasksAssignedToMe($session->get("id"), $block3->sortingValue);
 
 
         if ($listTasks) {
@@ -550,10 +546,10 @@ if ($showHomeDiscussions) {
             $block4->cellRow($blockPage->buildLink("../topics/viewtopic.php?project=" . $topic["top_project"] . "&id=" . $topic["top_id"], $topic["top_subject"], 'in'));
             $block4->cellRow($blockPage->buildLink($topic["top_mem_email_work"], $topic["top_mem_login"], 'mail'));
             $block4->cellRow($topic["top_posts"]);
-            if ($topic["top_last_post"] > $session->get("lastvisiteSession")) {
-                $block4->cellRow("<b>" . phpCollab\Util::createDate($topic["top_last_post"], $session->get('timezoneSession')) . "</b>");
+            if ($topic["top_last_post"] > $session->get("lastVisited")) {
+                $block4->cellRow("<b>" . phpCollab\Util::createDate($topic["top_last_post"], $session->get('timezone')) . "</b>");
             } else {
-                $block4->cellRow(phpCollab\Util::createDate($topic["top_last_post"], $session->get('timezoneSession')));
+                $block4->cellRow(phpCollab\Util::createDate($topic["top_last_post"], $session->get('timezone')));
             }
             $block4->cellRow($GLOBALS['statusTopic'][$idStatus]);
             $block4->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $topic["top_project"], $topic["top_pro_name"], 'in'));
@@ -599,7 +595,7 @@ if ($showHomeReports) {
     $reportsBlock->closePaletteIcon();
 
     $reportsBlock->sorting("home_reports", $sortingUser["home_reports"], "rep.name ASC", $sortingFields = [0 => "rep.name", 1 => "rep.created"]);
-    $listReports = $reports->getReportsByOwner($session->get('idSession'), $reportsBlock->sortingValue);
+    $listReports = $reports->getReportsByOwner($session->get("id"), $reportsBlock->sortingValue);
 
     if ($listReports) {
         $reportsBlock->openResults();
@@ -610,7 +606,7 @@ if ($showHomeReports) {
             $reportsBlock->openRow();
             $reportsBlock->checkboxRow($listReport["rep_id"]);
             $reportsBlock->cellRow($blockPage->buildLink("../reports/resultsreport.php?id=" . $listReport["rep_id"], $listReport["rep_name"], 'in'));
-            $reportsBlock->cellRow(phpCollab\Util::createDate($listReport["rep_created"], $session->get('timezoneSession')));
+            $reportsBlock->cellRow(phpCollab\Util::createDate($listReport["rep_created"], $session->get('timezone')));
             $reportsBlock->closeRow();
         }
         $reportsBlock->closeResults();
@@ -652,7 +648,7 @@ if ($showHomeNotes) {
         $notesBlock->sorting("notes", $sortingUser["notes"], "note.date DESC", $sortingFields = [0 => "note.subject", 1 => "note.date", 2 => "mem.login", 3 => "note.published"]);
     }
 
-    $listNotes = $notes->getMyDateFilteredNotes($session->get('idSession'), $dateFilter, $notesBlock->sortingValue);
+    $listNotes = $notes->getMyDateFilteredNotes($session->get("id"), $dateFilter, $notesBlock->sortingValue);
 
     if ($listNotes) {
         $notesBlock->openResults();
@@ -725,10 +721,10 @@ if ($showHomeNewsdesk) {
     } else {
         $relatedQuery = 'g';
     }
-    $newsdeskBlock->setRecordsTotal( $newsdesk->getHomePostCount($session->get('idSession'), $relatedQuery) );
+    $newsdeskBlock->setRecordsTotal( $newsdesk->getHomePostCount($session->get("id"), $relatedQuery) );
 
     $newsdeskPosts = $newsdesk->getHomeViewNewsdeskPosts(
-        $session->get('idSession'),
+        $session->get("id"),
         $relatedQuery,
         $newsdeskBlock->getLimit(),
         $newsdeskBlock->getRowsLimit(),

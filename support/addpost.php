@@ -53,7 +53,7 @@ if ($request->isMethod('post')) {
 
             if ($request->request->get('action') == "add") {
                 try {
-                    $newPost = $support->addSupportPost($id, Util::convertData($request->request->get('message')), $dateheure, $session->get("idSession"), $requestDetail["sr_project"]);
+                    $newPost = $support->addSupportPost($id, Util::convertData($request->request->get('message')), $dateheure, $session->get("id"), $requestDetail["sr_project"]);
 
                     if (!empty($newPost) && $notifications == "true") {
                         $support->sendPostChangedNotification($newPost);
@@ -167,7 +167,7 @@ TR;
 $block2->closeContent();
 
 echo <<<FORM
-    <input type="hidden" name="user" value="{$session->get("idSession")}>
+    <input type="hidden" name="user" value="{$session->get("id")}>
 FORM;
 
 $block2->closeForm();

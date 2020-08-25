@@ -64,7 +64,7 @@ $projectDetail = $projects->getProjectById($parentTaskDetail['tas_project']);
 
 $teamMember = "false";
 
-$teamMember = $teams->isTeamMember($projectDetail["pro_id"], $session->get("idSession"));
+$teamMember = $teams->isTeamMember($projectDetail["pro_id"], $session->get("id"));
 
 if ($teamMember != "true" && $session->get("profile") != "5") {
     phpCollab\Util::headerFunction("../tasks/viewtask.php?id={$parentTaskId}&msg=taskOwner");
@@ -213,7 +213,7 @@ if (!empty($id)) {
                              */
                             $updates = new Updates();
                             $updateComments = phpCollab\Util::convertData($updateComments);
-                            $updates->addUpdate(2, $id, $session->get("idSession"), $updateComments);
+                            $updates->addUpdate(2, $id, $session->get("id"), $updateComments);
                         }
 
                         phpCollab\Util::headerFunction("../subtasks/viewsubtask.php?id={$id}&task={$parentTaskId}&msg={$msg}");
@@ -263,7 +263,7 @@ if (empty($id)) {
                     /**
                      * Create new subtask
                      */
-                    $newSubtaskId = $subtasks->add($parentTaskId, $taskName, $description, $session->get("idSession"), $assignedTo, $taskStatus,
+                    $newSubtaskId = $subtasks->add($parentTaskId, $taskName, $description, $session->get("id"), $assignedTo, $taskStatus,
                         $taskPriority, $startDate, $dueDate, $estimatedTime, $actualTime, $comments, $completion, $publish);
 
                     if ($taskStatus == "1") {
@@ -278,12 +278,12 @@ if (empty($id)) {
                         $subtasks->setAssignedDate($newSubtaskId, $timestamp);
                     }
 
-                    $assignments->addAssignment($newSubtaskId, $session->get("idSession"), $assignedTo, $timestamp);
+                    $assignments->addAssignment($newSubtaskId, $session->get("id"), $assignedTo, $timestamp);
 
                     //if assigned_to not blank, add to team members (only if doesn't already exist)
                     //add assigned_to in team members (only if doesn't already exist)
                     if ($assignedTo != "0") {
-                        if (!$teams->isTeamMember($project, $session->get("idSession"))) {
+                        if (!$teams->isTeamMember($project, $session->get("id"))) {
                             $teams->addTeam($project, $assignedTo, 1, 0);
                         }
 

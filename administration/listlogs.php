@@ -62,7 +62,7 @@ foreach ($logsData as $log) {
     $block1->cellRow($log['ip']);
     $block1->cellRow($log['session']);
     $block1->cellRow($log['compt']);
-    $block1->cellRow(phpCollab\Util::createDate($log['last_visite'], $session->get("timezoneSession")));
+    $block1->cellRow(phpCollab\Util::createDate($log['last_visite'], $session->get("timezone")));
 
     if ($log['profil'] == "3") {
         $z = "(Client on project site)";

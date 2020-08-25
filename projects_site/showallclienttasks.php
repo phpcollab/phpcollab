@@ -14,7 +14,7 @@ $bouton[3] = "over";
 $titlePage = $strings["client_tasks"];
 include 'include_header.php';
 
-$listTasks = $tasks->getProjectSiteClientTasks($session->get("projectSession"), null, null, 'tas.name');
+$listTasks = $tasks->getProjectSiteClientTasks($session->get("project"), null, null, 'tas.name');
 
 $block1 = new phpCollab\Block();
 

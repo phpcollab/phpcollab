@@ -33,7 +33,7 @@ $clientDetail = null;
 if ($clientsFilter == "true" && $session->get("profile") == "2") {
     $teamMember = "false";
 
-    $memberTest = $teams->getTeamByTeamMemberAndOrgId($session->get("idSession"), $clientId);
+    $memberTest = $teams->getTeamByTeamMemberAndOrgId($session->get("id"), $clientId);
 
     $comptMemberTest = count($memberTest["tea_id"]);
 
@@ -43,7 +43,7 @@ if ($clientsFilter == "true" && $session->get("profile") == "2") {
         $clientDetail = $organizations->getOrganizationById($clientId);
     }
 } else if ($clientsFilter == "true" && $session->get("profile") == "1") {
-    $clientDetail = $organizations->getOrganizationByIdAndOwner($clientId, $session->get("idSession"));
+    $clientDetail = $organizations->getOrganizationByIdAndOwner($clientId, $session->get("id"));
 } else {
     $clientDetail = $organizations->getOrganizationById($clientId);
 }

@@ -17,7 +17,7 @@ $strings = $GLOBALS["strings"];
 
 $detailTopic = $topics->getTopicByTopicId($topicId);
 
-if ($detailTopic["top_published"] == "1" || $detailTopic["top_project"] != $session->get("projectSession")) {
+if ($detailTopic["top_published"] == "1" || $detailTopic["top_project"] != $session->get("project")) {
     phpCollab\Util::headerFunction("index.php");
 }
 
@@ -40,7 +40,7 @@ $listPosts = $topics->getPostsByTopicId($detailTopic["top_id"]);
 
 $idStatus = $detailTopic["top_status"];
 
-$topicDate = phpCollab\Util::createDate($detailTopic["top_last_post"], $session->get("timezoneSession"));
+$topicDate = phpCollab\Util::createDate($detailTopic["top_last_post"], $session->get("timezone"));
 
 if ($request->query->get("msg") != "") {
     include '../includes/messages.php';
@@ -103,7 +103,7 @@ if ($listPosts) {
             <td colspan="2" style="text-align: right;">
 TR;
 
-        if ($detailProject["pro_owner"] == $session->get("idSession") || $session->get("profile") == "0" || $post["pos_member"] == $session->get("idSession")) {
+        if ($detailProject["pro_owner"] == $session->get("id") || $session->get("profile") == "0" || $post["pos_member"] == $session->get("id")) {
             echo <<<LINK
                 <a href="../projects_site/showallthreads.php?topic={$topicId}&action=delete&post={$post["pos_id"]}">({$post["pos_id"]}) {$strings["delete_message"]}</a>
 LINK;
@@ -111,7 +111,7 @@ LINK;
             echo "&nbsp";
         }
 
-        $createdDate = phpCollab\Util::createDate($post["pos_created"], $session->get("timezoneSession"));
+        $createdDate = phpCollab\Util::createDate($post["pos_created"], $session->get("timezone"));
         $postMessage = nl2br($post["pos_message"]);
         echo <<<TR
             </td>

@@ -13,7 +13,7 @@ $bouton[4] = "over";
 $titlePage = $strings["document_list"];
 include 'include_header.php';
 
-$listFiles = $files->getProjectSiteFiles($session->get("projectSession"), 'fil.name');
+$listFiles = $files->getProjectSiteFiles($session->get("project"), 'fil.name');
 
 $block1 = new phpCollab\Block();
 

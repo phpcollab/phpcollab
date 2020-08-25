@@ -15,7 +15,7 @@ $support = new Support($logger);
 
 if ($supportType == "team") {
     $teamMember = "false";
-    $teamMember = $teams->isTeamMember($request->query->get('project'), $session->get('idSession'));
+    $teamMember = $teams->isTeamMember($request->query->get('project'), $session->get("id"));
 }
 
 if ($enableHelpSupport != "true") {

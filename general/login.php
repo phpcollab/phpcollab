@@ -1,9 +1,7 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 15/01/2005
 ** Path by root: ../general/login.php
-** Authors: Ceam / Fullo
 **
 ** =============================================================================
 **
@@ -17,9 +15,6 @@
 **
 ** DESC: Screen: login page
 **
-** -----------------------------------------------------------------------------
-** TO-DO:
-** move to a better login system and authentication (try to db session)
 **
 ** =============================================================================
 */
@@ -123,25 +118,23 @@ if ($auth == "on") {
             $passwordForm = crypt($passwordForm, $r);
 
             //set session variables
-            $session->set('idSession', $member['mem_id']);
-            $session->set('timezoneSession', $member['mem_timezone']);
-            $session->set('languageSession', $request->request->get("languageForm"));
-            $session->set('loginSession', $usernameForm);
-            $session->set('nameSession', $member['mem_name']);
+            $session->set('id', $member['mem_id']);
+            $session->set('timezone', $member['mem_timezone']);
+            $session->set('language', $request->request->get("languageForm"));
+            $session->set('login', $usernameForm);
+            $session->set('name', $member['mem_name']);
             $session->set('profile', $member['mem_profil']);
-            $session->set('ipSession', $request->server->get("REMOTE_ADDR"));
-            $session->set('dateunixSession', date("U"));
-            $session->set('dateSession', date("d-m-Y H:i:s"));
-            $session->set('logouttimeSession', $member['mem_logout_time']);
+            $session->set('ip', $request->server->get("REMOTE_ADDR"));
+            $session->set('dateunix', date("U"));
+            $session->set('date', date("d-m-Y H:i:s"));
+            $session->set('logoutTime', $member['mem_logout_time']);
 
-            //register demosession = true in session if user = demo
+            //register demo = true in session if user = demo
             if ($usernameForm == "demo") {
-                $session->set('demoSession', "true");
+                $session->set('demo', "true");
             }
 
             //insert into or update log
-//            $ip = $request->server->get("REMOTE_ADDR");
-
             $logEntry = $loginLogs->getLogByLogin($usernameForm);
 
             $logger->info('Set session to', ['sessionId' => $session->getId()]);
@@ -159,7 +152,7 @@ if ($auth == "on") {
                 $filteredData['compt'] = 1;
                 $loginLogs->insertLogEntry($filteredData);
             } else {
-                $session->set('lastvisiteSession', $logEntry['last_visite']);
+                $session->set('lastVisited', $logEntry['last_visite']);
 
                 $filteredData['compt'] = $logEntry['compt'] + 1;
 

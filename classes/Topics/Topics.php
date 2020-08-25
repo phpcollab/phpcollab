@@ -407,7 +407,7 @@ class Topics
 {$mail->partMessage}
 
 {$this->strings["discussion"]} : {$topicDetails["top_subject"]}
-{$this->strings["posted_by"]} : {$session->get('nameSession')} ({$session->get('loginSession')})
+{$this->strings["posted_by"]} : {$session->get('name')} ({$session->get('login')})
 
 {$this->strings["project"]} : {$projectDetails["pro_name"]} ({$projectDetails["pro_id"]})
 {$this->strings["organization"]} : {$projectDetails["pro_org_name"]}
@@ -533,7 +533,7 @@ MESSAGE_BODY;
 {$mail->partMessage}
 
 {$this->strings["discussion"]} : {$topicDetails["top_subject"]}
-{$this->strings["posted_by"]} : {$session->get('nameSession')} ({$session->get('loginSession')})
+{$this->strings["posted_by"]} : {$session->get('name')} ({$session->get('login')})
 
 {$this->strings["project"]} : {$projectDetails["pro_name"]} ({$projectDetails["pro_id"]})
 {$this->strings["organization"]} : {$projectDetails["pro_org_name"]}

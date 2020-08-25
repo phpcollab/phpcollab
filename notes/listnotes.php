@@ -43,7 +43,7 @@ $projects = new Projects();
 $projectDetail = $projects->getProjectById($project);
 
 $teams = new Teams();
-$teamMember = $teams->isTeamMember($project, $session->get("idSession"));
+$teamMember = $teams->isTeamMember($project, $session->get("id"));
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();

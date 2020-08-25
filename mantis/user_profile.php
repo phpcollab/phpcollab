@@ -14,7 +14,7 @@
 	//check_access( ADMINISTRATOR );
 
 	# get all form values from phpcollab
-	$f_id	= $session->get("idSession");
+	$f_id	= $session->get("id");
 	$f_email = trim($em);
 
 	//echo "f_id	= ".$f_id;

@@ -27,7 +27,7 @@ $listInvoicesItems = $invoices->getActiveInvoiceItemsByInvoiceId($invoiceItemId)
 
 $comptListInvoicesItems = count($listInvoicesItems);
 
-if ($projectDetail["pro_owner"] != $session->get('idSession')) {
+if ($projectDetail["pro_owner"] != $session->get("id")) {
     header("Location:../general/permissiondenied.php");
 
 }

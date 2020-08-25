@@ -33,7 +33,7 @@ $listPosts = $support->getSupportPostsByRequestId($id);
 
 $teamMember = "false";
 
-$teamMember = $teams->isTeamMember($requestDetail["sr_project"], $session->get('idSession'));
+$teamMember = $teams->isTeamMember($requestDetail["sr_project"], $session->get("id"));
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
@@ -111,7 +111,7 @@ foreach ($listPosts as $post) {
         $block1->contentRow($strings["posted_by"], $post["sp_mem_name"]);
     }
 
-    $block1->contentRow($strings["date"], phpCollab\Util::createDate($post["sp_date"], $session->get('timezoneSession')));
+    $block1->contentRow($strings["date"], phpCollab\Util::createDate($post["sp_date"], $session->get('timezone')));
 
     if ($teamMember == "true" || $session->get("profile") == "0") {
         $block1->contentRow($blockPage->buildLink("../support/deleterequests.php?action=deleteP&id=" . $post["sp_id"], $strings["delete_message"], "in"), nl2br($post["sp_message"]));

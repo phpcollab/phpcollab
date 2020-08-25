@@ -27,12 +27,12 @@ if ($clientsFilter == "true" && $session->get("profile") == "2") {
     $teams = new Teams();
     $teamMember = "false";
 
-    $memberTest = $teams->getTeamByTeamMemberAndOrgId($session->get("idSession"), $memberOrganization);
+    $memberTest = $teams->getTeamByTeamMemberAndOrgId($session->get("id"), $memberOrganization);
     if (empty($memberTest)) {
         phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
     }
 } elseif ($clientsFilter == "true" && $session->get("profile") == "1") {
-    $detailClient = $organizations->getOrganizationByIdAndOwner($orgId, $session->get("idSession"));
+    $detailClient = $organizations->getOrganizationByIdAndOwner($orgId, $session->get("id"));
 } else {
     $detailClient = $organizations->getOrganizationById($orgId);
 }
@@ -84,7 +84,7 @@ $block1->contentRow($strings["home_phone"], $userDetail['mem_phone_home']);
 $block1->contentRow($strings["mobile_phone"], $userDetail['mem_mobile']);
 $block1->contentRow($strings["fax"], $userDetail['mem_fax']);
 $block1->contentRow($strings["comments"], nl2br($userDetail['mem_comments']));
-$block1->contentRow($strings["account_created"], phpCollab\Util::createDate($userDetail['mem_created'], $session->get("timezoneSession")));
+$block1->contentRow($strings["account_created"], phpCollab\Util::createDate($userDetail['mem_created'], $session->get("timezone")));
 $block1->contentRow($strings["last_page"], $userDetail['mem_last_page']);
 
 $block1->contentTitle($strings["information"]);
