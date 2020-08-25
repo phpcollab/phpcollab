@@ -594,7 +594,10 @@ CSRF_INPUT;
      **/
     public function paletteIcon($num, $type, $text)
     {
-        echo "<td style=\"width: 30px;\" class=\"commandBtn\"><a href=\"javascript:var b = MM_getButtonWithName(document." . $this->form . "Form, '" . $this->form . "$num'); if (b) b.click();\" onMouseOver=\"var over = MM_getButtonWithName(document." . $this->form . "Form, '" . $this->form . "$num'); if (over) over.over(); return true; \" onMouseOut=\"var out = MM_getButtonWithName(document." . $this->form . "Form, '" . $this->form . "$num'); if (out) out.out(); return true; \"><img style=\"border: none;\" width=\"$this->iconWidth\" height=\"$this->iconHeight\" name=\"" . $this->form . "$num\" src=\"$this->themeImgPath/btn_" . $type . "_norm.gif\" alt='" . stripslashes($text) . "'></a></td>";
+        $altText = stripslashes($text);
+        echo <<<palette_icon
+        <td style="width: 30px;" class="commandBtn"><a href="javascript:var b = MM_getButtonWithName(document.{$this->form}Form, '{$this->form}{$num}'); if (b) b.click();"onMouseOver="var over = MM_getButtonWithName(document.{$this->form}Form, '{$this->form}{$num}'); if (over) over.over(); return true; " onMouseOut="var out = MM_getButtonWithName(document.{$this->form}Form, '{$this->form}{$num}'); if (out) out.out(); return true; "><img style="border: none;" width="{$this->iconWidth}" height="{$this->iconHeight}" name="{$this->form}{$num}" src="{$this->themeImgPath}/btn_{$type}_norm.gif" alt="{$altText}"></a></td>
+palette_icon;
     }
 
     /**
