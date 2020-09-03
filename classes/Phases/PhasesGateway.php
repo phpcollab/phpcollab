@@ -13,7 +13,6 @@ class PhasesGateway
 {
     protected $db;
     protected $initrequest;
-    protected $tableCollab;
 
     /**
      * PhasesGateway constructor.
@@ -23,7 +22,7 @@ class PhasesGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
-        $this->tableCollab = $GLOBALS['tableCollab'];
+
     }
 
     /**
@@ -36,7 +35,7 @@ class PhasesGateway
     public function addPhase($projectId, $orderNumber, $status, $name)
     {
         $sql = <<<SQL
-INSERT INTO {$this->tableCollab["phases"]} (
+INSERT INTO {$this->db->getTableName("phases")} (
 project_id, order_num, status, name
 ) VALUES (
 :project_id, :order_num, :status, :name)
@@ -113,7 +112,7 @@ SQL;
     {
         $projectIds = explode(',', $projectIds);
         $placeholders = str_repeat('?, ', count($projectIds) - 1) . '?';
-        $sql = "DELETE FROM {$this->tableCollab['phases']} WHERE project_id IN ($placeholders)";
+        $sql = "DELETE FROM {$this->db->getTableName("phases")} WHERE project_id IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($projectIds);
     }
@@ -128,7 +127,7 @@ SQL;
      */
     public function updatePhase($phaseId, $status, $startDate, $endDate, $comments)
     {
-        $query = "UPDATE {$this->tableCollab["phases"]} SET status = :status, date_start = :date_start, date_end = :date_end, comments = :comments WHERE id = :phase_id";
+        $query = "UPDATE {$this->db->getTableName("phases")} SET status = :status, date_start = :date_start, date_end = :date_end, comments = :comments WHERE id = :phase_id";
         $this->db->query($query);
         $this->db->bind(":phase_id", $phaseId);
         $this->db->bind(":status", $status);

@@ -13,7 +13,6 @@ class TopicsGateway
 {
     protected $db;
     protected $initrequest;
-    protected $tableCollab;
 
     /**
      * Topics constructor.
@@ -23,7 +22,7 @@ class TopicsGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
-        $this->tableCollab = $GLOBALS['tableCollab'];
+
     }
 
     /**
@@ -35,7 +34,7 @@ class TopicsGateway
      */
     public function createPost($topicId, $memberId, $message, $created)
     {
-        $query = "INSERT INTO {$this->tableCollab["posts"]} (topic, member, created, message) VALUES (:topic, :member, :created, :message)";
+        $query = "INSERT INTO {$this->db->getTableName("posts")} (topic, member, created, message) VALUES (:topic, :member, :created, :message)";
         $this->db->query($query);
         $this->db->bind(":topic", $topicId);
         $this->db->bind(":member", $memberId);
@@ -58,7 +57,7 @@ class TopicsGateway
     public function createTopic($projectId, $memberId, $subject, $status, $last_post, $posts, $published)
     {
 
-        $query = "INSERT INTO {$this->tableCollab["topics"]} (project, owner, subject, status, last_post, posts, published) VALUES (:project, :owner, :subject, :status, :last_post, :posts, :published)";
+        $query = "INSERT INTO {$this->db->getTableName("topics")} (project, owner, subject, status, last_post, posts, published) VALUES (:project, :owner, :subject, :status, :last_post, :posts, :published)";
         $this->db->query($query);
         $this->db->bind(":project", $projectId);
         $this->db->bind(":owner", $memberId);
@@ -209,12 +208,12 @@ class TopicsGateway
         if (strpos($topicIds, ',')) {
             $topicIds = explode(',', $topicIds);
             $placeholders = str_repeat('?, ', count($topicIds) - 1) . '?';
-            $sql = "UPDATE {$this->tableCollab['topics']} SET published = 0 WHERE id IN ($placeholders)";
+            $sql = "UPDATE {$this->db->getTableName("topics")} SET published = 0 WHERE id IN ($placeholders)";
             $this->db->query($sql);
 
             return $this->db->execute($topicIds);
         } else {
-            $sql = "UPDATE {$this->tableCollab['topics']} SET published = 0 WHERE id = :topic_ids";
+            $sql = "UPDATE {$this->db->getTableName("topics")} SET published = 0 WHERE id = :topic_ids";
 
             $this->db->query($sql);
 
@@ -234,11 +233,11 @@ class TopicsGateway
         if (strpos($topicIds, ',')) {
             $topicIds = explode(',', $topicIds);
             $placeholders = str_repeat('?, ', count($topicIds) - 1) . '?';
-            $sql = "UPDATE {$this->tableCollab['topics']} SET published = 1 WHERE id IN ($placeholders)";
+            $sql = "UPDATE {$this->db->getTableName("topics")} SET published = 1 WHERE id IN ($placeholders)";
             $this->db->query($sql);
             return $this->db->execute($topicIds);
         } else {
-            $sql = "UPDATE {$this->tableCollab['topics']} SET published = 1 WHERE id = :topic_ids";
+            $sql = "UPDATE {$this->db->getTableName("topics")} SET published = 1 WHERE id = :topic_ids";
 
             $this->db->query($sql);
 
@@ -259,11 +258,11 @@ class TopicsGateway
         if (strpos($topicIds, ',')) {
             $topicIds = explode(',', $topicIds);
             $placeholders = str_repeat('?, ', count($topicIds) - 1) . '?';
-            $sql = "UPDATE {$this->tableCollab['topics']} SET status=0 WHERE id IN ($placeholders)";
+            $sql = "UPDATE {$this->db->getTableName("topics")} SET status=0 WHERE id IN ($placeholders)";
             $this->db->query($sql);
             return $this->db->execute($topicIds);
         } else {
-            $sql = "UPDATE {$this->tableCollab['topics']} SET status=0 WHERE id = :topic_ids";
+            $sql = "UPDATE {$this->db->getTableName("topics")} SET status=0 WHERE id = :topic_ids";
 
             $this->db->query($sql);
 
@@ -281,7 +280,7 @@ class TopicsGateway
     {
         // Generate placeholders
         $placeholders = str_repeat('?, ', count($topicIds) - 1) . '?';
-        $sql = "DELETE FROM {$this->tableCollab['topics']} WHERE id IN ($placeholders)";
+        $sql = "DELETE FROM {$this->db->getTableName("topics")} WHERE id IN ($placeholders)";
         $this->db->query($sql);
 
         return $this->db->execute($topicIds);
@@ -295,7 +294,7 @@ class TopicsGateway
     {
         // Generate placeholders
         $placeholders = str_repeat('?, ', count($topicIds) - 1) . '?';
-        $sql = "DELETE FROM {$this->tableCollab['posts']} WHERE topic IN ($placeholders)";
+        $sql = "DELETE FROM {$this->db->getTableName("posts")} WHERE topic IN ($placeholders)";
         $this->db->query($sql);
 
         return $this->db->execute($topicIds);
@@ -309,7 +308,7 @@ class TopicsGateway
     {
         $projectId = explode(',', $projectId);
         $placeholders = str_repeat('?, ', count($projectId) - 1) . '?';
-        $sql = "DELETE FROM {$this->tableCollab['topics']} WHERE project IN ($placeholders)";
+        $sql = "DELETE FROM {$this->db->getTableName("topics")} WHERE project IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($projectId);
     }
@@ -322,7 +321,7 @@ class TopicsGateway
     {
         $projectId = explode(',', $projectId);
         $placeholders = str_repeat('?, ', count($projectId) - 1) . '?';
-        $sql = "DELETE FROM {$this->tableCollab['posts']} WHERE topic IN ($placeholders)";
+        $sql = "DELETE FROM {$this->db->getTableName("posts")} WHERE topic IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($projectId);
     }
@@ -334,7 +333,7 @@ class TopicsGateway
      */
     public function incrementTopicPostsCount($topicId, $updateDate)
     {
-        $query = "UPDATE {$this->tableCollab["topics"]} SET last_post = :last_post, posts = posts + 1 WHERE id = :topic_id";
+        $query = "UPDATE {$this->db->getTableName("topics")} SET last_post = :last_post, posts = posts + 1 WHERE id = :topic_id";
         $this->db->query($query);
         $this->db->bind(":last_post", $updateDate);
         $this->db->bind(":topic_id", $topicId);
@@ -347,7 +346,7 @@ class TopicsGateway
      */
     public function decrementTopicPostsCount($topicId)
     {
-        $query = "UPDATE {$this->tableCollab["topics"]} SET last_post = :last_post, posts = posts - 1 WHERE id = :topic_id";
+        $query = "UPDATE {$this->db->getTableName("topics")} SET last_post = :last_post, posts = posts - 1 WHERE id = :topic_id";
         $this->db->query($query);
         $this->db->bind(":last_post", date('Y-m-d h:i'));
         $this->db->bind(":topic_id", $topicId);
@@ -375,7 +374,7 @@ class TopicsGateway
      */
     public function deletePost($postId)
     {
-        $sql = "DELETE FROM {$this->tableCollab["posts"]} WHERE id = :post_id";
+        $sql = "DELETE FROM {$this->db->getTableName("posts")} WHERE id = :post_id";
         $this->db->query($sql);
         $this->db->bind(':post_id', $postId);
         return $this->db->execute();

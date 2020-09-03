@@ -8,15 +8,14 @@ namespace phpCollab;
 class ProjectSite
 {
     protected $db;
-    protected $tableCollab;
     protected $initrequest;
 
     /**
      * ProjectSite constructor.
+     * @param Database $database
      */
     public function __construct(Database $database)
     {
-        $this->tableCollab = $GLOBALS["tableCollab"];
         $this->initrequest = $GLOBALS['initrequest'];
         $this->db = $database;
     }

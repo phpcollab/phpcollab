@@ -14,12 +14,10 @@ class UpdateInvoiceItem
      * @var Database
      */
     private $database;
-    private $tableCollab;
 
-    public function __construct(Database $database, $tableCollab)
+    public function __construct(Database $database)
     {
         $this->database = $database;
-        $this->tableCollab = $tableCollab;
     }
 
     /**
@@ -53,7 +51,7 @@ class UpdateInvoiceItem
     private function updateItem(int $itemId, string $rateType, string $rateValue, string $exTaxAmount)
     {
         $query = <<< SQL
-UPDATE {$this->tableCollab["invoices_items"]}
+UPDATE {$this->database->getTableName("invoices_items")}
 SET
     rate_type = :rate_type,
     rate_value = :rate_value,

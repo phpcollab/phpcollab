@@ -24,6 +24,11 @@ class DailyAlerts
         $this->db = $database;
         $this->container = $container;
         $this->today = date("Y-m-d", time());
+        $this->membersTable = $this->db->getTableName("members");
+        $this->notificationsTable = $this->db->getTableName("notifications");
+        $this->tasksTable = $this->db->getTableName("tasks");
+        $this->subtasksTable = $this->db->getTableName("subtasks");
+        $this->projectsTable = $this->db->getTableName("projects");
     }
 
 
@@ -36,27 +41,11 @@ class DailyAlerts
     }
 
     /**
-     * @param mixed $membersTable
-     */
-    public function setMembersTable($membersTable)
-    {
-        $this->membersTable = $membersTable;
-    }
-
-    /**
      * @return mixed
      */
     public function getNotificationsTable()
     {
         return $this->notificationsTable;
-    }
-
-    /**
-     * @param mixed $notificationsTable
-     */
-    public function setNotificationsTable($notificationsTable)
-    {
-        $this->notificationsTable = $notificationsTable;
     }
 
     /**
@@ -68,27 +57,11 @@ class DailyAlerts
     }
 
     /**
-     * @param mixed $tasksTable
-     */
-    public function setTasksTable($tasksTable)
-    {
-        $this->tasksTable = $tasksTable;
-    }
-
-    /**
      * @return mixed
      */
     public function getSubtasksTable()
     {
         return $this->subtasksTable;
-    }
-
-    /**
-     * @param mixed $subtasksTable
-     */
-    public function setSubtasksTable($subtasksTable)
-    {
-        $this->subtasksTable = $subtasksTable;
     }
 
     /**
@@ -98,15 +71,6 @@ class DailyAlerts
     {
         return $this->projectsTable;
     }
-
-    /**
-     * @param mixed $projectsTable
-     */
-    public function setProjectsTable($projectsTable)
-    {
-        $this->projectsTable = $projectsTable;
-    }
-
 
     /**
      * @return mixed

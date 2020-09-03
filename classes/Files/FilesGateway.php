@@ -13,7 +13,6 @@ class FilesGateway
 {
     protected $db;
     protected $initrequest;
-    protected $tableCollab;
 
     /**
      * FilesGateway constructor.
@@ -23,7 +22,7 @@ class FilesGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
-        $this->tableCollab = $GLOBALS['tableCollab'];
+
     }
 
     /**
@@ -33,7 +32,7 @@ class FilesGateway
      */
     public function setProjectByTaskId($projectId, $taskId)
     {
-        $sql = "UPDATE {$this->tableCollab["files"]} SET project = :project_id WHERE task = :task_id";
+        $sql = "UPDATE {$this->db->getTableName("files")} SET project = :project_id WHERE task = :task_id";
         $this->db->query($sql);
         $this->db->bind(":project_id", $projectId);
         $this->db->bind(":task_id", $taskId);
@@ -47,7 +46,7 @@ class FilesGateway
      */
     public function setPhase($fileId, $phase)
     {
-        $sql = "UPDATE {$this->tableCollab["files"]} SET phase = :phase WHERE id = :file_id";
+        $sql = "UPDATE {$this->db->getTableName("files")} SET phase = :phase WHERE id = :file_id";
         $this->db->query($sql);
         $this->db->bind(":file_id", $fileId);
         $this->db->bind(":phase", $phase);
@@ -164,14 +163,14 @@ class FilesGateway
         if (strpos($fileId, ',')) {
             $ids = explode(',', $fileId);
             $placeholders = str_repeat('?, ', count($ids) - 1) . '?';
-            $sql = "DELETE FROM {$this->tableCollab['files']} WHERE id IN ($placeholders) OR vc_parent IN($placeholders)";
+            $sql = "DELETE FROM {$this->db->getTableName("files")} WHERE id IN ($placeholders) OR vc_parent IN($placeholders)";
             $this->db->query($sql);
 
             $this->db->execute(array_merge($ids, $ids));
 
             return $this->db->fetchAll();
         } else {
-            $query = "DELETE FROM {$this->tableCollab['files']} WHERE id IN (:file_id) OR vc_parent IN(:file_id)";
+            $query = "DELETE FROM {$this->db->getTableName("files")} WHERE id IN (:file_id) OR vc_parent IN(:file_id)";
 
             $this->db->query($query);
 
@@ -189,7 +188,7 @@ class FilesGateway
     {
         $projectId = explode(',', $projectIds);
         $placeholders = str_repeat('?, ', count($projectId) - 1) . '?';
-        $sql = "DELETE FROM {$this->tableCollab['files']} WHERE project IN ($placeholders)";
+        $sql = "DELETE FROM {$this->db->getTableName("files")} WHERE project IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($projectId);
     }
@@ -240,7 +239,7 @@ class FilesGateway
      */
     public function updateApproval($fileId, $approverId, $comment, $approvalDate, $status)
     {
-        $query = "UPDATE {$this->tableCollab["files"]} SET comments_approval = :comments_approval, date_approval = :date_approval, approver = :approver, status=:status WHERE id = :file_id";
+        $query = "UPDATE {$this->db->getTableName("files")} SET comments_approval = :comments_approval, date_approval = :date_approval, approver = :approver, status=:status WHERE id = :file_id";
         $this->db->query($query);
         $this->db->bind(":comments_approval", $comment);
         $this->db->bind(":approver", $approverId);
@@ -256,7 +255,7 @@ class FilesGateway
      */
     public function publishFile($fileId)
     {
-        $query = "UPDATE {$this->tableCollab["files"]} SET published = 1 WHERE id = :file OR vc_parent = :file";
+        $query = "UPDATE {$this->db->getTableName("files")} SET published = 1 WHERE id = :file OR vc_parent = :file";
         $this->db->query($query);
         $this->db->bind(":file", $fileId);
         return $this->db->execute();
@@ -268,7 +267,7 @@ class FilesGateway
      */
     public function unPublishFile($fileId)
     {
-        $query = "UPDATE {$this->tableCollab["files"]} SET published = 0 WHERE id = :file OR vc_parent = :file";
+        $query = "UPDATE {$this->db->getTableName("files")} SET published = 0 WHERE id = :file OR vc_parent = :file";
         $this->db->query($query);
         $this->db->bind(":file", $fileId);
         return $this->db->execute();
@@ -283,11 +282,11 @@ class FilesGateway
         if (strpos($fileIds, ',')) {
             $fileIds = explode(',', $fileIds);
             $placeholders = str_repeat('?, ', count($fileIds) - 1) . '?';
-            $sql = "UPDATE {$this->tableCollab['files']} SET published = 0 WHERE id IN ($placeholders)";
+            $sql = "UPDATE {$this->db->getTableName("files")} SET published = 0 WHERE id IN ($placeholders)";
             $this->db->query($sql);
             return $this->db->execute($fileIds);
         } else {
-            $sql = "UPDATE {$this->tableCollab['files']} SET published = 0 WHERE id = :topic_ids";
+            $sql = "UPDATE {$this->db->getTableName("files")} SET published = 0 WHERE id = :topic_ids";
             $this->db->query($sql);
             $this->db->bind(':topic_ids', $fileIds);
             return $this->db->execute();
@@ -303,7 +302,7 @@ class FilesGateway
         $fileIds = explode(',', $fileIds);
         $placeholders = str_repeat('?, ', count($fileIds) - 1) . '?';
         $placeholders2 = $placeholders;
-        $sql = "UPDATE {$this->tableCollab['files']} SET published = 1 WHERE id IN ($placeholders) OR vc_parent IN ($placeholders2)";
+        $sql = "UPDATE {$this->db->getTableName("files")} SET published = 1 WHERE id IN ($placeholders) OR vc_parent IN ($placeholders2)";
         $this->db->query($sql);
         return $this->db->execute([$fileIds, $fileIds]);
     }
@@ -317,7 +316,7 @@ class FilesGateway
         $fileIds = explode(',', $fileIds);
         $placeholders = str_repeat('?, ', count($fileIds) - 1) . '?';
         $placeholders2 = $placeholders;
-        $sql = "UPDATE {$this->tableCollab['files']} SET published = 0 WHERE id IN ($placeholders) OR vc_parent IN ($placeholders2)";
+        $sql = "UPDATE {$this->db->getTableName("files")} SET published = 0 WHERE id IN ($placeholders) OR vc_parent IN ($placeholders2)";
         $this->db->query($sql);
         return $this->db->execute([$fileIds, $fileIds]);
     }
@@ -331,11 +330,11 @@ class FilesGateway
         if (strpos($fileIds, ',')) {
             $fileIds = explode(',', $fileIds);
             $placeholders = str_repeat('?, ', count($fileIds) - 1) . '?';
-            $sql = "UPDATE {$this->tableCollab['files']} SET published = 1 WHERE id IN ($placeholders)";
+            $sql = "UPDATE {$this->db->getTableName("files")} SET published = 1 WHERE id IN ($placeholders)";
             $this->db->query($sql);
             return $this->db->execute($fileIds);
         } else {
-            $sql = "UPDATE {$this->tableCollab['files']} SET published = 1 WHERE id = :topic_ids";
+            $sql = "UPDATE {$this->db->getTableName("files")} SET published = 1 WHERE id = :topic_ids";
             $this->db->query($sql);
             $this->db->bind(':topic_ids', $fileIds);
             return $this->db->execute();
@@ -356,7 +355,7 @@ class FilesGateway
     public function addFile($owner, $project, $phase, $task, $comments, $status, $vcVersion, $vcParent)
     {
         $query = <<<SQL
-INSERT INTO {$this->tableCollab["files"]} 
+INSERT INTO {$this->db->getTableName("files")} 
 (owner, project, phase, task, comments, upload, published, status, vc_version, vc_parent) 
 VALUES 
 (:owner, :project, :phase, :task, :comments, :upload_date, :published, :status, :vc_version, :vc_parent)
@@ -388,7 +387,7 @@ SQL;
      */
     public function updateFile($fileId, $name, $date, $size, $extension, $vc_version)
     {
-        $query = "UPDATE {$this->tableCollab["files"]} SET name = :name, date = :date, size = :size, extension = :extension";
+        $query = "UPDATE {$this->db->getTableName("files")} SET name = :name, date = :date, size = :size, extension = :extension";
         if (!is_null($vc_version)) {
             $query .= ", vc_version = :vc_version";
         }

@@ -4,7 +4,7 @@
 
 echo <<<HTML
 <footer id="footer">
-    &copy {$setTitle} {}
+    &copy {$siteTitle}
 </footer>
 HTML;
 

@@ -19,7 +19,6 @@ class LoginLogsGateway
     /**
      * @var mixed
      */
-    protected $tableCollab;
 
     /**
      * Logs constructor.
@@ -29,7 +28,7 @@ class LoginLogsGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
-        $this->tableCollab = $GLOBALS['tableCollab'];
+
     }
 
     /**
@@ -62,7 +61,7 @@ class LoginLogsGateway
      */
     public function insertLogEntry($entryData) {
         $query = <<<SQL
-INSERT INTO {$this->tableCollab["logs"]} 
+INSERT INTO {$this->db->getTableName("logs")} 
 (login, ip, session, compt, last_visite) 
 VALUES (
   :member_login,
@@ -91,7 +90,7 @@ SQL;
      */
     public function setConnectedByLogin($login, $connected = '') {
         $query = <<<SQL
-UPDATE {$this->tableCollab["logs"]} SET connected = :connected WHERE login = :login_id
+UPDATE {$this->db->getTableName("logs")} SET connected = :connected WHERE login = :login_id
 SQL;
         $this->db->query($query);
         $this->db->bind(':login_id', $login);
@@ -105,7 +104,7 @@ SQL;
      */
     public function updateLogEntry($entryData) {
         $query = <<<SQL
-UPDATE {$this->tableCollab["logs"]} 
+UPDATE {$this->db->getTableName("logs")} 
 SET 
 ip = :ip, 
 password = null,
@@ -132,7 +131,7 @@ SQL;
      */
     public function updateConnectedTimeForUser($date, $userId) {
         $query = <<<SQL
-UPDATE {$this->tableCollab["logs"]} 
+UPDATE {$this->db->getTableName("logs")} 
 SET connected = :date_unix 
 WHERE login = :login_session
 SQL;
@@ -149,7 +148,7 @@ SQL;
      */
     public function getConnectedUsers($dateunix)
     {
-        $query = "SELECT * FROM {$this->tableCollab["logs"]} WHERE connected > :date_unix";
+        $query = "SELECT * FROM {$this->db->getTableName("logs")} WHERE connected > :date_unix";
         $this->db->query($query);
         $this->db->bind(':date_unix', $dateunix);
         return $this->db->resultset();

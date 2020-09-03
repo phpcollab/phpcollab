@@ -14,7 +14,6 @@ class MembersGateway
 {
     protected $db;
     protected $initrequest;
-    protected $tableCollab;
 
     /**
      * Reports constructor.
@@ -24,7 +23,7 @@ class MembersGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
-        $this->tableCollab = $GLOBALS['tableCollab'];
+
     }
 
     /**
@@ -223,7 +222,7 @@ class MembersGateway
     {
         $orgId = explode(',', $orgId);
         $placeholders = str_repeat('?, ', count($orgId) - 1) . '?';
-        $sql = "DELETE FROM {$this->tableCollab['members']} WHERE organization IN ($placeholders)";
+        $sql = "DELETE FROM {$this->db->getTableName("members")} WHERE organization IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($orgId);
     }
@@ -236,7 +235,7 @@ class MembersGateway
     {
         $memberId = explode(',', $memberId);
         $placeholders = str_repeat('?, ', count($memberId) - 1) . '?';
-        $sql = "DELETE FROM {$this->tableCollab['members']} WHERE id IN ($placeholders)";
+        $sql = "DELETE FROM {$this->db->getTableName("members")} WHERE id IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($memberId);
     }
@@ -273,7 +272,7 @@ class MembersGateway
         $profile
     ) {
         $query = <<<SQL
-UPDATE {$this->tableCollab["members"]} SET 
+UPDATE {$this->db->getTableName("members")} SET 
 login = :login, 
 name = :name, 
 title = :title, 
@@ -346,7 +345,7 @@ SQL;
         $created,
         $timezone
     ) {
-        $this->db->query("INSERT INTO {$this->tableCollab["members"]} (login, name, title, organization, email_work, phone_work, phone_home, mobile, fax, comments, password, profil, created, timezone) VALUES (:login, :name, :title, :organization, :email_work, :phone_work, :phone_home, :phone_mobile, :fax, :comments, :password, :profile, :created, :timezone)");
+        $this->db->query("INSERT INTO {$this->db->getTableName("members")} (login, name, title, organization, email_work, phone_work, phone_home, mobile, fax, comments, password, profil, created, timezone) VALUES (:login, :name, :title, :organization, :email_work, :phone_work, :phone_home, :phone_mobile, :fax, :comments, :password, :profile, :created, :timezone)");
         $this->db->bind(':login', $login);
         $this->db->bind(':name', $name);
         $this->db->bind(':title', $title);
@@ -378,7 +377,7 @@ SQL;
             throw new Exception('Missing member id or password');
         } else {
 
-            $sql = "UPDATE {$this->tableCollab["members"]} SET password = :password WHERE id = :member_id";
+            $sql = "UPDATE {$this->db->getTableName("members")} SET password = :password WHERE id = :member_id";
             $this->db->query($sql);
             $this->db->bind(':member_id', $memberId);
             $this->db->bind(':password', $password);
@@ -394,7 +393,7 @@ SQL;
     public function setLastPageVisited($user, $page)
     {
         $query = <<<SQL
-UPDATE {$this->tableCollab["members"]} 
+UPDATE {$this->db->getTableName("members")} 
 SET last_page = :page 
 WHERE id = :user_id
 SQL;
@@ -413,7 +412,7 @@ SQL;
     public function setLastPageVisitedByLogin(string $username, string $page)
     {
         $query = <<<SQL
-UPDATE {$this->tableCollab["members"]} 
+UPDATE {$this->db->getTableName("members")} 
 SET last_page = :page 
 WHERE login = :user_name
 SQL;

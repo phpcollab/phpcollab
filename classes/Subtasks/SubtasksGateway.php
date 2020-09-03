@@ -12,7 +12,6 @@ class SubtasksGateway
 {
     protected $db;
     protected $initrequest;
-    protected $tableCollab;
 
     /**
      * TasksGateway constructor.
@@ -22,7 +21,7 @@ class SubtasksGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
-        $this->tableCollab = $GLOBALS['tableCollab'];
+
     }
 
     /**
@@ -77,7 +76,7 @@ class SubtasksGateway
         $created
     ) {
         $sql = <<< SQL
-INSERT INTO {$this->tableCollab["subtasks"]} (
+INSERT INTO {$this->db->getTableName("subtasks")} (
 task, name, description, owner, assigned_to, status, priority, start_date, due_date, estimated_time, actual_time, 
 comments, published, completion, created
 ) VALUES (
@@ -141,7 +140,7 @@ SQL;
     ) {
 
         $sql = <<< SQL
-UPDATE {$this->tableCollab["subtasks"]}
+UPDATE {$this->db->getTableName("subtasks")}
 SET
 name = :name,
 description = :description,
@@ -183,7 +182,7 @@ SQL;
      */
     public function publishSubtask($subtaskId)
     {
-        $sql = "UPDATE {$this->tableCollab["subtasks"]} SET published = 0 WHERE id = :subtask_id";
+        $sql = "UPDATE {$this->db->getTableName("subtasks")} SET published = 0 WHERE id = :subtask_id";
         $this->db->query($sql);
         $this->db->bind(':subtask_id', $subtaskId);
         return $this->db->execute();
@@ -195,7 +194,7 @@ SQL;
      */
     public function unpublishSubtask($subtaskId)
     {
-        $sql = "UPDATE {$this->tableCollab["subtasks"]} SET published = 1 WHERE id = :subtask_id";
+        $sql = "UPDATE {$this->db->getTableName("subtasks")} SET published = 1 WHERE id = :subtask_id";
         $this->db->query($sql);
         $this->db->bind(':subtask_id', $subtaskId);
         return $this->db->execute();
@@ -209,7 +208,7 @@ SQL;
      */
     public function setCompletionDate($subtaskId, $date)
     {
-        $sql = "UPDATE {$this->tableCollab["subtasks"]} SET complete_date = :complete_date WHERE id = :subtask_id";
+        $sql = "UPDATE {$this->db->getTableName("subtasks")} SET complete_date = :complete_date WHERE id = :subtask_id";
         $this->db->query($sql);
         $this->db->bind(':subtask_id', $subtaskId);
         $this->db->bind(':complete_date', $date);
@@ -223,7 +222,7 @@ SQL;
      */
     public function setAssignedDate($subtaskId, $date)
     {
-        $sql = "UPDATE {$this->tableCollab["subtasks"]} SET assigned = :assigned_date WHERE id = :subtask_id";
+        $sql = "UPDATE {$this->db->getTableName("subtasks")} SET assigned = :assigned_date WHERE id = :subtask_id";
         $this->db->query($sql);
         $this->db->bind(':subtask_id', $subtaskId);
         $this->db->bind(':assigned_date', $date);

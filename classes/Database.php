@@ -2,11 +2,13 @@
 namespace phpCollab;
 
 use Exception;
+use InvalidArgumentException;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\IntrospectionProcessor;
 use \PDO;
 use PDOException;
+use UnexpectedValueException;
 
 /**
  * User: mindblender
@@ -15,15 +17,11 @@ use PDOException;
  */
 class Database
 {
-//    private $host = MYSERVER;
-//    private $user = MYLOGIN;
-//    private $pass = MYPASSWORD;
-//    private $dbname = MYDATABASE;
     private $configuration;
     private $dbh;
     private $stmt;
     private $logger;
-    private $tablenameArray;
+    private $tableCollab;
 
     /**
      * Database constructor.
@@ -48,6 +46,8 @@ class Database
          * End logger init
          */
         $this->configuration = $config;
+
+        $this->tableCollab = $this->configuration['tableCollab'];
 
 
 
@@ -196,6 +196,14 @@ class Database
     public function getVersion()
     {
         return $this->dbh->getAttribute(constant("PDO::ATTR_SERVER_VERSION"));
+    }
+
+    public function getTableName(string $name)
+    {
+        if ($this->tableCollab && $this->tableCollab[$name]) {
+            return $this->tableCollab[$name];
+        }
+        throw new UnexpectedValueException('Table name not found');
     }
 
 }

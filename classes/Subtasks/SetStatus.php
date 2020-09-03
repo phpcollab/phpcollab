@@ -43,7 +43,7 @@ class SetStatus extends Subtasks
     private function updateStatus($subtaskId, $status, $comment, $modifiedDate, $completedDate)
     {
         $sql = <<<SQL
-UPDATE {$this->tableCollab["subtasks"]} 
+UPDATE {$this->db->getTableName("subtasks")} 
 SET 
 comments = :comments, 
 status = :status, 

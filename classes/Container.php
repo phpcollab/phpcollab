@@ -331,7 +331,7 @@ class Container
     public function getSetTaskStatusServiceService()
     {
         if (null === $this->setTaskStatusService) {
-            $this->setTaskStatusService = new SetTaskStatus($this->getPDO());
+            $this->setTaskStatusService = new SetTaskStatus($this->getPDO(), $this);
         }
         return $this->setTaskStatusService;
     }
@@ -508,7 +508,7 @@ class Container
     public function getInvoicePublishService()
     {
         if (null === $this->invoicePublishService) {
-            $this->invoicePublishService = new Publish($this->getPDO(), $this->configuration["tableCollab"]);
+            $this->invoicePublishService = new Publish($this->getPDO());
         }
         return $this->invoicePublishService;
     }

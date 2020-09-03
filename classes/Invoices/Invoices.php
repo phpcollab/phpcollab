@@ -16,7 +16,7 @@ class Invoices
 {
     protected $invoices_gateway;
     protected $db;
-    protected $tableCollab;
+
     /**
      * @var Container
      */
@@ -32,7 +32,6 @@ class Invoices
         $this->db = $database;
         $this->container = $container;
         $this->invoices_gateway = new InvoicesGateway($this->db);
-        $this->tableCollab = $GLOBALS["tableCollab"];
     }
 
     /**
@@ -226,7 +225,7 @@ class Invoices
 
     public function updateItem(int $itemId, string $rateType, string $rateAmount, string $exTaxAmount)
     {
-        $invItem = new UpdateInvoiceItem($this->db, $this->tableCollab);
+        $invItem = new UpdateInvoiceItem($this->db);
         try {
             return $invItem->update($itemId, $rateType, $rateAmount, $exTaxAmount);
         } catch (Exception $exception) {

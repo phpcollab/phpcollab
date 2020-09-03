@@ -88,5 +88,6 @@ foreach ($logsData as $log) {
 }
 
 $block1->closeResults();
+$block1->closeForm();
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

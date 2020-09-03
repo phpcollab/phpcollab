@@ -49,7 +49,7 @@ class ApprovalTracking extends Files
     private function addApprovalToDatabase($approverId, $comment, $fileId, $status, $approvalDate)
     {
         $query = <<< SQL
-UPDATE {$this->tableCollab["files"]} 
+UPDATE {$this->db->getTableName("files")} 
 SET 
 comments_approval = :comments_approval, 
 date_approval = :date_approval, 

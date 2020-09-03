@@ -13,7 +13,6 @@ class TeamsGateway
 {
     protected $db;
     protected $initrequest;
-    protected $tableCollab;
 
     /**
      * TeamsGateway constructor.
@@ -23,7 +22,7 @@ class TeamsGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
-        $this->tableCollab = $GLOBALS['tableCollab'];
+
     }
 
     /**
@@ -182,7 +181,7 @@ class TeamsGateway
      */
     public function getTeamsImAMemberOf($memberId)
     {
-        $sql = "SELECT tea.id FROM {$this->tableCollab["teams"]} tea LEFT OUTER JOIN {$this->tableCollab["projects"]} pro ON pro.id = tea.project WHERE tea.member = :member_id AND pro.status IN(0,2,3)";
+        $sql = "SELECT tea.id FROM {$this->db->getTableName("teams")} tea LEFT OUTER JOIN {$this->db->getTableName("projects")} pro ON pro.id = tea.project WHERE tea.member = :member_id AND pro.status IN(0,2,3)";
         $this->db->query($sql);
         $this->db->bind(':member_id', $memberId);
         return $this->db->resultset();
@@ -198,13 +197,13 @@ class TeamsGateway
         if (strpos($memberIds, ',')) {
             $memberIds = explode(',', $memberIds);
             $placeholders = str_repeat('?, ', count($memberIds) - 1) . '?';
-            $sql = "UPDATE {$this->tableCollab["teams"]} SET published = 0 WHERE member IN($placeholders) AND project = ?";
+            $sql = "UPDATE {$this->db->getTableName("teams")} SET published = 0 WHERE member IN($placeholders) AND project = ?";
 
             array_push($memberIds, $projectId);
             $this->db->query($sql);
             return $this->db->execute($memberIds);
         } else {
-            $sql = "UPDATE {$this->tableCollab["teams"]} SET published = 0 WHERE member = :member_id AND project = :project_id";
+            $sql = "UPDATE {$this->db->getTableName("teams")} SET published = 0 WHERE member = :member_id AND project = :project_id";
             $this->db->query($sql);
             $this->db->bind(':member_id', $memberIds);
             $this->db->bind(':project_id', $projectId);
@@ -222,13 +221,13 @@ class TeamsGateway
         if (strpos($memberIds, ',')) {
             $memberIds = explode(',', $memberIds);
             $placeholders = str_repeat('?, ', count($memberIds) - 1) . '?';
-            $sql = "UPDATE {$this->tableCollab["teams"]} SET published = 1 WHERE member IN($placeholders) AND project = ?";
+            $sql = "UPDATE {$this->db->getTableName("teams")} SET published = 1 WHERE member IN($placeholders) AND project = ?";
 
             array_push($memberIds, $projectId);
             $this->db->query($sql);
             return $this->db->execute($memberIds);
         } else {
-            $sql = "UPDATE {$this->tableCollab["teams"]} SET published = 1 WHERE member = :member_id AND project = :project_id";
+            $sql = "UPDATE {$this->db->getTableName("teams")} SET published = 1 WHERE member = :member_id AND project = :project_id";
             $this->db->query($sql);
             $this->db->bind(':member_id', $memberIds);
             $this->db->bind(':project_id', $projectId);
@@ -248,7 +247,7 @@ class TeamsGateway
         $memberId = explode(',', $memberId);
         $placeholders = str_repeat('?, ', count($memberId) - 1) . '?';
 
-        $sql = "DELETE FROM {$this->tableCollab["teams"]} WHERE project = ? AND member IN($placeholders)";
+        $sql = "DELETE FROM {$this->db->getTableName("teams")} WHERE project = ? AND member IN($placeholders)";
 
         if (is_array($memberId)) {
             array_unshift($memberId, $projectId);
@@ -269,7 +268,7 @@ class TeamsGateway
         // Generate placeholders
         $projectId = explode(',', $projectId);
         $placeholders = str_repeat('?, ', count($projectId) - 1) . '?';
-        $sql = "DELETE FROM {$this->tableCollab['teams']} WHERE project IN ($placeholders)";
+        $sql = "DELETE FROM {$this->db->getTableName("teams")} WHERE project IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($projectId);
     }
@@ -283,7 +282,7 @@ class TeamsGateway
         // Generate placeholders
         $memberId = explode(',', $memberId);
         $placeholders = str_repeat('?, ', count($memberId) - 1) . '?';
-        $sql = "DELETE FROM {$this->tableCollab['teams']} WHERE member IN ($placeholders)";
+        $sql = "DELETE FROM {$this->db->getTableName("teams")} WHERE member IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($memberId);
     }
@@ -297,7 +296,7 @@ class TeamsGateway
      */
     public function addTeam($projectId, $memberId, $published, $authorized)
     {
-        $sql = "INSERT INTO {$this->tableCollab["teams"]} (project,member,published,authorized) VALUES(:project,:member,:published,:authorized)";
+        $sql = "INSERT INTO {$this->db->getTableName("teams")} (project,member,published,authorized) VALUES(:project,:member,:published,:authorized)";
         $this->db->query($sql);
         $this->db->bind(':project', $projectId);
         $this->db->bind(':member', $memberId);

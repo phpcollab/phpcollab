@@ -16,7 +16,6 @@ class Tasks
     protected $tasks_gateway;
     protected $db;
     protected $tasksCount;
-    protected $tableCollab;
     private $strings;
     private $root;
     private $projects;
@@ -24,6 +23,7 @@ class Tasks
     private $notifications;
     private $priority;
     private $status;
+
     /**
      * @var Container
      */
@@ -44,7 +44,6 @@ class Tasks
         $this->root = $GLOBALS["root"];
         $this->priority = $GLOBALS["priority"];
         $this->status = $GLOBALS["status"];
-        $this->tableCollab = $GLOBALS["tableCollab"];
     }
 
     /**
@@ -451,7 +450,7 @@ class Tasks
      * @param String $sql
      * @return mixed
      */
-    public function getReportTasks($sql)
+    public function getReportTasks(string $sql)
     {
         return $this->tasks_gateway->getReportTasks($sql);
     }

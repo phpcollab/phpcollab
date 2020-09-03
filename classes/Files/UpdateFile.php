@@ -136,7 +136,7 @@ class UpdateFile extends Files
     private function updateVersion($fileId, $version)
     {
         $sql = <<<SQL
-UPDATE {$this->tableCollab["files"]} SET vc_version = :version
+UPDATE {$this->db->getTableName("files")} SET vc_version = :version
 WHERE id = :file_id
 SQL;
         $this->db->query($sql);
@@ -153,7 +153,7 @@ SQL;
     private function updateSize($fileId, $size)
     {
         $sql = <<<SQL
-UPDATE {$this->tableCollab["files"]} SET size = :size
+UPDATE {$this->db->getTableName("files")} SET size = :size
 WHERE id = :file_id
 SQL;
         $this->db->query($sql);
@@ -173,7 +173,7 @@ SQL;
     private function updateFileInDatabase($timestamp, $comments, $status, $vcVersion, $fileId)
     {
         $sql = <<<SQL
-UPDATE {$this->tableCollab["files"]} SET 
+UPDATE {$this->db->getTableName("files")} SET 
 date = :date,
 comments = :comments,
 comments_approval = null,
@@ -232,7 +232,7 @@ SQL;
         $vc_parent
     ) {
         $sql = <<< SQL
-INSERT INTO {$this->tableCollab["files"]} 
+INSERT INTO {$this->db->getTableName("files")} 
 (owner, project, task, name, date, size, extension, comments, comments_approval, approver, date_approval, upload, published, status, vc_status, vc_version, vc_parent)
 VALUES 
 (:owner, :project, :task, :name, :date, :size, :extension, :comments, :approval_comments, :approver, :approval_date, :upload, :published, :status, :vc_status, :vc_version, :vc_parent)

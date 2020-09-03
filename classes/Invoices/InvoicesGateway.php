@@ -13,7 +13,6 @@ class InvoicesGateway
 {
     protected $db;
     protected $initrequest;
-    protected $tableCollab;
 
     /**
      * InvoicesGateway constructor.
@@ -23,7 +22,7 @@ class InvoicesGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
-        $this->tableCollab = $GLOBALS['tableCollab'];
+
     }
 
     /**
@@ -37,7 +36,7 @@ class InvoicesGateway
     public function addInvoice($project, $status, $active, $published, $created)
     {
         $sql = <<<SQL
-INSERT INTO {$this->tableCollab["invoices"]} 
+INSERT INTO {$this->db->getTableName("invoices")} 
 (project, status, active, published, created) 
 VALUES 
 (:project, :status, :active, :published, :created)
@@ -76,7 +75,7 @@ SQL;
         $worked_hours
     ) {
         $sql = <<< SQL
-INSERT INTO {$this->tableCollab["invoices_items"]} (
+INSERT INTO {$this->db->getTableName("invoices_items")} (
 title,description,invoice,created,active,completed,mod_type,mod_value,worked_hours
 ) VALUES (
 :title,:description,:invoice,:created,:active,:completed,:mod_type,:mod_value,:worked_hours)
@@ -125,7 +124,7 @@ SQL;
         $taxAmount
     ) {
         $sql = <<<SQL
-UPDATE {$this->tableCollab["invoices"]} 
+UPDATE {$this->db->getTableName("invoices")} 
 SET 
 header_note = :header_note,
 footer_note = :footer_note,
@@ -160,7 +159,7 @@ SQL;
     public function editInvoiceItem($id, $title, $position, $amountExTax)
     {
         $sql = <<<SQL
-UPDATE {$this->tableCollab["invoices_items"]} 
+UPDATE {$this->db->getTableName("invoices_items")} 
 SET 
 title = :title,
 position = :position,
@@ -185,7 +184,7 @@ SQL;
     public function updateInvoiceItems($invoicing, $completed, $hoursWorked, $taskId)
     {
         $sql = <<<SQL
-UPDATE {$this->tableCollab["invoices_items"]} 
+UPDATE {$this->db->getTableName("invoices_items")} 
 SET 
 active = :active,
 completed = :completed,
@@ -287,7 +286,7 @@ SQL;
      */
     public function setActive($projectId, $activeFlag)
     {
-        $sql = "UPDATE {$this->tableCollab["invoices"]} SET active = :active WHERE project = :project_id";
+        $sql = "UPDATE {$this->db->getTableName("invoices")} SET active = :active WHERE project = :project_id";
         $this->db->query($sql);
         $this->db->bind(":project_id", $projectId);
         $this->db->bind(":active", $activeFlag);

@@ -17,7 +17,6 @@ class Subtasks
     protected $notifications;
     protected $notificationsList;
     protected $subtaskNotifications;
-    protected $tableCollab;
     private $send;
 
     /**
@@ -32,7 +31,6 @@ class Subtasks
         $this->notifications = $container->getNotificationsManager();
         $this->subtaskNotifications = $container->getSubtasksNotificationsManager();
         $this->strings = $GLOBALS["strings"];
-        $this->tableCollab = $GLOBALS["tableCollab"];
     }
 
     /**

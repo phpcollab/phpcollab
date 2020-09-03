@@ -15,16 +15,15 @@ class Organizations
 {
     protected $organizations_gateway;
     protected $db;
-    protected $tableCollab;
 
     /**
      * Organizations constructor.
+     * @param Database $database
      */
     public function __construct(Database $database)
     {
         $this->db = $database;
         $this->organizations_gateway = new OrganizationsGateway($this->db);
-        $this->tableCollab = $GLOBALS["tableCollab"];
     }
 
     /**

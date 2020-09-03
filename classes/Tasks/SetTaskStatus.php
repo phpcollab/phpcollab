@@ -5,13 +5,14 @@ namespace phpCollab\Tasks;
 
 
 use InvalidArgumentException;
+use phpCollab\Container;
 use phpCollab\Database;
 
 class SetTaskStatus extends Tasks
 {
-    public function __construct(Database $database)
+    public function __construct(Database $database, Container $container)
     {
-        parent::__construct($database);
+        parent::__construct($database, $container);
     }
 
     public function set(int $taskId, int $status, $comments = null, $modifiedDate = null, $completedDate = null)
@@ -42,7 +43,7 @@ class SetTaskStatus extends Tasks
     private function updateStatus($taskId, $status, $comment, $modifiedDate, $completedDate)
     {
         $sql = <<<SQL
-UPDATE {$this->tableCollab["tasks"]} 
+UPDATE {$this->db->getTableName("tasks")} 
 SET 
 comments = :comments, 
 status = :status, 

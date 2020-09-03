@@ -13,7 +13,6 @@ class NewsDeskGateway
 {
     protected $db;
     protected $initrequest;
-    protected $tableCollab;
 
     /**
      * NewsDeskGateway constructor.
@@ -23,7 +22,7 @@ class NewsDeskGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
-        $this->tableCollab = $GLOBALS['tableCollab'];
+
     }
 
     /**
@@ -172,7 +171,7 @@ class NewsDeskGateway
     {
         $postId = explode(',', $postId);
         $placeholders = str_repeat('?, ', count($postId) - 1) . '?';
-        $query = "DELETE FROM {$this->tableCollab["newsdeskposts"]} WHERE id IN ($placeholders)";
+        $query = "DELETE FROM {$this->db->getTableName("newsdeskposts")} WHERE id IN ($placeholders)";
         $this->db->query($query);
         return $this->db->execute($postId);
     }
@@ -185,7 +184,7 @@ class NewsDeskGateway
     {
         $commentId = explode(',', $commentId);
         $placeholders = str_repeat('?, ', count($commentId) - 1) . '?';
-        $query = "DELETE FROM {$this->tableCollab["newsdeskcomments"]} WHERE id IN ($placeholders)";
+        $query = "DELETE FROM {$this->db->getTableName("newsdeskcomments")} WHERE id IN ($placeholders)";
         $this->db->query($query);
         return $this->db->execute($commentId);
     }
@@ -198,7 +197,7 @@ class NewsDeskGateway
     {
         $postId = explode(',', $postId);
         $placeholders = str_repeat('?, ', count($postId) - 1) . '?';
-        $query = "DELETE FROM {$this->tableCollab["newsdeskcomments"]} WHERE post_id IN ($placeholders)";
+        $query = "DELETE FROM {$this->db->getTableName("newsdeskcomments")} WHERE post_id IN ($placeholders)";
         $this->db->query($query);
         return $this->db->execute($postId);
     }
@@ -208,7 +207,7 @@ class NewsDeskGateway
      */
     public function getRSSPosts()
     {
-        $query = "SELECT id, title, author, content, related, pdate as date FROM {$this->tableCollab["newsdeskposts"]} WHERE rss = 1 ORDER BY pdate DESC LIMIT 0,5";
+        $query = "SELECT id, title, author, content, related, pdate as date FROM {$this->db->getTableName("newsdeskposts")} WHERE rss = 1 ORDER BY pdate DESC LIMIT 0,5";
         $this->db->query($query);
         return $this->db->resultset();
     }
@@ -222,7 +221,7 @@ class NewsDeskGateway
     {
         $sql = <<<SQL
         
-SELECT DISTINCT pro.id as tea_pro_id, pro.name as tea_pro_name, tea.id as tea_id FROM {$this->tableCollab["teams"]} tea, {$this->tableCollab["projects"]} pro 
+SELECT DISTINCT pro.id as tea_pro_id, pro.name as tea_pro_name, tea.id as tea_id FROM {$this->db->getTableName("teams")} tea, {$this->db->getTableName("projects")} pro 
 WHERE pro.id = tea.project
 SQL;
 
@@ -249,7 +248,7 @@ SQL;
     public function addPost($title, $author, $related, $content, $links, $rss)
     {
         $sql = <<<SQL
-INSERT INTO {$this->tableCollab["newsdeskposts"]} 
+INSERT INTO {$this->db->getTableName("newsdeskposts")} 
 (title, author, related, content, links, rss, pdate) 
 VALUES 
 (:title, :author, :related, :content, :links, :rss, NOW())
@@ -279,7 +278,7 @@ SQL;
     public function updatePostById($postId, $title, $author, $related, $content, $links, $rss)
     {
         $sql = <<<SQL
-UPDATE {$this->tableCollab["newsdeskposts"]} SET title = :title, author = :author, related = :related, content = :content, links = :links, rss = :rss WHERE id = :post_id
+UPDATE {$this->db->getTableName("newsdeskposts")} SET title = :title, author = :author, related = :related, content = :content, links = :links, rss = :rss WHERE id = :post_id
 SQL;
         $this->db->query($sql);
         $this->db->bind(':post_id', $postId);
@@ -299,7 +298,7 @@ SQL;
      */
     public function setComment($commentId, $comment)
     {
-        $sql = "UPDATE {$this->tableCollab["newsdeskcomments"]} SET comment = :comment WHERE id = :comment_id";
+        $sql = "UPDATE {$this->db->getTableName("newsdeskcomments")} SET comment = :comment WHERE id = :comment_id";
 
         $this->db->query($sql);
         $this->db->bind(':comment_id', $commentId);
@@ -316,7 +315,7 @@ SQL;
     public function addComment($postId, $commenterId, $comment)
     {
         $sql = <<<SQL
-INSERT INTO {$this->tableCollab["newsdeskcomments"]} (name, post_id, comment) VALUES (:commenter_id, :post_id, :comment)
+INSERT INTO {$this->db->getTableName("newsdeskcomments")} (name, post_id, comment) VALUES (:commenter_id, :post_id, :comment)
 SQL;
         $this->db->query($sql);
         $this->db->bind(':post_id', $postId);

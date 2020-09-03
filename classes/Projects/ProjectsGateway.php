@@ -14,7 +14,6 @@ class ProjectsGateway
     protected $db;
     protected $projectsFilter;
     protected $initrequest;
-    protected $tableCollab;
 
     /**
      * Reports constructor.
@@ -25,7 +24,7 @@ class ProjectsGateway
         $this->db = $db;
         $this->projectsFilter = $GLOBALS['projectsFilter'];
         $this->initrequest = $GLOBALS['initrequest'];
-        $this->tableCollab = $GLOBALS['tableCollab'];
+
     }
 
     /**
@@ -65,7 +64,7 @@ class ProjectsGateway
     ) {
 
         $sql = <<<SQL
-INSERT INTO {$this->tableCollab["projects"]} 
+INSERT INTO {$this->db->getTableName("projects")} 
 (name, priority, description, owner, organization, status, published, upload_max, url_dev, url_prod, phase_set, 
 invoicing, hourly_rate, modified, created) 
 VALUES 
@@ -131,7 +130,7 @@ SQL;
         $modified
     ) {
         $sql = <<<SQL
-UPDATE {$this->tableCollab["projects"]}
+UPDATE {$this->db->getTableName("projects")}
 SET
     name = :name,
     priority = :priority,
@@ -186,7 +185,7 @@ SQL;
      */
     public function getProjectsFilteredByTeamMember($memberId, $sorting)
     {
-        $tmpquery = " LEFT OUTER JOIN " . $this->tableCollab["teams"] . " teams ON teams.project = pro.id";
+        $tmpquery = " LEFT OUTER JOIN " . $this->db->getTableName("teams") . " teams ON teams.project = pro.id";
         $tmpquery .= " WHERE teams.member = :member_id";
 
         $sql = $this->initrequest['projects'] . $tmpquery . $this->orderBy($sorting);
@@ -222,7 +221,7 @@ SQL;
     public function getFilteredAllByOrganization($orgId, $memberId, $sorting = null)
     {
 
-        $tmpquery = " LEFT OUTER JOIN {$this->tableCollab["teams"]} teams ON teams.project = pro.id";
+        $tmpquery = " LEFT OUTER JOIN {$this->db->getTableName("teams")} teams ON teams.project = pro.id";
         $tmpquery .= " WHERE pro.organization = :org_id AND teams.member = :member_id";
 
         $this->db->query($this->initrequest['projects'] . $tmpquery . $this->orderBy($sorting));
@@ -263,7 +262,7 @@ SQL;
         $tmpQuery = '';
         if ($typeProjects == "inactive") {
             if ($this->projectsFilter == "true") {
-                $tmpQuery = "LEFT OUTER JOIN " . $this->tableCollab["teams"] . " ON teams.project = pro.id ";
+                $tmpQuery = "LEFT OUTER JOIN " . $this->db->getTableName("teams") . " ON teams.project = pro.id ";
                 $tmpQuery .= " WHERE pro.status IN(1,4) AND teams.member = :owner_id";
             } else {
                 $tmpQuery = "WHERE pro.status IN(1,4)";
@@ -271,7 +270,7 @@ SQL;
         } else {
             if ($typeProjects == "active") {
                 if ($this->projectsFilter == "true") {
-                    $tmpQuery = "LEFT OUTER JOIN teams " . $this->tableCollab["teams"] . " ON teams.project = pro.id ";
+                    $tmpQuery = "LEFT OUTER JOIN teams " . $this->db->getTableName("teams") . " ON teams.project = pro.id ";
                     $tmpQuery .= "WHERE pro.status IN(0,2,3) AND teams.member = :owner_id";
                 } else {
                     $tmpQuery = "WHERE pro.status IN(0,2,3)";
@@ -337,7 +336,7 @@ SQL;
     {
         $orgId = explode(',', $orgId);
         $placeholders = str_repeat('?, ', count($orgId) - 1) . '?';
-        $sql = "UPDATE {$this->tableCollab['projects']} SET organization=1 WHERE organization IN ($placeholders)";
+        $sql = "UPDATE {$this->db->getTableName("projects")} SET organization=1 WHERE organization IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($orgId);
 
@@ -352,7 +351,7 @@ SQL;
     {
         $data = explode(',', $oldOwner);
         $placeholders = str_repeat('?, ', count($data) - 1) . '?';
-        $sql = "UPDATE {$this->tableCollab["projects"]} SET owner = ? WHERE owner IN($placeholders)";
+        $sql = "UPDATE {$this->db->getTableName("projects")} SET owner = ? WHERE owner IN($placeholders)";
         // Place newOwner at the beginning of array
         if (is_array($data)) {
             array_unshift($data, $newOwner);
@@ -371,7 +370,7 @@ SQL;
     {
         $projectId = explode(',', $projectId);
         $placeholders = str_repeat('?, ', count($projectId) - 1) . '?';
-        $sql = "DELETE FROM {$this->tableCollab['projects']} WHERE id IN ($placeholders)";
+        $sql = "DELETE FROM {$this->db->getTableName("projects")} WHERE id IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($projectId);
 
@@ -407,7 +406,7 @@ SQL;
      */
     public function publishProject(int $projectId, bool $flag = false)
     {
-        $sql = "UPDATE {$this->tableCollab["projects"]} SET published=:publish_flag WHERE id = :project_id";
+        $sql = "UPDATE {$this->db->getTableName("projects")} SET published=:publish_flag WHERE id = :project_id";
 
         $flag = (int)!$flag;
 

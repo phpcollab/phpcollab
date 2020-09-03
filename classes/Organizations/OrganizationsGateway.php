@@ -12,7 +12,6 @@ class OrganizationsGateway
 {
     protected $db;
     protected $initrequest;
-    protected $tableCollab;
 
     /**
      * OrganizationsGateway constructor.
@@ -22,7 +21,7 @@ class OrganizationsGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
-        $this->tableCollab = $GLOBALS['tableCollab'];
+
     }
 
     /**
@@ -41,7 +40,7 @@ class OrganizationsGateway
     public function addClientOrganization($name, $address, $phone, $url, $email, $comments, $owner, $hourlyRate, $extension, $created)
     {
         $sql = <<<SQL
-INSERT INTO {$this->tableCollab["organizations"]} (
+INSERT INTO {$this->db->getTableName("organizations")} (
     name, address1, phone, url, email, comments, extension_logo, owner, hourly_rate, created
 ) VALUES ( 
     :name, :address, :phone, :url, :email, :comments, :extension, :owner, :hourly_rate, :created
@@ -80,7 +79,7 @@ SQL;
     public function updateClientOrganization($clientId, $name, $address, $phone, $url, $email, $comments, $owner, $hourlyRate)
     {
         $sql = <<<SQL
-UPDATE {$this->tableCollab["organizations"]}
+UPDATE {$this->db->getTableName("organizations")}
 SET
     name = :name,
     address1 = :address,
@@ -246,7 +245,7 @@ SQL;
     public function updateOrganizationInformation($organizationInfo)
     {
         $query = <<<SQL
-UPDATE {$this->tableCollab["organizations"]} 
+UPDATE {$this->db->getTableName("organizations")} 
 SET 
 name= :org_name,
 address1= :org_address1,
@@ -274,7 +273,7 @@ SQL;
      */
     public function setLogoExtensionByOrgId($orgId, $logoExtension)
     {
-        $query = "UPDATE {$this->tableCollab["organizations"]} SET extension_logo = :logo_ext WHERE id = :org_id";
+        $query = "UPDATE {$this->db->getTableName("organizations")} SET extension_logo = :logo_ext WHERE id = :org_id";
         $this->db->query($query);
         $this->db->bind(':logo_ext', $logoExtension);
         $this->db->bind(':org_id', $orgId);
@@ -292,7 +291,7 @@ SQL;
 
         $placeholders = str_repeat('?, ', count($clientId) - 1) . '?';
 
-        $sql = "DELETE FROM {$this->tableCollab['organizations']} WHERE id IN ($placeholders)";
+        $sql = "DELETE FROM {$this->db->getTableName("organizations")} WHERE id IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($clientId);
     }

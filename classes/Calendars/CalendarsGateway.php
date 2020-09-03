@@ -13,9 +13,7 @@ class CalendarsGateway
 {
     protected $db;
     protected $initrequest;
-    protected $tableCollab;
-
-    /**
+/**
      * CalendarsGateway constructor.
      * @param Database $db
      */
@@ -23,7 +21,7 @@ class CalendarsGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
-        $this->tableCollab = $GLOBALS['tableCollab'];
+
     }
 
     /**
@@ -32,7 +30,7 @@ class CalendarsGateway
      */
     public function deleteCalendar($calendarId)
     {
-        $query = "DELETE FROM {$this->tableCollab["calendar"]} WHERE id IN(:calendar_id)";
+        $query = "DELETE FROM {$this->db->getTableName("calendar")} WHERE id IN(:calendar_id)";
         $this->db->query($query);
         $this->db->bind(':calendar_id', $calendarId);
         return $this->db->execute();
@@ -144,7 +142,7 @@ class CalendarsGateway
         $recur_day
     ) {
         $sql = <<<SQL
-INSERT INTO {$this->tableCollab["calendar"]} (
+INSERT INTO {$this->db->getTableName("calendar")} (
 owner,subject,description,location,shortname,date_start,date_end,time_start,time_end,reminder,broadcast,recurring,recur_day
 ) VALUES(
 :owner,:subject,:description,:location,:shortname,:date_start,:date_end,:time_start,:time_end,:reminder,:broadcast,:recurring,:recur_day
@@ -185,7 +183,7 @@ SQL;
         $recur_day
     ) {
         $sql = <<<SQL
-UPDATE {$this->tableCollab["calendar"]} 
+UPDATE {$this->db->getTableName("calendar")} 
 SET 
 subject = :subject,
 description = :description,

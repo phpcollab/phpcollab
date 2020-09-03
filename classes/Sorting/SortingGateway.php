@@ -12,7 +12,6 @@ class SortingGateway
 {
     protected $db;
     protected $initrequest;
-    protected $tableCollab;
 
     /**
      * Reports constructor.
@@ -22,7 +21,7 @@ class SortingGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
-        $this->tableCollab = $GLOBALS['tableCollab'];
+
     }
 
     /**
@@ -31,7 +30,7 @@ class SortingGateway
      */
     public function addMember($userId)
     {
-        $queruy = "INSERT INTO {$this->tableCollab["sorting"]} (member) VALUES (:user_id)";
+        $queruy = "INSERT INTO {$this->db->getTableName("sorting")} (member) VALUES (:user_id)";
         $this->db->query($queruy);
         $this->db->bind(":user_id", $userId);
         return $this->db->execute();
@@ -68,7 +67,7 @@ class SortingGateway
     public function updateSortingTargetByUserId($target, $value, $userId)
     {
         $query = <<<SQL
-UPDATE {$this->tableCollab["sorting"]} 
+UPDATE {$this->db->getTableName("sorting")} 
 SET {$target} = :sort_value
 WHERE member = :user_id
 SQL;
@@ -89,7 +88,7 @@ SQL;
     {
         $memberId = explode(',', $memberId);
         $placeholders = str_repeat('?, ', count($memberId) - 1) . '?';
-        $sql = "DELETE FROM {$this->tableCollab['sorting']} WHERE member IN ($placeholders)";
+        $sql = "DELETE FROM {$this->db->getTableName("sorting")} WHERE member IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($memberId);
     }

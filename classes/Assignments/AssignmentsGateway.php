@@ -13,7 +13,6 @@ class AssignmentsGateway
 {
     protected $db;
     protected $initrequest;
-    protected $tableCollab;
 
     /**
      * AssignmentsGateway constructor.
@@ -23,7 +22,6 @@ class AssignmentsGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
-        $this->tableCollab = $GLOBALS['tableCollab'];
     }
 
     /**
@@ -37,7 +35,7 @@ class AssignmentsGateway
     public function addAssignment($taskId, $taskOwner, $assignedTo, $assignedDate, $comments = null)
     {
         $sql = <<<SQL
-INSERT INTO {$this->tableCollab["assignments"]} 
+INSERT INTO {$this->db->getTableName("assignments")} 
 (task, owner, assigned_to, assigned, comments) 
 VALUES 
 (:task, :owner, :assigned_to, :assigned, :comments)
@@ -61,7 +59,7 @@ SQL;
     public function addComment($assignmentId, $comment)
     {
         $sql = <<<SQL
-UPDATE {$this->tableCollab["assignments"]} SET comments = :comments WHERE id = :assignment_id
+UPDATE {$this->db->getTableName("assignments")} SET comments = :comments WHERE id = :assignment_id
 SQL;
         $this->db->query($sql);
         $this->db->bind(':assignment_id', $assignmentId);
@@ -101,7 +99,7 @@ SQL;
      */
     public function getLastId()
     {
-        $sql = "SELECT id FROM {$this->tableCollab["assignments"]} ORDER BY id DESC LIMIT 1";
+        $sql = "SELECT id FROM {$this->db->getTableName("assignments")} ORDER BY id DESC LIMIT 1";
         $this->db->query($sql);
         return $this->db->single()["id"];
     }
@@ -117,7 +115,7 @@ SQL;
         $oldAssignee = explode(',', $oldAssignee);
         // Generate placeholders
         $placeholders = str_repeat ('?, ', count($oldAssignee)-1) . '?';
-        $sql = "UPDATE {$this->tableCollab["assignments"]} SET assigned_to = ?, assigned = ? WHERE assigned_to IN($placeholders)";
+        $sql = "UPDATE {$this->db->getTableName("assignments")} SET assigned_to = ?, assigned = ? WHERE assigned_to IN($placeholders)";
 
         // Prepend the project id value
         if (is_array($oldAssignee)) {
@@ -137,7 +135,7 @@ SQL;
     {
         $assignmentIds = explode(',', $assignmentIds);
         $placeholders = str_repeat ('?, ', count($assignmentIds)-1) . '?';
-        $sql = "DELETE FROM {$this->tableCollab['assignments']} WHERE task IN ($placeholders)";
+        $sql = "DELETE FROM {$this->db->getTableName("assignments")} WHERE task IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($assignmentIds);
     }
@@ -150,7 +148,7 @@ SQL;
     {
         $projectIds = explode(',', $projectIds);
         $placeholders = str_repeat ('?, ', count($projectIds)-1) . '?';
-        $sql = "DELETE FROM {$this->tableCollab['assignments']} WHERE task IN ($placeholders)";
+        $sql = "DELETE FROM {$this->db->getTableName("assignments")} WHERE task IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($projectIds);
     }
@@ -163,7 +161,7 @@ SQL;
     {
         $subtaskIds = explode(',', $subtaskIds);
         $placeholders = str_repeat ('?, ', count($subtaskIds)-1) . '?';
-        $sql = "DELETE FROM {$this->tableCollab['assignments']} WHERE subtask IN ($placeholders)";
+        $sql = "DELETE FROM {$this->db->getTableName("assignments")} WHERE subtask IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($subtaskIds);
     }

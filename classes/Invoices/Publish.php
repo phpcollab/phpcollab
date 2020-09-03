@@ -10,13 +10,11 @@ use phpCollab\Database;
 
 class Publish
 {
-    private $database = null;
-    private $tableCollab;
+    private $database;
 
-    public function __construct(Database $database, $tableCollab)
+    public function __construct(Database $database)
     {
         $this->database = $database;
-        $this->tableCollab = $tableCollab;
     }
 
     /**
@@ -68,7 +66,7 @@ class Publish
         $flag = ($flag === true) ? '0' : '1';
 
         $query = <<< SQL
-UPDATE {$this->tableCollab["invoices"]}
+UPDATE {$this->database->getTableName("invoices")}
 SET published = :flag 
 WHERE id = :invoice_id
 SQL;

@@ -151,7 +151,7 @@ if (file_exists(APP_ROOT . "/logos_clients/1." . $company['org_extension_logo'])
     $logo = "../logos_clients/1." . $company['org_extension_logo'];
     $block1->contentRow(
         "",
-        '<img src="' . $logo . '" alt="' . $company['org_name'] . '">' .
+        '<div class="logoContainer"><img src="' . $logo . '" alt="' . $company['org_name'] . '"></div>' .
         '<input name="extensionOld" type="hidden" value="' . $company['org_extension_logo'] . '">' .
         '<input name="logoDel" type="checkbox" value="on"> ' . $strings["delete"]
     );

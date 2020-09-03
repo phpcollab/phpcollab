@@ -13,7 +13,6 @@ class ServicesGateway
 {
     protected $db;
     protected $initrequest;
-    protected $tableCollab;
 
     /**
      * ServicesGateway constructor.
@@ -23,7 +22,7 @@ class ServicesGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
-        $this->tableCollab = $GLOBALS['tableCollab'];
+
     }
 
     /**
@@ -34,7 +33,7 @@ class ServicesGateway
      */
     public function addService($name, $displayName, $hourlyRate)
     {
-        $query = "INSERT INTO {$this->tableCollab["services"]} (name, name_print, hourly_rate) VALUES (:name, :display_name, :hourly_rate)";
+        $query = "INSERT INTO {$this->db->getTableName("services")} (name, name_print, hourly_rate) VALUES (:name, :display_name, :hourly_rate)";
         $this->db->query($query);
         $this->db->bind(":name", $name);
         $this->db->bind(":display_name", $displayName);
@@ -91,7 +90,7 @@ class ServicesGateway
      */
     public function updateService($serviceId, $name, $displayName, $hourlyRate)
     {
-        $query = "UPDATE {$this->tableCollab["services"]} SET name = :name, name_print = :display_name, hourly_rate = :hourly_rate WHERE id = :service_id";
+        $query = "UPDATE {$this->db->getTableName("services")} SET name = :name, name_print = :display_name, hourly_rate = :hourly_rate WHERE id = :service_id";
 
         $this->db->query($query);
         $this->db->bind(":service_id", $serviceId);
@@ -109,7 +108,7 @@ class ServicesGateway
     {
         $serviceIds = explode(',', $serviceIds);
         $placeholders = str_repeat('?, ', count($serviceIds) - 1) . '?';
-        $sql = "DELETE FROM {$this->tableCollab['services']} WHERE id IN ($placeholders)";
+        $sql = "DELETE FROM {$this->db->getTableName("services")} WHERE id IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($serviceIds);
     }

@@ -13,7 +13,6 @@ class NotesGateway
 {
     protected $db;
     protected $initrequest;
-    protected $tableCollab;
 
     /**
      * NotesGateway constructor.
@@ -23,7 +22,7 @@ class NotesGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
-        $this->tableCollab = $GLOBALS['tableCollab'];
+
     }
 
     /**
@@ -58,7 +57,7 @@ class NotesGateway
      */
     public function getMyNotesWhereProjectIsNotCompletedOrSuspended($memberId)
     {
-        $sql = "SELECT note.id FROM {$this->tableCollab["notes"]} note LEFT OUTER JOIN {$this->tableCollab["projects"]} pro ON pro.id = note.project WHERE note.owner = :member_id AND pro.status IN(0,2,3)";
+        $sql = "SELECT note.id FROM {$this->db->getTableName("notes")} note LEFT OUTER JOIN {$this->db->getTableName("projects")} pro ON pro.id = note.project WHERE note.owner = :member_id AND pro.status IN(0,2,3)";
         $this->db->query($sql);
         $this->db->bind(':member_id', $memberId);
         return $this->db->resultset();
@@ -103,7 +102,7 @@ class NotesGateway
      */
     public function insertNote($noteData)
     {
-        $sql = "INSERT INTO {$this->tableCollab["notes"]} (project,topic,subject,description,date,owner,published) VALUES (:project,:topic,:subject,:description,:date,:owner,1)";
+        $sql = "INSERT INTO {$this->db->getTableName("notes")} (project,topic,subject,description,date,owner,published) VALUES (:project,:topic,:subject,:description,:date,:owner,1)";
         $this->db->query($sql);
         $this->db->bind(':project', $noteData["projectMenu"]);
         $this->db->bind(':topic', $noteData["topic"]);
@@ -122,7 +121,7 @@ class NotesGateway
      */
     public function updateNote($noteId, $noteData)
     {
-        $sql = "UPDATE {$this->tableCollab["notes"]} SET project=:project,topic=:topic,subject=:subject,description=:description,date=:date,owner=:owner WHERE id = :note_id";
+        $sql = "UPDATE {$this->db->getTableName("notes")} SET project=:project,topic=:topic,subject=:subject,description=:description,date=:date,owner=:owner WHERE id = :note_id";
         $this->db->query($sql);
         $this->db->bind(':project', $noteData["projectMenu"]);
         $this->db->bind(':topic', $noteData["topic"]);
@@ -144,14 +143,14 @@ class NotesGateway
         if (strpos($noteId, ',')) {
             $ids = explode(',', $noteId);
             $placeholders = str_repeat('?, ', count($ids) - 1) . '?';
-            $sql = "DELETE FROM {$this->tableCollab['notes']} WHERE id IN ($placeholders)";
+            $sql = "DELETE FROM {$this->db->getTableName("notes")} WHERE id IN ($placeholders)";
             $this->db->query($sql);
 
             $this->db->execute($ids);
 
             return $this->db->fetchAll();
         } else {
-            $query = "DELETE FROM {$this->tableCollab['notes']} WHERE id IN (:note_id)";
+            $query = "DELETE FROM {$this->db->getTableName("notes")} WHERE id IN (:note_id)";
             $this->db->query($query);
             $this->db->bind(':note_id', $noteId);
             return $this->db->execute();
@@ -166,7 +165,7 @@ class NotesGateway
     {
         $projectIds = explode(',', $projectIds);
         $placeholders = str_repeat('?, ', count($projectIds) - 1) . '?';
-        $sql = "DELETE FROM {$this->tableCollab['notes']} WHERE project IN ($placeholders)";
+        $sql = "DELETE FROM {$this->db->getTableName("notes")} WHERE project IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($projectIds);
     }
@@ -181,11 +180,11 @@ class NotesGateway
         if (strpos($noteId, ',')) {
             $ids = explode(',', $noteId);
             $placeholders = str_repeat('?, ', count($ids) - 1) . '?';
-            $sql = "UPDATE {$this->tableCollab["notes"]} SET published = 0 WHERE id IN($placeholders)";
+            $sql = "UPDATE {$this->db->getTableName("notes")} SET published = 0 WHERE id IN($placeholders)";
             $this->db->query($sql);
             return $this->db->execute($ids);
         } else {
-            $query = "UPDATE {$this->tableCollab["notes"]} SET published = 0 WHERE id = :note_id";
+            $query = "UPDATE {$this->db->getTableName("notes")} SET published = 0 WHERE id = :note_id";
             $this->db->query($query);
             $this->db->bind(':note_id', $noteId);
             return $this->db->execute();
@@ -201,11 +200,11 @@ class NotesGateway
         if (strpos($noteId, ',')) {
             $ids = explode(',', $noteId);
             $placeholders = str_repeat('?, ', count($ids) - 1) . '?';
-            $sql = "UPDATE {$this->tableCollab["notes"]} SET published=1 WHERE id IN($placeholders)";
+            $sql = "UPDATE {$this->db->getTableName("notes")} SET published=1 WHERE id IN($placeholders)";
             $this->db->query($sql);
             return $this->db->execute($ids);
         } else {
-            $query = "UPDATE {$this->tableCollab["notes"]} SET published=1 WHERE id = :note_id";
+            $query = "UPDATE {$this->db->getTableName("notes")} SET published=1 WHERE id = :note_id";
             $this->db->query($query);
             $this->db->bind(':note_id', $noteId);
             return $this->db->execute();

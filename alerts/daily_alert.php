@@ -74,11 +74,6 @@ if (php_sapi_name() == "cli") {
             exit('ERROR - DATABASE' . $strings['error_server']);
         }
         $alert = new DailyAlerts($container->getPDO(), $container);
-        $alert->setMembersTable($tableCollab['members']);
-        $alert->setNotificationsTable($tableCollab['notifications']);
-        $alert->setTasksTable($tableCollab['tasks']);
-        $alert->setSubtasksTable($tableCollab['subtasks']);
-        $alert->setProjectsTable($tableCollab['projects']);
         $alert->sendEmail($langDefault);
 
         // Return successfully

@@ -19,7 +19,7 @@ class Files
     protected $db;
     protected $strings;
     protected $root;
-    protected $tableCollab;
+
     /**
      * @var Container
      */
@@ -37,7 +37,6 @@ class Files
         $this->files_gateway = new FilesGateway($this->db);
         $this->strings = $GLOBALS["strings"];
         $this->root = $GLOBALS["root"];
-        $this->tableCollab = $GLOBALS["tableCollab"];
     }
 
     /**

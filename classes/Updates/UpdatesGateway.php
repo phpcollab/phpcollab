@@ -9,7 +9,6 @@ class UpdatesGateway
 {
     protected $db;
     protected $initrequest;
-    protected $tableCollab;
 
     /**
      * UpdatesGateway constructor.
@@ -19,7 +18,7 @@ class UpdatesGateway
     {
         $this->db = $db;
         $this->initrequest = $GLOBALS['initrequest'];
-        $this->tableCollab = $GLOBALS['tableCollab'];
+
     }
 
     /**
@@ -31,7 +30,7 @@ class UpdatesGateway
      */
     public function addUpdate($type, $item, $member, $comments)
     {
-        $sql = "INSERT INTO {$this->tableCollab["updates"]} (type, item, member, comments, created) VALUES (:type, :item, :member, :comments, :created)";
+        $sql = "INSERT INTO {$this->db->getTableName("updates")} (type, item, member, comments, created) VALUES (:type, :item, :member, :comments, :created)";
         $this->db->query($sql);
         $this->db->bind(':type', $type);
         $this->db->bind(':item', $item);
