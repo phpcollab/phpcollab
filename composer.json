@@ -23,7 +23,8 @@
     "laminas/laminas-escaper": "^2.6",
     "monolog/monolog": "^2.0",
     "symfony/security-csrf": "^4.4",
-    "symfony/mime": "^4.4"
+    "symfony/mime": "^4.4",
+    "ext-pdo": "*"
   },
   "require-dev": {
     "ext-ftp": "*",

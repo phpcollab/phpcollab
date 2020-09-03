@@ -2,7 +2,6 @@
 namespace phpCollab;
 
 use Exception;
-use InvalidArgumentException;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\IntrospectionProcessor;
@@ -41,27 +40,40 @@ class Database
         } catch (Exception $e) {
             error_log('library error: ' . $e->getMessage());
         }
-
+        $this->log('__construct init');
         /*
          * End logger init
          */
+
         $this->configuration = $config;
 
         $this->tableCollab = $this->configuration['tableCollab'];
 
-
-
-        $this->log('__construct init');
         if ($this->dbh === null) {
-            $this->log('set DSN');
             // Set DSN
-            $dsn = 'mysql:host=' . $this->configuration['dbServer'] . ';dbname=' . $this->configuration['dbName'];
+            $this->log('set DSN for: ' . $this->configuration["dbType"]);
+            switch ($this->configuration['dbType']) {
+                case ('mysql'):
+                    $dsn = "mysql:host={$this->configuration["dbServer"]};dbname={$this->configuration["dbName"]}";
+                    break;
+                case ('postgresql'):
+                    $dsn = "pgsql:dbname={$this->configuration["dbName"]};host={$this->configuration['dbServer']}";
+                    break;
+                case ('sqlserver'):
+                    $dsn = "sqlsrv:Server={$this->configuration["dbServer"]};Database={$this->configuration['dbName']}";
+                    break;
+                default:
+                    throw new Exception("Unexpected value");
+            }
+
             // Set options
+            $this->log('set PDO options');
             $options = array(
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
             );
 
-            // Create a new PDO instanace
+            // Create a new PDO instance
+            $this->log('create PDO instance');
             try {
                 $this->dbh = new PDO($dsn, $this->configuration['dbUsername'], $this->configuration['dbPassword'], $options);
             } // Catch any errors
