@@ -22,6 +22,7 @@
 ** =============================================================================
 */
 
+use DebugBar\DebugBarException;
 use DebugBar\StandardDebugBar;
 use phpCollab\Container;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +30,6 @@ use Symfony\Component\HttpFoundation\Session\Attribute\NamespacedAttributeBag;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 
-$debug = false;
 
 define('APP_ROOT', dirname(dirname(__FILE__)));
 
@@ -40,41 +40,35 @@ $settings = null;
 //settings and date selector includes
 require_once APP_ROOT . '/includes/settings.php';
 
+$debug = $footerDev ?? false;
+
 $container = new Container([
     'dbServer' => MYSERVER,
     'dbUsername' => MYLOGIN,
     'dbPassword' => MYPASSWORD,
     'dbName' => MYDATABASE,
-    'tableCollab' => $tableCollab
+    'tableCollab' => $tableCollab,
+    'dbType' => $databaseType
 ]);
 
 /*
  * Setup logger
  */
 $logger = $container->getLogger();
-//try {
-//    $stream = new StreamHandler(APP_ROOT . '/logs/phpcollab.log', Logger::DEBUG);
-//} catch (Exception $e) {
-//    error_log('library error: ' . $e->getMessage());
-//}
-//// create a log channel
-//
-//$logger = new Logger('phpCollab');
-//$logger->pushHandler($stream);
-//$logger->pushProcessor(new IntrospectionProcessor());
-/*
- * End logger init
- */
+// End logger init
 
 $escaper = $container->getEscaperService();
 
-// Setup debugging
+// Setup debugging, if it is enabled in settings
 if ($debug) {
     $debugbar = new StandardDebugBar();
-    $debugbarRenderer = $debugbar->getJavascriptRenderer();
+    try {
+        $debugbarRenderer = $debugbar->getJavascriptRenderer();
+        $debugbar->addCollector(new DebugBar\Bridge\MonologCollector($logger));
+    } catch (DebugBarException $e) {
+        die($e->getMessage());
+    }
 }
-
-error_reporting(2039);
 
 /*
  * Init Http Foundation
@@ -195,6 +189,7 @@ if (!is_resource("FTPLOGIN")) {
 if (!is_resource("FTPPASSWORD")) {
     $session->set('phpCollab/ftpPassword', '');
 }
+
 if ($peerReview == "") {
     $peerReview = "true";
     $session->set('phpCollab/peerReview', true);
@@ -226,6 +221,7 @@ if ($checkSession != "false" && $session->get('demo') != "true") {
     // Set the CSRF token in the session
     if (!$session->has('csrfToken')) {
         try {
+            $logger->debug('setting csrfToken');
             $session->set('csrfToken', bin2hex(random_bytes(32)));
         } catch (Exception $exception) {
             $logger->critical('Unable to set csrfToken: ' . $e->getMessage());
@@ -287,8 +283,8 @@ if (isset($checkConnected) && $checkConnected != "false") {
 
 
 //disable actions if demo user logged in demo mode
-if ($request->query->get('action') != "") {
-    if ($session->get('demo') == "true") {
+if ($session->get('demo') == "true") {
+    if ($request->query->get('action') != "") {
         $closeTopic = "";
         $addToSiteTask = "";
         $removeToSiteTask = "";
