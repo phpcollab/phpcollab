@@ -3,28 +3,18 @@
 #Status page: 1
 #Path by root: ../projects/deleteproject.php
 
-use phpCollab\Assignments\Assignments;
-use phpCollab\Files\Files;
-use phpCollab\Notes\Notes;
-use phpCollab\Phases\Phases;
-use phpCollab\Projects\Projects;
-use phpCollab\Support\Support;
-use phpCollab\Tasks\Tasks;
-use phpCollab\Teams\Teams;
-use phpCollab\Topics\Topics;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$tasks = new Tasks();
-$teams = new Teams();
-$topics = new Topics();
-$files = new Files();
-$assignments = new Assignments();
-$notes = new Notes();
-$support = new Support($logger);
-$phases = new Phases();
-$projects = new Projects();
+$tasks = $container->getTasksLoader();
+$teams = $container->getTeams();
+$topics = $container->getTopicsLoader();
+$files = $container->getFilesLoader();
+$assignments = $container->getAssignmentsManager();
+$notes = $container->getNotesLoader();
+$support = $container->getSupportLoader();
+$phases = $container->getPhasesLoader();
+$projects = $container->getProjectsLoader();
 
 $id = ($request->query->get('id')) ? str_replace("**", ",", $request->query->get('id')) : null;
 
@@ -38,7 +28,7 @@ if (!$listProjects) {
     phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blankProject");
 }
 
-foreach($listProjects as $proj) {
+foreach ($listProjects as $proj) {
     if ($session->get("id") != $proj['pro_owner'] && $session->get("profile") != "5") {
         phpCollab\Util::headerFunction("../projects/listprojects.php?msg=projectOwner");
     }
@@ -48,7 +38,7 @@ unset($proj);
 if ($request->isMethod('post')) {
     try {
         if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
-            if ($action == "delete") {
+            if ($request->request->get("action") == "delete") {
 
                 if ($listProjects) {
                     // Loop through the projects and perform the clean-up functionality
@@ -143,7 +133,8 @@ foreach ($listProjects as $proj) {
 }
 unset($proj);
 
-$block1->contentRow("", '<button type="submit" name="action" value="delete">' . $strings["delete"] . '</button> <input type="button" name="cancel" value="' . $strings["cancel"] . '" onClick="history.back();">');
+$block1->contentRow("",
+    '<button type="submit" name="action" value="delete">' . $strings["delete"] . '</button> <input type="button" name="cancel" value="' . $strings["cancel"] . '" onClick="history.back();">');
 
 $block1->closeContent();
 $block1->closeForm();

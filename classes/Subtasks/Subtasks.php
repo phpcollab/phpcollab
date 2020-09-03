@@ -5,9 +5,8 @@ namespace phpCollab\Subtasks;
 
 use Exception;
 use Monolog\Logger;
+use phpCollab\Container;
 use phpCollab\Database;
-use phpCollab\Notifications\Notifications;
-use phpCollab\Notifications\SubtaskNotifications;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class Subtasks
@@ -23,13 +22,15 @@ class Subtasks
 
     /**
      * Subtasks constructor.
+     * @param Database $database
+     * @param Container $container
      */
-    public function __construct()
+    public function __construct(Database $database, Container $container)
     {
-        $this->db = new Database();
+        $this->db = $database;
         $this->subtasks_gateway = new SubtasksGateway($this->db);
-        $this->notifications = new Notifications();
-        $this->subtaskNotifications = new SubtaskNotifications();
+        $this->notifications = $container->getNotificationsManager();
+        $this->subtaskNotifications = $container->getSubtasksNotificationsManager();
         $this->strings = $GLOBALS["strings"];
         $this->tableCollab = $GLOBALS["tableCollab"];
     }
@@ -62,11 +63,25 @@ class Subtasks
      * @param $published
      * @return string
      */
-    public function add($parentTaskId, $name, $description, $owner, $assignedTo, $status, $priority, $startDate,
-                        $dueDate, $estimatedTime, $actualTime, $comments, $completion, $published)
-    {
+    public function add(
+        $parentTaskId,
+        $name,
+        $description,
+        $owner,
+        $assignedTo,
+        $status,
+        $priority,
+        $startDate,
+        $dueDate,
+        $estimatedTime,
+        $actualTime,
+        $comments,
+        $completion,
+        $published
+    ) {
         $created = date('Y-m-d h:i');
-        return $this->subtasks_gateway->addSubtask($parentTaskId, $name, $description, $owner, $assignedTo, $status, $priority,
+        return $this->subtasks_gateway->addSubtask($parentTaskId, $name, $description, $owner, $assignedTo, $status,
+            $priority,
             $startDate, $dueDate, $estimatedTime, $actualTime, $comments, $completion, $published, $created);
     }
 
@@ -87,11 +102,25 @@ class Subtasks
      * @param $published
      * @return mixed
      */
-    public function update($subtaskId, $name, $description, $assignedTo, $status, $priority, $startDate, $dueDate,
-                           $estimatedTime, $actualTime, $comments, $modified, $completion, $published)
-    {
+    public function update(
+        $subtaskId,
+        $name,
+        $description,
+        $assignedTo,
+        $status,
+        $priority,
+        $startDate,
+        $dueDate,
+        $estimatedTime,
+        $actualTime,
+        $comments,
+        $modified,
+        $completion,
+        $published
+    ) {
 
-        $this->subtasks_gateway->updateSubtask($subtaskId, $name, $description, $assignedTo, $status, $priority, $startDate, $dueDate,
+        $this->subtasks_gateway->updateSubtask($subtaskId, $name, $description, $assignedTo, $status, $priority,
+            $startDate, $dueDate,
             $estimatedTime, $actualTime, $comments, $modified, $completion, $published);
         return $this->getById($subtaskId);
     }
@@ -138,10 +167,8 @@ class Subtasks
 
     /**
      * string
-     * @param $notification
      * @param $subtaskDetails
      * @param $notification
-     * array * @param $subtaskDetails
      * array * @param $projectDetails
      * @param Session $session
      * @param Logger $logger

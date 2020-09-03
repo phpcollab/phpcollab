@@ -10,8 +10,8 @@ use phpCollab\Tasks\Tasks;
 $checkSession = "true";
 include '../includes/library.php';
 
-$phases = new Phases();
-$tasks = new Tasks();
+$phases = $container->getPhasesLoader();
+$tasks = $container->getTasksLoader();
 
 $strings = $GLOBALS["strings"];
 $project = $request->query->get('project');

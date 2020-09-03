@@ -7,15 +7,49 @@
 //translator(s): Felipe Fonseca <http://hipercortex.tk> (<2.0)
 
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
-$dayNameArray = array(1 =>"Segunda-Feira", 2 =>"Terça-Feira", 3 =>"Quarta-Feira", 4 =>"Quinta-Feira", 5 =>"Sexta-Feira", 6 =>"Sábado", 7 =>"Domingo");
-$monthNameArray = array(1=> "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro");
+$dayNameArray = array(
+    1 => "Segunda-Feira",
+    2 => "Terça-Feira",
+    3 => "Quarta-Feira",
+    4 => "Quinta-Feira",
+    5 => "Sexta-Feira",
+    6 => "Sábado",
+    7 => "Domingo"
+);
+$monthNameArray = array(
+    1 => "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro"
+);
 $status = array(0 => "Finalizado pelo Cliente", 1 => "Finalizado", 2 => "Não Iniciado", 3 => "Aberto", 4 => "Suspenso");
-$profil = array(0 => "Administrador", 1 => "Gerente de Projeto", 2 => "Usuário", 3 => "Usuário de Cliente", 4 => "Inativo", 5 => "Diretor de Projeto");
+$profil = array(
+    0 => "Administrador",
+    1 => "Gerente de Projeto",
+    2 => "Usuário",
+    3 => "Usuário de Cliente",
+    4 => "Inativo",
+    5 => "Diretor de Projeto"
+);
 $priority = array(0 => "Nenhuma", 1 => "Muito Baixa", 2 => "Baixa", 3 => "Média", 4 => "Alta", 5 => "Máxima");
 $statusTopic = array(0 => "Encerrado", 1 => "Aberto");
 $statusTopicBis = array(0 => "Sim", 1 => "Não");
 $statusPublish = array(0 => "Sim", 1 => "Não");
-$statusFile = array(0 => "Aprovado", 1 => "Aprovado com Alterações", 2 => "Precisa de Aprovação", 3 => "Não Precisa de Aprovação", 4 => "Não Aprovado");
+$statusFile = array(
+    0 => "Aprovado",
+    1 => "Aprovado com Alterações",
+    2 => "Precisa de Aprovação",
+    3 => "Não Precisa de Aprovação",
+    4 => "Não Aprovado"
+);
 $phaseStatus = array(0 => "Não Iniciada", 1 => "Aberta", 2 => "Completa", 3 => "Suspensa");
 $requestStatus = array(0 => "Novo", 1 => "Aberto", 2 => "Completo");
 $invoiceStatus = array(0 => "Aberta", 1 => "Enviada", 2 => "Paga");
@@ -527,7 +561,12 @@ $strings["rate_type"] = "Tipo de Taxa";
 $strings["rate_value"] = "Valor da Taxa";
 $strings["note_invoice_items_notcompleted"] = "Nem todos os itens estão completos";
 
-$rateType = array(0 => "Taxa personalizada", 1 => "Taxa por projeto", 2 => "Taxa por organização", 3 => "Taxa por serviço");
+$rateType = array(
+    0 => "Taxa personalizada",
+    1 => "Taxa por projeto",
+    2 => "Taxa por organização",
+    3 => "Taxa por serviço"
+);
 
 //HACKS
 

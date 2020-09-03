@@ -1,15 +1,11 @@
 <?php
 
-use phpCollab\Projects\Projects;
-use phpCollab\Reports\Reports;
-use phpCollab\Tasks\Tasks;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$tasks = new Tasks();
-$reports = new Reports();
-$projects = new Projects();
+$tasks = $container->getTasksLoader();
+$reports = $container->getReportsLoader();
+$projects = $container->getProjectsLoader();
 
 $strings = $GLOBALS["strings"];
 
@@ -117,19 +113,23 @@ if (empty($id) && $tri != "true") {
         }
 
         if (!empty($request->request->get('S_SDATE'))) {
-            $filterStartDate = DateTime::createFromFormat('Y-m-d', $request->request->get('S_SDATE')) ? $request->request->get('S_SDATE') : null;
+            $filterStartDate = DateTime::createFromFormat('Y-m-d',
+                $request->request->get('S_SDATE')) ? $request->request->get('S_SDATE') : null;
         }
 
         if (!empty($request->request->get('S_EDATE'))) {
-            $filterEndDate = DateTime::createFromFormat('Y-m-d', $request->request->get('S_EDATE')) ? $request->request->get('S_EDATE') : null;
+            $filterEndDate = DateTime::createFromFormat('Y-m-d',
+                $request->request->get('S_EDATE')) ? $request->request->get('S_EDATE') : null;
         }
 
         if (!empty($request->request->get('S_SDATE2'))) {
-            $filterDateCompleteStart = DateTime::createFromFormat('Y-m-d', $request->request->get('S_SDATE2')) ? $request->request->get('S_SDATE2') : null;
+            $filterDateCompleteStart = DateTime::createFromFormat('Y-m-d',
+                $request->request->get('S_SDATE2')) ? $request->request->get('S_SDATE2') : null;
         }
 
         if (!empty($request->request->get('S_EDATE2'))) {
-            $filterDateCompleteEnd = DateTime::createFromFormat('Y-m-d', $request->request->get('S_EDATE2')) ? $request->request->get('S_EDATE2') : null;
+            $filterDateCompleteEnd = DateTime::createFromFormat('Y-m-d',
+                $request->request->get('S_EDATE2')) ? $request->request->get('S_EDATE2') : null;
         }
 
         $filterOrganization = $S_org;
@@ -306,7 +306,7 @@ if ($projectsFilter == "true") {
         $filterTasks = array_column($listProjectsTasks, 'pro_id');
 
         if (!empty($filterTasks)) {
-            $filterTasks = implode (", ", $filterTasks);
+            $filterTasks = implode(", ", $filterTasks);
             if ($query != "") {
                 $tmpquery = "{$queryStart} {$query} AND pro.id IN({$filterTasks}) ORDER BY {$block1->sortingValue} ";
             } else {
@@ -367,7 +367,16 @@ if (!empty($listTasks)) {
 
     $block1->openResults('false');
 
-    $block1->labels($labels = [0 => $strings["task"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["due_date"], 4 => $strings["complete_date"], 5 => $strings["assigned_to"], 6 => $strings["project"], 7 => $strings["published"]], "true");
+    $block1->labels($labels = [
+        0 => $strings["task"],
+        1 => $strings["priority"],
+        2 => $strings["status"],
+        3 => $strings["due_date"],
+        4 => $strings["complete_date"],
+        5 => $strings["assigned_to"],
+        6 => $strings["project"],
+        7 => $strings["published"]
+    ], "true");
 
     foreach ($listTasks as $listTask) {
         $idStatus = $listTask["tas_status"];
@@ -376,7 +385,8 @@ if (!empty($listTasks)) {
 
         $block1->openRow();
         $block1->cellRow('');
-        $block1->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $listTask["tas_id"], $listTask["tas_name"], "in"));
+        $block1->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $listTask["tas_id"], $listTask["tas_name"],
+            "in"));
         $block1->cellRow('<i style="background-color: yellow;"></i><img src="../themes/' . THEME . '/images/gfx_priority/' . $idPriority . '.gif" alt=""> ' . $GLOBALS["priority"][$idPriority]);
         $block1->cellRow($GLOBALS["status"][$idStatus]);
 
@@ -395,10 +405,12 @@ if (!empty($listTasks)) {
         if ($listTask["tas_assigned_to"] == "0") {
             $block1->cellRow($strings["unassigned"]);
         } else {
-            $block1->cellRow($blockPage->buildLink($listTask["tas_mem_email_work"], $listTask["tas_mem_login"], "mail"));
+            $block1->cellRow($blockPage->buildLink($listTask["tas_mem_email_work"], $listTask["tas_mem_login"],
+                "mail"));
         }
 
-        $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listTask["tas_project"], $listTask["tas_pro_name"], "in"));
+        $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $listTask["tas_project"],
+            $listTask["tas_pro_name"], "in"));
 
         if ($sitePublish == "true") {
             $block1->cellRow($GLOBALS["statusPublish"][$idPublish]);
@@ -407,7 +419,7 @@ if (!empty($listTasks)) {
         $block1->closeRow();
 
         $thisId = $listTask["tas_id"];
-        $mySubtasks = array_filter($listSubTasks, function($subTask) use($thisId) {
+        $mySubtasks = array_filter($listSubTasks, function ($subTask) use ($thisId) {
             return $subTask["subtas_task"] == $thisId;
         });
 
@@ -419,7 +431,8 @@ if (!empty($listTasks)) {
                 $idPublish = $subTask["subtas_published"];
                 $block1->openRow();
                 $block1->cellRow('');
-                $block1->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $subTask["subtas_id"] . "&task=" . $subTask["subtas_task"], $subTask["subtas_name"], "in"));
+                $block1->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $subTask["subtas_id"] . "&task=" . $subTask["subtas_task"],
+                    $subTask["subtas_name"], "in"));
                 $block1->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $GLOBALS["priority"][$idPriority]);
                 $block1->cellRow($GLOBALS["status"][$idStatus]);
 
@@ -438,10 +451,12 @@ if (!empty($listTasks)) {
                 if ($subTask["subtas_assigned_to"] == "0") {
                     $block1->cellRow($strings["unassigned"]);
                 } else {
-                    $block1->cellRow($blockPage->buildLink($subTask["subtas_mem_email_work"], $subTask["subtas_mem_login"], "mail"));
+                    $block1->cellRow($blockPage->buildLink($subTask["subtas_mem_email_work"],
+                        $subTask["subtas_mem_login"], "mail"));
                 }
 
-                $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $subTask["subtas_project"], $subTask["subtas_pro_name"], "in"));
+                $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $subTask["subtas_project"],
+                    $subTask["subtas_pro_name"], "in"));
 
                 if ($sitePublish == "true") {
                     $block1->cellRow($GLOBALS["statusPublish"][$idPublish]);
@@ -458,7 +473,8 @@ if (!empty($listTasks)) {
         echo <<< GANTT
 			<div id="ganttChart_taskList" class="ganttChart">
 				<img src="graphtasks.php?&report={$id}" alt=""><br/>
-				<span class="listEvenBold"">{$blockPage->buildLink("http://www.aditus.nu/jpgraph/", "JpGraph", "powered")}</span>
+				<span class="listEvenBold"">{$blockPage->buildLink("http://www.aditus.nu/jpgraph/", "JpGraph",
+            "powered")}</span>
 			</div>
 GANTT;
     }

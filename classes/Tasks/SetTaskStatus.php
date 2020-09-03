@@ -5,16 +5,24 @@ namespace phpCollab\Tasks;
 
 
 use InvalidArgumentException;
+use phpCollab\Database;
 
 class SetTaskStatus extends Tasks
 {
+    public function __construct(Database $database)
+    {
+        parent::__construct($database);
+    }
+
     public function set(int $taskId, int $status, $comments = null, $modifiedDate = null, $completedDate = null)
     {
 
         if (!is_int(filter_var($taskId, FILTER_VALIDATE_INT))) {
             throw new InvalidArgumentException('Task ID is missing or invalid.');
-        } else if (!is_int(filter_var($status, FILTER_VALIDATE_INT))) {
-            throw new InvalidArgumentException('Status is missing or invalid.');
+        } else {
+            if (!is_int(filter_var($status, FILTER_VALIDATE_INT))) {
+                throw new InvalidArgumentException('Status is missing or invalid.');
+            }
         }
 
         $timestamp = date('Y-m-d h:i');

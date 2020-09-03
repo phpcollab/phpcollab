@@ -2,12 +2,10 @@
 #Application name: PhpCollab
 #Status page: 0
 
-use phpCollab\Support\Support;
-
 $checkSession = "true";
 include '../includes/library.php';
 
-$support = new Support($logger);
+$support = $container->getSupportLoader();
 
 $bouton[6] = "over";
 $titlePage = $strings["support"];

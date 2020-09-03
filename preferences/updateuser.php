@@ -39,9 +39,9 @@ if ($request->isMethod('post')) {
                 }
 
                 try {
-                    $members->updateMember($session->get("id"), $session->get("login"), $full_name, $email_work, $title, $organization, $phone_work, $phone_home, $phone_mobile, $fax);
-                }
-                catch (Exception $e) {
+                    $members->updateMember($session->get("id"), $session->get("login"), $full_name, $email_work, $title,
+                        $organization, $phone_work, $phone_home, $phone_mobile, $fax);
+                } catch (Exception $e) {
                     echo "error saving changes." . $e->getMessage();
                 }
 
@@ -83,9 +83,13 @@ $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($strings["preferences"]);
 if ($notifications == "true") {
-    $blockPage->itemBreadcrumbs($strings["user_profile"] . " | " . $blockPage->buildLink("../preferences/updatepassword.php?", $strings["change_password"], 'in') . " | " . $blockPage->buildLink("../preferences/updatenotifications.php?", $strings["notifications"], 'in'));
+    $blockPage->itemBreadcrumbs($strings["user_profile"] . " | " . $blockPage->buildLink("../preferences/updatepassword.php?",
+            $strings["change_password"],
+            'in') . " | " . $blockPage->buildLink("../preferences/updatenotifications.php?", $strings["notifications"],
+            'in'));
 } else {
-    $blockPage->itemBreadcrumbs($strings["user_profile"] . " | " . $blockPage->buildLink("../preferences/updatepassword.php?", $strings["change_password"], 'in'));
+    $blockPage->itemBreadcrumbs($strings["user_profile"] . " | " . $blockPage->buildLink("../preferences/updatepassword.php?",
+            $strings["change_password"], 'in'));
 }
 $blockPage->closeBreadcrumbs();
 
@@ -98,7 +102,7 @@ $block1 = new phpCollab\Block();
 
 $block1->form = "user_edit_profile";
 $block1->openForm("../preferences/updateuser.php", null, $csrfHandler);
-echo '<input type="hidden" name="organization" value="'. $userPrefs["mem_organization"] .'">';
+echo '<input type="hidden" name="organization" value="' . $userPrefs["mem_organization"] . '">';
 
 if (!empty($error)) {
     $block1->headingError($strings["errors"]);
@@ -114,20 +118,28 @@ $block1->closePaletteIcon();
 $block1->openContent();
 $block1->contentTitle($strings["edit_user_account"]);
 
-$block1->contentRow($strings["full_name"], '<input size="24" style="width: 250px;" type="text" name="full_name" value="' . $userPrefs["mem_name"] . '">');
-$block1->contentRow($strings["title"], '<input size="24" style="width: 250px;" type="text" name="title" value="' . $userPrefs["mem_title"] . '">');
-$block1->contentRow($strings["email"], '<input size="24" style="width: 250px;" type="email" name="email_work" value="' . $userPrefs["mem_email_work"] . '">');
-$block1->contentRow($strings["work_phone"], '<input size="14" style="width: 150px;" type="tel" name="phone_work" value="' . $userPrefs["mem_phone_work"] . '">');
-$block1->contentRow($strings["home_phone"], '<input size="14" style="width: 150px;" type="tel" name="phone_home" value="' . $userPrefs["mem_phone_home"] . '">');
-$block1->contentRow($strings["mobile_phone"], '<input size="14" style="width: 150px;" type="tel" name="phone_mobile" value="' . $userPrefs["mem_mobile"] . '">');
-$block1->contentRow($strings["fax"], '<input size="14" style="width: 150px;" type="tel" name="fax" value="' . $userPrefs["mem_fax"] . '">');
-$block1->contentRow($strings["logout_time"] . $blockPage->printHelp("user_autologout"), '<input size="14" style="width: 150px;" type="text" name="logout_time" value="' . $userPrefs["mem_logout_time"] . '"> sec.');
+$block1->contentRow($strings["full_name"],
+    '<input size="24" style="width: 250px;" type="text" name="full_name" value="' . $userPrefs["mem_name"] . '">');
+$block1->contentRow($strings["title"],
+    '<input size="24" style="width: 250px;" type="text" name="title" value="' . $userPrefs["mem_title"] . '">');
+$block1->contentRow($strings["email"],
+    '<input size="24" style="width: 250px;" type="email" name="email_work" value="' . $userPrefs["mem_email_work"] . '">');
+$block1->contentRow($strings["work_phone"],
+    '<input size="14" style="width: 150px;" type="tel" name="phone_work" value="' . $userPrefs["mem_phone_work"] . '">');
+$block1->contentRow($strings["home_phone"],
+    '<input size="14" style="width: 150px;" type="tel" name="phone_home" value="' . $userPrefs["mem_phone_home"] . '">');
+$block1->contentRow($strings["mobile_phone"],
+    '<input size="14" style="width: 150px;" type="tel" name="phone_mobile" value="' . $userPrefs["mem_mobile"] . '">');
+$block1->contentRow($strings["fax"],
+    '<input size="14" style="width: 150px;" type="tel" name="fax" value="' . $userPrefs["mem_fax"] . '">');
+$block1->contentRow($strings["logout_time"] . $blockPage->printHelp("user_autologout"),
+    '<input size="14" style="width: 150px;" type="text" name="logout_time" value="' . $userPrefs["mem_logout_time"] . '"> sec.');
 
 if ($gmtTimezone == "true") {
     $selectTimezone = '<select name="timezone">';
     for ($i = -12; $i <= +12; $i++) {
         if ($userPrefs["mem_timezone"] == $i) {
-            $selectTimezone .= '<option value="' . $i . '" selected>' .$i . '</option>';
+            $selectTimezone .= '<option value="' . $i . '" selected>' . $i . '</option>';
         } else {
             $selectTimezone .= '<option value="' . $i . '">' . $i . '</option>';
         }
@@ -146,14 +158,16 @@ if ($userPrefs["mem_profil"] == "0") {
     $block1->contentRow($strings["permissions"], $strings["project_manager_administrator_permissions"]);
 }
 
-$block1->contentRow($strings["account_created"], phpCollab\Util::createDate($userPrefs["mem_created"], $session->get("timezone")));
+$block1->contentRow($strings["account_created"],
+    phpCollab\Util::createDate($userPrefs["mem_created"], $session->get("timezone")));
 $block1->contentRow("", '<button type="submit" name="action" value="update">' . $strings["save"] . '</button>');
 
 $block1->closeContent();
 $block1->closeForm();
 
 $block1->openPaletteScript();
-$block1->paletteScript(0, "export", "../users/exportuser.php?id={$session->get("id")}", "true,true,true", $strings["export"]);
+$block1->paletteScript(0, "export", "../users/exportuser.php?id={$session->get("id")}", "true,true,true",
+    $strings["export"]);
 $block1->closePaletteScript(count($userPrefs), array_column($userPrefs, 'mem_id'));
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

@@ -1,16 +1,11 @@
 <?php
 
-use phpCollab\Notifications\AddProjectTeam;
-use phpCollab\Notifications\Notifications;
-use phpCollab\Projects\Projects;
-use phpCollab\Teams\Teams;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$projects = new Projects();
-$teams = new Teams();
-$sendNotifications = new Notifications();
+$projects = $container->getProjectsLoader();
+$teams = $container->getTeams();
+$sendNotifications = $container->getNotificationsManager();
 
 $project = $request->query->get('project');
 $strings = $GLOBALS["strings"];
@@ -27,7 +22,7 @@ if ($request->query->get('action') == "add") {
         $id = str_replace("**", ",", $id);
 
         if ($htaccessAuth == "true") {
-            $Htpasswd = new Htpasswd;
+            $Htpasswd = $container->getHtpasswdService();
             $Htpasswd->initialize("../files/" . $projectDetail["pro_id"] . "/.htpasswd");
 
             $listMembers = $members->getMembersByIdIn($id);
@@ -61,7 +56,7 @@ if ($request->query->get('action') == "add") {
         }
 
         if ($notifications == "true") {
-            $addProjectTeam = new AddProjectTeam();
+            $addProjectTeam = $container->getNotificationAddProjectTeamService();
 
             try {
                 $notificationList = $sendNotifications->getNotificationsWhereMemberIn($id);
@@ -79,8 +74,10 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewprojectsite.php?id=" . $projectDetail["pro_id"], $strings["project_site"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"],
+    $projectDetail["pro_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewprojectsite.php?id=" . $projectDetail["pro_id"],
+    $strings["project_site"], "in"));
 $blockPage->itemBreadcrumbs($strings["grant_client"]);
 $blockPage->closeBreadcrumbs();
 
@@ -97,7 +94,13 @@ $block1->paletteIcon(1, "info", $strings["view"]);
 $block1->paletteIcon(2, "edit", $strings["edit"]);
 $block1->closePaletteIcon();
 
-$block1->sorting("team", $sortingUser["users"], "mem.name ASC", $sortingFields = [0 => "mem.name", 1 => "mem.title", 2 => "mem.login", 3 => "mem.phone_work", 4 => "log.connected"]);
+$block1->sorting("team", $sortingUser["users"], "mem.name ASC", $sortingFields = [
+    0 => "mem.name",
+    1 => "mem.title",
+    2 => "mem.login",
+    3 => "mem.phone_work",
+    4 => "log.connected"
+]);
 
 $concatMembers = $teams->getClientTeamMembersByProject($project);
 
@@ -109,12 +112,19 @@ if ($concatMembers) {
     }
 }
 
-$listMembers = $members->getClientMembersByOrgIdAndNotInTeam($projectDetail["pro_organization"], $membersTeam, $block1->sortingValue);
+$listMembers = $members->getClientMembersByOrgIdAndNotInTeam($projectDetail["pro_organization"], $membersTeam,
+    $block1->sortingValue);
 
 if ($listMembers) {
     $block1->openResults();
 
-    $block1->labels($labels = [0 => $strings["full_name"], 1 => $strings["title"], 2 => $strings["user_name"], 3 => $strings["work_phone"], 4 => $strings["connected"]], "false");
+    $block1->labels($labels = [
+        0 => $strings["full_name"],
+        1 => $strings["title"],
+        2 => $strings["user_name"],
+        3 => $strings["work_phone"],
+        4 => $strings["connected"]
+    ], "false");
 
     foreach ($listMembers as $member) {
         if ($member["mem_phone_work"] == "") {
@@ -122,7 +132,8 @@ if ($listMembers) {
         }
         $block1->openRow();
         $block1->checkboxRow($member["mem_id"]);
-        $block1->cellRow($blockPage->buildLink("../users/viewuser.php?id=" . $member["mem_id"], $member["mem_name"], "in"));
+        $block1->cellRow($blockPage->buildLink("../users/viewuser.php?id=" . $member["mem_id"], $member["mem_name"],
+            "in"));
         $block1->cellRow($member["mem_title"]);
         $block1->cellRow($blockPage->buildLink($member["mem_email_work"], $member["mem_login"], "mail"));
         $block1->cellRow($member["mem_phone_work"]);
@@ -146,9 +157,11 @@ if ($listMembers) {
 $block1->closeFormResults();
 
 $block1->openPaletteScript();
-$block1->paletteScript(0, "add", "../teams/addclientuser.php?project=$project&action=add", "false,true,true", $strings["add"]);
+$block1->paletteScript(0, "add", "../teams/addclientuser.php?project=$project&action=add", "false,true,true",
+    $strings["add"]);
 $block1->paletteScript(1, "info", "../users/viewuser.php?", "false,true,false", $strings["view"]);
-$block1->paletteScript(2, "edit", "../users/updateclientuser.php?orgid=" . $projectDetail["pro_organization"] . "", "false,true,false", $strings["edit"]);
+$block1->paletteScript(2, "edit", "../users/updateclientuser.php?orgid=" . $projectDetail["pro_organization"] . "",
+    "false,true,false", $strings["edit"]);
 $block1->closePaletteScript(count($listMembers), array_column($listMembers, 'mem_id'));
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

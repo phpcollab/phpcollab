@@ -1,14 +1,11 @@
 <?php
 
-use phpCollab\Invoices\Invoices;
-use phpCollab\Projects\Projects;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 $setTitle .= " : View Invoices";
 
-$invoices = new Invoices();
-$projects = new Projects();
+$invoices = $container->getInvoicesLoader();
+$projects = $container->getProjectsLoader();
 $id = $request->query->get("id", 0);
 $action = $request->query->get("action");
 $addToSite = $request->query->get("addToSite", false);
@@ -17,20 +14,20 @@ $strings = $GLOBALS["strings"];
 
 if ($action == "publish") {
 
-        try {
-            if ($addToSite == "true") {
-                $invoices->togglePublish($id, true);
-                $msg = "addToSite";
-            }
-
-            if ($removeToSite == "true") {
-                $invoices->togglePublish($id, false);
-                $msg = "removeToSite";
-            }
-        } catch (Exception $exception) {
-            $error = $strings["error_publishing_invoice"];
-            error_log($strings["error_publishing_invoice"] . ': ' . $exception->getMessage());
+    try {
+        if ($addToSite == "true") {
+            $invoices->togglePublish($id, true);
+            $msg = "addToSite";
         }
+
+        if ($removeToSite == "true") {
+            $invoices->togglePublish($id, false);
+            $msg = "removeToSite";
+        }
+    } catch (Exception $exception) {
+        $error = $strings["error_publishing_invoice"];
+        error_log($strings["error_publishing_invoice"] . ': ' . $exception->getMessage());
+    }
 }
 
 $detailInvoice = $invoices->getInvoiceById($id);
@@ -47,8 +44,10 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?", $strings["clients"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $projectDetail["pro_org_id"], $projectDetail["pro_org_name"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../invoicing/listinvoices.php?client=" . $projectDetail["pro_organization"], $strings["invoices"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $projectDetail["pro_org_id"],
+    $projectDetail["pro_org_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../invoicing/listinvoices.php?client=" . $projectDetail["pro_organization"],
+    $strings["invoices"], "in"));
 $blockPage->itemBreadcrumbs($detailInvoice["inv_id"]);
 $blockPage->closeBreadcrumbs();
 
@@ -83,9 +82,13 @@ $block1->closePaletteIcon();
 $block1->openContent();
 $block1->contentTitle($strings["info"]);
 
-$block1->contentRow($strings["project"], $blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
+$block1->contentRow($strings["project"],
+    $blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"],
+        "in"));
 
-$block1->contentRow($strings["organization"], $blockPage->buildLink("../clients/viewclient.php?id=" . $projectDetail["pro_org_id"], $projectDetail["pro_org_name"], "in"));
+$block1->contentRow($strings["organization"],
+    $blockPage->buildLink("../clients/viewclient.php?id=" . $projectDetail["pro_org_id"],
+        $projectDetail["pro_org_name"], "in"));
 
 $block1->contentRow($strings["header_note"], nl2br($detailInvoice["inv_header_note"]));
 $block1->contentRow($strings["footer_note"], nl2br($detailInvoice["inv_footer_note"]));
@@ -100,21 +103,30 @@ if ($sitePublish == "true") {
     $block1->contentRow($strings["published"], $GLOBALS["statusPublish"][$detailInvoice["inv_published"]]);
 }
 
-$block1->contentRow($strings["created"], phpCollab\Util::createDate($detailInvoice["inv_created"], $session->get('timezone')));
-$block1->contentRow($strings["modified"], phpCollab\Util::createDate($detailInvoice["inv_modified"], $session->get('timezone')));
+$block1->contentRow($strings["created"],
+    phpCollab\Util::createDate($detailInvoice["inv_created"], $session->get('timezone')));
+$block1->contentRow($strings["modified"],
+    phpCollab\Util::createDate($detailInvoice["inv_modified"], $session->get('timezone')));
 
 $block1->closeContent();
 $block1->closeToggle();
 $block1->closeForm();
 
 $block1->openPaletteScript();
-$block1->paletteScript(0, "remove", "../invoicing/deleteinvoices.php?id=" . $detailInvoice["inv_id"] . "&client=" . $projectDetail["pro_org_id"] . "", "true,true,false", $strings["delete"]);
+$block1->paletteScript(0, "remove",
+    "../invoicing/deleteinvoices.php?id=" . $detailInvoice["inv_id"] . "&client=" . $projectDetail["pro_org_id"] . "",
+    "true,true,false", $strings["delete"]);
 $block1->paletteScript(2, "export", "exportinvoice.php?id=$id", "true,true,false", $strings["export"]);
 if ($sitePublish == "true") {
-    $block1->paletteScript(3, "add_projectsite", "../invoicing/viewinvoice.php?addToSite=true&id=" . $detailInvoice["inv_id"] . "&action=publish", "true,true,true", $strings["add_project_site"]);
-    $block1->paletteScript(4, "remove_projectsite", "../invoicing/viewinvoice.php?removeToSite=true&id=" . $detailInvoice["inv_id"] . "&action=publish", "true,true,true", $strings["remove_project_site"]);
+    $block1->paletteScript(3, "add_projectsite",
+        "../invoicing/viewinvoice.php?addToSite=true&id=" . $detailInvoice["inv_id"] . "&action=publish",
+        "true,true,true", $strings["add_project_site"]);
+    $block1->paletteScript(4, "remove_projectsite",
+        "../invoicing/viewinvoice.php?removeToSite=true&id=" . $detailInvoice["inv_id"] . "&action=publish",
+        "true,true,true", $strings["remove_project_site"]);
 }
-$block1->paletteScript(5, "edit", "../invoicing/editinvoice.php?id=" . $detailInvoice["inv_id"], "true,true,false", $strings["edit"]);
+$block1->paletteScript(5, "edit", "../invoicing/editinvoice.php?id=" . $detailInvoice["inv_id"], "true,true,false",
+    $strings["edit"]);
 $block1->closePaletteScript("", []);
 
 $block2 = new phpCollab\Block();
@@ -133,24 +145,38 @@ $listInvoicesItems = $invoices->getActiveInvoiceItemsByInvoiceId($id);
 if ($listInvoicesItems) {
     $block2->openResults();
 
-    $block2->labels($labels = [0 => $strings["position"], 1 => $strings["title"], 2 => $strings["rate_type"], 3 => $strings["rate_value"], 4 => $strings["amount_ex_tax"], 5 => $strings["completed"]], "false", $sorting = "false", $sortingOff = [0 => "0", 1 => "ASC"]);
+    $block2->labels($labels = [
+        0 => $strings["position"],
+        1 => $strings["title"],
+        2 => $strings["rate_type"],
+        3 => $strings["rate_value"],
+        4 => $strings["amount_ex_tax"],
+        5 => $strings["completed"]
+    ], "false", $sorting = "false", $sortingOff = [0 => "0", 1 => "ASC"]);
 
     $rate_type_value = null;
     foreach ($listInvoicesItems as $item) {
         if ($item["invitem_rate_type"] == "a") {
             $rate_type_value = "0";
-        } else if ($item["invitem_rate_type"] == "b") {
-            $rate_type_value = "1";
-        } else if ($item["invitem_rate_type"] == "c") {
-            $rate_type_value = "2";
-        } else if (is_numeric($item["invitem_rate_type"])) {
-            $rate_type_value = "3";
+        } else {
+            if ($item["invitem_rate_type"] == "b") {
+                $rate_type_value = "1";
+            } else {
+                if ($item["invitem_rate_type"] == "c") {
+                    $rate_type_value = "2";
+                } else {
+                    if (is_numeric($item["invitem_rate_type"])) {
+                        $rate_type_value = "3";
+                    }
+                }
+            }
         }
 
         $block2->openRow();
         $block2->checkboxRow($item["invitem_id"]);
         $block2->cellRow($item["invitem_position"]);
-        $block2->cellRow($blockPage->buildLink("../invoicing/editinvoiceitem.php?id=" . $item["invitem_id"], $item["invitem_title"], "in"));
+        $block2->cellRow($blockPage->buildLink("../invoicing/editinvoiceitem.php?id=" . $item["invitem_id"],
+            $item["invitem_title"], "in"));
         $block2->cellRow($GLOBALS["rateType"][$rate_type_value]);
         $block2->cellRow($item["invitem_rate_value"]);
         $block2->cellRow($item["invitem_amount_ex_tax"]);

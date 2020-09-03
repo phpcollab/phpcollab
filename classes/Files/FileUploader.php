@@ -25,11 +25,12 @@ class FileUploader
 
     /**
      * Files constructor.
+     * @param Database $database
      * @param UploadedFile $fileObj
      */
-    public function __construct(UploadedFile $fileObj)
+    public function __construct(Database $database, UploadedFile $fileObj)
     {
-        $this->db = new Database();
+        $this->db = $database;
         $this->files_gateway = new FilesGateway($this->db);
         $this->strings = $GLOBALS["strings"];
         $this->root = $GLOBALS["root"];
@@ -40,7 +41,8 @@ class FileUploader
     /**
      * @return Exception|false
      */
-    private function hasErrors() {
+    private function hasErrors()
+    {
         // Check for any errors with the file
         try {
             return CheckForFileErrorsService::hasErrors($this->fileObj);
@@ -54,8 +56,8 @@ class FileUploader
      */
     private function isFileTooBig()
     {
-            // Check that the file does not exceed the size limitations.
-            FileExceedsSizeService::exceedsSize($this->fileObj);
+        // Check that the file does not exceed the size limitations.
+        FileExceedsSizeService::exceedsSize($this->fileObj);
     }
 
     /**

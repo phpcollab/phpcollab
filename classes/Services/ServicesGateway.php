@@ -63,7 +63,7 @@ class ServicesGateway
     public function getServicesById($serviceIds, $sorting = null)
     {
         $serviceIds = explode(',', $serviceIds);
-        $placeholders = str_repeat ('?, ', count($serviceIds)-1) . '?';
+        $placeholders = str_repeat('?, ', count($serviceIds) - 1) . '?';
         $sql = $this->initrequest["services"] . " WHERE id IN ($placeholders)";
         $this->db->query($sql . $this->orderBy($sorting));
         $this->db->execute($serviceIds);
@@ -108,7 +108,7 @@ class ServicesGateway
     public function deleteServices($serviceIds)
     {
         $serviceIds = explode(',', $serviceIds);
-        $placeholders = str_repeat ('?, ', count($serviceIds)-1) . '?';
+        $placeholders = str_repeat('?, ', count($serviceIds) - 1) . '?';
         $sql = "DELETE FROM {$this->tableCollab['services']} WHERE id IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($serviceIds);
@@ -121,7 +121,32 @@ class ServicesGateway
     private function orderBy($sorting)
     {
         if (!is_null($sorting)) {
-            $allowedOrderedBy = ["tea.id", "tea.project", "tea.member", "tea.published", "tea.authorized", "mem.id", "mem.login", "mem.name", "mem.email_work", "mem.title", "mem.phone_work", "org.name", "pro.id", "pro.name", "pro.priority", "pro.status", "pro.published", "org2.name", "mem2.login", "mem2.email_work", "org2.id", "log.connected", "mem.profil", "mem.password"];
+            $allowedOrderedBy = [
+                "tea.id",
+                "tea.project",
+                "tea.member",
+                "tea.published",
+                "tea.authorized",
+                "mem.id",
+                "mem.login",
+                "mem.name",
+                "mem.email_work",
+                "mem.title",
+                "mem.phone_work",
+                "org.name",
+                "pro.id",
+                "pro.name",
+                "pro.priority",
+                "pro.status",
+                "pro.published",
+                "org2.name",
+                "mem2.login",
+                "mem2.email_work",
+                "org2.id",
+                "log.connected",
+                "mem.profil",
+                "mem.password"
+            ];
             $pieces = explode(' ', $sorting);
 
             if ($pieces) {

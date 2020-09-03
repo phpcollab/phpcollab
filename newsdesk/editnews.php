@@ -31,9 +31,6 @@
 ** =============================================================================
 */
 
-use phpCollab\NewsDesk\NewsDesk;
-use phpCollab\Projects\Projects;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -41,8 +38,8 @@ if ($session->get("profile") != "0" && $session->get("profile") != "1" && $sessi
     phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$id&msg=permissionNews");
 }
 
-$news = new NewsDesk();
-$projects = new Projects();
+$news = $container->getNewsdeskLoader();
+$projects = $container->getProjectsLoader();
 
 $action = $request->query->get('action');
 $id = $request->query->get('id');
@@ -211,7 +208,8 @@ if ($id == "") {
     if ($action == "remove") {
         $blockPage->itemBreadcrumbs($strings["edit_newsdesk"]);
     } else {
-        $blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/viewnews.php?id=" . $newsDetail['news_id'], $newsDetail['news_title'], 'in'));
+        $blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/viewnews.php?id=" . $newsDetail['news_id'],
+            $newsDetail['news_title'], 'in'));
         $blockPage->itemBreadcrumbs($strings["edit_newsdesk"]);
     }
 }
@@ -248,11 +246,13 @@ CSRF;
 
     // add
     if ($id == "") {
-        $block1->contentRow($strings["author"], '<input type="hidden" name="author" value="' . $session->get("id") . '"><b>' . $session->get("name") . '</b>');
+        $block1->contentRow($strings["author"],
+            '<input type="hidden" name="author" value="' . $session->get("id") . '"><b>' . $session->get("name") . '</b>');
     } // edit
     else {
         $newsAuthor = $members->getMemberById($newsDetail['news_author']);
-        $block1->contentRow($strings["author"], "<input type='hidden' name='author' value='" . $newsDetail['news_author'] . "'><b>" . $newsAuthor["mem_name"] . "</b>");
+        $block1->contentRow($strings["author"],
+            "<input type='hidden' name='author' value='" . $newsDetail['news_author'] . "'><b>" . $newsAuthor["mem_name"] . "</b>");
     }
 
     $block1->contentRow($strings["title"], "<input type='text' name='title' value='$title' style='width: 300px;'>");
@@ -277,10 +277,12 @@ CSRF;
     $block1->contentRow($strings["newsdesk_related"], "<select name='related' style='width: 300px;'>$option</select>");
     // end
 
-    $block1->contentRow($strings["comments"], '<textarea rows="30" name="content" id="content" style="width: 400px;">' . $content . '</textarea>');
+    $block1->contentRow($strings["comments"],
+        '<textarea rows="30" name="content" id="content" style="width: 400px;">' . $content . '</textarea>');
 
     // 14/06/2003 related links & rss enabled by fullo
-    $block1->contentRow($strings["newsdesk_related_links"] . $block1->printHelp("newsdesk_links"), "<input type='text' name='links' value='$links' style='width: 300px;'>");
+    $block1->contentRow($strings["newsdesk_related_links"] . $block1->printHelp("newsdesk_links"),
+        "<input type='text' name='links' value='$links' style='width: 300px;'>");
 
     if ($id != "") {
         if ($rss == '1') {
@@ -296,7 +298,8 @@ CSRF;
 
     // end
 
-    $block1->contentRow($strings[""], "<input type='submit' name='submit' value='" . $strings["save"] . "'> <input type='button' name='cancel' value='" . $strings["cancel"] . "' onClick='history.back();'>");
+    $block1->contentRow($strings[""],
+        "<input type='submit' name='submit' value='" . $strings["save"] . "'> <input type='button' name='cancel' value='" . $strings["cancel"] . "' onClick='history.back();'>");
 
     $block1->closeContent();
     $block1->closeForm();
@@ -320,7 +323,8 @@ CSRF;
         $block1->contentRow("#" . $newsDetail['news_id'], $newsDetail['news_title']);
     }
 
-    $block1->contentRow("", "<input type='submit' name='delete' value='" . $strings["delete"] . "'> <input type='button' name='cancel' value='" . $strings["cancel"] . "' onClick='history.back();'>");
+    $block1->contentRow("",
+        "<input type='submit' name='delete' value='" . $strings["delete"] . "'> <input type='button' name='cancel' value='" . $strings["cancel"] . "' onClick='history.back();'>");
 
     $block1->closeContent();
     $block1->closeForm();

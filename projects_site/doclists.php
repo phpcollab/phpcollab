@@ -2,12 +2,10 @@
 #Application name: PhpCollab
 #Status page: 0
 
-use phpCollab\Files\Files;
-
 $checkSession = "true";
 include '../includes/library.php';
 
-$files = new Files();
+$files = $container->getFilesLoader();
 
 $bouton[4] = "over";
 $titlePage = $strings["document_list"];

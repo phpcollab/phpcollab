@@ -784,4 +784,4 @@ CREATE TABLE {$dbTablePrefix}newsdeskposts (
 
 STAMP;
 
-?>
+

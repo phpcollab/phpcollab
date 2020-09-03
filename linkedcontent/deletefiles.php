@@ -1,13 +1,11 @@
 <?php
 
-use phpCollab\Files\Files;
-use phpCollab\Projects\Projects;
-use phpCollab\Tasks\Tasks;
+use phpCollab\Block;
 
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$files = new Files();
+$files = $container->getFilesLoader();
 
 $task = $request->query->get("task");
 $project = $request->query->get("project");
@@ -65,21 +63,24 @@ if ($request->isMethod('post')) {
     }
 }
 
-$projects = new Projects();
+$projects = $container->getProjectsLoader();
 $projectDetail = $projects->getProjectById($project);
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
-$blockPage = new phpCollab\Block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"],
+    $projectDetail["pro_name"], "in"));
 
 if ($task != "0") {
-    $tasks = new Tasks();
+    $tasks = $container->getTasksLoader();
     $taskDetail = $tasks->getTaskById($task);
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail["pro_id"], $strings["tasks"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail["tas_id"], $taskDetail["tas_name"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail["pro_id"],
+        $strings["tasks"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail["tas_id"],
+        $taskDetail["tas_name"], "in"));
 }
 
 $blockPage->itemBreadcrumbs($strings["unlink_files"]);
@@ -90,10 +91,11 @@ if ($msg != "") {
     $blockPage->messageBox($GLOBALS["msgLabel"]);
 }
 
-$block1 = new phpCollab\Block();
+$block1 = new Block();
 
 $block1->form = "saC";
-$block1->openForm("../linkedcontent/deletefiles.php?project={$project}&task={$task}&id={$id}&sendto={$sendto}", null, $csrfHandler);
+$block1->openForm("../linkedcontent/deletefiles.php?project={$project}&task={$task}&id={$id}&sendto={$sendto}", null,
+    $csrfHandler);
 
 $block1->heading($strings["unlink_files"]);
 

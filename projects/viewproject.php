@@ -1,29 +1,21 @@
 <?php
 
-use phpCollab\Files\Files;
-use phpCollab\Notes\Notes;
-use phpCollab\Phases\Phases;
-use phpCollab\Projects\Projects;
-use phpCollab\Support\Support;
-use phpCollab\Tasks\Tasks;
-use phpCollab\Teams\Teams;
-use phpCollab\Topics\Topics;
 use phpCollab\Util;
 
 $checkSession = "true";
 include_once '../includes/library.php';
 include '../includes/customvalues.php';
 
-$topics = new Topics();
-$tasks = new Tasks();
-$teams = new Teams();
-$files = new Files();
-$notes = new Notes();
-$support = new Support($logger);
-$projects = new Projects();
-$topics = new Topics();
-$notes = new Notes();
-$phases = new Phases();
+$topics = $container->getTopicsLoader();
+$tasks = $container->getTasksLoader();
+$teams = $container->getTeams();
+$files = $container->getFilesLoader();
+$notes = $container->getNotesLoader();
+$support = $container->getSupportLoader();
+$projects = $container->getProjectsLoader();
+$topics = $container->getTopicsLoader();
+$notes = $container->getNotesLoader();
+$phases = $container->getPhasesLoader();
 
 $id = $request->query->get("id");
 $project = $request->query->get("project");
@@ -845,7 +837,7 @@ $teamBlock->closePaletteScript(count($teamList), array_column($teamList, 'tea_me
  * Begin Linked Content
  */
 if ($fileManagement == "true") {
-    $files = new Files();
+    $files = $container->getFilesLoader();
 
     $filesBlock = new phpCollab\Block();
     $filesBlock->form = "tdC";

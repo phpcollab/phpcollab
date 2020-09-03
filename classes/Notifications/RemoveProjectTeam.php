@@ -6,11 +6,17 @@ namespace phpCollab\Notifications;
 
 use Exception;
 use Monolog\Logger;
+use phpCollab\Container;
 use phpCollab\Notification;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class RemoveProjectTeam extends Notification
 {
+    public function __construct(Container $container)
+    {
+        parent::__construct($container);
+    }
+
     /**
      * @param $projectDetail
      * @param $notificationsList

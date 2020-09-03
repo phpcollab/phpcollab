@@ -16,10 +16,11 @@ class Phases
 
     /**
      * Phases constructor.
+     * @param Database $database
      */
-    public function __construct()
+    public function __construct(Database $database)
     {
-        $this->db = new Database();
+        $this->db = $database;
         $this->phases_gateway = new PhasesGateway($this->db);
     }
 
@@ -45,9 +46,7 @@ class Phases
         $projectId = filter_var($projectId, FILTER_VALIDATE_INT);
         $phaseNum = filter_var($phaseNum, FILTER_VALIDATE_INT);
 
-        $phases = $this->phases_gateway->getPhasesByProjectIdAndPhaseOrderNum($projectId, $phaseNum);
-
-        return $phases;
+        return $this->phases_gateway->getPhasesByProjectIdAndPhaseOrderNum($projectId, $phaseNum);
     }
 
     /**
@@ -58,9 +57,7 @@ class Phases
     {
         $phaseId = filter_var($phaseId, FILTER_VALIDATE_INT);
 
-        $phase = $this->phases_gateway->getPhaseById($phaseId);
-
-        return $phase;
+        return $this->phases_gateway->getPhaseById($phaseId);
     }
 
     /**

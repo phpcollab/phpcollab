@@ -5,10 +5,10 @@ namespace phpCollab;
 use Exception;
 use InvalidArgumentException;
 use PHPMailer\PHPMailer\PHPMailer;
-use phpCollab\Members\Members;
 
 class Notification extends phpmailer
 {
+    private $container;
     private $lang;
     private $notificationMethod;
     protected $strings;
@@ -22,12 +22,15 @@ class Notification extends phpmailer
 
     /**
      * Notification constructor.
-     * @param null $exceptions
+     * @param Container $container
      * @param null $lang
+     * @param null $exceptions
      */
-    public function __construct($lang = null, $exceptions = null)
+    public function __construct(Container $container, $lang = null, $exceptions = null)
     {
         parent::__construct($exceptions);
+        $this->container = $container;
+
         if (is_null($lang)) {
             $this->lang = (!empty($GLOBALS["lang"])) ? $GLOBALS["lang"] : "en";
         } else {
@@ -70,7 +73,7 @@ class Notification extends phpmailer
      */
     public function getUserinfo($idUser, $type, $logger)
     {
-        $detailUser = (new Members($logger))->getMemberById($idUser);
+        $detailUser = ($this->container->getMembersLoader())->getMemberById($idUser);
         try {
             if ($type == "from") {
                 $this->setFrom($detailUser["mem_email_work"], $detailUser["mem_name"]);

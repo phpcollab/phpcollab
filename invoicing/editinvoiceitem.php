@@ -1,10 +1,5 @@
 <?php
 
-use phpCollab\Invoices\Invoices;
-use phpCollab\Organizations\Organizations;
-use phpCollab\Projects\Projects;
-use phpCollab\Services\Services;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -14,10 +9,10 @@ if (empty($id)) {
     header("Location:../general/permissiondenied.php");
 }
 
-$invoices = new Invoices();
-$projects = new Projects();
-$organizations = new Organizations();
-$services = new Services();
+$invoices = $container->getInvoicesLoader();
+$projects = $container->getProjectsLoader();
+$organizations = $container->getOrganizationsManager();
+$services = $container->getServicesLoader();
 
 $rateType = $GLOBALS["rateType"];
 
@@ -71,9 +66,12 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?", $strings["clients"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $projectDetail["pro_org_id"], $projectDetail["pro_org_name"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../invoicing/listinvoices.php?client=" . $projectDetail["pro_organization"], $strings["invoices"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../invoicing/viewinvoice.php?id=" . $detailInvoice["inv_id"], $detailInvoice["inv_id"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $projectDetail["pro_org_id"],
+    $projectDetail["pro_org_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../invoicing/listinvoices.php?client=" . $projectDetail["pro_organization"],
+    $strings["invoices"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../invoicing/viewinvoice.php?id=" . $detailInvoice["inv_id"],
+    $detailInvoice["inv_id"], "in"));
 
 $blockPage->itemBreadcrumbs($detailInvoiceItem["invitem_title"]);
 $blockPage->itemBreadcrumbs($strings["edit_invoiceitem"]);
@@ -88,7 +86,8 @@ $block1 = new phpCollab\Block();
 
 if (!empty($detailInvoiceItem)) {
     $block1->form = "invoice";
-    $block1->openForm("../invoicing/editinvoiceitem.php?id=" . $id . "&#" . $block1->form . "Anchor", null, $csrfHandler);
+    $block1->openForm("../invoicing/editinvoiceitem.php?id=" . $id . "&#" . $block1->form . "Anchor", null,
+        $csrfHandler);
 }
 
 if (!empty($error)) {
@@ -116,12 +115,18 @@ $checked = null;
 
 if ($detailInvoiceItem["invitem_rate_type"] == "a") {
     $checkeda = "checked";
-} else if ($detailInvoiceItem["invitem_rate_type"] == "b") {
-    $checkedb = "checked";
-} else if ($detailInvoiceItem["invitem_rate_type"] == "c") {
-    $checkedc = "checked";
-} else if (is_numeric($detailInvoiceItem["invitem_rate_type"])) {
-    $checked[$detailInvoiceItem["invitem_rate_type"]] = "checked";
+} else {
+    if ($detailInvoiceItem["invitem_rate_type"] == "b") {
+        $checkedb = "checked";
+    } else {
+        if ($detailInvoiceItem["invitem_rate_type"] == "c") {
+            $checkedc = "checked";
+        } else {
+            if (is_numeric($detailInvoiceItem["invitem_rate_type"])) {
+                $checked[$detailInvoiceItem["invitem_rate_type"]] = "checked";
+            }
+        }
+    }
 }
 
 $detailClient = $organizations->getOrganizationById($projectDetail["pro_organization"]);
@@ -146,7 +151,8 @@ RADIOITEM;
     }
 }
 
-$block1->contentRow($strings["worked_hours"], '<input type="hidden" name="worked_hours" value="' . $worked_hours . '">' . $worked_hours);
+$block1->contentRow($strings["worked_hours"],
+    '<input type="hidden" name="worked_hours" value="' . $worked_hours . '">' . $worked_hours);
 $radioButtons = <<<HTML
 <label style="display: block; width: fit-content"><input type="radio" name="rate_type" value="a" {$checkeda} id="custom"> {$rateType["0"]}</label>
 <label style="display: block; width: fit-content"><input type="radio" name="rate_type" value="b" onclick="rateField('{$projectDetail["pro_hourly_rate"]}');" {$checkedb} id="project"> {$rateType["1"]}</label>
@@ -155,8 +161,10 @@ $radioButtons = <<<HTML
 HTML;
 
 $block1->contentRow($strings["rate_type"], $radioButtons);
-$block1->contentRow($strings["rate_value"], '<input type="text" name="rate_value" size="20" value="' . $rate_value . '" onchange="document.invoiceForm.rate_type[0].checked=true">');
-$block1->contentRow($strings["amount_ex_tax"], '<input type="text" name="amount_ex_tax" size="20" value="' . $amount_ex_tax . '" readonly>');
+$block1->contentRow($strings["rate_value"],
+    '<input type="text" name="rate_value" size="20" value="' . $rate_value . '" onchange="document.invoiceForm.rate_type[0].checked=true">');
+$block1->contentRow($strings["amount_ex_tax"],
+    '<input type="text" name="amount_ex_tax" size="20" value="' . $amount_ex_tax . '" readonly>');
 
 echo <<<HTML
     <tr class="odd">

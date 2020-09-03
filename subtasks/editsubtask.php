@@ -19,22 +19,14 @@
 */
 
 
-use phpCollab\Assignments\Assignments;
-use phpCollab\Phases\Phases;
-use phpCollab\Projects\Projects;
-use phpCollab\Subtasks\Subtasks;
-use phpCollab\Tasks\Tasks;
-use phpCollab\Teams\Teams;
-use phpCollab\Updates\Updates;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$tasks = new Tasks();
-$projects = new Projects();
-$teams = new Teams();
-$subtasks = new Subtasks();
-$assignments = new Assignments();
+$tasks = $container->getTasksLoader();
+$projects = $container->getProjectsLoader();
+$teams = $container->getTeams();
+$subtasks = $container->getSubtasksLoader();
+$assignments = $container->getAssignmentsManager();
 
 $id = $request->query->get("id");
 $parentTaskId = $request->query->get("task");
@@ -152,13 +144,15 @@ if (!empty($id)) {
                             /**
                              * Update subTask
                              */
-                            $updatedDetails = $subtasks->update($id, $taskName, $description, $assignedTo, $taskStatus, $taskPriority, $startDate,
+                            $updatedDetails = $subtasks->update($id, $taskName, $description, $assignedTo, $taskStatus,
+                                $taskPriority, $startDate,
                                 $dueDate, $estimatedTime, $actualTime, $comments, $timestamp, $completion, $publish);
 
                             //send task assignment mail if notifications = true
                             if ($notifications == "true") {
                                 try {
-                                    $subtasks->sendNotification("assignment", $updatedDetails, $projectDetail, $session, $logger);
+                                    $subtasks->sendNotification("assignment", $updatedDetails, $projectDetail, $session,
+                                        $logger);
                                 } catch (Exception $exception) {
                                     echo $exception->getMessage();
                                 }
@@ -168,7 +162,8 @@ if (!empty($id)) {
                             /**
                              * Update subTask
                              */
-                            $updatedDetails = $subtasks->update($id, $taskName, $description, $assignedTo, $taskStatus, $taskPriority, $startDate,
+                            $updatedDetails = $subtasks->update($id, $taskName, $description, $assignedTo, $taskStatus,
+                                $taskPriority, $startDate,
                                 $dueDate, $estimatedTime, $actualTime, $comments, $timestamp, $completion, $publish);
 
                             if ($notifications == "true") {
@@ -176,15 +171,18 @@ if (!empty($id)) {
                                     if ($assignedTo != "0") {
                                         //send status task change mail if notifications = true
                                         if ($taskStatus != $subtaskDetail["subtas_status"]) {
-                                            $subtasks->sendNotification("status", $updatedDetails, $projectDetail, $session, $logger);
+                                            $subtasks->sendNotification("status", $updatedDetails, $projectDetail,
+                                                $session, $logger);
                                         }
                                         //send priority task change mail if notifications = true
                                         if ($taskPriority != $subtaskDetail["subtas_priority"]) {
-                                            $subtasks->sendNotification("priority", $updatedDetails, $projectDetail, $session, $logger);
+                                            $subtasks->sendNotification("priority", $updatedDetails, $projectDetail,
+                                                $session, $logger);
                                         }
 
                                         if ($dueDate != $subtaskDetail["subtas_due_date"]) {
-                                            $subtasks->sendNotification("dueDate", $updatedDetails, $projectDetail, $session, $logger);
+                                            $subtasks->sendNotification("dueDate", $updatedDetails, $projectDetail,
+                                                $session, $logger);
                                         }
                                     }
                                 } catch (Exception $exception) {
@@ -211,7 +209,7 @@ if (!empty($id)) {
                             /**
                              * Add to updates table
                              */
-                            $updates = new Updates();
+                            $updates = $container->getTaskUpdateService();
                             $updateComments = phpCollab\Util::convertData($updateComments);
                             $updates->addUpdate(2, $id, $session->get("id"), $updateComments);
                         }
@@ -263,8 +261,10 @@ if (empty($id)) {
                     /**
                      * Create new subtask
                      */
-                    $newSubtaskId = $subtasks->add($parentTaskId, $taskName, $description, $session->get("id"), $assignedTo, $taskStatus,
-                        $taskPriority, $startDate, $dueDate, $estimatedTime, $actualTime, $comments, $completion, $publish);
+                    $newSubtaskId = $subtasks->add($parentTaskId, $taskName, $description, $session->get("id"),
+                        $assignedTo, $taskStatus,
+                        $taskPriority, $startDate, $dueDate, $estimatedTime, $actualTime, $comments, $completion,
+                        $publish);
 
                     if ($taskStatus == "1") {
                         $subtasks->setCompletionDate($newSubtaskId, $date);
@@ -290,7 +290,8 @@ if (empty($id)) {
                         //send task assignment mail if notifications = true
                         if ($notifications == "true") {
                             try {
-                                $subtasks->sendNotification("assignment", $subtaskDetail, $projectDetail, $session, $logger);
+                                $subtasks->sendNotification("assignment", $subtaskDetail, $projectDetail, $session,
+                                    $logger);
                             } catch (Exception $exception) {
 
                             }
@@ -326,7 +327,7 @@ if ($projectDetail['pro_org_id'] == "1") {
 }
 
 if ($projectDetail['pro_phase_set'] != "0") {
-    $phases = new Phases();
+    $phases = $container->getPhasesLoader();
     if ($id != "") {
         $tPhase = $parentTaskDetail['tas_parent_phase'];
         if (!$tPhase) {
@@ -349,20 +350,26 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail['pro_id'], $projectDetail['pro_name'], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail['pro_id'],
+    $projectDetail['pro_name'], "in"));
 
 if ($projectDetail['pro_phase_set'] != "0") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail['pro_id'], $strings["phases"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase['pha_id'], $targetPhase['pha_name'], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail['pro_id'],
+        $strings["phases"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase['pha_id'],
+        $targetPhase['pha_name'], "in"));
 }
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail['pro_id'], $strings["tasks"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $parentTaskDetail['tas_id'], $parentTaskDetail['tas_name'], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail['pro_id'],
+    $strings["tasks"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $parentTaskDetail['tas_id'],
+    $parentTaskDetail['tas_name'], "in"));
 
 if ($id == "") {
     $blockPage->itemBreadcrumbs($strings["add_subtask"]);
 }
 if ($id != "") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../subtasks/viewsubtask.php?task={$parentTaskId}&id=" . $subtaskDetail['subtas_id'], $subtaskDetail['subtas_name'], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../subtasks/viewsubtask.php?task={$parentTaskId}&id=" . $subtaskDetail['subtas_id'],
+        $subtaskDetail['subtas_name'], "in"));
     $blockPage->itemBreadcrumbs($strings["edit_subtask"]);
 }
 
@@ -378,12 +385,14 @@ $block1 = new phpCollab\Block();
 if ($id == "") {
     $block1->form = "etD";
     $submitValue = "add";
-    $block1->openForm("../subtasks/editsubtask.php?task={$parentTaskId}&#" . $block1->form . "Anchor", null, $csrfHandler);
+    $block1->openForm("../subtasks/editsubtask.php?task={$parentTaskId}&#" . $block1->form . "Anchor", null,
+        $csrfHandler);
 }
 if ($id != "") {
     $block1->form = "etD";
     $submitValue = "update";
-    $block1->openForm("../subtasks/editsubtask.php?task={$parentTaskId}&id={$id}&docopy={$docopy}&#" . $block1->form . "Anchor", null, $csrfHandler);
+    $block1->openForm("../subtasks/editsubtask.php?task={$parentTaskId}&id={$id}&docopy={$docopy}&#" . $block1->form . "Anchor",
+        null, $csrfHandler);
 }
 
 if (isset($error) && !empty($error)) {
@@ -405,7 +414,8 @@ if ($id != "") {
 $block1->openContent();
 $block1->contentTitle($strings["info"]);
 
-$projectLink = $blockPage->buildLink("../projects/viewproject.php?id={$parentTaskDetail["tas_project"]}", $parentTaskDetail["tas_pro_name"], "in");
+$projectLink = $blockPage->buildLink("../projects/viewproject.php?id={$parentTaskDetail["tas_project"]}",
+    $parentTaskDetail["tas_pro_name"], "in");
 echo <<< HTML
     <tr class="odd">
         <td class="leftvalue">{$strings["project"]} :</td>
@@ -419,7 +429,8 @@ if ($projectDetail['pro_phase_set'] != "0") {
     echo <<< HTML
     <tr class="odd">
         <td class="leftvalue">{$strings["phase"]} :</td>
-        <td>{$blockPage->buildLink("../phases/viewphase.php?id={$targetPhase["pha_id"]}", $targetPhase["pha_name"], "in")}</td>
+        <td>{$blockPage->buildLink("../phases/viewphase.php?id={$targetPhase["pha_id"]}", $targetPhase["pha_name"],
+        "in")}</td>
     </tr>
 HTML;
 
@@ -427,7 +438,8 @@ HTML;
 echo <<< HTML
 <tr class="odd">
     <td class="leftvalue">{$strings["task"]} :</td>
-    <td>{$blockPage->buildLink('../tasks/viewtask.php?id=' . $parentTaskDetail["tas_id"], $parentTaskDetail["tas_name"], "in")}</td></tr>
+    <td>{$blockPage->buildLink('../tasks/viewtask.php?id=' . $parentTaskDetail["tas_id"], $parentTaskDetail["tas_name"],
+    "in")}</td></tr>
 <tr class="odd"><td class="leftvalue">{$strings["organization"]} :</td><td>{$projectDetail["pro_org_name"]}</td></tr>
 HTML;
 
@@ -557,7 +569,8 @@ if ($subtaskDetail["subtas_complete_date"] == "") {
     $subtaskDetail["subtas_complete_date"] = "--";
 }
 
-$block1->contentRow($strings["start_date"], "<input type='text' name='start_date' id='start_date' size='20' value='{$subtaskDetail["subtas_start_date"]}'><input type='button' value=' ... ' id='trigStartDate'>");
+$block1->contentRow($strings["start_date"],
+    "<input type='text' name='start_date' id='start_date' size='20' value='{$subtaskDetail["subtas_start_date"]}'><input type='button' value=' ... ' id='trigStartDate'>");
 
 echo <<< JavaScript
 <script type="text/javascript">
@@ -569,7 +582,8 @@ echo <<< JavaScript
 </script>
 JavaScript;
 
-$block1->contentRow($strings["due_date"], "<input type='text' name='due_date' id='due_date' size='20' value='{$subtaskDetail["subtas_due_date"]}'><input type='button' value=' ... ' id='trigDueDate'>");
+$block1->contentRow($strings["due_date"],
+    "<input type='text' name='due_date' id='due_date' size='20' value='{$subtaskDetail["subtas_due_date"]}'><input type='button' value=' ... ' id='trigDueDate'>");
 echo <<< JavaScript
 <script type="text/javascript">
     Calendar.setup({
@@ -582,7 +596,8 @@ JavaScript;
 
 
 if ($id != "") {
-    $block1->contentRow($strings["complete_date"], "<input type='text' name='completed_date' id='complete_date' size='20' value='{$subtaskDetail["subtas_complete_date"]}'><input type='button' value=' ... ' id='trigCompleteDate'>");
+    $block1->contentRow($strings["complete_date"],
+        "<input type='text' name='completed_date' id='complete_date' size='20' value='{$subtaskDetail["subtas_complete_date"]}'><input type='button' value=' ... ' id='trigCompleteDate'>");
     echo <<< JavaScript
 <script type="text/javascript">
     Calendar.setup({

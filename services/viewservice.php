@@ -3,8 +3,6 @@
 #Status page: 1
 #Path by root: ../services/viewservice.php
 
-use phpCollab\Services\Services;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -14,7 +12,7 @@ if (empty($id)) {
     phpCollab\Util::headerFunction('listservices.php?msg=permissiondenied');
 }
 
-$services = new Services();
+$services = $container->getServicesLoader();
 
 if ($session->get("profile") != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
@@ -27,7 +25,8 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../services/listservices.php?", $strings["service_management"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../services/listservices.php?", $strings["service_management"],
+    "in"));
 $blockPage->itemBreadcrumbs($detailService["serv_name"]);
 $blockPage->closeBreadcrumbs();
 

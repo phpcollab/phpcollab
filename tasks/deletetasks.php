@@ -3,10 +3,6 @@
 #Status page: 0
 #Path by root: ../tasks/deletetasks.php
 
-use phpCollab\Assignments\Assignments;
-use phpCollab\Projects\Projects;
-use phpCollab\Tasks\Tasks;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -17,9 +13,9 @@ if (empty($request->query->get('id'))) {
 
 $id = $request->query->get('id');
 
-$tasks = new Tasks();
-$assignments = new Assignments();
-$projects = new Projects();
+$tasks = $container->getTasksLoader();
+$assignments = $container->getAssignmentsManager();
+$projects = $container->getProjectsLoader();
 
 $strings = $GLOBALS["strings"];
 
@@ -43,7 +39,7 @@ if ($request->isMethod('post')) {
                 //recompute number of completed tasks of the project
                 $projectDetail = $projects->getProjectById($listTasks["tas_project"][0]);
 
-                phpCollab\Util::projectComputeCompletion($listTasks->tas_project[$i]);
+                phpCollab\Util::projectComputeCompletion($listTasks->tas_project[$i], $container);
 
                 if ($project != "") {
                     phpCollab\Util::headerFunction("../projects/viewproject.php?id=$project&msg=delete");
@@ -70,7 +66,8 @@ $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 if ($project != "") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"],
+        $projectDetail["pro_name"], "in"));
     $blockPage->itemBreadcrumbs($strings["delete_tasks"]);
 } else {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../general/home.php?", $strings["home"], "in"));

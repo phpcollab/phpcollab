@@ -46,7 +46,8 @@ $block1->sorting("users", $sortingUser["users"], "mem.name ASC", $sortingFields 
     1 => "mem.login",
     2 => "mem.email_work",
     3 => "mem.profil",
-    4 => "log.connected")
+    4 => "log.connected"
+)
 );
 
 if ($demoMode == "true") {
@@ -69,7 +70,8 @@ if ($listMembers) {
         1 => $strings["user_name"],
         2 => $strings["email"],
         3 => $strings["profile"],
-        4 => $strings["connected"]),
+        4 => $strings["connected"]
+    ),
         "false"
     );
 
@@ -77,7 +79,8 @@ if ($listMembers) {
         $idProfil = $member["mem_profil"];
         $block1->openRow();
         $block1->checkboxRow($member["mem_id"]);
-        $block1->cellRow($blockPage->buildLink("../users/viewuser.php?id=" . $member["mem_id"], $member["mem_name"], "in"));
+        $block1->cellRow($blockPage->buildLink("../users/viewuser.php?id=" . $member["mem_id"], $member["mem_name"],
+            "in"));
         $block1->cellRow($member["mem_login"]);
         $block1->cellRow($blockPage->buildLink($member["mem_email_work"], $member["mem_email_work"], "mail"));
         $block1->cellRow($profil[$idProfil]);

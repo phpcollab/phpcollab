@@ -6,13 +6,28 @@
 //translator(s): Fu-Yuan Zheng <gloom@kimo.com>
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
-$dayNameArray = array(1 =>"Monday", 2 =>"Tuesday", 3 =>"Wednesday", 4 =>"Thursday", 5 =>"Friday", 6 =>"Saturday", 7 =>"Sunday");
+$dayNameArray = array(
+    1 => "Monday",
+    2 => "Tuesday",
+    3 => "Wednesday",
+    4 => "Thursday",
+    5 => "Friday",
+    6 => "Saturday",
+    7 => "Sunday"
+);
 
-$monthNameArray = array(1=> "一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月");
+$monthNameArray = array(1 => "一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月");
 
 $status = array(0 => "客戶核可", 1 => "已完成", 2 => "未開始", 3 => "進行中", 4 => "暫停");
 
-$profil = array(0 => "系統管理者", 1 => "專案經理", 2 => "一般用戶", 3 => "Client User", 4 => "Disabled", 5 => "Project Manager Administrator");
+$profil = array(
+    0 => "系統管理者",
+    1 => "專案經理",
+    2 => "一般用戶",
+    3 => "Client User",
+    4 => "Disabled",
+    5 => "Project Manager Administrator"
+);
 
 $priority = array(0 => "無", 1 => "極低", 2 => "較低", 3 => "中等", 4 => "較高", 5 => "極高");
 
@@ -21,7 +36,13 @@ $statusTopicBis = array(0 => "是", 1 => "否");
 
 $statusPublish = array(0 => "是", 1 => "否");
 
-$statusFile = array(0 => "Approved", 1 => "Approved With Changes", 2 => "Needs Approval", 3 => "No Approvals Needed", 4 => "Not Approved");
+$statusFile = array(
+    0 => "Approved",
+    1 => "Approved With Changes",
+    2 => "Needs Approval",
+    3 => "No Approvals Needed",
+    4 => "Not Approved"
+);
 
 $phaseStatus = array(0 => "Not started", 1 => "Open", 2 => "Complete", 3 => "Suspended");
 
@@ -107,8 +128,6 @@ $strings["tasks"] = "工作";
 $strings["team"] = "團隊";
 $strings["add_team"] = "新增團隊成員";
 $strings["team_members"] = "團隊成員";
-
-
 
 
 $strings["full_name"] = "全名";
@@ -241,7 +260,6 @@ $strings["exact_match"] = "exact match";
 $strings["all_dates"] = "所有日期";
 $strings["between_dates"] = "選擇日期";
 $strings["all_content"] = "所有內容";
-
 
 
 $strings["all_properties"] = "All properties";

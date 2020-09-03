@@ -29,13 +29,11 @@
 
 use Amenadiel\JpGraph\Graph\GanttGraph;
 use Amenadiel\JpGraph\Plot\GanttBar;
-use phpCollab\Reports\Reports;
-use phpCollab\Tasks\Tasks;
 
 $checkSession = "true";
 include '../includes/library.php';
-$reports = new Reports();
-$tasks = new Tasks();
+$reports = $container->getReportsLoader();
+$tasks = $container->getTasksLoader();
 
 $report = $request->query->get('report');
 

@@ -27,10 +27,6 @@
 ** =============================================================================
 */
 
-use phpCollab\Notes\Notes;
-use phpCollab\Projects\Projects;
-use phpCollab\Teams\Teams;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 include '../includes/customvalues.php';
@@ -43,9 +39,9 @@ $addToSite = $request->query->get('addToSite');
 $removeToSite = $request->query->get('removeToSite');
 $strings = $GLOBALS["strings"];
 
-$notes = new Notes();
-$projects = new Projects();
-$teams = new Teams();
+$notes = $container->getNotesLoader();
+$projects = $container->getProjectsLoader();
+$teams = $container->getTeams();
 
 
 if ($action == "publish") {
@@ -70,8 +66,10 @@ $teamMember = $teams->isTeamMember($noteDetail["note_project"], $session->get("i
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../notes/listnotes.php?project=" . $projectDetail["pro_id"], $strings["notes"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"],
+    $projectDetail["pro_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../notes/listnotes.php?project=" . $projectDetail["pro_id"],
+    $strings["notes"], "in"));
 $blockPage->itemBreadcrumbs($noteDetail["note_subject"]);
 $blockPage->closeBreadcrumbs();
 
@@ -103,7 +101,9 @@ if ($projectDetail["pro_org_id"] == "1") {
 $block1->openContent();
 $block1->contentTitle($strings["info"]);
 
-$block1->contentRow($strings["project"], $blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
+$block1->contentRow($strings["project"],
+    $blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"],
+        "in"));
 
 if ($noteDetail["note_topic"] != "") {
     $block1->contentRow($strings["topic"], $topicNote[$noteDetail["note_topic"]]);
@@ -111,7 +111,8 @@ if ($noteDetail["note_topic"] != "") {
 
 $block1->contentRow($strings["subject"], $noteDetail["note_subject"]);
 $block1->contentRow($strings["date"], $noteDetail["note_date"]);
-$block1->contentRow($strings["owner"], $blockPage->buildLink($noteDetail["note_mem_email_work"], $noteDetail["note_mem_login"], "mail"));
+$block1->contentRow($strings["owner"],
+    $blockPage->buildLink($noteDetail["note_mem_email_work"], $noteDetail["note_mem_login"], "mail"));
 $block1->contentRow($strings["description"], nl2br($noteDetail["note_description"]));
 
 $idPublish = $noteDetail["note_published"];
@@ -124,12 +125,20 @@ $block1->closeForm();
 
 if ($teamMember == "true" && $session->get("id") == $noteDetail["note_owner"]) {
     $block1->openPaletteScript();
-    $block1->paletteScript(0, "remove", "../notes/deletenotes.php?project=" . $noteDetail["note_project"] . "&id=" . $noteDetail["note_id"] . "", "true,true,false", $strings["delete"]);
+    $block1->paletteScript(0, "remove",
+        "../notes/deletenotes.php?project=" . $noteDetail["note_project"] . "&id=" . $noteDetail["note_id"] . "",
+        "true,true,false", $strings["delete"]);
     if ($sitePublish == "true") {
-        $block1->paletteScript(2, "add_projectsite", "../notes/viewnote.php?addToSite=true&id=" . $noteDetail["note_id"] . "&action=publish", "true,true,true", $strings["add_project_site"]);
-        $block1->paletteScript(3, "remove_projectsite", "../notes/viewnote.php?removeToSite=true&id=" . $noteDetail["note_id"] . "&action=publish", "true,true,true", $strings["remove_project_site"]);
+        $block1->paletteScript(2, "add_projectsite",
+            "../notes/viewnote.php?addToSite=true&id=" . $noteDetail["note_id"] . "&action=publish", "true,true,true",
+            $strings["add_project_site"]);
+        $block1->paletteScript(3, "remove_projectsite",
+            "../notes/viewnote.php?removeToSite=true&id=" . $noteDetail["note_id"] . "&action=publish",
+            "true,true,true", $strings["remove_project_site"]);
     }
-    $block1->paletteScript(4, "edit", "../notes/editnote.php?project=" . $noteDetail["note_project"] . "&id=" . $noteDetail["note_id"] . "", "true,true,false", $strings["edit"]);
+    $block1->paletteScript(4, "edit",
+        "../notes/editnote.php?project=" . $noteDetail["note_project"] . "&id=" . $noteDetail["note_id"] . "",
+        "true,true,false", $strings["edit"]);
     $block1->closePaletteScript("", []);
 }
 

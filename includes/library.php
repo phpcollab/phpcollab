@@ -21,18 +21,12 @@
 **
 ** =============================================================================
 */
+
 use DebugBar\StandardDebugBar;
-use Laminas\Escaper\Escaper;
-use phpCollab\CsrfHandler;
-use phpCollab\LoginLogs\LoginLogs;
-use phpCollab\Members\Members;
-use phpCollab\Sorting\Sorting;
+use phpCollab\Container;
 use Symfony\Component\HttpFoundation\Request;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-use Monolog\Processor\IntrospectionProcessor;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Attribute\NamespacedAttributeBag;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 
 $debug = false;
@@ -41,24 +35,38 @@ define('APP_ROOT', dirname(dirname(__FILE__)));
 
 require APP_ROOT . '/vendor/autoload.php';
 
+
+$settings = null;
+//settings and date selector includes
+require_once APP_ROOT . '/includes/settings.php';
+
+$container = new Container([
+    'dbServer' => MYSERVER,
+    'dbUsername' => MYLOGIN,
+    'dbPassword' => MYPASSWORD,
+    'dbName' => MYDATABASE,
+    'tableCollab' => $tableCollab
+]);
+
 /*
  * Setup logger
  */
-try {
-    $stream = new StreamHandler(APP_ROOT . '/logs/phpcollab.log', Logger::DEBUG);
-} catch (Exception $e) {
-    error_log('library error: ' . $e->getMessage());
-}
-// create a log channel
-$logger = new Logger('phpCollab');
-$logger->pushHandler($stream);
-$logger->pushProcessor(new IntrospectionProcessor());
+$logger = $container->getLogger();
+//try {
+//    $stream = new StreamHandler(APP_ROOT . '/logs/phpcollab.log', Logger::DEBUG);
+//} catch (Exception $e) {
+//    error_log('library error: ' . $e->getMessage());
+//}
+//// create a log channel
+//
+//$logger = new Logger('phpCollab');
+//$logger->pushHandler($stream);
+//$logger->pushProcessor(new IntrospectionProcessor());
 /*
  * End logger init
  */
 
-
-$escaper = new Escaper('utf-8');
+$escaper = $container->getEscaperService();
 
 // Setup debugging
 if ($debug) {
@@ -141,7 +149,7 @@ if ($session->get('langDefault') == "") {
     if (isset($HTTP_ACCEPT_LANGUAGE)) {
         $plng = explode(",", $HTTP_ACCEPT_LANGUAGE);
         if (count($plng) > 0) {
-            foreach($plng as $k => $v) {
+            foreach ($plng as $k => $v) {
                 $k = explode(";", $v, 1);
                 $k = explode("-", $k[0]);
 
@@ -161,19 +169,16 @@ if (!empty($session->get('langDefault'))) {
     $langSelected = "";
 }
 
-$settings = null;
-//settings and date selector includes
-require_once APP_ROOT . '/includes/settings.php';
-
 include APP_ROOT . '/includes/initrequests.php';
 
 require_once APP_ROOT . '/languages/lang_en.php';
 require_once APP_ROOT . '/languages/lang_' . $session->get("langDefault") . '.php';
 require_once APP_ROOT . '/languages/help_' . $session->get("langDefault") . '.php';
 
-$loginLogs = new LoginLogs();
-$sort = new Sorting();
-$members = new Members($logger);
+$loginLogs = $container->getLoginLogs();
+
+$sort = $container->getSortingLoader();
+$members = $container->getMembersLoader();
 
 if ($theme == "") {
     $theme = "default";
@@ -215,15 +220,19 @@ if ($checkSession != "false" && $session->get('demo') != "true") {
         phpCollab\Util::headerFunction("../index.php?session=false");
     }
 
-
     /*
      * CSRF Setup
      */
     // Set the CSRF token in the session
     if (!$session->has('csrfToken')) {
-        $session->set('csrfToken', bin2hex(random_bytes(32)));
+        try {
+            $session->set('csrfToken', bin2hex(random_bytes(32)));
+        } catch (Exception $exception) {
+            $logger->critical('Unable to set csrfToken: ' . $e->getMessage());
+            error_log('Unable to set csrfToken: ' . $e->getMessage());
+        }
     }
-    $csrfHandler = new CsrfHandler($session);
+    $csrfHandler = $container->setCSRFHandler($session);
 
     if ($session->get('profile') == "3" && !strstr($request->server->get('PHP_SELF'), "projects_site")) {
         phpCollab\Util::headerFunction("../projects_site/home.php");
@@ -273,7 +282,7 @@ if ($checkSession != "false" && $session->get('demo') != "true") {
 if (isset($checkConnected) && $checkConnected != "false") {
     $dateunix = date("U");
     $loginLogs->updateConnectedTimeForUser($dateunix, $session->get("login"));
-    $connectedUsers = $loginLogs->getConnectedUsersCount();
+    $session->set("connectedUsers", $loginLogs->getConnectedUsersCount());
 }
 
 

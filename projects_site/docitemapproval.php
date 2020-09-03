@@ -2,12 +2,10 @@
 #Application name: PhpCollab
 #Status page: 0
 
-use phpCollab\Files\Files;
-
 $checkSession = "true";
 include '../includes/library.php';
 
-$files = new Files();
+$files = $container->getFilesLoader();
 
 if ($request->isMethod('post')) {
     try {
@@ -16,12 +14,12 @@ if ($request->isMethod('post')) {
                 $commentField = phpCollab\Util::convertData($request->request->get('commentField'));
 
                 try {
-                    $files->updateApprovalTracking($session->get("id"), $commentField, $id, $request->request->get('statusField'));
+                    $files->updateApprovalTracking($session->get("id"), $commentField, $id,
+                        $request->request->get('statusField'));
                     $msg = "updateFile";
 
                     phpCollab\Util::headerFunction("doclists.php?msg=$msg");
-                }
-                catch (Exception $e) {
+                } catch (Exception $e) {
                     echo "Error approving file";
                 }
             }

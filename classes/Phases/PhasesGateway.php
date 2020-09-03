@@ -62,8 +62,7 @@ SQL;
         $this->db->query($this->initrequest["phases"] . $whereStatement);
         $this->db->bind(':project_id', $projectId);
         $this->db->bind(':phase_number', $phaseNum);
-        $results = $this->db->single();
-        return $results;
+        return $this->db->single();
     }
 
     /**
@@ -76,8 +75,7 @@ SQL;
         $whereStatement = " WHERE pha.project_id = :project_id AND status = 1";
         $this->db->query($this->initrequest["phases"] . $whereStatement . $this->orderBy($sorting));
         $this->db->bind(':project_id', $projectId);
-        $results = $this->db->resultset();
-        return $results;
+        return $this->db->resultset();
 
     }
 
@@ -91,8 +89,7 @@ SQL;
         $whereStatement = " WHERE pha.project_id = :project_id";
         $this->db->query($this->initrequest["phases"] . $whereStatement . $this->orderBy($sorting));
         $this->db->bind(':project_id', $projectId);
-        $results = $this->db->resultset();
-        return $results;
+        return $this->db->resultset();
 
     }
 
@@ -105,8 +102,7 @@ SQL;
         $whereStatement = " WHERE pha.id = :phase_id";
         $this->db->query($this->initrequest["phases"] . $whereStatement);
         $this->db->bind(':phase_id', $phaseId);
-        $results = $this->db->single();
-        return $results;
+        return $this->db->single();
     }
 
     /**
@@ -141,6 +137,7 @@ SQL;
         $this->db->bind(":comments", $comments);
         return $this->db->execute();
     }
+
     /**
      * @param $sorting
      * @return string

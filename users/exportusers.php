@@ -5,7 +5,6 @@
 
 
 // include files
-use phpCollab\Organizations\Organizations;
 
 $checkSession = "true";
 include '../includes/library.php';
@@ -16,11 +15,10 @@ if ($session->get("profile") != (0 && 2 && 5)) {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 
-$organizations = new Organizations();
+$organizations = $container->getOrganizationsManager();
 
 // PDF setup
-include('../includes/class.ezpdf.php');
-$pdf = new Cezpdf();
+$pdf = $container->getExportPDFService();
 $pdf->selectFont('../includes/fonts/Helvetica.afm');
 $pdf->ezSetMargins(50, 70, 50, 50);
 
@@ -54,7 +52,13 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 
-$block1->sorting("users", $sortingUser["users"], "mem.name ASC", $sortingFields = array(0 => "mem.name", 1 => "mem.login", 2 => "mem.email_work", 3 => "mem.profil", 4 => "log.connected"));
+$block1->sorting("users", $sortingUser["users"], "mem.name ASC", $sortingFields = array(
+    0 => "mem.name",
+    1 => "mem.login",
+    2 => "mem.email_work",
+    3 => "mem.profil",
+    4 => "log.connected"
+));
 
 // Get a collection of members, except for Client Users, Administrator, and the demo user
 if ($demoMode == "true") {
@@ -72,7 +76,14 @@ foreach ($listMembers as $member) {
     $fax = $member["mem_fax"];
 
 // stuff the array with data
-    $data[] = array('name' => $name, 'title' => $title, 'email' => $email, 'phone' => $phone, 'mobile' => $mobile, 'fax' => $fax);
+    $data[] = array(
+        'name' => $name,
+        'title' => $title,
+        'email' => $email,
+        'phone' => $phone,
+        'mobile' => $mobile,
+        'fax' => $fax
+    );
 }
 
 // print the page number
@@ -91,7 +102,14 @@ $pdf->closeObject();
 $pdf->addObject($all, 'all');
 
 // make the table
-$pdf->ezTable($data, array('name' => 'Name', 'title' => 'Title', 'email' => 'Email', 'phone' => 'Phone', 'mobile' => 'Mobile', 'fax' => 'Fax'), '', array('fontSize' => 10, 'maxWidth' => 550));
+$pdf->ezTable($data, array(
+    'name' => 'Name',
+    'title' => 'Title',
+    'email' => 'Email',
+    'phone' => 'Phone',
+    'mobile' => 'Mobile',
+    'fax' => 'Fax'
+), '', array('fontSize' => 10, 'maxWidth' => 550));
 
 // output the PDF
 $pdf->ezStream();

@@ -1,7 +1,5 @@
 <?php
 
-use phpCollab\DataFunctions;
-
 /*
 ** Application name: phpCollab
 ** Last Edit page: 2005-03-08
@@ -56,7 +54,7 @@ if ($request->isMethod('post')) {
                 }
 
                 // DAB - scrub the data
-                $dataFunction = new DataFunctions();
+                $dataFunction = $container->getDatafunctionsService();
                 $scrubbedData = $dataFunction->scrubData($request->request->all());
                 extract($scrubbedData);
                 // -- END Paranoia
@@ -509,9 +507,11 @@ if ($emailAlerts === true) {
     $checkedEmailAlerts_f = "checked";
 }
 
-$block1->contentRow("Installation type", "<input type='radio' name='installationTypeNew' value='offline' $installCheckOffline /> Offline (firewall/intranet, no update checker)&nbsp;<input type='radio' name='installationTypeNew' value='online' $installCheckOnline /> Online");
+$block1->contentRow("Installation type",
+    "<input type='radio' name='installationTypeNew' value='offline' $installCheckOffline /> Offline (firewall/intranet, no update checker)&nbsp;<input type='radio' name='installationTypeNew' value='online' $installCheckOnline /> Online");
 
-$block1->contentRow("Update checker", "<input type='radio' name='updateCheckerNew' value='false' $updateCheckerFalse /> False&nbsp;<input type='radio' name='updateCheckerNew' value='true' $updateCheckerTrue /> True");
+$block1->contentRow("Update checker",
+    "<input type='radio' name='updateCheckerNew' value='false' $updateCheckerFalse /> False&nbsp;<input type='radio' name='updateCheckerNew' value='true' $updateCheckerTrue /> True");
 
 
 $ftpServer = FTPSERVER;
@@ -594,16 +594,19 @@ foreach ($dir as $fileinfo) {
         if ($fileinfo->getFilename() == THEME) {
             $selected = "selected";
         }
-        echo '<option value="' . $fileinfo->getFilename() . '" '. $selected .'>'. $fileinfo->getFilename() . '</option>';
+        echo '<option value="' . $fileinfo->getFilename() . '" ' . $selected . '>' . $fileinfo->getFilename() . '</option>';
     }
 }
 echo "</td></tr>";
 
-$block1->contentRow("Notifications" . $blockPage->printHelp("setup_notifications"), "<input type='radio' name='notificationsNew' value='false' $notificationFalse /> False&nbsp;<input type='radio' name='notificationsNew' value='true' $notificationTrue /> True<br/>[Mail $mail]");
+$block1->contentRow("Notifications" . $blockPage->printHelp("setup_notifications"),
+    "<input type='radio' name='notificationsNew' value='false' $notificationFalse /> False&nbsp;<input type='radio' name='notificationsNew' value='true' $notificationTrue /> True<br/>[Mail $mail]");
 
-$block1->contentRow("Timezone (GMT)", "<input type='radio' name='gmtTimezoneNew' value='false' $gmtTimezoneFalse /> False&nbsp;<input type='radio' name='gmtTimezoneNew' value='true' $gmtTimezoneTrue /> True");
+$block1->contentRow("Timezone (GMT)",
+    "<input type='radio' name='gmtTimezoneNew' value='false' $gmtTimezoneFalse /> False&nbsp;<input type='radio' name='gmtTimezoneNew' value='true' $gmtTimezoneTrue /> True");
 
-$block1->contentRow("* Forced login" . $blockPage->printHelp("setup_forcedlogin"), "<input type='radio' name='forcedloginNew' value='false' $forcedLoginFalse /> False&nbsp;<input type='radio' name='forcedloginNew' value='true' $forcedLoginTrue  /> True");
+$block1->contentRow("* Forced login" . $blockPage->printHelp("setup_forcedlogin"),
+    "<input type='radio' name='forcedloginNew' value='false' $forcedLoginFalse /> False&nbsp;<input type='radio' name='forcedloginNew' value='true' $forcedLoginTrue  /> True");
 
 echo <<<HTML
 <tr class="odd">
@@ -646,33 +649,49 @@ echo <<<HTML
 HTML;
 
 
-
-$block1->contentRow("* Root", "<input size='44' value='$root' style='width: 200px' name='rootNew' maxlength='100' type='text' />");
-$block1->contentRow("* Default max file size", "<input size='44' value='$maxFileSize' style='width: 200px' name='maxFileSizeNew' maxlength='100' type='text' /> $byteUnits[0]");
+$block1->contentRow("* Root",
+    "<input size='44' value='$root' style='width: 200px' name='rootNew' maxlength='100' type='text' />");
+$block1->contentRow("* Default max file size",
+    "<input size='44' value='$maxFileSize' style='width: 200px' name='maxFileSizeNew' maxlength='100' type='text' /> $byteUnits[0]");
 
 $block1->contentTitle("Options");
 
-$block1->contentRow("Clients filter" . $blockPage->printHelp("setup_clientsfilter"), "<input type='radio' name='clientsFilterNew' value='false' $clientsFilterFalse /> False&nbsp;<input type='radio' name='clientsFilterNew' value='true' $clientsFilterTrue /> True");
-$block1->contentRow("Projects filter" . $blockPage->printHelp("setup_projectsfilter"), "<input type='radio' name='projectsFilterNew' value='false' $projectsFilterFalse /> False&nbsp;<input type='radio' name='projectsFilterNew' value='true' $projectsFilterTrue /> True");
+$block1->contentRow("Clients filter" . $blockPage->printHelp("setup_clientsfilter"),
+    "<input type='radio' name='clientsFilterNew' value='false' $clientsFilterFalse /> False&nbsp;<input type='radio' name='clientsFilterNew' value='true' $clientsFilterTrue /> True");
+$block1->contentRow("Projects filter" . $blockPage->printHelp("setup_projectsfilter"),
+    "<input type='radio' name='projectsFilterNew' value='false' $projectsFilterFalse /> False&nbsp;<input type='radio' name='projectsFilterNew' value='true' $projectsFilterTrue /> True");
 
-$block1->contentRow('Show Bookmarks', '<input type="radio" name="showHomeBookmarksNew" value="false" ' . $checkedHomeBookmarks_f . ' /> False&nbsp;<input type="radio" name="showHomeBookmarksNew" value="true" ' . $checkedHomeBookmarks_t . ' /> True');
-$block1->contentRow('Show Projects', '<input type="radio" name="showHomeProjectsNew" value="false" ' . $checkedHomeProjects_f . ' /> False&nbsp;<input type="radio" name="showHomeProjectsNew" value="true" ' . $checkedHomeProjects_t . ' /> True');
-$block1->contentRow('Show Tasks', '<input type="radio" name="showHomeTasksNew" value="false" ' . $checkedHomeTasks_f . ' /> False&nbsp;<input type="radio" name="showHomeTasksNew" value="true" ' . $checkedHomeTasks_t . ' /> True');
-$block1->contentRow('Show Subtasks', '<input type="radio" name="showHomeSubtasksNew" value="false" ' . $checkedHomeSubtasks_f . ' /> False&nbsp;<input type="radio" name="showHomeSubtasksNew" value="true" ' . $checkedHomeSubtasks_t . ' /> True');
-$block1->contentRow('Show Discussions', '<input type="radio" name="showHomeDiscussionsNew" value="false" ' . $checkedHomeDiscussions_f . ' /> False&nbsp;<input type="radio" name="showHomeDiscussionsNew" value="true" ' . $checkedHomeDiscussions_t . ' /> True');
-$block1->contentRow('Show Reports', '<input type="radio" name="showHomeReportsNew" value="false" ' . $checkedHomeReports_f . ' /> False&nbsp;<input type="radio" name="showHomeReportsNew" value="true" ' . $checkedHomeReports_t . ' /> True');
-$block1->contentRow('Show Notes', '<input type="radio" name="showHomeNotesNew" value="false" ' . $checkedHomeNotes_f . ' /> False&nbsp;<input type="radio" name="showHomeNotesNew" value="true" ' . $checkedHomeNotes_t . ' /> True');
-$block1->contentRow('Show NewsDesk', '<input type="radio" name="showHomeNewsdeskNew" value="false" ' . $checkedHomeNewsdesk_f . ' /> False&nbsp;<input type="radio" name="showHomeNewsdeskNew" value="true" ' . $checkedHomeNewsdesk_t . ' /> True');
-$block1->contentRow('Auto-publish Tasks', '<input type="radio" name="autoPublishTasksNew" value="false" ' . $checkedAutoPublish_f . ' /> False&nbsp;<input type="radio" name="autoPublishTasksNew" value="true" ' . $checkedAutoPublish_t . ' /> True');
-$block1->contentRow('Email Alerts', '<input type="radio" name="emailAlertsNew" value="false" ' . $checkedEmailAlerts_f . ' /> False&nbsp;<input type="radio" name="emailAlertsNew" value="true" ' . $checkedEmailAlerts_t . ' /> True');
+$block1->contentRow('Show Bookmarks',
+    '<input type="radio" name="showHomeBookmarksNew" value="false" ' . $checkedHomeBookmarks_f . ' /> False&nbsp;<input type="radio" name="showHomeBookmarksNew" value="true" ' . $checkedHomeBookmarks_t . ' /> True');
+$block1->contentRow('Show Projects',
+    '<input type="radio" name="showHomeProjectsNew" value="false" ' . $checkedHomeProjects_f . ' /> False&nbsp;<input type="radio" name="showHomeProjectsNew" value="true" ' . $checkedHomeProjects_t . ' /> True');
+$block1->contentRow('Show Tasks',
+    '<input type="radio" name="showHomeTasksNew" value="false" ' . $checkedHomeTasks_f . ' /> False&nbsp;<input type="radio" name="showHomeTasksNew" value="true" ' . $checkedHomeTasks_t . ' /> True');
+$block1->contentRow('Show Subtasks',
+    '<input type="radio" name="showHomeSubtasksNew" value="false" ' . $checkedHomeSubtasks_f . ' /> False&nbsp;<input type="radio" name="showHomeSubtasksNew" value="true" ' . $checkedHomeSubtasks_t . ' /> True');
+$block1->contentRow('Show Discussions',
+    '<input type="radio" name="showHomeDiscussionsNew" value="false" ' . $checkedHomeDiscussions_f . ' /> False&nbsp;<input type="radio" name="showHomeDiscussionsNew" value="true" ' . $checkedHomeDiscussions_t . ' /> True');
+$block1->contentRow('Show Reports',
+    '<input type="radio" name="showHomeReportsNew" value="false" ' . $checkedHomeReports_f . ' /> False&nbsp;<input type="radio" name="showHomeReportsNew" value="true" ' . $checkedHomeReports_t . ' /> True');
+$block1->contentRow('Show Notes',
+    '<input type="radio" name="showHomeNotesNew" value="false" ' . $checkedHomeNotes_f . ' /> False&nbsp;<input type="radio" name="showHomeNotesNew" value="true" ' . $checkedHomeNotes_t . ' /> True');
+$block1->contentRow('Show NewsDesk',
+    '<input type="radio" name="showHomeNewsdeskNew" value="false" ' . $checkedHomeNewsdesk_f . ' /> False&nbsp;<input type="radio" name="showHomeNewsdeskNew" value="true" ' . $checkedHomeNewsdesk_t . ' /> True');
+$block1->contentRow('Auto-publish Tasks',
+    '<input type="radio" name="autoPublishTasksNew" value="false" ' . $checkedAutoPublish_f . ' /> False&nbsp;<input type="radio" name="autoPublishTasksNew" value="true" ' . $checkedAutoPublish_t . ' /> True');
+$block1->contentRow('Email Alerts',
+    '<input type="radio" name="emailAlertsNew" value="false" ' . $checkedEmailAlerts_f . ' /> False&nbsp;<input type="radio" name="emailAlertsNew" value="true" ' . $checkedEmailAlerts_t . ' /> True');
 
 $block1->contentTitle("Advanced");
 
-$block1->contentRow("Extended footer (dev)", "<input type='radio' name='footerdevNew' value='false' $footerDevFalse /> False&nbsp;<input type='radio' name='footerdevNew' value='true' $footerDevTrue /> True");
+$block1->contentRow("Extended footer (dev)",
+    "<input type='radio' name='footerdevNew' value='false' $footerDevFalse /> False&nbsp;<input type='radio' name='footerdevNew' value='true' $footerDevTrue /> True");
 
-$block1->contentRow("Mantis integration", "<input type='radio' name='mantisNew' value='false' $enableMantisFalse /> False&nbsp;<input type='radio' name='mantisNew' value='true' $enableMantisTrue /> True");
+$block1->contentRow("Mantis integration",
+    "<input type='radio' name='mantisNew' value='false' $enableMantisFalse /> False&nbsp;<input type='radio' name='mantisNew' value='true' $enableMantisTrue /> True");
 
-$block1->contentRow("Mantis url", "<input size='44' value='$pathMantis' style='width: 200px' name='pathMantisNew' maxlength='100' type='text' />");
+$block1->contentRow("Mantis url",
+    "<input size='44' value='$pathMantis' style='width: 200px' name='pathMantisNew' maxlength='100' type='text' />");
 
 $block1->contentRow("", "<input type='SUBMIT' value='" . $strings["save"] . "' />");
 

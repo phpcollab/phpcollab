@@ -2,14 +2,11 @@
 #Application name: PhpCollab
 #Status page: 0
 
-use phpCollab\Support\Support;
-use phpCollab\Teams\Teams;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$teams = new Teams();
-$support = new Support($logger);
+$teams = $container->getTeams();
+$support = $container->getSupportLoader();
 
 $id = $request->query->get('id');
 
@@ -41,12 +38,16 @@ $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 if ($supportType == "team") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $requestDetail["sr_project"], $requestDetail["sr_pro_name"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $requestDetail["sr_project"],
+        $requestDetail["sr_pro_name"], "in"));
 } elseif ($supportType == "admin") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/support.php?", $strings["support_management"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"],
+        "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/support.php?", $strings["support_management"],
+        "in"));
 }
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=" . $requestDetail["sr_project"], $strings["support_requests"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=" . $requestDetail["sr_project"],
+    $strings["support_requests"], "in"));
 $blockPage->itemBreadcrumbs($requestDetail["sr_subject"]);
 $blockPage->closeBreadcrumbs();
 
@@ -90,23 +91,29 @@ for ($i = 0; $i < $comptPri; $i++) {
     }
 }
 
-$block1->contentRow($strings["project"], $blockPage->buildLink("../projects/viewproject.php?id=" . $requestDetail["sr_project"], $requestDetail["sr_pro_name"], "in"));
+$block1->contentRow($strings["project"],
+    $blockPage->buildLink("../projects/viewproject.php?id=" . $requestDetail["sr_project"],
+        $requestDetail["sr_pro_name"], "in"));
 $block1->contentRow($strings["subject"], $requestDetail["sr_subject"]);
 $block1->contentRow($strings["priority"], $requestPriority);
 $block1->contentRow($strings["status"], $status);
 $block1->contentRow($strings["date"], $requestDetail["sr_date_open"]);
-$block1->contentRow($strings["user"], $blockPage->buildLink($requestDetail["sr_mem_email_work"], $requestDetail["sr_mem_name"], "mail"));
+$block1->contentRow($strings["user"],
+    $blockPage->buildLink($requestDetail["sr_mem_email_work"], $requestDetail["sr_mem_name"], "mail"));
 $block1->contentRow($strings["message"], nl2br($requestDetail["sr_message"]));
 
 $block1->contentTitle($strings["responses"]);
 
 if ($teamMember == "true" || $session->get("profile") != "0") {
-    $block1->contentRow("", $blockPage->buildLink("../support/addpost.php?id=" . $requestDetail["sr_id"], $strings["add_support_response"], "in"));
+    $block1->contentRow("",
+        $blockPage->buildLink("../support/addpost.php?id=" . $requestDetail["sr_id"], $strings["add_support_response"],
+            "in"));
 }
 
 foreach ($listPosts as $post) {
     if (!empty($post["sp_mem_email_work"])) {
-        $block1->contentRow($strings["posted_by"], $blockPage->buildLink($post["sp_mem_email_work"], $post["sp_mem_name"], "mail"));
+        $block1->contentRow($strings["posted_by"],
+            $blockPage->buildLink($post["sp_mem_email_work"], $post["sp_mem_name"], "mail"));
     } else {
         $block1->contentRow($strings["posted_by"], $post["sp_mem_name"]);
     }
@@ -114,7 +121,8 @@ foreach ($listPosts as $post) {
     $block1->contentRow($strings["date"], phpCollab\Util::createDate($post["sp_date"], $session->get('timezone')));
 
     if ($teamMember == "true" || $session->get("profile") == "0") {
-        $block1->contentRow($blockPage->buildLink("../support/deleterequests.php?action=deleteP&id=" . $post["sp_id"], $strings["delete_message"], "in"), nl2br($post["sp_message"]));
+        $block1->contentRow($blockPage->buildLink("../support/deleterequests.php?action=deleteP&id=" . $post["sp_id"],
+            $strings["delete_message"], "in"), nl2br($post["sp_message"]));
     } else {
         $block1->contentRow("", nl2br($post["sp_message"]));
     }
@@ -131,9 +139,12 @@ if ($status == $requestStatus[0]) {
 
 $block1->closeContent();
 $block1->openPaletteScript();
-$block1->paletteScript(0, "edit", "../support/addpost.php?action=status&id=" . $requestDetail["sr_id"] . "", "true,true,true", $strings["edit_status"]);
-$block1->paletteScript(1, "remove", "../support/deleterequests.php?action=deleteR&sendto=$status&id=" . $requestDetail["sr_id"] . "", "true,true,true", $strings["delete"]);
-$block1->closePaletteScript(count($requestDetail),  array_column($requestDetail, 'sr_id'));
+$block1->paletteScript(0, "edit", "../support/addpost.php?action=status&id=" . $requestDetail["sr_id"] . "",
+    "true,true,true", $strings["edit_status"]);
+$block1->paletteScript(1, "remove",
+    "../support/deleterequests.php?action=deleteR&sendto=$status&id=" . $requestDetail["sr_id"] . "", "true,true,true",
+    $strings["delete"]);
+$block1->closePaletteScript(count($requestDetail), array_column($requestDetail, 'sr_id'));
 $block1->closeForm();
 
 include APP_ROOT . '/themes/' . THEME . '/footer.php';

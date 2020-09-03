@@ -2,9 +2,10 @@
 
 namespace phpCollab\Invoices;
 
-use InvalidArgumentException;
-use phpCollab\Database;
 use Exception;
+use InvalidArgumentException;
+use phpCollab\Container;
+use phpCollab\Database;
 
 
 /**
@@ -16,13 +17,20 @@ class Invoices
     protected $invoices_gateway;
     protected $db;
     protected $tableCollab;
+    /**
+     * @var Container
+     */
+    private $container;
 
     /**
      * Invoices constructor.
+     * @param Database $database
+     * @param Container $container
      */
-    public function __construct()
+    public function __construct(Database $database, Container $container)
     {
-        $this->db = new Database();
+        $this->db = $database;
+        $this->container = $container;
         $this->invoices_gateway = new InvoicesGateway($this->db);
         $this->tableCollab = $GLOBALS["tableCollab"];
     }
@@ -52,13 +60,21 @@ class Invoices
      * @return mixed
      * @throws Exception
      */
-    public function addInvoiceItem($title, $description, $invoiceId, $active, $completed, $mod_type, $mod_value,
-                                   $worked_hours)
-    {
+    public function addInvoiceItem(
+        $title,
+        $description,
+        $invoiceId,
+        $active,
+        $completed,
+        $mod_type,
+        $mod_value,
+        $worked_hours
+    ) {
         if ($title) {
             $active = is_null($active) ? 0 : $active;
 
-            return $this->invoices_gateway->addInvoiceItem($title, $description, $invoiceId, date('Y-m-d h:i'), $active, $completed,
+            return $this->invoices_gateway->addInvoiceItem($title, $description, $invoiceId, date('Y-m-d h:i'), $active,
+                $completed,
                 $mod_type, $mod_value, $worked_hours);
 
         } else {
@@ -134,9 +150,19 @@ class Invoices
      * @param $taxAmount
      * @return mixed
      */
-    public function updateInvoice($id, $headerNote, $footerNote, $published, $status, $dateDue, $dateSent,
-        $totalExTax, $totalIncTax, $taxRate, $taxAmount)
-    {
+    public function updateInvoice(
+        $id,
+        $headerNote,
+        $footerNote,
+        $published,
+        $status,
+        $dateDue,
+        $dateSent,
+        $totalExTax,
+        $totalIncTax,
+        $taxRate,
+        $taxAmount
+    ) {
         if (!is_int(filter_var($id, FILTER_VALIDATE_INT))) {
             throw new InvalidArgumentException('Invoice ID is missing or invalid.');
         }
@@ -184,7 +210,7 @@ class Invoices
      */
     public function togglePublish($invoiceId, $flag)
     {
-        $pub = new Publish($this->db, $this->tableCollab);
+        $pub = $this->container->getInvoicePublishService();
 
         try {
             if ($flag === true) {

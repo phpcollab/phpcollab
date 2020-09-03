@@ -25,22 +25,16 @@
 ** =============================================================================
 */
 
-
-use phpCollab\Phases\Phases;
-use phpCollab\Projects\Projects;
-use phpCollab\Tasks\Tasks;
-use phpCollab\Updates\Updates;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
 $type = $request->query->get('type');
 $item = $request->query->get('item');
 
-$tasks = new Tasks();
-$projects = new Projects();
-$phases = new Phases();
-$updates = new Updates();
+$tasks = $container->getTasksLoader();
+$projects = $container->getProjectsLoader();
+$phases = $container->getPhasesLoader();
+$updates = $container->getTaskUpdateService();
 
 $strings = $GLOBALS["strings"];
 
@@ -78,18 +72,24 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"],
+    $projectDetail["pro_name"], "in"));
 
 if ($projectDetail["pro_phase_set"] != "0") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail["pro_id"], $strings["phases"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase["pha_id"], $targetPhase["pha_name"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail["pro_id"],
+        $strings["phases"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase["pha_id"],
+        $targetPhase["pha_name"], "in"));
 }
 
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail["pro_id"], $strings["tasks"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail["tas_id"], $taskDetail["tas_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail["pro_id"],
+    $strings["tasks"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail["tas_id"],
+    $taskDetail["tas_name"], "in"));
 
 if ($type == "2") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../subtasks/viewsubtask.php?task=" . $taskDetail["tas_id"] . "&id=" . $subtaskDetail["subtas_id"], $subtaskDetail["subtas_name"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../subtasks/viewsubtask.php?task=" . $taskDetail["tas_id"] . "&id=" . $subtaskDetail["subtas_id"],
+        $subtaskDetail["subtas_name"], "in"));
     $blockPage->itemBreadcrumbs($strings["updates_subtask"]);
 }
 
@@ -139,15 +139,19 @@ foreach ($listUpdates as $update) {
     }
     if (preg_match('/\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]/', $update["upd_comments"])) {
         preg_match('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]|i', $update["upd_comments"], $matches);
-        $update["upd_comments"] = preg_replace('/\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]/', '', $update["upd_comments"] . '<br/>');
+        $update["upd_comments"] = preg_replace('/\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]/', '',
+            $update["upd_comments"] . '<br/>');
         $update["upd_comments"] .= $strings["due_date"] . " " . $matches[1];
     }
 
-    $block1->contentRow($strings["posted_by"], $blockPage->buildLink($update["upd_mem_email_work"], $update["upd_mem_name"], "mail"));
+    $block1->contentRow($strings["posted_by"],
+        $blockPage->buildLink($update["upd_mem_email_work"], $update["upd_mem_name"], "mail"));
     if ($update["upd_created"] > $session->get('lastVisited')) {
-        $block1->contentRow($strings["when"], "<b>" . phpCollab\Util::createDate($update["upd_created"], $session->get('timezone')) . "</b>");
+        $block1->contentRow($strings["when"],
+            "<b>" . phpCollab\Util::createDate($update["upd_created"], $session->get('timezone')) . "</b>");
     } else {
-        $block1->contentRow($strings["when"], phpCollab\Util::createDate($update["upd_created"], $session->get('timezone')));
+        $block1->contentRow($strings["when"],
+            phpCollab\Util::createDate($update["upd_created"], $session->get('timezone')));
     }
     $block1->contentRow("", nl2br($update["upd_comments"]));
     $block1->contentRow("", "", "true");

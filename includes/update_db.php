@@ -418,7 +418,7 @@ STAMP;
 
 
 // add-news-module hack by urbanfalcon, motiontheque
-// installation patch by fullo 
+// installation patch by fullo
 // date 28/05/2003
 
     if ($databaseType == "postgresql") {
@@ -484,4 +484,4 @@ STAMP;
 ALTER TABLE {$tablePrefix}notifications ADD pastdueAlert $db_char1default0[$databaseType];
 STAMP;
 }
-?>
+

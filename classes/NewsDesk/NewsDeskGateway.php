@@ -50,7 +50,7 @@ class NewsDeskGateway
         /**
          *
          */
-        if ( is_array($relatedPosts) ) {
+        if (is_array($relatedPosts)) {
             $placeholders = str_repeat('?, ', count($relatedPosts) - 1) . '?';
 
             // Add placeholder for the 'g' flag
@@ -60,7 +60,8 @@ class NewsDeskGateway
         }
 
         $tmpquery = " WHERE news.author = ? OR news.rss = 1 OR news.related IN ({$placeholders})";
-        $sql = $this->initrequest["newsdeskposts"] . $tmpquery . $this->orderBy($sorting) . $this->limit($startRow, $rowsLimit);
+        $sql = $this->initrequest["newsdeskposts"] . $tmpquery . $this->orderBy($sorting) . $this->limit($startRow,
+                $rowsLimit);
 
         if (is_array($relatedPosts)) {
             array_push($relatedPosts, 'g');
@@ -121,9 +122,9 @@ class NewsDeskGateway
      */
     public function getComments($commentId)
     {
-        if ( strpos($commentId, ',') ) {
+        if (strpos($commentId, ',')) {
             $ids = explode(',', $commentId);
-            $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
+            $placeholders = str_repeat('?, ', count($ids) - 1) . '?';
             $sql = $this->initrequest["newsdeskcomments"] . " WHERE newscom.id IN ($placeholders) ORDER BY newscom.id";
             $this->db->query($sql);
             $this->db->execute($ids);
@@ -144,7 +145,7 @@ class NewsDeskGateway
     public function getCommentsByPostId($postId)
     {
         $ids = explode(',', $postId);
-        $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
+        $placeholders = str_repeat('?, ', count($ids) - 1) . '?';
         $sql = $this->initrequest["newsdeskcomments"] . " WHERE newscom.post_id IN ($placeholders) ORDER BY newscom.id";
         $this->db->query($sql);
         $this->db->execute($ids);
@@ -199,7 +200,8 @@ class NewsDeskGateway
         $placeholders = str_repeat('?, ', count($postId) - 1) . '?';
         $query = "DELETE FROM {$this->tableCollab["newsdeskcomments"]} WHERE post_id IN ($placeholders)";
         $this->db->query($query);
-        return $this->db->execute($postId);    }
+        return $this->db->execute($postId);
+    }
 
     /**
      * @return mixed
@@ -345,7 +347,20 @@ SQL;
     private function orderBy($sorting)
     {
         if (!is_null($sorting)) {
-            $allowedOrderedBy = ["news.id", "news.pdate", "news.title", "news.author", "news.related", "news.content", "news.links", "news.rss", "newscom.id", "newscom.post_id", "newscom.name", "newscom.comment"];
+            $allowedOrderedBy = [
+                "news.id",
+                "news.pdate",
+                "news.title",
+                "news.author",
+                "news.related",
+                "news.content",
+                "news.links",
+                "news.rss",
+                "newscom.id",
+                "newscom.post_id",
+                "newscom.name",
+                "newscom.comment"
+            ];
             $pieces = explode(' ', $sorting);
 
             if ($pieces) {

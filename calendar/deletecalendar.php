@@ -25,14 +25,12 @@
 ** =============================================================================
 */
 
-use phpCollab\Calendars\Calendars;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
 $strings = $GLOBALS['strings'];
 
-$calendars = new Calendars();
+$calendars = $container->getCalendarLoader();
 
 $calendarId = $request->query->get("id");
 
@@ -84,7 +82,8 @@ if ($msg != "") {
 
 $block1 = new phpCollab\Block();
 $block1->form = "saP";
-$block1->openForm("../calendar/deletecalendar.php?project={$project}&action=delete&id={$calendarId}", null, $csrfHandler);
+$block1->openForm("../calendar/deletecalendar.php?project={$project}&action=delete&id={$calendarId}", null,
+    $csrfHandler);
 
 $block1->heading($strings["delete_calendars"]);
 
@@ -114,4 +113,4 @@ ROW;
 $block1->closeContent();
 $block1->closeForm();
 
-include APP_ROOT . '/themes/'.THEME.'/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';

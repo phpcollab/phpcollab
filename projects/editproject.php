@@ -26,15 +26,6 @@
 ** =============================================================================
 */
 
-use phpCollab\Assignments\Assignments;
-use phpCollab\Files\Files;
-use phpCollab\Invoices\Invoices;
-use phpCollab\Organizations\Organizations;
-use phpCollab\Phases\Phases;
-use phpCollab\Projects\Projects;
-use phpCollab\Tasks\Tasks;
-use phpCollab\Teams\Teams;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 include '../includes/customvalues.php';
@@ -42,17 +33,17 @@ include '../includes/customvalues.php';
 $id = $request->query->get("id");
 $docopy = $request->query->get("docopy");
 
-$teams = new Teams();
-$tasks = new Tasks();
-$projects = new Projects();
-$files = new Files();
-$phases = new Phases();
-$invoices = new Invoices();
-$assignments = new Assignments();
-$organizations = new Organizations();
+$teams = $container->getTeams();
+$tasks = $container->getTasksLoader();
+$projects = $container->getProjectsLoader();
+$files = $container->getFilesLoader();
+$phases = $container->getPhasesLoader();
+$invoices = $container->getInvoicesLoader();
+$assignments = $container->getAssignmentsManager();
+$organizations = $container->getOrganizationsManager();
 
 if ($htaccessAuth == "true") {
-    $Htpasswd = new Htpasswd;
+    $Htpasswd = $container->getHtpasswdService();
 }
 
 // Set default values for form fields
@@ -137,9 +128,8 @@ if ($id != "") {
 
                             //insert into projects and teams (with last id project)
                             $newProjectId = $projects->createProject($projectName, $organization, $owner, $priority,
-                                $status,
-                                $description, $published, $thisPhase, $maxUploadSize, $urlDev, $urlProd, $invoicing,
-                                $hourlyRate);
+                                $status, $description, $published, $thisPhase, $maxUploadSize, $urlDev, $urlProd,
+                                $invoicing, $hourlyRate);
 
                             $newTeamId = $teams->addTeam($newProjectId, $session->get("id"), 1, 0);
 
@@ -165,7 +155,7 @@ STAMP;
 
                                 $detailMember = $members->getMemberById($owner);
 
-                                $Htpasswd = new Htpasswd;
+                                $Htpasswd = $container->getHtpasswdService();
                                 $Htpasswd->initialize("../files/" . $newProjectId . "/.htpasswd");
                                 $Htpasswd->addUser($detailMember["mem_login"], $detailMember["mem_password"]);
                             }
@@ -354,11 +344,12 @@ STAMP;
 
                         //update project
                         if ($invoicing == "" || $organization == "1") {
-                            //nb if the project has not client than the invocing will be deactivated
+                            //nb if the project has not client than the invoicing will be deactivated
                             $invoicing = "0";
                         }
 
-                        $projects->updateProject($id, $name, $organization, $owner, $priority, $status, $description,
+                        $projects->updateProject($id, $projectName, $organization, $owner, $priority, $status,
+                            $description,
                             $published,
                             $thisPhase, $maxUploadSize, $urlDev, $urlProd, $invoicing, $hourlyRate, $dateheure);
 
@@ -478,7 +469,7 @@ STAMP;
 
                             $detailMember = $members->getMemberById($owner);
 
-                            $Htpasswd = new Htpasswd;
+                            $Htpasswd = $container->getHtpasswdService();
                             $Htpasswd->initialize("../files/" . $newProjectId . "/.htpasswd");
                             $Htpasswd->addUser($detailMember["mem_login"], $detailMember["mem_password"]);
                         }

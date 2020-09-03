@@ -6,7 +6,6 @@ namespace phpCollab\Files;
 
 use Exception;
 use InvalidArgumentException;
-use phpCollab\Notification;
 
 class UpdateFile extends Files
 {
@@ -44,10 +43,25 @@ class UpdateFile extends Files
      * @return string
      * @throws Exception
      */
-    public function add($owner, $project, $task, $name, $date, $size, $extension, $comments,
-                        $approver, $approvalComments, $approvalDate, $upload, $published,
-                        $vc_version, $vc_parent, $status = 2, $vc_status = 3)
-    {
+    public function add(
+        $owner,
+        $project,
+        $task,
+        $name,
+        $date,
+        $size,
+        $extension,
+        $comments,
+        $approver,
+        $approvalComments,
+        $approvalDate,
+        $upload,
+        $published,
+        $vc_version,
+        $vc_parent,
+        $status = 2,
+        $vc_status = 3
+    ) {
         if (empty($approver)) {
             $approver = 0;
         } elseif (!is_int(filter_var($approver, FILTER_VALIDATE_INT))) {
@@ -198,10 +212,25 @@ SQL;
      * @param $vc_parent
      * @return string
      */
-    private function addUpdatedFileToDatabase($owner, $project, $task, $name, $date, $size, $extension, $comments,
-                                              $approver, $approverComments, $date_approval, $upload, $published,
-                                              $status, $vc_status, $vc_version, $vc_parent)
-    {
+    private function addUpdatedFileToDatabase(
+        $owner,
+        $project,
+        $task,
+        $name,
+        $date,
+        $size,
+        $extension,
+        $comments,
+        $approver,
+        $approverComments,
+        $date_approval,
+        $upload,
+        $published,
+        $status,
+        $vc_status,
+        $vc_version,
+        $vc_parent
+    ) {
         $sql = <<< SQL
 INSERT INTO {$this->tableCollab["files"]} 
 (owner, project, task, name, date, size, extension, comments, comments_approval, approver, date_approval, upload, published, status, vc_status, vc_version, vc_parent)
@@ -232,7 +261,7 @@ SQL;
     }
 
 
-        /**
+    /**
      * @param $notificationDetails
      * @param $comment
      * @throws \PHPMailer\PHPMailer\Exception
@@ -241,7 +270,7 @@ SQL;
     public function sendEmail($notificationDetails, $comment)
     {
         if ($this->fileDetails && $this->projectDetails && $notificationDetails) {
-            $mail = new Notification(true);
+            $mail = $this->container->getNotification();
 
             $mail->setFrom($this->projectDetails["pro_mem_email_work"], $this->projectDetails["pro_mem_name"]);
 
@@ -300,12 +329,16 @@ BODY;
         } else {
             if (empty($fileDetails)) {
                 throw new InvalidArgumentException('File Details is missing or empty.');
-            } else if (empty($projectDetails)) {
-                throw new InvalidArgumentException('Project Details is missing or empty.');
-            } else if (empty($notificationDetails)) {
-                throw new InvalidArgumentException('Notification Details is missing or empty.');
             } else {
-                throw new Exception('Error sending file uploaded notification');
+                if (empty($projectDetails)) {
+                    throw new InvalidArgumentException('Project Details is missing or empty.');
+                } else {
+                    if (empty($notificationDetails)) {
+                        throw new InvalidArgumentException('Notification Details is missing or empty.');
+                    } else {
+                        throw new Exception('Error sending file uploaded notification');
+                    }
+                }
             }
         }
     }

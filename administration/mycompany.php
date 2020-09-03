@@ -28,8 +28,6 @@
 */
 
 
-use phpCollab\Organizations\Organizations;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -37,7 +35,7 @@ if ($session->get('profile') != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 
-$org = new Organizations();
+$org = $container->getOrganizationsManager();
 
 if ($request->isMethod('post')) {
     try {
@@ -124,7 +122,6 @@ echo <<<HTML
 HTML;
 
 
-
 if (isset($error) && $error != "") {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
@@ -135,21 +132,28 @@ $block1->heading($strings["company_details"]);
 $block1->openContent();
 
 $block1->contentTitle($strings["company_info"]);
-$block1->contentRow($strings["name"], '<input size="44" value="'. $company['org_name'] .'" style="width: 400px" name="org_name" maxlength="100" type="TEXT">');
-$block1->contentRow($strings["address"], "<textarea rows='3' style='width: 400px; height: 50px;' name='org_address' cols='43'>{$company['org_address1']}</textarea>");
-$block1->contentRow($strings["phone"], "<input size='32' value='{$company['org_phone']}' style='width: 250px' name='org_phone' maxlength='32' type='TEXT'>");
-$block1->contentRow($strings["url"], "<input size='44' value='{$company['org_url']}' style='width: 400px' name='website' maxlength='2000' type='TEXT'>");
-$block1->contentRow($strings["email"], "<input size='44' value='{$company['org_email']}' style='width: 400px' name='email' maxlength='2000' type='TEXT'>");
-$block1->contentRow($strings["comments"], "<textarea rows='3' style='width: 400px; height: 50px;' name='comments' cols='43'>{$company['org_comments']}</textarea>");
-$block1->contentRow($strings["logo"] . $blockPage->printHelp("mycompany_logo"), '<input size="44" style="width: 400px" name="logo" type="file">');
+$block1->contentRow($strings["name"],
+    '<input size="44" value="' . $company['org_name'] . '" style="width: 400px" name="org_name" maxlength="100" type="TEXT">');
+$block1->contentRow($strings["address"],
+    "<textarea rows='3' style='width: 400px; height: 50px;' name='org_address' cols='43'>{$company['org_address1']}</textarea>");
+$block1->contentRow($strings["phone"],
+    "<input size='32' value='{$company['org_phone']}' style='width: 250px' name='org_phone' maxlength='32' type='TEXT'>");
+$block1->contentRow($strings["url"],
+    "<input size='44' value='{$company['org_url']}' style='width: 400px' name='website' maxlength='2000' type='TEXT'>");
+$block1->contentRow($strings["email"],
+    "<input size='44' value='{$company['org_email']}' style='width: 400px' name='email' maxlength='2000' type='TEXT'>");
+$block1->contentRow($strings["comments"],
+    "<textarea rows='3' style='width: 400px; height: 50px;' name='comments' cols='43'>{$company['org_comments']}</textarea>");
+$block1->contentRow($strings["logo"] . $blockPage->printHelp("mycompany_logo"),
+    '<input size="44" style="width: 400px" name="logo" type="file">');
 
 if (file_exists(APP_ROOT . "/logos_clients/1." . $company['org_extension_logo'])) {
     $logo = "../logos_clients/1." . $company['org_extension_logo'];
     $block1->contentRow(
         "",
         '<img src="' . $logo . '" alt="' . $company['org_name'] . '">' .
-         '<input name="extensionOld" type="hidden" value="' . $company['org_extension_logo'] . '">' .
-         '<input name="logoDel" type="checkbox" value="on"> ' . $strings["delete"]
+        '<input name="extensionOld" type="hidden" value="' . $company['org_extension_logo'] . '">' .
+        '<input name="logoDel" type="checkbox" value="on"> ' . $strings["delete"]
     );
 }
 

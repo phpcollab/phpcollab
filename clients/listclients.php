@@ -1,7 +1,5 @@
 <?php
 
-use phpCollab\Organizations\Organizations;
-use phpCollab\Teams\Teams;
 use phpCollab\Util;
 
 $checkSession = "true";
@@ -11,8 +9,8 @@ $setTitle .= " : List Clients";
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
-$organizations = new Organizations();
-$teams = new Teams();
+$organizations = $container->getOrganizationsManager();
+$teams = $container->getTeams();
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -48,7 +46,8 @@ $block1->closePaletteIcon();
 $block1->setLimit($blockPage->returnLimit(1));
 $block1->setRowsLimit(20);
 
-$block1->sorting("organizations", $sortingUser["organizations"], "org.name ASC", $sortingFields = array(0 => "org.name", 1 => "org.phone", 2 => "org.url"));
+$block1->sorting("organizations", $sortingUser["organizations"], "org.name ASC",
+    $sortingFields = array(0 => "org.name", 1 => "org.phone", 2 => "org.url"));
 
 if ($clientsFilter == "true" && $session->get("profile") == "2") {
     /**
@@ -94,9 +93,10 @@ if ($listOrganizations) {
     foreach ($listOrganizations as $org) {
         $block1->openRow();
         $block1->checkboxRow($org["org_id"]);
-        $block1->cellRow($blockPage->buildLink("../clients/viewclient.php?id=" . $org["org_id"], $org["org_name"], 'in'));
-        $block1->cellRow( Util::isBlank($org["org_phone"]) );
-        $block1->cellRow( $blockPage->buildLink($org["org_url"], $org["org_url"], 'out') );
+        $block1->cellRow($blockPage->buildLink("../clients/viewclient.php?id=" . $org["org_id"], $org["org_name"],
+            'in'));
+        $block1->cellRow(Util::isBlank($org["org_phone"]));
+        $block1->cellRow($blockPage->buildLink($org["org_url"], $org["org_url"], 'out'));
         $block1->closeRow();
     }
     $block1->closeResults();

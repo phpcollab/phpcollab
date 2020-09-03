@@ -37,8 +37,7 @@ class TeamsGateway
         $this->db->query($this->initrequest["teams"] . $whereStatement);
         $this->db->bind(':project_id', $projectId);
         $this->db->bind(':member_id', $memberId);
-        $results = $this->db->resultset();
-        return $results;
+        return $this->db->resultset();
     }
 
     /**
@@ -46,8 +45,10 @@ class TeamsGateway
      * @param $memberId
      * @return mixed
      */
-    public function getTeamByProjectIdAndTeamMemberAndStatusIsNotCompletedOrSuspendedAndIsNotPublished($projectId, $memberId)
-    {
+    public function getTeamByProjectIdAndTeamMemberAndStatusIsNotCompletedOrSuspendedAndIsNotPublished(
+        $projectId,
+        $memberId
+    ) {
         $whereStatement = " WHERE tea.member = :member_id AND pro.id = :project_id AND pro.status IN(0,2,3) AND pro.published = '0'";
         $this->db->query($this->initrequest["teams"] . $whereStatement);
         $this->db->bind(':project_id', $projectId);
@@ -78,8 +79,7 @@ class TeamsGateway
         $sql = $this->initrequest["teams"] . $whereStatement . $this->orderBy($sorting);
         $this->db->query($sql);
         $this->db->bind(':member_id', $memberId);
-        $results = $this->db->resultset();
-        return $results;
+        return $this->db->resultset();
     }
 
 
@@ -108,8 +108,7 @@ class TeamsGateway
         $this->db->query($this->initrequest["teams"] . $whereStatement);
         $this->db->bind(':org_id', $orgId);
         $this->db->bind(':member_id', $memberId);
-        $results = $this->db->resultset();
-        return $results;
+        return $this->db->resultset();
     }
 
     /**
@@ -128,9 +127,7 @@ class TeamsGateway
 
         $this->db->query($sql);
         $this->db->bind(':project_id', $projectId);
-        $results = $this->db->resultset();
-
-        return $results;
+        return $this->db->resultset();
     }
 
     /**
@@ -143,9 +140,7 @@ class TeamsGateway
         $whereStatement = " WHERE tea.project = :project_id  AND mem.profil = 3";
         $this->db->query($this->initrequest["teams"] . $whereStatement . $this->orderBy($sorting));
         $this->db->bind(':project_id', $projectId);
-        $results = $this->db->resultset();
-
-        return $results;
+        return $this->db->resultset();
     }
 
     /**
@@ -200,9 +195,9 @@ class TeamsGateway
      */
     public function publishTeams($projectId, $memberIds)
     {
-        if ( strpos($memberIds, ',') ) {
+        if (strpos($memberIds, ',')) {
             $memberIds = explode(',', $memberIds);
-            $placeholders = str_repeat ('?, ', count($memberIds)-1) . '?';
+            $placeholders = str_repeat('?, ', count($memberIds) - 1) . '?';
             $sql = "UPDATE {$this->tableCollab["teams"]} SET published = 0 WHERE member IN($placeholders) AND project = ?";
 
             array_push($memberIds, $projectId);
@@ -224,9 +219,9 @@ class TeamsGateway
      */
     public function unPublishTeams($projectId, $memberIds)
     {
-        if ( strpos($memberIds, ',') ) {
+        if (strpos($memberIds, ',')) {
             $memberIds = explode(',', $memberIds);
-            $placeholders = str_repeat ('?, ', count($memberIds)-1) . '?';
+            $placeholders = str_repeat('?, ', count($memberIds) - 1) . '?';
             $sql = "UPDATE {$this->tableCollab["teams"]} SET published = 1 WHERE member IN($placeholders) AND project = ?";
 
             array_push($memberIds, $projectId);
@@ -251,7 +246,7 @@ class TeamsGateway
     {
         // Generate placeholders
         $memberId = explode(',', $memberId);
-        $placeholders = str_repeat ('?, ', count($memberId)-1) . '?';
+        $placeholders = str_repeat('?, ', count($memberId) - 1) . '?';
 
         $sql = "DELETE FROM {$this->tableCollab["teams"]} WHERE project = ? AND member IN($placeholders)";
 
@@ -333,7 +328,15 @@ class TeamsGateway
     private function orderBy($sorting)
     {
         if (!is_null($sorting)) {
-            $allowedOrderedBy = ["mem.name", "mem.title", "mem.login", "mem.phone_work", "log.connected", "tea.published", "tas.project"];
+            $allowedOrderedBy = [
+                "mem.name",
+                "mem.title",
+                "mem.login",
+                "mem.phone_work",
+                "log.connected",
+                "tea.published",
+                "tas.project"
+            ];
             $pieces = explode(' ', $sorting);
 
             if ($pieces) {

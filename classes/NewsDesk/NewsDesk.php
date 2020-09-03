@@ -18,10 +18,11 @@ class NewsDesk
 
     /**
      * NewsDesk constructor.
+     * @param Database $database
      */
-    public function __construct()
+    public function __construct(Database $database)
     {
-        $this->db = new Database();
+        $this->db = $database;
         $this->newsdesk_gateway = new NewsDeskGateway($this->db);
     }
 
@@ -187,8 +188,10 @@ class NewsDesk
     {
         if (empty($commentId)) {
             throw new InvalidArgumentException('Comment ID missing or empty.');
-        } else if (empty($comment)) {
-            throw new InvalidArgumentException('Comment is missing or empty.');
+        } else {
+            if (empty($comment)) {
+                throw new InvalidArgumentException('Comment is missing or empty.');
+            }
         }
 
 
@@ -205,10 +208,14 @@ class NewsDesk
     {
         if (empty($postId)) {
             throw new InvalidArgumentException('Post ID missing or empty.');
-        } else if (empty($commenterId)) {
-            throw new InvalidArgumentException('Commenter ID missing or empty.');
-        } else if (empty($comment)) {
-            throw new InvalidArgumentException('Comment is missing or empty.');
+        } else {
+            if (empty($commenterId)) {
+                throw new InvalidArgumentException('Commenter ID missing or empty.');
+            } else {
+                if (empty($comment)) {
+                    throw new InvalidArgumentException('Comment is missing or empty.');
+                }
+            }
         }
 
         return $this->newsdesk_gateway->addComment($postId, $commenterId, $comment);

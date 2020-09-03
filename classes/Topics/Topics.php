@@ -5,11 +5,8 @@ namespace phpCollab\Topics;
 
 use Exception;
 use InvalidArgumentException;
+use phpCollab\Container;
 use phpCollab\Database;
-use phpCollab\Notification;
-use phpCollab\Notifications\Notifications;
-use phpCollab\Projects\Projects;
-use phpCollab\Teams\Teams;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
@@ -20,6 +17,7 @@ class Topics
 {
     protected $topics_gateway;
     protected $db;
+    protected $container;
     protected $projects;
     protected $teams;
     protected $notifications;
@@ -28,10 +26,13 @@ class Topics
 
     /**
      * Topics constructor.
+     * @param Database $database
+     * @param Container $container
      */
-    public function __construct()
+    public function __construct(Database $database, Container $container)
     {
-        $this->db = new Database();
+        $this->db = $database;
+        $this->container = $container;
         $this->topics_gateway = new TopicsGateway($this->db);
         $this->strings = $GLOBALS["strings"];
         $this->root = $GLOBALS["root"];
@@ -45,8 +46,7 @@ class Topics
      */
     public function getHomeTopics($projectIds, $dateFilter, $sorting = null)
     {
-        $data = $this->topics_gateway->getTopicsByProjectAndFilteredByDate($projectIds, $dateFilter, $sorting);
-        return $data;
+        return $this->topics_gateway->getTopicsByProjectAndFilteredByDate($projectIds, $dateFilter, $sorting);
     }
 
     /**
@@ -146,12 +146,10 @@ class Topics
      */
     public function closeTopic($topicId)
     {
-        // Sanitaize data
+        // Sanitize data
         $topicId = filter_var($topicId, FILTER_SANITIZE_STRING);
 
-        $data = $this->topics_gateway->closeTopic($topicId);
-
-        return $data;
+        return $this->topics_gateway->closeTopic($topicId);
     }
 
     /**
@@ -160,12 +158,10 @@ class Topics
      */
     public function publishTopic($topicId)
     {
-        // Sanitaize data
+        // Sanitize data
         $topicId = filter_var($topicId, FILTER_SANITIZE_STRING);
 
-        $data = $this->topics_gateway->publishTopic($topicId);
-
-        return $data;
+        return $this->topics_gateway->publishTopic($topicId);
     }
 
     /**
@@ -174,12 +170,10 @@ class Topics
      */
     public function unPublishTopic($topicId)
     {
-        // Sanitaize data
+        // Sanitize data
         $topicId = filter_var($topicId, FILTER_SANITIZE_STRING);
 
-        $data = $this->topics_gateway->unPublishTopic($topicId);
-
-        return $data;
+        return $this->topics_gateway->unPublishTopic($topicId);
     }
 
     /**
@@ -192,13 +186,21 @@ class Topics
      * @param int $published
      * @return mixed
      */
-    public function addTopic($projectId, $memberId, $subject, $status = 1, $posts = 1, $published = 0, $last_post = null)
-    {
+    public function addTopic(
+        $projectId,
+        $memberId,
+        $subject,
+        $status = 1,
+        $posts = 1,
+        $published = 0,
+        $last_post = null
+    ) {
         if (is_null($last_post)) {
             $last_post = date('Y-m-d h:i');
         }
 
-        $newTopicId = $this->topics_gateway->createTopic($projectId, $memberId, $subject, $status, $last_post, $posts, $published);
+        $newTopicId = $this->topics_gateway->createTopic($projectId, $memberId, $subject, $status, $last_post, $posts,
+            $published);
         return $this->getTopicByTopicId($newTopicId);
     }
 
@@ -329,9 +331,9 @@ class Topics
      */
     public function sendNewTopicNotification($topicDetails, Session $session)
     {
-        $this->projects = new Projects();
-        $this->teams = new Teams();
-        $this->notifications = new Notifications();
+        $this->projects = $this->container->getProjectsLoader();
+        $this->teams = $this->container->getTeams();
+        $this->notifications = $this->container->getNotificationsManager();
 
         /*
          *  Get the project details, specifically we need:
@@ -342,7 +344,8 @@ class Topics
         /*
          * Get a list of team members, excluding the current member
          */
-        $teamMembers = $this->teams->getOtherProjectTeamMembers($topicDetails["top_project"], $topicDetails["top_owner"]);
+        $teamMembers = $this->teams->getOtherProjectTeamMembers($topicDetails["top_project"],
+            $topicDetails["top_owner"]);
 
         /*
          * We loop through the list of $teamMembers so we can pass it through to get their notification preferences
@@ -364,7 +367,7 @@ class Topics
             /*
              * Start creating the mail notification
              */
-            $mail = new Notification(true);
+            $mail = $this->container->getNotification();
 
             try {
                 $mail->setFrom($topicDetails["top_mem_email_work"], $topicDetails["top_mem_name"]);
@@ -383,12 +386,11 @@ class Topics
                 /*
                  * Loop through $listNotifications
                  */
-                if ($listNotifications) {
-                    foreach ($listNotifications as $listNotification) {
+                foreach ($listNotifications as $listNotification) {
                         if (
                             ($listNotification["organization"] != "1"
-                             && $topicDetails["top_published"] == "0"
-                             && $projectDetails["pro_published"] == "0")
+                                && $topicDetails["top_published"] == "0"
+                                && $projectDetails["pro_published"] == "0")
                             || $listNotification["organization"] == "1"
                         ) {
                             /*
@@ -436,7 +438,6 @@ MESSAGE_BODY;
                             }
                         }
                     }
-                }
             } catch (Exception $e) {
                 throw new Exception($mail->ErrorInfo);
             }
@@ -453,9 +454,9 @@ MESSAGE_BODY;
      */
     public function sendNewPostNotification($postDetails, $topicDetails, Session $session)
     {
-        $this->projects = new Projects();
-        $this->teams = new Teams();
-        $this->notifications = new Notifications();
+        $this->projects = $this->container->getProjectsLoader();
+        $this->teams = $this->container->getTeams();
+        $this->notifications = $this->container->getNotificationsManager();
 
         /*
          *  Get the project details, specifically we need:
@@ -489,8 +490,8 @@ MESSAGE_BODY;
             /*
              * Start creating the mail notification
              */
-            $mail = new Notification(true);
 
+            $mail = $this->container->getNotification();
             try {
                 $mail->setFrom($topicDetails["top_mem_email_work"], $topicDetails["top_mem_name"]);
 
@@ -508,12 +509,11 @@ MESSAGE_BODY;
                 /*
                  * Loop through $listNotifications
                  */
-                if ($listNotifications) {
-                    foreach ($listNotifications as $listNotification) {
+                foreach ($listNotifications as $listNotification) {
                         if (
                             ($listNotification["organization"] != "1"
-                             && $topicDetails["top_published"] == "0"
-                             && $projectDetails["pro_published"] == "0")
+                                && $topicDetails["top_published"] == "0"
+                                && $projectDetails["pro_published"] == "0")
                             || $listNotification["organization"] == "1"
                         ) {
                             /*
@@ -562,7 +562,6 @@ MESSAGE_BODY;
                             }
                         }
                     }
-                }
             } catch (Exception $e) {
                 throw new Exception($mail->ErrorInfo);
             }

@@ -15,10 +15,11 @@ class Reports
 
     /**
      * Reports constructor.
+     * @param Database $database
      */
-    public function __construct()
+    public function __construct(Database $database)
     {
-        $this->db = new Database();
+        $this->db = $database;
         $this->reports_gateway = new ReportsGateway($this->db);
     }
 
@@ -36,8 +37,19 @@ class Reports
      * @param $dateCompleteEnd
      * @return mixed
      */
-    public function addReport($owner, $name, $projects, $clients, $members, $priorities, $status, $dateDueStart, $dateDueEnd, $dateCompleteStart, $dateCompleteEnd)
-    {
+    public function addReport(
+        $owner,
+        $name,
+        $projects,
+        $clients,
+        $members,
+        $priorities,
+        $status,
+        $dateDueStart,
+        $dateDueEnd,
+        $dateCompleteStart,
+        $dateCompleteEnd
+    ) {
         $newReportId = $this->reports_gateway->addReport(
             $owner, $name, $projects, $clients, $members, $priorities, $status, $dateDueStart, $dateDueEnd,
             $dateCompleteStart, $dateCompleteEnd, date('Y-m-d h:i')
@@ -53,8 +65,7 @@ class Reports
     public function getReportsByOwner($ownerId, $sorting)
     {
         $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
-        $rows = $this->reports_gateway->getAllByOwner($ownerId, $sorting);
-        return $rows;
+        return $this->reports_gateway->getAllByOwner($ownerId, $sorting);
     }
 
     /**
@@ -63,8 +74,7 @@ class Reports
      */
     public function getReportsById($reportId)
     {
-        $report = $this->reports_gateway->getReportById($reportId);
-        return $report;
+        return $this->reports_gateway->getReportById($reportId);
     }
 
     /**

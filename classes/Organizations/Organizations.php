@@ -20,9 +20,9 @@ class Organizations
     /**
      * Organizations constructor.
      */
-    public function __construct()
+    public function __construct(Database $database)
     {
-        $this->db = new Database();
+        $this->db = $database;
         $this->organizations_gateway = new OrganizationsGateway($this->db);
         $this->tableCollab = $GLOBALS["tableCollab"];
     }
@@ -100,9 +100,7 @@ class Organizations
     {
         $clientId = filter_var($clientId, FILTER_VALIDATE_INT);
 
-        $data = $this->organizations_gateway->getClientById($clientId);
-
-        return $data;
+        return $this->organizations_gateway->getClientById($clientId);
     }
 
     /**
@@ -127,9 +125,7 @@ class Organizations
      */
     public function getFilteredOrganizations($clientIds, $sorting = null)
     {
-        $data = $this->organizations_gateway->getOrganizationsIn($clientIds, $sorting);
-
-        return $data;
+        return $this->organizations_gateway->getOrganizationsIn($clientIds, $sorting);
     }
 
     /**
@@ -138,9 +134,7 @@ class Organizations
      */
     public function getOrganizationsOrderedByName($orgId)
     {
-        $data = $this->organizations_gateway->getOrganizationsOrderedByName($orgId);
-
-        return $data;
+        return $this->organizations_gateway->getOrganizationsOrderedByName($orgId);
     }
 
     /**
@@ -151,9 +145,7 @@ class Organizations
     {
         $orgId = filter_var($orgId, FILTER_VALIDATE_INT);
 
-        $data = $this->organizations_gateway->getClientById($orgId);
-
-        return $data;
+        return $this->organizations_gateway->getClientById($orgId);
 
     }
 
@@ -165,8 +157,7 @@ class Organizations
     public function getOrganizationsByOwner($ownerId, $sorting = null)
     {
         $ownerId = filter_var($ownerId, FILTER_VALIDATE_INT);
-        $data = $this->organizations_gateway->getOrginizationsByOwnerId($ownerId, $sorting);
-        return $data;
+        return $this->organizations_gateway->getOrginizationsByOwnerId($ownerId, $sorting);
     }
 
     /**
@@ -178,9 +169,7 @@ class Organizations
         $orgId = filter_var($orgId, FILTER_VALIDATE_INT);
         $ownerId = filter_var($ownerId, FILTER_VALIDATE_INT);
 
-        $data = $this->organizations_gateway->getOrgByIdAndOwner($orgId, $ownerId);
-
-        return $data;
+        return $this->organizations_gateway->getOrgByIdAndOwner($orgId, $ownerId);
     }
 
     /**

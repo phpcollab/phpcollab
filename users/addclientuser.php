@@ -1,12 +1,9 @@
 <?php
 
-use phpCollab\Notifications\Notifications;
-use phpCollab\Organizations\Organizations;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$notifications = new Notifications();
+$notifications = $container->getNotificationsManager();
 
 $orgId = $request->query->get('organization');
 
@@ -14,7 +11,7 @@ if (!$orgId) {
     phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankUser");
 }
 
-$organizations = new Organizations();
+$organizations = $container->getOrganizationsManager();
 $clientDetail = $organizations->checkIfClientExistsById($orgId);
 
 if (empty($clientDetail)) {
@@ -105,7 +102,9 @@ if ($request->isMethod('post')) {
                                 $error = $strings["new_password_error"];
                             } else {
                                 try {
-                                    $newMemberId = $members->addMember($user_login, $user_full_name, $user_email_work, $user_password, 3, $user_title, $user_organization, $user_phone_work, $user_phone_home, $user_phone_mobile, $user_fax, $user_comments, $dateheure);
+                                    $newMemberId = $members->addMember($user_login, $user_full_name, $user_email_work,
+                                        $user_password, 3, $user_title, $user_organization, $user_phone_work,
+                                        $user_phone_home, $user_phone_mobile, $user_fax, $user_comments, $dateheure);
 
                                     if ($newMemberId) {
                                         // Set the member password
@@ -183,7 +182,8 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?", $strings["clients"], 'in'));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $clientDetail['org_id'], $clientDetail['org_name'], 'in'));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $clientDetail['org_id'],
+    $clientDetail['org_name'], 'in'));
 $blockPage->itemBreadcrumbs($strings["add_client_user"]);
 $blockPage->closeBreadcrumbs();
 
@@ -207,9 +207,12 @@ $block1->heading($strings["add_client_user"]);
 $block1->openContent();
 $block1->contentTitle($strings["enter_user_details"]);
 
-$block1->contentRow($strings["user_name"], '<input size="24" style="width: 250px;" maxlength="16" type="text" name="user_name" value="'.$request->request->get('user_name').'" required>');
-$block1->contentRow($strings["full_name"], '<input size="24" style="width: 250px;" maxlength="64" type="text" name="full_name" value="'.$request->request->get('full_name').'" required>');
-$block1->contentRow($strings["title"], '<input size="24" style="width: 250px;" maxlength="64" type="text" name="title" value="'.$request->request->get('title').'">');
+$block1->contentRow($strings["user_name"],
+    '<input size="24" style="width: 250px;" maxlength="16" type="text" name="user_name" value="' . $request->request->get('user_name') . '" required>');
+$block1->contentRow($strings["full_name"],
+    '<input size="24" style="width: 250px;" maxlength="64" type="text" name="full_name" value="' . $request->request->get('full_name') . '" required>');
+$block1->contentRow($strings["title"],
+    '<input size="24" style="width: 250px;" maxlength="64" type="text" name="title" value="' . $request->request->get('title') . '">');
 
 $selectOrganization = '<select name="organization">';
 
@@ -227,16 +230,24 @@ foreach ($organizationsList as $org) {
 $selectOrganization .= "</select>";
 $block1->contentRow($strings["organization"], $selectOrganization);
 
-$block1->contentRow($strings["email"], '<input size="24" style="width: 250px;" maxlength="128" type="email" name="email_work" value="' . $request->request->get('email_work') . '" required>');
-$block1->contentRow($strings["work_phone"], '<input size="14" style="width: 150px;" maxlength="32" type="tel" name="phone_work" value="' . $request->request->get('phone_work') . '">');
-$block1->contentRow($strings["home_phone"], '<input size="14" style="width: 150px;" maxlength="32" type="tel" name="phone_home" value="' . $request->request->get('phone_home') . '">');
-$block1->contentRow($strings["mobile_phone"], '<input size="14" style="width: 150px;" maxlength="32" type="tel" name="phone_mobile" value="' . $request->request->get('phone_mobile') . '">');
-$block1->contentRow($strings["fax"], '<input size="14" style="width: 150px;" maxlength="32" type="tel" name="fax" value="' . $request->request->get('fax') . '">');
-$block1->contentRow($strings["comments"], '<textarea style="width: 400px; height: 50px;" name="comments" cols="35" rows="2">' . $request->request->get('comments') . '</textarea>');
+$block1->contentRow($strings["email"],
+    '<input size="24" style="width: 250px;" maxlength="128" type="email" name="email_work" value="' . $request->request->get('email_work') . '" required>');
+$block1->contentRow($strings["work_phone"],
+    '<input size="14" style="width: 150px;" maxlength="32" type="tel" name="phone_work" value="' . $request->request->get('phone_work') . '">');
+$block1->contentRow($strings["home_phone"],
+    '<input size="14" style="width: 150px;" maxlength="32" type="tel" name="phone_home" value="' . $request->request->get('phone_home') . '">');
+$block1->contentRow($strings["mobile_phone"],
+    '<input size="14" style="width: 150px;" maxlength="32" type="tel" name="phone_mobile" value="' . $request->request->get('phone_mobile') . '">');
+$block1->contentRow($strings["fax"],
+    '<input size="14" style="width: 150px;" maxlength="32" type="tel" name="fax" value="' . $request->request->get('fax') . '">');
+$block1->contentRow($strings["comments"],
+    '<textarea style="width: 400px; height: 50px;" name="comments" cols="35" rows="2">' . $request->request->get('comments') . '</textarea>');
 
 $block1->contentTitle($strings["enter_password"]);
-$block1->contentRow($strings["password"], '<input size="24" style="width: 250px;" maxlength="16" type="password" name="password" value="" required>');
-$block1->contentRow($strings["confirm_password"], '<input size="24" style="width: 250px;" maxlength="16" type="password" name="password_confirm" value="" required>');
+$block1->contentRow($strings["password"],
+    '<input size="24" style="width: 250px;" maxlength="16" type="password" name="password" value="" required>');
+$block1->contentRow($strings["confirm_password"],
+    '<input size="24" style="width: 250px;" maxlength="16" type="password" name="password_confirm" value="" required>');
 $block1->contentRow("", '<button type="submit" name="action" value="add">' . $strings["save"] . '</button>');
 
 $block1->closeContent();

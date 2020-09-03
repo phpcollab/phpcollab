@@ -42,8 +42,6 @@ class FileHandler
             $this->type = "pdf.gif";
             break;
         case "ai":
-            $this->type = "ai.gif";
-            break;
         case "eps":
             $this->type = "ai.gif";
             break;
@@ -68,15 +66,11 @@ class FileHandler
         case "js":
             $this->type = "js.gif";
             break;
+        case "html":
         case "htm":
             $this->type = "htm.gif";
             break;
-        case "html":
-            $this->type = "htm.gif";
-            break;
         case "php":
-            $this->type = "php.gif";
-            break;
         case "php3":
             $this->type = "php.gif";
             break;

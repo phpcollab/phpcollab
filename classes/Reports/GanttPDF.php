@@ -34,7 +34,8 @@ class GanttPDF
                 $progress = round($listTask["completion"] / 10, 2);
                 $printProgress = $listTask["completion"] * 10;
 
-                $activity = new GanttBar($posGantt, $listTask["project_name"] . " / " . $listTask["name"], $listTask["start_date"], $listTask["due_date"]);
+                $activity = new GanttBar($posGantt, $listTask["project_name"] . " / " . $listTask["name"],
+                    $listTask["start_date"], $listTask["due_date"]);
                 $activity->SetPattern(BAND_LDIAG, "yellow");
                 $activity->caption->Set($listTask["mem_login"] . " (" . $printProgress . "%)");
                 $activity->SetFillColor("gray");
@@ -59,7 +60,8 @@ class GanttPDF
                         $printProgress = $subTask["completion"] * 10;
                         $posGantt += 1;
                         // change name of project for name of parent task
-                        $activity = new GanttBar($posGantt, $listTask["name"] . " / " . $subTask["name"], $subTask["start_date"], $subTask["due_date"]);
+                        $activity = new GanttBar($posGantt, $listTask["name"] . " / " . $subTask["name"],
+                            $subTask["start_date"], $subTask["due_date"]);
                         $activity->SetPattern(BAND_LDIAG, "yellow");
                         $activity->caption->Set($subTask["member_login"] . " (" . $printProgress . "%)");
                         $activity->SetFillColor("gray");

@@ -18,23 +18,14 @@
 ** =============================================================================
 */
 
-
-use phpCollab\Assignments\Assignments;
-use phpCollab\Phases\Phases;
-use phpCollab\Projects\Projects;
-use phpCollab\Subtasks\Subtasks;
-use phpCollab\Tasks\Tasks;
-use phpCollab\Teams\Teams;
-use phpCollab\Updates\Updates;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$tasks = new Tasks();
-$subtasks = new Subtasks();
-$projects = new Projects();
-$teams = new Teams();
-$assignments = new Assignments();
+$tasks = $container->getTasksLoader();
+$subtasks = $container->getSubtasksLoader();
+$projects = $container->getProjectsLoader();
+$teams = $container->getTeams();
+$assignments = $container->getAssignmentsManager();
 
 $id = $request->query->get("id");
 $task = $request->query->get("task");
@@ -62,7 +53,7 @@ $taskDetail = $tasks->getTaskById($task);
 $projectDetail = $projects->getProjectById($taskDetail['tas_project']);
 
 if ($projectDetail['pro_enable_phase'] != "0") {
-    $phases = new Phases();
+    $phases = $container->getPhasesLoader();
     $tPhase = $taskDetail['tas_parent_phase'];
     if (!$tPhase) {
         $tPhase = '0';
@@ -76,15 +67,20 @@ $teamMember = $teams->isTeamMember($taskDetail["tas_project"], $session->get("id
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], 'in'));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail['pro_id'], $projectDetail['pro_name'], 'in'));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail['pro_id'],
+    $projectDetail['pro_name'], 'in'));
 
 if ($projectDetail['pro_phase_set'] != "0") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail['pro_id'], $strings["phases"], 'in'));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase['pha_id'], $targetPhase['pha_name'], 'in'));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail['pro_id'],
+        $strings["phases"], 'in'));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase['pha_id'],
+        $targetPhase['pha_name'], 'in'));
 }
 
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail['pro_id'], $strings["tasks"], 'in'));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail['tas_id'], $taskDetail['tas_name'], 'in'));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail['pro_id'],
+    $strings["tasks"], 'in'));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail['tas_id'],
+    $taskDetail['tas_name'], 'in'));
 $blockPage->itemBreadcrumbs($subtaskDetail['subtas_name']);
 $blockPage->closeBreadcrumbs();
 
@@ -120,18 +116,25 @@ $block1->openContent();
 $block1->contentTitle($strings["info"]);
 
 
-$block1->contentRow($strings["project"], $blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail['pro_id'], $projectDetail['pro_name'], 'in'));
+$block1->contentRow($strings["project"],
+    $blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail['pro_id'], $projectDetail['pro_name'],
+        'in'));
 
 //Display task's phase
 if ($projectDetail['pro_phase_set'] != "0") {
-    $block1->contentRow($strings["phase"], $blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase['pha_id'], $targetPhase['pha_name'], 'in'));
+    $block1->contentRow($strings["phase"],
+        $blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase['pha_id'], $targetPhase['pha_name'], 'in'));
 }
 
-$block1->contentRow($strings["task"], $blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail['tas_id'], $taskDetail['tas_name'], 'in'));
+$block1->contentRow($strings["task"],
+    $blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail['tas_id'], $taskDetail['tas_name'], 'in'));
 $block1->contentRow($strings["organization"], $projectDetail['pro_org_name']);
-$block1->contentRow($strings["created"], phpCollab\Util::createDate($subtaskDetail['subtas_created'], $session->get("timezone")));
-$block1->contentRow($strings["assigned"], phpCollab\Util::createDate($subtaskDetail['subtas_assigned'], $session->get("timezone")));
-$block1->contentRow($strings["modified"], phpCollab\Util::createDate($subtaskDetail['subtas_modified'], $session->get("timezone")));
+$block1->contentRow($strings["created"],
+    phpCollab\Util::createDate($subtaskDetail['subtas_created'], $session->get("timezone")));
+$block1->contentRow($strings["assigned"],
+    phpCollab\Util::createDate($subtaskDetail['subtas_assigned'], $session->get("timezone")));
+$block1->contentRow($strings["modified"],
+    phpCollab\Util::createDate($subtaskDetail['subtas_modified'], $session->get("timezone")));
 
 $block1->contentTitle($strings["details"]);
 
@@ -141,7 +144,11 @@ $block1->contentRow($strings["description"], nl2br($subtaskDetail['subtas_descri
 if ($subtaskDetail['subtas_assigned_to'] == "0") {
     $block1->contentRow($strings["assigned_to"], $strings["unassigned"]);
 } else {
-    $block1->contentRow($strings["assigned_to"], $blockPage->buildLink("../users/viewuser.php?id=" . $subtaskDetail['subtas_mem_id'], $subtaskDetail['subtas_mem_name'], 'in') . " (" . $blockPage->buildLink($subtaskDetail['subtas_mem_email_work'], $subtaskDetail['subtas_mem_login'], 'mail') . ")");
+    $block1->contentRow($strings["assigned_to"],
+        $blockPage->buildLink("../users/viewuser.php?id=" . $subtaskDetail['subtas_mem_id'],
+            $subtaskDetail['subtas_mem_name'],
+            'in') . " (" . $blockPage->buildLink($subtaskDetail['subtas_mem_email_work'],
+            $subtaskDetail['subtas_mem_login'], 'mail') . ")");
 }
 $idStatus = $subtaskDetail['subtas_status'];
 $idPriority = $subtaskDetail['subtas_priority'];
@@ -149,7 +156,8 @@ $idPublish = $subtaskDetail['subtas_published'];
 $complValue = ($subtaskDetail['subtas_completion'] > 0) ? $subtaskDetail['subtas_completion'] . "0 %" : $subtaskDetail['subtas_completion'] . " %";
 $block1->contentRow($strings["status"], $status[$idStatus]);
 $block1->contentRow($strings["completion"], $complValue);
-$block1->contentRow($strings["priority"], "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
+$block1->contentRow($strings["priority"],
+    "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
 $block1->contentRow($strings["start_date"], $subtaskDetail['subtas_start_date']);
 if ($subtaskDetail['subtas_due_date'] <= $date && $subtaskDetail['subtas_completion'] != "10") {
     $block1->contentRow($strings["due_date"], "<strong>" . $subtaskDetail['subtas_due_date'] . "</strong>");
@@ -162,7 +170,8 @@ if ($subtaskDetail['subtas_complete_date'] != "" && $subtaskDetail['subtas_compl
         $diff = "<strong>+$diff</strong>";
     }
     $block1->contentRow($strings["complete_date"], $subtaskDetail['subtas_complete_date']);
-    $block1->contentRow($strings["scope_creep"] . $blockPage->printHelp("task_scope_creep"), "$diff " . $strings["days"]);
+    $block1->contentRow($strings["scope_creep"] . $blockPage->printHelp("task_scope_creep"),
+        "$diff " . $strings["days"]);
 }
 $block1->contentRow($strings["estimated_time"], $subtaskDetail['subtas_estimated_time'] . " " . $strings["hours"]);
 $block1->contentRow($strings["actual_time"], $subtaskDetail['subtas_actual_time'] . " " . $strings["hours"]);
@@ -174,7 +183,7 @@ $block1->contentRow($strings["comments"], nl2br($subtaskDetail['subtas_comments'
 
 $block1->contentTitle($strings["updates_subtask"]);
 
-$updates = new Updates();
+$updates = $container->getTaskUpdateService();
 $listUpdates = $updates->getUpdates(2, $id);
 
 $comptListUpdates = count($listUpdates);
@@ -201,12 +210,14 @@ if ($comptListUpdates != "0") {
         }
         if (preg_match('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})]|', $update['upd_comments'])) {
             preg_match('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})]|i', $update['upd_comments'], $matches);
-            $update['upd_comments'] = preg_replace('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})]|', '', $update['upd_comments'] . '<br/>');
+            $update['upd_comments'] = preg_replace('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})]|', '',
+                $update['upd_comments'] . '<br/>');
             $update['upd_comments'] .= $strings["due_date"] . ' ' . $matches[1];
         }
 
         $abbrev = stripslashes(substr($update['upd_comments'], 0, 100));
-        echo "<strong>" . $j . ".</strong> <em>" . phpCollab\Util::createDate($update['upd_created'], $session->get("timezone")) . "</em> $abbrev";
+        echo "<strong>" . $j . ".</strong> <em>" . phpCollab\Util::createDate($update['upd_created'],
+                $session->get("timezone")) . "</em> $abbrev";
         if (100 < strlen($update['upd_comments'])) {
             echo "...<br/>";
         } else {
@@ -214,7 +225,8 @@ if ($comptListUpdates != "0") {
         }
         $j++;
     }
-    echo "<br/>" . $blockPage->buildLink("../subtasks/historysubtask.php?type=2&item=$id", $strings["show_details"], "in");
+    echo "<br/>" . $blockPage->buildLink("../subtasks/historysubtask.php?type=2&item=$id", $strings["show_details"],
+            "in");
 } else {
     echo $strings["no_items"];
 }
@@ -230,12 +242,19 @@ $block1->closeForm();
 
 if ($teamMember == "true" || $session->get("profile") == "5") {
     $block1->openPaletteScript();
-    $block1->paletteScript(0, "remove", "../subtasks/deletesubtasks.php?task=$task&id=" . $subtaskDetail['subtas_id'] . "", "true,true,false", $strings["delete"]);
+    $block1->paletteScript(0, "remove",
+        "../subtasks/deletesubtasks.php?task=$task&id=" . $subtaskDetail['subtas_id'] . "", "true,true,false",
+        $strings["delete"]);
     if ($sitePublish == "true") {
-        $block1->paletteScript(3, "add_projectsite", "../subtasks/viewsubtask.php?addToSite=true&task=$task&id=" . $subtaskDetail['subtas_id'] . "&action=publish", "true,true,true", $strings["add_project_site"]);
-        $block1->paletteScript(4, "remove_projectsite", "../subtasks/viewsubtask.php?removeToSite=true&task=$task&id=" . $subtaskDetail['subtas_id'] . "&action=publish", "true,true,true", $strings["remove_project_site"]);
+        $block1->paletteScript(3, "add_projectsite",
+            "../subtasks/viewsubtask.php?addToSite=true&task=$task&id=" . $subtaskDetail['subtas_id'] . "&action=publish",
+            "true,true,true", $strings["add_project_site"]);
+        $block1->paletteScript(4, "remove_projectsite",
+            "../subtasks/viewsubtask.php?removeToSite=true&task=$task&id=" . $subtaskDetail['subtas_id'] . "&action=publish",
+            "true,true,true", $strings["remove_project_site"]);
     }
-    $block1->paletteScript(5, "edit", "../subtasks/editsubtask.php?task=$task&id=$id&docopy=false", "true,true,false", $strings["edit"]);
+    $block1->paletteScript(5, "edit", "../subtasks/editsubtask.php?task=$task&id=$id&docopy=false", "true,true,false",
+        $strings["edit"]);
     $block1->closePaletteScript(0, []);
 }
 
@@ -246,13 +265,19 @@ $block3->openForm("../subtasks/viewsubtask.php?&id=$id&task=$task#" . $block3->f
 
 $block3->headingToggle($strings["assignment_history"]);
 
-$block3->sorting("assignment", $sortingUser["assignment"], "ass.assigned DESC", $sortingFields = array(0 => "ass.comments", 1 => "mem1.login", 2 => "mem2.login", 3 => "ass.assigned"));
+$block3->sorting("assignment", $sortingUser["assignment"], "ass.assigned DESC",
+    $sortingFields = array(0 => "ass.comments", 1 => "mem1.login", 2 => "mem2.login", 3 => "ass.assigned"));
 
 $listAssign = $assignments->getAssignmentsBySubtaskId($id, $block3->sortingValue);
 
 $block3->openResults($checkbox = "false");
 
-$block3->labels($labels = array(0 => $strings["comment"], 1 => $strings["assigned_by"], 2 => $strings["to"], 3 => $strings["assigned_on"]), "false");
+$block3->labels($labels = array(
+    0 => $strings["comment"],
+    1 => $strings["assigned_by"],
+    2 => $strings["to"],
+    3 => $strings["assigned_on"]
+), "false");
 
 foreach ($listAssign as $assignment) {
     $block3->openRow();
@@ -268,7 +293,8 @@ foreach ($listAssign as $assignment) {
     if ($assignment["ass_assigned_to"] == "0") {
         $block3->cellRow($strings["unassigned"]);
     } else {
-        $block3->cellRow($blockPage->buildLink($assignment["ass_mem2_email_work"], $assignment["ass_mem2_login"], "mail"));
+        $block3->cellRow($blockPage->buildLink($assignment["ass_mem2_email_work"], $assignment["ass_mem2_login"],
+            "mail"));
     }
     $block3->cellRow(phpCollab\Util::createDate($assignment["ass_assigned"], $session->get("timezone")));
     $block3->closeRow();

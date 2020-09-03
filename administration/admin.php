@@ -26,12 +26,10 @@
 ** =============================================================================
 */
 
-use phpCollab\Administration\Administration;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 $setTitle .= " : Administration";
-$admin = new Administration();
+$admin = $container->getAdministration();
 
 if ($session->get('profile') != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
@@ -59,32 +57,29 @@ $block1->contentTitle($strings["admin_intro"]);
 $block1->contentRow("", $blockPage->buildLink("../users/listusers.php", $strings["user_management"], "in"));
 
 if ($enableInvoicing == "true") {
-    $block1->contentRow("", $blockPage->buildLink("../services/listservices.php", $strings["service_management"], "in"));
+    $block1->contentRow("",
+        $blockPage->buildLink("../services/listservices.php", $strings["service_management"], "in"));
 }
 
 if ($supportType == "admin") {
-    $block1->contentRow("", $blockPage->buildLink("../administration/support.php", $strings["support_management"], "in"));
+    $block1->contentRow("",
+        $blockPage->buildLink("../administration/support.php", $strings["support_management"], "in"));
 }
 
 if ($databaseType == "mysql") {
     $block1->contentRow("", $blockPage->buildLink("../administration/phpmyadmin.php", $strings["database"], "in"));
 }
 
-$block1->contentRow("", $blockPage->buildLink("../administration/systeminfo.php", $strings["system_information"], "in"));
+$block1->contentRow("",
+    $blockPage->buildLink("../administration/systeminfo.php", $strings["system_information"], "in"));
 $block1->contentRow("", $blockPage->buildLink("../administration/mycompany.php", $strings["company_details"], "in"));
 $block1->contentRow("", $blockPage->buildLink("../administration/listlogs.php", $strings["logs"], "in"));
-$block1->contentRow($strings["update"] . $blockPage->printHelp("admin_update"), "1. " . $blockPage->buildLink("../administration/updatesettings.php", $strings["edit_settings"], "in") . " 2. " . $blockPage->buildLink("../administration/updatedatabase.php", $strings["edit_database"], "in"));
+$block1->contentRow($strings["update"] . $blockPage->printHelp("admin_update"),
+    "1. " . $blockPage->buildLink("../administration/updatesettings.php", $strings["edit_settings"],
+        "in") . " 2. " . $blockPage->buildLink("../administration/updatedatabase.php", $strings["edit_database"],
+        "in"));
 
 if (file_exists("../installation/setup.php")) {
-    /*
-        <div class="alert info">
-            <h3>{$strings["update_available"]}</h3>
-            <p>{$strings["version_current"]} {$version} {$strings["version_latest"]} {$admin->getNewVersion()}.<br/>
-            <a href='http://www.sourceforge.net/projects/phpcollab' target='_blank'>{$strings["sourceforge_link"]}</a>.</p>
-        </div>
-
-     */
-
     $deleteSettingsAlert = <<<HTML
 <div class="alert error">
     <h3>{$strings["attention"]}: {$strings["setup_erase"]}</h3>

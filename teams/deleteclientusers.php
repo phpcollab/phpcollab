@@ -3,16 +3,11 @@
 #Status page: 1
 #Path by root: ../teams/deleteclientusers.php
 
-use phpCollab\Notifications\RemoveProjectTeam;
-use phpCollab\Projects\Projects;
-use phpCollab\Teams\Teams;
-use phpCollab\Notifications\Notifications;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$projects = new Projects();
-$sendNotifications = new Notifications();
+$projects = $container->getProjectsLoader();
+$sendNotifications = $container->getNotificationsManager();
 
 $projectDetail = $projects->getProjectById($project);
 
@@ -23,10 +18,10 @@ if (!$projectDetail) {
 if ($action == "delete") {
     $id = str_replace("**", ",", $id);
     $pieces = explode(",", $id);
-    $teams = new Teams();
+    $teams = $container->getTeams();
 
     if ($htaccessAuth == "true") {
-        $Htpasswd = new Htpasswd;
+        $Htpasswd = $container->getHtpasswdService();
         $Htpasswd->initialize("../files/" . $projectDetail["pro_id"] . "/.htpasswd");
 
         $listMembers = $members->getMembersByIdIn($id);
@@ -34,8 +29,7 @@ if ($action == "delete") {
         foreach ($listMembers as $listMember) {
             try {
                 $Htpasswd->deleteUser($listMember["mem_login"]);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 // Handle exception
             }
         }
@@ -59,7 +53,7 @@ if ($action == "delete") {
         }
     }
     if ($notifications == "true") {
-        $removeProjectTeam = new RemoveProjectTeam();
+        $removeProjectTeam = $container->getNotificationRemoveProjectTeamService();
 
         try {
             $notificationList = $sendNotifications->getNotificationsWhereMemberIn($id);
@@ -79,8 +73,10 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewprojectsite.php?id=" . $projectDetail["pro_id"], $strings["project_site"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"],
+    $projectDetail["pro_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewprojectsite.php?id=" . $projectDetail["pro_id"],
+    $strings["project_site"], "in"));
 $blockPage->itemBreadcrumbs($strings["remove_team_client"]);
 $blockPage->closeBreadcrumbs();
 
@@ -106,7 +102,8 @@ foreach ($listMembers as $listMember) {
     $block1->contentRow("#{$listMember["mem_id"]}", " - {$listMember["mem_login"]} ({$listMember["mem_name"]})");
 }
 
-$block1->contentRow("", '<input type="submit" value="' . $strings["delete"] . '">&#160;<input type="button" value="' . $strings["cancel"] . '" onClick="history.back();">');
+$block1->contentRow("",
+    '<input type="submit" value="' . $strings["delete"] . '">&#160;<input type="button" value="' . $strings["cancel"] . '" onClick="history.back();">');
 
 $block1->closeContent();
 $block1->closeForm();

@@ -27,15 +27,10 @@
 ** =============================================================================
 */
 
-use phpCollab\Files\Files;
-use phpCollab\Notifications\Notifications;
-use phpCollab\Projects\Projects;
-use phpCollab\Teams\Teams;
-
 $checkSession = "true";
 include '../includes/library.php';
 
-$projects = new Projects();
+$projects = $container->getProjectsLoader();
 
 $projectDetail = $projects->getProjectById($session->get("project"));
 
@@ -44,9 +39,9 @@ if ($request->isMethod('post')) {
         if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
             if ($request->request->get('action') == "add") {
 
-                $files = new Files();
-                $teams = new Teams();
-                $notification = new Notifications();
+                $files = $container->getFilesLoader();
+                $teams = $container->getTeams();
+                $notification = $container->getNotificationsManager();
 
                 // Clean the filename of spaces, slashes, etc
                 $filename = phpCollab\Util::checkFileName($_FILES['upload']['name']);
@@ -91,9 +86,11 @@ if ($request->isMethod('post')) {
                 if ($docopy == "true") {
                     $commentsField = phpCollab\Util::convertData($request->request->get('commentsField'));
 
-                    $newFileId = $files->addFile($session->get("id"), $session->get("project"), 0, 0, $commentsField, 2, 0.0, 0);
+                    $newFileId = $files->addFile($session->get("id"), $session->get("project"), 0, 0, $commentsField, 2,
+                        0.0, 0);
 
-                    phpCollab\Util::uploadFile("files/" . $session->get("project"), $_FILES['upload']['tmp_name'], "$newFileId--" . $filename);
+                    phpCollab\Util::uploadFile("files/" . $session->get("project"), $_FILES['upload']['tmp_name'],
+                        "$newFileId--" . $filename);
 
                     $size = phpCollab\Util::fileInfoSize("../files/" . $session->get("project") . "/" . $newFileId . "--" . $filename);
 
@@ -120,7 +117,9 @@ if ($request->isMethod('post')) {
                                 $userNotificationFlags = $notification->getMemberNotifications($item['tea_mem_id']);
 
                                 if ($userNotificationFlags) {
-                                    $files->sendFileUploadedNotification($fileDetails, $projectDetail, $userNotificationFlags, $session->get("id"), $session->get("name"), $session->get("login"));
+                                    $files->sendFileUploadedNotification($fileDetails, $projectDetail,
+                                        $userNotificationFlags, $session->get("id"), $session->get("name"),
+                                        $session->get("login"));
                                 }
                             }
                         } catch (Exception $e) {

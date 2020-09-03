@@ -16,12 +16,10 @@
 ** =============================================================================
 */
 
-use phpCollab\Teams\Teams;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$teams = new Teams();
+$teams = $container->getTeams();
 
 if ($request->isMethod('post')) {
     try {
@@ -42,7 +40,8 @@ if ($request->isMethod('post')) {
                     $encryptedPassword = phpCollab\Util::getPassword($newPassword);
 
                     if ($htaccessAuth == "true") {
-                        $Htpasswd = new Htpasswd;
+
+                        $Htpasswd = $container->getHtpasswdService();
 
                         $myTeams = $teams->getTeamByMemberId($session->get("id"));
 
@@ -51,8 +50,7 @@ if ($request->isMethod('post')) {
                                 try {
                                     $Htpasswd->initialize("../files/" . $thisTeam["tea_pro_id"] . "/.htpasswd");
                                     $Htpasswd->changePass($session->get("login"), $encryptedPassword);
-                                }
-                                catch (Exception $e) {
+                                } catch (Exception $e) {
                                     echo "Error: " . $e->getMessage();
                                 }
                             }
@@ -61,8 +59,7 @@ if ($request->isMethod('post')) {
 
                     try {
                         $members->setPassword($session->get("id"), $newPassword);
-                    }
-                    catch (Exception $e) {
+                    } catch (Exception $e) {
                         echo "Error: " . $e->getMessage();
                     }
 
@@ -135,10 +132,14 @@ $block1->heading($strings["change_password"] . " : " . $userDetail["mem_login"])
 $block1->openContent();
 $block1->contentTitle($strings["change_password_intro"]);
 
-$block1->contentRow("* " . $strings["old_password"], '<input style="width: 150px;" type="password" name="old_password" value="" autocomplete="off">');
-$block1->contentRow("* " . $strings["new_password"], '<input style="width: 150px;" type="password" name="new_password" value="" autocomplete="off">');
-$block1->contentRow("* " . $strings["confirm_password"], '<input style="width: 150px;" type="password" name="confirm_password" value="" autocomplete="off">');
-$block1->contentRow("", '<input type="hidden" name="action" value="update" /><input type="submit" name="Save" value="' . $strings["save"] . '">');
+$block1->contentRow("* " . $strings["old_password"],
+    '<input style="width: 150px;" type="password" name="old_password" value="" autocomplete="off">');
+$block1->contentRow("* " . $strings["new_password"],
+    '<input style="width: 150px;" type="password" name="new_password" value="" autocomplete="off">');
+$block1->contentRow("* " . $strings["confirm_password"],
+    '<input style="width: 150px;" type="password" name="confirm_password" value="" autocomplete="off">');
+$block1->contentRow("",
+    '<input type="hidden" name="action" value="update" /><input type="submit" name="Save" value="' . $strings["save"] . '">');
 
 $block1->closeContent();
 $block1->closeForm();

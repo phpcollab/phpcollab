@@ -6,13 +6,41 @@
 //translator(s): Jochen B�nnagel, Wolfram Lamm, Andreas Nagler
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
-$dayNameArray = array(1 =>"Montag", 2 =>"Dienstag", 3 =>"Mittwoch", 4 =>"Donerstag", 5 =>"Freitag", 6 =>"Samstag", 7 =>"Sonntag");
+$dayNameArray = array(
+    1 => "Montag",
+    2 => "Dienstag",
+    3 => "Mittwoch",
+    4 => "Donerstag",
+    5 => "Freitag",
+    6 => "Samstag",
+    7 => "Sonntag"
+);
 
-$monthNameArray = array(1=> "Januar", "Februar", "M&auml;rz", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember");
+$monthNameArray = array(
+    1 => "Januar",
+    "Februar",
+    "M&auml;rz",
+    "April",
+    "Mai",
+    "Juni",
+    "Juli",
+    "August",
+    "September",
+    "Oktober",
+    "November",
+    "Dezember"
+);
 
 $status = array(0 => "Kunde fertig", 1 => "fertig", 2 => "nicht begonnen", 3 => "offen", 4 => "unterbrochen");
 
-$profil = array(0 => "Administrator", 1 => "Projektmanager", 2 => "Benutzer", 3 => "Kunde", 4 => "Disabled", 5 => "Project Manager Administrator");
+$profil = array(
+    0 => "Administrator",
+    1 => "Projektmanager",
+    2 => "Benutzer",
+    3 => "Kunde",
+    4 => "Disabled",
+    5 => "Project Manager Administrator"
+);
 
 $priority = array(0 => "keine", 1 => "sehr niedrig", 2 => "niedrig", 3 => "mittel", 4 => "hoch", 5 => "sehr hoch");
 
@@ -21,7 +49,13 @@ $statusTopicBis = array(0 => "ja", 1 => "nein");
 
 $statusPublish = array(0 => "ja", 1 => "nein");
 
-$statusFile = array(0 => "freigegeben", 1 => "editiert freigegeben", 2 => "wartet auf Freigabe", 3 => "keine Freigabe n&ouml;tig", 4 => "nicht freigegeben");
+$statusFile = array(
+    0 => "freigegeben",
+    1 => "editiert freigegeben",
+    2 => "wartet auf Freigabe",
+    3 => "keine Freigabe n&ouml;tig",
+    4 => "nicht freigegeben"
+);
 
 $phaseStatus = array(0 => "Nicht begonnen", 1 => "Offen", 2 => "Fertig", 3 => "Ausgesetzt");
 
@@ -539,7 +573,12 @@ $strings["rate_type"] = "Typ";
 $strings["rate_value"] = "Betrag";
 $strings["note_invoice_items_notcompleted"] = "Nicht alle Posten sind fertiggestellt";
 
-$rateType = array(0 => "Geb&uuml;hr nach Kunde", 1 => "Geb&uuml;hr nach Projekt", 2 => "Geb&uuml;hr nach Organisation", 3 => "Geb&uuml;hr nach Service");
+$rateType = array(
+    0 => "Geb&uuml;hr nach Kunde",
+    1 => "Geb&uuml;hr nach Projekt",
+    2 => "Geb&uuml;hr nach Organisation",
+    3 => "Geb&uuml;hr nach Service"
+);
 
 //HACKS
 

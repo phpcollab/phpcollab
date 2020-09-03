@@ -27,14 +27,12 @@
 ** =============================================================================
 */
 
-use phpCollab\Tasks\Tasks;
-
 $projectSite = "true";
 
 $checkSession = "true";
 include '../includes/library.php';
 
-$tasks = new Tasks();
+$tasks = $container->getTasksLoader();
 
 $bouton[2] = "over";
 $titlePage = $strings["team_tasks"];
@@ -58,7 +56,6 @@ if (!empty($listTasks)) {
 			</tr>
             <tbody>
 TABLE;
-
 
 
     foreach ($listTasks as $task) {

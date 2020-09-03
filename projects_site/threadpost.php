@@ -2,9 +2,6 @@
 #Application name: PhpCollab
 #Status page: 0
 
-use phpCollab\Projects\Projects;
-use phpCollab\Topics\Topics;
-
 $checkSession = "true";
 include '../includes/library.php';
 
@@ -12,8 +9,8 @@ $id = $request->query->get('id');
 $strings = $GLOBALS["strings"];
 $statusTopicBis = $GLOBALS["statusTopicBis"];
 
-$topics = new Topics();
-$projects = new Projects();
+$topics = $container->getTopicsLoader();
+$projects = $container->getProjectsLoader();
 
 $detailTopic = $topics->getTopicByTopicId($id);
 
@@ -145,7 +142,7 @@ if ($listPosts) {
         </tr>
 TR;
     }
-        echo "</table>";
+    echo "</table>";
 } else {
     echo "<div class='no-records'>{$strings["no_items"]}</div>";
 }

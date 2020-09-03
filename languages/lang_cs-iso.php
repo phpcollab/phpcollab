@@ -6,13 +6,41 @@
 //translator(s): Pavel Dostal <pavel.dostal@xone.cz>
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
-$dayNameArray = array(1 =>"Pondělí", 2 =>"Úterý", 3 =>"Středa", 4 =>"Čtvrtek", 5 =>"Pátek", 6 =>"Sobota", 7 =>"Neděle");
+$dayNameArray = array(
+    1 => "Pondělí",
+    2 => "Úterý",
+    3 => "Středa",
+    4 => "Čtvrtek",
+    5 => "Pátek",
+    6 => "Sobota",
+    7 => "Neděle"
+);
 
-$monthNameArray = array(1=> "Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec");
+$monthNameArray = array(
+    1 => "Leden",
+    "Únor",
+    "Březen",
+    "Duben",
+    "Květen",
+    "Červen",
+    "Červenec",
+    "Srpen",
+    "Září",
+    "Říjen",
+    "Listopad",
+    "Prosinec"
+);
 
 $status = array(0 => "Zakázka kompletní", 1 => "Kompletní", 2 => "Nenastartovaný", 3 => "Otevřený", 4 => "Pozastavený");
 
-$profil = array(0 => "Administrátor", 1 => "Project Manager", 2 => "User", 3 => "Zákazník", 4 => "Neaktivní", 5 => "Project Manager Administrator");
+$profil = array(
+    0 => "Administrátor",
+    1 => "Project Manager",
+    2 => "User",
+    3 => "Zákazník",
+    4 => "Neaktivní",
+    5 => "Project Manager Administrator"
+);
 
 $priority = array(0 => "žádná", 1 => "Velmi nízká", 2 => "Nízká", 3 => "Střední", 4 => "Vysoká", 5 => "Velmi vysoká");
 
@@ -21,7 +49,13 @@ $statusTopicBis = array(0 => "Ano", 1 => "Ne");
 
 $statusPublish = array(0 => "Ano", 1 => "Ne");
 
-$statusFile = array(0 => "Schváleno", 1 => "Schváleno se změnami", 2 => "Potřebuje schválit", 3 => "Schválení není potřeba", 4 => "Neschváleno");
+$statusFile = array(
+    0 => "Schváleno",
+    1 => "Schváleno se změnami",
+    2 => "Potřebuje schválit",
+    3 => "Schválení není potřeba",
+    4 => "Neschváleno"
+);
 
 $phaseStatus = array(0 => "Nenastartovaný", 1 => "Otevřený", 2 => "Kompletní", 3 => "Pozastavený");
 
@@ -178,8 +212,6 @@ $strings["select_permissions"] = "Vyber práva tohoto uživatele.";
 $strings["add_user"] = "Přidej uživatele";
 $strings["enter_user_details"] = "Zadej detaily pro nový uživatelský účet.";
 $strings["enter_password"] = "Zadej heslo uživatele.";
-
-
 
 
 $strings["success_logout"] = "Odhlášení bylo úspěšné. Pro opětovné přihlášení zadej uživatelské jméno a heslo níže.";

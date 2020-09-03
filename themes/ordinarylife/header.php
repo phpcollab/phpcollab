@@ -2,8 +2,6 @@
 #Application name: PhpCollab
 #Status page: 0
 
-use phpCollab\Organizations\Organizations;
-
 echo <<<HEAD
 $setDoctype
 $setCopyright
@@ -51,47 +49,57 @@ $headBonus
 echo "<div id='overDiv' style='position:absolute; visibility:hidden; z-index:1000;'></div>\n\n";
 
 if ($blank != "true" && $version >= "2.0") {
-    $organization = new Organizations();
+    $organization = $container->getOrganizationsManager();
     $client = $organization->getOrganizationById(1);
 }
-if (file_exists("../logos_clients/1.".$client["org_extension_logo"]) && $blank != "true" && $version >= "2.0") {
-echo "<p id=\"header\"><img src=\"../logos_clients/1.".$client["org_extension_logo"]."\" alt=\"".$client["org_name"]."\"></p>\n\n";
+if (file_exists("../logos_clients/1." . $client["org_extension_logo"]) && $blank != "true" && $version >= "2.0") {
+    echo "<p id=\"header\"><img src=\"../logos_clients/1." . $client["org_extension_logo"] . "\" alt=\"" . $client["org_name"] . "\"></p>\n\n";
 } else {
-echo "<p id=\"header\">".$setTitle."</p>\n\n";
+    echo "<p id=\"header\">" . $setTitle . "</p>\n\n";
 }
 
 $blockHeader = new phpCollab\Block();
 
 $blockHeader->openAccount();
 if ($blank == "true") {
-	$blockHeader->itemAccount("&nbsp;");
-} else if ($notLogged == "true") {
-	$blockHeader->itemAccount("&nbsp;");
+    $blockHeader->itemAccount("&nbsp;");
 } else {
-	$blockHeader->itemAccount($strings["user"].":". $session->get("name"));
-	$blockHeader->itemAccount($blockHeader->buildLink("../general/logout.php",$strings["logout"],"in"));
-	$blockHeader->itemAccount($blockHeader->buildLink("../preferences/updateuser.php?",$strings["preferences"],"in"));
-	$blockHeader->itemAccount($blockHeader->buildLink("../projects_site/home.php?changeProject=true",$strings["go_projects_site"],"inblank"));
+    if ($notLogged == "true") {
+        $blockHeader->itemAccount("&nbsp;");
+    } else {
+        $blockHeader->itemAccount($strings["user"] . ":" . $session->get("name"));
+        $blockHeader->itemAccount($blockHeader->buildLink("../general/logout.php", $strings["logout"], "in"));
+        $blockHeader->itemAccount($blockHeader->buildLink("../preferences/updateuser.php?", $strings["preferences"],
+            "in"));
+        $blockHeader->itemAccount($blockHeader->buildLink("../projects_site/home.php?changeProject=true",
+            $strings["go_projects_site"], "inblank"));
+    }
 }
 $blockHeader->closeAccount();
 
 $blockHeader->openNavigation();
 if ($blank == "true") {
-	$blockHeader->itemNavigation("&nbsp;");
-} else if ($notLogged == "true") {
-	$blockHeader->itemNavigation($blockHeader->buildLink("../general/login.php?",$strings["login"],"in"));
-	$blockHeader->itemNavigation($blockHeader->buildLink("../general/license.php?",$strings["license"],"in"));
+    $blockHeader->itemNavigation("&nbsp;");
 } else {
-	$blockHeader->itemNavigation($blockHeader->buildLink("../general/home.php?",$strings["home"],"in"));
-	$blockHeader->itemNavigation($blockHeader->buildLink("../projects/listprojects.php?",$strings["projects"],"in"));
-	$blockHeader->itemNavigation($blockHeader->buildLink("../clients/listclients.php?",$strings["clients"],"in"));
-	$blockHeader->itemNavigation($blockHeader->buildLink("../reports/listreports.php?",$strings["reports"],"in"));
-	$blockHeader->itemNavigation($blockHeader->buildLink("../search/createsearch.php?",$strings["search"],"in"));
-	$blockHeader->itemNavigation($blockHeader->buildLink("../calendar/viewcalendar.php?",$strings["calendar"],"in"));
-	$blockHeader->itemNavigation($blockHeader->buildLink("../newsdesk/listnews.php?",$strings["newsdesk"],"in"));
-	$blockHeader->itemNavigation($blockHeader->buildLink("../bookmarks/listbookmarks.php?view=all",$strings["bookmarks"],"in"));
-	if ($session->get("profile") == "0") { // Remove the Admin menu item if user does not have admin privilages
-		$blockHeader->itemNavigation($blockHeader->buildLink("../administration/admin.php?",$strings["admin"],"in"));
-	}
+    if ($notLogged == "true") {
+        $blockHeader->itemNavigation($blockHeader->buildLink("../general/login.php?", $strings["login"], "in"));
+        $blockHeader->itemNavigation($blockHeader->buildLink("../general/license.php?", $strings["license"], "in"));
+    } else {
+        $blockHeader->itemNavigation($blockHeader->buildLink("../general/home.php?", $strings["home"], "in"));
+        $blockHeader->itemNavigation($blockHeader->buildLink("../projects/listprojects.php?", $strings["projects"],
+            "in"));
+        $blockHeader->itemNavigation($blockHeader->buildLink("../clients/listclients.php?", $strings["clients"], "in"));
+        $blockHeader->itemNavigation($blockHeader->buildLink("../reports/listreports.php?", $strings["reports"], "in"));
+        $blockHeader->itemNavigation($blockHeader->buildLink("../search/createsearch.php?", $strings["search"], "in"));
+        $blockHeader->itemNavigation($blockHeader->buildLink("../calendar/viewcalendar.php?", $strings["calendar"],
+            "in"));
+        $blockHeader->itemNavigation($blockHeader->buildLink("../newsdesk/listnews.php?", $strings["newsdesk"], "in"));
+        $blockHeader->itemNavigation($blockHeader->buildLink("../bookmarks/listbookmarks.php?view=all",
+            $strings["bookmarks"], "in"));
+        if ($session->get("profile") == "0") { // Remove the Admin menu item if user does not have admin privilages
+            $blockHeader->itemNavigation($blockHeader->buildLink("../administration/admin.php?", $strings["admin"],
+                "in"));
+        }
+    }
 }
 $blockHeader->closeNavigation();

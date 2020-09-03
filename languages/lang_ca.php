@@ -6,13 +6,41 @@
 //translator(s): Sergi Nadal <sergi@espintime.net>
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
-$dayNameArray = array(1 =>"dilluns", 2 =>"dimarts", 3 =>"dimecres", 4 =>"dijous", 5 =>"divendres", 6 =>"dissabte", 7 =>"diumenge");
+$dayNameArray = array(
+    1 => "dilluns",
+    2 => "dimarts",
+    3 => "dimecres",
+    4 => "dijous",
+    5 => "divendres",
+    6 => "dissabte",
+    7 => "diumenge"
+);
 
-$monthNameArray = array(1=> "gener", "febrer", "març", "abril", "maig", "juny", "juliol", "agost", "setembre", "octubre", "novembre", "desembre");
+$monthNameArray = array(
+    1 => "gener",
+    "febrer",
+    "març",
+    "abril",
+    "maig",
+    "juny",
+    "juliol",
+    "agost",
+    "setembre",
+    "octubre",
+    "novembre",
+    "desembre"
+);
 
 $status = array(0 => "Client Finalitzat", 1 => "Finalitzat", 2 => "No Iniciat", 3 => "Obert", 4 => "Susp&egrave;s");
 
-$profil = array(0 => "Administrador", 1 => "Cap de Projecte", 2 => "Usuari", 3 => "Usuari Client", 4 => "Disabled", 5 => "Project Manager Administrator");
+$profil = array(
+    0 => "Administrador",
+    1 => "Cap de Projecte",
+    2 => "Usuari",
+    3 => "Usuari Client",
+    4 => "Disabled",
+    5 => "Project Manager Administrator"
+);
 
 $priority = array(0 => "Cap", 1 => "Molt baixa", 2 => "Baixa", 3 => "Mitjana", 4 => "Alta", 5 => "Molt alta");
 
@@ -21,7 +49,13 @@ $statusTopicBis = array(0 => "S&iacute;", 1 => "No");
 
 $statusPublish = array(0 => "S&iacute;", 1 => "No");
 
-$statusFile = array(0 => "Aprovat", 1 => "Aprovat amb canvis", 2 => "Cal Aprovaci&oacute;", 3 => "No Cal Aprovaci&oacute;", 4 => "No Aprovat");
+$statusFile = array(
+    0 => "Aprovat",
+    1 => "Aprovat amb canvis",
+    2 => "Cal Aprovaci&oacute;",
+    3 => "No Cal Aprovaci&oacute;",
+    4 => "No Aprovat"
+);
 
 $phaseStatus = array(0 => "No Començada", 1 => "Open", 2 => "Completa", 3 => "Suspesa");
 
@@ -238,8 +272,6 @@ $strings["all_dates"] = "Totes les dates";
 $strings["between_dates"] = "Entre les dates";
 
 $strings["all_content"] = "Tot el contingut";
-
-
 
 
 $strings["all_properties"] = "Totes les propietats";

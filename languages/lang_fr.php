@@ -6,13 +6,41 @@
 //translator(s): St�phane Dion <contact@sdion.net>, Christophe Combelles <ccomb@gorfou.fr>
 $byteUnits = array('octets', 'ko', 'Mo', 'Go');
 
-$dayNameArray = array(1 =>"lundi", 2 =>"mardi", 3 =>"mercredi", 4 =>"jeudi", 5 =>"vendredi", 6 =>"samedi", 7 =>"dimanche");
+$dayNameArray = array(
+    1 => "lundi",
+    2 => "mardi",
+    3 => "mercredi",
+    4 => "jeudi",
+    5 => "vendredi",
+    6 => "samedi",
+    7 => "dimanche"
+);
 
-$monthNameArray = array(1=> "janvier", "f�vrier", "mars", "avril", "mai", "juin", "juillet", "ao�t", "septembre", "octobre", "novembre", "d�cembre");
+$monthNameArray = array(
+    1 => "janvier",
+    "f�vrier",
+    "mars",
+    "avril",
+    "mai",
+    "juin",
+    "juillet",
+    "ao�t",
+    "septembre",
+    "octobre",
+    "novembre",
+    "d�cembre"
+);
 
 $status = array(0 => "Complet (client)", 1 => "Complet", 2 => "Non commenc�", 3 => "Ouvert", 4 => "Suspendu");
 
-$profil = array(0 => "Administrateur", 1 => "Chef de Projet", 2 => "Utilisateur", 3 => "Utilisateur Client", 4 => "D�sactiv�", 5 => "Admin chef de projet");
+$profil = array(
+    0 => "Administrateur",
+    1 => "Chef de Projet",
+    2 => "Utilisateur",
+    3 => "Utilisateur Client",
+    4 => "D�sactiv�",
+    5 => "Admin chef de projet"
+);
 
 $priority = array(0 => "Vide", 1 => "Tr�s faible", 2 => "Faible", 3 => "Moyenne", 4 => "�lev�e", 5 => "Tr�s �lev�e");
 
@@ -21,7 +49,13 @@ $statusTopicBis = array(0 => "Oui", 1 => "Non");
 
 $statusPublish = array(0 => "Oui", 1 => "Non");
 
-$statusFile = array(0 => "Approuv�", 1 => "Approuv� avec changements", 2 => "Approbation requise", 3 => "Aucune approbation n�cessaire", 4 => "Non approuv�");
+$statusFile = array(
+    0 => "Approuv�",
+    1 => "Approuv� avec changements",
+    2 => "Approbation requise",
+    3 => "Aucune approbation n�cessaire",
+    4 => "Non approuv�"
+);
 
 $phaseStatus = array(0 => "Non commenc�", 1 => "Ouvert", 2 => "Complet", 3 => "Suspendu");
 
@@ -572,7 +606,7 @@ $strings["email_sent"] = "Votre message � �t� envoy� avec succ�s.";
 $strings["clients_connected"] = "(client sur le site projet)";
 
 //2.5b4
-$strings["Total_Hours_Worked"]="Nombre total d'heures travaill�es";
+$strings["Total_Hours_Worked"] = "Nombre total d'heures travaill�es";
 $strings["Pct_Complete"] = "Pct Complet";
 
 $strings["noti_filepost1"] = "Nouveau fichier t�l�charg� sur l'Intranet";

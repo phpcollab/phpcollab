@@ -1,11 +1,5 @@
 <?php
 
-use phpCollab\Assignments\Assignments;
-use phpCollab\Notifications\Notifications;
-use phpCollab\Organizations\Organizations;
-use phpCollab\Tasks\Tasks;
-use phpCollab\Teams\Teams;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -16,14 +10,14 @@ if (empty($user_id) || empty($org_id)) {
     phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
 }
 
-$organizations = new Organizations();
+$organizations = $container->getOrganizationsManager();
 
 $detailOrganization = $organizations->getOrganizationById($org_id);
 
-$teams = new Teams();
-$tasks = new Tasks();
-$assignments = new Assignments();
-$notifications = new Notifications();
+$teams = $container->getTeams();
+$tasks = $container->getTasksLoader();
+$assignments = $container->getAssignmentsManager();
+$notifications = $container->getNotificationsManager();
 
 if ($request->isMethod('post')) {
     try {
@@ -32,9 +26,10 @@ if ($request->isMethod('post')) {
                 if ($request->request->get('id')) {
                     $id = str_replace("**", ",", $request->request->get('id'));
 
-                    if (!empty( $request->request->get('assign_to')) ) {
+                    if (!empty($request->request->get('assign_to'))) {
                         $tasks->setTasksAssignedToWhereAssignedToIn($request->request->get('assign_to'), $id);
-                        $assignments->reassignAssignmentByAssignedTo($request->request->get('assign_to'), $dateheure, $id);
+                        $assignments->reassignAssignmentByAssignedTo($request->request->get('assign_to'), $dateheure,
+                            $id);
                     }
 
                     $notifications->deleteNotificationsByMemberIdIn($id);
@@ -68,7 +63,8 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?", $strings["clients"], 'in'));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $detailOrganization["org_id"], $detailOrganization["org_name"], 'in'));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $detailOrganization["org_id"],
+    $detailOrganization["org_name"], 'in'));
 $blockPage->itemBreadcrumbs($strings["delete_users"]);
 $blockPage->closeBreadcrumbs();
 
@@ -124,11 +120,11 @@ HTML;
         <option value="0" selected>{$strings["unassigned"]}</option>
 HTML;
 
-foreach ($reassign as $item) {
-    echo '<option value="' . $item["mem_id"] . '">' . $item["mem_login"] . ' / ' . $item["mem_name"] . '</option>';
-}
+    foreach ($reassign as $item) {
+        echo '<option value="' . $item["mem_id"] . '">' . $item["mem_login"] . ' / ' . $item["mem_name"] . '</option>';
+    }
 
-echo <<<HTML
+    echo <<<HTML
     </select></td>
 </tr>
 HTML;

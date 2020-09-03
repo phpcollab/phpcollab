@@ -1,15 +1,11 @@
 <?php
 
-use phpCollab\Invoices\Invoices;
-use phpCollab\Organizations\Organizations;
-use phpCollab\Projects\Projects;
-
 include '../includes/library.php';
 include '../includes/phplib/template.php';
 
-$invoices = new Invoices();
-$projects = new Projects();
-$organizations = new Organizations();
+$invoices = $container->getInvoicesLoader();
+$projects = $container->getProjectsLoader();
+$organizations = $container->getOrganizationsManager();
 
 $id = $request->query->get('id');
 

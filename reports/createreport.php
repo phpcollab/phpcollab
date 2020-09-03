@@ -29,18 +29,14 @@
 ** =============================================================================
 */
 
-use phpCollab\Organizations\Organizations;
-use phpCollab\Projects\Projects;
-use phpCollab\Teams\Teams;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
 $includeCalendar = true;
 
-$teams = new Teams();
-$organizations = new Organizations();
-$projects = new Projects();
+$teams = $container->getTeams();
+$organizations = $container->getOrganizationsManager();
+$projects = $container->getProjectsLoader();
 
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
@@ -79,7 +75,7 @@ if ($clientsFilter == "true" && $session->get("profile") == "2") {
         if (empty($clientsOk)) {
             $listClients = "false";
         } else {
-            $clientsOk = implode (", ", $clientsOk);
+            $clientsOk = implode(", ", $clientsOk);
 
             $listOrganizations = $organizations->getFilteredOrganizations($clientsOk, 'org.name');
         }

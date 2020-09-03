@@ -2,13 +2,12 @@
 #Application name: PhpCollab
 #Status page: 0
 
-use phpCollab\Tasks\Tasks;
 use phpCollab\Util;
 
 $checkSession = "true";
 include '../includes/library.php';
 
-$tasks = new Tasks();
+$tasks = $container->getTasksLoader();
 
 $bouton[3] = "over";
 $titlePage = $strings["client_tasks"];

@@ -3,12 +3,10 @@
 #Status page: 0
 #Path by root: ../users/emailusers.php
 
-use phpCollab\Organizations\Organizations;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$organizations = new Organizations();
+$organizations = $container->getOrganizationsManager();
 
 /*
 //anyone can send a message
@@ -56,9 +54,9 @@ if ($request->isMethod('post')) {
                     }
 
                     try {
-                        $members->sendEmail($listMember["mem_email_work"], $listMember["mem_name"], $subject, $message, null, null, $signature);
-                    }
-                    catch (Exception $e) {
+                        $members->sendEmail($listMember["mem_email_work"], $listMember["mem_name"], $subject, $message,
+                            null, null, $signature);
+                    } catch (Exception $e) {
                         echo "Error sending email." . $e->getMessage();
                     }
 
@@ -118,15 +116,19 @@ foreach ($listMembers as $listMember) {
     if (!empty($listMembers["mem_email_work"])) {
         $block1->contentRow("", $listMember["mem_login"] . "&nbsp;(" . $listMember["mem_name"] . ")");
     } else {
-        $block1->contentRow("", $listMember["mem_login"] . "&nbsp;(" . $listMember["mem_name"] . ") " . $strings["no_email"]);
+        $block1->contentRow("",
+            $listMember["mem_login"] . "&nbsp;(" . $listMember["mem_name"] . ") " . $strings["no_email"]);
     }
 }
 
 
 $block1->contentTitle($strings["email"]);
-$block1->contentRow($strings["subject"], '<input size="44" style="width: 400px" name="subject" maxlength="100" type="text">');
-$block1->contentRow($strings["message"], '<textarea rows="10" style="width: 400px; height: 160px;" name="message" cols="47"></textarea>');
-$block1->contentRow("", "<input type='submit' name='delete' value='" . $strings["email"] . "'> <input type='button' name='cancel' value='" . $strings["cancel"] . "' onClick='history.back();'><input type='hidden' value='$id' name='id'>");
+$block1->contentRow($strings["subject"],
+    '<input size="44" style="width: 400px" name="subject" maxlength="100" type="text">');
+$block1->contentRow($strings["message"],
+    '<textarea rows="10" style="width: 400px; height: 160px;" name="message" cols="47"></textarea>');
+$block1->contentRow("",
+    "<input type='submit' name='delete' value='" . $strings["email"] . "'> <input type='button' name='cancel' value='" . $strings["cancel"] . "' onClick='history.back();'><input type='hidden' value='$id' name='id'>");
 
 $block1->closeContent();
 $block1->closeForm();

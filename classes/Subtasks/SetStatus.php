@@ -5,16 +5,25 @@ namespace phpCollab\Subtasks;
 
 
 use InvalidArgumentException;
+use phpCollab\Container;
+use phpCollab\Database;
 
 class SetStatus extends Subtasks
 {
+    public function __construct(Database $database, Container $container)
+    {
+        parent::__construct($database, $container);
+    }
+
     public function set(int $subtaskId, int $status, $comments = null, $modifiedDate = null, $completedDate = null)
     {
 
         if (!is_int(filter_var($subtaskId, FILTER_VALIDATE_INT))) {
             throw new InvalidArgumentException('Subtask ID is missing or invalid.');
-        } else if (!is_int(filter_var($status, FILTER_VALIDATE_INT))) {
-            throw new InvalidArgumentException('Status is missing or invalid.');
+        } else {
+            if (!is_int(filter_var($status, FILTER_VALIDATE_INT))) {
+                throw new InvalidArgumentException('Status is missing or invalid.');
+            }
         }
 
         $timestamp = date('Y-m-d h:i');

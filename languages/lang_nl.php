@@ -6,13 +6,41 @@
 //translator(s): Hendrik Bijlsma, Erwin Wondergem, Dave Liefbroer
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
-$dayNameArray = array(1 =>"Maandag", 2 =>"Dinsdag", 3 =>"Woensdag", 4 =>"Donderdag", 5 =>"Vrijdag", 6 =>"Zaterdag", 7 =>"Zondag");
+$dayNameArray = array(
+    1 => "Maandag",
+    2 => "Dinsdag",
+    3 => "Woensdag",
+    4 => "Donderdag",
+    5 => "Vrijdag",
+    6 => "Zaterdag",
+    7 => "Zondag"
+);
 
-$monthNameArray = array(1=> "Januari", "Februari", "Maart", "April", "Mei", "Juni", "Juli", "Augustus", "September", "Oktober", "November", "December");
+$monthNameArray = array(
+    1 => "Januari",
+    "Februari",
+    "Maart",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Augustus",
+    "September",
+    "Oktober",
+    "November",
+    "December"
+);
 
 $status = array(0 => "Client Voltooid", 1 => "Voltooid", 2 => "Niet Gestart", 3 => "Open", 4 => "Opgeschort");
 
-$profil = array(0 => "Beheerder", 1 => "Project Manager", 2 => "Gebruiker", 3 => "Client Gebruiker", 4 => "Disabled", 5 => "Project Manager Administrator");
+$profil = array(
+    0 => "Beheerder",
+    1 => "Project Manager",
+    2 => "Gebruiker",
+    3 => "Client Gebruiker",
+    4 => "Disabled",
+    5 => "Project Manager Administrator"
+);
 
 $priority = array(0 => "Geen", 1 => "Erg laag", 2 => "Laag", 3 => "Gemiddeld", 4 => "Hoog", 5 => "Erg hoog");
 
@@ -21,7 +49,13 @@ $statusTopicBis = array(0 => "Ja", 1 => "Nee");
 
 $statusPublish = array(0 => "Ja", 1 => "Nee");
 
-$statusFile = array(0 => "Goedgekeurd", 1 => "Goedgekeurd Met Wijziging", 2 => "Goedkeuring Nodig", 3 => "Geen Goedkeuring Nodig", 4 => "Niet Goedgekeurd");
+$statusFile = array(
+    0 => "Goedgekeurd",
+    1 => "Goedgekeurd Met Wijziging",
+    2 => "Goedkeuring Nodig",
+    3 => "Geen Goedkeuring Nodig",
+    4 => "Niet Goedgekeurd"
+);
 
 $phaseStatus = array(0 => "Niet gestart", 1 => "Open", 2 => "Klaar", 3 => "Uitgesteld");
 

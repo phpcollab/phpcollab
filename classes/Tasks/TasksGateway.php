@@ -272,10 +272,25 @@ class TasksGateway
      * @param $completion
      * @return mixed
      */
-    public function addSubTask($parentTask, $name, $description, $owner, $assigned_to, $status, $priority, $start_date,
-                               $due_date, $complete_date, $estimated_time, $actual_time, $comments, $created, $assigned,
-                               $published, $completion)
-    {
+    public function addSubTask(
+        $parentTask,
+        $name,
+        $description,
+        $owner,
+        $assigned_to,
+        $status,
+        $priority,
+        $start_date,
+        $due_date,
+        $complete_date,
+        $estimated_time,
+        $actual_time,
+        $comments,
+        $created,
+        $assigned,
+        $published,
+        $completion
+    ) {
         $sql = <<<SQL
 INSERT INTO {$this->tableCollab["subtasks"]} (
 task, name, description, owner, assigned_to, status, priority, start_date, due_date, complete_date,
@@ -406,7 +421,8 @@ SQL;
     {
         $whereStatement = " WHERE tas.project = :project_id";
 
-        $query = $this->initrequest["tasks"] . $whereStatement . $this->orderBy($sorting) . $this->limit($startRow, $rowsLimit);
+        $query = $this->initrequest["tasks"] . $whereStatement . $this->orderBy($sorting) . $this->limit($startRow,
+                $rowsLimit);
 
         $this->db->query($query);
         $this->db->bind(':project_id', $projectId);
@@ -421,11 +437,17 @@ SQL;
      * @param null $sorting
      * @return mixed
      */
-    public function getTasksByProjectIdAndOwnerOrPublished($projectId, $ownerId, $startRow = null, $rowsLimit = null, $sorting = null)
-    {
+    public function getTasksByProjectIdAndOwnerOrPublished(
+        $projectId,
+        $ownerId,
+        $startRow = null,
+        $rowsLimit = null,
+        $sorting = null
+    ) {
         $whereStatement = " WHERE (tas.project = :project_id) AND (tas.owner = :task_owner OR tas.published = '0') ORDER BY tas.name";
 
-        $query = $this->initrequest["tasks"] . $whereStatement . $this->orderBy($sorting) . $this->limit($startRow, $rowsLimit);
+        $query = $this->initrequest["tasks"] . $whereStatement . $this->orderBy($sorting) . $this->limit($startRow,
+                $rowsLimit);
 
         $this->db->query($query);
         $this->db->bind(':project_id', $projectId);
@@ -441,11 +463,17 @@ SQL;
      * @param null $sorting
      * @return mixed
      */
-    public function getSubTasksByProjectIdAndOwnerOrPublished($projectId, $ownerId, $startRow = null, $rowsLimit = null, $sorting = null)
-    {
+    public function getSubTasksByProjectIdAndOwnerOrPublished(
+        $projectId,
+        $ownerId,
+        $startRow = null,
+        $rowsLimit = null,
+        $sorting = null
+    ) {
         $whereStatement = " WHERE subtas.task = tas.id AND tas.project = :project_id AND (tas.owner = :task_owner OR tas.published = '0') ORDER BY subtas.name";
 
-        $query = $this->initrequest["subtasks"] . $whereStatement . $this->orderBy($sorting) . $this->limit($startRow, $rowsLimit);
+        $query = $this->initrequest["subtasks"] . $whereStatement . $this->orderBy($sorting) . $this->limit($startRow,
+                $rowsLimit);
 
         $this->db->query($query);
         $this->db->bind(':project_id', $projectId);
@@ -476,7 +504,8 @@ SQL;
     {
         $whereStatement = " WHERE tas.project = :project_id AND tas.assigned_to != 0 AND tas.published = 0 AND mem.profil = 3";
 
-        $query = $this->initrequest["tasks"] . $whereStatement . $this->orderBy($sorting) . $this->limit($startRow, $rowsLimit);
+        $query = $this->initrequest["tasks"] . $whereStatement . $this->orderBy($sorting) . $this->limit($startRow,
+                $rowsLimit);
         $this->db->query($query);
         $this->db->bind(':project_id', $projectId);
         return $this->db->resultset();
@@ -959,10 +988,26 @@ SQL;
      * @param $assignedDate
      * @return string
      */
-    public function addTask($projectId, $name, $description, $owner, $assignedTo, $status, $priority, $startDate,
-                            $dueDate, $estimatedTime, $actualTime, $comments, $published, $completion, $parentPhase,
-                            $invoicing, $workedHours, $assignedDate)
-    {
+    public function addTask(
+        $projectId,
+        $name,
+        $description,
+        $owner,
+        $assignedTo,
+        $status,
+        $priority,
+        $startDate,
+        $dueDate,
+        $estimatedTime,
+        $actualTime,
+        $comments,
+        $published,
+        $completion,
+        $parentPhase,
+        $invoicing,
+        $workedHours,
+        $assignedDate
+    ) {
         $sql = <<<SQL
 INSERT INTO {$this->tableCollab["tasks"]} (
 project, name, description, owner, assigned_to, status, priority, start_date, due_date, 
@@ -1019,10 +1064,25 @@ SQL;
      * @param $taskId
      * @return mixed
      */
-    public function updateTask($taskName, $description, $assignedTo, $status, $priority, $startDate, $dueDate,
-                               $estimatedTime, $actualTime, $comments, $modifiedDate, $completion, $parentPhase, $published, $invoicing,
-                               $workedHours, $taskId)
-    {
+    public function updateTask(
+        $taskName,
+        $description,
+        $assignedTo,
+        $status,
+        $priority,
+        $startDate,
+        $dueDate,
+        $estimatedTime,
+        $actualTime,
+        $comments,
+        $modifiedDate,
+        $completion,
+        $parentPhase,
+        $published,
+        $invoicing,
+        $workedHours,
+        $taskId
+    ) {
         $sql = <<<SQL
 UPDATE {$this->tableCollab["tasks"]} SET 
 name = :task_name, 
@@ -1118,7 +1178,8 @@ SQL;
      */
     public function searchResultSubTasks($query, $sorting = null, $limit = null, $rowLimit = null)
     {
-        $sql = $this->initrequest['subtasks'] . ' ' . $query . $this->orderBy($sorting) . $this->limit($limit, $rowLimit);
+        $sql = $this->initrequest['subtasks'] . ' ' . $query . $this->orderBy($sorting) . $this->limit($limit,
+                $rowLimit);
         $this->db->query($sql);
         $this->db->execute();
         return $this->db->resultset();
@@ -1159,15 +1220,59 @@ SQL;
     {
         if (!is_null($sorting)) {
             $allowedOrderedBy = [
-                "tas.id", "tas.project", "tas.priority", "tas.status", "tas.owner", "tas.assigned_to", "tas.name",
-                "tas.description", "tas.start_date", "tas.due_date", "tas.estimated_time", "tas.actual_time",
-                "tas.comments", "tas.completion", "tas.created", "tas.modified", "tas.assigned", "tas.published",
-                "tas.parent_phase", "tas.complete_date", "tas.invoicing", "tas.worked_hours", "mem.id", "mem.name",
-                "mem.login", "mem.email_work", "mem2.id", "mem2.name", "mem2.login", "mem2.email_work", "mem.organization",
-                "pro.name", "org.id", "subtas.id", "subtas.task", "subtas.priority", "subtas.status", "subtas.owner",
-                "subtas.assigned_to", "subtas.name", "subtas.description", "subtas.start_date", "subtas.due_date",
-                "subtas.estimated_time", "subtas.actual_time", "subtas.comments", "subtas.completion", "subtas.created",
-                "subtas.modified", "subtas.assigned", "subtas.published", "subtas.complete_date"];
+                "tas.id",
+                "tas.project",
+                "tas.priority",
+                "tas.status",
+                "tas.owner",
+                "tas.assigned_to",
+                "tas.name",
+                "tas.description",
+                "tas.start_date",
+                "tas.due_date",
+                "tas.estimated_time",
+                "tas.actual_time",
+                "tas.comments",
+                "tas.completion",
+                "tas.created",
+                "tas.modified",
+                "tas.assigned",
+                "tas.published",
+                "tas.parent_phase",
+                "tas.complete_date",
+                "tas.invoicing",
+                "tas.worked_hours",
+                "mem.id",
+                "mem.name",
+                "mem.login",
+                "mem.email_work",
+                "mem2.id",
+                "mem2.name",
+                "mem2.login",
+                "mem2.email_work",
+                "mem.organization",
+                "pro.name",
+                "org.id",
+                "subtas.id",
+                "subtas.task",
+                "subtas.priority",
+                "subtas.status",
+                "subtas.owner",
+                "subtas.assigned_to",
+                "subtas.name",
+                "subtas.description",
+                "subtas.start_date",
+                "subtas.due_date",
+                "subtas.estimated_time",
+                "subtas.actual_time",
+                "subtas.comments",
+                "subtas.completion",
+                "subtas.created",
+                "subtas.modified",
+                "subtas.assigned",
+                "subtas.published",
+                "subtas.complete_date"
+            ];
             $pieces = explode(' ', $sorting);
 
             if ($pieces) {

@@ -3,10 +3,6 @@
 #Status page: 0
 #Path by root: ../tasks/assignmentcomment.php
 
-use phpCollab\Assignments\Assignments;
-use phpCollab\Projects\Projects;
-use phpCollab\Tasks\Tasks;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -14,7 +10,7 @@ $assignmentId = $request->query->get('id');
 $taskId = $request->query->get('task');
 $strings = $GLOBALS["strings"];
 
-$assignments = new Assignments();
+$assignments = $container->getAssignmentsManager();
 
 if ($request->isMethod('post')) {
     if ($request->request->get("action") == "update") {
@@ -27,18 +23,21 @@ if ($request->isMethod('post')) {
 $bodyCommand = 'onLoad="document.assignment_commentForm.acomm.focus();"';
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
-$tasks = new Tasks();
+$tasks = $container->getTasksLoader();
 $taskDetail = $tasks->getTaskById($taskId);
 
-$projects = new Projects();
+$projects = $container->getProjectsLoader();
 $projectDetail = $projects->getProjectById($taskDetail["tas_project"]);
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail["pro_id"], $strings["tasks"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail["tas_id"], $taskDetail["tas_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"],
+    $projectDetail["pro_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail["pro_id"],
+    $strings["tasks"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail["tas_id"],
+    $taskDetail["tas_name"], "in"));
 $blockPage->itemBreadcrumbs($strings["assignment_comment"]);
 $blockPage->closeBreadcrumbs();
 

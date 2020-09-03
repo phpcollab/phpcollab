@@ -5,6 +5,7 @@ namespace phpCollab\Administration;
 
 use Apfelbox\FileDownload\FileDownload;
 use Exception;
+use GuzzleHttp\Exception\GuzzleException;
 use phpCollab\Database;
 use Ifsnop\Mysqldump as IMysqldump;
 use GuzzleHttp\Client;
@@ -23,10 +24,11 @@ class Administration
 
     /**
      * Assignments constructor.
+     * @param Database $database
      */
-    public function __construct()
+    public function __construct(Database $database)
     {
-        $this->db = new Database();
+        $this->db = $database;
         $this->admins_gateway = new AdministrationGateway($this->db);
         $this->update = false;
     }
@@ -67,6 +69,8 @@ class Administration
                 } else {
                     $session->set('updateAvailable', false);
                 }
+            } catch (GuzzleException $e) {
+                error_log('GuzzleException: ' . $e->getMessage());
             } catch (Exception $exception) {
                 return false;
             }
@@ -91,7 +95,7 @@ class Administration
         }
 
         try {
-            $fileExtension = ($dumpSettings['compress'] === true) ? '.zip' : '.sql';
+            $fileExtension = ($dumpSettings['compress'] === 'Gzip') ? '.zip' : '.sql';
             $fileName = MYDATABASE . '_' . date("Y_m_d",time()) . $fileExtension;
 
             $dump = new IMysqldump\Mysqldump('mysql:host='.MYSERVER.';dbname='.MYDATABASE, MYLOGIN, MYPASSWORD, $dumpSettings);

@@ -1,11 +1,9 @@
 <?php
 
-use phpCollab\Support\Support;
-
 $checkSession = "true";
 include '../includes/library.php';
 
-$support = new Support($logger);
+$support = $container->getSupportLoader();
 
 $id = $request->query->get('id');
 $strings = $GLOBALS["strings"];

@@ -1,7 +1,5 @@
 <?php
 
-use phpCollab\Files\FileUploader;
-use phpCollab\Organizations\Organizations;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
 $checkSession = "true";
@@ -15,7 +13,7 @@ if (empty($id)) {
 }
 
 //Get client organization
-$organizations = new Organizations();
+$organizations = $container->getOrganizationsManager();
 $clientDetail = $organizations->checkIfClientExistsById($id);
 
 if (empty($clientDetail)) {
@@ -39,12 +37,12 @@ if ($request->isMethod('post')) {
 
                 // Check to see if a file was uploaded
                 if ($request->files->get('upload')) {
-                    $fileUpload = new FileUploader($request->files->get('upload'));
+                    $fileUpload = $container->getFileUploadLoader($request->files->get('upload'));
 
                     $fileUpload->checkFileUpload();
 
                     $fileUpload->move(APP_ROOT . '/logos_clients/', $id);
-                        $organizations->setLogoExtensionByOrgId($id, $fileUpload->getFileExtension());
+                    $organizations->setLogoExtensionByOrgId($id, $fileUpload->getFileExtension());
                 }
 
                 //replace quotes by html code in name and address
@@ -58,7 +56,8 @@ if ($request->isMethod('post')) {
                 $owner = (empty($request->request->get('owner'))) ? null : $request->request->get('owner');
 
 
-                $organizations->updateClient($id, $name, $address, $phone, $url, $email, $comments, $owner, $hourlyRate);
+                $organizations->updateClient($id, $name, $address, $phone, $url, $email, $comments, $owner,
+                    $hourlyRate);
 
                 phpCollab\Util::headerFunction("../clients/viewclient.php?id=$id&msg=update");
             } catch (Exception $exception) {
@@ -96,7 +95,8 @@ $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?", $strings["clients"], "in"));
 
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $clientDetail['org_id'], $clientDetail['org_name'], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=" . $clientDetail['org_id'],
+    $clientDetail['org_name'], "in"));
 $blockPage->itemBreadcrumbs($strings["edit_organization"]);
 
 $blockPage->closeBreadcrumbs();
@@ -142,27 +142,36 @@ SELECT;
 
     $block1->contentRow($strings["owner"], $selectOwner);
 } else {
-    echo '<input type="hidden" name="owner" value="'. $session->get("id") .'">';
+    echo '<input type="hidden" name="owner" value="' . $session->get("id") . '">';
 }
 
-$block1->contentRow("* " . $strings["name"], '<input size="44" value="' . $name . '" style="width: 400px" name="name" maxlength="100" type="TEXT" />');
-$block1->contentRow($strings["address"], '<textarea rows="3" style="width: 400px; height: 50px;" name="address" cols="43">' . $address . '</textarea>');
-$block1->contentRow($strings["phone"], '<input size="32" value="' . $phone . '" style="width: 250px" name="phone" maxlength="32" type="TEXT" />');
-$block1->contentRow($strings["url"], '<input size="44" value="' . $url . '" style="width: 400px" name="url" maxlength="2000" type="TEXT" />');
-$block1->contentRow($strings["email"], '<input size="44" value="' . $email . '" style="width: 400px" name="email" maxlength="2000" type="TEXT" />');
-$block1->contentRow($strings["comments"], '<textarea rows="3" style="width: 400px; height: 50px;" name="comments" cols="43">' . $comments . '</textarea>');
+$block1->contentRow("* " . $strings["name"],
+    '<input size="44" value="' . $name . '" style="width: 400px" name="name" maxlength="100" type="TEXT" />');
+$block1->contentRow($strings["address"],
+    '<textarea rows="3" style="width: 400px; height: 50px;" name="address" cols="43">' . $address . '</textarea>');
+$block1->contentRow($strings["phone"],
+    '<input size="32" value="' . $phone . '" style="width: 250px" name="phone" maxlength="32" type="TEXT" />');
+$block1->contentRow($strings["url"],
+    '<input size="44" value="' . $url . '" style="width: 400px" name="url" maxlength="2000" type="TEXT" />');
+$block1->contentRow($strings["email"],
+    '<input size="44" value="' . $email . '" style="width: 400px" name="email" maxlength="2000" type="TEXT" />');
+$block1->contentRow($strings["comments"],
+    '<textarea rows="3" style="width: 400px; height: 50px;" name="comments" cols="43">' . $comments . '</textarea>');
 
 if ($enableInvoicing == "true") {
-    $block1->contentRow($strings["hourly_rate"], '<input size="25" value="' . $hourly_rate . '" style="width: 200px" name="hourly_rate" maxlength="50" type="text" />');
+    $block1->contentRow($strings["hourly_rate"],
+        '<input size="25" value="' . $hourly_rate . '" style="width: 200px" name="hourly_rate" maxlength="50" type="text" />');
 }
 
 $block1->contentRow($strings["logo"], '<input size="44" style="width: 400px" name="upload" type="file">');
 
-    if (file_exists("../logos_clients/" . $id . "." . $clientDetail['org_extension_logo'])) {
-        $block1->contentRow("", '<div class="logoContainer"><img alt="" src="../logos_clients/' . $id . '.' . $clientDetail['org_extension_logo'] . '" /></div> <input name="extensionOld" type="hidden" value="' . $clientDetail['org_extension_logo'] . '" /><input name="logoDel" type="checkbox" value="on" /> ' . $strings["delete"]);
-    }
+if (file_exists("../logos_clients/" . $id . "." . $clientDetail['org_extension_logo'])) {
+    $block1->contentRow("",
+        '<div class="logoContainer"><img alt="" src="../logos_clients/' . $id . '.' . $clientDetail['org_extension_logo'] . '" /></div> <input name="extensionOld" type="hidden" value="' . $clientDetail['org_extension_logo'] . '" /><input name="logoDel" type="checkbox" value="on" /> ' . $strings["delete"]);
+}
 
-$block1->contentRow("", '<button type="submit" name="action" value="update">' . $strings["save"] . '</button> <a href="./viewclient.php?id=' . $id . '" style="margin-left: 1rem;">Cancel</a>');
+$block1->contentRow("",
+    '<button type="submit" name="action" value="update">' . $strings["save"] . '</button> <a href="./viewclient.php?id=' . $id . '" style="margin-left: 1rem;">Cancel</a>');
 
 $block1->closeContent();
 $block1->closeForm();

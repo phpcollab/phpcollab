@@ -225,7 +225,7 @@ hr {
 }
 
 .monthPreview {
-	width: 100%;
+    width: 100%;
 }
 
 .monthPreview th {
@@ -237,8 +237,8 @@ hr {
     border: 0 solid white;
     border-spacing: 0;
     border-collapse: collapse;
-	width: 14%;
-	vertical-align: top;
+    width: 14%;
+    vertical-align: top;
 }
 
 .monthPreview tr td.odd:hover {
@@ -473,7 +473,7 @@ hr {
     border-left: 1px solid #0033CC;
     border-right: 1px solid #0033CC;
     margin-bottom: 3px;
-	text-align: center;
+    text-align: center;
 }
 
 .calendar-broadcast-event {
@@ -494,6 +494,11 @@ hr {
 
 form > table {
     margin-top: 3em;
+}
+
+table.icons, table.headingToggle {
+    border-collapse: collapse;
+    border-spacing: 0;
 }
 
 form > table.icons,
@@ -600,6 +605,7 @@ table.calculation {
     border-collapse: collapse;
     border-spacing: 0;
 }
+
 table.calculation td {
     padding: .5em;
 }

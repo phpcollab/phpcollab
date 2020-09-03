@@ -6,22 +6,69 @@
 //translator(s): Carlos Figueiredo
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
-$dayNameArray = array(1 =>"Monday", 2 =>"Tuesday", 3 =>"Wednesday", 4 =>"Thursday", 5 =>"Friday", 6 =>"Saturday", 7 =>"Sunday");
+$dayNameArray = array(
+    1 => "Monday",
+    2 => "Tuesday",
+    3 => "Wednesday",
+    4 => "Thursday",
+    5 => "Friday",
+    6 => "Saturday",
+    7 => "Sunday"
+);
 
-$monthNameArray = array(1=> "Janeiro", "Fevereiro", "Mar&ccedil;o", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro");
+$monthNameArray = array(
+    1 => "Janeiro",
+    "Fevereiro",
+    "Mar&ccedil;o",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro"
+);
 
-$status = array(0 => "Cliente Completo", 1 => "Completo", 2 => "N&atilde;o come&ccedil;ado", 3 => "Abrir", 4 => "Suspendido");
+$status = array(
+    0 => "Cliente Completo",
+    1 => "Completo",
+    2 => "N&atilde;o come&ccedil;ado",
+    3 => "Abrir",
+    4 => "Suspendido"
+);
 
-$profil = array(0 => "Administrador", 1 => "Gestor do Projecto", 2 => "Utilizador", 3 => "Cliente Utilizador", 4 => "Disabled", 5 => "Project Manager Administrator");
+$profil = array(
+    0 => "Administrador",
+    1 => "Gestor do Projecto",
+    2 => "Utilizador",
+    3 => "Cliente Utilizador",
+    4 => "Disabled",
+    5 => "Project Manager Administrator"
+);
 
-$priority = array(0 => "Nenhuma", 1 => "Muito Baixa", 2 => "Baixa", 3 => "M&eacute;dia", 4 => "Alta", 5 => "Muito Alta");
+$priority = array(
+    0 => "Nenhuma",
+    1 => "Muito Baixa",
+    2 => "Baixa",
+    3 => "M&eacute;dia",
+    4 => "Alta",
+    5 => "Muito Alta"
+);
 
 $statusTopic = array(0 => "Fechado", 1 => "Aberto");
 $statusTopicBis = array(0 => "Sim", 1 => "N&atilde;o");
 
 $statusPublish = array(0 => "Sim", 1 => "N&atilde;o");
 
-$statusFile = array(0 => "Aprovado", 1 => "Aprovado com altera&ccedil;&otilde;es", 2 => "Necessita Aprova&ccedil;&atilde;o", 3 => "N&atilde;o necessita aprova&ccedil;&atilde;o", 4 => "N&atilde;o Aprovado");
+$statusFile = array(
+    0 => "Aprovado",
+    1 => "Aprovado com altera&ccedil;&otilde;es",
+    2 => "Necessita Aprova&ccedil;&atilde;o",
+    3 => "N&atilde;o necessita aprova&ccedil;&atilde;o",
+    4 => "N&atilde;o Aprovado"
+);
 
 $phaseStatus = array(0 => "Not started", 1 => "Open", 2 => "Complete", 3 => "Suspended");
 

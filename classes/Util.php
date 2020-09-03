@@ -7,8 +7,7 @@
 
 namespace phpCollab;
 
-use phpCollab\Tasks\Tasks;
-use \Exception;
+use Exception;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
@@ -107,11 +106,10 @@ class Util
      * @param string $url Path to redirect
      * @access public
      **/
-    public static function headerFunction($url)
+    public static function headerFunction(string $url)
     {
         $response = new RedirectResponse($url);
         $response->send();
-        die();
     }
 
     /**
@@ -175,9 +173,7 @@ class Util
 
         $timestamp = mktime(0, 0, 0, $mois, $jour, $an);
         $timestamp2 = mktime(0, 0, 0, $mois2, $jour2, $an2);
-        $diff = floor(($timestamp - $timestamp2) / (3600 * 24));
-
-        return $diff;
+        return floor(($timestamp - $timestamp2) / (3600 * 24));
     }
 
     /**
@@ -186,7 +182,8 @@ class Util
      * @param string $loginMethod
      * @return bool
      */
-    public static function passwordMatch($formPassword, $storedPassword, $loginMethod = "crypt") {
+    public static function passwordMatch($formPassword, $storedPassword, $loginMethod = "crypt")
+    {
         switch (strtolower($loginMethod)) {
             case "md5":
                 if (md5($formPassword) == $storedPassword) {
@@ -274,8 +271,12 @@ class Util
      * @access public
      *
      */
-    public static function passwordGenerator($size = 8, $with_numbers = true, $with_tiny_letters = true, $with_capital_letters = true)
-    {
+    public static function passwordGenerator(
+        $size = 8,
+        $with_numbers = true,
+        $with_tiny_letters = true,
+        $with_capital_letters = true
+    ) {
         self::$pass_g = "";
         $sizeof_lchar = 0;
         $letter = "";
@@ -332,7 +333,7 @@ class Util
         if (self::$mkdirMethod == "FTP") {
             $ftp = ftp_connect(FTPSERVER);
             ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
-            ftp_rename($ftp, self::$ftpRoot. "/" . $source, self::$ftpRoot . "/" . $dest);
+            ftp_rename($ftp, self::$ftpRoot . "/" . $source, self::$ftpRoot . "/" . $dest);
             ftp_quit($ftp);
         } else {
             copy("../" . $source, "../" . $dest);
@@ -418,7 +419,7 @@ class Util
 
         if ($GLOBALS["mkdirMethod"] == "PHP") {
             try {
-                if (!file_exists ("../{$path}")) {
+                if (!file_exists("../{$path}")) {
                     mkdir("../{$path}", 0755);
                     chmod("../{$path}", 0777);
                     return true;
@@ -526,7 +527,7 @@ class Util
      */
     public static function convertSize($bytes, $decimals = 2)
     {
-        $sizeLabels = array('bytes','KB','MB','GB');
+        $sizeLabels = array('bytes', 'KB', 'MB', 'GB');
         if (empty($bytes)) {
             return "0 " . $sizeLabels[0];
         } else {
@@ -538,25 +539,23 @@ class Util
     /**
      * Return file size
      * @param string $file File used
+     * @return int
      * @access public
      *
-     * @return int
      */
-    public static function fileInfoSize($file)
+    public static function fileInfoSize(string $file)
     {
-        $fileSize = filesize($file);
-
-        return $fileSize;
+        return filesize($file);
     }
 
     /**
      * Read the content of a file
      * @param string $file File used
+     * @return bool|string
      * @access public
      *
-     * @return bool|string
      */
-    public static function getFileContents($file)
+    public static function getFileContents(string $file)
     {
         $content = '';
 
@@ -648,7 +647,7 @@ class Util
 
     /**
      * @param $projectDetail
-     * @param $tableProject
+     * @param Container $container
      * @return mixed
      *
      * recompute number of completed tasks of the project
@@ -661,8 +660,8 @@ class Util
      *
      * I don't think this has been working properly for awhile.
      *
-     **/
-    public static function projectComputeCompletion($projectDetail)
+     */
+    public static function projectComputeCompletion($projectDetail, Container $container)
     {
         $tableProject = $GLOBALS['tableCollab']["projects"];
         $prj_name = $projectDetail['pro_name'];
@@ -671,7 +670,7 @@ class Util
 
         if ($findit[1] != "") {
             $prj_id = $projectDetail['pro_id'];
-            $tasks = new Tasks();
+            $tasks = $container->getTasksLoader();
 
             $taskDetails = $tasks->getTaskById($prj_id);
 
@@ -743,9 +742,9 @@ class Util
     public static function formatFloat($number)
     {
         if (strlen($number) == 1) {
-            return sprintf("%0.1f",$number);
+            return sprintf("%0.1f", $number);
         } else {
-            return sprintf("%0.2f",$number);
+            return sprintf("%0.2f", $number);
         }
     }
 }

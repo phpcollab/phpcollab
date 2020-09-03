@@ -1,8 +1,5 @@
 <?php
 
-use phpCollab\Invoices\Invoices;
-use phpCollab\Projects\Projects;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -16,8 +13,8 @@ if (!$invoiceItemId) {
     header("Location:../general/permissiondenied.php");
 }
 
-$invoices = new Invoices();
-$projects = new Projects();
+$invoices = $container->getInvoicesLoader();
+$projects = $container->getProjectsLoader();
 
 $detailInvoice = $invoices->getInvoiceById($invoiceItemId);
 

@@ -5,14 +5,21 @@ namespace phpCollab\Files;
 
 use Exception;
 use InvalidArgumentException;
+use phpCollab\Database;
 use phpCollab\Notification;
 
 
 class PeerReview extends Files
 {
-    private $notifications;
     private $projectDetails;
     private $fileDetails;
+    private $notifications;
+
+    public function __construct(Database $database, Notification $notification)
+    {
+        parent::__construct($database);
+        $this->notifications = $notification;
+    }
 
     /**
      * @param $notificationDetails
@@ -23,7 +30,8 @@ class PeerReview extends Files
     public function sendEmail($notificationDetails, $comment)
     {
         if ($this->fileDetails && $this->projectDetails && $notificationDetails) {
-            $mail = new Notification(true);
+
+            $mail = $this->notifications;
 
             $mail->setFrom($this->projectDetails["pro_mem_email_work"], $this->projectDetails["pro_mem_name"]);
 
@@ -82,12 +90,16 @@ BODY;
         } else {
             if (empty($fileDetails)) {
                 throw new InvalidArgumentException('File Details is missing or empty.');
-            } else if (empty($projectDetails)) {
-                throw new InvalidArgumentException('Project Details is missing or empty.');
-            } else if (empty($notificationDetails)) {
-                throw new InvalidArgumentException('Notification Details is missing or empty.');
             } else {
-                throw new Exception('Error sending file uploaded notification');
+                if (empty($projectDetails)) {
+                    throw new InvalidArgumentException('Project Details is missing or empty.');
+                } else {
+                    if (empty($notificationDetails)) {
+                        throw new InvalidArgumentException('Notification Details is missing or empty.');
+                    } else {
+                        throw new Exception('Error sending file uploaded notification');
+                    }
+                }
             }
         }
     }

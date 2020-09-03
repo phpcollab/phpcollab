@@ -6,13 +6,41 @@
 //translator(s): Adi
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
-$dayNameArray = array(1 =>"Luni", 2 =>"Marti", 3 =>"Miercuri", 4 =>"Joi", 5 =>"Vineri", 6 =>"Simbata", 7 =>"Duminica");
+$dayNameArray = array(
+    1 => "Luni",
+    2 => "Marti",
+    3 => "Miercuri",
+    4 => "Joi",
+    5 => "Vineri",
+    6 => "Simbata",
+    7 => "Duminica"
+);
 
-$monthNameArray = array(1=> "Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie");
+$monthNameArray = array(
+    1 => "Ianuarie",
+    "Februarie",
+    "Martie",
+    "Aprilie",
+    "Mai",
+    "Iunie",
+    "Iulie",
+    "August",
+    "Septembrie",
+    "Octombrie",
+    "Noiembrie",
+    "Decembrie"
+);
 
 $status = array(0 => "Client Incheiat", 1 => "Incheiat", 2 => "Neinceput", 3 => "Deschis", 4 => "Suspendat");
 
-$profil = array(0 => "Administrator", 1 => "Manager de Proiecte", 2 => "Utilizator", 3 => "Utilizator Client", 4 => "Disabled", 5 => "Project Manager Administrator");
+$profil = array(
+    0 => "Administrator",
+    1 => "Manager de Proiecte",
+    2 => "Utilizator",
+    3 => "Utilizator Client",
+    4 => "Disabled",
+    5 => "Project Manager Administrator"
+);
 
 $priority = array(0 => "Nici una", 1 => "Minima", 2 => "Mica", 3 => "Medie", 4 => "Mare", 5 => "Maxima");
 
@@ -21,7 +49,13 @@ $statusTopicBis = array(0 => "Da", 1 => "Nu");
 
 $statusPublish = array(0 => "Da", 1 => "Nu");
 
-$statusFile = array(0 => "Aprobat", 1 => "Aprobat cu Modificari", 2 => "Necesita Aprobare", 3 => "Nu Necesita Aprobare", 4 => "Respins");
+$statusFile = array(
+    0 => "Aprobat",
+    1 => "Aprobat cu Modificari",
+    2 => "Necesita Aprobare",
+    3 => "Nu Necesita Aprobare",
+    4 => "Respins"
+);
 
 $phaseStatus = array(0 => "Neinceput", 1 => "Deschis", 2 => "Incheiat", 3 => "Suspendat");
 

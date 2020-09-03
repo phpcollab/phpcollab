@@ -26,14 +26,11 @@
 ** =============================================================================
 */
 
-use phpCollab\Notifications\Notifications;
-use phpCollab\Teams\Teams;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$teams = new Teams();
-$notifications = new Notifications();
+$teams = $container->getTeams();
+$notifications = $container->getNotificationsManager();
 
 $userDetail = $members->getMemberById($session->get("id"));
 
@@ -49,9 +46,11 @@ if ($request->isMethod('post')) {
                 $checkboxes = $request->request->get('alerts');
 
                 try {
-                    $notifications->setAlerts($session->get("id"), $checkboxes["taskAssignment"], $checkboxes["removeProjectTeam"],
+                    $notifications->setAlerts($session->get("id"), $checkboxes["taskAssignment"],
+                        $checkboxes["removeProjectTeam"],
                         $checkboxes["addProjectTeam"], $checkboxes["newTopic"], $checkboxes["newPost"],
-                        $checkboxes["statusTaskChange"], $checkboxes["priorityTaskChange"], $checkboxes["duedateTaskChange"],
+                        $checkboxes["statusTaskChange"], $checkboxes["priorityTaskChange"],
+                        $checkboxes["duedateTaskChange"],
                         $checkboxes["clientAddTask"], $checkboxes["uploadFile"], $checkboxes["dailyAlert"],
                         $checkboxes["weeklyAlert"], $checkboxes["pastDueAlert"]);
 
@@ -126,7 +125,7 @@ if ($userNotifications["pastDueAlert"] == "0") {
 }
 
 $headBonus = /** @lang javascript */
-<<<HEAD_BONUS
+    <<<HEAD_BONUS
 <script type="text/JavaScript">
 function checkboxes(){
 	for (var i = 0; i < document.user_avertForm.elements.length; i++) {

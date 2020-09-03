@@ -8,7 +8,7 @@
  * check to see if there is a custom_xx file for it.  If not then default
  * to English
  */
-if ( empty($session->get("language")) ) {
+if (empty($session->get("language"))) {
     $session->set("language", "en");
 }
 

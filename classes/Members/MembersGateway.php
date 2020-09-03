@@ -3,8 +3,8 @@
 
 namespace phpCollab\Members;
 
-use phpCollab\Database;
 use Exception;
+use phpCollab\Database;
 
 /**
  * Class MembersGateway
@@ -124,8 +124,7 @@ class MembersGateway
 
         $this->db->query($this->initrequest["members"] . ' ' . $whereStatement . $this->orderBy($sorting));
         $this->db->execute($memberIds);
-        $data = $this->db->fetchAll();
-        return $data;
+        return $this->db->fetchAll();
 
     }
 
@@ -258,8 +257,21 @@ class MembersGateway
      * @param $profile
      * @return mixed
      */
-    public function updateMember($memberId, $login, $name, $title, $organization, $emailWork, $phoneWork, $phoneHome, $phoneMobile, $fax, $lastPage, $comments, $profile)
-    {
+    public function updateMember(
+        $memberId,
+        $login,
+        $name,
+        $title,
+        $organization,
+        $emailWork,
+        $phoneWork,
+        $phoneHome,
+        $phoneMobile,
+        $fax,
+        $lastPage,
+        $comments,
+        $profile
+    ) {
         $query = <<<SQL
 UPDATE {$this->tableCollab["members"]} SET 
 login = :login, 
@@ -318,9 +330,22 @@ SQL;
      * @param $timezone
      * @return mixed
      */
-    public function addMember($login, $name, $title, $organization, $emailWork, $phoneWork, $phoneHome, $phoneMobile,
-                              $fax, $comments, $password, $profile, $created, $timezone)
-    {
+    public function addMember(
+        $login,
+        $name,
+        $title,
+        $organization,
+        $emailWork,
+        $phoneWork,
+        $phoneHome,
+        $phoneMobile,
+        $fax,
+        $comments,
+        $password,
+        $profile,
+        $created,
+        $timezone
+    ) {
         $this->db->query("INSERT INTO {$this->tableCollab["members"]} (login, name, title, organization, email_work, phone_work, phone_home, mobile, fax, comments, password, profil, created, timezone) VALUES (:login, :name, :title, :organization, :email_work, :phone_work, :phone_home, :phone_mobile, :fax, :comments, :password, :profile, :created, :timezone)");
         $this->db->bind(':login', $login);
         $this->db->bind(':name', $name);
@@ -385,7 +410,7 @@ SQL;
      * @param String $page
      * @return mixed
      */
-    public function setLastPageVisitedByLogin($username, $page)
+    public function setLastPageVisitedByLogin(string $username, string $page)
     {
         $query = <<<SQL
 UPDATE {$this->tableCollab["members"]} 
@@ -406,9 +431,10 @@ SQL;
      * @param null $rowLimit
      * @return mixed
      */
-    public function searchResultsUsers($query, $sorting = null, $limit = null, $rowLimit =null)
+    public function searchResultsUsers($query, $sorting = null, $limit = null, $rowLimit = null)
     {
-        $sql = $this->initrequest['members'] . ' ' . $query . $this->orderBy($sorting) . $this->limit($limit, $rowLimit);
+        $sql = $this->initrequest['members'] . ' ' . $query . $this->orderBy($sorting) . $this->limit($limit,
+                $rowLimit);
         $this->db->query($sql);
         $this->db->execute();
         return $this->db->resultset();
@@ -430,10 +456,10 @@ SQL;
     }
 
     /**
-     * @param string $sorting
+     * @param string|null $sorting
      * @return string
      */
-    private function orderBy($sorting)
+    private function orderBy(?string $sorting)
     {
         if (!is_null($sorting)) {
             $allowedOrderedBy = ["mem.name", "mem.login", "mem.email_work", "mem.phone_work", "connected"];

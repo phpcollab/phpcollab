@@ -9,8 +9,8 @@ use phpCollab\Topics\Topics;
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$projects = new Projects();
-$topics = new Topics();
+$projects = $container->getProjectsLoader();
+$topics = $container->getTopicsLoader();
 
 $action = $request->query->get('action');
 $id = $request->query->get('id');

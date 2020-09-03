@@ -28,14 +28,10 @@
 */
 
 
-use phpCollab\Notifications\Notifications;
-use phpCollab\Sorting\Sorting;
-use phpCollab\Teams\Teams;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$teams = new Teams();
+$teams = $container->getTeams();
 
 if ($session->get('profile') != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
@@ -84,7 +80,7 @@ if (!empty($request->query->get('id'))) {
 
 
                     if ($htaccessAuth == "true") {
-                        $Htpasswd = new Htpasswd;
+                        $Htpasswd = $container->getHtpasswdService();
                     }
                     if (!preg_match("/^[A-Za-z0-9]+$/", $username)) {
                         $error = $strings["alpha_only"];
@@ -105,7 +101,8 @@ if (!empty($request->query->get('id'))) {
                             $listTeams = $teams->getTeamByMemberId($request->query->get("id"));
 
                             try {
-                                $members->updateMember($request->query->get("id"), $username, $fullName, $email, $title, null, $phoneWork, $phoneHome, $phoneMobile, $fax, $lastPage, $comments, $profile);
+                                $members->updateMember($request->query->get("id"), $username, $fullName, $email, $title,
+                                    null, $phoneWork, $phoneHome, $phoneMobile, $fax, $lastPage, $comments, $profile);
 
                                 if ($htaccessAuth == "true") {
                                     if ($username != $oldUsername) {
@@ -252,8 +249,8 @@ if (empty($request->query->get('id'))) {
                         $error = $strings["new_password_error"];
                     } else {
                         try {
-                            $sorting = new Sorting();
-                            $notifications = new Notifications();
+                            $sorting = $container->getSortingLoader();
+                            $notifications = $container->getNotificationsManager();
 
                             //replace quotes by html code in name and address
                             $full_name = phpCollab\Util::convertData($full_name);
@@ -261,7 +258,8 @@ if (empty($request->query->get('id'))) {
                             $comments = phpCollab\Util::convertData($comments);
                             $password = phpCollab\Util::getPassword($password);
 
-                            $newUserId = $members->addMember($username, $fullName, $email, $password, $profile, $title, 1, $phoneWork, $phoneHome, $phoneMobile, $fax, $comments, $dateheure, 0);
+                            $newUserId = $members->addMember($username, $fullName, $email, $password, $profile, $title,
+                                1, $phoneWork, $phoneHome, $phoneMobile, $fax, $comments, $dateheure, 0);
 
                             $sorting->addMember($newUserId);
 
@@ -301,108 +299,127 @@ if (empty($request->query->get('id'))) {
         }
     }
 }
-    $bodyCommand = 'onLoad="document.user_editForm.username.focus();"';
-    include APP_ROOT . '/themes/' . THEME . '/header.php';
+$bodyCommand = 'onLoad="document.user_editForm.username.focus();"';
+include APP_ROOT . '/themes/' . THEME . '/header.php';
 
-    $blockPage = new phpCollab\Block();
-    $blockPage->openBreadcrumbs();
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../users/listusers.php?", $strings["user_management"], "in"));
+$blockPage = new phpCollab\Block();
+$blockPage->openBreadcrumbs();
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../users/listusers.php?", $strings["user_management"], "in"));
 
-    if ($request->query->get("id") == "") {
-        $blockPage->itemBreadcrumbs($strings["add_user"]);
-    }
-    if ($request->query->get("id") != "") {
-        $blockPage->itemBreadcrumbs($blockPage->buildLink("../users/viewuser.php?id={$request->query->get("id")}", $userDetail["mem_login"], "in"));
-        $blockPage->itemBreadcrumbs($strings["edit_user"]);
-    }
-    $blockPage->closeBreadcrumbs();
+if ($request->query->get("id") == "") {
+    $blockPage->itemBreadcrumbs($strings["add_user"]);
+}
+if ($request->query->get("id") != "") {
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../users/viewuser.php?id={$request->query->get("id")}",
+        $userDetail["mem_login"], "in"));
+    $blockPage->itemBreadcrumbs($strings["edit_user"]);
+}
+$blockPage->closeBreadcrumbs();
 
-    if ($msg != "") {
-        include '../includes/messages.php';
-        $blockPage->messageBox($msgLabel);
-    }
+if ($msg != "") {
+    include '../includes/messages.php';
+    $blockPage->messageBox($msgLabel);
+}
 
-    $block1 = new phpCollab\Block();
+$block1 = new phpCollab\Block();
 
-    if (empty($request->query->get('id'))) {
-        $block1->form = "user_edit";
-        $block1->openForm("../users/edituser.php?id={$request->query->get("id")}#" . $block1->form . "Anchor", null, $csrfHandler);
-    }
+if (empty($request->query->get('id'))) {
+    $block1->form = "user_edit";
+    $block1->openForm("../users/edituser.php?id={$request->query->get("id")}#" . $block1->form . "Anchor", null,
+        $csrfHandler);
+}
 
-    if (!empty($request->query->get('id'))) {
-        $block1->form = "user_edit";
-        $block1->openForm("../users/edituser.php?id={$request->query->get("id")}#" . $block1->form . "Anchor", null, $csrfHandler);
-    }
+if (!empty($request->query->get('id'))) {
+    $block1->form = "user_edit";
+    $block1->openForm("../users/edituser.php?id={$request->query->get("id")}#" . $block1->form . "Anchor", null,
+        $csrfHandler);
+}
 
-    if (!empty($error)) {
-        $block1->headingError($strings["errors"]);
-        $block1->contentError($error);
-    }
+if (!empty($error)) {
+    $block1->headingError($strings["errors"]);
+    $block1->contentError($error);
+}
 
-    if (empty($request->query->get('id'))) {
-        $block1->heading($strings["add_user"]);
-    }
-    if (!empty($request->query->get('id'))) {
-        $block1->heading($strings["edit_user"] . " : " . $userDetail["mem_login"]);
-    }
+if (empty($request->query->get('id'))) {
+    $block1->heading($strings["add_user"]);
+}
+if (!empty($request->query->get('id'))) {
+    $block1->heading($strings["edit_user"] . " : " . $userDetail["mem_login"]);
+}
 
-    $block1->openContent();
+$block1->openContent();
 
-    if (empty($request->query->get('id'))) {
-        $block1->contentTitle($strings["enter_user_details"]);
-    }
-    if (!empty($request->query->get('id'))) {
-        $block1->contentTitle($strings["edit_user_details"]);
-    }
+if (empty($request->query->get('id'))) {
+    $block1->contentTitle($strings["enter_user_details"]);
+}
+if (!empty($request->query->get('id'))) {
+    $block1->contentTitle($strings["edit_user_details"]);
+}
 
-    $block1->contentRow($strings["user_name"], '<input size="24" style="width: 250px;" maxlength="16" type="text" name="username" required value="' . $username . '" autocomplete="off"><input type="hidden" name="username_old" value="' . $username . '">');
-    $block1->contentRow($strings["full_name"], '<input size="24" style="width: 250px;" maxlength="64" type="text" name="full_name" required value="' . $full_name . '">');
-    $block1->contentRow($strings["title"], '<input size="24" style="width: 250px;" maxlength="128" type="text" name="title" value="' . $title . '">');
-    $block1->contentRow($strings["email"], '<input size="24" style="width: 250px;" maxlength="128" type="text" name="email" required value="' . $email . '">');
-    $block1->contentRow($strings["work_phone"], '<input size="14" style="width: 150px;" maxlength="32" type="text" name="phone_work" value="' . $phone_work . '">');
-    $block1->contentRow($strings["home_phone"], '<input size="14" style="width: 150px;" maxlength="32" type="text" name="phone_home" value="' . $phone_home . '">');
-    $block1->contentRow($strings["mobile_phone"], '<input size="14" style="width: 150px;" maxlength="32" type="text" name="phone_mobile" value="' . $phone_mobile . '">');
-    $block1->contentRow($strings["fax"], '<input size="14" style="width: 150px;" maxlength="32" type="text" name="fax" value="' . $fax . '">');
-    if ($lastvisitedpage === true) {
-        $block1->contentRow($strings["last_page"], '<input size="24" style="width: 250px;" maxlength="255" type="text" name="last_page" value="' . $last_page . '">');
-    }
-    $block1->contentRow($strings["comments"], '<textarea style="width: 350px; height: 60px;" name="comments" cols="45" rows="5">' . $comments . '</textarea>');
+$block1->contentRow($strings["user_name"],
+    '<input size="24" style="width: 250px;" maxlength="16" type="text" name="username" required value="' . $username . '" autocomplete="off"><input type="hidden" name="username_old" value="' . $username . '">');
+$block1->contentRow($strings["full_name"],
+    '<input size="24" style="width: 250px;" maxlength="64" type="text" name="full_name" required value="' . $full_name . '">');
+$block1->contentRow($strings["title"],
+    '<input size="24" style="width: 250px;" maxlength="128" type="text" name="title" value="' . $title . '">');
+$block1->contentRow($strings["email"],
+    '<input size="24" style="width: 250px;" maxlength="128" type="text" name="email" required value="' . $email . '">');
+$block1->contentRow($strings["work_phone"],
+    '<input size="14" style="width: 150px;" maxlength="32" type="text" name="phone_work" value="' . $phone_work . '">');
+$block1->contentRow($strings["home_phone"],
+    '<input size="14" style="width: 150px;" maxlength="32" type="text" name="phone_home" value="' . $phone_home . '">');
+$block1->contentRow($strings["mobile_phone"],
+    '<input size="14" style="width: 150px;" maxlength="32" type="text" name="phone_mobile" value="' . $phone_mobile . '">');
+$block1->contentRow($strings["fax"],
+    '<input size="14" style="width: 150px;" maxlength="32" type="text" name="fax" value="' . $fax . '">');
+if ($lastvisitedpage === true) {
+    $block1->contentRow($strings["last_page"],
+        '<input size="24" style="width: 250px;" maxlength="255" type="text" name="last_page" value="' . $last_page . '">');
+}
+$block1->contentRow($strings["comments"],
+    '<textarea style="width: 350px; height: 60px;" name="comments" cols="45" rows="5">' . $comments . '</textarea>');
 
-    if (empty($request->query->get("id"))) {
-        $block1->contentTitle($strings["enter_password"]);
-    }
-    if (!empty($request->query->get("id"))) {
-        $block1->contentTitle($strings["change_password_user"]);
-    }
+if (empty($request->query->get("id"))) {
+    $block1->contentTitle($strings["enter_password"]);
+}
+if (!empty($request->query->get("id"))) {
+    $block1->contentTitle($strings["change_password_user"]);
+}
 
-    $block1->contentRow($strings["password"], '<input size="24" style="width: 250px;" maxlength="16" type="password" name="password" value="" autocomplete="off">');
-    $block1->contentRow($strings["confirm_password"], '<input size="24" style="width: 250px;" maxlength="16" type="password" name="password_confirm" value="">');
+$block1->contentRow($strings["password"],
+    '<input size="24" style="width: 250px;" maxlength="16" type="password" name="password" value="" autocomplete="off">');
+$block1->contentRow($strings["confirm_password"],
+    '<input size="24" style="width: 250px;" maxlength="16" type="password" name="password_confirm" value="">');
 
 // if the user isn't a client user then i give the opportunity to change the permission
-    if ($profile != '3') {
-        $block1->contentTitle($strings["select_permissions"]);
-        $block1->contentRow('<input type="radio" name="profile" value="1" ' . $checked1 . ' />', '<b>' . $strings["project_manager_permissions"] . '</b>');
-        $block1->contentRow('<input type="radio" name="profile" value="2" ' . $checked2 . ' />', '<b>' . $strings["user_permissions"] . '</b>');
-        $block1->contentRow('<input type="radio" name="profile" value="4" ' . $checked4 . ' />', '<b>' . $strings["disabled_permissions"] . '</b>');
-        $block1->contentRow('<input type="radio" name="profile" value="5" ' . $checked5 . ' />', '<b>' . $strings["project_manager_administrator_permissions"] . '</b>');
-    } else {
-        $block1->contentRow('', '<input type="hidden" name="perm" value="3" />');
-    }
+if ($profile != '3') {
+    $block1->contentTitle($strings["select_permissions"]);
+    $block1->contentRow('<input type="radio" name="profile" value="1" ' . $checked1 . ' />',
+        '<b>' . $strings["project_manager_permissions"] . '</b>');
+    $block1->contentRow('<input type="radio" name="profile" value="2" ' . $checked2 . ' />',
+        '<b>' . $strings["user_permissions"] . '</b>');
+    $block1->contentRow('<input type="radio" name="profile" value="4" ' . $checked4 . ' />',
+        '<b>' . $strings["disabled_permissions"] . '</b>');
+    $block1->contentRow('<input type="radio" name="profile" value="5" ' . $checked5 . ' />',
+        '<b>' . $strings["project_manager_administrator_permissions"] . '</b>');
+} else {
+    $block1->contentRow('', '<input type="hidden" name="perm" value="3" />');
+}
 
-    $block1->contentRow("", '<input type="submit" name="Save" value="' . $strings["save"] . '">');
+$block1->contentRow("", '<input type="submit" name="Save" value="' . $strings["save"] . '">');
 
-    $block1->closeContent();
+$block1->closeContent();
 
-    if (empty($request->query->get('id'))) {
-        echo '<input type="hidden" name="action" value="add" />';
-    }
+if (empty($request->query->get('id'))) {
+    echo '<input type="hidden" name="action" value="add" />';
+}
 
-    if (!empty($request->query->get('id'))) {
-        echo '<input type="hidden" name="action" value="update" />';
-    }
+if (!empty($request->query->get('id'))) {
+    echo '<input type="hidden" name="action" value="update" />';
+}
 
 
-    $block1->closeForm();
+$block1->closeForm();
 
-    include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/themes/' . THEME . '/footer.php';

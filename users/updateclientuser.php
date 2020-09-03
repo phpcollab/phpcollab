@@ -1,7 +1,5 @@
 <?php
 
-use phpCollab\Organizations\Organizations;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -12,7 +10,7 @@ if (empty($userId) || empty($orgId)) {
     phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
 }
 
-$organizations = new Organizations();
+$organizations = $container->getOrganizationsManager();
 
 $clientDetail = $organizations->getOrganizationById($orgId);
 $comptDetailClient = count($detailClient);
@@ -101,7 +99,9 @@ if ($request->isMethod('post')) {
                         $error = $strings["user_already_exists"];
                     } else {
                         try {
-                            $updated = $members->updateMember($userId, $user_login, $user_full_name, $user_email_work, $user_title, $user_organization, $user_phone_work, $user_phone_home, $user_phone_mobile, $user_fax, $user_last_page, $user_comments);
+                            $updated = $members->updateMember($userId, $user_login, $user_full_name, $user_email_work,
+                                $user_title, $user_organization, $user_phone_work, $user_phone_home, $user_phone_mobile,
+                                $user_fax, $user_last_page, $user_comments);
 
                             if ($user_password != "") {
 
@@ -161,8 +161,10 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?", $strings["organizations"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=$orgId", $clientDetail["org_name"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../users/viewclientuser.php?organization=$orgId&id=" . $userDetail["mem_id"], $userDetail["mem_login"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=$orgId", $clientDetail["org_name"],
+    "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../users/viewclientuser.php?organization=$orgId&id=" . $userDetail["mem_id"],
+    $userDetail["mem_login"], "in"));
 $blockPage->itemBreadcrumbs($strings["edit_client_user"]);
 $blockPage->closeBreadcrumbs();
 

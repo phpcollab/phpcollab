@@ -18,15 +18,25 @@ class Teams
 {
     protected $teams_gateway;
     protected $db;
+    protected $notification;
+    protected $notifications;
     protected $strings;
     protected $root;
 
     /**
      * Teams constructor.
+     * @param Database $database
+     * @param Notification $notification
+     * @param Notifications\Notifications $notifications
      */
-    public function __construct()
-    {
-        $this->db = new Database();
+    public function __construct(
+        Database $database,
+        Notification $notification,
+        Notifications\Notifications $notifications
+    ) {
+        $this->db = $database;
+        $this->notification = $notification;
+        $this->notifications = $notifications;
         $this->teams_gateway = new TeamsGateway($this->db);
         $this->strings = $GLOBALS["strings"];
         $this->root = $GLOBALS["root"];
@@ -71,12 +81,15 @@ class Teams
      * @param $teamMember
      * @return mixed
      */
-    public function getTeamByProjectIdAndTeamMemberAndStatusIsNotCompletedOrSuspendedAndIsNotPublished($projectId, $teamMember)
-    {
+    public function getTeamByProjectIdAndTeamMemberAndStatusIsNotCompletedOrSuspendedAndIsNotPublished(
+        $projectId,
+        $teamMember
+    ) {
         $projectId = filter_var($projectId, FILTER_VALIDATE_INT);
         $teamMember = filter_var($teamMember, FILTER_VALIDATE_INT);
 
-        return $this->teams_gateway->getTeamByProjectIdAndTeamMemberAndStatusIsNotCompletedOrSuspendedAndIsNotPublished($projectId, $teamMember);
+        return $this->teams_gateway->getTeamByProjectIdAndTeamMemberAndStatusIsNotCompletedOrSuspendedAndIsNotPublished($projectId,
+            $teamMember);
     }
 
     /**
@@ -239,8 +252,7 @@ class Teams
     public function sendRemoveProjectTeamNotification($projectDetails, $members)
     {
         if ($projectDetails) {
-
-            $mail = new Notification(true);
+            $mail = $this->notification;
             try {
 
                 $mail->setFrom($projectDetails["pro_mem_email_work"], $projectDetails["pro_mem_name"]);
@@ -268,7 +280,7 @@ class Teams
 
                 $body .= "\n\n" . $mail->footer;
 
-                $notifications = new Notifications\Notifications();
+                $notifications = $this->notifications;
                 $listNotifications = $notifications->getNotificationsWhereMemberIn($members);
 
                 foreach ($listNotifications as $memberNotification) {
@@ -277,7 +289,8 @@ class Teams
                         $mail->Subject = $mail->partSubject . " " . $projectDetails["pro_name"];
                         $mail->Priority = "3";
                         $mail->Body = $body;
-                        $mail->AddAddress($memberNotification["not_mem_email_work"], $memberNotification["not_mem_name"]);
+                        $mail->AddAddress($memberNotification["not_mem_email_work"],
+                            $memberNotification["not_mem_name"]);
                         $mail->Send();
                         $mail->ClearAddresses();
                     }
@@ -301,8 +314,7 @@ class Teams
     public function sendAddProjectTeamNotification($projectDetail, $members, Session $session, Logger $logger)
     {
         if ($projectDetail) {
-
-            $mail = new Notification(true);
+            $mail = $this->notification;
             try {
                 $logger->debug('Nofitication: Send project team notification', ['projectDetail' => $projectDetail]);
                 $mail->getUserinfo($session->get("id"), "from", $logger);
@@ -330,6 +342,7 @@ class Teams
 
                 $body .= "\n\n" . $mail->footer;
 
+
                 $notifications = new Notifications\Notifications();
                 $listNotifications = $notifications->getNotificationsWhereMemberIn($members);
 
@@ -338,7 +351,8 @@ class Teams
                         $mail->Subject = $mail->partSubject . " " . $projectDetail["pro_name"];
                         $mail->Priority = "3";
                         $mail->Body = $body;
-                        $mail->AddAddress($memberNotification["not_mem_email_work"], $memberNotification["not_mem_name"]);
+                        $mail->AddAddress($memberNotification["not_mem_email_work"],
+                            $memberNotification["not_mem_name"]);
                         $mail->Send();
                         $mail->ClearAddresses();
                     }

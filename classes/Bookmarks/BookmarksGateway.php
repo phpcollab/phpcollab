@@ -1,4 +1,5 @@
 <?php
+
 namespace phpCollab\Bookmarks;
 
 use phpCollab\Database;
@@ -43,10 +44,10 @@ class BookmarksGateway
 
     /**
      * @param integer $ownerId
-     * @param string $sorting
+     * @param null $sorting
      * @return mixed
      */
-    public function getMyBookmarks($ownerId, $sorting = null)
+    public function getMyBookmarks(int $ownerId, $sorting = null)
     {
         $whereStatement = ' WHERE boo.owner = :owner_id ';
 
@@ -59,7 +60,7 @@ class BookmarksGateway
 
     /**
      * @param integer $ownerId
-     * @param string $sorting
+     * @param null $sorting
      * @return mixed
      */
     public function getMyHomeBookmarks($ownerId, $sorting = null)
@@ -75,10 +76,10 @@ class BookmarksGateway
 
     /**
      * @param integer $ownerId
-     * @param string $sorting
+     * @param null $sorting
      * @return mixed
      */
-    public function getPrivateBookmarks($ownerId, $sorting = null)
+    public function getPrivateBookmarks(int $ownerId, $sorting = null)
     {
         $whereStatement = ' WHERE boo.users LIKE :owner_id';
 
@@ -93,7 +94,7 @@ class BookmarksGateway
      * @param integer $bookmarkId
      * @return mixed
      */
-    public function getBookmarkById($bookmarkId)
+    public function getBookmarkById(int $bookmarkId)
     {
         $whereStatement = ' WHERE boo.id = :bookmark_id';
 
@@ -110,7 +111,7 @@ class BookmarksGateway
      */
     public function getBookmarksInRange($range)
     {
-        $placeholders = str_repeat ('?, ', count($range)-1) . '?';
+        $placeholders = str_repeat('?, ', count($range) - 1) . '?';
 
         $whereStatement = " WHERE boo.id IN ($placeholders)";
 
@@ -121,10 +122,10 @@ class BookmarksGateway
 
     /**
      * @param integer $ownerId
-     * @param string $sorting
+     * @param null $sorting
      * @return mixed
      */
-    public function getAllBookmarks($ownerId, $sorting = null)
+    public function getAllBookmarks(int $ownerId, $sorting = null)
     {
         $whereStatement = ' WHERE boo.shared = 1 OR boo.owner = :owner_id ';
 
@@ -166,7 +167,7 @@ class BookmarksGateway
      */
     public function addNewCategory($categoryName)
     {
-        $query = "INSERT INTO ". $this->tableCollab["bookmarks_categories"] ." (name) VALUES(:category_name)";
+        $query = "INSERT INTO " . $this->tableCollab["bookmarks_categories"] . " (name) VALUES(:category_name)";
 
         $this->db->query($query);
 

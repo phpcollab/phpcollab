@@ -5,10 +5,12 @@ namespace phpCollab\Alerts;
 
 
 use Exception;
+use phpCollab\Container;
 use phpCollab\Database;
 
 class DailyAlerts
 {
+    private $container;
     protected $db;
     protected $membersTable;
     protected $notificationsTable;
@@ -17,9 +19,10 @@ class DailyAlerts
     protected $projectsTable;
     protected $today;
 
-    public function __construct()
+    public function __construct(Database $database, Container $container)
     {
-        $this->db = new Database();
+        $this->db = $database;
+        $this->container = $container;
         $this->today = date("Y-m-d", time());
     }
 
@@ -190,7 +193,7 @@ SQL;
     public function sendEmail($lang)
     {
         try {
-            $email = new DailyAlertEmail($lang);
+            $email = new DailyAlertEmail($this->container);
 
             $membersToNotify = $this->getDailyAlertMembers();
 

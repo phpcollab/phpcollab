@@ -3,16 +3,13 @@
 #Status page: 1
 #Path by root: ../newsdesk/listnews.php
 
-use phpCollab\NewsDesk\NewsDesk;
-use phpCollab\Projects\Projects;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
 $setTitle .= " : News List";
 
-$projects = new Projects();
-$newsDesk = new NewsDesk();
+$projects = $container->getProjectsLoader();
+$newsDesk = $container->getNewsdeskLoader();
 $strings = $GLOBALS['strings'];
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
@@ -56,14 +53,20 @@ $block1->closePaletteIcon();
 $block1->setLimit($blockPage->returnLimit(1));
 $block1->setRowsLimit(40);
 
-$block1->sorting("newsdesk", $sortingUser["newsdesk"], "news.pdate DESC", $sortingFields = [0 => "news.title", 1 => "news.pdate", 2 => "news.author"]);
+$block1->sorting("newsdesk", $sortingUser["newsdesk"], "news.pdate DESC",
+    $sortingFields = [0 => "news.title", 1 => "news.pdate", 2 => "news.author"]);
 
 $listPosts = $newsDesk->getAllNewsdeskPosts($block1->sortingValue);
 $block1->setRecordsTotal(count($listPosts));
 
 if ($listPosts) {
     $block1->openResults();
-    $block1->labels($labels = [0 => $strings["topic"], 1 => $strings["date"], 2 => $strings["author"], 3 => $strings["newsdesk_related"]], "true");
+    $block1->labels($labels = [
+        0 => $strings["topic"],
+        1 => $strings["date"],
+        2 => $strings["author"],
+        3 => $strings["newsdesk_related"]
+    ], "true");
 
     foreach ($listPosts as $post) {
         // take the news author
@@ -79,7 +82,8 @@ if ($listPosts) {
 
         $block1->openRow();
         $block1->checkboxRow($post['news_id']);
-        $block1->cellRow($blockPage->buildLink("../newsdesk/viewnews.php?id=" . $post['news_id'], $escaper->escapeHtml($post['news_title']), 'in'));
+        $block1->cellRow($blockPage->buildLink("../newsdesk/viewnews.php?id=" . $post['news_id'],
+            $escaper->escapeHtml($post['news_title']), 'in'));
         $block1->cellRow($post['news_date']);
         $block1->cellRow($newsAuthor["mem_name"]);
         $block1->cellRow($article_related);
@@ -98,7 +102,8 @@ $block1->closeFormResults();
 $block1->openPaletteScript();
 if ($session->get("profile") == "0" || $session->get("profile") == "1" || $session->get("profile") == "5") {
     $block1->paletteScript(0, "add", "../newsdesk/editnews.php?", "true,false,false", $strings["add_newsdesk"]);
-    $block1->paletteScript(1, "remove", "../newsdesk/editnews.php?action=remove&", "false,true,true", $strings["del_newsdesk"]);
+    $block1->paletteScript(1, "remove", "../newsdesk/editnews.php?action=remove&", "false,true,true",
+        $strings["del_newsdesk"]);
     $block1->paletteScript(2, "edit", "../newsdesk/editnews.php?", "false,true,false", $strings["edit_newsdesk"]);
 }
 $block1->paletteScript(3, "info", "../newsdesk/viewnews.php?", "false,true,false", $strings["view_newsdesk"]);

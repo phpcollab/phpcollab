@@ -1,17 +1,12 @@
 <?php
 
-use phpCollab\Assignments\Assignments;
-use phpCollab\Phases\Phases;
-use phpCollab\Projects\Projects;
-use phpCollab\Tasks\Tasks;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$tasks = new Tasks();
-$assignments = new Assignments();
-$phases = new Phases();
-$projects = new Projects();
+$tasks = $container->getTasksLoader();
+$assignments = $container->getAssignmentsManager();
+$phases = $container->getPhasesLoader();
+$projects = $container->getProjectsLoader();
 
 $id = $request->query->get("id");
 $task = $request->query->get("task");
@@ -53,7 +48,6 @@ if ($request->isMethod('post')) {
 }
 
 
-
 $taskDetail = $tasks->getTaskById($task);
 
 $projectDetail = $projects->getProjectById($taskDetail["tas_project"]);
@@ -72,15 +66,20 @@ $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 if ($task != "") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"],
+        $projectDetail["pro_name"], "in"));
 
     if ($projectDetail["pro_phase_set"] != "0") {
-        $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail["pro_id"], $strings["phases"], "in"));
-        $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase["pha_id"], $targetPhase["pha_name"], "in"));
+        $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail["pro_id"],
+            $strings["phases"], "in"));
+        $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase["pha_id"],
+            $targetPhase["pha_name"], "in"));
     }
 
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail["pro_id"], $strings["tasks"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail["tas_id"], $taskDetail["tas_name"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail["pro_id"],
+        $strings["tasks"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail["tas_id"],
+        $taskDetail["tas_name"], "in"));
     $blockPage->itemBreadcrumbs($strings["delete_subtasks"]);
 } else {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../general/home.php?", $strings["home"], "in"));

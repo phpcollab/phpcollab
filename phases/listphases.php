@@ -12,10 +12,10 @@ use phpCollab\Util;
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$projects = new Projects();
-$teams = new Teams();
-$phases = new Phases();
-$tasks = new Tasks();
+$projects = $container->getProjectsLoader();
+$teams = $container->getTeams();
+$phases = $container->getPhasesLoader();
+$tasks = $container->getTasksLoader();
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 

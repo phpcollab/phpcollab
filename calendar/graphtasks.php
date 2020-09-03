@@ -27,12 +27,11 @@
 
 use Amenadiel\JpGraph\Graph\GanttGraph;
 use Amenadiel\JpGraph\Plot\GanttBar;
-use phpCollab\Tasks\Tasks;
 
 $checkSession = "true";
 include '../includes/library.php';
 
-$tasks = new Tasks();
+$tasks = $container->getTasksLoader();
 $strings = $GLOBALS["strings"];
 
 $dateCalend = substr($dateCalend, 0, 7);

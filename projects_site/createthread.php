@@ -2,14 +2,11 @@
 #Application name: PhpCollab
 #Status page: 0
 
-use phpCollab\Projects\Projects;
-use phpCollab\Topics\Topics;
-
 $checkSession = "true";
 include '../includes/library.php';
 
-$projects = new Projects();
-$topics = new Topics();
+$projects = $container->getProjectsLoader();
+$topics = $container->getTopicsLoader();
 
 if ($request->isMethod('post')) {
     try {

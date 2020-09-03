@@ -2,14 +2,11 @@
 #Application name: PhpCollab
 #Status page: 0
 
-use phpCollab\Tasks\Tasks;
-use phpCollab\Updates\Updates;
-
 $checkSession = "true";
 include '../includes/library.php';
 
-$tasks = new Tasks();
-$updates = new Updates();
+$tasks = $container->getTasksLoader();
+$updates = $container->getTaskUpdateService();
 
 $taskDetail = $tasks->getTaskById($id);
 
@@ -59,7 +56,8 @@ $listUpdates = $updates->getUpdates(1, $id, 'upd.created DESC');
 if ($listUpdates) {
     $j = 1;
     foreach ($listUpdates as $update) {
-        echo "<b>" . $j . ".</b> <i>" . phpCollab\Util::createDate($update["upd_created"], $session->get("timezone")) . "</i><br/>" . nl2br($update["upd_comments"]);
+        echo "<b>" . $j . ".</b> <i>" . phpCollab\Util::createDate($update["upd_created"],
+                $session->get("timezone")) . "</i><br/>" . nl2br($update["upd_comments"]);
         echo "<br/>";
         $j++;
     }

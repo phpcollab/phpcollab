@@ -1,4 +1,5 @@
 <?php
+
 namespace phpCollab\Projects;
 
 use InvalidArgumentException;
@@ -15,10 +16,11 @@ class Projects
 
     /**
      * Projects constructor.
+     * @param Database $database
      */
-    public function __construct()
+    public function __construct(Database $database)
     {
-        $this->db = new Database();
+        $this->db = $database;
         $this->projects_gateway = new ProjectsGateway($this->db);
     }
 
@@ -39,14 +41,28 @@ class Projects
      * @param null $modified
      * @return string
      */
-    public function createProject($name, $organization, $owner, $priority, $status, $description, $published,
-                                  $phase = 0, $maxUploadSize = 2048000, $urlDev = null, $urlProd = null, $invoicing = 0, $hourlyRate = 0.00, $modified = null)
-    {
+    public function createProject(
+        $name,
+        $organization,
+        $owner,
+        $priority,
+        $status,
+        $description,
+        $published,
+        $phase = 0,
+        $maxUploadSize = 2048000,
+        $urlDev = null,
+        $urlProd = null,
+        $invoicing = 0,
+        $hourlyRate = 0.00,
+        $modified = null
+    ) {
         $created = date('Y-m-d h:i');
 
         $modified = (is_null($modified)) ? date('Y-m-d h:i') : $modified;
 
-        return $this->projects_gateway->createProject($name, $organization, $owner, $priority, $status, $description, $published,
+        return $this->projects_gateway->createProject($name, $organization, $owner, $priority, $status, $description,
+            $published,
             $phase, $maxUploadSize, $urlDev, $urlProd, $invoicing, $hourlyRate, $modified, $created);
     }
 
@@ -68,12 +84,27 @@ class Projects
      * @param null $modified
      * @return mixed
      */
-    public function updateProject($id, $name, $organization, $owner, $priority, $status, $description, $published,
-                                  $phase = 0, $maxUploadSize = 2048000, $urlDev = null, $urlProd = null, $invoicing = 0, $hourlyRate = 0.00, $modified = null)
-    {
+    public function updateProject(
+        $id,
+        $name,
+        $organization,
+        $owner,
+        $priority,
+        $status,
+        $description,
+        $published,
+        $phase = 0,
+        $maxUploadSize = 2048000,
+        $urlDev = null,
+        $urlProd = null,
+        $invoicing = 0,
+        $hourlyRate = 0.00,
+        $modified = null
+    ) {
         $modified = (is_null($modified)) ? date('Y-m-d h:i') : $modified;
 
-        return $this->projects_gateway->updateProject($id, $name, $organization, $owner, $priority, $status, $description, $published,
+        return $this->projects_gateway->updateProject($id, $name, $organization, $owner, $priority, $status,
+            $description, $published,
             $phase, $maxUploadSize, $urlDev, $urlProd, $invoicing, $hourlyRate, $modified);
     }
 

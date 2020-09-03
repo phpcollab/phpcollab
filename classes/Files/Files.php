@@ -5,8 +5,8 @@ namespace phpCollab\Files;
 
 use Exception;
 use InvalidArgumentException;
+use phpCollab\Container;
 use phpCollab\Database;
-use phpCollab\Notification;
 use phpCollab\Util;
 
 /**
@@ -20,13 +20,20 @@ class Files
     protected $strings;
     protected $root;
     protected $tableCollab;
+    /**
+     * @var Container
+     */
+    protected $container;
 
     /**
      * Files constructor.
+     * @param Database $database
+     * @param Container $container
      */
-    public function __construct()
+    public function __construct(Database $database, Container $container)
     {
-        $this->db = new Database();
+        $this->db = $database;
+        $this->container = $container;
         $this->files_gateway = new FilesGateway($this->db);
         $this->strings = $GLOBALS["strings"];
         $this->root = $GLOBALS["root"];
@@ -238,7 +245,8 @@ class Files
             $comments = Util::convertData($comments);
         }
 
-        return $this->files_gateway->addFile($owner, $project, $phase, $task, $comments, $status, $vcVersion, $vcParent);
+        return $this->files_gateway->addFile($owner, $project, $phase, $task, $comments, $status, $vcVersion,
+            $vcParent);
     }
 
     /**
@@ -271,10 +279,16 @@ class Files
      * @param $userLogin
      * @throws Exception
      */
-    public function sendFileUploadedNotification($fileDetails, $projectDetails, $notificationDetails, $userId, $userName, $userLogin)
-    {
+    public function sendFileUploadedNotification(
+        $fileDetails,
+        $projectDetails,
+        $notificationDetails,
+        $userId,
+        $userName,
+        $userLogin
+    ) {
         if ($fileDetails && $projectDetails && $notificationDetails) {
-            $mail = new Notification(true);
+            $mail = $this->container->getNotification();
             try {
 
                 $mail->setFrom($projectDetails["pro_mem_email_work"], $projectDetails["pro_mem_name"]);
@@ -342,12 +356,16 @@ MAILBODY;
         } else {
             if (empty($fileDetails)) {
                 throw new InvalidArgumentException('File Details is missing or empty.');
-            } else if (empty($projectDetails)) {
-                throw new InvalidArgumentException('Project Details is missing or empty.');
-            } else if (empty($notificationDetails)) {
-                throw new InvalidArgumentException('Notification Details is missing or empty.');
             } else {
-                throw new Exception('Error sending file uploaded notification');
+                if (empty($projectDetails)) {
+                    throw new InvalidArgumentException('Project Details is missing or empty.');
+                } else {
+                    if (empty($notificationDetails)) {
+                        throw new InvalidArgumentException('Notification Details is missing or empty.');
+                    } else {
+                        throw new Exception('Error sending file uploaded notification');
+                    }
+                }
             }
         }
 

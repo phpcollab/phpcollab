@@ -4,13 +4,20 @@
 namespace phpCollab\Members;
 
 use Exception;
-use phpCollab\Notification;
+use Monolog\Logger;
+use phpCollab\Container;
+use phpCollab\Database;
 use phpCollab\Util;
 
 class ResetPassword extends Members
 {
     private $userDetails;
     private $newPassword;
+
+    public function __construct(Database $database, Logger $logger, Container $container)
+    {
+        parent::__construct($database, $logger, $container);
+    }
 
     public function reset($username)
     {
@@ -36,7 +43,7 @@ class ResetPassword extends Members
     private function sendEmailNotification()
     {
         try {
-            $mail = new Notification(true);
+            $mail = $this->container->getNotification();
 
             $body = <<<BODY
 {$this->strings["user_name"]} : {$this->userDetails["mem_login"]}

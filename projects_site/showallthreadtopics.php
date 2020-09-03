@@ -1,8 +1,6 @@
 <?php
 #Application name: PhpCollab
 
-use phpCollab\Topics\Topics;
-
 $checkSession = "true";
 include '../includes/library.php';
 
@@ -11,7 +9,7 @@ $titlePage = $strings["bulletin_board"];
 
 include APP_ROOT . '/projects_site/include_header.php';
 
-$topics = new Topics();
+$topics = $container->getTopicsLoader();
 
 $listTopics = $topics->getProjectSiteTopics($session->get("project"), 'topic.last_post DESC');
 

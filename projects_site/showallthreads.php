@@ -2,12 +2,10 @@
 #Application name: PhpCollab
 #Status page: 0
 
-use phpCollab\Topics\Topics;
-
 $checkSession = "true";
 include '../includes/library.php';
 
-$topics = new Topics();
+$topics = $container->getTopicsLoader();
 
 $topicId = $request->query->get("topic");
 

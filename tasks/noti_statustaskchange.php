@@ -1,8 +1,6 @@
 <?php
 
-use phpCollab\Notifications\Notifications;
-
-$notificationsClass = new Notifications();
+$notificationsClass = $container->getNotificationsManager();
 
 $taskNoti = $tasks->getTaskById($listTask["tas_id"]);
 
@@ -14,7 +12,7 @@ $listNotifications = $notificationsClass->getMemberNotifications($task_owner);
 
 if ($listNotifications["statusTaskChange"] == "0") {
 
-    $mail = new phpCollab\Notification(true);
+    $mail = $container->getNotification();
 
     try {
 

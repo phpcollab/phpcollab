@@ -25,12 +25,10 @@
 ** =============================================================================
 */
 
-use phpCollab\Calendars\Calendars;
-
 $checkSession = "false";
 include_once '../includes/library.php';
 
-$calendars = new Calendars();
+$calendars = $container->getCalendarLoader();
 
 $detailCalendar = $calendars->openCalendarByOwnerAndId($session->get("id"), $request->query->get("id"));
 

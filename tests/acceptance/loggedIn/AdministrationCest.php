@@ -289,6 +289,7 @@ class AdministrationCest
         $I->seeInCurrentUrl('/users/viewuser.php');
         $I->seeInTitle('User Management');
         $I->see('Codeception User', ".//tr/td[contains(text(),'Full name')]/following-sibling::td");
+        $I->dontSeeElement('.xdebug-error');
         $this->userId = $I->grabFromCurrentUrl('~id=(\d+)~');
     }
 

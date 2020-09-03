@@ -3,14 +3,11 @@
 #Status page: 1
 #Path by root: ../newsdesk/viewnews.php
 
-use phpCollab\NewsDesk\NewsDesk;
-use phpCollab\Projects\Projects;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$projects = new Projects();
-$news = new NewsDesk();
+$projects = $container->getProjectsLoader();
+$news = $container->getNewsdeskLoader();
 
 $newsDetail = $news->getPostById($request->query->get("id"));
 
@@ -37,7 +34,8 @@ $blockPage->setLimitsNumber(1);
 $block1 = new phpCollab\Block();
 
 $block1->form = "clPr";
-$block1->openForm("../newsdesk/viewnews.php?&id=" . $request->query->get("id"). "#" . $block1->form . "Anchor", null, $csrfHandler);
+$block1->openForm("../newsdesk/viewnews.php?&id=" . $request->query->get("id") . "#" . $block1->form . "Anchor", null,
+    $csrfHandler);
 
 $block1->headingToggle($strings["newsdesk"]);
 
@@ -70,7 +68,8 @@ if ($newsDetail) {
     }
 
     $block1->contentRow("<b>" . $strings["newsdesk_related"] . "</b>", $escaper->escapeHtml($article_related));
-    $block1->contentRow("<b>" . stripslashes($strings["article_newsdesk"]) . "</b>", $escaper->escapeHtml($newsDetail['news_content']));
+    $block1->contentRow("<b>" . stripslashes($strings["article_newsdesk"]) . "</b>",
+        $escaper->escapeHtml($newsDetail['news_content']));
 
     $newsLinksArray = explode(";", trim($newsDetail['news_links']));
     foreach ($newsLinksArray as $item) {
@@ -99,8 +98,10 @@ $block1->openPaletteScript();
 
 if ($session->get("profile") == "0" || $session->get("profile") == "1" || $session->get("profile") == "5") {
     $block1->paletteScript(0, "add", "../newsdesk/editnews.php?", "true,true,true", $strings["add_newsdesk"]);
-    $block1->paletteScript(1, "remove", "../newsdesk/editnews.php?action=remove&id=" . $request->query->get("id"), "true,false,true", $strings["del_newsdesk"]);
-    $block1->paletteScript(3, "edit", "../newsdesk/editnews.php?id=" . $request->query->get("id"), "true,true,true", $strings["edit_newsdesk"]);
+    $block1->paletteScript(1, "remove", "../newsdesk/editnews.php?action=remove&id=" . $request->query->get("id"),
+        "true,false,true", $strings["del_newsdesk"]);
+    $block1->paletteScript(3, "edit", "../newsdesk/editnews.php?id=" . $request->query->get("id"), "true,true,true",
+        $strings["edit_newsdesk"]);
 }
 
 $block1->closePaletteScript(count($newsDetail), $newsDetail['news_id']);
@@ -114,7 +115,8 @@ $newsComments = $news->getCommentsByPostId($request->query->get("id"));
 $block2 = new phpCollab\Block();
 
 $block2->form = "clPrc";
-$block2->openForm("../newsdesk/viewnews.php?&id=" . $request->query->get("id") . "#" . $block2->form . "Anchor", null, $csrfHandler);
+$block2->openForm("../newsdesk/viewnews.php?&id=" . $request->query->get("id") . "#" . $block2->form . "Anchor", null,
+    $csrfHandler);
 
 $block2->headingToggle($strings["comments"]);
 
@@ -157,11 +159,15 @@ $block2->closeContent();
 
 $block2->openPaletteScript();
 
-$block2->paletteScript(0, "add", "../newsdesk/editmessage.php?postid=" . $request->query->get("id"), "true,false,false", $strings["add_newsdesk_comment"]);
-$block2->paletteScript(1, "edit", "../newsdesk/editmessage.php?postid=" . $request->query->get("id"), "false,true,false", $strings["edit_newsdesk_comment"]);
+$block2->paletteScript(0, "add", "../newsdesk/editmessage.php?postid=" . $request->query->get("id"), "true,false,false",
+    $strings["add_newsdesk_comment"]);
+$block2->paletteScript(1, "edit", "../newsdesk/editmessage.php?postid=" . $request->query->get("id"),
+    "false,true,false", $strings["edit_newsdesk_comment"]);
 
 if ($session->get("profile") == "0" || $session->get("profile") == "1" || $session->get("profile") == "5") {
-    $block2->paletteScript(2, "remove", "../newsdesk/editmessage.php?postid=" . $request->query->get("id") . "&action=remove&", "false,true,true", $strings["del_newsdesk_comment"]);
+    $block2->paletteScript(2, "remove",
+        "../newsdesk/editmessage.php?postid=" . $request->query->get("id") . "&action=remove&", "false,true,true",
+        $strings["del_newsdesk_comment"]);
 }
 
 $block2->closePaletteScript(count($newsComments), array_column($newsComments, 'newscom_id'));

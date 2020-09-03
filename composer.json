@@ -12,7 +12,6 @@
   "license": "GPL-2.0-only",
   "require": {
     "php": ">=7.2.0",
-    "zendframework/zend-escaper": "^2.5",
     "maximebf/debugbar": "^1.13",
     "ifsnop/mysqldump-php": "^2.3",
     "apfelbox/php-file-download": "^2.1",

@@ -1,4 +1,5 @@
 <?php
+
 namespace phpCollab\Projects;
 
 use phpCollab\Database;
@@ -45,9 +46,23 @@ class ProjectsGateway
      * @param $created
      * @return string
      */
-    public function createProject($name, $organization, $owner, $priority, $status, $description, $published,
-                                  $phase, $maxUploadSize, $urlDev, $urlProd, $invoicing, $hourlyRate, $modified, $created)
-    {
+    public function createProject(
+        $name,
+        $organization,
+        $owner,
+        $priority,
+        $status,
+        $description,
+        $published,
+        $phase,
+        $maxUploadSize,
+        $urlDev,
+        $urlProd,
+        $invoicing,
+        $hourlyRate,
+        $modified,
+        $created
+    ) {
 
         $sql = <<<SQL
 INSERT INTO {$this->tableCollab["projects"]} 
@@ -98,9 +113,23 @@ SQL;
      * @param $modified
      * @return mixed
      */
-    public function updateProject($id, $name, $organization, $owner, $priority, $status, $description, $published,
-                                  $phase, $maxUploadSize, $urlDev, $urlProd, $invoicing, $hourlyRate, $modified)
-    {
+    public function updateProject(
+        $id,
+        $name,
+        $organization,
+        $owner,
+        $priority,
+        $status,
+        $description,
+        $published,
+        $phase,
+        $maxUploadSize,
+        $urlDev,
+        $urlProd,
+        $invoicing,
+        $hourlyRate,
+        $modified
+    ) {
         $sql = <<<SQL
 UPDATE {$this->tableCollab["projects"]}
 SET
@@ -171,13 +200,13 @@ SQL;
      * Returns a list of projects owned by ownerId
      * @param $ownerId
      * @param $sorting
-     * @internal param $inactive
      * @return mixed
+     * @internal param $inactive
      */
     public function getAllByOwner($ownerId, $sorting = null)
     {
         $ids = explode(',', $ownerId);
-        $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
+        $placeholders = str_repeat('?, ', count($ids) - 1) . '?';
         $whereStatement = " WHERE pro.owner IN($placeholders) ";
         $this->db->query($this->initrequest["projects"] . $whereStatement . $this->orderBy($sorting));
         $this->db->execute($ids);
@@ -234,17 +263,19 @@ SQL;
         $tmpQuery = '';
         if ($typeProjects == "inactive") {
             if ($this->projectsFilter == "true") {
-                $tmpQuery = "LEFT OUTER JOIN ". $this->tableCollab["teams"] . " ON teams.project = pro.id ";
+                $tmpQuery = "LEFT OUTER JOIN " . $this->tableCollab["teams"] . " ON teams.project = pro.id ";
                 $tmpQuery .= " WHERE pro.status IN(1,4) AND teams.member = :owner_id";
             } else {
                 $tmpQuery = "WHERE pro.status IN(1,4)";
             }
-        } else if ($typeProjects == "active") {
-            if ($this->projectsFilter == "true") {
-                $tmpQuery = "LEFT OUTER JOIN teams " . $this->tableCollab["teams"] . " ON teams.project = pro.id ";
-                $tmpQuery .= "WHERE pro.status IN(0,2,3) AND teams.member = :owner_id";
-            } else {
-                $tmpQuery = "WHERE pro.status IN(0,2,3)";
+        } else {
+            if ($typeProjects == "active") {
+                if ($this->projectsFilter == "true") {
+                    $tmpQuery = "LEFT OUTER JOIN teams " . $this->tableCollab["teams"] . " ON teams.project = pro.id ";
+                    $tmpQuery .= "WHERE pro.status IN(0,2,3) AND teams.member = :owner_id";
+                } else {
+                    $tmpQuery = "WHERE pro.status IN(0,2,3)";
+                }
             }
         }
 
@@ -290,7 +321,7 @@ SQL;
     public function getProjectByIdIn($projectId, $sorting)
     {
         $ids = explode(',', $projectId);
-        $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
+        $placeholders = str_repeat('?, ', count($ids) - 1) . '?';
         $whereStatement = " WHERE pro.id IN($placeholders) ";
         $this->db->query($this->initrequest["projects"] . $whereStatement . $this->orderBy($sorting));
         $this->db->execute($ids);
@@ -355,7 +386,8 @@ SQL;
      */
     public function searchProjects($query, $sorting = null, $limit = null, $rowLimit = null)
     {
-        $sql = $this->initrequest['projects'] . ' ' . $query . $this->orderBy($sorting) . $this->limit($limit, $rowLimit);
+        $sql = $this->initrequest['projects'] . ' ' . $query . $this->orderBy($sorting) . $this->limit($limit,
+                $rowLimit);
         $this->db->query($sql);
         $this->db->execute();
         return $this->db->resultset();
@@ -377,7 +409,7 @@ SQL;
     {
         $sql = "UPDATE {$this->tableCollab["projects"]} SET published=:publish_flag WHERE id = :project_id";
 
-        $flag = (int) !$flag;
+        $flag = (int)!$flag;
 
         $this->db->query($sql);
         $this->db->bind(':project_id', $projectId);
@@ -406,7 +438,32 @@ SQL;
     private function orderBy($sorting)
     {
         if (!is_null($sorting)) {
-            $allowedOrderedBy = ["tea.id", "tea.project", "tea.member", "tea.published", "tea.authorized", "mem.id", "mem.login", "mem.name", "mem.email_work", "mem.title", "mem.phone_work", "org.name", "pro.id", "pro.name", "pro.priority", "pro.status", "pro.published", "org2.name", "mem2.login", "mem2.email_work", "org2.id", "log.connected", "mem.profil", "mem.password"];
+            $allowedOrderedBy = [
+                "tea.id",
+                "tea.project",
+                "tea.member",
+                "tea.published",
+                "tea.authorized",
+                "mem.id",
+                "mem.login",
+                "mem.name",
+                "mem.email_work",
+                "mem.title",
+                "mem.phone_work",
+                "org.name",
+                "pro.id",
+                "pro.name",
+                "pro.priority",
+                "pro.status",
+                "pro.published",
+                "org2.name",
+                "mem2.login",
+                "mem2.email_work",
+                "org2.id",
+                "log.connected",
+                "mem.profil",
+                "mem.password"
+            ];
             $pieces = explode(' ', $sorting);
 
             if ($pieces) {

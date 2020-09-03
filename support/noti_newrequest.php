@@ -1,11 +1,8 @@
 <?php
 
-use phpCollab\Support\Support;
-use phpCollab\Teams\Teams;
+$supportRequests = $container->getSupportLoader();
 
-$supportRequests = new Support($logger);
-
-$mail = new phpCollab\Notification();
+$mail = $container->getNotification();
 
 $mail->getUserinfo($session->get("id"), "from", $logger);
 $num = $request->query->get('num');
@@ -15,7 +12,7 @@ $strings = $GLOBALS["strings"];
 $requestDetail = $supportRequests->getSupportRequestById($num);
 
 if ($supportType == "team") {
-    $teams = new Teams();
+    $teams = $container->getTeams();
 
     $listTeam = $teams->getTeamByProjectId($requestDetail["sr_project"]);
 

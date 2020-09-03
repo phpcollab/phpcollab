@@ -59,9 +59,23 @@ class SubtasksGateway
      * @param $created
      * @return string
      */
-    public function addSubtask($parentTaskId, $name, $description, $owner, $assignedTo, $status, $priority, $startDate,
-                               $dueDate, $estimatedTime, $actualTime, $comments, $completion, $published, $created)
-    {
+    public function addSubtask(
+        $parentTaskId,
+        $name,
+        $description,
+        $owner,
+        $assignedTo,
+        $status,
+        $priority,
+        $startDate,
+        $dueDate,
+        $estimatedTime,
+        $actualTime,
+        $comments,
+        $completion,
+        $published,
+        $created
+    ) {
         $sql = <<< SQL
 INSERT INTO {$this->tableCollab["subtasks"]} (
 task, name, description, owner, assigned_to, status, priority, start_date, due_date, estimated_time, actual_time, 
@@ -109,9 +123,22 @@ SQL;
      * @param $published
      * @return mixed
      */
-    public function updateSubtask($subtaskId, $name, $description, $assignedTo, $status, $priority, $startDate, $dueDate,
-                                  $estimatedTime, $actualTime, $comments, $modified, $completion, $published)
-    {
+    public function updateSubtask(
+        $subtaskId,
+        $name,
+        $description,
+        $assignedTo,
+        $status,
+        $priority,
+        $startDate,
+        $dueDate,
+        $estimatedTime,
+        $actualTime,
+        $comments,
+        $modified,
+        $completion,
+        $published
+    ) {
 
         $sql = <<< SQL
 UPDATE {$this->tableCollab["subtasks"]}

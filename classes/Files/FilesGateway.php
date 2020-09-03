@@ -111,7 +111,7 @@ class FilesGateway
      */
     public function getFilesByProjectIdAndPhaseNotEqualZero($projectId)
     {
-        $query = $this->initrequest["files"] .  " WHERE fil.project = :project_id AND fil.phase !='0'";
+        $query = $this->initrequest["files"] . " WHERE fil.project = :project_id AND fil.phase !='0'";
         $this->db->query($query);
         $this->db->bind(':project_id', $projectId);
         return $this->db->resultset();
@@ -426,7 +426,6 @@ SQL;
     }
 
 
-
     /**
      * @param string $sorting
      * @return string
@@ -434,7 +433,14 @@ SQL;
     private function orderBy($sorting)
     {
         if (!is_null($sorting)) {
-            $allowedOrderedBy = ["fil.type", "fil.name", "fil.owner", "fil.date", "fil.approval_tracking", "fil.published"];
+            $allowedOrderedBy = [
+                "fil.type",
+                "fil.name",
+                "fil.owner",
+                "fil.date",
+                "fil.approval_tracking",
+                "fil.published"
+            ];
             $pieces = explode(' ', $sorting);
 
             if ($pieces) {

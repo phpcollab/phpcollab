@@ -15,8 +15,6 @@
 ** =============================================================================
 */
 
-use phpCollab\DataFunctions;
-
 error_reporting(2039);
 
 require_once dirname(dirname(__FILE__)) . '/vendor/autoload.php';
@@ -66,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if (!$error) {
             //Let's also get pretty paranoid here ;)
-            $dataFunctions = new DataFunctions();
+            $dataFunctions = $container->getDatafunctionsService();
             $scrubedData = $dataFunctions->scrubData($_POST);
             extract($scrubedData);
 
@@ -114,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 if (!empty($conn)) {
                     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 } else {
-                    throw new Exception("yo momma");
+                    throw new Exception("PDO error");
                 }
 
                 /**
@@ -138,18 +136,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 include '../includes/db_var.inc.php';
                 include '../includes/setup_db.php';
 
-                if (!empty($conn)) {
-                    foreach ($SQL as $sqlStatement) {
-                        try {
-                            $conn->exec($sqlStatement);
-                        } catch (PDOException $e) {
-                            $error = $e->getMessage();
-                            die('what happened?');
-                        }
+                foreach ($SQL as $sqlStatement) {
+                    try {
+                        $conn->exec($sqlStatement);
+                    } catch (PDOException $e) {
+                        $error = $e->getMessage();
+                        die('what happened?');
                     }
-
-                    $msg .= "<p>Tables and settings file created correctly.</p>";
                 }
+
+                $msg .= "<p>Tables and settings file created correctly.</p>";
 
                 /**
                  * Write the settings file

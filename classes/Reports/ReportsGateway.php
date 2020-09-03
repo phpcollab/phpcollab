@@ -42,8 +42,20 @@ class ReportsGateway
      * @param $created
      * @return string
      */
-    public function addReport($owner, $name, $projects, $clients, $members, $priorities, $status, $dateDueStart, $dateDueEnd, $dateCompleteStart, $dateCompleteEnd, $created)
-    {
+    public function addReport(
+        $owner,
+        $name,
+        $projects,
+        $clients,
+        $members,
+        $priorities,
+        $status,
+        $dateDueStart,
+        $dateDueEnd,
+        $dateCompleteStart,
+        $dateCompleteEnd,
+        $created
+    ) {
         $sql = "INSERT INTO {$this->tableCollab["reports"]} (owner,name,projects,clients,members,priorities,status,date_due_start,date_due_end,date_complete_start,date_complete_end,created) VALUES(:owner,:name,:projects,:clients,:members,:priorities,:status,:date_due_start,:date_due_end,:date_complete_start,:date_complete_end,:created)";
         $this->db->query($sql);
         $this->db->bind(":owner", $owner);
@@ -126,7 +138,21 @@ class ReportsGateway
     private function orderBy($sorting)
     {
         if (!is_null($sorting)) {
-            $allowedOrderedBy = ["rep.id", "rep.owner", "rep.name", "rep.projects", "rep.members", "rep.priorities", "rep.status", "rep.date_due_start", "rep.date_due_end", "rep.created", "rep.date_complete_start", "rep.date_complete_end", "rep.clients"];
+            $allowedOrderedBy = [
+                "rep.id",
+                "rep.owner",
+                "rep.name",
+                "rep.projects",
+                "rep.members",
+                "rep.priorities",
+                "rep.status",
+                "rep.date_due_start",
+                "rep.date_due_end",
+                "rep.created",
+                "rep.date_complete_start",
+                "rep.date_complete_end",
+                "rep.clients"
+            ];
             $pieces = explode(' ', $sorting);
 
             if ($pieces) {

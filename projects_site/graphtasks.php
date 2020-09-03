@@ -1,15 +1,11 @@
 <?php
 
-use phpCollab\Calendars\Calendars;
-use phpCollab\Projects\Projects;
-use phpCollab\Tasks\Tasks;
-
 $checkSession = "true";
 include '../includes/library.php';
 
-$tasks = new Tasks();
-$calendars = new Calendars();
-$projects = new Projects();
+$tasks = $container->getTasksLoader();
+$calendars = $container->getCalendarLoader();
+$projects = $container->getProjectsLoader();
 
 include '../includes/jpgraph/jpgraph.php';
 include '../includes/jpgraph/jpgraph_gantt.php';
@@ -35,7 +31,8 @@ if ($request->query->get('dateCalend') != '') {
     $dateCalend = substr($dateCalend, 0, 7);
 
     //add the published task to the graph
-    $listTasks = $tasks->getTasksWhereStartDateAndEndDateLikeNotPublishedAndAssignedToUserId($dateCalend, $session->get("id"));
+    $listTasks = $tasks->getTasksWhereStartDateAndEndDateLikeNotPublishedAndAssignedToUserId($dateCalend,
+        $session->get("id"));
 
     $progress = 0;
     foreach ($listTasks as $task) {
@@ -63,10 +60,12 @@ if ($request->query->get('dateCalend') != '') {
     $j = 0;
     $progress = 0;
     foreach ($detailCalendar as $calendar) {
-        $calendar["cal_subject"] = str_replace('&quot;', '"', $calendar["cal_subject"] . '(' . $calendar["cal_location"] . ')');
+        $calendar["cal_subject"] = str_replace('&quot;', '"',
+            $calendar["cal_subject"] . '(' . $calendar["cal_location"] . ')');
         $calendar["cal_subject"] = str_replace("&#39;", "'", $calendar["cal_subject"]);
 
-        $activity = new GanttBar($i + $j, $calendar["cal_subject"], $calendar["cal_date_start"], $calendar["cal_date_end"]);
+        $activity = new GanttBar($i + $j, $calendar["cal_subject"], $calendar["cal_date_start"],
+            $calendar["cal_date_end"]);
         $activity->SetPattern(BAND_LDIAG, "yellow");
         $activity->caption->Set($calendar["cal_mem_name"]);
         $activity->SetFillColor("gray");
@@ -83,7 +82,8 @@ if ($request->query->get('dateCalend') != '') {
     $graph->title->Set($strings["project"] . " " . $projectDetail["pro_name"]);
     $graph->subtitle->Set("(" . $strings["created"] . ": " . $projectDetail["pro_created"] . ")");
 
-    $projectDetail["pro_created"] = phpCollab\Util::createDate($projectDetail["pro_created"], $session->get("timezone"));
+    $projectDetail["pro_created"] = phpCollab\Util::createDate($projectDetail["pro_created"],
+        $session->get("timezone"));
     $projectDetail["pro_name"] = str_replace('&quot;', '"', $projectDetail["pro_name"]);
     $projectDetail["pro_name"] = str_replace("&#39;", "'", $projectDetail["pro_name"]);
 

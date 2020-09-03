@@ -30,17 +30,6 @@
 ** =============================================================================
 */
 
-
-use phpCollab\Assignments\Assignments;
-use phpCollab\Files\Files;
-use phpCollab\Invoices\Invoices;
-use phpCollab\Notifications\Notifications;
-use phpCollab\Phases\Phases;
-use phpCollab\Projects\Projects;
-use phpCollab\Tasks\Tasks;
-use phpCollab\Teams\Teams;
-use phpCollab\Updates\Updates;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -57,7 +46,7 @@ if (strstr($task_id, "**")) {
     phpCollab\Util::headerFunction("../tasks/updatetasks.php?report={$request->query->get('report')}&project={$request->query->get('project')}&id={$task_id}");
 }
 
-$tasks = new Tasks();
+$tasks = $container->getTasksLoader();
 
 $taskDetail = null;
 $errors = null;
@@ -90,13 +79,13 @@ if ($request->isMethod('post') && !is_null($errors) && !empty($task_id)) {
 
 }
 
-$projects = new Projects();
+$projects = $container->getProjectsLoader();
 
 $projectDetail = $projects->getProjectById($project);
 
 
-$teams = new Teams();
-$phases = new Phases();
+$teams = $container->getTeams();
+$phases = $container->getPhasesLoader();
 
 // Check to see if the task owner == the current user, if so then consider them a "team member", otherwise
 // check to see if they are in the team
@@ -120,15 +109,15 @@ if (
 
     try {
         if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
-            $assignments = new Assignments();
-            $files = new Files();
+            $assignments = $container->getAssignmentsManager();
+            $files = $container->getFilesLoader();
 
             if ($enableInvoicing == "true") {
-                $invoices = new Invoices();
+                $invoices = $container->getInvoicesLoader();
             }
 
             if ($notifications == "true") {
-                $notificationsClass = new Notifications();
+                $notificationsClass = $container->getNotificationsManager();
             }
 
             $form_data = [
@@ -201,9 +190,11 @@ if (
 
                     try {
                         $newTask = $tasks->addTask($form_data["project"], $form_data["name"], $form_data["description"],
-                            $session->get("id"), $form_data["assigned_to"], $form_data["status"], $form_data["priority"],
+                            $session->get("id"), $form_data["assigned_to"], $form_data["status"],
+                            $form_data["priority"],
                             $form_data["start_date"], $form_data["due_date"], $form_data["estimated_time"],
-                            $form_data["actual_time"], $form_data["comments"], $form_data["published"], $form_data["completion"],
+                            $form_data["actual_time"], $form_data["comments"], $form_data["published"],
+                            $form_data["completion"],
                             ($form_data["phase"] != 0) ? $form_data["phase"] : 0, $form_data["invoicing"],
                             $form_data["worked_hours"]);
 
@@ -219,7 +210,8 @@ if (
                             $tasks->addSubTask($newTaskId, $subTask["subtas_name"], $subTask["subtas_description"],
                                 $subTask["subtas_owner"], $subTask["subtas_assigned_to"], $subTask["subtas_status"],
                                 $subTask["subtas_priority"], $subTask["subtas_start_date"], $subTask["subtas_due_date"],
-                                $subTask["subtas_complete_date"], $subTask["subtas_estimated_time"], $subTask["subtas_actual_time"],
+                                $subTask["subtas_complete_date"], $subTask["subtas_estimated_time"],
+                                $subTask["subtas_actual_time"],
                                 $subTask["comments"], $subTask["subtas_published"], $subTask["subtas_completion"]);
                         }
 
@@ -228,8 +220,10 @@ if (
 
                             if ($detailInvoice["inv_status"] == "0") {
                                 try {
-                                    $newInvoiceId = $invoices->addInvoiceItem($form_data["name"], $form_data["description"],
-                                        $detailInvoice["inv_id"], $form_data["invoicing"], ($form_data["status"] == "1") ? 1 : 0, 1,
+                                    $newInvoiceId = $invoices->addInvoiceItem($form_data["name"],
+                                        $form_data["description"],
+                                        $detailInvoice["inv_id"], $form_data["invoicing"],
+                                        ($form_data["status"] == "1") ? 1 : 0, 1,
                                         $newTaskId, $form_data["worked_hours"]);
                                 } catch (Exception $e) {
                                     // Log the exception
@@ -246,7 +240,8 @@ if (
                             $tasks->updateAssignedDate($newTaskId, $dateheure);
                         }
 
-                        $assignmentId = $assignments->addAssignment($newTaskId, $session->get("id"), $form_data["assigned_to"], $dateheure);
+                        $assignmentId = $assignments->addAssignment($newTaskId, $session->get("id"),
+                            $form_data["assigned_to"], $dateheure);
 
                         //if assigned_to not blank, add to team members (only if doesn't already exist)
                         if ($form_data["assigned_to"] != "0") {
@@ -259,7 +254,8 @@ if (
                             //send task assignment mail if notifications = true
                             if ($notifications == "true") {
                                 try {
-                                    $tasks->sendTaskNotification($newTask, $projectDetail, $memberInfo, $strings["noti_taskassignment1"], $strings["noti_taskassignment2"]);
+                                    $tasks->sendTaskNotification($newTask, $projectDetail, $memberInfo,
+                                        $strings["noti_taskassignment1"], $strings["noti_taskassignment2"]);
                                 } catch (Exception $e) {
                                     // Log the exception
                                 }
@@ -284,7 +280,7 @@ if (
                     }
 
                     //recompute number of completed tasks of the project
-                    $projectDetail['pro_name'] = phpCollab\Util::projectComputeCompletion($projectDetail);
+                    $projectDetail['pro_name'] = phpCollab\Util::projectComputeCompletion($projectDetail, $container);
 
                     if (empty($form_data["invoicing"])) {
                         $form_data["invoicing"] = "0";
@@ -313,7 +309,8 @@ if (
                             while ($v = readdir($dir)) {
                                 if ($v != '.' && $v != '..') {
                                     try {
-                                        copy("../files/{$form_data["old_project"]}/{$task_id}/" . $v, "../files/{$project}/{$task_id}/" . $v);
+                                        copy("../files/{$form_data["old_project"]}/{$task_id}/" . $v,
+                                            "../files/{$project}/{$task_id}/" . $v);
                                         unlink("../files/{$form_data["old_project"]}/{$task_id}/" . $v);
                                     } catch (Exception $e) {
                                         // Log the exception
@@ -355,7 +352,8 @@ if (
                         $memberNotifications = $notificationsClass->getMemberNotifications($form_data["assigned_to"]);
 
                         // Update the assignment table
-                        $assignments->addAssignment($task_id, $session->get("id"), $form_data["assigned_to"], $dateheure);
+                        $assignments->addAssignment($task_id, $session->get("id"), $form_data["assigned_to"],
+                            $dateheure);
 
                         // Check to see if the new "assigned_to" member id is a team member, if not then add them
                         $isTeamMember = $teams->isTeamMember($project, $form_data["assigned_to"]);
@@ -392,7 +390,8 @@ if (
                         //send task assignment mail if notifications = true
                         if ($notifications == "true") {
                             try {
-                                $tasks->sendTaskNotification($updatedTaskDetails, $projectDetail, $memberInfo, $strings["noti_taskassignment1"], $strings["noti_taskassignment2"]);
+                                $tasks->sendTaskNotification($updatedTaskDetails, $projectDetail, $memberInfo,
+                                    $strings["noti_taskassignment1"], $strings["noti_taskassignment2"]);
                             } catch (Exception $e) {
                                 // Log the exception
                             }
@@ -447,7 +446,8 @@ if (
                                 $form_data["priority"] != $form_data["old_priority"]
                             ) {
                                 try {
-                                    $tasks->sendTaskNotification($updatedTaskDetails, $projectDetail, $memberInfo, $strings["noti_prioritytaskchange1"], $strings["noti_prioritytaskchange2"]);
+                                    $tasks->sendTaskNotification($updatedTaskDetails, $projectDetail, $memberInfo,
+                                        $strings["noti_prioritytaskchange1"], $strings["noti_prioritytaskchange2"]);
                                 } catch (Exception $e) {
                                     // Log the exception
                                 }
@@ -458,7 +458,8 @@ if (
                                 $form_data["due_date"] != $form_data["old_due_date"]
                             ) {
                                 try {
-                                    $tasks->sendTaskNotification($updatedTaskDetails, $projectDetail, $memberInfo, $strings["noti_duedatetaskchange1"], $strings["noti_duedatetaskchange2"]);
+                                    $tasks->sendTaskNotification($updatedTaskDetails, $projectDetail, $memberInfo,
+                                        $strings["noti_duedatetaskchange1"], $strings["noti_duedatetaskchange2"]);
                                 } catch (Exception $e) {
                                     // Log the exception
                                 }
@@ -484,7 +485,7 @@ if (
                         $form_data["priority"] != $form_data["old_priority"] ||
                         $form_data["due_date"] != $form_data["old_due_date"]
                     ) {
-                        $updates = new Updates();
+                        $updates = $container->getTaskUpdateService();
                         $updates->addUpdate(1, $task_id, $session->get("id"), $assignment_comment);
                     }
 
@@ -611,7 +612,8 @@ if (
 
                         if ($notifications == "true") {
                             try {
-                                $tasks->sendTaskNotification($newTask, $projectDetail, $memberInfo, $strings["noti_taskassignment1"], $strings["noti_taskassignment2"]);
+                                $tasks->sendTaskNotification($newTask, $projectDetail, $memberInfo,
+                                    $strings["noti_taskassignment1"], $strings["noti_taskassignment2"]);
                             } catch (Exception $e) {
                                 // Log the exception
                             }
@@ -687,20 +689,25 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail['pro_id'], $projectDetail['pro_name'], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail['pro_id'],
+    $projectDetail['pro_name'], "in"));
 if ($projectDetail['pro_phase_set'] != "0") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail['pro_id'], $strings["phases"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase["pha_id"], $targetPhase["pha_name"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail['pro_id'],
+        $strings["phases"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase["pha_id"],
+        $targetPhase["pha_name"], "in"));
 }
 
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail['pro_id'], $strings["tasks"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail['pro_id'],
+    $strings["tasks"], "in"));
 
 if ($task_id == "") {
     $blockPage->itemBreadcrumbs($strings["add_task"]);
 }
 
 if ($task_id != "") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail['tas_id'], $taskDetail['tas_name'], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=" . $taskDetail['tas_id'],
+        $taskDetail['tas_name'], "in"));
     $blockPage->itemBreadcrumbs($strings["edit_task"]);
 }
 
@@ -723,7 +730,8 @@ if ($task_id == "") {
 if ($task_id != "") {
     $block1->form = "etD";
     $submitValue = "update";
-    $block1->openForm("../tasks/edittask.php?project=$project&id=$task_id&docopy=$docopy&#" . $block1->form . "Anchor", null, $csrfHandler);
+    $block1->openForm("../tasks/edittask.php?project=$project&id=$task_id&docopy=$docopy&#" . $block1->form . "Anchor",
+        null, $csrfHandler);
     echo <<<HIDDENFIELDS
 <input type="hidden" name="old_assigned_to" value="{$taskDetail["tas_assigned_to"]}">
 <input type="hidden" name="old_assigned" value="{$taskDetail["tas_assigned"]}">
@@ -779,7 +787,8 @@ echo "</select></td></tr>";
 
 //Display task's phase
 if ($projectDetail['pro_phase_set'] != "0") {
-    $viewPhaseLink = $blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase["pha_id"], $targetPhase["pha_name"], "in");
+    $viewPhaseLink = $blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase["pha_id"],
+        $targetPhase["pha_name"], "in");
     echo <<<HTML
     <tr class="odd">
         <td style="vertical-align:top" class="leftvalue">{$strings["phase"]} :</td>
@@ -941,7 +950,8 @@ if ($complete_date == "") {
     $complete_date = "--";
 }
 
-$block1->contentRow($strings["start_date"], "<input type='text' name='start_date' id='start_date' size='20' value='$start_date'><input type='button' value=' ... ' id=\"trigStartDate\">");
+$block1->contentRow($strings["start_date"],
+    "<input type='text' name='start_date' id='start_date' size='20' value='$start_date'><input type='button' value=' ... ' id=\"trigStartDate\">");
 echo "
 <script type='text/javascript'>
     Calendar.setup({
@@ -951,7 +961,8 @@ echo "
     })
 </script>
 ";
-$block1->contentRow($strings["due_date"], "<input type='text' name='due_date' id='due_date' size='20' value='$due_date'><input type='button' value=' ... ' id=\"trigDueDate\">");
+$block1->contentRow($strings["due_date"],
+    "<input type='text' name='due_date' id='due_date' size='20' value='$due_date'><input type='button' value=' ... ' id=\"trigDueDate\">");
 echo <<<JAVASCRIPT
 <script type='text/javascript'>
     Calendar.setup({
@@ -963,7 +974,8 @@ echo <<<JAVASCRIPT
 JAVASCRIPT;
 
 if ($task_id != "") {
-    $block1->contentRow($strings["complete_date"], "<input type='text' name='complete_date' id='complete_date' size='20' value='$complete_date'><input type='button' value=' ... ' id=\"trigCompleteDate\">");
+    $block1->contentRow($strings["complete_date"],
+        "<input type='text' name='complete_date' id='complete_date' size='20' value='$complete_date'><input type='button' value=' ... ' id=\"trigCompleteDate\">");
     echo <<<JAVASCRIPT
 	<script type='text/javascript'>
 	    Calendar.setup({
@@ -1004,8 +1016,10 @@ if ($enableInvoicing == "true") {
     if ($taskDetail["tas_invoicing"] == "1") {
         $checkedInvoicing = "checked";
     }
-    $block1->contentRow($strings["invoicing"], '<input size="32" value="1" name="invoicing" type="checkbox" ' . $checkedInvoicing . '>');
-    $block1->contentRow($strings["worked_hours"], '<input size="32" value="' . $worked_hours . '" style="width: 250px" name="worked_hours" type="TEXT">');
+    $block1->contentRow($strings["invoicing"],
+        '<input size="32" value="1" name="invoicing" type="checkbox" ' . $checkedInvoicing . '>');
+    $block1->contentRow($strings["worked_hours"],
+        '<input size="32" value="' . $worked_hours . '" style="width: 250px" name="worked_hours" type="TEXT">');
 }
 
 if ($task_id != "") {

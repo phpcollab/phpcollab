@@ -6,9 +6,9 @@
 //translator(s): Patrick C. Wang, deepin
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
-$dayNameArray = array(1 =>"星期一", 2 =>"星期二", 3 =>"星期三", 4 =>"星期四", 5 =>"星期五", 6 =>"星期六", 7 =>"星期日");
+$dayNameArray = array(1 => "星期一", 2 => "星期二", 3 => "星期三", 4 => "星期四", 5 => "星期五", 6 => "星期六", 7 => "星期日");
 
-$monthNameArray = array(1=> "一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月");
+$monthNameArray = array(1 => "一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月");
 
 $status = array(0 => "客户认可", 1 => "已完成", 2 => "未开始", 3 => "开放", 4 => "暂停");
 
@@ -413,8 +413,6 @@ $strings["time_end"] = "结束时间";
 $strings["calendar_reminder"] = "提醒";
 $strings["shortname"] = "简称";
 $strings["calendar_recurring"] = "事件将在每周的这一天重复出现。";
-
-
 
 
 $strings["edit_database"] = "修改数据库";

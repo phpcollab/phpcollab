@@ -75,7 +75,6 @@ class Htpasswd
         if (!empty($passwdFile)) {
             $this->initialize($passwdFile);
         }
-        return;
     }
 
 
@@ -86,6 +85,7 @@ class Htpasswd
 
     /**
      * @param $passwdFile
+     * @throws Exception
      */
     function initialize($passwdFile)
     {
@@ -112,7 +112,6 @@ class Htpasswd
         } else {
             $this->SANE = true;    // Non-existant files are safe
         }
-        return;
     }
 
 //	**************************************************************
@@ -122,12 +121,12 @@ class Htpasswd
 
     /**
      *
+     * @throws Exception
      */
     function do_not_blame_cdi()
     {
         $this->IDIOT = true;
         $this->error("No sanity checking on files", 0);
-        return;
     }
 
 
@@ -135,13 +134,14 @@ class Htpasswd
 //	Checks file sanity. Can be called publicly, giving the
 //	full path to the file to be checked.
 //	Can be disabled if you're an idiot by
-//	calling $Htpasswd->do_not_blame_cdi() 
+//	calling $Htpasswd->do_not_blame_cdi()
 
 //	Tons of junk removed Rev 0.7
 
     /**
      * @param $filename
      * @return bool
+     * @throws Exception
      */
     function sane($filename)
     {
@@ -204,6 +204,7 @@ class Htpasswd
     /**
      * @param $errMsg
      * @param $die
+     * @throws Exception
      */
     function error($errMsg, $die)
     {
@@ -226,8 +227,6 @@ class Htpasswd
             echo "<B> ERROR $this->ERROR </B> <br/> \n";
             throw new Exception("ERROR {$this->ERROR}");
         }
-
-        return;
     }
 
 //	**************************************************************
@@ -322,9 +321,6 @@ class Htpasswd
             $this->USERCOUNT = -1;
             $this->EMPTY = true;
         }
-
-        return;
-
     }    // end htReadFile()
 
 
@@ -416,7 +412,7 @@ class Htpasswd
     } // end getPass
 
 //	**************************************************************
-//	Returns true if Users password matches the password in 
+//	Returns true if Users password matches the password in
 //	the password file.
 //
 //	method deprecated 0.5 <cdi>
@@ -429,8 +425,7 @@ class Htpasswd
      */
     function checkPass($UserID, $Pass)
     {
-        $retval = $this->verifyUser($UserID, $Pass);
-        return $retval;
+        return $this->verifyUser($UserID, $Pass);
 
     } // end checkPass
 
@@ -484,8 +479,8 @@ class Htpasswd
 
 //	**************************************************************
 
-//	Changes an existing users password. If "oldPass" is null, or 
-//	if oldPass is not passed to this method, there is no checking 
+//	Changes an existing users password. If "oldPass" is null, or
+//	if oldPass is not passed to this method, there is no checking
 //	to be sure it matches their old password.
 //
 //	Needless to say, you shouldn't do dat, but I'll give you
@@ -500,6 +495,7 @@ class Htpasswd
      * @param $newPass
      * @param string $oldPass
      * @return bool
+     * @throws Exception
      */
     function changePass($UserID, $newPass, $oldPass = "")
     {
@@ -584,7 +580,7 @@ class Htpasswd
 //	**************************************************************
 //	A modified copy of changePass - changes the users name.
 //	If $Pass is sent, it authenticates before allowing the change.
-//	Returns true on success, false if; 
+//	Returns true on success, false if;
 //
 //		The OldID is not found
 //		The NewID already exists
@@ -595,6 +591,7 @@ class Htpasswd
      * @param $NewID
      * @param string $Pass
      * @return bool
+     * @throws Exception
      */
     function renameUser($OldID, $NewID, $Pass = "")
     {
@@ -681,6 +678,7 @@ class Htpasswd
 
     /**
      * @return bool
+     * @throws Exception
      */
     function htWriteFile()
     {
@@ -767,6 +765,7 @@ class Htpasswd
      * @param $UserID
      * @param $newPass
      * @return bool
+     * @throws Exception
      */
     function addUser($UserID, $newPass)
     {
@@ -816,6 +815,7 @@ class Htpasswd
     /**
      * @param $UserID
      * @return string
+     * @throws Exception
      */
     function assignPass($UserID)
     {
@@ -862,6 +862,7 @@ class Htpasswd
     /**
      * @param $UserID
      * @return bool
+     * @throws Exception
      */
     function deleteUser($UserID)
     {
@@ -960,7 +961,7 @@ class Htpasswd
     }
 
 //	**************************************************************
-//	Generates a pseudo random 2 digit salt. Method will 
+//	Generates a pseudo random 2 digit salt. Method will
 //	generate different salts when called multiple times by
 //	the same process.
 
@@ -1029,7 +1030,7 @@ class Htpasswd
 
 
 //	**************************************************************
-//	Generates a pseudo random 5 to 8 digit User ID. Method will 
+//	Generates a pseudo random 5 to 8 digit User ID. Method will
 //	generate different User IDs when called multiple times by
 //	the same process.
 

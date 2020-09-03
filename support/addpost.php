@@ -2,7 +2,6 @@
 #Application name: PhpCollab
 #Status page: 0
 
-use phpCollab\Support\Support;
 use phpCollab\Util;
 
 $checkSession = "true";
@@ -21,7 +20,7 @@ if ($supportType == "admin") {
     }
 }
 
-$support = new Support($logger);
+$support = $container->getSupportLoader();
 
 $requestDetail = $support->getSupportRequestById($id);
 
@@ -53,7 +52,8 @@ if ($request->isMethod('post')) {
 
             if ($request->request->get('action') == "add") {
                 try {
-                    $newPost = $support->addSupportPost($id, Util::convertData($request->request->get('message')), $dateheure, $session->get("id"), $requestDetail["sr_project"]);
+                    $newPost = $support->addSupportPost($id, Util::convertData($request->request->get('message')),
+                        $dateheure, $session->get("id"), $requestDetail["sr_project"]);
 
                     if (!empty($newPost) && $notifications == "true") {
                         $support->sendPostChangedNotification($newPost);
@@ -81,19 +81,26 @@ $blockPage->openBreadcrumbs();
 
 if ($supportType == "team") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $requestDetail["sr_project"], $requestDetail["sr_pro_name"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=" . $requestDetail["sr_project"], $strings["support_requests"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/viewrequest.php?id=" . $requestDetail["sr_id"], $requestDetail["sr_subject"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $requestDetail["sr_project"],
+        $requestDetail["sr_pro_name"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=" . $requestDetail["sr_project"],
+        $strings["support_requests"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/viewrequest.php?id=" . $requestDetail["sr_id"],
+        $requestDetail["sr_subject"], "in"));
     if ($action == "status") {
         $blockPage->itemBreadcrumbs($strings["edit_status"]);
     } else {
         $blockPage->itemBreadcrumbs($strings["add_support_response"]);
     }
 } elseif ($supportType == "admin") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/support.php?", $strings["support_management"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=" . $requestDetail["sr_project"], $strings["support_requests"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/viewrequest.php?id=" . $requestDetail["sr_id"], $requestDetail["sr_subject"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"],
+        "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/support.php?", $strings["support_management"],
+        "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=" . $requestDetail["sr_project"],
+        $strings["support_requests"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/viewrequest.php?id=" . $requestDetail["sr_id"],
+        $requestDetail["sr_subject"], "in"));
     if ($action == "status") {
         $blockPage->itemBreadcrumbs($strings["edit_status"]);
     } else {

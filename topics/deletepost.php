@@ -11,7 +11,7 @@ include_once '../includes/library.php';
 
 $topicId = $request->query->get('topic');
 
-$topics = new Topics();
+$topics = $container->getTopicsLoader();
 $postId = $request->query->get('id');
 
 $detailTopic = $topics->getTopicByTopicId($topicId);

@@ -28,25 +28,16 @@
 ** =============================================================================
 */
 
-
-use phpCollab\Assignments\Assignments;
-use phpCollab\Files\Files;
-use phpCollab\Phases\Phases;
-use phpCollab\Projects\Projects;
-use phpCollab\Tasks\Tasks;
-use phpCollab\Teams\Teams;
-use phpCollab\Updates\Updates;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$tasks = new Tasks();
-$projects = new Projects();
-$phases = new Phases();
-$teams = new Teams();
-$updates = new Updates();
-$files = new Files();
-$assignments = new Assignments();
+$tasks = $container->getTasksLoader();
+$projects = $container->getProjectsLoader();
+$phases = $container->getPhasesLoader();
+$teams = $container->getTeams();
+$updates = $container->getTaskUpdateService();
+$files = $container->getFilesLoader();
+$assignments = $container->getAssignmentsManager();
 
 $id = $request->query->get('id');
 $task = $request->query->get('task');
@@ -113,7 +104,8 @@ if ($projectDetail["pro_enable_phase"] != "0") {
 }
 
 $teamMember = false;
-$teamMember = ($session->get("id") == $taskDetail["tas_owner"] || $teams->isTeamMember($taskDetail["tas_project"], $session->get("id")));
+$teamMember = ($session->get("id") == $taskDetail["tas_owner"] || $teams->isTeamMember($taskDetail["tas_project"],
+        $session->get("id")));
 
 if ($teamMember === false && $projectsFilter === "true") {
     header("Location:../general/permissiondenied.php");
@@ -124,14 +116,18 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"],
+    $projectDetail["pro_name"], "in"));
 
 if ($projectDetail["pro_phase_set"] != "0") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail["pro_id"], $strings["phases"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase["pha_id"], $targetPhase["pha_name"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/listphases.php?id=" . $projectDetail["pro_id"],
+        $strings["phases"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase["pha_id"],
+        $targetPhase["pha_name"], "in"));
 }
 
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail["pro_id"], $strings["tasks"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail["pro_id"],
+    $strings["tasks"], "in"));
 $blockPage->itemBreadcrumbs($taskDetail["tas_name"]);
 $blockPage->closeBreadcrumbs();
 
@@ -168,17 +164,23 @@ if ($projectDetail["pro_org_id"] == "1") {
 $block1->openContent();
 $block1->contentTitle($strings["info"]);
 
-$block1->contentRow($strings["project"], $blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
+$block1->contentRow($strings["project"],
+    $blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"],
+        "in"));
 
 if ($projectDetail["pro_phase_set"] != "0") {
-    $block1->contentRow($strings["phase"], $blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase["pha_id"], $targetPhase["pha_name"], "in"));
+    $block1->contentRow($strings["phase"],
+        $blockPage->buildLink("../phases/viewphase.php?id=" . $targetPhase["pha_id"], $targetPhase["pha_name"], "in"));
 }
 
 $block1->contentRow($strings["organization"], $projectDetail["pro_org_name"]);
 
-$block1->contentRow($strings["created"], phpCollab\Util::createDate($taskDetail["tas_created"], $session->get("timezone")));
-$block1->contentRow($strings["assigned"], phpCollab\Util::createDate($taskDetail["tas_assigned"], $session->get("timezone")));
-$block1->contentRow($strings["modified"], phpCollab\Util::createDate($taskDetail["tas_modified"], $session->get("timezone")));
+$block1->contentRow($strings["created"],
+    phpCollab\Util::createDate($taskDetail["tas_created"], $session->get("timezone")));
+$block1->contentRow($strings["assigned"],
+    phpCollab\Util::createDate($taskDetail["tas_assigned"], $session->get("timezone")));
+$block1->contentRow($strings["modified"],
+    phpCollab\Util::createDate($taskDetail["tas_modified"], $session->get("timezone")));
 
 $block1->contentTitle($strings["details"]);
 
@@ -188,7 +190,10 @@ $block1->contentRow($strings["description"], nl2br($taskDetail["tas_description"
 if ($taskDetail["tas_assigned_to"] == "0") {
     $block1->contentRow($strings["assigned_to"], $strings["unassigned"]);
 } else {
-    $block1->contentRow($strings["assigned_to"], $blockPage->buildLink("../users/viewuser.php?id=" . $taskDetail["tas_mem_id"], $taskDetail["tas_mem_name"], "in") . " (" . $blockPage->buildLink($taskDetail["tas_mem_email_work"], $taskDetail["tas_mem_login"], "mail") . ")");
+    $block1->contentRow($strings["assigned_to"],
+        $blockPage->buildLink("../users/viewuser.php?id=" . $taskDetail["tas_mem_id"], $taskDetail["tas_mem_name"],
+            "in") . " (" . $blockPage->buildLink($taskDetail["tas_mem_email_work"], $taskDetail["tas_mem_login"],
+            "mail") . ")");
 }
 
 $idStatus = $taskDetail["tas_status"];
@@ -197,7 +202,8 @@ $idPublish = $taskDetail["tas_published"];
 $complValue = ($taskDetail["tas_completion"] > 0) ? $taskDetail["tas_completion"] . "0 %" : $taskDetail["tas_completion"] . " %";
 $block1->contentRow($strings["status"], $status[$idStatus]);
 $block1->contentRow($strings["completion"], $complValue);
-$block1->contentRow($strings["priority"], "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
+$block1->contentRow($strings["priority"],
+    "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
 $block1->contentRow($strings["start_date"], $taskDetail["tas_start_date"]);
 
 if ($taskDetail["tas_due_date"] <= $date && $taskDetail["tas_completion"] != "10") {
@@ -214,7 +220,8 @@ if ($taskDetail["tas_complete_date"] != "" && $taskDetail["tas_complete_date"] !
     }
 
     $block1->contentRow($strings["complete_date"], $taskDetail["tas_complete_date"]);
-    $block1->contentRow($strings["scope_creep"] . $blockPage->printHelp("task_scope_creep"), "$diff " . $strings["days"]);
+    $block1->contentRow($strings["scope_creep"] . $blockPage->printHelp("task_scope_creep"),
+        "$diff " . $strings["days"]);
 }
 
 $block1->contentRow($strings["estimated_time"], $taskDetail["tas_estimated_time"] . " " . $strings["hours"]);
@@ -239,7 +246,7 @@ $block1->contentTitle($strings["updates_task"]);
 
 $listUpdates = $updates->getUpdates(1, $id);
 
-echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td>";
+echo "<tr class=\"odd\"><td class=\"leftvalue\">&nbsp;</td><td>";
 
 if ($listUpdates) {
     $j = 1;
@@ -257,12 +264,14 @@ if ($listUpdates) {
         }
         if (preg_match('/\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]/', $update["upd_comments"])) {
             preg_match('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]|i', $update["upd_comments"], $matches);
-            $update["upd_comments"] = preg_replace('/\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]/', '', $update["upd_comments"] . '<br/>');
+            $update["upd_comments"] = preg_replace('/\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]/', '',
+                $update["upd_comments"] . '<br/>');
             $update["upd_comments"] .= $strings["due_date"] . ' ' . $matches[1];
         }
 
         $abbrev = stripslashes(substr($update["upd_comments"], 0, 100));
-        echo "<b>" . $j . ".</b> <i>" . phpCollab\Util::createDate($update["upd_created"], $session->get("timezone")) . "</i> $abbrev";
+        echo "<b>" . $j . ".</b> <i>" . phpCollab\Util::createDate($update["upd_created"],
+                $session->get("timezone")) . "</i> $abbrev";
 
         if (100 < strlen($update["upd_comments"])) {
             echo "...<br/>";
@@ -286,14 +295,24 @@ $block1->closeForm();
 
 if ($teamMember === true || $session->get("profile") == "5") {
     $block1->openPaletteScript();
-    $block1->paletteScript(0, "remove", "../tasks/deletetasks.php?project=" . $taskDetail["tas_project"] . "&id=" . $taskDetail["tas_id"] . "", "true,true,false", $strings["delete"]);
-    $block1->paletteScript(1, "copy", "../tasks/edittask.php?project=" . $taskDetail["tas_project"] . "&task=" . $taskDetail["tas_id"] . "&docopy=true", "true,true,false", $strings["copy"]);
+    $block1->paletteScript(0, "remove",
+        "../tasks/deletetasks.php?project=" . $taskDetail["tas_project"] . "&id=" . $taskDetail["tas_id"] . "",
+        "true,true,false", $strings["delete"]);
+    $block1->paletteScript(1, "copy",
+        "../tasks/edittask.php?project=" . $taskDetail["tas_project"] . "&task=" . $taskDetail["tas_id"] . "&docopy=true",
+        "true,true,false", $strings["copy"]);
 
     if ($sitePublish == "true") {
-        $block1->paletteScript(3, "add_projectsite", "../tasks/viewtask.php?addToSite=true&id=" . $taskDetail["tas_id"] . "&action=publish", "true,true,true", $strings["add_project_site"]);
-        $block1->paletteScript(4, "remove_projectsite", "../tasks/viewtask.php?removeToSite=true&id=" . $taskDetail["tas_id"] . "&action=publish", "true,true,true", $strings["remove_project_site"]);
+        $block1->paletteScript(3, "add_projectsite",
+            "../tasks/viewtask.php?addToSite=true&id=" . $taskDetail["tas_id"] . "&action=publish", "true,true,true",
+            $strings["add_project_site"]);
+        $block1->paletteScript(4, "remove_projectsite",
+            "../tasks/viewtask.php?removeToSite=true&id=" . $taskDetail["tas_id"] . "&action=publish", "true,true,true",
+            $strings["remove_project_site"]);
     }
-    $block1->paletteScript(5, "edit", "../tasks/edittask.php?project=" . $taskDetail["tas_project"] . "&task=" . $taskDetail["tas_id"] . "&docopy=false", "true,true,false", $strings["edit"]);
+    $block1->paletteScript(5, "edit",
+        "../tasks/edittask.php?project=" . $taskDetail["tas_project"] . "&task=" . $taskDetail["tas_id"] . "&docopy=false",
+        "true,true,false", $strings["edit"]);
     $block1->closePaletteScript("", []);
 }
 
@@ -321,20 +340,34 @@ if ($fileManagement == "true") {
     }
 
     $block2->closePaletteIcon();
-    $block2->sorting("files", $sortingUser["files"], "fil.name ASC", $sortingFields = [0 => "fil.extension", 1 => "fil.name", 2 => "fil.owner", 3 => "fil.date", 4 => "fil.status", 5 => "fil.published"]);
+    $block2->sorting("files", $sortingUser["files"], "fil.name ASC", $sortingFields = [
+        0 => "fil.extension",
+        1 => "fil.name",
+        2 => "fil.owner",
+        3 => "fil.date",
+        4 => "fil.status",
+        5 => "fil.published"
+    ]);
 
     $listFiles = $files->getFilesByTaskIdAndVCParentEqualsZero($id, $block2->sortingValue);
 
     if ($listFiles) {
         $block2->openResults();
-        $block2->labels($labels = [0 => $strings["type"], 1 => $strings["name"], 2 => $strings["owner"], 3 => $strings["date"], 4 => $strings["approval_tracking"], 5 => $strings["published"]], "true");
+        $block2->labels($labels = [
+            0 => $strings["type"],
+            1 => $strings["name"],
+            2 => $strings["owner"],
+            3 => $strings["date"],
+            4 => $strings["approval_tracking"],
+            5 => $strings["published"]
+        ], "true");
 
         foreach ($listFiles as $file) {
             $existFile = "false";
             $idStatus = $file["fil_status"];
             $idPublish = $file["fil_published"];
 
-            $fileHandler = new phpCollab\FileHandler();
+            $fileHandler = $container->getFileHandlerService();
             $type = $fileHandler->fileInfoType($file["fil_extension"]);
 
             if (file_exists("../files/" . $file["fil_project"] . "/" . $file["fil_task"] . "/" . $file["fil_name"])) {
@@ -345,20 +378,23 @@ if ($fileManagement == "true") {
             $block2->checkboxRow($file["fil_id"]);
 
             if ($existFile == "true") {
-                $block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $file["fil_id"], $type, "icone"));
+                $block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $file["fil_id"], $type,
+                    "icone"));
             } else {
                 $block2->cellRow("&nbsp;");
             }
 
             if ($existFile == "true") {
-                $block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $file["fil_id"], $file["fil_name"], "in"));
+                $block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $file["fil_id"],
+                    $file["fil_name"], "in"));
             } else {
                 $block2->cellRow($strings["missing_file"] . " (" . $file["fil_name"] . ")");
             }
 
             $block2->cellRow($blockPage->buildLink($file["fil_mem_email_work"], $file["fil_mem_login"], "mail"));
             $block2->cellRow($file["fil_date"]);
-            $block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $file["fil_id"], $GLOBALS["statusFile"][$idStatus], "in"));
+            $block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $file["fil_id"],
+                $GLOBALS["statusFile"][$idStatus], "in"));
 
             if ($sitePublish == "true") {
                 $block2->cellRow($statusPublish[$idPublish]);
@@ -375,19 +411,28 @@ if ($fileManagement == "true") {
     $block2->openPaletteScript();
 
     if ($teamMember === true || $session->get("profile") == "5") {
-        $block2->paletteScript(0, "add", "../linkedcontent/addfile.php?project=" . $taskDetail["tas_project"] . "&task=$id", "true,true,true", $strings["add"]);
-        $block2->paletteScript(1, "remove", "../linkedcontent/deletefiles.php?project=" . $projectDetail["pro_id"] . "&task=" . $taskDetail["tas_id"] . "", "false,true,true", $strings["delete"]);
+        $block2->paletteScript(0, "add",
+            "../linkedcontent/addfile.php?project=" . $taskDetail["tas_project"] . "&task=$id", "true,true,true",
+            $strings["add"]);
+        $block2->paletteScript(1, "remove",
+            "../linkedcontent/deletefiles.php?project=" . $projectDetail["pro_id"] . "&task=" . $taskDetail["tas_id"] . "",
+            "false,true,true", $strings["delete"]);
 
         if ($sitePublish == "true") {
-            $block2->paletteScript(2, "add_projectsite", "../tasks/viewtask.php?addToSiteFile=true&task=" . $taskDetail["tas_id"] . "&action=publish", "false,true,true", $strings["add_project_site"]);
-            $block2->paletteScript(3, "remove_projectsite", "../tasks/viewtask.php?removeToSiteFile=true&task=" . $taskDetail["tas_id"] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
+            $block2->paletteScript(2, "add_projectsite",
+                "../tasks/viewtask.php?addToSiteFile=true&task=" . $taskDetail["tas_id"] . "&action=publish",
+                "false,true,true", $strings["add_project_site"]);
+            $block2->paletteScript(3, "remove_projectsite",
+                "../tasks/viewtask.php?removeToSiteFile=true&task=" . $taskDetail["tas_id"] . "&action=publish",
+                "false,true,true", $strings["remove_project_site"]);
         }
     }
 
     $block2->paletteScript(4, "info", "../linkedcontent/viewfile.php?", "false,true,false", $strings["view"]);
 
     if ($teamMember === true || $session->get("profile") == "5") {
-        $block2->paletteScript(5, "edit", "../linkedcontent/viewfile.php?edit=true", "false,true,false", $strings["edit"]);
+        $block2->paletteScript(5, "edit", "../linkedcontent/viewfile.php?edit=true", "false,true,false",
+            $strings["edit"]);
     }
     $block2->closePaletteScript(count($listFiles), array_column($listFiles, 'fil_id'));
 }
@@ -398,12 +443,18 @@ $block3 = new phpCollab\Block();
 $block3->form = "ahT";
 $block3->openForm("../tasks/viewtask.php?id=$id#" . $block3->form . "Anchor", null, $csrfHandler);
 $block3->headingToggle($strings["assignment_history"]);
-$block3->sorting("assignment", $sortingUser["assignment"], "ass.assigned DESC", $sortingFields = [0 => "ass.comments", 1 => "mem1.login", 2 => "mem2.login", 3 => "ass.assigned"]);
+$block3->sorting("assignment", $sortingUser["assignment"], "ass.assigned DESC",
+    $sortingFields = [0 => "ass.comments", 1 => "mem1.login", 2 => "mem2.login", 3 => "ass.assigned"]);
 
 $listAssign = $assignments->getAssignmentsByTaskId($id, $block3->sortingValue);
 
 $block3->openResults($checkbox = "false");
-$block3->labels($labels = [0 => $strings["comment"], 1 => $strings["assigned_by"], 2 => $strings["to"], 3 => $strings["assigned_on"]], "false");
+$block3->labels($labels = [
+    0 => $strings["comment"],
+    1 => $strings["assigned_by"],
+    2 => $strings["to"],
+    3 => $strings["assigned_on"]
+], "false");
 
 foreach ($listAssign as $assignment) {
     $block3->openRow();
@@ -421,7 +472,8 @@ foreach ($listAssign as $assignment) {
     if ($assignment["ass_assigned_to"] == "0") {
         $block3->cellRow($strings["unassigned"]);
     } else {
-        $block3->cellRow($blockPage->buildLink($assignment["ass_mem2_email_work"], $assignment["ass_mem2_login"], "mail"));
+        $block3->cellRow($blockPage->buildLink($assignment["ass_mem2_email_work"], $assignment["ass_mem2_login"],
+            "mail"));
     }
     $block3->cellRow(phpCollab\Util::createDate($assignment["ass_assigned"], $session->get("timezone")));
     $block3->closeRow();
@@ -449,13 +501,29 @@ if ($teamMember === true || $session->get("profile") == "5") {
 }
 
 $block4->closePaletteIcon();
-$block4->sorting("subtasks", $sortingUser["subtasks"], "subtas.name ASC", $sortingFields = [0 => "subtas.name", 1 => "subtas.priority", 2 => "subtas.status", 3 => "subtas.completion", 4 => "subtas.due_date", 5 => "mem.login", 6 => "subtas.published"]);
+$block4->sorting("subtasks", $sortingUser["subtasks"], "subtas.name ASC", $sortingFields = [
+    0 => "subtas.name",
+    1 => "subtas.priority",
+    2 => "subtas.status",
+    3 => "subtas.completion",
+    4 => "subtas.due_date",
+    5 => "mem.login",
+    6 => "subtas.published"
+]);
 
 $listSubtasks = $tasks->getSubtasksByParentTaskId($id, $block4->sortingValue);
 
 if ($listSubtasks) {
     $block4->openResults();
-    $block4->labels($labels = [0 => $strings["subtask"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["completion"], 4 => $strings["due_date"], 5 => $strings["assigned_to"], 6 => $strings["published"]], "true");
+    $block4->labels($labels = [
+        0 => $strings["subtask"],
+        1 => $strings["priority"],
+        2 => $strings["status"],
+        3 => $strings["completion"],
+        4 => $strings["due_date"],
+        5 => $strings["assigned_to"],
+        6 => $strings["published"]
+    ], "true");
 
     foreach ($listSubtasks as $subtask) {
         if ($subtask["subtas_due_date"] == "") {
@@ -469,7 +537,8 @@ if ($listSubtasks) {
 
         $block4->openRow();
         $block4->checkboxRow($subtask["subtas_id"]);
-        $block4->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $subtask["subtas_id"] . "&task=$id", $subtask["subtas_name"], "in"));
+        $block4->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $subtask["subtas_id"] . "&task=$id",
+            $subtask["subtas_name"], "in"));
         $block4->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $priority[$idPriority]);
         $block4->cellRow($status[$idStatus]);
         $block4->cellRow($complValue);
@@ -487,7 +556,8 @@ if ($listSubtasks) {
         if ($subtask["subtas_assigned_to"] == "0") {
             $block4->cellRow($strings["unassigned"]);
         } else {
-            $block4->cellRow($blockPage->buildLink($subtask["subtas_mem_email_work"], $subtask["subtas_mem_login"], "mail"));
+            $block4->cellRow($blockPage->buildLink($subtask["subtas_mem_email_work"], $subtask["subtas_mem_login"],
+                "mail"));
         }
 
         if ($sitePublish == "true") {
@@ -501,7 +571,8 @@ if ($listSubtasks) {
         echo "
 			<div id='ganttChart_taskList' class='ganttChart'>
 				<img src='../subtasks/graphsubtasks.php?task=" . $id . "' alt=''><br/>
-				<span class='listEvenBold''>" . $blockPage->buildLink("http://www.aditus.nu/jpgraph/", "JpGraph", "powered") . "</span>	
+				<span class='listEvenBold''>" . $blockPage->buildLink("http://www.aditus.nu/jpgraph/", "JpGraph",
+                "powered") . "</span>	
 			</div>
 		";
     }
@@ -516,7 +587,8 @@ $block4->openPaletteScript();
 
 if ($teamMember === true || $session->get("profile") == "5") {
     $block4->paletteScript(0, "add", "../subtasks/editsubtask.php?task=$id", "true,false,false", $strings["add"]);
-    $block4->paletteScript(1, "remove", "../subtasks/deletesubtasks.php?task=$id", "false,true,true", $strings["delete"]);
+    $block4->paletteScript(1, "remove", "../subtasks/deletesubtasks.php?task=$id", "false,true,true",
+        $strings["delete"]);
 }
 $block4->paletteScript(6, "info", "../subtasks/viewsubtask.php?task=$id", "false,true,false", $strings["view"]);
 

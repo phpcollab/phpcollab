@@ -6,13 +6,41 @@
 //translator(s): Pavel Dostal <pavel.dostal@xone.cz>
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
-$dayNameArray = array(1 =>"Pondìlí", 2 =>"Úterý", 3 =>"Støeda", 4 =>"Ètvrtek", 5 =>"Pátek", 6 =>"Sobota", 7 =>"Nedìle");
+$dayNameArray = array(
+    1 => "Pondìlí",
+    2 => "Úterý",
+    3 => "Støeda",
+    4 => "Ètvrtek",
+    5 => "Pátek",
+    6 => "Sobota",
+    7 => "Nedìle"
+);
 
-$monthNameArray = array(1=> "Leden", "Únor", "Bøezen", "Duben", "Kvìten", "Èerven", "Èervenec", "Srpen", "Záøí", "Øíjen", "Listopad", "Prosinec");
+$monthNameArray = array(
+    1 => "Leden",
+    "Únor",
+    "Bøezen",
+    "Duben",
+    "Kvìten",
+    "Èerven",
+    "Èervenec",
+    "Srpen",
+    "Záøí",
+    "Øíjen",
+    "Listopad",
+    "Prosinec"
+);
 
 $status = array(0 => "Zakázka kompletní", 1 => "Kompletní", 2 => "Nenastartovaný", 3 => "Otevøený", 4 => "Pozastavený");
 
-$profil = array(0 => "Administrátor", 1 => "Project Manager", 2 => "User", 3 => "Zákazník", 4 => "Neaktivní", 5 => "Project Manager Administrator");
+$profil = array(
+    0 => "Administrátor",
+    1 => "Project Manager",
+    2 => "User",
+    3 => "Zákazník",
+    4 => "Neaktivní",
+    5 => "Project Manager Administrator"
+);
 
 $priority = array(0 => "žádná", 1 => "Velmi nízká", 2 => "Nízká", 3 => "Støední", 4 => "Vysoká", 5 => "Velmi vysoká");
 
@@ -21,7 +49,13 @@ $statusTopicBis = array(0 => "Ano", 1 => "Ne");
 
 $statusPublish = array(0 => "Ano", 1 => "Ne");
 
-$statusFile = array(0 => "Schváleno", 1 => "Schváleno se zmìnami", 2 => "Potøebuje schválit", 3 => "Schválení není potøeba", 4 => "Neschváleno");
+$statusFile = array(
+    0 => "Schváleno",
+    1 => "Schváleno se zmìnami",
+    2 => "Potøebuje schválit",
+    3 => "Schválení není potøeba",
+    4 => "Neschváleno"
+);
 
 $phaseStatus = array(0 => "Nenastartovaný", 1 => "Otevøený", 2 => "Kompletní", 3 => "Pozastavený");
 

@@ -29,8 +29,6 @@
 ** =============================================================================
 */
 
-use phpCollab\Teams\Teams;
-
 $checkSession = "true";
 include '../includes/library.php';
 
@@ -39,7 +37,7 @@ if ($request->isMethod('post')) {
         if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
             if ($request->request->get('action') == "update") {
 
-                $teams = new Teams();
+                $teams = $container->getTeams();
 
                 $r = substr($request->request->get('old_password'), 0, 2);
 
@@ -53,7 +51,7 @@ if ($request->isMethod('post')) {
                     $encryptedNewPassword = phpCollab\Util::getPassword($request->request->get('new_password'));
 
                     if ($htaccessAuth == "true") {
-                        $Htpasswd = new Htpasswd;
+                        $Htpasswd = $container->getHtpasswdService();
                         $listTeams = $teams->getTeamByMemberId($session->get("id"));
 
                         if ($listTeams) {
@@ -61,8 +59,7 @@ if ($request->isMethod('post')) {
                                 try {
                                     $Htpasswd->initialize("files/" . $team["tea_pro_id"] . "/.htpasswd");
                                     $Htpasswd->changePass($session->get("login"), $encryptedNewPassword);
-                                }
-                                catch (Exception $e) {
+                                } catch (Exception $e) {
                                     echo $e->getMessage();
                                 }
                             }
@@ -118,7 +115,7 @@ echo <<<FORM
 FORM;
 
 if (!empty($error)) {
-    echo '<tr><td colspan="2"><div class="alert error">' . $error .'</div></td></tr>';
+    echo '<tr><td colspan="2"><div class="alert error">' . $error . '</div></td></tr>';
 }
 echo <<<FORM
                 <tr>

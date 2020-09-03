@@ -1,9 +1,5 @@
 <?php
 
-use phpCollab\Projects\Projects;
-use phpCollab\Tasks\Tasks;
-use phpCollab\Teams\Teams;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -11,9 +7,9 @@ $id = $request->query->get('id');
 $project = $request->query->get('project');
 $strings = $GLOBALS["strings"];
 
-$tasks = new Tasks();
-$projects = new Projects();
-$teams = new Teams();
+$tasks = $container->getTasksLoader();
+$projects = $container->getProjectsLoader();
+$teams = $container->getTeams();
 
 if ($request->query->get('action') == "publish") {
     if ($request->query->get('addToSite') == "true") {
@@ -52,7 +48,8 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"],
+    $projectDetail["pro_name"], "in"));
 $blockPage->itemBreadcrumbs($strings["tasks"]);
 $blockPage->closeBreadcrumbs();
 
@@ -91,14 +88,31 @@ $tasksBlock->setLimit($blockPage->returnLimit(1));
 
 $tasksBlock->setRowsLimit(20);
 
-$tasksBlock->sorting("tasks", $sortingUser["tasks"], "tas.name ASC", $sortingFields = [0 => "tas.name", 1 => "tas.priority", 2 => "tas.status", 3 => "tas.completion", 4 => "tas.due_date", 5 => "mem.login", 6 => "tas.published"]);
+$tasksBlock->sorting("tasks", $sortingUser["tasks"], "tas.name ASC", $sortingFields = [
+    0 => "tas.name",
+    1 => "tas.priority",
+    2 => "tas.status",
+    3 => "tas.completion",
+    4 => "tas.due_date",
+    5 => "mem.login",
+    6 => "tas.published"
+]);
 
-$taskList = $tasks->getTasksByProjectId($project, $tasksBlock->getLimit(), $tasksBlock->getRowsLimit(), $tasksBlock->sortingValue);
-$tasksBlock->setRecordsTotal( $tasks->getCountAllTasksForProject($project));
+$taskList = $tasks->getTasksByProjectId($project, $tasksBlock->getLimit(), $tasksBlock->getRowsLimit(),
+    $tasksBlock->sortingValue);
+$tasksBlock->setRecordsTotal($tasks->getCountAllTasksForProject($project));
 
 if ($taskList) {
     $tasksBlock->openResults();
-    $tasksBlock->labels($labels = [0 => $strings["task"], 1 => $strings["priority"], 2 => $strings["status"], 3 => $strings["completion"], 4 => $strings["due_date"], 5 => $strings["assigned_to"], 6 => $strings["published"]], "true");
+    $tasksBlock->labels($labels = [
+        0 => $strings["task"],
+        1 => $strings["priority"],
+        2 => $strings["status"],
+        3 => $strings["completion"],
+        4 => $strings["due_date"],
+        5 => $strings["assigned_to"],
+        6 => $strings["published"]
+    ], "true");
 
     foreach ($taskList as $task) {
 
@@ -112,7 +126,8 @@ if ($taskList) {
         $complValue = ($task["tas_completion"] > 0) ? $task["tas_completion"] . "0 %" : $task["tas_completion"] . " %";
         $tasksBlock->openRow();
         $tasksBlock->checkboxRow($task["tas_id"]);
-        $tasksBlock->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $task["tas_id"], $task["tas_name"], "in"));
+        $tasksBlock->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $task["tas_id"], $task["tas_name"],
+            "in"));
         $tasksBlock->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> " . $priority[$idPriority]);
         $tasksBlock->cellRow($status[$idStatus]);
         $tasksBlock->cellRow($complValue);
@@ -153,16 +168,23 @@ $tasksBlock->closeFormResults();
 $tasksBlock->openPaletteScript();
 if ($teamMember == "true") {
     $tasksBlock->paletteScript(0, "add", "../tasks/edittask.php?project=$project", "true,false,false", $strings["add"]);
-    $tasksBlock->paletteScript(1, "remove", "../tasks/deletetasks.php?project=$project", "false,true,true", $strings["delete"]);
-    $tasksBlock->paletteScript(2, "copy", "../tasks/edittask.php?project=$project&docopy=true", "false,true,false", $strings["copy"]);
+    $tasksBlock->paletteScript(1, "remove", "../tasks/deletetasks.php?project=$project", "false,true,true",
+        $strings["delete"]);
+    $tasksBlock->paletteScript(2, "copy", "../tasks/edittask.php?project=$project&docopy=true", "false,true,false",
+        $strings["copy"]);
     if ($sitePublish == "true") {
-        $tasksBlock->paletteScript(4, "add_projectsite", "../tasks/listtasks.php?addToSite=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["add_project_site"]);
-        $tasksBlock->paletteScript(5, "remove_projectsite", "../tasks/listtasks.php?removeToSite=true&project=" . $projectDetail["pro_id"] . "&action=publish", "false,true,true", $strings["remove_project_site"]);
+        $tasksBlock->paletteScript(4, "add_projectsite",
+            "../tasks/listtasks.php?addToSite=true&project=" . $projectDetail["pro_id"] . "&action=publish",
+            "false,true,true", $strings["add_project_site"]);
+        $tasksBlock->paletteScript(5, "remove_projectsite",
+            "../tasks/listtasks.php?removeToSite=true&project=" . $projectDetail["pro_id"] . "&action=publish",
+            "false,true,true", $strings["remove_project_site"]);
     }
 }
 $tasksBlock->paletteScript(6, "info", "../tasks/viewtask.php?", "false,true,false", $strings["view"]);
 if ($teamMember == "true") {
-    $tasksBlock->paletteScript(7, "edit", "../tasks/edittask.php?project=$project", "false,true,true", $strings["edit"]);
+    $tasksBlock->paletteScript(7, "edit", "../tasks/edittask.php?project=$project", "false,true,true",
+        $strings["edit"]);
 }
 $tasksBlock->closePaletteScript(count($taskList), array_column($taskList, 'tas_id'));
 

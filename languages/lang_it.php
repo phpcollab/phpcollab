@@ -4,13 +4,41 @@
 //translator(s): Luca Mercuri <siggy@siggy.info>, Francesco Fullone <fullone@csr.unibo.it>
 $byteUnits = array('Byte', 'KB', 'MB', 'GB');
 
-$dayNameArray = array(1 =>"Lunedi", 2 =>"Martedi", 3 =>"Mercoledi", 4 =>"Giovedi", 5 =>"Venerdi", 6 =>"Sabato", 7 =>"Domenica");
+$dayNameArray = array(
+    1 => "Lunedi",
+    2 => "Martedi",
+    3 => "Mercoledi",
+    4 => "Giovedi",
+    5 => "Venerdi",
+    6 => "Sabato",
+    7 => "Domenica"
+);
 
-$monthNameArray = array(1=> "Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre");
+$monthNameArray = array(
+    1 => "Gennaio",
+    "Febbraio",
+    "Marzo",
+    "Aprile",
+    "Maggio",
+    "Giugno",
+    "Luglio",
+    "Agosto",
+    "Settembre",
+    "Ottobre",
+    "Novembre",
+    "Dicembre"
+);
 
 $status = array(0 => "Cliente Completato", 1 => "Completato", 2 => "Non avviato", 3 => "Aperto", 4 => "Sospeso");
 
-$profil = array(0 => "Amministratore", 1 => "Responsabile Progetto", 2 => "Utente", 3 => "Cliente Utente", 4 => "Disabilitato", 5 => "Amministratore responsabile progetto");
+$profil = array(
+    0 => "Amministratore",
+    1 => "Responsabile Progetto",
+    2 => "Utente",
+    3 => "Cliente Utente",
+    4 => "Disabilitato",
+    5 => "Amministratore responsabile progetto"
+);
 
 $priority = array(0 => "Nessuna", 1 => "Molto bassa", 2 => "Bassa", 3 => "Media", 4 => "Alta", 5 => "Molto alta");
 
@@ -19,7 +47,13 @@ $statusTopicBis = array(0 => "S&#236;", 1 => "No");
 
 $statusPublish = array(0 => "S&#236;", 1 => "No");
 
-$statusFile = array(0 => "Approvato", 1 => "Approvato con cambiamenti", 2 => "In attesa di approvazione", 3 => "Approvazione non necessaria", 4 => "Non approvato");
+$statusFile = array(
+    0 => "Approvato",
+    1 => "Approvato con cambiamenti",
+    2 => "In attesa di approvazione",
+    3 => "Approvazione non necessaria",
+    4 => "Non approvato"
+);
 
 $phaseStatus = array(0 => "Non Partita", 1 => "Aperta", 2 => "Completata", 3 => "Sospesa");
 
@@ -537,7 +571,12 @@ $strings["rate_type"] = "Tipo di tariffa";
 $strings["rate_value"] = "Valore della tariffa";
 $strings["note_invoice_items_notcompleted"] = "Non tutte le voci sono state completate";
 
-$rateType = array(0 => "Tariffa personalizzata", 1 => "Tariffa per progetto", 2 => "Tariffa per organizzazione", 3 => "Tariffa per servizio");
+$rateType = array(
+    0 => "Tariffa personalizzata",
+    1 => "Tariffa per progetto",
+    2 => "Tariffa per organizzazione",
+    3 => "Tariffa per servizio"
+);
 //HACKS
 
 $strings["newsdesk"] = "Articoli";
@@ -582,7 +621,7 @@ $strings["email_sent"] = "La tua email è stata inviata con successo";
 $strings["clients_connected"] = "(Clienti connessi nel project site)";
 
 //2.5b4
-$strings["Total_Hours_Worked"]="Ore totali di lavoro";
+$strings["Total_Hours_Worked"] = "Ore totali di lavoro";
 $strings["Pct_Complete"] = "Pct Complete";
 
 

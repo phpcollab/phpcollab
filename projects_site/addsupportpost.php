@@ -2,12 +2,10 @@
 #Application name: PhpCollab
 #Status page: 0
 
-use phpCollab\Support\Support;
-
 $checkSession = "true";
 include '../includes/library.php';
 
-$support = new Support($logger);
+$support = $container->getSupportLoader();
 
 $tmpquery = "WHERE sr.id = '$id'";
 
@@ -24,7 +22,8 @@ if ($request->isMethod('post')) {
                 $message = phpCollab\Util::convertData($request->request->get('response_message'));
 
                 if (!empty($message)) {
-                    $newPostId = $support->addSupportPost($id, $message, $dateheure, $session->get("id"), $requestDetail["sr_project"]);
+                    $newPostId = $support->addSupportPost($id, $message, $dateheure, $session->get("id"),
+                        $requestDetail["sr_project"]);
 
                     if ($notifications == "true") {
                         // Gather additional information for the notification
@@ -34,8 +33,7 @@ if ($request->isMethod('post')) {
 
                         try {
                             $support->sendNewPostNotification($requestDetail, $postDetail, $userDetail);
-                        }
-                        catch (Exception $e) {
+                        } catch (Exception $e) {
                             echo $e->getMessage();
                         }
                     }
@@ -54,7 +52,6 @@ if ($request->isMethod('post')) {
         $msg = 'permissiondenied';
     }
 }
-
 
 
 $bouton[6] = "over";
@@ -91,7 +88,6 @@ echo <<<FORM
     <input type="hidden" name="user" value="{$session->get("id")}">
 </form>
 FORM;
-
 
 
 include("include_footer.php");

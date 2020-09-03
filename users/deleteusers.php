@@ -1,17 +1,10 @@
 <?php
 
-use phpCollab\Assignments\Assignments;
-use phpCollab\Notifications\Notifications;
-use phpCollab\Projects\Projects;
-use phpCollab\Sorting\Sorting;
-use phpCollab\Tasks\Tasks;
-use phpCollab\Teams\Teams;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$projects = new Projects();
-$tasks = new Tasks();
+$projects = $container->getProjectsLoader();
+$tasks = $container->getTasksLoader();
 
 $setTitle .= " : Delete User";
 
@@ -22,10 +15,10 @@ if ($request->isMethod('post')) {
     try {
         if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
             if ($request->request->get("action") == "delete") {
-                $assignments = new Assignments();
-                $sorting = new Sorting();
-                $notifications = new Notifications();
-                $teams = new Teams();
+                $assignments = $container->getAssignmentsManager();
+                $sorting = $container->getSortingLoader();
+                $notifications = $container->getNotificationsManager();
+                $teams = $container->getTeams();
 
                 // Check for assigned to value
                 $assignTo = !empty($request->request->get("assign_to")) ? $request->request->get("assign_to") : 0;

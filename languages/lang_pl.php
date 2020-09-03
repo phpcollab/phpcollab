@@ -7,13 +7,41 @@
 // changes and spell check: Pawel Suwinski (dracono@wp.pl) 2005.06.02
 $byteUnits = array('Bajty', 'KB', 'MB', 'GB');
 
-$dayNameArray = array(1 =>"Poniedzia³ek", 2 =>"Wtorek", 3 =>"¦roda", 4 =>"Czwartek", 5 =>"Pi±tek", 6 =>"Sobota", 7 =>"Niedziela");
+$dayNameArray = array(
+    1 => "Poniedzia³ek",
+    2 => "Wtorek",
+    3 => "¦roda",
+    4 => "Czwartek",
+    5 => "Pi±tek",
+    6 => "Sobota",
+    7 => "Niedziela"
+);
 
-$monthNameArray = array(1=> "Styczeñ", "Luty", "Marzec", "Kwiecieñ", "Maj", "Czerwiec", "Lipiec", "Sierpieñ", "Wrzesieñ", "Pa¼dziernik", "Listopad", "Grudzieñ");
+$monthNameArray = array(
+    1 => "Styczeñ",
+    "Luty",
+    "Marzec",
+    "Kwiecieñ",
+    "Maj",
+    "Czerwiec",
+    "Lipiec",
+    "Sierpieñ",
+    "Wrzesieñ",
+    "Pa¼dziernik",
+    "Listopad",
+    "Grudzieñ"
+);
 
 $status = array(0 => "Oddany Klientowi", 1 => "Skoñczony", 2 => "Nie rozpoczêty", 3 => "Rozpoczêty", 4 => "Zawieszony");
 
-$profil = array(0 => "Administrator", 1 => "Mened¿er Projektu", 2 => "U¿ytkownik", 3 => "Klient", 4 => "Niekatywny", 5 => "Administrator projektów");
+$profil = array(
+    0 => "Administrator",
+    1 => "Mened¿er Projektu",
+    2 => "U¿ytkownik",
+    3 => "Klient",
+    4 => "Niekatywny",
+    5 => "Administrator projektów"
+);
 
 $priority = array(0 => "Brak", 1 => "Bardzo niski", 2 => "Niski", 3 => "¦redni", 4 => "Wysoki", 5 => "Bardzo wysoki");
 
@@ -22,7 +50,13 @@ $statusTopicBis = array(0 => "Tak", 1 => "Nie");
 
 $statusPublish = array(0 => "Tak", 1 => "Nie");
 
-$statusFile = array(0 => "Zatwierdzony", 1 => "Zatwierdzony ze zmianami", 2 => "Potrzebuje zatwierdzenia", 3 => "Nie potrzebuje zatwierdzenia", 4 => "Nie zatwierdzony");
+$statusFile = array(
+    0 => "Zatwierdzony",
+    1 => "Zatwierdzony ze zmianami",
+    2 => "Potrzebuje zatwierdzenia",
+    3 => "Nie potrzebuje zatwierdzenia",
+    4 => "Nie zatwierdzony"
+);
 
 $phaseStatus = array(0 => "Nie rozpoczêtae", 1 => "Rozpoczêta", 2 => "Zakoñczona", 3 => "Zawieszona");
 
@@ -537,7 +571,12 @@ $strings["rate_type"] = "Typ";
 $strings["rate_value"] = "Kwota";
 $strings["note_invoice_items_notcompleted"] = "Nie wszystkie elementy faktury s± gotowe";
 
-$rateType = array(0 => "Stawka indywidualna", 1 => "Stawka za projekt", 2 => "Stawka na firmê", 3 => "Stawka za us³ugê");
+$rateType = array(
+    0 => "Stawka indywidualna",
+    1 => "Stawka za projekt",
+    2 => "Stawka na firmê",
+    3 => "Stawka za us³ugê"
+);
 
 //HACKS
 

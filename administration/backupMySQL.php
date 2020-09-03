@@ -1,7 +1,5 @@
 <?php
 
-use phpCollab\Administration\Administration;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -21,15 +19,15 @@ if ($request->isMethod('post')) {
             $dumpSettings['no-create-info'] = true; // Data only
         }
 
-        if ((bool) $request->request->get('drop')) {
+        if ((bool)$request->request->get('drop')) {
             $dumpSettings['add-drop-table'] = true;
         }
 
-        if ((bool) $request->request->get('extended_insert')) {
+        if ((bool)$request->request->get('extended_insert')) {
             $dumpSettings['extended-insert'] = true;
         }
 
-        if ((bool) $request->request->get('complete_insert')) {
+        if ((bool)$request->request->get('complete_insert')) {
             $dumpSettings['complete-insert'] = true;
         }
 
@@ -37,7 +35,7 @@ if ($request->isMethod('post')) {
             $dumpSettings['compress'] = true;
         }
 
-        $admins = new Administration();
+        $admins = $container->getAdministration();
 
         $admins->dumpTables($dumpSettings);
 

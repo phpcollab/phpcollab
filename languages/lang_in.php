@@ -6,22 +6,63 @@
 //translator(s): Rachman Chavik <rachman@users.sourceforge.net>
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
-$dayNameArray = array(1 =>"Monday", 2 =>"Tuesday", 3 =>"Wednesday", 4 =>"Thursday", 5 =>"Friday", 6 =>"Saturday", 7 =>"Sunday");
+$dayNameArray = array(
+    1 => "Monday",
+    2 => "Tuesday",
+    3 => "Wednesday",
+    4 => "Thursday",
+    5 => "Friday",
+    6 => "Saturday",
+    7 => "Sunday"
+);
 
-$monthNameArray = array(1=> "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+$monthNameArray = array(
+    1 => "Januari",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember"
+);
 
-$status = array(0 => "Selesai oleh Klien ", 1 => "Selesai", 2 => "Belum Dimulai", 3 => "Terbuka", 4 => "Non-aktif" );
+$status = array(0 => "Selesai oleh Klien ", 1 => "Selesai", 2 => "Belum Dimulai", 3 => "Terbuka", 4 => "Non-aktif");
 
-$profil = array(0 => "Administrator", 1 => "Project Manager", 2 => "User", 3 => "Client User", 4 => "Disabled", 5 => "Project Manager Administrator");
+$profil = array(
+    0 => "Administrator",
+    1 => "Project Manager",
+    2 => "User",
+    3 => "Client User",
+    4 => "Disabled",
+    5 => "Project Manager Administrator"
+);
 
-$priority = array(0 => "Tidak ada", 1 => "Tidak Penting Sekali", 2 => "Tidak Penting", 3 => "Sedang", 4 => "Penting", 5 => "Sangat Penting");
+$priority = array(
+    0 => "Tidak ada",
+    1 => "Tidak Penting Sekali",
+    2 => "Tidak Penting",
+    3 => "Sedang",
+    4 => "Penting",
+    5 => "Sangat Penting"
+);
 
 $statusTopic = array(0 => "Tertutup", 1 => "Terbuka");
 $statusTopicBis = array(0 => "Ya", 1 => "Tidak");
 
 $statusPublish = array(0 => "Ya", 1 => "Tidak");
 
-$statusFile = array(0 => "Disetujui", 1 => "Disetujui dgn perubahan", 2 => "Butuh persetujuan", 3 => "Tidak perlu persetujuan", 4 => "Tidak disetujui");
+$statusFile = array(
+    0 => "Disetujui",
+    1 => "Disetujui dgn perubahan",
+    2 => "Butuh persetujuan",
+    3 => "Tidak perlu persetujuan",
+    4 => "Tidak disetujui"
+);
 
 $phaseStatus = array(0 => "Not started", 1 => "Open", 2 => "Complete", 3 => "Suspended");
 

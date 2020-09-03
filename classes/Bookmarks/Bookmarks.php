@@ -3,6 +3,7 @@
 
 namespace phpCollab\Bookmarks;
 
+use Exception;
 use phpCollab\Database;
 
 
@@ -17,10 +18,11 @@ class Bookmarks
 
     /**
      * Bookmarks constructor.
+     * @param Database $database
      */
-    public function __construct()
+    public function __construct(Database $database)
     {
-        $this->db = new Database();
+        $this->db = $database;
         $this->bookmarks_gateway = new BookmarksGateway($this->db);
     }
 
@@ -35,8 +37,7 @@ class Bookmarks
         if (isset($sorting)) {
             $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
         }
-        $data = $this->bookmarks_gateway->getMyBookmarks($ownerId, $sorting);
-        return $data;
+        return $this->bookmarks_gateway->getMyBookmarks($ownerId, $sorting);
     }
 
     /**
@@ -50,8 +51,7 @@ class Bookmarks
         if (isset($sorting)) {
             $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
         }
-        $data = $this->bookmarks_gateway->getMyHomeBookmarks($ownerId, $sorting);
-        return $data;
+        return $this->bookmarks_gateway->getMyHomeBookmarks($ownerId, $sorting);
     }
 
     /**
@@ -65,8 +65,7 @@ class Bookmarks
         if (isset($sorting)) {
             $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
         }
-        $data = $this->bookmarks_gateway->getPrivateBookmarks($ownerId, $sorting);
-        return $data;
+        return $this->bookmarks_gateway->getPrivateBookmarks($ownerId, $sorting);
     }
 
     /**
@@ -75,8 +74,7 @@ class Bookmarks
      */
     public function getBookmarkById($bookmarkId)
     {
-        $data = $this->bookmarks_gateway->getBookmarkById($bookmarkId);
-        return $data;
+        return $this->bookmarks_gateway->getBookmarkById($bookmarkId);
     }
 
     /**
@@ -85,8 +83,7 @@ class Bookmarks
      */
     public function getBookmarksInRange($range)
     {
-        $data = $this->bookmarks_gateway->getBookmarksInRange($range);
-        return $data;
+        return $this->bookmarks_gateway->getBookmarksInRange($range);
     }
 
     /**
@@ -100,9 +97,7 @@ class Bookmarks
         if (isset($sorting)) {
             $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
         }
-        $data = $this->bookmarks_gateway->getAllBookmarks($ownerId, $sorting);
-
-        return $data;
+        return $this->bookmarks_gateway->getAllBookmarks($ownerId, $sorting);
     }
 
     /**
@@ -110,9 +105,7 @@ class Bookmarks
      */
     public function getBookmarkCategories()
     {
-        $categories = $this->bookmarks_gateway->getAllBookmarkCategories();
-
-        return $categories;
+        return $this->bookmarks_gateway->getAllBookmarkCategories();
     }
 
     /**
@@ -123,8 +116,7 @@ class Bookmarks
     {
         $categoryName = filter_var((string)$categoryName, FILTER_SANITIZE_STRING);
 
-        $data = $this->bookmarks_gateway->getCategoryByName($categoryName);
-        return $data;
+        return $this->bookmarks_gateway->getCategoryByName($categoryName);
     }
 
     /**
@@ -135,8 +127,7 @@ class Bookmarks
     {
         $categoryName = filter_var((string)$categoryName, FILTER_SANITIZE_STRING);
 
-        $category = $this->bookmarks_gateway->addNewCategory($categoryName);
-        return $category;
+        return $this->bookmarks_gateway->addNewCategory($categoryName);
     }
 
     /**
@@ -145,9 +136,7 @@ class Bookmarks
      */
     public function addBookmark($formData)
     {
-        $bookmark = $this->bookmarks_gateway->addBookmark($formData);
-
-        return $bookmark;
+        return $this->bookmarks_gateway->addBookmark($formData);
     }
 
     /**
@@ -156,9 +145,7 @@ class Bookmarks
      */
     public function updateBookmark($formData)
     {
-        $bookmark = $this->bookmarks_gateway->updateBookmark($formData);
-
-        return $bookmark;
+        return $this->bookmarks_gateway->updateBookmark($formData);
     }
 
     /**
@@ -170,9 +157,8 @@ class Bookmarks
         try {
             $bookmarkId = filter_var((string)$bookmarkId, FILTER_SANITIZE_STRING);
 
-            $response = $this->bookmarks_gateway->deleteBookmark($bookmarkId);
-            return $response;
-        } catch (\Exception $e) {
+            return $this->bookmarks_gateway->deleteBookmark($bookmarkId);
+        } catch (Exception $e) {
             echo 'Message: ' . $e->getMessage();
         }
         return '';

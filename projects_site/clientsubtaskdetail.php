@@ -2,23 +2,19 @@
 #Application name: PhpCollab
 #Status page: 0
 
-use phpCollab\Subtasks\SetStatus;
-use phpCollab\Tasks\Tasks;
-use phpCollab\Updates\Updates;
 use phpCollab\Util;
 
 $checkSession = "true";
 include '../includes/library.php';
 
-$tasks = new Tasks();
-$updates = new Updates();
-$subtasks = new SetStatus();
+$tasks = $container->getTasksLoader();
+$updates = $container->getTaskUpdateService();
+$subtasks = $container->getSetStatusService();
 
 $taskId = !empty($request->query->get('task')) ? $request->query->get('task') : $request->request->get('taskId');
 $subtaskId = !empty($request->query->get('id')) ? $request->query->get('id') : $request->request->get('subtaskId');
 
 $subtaskDetail = $tasks->getSubTaskById($subtaskId);
-
 
 if ($request->isMethod('post') && !empty($subtaskDetail)) {
     try {
@@ -93,7 +89,7 @@ $complValue = ($subtaskDetail["subtas_completion"] > 0) ?
     $subtaskDetail["subtas_completion"] . "0 %"
     : $subtaskDetail["subtas_completion"] . " %";
 
-    echo <<<TR
+echo <<<TR
     <tr>
         <td>{$strings["completion"]} :</td>
         <td>{$complValue}</td>

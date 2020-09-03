@@ -1,7 +1,5 @@
 <?php
 
-use phpCollab\NewsDesk\NewsDesk;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -9,7 +7,7 @@ $commentId = $request->query->get('id');
 $postId = $request->query->get('postid');
 $action = $request->request->get('action');
 
-$newsDesk = new NewsDesk();
+$newsDesk = $container->getNewsdeskLoader();
 
 //case update post
 if (!empty($commentId)) {

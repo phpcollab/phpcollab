@@ -1,8 +1,6 @@
 <?php
 namespace phpCollab;
 
-use \PDO;
-
 /**
  * Class ProjectSite
  * @package phpCollab
@@ -16,11 +14,11 @@ class ProjectSite
     /**
      * ProjectSite constructor.
      */
-    public function __construct()
+    public function __construct(Database $database)
     {
         $this->tableCollab = $GLOBALS["tableCollab"];
         $this->initrequest = $GLOBALS['initrequest'];
-        $this->db = new Database();
+        $this->db = $database;
     }
 
     /**

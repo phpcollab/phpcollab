@@ -6,13 +6,41 @@
 //translator(s): Metin Amiroff, Hafiz Bagirli
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
-$dayNameArray = array(1 =>"Bazar Ertəsi", 2 =>"Çərşənbə Axşamı", 3 =>"Çərşənbə", 4 =>"Cümə Axşamı", 5 =>"Cümə", 6 =>"Şənbə", 7 =>"Bazar");
+$dayNameArray = array(
+    1 => "Bazar Ertəsi",
+    2 => "Çərşənbə Axşamı",
+    3 => "Çərşənbə",
+    4 => "Cümə Axşamı",
+    5 => "Cümə",
+    6 => "Şənbə",
+    7 => "Bazar"
+);
 
-$monthNameArray = array(1=> "Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr");
+$monthNameArray = array(
+    1 => "Yanvar",
+    "Fevral",
+    "Mart",
+    "Aprel",
+    "May",
+    "İyun",
+    "İyul",
+    "Avqust",
+    "Sentyabr",
+    "Oktyabr",
+    "Noyabr",
+    "Dekabr"
+);
 
 $status = array(0 => "İstifadəçı Sonlanmış", 1 => "Sonlanmış", 2 => "Başladılmamış", 3 => "Açıq", 4 => "Dayandırılmış");
 
-$profil = array(0 => "İdarə edən", 1 => "Layihə İdarəçisi", 2 => "istifadə edən", 3 => "Müştəri İstifadəçısı", 4 => "Disabled", 5 => "Project Manager Administrator");
+$profil = array(
+    0 => "İdarə edən",
+    1 => "Layihə İdarəçisi",
+    2 => "istifadə edən",
+    3 => "Müştəri İstifadəçısı",
+    4 => "Disabled",
+    5 => "Project Manager Administrator"
+);
 
 $priority = array(0 => "Yox", 1 => "Çox az", 2 => "Az", 3 => "Orta", 4 => "Yüksək", 5 => "Çox yüksək");
 
@@ -21,7 +49,13 @@ $statusTopicBis = array(0 => "Bəli", 1 => "Xeyr");
 
 $statusPublish = array(0 => "Bəli", 1 => "Xeyr");
 
-$statusFile = array(0 => "İslah Edilib", 1 => "Dəyişiklərlə İslah Edilib", 2 => "İslah ediləcək", 3 => "İslaha ehtiyac yoxdur", 4 => "İslah Edilməyib");
+$statusFile = array(
+    0 => "İslah Edilib",
+    1 => "Dəyişiklərlə İslah Edilib",
+    2 => "İslah ediləcək",
+    3 => "İslaha ehtiyac yoxdur",
+    4 => "İslah Edilməyib"
+);
 
 $phaseStatus = array(0 => "Not started", 1 => "Open", 2 => "Complete", 3 => "Suspended");
 
@@ -202,15 +236,6 @@ $strings["delete_projects"] = "Layihələri Sil";
 $strings["delete_organizations"] = "Təşkilatları sil";
 $strings["delete_organizations_note"] = "Diqqət: Bu təşkilatların bütün nümayəndə və üzvlərini siləcək və bunların bütün var olan layihələrlə əlaqəsini kəsəcək.";
 $strings["delete_messages"] = "Mesajları Sil";
-
-
-
-
-
-
-
-
-
 
 
 $strings["attention"] = "Diqqət";

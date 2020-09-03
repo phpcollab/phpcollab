@@ -3,17 +3,12 @@
 #Status page: 0
 #Path by root: ../topics/addpost.php
 
-use phpCollab\Notifications\Notifications;
-use phpCollab\Notifications\TopicNewPost;
-use phpCollab\Projects\Projects;
-use phpCollab\Topics\Topics;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$topics = new Topics();
-$projects = new Projects();
-$sendNotifications = new Notifications();
+$topics = $container->getTopicsLoader();
+$projects = $container->getProjectsLoader();
+$sendNotifications = $container->getNotificationsManager();
 
 $topic_id = $request->query->get('id');
 $strings = $GLOBALS["strings"];
@@ -54,9 +49,7 @@ if ($request->isMethod('post')) {
                     }
 
                     if ($posters != "") {
-
-
-                        $newPostNotice = new TopicNewPost();
+                        $newPostNotice = $container->getNotificationNewPostManager();
 
                         try {
                             $notificationList = $sendNotifications->getNotificationsWhereMemberIn($posters);
@@ -98,8 +91,10 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../topics/listtopics.php?project=" . $projectDetail["pro_id"], $strings["discussions"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"],
+    $projectDetail["pro_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../topics/listtopics.php?project=" . $projectDetail["pro_id"],
+    $strings["discussions"], "in"));
 $blockPage->itemBreadcrumbs($detailTopic["top_subject"]);
 $blockPage->closeBreadcrumbs();
 
@@ -111,7 +106,8 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "ptT";
-$block1->openForm("../topics/addpost.php?id=" . $detailTopic["top_id"] . "&project=" . $detailTopic["top_project"], null, $csrfHandler);
+$block1->openForm("../topics/addpost.php?id=" . $detailTopic["top_id"] . "&project=" . $detailTopic["top_project"],
+    null, $csrfHandler);
 
 if (isset($error) && $error != "") {
     $block1->headingError($strings["errors"]);
@@ -123,9 +119,14 @@ $block1->heading($strings["post_to_discussion"] . " : " . $detailTopic["top_subj
 $block1->openContent();
 $block1->contentTitle($strings["info"]);
 
-$block1->contentRow($strings["project"], $blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"] . " (#" . $projectDetail["pro_id"] . ")", "in"));
+$block1->contentRow($strings["project"],
+    $blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"],
+        $projectDetail["pro_name"] . " (#" . $projectDetail["pro_id"] . ")", "in"));
 $block1->contentRow($strings["organization"], $projectDetail["pro_org_name"]);
-$block1->contentRow($strings["owner"], $blockPage->buildLink("../users/viewuser.php?id=" . $projectDetail["pro_mem_id"], $projectDetail["pro_mem_name"], "in") . " (" . $blockPage->buildLink($projectDetail["pro_mem_email_work"], $projectDetail["pro_mem_login"], "mail") . ")");
+$block1->contentRow($strings["owner"],
+    $blockPage->buildLink("../users/viewuser.php?id=" . $projectDetail["pro_mem_id"], $projectDetail["pro_mem_name"],
+        "in") . " (" . $blockPage->buildLink($projectDetail["pro_mem_email_work"], $projectDetail["pro_mem_login"],
+        "mail") . ")");
 
 if ($sitePublish == "true") {
     $block1->contentRow($strings["published"], $GLOBALS["statusPublish"][$idPublish]);
@@ -133,23 +134,28 @@ if ($sitePublish == "true") {
 
 $block1->contentRow($strings["retired"], $GLOBALS["statusTopicBis"][$idStatus]);
 $block1->contentRow($strings["posts"], $detailTopic["top_posts"]);
-$block1->contentRow($strings["last_post"], phpCollab\Util::createDate($detailTopic["top_last_post"], $session->get("timezone")));
+$block1->contentRow($strings["last_post"],
+    phpCollab\Util::createDate($detailTopic["top_last_post"], $session->get("timezone")));
 
 $block1->contentTitle($strings["details"]);
 
-$block1->contentRow($strings["message"], '<textarea rows="10" style="width: 400px; height: 160px;" name="post_message" cols="47"></textarea>');
+$block1->contentRow($strings["message"],
+    '<textarea rows="10" style="width: 400px; height: 160px;" name="post_message" cols="47"></textarea>');
 $block1->contentRow("", '<button type="submit" name="action" value="add">' . $strings["save"] . '</button>');
 
 $block1->contentTitle($strings["posts"]);
 
 //for ($i = 0; $i < $comptListPosts; $i++) {
 foreach ($listPosts as $post) {
-    $block1->contentRow($strings["posted_by"], $blockPage->buildLink($post["pos_mem_email_work"], $post["pos_mem_name"], "mail"));
+    $block1->contentRow($strings["posted_by"],
+        $blockPage->buildLink($post["pos_mem_email_work"], $post["pos_mem_name"], "mail"));
 
     if ($post["pos_created"] > $session->get("lastVisited")) {
-        $block1->contentRow($strings["when"], "<b>" . phpCollab\Util::createDate($post["pos_created"], $session->get("timezone")) . "</b>");
+        $block1->contentRow($strings["when"],
+            "<b>" . phpCollab\Util::createDate($post["pos_created"], $session->get("timezone")) . "</b>");
     } else {
-        $block1->contentRow($strings["when"], phpCollab\Util::createDate($post["pos_created"], $session->get("timezone")));
+        $block1->contentRow($strings["when"],
+            phpCollab\Util::createDate($post["pos_created"], $session->get("timezone")));
     }
     $block1->contentRow("", nl2br($post["pos_message"]));
     $block1->contentRow("", "", "true");

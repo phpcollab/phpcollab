@@ -2,18 +2,14 @@
 #Application name: PhpCollab
 #Status page: 0
 
-use phpCollab\Tasks\SetTaskStatus;
-use phpCollab\Tasks\Tasks;
-use phpCollab\Updates\Updates;
-
 $checkSession = "true";
 include '../includes/library.php';
 
 $taskId = !empty($request->query->get('id')) ? $request->query->get('id') : $request->request->get('taskId');
 
-$tasks = new Tasks();
+$tasks = $container->getTasksLoader();
 
-$taskStatus = new SetTaskStatus();
+$taskStatus = $container->getSetTaskStatusServiceService();
 
 $taskDetail = $tasks->getTaskById($taskId);
 
@@ -24,9 +20,9 @@ if ($request->isMethod('post')) {
                 $comments = phpCollab\Util::convertData($request->request->get('comments'));
 
                 if (!empty($request->request->get('status')) && $request->request->get('status') == "completed") {
-                if (!empty($request->request->get('status'))) {
-                    $taskStatus->set($taskId, 0, $comments);
-                }
+                    if (!empty($request->request->get('status'))) {
+                        $taskStatus->set($taskId, 0, $comments);
+                    }
                 } else {
                     $taskStatus->set($taskId, $taskDetail["tas_status"], $comments);
                 }
@@ -43,7 +39,7 @@ if ($request->isMethod('post')) {
     }
 }
 
-$updates = new Updates();
+$updates = $container->getTaskUpdateService();
 
 if ($taskDetail["tas_published"] == "1" || $taskDetail["tas_project"] != $session->get("project")) {
     phpCollab\Util::headerFunction("index.php");

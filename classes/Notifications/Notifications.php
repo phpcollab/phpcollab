@@ -17,10 +17,11 @@ class Notifications
 
     /**
      * Members constructor.
+     * @param Database $database
      */
-    public function __construct()
+    public function __construct(Database $database)
     {
-        $this->db = new Database();
+        $this->db = $database;
 
         $this->notifications_gateway = new NotificationsGateway($this->db);
     }

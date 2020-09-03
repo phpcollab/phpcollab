@@ -1,9 +1,7 @@
 <?php
 
-use phpCollab\Support\Support;
-
-$mail = new phpCollab\Notification();
-$supportRequests = new Support($logger);
+$mail = $container->getNotification();
+$supportRequests = $container->getSupportLoader();
 
 $mail->getUserinfo($session->get("id"), "from", $logger);
 

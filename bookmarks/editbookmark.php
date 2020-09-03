@@ -19,13 +19,12 @@
 ** =============================================================================
 */
 
-use phpCollab\Bookmarks\Bookmarks;
 use phpCollab\Util;
 
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$bookmark = new Bookmarks();
+$bookmark = $container->getBookmarksLoader();
 
 $name = "";
 $url = "";
@@ -124,7 +123,7 @@ if ($request->isMethod('post')) {
 if (!empty($request->query->get('id'))) {
     $id = $request->query->get('id');
 
-    $bookmarkId = filter_var((int) $id, FILTER_VALIDATE_INT);
+    $bookmarkId = filter_var((int)$id, FILTER_VALIDATE_INT);
     $bookmarkDetail = $bookmark->getBookmarkById($id);
 
     //set value in form
@@ -161,13 +160,15 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=my", $strings["bookmarks"], 'in'));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=my", $strings["bookmarks"],
+    'in'));
 
 if ($id == "") {
     $blockPage->itemBreadcrumbs($strings["add_bookmark"]);
 }
 if ($id != "") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/viewbookmark.php?id=" . $bookmarkDetail['boo_id'], $bookmarkDetail['boo_name'], 'in'));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/viewbookmark.php?id=" . $bookmarkDetail['boo_id'],
+        $bookmarkDetail['boo_name'], 'in'));
     $blockPage->itemBreadcrumbs($strings["edit_bookmark"]);
 }
 $blockPage->closeBreadcrumbs();
@@ -184,7 +185,8 @@ if ($id == "") {
 }
 if ($id != "") {
     $block1->form = "boo";
-    $block1->openForm("../bookmarks/editbookmark.php?id=$id&action=update&#" . $block1->form . "Anchor", null, $csrfHandler);
+    $block1->openForm("../bookmarks/editbookmark.php?id=$id&action=update&#" . $block1->form . "Anchor", null,
+        $csrfHandler);
 }
 if ($error != "") {
     $block1->headingError($strings["errors"]);
@@ -269,7 +271,7 @@ HTML;
         if ($listCaptured) {
             $selected = (in_array($user['mem_id'], $listCaptured)) ? 'selected' : '';
         }
-        echo '<option value="' . $user['mem_id'] . '" '. $selected.'>' . $user['mem_login'] . '</option>';
+        echo '<option value="' . $user['mem_id'] . '" ' . $selected . '>' . $user['mem_login'] . '</option>';
     }
 
     echo <<<HTML

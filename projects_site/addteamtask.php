@@ -30,14 +30,11 @@
 ** =============================================================================
 */
 
-use phpCollab\Assignments\Assignments;
-use phpCollab\Tasks\Tasks;
-
 $checkSession = "true";
 include '../includes/library.php';
 
-$tasks = new Tasks();
-$assignments = new Assignments();
+$tasks = $container->getTasksLoader();
+$assignments = $container->getAssignmentsManager();
 
 //case add task
 $id = $request->query->get('id');
@@ -65,7 +62,8 @@ if (empty($request->query->get('id'))) {
                     $projectId = $request->request->get('project_id');
 
                     try {
-                        $newTask = $tasks->addTask($projectId, $taskName, $description, $session->get("id"), 0, 2, $priority, $startDate, $dueDate, 0, 0, $comments, $publshed, 0);
+                        $newTask = $tasks->addTask($projectId, $taskName, $description, $session->get("id"), 0, 2,
+                            $priority, $startDate, $dueDate, 0, 0, $comments, $publshed, 0);
 
                         $assignments->addAssignment($newTask["tas_id"], $session->get("id"), $assignedTo, $dateheure);
 
@@ -79,8 +77,7 @@ if (empty($request->query->get('id'))) {
                             phpCollab\Util::createDirectory("../files/{$session->get("project")}/" . $newTask["tas_id"]);
                         }
                         phpCollab\Util::headerFunction("showallteamtasks.php");
-                    }
-                    catch (Exception $e) {
+                    } catch (Exception $e) {
                         echo $e->getMessage();
                     }
                 }

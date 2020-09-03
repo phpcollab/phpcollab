@@ -1,15 +1,11 @@
 <?php
 
-use phpCollab\Organizations\Organizations;
-use phpCollab\Projects\Projects;
-use phpCollab\Teams\Teams;
-
 $checkSession = "true";
 include '../includes/library.php';
 
-$teams = new Teams();
-$organizations = new Organizations();
-$projects = new Projects();
+$teams = $container->getTeams();
+$organizations = $container->getOrganizationsManager();
+$projects = $container->getProjectsLoader();
 
 $updateProject = $request->query->get('updateProject');
 $changeProject = $request->query->get('changeProject');
@@ -19,7 +15,8 @@ $priority = $GLOBALS["priority"];
 $status = $GLOBALS["status"];
 
 if ($updateProject == "true") {
-    $testProject = $teams->getTeamByProjectIdAndTeamMemberAndStatusIsNotCompletedOrSuspendedAndIsNotPublished($project, $session->get("id"));
+    $testProject = $teams->getTeamByProjectIdAndTeamMemberAndStatusIsNotCompletedOrSuspendedAndIsNotPublished($project,
+        $session->get("id"));
     if ($testProject) {
         $session->remove("project");
 

@@ -4,7 +4,7 @@
 
 echo "<p id=\"footer\">PhpCollab v$version";
 if ($notLogged != "true" && $blank != "true") {
-    echo " - Connected users: $connectedUsers";
+    echo " - Connected users: {$session->get("connectedUsers")}";
 }
 
 if ($footerDev == "true") {

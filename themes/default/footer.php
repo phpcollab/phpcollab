@@ -2,24 +2,26 @@
 #Application name: PhpCollab
 #Status page: 0
 
-echo "<p id=\"footer\">PhpCollab v$version";
-if ($notLogged != "true" && $blank != "true") {
-    echo " - Connected users: $connectedUsers";
-}
+echo <<<HTML
+<footer id="footer">
+    &copy {$setTitle} {}
+</footer>
+HTML;
+
 
 if ($footerDev == "true") {
     $parse_end = phpCollab\Util::getMicroTime();
     $parse = $parse_end - $parse_start;
     $parse = round($parse, 3);
-    echo " - $parse secondes - databaseType $databaseType - select requests $comptRequest";
-    echo " - <a href=\"http://validator.w3.org/check/referer\" target=\"w3c\">w3c</a> (in progress)&nbsp;&nbsp;&nbsp;";
+    echo <<<DEBUG_INFO
+        {$parse} seconds - databaseType {$databaseType} - select requests {$comptRequest}
+DEBUG_INFO;
 }
-
-echo "</p>";
 
 if ($debug === true && is_object($debugbarRenderer)) {
     echo $debugbarRenderer->render();
 }
-echo "	</body>
-		</html>
-	 ";
+echo <<<HTML
+    </body>
+</html>
+HTML;

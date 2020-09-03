@@ -37,8 +37,7 @@ class UpdateInvoiceItem
         }
 
         try {
-            $tmp = $this->updateItem($itemId, $rateType, $rateValue, $exTaxAmount);
-            return $tmp;
+            return $this->updateItem($itemId, $rateType, $rateValue, $exTaxAmount);
         } catch (Exception $exception) {
             throw new Exception($exception->getMessage());
         }
@@ -47,11 +46,12 @@ class UpdateInvoiceItem
     /**
      * @param int $itemId
      * @param string $rateType
-     * @param float $rateValue
-     * @param float $exTaxAmount
+     * @param string $rateValue
+     * @param string $exTaxAmount
      * @return mixed
      */
-    private function updateItem(int $itemId, string $rateType, string $rateValue, string $exTaxAmount) {
+    private function updateItem(int $itemId, string $rateType, string $rateValue, string $exTaxAmount)
+    {
         $query = <<< SQL
 UPDATE {$this->tableCollab["invoices_items"]}
 SET

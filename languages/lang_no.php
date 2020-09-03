@@ -6,13 +6,41 @@
 //translator(s): Wiggo Eriksen (Prosjektledelse.no)
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
-$dayNameArray = array(1 =>"Mandag", 2 =>"Tirsdag", 3 =>"Onsdag", 4 =>"Torsdag", 5 =>"Fredag", 6 =>"Lørdag", 7 =>"Søndag");
+$dayNameArray = array(
+    1 => "Mandag",
+    2 => "Tirsdag",
+    3 => "Onsdag",
+    4 => "Torsdag",
+    5 => "Fredag",
+    6 => "Lørdag",
+    7 => "Søndag"
+);
 
-$monthNameArray = array(1=> "Januar", "Februar", "Mars", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Desember");
+$monthNameArray = array(
+    1 => "Januar",
+    "Februar",
+    "Mars",
+    "April",
+    "Mai",
+    "Juni",
+    "Juli",
+    "August",
+    "September",
+    "Oktober",
+    "November",
+    "Desember"
+);
 
 $status = array(0 => "Kunde fullført", 1 => "Fullført", 2 => "Ikke begynt", 3 => "Åpen", 4 => "Utsatt");
 
-$profil = array(0 => "Administrator", 1 => "Prosjektleder", 2 => "Bruker", 3 => "Kundebruker", 4 => "Disabled", 5 => "Prosjektleder Administrator");
+$profil = array(
+    0 => "Administrator",
+    1 => "Prosjektleder",
+    2 => "Bruker",
+    3 => "Kundebruker",
+    4 => "Disabled",
+    5 => "Prosjektleder Administrator"
+);
 
 $priority = array(0 => "Ingen", 1 => "Veldig liten", 2 => "Liten", 3 => "Middels", 4 => "Høy", 5 => "Veldig høy");
 
@@ -21,7 +49,13 @@ $statusTopicBis = array(0 => "Ja", 1 => "Nei");
 
 $statusPublish = array(0 => "Ja", 1 => "Nei");
 
-$statusFile = array(0 => "Godkjent", 1 => "Godkjent med endringer", 2 => "Trenger godkjenning", 3 => "Ingen godkjenning nødvendig", 4 => "Ikke godkjent");
+$statusFile = array(
+    0 => "Godkjent",
+    1 => "Godkjent med endringer",
+    2 => "Trenger godkjenning",
+    3 => "Ingen godkjenning nødvendig",
+    4 => "Ikke godkjent"
+);
 
 $phaseStatus = array(0 => "Ikke påbegynt", 1 => "Åpen", 2 => "Ferdig", 3 => "Suspendert");
 
@@ -468,7 +502,6 @@ $strings["noti_support_status2"] = "Din support henvendelse er oppdatert. Vennli
 $strings["noti_support_team_new2"] = "En ny support henvendelse er lagt til prosjekt: ";
 
 
-
 //2.0
 $strings["delete_subtasks"] = "Slett sub-oppgaver";
 $strings["add_subtask"] = "Legg til sub-oppgaver";
@@ -507,5 +540,5 @@ $strings["license"] = "Lisense";
 //2.4
 $strings["settings_notwritable"] = "Settings.php filen er skrivebeskyttet";
 //2.5b4
-$strings["Total_Hours_Worked"]="Arbeids Timer Totalt";
+$strings["Total_Hours_Worked"] = "Arbeids Timer Totalt";
 $strings["Pct_Complete"] = "Prosent Ferdig";

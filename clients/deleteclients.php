@@ -25,14 +25,11 @@
 */
 
 
-use phpCollab\Organizations\Organizations;
-use phpCollab\Projects\Projects;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$clients = new Organizations();
-$projects = new Projects();
+$clients = $container->getOrganizationsManager();
+$projects = $container->getProjectsLoader();
 
 $id = $request->query->get("id");
 
@@ -108,7 +105,8 @@ foreach ($listOrganizations as $org) {
     $block1->contentRow("#" . $org['org_id'], $org['org_name']);
 }
 
-$block1->contentRow("", '<button type="submit" name="action" value="delete">' . $strings["delete"] . '</button> <input type="button" name="cancel" value="' . $strings["cancel"] . '" onClick="history.back();">');
+$block1->contentRow("",
+    '<button type="submit" name="action" value="delete">' . $strings["delete"] . '</button> <input type="button" name="cancel" value="' . $strings["cancel"] . '" onClick="history.back();">');
 
 $block1->closeContent();
 $block1->closeForm();

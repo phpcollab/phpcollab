@@ -4,14 +4,12 @@
 
 use Amenadiel\JpGraph\Graph\GanttGraph;
 use Amenadiel\JpGraph\Plot\GanttBar;
-use phpCollab\Projects\Projects;
-use phpCollab\Tasks\Tasks;
 
 $checkSession = "true";
 include '../includes/library.php';
 
-$tasks = new Tasks();
-$projects = new Projects();
+$tasks = $container->getTasksLoader();
+$projects = $container->getProjectsLoader();
 
 $task = $request->query->get('task');
 $strings = $GLOBALS["strings"];

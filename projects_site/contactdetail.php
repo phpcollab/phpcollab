@@ -2,12 +2,10 @@
 #Application name: PhpCollab
 #Status page: 0
 
-use phpCollab\Teams\Teams;
-
 $checkSession = "true";
 include '../includes/library.php';
 
-$teams = new Teams();
+$teams = $container->getTeams();
 
 $userDetail = $members->getMemberById($id);
 

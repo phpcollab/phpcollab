@@ -93,7 +93,8 @@ class TopicsGateway
      */
     public function getTopicsByProject($projectId, $offset = null, $limit = null, $sorting = null)
     {
-        $query = $this->initrequest["topics"] . " WHERE topic.project = :project_id" . $this->orderBy($sorting) . $this->limit($offset, $limit);
+        $query = $this->initrequest["topics"] . " WHERE topic.project = :project_id" . $this->orderBy($sorting) . $this->limit($offset,
+                $limit);
         $this->db->query($query);
         $this->db->bind(':project_id', $projectId);
         return $this->db->resultset();
@@ -108,7 +109,8 @@ class TopicsGateway
      */
     public function getProjectSiteTopics($projectId, $offset = null, $limit = null, $sorting = null)
     {
-        $query = $this->initrequest["topics"] .  " WHERE topic.project = :project_id AND topic.published = 0" . $this->orderBy($sorting) . $this->limit($offset, $limit);
+        $query = $this->initrequest["topics"] . " WHERE topic.project = :project_id AND topic.published = 0" . $this->orderBy($sorting) . $this->limit($offset,
+                $limit);
         $this->db->query($query);
         $this->db->bind(':project_id', $projectId);
         return $this->db->resultset();
@@ -202,10 +204,11 @@ class TopicsGateway
      * @return mixed
      * @internal param string $table
      */
-    public function publishTopic($topicIds) {
-        if ( strpos($topicIds, ',') ) {
+    public function publishTopic($topicIds)
+    {
+        if (strpos($topicIds, ',')) {
             $topicIds = explode(',', $topicIds);
-            $placeholders = str_repeat ('?, ', count($topicIds)-1) . '?';
+            $placeholders = str_repeat('?, ', count($topicIds) - 1) . '?';
             $sql = "UPDATE {$this->tableCollab['topics']} SET published = 0 WHERE id IN ($placeholders)";
             $this->db->query($sql);
 
@@ -226,10 +229,11 @@ class TopicsGateway
      * @return mixed
      * @internal param string $table
      */
-    public function unPublishTopic($topicIds) {
-        if ( strpos($topicIds, ',') ) {
+    public function unPublishTopic($topicIds)
+    {
+        if (strpos($topicIds, ',')) {
             $topicIds = explode(',', $topicIds);
-            $placeholders = str_repeat ('?, ', count($topicIds)-1) . '?';
+            $placeholders = str_repeat('?, ', count($topicIds) - 1) . '?';
             $sql = "UPDATE {$this->tableCollab['topics']} SET published = 1 WHERE id IN ($placeholders)";
             $this->db->query($sql);
             return $this->db->execute($topicIds);
@@ -250,10 +254,11 @@ class TopicsGateway
      * @return mixed
      * @internal param $table
      */
-    public function closeTopic($topicIds) {
-        if ( strpos($topicIds, ',') ) {
+    public function closeTopic($topicIds)
+    {
+        if (strpos($topicIds, ',')) {
             $topicIds = explode(',', $topicIds);
-            $placeholders = str_repeat ('?, ', count($topicIds)-1) . '?';
+            $placeholders = str_repeat('?, ', count($topicIds) - 1) . '?';
             $sql = "UPDATE {$this->tableCollab['topics']} SET status=0 WHERE id IN ($placeholders)";
             $this->db->query($sql);
             return $this->db->execute($topicIds);
@@ -397,7 +402,22 @@ class TopicsGateway
     private function orderBy($sorting)
     {
         if (!is_null($sorting)) {
-            $allowedOrderedBy = ["topic.id","topic.project","topic.owner","topic.subject","topic.status","topic.last_post","topic.posts","topic.published","mem.id","mem.login","mem.name","mem.email_work","pro.id","pro.name"];
+            $allowedOrderedBy = [
+                "topic.id",
+                "topic.project",
+                "topic.owner",
+                "topic.subject",
+                "topic.status",
+                "topic.last_post",
+                "topic.posts",
+                "topic.published",
+                "mem.id",
+                "mem.login",
+                "mem.name",
+                "mem.email_work",
+                "pro.id",
+                "pro.name"
+            ];
             $pieces = explode(' ', $sorting);
 
             if ($pieces) {

@@ -1,10 +1,5 @@
 <?php
 
-use phpCollab\Notifications\TopicNewTopic;
-use phpCollab\Projects\Projects;
-use phpCollab\Teams\Teams;
-use phpCollab\Topics\Topics;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -12,9 +7,9 @@ $project = $request->query->get('project');
 
 $strings = $GLOBALS["strings"];
 
-$projects = new Projects();
-$teams = new Teams();
-$topics = new Topics();
+$projects = $container->getProjectsLoader();
+$teams = $container->getTeams();
+$topics = $container->getTopicsLoader();
 
 $projectDetail = $projects->getProjectById($project);
 
@@ -59,10 +54,11 @@ if ($request->isMethod('post')) {
 
 
                     if ($posters != "") {
-                        $newTopicNotice = new TopicNewTopic();
+                        $newTopicNotice = $container->getNotificationNewTopicManager();
 
                         try {
-                            $listPosts = $topics->getPostsByTopicIdAndNotOwner($detailTopic["top_id"], $session->get("id"));
+                            $listPosts = $topics->getPostsByTopicIdAndNotOwner($detailTopic["top_id"],
+                                $session->get("id"));
 
                             $distinct = '';
 
@@ -112,8 +108,10 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../topics/listtopics.php?project=" . $projectDetail["pro_id"], $strings["discussions"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"],
+    $projectDetail["pro_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../topics/listtopics.php?project=" . $projectDetail["pro_id"],
+    $strings["discussions"], "in"));
 $blockPage->itemBreadcrumbs($strings["add_discussion"]);
 $blockPage->closeBreadcrumbs();
 
@@ -137,14 +135,21 @@ $block1->heading($strings["add_discussion"]);
 $block1->openContent();
 $block1->contentTitle($strings["info"]);
 
-$block1->contentRow($strings["project"], $blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"] . " (#" . $projectDetail["pro_id"] . ")", "in"));
+$block1->contentRow($strings["project"],
+    $blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"],
+        $projectDetail["pro_name"] . " (#" . $projectDetail["pro_id"] . ")", "in"));
 $block1->contentRow($strings["organization"], $projectDetail["pro_org_name"]);
-$block1->contentRow($strings["owner"], $blockPage->buildLink("../users/viewuser.php?id=" . $projectDetail["pro_mem_id"], $projectDetail["pro_mem_name"], "in") . " (" . $blockPage->buildLink($projectDetail["pro_mem_email_work"], $projectDetail["pro_mem_login"], "mail") . ")");
+$block1->contentRow($strings["owner"],
+    $blockPage->buildLink("../users/viewuser.php?id=" . $projectDetail["pro_mem_id"], $projectDetail["pro_mem_name"],
+        "in") . " (" . $blockPage->buildLink($projectDetail["pro_mem_email_work"], $projectDetail["pro_mem_login"],
+        "mail") . ")");
 
 $block1->contentTitle($strings["details"]);
 
-$block1->contentRow($strings["topic"], '<input size="44" value="' . $topic_subject . '" style="width: 400px" name="topic_subject" maxlength="64" type="TEXT">');
-$block1->contentRow($strings["message"], '<textarea rows="10" style="width: 400px; height: 160px;" name="topic_message" cols="47">' . $topic_message . '</textarea>');
+$block1->contentRow($strings["topic"],
+    '<input size="44" value="' . $topic_subject . '" style="width: 400px" name="topic_subject" maxlength="64" type="TEXT">');
+$block1->contentRow($strings["message"],
+    '<textarea rows="10" style="width: 400px; height: 160px;" name="topic_message" cols="47">' . $topic_message . '</textarea>');
 $block1->contentRow($strings["published"], '<input size="32" value="1" name="pub" type="checkbox">');
 $block1->contentRow("", '<button type="submit" name="action" value="add">' . $strings["save"] . '</button>');
 

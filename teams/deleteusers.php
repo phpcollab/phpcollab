@@ -3,14 +3,11 @@
 #Status page: 1
 #Path by root: ../teams/deleteusers.php
 
-use phpCollab\Projects\Projects;
-use phpCollab\Teams\Teams;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$projects = new Projects();
-$teams = new Teams();
+$projects = $container->getProjectsLoader();
+$teams = $container->getTeams();
 
 $id = $request->query->get('id');
 $project = $request->query->get('project');
@@ -30,7 +27,7 @@ $listMembers = $members->getMembersByIdIn($id);
 if ($action == "delete") {
     if (!empty($listMembers)) {
         if ($htaccessAuth == "true") {
-            $Htpasswd = new Htpasswd;
+            $Htpasswd = $container->getHtpasswdService();
             $Htpasswd->initialize("../files/" . $projectDetail["pro_id"] . "/.htpasswd");
 
             foreach ($listMembers as $listMember) {
@@ -107,7 +104,8 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"],
+    $projectDetail["pro_name"], "in"));
 $blockPage->itemBreadcrumbs($strings["remove_team"]);
 $blockPage->closeBreadcrumbs();
 
@@ -130,7 +128,8 @@ foreach ($listMembers as $listMember) {
     $block1->contentRow("#" . $listMember["mem_id"], $listMember["mem_login"] . " (" . $listMember["mem_name"] . ")");
 }
 
-$block1->contentRow("", '<input type="SUBMIT" value="' . $strings["remove"] . '">&#160;<input type="BUTTON" value="' . $strings["cancel"] . '" onClick="history.back();">');
+$block1->contentRow("",
+    '<input type="SUBMIT" value="' . $strings["remove"] . '">&#160;<input type="BUTTON" value="' . $strings["cancel"] . '" onClick="history.back();">');
 
 $block1->closeContent();
 $block1->closeForm();

@@ -6,13 +6,41 @@
 //translator(s): Felipe Jaramillo, Pep PujadС Mateo, Ricardo DМaz, Carlos Ca&ntilde;averal, Juan Guillermo Gallego
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
-$dayNameArray = array(1 =>"Lunes", 2 =>"Martes", 3 =>"Mi&eacute;rcoles", 4 =>"Jueves", 5 =>"Viernes", 6 =>"S&aacute;bado", 7 =>"Domingo");
+$dayNameArray = array(
+    1 => "Lunes",
+    2 => "Martes",
+    3 => "Mi&eacute;rcoles",
+    4 => "Jueves",
+    5 => "Viernes",
+    6 => "S&aacute;bado",
+    7 => "Domingo"
+);
 
-$monthNameArray = array(1=> "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+$monthNameArray = array(
+    1 => "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre"
+);
 
 $status = array(0 => "Cliente Finalizado", 1 => "Finalizado", 2 => "No Iniciado", 3 => "Abierto", 4 => "Suspendido");
 
-$profil = array(0 => "Administrador", 1 => "Director de Proyecto", 2 => "Usuario", 3 => "Usuario Cliente", 4 => "Deshabilitado", 5 => "Director, Administrador de Proyectos");
+$profil = array(
+    0 => "Administrador",
+    1 => "Director de Proyecto",
+    2 => "Usuario",
+    3 => "Usuario Cliente",
+    4 => "Deshabilitado",
+    5 => "Director, Administrador de Proyectos"
+);
 
 $priority = array(0 => "Ninguna", 1 => "Muy baja", 2 => "Baja", 3 => "Media", 4 => "Alta", 5 => "Muy alta");
 
@@ -21,7 +49,13 @@ $statusTopicBis = array(0 => "Si", 1 => "No");
 
 $statusPublish = array(0 => "Si", 1 => "No");
 
-$statusFile = array(0 => "Aprobado", 1 => "Aprobado con Cambios", 2 => "Necesita Aprobaci&oacute;n", 3 => "No Necesita Aprobaci&oacute;n", 4 => "No Aprobado");
+$statusFile = array(
+    0 => "Aprobado",
+    1 => "Aprobado con Cambios",
+    2 => "Necesita Aprobaci&oacute;n",
+    3 => "No Necesita Aprobaci&oacute;n",
+    4 => "No Aprobado"
+);
 
 $phaseStatus = array(0 => "No empezado", 1 => "Abierto", 2 => "Completado", 3 => "Suspendido");
 
@@ -545,7 +579,12 @@ $strings["rate_type"] = "Tipo de tarifa";
 $strings["rate_value"] = "Valor de la tarifa";
 $strings["note_invoice_items_notcompleted"] = "No todos los articulos de la factura estan completados";
 
-$rateType = array(0 => "Tarifa por cliente", 1 => "Tarifa por proyecto", 2 => "Tarifa por empresa", 3 => "Tarifa por servicio");
+$rateType = array(
+    0 => "Tarifa por cliente",
+    1 => "Tarifa por proyecto",
+    2 => "Tarifa por empresa",
+    3 => "Tarifa por servicio"
+);
 
 //HACKS
 
@@ -589,8 +628,8 @@ $strings["email_sent"] = "el correo ha sido enviado con exito.";
 //END email project users mod
 
 //requirements new feature
-$strings["projectrequirements"]= "Requerimientos";
-$strings["add_requirement"]="A&ntilde;adir requerimiento";
-$strings["code"]="C&oacute;digo";
+$strings["projectrequirements"] = "Requerimientos";
+$strings["add_requirement"] = "A&ntilde;adir requerimiento";
+$strings["code"] = "C&oacute;digo";
 
 $strings["clients_connected"] = "( Cliente en el sito del proyecto )";

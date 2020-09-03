@@ -6,9 +6,15 @@ namespace phpCollab\Bookmarks;
 
 use Exception;
 use InvalidArgumentException;
+use phpCollab\Database;
 
 class DeleteBookmarks extends Bookmarks
 {
+    public function __construct(Database $database)
+    {
+        parent::__construct($database);
+    }
+
     /**
      * @param $bookmarkIds
      * @return bool|Exception

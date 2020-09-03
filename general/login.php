@@ -103,7 +103,8 @@ if ($auth == "on") {
                 $match = true;
             }
         } else {
-            if (!$ssl && !phpCollab\Util::doesPasswordMatch($usernameForm, $passwordForm, $member['mem_password'], $loginMethod)) {
+            if (!$ssl && !phpCollab\Util::doesPasswordMatch($usernameForm, $passwordForm, $member['mem_password'],
+                    $loginMethod)) {
                 $logger->notice('Invalid password', ['username' => $usernameForm]);
                 $error = $strings["invalid_login"];
             } else {
@@ -142,8 +143,8 @@ if ($auth == "on") {
              * Validate form data
              */
 
-            $filteredData =  [];
-            $filteredData['login'] = filter_var((string) $request->request->get('usernameForm'), FILTER_SANITIZE_STRING);
+            $filteredData = [];
+            $filteredData['login'] = filter_var((string)$request->request->get('usernameForm'), FILTER_SANITIZE_STRING);
             $filteredData['ip'] = filter_var($request->server->get("REMOTE_ADDR"), FILTER_SANITIZE_STRING);
             $filteredData['session'] = $session->getId();
             $filteredData['last_visite'] = $dateheure;
@@ -306,8 +307,10 @@ $selectLanguage .= "</select>";
 
 $block1->contentRow($strings["language"], $selectLanguage);
 
-$block1->contentRow("* " . $strings["user_name"], "<input value='$usernameForm' type='text' name='usernameForm' required>");
-$block1->contentRow("* " . $strings["password"], "<input value='$passwordForm' type='password' name='passwordForm' autocomplete='off' required>");
+$block1->contentRow("* " . $strings["user_name"],
+    "<input value='$usernameForm' type='text' name='usernameForm' required>");
+$block1->contentRow("* " . $strings["password"],
+    "<input value='$passwordForm' type='password' name='passwordForm' autocomplete='off' required>");
 
 $block1->contentRow(
     "",

@@ -8,13 +8,41 @@ $setCharset = "utf-8";
 
 $byteUnits = array('baiti', 'KB', 'MB', 'GB');
 
-$dayNameArray = array(1 =>"esmaspäev", 2 =>"teisipäev", 3 =>"kolmapäev", 4 =>"neljapäev", 5 =>"reede", 6 =>"laupäev", 7 =>"pühapäev");
+$dayNameArray = array(
+    1 => "esmaspäev",
+    2 => "teisipäev",
+    3 => "kolmapäev",
+    4 => "neljapäev",
+    5 => "reede",
+    6 => "laupäev",
+    7 => "pühapäev"
+);
 
-$monthNameArray = array(1=> "jaanuar", "veebruar", "märts", "aprill", "mai", "juuni", "juuli", "august", "september", "oktoober", "november", "detsember");
+$monthNameArray = array(
+    1 => "jaanuar",
+    "veebruar",
+    "märts",
+    "aprill",
+    "mai",
+    "juuni",
+    "juuli",
+    "august",
+    "september",
+    "oktoober",
+    "november",
+    "detsember"
+);
 
 $status = array(0 => "Kliendi ülesanne valmis", 1 => "Valmis", 2 => "Ei ole alustatud", 3 => "Töös", 4 => "Peatatud");
 
-$profil = array(0 => "Administraator", 1 => "Projektijuht", 2 => "Kasutaja", 3 => "Klient", 4 => "Keelatud", 5 => "Projektijuht administraator");
+$profil = array(
+    0 => "Administraator",
+    1 => "Projektijuht",
+    2 => "Kasutaja",
+    3 => "Klient",
+    4 => "Keelatud",
+    5 => "Projektijuht administraator"
+);
 
 $priority = array(0 => "Ebaoluline", 1 => "Madalaim", 2 => "Madal", 3 => "Keskmine", 4 => "Oluline", 5 => "Olulisim");
 
@@ -23,7 +51,13 @@ $statusTopicBis = array(0 => "Jah", 1 => "Ei");
 
 $statusPublish = array(0 => "Jah", 1 => "Ei");
 
-$statusFile = array(0 => "Heaks kiidetud", 1 => "Heaks kiidetud muudatustega", 2 => "Vajab heakskiitu", 3 => "Heakskiitu ei vaja", 4 => "Ei ole heaks kiidetud");
+$statusFile = array(
+    0 => "Heaks kiidetud",
+    1 => "Heaks kiidetud muudatustega",
+    2 => "Vajab heakskiitu",
+    3 => "Heakskiitu ei vaja",
+    4 => "Ei ole heaks kiidetud"
+);
 
 $phaseStatus = array(0 => "ei ole alanud", 1 => "Töös", 2 => "Valmis", 3 => "Peatatud");
 

@@ -1,11 +1,9 @@
 <?php
 
-use phpCollab\Support\Support;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$support = new Support($logger);
+$support = $container->getSupportLoader();
 
 $id = $request->query->get('id');
 $action = $request->query->get('action');
@@ -59,8 +57,6 @@ if ($request->isMethod('post')) {
 }
 
 
-
-
 if ($action == "deleteRequest") {
     $id = str_replace("**", ",", $id);
     $listRequest = $support->getSupportRequestByIdIn($id);
@@ -82,8 +78,10 @@ $blockPage->openBreadcrumbs();
 if ($supportType == "team") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
     if (isset($listRequest) && $listRequest != '') {
-        $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $listRequest["sr_project"], $listRequest["sr_pro_name"], "in"));
-        $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=" . $listRequest["sr_project"], $strings["support_requests"], "in"));
+        $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $listRequest["sr_project"],
+            $listRequest["sr_pro_name"], "in"));
+        $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=" . $listRequest["sr_project"],
+            $strings["support_requests"], "in"));
     }
     if ($action == "deleteRequest") {
         $blockPage->itemBreadcrumbs($strings["delete_request"]);
@@ -91,10 +89,13 @@ if ($supportType == "team") {
         $blockPage->itemBreadcrumbs($strings["delete_support_post"]);
     }
 } elseif ($supportType == "admin") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/support.php?", $strings["support_management"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"],
+        "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/support.php?", $strings["support_management"],
+        "in"));
     if (isset($listRequest) && $listRequest != '') {
-        $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=" . $listRequest["sr_project"], $strings["support_requests"], "in"));
+        $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=" . $listRequest["sr_project"],
+            $strings["support_requests"], "in"));
     }
     if ($action == "deleteRequest") {
         $blockPage->itemBreadcrumbs($strings["delete_request"]);
@@ -117,9 +118,11 @@ $block1->form = "saP";
 if (isset($listRequest) && $listRequest != '') {
 
     if ($action == "deleteRequest") {
-        $block1->openForm("deleterequests.php?action=deleteRequest&id=$id&sendto=$sendto&project=" . $listRequest["sr_project"], null, $csrfHandler);
+        $block1->openForm("deleterequests.php?action=deleteRequest&id=$id&sendto=$sendto&project=" . $listRequest["sr_project"],
+            null, $csrfHandler);
     } elseif ($action == "deletePost") {
-        $block1->openForm("deleterequests.php?action=deletePost&id=$id&sendto=" . $listRequest["sr_id"], null, $csrfHandler);
+        $block1->openForm("deleterequests.php?action=deletePost&id=$id&sendto=" . $listRequest["sr_id"], null,
+            $csrfHandler);
     }
 }
 
@@ -147,10 +150,10 @@ TR;
 } elseif ($action == "deletePost") {
     if (isset($listPosts) && $listPosts != '') {
         foreach ($listPost as $post) {
-            echo '<tr class="odd"><td class="leftvalue">&nbsp;</td><td>' . $post["sp_id"] . ' - '. $post["sp_message"] .'</td></tr>';
+            echo '<tr class="odd"><td class="leftvalue">&nbsp;</td><td>' . $post["sp_id"] . ' - ' . $post["sp_message"] . '</td></tr>';
         }
     } elseif (isset($listPost) && $listPost != '') {
-        echo '<tr class="odd"><td class="leftvalue">&nbsp;</td><td>' . $listPost["sp_id"] . ' - '. $listPost["sp_message"] .'</td></tr>';
+        echo '<tr class="odd"><td class="leftvalue">&nbsp;</td><td>' . $listPost["sp_id"] . ' - ' . $listPost["sp_message"] . '</td></tr>';
     }
 
     echo <<< TR

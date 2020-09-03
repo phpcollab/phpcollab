@@ -24,11 +24,11 @@ $statusPublish = $GLOBALS["statusPublish"];
 $strings = $GLOBALS["strings"];
 $msgLabel = $GLOBALS["msgLabel"];
 
-$tasks = new Tasks();
-$files = new Files();
-$phases = new Phases();
-$projects = new Projects();
-$teams = new Teams();
+$tasks = $container->getTasksLoader();
+$files = $container->getFilesLoader();
+$phases = $container->getPhasesLoader();
+$projects = $container->getProjectsLoader();
+$teams = $container->getTeams();
 
 if ($action == "publish") {
     if ($addToSite == "true") {
@@ -289,6 +289,7 @@ if ($fileManagement == "true") {
             if (file_exists("../files/" . $file["fil_project"] . "/" . $file["fil_name"])) {
                 $existFile = "true";
             }
+
             $block3->openRow();
             $block3->checkboxRow($file["fil_id"]);
 

@@ -6,13 +6,20 @@
 //translator(s): Andy Choi <choibc@dreamwiz.com>
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
-$dayNameArray = array(1 =>"월요일", 2 =>"화요일", 3 =>"수요일", 4 =>"목요일", 5 =>"금요일", 6 =>"토요일", 7 =>"일요일");
+$dayNameArray = array(1 => "월요일", 2 => "화요일", 3 => "수요일", 4 => "목요일", 5 => "금요일", 6 => "토요일", 7 => "일요일");
 
-$monthNameArray = array(1=> "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월", );
+$monthNameArray = array(1 => "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월",);
 
 $status = array(0 => "완결", 1 => "종료", 2 => "미시작", 3 => "진행", 4 => "보류");
 
-$profil = array(0 => "관리자", 1 => "프로젝트매니저", 2 => "사용자", 3 => "고객유저", 4 => "Disabled", 5 => "Project Manager Administrator");
+$profil = array(
+    0 => "관리자",
+    1 => "프로젝트매니저",
+    2 => "사용자",
+    3 => "고객유저",
+    4 => "Disabled",
+    5 => "Project Manager Administrator"
+);
 
 $priority = array(0 => "관계없음", 1 => "매우낮음", 2 => "낮음", 3 => "중간", 4 => "높음", 5 => "매우높음");
 
@@ -156,10 +163,6 @@ $strings["change_password"] = "암호변경";
 $strings["change_password_user"] = "사용자 암호 변경";
 
 
-
-
-
-
 $strings["old_password_error"] = "구 암호가 틀립니다. 다시 입력하십시요.";
 $strings["new_password_error"] = "신 암호,재입력 암호가 상이합니다. 다시 입력하세요";
 $strings["notifications"] = "공지";
@@ -242,15 +245,6 @@ $strings["any_words"] = "한단어라도";
 $strings["exact_match"] = "정확하게 일치";
 $strings["all_dates"] = "전체일자";
 $strings["between_dates"] = "일자간격";
-
-
-
-
-
-
-
-
-
 
 
 $strings["all_content"] = "모든내용";

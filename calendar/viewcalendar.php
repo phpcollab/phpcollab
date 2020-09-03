@@ -33,15 +33,13 @@
 */
 
 
-use phpCollab\Calendars\Calendars;
-use phpCollab\Tasks\Tasks;
 use phpCollab\Util;
 
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$calendars = new Calendars();
-$tasks = new Tasks();
+$calendars = $container->getCalendarLoader();
+$tasks = $container->getTasksLoader();
 $detailCalendar = null;
 
 $id = $request->query->get('id');
@@ -284,12 +282,16 @@ if ($type == "calendEdit") {
 
     $blockPage = new phpCollab\Block();
     $blockPage->openBreadcrumbs();
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=monthPreview", $strings["calendar"], 'in'));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=monthPreview&dateCalend=$dateCalend", "$monthName $year", 'in'));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=dayList&dateCalend=$dateCalend", "$dayName $day $monthName $year", 'in'));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=monthPreview",
+        $strings["calendar"], 'in'));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=monthPreview&dateCalend=$dateCalend",
+        "$monthName $year", 'in'));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=dayList&dateCalend=$dateCalend",
+        "$dayName $day $monthName $year", 'in'));
 
     if ($id != "") {
-        $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=calendDetail&dateCalend=$dateCalend&id=$id", $detailCalendar['cal_shortname'], 'in'));
+        $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=calendDetail&dateCalend=$dateCalend&id=$id",
+            $detailCalendar['cal_shortname'], 'in'));
         $blockPage->itemBreadcrumbs($strings["edit"]);
     } else {
         $blockPage->itemBreadcrumbs($strings["add"]);
@@ -306,9 +308,11 @@ if ($type == "calendEdit") {
     $block1->form = "calend";
 
     if ($id != "") {
-        $block1->openForm("../calendar/viewcalendar.php?&id=$id&dateCalend=$dateCalend&type=$type&action=update#" . $block1->form . "Anchor", null, $csrfHandler);
+        $block1->openForm("../calendar/viewcalendar.php?&id=$id&dateCalend=$dateCalend&type=$type&action=update#" . $block1->form . "Anchor",
+            null, $csrfHandler);
     } else {
-        $block1->openForm("../calendar/viewcalendar.php?&id=$id&dateCalend=$dateCalend&type=$type&action=add#" . $block1->form . "Anchor", null, $csrfHandler);
+        $block1->openForm("../calendar/viewcalendar.php?&id=$id&dateCalend=$dateCalend&type=$type&action=add#" . $block1->form . "Anchor",
+            null, $csrfHandler);
     }
 
     if (!empty($error)) {
@@ -352,7 +356,8 @@ HTML;
         $date_end = $dateCalend;
     }
 
-    $block1->contentRow($strings["date_start"], "<input type='text' name='dateStart' id='dateStart' size='20' value='$date_start'><input type='button' value=' ... ' id=\"trigDateStart\">");
+    $block1->contentRow($strings["date_start"],
+        "<input type='text' name='dateStart' id='dateStart' size='20' value='$date_start'><input type='button' value=' ... ' id=\"trigDateStart\">");
     echo <<<SCRIPT
 	<script type='text/javascript'>
 	    Calendar.setup({
@@ -362,7 +367,8 @@ HTML;
 	    })
 	</script>
 SCRIPT;
-    $block1->contentRow($strings["date_end"], "<input type='text' name='dateEnd' id='dateEnd' size='20' value='$date_end'><input type='button' value=' ... ' id=\"trigDateEnd\">");
+    $block1->contentRow($strings["date_end"],
+        "<input type='text' name='dateEnd' id='dateEnd' size='20' value='$date_end'><input type='button' value=' ... ' id=\"trigDateEnd\">");
     echo <<<SCRIPT
 	<script type='text/javascript'>
 	    Calendar.setup({
@@ -433,9 +439,12 @@ if ($type == "calendDetail") {
 
     $blockPage = new phpCollab\Block();
     $blockPage->openBreadcrumbs();
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=monthPreview", $strings["calendar"], 'in'));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=monthPreview&dateCalend=$dateCalend", "$monthName $year", 'in'));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=dayList&dateCalend=$dateCalend", "$dayName $day $monthName $year", 'in'));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=monthPreview",
+        $strings["calendar"], 'in'));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=monthPreview&dateCalend=$dateCalend",
+        "$monthName $year", 'in'));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=dayList&dateCalend=$dateCalend",
+        "$dayName $day $monthName $year", 'in'));
     $blockPage->itemBreadcrumbs($detailCalendar['cal_shortname']);
     $blockPage->closeBreadcrumbs();
 
@@ -525,8 +534,10 @@ HTML;
 
     $block1->openPaletteScript();
     if ($detailCalendar['cal_owner'] == $session->get("id")) {
-        $block1->paletteScript(0, "remove", "../calendar/deletecalendar.php?id=$id", "true,true,true", $strings["delete"]);
-        $block1->paletteScript(1, "edit", "../calendar/viewcalendar.php?id=$id&type=calendEdit&dateCalend=$dateCalend", "true,true,true", $strings["edit"]);
+        $block1->paletteScript(0, "remove", "../calendar/deletecalendar.php?id=$id", "true,true,true",
+            $strings["delete"]);
+        $block1->paletteScript(1, "edit", "../calendar/viewcalendar.php?id=$id&type=calendEdit&dateCalend=$dateCalend",
+            "true,true,true", $strings["edit"]);
     }
 
     $block1->paletteScript(2, "export", "../calendar/exportcalendar.php?id=$id", "true,true,true", $strings["export"]);
@@ -537,15 +548,18 @@ $blockPage = new phpCollab\Block();
 
 if ($type == "dayList") {
     $blockPage->openBreadcrumbs();
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=monthPreview", $strings["calendar"], 'in'));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=monthPreview&dateCalend=$dateCalend", "$monthName $year", 'in'));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=monthPreview",
+        $strings["calendar"], 'in'));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../calendar/viewcalendar.php?type=monthPreview&dateCalend=$dateCalend",
+        "$monthName $year", 'in'));
     $blockPage->itemBreadcrumbs("$dayName $day $monthName $year");
     $blockPage->closeBreadcrumbs();
 
     $block1 = new phpCollab\Block();
 
     $block1->form = "calendList";
-    $block1->openForm("../calendar/viewcalendar.php?type=$type&dateCalend=$dateCalend&#" . $block1->form . "Anchor", null, $csrfHandler);
+    $block1->openForm("../calendar/viewcalendar.php?type=$type&dateCalend=$dateCalend&#" . $block1->form . "Anchor",
+        null, $csrfHandler);
 
     $block1->heading("$dayName $day $monthName $year");
 
@@ -558,7 +572,8 @@ if ($type == "dayList") {
 
     $block1->closePaletteIcon();
 
-    $block1->sorting("calendar", $sortingUser["calendar"], "cal.date_end DESC", $sortingFields = [0 => "cal.shortname", 1 => "cal.subject", 2 => "cal.date_start", 3 => "cal.date_end"]);
+    $block1->sorting("calendar", $sortingUser["calendar"], "cal.date_end DESC",
+        $sortingFields = [0 => "cal.shortname", 1 => "cal.subject", 2 => "cal.date_start", 3 => "cal.date_end"]);
 
     $dayRecurr = phpCollab\Util::dayOfWeek(mktime(12, 12, 12, $month, $day, $year));
 
@@ -567,12 +582,18 @@ if ($type == "dayList") {
 
     if ($comptListCalendar != "0") {
         $block1->openResults();
-        $block1->labels($labels = [0 => $strings["shortname"], 1 => $strings["subject"], 2 => $strings["date_start"], 3 => $strings["date_end"]], "false");
+        $block1->labels($labels = [
+            0 => $strings["shortname"],
+            1 => $strings["subject"],
+            2 => $strings["date_start"],
+            3 => $strings["date_end"]
+        ], "false");
 
         foreach ($listCalendar as $item) {
             $block1->openRow();
             $block1->checkboxRow($item['cal_id']);
-            $block1->cellRow($blockPage->buildLink("../calendar/viewcalendar.php?id=" . $item['cal_id'] . "&type=calendDetail&dateCalend=$dateCalend", $item['cal_shortname'], 'in'));
+            $block1->cellRow($blockPage->buildLink("../calendar/viewcalendar.php?id=" . $item['cal_id'] . "&type=calendDetail&dateCalend=$dateCalend",
+                $item['cal_shortname'], 'in'));
             $block1->cellRow($item['cal_subject']);
             $block1->cellRow($item['cal_date_start']);
             $block1->cellRow($item['cal_date_end']);
@@ -587,10 +608,13 @@ if ($type == "dayList") {
     $block1->closeFormResults();
 
     $block1->openPaletteScript();
-    $block1->paletteScript(0, "add", "../calendar/viewcalendar.php?dateCalend=$dateCalend&type=calendEdit", "true,false,false", $strings["add"]);
+    $block1->paletteScript(0, "add", "../calendar/viewcalendar.php?dateCalend=$dateCalend&type=calendEdit",
+        "true,false,false", $strings["add"]);
     $block1->paletteScript(1, "remove", "../calendar/deletecalendar.php?", "false,true,true", $strings["delete"]);
-    $block1->paletteScript(2, "info", "../calendar/viewcalendar.php?dateCalend=$dateCalend&type=calendDetail", "false,true,false", $strings["view"]);
-    $block1->paletteScript(3, "edit", "../calendar/viewcalendar.php?dateCalend=$dateCalend&type=calendEdit", "false,true,false", $strings["edit"]);
+    $block1->paletteScript(2, "info", "../calendar/viewcalendar.php?dateCalend=$dateCalend&type=calendDetail",
+        "false,true,false", $strings["view"]);
+    $block1->paletteScript(3, "edit", "../calendar/viewcalendar.php?dateCalend=$dateCalend&type=calendEdit",
+        "false,true,false", $strings["edit"]);
     $block1->closePaletteScript($comptListCalendar, array_column($listCalendar, 'cal_id'));
 }
 
@@ -665,7 +689,8 @@ if ($type == "monthPreview") {
                 $classCell = "odd";
             }
 
-            echo "<td class='$classCell'><div style='text-align: right;'>" . $blockPage->buildLink("../calendar/viewcalendar.php?dateCalend=$dateLink&type=dayList", $day, 'in') . "</div>";
+            echo "<td class='$classCell'><div style='text-align: right;'>" . $blockPage->buildLink("../calendar/viewcalendar.php?dateCalend=$dateLink&type=dayList",
+                    $day, 'in') . "</div>";
             if ($comptListCalendarScan != "0") {
                 foreach ($listCalendarScan as $calendar) {
                     if ($calendar['cal_broadcast'] == "0" && $calendar['cal_owner'] == $session->get("id")) {
@@ -709,22 +734,28 @@ if ($type == "monthPreview") {
                         }
                     } else {
                         if ($task['tas_start_date'] == $dateLink && $task['tas_start_date'] != $task['tas_due_date']) {
-                            echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $task['tas_id'], $task['tas_name'], 'in') . " (" . $strings["start_date"] . ")<br/>";
+                            echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $task['tas_id'], $task['tas_name'],
+                                    'in') . " (" . $strings["start_date"] . ")<br/>";
                         }
 
                         if ($task['tas_due_date'] == $dateLink && $task['tas_start_date'] != $task['tas_due_date']) {
                             if ($task['tas_due_date'] <= $date && $task['tas_completion'] != "10") {
-                                echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $task['tas_id'], "<b>" . $task['tas_name'] . "</b>", 'in') . " (" . $strings["due_date"] . ")<br/>";
+                                echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $task['tas_id'],
+                                        "<b>" . $task['tas_name'] . "</b>",
+                                        'in') . " (" . $strings["due_date"] . ")<br/>";
                             } else {
-                                echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $task['tas_id'], $task['tas_name'], 'in') . " (" . $strings["due_date"] . ")<br/>";
+                                echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $task['tas_id'],
+                                        $task['tas_name'], 'in') . " (" . $strings["due_date"] . ")<br/>";
                             }
                         }
 
                         if ($task['tas_start_date'] == $dateLink && $task['tas_due_date'] == $dateLink) {
                             if ($task['tas_due_date'] <= $date && $task['tas_completion'] != "10") {
-                                echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $task['tas_id'], "<b>" . $task['tas_name'] . "</b>", 'in') . "<br/>";
+                                echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $task['tas_id'],
+                                        "<b>" . $task['tas_name'] . "</b>", 'in') . "<br/>";
                             } else {
-                                echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $task['tas_id'], $task['tas_name'], 'in') . "<br/>";
+                                echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $task['tas_id'],
+                                        $task['tas_name'], 'in') . "<br/>";
                             }
                         }
                     }
@@ -856,7 +887,11 @@ if ($type == "monthPreview") {
                 <td nowrap style="text-align: right;" class="footerCell">
 HTML;
 
-    echo $blockPage->buildLink("../calendar/viewcalendar.php?dateCalend=$datePast", $strings["previous"], 'in') . " | " . $blockPage->buildLink("../calendar/viewcalendar.php?dateCalend=$dateToday", $strings["today"], 'in') . " | " . $blockPage->buildLink("../calendar/viewcalendar.php?dateCalend=$dateNext", $strings["next"], 'in');
+    echo $blockPage->buildLink("../calendar/viewcalendar.php?dateCalend=$datePast", $strings["previous"],
+            'in') . " | " . $blockPage->buildLink("../calendar/viewcalendar.php?dateCalend=$dateToday",
+            $strings["today"],
+            'in') . " | " . $blockPage->buildLink("../calendar/viewcalendar.php?dateCalend=$dateNext", $strings["next"],
+            'in');
 
     $theme = THEME;
     echo <<<HTML
@@ -867,7 +902,6 @@ HTML;
             </tr>
             </table>
 HTML;
-
 
 
     if ($activeJpgraph == "true" && $gantt == "true") {

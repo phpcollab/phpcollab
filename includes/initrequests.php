@@ -145,7 +145,6 @@ LEFT OUTER JOIN {$tableCollab["logs"]} log ON log.login = mem.login
 SQL;
 
 
-
 $initrequest["projects"] = <<<SQL
 SELECT 
 pro.id AS pro_id, 

@@ -6,9 +6,30 @@
 //translator(s):
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
-$dayNameArray = array(1 =>"Pazartesi", 2 =>"Salý", 3 =>"Çarþamba", 4 =>"Perþembe", 5 =>"Cuma", 6 =>"Cumartesi", 7 =>"Pazar");
+$dayNameArray = array(
+    1 => "Pazartesi",
+    2 => "Salý",
+    3 => "Çarþamba",
+    4 => "Perþembe",
+    5 => "Cuma",
+    6 => "Cumartesi",
+    7 => "Pazar"
+);
 
-$monthNameArray = array(1=> "Ocak", "Þubat", "Mart", "Nisan", "Mayýs", "Haziran", "Temmuz", "Aðustos", "Eylül", "Ekim", "Kasým", "Aralýk");
+$monthNameArray = array(
+    1 => "Ocak",
+    "Þubat",
+    "Mart",
+    "Nisan",
+    "Mayýs",
+    "Haziran",
+    "Temmuz",
+    "Aðustos",
+    "Eylül",
+    "Ekim",
+    "Kasým",
+    "Aralýk"
+);
 
 $status = array(0 => "Müþteri tamamlandý", 1 => "Tamamlandý", 2 => "Baþlanmadý", 3 => "Devam Ediyor", 4 => "Askýda");
 
@@ -21,7 +42,13 @@ $statusTopicBis = array(0 => "Evet", 1 => "Hayýr");
 
 $statusPublish = array(0 => "Evet", 1 => "Hayýr");
 
-$statusFile = array(0 => "Onaylandý", 1 => "Deðiþiklik Ýle Onaylandý", 2 => "Onaya Gerek Var", 3 => "Onaya Gerek Yok", 4 => "Onaylanmadý");
+$statusFile = array(
+    0 => "Onaylandý",
+    1 => "Deðiþiklik Ýle Onaylandý",
+    2 => "Onaya Gerek Var",
+    3 => "Onaya Gerek Yok",
+    4 => "Onaylanmadý"
+);
 
 $phaseStatus = array(0 => "Baþlanmadý", 1 => "Açýk", 2 => "Tamamlandý", 3 => "Askýda");
 

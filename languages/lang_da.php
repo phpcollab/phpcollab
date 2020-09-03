@@ -6,13 +6,41 @@
 //translator(s): Mark Petersen, AlleyKat <translation@phpbb2.dk>
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
-$dayNameArray = array(1 =>"Mandag", 2 =>"Tirsdag", 3 =>"Onsdag", 4 =>"Torsdag", 5 =>"Fredag", 6 =>"Lørdag", 7 =>"Søndag");
+$dayNameArray = array(
+    1 => "Mandag",
+    2 => "Tirsdag",
+    3 => "Onsdag",
+    4 => "Torsdag",
+    5 => "Fredag",
+    6 => "Lørdag",
+    7 => "Søndag"
+);
 
-$monthNameArray = array(1=> "Januar", "Februar", "Marts", "April", "Maj", "Juni", "Juli", "August", "September", "Oktober", "November", "December");
+$monthNameArray = array(
+    1 => "Januar",
+    "Februar",
+    "Marts",
+    "April",
+    "Maj",
+    "Juni",
+    "Juli",
+    "August",
+    "September",
+    "Oktober",
+    "November",
+    "December"
+);
 
 $status = array(0 => "Kunde udført", 1 => "Udført", 2 => "Ikke begyndt", 3 => "Åbn", 4 => "Sat i bero");
 
-$profil = array(0 => "Administrator", 1 => "Projektleder", 2 => "Bruger", 3 => "Kunde bruger", 4 => "Slået fra", 5 => "Projektleder Administrator");
+$profil = array(
+    0 => "Administrator",
+    1 => "Projektleder",
+    2 => "Bruger",
+    3 => "Kunde bruger",
+    4 => "Slået fra",
+    5 => "Projektleder Administrator"
+);
 
 $priority = array(0 => "Ingen", 1 => "Meget lav", 2 => "Lav", 3 => "Medium", 4 => "Høj", 5 => "Meget høj");
 
@@ -21,7 +49,13 @@ $statusTopicBis = array(0 => "Ja", 1 => "Nej");
 
 $statusPublish = array(0 => "Ja", 1 => "Nej");
 
-$statusFile = array(0 => "Godkendt", 1 => "Godkendt Med Ændringer", 2 => "Skal Godkendes", 3 => "Ingen Godkendelse Nødvendig", 4 => "Ikke Godkendt");
+$statusFile = array(
+    0 => "Godkendt",
+    1 => "Godkendt Med Ændringer",
+    2 => "Skal Godkendes",
+    3 => "Ingen Godkendelse Nødvendig",
+    4 => "Ikke Godkendt"
+);
 
 $phaseStatus = array(0 => "Ikket startet", 1 => "Åben", 2 => "Komplet", 3 => "Suspenderet");
 
@@ -538,7 +572,12 @@ $strings["rate_type"] = "Pristype";
 $strings["rate_value"] = "Enhedspris";
 $strings["note_invoice_items_notcompleted"] = "Ikke alle emner er fuldført";
 
-$rateType = array(0 => "Manuel prissætning", 1 => "Prissætning efter projekt", 2 => "Prissætning efter organisation", 3 => "Prissætning efter service");
+$rateType = array(
+    0 => "Manuel prissætning",
+    1 => "Prissætning efter projekt",
+    2 => "Prissætning efter organisation",
+    3 => "Prissætning efter service"
+);
 
 //HACKS
 
@@ -584,7 +623,7 @@ $strings["email_sent"] = "Din email blev afsendt korrekt.";
 $strings["clients_connected"] = "(Klient på projektside)";
 
 //2.5b4
-$strings["Total_Hours_Worked"]="Total Timer Forbrugt";
+$strings["Total_Hours_Worked"] = "Total Timer Forbrugt";
 $strings["Pct_Complete"] = "Pct Færdig";
 
 $strings["noti_filepost1"] = "Ny fil upload på Intranettet";

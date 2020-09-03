@@ -302,7 +302,16 @@ SQL;
     private function orderBy($sorting)
     {
         if (!is_null($sorting)) {
-            $allowedOrderedBy = ["sr.id", "sr.subject", "sr.member", "sr.project", "sr.priority", "sr.status", "sr.date_open", "sr.date_close"];
+            $allowedOrderedBy = [
+                "sr.id",
+                "sr.subject",
+                "sr.member",
+                "sr.project",
+                "sr.priority",
+                "sr.status",
+                "sr.date_open",
+                "sr.date_close"
+            ];
             $pieces = explode(' ', $sorting);
 
             if ($pieces) {

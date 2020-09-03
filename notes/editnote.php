@@ -26,10 +26,6 @@
 */
 
 
-use phpCollab\Notes\Notes;
-use phpCollab\Projects\Projects;
-use phpCollab\Teams\Teams;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 include '../includes/customvalues.php';
@@ -39,8 +35,8 @@ $project = $request->query->get('project');
 $id = $request->query->get('id');
 $strings = $GLOBALS["strings"];
 
-$notes = new Notes();
-$projects = new Projects();
+$notes = $container->getNotesLoader();
+$projects = $container->getProjectsLoader();
 
 if ($id != "" && $action != "add") {
     $noteDetail = $notes->getNoteById($id);
@@ -53,7 +49,7 @@ if ($id != "" && $action != "add") {
 $projectDetail = $projects->getProjectById($project);
 
 $teamMember = "false";
-$teams = new Teams();
+$teams = $container->getTeams();
 $teamMember = $teams->isTeamMember($project, $session->get("id"));
 
 //case update note entry
@@ -127,13 +123,16 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../notes/listnotes.php?project=" . $projectDetail["pro_id"], $strings["notes"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"],
+    $projectDetail["pro_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../notes/listnotes.php?project=" . $projectDetail["pro_id"],
+    $strings["notes"], "in"));
 if ($id == "") {
     $blockPage->itemBreadcrumbs($strings["add_note"]);
 }
 if ($id != "") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../notes/viewnote.php?id=" . $noteDetail["note_id"], $noteDetail["note_subject"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../notes/viewnote.php?id=" . $noteDetail["note_id"],
+        $noteDetail["note_subject"], "in"));
     $blockPage->itemBreadcrumbs($strings["edit_note"]);
 }
 $blockPage->closeBreadcrumbs();
@@ -146,11 +145,13 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 if ($id == "") {
     $block1->form = "etD";
-    $block1->openForm("../notes/editnote.php?project=" . $project . "&id=" . $id . "&action=add&#" . $block1->form . "Anchor", null, $csrfHandler);
+    $block1->openForm("../notes/editnote.php?project=" . $project . "&id=" . $id . "&action=add&#" . $block1->form . "Anchor",
+        null, $csrfHandler);
 }
 if ($id != "") {
     $block1->form = "etD";
-    $block1->openForm("../notes/editnote.php?project=" . $project . "&id=" . $id . "&action=update&#" . $block1->form . "Anchor", null, $csrfHandler);
+    $block1->openForm("../notes/editnote.php?project=" . $project . "&id=" . $id . "&action=update&#" . $block1->form . "Anchor",
+        null, $csrfHandler);
 }
 
 if (isset($error) && $error != "") {
@@ -181,7 +182,8 @@ foreach ($listProjects as $project) {
 
 echo "</select></td></tr>";
 
-$block1->contentRow($strings["date"], '<input type="text" name="dd" id="noteDate" size="20" value="'.$dd.'"><input type="button" value=" ... " id="trigNoteDate">');
+$block1->contentRow($strings["date"],
+    '<input type="text" name="dd" id="noteDate" size="20" value="' . $dd . '"><input type="button" value=" ... " id="trigNoteDate">');
 echo <<<JAVASCRIPT
 <script type='text/javascript'>
     Calendar.setup({
@@ -213,8 +215,10 @@ ROW;
     echo "</select></td></tr>";
 }
 
-$block1->contentRow($strings["subject"], "<input size='44' value='$subject' style='width: 400px' name='subject' maxlength='100' type='TEXT'>");
-$block1->contentRow($strings["description"], "<textarea rows='10' style='width: 400px; height: 160px;' name='description' cols='47'>$description</textarea>");
+$block1->contentRow($strings["subject"],
+    "<input size='44' value='$subject' style='width: 400px' name='subject' maxlength='100' type='TEXT'>");
+$block1->contentRow($strings["description"],
+    "<textarea rows='10' style='width: 400px; height: 160px;' name='description' cols='47'>$description</textarea>");
 $block1->contentRow("", '<input type="submit" value="' . $strings["save"] . '">');
 $block1->closeContent();
 $block1->closeForm();

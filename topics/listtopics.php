@@ -17,9 +17,9 @@ $removeToSite = $request->query->get('removeToSite');
 
 $strings = $GLOBALS["strings"];
 
-$topics = new Topics();
-$projects = new Projects();
-$teams = new Teams();
+$topics = $container->getTopicsLoader();
+$projects = $container->getProjectsLoader();
+$teams = $container->getTeams();
 
 if ($action == "publish") {
     if ($closeTopic == "true") {

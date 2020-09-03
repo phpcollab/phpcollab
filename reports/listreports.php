@@ -1,7 +1,5 @@
 <?php
 
-use phpCollab\Reports\Reports;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -34,11 +32,10 @@ $block1->paletteIcon(0, "add", $strings["add"]);
 $block1->paletteIcon(1, "remove", $strings["delete"]);
 $block1->closePaletteIcon();
 
-$block1->sorting("reports", $sortingUser["reports"], "rep.name ASC", $sortingFields = [0 => "rep.name", 1 => "rep.created"]);
+$block1->sorting("reports", $sortingUser["reports"], "rep.name ASC",
+    $sortingFields = [0 => "rep.name", 1 => "rep.created"]);
 
-$db = new phpCollab\Database();
-
-$reports = new Reports();
+$reports = $container->getReportsLoader();
 
 $sorting = $block1->sortingValue;
 
@@ -53,7 +50,8 @@ if ($dataSet) {
     foreach ($dataSet as $data) {
         $block1->openRow();
         $block1->checkboxRow($data["rep_id"]);
-        $block1->cellRow($blockPage->buildLink("../reports/resultsreport.php?id=" . $data["rep_id"], $data["rep_name"], "in"));
+        $block1->cellRow($blockPage->buildLink("../reports/resultsreport.php?id=" . $data["rep_id"], $data["rep_name"],
+            "in"));
         $block1->cellRow(phpCollab\Util::createDate($data["rep_created"], $session->get("timezone")));
     }
     $block1->closeResults();

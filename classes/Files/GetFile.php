@@ -32,7 +32,8 @@ class GetFile
     /**
      *
      */
-    private function setMimeType() {
+    private function setMimeType()
+    {
         $mimeTypeGuesser = new FileinfoMimeTypeGuesser();
         if ($mimeTypeGuesser->isSupported()) {
             $this->mimeType = $mimeTypeGuesser->guess($this->filesPath);
@@ -88,7 +89,7 @@ class GetFile
                 $this->setMimeType();
                 header("Content-Length: " . filesize($this->filesPath));
                 header("Content-Type: {$this->mimeType}");
-                header('Content-Disposition: attachment;filename="'.$fileName.'"');
+                header('Content-Disposition: attachment;filename="' . $fileName . '"');
                 readfile($this->filesPath);
             }
             return;

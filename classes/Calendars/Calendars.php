@@ -2,8 +2,8 @@
 
 namespace phpCollab\Calendars;
 
-use phpCollab\Database;
 use Exception;
+use phpCollab\Database;
 
 /**
  * Class Calendars
@@ -16,10 +16,11 @@ class Calendars
 
     /**
      * Calendars constructor.
+     * @param Database $database
      */
-    public function __construct()
+    public function __construct(Database $database)
     {
-        $this->db = new Database();
+        $this->db = $database;
         $this->calendars_gateway = new CalendarsGateway($this->db);
     }
 
@@ -134,10 +135,20 @@ class Calendars
      * @return string
      */
     public function addCalendarEvent(
-        $owner, $subject, $description, $location, $shortname, $date_start, $date_end, $time_start, $time_end,
-        $reminder, $broadcast, $recurring, $recur_day
-    )
-    {
+        $owner,
+        $subject,
+        $description,
+        $location,
+        $shortname,
+        $date_start,
+        $date_end,
+        $time_start,
+        $time_end,
+        $reminder,
+        $broadcast,
+        $recurring,
+        $recur_day
+    ) {
         return $this->calendars_gateway->addEvent($owner, $subject, $description, $location, $shortname,
             $date_start, $date_end, $time_start, $time_end, $reminder, $broadcast, $recurring, $recur_day);
     }
@@ -169,14 +180,23 @@ class Calendars
      * @return mixed
      */
     public function editCalendarEvent(
-        $owner, $subject, $description, $location, $shortname, $date_start, $date_end, $time_start, $time_end,
-        $reminder, $broadcast, $recurring, $recur_day
-    )
-    {
+        $owner,
+        $subject,
+        $description,
+        $location,
+        $shortname,
+        $date_start,
+        $date_end,
+        $time_start,
+        $time_end,
+        $reminder,
+        $broadcast,
+        $recurring,
+        $recur_day
+    ) {
         return $this->calendars_gateway->updateEvent($owner, $subject, $description, $location, $shortname,
             $date_start, $date_end, $time_start, $time_end, $reminder, $broadcast, $recurring, $recur_day);
     }
-
 
 
 }

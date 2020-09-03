@@ -1,10 +1,7 @@
 <?php
 
-use phpCollab\Projects\Projects;
-use phpCollab\Teams\Teams;
-
-$projects = new Projects();
-$teams = new Teams();
+$projects = $container->getProjectsLoader();
+$teams = $container->getTeams();
 
 if ($session->get("project") != "" && $changeProject != "true") {
     $projectDetail = $projects->getProjectById($session->get("project"));

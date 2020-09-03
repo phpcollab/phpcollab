@@ -1,7 +1,5 @@
 <?php
 
-use phpCollab\Members\ResetPassword;
-
 $checkSession = "false";
 include_once '../includes/library.php';
 
@@ -15,7 +13,7 @@ if ($request->isMethod('post')) {
     } else {
         $msg = 'email_pwd';
 
-        $resetPassword = new ResetPassword($logger);
+        $resetPassword = $container->getResetPasswordService();
         $resetPassword->reset($request->request->get('username'));
     }
 }
@@ -49,7 +47,8 @@ $block1->heading($setTitle . " : " . $strings["password"]);
 $block1->openContent();
 $block1->contentTitle($strings["enter_login"]);
 
-$block1->contentRow("* " . $strings["user_name"], '<input style="width: 125px" maxlength="16" size="16" value="" type="text" name="username" autocomplete="off" required />');
+$block1->contentRow("* " . $strings["user_name"],
+    '<input style="width: 125px" maxlength="16" size="16" value="" type="text" name="username" autocomplete="off" required />');
 $block1->contentRow("", '<input type="submit" name="send" value="' . $strings['send'] . '" />');
 
 $block1->closeContent();

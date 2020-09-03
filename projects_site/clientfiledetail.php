@@ -2,12 +2,10 @@
 #Application name: PhpCollab
 #Status page: 0
 
-use phpCollab\Files\UpdateFile;
-
 $checkSession = "true";
 include '../includes/library.php';
 
-$files = new UpdateFile();
+$files = $container->getFileUpdateService();
 
 $fileId = $request->query->get("id");
 
@@ -108,8 +106,10 @@ if ($request->isMethod('post')) {
                     $comments = phpCollab\Util::convertData($request->request->get('comments'));
 
                     try {
-                        $num = $files->add($session->get("id"), $copy_project, $copy_task, $changename, $copy_date, $copy_size,
-                            $copy_extension, $copy_comments, null, null, null, $copy_upload, 0, $copy_vc_version, $copy_vc_parent);
+                        $num = $files->add($session->get("id"), $copy_project, $copy_task, $changename, $copy_date,
+                            $copy_size,
+                            $copy_extension, $copy_comments, null, null, null, $copy_upload, 0, $copy_vc_version,
+                            $copy_vc_parent);
                     } catch (Exception $exception) {
                         error_log('Error adding file', 0);
                         $error1 = $strings["error_file_add"];
@@ -129,7 +129,8 @@ if ($request->isMethod('post')) {
                 if ($docopy == "true") {
                     $name = "$upload_name";
 
-                    $files->update($request->request->get("comments"), $request->request->get("statusField"), $newVersion, $fileId);
+                    $files->update($request->request->get("comments"), $request->request->get("statusField"),
+                        $newVersion, $fileId);
 
                     $files->setFileSize($fileId, $fileDetail["fil_size"]);
 
@@ -164,7 +165,9 @@ if ($request->isMethod('post')) {
                 $upload_name = $request->request->get('filename');
 
                 //Add version and revision at the end of a file name but before the extension.
-                $upload_name = str_replace(".", " v" . $request->request->get('oldversion') . " r" . $request->request->get('revision') . ".", $upload_name);
+                $upload_name = str_replace(".",
+                    " v" . $request->request->get('oldversion') . " r" . $request->request->get('revision') . ".",
+                    $upload_name);
 
                 $extension = strtolower(substr(strrchr($upload_name, "."), 1));
 
@@ -187,13 +190,15 @@ if ($request->isMethod('post')) {
 
                         if (!empty($num)) {
                             if ($task != "0") {
-                                phpCollab\Util::uploadFile("files/$project/$task", $_FILES['upload']['tmp_name'], $upload_name);
+                                phpCollab\Util::uploadFile("files/$project/$task", $_FILES['upload']['tmp_name'],
+                                    $upload_name);
                                 $size = phpCollab\Util::fileInfoSize("../files/$project/$task/$upload_name");
                                 $chaine = strrev("../files/$project/$task/$upload_name");
                                 $tab = explode(".", $chaine);
                                 $extension = strtolower(strrev($tab[0]));
                             } else {
-                                phpCollab\Util::uploadFile("files/$project", $_FILES['upload']['tmp_name'], $upload_name);
+                                phpCollab\Util::uploadFile("files/$project", $_FILES['upload']['tmp_name'],
+                                    $upload_name);
                                 $size = phpCollab\Util::fileInfoSize("../files/$project/$upload_name");
                                 $chaine = strrev("../files/$project/$upload_name");
                                 $tab = explode(".", $chaine);
@@ -202,7 +207,8 @@ if ($request->isMethod('post')) {
 
                             $name = $upload_name;
 
-                            $files->updateFile($num, $name, $dateheure, $size, $extension, $request->request->get('oldversion'));
+                            $files->updateFile($num, $name, $dateheure, $size, $extension,
+                                $request->request->get('oldversion'));
 
                             phpCollab\Util::headerFunction("clientfiledetail.php?id={$request->request->get('parent')}&msg=addFile");
                         }

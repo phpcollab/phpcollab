@@ -3,7 +3,7 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$support = new \phpCollab\Support\Support();
+$support = $container->getSupportLoader();
 
 if ($session->get('profile') != "0" || $enableHelpSupport != "true") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
@@ -38,9 +38,15 @@ if ($enableHelpSupport == "true") {
 
     $block1->openContent();
     $block1->contentTitle($strings["information"]);
-    $block1->contentRow($strings["new_requests"], "$newRequestCount - " . $blockPage->buildLink("../support/support.php?action=new", $strings["manage_new_requests"], 'in') . "<br/><br/>");
-    $block1->contentRow($strings["open_requests"], "$openRequestCount - " . $blockPage->buildLink("../support/support.php?action=open", $strings["manage_open_requests"], 'in') . "<br/><br/>");
-    $block1->contentRow($strings["closed_requests"], "$completeRequestCount - " . $blockPage->buildLink("../support/support.php?action=complete", $strings["manage_closed_requests"], 'in') . "<br/><br/>");
+    $block1->contentRow($strings["new_requests"],
+        "$newRequestCount - " . $blockPage->buildLink("../support/support.php?action=new",
+            $strings["manage_new_requests"], 'in') . "<br/><br/>");
+    $block1->contentRow($strings["open_requests"],
+        "$openRequestCount - " . $blockPage->buildLink("../support/support.php?action=open",
+            $strings["manage_open_requests"], 'in') . "<br/><br/>");
+    $block1->contentRow($strings["closed_requests"],
+        "$completeRequestCount - " . $blockPage->buildLink("../support/support.php?action=complete",
+            $strings["manage_closed_requests"], 'in') . "<br/><br/>");
     $block1->closeContent();
 }
 

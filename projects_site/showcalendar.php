@@ -29,13 +29,10 @@
 ** - can a project team member see the other members tasks? *why not?*
 */
 
-use phpCollab\Calendars\Calendars;
-use phpCollab\Tasks\Tasks;
-
 include '../includes/library.php';
 
-$tasks = new Tasks();
-$calendars = new Calendars();
+$tasks = $container->getTasksLoader();
+$calendars = $container->getCalendarLoader();
 
 $bouton[12] = "over";
 $titlePage = $strings["calendar"];

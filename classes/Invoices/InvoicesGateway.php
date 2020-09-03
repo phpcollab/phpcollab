@@ -1,4 +1,5 @@
 <?php
+
 namespace phpCollab\Invoices;
 
 use phpCollab\Database;
@@ -50,6 +51,7 @@ SQL;
         $this->db->execute();
         return $this->db->lastInsertId();
     }
+
     /**
      * @param $title
      * @param $description
@@ -62,9 +64,17 @@ SQL;
      * @param $worked_hours
      * @return mixed
      */
-    public function addInvoiceItem($title, $description, $invoiceId, $created, $active, $completed, $mod_type, $mod_value,
-                                   $worked_hours)
-    {
+    public function addInvoiceItem(
+        $title,
+        $description,
+        $invoiceId,
+        $created,
+        $active,
+        $completed,
+        $mod_type,
+        $mod_value,
+        $worked_hours
+    ) {
         $sql = <<< SQL
 INSERT INTO {$this->tableCollab["invoices_items"]} (
 title,description,invoice,created,active,completed,mod_type,mod_value,worked_hours
@@ -101,9 +111,19 @@ SQL;
      * @param $taxAmount
      * @return mixed
      */
-    public function updateInvoice($id, $headerNote, $footerNote, $published, $status, $dateDue, $dateSent,
-        $totalExTax, $totalIncTax, $taxRate, $taxAmount)
-    {
+    public function updateInvoice(
+        $id,
+        $headerNote,
+        $footerNote,
+        $published,
+        $status,
+        $dateDue,
+        $dateSent,
+        $totalExTax,
+        $totalIncTax,
+        $taxRate,
+        $taxAmount
+    ) {
         $sql = <<<SQL
 UPDATE {$this->tableCollab["invoices"]} 
 SET 
@@ -176,8 +196,8 @@ SQL;
         $this->db->query($sql);
         $this->db->bind('active', $invoicing);
         $this->db->bind('completed', $completed);
-        $this->db->bind('worked_hours', $hoursWorked );
-        $this->db->bind('mod_value', $taskId );
+        $this->db->bind('worked_hours', $hoursWorked);
+        $this->db->bind('mod_value', $taskId);
 
         return $this->db->execute();
 
@@ -222,7 +242,7 @@ SQL;
             $projectId = array($projectId);
         }
 
-        $placeholders = str_repeat ('?, ', count($projectId)-1) . '?';
+        $placeholders = str_repeat('?, ', count($projectId) - 1) . '?';
 
         // Append the status value
         array_push($projectId, $status);
@@ -281,7 +301,18 @@ SQL;
     private function orderBy($sorting)
     {
         if (!is_null($sorting)) {
-            $allowedOrderedBy = ["inv.id","inv.project","inv.date_sent","inv.due_date","inv.status","inv.total_inc_tax","inv.active","inv.published","invitem.position","pro.name"];
+            $allowedOrderedBy = [
+                "inv.id",
+                "inv.project",
+                "inv.date_sent",
+                "inv.due_date",
+                "inv.status",
+                "inv.total_inc_tax",
+                "inv.active",
+                "inv.published",
+                "invitem.position",
+                "pro.name"
+            ];
             $pieces = explode(' ', $sorting);
 
             if ($pieces) {

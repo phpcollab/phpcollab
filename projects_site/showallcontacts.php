@@ -2,12 +2,10 @@
 #Application name: PhpCollab
 #Status page: 0
 
-use phpCollab\Teams\Teams;
-
 $checkSession = "true";
 include '../includes/library.php';
 
-$teams = new Teams();
+$teams = $container->getTeams();
 
 $bouton[1] = "over";
 $titlePage = $strings["project_team"];

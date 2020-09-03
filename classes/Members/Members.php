@@ -5,8 +5,8 @@ namespace phpCollab\Members;
 use Exception;
 use InvalidArgumentException;
 use Monolog\Logger;
+use phpCollab\Container;
 use phpCollab\Database;
-use phpCollab\Notification;
 use phpCollab\Util;
 
 /**
@@ -19,16 +19,24 @@ class Members
     protected $db;
     protected $strings;
     protected $logger;
+    /**
+     * @var Container
+     */
+    protected $container;
 
     /**
      * Members constructor.
+     * @param Database $database
      * @param Logger $logger
+     * @param Container $container
      */
-    public function __construct(Logger $logger)
+    public function __construct(Database $database, Logger $logger, Container $container)
     {
         $this->logger = $logger;
 
-        $this->db = new Database();
+        $this->db = $database;
+
+        $this->container = $container;
 
         $this->members_gateway = new MembersGateway($this->db);
 
@@ -39,9 +47,9 @@ class Members
      * @param $memberLogin
      * @return mixed
      */
-    public function getMemberByLogin($memberLogin) {
-        $data = $this->members_gateway->getMemberByLogin($memberLogin);
-        return $data;
+    public function getMemberByLogin($memberLogin)
+    {
+        return $this->members_gateway->getMemberByLogin($memberLogin);
     }
 
     /**
@@ -51,7 +59,7 @@ class Members
      */
     public function checkIfMemberExists($memberLogin, $memberLoginOld = null)
     {
-        $memberLoginOld = (is_null($memberLoginOld)) ? '': $memberLoginOld;
+        $memberLoginOld = (is_null($memberLoginOld)) ? '' : $memberLoginOld;
 
         $data = $this->members_gateway->checkMemberExists($memberLogin, $memberLoginOld);
 
@@ -66,12 +74,11 @@ class Members
      * @param $memberId
      * @return mixed
      */
-    public function getMemberById($memberId) {
+    public function getMemberById($memberId)
+    {
         $memberId = filter_var($memberId, FILTER_VALIDATE_INT);
 
-        $data = $this->members_gateway->getMemberById($memberId);
-
-        return $data;
+        return $this->members_gateway->getMemberById($memberId);
     }
 
     /**
@@ -93,7 +100,8 @@ class Members
      * @param null $sorting
      * @return mixed
      */
-    public function getMembersByIdIn($memberIds, $sorting = null) {
+    public function getMembersByIdIn($memberIds, $sorting = null)
+    {
         $memberIds = filter_var($memberIds, FILTER_SANITIZE_STRING);
         return $this->members_gateway->getMembersIn($memberIds, $sorting);
     }
@@ -115,13 +123,12 @@ class Members
      * @param $sorting
      * @return mixed
      */
-    public function getMembersByOrg($orgId, $sorting) {
+    public function getMembersByOrg($orgId, $sorting)
+    {
         $orgId = filter_var($orgId, FILTER_VALIDATE_INT);
         $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
 
-        $data = $this->members_gateway->getAllByOrg($orgId, $sorting);
-
-        return $data;
+        return $this->members_gateway->getAllByOrg($orgId, $sorting);
     }
 
     /**
@@ -130,7 +137,8 @@ class Members
      * @param null $sorting
      * @return mixed
      */
-    public function getClientMembersByOrgIdAndNotInTeam($orgId, $membersTeam = null, $sorting = null) {
+    public function getClientMembersByOrgIdAndNotInTeam($orgId, $membersTeam = null, $sorting = null)
+    {
         $orgId = filter_var($orgId, FILTER_VALIDATE_INT);
         $membersTeam = filter_var($membersTeam, FILTER_SANITIZE_STRING);
         $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
@@ -156,9 +164,22 @@ class Members
      * @return mixed
      * @throws Exception
      */
-    public function addMember($username, $name, $emailWork, $password, $profile, $title = null,
-                              $organization = null, $phoneWork = null, $phoneHome = null, $phoneMobile = null,
-                              $fax = null, $comments = null, $created = null, $timezone = 0) {
+    public function addMember(
+        $username,
+        $name,
+        $emailWork,
+        $password,
+        $profile,
+        $title = null,
+        $organization = null,
+        $phoneWork = null,
+        $phoneHome = null,
+        $phoneMobile = null,
+        $fax = null,
+        $comments = null,
+        $created = null,
+        $timezone = 0
+    ) {
         if (empty($username) || empty($name) || empty($emailWork) || empty($password)) {
             throw new Exception('Invalid member id, login, name, or email');
         } else {
@@ -177,7 +198,8 @@ class Members
             $comments = filter_var($comments, FILTER_SANITIZE_STRING);
             $timezone = filter_var($timezone, FILTER_SANITIZE_STRING);
 
-            return $this->members_gateway->addMember($username, $name, $title, $organization, $emailWork, $phoneWork, $phoneHome, $phoneMobile, $fax, $comments, $password, $profile, $created, $timezone);
+            return $this->members_gateway->addMember($username, $name, $title, $organization, $emailWork, $phoneWork,
+                $phoneHome, $phoneMobile, $fax, $comments, $password, $profile, $created, $timezone);
         }
     }
 
@@ -198,11 +220,21 @@ class Members
      * @return bool|mixed
      * @throws Exception
      */
-    public function updateMember($memberId, $login, $name, $emailWork, $title = null, $organization = null,
-                                 $phoneWork = null, $phoneHome = null, $phoneMobile = null, $fax = null,
-                                 $lastPage = null, $comments = null, $profile = null
-    )
-    {
+    public function updateMember(
+        $memberId,
+        $login,
+        $name,
+        $emailWork,
+        $title = null,
+        $organization = null,
+        $phoneWork = null,
+        $phoneHome = null,
+        $phoneMobile = null,
+        $fax = null,
+        $lastPage = null,
+        $comments = null,
+        $profile = null
+    ) {
         if (empty($memberId) || empty($login) || empty($name) || empty($emailWork)) {
             throw new Exception('Invalid member id, login, name, or email');
         } else {
@@ -219,7 +251,8 @@ class Members
             $comments = filter_var($comments, FILTER_SANITIZE_STRING);
             $lastPage = filter_var($lastPage, FILTER_SANITIZE_STRING);
 
-            return $this->members_gateway->updateMember($memberId, $login, $name, $title, $organization, $emailWork, $phoneWork, $phoneHome, $phoneMobile, $fax, $lastPage, $comments, $profile);
+            return $this->members_gateway->updateMember($memberId, $login, $name, $title, $organization, $emailWork,
+                $phoneWork, $phoneHome, $phoneMobile, $fax, $lastPage, $comments, $profile);
         }
     }
 
@@ -234,7 +267,7 @@ class Members
         if (!isset($memberId) || !isset($password)) {
             throw new Exception('Invalid member id, password');
         } else {
-            $memberId = filter_var((int) $memberId, FILTER_VALIDATE_INT);
+            $memberId = filter_var((int)$memberId, FILTER_VALIDATE_INT);
             $password = Util::getPassword($password);
             return $this->members_gateway->setPassword($memberId, $password);
         }
@@ -244,10 +277,9 @@ class Members
      * @param null $sorting
      * @return mixed
      */
-    public function getAllMembers($sorting = null) {
-        $data = $this->members_gateway->getAllMembers($sorting);
-
-        return $data;
+    public function getAllMembers($sorting = null)
+    {
+        return $this->members_gateway->getAllMembers($sorting);
     }
 
     /**
@@ -330,10 +362,17 @@ class Members
      * @param null $signature
      * @throws Exception
      */
-    public function sendEmail($toEmail, $toName, $subject, $message, $fromEmail = null, $fromName = null, $signature = null)
-    {
+    public function sendEmail(
+        $toEmail,
+        $toName,
+        $subject,
+        $message,
+        $fromEmail = null,
+        $fromName = null,
+        $signature = null
+    ) {
         if ($toEmail && $toName && $subject && $message) {
-            $mail = new Notification(true);
+            $mail = $this->container->getNotification();
 
             try {
                 if (!is_null($signature)) {

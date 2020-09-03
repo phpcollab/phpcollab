@@ -10,9 +10,9 @@ use phpCollab\Topics\Topics;
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$topics = new Topics();
-$projects = new Projects();
-$teams = new Teams();
+$topics = $container->getTopicsLoader();
+$projects = $container->getProjectsLoader();
+$teams = $container->getTeams();
 
 $topicId = $request->query->get('id');
 
@@ -60,8 +60,10 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $detailProject["pro_id"], $detailProject["pro_name"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../topics/listtopics.php?project=" . $detailProject["pro_id"], $strings["discussions"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $detailProject["pro_id"],
+    $detailProject["pro_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../topics/listtopics.php?project=" . $detailProject["pro_id"],
+    $strings["discussions"], "in"));
 $blockPage->itemBreadcrumbs($detailTopic["top_subject"]);
 $blockPage->closeBreadcrumbs();
 
@@ -94,9 +96,14 @@ if ($session->get("id") == $detailTopic["top_owner"]) {
 $block1->openContent();
 $block1->contentTitle($strings["info"]);
 
-$block1->contentRow($strings["project"], $blockPage->buildLink("../projects/viewproject.php?id=" . $detailProject["pro_id"], $detailProject["pro_name"] . " (#" . $detailProject["pro_id"] . ")", "in"));
+$block1->contentRow($strings["project"],
+    $blockPage->buildLink("../projects/viewproject.php?id=" . $detailProject["pro_id"],
+        $detailProject["pro_name"] . " (#" . $detailProject["pro_id"] . ")", "in"));
 $block1->contentRow($strings["organization"], $detailProject["pro_org_name"]);
-$block1->contentRow($strings["owner"], $blockPage->buildLink("../users/viewuser.php?id=" . $detailProject["pro_mem_id"], $detailProject["pro_mem_name"], "in") . " (" . $blockPage->buildLink($detailProject["pro_mem_email_work"], $detailProject["pro_mem_login"], "mail") . ")");
+$block1->contentRow($strings["owner"],
+    $blockPage->buildLink("../users/viewuser.php?id=" . $detailProject["pro_mem_id"], $detailProject["pro_mem_name"],
+        "in") . " (" . $blockPage->buildLink($detailProject["pro_mem_email_work"], $detailProject["pro_mem_login"],
+        "mail") . ")");
 
 if ($sitePublish == "true") {
     $block1->contentRow($strings["published"], $statusPublish[$idPublish]);
@@ -104,25 +111,31 @@ if ($sitePublish == "true") {
 
 $block1->contentRow($strings["retired"], $statusTopicBis[$idStatus]);
 $block1->contentRow($strings["posts"], $detailTopic["top_posts"]);
-$block1->contentRow($strings["last_post"], phpCollab\Util::createDate($detailTopic["top_last_post"], $session->get("timezone")));
+$block1->contentRow($strings["last_post"],
+    phpCollab\Util::createDate($detailTopic["top_last_post"], $session->get("timezone")));
 
 $block1->contentTitle($strings["posts"]);
 
 if ($detailTopic["top_status"] == "1" && $teamMember == "true") {
-    $block1->contentRow("", $blockPage->buildLink("../topics/addpost.php?id=" . $detailTopic["top_id"], $strings["post_reply"], "in"));
+    $block1->contentRow("",
+        $blockPage->buildLink("../topics/addpost.php?id=" . $detailTopic["top_id"], $strings["post_reply"], "in"));
 }
 
 foreach ($listPosts as $post) {
-    $block1->contentRow($strings["posted_by"], $blockPage->buildLink($post["pos_mem_email_work"], $post["pos_mem_name"], "mail"));
+    $block1->contentRow($strings["posted_by"],
+        $blockPage->buildLink($post["pos_mem_email_work"], $post["pos_mem_name"], "mail"));
 
     if ($post["pos_created"] > $session->get('lastVisited')) {
-        $block1->contentRow($strings["when"], "<b>" . phpCollab\Util::createDate($post["pos_created"], $session->get("timezone")) . "</b>");
+        $block1->contentRow($strings["when"],
+            "<b>" . phpCollab\Util::createDate($post["pos_created"], $session->get("timezone")) . "</b>");
     } else {
-        $block1->contentRow($strings["when"], phpCollab\Util::createDate($post["pos_created"], $session->get("timezone")));
+        $block1->contentRow($strings["when"],
+            phpCollab\Util::createDate($post["pos_created"], $session->get("timezone")));
     }
     $post_message = (strlen($post["pos_message"]) > 0) ? nl2br($post["pos_message"]) : "<em>no message</em>";
     if ($detailProject["pro_owner"] == $session->get("id") || $session->get("profile") == "0" || $post["pos_member"] == $session->get("id")) {
-        $block1->contentRow($blockPage->buildLink("../topics/deletepost.php?topic=" . $detailTopic["top_id"] . "&id=" . $post["pos_id"], $strings["delete_message"], "in"), $post_message);
+        $block1->contentRow($blockPage->buildLink("../topics/deletepost.php?topic=" . $detailTopic["top_id"] . "&id=" . $post["pos_id"],
+            $strings["delete_message"], "in"), $post_message);
     } else {
         $block1->contentRow("", $post_message);
     }
@@ -134,10 +147,17 @@ $block1->closeForm();
 
 if ($session->get("id") == $detailTopic["top_owner"]) {
     $block1->openPaletteScript();
-    $block1->paletteScript(0, "remove", "../topics/deletetopics.php?project=" . $detailTopic["top_project"] . "&id=" . $detailTopic["top_id"] . "", "true,true,false", $strings["remove"]);
-    $block1->paletteScript(1, "lock", "../topics/viewtopic.php?id=" . $detailTopic["top_id"] . "&action=closeTopic", "true,true,false", $strings["close"]);
-    $block1->paletteScript(2, "add_projectsite", "../topics/viewtopic.php?id=" . $detailTopic["top_id"] . "&action=addToSite", "true,true,false", $strings["add_project_site"]);
-    $block1->paletteScript(3, "remove_projectsite", "../topics/viewtopic.php?id=" . $detailTopic["top_id"] . "&action=removeToSite", "true,true,false", $strings["remove_project_site"]);
+    $block1->paletteScript(0, "remove",
+        "../topics/deletetopics.php?project=" . $detailTopic["top_project"] . "&id=" . $detailTopic["top_id"] . "",
+        "true,true,false", $strings["remove"]);
+    $block1->paletteScript(1, "lock", "../topics/viewtopic.php?id=" . $detailTopic["top_id"] . "&action=closeTopic",
+        "true,true,false", $strings["close"]);
+    $block1->paletteScript(2, "add_projectsite",
+        "../topics/viewtopic.php?id=" . $detailTopic["top_id"] . "&action=addToSite", "true,true,false",
+        $strings["add_project_site"]);
+    $block1->paletteScript(3, "remove_projectsite",
+        "../topics/viewtopic.php?id=" . $detailTopic["top_id"] . "&action=removeToSite", "true,true,false",
+        $strings["remove_project_site"]);
     $block1->closePaletteScript(count($detailTopic), array_column($detailTopic, 'top_id'));
 }
 

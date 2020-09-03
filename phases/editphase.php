@@ -9,10 +9,10 @@ $checkSession = "true";
 include_once '../includes/library.php';
 include '../includes/customvalues.php';
 
-$phases = new Phases();
-$projects = new Projects();
-$teams = new Teams();
-$tasks = new Tasks();
+$phases = $container->getPhasesLoader();
+$projects = $container->getProjectsLoader();
+$teams = $container->getTeams();
+$tasks = $container->getTasksLoader();
 
 $id = $request->query->get("id");
 
@@ -73,7 +73,8 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"],
+    $projectDetail["pro_name"], "in"));
 $blockPage->itemBreadcrumbs($phaseDetail["pha_name"]);
 $blockPage->closeBreadcrumbs();
 
@@ -135,7 +136,8 @@ if (empty($end_date)) {
     $end_date = "--";
 }
 
-$block1->contentRow($strings["date_start"], "<input type='text' name='start_date' id='start_date' size='20' value='$start_date'><input type='button' value=' ... ' id='trigStartDate'>");
+$block1->contentRow($strings["date_start"],
+    "<input type='text' name='start_date' id='start_date' size='20' value='$start_date'><input type='button' value=' ... ' id='trigStartDate'>");
 
 echo <<<JAVASCRIPT
 <script type='text/javascript'>
@@ -147,7 +149,8 @@ echo <<<JAVASCRIPT
 </script>
 JAVASCRIPT;
 
-$block1->contentRow($strings["date_end"], "<input type='text' name='end_date' id='end_date' size='20' value='{$end_date}'><input type='button' value=' ... ' id='trigDateEnd'>");
+$block1->contentRow($strings["date_end"],
+    "<input type='text' name='end_date' id='end_date' size='20' value='{$end_date}'><input type='button' value=' ... ' id='trigDateEnd'>");
 
 echo <<<JAVASCRIPT
 <script type='text/javascript'>

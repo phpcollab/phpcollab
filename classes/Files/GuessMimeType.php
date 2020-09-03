@@ -34,7 +34,7 @@ class GuessMimeType
             throw new InvalidArgumentException('Invalid parameters');
         }
 
-        $mimeType =  $fileObj->getMimeType();
+        $mimeType = $fileObj->getMimeType();
 
         // Search the array of allowed types and return the "matched" extension if a match is found
         if (false === $ext = array_search(
@@ -42,17 +42,20 @@ class GuessMimeType
                 $allowedMimeTypes,
                 true
             )) {
-                array(
-                    'clientOriginalName' => $fileObj->getClientOriginalName(),
-                    'clientOriginalExtension' => $fileObj->getClientOriginalExtension(),
-                    'guessedExtension' => $ext
-                );
-                throw new Exception(sprintf('The mime type of the file is invalid (%s). Data: %s', $mimeType,
-                    serialize( ['ClientOriginalName' => $fileObj->getClientOriginalName(),
+            array(
+                'clientOriginalName' => $fileObj->getClientOriginalName(),
+                'clientOriginalExtension' => $fileObj->getClientOriginalExtension(),
+                'guessedExtension' => $ext
+            );
+            throw new Exception(sprintf('The mime type of the file is invalid (%s). Data: %s', $mimeType,
+                    serialize([
+                        'ClientOriginalName' => $fileObj->getClientOriginalName(),
                         'ClientOriginalExtension' => $fileObj->getClientOriginalExtension(),
-                        'mimeType' => $mimeType, "allowed" => $allowedMimeTypes ])
-                    )
-                );
+                        'mimeType' => $mimeType,
+                        "allowed" => $allowedMimeTypes
+                    ])
+                )
+            );
         }
 
         return $ext;

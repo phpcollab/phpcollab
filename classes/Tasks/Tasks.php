@@ -4,11 +4,8 @@
 namespace phpCollab\Tasks;
 
 use Exception;
+use phpCollab\Container;
 use phpCollab\Database;
-use phpCollab\Notification;
-use phpCollab\Notifications\Notifications;
-use phpCollab\Projects\Projects;
-use phpCollab\Teams\Teams;
 
 /**
  * Class Tasks
@@ -27,14 +24,21 @@ class Tasks
     private $notifications;
     private $priority;
     private $status;
+    /**
+     * @var Container
+     */
+    private $container;
 
 
     /**
      * Tasks constructor.
+     * @param Database $database
+     * @param Container $container
      */
-    public function __construct()
+    public function __construct(Database $database, Container $container)
     {
-        $this->db = new Database();
+        $this->db = $database;
+        $this->container = $container;
         $this->tasks_gateway = new TasksGateway($this->db);
         $this->strings = $GLOBALS["strings"];
         $this->root = $GLOBALS["root"];
@@ -71,8 +75,7 @@ class Tasks
         }
         $userId = filter_var((string)$userId, FILTER_SANITIZE_STRING);
 
-        $data = $this->tasks_gateway->getMyTasks($userId, $sorting);
-        return $data;
+        return $this->tasks_gateway->getMyTasks($userId, $sorting);
     }
 
     /**
@@ -116,8 +119,7 @@ class Tasks
     public function getTaskById($taskId)
     {
         $taskId = filter_var($taskId, FILTER_VALIDATE_INT);
-        $task = $this->tasks_gateway->getTaskById($taskId);
-        return $task;
+        return $this->tasks_gateway->getTaskById($taskId);
     }
 
     /**
@@ -175,8 +177,7 @@ class Tasks
     public function getTasksByProjectName($projectName)
     {
         $projectName = filter_var($projectName, FILTER_SANITIZE_STRING);
-        $task = $this->tasks_gateway->getTasksByProjectName($projectName);
-        return $task;
+        return $this->tasks_gateway->getTasksByProjectName($projectName);
     }
 
     /**
@@ -189,8 +190,7 @@ class Tasks
     public function getTasksByProjectId($projectId, $startRow = null, $rowsLimit = null, $sorting = null)
     {
         $projectId = filter_var($projectId, FILTER_SANITIZE_STRING);
-        $task = $this->tasks_gateway->getTasksByProjectId($projectId, $startRow, $rowsLimit, $sorting);
-        return $task;
+        return $this->tasks_gateway->getTasksByProjectId($projectId, $startRow, $rowsLimit, $sorting);
     }
 
     /**
@@ -201,11 +201,16 @@ class Tasks
      * @param null $sorting
      * @return mixed
      */
-    public function getTasksByProjectIdAndOwnerOrPublished($projectId, $taskOwner, $startRow = null, $rowsLimit = null, $sorting = null)
-    {
+    public function getTasksByProjectIdAndOwnerOrPublished(
+        $projectId,
+        $taskOwner,
+        $startRow = null,
+        $rowsLimit = null,
+        $sorting = null
+    ) {
         $projectId = filter_var($projectId, FILTER_SANITIZE_STRING);
-        $task = $this->tasks_gateway->getTasksByProjectIdAndOwnerOrPublished($projectId, $taskOwner, $startRow, $rowsLimit, $sorting);
-        return $task;
+        return $this->tasks_gateway->getTasksByProjectIdAndOwnerOrPublished($projectId, $taskOwner, $startRow,
+            $rowsLimit, $sorting);
     }
 
     /**
@@ -216,11 +221,16 @@ class Tasks
      * @param null $sorting
      * @return mixed
      */
-    public function getSubTasksByProjectIdAndOwnerOrPublished($projectId, $taskOwner, $startRow = null, $rowsLimit = null, $sorting = null)
-    {
+    public function getSubTasksByProjectIdAndOwnerOrPublished(
+        $projectId,
+        $taskOwner,
+        $startRow = null,
+        $rowsLimit = null,
+        $sorting = null
+    ) {
         $projectId = filter_var($projectId, FILTER_SANITIZE_STRING);
-        $task = $this->tasks_gateway->getSubTasksByProjectIdAndOwnerOrPublished($projectId, $taskOwner, $startRow, $rowsLimit, $sorting);
-        return $task;
+        return $this->tasks_gateway->getSubTasksByProjectIdAndOwnerOrPublished($projectId, $taskOwner, $startRow,
+            $rowsLimit, $sorting);
     }
 
     /**
@@ -257,10 +267,10 @@ class Tasks
     /**
      * @param int $projectId ID of the project
      * @param int $phaseId ID of parent phase
-     * @param string $sorting column to sort on and direction
+     * @param null $sorting column to sort on and direction
      * @return mixed
      */
-    public function getTasksByProjectIdAndParentPhase($projectId, $phaseId, $sorting = null)
+    public function getTasksByProjectIdAndParentPhase(int $projectId, int $phaseId, $sorting = null)
     {
         $projectId = filter_var($projectId, FILTER_VALIDATE_INT);
         $phaseId = filter_var($phaseId, FILTER_VALIDATE_INT);
@@ -337,8 +347,7 @@ class Tasks
     public function getSubTaskById($taskId)
     {
         $taskId = filter_var($taskId, FILTER_VALIDATE_INT);
-        $task = $this->tasks_gateway->getSubTaskById($taskId);
-        return $task;
+        return $this->tasks_gateway->getSubTaskById($taskId);
     }
 
     /**
@@ -358,8 +367,7 @@ class Tasks
     public function getSubtasksByParentTaskId($parentTaskId, $sorting = null)
     {
         $parentTaskId = filter_var($parentTaskId, FILTER_VALIDATE_INT);
-        $task = $this->tasks_gateway->getSubtasksByParentTaskId($parentTaskId, $sorting);
-        return $task;
+        return $this->tasks_gateway->getSubtasksByParentTaskId($parentTaskId, $sorting);
     }
 
     /**
@@ -369,8 +377,7 @@ class Tasks
      */
     public function getSubtasksByParentTaskIdIn($parentTaskIds, $sorting = null)
     {
-        $task = $this->tasks_gateway->getSubtasksByParentTaskIdIn($parentTaskIds, $sorting);
-        return $task;
+        return $this->tasks_gateway->getSubtasksByParentTaskIdIn($parentTaskIds, $sorting);
     }
 
     /**
@@ -505,11 +512,27 @@ class Tasks
      * @param $taskId
      * @return mixed
      */
-    public function updateTask($taskName, $description, $assignedTo, $status, $priority, $startDate, $dueDate,
-                               $estimatedTime, $actualTime, $comments, $modifiedDate, $completion, $parentPhase, $published, $invoicing,
-                               $workedHours, $taskId)
-    {
-        return $this->tasks_gateway->updateTask($taskName, $description, $assignedTo, $status, $priority, $startDate, $dueDate,
+    public function updateTask(
+        $taskName,
+        $description,
+        $assignedTo,
+        $status,
+        $priority,
+        $startDate,
+        $dueDate,
+        $estimatedTime,
+        $actualTime,
+        $comments,
+        $modifiedDate,
+        $completion,
+        $parentPhase,
+        $published,
+        $invoicing,
+        $workedHours,
+        $taskId
+    ) {
+        return $this->tasks_gateway->updateTask($taskName, $description, $assignedTo, $status, $priority, $startDate,
+            $dueDate,
             $estimatedTime, $actualTime, $comments, $modifiedDate, $completion, $parentPhase, $published, $invoicing,
             $workedHours, $taskId);
     }
@@ -545,11 +568,26 @@ class Tasks
      * @return array
      * @throws Exception
      */
-    public function addTask($projectId, $name, $description, $owner, $assignedTo, $status, $priority, $startDate,
-                            $dueDate, $estimatedTime, $actualTime, $comments, $published, $completion, $parentPhase = 0,
-                            $invoicing = 0, $workedHours = 0.00)
-    {
-        if ($projectId && $name ) {
+    public function addTask(
+        $projectId,
+        $name,
+        $description,
+        $owner,
+        $assignedTo,
+        $status,
+        $priority,
+        $startDate,
+        $dueDate,
+        $estimatedTime,
+        $actualTime,
+        $comments,
+        $published,
+        $completion,
+        $parentPhase = 0,
+        $invoicing = 0,
+        $workedHours = 0.00
+    ) {
+        if ($projectId && $name) {
             // Check to see if assigned_to set, if so then pass over the date.
             $assignedDate = !empty($assignedTo) ? date('Y-m-d h:i') : null;
 
@@ -557,7 +595,8 @@ class Tasks
             $invoicing = is_null($invoicing) ? 0 : $invoicing;
             $completion = is_null($completion) ? 0 : $completion;
 
-            $newTaskId = $this->tasks_gateway->addTask($projectId, $name, $description, $owner, $assignedTo, $status, $priority, $startDate,
+            $newTaskId = $this->tasks_gateway->addTask($projectId, $name, $description, $owner, $assignedTo, $status,
+                $priority, $startDate,
                 $dueDate, $estimatedTime, $actualTime, $comments, $published, $completion, $parentPhase,
                 $invoicing, $workedHours, $assignedDate);
 
@@ -590,10 +629,23 @@ class Tasks
      * @param $completion
      * @return mixed
      */
-    public function addSubTask($parentTask, $name, $description, $owner, $assigned_to, $status, $priority, $start_date,
-                               $due_date, $complete_date, $estimated_time, $actual_time, $comments, $published,
-                               $completion)
-    {
+    public function addSubTask(
+        $parentTask,
+        $name,
+        $description,
+        $owner,
+        $assigned_to,
+        $status,
+        $priority,
+        $start_date,
+        $due_date,
+        $complete_date,
+        $estimated_time,
+        $actual_time,
+        $comments,
+        $published,
+        $completion
+    ) {
 
         return $this->tasks_gateway->addSubTask($parentTask, $name, $description, $owner, $assigned_to, $status,
             $priority, $start_date, $due_date, $complete_date, $estimated_time, $actual_time, $comments,
@@ -864,7 +916,7 @@ class Tasks
     public function sendTaskNotification($taskDetails, $projectDetails, $userDetails, $subject, $bodyOpening)
     {
         if ($taskDetails && $projectDetails && $userDetails && $subject && $bodyOpening) {
-            $mail = new Notification(true);
+            $mail = $this->container->getNotification();
             try {
 
                 $mail->setFrom($projectDetails["pro_mem_email_work"], $projectDetails["pro_mem_name"]);
@@ -930,9 +982,9 @@ class Tasks
      */
     public function sendClientAddTaskNotification($taskDetails)
     {
-        $this->projects = new Projects();
-        $this->teams = new Teams();
-        $this->notifications = new Notifications();
+        $this->projects = $this->container->getProjectsLoader();
+        $this->teams = $this->container->getTeams();
+        $this->notifications = $this->container->getNotificationsManager();
 
         /*
          *  Get the project details, specifically we need:
@@ -965,7 +1017,7 @@ class Tasks
             /*
              * Start creating the mail notification
              */
-            $mail = new Notification(true);
+            $mail = $this->container->getNotification();
 
             try {
                 $mail->setFrom($taskDetails["tas_mem2_email_work"], $taskDetails["tas_mem2_name"]);
@@ -987,28 +1039,27 @@ class Tasks
                 /*
                  * Loop through $listNotifications
                  */
-                if ($listNotifications) {
-                    foreach ($listNotifications as $listNotification) {
+                foreach ($listNotifications as $listNotification) {
+                    if (
+                        ($listNotification["organization"] != "1"
+                            && $taskDetails["top_published"] == "0"
+                            && $projectDetails["pro_published"] == "0")
+                        || $listNotification["organization"] == "1"
+                    ) {
+
+                        /*
+                         * Make sure the user has an email address, and is flagged
+                         * to receive new topic notifications
+                         */
+
                         if (
-                            ($listNotification["organization"] != "1"
-                                && $taskDetails["top_published"] == "0"
-                                && $projectDetails["pro_published"] == "0")
-                            || $listNotification["organization"] == "1"
+                            !empty($listNotification["email_work"])
+                            && $listNotification["clientAddTask"] == "0"
                         ) {
-
                             /*
-                             * Make sure the user has an email address, and is flagged
-                             * to receive new topic notifications
+                             * Build up the body of the message
                              */
-
-                            if (
-                                !empty($listNotification["email_work"])
-                                && $listNotification["clientAddTask"] == "0"
-                            ) {
-                                /*
-                                 * Build up the body of the message
-                                 */
-                                $body = <<<MESSAGE_BODY
+                            $body = <<<MESSAGE_BODY
 {$mail->partMessage}
 
 {$this->strings["task"]} : {$taskDetails["tas_name"]}
@@ -1025,23 +1076,22 @@ class Tasks
 {$this->strings["noti_moreinfo"]}
 MESSAGE_BODY;
 
-                                if ($listNotification["organization"] == "1") {
-                                    $body .= "{$this->root}/general/login.php?url=topics/viewtopic.php%3Fid=" . $taskDetails["tas_id"];
-                                } elseif ($listNotification["organization"] != "1") {
-                                    $body .= "{$this->root}/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetails["pro_id"];
-                                }
-
-                                $body .= "\n\n" . $mail->footer;
-
-                                $mail->Subject = $subject;
-                                $mail->Priority = "3";
-
-                                // To: Address
-                                $mail->addAddress($listNotification["email_work"], $listNotification["name"]);
-                                $mail->Body = $body;
-                                $mail->send();
-                                $mail->clearAddresses();
+                            if ($listNotification["organization"] == "1") {
+                                $body .= "{$this->root}/general/login.php?url=topics/viewtopic.php%3Fid=" . $taskDetails["tas_id"];
+                            } elseif ($listNotification["organization"] != "1") {
+                                $body .= "{$this->root}/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetails["pro_id"];
                             }
+
+                            $body .= "\n\n" . $mail->footer;
+
+                            $mail->Subject = $subject;
+                            $mail->Priority = "3";
+
+                            // To: Address
+                            $mail->addAddress($listNotification["email_work"], $listNotification["name"]);
+                            $mail->Body = $body;
+                            $mail->send();
+                            $mail->clearAddresses();
                         }
                     }
                 }

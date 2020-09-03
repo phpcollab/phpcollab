@@ -86,18 +86,18 @@ $block1->contentTitle($strings["enter_keywords"]);
 
 echo <<<HTML
 <tr class="odd">
-	<td class="leftvalue">* {$strings["search_for"] } :</td>
+	<td class="leftvalue">* {$strings["search_for"]} :</td>
 	<td>
 		<input value="" type="text" name="searchfor" style="width: 200px;" size="30" maxlength="64" />
 		<select name="heading">
-				<option selected value="ALL">{$strings["all_content"] }</option>
-				<option value="notes">{$strings["notes"] }</option>
-				<option value="organizations">{$strings["organizations"] }</option>
-				<option value="projects">{$strings["projects"] }</option>
-				<option value="tasks">{$strings["tasks"] }</option>
-				<option value="subtasks">{$strings["subtasks"] }</option>
-				<option value="discussions">{$strings["discussions"] }</option>
-				<option value="members">{$strings["users"] }</option>
+				<option selected value="ALL">{$strings["all_content"]}</option>
+				<option value="notes">{$strings["notes"]}</option>
+				<option value="organizations">{$strings["organizations"]}</option>
+				<option value="projects">{$strings["projects"]}</option>
+				<option value="tasks">{$strings["tasks"]}</option>
+				<option value="subtasks">{$strings["subtasks"]}</option>
+				<option value="discussions">{$strings["discussions"]}</option>
+				<option value="members">{$strings["users"]}</option>
 		</select>
 	</td>
 </tr>
@@ -106,7 +106,6 @@ echo <<<HTML
 	<td><button type="submit" name="action" value="search">{$strings["search"]}</button></td>
 </tr>
 HTML;
-
 
 
 $block1->closeContent();

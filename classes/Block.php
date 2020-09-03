@@ -190,10 +190,10 @@ class Block
     /**
      * Print tooltips
      * @param string $item Text printed in tooltip
-     * @access public
      * @return string
-     **/
-    public function printHelp($item)
+     * @access public
+     */
+    public function printHelp(string $item)
     {
         return ' [<a href="javascript:void(0);" onmouseover="return overlib(\'' .
             addslashes($this->help[$item]) . '\',SNAPX,550,BGCOLOR,\'' . $this->bgColor .
@@ -204,25 +204,23 @@ class Block
     /**
      * Add a note
      * @param string $content Text printed in note
-     * @access public
      * @return void
-     **/
-    public function note($content)
+     * @access public
+     */
+    public function note(string $content)
     {
         echo '<p class="note">' . $content . '</p>';
-        return;
     }
 
     /**
      * Print standard heading
      * @param string $title Text printed in heading
-     * @access public
      * @return void
-     **/
-    public function heading($title)
+     * @access public
+     */
+    public function heading(string $title)
     {
         echo '<h1 class="heading">' . stripslashes($title) . '</h1>';
-        return;
     }
 
     /**
@@ -230,8 +228,8 @@ class Block
      * @param string $title Text printed in heading
      * @see block::closeToggle()
      * @access public
-     **/
-    public function headingToggle($title)
+     */
+    public function headingToggle(string $title)
     {
         if ($_COOKIE[$this->form] == "c") {
             $arrow = "closed";
@@ -240,13 +238,13 @@ class Block
         }
 
         echo <<<HTML
-<table cellspacing="0" cellpadding="0" border="0" class="headingToggle">
+<table class="headingToggle">
     <tr>
         <td><a href="javascript:showHideModule('{$this->form}','{$this->theme}')" 
                onMouseOver="showHideModuleMouseOver('{$this->form}'); return true;" 
-               onMouseOut="window.status=''; return true;"><img name="{$this->form}Toggle" border="0" src="{$this->themeImgPath}/module_toggle_{$arrow}.gif" alt=""></a></td>
-        <td><img width="10" height="10" name="{$this->form}tl" src="{$this->themeImgPath}/spacer.gif" alt=""></td>
-        <td width="100%"><h1 class="heading">{$title}</h1></td>
+               onMouseOut="window.status=''; return true;"><img alt="{$this->form}Toggle" src="{$this->themeImgPath}/module_toggle_{$arrow}.gif" alt=""></a></td>
+        <td><img width="10" height="10" alt="{$this->form}tl" src="{$this->themeImgPath}/spacer.gif" alt=""></td>
+        <td style="width: 100%;"><h1 class="heading">{$title}</h1></td>
     </tr>
 </table>
 <div id="{$this->form}">
@@ -269,8 +267,8 @@ HTML;
      * Print error heading
      * @param string $title Text printed in heading
      * @access public
-     **/
-    public function headingError($title)
+     */
+    public function headingError(string $title)
     {
         echo '<h1 class="headingError">' . $title . '</h1>';
     }
@@ -279,8 +277,8 @@ HTML;
      * Print error message in table
      * @param string $content Text printed in content error table
      * @access public
-     **/
-    public function contentError($content)
+     */
+    public function contentError(string $content)
     {
         echo '<table class="error"><tr><td>' . $content . '</td></tr></table>';
     }
@@ -309,8 +307,8 @@ HTML;
      * @param string $showall Link to page which display all records, with parameters
      * @param string $parameters Optional parameters to transmit between pages
      * @access public
-     **/
-    public function limitsFooter($current, $total, $showall, $parameters)
+     */
+    public function limitsFooter(string $current, string $total, string $showall, string $parameters)
     {
         if ($this->rowsLimit < $this->recordsTotal) {
             echo '<table class="pagination"><tr><td nowrap class="footerCell">';
@@ -337,7 +335,7 @@ HTML;
 
 
             }
-            echo '</td><td nowrap align="right" class="footerCell">';
+            echo '</td><td nowrap class="footerCell">';
             if ($showall != "") {
                 echo '<a href="' . $showall . '">' . $this->strings["show_all"] . '</a>';
             }
@@ -355,8 +353,8 @@ HTML;
      * Print Message table
      * @param string $msgLabel Text built with messages.php
      * @access public
-     **/
-    public function messageBox($msgLabel)
+     */
+    public function messageBox(string $msgLabel)
     {
         echo '<br/><table class="message"><tr><td>';
         echo ($msgLabel) ? $msgLabel : 'Action not allowed.';
@@ -372,7 +370,7 @@ HTML;
      **/
     public function openPaletteIcon()
     {
-        echo '<table cellpadding="0" cellspacing="0" border="0" class="icons"><tr>';
+        echo '<table class="icons"><tr>';
     }
 
     /**
@@ -384,7 +382,17 @@ HTML;
      **/
     public function closePaletteIcon()
     {
-        echo "<td align=left width=\"1%\"><img height=\"26\" width=\"5\" src=\"$this->themeImgPath/spacer.gif\" alt=\"\"></td><td class=\"commandDesc\" align=\"left\" width=\"99%\"><div id=\"" . $this->form . "tt\" class=\"rel\"><div id=\"" . $this->form . "tti\" class=\"abs\"><img height=\"1\" width=\"350\" src=\"$this->themeImgPath/spacer.gif\" alt=\"\"></div></div></td></tr></table>";
+        echo <<<ICON
+        <td style="text-align: left; width: 1%;"><img height="26" width="5" src="{$this->themeImgPath}/spacer.gif" alt=""></td>
+        <td class="commandDesc" style="text-align: left; width: 99%;">
+            <div id="{$this->form}tt" class="rel">
+                <div id="{$this->form}tti" class="abs"><img height="1" width="350" src="{$this->themeImgPath}/spacer.gif" alt=""></div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+ICON;
     }
 
     /**
@@ -403,8 +411,8 @@ SCRIPT;
 
     /**
      * Close icons script
-     * @param integer $compt Total records
-     * @param array $values First row
+     * @param $compt
+     * @param $values
      * @see block::closePaletteScript()
      * @access public
      **/
@@ -412,20 +420,24 @@ SCRIPT;
     {
         echo "MM_updateButtons(document." . $this->form . "Form, 0);document." . $this->form . "Form.checkboxes = new Array();";
         for ($i = 0; $i < $compt; $i++) {
-            echo "document." . $this->form . "Form.checkboxes[document." . $this->form . "Form.checkboxes.length] = new MMCheckbox('$values[$i]',document." . $this->form . "Form,'" . $this->form . "cb$values[$i]');";
+            echo <<<SCRIPT
+document.{$this->form}Form.checkboxes[document.{$this->form}Form.checkboxes.length] = new MMCheckbox('{$values[$i]}',document.{$this->form}Form,'{$this->form}cb{$values[$i]}');
+SCRIPT;
         }
-        echo "document." . $this->form . "Form.tt = '" . $this->form . "tt';</script>";
+        echo <<<SCRIPT
+document.{$this->form}Form.tt = '{$this->form}tt';</script>
+SCRIPT;
     }
 
     /**
      * Define sorting to apply on a list block
      * @param string $sortingRef Row reference in sorting table
-     * @param string $sortingValue Row value in sorting table
+     * @param mixed $sortingValue Row value in sorting table
      * @param string $sortingDefault Default sorting value
      * @param array $sortingFields Array with sorted fields on each column
      * @access public
-     **/
-    public function sorting($sortingRef, $sortingValue, $sortingDefault, $sortingFields)
+     */
+    public function sorting(string $sortingRef, $sortingValue, string $sortingDefault, array $sortingFields)
     {
         if ($sortingRef != "") {
             $this->sortingRef = $sortingRef;
@@ -452,12 +464,12 @@ SCRIPT;
         for ($i = 0; $i < $sortingFieldsCount; $i++) {
             if ($this->sortingFields[$i] == $explode[0] && $explode[1] == "DESC") {
                 $this->sortingOrders[$i] = "ASC";
-                $this->sortingArrows[$i] = '&#160;<img border="0" src="'.$this->themeImgPath.'/icon_sort_za.gif" alt="" width="11" height="11">';
+                $this->sortingArrows[$i] = '&#160;<img border="0" src="' . $this->themeImgPath . '/icon_sort_za.gif" alt="" width="11" height="11">';
                 $this->sortingStyles[$i] = "active";
             } else {
                 if ($this->sortingFields[$i] == $explode[0] && $explode[1] == "ASC") {
                     $this->sortingOrders[$i] = "DESC";
-                    $this->sortingArrows[$i] = '&#160;<img border="0" src="'.$this->themeImgPath.'/icon_sort_az.gif" alt="" width="11" height="11">';
+                    $this->sortingArrows[$i] = '&#160;<img border="0" src="' . $this->themeImgPath . '/icon_sort_az.gif" alt="" width="11" height="11">';
                     $this->sortingStyles[$i] = "active";
                 } else {
                     $this->sortingOrders[$i] = "ASC";
@@ -477,7 +489,7 @@ SCRIPT;
      * @see block::closeForm()
      * @access public
      */
-    public function openForm($address, $additionalAttributes = null, CsrfHandler $csrfHandler = null)
+    public function openForm(string $address, $additionalAttributes = null, CsrfHandler $csrfHandler = null)
     {
         echo <<<FORM
 <a id="{$this->form}Anchor"></a>
@@ -508,7 +520,7 @@ CSRF_INPUT;
      * @param array|string $sortingOff Array with label number (from $labels) and order (ASC/DESC)
      * @access public
      */
-    public function labels($labels, $published, $sorting = "true", $sortingOff = "")
+    public function labels(array $labels, bool $published, $sorting = "true", $sortingOff = "")
     {
         $sortingFields = $this->sortingFields;
         $sortingOrders = $this->sortingOrders;
@@ -523,7 +535,15 @@ CSRF_INPUT;
         for ($i = 0; $i < $comptLabels; $i++) {
             if ($sorting == "true") {
                 if (isset($sortingFields) && array_key_exists($i, $sortingFields) && $sortingFields[$i] !== 'none') {
-                    echo "<th nowrap class='$sortingStyles[$i]'><a href=\"javascript:document." . $this->form . "Form.sort_target.value='{$this->sortingRef}';document." . $this->form . "Form.sort_fields.value='{$sortingFields[$i]}';document." . $this->form . "Form.sort_order.value='{$sortingOrders[$i]}';document." . $this->form . "Form.submit();\" onMouseOver=\"javascript:window.status='" . $this->strings["sort_by"] . " " . addslashes($labels[$i]) . "'; return true;\" onMouseOut=\"javascript:window.status=''; return true\">" . $labels[$i] . "$sortingArrows[$i]</a></th>";
+                    $labelsWithSlashes = addslashes($labels[$i]);
+                    echo <<<HTML
+<th nowrap class="{$sortingStyles[$i]}">
+    <a href="javascript:document.{$this->form}Form.sort_target.value='{$this->sortingRef}';
+        document.{$this->form}Form.sort_fields.value='{$sortingFields[$i]}';
+        document.{$this->form}Form.sort_order.value='{$sortingOrders[$i]}';
+        document.{$this->form}Form.submit();" 
+        onMouseOver="window.status='{$this->strings["sort_by"]} {$labelsWithSlashes}'; return true;" onMouseOut="window.status=''; return true">{$labels[$i]}{$sortingArrows[$i]}</a></th>
+HTML;
                 } else {
                     echo "<th nowrap>{$labels[$i]}</th>";
                 }
@@ -555,16 +575,15 @@ CSRF_INPUT;
      */
     public function openResults($checkbox = "true")
     {
-        echo "<table class='listing striped'>
-<tr>";
+        echo "<table class='listing striped foo'><tr>";
         if ($checkbox == "true") {
-            echo '<th style="text-align: center; width: 1%">';
-            echo '<a href="javascript:MM_toggleSelectedItems(document.' . $this->form . 'Form,\'' . $this->theme . '\')">';
-            echo '<img height="13" width="13" border="0" src="' . $this->themeImgPath . '/checkbox_off_16.gif" alt="" vspace="3" hspace="3">';
-            echo '</a>';
-            echo '</th>';
+            echo <<<HTML
+            <th class="flooma" style="text-align: center; width: 1%">
+                <a href="javascript:MM_toggleSelectedItems(document.{$this->form}Form,'{$this->theme}')"><img height="13" width="13" src="{$this->themeImgPath}/checkbox_off_16.gif" alt=""></a>
+            </th>
+HTML;
         } else {
-            echo '<th style="text-align: center; width: 1%"><img style="width: 13px; height: 13px; margin: 3px 0; border: none" src="' . $this->themeImgPath . '/spacer.gif" alt=""></th>';
+            echo '<th class="moomla" style="text-align: center; width: 1%"><img style="width: 13px; height: 13px; margin: 3px 0; border: none" src="' . $this->themeImgPath . '/spacer.gif" alt=""></th>';
         }
     }
 
@@ -591,12 +610,22 @@ CSRF_INPUT;
      * @param string $text Text used in info-tip
      * @see block::openPaletteIcon()
      * @access public
-     **/
-    public function paletteIcon($num, $type, $text)
+     */
+    public function paletteIcon(int $num, string $type, string $text)
     {
         $altText = stripslashes($text);
+
+//        echo "<td style=\"width: 30px;\" class=\"commandBtn\">";
+//        echo "<a href=\"javascript:var b = MM_getButtonWithName(document." . $this->form . "Form, '" . $this->form . "$num'); if (b) b.click();\"";
+//        echo "onMouseOver=\"var over = MM_getButtonWithName(document." . $this->form . "Form, '" . $this->form . "$num'); if (over) over.over(); return true; \"";
+//        echo "onMouseOut=\"var out = MM_getButtonWithName(document." . $this->form . "Form, '" . $this->form . "$num'); if (out) out.out(); return true; \"><img style=\"border: none;\" width=\"$this->iconWidth\" height=\"$this->iconHeight\" name=\"" . $this->form . "$num\" src=\"$this->themeImgPath/btn_" . $type . "_norm.gif\" alt='" . stripslashes($text) . "'></a></td>";
+
+
         echo <<<palette_icon
-        <td style="width: 30px;" class="commandBtn"><a href="javascript:var b = MM_getButtonWithName(document.{$this->form}Form, '{$this->form}{$num}'); if (b) b.click();"onMouseOver="var over = MM_getButtonWithName(document.{$this->form}Form, '{$this->form}{$num}'); if (over) over.over(); return true; " onMouseOut="var out = MM_getButtonWithName(document.{$this->form}Form, '{$this->form}{$num}'); if (out) out.out(); return true; "><img style="border: none;" width="{$this->iconWidth}" height="{$this->iconHeight}" name="{$this->form}{$num}" src="{$this->themeImgPath}/btn_{$type}_norm.gif" alt="{$altText}"></a></td>
+        <td style="width: 30px;" class="commandBtn">
+        <a href="javascript:var b = MM_getButtonWithName(document.{$this->form}Form, '{$this->form}{$num}'); if (b) b.click();" 
+        onMouseOver="var over = MM_getButtonWithName(document.{$this->form}Form, '{$this->form}{$num}'); if (over) over.over(); return true;" 
+        onMouseOut="var out = MM_getButtonWithName(document.{$this->form}Form, '{$this->form}{$num}'); if (out) out.out(); return true; "><img style="border: none;" width="{$this->iconWidth}" height="{$this->iconHeight}" name="{$this->form}{$num}" src="{$this->themeImgPath}/btn_{$type}_norm.gif" alt="{$altText}"></a></td>
 palette_icon;
     }
 
@@ -610,9 +639,9 @@ palette_icon;
      * @see block::openPaletteIcon()
      * @access public
      */
-    public function paletteScript($num, $type, $link, $options, $text)
+    public function paletteScript(int $num, string $type, string $link, string $options, string $text)
     {
-        $link = rtrim($link,'?');
+        $link = rtrim($link, '?');
         $link = (strpos($link, '?')) ? $link : $link . '?&';
         $text = stripslashes($text);
 
@@ -650,11 +679,11 @@ SCRIPT;
     /**
      * Display a table line in sheet/form
      * @param string $left Text in left cell
-     * @param string $right Text in right cell
-     * @param boolean $altern Option to altern background color
+     * @param string|null $right Text in right cell
+     * @param string $altern Option to altern background color
      * @access public
-     **/
-    public function contentRow($left, $right, $altern = "false")
+     */
+    public function contentRow(string $left, ?string $right, $altern = "false")
     {
         if ($this->class == "") {
             $this->class = "odd";
@@ -681,7 +710,7 @@ SCRIPT;
     public function openRow()
     {
         $change = "true";
-        echo "<tr class='{$this->class}' onmouseover=\"this.style.backgroundColor='" . $this->highlightOn . "'\" onmouseout=\"this.style.backgroundColor='" . $this->highlightOff . "'\">";
+        echo "<tr>";
         if ($this->class == "odd") {
             $this->class = "even";
             $this->highlightOff = $this->evenColor;

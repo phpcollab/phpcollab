@@ -2,12 +2,10 @@
 #Application name: PhpCollab
 #Status page: 0
 
-use phpCollab\Support\Support;
-
 $checkSession = "true";
 include '../includes/library.php';
 
-$support = new Support($logger);
+$support = $container->getSupportLoader();
 
 $userDetail = $members->getMemberById($session->get("id"));
 
@@ -27,7 +25,8 @@ if ($request->isMethod('post')) {
                 if (empty($subject) || empty($message)) {
                     $errorMessage = "Please enter a subject and message";
                 } else {
-                    $supportRequestId = $support->addSupportRequest($userId, $request_priority, $subject, $message, $projectId);
+                    $supportRequestId = $support->addSupportRequest($userId, $request_priority, $subject, $message,
+                        $projectId);
 
                     if ($notifications == "true") {
                         include '../support/noti_newrequest.php';

@@ -1,14 +1,10 @@
 <?php
 
-use phpCollab\Organizations\Organizations;
-use phpCollab\Tasks\Tasks;
-use phpCollab\Teams\Teams;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$organizations = new Organizations();
-$tasks = new Tasks();
+$organizations = $container->getOrganizationsManager();
+$tasks = $container->getTasksLoader();
 
 $orgId = $request->query->get('organization');
 $userId = $request->query->get('id');
@@ -24,7 +20,7 @@ if (empty($userDetail)) {
 $memberOrganization = $userDetail['mem_organization'];
 
 if ($clientsFilter == "true" && $session->get("profile") == "2") {
-    $teams = new Teams();
+    $teams = $container->getTeams();
     $teamMember = "false";
 
     $memberTest = $teams->getTeamByTeamMemberAndOrgId($session->get("id"), $memberOrganization);
@@ -48,7 +44,8 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/listclients.php?", $strings["clients"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=$orgId", $detailClient['org_name'], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../clients/viewclient.php?id=$orgId", $detailClient['org_name'],
+    "in"));
 $blockPage->itemBreadcrumbs($userDetail['mem_login']);
 $blockPage->closeBreadcrumbs();
 
@@ -84,7 +81,8 @@ $block1->contentRow($strings["home_phone"], $userDetail['mem_phone_home']);
 $block1->contentRow($strings["mobile_phone"], $userDetail['mem_mobile']);
 $block1->contentRow($strings["fax"], $userDetail['mem_fax']);
 $block1->contentRow($strings["comments"], nl2br($userDetail['mem_comments']));
-$block1->contentRow($strings["account_created"], phpCollab\Util::createDate($userDetail['mem_created'], $session->get("timezone")));
+$block1->contentRow($strings["account_created"],
+    phpCollab\Util::createDate($userDetail['mem_created'], $session->get("timezone")));
 $block1->contentRow($strings["last_page"], $userDetail['mem_last_page']);
 
 $block1->contentTitle($strings["information"]);
@@ -106,8 +104,10 @@ $block1->closeForm();
 
 $block1->openPaletteScript();
 if ($session->get("profile") == "0" || $session->get("profile") == "1") {
-    $block1->paletteScript(0, "remove", "../users/deleteclientusers.php?id=$userId&organization=$orgId", "true,true,true", $strings["delete"]);
-    $block1->paletteScript(1, "edit", "../users/updateclientuser.php?userid=$userId&orgid=$orgId", "true,true,true", $strings["edit"]);
+    $block1->paletteScript(0, "remove", "../users/deleteclientusers.php?id=$userId&organization=$orgId",
+        "true,true,true", $strings["delete"]);
+    $block1->paletteScript(1, "edit", "../users/updateclientuser.php?userid=$userId&orgid=$orgId", "true,true,true",
+        $strings["edit"]);
 }
 $block1->paletteScript(2, "export", "../users/exportuser.php?id=$userId", "true,true,true", $strings["export"]);
 $block1->closePaletteScript("", []);

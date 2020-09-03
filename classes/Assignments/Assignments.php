@@ -17,10 +17,11 @@ class Assignments
 
     /**
      * Assignments constructor.
+     * @param Database $database
      */
-    public function __construct()
+    public function __construct(Database $database)
     {
-        $this->db = new Database();
+        $this->db = $database;
         $this->assignments_gateway = new AssignmentsGateway($this->db);
     }
 

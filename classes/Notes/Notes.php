@@ -16,10 +16,11 @@ class Notes
 
     /**
      * Notes constructor.
+     * @param Database $database
      */
-    public function __construct()
+    public function __construct(Database $database)
     {
-        $this->db = new Database();
+        $this->db = $database;
         $this->notes_gateway = new NotesGateway($this->db);
     }
 
@@ -111,8 +112,7 @@ class Notes
     {
         $noteId = filter_var((string)$noteId, FILTER_SANITIZE_STRING);
 
-        $response = $this->notes_gateway->deleteNotes($noteId);
-        return $response;
+        return $this->notes_gateway->deleteNotes($noteId);
     }
 
     /**
@@ -155,6 +155,4 @@ class Notes
     {
         return $this->notes_gateway->searchResultNotes($tmpQuery, $sorting, $limit, $rowLimit);
     }
-
-
 }

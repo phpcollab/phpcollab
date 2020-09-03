@@ -5,7 +5,8 @@
 
 switch ($msg) {
     case "demo":
-        $msgLabel = "<b>" . $strings["attention"] . "</b> : " . $strings["demo_mode"] . " " . $blockPage->buildLink($urlContact, $strings["sourceforge_link"], "out");
+        $msgLabel = "<b>" . $strings["attention"] . "</b> : " . $strings["demo_mode"] . " " . $blockPage->buildLink($urlContact,
+                $strings["sourceforge_link"], "out");
         break;
 
     case "permissiondenied":
@@ -102,13 +103,15 @@ switch ($msg) {
 
     case "addAssignment":
         $assignmentId = $assignments->getLastEntryId();
-        $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["addition_succeeded"] . " " . $strings["add_optional"] . " " . $blockPage->buildLink("assignmentcomment.php?task=" . $taskDetail["tas_id"] . "&id=$assignmentId", "<b>" . $strings["assignment_comment"] . "</b>", "in");
+        $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["addition_succeeded"] . " " . $strings["add_optional"] . " " . $blockPage->buildLink("assignmentcomment.php?task=" . $taskDetail["tas_id"] . "&id=$assignmentId",
+                "<b>" . $strings["assignment_comment"] . "</b>", "in");
         break;
 
     case "updateAssignment":
         $assignmentId = $assignments->getLastEntryId();
         unset($lastId);
-        $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["modification_succeeded"] . " " . $strings["add_optional"] . " " . $blockPage->buildLink("assignmentcomment.php?task=" . $taskDetail["tas_id"] . "&id=$assignmentId", "<b>" . $strings["assignment_comment"] . "</b>", "in");
+        $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["modification_succeeded"] . " " . $strings["add_optional"] . " " . $blockPage->buildLink("assignmentcomment.php?task=" . $taskDetail["tas_id"] . "&id=$assignmentId",
+                "<b>" . $strings["assignment_comment"] . "</b>", "in");
         break;
 
     case "update":

@@ -1,15 +1,11 @@
 <?php
 
-use phpCollab\Notes\Notes;
-use phpCollab\Tasks\Tasks;
-use phpCollab\Teams\Teams;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$teams = new Teams();
-$tasks = new Tasks();
-$notes = new Notes();
+$teams = $container->getTeams();
+$tasks = $container->getTasksLoader();
+$notes = $container->getNotesLoader();
 
 $id = $request->query->get('id');
 $strings = $GLOBALS["strings"];
@@ -71,7 +67,8 @@ $block1->contentTitle($strings["user_details"]);
 $block1->contentRow($strings["user_name"], $userDetail["mem_login"]);
 $block1->contentRow($strings["full_name"], $userDetail["mem_name"]);
 $block1->contentRow($strings["title"], $userDetail["mem_title"]);
-$block1->contentRow($strings["email"], $blockPage->buildLink($userDetail["mem_email_work"], $userDetail["mem_email_work"], "mail"));
+$block1->contentRow($strings["email"],
+    $blockPage->buildLink($userDetail["mem_email_work"], $userDetail["mem_email_work"], "mail"));
 $block1->contentRow($strings["work_phone"], $userDetail["mem_phone_work"]);
 $block1->contentRow($strings["home_phone"], $userDetail["mem_phone_home"]);
 $block1->contentRow($strings["mobile_phone"], $userDetail["mem_mobile"]);
@@ -92,7 +89,8 @@ if ($userDetail["mem_profil"] == "0") {
 $block1->contentRow($strings["permissions"], isset($permission) ? $permission : '');
 
 $block1->contentRow($strings["comments"], nl2br($userDetail["mem_comments"]));
-$block1->contentRow($strings["account_created"], phpCollab\Util::createDate($userDetail["mem_created"], $session->get('timezone')));
+$block1->contentRow($strings["account_created"],
+    phpCollab\Util::createDate($userDetail["mem_created"], $session->get('timezone')));
 $block1->contentRow($strings["last_page"], $userDetail["mem_last_page"]);
 $block1->contentTitle($strings["information"]);
 

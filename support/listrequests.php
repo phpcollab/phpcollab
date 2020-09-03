@@ -2,9 +2,6 @@
 #Application name: PhpCollab
 #Status page: 0
 
-use phpCollab\Projects\Projects;
-use phpCollab\Support\Support;
-use phpCollab\Teams\Teams;
 use phpCollab\Util;
 
 $checkSession = "true";
@@ -20,9 +17,9 @@ if ($supportType == "admin") {
     }
 }
 
-$support = new Support($logger);
-$projects = new Projects();
-$teams = new Teams();
+$support = $container->getSupportLoader();
+$projects = $container->getProjectsLoader();
+$teams = $container->getTeams();
 
 $projectDetail = $projects->getProjectById($id);
 
@@ -37,11 +34,14 @@ $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 if ($supportType == "team") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"],
+        $projectDetail["pro_name"], "in"));
     $blockPage->itemBreadcrumbs($strings["support_requests"]);
 } elseif ($supportType == "admin") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/support.php?", $strings["support_management"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"],
+        "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/support.php?", $strings["support_management"],
+        "in"));
     $blockPage->itemBreadcrumbs($strings["support_requests"]);
 }
 $blockPage->closeBreadcrumbs();
@@ -63,13 +63,27 @@ if ($teamMember == "true" || $session->get("profile") == "0") {
     $block1->paletteIcon(3, "info", $strings["view"]);
     $block1->closePaletteIcon();
 }
-$block1->sorting("support_requests", $sortingUser["support_requests"], "sr.id ASC", $sortingFields = array(0 => "sr.id", 1 => "sr.subject", 2 => "sr.priority", 3 => "sr.status", 4 => "sr.date_open", 5 => "sr.date_close"));
+$block1->sorting("support_requests", $sortingUser["support_requests"], "sr.id ASC", $sortingFields = array(
+    0 => "sr.id",
+    1 => "sr.subject",
+    2 => "sr.priority",
+    3 => "sr.status",
+    4 => "sr.date_open",
+    5 => "sr.date_close"
+));
 
 $listRequests = $support->getSupportRequestByProject($id, $block1->sortingValue);
 
 if (!empty($listRequests)) {
     $block1->openResults();
-    $block1->labels($labels = array(0 => $strings["id"], 1 => $strings["subject"], 2 => $strings["priority"], 3 => $strings["status"], 4 => $strings["date_open"], 5 => $strings["date_close"]), "false");
+    $block1->labels($labels = array(
+        0 => $strings["id"],
+        1 => $strings["subject"],
+        2 => $strings["priority"],
+        3 => $strings["status"],
+        4 => $strings["date_open"],
+        5 => $strings["date_close"]
+    ), "false");
 
     foreach ($listRequests as $request) {
         $comptSta = count($requestStatus);
@@ -92,7 +106,8 @@ if (!empty($listRequests)) {
         $block1->openRow();
         $block1->checkboxRow($request["sr_id"]);
         $block1->cellRow(htmlspecialchars($request["sr_id"], ENT_COMPAT, 'UTF-8'));
-        $block1->cellRow($blockPage->buildLink("../support/viewrequest.php?id=" . $request["sr_id"], $request["sr_subject"], "in"));
+        $block1->cellRow($blockPage->buildLink("../support/viewrequest.php?id=" . $request["sr_id"],
+            $request["sr_subject"], "in"));
         $block1->cellRow(htmlspecialchars($requestPriority, ENT_COMPAT, 'UTF-8'));
         $block1->cellRow(htmlspecialchars($currentStatus, ENT_COMPAT, 'UTF-8'));
         $block1->cellRow(htmlspecialchars($request["sr_date_open"], ENT_COMPAT, 'UTF-8'));
@@ -106,8 +121,10 @@ if (!empty($listRequests)) {
 $block1->closeFormResults();
 if ($teamMember == "true" || $session->get("profile") == "0") {
     $block1->openPaletteScript();
-    $block1->paletteScript(1, "edit", "../support/addpost.php?action=status", "false,true,false", $strings["edit_status"]);
-    $block1->paletteScript(2, "remove", "../support/deleterequests.php?action=deleteR", "false,true,true", $strings["delete"]);
+    $block1->paletteScript(1, "edit", "../support/addpost.php?action=status", "false,true,false",
+        $strings["edit_status"]);
+    $block1->paletteScript(2, "remove", "../support/deleterequests.php?action=deleteR", "false,true,true",
+        $strings["delete"]);
     $block1->paletteScript(3, "info", "../support/viewrequest.php?", "false,true,false", $strings["view"]);
     $block1->closePaletteScript(count($listRequests), array_column($listRequests, 'sr_id'));
 }

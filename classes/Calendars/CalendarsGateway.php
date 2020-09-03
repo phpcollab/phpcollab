@@ -46,7 +46,7 @@ class CalendarsGateway
     public function getCalendarById($calendarId)
     {
         $ids = explode(',', $calendarId);
-        $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
+        $placeholders = str_repeat('?, ', count($ids) - 1) . '?';
         $whereStatement = " WHERE cal.id IN($placeholders) ";
         $this->db->query($this->initrequest["calendar"] . $whereStatement);
         $this->db->execute($ids);
@@ -129,10 +129,20 @@ class CalendarsGateway
     }
 
     public function addEvent(
-        $owner, $subject, $description, $location, $shortname, $date_start, $date_end, $time_start, $time_end,
-        $reminder, $broadcast, $recurring, $recur_day
-    )
-    {
+        $owner,
+        $subject,
+        $description,
+        $location,
+        $shortname,
+        $date_start,
+        $date_end,
+        $time_start,
+        $time_end,
+        $reminder,
+        $broadcast,
+        $recurring,
+        $recur_day
+    ) {
         $sql = <<<SQL
 INSERT INTO {$this->tableCollab["calendar"]} (
 owner,subject,description,location,shortname,date_start,date_end,time_start,time_end,reminder,broadcast,recurring,recur_day
@@ -160,10 +170,20 @@ SQL;
     }
 
     public function updateEvent(
-        $calendarId, $subject, $description, $location, $shortname, $date_start, $date_end, $time_start, $time_end,
-        $reminder, $broadcast, $recurring, $recur_day
-    )
-    {
+        $calendarId,
+        $subject,
+        $description,
+        $location,
+        $shortname,
+        $date_start,
+        $date_end,
+        $time_start,
+        $time_end,
+        $reminder,
+        $broadcast,
+        $recurring,
+        $recur_day
+    ) {
         $sql = <<<SQL
 UPDATE {$this->tableCollab["calendar"]} 
 SET 
@@ -205,9 +225,22 @@ SQL;
     private function orderBy($sorting)
     {
         if (!is_null($sorting)) {
-            $allowedOrderedBy = ["cal.owner", "cal.subject", "cal.description", "cal.shortname", "cal.date_start",
-                "cal.date_end", "cal.time_start", "cal.time_end", "cal.reminder", "cal.recurring", "cal.recur_day",
-                "cal.broadcast", "cal.location", "mem.email_work", "mem.name"
+            $allowedOrderedBy = [
+                "cal.owner",
+                "cal.subject",
+                "cal.description",
+                "cal.shortname",
+                "cal.date_start",
+                "cal.date_end",
+                "cal.time_start",
+                "cal.time_end",
+                "cal.reminder",
+                "cal.recurring",
+                "cal.recur_day",
+                "cal.broadcast",
+                "cal.location",
+                "mem.email_work",
+                "mem.name"
             ];
             $pieces = explode(' ', $sorting);
 

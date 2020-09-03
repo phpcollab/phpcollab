@@ -1,15 +1,13 @@
 <?php
 #Application name: PhpCollab
 #Status page: 0
-use phpCollab\Files\Files;
-use phpCollab\Files\GetFile;
 
 session_cache_limiter('none');     // suppress error messages for PHP version < 4.0.2
 error_reporting(0);
 $checkSession = "true";
 include '../includes/library.php'; // starts session and writes session cache headers
 
-$files = new Files();
+$files = $container->getFilesLoader();
 
 $fileDetail = $files->getFileById($request->query->get('id'));
 
@@ -18,7 +16,7 @@ if ($fileDetail) {
     if ($fileDetail["fil_published"] == "1" || $fileDetail["fil_project"] != $session->get("project")) {
         phpCollab\Util::headerFunction("index.php");
     } else {
-        $fileAction = new GetFile();
+        $fileAction = $container->getFileDownloadService();
 
         try {
             $filename = $fileDetail["fil_name"];

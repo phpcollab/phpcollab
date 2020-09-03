@@ -1,17 +1,12 @@
 <?php
 
 use phpCollab\Assignments\Assignments;
-use phpCollab\Notifications\Notifications;
-use phpCollab\Projects\Projects;
-use phpCollab\Reports\Reports;
-use phpCollab\Tasks\Tasks;
-use phpCollab\Teams\Teams;
 
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$projects = new Projects();
-$tasks = new Tasks();
+$projects = $container->getProjectsLoader();
+$tasks = $container->getTasksLoader();
 
 $project_id = $request->query->get('project') ?: $request->request->get('project');
 
@@ -99,7 +94,7 @@ if ($request->isMethod('post')) {
                     $tasks->setModifiedDate($listTask["tas_id"]);
 
                     if ($notifications == "true") {
-                        $notificationsClass = new Notifications();
+                        $notificationsClass = $container->getNotificationsManager();
                         if ($assigned_to != $strings["no_change"]) {
                             $memberInfo = $members->getMemberById($assigned_to);
                             $memberNotifications = $notificationsClass->getMemberNotifications($assigned_to);
@@ -116,7 +111,8 @@ if ($request->isMethod('post')) {
                         ) {
 
                             try {
-                                $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo, $strings["noti_statustaskchange1"], $strings["noti_statustaskchange2"]);
+                                $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo,
+                                    $strings["noti_statustaskchange1"], $strings["noti_statustaskchange2"]);
                             } catch (Exception $e) {
                                 echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
                             }
@@ -129,7 +125,8 @@ if ($request->isMethod('post')) {
                             $memberNotifications["priorityTaskChange"] == "0"
                         ) {
                             try {
-                                $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo, $strings["noti_prioritytaskchange1"], $strings["noti_prioritytaskchange2"]);
+                                $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo,
+                                    $strings["noti_prioritytaskchange1"], $strings["noti_prioritytaskchange2"]);
                             } catch (Exception $e) {
                                 echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
                             }
@@ -142,7 +139,8 @@ if ($request->isMethod('post')) {
                             $memberNotifications["duedateTaskChange"] == "0"
                         ) {
                             try {
-                                $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo, $strings["noti_duedatetaskchange1"], $strings["noti_duedatetaskchange2"]);
+                                $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo,
+                                    $strings["noti_duedatetaskchange1"], $strings["noti_duedatetaskchange2"]);
                             } catch (Exception $e) {
                                 echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
                             }
@@ -151,10 +149,11 @@ if ($request->isMethod('post')) {
 
                     if ($assigned_to != "0" && $sameAssign !== true && $assignUpdate === true) {
                         // Add to assignment table
-                        (new Assignments())->addAssignment($listTask["tas_id"], $listTask["tas_owner"], $assigned_to, $dateheure, $acomm);
+                        (new Assignments())->addAssignment($listTask["tas_id"], $listTask["tas_owner"], $assigned_to,
+                            $dateheure, $acomm);
 
                         // Check teams and add if necessary
-                        $teams = new Teams();
+                        $teams = $container->getTeams();
                         $isTeamMember = $teams->isTeamMember($listTask["tas_project"], $assigned_to);
 
                         if ($isTeamMember === "false") {
@@ -163,7 +162,8 @@ if ($request->isMethod('post')) {
 
                         if ($notifications == "true") {
                             try {
-                                $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo, $strings["noti_taskassignment1"], $strings["noti_taskassignment2"]);
+                                $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo,
+                                    $strings["noti_taskassignment1"], $strings["noti_taskassignment2"]);
                             } catch (Exception $e) {
                                 echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
                             }
@@ -191,14 +191,17 @@ $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 
 if ($request->query->get('report') != "") {
-    $reports = new Reports();
+    $reports = $container->getReportsLoader();
     $reportDetail = $reports->getReportsById($request->query->get('report'));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/createreport.php?", $strings["reports"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/resultsreport.php?id=" . $reportDetail["rep_id"], $reportDetail["rep_name"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/resultsreport.php?id=" . $reportDetail["rep_id"],
+        $reportDetail["rep_name"], "in"));
 } else {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=$project_id", $strings["tasks"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"],
+        $projectDetail["pro_name"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=$project_id", $strings["tasks"],
+        "in"));
 }
 
 $blockPage->itemBreadcrumbs($strings["edit_multiple_tasks"]);
@@ -258,7 +261,7 @@ HTML;
 
 if ($GLOBALS["status"] && count($GLOBALS["status"]) > 0) {
     foreach ($status as $key => $item) {
-        echo '<option value='.$key.'>'.$item.'</option>';
+        echo '<option value=' . $key . '>' . $item . '</option>';
     }
 }
 
@@ -289,7 +292,7 @@ HTML;
 $comptPri = count($task_priority);
 if ($GLOBALS["priority"] && count($GLOBALS["priority"]) > 0) {
     foreach ($GLOBALS["priority"] as $key => $item) {
-        echo '<option value="'.$key.'">'.$item.'</option>';
+        echo '<option value="' . $key . '">' . $item . '</option>';
     }
 }
 
@@ -299,7 +302,8 @@ echo "</select></td></tr>";
 $start_date = empty($sd) ? '--' : $sd;
 $due_date = empty($dd) ? '--' : $dd;
 
-$block1->contentRow($strings["start_date"], "<input type='text' name='start_date' id='start_date' size='20' value='$start_date'><input type='button' value=' ... ' id='trigStartDate'>");
+$block1->contentRow($strings["start_date"],
+    "<input type='text' name='start_date' id='start_date' size='20' value='$start_date'><input type='button' value=' ... ' id='trigStartDate'>");
 echo <<<JavaScript
 <script type="text/javascript">
     Calendar.setup({
@@ -310,7 +314,8 @@ echo <<<JavaScript
 </script>
 JavaScript;
 
-$block1->contentRow($strings["due_date"], "<input type='text' name='due_date' id='due_date' size='20' value='$due_date'><input type='button' value=' ... ' id='trigDueDate'>");
+$block1->contentRow($strings["due_date"],
+    "<input type='text' name='due_date' id='due_date' size='20' value='$due_date'><input type='button' value=' ... ' id='trigDueDate'>");
 echo <<<JavaScript
 <script type="text/javascript">
     Calendar.setup({

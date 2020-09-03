@@ -1,14 +1,6 @@
 <?php
 
-use phpCollab\Files\ApprovalTracking;
-use phpCollab\Files\Files;
-use phpCollab\Files\PeerReview;
-use phpCollab\Files\UpdateFile;
-use phpCollab\Phases\Phases;
-use phpCollab\Projects\Projects;
-use phpCollab\Tasks\Tasks;
-use phpCollab\Teams\Teams;
-use phpCollab\Notifications\Notifications;
+use phpCollab\Block;
 use phpCollab\Util;
 
 $checkSession = "true";
@@ -20,7 +12,7 @@ $addToSiteFile = $request->query->get("addToSiteFile");
 $removeToSiteFile = $request->query->get("removeToSiteFile");
 $strings = $GLOBALS["strings"];
 
-$files = new Files();
+$files = $container->getFilesLoader();
 
 if ($action == "publish") {
     $file = $request->query->get("file");
@@ -41,9 +33,9 @@ $fileDetail = $files->getFileById($id);
 
 $teamMember = "false";
 
-$teams = new Teams();
+$teams = $container->getTeams();
 
-$notification = new Notifications();
+$notification = $container->getNotificationsManager();
 
 $teamMember = $teams->isTeamMember($fileDetail["fil_project"], $session->get("id"));
 
@@ -51,16 +43,16 @@ if ($teamMember == "false" && $projectsFilter == "true") {
     header("Location:../general/permissiondenied.php");
 }
 
-$projects = new Projects();
+$projects = $container->getProjectsLoader();
 $projectDetail = $projects->getProjectById($fileDetail["fil_project"]);
 
 if ($fileDetail["fil_task"] != "0") {
-    $tasks = new Tasks();
+    $tasks = $container->getTasksLoader();
     $taskDetail = $tasks->getTaskById($fileDetail["fil_task"]);
 }
 
 if ($projectDetail["pro_phase_set"] != "0") {
-    $phases = new Phases();
+    $phases = $container->getPhasesLoader();
     $phaseDetail = $phases->getPhasesById($fileDetail["fil_phase"]);
 }
 
@@ -82,7 +74,7 @@ if ($request->isMethod('post')) {
                 case "add":
                     if ($request->files->get('upload')
                         && !empty($request->files->get('upload')->getClientOriginalName())) {
-                        $peerReviewClass = new PeerReview();
+                        $peerReviewClass = $container->getPeerReviewService();
 
                         $filename = $request->files->get('upload')->getClientOriginalName();
 
@@ -128,13 +120,15 @@ if ($request->isMethod('post')) {
 
                         //Insert details into Database
                         if ($docopy == "true") {
-                            $num = $files->addFile($session->get("id"), $fileDetail["fil_project"], 0, $fileDetail["fil_task"], $comments, 2, 0,
+                            $num = $files->addFile($session->get("id"), $fileDetail["fil_project"], 0,
+                                $fileDetail["fil_task"], $comments, 2, 0,
                                 $parent);
                         }
 
                         if ($num != "0") {
                             if ($docopy == "true") {
-                                Util::uploadFile("files/{$fileDetail["fil_project"]}/{$fileDetail["fil_task"]}", $_FILES['upload']['tmp_name'],
+                                Util::uploadFile("files/{$fileDetail["fil_project"]}/{$fileDetail["fil_task"]}",
+                                    $_FILES['upload']['tmp_name'],
                                     $originalFileName);
                                 $size = Util::fileInfoSize("../files/{$fileDetail["fil_project"]}/{$fileDetail["fil_task"]}/$originalFileName");
                                 $chaine = strrev("../files/{$fileDetail["fil_project"]}/{$fileDetail["fil_task"]}/$originalFileName");
@@ -143,7 +137,8 @@ if ($request->isMethod('post')) {
                             }
                         } else {
                             if ($docopy == "true") {
-                                Util::uploadFile("files/{$fileDetail["fil_project"]}", $_FILES['upload']['tmp_name'], $originalFileName);
+                                Util::uploadFile("files/{$fileDetail["fil_project"]}", $_FILES['upload']['tmp_name'],
+                                    $originalFileName);
                                 $size = Util::fileInfoSize("../files/{$fileDetail["fil_project"]}/$originalFileName");
 
                                 $chaine = strrev("../files/{$fileDetail["fil_project"]}/$originalFileName");
@@ -204,7 +199,7 @@ if ($request->isMethod('post')) {
                     /**
                      * Approval tracking functionality
                      */
-                    $approvalTracking = new ApprovalTracking();
+                    $approvalTracking = $container->getApprovalTrackingService();
 
                     $commentField = Util::convertData($request->request->get("approval_comment"));
                     $statusField = $request->request->get("statusField");
@@ -275,7 +270,7 @@ if ($request->isMethod('post')) {
                                 }
                             }
 
-                            $updateFile = new UpdateFile();
+                            $updateFile = $container->getFileUpdateService();
                             $uploadedFile = "{$fileDetail["fil_id"]}--{$filename}";
                             $commentField = Util::convertData($request->request->get("update_comments"));
                             $statusField = filter_var($request->request->get("update_statusField"),
@@ -449,7 +444,7 @@ $setTitle .= " : View File : " . $fileDetail["fil_name"];
 
 include APP_ROOT . '/themes/' . THEME . '/header.php';
 
-$blockPage = new phpCollab\Block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $fileDetail["fil_project"],
@@ -479,7 +474,7 @@ if ($msg != "") {
 //Begining of Display code
 
 //File details block
-$block1 = new phpCollab\Block();
+$block1 = new Block();
 $block1->form = "vdC";
 $block1->openForm("../files/viewfile.php?&id=$id#" . $block1->form . "Anchor", null, $csrfHandler);
 
@@ -690,7 +685,7 @@ if ($peerReview == "true") {
     $peerReviews = $files->getFilePeerReviews($id);
 
     //Revision list block
-    $peerReviewBlock = new phpCollab\Block();
+    $peerReviewBlock = new Block();
     $peerReviewBlock->form = "tdC";
     $peerReviewBlock->openForm("../files/viewfile.php?&id={$id}#" . $peerReviewBlock->form . "Anchor", null,
         $csrfHandler);
@@ -825,7 +820,7 @@ HTML;
 
     if ($teamMember == "true" || $session->get("profile") == "5") {
         //Add new revision Block
-        $block3 = new phpCollab\Block();
+        $block3 = new Block();
         $block3->form = "filedetails";
 
         echo <<<FORM_START
@@ -890,7 +885,7 @@ HTML;
  * Approval Tracking
  */
 if ($fileDetail["fil_owner"] == $session->get("id") || $projectDetail["pro_owner"] == $session->get("id") || $session->get("profile") == "5") {
-    $block5 = new phpCollab\Block();
+    $block5 = new Block();
     $block5->form = "filedetails";
 
     echo <<<FILE_DETAIL_FORM_START
@@ -961,7 +956,7 @@ COMMENTS;
  * Update file block
  */
 if ($fileDetail["fil_owner"] == $session->get("id")) {
-    $block4 = new phpCollab\Block();
+    $block4 = new Block();
     $block4->form = "filedetails";
 
     echo <<<UPDATE_FILE

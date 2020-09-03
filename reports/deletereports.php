@@ -3,8 +3,6 @@
 #Status page: 0
 #Path by root: ../reports/deletereports.php
 
-use phpCollab\Reports\Reports;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -14,7 +12,7 @@ if (empty($id) || empty(preg_replace("/[^0-9s]/", "", $id))) {
     phpCollab\Util::headerFunction("../reports/listreports.php");
 }
 
-$reports = new Reports();
+$reports = $container->getReportsLoader();
 
 $listReports = $reports->getReportsByIds($id);
 
@@ -69,7 +67,8 @@ foreach ($listReports as $report) {
     $block1->contentRow("#" . $report["rep_id"], $report["rep_name"]);
 }
 
-$block1->contentRow("", '<button type="submit" name="action" value="delete">' . $strings["delete"] . '</button> <input type="button" name="cancel" value="' . $strings["cancel"] . '" onClick="history.back();">');
+$block1->contentRow("",
+    '<button type="submit" name="action" value="delete">' . $strings["delete"] . '</button> <input type="button" name="cancel" value="' . $strings["cancel"] . '" onClick="history.back();">');
 
 $block1->closeContent();
 $block1->closeForm();

@@ -6,22 +6,69 @@
 //translator(s): ct <ct@mailbox.hu>
 $byteUnits = array('Byte', 'KB', 'MB', 'GB');
 
-$dayNameArray = array(1 =>"hétfõ", 2 =>"kedd", 3 =>"szerda", 4 =>"csütörtök", 5 =>"péntek", 6 =>"szombat", 7 =>"vasárnap");
+$dayNameArray = array(
+    1 => "hétfõ",
+    2 => "kedd",
+    3 => "szerda",
+    4 => "csütörtök",
+    5 => "péntek",
+    6 => "szombat",
+    7 => "vasárnap"
+);
 
-$monthNameArray = array(1=> "január", "február", "március", "április", "május", "június", "július", "augusztus", "szeptember", "október", "november", "december");
+$monthNameArray = array(
+    1 => "január",
+    "február",
+    "március",
+    "április",
+    "május",
+    "június",
+    "július",
+    "augusztus",
+    "szeptember",
+    "október",
+    "november",
+    "december"
+);
 
-$status = array(0 => "Ügyfél által teljesített", 1 => "Teljesített", 2 => "El nem kezdett", 3 => "Nyitott", 4 => "Felfüggesztett");
+$status = array(
+    0 => "Ügyfél által teljesített",
+    1 => "Teljesített",
+    2 => "El nem kezdett",
+    3 => "Nyitott",
+    4 => "Felfüggesztett"
+);
 
-$profil = array(0 => "Adminisztrátor", 1 => "Projektvezetõ", 2 => "Felhasználó", 3 => "Ügyfél felhasználó", 4 => "Inaktív", 5 => "Project Manager Administrator");
+$profil = array(
+    0 => "Adminisztrátor",
+    1 => "Projektvezetõ",
+    2 => "Felhasználó",
+    3 => "Ügyfél felhasználó",
+    4 => "Inaktív",
+    5 => "Project Manager Administrator"
+);
 
-$priority = array(0 => "Nincs", 1 => "Nagyon alacsony", 2 => "Alacsony", 3 => "Közepes", 4 => "Magas", 5 => "Nagyon magas");
+$priority = array(
+    0 => "Nincs",
+    1 => "Nagyon alacsony",
+    2 => "Alacsony",
+    3 => "Közepes",
+    4 => "Magas",
+    5 => "Nagyon magas"
+);
 
 $statusTopic = array(0 => "Lezárt", 1 => "Nyitott");
 $statusTopicBis = array(0 => "Igen", 1 => "Nem");
 
 $statusPublish = array(0 => "Igen", 1 => "Nem");
 
-$statusFile = array(0 => "Jóváhagyott", 1 => "Módosításokkal jóváhagyott", 2 => "Jóváhagyásra vár", 3 => "Nem kell jóváhagyni", 4 => "Nem jóváhagyott");
+$statusFile = array(
+    0 => "Jóváhagyott",
+    1 => "Módosításokkal jóváhagyott",
+    2 => "Jóváhagyásra vár",
+    3 => "Nem kell jóváhagyni",
+    4 => "Nem jóváhagyott"
+);
 
 $phaseStatus = array(0 => "El nem kezdett", 1 => "Nyitott", 2 => "Lezárt", 3 => "Felfüggesztett");
 
@@ -325,10 +372,6 @@ $strings["connected"] = "Kapcsolat";
 $strings["session"] = "Session";
 $strings["last_visit"] = "Utolsó látogatás";
 $strings["compteur"] = "Számláló";
-
-
-
-
 
 
 $strings["ip"] = "Ip";

@@ -3,7 +3,6 @@
 #Status page: 1
 #Path by root: ../projects/listprojects.php
 
-use phpCollab\Projects\Projects;
 use phpCollab\Util;
 
 $checkSession = "true";
@@ -13,9 +12,7 @@ $setTitle .= " : List **ctive Projects";
 
 $defaultNumRowsToDisplay = 40;
 
-$db = new phpCollab\Database(); // Move this to library?
-
-$projects = new Projects();
+$projects = $container->getProjectsLoader();
 
 $typeProjects = $request->query->get('typeProjects');
 
@@ -36,9 +33,11 @@ $blockPage->setLimitsNumber(4);
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($strings["projects"]);
 if ($typeProjects == "inactive") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?typeProjects=active", $strings["active"], "in") . " | " . $strings["inactive"]);
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?typeProjects=active",
+            $strings["active"], "in") . " | " . $strings["inactive"]);
 } elseif ($typeProjects == "active") {
-    $blockPage->itemBreadcrumbs($strings["active"] . " | " . $blockPage->buildLink("../projects/listprojects.php?typeProjects=inactive", $strings["inactive"], "in"));
+    $blockPage->itemBreadcrumbs($strings["active"] . " | " . $blockPage->buildLink("../projects/listprojects.php?typeProjects=inactive",
+            $strings["inactive"], "in"));
 }
 $blockPage->closeBreadcrumbs();
 
@@ -52,7 +51,8 @@ $blockPage->setLimitsNumber(1);
 $block1 = new phpCollab\Block();
 
 $block1->form = "saP";
-$block1->openForm("../projects/listprojects.php?typeProjects=$typeProjects&#" . $block1->form . "Anchor", null, $csrfHandler);
+$block1->openForm("../projects/listprojects.php?typeProjects=$typeProjects&#" . $block1->form . "Anchor", null,
+    $csrfHandler);
 
 $block1->heading($strings["projects"]);
 
@@ -93,7 +93,8 @@ $sorting = $block1->sortingValue;
 
 $block1->setRecordsTotal(count($projects->getProjectList($session->get("id"), $typeProjects)));
 
-$dataSet = $projects->getProjectList($session->get("id"), $typeProjects, $block1->getRowsLimit(), $block1->getLimit(), $sorting);
+$dataSet = $projects->getProjectList($session->get("id"), $typeProjects, $block1->getRowsLimit(), $block1->getLimit(),
+    $sorting);
 
 $projectCount = count($dataSet);
 
@@ -118,24 +119,30 @@ if ($projectCount > 0) {
 
         $block1->openRow();
         $block1->checkboxRow($data["pro_id"]);
-        $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $data["pro_id"], $data["pro_id"], "in"));
-        $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $data["pro_id"], $data["pro_name"], "in"));
+        $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $data["pro_id"], $data["pro_id"],
+            "in"));
+        $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $data["pro_id"], $data["pro_name"],
+            "in"));
         $block1->cellRow('<img src="../themes/' . THEME . '/images/gfx_priority/' . $idPriority . '.gif" alt=""> ' . $priority[$idPriority]);
-        $block1->cellRow($blockPage->buildLink("../clients/viewclient.php?id=" . $data["pro_org_id"], $data["pro_org_name"], "in"));
+        $block1->cellRow($blockPage->buildLink("../clients/viewclient.php?id=" . $data["pro_org_id"],
+            $data["pro_org_name"], "in"));
         $block1->cellRow($status[$idStatus]);
 
-        $block1->cellRow($blockPage->buildLink('../users/viewuser.php?id=' . $data["pro_mem_id"], $data["pro_mem_login"], "in"));
+        $block1->cellRow($blockPage->buildLink('../users/viewuser.php?id=' . $data["pro_mem_id"],
+            $data["pro_mem_login"], "in"));
 
         if ($sitePublish == "true") {
             if ($data["pro_published"] === "1") {
                 if ($data['pro_owner'] == $session->get("id")) {
-                    $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $data["pro_id"], $strings["create"] . "...", "in") . "&gt;");
+                    $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/addprojectsite.php?id=" . $data["pro_id"],
+                            $strings["create"] . "...", "in") . "&gt;");
                 } else {
                     $block1->cellRow(Util::doubleDash());
                 }
 
             } else {
-                $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=" . $data["pro_id"], $strings["details"], "in") . "&gt;");
+                $block1->cellRow("&lt;" . $blockPage->buildLink("../projects/viewprojectsite.php?id=" . $data["pro_id"],
+                        $strings["details"], "in") . "&gt;");
             }
         }
 
@@ -164,7 +171,9 @@ if ($session->get("profile") == "0" || $session->get("profile") == "1" || $sessi
     $block1->paletteScript(4, "copy", "../projects/editproject.php?docopy=true", "false,true,false", $strings["copy"]);
 }
 if ($enableMantis == "true") {
-    $block1->paletteScript(8, "bug", $pathMantis . "login.php?url=http://{$request->server->get("HTTP_HOST")}{$request->server->get("REQUEST_URI")}&username={$session->get("login")}", "false,true,false", $strings["bug"]);
+    $block1->paletteScript(8, "bug",
+        $pathMantis . "login.php?url=http://{$request->server->get("HTTP_HOST")}{$request->server->get("REQUEST_URI")}&username={$session->get("login")}",
+        "false,true,false", $strings["bug"]);
 }
 
 $block1->closePaletteScript(count($dataSet), array_column($dataSet, 'pro_id'));

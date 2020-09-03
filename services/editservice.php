@@ -3,7 +3,6 @@
 #Status page: 0
 #Path by root: ../services/editservice.php
 
-use phpCollab\Services\Services;
 use phpCollab\Util;
 
 $checkSession = "true";
@@ -12,7 +11,7 @@ include_once '../includes/library.php';
 if ($session->get("profile") != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
-$services = new Services();
+$services = $container->getServicesLoader();
 
 $id = $request->query->get('id');
 
@@ -101,13 +100,15 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?", $strings["administration"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../services/listservices.php?", $strings["service_management"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../services/listservices.php?", $strings["service_management"],
+    "in"));
 
 if ($id == "") {
     $blockPage->itemBreadcrumbs($strings["add_service"]);
 }
 if ($id != "") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../services/viewservice.php?id=$id", $detailService["serv_name"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../services/viewservice.php?id=$id", $detailService["serv_name"],
+        "in"));
     $blockPage->itemBreadcrumbs($strings["edit_service"]);
 }
 $blockPage->closeBreadcrumbs();

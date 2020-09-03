@@ -6,13 +6,41 @@
 //translator(s): Krisjanis Berzins <krish@ocean.lv>
 $byteUnits = array('Baiti', 'KB', 'MB', 'GB');
 
-$dayNameArray = array(1 =>"Pirmdiena", 2 =>"Otrdiena", 3 =>"Tređdiena", 4 =>"Ceturtdiena", 5 =>"Piektdiena", 6 =>"Sestdiena", 7 =>"Svįtdiena");
+$dayNameArray = array(
+    1 => "Pirmdiena",
+    2 => "Otrdiena",
+    3 => "Tređdiena",
+    4 => "Ceturtdiena",
+    5 => "Piektdiena",
+    6 => "Sestdiena",
+    7 => "Svįtdiena"
+);
 
-$monthNameArray = array(1=> "Janvâris", "Februâris", "Marts", "Aprîlis", "Maijs", "Jînijs", "Jûlijs", "Augusts", "Septembris", "Oktobris", "Novembris", "Decembris");
+$monthNameArray = array(
+    1 => "Janvâris",
+    "Februâris",
+    "Marts",
+    "Aprîlis",
+    "Maijs",
+    "Jînijs",
+    "Jûlijs",
+    "Augusts",
+    "Septembris",
+    "Oktobris",
+    "Novembris",
+    "Decembris"
+);
 
 $status = array(0 => "Pabeigts (Klients)", 1 => "Pabeigts", 2 => "Nav uzsâkts", 3 => "Atvįrts", 4 => "Neaktîvs");
 
-$profil = array(0 => "Administrâtors", 1 => "Projektu Vadîtâjs", 2 => "Lietotâjs", 3 => "Klienta Lietotâjs", 4 => "Atstâdinâts", 5 => "Projektu Vadîtâjs - Administrâtors");
+$profil = array(
+    0 => "Administrâtors",
+    1 => "Projektu Vadîtâjs",
+    2 => "Lietotâjs",
+    3 => "Klienta Lietotâjs",
+    4 => "Atstâdinâts",
+    5 => "Projektu Vadîtâjs - Administrâtors"
+);
 
 $priority = array(0 => "Neitrâla", 1 => "Īoti zema", 2 => "Zema", 3 => "Vidįja", 4 => "Augsta", 5 => "Īoti augsta");
 
@@ -21,7 +49,13 @@ $statusTopicBis = array(0 => "Jâ", 1 => "Nį");
 
 $statusPublish = array(0 => "Jâ", 1 => "Nį");
 
-$statusFile = array(0 => "Apstiprinâts", 1 => "Apstiprinâts Ar Izmaiōâm", 2 => "Nepiecieđams Apstiprinâjums", 3 => "Apstiprinâjums Nav Nepiecieđams", 4 => "Neapstiprinâts");
+$statusFile = array(
+    0 => "Apstiprinâts",
+    1 => "Apstiprinâts Ar Izmaiōâm",
+    2 => "Nepiecieđams Apstiprinâjums",
+    3 => "Apstiprinâjums Nav Nepiecieđams",
+    4 => "Neapstiprinâts"
+);
 
 $phaseStatus = array(0 => "Neiesâkts", 1 => "Atvįrts", 2 => "Pabeigts", 3 => "Uz laiku atlikts");
 

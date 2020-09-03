@@ -3,8 +3,6 @@
 #Status page: 1
 #Path by root: ../notes/deletenotes.php
 
-use phpCollab\Notes\Notes;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -13,7 +11,7 @@ $project = $request->query->get('project');
 $id = $request->query->get('id');
 $strings = $GLOBALS["strings"];
 
-$notes = new Notes();
+$notes = $container->getNotesLoader();
 
 if ($action == "delete") {
     if ($request->isMethod('post')) {
@@ -65,7 +63,8 @@ foreach ($listNotes as $note) {
     $block1->contentRow("#" . $note["note_id"], $note["note_subject"]);
 }
 
-$block1->contentRow("", '<input type="submit" name="delete" value="' . $strings["delete"] . '"> <input type="button" name="cancel" value="' . $strings["cancel"] . '" onClick="history.back();">');
+$block1->contentRow("",
+    '<input type="submit" name="delete" value="' . $strings["delete"] . '"> <input type="button" name="cancel" value="' . $strings["cancel"] . '" onClick="history.back();">');
 
 $block1->closeContent();
 $block1->closeForm();

@@ -88,7 +88,7 @@ SQL;
     public function deleteByMember($memberId)
     {
         $memberId = explode(',', $memberId);
-        $placeholders = str_repeat ('?, ', count($memberId)-1) . '?';
+        $placeholders = str_repeat('?, ', count($memberId) - 1) . '?';
         $sql = "DELETE FROM {$this->tableCollab['sorting']} WHERE member IN ($placeholders)";
         $this->db->query($sql);
         return $this->db->execute($memberId);

@@ -1,6 +1,10 @@
 <?php
 namespace phpCollab;
 
+use Exception;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+use Monolog\Processor\IntrospectionProcessor;
 use \PDO;
 use PDOException;
 
@@ -11,34 +15,65 @@ use PDOException;
  */
 class Database
 {
-    private $host = MYSERVER;
-    private $user = MYLOGIN;
-    private $pass = MYPASSWORD;
-    private $dbname = MYDATABASE;
-
+//    private $host = MYSERVER;
+//    private $user = MYLOGIN;
+//    private $pass = MYPASSWORD;
+//    private $dbname = MYDATABASE;
+    private $configuration;
     private $dbh;
-
     private $stmt;
+    private $logger;
+    private $tablenameArray;
 
     /**
      * Database constructor.
+     * @param array $config
+     * @throws Exception
      */
-    public function __construct()
+    public function __construct(array $config)
     {
-        // Set DSN
-        $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname;
-        // Set options
-        $options = array(
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-        );
-
-        // Create a new PDO instanace
+        /*
+         * Setup logger
+         */
         try {
-            $this->dbh = new PDO($dsn, $this->user, $this->pass, $options);
-        } // Catch any errors
-        catch (PDOException $e) {
-            $this->error = $e->getMessage();
+            $stream = new StreamHandler(APP_ROOT . '/logs/phpcollab.log', Logger::DEBUG);
+            $this->logger = new Logger('database');
+            $this->logger->pushHandler($stream);
+            $this->logger->pushProcessor(new IntrospectionProcessor());
+        } catch (Exception $e) {
+            error_log('library error: ' . $e->getMessage());
         }
+
+        /*
+         * End logger init
+         */
+        $this->configuration = $config;
+
+
+
+        $this->log('__construct init');
+        if ($this->dbh === null) {
+            $this->log('set DSN');
+            // Set DSN
+            $dsn = 'mysql:host=' . $this->configuration['dbServer'] . ';dbname=' . $this->configuration['dbName'];
+            // Set options
+            $options = array(
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+            );
+
+            // Create a new PDO instanace
+            try {
+                $this->dbh = new PDO($dsn, $this->configuration['dbUsername'], $this->configuration['dbPassword'], $options);
+            } // Catch any errors
+            catch (PDOException $e) {
+                throw new Exception($e->getMessage());
+            }
+        }
+    }
+
+    private function log($msg)
+    {
+        $this->logger->debug($msg);
     }
 
     /**

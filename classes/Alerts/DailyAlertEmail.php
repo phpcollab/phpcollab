@@ -5,6 +5,7 @@ namespace phpCollab\Alerts;
 
 
 use Exception;
+use phpCollab\Container;
 use phpCollab\Notification;
 
 /**
@@ -13,6 +14,11 @@ use phpCollab\Notification;
  */
 class DailyAlertEmail extends Notification
 {
+    public function __construct(Container $container)
+    {
+        parent::__construct($container);
+    }
+
     /**
      * @param $member
      * @param $tasks

@@ -6,13 +6,41 @@
 //translator(s): St�phane Dion <contact@sdion.net>
 $byteUnits = array('Bytes', 'KB', 'MB', 'GB');
 
-$dayNameArray = array(1 =>"Monday", 2 =>"Tuesday", 3 =>"Wednesday", 4 =>"Thursday", 5 =>"Friday", 6 =>"Saturday", 7 =>"Sunday");
+$dayNameArray = array(
+    1 => "Monday",
+    2 => "Tuesday",
+    3 => "Wednesday",
+    4 => "Thursday",
+    5 => "Friday",
+    6 => "Saturday",
+    7 => "Sunday"
+);
 
-$monthNameArray = array(1=> "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+$monthNameArray = array(
+    1 => "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+);
 
 $status = array(0 => "Client Completed", 1 => "Completed", 2 => "Not Started", 3 => "Open", 4 => "Suspended");
 
-$profil = array(0 => "Administrator", 1 => "Project Manager", 2 => "User", 3 => "Client User", 4 => "Disabled", 5 => "Project Manager Administrator");
+$profil = array(
+    0 => "Administrator",
+    1 => "Project Manager",
+    2 => "User",
+    3 => "Client User",
+    4 => "Disabled",
+    5 => "Project Manager Administrator"
+);
 
 $priority = array(0 => "None", 1 => "Very low", 2 => "Low", 3 => "Medium", 4 => "High", 5 => "Very high");
 
@@ -21,7 +49,13 @@ $statusTopicBis = array(0 => "Yes", 1 => "No");
 
 $statusPublish = array(0 => "Yes", 1 => "No");
 
-$statusFile = array(0 => "Approved", 1 => "Approved With Changes", 2 => "Needs Approval", 3 => "No Approvals Needed", 4 => "Not Approved");
+$statusFile = array(
+    0 => "Approved",
+    1 => "Approved With Changes",
+    2 => "Needs Approval",
+    3 => "No Approvals Needed",
+    4 => "Not Approved"
+);
 
 $phaseStatus = array(0 => "Not started", 1 => "Open", 2 => "Complete", 3 => "Suspended");
 
@@ -584,7 +618,7 @@ $strings["email_sent"] = "Your email was successfully sent.";
 $strings["clients_connected"] = "(Client on project site)";
 
 //2.5b4
-$strings["Total_Hours_Worked"]="Total Hours Worked";
+$strings["Total_Hours_Worked"] = "Total Hours Worked";
 $strings["Pct_Complete"] = "Pct Complete";
 
 $strings["noti_filepost1"] = "New File upload on the Intranet";
@@ -650,3 +684,5 @@ $strings["bookmark_error_blank_url"] = "Please enter a URL for the bookmark";
 $strings["client_error_add"] = "There was an error while adding the client, please try again or contact your administrator.";
 $strings["client_error_edit"] = "There was an error while editing the client, please try again or contact your administrator.";
 $strings["genericError"] = "There was a problem processing your request.";
+$strings["last_page"] = "Last Page Visited";
+$strings["view_newsdesk"] = "View Newsdesk Article";

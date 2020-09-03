@@ -1,13 +1,12 @@
 <?php
 
-use phpCollab\Database;
 use phpCollab\Util;
 
 $checkSession = "true";
 include_once '../includes/library.php';
 
 
-$db = new Database();
+$db = $container->getPDO();
 
 $strings = $GLOBALS["strings"];
 
@@ -34,7 +33,12 @@ $block1->openContent();
 $block1->contentTitle($strings["product_information"]);
 
 $block1->contentRow("PhpCollab Version", $version);
-$block1->contentRow("File Management", $fileManagement . " (default max file size $maxFileSize $byteUnits[0]) " . Util::convertSize($maxFileSize));
+if ($session->get("connectedUsers")) {
+    $block1->contentRow("# of Connected Users", $session->get("connectedUsers"));
+}
+
+$block1->contentRow("File Management",
+    $fileManagement . " (default max file size $maxFileSize $byteUnits[0]) " . Util::convertSize($maxFileSize));
 
 if ($mkdirMethod == "FTP") {
     $mkdirMethodMore = " (Path to root with mentioned account: \"$ftpRoot\")";
@@ -67,7 +71,8 @@ $block1->contentRow("Database Type", $databaseTypeMore);
 $block1->contentRow("Files folder size", phpCollab\Util::convertSize(phpCollab\Util::folderInfoSize("../files/")));
 
 $block1->contentTitle($strings["system_properties"]);
-$block1->contentRow("PHP Version", phpversion() . " " . $blockPage->buildLink("../administration/phpinfo.php?", "PhpInfo", "inblank"));
+$block1->contentRow("PHP Version",
+    phpversion() . " " . $blockPage->buildLink("../administration/phpinfo.php?", "PhpInfo", "inblank"));
 $block1->contentRow($databaseTypeMore . " version", $db->getVersion());
 $block1->contentRow("extension_dir", ini_get('extension_dir'));
 

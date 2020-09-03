@@ -2,14 +2,11 @@
 #Application name: PhpCollab
 #Status page: 0
 
-use phpCollab\Tasks\Tasks;
-use phpCollab\Updates\Updates;
-
 $checkSession = "true";
 include '../includes/library.php';
 
-$tasks = new Tasks();
-$updates = new Updates();
+$tasks = $container->getTasksLoader();
+$updates = $container->getTaskUpdateService();
 
 $subtaskDetail = $tasks->getSubTaskById($id);
 

@@ -5,10 +5,8 @@ namespace phpCollab\Support;
 
 use Exception;
 use Monolog\Logger;
+use phpCollab\Container;
 use phpCollab\Database;
-use phpCollab\Members\Members;
-use phpCollab\Notification;
-use phpCollab\Teams\Teams;
 
 /**
  * Class Support
@@ -23,17 +21,29 @@ class Support
     protected $strings;
     protected $root;
     protected $requestStatus;
+    /**
+     * @var Container
+     */
+    private $container;
+    /**
+     * @var Logger|null
+     */
+    private $logger;
 
     /**
      * Support constructor.
+     * @param Database $database
+     * @param Container $container
      * @param Logger|null $logger
      */
-    public function __construct(Logger $logger)
+    public function __construct(Database $database, Container $container, Logger $logger)
     {
-        $this->db = new Database();
+        $this->db = $database;
+        $this->container = $container;
+        $this->logger = $logger;
         $this->support_gateway = new SupportGateway($this->db);
-        $this->members = new Members($logger);
-        $this->teams = new Teams();
+        $this->members = $container->getMembersLoader();
+        $this->teams = $container->getTeams();
         $this->strings = $GLOBALS["strings"];
         $this->root = $GLOBALS["root"];
         $this->requestStatus = $GLOBALS["requestStatus"];
@@ -231,7 +241,8 @@ class Support
         $userDetail = $this->members->getMemberById($requestDetail["sr_member"]);
         $teamMembers = $this->teams->getTeamByProjectId($postDetails["sp_project"]);
 
-        $mail = new Notification(true);
+
+        $mail = $this->container->getNotification();
 
         $emailSubject = $this->strings["support"] . " " . $this->strings["support_id"] . ": " . $requestDetail["sr_id"];
 
@@ -291,7 +302,7 @@ EMAIL_MESSAGE;
             && $userDetails
             && !empty($userDetails["mem_email_work"])
         ) {
-            $mail = new Notification(true);
+            $mail = $this->container->getNotification();
             try {
 
                 // Set the From field

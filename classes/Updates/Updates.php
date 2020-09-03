@@ -12,10 +12,11 @@ class Updates
 
     /**
      * Updates constructor.
+     * @param Database $database
      */
-    public function __construct()
+    public function __construct(Database $database)
     {
-        $this->db = new Database();
+        $this->db = $database;
         $this->updates_gateway = new UpdatesGateway($this->db);
     }
 
@@ -41,7 +42,6 @@ class Updates
     {
         $type = filter_var($type, FILTER_VALIDATE_INT);
         $taskId = filter_var($taskId, FILTER_VALIDATE_INT);
-        $updates = $this->updates_gateway->getUpdates($type, $taskId, $sorting);
-        return $updates;
+        return $this->updates_gateway->getUpdates($type, $taskId, $sorting);
     }
 }

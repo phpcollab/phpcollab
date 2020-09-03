@@ -1,12 +1,6 @@
 <?php
 
 use phpCollab\Block;
-use phpCollab\Phases\Phases;
-use phpCollab\Projects\Projects;
-use phpCollab\Teams\Teams;
-use phpCollab\Tasks\Tasks;
-use phpCollab\Files\Files;
-use phpCollab\Notifications\Notifications;
 
 $checkSession = "true";
 include_once '../includes/library.php';
@@ -18,11 +12,11 @@ if (empty($projectId) || empty($taskId)) {
     phpCollab\Util::headerFunction("/projects/listprojects.php");
 }
 
-$teams = new Teams();
-$projects = new Projects();
-$tasks = new Tasks();
-$phases = new Phases();
-$notification = new Notifications();
+$teams = $container->getTeams();
+$projects = $container->getProjectsLoader();
+$tasks = $container->getTasksLoader();
+$phases = $container->getPhasesLoader();
+$notification = $container->getNotificationsManager();
 
 $teamMember = "false";
 $teamMember = $teams->isTeamMember($projectId, $session->get("id"));
@@ -50,7 +44,7 @@ if ($request->isMethod('post')) {
     try {
         if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
 
-            $files = new Files();
+            $files = $container->getFilesLoader();
 
             // Clean the filename of spaces, slashes, etc
             $filename1 = phpCollab\Util::checkFileName($_FILES['upload']['name']);
@@ -99,7 +93,8 @@ if ($request->isMethod('post')) {
 
             if ($docopy == "true") {
 
-                $versionFile = filter_var($request->request->get("versionFile"), FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+                $versionFile = filter_var($request->request->get("versionFile"), FILTER_SANITIZE_NUMBER_FLOAT,
+                    FILTER_FLAG_ALLOW_FRACTION);
 
                 $match = strstr($versionFile, ".");
 
@@ -114,7 +109,8 @@ if ($request->isMethod('post')) {
 
                 $phase = phpCollab\Util::fixInt($phase);
 
-                $num = $files->addFile($session->get("id"), $projectId, $phase, $taskId, $request->request->get("comments"),
+                $num = $files->addFile($session->get("id"), $projectId, $phase, $taskId,
+                    $request->request->get("comments"),
                     $request->request->get("statusField"), $versionFile);
 
                 $fileDetails = $files->getFileById($num);
@@ -123,7 +119,8 @@ if ($request->isMethod('post')) {
             if ($taskId != "0") {
 
                 if ($docopy == "true") {
-                    phpCollab\Util::uploadFile("files/{$project}/{$task}", $request->files->get('upload')->getPathName(), "{$num}--" . $filename);
+                    phpCollab\Util::uploadFile("files/{$project}/{$task}",
+                        $request->files->get('upload')->getPathName(), "{$num}--" . $filename);
                     $size = phpCollab\Util::fileInfoSize("../files/" . $project . "/" . $task . "/" . $num . "--" . $filename);
                     $chaine = strrev("../files/" . $project . "/" . $task . "/" . $num . "--" . $filename);
                     $tab = explode(".", $chaine);
@@ -131,7 +128,8 @@ if ($request->isMethod('post')) {
                 }
             } else {
                 if ($docopy == "true") {
-                    phpCollab\Util::uploadFile("files/{$project}", $request->files->get('upload')->getPathName(), "{$num}--" . $filename);
+                    phpCollab\Util::uploadFile("files/{$project}", $request->files->get('upload')->getPathName(),
+                        "{$num}--" . $filename);
                     $size = phpCollab\Util::fileInfoSize("../files/" . $project . "/" . $num . "--" . $filename);
                     $chaine = strrev("../files/" . $project . "/" . $num . "--" . $filename);
                     $tab = explode(".", $chaine);
@@ -156,7 +154,9 @@ if ($request->isMethod('post')) {
                             $userNotificationFlags = $notification->getMemberNotifications($item['tea_mem_id']);
 
                             if ($userNotificationFlags) {
-                                $files->sendFileUploadedNotification($fileDetails, $projectDetail, $userNotificationFlags, $session->get("id"), $session->get("name"), $session->get("login"));
+                                $files->sendFileUploadedNotification($fileDetails, $projectDetail,
+                                    $userNotificationFlags, $session->get("id"), $session->get("name"),
+                                    $session->get("login"));
                             }
                         }
                     } catch (Exception $e) {
@@ -181,15 +181,19 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=$projectId", $projectDetail["pro_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=$projectId",
+    $projectDetail["pro_name"], "in"));
 
 if ($projectDetail["pro_phase_set"] != "0" && $phase != 0) {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $phaseDetail["pha_id"], $phaseDetail["pha_name"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../phases/viewphase.php?id=" . $phaseDetail["pha_id"],
+        $phaseDetail["pha_name"], "in"));
 }
 
 if ($taskId != "0") {
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=$projectId", $strings["tasks"], "in"));
-    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=$taskId", $taskDetail["tas_name"], "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=$projectId", $strings["tasks"],
+        "in"));
+    $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/viewtask.php?id=$taskId", $taskDetail["tas_name"],
+        "in"));
 }
 
 $blockPage->itemBreadcrumbs($strings["add_file"]);
@@ -200,7 +204,7 @@ if ($msg != "") {
     $blockPage->messageBox($msgLabel);
 }
 
-$block1 = new phpCollab\Block();
+$block1 = new Block();
 
 
 $block1->form = "filedetails";

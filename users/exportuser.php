@@ -8,11 +8,9 @@ $export = "true";
 $checkSession = "false";
 include_once '../includes/library.php';
 
-include '../includes/vcard.class.php';
-
 $userDetail = $members->getMemberById($id);
 
-$v = new vCard();
+$v = $container->getExportVCardService();
 
 $v->setPhoneNumber($userDetail["mem_phone_work"]);
 

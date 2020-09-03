@@ -7,7 +7,7 @@
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment 
+**               phpCollab - Project Managment
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -25,8 +25,8 @@
  * Get's a parameter from GET or POST (auto detected, POST first) that is safe for use
  * in queries or use unchecked.. will return type that's in the paramter..
  * Returns null if parameter was not found.
- * @return mixed
  * @param String $paramName
+ * @return mixed
  */
 function getParameter($paramName)
 {
@@ -48,9 +48,9 @@ function getParameter($paramName)
  * Returns a clean version of data.
  * If allowSpecChars is true, will allow special characters (shift of numbers) otherwise it's only
  * letters and numbers (including space and period)
- * @return String
  * @param object $data
  * @param object $allowSpecChars [optional]
+ * @return String
  */
 function sanatize($data, $allowSpecChars = false)
 {
@@ -114,12 +114,14 @@ function convertDB()
 
     //Add Tables
     echo "<li>Adding new tables...";
-    //Add the DB Vars and let's try to do this stuffs.. 
-    if (addTables($databaseType, $conn, $tablePrefix, $errorMsg))
+    //Add the DB Vars and let's try to do this stuffs..
+    if (addTables($databaseType, $conn, $tablePrefix, $errorMsg)) {
         echo "<font style='color: green;font-weight: bold'>completed</font>";
-    else {
+    } else {
         echo "<font style='color: red;font-weight: bold'>error</font>";
-        if (!empty($errorMsg)) echo "<br /><b>Error Messages: </b>$errorMsg";
+        if (!empty($errorMsg)) {
+            echo "<br /><b>Error Messages: </b>$errorMsg";
+        }
         return false;
     }
 
@@ -128,11 +130,13 @@ function convertDB()
 
     //Modify existing tables
     echo "<li>Updating existing tables...";
-    if (modTables($databaseType, $conn, $tablePrefix, $errorMsg))
+    if (modTables($databaseType, $conn, $tablePrefix, $errorMsg)) {
         echo "<font style='color: green;font-weight: bold'>completed</font>";
-    else {
+    } else {
         echo "<font style='color: red;font-weight: bold'>error</font>";
-        if (!empty($errorMsg)) echo "<br /><b>Error Messages: </b>$errorMsg";
+        if (!empty($errorMsg)) {
+            echo "<br /><b>Error Messages: </b>$errorMsg";
+        }
         return false;
     }
 
@@ -146,11 +150,11 @@ function convertDB()
 /**
  * addTables
  * Adds new tables to the database, dependant on the type.  Connectino is already established in conn
- * @return bool
  * @param String $type
  * @param object $conn
  * @param object $prefix [optional]
  * @param object $errorMsg [optional]
+ * @return bool
  */
 function addTables($type, $conn, $prefix = "", $errorMsg = null)
 {
@@ -226,7 +230,7 @@ function addTables($type, $conn, $prefix = "", $errorMsg = null)
     foreach (array_keys($tableFields) as $table) {
         //Let's do the PGSQL Stuff
         if ($type == "postgresql") {
-            //Create the sequence.. 
+            //Create the sequence..
             $sql = "CREATE SEQUENCE {$prefix}{$table}_seq start 1 increment 1 maxvalue 2147483647 minvalue 1 cache 1";
             $db_mediumint_auto[$type] = "int4 DEFAULT nextval('" . $prefix . "{$table}_seq'::text) NOT NULL";
             pg_query($conn, $sql);
@@ -237,7 +241,7 @@ function addTables($type, $conn, $prefix = "", $errorMsg = null)
             }
         }
 
-        //Continuing on.. 
+        //Continuing on..
         // Create table and such
         $t_sql = "CREATE TABLE {$prefix}{$table} (";
         //Do all the fields
@@ -279,11 +283,11 @@ function addTables($type, $conn, $prefix = "", $errorMsg = null)
 /**
  * modTables
  * Modifies tables, depending on what's in the array in the function
- * @return bool
  * @param String $type
  * @param object $conn
  * @param object $prefix [optional]
  * @param object $errorMsg [optional]
+ * @return bool
  */
 function modTables($type, $conn, $prefix = "", $errorMsg = null)
 {
@@ -327,7 +331,7 @@ function modTables($type, $conn, $prefix = "", $errorMsg = null)
     // okay let's start it up
     foreach (array_keys($tableFields) as $table) {
 
-        //Continuing on.. 
+        //Continuing on..
         // Create table and such
         $t_sql = "ALTER TABLE {$prefix}{$table} ";
         //Do all the fields
@@ -336,8 +340,11 @@ function modTables($type, $conn, $prefix = "", $errorMsg = null)
         foreach ($tableFields[$table] as $field => $ftype) {
             $mytype = '';
             eval("\$mytype = \$db_{$ftype}['$type'];");
-            if ($tf_sql != '') $tf_sql .= ", ADD $field $mytype";
-            else $tf_sql = "ADD $field $mytype";
+            if ($tf_sql != '') {
+                $tf_sql .= ", ADD $field $mytype";
+            } else {
+                $tf_sql = "ADD $field $mytype";
+            }
         }
 
         $t_sql .= $tf_sql;
@@ -368,12 +375,12 @@ function modTables($type, $conn, $prefix = "", $errorMsg = null)
 /**
  * connectDB
  * Connects to the Database, dependant on the server type
- * @return object
  * @param String $db Database Type
  * @param String $server
  * @param String $user
  * @param String $pwd
  * @param String $dbname
+ * @return object
  */
 function connectDB($db, $server, $user, $pwd, $dbname)
 {
@@ -407,13 +414,37 @@ function rewriteConfig($settingsFile)
     $mypassword = MYPASSWORD;
     $mydatabase = MYDATABASE;
 
-    if (defined("SMTPSERVER")) $smtpserver = SMTPSERVER; else $smtpserver = '';
-    if (defined("SMTPLOGIN")) $smtplogin = SMTPLOGIN; else $smtplogin = '';
-    if (defined("SMTPPASSWORD")) $smtppassword = SMTPPASSWORD; else $smtppassword = '';
+    if (defined("SMTPSERVER")) {
+        $smtpserver = SMTPSERVER;
+    } else {
+        $smtpserver = '';
+    }
+    if (defined("SMTPLOGIN")) {
+        $smtplogin = SMTPLOGIN;
+    } else {
+        $smtplogin = '';
+    }
+    if (defined("SMTPPASSWORD")) {
+        $smtppassword = SMTPPASSWORD;
+    } else {
+        $smtppassword = '';
+    }
 
-    if (defined("FTPSERVER")) $ftpserver = FTPSERVER; else $ftpserver = '';
-    if (defined("FTPLOGIN")) $ftplogin = FTPLOGIN; else $ftplogin = '';
-    if (defined("FTPPASSWORD")) $ftppassword = FTPPASSWORD; else $ftppassword = '';
+    if (defined("FTPSERVER")) {
+        $ftpserver = FTPSERVER;
+    } else {
+        $ftpserver = '';
+    }
+    if (defined("FTPLOGIN")) {
+        $ftplogin = FTPLOGIN;
+    } else {
+        $ftplogin = '';
+    }
+    if (defined("FTPPASSWORD")) {
+        $ftppassword = FTPPASSWORD;
+    } else {
+        $ftppassword = '';
+    }
 
     $theme = THEME;
 

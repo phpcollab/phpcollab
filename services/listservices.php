@@ -3,12 +3,10 @@
 #Status page: 1
 #Path by root: ../services/listservices.php
 
-use phpCollab\Services\Services;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$services = new Services();
+$services = $container->getServicesLoader();
 
 if ($session->get("profile") != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
@@ -47,12 +45,14 @@ $listServices = $services->getAllServices('serv.name ASC');
 if ($listServices) {
     $block1->openResults();
 
-    $block1->labels($labels = array(0 => $strings["name"], 1 => $strings["hourly_rate"]), "false", $sorting = "false", $sortingOff = array(0 => "0", 1 => "ASC"));
+    $block1->labels($labels = array(0 => $strings["name"], 1 => $strings["hourly_rate"]), "false", $sorting = "false",
+        $sortingOff = array(0 => "0", 1 => "ASC"));
 
     foreach ($listServices as $listService) {
         $block1->openRow();
         $block1->checkboxRow($listService["serv_id"]);
-        $block1->cellRow($blockPage->buildLink("../services/viewservice.php?id=" . $listService["serv_id"], $listService["serv_name"], "in"));
+        $block1->cellRow($blockPage->buildLink("../services/viewservice.php?id=" . $listService["serv_id"],
+            $listService["serv_name"], "in"));
         $block1->cellRow($listService["serv_hourly_rate"]);
         $block1->closeRow();
     }

@@ -3,14 +3,11 @@
 #Status page: 1
 #Path by root: ../teams/adduser.php
 
-use phpCollab\Projects\Projects;
-use phpCollab\Teams\Teams;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
-$projects = new Projects();
-$teams = new Teams();
+$projects = $container->getProjectsLoader();
+$teams = $container->getTeams();
 
 $project = $request->query->get("project");
 
@@ -25,7 +22,7 @@ if ($request->query->get("action") == "add") {
     $id = str_replace("**", ",", $id);
 
     if ($htaccessAuth == "true") {
-        $Htpasswd = new Htpasswd;
+        $Htpasswd = $container->getHtpasswdService();
         $Htpasswd->initialize("../files/" . $projectDetail["pro_id"] . "/.htpasswd");
 
         for ($i = 0; $i < $comptListMembers; $i++) {
@@ -78,8 +75,10 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"], $projectDetail["pro_name"], "in"));
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../teams/listusers.php?id=" . $projectDetail["pro_id"], $strings["team_members"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?id=" . $projectDetail["pro_id"],
+    $projectDetail["pro_name"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../teams/listusers.php?id=" . $projectDetail["pro_id"],
+    $strings["team_members"], "in"));
 $blockPage->itemBreadcrumbs($strings["add_team"]);
 $blockPage->closeBreadcrumbs();
 
@@ -96,7 +95,13 @@ $block1->paletteIcon(1, "info", $strings["view"]);
 $block1->paletteIcon(2, "edit", $strings["edit"]);
 $block1->closePaletteIcon();
 
-$block1->sorting("users", $sortingUser["users"], "mem.name ASC", $sortingFields = array(0 => "mem.name", 1 => "mem.title", 2 => "mem.login", 3 => "mem.phone_work", 4 => "log.connected"));
+$block1->sorting("users", $sortingUser["users"], "mem.name ASC", $sortingFields = array(
+    0 => "mem.name",
+    1 => "mem.title",
+    2 => "mem.login",
+    3 => "mem.phone_work",
+    4 => "log.connected"
+));
 
 $concatMembers = $teams->getTeamByProjectId($project);
 
@@ -111,7 +116,13 @@ if ($demoMode == "true") {
 if ($listMembers) {
     $block1->openResults();
 
-    $block1->labels($labels = array(0 => $strings["full_name"], 1 => $strings["title"], 2 => $strings["user_name"], 3 => $strings["work_phone"], 4 => $strings["connected"]), "false");
+    $block1->labels($labels = array(
+        0 => $strings["full_name"],
+        1 => $strings["title"],
+        2 => $strings["user_name"],
+        3 => $strings["work_phone"],
+        4 => $strings["connected"]
+    ), "false");
 
     foreach ($listMembers as $listMember) {
         if ($listMember["mem_phone_work"] == "") {
@@ -119,7 +130,8 @@ if ($listMembers) {
         }
         $block1->openRow();
         $block1->checkboxRow($listMember["mem_id"]);
-        $block1->cellRow($blockPage->buildLink("../users/viewuser.php?id=" . $listMember["mem_id"], $listMember["mem_name"], "in"));
+        $block1->cellRow($blockPage->buildLink("../users/viewuser.php?id=" . $listMember["mem_id"],
+            $listMember["mem_name"], "in"));
         $block1->cellRow($listMember["mem_title"]);
         $block1->cellRow($blockPage->buildLink($listMember["mem_email_work"], $listMember["mem_login"], "in"));
         $block1->cellRow($listMember["mem_phone_work"]);
@@ -137,7 +149,8 @@ if ($listMembers) {
 $block1->closeFormResults();
 
 $block1->openPaletteScript();
-$block1->paletteScript(0, "add", "../teams/adduser.php?project=$project&action=add", "false,true,true", $strings["add"]);
+$block1->paletteScript(0, "add", "../teams/adduser.php?project=$project&action=add", "false,true,true",
+    $strings["add"]);
 $block1->paletteScript(1, "info", "../users/viewuser.php?", "false,true,false", $strings["view"]);
 $block1->paletteScript(2, "edit", "../users/edituser.php?", "false,true,false", $strings["edit"]);
 $block1->closePaletteScript(count($listMembers), array_column($listMembers, 'mem_id'));

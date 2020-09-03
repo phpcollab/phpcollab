@@ -45,7 +45,7 @@ class NotesGateway
     public function getNotesById($noteIds)
     {
         $ids = explode(',', $noteIds);
-        $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
+        $placeholders = str_repeat('?, ', count($ids) - 1) . '?';
         $sql = $this->initrequest["notes"] . " WHERE note.id IN ($placeholders) ORDER BY note.subject";
         $this->db->query($sql);
         $this->db->execute($ids);
@@ -90,7 +90,8 @@ class NotesGateway
      */
     public function getNoteByProject($projectId, $offset = null, $limit = null, $sorting = null)
     {
-        $query = $this->initrequest["notes"] . " WHERE note.project = :project_id" . $this->orderBy($sorting) . $this->limit($offset, $limit);
+        $query = $this->initrequest["notes"] . " WHERE note.project = :project_id" . $this->orderBy($sorting) . $this->limit($offset,
+                $limit);
         $this->db->query($query);
         $this->db->bind(':project_id', $projectId);
         return $this->db->resultset();
@@ -104,12 +105,12 @@ class NotesGateway
     {
         $sql = "INSERT INTO {$this->tableCollab["notes"]} (project,topic,subject,description,date,owner,published) VALUES (:project,:topic,:subject,:description,:date,:owner,1)";
         $this->db->query($sql);
-        $this->db->bind(':project',$noteData["projectMenu"]);
-        $this->db->bind(':topic',$noteData["topic"]);
-        $this->db->bind(':subject',$noteData["subject"]);
-        $this->db->bind(':description',$noteData["description"]);
-        $this->db->bind(':date',$noteData["dd"]);
-        $this->db->bind(':owner',$noteData["owner"]);
+        $this->db->bind(':project', $noteData["projectMenu"]);
+        $this->db->bind(':topic', $noteData["topic"]);
+        $this->db->bind(':subject', $noteData["subject"]);
+        $this->db->bind(':description', $noteData["description"]);
+        $this->db->bind(':date', $noteData["dd"]);
+        $this->db->bind(':owner', $noteData["owner"]);
         $this->db->execute();
         return $this->db->lastInsertId();
     }
@@ -123,12 +124,12 @@ class NotesGateway
     {
         $sql = "UPDATE {$this->tableCollab["notes"]} SET project=:project,topic=:topic,subject=:subject,description=:description,date=:date,owner=:owner WHERE id = :note_id";
         $this->db->query($sql);
-        $this->db->bind(':project',$noteData["projectMenu"]);
-        $this->db->bind(':topic',$noteData["topic"]);
-        $this->db->bind(':subject',$noteData["subject"]);
-        $this->db->bind(':description',$noteData["description"]);
-        $this->db->bind(':date',$noteData["dd"]);
-        $this->db->bind(':owner',$noteData["owner"]);
+        $this->db->bind(':project', $noteData["projectMenu"]);
+        $this->db->bind(':topic', $noteData["topic"]);
+        $this->db->bind(':subject', $noteData["subject"]);
+        $this->db->bind(':description', $noteData["description"]);
+        $this->db->bind(':date', $noteData["dd"]);
+        $this->db->bind(':owner', $noteData["owner"]);
         $this->db->bind(':note_id', $noteId);
         return $this->db->execute();
     }
@@ -140,9 +141,9 @@ class NotesGateway
      */
     public function deleteNotes($noteId)
     {
-        if ( strpos($noteId, ',') ) {
+        if (strpos($noteId, ',')) {
             $ids = explode(',', $noteId);
-            $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
+            $placeholders = str_repeat('?, ', count($ids) - 1) . '?';
             $sql = "DELETE FROM {$this->tableCollab['notes']} WHERE id IN ($placeholders)";
             $this->db->query($sql);
 
@@ -177,9 +178,9 @@ class NotesGateway
      */
     public function publishNoteToSite($noteId)
     {
-        if ( strpos($noteId, ',') ) {
+        if (strpos($noteId, ',')) {
             $ids = explode(',', $noteId);
-            $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
+            $placeholders = str_repeat('?, ', count($ids) - 1) . '?';
             $sql = "UPDATE {$this->tableCollab["notes"]} SET published = 0 WHERE id IN($placeholders)";
             $this->db->query($sql);
             return $this->db->execute($ids);
@@ -197,9 +198,9 @@ class NotesGateway
      */
     public function unPublishNoteFromSite($noteId)
     {
-        if ( strpos($noteId, ',') ) {
+        if (strpos($noteId, ',')) {
             $ids = explode(',', $noteId);
-            $placeholders = str_repeat ('?, ', count($ids)-1) . '?';
+            $placeholders = str_repeat('?, ', count($ids) - 1) . '?';
             $sql = "UPDATE {$this->tableCollab["notes"]} SET published=1 WHERE id IN($placeholders)";
             $this->db->query($sql);
             return $this->db->execute($ids);
@@ -247,8 +248,21 @@ class NotesGateway
     private function orderBy($sorting)
     {
         if (!is_null($sorting)) {
-            $allowedOrderedBy = ["note.id", "note.project", "note.owner", "note.topic", "note.subject", "note.description", "note.date", "note.published", "mem.id", "mem.login", "mem.name", "mem.email_work"];
-        $pieces = explode(' ', $sorting);
+            $allowedOrderedBy = [
+                "note.id",
+                "note.project",
+                "note.owner",
+                "note.topic",
+                "note.subject",
+                "note.description",
+                "note.date",
+                "note.published",
+                "mem.id",
+                "mem.login",
+                "mem.name",
+                "mem.email_work"
+            ];
+            $pieces = explode(' ', $sorting);
 
             if ($pieces) {
                 $key = array_search($pieces[0], $allowedOrderedBy);

@@ -1,16 +1,12 @@
 <?php
 
-use phpCollab\Notifications\Notifications;
-use phpCollab\Projects\Projects;
-use phpCollab\Tasks\Tasks;
-
 if (isset($num) && $num == "") {
     $num = $id;
 }
 
-$tasks = new Tasks();
-$projects = new Projects();
-$notifications = new Notifications();
+$tasks = $container->getTasksLoader();
+$projects = $container->getProjectsLoader();
+$notifications = $container->getNotificationsManager();
 
 $strings = $GLOBALS["strings"];
 
@@ -21,7 +17,7 @@ $projectNoti = $projects->getProjectById($taskNoti["tas_project"]);
 $listNotifications = $notifications->getNotificationsWhereMemberIn($projectNoti["pro_owner"]);
 
 if ($listNotifications["not_taskassignment"] == "0") {
-    $mail = new phpCollab\Notification();
+    $mail = $container->getNotification();
 
     $mail->getUserinfo($session->get("id"), "from");
 

@@ -1,8 +1,6 @@
 <?php
 
-use phpCollab\Notifications\Notifications;
-
-$notificationsClass = new Notifications();
+$notificationsClass = $container->getNotificationsManager();
 
 $taskNoti = $tasks->getTaskById($listTask["tas_id"]);
 
@@ -13,7 +11,7 @@ $task_owner = $listTask["tas_owner"];
 $listNotifications = $notificationsClass->getMemberNotifications($task_owner);
 
 if ($listNotifications["taskAssignment"] == "0") {
-    $mail = new phpCollab\Notification(true);
+    $mail = $container->getNotification();
 
     try {
 

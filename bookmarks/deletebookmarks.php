@@ -18,8 +18,6 @@
 ** =============================================================================
 */
 
-use phpCollab\Bookmarks\DeleteBookmarks;
-
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -37,7 +35,7 @@ if ($request->isMethod('post')) {
             if ($request->request->get('action') == "delete") {
                 $id = str_replace("**", ",", $id);
 
-                $deleteBookmarks = new DeleteBookmarks();
+                $deleteBookmarks = $container->getDeleteBookmarksLoader();
                 try {
                     $deleteBookmarks->delete($id);
 
@@ -57,7 +55,7 @@ if ($request->isMethod('post')) {
     }
 }
 
-$bookmarks = new phpCollab\Bookmarks\Bookmarks();
+$bookmarks = $container->getBookmarksLoader();
 
 $setTitle .= " : Delete ";
 
@@ -70,7 +68,8 @@ include APP_ROOT . '/themes/' . THEME . '/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=all", $strings["bookmarks"], 'in'));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=all", $strings["bookmarks"],
+    'in'));
 $blockPage->itemBreadcrumbs($strings["delete_bookmarks"]);
 $blockPage->closeBreadcrumbs();
 
@@ -101,7 +100,8 @@ foreach ($bookmarkList as $bookmark) {
     $block1->contentRow("#" . $bookmark['boo_id'], $bookmark['boo_name']);
 }
 
-$block1->contentRow("", '<input type="hidden" name="action" value="delete" /><input type="submit" name="delete" value="' . $strings["delete"] . '"> <input type="button" name="cancel" value="' . $strings["cancel"] . '" onClick="history.back();">');
+$block1->contentRow("",
+    '<input type="hidden" name="action" value="delete" /><input type="submit" name="delete" value="' . $strings["delete"] . '"> <input type="button" name="cancel" value="' . $strings["cancel"] . '" onClick="history.back();">');
 
 $block1->closeContent();
 $block1->closeForm();

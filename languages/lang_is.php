@@ -6,22 +6,56 @@
 //translator(s): Jonas Sig (jonas@nasaweb.net)
 $byteUnits = array('Bæti', 'KB', 'MB', 'GB');
 
-$dayNameArray = array(1 =>"Mánudagur", 2 =>"Þriðjudagur", 3 =>"Miðvikudagur", 4 =>"Fimmtudagur", 5 =>"Föstudagur", 6 =>"Laugardagur", 7 =>"Sunnudagur");
+$dayNameArray = array(
+    1 => "Mánudagur",
+    2 => "Þriðjudagur",
+    3 => "Miðvikudagur",
+    4 => "Fimmtudagur",
+    5 => "Föstudagur",
+    6 => "Laugardagur",
+    7 => "Sunnudagur"
+);
 
-$monthNameArray = array(1=> "Janúar", "Febrúar", "Mars", "Apríl", "Maí", "Júní", "Júlí", "Ágúst", "September", "Október", "Nóvember", "Desember");
+$monthNameArray = array(
+    1 => "Janúar",
+    "Febrúar",
+    "Mars",
+    "Apríl",
+    "Maí",
+    "Júní",
+    "Júlí",
+    "Ágúst",
+    "September",
+    "Október",
+    "Nóvember",
+    "Desember"
+);
 
 $status = array(0 => "Viðskiptaaðila lokað", 1 => "Lokið", 2 => "Ekki byrjað", 3 => "Opið", 4 => "Aflýst");
 
 $profil = array(0 => "Umsjónarmaður", 1 => "Verkefnisstjóri", 2 => "Notandi", 3 => "Viðskiptamaður");
 
-$priority = array(0 => "Engin forgangur", 1 => "Mjög lítill forgangur", 2 => "Lítill forgangur", 3 => "Miðlungs", 4 => "Mikilvægt", 5 => "Mjög mikilvægt");
+$priority = array(
+    0 => "Engin forgangur",
+    1 => "Mjög lítill forgangur",
+    2 => "Lítill forgangur",
+    3 => "Miðlungs",
+    4 => "Mikilvægt",
+    5 => "Mjög mikilvægt"
+);
 
 $statusTopic = array(0 => "Lokað", 1 => "Opið");
 $statusTopicBis = array(0 => "Já", 1 => "Nei");
 
 $statusPublish = array(0 => "Já", 1 => "Nei");
 
-$statusFile = array(0 => "Samþykkt", 1 => "Samþykkt með breytingum", 2 => "Þarfnast samþykktar", 3 => "Þarf ekki samþykki", 4 => "Ekki samþykkt");
+$statusFile = array(
+    0 => "Samþykkt",
+    1 => "Samþykkt með breytingum",
+    2 => "Þarfnast samþykktar",
+    3 => "Þarf ekki samþykki",
+    4 => "Ekki samþykkt"
+);
 
 $phaseStatus = array(0 => "Ekki hafið", 1 => "Opið", 2 => "Lokið", 3 => "Aflýst");
 
@@ -137,15 +171,6 @@ $strings["system_properties"] = "Upplýsingar um umhverfi kerfis";
 $strings["create"] = "Skrá";
 $strings["report_save"] = "Vista þessa skýrslu á heimasíðu þína svo þú getir keyrt hafa aftur síðar.";
 $strings["report_name"] = "Nafn skýrslu";
-
-
-
-
-
-
-
-
-
 
 
 $strings["save"] = "Vista";
