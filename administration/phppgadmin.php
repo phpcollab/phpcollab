@@ -36,7 +36,7 @@ if ($session->get('profile') != "0") {
 
 $setTitle .= " : DB Administraton";
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -101,4 +101,4 @@ echo "<tr class=\"odd\"><td valign=\"top\" class=\"leftvalue\">&nbsp;</td><td>
 
 $block1->closeContent();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

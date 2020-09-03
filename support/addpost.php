@@ -74,7 +74,7 @@ if ($request->isMethod('post')) {
         $msg = 'permissiondenied';
     }
 }
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -179,4 +179,4 @@ FORM;
 
 $block2->closeForm();
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

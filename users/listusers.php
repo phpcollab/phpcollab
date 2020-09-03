@@ -12,7 +12,7 @@ if ($session->get('profile') != "0") {
 
 $setTitle .= " : List Users";
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -106,4 +106,4 @@ $block1->paletteScript(4, "export", "../users/exportusers.php?", "true,false,tru
 $block1->paletteScript(5, "email", "../users/emailusers.php?", "false,true,true", $strings["email"]);
 $block1->closePaletteScript(count($listMembers), array_column($listMembers, 'mem_id'));
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

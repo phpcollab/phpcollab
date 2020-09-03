@@ -24,7 +24,7 @@ if ($comptUserDetail == "0") {
 $setTitle .= " : User Management (" . $userDetail["mem_login"] . ")";
 
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -125,4 +125,4 @@ $block1->paletteScript(2, "export", "../users/exportuser.php?id=$id&", "true,tru
 $block1->paletteScript(3, "email", "../users/emailusers.php?id=$id&", "true,true,true", $strings["email"]);
 $block1->closePaletteScript("", []);
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

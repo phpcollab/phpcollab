@@ -196,7 +196,7 @@ if ($id != '' && empty($action)) {
 } else {
     $setTitle .= " : Add News Item";
 }
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -332,4 +332,4 @@ CSRF;
     $block1->note($strings["delete_news_note"]);
 }
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

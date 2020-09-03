@@ -177,8 +177,13 @@ switch ($msg) {
     case "clientEditError":
         $msgLabel = "<b>" . $strings["attention"] . "</b> : " . $strings["client_error_edit"];
         break;
+
     case "genericError":
         $msgLabel = "<strong>{$strings["attention"]}</strong> : {$strings["genericError"]}";
+        break;
+
+    case "taskNotFoundError":
+        $msgLabel = "<strong>{$strings["attention"]}</strong> : {$strings["task_not_found"]}";
         break;
 
 }

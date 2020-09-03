@@ -1,3 +1,11 @@
+:root {
+    --primary-color: #5B7F93;
+    --alt-color: #C4D3DB;
+    --odd-color: #F5F5F5;
+    --even-color: #EFEFEF;
+    --highlight-color: #DEE7EB;
+}
+
 .abs {
     position: absolute
 }
@@ -25,7 +33,7 @@ a {
 
 a:hover {
     text-decoration: underline;
-    color: #5B7F93;
+    color: var(--primary-color);
 }
 
 hr {
@@ -149,7 +157,7 @@ hr {
 
 .listing th {
     padding-left: 2px;
-    background-color: #C4D3DB;
+    background-color: var(--alt-color);
     border-top: 1px solid #999999;
     border-bottom: 1px solid #999999;
     color: #777E82;
@@ -210,17 +218,17 @@ hr {
 
 
 .striped tr:nth-child(even) {
-    background-color: #EFEFEF;
+    background-color: var(--even-color);
     color: #000;
 }
 
 .striped tr:nth-child(odd) {
-    background-color: #F5F5F5;
+    background-color: var(--odd-color);
     color: #000;
 }
 
 .striped tr:nth-child(even):hover, .striped tr:nth-child(odd):hover {
-    background-color: #DEE7EB;
+    background-color: var(--highlight-color);
     color: #000;
 }
 
@@ -242,7 +250,7 @@ hr {
 }
 
 .monthPreview tr td.odd:hover {
-    background-color: #DEE7EB;
+    background-color: var(--highlight-color);
     color: #000;
 }
 
@@ -252,15 +260,15 @@ hr {
 }
 
 .lightHighlight {
-    background-color: #C4D3DB;
+    background-color: var(--alt-color);
 }
 
 .odd {
-    background-color: #F5F5F5;
+    background-color: var(--odd-color);
 }
 
 .even {
-    background-color: #EFEFEF;
+    background-color: var(--even-color);
 }
 
 .old {
@@ -295,7 +303,7 @@ td.leftvalue {
     padding-left: 2px;
     padding-top: 4px;
     padding-bottom: 4px;
-    background-color: #C4D3DB;
+    background-color: var(--alt-color);
     border-top: 1px solid #999999;
     border-bottom: 1px solid #999999;
     color: #777E82;
@@ -324,7 +332,7 @@ td.leftvalue {
     padding-left: 2px;
     padding-top: 4px;
     padding-bottom: 4px;
-    background-color: #C4D3DB;
+    background-color: var(--alt-color);
     color: #000000;
     text-align: left;
 }
@@ -338,17 +346,17 @@ td.leftvalue {
 }
 
 
-.tableRevision tr:hover {
-    background-color: #DEE7EB;
-    color: #000;
-}
-
 .tableRevision tr:nth-child(odd) {
     background-color: #DDDEDF;
 }
 
 .tableRevision tr:nth-child(even) {
     background-color: #F6F5F5;
+}
+
+.tableRevision tr:hover {
+    background-color: var(--highlight-color);
+    color: #000;
 }
 
 .tableRevision td {
@@ -381,7 +389,7 @@ hr {
 /* calendar css themes */
 
 .calendarMonthDay {
-    background-color: #F5F5F5;
+    background-color: var(--odd-color);
 }
 
 .calendar-blockout-line {
@@ -404,7 +412,7 @@ hr {
 }
 
 .calendar-blockout-line td.odd:hover {
-    background-color: #DEE7EB;
+    background-color: var(--highlight-color);
 }
 
 .calendar-blockout-line td.today {
@@ -573,12 +581,12 @@ a[href^="mailto:"]::after {
 #logoBox {
     vertical-align: middle;
     min-width: 150px;
-    background-color: #5B7F93;
+    background-color: var(--primary-color);
     height: 75px;
 }
 
 #pagetitle {
-    background-color: #efefef;
+    background-color: var(--even-color);
     font-weight: bold;
     padding-left: 2rem;
 }
@@ -618,4 +626,14 @@ table.calculation td {
 
 .logoContainer img {
     width: 100%;
+}
+/*
+Styling for the help notes
+ */
+#overDiv > table {
+    background-color: var(--primary-color) !important;
+}
+
+#overDiv table table:nth-child(1) {
+    background-color: var(--alt-color) !important;
 }

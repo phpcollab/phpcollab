@@ -32,7 +32,7 @@ $teamMember = "false";
 
 $teamMember = $teams->isTeamMember($requestDetail["sr_project"], $session->get("id"));
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -147,4 +147,4 @@ $block1->paletteScript(1, "remove",
 $block1->closePaletteScript(count($requestDetail), array_column($requestDetail, 'sr_id'));
 $block1->closeForm();
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

@@ -22,6 +22,8 @@
 ** =============================================================================
 */
 
+use phpCollab\Block;
+
 error_reporting(2039);
 // Include all needed files here.. show the license as well.. we want to be legal
 include("../includes/settings.php");
@@ -81,8 +83,7 @@ function upgrade2_4()
     include "../languages/help_en.php";
     $setTitle = "PhpCollab Upgrade";
     $blank = "true";
-    include "../themes/" . THEME . "/block.class.php";
-    include '../themes/' . THEME . '/header.php';
+    include '../views/layout/header.php';
 
     //Get this file..
     $script = "upgrade.php";
@@ -93,12 +94,12 @@ function upgrade2_4()
     }
 
     // Create new block and start the breadcrumbs
-    $blockPage = new block();
+    $blockPage = new Block();
     $blockPage->openBreadcrumbs();
     $blockPage->itemBreadcrumbs("<a href='../installation/$script'>Upgrade</a>");
 
     //Content block
-    $block1 = new block();
+    $block1 = new Block();
 
     if ($step == 1) {
         $blockPage->itemBreadcrumbs("License");
@@ -219,7 +220,7 @@ function upgrade2_4()
     }
 
     $footerDev = "false";
-    include '../themes/' . THEME . '/footer.php';
+    include '../views/layout/footer.php';
 
     //FOR DEBUG ****
     exit();

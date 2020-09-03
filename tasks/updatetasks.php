@@ -185,7 +185,7 @@ if ($request->isMethod('post')) {
 }
 
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -343,7 +343,7 @@ INPUT;
 $block1->closeContent();
 $block1->closeForm();
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';
 ?>
 <script>
     function changeSt(theObj, firstRun) {

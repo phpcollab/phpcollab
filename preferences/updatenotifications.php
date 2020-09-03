@@ -149,7 +149,7 @@ function checkboxes(){
 </script>
 HEAD_BONUS;
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -186,11 +186,7 @@ echo <<<HTML
 <tr class="odd">
 	<td style="vertical-align: top"  class="leftvalue">{$strings["select_deselect"]} :</td>
 	<td>
-		<a 
-		    href="javascript:checkboxes();" 
-		    onmouseover="window.status = '{$strings["select_deselect"]}';return true;" 
-		    onmouseout="window.status = '';return true;">
-		<img src="../themes/{$block1->getThemeImgPath()}/checkbox_off_16.gif" style="border: none;" alt=""></a>
+	    <input type="checkbox" onclick="checkboxes();" />
 	</td>
 </tr>
 <tr class="odd">
@@ -279,4 +275,4 @@ HTML;
 $block1->closeContent();
 $block1->closeForm();
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

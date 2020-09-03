@@ -22,7 +22,7 @@
 //\//////////////////////////////////////////////////////////////////////////////////
 
 //\  THIS IS A VERY MODIFIED VERSION. DO NOT EDIT OR PUBLISH. GET THE ORIGINAL!
-
+alert('overlib_mini.js');
 var INARRAY=1;
 var CAPARRAY=2;
 var STICKY=3;

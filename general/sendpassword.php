@@ -20,7 +20,7 @@ if ($request->isMethod('post')) {
 
 $notLogged = "true";
 $bodyCommand = "onLoad=\"document.sendForm.loginForm.focus();\"";
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -54,4 +54,4 @@ $block1->contentRow("", '<input type="submit" name="send" value="' . $strings['s
 $block1->closeContent();
 $block1->closeForm();
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

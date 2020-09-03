@@ -39,7 +39,7 @@ if (empty($detailClient)) {
     phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
 }
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -112,4 +112,4 @@ if ($session->get("profile") == "0" || $session->get("profile") == "1") {
 $block1->paletteScript(2, "export", "../users/exportuser.php?id=$userId", "true,true,true", $strings["export"]);
 $block1->closePaletteScript("", []);
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

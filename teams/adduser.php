@@ -70,7 +70,7 @@ if ($request->query->get("action") == "add") {
     phpCollab\Util::headerFunction("../projects/viewproject.php?id=" . $projectDetail["pro_id"] . "&msg=add");
 }
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -155,4 +155,4 @@ $block1->paletteScript(1, "info", "../users/viewuser.php?", "false,true,false", 
 $block1->paletteScript(2, "edit", "../users/edituser.php?", "false,true,false", $strings["edit"]);
 $block1->closePaletteScript(count($listMembers), array_column($listMembers, 'mem_id'));
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

@@ -48,7 +48,7 @@ if (empty($clientDetail)) {
 
 $setTitle .= " : View Client (" . $clientDetail['org_name'] . ")";
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -307,4 +307,4 @@ if ($session->get("profile") == "0" || $session->get("profile") == "1") {
 }
 $block3->closePaletteScript(count($listMembers), array_column($listMembers, 'mem_id'));
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

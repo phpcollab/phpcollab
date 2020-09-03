@@ -39,7 +39,7 @@ $organizations = $container->getOrganizationsManager();
 $projects = $container->getProjectsLoader();
 
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -290,4 +290,4 @@ HTML;
 $block1->closeContent();
 $block1->closeForm();
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

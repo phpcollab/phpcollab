@@ -147,10 +147,8 @@ OPEN_TABLE;
     foreach ($detailCalendar as $item) {
         if (!($i % 2)) {
             $class = "odd";
-            $highlightOff = $block1->getOddColor();
         } else {
             $class = "even";
-            $highlightOff = $block1->getEvenColor();
         }
 
         echo <<<TR

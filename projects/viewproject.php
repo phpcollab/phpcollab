@@ -219,7 +219,7 @@ if ($enableHelpSupport == "true" && ($teamMember == "true" || $session->get("pro
 
 $setTitle .= " : View Project (" . $projectDetail["pro_name"] . ")";
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -1091,4 +1091,4 @@ $notesBlock->closePaletteScript(count($notesList), array_column($notesList, 'not
  * End Notes section
  */
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

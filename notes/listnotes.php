@@ -33,7 +33,7 @@ if ($action == "publish") {
     }
 }
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $projects = $container->getProjectsLoader();
 $projectDetail = $projects->getProjectById($project);
@@ -154,4 +154,4 @@ if ($teamMember == "true") {
 }
 $block1->closePaletteScript(count($listNotes), array_column($listNotes, 'note_id'));
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

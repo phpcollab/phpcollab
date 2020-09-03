@@ -244,7 +244,7 @@ switch ($type) {
         break;
 }
 $includeCalendar = true; //Include Javascript files for the pop-up calendar
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 if ($type == "calendEdit") {
     if ($id != "") {
@@ -918,4 +918,4 @@ HTML;
     }
 }
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

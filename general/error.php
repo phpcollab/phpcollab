@@ -28,7 +28,7 @@
 include_once '../includes/library.php';
 
 $blank = "true";
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -57,4 +57,4 @@ if ($type == "mydatabase") {
 $block1->closeContent();
 
 $footerDev = "false";
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

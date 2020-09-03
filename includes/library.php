@@ -329,3 +329,5 @@ $sortingUser = $sort->getSortingValues($session->getId());
 
 // :-)
 $setCopyright = "<!-- Powered by PhpCollab (show us some ❤️! #phpcollab & phpcollab.com) //-->";
+
+$copyrightYear = date("Y");

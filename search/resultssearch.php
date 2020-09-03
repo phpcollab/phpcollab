@@ -16,7 +16,7 @@ $topics = $container->getTopicsLoader();
 $setTitle .= " : Search Results";
 $bodyCommand = 'onLoad="document.searchForm.searchfor.focus()"';
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $searchfor = $request->query->get("searchfor");
 $searchfor = urldecode($searchfor);
@@ -845,4 +845,4 @@ HTML;
 $block7->closeContent();
 $block7->closeForm();
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

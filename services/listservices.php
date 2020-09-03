@@ -13,7 +13,7 @@ if ($session->get("profile") != "0") {
 }
 
 $setTitle .= " : List Services";
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -69,4 +69,4 @@ $block1->paletteScript(2, "info", "../services/viewservice.php?", "false,true,fa
 $block1->paletteScript(3, "edit", "../services/editservice.php?", "false,true,false", $strings["edit"]);
 $block1->closePaletteScript(count($listServices), array_column($listServices, 'serv_id'));
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

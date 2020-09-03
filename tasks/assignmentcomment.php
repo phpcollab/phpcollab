@@ -21,7 +21,7 @@ if ($request->isMethod('post')) {
 }
 
 $bodyCommand = 'onLoad="document.assignment_commentForm.acomm.focus();"';
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $tasks = $container->getTasksLoader();
 $taskDetail = $tasks->getTaskById($taskId);
@@ -65,4 +65,4 @@ FORM;
 $block1->closeContent();
 $block1->closeForm();
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

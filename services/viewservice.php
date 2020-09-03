@@ -20,7 +20,7 @@ if ($session->get("profile") != "0") {
 
 $detailService = $services->getService($id);
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -67,4 +67,4 @@ $block1->paletteScript(0, "remove", "../services/deleteservices.php?id=$id", "tr
 $block1->paletteScript(1, "edit", "../services/editservice.php?id=$id", "true,true,true", $strings["edit"]);
 $block1->closePaletteScript(count($detailService), array_column($detailService, 'serv_id'));
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

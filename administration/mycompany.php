@@ -99,7 +99,7 @@ $company = $org->getOrganizationById(1);
 $setTitle .= " : Company Details";
 
 $bodyCommand = "onLoad='document.adminDForm.cn.focus();'";
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 
 $blockPage = new phpCollab\Block();
@@ -162,4 +162,4 @@ $block1->contentRow("", '<button type="submit" name="action" value="update">' . 
 $block1->closeContent();
 $block1->closeForm();
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

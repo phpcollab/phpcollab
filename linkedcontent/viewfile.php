@@ -442,7 +442,7 @@ $currentVersion = max(array_column($listVersions, 'fil_vc_version'));
 
 $setTitle .= " : View File : " . $fileDetail["fil_name"];
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();
@@ -583,7 +583,6 @@ echo <<< VERSIONS_ROW
 VERSIONS_ROW;
 
 $count = 0;
-$rowClass = '';
 foreach ($listVersions as $version) {
     $existFile = false;
 
@@ -714,22 +713,11 @@ TR;
 
     $count = 0;
     foreach ($peerReviews as $review) {
-        //Sort odds and evens for bg color
-        if ($count % 2) {
-            $rowClass = "odd";
-            $highlightOff = $blockPage->getOddColor();
-        } else {
-            $rowClass = "even";
-            $highlightOff = $blockPage->getEvenColor();
-        }
-
         //Calculate a revision number for display for each listing
         $displayrev = $count + 1;
         echo <<<TABLE
-            <table style="width: 600px;" class="tableRevision" 
-                onmouseover="this.style.backgroundColor='{$peerReviewBlock->getHighlightOn()}'" 
-                onmouseout="this.style.backgroundColor='{$peerReviewBlock->getHighlightOff()}'">
-                <tr style="background-color: {$peerReviewBlock->getFgColor()};">
+            <table style="width: 600px;" class="tableRevision">
+                <tr>
                     <td>
 TABLE;
 
@@ -1042,4 +1030,4 @@ UPDATE_FILE;
  * End update file block
  */
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

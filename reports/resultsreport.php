@@ -44,7 +44,7 @@ if ($request->isMethod('post')) {
 }
 
 $setTitle .= " : Report Results";
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $id = $request->query->get('id');
 $tri = $request->query->get('tri');
@@ -541,4 +541,4 @@ TR;
     $block2->closeForm();
 }
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

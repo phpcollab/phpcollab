@@ -12,7 +12,7 @@ $projects = $container->getProjectsLoader();
 $newsDesk = $container->getNewsdeskLoader();
 $strings = $GLOBALS['strings'];
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -109,4 +109,4 @@ if ($session->get("profile") == "0" || $session->get("profile") == "1" || $sessi
 $block1->paletteScript(3, "info", "../newsdesk/viewnews.php?", "false,true,false", $strings["view_newsdesk"]);
 
 $block1->closePaletteScript(count($listPosts), array_column($listPosts, 'news_id'));
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

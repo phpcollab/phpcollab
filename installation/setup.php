@@ -376,7 +376,7 @@ $setTitle = "PhpCollab : Installation";
 define('THEME', 'default');
 $blank = "true";
 
-include dirname(dirname(__FILE__)) . '/themes/' . THEME . '/header.php';
+include dirname(dirname(__FILE__)) . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -627,4 +627,4 @@ FORM;
 }
 
 $footerDev = "false";
-include dirname(dirname(__FILE__)) . '/themes/' . THEME . '/footer.php';
+include dirname(dirname(__FILE__)) . '/views/layout/footer.php';

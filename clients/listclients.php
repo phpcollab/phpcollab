@@ -7,7 +7,7 @@ include_once '../includes/library.php';
 
 $setTitle .= " : List Clients";
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $organizations = $container->getOrganizationsManager();
 $teams = $container->getTeams();
@@ -118,4 +118,4 @@ if ($session->get("profile") == "0" || $session->get("profile") == "1") {
 }
 $block1->closePaletteScript(count($listOrganizations), array_column($listOrganizations, 'org_id'));
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

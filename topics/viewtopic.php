@@ -55,7 +55,7 @@ $idPublish = $detailTopic["top_published"];
 
 $setTitle .= " : " . $strings["discussion"] . " : " . $detailTopic["top_subject"];
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -161,4 +161,4 @@ if ($session->get("id") == $detailTopic["top_owner"]) {
     $block1->closePaletteScript(count($detailTopic), array_column($detailTopic, 'top_id'));
 }
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

@@ -13,7 +13,7 @@ include 'include_header.php';
 
 $userDetail = $members->getMemberById($session->get("id"));
 
-$listRequests = $support->getSupportRequestByMemberIdAndProjectId($session->get("id"), $project);
+$listRequests = $support->getSupportRequestByMemberIdAndProjectId($session->get("id"), $request->query->get("project"));
 
 $block1 = new phpCollab\Block();
 
@@ -72,7 +72,7 @@ NO_RESULTS;
 }
 echo <<<FOOTER
     <br/><br/>
-<a href="addsupport.php?project={$project}" class="FooterCell">{$strings["add_support_request"]}</a>
+<a href="addsupport.php?project={$request->query->get("project")}" class="FooterCell">{$strings["add_support_request"]}</a>
 FOOTER;
 
 include("include_footer.php");

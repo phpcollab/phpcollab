@@ -15,7 +15,7 @@ if (!$newsDetail) {
     phpCollab\Util::headerFunction("../newsdesk/listnews.php?msg=blankNews");
 }
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -172,4 +172,4 @@ if ($session->get("profile") == "0" || $session->get("profile") == "1" || $sessi
 
 $block2->closePaletteScript(count($newsComments), array_column($newsComments, 'newscom_id'));
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

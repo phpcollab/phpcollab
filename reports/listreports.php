@@ -7,7 +7,7 @@ $strings = $GLOBALS["strings"];
 
 $setTitle .= " : " . $strings["my_reports"];
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -67,4 +67,4 @@ $block1->paletteScript(1, "remove", "../reports/deletereports.php?", "false,true
 $block1->paletteScript(2, "export", "../reports/exportreport.php?", "false,true,true", $strings["export"]);
 $block1->closePaletteScript(count($dataSet), array_column($dataSet, 'rep_id'));
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

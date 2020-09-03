@@ -30,7 +30,7 @@ $checkSession = "false";
 include_once '../includes/library.php';
 
 $notLogged = "true";
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -47,4 +47,4 @@ $block1->contentRow("", "<pre>" . phpCollab\Util::getFileContents("../docs/copyi
 
 $block1->closeContent();
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

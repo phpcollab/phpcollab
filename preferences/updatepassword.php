@@ -90,7 +90,7 @@ if (empty($userDetail)) {
 }
 
 $bodyCommand = 'onLoad="document.change_passwordForm.original_password.focus();"';
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 
 $blockPage = new phpCollab\Block();
@@ -144,4 +144,4 @@ $block1->contentRow("",
 $block1->closeContent();
 $block1->closeForm();
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

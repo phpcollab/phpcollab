@@ -69,7 +69,7 @@ if ($request->isMethod('post')) {
 $setTitle .= " : Add Client";
 
 $bodyCommand = 'onLoad="document.addForm.cn.focus();"';
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -147,4 +147,4 @@ $block1->contentRow("", '<button type="submit" name="action" value="add">' . $st
 $block1->closeContent();
 $block1->closeForm();
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

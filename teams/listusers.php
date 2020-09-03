@@ -42,7 +42,7 @@ if (empty($projectDetail)) {
     phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blank");
 }
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -150,4 +150,4 @@ $block1->paletteScript(4, "info", "../users/viewuser.php?", "false,true,false", 
 $block1->paletteScript(5, "email", "../users/emailusers.php?", "false,true,true", $strings["email"]);
 $block1->closePaletteScript(count($listTeam), array_column($listTeam, 'tea_mem_id'));
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

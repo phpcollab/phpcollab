@@ -91,13 +91,11 @@ if ($postDetail) {
     foreach ($postDetail as $key => $post) {
         if (!($key % 2)) {
             $class = "odd";
-            $highlightOff = $block1->getOddColor();
         } else {
             $class = "even";
-            $highlightOff = $block1->getEvenColor();
         }
 
-        echo '<tr><td colspan="4" class="' . $class . '">&nbsp;</td></tr>';
+        echo '<tr class="' . $class . '"><td colspan="4">-- -- &nbsp;</td></tr>';
         echo '<tr class="' . $class . '"><th>' . $strings["date"] . ' :</th><td colspan="3">' . $post["sp_date"] . '</td></tr>';
 
         $ownerDetail = $members->getMemberById($post["sp_owner"]);

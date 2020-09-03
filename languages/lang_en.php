@@ -686,3 +686,4 @@ $strings["client_error_edit"] = "There was an error while editing the client, pl
 $strings["genericError"] = "There was a problem processing your request.";
 $strings["last_page"] = "Last Page Visited";
 $strings["view_newsdesk"] = "View Newsdesk Article";
+$strings["task_not_found"] = "That task could not be found.";

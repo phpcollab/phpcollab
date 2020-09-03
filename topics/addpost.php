@@ -86,7 +86,7 @@ if ($projectDetail["pro_org_id"] == "1") {
 $setTitle .= " : " . $strings["post_to_discussion"];
 
 $bodyCommand = "onLoad=\"document.ptTForm.tpm.focus();\"";
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -164,4 +164,4 @@ foreach ($listPosts as $post) {
 $block1->closeContent();
 $block1->closeForm();
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

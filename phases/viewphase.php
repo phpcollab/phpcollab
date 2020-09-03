@@ -86,7 +86,7 @@ $listPhases = $phases->getPhasesByProjectId($project);
 $teamMember = "false";
 $teamMember = $teams->isTeamMember($project, $session->get("id"));
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -338,4 +338,4 @@ if ($fileManagement == "true") {
     $block3->closePaletteScript(count($listFiles), array_column($listFiles, 'fil_id'));
 }
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

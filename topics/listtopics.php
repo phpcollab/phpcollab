@@ -56,7 +56,7 @@ if ($action == "publish") {
 
 $setTitle .= " : " . $strings["discussions"];
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $projectDetail = $projects->getProjectById($project);
 
@@ -162,4 +162,4 @@ if ($session->get("id") == $projectDetail["pro_owner"]) {
 $block1->paletteScript(5, "info", "../topics/viewtopic.php?", "false,true,false", $strings["view"]);
 $block1->closePaletteScript(count($listTopics), array_column($listTopics, 'top_id'));
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

@@ -36,7 +36,7 @@ if ($session->get('profile') != "0") {
 
 $setTitle .= " : Logs";
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -90,4 +90,4 @@ foreach ($logsData as $log) {
 $block1->closeResults();
 $block1->closeForm();
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

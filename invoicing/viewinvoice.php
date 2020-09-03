@@ -39,7 +39,7 @@ if ($projectDetail["pro_owner"] != $session->get("id")) {
 
 $setTitle .= " : " . $strings["view_invoice"];
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -199,4 +199,4 @@ $block2->openPaletteScript();
 $block2->paletteScript(7, "edit", "../invoicing/editinvoiceitem.php", "false,true,false", $strings["edit"]);
 $block2->closePaletteScript(count($listInvoicesItems), array_column($listInvoicesItems, 'invitem_id'));
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

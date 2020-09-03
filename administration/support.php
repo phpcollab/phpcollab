@@ -9,7 +9,7 @@ if ($session->get('profile') != "0" || $enableHelpSupport != "true") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -50,4 +50,4 @@ if ($enableHelpSupport == "true") {
     $block1->closeContent();
 }
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

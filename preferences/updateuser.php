@@ -76,7 +76,7 @@ if (empty($userPrefs)) {
 }
 
 $bodyCommand = 'onLoad="document.user_edit_profileForm.full_name.focus();"';
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 
 $blockPage = new phpCollab\Block();
@@ -170,4 +170,4 @@ $block1->paletteScript(0, "export", "../users/exportuser.php?id={$session->get("
     $strings["export"]);
 $block1->closePaletteScript(count($userPrefs), array_column($userPrefs, 'mem_id'));
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

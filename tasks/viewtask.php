@@ -43,6 +43,12 @@ $id = $request->query->get('id');
 $task = $request->query->get('task');
 $action = $request->query->get('action');
 
+$taskDetail = $tasks->getTaskById($id);
+
+if (empty($taskDetail)) {
+    phpCollab\Util::headerFunction("../general/home.php?msg=taskNotFoundError");
+}
+
 // Global variables
 $status = $GLOBALS["status"];
 $strings = $GLOBALS["strings"];
@@ -84,13 +90,14 @@ if (isset($action) && $action == "publish") {
         $msg = "removeToSite";
         $id = $task;
     }
+
+    // Reload the Task information
+    $taskDetail = $tasks->getTaskById($id);
 }
 
 if ($task != "" && $cheatCode == "true") {
     $id = $task;
 }
-
-$taskDetail = $tasks->getTaskById($id);
 
 $projectDetail = $projects->getProjectById($taskDetail["tas_project"]);
 
@@ -111,7 +118,7 @@ if ($teamMember === false && $projectsFilter === "true") {
     header("Location:../general/permissiondenied.php");
 }
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -252,19 +259,19 @@ if ($listUpdates) {
     $j = 1;
 
     foreach ($listUpdates as $update) {
-        if (preg_match('/\[status:([0-9])\]/', $update["upd_comments"])) {
-            preg_match('|\[status:([0-9])\]|i', $update["upd_comments"], $matches);
-            $update["upd_comments"] = preg_replace('/\[status:([0-9])\]/', '', $update["upd_comments"] . '<br/>');
+        if (preg_match('/\[status:([0-9])]/', $update["upd_comments"])) {
+            preg_match('|\[status:([0-9])]|i', $update["upd_comments"], $matches);
+            $update["upd_comments"] = preg_replace('/\[status:([0-9])]/', '', $update["upd_comments"] . '<br/>');
             $update["upd_comments"] .= $strings["status"] . " " . $status[$matches[1]];
         }
-        if (preg_match('/\[priority:([0-9])\]/', $update["upd_comments"])) {
-            preg_match('|\[priority:([0-9])\]|i', $update["upd_comments"], $matches);
-            $update["upd_comments"] = preg_replace('/\[priority:([0-9])\]/', '', $update["upd_comments"] . '<br/>');
+        if (preg_match('/\[priority:([0-9])]/', $update["upd_comments"])) {
+            preg_match('|\[priority:([0-9])]|i', $update["upd_comments"], $matches);
+            $update["upd_comments"] = preg_replace('/\[priority:([0-9])]/', '', $update["upd_comments"] . '<br/>');
             $update["upd_comments"] .= $strings["priority"] . " " . $priority[$matches[1]];
         }
-        if (preg_match('/\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]/', $update["upd_comments"])) {
-            preg_match('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]|i', $update["upd_comments"], $matches);
-            $update["upd_comments"] = preg_replace('/\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]/', '',
+        if (preg_match('/\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})]/', $update["upd_comments"])) {
+            preg_match('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})]|i', $update["upd_comments"], $matches);
+            $update["upd_comments"] = preg_replace('/\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})]/', '',
                 $update["upd_comments"] . '<br/>');
             $update["upd_comments"] .= $strings["due_date"] . ' ' . $matches[1];
         }
@@ -597,4 +604,4 @@ if ($teamMember === true || $session->get("profile") == "5") {
 }
 $block4->closePaletteScript(count($listSubtasks), array_column($listSubtasks, 'subtas_id'));
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

@@ -44,7 +44,7 @@ if ($request->query->get("action") == "publish") {
     }
 }
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $subtaskDetail = $subtasks->getById($id);
 
@@ -304,4 +304,4 @@ $block3->closeResults();
 $block3->closeToggle();
 $block3->closeFormResults();
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

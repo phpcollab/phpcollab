@@ -17,7 +17,7 @@ $teams = $container->getTeams();
 $phases = $container->getPhasesLoader();
 $tasks = $container->getTasksLoader();
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $projectDetail = $projects->getProjectById($id);
 
@@ -103,4 +103,4 @@ if ($teamMember == "true" || $session->get("profile") == "5") {
     $block7->closePaletteScript(count($listPhases), array_column($listPhases, 'pha_id'));
 }
 
-include APP_ROOT . '/themes/'.THEME.'/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

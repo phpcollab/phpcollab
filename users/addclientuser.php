@@ -177,7 +177,7 @@ if ($request->isMethod('post')) {
 
 
 $bodyCommand = 'onLoad="document.client_user_addForm.user_name.focus();"';
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -253,4 +253,4 @@ $block1->contentRow("", '<button type="submit" name="action" value="add">' . $st
 $block1->closeContent();
 $block1->closeForm();
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

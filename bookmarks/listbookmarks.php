@@ -30,7 +30,7 @@ switch ($view) {
         break;
 }
 // END
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../bookmarks/listbookmarks.php?view=all", $strings["bookmarks"],
@@ -181,4 +181,4 @@ if ($view == "my") {
 }
 $block1->closePaletteScript(count($bookmarks), array_column($bookmarks, 'boo_id'));
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

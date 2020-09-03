@@ -10,9 +10,7 @@ namespace phpCollab;
  */
 class Block
 {
-    protected $help, $strings, $iconWidth, $iconHeight, $bgColor, $fgColor,
-        $oddColor, $evenColor, $highlightOn, $class, $highlightOff, $theme,
-        $pathImg, $themeImgPath, $accountTotal, $account, $sortingOrders,
+    protected $help, $strings, $class, $theme, $themeImgPath, $accountTotal, $account, $sortingOrders,
         $sortingFields, $sortingArrows, $sortingStyles, $explode, $labels,
         $sitePublish, $navigation, $navigationTotal, $limit, $rowsLimit,
         $recordsTotal, $limitsNumber, $sortName, $sortingRef, $sortingDefault,
@@ -20,7 +18,7 @@ class Block
     public $form, $sortingValue;
 
     /**
-     *
+     * Block constructor.
      */
     public function __construct()
     {
@@ -33,18 +31,8 @@ class Block
         $this->help = $GLOBALS['help'];
         $this->strings = $GLOBALS['strings'];
 
-        $this->iconWidth = "23";
-        $this->iconHeight = "23";
-        $this->bgColor = "#5B7F93";
-        $this->fgColor = "#C4D3DB";
-        $this->oddColor = "#F5F5F5";
-        $this->evenColor = "#EFEFEF";
-        $this->highlightOn = "#DEE7EB";
-
         $this->class = "odd";
-        $this->highlightOff = $this->oddColor;
         $this->theme = THEME;
-        $this->pathImg = "../themes/";
         $this->themeImgPath = '../themes/' . $this->theme . '/images';
 
         $this->sitePublish = $GLOBALS["sitePublished"];
@@ -131,63 +119,6 @@ class Block
     }
 
     /**
-     * @return string
-     */
-    public function getHighlightOn()
-    {
-        return $this->highlightOn;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHighlightOff()
-    {
-        return $this->highlightOff;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFgColor()
-    {
-        return $this->fgColor;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBgColor()
-    {
-        return $this->bgColor;
-    }
-
-    /**
-     * @return string
-     */
-    public function getThemeImgPath()
-    {
-        return $this->themeImgPath;
-    }
-
-    /**
-     * @return string
-     */
-    public function getOddColor()
-    {
-        return $this->oddColor;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEvenColor()
-    {
-        return $this->evenColor;
-    }
-
-
-    /**
      * Print tooltips
      * @param string $item Text printed in tooltip
      * @return string
@@ -195,10 +126,13 @@ class Block
      */
     public function printHelp(string $item)
     {
-        return ' [<a href="javascript:void(0);" onmouseover="return overlib(\'' .
-            addslashes($this->help[$item]) . '\',SNAPX,550,BGCOLOR,\'' . $this->bgColor .
-            '\',FGCOLOR,\'' . $this->fgColor . '\');" onmouseout="return nd();">' .
-            $this->strings["help"] . '</a>]';
+        $helpText = addslashes($this->help[$item]);
+        return <<<HELP_DIV
+        [<a href="javascript:void(0);"
+            onmouseover="return overlib('{$helpText}',SNAPX,550);"
+            onmouseout="return nd();">{$this->strings["help"]}</a>]
+HELP_DIV;
+
     }
 
     /**
@@ -242,7 +176,7 @@ class Block
     <tr>
         <td><a href="javascript:showHideModule('{$this->form}','{$this->theme}')" 
                onMouseOver="showHideModuleMouseOver('{$this->form}'); return true;" 
-               onMouseOut="window.status=''; return true;"><img alt="{$this->form}Toggle" src="{$this->themeImgPath}/module_toggle_{$arrow}.gif" alt=""></a></td>
+               onMouseOut="return true;"><img alt="{$this->form}Toggle" src="{$this->themeImgPath}/module_toggle_{$arrow}.gif" alt=""></a></td>
         <td><img width="10" height="10" alt="{$this->form}tl" src="{$this->themeImgPath}/spacer.gif" alt=""></td>
         <td style="width: 100%;"><h1 class="heading">{$title}</h1></td>
     </tr>
@@ -542,7 +476,7 @@ CSRF_INPUT;
         document.{$this->form}Form.sort_fields.value='{$sortingFields[$i]}';
         document.{$this->form}Form.sort_order.value='{$sortingOrders[$i]}';
         document.{$this->form}Form.submit();" 
-        onMouseOver="window.status='{$this->strings["sort_by"]} {$labelsWithSlashes}'; return true;" onMouseOut="window.status=''; return true">{$labels[$i]}{$sortingArrows[$i]}</a></th>
+        onMouseOver="return true;" onMouseOut="return true">{$labels[$i]}{$sortingArrows[$i]}</a></th>
 HTML;
                 } else {
                     echo "<th nowrap>{$labels[$i]}</th>";
@@ -560,7 +494,7 @@ HTML;
                 if ($i == $sortingOff[0]) {
                     echo "<th nowrap class='active'>" . $labels[$i] . "$sortingArrow";
                 } else {
-                    echo "<th nowrap>" . $labels[$i];
+                    echo "<th nowrap>{$labels[$i]}";
                 }
             }
         }
@@ -614,18 +548,11 @@ HTML;
     public function paletteIcon(int $num, string $type, string $text)
     {
         $altText = stripslashes($text);
-
-//        echo "<td style=\"width: 30px;\" class=\"commandBtn\">";
-//        echo "<a href=\"javascript:var b = MM_getButtonWithName(document." . $this->form . "Form, '" . $this->form . "$num'); if (b) b.click();\"";
-//        echo "onMouseOver=\"var over = MM_getButtonWithName(document." . $this->form . "Form, '" . $this->form . "$num'); if (over) over.over(); return true; \"";
-//        echo "onMouseOut=\"var out = MM_getButtonWithName(document." . $this->form . "Form, '" . $this->form . "$num'); if (out) out.out(); return true; \"><img style=\"border: none;\" width=\"$this->iconWidth\" height=\"$this->iconHeight\" name=\"" . $this->form . "$num\" src=\"$this->themeImgPath/btn_" . $type . "_norm.gif\" alt='" . stripslashes($text) . "'></a></td>";
-
-
         echo <<<palette_icon
         <td style="width: 30px;" class="commandBtn">
         <a href="javascript:var b = MM_getButtonWithName(document.{$this->form}Form, '{$this->form}{$num}'); if (b) b.click();" 
         onMouseOver="var over = MM_getButtonWithName(document.{$this->form}Form, '{$this->form}{$num}'); if (over) over.over(); return true;" 
-        onMouseOut="var out = MM_getButtonWithName(document.{$this->form}Form, '{$this->form}{$num}'); if (out) out.out(); return true; "><img style="border: none;" width="{$this->iconWidth}" height="{$this->iconHeight}" name="{$this->form}{$num}" src="{$this->themeImgPath}/btn_{$type}_norm.gif" alt="{$altText}"></a></td>
+        onMouseOut="var out = MM_getButtonWithName(document.{$this->form}Form, '{$this->form}{$num}'); if (out) out.out(); return true; "><img style="border: none;" name="{$this->form}{$num}" src="{$this->themeImgPath}/btn_{$type}_norm.gif" alt="{$altText}"></a></td>
 palette_icon;
     }
 
@@ -709,18 +636,7 @@ SCRIPT;
      */
     public function openRow()
     {
-        $change = "true";
         echo "<tr>";
-        if ($this->class == "odd") {
-            $this->class = "even";
-            $this->highlightOff = $this->evenColor;
-            $change = "false";
-        } else {
-            if ($this->class == "even" && $change != "false") {
-                $this->class = "odd";
-                $this->highlightOff = $this->oddColor;
-            }
-        }
     }
 
     /**

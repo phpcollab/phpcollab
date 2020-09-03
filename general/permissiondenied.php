@@ -29,7 +29,7 @@
 $checkSession = "true";
 include_once '../includes/library.php';
 
-include '../themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -42,4 +42,4 @@ if ($msg != "") {
     $blockPage->messageBox($msgLabel);
 }
 
-include '../themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

@@ -92,7 +92,7 @@ if (!empty($commentId)) {
     }
 }
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $newsDetail = $newsDesk->getPostById($postId);
 
@@ -198,4 +198,4 @@ if ($action == "remove") { //remove action
     $block1->closeForm();
 }
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

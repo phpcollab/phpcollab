@@ -69,7 +69,7 @@ if ($request->query->get('action') == "add") {
     }
 }
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -164,4 +164,4 @@ $block1->paletteScript(2, "edit", "../users/updateclientuser.php?orgid=" . $proj
     "false,true,false", $strings["edit"]);
 $block1->closePaletteScript(count($listMembers), array_column($listMembers, 'mem_id'));
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';

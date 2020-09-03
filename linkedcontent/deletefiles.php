@@ -66,7 +66,7 @@ if ($request->isMethod('post')) {
 $projects = $container->getProjectsLoader();
 $projectDetail = $projects->getProjectById($project);
 
-include APP_ROOT . '/themes/' . THEME . '/header.php';
+include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new Block();
 $blockPage->openBreadcrumbs();
@@ -124,4 +124,4 @@ HTML;
 $block1->closeContent();
 $block1->closeForm();
 
-include APP_ROOT . '/themes/' . THEME . '/footer.php';
+include APP_ROOT . '/views/layout/footer.php';
