@@ -108,7 +108,7 @@ class TopicsGateway
      */
     public function getProjectSiteTopics($projectId, $offset = null, $limit = null, $sorting = null)
     {
-        $query = $this->initrequest["topics"] . " WHERE topic.project = :project_id AND topic.published = 0" . $this->orderBy($sorting) . $this->limit($offset,
+        $query = $this->initrequest["topics"] . " WHERE topic.project = :project_id AND topic.published = '0'" . $this->orderBy($sorting) . $this->limit($offset,
                 $limit);
         $this->db->query($query);
         $this->db->bind(':project_id', $projectId);
@@ -189,7 +189,7 @@ class TopicsGateway
     {
         $projectId = explode(',', $projectIds);
         $placeholders = str_repeat('?, ', count($projectId) - 1) . '?';
-        $where = " WHERE topic.project IN($placeholders) AND topic.last_post > ? AND topic.status = 1";
+        $where = " WHERE topic.project IN($placeholders) AND topic.last_post > ? AND topic.status = '1'";
 
         $query = $this->initrequest["topics"] . $where . $this->orderBy($sorting);
         array_push($projectId, $dateFilter);
@@ -382,20 +382,20 @@ class TopicsGateway
 
     /**
      * Returns the LIMIT attribute for SQL strings
-     * @param $start
-     * @param $rowLimit
+     * @param $offset
+     * @param $limit
      * @return string
      */
-    private function limit($start, $rowLimit)
+    private function limit($offset, $limit)
     {
-        if (!is_null($start) && !is_null($rowLimit)) {
-            return " LIMIT {$start},{$rowLimit}";
+        if (!is_null($offset) && !is_null($limit)) {
+            return " LIMIT {$limit} OFFSET {$offset}";
         }
         return '';
     }
 
     /**
-     * @param string $sorting
+     * @param $sorting
      * @return string
      */
     private function orderBy($sorting)

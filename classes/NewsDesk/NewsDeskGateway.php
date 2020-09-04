@@ -58,7 +58,7 @@ class NewsDeskGateway
             $placeholders = "?";
         }
 
-        $tmpquery = " WHERE news.author = ? OR news.rss = 1 OR news.related IN ({$placeholders})";
+        $tmpquery = " WHERE news.author = ? OR news.rss = '1' OR news.related IN ({$placeholders})";
         $sql = $this->initrequest["newsdeskposts"] . $tmpquery . $this->orderBy($sorting) . $this->limit($startRow,
                 $rowsLimit);
 
@@ -327,20 +327,20 @@ SQL;
 
     /**
      * Returns the LIMIT attribute for SQL strings
-     * @param $start
-     * @param $rowLimit
+     * @param $offset
+     * @param $limit
      * @return string
      */
-    private function limit($start, $rowLimit)
+    private function limit($offset, $limit)
     {
-        if (!is_null($start) && !is_null($rowLimit)) {
-            return " LIMIT {$start},{$rowLimit}";
+        if (!is_null($offset) && !is_null($limit)) {
+            return " LIMIT {$limit} OFFSET {$offset}";
         }
         return '';
     }
 
     /**
-     * @param string $sorting
+     * @param $sorting
      * @return string
      */
     private function orderBy($sorting)

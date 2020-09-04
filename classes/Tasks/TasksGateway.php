@@ -501,7 +501,7 @@ SQL;
      */
     public function getProjectSiteClientTasks($projectId, $startRow = null, $rowsLimit = null, $sorting = null)
     {
-        $whereStatement = " WHERE tas.project = :project_id AND tas.assigned_to != 0 AND tas.published = 0 AND mem.profil = 3";
+        $whereStatement = " WHERE tas.project = :project_id AND tas.assigned_to != 0 AND tas.published = '0' AND mem.profil = '3'";
 
         $query = $this->initrequest["tasks"] . $whereStatement . $this->orderBy($sorting) . $this->limit($startRow,
                 $rowsLimit);
@@ -558,7 +558,7 @@ SQL;
      */
     public function getTasksWhereStartDateAndEndDateLikeNotPublishedAndAssignedToUserId($date, $assignedTo)
     {
-        $whereStatement = " WHERE (tas.start_date LIKE :date OR tas.due_date LIKE :date) AND tas.published = 0 AND tas.assigned_to = :assigned_to";
+        $whereStatement = " WHERE (tas.start_date LIKE :date OR tas.due_date LIKE :date) AND tas.published = '0' AND tas.assigned_to = :assigned_to";
         $this->db->query($this->initrequest["tasks"] . $whereStatement . $this->orderBy('tas.due_date'));
         $this->db->bind(':date', $date . '%');
         $this->db->bind(':assigned_to', $assignedTo);
@@ -622,7 +622,7 @@ SQL;
      */
     public function getPublishedSubtasksByParentTaskId($parentTaskId, $sorting = null)
     {
-        $whereStatement = " WHERE subtas.task = :parent_task_id AND subtas.published = 0";
+        $whereStatement = " WHERE subtas.task = :parent_task_id AND subtas.published = '0'";
         if (isset($sorting)) {
             $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
         }
@@ -656,7 +656,7 @@ SQL;
      */
     public function getSubtasksByParentTaskIdAndStartAndEndDateAreNotEmptyAndNotPublished($parentTaskId)
     {
-        $whereStatement = " WHERE subtas.task = :parent_task_id AND subtas.start_date != '--' AND subtas.due_date != '--' AND tas.published != 1";
+        $whereStatement = " WHERE subtas.task = :parent_task_id AND subtas.start_date != '--' AND subtas.due_date != '--' AND tas.published != '1'";
         $this->db->query($this->initrequest["subtasks"] . $whereStatement . $this->orderBy('subtas.due_date'));
         $this->db->bind(':parent_task_id', $parentTaskId);
         return $this->db->resultset();
@@ -721,7 +721,7 @@ SQL;
      */
     public function getTasksByProjectIdWhereStartAndEndAreNotEmptyAndNotPublished($projectId)
     {
-        $tmpquery = " WHERE tas.project = :project_id AND tas.start_date != '--' AND tas.due_date != '--' AND tas.published != 1";
+        $tmpquery = " WHERE tas.project = :project_id AND tas.start_date != '--' AND tas.due_date != '--' AND tas.published != '1'";
         $this->db->query($this->initrequest["tasks"] . $tmpquery . $this->orderBy('tas.due_date'));
         $this->db->bind(':project_id', $projectId);
         return $this->db->resultset();
@@ -818,11 +818,11 @@ SQL;
         if (strpos($taskIds, ',')) {
             $taskIds = explode(',', $taskIds);
             $placeholders = str_repeat('?, ', count($taskIds) - 1) . '?';
-            $sql = "UPDATE {$this->db->getTableName("tasks")} SET published = 0 WHERE id IN ($placeholders)";
+            $sql = "UPDATE {$this->db->getTableName("tasks")} SET published = '0' WHERE id IN ($placeholders)";
             $this->db->query($sql);
             return $this->db->execute($taskIds);
         } else {
-            $sql = "UPDATE {$this->db->getTableName("tasks")} SET published = 0 WHERE id = :topic_ids";
+            $sql = "UPDATE {$this->db->getTableName("tasks")} SET published = '0' WHERE id = :topic_ids";
             $this->db->query($sql);
             $this->db->bind(':topic_ids', $taskIds);
             return $this->db->execute();
@@ -838,11 +838,11 @@ SQL;
         if (strpos($taskIds, ',')) {
             $taskIds = explode(',', $taskIds);
             $placeholders = str_repeat('?, ', count($taskIds) - 1) . '?';
-            $sql = "UPDATE {$this->db->getTableName("tasks")} SET published = 1 WHERE id IN ($placeholders)";
+            $sql = "UPDATE {$this->db->getTableName("tasks")} SET published = '1' WHERE id IN ($placeholders)";
             $this->db->query($sql);
             return $this->db->execute($taskIds);
         } else {
-            $sql = "UPDATE {$this->db->getTableName("tasks")} SET published = 1 WHERE id = :topic_ids";
+            $sql = "UPDATE {$this->db->getTableName("tasks")} SET published = '1' WHERE id = :topic_ids";
             $this->db->query($sql);
             $this->db->bind(':topic_ids', $taskIds);
             return $this->db->execute();
@@ -1198,21 +1198,20 @@ SQL;
 
     /**
      * Returns the LIMIT attribute for SQL strings
-     * @param $start
-     * @param $rowLimit
+     * @param $offset
+     * @param $limit
      * @return string
      */
-    private function limit($start, $rowLimit)
+    private function limit($offset, $limit)
     {
-        if (!is_null($start) && !is_null($rowLimit)) {
-            return " LIMIT {$start},{$rowLimit}";
+        if (!is_null($offset) && !is_null($limit)) {
+            return " LIMIT {$limit} OFFSET {$offset}";
         }
         return '';
-
     }
 
     /**
-     * @param string $sorting
+     * @param $sorting
      * @return string
      */
     private function orderBy($sorting)

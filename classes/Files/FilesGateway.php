@@ -138,7 +138,7 @@ class FilesGateway
      */
     public function getPublishedFiles()
     {
-        $query = $this->initrequest["files"] . " WHERE fil.published = 0";
+        $query = $this->initrequest["files"] . " WHERE fil.published = '0'";
         $this->db->query($query);
         return $this->db->resultset();
     }
@@ -148,7 +148,7 @@ class FilesGateway
      */
     public function getUnPublishedFiles()
     {
-        $query = $this->initrequest["files"] . " WHERE fil.published = 1";
+        $query = $this->initrequest["files"] . " WHERE fil.published = '1'";
         $this->db->query($query);
         return $this->db->resultset();
     }
@@ -417,7 +417,7 @@ SQL;
      */
     public function getProjectSiteFiles($projectId, $sorting = null)
     {
-        $query = $this->initrequest["files"] . " WHERE fil.project = :project_id AND fil.published = 0 AND fil.vc_parent = 0";
+        $query = $this->initrequest["files"] . " WHERE fil.project = :project_id AND fil.published = '0' AND fil.vc_parent = 0";
 
         $this->db->query($query . $this->orderBy($sorting));
         $this->db->bind(":project_id", $projectId);
@@ -426,7 +426,7 @@ SQL;
 
 
     /**
-     * @param string $sorting
+     * @param $sorting
      * @return string
      */
     private function orderBy($sorting)

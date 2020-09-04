@@ -136,7 +136,7 @@ class TeamsGateway
      */
     public function getClientTeamMembersByProject($projectId, $sorting = null)
     {
-        $whereStatement = " WHERE tea.project = :project_id  AND mem.profil = 3";
+        $whereStatement = " WHERE tea.project = :project_id  AND mem.profil = '3'";
         $this->db->query($this->initrequest["teams"] . $whereStatement . $this->orderBy($sorting));
         $this->db->bind(':project_id', $projectId);
         return $this->db->resultset();
@@ -308,14 +308,14 @@ class TeamsGateway
 
     /**
      * Returns the LIMIT attribute for SQL strings
-     * @param $start
-     * @param $rowLimit
+     * @param $offset
+     * @param $limit
      * @return string
      */
-    private function limit($start, $rowLimit)
+    private function limit($offset, $limit)
     {
-        if (!is_null($start) && !is_null($rowLimit)) {
-            return " LIMIT {$start},{$rowLimit}";
+        if (!is_null($offset) && !is_null($limit)) {
+            return " LIMIT {$limit} OFFSET {$offset}";
         }
         return '';
     }

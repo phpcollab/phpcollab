@@ -245,7 +245,7 @@ SQL;
 
         // Append the status value
         array_push($projectId, $status);
-        $whereStatement = " WHERE inv.project IN ({$placeholders}) AND inv.active = 1 AND inv.status = ?";
+        $whereStatement = " WHERE inv.project IN ({$placeholders}) AND inv.active = '1' AND inv.status = '?'";
         $this->db->query($this->initrequest["invoices"] . $whereStatement . $this->orderBy($sorting));
         $this->db->execute($projectId);
         return $this->db->fetchAll();

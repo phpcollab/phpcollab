@@ -26,7 +26,7 @@ class ProjectSite
      */
     public function getTeamMembers($projectId)
     {
-        $this->db->query($this->initrequest['teams'] . ' WHERE tea.project = :project_id AND tea.published = 0 ORDER BY mem.name ');
+        $this->db->query($this->initrequest['teams'] . " WHERE tea.project = :project_id AND tea.published = '0' ORDER BY mem.name ");
 
         $this->db->bind(':project_id', $projectId);
 

@@ -71,7 +71,7 @@ class CalendarsGateway
      */
     public function openCalendarByOwnerOrIsBroadcast($ownerId)
     {
-        $query = $this->initrequest["calendar"] . "WHERE cal.owner = :cal_owner OR cal.broadcast = 1 ";
+        $query = $this->initrequest["calendar"] . "WHERE cal.owner = :cal_owner OR cal.broadcast = '1' ";
         $this->db->query($query);
         $this->db->bind(':cal_owner', $ownerId);
         return $this->db->resultset();

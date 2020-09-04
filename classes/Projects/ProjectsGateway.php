@@ -279,7 +279,7 @@ SQL;
         }
 
         if (isset($limit) && isset($offset)) {
-            $limitQuery = ' LIMIT :offset, :limit';
+            $limitQuery = $this->limit($offset, $limit);
         } else {
             $limitQuery = null;
         }
@@ -292,10 +292,10 @@ SQL;
             $this->db->bind(':owner_id', (int)$ownerId);
         }
 
-        if (isset($limit) && isset($offset)) {
-            $this->db->bind(':limit', (int)$limit);
-            $this->db->bind(':offset', (int)$offset);
-        }
+//        if (isset($limit) && isset($offset)) {
+//            $this->db->bind(':limit', (int)$limit);
+//            $this->db->bind(':offset', (int)$offset);
+//        }
 
         return $this->db->resultset();
     }
@@ -418,14 +418,14 @@ SQL;
 
     /**
      * Returns the LIMIT attribute for SQL strings
-     * @param $start
-     * @param $rowLimit
+     * @param $offset
+     * @param $limit
      * @return string
      */
-    private function limit($start, $rowLimit)
+    private function limit($offset, $limit)
     {
-        if (!is_null($start) && !is_null($rowLimit)) {
-            return " LIMIT {$start},{$rowLimit}";
+        if (!is_null($offset) && !is_null($limit)) {
+            return " LIMIT {$limit} OFFSET {$offset}";
         }
         return '';
     }

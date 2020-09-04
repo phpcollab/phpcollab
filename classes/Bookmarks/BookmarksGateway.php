@@ -64,7 +64,7 @@ class BookmarksGateway
      */
     public function getMyHomeBookmarks($ownerId, $sorting = null)
     {
-        $whereStatement = ' WHERE boo.home = 1 AND boo.owner = :owner_id ';
+        $whereStatement = " WHERE boo.home = '1' AND boo.owner = :owner_id ";
 
         $this->db->query($this->initrequest["bookmarks"] . $whereStatement . $this->orderBy($sorting));
 
@@ -126,7 +126,7 @@ class BookmarksGateway
      */
     public function getAllBookmarks(int $ownerId, $sorting = null)
     {
-        $whereStatement = ' WHERE boo.shared = 1 OR boo.owner = :owner_id ';
+        $whereStatement = " WHERE boo.shared = '1' OR boo.owner = :owner_id ";
 
         $this->db->query($this->initrequest["bookmarks"] . $whereStatement . $this->orderBy($sorting));
 

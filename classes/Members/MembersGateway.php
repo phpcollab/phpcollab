@@ -35,12 +35,12 @@ class MembersGateway
         if (is_array($loginData)) {
             if ($loginData['demo'] !== true) {
                 if ($loginData['ssl']) {
-                    $whereStatement = "WHERE mem.email_work = :ssl_email AND mem.login != 'demo' AND mem.profil != 4";
+                    $whereStatement = "WHERE mem.email_work = :ssl_email AND mem.login != 'demo' AND mem.profil != '4'";
                 } else {
-                    $whereStatement = "WHERE mem.login = :member_login AND mem.login != 'demo' AND mem.profil != 4";
+                    $whereStatement = "WHERE mem.login = :member_login AND mem.login != 'demo' AND mem.profil != '4'";
                 }
             } else {
-                $whereStatement = "WHERE mem.login = :member_login AND mem.profil != 4";
+                $whereStatement = "WHERE mem.login = :member_login AND mem.profil != '4'";
             }
 
             $this->db->query($this->initrequest["members"] . ' ' . $whereStatement);
@@ -51,7 +51,7 @@ class MembersGateway
                 $this->db->bind(':ssl_email', $loginData['ssl_email']);
             }
         } else {
-            $whereStatement = "WHERE mem.login = :member_login AND mem.profil != 4";
+            $whereStatement = "WHERE mem.login = :member_login AND mem.profil != '4'";
             $this->db->query($this->initrequest["members"] . ' ' . $whereStatement);
             $this->db->bind(':member_login', $loginData);
         }
@@ -196,7 +196,7 @@ class MembersGateway
             $whereStatement .= " AND mem.id NOT IN($placeholders)";
             $queryParams = array_merge($queryParams, $membersTeam);
         }
-        $whereStatement .= " AND mem.profil = 3";
+        $whereStatement .= " AND mem.profil = '3'";
 
         $this->db->query($this->initrequest["members"] . ' ' . $whereStatement . $this->orderBy($sorting));
         $this->db->execute($queryParams);
@@ -442,14 +442,14 @@ SQL;
 
     /**
      * Returns the LIMIT attribute for SQL strings
-     * @param $start
-     * @param $rowLimit
+     * @param $offset
+     * @param $limit
      * @return string
      */
-    private function limit($start, $rowLimit)
+    private function limit($offset, $limit)
     {
-        if (!is_null($start) && !is_null($rowLimit)) {
-            return " LIMIT {$start},{$rowLimit}";
+        if (!is_null($offset) && !is_null($limit)) {
+            return " LIMIT {$limit} OFFSET {$offset}";
         }
         return '';
     }

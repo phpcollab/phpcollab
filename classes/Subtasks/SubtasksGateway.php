@@ -182,7 +182,7 @@ SQL;
      */
     public function publishSubtask($subtaskId)
     {
-        $sql = "UPDATE {$this->db->getTableName("subtasks")} SET published = 0 WHERE id = :subtask_id";
+        $sql = "UPDATE {$this->db->getTableName("subtasks")} SET published = '0' WHERE id = :subtask_id";
         $this->db->query($sql);
         $this->db->bind(':subtask_id', $subtaskId);
         return $this->db->execute();
@@ -194,12 +194,11 @@ SQL;
      */
     public function unpublishSubtask($subtaskId)
     {
-        $sql = "UPDATE {$this->db->getTableName("subtasks")} SET published = 1 WHERE id = :subtask_id";
+        $sql = "UPDATE {$this->db->getTableName("subtasks")} SET published = '1' WHERE id = :subtask_id";
         $this->db->query($sql);
         $this->db->bind(':subtask_id', $subtaskId);
         return $this->db->execute();
     }
-
 
     /**
      * @param $subtaskId
