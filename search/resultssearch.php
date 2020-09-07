@@ -189,16 +189,15 @@ $block1->sorting("projects",
 );
 
 if ($projectsFilter == "true") {
-    $projectsQuery = "LEFT OUTER JOIN " . $tableCollab["teams"] . " teams ON teams.project = pro.id ";
-    $projectsQuery .= "$searchProjects AND teams.member = " . $session->get("id");
+    $projectsQuery = "$searchProjects AND teams.member = :member_id";
 } else {
     $projectsQuery = "$searchProjects";
 }
 $comptListProjects = "0";
 
 if ($validProjects == "true") {
-    $block1->setRecordsTotal(count($projects->searchProjects($projectsQuery)));
-    $listProjects = $projects->searchProjects($projectsQuery, $block1->sortingValue, $block1->getLimit(),
+    $block1->setRecordsTotal(count($projects->searchProjects($projectsQuery, $session->get("id"))));
+    $listProjects = $projects->searchProjects($projectsQuery, $session->get("id"), $block1->sortingValue, $block1->getLimit(),
         $block1->getRowsLimit());
 }
 
@@ -218,10 +217,9 @@ $block2->sorting("home_tasks", $sortingUser["home_tasks"], "tas.name ASC", $sort
 ));
 
 if ($projectsFilter == "true") {
-    $projectsQuery = "LEFT OUTER JOIN " . $tableCollab["teams"] . " teams ON teams.project = pro.id ";
-    $projectsQuery .= "WHERE pro.status IN(0,2,3) AND teams.member = " . $session->get("id");
+    $projectsQuery = "WHERE pro.status IN(0,2,3) AND teams.member = :member_id";
 
-    $listProjectsFilter = $projects->searchProjects($projectsQuery);
+    $listProjectsFilter = $projects->searchProjects($projectsQuery, $session->get("id"));
 
     $filterResults = implode(",", array_column($listProjectsFilter, "pro_id"));
 }

@@ -236,14 +236,15 @@ class Projects
 
     /**
      * @param $query
+     * @param $userId
      * @param null $sorting
      * @param null $limit
      * @param null $rowLimit
      * @return mixed
      */
-    public function searchProjects($query, $sorting = null, $limit = null, $rowLimit = null)
+    public function searchProjects(string $query, $userId, $sorting = null, $limit = null, $rowLimit = null)
     {
-        return $this->projects_gateway->searchProjects($query, $sorting, $limit, $rowLimit);
+        return $this->projects_gateway->searchProjects($query, $userId, $sorting, $limit, $rowLimit);
     }
 
     /**

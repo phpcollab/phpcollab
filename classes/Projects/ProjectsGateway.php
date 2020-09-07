@@ -373,16 +373,19 @@ SQL;
 
     /**
      * @param $query
+     * @param $userId
      * @param null $sorting
      * @param null $limit
      * @param null $rowLimit
      * @return mixed
      */
-    public function searchProjects($query, $sorting = null, $limit = null, $rowLimit = null)
+    public function searchProjects($query, $userId, $sorting = null, $limit = null, $rowLimit = null)
     {
+        $query = "LEFT OUTER JOIN {$this->db->getTableName("teams")} teams ON teams.project = pro.id " . $query;
         $sql = $this->initrequest['projects'] . ' ' . $query . $this->orderBy($sorting) . $this->limit($limit,
                 $rowLimit);
         $this->db->query($sql);
+        $this->db->bind(':member_id', $userId);
         $this->db->execute();
         return $this->db->resultset();
     }
