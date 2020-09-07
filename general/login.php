@@ -217,7 +217,6 @@ if ($auth == "on") {
 if ($session == "false" && empty($url)) {
     $logger->notice('Invalid session for user', ['username' => $usernameForm]);
     $error = $strings["session_false"];
-//    session_regenerate_id();
 }
 
 if ($request->query->get('logout') == "true") {

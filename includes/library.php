@@ -67,7 +67,7 @@ if ($debug) {
         $debugbarRenderer = $debugbar->getJavascriptRenderer();
         $debugbar->addCollector(new DebugBar\Bridge\MonologCollector($logger));
     } catch (DebugBarException $e) {
-        die($e->getMessage());
+        $logger->error($e->getMessage());
     }
 }
 

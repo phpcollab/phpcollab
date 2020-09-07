@@ -116,7 +116,8 @@ class Container
             try {
                 $this->database = new Database($this->configuration);
             } catch (Exception $exception) {
-                die($exception->getMessage());
+                error_log($exception->getMessage());
+                return $exception;
             }
         }
 

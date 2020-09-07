@@ -5,7 +5,7 @@ namespace phpCollab;
 
 
 use InvalidArgumentException;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManager;
@@ -25,9 +25,9 @@ class CsrfHandler
 
     /**
      * CsrfHandler constructor.
-     * @param Session $session
+     * @param SessionInterface $session
      */
-    public function __construct(Session $session)
+    public function __construct(SessionInterface $session)
     {
         if (empty($session)) {
             throw new InvalidArgumentException("Session missing");

@@ -1,6 +1,8 @@
 <?php
 namespace phpCollab;
 
+use PDO;
+
 /**
  * Class ProjectSite
  * @package phpCollab

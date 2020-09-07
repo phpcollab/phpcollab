@@ -78,7 +78,7 @@ foreach ($logsData as $log) {
         $z = "";
     }
 
-    if ($log['connected'] == true) {
+    if ($log['connected'] === true) {
         $block1->cellRow($strings["yes"] . " " . $z);
     } else {
         $block1->cellRow($strings["no"]);

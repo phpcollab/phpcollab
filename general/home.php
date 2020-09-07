@@ -229,8 +229,6 @@ if ($showHomeProjects) {
         ]
     );
 
-//    $sorting = $block1->sortingValue;
-
     $projectCount = $projects->getProjectList($session->get("id"), $request->query->get('typeProjects'));
     $block1->setRecordsTotal(count($projectCount));
 

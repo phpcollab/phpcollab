@@ -292,11 +292,6 @@ SQL;
             $this->db->bind(':owner_id', (int)$ownerId);
         }
 
-//        if (isset($limit) && isset($offset)) {
-//            $this->db->bind(':limit', (int)$limit);
-//            $this->db->bind(':offset', (int)$offset);
-//        }
-
         return $this->db->resultset();
     }
 
