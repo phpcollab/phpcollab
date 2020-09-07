@@ -283,6 +283,7 @@ EMAIL_MESSAGE;
                 }
             }
         } catch (Exception $e) {
+            $this->logger->error("Support Class error: sendPostChangedNotification - " . $e->getMessage());
             throw new Exception($e->getMessage());
         }
     }
@@ -347,9 +348,11 @@ MAILBODY;
 
 
             } catch (Exception $e) {
+                $this->logger->error("Support Class error: sendNewPostNotification - " . $e->getMessage());
                 throw new Exception($mail->ErrorInfo);
             }
         } else {
+            $this->logger->error("Support Class error: sendNewPostNotification - Error sending mail");
             throw new Exception('Error sending mail');
         }
 
