@@ -15,6 +15,8 @@
 ** =============================================================================
 */
 
+use phpCollab\Container;
+
 error_reporting(2039);
 
 require_once dirname(dirname(__FILE__)) . '/vendor/autoload.php';
@@ -31,7 +33,7 @@ if ($redirect == "true" && $step == "2") {
 }
 
 
-$version = "2.7.2";
+$version = "2.8.0";
 
 $dateheure = date("Y-m-d H:i");
 
@@ -51,6 +53,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $error = $help["setup_error_admin_password"];
         }
 
+        $container = new Container([
+            'dbServer' => $_POST["dbServer"],
+            'dbUsername' => $_POST["dbLogin"],
+            'dbPassword' => $_POST["dbPassword"],
+            'dbName' => $_POST["dbName"],
+            'dbType' => $_POST["databaseType"]
+        ]);
+
+
         if ($_POST["installationType"] == "offline") {
             $updatechecker = "false";
         }
@@ -61,6 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (substr($_POST["ftpRoot"], -1) == "/") {
             $ftpRoot = substr($_POST["ftpRoot"], 0, -1);
         }
+
 
         if (!$error) {
             //Let's also get pretty paranoid here ;)
@@ -141,7 +153,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $conn->exec($sqlStatement);
                     } catch (PDOException $e) {
                         $error = $e->getMessage();
-                        die('what happened?');
                     }
                 }
 
@@ -153,7 +164,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $content = <<<STAMP
 <?php
 #Application name: PhpCollab
-#Status page: 2
 #Path by root: ../includes/settings.php
 
 # installation type
@@ -189,26 +199,26 @@ define('FTPPASSWORD','$ftpPassword');
 \$ftpRoot = "$ftpRoot"; //no slash at the end
 
 # Invoicing module
-\$enableInvoicing = "true";
+\$enableInvoicing = true;
 
 # theme choice
 define('THEME','default');
 
 # newsdesk limiter
-\$newsdesklimit = 1; 
+\$newsdesklimit = 1;
 
 # if 1 the admin logs in his homepage
 \$adminathome = 0;
 
 # timezone GMT management
-\$gmtTimezone = "false";
+\$gmtTimezone = false;
 
 # language choice
 \$langDefault = "$defaultLanguage";
 
 # Mantis bug tracking parameters
 // Should bug tracking be enabled?
-\$enableMantis = "false";
+\$enableMantis = false;
 
 // Mantis installation directory
 \$pathMantis = "http://localhost/mantis/";  // add slash at the end
@@ -220,24 +230,24 @@ define('THEME','default');
 \$loginMethod = "$loginMethod"; //select "MD5", "CRYPT", or "PLAIN"
 
 # enable LDAP
-\$useLDAP = "false";
+\$useLDAP = false;
 \$configLDAP["ldapserver"] = "your.ldap.server.address";
 \$configLDAP["searchroot"] = "ou=People, ou=Intranet, dc=YourCompany, dc=com";
 
 # htaccess parameters
-\$htaccessAuth = "false";
+\$htaccessAuth = false;
 \$fullPath = "/usr/local/apache/htdocs/phpcollab/files"; //no slash at the end
 
 # file management parameters
-\$fileManagement = "true";
+\$fileManagement = true;
 \$maxFileSize = 51200; //bytes limit for upload
 \$root = "$siteUrl"; //no slash at the end
 
 # security issue to disallow php files upload
-\$allowPhp = "false";
+\$allowPhp = false;
 
 # project site creation
-\$sitePublish = "true";
+\$sitePublish = true;
 
 # enable update checker
 \$updateChecker = "$updatechecker";
@@ -246,17 +256,17 @@ define('THEME','default');
 \$notifications = "$notifications";
 
 # show peer review area
-\$peerReview = "true";
+\$peerReview = true;
 
 # show items for home
-\$showHomeBookmarks =  "true";
-\$showHomeProjects =  "true";
-\$showHomeTasks =  "true";
-\$showHomeSubtasks =  "true";
-\$showHomeDiscussions =  "true";
-\$showHomeReports =  "true";
-\$showHomeNotes =  "true";
-\$showHomeNewsdesk =  "true";
+\$showHomeBookmarks = true;
+\$showHomeProjects = true;
+\$showHomeTasks = true;
+\$showHomeSubtasks = true;
+\$showHomeDiscussions = true;
+\$showHomeReports = true;
+\$showHomeNotes = true;
+\$showHomeNewsdesk = true;
 
 # security issue to disallow auto-login from external link
 \$forcedLogin = "$forcedlogin";
@@ -297,23 +307,23 @@ define('THEME','default');
 \$version = "$version";
 
 # demo mode parameters
-\$demoMode = "false";
+\$demoMode = false;
 \$urlContact = "http://www.sourceforge.net/projects/phpcollab";
 
 # Gantt graphs
-\$activeJpgraph = "true";
+\$activeJpgraph = true;
 
 # developement options in footer
-\$footerDev = "false";
+\$footerDev = false;
 
 # filter to see only logged user clients (in team / owner)
-\$clientsFilter = "false";
+\$clientsFilter = false;
 
 # filter to see only logged user projects (in team / owner)
-\$projectsFilter = "false";
+\$projectsFilter = false;
 
 # Enable help center support requests, values "true" or "false"
-\$enableHelpSupport = "true";
+\$enableHelpSupport = true;
 
 # Return email address given for clients to respond too.
 \$supportEmail = "email@yourdomain.com";
@@ -330,9 +340,10 @@ define('THEME','default');
 # html header parameters
 \$setDoctype = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">";
 \$setTitle = "PhpCollab";
+\$siteTitle = "PhpCollab";
 \$setDescription = "Groupware module. Manage web projects with team collaboration, users management, tasks and projects tracking, files approval tracking, project sites clients access, customer relationship management (Php / Mysql, PostgreSQL or Sql Server).";
 \$setKeywords = "PhpCollab, phpcollab.com, Sourceforge, management, web, projects, tasks, organizations, reports, Php, MySql, Sql Server, mssql, Microsoft Sql Server, PostgreSQL, module, application, module, file management, project site, team collaboration, free, crm, CRM, cutomer relationship management, workflow, workgroup";
-?>
+
 STAMP;
 
 
@@ -506,56 +517,86 @@ if ($step == "2") {
         $gdlibrary = "off";
     }
 
-    echo "<tr class='odd'><td class='leftvalue'>* Create folder method :<br/>[<a href=\"javascript:void(0);\" onmouseover=\"return overlib('" . addslashes($help["setup_mkdirMethod"]) . "',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');\" onmouseout=\"return nd();\">Help</a>] </td><td>
+    $mkDirMethod = addslashes($help["setup_mkdirMethod"]);
+    echo <<<HTML
+    <tr class="odd">
+        <td class="leftvalue">* Create folder method :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('{$mkDirMethod}',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');" onmouseout="return nd();">Help</a>] </td>
+        <td>
+    	    <table>
+    	        <tr>
+    	            <td>
+    	                <input type="radio" name="mkdirMethod" value="FTP" {$checked1_a}> FTP&nbsp;
+    	                <input type="radio" name="mkdirMethod" value="PHP" {$checked2_a}> PHP<br/>
+    	                [Safe-mode {$safemode}]</td>
+                    <td style="text-align: right">
+HTML;
 
-	<table cellpadding=0 cellspacing=0><tr><td valign=top><input type='radio' name='mkdirMethod' value='FTP' $checked1_a> FTP&nbsp;<input type='radio' name='mkdirMethod' value='PHP' $checked2_a> PHP<br/>[Safe-mode $safemode]</td><td align=right>";
     if ($safemodeTest == "1") {
-        echo "Ftp server <input size='44' value='$ftpServer' style='width: 200px' name='ftpServer' maxlength='100' type='text'><br/>
-		Ftp login <input size='44' value='$ftpLogin' style='width: 200px' name='ftpLogin' maxlength='100' type='text'><br/>
-		Ftp password <input size='44' value='$ftpPassword' style='width: 200px' name='ftpPassword' maxlength='100' type='password'><br/>
-		Ftp root <input size='44' value='$ftpRoot' style='width: 200px' name='ftpRoot' maxlength='100' type='text'>";
+        echo <<<HTML
+        Ftp server <input size="44" value="{$ftpServer}" style="width: 200px" name="ftpServer" maxlength="100" type="text"><br/>
+		Ftp login <input size="44" value="{$ftpLogin}" style="width: 200px" name="ftpLogin" maxlength="100" type="text"><br/>
+		Ftp password <input size="44" value="{$ftpPassword}" style="width: 200px" name="ftpPassword" maxlength="100" type="password"><br/>
+		Ftp root <input size="44" value="{$ftpRoot}" style="width: 200px" name="ftpRoot" maxlength="100" type="text">
+HTML;
     }
 
-    echo "</td></tr></table>
+    $setupNotifications = addslashes($help["setup_notifications"]);
+    $forcedLogin = addslashes($help["setup_forcedlogin"]);
+    $setupLangDefault = addslashes($help["setup_langdefault"]);
 
-	</td></tr>
-	<tr class='odd'><td class='leftvalue'>* Notifications :<br/>[<a href=\"javascript:void(0);\" onmouseover=\"return overlib('" . addslashes($help["setup_notifications"]) . "',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');\" onmouseout=\"return nd();\">Help</a>] </td><td><input type=\"radio\" name='notifications' value='false' $checked1_b> False&nbsp;<input type='radio' name='notifications' value='true' $checked2_b> True<br/>[Mail $gdlibrary]</td></tr>
-	<tr class='odd'><td class='leftvalue'>* Forced login :<br/>[<a href=\"javascript:void(0);\" onmouseover=\"return overlib('" . addslashes($help["setup_forcedlogin"]) . "',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');\" onmouseout=\"return nd();\">Help</a>] </td><td><input type=\"radio\" name='forcedlogin' value='false' checked> False&nbsp;<input type='radio' name='forcedlogin' value='true'> True</td></tr>
-	<tr class='odd'><td class='leftvalue'>Default language :<br/>[<a href=\"javascript:void(0);\" onmouseover=\"return overlib('" . addslashes($help["setup_langdefault"]) . "',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');\" onmouseout=\"return nd();\">Help</a>] </td><td>
-			   <select name='defaultLanguage'>
-		<option value='ar'>Arabic</option>
-		<option value='az'>Azerbaijani</option>
-		<option value='pt-br'>Brazilian Portuguese</option>
-		<option value='bg'>Bulgarian</option>
-		<option value='ca'>Catalan</option>
-		<option value='zh'>Chinese simplified</option>
-		<option value='zh-tw'>Chinese traditional</option>
-		<option value='cs-iso'>Czech (iso)</option>
-		<option value='cs-win1250'>Czech (win1250)</option>
-		<option value='da'>Danish</option>
-		<option value='nl'>Dutch</option>
-		<option value='en' selected>English</option>
-		<option value='et'>Estonian</option>
-		<option value='fr'>French</option>
-		<option value='de'>German</option>
-		<option value='hu'>Hungarian</option>
-		<option value='is'>Icelandic</option>
-		<option value='in'>Indonesian</option>
-		<option value='it'>Italian</option>
-		<option value='ko'>Korean</option>
-		<option value='lv'>Latvian</option>
-		<option value='no'>Norwegian</option>
-		<option value='pl'>Polish</option>
-		<option value='pt'>Portuguese</option>
-		<option value='ro'>Romanian</option>
-		<option value='ru'>Russian</option>
-		<option value='sk-win1250'>Slovak (win1250)</option>
-		<option value='es'>Spanish</option>
-		<option value='tr'>Turkish</option>
-		<option value='uk'>Ukrainian</option>
-			   </select>
-			  </td>
-			 </tr>";
+    echo <<<HTML
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr class="odd">
+        <td class="leftvalue">* Notifications :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('{$setupNotifications}',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');" onmouseout="return nd();">Help</a>] </td>
+        <td><input type="radio" name="notifications" value="false" {$checked1_b}> False&nbsp;<input type="radio" name="notifications" value="true" {$checked2_b}> True<br/>[Mail {$gdlibrary}]</td>
+    </tr>
+    <tr class="odd">
+        <td class="leftvalue">* Forced login :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('{$setupForcedlogin}',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');" onmouseout="return nd();">Help</a>] </td>
+        <td><input type="radio" name="forcedlogin" value="false" checked> False&nbsp;<input type="radio" name="forcedlogin" value="true"> True</td>
+    </tr>
+    <tr class="odd">
+        <td class="leftvalue">Default language :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('{$setupLangDefault}',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');" onmouseout="return nd();">Help</a>] </td>
+        <td>
+            <select name="defaultLanguage">
+                <option value="ar">Arabic</option>
+                <option value="az">Azerbaijani</option>
+                <option value="pt-br">Brazilian Portuguese</option>
+                <option value="bg">Bulgarian</option>
+                <option value="ca">Catalan</option>
+                <option value="zh">Chinese simplified</option>
+                <option value="zh-tw">Chinese traditional</option>
+                <option value="cs-iso">Czech (iso)</option>
+                <option value="cs-win1250">Czech (win1250)</option>
+                <option value="da">Danish</option>
+                <option value="nl">Dutch</option>
+                <option value="en" selected>English</option>
+                <option value="et">Estonian</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+                <option value="hu">Hungarian</option>
+                <option value="is">Icelandic</option>
+                <option value="in">Indonesian</option>
+                <option value="it">Italian</option>
+                <option value="ko">Korean</option>
+                <option value="lv">Latvian</option>
+                <option value="no">Norwegian</option>
+                <option value="pl">Polish</option>
+                <option value="pt">Portuguese</option>
+                <option value="ro">Romanian</option>
+                <option value="ru">Russian</option>
+                <option value="sk-win1250">Slovak (win1250)</option>
+                <option value="es">Spanish</option>
+                <option value="tr">Turkish</option>
+                <option value="uk">Ukrainian</option>
+            </select>
+        </td>
+    </tr>
+HTML;
+
 
 
     $url = $_SERVER["SERVER_NAME"];
@@ -580,7 +621,7 @@ if ($step == "2") {
 		<tr class="odd">
 			<td class="leftvalue">* Login method :<br/>
 			    [<a href="javascript:void(0);" 
-			        onmouseover="return overlib('{$tooltipLoginMethod}',SNAPX,550,BGCOLOR,"#5B7F93",FGCOLOR,"#C4D3DB");" 
+			        onmouseover="return overlib('{$tooltipLoginMethod}',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');" 
 			        onmouseout="return nd();">Help</a>]
             </td>
 			<td>
@@ -607,8 +648,8 @@ if ($step == "3") {
     $block1->contentTitle("&nbsp;");
 
     echo <<<HTML
-        <tr class='odd'>
-            <td class='leftvalue'>&nbsp;</td>
+        <tr class="odd">
+            <td class="leftvalue">&nbsp;</td>
             <td>{$msg}</td>
         </tr>
 HTML;
@@ -619,12 +660,14 @@ HTML;
 $stepNext = $step + 1;
 if ($step < "2") {
     echo <<<FORM
-    <form id="license" name='license' action='../installation/setup.php?step=2&redirect=true' method='post' style='text-align: center;'>
+    <form id="license" name="license" action="../installation/setup.php?step=2&redirect=true" method="post" style="text-align: center;">
         <p><input type="submit" value="Step {$stepNext}" style="color: #000; font-weight: bold; background-color: transparent; border: none; text-decoration: underline" /></p>
-        <input type='checkbox' value='off' name='connection'> Offline installation (firewall/intranet, no update checker)
+        <input type="checkbox" value="off" name="connection"> Offline installation (firewall/intranet, no update checker)
     </form>
 FORM;
 }
 
 $footerDev = "false";
+$siteTitle = "phpCollab";
+$copyrightYear = date("Y");
 include dirname(dirname(__FILE__)) . '/views/layout/footer.php';

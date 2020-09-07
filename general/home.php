@@ -145,9 +145,9 @@ if ($showHomeBookmarks) {
                 $block6->openRow();
                 $block6->checkboxRow($bookmark['boo_id']);
                 $block6->cellRow($blockPage->buildLink("../bookmarks/viewbookmark.php?id=" . $bookmark['boo_id'],
-                        $bookmark['boo_name'], 'in') . " " . $blockPage->buildLink($bookmark['boo_url'],
-                        "(" . $strings["url"] . ")", 'out'));
-                $block6->cellRow(!empty($bookmark['boo_boocat_name']) ? $bookmark['boo_boocat_name'] : Util::doubleDash());
+                    $escaper->escapeHtml( $bookmark['boo_name'] ), 'in') . " (" . $blockPage->buildLink($bookmark['boo_url'],
+                    $strings["url"], 'out') . ")");
+                $block6->cellRow(!empty($bookmark['boo_boocat_name']) ? $escaper->escapeHtml( $bookmark['boo_boocat_name'] ) : Util::doubleDash());
 
                 if ($bookmark['boo_shared'] == "1") {
                     $printShared = $strings["yes"];
@@ -262,13 +262,13 @@ if ($showHomeProjects) {
             $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $project["pro_id"],
                 $project["pro_id"], 'in'));
             $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $project["pro_id"],
-                $project["pro_name"], 'in'));
+                $escaper->escapeHtml( $project["pro_name"] ), 'in'));
             $block1->cellRow('<img src="../themes/' . THEME . '/images/gfx_priority/' . $idPriority . '.gif" alt=""> ' . $GLOBALS['priority'][$idPriority]);
-            $block1->cellRow($project["pro_org_name"]);
+            $block1->cellRow($escaper->escapeHtml( $project["pro_org_name"] ));
             $block1->cellRow($GLOBALS['status'][$idStatus]);
 
             $block1->cellRow($blockPage->buildLink('../users/viewuser.php?id=' . $project["pro_mem_id"],
-                $project["pro_mem_login"], 'in'));
+                $escaper->escapeHtml( $project["pro_mem_login"] ), 'in'));
 
             if ($sitePublish == "true") {
                 if ($project["pro_published"] == "1") {
@@ -395,8 +395,6 @@ if ($showHomeTasks) {
             $idPublish = $task["tas_published"];
             $complValue = ($task["tas_completion"] > 0) ? $task["tas_completion"] . "0 %" : $task["tas_completion"] . " %";
 
-            //skip completed tasks
-            //28/05/03 Florian DECKERT
             if ($idStatus == 1) {
                 continue;
             }
@@ -405,10 +403,10 @@ if ($showHomeTasks) {
             $block2->checkboxRow($task["tas_id"]);
 
             if ($task["tas_assigned_to"] == "0") {
-                $block2->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $task["tas_id"], $task["tas_name"],
+                $block2->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $task["tas_id"], $escaper->escapeHtml( $task["tas_name"] ),
                         'in') . " -> " . $strings["subtask"]);
             } else {
-                $block2->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $task["tas_id"], $task["tas_name"],
+                $block2->cellRow($blockPage->buildLink("../tasks/viewtask.php?id=" . $task["tas_id"], $escaper->escapeHtml( $task["tas_name"] ),
                     'in'));
             }
             $block2->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $GLOBALS['priority'][$idPriority]);
@@ -433,7 +431,7 @@ if ($showHomeTasks) {
             $block2->cellRow($blockPage->buildLink($task["tas_mem2_email_work"], $task["tas_mem2_name"], 'mail'));
 
             $block2->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $task["tas_project"],
-                $task["tas_pro_name"], 'in'));
+                $escaper->escapeHtml( $task["tas_pro_name"] ), 'in'));
             if ($sitePublish == "true") {
                 $block2->cellRow($GLOBALS['statusPublish'][$idPublish]);
             }
@@ -525,10 +523,10 @@ if ($showHomeSubtasks) {
 
                 if ($task['subtas_assigned_to'] == "0") {
                     $block3->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $task['subtas_id'] . "&task=" . $task['subtas_task'],
-                            $task['subtas_name'], 'in') . " -> " . $strings["subtask"]);
+                        $escaper->escapeHtml( $task['subtas_name'] ), 'in') . " -> " . $strings["subtask"]);
                 } else {
                     $block3->cellRow($blockPage->buildLink("../subtasks/viewsubtask.php?id=" . $task['subtas_id'] . "&task=" . $task['subtas_task'],
-                        $task['subtas_name'], 'in'));
+                        $escaper->escapeHtml( $task['subtas_name'] ), 'in'));
                 }
                 $block3->cellRow("<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt=\"\"> " . $GLOBALS['priority'][$idPriority]);
                 $block3->cellRow($GLOBALS['status'][$idStatus]);
@@ -542,7 +540,7 @@ if ($showHomeSubtasks) {
 
                 $block3->cellRow($blockPage->buildLink($task['subtas_mem2_email_work'], $task['subtas_mem2_login'],
                     'mail'));
-                $block3->cellRow($task['subtas_tas_name']);
+                $block3->cellRow($escaper->escapeHtml( $task['subtas_tas_name'] ));
                 if ($sitePublish == "true") {
                     $block3->cellRow($GLOBALS['statusPublish'][$idPublish]);
                 }
@@ -622,9 +620,9 @@ if ($showHomeDiscussions) {
             $block4->openRow();
             $block4->checkboxRow($topic["top_id"]);
             $block4->cellRow($blockPage->buildLink("../topics/viewtopic.php?project=" . $topic["top_project"] . "&id=" . $topic["top_id"],
-                $topic["top_subject"], 'in'));
+                $escaper->escapeHtml( $topic["top_subject"] ), 'in'));
             $block4->cellRow($blockPage->buildLink($topic["top_mem_email_work"], $topic["top_mem_login"], 'mail'));
-            $block4->cellRow($topic["top_posts"]);
+            $block4->cellRow($escaper->escapeHtml( $topic["top_posts"] ));
             if ($topic["top_last_post"] > $session->get("lastVisited")) {
                 $block4->cellRow("<b>" . phpCollab\Util::createDate($topic["top_last_post"],
                         $session->get('timezone')) . "</b>");
@@ -633,7 +631,7 @@ if ($showHomeDiscussions) {
             }
             $block4->cellRow($GLOBALS['statusTopic'][$idStatus]);
             $block4->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $topic["top_project"],
-                $topic["top_pro_name"], 'in'));
+                $escaper->escapeHtml( $topic["top_pro_name"] ), 'in'));
             if ($sitePublish == "true") {
                 $block4->cellRow($GLOBALS['statusPublish'][$idPublish]);
             }
@@ -691,7 +689,7 @@ if ($showHomeReports) {
             $reportsBlock->openRow();
             $reportsBlock->checkboxRow($listReport["rep_id"]);
             $reportsBlock->cellRow($blockPage->buildLink("../reports/resultsreport.php?id=" . $listReport["rep_id"],
-                $listReport["rep_name"], 'in'));
+                $escaper->escapeHtml( $listReport["rep_name"] ), 'in'));
             $reportsBlock->cellRow(phpCollab\Util::createDate($listReport["rep_created"], $session->get('timezone')));
             $reportsBlock->closeRow();
         }
@@ -767,7 +765,7 @@ if ($showHomeNotes) {
             $notesBlock->openRow();
             $notesBlock->checkboxRow($note["note_id"]);
             $notesBlock->cellRow($blockPage->buildLink("../notes/viewnote.php?id=" . $note["note_id"],
-                $note["note_subject"], 'in'));
+                $escaper->escapeHtml( $note["note_subject"] ), 'in'));
             if ($comptTopic != "0") {
                 $notesBlock->cellRow(!empty($topicNote[$note["note_topic"]]) ? $topicNote[$note["note_topic"]] : Util::doubleDash());
             }
@@ -818,7 +816,6 @@ if ($showHomeNewsdesk) {
     $newsdeskBlock->setRowsLimit(10); // 5
     $newsdeskBlock->sorting("newsdesk", $sortingUser["newsdesk"], "news.pdate DESC",
         $sortingFields = [0 => "news.title", 1 => "news.pdate", 2 => "news.author", 3 => "news.related"]);
-    $newsdeskBlock->openContent();
 
     $idCount = count($projectsList);
 
@@ -856,7 +853,7 @@ if ($showHomeNewsdesk) {
                 $projectDetail = $projects->getProjectById($newsdeskPost["news_related"]);
 
                 if ($projectDetail) {
-                    $article_related = "<a href='../projects/viewproject.php?id=" . $projectDetail['pro_id'] . "' title='" . $projectDetail['pro_name'] . "'>" . $projectDetail['pro_name'] . "</a>";
+                    $article_related = "<a href='../projects/viewproject.php?id=" . $projectDetail['pro_id'] . "' title='" . $escaper->escapeHtml( $projectDetail['pro_name'] ) . "'>" . $projectDetail['pro_name'] . "</a>";
                 } else {
                     $article_related = Util::doubleDash();
                 }
@@ -867,7 +864,7 @@ if ($showHomeNewsdesk) {
             $newsdeskBlock->openRow();
             $newsdeskBlock->checkboxRow($newsdeskPost["news_id"]);
             $newsdeskBlock->cellRow($blockPage->buildLink("../newsdesk/viewnews.php?id=" . $newsdeskPost["news_id"],
-                $newsdeskPost["news_title"], 'in'));
+               $escaper->escapeHtml( $newsdeskPost["news_title"] ), 'in'));
             $newsdeskBlock->cellRow($newsdeskPost["news_date"]);
             $newsdeskBlock->cellRow($newsAuthor['mem_name']);
             $newsdeskBlock->cellRow($article_related);
@@ -880,6 +877,7 @@ if ($showHomeNewsdesk) {
         $newsdeskBlock->noresults();
     }
 
+    $newsdeskBlock->closeToggle();
     $newsdeskBlock->closeFormResults();
 
     $newsdeskBlock->openPaletteScript();

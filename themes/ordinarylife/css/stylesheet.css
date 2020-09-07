@@ -504,11 +504,28 @@ span.error {
 a[href^="mailto:"]::after {
     content: "\f0e0";
     font-family: "Font Awesome 5 Free", sans-serif;
+    font-size: 12px;
     font-style: normal;
-    font-weight: normal;
+    font-weight: 400;
     text-decoration: none;
     margin-left: .5em;
     display: inline-block;
+    opacity: 0.45;
+}
+a[href^="http"]::after {
+    content: "\f35d";
+    font-family: "Font Awesome 5 Free", sans-serif;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 900;
+    text-decoration: none;
+    margin-left: .5em;
+    display: inline-block;
+    padding-right: 2px;
+    opacity: 0.45;
+}
+a[href^="http"]:hover:after {
+    opacity: 90%;
 }
 /*
 	Project Site Specific Styles
@@ -571,4 +588,8 @@ Styling for the help notes
 }
 #overDiv table table:nth-child(1) {
     background-color: var(--alt-color) !important;
+}
+.noItemsFound {
+    padding: 1em 0;
+    margin-left: 1em;
 }

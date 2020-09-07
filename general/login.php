@@ -129,6 +129,7 @@ if ($auth == "on") {
             $session->set('dateunix', date("U"));
             $session->set('date', date("d-m-Y H:i:s"));
             $session->set('logoutTime', $member['mem_logout_time']);
+            $session->set('theme', THEME);
 
             //register demo = true in session if user = demo
             if ($usernameForm == "demo") {

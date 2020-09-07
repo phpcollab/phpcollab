@@ -22,11 +22,11 @@ echo <<<HTML
 <!doctype html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="robots" content="none">
-<meta name="description" content="{$setDescription}">
-<meta name="keywords" content="{$setKeywords}">
-<title>{$setTitle} - 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="robots" content="none">
+    <meta name="description" content="{$setDescription}">
+    <meta name="keywords" content="{$setKeywords}">
+    <title>{$setTitle} - 
 HTML;
 
 if ($session->get("project") != "" && $changeProject != "true") {
@@ -36,15 +36,14 @@ if ($session->get("project") == "" || $changeProject == "true") {
     echo $strings["my_projects"];
 }
 
-echo "</title>";
-
 echo <<<HEAD
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="../themes/{$theme}/css/stylesheet.css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-
-<script type="text/javascript" src="../javascript/general.js"></script>
-<script type="text/JavaScript" src="../javascript/overlib_mini.js"></script>
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="/themes/{$session->get("theme")}/css/stylesheet.css">
+    <link rel="stylesheet" href="/public/css/all.min.css">
+    
+    <script type="text/javascript" src="/javascript/general.js"></script>
+    <script type="text/JavaScript" src="/javascript/overlib_mini.js"></script>
 HEAD;
 
 if ($includeCalendar && $includeCalendar === true) {
@@ -150,7 +149,7 @@ TR;
 echo <<<sidebar
 	<table class="nonStriped">
 		<tr>
-			<td><a href="home.php?changeProject=true"><i class="fas fa-folder"></i></a></td>
+			<td><a href="home.php?changeProject=true"><img src="ico_folder.gif" alt=""></a></td>
 			<td><a href="home.php?changeProject=true">{$strings["my_projects"]}</a></td>
 		</tr>
 		<tr><td colspan="2"><br/></td></tr>

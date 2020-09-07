@@ -35,6 +35,7 @@ define('APP_ROOT', dirname(dirname(__FILE__)));
 
 require APP_ROOT . '/vendor/autoload.php';
 
+error_reporting(2039);
 
 $settings = null;
 //settings and date selector includes
@@ -174,12 +175,10 @@ $loginLogs = $container->getLoginLogs();
 $sort = $container->getSortingLoader();
 $members = $container->getMembersLoader();
 
-if ($theme == "") {
+if (empty(THEME) && empty($theme)) {
     $theme = "default";
 }
-if (!is_resource("THEME")) {
-    define('THEME', $theme);
-}
+
 if (!is_resource("FTPSERVER")) {
     $session->set('phpCollab/ftpServer', '');
 }
@@ -321,7 +320,9 @@ if (!empty($sort_target) && $sort_target != "" && $sort_fields != "none") {
 
 }
 
-$sortingUser = $sort->getSortingValues($session->getId());
+if ($session->getId()) {
+    $sortingUser = $sort->getSortingValues($session->get("id"));
+}
 
 // :-)
 $setCopyright = "<!-- Powered by PhpCollab (show us some ❤️! #phpcollab & phpcollab.com) //-->";

@@ -27,9 +27,9 @@ echo <<<HEAD
     var gFlashOK = true;
     // -->
 </script>
-<script type="text/javascript" src="../javascript/general.js"></script>
-<script type="text/JavaScript" src="../javascript/overlib.js"></script>
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+<script type="text/javascript" src="/javascript/general.js"></script>
+<script type="text/JavaScript" src="/javascript/overlib_mini.js"></script>
+<link rel="stylesheet" href="/public/css/all.min.css">
 HEAD;
 
 
@@ -39,7 +39,7 @@ if ($debug === true && isset($debugbarRenderer) && is_object($debugbarRenderer))
 
 echo '<link rel="stylesheet" href="../themes/' . THEME . '/css/stylesheet.css" type="text/css" />';
 
-if ($includeCalendar && $includeCalendar === true) {
+if (isset($includeCalendar) && $includeCalendar === true) {
     include APP_ROOT . '/includes/calendar.php';
 }
 

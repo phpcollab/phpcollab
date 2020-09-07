@@ -35,7 +35,7 @@ define('FTPPASSWORD', '');
 $ftpRoot = ""; //no slash at the end
 
 # Invoicing module
-$enableInvoicing = "true";
+$enableInvoicing = true;
 
 # theme choice
 define('THEME', 'default');
@@ -47,14 +47,14 @@ $newsdesklimit = 1;
 $adminathome = 0;
 
 # timezone GMT management
-$gmtTimezone = "false";
+$gmtTimezone = false;
 
 # language choice
 $langDefault = "en";
 
 # Mantis bug tracking parameters
 // Should bug tracking be enabled?
-$enableMantis = "false";
+$enableMantis = false;
 
 // Mantis installation directory
 $pathMantis = "http://localhost/mantis/";  // add slash at the end
@@ -66,46 +66,46 @@ $pathToOpenssl = "/usr/bin/openssl";
 $loginMethod = "CRYPT"; //select "MD5", "CRYPT", or "PLAIN"
 
 # enable LDAP
-$useLDAP = "false";
+$useLDAP = false;
 $configLDAP["ldapserver"] = "your.ldap.server.address";
 $configLDAP["searchroot"] = "ou=People, ou=Intranet, dc=YourCompany, dc=com";
 
 # htaccess parameters
-$htaccessAuth = "false";
+$htaccessAuth = false;
 $fullPath = "/usr/local/apache/htdocs/phpcollab/files"; //no slash at the end
 
 # file management parameters
-$fileManagement = "true";
+$fileManagement = true;
 $maxFileSize = 51200; //bytes limit for upload
 $root = "http://localhost/phpcollab"; //no slash at the end
 
 # security issue to disallow php files upload
-$allowPhp = "false";
+$allowPhp = false;
 
 # project site creation
-$sitePublish = "true";
+$sitePublish = true;
 
 # enable update checker
-$updateChecker = "true";
+$updateChecker = true;
 
 # e-mail notifications
-$notifications = "true";
+$notifications = true;
 
 # show peer review area
-$peerReview = "true";
+$peerReview = true;
 
 # show items for home
-$showHomeBookmarks = "true";
-$showHomeProjects = "true";
-$showHomeTasks = "true";
-$showHomeDiscussions = "true";
-$showHomeReports = "true";
-$showHomeNotes = "true";
-$showHomeNewsdesk = "true";
-$showHomeSubtasks = "true";
+$showHomeBookmarks = true;
+$showHomeProjects = true;
+$showHomeTasks = true;
+$showHomeDiscussions = true;
+$showHomeReports = true;
+$showHomeNotes = true;
+$showHomeNewsdesk = true;
+$showHomeSubtasks = true;
 
 # security issue to disallow auto-login from external link
-$forcedLogin = "false";
+$forcedLogin = false;
 
 # table prefix
 $tablePrefix = "";
@@ -140,26 +140,26 @@ $tableCollab["newsdeskcomments"] = "newsdeskcomments";
 $tableCollab["newsdeskposts"] = "newsdeskposts";
 
 # PhpCollab version
-$version = "2.7.2";
+$version = "2.8.0";
 
 # demo mode parameters
-$demoMode = "false";
+$demoMode = false;
 $urlContact = "http://www.sourceforge.net/projects/phpcollab";
 
 # Gantt graphs
-$activeJpgraph = "true";
+$activeJpgraph = true;
 
 # developement options in footer
-$footerDev = "false";
+$footerDev = false;
 
 # filter to see only logged user clients (in team / owner)
-$clientsFilter = "false";
+$clientsFilter = false;
 
 # filter to see only logged user projects (in team / owner)
-$projectsFilter = "false";
+$projectsFilter = false;
 
 # Enable help center support requests, values "true" or "false"
-$enableHelpSupport = "true";
+$enableHelpSupport = true;
 
 # Return email address given for clients to respond too.
 $supportEmail = "email@yourdomain.com";
@@ -176,8 +176,9 @@ $autoPublishTasks = false;
 # html header parameters
 $setDoctype = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">";
 $setTitle = "PhpCollab";
+$siteTitle = "PhpCollab";
 $setDescription = "Groupware module. Manage web projects with team collaboration, users management, tasks and projects tracking, files approval tracking, project sites clients access, customer relationship management (Php / Mysql, PostgreSQL or Sql Server).";
 $setKeywords = "PhpCollab, phpcollab.com, Sourceforge, management, web, projects, tasks, organizations, reports, Php, MySql, Sql Server, mssql, Microsoft Sql Server, PostgreSQL, module, application, module, file management, project site, team collaboration, free, crm, CRM, cutomer relationship management, workflow, workgroup";
 
 # Email alerts.
-$emailAlerts = "false";
+$emailAlerts = false;
