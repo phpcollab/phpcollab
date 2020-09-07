@@ -1,17 +1,17 @@
 <?php
 
 
-namespace phpCollab\Updates;
+namespace phpCollab\Tasks;
 
 use phpCollab\Database;
 
-class UpdatesGateway
+class TaskUpdatesGateway
 {
     protected $db;
     protected $initrequest;
 
     /**
-     * UpdatesGateway constructor.
+     * TaskUpdatesGateway constructor.
      * @param Database $db
      */
     public function __construct(Database $db)

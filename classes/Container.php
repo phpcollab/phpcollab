@@ -49,7 +49,7 @@ use phpCollab\Tasks\SetTaskStatus;
 use phpCollab\Tasks\Tasks;
 use phpCollab\Teams\Teams;
 use phpCollab\Topics\Topics;
-use phpCollab\Updates\Updates;
+use phpCollab\Tasks\TaskUpdates;
 use Symfony\Component\HttpFoundation\Session\Session;
 use vCard;
 
@@ -300,7 +300,7 @@ class Container
     public function getTaskUpdateService()
     {
         if (null === $this->taskUpdateService) {
-            $this->taskUpdateService = new Updates($this->getPDO());
+            $this->taskUpdateService = new TaskUpdates($this->getPDO());
         }
         return $this->taskUpdateService;
     }

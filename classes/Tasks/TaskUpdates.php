@@ -1,23 +1,23 @@
 <?php
 
 
-namespace phpCollab\Updates;
+namespace phpCollab\Tasks;
 
 use phpCollab\Database;
 
-class Updates
+class TaskUpdates
 {
     protected $updates_gateway;
     protected $db;
 
     /**
-     * Updates constructor.
+     * TaskUpdates constructor.
      * @param Database $database
      */
     public function __construct(Database $database)
     {
         $this->db = $database;
-        $this->updates_gateway = new UpdatesGateway($this->db);
+        $this->updates_gateway = new TaskUpdatesGateway($this->db);
     }
 
     /**
