@@ -50,8 +50,8 @@ use phpCollab\Tasks\Tasks;
 use phpCollab\Teams\Teams;
 use phpCollab\Topics\Topics;
 use phpCollab\Tasks\TaskUpdates;
+use Sabre\VObject\Component\VCard;
 use Symfony\Component\HttpFoundation\Session\Session;
-use vCard;
 
 class Container
 {
@@ -525,10 +525,8 @@ class Container
     public function getExportVCardService()
     {
         if (null === $this->exportVCardService) {
-            $this->exportVCardService = new vCard();
+            $this->exportVCardService = new VCard();
         }
         return $this->exportVCardService;
     }
-
-
 }

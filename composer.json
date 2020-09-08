@@ -12,6 +12,8 @@
   "license": "GPL-2.0-only",
   "require": {
     "php": ">=7.2.0",
+    "ext-pdo": "*",
+    "ext-openssl": "*",
     "maximebf/debugbar": "^1.13",
     "ifsnop/mysqldump-php": "^2.3",
     "apfelbox/php-file-download": "^2.1",
@@ -24,7 +26,7 @@
     "monolog/monolog": "^2.0",
     "symfony/security-csrf": "^4.4",
     "symfony/mime": "^4.4",
-    "ext-pdo": "*"
+    "sabre/vobject": "^4.3"
   },
   "require-dev": {
     "ext-ftp": "*",
