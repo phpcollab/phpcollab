@@ -30,7 +30,8 @@ if ($action == "delete") {
             try {
                 $Htpasswd->deleteUser($listMember["mem_login"]);
             } catch (Exception $e) {
-                // Handle exception
+                $logger->error($e->getMessage());
+                $error = $strings["action_not_allowed"];
             }
         }
     }
@@ -61,8 +62,8 @@ if ($action == "delete") {
             $removeProjectTeam->generateEmail($projectDetail, $notificationList, $session, $logger);
 
         } catch (Exception$e) {
-            // Log exception
-
+            $logger->error($e->getMessage());
+            $error = $strings["action_not_allowed"];
         }
     }
     phpCollab\Util::headerFunction("../projects/viewprojectsite.php?id=$project&msg=removeClientToSite");

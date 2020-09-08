@@ -29,7 +29,8 @@ if ($request->query->get("action") == "add") {
             try {
                 $Htpasswd->addUser($listMembers->mem_login[$i], $listMembers->mem_password[$i]);
             } catch (Exception $e) {
-                // handle exception
+                $logger->error($e->getMessage());
+                $error = $strings["action_not_allowed"];
             }
         }
     }
@@ -44,8 +45,8 @@ if ($request->query->get("action") == "add") {
         try {
             $teams->addTeam($projectDetail["pro_id"], $piece, 1, 0);
         } catch (Exception $e) {
-            // log exception
-            echo $e->getMessage();
+            $logger->error($e->getMessage());
+            $error = $strings["action_not_allowed"];
         }
 
         //if mantis bug tracker enabled
@@ -62,8 +63,8 @@ if ($request->query->get("action") == "add") {
         try {
             $teams->sendAddProjectTeamNotification($projectDetail, $id, $session, $logger);
         } catch (Exception $e) {
-            // log exception
-            echo $e->getMessage();
+            $logger->error($e->getMessage());
+            $error = $strings["action_not_allowed"];
         }
 
     }

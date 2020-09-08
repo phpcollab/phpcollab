@@ -2,6 +2,8 @@
 #Application name: PhpCollab
 #Status page: 0
 
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+
 $checkSession = "true";
 include '../includes/library.php';
 
@@ -34,17 +36,20 @@ if ($request->isMethod('post')) {
                     try {
                         $topics->sendNewPostNotification($newPost, $detailTopic, $session);
                     } catch (Exception $e) {
-                        echo 'Error sending mail, ' . $e->getMessage();
+                        $logger->error('Project Site (upload notification)', ['Exception message', $e->getMessage(), '' => $mail->ErrorInfo]);
+                        $error = $strings["action_not_allowed"];
                     }
                 }
             }
         }
-    } catch (Exception $e) {
+    } catch (InvalidCsrfTokenException $csrfTokenException) {
         $logger->critical('CSRF Token Error', [
-            'edit bookmark' => $request->request->get("id"),
+            'Project Site: Thread post',
             '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
             '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
         ]);
+    } catch (Exception $e) {
+        $logger->critical('Exception', ['Error' => $e->getMessage()]);
         $msg = 'permissiondenied';
     }
 }

@@ -3,6 +3,8 @@
 #Status page: 1
 #Path by root: ../notes/deletenotes.php
 
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -21,12 +23,14 @@ if ($action == "delete") {
                 $notes->deleteNotes($id);
                 phpCollab\Util::headerFunction("../projects/viewproject.php?id=$project&msg=delete");
             }
-        } catch (Exception $e) {
+        } catch (InvalidCsrfTokenException $csrfTokenException) {
             $logger->critical('CSRF Token Error', [
-                'edit bookmark' => $request->request->get("id"),
+                'Notes: Delete' => $request->query->get("id"),
                 '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
                 '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
             ]);
+        } catch (Exception $e) {
+            $logger->critical('Exception', ['Error' => $e->getMessage()]);
             $msg = 'permissiondenied';
         }
     }

@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -76,7 +78,8 @@ if ($request->isMethod('post')) {
 
                             $newTopicNotice->generateEmail($detailTopic, $projectDetail, $notificationList, $session);
                         } catch (Exception$e) {
-                            // Log exception
+                            $logger->error($e->getMessage());
+                            $error = $strings["action_not_allowed"];
                         }
                     }
                 }
@@ -84,12 +87,14 @@ if ($request->isMethod('post')) {
                 phpCollab\Util::headerFunction("../topics/viewtopic.php?project={$project}&id={$newTopic["top_id"]}&msg=add");
             }
         }
-    } catch (Exception $e) {
+    } catch (InvalidCsrfTokenException $csrfTokenException) {
         $logger->critical('CSRF Token Error', [
-            'edit bookmark' => $request->request->get("id"),
+            'Topics: Add topic',
             '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
             '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
         ]);
+    } catch (Exception $e) {
+        $logger->critical('Exception', ['Error' => $e->getMessage()]);
         $msg = 'permissiondenied';
     }
 }

@@ -26,7 +26,7 @@ if ($action == "publish") {
         }
     } catch (Exception $exception) {
         $error = $strings["error_publishing_invoice"];
-        error_log($strings["error_publishing_invoice"] . ': ' . $exception->getMessage());
+        $logger->error('Invoices (publish)', ['Exception message', $e->getMessage()]);
     }
 }
 

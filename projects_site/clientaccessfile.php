@@ -33,7 +33,8 @@ if ($fileDetail) {
                 $fileAction->viewFile($filename);
             }
         } catch (Exception $exception) {
-            echo $exception->getMessage();
+            $logger->error('Project Site (access file)', ['Exception message', $e->getMessage()]);
+            $error = $strings["action_not_allowed"];
         }
     }
 }

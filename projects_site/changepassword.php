@@ -29,6 +29,8 @@
 ** =============================================================================
 */
 
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+
 $checkSession = "true";
 include '../includes/library.php';
 
@@ -60,7 +62,8 @@ if ($request->isMethod('post')) {
                                     $Htpasswd->initialize("files/" . $team["tea_pro_id"] . "/.htpasswd");
                                     $Htpasswd->changePass($session->get("login"), $encryptedNewPassword);
                                 } catch (Exception $e) {
-                                    echo $e->getMessage();
+                                    $logger->error('Project Site (password reset)', ['Exception message', $e->getMessage()]);
+                                    $error = $strings["rest_password_error"];
                                 }
                             }
                         }
@@ -71,18 +74,20 @@ if ($request->isMethod('post')) {
 
                         phpCollab\Util::headerFunction("changepassword.php?msg=update");
                     } catch (Exception $exception) {
-                        error_log('Error resetting password', 0);
+                        $logger->error('Project Site (password reset)', ['Exception message', $e->getMessage()]);
                         $error = $strings["rest_password_error"];
                     }
                 }
             }
         }
-    } catch (Exception $e) {
+    } catch (InvalidCsrfTokenException $csrfTokenException) {
         $logger->critical('CSRF Token Error', [
-            'edit bookmark' => $request->request->get("id"),
+            'Project Site: Change password',
             '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
             '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
         ]);
+    } catch (Exception $e) {
+        $logger->critical('Exception', ['Error' => $e->getMessage()]);
         $msg = 'permissiondenied';
     }
 }

@@ -2,6 +2,7 @@
 
 use phpCollab\Block;
 use phpCollab\Util;
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
 $checkSession = "true";
 include_once '../includes/library.php';
@@ -233,12 +234,13 @@ if ($request->isMethod('post')) {
                                     }
                                 }
                             } catch (Exception $e) {
-                                echo 'Message could not be sent. Mailer Error: ', $e->getMessage();
+                                $logger->error('Files (notification)', ['Exception message', $e->getMessage()]);
+                                $error = $strings["action_not_allowed"];
                             }
                         }
                     } catch (Exception $exception) {
-                        error_log("Error adding file approval: " . $exception->getMessage(), 3,
-                            APP_ROOT . "logs/phpcollab.log");
+                        $logger->error('Files (approval)', ['Exception message', $e->getMessage()]);
+                        $error = $strings["action_not_allowed"];
                     }
 
                     Util::headerFunction("../linkedcontent/viewfile.php?id=" . $fileDetail["fil_id"] . "&msg=addFile");
@@ -399,7 +401,8 @@ if ($request->isMethod('post')) {
                                         }
                                     }
                                 } catch (Exception $e) {
-                                    echo 'Message could not be sent. Mailer Error: ', $e->getMessage();
+                                    $logger->error('Files (notification)', ['Exception message', $e->getMessage()]);
+                                    $error = $strings["action_not_allowed"];
                                 }
                             }
 
@@ -409,8 +412,8 @@ if ($request->isMethod('post')) {
                              */
                             Util::headerFunction("../linkedcontent/viewfile.php?id=" . $fileDetail["fil_id"] . "&msg=addFile");
                         } catch (Exception $exception) {
-                            error_log("Error adding file approval: " . $exception->getMessage(), 3,
-                                APP_ROOT . "logs/phpcollab.log");
+                            $logger->error('Files (approval)', ['Exception message', $e->getMessage()]);
+                            $error = $strings["action_not_allowed"];
                         }
                         break;
                     } else {
@@ -423,15 +426,14 @@ if ($request->isMethod('post')) {
 
             }
         }
-    } catch (Exception $e) {
-
-        $logger->critical($e->getMessage());
-
+    } catch (InvalidCsrfTokenException $csrfTokenException) {
         $logger->critical('CSRF Token Error', [
-            'edit bookmark' => $request->request->get("id"),
+            'Linked Content: View File',
             '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
             '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
         ]);
+    } catch (Exception $e) {
+        $logger->critical('Exception', ['Error' => $e->getMessage()]);
         $msg = 'permissiondenied';
     }
 }

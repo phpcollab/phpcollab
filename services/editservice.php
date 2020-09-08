@@ -4,6 +4,7 @@
 #Path by root: ../services/editservice.php
 
 use phpCollab\Util;
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
 $checkSession = "true";
 include_once '../includes/library.php';
@@ -31,17 +32,21 @@ if (!empty($id)) {
                     try {
                         $services->updateService($id, $name, $namePrinted, $hourlyRate);
                     } catch (Exception $e) {
+                        $logger->error('Services (update)', ['Exception message', $e->getMessage()]);
+                        $error = $strings["action_not_allowed"];
                     }
 
                     phpCollab\Util::headerFunction("../services/listservices.php?msg=update");
                 }
             }
-        } catch (Exception $e) {
+        } catch (InvalidCsrfTokenException $csrfTokenException) {
             $logger->critical('CSRF Token Error', [
-                'edit bookmark' => $request->request->get("id"),
+                'Services: Edit service' => $id,
                 '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
                 '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
             ]);
+        } catch (Exception $e) {
+            $logger->critical('Exception', ['Error' => $e->getMessage()]);
             $msg = 'permissiondenied';
         }
 
@@ -55,7 +60,7 @@ if (!empty($id)) {
     $hourlyRate = $detailService["serv_hourly_rate"];
 }
 
-//case add user
+//case add service
 if (empty($id) && $request->isMethod('post')) {
 
     try {
@@ -71,16 +76,19 @@ if (empty($id) && $request->isMethod('post')) {
 
                     phpCollab\Util::headerFunction("../services/listservices.php?msg=add");
                 } catch (Exception $e) {
-
+                    $logger->error('Services (add)', ['Exception message', $e->getMessage()]);
+                    $error = $strings["action_not_allowed"];
                 }
             }
         }
-    } catch (Exception $e) {
+    } catch (InvalidCsrfTokenException $csrfTokenException) {
         $logger->critical('CSRF Token Error', [
-            'edit bookmark' => $request->request->get("id"),
+            'Services: Add service',
             '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
             '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
         ]);
+    } catch (Exception $e) {
+        $logger->critical('Exception', ['Error' => $e->getMessage()]);
         $msg = 'permissiondenied';
     }
 

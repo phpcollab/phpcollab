@@ -2,6 +2,8 @@
 #Application name: PhpCollab
 #Status page: 0
 
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+
 $checkSession = "true";
 include '../includes/library.php';
 
@@ -34,7 +36,8 @@ if ($request->isMethod('post')) {
                         try {
                             $support->sendNewPostNotification($requestDetail, $postDetail, $userDetail);
                         } catch (Exception $e) {
-                            echo $e->getMessage();
+                            $logger->error('Project Site (add support post)', ['Exception message', $e->getMessage()]);
+                            $error = $strings["action_not_allowed"];
                         }
                     }
                     phpCollab\Util::headerFunction("suprequestdetail.php?id=$id");
@@ -43,12 +46,14 @@ if ($request->isMethod('post')) {
                 }
             }
         }
-    } catch (Exception $e) {
+    } catch (InvalidCsrfTokenException $csrfTokenException) {
         $logger->critical('CSRF Token Error', [
-            'edit bookmark' => $request->request->get("id"),
+            'Project Site: Add support post',
             '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
             '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
         ]);
+    } catch (Exception $e) {
+        $logger->critical('Exception', ['Error' => $e->getMessage()]);
         $msg = 'permissiondenied';
     }
 }

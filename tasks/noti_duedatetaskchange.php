@@ -2,7 +2,9 @@
 
 $notificationsClass = $container->getNotificationsManager();
 
-$taskNoti = $tasks->getTaskById($listTask["tas_id"]);
+if (!empty($listTask)) {
+    $taskNoti = $tasks->getTaskById($listTask["tas_id"]);
+}
 
 $projectNoti = $projects->getProjectById($listTask["tas_project"]);
 
@@ -14,7 +16,7 @@ if ($listNotifications["duedateTaskChange"] == "0") {
     $mail = $container->getNotification();
 
     try {
-        $mail->getUserinfo($session->get("id"), "from");
+        $mail->getUserinfo($session->get("id"), "from", $logger);
 
         $mail->partSubject = $strings["noti_duedatetaskchange1"];
         $mail->partMessage = $strings["noti_duedatetaskchange2"];
@@ -65,6 +67,7 @@ if ($listNotifications["duedateTaskChange"] == "0") {
         $mail->clearAddresses();
 
     } catch (Exception $e) {
-        echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+        $logger->error('Notification', ['Exception message' => $e->getMessage(), 'Mail ErrorInfo' => $mail->ErrorInfo]);
+        $error = $strings["action_not_allowed"];
     }
 }

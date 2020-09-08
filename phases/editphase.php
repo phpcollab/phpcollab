@@ -1,9 +1,6 @@
 <?php
 
-use phpCollab\Phases\Phases;
-use phpCollab\Projects\Projects;
-use phpCollab\Tasks\Tasks;
-use phpCollab\Teams\Teams;
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
 $checkSession = "true";
 include_once '../includes/library.php';
@@ -43,7 +40,8 @@ if ($request->isMethod('post')) {
                 try {
                     $phases->updatePhase($id, $status, $start_date, $end_date, $comments);
                 } catch (Exception $e) {
-                    $logger->critical('Phase Update: ' . $e->getMessage());
+                    $logger->error('Phases (update)', ['Exception message', $e->getMessage()]);
+                    $error = $strings["action_not_allowed"];
                 }
 
                 if ($status != 1) {
@@ -56,12 +54,14 @@ if ($request->isMethod('post')) {
                 phpCollab\Util::headerFunction("../phases/viewphase.php?id=" . $id);
             }
         }
-    } catch (Exception $e) {
+    } catch (InvalidCsrfTokenException $csrfTokenException) {
         $logger->critical('CSRF Token Error', [
-            'edit bookmark' => $request->request->get("id"),
+            'Phases: Edit phase' => $request->query->get("id"),
             '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
             '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
         ]);
+    } catch (Exception $e) {
+        $logger->critical('Exception', ['Error' => $e->getMessage()]);
         $msg = 'permissiondenied';
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -69,12 +71,14 @@ if ($request->isMethod('post')) {
                 phpCollab\Util::headerFunction("../invoicing/viewinvoice.php?msg=update&id=$invoiceItemId");
             }
         }
-    } catch (Exception $e) {
+    } catch (InvalidCsrfTokenException $csrfTokenException) {
         $logger->critical('CSRF Token Error', [
-            'edit bookmark' => $request->request->get("id"),
+            'Invoicing: Edit Invoice',
             '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
             '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
         ]);
+    } catch (Exception $e) {
+        $logger->critical('Exception', ['Error' => $e->getMessage()]);
         $msg = 'permissiondenied';
     }
 }
@@ -230,7 +234,7 @@ echo <<<SCRIPT
             document.invoiceForm["total_inc_tax"].value = amount_due.toFixed(2);
         }
 
-        if (subtotal != 0 && ratePercent != '') {
+        if (subtotal !== 0 && ratePercent !== '') {
             var tax_part = (subtotal * ratePercent) / 100;
             document.invoiceForm["tax_amount"].value = tax_part.toFixed(2);
         }

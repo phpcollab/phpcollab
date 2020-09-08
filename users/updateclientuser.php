@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -112,7 +114,8 @@ if ($request->isMethod('post')) {
                                     try {
                                         $members->setPassword($userId, $user_password);
                                     } catch (Exception $e) {
-                                        echo 'Message: ' . $e->getMessage();
+                                        $logger->error($e->getMessage());
+                                        $msg = "genericError";
                                     }
                                     phpCollab\Util::headerFunction("../clients/viewclient.php?msg=update&id=$user_organization");
                                 }
@@ -126,18 +129,21 @@ if ($request->isMethod('post')) {
                                 phpCollab\Util::headerFunction("../clients/viewclient.php?msg=update&id=$user_organization");
                             }
                         } catch (Exception $e) {
-                            echo $error = $e->getMessage();
+                            $logger->error($e->getMessage());
+                            $msg = "genericError";
                         }
                     }
                 }
             }
         }
-    } catch (Exception $e) {
+    } catch (InvalidCsrfTokenException $csrfTokenException) {
         $logger->critical('CSRF Token Error', [
-            'edit bookmark' => $request->request->get("id"),
+            'Users: update user',
             '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
             '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
         ]);
+    } catch (Exception $e) {
+        $logger->critical('Exception', ['Error' => $e->getMessage()]);
         $msg = 'permissiondenied';
     }
 }

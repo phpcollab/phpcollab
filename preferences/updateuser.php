@@ -16,6 +16,8 @@
 ** =============================================================================
 */
 
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -42,7 +44,8 @@ if ($request->isMethod('post')) {
                     $members->updateMember($session->get("id"), $session->get("login"), $full_name, $email_work, $title,
                         $organization, $phone_work, $phone_home, $phone_mobile, $fax);
                 } catch (Exception $e) {
-                    echo "error saving changes." . $e->getMessage();
+                    $logger->error('Preferences (update)', ['Exception message', $e->getMessage()]);
+                    $error = $strings["action_not_allowed"];
                 }
 
                 $session->set('logoutTime', $logout_time);
@@ -58,12 +61,14 @@ if ($request->isMethod('post')) {
                 phpCollab\Util::headerFunction("../preferences/updateuser.php?msg=update");
             }
         }
-    } catch (Exception $e) {
+    } catch (InvalidCsrfTokenException $csrfTokenException) {
         $logger->critical('CSRF Token Error', [
-            'edit bookmark' => $request->request->get("id"),
+            'Preferences: Update user',
             '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
             '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
         ]);
+    } catch (Exception $e) {
+        $logger->critical('Exception', ['Error' => $e->getMessage()]);
         $msg = 'permissiondenied';
     }
 }

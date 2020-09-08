@@ -19,6 +19,8 @@
 */
 
 
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -154,7 +156,8 @@ if (!empty($id)) {
                                     $subtasks->sendNotification("assignment", $updatedDetails, $projectDetail, $session,
                                         $logger);
                                 } catch (Exception $exception) {
-                                    echo $exception->getMessage();
+                                    $logger->error('Subtasks (update)', ['Exception message', $e->getMessage()]);
+                                    $error = $strings["action_not_allowed"];
                                 }
                             }
                         } else {
@@ -186,7 +189,8 @@ if (!empty($id)) {
                                         }
                                     }
                                 } catch (Exception $exception) {
-
+                                    $logger->error('Subtasks (edit)', ['Exception message', $e->getMessage()]);
+                                    $error = $strings["action_not_allowed"];
                                 }
                             }
                         }
@@ -218,12 +222,14 @@ if (!empty($id)) {
                     }
                 }
             }
-        } catch (Exception $e) {
+        } catch (InvalidCsrfTokenException $csrfTokenException) {
             $logger->critical('CSRF Token Error', [
-                'edit bookmark' => $request->request->get("id"),
+                'Subtasks: Edit subtask',
                 '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
                 '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
             ]);
+        } catch (Exception $e) {
+            $logger->critical('Exception', ['Error' => $e->getMessage()]);
             $msg = 'permissiondenied';
         }
 
@@ -293,7 +299,8 @@ if (empty($id)) {
                                 $subtasks->sendNotification("assignment", $subtaskDetail, $projectDetail, $session,
                                     $logger);
                             } catch (Exception $exception) {
-
+                                $logger->error('Subtasks (add)', ['Exception message', $e->getMessage()]);
+                                $error = $strings["action_not_allowed"];
                             }
                         }
                     }
@@ -306,12 +313,14 @@ if (empty($id)) {
                     phpCollab\Util::headerFunction("../subtasks/viewsubtask.php?id={$newSubtaskId}&task={$parentTaskId}&msg=add");
                 }
             }
-        } catch (Exception $e) {
+        } catch (InvalidCsrfTokenException $csrfTokenException) {
             $logger->critical('CSRF Token Error', [
-                'edit bookmark' => $request->request->get("id"),
+                'Subtasks: Add subtask',
                 '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
                 '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
             ]);
+        } catch (Exception $e) {
+            $logger->critical('Exception', ['Error' => $e->getMessage()]);
             $msg = 'permissiondenied';
         }
     }

@@ -31,7 +31,8 @@ if ($request->query->get('action') == "add") {
                 try {
                     $Htpasswd->addUser($member["mem_login"], $member["mem_password"]);
                 } catch (Exception $e) {
-                    // Handle exception
+                    $logger->error($e->getMessage());
+                    $error = $strings["action_not_allowed"];
                 }
 
             }
@@ -62,7 +63,8 @@ if ($request->query->get('action') == "add") {
                 $notificationList = $sendNotifications->getNotificationsWhereMemberIn($id);
                 $addProjectTeam->generateEmail($projectDetail, $notificationList, $session, $logger);
             } catch (Exception$e) {
-                // Log exception
+                $logger->error($e->getMessage());
+                $error = $strings["action_not_allowed"];
             }
         }
         phpCollab\Util::headerFunction("../projects/viewprojectsite.php?id=" . $projectDetail["pro_id"] . "&msg=addClientToSite");

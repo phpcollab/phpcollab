@@ -34,7 +34,8 @@ if ($action == "delete") {
                 try {
                     $Htpasswd->deleteUser($listMembers["mem_login"]);
                 } catch (Exception $e) {
-                    // Log exception
+                    $logger->error($e->getMessage());
+                    $error = $strings["action_not_allowed"];
                 }
             }
         }
@@ -90,7 +91,8 @@ if ($action == "delete") {
             try {
                 $teams->sendRemoveProjectTeamNotification($projectDetail, $id);
             } catch (Exception $e) {
-                // log exception
+                $logger->error($e->getMessage());
+                $error = $strings["action_not_allowed"];
             }
         }
 

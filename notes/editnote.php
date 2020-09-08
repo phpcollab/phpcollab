@@ -26,6 +26,8 @@
 */
 
 
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 include '../includes/customvalues.php';
@@ -69,12 +71,14 @@ if ($id != "") {
 
                     phpCollab\Util::headerFunction("../notes/viewnote.php?id=" . $id . "&msg=update");
                 }
-            } catch (Exception $e) {
+            } catch (InvalidCsrfTokenException $csrfTokenException) {
                 $logger->critical('CSRF Token Error', [
-                    'edit bookmark' => $request->request->get("id"),
+                    'Notes: Edit note' => $request->query->get("id"),
                     '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
                     '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
                 ]);
+            } catch (Exception $e) {
+                $logger->critical('Exception', ['Error' => $e->getMessage()]);
                 $msg = 'permissiondenied';
             }
         }
@@ -104,12 +108,14 @@ if ($id == "") {
 
                     phpCollab\Util::headerFunction("../notes/viewnote.php?id=" . $num . "&msg=add");
                 }
-            } catch (Exception $e) {
+            } catch (InvalidCsrfTokenException $csrfTokenException) {
                 $logger->critical('CSRF Token Error', [
-                    'edit bookmark' => $request->request->get("id"),
+                    'Notes: Add note',
                     '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
                     '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
                 ]);
+            } catch (Exception $e) {
+                $logger->critical('Exception', ['Error' => $e->getMessage()]);
                 $msg = 'permissiondenied';
             }
         }

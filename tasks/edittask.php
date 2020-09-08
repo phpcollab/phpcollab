@@ -30,6 +30,8 @@
 ** =============================================================================
 */
 
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -199,7 +201,8 @@ if (
                             $form_data["worked_hours"]);
 
                     } catch (Exception $e) {
-                        // Log the exception
+                        $logger->error('Tasks (edit)', ['Exception message', $e->getMessage()]);
+                        $error = $strings["action_not_allowed"];
                     }
 
                     if ($newTask) {
@@ -226,7 +229,8 @@ if (
                                         ($form_data["status"] == "1") ? 1 : 0, 1,
                                         $newTaskId, $form_data["worked_hours"]);
                                 } catch (Exception $e) {
-                                    // Log the exception
+                                    $logger->error('Tasks (edit)', ['Exception message', $e->getMessage()]);
+                                    $error = $strings["action_not_allowed"];
                                 }
                             }
                         }
@@ -257,7 +261,8 @@ if (
                                     $tasks->sendTaskNotification($newTask, $projectDetail, $memberInfo,
                                         $strings["noti_taskassignment1"], $strings["noti_taskassignment2"]);
                                 } catch (Exception $e) {
-                                    // Log the exception
+                                    $logger->error('Tasks (edit)', ['Exception message', $e->getMessage()]);
+                                    $error = $strings["action_not_allowed"];
                                 }
 
                             }
@@ -313,7 +318,8 @@ if (
                                             "../files/{$project}/{$task_id}/" . $v);
                                         unlink("../files/{$form_data["old_project"]}/{$task_id}/" . $v);
                                     } catch (Exception $e) {
-                                        // Log the exception
+                                        $logger->error('Tasks (edit)', ['Exception message', $e->getMessage()]);
+                                        $error = $strings["action_not_allowed"];
                                     }
                                 }
                             }
@@ -322,7 +328,7 @@ if (
                         //recompute number of completed tasks of the old project
                         $oldproject = $projects->getProjectById($form_data["old_project"]);
 
-                        phpCollab\Util::projectComputeCompletion($oldproject);
+                        phpCollab\Util::projectComputeCompletion($oldproject, $container);
                     }
 
                     if ($enableInvoicing == "true") {
@@ -393,7 +399,8 @@ if (
                                 $tasks->sendTaskNotification($updatedTaskDetails, $projectDetail, $memberInfo,
                                     $strings["noti_taskassignment1"], $strings["noti_taskassignment2"]);
                             } catch (Exception $e) {
-                                // Log the exception
+                                $logger->error('Tasks (edit)', ['Exception message', $e->getMessage()]);
+                                $error = $strings["action_not_allowed"];
                             }
                         }
 
@@ -437,7 +444,8 @@ if (
                                         $strings["noti_statustaskchange1"], $strings["noti_statustaskchange2"]
                                     );
                                 } catch (Exception $e) {
-                                    // Log the exception
+                                    $logger->error('Tasks (edit)', ['Exception message', $e->getMessage()]);
+                                    $error = $strings["action_not_allowed"];
                                 }
                             }
 
@@ -449,7 +457,8 @@ if (
                                     $tasks->sendTaskNotification($updatedTaskDetails, $projectDetail, $memberInfo,
                                         $strings["noti_prioritytaskchange1"], $strings["noti_prioritytaskchange2"]);
                                 } catch (Exception $e) {
-                                    // Log the exception
+                                    $logger->error('Tasks (edit)', ['Exception message', $e->getMessage()]);
+                                    $error = $strings["action_not_allowed"];
                                 }
                             }
 
@@ -461,7 +470,8 @@ if (
                                     $tasks->sendTaskNotification($updatedTaskDetails, $projectDetail, $memberInfo,
                                         $strings["noti_duedatetaskchange1"], $strings["noti_duedatetaskchange2"]);
                                 } catch (Exception $e) {
-                                    // Log the exception
+                                    $logger->error('Tasks (edit)', ['Exception message', $e->getMessage()]);
+                                    $error = $strings["action_not_allowed"];
                                 }
                             }
                         }
@@ -549,7 +559,8 @@ if (
                     );
 
                 } catch (Exception $e) {
-                    // Log the exception
+                    $logger->error('Tasks (edit)', ['Exception message', $e->getMessage()]);
+                    $error = $strings["action_not_allowed"];
                 }
 
                 // If new task is created successfully, then continue, otherwise display error
@@ -580,7 +591,8 @@ if (
                                     $form_data["worked_hours"]
                                 );
                             } catch (Exception $e) {
-                                // Log the exception
+                                $logger->error('Tasks (edit)', ['Exception message', $e->getMessage()]);
+                                $error = $strings["action_not_allowed"];
                             }
                         }
                     }
@@ -615,7 +627,8 @@ if (
                                 $tasks->sendTaskNotification($newTask, $projectDetail, $memberInfo,
                                     $strings["noti_taskassignment1"], $strings["noti_taskassignment2"]);
                             } catch (Exception $e) {
-                                // Log the exception
+                                $logger->error('Tasks (edit)', ['Exception message', $e->getMessage()]);
+                                $error = $strings["action_not_allowed"];
                             }
                         }
                     }
@@ -629,12 +642,14 @@ if (
                 }
             }
         }
-    } catch (Exception $e) {
+    } catch (InvalidCsrfTokenException $csrfTokenException) {
         $logger->critical('CSRF Token Error', [
-            'edit bookmark' => $request->request->get("id"),
+            'Tasks: Add task',
             '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
             '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
         ]);
+    } catch (Exception $e) {
+        $logger->critical('Exception', ['Error' => $e->getMessage()]);
         $msg = 'permissiondenied';
     }
 

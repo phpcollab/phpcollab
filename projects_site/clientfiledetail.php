@@ -2,6 +2,8 @@
 #Application name: PhpCollab
 #Status page: 0
 
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+
 $checkSession = "true";
 include '../includes/library.php';
 
@@ -111,7 +113,7 @@ if ($request->isMethod('post')) {
                             $copy_extension, $copy_comments, null, null, null, $copy_upload, 0, $copy_vc_version,
                             $copy_vc_parent);
                     } catch (Exception $exception) {
-                        error_log('Error adding file', 0);
+                        $logger->error('Project Site (add file)', ['Exception message', $e->getMessage()]);
                         $error1 = $strings["error_file_add"];
                     }
                 }
@@ -213,19 +215,21 @@ if ($request->isMethod('post')) {
                             phpCollab\Util::headerFunction("clientfiledetail.php?id={$request->request->get('parent')}&msg=addFile");
                         }
                     } catch (Exception $exception) {
-                        error_log('Error adding file: ' . $exception, 0);
+                        $logger->error('Project Site (add file)', ['Exception message', $e->getMessage()]);
                         $error2 = $strings["error_file_add"];
                     }
                 }
 
             }
         }
-    } catch (Exception $e) {
+    } catch (InvalidCsrfTokenException $csrfTokenException) {
         $logger->critical('CSRF Token Error', [
-            'edit bookmark' => $request->request->get("id"),
+            'Project Site: Client file detail' => $fileId,
             '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
             '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
         ]);
+    } catch (Exception $e) {
+        $logger->critical('Exception', ['Error' => $e->getMessage()]);
         $msg = 'permissiondenied';
     }
 

@@ -25,6 +25,8 @@
 ** =============================================================================
 */
 
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -43,18 +45,21 @@ if ($request->isMethod('post')) {
                 try {
                     $delete = $calendars->deleteCalendar($calendarId);
                 } catch (Exception $e) {
-                    echo "Error: $e";
+                    $logger->error('Calendar (delete)', ['Exception message', $e->getMessage()]);
+                    $error = $strings["action_not_allowed"];
                 }
 
                 phpCollab\Util::headerFunction("../calendar/viewcalendar.php?msg=delete");
             }
         }
-    } catch (Exception $e) {
+    } catch (InvalidCsrfTokenException $csrfTokenException) {
         $logger->critical('CSRF Token Error', [
-            'edit bookmark' => $request->request->get("id"),
+            'Calendar: Delete' => $request->request->get("id"),
             '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
             '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
         ]);
+    } catch (Exception $e) {
+        $logger->critical('Exception', ['Error' => $e->getMessage()]);
         $msg = 'permissiondenied';
     }
 }

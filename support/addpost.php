@@ -3,6 +3,7 @@
 #Status page: 0
 
 use phpCollab\Util;
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
 $checkSession = "true";
 include_once '../includes/library.php';
@@ -46,7 +47,8 @@ if ($request->isMethod('post')) {
 
                     phpCollab\Util::headerFunction("../support/viewrequest.php?id=$id");
                 } catch (Exception $e) {
-                    echo '<div class="alert error">' . $e->getMessage() . '</div>';
+                    $logger->error('Support (edit post)', ['Exception message', $e->getMessage()]);
+                    $error = $strings["action_not_allowed"];
                 }
             }
 
@@ -59,18 +61,21 @@ if ($request->isMethod('post')) {
                         $support->sendPostChangedNotification($newPost);
                     }
                 } catch (Exception $e) {
-                    echo '<div class="alert error">' . $e->getMessage() . '</div>';
+                    $logger->error('Support (add post)', ['Exception message', $e->getMessage()]);
+                    $error = $strings["action_not_allowed"];
                 }
 
                 phpCollab\Util::headerFunction("../support/viewrequest.php?id=$id");
             }
         }
-    } catch (Exception $e) {
+    } catch (InvalidCsrfTokenException $csrfTokenException) {
         $logger->critical('CSRF Token Error', [
-            'edit bookmark' => $request->request->get("id"),
+            'Support: Add post',
             '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
             '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
         ]);
+    } catch (Exception $e) {
+        $logger->critical('Exception', ['Error' => $e->getMessage()]);
         $msg = 'permissiondenied';
     }
 }

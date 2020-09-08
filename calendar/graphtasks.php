@@ -77,5 +77,5 @@ try {
     }
     $graph->Stroke();
 } catch (Exception $e) {
-    error_log('Error generating JpGraph', 0);
+    $logger->error('Error generating JpGraph. ' . $e->getMessage());
 }

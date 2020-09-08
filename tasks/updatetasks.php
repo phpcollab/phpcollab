@@ -1,6 +1,6 @@
 <?php
 
-use phpCollab\Assignments\Assignments;
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
 $checkSession = "true";
 include_once '../includes/library.php';
@@ -114,7 +114,8 @@ if ($request->isMethod('post')) {
                                 $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo,
                                     $strings["noti_statustaskchange1"], $strings["noti_statustaskchange2"]);
                             } catch (Exception $e) {
-                                echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+                                $logger->error($e->getMessage());
+                                $error = $strings["genericError"];
                             }
                         }
 
@@ -128,7 +129,8 @@ if ($request->isMethod('post')) {
                                 $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo,
                                     $strings["noti_prioritytaskchange1"], $strings["noti_prioritytaskchange2"]);
                             } catch (Exception $e) {
-                                echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+                                $logger->error($e->getMessage());
+                                $error = $strings["genericError"];
                             }
                         }
 
@@ -142,14 +144,16 @@ if ($request->isMethod('post')) {
                                 $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo,
                                     $strings["noti_duedatetaskchange1"], $strings["noti_duedatetaskchange2"]);
                             } catch (Exception $e) {
-                                echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+                                $logger->error($e->getMessage());
+                                $error = $strings["genericError"];
                             }
                         }
                     }
 
                     if ($assigned_to != "0" && $sameAssign !== true && $assignUpdate === true) {
                         // Add to assignment table
-                        (new Assignments())->addAssignment($listTask["tas_id"], $listTask["tas_owner"], $assigned_to,
+
+                        ($container->getAssignmentsManager())->addAssignment($listTask["tas_id"], $listTask["tas_owner"], $assigned_to,
                             $dateheure, $acomm);
 
                         // Check teams and add if necessary
@@ -165,7 +169,8 @@ if ($request->isMethod('post')) {
                                 $tasks->sendTaskNotification($listTask, $projectDetail, $memberInfo,
                                     $strings["noti_taskassignment1"], $strings["noti_taskassignment2"]);
                             } catch (Exception $e) {
-                                echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+                                $logger->error($e->getMessage());
+                                $error = $strings["genericError"];
                             }
                         }
                     }
@@ -173,12 +178,14 @@ if ($request->isMethod('post')) {
             }
             phpCollab\Util::headerFunction("../tasks/listtasks.php?project=$project_id&msg=update");
         }
-    } catch (Exception $e) {
+    } catch (InvalidCsrfTokenException $csrfTokenException) {
         $logger->critical('CSRF Token Error', [
-            'edit bookmark' => $request->request->get("id"),
+            'Tasks: Update task',
             '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
             '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
         ]);
+    } catch (Exception $e) {
+        $logger->critical('Exception', ['Error' => $e->getMessage()]);
         $msg = 'permissiondenied';
     }
 
@@ -347,15 +354,15 @@ include APP_ROOT . '/views/layout/footer.php';
 ?>
 <script>
     function changeSt(theObj, firstRun) {
-        if (theObj.selectedIndex == 4) {
-            if (firstRun != true) document.forms[0].completion.selectedIndex = 1;
+        if (theObj.selectedIndex === 4) {
+            if (firstRun !== true) document.forms[0].completion.selectedIndex = 1;
             document.forms[0].compl.value = 0;
             document.forms[0].completion.disabled = false;
         } else {
-            if (theObj.selectedIndex == 0) {
+            if (theObj.selectedIndex === 0) {
                 document.forms[0].completion.selectedIndex = 0;
                 document.forms[0].compl.value = '';
-            } else if (theObj.selectedIndex == 1 || theObj.selectedIndex == 2) {
+            } else if (theObj.selectedIndex === 1 || theObj.selectedIndex === 2) {
                 document.forms[0].completion.selectedIndex = 11;
                 document.forms[0].compl.value = 10;
             } else {

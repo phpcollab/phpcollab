@@ -28,6 +28,8 @@
 */
 
 
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -58,7 +60,8 @@ if ($request->isMethod('post')) {
                     try {
                         unlink(APP_ROOT . "/logos_clients/1.$extensionOld");
                     } catch (Exception $e) {
-                        echo 'Error deleting file. Message: ' . $e->getMessage();
+                        $logger->error('Admin (company)', ['Exception message', $e->getMessage()]);
+                        $error = $strings["action_not_allowed"];
                     }
                 }
 
@@ -69,7 +72,8 @@ if ($request->isMethod('post')) {
                         $org->setLogoExtensionByOrgId(1, $extension);
                     }
                 } catch (Exception $e) {
-                    echo 'Error moving file. Message: ' . $e->getMessage();
+                    $logger->error('Admin (company)', ['Exception message', $e->getMessage()]);
+                    $error = $strings["action_not_allowed"];
                 }
 
                 $dbParams = [];
@@ -85,12 +89,14 @@ if ($request->isMethod('post')) {
                 phpCollab\Util::headerFunction("../administration/mycompany.php?msg=update");
             }
         }
-    } catch (Exception $e) {
+    } catch (InvalidCsrfTokenException $csrfTokenException) {
         $logger->critical('CSRF Token Error', [
-            'edit bookmark' => $request->request->get("id"),
+            'Admin: Edit My Company',
             '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
             '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
         ]);
+    } catch (Exception $e) {
+        $logger->critical('Exception', ['Error' => $e->getMessage()]);
         $msg = 'permissiondenied';
     }
 }

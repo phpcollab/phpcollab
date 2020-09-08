@@ -16,6 +16,8 @@
 ** =============================================================================
 */
 
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -51,7 +53,8 @@ if ($request->isMethod('post')) {
                                     $Htpasswd->initialize("../files/" . $thisTeam["tea_pro_id"] . "/.htpasswd");
                                     $Htpasswd->changePass($session->get("login"), $encryptedPassword);
                                 } catch (Exception $e) {
-                                    echo "Error: " . $e->getMessage();
+                                    $logger->error('Preferences (password)', ['Exception message', $e->getMessage()]);
+                                    $error = $strings["action_not_allowed"];
                                 }
                             }
                         }
@@ -60,7 +63,8 @@ if ($request->isMethod('post')) {
                     try {
                         $members->setPassword($session->get("id"), $newPassword);
                     } catch (Exception $e) {
-                        echo "Error: " . $e->getMessage();
+                        $logger->error('Preferences (password)', ['Exception message', $e->getMessage()]);
+                        $error = $strings["action_not_allowed"];
                     }
 
                     //if mantis bug tracker enabled
@@ -73,12 +77,14 @@ if ($request->isMethod('post')) {
                 }
             }
         }
-    } catch (Exception $e) {
+    } catch (InvalidCsrfTokenException $csrfTokenException) {
         $logger->critical('CSRF Token Error', [
-            'edit bookmark' => $request->request->get("id"),
+            'Preferences: Update Password',
             '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
             '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
         ]);
+    } catch (Exception $e) {
+        $logger->critical('Exception', ['Error' => $e->getMessage()]);
         $msg = 'permissiondenied';
     }
 }

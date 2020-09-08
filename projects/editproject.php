@@ -26,6 +26,8 @@
 ** =============================================================================
 */
 
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 include '../includes/customvalues.php';
@@ -266,7 +268,9 @@ STAMP;
 
                             phpCollab\Util::headerFunction("../projects/viewproject.php?id=$newProjectId&msg=add");
                         } catch (Exception $e) {
-                            echo "ERROR: " . $e->getMessage();
+                            $logger->error('Projects (edit)', ['Exception message', $e->getMessage()]);
+                            $error = $strings["action_not_allowed"];
+
                         }
 
                     } else {
@@ -285,7 +289,8 @@ STAMP;
                                         $Htpasswd->initialize("../files/" . $id . "/.htpasswd");
                                         $Htpasswd->addUser($detailMember["mem_login"], $detailMember["mem_password"]);
                                     } catch (Exception $e) {
-
+                                        $logger->error('Projects (htaccessAuth add user)', ['Exception message', $e->getMessage()]);
+                                        $error = $strings["action_not_allowed"];
                                     }
                                 }
                             }
@@ -304,7 +309,8 @@ STAMP;
                                             $Htpasswd->initialize("../files/" . $id . "/.htpasswd");
                                             $Htpasswd->deleteUser($clientUser["mem_login"]);
                                         } catch (Exception $e) {
-
+                                            $logger->error('Projects (htpasswd)', ['Exception message', $e->getMessage()]);
+                                            $error = $strings["action_not_allowed"];
                                         }
                                     }
                                 }
@@ -367,12 +373,14 @@ STAMP;
                     }
                 }
             }
-        } catch (Exception $e) {
+        } catch (InvalidCsrfTokenException $csrfTokenException) {
             $logger->critical('CSRF Token Error', [
-                'edit bookmark' => $request->request->get("id"),
+                'Projects: Edit project',
                 '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
                 '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
             ]);
+        } catch (Exception $e) {
+            $logger->critical('Exception', ['Error' => $e->getMessage()]);
             $msg = 'permissiondenied';
         }
     }
@@ -491,16 +499,19 @@ STAMP;
 
                         phpCollab\Util::headerFunction("../projects/viewproject.php?id=$newProjectId&msg=add");
                     } catch (Exception $e) {
-                        echo "<pre>{$e->getTraceAsString()}</pre>";
+                        $logger->error('Projects (edit)', ['Exception message', $e->getMessage()]);
+                        $error = $strings["action_not_allowed"];
                     }
                 }
             }
-        } catch (Exception $e) {
+        } catch (InvalidCsrfTokenException $csrfTokenException) {
             $logger->critical('CSRF Token Error', [
-                'edit bookmark' => $request->request->get("id"),
+                'Projects: Add project',
                 '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
                 '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
             ]);
+        } catch (Exception $e) {
+            $logger->critical('Exception', ['Error' => $e->getMessage()]);
             $msg = 'permissiondenied';
         }
     }

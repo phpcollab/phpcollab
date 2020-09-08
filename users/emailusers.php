@@ -3,6 +3,8 @@
 #Status page: 0
 #Path by root: ../users/emailusers.php
 
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -57,7 +59,8 @@ if ($request->isMethod('post')) {
                         $members->sendEmail($listMember["mem_email_work"], $listMember["mem_name"], $subject, $message,
                             null, null, $signature);
                     } catch (Exception $e) {
-                        echo "Error sending email." . $e->getMessage();
+                        $logger->error($e->getMessage());
+                        $msg = "genericError";
                     }
 
 
@@ -70,12 +73,14 @@ if ($request->isMethod('post')) {
                 }
             }
         }
-    } catch (Exception $e) {
+    } catch (InvalidCsrfTokenException $csrfTokenException) {
         $logger->critical('CSRF Token Error', [
-            'edit bookmark' => $request->request->get("id"),
+            'Users: Email user(s)',
             '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
             '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
         ]);
+    } catch (Exception $e) {
+        $logger->critical('Exception', ['Error' => $e->getMessage()]);
         $msg = 'permissiondenied';
     }
 }

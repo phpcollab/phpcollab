@@ -95,7 +95,8 @@ if ($action == "generate") {
         phpCollab\Util::headerFunction("../administration/admin.php?msg=update");
 
     } catch (Exception $e) {
-
+        $logger->error('Admin (database)', ['Exception message', $e->getMessage()]);
+        $error = $strings["action_not_allowed"];
     }
 }
 

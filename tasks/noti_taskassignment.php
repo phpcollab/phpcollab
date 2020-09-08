@@ -2,8 +2,9 @@
 
 $notificationsClass = $container->getNotificationsManager();
 
-$taskNoti = $tasks->getTaskById($listTask["tas_id"]);
-
+if (!empty($listTask)) {
+    $taskNoti = $tasks->getTaskById($listTask["tas_id"]);
+}
 $projectNoti = $projects->getProjectById($listTask["tas_project"]);
 
 $task_owner = $listTask["tas_owner"];
@@ -15,7 +16,7 @@ if ($listNotifications["taskAssignment"] == "0") {
 
     try {
 
-        $mail->getUserinfo($session->get("id"), "from");
+        $mail->getUserinfo($session->get("id"), "from", $logger);
 
         $mail->partSubject = $strings["noti_taskassignment1"];
         $mail->partMessage = $strings["noti_taskassignment2"];
@@ -64,6 +65,7 @@ if ($listNotifications["taskAssignment"] == "0") {
         $mail->send();
         $mail->clearAddresses();
     } catch (Exception $e) {
-        echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+        $logger->error('Notification', ['Exception message' => $e->getMessage(), 'Mail ErrorInfo' => $mail->ErrorInfo]);
+        $error = $strings["genericError"];
     }
 }

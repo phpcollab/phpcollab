@@ -3,8 +3,8 @@
 #Status page: 0
 #Path by root: ../topics/deletepost.php
 
-use phpCollab\Topics\Topics;
 use phpCollab\Util;
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
 $checkSession = "true";
 include_once '../includes/library.php';
@@ -30,17 +30,19 @@ if ($request->isMethod('post')) {
                     Util::headerFunction("../topics/viewtopic.php?msg=delete&id=" . $topicId);
 
                 } catch (Exception$exception) {
-                    error_log('Error deleting post', 0);
+                    $logger->error($e->getMessage());
                     $error = $strings["error_delete_post"];
                 }
             }
         }
-    } catch (Exception $e) {
+    } catch (InvalidCsrfTokenException $csrfTokenException) {
         $logger->critical('CSRF Token Error', [
-            'edit bookmark' => $request->request->get("id"),
+            'Topics: Delete post',
             '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
             '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
         ]);
+    } catch (Exception $e) {
+        $logger->critical('Exception', ['Error' => $e->getMessage()]);
         $msg = 'permissiondenied';
     }
 }

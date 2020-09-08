@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -47,12 +49,14 @@ if (!empty($commentId)) {
                     phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postId&msg=removeComment");
                 }
             }
-        } catch (Exception $e) {
+        } catch (InvalidCsrfTokenException $csrfTokenException) {
             $logger->critical('CSRF Token Error', [
-                'edit bookmark' => $request->request->get("id"),
+                'Newsdesk: Edit Message' => $request->query->get("id"),
                 '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
                 '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
             ]);
+        } catch (Exception $e) {
+            $logger->critical('Exception', ['Error' => $e->getMessage()]);
             $msg = 'permissiondenied';
         }
     }
@@ -80,12 +84,14 @@ if (!empty($commentId)) {
                         phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postId&msg=add");
                     }
                 }
-            } catch (Exception $e) {
+            } catch (InvalidCsrfTokenException $csrfTokenException) {
                 $logger->critical('CSRF Token Error', [
-                    'edit bookmark' => $request->request->get("id"),
+                    'Newsdesk: Add Message',
                     '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
                     '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
                 ]);
+            } catch (Exception $e) {
+                $logger->critical('Exception', ['Error' => $e->getMessage()]);
                 $msg = 'permissiondenied';
             }
         }
