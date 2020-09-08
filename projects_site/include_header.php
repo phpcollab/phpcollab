@@ -26,6 +26,7 @@ echo <<<HTML
     <meta name="robots" content="none">
     <meta name="description" content="{$setDescription}">
     <meta name="keywords" content="{$setKeywords}">
+    <link rel="manifest" href="/public/site.webmanifest">
     <title>{$setTitle} - 
 HTML;
 

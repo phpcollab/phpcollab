@@ -22,7 +22,7 @@ echo <<<HEAD
 <link rel="icon" type="image/png" sizes="32x32" href="/public/images/favicons/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="96x96" href="/public/images/favicons/favicon-96x96.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/public/images/favicons/favicon-16x16.png">
-<link rel="manifest" href="/public/manifest.json">
+<link rel="manifest" href="/public/site.webmanifest">
 
 <script type="text/Javascript">
 <!--
