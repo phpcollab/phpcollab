@@ -1,5 +1,7 @@
 <?php
 
+use phpCollab\Exceptions\TokenGenerationFailedException;
+
 $checkSession = "false";
 include_once '../includes/library.php';
 
@@ -13,13 +15,16 @@ if ($request->isMethod('post')) {
     } else {
         $msg = 'email_pwd';
 
-        $resetPassword = $container->getResetPasswordService();
-        $resetPassword->reset($request->request->get('username'));
+        try {
+            $resetPassword = $container->getResetPasswordService();
+            $resetPassword->forgotPassword($request->request->get('username'));
+        } catch (TokenGenerationFailedException $e) {
+            $error = $strings["genericError"];
+        }
     }
 }
 
 $notLogged = "true";
-$bodyCommand = "onLoad=\"document.sendForm.loginForm.focus();\"";
 include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
@@ -48,7 +53,7 @@ $block1->openContent();
 $block1->contentTitle($strings["enter_login"]);
 
 $block1->contentRow("* " . $strings["user_name"],
-    '<input style="width: 125px" maxlength="16" size="16" value="" type="text" name="username" autocomplete="off" required />');
+    '<input style="width: 125px" maxlength="16" size="16" value="" type="text" name="username" autocomplete="off" required autofocus />');
 $block1->contentRow("", '<input type="submit" name="send" value="' . $strings['send'] . '" />');
 
 $block1->closeContent();

@@ -687,3 +687,7 @@ $strings["genericError"] = "There was a problem processing your request.";
 $strings["last_page"] = "Last Page Visited";
 $strings["view_newsdesk"] = "View Newsdesk Article";
 $strings["task_not_found"] = "That task could not be found.";
+$strings["email_forgot_pwd_subject"] = "Forgotten Password Reset";
+$strings["password_successful_changed"] = "Password has been successfully changed.";
+$strings["password_reset_confirmation_subject"] = "Password Reset Confirmation for %s";
+$strings["password_confirm_blank"] = "Please re-enter the \"confirm\" password.";

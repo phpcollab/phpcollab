@@ -242,11 +242,11 @@ $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs("&nbsp;");
 $blockPage->closeBreadcrumbs();
 
-if ($msg != "") {
-    include_once('../includes/messages.php');
-    $blockPage->messageBox($msgLabel);
-}
 
+
+if ($session->getFlashBag()->has('message')) {
+    $blockPage->messageBox( $session->getFlashBag()->get('message')[0] );
+}
 
 $block1 = new phpCollab\Block();
 
@@ -255,6 +255,14 @@ $block1->openForm("../general/login.php?auth=test", null, $csrfHandler);
 
 if (!empty($request->query->get('url'))) {
     echo "<input value='{$request->query->get('url')}' type='hidden' name='url'>";
+}
+
+if ($session->getFlashBag()->get("error")) {
+    $block1->headingError($strings["errors"]);
+    foreach ($session->getFlashBag()->get('error', []) as $message) {
+        $block1->contentError($message);
+    }
+
 }
 
 if ($error != "") {
@@ -315,7 +323,7 @@ $block1->contentRow("* " . $strings["password"],
 $block1->contentRow(
     "",
     "<input type='submit' name='save' value='" . $strings["login"] . "'><br/><br/><br/>" . $blockPage->buildLink(
-        "../general/sendpassword.php?",
+        "../general/sendpassword.php",
         $strings["forgot_pwd"],
         'in'
     )
