@@ -469,7 +469,6 @@ CSRF_INPUT;
         for ($i = 0; $i < $comptLabels; $i++) {
             if ($sorting == "true") {
                 if (isset($sortingFields) && array_key_exists($i, $sortingFields) && $sortingFields[$i] !== 'none') {
-                    $labelsWithSlashes = addslashes($labels[$i]);
                     echo <<<HTML
 <th nowrap class="{$sortingStyles[$i]}">
     <a href="javascript:document.{$this->form}Form.sort_target.value='{$this->sortingRef}';
