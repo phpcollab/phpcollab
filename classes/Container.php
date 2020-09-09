@@ -128,6 +128,9 @@ class Container
     {
         if (null === $this->logger) {
             try {
+                if (is_null($level)) {
+                    $level = 400;
+                }
                 $stream = new StreamHandler(APP_ROOT . '/logs/phpcollab.log', $level);
                 // create a log channel
                 $this->logger = new Logger('phpCollab');

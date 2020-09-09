@@ -55,7 +55,7 @@ $container = new Container([
 /*
  * Setup logger
  */
-$logger = $container->getLogger();
+$logger = $container->getLogger($GLOBALS["logLevel"]);
 // End logger init
 
 $escaper = $container->getEscaperService();
