@@ -114,7 +114,7 @@ class Container
     {
         if (null === $this->database) {
             try {
-                $this->database = new Database($this->configuration);
+                $this->database = new Database($this->configuration, $this->getLogger());
             } catch (Exception $exception) {
                 error_log($exception->getMessage());
                 return $exception;
@@ -124,11 +124,11 @@ class Container
         return $this->database;
     }
 
-    public function getLogger()
+    public function getLogger($level = 400)
     {
         if (null === $this->logger) {
             try {
-                $stream = new StreamHandler(APP_ROOT . '/logs/phpcollab.log', Logger::DEBUG);
+                $stream = new StreamHandler(APP_ROOT . '/logs/phpcollab.log', $level);
                 // create a log channel
                 $this->logger = new Logger('phpCollab');
                 $this->logger->pushHandler($stream);

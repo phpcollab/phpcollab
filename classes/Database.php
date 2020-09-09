@@ -2,9 +2,7 @@
 namespace phpCollab;
 
 use Exception;
-use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use Monolog\Processor\IntrospectionProcessor;
 use \PDO;
 use PDOException;
 use UnexpectedValueException;
@@ -25,33 +23,26 @@ class Database
     /**
      * Database constructor.
      * @param array $config
+     * @param Logger $logger
      * @throws Exception
      */
-    public function __construct(array $config)
+    public function __construct(array $config, Logger $logger)
     {
-        /*
-         * Setup logger
-         */
         try {
-            $stream = new StreamHandler(APP_ROOT . '/logs/phpcollab.log', Logger::DEBUG);
-            $this->logger = new Logger('database');
-            $this->logger->pushHandler($stream);
-            $this->logger->pushProcessor(new IntrospectionProcessor());
+            // Create a "database" logger channel
+            $this->logger = $logger->withName('database');
         } catch (Exception $e) {
             error_log('library error: ' . $e->getMessage());
         }
-        $this->log('__construct init');
-        /*
-         * End logger init
-         */
 
+        $this->logger->info('Database init');
         $this->configuration = $config;
 
         $this->tableCollab = $this->configuration['tableCollab'];
 
         if ($this->dbh === null) {
             // Set DSN
-            $this->log('set DSN for: ' . $this->configuration["dbType"]);
+            $this->logger->info('set DSN', ['database_type' => $this->configuration["dbType"]]);
             switch ($this->configuration['dbType']) {
                 case ('mysql'):
                     $dsn = "mysql:host={$this->configuration["dbServer"]};dbname={$this->configuration["dbName"]}";
@@ -67,25 +58,21 @@ class Database
             }
 
             // Set options
-            $this->log('set PDO options');
+            $this->logger->info('set PDO options');
             $options = array(
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
             );
 
             // Create a new PDO instance
-            $this->log('create PDO instance');
+            $this->logger->info('create PDO instance');
             try {
                 $this->dbh = new PDO($dsn, $this->configuration['dbUsername'], $this->configuration['dbPassword'], $options);
             } // Catch any errors
             catch (PDOException $e) {
+                $this->logger->alert('PDO Exception' . ['Exception' => $e->getMessage()]);
                 throw new Exception($e->getMessage());
             }
         }
-    }
-
-    private function log($msg)
-    {
-        $this->logger->debug($msg);
     }
 
     /**
@@ -94,6 +81,7 @@ class Database
     public function query($query)
     {
         $this->stmt = $this->dbh->prepare($query);
+        $this->logger->info('Query', ['query' => $query]);
     }
 
     /**
@@ -103,6 +91,8 @@ class Database
      */
     public function bind($param, $value, $type = null)
     {
+        $this->logger->info('Bind DB parameters');
+        $this->logger->debug('Bind DB parameters', ['param' => $param, 'value' => $value, 'type' => $type]);
         if (is_null($type)) {
             switch (true) {
                 case is_int($value):
@@ -212,6 +202,7 @@ class Database
 
     public function getTableName(string $name)
     {
+        $this->logger->info('Get table name');
         if ($this->tableCollab && $this->tableCollab[$name]) {
             return $this->tableCollab[$name];
         }
