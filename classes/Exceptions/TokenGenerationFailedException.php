@@ -12,5 +12,4 @@ class TokenGenerationFailedException extends Exception
     {
         return 'Unable to generate password reset token';
     }
-
 }

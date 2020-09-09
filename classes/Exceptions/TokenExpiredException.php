@@ -12,5 +12,4 @@ class TokenExpiredException extends Exception
     {
         return 'Token has expired';
     }
-
 }
