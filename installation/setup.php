@@ -35,7 +35,7 @@ if ($redirect == "true" && $step == "2") {
 }
 
 
-$version = "2.8.0";
+$version = "2.8.1";
 
 $dateheure = date("Y-m-d H:i");
 
