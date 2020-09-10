@@ -24,6 +24,8 @@ require_once dirname(dirname(__FILE__)) . '/vendor/autoload.php';
 $help = [];
 require_once '../languages/help_en.php';
 
+$appRoot = dirname(dirname(__FILE__));
+
 $step = $_GET["step"];
 $redirect = $_GET["redirect"];
 $connection = (!empty($_GET["connection"])) ? $_GET["connection"] : $_POST["connection"];
@@ -101,6 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $ftpLogin = $scrubedData["ftpLogin"];
             $ftpPassword = $scrubedData["ftpPassword"];
             // -- END Paranoia
+
             try {
                 $msg = '';
                 /**
@@ -156,226 +159,235 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     }
                 }
 
-                $msg .= "<p>Tables and settings file created correctly.</p>";
+                if (!$error) {
+                    $msg .= "<p>Tables and settings file created correctly.</p>";
 
-                /**
-                 * Write the settings file
-                 */
-                $content = <<<STAMP
-<?php
-#Application name: PhpCollab
-#Path by root: ../includes/settings.php
-
-# installation type
-\$installationType = "$installationType"; //select "offline" or "online"
-
-# select database application
-\$databaseType = "$databaseType"; //select "sqlserver", "postgresql" or "mysql"
-
-# database parameters
-define('MYSERVER','$dbServer');
-define('MYLOGIN','$dbLogin');
-define('MYPASSWORD','$dbPassword');
-define('MYDATABASE','$dbName');
-
-# notification method
-\$notificationMethod = "mail"; //select "mail" or "smtp"
-
-# smtp parameters (only if \$notificationMethod == "smtp")
-define('SMTPSERVER','');
-define('SMTPLOGIN','');
-define('SMTPPASSWORD','');
-define('SMTPPORT','');
-
-# create folder method
-\$mkdirMethod = "$mkdirMethod"; //select "FTP" or "PHP"
-
-# ftp parameters (only if \$mkdirMethod == "FTP")
-define('FTPSERVER','$ftpServer');
-define('FTPLOGIN','$ftpLogin');
-define('FTPPASSWORD','$ftpPassword');
-
-# PhpCollab root according to ftp account (only if \$mkdirMethod == "FTP")
-\$ftpRoot = "$ftpRoot"; //no slash at the end
-
-# Invoicing module
-\$enableInvoicing = true;
-
-# theme choice
-define('THEME','default');
-
-# newsdesk limiter
-\$newsdesklimit = 1;
-
-# if 1 the admin logs in his homepage
-\$adminathome = 0;
-
-# timezone GMT management
-\$gmtTimezone = false;
-
-# language choice
-\$langDefault = "$defaultLanguage";
-
-# Mantis bug tracking parameters
-// Should bug tracking be enabled?
-\$enableMantis = false;
-
-// Mantis installation directory
-\$pathMantis = "http://localhost/mantis/";  // add slash at the end
-
-# https related parameters
-\$pathToOpenssl = "/usr/bin/openssl";
-
-# login method, set to "CRYPT"
-\$loginMethod = "$loginMethod"; //select "MD5", "CRYPT", or "PLAIN"
-
-# enable LDAP
-\$useLDAP = false;
-\$configLDAP["ldapserver"] = "your.ldap.server.address";
-\$configLDAP["searchroot"] = "ou=People, ou=Intranet, dc=YourCompany, dc=com";
-
-# htaccess parameters
-\$htaccessAuth = false;
-\$fullPath = "/usr/local/apache/htdocs/phpcollab/files"; //no slash at the end
-
-# file management parameters
-\$fileManagement = true;
-\$maxFileSize = 51200; //bytes limit for upload
-\$root = "$siteUrl"; //no slash at the end
-
-# security issue to disallow php files upload
-\$allowPhp = false;
-
-# project site creation
-\$sitePublish = true;
-
-# enable update checker
-\$updateChecker = "$updatechecker";
-
-# e-mail notifications
-\$notifications = "$notifications";
-
-# show peer review area
-\$peerReview = true;
-
-# show items for home
-\$showHomeBookmarks = true;
-\$showHomeProjects = true;
-\$showHomeTasks = true;
-\$showHomeSubtasks = true;
-\$showHomeDiscussions = true;
-\$showHomeReports = true;
-\$showHomeNotes = true;
-\$showHomeNewsdesk = true;
-
-# security issue to disallow auto-login from external link
-\$forcedLogin = "$forcedlogin";
-
-# table prefix
-\$tablePrefix = "$dbTablePrefix";
-
-# database tables
-\$tableCollab["assignments"] = "{$dbTablePrefix}assignments";
-\$tableCollab["calendar"] = "{$dbTablePrefix}calendar";
-\$tableCollab["files"] = "{$dbTablePrefix}files";
-\$tableCollab["logs"] = "{$dbTablePrefix}logs";
-\$tableCollab["members"] = "{$dbTablePrefix}members";
-\$tableCollab["notes"] = "{$dbTablePrefix}notes";
-\$tableCollab["notifications"] = "{$dbTablePrefix}notifications";
-\$tableCollab["organizations"] = "{$dbTablePrefix}organizations";
-\$tableCollab["posts"] = "{$dbTablePrefix}posts";
-\$tableCollab["projects"] = "{$dbTablePrefix}projects";
-\$tableCollab["reports"] = "{$dbTablePrefix}reports";
-\$tableCollab["sorting"] = "{$dbTablePrefix}sorting";
-\$tableCollab["tasks"] = "{$dbTablePrefix}tasks";
-\$tableCollab["teams"] = "{$dbTablePrefix}teams";
-\$tableCollab["topics"] = "{$dbTablePrefix}topics";
-\$tableCollab["phases"] = "{$dbTablePrefix}phases";
-\$tableCollab["support_requests"] = "{$dbTablePrefix}support_requests";
-\$tableCollab["support_posts"] = "{$dbTablePrefix}support_posts";
-\$tableCollab["subtasks"] = "{$dbTablePrefix}subtasks";
-\$tableCollab["updates"] = "{$dbTablePrefix}updates";
-\$tableCollab["bookmarks"] = "{$dbTablePrefix}bookmarks";
-\$tableCollab["bookmarks_categories"] = "{$dbTablePrefix}bookmarks_categories";
-\$tableCollab["invoices"] = "{$dbTablePrefix}invoices";
-\$tableCollab["invoices_items"] = "{$dbTablePrefix}invoices_items";
-\$tableCollab["services"] = "{$dbTablePrefix}services";
-\$tableCollab["newsdeskcomments"] = "{$dbTablePrefix}newsdeskcomments";
-\$tableCollab["newsdeskposts"] = "{$dbTablePrefix}newsdeskposts";
-
-# PhpCollab version
-\$version = "$version";
-
-# demo mode parameters
-\$demoMode = false;
-\$urlContact = "http://www.sourceforge.net/projects/phpcollab";
-
-# Gantt graphs
-\$activeJpgraph = true;
-
-# developement options in footer
-\$footerDev = false;
-
-# filter to see only logged user clients (in team / owner)
-\$clientsFilter = false;
-
-# filter to see only logged user projects (in team / owner)
-\$projectsFilter = false;
-
-# Enable help center support requests, values "true" or "false"
-\$enableHelpSupport = true;
-
-# Return email address given for clients to respond too.
-\$supportEmail = "email@yourdomain.com";
-
-# Support Type, either team or admin. If team is selected a notification will be sent to everyone in the team when a new request is added
-\$supportType = "team";
-
-# enable the redirection to the last visited page, EXPERIMENTAL DO NOT USE IT
-\$lastvisitedpage = false;
-
-# auto-publish tasks added from client site?
-\$autoPublishTasks = false;
-
-# html header parameters
-\$setDoctype = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">";
-\$setTitle = "PhpCollab";
-\$siteTitle = "PhpCollab";
-\$setDescription = "Groupware module. Manage web projects with team collaboration, users management, tasks and projects tracking, files approval tracking, project sites clients access, customer relationship management (Php / Mysql, PostgreSQL or Sql Server).";
-\$setKeywords = "PhpCollab, phpcollab.com, Sourceforge, management, web, projects, tasks, organizations, reports, Php, MySql, Sql Server, mssql, Microsoft Sql Server, PostgreSQL, module, application, module, file management, project site, team collaboration, free, crm, CRM, cutomer relationship management, workflow, workgroup";
-
-\$emailAlerts = false;
+                    /**
+                     * Write the settings file
+                     */
+                    $content = <<<STAMP
+    <?php
+    #Application name: PhpCollab
+    #Path by root: ../includes/settings.php
+    
+    # installation type
+    \$installationType = "$installationType"; //select "offline" or "online"
+    
+    # select database application
+    \$databaseType = "$databaseType"; //select "sqlserver", "postgresql" or "mysql"
+    
+    # database parameters
+    define('MYSERVER','$dbServer');
+    define('MYLOGIN','$dbLogin');
+    define('MYPASSWORD','$dbPassword');
+    define('MYDATABASE','$dbName');
+    
+    # notification method
+    \$notificationMethod = "mail"; //select "mail" or "smtp"
+    
+    # smtp parameters (only if \$notificationMethod == "smtp")
+    define('SMTPSERVER','');
+    define('SMTPLOGIN','');
+    define('SMTPPASSWORD','');
+    define('SMTPPORT','');
+    
+    # create folder method
+    \$mkdirMethod = "$mkdirMethod"; //select "FTP" or "PHP"
+    
+    # ftp parameters (only if \$mkdirMethod == "FTP")
+    define('FTPSERVER','$ftpServer');
+    define('FTPLOGIN','$ftpLogin');
+    define('FTPPASSWORD','$ftpPassword');
+    
+    # PhpCollab root according to ftp account (only if \$mkdirMethod == "FTP")
+    \$ftpRoot = "$ftpRoot"; //no slash at the end
+    
+    # Invoicing module
+    \$enableInvoicing = true;
+    
+    # theme choice
+    define('THEME','default');
+    
+    # newsdesk limiter
+    \$newsdesklimit = 1;
+    
+    # if 1 the admin logs in his homepage
+    \$adminathome = 0;
+    
+    # timezone GMT management
+    \$gmtTimezone = false;
+    
+    # language choice
+    \$langDefault = "$defaultLanguage";
+    
+    # Mantis bug tracking parameters
+    // Should bug tracking be enabled?
+    \$enableMantis = false;
+    
+    // Mantis installation directory
+    \$pathMantis = "http://localhost/mantis/";  // add slash at the end
+    
+    # https related parameters
+    \$pathToOpenssl = "/usr/bin/openssl";
+    
+    # login method, set to "CRYPT"
+    \$loginMethod = "$loginMethod"; //select "MD5", "CRYPT", or "PLAIN"
+    
+    # enable LDAP
+    \$useLDAP = false;
+    \$configLDAP["ldapserver"] = "your.ldap.server.address";
+    \$configLDAP["searchroot"] = "ou=People, ou=Intranet, dc=YourCompany, dc=com";
+    
+    # htaccess parameters
+    \$htaccessAuth = false;
+    \$fullPath = "/usr/local/apache/htdocs/phpcollab/files"; //no slash at the end
+    
+    # file management parameters
+    \$fileManagement = true;
+    \$maxFileSize = 51200; //bytes limit for upload
+    \$root = "$siteUrl"; //no slash at the end
+    
+    # security issue to disallow php files upload
+    \$allowPhp = false;
+    
+    # project site creation
+    \$sitePublish = true;
+    
+    # enable update checker
+    \$updateChecker = "$updatechecker";
+    
+    # e-mail notifications
+    \$notifications = "$notifications";
+    
+    # show peer review area
+    \$peerReview = true;
+    
+    # show items for home
+    \$showHomeBookmarks = true;
+    \$showHomeProjects = true;
+    \$showHomeTasks = true;
+    \$showHomeSubtasks = true;
+    \$showHomeDiscussions = true;
+    \$showHomeReports = true;
+    \$showHomeNotes = true;
+    \$showHomeNewsdesk = true;
+    
+    # security issue to disallow auto-login from external link
+    \$forcedLogin = "$forcedlogin";
+    
+    # table prefix
+    \$tablePrefix = "$dbTablePrefix";
+    
+    # database tables
+    \$tableCollab["assignments"] = "{$dbTablePrefix}assignments";
+    \$tableCollab["calendar"] = "{$dbTablePrefix}calendar";
+    \$tableCollab["files"] = "{$dbTablePrefix}files";
+    \$tableCollab["logs"] = "{$dbTablePrefix}logs";
+    \$tableCollab["members"] = "{$dbTablePrefix}members";
+    \$tableCollab["notes"] = "{$dbTablePrefix}notes";
+    \$tableCollab["notifications"] = "{$dbTablePrefix}notifications";
+    \$tableCollab["organizations"] = "{$dbTablePrefix}organizations";
+    \$tableCollab["posts"] = "{$dbTablePrefix}posts";
+    \$tableCollab["projects"] = "{$dbTablePrefix}projects";
+    \$tableCollab["reports"] = "{$dbTablePrefix}reports";
+    \$tableCollab["sorting"] = "{$dbTablePrefix}sorting";
+    \$tableCollab["tasks"] = "{$dbTablePrefix}tasks";
+    \$tableCollab["teams"] = "{$dbTablePrefix}teams";
+    \$tableCollab["topics"] = "{$dbTablePrefix}topics";
+    \$tableCollab["phases"] = "{$dbTablePrefix}phases";
+    \$tableCollab["support_requests"] = "{$dbTablePrefix}support_requests";
+    \$tableCollab["support_posts"] = "{$dbTablePrefix}support_posts";
+    \$tableCollab["subtasks"] = "{$dbTablePrefix}subtasks";
+    \$tableCollab["updates"] = "{$dbTablePrefix}updates";
+    \$tableCollab["bookmarks"] = "{$dbTablePrefix}bookmarks";
+    \$tableCollab["bookmarks_categories"] = "{$dbTablePrefix}bookmarks_categories";
+    \$tableCollab["invoices"] = "{$dbTablePrefix}invoices";
+    \$tableCollab["invoices_items"] = "{$dbTablePrefix}invoices_items";
+    \$tableCollab["services"] = "{$dbTablePrefix}services";
+    \$tableCollab["newsdeskcomments"] = "{$dbTablePrefix}newsdeskcomments";
+    \$tableCollab["newsdeskposts"] = "{$dbTablePrefix}newsdeskposts";
+    
+    # PhpCollab version
+    \$version = "$version";
+    
+    # demo mode parameters
+    \$demoMode = false;
+    \$urlContact = "http://www.sourceforge.net/projects/phpcollab";
+    
+    # Gantt graphs
+    \$activeJpgraph = true;
+    
+    # developement options in footer
+    \$footerDev = false;
+    
+    # filter to see only logged user clients (in team / owner)
+    \$clientsFilter = false;
+    
+    # filter to see only logged user projects (in team / owner)
+    \$projectsFilter = false;
+    
+    # Enable help center support requests, values "true" or "false"
+    \$enableHelpSupport = true;
+    
+    # Return email address given for clients to respond too.
+    \$supportEmail = "email@yourdomain.com";
+    
+    # Support Type, either team or admin. If team is selected a notification will be sent to everyone in the team when a new request is added
+    \$supportType = "team";
+    
+    # enable the redirection to the last visited page, EXPERIMENTAL DO NOT USE IT
+    \$lastvisitedpage = false;
+    
+    # auto-publish tasks added from client site?
+    \$autoPublishTasks = false;
+    
+    # html header parameters
+    \$setDoctype = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">";
+    \$setTitle = "PhpCollab";
+    \$siteTitle = "PhpCollab";
+    \$setDescription = "Groupware module. Manage web projects with team collaboration, users management, tasks and projects tracking, files approval tracking, project sites clients access, customer relationship management (Php / Mysql, PostgreSQL or Sql Server).";
+    \$setKeywords = "PhpCollab, phpcollab.com, Sourceforge, management, web, projects, tasks, organizations, reports, Php, MySql, Sql Server, mssql, Microsoft Sql Server, PostgreSQL, module, application, module, file management, project site, team collaboration, free, crm, CRM, cutomer relationship management, workflow, workgroup";
+    
+    \$emailAlerts = false;
 STAMP;
 
+                    $fp = @fopen("../includes/settings.php", 'wb+');
+                    if (!$fp) {
+                        $error = 1;
+                        throw new Exception("<br/><b>PANIC! <br/> settings.php can't be opened!</b><br/>");
+                    }
+                    $fw = fwrite($fp, $content);
 
-                $fp = @fopen("../includes/settings.php", 'wb+');
-                if (!$fp) {
-                    $error = 1;
-                    throw new Exception("<br/><b>PANIC! <br/> settings.php can't be opened!</b><br/>");
+                    if (!$fw) {
+                        $error = 1;
+                        throw new Exception("<br/><b>PANIC! <br/> settings.php can't be written!</b><br/>");
+                    }
+
+                    fclose($fp);
+                    $msg .= '<p>File settings.php created correctly.</p>';
+
+                    $msg .= "<p><a href='../general/login.php'>Please log in</a></p>";
                 }
-                $fw = fwrite($fp, $content);
-
-                if (!$fw) {
-                    $error = 1;
-                    throw new Exception("<br/><b>PANIC! <br/> settings.php can't be written!</b><br/>");
-                }
-
-                fclose($fp);
-                $msg .= '<p>File settings.php created correctly.</p>';
-
-                $msg .= "<p><a href='../general/login.php'>Please log in</a></p>";
-
 
             } catch (PDOException $e) {
-                $msg = $e->getMessage();
+                error_log("SETUP - PDO Error: " . $e->getCode() . " - " . $e->getMessage(), 3, $appRoot . "/logs/phpcollab.log");
+                $error = $help["setup_error_database"];
+//                $msg = "Error with the database.  Please check and try again.";
             } catch (Exception $e) {
-                $msg = $e->getMessage();
+                error_log("SETUP - Exception: " . $e->getMessage(), 3, $appRoot . "/logs/phpcollab.log");
+                $msg = "We had a problem completing the request. Please check and try again.";
+            }
+
+            // If there was an error, then let's go back to Step 2
+            if ($error) {
+//                $connection = $installationType;
+                $step = 2;
             }
 
             unset($conn);
         } else {
-            $msg = "Error with the database.  Please check and try again.";
-
+            error_log("SETUP - Error: " . $e->getMessage(), 3, $appRoot . "/logs/phpcollab.log");
+            $msg = "We had a problem completing the request. Please check and try again.";
         }
     }
 }
@@ -427,22 +439,41 @@ if ($step == "1") {
     $block1->openContent();
     $block1->contentTitle("&nbsp;");
 
-    echo "<tr class='odd'><td colspan='2'>
-		<pre style='margin-left: 2rem; height: 500px; overflow: scroll;'>";
+    echo <<<HTML
+<tr class="odd"><td colspan="2">
+    <pre style="margin: 1rem auto; height: 500px; width: 525px; overflow-y: scroll; border: 1px inset; padding: 1em;">
+HTML;
     include '../docs/copying.txt';
-    echo "</pre>
-		</td></tr>";
+    echo <<<HTML
+</pre>
+		</td></tr>
+HTML;
     $block1->closeContent();
 }
+
 
 
 if ($step == "2") {
     $block1->openContent();
     $block1->contentTitle("Details");
+
+    if (isset($error) && !empty($error)) {
+        echo <<<HTML
+        <tr class="odd">
+            <td class="error" colspan="2">
+                <div class="alert error" style="margin: 20px 0 20px 50px; width: 30vw;">
+                {$error}
+                </div>
+            </td>
+        </tr>
+HTML;
+    }
+
+
     $block1->form = "settings";
     $block1->openForm("../installation/setup.php?step=3", null, $csrfHandler);
 
-    if ($connection == "off") {
+    if ($connection == "off" || $installationType == "offline") {
         echo "<input value='false' name='updatechecker' type='hidden'>";
     } elseif (@join('', file("http://www.phpcollab.com/website/version.txt"))) {
         echo "<input value='true' name='updatechecker' type='hidden'>";
@@ -452,7 +483,7 @@ if ($step == "2") {
 
     echo '<input type="hidden" name="action" value="generate">';
 
-    if ($connection == "off") {
+    if ($connection == "off" || $installationType == "offline") {
         $installCheckOffline = "checked";
     } else {
         $installCheckOnline = "checked";
@@ -466,38 +497,43 @@ if ($step == "2") {
         $dbCheckPostgresql = "checked";
     }
 
-    echo "	<tr class='odd'>
-				<td class='leftvalue'>* Installation type :</td>
-				<td><input type='radio' name='installationType' value='offline' $installCheckOffline> Offline (firewall/intranet, no update checker)&nbsp;<input type='radio' name='installationType' value='online' $installCheckOnline> Online</td>
+    $myPrefix = addslashes($help["setup_myprefix"]);
+
+    echo <<<HTML
+ 	<tr class="odd">
+				<td class="leftvalue">* Installation type :</td>
+				<td><input type="radio" name="installationType" value="offline" {$installCheckOffline}> Offline (firewall/intranet, no update checker)&nbsp<input type="radio" name="installationType" value="online" {$installCheckOnline}> Online</td>
 			</tr>
-			<tr class='odd'>
-				<td class='leftvalue'>* Database type :</td>
+			<tr class="odd">
+				<td class="leftvalue">* Database type :</td>
 				<td>
-				    <input type='radio' name='databaseType' value='mysql' $dbCheckMysql> MySql&nbsp;
-				    <input type='radio' name='databaseType' value='sqlserver' $dbCheckSqlserver> Microsoft Sql Server&nbsp;
-				    <input type='radio' name='databaseType' value='postgresql' $dbCheckPostgresql> PostgreSQL
+				    <input type="radio" name="databaseType" value="mysql" {$dbCheckMysql}> MySql&nbsp
+				    <input type="radio" name="databaseType" value="sqlserver" {$dbCheckSqlserver}> Microsoft Sql Server&nbsp
+				    <input type="radio" name="databaseType" value="postgresql" {$dbCheckPostgresql}> PostgreSQL
                 </td>
 			</tr>
-			<tr class='odd'>
-				<td class='leftvalue'>* Database server :</td>
-				<td><input size='44' value='$dbServer' style='width: 200px' name='dbServer' maxlength='100' type='text'></td>
+			<tr class="odd">
+				<td class="leftvalue">* Database server :</td>
+				<td><input size="44" value="{$dbServer}" style="width: 200px" name="dbServer" maxlength="100" type="text" required></td>
 			</tr>
-			<tr class='odd'>
-				<td class='leftvalue'>* Database login :</td>
-				<td><input size='44' value='$dbLogin' style='width: 200px' name='dbLogin' maxlength='100' type='text'></td>
+			<tr class="odd">
+				<td class="leftvalue">* Database login :</td>
+				<td><input size="44" value="{$dbLogin}" style="width: 200px" name="dbLogin" maxlength="100" type="text" required></td>
 			</tr>
-			<tr class='odd'>
-				<td class='leftvalue'>Database password :</td>
-				<td><input size='44' value='$dbPassword' style='width: 200px' name='dbPassword' maxlength='100' type='password'></td>
+			<tr class="odd">
+				<td class="leftvalue">Database password :</td>
+				<td><input size="44" value="" style="width: 200px" name="dbPassword" maxlength="100" type="password" autocomplete="off" required></td>
 			</tr>
-			<tr class='odd'>
-				<td class='leftvalue'>* Database name :</td>
-				<td><input size='44' value='$dbName' style='width: 200px' name='dbName' maxlength='100' type='text'></td>
+			<tr class="odd">
+				<td class="leftvalue">* Database name :</td>
+				<td><input size="44" value="{$dbName}" style="width: 200px" name="dbName" maxlength="100" type="text" required></td>
 			</tr>
-			<tr class='odd'>
-				<td class='leftvalue'>Table prefix :<br/>[<a href=\"javascript:void(0);\" onmouseover=\"return overlib('" . addslashes($help["setup_myprefix"]) . "',ABOVE,SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');\" onmouseout=\"return nd();\">Help</a>] </td>
-				<td><input size='44' value='$dbTablePrefix' style='width: 200px' name='dbTablePrefix' maxlength='100' type='text'></td>
-			</tr>";
+			<tr class="odd">
+				<td class="leftvalue">Table prefix :<br/>[<a href="javascript:void(0)" onmouseover="return overlib('{$myPrefix}',ABOVE,SNAPX,550)" onmouseout="return nd()">Help</a>] </td>
+				<td><input size="44" value="{$dbTablePrefix}" style="width: 200px" name="dbTablePrefix" maxlength="100" type="text"></td>
+			</tr>
+
+HTML;
 
     $safemodeTest = ini_get("safe_mode");
 
@@ -521,7 +557,7 @@ if ($step == "2") {
     $mkDirMethod = addslashes($help["setup_mkdirMethod"]);
     echo <<<HTML
     <tr class="odd">
-        <td class="leftvalue">* Create folder method :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('{$mkDirMethod}',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');" onmouseout="return nd();">Help</a>] </td>
+        <td class="leftvalue">* Create folder method :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('{$mkDirMethod}',SNAPX,550);" onmouseout="return nd();">Help</a>] </td>
         <td>
     	    <table>
     	        <tr>
@@ -542,7 +578,7 @@ HTML;
     }
 
     $setupNotifications = addslashes($help["setup_notifications"]);
-    $forcedLogin = addslashes($help["setup_forcedlogin"]);
+    $setupForcedLogin = addslashes($help["setup_forcedlogin"]);
     $setupLangDefault = addslashes($help["setup_langdefault"]);
 
     echo <<<HTML
@@ -552,15 +588,15 @@ HTML;
         </td>
     </tr>
     <tr class="odd">
-        <td class="leftvalue">* Notifications :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('{$setupNotifications}',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');" onmouseout="return nd();">Help</a>] </td>
+        <td class="leftvalue">* Notifications :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('{$setupNotifications}',SNAPX,550);" onmouseout="return nd();">Help</a>] </td>
         <td><input type="radio" name="notifications" value="false" {$checked1_b}> False&nbsp;<input type="radio" name="notifications" value="true" {$checked2_b}> True<br/>[Mail {$gdlibrary}]</td>
     </tr>
     <tr class="odd">
-        <td class="leftvalue">* Forced login :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('{$setupForcedlogin}',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');" onmouseout="return nd();">Help</a>] </td>
+        <td class="leftvalue">* Forced login :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('{$setupForcedLogin}',SNAPX,550);" onmouseout="return nd();">Help</a>] </td>
         <td><input type="radio" name="forcedlogin" value="false" checked> False&nbsp;<input type="radio" name="forcedlogin" value="true"> True</td>
     </tr>
     <tr class="odd">
-        <td class="leftvalue">Default language :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('{$setupLangDefault}',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');" onmouseout="return nd();">Help</a>] </td>
+        <td class="leftvalue">Default language :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('{$setupLangDefault}',SNAPX,550);" onmouseout="return nd();">Help</a>] </td>
         <td>
             <select name="defaultLanguage">
                 <option value="ar">Arabic</option>
@@ -617,12 +653,12 @@ HTML;
     echo <<<HTML
 		<tr class="odd">
 			<td class="leftvalue"> * Root :</td>
-			<td><input size="44" value="{$siteUrl}" style="width: 200px" name="siteUrl" maxlength="100" type="text"></td>
+			<td><input size="44" value="{$siteUrl}" style="width: 200px" name="siteUrl" maxlength="100" type="text" required></td>
 		</tr>
 		<tr class="odd">
 			<td class="leftvalue">* Login method :<br/>
 			    [<a href="javascript:void(0);" 
-			        onmouseover="return overlib('{$tooltipLoginMethod}',SNAPX,550,BGCOLOR,'#5B7F93',FGCOLOR,'#C4D3DB');" 
+			        onmouseover="return overlib('{$tooltipLoginMethod}',SNAPX,550);" 
 			        onmouseout="return nd();">Help</a>]
             </td>
 			<td>
@@ -633,7 +669,7 @@ HTML;
 		</tr>
 		<tr class="odd">
 			<td class="leftvalue">* Admin password :</td>
-			<td><input size="44" value="" style="width: 200px" name="adminPassword" maxlength="100" type="password"></td>
+			<td><input size="44" value="" style="width: 200px" name="adminPassword" maxlength="100" type="password" required></td>
 		</tr>
 		<tr class="odd">
 			<td class="leftvalue">&nbsp;</td>
@@ -648,12 +684,29 @@ if ($step == "3") {
     $block1->openContent();
     $block1->contentTitle("&nbsp;");
 
-    echo <<<HTML
+    if (isset($error) && !empty($error)) {
+        echo <<<HTML
         <tr class="odd">
-            <td class="leftvalue">&nbsp;</td>
-            <td>{$msg}</td>
+            <td class="error" colspan="2">
+                <div class="alert error">
+                {$error}
+                </div>
+                <p><button onclick="history.back();">< Back</button></p>
+            </td>
         </tr>
 HTML;
+    }
+
+
+    if (!$error && $msg) {
+        echo <<<HTML
+            <tr class="odd">
+                <td class="leftvalue">&nbsp;</td>
+                <td>{$msg}</td>
+            </tr>
+HTML;
+
+    }
     $block1->closeContent();
 }
 
