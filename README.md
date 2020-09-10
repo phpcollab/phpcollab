@@ -65,7 +65,8 @@ To build the project locally, please follow [this guide](https://phpcollab.githu
 https://phpcollab.github.io/phpcollab/
 
 ## Installation
-Download the [latest release](https://github.com/phpcollab/phpcollab/releases/latest) and follow 
+Download the [latest release](https://github.com/phpcollab/phpcollab/releases/latest) and refer to the docs/install.md file
+
 Note: Do NOT clone or download the phpCollab codebase directly. That is ONLY required if you wish to contribute to the development of the project.
 
 ----
