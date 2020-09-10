@@ -179,7 +179,7 @@ if ($request->isMethod('post')) {
             phpCollab\Util::headerFunction("../tasks/listtasks.php?project=$project_id&msg=update");
         }
     } catch (InvalidCsrfTokenException $csrfTokenException) {
-        $logger->critical('CSRF Token Error', [
+        $logger->error('CSRF Token Error', [
             'Tasks: Update task',
             '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
             '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']

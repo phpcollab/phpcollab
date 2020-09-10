@@ -163,7 +163,7 @@ if (!empty($request->query->get('id'))) {
                 }
             }
         } catch (InvalidCsrfTokenException $csrfTokenException) {
-            $logger->critical('CSRF Token Error', [
+            $logger->error('CSRF Token Error', [
                 'Users: Edit user',
                 '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
                 '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']

@@ -40,7 +40,7 @@ if (!empty($id)) {
                 }
             }
         } catch (InvalidCsrfTokenException $csrfTokenException) {
-            $logger->critical('CSRF Token Error', [
+            $logger->error('CSRF Token Error', [
                 'Services: Edit service' => $id,
                 '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
                 '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
@@ -82,7 +82,7 @@ if (empty($id) && $request->isMethod('post')) {
             }
         }
     } catch (InvalidCsrfTokenException $csrfTokenException) {
-        $logger->critical('CSRF Token Error', [
+        $logger->error('CSRF Token Error', [
             'Services: Add service',
             '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
             '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']

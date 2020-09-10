@@ -40,7 +40,7 @@ if ($request->isMethod('post')) {
             }
         }
     } catch (InvalidCsrfTokenException $csrfTokenException) {
-        $logger->critical('CSRF Token Error', [
+        $logger->error('CSRF Token Error', [
             'Subtasks: Delete subtask' => $id,
             '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
             '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']

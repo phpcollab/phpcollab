@@ -99,7 +99,7 @@ if ($id != "") {
 
             }
         } catch (InvalidCsrfTokenException $csrfTokenException) {
-            $logger->critical('CSRF Token Error', [
+            $logger->error('CSRF Token Error', [
                 'Newsdesk: Edit News' => $request->query->get("id"),
                 '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
                 '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
@@ -140,7 +140,7 @@ if ($id != "") {
                     }
                 }
             } catch (InvalidCsrfTokenException $csrfTokenException) {
-                $logger->critical('CSRF Token Error', [
+                $logger->error('CSRF Token Error', [
                     'Newsdesk: Add News',
                     '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
                     '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']

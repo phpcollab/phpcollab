@@ -72,7 +72,7 @@ if ($id != "") {
                     phpCollab\Util::headerFunction("../notes/viewnote.php?id=" . $id . "&msg=update");
                 }
             } catch (InvalidCsrfTokenException $csrfTokenException) {
-                $logger->critical('CSRF Token Error', [
+                $logger->error('CSRF Token Error', [
                     'Notes: Edit note' => $request->query->get("id"),
                     '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
                     '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
@@ -109,7 +109,7 @@ if ($id == "") {
                     phpCollab\Util::headerFunction("../notes/viewnote.php?id=" . $num . "&msg=add");
                 }
             } catch (InvalidCsrfTokenException $csrfTokenException) {
-                $logger->critical('CSRF Token Error', [
+                $logger->error('CSRF Token Error', [
                     'Notes: Add note',
                     '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
                     '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
