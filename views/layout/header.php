@@ -3,6 +3,7 @@
 #Status page: 0
 
 $strings = $GLOBALS['strings'];
+$appRoot = APP_ROOT;
 
 echo <<<HEAD
 {$setDoctype}
@@ -19,10 +20,10 @@ echo <<<HEAD
 <meta name="keywords" content="{$setKeywords}" />
 <meta name="copyright" content="PHPCollab" />
 
-<link rel="icon" type="image/png" sizes="32x32" href="/public/images/favicons/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="96x96" href="/public/images/favicons/favicon-96x96.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/public/images/favicons/favicon-16x16.png">
-<link rel="manifest" href="/public/site.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="{$appRoot}/public/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="{$appRoot}/public/images/favicons/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="{$appRoot}/public/images/favicons/favicon-16x16.png">
+<link rel="manifest" href="{$appRoot}/public/site.webmanifest">
 
 <script type="text/Javascript">
 <!--
@@ -32,9 +33,9 @@ echo <<<HEAD
     var gFlashOK = true;
     // -->
 </script>
-<script type="text/javascript" src="/javascript/general.js"></script>
-<script type="text/JavaScript" src="/javascript/overlib_mini.js"></script>
-<link rel="stylesheet" href="/public/css/all.min.css">
+<script type="text/javascript" src="{$appRoot}/javascript/general.js"></script>
+<script type="text/JavaScript" src="{$appRoot}/javascript/overlib_mini.js"></script>
+<link rel="stylesheet" href="{$appRoot}/public/css/all.min.css">
 HEAD;
 
 
