@@ -184,7 +184,7 @@ if ($request->isMethod('post')) {
         \$tableCollab["notes"] = "{$scrubbedData["table_notes"]}";
         \$tableCollab["notifications"] = "{$scrubbedData["table_notifications"]}";
         \$tableCollab["organizations"] = "{$scrubbedData["table_organizations"]}";
-        \$tableCollab["posts"] = "{$scrubbedData["tablescrubedDatas"]}";
+        \$tableCollab["posts"] = "{$scrubbedData["table_posts"]}";
         \$tableCollab["projects"] = "{$scrubbedData["table_projects"]}";
         \$tableCollab["reports"] = "{$scrubbedData["table_reports"]}";
         \$tableCollab["sorting"] = "{$scrubbedData["table_sorting"]}";
@@ -193,7 +193,7 @@ if ($request->isMethod('post')) {
         \$tableCollab["topics"] = "{$scrubbedData["table_topics"]}";
         \$tableCollab["phases"] = "{$scrubbedData["table_phases"]}";
         \$tableCollab["support_requests"] = "{$scrubbedData["table_support_requests"]}";
-        \$tableCollab["supportscrubedDatas"] = "{$scrubbedData["table_supportscrubedDatas"]}";
+        \$tableCollab["support_posts"] = "{$scrubbedData["table_support_posts"]}";
         \$tableCollab["subtasks"] = "{$scrubbedData["table_subtasks"]}";
         \$tableCollab["updates"] = "{$scrubbedData["table_updates"]}";
         \$tableCollab["bookmarks"] = "{$scrubbedData["table_bookmarks"]}";

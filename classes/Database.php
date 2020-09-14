@@ -202,7 +202,7 @@ class Database
 
     public function getTableName(string $name)
     {
-        $this->logger->info('Get table name');
+        $this->logger->info('Get table name', ['name' => $name]);
         if ($this->tableCollab && $this->tableCollab[$name]) {
             return $this->tableCollab[$name];
         }

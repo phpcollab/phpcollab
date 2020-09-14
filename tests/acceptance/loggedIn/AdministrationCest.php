@@ -94,6 +94,29 @@ class AdministrationCest
     /**
      * @param AcceptanceTester $I
      */
+    public function undoEditCompanyDetails(AcceptanceTester $I)
+    {
+        $I->wantTo('Undo Edit Company Details');
+        $I->amOnPage('/administration/admin.php');
+        $I->seeInTitle('Administration');
+        $I->see('Administration', ['css' => '.heading']);
+        $I->click('Company Details');
+        $I->seeInTitle('Company Details');
+        $I->dontSeeElement('.error');
+
+        $orgName = $I->grabValueFrom('input[name=org_name]');
+        $orgName = str_replace(" - edit", "", $orgName);
+        $I->submitForm('form', [
+            'org_name' => $orgName,
+            'action'  => 'update'
+        ]);
+        $I->see('Success : Modification succeeded', ['css' => '.message']);
+        $I->seeInField(['name' => 'org_name'], $orgName);
+    }
+
+    /**
+     * @param AcceptanceTester $I
+     */
     public function viewSettings(AcceptanceTester $I)
     {
         $I->wantTo('View Settings');
@@ -279,6 +302,7 @@ class AdministrationCest
 
     /**
      * @param AcceptanceTester $I
+     * @depends addNewUser
      */
     public function viewUser(AcceptanceTester $I)
     {
@@ -295,6 +319,7 @@ class AdministrationCest
 
     /**
      * @param AcceptanceTester $I
+     * @depends viewUser
      */
     public function editUser(AcceptanceTester $I)
     {
@@ -312,6 +337,7 @@ class AdministrationCest
 
     /**
      * @param AcceptanceTester $I
+     * @depends editUser
      */
     public function deleteUser(AcceptanceTester $I)
     {

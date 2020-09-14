@@ -104,7 +104,7 @@ if (!empty($request->query->get('id'))) {
 
                             try {
                                 $members->updateMember($request->query->get("id"), $username, $fullName, $email, $title,
-                                    null, $phoneWork, $phoneHome, $phoneMobile, $fax, $lastPage, $comments, $profile);
+                                    1, $phoneWork, $phoneHome, $phoneMobile, $fax, $lastPage, $comments, $profile);
 
                                 if ($htaccessAuth == "true") {
                                     if ($username != $oldUsername) {

@@ -209,7 +209,7 @@ class Members
      * @param $name
      * @param $emailWork
      * @param null $title
-     * @param null $organization
+     * @param string $organization
      * @param null $phoneWork
      * @param null $phoneHome
      * @param null $phoneMobile
@@ -226,7 +226,7 @@ class Members
         $name,
         $emailWork,
         $title = null,
-        $organization = null,
+        $organization = "1",
         $phoneWork = null,
         $phoneHome = null,
         $phoneMobile = null,

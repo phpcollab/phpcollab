@@ -3,6 +3,7 @@
 #Status page: 0
 
 $strings = $GLOBALS['strings'];
+$appRoot = APP_ROOT;
 
 echo <<<HEAD
 {$setDoctype}

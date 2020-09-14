@@ -26,6 +26,8 @@ require_once '../languages/help_en.php';
 
 $appRoot = dirname(dirname(__FILE__));
 
+define('APP_ROOT', dirname(dirname(__FILE__)));
+
 $step = $_GET["step"];
 $redirect = $_GET["redirect"];
 $connection = (!empty($_GET["connection"])) ? $_GET["connection"] : $_POST["connection"];
@@ -106,38 +108,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             try {
                 $msg = '';
+
                 /**
-                 * Check to see if the database is connectable
+                 * Connect to the Database
                  */
-                switch ($databaseType) {
-                    case "mysql":
-                        $conn = new PDO("mysql:host=$dbServer;dbname=$dbName", $dbLogin, $dbPassword);
-                        break;
-                    case "sqlserver":
-                        $conn = new PDO("dblib:host=$dbServer;dbname=$dbName", $dbLogin, $dbPassword);
-                        break;
-                    case "postgresql":
-                        $conn = new PDO("pgsql:host=$dbServer;port=5432;dbname=$dbName;user=$dbLogin;password=$dbPassword");
-                        break;
-                    default:
-                        $error = $help["setup_error_database"];
-                        throw new Exception($help["setup_error_database"]);
-                }
-                // set the PDO error mode to exception
-                if (!empty($conn)) {
-                    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                } else {
+                $conn = $container->getPDO();
+
+                if (empty($conn)) {
                     throw new Exception("PDO error");
                 }
 
                 /**
-                 * See if the includes directory is writable
+                 * See if the includes, and logs directories are writable
                  */
-                $isWritable = is_writable("../includes");
+                $isIncludesWritable = is_writable("../includes");
+                $isLogsWritable = is_writable("../logs");
 
-                if (!$isWritable) {
+                if (!$isIncludesWritable) {
                     $error = 1;
-                    throw new Exception("It appears that the include directory is not writable. Please correct and try again.");
+                    throw new Exception("It appears that the 'includes' directory is not writable. Please correct and try again.");
+                }
+
+                if (!$isLogsWritable) {
+                    $error = 1;
+                    throw new Exception("It appears that the 'logs' directory is not writable. Please correct and try again.");
                 }
 
                 /**
@@ -153,7 +147,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 foreach ($SQL as $sqlStatement) {
                     try {
-                        $conn->exec($sqlStatement);
+                        $conn->query($sqlStatement);
+                        $conn->execute();
                     } catch (PDOException $e) {
                         $error = $e->getMessage();
                     }
@@ -372,7 +367,6 @@ STAMP;
             } catch (PDOException $e) {
                 error_log("SETUP - PDO Error: " . $e->getCode() . " - " . $e->getMessage(), 3, $appRoot . "/logs/phpcollab.log");
                 $error = $help["setup_error_database"];
-//                $msg = "Error with the database.  Please check and try again.";
             } catch (Exception $e) {
                 error_log("SETUP - Exception: " . $e->getMessage(), 3, $appRoot . "/logs/phpcollab.log");
                 $msg = "We had a problem completing the request. Please check and try again.";
@@ -380,7 +374,6 @@ STAMP;
 
             // If there was an error, then let's go back to Step 2
             if ($error) {
-//                $connection = $installationType;
                 $step = 2;
             }
 
@@ -416,7 +409,7 @@ if ($step == "1") {
     } elseif ($step > "2") {
         $blockPage->itemBreadcrumbs("<a href='../installation/setup.php?step=2'>Settings</a>");
         if ($step == "3") {
-            $blockPage->itemBreadcrumbs("Control");
+            $blockPage->itemBreadcrumbs("Success");
         }
     }
 }
@@ -432,7 +425,7 @@ if ($step == "2") {
     $block1->heading("Settings");
 }
 if ($step == "3") {
-    $block1->heading("Control");
+    $block1->heading("Success");
 }
 
 if ($step == "1") {
@@ -454,6 +447,9 @@ HTML;
 
 
 if ($step == "2") {
+    $block1->form = "settings";
+    $block1->openForm("../installation/setup.php?step=3", null, $csrfHandler);
+
     $block1->openContent();
     $block1->contentTitle("Details");
 
@@ -469,9 +465,6 @@ if ($step == "2") {
 HTML;
     }
 
-
-    $block1->form = "settings";
-    $block1->openForm("../installation/setup.php?step=3", null, $csrfHandler);
 
     if ($connection == "off" || $installationType == "offline") {
         echo "<input value='false' name='updatechecker' type='hidden'>";
@@ -673,7 +666,7 @@ HTML;
 		</tr>
 		<tr class="odd">
 			<td class="leftvalue">&nbsp;</td>
-			<td><input type="SUBMIT" value="Save"></td>
+			<td><input type="submit" value="Save"></td>
 		</tr>
 HTML;
     $block1->closeContent();
