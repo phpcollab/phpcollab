@@ -6,9 +6,6 @@ $strings = $GLOBALS['strings'];
 $appRoot = APP_ROOT;
 
 echo <<<HEAD
-{$setDoctype}
-{$setCopyright}
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -18,32 +15,24 @@ echo <<<HEAD
 <meta name="robots" content="none" />
 <meta name="description" content="{$setDescription}" />
 <meta name="keywords" content="{$setKeywords}" />
-<meta name="copyright" content="PHPCollab" />
+<meta name="copyright" content="{$setCopyright}" />
 
-<link rel="icon" type="image/png" sizes="32x32" href="../../public/images/favicons/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="96x96" href="../../public/images/favicons/favicon-96x96.png">
-<link rel="icon" type="image/png" sizes="16x16" href="../../public/images/favicons/favicon-16x16.png">
-<link rel="manifest" href="../../public/site.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="../public/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../public/images/favicons/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../public/images/favicons/favicon-16x16.png">
+<link rel="manifest" href="../public/site.webmanifest">
 
-<script type="text/Javascript">
-<!--
-    var gBrowserOK = true;
-    var gOSOK = true;
-    var gCookiesOK = true;
-    var gFlashOK = true;
-    // -->
-</script>
-<script type="text/javascript" src="../../javascript/general.js"></script>
-<script type="text/JavaScript" src="../../javascript/overlib_mini.js"></script>
-<link rel="stylesheet" href="../../public/css/all.min.css">
+<script type="text/javascript" src="../javascript/general.js"></script>
+<script type="text/JavaScript" src="../javascript/overlib_mini.js"></script>
+<link rel="stylesheet" href="../public/css/all.min.css">
 HEAD;
 
+echo '<link rel="stylesheet" href="../themes/' . THEME . '/css/stylesheet.css" type="text/css" />';
 
 if ($debug === true && isset($debugbarRenderer) && is_object($debugbarRenderer)) {
     echo $debugbarRenderer->renderHead();
 }
 
-echo '<link rel="stylesheet" href="../themes/' . THEME . '/css/stylesheet.css" type="text/css" />';
 
 if (isset($includeCalendar) && $includeCalendar === true) {
     include APP_ROOT . '/includes/calendar.php';

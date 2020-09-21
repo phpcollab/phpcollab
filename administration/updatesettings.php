@@ -62,191 +62,191 @@ if ($request->isMethod('post')) {
                 // -- END Paranoia
 
                 $content = <<<STAMP
-        <?php
-        #Application name: PhpCollab
-        #Status page: 2
-        #Path by root: ../includes/settings.php
-        
-        # installation type
-        \$installationType = "{$scrubbedData["installationTypeNew"]}"; //select "offline" or "online"
-        
-        # select database application
-        \$databaseType = "{$scrubbedData["databaseTypeNew"]}"; //select "sqlserver", "postgresql" or "mysql"
-        
-        # database parameters
-        define('MYSERVER','{$scrubbedData["myserverNew"]}');
-        define('MYLOGIN','{$scrubbedData["myloginNew"]}');
-        define('MYPASSWORD','{$scrubbedData["mypasswordNew"]}');
-        define('MYDATABASE','{$scrubbedData["mydatabaseNew"]}');
-        
-        # notification method
-        \$notificationMethod = "{$scrubbedData["notificationMethodNew"]}"; //select "mail" or "smtp"
-        
-        # smtp parameters (only if \$notificationMethod == "smtp")
-        define('SMTPSERVER','{$scrubbedData["smtpserverNew"]}');
-        define('SMTPLOGIN','{$scrubbedData["smtploginNew"]}');
-        define('SMTPPASSWORD','{$scrubbedData["smtppasswordNew"]}');
-        define('SMTPPORT','{$scrubbedData["smtpPortNew"]}');
-        
-        # create folder method
-        \$mkdirMethod = "{$scrubbedData["mkdirMethodNew"]}"; //select "FTP" or "PHP"
-        
-        # ftp parameters (only if \$mkdirMethod == "FTP")
-        define('FTPSERVER','{$scrubbedData["ftpserverNew"]}');
-        define('FTPLOGIN','{$scrubbedData["ftploginNew"]}');
-        define('FTPPASSWORD','{$scrubbedData["ftppasswordNew"]}');
-        
-        # PhpCollab root according to ftp account (only if \$mkdirMethod == "FTP")
-        \$ftpRoot = "{$scrubbedData["ftpRootNew"]}"; //no slash at the end
-        
-        # Invoicing module
-        \$enableInvoicing = "true";
-        
-        # theme choice
-        define('THEME','{$scrubbedData["mythemeNew"]}');
-        
-        # newsdesk limiter
-        \$newsdesklimit = 1;
-        
-        # if 1 the admin logs in his homepage
-        \$adminathome = 0;
-        
-        # timezone GMT management
-        \$gmtTimezone = "{$scrubbedData["gmtTimezoneNew"]}";
-        
-        # language choice
-        \$langDefault = "{$scrubbedData["langNew"]}";
-        
-        # Mantis bug tracking parameters
-        // Should bug tracking be enabled?
-        \$enableMantis = "{$scrubbedData["mantisNew"]}";
-        
-        // Mantis installation directory
-        \$pathMantis = "$pathMantisNew";  // add slash at the end
-        
-        # https related parameters
-        \$pathToOpenssl = "/usr/bin/openssl";
-        
-        # login method, set to "CRYPT"
-        \$loginMethod = "{$scrubbedData["loginMethodNew"]}"; //select "MD5", "CRYPT", or "PLAIN"
-        
-        # enable LDAP
-        \$useLDAP = "false";
-        \$configLDAP["ldapserver"] = "your.ldap.server.address";
-        \$configLDAP["searchroot"] = "ou=People, ou=Intranet, dc=YourCompany, dc=com";
-        
-        # htaccess parameters
-        \$htaccessAuth = "false";
-        \$fullPath = "/usr/local/apache/htdocs/phpcollab/files"; //no slash at the end
-        
-        # file management parameters
-        \$fileManagement = "true";
-        \$maxFileSize = {$scrubbedData["maxFileSizeNew"]}; //bytes limit for upload
-        \$root = "{$scrubbedData["rootNew"]}"; //no slash at the end
-        
-        # security issue to disallow php files upload
-        \$allowPhp = "false";
-        
-        # project site creation
-        \$sitePublish = "true";
-        
-        # enable update checker
-        \$updateChecker = "{$scrubbedData["updateCheckerNew"]}";
-        
-        # e-mail notifications
-        \$notifications = "{$scrubbedData["notificationsNew"]}";
-        
-        # show peer review area
-        \$peerReview = "true";
-        
-        # show items for home
-        \$showHomeBookmarks = {$scrubbedData["showHomeBookmarksNew"]};
-        \$showHomeProjects = {$scrubbedData["showHomeProjectsNew"]};
-        \$showHomeTasks = {$scrubbedData["showHomeTasksNew"]};
-        \$showHomeDiscussions = {$scrubbedData["showHomeDiscussionsNew"]};
-        \$showHomeReports = {$scrubbedData["showHomeReportsNew"]};
-        \$showHomeNotes = {$scrubbedData["showHomeNotesNew"]};
-        \$showHomeNewsdesk = {$scrubbedData["showHomeNewsdeskNew"]};
-        \$showHomeSubtasks = {$scrubbedData["showHomeSubtasksNew"]};
-        
-        # security issue to disallow auto-login from external link
-        \$forcedLogin = "{$scrubbedData["forcedloginNew"]}";
-        
-        # table prefix
-        \$tablePrefix = "{$scrubbedData["tablePrefixNew"]}";
-        
-        # database tables
-        \$tableCollab["assignments"] = "{$scrubbedData["table_assignments"]}";
-        \$tableCollab["calendar"] = "{$scrubbedData["table_calendar"]}";
-        \$tableCollab["files"] = "{$scrubbedData["table_files"]}";
-        \$tableCollab["logs"] = "{$scrubbedData["table_logs"]}";
-        \$tableCollab["members"] = "{$scrubbedData["table_members"]}";
-        \$tableCollab["notes"] = "{$scrubbedData["table_notes"]}";
-        \$tableCollab["notifications"] = "{$scrubbedData["table_notifications"]}";
-        \$tableCollab["organizations"] = "{$scrubbedData["table_organizations"]}";
-        \$tableCollab["posts"] = "{$scrubbedData["table_posts"]}";
-        \$tableCollab["projects"] = "{$scrubbedData["table_projects"]}";
-        \$tableCollab["reports"] = "{$scrubbedData["table_reports"]}";
-        \$tableCollab["sorting"] = "{$scrubbedData["table_sorting"]}";
-        \$tableCollab["tasks"] = "{$scrubbedData["table_tasks"]}";
-        \$tableCollab["teams"] = "{$scrubbedData["table_teams"]}";
-        \$tableCollab["topics"] = "{$scrubbedData["table_topics"]}";
-        \$tableCollab["phases"] = "{$scrubbedData["table_phases"]}";
-        \$tableCollab["support_requests"] = "{$scrubbedData["table_support_requests"]}";
-        \$tableCollab["support_posts"] = "{$scrubbedData["table_support_posts"]}";
-        \$tableCollab["subtasks"] = "{$scrubbedData["table_subtasks"]}";
-        \$tableCollab["updates"] = "{$scrubbedData["table_updates"]}";
-        \$tableCollab["bookmarks"] = "{$scrubbedData["table_bookmarks"]}";
-        \$tableCollab["bookmarks_categories"] = "{$scrubbedData["table_bookmarks_categories"]}";
-        \$tableCollab["invoices"] = "{$scrubbedData["table_invoices"]}";
-        \$tableCollab["invoices_items"] = "{$scrubbedData["table_invoices_items"]}";
-        \$tableCollab["services"] = "{$scrubbedData["table_services"]}";
-        \$tableCollab["newsdeskcomments"] = "{$scrubbedData["table_newsdeskcomments"]}";
-        \$tableCollab["newsdeskposts"] = "{$scrubbedData["table_newsdeskposts"]}";
-        
-        # PhpCollab version
-        \$version = "$version";
-        
-        # demo mode parameters
-        \$demoMode = "false";
-        \$urlContact = "http://www.sourceforge.net/projects/phpcollab";
-        
-        # Gantt graphs
-        \$activeJpgraph = "true";
-        
-        # developement options in footer
-        \$footerDev = "{$scrubbedData["footerdevNew"]}";
-        
-        # filter to see only logged user clients (in team / owner)
-        \$clientsFilter = "{$scrubbedData["clientsFilterNew"]}";
-        
-        # filter to see only logged user projects (in team / owner)
-        \$projectsFilter = "{$scrubbedData["projectsFilterNew"]}";
-        
-        # Enable help center support requests, values "true" or "false"
-        \$enableHelpSupport = "true";
-        
-        # Return email address given for clients to respond too.
-        \$supportEmail = "email@yourdomain.com";
-        
-        # Support Type, either team or admin. If team is selected a notification will be sent to everyone in the team when a new Request is added
-        \$supportType = "team";
-        
-        # enable the redirection to the last visited page, EXPERIMENTAL DO NOT USE IT
-        \$lastvisitedpage = false;
-        
-        # auto-publish tasks?
-        \$autoPublishTasks = {$scrubbedData["autoPublishTasksNew"]};
-        
-        # html header parameters
-        \$setDoctype = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">";
-        \$setTitle = "PhpCollab";
-        \$siteTitle = "PhpCollab";
-        \$setDescription = "Groupware module. Manage web projects with team collaboration, users management, tasks and projects tracking, files approval tracking, project sites clients access, customer relationship management (Php / Mysql, PostgreSQL or Sql Server).";
-        \$setKeywords = "PhpCollab, phpcollab.com, Sourceforge, management, web, projects, tasks, organizations, reports, Php, MySql, Sql Server, mssql, Microsoft Sql Server, PostgreSQL, module, application, module, file management, project site, team collaboration, free, crm, CRM, cutomer relationship management, workflow, workgroup";
-        
-        # Email alerts
-        \$emailAlerts = {$scrubbedData["emailAlertsNew"]};
+<?php
+#Application name: PhpCollab
+#Status page: 2
+#Path by root: ../includes/settings.php
+
+# installation type
+\$installationType = "{$scrubbedData["installationTypeNew"]}"; //select "offline" or "online"
+
+# select database application
+\$databaseType = "{$scrubbedData["databaseTypeNew"]}"; //select "sqlserver", "postgresql" or "mysql"
+
+# database parameters
+define('MYSERVER','{$scrubbedData["myserverNew"]}');
+define('MYLOGIN','{$scrubbedData["myloginNew"]}');
+define('MYPASSWORD','{$scrubbedData["mypasswordNew"]}');
+define('MYDATABASE','{$scrubbedData["mydatabaseNew"]}');
+
+# notification method
+\$notificationMethod = "{$scrubbedData["notificationMethodNew"]}"; //select "mail" or "smtp"
+
+# smtp parameters (only if \$notificationMethod == "smtp")
+define('SMTPSERVER','{$scrubbedData["smtpserverNew"]}');
+define('SMTPLOGIN','{$scrubbedData["smtploginNew"]}');
+define('SMTPPASSWORD','{$scrubbedData["smtppasswordNew"]}');
+define('SMTPPORT','{$scrubbedData["smtpPortNew"]}');
+
+# create folder method
+\$mkdirMethod = "{$scrubbedData["mkdirMethodNew"]}"; //select "FTP" or "PHP"
+
+# ftp parameters (only if \$mkdirMethod == "FTP")
+define('FTPSERVER','{$scrubbedData["ftpserverNew"]}');
+define('FTPLOGIN','{$scrubbedData["ftploginNew"]}');
+define('FTPPASSWORD','{$scrubbedData["ftppasswordNew"]}');
+
+# PhpCollab root according to ftp account (only if \$mkdirMethod == "FTP")
+\$ftpRoot = "{$scrubbedData["ftpRootNew"]}"; //no slash at the end
+
+# Invoicing module
+\$enableInvoicing = "true";
+
+# theme choice
+define('THEME','{$scrubbedData["mythemeNew"]}');
+
+# newsdesk limiter
+\$newsdesklimit = 1;
+
+# if 1 the admin logs in his homepage
+\$adminathome = 0;
+
+# timezone GMT management
+\$gmtTimezone = "{$scrubbedData["gmtTimezoneNew"]}";
+
+# language choice
+\$langDefault = "{$scrubbedData["langNew"]}";
+
+# Mantis bug tracking parameters
+// Should bug tracking be enabled?
+\$enableMantis = "{$scrubbedData["mantisNew"]}";
+
+// Mantis installation directory
+\$pathMantis = "$pathMantisNew";  // add slash at the end
+
+# https related parameters
+\$pathToOpenssl = "/usr/bin/openssl";
+
+# login method, set to "CRYPT"
+\$loginMethod = "{$scrubbedData["loginMethodNew"]}"; //select "MD5", "CRYPT", or "PLAIN"
+
+# enable LDAP
+\$useLDAP = "false";
+\$configLDAP["ldapserver"] = "your.ldap.server.address";
+\$configLDAP["searchroot"] = "ou=People, ou=Intranet, dc=YourCompany, dc=com";
+
+# htaccess parameters
+\$htaccessAuth = "false";
+\$fullPath = "/usr/local/apache/htdocs/phpcollab/files"; //no slash at the end
+
+# file management parameters
+\$fileManagement = "true";
+\$maxFileSize = {$scrubbedData["maxFileSizeNew"]}; //bytes limit for upload
+\$root = "{$scrubbedData["rootNew"]}"; //no slash at the end
+
+# security issue to disallow php files upload
+\$allowPhp = "false";
+
+# project site creation
+\$sitePublish = "true";
+
+# enable update checker
+\$updateChecker = "{$scrubbedData["updateCheckerNew"]}";
+
+# e-mail notifications
+\$notifications = "{$scrubbedData["notificationsNew"]}";
+
+# show peer review area
+\$peerReview = "true";
+
+# show items for home
+\$showHomeBookmarks = {$scrubbedData["showHomeBookmarksNew"]};
+\$showHomeProjects = {$scrubbedData["showHomeProjectsNew"]};
+\$showHomeTasks = {$scrubbedData["showHomeTasksNew"]};
+\$showHomeDiscussions = {$scrubbedData["showHomeDiscussionsNew"]};
+\$showHomeReports = {$scrubbedData["showHomeReportsNew"]};
+\$showHomeNotes = {$scrubbedData["showHomeNotesNew"]};
+\$showHomeNewsdesk = {$scrubbedData["showHomeNewsdeskNew"]};
+\$showHomeSubtasks = {$scrubbedData["showHomeSubtasksNew"]};
+
+# security issue to disallow auto-login from external link
+\$forcedLogin = "{$scrubbedData["forcedloginNew"]}";
+
+# table prefix
+\$tablePrefix = "{$scrubbedData["tablePrefixNew"]}";
+
+# database tables
+\$tableCollab["assignments"] = "{$scrubbedData["table_assignments"]}";
+\$tableCollab["calendar"] = "{$scrubbedData["table_calendar"]}";
+\$tableCollab["files"] = "{$scrubbedData["table_files"]}";
+\$tableCollab["logs"] = "{$scrubbedData["table_logs"]}";
+\$tableCollab["members"] = "{$scrubbedData["table_members"]}";
+\$tableCollab["notes"] = "{$scrubbedData["table_notes"]}";
+\$tableCollab["notifications"] = "{$scrubbedData["table_notifications"]}";
+\$tableCollab["organizations"] = "{$scrubbedData["table_organizations"]}";
+\$tableCollab["posts"] = "{$scrubbedData["table_posts"]}";
+\$tableCollab["projects"] = "{$scrubbedData["table_projects"]}";
+\$tableCollab["reports"] = "{$scrubbedData["table_reports"]}";
+\$tableCollab["sorting"] = "{$scrubbedData["table_sorting"]}";
+\$tableCollab["tasks"] = "{$scrubbedData["table_tasks"]}";
+\$tableCollab["teams"] = "{$scrubbedData["table_teams"]}";
+\$tableCollab["topics"] = "{$scrubbedData["table_topics"]}";
+\$tableCollab["phases"] = "{$scrubbedData["table_phases"]}";
+\$tableCollab["support_requests"] = "{$scrubbedData["table_support_requests"]}";
+\$tableCollab["support_posts"] = "{$scrubbedData["table_support_posts"]}";
+\$tableCollab["subtasks"] = "{$scrubbedData["table_subtasks"]}";
+\$tableCollab["updates"] = "{$scrubbedData["table_updates"]}";
+\$tableCollab["bookmarks"] = "{$scrubbedData["table_bookmarks"]}";
+\$tableCollab["bookmarks_categories"] = "{$scrubbedData["table_bookmarks_categories"]}";
+\$tableCollab["invoices"] = "{$scrubbedData["table_invoices"]}";
+\$tableCollab["invoices_items"] = "{$scrubbedData["table_invoices_items"]}";
+\$tableCollab["services"] = "{$scrubbedData["table_services"]}";
+\$tableCollab["newsdeskcomments"] = "{$scrubbedData["table_newsdeskcomments"]}";
+\$tableCollab["newsdeskposts"] = "{$scrubbedData["table_newsdeskposts"]}";
+
+# PhpCollab version
+\$version = "$version";
+
+# demo mode parameters
+\$demoMode = "false";
+\$urlContact = "http://www.sourceforge.net/projects/phpcollab";
+
+# Gantt graphs
+\$activeJpgraph = "true";
+
+# developement options in footer
+\$footerDev = "{$scrubbedData["footerdevNew"]}";
+
+# filter to see only logged user clients (in team / owner)
+\$clientsFilter = "{$scrubbedData["clientsFilterNew"]}";
+
+# filter to see only logged user projects (in team / owner)
+\$projectsFilter = "{$scrubbedData["projectsFilterNew"]}";
+
+# Enable help center support requests, values "true" or "false"
+\$enableHelpSupport = "true";
+
+# Return email address given for clients to respond too.
+\$supportEmail = "email@yourdomain.com";
+
+# Support Type, either team or admin. If team is selected a notification will be sent to everyone in the team when a new Request is added
+\$supportType = "team";
+
+# enable the redirection to the last visited page, EXPERIMENTAL DO NOT USE IT
+\$lastvisitedpage = false;
+
+# auto-publish tasks?
+\$autoPublishTasks = {$scrubbedData["autoPublishTasksNew"]};
+
+# html header parameters
+\$setDoctype = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">";
+\$setTitle = "PhpCollab";
+\$siteTitle = "PhpCollab";
+\$setDescription = "Groupware module. Manage web projects with team collaboration, users management, tasks and projects tracking, files approval tracking, project sites clients access, customer relationship management (Php / Mysql, PostgreSQL or Sql Server).";
+\$setKeywords = "PhpCollab, phpcollab.com, Sourceforge, management, web, projects, tasks, organizations, reports, Php, MySql, Sql Server, mssql, Microsoft Sql Server, PostgreSQL, module, application, module, file management, project site, team collaboration, free, crm, CRM, cutomer relationship management, workflow, workgroup";
+
+# Email alerts
+\$emailAlerts = {$scrubbedData["emailAlertsNew"]};
 
 STAMP;
 

@@ -37,7 +37,7 @@ if ($redirect == "true" && $step == "2") {
 }
 
 
-$version = "2.8.1";
+$version = "2.8.2";
 
 $dateheure = date("Y-m-d H:i");
 
@@ -161,189 +161,189 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                      * Write the settings file
                      */
                     $content = <<<STAMP
-    <?php
-    #Application name: PhpCollab
-    #Path by root: ../includes/settings.php
-    
-    # installation type
-    \$installationType = "$installationType"; //select "offline" or "online"
-    
-    # select database application
-    \$databaseType = "$databaseType"; //select "sqlserver", "postgresql" or "mysql"
-    
-    # database parameters
-    define('MYSERVER','$dbServer');
-    define('MYLOGIN','$dbLogin');
-    define('MYPASSWORD','$dbPassword');
-    define('MYDATABASE','$dbName');
-    
-    # notification method
-    \$notificationMethod = "mail"; //select "mail" or "smtp"
-    
-    # smtp parameters (only if \$notificationMethod == "smtp")
-    define('SMTPSERVER','');
-    define('SMTPLOGIN','');
-    define('SMTPPASSWORD','');
-    define('SMTPPORT','');
-    
-    # create folder method
-    \$mkdirMethod = "$mkdirMethod"; //select "FTP" or "PHP"
-    
-    # ftp parameters (only if \$mkdirMethod == "FTP")
-    define('FTPSERVER','$ftpServer');
-    define('FTPLOGIN','$ftpLogin');
-    define('FTPPASSWORD','$ftpPassword');
-    
-    # PhpCollab root according to ftp account (only if \$mkdirMethod == "FTP")
-    \$ftpRoot = "$ftpRoot"; //no slash at the end
-    
-    # Invoicing module
-    \$enableInvoicing = true;
-    
-    # theme choice
-    define('THEME','default');
-    
-    # newsdesk limiter
-    \$newsdesklimit = 1;
-    
-    # if 1 the admin logs in his homepage
-    \$adminathome = 0;
-    
-    # timezone GMT management
-    \$gmtTimezone = false;
-    
-    # language choice
-    \$langDefault = "$defaultLanguage";
-    
-    # Mantis bug tracking parameters
-    // Should bug tracking be enabled?
-    \$enableMantis = false;
-    
-    // Mantis installation directory
-    \$pathMantis = "http://localhost/mantis/";  // add slash at the end
-    
-    # https related parameters
-    \$pathToOpenssl = "/usr/bin/openssl";
-    
-    # login method, set to "CRYPT"
-    \$loginMethod = "$loginMethod"; //select "MD5", "CRYPT", or "PLAIN"
-    
-    # enable LDAP
-    \$useLDAP = false;
-    \$configLDAP["ldapserver"] = "your.ldap.server.address";
-    \$configLDAP["searchroot"] = "ou=People, ou=Intranet, dc=YourCompany, dc=com";
-    
-    # htaccess parameters
-    \$htaccessAuth = false;
-    \$fullPath = "/usr/local/apache/htdocs/phpcollab/files"; //no slash at the end
-    
-    # file management parameters
-    \$fileManagement = true;
-    \$maxFileSize = 51200; //bytes limit for upload
-    \$root = "$siteUrl"; //no slash at the end
-    
-    # security issue to disallow php files upload
-    \$allowPhp = false;
-    
-    # project site creation
-    \$sitePublish = true;
-    
-    # enable update checker
-    \$updateChecker = "$updatechecker";
-    
-    # e-mail notifications
-    \$notifications = "$notifications";
-    
-    # show peer review area
-    \$peerReview = true;
-    
-    # show items for home
-    \$showHomeBookmarks = true;
-    \$showHomeProjects = true;
-    \$showHomeTasks = true;
-    \$showHomeSubtasks = true;
-    \$showHomeDiscussions = true;
-    \$showHomeReports = true;
-    \$showHomeNotes = true;
-    \$showHomeNewsdesk = true;
-    
-    # security issue to disallow auto-login from external link
-    \$forcedLogin = "$forcedlogin";
-    
-    # table prefix
-    \$tablePrefix = "$dbTablePrefix";
-    
-    # database tables
-    \$tableCollab["assignments"] = "{$dbTablePrefix}assignments";
-    \$tableCollab["calendar"] = "{$dbTablePrefix}calendar";
-    \$tableCollab["files"] = "{$dbTablePrefix}files";
-    \$tableCollab["logs"] = "{$dbTablePrefix}logs";
-    \$tableCollab["members"] = "{$dbTablePrefix}members";
-    \$tableCollab["notes"] = "{$dbTablePrefix}notes";
-    \$tableCollab["notifications"] = "{$dbTablePrefix}notifications";
-    \$tableCollab["organizations"] = "{$dbTablePrefix}organizations";
-    \$tableCollab["posts"] = "{$dbTablePrefix}posts";
-    \$tableCollab["projects"] = "{$dbTablePrefix}projects";
-    \$tableCollab["reports"] = "{$dbTablePrefix}reports";
-    \$tableCollab["sorting"] = "{$dbTablePrefix}sorting";
-    \$tableCollab["tasks"] = "{$dbTablePrefix}tasks";
-    \$tableCollab["teams"] = "{$dbTablePrefix}teams";
-    \$tableCollab["topics"] = "{$dbTablePrefix}topics";
-    \$tableCollab["phases"] = "{$dbTablePrefix}phases";
-    \$tableCollab["support_requests"] = "{$dbTablePrefix}support_requests";
-    \$tableCollab["support_posts"] = "{$dbTablePrefix}support_posts";
-    \$tableCollab["subtasks"] = "{$dbTablePrefix}subtasks";
-    \$tableCollab["updates"] = "{$dbTablePrefix}updates";
-    \$tableCollab["bookmarks"] = "{$dbTablePrefix}bookmarks";
-    \$tableCollab["bookmarks_categories"] = "{$dbTablePrefix}bookmarks_categories";
-    \$tableCollab["invoices"] = "{$dbTablePrefix}invoices";
-    \$tableCollab["invoices_items"] = "{$dbTablePrefix}invoices_items";
-    \$tableCollab["services"] = "{$dbTablePrefix}services";
-    \$tableCollab["newsdeskcomments"] = "{$dbTablePrefix}newsdeskcomments";
-    \$tableCollab["newsdeskposts"] = "{$dbTablePrefix}newsdeskposts";
-    
-    # PhpCollab version
-    \$version = "$version";
-    
-    # demo mode parameters
-    \$demoMode = false;
-    \$urlContact = "http://www.sourceforge.net/projects/phpcollab";
-    
-    # Gantt graphs
-    \$activeJpgraph = true;
-    
-    # developement options in footer
-    \$footerDev = false;
-    
-    # filter to see only logged user clients (in team / owner)
-    \$clientsFilter = false;
-    
-    # filter to see only logged user projects (in team / owner)
-    \$projectsFilter = false;
-    
-    # Enable help center support requests, values "true" or "false"
-    \$enableHelpSupport = true;
-    
-    # Return email address given for clients to respond too.
-    \$supportEmail = "email@yourdomain.com";
-    
-    # Support Type, either team or admin. If team is selected a notification will be sent to everyone in the team when a new request is added
-    \$supportType = "team";
-    
-    # enable the redirection to the last visited page, EXPERIMENTAL DO NOT USE IT
-    \$lastvisitedpage = false;
-    
-    # auto-publish tasks added from client site?
-    \$autoPublishTasks = false;
-    
-    # html header parameters
-    \$setDoctype = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">";
-    \$setTitle = "PhpCollab";
-    \$siteTitle = "PhpCollab";
-    \$setDescription = "Groupware module. Manage web projects with team collaboration, users management, tasks and projects tracking, files approval tracking, project sites clients access, customer relationship management (Php / Mysql, PostgreSQL or Sql Server).";
-    \$setKeywords = "PhpCollab, phpcollab.com, Sourceforge, management, web, projects, tasks, organizations, reports, Php, MySql, Sql Server, mssql, Microsoft Sql Server, PostgreSQL, module, application, module, file management, project site, team collaboration, free, crm, CRM, cutomer relationship management, workflow, workgroup";
-    
-    \$emailAlerts = false;
+<?php
+#Application name: PhpCollab
+#Path by root: ../includes/settings.php
+
+# installation type
+\$installationType = "$installationType"; //select "offline" or "online"
+
+# select database application
+\$databaseType = "$databaseType"; //select "sqlserver", "postgresql" or "mysql"
+
+# database parameters
+define('MYSERVER','$dbServer');
+define('MYLOGIN','$dbLogin');
+define('MYPASSWORD','$dbPassword');
+define('MYDATABASE','$dbName');
+
+# notification method
+\$notificationMethod = "mail"; //select "mail" or "smtp"
+
+# smtp parameters (only if \$notificationMethod == "smtp")
+define('SMTPSERVER','');
+define('SMTPLOGIN','');
+define('SMTPPASSWORD','');
+define('SMTPPORT','');
+
+# create folder method
+\$mkdirMethod = "$mkdirMethod"; //select "FTP" or "PHP"
+
+# ftp parameters (only if \$mkdirMethod == "FTP")
+define('FTPSERVER','$ftpServer');
+define('FTPLOGIN','$ftpLogin');
+define('FTPPASSWORD','$ftpPassword');
+
+# PhpCollab root according to ftp account (only if \$mkdirMethod == "FTP")
+\$ftpRoot = "$ftpRoot"; //no slash at the end
+
+# Invoicing module
+\$enableInvoicing = true;
+
+# theme choice
+define('THEME','default');
+
+# newsdesk limiter
+\$newsdesklimit = 1;
+
+# if 1 the admin logs in his homepage
+\$adminathome = 0;
+
+# timezone GMT management
+\$gmtTimezone = false;
+
+# language choice
+\$langDefault = "$defaultLanguage";
+
+# Mantis bug tracking parameters
+// Should bug tracking be enabled?
+\$enableMantis = false;
+
+// Mantis installation directory
+\$pathMantis = "http://localhost/mantis/";  // add slash at the end
+
+# https related parameters
+\$pathToOpenssl = "/usr/bin/openssl";
+
+# login method, set to "CRYPT"
+\$loginMethod = "$loginMethod"; //select "MD5", "CRYPT", or "PLAIN"
+
+# enable LDAP
+\$useLDAP = false;
+\$configLDAP["ldapserver"] = "your.ldap.server.address";
+\$configLDAP["searchroot"] = "ou=People, ou=Intranet, dc=YourCompany, dc=com";
+
+# htaccess parameters
+\$htaccessAuth = false;
+\$fullPath = "/usr/local/apache/htdocs/phpcollab/files"; //no slash at the end
+
+# file management parameters
+\$fileManagement = true;
+\$maxFileSize = 51200; //bytes limit for upload
+\$root = "$siteUrl"; //no slash at the end
+
+# security issue to disallow php files upload
+\$allowPhp = false;
+
+# project site creation
+\$sitePublish = true;
+
+# enable update checker
+\$updateChecker = "$updatechecker";
+
+# e-mail notifications
+\$notifications = "$notifications";
+
+# show peer review area
+\$peerReview = true;
+
+# show items for home
+\$showHomeBookmarks = true;
+\$showHomeProjects = true;
+\$showHomeTasks = true;
+\$showHomeSubtasks = true;
+\$showHomeDiscussions = true;
+\$showHomeReports = true;
+\$showHomeNotes = true;
+\$showHomeNewsdesk = true;
+
+# security issue to disallow auto-login from external link
+\$forcedLogin = "$forcedlogin";
+
+# table prefix
+\$tablePrefix = "$dbTablePrefix";
+
+# database tables
+\$tableCollab["assignments"] = "{$dbTablePrefix}assignments";
+\$tableCollab["calendar"] = "{$dbTablePrefix}calendar";
+\$tableCollab["files"] = "{$dbTablePrefix}files";
+\$tableCollab["logs"] = "{$dbTablePrefix}logs";
+\$tableCollab["members"] = "{$dbTablePrefix}members";
+\$tableCollab["notes"] = "{$dbTablePrefix}notes";
+\$tableCollab["notifications"] = "{$dbTablePrefix}notifications";
+\$tableCollab["organizations"] = "{$dbTablePrefix}organizations";
+\$tableCollab["posts"] = "{$dbTablePrefix}posts";
+\$tableCollab["projects"] = "{$dbTablePrefix}projects";
+\$tableCollab["reports"] = "{$dbTablePrefix}reports";
+\$tableCollab["sorting"] = "{$dbTablePrefix}sorting";
+\$tableCollab["tasks"] = "{$dbTablePrefix}tasks";
+\$tableCollab["teams"] = "{$dbTablePrefix}teams";
+\$tableCollab["topics"] = "{$dbTablePrefix}topics";
+\$tableCollab["phases"] = "{$dbTablePrefix}phases";
+\$tableCollab["support_requests"] = "{$dbTablePrefix}support_requests";
+\$tableCollab["support_posts"] = "{$dbTablePrefix}support_posts";
+\$tableCollab["subtasks"] = "{$dbTablePrefix}subtasks";
+\$tableCollab["updates"] = "{$dbTablePrefix}updates";
+\$tableCollab["bookmarks"] = "{$dbTablePrefix}bookmarks";
+\$tableCollab["bookmarks_categories"] = "{$dbTablePrefix}bookmarks_categories";
+\$tableCollab["invoices"] = "{$dbTablePrefix}invoices";
+\$tableCollab["invoices_items"] = "{$dbTablePrefix}invoices_items";
+\$tableCollab["services"] = "{$dbTablePrefix}services";
+\$tableCollab["newsdeskcomments"] = "{$dbTablePrefix}newsdeskcomments";
+\$tableCollab["newsdeskposts"] = "{$dbTablePrefix}newsdeskposts";
+
+# PhpCollab version
+\$version = "$version";
+
+# demo mode parameters
+\$demoMode = false;
+\$urlContact = "http://www.sourceforge.net/projects/phpcollab";
+
+# Gantt graphs
+\$activeJpgraph = true;
+
+# developement options in footer
+\$footerDev = false;
+
+# filter to see only logged user clients (in team / owner)
+\$clientsFilter = false;
+
+# filter to see only logged user projects (in team / owner)
+\$projectsFilter = false;
+
+# Enable help center support requests, values "true" or "false"
+\$enableHelpSupport = true;
+
+# Return email address given for clients to respond too.
+\$supportEmail = "email@yourdomain.com";
+
+# Support Type, either team or admin. If team is selected a notification will be sent to everyone in the team when a new request is added
+\$supportType = "team";
+
+# enable the redirection to the last visited page, EXPERIMENTAL DO NOT USE IT
+\$lastvisitedpage = false;
+
+# auto-publish tasks added from client site?
+\$autoPublishTasks = false;
+
+# html header parameters
+\$setDoctype = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">";
+\$setTitle = "PhpCollab";
+\$siteTitle = "PhpCollab";
+\$setDescription = "Groupware module. Manage web projects with team collaboration, users management, tasks and projects tracking, files approval tracking, project sites clients access, customer relationship management (Php / Mysql, PostgreSQL or Sql Server).";
+\$setKeywords = "PhpCollab, phpcollab.com, Sourceforge, management, web, projects, tasks, organizations, reports, Php, MySql, Sql Server, mssql, Microsoft Sql Server, PostgreSQL, module, application, module, file management, project site, team collaboration, free, crm, CRM, cutomer relationship management, workflow, workgroup";
+
+\$emailAlerts = false;
 STAMP;
 
                     $fp = @fopen("../includes/settings.php", 'wb+');
