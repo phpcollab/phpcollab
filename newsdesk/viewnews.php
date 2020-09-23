@@ -3,6 +3,8 @@
 #Status page: 1
 #Path by root: ../newsdesk/viewnews.php
 
+use phpCollab\Util;
+
 $checkSession = "true";
 include_once '../includes/library.php';
 
@@ -30,7 +32,6 @@ if ($msg != "") {
 
 $blockPage->setLimitsNumber(1);
 
-
 $block1 = new phpCollab\Block();
 
 $block1->form = "clPr";
@@ -38,7 +39,6 @@ $block1->openForm("../newsdesk/viewnews.php?&id=" . $request->query->get("id") .
     $csrfHandler);
 
 $block1->headingToggle($strings["newsdesk"]);
-
 
 if ($session->get("profile") == "0" || $session->get("profile") == "1" || $session->get("profile") == "5") {
     $block1->openPaletteIcon();
@@ -48,18 +48,15 @@ if ($session->get("profile") == "0" || $session->get("profile") == "1" || $sessi
     $block1->closePaletteIcon();
 }
 
-
 if ($newsDetail) {
-
     // take the news author
     $newsAuthor = $members->getMemberById($newsDetail['news_author']);
 
     $block1->openContent();
     $block1->contentTitle($strings["details"]);
-    $block1->contentRow("<b>" . $strings["title"] . "</b>", $newsDetail['news_title']);
-//    $block1->contentRow("<b>" . $strings["title"] . "</b>", $escaper->escapeHtml($newsDetail['news_title']));
-    $block1->contentRow("<b>" . $strings["author"] . "</b>", $escaper->escapeHtml($newsAuthor["mem_name"]));
-    $block1->contentRow("<b>" . $strings["date"] . "</b>", $escaper->escapeHtml($newsDetail['news_date']));
+    $block1->contentRow("<strong>" . $strings["title"] . "</strong>", $escaper->escapeHtml($newsDetail['news_title']));
+    $block1->contentRow("<strong>" . $strings["author"] . "</strong>", $escaper->escapeHtml($newsAuthor["mem_name"]));
+    $block1->contentRow("<strong>" . $strings["date"] . "</strong>", $escaper->escapeHtml($newsDetail['news_date']));
 
     if ($newsDetail['news_related'] != 'g') {
         $projectDetail = $projects->getProjectById($newsDetail['news_related']);
@@ -68,17 +65,19 @@ if ($newsDetail) {
         $article_related = $strings["newsdesk_related_generic"];
     }
 
-    $block1->contentRow("<b>" . $strings["newsdesk_related"] . "</b>", $escaper->escapeHtml($article_related));
-    $block1->contentRow("<b>" . stripslashes($strings["article_newsdesk"]) . "</b>",
+    $block1->contentRow("<strong>" . $strings["newsdesk_related"] . "</strong>",
+        $escaper->escapeHtml($article_related));
+    $block1->contentRow("<strong>" . stripslashes($strings["article_newsdesk"]) . "</strong>",
         $escaper->escapeHtml($newsDetail['news_content']));
 
     $newsLinksArray = explode(";", trim($newsDetail['news_links']));
     foreach ($newsLinksArray as $item) {
-        $item = $escaper->escapeHtml($item);
-        $article_links .= "<a href='" . trim($item) . "' title='$item' target='_blank'>$item</a><br/>";
+        if (!empty($item)) {
+            $item = $escaper->escapeHtml($item);
+            $article_links .= "<a href='" . trim($item) . "' title='$item' target='_blank'>$item</a><br/>";
+        }
     }
-
-    $block1->contentRow("<b>" . $strings["newsdesk_related_links"] . "</b>", $article_links);
+    $block1->contentRow("<strong>" . $strings["newsdesk_related_links"] . "</strong>", Util::isBlank($article_links));
 
     if ($newsDetail['news_rss'] != '0') {
         $article_rss = $strings["yes"];
@@ -86,7 +85,7 @@ if ($newsDetail) {
         $article_rss = $strings["no"];
     }
 
-    $block1->contentRow("<b>" . $strings["newsdesk_rss_enabled"] . "</b>", $article_rss);
+    $block1->contentRow("<strong>" . $strings["newsdesk_rss_enabled"] . "</strong>", $article_rss);
     $block1->closeContent();
 } else {
     $block1->noresults();
@@ -160,14 +159,14 @@ $block2->closeContent();
 
 $block2->openPaletteScript();
 
-$block2->paletteScript(0, "add", "../newsdesk/editmessage.php?postid=" . $request->query->get("id"), "true,false,false",
+$block2->paletteScript(0, "add", "../newsdesk/addcomment.php?postid=" . $request->query->get("id"), "true,false,false",
     $strings["add_newsdesk_comment"]);
-$block2->paletteScript(1, "edit", "../newsdesk/editmessage.php?postid=" . $request->query->get("id"),
+$block2->paletteScript(1, "edit", "../newsdesk/editcomment.php?postid=" . $request->query->get("id"),
     "false,true,false", $strings["edit_newsdesk_comment"]);
 
 if ($session->get("profile") == "0" || $session->get("profile") == "1" || $session->get("profile") == "5") {
     $block2->paletteScript(2, "remove",
-        "../newsdesk/editmessage.php?postid=" . $request->query->get("id") . "&action=remove&", "false,true,true",
+        "../newsdesk/deletecomment.php?postid=" . $request->query->get("id"), "false,true,true",
         $strings["del_newsdesk_comment"]);
 }
 
