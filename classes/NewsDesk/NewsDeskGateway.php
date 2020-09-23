@@ -133,7 +133,8 @@ class NewsDeskGateway
             $query = $this->initrequest["newsdeskcomments"] . " WHERE newscom.id = :comment_id";
             $this->db->query($query);
             $this->db->bind(':comment_id', $commentId);
-            return $this->db->single();
+            $data = $this->db->single();
+            return [$data];
         }
     }
 
@@ -220,15 +221,14 @@ class NewsDeskGateway
     public function getRelated($userId, $profile)
     {
         $sql = <<<SQL
-        
 SELECT DISTINCT pro.id as tea_pro_id, pro.name as tea_pro_name, tea.id as tea_id FROM {$this->db->getTableName("teams")} tea, {$this->db->getTableName("projects")} pro 
 WHERE pro.id = tea.project
 SQL;
 
         if ($profile == 0) {
-            $sql .= " GROUP BY pro.id ";
+            $sql .= " GROUP BY pro.id, tea.id";
         } else {
-            $sql .= " AND tea.member = :user_id OR pro.id = 0 GROUP BY pro.id";
+            $sql .= " AND tea.member = :user_id OR pro.id = 0 GROUP BY pro.id, tea.id";
         }
 
         $this->db->query($sql);
@@ -243,15 +243,16 @@ SQL;
      * @param $content
      * @param $links
      * @param $rss
+     * @param $timestamp
      * @return mixed
      */
-    public function addPost($title, $author, $related, $content, $links, $rss)
+    public function addPost($title, $author, $related, $content, $links, $rss, $timestamp)
     {
         $sql = <<<SQL
 INSERT INTO {$this->db->getTableName("newsdeskposts")} 
 (title, author, related, content, links, rss, pdate) 
 VALUES 
-(:title, :author, :related, :content, :links, :rss, NOW())
+(:title, :author, :related, :content, :links, :rss, :timestamp)
 SQL;
         $this->db->query($sql);
         $this->db->bind(':title', $title);
@@ -260,6 +261,7 @@ SQL;
         $this->db->bind(':content', $content);
         $this->db->bind(':links', $links);
         $this->db->bind(':rss', $rss);
+        $this->db->bind(':timestamp', $timestamp);
 
         $this->db->execute();
         return $this->db->lastInsertId();

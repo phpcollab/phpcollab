@@ -304,7 +304,7 @@ CSRF;
 
     // end
 
-    $block1->contentRow($strings[""],
+    $block1->contentRow('',
         "<input type='submit' name='submit' value='" . $strings["save"] . "'> <input type='button' name='cancel' value='" . $strings["cancel"] . "' onClick='history.back();'>");
 
     $block1->closeContent();

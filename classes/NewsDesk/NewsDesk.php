@@ -160,7 +160,8 @@ class NewsDesk
      */
     public function addPost($title, $author, $related, $content, $links, $rss)
     {
-        return $this->newsdesk_gateway->addPost($title, $author, $related, $content, $links, $rss);
+        $timestamp = date('Y-m-d H:i');
+        return $this->newsdesk_gateway->addPost($title, $author, $related, $content, $links, $rss, $timestamp);
     }
 
     /**
