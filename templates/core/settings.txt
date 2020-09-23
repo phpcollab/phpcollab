@@ -1,0 +1,226 @@
+<?php
+/*
+ * Application name: PhpCollab
+ * Path by root: ../includes/settings.php
+ *
+ * File auto-generated @ %generated-timestamp%
+ *
+ * For more information about this file, visit:
+ * https://github.com/phpcollab/phpcollab/wiki/Settings
+ *
+ */
+
+# installation type
+# Options: (default) online | offline
+$installationType = "%installationType%";
+
+# select database application
+# Options: mysql | postgresql | sqlserver
+$databaseType = "%databaseType%";
+
+# database parameters
+define("MYSERVER", "%dbServer%");
+define("MYLOGIN", "%dbLogin%");
+define("MYPASSWORD", "%dbPassword%");
+define("MYDATABASE", "%dbName%");
+
+# notification method
+# Option: (default) mail | smtp
+$notificationMethod = "%notificationMethod%";
+
+# smtp parameters
+if ($notificationMethod === "smtp") {
+    define("SMTPSERVER", "%smtpServer%");
+    define("SMTPLOGIN", "%smtpLogin%");
+    define("SMTPPASSWORD", "%smtpPassword%");
+    define("SMTPPORT", "%smtpPort%");
+}
+
+# create folder method
+# Options: (default) PHP | FTP
+$mkdirMethod = "%mkdirMethod%";
+
+# ftp parameters
+# note: only needed if the mkdirMethod is set to FTP
+if ($mkdirMethod === "FTP") {
+    # PhpCollab root according to ftp account
+    # note: No slash at the end
+    $ftpRoot = "%ftpRoot%";
+
+    define("FTPSERVER", "%ftpServer%");
+    define("FTPLOGIN", "%ftpLogin%");
+    define("FTPPASSWORD", "%ftpPassword%");
+}
+
+# Invoicing module
+$enableInvoicing = %enableInvoicing%;
+
+# theme choice
+define("THEME", "%theme%");
+
+# newsdesk limiter
+$newsdesklimit = %newsdesklimit%;
+
+# if 1 the admin logs in his homepage
+$adminathome = %adminathome%;
+
+# timezone GMT management
+$gmtTimezone = %gmtTimezone%;
+
+# language choice
+# (default) en
+$langDefault = "%defaultLanguage%";
+
+# Mantis bug tracking parameters
+$enableMantis = %enableMantis%;
+
+if ($enableMantis === true) {
+    # Mantis installation directory
+    # note: add a slash at the end
+    $pathMantis = "%mantisPath%";
+}
+
+# https related parameters
+$pathToOpenssl = "%pathToOpenssl%";
+
+# login method, set to "CRYPT"
+# Options: (default) crypt | plain | md5
+$loginMethod = "%loginMethod%";
+
+# enable LDAP
+$useLDAP = %useLDAP%;
+if ($useLDAP) {
+    $configLDAP["ldapserver"] = "%configLDAPServer%";
+    $configLDAP["searchroot"] = "%configLDAPSearchRoot%";
+}
+
+# htaccess parameters
+$htaccessAuth = %htaccessAuth%;
+if ($htaccessAuth) {
+    # note: no slash at the end
+    $fullPath = "%fullPath%";
+}
+
+# file management parameters
+$fileManagement = %fileManagement%;
+
+# Size in bytes for uploads
+$maxFileSize = %maxFileSize%;
+
+# Root Path
+# note: no slash at the end
+$root = "%siteUrl%";
+
+# security issue to disallow php files upload
+$allowPhp = %allowPhp%;
+
+# project site creation
+$sitePublish = %sitePublish%;
+
+# enable update checker
+# (default) true
+$updateChecker = %updateChecker%;
+
+# e-mail notifications
+# (default) true
+$notifications = %notifications%;
+
+# show peer review area
+$peerReview = %peerReview%;
+
+# show items for home
+$showHomeBookmarks = %showHomeBookmarks%;
+$showHomeProjects = %showHomeProjects%;
+$showHomeTasks = %showHomeTasks%;
+$showHomeSubtasks = %showHomeSubtasks%;
+$showHomeDiscussions = %showHomeDiscussions%;
+$showHomeReports = %showHomeReports%;
+$showHomeNotes = %showHomeNotes%;
+$showHomeNewsdesk = %showHomeNewsdesk%;
+
+# security issue to disallow auto-login from external link
+$forcedLogin = %forcedLogin%;
+
+# table prefix
+$tablePrefix = "%dbTablePrefix%";
+
+# database tables
+$tableCollab["assignments"] = "%dbTablePrefix%assignments";
+$tableCollab["calendar"] = "%dbTablePrefix%calendar";
+$tableCollab["files"] = "%dbTablePrefix%files";
+$tableCollab["logs"] = "%dbTablePrefix%logs";
+$tableCollab["members"] = "%dbTablePrefix%members";
+$tableCollab["notes"] = "%dbTablePrefix%notes";
+$tableCollab["notifications"] = "%dbTablePrefix%notifications";
+$tableCollab["organizations"] = "%dbTablePrefix%organizations";
+$tableCollab["posts"] = "%dbTablePrefix%posts";
+$tableCollab["projects"] = "%dbTablePrefix%projects";
+$tableCollab["reports"] = "%dbTablePrefix%reports";
+$tableCollab["sorting"] = "%dbTablePrefix%sorting";
+$tableCollab["tasks"] = "%dbTablePrefix%tasks";
+$tableCollab["teams"] = "%dbTablePrefix%teams";
+$tableCollab["topics"] = "%dbTablePrefix%topics";
+$tableCollab["phases"] = "%dbTablePrefix%phases";
+$tableCollab["support_requests"] = "%dbTablePrefix%support_requests";
+$tableCollab["support_posts"] = "%dbTablePrefix%support_posts";
+$tableCollab["subtasks"] = "%dbTablePrefix%subtasks";
+$tableCollab["updates"] = "%dbTablePrefix%updates";
+$tableCollab["bookmarks"] = "%dbTablePrefix%bookmarks";
+$tableCollab["bookmarks_categories"] = "%dbTablePrefix%bookmarks_categories";
+$tableCollab["invoices"] = "%dbTablePrefix%invoices";
+$tableCollab["invoices_items"] = "%dbTablePrefix%invoices_items";
+$tableCollab["services"] = "%dbTablePrefix%services";
+$tableCollab["newsdeskcomments"] = "%dbTablePrefix%newsdeskcomments";
+$tableCollab["newsdeskposts"] = "%dbTablePrefix%newsdeskposts";
+
+# PhpCollab version
+$version = "%phpCollabVersion%";
+
+# demo mode parameters
+$demoMode = %demoMode%;
+$urlContact = "%urlContact%";
+
+# Gantt graphs
+$activeJpgraph = %activeJpgraph%;
+
+# filter to see only logged user clients (in team / owner)
+$clientsFilter = %clientsFilter%;
+
+# filter to see only logged user projects (in team / owner)
+$projectsFilter = %projectsFilter%;
+
+# Enable help center support requests
+$enableHelpSupport = %enableHelpSupport%;
+
+# Return email address given for clients to respond too.
+$supportEmail = "%supportEmail%";
+
+# Support Type
+# Options: (default) team | admin
+# If team is selected, a notification will be sent to everyone in the team when a new request is added
+$supportType = "%supportType%";
+
+# enable the redirection to the last visited page, EXPERIMENTAL DO NOT USE IT
+$lastvisitedpage = %lastvisitedpage%;
+
+# auto-publish tasks added from client site?
+$autoPublishTasks = %autoPublishTasks%;
+
+# html header parameters
+$setTitle = "%setTitle%";
+$siteTitle = "%siteTitle%";
+$setDescription = "%setDescription%";
+$setKeywords = "%setKeywords%";
+
+$emailAlerts = %emailAlerts%;
+
+/**
+ * Debugging Settings.
+ * DO NOT Change these on a Production server unless you know what you are doing.
+ * Refer to: https://phpcollab.com/debugging for more information
+ */
+
+# enable development bar in footer
+$footerDev = %footerDev%;
+
+$logLevel = %logLevel%;

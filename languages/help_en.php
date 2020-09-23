@@ -33,3 +33,5 @@ $help["setup_error_database_name"] = "Must be insert the database Name";
 $help["setup_error_site_url"] = "Must be insert the Root path";
 $help["setup_error_admin_password"] = "Must be insert the Admin password";
 $help["setup_error_database"] = "Error connecting to database.  Please check that your information is correct and try again.";
+$help["setup_general_error"] = "We had a problem completing the request. Please check and try again.";
+$help["setup_success"] = '<p><strong>phpCollab has successfully been installed.</strong></p><p><a href="%s">Please log in</a></p>';

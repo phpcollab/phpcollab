@@ -10,10 +10,10 @@ class DataFunctionsService
 {
     /**
      * Scrubs data .. makes it safe for writting into settings.php or database
-     * @return array $returnData Scrubbed Data
      * @param array $data Data from Post or GET (key - val paris)
+     * @return array $returnData Scrubbed Data
      */
-    public function scrubData($data)
+    public static function scrubData(array $data)
     {
         /**
          * Used to remove characters, if they aren't in this list, they will be removed

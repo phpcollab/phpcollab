@@ -26,7 +26,8 @@
     "monolog/monolog": "^2.0",
     "symfony/security-csrf": "^4.4",
     "symfony/mime": "^4.4",
-    "sabre/vobject": "^4.3"
+    "sabre/vobject": "^4.3",
+    "symfony/filesystem": "^5.1"
   },
   "require-dev": {
     "ext-ftp": "*",

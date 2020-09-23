@@ -221,11 +221,11 @@ STAMP;
 // Dumping data for table `members`
 
 $SQL[] = <<<STAMP
-INSERT INTO {$dbTablePrefix}members(organization,login,password,name,profil,created,logout_time) VALUES('1','admin', '{$adminPassword}', 'Administrator', '0', '{$dateheure}', '0');
+INSERT INTO {$dbTablePrefix}members(organization,login,password,name,email_work,profil,created,logout_time) VALUES('1','admin', '{$adminPassword}', 'Administrator', '{$adminEmail}', '0', '{$timestamp}', '0');
 STAMP;
 
 $SQL[] = <<<STAMP
-INSERT INTO {$dbTablePrefix}members(organization,login,password,name,profil,created,logout_time) VALUES('1','demo', '{$demoPwd}', 'Demo user', '4', '{$dateheure}', '0');
+INSERT INTO {$dbTablePrefix}members(organization,login,password,name,profil,created,logout_time) VALUES('1','demo', '{$demoPwd}', 'Demo user', '4', '{$timestamp}', '0');
 STAMP;
 
 // Table structure for table `notes`

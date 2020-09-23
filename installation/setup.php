@@ -15,7 +15,7 @@
 ** =============================================================================
 */
 
-use phpCollab\Container;
+use phpCollab\Installation\Installation;
 
 error_reporting(2039);
 
@@ -36,14 +36,7 @@ if ($redirect == "true" && $step == "2") {
     header("Location:../installation/setup.php?step=2&connection={$connection}");
 }
 
-
-$version = "2.8.2";
-
-$dateheure = date("Y-m-d H:i");
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-
     if ($_POST["action"] == "generate") {
         if (empty($_POST["dbServer"])) {
             $error = $help["setup_error_database_server"];
@@ -57,334 +50,54 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $error = $help["setup_error_admin_password"];
         }
 
-        $container = new Container([
-            'dbServer' => $_POST["dbServer"],
-            'dbUsername' => $_POST["dbLogin"],
-            'dbPassword' => $_POST["dbPassword"],
-            'dbName' => $_POST["dbName"],
-            'dbType' => $_POST["databaseType"]
-        ]);
-
-
-        if ($_POST["installationType"] == "offline") {
-            $updatechecker = "false";
-        }
-
-        if (substr($_POST["siteUrl"], -1) == "/") {
-            $siteUrl = substr($_POST["siteUrl"], 0, -1);
-        }
-        if (substr($_POST["ftpRoot"], -1) == "/") {
-            $ftpRoot = substr($_POST["ftpRoot"], 0, -1);
-        }
-
-
         if (!$error) {
-            //Let's also get pretty paranoid here ;)
-            $dataFunctions = $container->getDatafunctionsService();
-            $scrubedData = $dataFunctions->scrubData($_POST);
-            extract($scrubedData);
-
-            $updatechecker = $scrubedData["updateChecker"];
-            $action = $scrubedData["action"];
-            $installationType = $scrubedData["installationType"];
-            $databaseType = $scrubedData["databaseType"];
-            $dbServer = $scrubedData["dbServer"];
-            $dbLogin = $scrubedData["dbLogin"];
-            $dbPassword = $scrubedData["dbPassword"];
-            $dbName = $scrubedData["dbName"];
-            $dbTablePrefix = $scrubedData["dbTablePrefix"];
-            $mkdirMethod = $scrubedData["mkdirMethod"];
-            $notifications = $scrubedData["notifications"];
-            $forcedlogin = $scrubedData["forcedLogin"];
-            $defaultLanguage = $scrubedData["defaultLanguage"];
-            $siteUrl = $scrubedData["siteUrl"];
-            $loginMethod = $scrubedData["loginMethod"];
-            $adminPassword = $scrubedData["adminPassword"];
-            $ftpServer = $scrubedData["ftpServer"];
-            $ftpUrl = $scrubedData["ftpUrl"];
-            $ftpLogin = $scrubedData["ftpLogin"];
-            $ftpPassword = $scrubedData["ftpPassword"];
-            // -- END Paranoia
-
             try {
-                $msg = '';
+                $installation = new Installation([
+                    'dbServer' => $_POST["dbServer"],
+                    'dbUsername' => $_POST["dbLogin"],
+                    'dbPassword' => $_POST["dbPassword"],
+                    'dbName' => $_POST["dbName"],
+                    'dbType' => $_POST["databaseType"],
+                    'tablePrefix' => $_POST["dbTablePrefix"]
+                ], $appRoot);
 
                 /**
-                 * Connect to the Database
+                 * Further massage the data
                  */
-                $conn = $container->getPDO();
-
-                if (empty($conn)) {
-                    throw new Exception("PDO error");
+                if ($_POST["installationType"] == "offline" && empty($_POST["updateChecker"])) {
+                    $_POST["updateChecker"] = false;
                 }
 
-                /**
-                 * See if the includes, and logs directories are writable
-                 */
-                $isIncludesWritable = is_writable("../includes");
-                $isLogsWritable = is_writable("../logs");
-
-                if (!$isIncludesWritable) {
-                    $error = 1;
-                    throw new Exception("It appears that the 'includes' directory is not writable. Please correct and try again.");
+                // Trim off the trailing "/"
+                if (substr($_POST["siteUrl"], -1) == "/") {
+                    $_POST["siteUrl"] = substr($_POST["siteUrl"], 0, -1);
                 }
 
-                if (!$isLogsWritable) {
-                    $error = 1;
-                    throw new Exception("It appears that the 'logs' directory is not writable. Please correct and try again.");
-                }
-
-                /**
-                 * Create Database tables
-                 */
-                // crypt admin and demo password
-                $demoPwd = phpCollab\Util::getPassword("demo", $loginMethod);
-                $adminPassword = phpCollab\Util::getPassword($adminPassword, $loginMethod);
-
-                // create all tables
-                include '../includes/db_var.inc.php';
-                include '../includes/setup_db.php';
-
-                foreach ($SQL as $sqlStatement) {
-                    try {
-                        $conn->query($sqlStatement);
-                        $conn->execute();
-                    } catch (PDOException $e) {
-                        $error = $e->getMessage();
+                if ($_POST["mkdirMethod"] === "FTP") {
+                    if (substr($_POST["ftpRoot"], -1) == "/") {
+                        $_POST["ftpRoot"] = substr($_POST["ftpRoot"], 0, -1);
                     }
                 }
 
-                if (!$error) {
-                    $msg .= "<p>Tables and settings file created correctly.</p>";
+                // Perform the setup process
+                $installation->setup($_POST);
 
-                    /**
-                     * Write the settings file
-                     */
-                    $content = <<<STAMP
-<?php
-#Application name: PhpCollab
-#Path by root: ../includes/settings.php
-
-# installation type
-\$installationType = "$installationType"; //select "offline" or "online"
-
-# select database application
-\$databaseType = "$databaseType"; //select "sqlserver", "postgresql" or "mysql"
-
-# database parameters
-define('MYSERVER','$dbServer');
-define('MYLOGIN','$dbLogin');
-define('MYPASSWORD','$dbPassword');
-define('MYDATABASE','$dbName');
-
-# notification method
-\$notificationMethod = "mail"; //select "mail" or "smtp"
-
-# smtp parameters (only if \$notificationMethod == "smtp")
-define('SMTPSERVER','');
-define('SMTPLOGIN','');
-define('SMTPPASSWORD','');
-define('SMTPPORT','');
-
-# create folder method
-\$mkdirMethod = "$mkdirMethod"; //select "FTP" or "PHP"
-
-# ftp parameters (only if \$mkdirMethod == "FTP")
-define('FTPSERVER','$ftpServer');
-define('FTPLOGIN','$ftpLogin');
-define('FTPPASSWORD','$ftpPassword');
-
-# PhpCollab root according to ftp account (only if \$mkdirMethod == "FTP")
-\$ftpRoot = "$ftpRoot"; //no slash at the end
-
-# Invoicing module
-\$enableInvoicing = true;
-
-# theme choice
-define('THEME','default');
-
-# newsdesk limiter
-\$newsdesklimit = 1;
-
-# if 1 the admin logs in his homepage
-\$adminathome = 0;
-
-# timezone GMT management
-\$gmtTimezone = false;
-
-# language choice
-\$langDefault = "$defaultLanguage";
-
-# Mantis bug tracking parameters
-// Should bug tracking be enabled?
-\$enableMantis = false;
-
-// Mantis installation directory
-\$pathMantis = "http://localhost/mantis/";  // add slash at the end
-
-# https related parameters
-\$pathToOpenssl = "/usr/bin/openssl";
-
-# login method, set to "CRYPT"
-\$loginMethod = "$loginMethod"; //select "MD5", "CRYPT", or "PLAIN"
-
-# enable LDAP
-\$useLDAP = false;
-\$configLDAP["ldapserver"] = "your.ldap.server.address";
-\$configLDAP["searchroot"] = "ou=People, ou=Intranet, dc=YourCompany, dc=com";
-
-# htaccess parameters
-\$htaccessAuth = false;
-\$fullPath = "/usr/local/apache/htdocs/phpcollab/files"; //no slash at the end
-
-# file management parameters
-\$fileManagement = true;
-\$maxFileSize = 51200; //bytes limit for upload
-\$root = "$siteUrl"; //no slash at the end
-
-# security issue to disallow php files upload
-\$allowPhp = false;
-
-# project site creation
-\$sitePublish = true;
-
-# enable update checker
-\$updateChecker = "$updatechecker";
-
-# e-mail notifications
-\$notifications = "$notifications";
-
-# show peer review area
-\$peerReview = true;
-
-# show items for home
-\$showHomeBookmarks = true;
-\$showHomeProjects = true;
-\$showHomeTasks = true;
-\$showHomeSubtasks = true;
-\$showHomeDiscussions = true;
-\$showHomeReports = true;
-\$showHomeNotes = true;
-\$showHomeNewsdesk = true;
-
-# security issue to disallow auto-login from external link
-\$forcedLogin = "$forcedlogin";
-
-# table prefix
-\$tablePrefix = "$dbTablePrefix";
-
-# database tables
-\$tableCollab["assignments"] = "{$dbTablePrefix}assignments";
-\$tableCollab["calendar"] = "{$dbTablePrefix}calendar";
-\$tableCollab["files"] = "{$dbTablePrefix}files";
-\$tableCollab["logs"] = "{$dbTablePrefix}logs";
-\$tableCollab["members"] = "{$dbTablePrefix}members";
-\$tableCollab["notes"] = "{$dbTablePrefix}notes";
-\$tableCollab["notifications"] = "{$dbTablePrefix}notifications";
-\$tableCollab["organizations"] = "{$dbTablePrefix}organizations";
-\$tableCollab["posts"] = "{$dbTablePrefix}posts";
-\$tableCollab["projects"] = "{$dbTablePrefix}projects";
-\$tableCollab["reports"] = "{$dbTablePrefix}reports";
-\$tableCollab["sorting"] = "{$dbTablePrefix}sorting";
-\$tableCollab["tasks"] = "{$dbTablePrefix}tasks";
-\$tableCollab["teams"] = "{$dbTablePrefix}teams";
-\$tableCollab["topics"] = "{$dbTablePrefix}topics";
-\$tableCollab["phases"] = "{$dbTablePrefix}phases";
-\$tableCollab["support_requests"] = "{$dbTablePrefix}support_requests";
-\$tableCollab["support_posts"] = "{$dbTablePrefix}support_posts";
-\$tableCollab["subtasks"] = "{$dbTablePrefix}subtasks";
-\$tableCollab["updates"] = "{$dbTablePrefix}updates";
-\$tableCollab["bookmarks"] = "{$dbTablePrefix}bookmarks";
-\$tableCollab["bookmarks_categories"] = "{$dbTablePrefix}bookmarks_categories";
-\$tableCollab["invoices"] = "{$dbTablePrefix}invoices";
-\$tableCollab["invoices_items"] = "{$dbTablePrefix}invoices_items";
-\$tableCollab["services"] = "{$dbTablePrefix}services";
-\$tableCollab["newsdeskcomments"] = "{$dbTablePrefix}newsdeskcomments";
-\$tableCollab["newsdeskposts"] = "{$dbTablePrefix}newsdeskposts";
-
-# PhpCollab version
-\$version = "$version";
-
-# demo mode parameters
-\$demoMode = false;
-\$urlContact = "http://www.sourceforge.net/projects/phpcollab";
-
-# Gantt graphs
-\$activeJpgraph = true;
-
-# developement options in footer
-\$footerDev = false;
-
-# filter to see only logged user clients (in team / owner)
-\$clientsFilter = false;
-
-# filter to see only logged user projects (in team / owner)
-\$projectsFilter = false;
-
-# Enable help center support requests, values "true" or "false"
-\$enableHelpSupport = true;
-
-# Return email address given for clients to respond too.
-\$supportEmail = "email@yourdomain.com";
-
-# Support Type, either team or admin. If team is selected a notification will be sent to everyone in the team when a new request is added
-\$supportType = "team";
-
-# enable the redirection to the last visited page, EXPERIMENTAL DO NOT USE IT
-\$lastvisitedpage = false;
-
-# auto-publish tasks added from client site?
-\$autoPublishTasks = false;
-
-# html header parameters
-\$setDoctype = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">";
-\$setTitle = "PhpCollab";
-\$siteTitle = "PhpCollab";
-\$setDescription = "Groupware module. Manage web projects with team collaboration, users management, tasks and projects tracking, files approval tracking, project sites clients access, customer relationship management (Php / Mysql, PostgreSQL or Sql Server).";
-\$setKeywords = "PhpCollab, phpcollab.com, Sourceforge, management, web, projects, tasks, organizations, reports, Php, MySql, Sql Server, mssql, Microsoft Sql Server, PostgreSQL, module, application, module, file management, project site, team collaboration, free, crm, CRM, cutomer relationship management, workflow, workgroup";
-
-\$emailAlerts = false;
-STAMP;
-
-                    $fp = @fopen("../includes/settings.php", 'wb+');
-                    if (!$fp) {
-                        $error = 1;
-                        throw new Exception("<br/><b>PANIC! <br/> settings.php can't be opened!</b><br/>");
-                    }
-                    $fw = fwrite($fp, $content);
-
-                    if (!$fw) {
-                        $error = 1;
-                        throw new Exception("<br/><b>PANIC! <br/> settings.php can't be written!</b><br/>");
-                    }
-
-                    fclose($fp);
-                    $msg .= '<p>File settings.php created correctly.</p>';
-
-                    $msg .= "<p><a href='../general/login.php'>Please log in</a></p>";
-                }
-
+                $msg = sprintf($help["setup_success"], '../general/login.php');
             } catch (PDOException $e) {
-                error_log("SETUP - PDO Error: " . $e->getCode() . " - " . $e->getMessage(), 3, $appRoot . "/logs/phpcollab.log");
                 $error = $help["setup_error_database"];
             } catch (Exception $e) {
-                error_log("SETUP - Exception: " . $e->getMessage(), 3, $appRoot . "/logs/phpcollab.log");
-                $msg = "We had a problem completing the request. Please check and try again.";
+                $error = $help["setup_general_error"];
             }
-
-            // If there was an error, then let's go back to Step 2
-            if ($error) {
-                $step = 2;
-            }
-
-            unset($conn);
         } else {
-            error_log("SETUP - Error: " . $e->getMessage(), 3, $appRoot . "/logs/phpcollab.log");
-            $msg = "We had a problem completing the request. Please check and try again.";
+            $error = $help["setup_general_error"];
+        }
+
+        // If there was an error, then let's go back to Step 2
+        if ($error) {
+            $step = 2;
         }
     }
 }
-
 if ($step == "") {
     $step = "1";
 }
@@ -393,7 +106,7 @@ $setTitle = "PhpCollab : Installation";
 define('THEME', 'default');
 $blank = "true";
 
-include dirname(dirname(__FILE__)) . '/views/layout/header.php';
+require dirname(dirname(__FILE__)) . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -444,8 +157,6 @@ HTML;
     $block1->closeContent();
 }
 
-
-
 if ($step == "2") {
     $block1->form = "settings";
     $block1->openForm("../installation/setup.php?step=3", null, $csrfHandler);
@@ -465,13 +176,12 @@ if ($step == "2") {
 HTML;
     }
 
-
     if ($connection == "off" || $installationType == "offline") {
-        echo "<input value='false' name='updatechecker' type='hidden'>";
+        echo "<input value='false' name='updateChecker' type='hidden'>";
     } elseif (@join('', file("http://www.phpcollab.com/website/version.txt"))) {
-        echo "<input value='true' name='updatechecker' type='hidden'>";
+        echo "<input value='true' name='updateChecker' type='hidden'>";
     } else {
-        echo "<input value='false' name='updatechecker' type='hidden'>";
+        echo "<input value='false' name='updateChecker' type='hidden'>";
     }
 
     echo '<input type="hidden" name="action" value="generate">';
@@ -525,7 +235,6 @@ HTML;
 				<td class="leftvalue">Table prefix :<br/>[<a href="javascript:void(0)" onmouseover="return overlib('{$myPrefix}',ABOVE,SNAPX,550)" onmouseout="return nd()">Help</a>] </td>
 				<td><input size="44" value="{$dbTablePrefix}" style="width: 200px" name="dbTablePrefix" maxlength="100" type="text"></td>
 			</tr>
-
 HTML;
 
     $safemodeTest = ini_get("safe_mode");
@@ -586,7 +295,7 @@ HTML;
     </tr>
     <tr class="odd">
         <td class="leftvalue">* Forced login :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('{$setupForcedLogin}',SNAPX,550);" onmouseout="return nd();">Help</a>] </td>
-        <td><input type="radio" name="forcedlogin" value="false" checked> False&nbsp;<input type="radio" name="forcedlogin" value="true"> True</td>
+        <td><input type="radio" name="forcedLogin" value="false" checked> False&nbsp;<input type="radio" name="forcedLogin" value="true"> True</td>
     </tr>
     <tr class="odd">
         <td class="leftvalue">Default language :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('{$setupLangDefault}',SNAPX,550);" onmouseout="return nd();">Help</a>] </td>
@@ -627,8 +336,6 @@ HTML;
     </tr>
 HTML;
 
-
-
     $url = $_SERVER["SERVER_NAME"];
     if ($_SERVER["SERVER_PORT"] != 80 && $_SERVER["SERVER_PORT"] != 443) {
         $url .= ":" . $_SERVER["SERVER_PORT"];
@@ -665,6 +372,10 @@ HTML;
 			<td><input size="44" value="" style="width: 200px" name="adminPassword" maxlength="100" type="password" required></td>
 		</tr>
 		<tr class="odd">
+			<td class="leftvalue">* Admin email :</td>
+			<td><input size="44" value="" style="width: 200px" name="adminEmail" value="{$adminEmail}" type="email" required></td>
+		</tr>
+		<tr class="odd">
 			<td class="leftvalue">&nbsp;</td>
 			<td><input type="submit" value="Save"></td>
 		</tr>
@@ -675,7 +386,7 @@ HTML;
 
 if ($step == "3") {
     $block1->openContent();
-    $block1->contentTitle("&nbsp;");
+    $block1->contentTitle("Success");
 
     if (isset($error) && !empty($error)) {
         echo <<<HTML
@@ -690,12 +401,14 @@ if ($step == "3") {
 HTML;
     }
 
-
     if (!$error && $msg) {
         echo <<<HTML
             <tr class="odd">
-                <td class="leftvalue">&nbsp;</td>
-                <td>{$msg}</td>
+                <td colspan="2">
+                    <div class="alert success" style="width: 25vw;">
+                        {$msg}
+                    </div>
+                </td>
             </tr>
 HTML;
 
@@ -703,13 +416,12 @@ HTML;
     $block1->closeContent();
 }
 
-
 $stepNext = $step + 1;
 if ($step < "2") {
     echo <<<FORM
     <form id="license" name="license" action="../installation/setup.php?step=2&redirect=true" method="post" style="text-align: center;">
         <p><input type="submit" value="Step {$stepNext}" style="color: #000; font-weight: bold; background-color: transparent; border: none; text-decoration: underline" /></p>
-        <input type="checkbox" value="off" name="connection"> Offline installation (firewall/intranet, no update checker)
+        <label><input type="checkbox" value="off" name="connection"> Offline installation (firewall/intranet, no update checker)</label>
     </form>
 FORM;
 }
@@ -717,4 +429,5 @@ FORM;
 $footerDev = "false";
 $siteTitle = "phpCollab";
 $copyrightYear = date("Y");
-include dirname(dirname(__FILE__)) . '/views/layout/footer.php';
+
+require dirname(dirname(__FILE__)) . '/views/layout/footer.php';
