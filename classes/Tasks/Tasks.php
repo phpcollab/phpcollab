@@ -593,6 +593,7 @@ class Tasks
             $published = is_null($published) ? 0 : $published;
             $invoicing = is_null($invoicing) ? 0 : $invoicing;
             $completion = is_null($completion) ? 0 : $completion;
+            $workedHours = is_null($workedHours) ? 0.0 : $workedHours;
 
             $newTaskId = $this->tasks_gateway->addTask($projectId, $name, $description, $owner, $assignedTo, $status,
                 $priority, $startDate,
