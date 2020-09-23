@@ -14,7 +14,7 @@ class ClientsCest
     public function _before(AcceptanceTester $I)
     {
         $I->amOnPage('/general/login.php');
-        $I->fillField(['name' => 'usernameForm'], 'testUser2');
+        $I->fillField(['name' => 'usernameForm'], 'testAdmin');
         $I->fillField(['name' => 'passwordForm'], 'testing');
         $I->click('input[type="submit"]');
     }
@@ -30,22 +30,27 @@ class ClientsCest
     /**
      * @param AcceptanceTester $I
      */
-    public function emptyClientList(AcceptanceTester $I)
+    public function clientList(AcceptanceTester $I)
     {
-        $I->wantTo('See an empty list of Clients');
+        $I->wantTo('See a list of Clients (empty or populated)');
         $I->amOnPage('/clients/listclients.php');
         $I->seeInTitle('List Clients');
-        $I->seeElement('.noItemsFound');
+        try {
+            $I->seeElement('.noItemsFound');
+        } catch (Exception $exception) {
+            $I->seeElement('.listing');
+        }
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends clientList
      */
     public function addClient(AcceptanceTester $I)
     {
         $I->wantTo('Add new Client');
         $I->amOnPage('/clients/addclient.php');
-        $I->seeInTitle('PhpCollab : Add Client');
+        $I->seeInTitle('Add Client');
         $I->see('Add Client Organization', '.heading');
         $I->see('Add Client', ['css' => '.heading']);
         $I->submitForm('form', [
@@ -59,13 +64,14 @@ class ClientsCest
         ]);
         $I->dontSeeElement('.headingError');
         $I->dontSeeElement('.error');
-        $I->see('Success : Addition succeeded');
+        $I->see('Success : Addition succeeded', ['css' => '.message']);
         $I->see($this->clientName, ".//tr/td[contains(text(),'Name')]/following-sibling::td");
         $this->clientId = $I->grabFromCurrentUrl('~id=(\d+)~');
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends addClient
      */
     public function listClients(AcceptanceTester $I)
     {
@@ -73,11 +79,12 @@ class ClientsCest
         $I->amOnPage('/clients/listclients.php');
         $I->seeInTitle('List Clients');
         $I->seeElement('.listing');
-        $I->see($this->clientName);
+        $I->see($this->clientName, ['css' => '.listing']);
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends addClient
      */
     public function viewClient(AcceptanceTester $I)
     {
@@ -86,13 +93,14 @@ class ClientsCest
         $I->seeInTitle('List Clients');
         $I->amGoingTo('select the first client in the list and navigate to it');
         $I->dontSeeElement('.noItemsFound');
-        $I->click('.listing tr:nth-child(2) td:nth-child(2) a');
+        $I->click('//a[text()="' . $this->clientName . '"]');
         $I->seeElement('.content');
-        $I->see('Codeception Client', ".//tr/td[contains(text(),'Name')]/following-sibling::td");
+        $I->see($this->clientName, ".//tr/td[contains(text(),'Name')]/following-sibling::td");
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends viewClient
      */
     public function editClient(AcceptanceTester $I)
     {
@@ -105,12 +113,13 @@ class ClientsCest
         ]);
         $I->dontSeeElement('.headingError');
         $I->dontSeeElement('.error');
-        $I->see('Success : Modification succeeded');
+        $I->see('Success : Modification succeeded', ['css' => '.message']);
         $I->see($this->clientName . ' - edit', ".//tr/td[contains(text(),'Name')]/following-sibling::td");
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends editClient
      */
     public function deleteClient(AcceptanceTester $I)
     {
@@ -118,12 +127,12 @@ class ClientsCest
         $I->amOnPage('/clients/deleteclients.php?id=' . $this->clientId);
         $I->seeInTitle('Delete Client');
         $I->see('Delete Client Organizations', '.heading');
-        $I->see($this->clientName . ' - edit');
+        $I->see($this->clientName . ' - edit', ['css' => '.content']);
         $I->see($this->clientName . ' - edit', ".//tr/td[contains(text(),'#". $this->clientId . "')]/following-sibling::td");
 
         $I->click('form button[type=submit]');
         $I->seeInCurrentUrl('/clients/listclients.php?msg=delete');
-        $I->see('Success : Deletion succeeded');
+        $I->see('Success : Deletion succeeded', ['css' => '.message']);
         $I->dontSeeLink($this->clientName . ' - edit');
     }
 

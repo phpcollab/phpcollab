@@ -150,32 +150,44 @@ class NewsDesk
     }
 
     /**
-     * @param $title
-     * @param $author
-     * @param $related
-     * @param $content
-     * @param $links
-     * @param $rss
+     * @param $postData
      * @return mixed
      */
-    public function addPost($title, $author, $related, $content, $links, $rss)
+    public function addPost($postData)
     {
-        return $this->newsdesk_gateway->addPost($title, $author, $related, $content, $links, $rss);
+        $title = $postData["title"];
+        $author = (int)$postData["author"];
+        $related = $postData["related"];
+        $content = $postData["content"];
+        $links = $postData["links"];
+        $rss = !empty($postData["rss"]) ? $postData["rss"] : 0;
+
+        if (empty($title) || empty($author)) {
+            throw new InvalidArgumentException('Missing data');
+        }
+
+        $timestamp = date('Y-m-d H:i');
+        return $this->newsdesk_gateway->addPost($title, $author, $related, $content, $links, $rss, $timestamp);
     }
 
     /**
-     * @param $postId
-     * @param $title
-     * @param $author
-     * @param $related
-     * @param $content
-     * @param $links
-     * @param $rss
+     * @param $postData
      * @return mixed
      */
-    public function updatePostById($postId, $title, $author, $related, $content, $links, $rss)
+    public function updatePostById($postData)
     {
-        $links = filter_var($links, FILTER_SANITIZE_URL);
+        $postId = (int)$postData["id"];
+        $title = $postData["title"];
+        $author = (int)$postData["author"];
+        $related = $postData["related"];
+        $content = $postData["content"];
+        $links = filter_var($postData["links"], FILTER_SANITIZE_URL);
+        $rss = !empty($postData["rss"]) ? $postData["rss"] : 0;
+
+        if (empty($postId) || empty($title) || empty($author)) {
+            throw new InvalidArgumentException('Invalid data');
+        }
+
         return $this->newsdesk_gateway->updatePostById($postId, $title, $author, $related, $content, $links, $rss);
     }
 
@@ -193,7 +205,6 @@ class NewsDesk
                 throw new InvalidArgumentException('Comment is missing or empty.');
             }
         }
-
 
         return $this->newsdesk_gateway->setComment($commentId, $comment);
     }

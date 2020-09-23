@@ -19,7 +19,7 @@ class NewsdeskCest
     public function _before(AcceptanceTester $I)
     {
         $I->amOnPage('/general/login.php');
-        $I->fillField(['name' => 'usernameForm'], 'testUser');
+        $I->fillField(['name' => 'usernameForm'], 'testAdmin');
         $I->fillField(['name' => 'passwordForm'], 'testing');
         $I->click('input[type="submit"]');
     }
@@ -38,34 +38,37 @@ class NewsdeskCest
     {
         $I->wantTo('See a list of Newsdesk posts');
         $I->amOnPage('/newsdesk/listnews.php');
-        $I->see('News list');
+        $I->see('News list', ['css' => '.breadcrumbs']);
+        $I->see('Newsdesk', ['css' => '.heading']);
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends listPosts
      */
     public function viewPost(AcceptanceTester $I)
     {
         $I->wantTo('View a newsdesk post');
         $I->amOnPage('/newsdesk/listnews.php');
-        $I->see('News list');
+        $I->see('Newsdesk', ['css' => '.heading']);
         $I->click('.listing tr:nth-child(2) td:nth-child(2) a');
-        $I->see('Details');
-        $I->see('Comments');
+        $I->see('Details', ['css' => '.content']);
+        $I->see('Comments', ['css' => '.heading']);
         $this->postId = $I->grabFromCurrentUrl('~id=(\d+)~');
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends viewPost
      */
     public function addComment(AcceptanceTester $I)
     {
         $I->wantTo('Add a comment to a news post');
         $I->amOnPage('/newsdesk/viewnews.php?id=' . $this->postId);
-        $I->see('Newsdesk');
-        $I->see('Comments');
-        $I->amOnPage('/newsdesk/editmessage.php?postid=' . $this->postId);
-        $I->see('Add a comment to the News Article');
+        $I->see('Newsdesk', ['css' => '.heading']);
+        $I->see('Comments', ['css' => '.heading']);
+        $I->amOnPage('/newsdesk/addcomment.php?postid=' . $this->postId);
+        $I->see('Add a comment to the News Article', ['css' => '.heading']);
         $I->submitForm('form', [
             'comment' => 'Codeception comment',
             'postId'  => $this->postId,
@@ -79,6 +82,7 @@ class NewsdeskCest
 
     /**
      * @param AcceptanceTester $I
+     * @depends addComment
      */
     public function editComment(AcceptanceTester $I)
     {
@@ -86,8 +90,8 @@ class NewsdeskCest
         $I->amOnPage('/newsdesk/viewnews.php?id=' . $this->postId);
         $I->see('Codeception comment', ['css' => '#clPrc']);
         $I->amGoingTo('Navigate to the edit view');
-        $I->amOnPage('/newsdesk/editmessage.php?postid=' . $this->postId . '&id=' . $this->commentId);
-        $I->see('Edit the comment of the News Article :');
+        $I->amOnPage('/newsdesk/editcomment.php?postid=' . $this->postId . '&id=' . $this->commentId);
+        $I->see('Edit the comment of the News Article :', ['css' => '.heading']);
         $I->submitForm('form', [
             'comment' => 'Codeception comment - edited',
             'postId'  => $this->postId,

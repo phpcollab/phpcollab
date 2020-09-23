@@ -110,6 +110,10 @@ class Container
         $this->configuration = $configuration;
     }
 
+    /**
+     * @return Database
+     * @throws Exception
+     */
     public function getPDO()
     {
         if (null === $this->database) {
@@ -117,6 +121,7 @@ class Container
                 $this->database = new Database($this->configuration, $this->getLogger());
             } catch (Exception $exception) {
                 error_log($exception->getMessage());
+//                throw new Exception($exception);
                 return $exception;
             }
         }

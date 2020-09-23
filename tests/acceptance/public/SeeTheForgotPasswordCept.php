@@ -3,4 +3,4 @@ $I = new AcceptanceTester($scenario);
 $I->wantTo('see the forgot password page');
 $I->amOnPage('/general/login.php');
 $I->click(['link' => 'Forgot password?']);
-$I->see('Enter your login to receive new password');
+$I->see('Enter your login to receive new password', ['css' => '.content']);

@@ -52,7 +52,7 @@ if ($request->isMethod('post')) {
                 $phone = (empty($request->request->get('phone'))) ? null : $request->request->get('phone');
                 $url = (empty($request->request->get('url'))) ? null : $request->request->get('url');
                 $email = (empty($request->request->get('email'))) ? null : $request->request->get('email');
-                $hourlyRate = (empty($request->request->get('hourly_rate'))) ? null : $request->request->get('hourly_rate');
+                $hourlyRate = (empty($request->request->get('hourly_rate'))) ? 0.0 : $request->request->get('hourly_rate');
                 $owner = (empty($request->request->get('owner'))) ? null : $request->request->get('owner');
 
 
@@ -61,7 +61,7 @@ if ($request->isMethod('post')) {
 
                 phpCollab\Util::headerFunction("../clients/viewclient.php?id=$id&msg=update");
             } catch (Exception $exception) {
-                $logger->critical('Edit Client Error ' . $e->getMessage(), []);
+                $logger->critical('Edit Client Error ' . $exception->getMessage(), []);
                 $msg = 'clientEditError';
             }
         }

@@ -51,7 +51,7 @@ if (empty($type)) {
     $type = "monthPreview";
 }
 
-if ($gmtTimezone != "false") {
+if ($gmtTimezone != (int)"false") {
     $zone = 3600 * $session->get('timezone');
     $year = gmdate("Y", time() + $zone);
     $month = gmdate("n", time() + $zone);
@@ -78,7 +78,7 @@ if ($dateCalend != "") {
 }
 
 if ($dateCalend == "") {
-    if ($gmtTimezone != "false") {
+    if ($gmtTimezone != (int)"false") {
         $zone = 3600 * $session->get('timezone');
         $year = gmdate("Y", time() + $zone);
         $month = gmdate("n", time() + $zone);

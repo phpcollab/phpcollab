@@ -297,7 +297,7 @@ if ($session->get('demo') == "true") {
 }
 
 //time variables
-if ($gmtTimezone == "true") {
+if ($gmtTimezone == (int)"true") {
     $date = gmdate("Y-m-d");
     $dateheure = gmdate("Y-m-d H:i");
 } else {

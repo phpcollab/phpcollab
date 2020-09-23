@@ -318,7 +318,7 @@ if ($projectsFilter == "true") {
             }
         }
     } else {
-        $validTasks = "false";
+        $validTasks = false;
     }
 } else {
     if (is_null($query)) {
@@ -328,14 +328,19 @@ if ($projectsFilter == "true") {
     }
 }
 
-$listTasks = $tasks->getReportTasks($tmpquery);
+if (!isset($validTasks) && $validTasks !== false) {
+    $listTasks = $tasks->getReportTasks($tmpquery);
 
-if ($listTasks) {
-    $taskIds = implode(',', array_column($listTasks, 'tas_id'));
+    if ($listTasks) {
+        $taskIds = implode(',', array_column($listTasks, 'tas_id'));
+    }
+
+    $listSubTasks = $tasks->getSubtasksByParentTaskIdIn($taskIds);
+    $totalTasks = count($listTasks) + count($listSubTasks);
+} else {
+    $totalTasks = 0;
 }
 
-$listSubTasks = $tasks->getSubtasksByParentTaskIdIn($taskIds);
-$totalTasks = count($listTasks) + count($listSubTasks);
 $block0 = new phpCollab\Block();
 
 $block0->openContent();
@@ -355,12 +360,13 @@ if ($totalTasks > "1") {
 
 $block0->closeContent();
 
-$block1->form = "Tasks";
-$block1->openForm("../reports/resultsreport.php?&tri=true&id=$id#" . $block1->form . "Anchor", null, $csrfHandler);
-
-$block1->heading($strings["report_results"]);
 
 if (!empty($listTasks)) {
+    $block1->form = "Tasks";
+    $block1->openForm("../reports/resultsreport.php?&tri=true&id=$id#" . $block1->form . "Anchor", null, $csrfHandler);
+
+    $block1->heading($strings["report_results"]);
+
     /**
      * you cannot export or delete a not saved report
      * $block1->openPaletteIcon();
@@ -506,7 +512,7 @@ HIDDEN;
 /**
  * Only show the save report section if not viewing a saved report
  */
-if (empty($id)) {
+if (empty($id) && $totalTasks != "0") {
     $block2 = new phpCollab\Block();
 
     $block2->form = "save_report";

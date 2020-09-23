@@ -161,7 +161,7 @@ if ($listInvoices) {
         $block1->openRow();
         $block1->checkboxRow($invoice["inv_id"]);
         $block1->cellRow($blockPage->buildLink("../invoicing/viewinvoice.php?id=" . $invoice["inv_id"],
-            $invoice["inv_id"], "in"));
+            $strings["view_invoice"] . " (" . $invoice["inv_id"] . ")", "in"));
         $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $invoice["inv_project"],
             $invoice["inv_pro_name"], "in"));
         $block1->cellRow($invoice["inv_total_inc_tax"] ? $invoice["inv_total_inc_tax"] : "--");

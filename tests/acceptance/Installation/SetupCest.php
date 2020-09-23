@@ -10,7 +10,7 @@ class SetupCest
     private $dbName = 'phpc_release';
     private $dbLogin = 'phpc_release';
     private $dbPassword = 'phpc_release';
-    private $dbTablePrefix = 'phpc_release_';
+    private $dbTablePrefix = 'codeception_';
     private $adminPassword = "phpcollab";
 
     /**
@@ -65,8 +65,8 @@ class SetupCest
         $I->click('input[type="submit"]');
         $I->dontSeeElement('.error');
         $I->see('Success', ['css' => '.heading']);
-        $I->see('Tables and settings file created correctly.');
-        $I->see('File settings.php created correctly.');
+        $I->see('phpCollab has successfully been installed.');
+        $I->see('Please log in');
     }
 
     public function testLogin(AcceptanceTester $I)

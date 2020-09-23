@@ -108,13 +108,6 @@ hr {
     padding-left: 2px;
 }
 
-.note {
-    background-color: #FFFFFF;
-    margin-top: 0;
-    margin-bottom: 30px;
-    padding-left: 2px;
-}
-
 .heading {
     background-color: #FFFFFF;
     margin-top: 0;
@@ -529,21 +522,38 @@ td.footerCell a, td.footerCell strong {
     font-size: 0.75rem;
 }
 
-.alert.error {
+.alert {
     padding: 1em;
+    margin: 1rem;
+    border: 1px solid transparent;
+    font-weight: normal;
+    font-size: 1rem;
+}
+
+.alert.error {
     color: darkred;
-    border: 1px solid indianred;
+    border-color: indianred;
     font-weight: bold;
     background-color: papayawhip;
 }
 
 .alert.info {
-    padding: 1em;
     color: #004085;
     background-color: #cce5ff;
-    border: 1px solid #b8daff;
-    font-weight: normal;
-    font-size: 1rem;
+    border-color: #b8daff;
+}
+
+.alert.success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert.note {
+    width: fit-content;
+    width: -moz-fit-content;
+    max-width: 50vw;
+    font-size: 0.9rem;
 }
 
 .alert h3 {

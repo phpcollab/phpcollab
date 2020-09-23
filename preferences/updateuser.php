@@ -140,7 +140,7 @@ $block1->contentRow($strings["fax"],
 $block1->contentRow($strings["logout_time"] . $blockPage->printHelp("user_autologout"),
     '<input size="14" style="width: 150px;" type="text" name="logout_time" value="' . $userPrefs["mem_logout_time"] . '"> sec.');
 
-if ($gmtTimezone == "true") {
+if ($gmtTimezone == (int)"true") {
     $selectTimezone = '<select name="timezone">';
     for ($i = -12; $i <= +12; $i++) {
         if ($userPrefs["mem_timezone"] == $i) {

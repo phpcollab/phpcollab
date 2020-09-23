@@ -322,11 +322,17 @@ if ($fileManagement == "true") {
         phpCollab\Util::convertSize(phpCollab\Util::folderInfoSize("../files/" . $projectDetail["pro_id"] . "/"))
     );
 }
+if ($estimated_time) {
+    $block1->contentRow($strings["estimated_time"], $estimated_time . " " . $strings["hours"]);
+}
+if ($actual_time) {
+    $block1->contentRow($strings["actual_time"], $actual_time . " " . $strings["hours"]);
+}
 
-$block1->contentRow($strings["estimated_time"], $estimated_time . " " . $strings["hours"]);
-$block1->contentRow($strings["actual_time"], $actual_time . " " . $strings["hours"]);
-$block1->contentRow($strings["scope_creep"] . $blockPage->printHelp("project_scope_creep"),
-    $diff_time . " " . $strings["days"]);
+if ($diff_time) {
+    $block1->contentRow($strings["scope_creep"] . $blockPage->printHelp("project_scope_creep"),
+        $diff_time . " " . $strings["days"]);
+}
 
 if ($sitePublish == "true") {
     if ($projectDetail["pro_published"] == "1") {

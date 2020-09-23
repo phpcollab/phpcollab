@@ -143,7 +143,7 @@ if ($bookmarkCount > 0) {
         $block1->cellRow(
             $blockPage->buildLink(
                 "../bookmarks/viewbookmark.php?view=$view&id=" . $data["boo_id"],
-                $data["boo_name"],
+                $escaper->escapeHtml($data["boo_name"]),
                 'in'
             ) . " (" . $blockPage->buildLink($data["boo_url"], $strings["url"], 'out') . ")"
         );

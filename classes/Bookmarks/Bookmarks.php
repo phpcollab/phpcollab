@@ -3,8 +3,9 @@
 
 namespace phpCollab\Bookmarks;
 
-use Exception;
+use InvalidArgumentException;
 use phpCollab\Database;
+use phpCollab\Util;
 
 
 /**
@@ -131,6 +132,68 @@ class Bookmarks
     }
 
     /**
+     * @param $bookmarkData
+     * @return array
+     */
+    public function validateData($bookmarkData)
+    {
+        $category = '';
+
+        if (empty($bookmarkData)) {
+            throw new InvalidArgumentException('Bookmark data is invalid');
+        }
+
+
+        if (!empty($bookmarkData["piecesNew"])) {
+            $bookmarkData["piecesNew"] = "|" . implode("|", $bookmarkData["piecesNew"]) . "|";
+        }
+        if (!empty($bookmarkData["category_new"])) {
+            /**
+             * Check to see if the category exists
+             */
+            $category = $this->getBookmarkCategoryByName($bookmarkData["category_new"]);
+
+            /**
+             * If category is false, hence it doesn't exist, then add it
+             */
+            if (!$category) {
+                $category = $this->addNewBookmarkCategory(Util::convertData($bookmarkData["category_new"]));
+            } else {
+                $category = $category["boocat_id"];
+            }
+        }
+
+        if (empty($bookmarkData["shared"]) || !empty($users)) {
+            $bookmarkData["shared"] = 0;
+        }
+        if ($bookmarkData["home"] == "") {
+            $bookmarkData["home"] = 0;
+        }
+        if ($bookmarkData["comments"] == "") {
+            $bookmarkData["comments"] = 0;
+        }
+
+        /**
+         * Filter/Sanitize form data
+         */
+        $filteredData = array();
+        $filteredData['url'] = filter_var((string)Util::addHttp($bookmarkData["url"]),
+            FILTER_SANITIZE_URL);
+        $filteredData['name'] = filter_var((string)Util::convertData($bookmarkData["name"]),
+            FILTER_SANITIZE_STRING);
+        $filteredData['description'] = filter_var((string)Util::convertData($bookmarkData["description"]),
+            FILTER_SANITIZE_STRING);
+        $filteredData['comments'] = filter_var(Util::convertData($bookmarkData["comments"]), FILTER_SANITIZE_STRING);
+        $filteredData['timestamp'] = date('Y-m-d h:i');
+        $filteredData['category'] = filter_var((int)$category, FILTER_VALIDATE_INT);
+        $filteredData['shared'] = filter_var((int)$bookmarkData["shared"], FILTER_VALIDATE_INT);
+        $filteredData['home'] = filter_var((int)$bookmarkData["home"], FILTER_VALIDATE_INT);
+        $filteredData['users'] = $bookmarkData["piecesNew"];
+
+        return $filteredData;
+    }
+
+    /**
      * @param $formData
      * @return mixed
      */
@@ -146,21 +209,5 @@ class Bookmarks
     public function updateBookmark($formData)
     {
         return $this->bookmarks_gateway->updateBookmark($formData);
-    }
-
-    /**
-     * @param $bookmarkId
-     * @return string
-     */
-    public function deleteBookmark($bookmarkId)
-    {
-        try {
-            $bookmarkId = filter_var((string)$bookmarkId, FILTER_SANITIZE_STRING);
-
-            return $this->bookmarks_gateway->deleteBookmark($bookmarkId);
-        } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage();
-        }
-        return '';
     }
 }

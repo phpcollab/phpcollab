@@ -143,7 +143,7 @@ HELP_DIV;
      */
     public function note(string $content)
     {
-        echo '<p class="note">' . $content . '</p>';
+        echo '<p class="alert info note">' . $content . '</p>';
     }
 
     /**

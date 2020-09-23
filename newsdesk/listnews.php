@@ -30,7 +30,7 @@ $blockPage->setLimitsNumber(1);
 $block1 = new phpCollab\Block();
 
 $block1->form = "newsdeskList";
-$block1->openForm("../newsdesk/listnews.php#" . $block1->form . "Anchor", null, $csrfHandler);
+$block1->openForm("../newsdesk/listnews.php", null, $csrfHandler);
 
 if (isset($error) && $error != "") {
     $block1->headingError($strings["errors"]);
@@ -101,8 +101,8 @@ $block1->closeFormResults();
 
 $block1->openPaletteScript();
 if ($session->get("profile") == "0" || $session->get("profile") == "1" || $session->get("profile") == "5") {
-    $block1->paletteScript(0, "add", "../newsdesk/editnews.php?", "true,false,false", $strings["add_newsdesk"]);
-    $block1->paletteScript(1, "remove", "../newsdesk/editnews.php?action=remove&", "false,true,true",
+    $block1->paletteScript(0, "add", "../newsdesk/addnews.php", "true,false,false", $strings["add_newsdesk"]);
+    $block1->paletteScript(1, "remove", "../newsdesk/deletenews.php?", "false,true,true",
         $strings["del_newsdesk"]);
     $block1->paletteScript(2, "edit", "../newsdesk/editnews.php?", "false,true,false", $strings["edit_newsdesk"]);
 }
