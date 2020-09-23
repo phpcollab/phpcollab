@@ -1,6 +1,8 @@
 <?php
+
 namespace loggedIn;
-use \AcceptanceTester;
+
+use AcceptanceTester;
 use Codeception\Util\Locator;
 use Exception;
 
@@ -9,7 +11,8 @@ class BookmarksCest
     protected $bookmarkName;
     protected $bookmarkId;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->bookmarkName = "Codeception Bookmark Tests";
     }
 
@@ -19,8 +22,8 @@ class BookmarksCest
     public function _before(AcceptanceTester $I)
     {
         $I->amOnPage('/general/login.php');
-        $I->fillField(['name' => 'usernameForm'], 'testUser');
-        $I->fillField(['name' => 'passwordForm'], 'testing');
+        $I->fillField(['name' => 'usernameForm'], 'admin');
+        $I->fillField(['name' => 'passwordForm'], 'phpcollab');
         $I->click('input[type="submit"]');
     }
 
@@ -80,23 +83,7 @@ class BookmarksCest
 
     /**
      * @param AcceptanceTester $I
-     */
-    public function viewBookmark(AcceptanceTester $I)
-    {
-        $I->wantTo('View a Bookmark');
-        $I->amOnPage('/bookmarks/listbookmarks.php?view=all');
-        $I->seeInTitle('View All Bookmarks');
-        $I->seeElement('.listing');
-        $I->click('.listing tr:nth-child(2) td:nth-child(2) a');
-        $I->seeElement('.content');
-        $I->see('Info');
-        $I->see('Name :');
-        $I->see('URL :');
-        $I->see('Description :');
-    }
-
-    /**
-     * @param AcceptanceTester $I
+     * @depends listAllBookmarks
      */
     public function createBookmark(AcceptanceTester $I)
     {
@@ -107,12 +94,30 @@ class BookmarksCest
         $I->fillField('name', $this->bookmarkName);
         $I->fillField('url', 'www.codeception.com');
         $I->click('Save');
-        $I->see('Success : Addition succeeded');
-        $I->see($this->bookmarkName);
+        $I->see('Success : Addition succeeded', ['css' => '.message']);
+        $I->see($this->bookmarkName, ['css' => '.listing']);
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends createBookmark
+     */
+    public function viewBookmark(AcceptanceTester $I)
+    {
+        $I->wantTo('View a Bookmark');
+        $I->amOnPage('/bookmarks/listbookmarks.php?view=all');
+        $I->seeInTitle('View All Bookmarks');
+        $I->seeElement('.listing');
+        $I->click('//a[text()="' . $this->bookmarkName . '"]');
+        $I->seeElement('.content');
+        $I->see('Info', ['css' => '.content']);
+        $I->see($this->bookmarkName, ['css' => '.content']);
+        $I->see('Description :', ['css' => '.content']);
+    }
+
+    /**
+     * @param AcceptanceTester $I
+     * @depends listAllBookmarks
      */
     public function createBookmarkWithoutName(AcceptanceTester $I)
     {
@@ -123,12 +128,13 @@ class BookmarksCest
         $I->fillField('name', '');
         $I->fillField('url', 'www.codeception.com');
         $I->click('Save');
-        $I->see('Errors found!');
-        $I->see('Please enter a name for the bookmark');
+        $I->see('Errors found!', ['css' => '.headingError']);
+        $I->see('Please enter a name for the bookmark', ['css' => '.error']);
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends listAllBookmarks
      */
     public function createBookmarkWithoutNameAndUrl(AcceptanceTester $I)
     {
@@ -140,11 +146,12 @@ class BookmarksCest
         $I->fillField('url', '');
         $I->click('Save');
         $I->see('Errors found!', ".headingError");
-        $I->see('Please enter a name and URL for the bookmark');
+        $I->see('Please enter a name and URL for the bookmark', ['css' => '.error']);
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends listAllBookmarks
      */
     public function createBookmarkWithoutUrl(AcceptanceTester $I)
     {
@@ -156,11 +163,12 @@ class BookmarksCest
         $I->fillField('url', '');
         $I->click('Save');
         $I->see('Errors found!', ".headingError");
-        $I->see('Please enter a URL for the bookmark');
+        $I->see('Please enter a URL for the bookmark', ['css' => '.error']);
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends listAllBookmarks
      */
     public function createBookmarkWithDescription(AcceptanceTester $I)
     {
@@ -168,97 +176,105 @@ class BookmarksCest
         $I->amOnPage('/bookmarks/editbookmark.php');
         $I->seeInTitle('Add Bookmark');
         $I->seeElement('form', ['name' => 'booForm']);
-        $I->fillField('name', $this->bookmarkName . " - copy");
+        $I->fillField('name', $this->bookmarkName . " - description");
         $I->fillField('url', 'www.codeception.com');
         $I->fillField('form textarea[name=description]', 'This is a bookmark description');
         $I->click('Save');
-        $I->see('Success : Addition succeeded');
-        $I->see($this->bookmarkName);
+        $I->see('Success : Addition succeeded', ['css' => '.message']);
+        $I->seeLink($this->bookmarkName . ' - description');
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends createBookmark
      */
     public function editBookmarkNoName(AcceptanceTester $I)
     {
         $I->wantTo('See error when editing a Bookmark with empty name field');
         $I->amOnPage('/bookmarks/listbookmarks.php?view=my');
-        $I->see($this->bookmarkName);
+        $I->see($this->bookmarkName, ['css' => '.listing']);
         $I->seeElement('.listing');
         $I->click(Locator::contains('a', $this->bookmarkName));
         $I->seeElement('.content');
-        $I->see('Info');
-        $I->see('Name :');
+        $I->see('Info', ['css' => '.content']);
+        $I->see('Name :', ['css' => '.content']);
         $this->bookmarkId = $I->grabFromCurrentUrl('~id=(\d+)~');
         $I->amOnPage('/bookmarks/editbookmark.php?id=' . $this->bookmarkId);
-        $I->see("Edit bookmark : " . $this->bookmarkName);
+        $I->see("Edit bookmark : " . $this->bookmarkName, ['css' => '.heading']);
         $I->fillField('name', "");
         $I->click('Save');
         $I->see('Errors found!', '.headingError');
-        $I->see('Please enter a name for the bookmark');
+        $I->see('Please enter a name for the bookmark', ['css' => '.error']);
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends createBookmark
      */
     public function editBookmarkNoUrl(AcceptanceTester $I)
     {
         $I->wantTo('See error when editing a Bookmark with empty url field');
         $I->amOnPage('/bookmarks/editbookmark.php?id=' . $this->bookmarkId);
-        $I->see("Edit bookmark : " . $this->bookmarkName);
+        $I->see("Edit bookmark : " . $this->bookmarkName, ['css' => '.heading']);
         $I->fillField('url', '');
         $I->click('Save');
         $I->see('Errors found!', '.headingError');
-        $I->see('Please enter a URL for the bookmark');
+        $I->see('Please enter a URL for the bookmark', ['css' => '.error']);
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends createBookmark
      */
     public function editBookmarkWithNoNameAndUrl(AcceptanceTester $I)
     {
         $I->wantTo('See error when editing a Bookmark with empty name and epmty url fields');
         $I->amOnPage('/bookmarks/editbookmark.php?id=' . $this->bookmarkId);
-        $I->see("Edit bookmark : " . $this->bookmarkName);
+        $I->see("Edit bookmark : " . $this->bookmarkName, ['css' => '.heading']);
         $I->fillField('name', '');
         $I->fillField('url', '');
         $I->click('Save');
-        $I->see('Errors found!');
-        $I->see('Please enter a name and URL for the bookmark');
-    }
-
-    public function editBookmark(AcceptanceTester $I)
-    {
-        $I->wantTo('Edit a bookmark');
-        $I->amOnPage('/bookmarks/editbookmark.php?id=' . $this->bookmarkId);
-        $I->see("Edit bookmark : " . $this->bookmarkName);
-        $I->fillField('name', $this->bookmarkName . " - edited");
-        $I->click('Save');
-        $I->see('Success : Modification succeeded');
-        $I->amOnPage('/bookmarks/listbookmarks.php?view=my');
-        $I->see($this->bookmarkName . " - edited");
+        $I->see('Errors found!', ['css' => '.headingError']);
+        $I->see('Please enter a name and URL for the bookmark', ['css' => '.error']);
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends createBookmark
+     */
+    public function editBookmark(AcceptanceTester $I)
+    {
+        $I->wantTo('Edit a bookmark');
+        $I->amOnPage('/bookmarks/editbookmark.php?id=' . $this->bookmarkId);
+        $I->see("Edit bookmark : " . $this->bookmarkName, ['css' => '.heading']);
+        $I->fillField('name', $this->bookmarkName . " - edited");
+        $I->click('Save');
+        $I->see('Success : Modification succeeded', ['css' => '.message']);
+        $I->amOnPage('/bookmarks/listbookmarks.php?view=my');
+        $I->seeLink($this->bookmarkName . ' - edited');
+    }
+
+    /**
+     * @param AcceptanceTester $I
+     * @depends createBookmark
      */
     public function deleteBookmark(AcceptanceTester $I)
     {
         $I->wantTo('Delete a bookmark');
         $I->amOnPage('/bookmarks/listbookmarks.php?view=my');
-        $I->see($this->bookmarkName);
+        $I->see($this->bookmarkName, ['css' => '.listing']);
         $I->seeElement('.listing');
         $I->click(Locator::contains('a', $this->bookmarkName));
         $I->seeElement('.content');
-        $I->see('Info');
-        $I->see('Name :');
+        $I->see('Info', ['css' => '.content']);
+        $I->see('Name :', ['css' => '.content']);
         $bookmark_id = $I->grabFromCurrentUrl('~id=(\d+)~');
         $I->amOnPage('/bookmarks/deletebookmarks.php?id=' . $bookmark_id);
-        $I->see("Delete bookmarks");
+        $I->see("Delete bookmarks", ['css' => '.heading']);
         $I->seeElement('.content');
-        $I->see('#' . $bookmark_id);
-        $I->see($this->bookmarkName);
+        $I->see('#' . $bookmark_id, ['css' => '.content']);
+        $I->see($this->bookmarkName, ".//tr/td[contains(text(),'#" . $bookmark_id . "')]/following-sibling::td");
         $I->click('Delete');
-        $I->see('Success : Deletion succeeded');
+        $I->see('Success : Deletion succeeded', ['css' => '.message']);
     }
 }
