@@ -262,7 +262,7 @@ SQL;
         $tmpQuery = '';
         if ($typeProjects == "inactive") {
             if ($this->projectsFilter == "true") {
-                $tmpQuery = "LEFT OUTER JOIN " . $this->db->getTableName("teams") . " ON teams.project = pro.id ";
+                $tmpQuery = "LEFT OUTER JOIN " . $this->db->getTableName("teams") . " teams ON teams.project = pro.id ";
                 $tmpQuery .= " WHERE pro.status IN(1,4) AND teams.member = :owner_id";
             } else {
                 $tmpQuery = "WHERE pro.status IN(1,4)";
@@ -270,7 +270,7 @@ SQL;
         } else {
             if ($typeProjects == "active") {
                 if ($this->projectsFilter == "true") {
-                    $tmpQuery = "LEFT OUTER JOIN teams " . $this->db->getTableName("teams") . " ON teams.project = pro.id ";
+                    $tmpQuery = "LEFT OUTER JOIN " . $this->db->getTableName("teams") . " teams ON teams.project = pro.id ";
                     $tmpQuery .= "WHERE pro.status IN(0,2,3) AND teams.member = :owner_id";
                 } else {
                     $tmpQuery = "WHERE pro.status IN(0,2,3)";
