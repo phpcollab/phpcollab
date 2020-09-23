@@ -5,6 +5,9 @@
 $strings = $GLOBALS['strings'];
 $appRoot = APP_ROOT;
 
+$bodyCommand = (isset($bodyCommand)) ? $bodyCommand :'';
+$headBonus = (isset($headBonus)) ? $headBonus :'';
+
 echo <<<HEAD
 <!doctype html>
 <html lang="en">
@@ -45,11 +48,11 @@ echo <<<HTML
     <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
 HTML;
 
-if ($blank != "true" && $version >= "2.0") {
+if (isset($blank) && $blank != "true" && $version >= "2.0") {
     $organization = $container->getOrganizationsManager();
     $client = $organization->getOrganizationById(1);
 }
-if (file_exists("../logos_clients/1." . $client["org_extension_logo"]) && $blank != "true" && $version >= "2.0") {
+if (isset($client) && file_exists("../logos_clients/1." . $client["org_extension_logo"]) && $blank != "true" && $version >= "2.0") {
     echo <<< HEADER
     <p id="header"><img src="../logos_clients/1.{$client["org_extension_logo"]}" alt="{$client["org_name"]}"></p>
 HEADER;
