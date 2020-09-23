@@ -19,7 +19,7 @@ class NewsdeskCest
     public function _before(AcceptanceTester $I)
     {
         $I->amOnPage('/general/login.php');
-        $I->fillField(['name' => 'usernameForm'], 'testUser');
+        $I->fillField(['name' => 'usernameForm'], 'testAdmin');
         $I->fillField(['name' => 'passwordForm'], 'testing');
         $I->click('input[type="submit"]');
     }
@@ -38,7 +38,8 @@ class NewsdeskCest
     {
         $I->wantTo('See a list of Newsdesk posts');
         $I->amOnPage('/newsdesk/listnews.php');
-        $I->see('News list');
+        $I->see('News list', ['css' => '.breadcrumbs']);
+        $I->see('Newsdesk', ['css' => '.heading']);
     }
 
     /**
@@ -49,7 +50,7 @@ class NewsdeskCest
     {
         $I->wantTo('View a newsdesk post');
         $I->amOnPage('/newsdesk/listnews.php');
-        $I->see('News list');
+        $I->see('Newsdesk', ['css' => '.heading']);
         $I->click('.listing tr:nth-child(2) td:nth-child(2) a');
         $I->see('Details', ['css' => '.content']);
         $I->see('Comments', ['css' => '.heading']);
