@@ -29,6 +29,7 @@ class AdministrationCest
 
     /**
      * @param AcceptanceTester $I
+     * @depends accessAdminSection
      */
     public function viewLoginLogs(AcceptanceTester $I)
     {
@@ -43,6 +44,7 @@ class AdministrationCest
 
     /**
      * @param AcceptanceTester $I
+     * @depends accessAdminSection
      */
     public function viewSystemInformation(AcceptanceTester $I)
     {
@@ -57,6 +59,7 @@ class AdministrationCest
 
     /**
      * @param AcceptanceTester $I
+     * @depends accessAdminSection
      */
     public function viewCompanyDetails(AcceptanceTester $I)
     {
@@ -71,6 +74,7 @@ class AdministrationCest
 
     /**
      * @param AcceptanceTester $I
+     * @depends viewCompanyDetails
      */
     public function editCompanyDetails(AcceptanceTester $I)
     {
@@ -93,6 +97,7 @@ class AdministrationCest
 
     /**
      * @param AcceptanceTester $I
+     * @depends editCompanyDetails
      */
     public function undoEditCompanyDetails(AcceptanceTester $I)
     {
@@ -116,6 +121,7 @@ class AdministrationCest
 
     /**
      * @param AcceptanceTester $I
+     * @depends accessAdminSection
      */
     public function viewSettings(AcceptanceTester $I)
     {
@@ -130,6 +136,7 @@ class AdministrationCest
 
     /**
      * @param AcceptanceTester $I
+     * @depends accessAdminSection
      */
     public function viewEditDatabase(AcceptanceTester $I)
     {
@@ -144,6 +151,7 @@ class AdministrationCest
 
     /**
      * @param AcceptanceTester $I
+     * @depends accessAdminSection
      */
     public function viewUserManagement(AcceptanceTester $I)
     {
@@ -159,6 +167,7 @@ class AdministrationCest
 
     /**
      * @param AcceptanceTester $I
+     * @depends viewUserManagement
      */
     public function addNewUserWithError(AcceptanceTester $I)
     {
@@ -173,11 +182,12 @@ class AdministrationCest
         ]);
         $I->seeElement('.headingError');
         $I->seeElement('.error');
-        $I->see('Alpha-numeric only in login');
+        $I->see('Alpha-numeric only in login', ['css' => '.error']);
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends viewUserManagement
      */
     public function addNewUserWithoutPasswordAndPasswordConfirm(AcceptanceTester $I)
     {
@@ -192,11 +202,12 @@ class AdministrationCest
         ]);
         $I->seeElement('.headingError');
         $I->seeElement('.error');
-        $I->see('The two passwords you entered did not match. Please re-enter your new password.');
+        $I->see('The two passwords you entered did not match. Please re-enter your new password.', ['css' => '.error']);
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends viewUserManagement
      */
     public function addNewUserWitOnlyPassword(AcceptanceTester $I)
     {
@@ -212,11 +223,12 @@ class AdministrationCest
         ]);
         $I->seeElement('.headingError');
         $I->seeElement('.error');
-        $I->see('The two passwords you entered did not match. Please re-enter your new password.');
+        $I->see('The two passwords you entered did not match. Please re-enter your new password.', ['css' => '.error']);
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends viewUserManagement
      */
     public function addNewUserWithOnlyPasswordConfirm(AcceptanceTester $I)
     {
@@ -232,11 +244,12 @@ class AdministrationCest
         ]);
         $I->seeElement('.headingError');
         $I->seeElement('.error');
-        $I->see('The two passwords you entered did not match. Please re-enter your new password.');
+        $I->see('The two passwords you entered did not match. Please re-enter your new password.', ['css' => '.error']);
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends viewUserManagement
      */
     public function addNewUserWithNonMatchingPasswords(AcceptanceTester $I)
     {
@@ -253,11 +266,12 @@ class AdministrationCest
         ]);
         $I->seeElement('.headingError');
         $I->seeElement('.error');
-        $I->see('The two passwords you entered did not match. Please re-enter your new password.');
+        $I->see('The two passwords you entered did not match. Please re-enter your new password.', ['css' => '.error']);
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends viewUserManagement
      */
     public function addNewUser(AcceptanceTester $I)
     {
@@ -275,12 +289,13 @@ class AdministrationCest
         $I->dontSeeElement('.headingError');
         $I->dontSeeElement('.error');
         $I->seeInCurrentUrl('/users/listusers.php?msg=add');
-        $I->see('Success : Addition succeeded');
+        $I->see('Success : Addition succeeded', ['css' => '.message']);
         $I->seeLink('Codeception User');
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends viewUserManagement
      */
     public function addDuplicateUserError(AcceptanceTester $I)
     {
@@ -297,7 +312,7 @@ class AdministrationCest
         ]);
         $I->seeElement('.headingError');
         $I->seeElement('.error');
-        $I->see('There is already a user with this name. Please choose a variation of the user\'s name.');
+        $I->see('There is already a user with this name. Please choose a variation of the user\'s name.', ['css' => '.error']);
     }
 
     /**
@@ -331,7 +346,7 @@ class AdministrationCest
             'full_name'  => 'Codeception User - edit',
         ]);
         $I->seeInCurrentUrl('/users/listusers.php?msg=update');
-        $I->see('Success : Modification succeeded');
+        $I->see('Success : Modification succeeded', ['css' => '.message']);
         $I->seeLink('Codeception User - edit');
     }
 
@@ -347,7 +362,7 @@ class AdministrationCest
         $I->see('Delete User Accounts', ['css' => '.heading']);
         $I->click('form button[type=submit]');
         $I->seeInCurrentUrl('/users/listusers.php?msg=delete');
-        $I->see('Success : Deletion succeeded');
+        $I->see('Success : Deletion succeeded', ['css' => '.message']);
         $I->dontSeeLink('Codeception User - edit');
     }
 }
