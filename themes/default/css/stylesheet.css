@@ -108,13 +108,6 @@ hr {
     padding-left: 2px;
 }
 
-.note {
-    background-color: #FFFFFF;
-    margin-top: 0;
-    margin-bottom: 30px;
-    padding-left: 2px;
-}
-
 .heading {
     background-color: #FFFFFF;
     margin-top: 0;
@@ -554,6 +547,13 @@ td.footerCell a, td.footerCell strong {
     color: #155724;
     background-color: #d4edda;
     border-color: #c3e6cb;
+}
+
+.alert.note {
+    width: fit-content;
+    width: -moz-fit-content;
+    max-width: 50vw;
+    font-size: 0.9rem;
 }
 
 .alert h3 {
