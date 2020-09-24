@@ -1,9 +1,7 @@
 <?php
 /*
 ** Application name: phpCollab
-** Last Edit page: 2005-03-08
 ** Path by root: ../projects/editproject.php
-** Authors: Ceam / Fullo / dracono
 **
 ** =============================================================================
 **
@@ -17,13 +15,6 @@
 **
 ** DESC: Screen: Create or edit a project
 **
-** HISTORY:
-**  2005-03-08	-	fixed null value for hourly rate
-**	19/05/2005	-	fixed and &amp; in link
-**	22/05/2005	-	added subtask copy
-** -----------------------------------------------------------------------------
-** TO-DO:
-** =============================================================================
 */
 
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
@@ -102,14 +93,14 @@ if ($id != "") {
 
                     $published = filter_input(INPUT_POST, "projectPublished", FILTER_SANITIZE_NUMBER_INT);
                     $projectName = filter_input(INPUT_POST, "name", FILTER_SANITIZE_STRING);
-                    $priority = filter_input(INPUT_POST, "priority", FILTER_SANITIZE_NUMBER_INT);
+                    $projectPriority = filter_input(INPUT_POST, "priority", FILTER_SANITIZE_NUMBER_INT);
                     $description = htmlspecialchars($request->request->get('description'), ENT_QUOTES, 'UTF-8');
                     $urlDev = filter_input(INPUT_POST, "url_dev", FILTER_SANITIZE_URL);
                     $urlProd = filter_input(INPUT_POST, "url_prod", FILTER_SANITIZE_URL);
                     $owner = filter_input(INPUT_POST, "owner", FILTER_SANITIZE_NUMBER_INT);
                     $organization = filter_input(INPUT_POST, "client_organization", FILTER_SANITIZE_NUMBER_INT);
                     $thisPhase = filter_input(INPUT_POST, "thisPhase", FILTER_SANITIZE_NUMBER_INT);
-                    $status = filter_input(INPUT_POST, "status", FILTER_SANITIZE_NUMBER_INT);
+                    $projectStatus = filter_input(INPUT_POST, "status", FILTER_SANITIZE_NUMBER_INT);
                     $maxUploadSize = filter_input(INPUT_POST, "max_upload_size", FILTER_SANITIZE_NUMBER_INT);
                     $invoicing = filter_input(INPUT_POST, "invoicing", FILTER_SANITIZE_NUMBER_INT);
                     $hourlyRate = filter_input(INPUT_POST, "hourly_rate", FILTER_SANITIZE_NUMBER_FLOAT,
@@ -129,8 +120,9 @@ if ($id != "") {
                         try {
 
                             //insert into projects and teams (with last id project)
-                            $newProjectId = $projects->createProject($projectName, $organization, $owner, $priority,
-                                $status, $description, $published, $thisPhase, $maxUploadSize, $urlDev, $urlProd,
+                            $newProjectId = $projects->createProject($projectName, $organization, $owner,
+                                $projectPriority,
+                                $projectStatus, $description, $published, $thisPhase, $maxUploadSize, $urlDev, $urlProd,
                                 $invoicing, $hourlyRate);
 
                             $newTeamId = $teams->addTeam($newProjectId, $session->get("id"), 1, 0);
@@ -289,7 +281,8 @@ STAMP;
                                         $Htpasswd->initialize("../files/" . $id . "/.htpasswd");
                                         $Htpasswd->addUser($detailMember["mem_login"], $detailMember["mem_password"]);
                                     } catch (Exception $e) {
-                                        $logger->error('Projects (htaccessAuth add user)', ['Exception message', $e->getMessage()]);
+                                        $logger->error('Projects (htaccessAuth add user)',
+                                            ['Exception message', $e->getMessage()]);
                                         $error = $strings["action_not_allowed"];
                                     }
                                 }
@@ -309,7 +302,8 @@ STAMP;
                                             $Htpasswd->initialize("../files/" . $id . "/.htpasswd");
                                             $Htpasswd->deleteUser($clientUser["mem_login"]);
                                         } catch (Exception $e) {
-                                            $logger->error('Projects (htpasswd)', ['Exception message', $e->getMessage()]);
+                                            $logger->error('Projects (htpasswd)',
+                                                ['Exception message', $e->getMessage()]);
                                             $error = $strings["action_not_allowed"];
                                         }
                                     }
@@ -354,7 +348,12 @@ STAMP;
                             $invoicing = "0";
                         }
 
-                        $projects->updateProject($id, $projectName, $organization, $owner, $priority, $status,
+                        if ($hourlyRate == "") {
+                            $hourlyRate = "0.00";
+                        }
+
+                        $projects->updateProject($id, $projectName, $organization, $owner, $projectPriority,
+                            $projectStatus,
                             $description,
                             $published,
                             $thisPhase, $maxUploadSize, $urlDev, $urlProd, $invoicing, $hourlyRate, $dateheure);
@@ -426,14 +425,14 @@ if ($id == "") {
                     try {
                         $published = filter_input(INPUT_POST, "projectPublished", FILTER_SANITIZE_NUMBER_INT);
                         $projectName = filter_input(INPUT_POST, "name", FILTER_SANITIZE_STRING);
-                        $priority = filter_input(INPUT_POST, "priority", FILTER_SANITIZE_NUMBER_INT);
+                        $projectPriority = filter_input(INPUT_POST, "priority", FILTER_SANITIZE_NUMBER_INT);
                         $description = htmlspecialchars($request->request->get('description'), ENT_QUOTES, 'UTF-8');
                         $urlDev = filter_input(INPUT_POST, "url_dev", FILTER_SANITIZE_URL);
                         $urlProd = filter_input(INPUT_POST, "url_prod", FILTER_SANITIZE_URL);
                         $owner = filter_input(INPUT_POST, "owner", FILTER_SANITIZE_NUMBER_INT);
                         $organization = filter_input(INPUT_POST, "client_organization", FILTER_SANITIZE_NUMBER_INT);
                         $thisPhase = filter_input(INPUT_POST, "thisPhase", FILTER_SANITIZE_NUMBER_INT);
-                        $status = filter_input(INPUT_POST, "status", FILTER_SANITIZE_NUMBER_INT);
+                        $projectStatus = filter_input(INPUT_POST, "status", FILTER_SANITIZE_NUMBER_INT);
                         $maxUploadSize = filter_input(INPUT_POST, "max_upload_size", FILTER_SANITIZE_NUMBER_INT);
                         $invoicing = filter_input(INPUT_POST, "invoicing", FILTER_SANITIZE_NUMBER_INT);
                         $hourlyRate = filter_input(INPUT_POST, "hourly_rate", FILTER_SANITIZE_NUMBER_FLOAT,
@@ -448,8 +447,8 @@ if ($id == "") {
                         }
 
                         //insert into projects and teams (with last id project)
-                        $newProjectId = $projects->createProject($projectName, $organization, $owner, $priority,
-                            $status, $description, 1, $thisPhase, $maxUploadSize, $urlDev, $urlProd, $invoicing,
+                        $newProjectId = $projects->createProject($projectName, $organization, $owner, $projectPriority,
+                            $projectStatus, $description, 1, $thisPhase, $maxUploadSize, $urlDev, $urlProd, $invoicing,
                             $hourlyRate);
 
                         if ($enableInvoicing == "true") {
