@@ -18,6 +18,8 @@ if ($session->get("profile") != "0") {
 }
 */
 
+$id = $request->query->get("id");
+
 if ($request->isMethod('post')) {
     try {
         if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
@@ -30,7 +32,7 @@ if ($request->isMethod('post')) {
                 $clientDetail = $organizations->getOrganizationById(1);
 
                 // get users to email
-                $listMembers = $members->getMembersByIdIn($id, 'mem.name');
+                $listMembers = $members->getMembersByIdIn($request->request->get("id"), 'mem.name');
 
                 // format body and message
                 $subject = stripslashes($request->request->get('subject'));
