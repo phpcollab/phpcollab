@@ -1,6 +1,6 @@
 <?php
 namespace loggedIn;
-use \AcceptanceTester;
+use AcceptanceTester;
 use Exception;
 
 class SearchCest
@@ -13,7 +13,7 @@ class SearchCest
     public function _before(AcceptanceTester $I)
     {
         $I->amOnPage('/general/login.php');
-        $I->fillField(['name' => 'usernameForm'], 'testUser');
+        $I->fillField(['name' => 'usernameForm'], 'testAdmin');
         $I->fillField(['name' => 'passwordForm'], 'testing');
         $I->click('input[type="submit"]');
     }
@@ -43,6 +43,7 @@ class SearchCest
 
     /**
      * @param AcceptanceTester $I
+     * @depends listSearch
      *
      */
     public function generalSearchNoResults(AcceptanceTester $I)
@@ -51,16 +52,17 @@ class SearchCest
         $I->amOnPage('/search/createsearch.php');
         $I->seeInTitle('Search');
         $I->seeElement('form', ['name' => 'searchForm']);
-        $I->dontSeeElement('h1.headingError');
+        $I->dontSeeElement('.headingError');
         $I->fillField(['name' => 'searchfor'], 'codeception');
         $I->click('button[type="submit"]');
         $I->seeInCurrentUrl('/search/resultssearch.php');
-        $I->see('Search results for keywords : codeception');
-        $I->see('The search returned no results.');
+        $I->see('Search results for keywords : codeception', ['css' => '.content']);
+        $I->see('The search returned no results.', ['css' => '.content']);
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends generalSearchNoResults
      */
     public function generalSearch(AcceptanceTester $I)
     {
@@ -68,16 +70,17 @@ class SearchCest
         $I->amOnPage('/search/createsearch.php');
         $I->seeInTitle('Search');
         $I->seeElement('form', ['name' => 'searchForm']);
-        $I->dontSeeElement('h1.headingError');
+        $I->dontSeeElement('.headingError');
         $I->fillField(['name' => 'searchfor'], $this->searchTerm);
         $I->click('button[type="submit"]');
-        $I->see('Search results for keywords : ' . $this->searchTerm);
-        $I->dontSee('The search returned no results.');
+        $I->see('Search results for keywords : ' . $this->searchTerm, ['css' => '.content']);
+        $I->dontSee('The search returned no results.', ['css' => '.content']);
         $I->seeInCurrentUrl('/search/resultssearch.php');
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends generalSearch
      * @throws Exception
      */
     public function notesSearch(AcceptanceTester $I)
@@ -86,20 +89,24 @@ class SearchCest
         $I->amOnPage('/search/createsearch.php');
         $I->seeInTitle('Search');
         $I->seeElement('form', ['name' => 'searchForm']);
-        $I->dontSeeElement('h1.headingError');
+        $I->dontSeeElement('.headingError');
 
         $I->fillField(['name' => 'searchfor'], $this->searchTerm);
         $I->selectOption('form select[name=heading]', 'Notes');
         $I->click('button[type="submit"]');
-        $I->dontSee('The search returned no results.');
-        $I->see('Search results for keywords : ' . $this->searchTerm);
-        $I->see('Search Results : Notes', ['css' => 'h1.heading']);
-        $I->seeInCurrentUrl('/search/resultssearch.php');
-        $I->seeNumberOfElements('h1.heading', 1);
+        try {
+            $I->see('The search returned no results.', ['css' => '.content']);
+        } catch (Exception $exception) {
+            $I->see('Search results for keywords : ' . $this->searchTerm, ['css' => '.content']);
+            $I->see('Search Results : Notes', ['css' => '.heading']);
+            $I->seeInCurrentUrl('/search/resultssearch.php');
+            $I->seeNumberOfElements('.heading', 1);
+        }
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends generalSearch
      * @throws Exception
      */
     public function clientOrganizationsSearch(AcceptanceTester $I)
@@ -108,20 +115,24 @@ class SearchCest
         $I->amOnPage('/search/createsearch.php');
         $I->seeInTitle('Search');
         $I->seeElement('form', ['name' => 'searchForm']);
-        $I->dontSeeElement('h1.headingError');
+        $I->dontSeeElement('.headingError');
 
         $I->fillField(['name' => 'searchfor'], $this->searchTerm);
         $I->selectOption('form select[name=heading]', 'Client Organizations');
         $I->click('button[type="submit"]');
-        $I->dontSee('The search returned no results.');
-        $I->see('Search results for keywords : ' . $this->searchTerm);
-        $I->see('Search Results : Client Organizations', ['css' => 'h1.heading']);
-        $I->seeInCurrentUrl('/search/resultssearch.php');
-        $I->seeNumberOfElements('h1.heading', 1);
+        try {
+            $I->see('The search returned no results.', ['css' => '.content']);
+        } catch (Exception $exception) {
+            $I->see('Search results for keywords : ' . $this->searchTerm, ['css' => '.content']);
+            $I->see('Search Results : Client Organizations', ['css' => '.heading']);
+            $I->seeInCurrentUrl('/search/resultssearch.php');
+            $I->seeNumberOfElements('.heading', 1);
+        }
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends generalSearch
      * @throws Exception
      */
     public function projectsSearch(AcceptanceTester $I)
@@ -130,20 +141,24 @@ class SearchCest
         $I->amOnPage('/search/createsearch.php');
         $I->seeInTitle('Search');
         $I->seeElement('form', ['name' => 'searchForm']);
-        $I->dontSeeElement('h1.headingError');
+        $I->dontSeeElement('.headingError');
 
         $I->fillField(['name' => 'searchfor'], $this->searchTerm);
         $I->selectOption('form select[name=heading]', 'Projects');
         $I->click('button[type="submit"]');
-        $I->dontSee('The search returned no results.');
-        $I->see('Search results for keywords : ' . $this->searchTerm);
-        $I->see('Search Results : Projects', ['css' => 'h1.heading']);
-        $I->seeInCurrentUrl('/search/resultssearch.php');
-        $I->seeNumberOfElements('h1.heading', 1);
+        try {
+            $I->see('The search returned no results.', ['css' => '.content']);
+        } catch (Exception $exception) {
+            $I->see('Search results for keywords : ' . $this->searchTerm, ['css' => '.content']);
+            $I->see('Search Results : Projects', ['css' => '.heading']);
+            $I->seeInCurrentUrl('/search/resultssearch.php');
+            $I->seeNumberOfElements('.heading', 1);
+        }
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends generalSearch
      * @throws Exception
      */
     public function tasksSearch(AcceptanceTester $I)
@@ -152,20 +167,24 @@ class SearchCest
         $I->amOnPage('/search/createsearch.php');
         $I->seeInTitle('Search');
         $I->seeElement('form', ['name' => 'searchForm']);
-        $I->dontSeeElement('h1.headingError');
+        $I->dontSeeElement('.headingError');
 
         $I->fillField(['name' => 'searchfor'], $this->searchTerm);
         $I->selectOption('form select[name=heading]', 'Tasks');
         $I->click('button[type="submit"]');
-        $I->dontSee('The search returned no results.');
-        $I->see('Search results for keywords : ' . $this->searchTerm);
-        $I->see('Search Results : Tasks', ['css' => 'h1.heading']);
-        $I->seeInCurrentUrl('/search/resultssearch.php');
-        $I->seeNumberOfElements('h1.heading', 1);
+        try {
+            $I->see('The search returned no results.', ['css' => '.content']);
+        } catch (Exception $exception) {
+            $I->see('Search results for keywords : ' . $this->searchTerm, ['css' => '.content']);
+            $I->see('Search Results : Tasks', ['css' => '.heading']);
+            $I->seeInCurrentUrl('/search/resultssearch.php');
+            $I->seeNumberOfElements('.heading', 1);
+        }
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends generalSearch
      * @throws Exception
      */
     public function subtasksSearch(AcceptanceTester $I)
@@ -174,20 +193,24 @@ class SearchCest
         $I->amOnPage('/search/createsearch.php');
         $I->seeInTitle('Search');
         $I->seeElement('form', ['name' => 'searchForm']);
-        $I->dontSeeElement('h1.headingError');
+        $I->dontSeeElement('.headingError');
 
         $I->fillField(['name' => 'searchfor'], $this->searchTerm);
         $I->selectOption('form select[name=heading]', 'Subtasks');
         $I->click('button[type="submit"]');
-        $I->dontSee('The search returned no results.');
-        $I->see('Search results for keywords : ' . $this->searchTerm);
-        $I->see('Search Results : Subtasks', ['css' => 'h1.heading']);
-        $I->seeInCurrentUrl('/search/resultssearch.php');
-        $I->seeNumberOfElements('h1.heading', 1);
+        try {
+            $I->see('The search returned no results.', ['css' => '.content']);
+        } catch (Exception $exception) {
+            $I->see('Search results for keywords : ' . $this->searchTerm, ['css' => '.content']);
+            $I->see('Search Results : Subtasks', ['css' => '.heading']);
+            $I->seeInCurrentUrl('/search/resultssearch.php');
+            $I->seeNumberOfElements('.heading', 1);
+        }
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends generalSearch
      * @throws Exception
      */
     public function discussionsSearch(AcceptanceTester $I)
@@ -196,20 +219,24 @@ class SearchCest
         $I->amOnPage('/search/createsearch.php');
         $I->seeInTitle('Search');
         $I->seeElement('form', ['name' => 'searchForm']);
-        $I->dontSeeElement('h1.headingError');
+        $I->dontSeeElement('.headingError');
 
         $I->fillField(['name' => 'searchfor'], $this->searchTerm);
         $I->selectOption('form select[name=heading]', 'Discussions');
         $I->click('button[type="submit"]');
-        $I->dontSee('The search returned no results.');
-        $I->see('Search results for keywords : ' . $this->searchTerm);
-        $I->see('Search Results : Discussions', ['css' => 'h1.heading']);
-        $I->seeInCurrentUrl('/search/resultssearch.php');
-        $I->seeNumberOfElements('h1.heading', 1);
+        try {
+            $I->see('The search returned no results.', ['css' => '.content']);
+        } catch (Exception $exception) {
+            $I->see('Search results for keywords : ' . $this->searchTerm, ['css' => '.content']);
+            $I->see('Search Results : Discussions', ['css' => '.heading']);
+            $I->seeInCurrentUrl('/search/resultssearch.php');
+            $I->seeNumberOfElements('.heading', 1);
+        }
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends generalSearch
      * @throws Exception
      */
     public function usersSearch(AcceptanceTester $I)
@@ -218,15 +245,18 @@ class SearchCest
         $I->amOnPage('/search/createsearch.php');
         $I->seeInTitle('Search');
         $I->seeElement('form', ['name' => 'searchForm']);
-        $I->dontSeeElement('h1.headingError');
+        $I->dontSeeElement('.headingError');
 
         $I->fillField(['name' => 'searchfor'], $this->searchTerm);
         $I->selectOption('form select[name=heading]', 'Users');
         $I->click('button[type="submit"]');
-        $I->dontSee('The search returned no results.');
-        $I->see('Search results for keywords : ' . $this->searchTerm);
-        $I->see('Search Results : Users', ['css' => 'h1.heading']);
-        $I->seeInCurrentUrl('/search/resultssearch.php');
-        $I->seeNumberOfElements('h1.heading', 1);
+        try {
+            $I->see('The search returned no results.', ['css' => '.content']);
+        } catch (Exception $exception) {
+            $I->see('Search results for keywords : ' . $this->searchTerm, ['css' => '.content']);
+            $I->see('Search Results : Users', ['css' => '.heading']);
+            $I->seeInCurrentUrl('/search/resultssearch.php');
+            $I->seeNumberOfElements('.heading', 1);
+        }
     }
 }
