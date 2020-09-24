@@ -231,7 +231,7 @@ if ($updateChecker == "true") {
 } else {
     $updateCheckerFalse = "checked";
 }
-if ($gmtTimezone == "true") {
+if ($gmtTimezone == (int)"true") {
     $gmtTimezoneTrue = "checked";
 } else {
     $gmtTimezoneFalse = "checked";
