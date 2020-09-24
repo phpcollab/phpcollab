@@ -27,14 +27,6 @@ $block1->openForm("../reports/listreports.php#" . $block1->form . "Anchor", null
 
 $block1->heading($strings["my_reports"]);
 
-$block1->openPaletteIcon();
-$block1->paletteIcon(0, "add", $strings["add"]);
-$block1->paletteIcon(1, "remove", $strings["delete"]);
-$block1->closePaletteIcon();
-
-$block1->sorting("reports", $sortingUser["reports"], "rep.name ASC",
-    $sortingFields = [0 => "rep.name", 1 => "rep.created"]);
-
 $reports = $container->getReportsLoader();
 
 $sorting = $block1->sortingValue;
@@ -42,6 +34,17 @@ $sorting = $block1->sortingValue;
 $dataSet = $reports->getReportsByOwner($session->get("id"), $sorting);
 
 $reportCount = count($dataSet);
+
+$block1->openPaletteIcon();
+$block1->paletteIcon(0, "add", $strings["add"]);
+if ($reportCount !== 0) {
+    $block1->paletteIcon(1, "remove", $strings["delete"]);
+}
+$block1->closePaletteIcon();
+
+$block1->sorting("reports", $sortingUser["reports"], "rep.name ASC",
+    $sortingFields = [0 => "rep.name", 1 => "rep.created"]);
+
 
 if ($dataSet) {
     $block1->openResults();
@@ -63,8 +66,9 @@ $block1->closeFormResults();
 
 $block1->openPaletteScript();
 $block1->paletteScript(0, "add", "../reports/createreport.php?", "true,true,true", $strings["add"]);
-$block1->paletteScript(1, "remove", "../reports/deletereports.php?", "false,true,true", $strings["delete"]);
-$block1->paletteScript(2, "export", "../reports/exportreport.php?", "false,true,true", $strings["export"]);
-$block1->closePaletteScript(count($dataSet), array_column($dataSet, 'rep_id'));
+if ($reportCount !== 0) {
+    $block1->paletteScript(1, "remove", "../reports/deletereports.php?", "false,true,true", $strings["delete"]);
+}
+$block1->closePaletteScript($reportCount, array_column($dataSet, 'rep_id'));
 
 include APP_ROOT . '/views/layout/footer.php';
