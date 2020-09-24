@@ -1,4 +1,5 @@
 <?php
+
 namespace LoggedIn;
 
 use AcceptanceTester;
@@ -19,7 +20,7 @@ class ProjectsCest
     public function _before(AcceptanceTester $I)
     {
         $I->amOnPage('/general/login.php');
-        $I->fillField(['name' => 'usernameForm'], 'testUser');
+        $I->fillField(['name' => 'usernameForm'], 'testAdmin');
         $I->fillField(['name' => 'passwordForm'], 'testing');
         $I->click('input[type="submit"]');
     }
@@ -79,7 +80,7 @@ class ProjectsCest
         $I->fillField("textarea[name=description]", $this->projectDetails["description"]);
         $I->selectOption('select[name=status]', $this->projectDetails["status"]);
         $I->click('button[type="submit"]');
-        $I->see('Success : Addition succeeded');
+        $I->see('Success : Addition succeeded', ['css' => '.message']);
         $I->seeInCurrentUrl("/projects/viewproject.php");
         $this->projId = $I->grabFromCurrentUrl('~id=([^&#]*)~');
     }
@@ -98,13 +99,14 @@ class ProjectsCest
         $I->amOnPage('/projects/viewproject.php?id=' . $this->projId);
         $I->seeInTitle('View Project');
         $I->seeElement('.content');
-        $I->see('Name :');
-        $I->see('Project ID :');
-        $I->see('Description :');
+        $I->see('Name :', ['css' => '.content']);
+        $I->see('Project ID :', ['css' => '.content']);
+        $I->see('Description :', ['css' => '.content']);
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends viewProject
      */
     public function editProject(AcceptanceTester $I)
     {
@@ -116,16 +118,17 @@ class ProjectsCest
         $I->amOnPage('/projects/editproject.php?id=' . $this->projId . '&docopy=false');
         $I->seeInTitle('Edit Project');
         $I->seeElement('.content');
-        $I->see('Name :');
-        $I->see('Priority :');
-        $I->see('Description :');
+        $I->see('Name :', ['css' => '.content']);
+        $I->see('Priority :', ['css' => '.content']);
+        $I->see('Description :', ['css' => '.content']);
         $I->fillField("input[name=name]", $this->projectDetails["name"] . ' - edit');
         $I->click('button[type="submit"]');
-        $I->see('Success : Modification succeeded');
+        $I->see('Success : Modification succeeded', ['css' => '.message']);
     }
 
     /**
      * @param AcceptanceTester $I
+     * @depends editProject
      */
     public function deleteProject(AcceptanceTester $I)
     {
@@ -137,9 +140,9 @@ class ProjectsCest
         $I->amOnPage('/projects/deleteproject.php?id=' . $this->projId);
         $I->see('Delete Projects', ['css' => '.heading']);
         $I->see('#' . $this->projId, '.content td.leftvalue');
-        $I->see('Codeception Project - edit');
+        $I->see('Codeception Project - edit', ['css' => '.content']);
         $I->click('button[type="submit"]');
-        $I->see('Success : Deletion succeeded');
+        $I->see('Success : Deletion succeeded', ['css' => '.message']);
 
     }
 
