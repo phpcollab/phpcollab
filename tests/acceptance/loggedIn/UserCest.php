@@ -36,6 +36,7 @@ class UserCest
 
     /**
      * @param AcceptanceTester $I
+     * @depends viewHomePage
      */
     public function viewProfile(AcceptanceTester $I)
     {
@@ -47,6 +48,7 @@ class UserCest
 
     /**
      * @param AcceptanceTester $I
+     * @depends viewProfile
      */
     public function changePassword(AcceptanceTester $I)
     {
@@ -60,6 +62,7 @@ class UserCest
 
     /**
      * @param AcceptanceTester $I
+     * @depends viewProfile
      */
     public function changeNotifications(AcceptanceTester $I)
     {
@@ -74,12 +77,13 @@ class UserCest
 
     /**
      * @param AcceptanceTester $I
+     * @depends viewHomePage
      */
     public function logout(AcceptanceTester $I)
     {
         $I->wantTo('Logout');
         $I->amOnPage('/general/home.php');
         $I->click('#account > a:nth-child(1)');
-        $I->see('You have successfully logged out. You can log back in by typing your user name and password below.', 'table.message td');
+        $I->see('You have successfully logged out. You can log back in by typing your user name and password below.', '.message');
     }
 }
