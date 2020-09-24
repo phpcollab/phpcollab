@@ -26,7 +26,7 @@ echo <<<HTML
     <meta name="robots" content="none">
     <meta name="description" content="{$setDescription}">
     <meta name="keywords" content="{$setKeywords}">
-    <link rel="manifest" href="{$appRoot}/public/site.webmanifest">
+    <link rel="manifest" href="../public/site.webmanifest">
     <title>{$setTitle} - 
 HTML;
 
@@ -40,11 +40,11 @@ if ($session->get("project") == "" || $changeProject == "true") {
 echo <<<HEAD
     </title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="{$appRoot}/themes/{$session->get("theme")}/css/stylesheet.css">
-    <link rel="stylesheet" href="{$appRoot}/public/css/all.min.css">
+    <link rel="stylesheet" href="../themes/{$session->get("theme")}/css/stylesheet.css">
+    <link rel="stylesheet" href="../public/css/all.min.css">
     
-    <script type="text/javascript" src="{$appRoot}/javascript/general.js"></script>
-    <script type="text/JavaScript" src="{$appRoot}/javascript/overlib_mini.js"></script>
+    <script type="text/javascript" src="../javascript/general.js"></script>
+    <script type="text/JavaScript" src="../javascript/overlib_mini.js"></script>
 HEAD;
 
 if ($includeCalendar && $includeCalendar === true) {
