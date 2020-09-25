@@ -58,15 +58,26 @@ if ($request->isMethod('post')) {
                     $st,
                     $request->request->get('dd'),
                     $request->request->get('datesent'),
-                    $request->request->get('total_ex_tax'),
-                    $request->request->get('total_inc_tax'),
-                    $request->request->get('tax_rate'),
-                    $request->request->get('tax_amount')
+                    $request->request->get('total_ex_tax', 0.00),
+                    $request->request->get('total_inc_tax', 0.00),
+                    $request->request->get('tax_rate', 0.00),
+                    $request->request->get('tax_amount', 0.00)
                 );
 
-                foreach ($listInvoicesItems as $item) {
-                    $invoices->editInvoiceItems($item['invitem_id'], $item["invitem_title"], $item["invitem_position"],
-                        $item["invitem_amount_ex_tax"]);
+                foreach ($request->request->get("invoiceItems") as $index => $item) {
+                    if ($listInvoicesItems[$index]['invitem_id'] === $item["itemId"]) {
+                        // Instead of updating every item, compare to the previously stored items and if the data
+                        // differs, then only update that record
+                        if (
+                            $item["position"] != $listInvoicesItems[$index]["invitem_position"]
+                            || $item["title"] != $listInvoicesItems[$index]["invitem_title"]
+                            || $item["tax_amount"] != $listInvoicesItems[$index]["invitem_amount_ex_tax"]
+                        ) {
+                            $invoices->editInvoiceItems($item['itemId'], $item["title"], $item["position"],
+                                $item["tax_amount"]);
+
+                        }
+                    }
                 }
                 phpCollab\Util::headerFunction("../invoicing/viewinvoice.php?msg=update&id=$invoiceItemId");
             }
@@ -261,9 +272,12 @@ HTML;
         }
         echo <<<TR
         <tr>
-            <td><input type="hidden" name="itemId[{$itemCount}]" size="20" value="{$item["invitem_id"]}"><input type="text" name="position[{$itemCount}]" size="3" value="{$item["invitem_position"]}"></td>
-            <td><input type="text" name="title[{$itemCount}]" size="30" value="{$item["invitem_title"]}"></td>
-            <td><input type="text" name="item{$itemCount}" size="20" value="{$item["invitem_amount_ex_tax"]}" tabindex="{$itemCount}" onblur="calc(this)"></td>
+            <td>
+                <input type="hidden" name="invoiceItems[{$itemCount}][itemId]" size="20" value="{$item["invitem_id"]}">
+                <input type="text" name="invoiceItems[{$itemCount}][position]" size="3" value="{$item["invitem_position"]}">
+            </td>
+            <td><input type="text" name="invoiceItems[{$itemCount}][title]" size="30" value="{$item["invitem_title"]}"></td>
+            <td><input type="text" name="invoiceItems[{$itemCount}][tax_amount]" size="20" value="{$item["invitem_amount_ex_tax"]}" tabindex="{$itemCount}" onblur="calc(this)"></td>
             <td>{$completeValue}</td>
         </tr>
 TR;
