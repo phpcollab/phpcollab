@@ -67,7 +67,7 @@ SQL;
      */
     private function resetPassword(int $memberId, string $password)
     {
-        $this->logger->info('Reset Password', ['Method' => 'resetPAssword']);
+        $this->logger->info('Reset Password', ['Method' => 'resetPassword']);
         try {
             if (!isset($memberId) || !isset($password)) {
                 throw new InvalidArgumentException('Invalid member id or password');

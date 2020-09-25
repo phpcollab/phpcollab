@@ -7,7 +7,7 @@
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment
+**               phpCollab - Project Management
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -127,19 +127,19 @@ $listUpdates = $updates->getUpdates($type, $item);
 
 //for ($i = 0; $i < $comptListUpdates; $i++) {
 foreach ($listUpdates as $update) {
-    if (preg_match('/\[status:([0-9])\]/', $update["upd_comments"])) {
-        preg_match('|\[status:([0-9])\]|i', $update["upd_comments"], $matches);
-        $update["upd_comments"] = preg_replace('/\[status:([0-9])\]/', '', $update["upd_comments"] . '<br/>');
+    if (preg_match('/\[status:([0-9])]/', $update["upd_comments"])) {
+        preg_match('|\[status:([0-9])]|i', $update["upd_comments"], $matches);
+        $update["upd_comments"] = preg_replace('/\[status:([0-9])]/', '', $update["upd_comments"] . '<br/>');
         $update["upd_comments"] .= $strings["status"] . " " . $GLOBALS["status"][$matches[1]];
     }
-    if (preg_match('/\[priority:([0-9])\]/', $update["upd_comments"])) {
-        preg_match('|\[priority:([0-9])\]|i', $update["upd_comments"], $matches);
-        $update["upd_comments"] = preg_replace('/\[priority:([0-9])\]/', '', $update["upd_comments"] . '<br/>');
+    if (preg_match('/\[priority:([0-9])]/', $update["upd_comments"])) {
+        preg_match('|\[priority:([0-9])]|i', $update["upd_comments"], $matches);
+        $update["upd_comments"] = preg_replace('/\[priority:([0-9])]/', '', $update["upd_comments"] . '<br/>');
         $update["upd_comments"] .= $strings["priority"] . " " . $GLOBALS["priority"][$matches[1]];
     }
-    if (preg_match('/\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]/', $update["upd_comments"])) {
-        preg_match('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]|i', $update["upd_comments"], $matches);
-        $update["upd_comments"] = preg_replace('/\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\]/', '',
+    if (preg_match('/\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})]/', $update["upd_comments"])) {
+        preg_match('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})]|i', $update["upd_comments"], $matches);
+        $update["upd_comments"] = preg_replace('/\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})]/', '',
             $update["upd_comments"] . '<br/>');
         $update["upd_comments"] .= $strings["due_date"] . " " . $matches[1];
     }
@@ -148,7 +148,7 @@ foreach ($listUpdates as $update) {
         $blockPage->buildLink($update["upd_mem_email_work"], $update["upd_mem_name"], "mail"));
     if ($update["upd_created"] > $session->get('lastVisited')) {
         $block1->contentRow($strings["when"],
-            "<b>" . phpCollab\Util::createDate($update["upd_created"], $session->get('timezone')) . "</b>");
+            "<strong>" . phpCollab\Util::createDate($update["upd_created"], $session->get('timezone')) . "</strong>");
     } else {
         $block1->contentRow($strings["when"],
             phpCollab\Util::createDate($update["upd_created"], $session->get('timezone')));

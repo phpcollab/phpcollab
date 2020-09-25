@@ -7,7 +7,7 @@
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment
+**               phpCollab - Project Management
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -106,7 +106,7 @@ $headBonus = "
               _editor_url = '../includes/htmlarea/'; 
             </script> 
             <script type='text/javascript' src='../includes/htmlarea/htmlarea.js'></script>
-            <script type='text/javascript' src='../includes/htmlarea/lang/{$session->get("langDefault")}.js'></script>
+            <script type='text/javascript' src='../includes/htmlarea/lang/{$session->get("language")}.js'></script>
             <script type='text/javascript' src='../includes/htmlarea/dialog.js'></script>
             <script type='text/javascript' src='../includes/htmlarea/popupdiv.js'></script>
             <script type='text/javascript' src='../includes/htmlarea/popupwin.js'></script> 

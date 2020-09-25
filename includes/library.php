@@ -5,7 +5,7 @@
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment
+**               phpCollab - Project Management
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
@@ -139,8 +139,8 @@ $langValue = array(
 
 
 //language browser detection
-if ($session->get('langDefault') == "") {
-    $session->set('langDefault', 'en');
+if ($session->get('language') == "") {
+    $session->set('language', 'en');
     if (isset($HTTP_ACCEPT_LANGUAGE)) {
         $plng = explode(",", $HTTP_ACCEPT_LANGUAGE);
         if (count($plng) > 0) {
@@ -149,7 +149,7 @@ if ($session->get('langDefault') == "") {
                 $k = explode("-", $k[0]);
 
                 if (file_exists("../languages/lang_" . $k[0] . ".php")) {
-                    $session->set('langDefault', $k[0]);
+                    $session->set('language', $k[0]);
                     break;
                 }
             }
@@ -167,8 +167,8 @@ if (!empty($session->get('langDefault'))) {
 include APP_ROOT . '/includes/initrequests.php';
 
 require_once APP_ROOT . '/languages/lang_en.php';
-require_once APP_ROOT . '/languages/lang_' . $session->get("langDefault") . '.php';
-require_once APP_ROOT . '/languages/help_' . $session->get("langDefault") . '.php';
+require_once APP_ROOT . '/languages/lang_' . $session->get("language") . '.php';
+require_once APP_ROOT . '/languages/help_' . $session->get("language") . '.php';
 
 $loginLogs = $container->getLoginLogs();
 

@@ -7,7 +7,7 @@
 **
 ** =============================================================================
 **
-**               phpCollab - Project Managment
+**               phpCollab - Project Management
 **
 ** -----------------------------------------------------------------------------
 ** Please refer to license, copyright, and credits in README.TXT
