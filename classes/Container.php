@@ -121,11 +121,9 @@ class Container
                 $this->database = new Database($this->configuration, $this->getLogger());
             } catch (Exception $exception) {
                 error_log($exception->getMessage());
-//                throw new Exception($exception);
-                return $exception;
+                throw new Exception('Error connecting to database');
             }
         }
-
         return $this->database;
     }
 
