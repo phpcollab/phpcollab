@@ -5,10 +5,10 @@ namespace phpCollab\Administration;
 
 use Apfelbox\FileDownload\FileDownload;
 use Exception;
-use GuzzleHttp\Exception\GuzzleException;
-use phpCollab\Database;
-use Ifsnop\Mysqldump as IMysqldump;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+use Ifsnop\Mysqldump as IMysqldump;
+use phpCollab\Database;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
@@ -96,10 +96,11 @@ class Administration
 
         try {
             $fileExtension = ($dumpSettings['compress'] === 'Gzip') ? '.zip' : '.sql';
-            $fileName = MYDATABASE . '_' . date("Y_m_d",time()) . $fileExtension;
+            $fileName = MYDATABASE . '_' . date("Y_m_d", time()) . $fileExtension;
 
-            $dump = new IMysqldump\Mysqldump('mysql:host='.MYSERVER.';dbname='.MYDATABASE, MYLOGIN, MYPASSWORD, $dumpSettings);
-            $dump->start('/tmp/'. $fileName);
+            $dump = new IMysqldump\Mysqldump('mysql:host=' . MYSERVER . ';dbname=' . MYDATABASE, MYLOGIN, MYPASSWORD,
+                $dumpSettings);
+            $dump->start('/tmp/' . $fileName);
 
             $fileDownload = FileDownload::createFromFilePath("/tmp/" . $fileName);
             $fileDownload->sendDownload($fileName);
