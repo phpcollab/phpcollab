@@ -30,17 +30,21 @@ class ClientsCest
     /**
      * @param AcceptanceTester $I
      */
-    public function emptyClientList(AcceptanceTester $I)
+    public function clientList(AcceptanceTester $I)
     {
-        $I->wantTo('See an empty list of Clients');
+        $I->wantTo('See a list of Clients (empty or populated)');
         $I->amOnPage('/clients/listclients.php');
         $I->seeInTitle('List Clients');
-        $I->seeElement('.noItemsFound');
+        try {
+            $I->seeElement('.noItemsFound');
+        } catch (Exception $exception) {
+            $I->seeElement('.listing');
+        }
     }
 
     /**
      * @param AcceptanceTester $I
-     * @depends emptyClientList
+     * @depends clientList
      */
     public function addClient(AcceptanceTester $I)
     {
@@ -89,14 +93,14 @@ class ClientsCest
         $I->seeInTitle('List Clients');
         $I->amGoingTo('select the first client in the list and navigate to it');
         $I->dontSeeElement('.noItemsFound');
-        $I->click('.listing tr:nth-child(2) td:nth-child(2) a');
+        $I->click('//a[text()="' . $this->clientName . '"]');
         $I->seeElement('.content');
-        $I->see('Codeception Client', ".//tr/td[contains(text(),'Name')]/following-sibling::td");
+        $I->see($this->clientName, ".//tr/td[contains(text(),'Name')]/following-sibling::td");
     }
 
     /**
      * @param AcceptanceTester $I
-     * @depends addClient
+     * @depends viewClient
      */
     public function editClient(AcceptanceTester $I)
     {
