@@ -42,7 +42,7 @@ class Database
 
         if ($this->dbh === null) {
             // Set DSN
-            $this->logger->info('set DSN', ['database_type' => $this->configuration["dbType"]]);
+            $this->logger->debug('set DSN', ['database_type' => $this->configuration["dbType"]]);
             switch ($this->configuration['dbType']) {
                 case ('mysql'):
                     $dsn = "mysql:host={$this->configuration["dbServer"]};dbname={$this->configuration["dbName"]}";
@@ -80,8 +80,8 @@ class Database
      */
     public function query($query)
     {
+        $this->logger->debug('Query', ['query' => $query]);
         $this->stmt = $this->dbh->prepare($query);
-        $this->logger->info('Query', ['query' => $query]);
     }
 
     /**
@@ -197,12 +197,13 @@ class Database
 
     public function getVersion()
     {
+        $this->logger->debug('Database (getVersion)');
         return $this->dbh->getAttribute(constant("PDO::ATTR_SERVER_VERSION"));
     }
 
     public function getTableName(string $name)
     {
-        $this->logger->info('Get table name', ['name' => $name]);
+        $this->logger->info('Database (getTableName)', ['name' => $name]);
         if ($this->tableCollab && $this->tableCollab[$name]) {
             return $this->tableCollab[$name];
         }
