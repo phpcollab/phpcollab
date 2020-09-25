@@ -166,9 +166,13 @@ class Invoices
             throw new InvalidArgumentException('Invoice ID is missing or invalid.');
         }
 
+        $totalExTax = (empty($totalExTax)) ? 0.00 : $totalExTax ;
+        $totalIncTax = (empty($totalIncTax)) ? 0.00 : $totalIncTax ;
+        $taxRate = (empty($taxRate)) ? 0.00 : $taxRate ;
+        $taxAmount = (empty($taxAmount)) ? 0.00 : $taxAmount ;
+
         return $this->invoices_gateway->updateInvoice($id, $headerNote, $footerNote, $published, $status, $dateDue,
-            $dateSent,
-            $totalExTax, $totalIncTax, $taxRate, $taxAmount);
+            $dateSent, $totalExTax, $totalIncTax, $taxRate, $taxAmount);
     }
 
     public function editInvoiceItems($id, $title, $position, $amountExTax)
