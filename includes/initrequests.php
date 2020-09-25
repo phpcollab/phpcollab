@@ -51,7 +51,7 @@ SELECT
     inv.total_ex_tax AS inv_total_ex_tax,
     inv.tax_rate AS inv_tax_rate,
     inv.tax_amount AS inv_tax_amount,
-    inv.total_inc_tax AS inv_total_inc,
+    inv.total_inc_tax AS inv_total_inc_tax,
     inv.status AS inv_status,
     inv.active AS inv_active,
     inv.created AS inv_created,
