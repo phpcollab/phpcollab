@@ -231,9 +231,7 @@ if ($demoMode == "true") {
 
 $notLogged = "true";
 
-$setTitle .= " : Login";
 $bodyCommand = "onLoad='document.loginForm.usernameForm.focus();'";
-
 
 include APP_ROOT . '/views/layout/header.php';
 
