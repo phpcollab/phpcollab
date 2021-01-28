@@ -173,7 +173,6 @@ class Settings
         $defaultValues["smtpLogin"] = "";
         $defaultValues["smtpPassword"] = "";
         $defaultValues["smtpPort"] = "";
-        $defaultValues["smtpServer"] = "";
         $defaultValues["urlContact"] = "http://www.sourceforge.net/projects/phpcollab";
         $defaultValues["supportEmail"] = "";
         $defaultValues["supportType"] = "team";
