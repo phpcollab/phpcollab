@@ -161,7 +161,7 @@ if ($session->get('language') == "") {
 if (!empty($session->get('langDefault'))) {
     $langSelected[$langDefault] = "selected";
 } else {
-    $langSelected = "";
+    $langSelected["en"] = "selected";
 }
 
 include APP_ROOT . '/includes/initrequests.php';

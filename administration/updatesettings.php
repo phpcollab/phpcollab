@@ -430,7 +430,7 @@ echo <<<HTML
 <tr class="odd">
     <td class="leftvalue">Default language{$blockPage->printHelp("setup_langdefault")}</td><td>
         <select name="defaultLanguage">
-            <option value="">Blank</option>
+            <option value="">Not Selected</option>
             <option value="ar" {$langSelected["ar"]}>Arabic</option>
             <option value="az" {$langSelected["az"]}>Azerbaijani</option>
             <option value="pt-br"" {$langSelected["pt-br"]}>Brazilian Portuguese</option>
