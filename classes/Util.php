@@ -249,6 +249,10 @@ class Util
      */
     public static function getPassword($newPassword, $loginMethod = "crypt")
     {
+        if (empty($loginMethod)) {
+            $loginMethod = "crypt";
+        }
+
         switch ($loginMethod) {
             case "md5":
                 return md5($newPassword);
