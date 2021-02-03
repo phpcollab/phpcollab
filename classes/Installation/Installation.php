@@ -152,12 +152,12 @@ class Installation
         /**
          * See if the includes, and logs directories are writable
          */
-        if (!is_writable("../includes")) {
+        if (!is_writable($this->appRoot . "/includes")) {
             $this->logger->critical("The 'includes' directory is not writable. Please correct and try again.");
             throw new Exception("It appears that the 'includes' directory is not writable. Please correct and try again.");
         }
 
-        if (!is_writable("../logs")) {
+        if (!is_writable($this->appRoot . "/logs")) {
             $this->logger->critical("The 'logs' directory is not writable. Please correct and try again.");
             throw new Exception("It appears that the 'logs' directory is not writable. Please correct and try again.");
         }
