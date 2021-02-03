@@ -176,7 +176,7 @@ if ($step == "2") {
 HTML;
     }
 
-    if ($connection == "off" || $installationType == "offline") {
+    if ($connection == "off" || $_POST["installationType"] == "offline") {
         echo "<input value='false' name='updateChecker' type='hidden'>";
     } elseif (@join('', file("http://www.phpcollab.com/website/version.txt"))) {
         echo "<input value='true' name='updateChecker' type='hidden'>";
@@ -186,17 +186,17 @@ HTML;
 
     echo '<input type="hidden" name="action" value="generate">';
 
-    if ($connection == "off" || $installationType == "offline") {
+    if ($connection == "off" || $_POST["installationType"] == "offline") {
         $installCheckOffline = "checked";
     } else {
         $installCheckOnline = "checked";
     }
 
-    if ($databaseType == "mysql" || $databaseType == "") {
+    if ($databaseType == "mysql" || $databaseType == "" || $_POST["databaseType"] == "mysql") {
         $dbCheckMysql = "checked";
-    } elseif ($databaseType == "sqlserver") {
+    } elseif ($databaseType == "sqlserver" || $_POST["databaseType"] == "sqlserver") {
         $dbCheckSqlserver = "checked";
-    } elseif ($databaseType == "postgresql") {
+    } elseif ($databaseType == "postgresql" || $_POST["databaseType"] == "postgresql") {
         $dbCheckPostgresql = "checked";
     }
 
@@ -217,11 +217,11 @@ HTML;
 			</tr>
 			<tr class="odd">
 				<td class="leftvalue">* Database server :</td>
-				<td><input size="44" value="{$dbServer}" style="width: 200px" name="dbServer" maxlength="100" type="text" required></td>
+				<td><input size="44" value="{$_POST["dbServer"]}" style="width: 200px" name="dbServer" maxlength="100" type="text" required></td>
 			</tr>
 			<tr class="odd">
 				<td class="leftvalue">* Database login :</td>
-				<td><input size="44" value="{$dbLogin}" style="width: 200px" name="dbLogin" maxlength="100" type="text" required></td>
+				<td><input size="44" value="{$_POST["dbLogin"]}" style="width: 200px" name="dbLogin" maxlength="100" type="text" required></td>
 			</tr>
 			<tr class="odd">
 				<td class="leftvalue">Database password :</td>
@@ -229,11 +229,11 @@ HTML;
 			</tr>
 			<tr class="odd">
 				<td class="leftvalue">* Database name :</td>
-				<td><input size="44" value="{$dbName}" style="width: 200px" name="dbName" maxlength="100" type="text" required></td>
+				<td><input size="44" value="{$_POST["dbName"]}" style="width: 200px" name="dbName" maxlength="100" type="text" required></td>
 			</tr>
 			<tr class="odd">
 				<td class="leftvalue">Table prefix :<br/>[<a href="javascript:void(0)" onmouseover="return overlib('{$myPrefix}',ABOVE,SNAPX,550)" onmouseout="return nd()">Help</a>] </td>
-				<td><input size="44" value="{$dbTablePrefix}" style="width: 200px" name="dbTablePrefix" maxlength="100" type="text"></td>
+				<td><input size="44" value="{$_POST["dbTablePrefix"]}" style="width: 200px" name="dbTablePrefix" maxlength="100" type="text"></td>
 			</tr>
 HTML;
 
@@ -247,51 +247,21 @@ HTML;
         $safemode = "off";
     }
 
-    $notificationsTest = function_exists('mail');
-    if ($notificationsTest == "true") {
-        $checked2_b = "checked"; //false
-        $gdlibrary = "on";
+    if (function_exists('mail') == "true" || $_POST["notifications"] == "true") {
+        $notificationsOn = "checked"; //false
+        $mailEnabled = "on";
     } else {
-        $checked1_b = "checked"; //true
-        $gdlibrary = "off";
-    }
-
-    $mkDirMethod = addslashes($help["setup_mkdirMethod"]);
-    echo <<<HTML
-    <tr class="odd">
-        <td class="leftvalue">* Create folder method :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('{$mkDirMethod}',SNAPX,550);" onmouseout="return nd();">Help</a>] </td>
-        <td>
-    	    <table>
-    	        <tr>
-    	            <td>
-    	                <input type="radio" name="mkdirMethod" value="FTP" {$checked1_a}> FTP&nbsp;
-    	                <input type="radio" name="mkdirMethod" value="PHP" {$checked2_a}> PHP<br/>
-    	                [Safe-mode {$safemode}]</td>
-                    <td style="text-align: right">
-HTML;
-
-    if ($safemodeTest == "1") {
-        echo <<<HTML
-        Ftp server <input size="44" value="{$ftpServer}" style="width: 200px" name="ftpServer" maxlength="100" type="text"><br/>
-		Ftp login <input size="44" value="{$ftpLogin}" style="width: 200px" name="ftpLogin" maxlength="100" type="text"><br/>
-		Ftp password <input size="44" value="{$ftpPassword}" style="width: 200px" name="ftpPassword" maxlength="100" type="password"><br/>
-		Ftp root <input size="44" value="{$ftpRoot}" style="width: 200px" name="ftpRoot" maxlength="100" type="text">
-HTML;
+        $notificationsOff = "checked"; //true
+        $mailEnabled = "off";
     }
 
     $setupNotifications = addslashes($help["setup_notifications"]);
     $setupForcedLogin = addslashes($help["setup_forcedlogin"]);
     $setupLangDefault = addslashes($help["setup_langdefault"]);
-
     echo <<<HTML
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
     <tr class="odd">
         <td class="leftvalue">* Notifications :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('{$setupNotifications}',SNAPX,550);" onmouseout="return nd();">Help</a>] </td>
-        <td><input type="radio" name="notifications" value="false" {$checked1_b}> False&nbsp;<input type="radio" name="notifications" value="true" {$checked2_b}> True<br/>[Mail {$gdlibrary}]</td>
+        <td><input type="radio" name="notifications" value="false" {$notificationsOff}> False&nbsp;<input type="radio" name="notifications" value="true" {$notificationsOn}> True<br/>[Mail {$mailEnabled}]</td>
     </tr>
     <tr class="odd">
         <td class="leftvalue">* Forced login :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('{$setupForcedLogin}',SNAPX,550);" onmouseout="return nd();">Help</a>] </td>
@@ -356,24 +326,12 @@ HTML;
 			<td><input size="44" value="{$siteUrl}" style="width: 200px" name="siteUrl" maxlength="100" type="text" required></td>
 		</tr>
 		<tr class="odd">
-			<td class="leftvalue">* Login method :<br/>
-			    [<a href="javascript:void(0);" 
-			        onmouseover="return overlib('{$tooltipLoginMethod}',SNAPX,550);" 
-			        onmouseout="return nd();">Help</a>]
-            </td>
-			<td>
-			    <input type="radio" name="loginMethod" value="plain"> Plain&nbsp;
-			    <input type="radio" name="loginMethod" value="md5"> Md5&nbsp;
-			    <input type="radio" name="loginMethod" value="crypt" checked> Crypt
-            </td>
-		</tr>
-		<tr class="odd">
 			<td class="leftvalue">* Admin password :</td>
 			<td><input size="44" value="" style="width: 200px" name="adminPassword" maxlength="100" type="password" required></td>
 		</tr>
 		<tr class="odd">
 			<td class="leftvalue">* Admin email :</td>
-			<td><input size="44" value="" style="width: 200px" name="adminEmail" value="{$adminEmail}" type="email" required></td>
+			<td><input size="44" value="{$_POST["adminEmail"]}" style="width: 200px" name="adminEmail" value="{$adminEmail}" type="email" required></td>
 		</tr>
 		<tr class="odd">
 			<td class="leftvalue">&nbsp;</td>
@@ -420,7 +378,7 @@ $stepNext = $step + 1;
 if ($step < "2") {
     echo <<<FORM
     <form id="license" name="license" action="../installation/setup.php?step=2&redirect=true" method="post" style="text-align: center;">
-        <p><input type="submit" value="Step {$stepNext}" style="color: #000; font-weight: bold; background-color: transparent; border: none; text-decoration: underline" /></p>
+        <p><input type="submit" value="Step {$stepNext}" style="color: #000; font-weight: bold; background-color: transparent; border: none; text-decoration: underline; cursor: pointer" /></p>
         <label><input type="checkbox" value="off" name="connection"> Offline installation (firewall/intranet, no update checker)</label>
     </form>
 FORM;
