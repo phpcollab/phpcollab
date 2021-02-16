@@ -7,6 +7,9 @@ phpCollab
 [![Slack Status](https://slack.phpcollab.com/badge.svg)](https://slack.phpcollab.com)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/93ecaeb6-c941-4bdb-87c9-52209d76ed20/mini.png)](https://insight.sensiolabs.com/projects/93ecaeb6-c941-4bdb-87c9-52209d76ed20)
 
+![GitHub Repo stars](https://img.shields.io/github/stars/phpcollab/phpcollab?color=2d609f&logo=github&style=for-the-badge&labelColor=6d6e71) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/phpcollab/phpcollab?color=2d609f&logo=github&style=for-the-badge&labelColor=6d6e71) ![Docker Stars](https://img.shields.io/docker/stars/phpcollab/phpcollab?color=2d609f&logo=docker&logoColor=ffffff&style=for-the-badge&labelColor=6d6e71) ![Docker Pulls](https://img.shields.io/docker/pulls/phpcollab/phpcollab?color=2d609f&logo=docker&logoColor=ffffff&style=for-the-badge&labelColor=6d6e71)
+
+
 ## Introduction
 phpCollab is a project management and collaboration system. Features include: team/client sites, task assignment, document repository/workflow, gantt charts, discussions, calendar, notifications, support requests, weblog newsdesk, invoicing, and many other tools.
 
