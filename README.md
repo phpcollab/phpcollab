@@ -1,17 +1,22 @@
-phpCollab now uses Composer! Do not clone this repo right into a web directory - it requires a build step. [Learn more](https://phpcollab.github.io/phpcollab/developer/Build-Process.html) or just [download the latest build instead](https://github.com/phpcollab/phpcollab/releases/latest).
+[![logo](https://phpcollab.com/img/logo.png?utm_source=github_repo&utm_medium=readme&utm_campaign=github)](https:/phpcollab.com?utm_source=github_repo&utm_medium=readme&utm_campaign=github)
 
+[phpCollab](https:/phpcollab.com?utm_source=github_repo&utm_medium=readme&utm_campaign=github) now uses Composer! Do not clone this repo right into a web directory - it requires a build step. [Learn more](https://phpcollab.github.io/phpcollab/developer/Build-Process.html) or just [download the latest build instead](https://github.com/phpcollab/phpcollab/releases/latest).
 
 phpCollab
 ===
+
 [![Gitter](https://badges.gitter.im/phpcollab/phpcollab.svg)](https://gitter.im/phpcollab/phpcollab?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Slack Status](https://slack.phpcollab.com/badge.svg)](https://slack.phpcollab.com)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/93ecaeb6-c941-4bdb-87c9-52209d76ed20/mini.png)](https://insight.sensiolabs.com/projects/93ecaeb6-c941-4bdb-87c9-52209d76ed20)
 
-![GitHub Repo stars](https://img.shields.io/github/stars/phpcollab/phpcollab?color=2d609f&logo=github&style=for-the-badge&labelColor=6d6e71) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/phpcollab/phpcollab?color=2d609f&logo=github&style=for-the-badge&labelColor=6d6e71) ![Docker Stars](https://img.shields.io/docker/stars/phpcollab/phpcollab?color=2d609f&logo=docker&logoColor=ffffff&style=for-the-badge&labelColor=6d6e71) ![Docker Pulls](https://img.shields.io/docker/pulls/phpcollab/phpcollab?color=2d609f&logo=docker&logoColor=ffffff&style=for-the-badge&labelColor=6d6e71)
+![GitHub Repo stars](https://img.shields.io/github/stars/phpcollab/phpcollab?color=2d609f&logo=github&style=for-the-badge&labelColor=6d6e71)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/phpcollab/phpcollab?color=2d609f&logo=github&style=for-the-badge&labelColor=6d6e71)
+[![Docker Stars](https://img.shields.io/docker/stars/phpcollab/phpcollab?color=2d609f&logo=docker&logoColor=ffffff&style=for-the-badge&labelColor=6d6e71)](https://hub.docker.com/r/phpcollab/phpcollab)
+[![Docker Pulls](https://img.shields.io/docker/pulls/phpcollab/phpcollab?color=2d609f&logo=docker&logoColor=ffffff&style=for-the-badge&labelColor=6d6e71)](https://hub.docker.com/r/phpcollab/phpcollab)
 
 
 ## Introduction
-phpCollab is a project management and collaboration system. Features include: team/client sites, task assignment, document repository/workflow, gantt charts, discussions, calendar, notifications, support requests, weblog newsdesk, invoicing, and many other tools.
+[phpCollab](https:/phpcollab.com?utm_source=github_repo&utm_medium=readme&utm_campaign=github) is a project management and collaboration system. Features include: team/client sites, task assignment, document repository/workflow, gantt charts, discussions, calendar, notifications, support requests, weblog newsdesk, invoicing, and many other tools.
 
 
 ### Features
