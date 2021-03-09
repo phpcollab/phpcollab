@@ -1,0 +1,51 @@
+:root {
+    --phpcBlue: #2d609f;
+    --phpcGray: #6d6e71;
+}
+
+html {
+    font-size: 12px;
+    font-family: Courier, Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+
+body {
+    font-size: 1.75rem;
+}
+
+h2 {
+    font-size: 3rem;
+}
+
+#error_page {
+    text-align: center;
+}
+
+#error_page::before {
+    content: "";
+    background-image: url("/public/images/robot_fall.png");
+    background-repeat: no-repeat;
+    background-position: 50% 100px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0.25;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) { }
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) { }
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    #error_page::before {
+        background-position: center;
+        background-size: inherit;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) { }
