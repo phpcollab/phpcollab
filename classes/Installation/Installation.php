@@ -42,6 +42,7 @@ class Installation
             $this->appRoot = $appRoot;
             $this->databaseInfo = $databaseInfo;
         } catch (Exception $exception) {
+            $this->logger->alert("SETUP: " . $exception->getMessage() . "\n");
             throw $exception;
         }
     }
@@ -65,6 +66,10 @@ class Installation
             $this->scrubbedData = $this->scrubData($data);
             $this->scrubbedData["phpCollabVersion"] = $this->version;
 
+            // We don't want to scrub password
+            $this->scrubbedData["adminPassword"] = $data["adminPassword"];
+            $this->scrubbedData["dbPassword"] = $data["dbPassword"];
+
             // Create the database tables
             $this->createDatabaseTables();
 
@@ -73,6 +78,7 @@ class Installation
 
             return true;
         } catch (Exception $exception) {
+            $this->logger->alert("SETUP - database: " . $exception->getMessage() . "\n");
             throw $exception;
         }
     }
@@ -124,6 +130,7 @@ class Installation
                 $this->database->query($sqlStatement);
                 $this->database->execute();
             } catch (PDOException $e) {
+                $this->logger->alert("SETUP - createDatabaseTables: " . $exception->getMessage() . "\n");
                 throw $e;
             }
         }
@@ -139,6 +146,7 @@ class Installation
         try {
             return Administration\Settings::writeSettings($this->appRoot, $this->scrubbedData, $this->logger);
         } catch (Exception $exception) {
+            $this->logger->alert("SETUP - writeSettingsFile: " . $exception->getMessage() . "\n");
             throw $exception;
         }
     }
