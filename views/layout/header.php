@@ -27,7 +27,7 @@ echo <<<HEAD
 
 <script type="text/javascript" src="../javascript/general.js"></script>
 <script type="text/JavaScript" src="../javascript/overlib_mini.js"></script>
-<link rel="stylesheet" href="../public/css/all.min.css">
+<link rel="stylesheet" href="../public/css/fa-all.min.css">
 HEAD;
 
 echo '<link rel="stylesheet" href="../themes/' . THEME . '/css/stylesheet.css" type="text/css" />';
