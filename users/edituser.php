@@ -399,14 +399,14 @@ $block1->contentRow($strings["confirm_password"],
 // if the user isn't a client user then i give the opportunity to change the permission
 if ($profile != '3') {
     $block1->contentTitle($strings["select_permissions"]);
-    $block1->contentRow('<input type="radio" name="profile" value="1" ' . $checked1 . ' />',
-        '<b>' . $strings["project_manager_permissions"] . '</b>');
-    $block1->contentRow('<input type="radio" name="profile" value="2" ' . $checked2 . ' />',
-        '<b>' . $strings["user_permissions"] . '</b>');
-    $block1->contentRow('<input type="radio" name="profile" value="4" ' . $checked4 . ' />',
-        '<b>' . $strings["disabled_permissions"] . '</b>');
-    $block1->contentRow('<input type="radio" name="profile" value="5" ' . $checked5 . ' />',
-        '<b>' . $strings["project_manager_administrator_permissions"] . '</b>');
+    $block1->contentRow('<label><input type="radio" name="profile" value="1" ' . $checked1 . ' />',
+        '<b>' . $strings["project_manager_permissions"] . '</b></label>');
+    $block1->contentRow('<label><input type="radio" name="profile" value="2" ' . $checked2 . ' />',
+        '<b>' . $strings["user_permissions"] . '</b></label>');
+    $block1->contentRow('<label><input type="radio" name="profile" value="4" ' . $checked4 . ' />',
+        '<b>' . $strings["disabled_permissions"] . '</b></label>');
+    $block1->contentRow('<label><input type="radio" name="profile" value="5" ' . $checked5 . ' />',
+        '<b>' . $strings["project_manager_administrator_permissions"] . '</b></label>');
 } else {
     $block1->contentRow('', '<input type="hidden" name="perm" value="3" />');
 }
