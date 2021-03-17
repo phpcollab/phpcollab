@@ -56,7 +56,7 @@ class Administration
                     [
                         'allow_redirects' => true,
                         'synchronous' => true,
-                        'timeout' => 10.0
+                        'timeout' => 5.0
                     ]
                 );
 
