@@ -333,17 +333,11 @@ td.leftvalue {
 }
 
 .message {
-    padding-bottom: 20px;
-    width: 100%;
-}
-
-.message td {
-    padding-left: 2px;
-    padding-top: 4px;
-    padding-bottom: 4px;
+    margin-bottom: 20px;
     background-color: var(--alt-color);
     color: #000000;
-    text-align: left;
+    padding: 15px;
+    font-size: 0.95rem;
 }
 
 .tableRevision {

@@ -286,9 +286,10 @@ HTML;
      */
     public function messageBox(string $msgLabel)
     {
-        echo '<br/><table class="message"><tr><td>';
-        echo ($msgLabel) ? $msgLabel : 'Action not allowed.';
-        echo '</td></tr></table>';
+        $msgLabel = ($msgLabel) ? $msgLabel : 'Action not allowed.';
+        echo <<< MESSAGE
+        <div class="message">{$msgLabel}</div>
+MESSAGE;
     }
 
     /**
