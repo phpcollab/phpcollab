@@ -4,6 +4,7 @@
     --odd-color: #F5F5F5;
     --even-color: #EFEFEF;
     --highlight-color: #DEE7EB;
+    --error-color: #ff0000;
 }
 
 .abs {
@@ -325,11 +326,18 @@ td.leftvalue {
 
 .error {}
 
-.error td {
-    color: #FF0000;
-    text-align: left;
-    padding-left: 2px;
-    padding-bottom: 20px;
+p.error {
+    color: var(--error-color);
+}
+
+p.error:before {
+    content: "•";
+    margin-right: 10px;
+}
+
+
+p.error:last-of-type {
+    margin-bottom: 2rem;
 }
 
 .message {

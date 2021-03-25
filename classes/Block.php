@@ -210,7 +210,7 @@ HTML;
      */
     public function contentError(string $content)
     {
-        echo '<table class="error"><tr><td>' . $content . '</td></tr></table>';
+        echo '<p class="error">' . $content . '</p>';
     }
 
     /**
