@@ -114,7 +114,7 @@ if ($showHomeBookmarks) {
     $comptListBookmarks = count($bookmarksList);
 
     if ($comptListBookmarks != "0") {
-        $block6->form = "boo";
+        $block6->form = "home_bookmarks";
         $block6->openForm("../bookmarks/listbookmarks.php?view=my&project=$project#" . $block6->form . "Anchor", null,
             $csrfHandler);
 
@@ -187,7 +187,7 @@ if ($showHomeProjects) {
 
     $block1 = new phpCollab\Block();
 
-    $block1->form = "wbP";
+    $block1->form = "home_projects";
     $block1->openForm("../general/home.php#" . $block1->form . "Anchor", null, $csrfHandler);
 
     $block1->headingToggle($strings["my_projects"]);
@@ -322,7 +322,7 @@ if ($showHomeProjects) {
 if ($showHomeTasks) {
     $block2 = new phpCollab\Block();
 
-    $block2->form = "xwbT";
+    $block2->form = "home_tasks";
     $block2->openForm("../general/home.php#" . $block2->form . "Anchor", null, $csrfHandler);
 
     $block2->headingToggle($strings["my_tasks"]);
@@ -458,7 +458,7 @@ if ($showHomeTasks) {
 if ($showHomeSubtasks) {
     $block3 = new phpCollab\Block();
 
-    $block3->form = "xwbR";
+    $block3->form = "home_subtasks";
     $block3->openForm("../general/home.php#" . $block3->form . "Anchor", null, $csrfHandler);
 
     $block3->headingToggle($strings["my_subtasks"]);
@@ -565,7 +565,7 @@ if ($showHomeDiscussions) {
 
     $homeTopics = $container->getTopicsLoader();
 
-    $block4->form = "wbTh";
+    $block4->form = "home_discussion";
     $block4->openForm("../general/home.php#" . $block4->form . "Anchor", null, $csrfHandler);
 
     $block4->headingToggle($strings["my_discussions"]);
@@ -662,7 +662,7 @@ if ($showHomeDiscussions) {
 if ($showHomeReports) {
     $reportsBlock = new phpCollab\Block();
 
-    $reportsBlock->form = "wbSe";
+    $reportsBlock->form = "home_reports";
     $reportsBlock->openForm("../general/home.php#" . $reportsBlock->form . "Anchor", null, $csrfHandler);
 
     $reportsBlock->headingToggle($strings["my_reports"]);
@@ -712,7 +712,7 @@ if ($showHomeReports) {
  */
 if ($showHomeNotes) {
     $notesBlock = new phpCollab\Block();
-    $notesBlock->form = "saJ";
+    $notesBlock->form = "home_notes";
     $notesBlock->openForm("../general/home.php?project=$project#" . $notesBlock->form . "Anchor", null, $csrfHandler);
     $notesBlock->headingToggle($strings["my_notes"]);
 
@@ -794,7 +794,7 @@ if ($showHomeNotes) {
  */
 if ($showHomeNewsdesk) {
     $newsdeskBlock = new phpCollab\Block();
-    $newsdeskBlock->form = "saN";
+    $newsdeskBlock->form = "home_newsdesk";
     $newsdeskBlock->openForm("../general/home.php?project=$project#" . $newsdeskBlock->form . "Anchor", null,
         $csrfHandler);
     $newsdeskBlock->headingToggle($strings["my_newsdesk"]);

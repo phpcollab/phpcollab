@@ -165,26 +165,22 @@ HELP_DIV;
      */
     public function headingToggle(string $title)
     {
-        if ($_COOKIE[$this->form] == "c") {
+        $toggleState = null;
+        if ($_COOKIE[$this->form] == "collapse") {
             $arrow = "closed";
+            $toggleState = 'toggle-hide';
         } else {
             $arrow = "open";
         }
 
         echo <<<HTML
-<table class="headingToggle">
-    <tr>
-        <td><a href="javascript:showHideModule('{$this->form}','{$this->theme}')" 
-               onMouseOver="showHideModuleMouseOver('{$this->form}'); return true;" 
-               onMouseOut="return true;"><img alt="{$this->form}Toggle" src="{$this->themeImgPath}/module_toggle_{$arrow}.gif" alt=""></a></td>
-        <td><img width="10" height="10" alt="{$this->form}tl" src="{$this->themeImgPath}/spacer.gif" alt=""></td>
-        <td style="width: 100%;"><h1 class="heading">{$title}</h1></td>
-    </tr>
-</table>
-<div id="{$this->form}">
+<div class="headingToggle">
+    <a href="javascript:showHideModule('{$this->form}','{$this->theme}')" title="Expand">
+       <img id="{$this->form}Toggle" alt="{$this->form}Toggle" src="{$this->themeImgPath}/module_toggle_{$arrow}.gif" /></a>
+    <span class="heading">{$title}</span>
+</div>
+<div id="{$this->form}" class="{$toggleState}">
 HTML;
-
-
     }
 
     /**
@@ -427,7 +423,7 @@ SCRIPT;
     {
         echo <<<FORM
 <a id="{$this->form}Anchor"></a>
-<form method="POST" action="{$address}" name="{$this->form}Form" enctype="application/x-www-form-urlencoded" {$additionalAttributes}>
+<form method="POST" action="{$address}" name="{$this->form}Form" enctype="application/x-www-form-urlencoded" {$additionalAttributes} class="content-section">
 FORM;
         if ($csrfHandler) {
             echo <<<CSRF_INPUT
@@ -731,7 +727,7 @@ SCRIPT;
      */
     public function openNavigation()
     {
-        echo "<p id='navigation'>";
+        echo "<nav>";
     }
 
     /**
@@ -758,7 +754,7 @@ SCRIPT;
                 echo "&nbsp;&nbsp;";
             }
         }
-        echo "</p>";
+        echo "</nav>";
     }
 
     /**

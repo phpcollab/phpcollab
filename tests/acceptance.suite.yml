@@ -11,7 +11,7 @@ groups:
 modules:
     enabled:
         - PhpBrowser:
-            url: https://phpcollab.dev/
+            url: http://dev.phpcollab.com/
             curl:
               CURLOPT_SSL_VERIFYPEER: 0
         - \Helper\Acceptance

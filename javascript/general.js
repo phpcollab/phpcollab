@@ -75,10 +75,10 @@ function WM_netscapeCssFix() {
 function WM_netscapeCssFixCheckIn() {
     if ((navigator.appName == 'Netscape') && (parseInt(navigator.appVersion) == 4)) {
         if (typeof document.WM == 'undefined') {
-            document.WM = new Object;
+            document.WM = {};
         }
         if (typeof document.WM.WM_scaleFont == 'undefined') {
-            document.WM.WM_netscapeCssFix = new Object;
+            document.WM.WM_netscapeCssFix = {};
             document.WM.WM_netscapeCssFix.initWindowWidth = window.innerWidth;
             document.WM.WM_netscapeCssFix.initWindowHeight = window.innerHeight;
         }
@@ -90,7 +90,7 @@ WM_netscapeCssFixCheckIn();
 
 function showHideModuleMouseOver(divID) {
     var theCookie = readCookie(divID);
-    if ((theCookie == "e") || (theCookie == "")) {
+    if ((theCookie == "expand") || (theCookie == "")) {
         window.status = "Collapse";
     }
     else {
@@ -102,17 +102,16 @@ function showHideModule(divID, theme) {
     var ok = false;
 
     var divIDobj = document.getElementById(divID);
-    var tlobj = document.querySelector('img[name="' + divID + 'tl"]');
-    var toggleobj = document.querySelector('img[name="' + divID + 'Toggle"]');
+    var toggleobj = document.getElementById(divID + 'Toggle');
 
-    if (divIDobj != null && tlobj != null && toggleobj != null) {
+    if (divIDobj != null && toggleobj != null) {
         ok = true;
-        if (state === "c") {
+        if (state === "collapse") {
             toggleobj.src = "../themes/" + theme + "/images/module_toggle_closed.gif";
-            divIDobj.style.display = "none";
+            divIDobj.classList.toggle("toggle-hide")
         } else {
             toggleobj.src = "../themes/" + theme + "/images/module_toggle_open.gif";
-            divIDobj.style.display = "";
+            divIDobj.classList.toggle("toggle-hide")
         }
     }
     if (!ok) {
@@ -124,9 +123,10 @@ function showHideModule(divID, theme) {
 
 function toggleFoldyPersistState(divID) {
     var theCookie = readCookie(divID);
-    var state = "e";
-    if ((theCookie == "e") || (theCookie == "")) {
-        state = "c";
+    var state = "expand";
+
+    if ((theCookie === "expand") || (theCookie === "")) {
+        state = "collapse";
     }
     setCookie(divID, state, 8760, '/');
     return state;
@@ -140,10 +140,10 @@ function MM_swapImgRestore() { //v3.0
 function MM_preloadImages() { //v3.0
     var d = document;
     if (d.images) {
-        if (!d.MM_p) d.MM_p = new Array();
+        if (!d.MM_p) d.MM_p = [];
         var i, j = d.MM_p.length, a = MM_preloadImages.arguments;
         for (i = 0; i < a.length; i++)
-            if (a[i].indexOf("#") != 0) {
+            if (a[i].indexOf("#") !== 0) {
                 d.MM_p[j] = new Image;
                 d.MM_p[j++].src = a[i];
             }
@@ -166,7 +166,7 @@ function MM_findObj(n, d) { //v4.0
 
 function MM_swapImage() { //v3.0
     var i, j = 0, x, a = MM_swapImage.arguments;
-    document.MM_sr = new Array;
+    document.MM_sr = [];
     for (i = 0; i < (a.length - 2); i += 3)
         if ((x = MM_findObj(a[i])) != null) {
             document.MM_sr[j++] = x;
@@ -179,19 +179,17 @@ function MM_swapImage() { //v3.0
 // 0-based
 
 function MM_removeNthArrayItem(array, n) {
-    var lhs = new Array();
+    var lhs = [];
 
     if (n > 0)
         lhs = array.slice(0, n);
 
-    var rhs = new Array();
+    var rhs = [];
 
     if (n < array.length)
         rhs = array.slice(n + 1);
 
-    var result = lhs.concat(rhs);
-
-    return result;
+    return lhs.concat(rhs);
 }
 
 // Does the array contain the given string?
@@ -231,7 +229,7 @@ function MM_removeStringFromArray(array, item) {
 
 function MM_toggleItem(form, itemName, imageName, theme) {
     if (form.selectedItems == null)
-        form.selectedItems = new Array();
+        form.selectedItems = [];
 
     if (MM_arrayContainsString(form.selectedItems, itemName)) {
         form.selectedItems = MM_removeStringFromArray(form.selectedItems, itemName);
@@ -249,7 +247,7 @@ function MM_toggleItem(form, itemName, imageName, theme) {
 
 function MM_selectAllItems(form, theme) {
 
-    form.selectedItems = new Array();
+    form.selectedItems = [];
     if (form.checkboxes) {
         var checkboxCount = form.checkboxes.length;
         for (i = 0; i < checkboxCount; i++) {
@@ -266,7 +264,7 @@ function MM_selectAllItems(form, theme) {
 }
 
 function MM_deselectAllItems(form, theme) {
-    form.selectedItems = new Array();
+    form.selectedItems = [];
     if (form.checkboxes) {
         var checkboxCount = form.checkboxes.length;
         for (i = 0; i < checkboxCount; i++) {
@@ -284,7 +282,7 @@ function MM_deselectAllItems(form, theme) {
 // If all items are selected, deselect all. Otherwise select all.
 function MM_toggleSelectedItems(form, theme) {
     if (!form.selectedItems)
-        form.selectedItems = new Array();
+        form.selectedItems = [];
 
     if (form.checkboxes) {
         if (form.selectedItems.length == form.checkboxes.length - MM_countDisabledCheckboxes(form))
@@ -313,13 +311,7 @@ function MM_countDisabledCheckboxes(form) {
     return disabledCount;
 }
 
-// See SELECTIONPARAMNAME and SELECTIONPARAMDELIMITER in ListModuleTagBase.java.
-
 function MM_doButtonAction(action, selectedItems) {
-
-    // THESE MUST BE IN SYNC WITH ListModuleTagBase.java
-    var SELECTIONPARAMNAME = 'id';
-    var SELECTIONPARAMDELIMITER = '**';
 
     // If the action is a javascript action (starts with 'javascript')
     // then execute it immediately.
@@ -378,7 +370,7 @@ function MM_doButtonAction(action, selectedItems) {
 }
 
 function MM_updateButtons(form) {
-    var dummy = new Array();
+    var dummy = [];
     MM_updateButtons2(form, dummy);
 }
 
@@ -412,7 +404,7 @@ function MM_getButtonWithName(form, buttonName) {
 }
 
 function MM_countFilesFolders(selectedItems) {
-    var ret_obj = new Object();
+    var ret_obj = {};
     ret_obj["files"] = 0;
     ret_obj["folders"] = 0;
     var i = 0;
@@ -593,7 +585,7 @@ function popUp(loc, w, h, menubar) {
     if (h == null) {
         h = 500;
     }
-    if (menubar == null || menubar == false) {
+    if (menubar == null || menubar === false) {
         menubar = "";
     } else {
         menubar = "menubar,";
@@ -609,7 +601,7 @@ function popUp(loc, w, h, menubar) {
 function submitOnEnter(form, e) {
     if (document.all) e = window.event;
     key = (document.layers) ? e.which : e.keyCode;
-    if (13 == key) {
+    if (13 === key) {
         if (form) form.submit();
         return false;
     }
@@ -620,7 +612,7 @@ function submitOnEnter(form, e) {
 function killKeyEvent(e) {
     if (document.all) e = window.event;
     key = (document.layers) ? e.which : e.keyCode;
-    if (13 == key) e.cancelBubble = true;
+    if (13 === key) e.cancelBubble = true;
 }
 
 // Used to limit the chars in a text or textarea input - BAH
@@ -641,7 +633,7 @@ function doSitespringHelper(url, msg, installurl) {
         doIt = false;
     }
     if (doIt) window.location = url;
-    return;
+
 }
 function doHelpWindow(helpURL) {
     mmHelpWindow = window.open(helpURL, "mmHelp");

@@ -18,12 +18,11 @@ body {
     background-color: #FFFFFF;
     margin: 10px 10px 10px 10px;
     font-family: Verdana, sans-serif;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 table, td, tr, th, p, div {
     font-family: Verdana, sans-serif;
-    font-size: 11px;
 }
 
 a {
@@ -46,7 +45,7 @@ hr {
 
 #header {
     background-color: #FFFFFF;
-    font-size: 20px;
+    font-size: 1.5rem;
     margin-top: 0;
     margin-bottom: 0;
     height: 40px;
@@ -60,7 +59,7 @@ hr {
 #footer {
     background-color: #FFFFFF;
     margin-top: 30px;
-    font-size: 10px;
+    font-size: 0.65rem;
     color: gray;
     padding-left: 4px;
     padding-bottom: 0;
@@ -73,32 +72,30 @@ hr {
     padding-bottom: 0;
     padding-right: 0;
     text-align: right;
-    font-size: 10px;
+    font-size: 0.75rem;
 }
 
-#navigation {
+nav {
     background-color: #7B9CAE;
-    padding: 2px 0 2px 0;
-    margin-top: 4px;
-    margin-bottom: 15px;
-    border-top: 1px solid #999999;
-    border-bottom: 1px solid #999999;
-    color: #FFFFFF;
-    font-weight: bold;
+    font-size: 0.85rem;
+    display: flex;
+    padding-left: 1rem;
+    margin: 1rem -10px;
 }
 
-#navigation a {
-    background-color: #7B9CAE;
-    padding: 2px 4px 2px 4px;
+nav a {
+    background-color: transparent;
+    padding: 10px;
+    flex-grow: 0;
+    margin-right: 1rem;
     text-decoration: none;
     color: #FFFFFF;
 }
 
-#navigation a:hover {
-    background-color: #3C5462;
-    padding: 2px 4px 2px 4px;
+nav a:hover {
+    background-color: #537588;
+    color: #ffffff;
     text-decoration: none;
-    color: #FFFFFF;
 }
 
 .breadcrumbs {
@@ -108,17 +105,40 @@ hr {
     padding-left: 2px;
 }
 
-.heading {
+.note {
     background-color: #FFFFFF;
     margin-top: 0;
-    margin-bottom: 4px;
+    margin-bottom: 30px;
+    padding-left: 2px;
+}
+
+div.headingToggle {
+    display: flex;
+}
+div.headingToggle a {
+    padding-right: 10px;
+}
+
+div.toggle-hide {
+    display: none;
+    margin-bottom: 2rem;
+}
+
+.content-section {
+    margin-bottom: 2rem;
+}
+
+.heading {
+    flex-grow: 2;
+    background-color: #FFFFFF;
+    margin: 0 0 4px 0;
     padding-bottom: 2px;
     padding-left: 0;
     border-bottom: 1px solid #999999;
     font-family: Georgia, serif;
-    font-size: 15px;
-    font-weight: bold;
     color: #821400;
+    font-size: 1.1rem;
+    font-weight: 600;
 }
 
 .headingError {
@@ -303,10 +323,7 @@ td.leftvalue {
     text-align: left;
 }
 
-.error {
-    /*padding-top: -10px;*/
-    /*width: 100%;*/
-}
+.error {}
 
 .error td {
     color: #FF0000;
@@ -316,7 +333,6 @@ td.leftvalue {
 }
 
 .message {
-    padding-top: -10px;
     padding-bottom: 20px;
     width: 100%;
 }
@@ -367,7 +383,7 @@ td.leftvalue {
     }
 }
 
-form {
+form table.listing {
     border-bottom: 1px solid #999999;
 }
 
