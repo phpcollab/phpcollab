@@ -121,15 +121,17 @@ class Block
     /**
      * Print tooltips
      * @param string $item Text printed in tooltip
+     * @param string|null $additionalPrams
      * @return string
-     * @access public
+     * @access publics
      */
-    public function printHelp(string $item)
+    public function printHelp(string $item, string $additionalPrams = null)
     {
         $helpText = addslashes($this->help[$item]);
+        $additionalPrams = (is_null($additionalPrams) ? '' : ',' . $additionalPrams);
         return <<<HELP_DIV
         [<a href="javascript:void(0);"
-            onmouseover="return overlib('{$helpText}',SNAPX,550);"
+            onmouseover="return overlib('{$helpText}',SNAPX,550,CSSCLASS,TEXTFONTCLASS,'overDivFontClass',CAPTIONFONTCLASS,'overDicCapFontClass',BGCLASS,'overDivBgClass',FGCLASS,'overDivFgClass'{$additionalPrams});"
             onmouseout="return nd();">{$this->strings["help"]}</a>]
 HELP_DIV;
 
