@@ -41,3 +41,4 @@ chromedriver*
 # Codeception #
 ###############
 tests/support/_generated
+tests/_support/_generated
