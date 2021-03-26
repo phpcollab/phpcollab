@@ -576,7 +576,6 @@ $block1->contentRow("Extended footer (dev)",
     "<label><input type='radio' name='footerDev' value='false' $footerDevFalse /> False</label>
      <label><input type='radio' name='footerDev' value='true' $footerDevTrue /> True</label>");
 
-//$block1->contentRow("", "<input type='SUBMIT' value='" . $strings["save"] . "' />");
 $block1->contentRow("", "<button type='SUBMIT' value='generate' name='action'>" . $strings["save"] . "</button>");
 
 
