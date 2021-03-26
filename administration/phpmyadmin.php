@@ -29,7 +29,7 @@
 
 
 $checkSession = "true";
-include_once '../includes/library.php';
+require_once '../includes/library.php';
 
 if ($session->get('profile') != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');

@@ -7,7 +7,7 @@
 // include files
 
 $checkSession = "true";
-include '../includes/library.php';
+require_once '../includes/library.php';
 
 
 // session checking to prevent nonadmins from accessing file. Change or remove to give access to Users.

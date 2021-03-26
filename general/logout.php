@@ -3,7 +3,7 @@
 use Symfony\Component\HttpFoundation\Response;
 
 $checkSession = "false";
-include '../includes/library.php';
+require_once '../includes/library.php';
 
 if ($session->get('login')) {
     $loginLogs->setConnectedByLogin($session->get('login'), false);

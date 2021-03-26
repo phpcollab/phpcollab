@@ -1,7 +1,7 @@
 <?php
 
 $checkSession = "true";
-include '../includes/library.php';
+require_once '../includes/library.php';
 
 $teams = $container->getTeams();
 $organizations = $container->getOrganizationsManager();

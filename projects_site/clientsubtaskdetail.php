@@ -6,7 +6,7 @@ use phpCollab\Util;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
 $checkSession = "true";
-include '../includes/library.php';
+require_once '../includes/library.php';
 
 $tasks = $container->getTasksLoader();
 $updates = $container->getTaskUpdateService();

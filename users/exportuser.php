@@ -8,7 +8,7 @@ use phpCollab\Members\ExportMember;
 $export = "true";
 
 $checkSession = "false";
-include_once '../includes/library.php';
+require_once '../includes/library.php';
 
 
 try {

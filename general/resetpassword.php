@@ -4,7 +4,7 @@
 use phpCollab\Exceptions\TokenExpiredException;
 
 $checkSession = "false";
-include '../includes/library.php';
+require_once '../includes/library.php';
 
 if ($request->isMethod('post')) {
     try {

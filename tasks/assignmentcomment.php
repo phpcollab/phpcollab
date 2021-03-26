@@ -4,7 +4,7 @@
 #Path by root: ../tasks/assignmentcomment.php
 
 $checkSession = "true";
-include_once '../includes/library.php';
+require_once '../includes/library.php';
 
 $assignmentId = $request->query->get('id');
 $taskId = $request->query->get('task');

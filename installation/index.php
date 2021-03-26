@@ -4,5 +4,5 @@
 #Path by root: ../installation/index.php
 
 $checkSession = "false";
-include_once '../includes/library.php';
+require_once '../includes/library.php';
 phpCollab\Util::headerFunction('../index.php');

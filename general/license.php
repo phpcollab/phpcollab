@@ -27,7 +27,7 @@
 
 
 $checkSession = "false";
-include_once '../includes/library.php';
+require_once '../includes/library.php';
 
 $notLogged = "true";
 include APP_ROOT . '/views/layout/header.php';

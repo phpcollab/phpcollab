@@ -11,7 +11,7 @@
 */
 
 $checkSession = "true";
-include_once '../includes/library.php';
+require_once '../includes/library.php';
 
 $bookmarks_gateway = $container->getBookmarksLoader();
 

@@ -4,7 +4,7 @@
 use phpCollab\Reports\GanttPDF;
 
 $checkSession = "true";
-include '../includes/library.php';
+require_once '../includes/library.php';
 
 
 // PDF setup

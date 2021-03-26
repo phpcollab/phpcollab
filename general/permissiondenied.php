@@ -27,7 +27,7 @@
 */
 
 $checkSession = "true";
-include_once '../includes/library.php';
+require_once '../includes/library.php';
 
 include APP_ROOT . '/views/layout/header.php';
 

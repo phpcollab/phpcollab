@@ -8,7 +8,7 @@ use phpCollab\Phases\Phases;
 use phpCollab\Tasks\Tasks;
 
 $checkSession = "true";
-include '../includes/library.php';
+require_once '../includes/library.php';
 
 $phases = $container->getPhasesLoader();
 $tasks = $container->getTasksLoader();

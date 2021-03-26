@@ -8,7 +8,7 @@ use phpCollab\Tasks\Tasks;
 use phpCollab\Teams\Teams;
 
 $checkSession = "true";
-include_once '../includes/library.php';
+require_once '../includes/library.php';
 
 $id = $request->query->get('id', 0);
 $action = $request->query->get('action', null);

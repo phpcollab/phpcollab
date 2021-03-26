@@ -1,7 +1,7 @@
 <?php
 
 $checkSession = "true";
-include_once '../includes/library.php';
+require_once '../includes/library.php';
 
 $teams = $container->getTeams();
 $tasks = $container->getTasksLoader();

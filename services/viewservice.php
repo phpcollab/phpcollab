@@ -4,7 +4,7 @@
 #Path by root: ../services/viewservice.php
 
 $checkSession = "true";
-include_once '../includes/library.php';
+require_once '../includes/library.php';
 
 $id = $request->query->get("id");
 

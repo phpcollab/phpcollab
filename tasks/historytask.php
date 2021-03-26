@@ -26,7 +26,7 @@
 */
 
 $checkSession = "true";
-include_once '../includes/library.php';
+require_once '../includes/library.php';
 
 $type = $request->query->get('type');
 $item = $request->query->get('item');

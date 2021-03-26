@@ -3,7 +3,7 @@
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
 $checkSession = "true";
-include_once '../includes/library.php';
+require_once '../includes/library.php';
 
 // Check to see if an id is passed, if so then they want to edit a client, not add one, so let's redirect them
 if ($request->query->get("id")) {

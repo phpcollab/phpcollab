@@ -3,7 +3,7 @@
 #Status page: 0
 
 $checkSession = "true";
-include_once '../includes/library.php';
+require_once '../includes/library.php';
 
 $teams = $container->getTeams();
 $support = $container->getSupportLoader();

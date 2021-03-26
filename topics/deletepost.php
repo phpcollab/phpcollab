@@ -7,7 +7,7 @@ use phpCollab\Util;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
 $checkSession = "true";
-include_once '../includes/library.php';
+require_once '../includes/library.php';
 
 $topicId = $request->query->get('topic');
 

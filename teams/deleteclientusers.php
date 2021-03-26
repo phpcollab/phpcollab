@@ -4,7 +4,7 @@
 #Path by root: ../teams/deleteclientusers.php
 
 $checkSession = "true";
-include_once '../includes/library.php';
+require_once '../includes/library.php';
 
 $projects = $container->getProjectsLoader();
 $sendNotifications = $container->getNotificationsManager();

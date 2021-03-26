@@ -5,7 +5,7 @@ use phpCollab\Teams\Teams;
 use phpCollab\Topics\Topics;
 
 $checkSession = "true";
-include_once '../includes/library.php';
+require_once '../includes/library.php';
 
 $project = $request->query->get('project');
 $id = $request->query->get('id');

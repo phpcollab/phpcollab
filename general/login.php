@@ -20,7 +20,7 @@
 */
 
 $checkSession = "false";
-include '../includes/library.php';
+require_once '../includes/library.php';
 
 $strings = $GLOBALS["strings"];
 $loginMethod = $GLOBALS["loginMethod"];

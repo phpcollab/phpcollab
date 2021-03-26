@@ -3,7 +3,7 @@
 use phpCollab\Exceptions\TokenGenerationFailedException;
 
 $checkSession = "false";
-include_once '../includes/library.php';
+require_once '../includes/library.php';
 
 $strings = $GLOBALS["strings"];
 

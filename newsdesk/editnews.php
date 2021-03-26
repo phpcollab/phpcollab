@@ -34,7 +34,7 @@
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
 $checkSession = "true";
-include_once '../includes/library.php';
+require_once '../includes/library.php';
 
 if ($session->get("profile") != "0" && $session->get("profile") != "1" && $session->get("profile") != "5") {
     phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$id&msg=permissionNews");

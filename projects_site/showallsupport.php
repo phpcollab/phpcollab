@@ -3,7 +3,7 @@
 #Status page: 0
 
 $checkSession = "true";
-include '../includes/library.php';
+require_once '../includes/library.php';
 
 $support = $container->getSupportLoader();
 

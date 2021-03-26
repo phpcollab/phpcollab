@@ -29,7 +29,7 @@
 ** - can a project team member see the other members tasks? *why not?*
 */
 
-include '../includes/library.php';
+require_once '../includes/library.php';
 
 $tasks = $container->getTasksLoader();
 $calendars = $container->getCalendarLoader();

@@ -1,7 +1,7 @@
 <?php
 
-include '../includes/library.php';
-include '../includes/phplib/template.php';
+require_once '../includes/library.php';
+require_once '../includes/phplib/template.php';
 
 $invoices = $container->getInvoicesLoader();
 $projects = $container->getProjectsLoader();

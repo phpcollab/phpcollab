@@ -4,7 +4,7 @@
 #Path by root: ../notes/listnotes.php
 
 $checkSession = "true";
-include_once '../includes/library.php';
+require_once '../includes/library.php';
 include '../includes/customvalues.php';
 
 $action = $request->query->get('action');

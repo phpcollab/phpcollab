@@ -6,7 +6,7 @@ session_cache_limiter('none');        // suppress error messages for PHP version
 error_reporting(0);
 
 $checkSession = "true";
-include '../includes/library.php';    // starts session and writes session cache headers
+require_once '../includes/library.php';    // starts session and writes session cache headers
 
 $files = $container->getFilesLoader();
 

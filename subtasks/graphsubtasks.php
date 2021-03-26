@@ -6,7 +6,7 @@ use Amenadiel\JpGraph\Graph\GanttGraph;
 use Amenadiel\JpGraph\Plot\GanttBar;
 
 $checkSession = "true";
-include '../includes/library.php';
+require_once '../includes/library.php';
 
 $tasks = $container->getTasksLoader();
 $projects = $container->getProjectsLoader();

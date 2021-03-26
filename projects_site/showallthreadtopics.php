@@ -2,7 +2,7 @@
 #Application name: PhpCollab
 
 $checkSession = "true";
-include '../includes/library.php';
+require_once '../includes/library.php';
 
 $bouton[5] = "over";
 $titlePage = $strings["bulletin_board"];

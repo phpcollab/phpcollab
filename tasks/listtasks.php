@@ -1,7 +1,7 @@
 <?php
 
 $checkSession = "true";
-include_once '../includes/library.php';
+require_once '../includes/library.php';
 
 $id = $request->query->get('id');
 $project = $request->query->get('project');

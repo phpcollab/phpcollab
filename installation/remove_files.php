@@ -7,7 +7,7 @@
  * This file will attempt to remove the setup.php file.
  */
 
-require_once("../includes/library.php");
+require_once '../includes/library.php';
 
 if (file_exists("setup.php")) {
     @unlink("setup.php");

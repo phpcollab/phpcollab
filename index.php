@@ -14,7 +14,7 @@ try {
         $checkSession = "false";
         $indexRedirect = "true";
 
-        include_once('includes/library.php');
+        require_once 'includes/library.php';
 
         //case session fails
         if ($session == "false") {

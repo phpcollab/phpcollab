@@ -4,7 +4,7 @@
 #Path by root: ../newsdesk/listnews.php
 
 $checkSession = "true";
-include_once '../includes/library.php';
+require_once '../includes/library.php';
 
 $setTitle .= " : News List";
 

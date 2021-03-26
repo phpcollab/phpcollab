@@ -19,7 +19,7 @@
 */
 
 $checkSession = "true";
-include_once '../includes/library.php';
+require_once '../includes/library.php';
 
 $tasks = $container->getTasksLoader();
 $subtasks = $container->getSubtasksLoader();

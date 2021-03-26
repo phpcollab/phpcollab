@@ -30,7 +30,7 @@
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
 $checkSession = "true";
-include '../includes/library.php';
+require_once '../includes/library.php';
 
 $projects = $container->getProjectsLoader();
 

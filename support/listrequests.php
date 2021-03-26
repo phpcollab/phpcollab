@@ -5,7 +5,7 @@
 use phpCollab\Util;
 
 $checkSession = "true";
-include_once '../includes/library.php';
+require_once '../includes/library.php';
 
 if ($enableHelpSupport != "true") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
