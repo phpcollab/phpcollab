@@ -5,6 +5,8 @@
     --even-color: #EFEFEF;
     --highlight-color: #DEE7EB;
     --error-color: #ff0000;
+    --dark-color: #333333;
+    --th-color: #3A3B40;
 }
 
 .abs {
@@ -320,7 +322,7 @@ td.leftvalue {
     background-color: var(--alt-color);
     border-top: 1px solid #999999;
     border-bottom: 1px solid #999999;
-    color: #777E82;
+    color: var(--th-color);
     text-align: left;
 }
 
@@ -672,6 +674,7 @@ table.calculation td {
 .logoContainer img {
     width: 100%;
 }
+
 /*
 Styling for the help notes
  */
@@ -683,7 +686,57 @@ Styling for the help notes
     background-color: var(--alt-color) !important;
 }
 
+.overDivFgClass {
+    background-color: var(--alt-color) !important;
+}
+
+.overDivFontClass {
+    color: var(--dark-color);
+    font-size: 0.85rem;
+    padding: 5px;
+}
+
+.overDivFontClass strong {
+    font-size: 0.75rem;
+}
+.overDivFontClass em {
+    font-size: 0.70rem;
+}
+.overDivFontClass div {
+    margin-bottom: 10px;
+}
+
+.overDivFontClass div.warning {
+    font-weight: 700;
+    color: darkred;
+}
+
+.overDivFontClass div:last-child {
+    margin-bottom: 0;
+}
+
+.overDicCapFontClass {
+    background-color: darkred;
+    color: var(--even-color);
+    font-weight: 700;
+    font-size: 0.80rem;
+}
+/*
+ * End help notes styling
+*/
+
 .noItemsFound {
     padding: 1em 0;
     margin-left: 1em;
+}
+
+#logLevels {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#logLevels li {
+    padding-left: .5rem;
+
 }

@@ -4,6 +4,8 @@
     --odd-color: #dbedff;
     --even-color: #eef7ff;
     --highlight-color: #cee7ff;
+    --error-color: #ff0000;
+    --dark-color: #333333;
 }
 
 .abs {
@@ -18,12 +20,11 @@ body {
     background-color: #FFFFFF;
     margin: 10px 10px 10px 10px;
     font-family: Verdana, sans-serif;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 table, td, tr, th, p, div {
     font-family: Verdana, sans-serif;
-    font-size: 11px;
 }
 
 a {
@@ -46,7 +47,7 @@ hr {
 
 #header {
     background-color: #FFFFFF;
-    font-size: 20px;
+    font-size: 1.5rem;
     margin-top: 0;
     margin-bottom: 0;
     height: 40px;
@@ -59,7 +60,7 @@ hr {
 #footer {
     background-color: #FFFFFF;
     margin-top: 30px;
-    font-size: 10px;
+    font-size: 0.65rem;
     color: gray;
     padding-left: 4px;
     padding-bottom: 0;
@@ -72,30 +73,32 @@ hr {
     padding-bottom: 0;
     padding-right: 0;
     text-align: right;
-    font-size: 10px;
+    font-size: 0.75rem;
 }
 
-#navigation {
+nav {
     background-color: #3399FF;
-    padding: 2px 0 2px 0;
-    margin-top: 4px;
-    margin-bottom: 15px;
+    font-size: 0.85rem;
+    display: flex;
+    padding-left: 1rem;
+    margin: 1rem -10px;
     border-top: 1px solid #999999;
     border-bottom: 1px solid #999999;
     color: #FFFFFF;
     font-weight: bold;
 }
 
-#navigation a {
+nav a {
     background-color: #3399FF;
-    padding: 2px 4px 2px 4px;
+    padding: 10px;
+    flex-grow: 0;
+    margin-right: 1rem;
     text-decoration: none;
     color: #FFFFFF;
 }
 
-#navigation a:hover {
+nav a:hover {
     background-color: #0066CC;
-    padding: 2px 4px 2px 4px;
     text-decoration: none;
     color: #FFFFFF;
 }
@@ -107,17 +110,36 @@ hr {
     padding-left: 2px;
 }
 
-.heading {
+.note {
     background-color: #FFFFFF;
     margin-top: 0;
-    margin-bottom: 4px;
+    margin-bottom: 30px;
+    padding-left: 2px;
+}
+div.headingToggle {
+    display: flex;
+}
+div.headingToggle a {
+    padding-right: 10px;
+}
+div.toggle-hide {
+    display: none;
+    margin-bottom: 2rem;
+}
+.content-section {
+    margin-bottom: 2rem;
+}
+.heading {
+    flex-grow: 2;
+    background-color: #FFFFFF;
+    margin: 0 0 4px 0;
     padding-bottom: 2px;
     padding-left: 0;
     border-bottom: 1px solid #999999;
     font-family: Georgia, serif;
-    font-size: 15px;
-    font-weight: bold;
     color: #821400;
+    font-size: 1.1rem;
+    font-weight: 600;
 }
 
 .headingError {
@@ -284,31 +306,27 @@ td.leftvalue {
     text-align: left;
 }
 
-.error {
-    /*padding-top: -10px;*/
-    /*width: 100%;*/
+.error {}
+
+p.error {
+    color: var(--error-color);
 }
 
-.error td {
-    color: #FF0000;
-    text-align: left;
-    padding-left: 2px;
-    padding-bottom: 20px;
+p.error:before {
+    content: "•";
+    margin-right: 10px;
 }
 
+
+p.error:last-of-type {
+    margin-bottom: 2rem;
+}
 .message {
-    padding-top: -10px;
-    padding-bottom: 20px;
-    width: 100%;
-}
-
-.message td {
-    padding-left: 2px;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    background-color: #99CCFF;
+    margin-bottom: 20px;
     color: #000000;
-    text-align: left;
+    padding: 15px;
+    font-size: 0.95rem;
+    background-color: #99CCFF;
 }
 
 .tableRevision {
@@ -343,7 +361,7 @@ td.leftvalue {
     }
 }
 
-form {
+form table.listing {
     border-bottom: 1px solid #999999;
 }
 
@@ -433,6 +451,7 @@ hr {
     border-left: 1px solid #0033CC;
     border-right: 1px solid #0033CC;
     margin-bottom: 3px;
+    text-align: center;
 }
 
 .calendar-broadcast-event {
@@ -441,6 +460,7 @@ hr {
     border-left: 1px solid #663399;
     border-right: 1px solid #663399;
     margin-bottom: 3px;
+    text-align: center;
 }
 
 .ganttChart {
@@ -471,20 +491,29 @@ td.footerCell a, td.footerCell strong {
     padding: 1em 0;
     font-size: 0.75rem;
 }
-.alert.error {
+.alert {
     padding: 1em;
+    margin: 1rem;
+    border: 1px solid transparent;
+    font-weight: normal;
+    font-size: 1rem;
+}
+.alert.error {
     color: darkred;
-    border: 1px solid indianred;
+    border-color: indianred;
     font-weight: bold;
     background-color: papayawhip;
 }
 .alert.info {
-    padding: 1em;
     color: #004085;
     background-color: #cce5ff;
-    border: 1px solid #b8daff;
-    font-weight: normal;
-    font-size: 1rem;
+    border-color: #b8daff;
+}
+
+.alert.success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
 }
 
 .alert.note {
@@ -585,10 +614,59 @@ Styling for the help notes
 #overDiv > table {
     background-color: var(--primary-color) !important;
 }
+
 #overDiv table table:nth-child(1) {
     background-color: var(--alt-color) !important;
 }
+
+.overDivFgClass {
+    background-color: var(--alt-color) !important;
+}
+
+.overDivFontClass {
+    color: var(--dark-color);
+    font-size: 0.85rem;
+    padding: 5px;
+}
+
+.overDivFontClass strong {
+    font-size: 0.75rem;
+}
+.overDivFontClass em {
+    font-size: 0.70rem;
+}
+.overDivFontClass div {
+    margin-bottom: 10px;
+}
+
+.overDivFontClass div.warning {
+    font-weight: 700;
+    color: darkred;
+}
+
+.overDivFontClass div:last-child {
+    margin-bottom: 0;
+}
+
+.overDicCapFontClass {
+    background-color: darkred;
+    color: var(--even-color);
+    font-weight: 700;
+    font-size: 0.80rem;
+}
+/*
+ * End help notes styling
+*/
+
 .noItemsFound {
     padding: 1em 0;
     margin-left: 1em;
+}
+#logLevels {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+#logLevels li {
+    padding-left: .5rem;
 }
