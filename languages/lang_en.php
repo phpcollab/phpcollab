@@ -63,6 +63,18 @@ $requestStatus = array(0 => "New", 1 => "Open", 2 => "Complete");
 
 $invoiceStatus = array(0 => "Open", 1 => "Sent", 2 => "Paid");
 
+$logLevels = array(
+    '100' => 'DEBUG (100)',
+    '200' => 'INFO (200) (recommended for DEV)',
+    '250' => 'NOTICE (250)',
+    '300' => 'WARNING (300)',
+    '400' => 'ERROR (400) (recommended for PROD)',
+    '500' => 'CRITICAL (500)',
+    '550' => 'ALERT (550)',
+    '600' => 'EMERGENCY (600)',
+);
+
+
 $strings["please_login"] = "Please log in";
 $strings["requirements"] = "System Requirements";
 $strings["login"] = "Log In";
