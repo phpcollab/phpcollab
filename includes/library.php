@@ -176,8 +176,12 @@ if (!empty($session->get('langDefault'))) {
 include APP_ROOT . '/includes/initrequests.php';
 
 require_once APP_ROOT . '/languages/lang_en.php';
-require_once APP_ROOT . '/languages/lang_' . $session->get("language") . '.php';
-require_once APP_ROOT . '/languages/help_' . $session->get("language") . '.php';
+require_once APP_ROOT . '/languages/help_en.php';
+
+if ($session->get("language") !== 'en') {
+    require_once APP_ROOT . '/languages/lang_' . $session->get("language") . '.php';
+    require_once APP_ROOT . '/languages/help_' . $session->get("language") . '.php';
+}
 
 $loginLogs = $container->getLoginLogs();
 
