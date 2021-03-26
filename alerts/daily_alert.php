@@ -44,7 +44,7 @@ if (php_sapi_name() == "cli") {
     ]);
 
     try {
-        echo "inside try...\n";
+        print_r( "inside try...\n" );
 
         $stream = new StreamHandler($app_root . '/logs/phpcollab.log', Logger::DEBUG);
 
@@ -57,20 +57,25 @@ if (php_sapi_name() == "cli") {
             $langDefault = 'en';
         }
 
-        include $app_root . '/languages/lang_' . $langDefault . '.php';
+        // Load the english file by default incase there are new values that have not been translated yet.
+        include $app_root . '/languages/lang_en.php';
+
+        if ($langDefault !== 'en') {
+            include $app_root . '/languages/lang_' . $langDefault . '.php';
+        }
 
         // Check if emailAlerts is set to true
         if ($emailAlerts === false) {
             // Return false
             $dailyAlertLogger->warning('setting, emailAlerts is disabled');
-            echo 'ERROR - email alerts are disabled';
+            print_r( 'ERROR - email alerts are disabled' );
             exit('ERROR - email alerts are disabled');
         }
 
         // Check that database vars are set
         if (!defined('MYSERVER') || !defined('MYLOGIN') || !defined('MYPASSWORD') || !defined('MYDATABASE')) {
             $dailyAlertLogger->error($strings['error_server']);
-            echo 'ERROR - DATABASE' . $strings['error_server'];
+            print_r( 'ERROR - DATABASE' . $strings['error_server'] );
             exit('ERROR - DATABASE' . $strings['error_server']);
         }
         $alert = new DailyAlerts($container->getPDO(), $container);
@@ -80,14 +85,14 @@ if (php_sapi_name() == "cli") {
         $executionTime = microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"];
 
         $dailyAlertLogger->info('cron job completed ' . $executionTime);
-        echo 'cron job completed';
+        print_r( 'cron job completed' );
         exit('cron job completed');
 
     } catch (Exception $exception) {
         if ($dailyAlertLogger) {
             $dailyAlertLogger->error($e->getMessage());
         }
-        echo "exception!\n";
+        print_r( "exception!\n" );
         die($exception->getMessage());
     }
 }
