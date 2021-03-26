@@ -38,8 +38,8 @@ $langSelected = $GLOBALS["langSelected"];
 if ($request->isMethod('post')) {
     try {
         if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
-            if ($request->query->get('action') == "generate") {
-                if ($request->request->get('installationType') == "offline") {
+            if ($request->request->get("action") == "generate") {
+                    if ($request->request->get('installationType') == "offline") {
                     $updateChecker = "false";
                 }
 
@@ -120,7 +120,7 @@ $block1->heading($strings["edit_settings"]);
 $block1->openContent();
 $block1->contentTitle("General");
 $block1->form = "settings";
-$block1->openForm("../administration/updatesettings.php?action=generate", 'autocomplete="new-password"', $csrfHandler);
+$block1->openForm("../administration/updatesettings.php", 'autocomplete="new-password"', $csrfHandler);
 
 $ftpRoot = rtrim($ftpRoot, '/');
 
@@ -327,10 +327,12 @@ if ($emailAlerts === true) {
 }
 
 $block1->contentRow("Installation type",
-    "<input type='radio' name='installationType' value='offline' $installCheckOffline /> Offline (firewall/intranet, no update checker)&nbsp;<input type='radio' name='installationType' value='online' $installCheckOnline /> Online");
+    "<label><input type='radio' name='installationType' value='offline' $installCheckOffline /> Offline (firewall/intranet, no update checker)</label>
+     <label><input type='radio' name='installationType' value='online' $installCheckOnline /> Online</label>");
 
 $block1->contentRow("Update checker",
-    "<input type='radio' name='updateChecker' value='false' $updateCheckerFalse /> False&nbsp;<input type='radio' name='updateChecker' value='true' $updateCheckerTrue /> True");
+    "<label><input type='radio' name='updateChecker' value='false' $updateCheckerFalse /> False</label>
+    <label><input type='radio' name='updateChecker' value='true' $updateCheckerTrue /> True</label>");
 
 $ftpServer = (defined("FTPSERVER")) ? FTPSERVER : '';
 $ftpServerLogin = (defined("FTPLOGIN")) ? FTPLOGIN : '';
@@ -347,8 +349,8 @@ echo <<< HTML
         <table class="nonStriped" style="width: 500px;">
             <tr>
                 <td style="vertical-align: top;">
-                    <input type="radio" id="mkdirMethodPHP" name="mkdirMethod" value="PHP" {$mkdirMethodPHP} /> PHP&nbsp;
-                    <input type="radio" id="mkdirMethodFTP" name="mkdirMethod" value="FTP" {$mkdirMethodFTP} /> FTP
+                    <label><input type="radio" id="mkdirMethodPHP" name="mkdirMethod" value="PHP" {$mkdirMethodPHP} /> PHP</label>&nbsp;
+                    <label><input type="radio" id="mkdirMethodFTP" name="mkdirMethod" value="FTP" {$mkdirMethodFTP} /> FTP</label>
                 </td>
             </tr>
             <tr>
@@ -383,8 +385,8 @@ echo <<< HTML
         <table class="nonStriped" style="width: 500px;">
             <tr>
                 <td style="">
-                    <input type="radio" id="notificationMethodMail" name="notificationMethod" value="mail" {$notificationMethodMail} /> PHP mail function&nbsp;
-                    <input type="radio" id="notificationMethodSmtp" name="notificationMethod" value="smtp" {$notificationMethodSMTP} /> SMTP
+                    <label><input type="radio" id="notificationMethodMail" name="notificationMethod" value="mail" {$notificationMethodMail} /> PHP mail function</label> 
+                    <label><input type="radio" id="notificationMethodSmtp" name="notificationMethod" value="smtp" {$notificationMethodSMTP} /> SMTP</label>
                 </td>
             </tr>
             <tr>
@@ -418,13 +420,16 @@ foreach ($dir as $fileinfo) {
 echo "</td></tr>";
 
 $block1->contentRow("Notifications" . $blockPage->printHelp("setup_notifications"),
-    "<input type='radio' name='notifications' value='false' $notificationFalse /> False&nbsp;<input type='radio' name='notifications' value='true' $notificationTrue /> True<br/>[Mail $mail]");
+    "<label><input type='radio' name='notifications' value='false' $notificationFalse /> False</label>
+     <label><input type='radio' name='notifications' value='true' $notificationTrue /> True<br/>[Mail $mail]</label>");
 
 $block1->contentRow("Timezone (GMT)",
-    "<input type='radio' name='gmtTimezone' value='false' $gmtTimezoneFalse /> False&nbsp;<input type='radio' name='gmtTimezone' value='true' $gmtTimezoneTrue /> True");
+    "<label><input type='radio' name='gmtTimezone' value='false' $gmtTimezoneFalse /> False</label>
+     <label><input type='radio' name='gmtTimezone' value='true' $gmtTimezoneTrue /> True</label>");
 
 $block1->contentRow("* Forced login" . $blockPage->printHelp("setup_forcedlogin"),
-    "<input type='radio' name='forcedLogin' value='false' $forcedLoginFalse /> False&nbsp;<input type='radio' name='forcedLogin' value='true' $forcedLoginTrue  /> True");
+    "<label><input type='radio' name='forcedLogin' value='false' $forcedLoginFalse /> False</label>
+     <label><input type='radio' name='forcedLogin' value='true' $forcedLoginTrue  /> True</label>");
 
 echo <<<HTML
 <tr class="odd">
@@ -475,30 +480,42 @@ $block1->contentRow("* Default max file size",
 $block1->contentTitle("Options");
 
 $block1->contentRow("Clients filter" . $blockPage->printHelp("setup_clientsfilter"),
-    "<input type='radio' name='clientsFilter' value='false' $clientsFilterFalse /> False&nbsp;<input type='radio' name='clientsFilter' value='true' $clientsFilterTrue /> True");
+    "<label><input type='radio' name='clientsFilter' value='false' $clientsFilterFalse /> False</label>
+     <label><input type='radio' name='clientsFilter' value='true' $clientsFilterTrue /> True</label>");
 $block1->contentRow("Projects filter" . $blockPage->printHelp("setup_projectsfilter"),
-    "<input type='radio' name='projectsFilter' value='false' $projectsFilterFalse /> False&nbsp;<input type='radio' name='projectsFilter' value='true' $projectsFilterTrue /> True");
+    "<label><input type='radio' name='projectsFilter' value='false' $projectsFilterFalse /> False</label>
+     <label><input type='radio' name='projectsFilter' value='true' $projectsFilterTrue /> True</label>");
 
 $block1->contentRow('Show Bookmarks',
-    '<input type="radio" name="showHomeBookmarks" value="false" ' . $checkedHomeBookmarks_f . ' /> False&nbsp;<input type="radio" name="showHomeBookmarks" value="true" ' . $checkedHomeBookmarks_t . ' /> True');
+    '<label><input type="radio" name="showHomeBookmarks" value="false" ' . $checkedHomeBookmarks_f . ' /> False
+     <label><input type="radio" name="showHomeBookmarks" value="true" ' . $checkedHomeBookmarks_t . ' /> True');
 $block1->contentRow('Show Projects',
-    '<input type="radio" name="showHomeProjects" value="false" ' . $checkedHomeProjects_f . ' /> False&nbsp;<input type="radio" name="showHomeProjects" value="true" ' . $checkedHomeProjects_t . ' /> True');
+    '<label><input type="radio" name="showHomeProjects" value="false" ' . $checkedHomeProjects_f . ' /> False</label>
+     <label><input type="radio" name="showHomeProjects" value="true" ' . $checkedHomeProjects_t . ' /> True</label>');
 $block1->contentRow('Show Tasks',
-    '<input type="radio" name="showHomeTasks" value="false" ' . $checkedHomeTasks_f . ' /> False&nbsp;<input type="radio" name="showHomeTasks" value="true" ' . $checkedHomeTasks_t . ' /> True');
+    '<label><input type="radio" name="showHomeTasks" value="false" ' . $checkedHomeTasks_f . ' /> False</label>
+     <label><input type="radio" name="showHomeTasks" value="true" ' . $checkedHomeTasks_t . ' /> True</label>');
 $block1->contentRow('Show Subtasks',
-    '<input type="radio" name="showHomeSubtasks" value="false" ' . $checkedHomeSubtasks_f . ' /> False&nbsp;<input type="radio" name="showHomeSubtasks" value="true" ' . $checkedHomeSubtasks_t . ' /> True');
+    '<label><input type="radio" name="showHomeSubtasks" value="false" ' . $checkedHomeSubtasks_f . ' /> False</label>
+     <label><input type="radio" name="showHomeSubtasks" value="true" ' . $checkedHomeSubtasks_t . ' /> True</label>');
 $block1->contentRow('Show Discussions',
-    '<input type="radio" name="showHomeDiscussions" value="false" ' . $checkedHomeDiscussions_f . ' /> False&nbsp;<input type="radio" name="showHomeDiscussions" value="true" ' . $checkedHomeDiscussions_t . ' /> True');
+    '<label><input type="radio" name="showHomeDiscussions" value="false" ' . $checkedHomeDiscussions_f . ' /> False</label>
+     <label><input type="radio" name="showHomeDiscussions" value="true" ' . $checkedHomeDiscussions_t . ' /> True</label>');
 $block1->contentRow('Show Reports',
-    '<input type="radio" name="showHomeReports" value="false" ' . $checkedHomeReports_f . ' /> False&nbsp;<input type="radio" name="showHomeReports" value="true" ' . $checkedHomeReports_t . ' /> True');
+    '<label><input type="radio" name="showHomeReports" value="false" ' . $checkedHomeReports_f . ' /> False</label>
+     <label><input type="radio" name="showHomeReports" value="true" ' . $checkedHomeReports_t . ' /> True</label>');
 $block1->contentRow('Show Notes',
-    '<input type="radio" name="showHomeNotes" value="false" ' . $checkedHomeNotes_f . ' /> False&nbsp;<input type="radio" name="showHomeNotes" value="true" ' . $checkedHomeNotes_t . ' /> True');
+    '<label><input type="radio" name="showHomeNotes" value="false" ' . $checkedHomeNotes_f . ' /> False</label>
+     <label><input type="radio" name="showHomeNotes" value="true" ' . $checkedHomeNotes_t . ' /> True</label>');
 $block1->contentRow('Show NewsDesk',
-    '<input type="radio" name="showHomeNewsdesk" value="false" ' . $checkedHomeNewsdesk_f . ' /> False&nbsp;<input type="radio" name="showHomeNewsdesk" value="true" ' . $checkedHomeNewsdesk_t . ' /> True');
+    '<label><input type="radio" name="showHomeNewsdesk" value="false" ' . $checkedHomeNewsdesk_f . ' /> False</label>
+     <label><input type="radio" name="showHomeNewsdesk" value="true" ' . $checkedHomeNewsdesk_t . ' /> True</label>');
 $block1->contentRow('Auto-publish Tasks',
-    '<input type="radio" name="autoPublishTasks" value="false" ' . $checkedAutoPublish_f . ' /> False&nbsp;<input type="radio" name="autoPublishTasks" value="true" ' . $checkedAutoPublish_t . ' /> True');
+    '<label><input type="radio" name="autoPublishTasks" value="false" ' . $checkedAutoPublish_f . ' /> False</label>
+     <label><input type="radio" name="autoPublishTasks" value="true" ' . $checkedAutoPublish_t . ' /> True</label>');
 $block1->contentRow('Email Alerts',
-    '<input type="radio" name="emailAlerts" value="false" ' . $checkedEmailAlerts_f . ' /> False&nbsp;<input type="radio" name="emailAlerts" value="true" ' . $checkedEmailAlerts_t . ' /> True');
+    '<label><input type="radio" name="emailAlerts" value="false" ' . $checkedEmailAlerts_f . ' /> False</label>
+     <label><input type="radio" name="emailAlerts" value="true" ' . $checkedEmailAlerts_t . ' /> True</label>');
 
 $block1->contentTitle("Advanced");
 
@@ -513,8 +530,8 @@ echo <<<MANTIS
         <table class="nonStriped" style="width: 500px;">
             <tr>
                 <td style="">
-                    <input type="radio" name="enableMantis" id="mantisEnabledFalse" value="false" {$enableMantisFalse} /> False
-                    <input type="radio" name="enableMantis" id="mantisEnabledTrue" value="true" {$enableMantisTrue} /> True
+                    <label><input type="radio" name="enableMantis" id="mantisEnabledFalse" value="false" {$enableMantisFalse} /> False</label>
+                    <label><input type="radio" name="enableMantis" id="mantisEnabledTrue" value="true" {$enableMantisTrue} /> True</label>
                 </td>
             </tr>
             <tr>
@@ -529,10 +546,39 @@ echo <<<MANTIS
 </tr>
 MANTIS;
 
-$block1->contentRow("Extended footer (dev)",
-    "<input type='radio' name='footerDev' value='false' $footerDevFalse /> False&nbsp;<input type='radio' name='footerdev' value='true' $footerDevTrue /> True");
+if (isset($logLevels) && isset($logLevel)) {
+    echo <<< LOGLEVEL
+    <tr class="odd">
+        <td class="leftvalue">
+    <!--    <div class=\'warning\'>Note: NEVER use a log level below 400 in production environment!</div>-->
+        Log Level : {$blockPage->printHelp("logLevels", "VAUTO,WIDTH,500,CAPTION, 'Note: NEVER use a log level below 400 in production environment!'")}
+        </td>
+        <td class="nonStriped" style="padding-left: 10px;">
+LOGLEVEL;
 
-$block1->contentRow("", "<input type='SUBMIT' value='" . $strings["save"] . "' />");
+    echo '<select name="logLevel">';
+
+    foreach( $logLevels as $key => $levelDesc ) {
+        echo   '<option value="' . $key . '"';
+        echo (($key == $logLevel)) ? 'selected="selected"' : '';
+        echo ">{$levelDesc}</option>";
+    }
+
+    echo '</select>';
+
+    echo <<< LOGLEVEL
+        </td>
+    </tr>
+LOGLEVEL;
+}
+
+$block1->contentRow("Extended footer (dev)",
+    "<label><input type='radio' name='footerDev' value='false' $footerDevFalse /> False</label>
+     <label><input type='radio' name='footerDev' value='true' $footerDevTrue /> True</label>");
+
+//$block1->contentRow("", "<input type='SUBMIT' value='" . $strings["save"] . "' />");
+$block1->contentRow("", "<button type='SUBMIT' value='generate' name='action'>" . $strings["save"] . "</button>");
+
 
 $block1->closeContent();
 $block1->closeForm();
