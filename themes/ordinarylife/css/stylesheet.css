@@ -9,11 +9,11 @@
 }
 
 .abs {
-    position: absolute
+    position: absolute;
 }
 
 .rel {
-    position: relative
+    position: relative;
 }
 
 body {
@@ -23,7 +23,12 @@ body {
     font-size: 12px;
 }
 
-table, td, tr, th, p, div {
+table,
+td,
+tr,
+th,
+p,
+div {
     font-family: Verdana, sans-serif;
 }
 
@@ -57,6 +62,7 @@ hr {
     width: auto;
     height: inherit;
 }
+
 #footer {
     background-color: #FFFFFF;
     margin-top: 30px;
@@ -112,19 +118,24 @@ nav a:hover {
     margin-bottom: 30px;
     padding-left: 2px;
 }
+
 div.headingToggle {
     display: flex;
 }
+
 div.headingToggle a {
     padding-right: 10px;
 }
+
 div.toggle-hide {
     display: none;
     margin-bottom: 2rem;
 }
+
 .content-section {
     margin-bottom: 2rem;
 }
+
 .heading {
     flex-grow: 2;
     background-color: #FFFFFF;
@@ -202,43 +213,57 @@ div.toggle-hide {
     border-spacing: 0;
     border-collapse: collapse;
 }
-.nonStriped th, .nonStriped td {
+
+.nonStriped th,
+.nonStriped td {
     padding: .5em;
 }
-.nonStriped.noPadding th, .nonStriped.noPadding td {
+
+.nonStriped.noPadding th,
+.nonStriped.noPadding td {
     padding: 0;
 }
+
 .striped {
     border: none;
     border-spacing: 0;
     border-collapse: collapse;
 }
+
 .striped th {
     border: none;
     padding: .5em;
 }
+
 .striped td {
     padding: .5em;
 }
+
 .striped tr:nth-child(even) {
     background-color: var(--even-color);
     color: #000;
 }
+
 .striped tr:nth-child(odd) {
     background-color: var(--odd-color);
     color: #000;
 }
-.striped tr:nth-child(even):hover, .striped tr:nth-child(odd):hover {
+
+.striped tr:nth-child(even):hover,
+.striped tr:nth-child(odd):hover {
     background-color: var(--highlight-color);
     color: #000;
 }
+
 .monthPreview {
     width: 100%;
 }
+
 .monthPreview th {
     background-color: white;
     border: none;
 }
+
 .monthPreview td {
     border: 0 solid white;
     border-spacing: 0;
@@ -246,16 +271,20 @@ div.toggle-hide {
     width: 14%;
     vertical-align: top;
 }
+
 .monthPreview tr td.odd:hover {
     background-color: var(--highlight-color);
     color: #000;
 }
+
 .darkHighlight {
     background-color: #7B9CAE;
 }
+
 .lightHighlight {
     background-color: var(--alt-color);
 }
+
 .odd {
     background-color: var(--odd-color);
 }
@@ -275,6 +304,7 @@ div.toggle-hide {
 td.leftvalue {
     vertical-align: top;
 }
+
 .content {
     padding: 0;
     width: 100%;
@@ -302,7 +332,8 @@ td.leftvalue {
     text-align: left;
 }
 
-.error {}
+.error {
+}
 
 p.error {
     color: var(--error-color);
@@ -317,6 +348,7 @@ p.error:before {
 p.error:last-of-type {
     margin-bottom: 2rem;
 }
+
 .message {
     margin-bottom: 20px;
     background-color: var(--alt-color);
@@ -332,16 +364,20 @@ p.error:last-of-type {
     border-right: 1px solid #999999;
     border-collapse: collapse;
 }
+
 .tableRevision tr:nth-child(odd) {
     background-color: #DDDEDF;
 }
+
 .tableRevision tr:nth-child(even) {
     background-color: #F6F5F5;
 }
+
 .tableRevision tr:hover {
     background-color: var(--highlight-color);
     color: #000;
 }
+
 .tableRevision td {
     padding: 0.5em;
 }
@@ -364,6 +400,7 @@ form table.listing {
 form.noBorder {
     border-bottom: none;
 }
+
 hr {
     display: none;
 }
@@ -373,13 +410,16 @@ hr {
 .calendarMonthDay {
     background-color: var(--odd-color);
 }
+
 .calendar-blockout-line {
     width: 100%;
     border-spacing: 1px;
 }
+
 .calendar-blockout-line tr {
     height: 150px;
 }
+
 .calendar-blockout-line td {
     padding: .5rem;
     margin: .5rem;
@@ -388,52 +428,78 @@ hr {
     text-align: left;
     vertical-align: top;
 }
+
 .calendar-blockout-line td.odd:hover {
     background-color: var(--highlight-color);
 }
+
 .calendar-blockout-line td.today {
     background-color: #9c9c9c;
 }
+
 .calendar-blockout-line td.today:hover {
     background-color: #ccc;
 }
+
 .prev-next-table {
     margin-top: 1em;
     float: right;
 }
+
 .prev-next-table th {
     padding: 0 1em;
     text-align: center;
 }
+
 .calendar-detail {
 }
+
 .calendar-detail td {
 }
+
 .calendar-detail td:first-child {
     vertical-align: top;
     width: 20%;
 }
+
 .calendar-detail td:nth-child(1) {
     width: 80%;
 }
+
 .calendarDate {
     font-weight: 700;
     text-align: right;
 }
 
-.calendar-regular-todo-event, a.calendar-regular-todo-event, a.calendar-regular-todo-event:hover, a.calendar-regular-todo-event:visited, a.calendar-regular-todo-event:active {
+.calendar-regular-todo-event,
+a.calendar-regular-todo-event,
+a.calendar-regular-todo-event:hover,
+a.calendar-regular-todo-event:visited,
+a.calendar-regular-todo-event:active {
     color: #000099;
 }
 
-.calendar-broadcast-todo-event, a.calendar-broadcast-todo-event, a.calendar-broadcast-todo-event:hover, a.calendar-broadcast-todo-event:visited, a.calendar-broadcast-todo-event:active {
+.calendar-broadcast-todo-event,
+a.calendar-broadcast-todo-event,
+a.calendar-broadcast-todo-event:hover,
+a.calendar-broadcast-todo-event:visited,
+a.calendar-broadcast-todo-event:active {
     color: #663399;
 }
 
-.calendar-results-startdate, a.calendar-results-startdate, a.calendar-results-startdate:hover, a.calendar-results-startdate:visited, a.calendar-results-startdate:active {
+.calendar-results-startdate,
+a.calendar-results-startdate,
+a.calendar-results-startdate:hover,
+a.calendar-results-startdate:visited,
+a.calendar-results-startdate:active {
     color: #006600;
 }
 
-.calendar-results-duedate, a.calendar-results-duedate, a.calendar-results-duedate:hover, a.calendar-results-duedate:visited, a.calendar-results-duedate:active {
+.calendar-results-duedate,
+a.calendar-results-duedate,
+a.calendar-results-duedate:hover,
+a.calendar-results-duedate:visited,
+a.calendar-results-duedate:active {
     color: #990000;
 }
 
@@ -465,28 +531,37 @@ hr {
     width: 99%;
     overflow: auto;
 }
+
 form > table {
     margin-top: 3em;
 }
-table.icons, table.headingToggle {
+
+table.icons,
+table.headingToggle {
     border-collapse: collapse;
     border-spacing: 0;
 }
+
 form > table.icons,
 form > table.content,
 form > table.listing {
     margin-top: 0;
 }
+
 table.pagination {
     margin: 5px 0;
 }
-td.footerCell a, td.footerCell strong {
+
+td.footerCell a,
+td.footerCell strong {
     margin-right: 10px;
 }
+
 .no-records {
     padding: 1em 0;
     font-size: 0.75rem;
 }
+
 .alert {
     padding: 1em;
     margin: 1rem;
@@ -494,12 +569,14 @@ td.footerCell a, td.footerCell strong {
     font-weight: normal;
     font-size: 1rem;
 }
+
 .alert.error {
     color: darkred;
     border-color: indianred;
     font-weight: bold;
     background-color: papayawhip;
 }
+
 .alert.info {
     color: #004085;
     background-color: #cce5ff;
@@ -522,9 +599,11 @@ td.footerCell a, td.footerCell strong {
 .alert h3 {
     font-weight: bold;
 }
+
 span.error {
     color: darkred;
 }
+
 a[href^="mailto:"]::after {
     content: "\f0e0";
     font-family: "Font Awesome 5 Free", sans-serif;
@@ -536,6 +615,7 @@ a[href^="mailto:"]::after {
     display: inline-block;
     opacity: 0.45;
 }
+
 a[href^="http"]::after {
     content: "\f35d";
     font-family: "Font Awesome 5 Free", sans-serif;
@@ -548,9 +628,11 @@ a[href^="http"]::after {
     padding-right: 2px;
     opacity: 0.45;
 }
+
 a[href^="http"]:hover:after {
     opacity: 90%;
 }
+
 /*
 	Project Site Specific Styles
  */
@@ -563,29 +645,35 @@ a[href^="http"]:hover:after {
     border: 1px solid #000;
     height: 24px;
 }
+
 #logoBox {
     vertical-align: middle;
     min-width: 150px;
     background-color: var(--primary-color);
     height: 75px;
 }
+
 #pagetitle {
     background-color: var(--even-color);
     font-weight: bold;
     padding-left: 2rem;
 }
+
 #sidebar {
     list-style: none;
     margin: 0;
     padding: 0;
 }
+
 #sidebar li {
     margin-bottom: 2rem;
     padding-left: .5rem;
 }
+
 #sidebar li i {
     margin-right: 1rem;
 }
+
 /**
  * Invoicing Styles
  */
@@ -593,14 +681,17 @@ table.calculation {
     border-collapse: collapse;
     border-spacing: 0;
 }
+
 table.calculation td {
     padding: .5em;
 }
+
 .logoContainer {
     max-width: 150px;
     height: auto;
     position: relative;
 }
+
 .logoContainer img {
     width: 100%;
 }
@@ -629,9 +720,11 @@ Styling for the help notes
 .overDivFontClass strong {
     font-size: 0.75rem;
 }
+
 .overDivFontClass em {
     font-size: 0.70rem;
 }
+
 .overDivFontClass div {
     margin-bottom: 10px;
 }
@@ -651,6 +744,7 @@ Styling for the help notes
     font-weight: 700;
     font-size: 0.80rem;
 }
+
 /*
  * End help notes styling
 */
@@ -659,11 +753,13 @@ Styling for the help notes
     padding: 1em 0;
     margin-left: 1em;
 }
+
 #logLevels {
     list-style: none;
     margin: 0;
     padding: 0;
 }
+
 #logLevels li {
     padding-left: .5rem;
 }

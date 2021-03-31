@@ -2,11 +2,10 @@
 
 .calendar {
     position: relative;
-    /*  display: none; */
-
 }
 
-.calendar, .calendar table {
+.calendar,
+.calendar table {
     border: 1px solid #556;
     font-size: 11px;
     color: #000;
@@ -53,14 +52,14 @@
 }
 
 .calendar thead .hilite { /* How do the buttons in header appear when hover */
-    border: 1px solid #BACBD5;
+    border: 1px solid #bacbd5;
     padding: 1px;
-    background-color: #BACBD5;
+    background-color: #bacbd5;
 }
 
 .calendar thead .active { /* Active (pressed) buttons in header */
-    padding: 2px 0px 0px 2px;
-    background-color: #BB8F6E;
+    padding: 2px 0 0 2px;
+    background-color: #bb8f6e;
 }
 
 /* The body part -- contains all the days in month. */
@@ -102,7 +101,7 @@
 }
 
 .calendar tbody td.active { /* Active (pressed) cells <TD> */
-    padding: 2px 2px 0px 2px;
+    padding: 2px 2px 0 2px;
     background-color: #cde;
 }
 
@@ -158,7 +157,7 @@
 }
 
 .calendar tfoot .active { /* Active (pressed) style for buttons in footer */
-    padding: 2px 0px 0px 2px;
+    padding: 2px 0 0 2px;
     background-color: #77c;
 }
 
@@ -168,11 +167,11 @@
     position: absolute;
     display: none;
     width: 4em;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     cursor: default;
     border: 1px solid #655;
-    background-color: #BACBD5;
+    background-color: #bacbd5;
     font-size: smaller;
     padding: 1px;
     z-index: 100;
@@ -190,7 +189,7 @@
 
 .calendar .combo .active {
     background: #c8d0d4;
-    padding: 0px;
+    padding: 0;
     border-top: 1px solid #000;
     border-right: 1px solid #fff;
     border-bottom: 1px solid #fff;
@@ -204,7 +203,7 @@
 
 .calendar td.time {
     border-top: 1px solid #000;
-    padding: 1px 0px;
+    padding: 1px 0;
     text-align: center;
     background-color: #e8f0f4;
 }
@@ -212,7 +211,7 @@
 .calendar td.time .hour,
 .calendar td.time .minute,
 .calendar td.time .ampm {
-    padding: 0px 3px 0px 4px;
+    padding: 0 3px 0 4px;
     border: 1px solid #889;
     font-weight: bold;
     background-color: #fff;
@@ -223,7 +222,7 @@
 }
 
 .calendar td.time .colon {
-    padding: 0px 2px 0px 3px;
+    padding: 0 2px 0 3px;
     font-weight: bold;
 }
 

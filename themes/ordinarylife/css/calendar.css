@@ -9,7 +9,7 @@ div.calendar {
     font-size: 11px;
     color: #000;
     cursor: default;
-    background: #F5F5F5;
+    background: #f5f5f5;
     font-family: tahoma, verdana, sans-serif;
 }
 
@@ -29,12 +29,12 @@ div.calendar {
 }
 
 .calendar thead .headrow { /* Row <TR> containing navigation buttons */
-    background: #7B9CAE;
+    background: #7b9cae;
     color: #fff;
 }
 
 .calendar thead .daynames { /* Row <TR> containing the day names */
-    background: #C4D3DB;
+    background: #c4d3db;
 }
 
 .calendar thead .name { /* Cells <TD> containing the day names */
@@ -49,15 +49,15 @@ div.calendar {
 }
 
 .calendar thead .hilite { /* How do the buttons in header appear when hover */
-    background: #3C5462;
-    color: #FFF;
-    border: 1px solid #3C5462;
+    background: #3c5462;
+    color: #fff;
+    border: 1px solid #3c5462;
     padding: 1px;
 }
 
 .calendar thead .active { /* Active (pressed) buttons in header */
     background: #77c;
-    padding: 2px 0px 0px 2px;
+    padding: 2px 0 0 2px;
 }
 
 /* The body part -- contains all the days in month. */
@@ -70,14 +70,14 @@ div.calendar {
 }
 
 .calendar tbody .hilite { /* Hovered cells <TD> */
-    background: #DEE7EB;
+    background: #dee7eb;
     padding: 1px 3px 1px 1px;
     border: 1px solid #bbb;
 }
 
 .calendar tbody .active { /* Active (pressed) cells <TD> */
     background: #cde;
-    padding: 2px 2px 0px 2px;
+    padding: 2px 2px 0 2px;
 }
 
 .calendar tbody .selected { /* Cell showing today date */
@@ -133,7 +133,7 @@ div.calendar {
 
 .calendar tfoot .active { /* Active (pressed) style for buttons in footer */
     background: #77c;
-    padding: 2px 0px 0px 2px;
+    padding: 2px 0 0 2px;
 }
 
 /* Combo boxes (menus that display months/years for direct selection) */
@@ -141,8 +141,8 @@ div.calendar {
 .combo {
     position: absolute;
     display: none;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     width: 4em;
     cursor: default;
     border: 1px solid #655;

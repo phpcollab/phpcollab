@@ -72,12 +72,12 @@
     border-right: 2px solid #000;
     border-bottom: 2px solid #000;
     border-left: 2px solid #fff;
-    padding: 0px;
+    padding: 0;
     background-color: #e4e0d8;
 }
 
 .calendar thead .active { /* Active (pressed) buttons in header */
-    padding: 2px 0px 0px 2px;
+    padding: 2px 0 0 2px;
     border-top: 1px solid #000;
     border-right: 1px solid #fff;
     border-bottom: 1px solid #fff;
@@ -125,7 +125,7 @@
 }
 
 .calendar tbody td.active { /* Active (pressed) cells <TD> */
-    padding: 2px 2px 0px 2px;
+    padding: 2px 2px 0 2px;
     border-top: 1px solid #000;
     border-right: 1px solid #fff;
     border-bottom: 1px solid #fff;
@@ -138,7 +138,7 @@
     border-right: 1px solid #fff;
     border-bottom: 1px solid #fff;
     border-left: 1px solid #000;
-    padding: 2px 2px 0px 2px;
+    padding: 2px 2px 0 2px;
     background: #e4e0d8;
 }
 
@@ -169,7 +169,6 @@
 }
 
 .calendar tfoot .ttip { /* Tooltip (status bar) cell <TD> */
-    background: #f4f0e8;
     padding: 1px;
     border: 1px solid #000;
     background: #848078;
@@ -187,7 +186,7 @@
 }
 
 .calendar tfoot .active { /* Active (pressed) style for buttons in footer */
-    padding: 2px 0px 0px 2px;
+    padding: 2px 0 0 2px;
     border-top: 1px solid #000;
     border-right: 1px solid #fff;
     border-bottom: 1px solid #fff;
@@ -200,8 +199,8 @@
     position: absolute;
     display: none;
     width: 4em;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     cursor: default;
     border-top: 1px solid #fff;
     border-right: 1px solid #000;
@@ -225,7 +224,7 @@
 
 .calendar .combo .active {
     background: #c4c0b8;
-    padding: 0px;
+    padding: 0;
     border-top: 1px solid #000;
     border-right: 1px solid #fff;
     border-bottom: 1px solid #fff;
@@ -239,7 +238,7 @@
 
 .calendar td.time {
     border-top: 1px solid #000;
-    padding: 1px 0px;
+    padding: 1px 0;
     text-align: center;
     background-color: #f4f0e8;
 }
@@ -247,7 +246,7 @@
 .calendar td.time .hour,
 .calendar td.time .minute,
 .calendar td.time .ampm {
-    padding: 0px 3px 0px 4px;
+    padding: 0 3px 0 4px;
     border: 1px solid #889;
     font-weight: bold;
     background-color: #fff;
@@ -258,7 +257,7 @@
 }
 
 .calendar td.time .colon {
-    padding: 0px 2px 0px 3px;
+    padding: 0 2px 0 3px;
     font-weight: bold;
 }
 

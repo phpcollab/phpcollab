@@ -5,7 +5,7 @@
 
 html {
     font-size: 12px;
-    font-family: Courier, Roboto,"Helvetica Neue",Arial,sans-serif;
+    font-family: Courier, Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 body {
@@ -34,10 +34,18 @@ h2 {
 }
 
 /* Small devices (landscape phones, 576px and up) */
-@media (min-width: 576px) { }
+@media (min-width: 576px) {
+    body {
+        font-size: 1.5rem;
+    }
+}
 
 /* Medium devices (tablets, 768px and up) */
-@media (min-width: 768px) { }
+@media (min-width: 768px) {
+    body {
+        font-size: 1.5rem;
+    }
+}
 
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
@@ -48,4 +56,8 @@ h2 {
 }
 
 /* Extra large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) { }
+@media (min-width: 1200px) {
+    body {
+        font-size: 1.5rem;
+    }
+}

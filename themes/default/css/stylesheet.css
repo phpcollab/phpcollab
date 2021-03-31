@@ -10,11 +10,11 @@
 }
 
 .abs {
-    position: absolute
+    position: absolute;
 }
 
 .rel {
-    position: relative
+    position: relative;
 }
 
 body {
@@ -24,7 +24,12 @@ body {
     font-size: 12px;
 }
 
-table, td, tr, th, p, div {
+table,
+td,
+tr,
+th,
+p,
+div {
     font-family: Verdana, sans-serif;
 }
 
@@ -118,6 +123,7 @@ nav a:hover {
 div.headingToggle {
     display: flex;
 }
+
 div.headingToggle a {
     padding-right: 10px;
 }
@@ -209,11 +215,13 @@ div.toggle-hide {
     border-collapse: collapse;
 }
 
-.nonStriped th, .nonStriped td {
+.nonStriped th,
+.nonStriped td {
     padding: .5em;
 }
 
-.nonStriped.noPadding th, .nonStriped.noPadding td {
+.nonStriped.noPadding th,
+.nonStriped.noPadding td {
     padding: 0;
 }
 
@@ -243,7 +251,8 @@ div.toggle-hide {
     color: #000;
 }
 
-.striped tr:nth-child(even):hover, .striped tr:nth-child(odd):hover {
+.striped tr:nth-child(even):hover,
+.striped tr:nth-child(odd):hover {
     background-color: var(--highlight-color);
     color: #000;
 }
@@ -326,7 +335,8 @@ td.leftvalue {
     text-align: left;
 }
 
-.error {}
+.error {
+}
 
 p.error {
     color: var(--error-color);
@@ -468,19 +478,35 @@ hr {
     text-align: right;
 }
 
-.calendar-regular-todo-event, a.calendar-regular-todo-event, a.calendar-regular-todo-event:hover, a.calendar-regular-todo-event:visited, a.calendar-regular-todo-event:active {
+.calendar-regular-todo-event,
+a.calendar-regular-todo-event,
+a.calendar-regular-todo-event:hover,
+a.calendar-regular-todo-event:visited,
+a.calendar-regular-todo-event:active {
     color: #000099;
 }
 
-.calendar-broadcast-todo-event, a.calendar-broadcast-todo-event, a.calendar-broadcast-todo-event:hover, a.calendar-broadcast-todo-event:visited, a.calendar-broadcast-todo-event:active {
+.calendar-broadcast-todo-event,
+a.calendar-broadcast-todo-event,
+a.calendar-broadcast-todo-event:hover,
+a.calendar-broadcast-todo-event:visited,
+a.calendar-broadcast-todo-event:active {
     color: #663399;
 }
 
-.calendar-results-startdate, a.calendar-results-startdate, a.calendar-results-startdate:hover, a.calendar-results-startdate:visited, a.calendar-results-startdate:active {
+.calendar-results-startdate,
+a.calendar-results-startdate,
+a.calendar-results-startdate:hover,
+a.calendar-results-startdate:visited,
+a.calendar-results-startdate:active {
     color: #006600;
 }
 
-.calendar-results-duedate, a.calendar-results-duedate, a.calendar-results-duedate:hover, a.calendar-results-duedate:visited, a.calendar-results-duedate:active {
+.calendar-results-duedate,
+a.calendar-results-duedate,
+a.calendar-results-duedate:hover,
+a.calendar-results-duedate:visited,
+a.calendar-results-duedate:active {
     color: #990000;
 }
 
@@ -517,7 +543,8 @@ form > table {
     margin-top: 3em;
 }
 
-table.icons, table.headingToggle {
+table.icons,
+table.headingToggle {
     border-collapse: collapse;
     border-spacing: 0;
 }
@@ -608,6 +635,7 @@ a[href^="http"]::after {
     padding-right: 2px;
     opacity: 0.45;
 }
+
 a[href^="http"]:hover:after {
     opacity: 90%;
 }
@@ -699,9 +727,11 @@ Styling for the help notes
 .overDivFontClass strong {
     font-size: 0.75rem;
 }
+
 .overDivFontClass em {
     font-size: 0.70rem;
 }
+
 .overDivFontClass div {
     margin-bottom: 10px;
 }
@@ -721,6 +751,7 @@ Styling for the help notes
     font-weight: 700;
     font-size: 0.80rem;
 }
+
 /*
  * End help notes styling
 */
@@ -738,5 +769,4 @@ Styling for the help notes
 
 #logLevels li {
     padding-left: .5rem;
-
 }
