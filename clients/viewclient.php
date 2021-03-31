@@ -133,7 +133,7 @@ $block2->form = "clPr";
 $block2->openForm("../clients/viewclient.php?id=" . $request->query->get("id") . "#" . $block2->form . "Anchor", null,
     $csrfHandler);
 
-$block2->headingToggle($strings["client_projects"]);
+$block2->headingToggle($strings["client_projects"], $request->cookies->get( $block2->form ));
 
 $block2->openPaletteIcon();
 if ($session->get("profile") == "0" || $session->get("profile") == "1") {
@@ -235,7 +235,7 @@ $block3->form = "clU";
 $block3->openForm("../clients/viewclient.php?id=" . $request->query->get("id") . "#" . $block3->form . "Anchor", null,
     $csrfHandler);
 
-$block3->headingToggle($strings["client_users"]);
+$block3->headingToggle($strings["client_users"], $request->cookies->get( $block3->form ));
 
 $block3->openPaletteIcon();
 if ($session->get("profile") == "0" || $session->get("profile") == "1") {

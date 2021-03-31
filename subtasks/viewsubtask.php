@@ -94,7 +94,7 @@ $block1 = new phpCollab\Block();
 $block1->form = "tdD";
 $block1->openForm("../subtasks/viewsubtask.php#" . $block1->form . "Anchor", null, $csrfHandler);
 
-$block1->headingToggle($strings["subtask"] . " : " . $subtaskDetail['subtas_name']);
+$block1->headingToggle($strings["subtask"] . " : " . $subtaskDetail['subtas_name'], $request->cookies->get( $block1->form ));
 
 
 if ($teamMember == "true" || $session->get("profile") == "5") {
@@ -263,7 +263,7 @@ $block3 = new phpCollab\Block();
 $block3->form = "ahT";
 $block3->openForm("../subtasks/viewsubtask.php?&id=$id&task=$task#" . $block3->form . "Anchor", null, $csrfHandler);
 
-$block3->headingToggle($strings["assignment_history"]);
+$block3->headingToggle($strings["assignment_history"], $request->cookies->get( $block3->form ));
 
 $block3->sorting("assignment", $sortingUser["assignment"], "ass.assigned DESC",
     $sortingFields = array(0 => "ass.comments", 1 => "mem1.login", 2 => "mem2.login", 3 => "ass.assigned"));

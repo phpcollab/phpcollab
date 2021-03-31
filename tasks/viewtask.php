@@ -148,7 +148,7 @@ $block1 = new phpCollab\Block();
 $block1->form = "tdD";
 $block1->openForm("../tasks/viewtask.php#" . $block1->form . "Anchor", null, $csrfHandler);
 
-$block1->headingToggle($strings["task"] . " : " . $taskDetail["tas_name"]);
+$block1->headingToggle($strings["task"] . " : " . $taskDetail["tas_name"], $request->cookies->get( $block1->form ));
 
 if ($teamMember === true || $session->get("profile") == "5") {
     $block1->openPaletteIcon();
@@ -327,7 +327,7 @@ if ($fileManagement == "true") {
     $block2 = new phpCollab\Block();
     $block2->form = "tdC";
     $block2->openForm("../tasks/viewtask.php?id=$id#" . $block2->form . "Anchor", null, $csrfHandler);
-    $block2->headingToggle($strings["linked_content"]);
+    $block2->headingToggle($strings["linked_content"], $request->cookies->get( $block2->form ));
     $block2->openPaletteIcon();
 
     if ($teamMember === true || $session->get("profile") == "5") {
@@ -449,7 +449,7 @@ $block3 = new phpCollab\Block();
 
 $block3->form = "ahT";
 $block3->openForm("../tasks/viewtask.php?id=$id#" . $block3->form . "Anchor", null, $csrfHandler);
-$block3->headingToggle($strings["assignment_history"]);
+$block3->headingToggle($strings["assignment_history"], $request->cookies->get( $block3->form ));
 $block3->sorting("assignment", $sortingUser["assignment"], "ass.assigned DESC",
     $sortingFields = [0 => "ass.comments", 1 => "mem1.login", 2 => "mem2.login", 3 => "ass.assigned"]);
 
@@ -494,7 +494,7 @@ $block3->closeFormResults();
 $block4 = new phpCollab\Block();
 $block4->form = "subT";
 $block4->openForm("../tasks/viewtask.php?task=$id#" . $block4->form . "Anchor", null, $csrfHandler);
-$block4->headingToggle($strings["subtasks"]);
+$block4->headingToggle($strings["subtasks"], $request->cookies->get( $block4->form ));
 $block4->openPaletteIcon();
 
 if ($teamMember === true || $session->get("profile") == "5") {

@@ -91,7 +91,7 @@ $comments = $phaseDetail["pha_comments"];
 
 $block1 = new phpCollab\Block();
 $block1->form = "pdD";
-$block1->headingToggle($strings["phase"] . " : " . $phaseDetail["pha_name"]);
+$block1->headingToggle($strings["phase"] . " : " . $phaseDetail["pha_name"], $request->cookies->get( $block1->form ));
 
 echo <<<FORM
 <a id="filedetailsAnchor"></a>

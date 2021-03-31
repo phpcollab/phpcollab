@@ -455,7 +455,7 @@ if (!empty($listProjects) && count($listProjects) > 0) {
     $block1->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block1->form . "Anchor",
         null, $csrfHandler);
 
-    $block1->headingToggle($strings["search_results"] . " : " . $strings["projects"] . " ({$block1->getRecordsTotal()})");
+    $block1->headingToggle($strings["search_results"] . " : " . $strings["projects"] . " ({$block1->getRecordsTotal()})", $request->cookies->get( $block1->form ));
 
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "export", $strings["export"]);
@@ -525,7 +525,7 @@ if (!empty($listTasks)) {
     $block2->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block2->form . "Anchor",
         null, $csrfHandler);
 
-    $block2->headingToggle($strings["search_results"] . " : " . $strings["tasks"] . " ({$block2->getRecordsTotal()})");
+    $block2->headingToggle($strings["search_results"] . " : " . $strings["tasks"] . " ({$block2->getRecordsTotal()})", $request->cookies->get( $block2->form ));
 
     $block2->openResults();
 
@@ -583,7 +583,7 @@ if ($listSubtasks) {
     $block9->form = "SubtaskForm";
     $block9->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block9->form . "Anchor",
         null, $csrfHandler);
-    $block9->headingToggle($strings["search_results"] . " : " . $strings["subtasks"] . " ({$block9->getRecordsTotal()})");
+    $block9->headingToggle($strings["search_results"] . " : " . $strings["subtasks"] . " ({$block9->getRecordsTotal()})", $request->cookies->get( $block9->form ));
 
     $block9->openResults();
     $block9->labels($labels = array(
@@ -638,7 +638,7 @@ if ($listMembers) {
     $block3->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block3->form . "Anchor",
         null, $csrfHandler);
 
-    $block3->headingToggle($strings["search_results"] . " : " . $strings["users"] . " ({$block3->getRecordsTotal()})");
+    $block3->headingToggle($strings["search_results"] . " : " . $strings["users"] . " ({$block3->getRecordsTotal()})", $request->cookies->get( $block3->form ));
 
     $block3->openResults();
 
@@ -684,7 +684,7 @@ if (!empty($listOrganizations)) {
     $block4->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block4->form . "Anchor",
         null, $csrfHandler);
 
-    $block4->headingToggle($strings["search_results"] . " : " . $strings["organizations"] . " ({$block4->getRecordsTotal()})");
+    $block4->headingToggle($strings["search_results"] . " : " . $strings["organizations"] . " ({$block4->getRecordsTotal()})", $request->cookies->get( $block4->form ));
 
     $block4->openResults();
 
@@ -713,7 +713,7 @@ if (!empty($listTopics)) {
     $block5->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block5->form . "Anchor",
         null, $csrfHandler);
 
-    $block5->headingToggle($strings["search_results"] . " : " . $strings["discussions"] . " ({$block5->getRecordsTotal()})");
+    $block5->headingToggle($strings["search_results"] . " : " . $strings["discussions"] . " ({$block5->getRecordsTotal()})", $request->cookies->get( $block5->form ));
 
     $block5->openResults();
 
@@ -763,7 +763,7 @@ if (!empty($listNotes)) {
     $block6->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block6->form . "Anchor",
         null, $csrfHandler);
 
-    $block6->headingToggle($strings["search_results"] . " : " . $strings["notes"] . " ({$block6->getRecordsTotal()})");
+    $block6->headingToggle($strings["search_results"] . " : " . $strings["notes"] . " ({$block6->getRecordsTotal()})", $request->cookies->get( $block6->form ));
 
     $block6->openResults();
 

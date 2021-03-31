@@ -67,7 +67,7 @@ $block1 = new phpCollab\Block();
 $block1->form = "invoiceSheet";
 $block1->openForm("../invoicing/viewinvoice.php?id=$id&#" . $block1->form . "Anchor", null, $csrfHandler);
 
-$block1->headingToggle($strings["invoice"] . " : " . $detailInvoice["inv_id"]);
+$block1->headingToggle($strings["invoice"] . " : " . $detailInvoice["inv_id"], $request->cookies->get( $block1->form ));
 
 $block1->openPaletteIcon();
 $block1->paletteIcon(0, "remove", $strings["delete"]);
@@ -134,7 +134,7 @@ $block2 = new phpCollab\Block();
 $block2->form = "invoiceItems";
 $block2->openForm("../invoicing/viewinvoice.php?id=$id&#" . $block2->form . "Anchor", null, $csrfHandler);
 
-$block2->headingToggle($strings["invoice_items"]);
+$block2->headingToggle($strings["invoice_items"], $request->cookies->get( $block2->form ));
 
 $block2->openPaletteIcon();
 $block2->paletteIcon(7, "edit", $strings["edit"]);

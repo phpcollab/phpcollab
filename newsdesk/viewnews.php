@@ -38,7 +38,7 @@ $block1->form = "clPr";
 $block1->openForm("../newsdesk/viewnews.php?&id=" . $request->query->get("id") . "#" . $block1->form . "Anchor", null,
     $csrfHandler);
 
-$block1->headingToggle($strings["newsdesk"]);
+$block1->headingToggle($strings["newsdesk"], $request->cookies->get( $block1->form ));
 
 if ($session->get("profile") == "0" || $session->get("profile") == "1" || $session->get("profile") == "5") {
     $block1->openPaletteIcon();
@@ -118,7 +118,7 @@ $block2->form = "clPrc";
 $block2->openForm("../newsdesk/viewnews.php?&id=" . $request->query->get("id") . "#" . $block2->form . "Anchor", null,
     $csrfHandler);
 
-$block2->headingToggle($strings["comments"]);
+$block2->headingToggle($strings["comments"], $request->cookies->get( $block2->form ));
 
 $block2->openPaletteIcon();
 $block2->paletteIcon(0, "add", $strings["add_newsdesk_comment"]);

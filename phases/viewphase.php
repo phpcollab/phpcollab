@@ -104,7 +104,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 $block1->form = "pppD";
 $block1->openForm("../projects/listprojects.php#" . $block1->form . "Anchor", null, $csrfHandler);
-$block1->headingToggle($strings["phase"] . " : " . $phaseDetail["pha_name"]);
+$block1->headingToggle($strings["phase"] . " : " . $phaseDetail["pha_name"], $request->cookies->get( $block1->form ));
 
 if ($session->get("id") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
     $block1->openPaletteIcon();
@@ -153,7 +153,7 @@ $block2 = new phpCollab\Block();
 $block2->form = "saP";
 $block2->openForm("../phases/viewphase.php?&id={$id}#" . $block2->form . "Anchor", null, $csrfHandler);
 
-$block2->headingToggle($strings["tasks"]);
+$block2->headingToggle($strings["tasks"], $request->cookies->get( $block2->form ));
 
 $block2->openPaletteIcon();
 if ($teamMember == "true" || $session->get("profile") == "5") {
@@ -250,7 +250,7 @@ if ($fileManagement == "true") {
     $block3 = new phpCollab\Block();
     $block3->form = "tdC";
     $block3->openForm("../phases/viewphase.php?&id=$id#" . $block3->form . "Anchor", null, $csrfHandler);
-    $block3->headingToggle($strings["linked_content"]);
+    $block3->headingToggle($strings["linked_content"], $request->cookies->get( $block3->form ));
     $block3->openPaletteIcon();
 
     if ($teamMember == "true" || $session->get("profile") == "5") {

@@ -242,7 +242,7 @@ $block1 = new phpCollab\Block();
 $block1->form = "pdD";
 $block1->openForm("../projects/listprojects.php#" . $block1->form . "Anchor", null, $csrfHandler);
 
-$block1->headingToggle($strings["project"] . " : " . $projectDetail["pro_name"]);
+$block1->headingToggle($strings["project"] . " : " . $projectDetail["pro_name"], $request->cookies->get( $block1->form ));
 
 if ($session->get("id") == $projectDetail["pro_owner"] || $session->get("profile") == "0" || $session->get("profile") == "5") {
     $block1->openPaletteIcon();
@@ -407,7 +407,7 @@ if ($projectDetail["pro_phase_set"] != "0") {
     $block7 = new phpCollab\Block();
     $block7->form = "wbSe";
     $block7->openForm("../projects/viewproject.php?id=$id&#" . $block7->form . "Anchor", null, $csrfHandler);
-    $block7->headingToggle($strings["phases"]);
+    $block7->headingToggle($strings["phases"], $request->cookies->get( $block7->form ));
     $block7->openPaletteIcon();
 
     $block7->paletteIcon(0, "info", $strings["view"]);
@@ -484,7 +484,7 @@ if ($projectDetail["pro_phase_set"] != "0") {
     $block2->openForm("../projects/viewproject.php?&id=" . $projectDetail["pro_id"] . "#" . $block2->form . "Anchor",
         null, $csrfHandler);
 
-    $block2->headingToggle($strings["tasks"]);
+    $block2->headingToggle($strings["tasks"], $request->cookies->get( $block2->form ));
 
     $block2->openPaletteIcon();
 
@@ -627,7 +627,7 @@ $discussionsBlock = new phpCollab\Block();
 $discussionsBlock->form = "pdH";
 $discussionsBlock->openForm("../projects/viewproject.php?id=$id&#" . $discussionsBlock->form . "Anchor", null,
     $csrfHandler);
-$discussionsBlock->headingToggle($strings["discussions"]);
+$discussionsBlock->headingToggle($strings["discussions"], $request->cookies->get( $discussionsBlock->form ));
 $discussionsBlock->openPaletteIcon();
 
 if ($teamMember == "true" || $session->get("profile") == "5") {
@@ -742,7 +742,7 @@ $teamBlock = new phpCollab\Block();
 $teamBlock->form = "pdM";
 $teamBlock->openForm("../projects/viewproject.php?&id=" . $projectDetail["pro_id"] . "#" . $teamBlock->form . "Anchor",
     null, $csrfHandler);
-$teamBlock->headingToggle($strings["team"]);
+$teamBlock->headingToggle($strings["team"], $request->cookies->get( $teamBlock->form ));
 $teamBlock->openPaletteIcon();
 
 if ($session->get("id") == $projectDetail["pro_owner"] || $session->get("profile") == "5") {
@@ -848,7 +848,7 @@ if ($fileManagement == "true") {
     $filesBlock = new phpCollab\Block();
     $filesBlock->form = "tdC";
     $filesBlock->openForm("../projects/viewproject.php?&id=$id#" . $filesBlock->form . "Anchor", null, $csrfHandler);
-    $filesBlock->headingToggle($strings["linked_content"]);
+    $filesBlock->headingToggle($strings["linked_content"], $request->cookies->get( $filesBlock->form ));
     $filesBlock->openPaletteIcon();
 
     if ($teamMember == "true" || $session->get("profile") == "5") {
@@ -975,7 +975,7 @@ $notesBlock = new phpCollab\Block();
 $notesBlock->form = "wbJ";
 $notesBlock->openForm("../projects/viewproject.php?&id=" . $projectDetail["pro_id"] . "#" . $notesBlock->form . "Anchor",
     null, $csrfHandler);
-$notesBlock->headingToggle($strings["notes"]);
+$notesBlock->headingToggle($strings["notes"], $request->cookies->get( $notesBlock->form ));
 $notesBlock->openPaletteIcon();
 
 if ($teamMember == "true" || $session->get("profile") == "5") {

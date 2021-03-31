@@ -118,7 +118,7 @@ if ($showHomeBookmarks) {
         $block6->openForm("../bookmarks/listbookmarks.php?view=my&project=$project#" . $block6->form . "Anchor", null,
             $csrfHandler);
 
-        $block6->headingToggle($strings["bookmarks_my"]);
+        $block6->headingToggle($strings["bookmarks_my"], $request->cookies->get( $block6->form ));
 
         $block6->openPaletteIcon();
         $block6->paletteIcon(0, "add", $strings["add"]);
@@ -132,37 +132,33 @@ if ($showHomeBookmarks) {
         $block6->sorting("bookmarks", $sortingUser["bookmarks"], "boo.name ASC",
             $sortingFields = [0 => "boo.name", 1 => "boo.category", 2 => "boo.shared"]);
 
-        if ($comptListBookmarks != "0") {
-            $block6->openResults();
+        $block6->openResults();
 
-            $block6->labels($labels = [
-                0 => $strings["name"],
-                1 => $strings["bookmark_category"],
-                2 => $strings["shared"]
-            ], "false");
+        $block6->labels($labels = [
+            0 => $strings["name"],
+            1 => $strings["bookmark_category"],
+            2 => $strings["shared"]
+        ], "false");
 
-            foreach ($bookmarksList as $bookmark) {
-                $block6->openRow();
-                $block6->checkboxRow($bookmark['boo_id']);
-                $block6->cellRow($blockPage->buildLink("../bookmarks/viewbookmark.php?id=" . $bookmark['boo_id'],
-                    $escaper->escapeHtml( $bookmark['boo_name'] ), 'in') . " (" . $blockPage->buildLink($bookmark['boo_url'],
-                    $strings["url"], 'out') . ")");
-                $block6->cellRow(!empty($bookmark['boo_boocat_name']) ? $escaper->escapeHtml( $bookmark['boo_boocat_name'] ) : Util::doubleDash());
+        foreach ($bookmarksList as $bookmark) {
+            $block6->openRow();
+            $block6->checkboxRow($bookmark['boo_id']);
+            $block6->cellRow($blockPage->buildLink("../bookmarks/viewbookmark.php?id=" . $bookmark['boo_id'],
+                $escaper->escapeHtml( $bookmark['boo_name'] ), 'in') . " (" . $blockPage->buildLink($bookmark['boo_url'],
+                $strings["url"], 'out') . ")");
+            $block6->cellRow(!empty($bookmark['boo_boocat_name']) ? $escaper->escapeHtml( $bookmark['boo_boocat_name'] ) : Util::doubleDash());
 
-                if ($bookmark['boo_shared'] == "1") {
-                    $printShared = $strings["yes"];
-                } else {
-                    $printShared = $strings["no"];
-                }
-
-                $block6->cellRow($printShared);
-                $block6->closeRow();
+            if ($bookmark['boo_shared'] == "1") {
+                $printShared = $strings["yes"];
+            } else {
+                $printShared = $strings["no"];
             }
 
-            $block6->closeResults();
-        } else {
-            $block6->noresults();
+            $block6->cellRow($printShared);
+            $block6->closeRow();
         }
+
+        $block6->closeResults();
 
         $block6->closeToggle();
         $block6->closeFormResults();
@@ -175,6 +171,8 @@ if ($showHomeBookmarks) {
         $block6->paletteScript(6, "edit", "../bookmarks/editbookmark.php", "false,true,false", $strings["edit"]);
 
         $block6->closePaletteScript($comptListBookmarks, array_column($bookmarksList, 'boo_id'));
+    } else {
+        $block6->noresults();
     }
 }
 // end showHomeBookmarks
@@ -190,7 +188,7 @@ if ($showHomeProjects) {
     $block1->form = "home_projects";
     $block1->openForm("../general/home.php#" . $block1->form . "Anchor", null, $csrfHandler);
 
-    $block1->headingToggle($strings["my_projects"]);
+    $block1->headingToggle($strings["my_projects"], $request->cookies->get( $block1->form ));
 
     $block1->openPaletteIcon();
 
@@ -325,7 +323,7 @@ if ($showHomeTasks) {
     $block2->form = "home_tasks";
     $block2->openForm("../general/home.php#" . $block2->form . "Anchor", null, $csrfHandler);
 
-    $block2->headingToggle($strings["my_tasks"]);
+    $block2->headingToggle($strings["my_tasks"], $request->cookies->get( $block2->form ));
 
     $block2->openPaletteIcon();
 
@@ -461,7 +459,7 @@ if ($showHomeSubtasks) {
     $block3->form = "home_subtasks";
     $block3->openForm("../general/home.php#" . $block3->form . "Anchor", null, $csrfHandler);
 
-    $block3->headingToggle($strings["my_subtasks"]);
+    $block3->headingToggle($strings["my_subtasks"], $request->cookies->get( $block3->form ));
 
     $block3->sorting("home_subtasks", $sortingUser["home_subtasks"], "subtas.name ASC", $sortingFields = [
         0 => "subtas.name",
@@ -568,7 +566,7 @@ if ($showHomeDiscussions) {
     $block4->form = "home_discussion";
     $block4->openForm("../general/home.php#" . $block4->form . "Anchor", null, $csrfHandler);
 
-    $block4->headingToggle($strings["my_discussions"]);
+    $block4->headingToggle($strings["my_discussions"], $request->cookies->get( $block4->form ));
 
     $block4->openPaletteIcon();
 
@@ -665,7 +663,7 @@ if ($showHomeReports) {
     $reportsBlock->form = "home_reports";
     $reportsBlock->openForm("../general/home.php#" . $reportsBlock->form . "Anchor", null, $csrfHandler);
 
-    $reportsBlock->headingToggle($strings["my_reports"]);
+    $reportsBlock->headingToggle($strings["my_reports"], $request->cookies->get( $reportsBlock->form ));
 
     $reportsBlock->openPaletteIcon();
     $reportsBlock->paletteIcon(0, "add", $strings["new"]);
@@ -714,7 +712,7 @@ if ($showHomeNotes) {
     $notesBlock = new phpCollab\Block();
     $notesBlock->form = "home_notes";
     $notesBlock->openForm("../general/home.php?project=$project#" . $notesBlock->form . "Anchor", null, $csrfHandler);
-    $notesBlock->headingToggle($strings["my_notes"]);
+    $notesBlock->headingToggle($strings["my_notes"], $request->cookies->get( $notesBlock->form ));
 
     $notesBlock->openPaletteIcon();
 
@@ -797,7 +795,7 @@ if ($showHomeNewsdesk) {
     $newsdeskBlock->form = "home_newsdesk";
     $newsdeskBlock->openForm("../general/home.php?project=$project#" . $newsdeskBlock->form . "Anchor", null,
         $csrfHandler);
-    $newsdeskBlock->headingToggle($strings["my_newsdesk"]);
+    $newsdeskBlock->headingToggle($strings["my_newsdesk"], $request->cookies->get( $newsdeskBlock->form ));
 
     $newsdeskBlock->openPaletteIcon();
     if ($session->get('profile') == "0" || $session->get('profile') == "1" || $session->get('profile') == "5") {

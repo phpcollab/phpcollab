@@ -160,17 +160,18 @@ HELP_DIV;
     }
 
     /**
-     * Print toggle heading (with collapse/expande arrow)
+     * Print toggle heading (with collapse/expanded arrow)
      * @param string $title Text printed in heading
+     * @param string|null $toggleState
      * @see block::closeToggle()
      * @access public
      */
-    public function headingToggle(string $title)
+    public function headingToggle(string $title, string $toggleState = null)
     {
-        $toggleState = null;
-        if ($_COOKIE[$this->form] == "collapse") {
+        $toggleClass = null;
+        if ($toggleState == "collapse") {
             $arrow = "closed";
-            $toggleState = 'toggle-hide';
+            $toggleClass = 'toggle-hide';
         } else {
             $arrow = "open";
         }
@@ -181,7 +182,7 @@ HELP_DIV;
        <img id="{$this->form}Toggle" alt="{$this->form}Toggle" src="{$this->themeImgPath}/module_toggle_{$arrow}.gif" /></a>
     <span class="heading">{$title}</span>
 </div>
-<div id="{$this->form}" class="{$toggleState}">
+<div id="{$this->form}" class="{$toggleClass}">
 HTML;
     }
 
