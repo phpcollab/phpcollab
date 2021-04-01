@@ -426,8 +426,7 @@ SCRIPT;
     public function openForm(string $address, $additionalAttributes = null, CsrfHandler $csrfHandler = null)
     {
         echo <<<FORM
-<a id="{$this->form}Anchor"></a>
-<form method="POST" action="{$address}" name="{$this->form}Form" enctype="application/x-www-form-urlencoded" {$additionalAttributes} class="content-section">
+<form id="{$this->form}Anchor" method="POST" action="{$address}" name="{$this->form}Form" enctype="application/x-www-form-urlencoded" {$additionalAttributes} class="content-section">
 FORM;
         if ($csrfHandler) {
             echo <<<CSRF_INPUT
@@ -599,7 +598,7 @@ SCRIPT;
      **/
     public function openContent()
     {
-        echo "<table class='content' cellspacing='0' cellpadding='0'>";
+        echo '<table class="content">';
     }
 
     /**

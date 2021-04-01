@@ -209,7 +209,7 @@ div.toggle-hide {
     text-decoration: none;
 }
 
-.nonStriped {
+table.content, .nonStriped {
     border: none;
     border-spacing: 0;
     border-collapse: collapse;
