@@ -10,6 +10,9 @@
  *
  */
 
+# PhpCollab version
+$version = "%phpCollabVersion%";
+
 # installation type
 # Options: (default) online | offline
 $installationType = "%installationType%";
@@ -172,9 +175,6 @@ $tableCollab["invoices_items"] = "%dbTablePrefix%invoices_items";
 $tableCollab["services"] = "%dbTablePrefix%services";
 $tableCollab["newsdeskcomments"] = "%dbTablePrefix%newsdeskcomments";
 $tableCollab["newsdeskposts"] = "%dbTablePrefix%newsdeskposts";
-
-# PhpCollab version
-$version = "%phpCollabVersion%";
 
 # demo mode parameters
 $demoMode = %demoMode%;
