@@ -66,8 +66,8 @@ TABLE;
             <tr>
                 <td style="width: 30%"><a href="home.php?updateProject=true&project={$project["tea_pro_id"]}">{$project["tea_pro_name"]}</a></td>
                 <td>{$project["tea_org2_name"]}</td>
-                <td>{$priority[$idPriority]}</td>
-                <td>{$status[$idStatus]}</td>
+                <td>$priority[$idPriority]</td>
+                <td>$status[$idStatus]</td>
             </tr>
 TR;
         }
@@ -87,33 +87,33 @@ NO_RESULTS;
 if (!empty($session->get("project")) && $changeProject != "true") {
     if (file_exists("../logos_clients/" . $clientDetail["org_id"] . "." . $clientDetail["org_extension_logo"])) {
         $image = $clientDetail["org_id"] . '.' . $clientDetail["org_extension_logo"];
-        echo '<img alt="" src="../logos_clients/' . $image . '"><br/><br/>';
+        echo '<img alt="'. $clientDetail["org_name"] . ' Logo" src="../logos_clients/' . $image . '" style="max-height: 50px;">';
     }
 
     $pro_description = nl2br($projectDetail["pro_description"]);
     echo <<<TABLE
         <table class="nonStriped">
             <tr>
-                <th nowrap class="FormLabel">{$strings["project"]} :</th>
+                <td nowrap class="formLabel">{$strings["project"]} :</td>
                 <td>&nbsp;{$projectDetail["pro_name"]}</td>
             </tr>
             <tr>
-                <th nowrap class="FormLabel" style="vertical-align: top">{$strings["description"]} : </th>
-                <td>&nbsp;{$pro_description}</td>
+                <td nowrap class="formLabel" style="vertical-align: top">{$strings["description"]} : </td>
+                <td>&nbsp;$pro_description</td>
             </tr>
             <tr>
-                <th nowrap class="FormLabel">{$strings["status"]} :</th>
-                <td>&nbsp;{$status[$idStatus]}</td>
+                <td nowrap class="formLabel">{$strings["status"]} :</th>
+                <td>&nbsp;$status[$idStatus]</td>
             </tr>
             <tr>
-                <th nowrap class="FormLabel">{$strings["priority"]} :</th>
-                <td>&nbsp;{$priority[$idPriority]}</td>
+                <td nowrap class="formLabel">{$strings["priority"]} :</td>
+                <td>$priority[$idPriority]</td>
             </tr>
 TABLE;
 
     //Dispaly project active phase
     if ($projectDetail["pro_phase_set"] != "0") {
-        echo "	<tr><th nowrap style='vertical-align: top' class='FormLabel'>" . $strings["current_phase"] . " :</td><td>";
+        echo "<tr><td nowrap style='vertical-align: top' class='formLabel'>" . $strings["current_phase"] . " :</td><td>";
 
         $currentPhase = $phases->getPhasesByProjectIdAndIsCompleted($projectDetail["pro_id"]);
         $comptCurrentPhase = count($currentPhase);
@@ -134,22 +134,32 @@ TABLE;
     $pro_created = phpCollab\Util::createDate($projectDetail["pro_created"], $session->get("timezone"));
     $pro_modified = phpCollab\Util::createDate($projectDetail["pro_modified"], $session->get("timezone"));
 
-    echo <<<TR
+    if ($projectDetail["pro_url_dev"]) {
+        echo <<<DEV_URL
         <tr>
-            <th nowrap class="FormLabel">{$strings["url_dev"]} :</th>
+            <td nowrap class="formLabel">{$strings["url_dev"]} :</td>
             <td>&nbsp;<a href="{$projectDetail["pro_url_dev"]}" target="_blank">{$projectDetail["pro_url_dev"]}</a></td>
         </tr>
+DEV_URL;
+    }
+
+    if ($projectDetail["pro_url_prod"]) {
+        echo <<<PROD_URL
         <tr>
-            <th nowrap class="FormLabel">{$strings["url_prod"]} :</th>
+            <td nowrap class="formLabel">{$strings["url_prod"]} :</td>
             <td>&nbsp;<a href="{$projectDetail["pro_url_prod"]}" target="_blank">{$projectDetail["pro_url_prod"]}</a></td>
         </tr>
+PROD_URL;
+    }
+
+    echo <<<TR
         <tr>
-            <th nowrap class="FormLabel">{$strings["created"]} :</th>
-            <td>&nbsp;{$pro_created}</td>
+            <td nowrap class="formLabel">{$strings["created"]} :</td>
+            <td>$pro_created</td>
         </tr>
         <tr>
-            <th nowrap class="FormLabel">{$strings["modified"]} :</th>
-            <td>&nbsp;{$pro_modified}</td>
+            <td nowrap class="formLabel">{$strings["modified"]} :</td>
+            <td>$pro_modified</td>
         </tr>
         </table>
 TR;
