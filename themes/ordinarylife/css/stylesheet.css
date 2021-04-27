@@ -94,7 +94,7 @@ nav a {
     background-color: #7B9CAE;
     padding: 10px;
     flex-grow: 0;
-    margin-right: 1rem;
+    margin-right: 1.25rem;
     text-decoration: none;
     color: #FFFFFF;
 }
@@ -738,7 +738,7 @@ Styling for the help notes
     margin-bottom: 0;
 }
 
-.overDicCapFontClass {
+.overDivCapFontClass {
     background-color: darkred;
     color: var(--even-color);
     font-weight: 700;
