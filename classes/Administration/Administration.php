@@ -47,7 +47,7 @@ class Administration
                     'timeout' => 2.0,
                     'headers' => [
                         'X-server' => $_SERVER['SERVER_SOFTWARE'],
-                        'X-phpc_version' => $oldVersion,
+                        'X-phpcollab_version' => $oldVersion,
                         'X-php_version' => phpversion(),
                     ]
                 ]);
