@@ -109,8 +109,10 @@ if ($updateChecker == "true" && $installationType == "online") {
         $checkMsg = <<<HTML
         <div class="alert info">
             <h3>{$strings["update_available"]}</h3>
-            <p>{$strings["version_current"]} {$version} {$strings["version_latest"]} {$admin->getNewVersion()}.<br/>
-            <a href='http://www.sourceforge.net/projects/phpcollab' target='_blank'>{$strings["sourceforge_link"]}</a>.</p>
+            <p>{$strings["version_current"]} {$version} {$strings["version_latest"]} {$admin->getNewVersion()}.</p>
+HTML;
+        $checkMsg .= "<p>" . sprintf($strings["latest_release_link_text"], "https://github.com/phpcollab/phpcollab/releases/latest") . "</p>";
+        $checkMsg .= <<<HTML
         </div>
 HTML;
         $block1->contentRow("", $checkMsg);
