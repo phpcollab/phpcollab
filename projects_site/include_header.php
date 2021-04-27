@@ -41,7 +41,7 @@ echo <<<HEAD
     </title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="../themes/{$session->get("theme")}/css/stylesheet.css">
-    <link rel="stylesheet" href="../public/css/all.min.css">
+    <link rel="stylesheet" href="../public/css/fa-all.min.css">
     
     <script type="text/javascript" src="../javascript/general.js"></script>
     <script type="text/JavaScript" src="../javascript/overlib_mini.js"></script>
