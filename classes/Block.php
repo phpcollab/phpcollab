@@ -131,7 +131,7 @@ class Block
         $additionalPrams = (is_null($additionalPrams) ? '' : ',' . $additionalPrams);
         return <<<HELP_DIV
         [<a href="javascript:void(0);"
-            onmouseover="return overlib('{$helpText}',SNAPX,550,CSSCLASS,TEXTFONTCLASS,'overDivFontClass',CAPTIONFONTCLASS,'overDicCapFontClass',BGCLASS,'overDivBgClass',FGCLASS,'overDivFgClass'{$additionalPrams});"
+            onmouseover="return overlib('{$helpText}',SNAPX,550,CSSCLASS,TEXTFONTCLASS,'overDivFontClass',CAPTIONFONTCLASS,' overDivCapFontClass',BGCLASS,'overDivBgClass',FGCLASS,'overDivFgClass'{$additionalPrams});"
             onmouseout="return nd();">{$this->strings["help"]}</a>]
 HELP_DIV;
 
@@ -753,9 +753,6 @@ SCRIPT;
         $items = $this->navigationTotal;
         for ($i = 0; $i < $items; $i++) {
             echo $this->navigation[$i];
-            if ($items - 1 != $i) {
-                echo "&nbsp;&nbsp;";
-            }
         }
         echo "</nav>";
     }
