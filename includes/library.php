@@ -144,13 +144,6 @@ if ($session->get('language') == "") {
     }
 }
 
-//set language session
-if (!empty($session->get('langDefault'))) {
-    $langSelected[$langDefault] = "selected";
-} else {
-    $langSelected["en"] = "selected";
-}
-
 include APP_ROOT . '/includes/initrequests.php';
 
 // Load english as the default language.

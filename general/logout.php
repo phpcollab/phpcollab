@@ -17,6 +17,8 @@ $response = new Response(
     ['content-type' => 'text/html']
 );
 
+// We want to persist the selected language, so temporarily store it
+$sessionLanguage = $session->get("language");
 
 // delete the authentication cookies
 $response->headers->clearCookie('loginCookie');
@@ -26,4 +28,5 @@ $session->getFlashBag()->add(
     'message',
     $strings["success_logout"]
 );
+$session->set("language", $sessionLanguage);
 phpCollab\Util::headerFunction("../general/login.php");

@@ -647,7 +647,7 @@ $strings["edit_noti_clientaddtask"] = "A task is added by a client.";
 $strings["edit_noti_uploadfile"] = "A linked content is added.";
 
 //2.5rc3
-$strings["version_check_error"] = "Sorry the <a href='http://www.phpcollab.com'>phpcollab.com</a> update service is offline, please check later or take a look on the <a href='http://www.sourceforge.net/projects/phpcollab' target='_blank'>sourceforge project page</a>";
+$strings["version_check_error"] = "Sorry the <a href='https://www.phpcollab.com'>phpcollab.com</a> update service is offline, please check later or take a look on the <a href='https://www.sourceforge.net/projects/phpcollab' target='_blank'>sourceforge project page</a>";
 $strings["my_subtasks"] = "My Subtasks";
 $strings["edit_noti_daily_alert"] = "A daily task reminder.";
 $strings["edit_noti_weekly_alert"] = "A weekly task reminder.";
@@ -704,3 +704,4 @@ $strings["password_successful_changed"] = "Password has been successfully change
 $strings["password_reset_confirmation_subject"] = "Password Reset Confirmation for %s";
 $strings["password_confirm_blank"] = "Please re-enter the \"confirm\" password.";
 $strings["latest_release_link_text"] = "Visit the project's <a href=\"%s\" target=\"_blank\">release page</a> for the latest version";
+$strings["system_info_file_sizes"] = "File Sizes";

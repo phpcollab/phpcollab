@@ -33,7 +33,7 @@ if ($session->get('profile') != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 
-$langSelected = $GLOBALS["langSelected"];
+$langSelected = [ $GLOBALS["langDefault"] => "selected"];
 
 if ($request->isMethod('post')) {
     try {
