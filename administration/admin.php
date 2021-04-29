@@ -74,9 +74,8 @@ $block1->contentRow("",
     $blockPage->buildLink("../administration/systeminfo.php", $strings["system_information"], "in"));
 $block1->contentRow("", $blockPage->buildLink("../administration/mycompany.php", $strings["company_details"], "in"));
 $block1->contentRow("", $blockPage->buildLink("../administration/listlogs.php", $strings["logs"], "in"));
-$block1->contentRow($strings["update"] . $blockPage->printHelp("admin_update"),
-    "1. " . $blockPage->buildLink("../administration/updatesettings.php", $strings["edit_settings"],
-        "in") . " 2. " . $blockPage->buildLink("../administration/updatedatabase.php", $strings["edit_database"],
+$block1->contentRow($strings["update"],
+    $blockPage->buildLink("../administration/updatesettings.php", $strings["edit_settings"],
         "in"));
 
 if (file_exists("../installation/setup.php")) {
