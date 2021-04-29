@@ -72,7 +72,7 @@ SQL;
             if (!isset($memberId) || !isset($password)) {
                 throw new InvalidArgumentException('Invalid member id or password');
             } else {
-                $memberId = filter_var((int)$memberId, FILTER_VALIDATE_INT);
+                $memberId = filter_var($memberId, FILTER_VALIDATE_INT);
                 $encryptedPassword = Util::getPassword($password);
 
                 $sql = <<<SQL
