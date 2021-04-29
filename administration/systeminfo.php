@@ -98,35 +98,16 @@ if ($include_path == "") {
 $block1->contentRow("include_path", $include_result);
 
 $register_globals = ini_get('register_globals');
-//if ($register_globals == "1") {
-//    $register_result = "On";
-//} else {
-//    $register_result = "Off";
-//}
 
-//$block1->contentRow("register_globals", $register_result);
 $block1->contentRow("register_globals", ['Off', 'On'][$register_globals]);
 
 $safemodeTest = ini_get('safe_mode');
-//if ($safemodeTest == "1") {
-//    $safe_mode_result = "On";
-//} else {
-//    $safe_mode_result = "Off";
-//}
 
 $block1->contentRow("safe_mode", ['Off', 'On'][$safemodeTest]);
-//$block1->contentRow("safe_mode", $safe_mode_result);
 
 $mailTest = function_exists('mail');
 
-//if ($notificationsTest == "true") {
-//    $mail_result = "On";
-//} else {
-//    $mail_result = "Off";
-//}
-
 $block1->contentRow("Mail", ['Off', 'On'][$mailTest]);
-//$block1->contentRow("Mail", $mail_result);
 
 $gdlibraryTest = function_exists('imagecreate');
 
@@ -152,10 +133,11 @@ if ($matches[1] != "") {
 $block1->contentRow("SMTP", ini_get('SMTP'));
 $block1->contentRow("upload_max_filesize", ini_get('upload_max_filesize'));
 $block1->contentRow("session.name", session_name());
-//xdebug_var_dump( session_save_path() );
+
 if (!empty(session_save_path())) {
     $block1->contentRow("session.save_path", session_save_path());
 }
+
 $block1->contentRow("HTTP_HOST", $request->server->get('HTTP_HOST'));
 
 $block1->contentRow("SERVER_NAME", $request->server->get('SERVER_NAME'));
