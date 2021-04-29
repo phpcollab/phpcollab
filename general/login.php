@@ -119,6 +119,7 @@ if ($auth == "on") {
             $passwordForm = crypt($passwordForm, $r);
 
             //set session variables
+            $session->set('auth', true);
             $session->set('id', $member['mem_id']);
             $session->set('timezone', $member['mem_timezone']);
             $session->set('language', $request->request->get("languageForm"));

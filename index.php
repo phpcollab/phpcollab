@@ -16,13 +16,19 @@ try {
 
         require_once 'includes/library.php';
 
-        //case session fails
-        if ($session == "false") {
-            phpCollab\Util::headerFunction("general/login.php?session=false");
-        } //default case
-        else {
+
+        //case session fails or auth is false
+        if ( $session == "false" || !$session->get('auth') || $session->get('auth') === false ) {
             phpCollab\Util::headerFunction("general/login.php");
         }
+
+        if ( $session->get('auth') === true ) {
+            $foo = 'bar';
+            phpCollab\Util::headerFunction("general/home.php");
+        }
+
+        // Default case just in case the above falls through
+        phpCollab\Util::headerFunction("general/login.php");
     }
 } catch (Exception $exception) {
     require_once dirname(__FILE__) . "/views/fatal_error.php";

@@ -29,4 +29,5 @@ $session->getFlashBag()->add(
     $strings["success_logout"]
 );
 $session->set("language", $sessionLanguage);
+$session->set("auth", false);
 phpCollab\Util::headerFunction("../general/login.php");
