@@ -130,9 +130,9 @@ class Block
         $helpText = addslashes($this->help[$item]);
         $additionalPrams = (is_null($additionalPrams) ? '' : ',' . $additionalPrams);
         return <<<HELP_DIV
-        [<a href="javascript:void(0);"
+        <a href="javascript:void(0);"
             onmouseover="return overlib('{$helpText}',SNAPX,550,CSSCLASS,TEXTFONTCLASS,'overDivFontClass',CAPTIONFONTCLASS,' overDivCapFontClass',BGCLASS,'overDivBgClass',FGCLASS,'overDivFgClass'{$additionalPrams});"
-            onmouseout="return nd();">{$this->strings["help"]}</a>]
+            onmouseout="return nd();"><i class="icon-help fa fa-question-circle fa-lg" title="{$this->strings["help"]}"></i></a>
 HELP_DIV;
 
     }
@@ -596,9 +596,9 @@ SCRIPT;
      * @see block::contentRow()
      * @access public
      **/
-    public function openContent()
+    public function openContent($extraClasses = null)
     {
-        echo '<table class="content">';
+        echo '<table class="content ' . $extraClasses .'">';
     }
 
     /**
