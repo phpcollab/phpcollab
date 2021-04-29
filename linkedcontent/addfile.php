@@ -174,7 +174,7 @@ if ($request->isMethod('post')) {
             '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
         ]);
     } catch (Exception $e) {
-        $logger->critical('Exception', ['Error' => $e->getMessage()]);
+        $logger->critical('Linked Content Error ' . $e->getMessage(), []);
         $msg = 'permissiondenied';
     }
 }
