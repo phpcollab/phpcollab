@@ -7,26 +7,11 @@
     --error-color: #ff0000;
     --dark-color: #333333;
     --th-color: #3a3b40;
+    --content-th: #777E82;
     --light: #ffffff;
     --dark: #000000;
     --dark-red: darkred;
     --active-color: #7b9cae;
-
-    /* Font Styles */
-    --baseFontSize: 1rem;
-    --baseNavSize: 0.64rem;
-    --smallFontSize: 0.8rem;
-    --smallestFontSize: 0.5rem;
-
-    --link-color: #354A55;
-
-    /*
-    --heading-one: 2rem;
-    --heading-two: ;
-    --heading-three: ;
-    --heading-one: ;
-    --heading-one: ;
-    */
 
     /*
      * General tag styles
@@ -62,9 +47,18 @@
      */
     --breadcrumb-bg: var(--light);
 
+    /* Font Styles */
+    --baseFontSize: 1rem;
+    --baseNavSize: 0.64rem;
+    --smallFontSize: 0.8rem;
+    --smallestFontSize: 0.5rem;
+
+
     /*
      * Text Styles
      */
+    --link-color: #354A55;
+
     --heading-bg: var(--light);
     --heading-color: #821400;
     --heading-bottom-border: 1px solid #999999;
@@ -88,12 +82,15 @@
     --alert-success-bg: #d4edda;
     --alert-success-border-color: #c3e6cb;
 
-
     /*
      * Misc Styles
      */
     --dark-highlight-bg: var(--active-color);
 
+    /*
+     * Icon Styles
+     */
+    --help-icon-color: #666666;
 
 
 }
@@ -257,6 +254,10 @@ div.toggle-hide {
     padding: 0;
 }
 
+i.icon-help {
+    color: var(--help-icon-color);
+}
+
 .listing {
     padding: 0;
     width: 100%;
@@ -285,7 +286,7 @@ div.toggle-hide {
 
 .listing .active {
     background-color: var(--active-color);
-    color: #FFFFFF;
+    color: var(--light);
 }
 
 .listing .active a {
@@ -417,7 +418,7 @@ td.leftvalue {
     padding-left: 2px;
     padding-top: 4px;
     padding-bottom: 4px;
-    background-color: var(--alt-color);
+    background-color: var(--content-th);
     border-top: 1px solid #999999;
     border-bottom: 1px solid #999999;
     color: var(--th-color);
@@ -450,10 +451,7 @@ p.error:last-of-type {
 }
 
 .tableRevision {
-    border-top: 1px solid #999999;
-    border-bottom: 1px solid #999999;
-    border-left: 1px solid #999999;
-    border-right: 1px solid #999999;
+    border: 1px solid #999;
     border-collapse: collapse;
 }
 
@@ -463,7 +461,7 @@ p.error:last-of-type {
 }
 
 .tableRevision tr:nth-child(even) {
-    background-color: #F6F5F5;
+    background-color: var(--even-color);
 }
 
 .tableRevision tr:hover {
@@ -604,19 +602,13 @@ a.calendar-results-duedate:active {
 }
 
 .calendar-regular-event {
-    border-top: 1px solid #0033CC;
-    border-bottom: 1px solid #0033CC;
-    border-left: 1px solid #0033CC;
-    border-right: 1px solid #0033CC;
+    border: 1px solid #03c;
     margin-bottom: 3px;
     text-align: center;
 }
 
 .calendar-broadcast-event {
-    border-top: 1px solid #663399;
-    border-bottom: 1px solid #663399;
-    border-left: 1px solid #663399;
-    border-right: 1px solid #663399;
+    border: 1px solid #639;
     margin-bottom: 3px;
     text-align: center;
 }
@@ -649,7 +641,8 @@ table.pagination {
     margin: 5px 0;
 }
 
-td.footerCell a, td.footerCell strong {
+td.footerCell a,
+td.footerCell strong {
     margin-right: 10px;
 }
 

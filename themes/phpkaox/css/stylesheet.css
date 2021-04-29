@@ -6,6 +6,92 @@
     --highlight-color: #e3e4e0;
     --error-color: #f00;
     --dark-color: #333;
+    --th-color: #3a3b40;
+    --content-th: #777E82;
+    --light: #ffffff;
+    --dark: #000000;
+    --dark-red: darkred;
+    --active-color: #7b9cae;
+
+    /*
+     * General tag styles
+     */
+    --body-bg-color: var(--light);
+
+    /*
+     * Header Styles
+     */
+    --header-bg: #ffffff;
+
+    /*
+     * Nav Bar Styles
+     */
+    --nav-bg: var(--alt-color);
+    --nav-link-color: var(--primary-color);
+    --nav-link-bg: transparent;
+    --nav-link-hover-color: var(--primary-color);
+    --nav-link-hover-bg: #cccccc;
+
+    /*
+     * Footer Styles
+     */
+    --footer-bg: var(--light);
+
+    /*
+     * Account Section Styles
+     */
+    --account-bg: var(--light);
+
+    /*
+     * Breadcrumb Styles
+     */
+    --breadcrumb-bg: var(--light);
+
+    /* Font Styles */
+    --baseFontSize: 1rem;
+    --baseNavSize: 0.64rem;
+    --smallFontSize: 0.8rem;
+    --smallestFontSize: 0.5rem;
+
+
+    /*
+     * Text Styles
+     */
+    --link-color: #666666;
+
+    --heading-bg: var(--light);
+    --heading-color: var(--primary-color);
+    --heading-bottom-border: 1px solid #999999;
+
+    --heading-error-color: var(--error-color);
+    --heading-error-bg: var(--light);
+    --heading-error-bottom-border: 1px solid #999999;
+
+    /*
+     * Alert Styles
+     */
+    --alert-error-color: var(--dark-red);
+    --alert-error-bg: papayawhip;
+    --alert-error-border-color: indianred;
+
+    --alert-info-color: #004085;
+    --alert-info-bg: #cce5ff;
+    --alert-info-border-color: #b8daff;
+
+    --alert-success-color: #155724;
+    --alert-success-bg: #d4edda;
+    --alert-success-border-color: #c3e6cb;
+
+    /*
+     * Misc Styles
+     */
+    --dark-highlight-bg: var(--active-color);
+
+    /*
+     * Icon Styles
+     */
+    --help-icon-color: #666666;
+
 }
 
 .abs {
@@ -17,8 +103,8 @@
 }
 
 body {
-    background-color: #fff;
-    margin: 10px 10px 10px 10px;
+    background-color: var(--body-bg-color);
+    margin: 10px;
     font-family: Verdana, sans-serif;
     font-size: 12px;
 }
@@ -34,7 +120,7 @@ div {
 
 a {
     text-decoration: underline;
-    color: #666;
+    color: var(--link-color);
 }
 
 a:hover {
@@ -45,13 +131,13 @@ a:hover {
 hr {
     margin-top: -5px;
     height: 1px;
-    background-color: #999;
-    color: #999;
+    background-color: #999999;
+    color: #999999;
     visibility: visible;
 }
 
 #header {
-    background-color: #fff;
+    background-color: var(--header-bg);
     font-size: 1.5rem;
     margin-top: 0;
     margin-bottom: 0;
@@ -64,7 +150,7 @@ hr {
 }
 
 #footer {
-    background-color: #fff;
+    background-color: var(--footer-bg);
     margin-top: 30px;
     font-size: 0.65rem;
     color: gray;
@@ -73,7 +159,7 @@ hr {
 }
 
 #account {
-    background-color: #fff;
+    background-color: var(--account-bg);
     margin-top: 0;
     margin-bottom: 0;
     padding-bottom: 0;
@@ -83,45 +169,45 @@ hr {
 }
 
 nav {
-    background-color: var(--alt-color);
+    background-color: var(--nav-bg);
     font-size: 0.85rem;
     display: flex;
     padding-left: 1rem;
     margin: 1rem -10px;
     border-top: 1px solid #999;
     border-bottom: 1px solid #999;
-    color: #fff;
+    color: var(--light);
     font-weight: bold;
     text-align: left;
 }
 
 nav a {
-    background-color: var(--alt-color);
+    background-color: var(--nav-link-bg);
     padding: 10px;
     flex-grow: 0;
     margin-right: 1rem;
     text-decoration: none;
-    color: var(--primary-color);
+    color: var(--nav-link-color);
     text-align: left;
 }
 
 nav a:hover {
-    background-color: #ccc;
+    background-color: var(--nav-link-hover-bg);
     padding: 2px 4px 2px 4px;
+    color: var(--nav-link-hover-color);
     text-decoration: none;
-    color: var(--primary-color);
     text-align: left;
 }
 
 .breadcrumbs {
-    background-color: #fff;
+    background-color: var(--breadcrumb-bg);
     margin-top: 0;
     margin-bottom: 30px;
     padding-left: 2px;
 }
 
 .note {
-    background-color: #fff;
+    background-color: var(--light);
     margin-top: 0;
     margin-bottom: 30px;
     padding-left: 2px;
@@ -146,34 +232,38 @@ div.toggle-hide {
 
 .heading {
     flex-grow: 2;
-    background-color: #fff;
+    background-color: var(--heading-bg);
     margin: 0 0 4px 0;
     padding-bottom: 2px;
     padding-left: 0;
-    border-bottom: 1px solid #999;
+    border-bottom: var(--heading-bottom-border);
     font-family: Tahoma, serif;
+    color: var(--heading-color);
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--primary-color);
     text-align: left;
 }
 
 .headingError {
-    background-color: #fff;
+    background-color: var(--heading-error-bg);
     margin-top: 0;
     margin-bottom: 6px;
     padding-bottom: 2px;
     padding-left: 0;
-    border-bottom: 1px solid #999;
+    border-bottom: var(--heading-error-bottom-border);
     font-family: Tahoma, serif;
     font-size: 15px;
     font-weight: bold;
-    color: #F00;
+    color: var(--heading-error-color);
 }
 
 .icons {
     margin-left: 10px;
     padding: 0;
+}
+
+i.icon-help {
+    color: var(--help-icon-color);
 }
 
 .listing {
@@ -188,8 +278,8 @@ div.toggle-hide {
 .listing th {
     padding-left: 2px;
     background-color: var(--alt-color);
-    border-top: 1px solid #999;
-    border-bottom: 1px solid #999;
+    border-top: 1px solid #999999;
+    border-bottom: 1px solid #999999;
     color: #777E82;
     text-align: left;
 }
@@ -208,12 +298,12 @@ div.toggle-hide {
 }
 
 .listing .active a {
-    color: #fff;
+    color: var(--light);
     text-decoration: none;
 }
 
 .listing .active a:hover {
-    color: #fff;
+    color: var(--light);
     text-decoration: none;
 }
 
@@ -250,18 +340,18 @@ table.content, .nonStriped {
 
 .striped tr:nth-child(even) {
     background-color: var(--even-color);
-    color: #000;
+    color: var(--dark);
 }
 
 .striped tr:nth-child(odd) {
     background-color: var(--odd-color);
-    color: #000;
+    color: var(--dark);
 }
 
 .striped tr:nth-child(even):hover,
 .striped tr:nth-child(odd):hover {
     background-color: var(--highlight-color);
-    color: #000;
+    color: var(--dark);
 }
 
 .monthPreview {
@@ -269,12 +359,12 @@ table.content, .nonStriped {
 }
 
 .monthPreview th {
-    background-color: white;
+    background-color: var(--light);
     border: none;
 }
 
 .monthPreview td {
-    border: 0 solid white;
+    border: 0 solid var(--light);
     border-spacing: 0;
     border-collapse: collapse;
     width: 14%;
@@ -283,11 +373,11 @@ table.content, .nonStriped {
 
 .monthPreview tr td.odd:hover {
     background-color: var(--highlight-color);
-    color: #000;
+    color: var(--dark);
 }
 
 .darkHighlight {
-    background-color: #7B9CAE;
+    background-color: var(--dark-highlight-bg);
 }
 
 .lightHighlight {
@@ -337,7 +427,7 @@ td.leftvalue {
     background-color: var(--alt-color);
     border-top: 1px solid #999;
     border-bottom: 1px solid #999;
-    color: #777E82;
+    color: var(--content-th);
     text-align: left;
 }
 
@@ -359,7 +449,7 @@ p.error:last-of-type {
 .message {
     margin-bottom: 20px;
     background-color: var(--alt-color);
-    color: #000;
+    color: var(--dark);
     padding: 15px;
     font-size: 0.95rem;
 }
@@ -379,7 +469,7 @@ p.error:last-of-type {
 
 .tableRevision tr:hover {
     background-color: var(--highlight-color);
-    color: #000;
+    color: var(--dark);
 }
 
 .tableRevision td {
@@ -387,8 +477,8 @@ p.error:last-of-type {
 }
 
 .revisionTr {
-    border-top: 1px solid #999;
-    border-bottom: 1px solid #999;
+    border-top: 1px solid #999999;
+    border-bottom: 1px solid #999999;
 }
 
 @media print {
@@ -398,7 +488,7 @@ p.error:last-of-type {
 }
 
 form table.listing {
-    border-bottom: 1px solid #999;
+    border-bottom: 1px solid #999999;
 }
 
 form.noBorder {
@@ -455,6 +545,14 @@ hr {
     text-align: center;
 }
 
+.calendar-detail {
+
+}
+
+.calendar-detail td {
+
+}
+
 .calendar-detail td:first-child {
     vertical-align: top;
     width: 20%;
@@ -474,7 +572,7 @@ a.calendar-regular-todo-event,
 a.calendar-regular-todo-event:hover,
 a.calendar-regular-todo-event:visited,
 a.calendar-regular-todo-event:active {
-    color: #009;
+    color: #000099;
 }
 
 .calendar-broadcast-todo-event,
@@ -482,7 +580,7 @@ a.calendar-broadcast-todo-event,
 a.calendar-broadcast-todo-event:hover,
 a.calendar-broadcast-todo-event:visited,
 a.calendar-broadcast-todo-event:active {
-    color: #639;
+    color: #663399;
 }
 
 .calendar-results-startdate,
@@ -490,7 +588,7 @@ a.calendar-results-startdate,
 a.calendar-results-startdate:hover,
 a.calendar-results-startdate:visited,
 a.calendar-results-startdate:active {
-    color: #060;
+    color: #006600;
 }
 
 .calendar-results-duedate,
@@ -498,11 +596,11 @@ a.calendar-results-duedate,
 a.calendar-results-duedate:hover,
 a.calendar-results-duedate:visited,
 a.calendar-results-duedate:active {
-    color: #900;
+    color: #990000;
 }
 
 .calendar-blockout-line {
-    background-color: #999;
+    background-color: #999999;
 }
 
 .calendar-regular-event {
@@ -563,22 +661,22 @@ td.footerCell strong {
 }
 
 .alert.error {
-    color: darkred;
-    border-color: indianred;
+    color: var(--alert-error-color);
+    border-color: var(--alert-error-border-color);
     font-weight: bold;
-    background-color: papayawhip;
+    background-color: var(--alert-error-bg);
 }
 
 .alert.info {
-    color: #004085;
-    background-color: #cce5ff;
-    border-color: #b8daff;
+    color: var(--alert-info-color);
+    background-color: var(--alert-info-border-color);
+    border-color: var(--alert-info-bg);
 }
 
 .alert.success {
-    color: #155724;
-    background-color: #d4edda;
-    border-color: #c3e6cb;
+    color: var(--alert-success-color);
+    background-color: var(--alert-success-bg);
+    border-color: var(--alert-success-border-color);
 }
 
 .alert.note {
@@ -666,6 +764,10 @@ a[href^="http"]:hover:after {
     margin-right: 1rem;
 }
 
+.formLabel {
+    font-weight: 700;
+}
+
 /**
  * Invoicing Styles
  */
@@ -721,7 +823,7 @@ Styling for the help notes
 
 .overDivFontClass div.warning {
     font-weight: 700;
-    color: darkred;
+    color: var(--dark-red);
 }
 
 .overDivFontClass div:last-child {
@@ -729,7 +831,7 @@ Styling for the help notes
 }
 
 .overDivCapFontClass {
-    background-color: darkred;
+    background-color: var(--dark-red);
     color: var(--even-color);
     font-weight: 700;
     font-size: 0.80rem;
