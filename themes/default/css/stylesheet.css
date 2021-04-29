@@ -7,7 +7,7 @@
     --error-color: #ff0000;
     --dark-color: #333333;
     --th-color: #3a3b40;
-    --content-th: #777E82;
+    --content-th: var(--alt-color);
     --light: #ffffff;
     --dark: #000000;
     --dark-red: darkred;
