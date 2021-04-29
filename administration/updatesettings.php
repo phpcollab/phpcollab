@@ -117,8 +117,6 @@ $block1 = new phpCollab\Block();
 $block1->heading($strings["edit_settings"]);
 
 
-$block1->openContent();
-$block1->contentTitle("General");
 $block1->form = "settings";
 $block1->openForm("../administration/updatesettings.php", 'autocomplete="new-password"', $csrfHandler);
 
@@ -326,6 +324,9 @@ if ($emailAlerts === true) {
     $checkedEmailAlerts_f = "checked";
 }
 
+$block1->openContent("updateSettings");
+$block1->contentTitle("General");
+
 $block1->contentRow("Installation type",
     "<label><input type='radio' name='installationType' value='offline' $installCheckOffline /> Offline (firewall/intranet, no update checker)</label>
      <label><input type='radio' name='installationType' value='online' $installCheckOnline /> Online</label>");
@@ -344,7 +345,7 @@ if ($mkdirMethod == "PHP") {
 
 echo <<< HTML
 <tr class="odd">
-    <td class="leftvalue">* Create folder method" {$blockPage->printHelp("setup_mkdirMethod")}</td>
+    <td class="leftvalue">* Create folder method" {$blockPage->printHelp("setup_mkdirMethod")} : </td>
     <td>
         <table class="nonStriped" style="width: 500px;">
             <tr>
@@ -380,7 +381,7 @@ if ($notificationMethod == "mail") {
 
 echo <<< HTML
 <tr class="odd">
-    <td class="leftvalue">* Notification method{$blockPage->printHelp("setup_notificationMethod")} </td>
+    <td class="leftvalue">* Notification method{$blockPage->printHelp("setup_notificationMethod")} :</td>
     <td>
         <table class="nonStriped" style="width: 500px;">
             <tr>
@@ -433,7 +434,8 @@ $block1->contentRow("* Forced login" . $blockPage->printHelp("setup_forcedlogin"
 
 echo <<<HTML
 <tr class="odd">
-    <td class="leftvalue">Default language{$blockPage->printHelp("setup_langdefault")}</td><td>
+    <td class="leftvalue">Default language{$blockPage->printHelp("setup_langdefault")} :</td>
+    <td>
         <select name="defaultLanguage">
             <option value="">Not Selected</option>
             <option value="ar" {$langSelected["ar"]}>Arabic</option>
@@ -550,8 +552,7 @@ if (isset($logLevels) && isset($logLevel)) {
     echo <<< LOGLEVEL
     <tr class="odd">
         <td class="leftvalue">
-    <!--    <div class=\'warning\'>Note: NEVER use a log level below 400 in production environment!</div>-->
-        Log Level : {$blockPage->printHelp("logLevels", "VAUTO,WIDTH,500,CAPTION, 'Note: NEVER use a log level below 400 in production environment!'")}
+        Log Level {$blockPage->printHelp("logLevels", "VAUTO,WIDTH,500,CAPTION, 'Note: NEVER use a log level below 400 in production environment!'")} :
         </td>
         <td class="nonStriped" style="padding-left: 10px;">
 LOGLEVEL;
