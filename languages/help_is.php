@@ -19,8 +19,4 @@ $help["mycompany_logo"] = "Vistaðu merki fyrirtækis þíns.  Þá birtist mynd
 $help["calendar_shortname"] = "Nafn atburðar í mánaðaryfirliti (val)";
 $help["user_autologout"] = "Tími í sek. þangað til óvirkur notandi er aftengur. 0 til að aftengjast aldrei";
 $help["user_timezone"] = "Settu GMT tímasvæði";
-//2.4
-$help["setup_clientsfilter"] = "Filter to see only logged user clients";
-$help["setup_projectsfilter"] = "Filter to see only the project when the user are in the team";
 //2.5
-$help["setup_notificationMethod"] = "Set method to send email notifications: with internal php mail function (need for having a smtp server or sendmail configured in the parameters of php) or with a personalized smtp server";

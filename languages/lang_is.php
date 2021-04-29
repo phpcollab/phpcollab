@@ -201,7 +201,6 @@ $strings["confirm_password"] = "Staðfesta aðgangsorð";
 $strings["email"] = "Póstfang (e-mail)";
 $strings["home_phone"] = "Heimasími";
 $strings["mobile_phone"] = "Farsími";
-$strings["fax"] = "Fax";
 $strings["permissions"] = "Heimildir";
 $strings["administrator_permissions"] = "Heimildir umsjónarmanns";
 $strings["project_manager_permissions"] = "Heimildir verkefnisstjóra";
@@ -277,7 +276,6 @@ $strings["all_content"] = "Allt efni";
 $strings["all_properties"] = "Allir eiginleikar";
 $strings["no_results_search"] = "Leit skilaði engum niðurstöðum.";
 $strings["no_results_report"] = "Leit skilaði engum niðurstöðum.";
-$strings["schema_date"] = "YYYY/MM/DD";
 $strings["hours"] = "klst";
 $strings["choice"] = "Velja";
 $strings["missing_file"] = "Skrá vantar !";
@@ -458,9 +456,7 @@ $strings["help"] = "Hjálp";
 $strings["complete_date"] = "Dags. lokið";
 $strings["scope_creep"] = "Mism. áætlunar";
 $strings["days"] = "Dagar";
-$strings["logo"] = "Logo";
 $strings["remember_password"] = "Muna lykilorð";
-$strings["client_add_task_note"] = "Note: The entered task is registered into the data base, appears here however only if it one assigned to a team member!";
 $strings["client_add_task_note"] = "ATH: Verkið er skráð í gagnagrunn en birtist aðeins ef því úthlutað á vinnuhópsmeðlim!";
 $strings["noti_clientaddtask1"] = "Verk skráð af viðskiptamanni :";
 $strings["noti_clientaddtask2"] = "Nýtt verk var skráð af viðskiptamanni á verkefnissíðu á eftirfarandi verkefni :";
@@ -534,11 +530,3 @@ $strings["client_subtask_details"] = "Nánar um undirverk viðskiptamanns";
 $strings["client_change_status_subtask"] = "Breyttu stöðunni að neðan þegar þú hefur lokið þessu undirverki";
 $strings["disabled_permissions"] = "Óvirkja aðgang";
 $strings["user_timezone"] = "Tímasvæði (GMT)";
-//2.2
-$strings["project_manager_administrator_permissions"] = "Project Manager Administrator";
-$strings["bug"] = "Bug Tracking";
-//2.3
-$strings["report"] = "Report";
-$strings["license"] = "License";
-//2.4
-$strings["settings_notwritable"] = "Settings.php file is not writable";

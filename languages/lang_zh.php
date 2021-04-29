@@ -240,7 +240,6 @@ $strings["all_content"] = "所有文档";
 $strings["all_properties"] = "所有属性";
 $strings["no_results_search"] = "该搜索未返回任何结果。";
 $strings["no_results_report"] = "该报告未返回任何结果。";
-$strings["schema_date"] = "YYYY/MM/DD";
 $strings["hours"] = "小时";
 $strings["choice"] = "选择";
 $strings["missing_file"] = "缺少文件！";
@@ -424,7 +423,6 @@ $strings["previous"] = "前一";
 $strings["next"] = "后一";
 $strings["help"] = "帮助";
 $strings["complete_date"] = "完成日期";
-$strings["scope_creep"] = "Scope creep";
 $strings["days"] = "天";
 $strings["logo"] = "标志";
 $strings["remember_password"] = "密码提示";
@@ -500,12 +498,6 @@ $strings["team_subtask_details"] = "团队子任务详细信息";
 $strings["client_subtask_details"] = "客户端子任务详细信息";
 $strings["client_change_status_subtask"] = "完成此子任务后，请在下面更改您的状态";
 $strings["disabled_permissions"] = "已禁用帐户";
-$strings["user_timezone"] = "Timezone (GMT)";
 //2.2
-$strings["project_manager_administrator_permissions"] = "Project Manager Administrator";
-$strings["bug"] = "Bug Tracking";
 //2.3
-$strings["report"] = "Report";
-$strings["license"] = "License";
 //2.4
-$strings["settings_notwritable"] = "Settings.php file is not writable";

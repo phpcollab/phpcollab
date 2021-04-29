@@ -19,8 +19,4 @@ $help["mycompany_logo"] = "Nahrej logo vaší společnosti. Objeví se v záhlav
 $help["calendar_shortname"] = "Popisek pro zobrazení v měsíčním kalendáři. povinné";
 $help["user_autologout"] = "Čas v sekundách pro automatické odpojení při nečinnosti. 0 pro deaktivaci";
 $help["user_timezone"] = "Nastavte Vaše časové pásmo (GMT)";
-//2.4
-$help["setup_clientsfilter"] = "Filter to see only logged user clients";
-$help["setup_projectsfilter"] = "Filter to see only the project when the user are in the team";
 //2.5
-$help["setup_notificationMethod"] = "Set method to send email notifications: with internal php mail function (need for having a smtp server or sendmail configured in the parameters of php) or with a personalized smtp server";

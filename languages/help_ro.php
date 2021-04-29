@@ -18,9 +18,4 @@ $help["project_scope_creep"] = "Diferenta in zile intre data de predare si data 
 $help["mycompany_logo"] = "Upload orice sigla a firmei/institutiei tale. Apare in antet, in loc de titlul sitului";
 $help["calendar_shortname"] = "Eticheta care apare in calendarul lunii. Obligatoriu";
 $help["user_autologout"] = "Timp in secunde pentru a fi deconectat daca nu exista activitate. 0 pentru dezactivare";
-$help["user_timezone"] = "Set your GMT timezone";
-//2.4
-$help["setup_clientsfilter"] = "Filter to see only logged user clients";
-$help["setup_projectsfilter"] = "Filter to see only the project when the user are in the team";
 //2.5
-$help["setup_notificationMethod"] = "Set method to send email notifications: with internal php mail function (need for having a smtp server or sendmail configured in the parameters of php) or with a personalized smtp server";

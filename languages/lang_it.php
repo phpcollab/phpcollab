@@ -63,9 +63,7 @@ $invoiceStatus = array(0 => "Aperta", 1 => "Spedita", 2 => "Pagata");
 
 $strings["please_login"] = "Log In";
 $strings["requirements"] = "Requisiti di sistema";
-$strings["login"] = "Log In";
 $strings["no_items"] = "Nessun articolo da visualizzare";
-$strings["logout"] = "Log Out";
 $strings["preferences"] = "Preferenze";
 $strings["my_tasks"] = "I miei task";
 $strings["edit_task"] = "Modifica task";
@@ -125,10 +123,8 @@ $strings["client_users"] = "Utenti del cliente";
 $strings["edit_organization"] = "Modifica l'organizzazione cliente";
 $strings["add_organization"] = "Aggiungi l'organizzazione cliente";
 $strings["organizations"] = "Organizzazioni clienti";
-$strings["info"] = "Info";
 $strings["status"] = "Condizione";
 $strings["owner"] = "Proprietario";
-$strings["home"] = "Home";
 $strings["projects"] = "Progetti";
 $strings["files"] = "File";
 $strings["search"] = "Cerca";
@@ -136,7 +132,6 @@ $strings["admin"] = "Amministratore";
 $strings["user"] = "Utente";
 $strings["project_manager"] = "Responsabile del progetto";
 $strings["due"] = "Scadenza";
-$strings["task"] = "Task";
 $strings["tasks"] = "Task";
 $strings["team"] = "Squadra";
 $strings["add_team"] = "Aggiungi ai membri della squadra";
@@ -150,7 +145,6 @@ $strings["name"] = "Nome";
 $strings["id"] = "Id";
 $strings["description"] = "Descrizione";
 $strings["phone"] = "Telefono";
-$strings["url"] = "URL";
 $strings["address"] = "Indirizzo";
 $strings["comments"] = "Commenti";
 $strings["created"] = "Creato";
@@ -196,10 +190,8 @@ $strings["old_password"] = "Vecchia password";
 $strings["password"] = "password";
 $strings["new_password"] = "Nuova password";
 $strings["confirm_password"] = "Conferma password";
-$strings["email"] = "E-Mail";
 $strings["home_phone"] = "Telefono di casa";
 $strings["mobile_phone"] = "Cellulare";
-$strings["fax"] = "Fax";
 $strings["permissions"] = "Permessi";
 $strings["administrator_permissions"] = "Permessi amministratore";
 $strings["project_manager_permissions"] = "Permessi responsabile progetto";
@@ -263,7 +255,6 @@ $strings["search_properties"] = "Propriet&#224; della ricerca";
 $strings["date_restrictions"] = "Limitazioni delle date";
 $strings["case_sensitive"] = "Sensibile al carattere";
 $strings["yes"] = "Si";
-$strings["no"] = "No";
 $strings["sort_by"] = "Ordina per";
 $strings["type"] = "Tipo";
 $strings["date"] = "Data";
@@ -290,7 +281,6 @@ $strings["delete_file_success"] = "Eliminazione effettuata.";
 $strings["update_comment_file"] = "Il file di commento &egrave; stato aggiornato.";
 $strings["session_false"] = "Errore nella sessione";
 $strings["logs"] = "Log";
-$strings["logout_time"] = "Auto Log Out";
 $strings["noti_foot1"] = "Questa notifica &egrave; stata generata da PhpCollab.";
 $strings["noti_foot2"] = "Per vedere la homepage di PhpCollab Home Page, visita:";
 $strings["noti_taskassignment1"] = "Nuovo task:";
@@ -361,7 +351,6 @@ $strings["connected"] = "Connesso";
 $strings["session"] = "Sessione";
 $strings["last_visit"] = "Ultima visita";
 $strings["compteur"] = "Totale";
-$strings["ip"] = "Ip";
 $strings["task_owner"] = "Non fai parte del team di questo progetto";
 $strings["export"] = "Esporta";
 $strings["reassignment_clientuser"] = "Reassegnazione dei task";
@@ -456,7 +445,6 @@ $strings["help"] = "Aiuto";
 $strings["complete_date"] = "Data completata";
 $strings["scope_creep"] = "Slittamento scopo"; //cambiamento obiettivo
 $strings["days"] = "Giorni";
-$strings["logo"] = "Logo";
 $strings["remember_password"] = "Ricorda password";
 $strings["client_add_task_note"] = "Nota: Il task inserito è stato registrato nel data base, apparir&#224; qui solamente se assegnato ad un membro del team!";
 $strings["noti_clientaddtask1"] = "Task aggiunto dal cliente :";
@@ -531,7 +519,6 @@ $strings["team_subtask_details"] = "Dettagli team del sotto-task";
 $strings["client_subtask_details"] = "Dettagli cliente del sotto-task";
 $strings["client_change_status_subtask"] = "Modifica il tuo status sotto quando hai completato questo sotto-task";
 $strings["disabled_permissions"] = "Disabilita utente";
-$strings["user_timezone"] = "Timezone (GMT)";
 //2.2
 $strings["project_manager_administrator_permissions"] = "Amministratore responsabile progetto";
 $strings["bug"] = "Gestione Bug";
@@ -607,14 +594,10 @@ $strings["newsdesk_rss_enabled"] = "RSS abilitato per l'articolo";
 $strings["newsdesk_related_links"] = "Links correlati all'articolo";
 
 $strings["noti_memberactivation1"] = "Account attivato";
-$strings["noti_memberactivation2"] = "You have just been added into the phpCollab client management system.  This system has been developed and is continually being upgraded in order to help you, the client, keep tabs on the progress of your project.\n\nTo enter the system, point your browser (preferably Internet Explorer 6.x or Netscape Navigator 7.x) to $root and enter the following:";
-$strings["noti_memberactivation3"] = "username:";
-$strings["noti_memberactivation4"] = "password:";
 $strings["noti_memberactivation5"] = "Dopo aver compilato le informazioni sovrastanti ed aver premuto \"invio\" ti sarà permesso accedere al tuo account. \n\nInsieme a questa email, riceverai un messaggio riguardante la creazione e la modifica di nuovi task e per gli altri eventi che riguardano il tuo account. Queste email verranno mandate per tenerti informato sui progressi del tuo progetto.";
 
 //BEGIN email project users mod
 $strings["email_users"] = "Email Utenti";
-$strings["email_following"] = "Email Following";
 $strings["email_sent"] = "La tua email è stata inviata con successo";
 //END email project users mod
 
@@ -622,7 +605,6 @@ $strings["clients_connected"] = "(Clienti connessi nel project site)";
 
 //2.5b4
 $strings["Total_Hours_Worked"] = "Ore totali di lavoro";
-$strings["Pct_Complete"] = "Pct Complete";
 
 
 $strings["noti_filepost1"] = "Un nuovo file è stato caricato nel progetto";
@@ -632,7 +614,6 @@ $strings["noti_newfile2"] = "Un nuovo file è stato caricato per il progetto :";
 
 //2.5rc1
 $strings["location"] = "Luogo";
-$strings["calendar_broadcast"] = "Broadcast";
 
 //2.5rc2
 $strings["edit_noti_clientaddtask"] = "Un nuovo task è stato aggiunto dal cliente.";

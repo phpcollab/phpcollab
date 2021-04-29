@@ -20,7 +20,6 @@ $help["calendar_shortname"] = "Надпис, който да се появява
 $help["user_autologout"] = "Времето в секунди, за да бъдеш изключен, след определена неактивност. 0 (нула) за да изключиш тази опция";
 $help["user_timezone"] = "Настройте вашата времева зона (GMT)";
 //2.4
-$help["setup_clientsfilter"] = "Filter to see only logged user clients";
 $help["setup_projectsfilter"] = "Потребители ще виждат само проектите по който са разпределени";
 //2.5
 $help["setup_notificationMethod"] = "Настрой метода за изпращане на емайл съобщения: with internal php mail function (need for having a smtp server or sendmail configured in the parameters of php) or with a personalized smtp server";

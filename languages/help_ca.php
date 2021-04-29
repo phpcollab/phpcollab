@@ -19,8 +19,4 @@ $help["mycompany_logo"] = "Pugeu el logotip de l'empresa. Apareixerà a la capç
 $help["calendar_shortname"] = "Etiqueta que apareixerà a la vista del calendari mensual. És obligatòria";
 $help["user_autologout"] = "Temps en segons per desconnectar-se en cas de no activitat. Poseu 0 per deshabilitar aquesta opció";
 $help["user_timezone"] = "Establiu la vostra zona horària GMT";
-//2.4
-$help["setup_clientsfilter"] = "Filter to see only logged user clients";
-$help["setup_projectsfilter"] = "Filter to see only the project when the user are in the team";
 //2.5
-$help["setup_notificationMethod"] = "Set method to send email notifications: with internal php mail function (need for having a smtp server or sendmail configured in the parameters of php) or with a personalized smtp server";

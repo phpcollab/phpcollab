@@ -19,8 +19,4 @@ $help["mycompany_logo"] = "Firmanýzýn logosunu yükleyin . Site baþlýðý ye
 $help["calendar_shortname"] = "Aylýk takvim görüntüsünde gözükecek olan yazý. Mecburidir.";
 $help["user_autologout"] = "Sistemde faaliyet olmamasý durumunda baðlantýnýn kesileceði saniye süresi. Ýptal etmek için 0 yazýn";
 $help["user_timezone"] = "GMT zaman dilimini [timezone] ayarlayýn.";
-//2.4
-$help["setup_clientsfilter"] = "Filter to see only logged user clients";
-$help["setup_projectsfilter"] = "Filter to see only the project when the user are in the team";
 //2.5
-$help["setup_notificationMethod"] = "Set method to send email notifications: with internal php mail function (need for having a smtp server or sendmail configured in the parameters of php) or with a personalized smtp server";

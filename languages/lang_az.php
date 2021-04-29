@@ -57,9 +57,7 @@ $statusFile = array(
     4 => "İslah Edilməyib"
 );
 
-$phaseStatus = array(0 => "Not started", 1 => "Open", 2 => "Complete", 3 => "Suspended");
 
-$requestStatus = array(0 => "New", 1 => "Open", 2 => "Complete");
 
 $strings["please_login"] = "Zəhmət Olmasa Sistemə Girin";
 $strings["requirements"] = "Sistem Şərtləri";
@@ -149,7 +147,6 @@ $strings["user_name"] = "Ləqəb";
 $strings["work_phone"] = "İş Yeri Telefonu";
 $strings["priority"] = "Vaciblik";
 $strings["name"] = "Adı";
-$strings["id"] = "ID";
 $strings["description"] = "Təsvir";
 $strings["phone"] = "Telefon Nömrəsi";
 $strings["url"] = "Web Səhifəsi";
@@ -463,89 +460,8 @@ $strings["next"] = "Sonrakı";
 $strings["help"] = "Yardım";
 
 $strings["complete_date"] = "Tam tarix";
-$strings["scope_creep"] = "Scope creep";
-$strings["days"] = "Days";
-$strings["logo"] = "Logo";
-$strings["remember_password"] = "Remember Password";
-$strings["client_add_task_note"] = "Note: The entered task is registered into the data base, appears here however only if it one assigned to a team member!";
-$strings["noti_clientaddtask1"] = "Task added by client :";
-$strings["noti_clientaddtask2"] = "A new task was added by client from project site to the following project :";
-$strings["phase"] = "Phase";
-$strings["phases"] = "Phases";
-$strings["phase_id"] = "Phase ID";
-$strings["current_phase"] = "Active phase(s)";
-$strings["total_tasks"] = "Total Tasks";
 
-$strings["uncomplete_tasks"] = "Uncompleted Tasks";
-$strings["no_current_phase"] = "No phase is currently active";
-$strings["true"] = "True";
-$strings["false"] = "False";
-$strings["enable_phases"] = "Enable Phases";
-$strings["phase_enabled"] = "Phase Enabled";
-$strings["order"] = "Order";
-$strings["options"] = "Options";
-$strings["support"] = "Support";
-$strings["support_request"] = "Support Request";
-$strings["support_requests"] = "Support Requests";
-$strings["support_id"] = "Request ID";
-$strings["my_support_request"] = "My Support Requests";
-$strings["introduction"] = "Introduction";
-$strings["submit"] = "Submit";
-$strings["support_management"] = "Support Management";
-$strings["date_open"] = "Date Opened";
-$strings["date_close"] = "Date Closed";
-$strings["add_support_request"] = "Add Support Request";
-$strings["add_support_response"] = "Add Support Response";
-$strings["respond"] = "Respond";
-$strings["delete_support_request"] = "Support request deleted";
-$strings["delete_request"] = "Delete support request";
-$strings["delete_support_post"] = "Delete support post";
-$strings["new_requests"] = "New requests";
-$strings["open_requests"] = "Open requests";
-$strings["closed_requests"] = "Complete requests";
-$strings["manage_new_requests"] = "Manage new requests";
-$strings["manage_open_requests"] = "Manage open requests";
-$strings["manage_closed_requests"] = "Manage complete requests";
-$strings["responses"] = "Responses";
-$strings["edit_status"] = "Edit Status";
-$strings["noti_support_request_new2"] = "You have submited a support request regarding: ";
-$strings["noti_support_post2"] = "A new response has been added to your support request. Please review the details below.";
-$strings["noti_support_status2"] = "Your support request has been updated. Please review the details below.";
-$strings["noti_support_team_new2"] = "A new support request has been added to project: ";
 //2.0
 $strings["delete_subtasks"] = "Alt düymələri silin";
-$strings["add_subtask"] = "Add subtask";
-$strings["edit_subtask"] = "Edit subtask";
-$strings["subtask"] = "Subtask";
-$strings["subtasks"] = "Subtasks";
-$strings["show_details"] = "Show details";
-$strings["updates_task"] = "Task update history";
-$strings["updates_subtask"] = "Subtask update history";
 //2.1
 $strings["go_projects_site"] = "Layihələr saytına keçin";
-$strings["bookmark"] = "Bookmark";
-$strings["bookmarks"] = "Bookmarks";
-$strings["bookmark_category"] = "Category";
-$strings["bookmark_category_new"] = "New category";
-$strings["bookmarks_all"] = "All";
-$strings["bookmarks_my"] = "My Bookmarks";
-$strings["my"] = "My";
-$strings["bookmarks_private"] = "Private";
-$strings["shared"] = "Shared";
-$strings["private"] = "Private";
-$strings["add_bookmark"] = "Add bookmark";
-$strings["edit_bookmark"] = "Edit bookmark";
-$strings["delete_bookmarks"] = "Delete bookmarks";
-$strings["team_subtask_details"] = "Team Subtask Details";
-$strings["client_subtask_details"] = "Client Subtask Details";
-$strings["client_change_status_subtask"] = "Change your status below when you have completed this subtask";
-$strings["disabled_permissions"] = "Disabled account";
-$strings["user_timezone"] = "Timezone (GMT)";
-//2.2
-$strings["project_manager_administrator_permissions"] = "Project Manager Administrator";
-$strings["bug"] = "Bug Tracking";
-//2.3
-$strings["report"] = "Report";
-$strings["license"] = "License";
-//2.4
-$strings["settings_notwritable"] = "Settings.php file is not writable";

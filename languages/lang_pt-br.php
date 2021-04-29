@@ -140,10 +140,8 @@ $strings["user_name"] = "Nome de Usuário";
 $strings["work_phone"] = "Telefone Comercial";
 $strings["priority"] = "Prioridade";
 $strings["name"] = "Nome";
-$strings["id"] = "ID";
 $strings["description"] = "Descrição";
 $strings["phone"] = "Telefone";
-$strings["url"] = "URL";
 $strings["address"] = "Endereço";
 $strings["comments"] = "Comentários";
 $strings["created"] = "Criado";
@@ -189,10 +187,8 @@ $strings["old_password"] = "Senha Antiga";
 $strings["password"] = "Senha";
 $strings["new_password"] = "Nova Senha";
 $strings["confirm_password"] = "Confirme a Nova Senha";
-$strings["email"] = "E-Mail";
 $strings["home_phone"] = "Telefone Residencial";
 $strings["mobile_phone"] = "Telefone Celular";
-$strings["fax"] = "Fax";
 $strings["permissions"] = "Permissões";
 $strings["administrator_permissions"] = "Administrador";
 $strings["project_manager_permissions"] = "Gerente de Projeto";
@@ -376,7 +372,6 @@ $strings["approver"] = "Aprovador";
 $strings["error_database"] = "Não foi possível estabelecer uma conexão com o banco de dados";
 $strings["error_server"] = "Não foi possível estabelecer uma conexão com o servidor";
 $strings["version_control"] = "Controle de Versão";
-$strings["vc_status"] = "Status";
 $strings["vc_last_in"] = "Data da última modificação";
 $strings["ifa_comments"] = "Comentários de aprovação";
 $strings["ifa_command"] = "Alterar status da aprovação";
@@ -598,14 +593,10 @@ $strings["newsdesk_rss"] = "Ativar RSS";
 $strings["newsdesk_rss_enabled"] = "RSS Ativo";
 
 $strings["noti_memberactivation1"] = "Conta Ativada";
-$strings["noti_memberactivation2"] = "You have just been added into the phpCollab client management system.  This system has been developed and is continually being upgraded in order to help you, the client, keep tabs on the progress of your project.\n\nTo enter the system, point your browser (preferably Internet Explorer 6.x or Netscape Navigator 7.x) to $root and enter the following:";
 $strings["noti_memberactivation3"] = "Nome de Usuário:";
 $strings["noti_memberactivation4"] = "Senha:";
-$strings["noti_memberactivation5"] = "Once you have typed the information above and pressed \"enter\" you will be allowed to access  your account. \n\nIn tandem with this email, you will receive additional messages regarding activations, task submissions, and other events relating to your account.  These emails have been sent to keep you informed on the progress of your project.";
 
 //BEGIN email project users mod
-$strings["email_users"] = "Email Users";
-$strings["email_following"] = "Email Following";
 $strings["email_sent"] = "Seu email foi enviado com sucesso.";
 //END email project users mod
 

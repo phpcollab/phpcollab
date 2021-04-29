@@ -150,7 +150,6 @@ $strings["name"] = "Име";
 $strings["id"] = "Номер";
 $strings["description"] = "Описание";
 $strings["phone"] = "Телефон";
-$strings["url"] = "URL";
 $strings["address"] = "Адрес";
 $strings["comments"] = "Коментари";
 $strings["created"] = "Създаден";
@@ -196,7 +195,6 @@ $strings["old_password"] = "Стара парола";
 $strings["password"] = "Парола";
 $strings["new_password"] = "Нова парола";
 $strings["confirm_password"] = "Повтори паролата";
-$strings["email"] = "E-Mail";
 $strings["home_phone"] = "Домашен телефон";
 $strings["mobile_phone"] = "мобилен телефон";
 $strings["fax"] = "Факс";
@@ -274,7 +272,6 @@ $strings["all_content"] = "Цялото съдържание";
 $strings["all_properties"] = "Всички настройки";
 $strings["no_results_search"] = "Търсенето завърши без намерен резултат.";
 $strings["no_results_report"] = "Правенето на отчет завърши без намерен резултат.";
-$strings["schema_date"] = "YYYY/MM/DD";
 $strings["hours"] = "часове";
 $strings["choice"] = "избор";
 $strings["missing_file"] = "Липсващ файл !";
@@ -361,7 +358,6 @@ $strings["last_visit"] = "Последно посещение";
 $strings["compteur"] = "Брой";
 $strings["ip"] = "IP";
 $strings["task_owner"] = "Вие не сте влен на работната група на този проект";
-$strings["export"] = "Export";
 $strings["reassignment_clientuser"] = "Преразпредели задачата";
 $strings["organization_already_exists"] = "това име вече се използва. Моля въведете друго.";
 $strings["blank_organization_field"] = "Трябва да въведете име на организацията.";
@@ -469,8 +465,6 @@ $strings["current_phase"] = "Активни фази";
 $strings["total_tasks"] = "Общо Задачи";
 $strings["uncomplete_tasks"] = "Недовършени Задачи";
 $strings["no_current_phase"] = "Не е активна фаза в момента";
-$strings["true"] = "True";
-$strings["false"] = "False";
 $strings["enable_phases"] = "Активна Фаза";
 $strings["phase_enabled"] = "Фазите са активирани";
 $strings["order"] = "Ред";
@@ -534,7 +528,6 @@ $strings["disabled_permissions"] = "Заключен акаунт";
 $strings["user_timezone"] = "Часова зона (GMT)";
 //2.2
 $strings["project_manager_administrator_permissions"] = "Ръководител Проек - админ";
-$strings["bug"] = "Bug Tracking";
 //2.3
 $strings["report"] = "Доклад";
 $strings["license"] = "Лиценз";
@@ -611,15 +604,12 @@ $strings["noti_memberactivation1"] = "Акаунта е активиран";
 $strings["noti_memberactivation2"] = "Вие сте добавен в системата за управление на клиенти.  Системата е създадена за ваше улеснение за да можете да следните статуса на свойте проекти.\n\nЗа да влезете в системата , насовече своя браузер (вероятно Internet Explorer 6.x или Netscape Navigator 7.x) към $root и въведете:";
 $strings["noti_memberactivation3"] = "потребителско име:";
 $strings["noti_memberactivation4"] = "парола:";
-$strings["noti_memberactivation5"] = "Once you have typed the information above and pressed \"enter\" you will be allowed to access  your account. \n\nIn tandem with this email, you will receive additional messages regarding activations, task submissions, and other events relating to your account.  These emails have been sent to keep you informed on the progress of your project.";
 
 //BEGIN email project users mod
-$strings["email_users"] = "Email Users";
 $strings["email_following"] = "Изпрати съобщение на следните";
 $strings["email_sent"] = "Вашия емайл е изпратен успешно.";
 //END email project users mod
 
-$strings["clients_connected"] = "(Client on project site)";
 
 //2.5b4
 $strings["Total_Hours_Worked"] = "Общо изработени часове";

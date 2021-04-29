@@ -1,26 +1,4 @@
 <?php
-/*
-** Application name: phpCollab
-** Path by root: ../includes/library.php
-**
-** =============================================================================
-**
-**               phpCollab - Project Management
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: library.php
-**
-** DESC: Screen: library file
-**
-** -----------------------------------------------------------------------------
-** TO-DO:
-** move to a better login system and authentication (try to db session)
-**
-** =============================================================================
-*/
 
 use DebugBar\DebugBarException;
 use DebugBar\StandardDebugBar;
@@ -175,9 +153,11 @@ if (!empty($session->get('langDefault'))) {
 
 include APP_ROOT . '/includes/initrequests.php';
 
+// Load english as the default language.
 require_once APP_ROOT . '/languages/lang_en.php';
 require_once APP_ROOT . '/languages/help_en.php';
 
+// If language is not set to english, then load it, over-write the defaults as needed.
 if ($session->get("language") !== 'en') {
     require_once APP_ROOT . '/languages/lang_' . $session->get("language") . '.php';
     require_once APP_ROOT . '/languages/help_' . $session->get("language") . '.php';

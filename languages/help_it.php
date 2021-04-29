@@ -23,6 +23,5 @@ $help["user_timezone"] = "Configura il tuo fuso orario (GMT)";
 $help["setup_clientsfilter"] = "Filtra per vedere solo i clienti autenticati";
 $help["setup_projectsfilter"] = "Filtra per vedere solo il progetto quando l'utente è nel gruppo di lavoro";
 //2.5
-$help["setup_notificationMethod"] = "Set method to send email notifications: with internal php mail function (need for having a smtp server or sendmail configured in the parameters of php) or with a personalized smtp server";
 //2.5 fullo
 $help["newsdesk_links"] = "per aggiungere più links utilizza il punto e virgola";

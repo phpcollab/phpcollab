@@ -23,4 +23,3 @@ $help["user_timezone"] = "Uzstâdiet GMT laika zonu";
 $help["setup_clientsfilter"] = "Filtrs lai redzçtu tikai logotos klienta lietotâjus";
 $help["setup_projectsfilter"] = "Filtrs lai râdîtu tikai projektus kuru komandâs iekïauts lietotâjs";
 //2.5
-$help["setup_notificationMethod"] = "Set method to send email notifications: with internal php mail function (need for having a smtp server or sendmail configured in the parameters of php) or with a personalized smtp server";
