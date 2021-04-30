@@ -3,10 +3,6 @@
 #Status page: 1
 #Path by root: ../phases/listphases.php
 
-use phpCollab\Phases\Phases;
-use phpCollab\Projects\Projects;
-use phpCollab\Tasks\Tasks;
-use phpCollab\Teams\Teams;
 use phpCollab\Util;
 
 $checkSession = "true";
@@ -19,11 +15,11 @@ $tasks = $container->getTasksLoader();
 
 include APP_ROOT . '/views/layout/header.php';
 
-$projectDetail = $projects->getProjectById($id);
+$projectDetail = $projects->getProjectById( $request->query->get("id") );
 
 $teamMember = "false";
 
-$teamMember = $teams->isTeamMember($id, $session->get("id"));
+$teamMember = $teams->isTeamMember($request->query->get("id"), $session->get("id"));
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -40,7 +36,7 @@ if ($msg != "") {
 if ($teamMember == "true" || $session->get("profile") == "5") {
     $block7 = new phpCollab\Block();
     $block7->form = "wbSe";
-    $block7->openForm("../phases/listphases.php?id=$id&#".$block7->form."Anchor", null, $csrfHandler);
+    $block7->openForm("../phases/listphases.php?id={$request->query->get("id")}&#".$block7->form."Anchor", null, $csrfHandler);
     $block7->headingToggle($strings["phases"], $request->cookies->get( $block7->form ));
     $block7->openPaletteIcon();
 
@@ -55,13 +51,13 @@ if ($teamMember == "true" || $session->get("profile") == "5") {
 
     $block7->sorting("phases", $sortingUser["phases"], "pha.order_num ASC", $sortingFields = array(0=>"pha.order_num",1=>"pha.name",2=>"none",3=>"none",4=>"pha.status",5=>"pha.date_start",6=>"pha.date_end"));
 
-    $listPhases = $phases->getPhasesByProjectId($id, $block7->sortingValue);
+    $listPhases = $phases->getPhasesByProjectId($request->query->get("id"), $block7->sortingValue);
 
     if ($listPhases) {
         $block7->openResults();
         $block7->labels($labels = array(0=>$strings["order"],1=>$strings["name"],2=>$strings["total_tasks"],3=>$strings["uncomplete_tasks"],4=>$strings["status"],5=>$strings["date_start"],6=>$strings["date_end"]), "false");
 
-        $listPhaseTasks = $tasks->getTasksByProjectId($id);
+        $listPhaseTasks = $tasks->getTasksByProjectId($request->query->get("id"));
 
         foreach ($listPhases as $phase) {
             $comptlistTasksRow = 0;
