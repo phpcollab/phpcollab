@@ -8,17 +8,13 @@ use Symfony\Component\HttpFoundation\Session\Attribute\NamespacedAttributeBag;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 
-
-function phpcollab_global_exception_handler($exception) {
-    //this code should log the exception to disk and an error tracking system
-    error_log("FATAL ERROR: " . $exception . "\n");
-    error_log("FATAL ERROR: " . $exception . "\n", 3, "./logs/phpcollab.log");
-    phpCollab\Util::headerFunction("../views/fatal_error.php");
-}
-
-set_exception_handler('phpcollab_global_exception_handler');
-
 define('APP_ROOT', dirname(dirname(__FILE__)));
+
+set_exception_handler(function ($exception) {
+    error_log("FATAL ERROR (1): " . $exception . "\n");
+    error_log("FATAL ERROR (2): " . $exception . "\n", 3, APP_ROOT . "/logs/phpcollab.log");
+    require_once APP_ROOT . "/views/fatal_error.php";
+});
 
 require APP_ROOT . '/vendor/autoload.php';
 
