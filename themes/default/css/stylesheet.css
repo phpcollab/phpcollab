@@ -693,7 +693,7 @@ span.error {
     color: darkred;
 }
 
-a[href^="mailto:"]::after {
+a[href^="mailto:"]:not(.noIcon)::after {
     content: "\f0e0";
     font-family: "Font Awesome 5 Free", sans-serif;
     font-size: 12px;
@@ -705,7 +705,7 @@ a[href^="mailto:"]::after {
     opacity: 0.45;
 }
 
-a[href^="http"]::after {
+a[href^="http"]:not(.noIcon)::after {
     content: "\f35d";
     font-family: "Font Awesome 5 Free", sans-serif;
     font-size: 10px;
