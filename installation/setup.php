@@ -366,10 +366,13 @@ HTML;
                     <div class="alert success" style="width: 25vw;">
                         {$msg}
                     </div>
+                    
+                    <div class="alert info" style="width: 25vw;">
+                        {$help["setup_social_info"]}
+                    </div>
                 </td>
             </tr>
 HTML;
-
     }
     $block1->closeContent();
 }
