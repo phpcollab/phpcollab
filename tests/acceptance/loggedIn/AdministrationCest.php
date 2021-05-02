@@ -138,21 +138,6 @@ class AdministrationCest
      * @param AcceptanceTester $I
      * @depends accessAdminSection
      */
-    public function viewEditDatabase(AcceptanceTester $I)
-    {
-        $I->wantTo('View Edit Database Screen');
-        $I->amOnPage('/administration/admin.php');
-        $I->seeInTitle('Administration');
-        $I->see('Administration', ['css' => '.heading']);
-        $I->click('Edit database');
-        $I->seeInTitle('Edit Database');
-        $I->dontSeeElement('.error');
-    }
-
-    /**
-     * @param AcceptanceTester $I
-     * @depends accessAdminSection
-     */
     public function viewUserManagement(AcceptanceTester $I)
     {
         $I->wantTo('View User List');
