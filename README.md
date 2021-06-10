@@ -1,6 +1,6 @@
 [![logo](https://phpcollab.com/img/logo.png?utm_source=github_repo&utm_medium=readme&utm_campaign=github)](https:/phpcollab.com?utm_source=github_repo&utm_medium=readme&utm_campaign=github)
 
-[phpCollab](https:/phpcollab.com?utm_source=github_repo&utm_medium=readme&utm_campaign=github) now uses Composer! Do not clone this repo right into a web directory - it requires a build step. [Learn more](https://phpcollab.github.io/phpcollab/developer/Build-Process.html) or just [download the latest build instead](https://github.com/phpcollab/phpcollab/releases/latest).
+[phpCollab](https://phpcollab.com?utm_source=github_repo&utm_medium=readme&utm_campaign=github) now uses Composer! Do not clone this repo right into a web directory - it requires a build step. [Learn more](https://phpcollab.github.io/phpcollab/developer/Build-Process.html) or just [download the latest build instead](https://github.com/phpcollab/phpcollab/releases/latest).
 
 phpCollab
 ===
