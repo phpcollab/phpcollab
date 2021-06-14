@@ -38,7 +38,7 @@ class ResetPassword extends Members
      */
     private function generateToken($memberId)
     {
-        $this->logger->info('Reset Password', ['Method' => 'generateToken']);
+        $this->logger->notice('Reset Password', ['Method' => 'generateToken', 'memberId' => $memberId]);
         try {
             $this->token = bin2hex(random_bytes(32));
             $date = new DateTime();
@@ -67,7 +67,7 @@ SQL;
      */
     private function resetPassword(int $memberId, string $password)
     {
-        $this->logger->info('Reset Password', ['Method' => 'resetPassword']);
+        $this->logger->notice('Reset Password', ['Method' => 'resetPassword']);
         try {
             if (!isset($memberId) || !isset($password)) {
                 throw new InvalidArgumentException('Invalid member id or password');
@@ -100,7 +100,7 @@ SQL;
      */
     public function validate(Request $request)
     {
-        $this->logger->info('Reset Password', ['Method' => 'validate']);
+        $this->logger->notice('Reset Password', ['Method' => 'validate']);
         try {
             if (!empty($request) && !empty($request->request->get("token")) && !empty($request->request->get("password")) && !empty($request->request->get("passwordConfirm"))) {
 
@@ -141,7 +141,7 @@ SQL;
      */
     private function validateTimestamp($timestamp, $offset = 24)
     {
-        $this->logger->info('Reset Password', ['Method' => 'validateTimestamp']);
+        $this->logger->notice('Reset Password', ['Method' => 'validateTimestamp']);
         $tokenCreateTime = new DateTime();
         $tokenCreateTime->setTimestamp($timestamp);
 
@@ -157,7 +157,7 @@ SQL;
      */
     private function sendTokenEmail()
     {
-        $this->logger->info('Reset Password', ['Method' => 'sendTokenEmail']);
+        $this->logger->notice('Reset Password', ['Method' => 'sendTokenEmail']);
         try {
             // Read the email template
             $template = file_get_contents( APP_ROOT . '/templates/email/reset_password_link.html');
@@ -191,14 +191,18 @@ SQL;
      */
     public function forgotPassword($username)
     {
-        $this->logger->info('Reset Password', ['Method' => 'forgotPassword']);
+        $this->logger->notice('Reset Password', ['Method' => 'forgotPassword']);
         $this->userDetails = $this->getMemberByLogin($username);
 
         if ($this->userDetails && $this->userDetails["mem_email_work"] != "") {
             // Generate a token
+            $this->logger->info('Reset Password', ['Method' => 'forgotPassword', 'Call' => 'generateToken']);
             if ($this->generateToken($this->userDetails["mem_id"]) && !empty($this->token)) {
+                $this->logger->info('Reset Password - call sendTokenEmail');
                 $this->sendTokenEmail();
             }
+        } else {
+            $this->logger->warning('Reset Password', ['Method' => 'forgotPassword', 'Member not found for username:' => $username]);
         }
     }
 
@@ -208,7 +212,7 @@ SQL;
      */
     private function sendSuccessResetEmailNotification()
     {
-        $this->logger->info('Reset Password', ['Method' => 'sendSuccessResetEmailNotification']);
+        $this->logger->notice('Reset Password', ['Method' => 'sendSuccessResetEmailNotification']);
 
         if (!$this->userDetails) {
             $this->logger->error('Reset Password', ['Method' => 'sendSuccessResetEmailNotification']);

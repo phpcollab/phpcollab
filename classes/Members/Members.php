@@ -49,6 +49,7 @@ class Members
      */
     public function getMemberByLogin($memberLogin)
     {
+        $this->logger->info('Members', ['Method' => 'getMemberByLogin', 'memberLogin' => $memberLogin]);
         return $this->members_gateway->getMemberByLogin($memberLogin);
     }
 
