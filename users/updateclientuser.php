@@ -15,10 +15,8 @@ if (empty($userId) || empty($orgId)) {
 $organizations = $container->getOrganizationsManager();
 
 $clientDetail = $organizations->getOrganizationById($orgId);
-$comptDetailClient = count($detailClient);
 
 $userDetail = $members->getMemberById($userId);
-$comptUserDetail = count($userDetail);
 
 //case update client user
 if ($request->isMethod('post')) {
