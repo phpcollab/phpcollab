@@ -27,7 +27,8 @@
     "symfony/security-csrf": "^4.4",
     "symfony/mime": "^4.4",
     "sabre/vobject": "^4.3",
-    "symfony/filesystem": "^5.1"
+    "symfony/filesystem": "^5.1",
+    "ramsey/uuid": "^4.1"
   },
   "require-dev": {
     "ext-ftp": "*",

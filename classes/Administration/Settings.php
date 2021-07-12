@@ -6,6 +6,7 @@ namespace phpCollab\Administration;
 
 use Exception;
 use Monolog\Logger;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Filesystem\Filesystem;
 
 class Settings
@@ -44,13 +45,7 @@ class Settings
                 $populatedTemplate = strtr($settingsTemplate, $parameterizedSettings);
 
                 if ($backup) {
-                    // Check to see if a settings.php file already exists, if so create a backup first.
-                    if ($filesystem->exists($settingsFilePath)) {
-                        // Backup file name format: settings-yyyy-mm-dd-h-s.php
-                        // Using .php so that the file is not viewable in the browser if someone happened to
-                        // figure out/stumble upon the exact timestamp
-                        $filesystem->copy($settingsFilePath, $includesPath . 'settings-' . date('Y-m-d-h_ia') . '.php');
-                    }
+                    self::backupSettings($includesPath, $logger);
                 }
 
                 // Create the settings.php file
@@ -85,14 +80,70 @@ class Settings
         return $parameterized;
     }
 
+    /**
+     * @param $settingsData
+     * @return array
+     */
     public static function prepareSettings($settingsData)
     {
         return array_replace_recursive(self::getDefaultValues(), $settingsData);
     }
 
     /**
+     * @param $appRoot
+     * @param Logger $logger
+     * @param bool $backup
+     * @return string
+     * @throws Exception
+     */
+    public static function appendUUID($appRoot, Logger $logger, $backup = true)
+    {
+        $filesystem = new Filesystem();
+        $uuid = Uuid::uuid4();
+
+        $includesPath = $appRoot . '/includes/';
+        $settingsFilePath = $includesPath . 'settings.php';
+
+        try {
+
+            if ($backup) {
+                self::backupSettings($includesPath, $logger);
+            }
+
+            $logger->info("Writing settings to the ~/includes/settings.php file");
+            $filesystem->appendToFile($settingsFilePath, '$uuid = "' . $uuid->toString() . '";' . "\n");
+            return $uuid->toString();
+
+        } catch (Exception $exception) {
+            $logger->error('Unable to append the UUID to the settings.php file');
+            throw new Exception('Unable to append the UUID to the settings.php file');
+        }
+    }
+
+    /**
+     * @param string $includesPath
+     * @param Logger $logger
+     * @throws Exception
+     */
+    private static function backupSettings(string $includesPath, Logger $logger)
+    {
+        try {
+            $filesystem = new Filesystem();
+            if ($filesystem->exists($includesPath . 'settings.php')) {
+                // Backup file name format: settings-yyyy-mm-dd-h-m.php
+                // Using .php so that the file is not viewable in the browser if someone happened to
+                // figure out/stumble upon the exact timestamp
+                $logger->info("Backing up settings settings to ~/includes/settings-" . date('Y-m-d-h_ia') . ".php file");
+                $filesystem->copy($includesPath . 'settings.php', $includesPath . 'settings-' . date('Y-m-d-h_ia') . '.php');
+            }
+        } catch (Exception $exception) {
+            throw new Exception($exception);
+        }
+    }
+
+    /**
      * Array of default values.
-     * User supplied values will override these.  These are just used to make sure that there are valid values always set
+     * User supplied values will override these.  These are just used to make sure that valid values are always set
      *
      * @return array
      */

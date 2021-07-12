@@ -131,6 +131,7 @@ $myDatabase = MYDATABASE;
 $versionOld = null;
 
 echo <<<HTML
+    	<input value="{$uuid}" name="uuid" type="hidden" />
     	<input value="{$tablePrefix}" name="dbTablePrefix" type="hidden" />
 		<input value="{$databaseType}" name="databaseType" type="hidden" />
 		<input value="{$myServer}" name="dbServer" type="hidden" />

@@ -35,21 +35,29 @@ class Administration
 
     /**
      * @param $oldVersion
+     * @param string $uuid
      * @param Session $session
-     * @return bool | string
+     * @return bool
      */
-    public function checkForUpdate($oldVersion, Session $session)
+    public function checkForUpdate($oldVersion, string $uuid, Session $session)
     {
         if (empty($session->get('updateAvailable'))) {
             try {
+
+                $headers = [
+                    'X-server' => $_SERVER['SERVER_SOFTWARE'],
+                    'X-phpcollab_version' => $oldVersion,
+                    'X-php_version' => phpversion(),
+                ];
+
+                if (isset($uuid) && !empty($uuid)) {
+                    $headers['X-uuid'] = $uuid;
+                }
+
                 $client = new Client([
                     'base_uri' => 'https://www.phpcollab.com',
                     'timeout' => 2.0,
-                    'headers' => [
-                        'X-server' => $_SERVER['SERVER_SOFTWARE'],
-                        'X-phpcollab_version' => $oldVersion,
-                        'X-php_version' => phpversion(),
-                    ]
+                    'headers' => $headers
                 ]);
 
                 $res = $client->request('GET', '/website/version.php',

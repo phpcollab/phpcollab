@@ -10,6 +10,7 @@ use phpCollab\Administration;
 use phpCollab\Container;
 use phpCollab\DataFunctionsService;
 use phpCollab\Util;
+use Ramsey\Uuid\Uuid;
 
 class Installation
 {
@@ -69,6 +70,11 @@ class Installation
             // We don't want to scrub password
             $this->scrubbedData["adminPassword"] = $data["adminPassword"];
             $this->scrubbedData["dbPassword"] = $data["dbPassword"];
+
+            // Create a UUID for the install
+            $uuid = Uuid::uuid4();
+
+            $this->scrubbedData["uuid"] = $uuid->toString();
 
             // Create the database tables
             $this->createDatabaseTables();

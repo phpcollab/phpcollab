@@ -71,6 +71,10 @@
     /*
      * Alert Styles
      */
+    --alert-color: #171717;
+    --alert-bg: #D4D4D4;
+    --alert-border-color: #A3A3A3;
+
     --alert-error-color: var(--dark-red);
     --alert-error-bg: papayawhip;
     --alert-error-border-color: indianred;
@@ -650,9 +654,11 @@ td.footerCell strong {
 .alert {
     padding: 1em;
     margin: 1rem;
-    border: 1px solid transparent;
+    border: 1px solid var(--alert-border-color);
     font-weight: normal;
     font-size: 1rem;
+    color: var(--alert-color);
+    background-color: var(--alert-bg);
 }
 
 .alert.error {
@@ -675,8 +681,8 @@ td.footerCell strong {
 }
 
 .alert.note {
-    width: fit-content;
     width: -moz-fit-content;
+    width: fit-content;
     max-width: 50vw;
     font-size: 0.9rem;
 }

@@ -224,3 +224,5 @@ $emailAlerts = %emailAlerts%;
 $footerDev = %footerDev%;
 
 $logLevel = %logLevel%;
+
+$uuid = "%uuid%";

@@ -26,6 +26,8 @@
 ** =============================================================================
 */
 
+use phpCollab\Administration\Settings;
+
 $checkSession = "true";
 require_once '../includes/library.php';
 $setTitle .= " : Administration";
@@ -101,14 +103,23 @@ HTML;
 }
 
 
+if (!isset($uuid) || empty($uuid)) {
+    try {
+        $uuid = Settings::appendUUID(APP_ROOT, $logger);
+    } catch (Exception $e) {
+        $logger->error('Exception', ['Error' => $e->getMessage()]);
+    }
+}
+
 if ($updateChecker == "true" && $installationType == "online") {
-    $admin->checkForUpdate($version, $session);
+
+    $admin->checkForUpdate($version, $uuid, $session);
 
     if ($admin->isUpdate() !== false) {
         $checkMsg = <<<HTML
         <div class="alert info">
             <h3>{$strings["update_available"]}</h3>
-            <p>{$strings["version_current"]} {$version} {$strings["version_latest"]} {$admin->getNewVersion()}.</p>
+            <p>{$strings["version_current"]} $version {$strings["version_latest"]} {$admin->getNewVersion()}.</p>
 HTML;
         $checkMsg .= "<p>" . sprintf($strings["latest_release_link_text"], "https://github.com/phpcollab/phpcollab/releases/latest") . "</p>";
         $checkMsg .= <<<HTML
