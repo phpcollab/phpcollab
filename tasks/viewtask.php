@@ -387,21 +387,22 @@ if ($fileManagement == "true") {
             if ($existFile == "true") {
                 $block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $file["fil_id"], $type,
                     "icone"));
-            } else {
-                $block2->cellRow("&nbsp;");
-            }
-
-            if ($existFile == "true") {
                 $block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $file["fil_id"],
                     $file["fil_name"], "in"));
             } else {
-                $block2->cellRow($strings["missing_file"] . " (" . $file["fil_name"] . ")");
+                $block2->cellRow("&nbsp;");
+                $block2->cellRow('<span style="color: #f00000; margin-right: 1rem;">' . $strings["missing_file"] . '</span>' . ' (' . $file["fil_name"] . ')');
             }
 
             $block2->cellRow($blockPage->buildLink($file["fil_mem_email_work"], $file["fil_mem_login"], "mail"));
             $block2->cellRow($file["fil_date"]);
-            $block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $file["fil_id"],
-                $GLOBALS["statusFile"][$idStatus], "in"));
+
+            if ($idStatus != 3) {
+                $block2->cellRow($blockPage->buildLink("../linkedcontent/viewfile.php?id=" . $file["fil_id"],
+                    $GLOBALS["statusFile"][$idStatus], "in"));
+            } else {
+                $block2->cellRow($GLOBALS["statusFile"][$idStatus]);
+            }
 
             if ($sitePublish == "true") {
                 $block2->cellRow($statusPublish[$idPublish]);
@@ -578,7 +579,7 @@ if ($listSubtasks) {
         echo "
 			<div id='ganttChart_taskList' class='ganttChart'>
 				<img src='../subtasks/graphsubtasks.php?task=" . $id . "' alt=''><br/>
-				<span class='listEvenBold''>" . $blockPage->buildLink("http://www.aditus.nu/jpgraph/", "JpGraph",
+				<span class='listEvenBold''>" . $blockPage->buildLink("https://www.aditus.nu/jpgraph/", "JpGraph",
                 "powered") . "</span>	
 			</div>
 		";
