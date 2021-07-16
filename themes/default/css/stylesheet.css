@@ -477,6 +477,10 @@ p.error:last-of-type {
     padding: 0.5em;
 }
 
+.tableRevision td a {
+    margin-left: 1rem;
+}
+
 .revisionTr {
     border-top: 1px solid #999999;
     border-bottom: 1px solid #999999;
