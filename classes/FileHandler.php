@@ -51,6 +51,7 @@ class FileHandler
         case "gif":
             $this->type = "gif.gif";
             break;
+        case "jpeg":
         case "jpg":
             $this->type = "jpg.gif";
             break;
