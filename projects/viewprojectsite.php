@@ -19,6 +19,8 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
+$id = $request->query->get("id");
+
 $projects = $container->getProjectsLoader();
 $teams = $container->getTeams();
 
