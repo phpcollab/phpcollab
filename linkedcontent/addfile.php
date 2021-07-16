@@ -120,20 +120,20 @@ if ($request->isMethod('post')) {
             if ($taskId != "0") {
 
                 if ($docopy == "true") {
-                    phpCollab\Util::uploadFile("files/{$project}/{$task}",
+                    phpCollab\Util::uploadFile("files/{$projectId}/{$taskId}",
                         $request->files->get('upload')->getPathName(), "{$num}--" . $filename);
-                    $size = phpCollab\Util::fileInfoSize("../files/" . $project . "/" . $task . "/" . $num . "--" . $filename);
-                    $chaine = strrev("../files/" . $project . "/" . $task . "/" . $num . "--" . $filename);
-                    $tab = explode(".", $chaine);
+                    $size = phpCollab\Util::fileInfoSize("../files/" . $projectId . "/" . $taskId . "/" . $num . "--" . $filename);
+                    $filePath = strrev("../files/" . $projectId . "/" . $taskId . "/" . $num . "--" . $filename);
+                    $tab = explode(".", $filePath);
                     $extension = strtolower(strrev($tab[0]));
                 }
             } else {
                 if ($docopy == "true") {
-                    phpCollab\Util::uploadFile("files/{$project}", $request->files->get('upload')->getPathName(),
+                    phpCollab\Util::uploadFile("files/{$projectId}", $request->files->get('upload')->getPathName(),
                         "{$num}--" . $filename);
-                    $size = phpCollab\Util::fileInfoSize("../files/" . $project . "/" . $num . "--" . $filename);
-                    $chaine = strrev("../files/" . $project . "/" . $num . "--" . $filename);
-                    $tab = explode(".", $chaine);
+                    $size = phpCollab\Util::fileInfoSize("../files/" . $projectId . "/" . $num . "--" . $filename);
+                    $filePath = strrev("../files/" . $projectId . "/" . $num . "--" . $filename);
+                    $tab = explode(".", $filePath);
                     $extension = strtolower(strrev($tab[0]));
                 }
             }
