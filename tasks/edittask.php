@@ -525,16 +525,16 @@ if (
                     $form_data["status"] = 1;
                 }
 
-                if (!empty($form_data["published"])) {
-                    $published = 1;
+                if (empty($form_data["published"])) {
+                    $form_data["published"] = 1;
                 }
 
-                if (!empty($form_data["invoicing"])) {
-                    $invoicing = 0;
+                if (empty($form_data["invoicing"])) {
+                    $form_data["invoicing"] = 0;
                 }
 
-                if (!empty($form_data["worked_hours"])) {
-                    $worked_hours = "0.00";
+                if (empty($form_data["worked_hours"])) {
+                    $form_data["worked_hours"] = "0.00";
                 }
 
                 try {
