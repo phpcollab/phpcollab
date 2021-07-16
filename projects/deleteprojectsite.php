@@ -18,7 +18,7 @@ if ($request->isMethod('post')) {
         if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
             if ($request->request->get("action") == "delete") {
                 $projects->publishProject($projectId, false);
-                phpCollab\Util::headerFunction("../projects/viewprojectsite.php?id={$projectId}&msg=removeProjectSite");
+                phpCollab\Util::headerFunction("../projects/viewproject.php?id={$projectId}&msg=removeProjectSite");
             }
         }
     } catch (InvalidCsrfTokenException $csrfTokenException) {
