@@ -98,7 +98,7 @@ $block1->openPaletteScript();
 
 if ($session->get("profile") == "0" || $session->get("profile") == "1" || $session->get("profile") == "5") {
     $block1->paletteScript(0, "add", "../newsdesk/addnews.php", "true,true,true", $strings["add_newsdesk"]);
-    $block1->paletteScript(1, "remove", "../newsdesk/editnews.php?action=remove&id=" . $request->query->get("id"),
+    $block1->paletteScript(1, "remove", "../newsdesk/deletenews.php?action=remove&id=" . $request->query->get("id"),
         "true,false,true", $strings["del_newsdesk"]);
     $block1->paletteScript(3, "edit", "../newsdesk/editnews.php?id=" . $request->query->get("id"), "true,true,true",
         $strings["edit_newsdesk"]);

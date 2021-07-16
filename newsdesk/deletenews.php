@@ -25,6 +25,9 @@ if ($session->get("profile") != "0" && $session->get("profile") != "1" && $sessi
     phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$id&msg=permissionNews");
 }
 
+$news = $container->getNewsdeskLoader();
+$projects = $container->getProjectsLoader();
+
 if ($request->isMethod('post')) {
     try {
         if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
@@ -45,8 +48,6 @@ if ($request->isMethod('post')) {
     }
 }
 
-$news = $container->getNewsdeskLoader();
-$projects = $container->getProjectsLoader();
 
 $id = $request->query->get('id');
 
