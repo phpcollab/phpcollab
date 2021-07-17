@@ -178,7 +178,7 @@ HTML;
 
     if ($connection == "off" || $_POST["installationType"] == "offline") {
         echo "<input value='false' name='updateChecker' type='hidden'>";
-    } elseif (@join('', file("http://www.phpcollab.com/website/version.txt"))) {
+    } elseif (@join('', file("https://www.phpcollab.com/website/version.php"))) {
         echo "<input value='true' name='updateChecker' type='hidden'>";
     } else {
         echo "<input value='false' name='updateChecker' type='hidden'>";
