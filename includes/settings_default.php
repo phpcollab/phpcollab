@@ -3,6 +3,9 @@
 #Status page: 2
 #Path by root: ../includes/settings_default.php
 
+# PhpCollab version
+$version = "2.9.0";
+
 # installation type
 $installationType = "online"; //select "offline" or "online"
 
@@ -138,9 +141,6 @@ $tableCollab["invoices_items"] = "invoices_items";
 $tableCollab["services"] = "services";
 $tableCollab["newsdeskcomments"] = "newsdeskcomments";
 $tableCollab["newsdeskposts"] = "newsdeskposts";
-
-# PhpCollab version
-$version = "2.8.2";
 
 # demo mode parameters
 $demoMode = false;
