@@ -17,7 +17,11 @@ if (!empty($commentId)) {
     $commentDetail = $newsDesk->getNewsDeskCommentById($commentId);
 
     if (!$commentDetail) {
-        phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postId&msg=blankNews");
+        $session->getFlashBag()->add(
+            'message',
+            $strings["newsdesk_item_blank"]
+        );
+        phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=" . $postId);
     }
 
     // only comment's author, admin, prj-adm and prj-man can change the comments
@@ -26,7 +30,11 @@ if (!empty($commentId)) {
     if (!in_array($session->get('profile'), [0, 1, 5])
         && $session->get("id") != $commentDetail["newscom_name"]
     ) {
-        phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postId&msg=commentpermissionNews");
+        $session->getFlashBag()->add(
+            'message',
+            $strings["errorpermission_newsdesk_comment"]
+        );
+        phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=" . $postId);
     }
 
     // Make sure the form was submitted
@@ -34,11 +42,15 @@ if (!empty($commentId)) {
         try {
             if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
                 if ($action == "update") {
-                    $comment = phpCollab\Util::convertData($request->request->get("comment"));
 
-                    $newsDesk->setComment($commentId, $comment);
+                    $newsDesk->setComment($commentId, $request->request->get("comment"));
 
-                    phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postId&msg=update");
+                    $session->getFlashBag()->add(
+                        'message',
+                        $strings["newsdesk_comment_updated"]
+                    );
+
+                    phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=" . $postId);
                 }
             }
         } catch (InvalidCsrfTokenException $csrfTokenException) {
@@ -49,10 +61,15 @@ if (!empty($commentId)) {
             ]);
         } catch (Exception $e) {
             $logger->critical('Exception', ['Error' => $e->getMessage()]);
-            $msg = 'permissiondenied';
+            $session->getFlashBag()->add(
+                'message',
+                $strings["no_permissions"]
+            );
         }
     }
 }
+
+$setTitle .= " : " . $strings["edit_newsdesk_comment"];
 
 include APP_ROOT . '/views/layout/header.php';
 
@@ -69,7 +86,10 @@ $blockPage->itemBreadcrumbs($strings["edit_newsdesk_comment"]);
 
 $blockPage->closeBreadcrumbs();
 
-if (!empty($msg)) {
+
+if ($session->getFlashBag()->has('message')) {
+    $blockPage->messageBox( $session->getFlashBag()->get('message')[0] );
+} else if ($msg != "") {
     include '../includes/messages.php';
     $blockPage->messageBox($msgLabel);
 }
@@ -82,9 +102,9 @@ if (isset($error) && !empty($error)) {
 $block1 = new phpCollab\Block();
 
 echo <<<FORMSTART
-<form name="ecDForm" id="{$block1->form}Anchor" method="post" action="../newsdesk/editcomment.php?postid={$postId}&id={$commentId}">
+<form name="ecDForm" id="{$block1->form}Anchor" method="post" action="../newsdesk/editcomment.php?postid=$postId&id=$commentId">
     <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}">
-    <input type="hidden" name="postId" value="{$postId}" />
+    <input type="hidden" name="postId" value="$postId" />
     <input type="hidden" name="commenterId" value="{$commentDetail["newscom_name"]}">
 FORMSTART;
 

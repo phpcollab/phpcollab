@@ -860,7 +860,7 @@ if ($showHomeNewsdesk) {
             $newsdeskBlock->openRow();
             $newsdeskBlock->checkboxRow($newsdeskPost["news_id"]);
             $newsdeskBlock->cellRow($blockPage->buildLink("../newsdesk/viewnews.php?id=" . $newsdeskPost["news_id"],
-               $escaper->escapeHtml( $newsdeskPost["news_title"] ), 'in'));
+               $newsdeskPost["news_title"], 'in'));
             $newsdeskBlock->cellRow($newsdeskPost["news_date"]);
             $newsdeskBlock->cellRow($newsAuthor['mem_name']);
             $newsdeskBlock->cellRow($article_related);

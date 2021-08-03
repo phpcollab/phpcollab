@@ -134,29 +134,8 @@ switch ($msg) {
         $msgLabel = "<b>" . $strings["attention"] . "</b> : " . $strings["settings_notwritable"];
         break;
 
-// 02/06/2003 by fullo
-    case "blankNews":
-        $msgLabel = "<b>" . $strings["attention"] . "</b> : " . $strings["blank_newsdesk"];
-        break;
-
-    case "removeNews":
-        $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["remove_newsdesk"];
-        break;
-
-    case "permissionNews":
-        $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["errorpermission_newsdesk"];
-        break;
-
-    case "blankComment":
-        $msgLabel = "<b>" . $strings["attention"] . "</b> : " . $strings["blank_newsdesk_comment"];
-        break;
-
-    case "removeComment":
-        $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["remove_newsdesk_comment"];
-        break;
-
-    case "commentpermissionNews":
-        $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["errorpermission_newsdesk_comment"];
+    case "updateComment":
+        $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["newsdesk_comment_updated"];
         break;
 
 

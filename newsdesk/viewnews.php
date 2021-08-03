@@ -14,18 +14,27 @@ $news = $container->getNewsdeskLoader();
 $newsDetail = $news->getPostById($request->query->get("id"));
 
 if (!$newsDetail) {
-    phpCollab\Util::headerFunction("../newsdesk/listnews.php?msg=blankNews");
+    $session->getFlashBag()->add(
+        'message',
+        $strings["newsdesk_item_blank"]
+    );
+
+    phpCollab\Util::headerFunction("../newsdesk/listnews.php");
 }
+
+$setTitle .= sprintf($strings["newsdesk_item_view"], $newsDetail["news_title"]);
 
 include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/listnews.php?", $strings["newsdesk"], "in"));
-$blockPage->itemBreadcrumbs($newsDetail->news_title[0]);
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/listnews.php", $strings["newsdesk"], "in"));
+$blockPage->itemBreadcrumbs($newsDetail["news_title"]);
 $blockPage->closeBreadcrumbs();
 
-if ($msg != "") {
+if ($session->getFlashBag()->has('message')) {
+    $blockPage->messageBox( $session->getFlashBag()->get('message')[0] );
+} else if ($msg != "") {
     include '../includes/messages.php';
     $blockPage->messageBox($msgLabel);
 }
@@ -43,7 +52,9 @@ $block1->headingToggle($strings["newsdesk"], $request->cookies->get( $block1->fo
 if ($session->get("profile") == "0" || $session->get("profile") == "1" || $session->get("profile") == "5") {
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "add", $strings["add_newsdesk"]);
-    $block1->paletteIcon(1, "remove", $strings["del_newsdesk"]);
+    if ($session->get("id") == $newsDetail['news_author']) {
+        $block1->paletteIcon(1, "remove", $strings["del_newsdesk"]);
+    }
     $block1->paletteIcon(3, "edit", $strings["edit_newsdesk"]);
     $block1->closePaletteIcon();
 }
@@ -54,27 +65,26 @@ if ($newsDetail) {
 
     $block1->openContent();
     $block1->contentTitle($strings["details"]);
-    $block1->contentRow("<strong>" . $strings["title"] . "</strong>", $escaper->escapeHtml($newsDetail['news_title']));
-    $block1->contentRow("<strong>" . $strings["author"] . "</strong>", $escaper->escapeHtml($newsAuthor["mem_name"]));
-    $block1->contentRow("<strong>" . $strings["date"] . "</strong>", $escaper->escapeHtml($newsDetail['news_date']));
+    $block1->contentRow("<strong>" . $strings["title"] . "</strong>", $newsDetail['news_title']);
+    $block1->contentRow("<strong>" . $strings["author"] . "</strong>", $newsAuthor["mem_name"]);
+    $block1->contentRow("<strong>" . $strings["date"] . "</strong>", $newsDetail['news_date']);
 
     if ($newsDetail['news_related'] != 'g') {
         $projectDetail = $projects->getProjectById($newsDetail['news_related']);
-        $article_related = "<a href='../projects/viewproject.php?id=" . $projectDetail["pro_id"] . "' title='" . $projectDetail["pro_name"] . "'>" . $projectDetail["pro_name"] . "</a>";
+
+        $article_related = "<a href='../projects/viewproject.php?id=" . $projectDetail["pro_id"] . "' title='" . $escaper->escapeHtml($projectDetail["pro_name"]) . "'>" . $escaper->escapeHtml($projectDetail["pro_name"]) . "</a>";
     } else {
         $article_related = $strings["newsdesk_related_generic"];
     }
 
-    $block1->contentRow("<strong>" . $strings["newsdesk_related"] . "</strong>",
-        $escaper->escapeHtml($article_related));
+    $block1->contentRow("<strong>" . $strings["newsdesk_related"] . "</strong>", $article_related);
     $block1->contentRow("<strong>" . stripslashes($strings["article_newsdesk"]) . "</strong>",
-        $escaper->escapeHtml($newsDetail['news_content']));
+        $newsDetail['news_content']);
 
     $newsLinksArray = explode(";", trim($newsDetail['news_links']));
     foreach ($newsLinksArray as $item) {
         if (!empty($item)) {
-            $item = $escaper->escapeHtml($item);
-            $article_links .= "<a href='" . trim($item) . "' title='$item' target='_blank'>$item</a><br/>";
+            $article_links .= "<a href='" . Util::addHttp($item) . "' title='$item' target='_blank'>$item</a><br/>";
         }
     }
     $block1->contentRow("<strong>" . $strings["newsdesk_related_links"] . "</strong>", Util::isBlank($article_links));
@@ -96,10 +106,15 @@ $block1->closeFormResults();
 
 $block1->openPaletteScript();
 
-if ($session->get("profile") == "0" || $session->get("profile") == "1" || $session->get("profile") == "5") {
+if (
+    in_array($session->get("profile"), [0,1,5])
+) {
     $block1->paletteScript(0, "add", "../newsdesk/addnews.php", "true,true,true", $strings["add_newsdesk"]);
-    $block1->paletteScript(1, "remove", "../newsdesk/deletenews.php?action=remove&id=" . $request->query->get("id"),
-        "true,false,true", $strings["del_newsdesk"]);
+
+    if ($session->get("id") == $newsDetail['news_author']) {
+        $block1->paletteScript(1, "remove", "../newsdesk/deletenews.php?id=" . $request->query->get("id"),
+            "true,false,true", $strings["del_newsdesk"]);
+    }
     $block1->paletteScript(3, "edit", "../newsdesk/editnews.php?id=" . $request->query->get("id"), "true,true,true",
         $strings["edit_newsdesk"]);
 }
@@ -137,12 +152,12 @@ if ($newsComments) {
     $block2->labels($labels = array(0 => $strings["name"], 1 => $strings["comment"]), "true");
 
     foreach ($newsComments as $comment) {
-        $newsAuthor = $members->getMemberById($comment['newscom_name']);
+        $newsAuthor = $members->getMemberById( $comment['newscom_name'] );
 
         $block2->openRow();
-        $block2->checkboxRow($escaper->escapeHtml($comment['newscom_id']));
-        $block2->cellRow($escaper->escapeHtml($newsAuthor["mem_name"]));
-        $block2->cellRow($escaper->escapeHtml($comment['newscom_comment']));
+        $block2->checkboxRow( $comment['newscom_id'] );
+        $block2->cellRow( $escaper->escapeHtml($newsAuthor["mem_name"]) );
+        $block2->cellRow( $comment['newscom_id'] . " - " .  $comment['newscom_comment'] );
         $block2->closeRow();
     }
 

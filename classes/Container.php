@@ -378,7 +378,7 @@ class Container
     public function getNewsdeskLoader()
     {
         if (null === $this->newsDeskLoader) {
-            $this->newsDeskLoader = new NewsDesk($this->getPDO());
+            $this->newsDeskLoader = new NewsDesk($this->getPDO(), $this->getEscaperService());
         }
         return $this->newsDeskLoader;
     }

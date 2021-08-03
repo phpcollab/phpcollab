@@ -6,7 +6,7 @@ $checkSession = "true";
 require_once '../includes/library.php';
 
 $commentId = empty($request->query->get('id')) ? $request->request->get('id') : $request->query->get('id');
-$postId = $request->query->get('postid');
+$postId = empty($request->query->get('postId')) ? $request->request->get('postId') : $request->query->get('postId');
 
 $newsDesk = $container->getNewsdeskLoader();
 
@@ -15,9 +15,14 @@ if (!empty($commentId)) {
     // Get all of the comments requested
     $commentDetail = $newsDesk->getComments(str_replace("**", ",", $commentId));
 
+    // Only the owner, admin, pm, or PM administrator can delete
     foreach ($commentDetail as $comment) {
-        if (!in_array($session->get('profile'), [0, 1, 5])) {
-            phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postId&msg=commentpermissionNews");
+        if (!in_array($session->get('profile'), [0, 1, 5]) || $session->get('id') !== $comment["newscom_name"]) {
+            $session->getFlashBag()->add(
+                'message',
+                $strings["errorpermission_newsdesk_comment"]
+            );
+            phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=" . $request->request->get('postId'));
         }
     }
 }
@@ -28,15 +33,23 @@ if ($request->isMethod('post')) {
             // Check again to make sure the user has authorization to delete comments
             // only admin, project admins, and project managers can delete a comments
             if (!in_array($session->get('profile'), [0, 1, 5])) {
-                phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postId&msg=commentpermissionNews");
+                $session->getFlashBag()->add(
+                    'message',
+                    $strings["errorpermission_newsdesk"]
+                );
+                phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=" . $request->request->get('postId'));
             }
 
             $newsDesk->deleteNewsDeskComment(str_replace("**", ",", $request->request->get('id')));
-            phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id={$request->request->get("postId")}&msg=removeComment");
+            $session->getFlashBag()->add(
+                'message',
+                $strings["remove_newsdesk_comment"]
+            );
+            phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=" . $request->request->get('postId'));
         }
     } catch (InvalidCsrfTokenException $csrfTokenException) {
         $logger->error('CSRF Token Error', [
-            'Newsdesk: Edit Message' => $request->query->get("id"),
+            'Newsdesk: Delete Comment' => $request->query->get("id"),
             '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
             '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
         ]);
@@ -48,8 +61,14 @@ if ($request->isMethod('post')) {
 }
 
 if (empty($commentId) || !$commentDetail) {
-    phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postId&msg=blankNews");
+    $session->getFlashBag()->add(
+        'message',
+        $strings["newsdesk_item_blank"]
+    );
+    phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=" . $postId);
 }
+
+$setTitle .= " : " . $strings["del_newsdesk_comment"];
 
 include APP_ROOT . '/views/layout/header.php';
 
@@ -57,7 +76,7 @@ $newsDetail = $newsDesk->getPostById($postId);
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
-$blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/listnews.php?", $strings["newsdesk"], "in"));
+$blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/listnews.php", $strings["newsdesk"], "in"));
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/viewnews.php?id=$postId", $newsDetail["news_title"],
     "in"));
 

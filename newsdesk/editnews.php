@@ -1,43 +1,16 @@
 <?php
-/*
-** Application name: phpCollab
-** Last Edit page: 23/03/2004
-** Path by root: ../newsdesk/editnews.php
-** Authors: Fullo
-**
-** =============================================================================
-**
-**               phpCollab - Project Management
-**
-** -----------------------------------------------------------------------------
-** Please refer to license, copyright, and credits in README.TXT
-**
-** -----------------------------------------------------------------------------
-** FILE: editnews.php
-**
-** DESC:
-**
-** HISTORY:
-** 	23/03/2004	-	added new document info
-**  23/03/2004  -	fixed multi delete
-**	23/03/2004	-	xhtml code
-**  23/08/2004  -   fix error "Using $this when not in object context"
-**  17/04/2005	-	fix the duplication of the projects name in the prj related select box
-**  13/07/2008  -   fix for bug 1802203
-** -----------------------------------------------------------------------------
-** TO-DO:
-**
-**
-** =============================================================================
-*/
-
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
 $checkSession = "true";
 require_once '../includes/library.php';
 
 if ($session->get("profile") != "0" && $session->get("profile") != "1" && $session->get("profile") != "5") {
-    phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$id&msg=permissionNews");
+    $session->getFlashBag()->add(
+        'message',
+        $strings["errorpermission_newsdesk"]
+    );
+
+    phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=" . $id);
 }
 
 $news = $container->getNewsdeskLoader();
@@ -52,8 +25,16 @@ if ($request->isMethod('post')) {
             if (empty($request->request->get("title"))) {
                 $error = $strings["blank_newsdesk_title"];
             } else {
-                $news->updatePostById($request->request->all());
-                phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id={$request->request->get("id")}&msg=update");
+                if (empty($error)) {
+                    $news->updatePostById($request->request->all());
+
+                    $session->getFlashBag()->add(
+                        'message',
+                        $strings["newsdesk_item_updated"]
+                    );
+
+                    phpCollab\Util::headerFunction( "../newsdesk/viewnews.php?id=" . $request->request->get("id") );
+                }
             }
         }
     } catch (InvalidCsrfTokenException $csrfTokenException) {
@@ -75,16 +56,32 @@ if ($id != "") {
     if (strpos($id, ',')) {
         $newsDetail = $news->getPostByIdIn($id);
 
+        // Check to see if eligible to edit item
         foreach ($newsDetail as $newsItem) {
             if ($session->get("profile") != "0" && $session->get("id") != $newsItem['news_author']) {
-                phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id={$n['id']}&msg=permissionNews");
+
+                $session->getFlashBag()->add(
+                    'message',
+                    $strings["errorpermission_newsdesk"]
+                );
+
+
+                phpCollab\Util::headerFunction( "../newsdesk/viewnews.php?id=" . $id );
             }
         }
     } else {
         $newsDetail = $news->getPostById($id);
 
+        // Check to see if eligible to edit item
         if ($session->get("profile") != "0" && $session->get("id") != $newsDetail['news_author']) {
-            phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id={$n['id']}&msg=permissionNews");
+
+            $session->getFlashBag()->add(
+                'message',
+                $strings["errorpermission_newsdesk"]
+
+            );
+
+            phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=" . $newsDetail['news_id']);
         }
     }
     //set value in form
@@ -96,7 +93,13 @@ if ($id != "") {
 }
 
 if (empty($id) || !$newsDetail) {
-    phpCollab\Util::headerFunction("../newsdesk/listnews.php?msg=blankNews");
+
+    $session->getFlashBag()->add(
+        'message',
+        $strings["newsdesk_item_blank"]
+    );
+
+    phpCollab\Util::headerFunction("../newsdesk/listnews.php");
 }
 
 
@@ -110,7 +113,7 @@ $headBonus = "
             <script type='text/javascript' src='../includes/htmlarea/dialog.js'></script>
             <script type='text/javascript' src='../includes/htmlarea/popupdiv.js'></script>
             <script type='text/javascript' src='../includes/htmlarea/popupwin.js'></script> 
-            <style type='text/css'>@import url(../includes/htmlarea/htmlarea.css)</style>
+            <style>@import url(../includes/htmlarea/htmlarea.css)</style>
             <script type='text/javascript'>
                 HTMLArea.loadPlugin('TableOperations'); 
                 
@@ -126,7 +129,9 @@ $headBonus = "
 $bodyCommand = "onload='initEditor();'";
 
 //** Title stuff here.. **
-$setTitle .= " : Edit News Item (" . $newsDetail['news_title'] . ")";
+
+$setTitle .= sprintf($strings["newsdesk_item_edit"], $newsDetail["news_title"]);
+
 include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
@@ -139,7 +144,10 @@ $blockPage->itemBreadcrumbs($strings["edit_newsdesk"]);
 
 $blockPage->closeBreadcrumbs();
 
-if ($msg != "") {
+
+if ($session->getFlashBag()->has('message')) {
+    $blockPage->messageBox( $session->getFlashBag()->get('message')[0] );
+} else if ($msg != "") {
     include '../includes/messages.php';
     $blockPage->messageBox($msgLabel);
 }
@@ -151,7 +159,7 @@ if (isset($error) && $error != "") {
     $block1->contentError($error);
 }
 
-echo "<form method='POST' action='../newsdesk/editnews.php?id={$id}' name='ecDForm'>\n";
+echo '<form method="post" action="../newsdesk/editnews.php?id=' . $id . '" name="ecDForm">';
 $block1->heading($strings["edit_newsdesk"] . " : " . $newsDetail['news_title']);
 
 echo <<<CSRF

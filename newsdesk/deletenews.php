@@ -22,7 +22,12 @@ $checkSession = "true";
 require_once '../includes/library.php';
 
 if ($session->get("profile") != "0" && $session->get("profile") != "1" && $session->get("profile") != "5") {
-    phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$id&msg=permissionNews");
+    $session->getFlashBag()->add(
+        'message',
+        $strings["errorpermission_newsdesk"]
+    );
+
+    phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=" . $id);
 }
 
 $news = $container->getNewsdeskLoader();
@@ -34,7 +39,13 @@ if ($request->isMethod('post')) {
             $id = $request->request->get("id");
             $news->deleteCommentByPostId($id);
             $news->deleteNewsDeskPost($id);
-            phpCollab\Util::headerFunction("../newsdesk/listnews.php?msg=removeNews");
+
+            $session->getFlashBag()->add(
+                'message',
+                $strings["newsdesk_item_remove"]
+            );
+
+            phpCollab\Util::headerFunction("../newsdesk/listnews.php");
         }
     } catch (InvalidCsrfTokenException $csrfTokenException) {
         $logger->error('CSRF Token Error', [
@@ -44,7 +55,10 @@ if ($request->isMethod('post')) {
         ]);
     } catch (Exception $e) {
         $logger->critical('Exception', ['Error' => $e->getMessage()]);
-        $msg = 'permissiondenied';
+        $session->getFlashBag()->add(
+            'message',
+            $strings["no_permissions"]
+        );
     }
 }
 
@@ -55,16 +69,24 @@ if (!empty($id)) {
     $newsDetail = $news->getPostById($id);
 
     if ($session->get("profile") != "0" && $session->get("id") != $newsDetail['news_author']) {
-        phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id={$n['id']}&msg=permissionNews");
+        $session->getFlashBag()->add(
+            'message',
+            $strings["errorpermission_newsdesk"]
+        );
+        phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=" . $newsDetail['news_id']);
     }
 }
 
 if (empty($id) || !$newsDetail) {
-    phpCollab\Util::headerFunction("../newsdesk/listnews.php?msg=blankNews");
+    $session->getFlashBag()->add(
+        'message',
+        $strings["newsdesk_item_blank"]
+    );
+    phpCollab\Util::headerFunction("../newsdesk/listnews.php");
 }
 
 //** Title stuff here.. **
-$setTitle .= " : Remove News Item";
+$setTitle .= " : " . $strings["del_newsdesk"];
 
 include APP_ROOT . '/views/layout/header.php';
 
@@ -76,7 +98,10 @@ $blockPage->itemBreadcrumbs($strings["edit_newsdesk"]);
 
 $blockPage->closeBreadcrumbs();
 
-if ($msg != "") {
+
+if ($session->getFlashBag()->has('message')) {
+    $blockPage->messageBox( $session->getFlashBag()->get('message')[0] );
+} else if ($msg != "") {
     include '../includes/messages.php';
     $blockPage->messageBox($msgLabel);
 }

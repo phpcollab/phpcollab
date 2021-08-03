@@ -7,6 +7,8 @@ require_once '../includes/library.php';
 
 $newsDesk = $container->getNewsdeskLoader();
 
+$postId = $request->query->get('postid');
+
 if ($request->isMethod('post')) {
     try {
         if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
@@ -14,15 +16,19 @@ if ($request->isMethod('post')) {
             if (empty($request->request->get('comment'))) {
                 $error = $strings["blank_newsdesk_comment"];
             } else {
-                //replace quotes by html code in name and address
-                $commenterId = phpCollab\Util::convertData($request->request->get('commenterId'));
-                $comment = phpCollab\Util::convertData($request->request->get('comment'));
-                $postId = phpCollab\Util::convertData($request->request->get('postId'));
-
                 //insert into organizations and redirect to new client organization detail (last id)
-                $newsDesk->addComment($postId, $commenterId, $comment);
+                $newsDesk->addComment(
+                    $request->request->get('postId'),
+                    $request->request->get('commenterId'),
+                    $request->request->get('comment')
+                );
 
-                phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postId&msg=add");
+                $session->getFlashBag()->add(
+                    'message',
+                    $strings["newsdesk_comment_added"]
+                );
+
+                phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$postId");
             }
         }
     } catch (InvalidCsrfTokenException $csrfTokenException) {
@@ -37,7 +43,7 @@ if ($request->isMethod('post')) {
     }
 }
 
-$postId = $request->query->get('postid');
+$setTitle .= " : " . $strings["add_newsdesk_comment"];
 
 include APP_ROOT . '/views/layout/header.php';
 

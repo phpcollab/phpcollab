@@ -4,6 +4,7 @@
 namespace phpCollab\NewsDesk;
 
 use InvalidArgumentException;
+use Laminas\Escaper\Escaper;
 use phpCollab\Database;
 
 
@@ -15,15 +16,61 @@ class NewsDesk
 {
     protected $newsdesk_gateway;
     protected $db;
+    protected $escaper;
 
     /**
      * NewsDesk constructor.
      * @param Database $database
+     * @param Escaper $escaper
      */
-    public function __construct(Database $database)
+    public function __construct(Database $database, Escaper $escaper)
     {
         $this->db = $database;
         $this->newsdesk_gateway = new NewsDeskGateway($this->db);
+        $this->escaper = $escaper;
+    }
+
+    /**
+     * @param array|object $post
+     * @return array
+     */
+    protected function escapeNewsdeskPostFields($post)
+    {
+        /*
+         * Fields to be escaped, since they store user supplied data
+         * - title
+         * - content
+         * - links
+         */
+        if (is_object($post)) {
+            $post->set('title', $this->escaper->escapeHtml($post->get("title")));
+            $post->set('content', $this->escaper->escapeHtml($post->get("content")));
+            $post->set('links', $this->escaper->escapeHtml($post->get("links")));
+        }
+
+        if (is_array($post)) {
+            $post["news_title"] = $this->escaper->escapeHtml($post["news_title"]);
+            $post["news_content"] = $this->escaper->escapeHtml($post["news_content"]);
+            $post["news_links"] = $this->escaper->escapeHtml($post["news_links"]);
+        }
+        return $post;
+    }
+
+    /**
+     * @param $comment
+     * @return array|mixed
+     */
+    protected function escapeComment($comment)
+    {
+        if (is_object($comment)) {
+            $comment->set('newscom_comment', $this->escaper->escapeHtml($comment->get("newscom_comment")));
+        }
+
+        if (is_array($comment)) {
+            $comment["newscom_comment"] = $this->escaper->escapeHtml($comment["newscom_comment"]);
+        }
+        return $comment;
+
     }
 
     /**
@@ -31,7 +78,7 @@ class NewsDesk
      * @param $relatedPosts
      * @return int
      */
-    public function getHomePostCount($userId, $relatedPosts)
+    public function getHomePostCount($userId, $relatedPosts): int
     {
         $data = $this->newsdesk_gateway->getHomePosts($userId, $relatedPosts);
         return count($data);
@@ -47,7 +94,15 @@ class NewsDesk
      */
     public function getHomeViewNewsdeskPosts($userId, $relatedPosts, $offset = null, $limit = null, $sorting = null)
     {
-        return $this->newsdesk_gateway->getHomePosts($userId, $relatedPosts, $offset, $limit, $sorting);
+        $posts = $this->newsdesk_gateway->getHomePosts($userId, $relatedPosts, $offset, $limit, $sorting);
+
+        if ($posts) {
+            foreach ($posts as $key => $value) {
+                $posts[$key] = $this->escapeNewsdeskPostFields($value);
+            }
+        }
+
+        return $posts;
     }
 
     /**
@@ -56,7 +111,13 @@ class NewsDesk
      */
     public function getAllNewsdeskPosts($sortBy = null)
     {
-        return $this->newsdesk_gateway->getAllPosts($sortBy);
+        $newsPosts = $this->newsdesk_gateway->getAllPosts($sortBy);
+        if ($newsPosts) {
+            foreach ($newsPosts as $key => $value) {
+                $newsPosts[$key] = $this->escapeNewsdeskPostFields($value);
+            }
+        }
+        return $newsPosts;
     }
 
     /**
@@ -65,7 +126,13 @@ class NewsDesk
      */
     public function getPostById($newsId)
     {
-        return $this->newsdesk_gateway->getNewsPostById($newsId);
+        // Gets an array of the post data
+        $newsPost = $this->newsdesk_gateway->getNewsPostById($newsId);
+
+        if ($newsPost) {
+            $newsPost = $this->escapeNewsdeskPostFields($newsPost);
+        }
+        return $newsPost;
     }
 
     /**
@@ -74,7 +141,13 @@ class NewsDesk
      */
     public function getPostByIdIn($postId)
     {
-        return $this->newsdesk_gateway->getNewsPostByIdIn($postId);
+        $newsPosts = $this->newsdesk_gateway->getNewsPostByIdIn($postId);
+        if ($newsPosts) {
+            foreach ($newsPosts as $key => $value) {
+                $newsPosts[$key] = $this->escapeNewsdeskPostFields($value);
+            }
+        }
+        return $newsPosts;
     }
 
     /**
@@ -83,7 +156,11 @@ class NewsDesk
      */
     public function getNewsDeskCommentById($commentId)
     {
-        return $this->newsdesk_gateway->getCommentById($commentId);
+        $comment = $this->newsdesk_gateway->getCommentById($commentId);
+        if ($comment) {
+            $comment = $this->escapeComment($comment);
+        }
+        return $comment;
     }
 
     /**
@@ -92,7 +169,13 @@ class NewsDesk
      */
     public function getComments($commentId)
     {
-        return $this->newsdesk_gateway->getComments($commentId);
+        $comments = $this->newsdesk_gateway->getComments($commentId);
+        if ($comments) {
+            foreach ($comments as $key => $value) {
+                $comments[$key] = $this->escapeComment($value);
+            }
+        }
+        return $comments;
     }
 
     /**
@@ -101,7 +184,14 @@ class NewsDesk
      */
     public function getCommentsByPostId($postId)
     {
-        return $this->newsdesk_gateway->getCommentsByPostId($postId);
+        $comments = $this->newsdesk_gateway->getCommentsByPostId($postId);
+
+        if ($comments) {
+            foreach ($comments as $key => $value) {
+                $comments[$key] = $this->escapeComment($value);
+            }
+        }
+        return $comments;
     }
 
     /**
@@ -155,14 +245,18 @@ class NewsDesk
      */
     public function addPost($postData)
     {
-        $title = $postData["title"];
+        $title = trim($postData["title"]);
         $author = (int)$postData["author"];
         $related = $postData["related"];
-        $content = $postData["content"];
-        $links = $postData["links"];
+        $content = trim($postData["content"]);
+        $links = trim($postData["links"]);
         $rss = !empty($postData["rss"]) ? $postData["rss"] : 0;
 
-        if (empty($title) || empty($author)) {
+        if (!filter_var($postData["author"], FILTER_VALIDATE_INT)) {
+            throw new InvalidArgumentException('Author is not valid.');
+        }
+
+        if (empty($title)) {
             throw new InvalidArgumentException('Missing data');
         }
 
@@ -182,6 +276,7 @@ class NewsDesk
         $related = $postData["related"];
         $content = $postData["content"];
         $links = filter_var($postData["links"], FILTER_SANITIZE_URL);
+
         $rss = !empty($postData["rss"]) ? $postData["rss"] : 0;
 
         if (empty($postId) || empty($title) || empty($author)) {
@@ -205,7 +300,6 @@ class NewsDesk
                 throw new InvalidArgumentException('Comment is missing or empty.');
             }
         }
-
         return $this->newsdesk_gateway->setComment($commentId, $comment);
     }
 
@@ -217,16 +311,18 @@ class NewsDesk
      */
     public function addComment($postId, $commenterId, $comment)
     {
-        if (empty($postId)) {
-            throw new InvalidArgumentException('Post ID missing or empty.');
-        } else {
-            if (empty($commenterId)) {
-                throw new InvalidArgumentException('Commenter ID missing or empty.');
-            } else {
-                if (empty($comment)) {
-                    throw new InvalidArgumentException('Comment is missing or empty.');
-                }
-            }
+        $comment = trim($comment);
+
+        if (!filter_var($postId, FILTER_VALIDATE_INT)) {
+            throw new InvalidArgumentException('Post ID is not valid.');
+        }
+
+        if (!filter_var($commenterId, FILTER_VALIDATE_INT)) {
+            throw new InvalidArgumentException('Commenter ID is not valid.');
+        }
+
+        if (empty($comment)) {
+            throw new InvalidArgumentException('Comment is missing or empty.');
         }
 
         return $this->newsdesk_gateway->addComment($postId, $commenterId, $comment);

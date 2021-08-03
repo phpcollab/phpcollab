@@ -6,10 +6,12 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$setTitle .= " : News List";
+$setTitle .= " : " . $strings["newsdesk_list"];
 
 $projects = $container->getProjectsLoader();
 $newsDesk = $container->getNewsdeskLoader();
+$teams = $container->getTeams();
+
 $strings = $GLOBALS['strings'];
 
 include APP_ROOT . '/views/layout/header.php';
@@ -20,9 +22,11 @@ $blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/listnews.php?", $
 $blockPage->itemBreadcrumbs($strings["newsdesk_list"]);
 $blockPage->closeBreadcrumbs();
 
-if ($msg != "") {
+if ($session->getFlashBag()->has('message')) {
+    $blockPage->messageBox( $session->getFlashBag()->get('message')[0] );
+} else if ($msg != "") {
     include '../includes/messages.php';
-    $blockPage->messageBox($GLOBALS['msgLabel']);
+    $blockPage->messageBox($msgLabel);
 }
 
 $blockPage->setLimitsNumber(1);
@@ -75,6 +79,14 @@ if ($listPosts) {
         // take the name of the related article
         if ($post['news_related'] != 'g') {
             $projectDetail = $projects->getProjectById($post['news_related']);
+
+            $teamMember = "false";
+            $teamMember = $teams->isTeamMember($projectDetail["pro_id"], $session->get("id"));
+
+            if ($teamMember == "false" && $projectsFilter == "true") {
+                // Since projects are being filtered, we do not want to display this news article, so skip to the next
+                continue;
+            }
             $article_related = "<a href='../projects/viewproject.php?id=" . $projectDetail["pro_id"] . "' title='" . $projectDetail["pro_name"] . "'>" . $escaper->escapeHtml($projectDetail["pro_name"]) . "</a>";
         } else {
             $article_related = $strings["newsdesk_related_generic"];
@@ -83,7 +95,7 @@ if ($listPosts) {
         $block1->openRow();
         $block1->checkboxRow($post['news_id']);
         $block1->cellRow($blockPage->buildLink("../newsdesk/viewnews.php?id=" . $post['news_id'],
-            $escaper->escapeHtml($post['news_title']), 'in'));
+            $post['news_title'], 'in'));
         $block1->cellRow($post['news_date']);
         $block1->cellRow($newsAuthor["mem_name"]);
         $block1->cellRow($article_related);

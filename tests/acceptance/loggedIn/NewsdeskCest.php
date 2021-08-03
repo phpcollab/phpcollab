@@ -46,15 +46,39 @@ class NewsdeskCest
      * @param AcceptanceTester $I
      * @depends listPosts
      */
+    public function addPost(AcceptanceTester $I)
+    {
+        $I->wantTo('Add a newsdesk post');
+        $I->amOnPage('/newsdesk/addnews.php');
+        $I->see('Add News Article', ['css' => '.heading']);
+
+        $I->submitForm('form', [
+            'title' => 'Codeception Article Title',
+            'content'  => 'Content created by Codeception',
+            'links' => 'www.example.com;https://codeception.com'
+        ]);
+        // Success : Addition succeeded
+        $I->see('Success : Addition succeeded', ['css' => '.message']);
+        $I->see('Codeception Article Title', ".//tr/td/*[contains(text(), 'Title')]/ancestor::td/following-sibling::td");
+        $this->postId = $I->grabFromCurrentUrl('~id=(\d+)~');
+    }
+
+    /**
+     * @param AcceptanceTester $I
+     * @depends addPost
+     */
     public function viewPost(AcceptanceTester $I)
     {
         $I->wantTo('View a newsdesk post');
         $I->amOnPage('/newsdesk/listnews.php');
         $I->see('Newsdesk', ['css' => '.heading']);
-        $I->click('.listing tr:nth-child(2) td:nth-child(2) a');
-        $I->see('Details', ['css' => '.content']);
-        $I->see('Comments', ['css' => '.heading']);
-        $this->postId = $I->grabFromCurrentUrl('~id=(\d+)~');
+
+        // Find the entry from above
+        $I->see('Codeception Article Title', ".//tr/td/a[contains(text(), 'Codeception Article Title')]");
+        $I->click(".//tr/td/a[contains(text(), 'Codeception Article Title')]");
+        $I->see('Newsdesk', ['css' => '.heading']);
+        $I->see('Codeception Article Title', ".//tr/td/*[contains(text(), 'Title')]/ancestor::td/following-sibling::td");
+        $I->see('Content created by Codeception', ".//tr/td/*[contains(text(), 'News Body')]/ancestor::td/following-sibling::td");
     }
 
     /**
@@ -74,10 +98,9 @@ class NewsdeskCest
             'postId'  => $this->postId,
             'action'  => 'add'
         ]);
-        $I->see('Success : Addition succeeded', ['css' => '.message']);
+        $I->see('Success : Comment added', ['css' => '.message']);
         $I->see('Codeception comment', ['css' => '#clPrc']);
         $this->commentId = preg_replace("/[^0-9s]/", "", $I->grabAttributeFrom('#clPrc table.listing tr:last-child img', 'name'));
-
     }
 
     /**
@@ -98,7 +121,46 @@ class NewsdeskCest
             'commentId' => $this->commentId,
             'action'  => 'update'
         ]);
-        $I->see('Success : Modification succeeded', ['css' => '.message']);
+        $I->see('Success : Comment updated', ['css' => '.message']);
         $I->see('Codeception comment - edited', ['css' => '#clPrc']);
+    }
+
+    /**
+     * @param AcceptanceTester $I
+     * @depends editComment
+     */
+    public function deleteComment(AcceptanceTester $I)
+    {
+        $I->wantTo('Delete my news post comment');
+        $I->amOnPage('/newsdesk/viewnews.php?id=' . $this->postId);
+        $I->amOnPage('/newsdesk/viewnews.php?id=' . $this->postId);
+        $I->see('Codeception comment', ['css' => '#clPrc']);
+        $I->amGoingTo('Navigate to the delete view');
+        $I->amOnPage('/newsdesk/deletecomment.php?postid=' . $this->postId . '&id=' . $this->commentId);
+        $I->see('Delete the selected comments', ['css' => '.heading']);
+        $I->seeElement('.content');
+        $I->see('#' . $this->commentId, ['css' => '.leftvalue']);
+        $I->see('Codeception comment - edited', ".//tr/td[contains(text(), '#" . $this->commentId . "')]/ancestor::*[position()=1]/following-sibling::tr[1]/td[2]");
+
+        $I->click('Delete');
+        $I->see('Success : The Comment of the News Article has been successfully deleted', ['css' => '.message']);
+    }
+
+    /**
+     * @param AcceptanceTester $I
+     * @depends deleteComment
+     */
+    public function deleteNewsArticle(AcceptanceTester $I)
+    {
+        $I->wantTo('Delete my News Article');
+        $I->amOnPage('/newsdesk/listnews.php');
+        $I->see('Newsdesk', ['css' => '.heading']);
+        $I->see('Codeception Article Title', ".//tr/td/a[contains(text(), 'Codeception Article Title')]");
+        $I->amOnPage('/newsdesk/deletenews.php?id=' . $this->postId);
+        $I->see('Delete News Article', ['css' => '.heading']);
+        $I->see('#'. $this->postId, ['css' => '.leftvalue']);
+        $I->see('Codeception Article Title', ".//tr/td[contains(text(), '#". $this->postId ."')]/following-sibling::td");
+        $I->click('Delete');
+        $I->see('Success : The News Article has been successfully deleted with all its comments', ['css' => '.message']);
     }
 }

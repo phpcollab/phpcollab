@@ -22,7 +22,12 @@ $checkSession = "true";
 require_once '../includes/library.php';
 
 if ($session->get("profile") != "0" && $session->get("profile") != "1" && $session->get("profile") != "5") {
-    phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$id&msg=permissionNews");
+    $session->getFlashBag()->add(
+        'message',
+        $strings["errorpermission_newsdesk"]
+    );
+
+    phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=" . $id);
 }
 $news = $container->getNewsdeskLoader();
 $projects = $container->getProjectsLoader();
@@ -34,7 +39,19 @@ if ($request->isMethod('post')) {
                 $error = $strings["blank_newsdesk_title"];
             } else {
                 $num = $news->addPost($request->request->all());
-                phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=$num&msg=add");
+
+                if (!empty($num)) {
+                    $session->getFlashBag()->add(
+                        'message',
+                        $strings["newsdesk_item_add"]
+                    );
+                    phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=" . $num);
+                }
+                $session->getFlashBag()->add(
+                    'message',
+                    $strings["newsdesk_item_add_error"]
+                );
+
             }
         }
     } catch (InvalidCsrfTokenException $csrfTokenException) {
@@ -45,7 +62,10 @@ if ($request->isMethod('post')) {
         ]);
     } catch (Exception $e) {
         $logger->critical('Exception', ['Error' => $e->getMessage()]);
-        $msg = 'permissiondenied';
+        $session->getFlashBag()->add(
+            'message',
+            $strings["errorpermission_newsdesk"]
+        );
     }
 }
 
@@ -60,7 +80,7 @@ $headBonus = <<<HEADBONUS
 <script type='text/javascript' src='../includes/htmlarea/popupdiv.js'></script>
 <script type='text/javascript' src='../includes/htmlarea/popupwin.js'></script> 
 
-<style type='text/css'>@import url(../includes/htmlarea/htmlarea.css)</style>
+<link rel="stylesheet" href="../includes/htmlarea/htmlarea.css">
 <script type='text/javascript'>
 
     HTMLArea.loadPlugin('TableOperations'); 
@@ -69,14 +89,14 @@ $headBonus = <<<HEADBONUS
     
     function initEditor() {
       editor = new HTMLArea('content');
-      editor.registerPlugin('TableOperations');
       editor.generate();
     }
 </script>
 HEADBONUS;
 
 $bodyCommand = "onload='initEditor();'";
-$setTitle .= " : Add News Item";
+
+$setTitle .= " : " . $strings["add_newsdesk"];
 
 include APP_ROOT . '/views/layout/header.php';
 
@@ -87,7 +107,9 @@ $blockPage->itemBreadcrumbs($blockPage->buildLink("../newsdesk/listnews.php?", $
 $blockPage->itemBreadcrumbs($strings["add_newsdesk"]);
 $blockPage->closeBreadcrumbs();
 
-if ($msg != "") {
+if ($session->getFlashBag()->has('message')) {
+    $blockPage->messageBox( $session->getFlashBag()->get('message')[0] );
+} else if ($msg != "") {
     include '../includes/messages.php';
     $blockPage->messageBox($msgLabel);
 }
