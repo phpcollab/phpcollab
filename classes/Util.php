@@ -52,9 +52,10 @@ class Util
      */
     public static function addHttp($url)
     {
+        $url = trim($url);
         if (!empty($url)) {
             if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
-                $url = "http://" . $url;
+                $url = "https://" . $url;
             }
             return $url;
         }
@@ -110,6 +111,7 @@ class Util
     {
         $response = new RedirectResponse($url);
         $response->send();
+        exit();
     }
 
     /**
