@@ -118,51 +118,41 @@ HTMLArea.Config = function () {
 	 * upgrading HTMLArea.
 	 */
 	this.toolbar = [
-		[ "fontname", "space",
-		  "fontsize", "space",
-		  "formatblock", "space",
-		  "bold", "italic", "underline", "strikethrough", "separator",
-		  "subscript", "superscript", "separator",
-		  "copy", "cut", "paste", "space", "undo", "redo" ],
+		[
+		  "formatblock", "space", "separator",
+		  "bold", "italic", "underline", "separator",
+		  "insertorderedlist", "insertunorderedlist", "separator",
+		  "htmlmode", "separator"
+		],
 
-		[ "justifyleft", "justifycenter", "justifyright", "justifyfull", "separator",
-		  "lefttoright", "righttoleft", "separator",
-		  "insertorderedlist", "insertunorderedlist", "outdent", "indent", "separator",
-		  "forecolor", "hilitecolor", "separator",
-		  "inserthorizontalrule", "createlink", "insertimage", "inserttable", "htmlmode", "separator",
-		  "popupeditor", "separator", "showhelp", "about" ]
 	];
 
 	this.fontname = {
 		"Arial":	   'arial,helvetica,sans-serif',
-		"Courier New":	   'courier new,courier,monospace',
 		"Georgia":	   'georgia,times new roman,times,serif',
 		"Tahoma":	   'tahoma,arial,helvetica,sans-serif',
 		"Times New Roman": 'times new roman,times,serif',
-		"Verdana":	   'verdana,arial,helvetica,sans-serif',
-		"impact":	   'impact',
-		"WingDings":	   'wingdings'
+		"Verdana":	   'verdana,arial,helvetica,sans-serif'
 	};
 
 	this.fontsize = {
-		"1 (8 pt)":  "1",
-		"2 (10 pt)": "2",
-		"3 (12 pt)": "3",
-		"4 (14 pt)": "4",
-		"5 (18 pt)": "5",
-		"6 (24 pt)": "6",
-		"7 (36 pt)": "7"
+		"8 pt":  "1",
+		"10 pt": "2",
+		"12 pt": "3",
+		"14 pt": "4",
+		"18 pt": "5",
+		"24 pt": "6",
+		"36 pt": "7"
 	};
 
 	this.formatblock = {
+		"Normal": "p",
 		"Heading 1": "h1",
 		"Heading 2": "h2",
 		"Heading 3": "h3",
 		"Heading 4": "h4",
 		"Heading 5": "h5",
 		"Heading 6": "h6",
-		"Normal": "p",
-		"Address": "address",
 		"Formatted": "pre"
 	};
 
