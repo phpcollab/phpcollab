@@ -3,8 +3,10 @@
 
 namespace phpCollab\Organizations;
 
-use phpCollab\Database;
 use Exception;
+use InvalidArgumentException;
+use Laminas\Escaper\Escaper;
+use phpCollab\Database;
 use phpCollab\Util;
 
 /**
@@ -15,14 +17,17 @@ class Organizations
 {
     protected $organizations_gateway;
     protected $db;
+    protected $escaper;
 
     /**
      * Organizations constructor.
      * @param Database $database
+     * @param Escaper $escaper
      */
-    public function __construct(Database $database)
+    public function __construct(Database $database, Escaper $escaper)
     {
         $this->db = $database;
+        $this->escaper = $escaper;
         $this->organizations_gateway = new OrganizationsGateway($this->db);
     }
 
@@ -39,8 +44,18 @@ class Organizations
      * @param null $created
      * @return string
      */
-    public function addClient($name, $address, $phone, $url, $email, $comments, $owner, $hourlyRate, $extension = null, $created = null)
-    {
+    public function addClient(
+        $name,
+        $address,
+        $phone,
+        $url,
+        $email,
+        $comments,
+        $owner,
+        $hourlyRate,
+        $extension = null,
+        $created = null
+    ): string {
         if (is_null($extension)) {
             $extension = '';
         }
@@ -49,7 +64,8 @@ class Organizations
             $created = date('Y-m-d h:i');
         }
 
-        return $this->organizations_gateway->addClientOrganization($name, $address, $phone, $url, $email, $comments, $owner, $hourlyRate, $extension, $created);
+        return $this->organizations_gateway->addClientOrganization($name, $address, $phone, $url, $email, $comments,
+            $owner, $hourlyRate, $extension, $created);
     }
 
     /**
@@ -75,14 +91,15 @@ class Organizations
      */
     public function updateClient($clientId, $name, $address, $phone, $url, $email, $comments, $owner, $hourlyRate)
     {
-        return $this->organizations_gateway->updateClientOrganization($clientId, $name, $address, $phone, $url, $email, $comments, $owner, $hourlyRate);
+        return $this->organizations_gateway->updateClientOrganization($clientId, $name, $address, $phone, $url, $email,
+            $comments, $owner, $hourlyRate);
     }
 
     /**
      * @param $clientName
-     * @return mixed
+     * @return bool
      */
-    public function checkIfClientExistsByName($clientName)
+    public function checkIfClientExistsByName($clientName): bool
     {
         $clientName = filter_var($clientName, FILTER_SANITIZE_STRING);
 
@@ -111,7 +128,7 @@ class Organizations
         $orgs = $this->organizations_gateway->getAllOrganizations($sorting);
 
         foreach ($orgs as $key => $org) {
-           $orgs[$key]["org_phone"] = (!empty($org["org_phone"])) ? $org["org_phone"] : Util::doubleDash();
+            $orgs[$key]["org_phone"] = (!empty($org["org_phone"])) ? $org["org_phone"] : Util::doubleDash();
         }
 
         return $orgs;
@@ -137,14 +154,24 @@ class Organizations
     }
 
     /**
-     * @param $orgId
+     * @param int $orgId
      * @return mixed
      */
-    public function getOrganizationById($orgId)
+    public function getOrganizationById(int $orgId)
     {
+        if (empty($orgId)) {
+            throw new InvalidArgumentException('Invalid Organization ID');
+        }
+
         $orgId = filter_var($orgId, FILTER_VALIDATE_INT);
 
-        return $this->organizations_gateway->getClientById($orgId);
+        $org = $this->organizations_gateway->getClientById($orgId);
+
+        if ($org) {
+            $org = $this->escapeOrg($org);
+        }
+
+        return $org;
 
     }
 
@@ -164,7 +191,8 @@ class Organizations
      * @param $ownerId
      * @return mixed
      */
-    public function getOrganizationByIdAndOwner($orgId, $ownerId) {
+    public function getOrganizationByIdAndOwner($orgId, $ownerId)
+    {
         $orgId = filter_var($orgId, FILTER_VALIDATE_INT);
         $ownerId = filter_var($ownerId, FILTER_VALIDATE_INT);
 
@@ -172,21 +200,49 @@ class Organizations
     }
 
     /**
-     * @param $organizationInfo
+     * @param string $name
+     * @param string|null $address
+     * @param string|null $phone
+     * @param string|null $url
+     * @param string|null $email
+     * @param string|null $comments
      * @return mixed
      */
-    public function updateOrganizationInformation($organizationInfo)
-    {
-        return $this->organizations_gateway->updateOrganizationInformation($organizationInfo);
+    public function updateOrganizationInformation(
+        string $name,
+        string $address = null,
+        string $phone = null,
+        string $url = null,
+        string $email = null,
+        string $comments = null
+    ) {
+        if (empty($name)) {
+            throw new InvalidArgumentException('Organization Name is empty');
+        }
+
+        if (!is_null($url) && !filter_var($url, FILTER_VALIDATE_URL)) {
+            throw new InvalidArgumentException('URL is invalid');
+        }
+
+        if (!is_null($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new InvalidArgumentException('EMail is invalid');
+        }
+
+        return $this->organizations_gateway->updateOrganizationInformation($name, $address, $phone, $url, $email,
+            $comments);
     }
 
     /**
-     * @param $orgId
-     * @param $logoExtension
+     * @param int $orgId
+     * @param string $logoExtension
      * @return mixed
      */
-    public function setLogoExtensionByOrgId($orgId, $logoExtension)
+    public function setLogoExtensionByOrgId(int $orgId, string $logoExtension)
     {
+        if (empty($orgId) || !filter_var($orgId, FILTER_VALIDATE_INT)) {
+            throw new InvalidArgumentException('Invalid Org ID');
+        }
+
         return $this->organizations_gateway->setLogoExtensionByOrgId($orgId, $logoExtension);
     }
 
@@ -214,5 +270,20 @@ class Organizations
     public function getSearchOrganizations($tmpQuery, $sorting = null, $limit = null, $rowLimit = null)
     {
         return $this->organizations_gateway->searchResultOrganizations($tmpQuery, $sorting, $limit, $rowLimit);
+    }
+
+    /**
+     * @param $org
+     * @return array|mixed
+     */
+    protected function escapeOrg($org)
+    {
+        if (is_array($org)) {
+            $org["org_name"] = $this->escaper->escapeHtml($org["org_name"]);
+            $org["org_address1"] = $this->escaper->escapeHtml($org["org_address1"]);
+            $org["org_phone"] = $this->escaper->escapeHtml($org["org_phone"]);
+            $org["org_comments"] = $this->escaper->escapeHtml($org["org_comments"]);
+        }
+        return $org;
     }
 }

@@ -28,6 +28,7 @@
 */
 
 
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
 $checkSession = "true";
@@ -43,52 +44,70 @@ if ($request->isMethod('post')) {
     try {
         if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
             if ($request->request->get("action") == "update") {
-
-                $extension = $request->request->get("extension");
-                $extensionOld = $request->request->get("extensionOld");
-                $orgName = $request->request->get("org_name");
-                $orgAddress = $request->request->get("org_address");
-                $orgPhone = $request->request->get("org_phone");
-                $url = $request->request->get("website");
-                $email = $request->request->get("email");
-                $comments = $request->request->get("comments");
-                $logoDel = $request->request->get("logoDel");
-
-                if ($logoDel == "on") {
-                    $org->setLogoExtensionByOrgId(1, '');
+                if ($request->request->get("delete_logo") == "true") {
+                    $filesystem = new Filesystem();
 
                     try {
-                        unlink(APP_ROOT . "/logos_clients/1.$extensionOld");
+                        // Remove the old file
+                        $fileExists = $filesystem->exists(APP_ROOT . '/logos_clients/1.' . $request->request->get("extensionOld"));
+                        if ($fileExists) {
+                            $filesystem->remove([APP_ROOT . '/logos_clients/1.' . $request->request->get("extensionOld")]);
+
+                            // Check to see if the file was actually removed, if so then update the DB
+                            if ($filesystem->exists(APP_ROOT . '/logos_clients/1.' . $request->request->get("extensionOld"))) {
+                                $session->getFlashBag()->add(
+                                    'errors',
+                                    $strings["file_remove_error"]
+                                );
+                            } else {
+                                // Set the company logo to an empty string
+                                $org->setLogoExtensionByOrgId(1, '');
+                            }
+                        }
                     } catch (Exception $e) {
                         $logger->error('Admin (company)', ['Exception message', $e->getMessage()]);
-                        $error = $strings["action_not_allowed"];
+                        $session->getFlashBag()->add(
+                            'errors',
+                            $strings["action_not_allowed"]
+                        );
                     }
                 }
 
-                $extension = strtolower(substr(strrchr($_FILES['logo']['name'], "."), 1));
+                // Handle uploaded file
+                if ($request->files->get('logo')) {
+                    $fileUpload = $container->getFileUploadLoader($request->files->get('logo'));
 
-                try {
-                    if (move_uploaded_file($_FILES['logo']['tmp_name'], "../logos_clients/1.$extension")) {
-                        $org->setLogoExtensionByOrgId(1, $extension);
-                    }
-                } catch (Exception $e) {
-                    $logger->error('Admin (company)', ['Exception message', $e->getMessage()]);
-                    $error = $strings["action_not_allowed"];
+                    $isValid = $fileUpload->checkFileUpload();
+
+                    $extension = $fileUpload->getFileExtension();
+
+                    $fileUpload->move(APP_ROOT . '/logos_clients/', 1);
                 }
 
-                $dbParams = [];
-                $dbParams['name'] = phpCollab\Util::convertData($orgName);
-                $dbParams['address1'] = phpCollab\Util::convertData($orgAddress);
-                $dbParams['phone'] = $orgPhone;
-                $dbParams['url'] = $url;
-                $dbParams['email'] = $email;
-                $dbParams['comments'] = phpCollab\Util::convertData($comments);
+                $org->updateOrganizationInformation(
+                    $request->request->get('name'),
+                    $request->request->get('address'),
+                    $request->request->get('phone'),
+                    $request->request->get('url'),
+                    $request->request->get('email'),
+                    $request->request->get('comments')
+                );
 
-                $org->updateOrganizationInformation($dbParams);
+                $session->getFlashBag()->add(
+                    'message',
+                    sprintf($strings["success_message"], $strings["modification_succeeded"])
+                );
 
-                phpCollab\Util::headerFunction("../administration/mycompany.php?msg=update");
+                phpCollab\Util::headerFunction("../administration/mycompany.php");
             }
         }
+    } catch (TypeError $e) {
+        die("TypeError: " . $e->getMessage());
+    } catch (InvalidArgumentException $invalidArgumentException) {
+        $session->getFlashBag()->add(
+            'errors',
+            sprintf($strings["error_message"], $invalidArgumentException->getMessage())
+        );
     } catch (InvalidCsrfTokenException $csrfTokenException) {
         $logger->error('CSRF Token Error', [
             'Admin: Edit My Company',
@@ -97,14 +116,27 @@ if ($request->isMethod('post')) {
         ]);
     } catch (Exception $e) {
         $logger->critical('Exception', ['Error' => $e->getMessage()]);
-        $msg = 'permissiondenied';
+        $session->getFlashBag()->add(
+            'errors',
+            sprintf($strings["error_message"], $strings["file_image_invalid_type"])
+        );
     }
 }
+
+/**
+ * Set form field values
+ */
 $company = $org->getOrganizationById(1);
+$companyName = !empty($request->request->get('name')) ? $request->request->get('name') : $company["org_name"];
+$companyAddress = !empty($request->request->get('address')) ? $request->request->get('address') : $company["org_address1"];
+$companyPhone = !empty($request->request->get('phone')) ? $request->request->get('phone') : $company["org_phone"];
+$companyUrl = !empty($request->request->get('url')) ? $request->request->get('url') : $company["org_url"];
+$companyEmail = !empty($request->request->get('email')) ? $request->request->get('email') : $company["org_email"];
+$companyComments = !empty($request->request->get('comments')) ? $request->request->get('comments') : $company["org_comments"];
 
 $setTitle .= " : Company Details";
 
-$bodyCommand = "onLoad='document.adminDForm.cn.focus();'";
+$bodyCommand = "onLoad='document.adminMyCompanyForm.org_name.focus();'";
 include APP_ROOT . '/views/layout/header.php';
 
 
@@ -114,7 +146,9 @@ $blockPage->itemBreadcrumbs($blockPage->buildLink("../administration/admin.php?"
 $blockPage->itemBreadcrumbs($strings["company_details"]);
 $blockPage->closeBreadcrumbs();
 
-if ($msg != "") {
+if ($session->getFlashBag()->has('message')) {
+    $blockPage->messageBox( $session->getFlashBag()->get('message')[0] );
+} else if ($msg != "") {
     include '../includes/messages.php';
     $blockPage->messageBox($msgLabel);
 }
@@ -122,13 +156,19 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 echo <<<HTML
-	<form id="{$block1->form}Anchor" method='post' action='../administration/mycompany.php?' name='adminDForm' enctype='multipart/form-data'>
+	<form id="{$block1->form}Anchor" method='post' action='/administration/mycompany.php' name="adminMyCompanyForm" enctype='multipart/form-data'>
         <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}" />
 	    <input type='hidden' name='MAX_FILE_SIZE' value='100000000'>
 HTML;
 
 
-if (isset($error) && $error != "") {
+
+if ($session->getFlashBag()->has('errors')) {
+    $block1->headingError($strings["errors"]);
+    foreach ($session->getFlashBag()->get('errors', []) as $error) {
+        $block1->contentError($error);
+    }
+} else if (!empty($error)) {
     $block1->headingError($strings["errors"]);
     $block1->contentError($error);
 }
@@ -139,17 +179,17 @@ $block1->openContent();
 
 $block1->contentTitle($strings["company_info"]);
 $block1->contentRow($strings["name"],
-    '<input size="44" value="' . $company['org_name'] . '" style="width: 400px" name="org_name" maxlength="100" type="TEXT">');
+    '<input size="44" value="' . $companyName . '" style="width: 400px" name="name" maxlength="100" type="text" required="required">');
 $block1->contentRow($strings["address"],
-    "<textarea rows='3' style='width: 400px; height: 50px;' name='org_address' cols='43'>{$company['org_address1']}</textarea>");
+    "<textarea rows='3' style='width: 400px; height: 50px;' name='address' cols='43'>$companyAddress</textarea>");
 $block1->contentRow($strings["phone"],
-    "<input size='32' value='{$company['org_phone']}' style='width: 250px' name='org_phone' maxlength='32' type='TEXT'>");
+    '<input size="32" value="' . $companyPhone .'" style="width: 250px" name="phone" maxlength="32" type="phone">');
 $block1->contentRow($strings["url"],
-    "<input size='44' value='{$company['org_url']}' style='width: 400px' name='website' maxlength='2000' type='TEXT'>");
+    '<input size="44" value="' . $companyUrl . '" style="width: 400px" name="url" maxlength="2000" type="url">');
 $block1->contentRow($strings["email"],
-    "<input size='44' value='{$company['org_email']}' style='width: 400px' name='email' maxlength='2000' type='TEXT'>");
+    '<input size="44" value="' . $companyEmail .'" style="width: 400px" name="email" maxlength="2000" type="email">');
 $block1->contentRow($strings["comments"],
-    "<textarea rows='3' style='width: 400px; height: 50px;' name='comments' cols='43'>{$company['org_comments']}</textarea>");
+    "<textarea rows='3' style='width: 400px; height: 50px;' name='comments' cols='43'>$companyComments</textarea>");
 $block1->contentRow($strings["logo"] . $blockPage->printHelp("mycompany_logo"),
     '<input size="44" style="width: 400px" name="logo" type="file">');
 
@@ -159,7 +199,7 @@ if (file_exists(APP_ROOT . "/logos_clients/1." . $company['org_extension_logo'])
         "",
         '<div class="logoContainer"><img src="' . $logo . '" alt="' . $company['org_name'] . '"></div>' .
         '<input name="extensionOld" type="hidden" value="' . $company['org_extension_logo'] . '">' .
-        '<input name="logoDel" type="checkbox" value="on"> ' . $strings["delete"]
+        '<input name="delete_logo" type="checkbox" value="true"> ' . $strings["delete"]
     );
 }
 

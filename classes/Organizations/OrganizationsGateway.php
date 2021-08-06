@@ -37,8 +37,18 @@ class OrganizationsGateway
      * @param $created
      * @return string
      */
-    public function addClientOrganization($name, $address, $phone, $url, $email, $comments, $owner, $hourlyRate, $extension, $created)
-    {
+    public function addClientOrganization(
+        $name,
+        $address,
+        $phone,
+        $url,
+        $email,
+        $comments,
+        $owner,
+        $hourlyRate,
+        $extension,
+        $created
+    ): string {
         $sql = <<<SQL
 INSERT INTO {$this->db->getTableName("organizations")} (
     name, address1, phone, url, email, comments, extension_logo, owner, hourly_rate, created
@@ -60,8 +70,6 @@ SQL;
         $this->db->bind(":created", $created);
         $this->db->execute();
         return $this->db->lastInsertId();
-
-
     }
 
     /**
@@ -76,8 +84,17 @@ SQL;
      * @param $hourlyRate
      * @return mixed
      */
-    public function updateClientOrganization($clientId, $name, $address, $phone, $url, $email, $comments, $owner, $hourlyRate)
-    {
+    public function updateClientOrganization(
+        $clientId,
+        $name,
+        $address,
+        $phone,
+        $url,
+        $email,
+        $comments,
+        $owner,
+        $hourlyRate
+    ) {
         $sql = <<<SQL
 UPDATE {$this->db->getTableName("organizations")}
 SET
@@ -153,26 +170,6 @@ SQL;
     }
 
     /**
-     * @param $clientId
-     * @param null $sorting
-     * @return mixed
-     */
-    public function getClientIn($clientId, $sorting = null)
-    {
-        $clientId = explode(',', $clientId);
-
-        $placeholders = str_repeat('?, ', count($clientId) - 1) . '?';
-
-        $whereStatement = "WHERE org.id IN($placeholders)";
-
-        $this->db->query($this->initrequest["organizations"] . $whereStatement . $this->orderBy($sorting));
-
-        $this->db->bind(':client_id', $clientId);
-
-        return $this->db->single();
-    }
-
-    /**
      * @param $sorting
      * @return mixed
      */
@@ -239,11 +236,22 @@ SQL;
     }
 
     /**
-     * @param $organizationInfo
+     * @param string $name
+     * @param string|null $address
+     * @param string|null $phone
+     * @param string|null $url
+     * @param string|null $email
+     * @param string|null $comments
      * @return mixed
      */
-    public function updateOrganizationInformation($organizationInfo)
-    {
+    public function updateOrganizationInformation(
+        string $name,
+        string $address = null,
+        string $phone = null,
+        string $url = null,
+        string $email = null,
+        string $comments = null
+    ) {
         $query = <<<SQL
 UPDATE {$this->db->getTableName("organizations")} 
 SET 
@@ -256,12 +264,12 @@ comments= :org_comments
 WHERE id = 1
 SQL;
         $this->db->query($query);
-        $this->db->bind(':org_name', $organizationInfo['name']);
-        $this->db->bind(':org_address1', $organizationInfo['address1']);
-        $this->db->bind(':org_phone', $organizationInfo['phone']);
-        $this->db->bind(':org_url', $organizationInfo['url']);
-        $this->db->bind(':org_email', $organizationInfo['email']);
-        $this->db->bind(':org_comments', $organizationInfo['comments']);
+        $this->db->bind(':org_name', $name);
+        $this->db->bind(':org_address1', $address);
+        $this->db->bind(':org_phone', $phone);
+        $this->db->bind(':org_url', $url);
+        $this->db->bind(':org_email', $email);
+        $this->db->bind(':org_comments', $comments);
         return $this->db->execute();
 
     }
@@ -305,7 +313,8 @@ SQL;
      */
     public function searchResultOrganizations($query, $sorting = null, $limit = null, $rowLimit = null)
     {
-        $sql = $this->initrequest['organizations'] . ' ' . $query . $this->orderBy($sorting) . $this->limit($limit, $rowLimit);
+        $sql = $this->initrequest['organizations'] . ' ' . $query . $this->orderBy($sorting) . $this->limit($limit,
+                $rowLimit);
         $this->db->query($sql);
         $this->db->execute();
         return $this->db->resultset();
@@ -317,21 +326,21 @@ SQL;
      * @param $limit
      * @return string
      */
-    private function limit($offset, $limit)
+    private function limit($offset, $limit): string
     {
         if (!is_null($offset) && !is_null($limit)) {
-            return " LIMIT {$limit} OFFSET {$offset}";
+            return " LIMIT $limit OFFSET $offset";
         }
         return '';
     }
 
     /**
-     * @param $sorting
+     * @param string|null $sorting
      * @return string
      */
-    private function orderBy($sorting)
+    private function orderBy(string $sorting = null): string
     {
-        if (!is_null($sorting)) {
+        if (!empty($sorting)) {
             $allowedOrderedBy = ["org.name", "org.phone", "org.url"];
             $pieces = explode(' ', $sorting);
 

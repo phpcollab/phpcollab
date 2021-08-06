@@ -217,7 +217,7 @@ class Container
     public function getOrganizationsManager()
     {
         if (null === $this->organizationsManager) {
-            $this->organizationsManager = new Organizations($this->getPDO());
+            $this->organizationsManager = new Organizations($this->getPDO(), $this->getEscaperService());
         }
         return $this->organizationsManager;
     }

@@ -64,7 +64,7 @@ class FileUploader
      * @return bool
      * @throws Exception
      */
-    public function checkFileUpload()
+    public function checkFileUpload(): bool
     {
         try {
             $this->hasErrors();
@@ -103,16 +103,8 @@ class FileUploader
      * @return File
      * @throws Exception
      */
-    public function move(string $path, string $name, string $extension = null)
+    public function move(string $path, string $name, string $extension = null): File
     {
-        if (null === $path) {
-            throw new InvalidArgumentException('Path must be a string or is not set.');
-        }
-
-        if (null === $name) {
-            throw new InvalidArgumentException('Name must be a string or is not set.');
-        }
-
         if (is_null($extension) && is_null($this->fileExtension)) {
             throw new Exception('Extension is invalid or not set.');
         }

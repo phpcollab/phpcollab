@@ -296,7 +296,7 @@ $SQL[] = <<<STAMP
 
 CREATE TABLE {$dbTablePrefix}organizations (
   id $db_mediumint_auto[$databaseType],
-  name $db_varchar255[$databaseType],
+  name $db_varchar255NN[$databaseType],
   address1 $db_varchar255[$databaseType],
   address2 $db_varchar255[$databaseType],
   zip_code $db_varchar155[$databaseType],

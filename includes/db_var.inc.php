@@ -58,6 +58,10 @@ $db_varchar255["mysql"] = "varchar(255)";
 $db_varchar255["postgresql"] = "varchar(255)";
 $db_varchar255["sqlserver"] = "varchar(255) NULL";
 
+$db_varchar255NN["mysql"] = "varchar(255) NOT NULL";
+$db_varchar255NN["postgresql"] = "varchar(255) NOT NULL";
+$db_varchar255NN["sqlserver"] = "varchar(255) NOT NULL";
+
 $db_varchar255a["mysql"] = "varchar(255) NOT NULL default '0'";
 $db_varchar255a["postgresql"] = "varchar(255)";
 $db_varchar255a["sqlserver"] = "varchar(255) NULL";
