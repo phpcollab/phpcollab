@@ -86,13 +86,13 @@ class AdministrationCest
         $I->seeInTitle('Company Details');
         $I->dontSeeElement('.error');
 
-        $orgName = $I->grabValueFrom('input[name=org_name]');
+        $orgName = $I->grabValueFrom('input[name=name]');
         $I->submitForm('form', [
-            'org_name' => $orgName . ' - edit',
+            'name' => $orgName . ' - edit',
             'action'  => 'update'
         ]);
         $I->see('Success : Modification succeeded', ['css' => '.message']);
-        $I->seeInField(['name' => 'org_name'], $orgName . ' - edit');
+        $I->seeInField(['name' => 'name'], $orgName . ' - edit');
     }
 
     /**
@@ -109,14 +109,14 @@ class AdministrationCest
         $I->seeInTitle('Company Details');
         $I->dontSeeElement('.error');
 
-        $orgName = $I->grabValueFrom('input[name=org_name]');
+        $orgName = $I->grabValueFrom('input[name=name]');
         $orgName = str_replace(" - edit", "", $orgName);
         $I->submitForm('form', [
-            'org_name' => $orgName,
+            'name' => $orgName,
             'action'  => 'update'
         ]);
         $I->see('Success : Modification succeeded', ['css' => '.message']);
-        $I->seeInField(['name' => 'org_name'], $orgName);
+        $I->seeInField(['name' => 'name'], $orgName);
     }
 
     /**
