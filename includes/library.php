@@ -187,6 +187,21 @@ if (empty($installationType)) {
 }
 
 /*
+ * CSRF Setup
+ */
+// Set the CSRF token in the session
+if (!$session->has('csrfToken')) {
+    try {
+        $logger->debug('setting csrfToken');
+        $session->set('csrfToken', bin2hex(random_bytes(32)));
+    } catch (Exception $exception) {
+        $logger->critical('Unable to set csrfToken: ' . $e->getMessage());
+        error_log('Unable to set csrfToken: ' . $e->getMessage());
+    }
+}
+$csrfHandler = $container->setCSRFHandler($session);
+
+/*
  * This code should be called if $checkSession = true and we are not in demo mode.
  * If a session is not active, then redirect to the login page.
  */
@@ -196,20 +211,6 @@ if ($checkSession != "false" && $session->get('demo') != "true") {
         phpCollab\Util::headerFunction("../index.php?session=false");
     }
 
-    /*
-     * CSRF Setup
-     */
-    // Set the CSRF token in the session
-    if (!$session->has('csrfToken')) {
-        try {
-            $logger->debug('setting csrfToken');
-            $session->set('csrfToken', bin2hex(random_bytes(32)));
-        } catch (Exception $exception) {
-            $logger->critical('Unable to set csrfToken: ' . $e->getMessage());
-            error_log('Unable to set csrfToken: ' . $e->getMessage());
-        }
-    }
-    $csrfHandler = $container->setCSRFHandler($session);
 
     if ($session->get('profile') == "3" && !strstr($request->server->get('PHP_SELF'), "projects_site")) {
         phpCollab\Util::headerFunction("../projects_site/home.php");
