@@ -722,11 +722,12 @@ $strings["file_image_invalid_type"] = "The uploaded image appears to be an inval
 $strings["file_remove_error"] = "There was a problem removing the file, please try again or contact your administrator.";
 $strings["error_too_many_attempts"] = sprintf($strings["error_message"], "You have tried too many times. Please wait and try again.");
 $strings["error_email_already_sent"] = "Email has been sent.  Please check your inbox or contact your administrator.";
+$strings["invalid_email"] = "Email address appears to be invalid, please check and try again.";
 
 /**
  * Error messages
  */
 $strings["error_messages"] = [
-    'too_many_attempts' => 'sprintf($strings["error_message"], "You have tried too many times. Please wait and try again.")',
+    'too_many_attempts' => sprintf($strings["error_message"], "You have tried too many times. Please wait and try again."),
     'email_already_sent' => 'Email has been sent.  Please check your inbox or contact your administrator.'
 ];
