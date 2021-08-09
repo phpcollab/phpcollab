@@ -15,8 +15,8 @@
   },
   "require": {
     "php": ">=7.2.5",
-    "ext-pdo": "*",
     "ext-openssl": "*",
+    "ext-pdo": "*",
     "amenadiel/jpgraph": "^4.1",
     "apfelbox/php-file-download": "^2.1",
     "guzzlehttp/guzzle": "^7.3",
