@@ -19,7 +19,7 @@ class Settings
      * @return bool
      * @throws Exception
      */
-    public static function writeSettings($appRoot, array $settings, Logger $logger, $backup = true)
+    public static function writeSettings($appRoot, array $settings, Logger $logger, bool $backup = true): bool
     {
         $filesystem = new Filesystem();
 
@@ -71,7 +71,7 @@ class Settings
      * @param array $settingsData
      * @return array
      */
-    private static function parameterizeSettingsKeys(array $settingsData)
+    private static function parameterizeSettingsKeys(array $settingsData): array
     {
         $parameterized = [];
         foreach ($settingsData as $key => $value) {
@@ -84,7 +84,7 @@ class Settings
      * @param $settingsData
      * @return array
      */
-    public static function prepareSettings($settingsData)
+    public static function prepareSettings($settingsData): array
     {
         return array_replace_recursive(self::getDefaultValues(), $settingsData);
     }
@@ -96,7 +96,7 @@ class Settings
      * @return string
      * @throws Exception
      */
-    public static function appendUUID($appRoot, Logger $logger, $backup = true)
+    public static function appendUUID($appRoot, Logger $logger, bool $backup = true): string
     {
         $filesystem = new Filesystem();
         $uuid = Uuid::uuid4();
@@ -147,7 +147,7 @@ class Settings
      *
      * @return array
      */
-    public static function getDefaultValues()
+    public static function getDefaultValues(): array
     {
         // Set initial defaults
         $defaultValues = [];
@@ -224,13 +224,18 @@ class Settings
         $defaultValues["smtpLogin"] = "";
         $defaultValues["smtpPassword"] = "";
         $defaultValues["smtpPort"] = "";
-        $defaultValues["urlContact"] = "http://www.sourceforge.net/projects/phpcollab";
+        $defaultValues["urlContact"] = "https://www.sourceforge.net/projects/phpcollab";
         $defaultValues["supportEmail"] = "";
         $defaultValues["supportType"] = "team";
 
         $defaultValues["useLDAP"] = "false";
         $defaultValues["configLDAPServer"] = "";
         $defaultValues["configLDAPSearchRoot"] = "";
+
+        // Authentication related
+        $defaultValues["tokenLifespan"] = 60;
+        $defaultValues["timeBetweenAttempts"] = 15;
+        $defaultValues["attemptLimit"] = 3;
 
         return $defaultValues;
     }

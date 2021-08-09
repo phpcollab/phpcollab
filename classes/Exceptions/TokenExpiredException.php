@@ -8,8 +8,7 @@ use Exception;
 
 class TokenExpiredException extends Exception
 {
-    public function getMessageKey()
-    {
-        return 'Token has expired';
+    public function __construct($message = 'Token has expired') {
+        parent::__construct($message);
     }
 }

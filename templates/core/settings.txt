@@ -215,6 +215,15 @@ $setKeywords = "%setKeywords%";
 $emailAlerts = %emailAlerts%;
 
 /**
+ * Authentication Settings
+ */
+$resetPasswordTimes = [
+    'tokenLifespan' => %tokenLifespan%,
+    'timeBetweenAttempts' => %timeBetweenAttempts%,
+    'attemptLimit' => %attemptLimit%
+];
+
+/**
  * Debugging Settings.
  * DO NOT Change these on a Production server unless you know what you are doing.
  * Refer to: https://phpcollab.com/debugging for more information

@@ -230,11 +230,13 @@ if ($updateChecker == "true") {
 } else {
     $updateCheckerFalse = "checked";
 }
-if ($gmtTimezone == (int)"true") {
+
+if ($gmtTimezone == "true") {
     $gmtTimezoneTrue = "checked";
 } else {
     $gmtTimezoneFalse = "checked";
 }
+
 if ($projectsFilter == "true") {
     $projectsFilterTrue = "checked";
 } else {
@@ -519,6 +521,29 @@ $block1->contentRow('Auto-publish Tasks',
 $block1->contentRow('Email Alerts',
     '<label><input type="radio" name="emailAlerts" value="false" ' . $checkedEmailAlerts_f . ' /> False</label>
      <label><input type="radio" name="emailAlerts" value="true" ' . $checkedEmailAlerts_t . ' /> True</label>');
+
+
+$block1->contentTitle("Reset Password Settings");
+
+$attemptLimit = !empty($resetPasswordTimes['attemptLimit']) ? $resetPasswordTimes['attemptLimit'] : 3;
+$timeBetweenAttempts = !empty($resetPasswordTimes['timeBetweenAttempts']) ? $resetPasswordTimes['timeBetweenAttempts'] : 15;
+$tokenLifespan = !empty($resetPasswordTimes['tokenLifespan']) ? $resetPasswordTimes['tokenLifespan'] : 60;
+
+echo <<< AUTHSETTINGS
+<tr class="odd">
+    <td class="leftvalue">Number of attempts : </td>
+    <td><input value="$attemptLimit" style="padding: 2px 1px 2px 4px;" name="attemptLimit" maxlength="100" type="number" /></td>
+</tr>
+<tr class="odd">
+    <td class="leftvalue">Time between attempts : </td>
+    <td><input value="$timeBetweenAttempts" style="padding: 2px 1px 2px 4px;" name="timeBetweenAttempts" maxlength="100" type="number" /> <span>minutes</span></td>
+</tr>
+<tr class="odd">
+    <td class="leftvalue">Time token should be valid : </td>
+    <td><input value="$tokenLifespan" style="padding: 2px 1px 2px 4px;" name="tokenLifespan" maxlength="100" type="number" /> <span>minutes</span></td>
+</tr>
+AUTHSETTINGS;
+
 
 $block1->contentTitle("Advanced");
 

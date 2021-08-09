@@ -1,27 +1,95 @@
 <?php
 
-use phpCollab\Exceptions\TokenGenerationFailedException;
+use phpCollab\Exceptions\TokenAlreadySentException;
+use phpCollab\Exceptions\TooManyPasswordResetAttempts;
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
 $checkSession = "false";
 require_once '../includes/library.php';
 
 $strings = $GLOBALS["strings"];
 
-//test send query
 if ($request->isMethod('post')) {
+    try {
+        if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
+            if (empty($request->request->get('username'))) {
+                $error = $strings["empty_field"];
+            } else {
+                $resetPassword = $container->getResetPasswordService();
+                // Check to see if there is an existing SESSION value
 
-    if (empty($request->request->get('username'))) {
-        $error = $strings["empty_field"];
-    } else {
-        $msg = 'email_pwd';
+                $timeBetweenAttempts = !empty($resetPasswordTimes['timeBetweenAttempts']) ? $resetPasswordTimes['timeBetweenAttempts'] : 15;
 
-        try {
-            $resetPassword = $container->getResetPasswordService();
-            $resetPassword->forgotPassword($request->request->get('username'));
-        } catch (TokenGenerationFailedException $e) {
-            $error = $strings["genericError"];
+                if (
+                    $session->has('passwordSentTimestamp')
+                    && !$resetPassword->checkTimestamp(
+                        $session->get('passwordSentTimestamp'),
+                        $timeBetweenAttempts
+                    )
+                ) {
+                    throw new TooManyPasswordResetAttempts();
+                }
+
+                try {
+                    $resetTimes = (
+                        isset($resetPasswordTimes)
+                        && is_array($resetPasswordTimes)
+                    ) ? $resetPasswordTimes : [
+                        'tokenLifespan' => 60,
+                        'timeBetweenAttempts' => 15,
+                        'attemptLimit' => 3
+                    ];
+
+                    $resetPassword->forgotPassword($request->request->get('username'), $resetPasswordTimes);
+                    $session->set('passwordSentTimestamp', new DateTime('now'));
+                    $session->getFlashBag()->add(
+                        'message',
+                        $strings["send_password_phrase"]
+                    );
+                } catch (TooManyPasswordResetAttempts $tooManyPasswordResetAttempts) {
+                    throw $tooManyPasswordResetAttempts;
+                } catch (TokenAlreadySentException $tokenAlreadySentException) {
+                    throw $tokenAlreadySentException;
+                } catch (Exception $exception) {
+                    throw new Exception($exception->getMessage());
+                }
+            }
         }
+    } catch (InvalidCsrfTokenException $csrfTokenException) {
+        $logger->error('CSRF Token Error', [
+            'Forgot Password',
+            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+        ]);
+        $session->getFlashBag()->add(
+            'errors',
+            $strings["genericError"]
+        );
+    } catch (TokenAlreadySentException $tokenAlreadySentException) {
+        $logger->warning('Exception - Token already sent', ['Error' => $tokenAlreadySentException->getMessage()]);
+        $error = $strings["error_email_already_sent"];
+        $session->getFlashBag()->add(
+            'errors',
+            $strings["error_email_already_sent"]
+        );
+        $session->set('passwordSentTimestamp', new DateTime('now'));
+    } catch (TooManyPasswordResetAttempts $tooManyPasswordResetAttempts) {
+        $logger->critical('Exception', ['Error' => $tooManyPasswordResetAttempts->getMessage()]);
+        $session->getFlashBag()->add(
+            'errors',
+            $strings["error_too_many_attempts"]
+        );
+
+        $session->set('passwordSentTimestamp', new DateTime('now'));
+    } catch (Exception $exception) {
+        $logger->critical('Exception', ['Error' => $exception->getMessage()]);
+        $session->getFlashBag()->add(
+            'message',
+            $strings["send_password_phrase"]
+        );
+        $session->set('passwordSentTimestamp', new DateTime('now'));
     }
+
 }
 
 $notLogged = "true";
@@ -32,9 +100,14 @@ $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs("&nbsp;");
 $blockPage->closeBreadcrumbs();
 
-if (!empty($msg)) {
-    include '../includes/messages.php';
-    $blockPage->messageBox($GLOBALS["msgLabel"]);
+
+if ($session->getFlashBag()->has('message')) {
+    $blockPage->messageBox($session->getFlashBag()->get('message')[0]);
+} else {
+    if (!empty($msg)) {
+        include '../includes/messages.php';
+        $blockPage->messageBox($msgLabel);
+    }
 }
 
 $block1 = new phpCollab\Block();
@@ -42,9 +115,17 @@ $block1 = new phpCollab\Block();
 $block1->form = "send";
 $block1->openForm("../general/sendpassword.php", null, $csrfHandler);
 
-if (!empty($error)) {
+if ($session->getFlashBag()->has('errors')) {
     $block1->headingError($strings["errors"]);
-    $block1->contentError($error);
+    foreach ($session->getFlashBag()->get('errors', []) as $error) {
+        $block1->contentError($error);
+    }
+} else {
+    if (!empty($errors)) {
+        include '../includes/messages.php';
+        $block1->headingError($strings["errors"]);
+        $block1->contentError($error);
+    }
 }
 
 $block1->heading($setTitle . " : " . $strings["password"]);
@@ -60,3 +141,5 @@ $block1->closeContent();
 $block1->closeForm();
 
 include APP_ROOT . '/views/layout/footer.php';
+
+$session->getFlashBag()->clear();

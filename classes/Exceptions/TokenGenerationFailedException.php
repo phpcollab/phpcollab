@@ -8,8 +8,7 @@ use Exception;
 
 class TokenGenerationFailedException extends Exception
 {
-    public function getMessageKey()
-    {
-        return 'Unable to generate password reset token';
+    public function __construct($message = 'Unable to generate password reset token') {
+        parent::__construct($message);
     }
 }
