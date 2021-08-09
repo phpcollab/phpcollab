@@ -274,7 +274,7 @@ class Container
     public function getProjectsLoader()
     {
         if (null === $this->projectsLoader) {
-            $this->projectsLoader = new Projects($this->getPDO());
+            $this->projectsLoader = new Projects($this->getPDO(), $this->getEscaperService());
         }
         return $this->projectsLoader;
     }

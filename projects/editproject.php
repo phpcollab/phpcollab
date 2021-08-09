@@ -91,21 +91,20 @@ if ($id != "") {
             if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
                 if ($request->request->get("action") == "update") {
 
-                    $published = filter_input(INPUT_POST, "projectPublished", FILTER_SANITIZE_NUMBER_INT);
-                    $projectName = filter_input(INPUT_POST, "name", FILTER_SANITIZE_STRING);
-                    $projectPriority = filter_input(INPUT_POST, "priority", FILTER_SANITIZE_NUMBER_INT);
-                    $description = htmlspecialchars($request->request->get('description'), ENT_QUOTES, 'UTF-8');
-                    $urlDev = filter_input(INPUT_POST, "url_dev", FILTER_SANITIZE_URL);
-                    $urlProd = filter_input(INPUT_POST, "url_prod", FILTER_SANITIZE_URL);
-                    $owner = filter_input(INPUT_POST, "owner", FILTER_SANITIZE_NUMBER_INT);
-                    $organization = filter_input(INPUT_POST, "client_organization", FILTER_SANITIZE_NUMBER_INT);
-                    $thisPhase = filter_input(INPUT_POST, "thisPhase", FILTER_SANITIZE_NUMBER_INT);
-                    $projectStatus = filter_input(INPUT_POST, "status", FILTER_SANITIZE_NUMBER_INT);
-                    $maxUploadSize = filter_input(INPUT_POST, "max_upload_size", FILTER_SANITIZE_NUMBER_INT);
-                    $invoicing = filter_input(INPUT_POST, "invoicing", FILTER_SANITIZE_NUMBER_INT);
-                    $hourlyRate = filter_input(INPUT_POST, "hourly_rate", FILTER_SANITIZE_NUMBER_FLOAT,
+                    $published = filter_var($request->request->get('projectPublished'), FILTER_SANITIZE_NUMBER_INT);
+                    $projectName = filter_var($request->request->get('name'), FILTER_SANITIZE_STRING);
+                    $projectPriority = filter_var($request->request->get('priority'), FILTER_SANITIZE_NUMBER_INT);
+                    $description = htmlspecialchars($request->request->get('description'), ENT_QUOTES);
+                    $urlDev = (empty($request->request->get('url_dev'))) ? null : filter_var($request->request->get('url_dev'), FILTER_SANITIZE_SPECIAL_CHARS);
+                    $urlProd = (empty($request->request->get('url_prod'))) ? null : filter_var($request->request->get('url_prod'), FILTER_SANITIZE_SPECIAL_CHARS);
+                    $owner = filter_var($request->request->get('owner'), FILTER_SANITIZE_NUMBER_INT);
+                    $organization = filter_var($request->request->get('client_organization'), FILTER_SANITIZE_NUMBER_INT);
+                    $thisPhase = filter_var($request->request->get('thisPhase'), FILTER_SANITIZE_NUMBER_INT);
+                    $projectStatus = filter_var($request->request->get('status'), FILTER_SANITIZE_NUMBER_INT);
+                    $maxUploadSize = filter_var($request->request->get('max_upload_size'), FILTER_SANITIZE_NUMBER_INT);
+                    $invoicing = filter_var($request->request->get('invoicing'), FILTER_SANITIZE_NUMBER_INT);
+                    $hourlyRate = filter_var($request->request->get('hourly_rate'), FILTER_SANITIZE_NUMBER_FLOAT,
                         FILTER_FLAG_ALLOW_FRACTION);
-
 
                     //case copy project
                     if ($docopy == "true") {
@@ -423,19 +422,19 @@ if ($id == "") {
             if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
                 if ($request->request->get("action") == "add") {
                     try {
-                        $published = filter_input(INPUT_POST, "projectPublished", FILTER_SANITIZE_NUMBER_INT);
-                        $projectName = filter_input(INPUT_POST, "name", FILTER_SANITIZE_STRING);
-                        $projectPriority = filter_input(INPUT_POST, "priority", FILTER_SANITIZE_NUMBER_INT);
-                        $description = htmlspecialchars($request->request->get('description'), ENT_QUOTES, 'UTF-8');
-                        $urlDev = filter_input(INPUT_POST, "url_dev", FILTER_SANITIZE_URL);
-                        $urlProd = filter_input(INPUT_POST, "url_prod", FILTER_SANITIZE_URL);
-                        $owner = filter_input(INPUT_POST, "owner", FILTER_SANITIZE_NUMBER_INT);
-                        $organization = filter_input(INPUT_POST, "client_organization", FILTER_SANITIZE_NUMBER_INT);
-                        $thisPhase = filter_input(INPUT_POST, "thisPhase", FILTER_SANITIZE_NUMBER_INT);
-                        $projectStatus = filter_input(INPUT_POST, "status", FILTER_SANITIZE_NUMBER_INT);
-                        $maxUploadSize = filter_input(INPUT_POST, "max_upload_size", FILTER_SANITIZE_NUMBER_INT);
-                        $invoicing = filter_input(INPUT_POST, "invoicing", FILTER_SANITIZE_NUMBER_INT);
-                        $hourlyRate = filter_input(INPUT_POST, "hourly_rate", FILTER_SANITIZE_NUMBER_FLOAT,
+                        $published = filter_input($request->request->get("projectPublished"), FILTER_SANITIZE_NUMBER_INT);
+                        $projectName = filter_input($request->request->get("name"), FILTER_SANITIZE_STRING);
+                        $projectPriority = filter_input($request->request->get("priority"), FILTER_SANITIZE_NUMBER_INT);
+                        $description = htmlspecialchars($request->request->get('description'), ENT_QUOTES);
+                        $urlDev = (empty($request->request->get('url_dev'))) ? null : filter_var($request->request->get('url_dev'), FILTER_SANITIZE_SPECIAL_CHARS);
+                        $urlProd = (empty($request->request->get('url_prod'))) ? null : filter_var($request->request->get('url_prod'), FILTER_SANITIZE_SPECIAL_CHARS);
+                        $owner = filter_input($request->request->get("owner"), FILTER_SANITIZE_NUMBER_INT);
+                        $organization = filter_input($request->request->get("client_organization"), FILTER_SANITIZE_NUMBER_INT);
+                        $thisPhase = filter_input($request->request->get("thisPhase"), FILTER_SANITIZE_NUMBER_INT);
+                        $projectStatus = filter_input($request->request->get("status"), FILTER_SANITIZE_NUMBER_INT);
+                        $maxUploadSize = filter_input($request->request->get("max_upload_size"), FILTER_SANITIZE_NUMBER_INT);
+                        $invoicing = filter_input($request->request->get("invoicing"), FILTER_SANITIZE_NUMBER_INT);
+                        $hourlyRate = filter_input($request->request->get("hourly_rate"), FILTER_SANITIZE_NUMBER_FLOAT,
                             FILTER_FLAG_ALLOW_FRACTION);
 
                         if ($invoicing == "" || $organization == "1") {
@@ -593,7 +592,7 @@ $projectName = ($docopy == "true") ? $strings["copy_of"] . $projectName : $proje
 echo <<<HTML
 <tr class="odd">
     <td class="leftvalue">{$strings["name"]} :</td>
-    <td><input size="44" value="{$projectName}" style="width: 400px" name="name" maxlength="100" type="text"></td>
+    <td><input size="44" value="$projectName" style="width: 400px" name="name" maxlength="100" type="text"></td>
 </tr>
 <tr class="odd">
     <td class="leftvalue">{$strings["priority"]} :</td>
@@ -616,15 +615,15 @@ echo <<<HTML
 </tr>
 <tr class='odd'>
     <td class="leftvalue">{$strings["description"]} :</td>
-    <td><textarea rows="10" style="width: 400px; height: 160px;" name="description" cols="47">{$description}</textarea></td>
+    <td><textarea rows="10" style="width: 400px; height: 160px;" name="description" cols="47">$description</textarea></td>
 </tr>
 <tr class="odd">
     <td class="leftvalue">{$strings["url_dev"]} :</td>
-    <td><input size="44" value="{$url_dev}" style="width: 400px" name="url_dev" maxlength="100" type="text"></td>
+    <td><input size="44" value="$url_dev" style="width: 400px" name="url_dev" maxlength="100" type="text"></td>
 </tr>
 <tr class="odd">
     <td class="leftvalue">{$strings["url_prod"]} :</td>
-    <td><input size="44" value="{$url_prod}" style="width: 400px" name="url_prod" maxlength="100" type="text"></td>
+    <td><input size="44" value="$url_prod" style="width: 400px" name="url_prod" maxlength="100" type="text"></td>
 </tr>
 <tr class="odd">
     <td class="leftvalue">{$strings["owner"]} :</td>
@@ -727,7 +726,7 @@ if ($fileManagement == "true") {
     echo <<<TR
 <tr class="odd">
     <td class="leftvalue">{$strings["max_upload"]} :</td>
-    <td><input size="20" value="{$projectDetail["pro_upload_max"]}" style="width: 150px" name="max_upload_size" maxlength="100" type="TEXT"> {$byteUnits[0]}</td>
+    <td><input size="20" value="{$projectDetail["pro_upload_max"]}" style="width: 150px" name="max_upload_size" maxlength="100" type="TEXT"> $byteUnits[0]</td>
 </tr>
 TR;
 }
@@ -745,7 +744,7 @@ if ($enableInvoicing == "true") {
 echo <<<TR
 <tr class="odd">
     <td class="leftvalue">&nbsp;</td>
-    <td><button type="submit" name="action" value="{$submitValue}">{$strings["save"]}</button></td>
+    <td><button type="submit" name="action" value="$submitValue">{$strings["save"]}</button></td>
 </tr>
 TR;
 

@@ -395,7 +395,7 @@ if ($session->get("id") == $projectDetail["pro_owner"] || $session->get("profile
 
     if ($enableMantis == "true") {
         $block1->paletteScript(5, "bug",
-            $pathMantis . "login.php?id=" . $projectDetail["pro_id"] . "&url=http://{$request->server->get("HTTP_HOST")}{$request->server->get("REQUEST_URI")}&username={$session->get("login")}",
+            $pathMantis . "login.php?id=" . $projectDetail["pro_id"] . "&url=https://{$request->server->get("HTTP_HOST")}{$request->server->get("REQUEST_URI")}&username={$session->get("login")}",
             "true,true,false", $strings["bug"]);
     }
 
@@ -584,7 +584,7 @@ if ($projectDetail["pro_phase_set"] != "0") {
             echo "
 				<div id='ganttChart_taskList' class='ganttChart'>
 					<img src='../tasks/graphtasks.php?&project=" . $projectDetail["pro_id"] . "' alt=''><br/>
-					<span class='listEvenBold''>" . $blockPage->buildLink("http://www.aditus.nu/jpgraph/", "JpGraph",
+					<span class='listEvenBold''>" . $blockPage->buildLink("https://www.aditus.nu/jpgraph/", "JpGraph",
                     "powered") . "</span>	
 				</div>
 			";
