@@ -101,9 +101,15 @@ if ($request->isMethod('post')) {
                 phpCollab\Util::headerFunction("../administration/mycompany.php");
             }
         }
-    } catch (TypeError $e) {
-        die("TypeError: " . $e->getMessage());
+    } catch (TypeError $typeError) {
+        $logger->critical('Exception (TypeError)', ['Error' => $typeError->getMessage()]);
+        $session->getFlashBag()->add(
+            'errors',
+            sprintf($strings["error_message"], $invalidArgumentException->getMessage())
+        );
+
     } catch (InvalidArgumentException $invalidArgumentException) {
+        $logger->critical('Exception (InvalidArgument)', ['Error' => $invalidArgumentException->getMessage()]);
         $session->getFlashBag()->add(
             'errors',
             sprintf($strings["error_message"], $invalidArgumentException->getMessage())
