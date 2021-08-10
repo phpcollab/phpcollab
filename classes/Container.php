@@ -105,6 +105,9 @@ class Container
     private $exportPDFService;
     private $exportVCardService;
 
+    /**
+     * @param array $configuration
+     */
     public function __construct(array $configuration)
     {
         $this->configuration = $configuration;
@@ -114,7 +117,7 @@ class Container
      * @return Database
      * @throws Exception
      */
-    public function getPDO()
+    public function getPDO(): Database
     {
         if (null === $this->database) {
             try {
@@ -127,7 +130,11 @@ class Container
         return $this->database;
     }
 
-    public function getLogger($level = 400)
+    /**
+     * @param int $level
+     * @return Logger
+     */
+    public function getLogger(int $level = 400): Logger
     {
         if (null === $this->logger) {
             try {
@@ -152,7 +159,7 @@ class Container
      * If not throws an error, otherwise returns the reference.
      * @return mixed
      */
-    public function getCSRFHander()
+    public function getCSRFHandler()
     {
         if (null === $this->csrfHandler) {
             throw new LogicException('CSRF Handler not instantiated. Please refer to setCSRFHandler()');
@@ -165,7 +172,7 @@ class Container
      * @param Session $session
      * @return CsrfHandler
      */
-    public function setCSRFHandler(Session $session)
+    public function setCSRFHandler(Session $session): CsrfHandler
     {
         if (null === $this->csrfHandler) {
             $this->csrfHandler = new CsrfHandler($session);
@@ -173,7 +180,11 @@ class Container
         return $this->csrfHandler;
     }
 
-    public function getBookmarksLoader()
+    /**
+     * @return Bookmarks
+     * @throws Exception
+     */
+    public function getBookmarksLoader(): Bookmarks
     {
         if ($this->bookmarkLoader === null) {
             $this->bookmarkLoader = new Bookmarks($this->getPDO(), $this->getEscaperService());
@@ -181,7 +192,11 @@ class Container
         return $this->bookmarkLoader;
     }
 
-    public function getDeleteBookmarksLoader()
+    /**
+     * @return DeleteBookmarks
+     * @throws Exception
+     */
+    public function getDeleteBookmarksLoader(): DeleteBookmarks
     {
         if ($this->deleteBookmarkLoader === null) {
             $this->deleteBookmarkLoader = new DeleteBookmarks($this->getPDO(), $this->getEscaperService());
@@ -189,7 +204,11 @@ class Container
         return $this->deleteBookmarkLoader;
     }
 
-    public function getLoginLogs()
+    /**
+     * @return LoginLogs
+     * @throws Exception
+     */
+    public function getLoginLogs(): LoginLogs
     {
         if ($this->loginLogsLoader === null) {
             $this->loginLogsLoader = new LoginLogs($this->getPDO());
@@ -197,7 +216,11 @@ class Container
         return $this->loginLogsLoader;
     }
 
-    public function getSortingLoader()
+    /**
+     * @return Sorting
+     * @throws Exception
+     */
+    public function getSortingLoader(): Sorting
     {
         if ($this->sortingLoader === null) {
             $this->sortingLoader = new Sorting($this->getPDO());
@@ -205,7 +228,11 @@ class Container
         return $this->sortingLoader;
     }
 
-    public function getAdministration()
+    /**
+     * @return Administration
+     * @throws Exception
+     */
+    public function getAdministration(): Administration
     {
         if (null === $this->administration) {
             $this->administration = new Administration($this->getPDO());
@@ -214,7 +241,11 @@ class Container
         return $this->administration;
     }
 
-    public function getOrganizationsManager()
+    /**
+     * @return Organizations
+     * @throws Exception
+     */
+    public function getOrganizationsManager(): Organizations
     {
         if (null === $this->organizationsManager) {
             $this->organizationsManager = new Organizations($this->getPDO(), $this->getEscaperService());
@@ -222,7 +253,11 @@ class Container
         return $this->organizationsManager;
     }
 
-    public function getTeams()
+    /**
+     * @return Teams
+     * @throws Exception
+     */
+    public function getTeams(): Teams
     {
         if (null === $this->teams) {
             $this->teams = new Teams($this->getPDO(), $this->getNotification(), $this->getNotificationsManager());
@@ -231,7 +266,10 @@ class Container
 
     }
 
-    public function getNotification()
+    /**
+     * @return Notification
+     */
+    public function getNotification(): Notification
     {
         if (null === $this->notificationManager) {
             $this->notificationManager = new Notification($this);
@@ -239,7 +277,10 @@ class Container
         return $this->notificationManager;
     }
 
-    public function getNotificationNewTopicManager()
+    /**
+     * @return TopicNewTopic
+     */
+    public function getNotificationNewTopicManager(): TopicNewTopic
     {
         if (null === $this->notificationNewTopic) {
             $this->notificationNewTopic = new TopicNewTopic($this);
@@ -247,7 +288,10 @@ class Container
         return $this->notificationNewTopic;
     }
 
-    public function getNotificationNewPostManager()
+    /**
+     * @return TopicNewPost
+     */
+    public function getNotificationNewPostManager(): TopicNewPost
     {
         if (null === $this->notificationNewPost) {
             $this->notificationNewPost = new TopicNewPost($this);
@@ -255,7 +299,11 @@ class Container
         return $this->notificationNewPost;
     }
 
-    public function getNotificationsManager()
+    /**
+     * @return Notifications
+     * @throws Exception
+     */
+    public function getNotificationsManager(): Notifications
     {
         if (null === $this->notificationsManager) {
             $this->notificationsManager = new Notifications($this->getPDO());
@@ -263,7 +311,11 @@ class Container
         return $this->notificationsManager;
     }
 
-    public function getAssignmentsManager()
+    /**
+     * @return Assignments
+     * @throws Exception
+     */
+    public function getAssignmentsManager(): Assignments
     {
         if (null === $this->assignmentsManager) {
             $this->assignmentsManager = new Assignments($this->getPDO());
@@ -271,7 +323,11 @@ class Container
         return $this->assignmentsManager;
     }
 
-    public function getProjectsLoader()
+    /**
+     * @return Projects
+     * @throws Exception
+     */
+    public function getProjectsLoader(): Projects
     {
         if (null === $this->projectsLoader) {
             $this->projectsLoader = new Projects($this->getPDO(), $this->getEscaperService());
@@ -279,7 +335,10 @@ class Container
         return $this->projectsLoader;
     }
 
-    public function getNotificationAddProjectTeamService()
+    /**
+     * @return AddProjectTeam
+     */
+    public function getNotificationAddProjectTeamService(): AddProjectTeam
     {
         if (null === $this->notificationAddProjectTeamService) {
             $this->notificationAddProjectTeamService = new AddProjectTeam($this);
@@ -287,7 +346,10 @@ class Container
         return $this->notificationAddProjectTeamService;
     }
 
-    public function getNotificationRemoveProjectTeamService()
+    /**
+     * @return RemoveProjectTeam
+     */
+    public function getNotificationRemoveProjectTeamService(): RemoveProjectTeam
     {
         if (null === $this->notificationRemoveProjectTeamService) {
             $this->notificationRemoveProjectTeamService = new RemoveProjectTeam($this);
@@ -295,7 +357,11 @@ class Container
         return $this->notificationRemoveProjectTeamService;
     }
 
-    public function getTasksLoader()
+    /**
+     * @return Tasks
+     * @throws Exception
+     */
+    public function getTasksLoader(): Tasks
     {
         if (null === $this->tasksLoader) {
             $this->tasksLoader = new Tasks($this->getPDO(), $this);
@@ -303,7 +369,11 @@ class Container
         return $this->tasksLoader;
     }
 
-    public function getTaskUpdateService()
+    /**
+     * @return TaskUpdates
+     * @throws Exception
+     */
+    public function getTaskUpdateService(): TaskUpdates
     {
         if (null === $this->taskUpdateService) {
             $this->taskUpdateService = new TaskUpdates($this->getPDO());
@@ -311,7 +381,11 @@ class Container
         return $this->taskUpdateService;
     }
 
-    public function getSubtasksLoader()
+    /**
+     * @return Subtasks
+     * @throws Exception
+     */
+    public function getSubtasksLoader(): Subtasks
     {
         if (null === $this->subTasksLoader) {
             $this->subTasksLoader = new Subtasks($this->getPDO(), $this);
@@ -319,7 +393,10 @@ class Container
         return $this->subTasksLoader;
     }
 
-    public function getSubtasksNotificationsManager()
+    /**
+     * @return SubtaskNotifications
+     */
+    public function getSubtasksNotificationsManager(): SubtaskNotifications
     {
         if (null === $this->subtasksNotifications) {
             $this->subtasksNotifications = new SubtaskNotifications($this);
@@ -327,7 +404,11 @@ class Container
         return $this->subtasksNotifications;
     }
 
-    public function getSetStatusService()
+    /**
+     * @return SetStatus
+     * @throws Exception
+     */
+    public function getSetStatusService(): SetStatus
     {
         if (null === $this->setStatusService) {
             $this->setStatusService = new SetStatus($this->getPDO(), $this);
@@ -335,7 +416,11 @@ class Container
         return $this->setStatusService;
     }
 
-    public function getSetTaskStatusServiceService()
+    /**
+     * @return SetTaskStatus
+     * @throws Exception
+     */
+    public function getSetTaskStatusServiceService(): SetTaskStatus
     {
         if (null === $this->setTaskStatusService) {
             $this->setTaskStatusService = new SetTaskStatus($this->getPDO(), $this);
@@ -343,7 +428,11 @@ class Container
         return $this->setTaskStatusService;
     }
 
-    public function getNotesLoader()
+    /**
+     * @return Notes
+     * @throws Exception
+     */
+    public function getNotesLoader(): Notes
     {
         if (null === $this->notesLoader) {
             $this->notesLoader = new Notes($this->getPDO());
@@ -351,7 +440,11 @@ class Container
         return $this->notesLoader;
     }
 
-    public function getTopicsLoader()
+    /**
+     * @return Topics
+     * @throws Exception
+     */
+    public function getTopicsLoader(): Topics
     {
         if (null === $this->topicsLoader) {
             $this->topicsLoader = new Topics($this->getPDO(), $this);
@@ -359,7 +452,11 @@ class Container
         return $this->topicsLoader;
     }
 
-    public function getMembersLoader()
+    /**
+     * @return Members
+     * @throws Exception
+     */
+    public function getMembersLoader(): Members
     {
         if (null === $this->membersLoader) {
             $this->membersLoader = new Members($this->getPDO(), $this->getLogger(), $this);
@@ -367,7 +464,11 @@ class Container
         return $this->membersLoader;
     }
 
-    public function getCalendarLoader()
+    /**
+     * @return Calendars
+     * @throws Exception
+     */
+    public function getCalendarLoader(): Calendars
     {
         if (null === $this->calendarLoader) {
             $this->calendarLoader = new Calendars($this->getPDO());
@@ -375,7 +476,11 @@ class Container
         return $this->calendarLoader;
     }
 
-    public function getNewsdeskLoader()
+    /**
+     * @return NewsDesk
+     * @throws Exception
+     */
+    public function getNewsdeskLoader(): NewsDesk
     {
         if (null === $this->newsDeskLoader) {
             $this->newsDeskLoader = new NewsDesk($this->getPDO(), $this->getEscaperService());
@@ -383,7 +488,11 @@ class Container
         return $this->newsDeskLoader;
     }
 
-    public function getReportsLoader()
+    /**
+     * @return Reports
+     * @throws Exception
+     */
+    public function getReportsLoader(): Reports
     {
         if (null === $this->reportsLoader) {
             $this->reportsLoader = new Reports($this->getPDO());
@@ -391,7 +500,11 @@ class Container
         return $this->reportsLoader;
     }
 
-    public function getFilesLoader()
+    /**
+     * @return Files
+     * @throws Exception
+     */
+    public function getFilesLoader(): Files
     {
         if (null === $this->filesLoader) {
             $this->filesLoader = new Files($this->getPDO(), $this);
@@ -399,7 +512,12 @@ class Container
         return $this->filesLoader;
     }
 
-    public function getFileUploadLoader($fileObj)
+    /**
+     * @param $fileObj
+     * @return FileUploader
+     * @throws Exception
+     */
+    public function getFileUploadLoader($fileObj): FileUploader
     {
         if (null === $this->fileUploaderLoader) {
             $this->fileUploaderLoader = new FileUploader($this->getPDO(), $fileObj);
@@ -407,7 +525,10 @@ class Container
         return $this->fileUploaderLoader;
     }
 
-    public function getFileDownloadService()
+    /**
+     * @return GetFile
+     */
+    public function getFileDownloadService(): GetFile
     {
         if (null === $this->fileDownloadService) {
             $this->fileDownloadService = new GetFile();
@@ -415,7 +536,11 @@ class Container
         return $this->fileDownloadService;
     }
 
-    public function getFileHandlerService($type = null)
+    /**
+     * @param null $type
+     * @return FileHandler
+     */
+    public function getFileHandlerService($type = null): FileHandler
     {
         if (null === $this->fileHandlerService) {
             $this->fileHandlerService = new FileHandler($type);
@@ -423,7 +548,11 @@ class Container
         return $this->fileHandlerService;
     }
 
-    public function getFileUpdateService()
+    /**
+     * @return UpdateFile
+     * @throws Exception
+     */
+    public function getFileUpdateService(): UpdateFile
     {
         if (null === $this->fileUpdateService) {
             $this->fileUpdateService = new UpdateFile($this->getPDO(), $this);
@@ -431,7 +560,11 @@ class Container
         return $this->fileUpdateService;
     }
 
-    public function getPeerReviewService()
+    /**
+     * @return PeerReview
+     * @throws Exception
+     */
+    public function getPeerReviewService(): PeerReview
     {
         if (null === $this->peerReviewService) {
             $this->peerReviewService = new PeerReview($this->getPDO(), $this->getNotification());
@@ -439,7 +572,11 @@ class Container
         return $this->peerReviewService;
     }
 
-    public function getApprovalTrackingService()
+    /**
+     * @return ApprovalTracking
+     * @throws Exception
+     */
+    public function getApprovalTrackingService(): ApprovalTracking
     {
         if (null === $this->approvalTrackingService) {
             $this->approvalTrackingService = new ApprovalTracking($this->getPDO(), $this);
@@ -447,7 +584,11 @@ class Container
         return $this->approvalTrackingService;
     }
 
-    public function getSupportLoader()
+    /**
+     * @return Support
+     * @throws Exception
+     */
+    public function getSupportLoader(): Support
     {
         if (null === $this->supportLoader) {
             $this->supportLoader = new Support($this->getPDO(), $this, $this->getLogger());
@@ -455,7 +596,11 @@ class Container
         return $this->supportLoader;
     }
 
-    public function getPhasesLoader()
+    /**
+     * @return Phases
+     * @throws Exception
+     */
+    public function getPhasesLoader(): Phases
     {
         if (null === $this->phasesLoader) {
             $this->phasesLoader = new Phases($this->getPDO());
@@ -463,7 +608,11 @@ class Container
         return $this->phasesLoader;
     }
 
-    public function getInvoicesLoader()
+    /**
+     * @return Invoices
+     * @throws Exception
+     */
+    public function getInvoicesLoader(): Invoices
     {
         if (null === $this->invoicesLoader) {
             $this->invoicesLoader = new Invoices($this->getPDO(), $this);
@@ -471,7 +620,11 @@ class Container
         return $this->invoicesLoader;
     }
 
-    public function getServicesLoader()
+    /**
+     * @return Services
+     * @throws Exception
+     */
+    public function getServicesLoader(): Services
     {
         if (null === $this->servicesLoader) {
             $this->servicesLoader = new Services($this->getPDO());
@@ -479,7 +632,10 @@ class Container
         return $this->servicesLoader;
     }
 
-    public function getDatafunctionsService()
+    /**
+     * @return DataFunctionsService
+     */
+    public function getDatafunctionsService(): DataFunctionsService
     {
         if (null === $this->dataFunctionsService) {
             $this->dataFunctionsService = new DataFunctionsService();
@@ -488,7 +644,11 @@ class Container
 
     }
 
-    public function getResetPasswordService()
+    /**
+     * @return ResetPassword
+     * @throws Exception
+     */
+    public function getResetPasswordService(): ResetPassword
     {
         if (null === $this->resetPasswordService) {
             $this->resetPasswordService = new ResetPassword($this->getPDO(), $this->getLogger(), $this);
@@ -496,7 +656,10 @@ class Container
         return $this->resetPasswordService;
     }
 
-    public function getHtpasswdService()
+    /**
+     * @return Htpasswd
+     */
+    public function getHtpasswdService(): Htpasswd
     {
         if (null === $this->htpasswdService) {
             $this->htpasswdService = new Htpasswd();
@@ -504,7 +667,10 @@ class Container
         return $this->htpasswdService;
     }
 
-    public function getEscaperService()
+    /**
+     * @return Escaper
+     */
+    public function getEscaperService(): Escaper
     {
         if (null === $this->escaperService) {
             $this->escaperService = new Escaper('utf-8');
@@ -512,7 +678,11 @@ class Container
         return $this->escaperService;
     }
 
-    public function getInvoicePublishService()
+    /**
+     * @return Publish
+     * @throws Exception
+     */
+    public function getInvoicePublishService(): Publish
     {
         if (null === $this->invoicePublishService) {
             $this->invoicePublishService = new Publish($this->getPDO());
@@ -520,7 +690,10 @@ class Container
         return $this->invoicePublishService;
     }
 
-    public function getExportPDFService()
+    /**
+     * @return Cezpdf
+     */
+    public function getExportPDFService(): Cezpdf
     {
         if (null === $this->exportPDFService) {
             $this->exportPDFService = new Cezpdf();
@@ -528,7 +701,10 @@ class Container
         return $this->exportPDFService;
     }
 
-    public function getExportVCardService()
+    /**
+     * @return VCard
+     */
+    public function getExportVCardService(): VCard
     {
         if (null === $this->exportVCardService) {
             $this->exportVCardService = new VCard();
