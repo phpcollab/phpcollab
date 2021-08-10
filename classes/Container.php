@@ -136,7 +136,7 @@ class Container
      */
     public function getLanguage()
     {
-        return $this->language;
+        return $this->language ?? 'en';
     }
 
     /**
