@@ -43,7 +43,7 @@ class ResetPassword extends Members
      * @throws TooManyPasswordResetAttempts
      * @throws Exception
      */
-    public function forgotPassword(string $username, array $times)
+    public function forgotPassword(string $username, array $times): bool
     {
         $this->logger->notice('Reset Password', ['Method' => 'forgotPassword']);
 
@@ -84,8 +84,6 @@ class ResetPassword extends Members
 
         } catch (TooManyPasswordResetAttempts $tooManyPasswordResetAttempts) {
             throw $tooManyPasswordResetAttempts;
-        } catch (TokenAlreadySentException $tokenAlreadySentException) {
-            throw $tokenAlreadySentException;
         } catch (Exception $exception) {
             throw new Exception($exception->getMessage());
         }
@@ -309,7 +307,7 @@ SQL;
         $this->logger->notice('Reset Password', ['Method' => 'sendTokenEmail']);
         try {
             // Read the email template
-            $template = file_get_contents(APP_ROOT . '/templates/email/reset_password_link.html');
+            $template = file_get_contents(APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/reset_password_link.html');
 
             // Replace the % with the actual information
             $template = str_replace('%name%', $this->userDetails["mem_name"], $template);
@@ -344,7 +342,7 @@ SQL;
 
         try {
             // Read the email template
-            $template = file_get_contents(APP_ROOT . '/templates/email/forgot_password_success.html');
+            $template = file_get_contents(APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/forgot_password_success.html');
 
             // Replace the %xx% with the actual data
             $template = str_replace('%name%', $this->userDetails["name"], $template);
