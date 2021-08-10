@@ -14,10 +14,13 @@ if (empty($request->query->get('id'))) {
 }
 
 $id = $request->query->get('id');
-
-$tasks = $container->getTasksLoader();
-$assignments = $container->getAssignmentsManager();
-$projects = $container->getProjectsLoader();
+try {
+    $tasks = $container->getTasksLoader();
+    $assignments = $container->getAssignmentsManager();
+    $projects = $container->getProjectsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $strings = $GLOBALS["strings"];
 
@@ -39,12 +42,12 @@ if ($request->isMethod('post')) {
                 $tasks->deleteSubTasks($id);
 
                 //recompute number of completed tasks of the project
-                $projectDetail = $projects->getProjectById($listTasks["tas_project"][0]);
+                $projectDetail = $projects->getProjectById($listTasks[0]["tas_project"]);
 
                 phpCollab\Util::projectComputeCompletion($listTasks->tas_project[$i], $container);
 
-                if ($project != "") {
-                    phpCollab\Util::headerFunction("../projects/viewproject.php?id=$project&msg=delete");
+                if (!empty($projectDetail)) {
+                    phpCollab\Util::headerFunction("../projects/viewproject.php?id={$projectDetail["pro_id"]}&msg=delete");
                 } else {
                     phpCollab\Util::headerFunction("../general/home.php?msg=delete");
                 }
@@ -62,7 +65,7 @@ if ($request->isMethod('post')) {
     }
 }
 
-$projectDetail = $projects->getProjectById($project);
+$projectDetail = $projects->getProjectById($id);
 
 include APP_ROOT . '/views/layout/header.php';
 
