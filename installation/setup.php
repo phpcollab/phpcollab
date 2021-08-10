@@ -19,21 +19,21 @@ use phpCollab\Installation\Installation;
 
 error_reporting(2039);
 
-require_once dirname(dirname(__FILE__)) . '/vendor/autoload.php';
+require_once dirname(__FILE__, 2) . '/vendor/autoload.php';
 
 $help = [];
 require_once '../languages/help_en.php';
 
-$appRoot = dirname(dirname(__FILE__));
+$appRoot = dirname(__FILE__, 2);
 
-define('APP_ROOT', dirname(dirname(__FILE__)));
+define('APP_ROOT', dirname(__FILE__, 2));
 
 $step = $_GET["step"];
 $redirect = $_GET["redirect"];
 $connection = (!empty($_GET["connection"])) ? $_GET["connection"] : $_POST["connection"];
 
 if ($redirect == "true" && $step == "2") {
-    header("Location:../installation/setup.php?step=2&connection={$connection}");
+    header("Location:../installation/setup.php?step=2&connection=$connection");
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -103,10 +103,10 @@ if ($step == "") {
 }
 
 $setTitle = "PhpCollab : Installation";
-define('THEME', 'default');
+const THEME = 'default';
 $blank = "true";
 
-require dirname(dirname(__FILE__)) . '/views/layout/header.php';
+require dirname(__FILE__, 2) . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
@@ -169,7 +169,7 @@ if ($step == "2") {
         <tr class="odd">
             <td class="error" colspan="2">
                 <div class="alert error" style="margin: 20px 0 20px 50px; width: 30vw;">
-                {$error}
+                $error
                 </div>
             </td>
         </tr>
@@ -205,14 +205,14 @@ HTML;
     echo <<<HTML
  	<tr class="odd">
 				<td class="leftvalue">* Installation type :</td>
-				<td><input type="radio" name="installationType" value="offline" {$installCheckOffline}> Offline (firewall/intranet, no update checker)&nbsp<input type="radio" name="installationType" value="online" {$installCheckOnline}> Online</td>
+				<td><input type="radio" name="installationType" value="offline" $installCheckOffline> Offline (firewall/intranet, no update checker)&nbsp<input type="radio" name="installationType" value="online" $installCheckOnline> Online</td>
 			</tr>
 			<tr class="odd">
 				<td class="leftvalue">* Database type :</td>
 				<td>
-				    <input type="radio" name="databaseType" value="mysql" {$dbCheckMysql}> MySql&nbsp
-				    <input type="radio" name="databaseType" value="sqlserver" {$dbCheckSqlserver}> Microsoft Sql Server&nbsp
-				    <input type="radio" name="databaseType" value="postgresql" {$dbCheckPostgresql}> PostgreSQL
+				    <input type="radio" name="databaseType" value="mysql" $dbCheckMysql> MySql&nbsp
+				    <input type="radio" name="databaseType" value="sqlserver" $dbCheckSqlserver> Microsoft Sql Server&nbsp
+				    <input type="radio" name="databaseType" value="postgresql" $dbCheckPostgresql> PostgreSQL
                 </td>
 			</tr>
 			<tr class="odd">
@@ -232,7 +232,7 @@ HTML;
 				<td><input size="44" value="{$_POST["dbName"]}" style="width: 200px" name="dbName" maxlength="100" type="text" required></td>
 			</tr>
 			<tr class="odd">
-				<td class="leftvalue">Table prefix :<br/>[<a href="javascript:void(0)" onmouseover="return overlib('{$myPrefix}',ABOVE,SNAPX,550)" onmouseout="return nd()">Help</a>] </td>
+				<td class="leftvalue">Table prefix :<br/>[<a href="javascript:void(0)" onmouseover="return overlib('$myPrefix',ABOVE,SNAPX,550)" onmouseout="return nd()">Help</a>] </td>
 				<td><input size="44" value="{$_POST["dbTablePrefix"]}" style="width: 200px" name="dbTablePrefix" maxlength="100" type="text"></td>
 			</tr>
 HTML;
@@ -260,15 +260,15 @@ HTML;
     $setupLangDefault = addslashes($help["setup_langdefault"]);
     echo <<<HTML
     <tr class="odd">
-        <td class="leftvalue">* Notifications :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('{$setupNotifications}',SNAPX,550);" onmouseout="return nd();">Help</a>] </td>
-        <td><input type="radio" name="notifications" value="false" {$notificationsOff}> False&nbsp;<input type="radio" name="notifications" value="true" {$notificationsOn}> True<br/>[Mail {$mailEnabled}]</td>
+        <td class="leftvalue">* Notifications :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('$setupNotifications',SNAPX,550);" onmouseout="return nd();">Help</a>] </td>
+        <td><input type="radio" name="notifications" value="false" $notificationsOff> False&nbsp;<input type="radio" name="notifications" value="true" $notificationsOn> True<br/>[Mail $mailEnabled]</td>
     </tr>
     <tr class="odd">
-        <td class="leftvalue">* Forced login :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('{$setupForcedLogin}',SNAPX,550);" onmouseout="return nd();">Help</a>] </td>
+        <td class="leftvalue">* Forced login :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('$setupForcedLogin',SNAPX,550);" onmouseout="return nd();">Help</a>] </td>
         <td><input type="radio" name="forcedLogin" value="false" checked> False&nbsp;<input type="radio" name="forcedLogin" value="true"> True</td>
     </tr>
     <tr class="odd">
-        <td class="leftvalue">Default language :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('{$setupLangDefault}',SNAPX,550);" onmouseout="return nd();">Help</a>] </td>
+        <td class="leftvalue">Default language :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('$setupLangDefault',SNAPX,550);" onmouseout="return nd();">Help</a>] </td>
         <td>
             <select name="defaultLanguage">
                 <option value="ar">Arabic</option>
@@ -310,11 +310,8 @@ HTML;
     if ($_SERVER["SERVER_PORT"] != 80 && $_SERVER["SERVER_PORT"] != 443) {
         $url .= ":" . $_SERVER["SERVER_PORT"];
     }
-    if ($_SERVER["HTTPS"] == "on") {
-        $protocol = "https://";
-    } else {
-        $protocol = "http://";
-    }
+
+    $protocol = "https://";
 
     $siteUrl = $protocol . $url . dirname($_SERVER["PHP_SELF"]);
     $siteUrl = str_replace("installation", "", $siteUrl);
@@ -323,7 +320,7 @@ HTML;
     echo <<<HTML
 		<tr class="odd">
 			<td class="leftvalue"> * Root :</td>
-			<td><input size="44" value="{$siteUrl}" style="width: 200px" name="siteUrl" maxlength="100" type="text" required></td>
+			<td><input size="44" value="$siteUrl" style="width: 200px" name="siteUrl" maxlength="100" type="text" required></td>
 		</tr>
 		<tr class="odd">
 			<td class="leftvalue">* Admin password :</td>
@@ -331,7 +328,7 @@ HTML;
 		</tr>
 		<tr class="odd">
 			<td class="leftvalue">* Admin email :</td>
-			<td><input size="44" value="{$_POST["adminEmail"]}" style="width: 200px" name="adminEmail" value="{$adminEmail}" type="email" required></td>
+			<td><input size="44" value="{$_POST["adminEmail"]}" style="width: 200px" name="adminEmail" value="$adminEmail" type="email" required></td>
 		</tr>
 		<tr class="odd">
 			<td class="leftvalue">&nbsp;</td>
@@ -351,7 +348,7 @@ if ($step == "3") {
         <tr class="odd">
             <td class="error" colspan="2">
                 <div class="alert error">
-                {$error}
+                $error
                 </div>
                 <p><button onclick="history.back();">< Back</button></p>
             </td>
@@ -364,7 +361,7 @@ HTML;
             <tr class="odd">
                 <td colspan="2">
                     <div class="alert success" style="width: 25vw;">
-                        {$msg}
+                        $msg
                     </div>
                     
                     <div class="alert info" style="width: 25vw;">
@@ -381,7 +378,7 @@ $stepNext = $step + 1;
 if ($step < "2") {
     echo <<<FORM
     <form id="license" name="license" action="../installation/setup.php?step=2&redirect=true" method="post" style="text-align: center;">
-        <p><input type="submit" value="Step {$stepNext}" style="color: #000; font-weight: bold; background-color: transparent; border: none; text-decoration: underline; cursor: pointer" /></p>
+        <p><input type="submit" value="Step $stepNext" style="color: #000; font-weight: bold; background-color: transparent; border: none; text-decoration: underline; cursor: pointer" /></p>
         <label><input type="checkbox" value="off" name="connection"> Offline installation (firewall/intranet, no update checker)</label>
     </form>
 FORM;
@@ -391,4 +388,4 @@ $footerDev = "false";
 $siteTitle = "phpCollab";
 $copyrightYear = date("Y");
 
-require dirname(dirname(__FILE__)) . '/views/layout/footer.php';
+require dirname(__FILE__, 2) . '/views/layout/footer.php';

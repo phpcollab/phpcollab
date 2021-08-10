@@ -32,7 +32,11 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$projects = $container->getProjectsLoader();
+try {
+    $projects = $container->getProjectsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $projectDetail = $projects->getProjectById($session->get("project"));
 
@@ -155,7 +159,7 @@ echo <<<FORM
         <input type="hidden" name="MAX_FILE_SIZE" value="100000000">
         <input type="hidden" name="action" value="add">
         <input type="hidden" name="project_id" value="{$session->get("project")}">
-        <input type="hidden" name="task_id" value="{$task}">
+        <input type="hidden" name="task_id" value="$task">
         <input type="hidden" name="maxCustom" value="{$projectDetail["pro_upload_max"]}">
         <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}" />
     
@@ -176,7 +180,7 @@ echo <<<FORM
 
         <tr>
             <th>&nbsp;</th>
-            <td><input name="submit" type="submit" value="{$strings["save"]}"><br/><br/>{$error}</td>
+            <td><input name="submit" type="submit" value="{$strings["save"]}"><br/><br/>$error</td>
         </tr>
         </table>
     </form>

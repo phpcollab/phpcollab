@@ -9,7 +9,11 @@ $commentId = empty($request->query->get('id')) ? $request->request->get('id') : 
 $postId = $request->query->get('postid');
 $action = empty($request->request->get('action')) ? $request->query->get('action') : $request->request->get('action');
 
-$newsDesk = $container->getNewsdeskLoader();
+try {
+    $newsDesk = $container->getNewsdeskLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 //case update post
 if (!empty($commentId)) {

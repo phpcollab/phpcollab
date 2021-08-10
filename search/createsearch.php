@@ -40,7 +40,7 @@ if ($request->isMethod('post')) {
                     //if searchfor not blank, redirect to searchresults
                 } else {
                     $searchfor = urlencode($searchfor);
-                    phpCollab\Util::headerFunction("../search/resultssearch.php?searchfor={$searchfor}&heading={$heading}");
+                    phpCollab\Util::headerFunction("../search/resultssearch.php?searchfor=$searchfor&heading=$heading");
                 }
             }
         }

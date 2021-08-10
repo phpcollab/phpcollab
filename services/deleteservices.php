@@ -8,7 +8,11 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$services = $container->getServicesLoader();
+try {
+    $services = $container->getServicesLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 if ($session->get("profile") != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');

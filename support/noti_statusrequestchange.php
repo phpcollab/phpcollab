@@ -1,7 +1,11 @@
 <?php
 
-$mail = $container->getNotification();
-$supportRequests = $container->getSupportLoader();
+try {
+    $mail = $container->getNotification();
+    $supportRequests = $container->getSupportLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $mail->getUserinfo($session->get("id"), "from", $logger);
 
@@ -26,6 +30,10 @@ if ($listTeam->tea_mem_profil[$i] == 3) {
 $mail->Subject = $subject;
 $mail->Priority = "3";
 $mail->Body = $body;
-$mail->AddAddress($userDetail["mem_email_work"], $userDetail["mem_name"]);
-$mail->Send();
-$mail->ClearAddresses();
+try {
+    $mail->AddAddress($userDetail["mem_email_work"], $userDetail["mem_name"]);
+    $mail->Send();
+    $mail->ClearAddresses();
+} catch (\PHPMailer\PHPMailer\Exception $e) {
+    $logger->critical('PHPMailer: ' . $e->getMessage());
+}

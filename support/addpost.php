@@ -21,7 +21,11 @@ if ($supportType == "admin") {
     }
 }
 
-$support = $container->getSupportLoader();
+try {
+    $support = $container->getSupportLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $requestDetail = $support->getSupportRequestById($id);
 
@@ -123,13 +127,12 @@ if ($msg != "") {
 $block2 = new phpCollab\Block();
 
 $block2->form = "sr";
+$block2->openForm("../support/addpost.php?id=$id&#" . $block2->form . "Anchor", null, $csrfHandler);
 if ($action == "status") {
-    $block2->openForm("../support/addpost.php?id=$id&#" . $block2->form . "Anchor", null, $csrfHandler);
     echo <<<FORM
     <input type="hidden" name="action" value="edit">
 FORM;
 } else {
-    $block2->openForm("../support/addpost.php?id=$id&#" . $block2->form . "Anchor", null, $csrfHandler);
     echo <<<FORM
     <input type="hidden" name="action" value="add">
 FORM;

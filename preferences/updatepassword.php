@@ -21,7 +21,11 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$teams = $container->getTeams();
+try {
+    $teams = $container->getTeams();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 if ($request->isMethod('post')) {
     try {

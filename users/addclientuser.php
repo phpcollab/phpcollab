@@ -5,7 +5,12 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$notifications = $container->getNotificationsManager();
+try {
+    $notifications = $container->getNotificationsManager();
+    $organizations = $container->getOrganizationsManager();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $orgId = $request->query->get('organization');
 
@@ -13,7 +18,7 @@ if (!$orgId) {
     phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankUser");
 }
 
-$organizations = $container->getOrganizationsManager();
+
 $clientDetail = $organizations->checkIfClientExistsById($orgId);
 
 if (empty($clientDetail)) {
@@ -153,7 +158,7 @@ if ($request->isMethod('post')) {
                                             $f_access_level = $client_user_level; // reporter
                                             include '../mantis/user_update.php';
                                         }
-                                        phpCollab\Util::headerFunction("../clients/viewclient.php?id={$user_organization}&msg=add");
+                                        phpCollab\Util::headerFunction("../clients/viewclient.php?id=$user_organization&msg=add");
 
                                     } else {
                                         $error = $strings["errors"];

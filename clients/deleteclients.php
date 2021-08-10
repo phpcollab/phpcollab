@@ -30,8 +30,12 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$clients = $container->getOrganizationsManager();
-$projects = $container->getProjectsLoader();
+try {
+    $clients = $container->getOrganizationsManager();
+    $projects = $container->getProjectsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $id = $request->query->get("id");
 

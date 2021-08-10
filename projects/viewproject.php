@@ -6,16 +6,21 @@ $checkSession = "true";
 require_once '../includes/library.php';
 include '../includes/customvalues.php';
 
-$topics = $container->getTopicsLoader();
-$tasks = $container->getTasksLoader();
-$teams = $container->getTeams();
-$files = $container->getFilesLoader();
-$notes = $container->getNotesLoader();
-$support = $container->getSupportLoader();
-$projects = $container->getProjectsLoader();
-$topics = $container->getTopicsLoader();
-$notes = $container->getNotesLoader();
-$phases = $container->getPhasesLoader();
+try {
+    $topics = $container->getTopicsLoader();
+    $tasks = $container->getTasksLoader();
+    $teams = $container->getTeams();
+    $files = $container->getFilesLoader();
+    $notes = $container->getNotesLoader();
+    $support = $container->getSupportLoader();
+    $projects = $container->getProjectsLoader();
+    $topics = $container->getTopicsLoader();
+    $notes = $container->getNotesLoader();
+    $phases = $container->getPhasesLoader();
+    $files = $container->getFilesLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $id = $request->query->get("id");
 $project = $request->query->get("project");
@@ -843,7 +848,6 @@ $teamBlock->closePaletteScript(count($teamList), array_column($teamList, 'tea_me
  * Begin Linked Content
  */
 if ($fileManagement == "true") {
-    $files = $container->getFilesLoader();
 
     $filesBlock = new phpCollab\Block();
     $filesBlock->form = "tdC";

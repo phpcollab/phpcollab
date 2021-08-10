@@ -5,7 +5,11 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$newsDesk = $container->getNewsdeskLoader();
+try {
+    $newsDesk = $container->getNewsdeskLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $postId = $request->query->get('postid');
 
@@ -80,10 +84,10 @@ if (isset($error) && !empty($error)) {
 $block1 = new phpCollab\Block();
 
 echo <<<FORM
-<form name="ecDForm" method="post" action="../newsdesk/addcomment.php?postid={$postId}">
+<form name="ecDForm" method="post" action="../newsdesk/addcomment.php?postid=$postId">
     <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}">
     <input type="hidden" name="commenterId" value="{$session->get("id")}">
-    <input type="hidden" name="postId" value="{$postId}" />
+    <input type="hidden" name="postId" value="$postId" />
 FORM;
 
 $block1->heading($strings["add_newsdesk_comment"]);

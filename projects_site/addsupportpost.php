@@ -7,7 +7,11 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$support = $container->getSupportLoader();
+try {
+    $support = $container->getSupportLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $tmpquery = "WHERE sr.id = '$id'";
 
@@ -65,7 +69,7 @@ include 'include_header.php';
 
 if (!empty($error)) {
     echo <<<ERROR
-<div style="color: darkred; padding: 1em;">{$error}</div>
+<div style="color: darkred; padding: 1em;">$error</div>
 ERROR;
 
 }
@@ -73,7 +77,7 @@ ERROR;
 echo <<<FORM
 <form accept-charset="UNKNOWN" 
     method="POST" 
-    action="../projects_site/addsupportpost.php?id={$id}&action=add&project={$session->get("project")}#filedetailsAnchor" 
+    action="../projects_site/addsupportpost.php?id=$id&action=add&project={$session->get("project")}#filedetailsAnchor" 
     name="addsupport" 
     enctype="multipart/form-data">
     <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}" />

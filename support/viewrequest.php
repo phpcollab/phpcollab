@@ -5,8 +5,12 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$teams = $container->getTeams();
-$support = $container->getSupportLoader();
+try {
+    $teams = $container->getTeams();
+    $support = $container->getSupportLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $id = $request->query->get('id');
 

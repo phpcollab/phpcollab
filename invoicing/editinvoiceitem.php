@@ -5,16 +5,20 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$id = $request->query->get("id", null);
+$id = $request->query->get("id");
 
 if (empty($id)) {
     header("Location:../general/permissiondenied.php");
 }
 
-$invoices = $container->getInvoicesLoader();
-$projects = $container->getProjectsLoader();
-$organizations = $container->getOrganizationsManager();
-$services = $container->getServicesLoader();
+try {
+    $invoices = $container->getInvoicesLoader();
+    $projects = $container->getProjectsLoader();
+    $organizations = $container->getOrganizationsManager();
+    $services = $container->getServicesLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $rateType = $GLOBALS["rateType"];
 
@@ -158,10 +162,10 @@ RADIOITEM;
 $block1->contentRow($strings["worked_hours"],
     '<input type="hidden" name="worked_hours" value="' . $worked_hours . '">' . $worked_hours);
 $radioButtons = <<<HTML
-<label style="display: block; width: fit-content"><input type="radio" name="rate_type" value="a" {$checkeda} id="custom"> {$rateType["0"]}</label>
-<label style="display: block; width: fit-content"><input type="radio" name="rate_type" value="b" onclick="rateField('{$projectDetail["pro_hourly_rate"]}');" {$checkedb} id="project"> {$rateType["1"]}</label>
-<label style="display: block; width: fit-content"><input type="radio" name="rate_type" value="c" onclick="rateField('{$detailClient["org_hourly_rate"]}');" {$checkedc} id="organization"> {$rateType["2"]}</label>
-{$selectService}
+<label style="display: block; width: fit-content"><input type="radio" name="rate_type" value="a" $checkeda id="custom"> {$rateType["0"]}</label>
+<label style="display: block; width: fit-content"><input type="radio" name="rate_type" value="b" onclick="rateField('{$projectDetail["pro_hourly_rate"]}');" $checkedb id="project"> {$rateType["1"]}</label>
+<label style="display: block; width: fit-content"><input type="radio" name="rate_type" value="c" onclick="rateField('{$detailClient["org_hourly_rate"]}');" $checkedc id="organization"> {$rateType["2"]}</label>
+$selectService
 HTML;
 
 $block1->contentRow($strings["rate_type"], $radioButtons);

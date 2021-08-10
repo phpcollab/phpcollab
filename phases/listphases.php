@@ -8,10 +8,14 @@ use phpCollab\Util;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$projects = $container->getProjectsLoader();
-$teams = $container->getTeams();
-$phases = $container->getPhasesLoader();
-$tasks = $container->getTasksLoader();
+try {
+    $projects = $container->getProjectsLoader();
+    $teams = $container->getTeams();
+    $phases = $container->getPhasesLoader();
+    $tasks = $container->getTasksLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 include APP_ROOT . '/views/layout/header.php';
 

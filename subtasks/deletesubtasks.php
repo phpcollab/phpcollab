@@ -5,10 +5,14 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$tasks = $container->getTasksLoader();
-$assignments = $container->getAssignmentsManager();
-$phases = $container->getPhasesLoader();
-$projects = $container->getProjectsLoader();
+try {
+    $tasks = $container->getTasksLoader();
+    $assignments = $container->getAssignmentsManager();
+    $phases = $container->getPhasesLoader();
+    $projects = $container->getProjectsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $id = $request->query->get("id");
 $task = $request->query->get("task");
@@ -33,7 +37,7 @@ if ($request->isMethod('post')) {
                 $tasks->setCompletion($task, $tasks->recalculateSubtaskAverages($task));
 
                 if ($task != "") {
-                    phpCollab\Util::headerFunction("../tasks/viewtask.php?id={$task}&msg=delete");
+                    phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$task&msg=delete");
                 } else {
                     phpCollab\Util::headerFunction("../general/home.php?msg=delete");
                 }
@@ -99,7 +103,7 @@ if ($msg != "") {
 $block1 = new phpCollab\Block();
 
 $block1->form = "saP";
-$block1->openForm("../subtasks/deletesubtasks.php?task={$task}&id=" . $id, null, $csrfHandler);
+$block1->openForm("../subtasks/deletesubtasks.php?task=$task&id=" . $id, null, $csrfHandler);
 
 $block1->heading($strings["delete_subtasks"]);
 

@@ -9,8 +9,12 @@ $setTitle .= " : List Clients";
 
 include APP_ROOT . '/views/layout/header.php';
 
-$organizations = $container->getOrganizationsManager();
-$teams = $container->getTeams();
+try {
+    $organizations = $container->getOrganizationsManager();
+    $teams = $container->getTeams();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();

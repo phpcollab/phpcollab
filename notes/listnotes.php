@@ -14,7 +14,13 @@ $addToSite = $request->query->get('addToSite');
 $removeToSite = $request->query->get('removeToSite');
 $strings = $GLOBALS["strings"];
 
-$notes = $container->getNotesLoader();
+try {
+    $notes = $container->getNotesLoader();
+    $projects = $container->getProjectsLoader();
+    $teams = $container->getTeams();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 if ($action == "publish") {
     $multi = strstr($id, "**");
@@ -35,10 +41,9 @@ if ($action == "publish") {
 
 include APP_ROOT . '/views/layout/header.php';
 
-$projects = $container->getProjectsLoader();
 $projectDetail = $projects->getProjectById($project);
 
-$teams = $container->getTeams();
+
 $teamMember = $teams->isTeamMember($project, $session->get("id"));
 
 $blockPage = new phpCollab\Block();

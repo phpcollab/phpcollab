@@ -38,7 +38,7 @@ if (!empty($SSL_CLIENT_CERT) && !$request->query->get('logout') && $request->que
 
     if (function_exists("openssl_x509_read")) {
         $x509 = openssl_x509_read($SSL_CLIENT_CERT);
-        $cert_array = openssl_x509_parse($x509, true);
+        $cert_array = openssl_x509_parse($x509);
         $subject_array = $cert_array["subject"];
         $ssl_email = $subject_array["Email"];
         openssl_x509_free($x509);
@@ -282,7 +282,7 @@ if (!empty($session->get('language'))) {
 
 $selectLanguage = <<<SELECT_LANG
 <select name='languageForm'>";
-    <option value="{$langDefault}">{$languagesArray["$langDefault"]} (Default)</option>
+    <option value="$langDefault">{$languagesArray["$langDefault"]} (Default)</option>
     <option value="ar" {$langSelected["ar"]}>Arabic</option>
     <option value="az" {$langSelected["az"]}>Azerbaijani</option>
     <option value="pt-br"" {$langSelected["pt-br"]}>Brazilian Portuguese</option>

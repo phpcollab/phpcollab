@@ -31,8 +31,12 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$projects = $container->getProjectsLoader();
-$teams = $container->getTeams();
+try {
+    $projects = $container->getProjectsLoader();
+    $teams = $container->getTeams();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $id = $request->query->get("id");
 

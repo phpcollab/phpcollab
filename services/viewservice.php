@@ -12,7 +12,11 @@ if (empty($id)) {
     phpCollab\Util::headerFunction('listservices.php?msg=permissiondenied');
 }
 
-$services = $container->getServicesLoader();
+try {
+    $services = $container->getServicesLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 if ($session->get("profile") != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');

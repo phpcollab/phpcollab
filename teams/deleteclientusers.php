@@ -6,8 +6,13 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$projects = $container->getProjectsLoader();
-$sendNotifications = $container->getNotificationsManager();
+try {
+    $projects = $container->getProjectsLoader();
+    $sendNotifications = $container->getNotificationsManager();
+    $teams = $container->getTeams();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $projectDetail = $projects->getProjectById($project);
 
@@ -18,11 +23,15 @@ if (!$projectDetail) {
 if ($action == "delete") {
     $id = str_replace("**", ",", $id);
     $pieces = explode(",", $id);
-    $teams = $container->getTeams();
+
 
     if ($htaccessAuth == "true") {
         $Htpasswd = $container->getHtpasswdService();
-        $Htpasswd->initialize("../files/" . $projectDetail["pro_id"] . "/.htpasswd");
+        try {
+            $Htpasswd->initialize("../files/" . $projectDetail["pro_id"] . "/.htpasswd");
+        } catch (Exception $e) {
+            $logger->critical('Htpasswd: ' . $e->getMessage());
+        }
 
         $listMembers = $members->getMembersByIdIn($id);
 

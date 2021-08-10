@@ -33,7 +33,11 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$teams = $container->getTeams();
+try {
+    $teams = $container->getTeams();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 if ($session->get('profile') != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
@@ -78,7 +82,7 @@ if (!empty($request->query->get('id'))) {
                     $fax = filter_input(INPUT_POST, "fax", FILTER_SANITIZE_STRING);
                     $lastPage = filter_input(INPUT_POST, "last_page", FILTER_SANITIZE_STRING);
                     $profile = filter_input(INPUT_POST, "profile", FILTER_SANITIZE_NUMBER_INT);
-                    $comments = htmlspecialchars($request->request->get('comments'), ENT_QUOTES, 'UTF-8');
+                    $comments = htmlspecialchars($request->request->get('comments'), ENT_QUOTES);
 
 
                     if ($htaccessAuth == "true") {
@@ -121,7 +125,7 @@ if (!empty($request->query->get('id'))) {
                                 if ($password != "") {
 
                                     //test if 2 passwords match
-                                    if ($password != $passwordConfirm || $passwordConfirm == "") {
+                                    if ($password != $passwordConfirm) {
                                         $error = $strings["new_password_error"];
                                     } else {
                                         $password = phpCollab\Util::getPassword($password);
@@ -237,7 +241,7 @@ if (empty($request->query->get('id'))) {
             $fax = filter_input(INPUT_POST, "fax", FILTER_SANITIZE_STRING);
             $lastPage = filter_input(INPUT_POST, "last_page", FILTER_SANITIZE_STRING);
             $profile = filter_input(INPUT_POST, "profile", FILTER_SANITIZE_NUMBER_INT);
-            $comments = htmlspecialchars($request->request->get('comments'), ENT_QUOTES, 'UTF-8');
+            $comments = htmlspecialchars($request->request->get('comments'), ENT_QUOTES);
 
             if (!preg_match("/^[A-Za-z0-9]+$/", $username)) {
                 $error = $strings["alpha_only"];
@@ -263,7 +267,7 @@ if (empty($request->query->get('id'))) {
                             $password = phpCollab\Util::getPassword($password);
 
                             $newUserId = $members->addMember($username, $fullName, $email, $password, $profile, $title,
-                                1, $phoneWork, $phoneHome, $phoneMobile, $fax, $comments, $dateheure, 0);
+                                1, $phoneWork, $phoneHome, $phoneMobile, $fax, $comments, $dateheure);
 
                             $sorting->addMember($newUserId);
 

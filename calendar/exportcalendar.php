@@ -28,7 +28,11 @@
 $checkSession = "false";
 require_once '../includes/library.php';
 
-$calendars = $container->getCalendarLoader();
+try {
+    $calendars = $container->getCalendarLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $detailCalendar = $calendars->openCalendarByOwnerAndId($session->get("id"), $request->query->get("id"));
 

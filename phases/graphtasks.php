@@ -4,14 +4,16 @@
 
 use Amenadiel\JpGraph\Graph\GanttGraph;
 use Amenadiel\JpGraph\Plot\GanttBar;
-use phpCollab\Phases\Phases;
-use phpCollab\Tasks\Tasks;
 
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$phases = $container->getPhasesLoader();
-$tasks = $container->getTasksLoader();
+try {
+    $phases = $container->getPhasesLoader();
+    $tasks = $container->getTasksLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $strings = $GLOBALS["strings"];
 $project = $request->query->get('project');

@@ -3,9 +3,13 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$teams = $container->getTeams();
-$tasks = $container->getTasksLoader();
-$notes = $container->getNotesLoader();
+try {
+    $teams = $container->getTeams();
+    $tasks = $container->getTasksLoader();
+    $notes = $container->getNotesLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $id = $request->query->get('id');
 $strings = $GLOBALS["strings"];
@@ -86,7 +90,7 @@ if ($userDetail["mem_profil"] == "0") {
 } elseif ($userDetail["mem_profil"] == "5") {
     $permission = $strings["project_manager_administrator_permissions"];
 }
-$block1->contentRow($strings["permissions"], isset($permission) ? $permission : '');
+$block1->contentRow($strings["permissions"], $permission ?? '');
 
 $block1->contentRow($strings["comments"], nl2br($userDetail["mem_comments"]));
 $block1->contentRow($strings["account_created"],

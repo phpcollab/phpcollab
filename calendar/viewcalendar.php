@@ -39,8 +39,13 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$calendars = $container->getCalendarLoader();
-$tasks = $container->getTasksLoader();
+try {
+    $calendars = $container->getCalendarLoader();
+    $tasks = $container->getTasksLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
+
 $detailCalendar = null;
 
 $id = $request->query->get('id');
@@ -186,7 +191,7 @@ if ($type == "calendEdit") {
                             $dateEnd, $timeStart, $timeEnd,
                             $reminder, $broadcast, $recurring, $dayRecurr);
 
-                        phpCollab\Util::headerFunction("../calendar/viewcalendar.php?id={$num}&dateCalend={$dateCalend}&type=calendDetail&msg=add");
+                        phpCollab\Util::headerFunction("../calendar/viewcalendar.php?id=$num&dateCalend=$dateCalend&type=calendDetail&msg=add");
                     }
                 }
             }
@@ -335,20 +340,20 @@ if ($type == "calendEdit") {
     $shortName = $strings["shortname"] . $block1->printHelp("calendar_shortname");
     echo <<<HTML
         <tr class="odd">
-            <td class="leftvalue">* {$shortName} :</td>
-            <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="shortname" value="{$shortname}"></td>
+            <td class="leftvalue">* $shortName :</td>
+            <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="shortname" value="$shortname"></td>
         </tr>
         <tr class="odd">
             <td class="leftvalue">{$strings["subject"]} :</td>
-            <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="subject" value="{$subject}"></td>
+            <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="subject" value="$subject"></td>
         </tr>
         <tr class="odd">
             <td class="leftvalue">{$strings["description"]} :</td>
-            <td><textarea style="width: 400px; height: 50px;" name="description" cols="35" rows="2">{$description}</textarea></td>
+            <td><textarea style="width: 400px; height: 50px;" name="description" cols="35" rows="2">$description</textarea></td>
         </tr>
         <tr class="odd">
             <td class="leftvalue">{$strings["location"]} :</td>
-            <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="location" value="{$location}"></td>
+            <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="location" value="$location"></td>
         </tr>
 HTML;
 
@@ -366,7 +371,7 @@ HTML;
 	    Calendar.setup({
         	inputField     :    'dateStart',
         	button         :    'trigDateStart',
-        	{$calendar_common_settings}
+        	$calendar_common_settings
 	    })
 	</script>
 SCRIPT;
@@ -377,35 +382,35 @@ SCRIPT;
 	    Calendar.setup({
         	inputField     :    'dateEnd',
 	        button         :    'trigDateEnd',
-        	{$calendar_common_settings}
+        	$calendar_common_settings
     	})
 	</script>
 SCRIPT;
 
-    $time_start = isset($time_start) ? $time_start : '';
-    $time_end = isset($time_end) ? $time_end : '';
+    $time_start = $time_start ?? '';
+    $time_end = $time_end ?? '';
     echo <<<HTML
           </td>
         </tr>
         <tr class="odd">
             <td class="leftvalue">{$strings["time_start"]} :</td>
-            <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="time_start" value="{$time_start}"></td>
+            <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="time_start" value="$time_start"></td>
         </tr>
         <tr class="odd">
             <td class="leftvalue">{$strings["time_end"]} :</td>
-            <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="time_end" value="{$time_end}"></td>
+            <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="time_end" value="$time_end"></td>
         </tr>
         <tr class="odd">
             <td class="leftvalue">{$strings["calendar_reminder"]} :</td>
-            <td><input type="radio" name="reminder" value="0" {$checked1_b}> {$strings["no"]}&nbsp;<input type="radio" name="reminder" value="1" {$checked2_b}> {$strings["yes"]}</td>
+            <td><input type="radio" name="reminder" value="0" $checked1_b> {$strings["no"]}&nbsp;<input type="radio" name="reminder" value="1" $checked2_b> {$strings["yes"]}</td>
         </tr>
         <tr class="odd">
             <td class="leftvalue">{$strings["calendar_broadcast"]} :</td>
-            <td><input type="radio" name="broadcast" value="0" {$checked3_b}> {$strings["no"]}&nbsp;<input type="radio" name="broadcast" value="1" {$checked4_b}> {$strings["yes"]}</td>
+            <td><input type="radio" name="broadcast" value="0" $checked3_b> {$strings["no"]}&nbsp;<input type="radio" name="broadcast" value="1" $checked4_b> {$strings["yes"]}</td>
         </tr>
         <tr class="odd">
             <td class="leftvalue">{$strings["calendar_recurring"]} :</td>
-            <td><input type="checkbox" name="recurring" value="1" {$checked2_a}></td>
+            <td><input type="checkbox" name="recurring" value="1" $checked2_a></td>
         </tr>
         <tr class="odd">
             <td class="leftvalue">&nbsp;</td>
@@ -492,10 +497,10 @@ if ($type == "calendDetail") {
         </tr>
         <tr class="odd">
             <td class="leftvalue">{$strings["description"]} :</td>
-            <td>{$nl2brDescription}&nbsp;</td>
+            <td>$nl2brDescription&nbsp;</td>
         </tr>
         <tr class="odd">
-            <td class="leftvalue">{$shortName} :</td>
+            <td class="leftvalue">$shortName :</td>
             <td>{$detailCalendar["cal_shortname"]}&nbsp;</td>
         </tr>
         <tr class="odd">
@@ -520,15 +525,15 @@ if ($type == "calendDetail") {
         </tr>
         <tr class="odd">
             <td class="leftvalue">{$strings["calendar_reminder"]} :</td>
-            <td>{$reminder}</td>
+            <td>$reminder</td>
         </tr>
         <tr class="odd">
             <td class="leftvalue">{$strings["calendar_broadcast"]} :</td>
-            <td>{$broadcast}</td>
+            <td>$broadcast</td>
         </tr>
         <tr class="odd">
         <td class="leftvalue">{$strings["calendar_recurring"]} :</td>
-            <td>{$recurring}</td>
+            <td>$recurring</td>
         </tr>
 HTML;
 
@@ -717,21 +722,19 @@ if ($type == "monthPreview") {
                         }
 
                         if ($task['tas_due_date'] == $dateLink && $task['tas_start_date'] != $task['tas_due_date']) {
+                            echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["task"] . "</b>: ";
                             if ($task['tas_due_date'] <= $date && $task['tas_completion'] != "10") {
-                                echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["task"] . "</b>: ";
                                 echo "<a href='../tasks/viewtask.php?id=" . $task['tas_id'] . "' class='calendar-results-due-date'><b>" . $task['tas_name'] . "</b></a><br /><br />";
                             } else {
-                                echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["task"] . "</b>: ";
                                 echo "<a href='../tasks/viewtask.php?id=" . $task['tas_id'] . "' class='calendar-results-due-date'>" . $task['tas_name'] . "</a><br /><br />";
                             }
                         }
 
                         if ($task['tas_start_date'] == $dateLink && $task['tas_due_date'] == $dateLink) {
+                            echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["task"] . "</b>: ";
                             if ($task['tas_due_date'] <= $date && $task['tas_completion'] != "10") {
-                                echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["task"] . "</b>: ";
                                 echo "<a href='../tasks/viewtask.php?id=" . $task['tas_id'] . "' class='calendar-results-due-date'><b>" . $task['tas_name'] . "</b></a><br /><br />";
                             } else {
-                                echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["task"] . "</b>: ";
                                 echo "<a href='../tasks/viewtask.php?id=" . $task['tas_id'] . "' class='calendar-results-due-date'>" . $task['tas_name'] . "</a><br /><br />";
                             }
                         }
@@ -901,7 +904,7 @@ HTML;
                 </td>
             </tr>
             <tr>
-                <td height="5" colspan="2"><img width="1" height="5" src="../themes/{$theme}/images/spacer.gif" alt=""></td>
+                <td height="5" colspan="2"><img width="1" height="5" src="../themes/$theme/images/spacer.gif" alt=""></td>
             </tr>
             </table>
 HTML;
@@ -910,10 +913,10 @@ HTML;
     if ($activeJpgraph == "true" && $gantt == "true") {
         echo <<<HTML
 			<div id="ganttChart_taskList" class="ganttChart">
-				<img src="graphtasks.php?&dateCalend={$dateCalend}" alt=""><br/>
+				<img src="graphtasks.php?&dateCalend=$dateCalend" alt=""><br/>
 				<span class="listEvenBold">
 HTML;
-        echo $blockPage->buildLink("http://www.aditus.nu/jpgraph/", "JpGraph", "powered");
+        echo $blockPage->buildLink("https://www.aditus.nu/jpgraph/", "JpGraph", "powered");
         echo <<<HTML
 				</span>	
 			</div>

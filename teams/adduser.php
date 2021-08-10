@@ -6,8 +6,12 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$projects = $container->getProjectsLoader();
-$teams = $container->getTeams();
+try {
+    $projects = $container->getProjectsLoader();
+    $teams = $container->getTeams();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $project = $request->query->get("project");
 
@@ -23,7 +27,11 @@ if ($request->query->get("action") == "add") {
 
     if ($htaccessAuth == "true") {
         $Htpasswd = $container->getHtpasswdService();
-        $Htpasswd->initialize("../files/" . $projectDetail["pro_id"] . "/.htpasswd");
+        try {
+            $Htpasswd->initialize("../files/" . $projectDetail["pro_id"] . "/.htpasswd");
+        } catch (Exception $e) {
+            $logger->critical('Htpasswd: ' . $e->getMessage());
+        }
 
         for ($i = 0; $i < $comptListMembers; $i++) {
             try {

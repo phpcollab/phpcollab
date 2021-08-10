@@ -22,9 +22,13 @@ use phpCollab\Util;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$teams = $container->getTeams();
-$orgs = $container->getOrganizationsManager();
-$projects = $container->getProjectsLoader();
+try {
+    $teams = $container->getTeams();
+    $orgs = $container->getOrganizationsManager();
+    $projects = $container->getProjectsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 if ($clientsFilter == "true" && $session->get("profile") == "2") {
     $teamMember = "false";
@@ -224,7 +228,7 @@ if ($session->get("profile") == "0" || $session->get("profile") == "1") {
 //if mantis bug tracker enabled
 if ($enableMantis == "true") {
     $block2->paletteScript(4, "bug",
-        $pathMantis . "login.php?url=http://{$request->server->get("HTTP_HOST")}{$request->server->get("REQUEST_URI")}&username={$session->get("login")}",
+        $pathMantis . "login.php?url=https://{$request->server->get("HTTP_HOST")}{$request->server->get("REQUEST_URI")}&username={$session->get("login")}",
         "false,true,false", $strings["bug"]);
 }
 $block2->closePaletteScript(count($listProjects), array_column($listProjects, 'pro_id'));

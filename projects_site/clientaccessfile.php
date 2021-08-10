@@ -7,7 +7,11 @@ error_reporting(0);
 $checkSession = "true";
 require_once '../includes/library.php'; // starts session and writes session cache headers
 
-$files = $container->getFilesLoader();
+try {
+    $files = $container->getFilesLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $fileDetail = $files->getFileById($request->query->get('id'));
 

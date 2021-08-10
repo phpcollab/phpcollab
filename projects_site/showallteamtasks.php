@@ -32,7 +32,11 @@ $projectSite = "true";
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$tasks = $container->getTasksLoader();
+try {
+    $tasks = $container->getTasksLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $bouton[2] = "over";
 $titlePage = $strings["team_tasks"];
@@ -69,8 +73,8 @@ TABLE;
         echo <<<TR
             <tr>
                 <td><a href="teamtaskdetail.php?id={$task["tas_id"]}">{$task["tas_name"]}</a></td>
-                <td>{$description}</td>
-                <td>{$status[$idStatus]}</td><td>{$task["tas_due_date"]}</td>
+                <td>$description</td>
+                <td>$status[$idStatus]</td><td>{$task["tas_due_date"]}</td>
             </tr>
 TR;
 

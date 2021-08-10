@@ -5,8 +5,12 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$tasks = $container->getTasksLoader();
-$updates = $container->getTaskUpdateService();
+try {
+    $tasks = $container->getTasksLoader();
+    $updates = $container->getTaskUpdateService();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $taskDetail = $tasks->getTaskById($id);
 
@@ -31,7 +35,7 @@ if ($taskDetail["tas_description"] != "") {
     echo <<<TR
         <tr>
             <td style='vertical-align: top'>{$strings["description"]} :</td>
-            <td>{$taskDescription}</td>
+            <td>$taskDescription</td>
         </tr>
 TR;
 }
@@ -79,7 +83,7 @@ if ($listSubtasks) {
     if ($activeJpgraph == "true") {
         echo <<<JPGRAPH
         <img src="graphsubtasks.php?task={$taskDetail["tas_id"]}" alt="">
-        <span class="listEvenBold">[<a href="http://www.aditus.nu/jpgraph/" target="_blank">JpGraph</a>]</span><br/><br/>
+        <span class="listEvenBold">[<a href="https://www.aditus.nu/jpgraph/" target="_blank">JpGraph</a>]</span><br/><br/>
 JPGRAPH;
     }
 
@@ -97,9 +101,9 @@ SUBTASK_TABLE;
         $subtaskDescription = nl2br($subtask["subtas_description"]);
         echo <<<TR
             <tr>
-                <td><a href=\"teamsubtaskdetail.php?task={$id}&id="{$subtask["subtas_id"]}">{$subtask["subtas_name"]}</a></td>
-                <td>{$subtaskDescription}</td>
-                <td>{$status[$idStatus]}</td>
+                <td><a href=\"teamsubtaskdetail.php?task=$id&id="{$subtask["subtas_id"]}">{$subtask["subtas_name"]}</a></td>
+                <td>$subtaskDescription</td>
+                <td>$status[$idStatus]</td>
                 <td>{$subtask["subtas_due_date"]}</td>
             </tr>
 TR;

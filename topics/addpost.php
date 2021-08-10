@@ -8,9 +8,13 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$topics = $container->getTopicsLoader();
-$projects = $container->getProjectsLoader();
-$sendNotifications = $container->getNotificationsManager();
+try {
+    $topics = $container->getTopicsLoader();
+    $projects = $container->getProjectsLoader();
+    $sendNotifications = $container->getNotificationsManager();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $topic_id = $request->query->get('id');
 $strings = $GLOBALS["strings"];

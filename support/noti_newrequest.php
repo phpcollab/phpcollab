@@ -1,6 +1,11 @@
 <?php
 
-$supportRequests = $container->getSupportLoader();
+try {
+    $supportRequests = $container->getSupportLoader();
+    $teams = $container->getTeams();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $mail = $container->getNotification();
 
@@ -12,19 +17,18 @@ $strings = $GLOBALS["strings"];
 $requestDetail = $supportRequests->getSupportRequestById($num);
 
 if ($supportType == "team") {
-    $teams = $container->getTeams();
+
 
     $listTeam = $teams->getTeamByProjectId($requestDetail["sr_project"]);
 
     foreach ($listTeam as $teamMember) {
+        $mail->partSubject = $strings["support"] . " " . $strings["support_id"];
         if ($session->get("id") == $teamMember["tea_mem_id"]) {
-            $mail->partSubject = $strings["support"] . " " . $strings["support_id"];
             $mail->partMessage = $strings["noti_support_request_new2"];
             $subject = $mail->partSubject . ": " . $requestDetail["sr_id"];
             $body = $mail->partMessage . "";
             $body .= "" . $requestDetail["sr_subject"] . "";
         } else {
-            $mail->partSubject = $strings["support"] . " " . $strings["support_id"];
             $mail->partMessage = $strings["noti_support_team_new2"];
             $subject = $mail->partSubject . ": " . $requestDetail["sr_id"];
             $body = $mail->partMessage . "";
@@ -41,9 +45,13 @@ if ($supportType == "team") {
             $mail->Subject = $subject;
             $mail->Priority = "3";
             $mail->Body = $body;
-            $mail->AddAddress($teamMember["tea_mem_email_work"], $teamMember["tea_mem_name"]);
-            $mail->Send();
-            $mail->ClearAddresses();
+            try {
+                $mail->AddAddress($teamMember["tea_mem_email_work"], $teamMember["tea_mem_name"]);
+                $mail->Send();
+                $mail->ClearAddresses();
+            } catch (\PHPMailer\PHPMailer\Exception $e) {
+                $logger->critical('PHPMailer: ' . $e->getMessage());
+            }
         }
     }
 } else {
@@ -62,8 +70,12 @@ if ($supportType == "team") {
         $mail->Subject = $subject;
         $mail->Priority = "3";
         $mail->Body = $body;
-        $mail->AddAddress($userDetail["mem_email_work"], $userDetail["mem_name"]);
-        $mail->Send();
-        $mail->ClearAddresses();
+        try {
+            $mail->AddAddress($userDetail["mem_email_work"], $userDetail["mem_name"]);
+            $mail->Send();
+            $mail->ClearAddresses();
+        } catch (\PHPMailer\PHPMailer\Exception $e) {
+            $logger->critical('PHPMailer: ' . $e->getMessage());
+        }
     }
 }

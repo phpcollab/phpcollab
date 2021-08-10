@@ -5,8 +5,12 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$tasks = $container->getTasksLoader();
-$updates = $container->getTaskUpdateService();
+try {
+    $tasks = $container->getTasksLoader();
+    $updates = $container->getTaskUpdateService();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $subtaskDetail = $tasks->getSubTaskById($id);
 
@@ -58,7 +62,7 @@ $complValue = ($subtaskDetail["subtas_completion"] > 0) ? $subtaskDetail["subtas
 echo <<<TR
         <tr>
             <td>{$strings["completion"]} :</td>
-            <td>{$complValue}</td>
+            <td>$complValue</td>
         </tr>
 TR;
 
@@ -112,7 +116,7 @@ if ($listUpdates) {
         $updateComments = nl2br($update["upd_comments"]);
         $updateCreatedDate = phpCollab\Util::createDate($update["upd_created"], $session->get("timezone"));
         echo <<<UPDATE
-                <b>{$j}</b> <i>{$updateCreatedDate}</i><br/> {$updateComments}
+                <b>$j</b> <i>$updateCreatedDate</i><br/> $updateComments
                 <br/>
 UPDATE;
         $j++;

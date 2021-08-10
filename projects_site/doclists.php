@@ -5,7 +5,11 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$files = $container->getFilesLoader();
+try {
+    $files = $container->getFilesLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $bouton[4] = "over";
 $titlePage = $strings["document_list"];
@@ -39,18 +43,17 @@ TABLE;
 
         $idStatus = $file["fil_status"];
         echo '<tr><td>';
+        echo '<a href="clientfiledetail.php?id=' . $file["fil_id"] . '">' . $file["fil_name"] . '</a>';
         if ($file["fil_task"] != "0") {
-            echo '<a href="clientfiledetail.php?id=' . $file["fil_id"] . '">' . $file["fil_name"] . '</a>';
             $folder = $file["fil_project"] . '/' . $file["fil_task"];
         } else {
-            echo '<a href="clientfiledetail.php?id=' . $file["fil_id"] . '">' . $file["fil_name"] . '</a>';
             $folder = $file["fil_project"];
         }
         echo <<<TD
                 </td>
                 <td><a href="createthread.php?topicField={$file["fil_name"]}">{$strings["create"]}</a></td>
                 <td>{$file["fil_date"]}</td>
-                <td style="width: 20%;"><a href="docitemapproval.php?id={$file["fil_id"]}">{$statusFile[$idStatus]}</a></td>
+                <td style="width: 20%;"><a href="docitemapproval.php?id={$file["fil_id"]}">$statusFile[$idStatus]</a></td>
             </tr>
 TD;
     }

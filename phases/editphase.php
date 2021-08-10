@@ -6,10 +6,14 @@ $checkSession = "true";
 require_once '../includes/library.php';
 include '../includes/customvalues.php';
 
-$phases = $container->getPhasesLoader();
-$projects = $container->getProjectsLoader();
-$teams = $container->getTeams();
-$tasks = $container->getTasksLoader();
+try {
+    $phases = $container->getPhasesLoader();
+    $projects = $container->getProjectsLoader();
+    $teams = $container->getTeams();
+    $tasks = $container->getTasksLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $id = $request->query->get("id");
 
@@ -95,7 +99,7 @@ $block1->headingToggle($strings["phase"] . " : " . $phaseDetail["pha_name"], $re
 
 echo <<<FORM
 <a id="filedetailsAnchor"></a>
-<form method="POST" action="../phases/editphase.php?id={$id}" name="filedetailsForm" enctype="multipart/form-data">
+<form method="POST" action="../phases/editphase.php?id=$id" name="filedetailsForm" enctype="multipart/form-data">
     <input type="hidden" name="maxCustom" value="{$projectDetail["pro_upload_max"]}">
     <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}">
 FORM;
@@ -144,20 +148,20 @@ echo <<<JAVASCRIPT
     Calendar.setup({
         inputField     :    'start_date',
         button         :    'trigStartDate',
-        {$calendar_common_settings}
+        $calendar_common_settings
     })
 </script>
 JAVASCRIPT;
 
 $block1->contentRow($strings["date_end"],
-    "<input type='text' name='end_date' id='end_date' size='20' value='{$end_date}'><input type='button' value=' ... ' id='trigDateEnd'>");
+    "<input type='text' name='end_date' id='end_date' size='20' value='$end_date'><input type='button' value=' ... ' id='trigDateEnd'>");
 
 echo <<<JAVASCRIPT
 <script type='text/javascript'>
     Calendar.setup({
         inputField     :    'end_date',
         button         :    'trigDateEnd',
-        {$calendar_common_settings}
+        $calendar_common_settings
     })
 </script>
 JAVASCRIPT;
@@ -166,7 +170,7 @@ echo <<<HTML
 <tr class="odd">
     <td class="leftvalue">{$strings["comments"]} :</td>
     <td>
-        <textarea rows="3" style="width: 400px; height: 100px;" name="comments" cols="43">{$comments}</textarea>
+        <textarea rows="3" style="width: 400px; height: 100px;" name="comments" cols="43">$comments</textarea>
     </td>
 </tr>
 <tr class="odd">

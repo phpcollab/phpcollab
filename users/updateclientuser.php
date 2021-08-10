@@ -12,7 +12,11 @@ if (empty($userId) || empty($orgId)) {
     phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
 }
 
-$organizations = $container->getOrganizationsManager();
+try {
+    $organizations = $container->getOrganizationsManager();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $clientDetail = $organizations->getOrganizationById($orgId);
 
@@ -106,7 +110,7 @@ if ($request->isMethod('post')) {
                             if ($user_password != "") {
 
                                 //test if 2 passwords match
-                                if ($user_password != $user_password_confirm || $user_password_confirm == "") {
+                                if ($user_password != $user_password_confirm) {
                                     $error = $strings["new_password_error"];
                                 } else {
                                     try {
@@ -196,18 +200,18 @@ echo <<<HTML
 <tr class="odd">
     <td class="leftvalue">{$strings["user_name"]} :</td>
     <td>
-        <input type="hidden" name="id" value="{$userId}">
-        <input size="24" style="width: 250px;" maxlength="16" type="text" name="user_name" value="{$user_name}">
-        <input type="hidden" name="user_name_old" value="{$user_name}">
+        <input type="hidden" name="id" value="$userId">
+        <input size="24" style="width: 250px;" maxlength="16" type="text" name="user_name" value="$user_name">
+        <input type="hidden" name="user_name_old" value="$user_name">
     </td>
 </tr>
 <tr class="odd">
     <td class="leftvalue">{$strings["full_name"]} :</td>
-    <td><input size="24" style="width: 250px;" maxlength="64" type="text" name="full_name" value="{$full_name}"></td>
+    <td><input size="24" style="width: 250px;" maxlength="64" type="text" name="full_name" value="$full_name"></td>
 </tr>
 <tr class="odd">
     <td class="leftvalue">{$strings["title"]} :</td>
-    <td><input size="24" style="width: 250px;" maxlength="64" type="text" name="title" value="{$title}"></td>
+    <td><input size="24" style="width: 250px;" maxlength="64" type="text" name="title" value="$title"></td>
 </tr>
 <tr class="odd">
     <td class="leftvalue">{$strings["organization"]} :</td>
@@ -235,23 +239,23 @@ echo <<<HTML
 </tr>
 <tr class="odd">
     <td class="leftvalue">{$strings["email"]} :</td>
-    <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="email_work" value="{$email_work}"></td>
+    <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="email_work" value="$email_work"></td>
 </tr>
 <tr class="odd">
     <td class="leftvalue">{$strings["work_phone"]} :</td>
-    <td><input size="14" style="width: 150px;" maxlength="32" type="text" name="phone_work" value="{$phone_work}"></td>
+    <td><input size="14" style="width: 150px;" maxlength="32" type="text" name="phone_work" value="$phone_work"></td>
 </tr>
 <tr class="odd">
     <td class="leftvalue">{$strings["home_phone"]} :</td>
-    <td><input size="14" style="width: 150px;" maxlength="32" type="text" name="phone_home" value="{$phone_home}"></td>
+    <td><input size="14" style="width: 150px;" maxlength="32" type="text" name="phone_home" value="$phone_home"></td>
 </tr>
 <tr class="odd">
     <td class="leftvalue">{$strings["mobile_phone"]} :</td>
-    <td><input size="14" style="width: 150px;" maxlength="32" type="text" name="phone_mobile" value="{$phone_mobile}"></td>
+    <td><input size="14" style="width: 150px;" maxlength="32" type="text" name="phone_mobile" value="$phone_mobile"></td>
 </tr>
 <tr class="odd">
     <td class="leftvalue">{$strings["fax"]} :</td>
-    <td class="infoValueField" width="634"><input size="14" style="width: 150px;" maxlength="32" type="text" name="fax" value="{$fax}"></td>
+    <td class="infoValueField" style="width: 634px;"><input size="14" style="width: 150px;" maxlength="32" type="text" name="fax" value="$fax"></td>
 </tr>
 HTML;
 
@@ -259,14 +263,14 @@ if ($lastvisitedpage === true) {
     echo <<<HTML
 <tr class="odd">
     <td class="leftvalue">{$strings["last_page"]} :</td>
-    <td class="infoValueField" width="634"><input size="14" style="width: 150px;" maxlength="32" type="text" name="last_page" value="{$last_page}"></td>
+    <td class="infoValueField" style="width: 634px;"><input size="14" style="width: 150px;" maxlength="32" type="text" name="last_page" value="$last_page"></td>
 </tr>
 HTML;
 }
 echo <<<HTML
 <tr class="odd">
     <td class="leftvalue">{$strings["comments"]} :</td>
-    <td><textarea style="width: 400px; height: 50px;" name="comments" cols="35" rows="2">{$comments}</textarea></td>
+    <td><textarea style="width: 400px; height: 50px;" name="comments" cols="35" rows="2">$comments</textarea></td>
 </tr>
 HTML;
 

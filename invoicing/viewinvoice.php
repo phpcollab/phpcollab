@@ -4,8 +4,13 @@ $checkSession = "true";
 require_once '../includes/library.php';
 $setTitle .= " : View Invoices";
 
-$invoices = $container->getInvoicesLoader();
-$projects = $container->getProjectsLoader();
+try {
+    $invoices = $container->getInvoicesLoader();
+    $projects = $container->getProjectsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
+
 $id = $request->query->get("id", 0);
 $action = $request->query->get("action");
 $addToSite = $request->query->get("addToSite", false);

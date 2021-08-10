@@ -31,8 +31,12 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$teams = $container->getTeams();
-$notifications = $container->getNotificationsManager();
+try {
+    $teams = $container->getTeams();
+    $notifications = $container->getNotificationsManager();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $userDetail = $members->getMemberById($session->get("id"));
 
@@ -196,53 +200,53 @@ echo <<<HTML
 </tr>
 <tr class="odd">
 	<td style="vertical-align: top" class="leftvalue">
-	    <input type="checkbox" name="alerts[taskAssignment]" value="0" {$taskAssignment}></td>
+	    <input type="checkbox" name="alerts[taskAssignment]" value="0" $taskAssignment></td>
 	<td>{$strings["edit_noti_taskassignment"]}</td>
 </tr>	
 <tr class="odd">
 	<td style="vertical-align: top" class="leftvalue">
-	    <input type="checkbox" name="alerts[statusTaskChange]" value="0" {$statusTaskChange}></td>
+	    <input type="checkbox" name="alerts[statusTaskChange]" value="0" $statusTaskChange></td>
 	<td>{$strings["edit_noti_statustaskchange"]}</td>
 </tr>
 <tr class="odd">
     <td style="vertical-align: top" class="leftvalue">
-        <input type="checkbox" name="alerts[priorityTaskChange]" value="0" {$priorityTaskChange}></td>
+        <input type="checkbox" name="alerts[priorityTaskChange]" value="0" $priorityTaskChange></td>
 	<td>{$strings["edit_noti_prioritytaskchange"]}</td>
 </tr>
 <tr class="odd">
 	<td style="vertical-align: top" class="leftvalue">
-	    <input type="checkbox" name="alerts[duedateTaskChange]" value="0" {$dueDateTaskChange}></td>
+	    <input type="checkbox" name="alerts[duedateTaskChange]" value="0" $dueDateTaskChange></td>
 	<td>{$strings["edit_noti_duedatetaskchange"]}</td>
 </tr>
 <tr class="odd">
 	<td style="vertical-align: top" class="leftvalue">
-	    <input type="checkbox" name="alerts[addProjectTeam]" value="0" {$addProjectTeam}></td>
+	    <input type="checkbox" name="alerts[addProjectTeam]" value="0" $addProjectTeam></td>
 	<td>{$strings["edit_noti_addprojectteam"]}</td>
 </tr>
 <tr class="odd">
 	<td style="vertical-align: top" class="leftvalue">
-	    <input type="checkbox" name="alerts[removeProjectTeam]" value="0" {$removeProjectTeam}></td>
+	    <input type="checkbox" name="alerts[removeProjectTeam]" value="0" $removeProjectTeam></td>
 	<td>{$strings["edit_noti_removeprojectteam"]}</td>
 </tr>
 <tr class="odd">	
 	<td style="vertical-align: top" class="leftvalue">
-	    <input type="checkbox" name="alerts[newPost]" value="0" {$newPost}></td>
+	    <input type="checkbox" name="alerts[newPost]" value="0" $newPost></td>
 	<td>{$strings["edit_noti_newpost"]}</td>
 </tr>
 <tr class="odd">
 	<td style="vertical-align: top" class="leftvalue">
-	    <input type="checkbox" name="alerts[newTopic]" value="0" {$newTopic}></td>
+	    <input type="checkbox" name="alerts[newTopic]" value="0" $newTopic></td>
 	<td>{$strings["edit_noti_newtopic"]}</td>
 </tr>
 
 <tr class="odd">
 	<td style="vertical-align: top" class="leftvalue">
-	    <input type="checkbox" name="alerts[clientAddTask]" value="0" {$clientAddTask}></td>
+	    <input type="checkbox" name="alerts[clientAddTask]" value="0" $clientAddTask></td>
 	<td>{$strings["edit_noti_clientaddtask"]}</td>
 </tr>
 <tr class="odd">
 	<td style="vertical-align: top" class="leftvalue">
-	    <input type="checkbox" name="alerts[uploadFile]" value="0" {$uploadFile}></td>
+	    <input type="checkbox" name="alerts[uploadFile]" value="0" $uploadFile></td>
 	<td>{$strings["edit_noti_uploadfile"]}</td>
 </tr>
 HTML;
@@ -252,19 +256,19 @@ if ($emailAlerts !== "true") {
     echo <<<HTML
     <tr class="odd">
         <td style="vertical-align: top;" class="leftvalue">
-            <input type="checkbox" name="alerts[dailyAlert]" value="0" {$dailyAlert}></td>
+            <input type="checkbox" name="alerts[dailyAlert]" value="0" $dailyAlert></td>
         <td>{$strings["edit_noti_daily_alert"]}</td>
     </tr>
 
     <tr class="odd">
         <td style="vertical-align: top;" class="leftvalue">
-            <input type="checkbox" name="alerts[weeklyAlert]" value="0" {$weeklyAlert}></td>
+            <input type="checkbox" name="alerts[weeklyAlert]" value="0" $weeklyAlert></td>
         <td>{$strings["edit_noti_weekly_alert"]}</td>
     </tr>
 
     <tr class="odd">
         <td style="vertical-align: top;" class="leftvalue">
-            <input type="checkbox" name="alerts['pastDueAlert']" value="0" {$pastdueAlert}></td>
+            <input type="checkbox" name="alerts['pastDueAlert']" value="0" $pastdueAlert></td>
         <td>{$strings["edit_noti_pastdue_alert"]}</td>
     </tr>
 HTML;

@@ -27,7 +27,11 @@ $block1->openForm("../reports/listreports.php#" . $block1->form . "Anchor", null
 
 $block1->heading($strings["my_reports"]);
 
-$reports = $container->getReportsLoader();
+try {
+    $reports = $container->getReportsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $sorting = $block1->sortingValue;
 

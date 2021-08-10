@@ -24,8 +24,12 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$bookmarkService = $container->getBookmarksLoader();
-$categories = $bookmarkService->getBookmarkCategories();
+try {
+    $bookmarkService = $container->getBookmarksLoader();
+    $categories = $bookmarkService->getBookmarkCategories();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $name = "";
 $url = "";

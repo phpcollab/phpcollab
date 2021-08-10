@@ -8,15 +8,19 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$tasks = $container->getTasksLoader();
-$teams = $container->getTeams();
-$topics = $container->getTopicsLoader();
-$files = $container->getFilesLoader();
-$assignments = $container->getAssignmentsManager();
-$notes = $container->getNotesLoader();
-$support = $container->getSupportLoader();
-$phases = $container->getPhasesLoader();
-$projects = $container->getProjectsLoader();
+try {
+    $tasks = $container->getTasksLoader();
+    $teams = $container->getTeams();
+    $topics = $container->getTopicsLoader();
+    $files = $container->getFilesLoader();
+    $assignments = $container->getAssignmentsManager();
+    $notes = $container->getNotesLoader();
+    $support = $container->getSupportLoader();
+    $phases = $container->getPhasesLoader();
+    $projects = $container->getProjectsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $id = ($request->query->get('id')) ? str_replace("**", ",", $request->query->get('id')) : null;
 

@@ -14,9 +14,13 @@ if (empty($id) || empty(preg_replace("/[^0-9s]/", "", $id))) {
     phpCollab\Util::headerFunction("../reports/listreports.php");
 }
 
-$reports = $container->getReportsLoader();
+try {
+    $reports = $container->getReportsLoader();
 
-$listReports = $reports->getReportsByIds($id);
+    $listReports = $reports->getReportsByIds($id);
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 if (empty($listReports)) {
     phpCollab\Util::headerFunction("../reports/listreports.php");

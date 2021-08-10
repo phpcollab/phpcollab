@@ -8,9 +8,13 @@ require_once '../includes/library.php';
 
 $setTitle .= " : " . $strings["newsdesk_list"];
 
-$projects = $container->getProjectsLoader();
-$newsDesk = $container->getNewsdeskLoader();
-$teams = $container->getTeams();
+try {
+    $projects = $container->getProjectsLoader();
+    $newsDesk = $container->getNewsdeskLoader();
+    $teams = $container->getTeams();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $strings = $GLOBALS['strings'];
 

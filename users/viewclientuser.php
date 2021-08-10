@@ -3,8 +3,13 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$organizations = $container->getOrganizationsManager();
-$tasks = $container->getTasksLoader();
+try {
+    $organizations = $container->getOrganizationsManager();
+    $tasks = $container->getTasksLoader();
+    $teams = $container->getTeams();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $orgId = $request->query->get('organization');
 $userId = $request->query->get('id');
@@ -20,7 +25,7 @@ if (empty($userDetail)) {
 $memberOrganization = $userDetail['mem_organization'];
 
 if ($clientsFilter == "true" && $session->get("profile") == "2") {
-    $teams = $container->getTeams();
+
     $teamMember = "false";
 
     $memberTest = $teams->getTeamByTeamMemberAndOrgId($session->get("id"), $memberOrganization);

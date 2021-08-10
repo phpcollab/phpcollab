@@ -3,7 +3,11 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$bookmarks = $container->getBookmarksLoader();
+try {
+    $bookmarks = $container->getBookmarksLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $id = $request->query->get("id");
 

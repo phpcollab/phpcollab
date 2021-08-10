@@ -59,7 +59,11 @@ if ($request->isMethod('post')) {
     }
 }
 
-$bookmarks = $container->getBookmarksLoader();
+try {
+    $bookmarks = $container->getBookmarksLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $setTitle .= " : Delete ";
 

@@ -8,7 +8,11 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$organizations = $container->getOrganizationsManager();
+try {
+    $organizations = $container->getOrganizationsManager();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 /*
 //anyone can send a message

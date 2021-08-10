@@ -11,7 +11,12 @@ require_once '../includes/library.php';
 
 $topicId = $request->query->get('topic');
 
-$topics = $container->getTopicsLoader();
+try {
+    $topics = $container->getTopicsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
+
 $postId = $request->query->get('id');
 
 $detailTopic = $topics->getTopicByTopicId($topicId);
@@ -85,7 +90,7 @@ $postMessage = nl2br($detailPost["pos_message"]);
 echo <<<POST
     <tr class="odd">
         <td class="leftvalue">&nbsp;</td>
-        <td>{$postMessage}</td>
+        <td>$postMessage</td>
     </tr>
     <tr class="odd">
         <td class="leftvalue">&nbsp;</td>

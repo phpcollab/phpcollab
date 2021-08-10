@@ -10,7 +10,12 @@ require_once '../includes/library.php';
 
 $projectId = $request->query->get('project');
 $strings = $GLOBALS["strings"];
-$projects = $container->getProjectsLoader();
+
+try {
+    $projects = $container->getProjectsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 if ($request->isMethod('post')) {
 
@@ -18,7 +23,7 @@ if ($request->isMethod('post')) {
         if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
             if ($request->request->get("action") == "delete") {
                 $projects->publishProject($projectId, false);
-                phpCollab\Util::headerFunction("../projects/viewproject.php?id={$projectId}&msg=removeProjectSite");
+                phpCollab\Util::headerFunction("../projects/viewproject.php?id=$projectId&msg=removeProjectSite");
             }
         }
     } catch (InvalidCsrfTokenException $csrfTokenException) {

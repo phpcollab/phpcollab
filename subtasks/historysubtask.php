@@ -3,10 +3,14 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$tasks = $container->getTasksLoader();
-$projects = $container->getProjectsLoader();
-$phases = $container->getPhasesLoader();
-$updates = $container->getTaskUpdateService();
+try {
+    $tasks = $container->getTasksLoader();
+    $projects = $container->getProjectsLoader();
+    $phases = $container->getPhasesLoader();
+    $updates = $container->getTaskUpdateService();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $type = $request->query->get("type");
 $item = $request->query->get("item");

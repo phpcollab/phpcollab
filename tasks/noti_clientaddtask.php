@@ -4,9 +4,13 @@ if (isset($num) && $num == "") {
     $num = $id;
 }
 
-$tasks = $container->getTasksLoader();
-$projects = $container->getProjectsLoader();
-$notifications = $container->getNotificationsManager();
+try {
+    $tasks = $container->getTasksLoader();
+    $projects = $container->getProjectsLoader();
+    $notifications = $container->getNotificationsManager();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $strings = $GLOBALS["strings"];
 
@@ -19,7 +23,7 @@ $listNotifications = $notifications->getNotificationsWhereMemberIn($projectNoti[
 if ($listNotifications["not_taskassignment"] == "0") {
     $mail = $container->getNotification();
 
-    $mail->getUserinfo($session->get("id"), "from");
+    $mail->getUserinfo($session->get("id"), "from", $container->getLogger());
 
     $mail->partSubject = $strings["noti_clientaddtask1"];
     $mail->partMessage = $strings["noti_clientaddtask2"];
@@ -46,7 +50,11 @@ if ($listNotifications["not_taskassignment"] == "0") {
         $mail->Priority = "3";
     }
     $mail->Body = $body;
-    $mail->AddAddress($listNotifications["not_mem_email_work"], $listNotifications["not_mem_name"]);
-    $mail->Send();
-    $mail->ClearAddresses();
+    try {
+        $mail->AddAddress($listNotifications["not_mem_email_work"], $listNotifications["not_mem_name"]);
+        $mail->Send();
+        $mail->ClearAddresses();
+    } catch (\PHPMailer\PHPMailer\Exception $e) {
+        $logger->critical('PHPMailer: ' . $e->getMessage());
+    }
 }

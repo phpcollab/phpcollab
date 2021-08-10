@@ -35,8 +35,12 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$tasks = $container->getTasksLoader();
-$assignments = $container->getAssignmentsManager();
+try {
+    $tasks = $container->getTasksLoader();
+    $assignments = $container->getAssignmentsManager();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 //case add task
 $id = $request->query->get('id');
@@ -118,7 +122,7 @@ echo <<< HTML
 <input type="hidden" name="status" value="2" />
 <input type="hidden" name="completion" value="0" />
 <input type="hidden" name="project_id" value="{$session->get("project")}" />
-<input type="hidden" value="{$publishTask}" name="publish" />
+<input type="hidden" value="$publishTask" name="publish" />
 <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}" />
 <table class="nonStriped">
 	<tr>
@@ -166,7 +170,7 @@ echo <<< STARTDATE
 				    Calendar.setup({
 				        inputField     :    "start_date",
 				        button         :    "trigStartDate",
-				        {$calendar_common_settings}
+				        $calendar_common_settings
 				    })
 				</script>
 			</td>
@@ -183,7 +187,7 @@ echo <<< DUEDATE
 			    Calendar.setup({
 			        inputField     :    "due_date",
 			        button         :    "trigDueDate",
-			        {$calendar_common_settings}
+			        $calendar_common_settings
 			    })
 			</script>
 		</td>

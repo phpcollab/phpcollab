@@ -5,9 +5,13 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$teams = $container->getTeams();
-$projects = $container->getProjectsLoader();
-$support = $container->getSupportLoader();
+try {
+    $teams = $container->getTeams();
+    $projects = $container->getProjectsLoader();
+    $support = $container->getSupportLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 if ($supportType == "team") {
     $teamMember = "false";

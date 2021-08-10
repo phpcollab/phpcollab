@@ -31,7 +31,12 @@ use phpCollab\Administration\Settings;
 $checkSession = "true";
 require_once '../includes/library.php';
 $setTitle .= " : Administration";
-$admin = $container->getAdministration();
+
+try {
+    $admin = $container->getAdministration();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 if ($session->get('profile') != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
@@ -103,7 +108,7 @@ HTML;
 }
 
 
-if (!isset($uuid) || empty($uuid)) {
+if (empty($uuid)) {
     try {
         $uuid = Settings::appendUUID(APP_ROOT, $logger);
     } catch (Exception $e) {

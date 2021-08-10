@@ -13,8 +13,12 @@ if (empty($id)) {
 }
 
 //Get client organization
-$organizations = $container->getOrganizationsManager();
-$clientDetail = $organizations->checkIfClientExistsById($id);
+try {
+    $organizations = $container->getOrganizationsManager();
+    $clientDetail = $organizations->checkIfClientExistsById($id);
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 if (empty($clientDetail)) {
     phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");

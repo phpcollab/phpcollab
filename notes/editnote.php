@@ -37,8 +37,13 @@ $project = $request->query->get('project');
 $id = $request->query->get('id');
 $strings = $GLOBALS["strings"];
 
-$notes = $container->getNotesLoader();
-$projects = $container->getProjectsLoader();
+try {
+    $notes = $container->getNotesLoader();
+    $projects = $container->getProjectsLoader();
+    $teams = $container->getTeams();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 if ($id != "" && $action != "add") {
     $noteDetail = $notes->getNoteById($id);
@@ -51,7 +56,7 @@ if ($id != "" && $action != "add") {
 $projectDetail = $projects->getProjectById($project);
 
 $teamMember = "false";
-$teams = $container->getTeams();
+
 $teamMember = $teams->isTeamMember($project, $session->get("id"));
 
 //case update note entry
@@ -195,7 +200,7 @@ echo <<<JAVASCRIPT
     Calendar.setup({
         inputField     :    'noteDate',
         button         :    'trigNoteDate',
-        {$calendar_common_settings}
+        $calendar_common_settings
     })
 </script>
 JAVASCRIPT;

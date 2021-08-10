@@ -13,7 +13,18 @@ $addToSiteFile = $request->query->get("addToSiteFile");
 $removeToSiteFile = $request->query->get("removeToSiteFile");
 $strings = $GLOBALS["strings"];
 
-$files = $container->getFilesLoader();
+try {
+    $files = $container->getFilesLoader();
+    $teams = $container->getTeams();
+    $notification = $container->getNotificationsManager();
+    $projects = $container->getProjectsLoader();
+    $phases = $container->getPhasesLoader();
+    $tasks = $container->getTasksLoader();
+
+
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 if ($action == "publish") {
     $file = $request->query->get("file");
@@ -34,9 +45,6 @@ $fileDetail = $files->getFileById($id);
 
 $teamMember = "false";
 
-$teams = $container->getTeams();
-
-$notification = $container->getNotificationsManager();
 
 $teamMember = $teams->isTeamMember($fileDetail["fil_project"], $session->get("id"));
 
@@ -44,16 +52,14 @@ if ($teamMember == "false" && $projectsFilter == "true") {
     header("Location:../general/permissiondenied.php");
 }
 
-$projects = $container->getProjectsLoader();
 $projectDetail = $projects->getProjectById($fileDetail["fil_project"]);
 
 if ($fileDetail["fil_task"] != "0") {
-    $tasks = $container->getTasksLoader();
+
     $taskDetail = $tasks->getTaskById($fileDetail["fil_task"]);
 }
 
 if ($projectDetail["pro_phase_set"] != "0") {
-    $phases = $container->getPhasesLoader();
     $phaseDetail = $phases->getPhasesById($fileDetail["fil_phase"]);
 }
 
@@ -173,7 +179,7 @@ if ($request->isMethod('post')) {
                                     $key = array_search($session->get("id"),
                                         array_column($teamList, 'tea_mem_id'));
 
-                                    // Remove the current user from the teamList so we don't spam them
+                                    // Remove the current user from the teamList, so we don't spam them
                                     unset($teamList[$key]);
 
                                     foreach ($teamList as $item) {
@@ -222,7 +228,7 @@ if ($request->isMethod('post')) {
 
                                 $key = array_search($session->get("id"), array_column($teamList, 'tea_mem_id'));
 
-                                // Remove the current user from the TeamList so we don't spam them
+                                // Remove the current user from the TeamList, so we don't spam them
                                 unset($teamList[$key]);
 
                                 foreach ($teamList as $item) {
@@ -273,7 +279,7 @@ if ($request->isMethod('post')) {
                             }
 
                             $updateFile = $container->getFileUpdateService();
-                            $uploadedFile = "{$fileDetail["fil_id"]}--{$filename}";
+                            $uploadedFile = "{$fileDetail["fil_id"]}--$filename";
                             $commentField = Util::convertData($request->request->get("update_comments"));
                             $statusField = filter_var($request->request->get("update_statusField"),
                                 FILTER_VALIDATE_INT);
@@ -306,17 +312,17 @@ if ($request->isMethod('post')) {
                             }
 
                             // If the parent file, with _v0.0, do not exist, then move it.
-                            if (!file_exists(APP_ROOT . "files/{$fileDetail["fil_project"]}/{$changedName}")
-                                && !file_exists(APP_ROOT . "files/{$fileDetail["fil_project"]}/{$fileDetail["fil_task"]}/{$changedName}")
+                            if (!file_exists(APP_ROOT . "files/{$fileDetail["fil_project"]}/$changedName")
+                                && !file_exists(APP_ROOT . "files/{$fileDetail["fil_project"]}/{$fileDetail["fil_task"]}/$changedName")
                             ) {
                                 if ($fileDetail["fil_task"] != "0") {
-                                    $path = "files/{$fileDetail["fil_project"]}/{$fileDetail["fil_task"]}/{$originalFileName}";
+                                    $path = "files/{$fileDetail["fil_project"]}/{$fileDetail["fil_task"]}/$originalFileName";
                                     $path_source = "files/{$fileDetail["fil_project"]}/{$fileDetail["fil_task"]}/{$fileDetail["fil_name"]}";
-                                    $path_destination = "files/{$fileDetail["fil_project"]}/{$fileDetail["fil_task"]}/{$changedName}";
+                                    $path_destination = "files/{$fileDetail["fil_project"]}/{$fileDetail["fil_task"]}/$changedName";
                                 } else {
-                                    $path = "files/{$fileDetail["fil_project"]}/{$originalFileName}";
+                                    $path = "files/{$fileDetail["fil_project"]}/$originalFileName";
                                     $path_source = "files/{$fileDetail["fil_project"]}/{$fileDetail["fil_name"]}";
-                                    $path_destination = "files/{$fileDetail["fil_project"]}/{$changedName}";
+                                    $path_destination = "files/{$fileDetail["fil_project"]}/$changedName";
                                 }
 
                                 //Rename the old file with the new name, created above
@@ -343,7 +349,7 @@ if ($request->isMethod('post')) {
                                 $fileDetail["fil_project"], // projectId (inherited from the parent file)
                                 $fileDetail["fil_task"], // taskId (inherited from the parent file)
                                 $uploadedFile, // name of the uploaded file with parent file ID prepended
-                                date('Y-m-d h:i'), // Todays date, since this is the date the file is added
+                                date('Y-m-d h:i'), // Today's date, since this is the date the file is added
                                 $request->files->get('upload')->getSize(), // Size of updated file
                                 $extension,
                                 $commentField, // Comments from the update form
@@ -359,7 +365,7 @@ if ($request->isMethod('post')) {
                             // Add the original file ID to the beginning of the name, so it should be: xx--uploaded_file_name.ext
                             $pos = strrpos($fileDetail["fil_name"], ".");
                             if ($pos !== false) {
-                                $uploadedFile = substr_replace($uploadedFile, "_v{$updatedVersion}.", $pos, 1);
+                                $uploadedFile = substr_replace($uploadedFile, "_v$updatedVersion.", $pos, 1);
                             }
 
                             if ($fileDetail["fil_task"] != "0") {
@@ -390,7 +396,7 @@ if ($request->isMethod('post')) {
                                     $key = array_search($session->get("id"),
                                         array_column($teamList, 'tea_mem_id'));
 
-                                    // Remove the current user from the teamList so we don't spam them
+                                    // Remove the current user from the teamList, so we don't spam them
                                     unset($teamList[$key]);
 
                                     foreach ($teamList as $item) {
@@ -415,11 +421,10 @@ if ($request->isMethod('post')) {
                             $logger->error('Files (approval)', ['Exception message', $e->getMessage()]);
                             $error = $strings["action_not_allowed"];
                         }
-                        break;
                     } else {
                         $updateError .= $strings["no_file"] . "<br/>";
-                        break;
                     }
+                    break;
 
                 default:
                     break;
@@ -473,7 +478,7 @@ if ($msg != "") {
 }
 
 //------------------------------------------------------------------------------------------------
-//Begining of Display code
+//Beginning of Display code
 
 //File details block
 $block1 = new Block();
@@ -500,7 +505,7 @@ $block1->contentTitle($strings["details"]);
 echo <<<DETAILS
 <tr class="odd">
 	<td style="vertical-align: top"  class="leftvalue">{$strings["type"]} :</td>
-	<td><img src="../interface/icones/{$type}" style="border:none;" alt=""></td>
+	<td><img src="../interface/icones/$type" style="border:none;" alt=""></td>
 </tr>
 <tr class="odd">
 	<td style="vertical-align: top"  class="leftvalue">{$strings["name"]} :</td>
@@ -508,7 +513,7 @@ echo <<<DETAILS
 </tr>
 <tr class="odd">
 	<td style="vertical-align: top"  class="leftvalue">{$strings["vc_version"]} :</td>
-	<td>{$currentVersion}</td>
+	<td>$currentVersion</td>
 </tr>
 <tr class="odd">
 	<td style="vertical-align: top"  class="leftvalue">{$strings["ifc_last_date"]} :</td>
@@ -535,7 +540,7 @@ $idPublish = $fileDetail["fil_published"];
 echo <<<PUBLISHED_ROW
     <tr class="odd">
         <td class="leftvalue">{$strings["published"]} :</td>
-        <td>{$statusPublish[$idPublish]}</td>
+        <td>$statusPublish[$idPublish]</td>
     </tr>
 PUBLISHED_ROW;
 
@@ -543,7 +548,7 @@ $idStatus = $fileDetail["fil_status"];
 echo <<<STATUS_ROW
     <tr class="odd">
         <td class="leftvalue">{$strings["approval_tracking"]} :</td>
-        <td>{$statusFile[$idStatus]}</td>
+        <td>$statusFile[$idStatus]</td>
     </tr>
 STATUS_ROW;
 
@@ -593,7 +598,7 @@ foreach ($listVersions as $version) {
     if ($fileDetail["fil_owner"] == $session->get("id") && $version["fil_id"] != $fileDetail["fil_id"]) {
         $theme = THEME;
         echo <<<LINK
-                <a href="javascript:MM_toggleItem(document.{$block1->form}Form, '{$version["fil_id"]}', '{$block1->form}cb{$version["fil_id"]}','{$theme}')"><img id="{$block1->form}cb{$version["fil_id"]}" src="../themes/{$theme}/images/checkbox_off_16.gif" alt="checkbox" style="border: none; margin-top: 0;" ></a>
+                <a href="javascript:MM_toggleItem(document.{$block1->form}Form, '{$version["fil_id"]}', '{$block1->form}cb{$version["fil_id"]}','$theme')"><img id="{$block1->form}cb{$version["fil_id"]}" src="../themes/$theme/images/checkbox_off_16.gif" alt="checkbox" style="border: none; margin-top: 0;" ></a>
 LINK;
 
     }
@@ -688,7 +693,7 @@ if ($peerReview == "true") {
     //Revision list block
     $peerReviewBlock = new Block();
     $peerReviewBlock->form = "tdC";
-    $peerReviewBlock->openForm("../files/viewfile.php?&id={$id}#" . $peerReviewBlock->form . "Anchor", null,
+    $peerReviewBlock->openForm("../files/viewfile.php?&id=$id#" . $peerReviewBlock->form . "Anchor", null,
         $csrfHandler);
     $peerReviewBlock->heading($strings["ifc_revisions"]);
 
@@ -726,8 +731,8 @@ TABLE;
 
         if ($fileDetail["fil_owner"] == $session->get("id")) {
             echo <<<LINK
-                    <a href="javascript:MM_toggleItem(document.{$peerReviewBlock->form}Form, '{$review["fil_id"]}', '{$peerReviewBlock->form}cb{$review["fil_id"]}','{$theme}')">
-                        <img id="{$peerReviewBlock->form}cb{$review["fil_id"]}" src="../themes/{$theme}/images/checkbox_off_16.gif" alt="" style="border: none; margin-top: 0;">
+                    <a href="javascript:MM_toggleItem(document.{$peerReviewBlock->form}Form, '{$review["fil_id"]}', '{$peerReviewBlock->form}cb{$review["fil_id"]}','$theme')">
+                        <img id="{$peerReviewBlock->form}cb{$review["fil_id"]}" src="../themes/$theme/images/checkbox_off_16.gif" alt="" style="border: none; margin-top: 0;">
                     </a>
 LINK;
 
@@ -735,7 +740,7 @@ LINK;
 
         echo <<< HTML
             &nbsp;</td>
-            <td colspan="3">{$displayname}&nbsp;&nbsp;
+            <td colspan="3">$displayname&nbsp;&nbsp;
 HTML;
 
         if ($review["fil_task"] != "0") {
@@ -765,7 +770,7 @@ HTML;
 
         echo <<<REVISION
             </td>
-            <td style="text-align: right">Revision: {$displayrev}&nbsp;&nbsp;</td>
+            <td style="text-align: right">Revision: $displayrev&nbsp;&nbsp;</td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
@@ -840,7 +845,7 @@ FORM_START;
         echo <<<HTML
 		<input value="{$fileDetail["fil_id"]}" name="sendto" type="hidden" />
 		<input value="{$fileDetail["fil_id"]}" name="parent" type="hidden" />
-		<input value="{$revision}" name="revision" type="hidden" />
+		<input value="$revision" name="revision" type="hidden" />
 		<input value="{$fileDetail["fil_vc_version"]}" name="oldversion" type="hidden" />
 		<input value="{$fileDetail["fil_project"]}" name="project" type="hidden" />
 		<input value="{$fileDetail["fil_task"]}" name="task" type="hidden" />
@@ -953,7 +958,7 @@ if ($fileDetail["fil_owner"] == $session->get("id")) {
 		<a id="filedetailsAnchor"></a>
 		<form accept-charset="UNKNOWN" method="POST" action="../linkedcontent/viewfile.php?action=update&id={$fileDetail["fil_id"]}&#filedetailsAnchor" name="filedetailsForm" enctype="multipart/form-data">
 			<input type="hidden" name="MAX_FILE_SIZE" value="100000000" />
-			<input type="hidden" name="currentVersion" value="{$currentVersion}" />
+			<input type="hidden" name="currentVersion" value="$currentVersion" />
 			<input type="hidden" name="maxCustom" value="{$projectDetail["pro_upload_max"]}" />
             <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}">
 UPDATE_FILE;
@@ -1006,7 +1011,7 @@ HTML;
 
     echo "</select>";
 
-    $comments = isset($comments) ? $comments : '';
+    $comments = $comments ?? '';
     echo <<<UPDATE_FILE
         </td>
     </tr>
@@ -1016,7 +1021,7 @@ HTML;
     </tr>
 	<tr class="odd">
 	    <td style="vertical-align: top"  class="leftvalue">" {$strings["comments"]} :</td>
-	    <td><textarea rows="3" style="width: 400px; height: 50px;" name="update_comments" cols="43">{$comments}</textarea></td>
+	    <td><textarea rows="3" style="width: 400px; height: 50px;" name="update_comments" cols="43">$comments</textarea></td>
     </tr>
 	<tr class="odd">
 	    <td style="vertical-align: top"  class="leftvalue">&nbsp;</td>

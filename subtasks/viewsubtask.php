@@ -21,11 +21,17 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$tasks = $container->getTasksLoader();
-$subtasks = $container->getSubtasksLoader();
-$projects = $container->getProjectsLoader();
-$teams = $container->getTeams();
-$assignments = $container->getAssignmentsManager();
+try {
+    $tasks = $container->getTasksLoader();
+    $subtasks = $container->getSubtasksLoader();
+    $projects = $container->getProjectsLoader();
+    $teams = $container->getTeams();
+    $assignments = $container->getAssignmentsManager();
+    $phases = $container->getPhasesLoader();
+    $updates = $container->getTaskUpdateService();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $id = $request->query->get("id");
 $task = $request->query->get("task");
@@ -53,7 +59,7 @@ $taskDetail = $tasks->getTaskById($task);
 $projectDetail = $projects->getProjectById($taskDetail['tas_project']);
 
 if ($projectDetail['pro_enable_phase'] != "0") {
-    $phases = $container->getPhasesLoader();
+
     $tPhase = $taskDetail['tas_parent_phase'];
     if (!$tPhase) {
         $tPhase = '0';
@@ -183,7 +189,7 @@ $block1->contentRow($strings["comments"], nl2br($subtaskDetail['subtas_comments'
 
 $block1->contentTitle($strings["updates_subtask"]);
 
-$updates = $container->getTaskUpdateService();
+
 $listUpdates = $updates->getUpdates(2, $id);
 
 $comptListUpdates = count($listUpdates);

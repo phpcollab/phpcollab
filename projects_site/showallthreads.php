@@ -5,7 +5,11 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$topics = $container->getTopicsLoader();
+try {
+    $topics = $container->getTopicsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $topicId = $request->query->get("topic");
 
@@ -26,7 +30,7 @@ if (!empty($postId) && $request->query->get('action') == "delete") {
         $topics->decrementTopicPostsCount($topicId);
     }
 
-    phpCollab\Util::headerFunction("showallthreads.php?topic={$topicId}&msg=postDeleted");
+    phpCollab\Util::headerFunction("showallthreads.php?topic=$topicId&msg=postDeleted");
 }
 
 $bouton[5] = "over";
@@ -62,13 +66,13 @@ echo <<<TABLE
         <th>{$strings["project"]}:</th>
         <td>{$projectDetail["pro_name"]}</td>
         <th>{$strings["last_post"]}:</th>
-        <td>{$topicDate}</td>
+        <td>$topicDate</td>
     </tr>
     <tr class="lightHighlight">
         <th>&nbsp;</th>
         <td>&nbsp;</td>
         <th>{$strings["retired"]}:</th>
-        <td>{$statusTopicBis[$idStatus]}</td>
+        <td>$statusTopicBis[$idStatus]</td>
     </tr>
     <tr class="lightHighlight">
         <th>{$strings["owner"]}:</th>
@@ -86,7 +90,7 @@ TABLE;
 if ($detailTopic["top_status"] == "1") {
     echo <<<TR
         <tr class="even">
-            <td colspan="4" style="text-align: right;"><a href="threadpost.php?topic={$topicId}">{$strings["post_reply"]}</a></td>
+            <td colspan="4" style="text-align: right;"><a href="threadpost.php?topic=$topicId">{$strings["post_reply"]}</a></td>
         </tr>
 TR;
 }
@@ -103,7 +107,7 @@ TR;
 
         if ($detailProject["pro_owner"] == $session->get("id") || $session->get("profile") == "0" || $post["pos_member"] == $session->get("id")) {
             echo <<<LINK
-                <a href="../projects_site/showallthreads.php?topic={$topicId}&action=delete&post={$post["pos_id"]}">({$post["pos_id"]}) {$strings["delete_message"]}</a>
+                <a href="../projects_site/showallthreads.php?topic=$topicId&action=delete&post={$post["pos_id"]}">({$post["pos_id"]}) {$strings["delete_message"]}</a>
 LINK;
         } else {
             echo "&nbsp";
@@ -120,11 +124,11 @@ LINK;
         </tr>
         <tr class="even">
             <th nowrap>{$strings["when"]} :</th>
-            <td colspan="3">{$createdDate}</td>
+            <td colspan="3">$createdDate</td>
         </tr>
         <tr class="even">
             <th>{$strings["message"]} :</th>
-            <td colspan="3">{$postMessage}</td>
+            <td colspan="3">$postMessage</td>
         </tr>
         <tr class="odd"><td colspan="4"><hr /></td></tr>
 TR;

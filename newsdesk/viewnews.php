@@ -8,8 +8,12 @@ use phpCollab\Util;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$projects = $container->getProjectsLoader();
-$news = $container->getNewsdeskLoader();
+try {
+    $projects = $container->getProjectsLoader();
+    $news = $container->getNewsdeskLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $newsDetail = $news->getPostById($request->query->get("id"));
 

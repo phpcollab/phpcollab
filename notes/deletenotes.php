@@ -13,7 +13,11 @@ $project = $request->query->get('project');
 $id = $request->query->get('id');
 $strings = $GLOBALS["strings"];
 
-$notes = $container->getNotesLoader();
+try {
+    $notes = $container->getNotesLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 if ($action == "delete") {
     if ($request->isMethod('post')) {

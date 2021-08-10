@@ -11,8 +11,12 @@ $id = $request->query->get('id');
 $strings = $GLOBALS["strings"];
 $statusTopicBis = $GLOBALS["statusTopicBis"];
 
-$topics = $container->getTopicsLoader();
-$projects = $container->getProjectsLoader();
+try {
+    $topics = $container->getTopicsLoader();
+    $projects = $container->getProjectsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $detailTopic = $topics->getTopicByTopicId($id);
 
@@ -63,8 +67,8 @@ $idStatus = $detailTopic["top_status"];
 
 $topicLastPostDate = phpCollab\Util::createDate($detailTopic["top_last_post"], $session->get("timezone"));
 echo <<<FORM
- <form method="POST" action="../projects_site/threadpost.php?id={$id}" name="post">
-    <input name="id" type="hidden" value="{$id}">
+ <form method="POST" action="../projects_site/threadpost.php?id=$id" name="post">
+    <input name="id" type="hidden" value="$id">
     <input name="action" type="hidden" value="add">
     <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}" />
 
@@ -85,7 +89,7 @@ echo <<<FORM
         <th>&nbsp;</th>
         <td>&nbsp;</td>
         <th>{$strings["last_post"]}:</th>
-        <td>{$topicLastPostDate}</td>
+        <td>$topicLastPostDate</td>
     </tr>
     <tr>
         <th>&nbsp;</th>
@@ -128,7 +132,7 @@ if ($listPosts) {
         <tr class="even">
             <th>{$strings["posted_by"]} :</th>
             <td>{$post["pos_mem_name"]}</td>
-            <td colspan="2" style="text-align: right"><a href="../projects_site/showallthreads.php?id={$id}&action=delete&post={$post["pos_id"]}">{$strings["delete_message"]}</a></td>
+            <td colspan="2" style="text-align: right"><a href="../projects_site/showallthreads.php?id=$id&action=delete&post={$post["pos_id"]}">{$strings["delete_message"]}</a></td>
         </tr>
         <tr class="even">
             <th>{$strings["email"]} :</th>
@@ -136,11 +140,11 @@ if ($listPosts) {
         </tr>
         <tr class="even">
             <th nowrap>{$strings["when"]} :</th>
-            <td colspan="3">{$postCreatedDate}</td>
+            <td colspan="3">$postCreatedDate</td>
         </tr>
         <tr class="even">
             <th>{$strings["message"]} :</th>
-            <td colspan="3">{$postMessage}</td>
+            <td colspan="3">$postMessage</td>
         </tr>
         <tr>
         <td colspan="4" class="odd"></td>

@@ -5,10 +5,14 @@ require_once '../includes/library.php';
 
 $setTitle .= " : List Invoices";
 
-$invoices = $container->getInvoicesLoader();
-$teams = $container->getTeams();
-$organizations = $container->getOrganizationsManager();
-$projects = $container->getProjectsLoader();
+try {
+    $invoices = $container->getInvoicesLoader();
+    $teams = $container->getTeams();
+    $organizations = $container->getOrganizationsManager();
+    $projects = $container->getProjectsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $typeInvoices = (!empty($request->query->get("typeInvoices"))) ? $request->query->get("typeInvoices") : "open";
 $clientId = (!empty($request->query->get("client"))) ? $request->query->get("client") : 0;
@@ -164,8 +168,8 @@ if ($listInvoices) {
             $strings["view_invoice"] . " (" . $invoice["inv_id"] . ")", "in"));
         $block1->cellRow($blockPage->buildLink("../projects/viewproject.php?id=" . $invoice["inv_project"],
             $invoice["inv_pro_name"], "in"));
-        $block1->cellRow($invoice["inv_total_inc_tax"] ? $invoice["inv_total_inc_tax"] : "--");
-        $block1->cellRow($invoice["inv_date_sent"] ? $invoice["inv_date_sent"] : "--");
+        $block1->cellRow($invoice["inv_total_inc_tax"] ?: "--");
+        $block1->cellRow($invoice["inv_date_sent"] ?: "--");
 
         if ($sitePublish == "true") {
             $block1->cellRow($statusPublish[$idPublish]);

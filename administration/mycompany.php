@@ -38,7 +38,11 @@ if ($session->get('profile') != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 
-$org = $container->getOrganizationsManager();
+try {
+    $org = $container->getOrganizationsManager();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 if ($request->isMethod('post')) {
     try {

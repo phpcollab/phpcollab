@@ -31,8 +31,12 @@
 
 require_once '../includes/library.php';
 
-$tasks = $container->getTasksLoader();
-$calendars = $container->getCalendarLoader();
+try {
+    $tasks = $container->getTasksLoader();
+    $calendars = $container->getCalendarLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $bouton[12] = "over";
 $titlePage = $strings["calendar"];
@@ -301,7 +305,7 @@ if ($type == "monthPreview") {
             }
 
             echo <<<TD
-<td class="{$classCell}">
+<td class="$classCell">
     <div class="calendarDate">$day</div>
 TD;
 
@@ -309,7 +313,7 @@ TD;
                 foreach ($listCalendarScan as $item) {
                     if ($item["cal_broadcast"] == "1") {
                         echo <<<DIV
-<div class="calendar-broadcast-event"><a href="showcalendar.php?dateEnreg={$item["cal_id"]}&type=calendDetail&dateCalend={$dateLink}" class="calendar-broadcast-todo-event"><b>{$item["cal_shortname"]}</b></a></div>
+<div class="calendar-broadcast-event"><a href="showcalendar.php?dateEnreg={$item["cal_id"]}&type=calendDetail&dateCalend=$dateLink" class="calendar-broadcast-todo-event"><b>{$item["cal_shortname"]}</b></a></div>
 DIV;
                     }
                 }
@@ -488,18 +492,18 @@ ENTRY;
 
 		<table class="prev-next-table">
 		    <tr>
-			    <th><a href="showcalendar.php?dateCalend={$datePast}">{$strings["previous"]}</a> | <a href="showcalendar.php?dateCalend={$dateToday}">{$strings["today"]}</a> | <a href="showcalendar.php?dateCalend={$dateNext}">{$strings["next"]}</a></th>
+			    <th><a href="showcalendar.php?dateCalend=$datePast">{$strings["previous"]}</a> | <a href="showcalendar.php?dateCalend=$dateToday">{$strings["today"]}</a> | <a href="showcalendar.php?dateCalend=$dateNext">{$strings["next"]}</a></th>
 		    </tr>
 		</table>
 		<br />
 PREV_NEXT_LINKS;
 
     if ($activeJpgraph == "true" && $gantt == "true") {
-        $poweredByLink = $block2->buildLink("http://www.aditus.nu/jpgraph/", "JpGraph", "powered");
+        $poweredByLink = $block2->buildLink("https://www.aditus.nu/jpgraph/", "JpGraph", "powered");
         echo <<<JpGraph
 			<div id="ganttChart_taskList" class="ganttChart">
-				<img src="graphtasks.php?dateCalend={$dateCalend}" alt=""><br/>
-				<span class="listEvenBold"">{$poweredByLink}</span>	
+				<img src="graphtasks.php?dateCalend=$dateCalend" alt=""><br/>
+				<span class="listEvenBold"">$poweredByLink</span>	
 			</div>
 JpGraph;
     }

@@ -24,11 +24,15 @@ $statusPublish = $GLOBALS["statusPublish"];
 $strings = $GLOBALS["strings"];
 $msgLabel = $GLOBALS["msgLabel"];
 
-$tasks = $container->getTasksLoader();
-$files = $container->getFilesLoader();
-$phases = $container->getPhasesLoader();
-$projects = $container->getProjectsLoader();
-$teams = $container->getTeams();
+try {
+    $tasks = $container->getTasksLoader();
+    $files = $container->getFilesLoader();
+    $phases = $container->getPhasesLoader();
+    $projects = $container->getProjectsLoader();
+    $teams = $container->getTeams();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 if ($action == "publish") {
     if ($addToSite == "true") {
@@ -151,7 +155,7 @@ if ($session->get("id") == $projectDetail["pro_owner"] || $session->get("profile
 $block2 = new phpCollab\Block();
 
 $block2->form = "saP";
-$block2->openForm("../phases/viewphase.php?&id={$id}#" . $block2->form . "Anchor", null, $csrfHandler);
+$block2->openForm("../phases/viewphase.php?&id=$id#" . $block2->form . "Anchor", null, $csrfHandler);
 
 $block2->headingToggle($strings["tasks"], $request->cookies->get( $block2->form ));
 
@@ -219,7 +223,7 @@ if ($listTasks) {
         echo <<<GANTT
 		<div id="ganttChart_taskList" class="ganttChart">
 			<img src="graphtasks.php?&project={$projectDetail["pro_id"]}&phase={$phaseDetail["pha_order_num"]}" alt=""><br/>
-			<span class="listEvenBold"">{$blockPage->buildLink("http://www.aditus.nu/jpgraph/", "JpGraph", "powered")}</span>	
+			<span class="listEvenBold"">{$blockPage->buildLink("https://www.aditus.nu/jpgraph/", "JpGraph", "powered")}</span>	
 		</div>
 GANTT;
     }

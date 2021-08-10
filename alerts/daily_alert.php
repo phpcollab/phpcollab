@@ -30,7 +30,7 @@ use Monolog\Logger;
 use phpCollab\Alerts\DailyAlerts;
 use phpCollab\Container;
 
-$app_root = dirname(dirname(__FILE__));
+$app_root = dirname(__FILE__, 2);
 
 if (php_sapi_name() == "cli") {
     require $app_root . '/vendor/autoload.php';

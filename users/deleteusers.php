@@ -5,8 +5,12 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$projects = $container->getProjectsLoader();
-$tasks = $container->getTasksLoader();
+try {
+    $projects = $container->getProjectsLoader();
+    $tasks = $container->getTasksLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $setTitle .= " : Delete User";
 
@@ -132,7 +136,7 @@ if ($totalProjects || $totalTasks) {
 
     if ($totalProjects) {
         echo <<<OWNED_PROJECTS
-    <tr class="odd"><td class="leftvalue">&nbsp;</td><td>{$strings["there"]} {$totalProjects} {$strings["projects"]} {$strings["owned_by"]}</td></tr>
+    <tr class="odd"><td class="leftvalue">&nbsp;</td><td>{$strings["there"]} $totalProjects {$strings["projects"]} {$strings["owned_by"]}</td></tr>
 OWNED_PROJECTS;
     }
 
@@ -140,7 +144,7 @@ OWNED_PROJECTS;
         echo <<<OWNED_TASKS
     <tr class="odd">
         <td class="leftvalue">&nbsp;</td>
-        <td>{$strings["there"]} {$totalTasks} {$strings["tasks"]} {$strings["owned_by"]}</td>
+        <td>{$strings["there"]} $totalTasks {$strings["tasks"]} {$strings["owned_by"]}</td>
     </tr>
 OWNED_TASKS;
     }
@@ -163,7 +167,7 @@ echo <<<FORM_BUTTONS
     <td>
         <button type="submit" name="action" value="delete">{$strings["delete"]}</button> 
         <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();">
-        <input type="hidden" value="{$id}" name="id">
+        <input type="hidden" value="$id" name="id">
     </td>
 </tr>
 FORM_BUTTONS;

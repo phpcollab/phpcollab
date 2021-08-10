@@ -7,7 +7,7 @@ require_once '../includes/library.php';
 
 //case session fails
 if ($url != "") {
-    phpCollab\Util::headerFunction("../login.php?url=$url");
+    phpCollab\Util::headerFunction("../login.php?url=" . $url);
 
     //default case
 } else {

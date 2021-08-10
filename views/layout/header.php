@@ -14,11 +14,11 @@ echo <<<HEAD
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta charset="utf-8">
-<title>{$setTitle}</title>
+<title>$setTitle</title>
 <meta name="robots" content="none" />
-<meta name="description" content="{$setDescription}" />
-<meta name="keywords" content="{$setKeywords}" />
-<meta name="copyright" content="{$setCopyright}" />
+<meta name="description" content="$setDescription" />
+<meta name="keywords" content="$setKeywords" />
+<meta name="copyright" content="$setCopyright" />
 
 <link rel="icon" type="image/png" sizes="32x32" href="../public/images/favicons/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="96x96" href="../public/images/favicons/favicon-96x96.png">
@@ -42,15 +42,19 @@ if (isset($includeCalendar) && $includeCalendar === true) {
 }
 
 echo <<<HTML
-{$headBonus}
+$headBonus
 </head>
-<body {$bodyCommand}>
+<body $bodyCommand>
     <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
 HTML;
 
 if (isset($blank) && $blank != "true" && $version >= "2.0") {
-    $organization = $container->getOrganizationsManager();
-    $client = $organization->getOrganizationById(1);
+    try {
+        $organization = $container->getOrganizationsManager();
+        $client = $organization->getOrganizationById(1);
+    } catch (Exception $exception) {
+        $logger->error('Exception', ['Error' => $exception->getMessage()]);
+    }
 }
 if (isset($client) && file_exists("../logos_clients/1." . $client["org_extension_logo"]) && $blank != "true" && $version >= "2.0") {
     echo <<< HEADER
@@ -58,7 +62,7 @@ if (isset($client) && file_exists("../logos_clients/1." . $client["org_extension
 HEADER;
 } else {
     echo <<< HEADER
-     <p id="header">{$setTitle}</p>
+     <p id="header">$setTitle</p>
 HEADER;
 }
 

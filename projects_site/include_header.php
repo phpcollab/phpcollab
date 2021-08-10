@@ -1,7 +1,12 @@
 <?php
 
-$projects = $container->getProjectsLoader();
-$teams = $container->getTeams();
+try {
+    $projects = $container->getProjectsLoader();
+    $teams = $container->getTeams();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
+
 $appRoot = APP_ROOT;
 if ($session->get("project") != "" && $changeProject != "true") {
     $projectDetail = $projects->getProjectById($session->get("project"));
@@ -17,17 +22,17 @@ if ($session->get("project") != "" && $changeProject != "true") {
 $bouton = $GLOBALS['bouton'];
 
 echo <<<HTML
-{$setDoctype}
-{$setCopyright}
+$setDoctype
+$setCopyright
 <!doctype html>
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="robots" content="none">
-    <meta name="description" content="{$setDescription}">
-    <meta name="keywords" content="{$setKeywords}">
+    <meta name="description" content="$setDescription">
+    <meta name="keywords" content="$setKeywords">
     <link rel="manifest" href="../public/site.webmanifest">
-    <title>{$setTitle} - 
+    <title>$setTitle - 
 HTML;
 
 if ($session->get("project") != "" && $changeProject != "true") {
@@ -55,7 +60,7 @@ $theme = THEME;
 
 echo <<<HTML
 </head>
-<body {$bodyCommand}>
+<body $bodyCommand>
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
 
 <div id="topBar"></div>
@@ -63,7 +68,7 @@ echo <<<HTML
 <table style="height: 95%; width: 100%" class="nonStriped">
     <tr>
         <td id="logoBox" ></td>
-        <td id="pageTitle">{$titlePage}</td>
+        <td id="pageTitle">$titlePage</td>
     </tr>
     <tr>
         <td style="vertical-align: top; background-color: #C4D3DB;"><br/>
@@ -82,22 +87,22 @@ if ($session->get("project") != "" && $changeProject != "true") {
                     <td colspan="2"><b>{$strings["project"]} :<br/>{$projectDetail["pro_name"]}</b></td>
                 </tr>
                 <tr>
-                    <td><img src="ico_arrow_{$bouton[0]}.gif" alt=""></td>
+                    <td><img src="ico_arrow_$bouton[0].gif" alt=""></td>
                     <td><a href="home.php">{$strings["home"]}</a></td>
                 </tr>
                 <tr>
-                    <td><img src="ico_arrow_{$bouton[1]}.gif" alt=""></td>
+                    <td><img src="ico_arrow_$bouton[1].gif" alt=""></td>
                     <td><a href="showallcontacts.php">{$strings["project_team"]}</a></td>
                 </tr>
                 <tr>
-                    <td><img src="ico_arrow_{$bouton[2]}.gif" alt=""></td>
+                    <td><img src="ico_arrow_$bouton[2].gif" alt=""></td>
                     <td><a href="showallteamtasks.php">{$strings["team_tasks"]}</a></td>
                 </tr>
 HTML;
     if ($projectDetail["pro_organization"] != "" && $projectDetail["pro_organization"] != "1") {
         echo <<<TR
                 <tr>
-                    <td><img src="ico_arrow_{$bouton[3]}.gif" alt=""></td>
+                    <td><img src="ico_arrow_$bouton[3].gif" alt=""></td>
                     <td><a href="showallclienttasks.php">{$strings["client_tasks"]}</a></td>
                 </tr>
 TR;
@@ -106,7 +111,7 @@ TR;
     if ($fileManagement == "true") {
         echo <<<TR
                 <tr>
-                    <td><img src="ico_arrow_{$bouton[4]}.gif" alt=""></td>
+                    <td><img src="ico_arrow_$bouton[4].gif" alt=""></td>
                     <td><a href="doclists.php">{$strings["document_list"]}</a></td>
                 </tr>
 TR;
@@ -114,11 +119,11 @@ TR;
 
     echo <<<TR
                 <tr>
-                    <td><img src="ico_arrow_{$bouton[5]}.gif" alt=""></td>
+                    <td><img src="ico_arrow_$bouton[5].gif" alt=""></td>
                     <td><a href="showallthreadtopics.php">{$strings["bulletin_board"]}</a></td>
                 </tr>
                 <tr>
-                    <td><img src="ico_arrow_{$bouton[6]}.gif" alt=""></td>
+                    <td><img src="ico_arrow_$bouton[6].gif" alt=""></td>
                     <td><a href="showcalendar.php">{$strings["calendar"]}</a></td>
                 </tr>
 TR;
@@ -127,7 +132,7 @@ TR;
     if ($enableHelpSupport == "true") {
         echo <<<TR
                 <tr>
-                    <td><img src="ico_arrow_{$bouton[6]}.gif" alt=""></td>
+                    <td><img src="ico_arrow_$bouton[6].gif" alt=""></td>
                     <td><a href="showallsupport.php?project={$session->get("project")}">{$strings["support"]}</a></td>
                 </tr>
 TR;
@@ -138,7 +143,7 @@ TR;
         include "navigation.php";
         echo <<<TR
                 <tr>
-                    <td><img src="ico_arrow_{$bouton[6]}.gif" alt=""></td><td><a href="javascript:onClick= document.login.submit();">{$strings["bug"]}</a></td>
+                    <td><img src="ico_arrow_$bouton[6].gif" alt=""></td><td><a href="javascript:onClick= document.login.submit();">{$strings["bug"]}</a></td>
                 </tr>
                 </form>
 TR;

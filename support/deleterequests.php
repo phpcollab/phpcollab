@@ -5,7 +5,11 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$support = $container->getSupportLoader();
+try {
+    $support = $container->getSupportLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $id = $request->query->get('id');
 $action = $request->query->get('action');
@@ -36,7 +40,7 @@ if ($request->isMethod('post')) {
                 $support->deleteSupportRequests($id);
                 $support->deleteSupportPostsByRequestId($id);
 
-                phpCollab\Util::headerFunction("../support/support.php?msg=delete&action={$sendto}&project={$project}");
+                phpCollab\Util::headerFunction("../support/support.php?msg=delete&action=$sendto&project=$project");
             }
 
             if ($action == "deletePost") {

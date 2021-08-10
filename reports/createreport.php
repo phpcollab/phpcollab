@@ -34,9 +34,13 @@ require_once '../includes/library.php';
 
 $includeCalendar = true;
 
-$teams = $container->getTeams();
-$organizations = $container->getOrganizationsManager();
-$projects = $container->getProjectsLoader();
+try {
+    $teams = $container->getTeams();
+    $organizations = $container->getOrganizationsManager();
+    $projects = $container->getProjectsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 
 include APP_ROOT . '/views/layout/header.php';

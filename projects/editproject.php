@@ -26,14 +26,18 @@ include '../includes/customvalues.php';
 $id = $request->query->get("id");
 $docopy = $request->query->get("docopy");
 
-$teams = $container->getTeams();
-$tasks = $container->getTasksLoader();
-$projects = $container->getProjectsLoader();
-$files = $container->getFilesLoader();
-$phases = $container->getPhasesLoader();
-$invoices = $container->getInvoicesLoader();
-$assignments = $container->getAssignmentsManager();
-$organizations = $container->getOrganizationsManager();
+try {
+    $teams = $container->getTeams();
+    $tasks = $container->getTasksLoader();
+    $projects = $container->getProjectsLoader();
+    $files = $container->getFilesLoader();
+    $phases = $container->getPhasesLoader();
+    $invoices = $container->getInvoicesLoader();
+    $assignments = $container->getAssignmentsManager();
+    $organizations = $container->getOrganizationsManager();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 if ($htaccessAuth == "true") {
     $Htpasswd = $container->getHtpasswdService();

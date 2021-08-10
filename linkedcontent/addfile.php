@@ -13,11 +13,15 @@ if (empty($projectId) || empty($taskId)) {
     phpCollab\Util::headerFunction("/projects/listprojects.php");
 }
 
-$teams = $container->getTeams();
-$projects = $container->getProjectsLoader();
-$tasks = $container->getTasksLoader();
-$phases = $container->getPhasesLoader();
-$notification = $container->getNotificationsManager();
+try {
+    $teams = $container->getTeams();
+    $projects = $container->getProjectsLoader();
+    $tasks = $container->getTasksLoader();
+    $phases = $container->getPhasesLoader();
+    $notification = $container->getNotificationsManager();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $teamMember = "false";
 $teamMember = $teams->isTeamMember($projectId, $session->get("id"));
@@ -120,8 +124,8 @@ if ($request->isMethod('post')) {
             if ($taskId != "0") {
 
                 if ($docopy == "true") {
-                    phpCollab\Util::uploadFile("files/{$projectId}/{$taskId}",
-                        $request->files->get('upload')->getPathName(), "{$num}--" . $filename);
+                    phpCollab\Util::uploadFile("files/$projectId/$taskId",
+                        $request->files->get('upload')->getPathName(), "$num--" . $filename);
                     $size = phpCollab\Util::fileInfoSize("../files/" . $projectId . "/" . $taskId . "/" . $num . "--" . $filename);
                     $filePath = strrev("../files/" . $projectId . "/" . $taskId . "/" . $num . "--" . $filename);
                     $tab = explode(".", $filePath);
@@ -129,8 +133,8 @@ if ($request->isMethod('post')) {
                 }
             } else {
                 if ($docopy == "true") {
-                    phpCollab\Util::uploadFile("files/{$projectId}", $request->files->get('upload')->getPathName(),
-                        "{$num}--" . $filename);
+                    phpCollab\Util::uploadFile("files/$projectId", $request->files->get('upload')->getPathName(),
+                        "$num--" . $filename);
                     $size = phpCollab\Util::fileInfoSize("../files/" . $projectId . "/" . $num . "--" . $filename);
                     $filePath = strrev("../files/" . $projectId . "/" . $num . "--" . $filename);
                     $tab = explode(".", $filePath);
@@ -139,7 +143,7 @@ if ($request->isMethod('post')) {
             }
 
             if ($docopy == "true") {
-                $fileDetails = $files->updateFile($num, "{$num}--{$filename}", date('Y-m-d h:i'), $size, $extension);
+                $fileDetails = $files->updateFile($num, "$num--$filename", date('Y-m-d h:i'), $size, $extension);
 
                 if ($notifications == "true") {
                     try {
@@ -214,7 +218,7 @@ $block1->form = "filedetails";
 
 echo '<a id="filedetailsAnchor"></a>';
 echo <<<FORM
-<form accept-charset="UNKNOWN" method="POST" action="../linkedcontent/addfile.php?project={$projectId}&task={$taskId}&phase={$phase}&" name="filedetailsForm" enctype="multipart/form-data">
+<form accept-charset="UNKNOWN" method="POST" action="../linkedcontent/addfile.php?project=$projectId&task=$taskId&phase=$phase&" name="filedetailsForm" enctype="multipart/form-data">
     <input type="hidden" name="action" value="add">
     <input type="hidden" name="MAX_FILE_SIZE" value="100000000">
     <input type="hidden" name="maxCustom" value="{$projectDetail["pro_upload_max"]}">
@@ -257,7 +261,7 @@ echo <<<TABLE
     </tr>
     <tr class="odd">
         <td class="leftvalue">{$strings["comments"]} :</td>
-        <td><textarea rows="3" style="width: 400px; height: 50px;" name="comments" cols="43">{$comments}</textarea></td>
+        <td><textarea rows="3" style="width: 400px; height: 50px;" name="comments" cols="43">$comments</textarea></td>
     </tr>
     <tr class="odd">
         <td class="leftvalue">{$strings["vc_version"]} :</td>

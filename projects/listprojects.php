@@ -12,7 +12,11 @@ $setTitle .= " : List **ctive Projects";
 
 $defaultNumRowsToDisplay = 40;
 
-$projects = $container->getProjectsLoader();
+try {
+    $projects = $container->getProjectsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $typeProjects = $request->query->get('typeProjects');
 
@@ -172,7 +176,7 @@ if ($session->get("profile") == "0" || $session->get("profile") == "1" || $sessi
 }
 if ($enableMantis == "true") {
     $block1->paletteScript(8, "bug",
-        $pathMantis . "login.php?url=http://{$request->server->get("HTTP_HOST")}{$request->server->get("REQUEST_URI")}&username={$session->get("login")}",
+        $pathMantis . "login.php?url=https://{$request->server->get("HTTP_HOST")}{$request->server->get("REQUEST_URI")}&username={$session->get("login")}",
         "false,true,false", $strings["bug"]);
 }
 

@@ -7,7 +7,11 @@ use phpCollab\Util;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$tasks = $container->getTasksLoader();
+try {
+    $tasks = $container->getTasksLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $bouton[3] = "over";
 $titlePage = $strings["client_tasks"];
@@ -40,8 +44,8 @@ TABLE;
         echo <<<TR
         <tr>
             <td><a href="clienttaskdetail.php?id={$task["tas_id"]}">{$task["tas_name"]}</a></td>
-            <td>{$taskDescription}</td>
-            <td>{$status[$idStatus]}</td>
+            <td>$taskDescription</td>
+            <td>$status[$idStatus]</td>
             <td>{$task["tas_due_date"]}</td>
         </tr>
 TR;

@@ -31,10 +31,14 @@ $S_COMPLETEDATE = isset($GLOBALS["S_COMPLETEDATE"]) ? $GLOBALS["S_COMPLETEDATE"]
 $msgLabel = $GLOBALS["msgLabel"];
 $strings = $GLOBALS["strings"];
 
-$organizations = $container->getOrganizationsManager();
-$reports = $container->getReportsLoader();
-$projects = $container->getProjectsLoader();
-$tasks = $container->getTasksLoader();
+try {
+    $organizations = $container->getOrganizationsManager();
+    $reports = $container->getReportsLoader();
+    $projects = $container->getProjectsLoader();
+    $tasks = $container->getTasksLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 // get company info
 $clientDetail = $organizations->getOrganizationById(1);

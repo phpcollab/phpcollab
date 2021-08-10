@@ -7,7 +7,11 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$files = $container->getFilesLoader();
+try {
+    $files = $container->getFilesLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 if ($request->isMethod('post')) {
     try {
@@ -69,11 +73,11 @@ $comptSta = count($statusFile);
 for ($i = 0; $i < $comptSta; $i++) {
     if ($fileDetail["fil_status"] == $i) {
         echo <<<OPTION
-                <option value="$i" selected>{$statusFile[$i]}</option>
+                <option value="$i" selected>$statusFile[$i]</option>
 OPTION;
     } else {
         echo <<<OPTION
-                <option value="$i">{$statusFile[$i]}</option>
+                <option value="$i">$statusFile[$i]</option>
 OPTION;
     }
 }
@@ -89,7 +93,7 @@ echo <<<CLOSE_FORM
             <td><input name="submit" type="submit" value="{$strings["save"]}"></td>
         </tr>
 </table>
-<input name="id" type="hidden" value="{$id}">
+<input name="id" type="hidden" value="$id">
 <input name="action" type="hidden" value="update">
 </form>
 CLOSE_FORM;

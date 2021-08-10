@@ -131,13 +131,13 @@ $myDatabase = MYDATABASE;
 $versionOld = null;
 
 echo <<<HTML
-    	<input value="{$uuid}" name="uuid" type="hidden" />
-    	<input value="{$tablePrefix}" name="dbTablePrefix" type="hidden" />
-		<input value="{$databaseType}" name="databaseType" type="hidden" />
-		<input value="{$myServer}" name="dbServer" type="hidden" />
-		<input value="{$myLogin}" name="dbLogin" type="hidden" />
-		<input value="{$myPassword}" name="dbPassword" type="hidden" />
-		<input value="{$myDatabase}" name="dbName" type="hidden" />
+    	<input value="$uuid" name="uuid" type="hidden" />
+    	<input value="$tablePrefix" name="dbTablePrefix" type="hidden" />
+		<input value="$databaseType" name="databaseType" type="hidden" />
+		<input value="$myServer" name="dbServer" type="hidden" />
+		<input value="$myLogin" name="dbLogin" type="hidden" />
+		<input value="$myPassword" name="dbPassword" type="hidden" />
+		<input value="$myDatabase" name="dbName" type="hidden" />
 		<input value="{$tablePrefix}assignments" name="table_assignments" type="hidden" />
 		<input value="{$tablePrefix}calendar" name="table_calendar" type="hidden" />
 		<input value="{$tablePrefix}files" name="table_files" type="hidden" />
@@ -165,18 +165,18 @@ echo <<<HTML
 		<input value="{$tablePrefix}services" name="table_services" type="hidden" />
 		<input value="{$tablePrefix}newsdeskcomments" name="table_newsdeskcomments" type="hidden" />
 		<input value="{$tablePrefix}newsdeskposts" name="table_newsdeskposts" type="hidden" />
-        <input value="{$loginMethod}" name="loginMethod" type="hidden" />
-        <input value="{$supportType}" name="supportType" type="hidden" />
-        <input value="{$supportEmail}" name="supportEmail" type="hidden" />
-        <input value="{$urlContact}" name="urlContact" type="hidden" />
-        <input value="{$siteTitle}" name="siteTitle" type="hidden" />
-        <input value="{$origSetTitle}" name="setTitle" type="hidden" />
-        <input value="{$setDescription}" name="setDescription" type="hidden" />
-        <input value="{$setKeywords}" name="setKeywords" type="hidden" />
-        <input value="{$pathToOpenssl}" name="pathToOpenssl" type="hidden" />       
+        <input value="$loginMethod" name="loginMethod" type="hidden" />
+        <input value="$supportType" name="supportType" type="hidden" />
+        <input value="$supportEmail" name="supportEmail" type="hidden" />
+        <input value="$urlContact" name="urlContact" type="hidden" />
+        <input value="$siteTitle" name="siteTitle" type="hidden" />
+        <input value="$origSetTitle" name="setTitle" type="hidden" />
+        <input value="$setDescription" name="setDescription" type="hidden" />
+        <input value="$setKeywords" name="setKeywords" type="hidden" />
+        <input value="$pathToOpenssl" name="pathToOpenssl" type="hidden" />       
         <input value="{$configLDAP["ldapserver"]}" name="configLDAPServer" type="hidden" />
         <input value="{$configLDAP["searchroot"]}" name="configLDAPSearchRoot" type="hidden" />
-        <input value="{$fullPath}" name="fullPath" type="hidden" />
+        <input value="$fullPath" name="fullPath" type="hidden" />
 HTML;
 
         // Since echo doesn't output bool values as true/false strings, we are using ternary to do checks.
@@ -353,17 +353,17 @@ echo <<< HTML
         <table class="nonStriped" style="width: 500px;">
             <tr>
                 <td style="vertical-align: top;">
-                    <label><input type="radio" id="mkdirMethodPHP" name="mkdirMethod" value="PHP" {$mkdirMethodPHP} /> PHP</label>&nbsp;
-                    <label><input type="radio" id="mkdirMethodFTP" name="mkdirMethod" value="FTP" {$mkdirMethodFTP} /> FTP</label>
+                    <label><input type="radio" id="mkdirMethodPHP" name="mkdirMethod" value="PHP" $mkdirMethodPHP /> PHP</label>&nbsp;
+                    <label><input type="radio" id="mkdirMethodFTP" name="mkdirMethod" value="FTP" $mkdirMethodFTP /> FTP</label>
                 </td>
             </tr>
             <tr>
                 <td style="text-align: right; padding-right: 150px;">
-                    <div id="ftpInfo" {$ftpInfoStyle}>
-                    Ftp server <input size="44" value="{$ftpServer}" style="width: 200px" name="ftpServer" maxlength="100" type="text" autocomplete="new-password" /><br/>
-                    Ftp login <input size="44" value="{$ftpServerLogin}" style="width: 200px" name="ftpLogin" maxlength="100" type="text" autocomplete="new-password" /><br/>
-                    Ftp password <input size="44" value="{$ftpServerPassword}" style="width: 200px" name="ftpPassword" maxlength="100" type="password" autocomplete="new-password" /><br/>
-                    Ftp root <input size="44" value="{$ftpRoot}" style="width: 200px" name="ftpRoot" maxlength="100" type="text" />
+                    <div id="ftpInfo" $ftpInfoStyle>
+                    Ftp server <input size="44" value="$ftpServer" style="width: 200px" name="ftpServer" maxlength="100" type="text" autocomplete="new-password" /><br/>
+                    Ftp login <input size="44" value="$ftpServerLogin" style="width: 200px" name="ftpLogin" maxlength="100" type="text" autocomplete="new-password" /><br/>
+                    Ftp password <input size="44" value="$ftpServerPassword" style="width: 200px" name="ftpPassword" maxlength="100" type="password" autocomplete="new-password" /><br/>
+                    Ftp root <input size="44" value="$ftpRoot" style="width: 200px" name="ftpRoot" maxlength="100" type="text" />
                     </div>
                 </td>
             </tr>
@@ -389,17 +389,17 @@ echo <<< HTML
         <table class="nonStriped" style="width: 500px;">
             <tr>
                 <td style="">
-                    <label><input type="radio" id="notificationMethodMail" name="notificationMethod" value="mail" {$notificationMethodMail} /> PHP mail function</label> 
-                    <label><input type="radio" id="notificationMethodSmtp" name="notificationMethod" value="smtp" {$notificationMethodSMTP} /> SMTP</label>
+                    <label><input type="radio" id="notificationMethodMail" name="notificationMethod" value="mail" $notificationMethodMail /> PHP mail function</label> 
+                    <label><input type="radio" id="notificationMethodSmtp" name="notificationMethod" value="smtp" $notificationMethodSMTP /> SMTP</label>
                 </td>
             </tr>
             <tr>
                 <td style="text-align: right; padding-right: 150px;">
                     <div id="smtpInfo" $smtpInfoStyle>
-                        Smtp server <input size="44" value="{$smptServer}" style="width: 200px" name="smtpServer" maxlength="100" type="text /"><br/>
-                        Smtp login <input size="44" value="{$smptLogin}" style="width: 200px" name="smtpLogin" maxlength="100" type="text" /><br/>
-                        Smtp password <input size="44" value="{$smptPassword}" style="width: 200px" name="smtpPassword" maxlength="100" type="password" /><br />
-                        Smtp port <input size="44" value="{$smptPort}" style="width: 200px" name="smtpPort" maxlength="5" type="number" />
+                        Smtp server <input size="44" value="$smptServer" style="width: 200px" name="smtpServer" maxlength="100" type="text /"><br/>
+                        Smtp login <input size="44" value="$smptLogin" style="width: 200px" name="smtpLogin" maxlength="100" type="text" /><br/>
+                        Smtp password <input size="44" value="$smptPassword" style="width: 200px" name="smtpPassword" maxlength="100" type="password" /><br />
+                        Smtp port <input size="44" value="$smptPort" style="width: 200px" name="smtpPort" maxlength="5" type="number" />
                     </div>
                 </td>
             </tr>
@@ -558,14 +558,14 @@ echo <<<MANTIS
         <table class="nonStriped" style="width: 500px;">
             <tr>
                 <td style="">
-                    <label><input type="radio" name="enableMantis" id="mantisEnabledFalse" value="false" {$enableMantisFalse} /> False</label>
-                    <label><input type="radio" name="enableMantis" id="mantisEnabledTrue" value="true" {$enableMantisTrue} /> True</label>
+                    <label><input type="radio" name="enableMantis" id="mantisEnabledFalse" value="false" $enableMantisFalse /> False</label>
+                    <label><input type="radio" name="enableMantis" id="mantisEnabledTrue" value="true" $enableMantisTrue /> True</label>
                 </td>
             </tr>
             <tr>
                 <td style="text-align: right; padding-right: 150px;">
                     <div id="mantisInfo" $mantisInfoStyle>
-                        Mantis URL <input size="44" value="{$pathMantis}" style="width: 200px" name="mantisPath" maxlength="100" type="text" />
+                        Mantis URL <input size="44" value="$pathMantis" style="width: 200px" name="mantisPath" maxlength="100" type="text" />
                     </div>
                 </td>
             </tr>
@@ -588,7 +588,7 @@ LOGLEVEL;
     foreach( $logLevels as $key => $levelDesc ) {
         echo   '<option value="' . $key . '"';
         echo (($key == $logLevel)) ? 'selected="selected"' : '';
-        echo ">{$levelDesc}</option>";
+        echo ">$levelDesc</option>";
     }
 
     echo '</select>';

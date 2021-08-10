@@ -6,12 +6,16 @@ $checkSession = "true";
 require_once '../includes/library.php';
 include '../includes/customvalues.php';
 
-$projects = $container->getProjectsLoader();
-$tasks = $container->getTasksLoader();
-$teams = $container->getTeams();
-$organizations = $container->getOrganizationsManager();
-$notes = $container->getNotesLoader();
-$topics = $container->getTopicsLoader();
+try {
+    $projects = $container->getProjectsLoader();
+    $tasks = $container->getTasksLoader();
+    $teams = $container->getTeams();
+    $organizations = $container->getOrganizationsManager();
+    $notes = $container->getNotesLoader();
+    $topics = $container->getTopicsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $setTitle .= " : Search Results";
 $bodyCommand = 'onLoad="document.searchForm.searchfor.focus()"';
@@ -452,7 +456,7 @@ $block0->closeContent();
 
 if (!empty($listProjects) && count($listProjects) > 0) {
     $block1->form = "ProjectForm";
-    $block1->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block1->form . "Anchor",
+    $block1->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block1->form . "Anchor",
         null, $csrfHandler);
 
     $block1->headingToggle($strings["search_results"] . " : " . $strings["projects"] . " ({$block1->getRecordsTotal()})", $request->cookies->get( $block1->form ));
@@ -508,7 +512,7 @@ if (!empty($listProjects) && count($listProjects) > 0) {
     }
     $block1->closeResults();
 
-    $block1->limitsFooter("1", $blockPage->getLimitsNumber(), "", "searchfor={$searchfor}&heading={$heading}");
+    $block1->limitsFooter("1", $blockPage->getLimitsNumber(), "", "searchfor=$searchfor&heading=$heading");
 
     $block1->closeToggle();
     $block1->closeFormResults();
@@ -522,7 +526,7 @@ if (!empty($listProjects) && count($listProjects) > 0) {
 
 if (!empty($listTasks)) {
     $block2->form = "TaskForm";
-    $block2->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block2->form . "Anchor",
+    $block2->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block2->form . "Anchor",
         null, $csrfHandler);
 
     $block2->headingToggle($strings["search_results"] . " : " . $strings["tasks"] . " ({$block2->getRecordsTotal()})", $request->cookies->get( $block2->form ));
@@ -573,7 +577,7 @@ if (!empty($listTasks)) {
 
     $block2->closeResults();
 
-    $block2->limitsFooter("2", $blockPage->getLimitsNumber(), "", "searchfor={$searchfor}&heading={$heading}");
+    $block2->limitsFooter("2", $blockPage->getLimitsNumber(), "", "searchfor=$searchfor&heading=$heading");
 
     $block2->closeToggle();
     $block2->closeFormResults();
@@ -581,7 +585,7 @@ if (!empty($listTasks)) {
 
 if ($listSubtasks) {
     $block9->form = "SubtaskForm";
-    $block9->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block9->form . "Anchor",
+    $block9->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block9->form . "Anchor",
         null, $csrfHandler);
     $block9->headingToggle($strings["search_results"] . " : " . $strings["subtasks"] . " ({$block9->getRecordsTotal()})", $request->cookies->get( $block9->form ));
 
@@ -628,14 +632,14 @@ if ($listSubtasks) {
         $block9->closeRow();
     }
     $block9->closeResults();
-    $block9->limitsFooter("2", $blockPage->getLimitsNumber(), "", "searchfor={$searchfor}&heading={$heading}");
+    $block9->limitsFooter("2", $blockPage->getLimitsNumber(), "", "searchfor=$searchfor&heading=$heading");
 
     $block9->closeToggle();
     $block9->closeFormResults();
 }
 if ($listMembers) {
     $block3->form = "UserForm";
-    $block3->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block3->form . "Anchor",
+    $block3->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block3->form . "Anchor",
         null, $csrfHandler);
 
     $block3->headingToggle($strings["search_results"] . " : " . $strings["users"] . " ({$block3->getRecordsTotal()})", $request->cookies->get( $block3->form ));
@@ -673,7 +677,7 @@ if ($listMembers) {
 
     $block3->closeResults();
 
-    $block3->limitsFooter("3", $blockPage->getLimitsNumber(), "", "searchfor={$searchfor}&heading={$heading}");
+    $block3->limitsFooter("3", $blockPage->getLimitsNumber(), "", "searchfor=$searchfor&heading=$heading");
 
     $block3->closeToggle();
     $block3->closeFormResults();
@@ -681,7 +685,7 @@ if ($listMembers) {
 
 if (!empty($listOrganizations)) {
     $block4->form = "ClientForm";
-    $block4->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block4->form . "Anchor",
+    $block4->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block4->form . "Anchor",
         null, $csrfHandler);
 
     $block4->headingToggle($strings["search_results"] . " : " . $strings["organizations"] . " ({$block4->getRecordsTotal()})", $request->cookies->get( $block4->form ));
@@ -702,7 +706,7 @@ if (!empty($listOrganizations)) {
 
     $block4->closeResults();
 
-    $block4->limitsFooter("4", $blockPage->getLimitsNumber(), "", "searchfor={$searchfor}&heading={$heading}");
+    $block4->limitsFooter("4", $blockPage->getLimitsNumber(), "", "searchfor=$searchfor&heading=$heading");
 
     $block4->closeToggle();
     $block4->closeFormResults();
@@ -710,7 +714,7 @@ if (!empty($listOrganizations)) {
 
 if (!empty($listTopics)) {
     $block5->form = "ThreadTopicForm";
-    $block5->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block5->form . "Anchor",
+    $block5->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block5->form . "Anchor",
         null, $csrfHandler);
 
     $block5->headingToggle($strings["search_results"] . " : " . $strings["discussions"] . " ({$block5->getRecordsTotal()})", $request->cookies->get( $block5->form ));
@@ -752,7 +756,7 @@ if (!empty($listTopics)) {
 
     $block5->closeResults();
 
-    $block5->limitsFooter("5", $blockPage->getLimitsNumber(), "", "searchfor={$searchfor}&heading={$heading}");
+    $block5->limitsFooter("5", $blockPage->getLimitsNumber(), "", "searchfor=$searchfor&heading=$heading");
 
     $block5->closeToggle();
     $block5->closeFormResults();
@@ -760,7 +764,7 @@ if (!empty($listTopics)) {
 
 if (!empty($listNotes)) {
     $block6->form = "notesForm";
-    $block6->openForm("../search/resultssearch.php?&searchfor={$searchfor}&heading={$heading}#" . $block6->form . "Anchor",
+    $block6->openForm("../search/resultssearch.php?&searchfor=$searchfor&heading=$heading#" . $block6->form . "Anchor",
         null, $csrfHandler);
 
     $block6->headingToggle($strings["search_results"] . " : " . $strings["notes"] . " ({$block6->getRecordsTotal()})", $request->cookies->get( $block6->form ));
@@ -803,7 +807,7 @@ if (!empty($listNotes)) {
     }
     $block6->closeResults();
 
-    $block6->limitsFooter("6", $blockPage->getLimitsNumber(), "", "searchfor={$searchfor}&heading={$heading}");
+    $block6->limitsFooter("6", $blockPage->getLimitsNumber(), "", "searchfor=$searchfor&heading=$heading");
 
     $block6->closeToggle();
     $block6->closeFormResults();
@@ -821,16 +825,16 @@ echo <<<HTML
 <tr class="odd">
 	<td class="leftvalue">* {$strings["search_for"]} :</td>
 	<td>
-		<input value="{$searchfor}" type="text" name="searchfor" style="width: 200px;"  size="30" maxlength="64" />
+		<input value="$searchfor" type="text" name="searchfor" style="width: 200px;"  size="30" maxlength="64" />
 		<select name="heading">
-				<option selected value="ALL" {$selectedAll}>{$strings["all_content"]}</option>
-				<option value="notes" {$selectedNotes}>{$strings["notes"]}</option>
-				<option value="organizations" {$selectedOrganizations}>{$strings["organizations"]}</option>
-				<option value="projects" {$selectedProjects}>{$strings["projects"]}</option>
-				<option value="tasks" {$selectedTasks}>{$strings["tasks"]}</option>
-				<option value="subtasks" {$selectedSubtasks}>{$strings["subtasks"]}</option>
-				<option value="discussions" {$selectedDiscussions}>{$strings["discussions"]}</option>
-				<option value="members" {$selectedMembers}>{$strings["users"]}</option>
+				<option selected value="ALL" $selectedAll>{$strings["all_content"]}</option>
+				<option value="notes" $selectedNotes>{$strings["notes"]}</option>
+				<option value="organizations" $selectedOrganizations>{$strings["organizations"]}</option>
+				<option value="projects" $selectedProjects>{$strings["projects"]}</option>
+				<option value="tasks" $selectedTasks>{$strings["tasks"]}</option>
+				<option value="subtasks" $selectedSubtasks>{$strings["subtasks"]}</option>
+				<option value="discussions" $selectedDiscussions>{$strings["discussions"]}</option>
+				<option value="members" $selectedMembers>{$strings["users"]}</option>
 		</select>
 	</td>
 </tr>

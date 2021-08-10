@@ -12,7 +12,12 @@ require_once '../includes/library.php';
 if ($session->get("profile") != "0") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
-$services = $container->getServicesLoader();
+
+try {
+    $services = $container->getServicesLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $id = $request->query->get('id');
 
@@ -163,19 +168,19 @@ if ($id != "") {
 echo <<<TR
 <tr class="odd">
     <td class="leftvalue">{$strings["name"]} :</td>
-    <td><input size="24" style="width: 250px;" type="text" name="name" value="{$name}"></td>
+    <td><input size="24" style="width: 250px;" type="text" name="name" value="$name"></td>
 </tr>
 <tr class="odd">
     <td class="leftvalue">{$strings["name_print"]} :</td>
-    <td><input size="24" style="width: 250px;" type="text" name="name_printed" value="{$namePrinted}"></td>
+    <td><input size="24" style="width: 250px;" type="text" name="name_printed" value="$namePrinted"></td>
 </tr>
 <tr class="odd">
     <td class="leftvalue">{$strings["hourly_rate"]} :</td>
-    <td><input size="24" style="width: 250px;" type="text" name="hourly_rate" value="{$hourlyRate}"></td>
+    <td><input size="24" style="width: 250px;" type="text" name="hourly_rate" value="$hourlyRate"></td>
 </tr>
 <tr class="odd">
     <td class="leftvalue">&nbsp;</td>
-    <td><button type="submit" name="action" value="{$submitValue}">{$strings["save"]}</button></td>
+    <td><button type="submit" name="action" value="$submitValue">{$strings["save"]}</button></td>
 </tr>
 TR;
 

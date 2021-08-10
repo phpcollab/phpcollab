@@ -9,7 +9,11 @@ $titlePage = $strings["bulletin_board"];
 
 include APP_ROOT . '/projects_site/include_header.php';
 
-$topics = $container->getTopicsLoader();
+try {
+    $topics = $container->getTopicsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $listTopics = $topics->getProjectSiteTopics($session->get("project"), 'topic.last_post DESC');
 
@@ -36,7 +40,7 @@ TABLE;
     <td><a href="showallthreads.php?topic={$listTopic["top_id"]}">{$listTopic["top_subject"]}</a></td>
     <td>{$listTopic["top_posts"]}</td>
     <td>{$listTopic["top_mem_name"]}</td>
-    <td>{$topicDate}</td></tr>
+    <td>$topicDate</td></tr>
 TR;
     }
     echo "</tbody></table><hr />";

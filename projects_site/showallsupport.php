@@ -5,7 +5,11 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$support = $container->getSupportLoader();
+try {
+    $support = $container->getSupportLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $bouton[6] = "over";
 $titlePage = $strings["support"];
@@ -53,8 +57,8 @@ TABLE;
             <tr>
                 <td>{$listRequest["sr_id"]}</td>
                 <td><a href="suprequestdetail.php?id={$listRequest["sr_id"]}">{$listRequest["sr_subject"]}</a></td>
-                <td>{$requestPriority}</td>
-                <td>{$currentStatus}</td>
+                <td>$requestPriority</td>
+                <td>$currentStatus</td>
                 <td>{$listRequest["sr_project"]}</td>
                 <td>{$listRequest["sr_date_open"]}</td>
                 <td>{$listRequest["sr_date_close"]}</td>

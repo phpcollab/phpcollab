@@ -12,14 +12,18 @@ if (empty($user_id) || empty($org_id)) {
     phpCollab\Util::headerFunction("../clients/listclients.php?msg=blankClient");
 }
 
-$organizations = $container->getOrganizationsManager();
+try {
+    $organizations = $container->getOrganizationsManager();
+    $assignments = $container->getAssignmentsManager();
+    $notifications = $container->getNotificationsManager();
+    $teams = $container->getTeams();
+    $tasks = $container->getTasksLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $detailOrganization = $organizations->getOrganizationById($org_id);
 
-$teams = $container->getTeams();
-$tasks = $container->getTasksLoader();
-$assignments = $container->getAssignmentsManager();
-$notifications = $container->getNotificationsManager();
 
 if ($request->isMethod('post')) {
     try {
@@ -45,7 +49,7 @@ if ($request->isMethod('post')) {
                         include("../mantis/user_delete.php");
                     }
 
-                    phpCollab\Util::headerFunction("../clients/viewclient.php?id={$org_id}&msg=delete");
+                    phpCollab\Util::headerFunction("../clients/viewclient.php?id=$org_id&msg=delete");
                 }
             }
         }
@@ -139,7 +143,7 @@ echo <<<HTML
     <td>
     <button type="submit" name="action" value="delete">{$strings["delete"]}</button>
     <input type="button" name="cancel" value="{$strings["cancel"]}" onClick="history.back();">
-    <input type="hidden" name="id" value="{$id}"></td>
+    <input type="hidden" name="id" value="$id"></td>
 </tr>
 HTML;
 

@@ -7,7 +7,11 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$support = $container->getSupportLoader();
+try {
+    $support = $container->getSupportLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $userDetail = $members->getMemberById($session->get("id"));
 
@@ -57,7 +61,7 @@ include 'include_header.php';
 
 if (isset($errorMessage) && !empty($errorMessage)) {
     echo <<<ERROR
-<div style="margin: 2rem; color: firebrick; font-size: 1rem;">{$errorMessage}</div>
+<div style="margin: 2rem; color: firebrick; font-size: 1rem;">$errorMessage</div>
 ERROR;
 }
 
@@ -85,18 +89,18 @@ echo <<<CLOSETABLE
     </tr>
     <tr>
         <th>{$strings["subject"]}</th>
-        <td><input size="32" value="{$subject}" style="width: 250px" name="subject" maxlength="64" type="text"></td>
+        <td><input size="32" value="$subject" style="width: 250px" name="subject" maxlength="64" type="text"></td>
     </tr>
     <tr>
         <th>{$strings["message"]}</th>
-        <td><textarea rows="3" style="width: 400px; height: 200px;" name="message" cols="43">{$message}</textarea></td>
+        <td><textarea rows="3" style="width: 400px; height: 200px;" name="message" cols="43">$message</textarea></td>
     </tr>
     <tr>
         <th>&nbsp;</th>
         <td>
             <input type="submit" value="{$strings["submit"]}">
             <input type="hidden" name="userId" value="{$session->get("id")}">
-            <input type="hidden" name="projectId" value="{$project}">
+            <input type="hidden" name="projectId" value="$project">
         </td>
     </tr>
 </table>

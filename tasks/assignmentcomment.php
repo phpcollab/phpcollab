@@ -10,7 +10,13 @@ $assignmentId = $request->query->get('id');
 $taskId = $request->query->get('task');
 $strings = $GLOBALS["strings"];
 
-$assignments = $container->getAssignmentsManager();
+try {
+    $assignments = $container->getAssignmentsManager();
+    $tasks = $container->getTasksLoader();
+    $projects = $container->getProjectsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 if ($request->isMethod('post')) {
     if ($request->request->get("action") == "update") {
@@ -23,10 +29,9 @@ if ($request->isMethod('post')) {
 $bodyCommand = 'onLoad="document.assignment_commentForm.acomm.focus();"';
 include APP_ROOT . '/views/layout/header.php';
 
-$tasks = $container->getTasksLoader();
 $taskDetail = $tasks->getTaskById($taskId);
 
-$projects = $container->getProjectsLoader();
+
 $projectDetail = $projects->getProjectById($taskDetail["tas_project"]);
 
 $blockPage = new phpCollab\Block();

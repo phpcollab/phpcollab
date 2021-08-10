@@ -31,7 +31,12 @@ use Amenadiel\JpGraph\Plot\GanttBar;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$tasks = $container->getTasksLoader();
+try {
+    $tasks = $container->getTasksLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
+
 $strings = $GLOBALS["strings"];
 
 $dateCalend = substr($dateCalend, 0, 7);

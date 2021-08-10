@@ -32,8 +32,13 @@ use Amenadiel\JpGraph\Plot\GanttBar;
 
 $checkSession = "true";
 require_once '../includes/library.php';
-$reports = $container->getReportsLoader();
-$tasks = $container->getTasksLoader();
+
+try {
+    $reports = $container->getReportsLoader();
+    $tasks = $container->getTasksLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $report = $request->query->get('report');
 

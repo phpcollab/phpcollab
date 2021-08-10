@@ -31,13 +31,17 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$tasks = $container->getTasksLoader();
-$projects = $container->getProjectsLoader();
-$phases = $container->getPhasesLoader();
-$teams = $container->getTeams();
-$updates = $container->getTaskUpdateService();
-$files = $container->getFilesLoader();
-$assignments = $container->getAssignmentsManager();
+try {
+    $tasks = $container->getTasksLoader();
+    $projects = $container->getProjectsLoader();
+    $phases = $container->getPhasesLoader();
+    $teams = $container->getTeams();
+    $updates = $container->getTaskUpdateService();
+    $files = $container->getFilesLoader();
+    $assignments = $container->getAssignmentsManager();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $id = $request->query->get('id');
 $task = $request->query->get('task');

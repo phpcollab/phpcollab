@@ -7,8 +7,12 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$projects = $container->getProjectsLoader();
-$topics = $container->getTopicsLoader();
+try {
+    $projects = $container->getProjectsLoader();
+    $topics = $container->getTopicsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 if ($request->isMethod('post')) {
     try {
@@ -17,7 +21,7 @@ if ($request->isMethod('post')) {
                 $topicField = phpCollab\Util::convertData($request->request->get('topicField'));
                 $messageField = phpCollab\Util::convertData($request->request->get('messageField'));
 
-                $newTopic = $topics->addTopic($session->get("project"), $session->get("id"), $topicField, 1, 1, 0);
+                $newTopic = $topics->addTopic($session->get("project"), $session->get("id"), $topicField);
 
                 $messageField = phpCollab\Util::autoLinks($messageField);
 

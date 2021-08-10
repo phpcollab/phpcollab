@@ -6,8 +6,12 @@ use Amenadiel\JpGraph\Plot\GanttBar;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$projects = $container->getProjectsLoader();
-$tasks = $container->getTasksLoader();
+try {
+    $projects = $container->getProjectsLoader();
+    $tasks = $container->getTasksLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $project = $request->query->get('project');
 $strings = $GLOBALS["strings"];

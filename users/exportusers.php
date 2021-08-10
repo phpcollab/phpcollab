@@ -15,7 +15,11 @@ if ($session->get("profile") != (0 && 2 && 5)) {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');
 }
 
-$organizations = $container->getOrganizationsManager();
+try {
+    $organizations = $container->getOrganizationsManager();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 // PDF setup
 $pdf = $container->getExportPDFService();
@@ -87,7 +91,7 @@ foreach ($listMembers as $member) {
 }
 
 // print the page number
-$pdf->ezStartPageNumbers(526, 34, 6, 'right', '', 1);
+$pdf->ezStartPageNumbers(526, 34, 6, 'right', '');
 
 // put a line top and bottom on all the pages and company info on the bottom
 $all = $pdf->openObject();

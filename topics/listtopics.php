@@ -1,9 +1,5 @@
 <?php
 
-use phpCollab\Projects\Projects;
-use phpCollab\Teams\Teams;
-use phpCollab\Topics\Topics;
-
 $checkSession = "true";
 require_once '../includes/library.php';
 
@@ -17,9 +13,13 @@ $removeToSite = $request->query->get('removeToSite');
 
 $strings = $GLOBALS["strings"];
 
-$topics = $container->getTopicsLoader();
-$projects = $container->getProjectsLoader();
-$teams = $container->getTeams();
+try {
+    $topics = $container->getTopicsLoader();
+    $projects = $container->getProjectsLoader();
+    $teams = $container->getTeams();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 if ($action == "publish") {
     if ($closeTopic == "true") {

@@ -3,9 +3,13 @@
 require_once '../includes/library.php';
 require_once '../includes/phplib/template.php';
 
-$invoices = $container->getInvoicesLoader();
-$projects = $container->getProjectsLoader();
-$organizations = $container->getOrganizationsManager();
+try {
+    $invoices = $container->getInvoicesLoader();
+    $projects = $container->getProjectsLoader();
+    $organizations = $container->getOrganizationsManager();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $id = $request->query->get('id');
 

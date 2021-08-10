@@ -6,7 +6,13 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$files = $container->getFilesLoader();
+try {
+    $files = $container->getFilesLoader();
+    $projects = $container->getProjectsLoader();
+    $tasks = $container->getTasksLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $task = $request->query->get("task");
 $project = $request->query->get("project");
@@ -66,7 +72,7 @@ if ($request->isMethod('post')) {
     }
 }
 
-$projects = $container->getProjectsLoader();
+
 $projectDetail = $projects->getProjectById($project);
 
 include APP_ROOT . '/views/layout/header.php';
@@ -78,7 +84,7 @@ $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/viewproject.php?i
     $projectDetail["pro_name"], "in"));
 
 if ($task != "0") {
-    $tasks = $container->getTasksLoader();
+
     $taskDetail = $tasks->getTaskById($task);
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../tasks/listtasks.php?project=" . $projectDetail["pro_id"],
         $strings["tasks"], "in"));
@@ -97,7 +103,7 @@ if ($msg != "") {
 $block1 = new Block();
 
 $block1->form = "saC";
-$block1->openForm("../linkedcontent/deletefiles.php?project={$project}&task={$task}&id={$id}&sendto={$sendto}", null,
+$block1->openForm("../linkedcontent/deletefiles.php?project=$project&task=$task&id=$id&sendto=$sendto", null,
     $csrfHandler);
 
 $block1->heading($strings["unlink_files"]);

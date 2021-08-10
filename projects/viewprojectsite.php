@@ -21,8 +21,12 @@ require_once '../includes/library.php';
 
 $id = $request->query->get("id");
 
-$projects = $container->getProjectsLoader();
-$teams = $container->getTeams();
+try {
+    $projects = $container->getProjectsLoader();
+    $teams = $container->getTeams();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 if ($request->query->get('action') == "publish") {
     if ($request->query->get('addToSiteTeam') == "true") {

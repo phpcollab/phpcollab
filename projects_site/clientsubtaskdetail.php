@@ -8,9 +8,13 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$tasks = $container->getTasksLoader();
-$updates = $container->getTaskUpdateService();
-$subtasks = $container->getSetStatusService();
+try {
+    $tasks = $container->getTasksLoader();
+    $updates = $container->getTaskUpdateService();
+    $subtasks = $container->getSetStatusService();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $taskId = !empty($request->query->get('task')) ? $request->query->get('task') : $request->request->get('taskId');
 $subtaskId = !empty($request->query->get('id')) ? $request->query->get('id') : $request->request->get('subtaskId');
@@ -83,7 +87,7 @@ if (!empty($subtaskDetail->subtas_description[0])) {
     echo <<<TR
     <tr>
         <td class="leftvalue">{$strings["description"]} :</td>
-        <td>{$subtaskDescription}</td>
+        <td>$subtaskDescription</td>
     </tr>
 TR;
 }
@@ -95,7 +99,7 @@ $complValue = ($subtaskDetail["subtas_completion"] > 0) ?
 echo <<<TR
     <tr>
         <td>{$strings["completion"]} :</td>
-        <td>{$complValue}</td>
+        <td>$complValue</td>
     </tr>
 TR;
 
@@ -147,7 +151,7 @@ if ($listUpdates) {
         $updateCreatedDate = phpCollab\Util::createDate($listUpdates->upd_created[$i], $session->get("timezone"));
         $updateComments = nl2br($listUpdates->upd_comments[$i]);
         echo <<<UPDATE
-            <strong>{$updateCount}</strong> <em>{$updateCreatedDate}</em><br/>{$updateComments}<br/>
+            <strong>$updateCount</strong> <em>$updateCreatedDate</em><br/>$updateComments<br/>
 UPDATE;
         $updateCount++;
     }
@@ -165,8 +169,8 @@ echo <<<COMPLETE_TASK_FORM
     <h1 class="heading">Complete Subtask</h1>
     <form method="post" action="../projects_site/clientsubtaskdetail.php" name="clientTaskUpdate" style="">
         <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}" />
-        <input name="subtaskId" type="hidden" value="{$subtaskId}">
-        <input name="taskId" type="hidden" value="{$task}">
+        <input name="subtaskId" type="hidden" value="$subtaskId">
+        <input name="taskId" type="hidden" value="$task">
     
         <table class="nonStriped" style="margin-top: 0">
             <tr>
@@ -174,7 +178,7 @@ echo <<<COMPLETE_TASK_FORM
             </tr>
             <tr>
                 <td>{$strings["status"]} :</td>
-                <td><input {$isChecked} value="completed" name="status" type="checkbox" id="completedCheckbox"> <label for="completedCheckbox">{$status[0]}</label></td>
+                <td><input $isChecked value="completed" name="status" type="checkbox" id="completedCheckbox"> <label for="completedCheckbox">$status[0]</label></td>
             </tr>
             <tr>
                 <td class="leftvalue">{$strings["comments"]} :</td>

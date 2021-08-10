@@ -4,7 +4,11 @@ $mail = $container->getNotification();
 
 $mail->getUserinfo($session->get("id"), "from", $logger);
 
-$supportPosts = $container->getSupportLoader();
+try {
+    $supportPosts = $container->getSupportLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $num = $request->query->get('num');
 $postDetail = $supportPosts->getSupportPostById($num);
@@ -30,7 +34,12 @@ if ($userDetail["mem_email_work"] != "") {
     $mail->Subject = $subject;
     $mail->Priority = "3";
     $mail->Body = $body;
-    $mail->AddAddress($userDetail["mem_email_work"], $userDetail["mem_name"]);
-    $mail->Send();
-    $mail->ClearAddresses();
+
+    try {
+        $mail->AddAddress($userDetail["mem_email_work"], $userDetail["mem_name"]);
+        $mail->Send();
+        $mail->ClearAddresses();
+    } catch (\PHPMailer\PHPMailer\Exception $e) {
+        $logger->critical('PHPMailer: ' . $e->getMessage());
+    }
 }

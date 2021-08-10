@@ -45,10 +45,14 @@ if (!empty($request->query->get('id'))) {
 $docopy = $request->query->get('docopy');
 
 if (strstr($task_id, "**")) {
-    phpCollab\Util::headerFunction("../tasks/updatetasks.php?report={$request->query->get('report')}&project={$request->query->get('project')}&id={$task_id}");
+    phpCollab\Util::headerFunction("../tasks/updatetasks.php?report={$request->query->get('report')}&project={$request->query->get('project')}&id=$task_id");
 }
 
-$tasks = $container->getTasksLoader();
+try {
+    $tasks = $container->getTasksLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $taskDetail = null;
 $errors = null;
@@ -81,13 +85,16 @@ if ($request->isMethod('post') && !is_null($errors) && !empty($task_id)) {
 
 }
 
-$projects = $container->getProjectsLoader();
+try {
+    $projects = $container->getProjectsLoader();
+    $teams = $container->getTeams();
+    $phases = $container->getPhasesLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $projectDetail = $projects->getProjectById($project);
 
-
-$teams = $container->getTeams();
-$phases = $container->getPhasesLoader();
 
 // Check to see if the task owner == the current user, if so then consider them a "team member", otherwise
 // check to see if they are in the team
@@ -99,7 +106,7 @@ if (!empty($taskDetail) && $taskDetail["tas_owner"] === $session->get("id")) {
 }
 
 if ($teamMember == "false" && $session->get("profile") != "5") {
-    phpCollab\Util::headerFunction("../tasks/listtasks.php?project={$project}&msg=taskOwner");
+    phpCollab\Util::headerFunction("../tasks/listtasks.php?project=$project&msg=taskOwner");
 }
 
 //case update or copy task
@@ -270,10 +277,10 @@ if (
 
                         //create task sub-folder if filemanagement = true
                         if ($fileManagement == "true") {
-                            phpCollab\Util::createDirectory("files/{$project}/{$newTaskId}");
+                            phpCollab\Util::createDirectory("files/$project/$newTaskId");
                         }
 
-                        phpCollab\Util::headerFunction("../tasks/viewtask.php?id={$newTaskId}&msg=addAssignment");
+                        phpCollab\Util::headerFunction("../tasks/viewtask.php?id=$newTaskId&msg=addAssignment");
                     }
                 } else {
 
@@ -308,15 +315,15 @@ if (
                         $files->setProjectByTaskId($project, $task_id);
                         phpCollab\Util::createDirectory("files/$project/$task_id");
 
-                        $dir = opendir("../files/{$form_data["old_project"]}/{$task_id}");
+                        $dir = opendir("../files/{$form_data["old_project"]}/$task_id");
 
                         if (is_resource($dir)) {
                             while ($v = readdir($dir)) {
                                 if ($v != '.' && $v != '..') {
                                     try {
-                                        copy("../files/{$form_data["old_project"]}/{$task_id}/" . $v,
-                                            "../files/{$project}/{$task_id}/" . $v);
-                                        unlink("../files/{$form_data["old_project"]}/{$task_id}/" . $v);
+                                        copy("../files/{$form_data["old_project"]}/$task_id/" . $v,
+                                            "../files/$project/$task_id/" . $v);
+                                        unlink("../files/{$form_data["old_project"]}/$task_id/" . $v);
                                     } catch (Exception $e) {
                                         $logger->error('Tasks (edit)', ['Exception message', $e->getMessage()]);
                                         $error = $strings["action_not_allowed"];
@@ -807,7 +814,7 @@ if ($projectDetail['pro_phase_set'] != "0") {
     echo <<<HTML
     <tr class="odd">
         <td style="vertical-align:top" class="leftvalue">{$strings["phase"]} :</td>
-        <td>{$viewPhaseLink}</td>
+        <td>$viewPhaseLink</td>
     </tr>
 HTML;
 
@@ -831,14 +838,14 @@ if ($docopy == "true") {
 }
 
 echo <<<HTML
-{$task_name}" style="width: 400px" name="task_name" maxlength="100" type="text"></td>
+$task_name" style="width: 400px" name="task_name" maxlength="100" type="text"></td>
     </tr>
 HTML;
 
 echo <<<Description
     <tr class="odd">
         <td style="vertical-align:top" class="leftvalue">{$strings["description"]} :</td>
-            <td><textarea rows="10" style="width: 400px; height: 160px;" name="description" cols="47">{$task_description}</textarea></td>
+            <td><textarea rows="10" style="width: 400px; height: 160px;" name="description" cols="47">$task_description</textarea></td>
         </tr>
 Description;
 
@@ -867,11 +874,11 @@ foreach ($teamList as $team_member) {
 
     if (!empty($taskDetail['tas_assigned_to']) && $taskDetail['tas_assigned_to'] === $team_member["tea_mem_id"]) {
         echo <<<Option
-<option value="{$team_member["tea_mem_id"]}" selected>{$team_member["tea_mem_login"]} / {$team_member["tea_mem_name"]}{$clientUser} </option>
+<option value="{$team_member["tea_mem_id"]}" selected>{$team_member["tea_mem_login"]} / {$team_member["tea_mem_name"]}$clientUser </option>
 Option;
     } else {
         echo <<<Option
-<option value="{$team_member["tea_mem_id"]}">{$team_member["tea_mem_login"]} / {$team_member["tea_mem_name"]}{$clientUser}</option>
+<option value="{$team_member["tea_mem_id"]}">{$team_member["tea_mem_login"]} / {$team_member["tea_mem_name"]}$clientUser</option>
 Option;
 
     }
@@ -983,7 +990,7 @@ echo <<<JAVASCRIPT
     Calendar.setup({
         inputField     :    'due_date',
         button         :    'trigDueDate',
-        {$calendar_common_settings}
+        $calendar_common_settings
     })
 </script>
 JAVASCRIPT;
@@ -996,7 +1003,7 @@ if ($task_id != "") {
 	    Calendar.setup({
 	        inputField     :    'complete_date',
 	        button         :    'trigCompleteDate',
-        {$calendar_common_settings}
+        $calendar_common_settings
 	    })
 	</script>
 JAVASCRIPT;
@@ -1017,13 +1024,13 @@ TR;
 echo <<<TR
         <tr class="odd">
             <td style="vertical-align:top" class="leftvalue">{$strings["comments"]} :</td>
-            <td><textarea rows="10" style="width: 400px; height: 160px;" name="comments" cols="47">{$comments}</textarea></td>
+            <td><textarea rows="10" style="width: 400px; height: 160px;" name="comments" cols="47">$comments</textarea></td>
         </tr>
 TR;
 echo <<<TR
         <tr class="odd">
             <td style="vertical-align:top" class="leftvalue">{$strings["published"]} :</td>
-            <td><input size="32" value="0" name="published" type="checkbox" {$checkedPub}></td>
+            <td><input size="32" value="0" name="published" type="checkbox" $checkedPub></td>
         </tr>
 TR;
 
@@ -1048,7 +1055,7 @@ if ($task_id != "") {
 echo <<<HTML
       <tr class="odd">
                 <td style="vertical-align:top" class="leftvalue">&nbsp;</td>
-                <td><button type="submit" name="action" value="{$submitValue}">{$strings["save"]}</button></td>
+                <td><button type="submit" name="action" value="$submitValue">{$strings["save"]}</button></td>
             </tr>
 HTML;
 

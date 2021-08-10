@@ -1,14 +1,18 @@
 <?php
 
+use Amenadiel\JpGraph\Graph\GanttGraph;
+use Amenadiel\JpGraph\Plot\GanttBar;
+
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$tasks = $container->getTasksLoader();
-$calendars = $container->getCalendarLoader();
-$projects = $container->getProjectsLoader();
-
-include '../includes/jpgraph/jpgraph.php';
-include '../includes/jpgraph/jpgraph_gantt.php';
+try {
+    $tasks = $container->getTasksLoader();
+    $calendars = $container->getCalendarLoader();
+    $projects = $container->getProjectsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $strings = $GLOBALS["strings"];
 

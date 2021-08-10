@@ -3,9 +3,13 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$teams = $container->getTeams();
-$organizations = $container->getOrganizationsManager();
-$projects = $container->getProjectsLoader();
+try {
+    $teams = $container->getTeams();
+    $organizations = $container->getOrganizationsManager();
+    $projects = $container->getProjectsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $updateProject = $request->query->get('updateProject');
 $changeProject = $request->query->get('changeProject');
@@ -121,10 +125,8 @@ TABLE;
             echo "" . $strings["no_current_phase"] . " ";
         } else {
             for ($i = 0; $i < $comptCurrentPhase; $i++) {
-                if ($i != $comptCurrentPhase) {
-                    $pnum = $i + 1;
-                    echo "$pnum." . $currentPhase["pha_name"] . "  ";
-                }
+                $pnum = $i + 1;
+                echo "$pnum." . $currentPhase["pha_name"] . "  ";
             }
         }
 

@@ -5,9 +5,13 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$tasks = $container->getTasksLoader();
-$reports = $container->getReportsLoader();
-$projects = $container->getProjectsLoader();
+try {
+    $tasks = $container->getTasksLoader();
+    $reports = $container->getReportsLoader();
+    $projects = $container->getProjectsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $strings = $GLOBALS["strings"];
 

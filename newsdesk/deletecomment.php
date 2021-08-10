@@ -8,11 +8,15 @@ require_once '../includes/library.php';
 $commentId = empty($request->query->get('id')) ? $request->request->get('id') : $request->query->get('id');
 $postId = empty($request->query->get('postId')) ? $request->request->get('postId') : $request->query->get('postId');
 
-$newsDesk = $container->getNewsdeskLoader();
+try {
+    $newsDesk = $container->getNewsdeskLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 // Check to make sure that a non-authorized user isn't trying to delete a comment they aren't supposed to
 if (!empty($commentId)) {
-    // Get all of the comments requested
+    // Get all the comments requested
     $commentDetail = $newsDesk->getComments(str_replace("**", ",", $commentId));
 
     // Only the owner, admin, pm, or PM administrator can delete

@@ -9,9 +9,13 @@ $project = $request->query->get('project');
 
 $strings = $GLOBALS["strings"];
 
-$projects = $container->getProjectsLoader();
-$teams = $container->getTeams();
-$topics = $container->getTopicsLoader();
+try {
+    $projects = $container->getProjectsLoader();
+    $teams = $container->getTeams();
+    $topics = $container->getTopicsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $projectDetail = $projects->getProjectById($project);
 
@@ -84,7 +88,7 @@ if ($request->isMethod('post')) {
                     }
                 }
 
-                phpCollab\Util::headerFunction("../topics/viewtopic.php?project={$project}&id={$newTopic["top_id"]}&msg=add");
+                phpCollab\Util::headerFunction("../topics/viewtopic.php?project=$project&id={$newTopic["top_id"]}&msg=add");
             }
         }
     } catch (InvalidCsrfTokenException $csrfTokenException) {

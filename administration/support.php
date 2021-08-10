@@ -3,7 +3,11 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$support = $container->getSupportLoader();
+try {
+    $support = $container->getSupportLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 if ($session->get('profile') != "0" || $enableHelpSupport != "true") {
     phpCollab\Util::headerFunction('../general/permissiondenied.php');

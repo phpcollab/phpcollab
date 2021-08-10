@@ -32,7 +32,11 @@ require_once '../includes/library.php';
 
 $strings = $GLOBALS['strings'];
 
-$calendars = $container->getCalendarLoader();
+try {
+    $calendars = $container->getCalendarLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $calendarId = $request->query->get("id");
 

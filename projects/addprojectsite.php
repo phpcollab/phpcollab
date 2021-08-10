@@ -11,7 +11,12 @@ require_once '../includes/library.php';
 $projectId = $request->query->get('id');
 $strings = $GLOBALS["strings"];
 
-$projects = $container->getProjectsLoader();
+try {
+    $projects = $container->getProjectsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
+
 $projectDetail = $projects->getProjectById($projectId);
 
 if (!$projectDetail) {
@@ -26,7 +31,7 @@ if ($request->isMethod('post')) {
         if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
             if ($request->request->get("create")) {
                 $projects->publishProject($projectId, true);
-                phpCollab\Util::headerFunction("../projects/viewprojectsite.php?id={$projectId}&msg=createProjectSite");
+                phpCollab\Util::headerFunction("../projects/viewprojectsite.php?id=$projectId&msg=createProjectSite");
             }
         }
     } catch (InvalidCsrfTokenException $csrfTokenException) {

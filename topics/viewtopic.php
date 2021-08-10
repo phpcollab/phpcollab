@@ -3,16 +3,16 @@
 #Status page: 0
 #Path by root: ../topics/viewtopic.php
 
-use phpCollab\Projects\Projects;
-use phpCollab\Teams\Teams;
-use phpCollab\Topics\Topics;
-
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$topics = $container->getTopicsLoader();
-$projects = $container->getProjectsLoader();
-$teams = $container->getTeams();
+try {
+    $topics = $container->getTopicsLoader();
+    $projects = $container->getProjectsLoader();
+    $teams = $container->getTeams();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $topicId = $request->query->get('id');
 

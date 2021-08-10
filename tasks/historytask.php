@@ -31,10 +31,14 @@ require_once '../includes/library.php';
 $type = $request->query->get('type');
 $item = $request->query->get('item');
 
-$tasks = $container->getTasksLoader();
-$projects = $container->getProjectsLoader();
-$phases = $container->getPhasesLoader();
-$updates = $container->getTaskUpdateService();
+try {
+    $tasks = $container->getTasksLoader();
+    $projects = $container->getProjectsLoader();
+    $phases = $container->getPhasesLoader();
+    $updates = $container->getTaskUpdateService();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $strings = $GLOBALS["strings"];
 

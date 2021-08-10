@@ -41,7 +41,7 @@ $calendar_common_settings = "ifFormat: '%Y-%m-%d', singleClick: true, step: 1,we
 
 $build = <<<END
 <script type="text/javascript" src="../javascript/calendar/calendar.js"></script>
-<script type="text/javascript" src="../javascript/calendar/lang/calendar-{$calendar_lang}.js"></script>
+<script type="text/javascript" src="../javascript/calendar/lang/calendar-$calendar_lang.js"></script>
 <script type="text/javascript" src="../javascript/calendar/calendar-setup.js"></script>
 END;
 echo "<link rel='stylesheet' href='../themes/" . THEME . "/css/calendar.css' type='text/css' />";

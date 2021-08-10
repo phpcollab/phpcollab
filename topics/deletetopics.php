@@ -8,8 +8,12 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$projects = $container->getProjectsLoader();
-$topics = $container->getTopicsLoader();
+try {
+    $projects = $container->getProjectsLoader();
+    $topics = $container->getTopicsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $action = $request->query->get('action');
 $id = $request->query->get('id');
@@ -32,7 +36,7 @@ if ($request->isMethod('post')) {
                 }
 
                 if ($project != "") {
-                    phpCollab\Util::headerFunction("../projects/viewproject.php?num={$num}&msg=deleteTopic&id=" . $project);
+                    phpCollab\Util::headerFunction("../projects/viewproject.php?num=$num&msg=deleteTopic&id=" . $project);
                 } else {
                     phpCollab\Util::headerFunction("../general/home.php?msg=deleteTopic&num=" . $num);
                 }

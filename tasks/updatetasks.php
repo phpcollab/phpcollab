@@ -5,13 +5,18 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$projects = $container->getProjectsLoader();
-$tasks = $container->getTasksLoader();
+try {
+    $projects = $container->getProjectsLoader();
+    $tasks = $container->getTasksLoader();
+    $reports = $container->getReportsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $project_id = $request->query->get('project') ?: $request->request->get('project');
 
 if (!isset($project_id)) {
-    // Redirect to where? Back to tasks list with an error mesage?
+    // Redirect to where? Back to task list with an error mesage?
     phpCollab\Util::headerFunction("../projects/listprojects.php?msg=permissiondenied");
 }
 
@@ -198,7 +203,7 @@ $blockPage = new phpCollab\Block();
 $blockPage->openBreadcrumbs();
 
 if ($request->query->get('report') != "") {
-    $reports = $container->getReportsLoader();
+
     $reportDetail = $reports->getReportsById($request->query->get('report'));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/createreport.php?", $strings["reports"], "in"));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../reports/resultsreport.php?id=" . $reportDetail["rep_id"],
@@ -316,7 +321,7 @@ echo <<<JavaScript
     Calendar.setup({
         inputField     :    'start_date',
         button         :    'trigStartDate',
-        {$calendar_common_settings}
+        $calendar_common_settings
     })
 </script>
 JavaScript;
@@ -328,7 +333,7 @@ echo <<<JavaScript
     Calendar.setup({
         inputField     :    'due_date',
         button         :    'trigDueDate',
-        {$calendar_common_settings}
+        $calendar_common_settings
     })
 </script>
 JavaScript;
@@ -341,9 +346,9 @@ echo <<<TR
 TR;
 
 echo <<<INPUT
-<input name="id" type="HIDDEN" value="{$id}">
+<input name="id" type="HIDDEN" value="$id">
 <input name="action" type="HIDDEN" value="update">
-<input name="project" type="HIDDEN" value="{$project_id}">
+<input name="project" type="HIDDEN" value="$project_id">
 INPUT;
 
 

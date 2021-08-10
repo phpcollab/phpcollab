@@ -6,8 +6,12 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$projects = $container->getProjectsLoader();
-$teams = $container->getTeams();
+try {
+    $projects = $container->getProjectsLoader();
+    $teams = $container->getTeams();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $id = $request->query->get('id');
 $project = $request->query->get('project');
@@ -28,7 +32,11 @@ if ($action == "delete") {
     if (!empty($listMembers)) {
         if ($htaccessAuth == "true") {
             $Htpasswd = $container->getHtpasswdService();
-            $Htpasswd->initialize("../files/" . $projectDetail["pro_id"] . "/.htpasswd");
+            try {
+                $Htpasswd->initialize("../files/" . $projectDetail["pro_id"] . "/.htpasswd");
+            } catch (Exception $e) {
+                $logger->critical('Htpasswd: ' . $e->getMessage());
+            }
 
             foreach ($listMembers as $listMember) {
                 try {

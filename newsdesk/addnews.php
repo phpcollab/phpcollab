@@ -29,8 +29,13 @@ if ($session->get("profile") != "0" && $session->get("profile") != "1" && $sessi
 
     phpCollab\Util::headerFunction("../newsdesk/viewnews.php?id=" . $id);
 }
-$news = $container->getNewsdeskLoader();
-$projects = $container->getProjectsLoader();
+
+try {
+    $news = $container->getNewsdeskLoader();
+    $projects = $container->getProjectsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 if ($request->isMethod('post')) {
     try {

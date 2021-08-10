@@ -1,6 +1,10 @@
 <?php
 
-$notificationsClass = $container->getNotificationsManager();
+try {
+    $notificationsClass = $container->getNotificationsManager();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 if (!empty($listTask)) {
     $taskNoti = $tasks->getTaskById($listTask["tas_id"]);
@@ -43,7 +47,7 @@ if ($listNotifications["taskAssignment"] == "0") {
 
         if ($taskNoti["tas_mem_organization"] == "1") {
             $body .= "$root/general/login.php?url=tasks/viewtask.php%3Fid=$id";
-        } elseif ($taskNoti["tas_mem_organization"] != "1" && $projectNoti["pro_published"] == "0" && $taskNoti["tas_published"] == "0") {
+        } elseif ($projectNoti["pro_published"] == "0" && $taskNoti["tas_published"] == "0") {
             $body .= "$root/general/login.php?url=projects_site/home.php%3Fproject=" . $projectNoti["pro_id"];
         }
 

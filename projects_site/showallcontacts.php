@@ -5,7 +5,11 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$teams = $container->getTeams();
+try {
+    $teams = $container->getTeams();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $bouton[1] = "over";
 $titlePage = $strings["project_team"];

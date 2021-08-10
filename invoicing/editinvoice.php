@@ -5,7 +5,7 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$invoiceItemId = $request->query->get('id', null);
+$invoiceItemId = $request->query->get('id');
 
 $msgLabel = $GLOBALS["msgLabel"];
 $strings = $GLOBALS["strings"];
@@ -15,8 +15,12 @@ if (!$invoiceItemId) {
     header("Location:../general/permissiondenied.php");
 }
 
-$invoices = $container->getInvoicesLoader();
-$projects = $container->getProjectsLoader();
+try {
+    $invoices = $container->getInvoicesLoader();
+    $projects = $container->getProjectsLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $detailInvoice = $invoices->getInvoiceById($invoiceItemId);
 
@@ -31,7 +35,7 @@ if ($projectDetail["pro_owner"] != $session->get("id")) {
 
 }
 
-$action = $request->query->get('action', null);
+$action = $request->query->get('action');
 
 /**
  * Update invoice
@@ -205,7 +209,7 @@ echo <<<SCRIPT
     Calendar.setup({
         inputField     :    'due_date',
         button         :    'trigDueDate',
-        {$calendar_common_settings}
+        $calendar_common_settings
     })
 </script>
 SCRIPT;
@@ -219,7 +223,7 @@ echo <<<HTML
     <td class="leftvalue">{$strings["items"]} :</td>
     <td>
         <table class="calculation">
-            <input type="hidden" name="comptListInvoicesItems" value="{$comptListInvoicesItems}">
+            <input type="hidden" name="comptListInvoicesItems" value="$comptListInvoicesItems">
 HTML;
 echo <<<SCRIPT
 <script type="text/JavaScript">
@@ -227,7 +231,7 @@ echo <<<SCRIPT
         var item = [];
         var subtotal = 0;
 
-        for (var i = 0; i < {$comptListInvoicesItems}; i++) {
+        for (var i = 0; i < $comptListInvoicesItems; i++) {
             item[i] = 1 * document.invoiceForm["item" + i].value;
             if (item[i] === "") {
                 item[i] = 0;
@@ -273,12 +277,12 @@ HTML;
         echo <<<TR
         <tr>
             <td>
-                <input type="hidden" name="invoiceItems[{$itemCount}][itemId]" size="20" value="{$item["invitem_id"]}">
-                <input type="text" name="invoiceItems[{$itemCount}][position]" size="3" value="{$item["invitem_position"]}">
+                <input type="hidden" name="invoiceItems[$itemCount][itemId]" size="20" value="{$item["invitem_id"]}">
+                <input type="text" name="invoiceItems[$itemCount][position]" size="3" value="{$item["invitem_position"]}">
             </td>
-            <td><input type="text" name="invoiceItems[{$itemCount}][title]" size="30" value="{$item["invitem_title"]}"></td>
-            <td><input type="text" name="invoiceItems[{$itemCount}][tax_amount]" size="20" value="{$item["invitem_amount_ex_tax"]}" tabindex="{$itemCount}" onblur="calc(this)"></td>
-            <td>{$completeValue}</td>
+            <td><input type="text" name="invoiceItems[$itemCount][title]" size="30" value="{$item["invitem_title"]}"></td>
+            <td><input type="text" name="invoiceItems[$itemCount][tax_amount]" size="20" value="{$item["invitem_amount_ex_tax"]}" tabindex="$itemCount" onblur="calc(this)"></td>
+            <td>$completeValue</td>
         </tr>
 TR;
         $itemCount++;

@@ -10,9 +10,12 @@ $export = "true";
 $checkSession = "true";
 require_once '../includes/library.php';
 
-
-$projects = $container->getProjectsLoader();
-$tasks = $container->getTasksLoader();
+try {
+    $projects = $container->getProjectsLoader();
+    $tasks = $container->getTasksLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $projectDetail = $projects->getProjectById($request->query->get("id"));
 

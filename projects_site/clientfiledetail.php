@@ -7,7 +7,11 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$files = $container->getFileUpdateService();
+try {
+    $files = $container->getFileUpdateService();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $fileId = $request->query->get("id");
 
@@ -196,16 +200,14 @@ if ($request->isMethod('post')) {
                                     $upload_name);
                                 $size = phpCollab\Util::fileInfoSize("../files/$project/$task/$upload_name");
                                 $chaine = strrev("../files/$project/$task/$upload_name");
-                                $tab = explode(".", $chaine);
-                                $extension = strtolower(strrev($tab[0]));
                             } else {
                                 phpCollab\Util::uploadFile("files/$project", $_FILES['upload']['tmp_name'],
                                     $upload_name);
                                 $size = phpCollab\Util::fileInfoSize("../files/$project/$upload_name");
                                 $chaine = strrev("../files/$project/$upload_name");
-                                $tab = explode(".", $chaine);
-                                $extension = strtolower(strrev($tab[0]));
                             }
+                            $tab = explode(".", $chaine);
+                            $extension = strtolower(strrev($tab[0]));
 
                             $name = $upload_name;
 
@@ -254,7 +256,7 @@ echo <<<FILE_DETAILS
                         <table style="width: 100%" class="nonStriped">
                             <tr class="odd">
                                 <td class="leftvalue">{$strings["type"]} : </td>
-                                <td><img src="../interface/icones/{$type}" alt=""></td>
+                                <td><img src="../interface/icones/$type" alt=""></td>
                             </tr>
                             <tr class="odd">
                                 <td class="leftvalue">{$strings["name"]} : </td>
@@ -270,7 +272,7 @@ echo <<<FILE_DETAILS
                             </tr>
                             <tr class="odd">
                                 <td class="leftvalue">{$strings["size"]}:</td>
-                                <td>{$fileSize}</td>
+                                <td>$fileSize</td>
                             </tr>
                             <tr class="odd">
                                 <td class="leftvalue">{$strings["owner"]} :</td>
@@ -283,7 +285,7 @@ if (!empty($fileDetail["fil_comments"])) {
     echo <<<TR
                             <tr class="odd">
                                 <td class="leftvalue">{$strings["comments"]} :</td>
-                                <td>{$fileComments}</td>
+                                <td>$fileComments</td>
                             </tr>
 TR;
 }
@@ -315,7 +317,7 @@ if ($fileDetail["fil_comments_approval"] != "") {
     echo <<<TR
                             <tr class="odd">
                                 <td class="leftvalue">{$strings["approval_comments"]} :</td>
-                                <td>{$fileApprovalComments}&nbsp;</td>
+                                <td>$fileApprovalComments&nbsp;</td>
                             </tr>
 TR;
 }
@@ -343,7 +345,7 @@ foreach ($listVersions as $version) {
                                         <tr>
                                             <td>&nbsp;</td>
                                             <td>{$strings["vc_version"]} : {$version["fil_vc_version"]}</td>
-                                            <td>{$displayName}&nbsp;&nbsp;
+                                            <td>$displayName&nbsp;&nbsp;
 TR;
 
     if (!empty($version["fil_task"])) {
@@ -420,7 +422,7 @@ TABLE;
                                     <table style="width: 550px;" class="tableRevision">
                                         <tr class="reviewHeader">
                                             <td>&nbsp;</td>
-                                            <td colspan="3">{$displayName} 
+                                            <td colspan="3">$displayName 
 TABLE;
 
             if ($review["fil_task"] != "0") {
@@ -486,7 +488,7 @@ TABLE;
                 <input type="hidden" name="maxCustom" value="{$projectDetail["pro_upload_max"]}">
                 <input value="{$fileDetail["fil_id"]}" name="sendto" type="hidden">
                 <input value="{$fileDetail["fil_id"]}" name="parent" type="hidden">
-                <input value="{$revision}" name="revision" type="hidden">
+                <input value="$revision" name="revision" type="hidden">
                 <input value="{$fileDetail["fil_vc_version"]}" name="oldversion" type="hidden">
                 <input value="{$fileDetail["fil_project"]}" name="project" type="hidden">
                 <input value="{$fileDetail["fil_task"]}" name="task" type="hidden">
@@ -494,7 +496,7 @@ TABLE;
                 <table style="width: 100%;" class="nonStriped">
                     <tr>
                         <td>
-                            <h1 class="heading">{$strings["ifc_add_revision"]} ({$revision})</h1>
+                            <h1 class="heading">{$strings["ifc_add_revision"]} ($revision)</h1>
                             <table style="width: 90%;" class="nonStriped">
                                 <tr>
                                     <th class="ModuleColumnHeaderSort"></th>
@@ -509,11 +511,11 @@ TABLE;
                                             </tr>
                                             <tr class="odd">
                                                 <td class="leftvalue">{$strings["comments"]} :</td>
-                                                <td><textarea rows="3" style="width: 400px; height: 50px;" name="comments" cols="43" required>{$comments}</textarea></td>
+                                                <td><textarea rows="3" style="width: 400px; height: 50px;" name="comments" cols="43" required>$comments</textarea></td>
                                             </tr>
                                             <tr class="odd">
                                                 <td class="leftvalue">&nbsp;</td>
-                                                <td><button type="submit" name="action" value="add">{$strings["save"]}</button><br/><br/>{$error3}</td>
+                                                <td><button type="submit" name="action" value="add">{$strings["save"]}</button><br/><br/>$error3</td>
                                             </tr>
                                         </table>
                                     </td>

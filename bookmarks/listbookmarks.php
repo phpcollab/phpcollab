@@ -13,7 +13,11 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$bookmarkService = $container->getBookmarksLoader();
+try {
+    $bookmarkService = $container->getBookmarksLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $view = $request->query->get('view');
 

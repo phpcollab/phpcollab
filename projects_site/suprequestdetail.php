@@ -1,9 +1,15 @@
 <?php
 
+use phpCollab\Block;
+
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$support = $container->getSupportLoader();
+try {
+    $support = $container->getSupportLoader();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $id = $request->query->get('id');
 $strings = $GLOBALS["strings"];
@@ -47,13 +53,13 @@ echo <<< TR
         <th>{$strings["support_id"]}:</th>
         <td>{$requestDetail["sr_id"]}</td>
         <th>{$strings["status"]}:</th>
-        <td>{$requestStatus}</td>
+        <td>$requestStatus</td>
     </tr>
     <tr>
         <th>{$strings["subject"]}:</th>
         <td>{$requestDetail["sr_subject"]}</td>
         <th>{$strings["priority"]}:</th>
-        <td>{$requestPriority}</td>
+        <td>$requestPriority</td>
     </tr>
     <tr>
         <th>{$strings["message"]}:</th>
@@ -81,11 +87,11 @@ echo <<<HTML
     <th colspan="4">{$strings["responses"]}:</th>
 </tr>
 <tr>
-    <td colspan="4" style="text-align: right"><a href="addsupportpost.php?id={$id}" class="FooterCell">{$strings["add_support_response"]}</a></td>
+    <td colspan="4" style="text-align: right"><a href="addsupportpost.php?id=$id" class="FooterCell">{$strings["add_support_response"]}</a></td>
 </tr>
 HTML;
 
-$block1 = new \phpCollab\Block();
+$block1 = new Block();
 
 if ($postDetail) {
     foreach ($postDetail as $key => $post) {

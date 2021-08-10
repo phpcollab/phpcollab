@@ -9,9 +9,13 @@ require_once '../includes/library.php';
 
 $taskId = !empty($request->query->get('id')) ? $request->query->get('id') : $request->request->get('taskId');
 
-$tasks = $container->getTasksLoader();
-
-$taskStatus = $container->getSetTaskStatusServiceService();
+try {
+    $tasks = $container->getTasksLoader();
+    $taskStatus = $container->getSetTaskStatusServiceService();
+    $updates = $container->getTaskUpdateService();
+} catch (Exception $exception) {
+    $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
 
 $taskDetail = $tasks->getTaskById($taskId);
 
@@ -43,7 +47,7 @@ if ($request->isMethod('post')) {
     }
 }
 
-$updates = $container->getTaskUpdateService();
+
 
 if ($taskDetail["tas_published"] == "1" || $taskDetail["tas_project"] != $session->get("project")) {
     phpCollab\Util::headerFunction("index.php");
@@ -82,7 +86,7 @@ $complValue = ($taskDetail["tas_completion"] > 0) ? $taskDetail["tas_completion"
 echo <<<TR
         <tr>
             <td>{$strings["completion"]} :</td>
-            <td>{$complValue}</td>
+            <td>$complValue</td>
         </tr>
 TR;
 
@@ -100,7 +104,7 @@ if ($taskDetail["tas_comments"] != "") {
     echo <<<TR
         <tr>
             <td>{$strings["comments"]} :</td>
-            <td>{$taskComments}</td>
+            <td>$taskComments</td>
         </tr>
 TR;
 }
@@ -137,7 +141,7 @@ if ($listUpdates) {
         $updateComment = nl2br($update["upd_comments"]);
         $updateCreated = phpCollab\Util::createDate($update["upd_created"], $session->get("timezone"));
         echo <<<UPDATE
-<strong>{$j}</strong> <em>{$updateCreated}</em><br/>{$updateComment}
+<strong>$j</strong> <em>$updateCreated</em><br/>$updateComment
 <br/>
 UPDATE;
         $j++;
@@ -173,8 +177,8 @@ START_TABLE;
         $subtaskDescription = nl2br($subtask["subtas_description"]);
         echo <<<TR
     <tr>
-        <td><a href="clientsubtaskdetail.php?task={$taskId}&id={$subtask["subtas_id"]}">{$subtask["subtas_name"]}</a></td>
-        <td>{$subtaskDescription}</td>
+        <td><a href="clientsubtaskdetail.php?task=$taskId&id={$subtask["subtas_id"]}">{$subtask["subtas_name"]}</a></td>
+        <td>$subtaskDescription</td>
         <td>{$status[$subtask["subtas_status"]]}</td>
         <td>{$subtask["subtas_due_date"]}</td>
     </tr>
@@ -194,7 +198,7 @@ $block2->heading("Complete Task");
 echo <<<STATUS_CHANGE_FORM
 <form method="post" action="../projects_site/clienttaskdetail.php" name="clientTaskUpdate" enctype="multipart/form-data">
     <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}" />
-    <input name="taskId" type="hidden" value="{$taskId}">
+    <input name="taskId" type="hidden" value="$taskId">
 
     <table class="nonStriped">
         <tr>
@@ -202,7 +206,7 @@ echo <<<STATUS_CHANGE_FORM
         </tr>
         <tr>
             <td>{$strings["status"]} :</td>
-            <td><input {$statusChecked} value="completed" name="status" type="checkbox">&nbsp;$status[0]</td>
+            <td><input $statusChecked value="completed" name="status" type="checkbox">&nbsp;$status[0]</td>
         </tr>
         <tr>
             <td class="leftvalue">{$strings["comments"]} :</td>
