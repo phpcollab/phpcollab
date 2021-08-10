@@ -24,7 +24,6 @@ if ($request->isMethod('post')) {
                 !empty($request->request->get("passwordConfirm"))) {
 
                 if (empty($request->request->get("password"))) {
-//                    $error = $strings["login_password"];
                     $session->getFlashBag()->add(
                         'errors',
                         $strings["login_password"]
@@ -33,7 +32,6 @@ if ($request->isMethod('post')) {
                 }
 
                 if (empty($request->request->get("passwordConfirm"))) {
-//                    $error = $strings["password_confirm_blank"];
                     $session->getFlashBag()->add(
                         'errors',
                         $strings["password_confirm_blank"]
@@ -42,7 +40,6 @@ if ($request->isMethod('post')) {
                 }
 
                 if ($request->request->get("password") !== $request->request->get("passwordConfirm")) {
-//                    $error = $strings["new_password_error"];
                     $session->getFlashBag()->add(
                         'errors',
                         $strings["new_password_error"]
