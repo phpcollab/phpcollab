@@ -422,19 +422,19 @@ if ($id == "") {
             if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
                 if ($request->request->get("action") == "add") {
                     try {
-                        $published = filter_input($request->request->get("projectPublished"), FILTER_SANITIZE_NUMBER_INT);
-                        $projectName = filter_input($request->request->get("name"), FILTER_SANITIZE_STRING);
-                        $projectPriority = filter_input($request->request->get("priority"), FILTER_SANITIZE_NUMBER_INT);
+                        $published = filter_var($request->request->get("projectPublished"), FILTER_SANITIZE_NUMBER_INT);
+                        $projectName = filter_var($request->request->get("name"), FILTER_SANITIZE_STRING);
+                        $projectPriority = filter_var($request->request->get("priority"), FILTER_SANITIZE_NUMBER_INT);
                         $description = htmlspecialchars($request->request->get('description'), ENT_QUOTES);
                         $urlDev = (empty($request->request->get('url_dev'))) ? null : filter_var($request->request->get('url_dev'), FILTER_SANITIZE_SPECIAL_CHARS);
                         $urlProd = (empty($request->request->get('url_prod'))) ? null : filter_var($request->request->get('url_prod'), FILTER_SANITIZE_SPECIAL_CHARS);
-                        $owner = filter_input($request->request->get("owner"), FILTER_SANITIZE_NUMBER_INT);
-                        $organization = filter_input($request->request->get("client_organization"), FILTER_SANITIZE_NUMBER_INT);
-                        $thisPhase = filter_input($request->request->get("thisPhase"), FILTER_SANITIZE_NUMBER_INT);
-                        $projectStatus = filter_input($request->request->get("status"), FILTER_SANITIZE_NUMBER_INT);
-                        $maxUploadSize = filter_input($request->request->get("max_upload_size"), FILTER_SANITIZE_NUMBER_INT);
-                        $invoicing = filter_input($request->request->get("invoicing"), FILTER_SANITIZE_NUMBER_INT);
-                        $hourlyRate = filter_input($request->request->get("hourly_rate"), FILTER_SANITIZE_NUMBER_FLOAT,
+                        $owner = filter_var($request->request->get("owner"), FILTER_SANITIZE_NUMBER_INT);
+                        $organization = filter_var($request->request->get("client_organization"), FILTER_SANITIZE_NUMBER_INT);
+                        $thisPhase = filter_var($request->request->get("thisPhase"), FILTER_SANITIZE_NUMBER_INT);
+                        $projectStatus = filter_var($request->request->get("status"), FILTER_SANITIZE_NUMBER_INT);
+                        $maxUploadSize = filter_var($request->request->get("max_upload_size"), FILTER_SANITIZE_NUMBER_INT);
+                        $invoicing = filter_var($request->request->get("invoicing"), FILTER_SANITIZE_NUMBER_INT);
+                        $hourlyRate = filter_var($request->request->get("hourly_rate"), FILTER_SANITIZE_NUMBER_FLOAT,
                             FILTER_FLAG_ALLOW_FRACTION);
 
                         if ($invoicing == "" || $organization == "1") {
