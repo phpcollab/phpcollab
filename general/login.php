@@ -282,7 +282,7 @@ if (!empty($session->get('language'))) {
 
 $selectLanguage = <<<SELECT_LANG
 <select name='languageForm'>";
-    <option value="{$langDefault}">{$langValue["$langDefault"]} (Default)</option>
+    <option value="{$langDefault}">{$languagesArray["$langDefault"]} (Default)</option>
     <option value="ar" {$langSelected["ar"]}>Arabic</option>
     <option value="az" {$langSelected["az"]}>Azerbaijani</option>
     <option value="pt-br"" {$langSelected["pt-br"]}>Brazilian Portuguese</option>
