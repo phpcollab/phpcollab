@@ -61,7 +61,7 @@ $block1->contentTitle($strings["info"]);
 
 $block1->contentRow($strings["name"], $bookmarkDetail['boo_name']);
 $block1->contentRow($strings["url"],
-    $blockPage->buildLink($bookmarkDetail['boo_url'], $bookmarkDetail['boo_url'], 'out'));
+    $blockPage->buildLink(htmlspecialchars($bookmarkDetail['boo_url'], ENT_QUOTES ), htmlspecialchars($bookmarkDetail['boo_url'], ENT_QUOTES), 'out'));
 $block1->contentRow($strings["description"], nl2br($bookmarkDetail['boo_description']));
 
 $block1->closeContent();

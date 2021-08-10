@@ -6,13 +6,14 @@ namespace phpCollab\Bookmarks;
 
 use Exception;
 use InvalidArgumentException;
+use Laminas\Escaper\Escaper;
 use phpCollab\Database;
 
 class DeleteBookmarks extends Bookmarks
 {
-    public function __construct(Database $database)
+    public function __construct(Database $database, Escaper $escaper)
     {
-        parent::__construct($database);
+        parent::__construct($database, $escaper);
     }
 
     /**

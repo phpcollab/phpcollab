@@ -176,7 +176,7 @@ class Container
     public function getBookmarksLoader()
     {
         if ($this->bookmarkLoader === null) {
-            $this->bookmarkLoader = new Bookmarks($this->getPDO());
+            $this->bookmarkLoader = new Bookmarks($this->getPDO(), $this->getEscaperService());
         }
         return $this->bookmarkLoader;
     }
@@ -184,7 +184,7 @@ class Container
     public function getDeleteBookmarksLoader()
     {
         if ($this->deleteBookmarkLoader === null) {
-            $this->deleteBookmarkLoader = new DeleteBookmarks($this->getPDO());
+            $this->deleteBookmarkLoader = new DeleteBookmarks($this->getPDO(), $this->getEscaperService());
         }
         return $this->deleteBookmarkLoader;
     }

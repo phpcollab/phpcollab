@@ -48,10 +48,8 @@ if ($action == 'publish') {
 
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
-            $topics->closeTopic($id);
-        } else {
-            $topics->closeTopic($id);
         }
+        $topics->closeTopic($id);
         $msg = 'closeTopic';
     }
 
@@ -60,10 +58,8 @@ if ($action == 'publish') {
 
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
-            $topics->publishTopic($id);
-        } else {
-            $topics->publishTopic($id);
         }
+        $topics->publishTopic($id);
 
         $msg = 'addToSite';
     }
@@ -73,10 +69,8 @@ if ($action == 'publish') {
 
         if ($multi != "") {
             $id = str_replace("**", ",", $id);
-            $topics->unPublishTopic($id);
-        } else {
-            $topics->unPublishTopic($id);
         }
+        $topics->unPublishTopic($id);
 
         $msg = "removeToSite";
     }
@@ -109,11 +103,9 @@ if ($showHomeBookmarks) {
     $block6->sorting("bookmarks", $sortingUser["bookmarks"], "boo.name ASC",
         $sortingFields = [0 => "boo.name", 1 => "boo.category", 2 => "boo.shared"]);
 
-    $bookmarksList = $bookmarks->getMyHomeBookmarks($session->get("id"), $block6->sortingValue);
+    $bookmarksList = $bookmarks->getBookmarks($session->get("id"), 'home', $block6->sortingValue);
 
-    $comptListBookmarks = count($bookmarksList);
-
-    if ($comptListBookmarks != "0") {
+    if ($bookmarksList) {
         $block6->form = "home_bookmarks";
         $block6->openForm("../bookmarks/listbookmarks.php?view=my&project=$project#" . $block6->form . "Anchor", null,
             $csrfHandler);
@@ -170,7 +162,7 @@ if ($showHomeBookmarks) {
         $block6->paletteScript(5, "info", "../bookmarks/viewbookmark.php", "false,true,false", $strings["view"]);
         $block6->paletteScript(6, "edit", "../bookmarks/editbookmark.php", "false,true,false", $strings["edit"]);
 
-        $block6->closePaletteScript($comptListBookmarks, array_column($bookmarksList, 'boo_id'));
+        $block6->closePaletteScript(count($bookmarksList), array_column($bookmarksList, 'boo_id'));
     } else {
         $block6->noresults();
     }
@@ -306,7 +298,7 @@ if ($showHomeProjects) {
     //if mantis bug tracker enabled
     if ($enableMantis == "true") {
         $block1->paletteScript(8, "bug",
-            $GLOBALS['pathMantis'] . "login.php?url=http://{$request->server->get("HTTP_HOST")}{$request->server->get("REQUEST_URI")}&username={$session->get('login')}",
+            $GLOBALS['pathMantis'] . "login.php?url=https://{$request->server->get("HTTP_HOST")}{$request->server->get("REQUEST_URI")}&username={$session->get('login')}",
             "false,true,false", $strings["bug"]);
     }
 

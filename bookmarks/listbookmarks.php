@@ -13,20 +13,20 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$bookmarks_gateway = $container->getBookmarksLoader();
+$bookmarkService = $container->getBookmarksLoader();
 
 $view = $request->query->get('view');
 
 // ** Do the title stuff here **
 switch ($view) {
     case 'all':
-        $setTitle .= " : View All Bookmarks";
+        $setTitle .= " : " . $strings["bookmark_view_all"];
         break;
     case 'my':
-        $setTitle .= " : View My Bookmarks";
+        $setTitle .= " : " . $strings["bookmark_view_my"];
         break;
     case 'private':
-        $setTitle .= " : View Private Bookmarks";
+        $setTitle .= " : " . $strings["bookmark_view_private"];
         break;
 }
 // END
@@ -53,7 +53,10 @@ if ($view == "private") {
 }
 $blockPage->closeBreadcrumbs();
 
-if ($msg != "") {
+
+if ($session->getFlashBag()->has('message')) {
+    $blockPage->messageBox( $session->getFlashBag()->get('message')[0] );
+} else if (!empty($msg)) {
     include '../includes/messages.php';
     $blockPage->messageBox($msgLabel);
 }
@@ -103,15 +106,9 @@ if ($view == "my") {
 
 $sorting = $block1->sortingValue;
 
-if ($view == "my") {
-    $bookmarks = $bookmarks_gateway->getMyBookmarks($session->get("id"), $sorting);
-} elseif ($view == "private") {
-    $bookmarks = $bookmarks_gateway->getPrivateBookmarks($session->get("id"), $sorting);
-} else {
-    $bookmarks = $bookmarks_gateway->getAllBookmarks($session->get("id"), $sorting);
-}
+$bookmarksList = $bookmarkService->getBookmarks($session->get('id'), $view, $sorting);
 
-$bookmarkCount = count($bookmarks);
+$bookmarkCount = count($bookmarksList);
 
 if ($bookmarkCount > 0) {
     $block1->openResults();
@@ -136,16 +133,19 @@ if ($bookmarkCount > 0) {
         );
     }
 
-    foreach ($bookmarks as $data) {
+    foreach ($bookmarksList as $data) {
         $block1->openRow();
         $block1->checkboxRow($data["boo_id"]);
 
         $block1->cellRow(
             $blockPage->buildLink(
                 "../bookmarks/viewbookmark.php?view=$view&id=" . $data["boo_id"],
-                $escaper->escapeHtml($data["boo_name"]),
+                $data["boo_name"],
                 'in'
-            ) . " (" . $blockPage->buildLink($data["boo_url"], $strings["url"], 'out') . ")"
+            ) . " (" . $blockPage->buildLink(
+                $data["boo_url"],
+                $strings["url"],
+                'out') . ")"
         );
         $block1->cellRow($data["boo_boocat_name"]);
 
@@ -179,6 +179,8 @@ $block1->paletteScript(5, "info", "../bookmarks/viewbookmark.php?", "false,true,
 if ($view == "my") {
     $block1->paletteScript(6, "edit", "../bookmarks/editbookmark.php?", "false,true,false", $strings["edit"]);
 }
-$block1->closePaletteScript(count($bookmarks), array_column($bookmarks, 'boo_id'));
+$block1->closePaletteScript(count($bookmarksList), array_column($bookmarksList, 'boo_id'));
 
 include APP_ROOT . '/views/layout/footer.php';
+
+$session->getFlashBag()->clear();

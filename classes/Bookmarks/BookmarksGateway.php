@@ -27,10 +27,10 @@ class BookmarksGateway
 
     /**
      * Delete bookmark
-     * @param integer $bookmarkId
+     * @param int $bookmarkId
      * @return bool
      */
-    public function deleteBookmark($bookmarkId)
+    public function deleteBookmark(int $bookmarkId): bool
     {
         $query = "DELETE FROM {$this->db->getTableName("bookmarks")} WHERE id IN(:bookmark_id)";
 
@@ -42,7 +42,7 @@ class BookmarksGateway
     }
 
     /**
-     * @param integer $ownerId
+     * @param int $ownerId
      * @param null $sorting
      * @return mixed
      */
@@ -58,11 +58,11 @@ class BookmarksGateway
     }
 
     /**
-     * @param integer $ownerId
+     * @param int $ownerId
      * @param null $sorting
      * @return mixed
      */
-    public function getMyHomeBookmarks($ownerId, $sorting = null)
+    public function getMyHomeBookmarks(int $ownerId, $sorting = null)
     {
         $whereStatement = " WHERE boo.home = '1' AND boo.owner = :owner_id ";
 
@@ -74,7 +74,7 @@ class BookmarksGateway
     }
 
     /**
-     * @param integer $ownerId
+     * @param int $ownerId
      * @param null $sorting
      * @return mixed
      */
@@ -90,7 +90,7 @@ class BookmarksGateway
     }
 
     /**
-     * @param integer $bookmarkId
+     * @param int $bookmarkId
      * @return mixed
      */
     public function getBookmarkById(int $bookmarkId)
@@ -120,7 +120,7 @@ class BookmarksGateway
     }
 
     /**
-     * @param integer $ownerId
+     * @param int $ownerId
      * @param null $sorting
      * @return mixed
      */
@@ -164,7 +164,7 @@ class BookmarksGateway
      * @param $categoryName
      * @return string
      */
-    public function addNewCategory($categoryName)
+    public function addNewCategory($categoryName): string
     {
         $query = "INSERT INTO " . $this->db->getTableName("bookmarks_categories") . " (name) VALUES(:category_name)";
 
@@ -178,10 +178,29 @@ class BookmarksGateway
     }
 
     /**
-     * @param $bookmarkData
+     * @param int $owner
+     * @param string $name
+     * @param string $url
+     * @param string $description
+     * @param int $category
+     * @param int $shared
+     * @param int $home
+     * @param int $comments
+     * @param string|null $sharedWith
+     * @param string $created
      * @return mixed
      */
-    public function addBookmark($bookmarkData)
+    public function addBookmark(
+        int $owner,
+        string $name,
+        string $url,
+        string $description,
+        int $category,
+        int $shared,
+        int $home,
+        int $comments,
+        ?string $sharedWith,
+        string $created)
     {
         $query = <<<SQL
 INSERT INTO {$this->db->getTableName("bookmarks")} 
@@ -202,25 +221,45 @@ SQL;
 
         $this->db->query($query);
 
-        $this->db->bind(':bookmark_owner', $bookmarkData['owner_id']);
-        $this->db->bind(':bookmark_url', $bookmarkData['url']);
-        $this->db->bind(':bookmark_name', $bookmarkData['name']);
-        $this->db->bind(':bookmark_description', $bookmarkData['description']);
-        $this->db->bind(':bookmark_comments', $bookmarkData['comments']);
-        $this->db->bind(':bookmark_created', $bookmarkData['timestamp']);
-        $this->db->bind(':bookmark_category', $bookmarkData['category']);
-        $this->db->bind(':bookmark_shared', $bookmarkData['shared']);
-        $this->db->bind(':bookmark_home', $bookmarkData['home']);
-        $this->db->bind(':bookmark_users', $bookmarkData['users']);
+        $this->db->bind(':bookmark_owner', $owner);
+        $this->db->bind(':bookmark_name', $name);
+        $this->db->bind(':bookmark_url', $url);
+        $this->db->bind(':bookmark_description', $description);
+        $this->db->bind(':bookmark_comments', $comments);
+        $this->db->bind(':bookmark_category', $category);
+        $this->db->bind(':bookmark_shared', $shared);
+        $this->db->bind(':bookmark_home', $home);
+        $this->db->bind(':bookmark_users', $sharedWith);
+        $this->db->bind(':bookmark_created', $created);
 
         return $this->db->execute();
     }
 
     /**
-     * @param $bookmarkData
+     * @param int $id
+     * @param string $name
+     * @param string $url
+     * @param string $description
+     * @param int $category
+     * @param int $shared
+     * @param int $home
+     * @param int $comments
+     * @param string|null $sharedWith
+     * @param string $modified
      * @return mixed
      */
-    public function updateBookmark($bookmarkData)
+    public function updateBookmark(
+        int $id,
+        string $name,
+        string $url,
+        string $description,
+        int $category,
+        int $shared,
+        int $home,
+        int $comments,
+        ?string $sharedWith,
+        string $modified
+    )
     {
         $query = <<<SQL
 UPDATE {$this->db->getTableName("bookmarks")} 
@@ -239,25 +278,25 @@ SQL;
 
         $this->db->query($query);
 
-        $this->db->bind(':bookmark_id', $bookmarkData['id']);
-        $this->db->bind(':bookmark_url', $bookmarkData['url']);
-        $this->db->bind(':bookmark_category', $bookmarkData['category']);
-        $this->db->bind(':bookmark_name', $bookmarkData['name']);
-        $this->db->bind(':bookmark_description', $bookmarkData['description']);
-        $this->db->bind(':bookmark_modified', $bookmarkData['timestamp']);
-        $this->db->bind(':bookmark_shared', $bookmarkData['shared']);
-        $this->db->bind(':bookmark_home', $bookmarkData['home']);
-        $this->db->bind(':bookmark_comments', $bookmarkData['comments']);
-        $this->db->bind(':bookmark_users', $bookmarkData['users']);
+        $this->db->bind(':bookmark_id', $id);
+        $this->db->bind(':bookmark_url', $url);
+        $this->db->bind(':bookmark_category', $category);
+        $this->db->bind(':bookmark_name', $name);
+        $this->db->bind(':bookmark_description', $description);
+        $this->db->bind(':bookmark_shared', $shared);
+        $this->db->bind(':bookmark_home', $home);
+        $this->db->bind(':bookmark_comments', $comments);
+        $this->db->bind(':bookmark_users', $sharedWith);
+        $this->db->bind(':bookmark_modified', $modified);
 
         return $this->db->execute();
     }
 
     /**
-     * @param string $sorting
+     * @param string|null $sorting
      * @return string
      */
-    private function orderBy($sorting)
+    private function orderBy(string $sorting = null): string
     {
         if (!is_null($sorting)) {
             $allowedOrderedBy = ["boo.name", "boo.category", "mem.login"];

@@ -4,6 +4,7 @@
 namespace phpCollab\Bookmarks;
 
 use InvalidArgumentException;
+use Laminas\Escaper\Escaper;
 use phpCollab\Database;
 use phpCollab\Util;
 
@@ -16,66 +17,69 @@ class Bookmarks
 {
     protected $bookmarks_gateway;
     protected $db;
+    protected $escaper;
 
     /**
      * Bookmarks constructor.
      * @param Database $database
+     * @param Escaper $escaper
      */
-    public function __construct(Database $database)
+    public function __construct(Database $database, Escaper $escaper)
     {
         $this->db = $database;
+        $this->escaper = $escaper;
         $this->bookmarks_gateway = new BookmarksGateway($this->db);
     }
 
     /**
-     * @param $ownerId
-     * @param $sorting
+     * @param int $ownerId
+     * @param string $type
+     * @param string|null $sorting
      * @return mixed
      */
-    public function getMyBookmarks($ownerId, $sorting)
+    public function getBookmarks(int $ownerId, string $type = '', string $sorting = null)
     {
-        $ownerId = filter_var($ownerId, FILTER_VALIDATE_INT);
+        if (!filter_var($ownerId, FILTER_VALIDATE_INT)) {
+            throw new InvalidArgumentException('User ID not valid');
+        }
+
         if (isset($sorting)) {
             $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
         }
-        return $this->bookmarks_gateway->getMyBookmarks($ownerId, $sorting);
-    }
 
-    /**
-     * @param $ownerId
-     * @param $sorting
-     * @return mixed
-     */
-    public function getMyHomeBookmarks($ownerId, $sorting)
-    {
-        $ownerId = filter_var($ownerId, FILTER_VALIDATE_INT);
-        if (isset($sorting)) {
-            $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
+        switch ($type) {
+            case 'private':
+                $bookmarks = $this->bookmarks_gateway->getPrivateBookmarks($ownerId, $sorting);
+                break;
+            case 'home':
+                $bookmarks = $this->bookmarks_gateway->getMyHomeBookmarks($ownerId, $sorting);
+                break;
+            case 'my':
+                $bookmarks = $this->bookmarks_gateway->getMyBookmarks($ownerId, $sorting);
+                break;
+            case 'all':
+            default:
+                $bookmarks = $this->bookmarks_gateway->getAllBookmarks($ownerId, $sorting);
+                break;
         }
-        return $this->bookmarks_gateway->getMyHomeBookmarks($ownerId, $sorting);
-    }
-
-    /**
-     * @param $ownerId
-     * @param $sorting
-     * @return mixed
-     */
-    public function getPrivateBookmarks($ownerId, $sorting)
-    {
-        $ownerId = filter_var($ownerId, FILTER_VALIDATE_INT);
-        if (isset($sorting)) {
-            $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
+        if ($bookmarks) {
+            foreach ($bookmarks as $key => $bookmark) {
+                $bookmarks[$key] = $this->escapeBookmarkOutput($bookmark);
+            }
         }
-        return $this->bookmarks_gateway->getPrivateBookmarks($ownerId, $sorting);
+
+        return $bookmarks;
     }
 
     /**
-     * @param $bookmarkId
+     * @param int $bookmarkId
      * @return mixed
      */
-    public function getBookmarkById($bookmarkId)
+    public function getBookmarkById(int $bookmarkId)
     {
-        return $this->bookmarks_gateway->getBookmarkById($bookmarkId);
+        $bookmark = $this->bookmarks_gateway->getBookmarkById($bookmarkId);
+
+        return $this->escapeBookmarkOutput($bookmark);
     }
 
     /**
@@ -84,21 +88,14 @@ class Bookmarks
      */
     public function getBookmarksInRange($range)
     {
-        return $this->bookmarks_gateway->getBookmarksInRange($range);
-    }
+        $bookmarks = $this->bookmarks_gateway->getBookmarksInRange($range);
 
-    /**
-     * @param $ownerId
-     * @param $sorting
-     * @return mixed
-     */
-    public function getAllBookmarks($ownerId, $sorting)
-    {
-        $ownerId = filter_var($ownerId, FILTER_VALIDATE_INT);
-        if (isset($sorting)) {
-            $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
+        foreach ($bookmarks as $key => $bookmark) {
+            $bookmarks[$key] = $this->escapeBookmarkOutput($bookmark);
         }
-        return $this->bookmarks_gateway->getAllBookmarks($ownerId, $sorting);
+
+        return $bookmarks;
+
     }
 
     /**
@@ -106,16 +103,64 @@ class Bookmarks
      */
     public function getBookmarkCategories()
     {
-        return $this->bookmarks_gateway->getAllBookmarkCategories();
+        $categories = $this->bookmarks_gateway->getAllBookmarkCategories();
+
+        foreach ($categories as $key => $category) {
+            $categories[$key] = $this->escapeCategoryOutput($category);
+        }
+
+        return $categories;
     }
 
     /**
-     * @param $categoryName
+     * @param Bookmark $bookmark
      * @return mixed
      */
-    public function getBookmarkCategoryByName($categoryName)
+    public function update(Bookmark $bookmark)
     {
-        $categoryName = filter_var((string)$categoryName, FILTER_SANITIZE_STRING);
+        if ($bookmark->get('category') != 0) {
+            if (!(int)$bookmark->get('category')) {
+                $bookmark->setCategory( $this->checkCategory($bookmark->get('category')) );
+            }
+        }
+
+        if (empty($bookmark->get('id'))) {
+            return $this->bookmarks_gateway->addBookmark(
+                $bookmark->get('owner'),
+                $bookmark->get('name'),
+                $bookmark->get('url'),
+                $bookmark->get('description'),
+                $bookmark->get('category'),
+                $bookmark->get('shared'),
+                $bookmark->get('home'),
+                $bookmark->get('comments'),
+                $bookmark->get('sharedWith'),
+                date('Y-m-d h:i')
+            );
+        }
+
+        return $this->bookmarks_gateway->updateBookmark(
+            $bookmark->get('id'),
+            $bookmark->get('name'),
+            $bookmark->get('url'),
+            $bookmark->get('description'),
+            $bookmark->get('category'),
+            $bookmark->get('shared'),
+            $bookmark->get('home'),
+            $bookmark->get('comments'),
+            $bookmark->get('sharedWith'),
+            date('Y-m-d h:i')
+        );
+
+    }
+
+    /**
+     * @param string $categoryName
+     * @return mixed
+     */
+    private function getBookmarkCategoryByName(string $categoryName)
+    {
+        $categoryName = filter_var($categoryName, FILTER_SANITIZE_STRING);
 
         return $this->bookmarks_gateway->getCategoryByName($categoryName);
     }
@@ -124,7 +169,7 @@ class Bookmarks
      * @param $categoryName
      * @return string
      */
-    public function addNewBookmarkCategory($categoryName)
+    private function addNewBookmarkCategory($categoryName): string
     {
         $categoryName = filter_var((string)$categoryName, FILTER_SANITIZE_STRING);
 
@@ -132,82 +177,57 @@ class Bookmarks
     }
 
     /**
-     * @param $bookmarkData
-     * @return array
+     * @param $category
+     * @return mixed|string|void
      */
-    public function validateData($bookmarkData)
+    private function checkCategory($category)
     {
-        $category = '';
-
-        if (empty($bookmarkData)) {
-            throw new InvalidArgumentException('Bookmark data is invalid');
-        }
-
-
-        if (!empty($bookmarkData["piecesNew"])) {
-            $bookmarkData["piecesNew"] = "|" . implode("|", $bookmarkData["piecesNew"]) . "|";
-        }
-        if (!empty($bookmarkData["category_new"])) {
+        if (!empty($category)) {
             /**
              * Check to see if the category exists
              */
-            $category = $this->getBookmarkCategoryByName($bookmarkData["category_new"]);
+            $categoryCheck = $this->getBookmarkCategoryByName($category);
 
             /**
              * If category is false, hence it doesn't exist, then add it
              */
-            if (!$category) {
-                $category = $this->addNewBookmarkCategory(Util::convertData($bookmarkData["category_new"]));
+            if (!$categoryCheck) {
+                return $this->addNewBookmarkCategory(Util::convertData($category));
             } else {
-                $category = $category["boocat_id"];
+                return $categoryCheck["boocat_id"];
+            }
+        }
+    }
+
+    /**
+     * @param $bookmark
+     * @return array|mixed
+     */
+    private function escapeBookmarkOutput($bookmark)
+    {
+        if (is_array($bookmark)) {
+            $bookmark["boo_name"] = $this->escaper->escapeHtml($bookmark["boo_name"]);
+            $bookmark["boo_description"] = $this->escaper->escapeHtml($bookmark["boo_description"]);
+            $bookmark["boo_url"] = $this->escaper->escapeHtml($bookmark["boo_url"]);
+
+            if (!empty($bookmark["boo_boocat_name"])) {
+                $bookmark["boo_boocat_name"] = $this->escaper->escapeHtml($bookmark["boo_boocat_name"]);
             }
         }
 
-        if (empty($bookmarkData["shared"]) || !empty($users)) {
-            $bookmarkData["shared"] = 0;
-        }
-        if ($bookmarkData["home"] == "") {
-            $bookmarkData["home"] = 0;
-        }
-        if ($bookmarkData["comments"] == "") {
-            $bookmarkData["comments"] = 0;
-        }
-
-        /**
-         * Filter/Sanitize form data
-         */
-        $filteredData = array();
-        $filteredData['url'] = filter_var((string)Util::addHttp($bookmarkData["url"]),
-            FILTER_SANITIZE_URL);
-        $filteredData['name'] = filter_var((string)Util::convertData($bookmarkData["name"]),
-            FILTER_SANITIZE_STRING);
-        $filteredData['description'] = filter_var((string)Util::convertData($bookmarkData["description"]),
-            FILTER_SANITIZE_STRING);
-        $filteredData['comments'] = filter_var(Util::convertData($bookmarkData["comments"]), FILTER_SANITIZE_STRING);
-        $filteredData['timestamp'] = date('Y-m-d h:i');
-        $filteredData['category'] = filter_var((int)$category, FILTER_VALIDATE_INT);
-        $filteredData['shared'] = filter_var((int)$bookmarkData["shared"], FILTER_VALIDATE_INT);
-        $filteredData['home'] = filter_var((int)$bookmarkData["home"], FILTER_VALIDATE_INT);
-        $filteredData['users'] = $bookmarkData["piecesNew"];
-
-        return $filteredData;
+        return $bookmark;
     }
 
     /**
-     * @param $formData
-     * @return mixed
+     * @param $category
+     * @return array|mixed
      */
-    public function addBookmark($formData)
+    private function escapeCategoryOutput($category)
     {
-        return $this->bookmarks_gateway->addBookmark($formData);
-    }
+        if (is_array($category)) {
+            $category["boocat_name"] = $this->escaper->escapeHtml($category["boocat_name"]);
+        }
 
-    /**
-     * @param $formData
-     * @return mixed
-     */
-    public function updateBookmark($formData)
-    {
-        return $this->bookmarks_gateway->updateBookmark($formData);
+        return $category;
     }
 }

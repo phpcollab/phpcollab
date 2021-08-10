@@ -723,6 +723,13 @@ $strings["file_remove_error"] = "There was a problem removing the file, please t
 $strings["error_too_many_attempts"] = sprintf($strings["error_message"], "You have tried too many times. Please wait and try again.");
 $strings["error_email_already_sent"] = "Email has been sent.  Please check your inbox or contact your administrator.";
 $strings["invalid_email"] = "Email address appears to be invalid, please check and try again.";
+$strings["share_with"] = "Share with";
+$strings["bookmark_added"] = sprintf($strings["success_message"], "Bookmark created");
+$strings["bookmark_updated"] = sprintf($strings["success_message"], "Bookmark updated");
+$strings["bookmark_view_all"] = "View All Bookmarks";
+$strings["bookmark_view_my"] = "View My Bookmarks";
+$strings["bookmark_view_private"] = "View Private Bookmarks";
+$strings["bookmark_error_url_invalid"] = "Please enter a valid URL for the bookmark";
 
 /**
  * Error messages
