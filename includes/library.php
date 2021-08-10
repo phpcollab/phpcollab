@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Session\Attribute\NamespacedAttributeBag;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 
-define('APP_ROOT', dirname(dirname(__FILE__)));
+define('APP_ROOT', dirname(__FILE__, 2));
 
 set_exception_handler(function ($exception) {
     error_log("FATAL ERROR (1): " . $exception . "\n");
@@ -32,7 +32,7 @@ $container = new Container([
     'dbPassword' => MYPASSWORD,
     'dbName' => MYDATABASE,
     'tableCollab' => $tableCollab,
-    'dbType' => $databaseType
+    'dbType' => $databaseType,
 ]);
 
 /*
@@ -86,7 +86,7 @@ $updateDatabase = array(
 );
 
 //languages array
-$langValue = array(
+$languagesArray = array(
     "en" => "English",
     "es" => "Spanish",
     "fr" => "French",
@@ -152,10 +152,16 @@ if ($session->get("language") !== 'en') {
     require_once APP_ROOT . '/languages/help_' . $session->get("language") . '.php';
 }
 
-$loginLogs = $container->getLoginLogs();
+// Set the language in the Container
+$container->setLanguage( $session->get('language') ?? $langDefault ?? 'en' );
 
-$sort = $container->getSortingLoader();
-$members = $container->getMembersLoader();
+try {
+    $loginLogs = $container->getLoginLogs();
+    $sort = $container->getSortingLoader();
+    $members = $container->getMembersLoader();
+} catch (Exception $exception) {
+    $logger->critical('ERROR - Library.php: ' . $exception->getMessage());
+}
 
 if (empty(THEME) && empty($theme)) {
     $theme = "default";
