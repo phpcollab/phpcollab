@@ -57,6 +57,7 @@ class Container
 {
     private $database;
     private $configuration;
+    private $language;
     private $logger;
     private $csrfHandler;
     private $bookmarkLoader;
@@ -128,6 +129,22 @@ class Container
             }
         }
         return $this->database;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    /**
+     * @param mixed $language
+     */
+    public function setLanguage($language): void
+    {
+        $this->language = $language;
     }
 
     /**
