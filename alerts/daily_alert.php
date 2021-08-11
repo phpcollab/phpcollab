@@ -79,7 +79,7 @@ if (php_sapi_name() == "cli") {
             exit('ERROR - DATABASE' . $strings['error_server']);
         }
         $alert = new DailyAlerts($container->getPDO(), $container);
-        $alert->sendEmail($langDefault);
+        $alert->sendEmail();
 
         // Return successfully
         $executionTime = microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"];
