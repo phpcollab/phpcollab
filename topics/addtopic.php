@@ -80,7 +80,7 @@ if ($request->isMethod('post')) {
 
                             $notificationList = $sendNotifications->getNotificationsWhereMemberIn($posters);
 
-                            $newTopicNotice->generateEmail($detailTopic, $projectDetail, $notificationList, $session);
+                            $newTopicNotice->generateEmail($detailTopic, $projectDetail, $notificationList, $session, $logger);
                         } catch (Exception$e) {
                             $logger->error($e->getMessage());
                             $error = $strings["action_not_allowed"];

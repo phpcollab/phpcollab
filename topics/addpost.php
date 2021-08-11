@@ -60,7 +60,7 @@ if ($request->isMethod('post')) {
                         try {
                             $notificationList = $sendNotifications->getNotificationsWhereMemberIn($posters);
 
-                            $newPostNotice->generateEmail($detailTopic, $projectDetail, $notificationList, $session);
+                            $newPostNotice->generateEmail($detailTopic, $projectDetail, $notificationList, $session, $logger);
 
                         } catch (Exception$e) {
                             $logger->error($e->getMessage());
