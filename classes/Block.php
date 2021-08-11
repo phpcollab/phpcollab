@@ -798,12 +798,12 @@ SCRIPT;
      * @param $type
      * @return string
      */
-    public function buildLink($url, $label, $type)
+    public function buildLink($url, $label, $type, $class = null)
     {
         if (!empty($url)) {
 
             if ($type == "in") {
-                return '<a href="' . $url . '">' . $label . '</a>';
+                return '<a href="' . $url . '" class="'. $class  .'">' . $label . '</a>';
             } else {
                 if ($type == "icone") {
                     return '<a href="' . $url . '&"><img src="../interface/icones/' . $label . '" alt=""></a>';
