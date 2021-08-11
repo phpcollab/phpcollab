@@ -40,12 +40,12 @@ class SubtaskNotifications extends Notification
                 $idPriority = $this->taskDetails["subtas_priority"];
 
                 $body = <<<MESSAGE_BODY
-{$this->partMessage}
+$this->partMessage
 
 {$this->strings["subtask"]} : {$this->taskDetails["subtas_name"]}
 {$this->strings["start_date"]} : {$this->taskDetails["subtas_start_date"]}
 {$this->strings["due_date"]} : {$this->taskDetails["subtas_due_date"]}
-{$this->strings["completion"]} : {$complValue}
+{$this->strings["completion"]} : $complValue
 {$this->strings["priority"]} : {$this->priority[$idPriority]}
 {$this->strings["status"]} : {$this->status[$idStatus]}
 {$this->strings["description"]} : {$this->taskDetails["subtas_description"]}
@@ -66,7 +66,7 @@ MESSAGE_BODY;
                 if ($this->taskDetails["subtas_mem_organization"] == "1") {
                     $body .= $this->root . "/general/login.php?url=subtasks/viewsubtask.php%3Fid={$this->taskDetails["subtas_id"]}%26task={$this->taskDetails["subtas_task"]}";
                 } elseif ($this->taskDetails["subtas_mem_organization"] != "1" && $this->projectDetails["pro_published"] == "0" && $this->taskDetails["subtas_published"] == "0") {
-                    $body .= "{$this->root}/general/login.php?url=projects_site/home.php%3Fproject=" . $this->projectDetails["pro_id"];
+                    $body .= "$this->root/general/login.php?url=projects_site/home.php%3Fproject=" . $this->projectDetails["pro_id"];
                 }
 
                 $body .= "\n\n" . $this->footer;

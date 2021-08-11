@@ -222,14 +222,6 @@ class NewsDesk
     }
 
     /**
-     * @return mixed
-     */
-    public function getRSSFeed()
-    {
-        return $this->newsdesk_gateway->getRSSPosts();
-    }
-
-    /**
      * @param $userId
      * @param null $profile
      * @return mixed

@@ -18,7 +18,7 @@ class Publish
     }
 
     /**
-     * @param $invoiceId
+     * @param int $invoiceId
      * @return mixed
      * @throws Exception
      */
@@ -36,7 +36,7 @@ class Publish
     }
 
     /**
-     * @param $invoiceId
+     * @param int $invoiceId
      * @return mixed
      * @throws Exception
      */

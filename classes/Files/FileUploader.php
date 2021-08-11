@@ -4,7 +4,6 @@
 namespace phpCollab\Files;
 
 use Exception;
-use InvalidArgumentException;
 use phpCollab\Database;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -39,15 +38,16 @@ class FileUploader
     }
 
     /**
-     * @return Exception|false
+     * @return void
      */
-    private function hasErrors()
+    private function hasErrors(): void
     {
         // Check for any errors with the file
         try {
-            return CheckForFileErrorsService::hasErrors($this->fileObj);
+            CheckForFileErrorsService::hasErrors($this->fileObj);
+            return;
         } catch (Exception $exception) {
-            return $exception;
+            return;
         }
     }
 

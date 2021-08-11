@@ -1,6 +1,7 @@
 <?php
 
 use phpCollab\Util;
+use phpCollab\Block;
 
 $checkSession = "true";
 require_once '../includes/library.php';
@@ -186,7 +187,7 @@ if (!$projectDetail) {
     phpCollab\Util::headerFunction("../projects/listprojects.php?msg=blankProject");
 }
 
-$listTasksTime = $tasks->getTasksByProjectId($id, 'tas.name');
+$listTasksTime = $tasks->getTasksByProjectId($id, null, null, 'tas.name');
 
 if ($listTasksTime) {
     foreach ($listTasksTime as $task) {
@@ -226,7 +227,7 @@ $setTitle .= " : View Project (" . $projectDetail["pro_name"] . ")";
 
 include APP_ROOT . '/views/layout/header.php';
 
-$blockPage = new phpCollab\Block();
+$blockPage = new Block();
 $blockPage->openBreadcrumbs();
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../projects/listprojects.php?", $strings["projects"], "in"));
 $blockPage->itemBreadcrumbs($projectDetail["pro_name"]);
@@ -242,7 +243,7 @@ $blockPage->setLimitsNumber(4);
 $idStatus = $projectDetail["pro_status"];
 $idPriority = $projectDetail["pro_priority"];
 
-$block1 = new phpCollab\Block();
+$block1 = new Block();
 
 $block1->form = "pdD";
 $block1->openForm("../projects/listprojects.php#" . $block1->form . "Anchor", null, $csrfHandler);
@@ -409,7 +410,7 @@ if ($session->get("id") == $projectDetail["pro_owner"] || $session->get("profile
 
 //Phase or Task list block
 if ($projectDetail["pro_phase_set"] != "0") {
-    $block7 = new phpCollab\Block();
+    $block7 = new Block();
     $block7->form = "wbSe";
     $block7->openForm("../projects/viewproject.php?id=$id&#" . $block7->form . "Anchor", null, $csrfHandler);
     $block7->headingToggle($strings["phases"], $request->cookies->get( $block7->form ));
@@ -484,7 +485,7 @@ if ($projectDetail["pro_phase_set"] != "0") {
 
     $block7->closePaletteScript(count($listPhases), array_column($listPhases, 'pha_id'));
 } else {
-    $block2 = new phpCollab\Block();
+    $block2 = new Block();
     $block2->form = "wbTuu";
     $block2->openForm("../projects/viewproject.php?&id=" . $projectDetail["pro_id"] . "#" . $block2->form . "Anchor",
         null, $csrfHandler);
@@ -628,7 +629,7 @@ if ($projectDetail["pro_phase_set"] != "0") {
     $block2->closePaletteScript(count($listTasks), array_column($listTasks, 'tas_id'));
 }
 
-$discussionsBlock = new phpCollab\Block();
+$discussionsBlock = new Block();
 $discussionsBlock->form = "pdH";
 $discussionsBlock->openForm("../projects/viewproject.php?id=$id&#" . $discussionsBlock->form . "Anchor", null,
     $csrfHandler);
@@ -743,7 +744,7 @@ if ($session->get("id") == $projectDetail["pro_owner"] || $session->get("profile
 $discussionsBlock->paletteScript(5, "info", "../topics/viewtopic.php?", "false,true,false", $strings["view"]);
 $discussionsBlock->closePaletteScript(count($topicsList), array_column($topicsList, 'top_id'));
 
-$teamBlock = new phpCollab\Block();
+$teamBlock = new Block();
 $teamBlock->form = "pdM";
 $teamBlock->openForm("../projects/viewproject.php?&id=" . $projectDetail["pro_id"] . "#" . $teamBlock->form . "Anchor",
     null, $csrfHandler);
@@ -849,7 +850,7 @@ $teamBlock->closePaletteScript(count($teamList), array_column($teamList, 'tea_me
  */
 if ($fileManagement == "true") {
 
-    $filesBlock = new phpCollab\Block();
+    $filesBlock = new Block();
     $filesBlock->form = "tdC";
     $filesBlock->openForm("../projects/viewproject.php?&id=$id#" . $filesBlock->form . "Anchor", null, $csrfHandler);
     $filesBlock->headingToggle($strings["linked_content"], $request->cookies->get( $filesBlock->form ));
@@ -975,7 +976,7 @@ if ($fileManagement == "true") {
  * -------------------
  * Begin Notes Section
  */
-$notesBlock = new phpCollab\Block();
+$notesBlock = new Block();
 $notesBlock->form = "wbJ";
 $notesBlock->openForm("../projects/viewproject.php?&id=" . $projectDetail["pro_id"] . "#" . $notesBlock->form . "Anchor",
     null, $csrfHandler);

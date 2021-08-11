@@ -15,6 +15,14 @@ class SetTaskStatus extends Tasks
         parent::__construct($database, $container);
     }
 
+    /**
+     * @param int $taskId
+     * @param int $status
+     * @param null $comments
+     * @param null $modifiedDate
+     * @param null $completedDate
+     * @return mixed
+     */
     public function set(int $taskId, int $status, $comments = null, $modifiedDate = null, $completedDate = null)
     {
 
@@ -40,7 +48,15 @@ class SetTaskStatus extends Tasks
 
     }
 
-    private function updateStatus($taskId, $status, $comment, $modifiedDate, $completedDate)
+    /**
+     * @param int $taskId
+     * @param int $status
+     * @param string $comment
+     * @param string $modifiedDate
+     * @param string $completedDate
+     * @return mixed
+     */
+    private function updateStatus(int $taskId, int $status, string $comment, string $modifiedDate, string $completedDate)
     {
         $sql = <<<SQL
 UPDATE {$this->db->getTableName("tasks")} 

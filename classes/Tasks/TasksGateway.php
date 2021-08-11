@@ -209,7 +209,7 @@ class TasksGateway
             $subtaskIds = explode(',', $subtasks);
             $placeholders = str_repeat('?, ', count($subtaskIds) - 1) . '?';
 
-            $tmpquery = " WHERE (tas.assigned_to = ? AND tas.status IN(0,2,3) AND pro.status IN(0,2,3)) OR tas.id IN({$placeholders})";
+            $tmpquery = " WHERE (tas.assigned_to = ? AND tas.status IN(0,2,3) AND pro.status IN(0,2,3)) OR tas.id IN($placeholders)";
         } else {
             $tmpquery = " WHERE tas.assigned_to = ? AND tas.status IN(0,2,3) AND pro.status IN(0,2,3)";
         }
@@ -244,7 +244,7 @@ class TasksGateway
     {
         $userIds = explode(',', $userId);
         $placeholders = str_repeat('?, ', count($userIds) - 1) . '?';
-        $sql = "SELECT tas.id FROM {$this->db->getTableName("tasks")} tas WHERE tas.assigned_to IN({$placeholders})";
+        $sql = "SELECT tas.id FROM {$this->db->getTableName("tasks")} tas WHERE tas.assigned_to IN($placeholders)";
 
         $this->db->query($sql);
         $this->db->execute($userIds);
@@ -638,7 +638,7 @@ SQL;
      * @param null $sorting
      * @return mixed
      */
-    public function getSubtasksByParentTaskIdIn($parentTaskIds, $sorting = null)
+    public function getSubtasksByParentTaskIdIn(string $parentTaskIds, $sorting = null)
     {
         $parentTaskIds = explode(',', $parentTaskIds);
         $placeholders = str_repeat('?, ', count($parentTaskIds) - 1) . '?';
@@ -745,7 +745,7 @@ SQL;
      * @param String $sql
      * @return mixed
      */
-    public function getReportTasks($sql)
+    public function getReportTasks(string $sql)
     {
         $query = $this->initrequest["tasks"] . ' ' . $sql;
         $this->db->query($query);
@@ -874,7 +874,7 @@ SQL;
         $ids = explode(',', $ids);
         $placeholders = str_repeat('?, ', count($ids) - 1) . '?';
         $placeholders2 = str_repeat('?, ', count($ids) - 1) . '?';
-        $sql = "UPDATE {$this->db->getTableName("files")} SET published=0 WHERE id IN ({$placeholders}) OR vc_parent IN ({$placeholders2})";
+        $sql = "UPDATE {$this->db->getTableName("files")} SET published=0 WHERE id IN ($placeholders) OR vc_parent IN ($placeholders2)";
 
         $this->db->query($sql);
 
@@ -967,46 +967,46 @@ SQL;
     }
 
     /**
-     * @param $projectId
-     * @param $name
-     * @param $description
-     * @param $owner
-     * @param $assignedTo
-     * @param $status
-     * @param $priority
-     * @param $startDate
-     * @param $dueDate
-     * @param $estimatedTime
-     * @param $actualTime
-     * @param $comments
-     * @param $published
-     * @param $completion
-     * @param $parentPhase
-     * @param $invoicing
-     * @param $workedHours
-     * @param $assignedDate
+     * @param int $projectId
+     * @param string $name
+     * @param string $description
+     * @param int $owner
+     * @param int $assignedTo
+     * @param int $status
+     * @param int $priority
+     * @param string $startDate
+     * @param string $dueDate
+     * @param float $estimatedTime
+     * @param float $actualTime
+     * @param string $comments
+     * @param int $published
+     * @param int $completion
+     * @param int $parentPhase
+     * @param int $invoicing
+     * @param float $workedHours
+     * @param string|null $assignedDate
      * @return string
      */
     public function addTask(
-        $projectId,
-        $name,
-        $description,
-        $owner,
-        $assignedTo,
-        $status,
-        $priority,
-        $startDate,
-        $dueDate,
-        $estimatedTime,
-        $actualTime,
-        $comments,
-        $published,
-        $completion,
-        $parentPhase,
-        $invoicing,
-        $workedHours,
-        $assignedDate
-    ) {
+        int $projectId,
+        string $name,
+        string $description,
+        int $owner,
+        int $assignedTo,
+        int $status,
+        int $priority,
+        string $startDate,
+        string $dueDate,
+        float $estimatedTime,
+        float $actualTime,
+        string $comments,
+        int $published,
+        int $completion,
+        int $parentPhase,
+        int $invoicing,
+        float $workedHours,
+        string $assignedDate = null
+    ): string {
         $sql = <<<SQL
 INSERT INTO {$this->db->getTableName("tasks")} (
 project, name, description, owner, assigned_to, status, priority, start_date, due_date, 
@@ -1044,43 +1044,43 @@ SQL;
     }
 
     /**
-     * @param $taskName
-     * @param $description
-     * @param $assignedTo
-     * @param $status
-     * @param $priority
-     * @param $startDate
-     * @param $dueDate
-     * @param $estimatedTime
-     * @param $actualTime
-     * @param $comments
-     * @param $modifiedDate
-     * @param $completion
-     * @param $parentPhase
-     * @param $published
-     * @param $invoicing
-     * @param $workedHours
-     * @param $taskId
+     * @param string $taskName
+     * @param string $description
+     * @param int $assignedTo
+     * @param int $status
+     * @param int $priority
+     * @param string $startDate
+     * @param string $dueDate
+     * @param float $estimatedTime
+     * @param float $actualTime
+     * @param string $comments
+     * @param string $modifiedDate
+     * @param int $completion
+     * @param int $parentPhase
+     * @param int $published
+     * @param int $invoicing
+     * @param float $workedHours
+     * @param int $taskId
      * @return mixed
      */
     public function updateTask(
-        $taskName,
-        $description,
-        $assignedTo,
-        $status,
-        $priority,
-        $startDate,
-        $dueDate,
-        $estimatedTime,
-        $actualTime,
-        $comments,
-        $modifiedDate,
-        $completion,
-        $parentPhase,
-        $published,
-        $invoicing,
-        $workedHours,
-        $taskId
+        string $taskName,
+        string $description,
+        int $assignedTo,
+        int $status,
+        int $priority,
+        string $startDate,
+        string $dueDate,
+        float $estimatedTime,
+        float $actualTime,
+        string $comments,
+        string $modifiedDate,
+        int $completion,
+        int $parentPhase,
+        int $published,
+        int $invoicing,
+        float $workedHours,
+        int $taskId
     ) {
         $sql = <<<SQL
 UPDATE {$this->db->getTableName("tasks")} SET 
@@ -1126,11 +1126,11 @@ SQL;
     }
 
     /**
-     * @param $projectId
-     * @param $taskId
+     * @param int $projectId
+     * @param int $taskId
      * @return mixed
      */
-    public function setProjectByTaskId($projectId, $taskId)
+    public function setProjectByTaskId(int $projectId, int $taskId)
     {
         $sql = "UPDATE {$this->db->getTableName("tasks")} SET project = :project_id WHERE id = :task_id";
         $this->db->query($sql);
@@ -1140,11 +1140,11 @@ SQL;
     }
 
     /**
-     * @param $taskId
-     * @param $date
+     * @param int $taskId
+     * @param string $date
      * @return mixed
      */
-    public function setCompletionDateForTaskById($taskId, $date)
+    public function setCompletionDateForTaskById(int $taskId, string $date)
     {
         $sql = "UPDATE {$this->db->getTableName("tasks")} SET complete_date = :complete_date WHERE id = :task_id";
         $this->db->query($sql);
@@ -1154,13 +1154,13 @@ SQL;
     }
 
     /**
-     * @param $query
-     * @param null $sorting
-     * @param null $limit
-     * @param null $rowLimit
+     * @param string $query
+     * @param string|null $sorting
+     * @param int|null $limit
+     * @param int|null $rowLimit
      * @return mixed
      */
-    public function searchResultTasks($query, $sorting = null, $limit = null, $rowLimit = null)
+    public function searchResultTasks(string $query, string $sorting = null, int $limit = null, int $rowLimit = null)
     {
         $sql = $this->initrequest['tasks'] . ' ' . $query . $this->orderBy($sorting) . $this->limit($limit, $rowLimit);
         $this->db->query($sql);
@@ -1169,13 +1169,13 @@ SQL;
     }
 
     /**
-     * @param $query
-     * @param null $sorting
-     * @param null $limit
-     * @param null $rowLimit
+     * @param string $query
+     * @param string|null $sorting
+     * @param int|null $limit
+     * @param int|null $rowLimit
      * @return mixed
      */
-    public function searchResultSubTasks($query, $sorting = null, $limit = null, $rowLimit = null)
+    public function searchResultSubTasks(string $query, string $sorting = null, int $limit = null, int $rowLimit = null)
     {
         $sql = $this->initrequest['subtasks'] . ' ' . $query . $this->orderBy($sorting) . $this->limit($limit,
                 $rowLimit);
@@ -1185,10 +1185,10 @@ SQL;
     }
 
     /**
-     * @param $taskId
+     * @param int $taskId
      * @return mixed
      */
-    public function recalculateSubtaskAverage($taskId)
+    public function recalculateSubtaskAverage(int $taskId)
     {
         $sql = "select avg(completion) as average from {$this->db->getTableName("subtasks")} where task = :task_id";
         $this->db->query($sql);
@@ -1198,23 +1198,23 @@ SQL;
 
     /**
      * Returns the LIMIT attribute for SQL strings
-     * @param $offset
-     * @param $limit
+     * @param int|null $offset
+     * @param int|null $limit
      * @return string
      */
-    private function limit($offset, $limit)
+    private function limit(int $offset = null, int $limit = null): string
     {
         if (!is_null($offset) && !is_null($limit)) {
-            return " LIMIT {$limit} OFFSET {$offset}";
+            return " LIMIT $limit OFFSET $offset";
         }
         return '';
     }
 
     /**
-     * @param $sorting
+     * @param string|null $sorting
      * @return string
      */
-    private function orderBy($sorting)
+    private function orderBy(string $sorting = null): string
     {
         if (!is_null($sorting)) {
             $allowedOrderedBy = [

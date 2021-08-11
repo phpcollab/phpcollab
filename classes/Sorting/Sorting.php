@@ -49,7 +49,7 @@ class Sorting
      * @param Integer $userId
      * @return mixed
      */
-    public function updateSortingTargetByUserId($target, $value, $userId)
+    public function updateSortingTargetByUserId(string $target, string $value, Integer $userId)
     {
         return $this->sorting_gateway->updateSortingTargetByUserId($target, $value, $userId);
     }
@@ -58,7 +58,7 @@ class Sorting
      * @param $sorting
      * @return string
      */
-    public function bookmarkSorting($sorting)
+    public function bookmarkSorting($sorting): string
     {
         if (!is_null($sorting)) {
             $allowedOrderedBy = ["boo.name", "boo.category", "mem.login"];

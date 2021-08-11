@@ -73,7 +73,7 @@ class DailyAlertEmail extends Notification
                     $body .= <<<BODY
 {$this->strings['task']} : {$task["name"]} ({$task["id"]})
 {$this->strings['project']} : {$task["project_name"]}
-{$this->strings['link']} : {$this->root}/tasks/viewtask.php?id={$task["id"]}
+{$this->strings['link']} : $this->root/tasks/viewtask.php?id={$task["id"]}
 {$this->strings['start_date']} : {$task["start_date"]}
 {$this->strings['due_date']} : {$task["due_date"]}
 {$this->strings['completion']} : $completion 
@@ -124,7 +124,7 @@ BODY;
 
                     $body .= <<<BODY
 {$this->strings["task"]} : {$subtask["name"]}  ({$subtask["id"]} ) 
-{$this->strings["link"]} : {$this->root}/subtasks/viewsubtask.php?id={$subtask["id"]} &task={$subtask["parent_id"]} 
+{$this->strings["link"]} : $this->root/subtasks/viewsubtask.php?id={$subtask["id"]} &task={$subtask["parent_id"]} 
 {$this->strings["task"]} : {$subtask["parent_name"]}  ({$subtask["parent_id"]} ) 
 {$this->strings["start_date"]} : {$subtask["start_date"]} 
 {$this->strings["due_date"]} : {$subtask["due_date"]} 

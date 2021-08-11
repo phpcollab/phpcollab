@@ -22,13 +22,13 @@ class TaskUpdatesGateway
     }
 
     /**
-     * @param $type
-     * @param $item
-     * @param $member
-     * @param $comments
+     * @param int $type
+     * @param int $item
+     * @param int $member
+     * @param string $comments
      * @return string
      */
-    public function addUpdate($type, $item, $member, $comments)
+    public function addUpdate(int $type, int $item, int $member, string $comments): string
     {
         $sql = "INSERT INTO {$this->db->getTableName("updates")} (type, item, member, comments, created) VALUES (:type, :item, :member, :comments, :created)";
         $this->db->query($sql);
@@ -42,12 +42,12 @@ class TaskUpdatesGateway
     }
 
     /**
-     * @param $type
-     * @param $taskId
-     * @param null $sorting
+     * @param int $type
+     * @param int $taskId
+     * @param string|null $sorting
      * @return mixed
      */
-    public function getUpdates($type, $taskId, $sorting = null)
+    public function getUpdates(int $type, int $taskId, string $sorting = null)
     {
         if (is_null($sorting)) {
             $sorting = 'upd.created DESC';
@@ -64,10 +64,10 @@ class TaskUpdatesGateway
     }
 
     /**
-     * @param $sorting
+     * @param string|null $sorting
      * @return string
      */
-    private function orderBy($sorting)
+    private function orderBy(string $sorting = null): string
     {
         if (!is_null($sorting)) {
             $allowedOrderedBy = ["upd.created"];

@@ -89,7 +89,7 @@ class Notes
      * @param $noteData
      * @return string
      */
-    public function addNote($noteData)
+    public function addNote($noteData): string
     {
         return $this->notes_gateway->insertNote($noteData);
     }

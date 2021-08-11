@@ -59,9 +59,9 @@ class UpdateFile extends Files
         $published,
         $vc_version,
         $vc_parent,
-        $status = 2,
-        $vc_status = 3
-    ) {
+        int $status = 2,
+        int $vc_status = 3
+    ): string {
         if (empty($approver)) {
             $approver = 0;
         } elseif (!is_int(filter_var($approver, FILTER_VALIDATE_INT))) {
@@ -102,7 +102,7 @@ class UpdateFile extends Files
      * @param int $fileSize
      * @return mixed
      */
-    public function setFileSize(int $fileId, $fileSize)
+    public function setFileSize(int $fileId, int $fileSize)
     {
         if (!is_int(filter_var($fileId, FILTER_VALIDATE_INT))) {
             throw new InvalidArgumentException('File ID is missing or invalid.');
@@ -112,37 +112,6 @@ class UpdateFile extends Files
         }
 
         return $this->updateSize($fileId, $fileSize);
-    }
-
-    /**
-     * @param $fileId
-     * @param $version
-     * @return mixed
-     */
-    public function setVersion($fileId, $version)
-    {
-        if (!is_int(filter_var($fileId, FILTER_VALIDATE_INT)) || !is_int(filter_var($version, FILTER_VALIDATE_INT))) {
-            throw new InvalidArgumentException('File ID is missing or invalid.');
-        }
-
-        return $this->updateVersion($fileId, $version);
-    }
-
-    /**
-     * @param $fileId
-     * @param $version
-     * @return mixed
-     */
-    private function updateVersion($fileId, $version)
-    {
-        $sql = <<<SQL
-UPDATE {$this->db->getTableName("files")} SET vc_version = :version
-WHERE id = :file_id
-SQL;
-        $this->db->query($sql);
-        $this->db->bind(":file_id", $fileId);
-        $this->db->bind(":version", $version);
-        return $this->db->execute();
     }
 
     /**
@@ -230,7 +199,7 @@ SQL;
         $vc_status,
         $vc_version,
         $vc_parent
-    ) {
+    ): string {
         $sql = <<< SQL
 INSERT INTO {$this->db->getTableName("files")} 
 (owner, project, task, name, date, size, extension, comments, comments_approval, approver, date_approval, upload, published, status, vc_status, vc_version, vc_parent)
@@ -297,7 +266,7 @@ SQL;
 {$this->strings["noti_file_update_details"]}
 ============
 {$this->strings["comments"]}:
-{$comment}
+$comment
 
 
 {$this->strings["file_details"]}
@@ -312,7 +281,8 @@ BODY;
 
                     if ($notificationDetails["organization"] == "1") {
                         $body .= $this->root . "/general/login.php?url=linkedcontent/viewfile.php?id=" . $this->fileDetails["fil_id"];
-                    } elseif ($notificationDetails["organization"] != "1") {
+                    }
+                    if ($notificationDetails["organization"] != "1") {
                         $body .= $this->root . "/general/login.php?url=projects_site/home.php?project=" . $this->projectDetails["pro_id"];
                     }
 

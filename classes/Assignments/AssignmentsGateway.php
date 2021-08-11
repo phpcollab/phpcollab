@@ -30,9 +30,9 @@ class AssignmentsGateway
      * @param $assignedTo
      * @param $assignedDate
      * @param null $comments
-     * @return mixed
+     * @return string
      */
-    public function addAssignment($taskId, $taskOwner, $assignedTo, $assignedDate, $comments = null)
+    public function addAssignment($taskId, $taskOwner, $assignedTo, $assignedDate, $comments = null): string
     {
         $sql = <<<SQL
 INSERT INTO {$this->db->getTableName("assignments")} 
@@ -167,10 +167,10 @@ SQL;
     }
 
     /**
-     * @param string $sorting
+     * @param string|null $sorting
      * @return string
      */
-    private function orderBy($sorting)
+    private function orderBy(string $sorting = null): string
     {
         if (!is_null($sorting)) {
             $allowedOrderedBy = ["ass_id", "ass_task", "ass_owner", "ass_assigned_to", "ass_comments", "ass.comments", "ass_assigned", "ass.assigned", "ass_mem1_id", "ass_mem1_login", "ass_mem1_name", "ass_mem1_email_work", "ass_mem2_id", "ass_mem2_login", "ass_mem2_name", "ass_mem2_email_work", "mem1.login", "mem2.login"];

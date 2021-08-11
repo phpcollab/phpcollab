@@ -134,26 +134,6 @@ class FilesGateway
     }
 
     /**
-     * @return mixed
-     */
-    public function getPublishedFiles()
-    {
-        $query = $this->initrequest["files"] . " WHERE fil.published = '0'";
-        $this->db->query($query);
-        return $this->db->resultset();
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUnPublishedFiles()
-    {
-        $query = $this->initrequest["files"] . " WHERE fil.published = '1'";
-        $this->db->query($query);
-        return $this->db->resultset();
-    }
-
-    /**
      * @param $fileId
      * @return mixed
      */
@@ -250,30 +230,6 @@ class FilesGateway
     }
 
     /**
-     * @param $fileId
-     * @return mixed
-     */
-    public function publishFile($fileId)
-    {
-        $query = "UPDATE {$this->db->getTableName("files")} SET published = 1 WHERE id = :file OR vc_parent = :file";
-        $this->db->query($query);
-        $this->db->bind(":file", $fileId);
-        return $this->db->execute();
-    }
-
-    /**
-     * @param $fileId
-     * @return mixed
-     */
-    public function unPublishFile($fileId)
-    {
-        $query = "UPDATE {$this->db->getTableName("files")} SET published = 0 WHERE id = :file OR vc_parent = :file";
-        $this->db->query($query);
-        $this->db->bind(":file", $fileId);
-        return $this->db->execute();
-    }
-
-    /**
      * @param $fileIds
      * @return mixed
      */
@@ -350,9 +306,9 @@ class FilesGateway
      * @param $status
      * @param $vcVersion
      * @param $vcParent
-     * @return mixed
+     * @return string
      */
-    public function addFile($owner, $project, $phase, $task, $comments, $status, $vcVersion, $vcParent)
+    public function addFile($owner, $project, $phase, $task, $comments, $status, $vcVersion, $vcParent): string
     {
         $query = <<<SQL
 INSERT INTO {$this->db->getTableName("files")} 
@@ -426,10 +382,10 @@ SQL;
 
 
     /**
-     * @param $sorting
+     * @param string|null $sorting
      * @return string
      */
-    private function orderBy($sorting)
+    private function orderBy(string $sorting = null): string
     {
         if (!is_null($sorting)) {
             $allowedOrderedBy = [

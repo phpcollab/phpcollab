@@ -148,7 +148,7 @@ class Calendars
         $broadcast,
         $recurring,
         $recur_day
-    ) {
+    ): string {
         return $this->calendars_gateway->addEvent($owner, $subject, $description, $location, $shortname,
             $date_start, $date_end, $time_start, $time_end, $reminder, $broadcast, $recurring, $recur_day);
     }
@@ -157,7 +157,7 @@ class Calendars
      * @param $timestamp
      * @return int
      */
-    public function dayOfWeek($timestamp)
+    public function dayOfWeek($timestamp): int
     {
         $dayOfWeek = strftime("%w", $timestamp);
         return intval($dayOfWeek) + 1;

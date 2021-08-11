@@ -35,6 +35,7 @@ class Support
      * @param Database $database
      * @param Container $container
      * @param Logger|null $logger
+     * @throws Exception
      */
     public function __construct(Database $database, Container $container, Logger $logger)
     {
@@ -50,48 +51,48 @@ class Support
     }
 
     /**
-     * @param $supportRequestId
+     * @param int $supportRequestId
      * @return mixed
      */
-    public function getSupportRequestById($supportRequestId)
+    public function getSupportRequestById(int $supportRequestId)
     {
         return $this->support_gateway->getSupportRequestById($supportRequestId);
     }
 
     /**
-     * @param $status
-     * @param null $sorting
+     * @param int $status
+     * @param string|null $sorting
      * @return mixed
      */
-    public function getSupportRequestByStatus($status, $sorting = null)
+    public function getSupportRequestByStatus(int $status, string $sorting = null)
     {
         return $this->support_gateway->getSupportRequestByStatus($status, $sorting);
     }
 
     /**
-     * @param $projectId
-     * @param null $sorting
+     * @param int $projectId
+     * @param string|null $sorting
      * @return mixed
      */
-    public function getSupportRequestByProject($projectId, $sorting = null)
+    public function getSupportRequestByProject(int $projectId, string $sorting = null)
     {
         return $this->support_gateway->getSupportRequestByProject($projectId, $sorting);
     }
 
     /**
-     * @param $memberId
+     * @param int $memberId
      * @return mixed
      */
-    public function getSupportRequestByMemberId($memberId)
+    public function getSupportRequestByMemberId(int $memberId)
     {
         return $this->support_gateway->getSupportRequestByMemberId($memberId);
     }
 
     /**
-     * @param $supportRequestId
+     * @param int $supportRequestId
      * @return mixed
      */
-    public function getSupportRequestByIdIn($supportRequestId)
+    public function getSupportRequestByIdIn(int $supportRequestId)
     {
         return $this->support_gateway->getSupportRequestByIdIn($supportRequestId);
     }
@@ -99,142 +100,142 @@ class Support
     /**
      * @param Int $requestStatus
      * @param Int $projectId
-     * @param null $sorting
+     * @param string|null $sorting
      * @return mixed
      */
-    public function getSupportRequestByStatusAndProjectId($requestStatus, $projectId, $sorting = null)
+    public function getSupportRequestByStatusAndProjectId(int $requestStatus, int $projectId, string $sorting = null)
     {
         return $this->support_gateway->getSupportRequestByStatusAndProjectId($requestStatus, $projectId, $sorting);
     }
 
     /**
-     * @param $memberId
-     * @param $projectId
-     * @param null $sorting
+     * @param int $memberId
+     * @param int $projectId
+     * @param string|null $sorting
      * @return mixed
      */
-    public function getSupportRequestByMemberIdAndProjectId($memberId, $projectId, $sorting = null)
+    public function getSupportRequestByMemberIdAndProjectId(int $memberId, int $projectId, string $sorting = null)
     {
         return $this->support_gateway->getSupportRequestByMemberIdAndProjectId($memberId, $projectId, $sorting);
     }
 
     /**
-     * @param $requestId
+     * @param int $requestId
      * @return mixed
      */
-    public function getSupportPostsByRequestId($requestId)
+    public function getSupportPostsByRequestId(int $requestId)
     {
         return $this->support_gateway->getSupportPostsByRequestId($requestId);
     }
 
     /**
-     * @param $postId
+     * @param int $postId
      * @return mixed
      */
-    public function getSupportPostById($postId)
+    public function getSupportPostById(int $postId)
     {
         return $this->support_gateway->getSupportPostById($postId);
     }
 
     /**
-     * @param $postIds
+     * @param int $postIds
      * @return mixed
      */
-    public function getSupportPostsByRequestIdIn($postIds)
+    public function getSupportPostsByRequestIdIn(int $postIds)
     {
         return $this->support_gateway->getSupportPostsByRequestIdIn($postIds);
     }
 
     /**
-     * @param $userId
-     * @param $priority
-     * @param $subject
-     * @param $message
-     * @param $project
+     * @param int $userId
+     * @param int $priority
+     * @param string $subject
+     * @param string $message
+     * @param int $project
      * @param int $status
      * @return string
      */
-    public function addSupportRequest($userId, $priority, $subject, $message, $project, $status = 0)
+    public function addSupportRequest(int $userId, int $priority, string $subject, string $message, int $project, int $status = 0): string
     {
         return $this->support_gateway->createSupportRequest($userId, $priority, $subject, $message, $project, $status);
     }
 
     /**
-     * @param $requestId
-     * @param $message
-     * @param $dateCreated
-     * @param $ownerId
-     * @param $projectId
+     * @param int $requestId
+     * @param string $message
+     * @param string $dateCreated
+     * @param int $ownerId
+     * @param int $projectId
      * @return string
      */
-    public function addSupportPost($requestId, $message, $dateCreated, $ownerId, $projectId)
+    public function addSupportPost(int $requestId, string $message, string $dateCreated, int $ownerId, int $projectId): string
     {
         $newPostId = $this->support_gateway->addPost($requestId, $message, $dateCreated, $ownerId, $projectId);
         return $this->getSupportPostById($newPostId);
     }
 
     /**
-     * @param $requestId
-     * @param $status
-     * @param $dateClose
+     * @param int $requestId
+     * @param int $status
+     * @param string|null $dateClose
      * @return mixed
      */
-    public function updateSupportPostStatus($requestId, $status, $dateClose = null)
+    public function updateSupportPostStatus(int $requestId, int $status, string $dateClose = null)
     {
         return $this->support_gateway->updateSupportRequest($requestId, $status, $dateClose);
     }
 
     /**
-     * @param $supportRequestIds
+     * @param string $supportRequestIds
      * @return mixed
      */
-    public function deleteSupportRequests($supportRequestIds)
+    public function deleteSupportRequests(string $supportRequestIds)
     {
         return $this->support_gateway->deleteSupportRequests($supportRequestIds);
     }
 
     /**
-     * @param $projectIds
+     * @param string $projectIds
      * @return mixed
      */
-    public function deleteSupportRequestsByProjectId($projectIds)
+    public function deleteSupportRequestsByProjectId(string $projectIds)
     {
         return $this->support_gateway->deleteSupportRequestsByProjectId($projectIds);
     }
 
     /**
-     * @param $requestIds
+     * @param string $requestIds
      * @return mixed
      */
-    public function deleteSupportPostsByRequestId($requestIds)
+    public function deleteSupportPostsByRequestId(string $requestIds)
     {
         return $this->support_gateway->deleteSupportPostsByRequestId($requestIds);
     }
 
     /**
-     * @param $supportPostIds
+     * @param string $supportPostIds
      * @return mixed
      */
-    public function deleteSupportPostsById($supportPostIds)
+    public function deleteSupportPostsById(string $supportPostIds)
     {
         return $this->support_gateway->deleteSupportPostsById($supportPostIds);
     }
 
     /**
-     * @param $projectIds
+     * @param string $projectIds
      * @return mixed
      */
-    public function deleteSupportPostsByProjectId($projectIds)
+    public function deleteSupportPostsByProjectId(string $projectIds)
     {
         return $this->support_gateway->deleteSupportPostsByProjectId($projectIds);
     }
 
     /**
-     * @param $postDetails
+     * @param array $postDetails
      * @return void
      * @throws Exception
      */
-    public function sendPostChangedNotification($postDetails)
+    public function sendPostChangedNotification(array $postDetails)
     {
         // Gather the needed information for populating the email template
         $requestDetail = $this->getSupportRequestById($postDetails["sp_request_id"]);
@@ -290,12 +291,12 @@ EMAIL_MESSAGE;
 
     /**
      * Notifications Section
-     * @param $requestDetail
-     * @param $postDetails
-     * @param $userDetails
+     * @param array $requestDetail
+     * @param array $postDetails
+     * @param array $userDetails
      * @throws Exception
      */
-    public function sendNewPostNotification($requestDetail, $postDetails, $userDetails)
+    public function sendNewPostNotification(array $requestDetail, array $postDetails, array $userDetails)
     {
         if (
             $requestDetail
@@ -319,7 +320,7 @@ EMAIL_MESSAGE;
 
                 // Build the Email Body
                 $body = <<<MAILBODY
-{$mail->partMessage}
+$mail->partMessage
 
 {$this->strings["id"]} : {$requestDetail["sr_id"]}
 {$this->strings["subject"]} : {$requestDetail["sr_subject"]}

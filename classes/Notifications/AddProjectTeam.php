@@ -40,6 +40,7 @@ class AddProjectTeam extends Notification
 
                 // This is hard coded, so it is always "1"
                 $organization = "";
+
                 if ($organization == "1") {
                     $body .= $this->root . "/general/login.php?url=projects/viewproject.php%3Fid=" . $projectDetail["pro_id"];
                 } elseif ($organization != "1" && $projectDetail["pro_published"] == "0") {

@@ -39,24 +39,24 @@ class Topics
     }
 
     /**
-     * @param $projectIds
-     * @param $dateFilter
-     * @param null $sorting
+     * @param string $projectIds
+     * @param string $dateFilter
+     * @param string|null $sorting
      * @return mixed
      */
-    public function getHomeTopics($projectIds, $dateFilter, $sorting = null)
+    public function getHomeTopics(string $projectIds, string $dateFilter, string $sorting = null)
     {
         return $this->topics_gateway->getTopicsByProjectAndFilteredByDate($projectIds, $dateFilter, $sorting);
     }
 
     /**
-     * @param $projectId
-     * @param null $offset
-     * @param null $limit
-     * @param $sorting
+     * @param int $projectId
+     * @param int|null $offset
+     * @param int|null $limit
+     * @param string|null $sorting
      * @return mixed
      */
-    public function getTopicsByProjectId($projectId, $offset = null, $limit = null, $sorting = null)
+    public function getTopicsByProjectId(int $projectId, int $offset = null, int $limit = null, string $sorting = null)
     {
         $projectId = filter_var($projectId, FILTER_SANITIZE_STRING);
         if (isset($sorting)) {
@@ -66,33 +66,33 @@ class Topics
     }
 
     /**
-     * @param $projectId
-     * @param null $sorting
-     * @param null $offset
-     * @param null $limit
+     * @param int $projectId
+     * @param string|null $sorting
+     * @param int|null $offset
+     * @param int|null $limit
      * @return mixed
      */
-    public function getProjectSiteTopics($projectId, $sorting = null, $offset = null, $limit = null)
+    public function getProjectSiteTopics(int $projectId, string $sorting = null, int $offset = null, int $limit = null)
     {
         return $this->topics_gateway->getProjectSiteTopics($projectId, $offset, $limit, $sorting);
     }
 
     /**
-     * @param $projectId
+     * @param int $projectId
      * @return int
      */
-    public function getTopicCountForProject($projectId)
+    public function getTopicCountForProject(int $projectId): int
     {
         $topics = $this->topics_gateway->getTopicsByProject($projectId);
         return count($topics);
     }
 
     /**
-     * @param $ownerId
-     * @param $sorting
+     * @param int $ownerId
+     * @param string|null $sorting
      * @return mixed
      */
-    public function getTopicsByTopicOwner($ownerId, $sorting)
+    public function getTopicsByTopicOwner(int $ownerId, string $sorting = null)
     {
         $ownerId = filter_var($ownerId, FILTER_SANITIZE_STRING);
         $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
@@ -100,40 +100,40 @@ class Topics
     }
 
     /**
-     * @param $topicId
+     * @param int $topicId
      * @return mixed
      */
-    public function getTopicByTopicId($topicId)
+    public function getTopicByTopicId(int $topicId)
     {
         $topicId = filter_var($topicId, FILTER_SANITIZE_STRING);
         return $this->topics_gateway->getTopicById($topicId);
     }
 
     /**
-     * @param $topicIds
+     * @param string $topicIds
      * @return mixed
      */
-    public function getTopicsIn($topicIds)
+    public function getTopicsIn(string $topicIds)
     {
         return $this->topics_gateway->getTopicsIn($topicIds);
     }
 
     /**
-     * @param $topicId
+     * @param int $topicId
      * @return mixed
      */
-    public function getPostsByTopicId($topicId)
+    public function getPostsByTopicId(int $topicId)
     {
         $topicId = filter_var($topicId, FILTER_SANITIZE_STRING);
         return $this->topics_gateway->getPostsByTopicId($topicId);
     }
 
     /**
-     * @param $topicId
-     * @param $ownerId
+     * @param int $topicId
+     * @param int $ownerId
      * @return mixed
      */
-    public function getPostsByTopicIdAndNotOwner($topicId, $ownerId)
+    public function getPostsByTopicIdAndNotOwner(int $topicId, int $ownerId)
     {
         $topicId = filter_var($topicId, FILTER_SANITIZE_STRING);
         $ownerId = filter_var($ownerId, FILTER_SANITIZE_STRING);
@@ -144,7 +144,7 @@ class Topics
      * @param integer|array $topicId
      * @return string
      */
-    public function closeTopic($topicId)
+    public function closeTopic(int $topicId): string
     {
         // Sanitize data
         $topicId = filter_var($topicId, FILTER_SANITIZE_STRING);
@@ -156,7 +156,7 @@ class Topics
      * @param integer|array $topicId
      * @return string
      */
-    public function publishTopic($topicId)
+    public function publishTopic(int $topicId): string
     {
         // Sanitize data
         $topicId = filter_var($topicId, FILTER_SANITIZE_STRING);
@@ -168,7 +168,7 @@ class Topics
      * @param integer|array $topicId
      * @return string
      */
-    public function unPublishTopic($topicId)
+    public function unPublishTopic(int $topicId): string
     {
         // Sanitize data
         $topicId = filter_var($topicId, FILTER_SANITIZE_STRING);
@@ -177,23 +177,23 @@ class Topics
     }
 
     /**
-     * @param $projectId
-     * @param $memberId
-     * @param $subject
+     * @param int $projectId
+     * @param int $memberId
+     * @param string $subject
      * @param int $status
-     * @param null $last_post
      * @param int $posts
      * @param int $published
+     * @param string|null $last_post
      * @return mixed
      */
     public function addTopic(
-        $projectId,
-        $memberId,
-        $subject,
-        $status = 1,
-        $posts = 1,
-        $published = 0,
-        $last_post = null
+        int $projectId,
+        int $memberId,
+        string $subject,
+        int $status = 1,
+        int $posts = 1,
+        int $published = 0,
+        string $last_post = null
     ) {
         if (is_null($last_post)) {
             $last_post = date('Y-m-d h:i');
@@ -205,19 +205,19 @@ class Topics
     }
 
     /**
-     * @param $topicId
+     * @param int $topicId
      * @return mixed
      */
-    public function incrementTopicPostsCount($topicId)
+    public function incrementTopicPostsCount(int $topicId)
     {
         return $this->topics_gateway->incrementTopicPostsCount($topicId, date('Y-m-d h:i'));
     }
 
     /**
-     * @param $topicId
+     * @param int $topicId
      * @return mixed
      */
-    public function decrementTopicPostsCount($topicId)
+    public function decrementTopicPostsCount(int $topicId)
     {
         if (empty($topicId)) {
             throw new InvalidArgumentException('Topic ID is missing or empty.');
@@ -227,22 +227,22 @@ class Topics
     }
 
     /**
-     * @param $postId
+     * @param int $postId
      * @return mixed
      */
-    public function getPostById($postId)
+    public function getPostById(int $postId)
     {
         return $this->topics_gateway->getPostById($postId);
     }
 
     /**
-     * @param $topicId
-     * @param $memberId
-     * @param $message
-     * @param null $created
+     * @param int $topicId
+     * @param int $memberId
+     * @param string $message
+     * @param string|null $created
      * @return string
      */
-    public function addPost($topicId, $memberId, $message, $created = null)
+    public function addPost(int $topicId, int $memberId, string $message, string $created = null): string
     {
         if (is_null($created)) {
             $created = date('Y-m-d h:i');
@@ -258,17 +258,14 @@ class Topics
      */
     public function deleteTopics(array $topicIds)
     {
-        if (isset($topicIds) && is_array($topicIds)) {
-            return $this->topics_gateway->deleteTopics($topicIds);
-        }
-        return false;
+        return $this->topics_gateway->deleteTopics($topicIds);
     }
 
     /**
-     * @param $postId
+     * @param int $postId
      * @return mixed
      */
-    public function deletePost($postId)
+    public function deletePost(int $postId)
     {
         if (empty($postId)) {
             throw new InvalidArgumentException('Post ID is missing or empty.');
@@ -283,38 +280,35 @@ class Topics
      */
     public function deletePostsFromTopics(array $topicIds)
     {
-        if (isset($topicIds) && is_array($topicIds)) {
-            return $this->topics_gateway->deletePostsByTopicIds($topicIds);
-        }
-        return false;
+        return $this->topics_gateway->deletePostsByTopicIds($topicIds);
     }
 
     /**
-     * @param $projectIds
+     * @param string $projectIds
      * @return mixed
      */
-    public function deleteTopicWhereProjectIdIn($projectIds)
+    public function deleteTopicWhereProjectIdIn(string $projectIds)
     {
         return $this->topics_gateway->deleteTopicsByProjectId($projectIds);
     }
 
     /**
-     * @param $projectIds
+     * @param string $projectIds
      * @return mixed
      */
-    public function deletePostsByProjectId($projectIds)
+    public function deletePostsByProjectId(string $projectIds)
     {
         return $this->topics_gateway->deletePostsByProjectId($projectIds);
     }
 
     /**
-     * @param $tmpQuery
-     * @param null $sorting
-     * @param null $limit
-     * @param null $rowLimit
+     * @param string $tmpQuery
+     * @param string|null $sorting
+     * @param int|null $limit
+     * @param int|null $rowLimit
      * @return mixed
      */
-    public function getSearchTopics($tmpQuery, $sorting = null, $limit = null, $rowLimit = null)
+    public function getSearchTopics(string $tmpQuery, string $sorting = null, int $limit = null, int $rowLimit = null)
     {
         return $this->topics_gateway->searchResultTopics($tmpQuery, $sorting, $limit, $rowLimit);
     }
@@ -325,11 +319,11 @@ class Topics
      */
 
     /**
-     * @param $topicDetails
+     * @param array $topicDetails
      * @param Session $session
      * @throws Exception
      */
-    public function sendNewTopicNotification($topicDetails, Session $session)
+    public function sendNewTopicNotification(array $topicDetails, Session $session)
     {
         $this->projects = $this->container->getProjectsLoader();
         $this->teams = $this->container->getTeams();
@@ -406,7 +400,7 @@ class Topics
                                  * Build up the body of the message
                                  */
                                 $body = <<<MESSAGE_BODY
-{$mail->partMessage}
+$mail->partMessage
 
 {$this->strings["discussion"]} : {$topicDetails["top_subject"]}
 {$this->strings["posted_by"]} : {$session->get('name')} ({$session->get('login')})
@@ -419,9 +413,10 @@ class Topics
 MESSAGE_BODY;
 
                                 if ($listNotification["organization"] == "1") {
-                                    $body .= "{$this->root}/general/login.php?url=topics/viewtopic.php%3Fid=" . $topicDetails["top_id"];
-                                } elseif ($listNotification["organization"] != "1") {
-                                    $body .= "{$this->root}/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetails["pro_id"];
+                                    $body .= "$this->root/general/login.php?url=topics/viewtopic.php%3Fid=" . $topicDetails["top_id"];
+                                }
+                                if ($listNotification["organization"] != "1") {
+                                    $body .= "$this->root/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetails["pro_id"];
                                 }
 
                                 $body .= "\n\n" . $mail->footer;
@@ -447,12 +442,12 @@ MESSAGE_BODY;
     }
 
     /**
-     * @param $postDetails
-     * @param $topicDetails
+     * @param array $postDetails
+     * @param array $topicDetails
      * @param Session $session
      * @throws Exception
      */
-    public function sendNewPostNotification($postDetails, $topicDetails, Session $session)
+    public function sendNewPostNotification(array $postDetails, array $topicDetails, Session $session)
     {
         $this->projects = $this->container->getProjectsLoader();
         $this->teams = $this->container->getTeams();
@@ -470,7 +465,7 @@ MESSAGE_BODY;
         $listPosts = $this->getPostsByTopicIdAndNotOwner($topicDetails["top_id"], $postDetails["pos_mem_id"]);
 
         /*
-         * We loop through the list of $teamMembers so we can pass it through to get their notification preferences
+         * We loop through the list of $teamMembers, so we can pass it through to get their notification preferences
          */
         $posters = [];
         foreach ($listPosts as $post) {
@@ -478,7 +473,7 @@ MESSAGE_BODY;
         }
 
         /*
-         * Retireve a list of notifications for the list of $teamMembers retrieved above
+         * Retrieve a list of notifications for the list of $teamMembers retrieved above
          */
         $listNotifications = $this->notifications->getNotificationsWhereMemberIn(implode(', ', $posters));
 
@@ -530,7 +525,7 @@ MESSAGE_BODY;
                                  */
 
                                 $body = <<<MESSAGE_BODY
-{$mail->partMessage}
+$mail->partMessage
 
 {$this->strings["discussion"]} : {$topicDetails["top_subject"]}
 {$this->strings["posted_by"]} : {$session->get('name')} ({$session->get('login')})
@@ -543,9 +538,10 @@ MESSAGE_BODY;
 MESSAGE_BODY;
 
                                 if ($listNotification["organization"] == "1") {
-                                    $body .= "{$this->root}/general/login.php?url=topics/viewtopic.php%3Fid=" . $topicDetails["top_id"];
-                                } elseif ($listNotification["organization"] != "1") {
-                                    $body .= "{$this->root}/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetails["pro_id"];
+                                    $body .= "$this->root/general/login.php?url=topics/viewtopic.php%3Fid=" . $topicDetails["top_id"];
+                                }
+                                if ($listNotification["organization"] != "1") {
+                                    $body .= "$this->root/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetails["pro_id"];
                                 }
 
                                 $body .= "\n\n" . $mail->footer;

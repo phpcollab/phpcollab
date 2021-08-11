@@ -13,7 +13,7 @@ class DataFunctionsService
      * @param array $data Data from Post or GET (key - val paris)
      * @return array $returnData Scrubbed Data
      */
-    public static function scrubData(array $data)
+    public static function scrubData(array $data): array
     {
         /**
          * Used to remove characters, if they aren't in this list, they will be removed

@@ -327,7 +327,7 @@ SQL;
      * @param $profile
      * @param $created
      * @param $timezone
-     * @return mixed
+     * @return string
      */
     public function addMember(
         $login,
@@ -344,7 +344,7 @@ SQL;
         $profile,
         $created,
         $timezone
-    ) {
+    ): string {
         $this->db->query("INSERT INTO {$this->db->getTableName("members")} (login, name, title, organization, email_work, phone_work, phone_home, mobile, fax, comments, password, profil, created, timezone) VALUES (:login, :name, :title, :organization, :email_work, :phone_work, :phone_home, :phone_mobile, :fax, :comments, :password, :profile, :created, :timezone)");
         $this->db->bind(':login', $login);
         $this->db->bind(':name', $name);
@@ -405,25 +405,6 @@ SQL;
     }
 
     /**
-     * @param String $username
-     * @param String $page
-     * @return mixed
-     */
-    public function setLastPageVisitedByLogin(string $username, string $page)
-    {
-        $query = <<<SQL
-UPDATE {$this->db->getTableName("members")} 
-SET last_page = :page 
-WHERE login = :user_name
-SQL;
-
-        $this->db->query($query);
-        $this->db->bind(':user_id', $username);
-        $this->db->bind(':page', $page);
-        return $this->db->execute();
-    }
-
-    /**
      * @param $query
      * @param null $sorting
      * @param null $limit
@@ -446,10 +427,10 @@ SQL;
      * @param $limit
      * @return string
      */
-    private function limit($offset, $limit)
+    private function limit($offset, $limit): string
     {
         if (!is_null($offset) && !is_null($limit)) {
-            return " LIMIT {$limit} OFFSET {$offset}";
+            return " LIMIT $limit OFFSET $offset";
         }
         return '';
     }
@@ -458,7 +439,7 @@ SQL;
      * @param string|null $sorting
      * @return string
      */
-    private function orderBy(?string $sorting)
+    private function orderBy(string $sorting = null): string
     {
         if (!is_null($sorting)) {
             $allowedOrderedBy = ["mem.name", "mem.login", "mem.email_work", "mem.phone_work", "connected"];

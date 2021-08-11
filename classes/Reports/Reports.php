@@ -79,10 +79,10 @@ class Reports
 
     /**
      * @param mixed $reportIds
-     * @param string $sorting
+     * @param string|null $sorting
      * @return mixed
      */
-    public function getReportsByIds($reportIds, $sorting = null)
+    public function getReportsByIds($reportIds, string $sorting = null)
     {
         return $this->reports_gateway->getReportsByIds($reportIds, $sorting);
     }

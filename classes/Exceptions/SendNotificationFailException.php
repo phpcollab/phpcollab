@@ -8,9 +8,8 @@ use Exception;
 
 class SendNotificationFailException extends Exception
 {
-    public function getMessageKey()
-    {
-        return 'Unable to send email notification';
+    public function __construct($message = 'Send Notification Failed') {
+        parent::__construct($message);
     }
 
 }

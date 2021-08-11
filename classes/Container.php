@@ -584,7 +584,7 @@ class Container
     public function getPeerReviewService(): PeerReview
     {
         if (null === $this->peerReviewService) {
-            $this->peerReviewService = new PeerReview($this->getPDO(), $this->getNotification());
+            $this->peerReviewService = new PeerReview($this->getPDO(), $this->getNotification(), $this);
         }
         return $this->peerReviewService;
     }

@@ -114,10 +114,10 @@ class ServicesGateway
     }
 
     /**
-     * @param $sorting
+     * @param string|null $sorting
      * @return string
      */
-    private function orderBy($sorting)
+    private function orderBy(string $sorting = null): string
     {
         if (!is_null($sorting)) {
             $allowedOrderedBy = [

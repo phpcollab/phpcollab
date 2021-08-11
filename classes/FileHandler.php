@@ -20,10 +20,10 @@ class FileHandler
     /**
      * Gets the document type, based on the extension, and returns the appropriate
      * icon image.
-     * @param String $extension the string to determing the return graphic
+     * @param String $extension the string to determine the return graphic
      * @return null|string
      */
-    public function fileInfoType($extension)
+    public function fileInfoType(string $extension): ?string
     {
         switch ($extension) {
         case "doc":

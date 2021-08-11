@@ -43,11 +43,11 @@ class Teams
     }
 
     /**
-     * @param $projectId
-     * @param $teamMember
+     * @param int $projectId
+     * @param int $teamMember
      * @return mixed
      */
-    public function getTeamByProjectIdAndTeamMember($projectId, $teamMember)
+    public function getTeamByProjectIdAndTeamMember(int $projectId, int $teamMember)
     {
         $projectId = filter_var($projectId, FILTER_VALIDATE_INT);
         $teamMember = filter_var($teamMember, FILTER_VALIDATE_INT);
@@ -56,34 +56,34 @@ class Teams
     }
 
     /**
-     * @param $projectId
-     * @param $memberId
+     * @param int $projectId
+     * @param int $memberId
      * @return mixed
      */
-    public function getOtherProjectTeamMembers($projectId, $memberId)
+    public function getOtherProjectTeamMembers(int $projectId, int $memberId)
     {
         return $this->teams_gateway->getOtherProjectTeamMembers($projectId, $memberId);
     }
 
     /**
-     * @param $projectId
-     * @param null $sorting
+     * @param int $projectId
+     * @param string|null $sorting
      * @return mixed
      */
-    public function getClientTeamMembersByProject($projectId, $sorting = null)
+    public function getClientTeamMembersByProject(int $projectId, string $sorting = null)
     {
         $projectId = filter_var($projectId, FILTER_VALIDATE_INT);
         return $this->teams_gateway->getClientTeamMembersByProject($projectId, $sorting);
     }
 
     /**
-     * @param $projectId
-     * @param $teamMember
+     * @param int $projectId
+     * @param int $teamMember
      * @return mixed
      */
     public function getTeamByProjectIdAndTeamMemberAndStatusIsNotCompletedOrSuspendedAndIsNotPublished(
-        $projectId,
-        $teamMember
+        int $projectId,
+        int $teamMember
     ) {
         $projectId = filter_var($projectId, FILTER_VALIDATE_INT);
         $teamMember = filter_var($teamMember, FILTER_VALIDATE_INT);
@@ -93,31 +93,31 @@ class Teams
     }
 
     /**
-     * @param $projectId
-     * @param null $sorting
+     * @param int $projectId
+     * @param string|null $sorting
      * @return mixed
      */
-    public function getProjectSiteContacts($projectId, $sorting = null)
+    public function getProjectSiteContacts(int $projectId, string $sorting = null)
     {
         return $this->teams_gateway->getProjectSiteContacts($projectId, $sorting);
     }
 
     /**
-     * @param $teamMember
+     * @param int $teamMember
      * @return mixed
      */
-    public function getTeamByMemberIdAndStatusIsNotCompletedAndIsNotPublished($teamMember)
+    public function getTeamByMemberIdAndStatusIsNotCompletedAndIsNotPublished(int $teamMember)
     {
         $teamMember = filter_var($teamMember, FILTER_VALIDATE_INT);
         return $this->teams_gateway->getTeamByMemberIdAndStatusIsNotCompletedAndIsNotPublished($teamMember);
     }
 
     /**
-     * @param $teamMember
-     * @param $orgId
+     * @param int $teamMember
+     * @param int $orgId
      * @return mixed
      */
-    public function getTeamByTeamMemberAndOrgId($teamMember, $orgId)
+    public function getTeamByTeamMemberAndOrgId(int $teamMember, int $orgId)
     {
         $orgId = filter_var($orgId, FILTER_VALIDATE_INT);
         $teamMember = filter_var($teamMember, FILTER_VALIDATE_INT);
@@ -126,13 +126,13 @@ class Teams
     }
 
     /**
-     * @param $projectId
-     * @param null $offset
-     * @param null $limit
-     * @param null $sorting
+     * @param int $projectId
+     * @param int|null $offset
+     * @param int|null $limit
+     * @param string|null $sorting
      * @return mixed
      */
-    public function getTeamByProjectId($projectId, $offset = null, $limit = null, $sorting = null)
+    public function getTeamByProjectId(int $projectId, int $offset = null, int $limit = null, string $sorting = null)
     {
         $projectId = filter_var($projectId, FILTER_VALIDATE_INT);
         if (isset($sorting)) {
@@ -143,41 +143,41 @@ class Teams
     }
 
     /**
-     * @param $projectId
+     * @param int $projectId
      * @return int
      */
-    public function getTopicCountByProject($projectId)
+    public function getTopicCountByProject(int $projectId): int
     {
         $team = $this->getTeamByProjectId($projectId);
         return count($team);
     }
 
     /**
-     * @param $memberId
-     * @param null $sorting
+     * @param int $memberId
+     * @param string|null $sorting
      * @return mixed
      */
-    public function getTeamByMemberId($memberId, $sorting = null)
+    public function getTeamByMemberId(int $memberId, string $sorting = null)
     {
         return $this->teams_gateway->getTeamByMemberId($memberId, $sorting);
     }
 
     /**
-     * @param $memberId
+     * @param int $memberId
      * @return mixed
      */
-    public function getTeamsImAMemberOf($memberId)
+    public function getTeamsImAMemberOf(int $memberId)
     {
         $memberId = filter_var($memberId, FILTER_VALIDATE_INT);
         return $this->teams_gateway->getTeamsImAMemberOf($memberId);
     }
 
     /**
-     * @param $projectId
-     * @param $memberId
-     * @return bool
+     * @param int $projectId
+     * @param int $memberId
+     * @return string
      */
-    public function isTeamMember($projectId, $memberId)
+    public function isTeamMember(int $projectId, int $memberId): string
     {
         $projectId = filter_var($projectId, FILTER_VALIDATE_INT);
         $memberId = filter_var($memberId, FILTER_VALIDATE_INT);
@@ -185,71 +185,71 @@ class Teams
     }
 
     /**
-     * @param $projectId
-     * @param $memberId
+     * @param int $projectId
+     * @param int $memberId
      * @return mixed
      */
-    public function deleteFromTeamsByProjectIdAndMemberId($projectId, $memberId)
+    public function deleteFromTeamsByProjectIdAndMemberId(int $projectId, int $memberId)
     {
         return $this->teams_gateway->deleteFromTeamsWhereProjectIdEqualsAndMemberIdIn($projectId, $memberId);
     }
 
     /**
-     * @param $projectIds
+     * @param string $projectIds
      * @return mixed
      */
-    public function deleteFromTeamsByProjectId($projectIds)
+    public function deleteFromTeamsByProjectId(string $projectIds)
     {
         return $this->teams_gateway->deleteFromTeamsWhereProjectIdIn($projectIds);
     }
 
     /**
-     * @param $memberIds
+     * @param string $memberIds
      * @return mixed
      */
-    public function deleteTeamWhereMemberIn($memberIds)
+    public function deleteTeamWhereMemberIn(string $memberIds)
     {
         return $this->teams_gateway->deleteFromTeamsWhereMemberIdIn($memberIds);
     }
 
     /**
-     * @param $projectId
-     * @param $memberId
-     * @param $published
-     * @param $authorized
+     * @param int $projectId
+     * @param int $memberId
+     * @param int $published
+     * @param int $authorized
      * @return mixed
      */
-    public function addTeam($projectId, $memberId, $published, $authorized)
+    public function addTeam(int $projectId, int $memberId, int $published, int $authorized)
     {
         return $this->teams_gateway->addTeam($projectId, $memberId, $published, $authorized);
     }
 
     /**
-     * @param $projectId
-     * @param $memberIds
+     * @param int $projectId
+     * @param string $memberIds
      * @return mixed
      */
-    public function publishToSite($projectId, $memberIds)
+    public function publishToSite(int $projectId, string $memberIds)
     {
         return $this->teams_gateway->publishTeams($projectId, $memberIds);
     }
 
     /**
-     * @param $projectId
-     * @param $memberIds
+     * @param int $projectId
+     * @param string $memberIds
      * @return mixed
      */
-    public function unPublishToSite($projectId, $memberIds)
+    public function unPublishToSite(int $projectId, string $memberIds)
     {
         return $this->teams_gateway->unPublishTeams($projectId, $memberIds);
     }
 
     /**
-     * @param $projectDetails
-     * @param $members
+     * @param array $projectDetails
+     * @param string $members
      * @throws Exception
      */
-    public function sendRemoveProjectTeamNotification($projectDetails, $members)
+    public function sendRemoveProjectTeamNotification(array $projectDetails, string $members)
     {
         if ($projectDetails) {
             $mail = $this->notification;
@@ -274,7 +274,8 @@ class Teams
                 $organization = "1";
                 if ($organization == "1") {
                     $body .= $this->root . "/general/login.php?url=projects/viewproject.php%3Fid=" . $projectDetails["pro_id"];
-                } elseif ($organization != "1" && $projectDetails["pro_published"] == "0") {
+                }
+                if ($organization != "1" && $projectDetails["pro_published"] == "0") {
                     $body .= $this->root;
                 }
 
@@ -305,13 +306,13 @@ class Teams
     }
 
     /**
-     * @param $projectDetail
-     * @param $members
+     * @param array $projectDetail
+     * @param string $members
      * @param Session $session
      * @param Logger $logger
      * @throws Exception
      */
-    public function sendAddProjectTeamNotification($projectDetail, $members, Session $session, Logger $logger)
+    public function sendAddProjectTeamNotification(array $projectDetail, string $members, Session $session, Logger $logger)
     {
         if ($projectDetail) {
             $mail = $this->notification;
@@ -335,7 +336,8 @@ class Teams
                 $organization = "1";
                 if ($organization == "1") {
                     $body .= $this->root . "/general/login.php?url=projects/viewproject.php%3Fid=" . $projectDetail["pro_id"];
-                } elseif ($organization != "1" && $projectDetail["pro_published"] == "0") {
+                }
+                if ($organization != "1" && $projectDetail["pro_published"] == "0") {
                     $body .= $this->root;
                     $body .= $this->root . "/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetail["pro_id"];
                 }
@@ -343,7 +345,7 @@ class Teams
                 $body .= "\n\n" . $mail->footer;
 
 
-                $notifications = new Notifications\Notifications();
+                $notifications = new Notifications\Notifications($this->db);
                 $listNotifications = $notifications->getNotificationsWhereMemberIn($members);
 
                 foreach ($listNotifications as $memberNotification) {

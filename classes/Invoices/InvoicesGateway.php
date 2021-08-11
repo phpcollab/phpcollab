@@ -33,7 +33,7 @@ class InvoicesGateway
      * @param $created
      * @return string
      */
-    public function addInvoice($project, $status, $active, $published, $created)
+    public function addInvoice($project, $status, $active, $published, $created): string
     {
         $sql = <<<SQL
 INSERT INTO {$this->db->getTableName("invoices")} 
@@ -61,7 +61,7 @@ SQL;
      * @param $mod_type
      * @param $mod_value
      * @param $worked_hours
-     * @return mixed
+     * @return string
      */
     public function addInvoiceItem(
         $title,
@@ -73,7 +73,7 @@ SQL;
         $mod_type,
         $mod_value,
         $worked_hours
-    ) {
+    ): string {
         $sql = <<< SQL
 INSERT INTO {$this->db->getTableName("invoices_items")} (
 title,description,invoice,created,active,completed,mod_type,mod_value,worked_hours
@@ -245,7 +245,7 @@ SQL;
 
         // Append the status value
         array_push($projectId, $status);
-        $whereStatement = " WHERE inv.project IN ({$placeholders}) AND inv.active = '1' AND inv.status = ?";
+        $whereStatement = " WHERE inv.project IN ($placeholders) AND inv.active = '1' AND inv.status = ?";
         $this->db->query($this->initrequest["invoices"] . $whereStatement . $this->orderBy($sorting));
         $this->db->execute($projectId);
         return $this->db->fetchAll();
@@ -294,10 +294,10 @@ SQL;
     }
 
     /**
-     * @param $sorting
+     * @param string|null $sorting
      * @return string
      */
-    private function orderBy($sorting)
+    private function orderBy(string $sorting = null): string
     {
         if (!is_null($sorting)) {
             $allowedOrderedBy = [

@@ -41,7 +41,7 @@ class Invoices
      * @param $published
      * @return string
      */
-    public function addInvoice($project, $status, $active, $published)
+    public function addInvoice($project, $status, $active, $published): string
     {
         $created = date('Y-m-d h:i');
         return $this->invoices_gateway->addInvoice($project, $status, $active, $published, $created);
@@ -210,6 +210,7 @@ class Invoices
      * @param $invoiceId
      * @param $flag
      * @return bool|mixed
+     * @throws Exception
      */
     public function togglePublish($invoiceId, $flag)
     {

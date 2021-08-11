@@ -100,7 +100,7 @@ class NotesGateway
      * @param $noteData
      * @return string
      */
-    public function insertNote($noteData)
+    public function insertNote($noteData): string
     {
         $sql = "INSERT INTO {$this->db->getTableName("notes")} (project,topic,subject,description,date,owner,published) VALUES (:project,:topic,:subject,:description,:date,:owner,1)";
         $this->db->query($sql);
@@ -232,19 +232,19 @@ class NotesGateway
      * @param $limit
      * @return string
      */
-    private function limit($offset, $limit)
+    private function limit($offset, $limit): string
     {
         if (!is_null($offset) && !is_null($limit)) {
-            return " LIMIT {$limit} OFFSET {$offset}";
+            return " LIMIT $limit OFFSET $offset";
         }
         return '';
     }
 
     /**
-     * @param $sorting
+     * @param string|null $sorting
      * @return string
      */
-    private function orderBy($sorting)
+    private function orderBy(string $sorting = null): string
     {
         if (!is_null($sorting)) {
             $allowedOrderedBy = [

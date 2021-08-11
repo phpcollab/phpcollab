@@ -39,7 +39,7 @@ class Administration
      * @param Session $session
      * @return bool
      */
-    public function checkForUpdate($oldVersion, string $uuid, Session $session)
+    public function checkForUpdate($oldVersion, string $uuid, Session $session): bool
     {
         if (empty($session->get('updateAvailable'))) {
             try {
@@ -50,7 +50,7 @@ class Administration
                     'X-php_version' => phpversion(),
                 ];
 
-                if (isset($uuid) && !empty($uuid)) {
+                if (!empty($uuid)) {
                     $headers['X-uuid'] = $uuid;
                 }
 

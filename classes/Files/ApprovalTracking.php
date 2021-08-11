@@ -97,11 +97,11 @@ SQL;
 
 {$this->strings["approval_details"]}
 ============
-{$this->strings["status"]}: {$status}
+{$this->strings["status"]}: $status
 {$this->strings["comments"]}:
-{$comment}
+$comment
 
-{$this->strings["approver"]}: {$name} ({$username})
+{$this->strings["approver"]}: $name ($username)
 
 
 
@@ -117,7 +117,8 @@ BODY;
 
                     if ($notificationDetails["organization"] == "1") {
                         $body .= $this->root . "/general/login.php?url=linkedcontent/viewfile.php?id=" . $this->fileDetails["fil_id"];
-                    } elseif ($notificationDetails["organization"] != "1") {
+                    }
+                    if ($notificationDetails["organization"] != "1") {
                         $body .= $this->root . "/general/login.php?url=projects_site/home.php?project=" . $this->projectDetails["pro_id"];
                     }
 

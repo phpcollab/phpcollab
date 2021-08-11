@@ -58,7 +58,7 @@ class NewsDeskGateway
             $placeholders = "?";
         }
 
-        $tmpquery = " WHERE news.author = ? OR news.rss = '1' OR news.related IN ({$placeholders})";
+        $tmpquery = " WHERE news.author = ? OR news.rss = '1' OR news.related IN ($placeholders)";
         $sql = $this->initrequest["newsdeskposts"] . $tmpquery . $this->orderBy($sorting) . $this->limit($startRow,
                 $rowsLimit);
 
@@ -153,18 +153,6 @@ class NewsDeskGateway
     }
 
     /**
-     * @param $commentId
-     * @return mixed
-     */
-    public function getPostComments($commentId)
-    {
-        $query = $this->initrequest["newsdeskcomments"] . " WHERE newscom.id = :comment_id";
-        $this->db->query($query);
-        $this->db->bind(':comment_id', $commentId);
-        return $this->db->single();
-    }
-
-    /**
      * @param $postId
      * @return mixed
      */
@@ -204,16 +192,6 @@ class NewsDeskGateway
     }
 
     /**
-     * @return mixed
-     */
-    public function getRSSPosts()
-    {
-        $query = "SELECT id, title, author, content, related, pdate as date FROM {$this->db->getTableName("newsdeskposts")} WHERE rss = 1 ORDER BY pdate DESC LIMIT 0,5";
-        $this->db->query($query);
-        return $this->db->resultset();
-    }
-
-    /**
      * @param $userId
      * @param $profile
      * @return mixed
@@ -244,9 +222,9 @@ SQL;
      * @param $links
      * @param $rss
      * @param $timestamp
-     * @return mixed
+     * @return string
      */
-    public function addPost($title, $author, $related, $content, $links, $rss, $timestamp)
+    public function addPost($title, $author, $related, $content, $links, $rss, $timestamp): string
     {
         $sql = <<<SQL
 INSERT INTO {$this->db->getTableName("newsdeskposts")} 
@@ -333,19 +311,19 @@ SQL;
      * @param $limit
      * @return string
      */
-    private function limit($offset, $limit)
+    private function limit($offset, $limit): string
     {
         if (!is_null($offset) && !is_null($limit)) {
-            return " LIMIT {$limit} OFFSET {$offset}";
+            return " LIMIT $limit OFFSET $offset";
         }
         return '';
     }
 
     /**
-     * @param $sorting
+     * @param string|null $sorting
      * @return string
      */
-    private function orderBy($sorting)
+    private function orderBy(string $sorting = null): string
     {
         if (!is_null($sorting)) {
             $allowedOrderedBy = [

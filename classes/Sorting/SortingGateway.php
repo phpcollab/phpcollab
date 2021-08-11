@@ -52,13 +52,6 @@ class SortingGateway
     }
 
     /**
-     * @param $ownerId
-     */
-    public function updateSortingValues($ownerId)
-    {
-    }
-
-    /**
      * @param $target
      * @param $value
      * @param $userId
@@ -68,7 +61,7 @@ class SortingGateway
     {
         $query = <<<SQL
 UPDATE {$this->db->getTableName("sorting")} 
-SET {$target} = :sort_value
+SET $target = :sort_value
 WHERE member = :user_id
 SQL;
 

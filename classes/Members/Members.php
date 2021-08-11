@@ -58,7 +58,7 @@ class Members
      * @param null $memberLoginOld
      * @return bool
      */
-    public function checkIfMemberExists($memberLogin, $memberLoginOld = null)
+    public function checkIfMemberExists($memberLogin, $memberLoginOld = null): bool
     {
         $memberLoginOld = (is_null($memberLoginOld)) ? '' : $memberLoginOld;
 
@@ -148,43 +148,43 @@ class Members
     }
 
     /**
-     * @param $username
-     * @param $name
-     * @param $emailWork
-     * @param $password
-     * @param $profile
-     * @param null $title
-     * @param null $organization
-     * @param null $phoneWork
-     * @param null $phoneHome
-     * @param null $phoneMobile
-     * @param null $fax
-     * @param null $comments
-     * @param null $created
+     * @param string $login
+     * @param string $name
+     * @param string $emailWork
+     * @param string $password
+     * @param int $profile
+     * @param string|null $title
+     * @param int|null $organization
+     * @param string|null $phoneWork
+     * @param string|null $phoneHome
+     * @param string|null $phoneMobile
+     * @param string|null $fax
+     * @param string|null $comments
+     * @param string|null $created
      * @param int $timezone
      * @return mixed
      * @throws Exception
      */
     public function addMember(
-        $username,
-        $name,
-        $emailWork,
-        $password,
-        $profile,
-        $title = null,
-        $organization = null,
-        $phoneWork = null,
-        $phoneHome = null,
-        $phoneMobile = null,
-        $fax = null,
-        $comments = null,
-        $created = null,
-        $timezone = 0
+        string $login,
+        string $name,
+        string $emailWork,
+        string $password,
+        int $profile,
+        string $title = null,
+        int $organization = null,
+        string $phoneWork = null,
+        string $phoneHome = null,
+        string $phoneMobile = null,
+        string $fax = null,
+        string $comments = null,
+        string $created = null,
+        int $timezone = 0
     ) {
-        if (empty($username) || empty($name) || empty($emailWork) || empty($password)) {
+        if (empty($login) || empty($name) || empty($emailWork) || empty($password)) {
             throw new Exception('Invalid member id, login, name, or email');
         } else {
-            $username = filter_var($username, FILTER_SANITIZE_STRING);
+            $login = filter_var($login, FILTER_SANITIZE_STRING);
             $name = filter_var($name, FILTER_SANITIZE_STRING);
             $emailWork = filter_var($emailWork, FILTER_SANITIZE_STRING);
             $password = filter_var($password, FILTER_SANITIZE_STRING);
@@ -199,42 +199,42 @@ class Members
             $comments = filter_var($comments, FILTER_SANITIZE_STRING);
             $timezone = filter_var($timezone, FILTER_SANITIZE_STRING);
 
-            return $this->members_gateway->addMember($username, $name, $title, $organization, $emailWork, $phoneWork,
+            return $this->members_gateway->addMember($login, $name, $title, $organization, $emailWork, $phoneWork,
                 $phoneHome, $phoneMobile, $fax, $comments, $password, $profile, $created, $timezone);
         }
     }
 
     /**
-     * @param $memberId
-     * @param $login
-     * @param $name
-     * @param $emailWork
-     * @param null $title
-     * @param string $organization
-     * @param null $phoneWork
-     * @param null $phoneHome
-     * @param null $phoneMobile
-     * @param null $fax
-     * @param null $lastPage
-     * @param null $comments
-     * @param null $profile
+     * @param int $memberId
+     * @param string $login
+     * @param string $name
+     * @param string $emailWork
+     * @param string|null $title
+     * @param int $organization
+     * @param string|null $phoneWork
+     * @param string|null $phoneHome
+     * @param string|null $phoneMobile
+     * @param string|null $fax
+     * @param string|null $lastPage
+     * @param string|null $comments
+     * @param int|null $profile
      * @return bool|mixed
      * @throws Exception
      */
     public function updateMember(
-        $memberId,
-        $login,
-        $name,
-        $emailWork,
-        $title = null,
-        $organization = "1",
-        $phoneWork = null,
-        $phoneHome = null,
-        $phoneMobile = null,
-        $fax = null,
-        $lastPage = null,
-        $comments = null,
-        $profile = null
+        int $memberId,
+        string $login,
+        string $name,
+        string $emailWork,
+        string $title = null,
+        int $organization = 1,
+        string $phoneWork = null,
+        string $phoneHome = null,
+        string $phoneMobile = null,
+        string $fax = null,
+        string $lastPage = null,
+        string $comments = null,
+        int $profile = null
     ) {
         if (empty($memberId) || empty($login) || empty($name) || empty($emailWork)) {
             throw new Exception('Invalid member id, login, name, or email');

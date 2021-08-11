@@ -32,7 +32,7 @@ class PhasesGateway
      * @param $name
      * @return string
      */
-    public function addPhase($projectId, $orderNumber, $status, $name)
+    public function addPhase($projectId, $orderNumber, $status, $name): string
     {
         $sql = <<<SQL
 INSERT INTO {$this->db->getTableName("phases")} (
@@ -138,10 +138,10 @@ SQL;
     }
 
     /**
-     * @param $sorting
+     * @param string|null $sorting
      * @return string
      */
-    private function orderBy($sorting)
+    private function orderBy(string $sorting = null): string
     {
         if (!is_null($sorting)) {
             $allowedOrderedBy = ["pha.order_num", "pha.name", "pha.status", "pha.date_start", "pha.date_end"];

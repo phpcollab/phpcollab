@@ -28,48 +28,43 @@ class ProjectsGateway
     }
 
     /**
-     * @param $name
-     * @param $organization
-     * @param $owner
-     * @param $priority
-     * @param $status
-     * @param $description
-     * @param $published
-     * @param $phase
-     * @param $maxUploadSize
-     * @param $urlDev
-     * @param $urlProd
-     * @param $invoicing
-     * @param $hourlyRate
-     * @param $modified
-     * @param $created
+     * @param string $name
+     * @param int $organization
+     * @param int $owner
+     * @param int $priority
+     * @param int $status
+     * @param string|null $description
+     * @param int $published
+     * @param int $phaseSet
+     * @param int|null $maxUploadSize
+     * @param string|null $urlDev
+     * @param string|null $urlProd
+     * @param int $invoicing
+     * @param float $hourlyRate
+     * @param string|null $modified
+     * @param string|null $created
      * @return string
      */
     public function createProject(
-        $name,
-        $organization,
-        $owner,
-        $priority,
-        $status,
-        $description,
-        $published,
-        $phase,
-        $maxUploadSize,
-        $urlDev,
-        $urlProd,
-        $invoicing,
-        $hourlyRate,
-        $modified,
-        $created
-    ) {
+        string $name,
+        int $organization = 0,
+        int $owner = 1,
+        int $priority = 0,
+        int $status = 0,
+        string $description = null,
+        int $published = 1,
+        int $phaseSet = 0,
+        int $maxUploadSize = null,
+        string $urlDev = null,
+        string $urlProd = null,
+        int $invoicing = 0,
+        float $hourlyRate = 0.00,
+        string $modified = null,
+        string $created = null
+    ): string {
 
         $sql = <<<SQL
-INSERT INTO {$this->db->getTableName("projects")} 
-(name, priority, description, owner, organization, status, published, upload_max, url_dev, url_prod, phase_set, 
-invoicing, hourly_rate, modified, created) 
-VALUES 
-(:name, :priority, :description, :owner, :organization, :status, :published, :upload_max, :url_dev, :url_prod,
-:phase_set, :invoicing, :hourly_rate, :modified, :created)
+INSERT INTO {$this->db->getTableName("projects")} (name, priority, description, owner, organization, status, published, upload_max, url_dev, url_prod, phase_set, invoicing, hourly_rate, modified, created) VALUES (:name, :priority, :description, :owner, :organization, :status, :published, :upload_max, :url_dev, :url_prod, :phase_set, :invoicing, :hourly_rate, :modified, :created)
 SQL;
 
         $this->db->query($sql);
@@ -84,7 +79,7 @@ SQL;
         $this->db->bind(":upload_max", $maxUploadSize);
         $this->db->bind(":url_dev", $urlDev);
         $this->db->bind(":url_prod", $urlProd);
-        $this->db->bind(":phase_set", $phase);
+        $this->db->bind(":phase_set", $phaseSet);
         $this->db->bind(":invoicing", $invoicing);
         $this->db->bind(":hourly_rate", $hourlyRate);
         $this->db->bind(":modified", $modified);
@@ -420,19 +415,19 @@ SQL;
      * @param $limit
      * @return string
      */
-    private function limit($offset, $limit)
+    private function limit($offset, $limit): string
     {
         if (!is_null($offset) && !is_null($limit)) {
-            return " LIMIT {$limit} OFFSET {$offset}";
+            return " LIMIT $limit OFFSET $offset";
         }
         return '';
     }
 
     /**
-     * @param $sorting
+     * @param string|null $sorting
      * @return string
      */
-    private function orderBy($sorting)
+    private function orderBy(string $sorting = null): string
     {
         if (!is_null($sorting)) {
             $allowedOrderedBy = [

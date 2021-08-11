@@ -46,7 +46,7 @@ class GetFile
      * @return bool
      * @throws Exception
      */
-    public function fileExists()
+    public function fileExists(): bool
     {
         if (file_exists($this->filesPath)) {
             return true;
@@ -57,7 +57,7 @@ class GetFile
 
     /**
      * @param $fileName
-     * @return Exception|void
+     * @return void
      * @throws Exception
      */
     public function viewFile($fileName)
@@ -66,7 +66,7 @@ class GetFile
             if ($this->fileExists()) {
                 $this->setMimeType();
                 header("Content-Length: " . filesize($this->filesPath));
-                header("Content-Type: {$this->mimeType}");
+                header("Content-Type: $this->mimeType");
                 header('Content-Disposition: inline;filename="' . $fileName . '"');
                 header("Last-Modified: " . date("D, j M Y G:i:s T", filemtime($this->filesPath)));
                 readfile($this->filesPath);
@@ -88,7 +88,7 @@ class GetFile
             if ($this->fileExists()) {
                 $this->setMimeType();
                 header("Content-Length: " . filesize($this->filesPath));
-                header("Content-Type: {$this->mimeType}");
+                header("Content-Type: $this->mimeType");
                 header('Content-Disposition: attachment;filename="' . $fileName . '"');
                 readfile($this->filesPath);
             }

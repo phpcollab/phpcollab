@@ -26,10 +26,10 @@ class SupportGateway
     }
 
     /**
-     * @param $supportRequestId
+     * @param int $supportRequestId
      * @return mixed
      */
-    public function getSupportRequestById($supportRequestId)
+    public function getSupportRequestById(int $supportRequestId)
     {
         $query = $this->initrequest["support_requests"] . " WHERE sr.id = :support_request_id";
         $this->db->query($query);
@@ -38,11 +38,11 @@ class SupportGateway
     }
 
     /**
-     * @param $status
-     * @param $sorting
+     * @param int $status
+     * @param string|null $sorting
      * @return mixed
      */
-    public function getSupportRequestByStatus($status, $sorting)
+    public function getSupportRequestByStatus(int $status, string $sorting = null)
     {
         $query = $this->initrequest["support_requests"] . " WHERE sr.status = :status" . $this->orderBy($sorting);
         $this->db->query($query);
@@ -51,11 +51,11 @@ class SupportGateway
     }
 
     /**
-     * @param $projectId
-     * @param $sorting
+     * @param int $projectId
+     * @param string|null $sorting
      * @return mixed
      */
-    public function getSupportRequestByProject($projectId, $sorting)
+    public function getSupportRequestByProject(int $projectId, string $sorting = null)
     {
         $query = $this->initrequest["support_requests"] . " WHERE sr.project = :project_id" . $this->orderBy($sorting);
         $this->db->query($query);
@@ -64,10 +64,10 @@ class SupportGateway
     }
 
     /**
-     * @param $memberId
+     * @param int $memberId
      * @return mixed
      */
-    public function getSupportRequestByMemberId($memberId)
+    public function getSupportRequestByMemberId(int $memberId)
     {
         $query = $this->initrequest["support_requests"] . " WHERE sr.member = :member_id";
         $this->db->query($query);
@@ -76,10 +76,10 @@ class SupportGateway
     }
 
     /**
-     * @param $supportRequestIds
+     * @param string $supportRequestIds
      * @return mixed
      */
-    public function getSupportRequestByIdIn($supportRequestIds)
+    public function getSupportRequestByIdIn(string $supportRequestIds)
     {
         $supportRequestIds = explode(',', $supportRequestIds);
         $placeholders = str_repeat('?, ', count($supportRequestIds) - 1) . '?';
@@ -92,10 +92,10 @@ class SupportGateway
     /**
      * @param Int $status
      * @param Int $projectId
-     * @param $sorting
+     * @param string|null $sorting
      * @return mixed
      */
-    public function getSupportRequestByStatusAndProjectId($status, $projectId, $sorting)
+    public function getSupportRequestByStatusAndProjectId(int $status, int $projectId, string $sorting = null)
     {
         $query = $this->initrequest["support_requests"] . " WHERE sr.status = :status AND sr.project = :project_id" . $this->orderBy($sorting);
         $this->db->query($query);
@@ -105,12 +105,12 @@ class SupportGateway
     }
 
     /**
-     * @param $memberId
-     * @param $projectId
-     * @param $sorting
+     * @param int $memberId
+     * @param int $projectId
+     * @param string|null $sorting
      * @return mixed
      */
-    public function getSupportRequestByMemberIdAndProjectId($memberId, $projectId, $sorting)
+    public function getSupportRequestByMemberIdAndProjectId(int $memberId, int $projectId, string $sorting = null)
     {
         $query = $this->initrequest["support_requests"] . " WHERE sr.member = :member_id AND sr.project = :project_id" . $this->orderBy($sorting);
         $this->db->query($query);
@@ -120,10 +120,10 @@ class SupportGateway
     }
 
     /**
-     * @param $requestId
+     * @param int $requestId
      * @return mixed
      */
-    public function getSupportPostsByRequestId($requestId)
+    public function getSupportPostsByRequestId(int $requestId)
     {
         $query = $this->initrequest["support_posts"] . " WHERE sp.request_id = :support_request_id ORDER BY sp.date";
         $this->db->query($query);
@@ -132,10 +132,10 @@ class SupportGateway
     }
 
     /**
-     * @param $postId
+     * @param int $postId
      * @return mixed
      */
-    public function getSupportPostById($postId)
+    public function getSupportPostById(int $postId)
     {
         $query = $this->initrequest["support_posts"] . " WHERE sp.id = :support_post_id";
         $this->db->query($query);
@@ -144,10 +144,10 @@ class SupportGateway
     }
 
     /**
-     * @param $supportPostIds
+     * @param string $supportPostIds
      * @return mixed
      */
-    public function getSupportPostsByRequestIdIn($supportPostIds)
+    public function getSupportPostsByRequestIdIn(string $supportPostIds)
     {
         $supportPostIds = explode(',', $supportPostIds);
         $placeholders = str_repeat('?, ', count($supportPostIds) - 1) . '?';
@@ -159,15 +159,15 @@ class SupportGateway
     }
 
     /**
-     * @param $userId
-     * @param $priority
-     * @param $subject
-     * @param $message
-     * @param $project
-     * @param $status
+     * @param int $userId
+     * @param int $priority
+     * @param string $subject
+     * @param string $message
+     * @param int $project
+     * @param int $status
      * @return string
      */
-    public function createSupportRequest($userId, $priority, $subject, $message, $project, $status)
+    public function createSupportRequest(int $userId, int $priority, string $subject, string $message, int $project, int $status): string
     {
         $sql = <<<SQL
 INSERT INTO {$this->db->getTableName("support_requests")} (
@@ -187,14 +187,14 @@ SQL;
     }
 
     /**
-     * @param $requestId
-     * @param $message
-     * @param $dateCreated
-     * @param $ownerId
-     * @param $projectId
+     * @param int $requestId
+     * @param string $message
+     * @param string $dateCreated
+     * @param int $ownerId
+     * @param int $projectId
      * @return string
      */
-    public function addPost($requestId, $message, $dateCreated, $ownerId, $projectId)
+    public function addPost(int $requestId, string $message, string $dateCreated, int $ownerId, int $projectId): string
     {
         $sql = <<<SQL
 INSERT INTO {$this->db->getTableName("support_posts")} (
@@ -213,12 +213,12 @@ SQL;
     }
 
     /**
-     * @param $requestId
-     * @param $status
-     * @param $dateClose
+     * @param int $requestId
+     * @param int $status
+     * @param string $dateClose
      * @return mixed
      */
-    public function updateSupportRequest($requestId, $status, $dateClose)
+    public function updateSupportRequest(int $requestId, int $status, string $dateClose)
     {
         $query = "UPDATE {$this->db->getTableName("support_requests")} SET status = :status, date_close = :date_close WHERE id = :request_id";
 
@@ -230,10 +230,10 @@ SQL;
     }
 
     /**
-     * @param $supportRequestIds
+     * @param string $supportRequestIds
      * @return mixed
      */
-    public function deleteSupportRequests($supportRequestIds)
+    public function deleteSupportRequests(string $supportRequestIds)
     {
         $supportRequestIds = explode(',', $supportRequestIds);
         $placeholders = str_repeat('?, ', count($supportRequestIds) - 1) . '?';
@@ -243,10 +243,10 @@ SQL;
     }
 
     /**
-     * @param $projectIds
+     * @param string $projectIds
      * @return mixed
      */
-    public function deleteSupportRequestsByProjectId($projectIds)
+    public function deleteSupportRequestsByProjectId(string $projectIds)
     {
         $projectIds = explode(',', $projectIds);
         $placeholders = str_repeat('?, ', count($projectIds) - 1) . '?';
@@ -256,10 +256,10 @@ SQL;
     }
 
     /**
-     * @param $requestIds
+     * @param string $requestIds
      * @return mixed
      */
-    public function deleteSupportPostsByRequestId($requestIds)
+    public function deleteSupportPostsByRequestId(string $requestIds)
     {
         $requestIds = explode(',', $requestIds);
         $placeholders = str_repeat('?, ', count($requestIds) - 1) . '?';
@@ -269,10 +269,10 @@ SQL;
     }
 
     /**
-     * @param $supportPostIds
+     * @param string $supportPostIds
      * @return mixed
      */
-    public function deleteSupportPostsById($supportPostIds)
+    public function deleteSupportPostsById(string $supportPostIds)
     {
         $supportPostIds = explode(',', $supportPostIds);
         $placeholders = str_repeat('?, ', count($supportPostIds) - 1) . '?';
@@ -282,10 +282,10 @@ SQL;
     }
 
     /**
-     * @param $projectIds
+     * @param string $projectIds
      * @return mixed
      */
-    public function deleteSupportPostsByProjectId($projectIds)
+    public function deleteSupportPostsByProjectId(string $projectIds)
     {
         $projectIds = explode(',', $projectIds);
         $placeholders = str_repeat('?, ', count($projectIds) - 1) . '?';
@@ -295,10 +295,10 @@ SQL;
     }
 
     /**
-     * @param $sorting
+     * @param string|null $sorting
      * @return string
      */
-    private function orderBy($sorting)
+    private function orderBy(string $sorting = null): string
     {
         if (!is_null($sorting)) {
             $allowedOrderedBy = [

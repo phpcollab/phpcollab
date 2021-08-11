@@ -31,7 +31,7 @@ class Phases
      * @param $name
      * @return string
      */
-    public function addPhase($projectId, $orderNumber, $status, $name)
+    public function addPhase($projectId, $orderNumber, $status, $name): string
     {
         return $this->phases_gateway->addPhase($projectId, $orderNumber, $status, $name);
     }

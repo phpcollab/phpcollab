@@ -4,11 +4,6 @@ namespace phpCollab\Reports;
 
 use phpCollab\Database;
 
-/**
- * User: mindblender
- * Date: 5/5/16
- * Time: 10:33 PM
- */
 class ReportsGateway
 {
     protected $db;
@@ -27,34 +22,34 @@ class ReportsGateway
     }
 
     /**
-     * @param $owner
-     * @param $name
-     * @param $projects
-     * @param $clients
-     * @param $members
-     * @param $priorities
-     * @param $status
-     * @param $dateDueStart
-     * @param $dateDueEnd
-     * @param $dateCompleteStart
-     * @param $dateCompleteEnd
-     * @param $created
+     * @param int $owner
+     * @param string $name
+     * @param string $projects
+     * @param string $clients
+     * @param string $members
+     * @param string $priorities
+     * @param string $status
+     * @param string $dateDueStart
+     * @param string $dateDueEnd
+     * @param string $dateCompleteStart
+     * @param string $dateCompleteEnd
+     * @param string $created
      * @return string
      */
     public function addReport(
-        $owner,
-        $name,
-        $projects,
-        $clients,
-        $members,
-        $priorities,
-        $status,
-        $dateDueStart,
-        $dateDueEnd,
-        $dateCompleteStart,
-        $dateCompleteEnd,
-        $created
-    ) {
+        int $owner,
+        string $name,
+        string $projects,
+        string $clients,
+        string $members,
+        string $priorities,
+        string $status,
+        string $dateDueStart,
+        string $dateDueEnd,
+        string $dateCompleteStart,
+        string $dateCompleteEnd,
+        string $created
+    ): string {
         $sql = "INSERT INTO {$this->db->getTableName("reports")} (owner,name,projects,clients,members,priorities,status,date_due_start,date_due_end,date_complete_start,date_complete_end,created) VALUES(:owner,:name,:projects,:clients,:members,:priorities,:status,:date_due_start,:date_due_end,:date_complete_start,:date_complete_end,:created)";
         $this->db->query($sql);
         $this->db->bind(":owner", $owner);
@@ -109,7 +104,7 @@ class ReportsGateway
     {
         $reportIds = explode(',', $reportIds);
         $placeholders = str_repeat('?, ', count($reportIds) - 1) . '?';
-        $sql = $this->initrequest["reports"] . " WHERE rep.id IN({$placeholders}) " . $this->orderBy($sorting);
+        $sql = $this->initrequest["reports"] . " WHERE rep.id IN($placeholders) " . $this->orderBy($sorting);
         $this->db->query($sql);
         $this->db->execute($reportIds);
         return $this->db->resultset();
@@ -134,7 +129,7 @@ class ReportsGateway
      * @param $sorting
      * @return string
      */
-    private function orderBy($sorting)
+    private function orderBy($sorting): string
     {
         if (!is_null($sorting)) {
             $allowedOrderedBy = [

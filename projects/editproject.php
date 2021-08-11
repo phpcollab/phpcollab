@@ -124,9 +124,8 @@ if ($id != "") {
 
                             //insert into projects and teams (with last id project)
                             $newProjectId = $projects->createProject($projectName, $organization, $owner,
-                                $projectPriority,
-                                $projectStatus, $description, $published, $thisPhase, $maxUploadSize, $urlDev, $urlProd,
-                                $invoicing, $hourlyRate);
+                                $projectPriority, $projectStatus, $description, $published, $thisPhase, $maxUploadSize,
+                                $urlDev, $urlProd, $invoicing, $hourlyRate);
 
                             $newTeamId = $teams->addTeam($newProjectId, $session->get("id"), 1, 0);
 
@@ -141,10 +140,10 @@ if ($id != "") {
 
                             if ($htaccessAuth == "true") {
                                 $content = <<<STAMP
-            AuthName "$setTitle"
-            AuthType Basic
-            Require valid-user
-            AuthUserFile $fullPath/files/$newProjectId/.htpasswd
+AuthName "$setTitle"
+AuthType Basic
+Require valid-user
+AuthUserFile $fullPath/files/$newProjectId/.htpasswd
 STAMP;
                                 $fp = @fopen("../files/$newProjectId/.htaccess", 'wb+');
                                 $fw = fwrite($fp, $content);

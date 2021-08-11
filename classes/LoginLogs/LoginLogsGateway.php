@@ -88,7 +88,7 @@ SQL;
      * @param string $connected
      * @return mixed
      */
-    public function setConnectedByLogin($login, $connected = '') {
+    public function setConnectedByLogin($login, string $connected = '') {
         $query = <<<SQL
 UPDATE {$this->db->getTableName("logs")} SET connected = :connected WHERE login = :login_id
 SQL;
@@ -155,10 +155,10 @@ SQL;
     }
 
     /**
-     * @param $sorting
+     * @param string|null $sorting
      * @return string
      */
-    private function orderBy($sorting)
+    private function orderBy(string $sorting = null): string
     {
         if (!is_null($sorting)) {
             $allowedOrderedBy = ["log.id", "log.login", "log.password", "log.ip", "log.session", "log.compt", "log.last_visite", "log.connected", "mem.profil"];

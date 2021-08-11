@@ -25,10 +25,10 @@ class SubtasksGateway
     }
 
     /**
-     * @param $subtaskId
+     * @param int $subtaskId
      * @return mixed
      */
-    public function getById($subtaskId)
+    public function getById(int $subtaskId)
     {
         $whereStatement = " WHERE subtas.id = :sub_task_id";
 
@@ -41,40 +41,40 @@ class SubtasksGateway
     }
 
     /**
-     * @param $parentTaskId
-     * @param $name
-     * @param $description
-     * @param $owner
-     * @param $assignedTo
-     * @param $status
-     * @param $priority
-     * @param $startDate
-     * @param $dueDate
-     * @param $estimatedTime
-     * @param $actualTime
-     * @param $comments
-     * @param $completion
-     * @param $published
-     * @param $created
+     * @param int $parentTaskId
+     * @param string $name
+     * @param string $description
+     * @param int $owner
+     * @param int $assignedTo
+     * @param int $status
+     * @param int $priority
+     * @param string $startDate
+     * @param string $dueDate
+     * @param float $estimatedTime
+     * @param float $actualTime
+     * @param string $comments
+     * @param int $completion
+     * @param int $published
+     * @param string $created
      * @return string
      */
     public function addSubtask(
-        $parentTaskId,
-        $name,
-        $description,
-        $owner,
-        $assignedTo,
-        $status,
-        $priority,
-        $startDate,
-        $dueDate,
-        $estimatedTime,
-        $actualTime,
-        $comments,
-        $completion,
-        $published,
-        $created
-    ) {
+        int $parentTaskId,
+        string $name,
+        string $description,
+        int $owner,
+        int $assignedTo,
+        int $status,
+        int $priority,
+        string $startDate,
+        string $dueDate,
+        float $estimatedTime,
+        float $actualTime,
+        string $comments,
+        int $completion,
+        int $published,
+        string $created
+    ): string {
         $sql = <<< SQL
 INSERT INTO {$this->db->getTableName("subtasks")} (
 task, name, description, owner, assigned_to, status, priority, start_date, due_date, estimated_time, actual_time, 
@@ -106,37 +106,37 @@ SQL;
     }
 
     /**
-     * @param $subtaskId
-     * @param $name
-     * @param $description
-     * @param $assignedTo
-     * @param $status
-     * @param $priority
-     * @param $startDate
-     * @param $dueDate
-     * @param $estimatedTime
-     * @param $actualTime
-     * @param $comments
-     * @param $modified
-     * @param $completion
-     * @param $published
+     * @param int $subtaskId
+     * @param string $name
+     * @param string $description
+     * @param int $assignedTo
+     * @param int $status
+     * @param int $priority
+     * @param string $startDate
+     * @param string $dueDate
+     * @param float $estimatedTime
+     * @param float $actualTime
+     * @param string $comments
+     * @param string $modified
+     * @param int $completion
+     * @param int $published
      * @return mixed
      */
     public function updateSubtask(
-        $subtaskId,
-        $name,
-        $description,
-        $assignedTo,
-        $status,
-        $priority,
-        $startDate,
-        $dueDate,
-        $estimatedTime,
-        $actualTime,
-        $comments,
-        $modified,
-        $completion,
-        $published
+        int $subtaskId,
+        string $name,
+        string $description,
+        int $assignedTo,
+        int $status,
+        int $priority,
+        string $startDate,
+        string $dueDate,
+        float $estimatedTime,
+        float $actualTime,
+        string $comments,
+        string $modified,
+        int $completion,
+        int $published
     ) {
 
         $sql = <<< SQL
@@ -177,10 +177,10 @@ SQL;
     }
 
     /**
-     * @param $subtaskId
+     * @param int $subtaskId
      * @return mixed
      */
-    public function publishSubtask($subtaskId)
+    public function publishSubtask(int $subtaskId)
     {
         $sql = "UPDATE {$this->db->getTableName("subtasks")} SET published = '0' WHERE id = :subtask_id";
         $this->db->query($sql);
@@ -189,10 +189,10 @@ SQL;
     }
 
     /**
-     * @param $subtaskId
+     * @param int $subtaskId
      * @return mixed
      */
-    public function unpublishSubtask($subtaskId)
+    public function unpublishSubtask(int $subtaskId)
     {
         $sql = "UPDATE {$this->db->getTableName("subtasks")} SET published = '1' WHERE id = :subtask_id";
         $this->db->query($sql);
@@ -201,11 +201,11 @@ SQL;
     }
 
     /**
-     * @param $subtaskId
-     * @param $date
+     * @param int $subtaskId
+     * @param string $date
      * @return mixed
      */
-    public function setCompletionDate($subtaskId, $date)
+    public function setCompletionDate(int $subtaskId, string $date)
     {
         $sql = "UPDATE {$this->db->getTableName("subtasks")} SET complete_date = :complete_date WHERE id = :subtask_id";
         $this->db->query($sql);
@@ -215,11 +215,11 @@ SQL;
     }
 
     /**
-     * @param $subtaskId
-     * @param $date
+     * @param int $subtaskId
+     * @param string $date
      * @return mixed
      */
-    public function setAssignedDate($subtaskId, $date)
+    public function setAssignedDate(int $subtaskId, string $date)
     {
         $sql = "UPDATE {$this->db->getTableName("subtasks")} SET assigned = :assigned_date WHERE id = :subtask_id";
         $this->db->query($sql);

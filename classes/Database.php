@@ -3,7 +3,7 @@ namespace phpCollab;
 
 use Exception;
 use Monolog\Logger;
-use \PDO;
+use PDO;
 use PDOException;
 use UnexpectedValueException;
 
@@ -158,7 +158,7 @@ class Database
     /**
      * @return string
      */
-    public function lastInsertId()
+    public function lastInsertId(): string
     {
         return $this->dbh->lastInsertId();
     }
@@ -166,7 +166,7 @@ class Database
     /**
      * @return bool
      */
-    public function beginTransaction()
+    public function beginTransaction(): bool
     {
         return $this->dbh->beginTransaction();
     }
@@ -174,7 +174,7 @@ class Database
     /**
      * @return bool
      */
-    public function endTransaction()
+    public function endTransaction(): bool
     {
         return $this->dbh->commit();
     }
@@ -182,7 +182,7 @@ class Database
     /**
      * @return bool
      */
-    public function cancelTransaction()
+    public function cancelTransaction(): bool
     {
         return $this->dbh->rollBack();
     }

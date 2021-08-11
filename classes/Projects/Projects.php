@@ -65,9 +65,10 @@ class Projects
 
         $modified = (is_null($modified)) ? date('Y-m-d h:i') : $modified;
 
-        return $this->projects_gateway->createProject($name, $organization, $owner, $priority, $status, $description,
-            $published,
-            $phase, $maxUploadSize, $urlDev, $urlProd, $invoicing, $hourlyRate, $modified, $created);
+        return $this->projects_gateway->createProject(
+            $name, $organization, $owner, $priority, $status, $description,
+            $published, $phase, $maxUploadSize, $urlDev, $urlProd, $invoicing, $hourlyRate, $modified, $created
+        );
     }
 
     /**

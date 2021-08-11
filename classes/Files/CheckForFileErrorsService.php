@@ -11,14 +11,14 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class CheckForFileErrorsService
 {
     /**
-     * @param $fileObj
+     * @param UploadedFile $fileObj
      * @return false
      * @throws Exception Throws an exception if there is an error
      */
-    public static function hasErrors(UploadedFile $fileObj)
+    public static function hasErrors(UploadedFile $fileObj): bool
     {
         if (!
-            $fileObj->getError() !== 0 ||
+            $fileObj->getError() != 0 ||
             !is_null($fileObj->getErrorMessage())
         ) {
             throw new InvalidArgumentException('Invalid parameters.');

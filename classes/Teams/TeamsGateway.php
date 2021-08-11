@@ -26,11 +26,11 @@ class TeamsGateway
     }
 
     /**
-     * @param $projectId
-     * @param $memberId
+     * @param int $projectId
+     * @param int $memberId
      * @return mixed
      */
-    public function getTeamByProjectIdAndTeamMember($projectId, $memberId)
+    public function getTeamByProjectIdAndTeamMember(int $projectId, int $memberId)
     {
         $whereStatement = " WHERE tea.project = :project_id AND tea.member = :member_id";
         $this->db->query($this->initrequest["teams"] . $whereStatement);
@@ -40,13 +40,13 @@ class TeamsGateway
     }
 
     /**
-     * @param $projectId
-     * @param $memberId
+     * @param int $projectId
+     * @param int $memberId
      * @return mixed
      */
     public function getTeamByProjectIdAndTeamMemberAndStatusIsNotCompletedOrSuspendedAndIsNotPublished(
-        $projectId,
-        $memberId
+        int $projectId,
+        int $memberId
     ) {
         $whereStatement = " WHERE tea.member = :member_id AND pro.id = :project_id AND pro.status IN(0,2,3) AND pro.published = '0'";
         $this->db->query($this->initrequest["teams"] . $whereStatement);
@@ -56,10 +56,10 @@ class TeamsGateway
     }
 
     /**
-     * @param $memberId
+     * @param int $memberId
      * @return mixed
      */
-    public function getTeamByMemberIdAndStatusIsNotCompletedAndIsNotPublished($memberId)
+    public function getTeamByMemberIdAndStatusIsNotCompletedAndIsNotPublished(int $memberId)
     {
         $whereStatement = " WHERE tea.member = :member_id AND pro.status IN(0,2,3) AND pro.published = 0 ORDER BY pro.name";
         $this->db->query($this->initrequest["teams"] . $whereStatement);
@@ -68,11 +68,11 @@ class TeamsGateway
     }
 
     /**
-     * @param $memberId
-     * @param null $sorting
+     * @param int $memberId
+     * @param string|null $sorting
      * @return mixed
      */
-    public function getTeamByMemberId($memberId, $sorting = null)
+    public function getTeamByMemberId(int $memberId, string $sorting = null)
     {
         $whereStatement = " WHERE tea.member = :member_id";
         $sql = $this->initrequest["teams"] . $whereStatement . $this->orderBy($sorting);
@@ -83,11 +83,11 @@ class TeamsGateway
 
 
     /**
-     * @param $projectId
-     * @param $memberId
+     * @param int $projectId
+     * @param int $memberId
      * @return mixed
      */
-    public function getOtherProjectTeamMembers($projectId, $memberId)
+    public function getOtherProjectTeamMembers(int $projectId, int $memberId)
     {
         $tmpquery = $this->initrequest["teams"] . " WHERE tea.project = :project_id AND tea.member != :member_id ORDER BY mem.id";
         $this->db->query($tmpquery);
@@ -97,11 +97,11 @@ class TeamsGateway
     }
 
     /**
-     * @param $memberId
-     * @param $orgId
+     * @param int $memberId
+     * @param int $orgId
      * @return mixed
      */
-    public function getTeamByTeamMemberAndOrgId($memberId, $orgId)
+    public function getTeamByTeamMemberAndOrgId(int $memberId, int $orgId)
     {
         $whereStatement = " WHERE tea.member = :member_id AND org2.id = :org_id";
         $this->db->query($this->initrequest["teams"] . $whereStatement);
@@ -111,14 +111,14 @@ class TeamsGateway
     }
 
     /**
-     * @param $projectId
-     * @param null $offset
-     * @param null $limit
-     * @param null $sorting
+     * @param int $projectId
+     * @param int|null $offset
+     * @param int|null $limit
+     * @param string|null $sorting
      * @return mixed
      * @internal param $orderBy
      */
-    public function getTeamByProjectId($projectId, $offset = null, $limit = null, $sorting = null)
+    public function getTeamByProjectId(int $projectId, int $offset = null, int $limit = null, string $sorting = null)
     {
         $whereStatement = " WHERE tea.project = :project_id AND mem.profil != '3'";
 
@@ -130,11 +130,11 @@ class TeamsGateway
     }
 
     /**
-     * @param $projectId
-     * @param null $sorting
+     * @param int $projectId
+     * @param string|null $sorting
      * @return mixed
      */
-    public function getClientTeamMembersByProject($projectId, $sorting = null)
+    public function getClientTeamMembersByProject(int $projectId, string $sorting = null)
     {
         $whereStatement = " WHERE tea.project = :project_id  AND mem.profil = '3'";
         $this->db->query($this->initrequest["teams"] . $whereStatement . $this->orderBy($sorting));
@@ -143,11 +143,11 @@ class TeamsGateway
     }
 
     /**
-     * @param $projectId
-     * @param $sorting
+     * @param int $projectId
+     * @param string $sorting
      * @return mixed
      */
-    public function getProjectSiteContacts($projectId, $sorting)
+    public function getProjectSiteContacts(int $projectId, string $sorting)
     {
         $tmpQuery = $this->initrequest["teams"] .
             " WHERE tea.project = :project_id AND tea.published = '0'" .
@@ -159,11 +159,11 @@ class TeamsGateway
     }
 
     /**
-     * @param $projectId
-     * @param $memberId
+     * @param int $projectId
+     * @param int $memberId
      * @return mixed
      */
-    public function isTeamMember($projectId, $memberId)
+    public function isTeamMember(int $projectId, int $memberId)
     {
         $whereStatement = " WHERE tea.project = :project_id AND tea.member = :member_id";
 
@@ -176,10 +176,10 @@ class TeamsGateway
     }
 
     /**
-     * @param $memberId
+     * @param int $memberId
      * @return mixed
      */
-    public function getTeamsImAMemberOf($memberId)
+    public function getTeamsImAMemberOf(int $memberId)
     {
         $sql = "SELECT tea.id FROM {$this->db->getTableName("teams")} tea LEFT OUTER JOIN {$this->db->getTableName("projects")} pro ON pro.id = tea.project WHERE tea.member = :member_id AND pro.status IN(0,2,3)";
         $this->db->query($sql);
@@ -188,11 +188,11 @@ class TeamsGateway
     }
 
     /**
-     * @param $projectId
-     * @param $memberIds
+     * @param int $projectId
+     * @param string $memberIds
      * @return mixed
      */
-    public function publishTeams($projectId, $memberIds)
+    public function publishTeams(int $projectId, string $memberIds)
     {
         if (strpos($memberIds, ',')) {
             $memberIds = explode(',', $memberIds);
@@ -212,11 +212,11 @@ class TeamsGateway
     }
 
     /**
-     * @param $projectId
-     * @param $memberIds
+     * @param int $projectId
+     * @param string $memberIds
      * @return mixed
      */
-    public function unPublishTeams($projectId, $memberIds)
+    public function unPublishTeams(int $projectId, string $memberIds)
     {
         if (strpos($memberIds, ',')) {
             $memberIds = explode(',', $memberIds);
@@ -237,11 +237,11 @@ class TeamsGateway
     }
 
     /**
-     * @param $projectId
-     * @param $memberId
+     * @param int $projectId
+     * @param string $memberId
      * @return mixed
      */
-    public function deleteFromTeamsWhereProjectIdEqualsAndMemberIdIn($projectId, $memberId)
+    public function deleteFromTeamsWhereProjectIdEqualsAndMemberIdIn(int $projectId, string $memberId)
     {
         // Generate placeholders
         $memberId = explode(',', $memberId);
@@ -260,10 +260,10 @@ class TeamsGateway
     }
 
     /**
-     * @param $projectId
+     * @param int $projectId
      * @return mixed
      */
-    public function deleteFromTeamsWhereProjectIdIn($projectId)
+    public function deleteFromTeamsWhereProjectIdIn(int $projectId)
     {
         // Generate placeholders
         $projectId = explode(',', $projectId);
@@ -274,10 +274,10 @@ class TeamsGateway
     }
 
     /**
-     * @param $memberId
+     * @param string $memberId
      * @return mixed
      */
-    public function deleteFromTeamsWhereMemberIdIn($memberId)
+    public function deleteFromTeamsWhereMemberIdIn(string $memberId)
     {
         // Generate placeholders
         $memberId = explode(',', $memberId);
@@ -288,13 +288,13 @@ class TeamsGateway
     }
 
     /**
-     * @param $projectId
-     * @param $memberId
-     * @param $published
-     * @param $authorized
-     * @return mixed
+     * @param int $projectId
+     * @param int $memberId
+     * @param int $published
+     * @param int $authorized
+     * @return string
      */
-    public function addTeam($projectId, $memberId, $published, $authorized)
+    public function addTeam(int $projectId, int $memberId, int $published, int $authorized): string
     {
         $sql = "INSERT INTO {$this->db->getTableName("teams")} (project,member,published,authorized) VALUES(:project,:member,:published,:authorized)";
         $this->db->query($sql);
@@ -308,23 +308,23 @@ class TeamsGateway
 
     /**
      * Returns the LIMIT attribute for SQL strings
-     * @param $offset
-     * @param $limit
+     * @param int|null $offset
+     * @param int|null $limit
      * @return string
      */
-    private function limit($offset, $limit)
+    private function limit(int $offset = null, int $limit = null): string
     {
         if (!is_null($offset) && !is_null($limit)) {
-            return " LIMIT {$limit} OFFSET {$offset}";
+            return " LIMIT $limit OFFSET $offset";
         }
         return '';
     }
 
     /**
-     * @param $sorting
+     * @param string|null $sorting
      * @return string
      */
-    private function orderBy($sorting)
+    private function orderBy(string $sorting = null): string
     {
         if (!is_null($sorting)) {
             $allowedOrderedBy = [

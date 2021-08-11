@@ -112,22 +112,6 @@ class Files
     }
 
     /**
-     * @return mixed
-     */
-    public function getPublishedFiles()
-    {
-        return $this->files_gateway->getPublishedFiles();
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUnPublishedFiles()
-    {
-        return $this->files_gateway->getUnPublishedFiles();
-    }
-
-    /**
      * @param mixed $filesId Can be a single ID or multiple IDs
      * @return mixed
      */
@@ -173,7 +157,7 @@ class Files
      * @param null $sorting
      * @return mixed
      */
-    public function getFileVersions($fileId, $fileStatus = 3, $sorting = null)
+    public function getFileVersions($fileId, int $fileStatus = 3, $sorting = null)
     {
         $fileId = filter_var((string)$fileId, FILTER_SANITIZE_STRING);
         return $this->files_gateway->getFileVersions($fileId, $fileStatus, $sorting);
@@ -316,10 +300,10 @@ class Files
                     ) {
 
                         $body = <<<MAILBODY
-{$mail->partMessage}
+$mail->partMessage
 
 {$this->strings["upload"]} : {$fileDetails["fil_name"]}
-{$this->strings["posted_by"]} : {$userName} ({$userLogin})
+{$this->strings["posted_by"]} : $userName ($userLogin)
 
 {$this->strings["comments"]} : 
 {$fileDetails["fil_comments"]}
@@ -332,7 +316,8 @@ MAILBODY;
 
                         if ($notificationDetails["organization"] == "1") {
                             $body .= $this->root . "/general/login.php?url=linkedcontent/viewfile.php?id=" . $fileDetails["fil_id"];
-                        } elseif ($notificationDetails["organization"] != "1") {
+                        }
+                        if ($notificationDetails["organization"] != "1") {
                             $body .= $this->root . "/general/login.php?url=projects_site/home.php?project=" . $projectDetails["pro_id"];
                         }
 

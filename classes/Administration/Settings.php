@@ -75,7 +75,7 @@ class Settings
     {
         $parameterized = [];
         foreach ($settingsData as $key => $value) {
-            $parameterized["%{$key}%"] = $value;
+            $parameterized["%$key%"] = $value;
         }
         return $parameterized;
     }

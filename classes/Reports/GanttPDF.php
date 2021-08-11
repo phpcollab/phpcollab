@@ -10,7 +10,12 @@ use Exception;
 
 class GanttPDF
 {
-    public function generateImage($reportName, $listTasks)
+    /**
+     * @param $reportName
+     * @param $listTasks
+     * @return string
+     */
+    public function generateImage($reportName, $listTasks): string
     {
         try {
 
@@ -74,7 +79,7 @@ class GanttPDF
 
                         $activity->progress->Set($progress);
                         $graph->Add($activity);
-                    } // end for compl�istsubtask
+                    } // end for complistsubtask
                 } // end if subtask
                 $posGantt += 1;
             } // end for complisttask

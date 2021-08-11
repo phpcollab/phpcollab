@@ -5,6 +5,7 @@ namespace phpCollab\Notifications;
 
 
 use Exception;
+use Monolog\Logger;
 use phpCollab\Notification;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -15,14 +16,15 @@ class TopicNewTopic extends Notification
      * @param $projectDetail
      * @param $notificationsList
      * @param Session $session
+     * @param Logger $logger
      * @throws Exception
      */
-    public function generateEmail($topicDetail, $projectDetail, $notificationsList, Session $session)
+    public function generateEmail($topicDetail, $projectDetail, $notificationsList, Session $session, Logger $logger)
     {
         if ($topicDetail) {
 
             try {
-                $this->getUserinfo($session->get("id"), "from");
+                $this->getUserinfo($session->get("id"), "from", $logger);
 
                 $this->partSubject = $this->strings["noti_newtopic1"];
                 $this->partMessage = $this->strings["noti_newtopic2"];
@@ -54,7 +56,7 @@ class TopicNewTopic extends Notification
 
                                 if ($notificationList["organization"] == "1") {
                                     $body .= $this->root . "/general/login.php?url=topics/viewtopic.php%3Fid=" . $topicDetail["top_id"];
-                                } elseif ($notificationList["organization"] != "1") {
+                                } else {
                                     $body .= $this->root . "/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetail["pro_id"];
                                 }
 

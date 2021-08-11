@@ -11,7 +11,6 @@ use phpCollab\Container;
 use phpCollab\Database;
 use phpCollab\Exceptions\SendNotificationFailException;
 use phpCollab\Exceptions\TimestampInvalidException;
-use phpCollab\Exceptions\TokenAlreadySentException;
 use phpCollab\Exceptions\TooManyPasswordResetAttempts;
 use phpCollab\Exceptions\UserNotFoundException;
 use phpCollab\Exceptions\TokenNotExpiredException;
@@ -39,7 +38,6 @@ class ResetPassword extends Members
      * @param string $username
      * @param array $times
      * @return bool
-     * @throws TokenAlreadySentException
      * @throws TooManyPasswordResetAttempts
      * @throws Exception
      */

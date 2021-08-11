@@ -5,6 +5,7 @@ namespace phpCollab\Files;
 
 use Exception;
 use InvalidArgumentException;
+use phpCollab\Container;
 use phpCollab\Database;
 use phpCollab\Notification;
 
@@ -15,9 +16,9 @@ class PeerReview extends Files
     private $fileDetails;
     private $notifications;
 
-    public function __construct(Database $database, Notification $notification)
+    public function __construct(Database $database, Notification $notification, Container $container)
     {
-        parent::__construct($database);
+        parent::__construct($database, $container);
         $this->notifications = $notification;
     }
 
@@ -58,7 +59,7 @@ class PeerReview extends Files
 {$this->strings["noti_peer_review_details"]}
 ============
 {$this->strings["comments"]}:
-{$comment}
+$comment
 
 
 {$this->strings["file_details"]}
@@ -73,7 +74,8 @@ BODY;
 
                     if ($notificationDetails["organization"] == "1") {
                         $body .= $this->root . "/general/login.php?url=linkedcontent/viewfile.php?id=" . $this->fileDetails["fil_id"];
-                    } elseif ($notificationDetails["organization"] != "1") {
+                    }
+                    if ($notificationDetails["organization"] != "1") {
                         $body .= $this->root . "/general/login.php?url=projects_site/home.php?project=" . $this->projectDetails["pro_id"];
                     }
 

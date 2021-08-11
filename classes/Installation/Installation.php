@@ -54,7 +54,7 @@ class Installation
      * @return bool
      * @throws Exception
      */
-    public function setup(array $data)
+    public function setup(array $data): bool
     {
         try {
             // Test if the database is accessible, then continue
@@ -90,10 +90,10 @@ class Installation
     }
 
     /**
-     * @return bool
+     * @return void
      * @throws Exception
      */
-    private function testDatabase()
+    private function testDatabase(): void
     {
         // Test to see if we can access the database
         try {
@@ -105,7 +105,7 @@ class Installation
                     throw $this->database;
                 }
             }
-            return true;
+            return;
         } catch (Exception $exception) {
             $this->logger->critical("SETUP - testDatabase Exception: " . $exception->getMessage() . "\n");
             throw $exception;
@@ -113,9 +113,9 @@ class Installation
     }
 
     /**
-     * @return bool
+     * @return void
      */
-    private function createDatabaseTables()
+    private function createDatabaseTables(): void
     {
         // Since the includes below use "global" variables, we need to create them here so they are accessible.
         $databaseType = $this->databaseInfo["dbType"];
@@ -141,16 +141,16 @@ class Installation
             }
         }
 
-        return true;
     }
 
     /**
      * @throws Exception
      */
-    private function writeSettingsFile()
+    private function writeSettingsFile(): void
     {
         try {
-            return Administration\Settings::writeSettings($this->appRoot, $this->scrubbedData, $this->logger);
+            Administration\Settings::writeSettings($this->appRoot, $this->scrubbedData, $this->logger);
+            return;
         } catch (Exception $exception) {
             $this->logger->alert("SETUP - writeSettingsFile: " . $exception->getMessage() . "\n");
             throw $exception;
@@ -161,7 +161,7 @@ class Installation
      * @return bool
      * @throws Exception
      */
-    public function checkIfWritable()
+    public function checkIfWritable(): bool
     {
         /**
          * See if the includes, and logs directories are writable
@@ -182,7 +182,7 @@ class Installation
      * @param array $data
      * @return array
      */
-    private function scrubData(array $data)
+    private function scrubData(array $data): array
     {
         return DataFunctionsService::scrubData($data);
     }

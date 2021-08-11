@@ -21,24 +21,24 @@ class TaskUpdates
     }
 
     /**
-     * @param $type
-     * @param $item
-     * @param $member
-     * @param $comments
+     * @param int $type
+     * @param int $item
+     * @param int $member
+     * @param string $comments
      * @return string
      */
-    public function addUpdate($type, $item, $member, $comments)
+    public function addUpdate(int $type, int $item, int $member, string $comments): string
     {
         return $this->updates_gateway->addUpdate($type, $item, $member, $comments);
     }
 
     /**
-     * @param $type
-     * @param $taskId
-     * @param null $sorting
+     * @param int $type
+     * @param int $taskId
+     * @param string|null $sorting
      * @return mixed
      */
-    public function getUpdates($type, $taskId, $sorting = null)
+    public function getUpdates(int $type, int $taskId, string $sorting = null)
     {
         $type = filter_var($type, FILTER_VALIDATE_INT);
         $taskId = filter_var($taskId, FILTER_VALIDATE_INT);

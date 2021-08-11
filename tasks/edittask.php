@@ -135,7 +135,7 @@ if (
                 "comments" => $request->request->get('comments'),
                 "status" => $request->request->get('taskStatus'),
                 "old_status" => $request->request->get('old_status'),
-                "completion" => $request->request->get('completion'),
+                "completion" => $request->request->get('completion')?? 0,
                 "completion_date" => $request->request->get('complete_date'),
                 "invoicing" => $request->request->get('invoicing'),
                 "priority" => $request->request->get('priority'),
@@ -185,7 +185,7 @@ if (
 
                 // Copy Task
                 if ($docopy == "true") {
-                    if ($form_data["completion"] == "10") {
+                    if ($form_data["completion"] == "0") {
                         $form_data["taskStatus"] = "1";
                     }
 
@@ -198,14 +198,16 @@ if (
                     }
 
                     try {
-                        $newTask = $tasks->addTask($form_data["project"], $form_data["name"], $form_data["description"],
+                        $newTask = $tasks->addTask(
+                            $form_data["project"], $form_data["name"], $form_data["description"],
                             $session->get("id"), $form_data["assigned_to"], $form_data["status"],
                             $form_data["priority"],
-                            $form_data["start_date"], $form_data["due_date"], $form_data["estimated_time"],
-                            $form_data["actual_time"], $form_data["comments"], $form_data["published"],
+                            $form_data["start_date"], $form_data["due_date"], (float)$form_data["estimated_time"],
+                            (float)$form_data["actual_time"], $form_data["comments"], $form_data["published"],
                             $form_data["completion"],
                             ($form_data["phase"] != 0) ? $form_data["phase"] : 0, $form_data["invoicing"],
-                            $form_data["worked_hours"]);
+                            (float)$form_data["worked_hours"]
+                        );
 
                     } catch (Exception $e) {
                         $logger->error('Tasks (edit)', ['Exception message', $e->getMessage()]);
@@ -257,6 +259,7 @@ if (
                         //if assigned_to not blank, add to team members (only if doesn't already exist)
                         if ($form_data["assigned_to"] != "0") {
                             $teamMember = $teams->isTeamMember($project, $form_data["assigned_to"]);
+                            $memberInfo = $members->getMemberById($form_data["assigned_to"]);
 
                             if (!$teamMember) {
                                 $teamMemberId = $teams->addTeam($project, $form_data["assigned_to"], 1, 0);
@@ -301,7 +304,7 @@ if (
                     if ($form_data["status"] == "1" && $form_data["complete_date"] == "--") {
                         $tasks->setCompletionDateForTaskById($task_id, $date);
                     } else {
-                        $tasks->setCompletionDateForTaskById($task_id, $form_data["complete_date"]);
+                        $tasks->setCompletionDateForTaskById($task_id, $form_data["complete_date"]?? date('Y-m-d'));
                     }
 
                     if ($form_data["old_status"] == "1" && $form_data["status"] != $form_data["old_status"]) {
@@ -862,7 +865,7 @@ if ($taskDetail['tas_assigned_to'] == "0") {
     echo '<option value="0">' . $strings["unassigned"] . '</option>';
 }
 
-$teamList = $teams->getTeamByProjectId($project, 'mem.name');
+$teamList = $teams->getTeamByProjectId($project, null, null, 'mem.name');
 
 foreach ($teamList as $team_member) {
     $clientUser = "";
@@ -1012,13 +1015,13 @@ JAVASCRIPT;
 echo <<<TR
     <tr class="odd">
             <td style="vertical-align:top" class="leftvalue">{$strings["estimated_time"]} :</td>
-            <td><input size="32" value="$estimated_time" style="width: 250px" name="estimated_time" maxlength="32" type="TEXT">{$strings["hours"]}</td>
+            <td><input size="32" value="$estimated_time" style="width: 250px" name="estimated_time" maxlength="32" type="number"> {$strings["hours"]}</td>
         </tr>
 TR;
 echo <<<TR
         <tr class="odd">
             <td style="vertical-align:top" class="leftvalue">{$strings["actual_time"]} :</td>
-            <td><input size="32" value="$actual_time" style="width: 250px" name="actual_time" maxlength="32" type="TEXT">{$strings["hours"]}</td>
+            <td><input size="32" value="$actual_time" style="width: 250px" name="actual_time" maxlength="32" type="number"> {$strings["hours"]}</td>
         </tr>
 TR;
 echo <<<TR
@@ -1041,7 +1044,7 @@ if ($enableInvoicing == "true") {
     $block1->contentRow($strings["invoicing"],
         '<input size="32" value="1" name="invoicing" type="checkbox" ' . $checkedInvoicing . '>');
     $block1->contentRow($strings["worked_hours"],
-        '<input size="32" value="' . $worked_hours . '" style="width: 250px" name="worked_hours" type="TEXT">');
+        '<input size="32" value="' . $worked_hours . '" style="width: 250px" name="worked_hours" type="number">');
 }
 
 if ($task_id != "") {

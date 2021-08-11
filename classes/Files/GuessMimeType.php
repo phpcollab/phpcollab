@@ -26,10 +26,6 @@ class GuessMimeType
     public static function isAllowedMimeType(UploadedFile $fileObj, array $allowedMimeTypes)
     {
         // Let's "guess" the mime type from the provided path
-        if (!$fileObj) {
-            throw new InvalidArgumentException('File object passed in is null or invalid');
-        }
-
         if (!$allowedMimeTypes) {
             throw new InvalidArgumentException('Invalid parameters');
         }
@@ -41,7 +37,8 @@ class GuessMimeType
                 $mimeType,
                 $allowedMimeTypes,
                 true
-            )) {
+            )
+        ) {
             array(
                 'clientOriginalName' => $fileObj->getClientOriginalName(),
                 'clientOriginalExtension' => $fileObj->getClientOriginalExtension(),

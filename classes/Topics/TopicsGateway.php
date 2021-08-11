@@ -26,13 +26,13 @@ class TopicsGateway
     }
 
     /**
-     * @param $topicId
-     * @param $memberId
-     * @param $message
-     * @param $created
+     * @param int $topicId
+     * @param int $memberId
+     * @param string $message
+     * @param string $created
      * @return string
      */
-    public function createPost($topicId, $memberId, $message, $created)
+    public function createPost(int $topicId, int $memberId, string $message, string $created): string
     {
         $query = "INSERT INTO {$this->db->getTableName("posts")} (topic, member, created, message) VALUES (:topic, :member, :created, :message)";
         $this->db->query($query);
@@ -45,16 +45,16 @@ class TopicsGateway
     }
 
     /**
-     * @param $projectId
-     * @param $memberId
-     * @param $subject
-     * @param $status
-     * @param $last_post
-     * @param $posts
-     * @param $published
+     * @param int $projectId
+     * @param int $memberId
+     * @param string $subject
+     * @param int $status
+     * @param string $last_post
+     * @param int $posts
+     * @param string $published
      * @return string
      */
-    public function createTopic($projectId, $memberId, $subject, $status, $last_post, $posts, $published)
+    public function createTopic(int $projectId, int $memberId, string $subject, int $status, string $last_post, int $posts, string $published): string
     {
 
         $query = "INSERT INTO {$this->db->getTableName("topics")} (project, owner, subject, status, last_post, posts, published) VALUES (:project, :owner, :subject, :status, :last_post, :posts, :published)";
@@ -71,11 +71,11 @@ class TopicsGateway
     }
 
     /**
-     * @param $ownerId
-     * @param null $sorting
+     * @param int $ownerId
+     * @param string|null $sorting
      * @return mixed
      */
-    public function getTopicsByOwner($ownerId, $sorting = null)
+    public function getTopicsByOwner(int $ownerId, string $sorting = null)
     {
         $query = $this->initrequest["topics"] . " WHERE topic.project = :owner_id" . $this->orderBy($sorting);
         $this->db->query($query);
@@ -84,13 +84,13 @@ class TopicsGateway
     }
 
     /**
-     * @param $projectId
-     * @param null $offset
-     * @param null $limit
-     * @param null $sorting
+     * @param int $projectId
+     * @param int|null $offset
+     * @param int|null $limit
+     * @param string|null $sorting
      * @return mixed
      */
-    public function getTopicsByProject($projectId, $offset = null, $limit = null, $sorting = null)
+    public function getTopicsByProject(int $projectId, int $offset = null, int $limit = null, string $sorting = null)
     {
         $query = $this->initrequest["topics"] . " WHERE topic.project = :project_id" . $this->orderBy($sorting) . $this->limit($offset,
                 $limit);
@@ -100,13 +100,13 @@ class TopicsGateway
     }
 
     /**
-     * @param $projectId
-     * @param null $offset
-     * @param null $limit
-     * @param null $sorting
+     * @param int $projectId
+     * @param int|null $offset
+     * @param int|null $limit
+     * @param string|null $sorting
      * @return mixed
      */
-    public function getProjectSiteTopics($projectId, $offset = null, $limit = null, $sorting = null)
+    public function getProjectSiteTopics(int $projectId, int $offset = null, int $limit = null, string $sorting = null)
     {
         $query = $this->initrequest["topics"] . " WHERE topic.project = :project_id AND topic.published = '0'" . $this->orderBy($sorting) . $this->limit($offset,
                 $limit);
@@ -116,10 +116,10 @@ class TopicsGateway
     }
 
     /**
-     * @param $topicId
+     * @param int $topicId
      * @return mixed
      */
-    public function getTopicById($topicId)
+    public function getTopicById(int $topicId)
     {
         $query = $this->initrequest["topics"] . " WHERE topic.id = :topic_id";
         $this->db->query($query);
@@ -128,10 +128,10 @@ class TopicsGateway
     }
 
     /**
-     * @param $topicIds
+     * @param string $topicIds
      * @return mixed
      */
-    public function getTopicsIn($topicIds)
+    public function getTopicsIn(string $topicIds)
     {
         $topicIds = explode(',', $topicIds);
         $placeholders = str_repeat('?, ', count($topicIds) - 1) . '?';
@@ -142,10 +142,10 @@ class TopicsGateway
     }
 
     /**
-     * @param $topicId
+     * @param int $topicId
      * @return mixed
      */
-    public function getPostsByTopicId($topicId)
+    public function getPostsByTopicId(int $topicId)
     {
         $query = $this->initrequest["posts"] . " WHERE pos.topic = :topic_id ORDER BY pos.created DESC";
         $this->db->query($query);
@@ -154,10 +154,10 @@ class TopicsGateway
     }
 
     /**
-     * @param $postId
+     * @param int $postId
      * @return mixed
      */
-    public function getPostById($postId)
+    public function getPostById(int $postId)
     {
         $query = $this->initrequest["posts"] . " WHERE pos.id = :post_id";
         $this->db->query($query);
@@ -166,11 +166,11 @@ class TopicsGateway
     }
 
     /**
-     * @param $topicId
-     * @param $ownerId
+     * @param int $topicId
+     * @param int $ownerId
      * @return mixed
      */
-    public function getPostsByTopicIdAndNotOwner($topicId, $ownerId)
+    public function getPostsByTopicIdAndNotOwner(int $topicId, int $ownerId)
     {
         $query = $this->initrequest["posts"] . " WHERE pos.topic = :topic_id AND pos.member != :owner_id ORDER BY mem.id";
         $this->db->query($query);
@@ -180,12 +180,12 @@ class TopicsGateway
     }
 
     /**
-     * @param $projectIds
-     * @param $dateFilter
-     * @param $sorting
+     * @param string $projectIds
+     * @param string $dateFilter
+     * @param string|null $sorting
      * @return mixed
      */
-    public function getTopicsByProjectAndFilteredByDate($projectIds, $dateFilter, $sorting)
+    public function getTopicsByProjectAndFilteredByDate(string $projectIds, string $dateFilter, string $sorting = null)
     {
         $projectId = explode(',', $projectIds);
         $placeholders = str_repeat('?, ', count($projectId) - 1) . '?';
@@ -199,11 +199,11 @@ class TopicsGateway
     }
 
     /**
-     * @param $topicIds
+     * @param string $topicIds
      * @return mixed
      * @internal param string $table
      */
-    public function publishTopic($topicIds)
+    public function publishTopic(string $topicIds)
     {
         if (strpos($topicIds, ',')) {
             $topicIds = explode(',', $topicIds);
@@ -224,11 +224,11 @@ class TopicsGateway
     }
 
     /**
-     * @param $topicIds
+     * @param string $topicIds
      * @return mixed
      * @internal param string $table
      */
-    public function unPublishTopic($topicIds)
+    public function unPublishTopic(string $topicIds)
     {
         if (strpos($topicIds, ',')) {
             $topicIds = explode(',', $topicIds);
@@ -249,11 +249,11 @@ class TopicsGateway
 
 
     /**
-     * @param $topicIds
+     * @param string $topicIds
      * @return mixed
      * @internal param $table
      */
-    public function closeTopic($topicIds)
+    public function closeTopic(string $topicIds)
     {
         if (strpos($topicIds, ',')) {
             $topicIds = explode(',', $topicIds);
@@ -273,10 +273,10 @@ class TopicsGateway
     }
 
     /**
-     * @param $topicIds
+     * @param array $topicIds
      * @return mixed
      */
-    public function deleteTopics($topicIds)
+    public function deleteTopics(array $topicIds)
     {
         // Generate placeholders
         $placeholders = str_repeat('?, ', count($topicIds) - 1) . '?';
@@ -287,10 +287,10 @@ class TopicsGateway
     }
 
     /**
-     * @param $topicIds
+     * @param array $topicIds
      * @return mixed
      */
-    public function deletePostsByTopicIds($topicIds)
+    public function deletePostsByTopicIds(array $topicIds)
     {
         // Generate placeholders
         $placeholders = str_repeat('?, ', count($topicIds) - 1) . '?';
@@ -301,10 +301,10 @@ class TopicsGateway
     }
 
     /**
-     * @param $projectId
+     * @param string $projectId
      * @return mixed
      */
-    public function deleteTopicsByProjectId($projectId)
+    public function deleteTopicsByProjectId(string $projectId)
     {
         $projectId = explode(',', $projectId);
         $placeholders = str_repeat('?, ', count($projectId) - 1) . '?';
@@ -314,10 +314,10 @@ class TopicsGateway
     }
 
     /**
-     * @param $projectId
+     * @param string $projectId
      * @return mixed
      */
-    public function deletePostsByProjectId($projectId)
+    public function deletePostsByProjectId(string $projectId)
     {
         $projectId = explode(',', $projectId);
         $placeholders = str_repeat('?, ', count($projectId) - 1) . '?';
@@ -327,11 +327,11 @@ class TopicsGateway
     }
 
     /**
-     * @param $topicId
-     * @param $updateDate
+     * @param int $topicId
+     * @param string $updateDate
      * @return mixed
      */
-    public function incrementTopicPostsCount($topicId, $updateDate)
+    public function incrementTopicPostsCount(int $topicId, string $updateDate)
     {
         $query = "UPDATE {$this->db->getTableName("topics")} SET last_post = :last_post, posts = posts + 1 WHERE id = :topic_id";
         $this->db->query($query);
@@ -341,10 +341,10 @@ class TopicsGateway
     }
 
     /**
-     * @param $topicId
+     * @param int $topicId
      * @return mixed
      */
-    public function decrementTopicPostsCount($topicId)
+    public function decrementTopicPostsCount(int $topicId)
     {
         $query = "UPDATE {$this->db->getTableName("topics")} SET last_post = :last_post, posts = posts - 1 WHERE id = :topic_id";
         $this->db->query($query);
@@ -354,13 +354,13 @@ class TopicsGateway
     }
 
     /**
-     * @param $query
-     * @param null $sorting
-     * @param null $limit
-     * @param null $rowLimit
+     * @param string $query
+     * @param string|null $sorting
+     * @param int|null $limit
+     * @param int|null $rowLimit
      * @return mixed
      */
-    public function searchResultTopics($query, $sorting = null, $limit = null, $rowLimit = null)
+    public function searchResultTopics(string $query, string $sorting = null, int $limit = null, int $rowLimit = null)
     {
         $sql = $this->initrequest['topics'] . ' ' . $query . $this->orderBy($sorting) . $this->limit($limit, $rowLimit);
         $this->db->query($sql);
@@ -369,10 +369,10 @@ class TopicsGateway
     }
 
     /**
-     * @param $postId
+     * @param int $postId
      * @return mixed
      */
-    public function deletePost($postId)
+    public function deletePost(int $postId)
     {
         $sql = "DELETE FROM {$this->db->getTableName("posts")} WHERE id = :post_id";
         $this->db->query($sql);
@@ -382,23 +382,23 @@ class TopicsGateway
 
     /**
      * Returns the LIMIT attribute for SQL strings
-     * @param $offset
-     * @param $limit
+     * @param int|null $offset
+     * @param int|null $limit
      * @return string
      */
-    private function limit($offset, $limit)
+    private function limit(int $offset = null, int $limit = null): string
     {
         if (!is_null($offset) && !is_null($limit)) {
-            return " LIMIT {$limit} OFFSET {$offset}";
+            return " LIMIT $limit OFFSET $offset";
         }
         return '';
     }
 
     /**
-     * @param $sorting
+     * @param string|null $sorting
      * @return string
      */
-    private function orderBy($sorting)
+    private function orderBy(string $sorting = null): string
     {
         if (!is_null($sorting)) {
             $allowedOrderedBy = [

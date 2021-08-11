@@ -57,7 +57,7 @@ class CsrfHandler
      * @param $formToken
      * @return bool
      */
-    public function isValid($formToken)
+    public function isValid($formToken): bool
     {
         // Take the provided token and compare it against the stored session token.
         $token = new CsrfToken($this->tokenName, $formToken);
@@ -70,7 +70,7 @@ class CsrfHandler
     /**
      * @return string
      */
-    public function getToken()
+    public function getToken(): string
     {
         return $this->csrfManager->getToken($this->tokenName)->getValue();
     }
