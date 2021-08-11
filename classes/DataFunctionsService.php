@@ -18,7 +18,7 @@ class DataFunctionsService
         /**
          * Used to remove characters, if they aren't in this list, they will be removed
          */
-        $regEx = "/[^a-zA-Z0-9 .@:\/_]*/";
+        $regEx = "/[^a-zA-Z0-9 .@:\/_-]*/";
 
         $retData = array();
         foreach ($data as $key => $val) {
