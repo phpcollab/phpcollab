@@ -2,6 +2,8 @@
 #Application name: PhpCollab
 #Status page: 0
 
+use phpCollab\Util;
+
 $strings = $GLOBALS['strings'];
 $appRoot = APP_ROOT;
 
@@ -89,24 +91,25 @@ $blockHeader->openNavigation();
 if ($blank == "true") {
     $blockHeader->itemNavigation("&nbsp;");
 } else {
+    $url = $_SERVER["REQUEST_URI"];
     if ($notLogged == "true") {
         $blockHeader->itemNavigation($blockHeader->buildLink("../general/login.php", $strings["login"], 'in'));
         $blockHeader->itemNavigation($blockHeader->buildLink("../general/license.php", $strings["license"], 'in'));
     } else {
-        $blockHeader->itemNavigation($blockHeader->buildLink("../general/home.php", $strings["home"], 'in'));
+        $blockHeader->itemNavigation($blockHeader->buildLink("../general/home.php", $strings["home"], 'in', Util::setNavActive($url, "general")));
         $blockHeader->itemNavigation($blockHeader->buildLink("../projects/listprojects.php", $strings["projects"],
-            'in'));
-        $blockHeader->itemNavigation($blockHeader->buildLink("../clients/listclients.php", $strings["clients"], 'in'));
-        $blockHeader->itemNavigation($blockHeader->buildLink("../reports/listreports.php", $strings["reports"], 'in'));
-        $blockHeader->itemNavigation($blockHeader->buildLink("../search/createsearch.php", $strings["search"], 'in'));
+            'in', Util::setNavActive($url, "projects") ));
+        $blockHeader->itemNavigation($blockHeader->buildLink("../clients/listclients.php", $strings["clients"], 'in', Util::setNavActive($url, "clients") ));
+        $blockHeader->itemNavigation($blockHeader->buildLink("../reports/listreports.php", $strings["reports"], 'in', Util::setNavActive($url, "reports") ));
+        $blockHeader->itemNavigation($blockHeader->buildLink("../search/createsearch.php", $strings["search"], 'in', Util::setNavActive($url, "search") ));
         $blockHeader->itemNavigation($blockHeader->buildLink("../calendar/viewcalendar.php", $strings["calendar"],
-            'in'));
-        $blockHeader->itemNavigation($blockHeader->buildLink("../newsdesk/listnews.php", $strings["newsdesk"], 'in'));
+            'in', Util::setNavActive($url, "calendar") ));
+        $blockHeader->itemNavigation($blockHeader->buildLink("../newsdesk/listnews.php", $strings["newsdesk"], 'in', Util::setNavActive($url, "newsdesk") ));
         $blockHeader->itemNavigation($blockHeader->buildLink("../bookmarks/listbookmarks.php?view=all",
-            $strings["bookmarks"], 'in'));
+            $strings["bookmarks"], 'in', Util::setNavActive($url, "bookmarks") ));
         if ($session->get("profile") == "0") { // Remove the Admin menu item if user does not have admin privilages
             $blockHeader->itemNavigation($blockHeader->buildLink("../administration/admin.php", $strings["admin"],
-                'in'));
+                'in', Util::setNavActive($url, "administration") ));
         }
     }
 }

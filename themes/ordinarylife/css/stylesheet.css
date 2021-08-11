@@ -30,6 +30,7 @@
     --nav-link-bg: transparent;
     --nav-link-hover-color: var(--light);
     --nav-link-hover-bg: #3C5462;
+    --nav-link-active-bg: #334f5c;
 
     /*
      * Footer Styles
@@ -187,6 +188,10 @@ nav a {
     margin-right: 1.25rem;
     text-decoration: none;
     color: var(--nav-link-color);
+}
+
+nav a.active {
+    background-color: var(--nav-link-active-bg);
 }
 
 nav a:hover {

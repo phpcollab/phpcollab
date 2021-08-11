@@ -30,7 +30,8 @@
     --nav-link-color: var(--primary-color);
     --nav-link-bg: transparent;
     --nav-link-hover-color: var(--primary-color);
-    --nav-link-hover-bg: #cccccc;
+    --nav-link-hover-bg: #CEC2B4;
+    --nav-link-active-bg: #BAA995;
 
     /*
      * Footer Styles
@@ -195,12 +196,16 @@ nav a {
     text-align: left;
 }
 
+nav a.active {
+    background-color: var(--nav-link-active-bg);
+}
+
 nav a:hover {
     background-color: var(--nav-link-hover-bg);
-    padding: 2px 4px 2px 4px;
+    /*padding: 2px 4px 2px 4px;*/
     color: var(--nav-link-hover-color);
     text-decoration: none;
-    text-align: left;
+    /*text-align: left;*/
 }
 
 .breadcrumbs {

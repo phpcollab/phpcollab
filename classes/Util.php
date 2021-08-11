@@ -753,4 +753,14 @@ class Util
             return sprintf("%0.2f", $number);
         }
     }
+
+    /**
+     * @param string $path
+     * @param string $navItem
+     * @return string
+     */
+    public static function setNavActive(string $path, string $navItem): string
+    {
+        return preg_match("/^\/". $navItem ."\//i", $path) ? 'active' : '';
+    }
 }
