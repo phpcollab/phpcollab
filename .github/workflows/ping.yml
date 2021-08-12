@@ -21,5 +21,6 @@ jobs:
           echo "PONG received from '${{ github.event.client_payload.repository }}'" && \
           curl -X POST https://api.github.com/repos/phpcollab/docker/dispatches \
           -H 'Accept: application/vnd.github.v3+json' \
-          -u ${{ secrets.ACCESS_TOKEN }} \
+          -H "Content-Type:application/json" \
+          -H "Authorization: token ${{ secrets.JS_ACCESS_TOKEN }}" \
           -d '{"event_type": "ack", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
