@@ -2,7 +2,7 @@ name: Ping
 
 on:
   repository_dispatch:
-
+    types: ping
 jobs:
   ping-pong:
     runs-on: ubuntu-latest
