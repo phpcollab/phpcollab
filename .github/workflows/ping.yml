@@ -10,7 +10,7 @@ jobs:
       - name: PING - Dispatch initiating repository event
         if: github.event.action != 'pong'
         run: |
-          echo "Just a Ping'n" \
+          echo "Just a Ping'n" && \
           curl -X POST https://api.github.com/repos/phpcollab/docker/dispatches \
           -H 'Accept: application/vnd.github.v3+json' \
           -u ${{ secrets.ACCESS_TOKEN }} \
