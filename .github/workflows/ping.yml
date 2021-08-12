@@ -14,7 +14,7 @@ jobs:
           curl -X POST https://api.github.com/repos/phpcollab/docker/dispatches \
           -H 'Accept: application/vnd.github.v3+json' \
           -u ${{ secrets.ACCESS_TOKEN }} \
-#          --data '{"event_type": "ping", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
+        # --data '{"event_type": "ping", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
           --data '{"event_type": "ping", "client_payload": { "repository": "foo" }}'
       - name: ACK - Acknowledge pong from remote repository
         if: github.event.action == 'pong'
@@ -23,5 +23,5 @@ jobs:
           curl -X POST https://api.github.com/repos/phpcollab/docker/dispatches \
           -H 'Accept: application/vnd.github.v3+json' \
           -u ${{ secrets.ACCESS_TOKEN }} \
-#          --data '{"event_type": "ack", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
-          --data '{"event_type": "ack", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
+        # --data '{"event_type": "ack", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
+          --data '{"event_type": "ack", "client_payload": { "repository": "foo" }}'
