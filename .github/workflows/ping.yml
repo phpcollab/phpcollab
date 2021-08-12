@@ -12,7 +12,7 @@ jobs:
         run: |
           curl -X POST https://api.github.com/repos/phpcollab/docker/dispatches \
           -H "Accept: application/vnd.github.v3+json" \
-          -H "Content-Type:application/json" 
+          -H "Content-Type:application/json" \
           -u ${{ secrets.ACCESS_TOKEN }} \
           -d '{"event_type": "ping", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
       - name: ACK - Acknowledge pong from remote repository
