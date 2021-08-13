@@ -51,6 +51,11 @@ if ($request->isMethod('post')) {
                 }
 
                 $scrubbedData = DataFunctionsService::scrubData($request->request->all());
+                // We don't want to use scrubbed passwords, since those might have special characters in them
+                $scrubbedData["dbPassword"] = $request->request->get('dbPassword');
+                $scrubbedData["smtpPassword"] = $request->request->get('smtpPassword');
+                $scrubbedData["ftpServerPassword"] = $request->request->get('ftpServerPassword');
+
                 Settings::writeSettings(APP_ROOT, $scrubbedData, $logger);
                 phpCollab\Util::headerFunction("../administration/admin.php?msg=update");
             }
@@ -69,7 +74,7 @@ if ($request->isMethod('post')) {
 $headBonus = <<<HEAD_BONUS
 <script type="text/JavaScript">
     function showInfo(el, bool) {
-        document.getElementById(el).style.display = (bool) ? "block" : "none";
+        document.getElementById(el).style.display = (bool) ? "" : "none";
     }
     
     document.addEventListener("DOMContentLoaded", function(event) {
@@ -331,12 +336,12 @@ $block1->openContent("updateSettings");
 $block1->contentTitle("General");
 
 $block1->contentRow("Installation type",
-    "<label><input type='radio' name='installationType' value='offline' $installCheckOffline /> Offline (firewall/intranet, no update checker)</label>
-     <label><input type='radio' name='installationType' value='online' $installCheckOnline /> Online</label>");
+    "<label><input type='radio' name='installationType' value='offline' $installCheckOffline /> {$strings["admin_install_offline"]}</label>
+     <label><input type='radio' name='installationType' value='online' $installCheckOnline /> {$strings["admin_install_online"]}</label>");
 
 $block1->contentRow("Update checker",
-    "<label><input type='radio' name='updateChecker' value='false' $updateCheckerFalse /> False</label>
-    <label><input type='radio' name='updateChecker' value='true' $updateCheckerTrue /> True</label>");
+    "<label><input type='radio' name='updateChecker' value='false' $updateCheckerFalse /> " . $strings["false"] . "</label>
+    <label><input type='radio' name='updateChecker' value='true' $updateCheckerTrue /> " . $strings["true"] . "</label>");
 
 $ftpServer = (defined("FTPSERVER")) ? FTPSERVER : '';
 $ftpServerLogin = (defined("FTPLOGIN")) ? FTPLOGIN : '';
@@ -360,10 +365,10 @@ echo <<< HTML
             <tr>
                 <td style="text-align: right; padding-right: 150px;">
                     <div id="ftpInfo" $ftpInfoStyle>
-                    Ftp server <input size="44" value="$ftpServer" style="width: 200px" name="ftpServer" maxlength="100" type="text" autocomplete="new-password" /><br/>
-                    Ftp login <input size="44" value="$ftpServerLogin" style="width: 200px" name="ftpLogin" maxlength="100" type="text" autocomplete="new-password" /><br/>
-                    Ftp password <input size="44" value="$ftpServerPassword" style="width: 200px" name="ftpPassword" maxlength="100" type="password" autocomplete="new-password" /><br/>
-                    Ftp root <input size="44" value="$ftpRoot" style="width: 200px" name="ftpRoot" maxlength="100" type="text" />
+                    <label>Ftp server <input size="44" value="$ftpServer" style="width: 200px" name="ftpServer" maxlength="100" type="text" autocomplete="new-password" /></label>
+                    <label>Ftp login <input size="44" value="$ftpServerLogin" style="width: 200px" name="ftpLogin" maxlength="100" type="text" autocomplete="new-password" /></label>
+                    <label>Ftp password <input size="44" value="$ftpServerPassword" style="width: 200px" name="ftpPassword" maxlength="100" type="password" autocomplete="new-password" /></label>
+                    <label>Ftp root <input size="44" value="$ftpRoot" style="width: 200px" name="ftpRoot" maxlength="100" type="text" /></label>
                     </div>
                 </td>
             </tr>
@@ -373,10 +378,10 @@ echo <<< HTML
 HTML;
 
 
-$smptServer = (defined("SMTPSERVER")) ? SMTPSERVER : '';
-$smptLogin = (defined("SMTPLOGIN")) ? SMTPLOGIN : '';
-$smptPassword = (defined("SMTPPASSWORD")) ? SMTPPASSWORD : '';
-$smptPort = (defined("SMTPPORT")) ? SMTPPORT : '';
+$smtpServer = (defined("SMTPSERVER")) ? SMTPSERVER : '';
+$smtpLogin = (defined("SMTPLOGIN")) ? SMTPLOGIN : '';
+$smtpPassword = (defined("SMTPPASSWORD")) ? SMTPPASSWORD : '';
+$smtpPort = (defined("SMTPPORT")) ? SMTPPORT : '';
 
 if ($notificationMethod == "mail") {
     $smtpInfoStyle = 'style="display: none;"';
@@ -384,22 +389,22 @@ if ($notificationMethod == "mail") {
 
 echo <<< HTML
 <tr class="odd">
-    <td class="leftvalue">* Notification method{$blockPage->printHelp("setup_notificationMethod")} :</td>
+    <td class="leftvalue">* {$strings["admin_notification_method"]}{$blockPage->printHelp("setup_notificationMethod")} :</td>
     <td>
         <table class="nonStriped" style="width: 500px;">
             <tr>
                 <td style="">
-                    <label><input type="radio" id="notificationMethodMail" name="notificationMethod" value="mail" $notificationMethodMail /> PHP mail function</label> 
-                    <label><input type="radio" id="notificationMethodSmtp" name="notificationMethod" value="smtp" $notificationMethodSMTP /> SMTP</label>
+                    <label><input type="radio" id="notificationMethodMail" name="notificationMethod" value="mail" $notificationMethodMail /> {$strings["admin_php_mail_function"]}</label> 
+                    <label><input type="radio" id="notificationMethodSmtp" name="notificationMethod" value="smtp" $notificationMethodSMTP /> {$strings["admin_smtp"]}</label>
                 </td>
             </tr>
             <tr>
                 <td style="text-align: right; padding-right: 150px;">
                     <div id="smtpInfo" $smtpInfoStyle>
-                        Smtp server <input size="44" value="$smptServer" style="width: 200px" name="smtpServer" maxlength="100" type="text /"><br/>
-                        Smtp login <input size="44" value="$smptLogin" style="width: 200px" name="smtpLogin" maxlength="100" type="text" /><br/>
-                        Smtp password <input size="44" value="$smptPassword" style="width: 200px" name="smtpPassword" maxlength="100" type="password" /><br />
-                        Smtp port <input size="44" value="$smptPort" style="width: 200px" name="smtpPort" maxlength="5" type="number" />
+                        <label>{$strings["admin_smtp_server"]} <input size="44" value="$smtpServer" style="width: 200px" name="smtpServer" maxlength="100" type="text /"></label>
+                        <label>{$strings["admin_smtp_login"]} <input size="44" value="$smtpLogin" style="width: 200px" name="smtpLogin" maxlength="100" type="text" /></label>
+                        <label>{$strings["admin_smtp_password"]} <input size="44" value="$smtpPassword" style="width: 200px" name="smtpPassword" maxlength="100" type="password" /></label>
+                        <label>{$strings["admin_smtp_port"]} <input size="44" value="$smtpPort" style="width: 200px" name="smtpPort" maxlength="5" type="number" /></label>
                     </div>
                 </td>
             </tr>
@@ -424,16 +429,16 @@ foreach ($dir as $fileinfo) {
 echo "</td></tr>";
 
 $block1->contentRow("Notifications" . $blockPage->printHelp("setup_notifications"),
-    "<label><input type='radio' name='notifications' value='false' $notificationFalse /> False</label>
-     <label><input type='radio' name='notifications' value='true' $notificationTrue /> True<br/>[Mail $mail]</label>");
+    "<label><input type='radio' name='notifications' value='false' $notificationFalse /> " . $strings["false"] . "</label>
+     <label><input type='radio' name='notifications' value='true' $notificationTrue /> " . $strings["true"] . "<br/>[Mail $mail]</label>");
 
 $block1->contentRow("Timezone (GMT)",
-    "<label><input type='radio' name='gmtTimezone' value='false' $gmtTimezoneFalse /> False</label>
-     <label><input type='radio' name='gmtTimezone' value='true' $gmtTimezoneTrue /> True</label>");
+    "<label><input type='radio' name='gmtTimezone' value='false' $gmtTimezoneFalse /> " . $strings["false"] . "</label>
+     <label><input type='radio' name='gmtTimezone' value='true' $gmtTimezoneTrue /> " . $strings["true"] . "</label>");
 
 $block1->contentRow("* Forced login" . $blockPage->printHelp("setup_forcedlogin"),
-    "<label><input type='radio' name='forcedLogin' value='false' $forcedLoginFalse /> False</label>
-     <label><input type='radio' name='forcedLogin' value='true' $forcedLoginTrue  /> True</label>");
+    "<label><input type='radio' name='forcedLogin' value='false' $forcedLoginFalse /> " . $strings["false"] . "</label>
+     <label><input type='radio' name='forcedLogin' value='true' $forcedLoginTrue  /> " . $strings["true"] . "</label>");
 
 echo <<<HTML
 <tr class="odd">
@@ -485,45 +490,45 @@ $block1->contentRow("* Default max file size",
 $block1->contentTitle("Options");
 
 $block1->contentRow("Clients filter" . $blockPage->printHelp("setup_clientsfilter"),
-    "<label><input type='radio' name='clientsFilter' value='false' $clientsFilterFalse /> False</label>
-     <label><input type='radio' name='clientsFilter' value='true' $clientsFilterTrue /> True</label>");
+    '<label><input type="radio" name="clientsFilter" value="false" $clientsFilterFalse /> ' . $strings['false'] . '</label>
+     <label><input type="radio" name="clientsFilter" value="true" $clientsFilterTrue /> ' . $strings['true'] . '</label>');
 $block1->contentRow("Projects filter" . $blockPage->printHelp("setup_projectsfilter"),
-    "<label><input type='radio' name='projectsFilter' value='false' $projectsFilterFalse /> False</label>
-     <label><input type='radio' name='projectsFilter' value='true' $projectsFilterTrue /> True</label>");
+    '<label><input type="radio" name="projectsFilter" value="false" $projectsFilterFalse /> ' . $strings["false"] . '</label>
+     <label><input type="radio" name="projectsFilter" value="true" $projectsFilterTrue /> ' . $strings["true"] . '</label>');
 
 $block1->contentRow('Show Bookmarks',
     '<label><input type="radio" name="showHomeBookmarks" value="false" ' . $checkedHomeBookmarks_f . ' /> False
      <label><input type="radio" name="showHomeBookmarks" value="true" ' . $checkedHomeBookmarks_t . ' /> True');
 $block1->contentRow('Show Projects',
-    '<label><input type="radio" name="showHomeProjects" value="false" ' . $checkedHomeProjects_f . ' /> False</label>
-     <label><input type="radio" name="showHomeProjects" value="true" ' . $checkedHomeProjects_t . ' /> True</label>');
+    '<label><input type="radio" name="showHomeProjects" value="false" ' . $checkedHomeProjects_f . ' /> ' . $strings["false"] . '</label>
+     <label><input type="radio" name="showHomeProjects" value="true" ' . $checkedHomeProjects_t . ' /> ' . $strings["true"] . '</label>');
 $block1->contentRow('Show Tasks',
-    '<label><input type="radio" name="showHomeTasks" value="false" ' . $checkedHomeTasks_f . ' /> False</label>
-     <label><input type="radio" name="showHomeTasks" value="true" ' . $checkedHomeTasks_t . ' /> True</label>');
+    '<label><input type="radio" name="showHomeTasks" value="false" ' . $checkedHomeTasks_f . ' /> ' . $strings["false"] . '</label>
+     <label><input type="radio" name="showHomeTasks" value="true" ' . $checkedHomeTasks_t . ' /> ' . $strings["true"] . '</label>');
 $block1->contentRow('Show Subtasks',
-    '<label><input type="radio" name="showHomeSubtasks" value="false" ' . $checkedHomeSubtasks_f . ' /> False</label>
-     <label><input type="radio" name="showHomeSubtasks" value="true" ' . $checkedHomeSubtasks_t . ' /> True</label>');
+    '<label><input type="radio" name="showHomeSubtasks" value="false" ' . $checkedHomeSubtasks_f . ' /> ' . $strings["false"] . '</label>
+     <label><input type="radio" name="showHomeSubtasks" value="true" ' . $checkedHomeSubtasks_t . ' /> ' . $strings["true"] . '</label>');
 $block1->contentRow('Show Discussions',
-    '<label><input type="radio" name="showHomeDiscussions" value="false" ' . $checkedHomeDiscussions_f . ' /> False</label>
-     <label><input type="radio" name="showHomeDiscussions" value="true" ' . $checkedHomeDiscussions_t . ' /> True</label>');
+    '<label><input type="radio" name="showHomeDiscussions" value="false" ' . $checkedHomeDiscussions_f . ' /> ' . $strings["false"] . '</label>
+     <label><input type="radio" name="showHomeDiscussions" value="true" ' . $checkedHomeDiscussions_t . ' /> ' . $strings["true"] . '</label>');
 $block1->contentRow('Show Reports',
-    '<label><input type="radio" name="showHomeReports" value="false" ' . $checkedHomeReports_f . ' /> False</label>
-     <label><input type="radio" name="showHomeReports" value="true" ' . $checkedHomeReports_t . ' /> True</label>');
+    '<label><input type="radio" name="showHomeReports" value="false" ' . $checkedHomeReports_f . ' /> ' . $strings["false"] . '</label>
+     <label><input type="radio" name="showHomeReports" value="true" ' . $checkedHomeReports_t . ' /> ' . $strings["true"] . '</label>');
 $block1->contentRow('Show Notes',
-    '<label><input type="radio" name="showHomeNotes" value="false" ' . $checkedHomeNotes_f . ' /> False</label>
-     <label><input type="radio" name="showHomeNotes" value="true" ' . $checkedHomeNotes_t . ' /> True</label>');
+    '<label><input type="radio" name="showHomeNotes" value="false" ' . $checkedHomeNotes_f . ' /> ' . $strings["false"] . '</label>
+     <label><input type="radio" name="showHomeNotes" value="true" ' . $checkedHomeNotes_t . ' /> ' . $strings["true"] . '</label>');
 $block1->contentRow('Show NewsDesk',
-    '<label><input type="radio" name="showHomeNewsdesk" value="false" ' . $checkedHomeNewsdesk_f . ' /> False</label>
-     <label><input type="radio" name="showHomeNewsdesk" value="true" ' . $checkedHomeNewsdesk_t . ' /> True</label>');
+    '<label><input type="radio" name="showHomeNewsdesk" value="false" ' . $checkedHomeNewsdesk_f . ' /> ' . $strings["false"] . '</label>
+     <label><input type="radio" name="showHomeNewsdesk" value="true" ' . $checkedHomeNewsdesk_t . ' /> ' . $strings["true"] . '</label>');
 $block1->contentRow('Auto-publish Tasks',
-    '<label><input type="radio" name="autoPublishTasks" value="false" ' . $checkedAutoPublish_f . ' /> False</label>
-     <label><input type="radio" name="autoPublishTasks" value="true" ' . $checkedAutoPublish_t . ' /> True</label>');
+    '<label><input type="radio" name="autoPublishTasks" value="false" ' . $checkedAutoPublish_f . ' /> ' . $strings["false"] . '</label>
+     <label><input type="radio" name="autoPublishTasks" value="true" ' . $checkedAutoPublish_t . ' /> ' . $strings["true"] . '</label>');
 $block1->contentRow('Email Alerts',
-    '<label><input type="radio" name="emailAlerts" value="false" ' . $checkedEmailAlerts_f . ' /> False</label>
-     <label><input type="radio" name="emailAlerts" value="true" ' . $checkedEmailAlerts_t . ' /> True</label>');
+    '<label><input type="radio" name="emailAlerts" value="false" ' . $checkedEmailAlerts_f . ' /> ' . $strings["false"] . '</label>
+     <label><input type="radio" name="emailAlerts" value="true" ' . $checkedEmailAlerts_t . ' /> ' . $strings["true"] . '</label>');
 
 
-$block1->contentTitle("Reset Password Settings");
+$block1->contentTitle($strings["admin_password_reset_settings"]);
 
 $attemptLimit = !empty($resetPasswordTimes['attemptLimit']) ? $resetPasswordTimes['attemptLimit'] : 3;
 $timeBetweenAttempts = !empty($resetPasswordTimes['timeBetweenAttempts']) ? $resetPasswordTimes['timeBetweenAttempts'] : 15;
@@ -531,21 +536,21 @@ $tokenLifespan = !empty($resetPasswordTimes['tokenLifespan']) ? $resetPasswordTi
 
 echo <<< AUTHSETTINGS
 <tr class="odd">
-    <td class="leftvalue">Number of attempts : </td>
+    <td class="leftvalue">{$strings["admin_number_of_attempts"]} : </td>
     <td><input value="$attemptLimit" style="padding: 2px 1px 2px 4px;" name="attemptLimit" maxlength="100" type="number" /></td>
 </tr>
 <tr class="odd">
-    <td class="leftvalue">Time between attempts : </td>
-    <td><input value="$timeBetweenAttempts" style="padding: 2px 1px 2px 4px;" name="timeBetweenAttempts" maxlength="100" type="number" /> <span>minutes</span></td>
+    <td class="leftvalue">{$strings["admin_time_between_attempts"]} : </td>
+    <td><input value="$timeBetweenAttempts" style="padding: 2px 1px 2px 4px;" name="timeBetweenAttempts" maxlength="100" type="number" /> <span>{$strings["time_minutes"]}</span></td>
 </tr>
 <tr class="odd">
-    <td class="leftvalue">Time token should be valid : </td>
-    <td><input value="$tokenLifespan" style="padding: 2px 1px 2px 4px;" name="tokenLifespan" maxlength="100" type="number" /> <span>minutes</span></td>
+    <td class="leftvalue">{$strings["admin_time_token_valid"]} : </td>
+    <td><input value="$tokenLifespan" style="padding: 2px 1px 2px 4px;" name="tokenLifespan" maxlength="100" type="number" /> <span>{$strings["time_minutes"]}</span></td>
 </tr>
 AUTHSETTINGS;
 
 
-$block1->contentTitle("Advanced");
+$block1->contentTitle($strings["admin_advanced"]);
 
 if ($enableMantis === false) {
     $mantisInfoStyle = 'style="display: none;"';
@@ -553,13 +558,13 @@ if ($enableMantis === false) {
 
 echo <<<MANTIS
 <tr class="odd">
-    <td class="leftvalue">Mantis integration : </td>
+    <td class="leftvalue">{$strings["admin_mantis_integration"]} : </td>
     <td>
         <table class="nonStriped" style="width: 500px;">
             <tr>
                 <td style="">
-                    <label><input type="radio" name="enableMantis" id="mantisEnabledFalse" value="false" $enableMantisFalse /> False</label>
-                    <label><input type="radio" name="enableMantis" id="mantisEnabledTrue" value="true" $enableMantisTrue /> True</label>
+                    <label><input type="radio" name="enableMantis" id="mantisEnabledFalse" value="false" $enableMantisFalse /> {$strings["false"]}</label>
+                    <label><input type="radio" name="enableMantis" id="mantisEnabledTrue" value="true" $enableMantisTrue /> {$strings["true"]}</label>
                 </td>
             </tr>
             <tr>
@@ -599,9 +604,9 @@ LOGLEVEL;
 LOGLEVEL;
 }
 
-$block1->contentRow("Extended footer (dev)",
-    "<label><input type='radio' name='footerDev' value='false' $footerDevFalse /> False</label>
-     <label><input type='radio' name='footerDev' value='true' $footerDevTrue /> True</label>");
+$block1->contentRow($strings["admin_extended_footer"],
+    "<label><input type='radio' name='footerDev' value='false' $footerDevFalse /> " . $strings["false"] . "</label>
+     <label><input type='radio' name='footerDev' value='true' $footerDevTrue /> " . $strings["true"] . "</label>");
 
 $block1->contentRow("", "<button type='SUBMIT' value='generate' name='action'>" . $strings["save"] . "</button>");
 
