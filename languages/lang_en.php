@@ -730,6 +730,26 @@ $strings["bookmark_view_all"] = "View All Bookmarks";
 $strings["bookmark_view_my"] = "View My Bookmarks";
 $strings["bookmark_view_private"] = "View Private Bookmarks";
 $strings["bookmark_error_url_invalid"] = "Please enter a valid URL for the bookmark";
+$strings["admin_password_reset_settings"] = "Password Reset Settings";
+$strings["admin_mantis_integration"] = "Mantis integration";
+$strings["admin_advanced"] = "Advanced";
+$strings["admin_extended_footer"] = "Extended footer (dev)";
+$strings["admin_number_of_attempts"] = "Number of attempts";
+$strings["admin_time_between_attempts"] = "Time between attempts";
+$strings["admin_time_token_valid"] = "Time token should be valid";
+$strings["time_days"] = "days";
+$strings["time_hours"] = "hours";
+$strings["time_minutes"] = "minutes";
+$strings["time_seconds"] = "seconds";
+$strings["admin_install_online"] = "Online";
+$strings["admin_install_offline"] = "Offline (firewall/intranet, no update checker)";
+$strings["admin_notification_method"] = "Notification method";
+$strings["admin_php_mail_function"] = "PHP mail function";
+$strings["admin_smtp"] = "SMTP";
+$strings["admin_smtp_server"] = "SMTP Server";
+$strings["admin_smtp_login"] = "SMTP Login";
+$strings["admin_smtp_password"] = "SMTP Password";
+$strings["admin_smtp_port"] = "SMTP Port";
 
 /**
  * Error messages
