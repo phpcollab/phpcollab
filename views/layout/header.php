@@ -14,9 +14,9 @@ echo <<<HEAD
 <!doctype html>
 <html lang="en">
 <head>
+<title>$setTitle</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta charset="utf-8">
-<title>$setTitle</title>
 <meta name="robots" content="none" />
 <meta name="description" content="$setDescription" />
 <meta name="keywords" content="$setKeywords" />
@@ -58,34 +58,36 @@ if (isset($blank) && $blank != "true" && $version >= "2.0") {
         $logger->error('Exception', ['Error' => $exception->getMessage()]);
     }
 }
+
+echo "<header>";
+
 if (isset($client) && file_exists("../logos_clients/1." . $client["org_extension_logo"]) && $blank != "true" && $version >= "2.0") {
     echo <<< HEADER
-    <p id="header"><img src="../logos_clients/1.{$client["org_extension_logo"]}" alt="{$client["org_name"]}"></p>
+    <img src="../logos_clients/1.{$client["org_extension_logo"]}" alt="{$client["org_name"]}">
 HEADER;
 } else {
     echo <<< HEADER
-     <p id="header">$setTitle</p>
+     <h1>
+        $setTitle
+    </h1>
 HEADER;
 }
 
 $blockHeader = new phpCollab\Block();
 
-$blockHeader->openAccount();
 if ($blank == "true") {
     $blockHeader->itemAccount("&nbsp;");
 } else {
-    if ($notLogged == "true") {
-        $blockHeader->itemAccount("&nbsp;");
-    } else {
-        $blockHeader->itemAccount($strings["user"] . ":" . $session->get("name"));
-        $blockHeader->itemAccount($blockHeader->buildLink("../general/logout.php", $strings["logout"], 'in'));
-        $blockHeader->itemAccount($blockHeader->buildLink("../preferences/updateuser.php", $strings["preferences"],
-            'in'));
-        $blockHeader->itemAccount($blockHeader->buildLink("../projects_site/home.php?changeProject=true",
-            $strings["go_projects_site"], 'inblank'));
+    if ( $session->get('auth') === true ) {
+        $blockHeader->openAccount($session);
+        echo $blockHeader->buildLink("../preferences/updateuser.php", $strings["preferences"], 'in');
+        echo $blockHeader->buildLink("../projects_site/home.php?changeProject=true", $strings["go_projects_site"], 'inblank');
+        echo $blockHeader->buildLink("../general/logout.php", $strings["logout"], 'in');
     }
 }
 $blockHeader->closeAccount();
+
+echo "</header>";
 
 $blockHeader->openNavigation();
 if ($blank == "true") {

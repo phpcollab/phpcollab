@@ -4,6 +4,8 @@
 
 namespace phpCollab;
 
+use Symfony\Component\HttpFoundation\Session\Session;
+
 /**
  * Class Block
  * @package phpCollab
@@ -760,9 +762,15 @@ SCRIPT;
     /**
      *
      */
-    public function openAccount()
+    public function openAccount(Session $session)
     {
-        echo "<p id='account'>";
+        echo <<<ACCOUNT_PROFILE
+        <div class="dropdown">
+          <div class="accountButton">{$session->get("name")}</div>
+          <div class="dropdown-content">
+ACCOUNT_PROFILE;
+//          <a href="../preferences/updateuser.php" class="accountButton">{$session->get("name")}</a>
+
     }
 
     /**
@@ -780,16 +788,13 @@ SCRIPT;
     /**
      *
      */
-    public function closeaccount()
+    public function closeAccount()
     {
-        $items = $this->accountTotal;
-        for ($i = 0; $i < $items; $i++) {
-            echo $this->account[$i];
-            if ($items - 1 != $i) {
-                echo " ";
-            }
-        }
-        echo "</p>";
+        echo <<<DROPDOWN
+  </div>
+</div>
+DROPDOWN;
+
     }
 
     /**
