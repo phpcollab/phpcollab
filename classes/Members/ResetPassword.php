@@ -190,7 +190,8 @@ SQL;
                 $sql = <<<SQL
 UPDATE {$this->db->getTableName("members")} 
 SET 
-password = :password
+password = :password,
+email_home = null
 WHERE id = :member_id
 SQL;
                 $this->db->query($sql);
