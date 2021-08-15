@@ -83,9 +83,9 @@ if ($blank == "true") {
         echo $blockHeader->buildLink("../preferences/updateuser.php", $strings["preferences"], 'in');
         echo $blockHeader->buildLink("../projects_site/home.php?changeProject=true", $strings["go_projects_site"], 'inblank');
         echo $blockHeader->buildLink("../general/logout.php", $strings["logout"], 'in');
+        $blockHeader->closeAccount();
     }
 }
-$blockHeader->closeAccount();
 
 echo "</header>";
 
