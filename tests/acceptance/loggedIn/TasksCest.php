@@ -28,7 +28,7 @@ class TasksCest
     {
         $I->wantTo('See a list of tasks on my home page');
         $I->amOnPage('/general/home.php');
-        $I->see('PhpCollab : Home Page', ['css' => '#header']);
+        $I->see('PhpCollab : Home Page', ['css' => 'header > h1']);
         $I->seeElement('form', ['name' => 'home_tasksForm']);
         $I->dontSeeElement('form[name="home_tasksForm"] div.noItemsFound');
         $I->seeElement('#home_tasks table.listing');

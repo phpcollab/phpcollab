@@ -42,7 +42,7 @@ class UserCest
     {
         $I->wantTo('View my Profile');
         $I->amOnPage('/general/home.php');
-        $I->click('#account .dropdown-content  a:nth-child(2)');
+        $I->click('#account .dropdown-content  a:nth-child(1)');
         $I->seeElement('form', ['name' => 'user_edit_profileForm']);
     }
 
@@ -54,7 +54,7 @@ class UserCest
     {
         $I->wantTo('Change my password');
         $I->amOnPage('/general/home.php');
-        $I->click('#account .dropdown-content  a:nth-child(2)');
+        $I->click('#account .dropdown-content  a:nth-child(1)');
         $I->seeElement('form', ['name' => 'user_edit_profileForm']);
         $I->click('.breadcrumbs > a:nth-child(1)');
         $I->seeElement('form', ['name' => 'change_passwordForm']);
@@ -69,7 +69,7 @@ class UserCest
         $I->wantTo('Change my notifications');
         $I->amOnPage('/general/home.php');
         // Click the Preferences item
-        $I->click('#account .dropdown-content  a:nth-child(2)');
+        $I->click('#account .dropdown-content  a:nth-child(1)');
         $I->seeElement('form', ['name' => 'user_edit_profileForm']);
         $I->click('.breadcrumbs > a:nth-child(2)');
         $I->seeElement('form', ['name' => 'user_avertForm']);
@@ -83,7 +83,7 @@ class UserCest
     {
         $I->wantTo('Logout');
         $I->amOnPage('/general/home.php');
-        $I->click('#account .dropdown-content  a:nth-child(1)');
+        $I->click('#account .dropdown-content  a:last-child');
         $I->see('You have successfully logged out. You can log back in by typing your user name and password below.', '.message');
     }
 }
