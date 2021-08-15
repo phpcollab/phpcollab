@@ -213,6 +213,7 @@ $csrfHandler = $container->setCSRFHandler($session);
  */
 if ($checkSession != "false" && $session->get('demo') != "true") {
 
+//    die('go to index');
     if (empty($session->getId())) {
         phpCollab\Util::headerFunction("../index.php?session=false");
     }
@@ -253,10 +254,13 @@ if ($checkSession != "false" && $session->get('demo') != "true") {
 
     $checkLog = $loginLogs->getLogByLogin($session->get('login'));
     if ($checkLog !== false) {
-        if (session_id() != $checkLog["session"]) {
+        if ($session->getId() != $checkLog["session"]) {
+            // Invalidate the session to force the user to re-login
+            $session->invalidate();
             phpCollab\Util::headerFunction("../index.php?session=false");
         }
     } else {
+        $session->invalidate();
         phpCollab\Util::headerFunction("../index.php?session=false");
     }
 }
