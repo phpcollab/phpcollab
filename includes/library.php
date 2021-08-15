@@ -4,7 +4,6 @@ use DebugBar\DebugBarException;
 use DebugBar\StandardDebugBar;
 use phpCollab\Container;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Attribute\NamespacedAttributeBag;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 
@@ -62,10 +61,8 @@ $request = Request::createFromGlobals();
 /*
  * Start the session
  */
-$session = new Session(new NativeSessionStorage(), new NamespacedAttributeBag());
+$session = new Session(new NativeSessionStorage());
 $session->start();
-
-$session->set('phpCollab', []);
 
 $msg = $request->query->get("msg");
 
@@ -168,22 +165,22 @@ if (empty(THEME) && empty($theme)) {
 }
 
 if (!is_resource("FTPSERVER")) {
-    $session->set('phpCollab/ftpServer', '');
+    $session->set('ftpServer', '');
 }
 if (!is_resource("FTPLOGIN")) {
-    $session->set('phpCollab/ftpLogin', '');
+    $session->set('ftpLogin', '');
 }
 if (!is_resource("FTPPASSWORD")) {
-    $session->set('phpCollab/ftpPassword', '');
+    $session->set('ftpPassword', '');
 }
 
 if ($peerReview == "") {
     $peerReview = "true";
-    $session->set('phpCollab/peerReview', true);
+    $session->set('peerReview', true);
 }
 
 if (empty($loginMethod)) {
-    $session->set('phpCollab/loginMethod', 'CRYPT');
+    $session->set('loginMethod', 'CRYPT');
 }
 if (empty($databaseType)) {
     $databaseType = "mysql";
@@ -213,7 +210,6 @@ $csrfHandler = $container->setCSRFHandler($session);
  */
 if ($checkSession != "false" && $session->get('demo') != "true") {
 
-//    die('go to index');
     if (empty($session->getId())) {
         phpCollab\Util::headerFunction("../index.php?session=false");
     }
