@@ -765,12 +765,10 @@ SCRIPT;
     public function openAccount(Session $session)
     {
         echo <<<ACCOUNT_PROFILE
-        <div class="dropdown">
+        <div id="account" class="dropdown">
           <div class="accountButton">{$session->get("name")}</div>
           <div class="dropdown-content">
 ACCOUNT_PROFILE;
-//          <a href="../preferences/updateuser.php" class="accountButton">{$session->get("name")}</a>
-
     }
 
     /**
