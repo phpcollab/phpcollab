@@ -4,7 +4,7 @@
 #Path by root: ../includes/settings_default.php
 
 # PhpCollab version
-$version = "2.9.0";
+$version = "2.10.0";
 
 # installation type
 $installationType = "online"; //select "offline" or "online"
@@ -22,17 +22,27 @@ define('MYDATABASE', 'phpcollab');
 $notificationMethod = "mail"; //select "mail" or "smtp"
 
 # smtp parameters (only if $notificationMethod == "smtp")
-define('SMTPSERVER', '');
-define('SMTPLOGIN', '');
-define('SMTPPASSWORD', '');
+if ($notificationMethod === "smtp") {
+    define("SMTPSERVER", "");
+    define("SMTPLOGIN", "");
+    define("SMTPPASSWORD", "%");
+    define("SMTPPORT", "");
+}
 
 # create folder method
 $mkdirMethod = "PHP"; //select "FTP" or "PHP"
 
-# ftp parameters (only if $mkdirMethod == "FTP")
-define('FTPSERVER', '');
-define('FTPLOGIN', '');
-define('FTPPASSWORD', '');
+# ftp parameters
+# note: only needed if the mkdirMethod is set to FTP
+if ($mkdirMethod === "FTP") {
+    # PhpCollab root according to ftp account
+    # note: No slash at the end
+    $ftpRoot = "%ftpRoot%";
+
+    define("FTPSERVER", "");
+    define("FTPLOGIN", "");
+    define("FTPPASSWORD", "");
+}
 
 # PhpCollab root according to ftp account (only if $mkdirMethod == "FTP")
 $ftpRoot = ""; //no slash at the end
@@ -41,13 +51,13 @@ $ftpRoot = ""; //no slash at the end
 $enableInvoicing = true;
 
 # theme choice
-define('THEME', 'default');
+define("THEME", "default");
 
-// NewsDesk
-$newsdesklimit = 1;
+# NewsDesk
+$newsdesklimit = true;
 
-// if 1 the admin logs in his homepage
-$adminathome = 0;
+# if 1 the admin logs in his homepage
+$adminathome = false;
 
 # timezone GMT management
 $gmtTimezone = false;
@@ -56,17 +66,19 @@ $gmtTimezone = false;
 $langDefault = "en";
 
 # Mantis bug tracking parameters
-// Should bug tracking be enabled?
 $enableMantis = false;
 
-// Mantis installation directory
-$pathMantis = "http://localhost/mantis/";  // add slash at the end
+# Mantis installation directory
+# Note: add slash at the end
+$pathMantis = "http://localhost/mantis/";
 
 # https related parameters
 $pathToOpenssl = "/usr/bin/openssl";
 
 # login method, set to "CRYPT"
-$loginMethod = "CRYPT"; //select "MD5", "CRYPT", or "PLAIN"
+# Options: (default) crypt | plain | md5
+# It is highly recommended to NOT use md5 or plain
+$loginMethod = "crypt";
 
 # enable LDAP
 $useLDAP = false;
@@ -75,12 +87,21 @@ $configLDAP["searchroot"] = "ou=People, ou=Intranet, dc=YourCompany, dc=com";
 
 # htaccess parameters
 $htaccessAuth = false;
-$fullPath = "/usr/local/apache/htdocs/phpcollab/files"; //no slash at the end
+if ($htaccessAuth) {
+    # note: no slash at the end
+    $fullPath = "%fullPath%";
+}
 
 # file management parameters
 $fileManagement = true;
-$maxFileSize = 51200; //bytes limit for upload
-$root = "http://localhost/phpcollab"; //no slash at the end
+
+# Size in bytes for uploads
+# Default is 10Mb
+$maxFileSize = 10485760;
+
+# Root Path
+# note: no slash at the end
+$root = "http://localhost/phpcollab";
 
 # security issue to disallow php files upload
 $allowPhp = false;
@@ -89,9 +110,11 @@ $allowPhp = false;
 $sitePublish = true;
 
 # enable update checker
+# (default) true
 $updateChecker = true;
 
 # e-mail notifications
+# (default) true
 $notifications = true;
 
 # show peer review area
@@ -144,13 +167,10 @@ $tableCollab["newsdeskposts"] = "newsdeskposts";
 
 # demo mode parameters
 $demoMode = false;
-$urlContact = "http://www.sourceforge.net/projects/phpcollab";
+$urlContact = "https://www.sourceforge.net/projects/phpcollab";
 
 # Gantt graphs
 $activeJpgraph = true;
-
-# developement options in footer
-$footerDev = false;
 
 # filter to see only logged user clients (in team / owner)
 $clientsFilter = false;
@@ -158,13 +178,15 @@ $clientsFilter = false;
 # filter to see only logged user projects (in team / owner)
 $projectsFilter = false;
 
-# Enable help center support requests, values "true" or "false"
+# Enable help center support requests
 $enableHelpSupport = true;
 
 # Return email address given for clients to respond too.
 $supportEmail = "email@yourdomain.com";
 
-# Support Type, either team or admin. If team is selected a notification will be sent to everyone in the team when a new request is added
+# Support Type
+# Options: (default) team | admin
+# If team is selected, a notification will be sent to everyone in the team when a new request is added
 $supportType = "team";
 
 # enable the redirection to the last visited page, EXPERIMENTAL DO NOT USE IT
@@ -180,5 +202,26 @@ $siteTitle = "PhpCollab";
 $setDescription = "Groupware module. Manage web projects with team collaboration, users management, tasks and projects tracking, files approval tracking, project sites clients access, customer relationship management (Php / Mysql, PostgreSQL or Sql Server).";
 $setKeywords = "PhpCollab, phpcollab.com, Sourceforge, management, web, projects, tasks, organizations, reports, Php, MySql, Sql Server, mssql, Microsoft Sql Server, PostgreSQL, module, application, module, file management, project site, team collaboration, free, crm, CRM, cutomer relationship management, workflow, workgroup";
 
-# Email alerts.
+# Email alerts
 $emailAlerts = false;
+
+
+/**
+ * Authentication Settings
+ */
+$resetPasswordTimes = [
+    'tokenLifespan' => 60,
+    'timeBetweenAttempts' => 15,
+    'attemptLimit' => 3
+];
+
+/**
+ * Debugging Settings.
+ * DO NOT Change these on a Production server unless you know what you are doing.
+ * Refer to: https://phpcollab.com/debugging for more information
+ */
+
+# enable development bar in footer
+$footerDev = false;
+
+$logLevel = 400;

@@ -88,6 +88,7 @@ $pathToOpenssl = "%pathToOpenssl%";
 
 # login method, set to "CRYPT"
 # Options: (default) crypt | plain | md5
+# It is highly recommended to NOT use MD5 or PLAIN
 $loginMethod = "%loginMethod%";
 
 # enable LDAP
@@ -108,6 +109,7 @@ if ($htaccessAuth) {
 $fileManagement = %fileManagement%;
 
 # Size in bytes for uploads
+# Default is 10Mb
 $maxFileSize = %maxFileSize%;
 
 # Root Path
@@ -212,6 +214,7 @@ $siteTitle = "%siteTitle%";
 $setDescription = "%setDescription%";
 $setKeywords = "%setKeywords%";
 
+# Email alerts
 $emailAlerts = %emailAlerts%;
 
 /**

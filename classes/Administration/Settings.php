@@ -178,7 +178,7 @@ class Settings
         $defaultValues["fullPath"] = "";
 
         $defaultValues["fileManagement"] = "true";
-        $defaultValues["maxFileSize"] = "5000000";
+        $defaultValues["maxFileSize"] = "10485760";
 
         $defaultValues["setTitle"] = "phpCollab";
         $defaultValues["siteTitle"] = "phpCollab";
