@@ -1,7 +1,8 @@
 {
   "name": "phpcollab/phpcollab",
-  "homepage": "http://phpcollab.com",
-  "description": "Project management and collaboration over the internet. Features team/client sites, task assignment, document repository/workflow, gantt charts, discussions, calendar, notifications, support requests, weblog newsdesk, invoicing, and many other tools.",
+  "version": "2.10.0",
+  "homepage": "https://phpcollab.com",
+  "description": "Project management and collaboration over the internet. Features team/client sites, task assignment, document repository/workflow, gantt charts, discussions, calendar, notifications, support requests, weblog news desk, invoicing, and many other tools.",
   "authors": [
     {
       "name": "Jeff Sittler",
