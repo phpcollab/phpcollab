@@ -13,7 +13,7 @@ class SearchCest
     public function _before(AcceptanceTester $I)
     {
         $I->amOnPage('/general/login.php');
-        $I->fillField(['name' => 'usernameForm'], 'testAdmin');
+        $I->fillField(['name' => 'usernameForm'], 'testUser');
         $I->fillField(['name' => 'passwordForm'], 'testing');
         $I->click('input[type="submit"]');
     }
@@ -29,9 +29,9 @@ class SearchCest
     /**
      * @param AcceptanceTester $I
      */
-    public function listSearch(AcceptanceTester $I)
+    public function searchForm(AcceptanceTester $I)
     {
-        $I->wantTo('See a list of Search');
+        $I->wantTo('I see the Search Form');
         $I->amOnPage('/search/createsearch.php');
         $I->seeInTitle('Search');
         $I->seeElement('form', ['name' => 'searchForm']);
@@ -43,7 +43,7 @@ class SearchCest
 
     /**
      * @param AcceptanceTester $I
-     * @depends listSearch
+     * @depends searchForm
      *
      */
     public function generalSearchNoResults(AcceptanceTester $I)

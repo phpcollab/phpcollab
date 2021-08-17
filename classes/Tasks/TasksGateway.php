@@ -968,17 +968,17 @@ SQL;
 
     /**
      * @param int $projectId
-     * @param string $name
-     * @param string $description
      * @param int $owner
+     * @param string $name
+     * @param string|null $description
      * @param int $assignedTo
      * @param int $status
      * @param int $priority
-     * @param string $startDate
-     * @param string $dueDate
-     * @param float $estimatedTime
-     * @param float $actualTime
-     * @param string $comments
+     * @param string|null $startDate
+     * @param string|null $dueDate
+     * @param float|null $estimatedTime
+     * @param float|null $actualTime
+     * @param string|null $comments
      * @param int $published
      * @param int $completion
      * @param int $parentPhase
@@ -989,22 +989,22 @@ SQL;
      */
     public function addTask(
         int $projectId,
-        string $name,
-        string $description,
         int $owner,
-        int $assignedTo,
-        int $status,
-        int $priority,
-        string $startDate,
-        string $dueDate,
-        float $estimatedTime,
-        float $actualTime,
-        string $comments,
-        int $published,
-        int $completion,
-        int $parentPhase,
-        int $invoicing,
-        float $workedHours,
+        string $name,
+        string $description = null,
+        int $assignedTo = 0,
+        int $status = 0,
+        int $priority = 0,
+        string $startDate = null,
+        string $dueDate = null,
+        float $estimatedTime = null,
+        float $actualTime = null,
+        string $comments = null,
+        int $published = 0,
+        int $completion = 0,
+        int $parentPhase = 0,
+        int $invoicing = 0,
+        float $workedHours = 0.00,
         string $assignedDate = null
     ): string {
         $sql = <<<SQL
@@ -1044,43 +1044,43 @@ SQL;
     }
 
     /**
-     * @param string $taskName
-     * @param string $description
+     * @param int $id
+     * @param string $name
+     * @param string|null $description
      * @param int $assignedTo
      * @param int $status
      * @param int $priority
-     * @param string $startDate
-     * @param string $dueDate
-     * @param float $estimatedTime
-     * @param float $actualTime
-     * @param string $comments
-     * @param string $modifiedDate
+     * @param string|null $startDate
+     * @param string|null $dueDate
+     * @param float|null $estimatedTime
+     * @param float|null $actualTime
+     * @param string|null $comments
+     * @param int $published
      * @param int $completion
      * @param int $parentPhase
-     * @param int $published
      * @param int $invoicing
      * @param float $workedHours
-     * @param int $taskId
+     * @param string|null $modifiedDate
      * @return mixed
      */
     public function updateTask(
-        string $taskName,
-        string $description,
-        int $assignedTo,
-        int $status,
-        int $priority,
-        string $startDate,
-        string $dueDate,
-        float $estimatedTime,
-        float $actualTime,
-        string $comments,
-        string $modifiedDate,
-        int $completion,
-        int $parentPhase,
-        int $published,
-        int $invoicing,
-        float $workedHours,
-        int $taskId
+        int $id,
+        string $name,
+        string $description = null,
+        int $assignedTo = 0,
+        int $status = 0,
+        int $priority = 0,
+        string $startDate = null,
+        string $dueDate = null,
+        float $estimatedTime = null,
+        float $actualTime = null,
+        string $comments = null,
+        int $published = 0,
+        int $completion = 0,
+        int $parentPhase = 0,
+        int $invoicing = 0,
+        float $workedHours = 0.00,
+        string $modifiedDate = null
     ) {
         $sql = <<<SQL
 UPDATE {$this->db->getTableName("tasks")} SET 
@@ -1103,7 +1103,8 @@ worked_hours = :worked_hours
 WHERE id = :task_id
 SQL;
         $this->db->query($sql);
-        $this->db->bind(':task_name', $taskName);
+        $this->db->bind(':task_id', $id);
+        $this->db->bind(':task_name', $name);
         $this->db->bind(':description', $description);
         $this->db->bind(':assigned_to', $assignedTo);
         $this->db->bind(':status', $status);
@@ -1119,7 +1120,6 @@ SQL;
         $this->db->bind(':published', $published);
         $this->db->bind(':invoicing', $invoicing);
         $this->db->bind(':worked_hours', $workedHours);
-        $this->db->bind(':task_id', $taskId);
 
         return $this->db->execute();
 

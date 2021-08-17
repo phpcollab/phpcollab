@@ -163,18 +163,18 @@ class Util
      *
      * @return float
      */
-    public static function diffDate($date1, $date2)
+    public static function diffDate(string $date1, string $date2): float
     {
-        $an = substr("$date1", 0, 4);
-        $mois = substr("$date1", 5, 2);
-        $jour = substr("$date1", 8, 2);
+        $year = substr("$date1", 0, 4);
+        $month = substr("$date1", 5, 2);
+        $day = substr("$date1", 8, 2);
 
-        $an2 = substr("$date2", 0, 4);
-        $mois2 = substr("$date2", 5, 2);
-        $jour2 = substr("$date2", 8, 2);
+        $year2 = substr("$date2", 0, 4);
+        $month2 = substr("$date2", 5, 2);
+        $day2 = substr("$date2", 8, 2);
 
-        $timestamp = mktime(0, 0, 0, $mois, $jour, $an);
-        $timestamp2 = mktime(0, 0, 0, $mois2, $jour2, $an2);
+        $timestamp = mktime(0, 0, 0, $month, $day, $year);
+        $timestamp2 = mktime(0, 0, 0, $month2, $day2, $year2);
         return floor(($timestamp - $timestamp2) / (3600 * 24));
     }
 
@@ -184,7 +184,7 @@ class Util
      * @param string $loginMethod
      * @return bool
      */
-    public static function passwordMatch($formPassword, $storedPassword, $loginMethod = "crypt")
+    public static function passwordMatch($formPassword, $storedPassword, string $loginMethod = "crypt"): bool
     {
         switch (strtolower($loginMethod)) {
             case "md5":
@@ -672,7 +672,7 @@ class Util
         $tableProject = $GLOBALS['tableCollab']["projects"];
         $prj_name = $projectDetail['pro_name'];
 
-        preg_match("/\[([0-9 ]*/[0-9 ]*)]/", $prj_name, $findit);
+        preg_match("/\[([0-9 ]*\/[0-9 ]*)\]/", $prj_name, $findit);
 
         if ($findit[1] != "") {
             $prj_id = $projectDetail['pro_id'];

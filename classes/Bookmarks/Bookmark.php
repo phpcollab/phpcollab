@@ -98,11 +98,15 @@ class Bookmark extends AbstractBookmark
     }
 
     /**
-     * @param string|null $value
+     * @param array|null $users
      */
-    public function setSharedWith(string $value = null)
+    public function setSharedWith(array $users = null)
     {
-        parent::set('sharedWith', $value);
+        if (is_array( $users )) {
+            $users = "|" . implode("|", $users) . "|";
+        }
+
+        parent::set('sharedWith', $users);
     }
 
 }

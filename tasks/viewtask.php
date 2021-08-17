@@ -223,11 +223,16 @@ if ($taskDetail["tas_due_date"] <= $date && $taskDetail["tas_completion"] != "10
     $block1->contentRow($strings["due_date"], $taskDetail["tas_due_date"]);
 }
 
-if ($taskDetail["tas_complete_date"] != "" && $taskDetail["tas_complete_date"] != "--" && $taskDetail["tas_due_date"] != "--") {
+if (
+    !empty($taskDetail["tas_complete_date"])
+    && $taskDetail["tas_complete_date"] != "--"
+    && $taskDetail["tas_due_date"] != "--"
+    && !empty($taskDetail["tas_due_date"])
+) {
     $diff = phpCollab\Util::diffDate($taskDetail["tas_complete_date"], $taskDetail["tas_due_date"]);
 
     if ($diff > 0) {
-        $diff = "<b>+$diff</b>";
+        $diff = "<strong>+$diff</strong>";
     }
 
     $block1->contentRow($strings["complete_date"], $taskDetail["tas_complete_date"]);

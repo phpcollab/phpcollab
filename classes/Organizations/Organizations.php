@@ -220,11 +220,11 @@ class Organizations
             throw new InvalidArgumentException('Organization Name is empty');
         }
 
-        if (!is_null($url) && !filter_var($url, FILTER_VALIDATE_URL)) {
+        if (!empty($url) && !filter_var($url, FILTER_VALIDATE_URL)) {
             throw new InvalidArgumentException('URL is invalid');
         }
 
-        if (!is_null($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new InvalidArgumentException('EMail is invalid');
         }
 

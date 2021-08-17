@@ -21,6 +21,8 @@ try {
 
 $view = $request->query->get('view');
 
+$view = $view ?? 'all';
+
 // ** Do the title stuff here **
 switch ($view) {
     case 'all':

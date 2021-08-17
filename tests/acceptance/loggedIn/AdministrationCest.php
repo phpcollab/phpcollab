@@ -11,8 +11,8 @@ class AdministrationCest
     public function _before(AcceptanceTester $I)
     {
         $I->amOnPage('/general/login.php');
-        $I->fillField(['name' => 'usernameForm'], 'testAdmin');
-        $I->fillField(['name' => 'passwordForm'], 'testing');
+        $I->fillField(['name' => 'usernameForm'], 'admin');
+        $I->fillField(['name' => 'passwordForm'], 'phpcollab');
         $I->click('input[type="submit"]');
     }
 

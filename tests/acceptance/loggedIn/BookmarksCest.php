@@ -22,7 +22,7 @@ class BookmarksCest
     public function _before(AcceptanceTester $I)
     {
         $I->amOnPage('/general/login.php');
-        $I->fillField(['name' => 'usernameForm'], 'testAdmin');
+        $I->fillField(['name' => 'usernameForm'], 'testUser');
         $I->fillField(['name' => 'passwordForm'], 'testing');
         $I->click('input[type="submit"]');
     }
@@ -39,6 +39,52 @@ class BookmarksCest
     /**
      * @param AcceptanceTester $I
      */
+    public function emptyBookmarksList(AcceptanceTester $I)
+    {
+        $I->wantTo('I should not see a list of bookmarks');
+        $I->amOnPage('/bookmarks/listbookmarks.php?view=all');
+        $I->seeInTitle('View All Bookmarks');
+        $I->seeElement('.noItemsFound');
+        $I->see('No items to display', ['css' => '.noItemsFound']);
+    }
+
+    /**
+     * @param AcceptanceTester $I
+     * @depends emptyBookmarksList
+     */
+    public function createMyBookmark(AcceptanceTester $I)
+    {
+        $I->wantTo('Create a new "my" bookmark');
+        $I->amOnPage('/bookmarks/editbookmark.php');
+        $I->seeInTitle('Add bookmark');
+        $I->seeElement('form', ['name' => 'bookmarkForm']);
+        $I->fillField('name', $this->bookmarkName);
+        $I->fillField('url', 'https://www.codeception.com');
+        $I->uncheckOption(['name' => 'shared']);
+        $I->click('Save');
+        $I->see($this->bookmarkName, ['css' => '.listing']);
+    }
+
+    /**
+     * @param AcceptanceTester $I
+     * @depends createMyBookmark
+     */
+    public function createAllBookmark(AcceptanceTester $I)
+    {
+        $I->wantTo('Create a new bookmark');
+        $I->amOnPage('/bookmarks/editbookmark.php');
+        $I->seeInTitle('Add bookmark');
+        $I->seeElement('form', ['name' => 'bookmarkForm']);
+        $I->fillField('name', "All Bookmark");
+        $I->fillField('url', 'https://www.codeception.com');
+        $I->click('Save');
+        $I->see("All Bookmark", ['css' => '.listing']);
+    }
+
+    /**
+     * @param AcceptanceTester $I
+     * @depends createAllBookmark
+     */
     public function listAllBookmarks(AcceptanceTester $I)
     {
         $I->wantTo('See a list of all bookmarks');
@@ -53,6 +99,7 @@ class BookmarksCest
 
     /**
      * @param AcceptanceTester $I
+     * @depends listAllBookmarks
      */
     public function listMyBookmarks(AcceptanceTester $I)
     {
@@ -68,6 +115,7 @@ class BookmarksCest
 
     /**
      * @param AcceptanceTester $I
+     * @depends listMyBookmarks
      */
     public function listPrivateBookmarks(AcceptanceTester $I)
     {
@@ -83,24 +131,7 @@ class BookmarksCest
 
     /**
      * @param AcceptanceTester $I
-     * @depends listAllBookmarks
-     */
-    public function createBookmark(AcceptanceTester $I)
-    {
-        $I->wantTo('Create a new bookmark');
-        $I->amOnPage('/bookmarks/editbookmark.php');
-        $I->seeInTitle('Add bookmark');
-        $I->seeElement('form', ['name' => 'bookmarkForm']);
-        $I->fillField('name', $this->bookmarkName);
-        $I->fillField('url', 'https://www.codeception.com');
-        $I->click('Save');
-        $I->see('Success : Bookmark created', ['css' => '.message']);
-        $I->see($this->bookmarkName, ['css' => '.listing']);
-    }
-
-    /**
-     * @param AcceptanceTester $I
-     * @depends createBookmark
+     * @depends createAllBookmark
      */
     public function viewBookmark(AcceptanceTester $I)
     {
@@ -108,10 +139,10 @@ class BookmarksCest
         $I->amOnPage('/bookmarks/listbookmarks.php?view=all');
         $I->seeInTitle('View All Bookmarks');
         $I->seeElement('.listing');
-        $I->click('//a[text()="' . $this->bookmarkName . '"]');
+        $I->click('//a[text()="' . "All Bookmark" . '"]');
         $I->seeElement('.content');
         $I->see('Info', ['css' => '.content']);
-        $I->see($this->bookmarkName, ['css' => '.content']);
+        $I->see("All Bookmark", ['css' => '.content']);
         $I->see('Description :', ['css' => '.content']);
     }
 
@@ -203,7 +234,7 @@ class BookmarksCest
 
     /**
      * @param AcceptanceTester $I
-     * @depends createBookmark
+     * @depends createAllBookmark
      */
     public function editBookmarkNoName(AcceptanceTester $I)
     {
@@ -226,7 +257,7 @@ class BookmarksCest
 
     /**
      * @param AcceptanceTester $I
-     * @depends createBookmark
+     * @depends createAllBookmark
      */
     public function editBookmarkNoUrl(AcceptanceTester $I)
     {
@@ -241,7 +272,7 @@ class BookmarksCest
 
     /**
      * @param AcceptanceTester $I
-     * @depends createBookmark
+     * @depends createAllBookmark
      */
     public function editBookmarkWithNoNameAndUrl(AcceptanceTester $I)
     {
@@ -257,7 +288,7 @@ class BookmarksCest
 
     /**
      * @param AcceptanceTester $I
-     * @depends createBookmark
+     * @depends createAllBookmark
      */
     public function editBookmark(AcceptanceTester $I)
     {
@@ -273,7 +304,7 @@ class BookmarksCest
 
     /**
      * @param AcceptanceTester $I
-     * @depends createBookmark
+     * @depends createAllBookmark
      */
     public function deleteBookmark(AcceptanceTester $I)
     {

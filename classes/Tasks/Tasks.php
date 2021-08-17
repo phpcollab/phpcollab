@@ -489,48 +489,45 @@ class Tasks
     }
 
     /**
-     * @param string $taskName
-     * @param string $description
+     * @param int $id
+     * @param string $name
+     * @param string|null $description
      * @param int $assignedTo
      * @param int $status
      * @param int $priority
-     * @param string $startDate
-     * @param string $dueDate
-     * @param float $estimatedTime
-     * @param float $actualTime
-     * @param string $comments
-     * @param string $modifiedDate
+     * @param string|null $startDate
+     * @param string|null $dueDate
+     * @param float|null $estimatedTime
+     * @param float|null $actualTime
+     * @param string|null $comments
+     * @param int $published
      * @param int $completion
      * @param int $parentPhase
-     * @param int $published
      * @param int $invoicing
      * @param float $workedHours
-     * @param int $taskId
      * @return mixed
      */
     public function updateTask(
-        string $taskName,
-        string $description,
-        int $assignedTo,
-        int $status,
-        int $priority,
-        string $startDate,
-        string $dueDate,
-        float $estimatedTime,
-        float $actualTime,
-        string $comments,
-        string $modifiedDate,
-        int $completion,
-        int $parentPhase,
-        int $published,
-        int $invoicing,
-        float $workedHours,
-        int $taskId
+        int $id,
+        string $name,
+        string $description = null,
+        int $assignedTo = 0,
+        int $status = 0,
+        int $priority = 0,
+        string $startDate = null,
+        string $dueDate = null,
+        float $estimatedTime = null,
+        float $actualTime = null,
+        string $comments = null,
+        int $published = 0,
+        int $completion = 0,
+        int $parentPhase = 0,
+        int $invoicing = 0,
+        float $workedHours = 0.00
     ) {
-        return $this->tasks_gateway->updateTask($taskName, $description, $assignedTo, $status, $priority, $startDate,
-            $dueDate,
-            $estimatedTime, $actualTime, $comments, $modifiedDate, $completion, $parentPhase, $published, $invoicing,
-            $workedHours, $taskId);
+        return $this->tasks_gateway->updateTask($id, $name, $description, $assignedTo, $status, $priority, $startDate,
+            $dueDate, $estimatedTime, $actualTime, $comments, $completion, $parentPhase, $published, $invoicing,
+            $workedHours, date('Y-m-d h:i') );
     }
 
     /**
@@ -545,38 +542,38 @@ class Tasks
 
     /**
      * @param int $projectId
-     * @param string $name
-     * @param string $description
      * @param int $owner
+     * @param string $name
+     * @param string|null $description
      * @param int $assignedTo
      * @param int $status
      * @param int $priority
-     * @param string $startDate
-     * @param string $dueDate
-     * @param float $estimatedTime
-     * @param float $actualTime
-     * @param string $comments
+     * @param string|null $startDate
+     * @param string|null $dueDate
+     * @param float|null $estimatedTime
+     * @param float|null $actualTime
+     * @param string|null $comments
      * @param int $published
      * @param int $completion
      * @param int $parentPhase
      * @param int $invoicing
-     * @param float $workedHours
+     * @param float|null $workedHours
      * @return array
      * @throws Exception
      */
     public function addTask(
         int $projectId,
-        string $name,
-        string $description,
         int $owner,
-        int $assignedTo,
-        int $status,
-        int $priority,
-        string $startDate,
-        string $dueDate,
-        float $estimatedTime,
-        float $actualTime,
-        string $comments,
+        string $name,
+        string $description = null,
+        int $assignedTo = 0,
+        int $status = 0,
+        int $priority = 0,
+        string $startDate = null,
+        string $dueDate = null,
+        float $estimatedTime = null,
+        float $actualTime = null,
+        string $comments = null,
         int $published = 0,
         int $completion = 0,
         int $parentPhase = 0,
@@ -592,7 +589,7 @@ class Tasks
             $completion = $completion ?? 0;
             $workedHours = $workedHours ?? 0.0;
 
-            $newTaskId = $this->tasks_gateway->addTask($projectId, $name, $description, $owner, $assignedTo, $status,
+            $newTaskId = $this->tasks_gateway->addTask($projectId, $owner, $name, $description, $assignedTo, $status,
                 $priority, $startDate,
                 $dueDate, $estimatedTime, $actualTime, $comments, $published, $completion, $parentPhase,
                 $invoicing, $workedHours, $assignedDate);

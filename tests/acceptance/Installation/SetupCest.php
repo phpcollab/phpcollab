@@ -6,7 +6,7 @@ use Exception;
 class SetupCest
 {
     private $url;
-    private $dbServer = 'localhost';
+    private $dbServer = '192.168.74.110';
     private $dbName = 'phpc_release';
     private $dbLogin = 'phpc_release';
     private $dbPassword = 'phpc_release';

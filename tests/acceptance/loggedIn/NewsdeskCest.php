@@ -19,8 +19,8 @@ class NewsdeskCest
     public function _before(AcceptanceTester $I)
     {
         $I->amOnPage('/general/login.php');
-        $I->fillField(['name' => 'usernameForm'], 'testAdmin');
-        $I->fillField(['name' => 'passwordForm'], 'testing');
+        $I->fillField(['name' => 'usernameForm'], 'admin');
+        $I->fillField(['name' => 'passwordForm'], 'phpcollab');
         $I->click('input[type="submit"]');
     }
 
@@ -57,7 +57,6 @@ class NewsdeskCest
             'content'  => 'Content created by Codeception',
             'links' => 'www.example.com;https://codeception.com'
         ]);
-        // Success : Addition succeeded
         $I->see('Success : Addition succeeded', ['css' => '.message']);
         $I->see('Codeception Article Title', ".//tr/td/*[contains(text(), 'Title')]/ancestor::td/following-sibling::td");
         $this->postId = $I->grabFromCurrentUrl('~id=(\d+)~');

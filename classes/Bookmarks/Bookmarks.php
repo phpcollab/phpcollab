@@ -33,11 +33,11 @@ class Bookmarks
 
     /**
      * @param int $ownerId
-     * @param string $type
+     * @param string|null $type
      * @param string|null $sorting
      * @return mixed
      */
-    public function getBookmarks(int $ownerId, string $type = '', string $sorting = null)
+    public function getBookmarks(int $ownerId, string $type = null, string $sorting = null)
     {
         if (!filter_var($ownerId, FILTER_VALIDATE_INT)) {
             throw new InvalidArgumentException('User ID not valid');

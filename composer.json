@@ -52,11 +52,33 @@
     }
   },
   "scripts": {
-    "dev-tests": [
+    "test:dev": [
       "./vendor/bin/codecept run acceptance --skip-group=install"
     ],
-    "test": [
-      "./vendor/bin/codecept run acceptance"
+    "test:setup": [
+      "./vendor/bin/codecept run tests/acceptance/Installation/SetupCest.php"
+    ],
+    "test:public": [
+      "./vendor/bin/codecept run tests/acceptance/public/PublicCest.php",
+      "./vendor/bin/codecept run tests/acceptance/public/WelcomeCept.php",
+      "./vendor/bin/codecept run tests/acceptance/public/ViewLicenseCept.php",
+      "./vendor/bin/codecept run tests/acceptance/public/SeeTheForgotPasswordCept.php",
+      "./vendor/bin/codecept run tests/acceptance/public/ForgotPasswordCept.php",
+      "./vendor/bin/codecept run tests/acceptance/public/ForgotPasswordTooManyRequestsCept.php",
+      "./vendor/bin/codecept run tests/acceptance/public/LoginFailCept.php"
+    ],
+    "test:loggedIn": [
+      "php vendor/bin/codecept run tests/acceptance/loggedIn/AdministrationCest.php",
+      "php vendor/bin/codecept run tests/acceptance/loggedIn/BookmarksCest.php",
+      "php vendor/bin/codecept run tests/acceptance/loggedIn/CalendarCest.php",
+      "php vendor/bin/codecept run tests/acceptance/loggedIn/NewsdeskCest.php",
+      "php vendor/bin/codecept run tests/acceptance/loggedIn/ClientsCest.php",
+      "php vendor/bin/codecept run tests/acceptance/loggedIn/ProjectsCest.php",
+      "php vendor/bin/codecept run tests/acceptance/loggedIn/TasksCest.php",
+      "php vendor/bin/codecept run tests/acceptance/loggedIn/UserCest.php",
+      "php vendor/bin/codecept run tests/acceptance/loggedIn/SearchCest.php",
+      "php vendor/bin/codecept run tests/acceptance/loggedIn/ReportsCest.php",
+      "php vendor/bin/codecept run tests/acceptance/public/LoginSuccessCept.php"
     ]
   },
   "scripts-descriptions": {

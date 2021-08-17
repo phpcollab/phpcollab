@@ -20,8 +20,8 @@ class ProjectsCest
     public function _before(AcceptanceTester $I)
     {
         $I->amOnPage('/general/login.php');
-        $I->fillField(['name' => 'usernameForm'], 'testAdmin');
-        $I->fillField(['name' => 'passwordForm'], 'testing');
+        $I->fillField(['name' => 'usernameForm'], 'admin');
+        $I->fillField(['name' => 'passwordForm'], 'phpcollab');
         $I->click('input[type="submit"]');
     }
 
@@ -52,6 +52,7 @@ class ProjectsCest
 
     /**
      * @param AcceptanceTester $I
+     * @depends listActiveProjects
      */
     public function listInactiveProjects(AcceptanceTester $I)
     {
@@ -67,6 +68,7 @@ class ProjectsCest
 
     /**
      * @param AcceptanceTester $I
+     * @depends listInactiveProjects
      */
     public function addProject(AcceptanceTester $I)
     {
@@ -108,6 +110,26 @@ class ProjectsCest
      * @param AcceptanceTester $I
      * @depends viewProject
      */
+    public function copyProject(AcceptanceTester $I)
+    {
+        $I->wantTo('Copy a project');
+        $I->amOnPage('/projects/editproject.php?id=' . $this->projId . '&docopy=true');
+        $I->seeInTitle('Copy Project');
+        $I->see('Copy Project : ' . $this->projectDetails["name"], ['css' => '.heading']);
+        $I->dontSeeElement('.error');
+        $I->seeElement('form', ['name' => 'epDForm']);
+        $I->seeInField(['name' => 'name'], 'Copy of ' . $this->projectDetails["name"]);
+        $I->click('button[type="submit"]');
+        $I->see('Success : Addition succeeded', ['css' => '.message']);
+        $I->seeInCurrentUrl("/projects/viewproject.php");
+        $this->projId = $I->grabFromCurrentUrl('~id=([^&#]*)~');
+
+    }
+
+    /**
+     * @param AcceptanceTester $I
+     * @depends copyProject
+     */
     public function editProject(AcceptanceTester $I)
     {
         $I->wantTo('Edit a Project');
@@ -125,6 +147,7 @@ class ProjectsCest
         $I->click('button[type="submit"]');
         $I->see('Success : Modification succeeded', ['css' => '.message']);
     }
+
 
     /**
      * @param AcceptanceTester $I

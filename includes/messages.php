@@ -103,7 +103,7 @@ switch ($msg) {
 
     case "addAssignment":
         $assignmentId = $assignments->getLastEntryId();
-        $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["addition_succeeded"] . " " . $strings["add_optional"] . " " . $blockPage->buildLink("assignmentcomment.php?task=" . $taskDetail["tas_id"] . "&id=$assignmentId",
+        $msgLabel = "<b>" . $strings["success"] . "</b> : " . $strings["addition_succeeded"] . " | " . $strings["add_optional"] . " " . $blockPage->buildLink("assignmentcomment.php?task=" . $taskDetail["tas_id"] . "&id=$assignmentId",
                 "<b>" . $strings["assignment_comment"] . "</b>", "in");
         break;
 
