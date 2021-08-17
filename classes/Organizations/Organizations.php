@@ -280,9 +280,15 @@ class Organizations
     {
         if (is_array($org)) {
             $org["org_name"] = $this->escaper->escapeHtml($org["org_name"]);
-            $org["org_address1"] = $this->escaper->escapeHtml($org["org_address1"]);
-            $org["org_phone"] = $this->escaper->escapeHtml($org["org_phone"]);
-            $org["org_comments"] = $this->escaper->escapeHtml($org["org_comments"]);
+            if (!empty($org["org_address1"])) {
+                $org["org_address1"] = $this->escaper->escapeHtml($org["org_address1"]);
+            }
+            if (!empty($org["org_phone"])) {
+                $org["org_phone"] = $this->escaper->escapeHtml($org["org_phone"]);
+            }
+            if (!empty($org["org_comments"])) {
+                $org["org_comments"] = $this->escaper->escapeHtml($org["org_comments"]);
+            }
         }
         return $org;
     }

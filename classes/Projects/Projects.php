@@ -290,8 +290,12 @@ class Projects
     private function escapeOutput($project)
     {
         if (is_array($project)) {
-            $project["pro_name"] = $this->escaper->escapeHtml($project["pro_name"]);
-            $project["pro_org_name"] = $this->escaper->escapeHtml($project["pro_org_name"]);
+            if (!empty($project["pro_name"])) {
+                $project["pro_name"] = $this->escaper->escapeHtml($project["pro_name"]);
+            }
+            if (!empty($project["pro_org_name"])) {
+                $project["pro_org_name"] = $this->escaper->escapeHtml($project["pro_org_name"]);
+            }
         }
 
         return $project;

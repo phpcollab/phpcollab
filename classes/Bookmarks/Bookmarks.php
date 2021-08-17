@@ -206,9 +206,17 @@ class Bookmarks
     private function escapeBookmarkOutput($bookmark)
     {
         if (is_array($bookmark)) {
-            $bookmark["boo_name"] = $this->escaper->escapeHtml($bookmark["boo_name"]);
-            $bookmark["boo_description"] = $this->escaper->escapeHtml($bookmark["boo_description"]);
-            $bookmark["boo_url"] = $this->escaper->escapeHtml($bookmark["boo_url"]);
+            if (!empty($bookmark["boo_name"])) {
+                $bookmark["boo_name"] = $this->escaper->escapeHtml($bookmark["boo_name"]);
+            }
+
+            if (!empty($bookmark["boo_description"])) {
+                $bookmark["boo_description"] = $this->escaper->escapeHtml($bookmark["boo_description"]);
+            }
+
+            if (!empty($bookmark["boo_url"])) {
+                $bookmark["boo_url"] = $this->escaper->escapeHtml($bookmark["boo_url"]);
+            }
 
             if (!empty($bookmark["boo_boocat_name"])) {
                 $bookmark["boo_boocat_name"] = $this->escaper->escapeHtml($bookmark["boo_boocat_name"]);
@@ -225,7 +233,9 @@ class Bookmarks
     private function escapeCategoryOutput($category)
     {
         if (is_array($category)) {
-            $category["boocat_name"] = $this->escaper->escapeHtml($category["boocat_name"]);
+            if (!empty($category["boocat_name"])) {
+                $category["boocat_name"] = $this->escaper->escapeHtml($category["boocat_name"]);
+            }
         }
 
         return $category;

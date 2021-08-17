@@ -43,15 +43,27 @@ class NewsDesk
          * - links
          */
         if (is_object($post)) {
-            $post->set('title', $this->escaper->escapeHtml($post->get("title")));
-            $post->set('content', $this->escaper->escapeHtml($post->get("content")));
-            $post->set('links', $this->escaper->escapeHtml($post->get("links")));
+            if (!empty($post->get("title"))) {
+                $post->set('title', $this->escaper->escapeHtml($post->get("title")));
+            }
+            if (!empty($post->get("content"))) {
+                $post->set('content', $this->escaper->escapeHtml($post->get("content")));
+            }
+            if (!empty($post->get("links"))) {
+                $post->set('links', $this->escaper->escapeHtml($post->get("links")));
+            }
         }
 
         if (is_array($post)) {
-            $post["news_title"] = $this->escaper->escapeHtml($post["news_title"]);
-            $post["news_content"] = $this->escaper->escapeHtml($post["news_content"]);
-            $post["news_links"] = $this->escaper->escapeHtml($post["news_links"]);
+            if (!empty($post["news_title"])) {
+                $post["news_title"] = $this->escaper->escapeHtml($post["news_title"]);
+            }
+            if (!empty($post["news_content"])) {
+                $post["news_content"] = $this->escaper->escapeHtml($post["news_content"]);
+            }
+            if (!empty($post["news_links"])) {
+                $post["news_links"] = $this->escaper->escapeHtml($post["news_links"]);
+            }
         }
         return $post;
     }
@@ -63,11 +75,15 @@ class NewsDesk
     protected function escapeComment($comment)
     {
         if (is_object($comment)) {
-            $comment->set('newscom_comment', $this->escaper->escapeHtml($comment->get("newscom_comment")));
+            if (!empty($comment->get("newscom_comment"))) {
+                $comment->set('newscom_comment', $this->escaper->escapeHtml($comment->get("newscom_comment")));
+            }
         }
 
         if (is_array($comment)) {
-            $comment["newscom_comment"] = $this->escaper->escapeHtml($comment["newscom_comment"]);
+            if (!empty($comment["newscom_comment"])) {
+                $comment["newscom_comment"] = $this->escaper->escapeHtml($comment["newscom_comment"]);
+            }
         }
         return $comment;
 
