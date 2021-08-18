@@ -84,6 +84,6 @@
     "test:dev": "Run all tests except installation tests",
     "test:setup": "Run setup/installation tests",
     "test:public": "Run all 'public' tests",
-    "test:LoggedIn": "Run all tests that require a user to be logged in"
+    "test:loggedIn": "Run all tests that require a user to be logged in"
   }
 }
