@@ -82,7 +82,9 @@
     ]
   },
   "scripts-descriptions": {
-    "test": "Run all tests",
-    "dev-tests": "Run all tests except Setup"
+    "test:dev": "Run all tests except installation tests",
+    "test:setup": "Run setup/installation tests",
+    "test:public": "Run all 'public' tests",
+    "test:LoggedIn": "Run all tests that require a user to be logged in"
   }
 }
