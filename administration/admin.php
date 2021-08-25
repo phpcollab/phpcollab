@@ -118,7 +118,7 @@ if (empty($uuid)) {
 
 if ($updateChecker == "true" && $installationType == "online") {
 
-    $admin->checkForUpdate($version, $uuid, $session);
+    $admin->checkForUpdate($version, $tablePrefix, $uuid, $session);
 
     if ($admin->isUpdate() !== false) {
         $checkMsg = <<<HTML

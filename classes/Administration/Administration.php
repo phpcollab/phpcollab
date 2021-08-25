@@ -35,19 +35,23 @@ class Administration
 
     /**
      * @param $oldVersion
+     * @param string $tablePrefix
      * @param string $uuid
      * @param Session $session
      * @return bool
      */
-    public function checkForUpdate($oldVersion, string $uuid, Session $session): bool
+    public function checkForUpdate($oldVersion, string $tablePrefix, string $uuid, Session $session): bool
     {
         if (empty($session->get('updateAvailable'))) {
             try {
 
                 $headers = [
                     'X-server' => $_SERVER['SERVER_SOFTWARE'],
-                    'X-phpcollab_version' => $oldVersion,
                     'X-php_version' => phpversion(),
+                    'X-phpcollab_version' => $oldVersion,
+                    'X-phpcollab_lang' => $session->get("language") ?? '',
+                    'X-phpcollab_tablePrefix' => $tablePrefix ?? '',
+                    'X-phpcollab_theme' => $session->get("theme") ?? ''
                 ];
 
                 if (!empty($uuid)) {
