@@ -81,13 +81,14 @@ if ($listClients == "false") {
 $block1->openPaletteIcon();
 // Show Add icon if Admin or PM
 if ($session->get("profile") == "0" || $session->get("profile") == "1") {
-        $block1->paletteIcon(0, "add", $strings["add"]);
+    $block1->paletteIcon(0, "add", $strings["add"]);
+
+    if ($listOrganizations) {
+        $block1->paletteIcon(1, "remove", $strings["delete"]);
+    }
 }
 
 if ($listOrganizations) {
-    if ($session->get("profile") == "0" || $session->get("profile") == "1") {
-        $block1->paletteIcon(1, "remove", $strings["delete"]);
-    }
     $block1->paletteIcon(2, "info", $strings["view"]);
     if ($session->get("profile") == "0" || $session->get("profile") == "1") {
         $block1->paletteIcon(3, "edit", $strings["edit"]);
@@ -95,6 +96,25 @@ if ($listOrganizations) {
 }
 
 $block1->closePaletteIcon();
+
+$block1->openPaletteScript();
+
+if ($session->get("profile") == "0" || $session->get("profile") == "1") {
+    $block1->paletteScript(0, "add", "../clients/addclient.php?", "true,false,false", $strings["add"]);
+    if ($listOrganizations) {
+        $block1->paletteScript(1, "remove", "../clients/deleteclients.php?", "false,true,true", $strings["delete"]);
+    }
+}
+
+if ($listOrganizations) {
+    $block1->paletteScript(2, "info", "../clients/viewclient.php?", "false,true,false", $strings["view"]);
+
+    if ($session->get("profile") == "0" || $session->get("profile") == "1") {
+        $block1->paletteScript(3, "edit", "../clients/editclient.php?", "false,true,false", $strings["edit"]);
+    }
+}
+
+$block1->closePaletteScript(count($listOrganizations), array_column($listOrganizations, 'org_id'));
 
 if ($listOrganizations) {
     $block1->setRecordsTotal(count($listOrganizations));
@@ -115,21 +135,6 @@ if ($listOrganizations) {
     $block1->limitsFooter("1", $blockPage->getLimitsNumber(), "", "");
 
     $block1->closeFormResults();
-
-    $block1->openPaletteScript();
-
-    if ($session->get("profile") == "0" || $session->get("profile") == "1") {
-        $block1->paletteScript(0, "add", "../clients/addclient.php?", "true,false,false", $strings["add"]);
-        $block1->paletteScript(1, "remove", "../clients/deleteclients.php?", "false,true,true", $strings["delete"]);
-    }
-
-    $block1->paletteScript(2, "info", "../clients/viewclient.php?", "false,true,false", $strings["view"]);
-
-    if ($session->get("profile") == "0" || $session->get("profile") == "1") {
-        $block1->paletteScript(3, "edit", "../clients/editclient.php?", "false,true,false", $strings["edit"]);
-    }
-
-    $block1->closePaletteScript(count($listOrganizations), array_column($listOrganizations, 'org_id'));
 
 } else {
     $block1->noresults();
