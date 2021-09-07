@@ -14,7 +14,7 @@ use Ramsey\Uuid\Uuid;
 
 class Installation
 {
-    private $version = "2.10.1";
+    private $version = "2.10.2";
     private $logger;
     private $container;
     private $database;
