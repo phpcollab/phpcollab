@@ -86,6 +86,8 @@ if ($request->isMethod('post')) {
                     $extension = $fileUpload->getFileExtension();
 
                     $fileUpload->move(APP_ROOT . '/logos_clients/', 1);
+
+                    $org->setLogoExtensionByOrgId(1, $extension);
                 }
 
                 $org->updateOrganizationInformation(
@@ -96,6 +98,7 @@ if ($request->isMethod('post')) {
                     $request->request->get('email'),
                     $request->request->get('comments')
                 );
+
 
                 $session->getFlashBag()->add(
                     'message',
