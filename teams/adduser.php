@@ -22,6 +22,7 @@ if (empty($projectDetail)) {
 }
 
 if ($request->query->get("action") == "add") {
+    $id = $request->query->get("id");
     $pieces = explode("**", $id);
     $id = str_replace("**", ",", $id);
 
