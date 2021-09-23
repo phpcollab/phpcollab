@@ -168,8 +168,10 @@ if ($session->getFlashBag()->has('message')) {
 
 $block1 = new phpCollab\Block();
 
+$block1->form = "adminMyCompanyForm";
+
 echo <<<HTML
-	<form id="{$block1->form}Anchor" method='post' action='/administration/mycompany.php' name="adminMyCompanyForm" enctype='multipart/form-data'>
+	<form id="{$block1->form}Anchor" method='post' action='../administration/mycompany.php' name="adminMyCompanyForm" enctype='multipart/form-data'>
         <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}" />
 	    <input type='hidden' name='MAX_FILE_SIZE' value='100000000'>
 HTML;
