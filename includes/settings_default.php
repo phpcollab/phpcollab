@@ -4,7 +4,7 @@
 #Path by root: ../includes/settings_default.php
 
 # PhpCollab version
-$version = "2.10.2";
+$version = "2.10.3";
 
 # installation type
 $installationType = "online"; //select "offline" or "online"
