@@ -5,6 +5,8 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
+$setTitle .= " : " . $strings["document_list"];
+
 try {
     $files = $container->getFilesLoader();
 } catch (Exception $exception) {

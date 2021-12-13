@@ -1,24 +1,5 @@
 <?php
 
-try {
-    $projects = $container->getProjectsLoader();
-    $teams = $container->getTeams();
-} catch (Exception $exception) {
-    $logger->error('Exception', ['Error' => $exception->getMessage()]);
-}
-
-$appRoot = APP_ROOT;
-if ($session->get("project") != "" && $changeProject != "true") {
-    $projectDetail = $projects->getProjectById($session->get("project"));
-
-    $teamMember = "false";
-    $teamMember = $teams->isTeamMember($session->get("project"), $session->get("id"));
-
-    if ($teamMember == "false") {
-        phpCollab\Util::headerFunction("index.php");
-    }
-}
-
 $bouton = $GLOBALS['bouton'];
 
 echo <<<HTML
@@ -32,17 +13,7 @@ $setCopyright
     <meta name="description" content="$setDescription">
     <meta name="keywords" content="$setKeywords">
     <link rel="manifest" href="../public/site.webmanifest">
-    <title>$setTitle - 
-HTML;
-
-if ($session->get("project") != "" && $changeProject != "true") {
-    echo $projectDetail["pro_name"];
-}
-if ($session->get("project") == "" || $changeProject == "true") {
-    echo $strings["my_projects"];
-}
-
-echo <<<HEAD
+    <title>$setTitle
     </title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="../themes/{$session->get("theme")}/css/stylesheet.css">
@@ -50,7 +21,7 @@ echo <<<HEAD
     
     <script type="text/javascript" src="../javascript/general.js"></script>
     <script type="text/JavaScript" src="../javascript/overlib_mini.js"></script>
-HEAD;
+HTML;
 
 if ($includeCalendar && $includeCalendar === true) {
     include '../includes/calendar.php';
@@ -67,7 +38,17 @@ echo <<<HTML
 
 <table style="height: 95%; width: 100%" class="nonStriped">
     <tr>
-        <td id="logoBox" ></td>
+        <td id="logoBox" >
+HTML;
+// Check to see if the organization has a logo set and the file exists
+//if ($clientDetail["org_extension_logo"] && file_exists("../logos_clients/" . $clientDetail["org_id"] . "." . $clientDetail["org_extension_logo"])) {
+if ($session->get("clientDetail")["org_extension_logo"] && file_exists("../logos_clients/" . $session->get("clientDetail")["org_id"] . "." . $session->get("clientDetail")["org_extension_logo"])) {
+    $image = $session->get("clientDetail")["org_id"] . '.' . $session->get("clientDetail")["org_extension_logo"];
+    echo '<img alt="'. $session->get("clientDetail")["org_name"] . ' Logo" src="../logos_clients/' . $image . '">';
+}
+
+echo <<<HTML
+</td>
         <td id="pageTitle">$titlePage</td>
     </tr>
     <tr>
@@ -99,7 +80,7 @@ if ($session->get("project") != "" && $changeProject != "true") {
                     <td><a href="showallteamtasks.php">{$strings["team_tasks"]}</a></td>
                 </tr>
 HTML;
-    if ($projectDetail["pro_organization"] != "" && $projectDetail["pro_organization"] != "1") {
+    if ($session->get("projectDetail")["pro_organization"] && $session->get("projectDetail")["pro_organization"] != "1") {
         echo <<<TR
                 <tr>
                     <td><img src="ico_arrow_$bouton[3].gif" alt=""></td>

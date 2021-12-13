@@ -7,6 +7,8 @@ use phpCollab\Util;
 $checkSession = "true";
 require_once '../includes/library.php';
 
+$setTitle .= " : " . $strings["client_tasks"];
+
 try {
     $tasks = $container->getTasksLoader();
 } catch (Exception $exception) {
@@ -15,6 +17,7 @@ try {
 
 $bouton[3] = "over";
 $titlePage = $strings["client_tasks"];
+
 include 'include_header.php';
 
 $listTasks = $tasks->getProjectSiteClientTasks($session->get("project"), null, null, 'tas.name');

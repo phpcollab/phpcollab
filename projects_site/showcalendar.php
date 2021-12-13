@@ -31,6 +31,8 @@
 
 require_once '../includes/library.php';
 
+$setTitle .= " : " . $strings["calendar"];
+
 try {
     $tasks = $container->getTasksLoader();
     $calendars = $container->getCalendarLoader();

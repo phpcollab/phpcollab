@@ -8,6 +8,8 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
+$setTitle .= " : " . $strings["client_subtask_details"];
+
 try {
     $tasks = $container->getTasksLoader();
     $updates = $container->getTaskUpdateService();
@@ -48,9 +50,9 @@ if ($request->isMethod('post') && !empty($subtaskDetail)) {
 }
 
 
-$taskDetail = $tasks->getTaskById($task);
+$taskDetail = $tasks->getTaskById($taskId);
 
-if ($subtaskDetail["subtas_published"] == "1" || $taskDetail["tas_project"] != $session->get("project")) {
+if ($subtaskDetail["subtas_published"] == "0" || $taskDetail["tas_project"] != $session->get("project")) {
     Util::headerFunction("index.php");
 }
 
@@ -143,7 +145,7 @@ echo "<tr>
         <td>{$strings["updates_subtask"]} :</td>
         <td>";
 
-$listUpdates = $updates->getUpdates(2, $id, 'upd.created DESC');
+$listUpdates = $updates->getUpdates(2, $subtaskId, 'upd.created DESC');
 
 if ($listUpdates) {
     $updateCount = 1;

@@ -750,6 +750,9 @@ $strings["admin_smtp_server"] = "SMTP Server";
 $strings["admin_smtp_login"] = "SMTP Login";
 $strings["admin_smtp_password"] = "SMTP Password";
 $strings["admin_smtp_port"] = "SMTP Port";
+$strings["team_task_created_success"] = sprintf($strings["success_message"], "Team task created");
+$strings["project_site_topic_success"] = sprintf($strings["success_message"], "Topic added");
+$strings["support_request_details"] = "Support Request Details";
 
 /**
  * Error messages

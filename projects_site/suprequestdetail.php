@@ -5,6 +5,8 @@ use phpCollab\Block;
 $checkSession = "true";
 require_once '../includes/library.php';
 
+$setTitle .= " : " . $strings["support_request_details"];
+
 try {
     $support = $container->getSupportLoader();
 } catch (Exception $exception) {

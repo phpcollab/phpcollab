@@ -126,6 +126,7 @@ if ($auth == "on") {
             $session->set('login', $usernameForm);
             $session->set('name', $member['mem_name']);
             $session->set('profile', $member['mem_profil']);
+            $session->set('orgId', $member['mem_organization']);
             $session->set('ip', $request->server->get("REMOTE_ADDR"));
             $session->set('dateunix', date("U"));
             $session->set('date', date("d-m-Y H:i:s"));

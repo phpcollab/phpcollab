@@ -32,6 +32,8 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
+$setTitle .= " : " . $strings["upload_file"];
+
 try {
     $projects = $container->getProjectsLoader();
 } catch (Exception $exception) {

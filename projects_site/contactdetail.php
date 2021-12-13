@@ -5,17 +5,19 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
+$setTitle .= " : " . $strings["team_member_details"];
+
 try {
     $teams = $container->getTeams();
 } catch (Exception $exception) {
     $logger->error('Exception', ['Error' => $exception->getMessage()]);
 }
 
-$userDetail = $members->getMemberById($id);
+$userDetail = $members->getMemberById($request->query->get("id"));
 
 $detailContact = $teams->getTeamByProjectIdAndTeamMember($session->get("project"), $request->query->get("id"));
 
-if ($detailContact[0]["tea_published"] == "1" || $detailContact["tea_project"][0] != $session->get("project")) {
+if ($detailContact[0]["tea_published"] == "1" || $detailContact[0]["tea_project"] != $session->get("project")) {
     phpCollab\Util::headerFunction("home.php");
 }
 

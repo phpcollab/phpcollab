@@ -5,12 +5,16 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
+$setTitle .= " : " . $strings["team_task_details"];
+
 try {
     $tasks = $container->getTasksLoader();
     $updates = $container->getTaskUpdateService();
 } catch (Exception $exception) {
     $logger->error('Exception', ['Error' => $exception->getMessage()]);
 }
+
+$id = $request->query->get('id');
 
 $taskDetail = $tasks->getTaskById($id);
 
@@ -101,7 +105,7 @@ SUBTASK_TABLE;
         $subtaskDescription = nl2br($subtask["subtas_description"]);
         echo <<<TR
             <tr>
-                <td><a href=\"teamsubtaskdetail.php?task=$id&id="{$subtask["subtas_id"]}">{$subtask["subtas_name"]}</a></td>
+                <td><a href="teamsubtaskdetail.php?task=$id&id={$subtask["subtas_id"]}">{$subtask["subtas_name"]}</a></td>
                 <td>$subtaskDescription</td>
                 <td>$status[$idStatus]</td>
                 <td>{$subtask["subtas_due_date"]}</td>

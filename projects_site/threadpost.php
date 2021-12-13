@@ -7,7 +7,9 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
-$id = $request->query->get('id');
+$setTitle .= " : " . $strings["post_reply"];
+
+$id = $request->query->get('id') || $request->query->get('topic');
 $strings = $GLOBALS["strings"];
 $statusTopicBis = $GLOBALS["statusTopicBis"];
 
@@ -20,7 +22,7 @@ try {
 
 $detailTopic = $topics->getTopicByTopicId($id);
 
-if ($detailTopic["top_published"] == "1" || $detailTopic["top_project"] != $session->get("project")) {
+if ($detailTopic["top_published"] == "0" || $detailTopic["top_project"] != $session->get("project")) {
     phpCollab\Util::headerFunction("index.php");
 }
 

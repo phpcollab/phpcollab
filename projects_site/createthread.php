@@ -7,6 +7,8 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
+$setTitle .= " : " . $strings["create_topic"];
+
 try {
     $projects = $container->getProjectsLoader();
     $topics = $container->getTopicsLoader();
@@ -35,6 +37,12 @@ if ($request->isMethod('post')) {
                         $error = $strings["action_not_allowed"];
                     }
                 }
+
+                $session->getFlashBag()->add(
+                    'message',
+                    $strings["project_site_topic_success"]
+                );
+
                 phpCollab\Util::headerFunction("showallthreadtopics.php");
             }
         }

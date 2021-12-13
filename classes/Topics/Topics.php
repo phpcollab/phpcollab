@@ -240,9 +240,9 @@ class Topics
      * @param int $memberId
      * @param string $message
      * @param string|null $created
-     * @return string
+     * @return array
      */
-    public function addPost(int $topicId, int $memberId, string $message, string $created = null): string
+    public function addPost(int $topicId, int $memberId, string $message, string $created = null): array
     {
         if (is_null($created)) {
             $created = date('Y-m-d h:i');

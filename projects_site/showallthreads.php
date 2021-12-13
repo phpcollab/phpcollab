@@ -5,6 +5,8 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
+$setTitle .= " : " . $strings["bulletin_board_topic"];
+
 try {
     $topics = $container->getTopicsLoader();
 } catch (Exception $exception) {

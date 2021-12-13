@@ -7,6 +7,8 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
+$setTitle .= " : " . $strings["file_details"];
+
 try {
     $files = $container->getFileUpdateService();
 } catch (Exception $exception) {

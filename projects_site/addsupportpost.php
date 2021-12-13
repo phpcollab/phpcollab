@@ -7,13 +7,15 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
+$setTitle .= " : " . $strings["add_support_response"];
+
 try {
     $support = $container->getSupportLoader();
 } catch (Exception $exception) {
     $logger->error('Exception', ['Error' => $exception->getMessage()]);
 }
 
-$tmpquery = "WHERE sr.id = '$id'";
+$id = $request->query->get('id');
 
 $requestDetail = $support->getSupportRequestById($id);
 

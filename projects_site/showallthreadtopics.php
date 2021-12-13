@@ -4,6 +4,8 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
+$setTitle .= " : " . $strings["bulletin_board"];
+
 $bouton[5] = "over";
 $titlePage = $strings["bulletin_board"];
 
@@ -18,6 +20,10 @@ try {
 $listTopics = $topics->getProjectSiteTopics($session->get("project"), 'topic.last_post DESC');
 
 $block1 = new phpCollab\Block();
+
+if ($session->getFlashBag()->has('message')) {
+    $block1->messageBox( $session->getFlashBag()->get('message')[0] );
+}
 
 $block1->heading($strings["bulletin_board"]);
 

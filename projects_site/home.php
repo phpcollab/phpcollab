@@ -13,18 +13,20 @@ try {
 
 $updateProject = $request->query->get('updateProject');
 $changeProject = $request->query->get('changeProject');
-$project = $request->query->get('project');
+$projectId = $request->query->get('project');
 $strings = $GLOBALS["strings"];
 $priority = $GLOBALS["priority"];
 $status = $GLOBALS["status"];
 
 if ($updateProject == "true") {
-    $testProject = $teams->getTeamByProjectIdAndTeamMemberAndStatusIsNotCompletedOrSuspendedAndIsNotPublished($project,
+    $testProject = $teams->getTeamByProjectIdAndTeamMemberAndStatusIsNotCompletedOrSuspendedAndIsNotPublished($projectId,
         $session->get("id"));
     if ($testProject) {
         $session->remove("project");
+        $session->remove("projectDetail");
 
-        $session->set('project', $project);
+        $session->set('project', $projectId);
+        $session->set('projectDetail', $testProject);
 
         phpCollab\Util::headerFunction("home.php");
     } else {
@@ -32,14 +34,36 @@ if ($updateProject == "true") {
     }
 }
 
+if ($changeProject == "true") {
+    $session->remove("project");
+    $session->remove("projectDetail");
+}
+
+if ($session->get("project") != "" && $changeProject != "true") {
+    $projectDetail = $projects->getProjectById($session->get("project"));
+    $session->set('projectDetail', $projectDetail);
+
+    $teamMember = "false";
+    $teamMember = $teams->isTeamMember($session->get("project"), $session->get("id"));
+
+    if ($teamMember == "false") {
+        phpCollab\Util::headerFunction("index.php");
+    }
+}
+
+
 $bouton[0] = "over";
+
 $titlePage = $strings["welcome"] . " " . $session->get("name") . " " . $strings["your_projectsite"];
 
-include 'include_header.php';
-
-if ($updateProject != "true" && $changeProject != "true") {
-    $clientDetail = $organizations->getOrganizationById($projectDetail["pro_organization"]);
+if (!empty($session->get("orgId")) && empty($session->get("clientDetail"))) {
+    $clientDetail = $organizations->getOrganizationById($session->get("orgId"));
+    $session->set("clientDetail", $clientDetail);
 }
+
+$setTitle .= " : " . $strings["home"];
+
+include 'include_header.php';
 
 $idStatus = $projectDetail["pro_status"];
 $idPriority = $projectDetail["pro_priority"];
@@ -89,10 +113,6 @@ NO_RESULTS;
 }
 
 if (!empty($session->get("project")) && $changeProject != "true") {
-    if (file_exists("../logos_clients/" . $clientDetail["org_id"] . "." . $clientDetail["org_extension_logo"])) {
-        $image = $clientDetail["org_id"] . '.' . $clientDetail["org_extension_logo"];
-        echo '<img alt="'. $clientDetail["org_name"] . ' Logo" src="../logos_clients/' . $image . '" style="max-height: 50px;">';
-    }
 
     $pro_description = nl2br($projectDetail["pro_description"]);
     echo <<<TABLE
@@ -115,7 +135,7 @@ if (!empty($session->get("project")) && $changeProject != "true") {
             </tr>
 TABLE;
 
-    //Dispaly project active phase
+    //Display project active phase
     if ($projectDetail["pro_phase_set"] != "0") {
         echo "<tr><td nowrap style='vertical-align: top' class='formLabel'>" . $strings["current_phase"] . " :</td><td>";
 

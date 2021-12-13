@@ -5,6 +5,8 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
+$setTitle .= " : " . $strings["support"];
+
 try {
     $support = $container->getSupportLoader();
 } catch (Exception $exception) {

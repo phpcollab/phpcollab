@@ -7,6 +7,8 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
+$setTitle .= " : " . $strings["add_support_request"];
+
 try {
     $support = $container->getSupportLoader();
 } catch (Exception $exception) {

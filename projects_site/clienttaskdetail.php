@@ -7,6 +7,8 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
+$setTitle .= " : " . $strings["client_task_details"];
+
 $taskId = !empty($request->query->get('id')) ? $request->query->get('id') : $request->request->get('taskId');
 
 try {

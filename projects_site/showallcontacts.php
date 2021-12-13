@@ -5,6 +5,9 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
+$setTitle .= " : " . $strings["project_team"];
+
+
 try {
     $teams = $container->getTeams();
 } catch (Exception $exception) {
@@ -47,7 +50,7 @@ TR;
     }
     echo <<<'TAG'
 </table>
-<hr />\n
+<hr />
 TAG;
 } else {
     echo <<<NO_RECORDS

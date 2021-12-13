@@ -7,6 +7,8 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
+$setTitle .= " : " . $strings["approval_tracking"];
+
 try {
     $files = $container->getFilesLoader();
 } catch (Exception $exception) {

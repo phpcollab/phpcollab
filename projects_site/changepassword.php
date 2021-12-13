@@ -34,6 +34,8 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
+$setTitle .= " : " . $strings["change_password"];
+
 if ($request->isMethod('post')) {
     try {
         if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
@@ -50,8 +52,6 @@ if ($request->isMethod('post')) {
                 ) {
                     $error = $strings["new_password_error"];
                 } else {
-                    $encryptedNewPassword = phpCollab\Util::getPassword($request->request->get('new_password'));
-
                     if ($htaccessAuth == "true") {
                         $Htpasswd = $container->getHtpasswdService();
                         $listTeams = $teams->getTeamByMemberId($session->get("id"));
@@ -60,7 +60,7 @@ if ($request->isMethod('post')) {
                             foreach ($listTeams as $team) {
                                 try {
                                     $Htpasswd->initialize("files/" . $team["tea_pro_id"] . "/.htpasswd");
-                                    $Htpasswd->changePass($session->get("login"), $encryptedNewPassword);
+                                    $Htpasswd->changePass($session->get("login"), phpCollab\Util::getPassword($request->request->get('new_password')));
                                 } catch (Exception $e) {
                                     $logger->error('Project Site (password reset)', ['Exception message', $e->getMessage()]);
                                     $error = $strings["rest_password_error"];
@@ -70,7 +70,7 @@ if ($request->isMethod('post')) {
                     }
 
                     try {
-                        $members->setPassword($session->get("id"), $encryptedNewPassword);
+                        $members->setPassword($session->get("id"), $request->request->get('new_password'));
 
                         phpCollab\Util::headerFunction("changepassword.php?msg=update");
                     } catch (Exception $exception) {

@@ -32,6 +32,8 @@ $projectSite = "true";
 $checkSession = "true";
 require_once '../includes/library.php';
 
+$setTitle .= " : " . $strings["team_tasks"];
+
 try {
     $tasks = $container->getTasksLoader();
 } catch (Exception $exception) {
@@ -46,6 +48,10 @@ include 'include_header.php';
 $listTasks = $tasks->getTeamTasks($session->get("project"));
 
 $block1 = new phpCollab\Block();
+
+if ($session->getFlashBag()->has('message')) {
+    $block1->messageBox( $session->getFlashBag()->get('message')[0] );
+}
 
 $block1->heading($strings["team_tasks"]);
 

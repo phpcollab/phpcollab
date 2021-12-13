@@ -5,6 +5,8 @@
 $checkSession = "true";
 require_once '../includes/library.php';
 
+$setTitle .= " : " . $strings["team_subtask_details"];
+
 try {
     $tasks = $container->getTasksLoader();
     $updates = $container->getTaskUpdateService();
@@ -12,11 +14,11 @@ try {
     $logger->error('Exception', ['Error' => $exception->getMessage()]);
 }
 
-$subtaskDetail = $tasks->getSubTaskById($id);
+$subtaskDetail = $tasks->getSubTaskById($request->query->get('id'));
 
-$taskDetail = $tasks->getTaskById($task);
+$taskDetail = $tasks->getTaskById($request->query->get('task'));
 
-if ($subtaskDetail["subtas_published"] == "1" || $taskDetail["tas_project"] != $session->get("project")) {
+if ($subtaskDetail["subtas_published"] == "0" || $taskDetail["tas_project"] != $session->get("project")) {
     phpCollab\Util::headerFunction("index.php");
 }
 
@@ -25,7 +27,7 @@ $titlePage = $strings["team_subtask_details"];
 include 'include_header.php';
 
 echo <<<HEADING
-<h1 class="heading">{$strings["team_subtask_details"]}</h1>;
+<h1 class="heading">{$strings["team_subtask_details"]}</h1>
 HEADING;
 
 echo '<table class="nonStriped">';
@@ -108,7 +110,7 @@ echo <<<TR
             <td>
 TR;
 
-$listUpdates = $updates->getUpdates(2, $id);
+$listUpdates = $updates->getUpdates(2, $request->query->get('id'));
 
 if ($listUpdates) {
     $j = 1;

@@ -35,6 +35,8 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 $checkSession = "true";
 require_once '../includes/library.php';
 
+$setTitle .= " : " . $strings["add_task"];
+
 try {
     $tasks = $container->getTasksLoader();
     $assignments = $container->getAssignmentsManager();
@@ -63,13 +65,29 @@ if (empty($request->query->get('id'))) {
                     $priority = $request->request->get('priority');
                     $startDate = $request->request->get('start_date');
                     $dueDate = $request->request->get('due_date');
-                    $publshed = $request->request->get('published');
                     $assignedTo = $request->request->get('assigned_to');
                     $projectId = $request->request->get('project_id');
 
                     try {
-                        $newTask = $tasks->addTask($projectId, $taskName, $description, $session->get("id"), 0, 2,
-                            $priority, $startDate, $dueDate, 0, 0, $comments, $publshed, 0);
+                        $newTask = $tasks->addTask(
+                            $projectId,                 // projectId
+                            $session->get("id"),        // owner
+                            $taskName,                  // name
+                            $description,               // description
+                            0,                          // assignedTo
+                            2,                          // status
+                            $priority,                  // priority
+                            $startDate,                 // startDate
+                            $dueDate,                   // dueDate
+                            0,                          // estimatedTime
+                            0,                          // actualTime
+                            $comments,                  // comments
+                            0,                          // published
+                            0,                          // completion
+                            0,                          // parentPhase
+                            0,                          // invoicing
+                            0                           // workedHours
+                        );
 
                         $assignments->addAssignment($newTask["tas_id"], $session->get("id"), $assignedTo, $dateheure);
 
@@ -82,6 +100,12 @@ if (empty($request->query->get('id'))) {
                         if ($fileManagement == "true") {
                             phpCollab\Util::createDirectory("../files/{$session->get("project")}/" . $newTask["tas_id"]);
                         }
+
+                        $session->getFlashBag()->add(
+                            'message',
+                            $strings["team_task_created_success"]
+                        );
+
                         phpCollab\Util::headerFunction("showallteamtasks.php");
                     } catch (Exception $e) {
                         $logger->error('Project Site (add team task)', ['Exception message', $e->getMessage()]);
