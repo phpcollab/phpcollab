@@ -490,12 +490,21 @@ $block1->contentRow("* Default max file size",
 $block1->contentTitle("Options");
 
 $block1->contentRow("Clients filter" . $blockPage->printHelp("setup_clientsfilter"),
-    '<label><input type="radio" name="clientsFilter" value="false" $clientsFilterFalse /> ' . $strings['false'] . '</label>
-     <label><input type="radio" name="clientsFilter" value="true" $clientsFilterTrue /> ' . $strings['true'] . '</label>');
+    '<label><input type="radio" name="clientsFilter" value="false" ' . $clientsFilterFalse . ' /> ' . $strings['false'] . '</label>
+     <label><input type="radio" name="clientsFilter" value="true" ' . $clientsFilterTrue . ' /> ' . $strings['true'] . '</label>');
 $block1->contentRow("Projects filter" . $blockPage->printHelp("setup_projectsfilter"),
-    '<label><input type="radio" name="projectsFilter" value="false" $projectsFilterFalse /> ' . $strings["false"] . '</label>
-     <label><input type="radio" name="projectsFilter" value="true" $projectsFilterTrue /> ' . $strings["true"] . '</label>');
+    '<label><input type="radio" name="projectsFilter" value="false" '. $projectsFilterFalse . ' /> ' . $strings["false"] . '</label>
+     <label><input type="radio" name="projectsFilter" value="true" ' . $projectsFilterTrue .' /> ' . $strings["true"] . '</label>');
 
+$block1->contentRow('Auto-publish Tasks',
+    '<label><input type="radio" name="autoPublishTasks" value="false" ' . $checkedAutoPublish_f . ' /> ' . $strings["false"] . '</label>
+     <label><input type="radio" name="autoPublishTasks" value="true" ' . $checkedAutoPublish_t . ' /> ' . $strings["true"] . '</label>');
+$block1->contentRow('Email Alerts',
+    '<label><input type="radio" name="emailAlerts" value="false" ' . $checkedEmailAlerts_f . ' /> ' . $strings["false"] . '</label>
+     <label><input type="radio" name="emailAlerts" value="true" ' . $checkedEmailAlerts_t . ' /> ' . $strings["true"] . '</label>');
+
+
+$block1->contentTitle("Home View Options {$blockPage->printHelp("homeViewOptions", "VAUTO,WIDTH,500")}");
 $block1->contentRow('Show Bookmarks',
     '<label><input type="radio" name="showHomeBookmarks" value="false" ' . $checkedHomeBookmarks_f . ' /> False
      <label><input type="radio" name="showHomeBookmarks" value="true" ' . $checkedHomeBookmarks_t . ' /> True');
@@ -520,13 +529,6 @@ $block1->contentRow('Show Notes',
 $block1->contentRow('Show NewsDesk',
     '<label><input type="radio" name="showHomeNewsdesk" value="false" ' . $checkedHomeNewsdesk_f . ' /> ' . $strings["false"] . '</label>
      <label><input type="radio" name="showHomeNewsdesk" value="true" ' . $checkedHomeNewsdesk_t . ' /> ' . $strings["true"] . '</label>');
-$block1->contentRow('Auto-publish Tasks',
-    '<label><input type="radio" name="autoPublishTasks" value="false" ' . $checkedAutoPublish_f . ' /> ' . $strings["false"] . '</label>
-     <label><input type="radio" name="autoPublishTasks" value="true" ' . $checkedAutoPublish_t . ' /> ' . $strings["true"] . '</label>');
-$block1->contentRow('Email Alerts',
-    '<label><input type="radio" name="emailAlerts" value="false" ' . $checkedEmailAlerts_f . ' /> ' . $strings["false"] . '</label>
-     <label><input type="radio" name="emailAlerts" value="true" ' . $checkedEmailAlerts_t . ' /> ' . $strings["true"] . '</label>');
-
 
 $block1->contentTitle($strings["admin_password_reset_settings"]);
 
