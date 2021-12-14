@@ -112,8 +112,8 @@ if ($request->isMethod('post')) {
     } catch (InvalidCsrfTokenException $csrfTokenException) {
         $logger->error('CSRF Token Error', [
             'Bookmarks: edit bookmark' => $request->request->get("id"),
-            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
-            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+            '$_SERVER["REMOTE_ADDR"]' => $request->server->get("REMOTE_ADDR"),
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]'=> $request->server->get('HTTP_X_FORWARDED_FOR')
         ]);
     } catch (Exception $exception) {
         $logger->critical('Exception', ['Error' => $exception->getMessage()]);

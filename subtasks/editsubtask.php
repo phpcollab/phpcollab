@@ -229,8 +229,8 @@ if (!empty($id)) {
         } catch (InvalidCsrfTokenException $csrfTokenException) {
             $logger->error('CSRF Token Error', [
                 'Subtasks: Edit subtask',
-                '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
-                '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+                '$_SERVER["REMOTE_ADDR"]' => $request->server->get("REMOTE_ADDR"),
+                '$_SERVER["HTTP_X_FORWARDED_FOR"]'=> $request->server->get('HTTP_X_FORWARDED_FOR')
             ]);
         } catch (Exception $e) {
             $logger->critical('Exception', ['Error' => $e->getMessage()]);
@@ -320,8 +320,8 @@ if (empty($id)) {
         } catch (InvalidCsrfTokenException $csrfTokenException) {
             $logger->error('CSRF Token Error', [
                 'Subtasks: Add subtask',
-                '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
-                '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+                '$_SERVER["REMOTE_ADDR"]' => $request->server->get("REMOTE_ADDR"),
+                '$_SERVER["HTTP_X_FORWARDED_FOR"]'=> $request->server->get('HTTP_X_FORWARDED_FOR')
             ]);
         } catch (Exception $e) {
             $logger->critical('Exception', ['Error' => $e->getMessage()]);

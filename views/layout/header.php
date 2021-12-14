@@ -93,7 +93,7 @@ $blockHeader->openNavigation();
 if ($blank == "true") {
     $blockHeader->itemNavigation("&nbsp;");
 } else {
-    $navUrl = $_SERVER["REQUEST_URI"];
+    $navUrl = $request->server->get("REQUEST_URI");
     if ($notLogged == "true") {
         $blockHeader->itemNavigation($blockHeader->buildLink("../general/login.php", $strings["login"], 'in'));
         $blockHeader->itemNavigation($blockHeader->buildLink("../general/license.php", $strings["license"], 'in'));

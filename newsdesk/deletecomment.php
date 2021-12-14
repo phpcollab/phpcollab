@@ -54,8 +54,8 @@ if ($request->isMethod('post')) {
     } catch (InvalidCsrfTokenException $csrfTokenException) {
         $logger->error('CSRF Token Error', [
             'Newsdesk: Delete Comment' => $request->query->get("id"),
-            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
-            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+            '$_SERVER["REMOTE_ADDR"]' => $request->server->get("REMOTE_ADDR"),
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]'=> $request->server->get('HTTP_X_FORWARDED_FOR')
         ]);
         $msg = 'permissiondenied';
     } catch (Exception $e) {

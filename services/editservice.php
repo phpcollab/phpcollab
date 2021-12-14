@@ -47,8 +47,8 @@ if (!empty($id)) {
         } catch (InvalidCsrfTokenException $csrfTokenException) {
             $logger->error('CSRF Token Error', [
                 'Services: Edit service' => $id,
-                '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
-                '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+                '$_SERVER["REMOTE_ADDR"]' => $request->server->get("REMOTE_ADDR"),
+                '$_SERVER["HTTP_X_FORWARDED_FOR"]'=> $request->server->get('HTTP_X_FORWARDED_FOR')
             ]);
         } catch (Exception $e) {
             $logger->critical('Exception', ['Error' => $e->getMessage()]);
@@ -89,8 +89,8 @@ if (empty($id) && $request->isMethod('post')) {
     } catch (InvalidCsrfTokenException $csrfTokenException) {
         $logger->error('CSRF Token Error', [
             'Services: Add service',
-            '$_SERVER["REMOTE_ADDR"]' => $_SERVER['REMOTE_ADDR'],
-            '$_SERVER["HTTP_X_FORWARDED_FOR"]' => $_SERVER['HTTP_X_FORWARDED_FOR']
+            '$_SERVER["REMOTE_ADDR"]' => $request->server->get("REMOTE_ADDR"),
+            '$_SERVER["HTTP_X_FORWARDED_FOR"]'=> $request->server->get('HTTP_X_FORWARDED_FOR')
         ]);
     } catch (Exception $e) {
         $logger->critical('Exception', ['Error' => $e->getMessage()]);
