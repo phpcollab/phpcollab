@@ -44,10 +44,11 @@ $strings = $GLOBALS["strings"];
 
 $subtaskDetail = $targetPhase = $projectDetail = null;
 
+// Subtask
 if ($type == "2") {
     $subtaskDetail = $tasks->getSubTaskById($item);
 
-    $taskDetail = $tasks->getTasksById($subtaskDetail["subtas_task"]);
+    $taskDetail = $tasks->getTaskById($subtaskDetail["subtas_task"]);
 
     $projectDetail = $projects->getProjectById($taskDetail["tas_project"]);
 
@@ -57,8 +58,9 @@ if ($type == "2") {
     }
 }
 
+// Task
 if ($type == "1") {
-    $taskDetail = $tasks->getTasksById($item);
+    $taskDetail = $tasks->getTaskById($item);
 
     $projectDetail = $projects->getProjectById($taskDetail["tas_project"]);
 
@@ -129,23 +131,20 @@ $block1->contentTitle($strings["details"]);
 
 $listUpdates = $updates->getUpdates($type, $item);
 
-//for ($i = 0; $i < $comptListUpdates; $i++) {
 foreach ($listUpdates as $update) {
+    $update["upd_comments"] = trim($update["upd_comments"]);
     if (preg_match('/\[status:([0-9])]/', $update["upd_comments"])) {
         preg_match('|\[status:([0-9])]|i', $update["upd_comments"], $matches);
-        $update["upd_comments"] = preg_replace('/\[status:([0-9])]/', '', $update["upd_comments"] . '<br/>');
-        $update["upd_comments"] .= $strings["status"] . " " . $GLOBALS["status"][$matches[1]];
+        $update["upd_comments"] = preg_replace('/\[status:([0-9])]/', $strings["status"] . ": " . $GLOBALS["status"][$matches[1]], $update["upd_comments"]);
     }
     if (preg_match('/\[priority:([0-9])]/', $update["upd_comments"])) {
         preg_match('|\[priority:([0-9])]|i', $update["upd_comments"], $matches);
-        $update["upd_comments"] = preg_replace('/\[priority:([0-9])]/', '', $update["upd_comments"] . '<br/>');
-        $update["upd_comments"] .= $strings["priority"] . " " . $GLOBALS["priority"][$matches[1]];
+        $update["upd_comments"] = preg_replace('/\[priority:([0-9])]/', $strings["priority"] . ": " . $GLOBALS["priority"][$matches[1]], $update["upd_comments"]);
     }
     if (preg_match('/\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})]/', $update["upd_comments"])) {
         preg_match('|\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})]|i', $update["upd_comments"], $matches);
-        $update["upd_comments"] = preg_replace('/\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})]/', '',
-            $update["upd_comments"] . '<br/>');
-        $update["upd_comments"] .= $strings["due_date"] . " " . $matches[1];
+        $update["upd_comments"] = preg_replace('/\[datedue:([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})]/', $strings["due_date"] . ": " . $matches[1],
+            $update["upd_comments"]);
     }
 
     $block1->contentRow($strings["posted_by"],
@@ -157,7 +156,7 @@ foreach ($listUpdates as $update) {
         $block1->contentRow($strings["when"],
             phpCollab\Util::createDate($update["upd_created"], $session->get('timezone')));
     }
-    $block1->contentRow("", nl2br($update["upd_comments"]));
+    $block1->contentRow($strings["update"], nl2br($update["upd_comments"]));
     $block1->contentRow("", "", "true");
 }
 
