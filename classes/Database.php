@@ -35,7 +35,7 @@ class Database
             error_log('library error: ' . $e->getMessage());
         }
 
-        $this->logger->info('Database init');
+        $this->logger->debug('Database init');
         $this->configuration = $config;
 
         $this->tableCollab = $this->configuration['tableCollab'];
@@ -58,13 +58,13 @@ class Database
             }
 
             // Set options
-            $this->logger->info('set PDO options');
+            $this->logger->debug('set PDO options');
             $options = array(
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
             );
 
             // Create a new PDO instance
-            $this->logger->info('create PDO instance');
+            $this->logger->debug('create PDO instance');
             try {
                 $this->dbh = new PDO($dsn, $this->configuration['dbUsername'], $this->configuration['dbPassword'], $options);
             } // Catch any errors
@@ -91,7 +91,6 @@ class Database
      */
     public function bind($param, $value, $type = null)
     {
-        $this->logger->info('Bind DB parameters');
         $this->logger->debug('Bind DB parameters', ['param' => $param, 'value' => $value, 'type' => $type]);
         if (is_null($type)) {
             switch (true) {
@@ -203,7 +202,7 @@ class Database
 
     public function getTableName(string $name)
     {
-        $this->logger->info('Database (getTableName)', ['name' => $name]);
+        $this->logger->debug('Database (getTableName)', ['name' => $name]);
         if ($this->tableCollab && $this->tableCollab[$name]) {
             return $this->tableCollab[$name];
         }
