@@ -46,10 +46,10 @@ class Sorting
     /**
      * @param String $target
      * @param String $value
-     * @param Integer $userId
+     * @param int $userId
      * @return mixed
      */
-    public function updateSortingTargetByUserId(string $target, string $value, Integer $userId)
+    public function updateSortingTargetByUserId(string $target, string $value, int $userId)
     {
         return $this->sorting_gateway->updateSortingTargetByUserId($target, $value, $userId);
     }
