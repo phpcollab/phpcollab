@@ -1,6 +1,6 @@
 # Thanks
 
-We want to start off by saying thank you for using phpCollab. This project is a labor of love, and we appreciate all contributions that provide pull requests, make performance improvements and help with documentation. Every contribution is meaningful, so thank you for participating. 
+We want to start off by saying thank you for using phpCollab. This project is a labor of love, and we appreciate all contributions that provide pull requests, make performance improvements and help with documentation. Every contribution is meaningful, so thank you for participating.
 
 That being said, here are a few guidelines that we ask you to follow so we can successfully address your issue.
 
@@ -11,15 +11,16 @@ If you have already identified an enhancement or a bug fix, it is STRONGLY recom
 # Remember
 
 - If your submission is not an actual issue or does not carry enough diagnostic data described and enumerated below, the issue may be automatically tagged and closed.
-- **Important:** Be prepared to test, contribute, follow through, engage and provide patches and pull requests. 
+- **Important:** Be prepared to test, contribute, follow through, engage and provide patches and pull requests.
 
 
 # Issue Report
 
 Remove the above from the issue description and make sure the following checklist is followed:
 
-- [] phpCollab version used
-- [] PHP version (e.g. 5.3, 7.x)
-- [] Web server and version (Apache, nginx)
-- [] Steps to duplicate the problem
-- [] Stacktraces and phpCollab/PHP DEBUG logs where appropriate.
+- [ ] phpCollab version used
+- [ ] PHP version (e.g. 5.3, 7.x)
+- [ ] Web server and version (Apache, nginx)
+- [ ] Steps to duplicate the problem
+- [ ] Stacktrace and phpCollab/PHP DEBUG logs where appropriate.
+- [ ] Installation method: self / automated (like Scriptaculous)
