@@ -32,6 +32,8 @@ try {
     }
 } catch (Exception $exception) {
     require_once dirname(__FILE__) . "/views/fatal_error.php";
-    error_log("FATAL ERROR: " . $exception . "\n");
-    error_log("FATAL ERROR: " . $exception . "\n", 3, "./logs/phpcollab.log");
+    $date = new DateTime();
+    $now = $date->format("[Y-m-d\TH:i:s.uP]");
+    error_log($now . " FATAL ERROR: " . $exception . "\n");
+    error_log($now . " FATAL ERROR: " . $exception . "\n", 3, "./logs/phpcollab.log");
 }
