@@ -125,6 +125,9 @@ if ($auth == "on") {
             $session->set('language', $request->request->get("languageForm"));
             $session->set('login', $usernameForm);
             $session->set('name', $member['mem_name']);
+            if (!empty($member['mem_email_work'])) {
+                $session->set('email', $member['mem_email_work']);
+            }
             $session->set('profile', $member['mem_profil']);
             $session->set('orgId', $member['mem_organization']);
             $session->set('ip', $request->server->get("REMOTE_ADDR"));
