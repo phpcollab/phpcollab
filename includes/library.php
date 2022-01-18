@@ -10,8 +10,9 @@ use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 define('APP_ROOT', dirname(__FILE__, 2));
 
 set_exception_handler(function ($exception) {
-    error_log("FATAL ERROR (1): " . $exception . "\n");
-    error_log("FATAL ERROR (2): " . $exception . "\n", 3, APP_ROOT . "/logs/phpcollab.log");
+    $logDate = new DateTime();
+    error_log($logDate->format("[Y-m-d\TH:i:s.uP]") . " phpCollab.FATAL: " . $exception . "\n");
+    error_log($logDate->format("[Y-m-d\TH:i:s.uP]") . " phpCollab.FATAL: " . $exception . "\n", 3, APP_ROOT . "/logs/phpcollab.log");
     require_once APP_ROOT . "/views/fatal_error.php";
 });
 
