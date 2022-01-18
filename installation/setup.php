@@ -48,6 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $error = $help["setup_error_site_url"];
         } elseif (empty($_POST["adminPassword"])) {
             $error = $help["setup_error_admin_password"];
+        } elseif (empty($_POST["adminEmail"])) {
+            $error = $help["setup_error_admin_email"];
         }
 
         if (!$error) {

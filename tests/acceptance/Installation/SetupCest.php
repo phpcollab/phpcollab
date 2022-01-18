@@ -62,6 +62,7 @@ class SetupCest
         $I->fillField(['name' => 'dbName'], $this->dbName);
         $I->fillField(['name' => 'dbTablePrefix'], $this->dbTablePrefix);
         $I->fillField(['name' => 'adminPassword'], $this->adminPassword);
+        $I->fillField(['name' => 'adminEmail'], $this->adminPassword);
         $I->click('input[type="submit"]');
         $I->dontSeeElement('.error');
         $I->see('Success', ['css' => '.heading']);
