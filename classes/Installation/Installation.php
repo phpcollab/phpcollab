@@ -135,9 +135,9 @@ class Installation
             try {
                 $this->database->query($sqlStatement);
                 $this->database->execute();
-            } catch (PDOException $e) {
-                $this->logger->alert("SETUP - createDatabaseTables: " . $exception->getMessage() . "\n");
-                throw $e;
+            } catch (PDOException $PDOException) {
+                $this->logger->alert("SETUP - createDatabaseTables: " . $PDOException->getMessage() . "\n");
+                throw $PDOException;
             }
         }
 
