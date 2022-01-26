@@ -1000,3 +1000,12 @@ Styling for the help notes
         padding: 10px 0;
     }
 }
+
+.calendarIcon {
+    color: #6d6e71;
+    font-size: 1.5em;
+}
+.calendarIcon:hover {
+    color: #3a3b40;
+    cursor: pointer;
+}
