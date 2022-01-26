@@ -1,0 +1,14 @@
+
+Hi, %name%
+
+Someone indicated a forgotten password for the %site_name% account associated with %email%.  No changes have been made
+to your account yet.
+
+%link%
+
+If you did not request a new password, please let us know immediately by replying to this email.
+
+Regards,
+
+%site_name%
+

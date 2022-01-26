@@ -31,6 +31,7 @@ use phpCollab\Members\ResetPassword;
 use phpCollab\NewsDesk\NewsDesk;
 use phpCollab\Notes\Notes;
 use phpCollab\Notifications\AddProjectTeam;
+use phpCollab\Notifications\MailNotification;
 use phpCollab\Notifications\Notifications;
 use phpCollab\Notifications\RemoveProjectTeam;
 use phpCollab\Notifications\SubtaskNotifications;
@@ -105,6 +106,7 @@ class Container
     private $invoicePublishService;
     private $exportPDFService;
     private $exportVCardService;
+    private $notificationService;
 
     /**
      * @param array $configuration
@@ -705,6 +707,18 @@ class Container
             $this->invoicePublishService = new Publish($this->getPDO());
         }
         return $this->invoicePublishService;
+    }
+
+    /**
+     * @return MailNotification
+     * @throws Exception
+     */
+    public function getNotificationService(): MailNotification
+    {
+        if (null === $this->notificationService) {
+            $this->notificationService = new MailNotification($this, $this->logger);
+        }
+        return $this->notificationService;
     }
 
     /**
