@@ -1,4 +1,4 @@
-<?php
+<?PHP
 
 
 namespace phpCollab\Tasks;
@@ -6,6 +6,8 @@ namespace phpCollab\Tasks;
 use Exception;
 use phpCollab\Container;
 use phpCollab\Database;
+use phpCollab\Exceptions\MissingTemplateException;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 /**
  * Class Tasks
@@ -24,8 +26,7 @@ class Tasks
     /**
      * @var Container
      */
-    private $container;
-
+    private Container $container;
 
     /**
      * Tasks constructor.
@@ -613,12 +614,12 @@ class Tasks
      * @param int $assigned_to
      * @param int $status
      * @param int $priority
-     * @param string $start_date
-     * @param string $due_date
-     * @param string $complete_date
-     * @param float $estimated_time
-     * @param float $actual_time
-     * @param string $comments
+     * @param string|null $start_date
+     * @param string|null $due_date
+     * @param string|null $complete_date
+     * @param float|null $estimated_time
+     * @param float|null $actual_time
+     * @param string|null $comments
      * @param int $published
      * @param int $completion
      * @return mixed
@@ -631,12 +632,12 @@ class Tasks
         int $assigned_to,
         int $status,
         int $priority,
-        string $start_date,
-        string $due_date,
-        string $complete_date,
-        float $estimated_time,
-        float $actual_time,
-        string $comments,
+        ?string $start_date,
+        ?string $due_date,
+        ?string $complete_date,
+        ?float $estimated_time,
+        ?float $actual_time,
+        ?string $comments,
         int $published,
         int $completion
     ) {
@@ -904,66 +905,85 @@ class Tasks
      * @param array $projectDetails
      * @param array $userDetails
      * @param string $subject
-     * @param string $bodyOpening
+     * @param string $template
      * @throws Exception
      */
-    public function sendTaskNotification(array $taskDetails, array $projectDetails, array $userDetails, string $subject, string $bodyOpening)
+
+    public function sendTaskNotification(array $taskDetails, array $projectDetails, array $userDetails, string $subject, string $template)
     {
-        if ($taskDetails && $projectDetails && $userDetails && $subject && $bodyOpening) {
-            $mail = $this->container->getNotification();
+        if ($taskDetails && $projectDetails && $userDetails && $subject && !empty($projectDetails["pro_mem_email_work"])) {
+            $mail = $this->container->getNotificationService();
+
+            // Items needed for all notifications
+            $emailData = array(
+                '%user_name%' => $userDetails["mem_name"],
+                '%task_id%' => $taskDetails["tas_id"],
+                "%task_name%" => $taskDetails["tas_name"],
+                "%task_start_date%" => $taskDetails["tas_start_date"],
+                "%task_due_date%" => $taskDetails["tas_due_date"],
+                "%task_completion%" => ($taskDetails["tas_completion"] > 0) ? $taskDetails["tas_completion"] . "0%" : $taskDetails["tas_completion"] . "",
+                "%task_priority%" => $GLOBALS["priority"][$taskDetails["tas_priority"]],
+                "%task_status%" => $GLOBALS["status"][$taskDetails["tas_status"]],
+                "%task_description%" => $taskDetails["tas_description"],
+                "%project_name%" => $projectDetails["pro_name"],
+                "%org_name%" => ($projectDetails["pro_org_id"] == "1") ? $this->strings["none"] : $projectDetails["pro_org_name"],
+                "%site_name%" => $GLOBALS["setTitle"],
+                "%site_link%" => $GLOBALS["root"],
+                // If user is a client user, then set link to the project site
+                "%task_link%" => ( $userDetails["mem_profil"] === "3" ) ? "$this->root/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetails["pro_id"] : "$this->root/general/login.php?url=tasks/viewtask.php%3Fid={$taskDetails["tas_id"]}",
+            );
+
+
             try {
+                // Read the email template
+                switch ($template) {
+                    case "assignment":
+                        if (!file_exists(APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/task_assignment.txt')) {
+                            throw new FileNotFoundException("Error sending mail, no template ($template)");
+                        }
+                        $mail->setTemplate( file_get_contents(APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/task_assignment.txt') );
+                        break;
+                    case "status":
+                        if (!file_exists(APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/task_status_change.txt')) {
+                            throw new FileNotFoundException("Error sending mail, no template ($template)");
+                        }
+                        $mail->setTemplate(file_get_contents(APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/task_status_change.txt'));
+                        $emailData["%old_status%"] = $taskDetails["task_old_status"];
+                        break;
+                    case "priority":
+                        if (!file_exists(APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/task_priority_change.txt')) {
+                            throw new MissingTemplateException("Error sending mail, template not found. (" . APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/task_priority_change.txt' . ")");
+                        }
+                        $mail->setTemplate(file_get_contents(APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/task_priority_change.txt'));
+                        $emailData["%old_priority%"] = $taskDetails["task_old_priority"];
 
-                $mail->setFrom($projectDetails["pro_mem_email_work"], $projectDetails["pro_mem_name"]);
-
-                $mail->partSubject = $subject;
-                $mail->partMessage = $bodyOpening;
-
-                if ($projectDetails["pro_org_id"] == "1") {
-                    $projectDetails["pro_org_name"] = $this->strings["none"];
+                        break;
+                    case "due_date":
+                        if (!file_exists(APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/task_due_date_change.txt')) {
+                            throw new FileNotFoundException("Error sending mail, no template ($template)");
+                        }
+                        $mail->setTemplate(file_get_contents(APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/task_due_date_change.txt'));
+                        $emailData["%old_due_date%"] = $taskDetails["task_old_due_date"];
+                        break;
                 }
 
-                $complValue = ($taskDetails["tas_completion"] > 0) ? $taskDetails["tas_completion"] . "0 %" : $taskDetails["tas_completion"] . " %";
-                $idStatus = $taskDetails["tas_status"];
-                $idPriority = $taskDetails["tas_priority"];
+                if ($mail->getTemplate()) {
+                    $mail->populateTemplate($emailData);
 
-                $body = $mail->partMessage . "\n\n";
-                $body .= $this->strings["task"] . " : " . $taskDetails["tas_name"] . "\n";
-                $body .= $this->strings["start_date"] . " : " . $taskDetails["tas_start_date"] . "\n";
-                $body .= $this->strings["due_date"] . " : " . $taskDetails["tas_due_date"] . "\n";
-                $body .= $this->strings["completion"] . " : " . $complValue . "\n";
-                $body .= $this->strings["priority"] . " : " . $GLOBALS["priority"][$idPriority] . "\n";
-                $body .= $this->strings["status"] . " : " . $GLOBALS["status"][$idStatus] . "\n";
-                $body .= $this->strings["description"] . " : " . $taskDetails["tas_description"] . "\n\n";
-                $body .= $this->strings["project"] . " : " . $projectDetails["pro_name"] . " (" . $projectDetails["pro_id"] . ")\n";
-                $body .= $this->strings["organization"] . " : " . $projectDetails["pro_org_name"] . "\n\n";
-                $body .= $this->strings["noti_moreinfo"] . "\n";
+                    $mail->setFromEmail($projectDetails["pro_mem_email_work"]);
+                    $mail->setFromName($projectDetails["pro_mem_name"]);
+                    $mail->setSubject($subject);
+                    if ($taskDetails["tas_priority"] == "4" || $taskDetails["tas_priority"] == "5") {
+                        $mail->setPriority("1");
+                    }
+                    $mail->setToEmail($userDetails["mem_email_work"]);
+                    $mail->setToName($userDetails["mem_name"]);
 
-                if ($taskDetails["tas_mem_organization"] == "1") {
-                    $body .= "$this->root/general/login.php?url=tasks/viewtask.php%3Fid={$taskDetails["tas_id"]}";
-                } elseif ($projectDetails["pro_published"] == "0" && $taskDetails["tas_published"] == "0") {
-                    $body .= "$this->root/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetails["pro_id"];
+                    $mail->sendEmail();
+
                 }
-
-                $body .= "\n\n" . $mail->footer;
-
-                $subject = $mail->partSubject . " " . $taskDetails["tas_name"];
-
-                $mail->Subject = $subject;
-
-                if ($taskDetails["tas_priority"] == "4" || $taskDetails["tas_priority"] == "5") {
-                    $mail->Priority = "1";
-                } else {
-                    $mail->Priority = "3";
-                }
-
-                $mail->addAddress($userDetails["mem_email_work"], $userDetails["mem_name"]);
-
-                $mail->Body = $body;
-                $mail->send();
-                $mail->clearAddresses();
             } catch (Exception $e) {
-                // Log this instead of echoing it?
-                throw new Exception($mail->ErrorInfo);
+                throw new Exception($e->getMessage());
             }
         } else {
             throw new Exception('Error sending mail');
@@ -996,7 +1016,7 @@ class Tasks
          */
         $posters = [];
         foreach ($teamMembers as $teamMember) {
-            array_push($posters, $teamMember["tea_member"]);
+            $posters[] = $teamMember["tea_member"];
         }
 
         /*
