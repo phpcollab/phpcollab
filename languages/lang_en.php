@@ -753,11 +753,18 @@ $strings["admin_smtp_port"] = "SMTP Port";
 $strings["team_task_created_success"] = sprintf($strings["success_message"], "Team task created");
 $strings["project_site_topic_success"] = sprintf($strings["success_message"], "Topic added");
 $strings["support_request_details"] = "Support Request Details";
+$strings["users_selected"] = "Selected User(s):";
+$strings["will_not_email"] = $strings["users_selected"] . " will NOT be emailed";
 
 /**
  * Error messages
  */
 $strings["error_messages"] = [
     'too_many_attempts' => sprintf($strings["error_message"], "You have tried too many times. Please wait and try again."),
-    'email_already_sent' => 'Email has been sent.  Please check your inbox or contact your administrator.'
+    'email_already_sent' => 'Email has been sent.  Please check your inbox or contact your administrator.',
+    'blank_email' => sprintf($strings["error_message"], "No email found for the selected user(s)"),
+    'tasks' => [
+        'blank_task_name' => 'Please enter a task name',
+        'invalid_task_name' => 'Please enter a valid task name',
+    ]
 ];
