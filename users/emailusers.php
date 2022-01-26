@@ -155,7 +155,7 @@ try {
     }
 
     if (!empty($excludedList)) {
-        $pageBlock->contentTitle($strings["email_not_following"]);
+        $pageBlock->contentTitle($strings["will_not_email"]);
         foreach ($excludedList as $excluded) {
             $pageBlock->contentRow("",
                 $excluded["mem_name"] . " (" . $excluded["mem_name"] . ") <span style='margin-left: 1rem'>Reason: " . $strings["no_email"] . "</span>");
