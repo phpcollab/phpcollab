@@ -173,15 +173,16 @@ class SupportGateway
 INSERT INTO {$this->db->getTableName("support_requests")} (
 member, priority, subject, message, project, status, date_open
 ) VALUES(
-:member_id, :priority, :subject, :message, :project, :status, NOW())
+:member_id, :priority, :subject, :message, :project, :status, :now)
 SQL;
         $this->db->query($sql);
-        $this->db->bind("member_id", $userId);
-        $this->db->bind("priority", $priority);
-        $this->db->bind("subject", $subject);
-        $this->db->bind("message", $message);
-        $this->db->bind("project", $project);
-        $this->db->bind("status", $status);
+        $this->db->bind(":member_id", $userId);
+        $this->db->bind(":priority", $priority);
+        $this->db->bind(":subject", $subject);
+        $this->db->bind(":message", $message);
+        $this->db->bind(":project", $project);
+        $this->db->bind(":status", $status);
+        $this->db->bind(":now", date('Y-m-d h:i'));
         $this->db->execute();
         return $this->db->lastInsertId();
     }
@@ -194,7 +195,7 @@ SQL;
      * @param int $projectId
      * @return string
      */
-    public function addPost(int $requestId, string $message, string $dateCreated, int $ownerId, int $projectId): string
+    public function addResponse(int $requestId, string $message, string $dateCreated, int $ownerId, int $projectId): string
     {
         $sql = <<<SQL
 INSERT INTO {$this->db->getTableName("support_posts")} (
@@ -215,10 +216,10 @@ SQL;
     /**
      * @param int $requestId
      * @param int $status
-     * @param string $dateClose
+     * @param string|null $dateClose
      * @return mixed
      */
-    public function updateSupportRequest(int $requestId, int $status, string $dateClose)
+    public function updateSupportRequest(int $requestId, int $status, ?string $dateClose = null)
     {
         $query = "UPDATE {$this->db->getTableName("support_requests")} SET status = :status, date_close = :date_close WHERE id = :request_id";
 

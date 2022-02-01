@@ -754,6 +754,7 @@ $strings["project_site_topic_success"] = sprintf($strings["success_message"], "T
 $strings["support_request_details"] = "Support Request Details";
 $strings["users_selected"] = "Selected User(s):";
 $strings["will_not_email"] = $strings["users_selected"] . " will NOT be emailed";
+$strings["support_request_new"] = "A new support request has been created.";
 
 /**
  * Error messages

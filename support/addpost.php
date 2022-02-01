@@ -2,6 +2,10 @@
 #Application name: PhpCollab
 #Status page: 0
 
+/**
+ * Note, a "post" is actually a "response" to a support request.
+ */
+
 use phpCollab\Util;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
@@ -30,22 +34,21 @@ try {
 $requestDetail = $support->getSupportRequestById($id);
 
 if ($request->isMethod('post')) {
-
     try {
         if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
             if ($request->request->get('action') == "edit") {
 
                 try {
-                    $status = $request->request->get('status');
-                    $dateClose = ($request->request->get('status') == 2) ? $dateheure : null;
+                    $support->updateSupportPostStatus(
+                        $id,
+                        $request->request->get('status'),
+                        ($request->request->get('status') == 2) ? $dateheure : null
+                    );
 
-                    $support->updateSupportPostStatus($id, $status, $dateClose);
-
-                    $postDetails = $support->getSupportPostById($id);
                     if ($notifications == "true") {
                         if ($requestDetail["sr_status"] != $request->request->get('status')) {
                             $num = $id;
-                            $support->sendPostChangedNotification($postDetails);
+                            $support->sendRequestChangedNotification($requestDetail);
                         }
                     }
 
@@ -58,7 +61,9 @@ if ($request->isMethod('post')) {
 
             if ($request->request->get('action') == "add") {
                 try {
-                    $newPost = $support->addSupportPost($id, Util::convertData($request->request->get('message')),
+                    $newPost = $support->addResponse(
+                        $id,
+                        Util::convertData($request->request->get('message')),
                         $dateheure, $session->get("id"), $requestDetail["sr_project"]);
 
                     if (!empty($newPost) && $notifications == "true") {
@@ -83,6 +88,8 @@ if ($request->isMethod('post')) {
         $msg = 'permissiondenied';
     }
 }
+
+$bodyCommand = 'onLoad="document.getElementById(\'message\').focus();"';
 include APP_ROOT . '/views/layout/header.php';
 
 $blockPage = new phpCollab\Block();
@@ -95,7 +102,7 @@ if ($supportType == "team") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=" . $requestDetail["sr_project"],
         $strings["support_requests"], "in"));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/viewrequest.php?id=" . $requestDetail["sr_id"],
-        $requestDetail["sr_subject"], "in"));
+        $escaper->escapeHtml($requestDetail["sr_subject"]), "in"));
     if ($action == "status") {
         $blockPage->itemBreadcrumbs($strings["edit_status"]);
     } else {
@@ -109,7 +116,7 @@ if ($supportType == "team") {
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=" . $requestDetail["sr_project"],
         $strings["support_requests"], "in"));
     $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/viewrequest.php?id=" . $requestDetail["sr_id"],
-        $requestDetail["sr_subject"], "in"));
+        $escaper->escapeHtml($requestDetail["sr_subject"]), "in"));
     if ($action == "status") {
         $blockPage->itemBreadcrumbs($strings["edit_status"]);
     } else {
@@ -144,7 +151,11 @@ if (!empty($error)) {
     $block2->contentError($error);
 }
 
-$block2->heading($strings["add_support_respose"]);
+if ($action == "status") {
+    $block2->heading($strings["edit_status"]);
+} else {
+    $block2->heading($strings["add_support_response"]);
+}
 
 $block2->openContent();
 $block2->contentTitle($strings["details"]);
@@ -155,20 +166,23 @@ if ($action == "status") {
         <td><select name="status">
 TR;
 
-    $comptSta = count($requestStatus);
-    for ($i = 0; $i < $comptSta; $i++) {
-        if ($requestDetail["sr_status"] == $i) {
-            echo "<option value=\"$i\" selected>$requestStatus[$i]</option>";
+    foreach ($requestStatus as $index => $status) {
+        if ($requestDetail["sr_status"] == $index) {
+            echo '<option value="' . $index . '" selected>' . $status . '</option>';
         } else {
-            echo "<option value=\"$i\">$requestStatus[$i]</option>";
+            echo '<option value="' . $index . '">' . $status . '</option>';
         }
     }
-    echo "</select></td></tr>";
+    echo <<<HTML
+            </select></td>
+        </tr>
+HTML;
+
 } else {
     echo <<<HTML
         <tr class="odd">
             <td class="leftvalue">{$strings["message"]}</td>
-            <td><textarea rows="3" style="width: 400px; height: 200px;" name="message" cols="43">{$request->request->get('message')}</textarea></td>
+            <td><textarea rows="3" style="width: 400px; height: 200px;" id="message" name="message" cols="43">{$escaper->escapeHtml($request->request->get('message'))}</textarea></td>
         </tr>
 HTML;
 }

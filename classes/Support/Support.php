@@ -7,6 +7,7 @@ use Exception;
 use Monolog\Logger;
 use phpCollab\Container;
 use phpCollab\Database;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 /**
  * Class Support
@@ -89,17 +90,17 @@ class Support
     }
 
     /**
-     * @param int $supportRequestId
+     * @param string $supportRequestId
      * @return mixed
      */
-    public function getSupportRequestByIdIn(int $supportRequestId)
+    public function getSupportRequestByIdIn(string $supportRequestId)
     {
         return $this->support_gateway->getSupportRequestByIdIn($supportRequestId);
     }
 
     /**
-     * @param Int $requestStatus
-     * @param Int $projectId
+     * @param int $requestStatus
+     * @param int $projectId
      * @param string|null $sorting
      * @return mixed
      */
@@ -153,11 +154,12 @@ class Support
      * @param string $message
      * @param int $project
      * @param int $status
-     * @return string
+     * @return array
      */
-    public function addSupportRequest(int $userId, int $priority, string $subject, string $message, int $project, int $status = 0): string
+    public function addSupportRequest(int $userId, int $priority, string $subject, string $message, int $project, int $status = 0): array
     {
-        return $this->support_gateway->createSupportRequest($userId, $priority, $subject, $message, $project, $status);
+        $newId = $this->support_gateway->createSupportRequest($userId, $priority, $subject, $message, $project, $status);
+        return $this->getSupportRequestById($newId);
     }
 
     /**
@@ -166,11 +168,11 @@ class Support
      * @param string $dateCreated
      * @param int $ownerId
      * @param int $projectId
-     * @return string
+     * @return array
      */
-    public function addSupportPost(int $requestId, string $message, string $dateCreated, int $ownerId, int $projectId): string
+    public function addResponse(int $requestId, string $message, string $dateCreated, int $ownerId, int $projectId): array
     {
-        $newPostId = $this->support_gateway->addPost($requestId, $message, $dateCreated, $ownerId, $projectId);
+        $newPostId = $this->support_gateway->addResponse($requestId, $message, $dateCreated, $ownerId, $projectId);
         return $this->getSupportPostById($newPostId);
     }
 
@@ -180,7 +182,7 @@ class Support
      * @param string|null $dateClose
      * @return mixed
      */
-    public function updateSupportPostStatus(int $requestId, int $status, string $dateClose = null)
+    public function updateSupportPostStatus(int $requestId, int $status, ?string $dateClose = null)
     {
         return $this->support_gateway->updateSupportRequest($requestId, $status, $dateClose);
     }
@@ -275,12 +277,69 @@ EMAIL_MESSAGE;
                     ];
 
                     if ($teamMember["tea_mem_profil"] == 3) {
-                        $emailMessage .= "$this->root/general/login.php?url=projects_site/home.php%3Fproject=" . $postDetails["sp_project"] . "\n\n";
+                        $link = "$this->root/general/login.php?url=projects_site/home.php%3Fproject=" . $postDetails["sp_project"] . "\n\n";
                     } else {
-                        $emailMessage .= "$this->root/general/login.php?url=support/viewrequest.php%3Fid={$requestDetail["sr_id"]}\n\n";
+                        $link = "$this->root/general/login.php?url=support/viewrequest.php%3Fid={$requestDetail["sr_id"]}\n\n";
                     }
 
-                    $mail->sendMessage($to, $from, $emailSubject, $emailMessage);
+                    $mail->sendMessage($to, $from, $emailSubject, $emailMessage . $link);
+                }
+            }
+        } catch (Exception $e) {
+            $this->logger->error("Support Class error: sendPostChangedNotification - " . $e->getMessage());
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * @param array $requestDetails
+     * @return void
+     * @throws Exception
+     */
+    public function sendRequestChangedNotification(array $requestDetails)
+    {
+        // Gather the needed information for populating the email template
+        $userDetail = $this->members->getMemberById($requestDetails["sr_member"]);
+        $teamMembers = $this->teams->getTeamByProjectId($requestDetails["sr_project"]);
+
+
+        $mail = $this->container->getNotification();
+
+        $emailSubject = $this->strings["support"] . ": " . $requestDetails["sr_subject"];
+
+        $emailMessage = <<<EMAIL_MESSAGE
+{$this->strings["noti_support_status2"]}
+
+{$this->strings["id"]} : {$requestDetails["sr_id"]}
+{$this->strings["subject"]} : {$requestDetails["sr_subject"]}
+{$this->strings["status"]} : {$this->requestStatus[$requestDetails["sr_status"]]}
+{$this->strings["details"]} : 
+
+EMAIL_MESSAGE;
+
+        $from = [
+            'email' => $userDetail["mem_email_work"],
+            'name' => $userDetail["mem_name"]
+        ];
+
+        try {
+            // We want to send a notification to all team members so everyone is informed and anyone can respond if needed.
+            foreach ($teamMembers as $teamMember) {
+                // If there is no email address, then skip it
+                if ($teamMember["tea_mem_email_work"]) {
+
+                    $to = [
+                        'email' => $teamMember["tea_mem_email_work"],
+                        'name' => $teamMember["tea_mem_name"]
+                    ];
+
+                    if ($teamMember["tea_mem_profil"] == 3) {
+                        $link = "$this->root/general/login.php?url=projects_site/home.php%3Fproject=" . $requestDetails["sr_project"] . "\n\n";
+                    } else {
+                        $link = "$this->root/general/login.php?url=support/viewrequest.php%3Fid={$requestDetails["sr_id"]}\n\n";
+                    }
+
+                    $mail->sendMessage($to, $from, $emailSubject, $emailMessage . $link);
                 }
             }
         } catch (Exception $e) {
@@ -357,5 +416,61 @@ MAILBODY;
             throw new Exception('Error sending mail');
         }
 
+    }
+
+    /**
+     * @param array $requestDetails
+     * @param array $userDetails
+     * @param string $subject
+     * @param string $opener
+     * @throws Exception
+     */
+    public function sendNewRequestNotification(array $requestDetails, array $userDetails, string $subject, string $opener)
+    {
+        $mail = $this->container->getNotificationService();
+
+        $emailData = array(
+            "%opener%" => $opener,
+            '%user_name%' => $userDetails["mem_name"],
+            '%sr_id%' => $requestDetails["sr_id"],
+            "%sr_subject%" => $requestDetails["sr_subject"],
+            "%sr_message%" => $requestDetails["sr_message"],
+            "%sr_priority%" => $GLOBALS["priority"][$requestDetails["sr_priority"]],
+            "%sr_status%" => $GLOBALS["status"][$requestDetails["sr_status"]],
+            "%site_name%" => $GLOBALS["setTitle"],
+            "%site_link%" => $GLOBALS["root"],
+            "%sr_link%" => ( $userDetails["mem_profil"] === "3" ) ?
+                "$this->root/general/login.php?url=projects_site/home.php%3Fproject={$requestDetails["sr_project"]}"
+                :
+                "$this->root/general/login.php?url=support/viewrequest.php%3Fid=" . $requestDetails["sr_id"]
+        );
+
+        if (!file_exists(APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/support_new_request.txt')) {
+            throw new FileNotFoundException("Error sending mail, no template (support_new_request)");
+        }
+
+
+        try {
+            $mail->setTemplate(file_get_contents(APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/support_new_request.txt'));
+
+            if ($mail->getTemplate()) {
+                $mail->populateTemplate($emailData);
+
+                $mail->setFromEmail($requestDetails["sr_mem_email_work"]);
+                $mail->setFromName($requestDetails["sr_mem_name"]);
+                $mail->setSubject($subject);
+                // This isn't setting...
+                if ($requestDetails["sr_priority"] >= "4") {
+                    $mail->setPriority("1");
+                }
+                $mail->setToEmail($userDetails["mem_email_work"]);
+                $mail->setToName($userDetails["mem_name"]);
+
+                $mail->sendEmail();
+
+            }
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 }

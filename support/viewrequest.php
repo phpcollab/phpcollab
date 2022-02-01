@@ -12,7 +12,7 @@ try {
     $logger->error('Exception', ['Error' => $exception->getMessage()]);
 }
 
-$id = $request->query->get('id');
+$requestId = $request->query->get('id');
 
 $strings = $GLOBALS["strings"];
 $status = $GLOBALS["status"];
@@ -28,9 +28,9 @@ if ($supportType == "admin") {
     }
 }
 
-$requestDetail = $support->getSupportRequestById($id);
+$requestDetail = $support->getSupportRequestById($requestId);
 
-$listPosts = $support->getSupportPostsByRequestId($id);
+$listPosts = $support->getSupportPostsByRequestId($requestId);
 
 $teamMember = "false";
 
@@ -52,7 +52,7 @@ if ($supportType == "team") {
 }
 $blockPage->itemBreadcrumbs($blockPage->buildLink("../support/listrequests.php?id=" . $requestDetail["sr_project"],
     $strings["support_requests"], "in"));
-$blockPage->itemBreadcrumbs($requestDetail["sr_subject"]);
+$blockPage->itemBreadcrumbs($escaper->escapeHtml($requestDetail["sr_subject"]));
 $blockPage->closeBreadcrumbs();
 
 if ($msg != "") {
@@ -70,7 +70,7 @@ if (isset($error) && $error != "") {
     $block1->contentError($error);
 }
 
-$block1->heading($strings["support_request"] . " : " . $requestDetail["sr_subject"]);
+$block1->heading($strings["support_request"] . " : " . $escaper->escapeHtml($requestDetail["sr_subject"]));
 if ($teamMember == "true" || $session->get("profile") == "0") {
     $block1->openPaletteIcon();
     $block1->paletteIcon(0, "edit", $strings["edit_status"]);
@@ -80,55 +80,60 @@ if ($teamMember == "true" || $session->get("profile") == "0") {
 $block1->openContent();
 $block1->contentTitle($strings["info"]);
 
-$comptSupStatus = count($requestStatus);
-for ($i = 0; $i < $comptSupStatus; $i++) {
-    if ($requestDetail["sr_status"] == $i) {
-        $status = $requestStatus[$i];
-    }
-}
 $priority = $GLOBALS["priority"];
-$comptPri = count($priority);
-$requestPriority = null;
-for ($i = 0; $i < $comptPri; $i++) {
-    if ($requestDetail["sr_priority"] == $i) {
-        $requestPriority = $priority[$i];
-    }
-}
 
 $block1->contentRow($strings["project"],
-    $blockPage->buildLink("../projects/viewproject.php?id=" . $requestDetail["sr_project"],
-        $requestDetail["sr_pro_name"], "in"));
-$block1->contentRow($strings["subject"], $requestDetail["sr_subject"]);
-$block1->contentRow($strings["priority"], $requestPriority);
-$block1->contentRow($strings["status"], $status);
+    $blockPage->buildLink(
+        "../projects/viewproject.php?id=" . $requestDetail["sr_project"],
+        $requestDetail["sr_pro_name"],
+        "in"
+    ));
+$block1->contentRow($strings["subject"], $escaper->escapeHtml($requestDetail["sr_subject"]));
+$block1->contentRow($strings["priority"], $priority[$requestDetail["sr_priority"]]);
+$block1->contentRow($strings["status"], $requestStatus[$requestDetail["sr_status"]]);
 $block1->contentRow($strings["date"], $requestDetail["sr_date_open"]);
 $block1->contentRow($strings["user"],
-    $blockPage->buildLink($requestDetail["sr_mem_email_work"], $requestDetail["sr_mem_name"], "mail"));
-$block1->contentRow($strings["message"], nl2br($requestDetail["sr_message"]));
+    $blockPage->buildLink(
+        $requestDetail["sr_mem_email_work"],
+        $requestDetail["sr_mem_name"],
+        "mail"
+    )
+);
+$block1->contentRow($strings["message"], nl2br($escaper->escapeHtml($requestDetail["sr_message"])));
 
 $block1->contentTitle($strings["responses"]);
 
 if ($teamMember == "true" || $session->get("profile") != "0") {
     $block1->contentRow("",
         $blockPage->buildLink("../support/addpost.php?id=" . $requestDetail["sr_id"], $strings["add_support_response"],
-            "in"));
+            "in", 'formLabel'));
 }
 
 foreach ($listPosts as $post) {
     if (!empty($post["sp_mem_email_work"])) {
         $block1->contentRow($strings["posted_by"],
-            $blockPage->buildLink($post["sp_mem_email_work"], $post["sp_mem_name"], "mail"));
+            $blockPage->buildLink(
+                $escaper->escapeHtml($post["sp_mem_email_work"]),
+                $escaper->escapeHtml($post["sp_mem_name"]),
+                "mail"
+            ));
     } else {
-        $block1->contentRow($strings["posted_by"], $post["sp_mem_name"]);
+        $block1->contentRow($strings["posted_by"], $escaper->escapeHtml($post["sp_mem_name"]));
     }
 
     $block1->contentRow($strings["date"], phpCollab\Util::createDate($post["sp_date"], $session->get('timezone')));
 
     if ($teamMember == "true" || $session->get("profile") == "0") {
-        $block1->contentRow($blockPage->buildLink("../support/deleterequests.php?action=deleteP&id=" . $post["sp_id"],
-            $strings["delete_message"], "in"), nl2br($post["sp_message"]));
+        $block1->contentRow(
+            $blockPage->buildLink(
+                "../support/deleterequests.php?action=deletePost&id=" . $post["sp_id"],
+                $strings["delete_message"],
+                "in"
+            ),
+            nl2br($escaper->escapeHtml($post["sp_message"]))
+        );
     } else {
-        $block1->contentRow("", nl2br($post["sp_message"]));
+        $block1->contentRow("", nl2br($escaper->escapeHtml($post["sp_message"])));
     }
     $block1->contentRow("", "", "true");
 }
@@ -143,10 +148,10 @@ if ($status == $requestStatus[0]) {
 
 $block1->closeContent();
 $block1->openPaletteScript();
-$block1->paletteScript(0, "edit", "../support/addpost.php?action=status&id=" . $requestDetail["sr_id"] . "",
+$block1->paletteScript(0, "edit", "../support/addpost.php?action=status&id=" . $requestDetail["sr_id"],
     "true,true,true", $strings["edit_status"]);
 $block1->paletteScript(1, "remove",
-    "../support/deleterequests.php?action=deleteR&sendto=$status&id=" . $requestDetail["sr_id"] . "", "true,true,true",
+    "../support/deleterequests.php?action=deleteRequest&sendto=$status&id=" . $requestDetail["sr_id"], "true,true,true",
     $strings["delete"]);
 $block1->closePaletteScript(count($requestDetail), array_column($requestDetail, 'sr_id'));
 $block1->closeForm();

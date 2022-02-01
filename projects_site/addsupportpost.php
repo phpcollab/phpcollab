@@ -27,20 +27,22 @@ if ($request->isMethod('post')) {
     try {
         if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
             if ($request->query->get('action') == "add") {
-                $message = phpCollab\Util::convertData($request->request->get('response_message'));
 
-                if (!empty($message)) {
-                    $newPostId = $support->addSupportPost($id, $message, $dateheure, $session->get("id"),
+                if (!empty($request->request->get('response_message'))) {
+                    $newResponse = $support->addResponse(
+                        $id,
+                        $request->request->get('response_message'),
+                        $dateheure,
+                        $session->get("id"),
                         $requestDetail["sr_project"]);
 
                     if ($notifications == "true") {
                         // Gather additional information for the notification
-                        $postDetail = $support->getSupportPostById($newPostId);
-                        $requestDetail = $support->getSupportRequestById($postDetail["sp_request_id"]);
+                        $requestDetail = $support->getSupportRequestById($newResponse["sp_request_id"]);
                         $userDetail = $members->getMemberById($requestDetail["sr_member"]);
 
                         try {
-                            $support->sendNewPostNotification($requestDetail, $postDetail, $userDetail);
+                            $support->sendNewPostNotification($requestDetail, $newResponse, $userDetail);
                         } catch (Exception $e) {
                             $logger->error('Project Site (add support post)', ['Exception message', $e->getMessage()]);
                             $error = $strings["action_not_allowed"];
@@ -89,11 +91,11 @@ echo <<<FORM
     </tr>
     <tr>
         <th style="vertical-align: top"><label for="response_message" >{$strings["message"]}</label></th>
-        <td><textarea required rows="3" style="width: 400px; height: 200px;" name="response_message" id="response_message" cols="43">{$request->request->get('response_message')}</textarea></td>
+        <td><textarea required="required" rows="3" style="width: 400px; height: 200px;" name="response_message" id="response_message" cols="43">{$escaper->escapeHtml($request->request->get('response_message'))}</textarea></td>
     </tr>
     <tr>
         <th>&nbsp;</th>
-        <td><input type="SUBMIT" value="{$strings["submit"]}"></td>
+        <td><input type="submit" value="{$strings["submit"]}"></td>
     </tr>
 </table>
     <input type="hidden" name="user" value="{$session->get("id")}">

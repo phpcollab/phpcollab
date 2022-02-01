@@ -20,9 +20,9 @@ $requestDetail = $support->getSupportRequestById($id);
 
 if ($requestDetail["sr_project"] != $session->get("project") || $requestDetail["sr_member"] != $session->get("id")) {
     if (!empty($requestDetail["sr_id"])) {
-        // The support request wasn't found. This can happen if the lastvisited page for a user is for
+        // The support request wasn't found. This can happen if the 'lastvisited' page for a user is for
         // a request that no longer exists. If this happens the user gets stuck in a login loop and can't
-        // login.
+        // log in.
         $members->setLastPageVisitedByLogin($session->get('login'), '');
     }
     phpCollab\Util::headerFunction("index.php");
@@ -34,38 +34,26 @@ $bouton[6] = "over";
 $titlePage = $strings["support"];
 include 'include_header.php';
 
-echo "<table style='width: 90%' class='nonStriped'><tr><th colspan='4'>" . $strings["information"] . ":</th></tr>";
-
-$comptSupStatus = count($requestStatus);
-for ($i = 0; $i < $comptSupStatus; $i++) {
-    if ($requestDetail["sr_status"] == $i) {
-        $requestStatus = $requestStatus[$i];
-    }
-}
-
-$comptPri = count($priority);
-for ($i = 0; $i < $comptPri; $i++) {
-    if ($requestDetail["sr_priority"] == $i) {
-        $requestPriority = $priority[$i];
-    }
-}
-
-echo <<< TR
+echo <<<HTML
+ <table style="width: 90%" class="nonStriped">
+    <tr>
+        <th colspan="4">{$strings["information"]}:</th>
+    </tr>
     <tr>
         <th>{$strings["support_id"]}:</th>
         <td>{$requestDetail["sr_id"]}</td>
         <th>{$strings["status"]}:</th>
-        <td>$requestStatus</td>
+        <td>{$requestStatus[$requestDetail["sr_status"]]}</td>
     </tr>
     <tr>
         <th>{$strings["subject"]}:</th>
-        <td>{$requestDetail["sr_subject"]}</td>
+        <td>{$escaper->escapeHtml($requestDetail["sr_subject"])}</td>
         <th>{$strings["priority"]}:</th>
-        <td>$requestPriority</td>
+        <td>{$priority[$requestDetail["sr_priority"]]}</td>
     </tr>
     <tr>
         <th>{$strings["message"]}:</th>
-        <td>{$requestDetail["sr_message"]}</td>
+        <td>{$escaper->escapeHtml($requestDetail["sr_message"])}</td>
         <th>&nbsp;</th>
         <td>&nbsp;</td>
     </tr>
@@ -75,10 +63,17 @@ echo <<< TR
         <th>&nbsp;</th>
         <td>&nbsp;</td>
     </tr>
-TR;
+HTML;
 
 if ($requestDetail["sr_status"] == "2") {
-    echo "<tr><th>" . $strings["date_close"] . " :</th><td>" . $requestDetail["sr_date_close"] . "</td><th>&nbsp;</th><td>&nbsp;</td></tr>";
+    echo <<<HTML
+    <tr>
+        <th>{$strings["date_close"]} :</th>
+        <td>{$requestDetail["sr_date_close"]}</td>
+        <th>&nbsp;</th>
+        <td>&nbsp;</td>
+    </tr>
+HTML;
 }
 
 echo <<<HTML
@@ -102,18 +97,37 @@ if ($postDetail) {
         } else {
             $class = "even";
         }
-
-        echo '<tr class="' . $class . '"><td colspan="4">-- -- &nbsp;</td></tr>';
-        echo '<tr class="' . $class . '"><th>' . $strings["date"] . ' :</th><td colspan="3">' . $post["sp_date"] . '</td></tr>';
-
         $ownerDetail = $members->getMemberById($post["sp_owner"]);
 
-        echo '<tr class="' . $class . '"><th>' . $strings["posted_by"] . ' :</th><td colspan="3">' . $ownerDetail["mem_name"] . '</td></tr>';
-        echo '<tr class="' . $class . '"><th>' . $strings["message"] . ' :</th><td colspan="3">' . nl2br($post["sp_message"]) . '</td></tr>';
+        $responseMessage = nl2br( $escaper->escapeHtml($post["sp_message"]) );
+
+        echo <<<HTML
+            <tr class="{$class}">
+                <td colspan="4">&nbsp;</td>
+            </tr>
+            <tr class="{$class}">
+                <th>{$strings["date"]} :</th>
+                <td colspan="3">{$post["sp_date"]}</td>
+            </tr>
+            <tr class="{$class}">
+                <th>{$strings["posted_by"]} :</th>
+                <td colspan="3">{$ownerDetail["mem_name"]}</td>
+            </tr>
+            <tr class="{$class}">
+                <th>{$strings["message"]} :</th>
+                <td colspan="3">$responseMessage</td>
+            </tr>
+
+HTML;
     }
 } else {
-    echo "<tr><td colspan='4' class='ListOddRow'>" . $strings["no_items"] . "</td></tr>";
+    echo <<<HTML
+    <tr>
+        <td colspan="4" class="ListOddRow">{$strings["no_items"]}</td>
+    </tr>
+HTML;
 }
+
 echo "</table>";
 
 include("include_footer.php");
