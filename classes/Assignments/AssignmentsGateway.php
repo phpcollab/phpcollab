@@ -52,6 +52,32 @@ SQL;
     }
 
     /**
+     * @param $subtaskId
+     * @param $taskOwner
+     * @param $assignedTo
+     * @param $assignedDate
+     * @param null $comments
+     * @return string
+     */
+    public function addSubtaskAssignment($subtaskId, $taskOwner, $assignedTo, $assignedDate, $comments = null): string
+    {
+        $sql = <<<SQL
+INSERT INTO {$this->db->getTableName("assignments")} 
+(subtask, owner, assigned_to, assigned, comments) 
+VALUES 
+(:subtask, :owner, :assigned_to, :assigned, :comments)
+SQL;
+        $this->db->query($sql);
+        $this->db->bind(":subtask", $subtaskId);
+        $this->db->bind(":owner", $taskOwner);
+        $this->db->bind(":assigned_to", $assignedTo);
+        $this->db->bind(":assigned", $assignedDate);
+        $this->db->bind(":comments", $comments);
+        $this->db->execute();
+        return $this->db->lastInsertId();
+    }
+
+    /**
      * @param $assignmentId
      * @param $comment
      * @return mixed

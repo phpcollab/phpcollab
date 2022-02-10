@@ -39,6 +39,19 @@ class Assignments
     }
 
     /**
+     * @param $subtaskId
+     * @param $taskOwner
+     * @param $assignedTo
+     * @param $assignedDate
+     * @param null $comments
+     * @return string
+     */
+    public function assignSubtask($subtaskId, $taskOwner, $assignedTo, $assignedDate, $comments = null): string
+    {
+        return $this->assignments_gateway->addSubtaskAssignment($subtaskId, $taskOwner, $assignedTo, $assignedDate, $comments);
+    }
+
+    /**
      * @param $taskId
      * @param null $sorting
      * @return mixed

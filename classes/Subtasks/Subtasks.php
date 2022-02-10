@@ -59,7 +59,7 @@ class Subtasks
      * @param string $comments
      * @param int $completion
      * @param int $published
-     * @return string
+     * @return array
      */
     public function add(
         int $parentTaskId,
@@ -76,11 +76,12 @@ class Subtasks
         string $comments,
         int $completion,
         int $published
-    ): string {
+    ): array {
         $created = date('Y-m-d h:i');
-        return $this->subtasks_gateway->addSubtask($parentTaskId, $name, $description, $owner, $assignedTo, $status,
+        $id = $this->subtasks_gateway->addSubtask($parentTaskId, $name, $description, $owner, $assignedTo, $status,
             $priority,
             $startDate, $dueDate, $estimatedTime, $actualTime, $comments, $completion, $published, $created);
+        return $this->getById($id);
     }
 
     /**
@@ -164,8 +165,8 @@ class Subtasks
 
     /**
      * string
-     * @param $subtaskDetails
      * @param $notification
+     * @param $subtaskDetails
      * array * @param $projectDetails
      * @param Session $session
      * @param Logger $logger
