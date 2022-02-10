@@ -5,4 +5,4 @@ $I->amOnPage('/general/sendpassword.php');
 $I->fillField(['name' => 'username'], 'deleteUser1');
 $I->click('input[type="submit"]');
 $I->seeInCurrentUrl('/general/sendpassword.php');
-$I->see('If the user you specified exists in our system, we will send a password to their email address.', '.message');
+$I->see('If the user you specified exists in our system, we will send an email with instructions on resetting your password.', '.message');
