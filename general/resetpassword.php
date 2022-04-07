@@ -8,7 +8,7 @@ $checkSession = "false";
 require_once '../includes/library.php';
 
 // See if there is a token in the URL
-$token = $request->query->get("token") ;
+$token = $request->query->get("token") ?? $request->request->get("token");
 
 // If no token, then it is an invalid link.  Redirect to the login page
 if (!$token) {
@@ -100,7 +100,7 @@ include APP_ROOT . '/views/layout/header.php';
 $block1 = new phpCollab\Block();
 
 $block1->form = "password";
-$block1->openForm("../general/sendpassword.php", null, $csrfHandler);
+$block1->openForm("../general/resetpassword.php", null, $csrfHandler);
 
 echo '<input value="' . $token . '" type="hidden" name="token">';
 
