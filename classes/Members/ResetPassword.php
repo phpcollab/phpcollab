@@ -63,7 +63,7 @@ class ResetPassword extends Members
                  * If it has not expired, then display message saying an email has already been sent and to check their
                  * mailbox
                  */
-                if ($this->token && $this->isTimestampExpired($this->timestamp, $times['tokenLifespan'])) {
+                if (!$this->token || $this->isTimestampExpired($this->timestamp, $times['tokenLifespan'])) {
                     // Generate a token
                     $this->logger->info('Reset Password', ['Method' => 'forgotPassword', 'Call' => 'generateToken']);
                     if ($this->generateToken($this->userDetails["id"]) && !empty($this->token)) {
@@ -122,7 +122,7 @@ class ResetPassword extends Members
 
                 // If we have userDetails, token, and timestamp, and the timestamp has not expired, then proceed with resetting the password.
                 if ($this->userDetails && $this->token && $this->timestamp) {
-                    if ($this->isTimestampExpired($this->timestamp)) {
+                    if (!$this->isTimestampExpired($this->timestamp)) {
                         // Might need to refactor the below code to put into another method.
                         $this->resetPassword($this->userDetails["id"], $request->request->get("password"));
                     } else {
@@ -223,9 +223,6 @@ SQL;
             $userDetails = $this->db->single();
             if ($userDetails && $userDetails["token"]) {
                 $this->userDetails = $userDetails;
-                $this->token = explode('|', $this->userDetails["token"])[0];
-                $this->timestamp = new DateTime(explode('|', $this->userDetails["token"])[1]);
-
             }
         } catch (Exception $exception) {
             $this->logger->error('Unable to retrieve information by login', [
