@@ -23,7 +23,6 @@ try {
         }
 
         if ( $session->get('auth') === true ) {
-            $foo = 'bar';
             phpCollab\Util::headerFunction("general/home.php");
         }
 
