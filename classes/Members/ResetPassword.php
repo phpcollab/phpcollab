@@ -50,10 +50,16 @@ class ResetPassword extends Members
         }
 
         try {
-            $this->getByLogin($username);
+            // Retrieve the member record by their username
+            $this->userDetails = $this->getByLogin($username);
 
             // If there is no email, then no need to proceed since we have no way of contacting the user.
-            if ($this->userDetails["email_work"] != "") {
+            if (
+                $this->userDetails
+                && $this->userDetails["email_work"] != ""
+            ) {
+
+
                 $this->populateToken();
                 $this->populateTimestamp();
 
@@ -63,15 +69,20 @@ class ResetPassword extends Members
                  * If it has not expired, then display message saying an email has already been sent and to check their
                  * mailbox
                  */
-                if ($this->token && $this->isTimestampExpired($this->timestamp, $times['tokenLifespan'])) {
+                if (
+                    !$this->token
+                    || $this->isTimestampExpired($this->timestamp, $times['tokenLifespan'])
+                ) {
                     // Generate a token
                     $this->logger->info('Reset Password', ['Method' => 'forgotPassword', 'Call' => 'generateToken']);
+
                     if ($this->generateToken($this->userDetails["id"]) && !empty($this->token)) {
                         $this->logger->info('Reset Password - call sendTokenEmail');
                         $this->sendTokenEmail();
                     }
                     return true;
                 }
+                die('why?');
                 throw new TooManyPasswordResetAttempts();
 
             } else {
@@ -115,19 +126,25 @@ class ResetPassword extends Members
     {
         $this->logger->notice('Reset Password', ['Method' => 'validate']);
         try {
-            if (!empty($request) && !empty($request->request->get("token")) && !empty($request->request->get("password")) && !empty($request->request->get("passwordConfirm"))) {
+            if (
+                !empty($request)
+                && !empty($request->request->get("token"))
+                && !empty($request->request->get("password"))
+                && !empty($request->request->get("passwordConfirm"))
+            ) {
                 $this->getByToken($request->request->get("token"));
                 $this->populateToken();
                 $this->populateTimestamp();
 
                 // If we have userDetails, token, and timestamp, and the timestamp has not expired, then proceed with resetting the password.
                 if ($this->userDetails && $this->token && $this->timestamp) {
+                    // Check to see if the timestamp has expired, if false then call resetPassword
                     if ($this->isTimestampExpired($this->timestamp)) {
                         // Might need to refactor the below code to put into another method.
-                        $this->resetPassword($this->userDetails["id"], $request->request->get("password"));
-                    } else {
                         throw new TooManyPasswordResetAttempts();
                     }
+
+                    $this->resetPassword($this->userDetails["id"], $request->request->get("password"));
                 }
             }
         } catch (Exception $exception) {
@@ -208,6 +225,7 @@ SQL;
     }
 
     /**
+     * This takes the token and retrieves the associated DB record
      * @param string $token
      * @throws TokenNotExpiredException
      */
@@ -221,7 +239,10 @@ SQL;
             $this->db->bind(":token", $token . '%');
             $this->db->execute();
             $userDetails = $this->db->single();
-            if ($userDetails && $userDetails["token"]) {
+            if (
+                $userDetails
+                && $userDetails["token"]
+            ) {
                 $this->userDetails = $userDetails;
                 $this->token = explode('|', $this->userDetails["token"])[0];
                 $this->timestamp = new DateTime(explode('|', $this->userDetails["token"])[1]);
@@ -252,7 +273,8 @@ SQL;
             $userDetails = $this->db->single();
 
             if ($userDetails) {
-                $this->userDetails = $userDetails;
+//                $this->userDetails = $userDetails;
+                return $userDetails;
             }
         } catch (Exception $exception) {
             $this->logger->error('Unable to retrieve information by login', [
@@ -291,6 +313,7 @@ SQL;
     {
         $this->logger->notice('Reset Password', ['Method' => 'validateTimestamp']);
         $now = new DateTime('now');
+
         return (floor( abs( $now->getTimestamp() - $timestamp->getTimestamp() ) / 60) > $offset);
     }
 
