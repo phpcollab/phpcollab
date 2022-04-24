@@ -50,7 +50,7 @@ if ($request->isMethod('post')) {
                     $session->set('passwordSentTimestamp', new DateTime('now'));
                     $session->getFlashBag()->add(
                         'message',
-                        $strings["send_password_phrase"]
+                        sprintf($strings["send_password_phrase"], $timeBetweenAttempts)
                     );
 
                     // Email should have been sent, so redirect to the login page
