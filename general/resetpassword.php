@@ -8,7 +8,7 @@ $checkSession = "false";
 require_once '../includes/library.php';
 
 // See if there is a token in the URL
-$token = $request->query->get("token") ;
+$token = $request->query->get("token") ?? $request->request->get("token");
 
 // If no token, then it is an invalid link.  Redirect to the login page
 if (!$token) {
@@ -19,11 +19,13 @@ if ($request->isMethod('post')) {
     try {
         if ($csrfHandler->isValid($request->request->get("csrf_token"))) {
             // If it is a post, check that the token is submitted
-            if (!empty($request->request->get("token")) &&
+            if (
+                !empty($request->request->get("token")) &&
                 !empty($request->request->get("password")) &&
-                !empty($request->request->get("passwordConfirm"))) {
+                !empty($request->request->get("passwordConfirm"))
+            ) {
 
-                if (empty($request->request->get("password"))) {
+                if ( empty($request->request->get("password")) ) {
                     $session->getFlashBag()->add(
                         'errors',
                         $strings["login_password"]
@@ -31,7 +33,7 @@ if ($request->isMethod('post')) {
 
                 }
 
-                if (empty($request->request->get("passwordConfirm"))) {
+                if ( empty($request->request->get("passwordConfirm")) ) {
                     $session->getFlashBag()->add(
                         'errors',
                         $strings["password_confirm_blank"]
@@ -39,7 +41,7 @@ if ($request->isMethod('post')) {
 
                 }
 
-                if ($request->request->get("password") !== $request->request->get("passwordConfirm")) {
+                if ( $request->request->get("password") !== $request->request->get("passwordConfirm") ) {
                     $session->getFlashBag()->add(
                         'errors',
                         $strings["new_password_error"]
@@ -56,6 +58,7 @@ if ($request->isMethod('post')) {
                     $resetPassword = $container->getResetPasswordService();
                     $resetPassword->validate($request);
                 }
+
                 // Password was saved, so add success message and redirect to login page.
                 $session->getFlashBag()->add(
                     'message',
@@ -100,7 +103,7 @@ include APP_ROOT . '/views/layout/header.php';
 $block1 = new phpCollab\Block();
 
 $block1->form = "password";
-$block1->openForm("../general/sendpassword.php", null, $csrfHandler);
+$block1->openForm("../general/resetpassword.php", null, $csrfHandler);
 
 echo '<input value="' . $token . '" type="hidden" name="token">';
 

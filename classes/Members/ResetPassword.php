@@ -9,6 +9,7 @@ use InvalidArgumentException;
 use Monolog\Logger;
 use phpCollab\Container;
 use phpCollab\Database;
+use phpCollab\Exceptions\MissingOrInvalidEmailAddress;
 use phpCollab\Exceptions\SendNotificationFailException;
 use phpCollab\Exceptions\TimestampInvalidException;
 use phpCollab\Exceptions\TooManyPasswordResetAttempts;
@@ -19,9 +20,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ResetPassword extends Members
 {
-    private $userDetails;
-    private $token;
-    private $timestamp;
+    private ?array $userDetails;
+    private ?string $token;
+    private ?DateTime $timestamp;
 
     /**
      * ResetPassword constructor.
@@ -50,35 +51,55 @@ class ResetPassword extends Members
         }
 
         try {
-            $this->getByLogin($username);
+            // Retrieve the member record by their username
+            $this->userDetails = $this->getByLogin($username);
 
-            // If there is no email, then no need to proceed since we have no way of contacting the user.
-            if ($this->userDetails["email_work"] != "") {
-                $this->populateToken();
-                $this->populateTimestamp();
-
-                /*
-                 * Check to see if there is a token already, if so, then we need to validate the timestamp from the
-                 * previous token to see if it has expired or not.  If it has expired, then generate a new token.
-                 * If it has not expired, then display message saying an email has already been sent and to check their
-                 * mailbox
-                 */
-                if ($this->token && $this->isTimestampExpired($this->timestamp, $times['tokenLifespan'])) {
-                    // Generate a token
-                    $this->logger->info('Reset Password', ['Method' => 'forgotPassword', 'Call' => 'generateToken']);
-                    if ($this->generateToken($this->userDetails["id"]) && !empty($this->token)) {
-                        $this->logger->info('Reset Password - call sendTokenEmail');
-                        $this->sendTokenEmail();
-                    }
-                    return true;
-                }
-                throw new TooManyPasswordResetAttempts();
-
-            } else {
+            if ( empty($this->userDetails) ) {
                 $this->logger->warning('Reset Password',
                     ['Method' => 'forgotPassword', 'Member not found for username:' => $username]);
                 throw new UserNotFoundException();
             }
+
+            // If there is no email, or it is invalid, then no need to proceed since we have no way of contacting the user.
+            if (
+                empty($this->userDetails["email_work"])
+                || !filter_var($this->userDetails["email_work"], FILTER_VALIDATE_EMAIL))
+            {
+                throw new MissingOrInvalidEmailAddress();
+            }
+
+            // If there is a token, then populate the token and timestamp
+            if ($this->userDetails["token"]) {
+                $this->token = $this->populateToken();
+                $this->timestamp = $this->populateTimestamp();
+            }
+
+            /*
+             * Check to see if there is a token, if so, then we need to validate the timestamp from the
+             * previous token to see if it has expired or not.  If it has expired, then generate a new token.
+             * If it has not expired, then display message saying an email has already been sent and to check their
+             * mailbox
+             */
+            if ( empty($this->token) || $this->isTimestampExpired($this->timestamp, $times['tokenLifespan'])) {
+                // Generate a token
+                $this->logger->info('Reset Password', [
+                    'user' => [
+                        'userId' => $this->userDetails["id"],
+                        'userName' => $this->userDetails["login"],
+                    ],
+                    'Method' => 'forgotPassword',
+                    'Caller' => 'generateToken'
+                ]);
+
+                if ($this->generateToken($this->userDetails["id"]) && !empty($this->token)) {
+                    $this->logger->info('Reset Password - call sendTokenEmail');
+                    $this->sendTokenEmail();
+                }
+
+                return true;
+            }
+
+            throw new TooManyPasswordResetAttempts();
 
         } catch (TooManyPasswordResetAttempts $tooManyPasswordResetAttempts) {
             throw $tooManyPasswordResetAttempts;
@@ -106,6 +127,7 @@ class ResetPassword extends Members
             throw new Exception($exception->getMessage());
         }
     }
+
     /**
      * This method takes in the Request object and uses the token to retrieve the user information
      * @param Request $request
@@ -114,20 +136,44 @@ class ResetPassword extends Members
     public function validate(Request $request)
     {
         $this->logger->notice('Reset Password', ['Method' => 'validate']);
-        try {
-            if (!empty($request) && !empty($request->request->get("token")) && !empty($request->request->get("password")) && !empty($request->request->get("passwordConfirm"))) {
-                $this->getByToken($request->request->get("token"));
-                $this->populateToken();
-                $this->populateTimestamp();
 
-                // If we have userDetails, token, and timestamp, and the timestamp has not expired, then proceed with resetting the password.
-                if ($this->userDetails && $this->token && $this->timestamp) {
-                    if ($this->isTimestampExpired($this->timestamp)) {
-                        // Might need to refactor the below code to put into another method.
-                        $this->resetPassword($this->userDetails["id"], $request->request->get("password"));
-                    } else {
-                        throw new TooManyPasswordResetAttempts();
-                    }
+        try {
+            if (
+                empty($request)
+                || (
+                    empty($request->request->get("token"))
+                    || empty($request->request->get("password"))
+                    || empty($request->request->get("passwordConfirm"))
+                )
+            ) {
+                throw new InvalidArgumentException('missing token, password, or passwordConfirm');
+            }
+
+            $this->userDetails = $this->getByToken($request->request->get("token"));
+
+            $this->logger->info('Reset Password', [
+                'user' => [
+                    'userId' => $this->userDetails["id"],
+                    'userName' => $this->userDetails["login"],
+                ],
+                'Method' => 'validate',
+            ]);
+
+            if (
+                !empty($this->userDetails["email_work"])
+                && !filter_var($this->userDetails["email_work"], FILTER_VALIDATE_EMAIL))
+            {
+                throw new MissingOrInvalidEmailAddress();
+            }
+
+            if ($this->userDetails["token"]) {
+                $this->token = $this->populateToken();
+                $this->timestamp = $this->populateTimestamp();
+
+                if (!$this->isTimestampExpired($this->timestamp)) {
+                    $this->resetPassword($this->userDetails["id"], $request->request->get("password"));
+                } else {
+                    throw new TooManyPasswordResetAttempts();
                 }
             }
         } catch (Exception $exception) {
@@ -209,6 +255,7 @@ SQL;
 
     /**
      * @param string $token
+     * @return false|mixed
      * @throws TokenNotExpiredException
      */
     private function getByToken(string $token)
@@ -221,12 +268,11 @@ SQL;
             $this->db->bind(":token", $token . '%');
             $this->db->execute();
             $userDetails = $this->db->single();
-            if ($userDetails && $userDetails["token"]) {
-                $this->userDetails = $userDetails;
-                $this->token = explode('|', $this->userDetails["token"])[0];
-                $this->timestamp = new DateTime(explode('|', $this->userDetails["token"])[1]);
 
+            if ($userDetails && $userDetails["token"]) {
+                return $userDetails;
             }
+            return false;
         } catch (Exception $exception) {
             $this->logger->error('Unable to retrieve information by login', [
                 'Exception' => $exception->getMessage(),
@@ -238,6 +284,7 @@ SQL;
 
     /**
      * @param string $login
+     * @return mixed|void
      * @throws TokenNotExpiredException
      */
     private function getByLogin(string $login)
@@ -252,7 +299,7 @@ SQL;
             $userDetails = $this->db->single();
 
             if ($userDetails) {
-                $this->userDetails = $userDetails;
+                return $userDetails;
             }
         } catch (Exception $exception) {
             $this->logger->error('Unable to retrieve information by login', [
@@ -263,23 +310,31 @@ SQL;
         }
     }
 
+    /**
+     * @return false|mixed|string
+     */
     private function populateToken()
     {
-        // Check to see if there is an existing token, if so then populate the token and timestamp properties
+        // Check to see if there is an existing token, if so then populate the token property
         if ($this->userDetails["token"]) {
-            $this->token = explode('|', $this->userDetails["token"])[0];
+            return explode('|', $this->userDetails["token"])[0];
         }
+        return false;
     }
 
+    /**
+     * @return DateTime|false
+     */
     private function populateTimestamp()
     {
-        // Check to see if there is an existing token, if so then populate the token and timestamp properties
+        // Check to see if there is an existing token, if so then populate the timestamp property
         if ($this->userDetails["token"]) {
             $timestamp = new DateTime();
             $timestamp->setTimestamp( explode('|', $this->userDetails["token"])[1] );
 
-            $this->timestamp = $timestamp;
+            return $timestamp;
         }
+        return false;
     }
 
     /**

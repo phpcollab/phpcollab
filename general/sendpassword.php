@@ -16,10 +16,14 @@ if ($request->isMethod('post')) {
                 $error = $strings["empty_field"];
             } else {
                 $resetPassword = $container->getResetPasswordService();
-                // Check to see if there is an existing SESSION value
 
+                // Check to see if the `timeBetweenAttempts` setting exists, if it does not then fall back to 15 minutes
                 $timeBetweenAttempts = !empty($resetPasswordTimes['timeBetweenAttempts']) ? $resetPasswordTimes['timeBetweenAttempts'] : 15;
 
+
+                /*
+                 * Check to see if there is an existing SESSION value
+                 */
                 if (
                     $session->has('passwordSentTimestamp')
                     && !$resetPassword->checkTimestamp(
@@ -30,6 +34,7 @@ if ($request->isMethod('post')) {
                     throw new TooManyPasswordResetAttempts();
                 }
 
+                // Call forgotPassword method
                 try {
                     $resetTimes = (
                         isset($resetPasswordTimes)
@@ -41,11 +46,16 @@ if ($request->isMethod('post')) {
                     ];
 
                     $resetPassword->forgotPassword($request->request->get('username'), $resetPasswordTimes);
+
                     $session->set('passwordSentTimestamp', new DateTime('now'));
                     $session->getFlashBag()->add(
                         'message',
-                        $strings["send_password_phrase"]
+                        sprintf($strings["send_password_phrase"], $timeBetweenAttempts)
                     );
+
+                    // Email should have been sent, so redirect to the login page
+                    phpCollab\Util::headerFunction("../general/login.php");
+
                 } catch (TooManyPasswordResetAttempts $tooManyPasswordResetAttempts) {
                     throw $tooManyPasswordResetAttempts;
                 } catch (TokenAlreadySentException $tokenAlreadySentException) {
