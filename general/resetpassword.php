@@ -8,7 +8,7 @@ $checkSession = "false";
 require_once '../includes/library.php';
 
 // See if there is a token in the URL
-$token = $request->query->get("token") || $request->request->get("token");
+$token = $request->query->get("token") ?? $request->request->get("token");
 
 // If no token, then it is an invalid link.  Redirect to the login page
 if (!$token) {

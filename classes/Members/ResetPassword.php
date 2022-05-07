@@ -170,7 +170,7 @@ class ResetPassword extends Members
                 $this->token = $this->populateToken();
                 $this->timestamp = $this->populateTimestamp();
 
-                if ($this->isTimestampExpired($this->timestamp)) {
+                if (!$this->isTimestampExpired($this->timestamp)) {
                     $this->resetPassword($this->userDetails["id"], $request->request->get("password"));
                 } else {
                     throw new TooManyPasswordResetAttempts();
