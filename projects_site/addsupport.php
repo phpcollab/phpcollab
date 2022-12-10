@@ -129,11 +129,11 @@ HTML;
         </tr>
         <tr>
             <th>{$strings["subject"]}</th>
-            <td><input size="32" value="{$escaper->escapeHtml($subject)}" style="width: 250px" name="subject" maxlength="64" type="text"></td>
+            <td><input size="32" value="{$escaper->escapeHtml($subject ?? "")}" style="width: 250px" name="subject" maxlength="64" type="text"></td>
         </tr>
         <tr>
             <th>{$strings["message"]}</th>
-            <td><textarea rows="3" style="width: 400px; height: 200px;" name="message" cols="43">{$escaper->escapeHtml($message)}</textarea></td>
+            <td><textarea rows="3" style="width: 400px; height: 200px;" name="message" cols="43">{$escaper->escapeHtml($message ?? "")}</textarea></td>
         </tr>
         <tr>
             <th>&nbsp;</th>
