@@ -19,7 +19,7 @@
     "ext-pdo": "*",
     "amenadiel/jpgraph": "^4.1",
     "apfelbox/php-file-download": "^2.1",
-    "guzzlehttp/guzzle": "^7.3",
+    "guzzlehttp/guzzle": "^7.5.1",
     "ifsnop/mysqldump-php": "^2.3",
     "laminas/laminas-escaper": "^2.8",
     "maximebf/debugbar": "^1.0",
