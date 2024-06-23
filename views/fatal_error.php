@@ -17,7 +17,7 @@ echo <<<EXCEPTION
     
     <script type="text/javascript" src="../javascript/general.js"></script>
     <script type="text/JavaScript" src="../javascript/overlib_mini.js"></script>
-    <link rel="stylesheet" href="../public/css/all.min.css">
+    <link rel="stylesheet" href="../public/css/fa-all.min.css">
     <link rel="stylesheet" href="../public/css/error_page.css">
 </head>
 <body id="error_page">
