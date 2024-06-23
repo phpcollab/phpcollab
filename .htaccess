@@ -1,27 +1,34 @@
-## Deny access to vendor sub directory
+# Deny access to the vendor subdirectory
 RedirectMatch 403 ^/vendor/?$
 
+# Set the level of error reporting to E_ALL (32767)
 php_value error_reporting 32767
 
+# Set the maximum depth that xdebug will display when var_dump() is called
 php_value xdebug.var_display_max_depth 5
+
+# Set the maximum number of children that xdebug will display when var_dump() is called
 php_value xdebug.var_display_max_children 256
+
+# Set the maximum amount of data (in bytes) that xdebug will display when var_dump() is called
 php_value xdebug.var_display_max_data 3000
 
-#    // Display errors
+# Enable the display of errors
 php_value display_errors 1
 
-#    // Log errors
-php_value log_errors', 1);
-#
-#    // No error lof message max
+# Enable the logging of errors
+php_value log_errors 1
+
+# Set the maximum length of an error message. 0 means no limit
 php_value log_errors_max_len 0
-#
-#    // pecify log file
+
+# Specify the path to the error log file
 php_value error_log ./logs/php_errors.log
 
+# Disable the use of transparent session IDs
 php_value session.use_trans_sid 0
 
-# prevent access to PHP error log
+# Deny access to the PHP error log file
 <Files php_errors.log>
  Order allow,deny
  Deny from all
