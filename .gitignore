@@ -46,3 +46,8 @@ tests/acceptance.suite.yml
 tests/functional.suite.yml
 tests/support/_generated
 tests/_support/_generated
+
+
+# JavaScript #
+##############
+node_modules/
