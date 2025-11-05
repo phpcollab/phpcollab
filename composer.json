@@ -28,6 +28,8 @@
     "ramsey/uuid": "^4.1",
     "rospdf/pdf-php": "^0.12",
     "sabre/vobject": "^4.3",
+    "symfony/config": "^5.3",
+    "symfony/dependency-injection": "^5.3",
     "symfony/filesystem": "^5.3",
     "symfony/http-foundation": "^5.3",
     "symfony/mime": "^5.3",

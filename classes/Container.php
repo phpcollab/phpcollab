@@ -52,10 +52,12 @@ use phpCollab\Teams\Teams;
 use phpCollab\Topics\Topics;
 use phpCollab\Tasks\TaskUpdates;
 use Sabre\VObject\Component\VCard;
+use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class Container
 {
+    private $symfonyContainer;
     private $database;
     private $configuration;
     private $language;
@@ -117,11 +119,36 @@ class Container
     }
 
     /**
+     * Set the Symfony DI Container for dependency injection
+     *
+     * @param SymfonyContainerBuilder $container
+     * @return void
+     */
+    public function setSymfonyContainer(SymfonyContainerBuilder $container): void
+    {
+        $this->symfonyContainer = $container;
+    }
+
+    /**
+     * Check if Symfony DI is enabled
+     *
+     * @return bool
+     */
+    private function isSymfonyDIEnabled(): bool
+    {
+        return $this->symfonyContainer !== null;
+    }
+
+    /**
      * @return Database
      * @throws Exception
      */
     public function getPDO(): Database
     {
+        if ($this->isSymfonyDIEnabled()) {
+            return $this->symfonyContainer->get(Database::class);
+        }
+
         if (null === $this->database) {
             try {
                 $this->database = new Database($this->configuration, $this->getLogger());
@@ -155,6 +182,10 @@ class Container
      */
     public function getLogger(int $level = 400): Logger
     {
+        if ($this->isSymfonyDIEnabled()) {
+            return $this->symfonyContainer->get(Logger::class);
+        }
+
         if (null === $this->logger) {
             try {
                 if (is_null($level)) {
@@ -266,6 +297,10 @@ class Container
      */
     public function getOrganizationsManager(): Organizations
     {
+        if ($this->isSymfonyDIEnabled()) {
+            return $this->symfonyContainer->get(Organizations::class);
+        }
+
         if (null === $this->organizationsManager) {
             $this->organizationsManager = new Organizations($this->getPDO(), $this->getEscaperService());
         }
@@ -348,6 +383,10 @@ class Container
      */
     public function getProjectsLoader(): Projects
     {
+        if ($this->isSymfonyDIEnabled()) {
+            return $this->symfonyContainer->get(Projects::class);
+        }
+
         if (null === $this->projectsLoader) {
             $this->projectsLoader = new Projects($this->getPDO(), $this->getEscaperService());
         }
@@ -382,6 +421,10 @@ class Container
      */
     public function getTasksLoader(): Tasks
     {
+        if ($this->isSymfonyDIEnabled()) {
+            return $this->symfonyContainer->get(Tasks::class);
+        }
+
         if (null === $this->tasksLoader) {
             $this->tasksLoader = new Tasks($this->getPDO(), $this);
         }
@@ -477,6 +520,10 @@ class Container
      */
     public function getMembersLoader(): Members
     {
+        if ($this->isSymfonyDIEnabled()) {
+            return $this->symfonyContainer->get(Members::class);
+        }
+
         if (null === $this->membersLoader) {
             $this->membersLoader = new Members($this->getPDO(), $this->getLogger(), $this);
         }
@@ -691,6 +738,10 @@ class Container
      */
     public function getEscaperService(): Escaper
     {
+        if ($this->isSymfonyDIEnabled()) {
+            return $this->symfonyContainer->get(Escaper::class);
+        }
+
         if (null === $this->escaperService) {
             $this->escaperService = new Escaper('utf-8');
         }
