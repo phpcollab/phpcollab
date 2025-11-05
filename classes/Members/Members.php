@@ -5,8 +5,8 @@ namespace phpCollab\Members;
 use Exception;
 use InvalidArgumentException;
 use Monolog\Logger;
-use phpCollab\Container;
 use phpCollab\Database;
+use phpCollab\Notification;
 use phpCollab\Util;
 
 /**
@@ -19,27 +19,23 @@ class Members
     protected $db;
     protected $strings;
     protected $logger;
-    /**
-     * @var Container
-     */
-    protected $container;
+    protected $notification;
 
     /**
      * Members constructor.
-     * @param Database $database
-     * @param Logger $logger
-     * @param Container $container
+     *
+     * Uses pure constructor injection - all dependencies are explicitly declared.
+     *
+     * @param Database $database Database connection
+     * @param Logger $logger Logger for recording member operations
+     * @param Notification $notification Service for sending member-related notifications
      */
-    public function __construct(Database $database, Logger $logger, Container $container)
+    public function __construct(Database $database, Logger $logger, Notification $notification)
     {
         $this->logger = $logger;
-
         $this->db = $database;
-
-        $this->container = $container;
-
+        $this->notification = $notification;
         $this->members_gateway = new MembersGateway($this->db);
-
         $this->strings = $GLOBALS["strings"];
     }
 
@@ -373,7 +369,7 @@ class Members
         $signature = null
     ) {
         if ($toEmail && $toName && $subject && $message) {
-            $mail = $this->container->getNotification();
+            $mail = $this->notification;
 
             try {
                 if (!is_null($signature)) {

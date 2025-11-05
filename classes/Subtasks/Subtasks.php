@@ -5,8 +5,9 @@ namespace phpCollab\Subtasks;
 
 use Exception;
 use Monolog\Logger;
-use phpCollab\Container;
 use phpCollab\Database;
+use phpCollab\Notifications\Notifications;
+use phpCollab\Notifications\SubtaskNotifications;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class Subtasks
@@ -20,16 +21,23 @@ class Subtasks
 
     /**
      * Subtasks constructor.
-     * @param Database $database
-     * @param Container $container
+     *
+     * Uses pure constructor injection - all dependencies are explicitly declared.
+     *
+     * @param Database $database Database connection
+     * @param Notifications $notifications Notifications manager for storing notification records
+     * @param SubtaskNotifications $subtaskNotifications Service for sending subtask-related notifications
      * @throws Exception
      */
-    public function __construct(Database $database, Container $container)
-    {
+    public function __construct(
+        Database $database,
+        Notifications $notifications,
+        SubtaskNotifications $subtaskNotifications
+    ) {
         $this->db = $database;
         $this->subtasks_gateway = new SubtasksGateway($this->db);
-        $this->notifications = $container->getNotificationsManager();
-        $this->subtaskNotifications = $container->getSubtasksNotificationsManager();
+        $this->notifications = $notifications;
+        $this->subtaskNotifications = $subtaskNotifications;
         $this->strings = $GLOBALS["strings"];
     }
 

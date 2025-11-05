@@ -4,9 +4,13 @@
 namespace phpCollab\Tasks;
 
 use Exception;
-use phpCollab\Container;
 use phpCollab\Database;
 use phpCollab\Exceptions\MissingTemplateException;
+use phpCollab\Notification;
+use phpCollab\Notifications\MailNotification;
+use phpCollab\Notifications\Notifications;
+use phpCollab\Projects\Projects;
+use phpCollab\Teams\Teams;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 /**
@@ -22,21 +26,42 @@ class Tasks
     private $root;
     private $priority;
     private $status;
-
-    /**
-     * @var Container
-     */
-    private Container $container;
+    private $mailNotification;
+    private $language;
+    private $projects;
+    private $teams;
+    private $notifications;
+    private $notification;
 
     /**
      * Tasks constructor.
-     * @param Database $database
-     * @param Container $container
+     *
+     * Uses pure constructor injection - all dependencies are explicitly declared.
+     *
+     * @param Database $database Database connection
+     * @param MailNotification $mailNotification Service for sending email notifications
+     * @param string $language Current language code (e.g., 'en', 'fr')
+     * @param Projects $projects Projects service for project operations
+     * @param Teams $teams Teams service for team operations
+     * @param Notifications $notifications Service for managing notification records
+     * @param Notification $notification Service for sending notifications
      */
-    public function __construct(Database $database, Container $container)
-    {
+    public function __construct(
+        Database $database,
+        MailNotification $mailNotification,
+        string $language,
+        Projects $projects,
+        Teams $teams,
+        Notifications $notifications,
+        Notification $notification
+    ) {
         $this->db = $database;
-        $this->container = $container;
+        $this->mailNotification = $mailNotification;
+        $this->language = $language;
+        $this->projects = $projects;
+        $this->teams = $teams;
+        $this->notifications = $notifications;
+        $this->notification = $notification;
         $this->tasks_gateway = new TasksGateway($this->db);
         $this->strings = $GLOBALS["strings"];
         $this->root = $GLOBALS["root"];
@@ -912,7 +937,7 @@ class Tasks
     public function sendTaskNotification(array $taskDetails, array $projectDetails, array $userDetails, string $subject, string $template)
     {
         if ($taskDetails && $projectDetails && $userDetails && $subject && !empty($projectDetails["pro_mem_email_work"])) {
-            $mail = $this->container->getNotificationService();
+            $mail = $this->mailNotification;
 
             // Items needed for all notifications
             $emailData = array(
@@ -938,31 +963,31 @@ class Tasks
                 // Read the email template
                 switch ($template) {
                     case "assignment":
-                        if (!file_exists(APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/task_assignment.txt')) {
+                        if (!file_exists(APP_ROOT . '/templates/email/' . $this->language . '/task_assignment.txt')) {
                             throw new FileNotFoundException("Error sending mail, no template ($template)");
                         }
-                        $mail->setTemplate( file_get_contents(APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/task_assignment.txt') );
+                        $mail->setTemplate( file_get_contents(APP_ROOT . '/templates/email/' . $this->language . '/task_assignment.txt') );
                         break;
                     case "status":
-                        if (!file_exists(APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/task_status_change.txt')) {
+                        if (!file_exists(APP_ROOT . '/templates/email/' . $this->language . '/task_status_change.txt')) {
                             throw new FileNotFoundException("Error sending mail, no template ($template)");
                         }
-                        $mail->setTemplate(file_get_contents(APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/task_status_change.txt'));
+                        $mail->setTemplate(file_get_contents(APP_ROOT . '/templates/email/' . $this->language . '/task_status_change.txt'));
                         $emailData["%old_status%"] = $taskDetails["task_old_status"];
                         break;
                     case "priority":
-                        if (!file_exists(APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/task_priority_change.txt')) {
-                            throw new MissingTemplateException("Error sending mail, template not found. (" . APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/task_priority_change.txt' . ")");
+                        if (!file_exists(APP_ROOT . '/templates/email/' . $this->language . '/task_priority_change.txt')) {
+                            throw new MissingTemplateException("Error sending mail, template not found. (" . APP_ROOT . '/templates/email/' . $this->language . '/task_priority_change.txt' . ")");
                         }
-                        $mail->setTemplate(file_get_contents(APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/task_priority_change.txt'));
+                        $mail->setTemplate(file_get_contents(APP_ROOT . '/templates/email/' . $this->language . '/task_priority_change.txt'));
                         $emailData["%old_priority%"] = $taskDetails["task_old_priority"];
 
                         break;
                     case "due_date":
-                        if (!file_exists(APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/task_due_date_change.txt')) {
+                        if (!file_exists(APP_ROOT . '/templates/email/' . $this->language . '/task_due_date_change.txt')) {
                             throw new FileNotFoundException("Error sending mail, no template ($template)");
                         }
-                        $mail->setTemplate(file_get_contents(APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/task_due_date_change.txt'));
+                        $mail->setTemplate(file_get_contents(APP_ROOT . '/templates/email/' . $this->language . '/task_due_date_change.txt'));
                         $emailData["%old_due_date%"] = $taskDetails["task_old_due_date"];
                         break;
                 }
@@ -996,9 +1021,9 @@ class Tasks
      */
     public function sendClientAddTaskNotification(array $taskDetails)
     {
-        $projects = $this->container->getProjectsLoader();
-        $teams = $this->container->getTeams();
-        $notifications = $this->container->getNotificationsManager();
+        $projects = $this->projects;
+        $teams = $this->teams;
+        $notifications = $this->notifications;
 
         /*
          *  Get the project details, specifically we need:
@@ -1031,7 +1056,7 @@ class Tasks
             /*
              * Start creating the mail notification
              */
-            $mail = $this->container->getNotification();
+            $mail = $this->notification;
 
             try {
                 $mail->setFrom($taskDetails["tas_mem2_email_work"], $taskDetails["tas_mem2_name"]);

@@ -66,7 +66,8 @@ return static function (ContainerConfigurator $container) {
     $container->parameters()
         ->set('app.root', '%env(APP_ROOT)%')
         ->set('app.log_level', 400)
-        ->set('app.log_path', '%app.root%/logs/phpcollab.log');
+        ->set('app.log_path', '%app.root%/logs/phpcollab.log')
+        ->set('app.language', 'en'); // Default language, can be overridden at runtime
 
     // Logger Factory
     $services->set(LoggerFactory::class);
@@ -117,11 +118,12 @@ return static function (ContainerConfigurator $container) {
         ->args([service(Database::class)])
         ->public();
 
+    // ✅ Refactored to use pure constructor injection
     $services->set(Members::class)
         ->args([
             service(Database::class),
             service(Logger::class),
-            service('service_locator.container')
+            service(Notification::class)
         ])
         ->public();
 
@@ -166,11 +168,17 @@ return static function (ContainerConfigurator $container) {
         ->args([service(Database::class)])
         ->public();
 
+    // ✅ Refactored to use pure constructor injection
     // Task-related Services
     $services->set(Tasks::class)
         ->args([
             service(Database::class),
-            service('service_locator.container')
+            service(MailNotification::class),
+            param('app.language'),
+            service(Projects::class),
+            service(Teams::class),
+            service(Notifications::class),
+            service(Notification::class)
         ])
         ->public();
 
@@ -185,11 +193,13 @@ return static function (ContainerConfigurator $container) {
         ])
         ->public();
 
+    // ✅ Refactored to use pure constructor injection
     // Subtask Services
     $services->set(Subtasks::class)
         ->args([
             service(Database::class),
-            service('service_locator.container')
+            service(Notifications::class),
+            service(SubtaskNotifications::class)
         ])
         ->public();
 
