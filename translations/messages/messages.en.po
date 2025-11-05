@@ -1,0 +1,2340 @@
+# phpCollab Translation File
+# Language: English (en)
+# Type: Lang
+# Domain: messages
+# Generated: 2025-11-05 21:01:07 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# String translations
+
+msgid "strings.please_login"
+msgstr "Please log in"
+
+msgid "strings.requirements"
+msgstr "System Requirements"
+
+msgid "strings.login"
+msgstr "Log In"
+
+msgid "strings.no_items"
+msgstr "No items to display"
+
+msgid "strings.logout"
+msgstr "Log Out"
+
+msgid "strings.preferences"
+msgstr "Preferences"
+
+msgid "strings.my_tasks"
+msgstr "My Tasks"
+
+msgid "strings.edit_task"
+msgstr "Edit Task"
+
+msgid "strings.copy_task"
+msgstr "Copy Task"
+
+msgid "strings.add_task"
+msgstr "Add Task"
+
+msgid "strings.delete_tasks"
+msgstr "Delete Tasks"
+
+msgid "strings.assignment_history"
+msgstr "Assignment History"
+
+msgid "strings.assigned_on"
+msgstr "Assigned On"
+
+msgid "strings.assigned_by"
+msgstr "Assigned By"
+
+msgid "strings.to"
+msgstr "To"
+
+msgid "strings.comment"
+msgstr "Comment"
+
+msgid "strings.task_assigned"
+msgstr "Task assigned to "
+
+msgid "strings.task_unassigned"
+msgstr "Task assigned to Unassigned (Unassigned)"
+
+msgid "strings.edit_multiple_tasks"
+msgstr "Edit Multiple Tasks"
+
+msgid "strings.tasks_selected"
+msgstr ""
+"tasks selected. Choose new values for these tasks, or select [No"
+"Change] to retain current values."
+
+msgid "strings.assignment_comment"
+msgstr "Assignment Comment"
+
+msgid "strings.no_change"
+msgstr "[No Change]"
+
+msgid "strings.my_discussions"
+msgstr "My Discussions"
+
+msgid "strings.discussions"
+msgstr "Discussions"
+
+msgid "strings.delete_discussions"
+msgstr "Delete Discussions"
+
+msgid "strings.delete_discussions_note"
+msgstr "Note: Discussions cannot be reopened once they are deleted."
+
+msgid "strings.topic"
+msgstr "Topic"
+
+msgid "strings.posts"
+msgstr "Posts"
+
+msgid "strings.latest_post"
+msgstr "Latest Post"
+
+msgid "strings.my_reports"
+msgstr "My Reports"
+
+msgid "strings.reports"
+msgstr "Reports"
+
+msgid "strings.create_report"
+msgstr "Create Report"
+
+msgid "strings.report_intro"
+msgstr ""
+"Select your task reporting parameters here and save the query on the"
+"results page after running your report."
+
+msgid "strings.admin_intro"
+msgstr "Project settings and configuration."
+
+msgid "strings.copy_of"
+msgstr "Copy of "
+
+msgid "strings.add"
+msgstr "Add"
+
+msgid "strings.delete"
+msgstr "Delete"
+
+msgid "strings.remove"
+msgstr "Remove"
+
+msgid "strings.copy"
+msgstr "Copy"
+
+msgid "strings.view"
+msgstr "View"
+
+msgid "strings.edit"
+msgstr "Edit"
+
+msgid "strings.update"
+msgstr "Update"
+
+msgid "strings.details"
+msgstr "Details"
+
+msgid "strings.none"
+msgstr "None"
+
+msgid "strings.close"
+msgstr "Close"
+
+msgid "strings.new"
+msgstr "New"
+
+msgid "strings.select_all"
+msgstr "Select All"
+
+msgid "strings.unassigned"
+msgstr "Unassigned"
+
+msgid "strings.administrator"
+msgstr "Administrator"
+
+msgid "strings.my_projects"
+msgstr "My Projects"
+
+msgid "strings.project"
+msgstr "Project"
+
+msgid "strings.active"
+msgstr "Active"
+
+msgid "strings.inactive"
+msgstr "Inactive"
+
+msgid "strings.project_id"
+msgstr "Project ID"
+
+msgid "strings.edit_project"
+msgstr "Edit Project"
+
+msgid "strings.copy_project"
+msgstr "Copy Project"
+
+msgid "strings.add_project"
+msgstr "Add Project"
+
+msgid "strings.clients"
+msgstr "Clients"
+
+msgid "strings.organization"
+msgstr "Client Organization"
+
+msgid "strings.client_projects"
+msgstr "Client Projects"
+
+msgid "strings.client_users"
+msgstr "Client Users"
+
+msgid "strings.edit_organization"
+msgstr "Edit Client Organization"
+
+msgid "strings.add_organization"
+msgstr "Add Client Organization"
+
+msgid "strings.organizations"
+msgstr "Client Organizations"
+
+msgid "strings.info"
+msgstr "Info"
+
+msgid "strings.status"
+msgstr "Status"
+
+msgid "strings.owner"
+msgstr "Owner"
+
+msgid "strings.home"
+msgstr "Home"
+
+msgid "strings.projects"
+msgstr "Projects"
+
+msgid "strings.files"
+msgstr "Files"
+
+msgid "strings.search"
+msgstr "Search"
+
+msgid "strings.admin"
+msgstr "Admin"
+
+msgid "strings.user"
+msgstr "User"
+
+msgid "strings.project_manager"
+msgstr "Project Manager"
+
+msgid "strings.due"
+msgstr "Due"
+
+msgid "strings.task"
+msgstr "Task"
+
+msgid "strings.tasks"
+msgstr "Tasks"
+
+msgid "strings.team"
+msgstr "Team"
+
+msgid "strings.add_team"
+msgstr "Add Team Members"
+
+msgid "strings.team_members"
+msgstr "Team Members"
+
+msgid "strings.full_name"
+msgstr "Full name"
+
+msgid "strings.title"
+msgstr "Title"
+
+msgid "strings.user_name"
+msgstr "User Name"
+
+msgid "strings.work_phone"
+msgstr "Work Phone"
+
+msgid "strings.priority"
+msgstr "Priority"
+
+msgid "strings.name"
+msgstr "Name"
+
+msgid "strings.id"
+msgstr "ID"
+
+msgid "strings.description"
+msgstr "Description"
+
+msgid "strings.phone"
+msgstr "Phone"
+
+msgid "strings.url"
+msgstr "URL"
+
+msgid "strings.address"
+msgstr "Address"
+
+msgid "strings.comments"
+msgstr "Comments"
+
+msgid "strings.created"
+msgstr "Created"
+
+msgid "strings.assigned"
+msgstr "Assigned"
+
+msgid "strings.modified"
+msgstr "Modified"
+
+msgid "strings.assigned_to"
+msgstr "Assigned to"
+
+msgid "strings.due_date"
+msgstr "Due Date"
+
+msgid "strings.estimated_time"
+msgstr "Estimated Time"
+
+msgid "strings.actual_time"
+msgstr "Actual Time"
+
+msgid "strings.delete_following"
+msgstr "Delete the following?"
+
+msgid "strings.cancel"
+msgstr "Cancel"
+
+msgid "strings.and"
+msgstr "and"
+
+msgid "strings.administration"
+msgstr "Administration"
+
+msgid "strings.user_management"
+msgstr "User Management"
+
+msgid "strings.system_information"
+msgstr "System Information"
+
+msgid "strings.product_information"
+msgstr "Product Information"
+
+msgid "strings.system_properties"
+msgstr "System Properties"
+
+msgid "strings.create"
+msgstr "Create"
+
+msgid "strings.report_save"
+msgstr ""
+"Save this report query to your homepage so you can run the query"
+"again."
+
+msgid "strings.report_name"
+msgstr "Report Name"
+
+msgid "strings.save"
+msgstr "Save"
+
+msgid "strings.matches"
+msgstr "Matches"
+
+msgid "strings.match"
+msgstr "Match"
+
+msgid "strings.report_results"
+msgstr "Report Results"
+
+msgid "strings.success"
+msgstr "Success"
+
+msgid "strings.addition_succeeded"
+msgstr "Addition succeeded"
+
+msgid "strings.deletion_succeeded"
+msgstr "Deletion succeeded"
+
+msgid "strings.report_created"
+msgstr "Created report"
+
+msgid "strings.deleted_reports"
+msgstr "Deleted reports"
+
+msgid "strings.modification_succeeded"
+msgstr "Modification succeeded"
+
+msgid "strings.errors"
+msgstr "Errors found!"
+
+msgid "strings.blank_user"
+msgstr "The user cannot be found."
+
+msgid "strings.blank_organization"
+msgstr "The client organization cannot be located."
+
+msgid "strings.blank_project"
+msgstr "The project cannot be located."
+
+msgid "strings.user_profile"
+msgstr "User Profile"
+
+msgid "strings.change_password"
+msgstr "Change Password"
+
+msgid "strings.change_password_user"
+msgstr "Change the user's password."
+
+msgid "strings.old_password_error"
+msgstr ""
+"The old password you entered is incorrect. Please re-enter the old"
+"password."
+
+msgid "strings.new_password_error"
+msgstr ""
+"The two passwords you entered did not match. Please re-enter your new"
+"password."
+
+msgid "strings.notifications"
+msgstr "Notifications"
+
+msgid "strings.change_password_intro"
+msgstr "Enter your old password then enter and confirm your new password."
+
+msgid "strings.old_password"
+msgstr "Old Password"
+
+msgid "strings.password"
+msgstr "Password"
+
+msgid "strings.new_password"
+msgstr "New Password"
+
+msgid "strings.confirm_password"
+msgstr "Confirm Password"
+
+msgid "strings.email"
+msgstr "E-Mail"
+
+msgid "strings.home_phone"
+msgstr "Home Phone"
+
+msgid "strings.mobile_phone"
+msgstr "Mobile Phone"
+
+msgid "strings.fax"
+msgstr "Fax"
+
+msgid "strings.permissions"
+msgstr "Permissions"
+
+msgid "strings.administrator_permissions"
+msgstr "Administrator Permissions"
+
+msgid "strings.project_manager_permissions"
+msgstr "Project Manager Permissions"
+
+msgid "strings.user_permissions"
+msgstr "User Permissions"
+
+msgid "strings.account_created"
+msgstr "Account Created"
+
+msgid "strings.edit_user"
+msgstr "Edit User"
+
+msgid "strings.edit_user_details"
+msgstr "Edit the user account details."
+
+msgid "strings.change_user_password"
+msgstr "Change the user's password."
+
+msgid "strings.select_permissions"
+msgstr "Select permissions for this user"
+
+msgid "strings.add_user"
+msgstr "Add User"
+
+msgid "strings.enter_user_details"
+msgstr "Enter details for the user account you are creating."
+
+msgid "strings.enter_password"
+msgstr "Enter the user's password."
+
+msgid "strings.success_logout"
+msgstr ""
+"You have successfully logged out. You can log back in by typing your"
+"user name and password below."
+
+msgid "strings.invalid_login"
+msgstr ""
+"The user name and/or password you entered is invalid. Please re-enter"
+"your login information."
+
+msgid "strings.profile"
+msgstr "Profile"
+
+msgid "strings.user_details"
+msgstr "User account details."
+
+msgid "strings.edit_user_account"
+msgstr "Edit your account information."
+
+msgid "strings.no_permissions"
+msgstr "You do not have sufficient permissions to perform that action."
+
+msgid "strings.discussion"
+msgstr "Discussion"
+
+msgid "strings.retired"
+msgstr "Retired"
+
+msgid "strings.last_post"
+msgstr "Last Post"
+
+msgid "strings.post_reply"
+msgstr "Post Reply"
+
+msgid "strings.posted_by"
+msgstr "Posted By"
+
+msgid "strings.when"
+msgstr "When"
+
+msgid "strings.post_to_discussion"
+msgstr "Post to Discussion"
+
+msgid "strings.message"
+msgstr "Message"
+
+msgid "strings.delete_reports"
+msgstr "Delete Reports"
+
+msgid "strings.delete_projects"
+msgstr "Delete Projects"
+
+msgid "strings.delete_organizations"
+msgstr "Delete Client Organizations"
+
+msgid "strings.delete_organizations_note"
+msgstr ""
+"Note: This will delete all client users for these client"
+"organizations, and disassociate all open projects from these client"
+"organizations."
+
+msgid "strings.delete_messages"
+msgstr "Delete Messages"
+
+msgid "strings.attention"
+msgstr "Attention"
+
+msgid "strings.delete_teamownermix"
+msgstr ""
+"Removal successful, but the project owner cannot be removed from the"
+"project team."
+
+msgid "strings.delete_teamowner"
+msgstr "You cannot remove the project owner from the project team."
+
+msgid "strings.enter_keywords"
+msgstr "Enter keywords"
+
+msgid "strings.search_options"
+msgstr "Keyword and Search Options"
+
+msgid "strings.search_note"
+msgstr "You must enter information in the Search for field."
+
+msgid "strings.search_results"
+msgstr "Search Results"
+
+msgid "strings.users"
+msgstr "Users"
+
+msgid "strings.search_for"
+msgstr "Search for"
+
+msgid "strings.results_for_keywords"
+msgstr "Search results for keywords"
+
+msgid "strings.add_discussion"
+msgstr "Add Discussion"
+
+msgid "strings.delete_users"
+msgstr "Delete User Accounts"
+
+msgid "strings.reassignment_user"
+msgstr "Project and Task Reassignment"
+
+msgid "strings.there"
+msgstr "There are"
+
+msgid "strings.owned_by"
+msgstr "owned by the users above."
+
+msgid "strings.reassign_to"
+msgstr "Before deleting users, reassign these to"
+
+msgid "strings.no_files"
+msgstr "No files linked"
+
+msgid "strings.published"
+msgstr "Published"
+
+msgid "strings.project_site"
+msgstr "Project Site"
+
+msgid "strings.approval_tracking"
+msgstr "Approval Tracking"
+
+msgid "strings.size"
+msgstr "Size"
+
+msgid "strings.add_project_site"
+msgstr "Add to Project Site"
+
+msgid "strings.remove_project_site"
+msgstr "Remove from Project Site"
+
+msgid "strings.more_search"
+msgstr "More search options"
+
+msgid "strings.results_with"
+msgstr "Find Results With"
+
+msgid "strings.search_topics"
+msgstr "Search Topics"
+
+msgid "strings.search_properties"
+msgstr "Search Properties"
+
+msgid "strings.date_restrictions"
+msgstr "Date Restrictions"
+
+msgid "strings.case_sensitive"
+msgstr "Case Sensitive"
+
+msgid "strings.yes"
+msgstr "Yes"
+
+msgid "strings.no"
+msgstr "No"
+
+msgid "strings.sort_by"
+msgstr "Sort by"
+
+msgid "strings.type"
+msgstr "Type"
+
+msgid "strings.date"
+msgstr "Date"
+
+msgid "strings.all_words"
+msgstr "all of the words"
+
+msgid "strings.any_words"
+msgstr "any of the words"
+
+msgid "strings.exact_match"
+msgstr "exact match"
+
+msgid "strings.all_dates"
+msgstr "All dates"
+
+msgid "strings.between_dates"
+msgstr "Between dates"
+
+msgid "strings.all_content"
+msgstr "All content"
+
+msgid "strings.all_properties"
+msgstr "All properties"
+
+msgid "strings.no_results_search"
+msgstr "The search returned no results."
+
+msgid "strings.no_results_report"
+msgstr "The report returned no results."
+
+msgid "strings.schema_date"
+msgstr "YYYY/MM/DD"
+
+msgid "strings.hours"
+msgstr "hours"
+
+msgid "strings.choice"
+msgstr "Choice"
+
+msgid "strings.missing_file"
+msgstr "Missing file !"
+
+msgid "strings.project_site_deleted"
+msgstr "The project site was successfully deleted."
+
+msgid "strings.add_user_project_site"
+msgstr ""
+"The user was successfully granted permission to access the Project"
+"Site."
+
+msgid "strings.remove_user_project_site"
+msgstr "User permission was successfully removed."
+
+msgid "strings.add_project_site_success"
+msgstr "The addition to the project site succeeded."
+
+msgid "strings.remove_project_site_success"
+msgstr "The removal from the project site succeeded."
+
+msgid "strings.add_file_success"
+msgstr "Linked 1 content item."
+
+msgid "strings.delete_file_success"
+msgstr "Unlinking succeeded."
+
+msgid "strings.update_comment_file"
+msgstr "The file comment was updated successfully."
+
+msgid "strings.session_false"
+msgstr "Session error"
+
+msgid "strings.logs"
+msgstr "Logs"
+
+msgid "strings.logout_time"
+msgstr "Auto Log Out"
+
+msgid "strings.noti_foot1"
+msgstr "This notification was generated by phpCollab."
+
+msgid "strings.noti_foot2"
+msgstr "To view your phpCollab Home Page, visit:"
+
+msgid "strings.noti_taskassignment1"
+msgstr "New task:"
+
+msgid "strings.noti_taskassignment2"
+msgstr "A task has been assigned to you:"
+
+msgid "strings.noti_moreinfo"
+msgstr "For more information, please visit:"
+
+msgid "strings.noti_prioritytaskchange1"
+msgstr "Task priority changed:"
+
+msgid "strings.noti_prioritytaskchange2"
+msgstr "The priority of the following task has changed:"
+
+msgid "strings.noti_statustaskchange1"
+msgstr "Task status changed:"
+
+msgid "strings.noti_statustaskchange2"
+msgstr "The status of the following task has changed:"
+
+msgid "strings.login_username"
+msgstr "You must enter a user name."
+
+msgid "strings.login_password"
+msgstr "Please enter a password."
+
+msgid "strings.login_clientuser"
+msgstr ""
+"This is a client user account. You cannot access phpCollab with a"
+"client user account."
+
+msgid "strings.user_already_exists"
+msgstr ""
+"There is already a user with this name. Please choose a variation of"
+"the user's name."
+
+msgid "strings.noti_duedatetaskchange1"
+msgstr "Task due date changed:"
+
+msgid "strings.noti_duedatetaskchange2"
+msgstr "The due date of the following task has changed:"
+
+msgid "strings.company"
+msgstr "Company"
+
+msgid "strings.show_all"
+msgstr "Show All"
+
+msgid "strings.information"
+msgstr "Information"
+
+msgid "strings.delete_message"
+msgstr "Delete this message"
+
+msgid "strings.project_team"
+msgstr "Project Team"
+
+msgid "strings.document_list"
+msgstr "Document List"
+
+msgid "strings.bulletin_board"
+msgstr "Bulletin Board"
+
+msgid "strings.bulletin_board_topic"
+msgstr "Bulletin Board Topic"
+
+msgid "strings.create_topic"
+msgstr "Create a New Topic"
+
+msgid "strings.topic_form"
+msgstr "Topic Form"
+
+msgid "strings.enter_message"
+msgstr "Enter your message"
+
+msgid "strings.upload_file"
+msgstr "Upload a File"
+
+msgid "strings.upload_form"
+msgstr "Upload Form"
+
+msgid "strings.upload"
+msgstr "Upload"
+
+msgid "strings.document"
+msgstr "Document"
+
+msgid "strings.approval_comments"
+msgstr "Approval Comments"
+
+msgid "strings.client_tasks"
+msgstr "Client Tasks"
+
+msgid "strings.team_tasks"
+msgstr "Team Tasks"
+
+msgid "strings.team_member_details"
+msgstr "Project Team Member Details"
+
+msgid "strings.client_task_details"
+msgstr "Client Task Details"
+
+msgid "strings.team_task_details"
+msgstr "Team Task Details"
+
+msgid "strings.language"
+msgstr "Language"
+
+msgid "strings.welcome"
+msgstr "Welcome"
+
+msgid "strings.your_projectsite"
+msgstr "to Your Project Site"
+
+msgid "strings.contact_projectsite"
+msgstr ""
+"If you have any questions about the extranet or the information found"
+"here, please contact the project lead"
+
+msgid "strings.company_details"
+msgstr "Company Details"
+
+msgid "strings.database"
+msgstr "Backup and restore database"
+
+msgid "strings.company_info"
+msgstr "Edit your company information"
+
+msgid "strings.create_projectsite"
+msgstr "Create Project Site"
+
+msgid "strings.projectsite_url"
+msgstr "Project Site URL"
+
+msgid "strings.design_template"
+msgstr "Design Template"
+
+msgid "strings.preview_design_template"
+msgstr "Preview Template Design"
+
+msgid "strings.delete_projectsite"
+msgstr "Delete Project Site"
+
+msgid "strings.add_file"
+msgstr "Add File"
+
+msgid "strings.linked_content"
+msgstr "Linked Content"
+
+msgid "strings.edit_file"
+msgstr "Edit file details"
+
+msgid "strings.permitted_client"
+msgstr "Permitted Client Users"
+
+msgid "strings.grant_client"
+msgstr "Grant Permission to View Project Site"
+
+msgid "strings.add_client_user"
+msgstr "Add Client User"
+
+msgid "strings.edit_client_user"
+msgstr "Edit Client User"
+
+msgid "strings.client_user"
+msgstr "Client User"
+
+msgid "strings.client_change_status"
+msgstr "Change your status below when you have completed this task"
+
+msgid "strings.project_status"
+msgstr "Project Status"
+
+msgid "strings.view_projectsite"
+msgstr "View Project Site"
+
+msgid "strings.enter_login"
+msgstr "Enter your login to receive new password"
+
+msgid "strings.send"
+msgstr "Send"
+
+msgid "strings.no_login"
+msgstr "Login not found in database"
+
+msgid "strings.email_pwd"
+msgstr "Password sent"
+
+msgid "strings.no_email"
+msgstr "User without email"
+
+msgid "strings.forgot_pwd"
+msgstr "Forgot password?"
+
+msgid "strings.project_owner"
+msgstr "You can make changes only on your own projects."
+
+msgid "strings.connected"
+msgstr "Connected"
+
+msgid "strings.session"
+msgstr "Session"
+
+msgid "strings.last_visit"
+msgstr "Last visit"
+
+msgid "strings.compteur"
+msgstr "Count"
+
+msgid "strings.ip"
+msgstr "Ip"
+
+msgid "strings.task_owner"
+msgstr "You are not a team member in this project"
+
+msgid "strings.export"
+msgstr "Export"
+
+msgid "strings.reassignment_clientuser"
+msgstr "Task Reassignment"
+
+msgid "strings.organization_already_exists"
+msgstr "That name is already in use in the system. Please choose another."
+
+msgid "strings.blank_organization_field"
+msgstr "You must enter the client organization name."
+
+msgid "strings.blank_fields"
+msgstr "mandatory fields"
+
+msgid "strings.projectsite_login_fails"
+msgstr "We are unable to confirm the user name and password combination."
+
+msgid "strings.start_date"
+msgstr "Start date"
+
+msgid "strings.completion"
+msgstr "Completion"
+
+msgid "strings.update_available"
+msgstr "An update is available!"
+
+msgid "strings.version_current"
+msgstr "You are currently using version"
+
+msgid "strings.version_latest"
+msgstr "The latest version is"
+
+msgid "strings.sourceforge_link"
+msgstr "See project page on Sourceforge"
+
+msgid "strings.demo_mode"
+msgstr "Demo mode. Action not allowed."
+
+msgid "strings.setup_erase"
+msgstr "Erase the file setup.php!!"
+
+msgid "strings.setup_erase_file"
+msgstr "Click here to try and remove the setup file."
+
+msgid "strings.setup_erase_file_ua"
+msgstr ""
+"We can not remove the file, it's not writable.  Please delete"
+"manually."
+
+msgid "strings.no_file"
+msgstr "No file selected"
+
+msgid "strings.exceed_size"
+msgstr "Exceed max file size"
+
+msgid "strings.no_php"
+msgstr "Php file not allowed"
+
+msgid "strings.approval_date"
+msgstr "Approval date"
+
+msgid "strings.approver"
+msgstr "Approver"
+
+msgid "strings.error_database"
+msgstr "Can't connect to database"
+
+msgid "strings.error_server"
+msgstr "Can't connect to server"
+
+msgid "strings.version_control"
+msgstr "Version Control"
+
+msgid "strings.vc_status"
+msgstr "Status"
+
+msgid "strings.vc_last_in"
+msgstr "Date last modified"
+
+msgid "strings.ifa_comments"
+msgstr "Approval comments"
+
+msgid "strings.ifa_command"
+msgstr "Change approval status"
+
+msgid "strings.vc_version"
+msgstr "Version"
+
+msgid "strings.ifc_revisions"
+msgstr "Peer Reviews"
+
+msgid "strings.ifc_revision_of"
+msgstr "Review of version"
+
+msgid "strings.ifc_add_revision"
+msgstr "Add Peer Review"
+
+msgid "strings.ifc_update_file"
+msgstr "Update file"
+
+msgid "strings.ifc_last_date"
+msgstr "Date last modified"
+
+msgid "strings.ifc_version_history"
+msgstr "Version History"
+
+msgid "strings.ifc_delete_file"
+msgstr "Delete file and all child versions & reviews"
+
+msgid "strings.ifc_delete_version"
+msgstr "Delete Selected Version"
+
+msgid "strings.ifc_delete_review"
+msgstr "Delete Selected Review"
+
+msgid "strings.ifc_no_revisions"
+msgstr "There are currently no revisions of this document"
+
+msgid "strings.unlink_files"
+msgstr "Unlink Files"
+
+msgid "strings.remove_team"
+msgstr "Remove Team Members"
+
+msgid "strings.remove_team_info"
+msgstr "Remove these users from the project team?"
+
+msgid "strings.remove_team_client"
+msgstr "Remove Permission to View Project Site"
+
+msgid "strings.note"
+msgstr "Note"
+
+msgid "strings.notes"
+msgstr "Notes"
+
+msgid "strings.subject"
+msgstr "Subject"
+
+msgid "strings.delete_note"
+msgstr "Delete Notes Entries"
+
+msgid "strings.add_note"
+msgstr "Add Note Entry"
+
+msgid "strings.edit_note"
+msgstr "Edit Note Entry"
+
+msgid "strings.version_increm"
+msgstr "Select the version change to apply:"
+
+msgid "strings.url_dev"
+msgstr "Development site url"
+
+msgid "strings.url_prod"
+msgstr "Final site url"
+
+msgid "strings.note_owner"
+msgstr "You can make changes only on your own notes."
+
+msgid "strings.alpha_only"
+msgstr "Alpha-numeric only in login"
+
+msgid "strings.edit_notifications"
+msgstr "Edit E-mail Notifications"
+
+msgid "strings.edit_notifications_info"
+msgstr "Select events for which you wish to receive E-mail notification."
+
+msgid "strings.select_deselect"
+msgstr "Select/Deselect All"
+
+msgid "strings.noti_addprojectteam1"
+msgstr "Added to project team :"
+
+msgid "strings.noti_addprojectteam2"
+msgstr "You have been added to the project team for :"
+
+msgid "strings.noti_removeprojectteam1"
+msgstr "Removed from project team :"
+
+msgid "strings.noti_removeprojectteam2"
+msgstr "You have been removed from the project team for :"
+
+msgid "strings.noti_newpost1"
+msgstr "New post :"
+
+msgid "strings.noti_newpost2"
+msgstr "A post was added to the following discussion :"
+
+msgid "strings.edit_noti_taskassignment"
+msgstr "I am assigned to a new task."
+
+msgid "strings.edit_noti_statustaskchange"
+msgstr "The status of one of my tasks changes."
+
+msgid "strings.edit_noti_prioritytaskchange"
+msgstr "The priority of one of my tasks changes."
+
+msgid "strings.edit_noti_duedatetaskchange"
+msgstr "The due date of one of my tasks changes."
+
+msgid "strings.edit_noti_addprojectteam"
+msgstr "I am added to a project team."
+
+msgid "strings.edit_noti_removeprojectteam"
+msgstr "I am removed from a project team."
+
+msgid "strings.edit_noti_newpost"
+msgstr "A new post is made to a discussion."
+
+msgid "strings.add_optional"
+msgstr "Add an optional"
+
+msgid "strings.assignment_comment_info"
+msgstr "Add comments about the assignment of this task"
+
+msgid "strings.my_notes"
+msgstr "My Notes"
+
+msgid "strings.edit_settings"
+msgstr "Edit settings"
+
+msgid "strings.max_upload"
+msgstr "Max file size"
+
+msgid "strings.project_folder_size"
+msgstr "Project folder size"
+
+msgid "strings.calendar"
+msgstr "Calendar"
+
+msgid "strings.date_start"
+msgstr "Start date"
+
+msgid "strings.date_end"
+msgstr "End date"
+
+msgid "strings.time_start"
+msgstr "Start time"
+
+msgid "strings.time_end"
+msgstr "End time"
+
+msgid "strings.calendar_reminder"
+msgstr "Reminder"
+
+msgid "strings.shortname"
+msgstr "Short name"
+
+msgid "strings.calendar_recurring"
+msgstr "Event recurs every week on this day"
+
+msgid "strings.edit_database"
+msgstr "Edit database"
+
+msgid "strings.noti_newtopic1"
+msgstr "New discussion :"
+
+msgid "strings.noti_newtopic2"
+msgstr "A new discussion was added to the following project :"
+
+msgid "strings.edit_noti_newtopic"
+msgstr "A new discussion topic was created."
+
+msgid "strings.today"
+msgstr "Today"
+
+msgid "strings.previous"
+msgstr "Previous"
+
+msgid "strings.next"
+msgstr "Next"
+
+msgid "strings.help"
+msgstr "Help"
+
+msgid "strings.complete_date"
+msgstr "Complete date"
+
+msgid "strings.scope_creep"
+msgstr "Scope creep"
+
+msgid "strings.days"
+msgstr "Days"
+
+msgid "strings.logo"
+msgstr "Logo"
+
+msgid "strings.remember_password"
+msgstr "Remember Password"
+
+msgid "strings.client_add_task_note"
+msgstr ""
+"Note: The entered task is registered into the data base, appears here"
+"however only if it one assigned to a team member!"
+
+msgid "strings.noti_clientaddtask1"
+msgstr "Task added by client :"
+
+msgid "strings.noti_clientaddtask2"
+msgstr ""
+"A new task was added by client from project site to the following"
+"project :"
+
+msgid "strings.phase"
+msgstr "Phase"
+
+msgid "strings.phases"
+msgstr "Phases"
+
+msgid "strings.phase_id"
+msgstr "Phase ID"
+
+msgid "strings.current_phase"
+msgstr "Active phase(s)"
+
+msgid "strings.total_tasks"
+msgstr "Total Tasks"
+
+msgid "strings.uncomplete_tasks"
+msgstr "Uncompleted Tasks"
+
+msgid "strings.no_current_phase"
+msgstr "No phase is currently active"
+
+msgid "strings.true"
+msgstr "True"
+
+msgid "strings.false"
+msgstr "False"
+
+msgid "strings.enable_phases"
+msgstr "Enable Phases"
+
+msgid "strings.phase_enabled"
+msgstr "Phase Enabled"
+
+msgid "strings.order"
+msgstr "Order"
+
+msgid "strings.options"
+msgstr "Options"
+
+msgid "strings.support"
+msgstr "Support"
+
+msgid "strings.support_request"
+msgstr "Support Request"
+
+msgid "strings.support_requests"
+msgstr "Support Requests"
+
+msgid "strings.support_id"
+msgstr "Request ID"
+
+msgid "strings.my_support_request"
+msgstr "My Support Requests"
+
+msgid "strings.introduction"
+msgstr "Introduction"
+
+msgid "strings.submit"
+msgstr "Submit"
+
+msgid "strings.support_management"
+msgstr "Support Management"
+
+msgid "strings.date_open"
+msgstr "Date Opened"
+
+msgid "strings.date_close"
+msgstr "Date Closed"
+
+msgid "strings.add_support_request"
+msgstr "Add Support Request"
+
+msgid "strings.add_support_response"
+msgstr "Add Support Response"
+
+msgid "strings.respond"
+msgstr "Respond"
+
+msgid "strings.delete_support_request"
+msgstr "Support request deleted"
+
+msgid "strings.delete_request"
+msgstr "Delete support request"
+
+msgid "strings.delete_support_post"
+msgstr "Delete support post"
+
+msgid "strings.new_requests"
+msgstr "New requests"
+
+msgid "strings.open_requests"
+msgstr "Open requests"
+
+msgid "strings.closed_requests"
+msgstr "Complete requests"
+
+msgid "strings.manage_new_requests"
+msgstr "Manage new requests"
+
+msgid "strings.manage_open_requests"
+msgstr "Manage open requests"
+
+msgid "strings.manage_closed_requests"
+msgstr "Manage complete requests"
+
+msgid "strings.responses"
+msgstr "Responses"
+
+msgid "strings.edit_status"
+msgstr "Edit Status"
+
+msgid "strings.noti_support_request_new2"
+msgstr "You have submitted a support request regarding: "
+
+msgid "strings.noti_support_post2"
+msgstr ""
+"A new response has been added to your support request. Please review"
+"the details below."
+
+msgid "strings.noti_support_status2"
+msgstr ""
+"Your support request has been updated. Please review the details"
+"below."
+
+msgid "strings.noti_support_team_new2"
+msgstr "A new support request has been added to project: "
+
+msgid "strings.delete_subtasks"
+msgstr "Delete subtasks"
+
+msgid "strings.add_subtask"
+msgstr "Add subtask"
+
+msgid "strings.edit_subtask"
+msgstr "Edit subtask"
+
+msgid "strings.subtask"
+msgstr "Subtask"
+
+msgid "strings.subtasks"
+msgstr "Subtasks"
+
+msgid "strings.show_details"
+msgstr "Show details"
+
+msgid "strings.updates_task"
+msgstr "Task update history"
+
+msgid "strings.updates_subtask"
+msgstr "Subtask update history"
+
+msgid "strings.go_projects_site"
+msgstr "Go to projects site"
+
+msgid "strings.bookmark"
+msgstr "Bookmark"
+
+msgid "strings.bookmarks"
+msgstr "Bookmarks"
+
+msgid "strings.bookmark_category"
+msgstr "Category"
+
+msgid "strings.bookmark_category_new"
+msgstr "New category"
+
+msgid "strings.bookmarks_all"
+msgstr "All"
+
+msgid "strings.bookmarks_my"
+msgstr "My Bookmarks"
+
+msgid "strings.my"
+msgstr "My"
+
+msgid "strings.bookmarks_private"
+msgstr "Private"
+
+msgid "strings.shared"
+msgstr "Shared"
+
+msgid "strings.private"
+msgstr "Private"
+
+msgid "strings.add_bookmark"
+msgstr "Add bookmark"
+
+msgid "strings.edit_bookmark"
+msgstr "Edit bookmark"
+
+msgid "strings.delete_bookmarks"
+msgstr "Delete bookmarks"
+
+msgid "strings.team_subtask_details"
+msgstr "Team Subtask Details"
+
+msgid "strings.client_subtask_details"
+msgstr "Client Subtask Details"
+
+msgid "strings.client_change_status_subtask"
+msgstr "Change your status below when you have completed this subtask"
+
+msgid "strings.disabled_permissions"
+msgstr "Disabled account"
+
+msgid "strings.user_timezone"
+msgstr "Timezone (GMT)"
+
+msgid "strings.project_manager_administrator_permissions"
+msgstr "Project Manager Administrator"
+
+msgid "strings.bug"
+msgstr "Bug Tracking"
+
+msgid "strings.report"
+msgstr "Report"
+
+msgid "strings.license"
+msgstr "License"
+
+msgid "strings.settings_notwritable"
+msgstr "Settings.php file is not writable"
+
+msgid "strings.invoicing"
+msgstr "Invoicing"
+
+msgid "strings.invoice"
+msgstr "Invoice"
+
+msgid "strings.invoices"
+msgstr "Invoices"
+
+msgid "strings.date_invoice"
+msgstr "Invoice date"
+
+msgid "strings.header_note"
+msgstr "Header note"
+
+msgid "strings.footer_note"
+msgstr "Footer note"
+
+msgid "strings.total_ex_tax"
+msgstr "Total ex tax"
+
+msgid "strings.total_inc_tax"
+msgstr "Total inc tax"
+
+msgid "strings.tax_rate"
+msgstr "Tax rate"
+
+msgid "strings.tax_amount"
+msgstr "Tax amount"
+
+msgid "strings.invoice_items"
+msgstr "Invoice items"
+
+msgid "strings.amount_ex_tax"
+msgstr "Amount ex tax"
+
+msgid "strings.completed"
+msgstr "Completed"
+
+msgid "strings.service"
+msgstr "Service"
+
+msgid "strings.name_print"
+msgstr "Name printed"
+
+msgid "strings.edit_invoice"
+msgstr "Edit invoice"
+
+msgid "strings.edit_invoiceitem"
+msgstr "Edit invoice item"
+
+msgid "strings.calculation"
+msgstr "Calculation"
+
+msgid "strings.items"
+msgstr "Items"
+
+msgid "strings.position"
+msgstr "Position"
+
+msgid "strings.service_management"
+msgstr "Service management"
+
+msgid "strings.hourly_rate"
+msgstr "Hourly rate"
+
+msgid "strings.add_service"
+msgstr "Add service"
+
+msgid "strings.edit_service"
+msgstr "Edit service"
+
+msgid "strings.delete_services"
+msgstr "Delete services"
+
+msgid "strings.worked_hours"
+msgstr "Worked hours"
+
+msgid "strings.rate_type"
+msgstr "Rate type"
+
+msgid "strings.rate_value"
+msgstr "Rate value"
+
+msgid "strings.note_invoice_items_notcompleted"
+msgstr "Not all items are completed"
+
+msgid "strings.newsdesk"
+msgstr "Newsdesk"
+
+msgid "strings.newsdesk_list"
+msgstr "News list"
+
+msgid "strings.article_newsdesk"
+msgstr "News Body"
+
+msgid "strings.update_newsdesk"
+msgstr "Update Entries"
+
+msgid "strings.my_newsdesk"
+msgstr "My Newsdesk"
+
+msgid "strings.edit_newsdesk"
+msgstr "Edit News Article"
+
+msgid "strings.copy_newsdesk"
+msgstr "Copy News Article"
+
+msgid "strings.add_newsdesk"
+msgstr "Add News Article"
+
+msgid "strings.del_newsdesk"
+msgstr "Delete News Article"
+
+msgid "strings.delete_news_note"
+msgstr "Note: This will also delete all comments for the select news article"
+
+msgid "strings.author"
+msgstr "Author"
+
+msgid "strings.blank_newsdesk_title"
+msgstr "Blank title found"
+
+msgid "strings.blank_newsdesk"
+msgstr "The news cannot be located."
+
+msgid "strings.blank_newsdesk_comment"
+msgstr "Blank comment found"
+
+msgid "strings.remove_newsdesk"
+msgstr "The News Article has been successfully deleted with all its comments"
+
+msgid "strings.add_newsdesk_comment"
+msgstr "Add a comment to the News Article"
+
+msgid "strings.edit_newsdesk_comment"
+msgstr "Edit the comment of the News Article"
+
+msgid "strings.del_newsdesk_comment"
+msgstr "Delete the selected comments"
+
+msgid "strings.remove_newsdesk_comment"
+msgstr ""
+"<strong>Success</strong> : The Comment of the News Article has been"
+"successfully deleted"
+
+msgid "strings.errorpermission_newsdesk"
+msgstr ""
+"<strong>Attention</strong> : You do not have permission to modify or"
+"delete this news"
+
+msgid "strings.errorpermission_newsdesk_comment"
+msgstr ""
+"<strong>Attention</strong> : You do not have permission to edit or"
+"delete this message"
+
+msgid "strings.newsdesk_related"
+msgstr "Related Project"
+
+msgid "strings.newsdesk_related_generic"
+msgstr "Generic News (not project related)"
+
+msgid "strings.newsdesk_related_links"
+msgstr "Related links to the news"
+
+msgid "strings.newsdesk_rss"
+msgstr "Enable RSS for this news"
+
+msgid "strings.newsdesk_rss_enabled"
+msgstr "RSS Enabled for this news"
+
+msgid "strings.noti_memberactivation1"
+msgstr "Account Activated"
+
+msgid "strings.noti_memberactivation2"
+msgstr ""
+"You have just been added into the phpCollab client management system. "
+"This system has been developed and is continually being upgraded in"
+"order to help you, the client, keep tabs on the progress of your"
+"project.\n"
+"\n"
+"To enter the system, point your browser (preferably Internet Explorer"
+"6.x or Netscape Navigator 7.x) to  and enter the following:"
+
+msgid "strings.noti_memberactivation3"
+msgstr "username:"
+
+msgid "strings.noti_memberactivation4"
+msgstr "password:"
+
+msgid "strings.noti_memberactivation5"
+msgstr ""
+"Once you have typed the information above and pressed \"enter\" you"
+"will be allowed to access  your account. \n"
+"\n"
+"In tandem with this email, you will receive additional messages"
+"regarding activations, task submissions, and other events relating to"
+"your account.  These emails have been sent to keep you informed on the"
+"progress of your project."
+
+msgid "strings.email_users"
+msgstr "Email Users"
+
+msgid "strings.email_following"
+msgstr "Email Following"
+
+msgid "strings.email_sent"
+msgstr "Your email was successfully sent."
+
+msgid "strings.clients_connected"
+msgstr "(Client on project site)"
+
+msgid "strings.Total_Hours_Worked"
+msgstr "Total Hours Worked"
+
+msgid "strings.Pct_Complete"
+msgstr "Pct Complete"
+
+msgid "strings.noti_filepost1"
+msgstr "New File upload on the Intranet"
+
+msgid "strings.noti_filepost2"
+msgstr "A new file was uploaded for the project :"
+
+msgid "strings.noti_newfile1"
+msgstr "New File upload on the Intranet"
+
+msgid "strings.noti_newfile2"
+msgstr "A new file was uploaded for the project :"
+
+msgid "strings.location"
+msgstr "Location"
+
+msgid "strings.calendar_broadcast"
+msgstr "Broadcast"
+
+msgid "strings.edit_noti_clientaddtask"
+msgstr "A task is added by a client."
+
+msgid "strings.edit_noti_uploadfile"
+msgstr "A linked content is added."
+
+msgid "strings.version_check_error"
+msgstr ""
+"Sorry the <a href='https://www.phpcollab.com'>phpcollab.com</a> update"
+"service is offline, please check later or take a look on the <a"
+"href='https://www.sourceforge.net/projects/phpcollab'"
+"target='_blank'>sourceforge project page</a>"
+
+msgid "strings.my_subtasks"
+msgstr "My Subtasks"
+
+msgid "strings.edit_noti_daily_alert"
+msgstr "A daily task reminder."
+
+msgid "strings.edit_noti_weekly_alert"
+msgstr "A weekly task reminder."
+
+msgid "strings.edit_noti_pastdue_alert"
+msgstr "A past due task reminder."
+
+msgid "strings.daily_alert_subject"
+msgstr "phpCollab - Daily Task Reminder."
+
+msgid "strings.weekly_alert_subject"
+msgstr "phpCollab - Weekly Task Reminder."
+
+msgid "strings.pastdue_alert_subject"
+msgstr "phpCollab - Past Due Task Reminder."
+
+msgid "strings.alert_daily_task"
+msgstr "The following tasks are due today."
+
+msgid "strings.alert_daily_subtask"
+msgstr "The following subtasks are due today."
+
+msgid "strings.alert_weekly_task"
+msgstr "The following tasks are due this week."
+
+msgid "strings.alert_weekly_subtask"
+msgstr "The following subtasks are due this week."
+
+msgid "strings.alert_pastdue_task"
+msgstr "The following tasks are past due."
+
+msgid "strings.alert_pastdue_subtask"
+msgstr "The following subtasks are past due."
+
+msgid "strings.link"
+msgstr "Link"
+
+msgid "strings.action_not_allowed"
+msgstr "Action not allowed."
+
+msgid "strings.this_report_generated_by"
+msgstr "This report generated by phpCollab"
+
+msgid "strings.noti_file_approval_added"
+msgstr "A file approval has been added."
+
+msgid "strings.approval_status"
+msgstr "Approval Status"
+
+msgid "strings.approval_details"
+msgstr "Approval Details"
+
+msgid "strings.file_details"
+msgstr "File Details"
+
+msgid "strings.file"
+msgstr "File"
+
+msgid "strings.noti_peer_review_added"
+msgstr "A peer review has been added."
+
+msgid "strings.noti_peer_review_details"
+msgstr "Peer Review Details"
+
+msgid "strings.error_file_update_zero_size"
+msgstr "File is empty"
+
+msgid "strings.noti_file_update_added"
+msgstr "An updated file has been posted."
+
+msgid "strings.noti_file_update_details"
+msgstr "Updated File Details"
+
+msgid "strings.delete_calendars"
+msgstr "Delete Calendar"
+
+msgid "strings.error_publishing_invoice"
+msgstr "Error publishing invoice to site."
+
+msgid "strings.error_editing_invoice"
+msgstr ""
+"Error updating invoice, please try again or contact your"
+"administrator."
+
+msgid "strings.view_invoice"
+msgstr "View Invoice"
+
+msgid "strings.send_password_phrase"
+msgstr ""
+"If the user exists in our system, a password reset email will be sent,"
+"but may take several minutes to show up in your inbox. Please wait at"
+"least %s minutes before attempting another reset."
+
+msgid "strings.empty_field"
+msgstr "Field is empty"
+
+msgid "strings.error_delete_bookmark"
+msgstr ""
+"Error deleting bookmark, please try again or contact your"
+"administrator."
+
+msgid "strings.reset_password_error"
+msgstr ""
+"Error resetting password.  Please try again or contact your"
+"administrator."
+
+msgid "strings.error_delete_post"
+msgstr "Error deleting post.  Please try again or contact your administrator."
+
+msgid "strings.delete_post"
+msgstr "Post was deleted."
+
+msgid "strings.error_file_add"
+msgstr "Error adding file."
+
+msgid "strings.error_file_does_not_exist"
+msgstr "Error: File does not exist."
+
+msgid "strings.bookmark_error_blank_name_and_url"
+msgstr "Please enter a name and URL for the bookmark"
+
+msgid "strings.bookmark_error_blank_name"
+msgstr "Please enter a name for the bookmark"
+
+msgid "strings.bookmark_error_blank_url"
+msgstr "Please enter a URL for the bookmark"
+
+msgid "strings.client_error_add"
+msgstr ""
+"There was an error while adding the client, please try again or"
+"contact your administrator."
+
+msgid "strings.client_error_edit"
+msgstr ""
+"There was an error while editing the client, please try again or"
+"contact your administrator."
+
+msgid "strings.genericError"
+msgstr "There was a problem processing your request."
+
+msgid "strings.last_page"
+msgstr "Last Page Visited"
+
+msgid "strings.view_newsdesk"
+msgstr "View Newsdesk Article"
+
+msgid "strings.task_not_found"
+msgstr "That task could not be found."
+
+msgid "strings.email_forgot_pwd_subject"
+msgstr "Forgotten Password Reset"
+
+msgid "strings.password_successful_changed"
+msgstr "Password has been successfully changed."
+
+msgid "strings.password_reset_confirmation_subject"
+msgstr "Password Reset Confirmation for %s"
+
+msgid "strings.password_confirm_blank"
+msgstr "Please re-enter the \"confirm\" password."
+
+msgid "strings.latest_release_link_text"
+msgstr ""
+"Visit the project's <a href=\"%s\" target=\"_blank\">release page</a>"
+"for the latest version"
+
+msgid "strings.system_info_file_sizes"
+msgstr "File Sizes"
+
+msgid "strings.newsdesk_comment_added"
+msgstr "<strong>Success</strong> : Comment added"
+
+msgid "strings.newsdesk_comment_updated"
+msgstr "<strong>Success</strong> : Comment updated"
+
+msgid "strings.newsdesk_invalid_link"
+msgstr ""
+"<strong>Attention</strong> : Link is invalid, please check and try"
+"again."
+
+msgid "strings.newsdesk_item_updated"
+msgstr "<strong>Success</strong> : News item has been updated"
+
+msgid "strings.newsdesk_item_blank"
+msgstr "<strong>Attention</strong> : The news cannot be located."
+
+msgid "strings.newsdesk_item_remove"
+msgstr ""
+"<strong>Success</strong> : The News Article has been successfully"
+"deleted with all its comments"
+
+msgid "strings.newsdesk_item_add"
+msgstr "<strong>Success</strong> : Addition succeeded"
+
+msgid "strings.newsdesk_item_add_error"
+msgstr ""
+"<strong>Attention</strong> : There was a problem adding the item."
+"Please check and try again."
+
+msgid "strings.newsdesk_item_edit"
+msgstr " : Edit News Article (%s)"
+
+msgid "strings.newsdesk_item_view"
+msgstr " : View Newsdesk Article (%s)"
+
+msgid "strings.error_message"
+msgstr "<strong>Attention</strong> : %s"
+
+msgid "strings.success_message"
+msgstr "<strong>Success</strong> : %s"
+
+msgid "strings.file_upload_invalid"
+msgstr "The uploaded file appears to be invalid. Please check and try again."
+
+msgid "strings.file_image_invalid_type"
+msgstr "The uploaded image appears to be an invalid type."
+
+msgid "strings.file_remove_error"
+msgstr ""
+"There was a problem removing the file, please try again or contact"
+"your administrator."
+
+msgid "strings.error_too_many_attempts"
+msgstr ""
+"<strong>Attention</strong> : You have tried too many times. Please"
+"wait and try again."
+
+msgid "strings.error_email_already_sent"
+msgstr ""
+"Email has been sent.  Please check your inbox or contact your"
+"administrator."
+
+msgid "strings.invalid_email"
+msgstr "Email address appears to be invalid, please check and try again."
+
+msgid "strings.share_with"
+msgstr "Share with"
+
+msgid "strings.bookmark_added"
+msgstr "<strong>Success</strong> : Bookmark created"
+
+msgid "strings.bookmark_updated"
+msgstr "<strong>Success</strong> : Bookmark updated"
+
+msgid "strings.bookmark_view_all"
+msgstr "View All Bookmarks"
+
+msgid "strings.bookmark_view_my"
+msgstr "View My Bookmarks"
+
+msgid "strings.bookmark_view_private"
+msgstr "View Private Bookmarks"
+
+msgid "strings.bookmark_error_url_invalid"
+msgstr "Please enter a valid URL for the bookmark"
+
+msgid "strings.admin_password_reset_settings"
+msgstr "Password Reset Settings"
+
+msgid "strings.admin_mantis_integration"
+msgstr "Mantis integration"
+
+msgid "strings.admin_advanced"
+msgstr "Advanced"
+
+msgid "strings.admin_extended_footer"
+msgstr "Extended footer (dev)"
+
+msgid "strings.admin_number_of_attempts"
+msgstr "Number of attempts"
+
+msgid "strings.admin_time_between_attempts"
+msgstr "Time between attempts"
+
+msgid "strings.admin_time_token_valid"
+msgstr "Time token should be valid"
+
+msgid "strings.time_days"
+msgstr "days"
+
+msgid "strings.time_hours"
+msgstr "hours"
+
+msgid "strings.time_minutes"
+msgstr "minutes"
+
+msgid "strings.time_seconds"
+msgstr "seconds"
+
+msgid "strings.admin_install_online"
+msgstr "Online"
+
+msgid "strings.admin_install_offline"
+msgstr "Offline (firewall/intranet, no update checker)"
+
+msgid "strings.admin_notification_method"
+msgstr "Notification method"
+
+msgid "strings.admin_php_mail_function"
+msgstr "PHP mail function"
+
+msgid "strings.admin_smtp"
+msgstr "SMTP"
+
+msgid "strings.admin_smtp_server"
+msgstr "SMTP Server"
+
+msgid "strings.admin_smtp_login"
+msgstr "SMTP Login"
+
+msgid "strings.admin_smtp_password"
+msgstr "SMTP Password"
+
+msgid "strings.admin_smtp_port"
+msgstr "SMTP Port"
+
+msgid "strings.team_task_created_success"
+msgstr "<strong>Success</strong> : Team task created"
+
+msgid "strings.project_site_topic_success"
+msgstr "<strong>Success</strong> : Topic added"
+
+msgid "strings.support_request_details"
+msgstr "Support Request Details"
+
+msgid "strings.users_selected"
+msgstr "Selected User(s):"
+
+msgid "strings.will_not_email"
+msgstr "Selected User(s): will NOT be emailed"
+
+msgid "strings.support_request_new"
+msgstr "A new support request has been created."
+
+msgid "strings.error_messages.too_many_attempts"
+msgstr ""
+"<strong>Attention</strong> : You have tried too many times. Please"
+"wait and try again."
+
+msgid "strings.error_messages.email_already_sent"
+msgstr ""
+"Email has been sent.  Please check your inbox or contact your"
+"administrator."
+
+msgid "strings.error_messages.blank_email"
+msgstr "<strong>Attention</strong> : No email found for the selected user(s)"
+
+msgid "strings.error_messages.tasks.blank_task_name"
+msgstr "Please enter a task name"
+
+msgid "strings.error_messages.tasks.invalid_task_name"
+msgstr "Please enter a valid task name"
+
+
+# Enum values (status, priority, etc.)
+# Note: These should be moved to enums.*.po domain
+
+#. Domain: enums
+msgid "status.0"
+msgstr "Client Completed"
+
+#. Domain: enums
+msgid "status.1"
+msgstr "Completed"
+
+#. Domain: enums
+msgid "status.2"
+msgstr "Not Started"
+
+#. Domain: enums
+msgid "status.3"
+msgstr "Open"
+
+#. Domain: enums
+msgid "status.4"
+msgstr "Suspended"
+
+#. Domain: enums
+msgid "profil.0"
+msgstr "Administrator"
+
+#. Domain: enums
+msgid "profil.1"
+msgstr "Project Manager"
+
+#. Domain: enums
+msgid "profil.2"
+msgstr "User"
+
+#. Domain: enums
+msgid "profil.3"
+msgstr "Client User"
+
+#. Domain: enums
+msgid "profil.4"
+msgstr "Disabled"
+
+#. Domain: enums
+msgid "profil.5"
+msgstr "Project Manager Administrator"
+
+#. Domain: enums
+msgid "priority.0"
+msgstr "None"
+
+#. Domain: enums
+msgid "priority.1"
+msgstr "Very low"
+
+#. Domain: enums
+msgid "priority.2"
+msgstr "Low"
+
+#. Domain: enums
+msgid "priority.3"
+msgstr "Medium"
+
+#. Domain: enums
+msgid "priority.4"
+msgstr "High"
+
+#. Domain: enums
+msgid "priority.5"
+msgstr "Very high"
+
+#. Domain: enums
+msgid "statusTopic.0"
+msgstr "Closed"
+
+#. Domain: enums
+msgid "statusTopic.1"
+msgstr "Open"
+
+#. Domain: enums
+msgid "statusTopicBis.0"
+msgstr "Yes"
+
+#. Domain: enums
+msgid "statusTopicBis.1"
+msgstr "No"
+
+#. Domain: enums
+msgid "statusPublish.0"
+msgstr "Yes"
+
+#. Domain: enums
+msgid "statusPublish.1"
+msgstr "No"
+
+#. Domain: enums
+msgid "statusFile.0"
+msgstr "Approved"
+
+#. Domain: enums
+msgid "statusFile.1"
+msgstr "Approved With Changes"
+
+#. Domain: enums
+msgid "statusFile.2"
+msgstr "Needs Approval"
+
+#. Domain: enums
+msgid "statusFile.3"
+msgstr "No Approvals Needed"
+
+#. Domain: enums
+msgid "statusFile.4"
+msgstr "Not Approved"
+
+#. Domain: enums
+msgid "phaseStatus.0"
+msgstr "Not started"
+
+#. Domain: enums
+msgid "phaseStatus.1"
+msgstr "Open"
+
+#. Domain: enums
+msgid "phaseStatus.2"
+msgstr "Complete"
+
+#. Domain: enums
+msgid "phaseStatus.3"
+msgstr "Suspended"
+
+#. Domain: enums
+msgid "requestStatus.0"
+msgstr "New"
+
+#. Domain: enums
+msgid "requestStatus.1"
+msgstr "Open"
+
+#. Domain: enums
+msgid "requestStatus.2"
+msgstr "Complete"
+
+#. Domain: enums
+msgid "invoiceStatus.0"
+msgstr "Open"
+
+#. Domain: enums
+msgid "invoiceStatus.1"
+msgstr "Sent"
+
+#. Domain: enums
+msgid "invoiceStatus.2"
+msgstr "Paid"
+
+#. Domain: enums
+msgid "logLevels.100"
+msgstr "DEBUG (100)"
+
+#. Domain: enums
+msgid "logLevels.200"
+msgstr "INFO (200) (recommended for DEV)"
+
+#. Domain: enums
+msgid "logLevels.250"
+msgstr "NOTICE (250)"
+
+#. Domain: enums
+msgid "logLevels.300"
+msgstr "WARNING (300)"
+
+#. Domain: enums
+msgid "logLevels.400"
+msgstr "ERROR (400) (recommended for PROD)"
+
+#. Domain: enums
+msgid "logLevels.500"
+msgstr "CRITICAL (500)"
+
+#. Domain: enums
+msgid "logLevels.550"
+msgstr "ALERT (550)"
+
+#. Domain: enums
+msgid "logLevels.600"
+msgstr "EMERGENCY (600)"
+
+
+# Arrays (days, months, byte units)
+
+msgid "byteunits.0"
+msgstr "Bytes"
+
+msgid "byteunits.1"
+msgstr "KB"
+
+msgid "byteunits.2"
+msgstr "MB"
+
+msgid "byteunits.3"
+msgstr "GB"
+
+msgid "dayname.1"
+msgstr "Monday"
+
+msgid "dayname.2"
+msgstr "Tuesday"
+
+msgid "dayname.3"
+msgstr "Wednesday"
+
+msgid "dayname.4"
+msgstr "Thursday"
+
+msgid "dayname.5"
+msgstr "Friday"
+
+msgid "dayname.6"
+msgstr "Saturday"
+
+msgid "dayname.7"
+msgstr "Sunday"
+
+msgid "monthname.1"
+msgstr "January"
+
+msgid "monthname.2"
+msgstr "February"
+
+msgid "monthname.3"
+msgstr "March"
+
+msgid "monthname.4"
+msgstr "April"
+
+msgid "monthname.5"
+msgstr "May"
+
+msgid "monthname.6"
+msgstr "June"
+
+msgid "monthname.7"
+msgstr "July"
+
+msgid "monthname.8"
+msgstr "August"
+
+msgid "monthname.9"
+msgstr "September"
+
+msgid "monthname.10"
+msgstr "October"
+
+msgid "monthname.11"
+msgstr "November"
+
+msgid "monthname.12"
+msgstr "December"
+

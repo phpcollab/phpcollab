@@ -1,0 +1,164 @@
+# phpCollab Translation File
+# Language: English (en)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-05 21:01:20 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Help text
+
+msgid "setup_mkdirMethod"
+msgstr ""
+"If safe-mode is On, you need to set a Ftp account to be able to create"
+"folder with file management."
+
+msgid "setup_notifications"
+msgstr ""
+"Users e-mail notifications (task assignment, new post, task"
+"changes...)<br/>Valid smtp/sendmail needed."
+
+msgid "setup_forcedlogin"
+msgstr "If false, disallow external link with login/password in url"
+
+msgid "setup_langdefault"
+msgstr ""
+"Choose language to be selected on login by default or leave blank to"
+"use auto_detect browser language."
+
+msgid "setup_myprefix"
+msgstr ""
+"Set this value if you have tables with same name in existing"
+"database.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Leave"
+"blank for not use table prefix."
+
+msgid "setup_loginmethod"
+msgstr ""
+"Method to store passwords in database.<br/>Set to &quot;Crypt&quot; in"
+"order htaccess authentificationto work (if htaccess"
+"authentificationare enabled)."
+
+msgid "admin_update"
+msgstr ""
+"Respect strictly the order indicated to update your version<br/>1."
+"Edit settings (supplement the new parameters)<br/>2. Edit database"
+"(update in agreement with your preceding version)"
+
+msgid "task_scope_creep"
+msgstr ""
+"Difference in days between due date and complete date (bold if"
+"positive)"
+
+msgid "max_file_size"
+msgstr "Maximum file size of a file to upload"
+
+msgid "project_disk_space"
+msgstr "Total size of files for the project"
+
+msgid "project_scope_creep"
+msgstr ""
+"Difference in days between due date and complete date (bold if"
+"positive). Total for all tasks"
+
+msgid "mycompany_logo"
+msgstr ""
+"Upload any logo of your company. Appears in header, instead of title"
+"site"
+
+msgid "calendar_shortname"
+msgstr "Label to appear in monthly calendar view. Mandatory"
+
+msgid "user_autologout"
+msgstr "Time in sec. to be disconnected after no activity. 0 to disable"
+
+msgid "user_timezone"
+msgstr "Set your GMT timezone"
+
+msgid "setup_clientsfilter"
+msgstr "Filter to see only logged user clients"
+
+msgid "setup_projectsfilter"
+msgstr "Filter to see only the project when the user are in the team"
+
+msgid "setup_notificationMethod"
+msgstr ""
+"Set method to send email notifications: with internal php mail"
+"function (need for having a smtp server or sendmail configured in the"
+"parameters of php) or with a personalized smtp server"
+
+msgid "newsdesk_links"
+msgstr "to add multiple links use semicolon"
+
+msgid "setup_error_database_server"
+msgstr "You must enter the database Server"
+
+msgid "setup_error_database_login"
+msgstr "Must be insert the database Login"
+
+msgid "setup_error_database_name"
+msgstr "Must be insert the database Name"
+
+msgid "setup_error_site_url"
+msgstr "Must be insert the Root path"
+
+msgid "setup_error_admin_password"
+msgstr "Must insert an Admin password"
+
+msgid "setup_error_admin_email"
+msgstr "Must insert an Admin email"
+
+msgid "setup_error_database"
+msgstr ""
+"Error connecting to database.  Please check that your information is"
+"correct and try again."
+
+msgid "setup_general_error"
+msgstr "We had a problem completing the request. Please check and try again."
+
+msgid "setup_success"
+msgstr ""
+"<p><strong>phpCollab has successfully been"
+"installed.</strong></p><p><a href=\"%s\">Please log in</a></p>"
+
+msgid "setup_social_info"
+msgstr ""
+"<strong>Connect with us:</strong><p>Join us on <a"
+"href=\"https://slack.phpcollab.com\" class=\"noIcon\">Slack<i"
+"style=\"margin-left: 5px;\" class=\"fab fa-slack-hash\"></i></a> <span"
+"style=\"color: darkgray\">|</span> Like us on <a"
+"href=\"https://www.facebook.com/phpcollab/\""
+"class=\"noIcon\">Facebook<i style=\"margin-left: 5px;\"  class=\"fab"
+"fa-facebook-square\"></i></a></p>"
+
+msgid "logLevels"
+msgstr ""
+"<div><strong>DEBUG (100)</strong>: Detailed debug"
+"information.</div><div><strong>INFO (200)</strong>: Interesting"
+"events.<br /><em>Examples: User logs in, SQL"
+"logs.</em></div><div><strong>NOTICE (250)</strong>: Normal but"
+"significant events.</div><div><strong>WARNING (300)</strong>:"
+"Exceptional occurrences that are not errors.<br /><em>Examples: Use of"
+"deprecated APIs, poor use of an API, undesirable things that are not"
+"necessarily wrong.</em></div><div><strong>ERROR (400)</strong>:"
+"Runtime errors that do not require immediate action but should"
+"typically be logged and monitored.</div><div><strong>CRITICAL"
+"(500)</strong>: Critical conditions.<br /><em>Example: Application"
+"component unavailable, unexpected"
+"exception.</em></div><div><strong>ALERT (550)</strong>: Action must be"
+"taken immediately.<br /><em>Example: Entire website down, database"
+"unavailable, etc. This should trigger the SMS alerts and wake you"
+"up.</em></div><div><strong>EMERGENCY (600)</strong>: Emergency: system"
+"is unusable.</div>"
+
+msgid "homeViewOptions"
+msgstr ""
+"<div>This does not disable the feature, just removes it from theo home"
+"view.</div>"
+

@@ -53,12 +53,16 @@ use phpCollab\Topics\Topics;
 use phpCollab\Tasks\TaskUpdates;
 use Sabre\VObject\Component\VCard;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\Loader\PoFileLoader;
+use Symfony\Component\Translation\Loader\MoFileLoader;
 
 class Container
 {
     private $database;
     private $configuration;
     private $language;
+    private $translator;
     private $logger;
     private $csrfHandler;
     private $bookmarkLoader;
@@ -147,6 +151,92 @@ class Container
     public function setLanguage($language): void
     {
         $this->language = $language;
+
+        // If translator is already initialized, update its locale
+        if ($this->translator !== null) {
+            $this->translator->setLocale($language);
+        }
+    }
+
+    /**
+     * Get translator instance
+     *
+     * @return Translator
+     */
+    public function getTranslator(): Translator
+    {
+        if ($this->translator === null) {
+            $this->initializeTranslator();
+        }
+        return $this->translator;
+    }
+
+    /**
+     * Set translator instance
+     *
+     * @param Translator $translator
+     */
+    public function setTranslator(Translator $translator): void
+    {
+        $this->translator = $translator;
+    }
+
+    /**
+     * Initialize translator with all language resources
+     */
+    private function initializeTranslator(): void
+    {
+        $locale = $this->getLanguage();
+        $this->translator = new Translator($locale);
+
+        // Add loaders
+        $this->translator->addLoader('po', new PoFileLoader());
+        $this->translator->addLoader('mo', new MoFileLoader());
+
+        // Set fallback locales
+        $this->translator->setFallbackLocales(['en']);
+
+        // Register all translation resources
+        $this->registerTranslationResources();
+    }
+
+    /**
+     * Register all translation resources
+     */
+    private function registerTranslationResources(): void
+    {
+        $translationsPath = APP_ROOT . '/translations';
+        $languages = $this->getSupportedLanguages();
+        $domains = ['messages', 'help', 'enums', 'custom'];
+
+        foreach ($languages as $lang) {
+            foreach ($domains as $domain) {
+                $poFile = "{$translationsPath}/{$domain}/{$domain}.{$lang}.po";
+                $moFile = "{$translationsPath}/{$domain}/{$domain}.{$lang}.mo";
+
+                // Prefer .mo files (faster) if available, fallback to .po
+                if (file_exists($moFile)) {
+                    $this->translator->addResource('mo', $moFile, $lang, $domain);
+                } elseif (file_exists($poFile)) {
+                    $this->translator->addResource('po', $poFile, $lang, $domain);
+                }
+            }
+        }
+    }
+
+    /**
+     * Get supported languages
+     *
+     * @return array
+     */
+    private function getSupportedLanguages(): array
+    {
+        return [
+            'ar', 'az', 'pt-br', 'bg', 'ca', 'zh', 'zh-tw', 'cs-iso',
+            'cs-win1250', 'da', 'nl', 'en', 'et', 'fr', 'de', 'hu',
+            'is', 'in', 'it', 'ja', 'ko', 'lv', 'no', 'pl', 'pt',
+            'ro', 'ru', 'sk-win1250', 'es', 'tr', 'uk'
+        ];
     }
 
     /**

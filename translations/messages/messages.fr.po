@@ -1,0 +1,1856 @@
+# phpCollab Translation File
+# Language: French (fr)
+# Type: Lang
+# Domain: messages
+# Generated: 2025-11-05 21:01:25 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# String translations
+
+msgid "strings.please_login"
+msgstr "Connectez-vous"
+
+msgid "strings.requirements"
+msgstr "Configuration Requise"
+
+msgid "strings.login"
+msgstr "Connexion"
+
+msgid "strings.no_items"
+msgstr "Pas d'enregistrement"
+
+msgid "strings.logout"
+msgstr "D�connexion"
+
+msgid "strings.preferences"
+msgstr "Pr�f�rences"
+
+msgid "strings.my_tasks"
+msgstr "Mes T�ches"
+
+msgid "strings.edit_task"
+msgstr "�diter une t�che"
+
+msgid "strings.copy_task"
+msgstr "Copier une t�che"
+
+msgid "strings.add_task"
+msgstr "Ajouter une t�che"
+
+msgid "strings.delete_tasks"
+msgstr "Effacer les t�ches"
+
+msgid "strings.assignment_history"
+msgstr "Historique des assignations"
+
+msgid "strings.assigned_on"
+msgstr "Assign�e �"
+
+msgid "strings.assigned_by"
+msgstr "Assign�e par"
+
+msgid "strings.to"
+msgstr "�"
+
+msgid "strings.comment"
+msgstr "Commentaire"
+
+msgid "strings.task_assigned"
+msgstr "T�che assign�e �"
+
+msgid "strings.task_unassigned"
+msgstr "T�che assign�e � Non assign�e (Non assign�e)"
+
+msgid "strings.edit_multiple_tasks"
+msgstr "�diter plusieurs t�ches"
+
+msgid "strings.tasks_selected"
+msgstr ""
+"t�ches s�lectionn�es. Choisissez de nouvelles valeurs pour ces"
+"t�ches, ou s�lectionnez [Pas de changement] pour conserver les"
+"valeurs d'origine."
+
+msgid "strings.assignment_comment"
+msgstr "Commentaire d'assignation"
+
+msgid "strings.no_change"
+msgstr "[Pas de changement]"
+
+msgid "strings.my_discussions"
+msgstr "Mes Discussions"
+
+msgid "strings.delete_discussions"
+msgstr "Effacer les discussions"
+
+msgid "strings.delete_discussions_note"
+msgstr ""
+"Note : Les discussions ne peuvent pas �tre r�ouvertes apr�s"
+"effacement."
+
+msgid "strings.topic"
+msgstr "Sujet"
+
+msgid "strings.posts"
+msgstr "Messages"
+
+msgid "strings.latest_post"
+msgstr "Dernier Message"
+
+msgid "strings.my_reports"
+msgstr "Mes Rapports"
+
+msgid "strings.reports"
+msgstr "Rapports"
+
+msgid "strings.create_report"
+msgstr "Cr�er un rapport"
+
+msgid "strings.report_intro"
+msgstr ""
+"Choisissez les crit�res de cr�ation du rapport d'avancement des"
+"t�ches puis sauvegardez votre requ�te dans la page de r�sultat."
+
+msgid "strings.admin_intro"
+msgstr "Information et Configuration."
+
+msgid "strings.copy_of"
+msgstr "Copie de "
+
+msgid "strings.add"
+msgstr "Ajouter"
+
+msgid "strings.delete"
+msgstr "Supprimer"
+
+msgid "strings.remove"
+msgstr "Effacer"
+
+msgid "strings.copy"
+msgstr "Copier"
+
+msgid "strings.view"
+msgstr "Voir"
+
+msgid "strings.edit"
+msgstr "�diter"
+
+msgid "strings.update"
+msgstr "Modifier"
+
+msgid "strings.details"
+msgstr "D�tails"
+
+msgid "strings.none"
+msgstr "Vide"
+
+msgid "strings.close"
+msgstr "Fermer"
+
+msgid "strings.new"
+msgstr "Nouveau"
+
+msgid "strings.select_all"
+msgstr "S�lectionner tout"
+
+msgid "strings.unassigned"
+msgstr "Non assign�"
+
+msgid "strings.administrator"
+msgstr "Administrateur"
+
+msgid "strings.my_projects"
+msgstr "Mes Projets"
+
+msgid "strings.project"
+msgstr "Projet"
+
+msgid "strings.active"
+msgstr "Actif"
+
+msgid "strings.inactive"
+msgstr "Inactif"
+
+msgid "strings.project_id"
+msgstr "N� de projet"
+
+msgid "strings.edit_project"
+msgstr "�diter le projet"
+
+msgid "strings.copy_project"
+msgstr "Copier le projet"
+
+msgid "strings.add_project"
+msgstr "Ajouter un projet"
+
+msgid "strings.organization"
+msgstr "Client"
+
+msgid "strings.client_projects"
+msgstr "Projets Client"
+
+msgid "strings.client_users"
+msgstr "Utilisateurs Client"
+
+msgid "strings.edit_organization"
+msgstr "�diter un client"
+
+msgid "strings.add_organization"
+msgstr "Ajouter un client"
+
+msgid "strings.organizations"
+msgstr "Clients"
+
+msgid "strings.status"
+msgstr "�tat"
+
+msgid "strings.owner"
+msgstr "Propri�taire"
+
+msgid "strings.home"
+msgstr "Accueil"
+
+msgid "strings.projects"
+msgstr "Projets"
+
+msgid "strings.files"
+msgstr "Fichiers"
+
+msgid "strings.search"
+msgstr "Recherche"
+
+msgid "strings.user"
+msgstr "Utilisateur"
+
+msgid "strings.project_manager"
+msgstr "Chef de projet"
+
+msgid "strings.task"
+msgstr "T�che"
+
+msgid "strings.tasks"
+msgstr "T�ches"
+
+msgid "strings.team"
+msgstr "�quipe"
+
+msgid "strings.add_team"
+msgstr "Ajouter un membre � l'�quipe"
+
+msgid "strings.team_members"
+msgstr "Membres de l'�quipe"
+
+msgid "strings.full_name"
+msgstr "Nom complet"
+
+msgid "strings.title"
+msgstr "Fonction"
+
+msgid "strings.user_name"
+msgstr "Utilisateur"
+
+msgid "strings.work_phone"
+msgstr "T�l�phone Travail"
+
+msgid "strings.priority"
+msgstr "Priorit�"
+
+msgid "strings.name"
+msgstr "Nom"
+
+msgid "strings.phone"
+msgstr "T�l�phone"
+
+msgid "strings.address"
+msgstr "Adresse"
+
+msgid "strings.comments"
+msgstr "Commentaires"
+
+msgid "strings.created"
+msgstr "Cr��"
+
+msgid "strings.assigned"
+msgstr "Assign�e"
+
+msgid "strings.modified"
+msgstr "Modifi�"
+
+msgid "strings.assigned_to"
+msgstr "Assign�e �"
+
+msgid "strings.due_date"
+msgstr "Date due"
+
+msgid "strings.estimated_time"
+msgstr "Temps estim�"
+
+msgid "strings.actual_time"
+msgstr "Temps r�el"
+
+msgid "strings.delete_following"
+msgstr "Effacer les �l�ments suivants ?"
+
+msgid "strings.cancel"
+msgstr "Annuler"
+
+msgid "strings.and"
+msgstr "et"
+
+msgid "strings.user_management"
+msgstr "Gestion des utilisateurs"
+
+msgid "strings.system_information"
+msgstr "Information Syst�me"
+
+msgid "strings.product_information"
+msgstr "Information Produit"
+
+msgid "strings.system_properties"
+msgstr "Propri�t�s Syst�me"
+
+msgid "strings.create"
+msgstr "Cr�er"
+
+msgid "strings.report_save"
+msgstr ""
+"Sauvegarder cette requ�te sur votre page d'accueil pour pouvoir la"
+"lancer � nouveau."
+
+msgid "strings.report_name"
+msgstr "Nom du rapport"
+
+msgid "strings.save"
+msgstr "Sauvegarder"
+
+msgid "strings.matches"
+msgstr "R�sultats"
+
+msgid "strings.match"
+msgstr "R�sultat"
+
+msgid "strings.report_results"
+msgstr "R�sultats de la requ�te"
+
+msgid "strings.success"
+msgstr "Succ�s"
+
+msgid "strings.addition_succeeded"
+msgstr "Ajout r�ussi"
+
+msgid "strings.deletion_succeeded"
+msgstr "Suppression r�ussie"
+
+msgid "strings.report_created"
+msgstr "Rapport cr��"
+
+msgid "strings.deleted_reports"
+msgstr "Rapport effac�s"
+
+msgid "strings.modification_succeeded"
+msgstr "Modification r�ussie"
+
+msgid "strings.errors"
+msgstr "Erreurs trouv�es !"
+
+msgid "strings.blank_user"
+msgstr "Utilisateur introuvable."
+
+msgid "strings.blank_organization"
+msgstr "Client introuvable."
+
+msgid "strings.blank_project"
+msgstr "Projet introuvable."
+
+msgid "strings.user_profile"
+msgstr "Profil utilisateur"
+
+msgid "strings.change_password"
+msgstr "Changement mot de passe"
+
+msgid "strings.change_password_user"
+msgstr "Changer le mot de passe utilisateur."
+
+msgid "strings.old_password_error"
+msgstr ""
+"L'ancien mot de passe saisi est incorrect. Veuillez le saisir �"
+"nouveau."
+
+msgid "strings.new_password_error"
+msgstr ""
+"Les 2 mots de passe saisis ne correspondent pas. Veuillez re-saisir"
+"votre nouveau mot de passe."
+
+msgid "strings.change_password_intro"
+msgstr "Saisissez votre ancien mot de passe et deux fois le nouveau."
+
+msgid "strings.old_password"
+msgstr "Ancien Mot de passe"
+
+msgid "strings.password"
+msgstr "Mot de passe"
+
+msgid "strings.new_password"
+msgstr "Nouveau Mot de passe"
+
+msgid "strings.confirm_password"
+msgstr "Confirmer le mot de passe"
+
+msgid "strings.email"
+msgstr "E-mail"
+
+msgid "strings.home_phone"
+msgstr "T�l�phone domicile"
+
+msgid "strings.mobile_phone"
+msgstr "T�l�phone portable"
+
+msgid "strings.administrator_permissions"
+msgstr "Permissions Administrateur"
+
+msgid "strings.project_manager_permissions"
+msgstr "Permissions Chef de projet"
+
+msgid "strings.user_permissions"
+msgstr "Permissions Utilisateur"
+
+msgid "strings.account_created"
+msgstr "Compte cr��"
+
+msgid "strings.edit_user"
+msgstr "�diter l'utilisateur"
+
+msgid "strings.edit_user_details"
+msgstr "�diter les d�tails du compte utilisateur."
+
+msgid "strings.change_user_password"
+msgstr "Changer le mot de passe utilisateur."
+
+msgid "strings.select_permissions"
+msgstr "S�lectionner les permissions pour l'utilisateur."
+
+msgid "strings.add_user"
+msgstr "Ajouter un utilisateur"
+
+msgid "strings.enter_user_details"
+msgstr "Entrer les d�tails pour le nouveau compte utilisateur.."
+
+msgid "strings.enter_password"
+msgstr "Entrer le mot de passe utilisateur."
+
+msgid "strings.success_logout"
+msgstr ""
+"Vous vous �tes d�connect� avec succ�s. Vous pouvez vous"
+"reconnecter en saisissant votre nom d'utilisateur et votre mot de"
+"passe ci-dessous."
+
+msgid "strings.invalid_login"
+msgstr ""
+"Le nom d'utilisateur et/ou le mot de passe saisi est incorrect."
+"Saisissez � nouveau vos informations de connexion."
+
+msgid "strings.profile"
+msgstr "Profil"
+
+msgid "strings.user_details"
+msgstr "D�tails du compte utilisateur."
+
+msgid "strings.edit_user_account"
+msgstr "�diter vos informations."
+
+msgid "strings.no_permissions"
+msgstr ""
+"Vous n'avez pas les permissions n�cessaires pour effectuer cette"
+"action."
+
+msgid "strings.retired"
+msgstr "Retir�e"
+
+msgid "strings.last_post"
+msgstr "Dernier message"
+
+msgid "strings.post_reply"
+msgstr "Poster une r�ponse"
+
+msgid "strings.posted_by"
+msgstr "Post� par"
+
+msgid "strings.when"
+msgstr "Quand"
+
+msgid "strings.post_to_discussion"
+msgstr "Poster une r�ponse"
+
+msgid "strings.delete_reports"
+msgstr "Effacer des �tats"
+
+msgid "strings.delete_projects"
+msgstr "Effacer des projets"
+
+msgid "strings.delete_organizations"
+msgstr "Effacer des clients"
+
+msgid "strings.delete_organizations_note"
+msgstr ""
+"Note: Les utilisateurs de ces clients seront effac�s et les projets"
+"r�-associ�s."
+
+msgid "strings.delete_messages"
+msgstr "Effacer les messages"
+
+msgid "strings.delete_teamownermix"
+msgstr ""
+"Suppression r�ussie, mais le propri�taire du projet ne peut pas"
+"�tre supprim� de l'�quipe."
+
+msgid "strings.delete_teamowner"
+msgstr ""
+"Vous ne pouvez pas supprimer le propri�taire du projet de"
+"l'�quipe."
+
+msgid "strings.enter_keywords"
+msgstr "Saisir des mots cl�s"
+
+msgid "strings.search_options"
+msgstr "Mots cl�s et options de recherche"
+
+msgid "strings.search_note"
+msgstr "Vous devez saisir des informations dans le champs de recherche."
+
+msgid "strings.search_results"
+msgstr "R�sultats de recherche"
+
+msgid "strings.users"
+msgstr "Utilisateurs"
+
+msgid "strings.search_for"
+msgstr "Rechercher"
+
+msgid "strings.results_for_keywords"
+msgstr "R�sultats de recherche pour le(s) mot(s) cl�(s)"
+
+msgid "strings.add_discussion"
+msgstr "Ajouter un sujet"
+
+msgid "strings.delete_users"
+msgstr "Effacer les comptes utilisateurs"
+
+msgid "strings.reassignment_user"
+msgstr "R�assignation de projet et t�che"
+
+msgid "strings.there"
+msgstr "Il y a"
+
+msgid "strings.owned_by"
+msgstr "li�s aux utilisateurs ci-dessus."
+
+msgid "strings.reassign_to"
+msgstr "Avant d'effacer les utilisateurs, r�assigner �"
+
+msgid "strings.no_files"
+msgstr "Aucun fichier associ�"
+
+msgid "strings.published"
+msgstr "Publi�"
+
+msgid "strings.project_site"
+msgstr "Site Projet"
+
+msgid "strings.approval_tracking"
+msgstr "Approbations"
+
+msgid "strings.size"
+msgstr "Taille"
+
+msgid "strings.add_project_site"
+msgstr "Ajouter au Site Projet"
+
+msgid "strings.remove_project_site"
+msgstr "Retirer du Site Projet"
+
+msgid "strings.more_search"
+msgstr "Plus d'options de recherches"
+
+msgid "strings.results_with"
+msgstr "R�sultats trouv�s avec"
+
+msgid "strings.search_topics"
+msgstr "Sujets de recherche"
+
+msgid "strings.search_properties"
+msgstr "Caract�ristiques de recherche"
+
+msgid "strings.date_restrictions"
+msgstr "Restrictions de date"
+
+msgid "strings.case_sensitive"
+msgstr "Tenir compte des majuscules/minuscules"
+
+msgid "strings.yes"
+msgstr "Oui"
+
+msgid "strings.no"
+msgstr "Non"
+
+msgid "strings.sort_by"
+msgstr "Trier par"
+
+msgid "strings.all_words"
+msgstr "tous les mots"
+
+msgid "strings.any_words"
+msgstr "certains mots"
+
+msgid "strings.exact_match"
+msgstr "recherche pr�cise"
+
+msgid "strings.all_dates"
+msgstr "Toutes les dates"
+
+msgid "strings.between_dates"
+msgstr "Entre les dates"
+
+msgid "strings.all_content"
+msgstr "Tout le contenu"
+
+msgid "strings.all_properties"
+msgstr "Toutes les propri�t�s"
+
+msgid "strings.no_results_search"
+msgstr "La recherche n'a pas donn� de r�sultats."
+
+msgid "strings.no_results_report"
+msgstr "La recherche n'a pas donn� de r�sultats."
+
+msgid "strings.schema_date"
+msgstr "AAAA/MM/JJ"
+
+msgid "strings.hours"
+msgstr "heures"
+
+msgid "strings.choice"
+msgstr "Choix"
+
+msgid "strings.missing_file"
+msgstr "Fichier absent!"
+
+msgid "strings.project_site_deleted"
+msgstr "Le site projet a �t� effac� avec succ�s."
+
+msgid "strings.add_user_project_site"
+msgstr ""
+"Les utilisateurs ont �t� autoris�s � acc�der au site projet."
+
+msgid "strings.remove_user_project_site"
+msgstr "Les permissions utilisateurs ont �t� retir�es avec succ�s."
+
+msgid "strings.add_project_site_success"
+msgstr "L'ajout au site projet est r�ussi."
+
+msgid "strings.remove_project_site_success"
+msgstr "La suppression du site projet est r�ussie."
+
+msgid "strings.add_file_success"
+msgstr "Fichier associ�."
+
+msgid "strings.delete_file_success"
+msgstr "Fichier retir�."
+
+msgid "strings.update_comment_file"
+msgstr "Le commentaire du fichier a �t� mis � jour avec succ�s."
+
+msgid "strings.session_false"
+msgstr "Erreur de session"
+
+msgid "strings.logs"
+msgstr "Journal"
+
+msgid "strings.logout_time"
+msgstr "Auto d�connexion"
+
+msgid "strings.noti_foot1"
+msgstr "Cette notification a �t� g�n�r�e par PhpCollab."
+
+msgid "strings.noti_foot2"
+msgstr "Pour acc�der � la page d'accueil de PhpCollab, visitez :"
+
+msgid "strings.noti_taskassignment1"
+msgstr "Nouvelle t�che :"
+
+msgid "strings.noti_taskassignment2"
+msgstr "Une t�che vous a �t� assign�e :"
+
+msgid "strings.noti_moreinfo"
+msgstr "Pour plus d'informations, visitez :"
+
+msgid "strings.noti_prioritytaskchange1"
+msgstr "Priorit� d'une t�che modifi�e :"
+
+msgid "strings.noti_prioritytaskchange2"
+msgstr "La priorit� de la t�che suivante a �t� modifi�e :"
+
+msgid "strings.noti_statustaskchange1"
+msgstr "�tat d'une t�che modifi� :"
+
+msgid "strings.noti_statustaskchange2"
+msgstr "L'�tat de la t�che suivante a �t� modifi� :"
+
+msgid "strings.login_username"
+msgstr "Vous devez saisir un nom d'utilisateur"
+
+msgid "strings.login_password"
+msgstr "Saisissez un mot de passe."
+
+msgid "strings.login_clientuser"
+msgstr ""
+"Il s'agit d'un compte utilisateur client. Vous ne pouvez pas acc�der"
+"� PhpCollab avec ce type de compte."
+
+msgid "strings.user_already_exists"
+msgstr ""
+"Il y a d�j� un utilisateur avec ce nom. Choisissez un nom"
+"d'utilisateur diff�rent."
+
+msgid "strings.noti_duedatetaskchange1"
+msgstr "Date due d'une t�che modifi�e :"
+
+msgid "strings.noti_duedatetaskchange2"
+msgstr "La date de livraison de la t�che suivante a �t� modifi�e :"
+
+msgid "strings.company"
+msgstr "Soci�t�"
+
+msgid "strings.show_all"
+msgstr "Montrer tout"
+
+msgid "strings.delete_message"
+msgstr "Effacer ce message"
+
+msgid "strings.project_team"
+msgstr "Equipe projet"
+
+msgid "strings.document_list"
+msgstr "Liste documents"
+
+msgid "strings.bulletin_board"
+msgstr "Discussions"
+
+msgid "strings.bulletin_board_topic"
+msgstr "Sujet de discussion"
+
+msgid "strings.create_topic"
+msgstr "Cr�er un nouveau sujet"
+
+msgid "strings.topic_form"
+msgstr "Formulaire"
+
+msgid "strings.enter_message"
+msgstr "Entrez votre message"
+
+msgid "strings.upload_file"
+msgstr "Envoyer un fichier"
+
+msgid "strings.upload_form"
+msgstr "Formulaire d'envoi"
+
+msgid "strings.upload"
+msgstr "Fichier"
+
+msgid "strings.approval_comments"
+msgstr "Commentaires d'approbation"
+
+msgid "strings.client_tasks"
+msgstr "T�ches clients"
+
+msgid "strings.team_tasks"
+msgstr "T�ches �quipe"
+
+msgid "strings.team_member_details"
+msgstr "D�tails membre de l'�quipe"
+
+msgid "strings.client_task_details"
+msgstr "D�tails t�che client"
+
+msgid "strings.team_task_details"
+msgstr "D�tails t�che membre de l'�quipe"
+
+msgid "strings.language"
+msgstr "Langage"
+
+msgid "strings.welcome"
+msgstr "Bienvenue"
+
+msgid "strings.your_projectsite"
+msgstr "dans votre site projet"
+
+msgid "strings.contact_projectsite"
+msgstr ""
+"Si vous avez des questions concernant l'extranet ou les informations"
+"indiqu�es sur ce site, contactez le responsable projet"
+
+msgid "strings.company_details"
+msgstr "D�tails Soci�t�"
+
+msgid "strings.database"
+msgstr "Sauvegarde et restauration de la base"
+
+msgid "strings.company_info"
+msgstr "�diter les informations sur votre soci�t�"
+
+msgid "strings.create_projectsite"
+msgstr "Cr�er le site projet"
+
+msgid "strings.projectsite_url"
+msgstr "Adresse du site projet"
+
+msgid "strings.design_template"
+msgstr "Mod�le de site"
+
+msgid "strings.preview_design_template"
+msgstr "Aper�u du mod�le"
+
+msgid "strings.delete_projectsite"
+msgstr "Supprimer le site projet"
+
+msgid "strings.add_file"
+msgstr "Ajouter un fichier"
+
+msgid "strings.linked_content"
+msgstr "Fichiers"
+
+msgid "strings.edit_file"
+msgstr "�diter le commentaire du fichier"
+
+msgid "strings.permitted_client"
+msgstr "Utilisateurs client autoris�s"
+
+msgid "strings.grant_client"
+msgstr "Attribuer les acc�s au Site Projet"
+
+msgid "strings.add_client_user"
+msgstr "Ajouter un utilisateur client"
+
+msgid "strings.edit_client_user"
+msgstr "�diter l'utilisateur client"
+
+msgid "strings.client_user"
+msgstr "Utilisateur client"
+
+msgid "strings.client_change_status"
+msgstr "Changez l'�tat ci-dessous quand vous avez fini la t�che"
+
+msgid "strings.project_status"
+msgstr "�tat du projet"
+
+msgid "strings.view_projectsite"
+msgstr "Voir le site projet"
+
+msgid "strings.enter_login"
+msgstr ""
+"Saisissez votre identifiant (login) pour recevoir votre nouveau mot de"
+"passe"
+
+msgid "strings.send"
+msgstr "Envoyer"
+
+msgid "strings.no_login"
+msgstr "Nom d'utilisateur non pr�sent"
+
+msgid "strings.email_pwd"
+msgstr "Mot de passe envoy�"
+
+msgid "strings.no_email"
+msgstr "Utilisateur sans e-mail"
+
+msgid "strings.forgot_pwd"
+msgstr "Mot de passe oubli� ?"
+
+msgid "strings.project_owner"
+msgstr "Vous pouvez faire des changements sur vos propres projets uniquement."
+
+msgid "strings.connected"
+msgstr "Connect�"
+
+msgid "strings.last_visit"
+msgstr "Derni�re visite"
+
+msgid "strings.compteur"
+msgstr "Compteur"
+
+msgid "strings.ip"
+msgstr "IP"
+
+msgid "strings.task_owner"
+msgstr "Vous ne faites pas partie de l'�quipe dans ce projet."
+
+msgid "strings.export"
+msgstr "Exporter"
+
+msgid "strings.reassignment_clientuser"
+msgstr "R�assignation de t�che"
+
+msgid "strings.organization_already_exists"
+msgstr ""
+"Le nom indiqu� est d�j� en utilis�. Veuillez en sp�cifier un"
+"diff�rent."
+
+msgid "strings.blank_organization_field"
+msgstr "Vous devez indiquer le nom du client."
+
+msgid "strings.blank_fields"
+msgstr "champ requis"
+
+msgid "strings.projectsite_login_fails"
+msgstr "L'usager et/ou le mot de passe ne sont pas valides."
+
+msgid "strings.start_date"
+msgstr "Date de d�but"
+
+msgid "strings.completion"
+msgstr "Compl�tion"
+
+msgid "strings.update_available"
+msgstr "Une nouvelle version est disponible!"
+
+msgid "strings.version_current"
+msgstr "Vous utilisez actuellement la version"
+
+msgid "strings.version_latest"
+msgstr "La derni�re version est la"
+
+msgid "strings.sourceforge_link"
+msgstr "Voir la page projet sur SourceForge"
+
+msgid "strings.demo_mode"
+msgstr "Mode d�mo. Action non autoris��."
+
+msgid "strings.setup_erase"
+msgstr "Effacez le fichier setup.php!!"
+
+msgid "strings.setup_erase_file"
+msgstr "Cliquez ici pour essayer de supprimer le fichier d'installation"
+
+msgid "strings.setup_erase_file_ua"
+msgstr ""
+"Nous ne pouvons pas supprimer le fichier, il n'est pas writtable. S'il"
+"vous plaît supprimer manuellement."
+
+msgid "strings.no_file"
+msgstr "Pas de fichier s�lectionn�"
+
+msgid "strings.exceed_size"
+msgstr "D�passement de la taille maximum"
+
+msgid "strings.no_php"
+msgstr "Fichiers Php non autoris�s"
+
+msgid "strings.approval_date"
+msgstr "Date d'approbation"
+
+msgid "strings.approver"
+msgstr "Approbateur"
+
+msgid "strings.error_database"
+msgstr "Connexion impossible � la base de donn�es"
+
+msgid "strings.error_server"
+msgstr "Connexion impossible au serveur de base de donn�es"
+
+msgid "strings.version_control"
+msgstr "Contr�le de version"
+
+msgid "strings.vc_status"
+msgstr "�tat"
+
+msgid "strings.vc_last_in"
+msgstr "Date de derni�re modification"
+
+msgid "strings.ifa_comments"
+msgstr "Commentaires d'approbation"
+
+msgid "strings.ifa_command"
+msgstr "Changer l'�tat d'approbation"
+
+msgid "strings.ifc_revisions"
+msgstr "Critiques"
+
+msgid "strings.ifc_revision_of"
+msgstr "Critique de la version"
+
+msgid "strings.ifc_add_revision"
+msgstr "Ajouter une critique"
+
+msgid "strings.ifc_update_file"
+msgstr "Mettre � jour le fichier"
+
+msgid "strings.ifc_last_date"
+msgstr "Date de la derni�re modification"
+
+msgid "strings.ifc_version_history"
+msgstr "Historique des versions"
+
+msgid "strings.ifc_delete_file"
+msgstr "Effacer le fichier et tous ceux qui lui sont apparent�s"
+
+msgid "strings.ifc_delete_version"
+msgstr "Effacer la version s�lectionn�e"
+
+msgid "strings.ifc_delete_review"
+msgstr "Effacer la critique s�lectionn�e"
+
+msgid "strings.ifc_no_revisions"
+msgstr "Il n'y a aucune r�vision de ce document en ce moment"
+
+msgid "strings.unlink_files"
+msgstr "Enlever les fichiers"
+
+msgid "strings.remove_team"
+msgstr "Enlever des �quipiers"
+
+msgid "strings.remove_team_info"
+msgstr "Enlever ces utilisateurs de l'�quipe du projet ?"
+
+msgid "strings.remove_team_client"
+msgstr "R�voquer les permissions permettant de visionner le site du projet"
+
+msgid "strings.subject"
+msgstr "Sujet"
+
+msgid "strings.delete_note"
+msgstr "Effacer les notes"
+
+msgid "strings.add_note"
+msgstr "Ajouter une note"
+
+msgid "strings.edit_note"
+msgstr "�diter une note"
+
+msgid "strings.version_increm"
+msgstr "Choisissez l'incr�ment � appliquer :"
+
+msgid "strings.url_dev"
+msgstr "Adresse du site de d�veloppement"
+
+msgid "strings.url_prod"
+msgstr "Adresse du site final"
+
+msgid "strings.note_owner"
+msgstr "Vous pouvez modifier uniquement vos notes."
+
+msgid "strings.alpha_only"
+msgstr "Caract�res alpha-num�rique uniquement pour le login"
+
+msgid "strings.edit_notifications"
+msgstr "�diter les notifications par e-mail"
+
+msgid "strings.edit_notifications_info"
+msgstr ""
+"S�lectionnez les �l�ments pour lesquels vous souhaitez recevoir"
+"une notification par e-mail."
+
+msgid "strings.select_deselect"
+msgstr "S�lectionner/D�selectionner tout"
+
+msgid "strings.noti_addprojectteam1"
+msgstr "Ajout� � l'�quipe du projet:"
+
+msgid "strings.noti_addprojectteam2"
+msgstr "Vous avez �t� ajout� � l'�quipe pour le projet :"
+
+msgid "strings.noti_removeprojectteam1"
+msgstr "Retir� de l'�quipe projet :"
+
+msgid "strings.noti_removeprojectteam2"
+msgstr "Vous avez �t� retir� de l'�quipe pour le projet :"
+
+msgid "strings.noti_newpost1"
+msgstr "Nouveau message dans la discussion :"
+
+msgid "strings.noti_newpost2"
+msgstr "Un nouveau message a �t� ajout� dans la discussion suivante :"
+
+msgid "strings.edit_noti_taskassignment"
+msgstr "J'ai �t� assign� � une nouvelle t�che"
+
+msgid "strings.edit_noti_statustaskchange"
+msgstr "L'�tat d'une de mes t�ches a chang�"
+
+msgid "strings.edit_noti_prioritytaskchange"
+msgstr "La priorit� d'une de mes t�ches a chang�"
+
+msgid "strings.edit_noti_duedatetaskchange"
+msgstr "La date due d'une de mes t�ches a chang�"
+
+msgid "strings.edit_noti_addprojectteam"
+msgstr "J'ai �t� ajout� � une �quipe projet."
+
+msgid "strings.edit_noti_removeprojectteam"
+msgstr "J'ai �t� retir� d'une �quipe projet."
+
+msgid "strings.edit_noti_newpost"
+msgstr ""
+"Un nouveau message a �t� ajout� � une discussion dans laquelle"
+"je participe."
+
+msgid "strings.add_optional"
+msgstr "Ajouter un "
+
+msgid "strings.assignment_comment_info"
+msgstr "Ajoutez des commentaires concernant l'assignation de cette t�che"
+
+msgid "strings.my_notes"
+msgstr "Mes Notes"
+
+msgid "strings.edit_settings"
+msgstr "�diter le fichier des param�tres"
+
+msgid "strings.max_upload"
+msgstr "Taille maximum pour un fichier"
+
+msgid "strings.project_folder_size"
+msgstr "Taille du dossier pour le projet"
+
+msgid "strings.calendar"
+msgstr "Calendrier"
+
+msgid "strings.date_start"
+msgstr "Date de d�but"
+
+msgid "strings.date_end"
+msgstr "Date de fin"
+
+msgid "strings.time_start"
+msgstr "Heure de d�but"
+
+msgid "strings.time_end"
+msgstr "Heure de fin"
+
+msgid "strings.calendar_reminder"
+msgstr "Rappel"
+
+msgid "strings.shortname"
+msgstr "Etiquette"
+
+msgid "strings.calendar_recurring"
+msgstr "L'�v�nement se r�p�te chaque semaine, ce jour l�"
+
+msgid "strings.edit_database"
+msgstr "�diter la base de donn�es"
+
+msgid "strings.noti_newtopic1"
+msgstr "Nouvelle discussion :"
+
+msgid "strings.noti_newtopic2"
+msgstr "Une nouvelle discussion a �t� ajout�e au project suivant :"
+
+msgid "strings.edit_noti_newtopic"
+msgstr ""
+"Une nouvelle discussion a �t� ajout�e au project dont je fais"
+"partie."
+
+msgid "strings.today"
+msgstr "Aujourd'hui"
+
+msgid "strings.previous"
+msgstr "Pr�c�dent"
+
+msgid "strings.next"
+msgstr "Suivant"
+
+msgid "strings.help"
+msgstr "Aide"
+
+msgid "strings.complete_date"
+msgstr "Date d'ach�vement"
+
+msgid "strings.scope_creep"
+msgstr "D�passement du temps pr�vu"
+
+msgid "strings.days"
+msgstr "Jours"
+
+msgid "strings.remember_password"
+msgstr "Se souvenir du mot de passe"
+
+msgid "strings.client_add_task_note"
+msgstr ""
+"Note: La t�che entr�e est enregistr�e dans la base de donn�e."
+"Elle appara�t cependant ici uniquement si elle a �t� assign�e"
+"� un membre de l'�quipe !"
+
+msgid "strings.noti_clientaddtask1"
+msgstr "T�che ajout�e par un client :"
+
+msgid "strings.noti_clientaddtask2"
+msgstr ""
+"Une t�che a �t� ajout�e par un client � partir du site"
+"projet pour le projet suivant :"
+
+msgid "strings.phase_id"
+msgstr "ID de phase"
+
+msgid "strings.current_phase"
+msgstr "Phase(s) active(s)"
+
+msgid "strings.total_tasks"
+msgstr "Nombre total de t�ches"
+
+msgid "strings.uncomplete_tasks"
+msgstr "T�ches non termin�es"
+
+msgid "strings.no_current_phase"
+msgstr "Aucune phase n'est active en ce moment"
+
+msgid "strings.true"
+msgstr "Vrai"
+
+msgid "strings.false"
+msgstr "Faux"
+
+msgid "strings.enable_phases"
+msgstr "Activer les phases"
+
+msgid "strings.phase_enabled"
+msgstr "Phase activ�e"
+
+msgid "strings.order"
+msgstr "Ordre"
+
+msgid "strings.support_request"
+msgstr "Demande d'assistance"
+
+msgid "strings.support_requests"
+msgstr "Demandes d'assistance"
+
+msgid "strings.support_id"
+msgstr "ID de demande"
+
+msgid "strings.my_support_request"
+msgstr "Mes demandes d'assistance"
+
+msgid "strings.submit"
+msgstr "Soumettre"
+
+msgid "strings.support_management"
+msgstr "Gestion du support"
+
+msgid "strings.date_open"
+msgstr "Date de la demande"
+
+msgid "strings.date_close"
+msgstr "Date de la r�solution"
+
+msgid "strings.add_support_request"
+msgstr "Ajouter une demande d'assistance"
+
+msgid "strings.add_support_response"
+msgstr "Ajouter une r�ponse"
+
+msgid "strings.respond"
+msgstr "R�pondre"
+
+msgid "strings.delete_support_request"
+msgstr "Demande d'assistance effac�e"
+
+msgid "strings.delete_request"
+msgstr "Effacer la demande d'assistance"
+
+msgid "strings.delete_support_post"
+msgstr "Effacer la r�ponse du service de support"
+
+msgid "strings.new_requests"
+msgstr "Nouvelles requ�tes"
+
+msgid "strings.open_requests"
+msgstr "Requ�tes ouvertes"
+
+msgid "strings.closed_requests"
+msgstr "Requ�tes trait�es"
+
+msgid "strings.manage_new_requests"
+msgstr "G�rer les nouvelles requ�tes"
+
+msgid "strings.manage_open_requests"
+msgstr "G�rer les requ�tes ouvertes"
+
+msgid "strings.manage_closed_requests"
+msgstr "G�rer les requ�tes trait�es"
+
+msgid "strings.responses"
+msgstr "R�ponses"
+
+msgid "strings.edit_status"
+msgstr "Modifier l'�tat"
+
+msgid "strings.noti_support_request_new2"
+msgstr "Vous venez de soumettre une demande d'assistance � propos de : "
+
+msgid "strings.noti_support_post2"
+msgstr ""
+"Une nouvelle r�ponse a �t� ajout�e � votre requ�te"
+"d'assistance. Veuillez prendre connaissance des d�tails ci-dessous."
+
+msgid "strings.noti_support_status2"
+msgstr ""
+"Votre requ�te d'assistance a �t� mise � jour. Veuillez prendre"
+"connaissance des d�tails ci-dessous."
+
+msgid "strings.noti_support_team_new2"
+msgstr "Une nouvelle requ�te d'assistance a �t� ajout�e au projet : "
+
+msgid "strings.delete_subtasks"
+msgstr "Effacer les sous-t�ches"
+
+msgid "strings.add_subtask"
+msgstr "Ajouter une sous-t�che"
+
+msgid "strings.edit_subtask"
+msgstr "�diter une sous-t�che"
+
+msgid "strings.subtask"
+msgstr "Sous-t�che"
+
+msgid "strings.subtasks"
+msgstr "Sous-t�ches"
+
+msgid "strings.show_details"
+msgstr "Montrer le d�tail"
+
+msgid "strings.updates_task"
+msgstr "Historique des mises � jour de la t�che"
+
+msgid "strings.updates_subtask"
+msgstr "Historique des mises � jour de la sous-t�che"
+
+msgid "strings.go_projects_site"
+msgstr "Aller au site des projets"
+
+msgid "strings.bookmark"
+msgstr "Signets"
+
+msgid "strings.bookmarks"
+msgstr "Signets"
+
+msgid "strings.bookmark_category"
+msgstr "Cat�gorie"
+
+msgid "strings.bookmark_category_new"
+msgstr "Nouvelle cat�gorie"
+
+msgid "strings.bookmarks_all"
+msgstr "Tout"
+
+msgid "strings.bookmarks_my"
+msgstr "Mes signets"
+
+msgid "strings.my"
+msgstr "Mes"
+
+msgid "strings.bookmarks_private"
+msgstr "Priv�"
+
+msgid "strings.shared"
+msgstr "Partag�"
+
+msgid "strings.private"
+msgstr "Priv�"
+
+msgid "strings.add_bookmark"
+msgstr "Ajouter un signet"
+
+msgid "strings.edit_bookmark"
+msgstr "�diter un signet"
+
+msgid "strings.delete_bookmarks"
+msgstr "Effacer un signet"
+
+msgid "strings.team_subtask_details"
+msgstr "D�tails des sous-t�ches d'une �quipe"
+
+msgid "strings.client_subtask_details"
+msgstr "D�tails des sous-t�ches d'un client"
+
+msgid "strings.client_change_status_subtask"
+msgstr ""
+"Changez votre �tat ci-dessous apr�s avoir termin� cette"
+"sous-t�che"
+
+msgid "strings.disabled_permissions"
+msgstr "D�sactiver le compte"
+
+msgid "strings.user_timezone"
+msgstr "Fuseau horaire (GMT)"
+
+msgid "strings.project_manager_administrator_permissions"
+msgstr "Administrateur de gestionnaire de projet"
+
+msgid "strings.bug"
+msgstr "Suivi de bug"
+
+msgid "strings.report"
+msgstr "Rapport"
+
+msgid "strings.settings_notwritable"
+msgstr "Le fichier settings.php n'est pas accessible en �criture"
+
+msgid "strings.invoicing"
+msgstr "Facturation"
+
+msgid "strings.invoice"
+msgstr "Facture"
+
+msgid "strings.invoices"
+msgstr "Factures"
+
+msgid "strings.date_invoice"
+msgstr "Date de facturation"
+
+msgid "strings.header_note"
+msgstr "Haut de note"
+
+msgid "strings.footer_note"
+msgstr "Bas de note"
+
+msgid "strings.total_ex_tax"
+msgstr "Total HT"
+
+msgid "strings.total_inc_tax"
+msgstr "Total TTC"
+
+msgid "strings.tax_rate"
+msgstr "Taux TVA"
+
+msgid "strings.tax_amount"
+msgstr "TVA"
+
+msgid "strings.invoice_items"
+msgstr "D�tail facturation"
+
+msgid "strings.amount_ex_tax"
+msgstr "Prix HT"
+
+msgid "strings.completed"
+msgstr "Termin�"
+
+msgid "strings.name_print"
+msgstr "Nom affich�"
+
+msgid "strings.edit_invoice"
+msgstr "Modifier une facture"
+
+msgid "strings.edit_invoiceitem"
+msgstr "Modifier une d�signation"
+
+msgid "strings.calculation"
+msgstr "Calcul"
+
+msgid "strings.items"
+msgstr "D�signation"
+
+msgid "strings.service_management"
+msgstr "Gestion de services"
+
+msgid "strings.hourly_rate"
+msgstr "Taux horaire"
+
+msgid "strings.add_service"
+msgstr "Ajouter un service"
+
+msgid "strings.edit_service"
+msgstr "Modifier un service"
+
+msgid "strings.delete_services"
+msgstr "Effacer des services"
+
+msgid "strings.worked_hours"
+msgstr "Heures travaill�es"
+
+msgid "strings.rate_type"
+msgstr "Type de taux"
+
+msgid "strings.rate_value"
+msgstr "Valeur de taux"
+
+msgid "strings.note_invoice_items_notcompleted"
+msgstr "Les d�signations ne sont pas toutes compl�t�es"
+
+msgid "strings.newsdesk"
+msgstr "Actualit�s"
+
+msgid "strings.newsdesk_list"
+msgstr "Liste des articles"
+
+msgid "strings.article_newsdesk"
+msgstr "Corps de l'article"
+
+msgid "strings.update_newsdesk"
+msgstr "Actualit� mise � jour"
+
+msgid "strings.my_newsdesk"
+msgstr "Mon Actualit�"
+
+msgid "strings.edit_newsdesk"
+msgstr "�diter une actualit�"
+
+msgid "strings.copy_newsdesk"
+msgstr "Copier une actualit�"
+
+msgid "strings.add_newsdesk"
+msgstr "Ajouter une actualit�"
+
+msgid "strings.del_newsdesk"
+msgstr "Supprimer des actualit�s"
+
+msgid "strings.delete_news_note"
+msgstr ""
+"Note : Cette op�ration d�truira aussi tous les commentaires"
+"associ�s"
+
+msgid "strings.author"
+msgstr "Auteur"
+
+msgid "strings.blank_newsdesk_title"
+msgstr "Pas de titre saisi"
+
+msgid "strings.blank_newsdesk"
+msgstr "L'actualit� n'a pas �t� trouv�e."
+
+msgid "strings.blank_newsdesk_comment"
+msgstr "Pas de commentaire saisi"
+
+msgid "strings.remove_newsdesk"
+msgstr ""
+"Les actualit�s ont �t� supprim�es avec succ�s ainsi que"
+"leurs commentaires"
+
+msgid "strings.add_newsdesk_comment"
+msgstr "Ajouter un commentaire"
+
+msgid "strings.edit_newsdesk_comment"
+msgstr "Modifier le commentaire"
+
+msgid "strings.del_newsdesk_comment"
+msgstr "Supprimer les commentaires"
+
+msgid "strings.remove_newsdesk_comment"
+msgstr "Le commentaire a �t� supprim� avec succ�s"
+
+msgid "strings.errorpermission_newsdesk"
+msgstr ""
+"Vous n'avez les permissions n�cessaires pour modifier ou supprimer"
+"cette actualit�"
+
+msgid "strings.errorpermission_newsdesk_comment"
+msgstr ""
+"Vous n'avez les permissions n�cessaires pour modifier ou supprimer"
+"ce commentaire"
+
+msgid "strings.newsdesk_related"
+msgstr "Projet Associ�"
+
+msgid "strings.newsdesk_related_generic"
+msgstr "Information g�n�rale (pas de projet associ�)"
+
+msgid "strings.newsdesk_related_links"
+msgstr "Lien associ�"
+
+msgid "strings.newsdesk_rss"
+msgstr "Autoriser la syndication RSS"
+
+msgid "strings.newsdesk_rss_enabled"
+msgstr "Syndication RSS autoris�e"
+
+msgid "strings.noti_memberactivation1"
+msgstr "Compte activ�"
+
+msgid "strings.noti_memberactivation2"
+msgstr ""
+"Vous avez �t� ajout� comme client au syst�me de Suivi de"
+"projet phpCollab. Ce syst�me a �t� mis en place et est soutenu"
+"pour vous aider � suivre l'�volution de votre projet. Pour"
+"utiliser l'outil, allez � l'adresse suivante  avec votre navigateur"
+"et utilisez les codes suivants : "
+
+msgid "strings.noti_memberactivation3"
+msgstr "Utilisateur :"
+
+msgid "strings.noti_memberactivation4"
+msgstr "Mot de passe :"
+
+msgid "strings.noti_memberactivation5"
+msgstr ""
+"Une fois ces informations saisies et le formulaire valid� par le"
+"bouton \"Connexion\" vous acc�derez � votre compte. Par la suite,"
+"vous recevrez par messagerie de nouveaux messages concernant les"
+"diff�rentes t�ches relatives � vos projets. Ces messages vous"
+"seront envoy�s pour vous tenir inform� de l'�volution de votre"
+"projet."
+
+msgid "strings.email_users"
+msgstr "Envoyer un message �lectronique"
+
+msgid "strings.email_following"
+msgstr "Destinataire"
+
+msgid "strings.email_sent"
+msgstr "Votre message � �t� envoy� avec succ�s."
+
+msgid "strings.clients_connected"
+msgstr "(client sur le site projet)"
+
+msgid "strings.Total_Hours_Worked"
+msgstr "Nombre total d'heures travaill�es"
+
+msgid "strings.Pct_Complete"
+msgstr "Pct Complet"
+
+msgid "strings.noti_filepost1"
+msgstr "Nouveau fichier t�l�charg� sur l'Intranet"
+
+msgid "strings.noti_filepost2"
+msgstr "Un nouveau fichier a �t� t�l�charg� pour le projet :"
+
+msgid "strings.noti_newfile1"
+msgstr "Nouveau fichier t�l�charg� sur l'Intranet"
+
+msgid "strings.noti_newfile2"
+msgstr "Un nouveau fichier a �t� t�l�charg� pour le projet :"
+
+msgid "strings.location"
+msgstr "Lieu"
+
+msgid "strings.calendar_broadcast"
+msgstr "Diffusion globale"
+
+msgid "strings.edit_noti_clientaddtask"
+msgstr "Une t�che a �t� ajout�e par un client."
+
+msgid "strings.edit_noti_uploadfile"
+msgstr "Un fichier associ� a �t� ajout�."
+
+msgid "strings.my_subtasks"
+msgstr "Mes Soust�ches"
+
+
+# Enum values (status, priority, etc.)
+# Note: These should be moved to enums.*.po domain
+
+#. Domain: enums
+msgid "status.0"
+msgstr "Complet (client)"
+
+#. Domain: enums
+msgid "status.1"
+msgstr "Complet"
+
+#. Domain: enums
+msgid "status.2"
+msgstr "Non commenc�"
+
+#. Domain: enums
+msgid "status.3"
+msgstr "Ouvert"
+
+#. Domain: enums
+msgid "status.4"
+msgstr "Suspendu"
+
+#. Domain: enums
+msgid "profil.0"
+msgstr "Administrateur"
+
+#. Domain: enums
+msgid "profil.1"
+msgstr "Chef de Projet"
+
+#. Domain: enums
+msgid "profil.2"
+msgstr "Utilisateur"
+
+#. Domain: enums
+msgid "profil.3"
+msgstr "Utilisateur Client"
+
+#. Domain: enums
+msgid "profil.4"
+msgstr "D�sactiv�"
+
+#. Domain: enums
+msgid "profil.5"
+msgstr "Admin chef de projet"
+
+#. Domain: enums
+msgid "priority.0"
+msgstr "Vide"
+
+#. Domain: enums
+msgid "priority.1"
+msgstr "Tr�s faible"
+
+#. Domain: enums
+msgid "priority.2"
+msgstr "Faible"
+
+#. Domain: enums
+msgid "priority.3"
+msgstr "Moyenne"
+
+#. Domain: enums
+msgid "priority.4"
+msgstr "�lev�e"
+
+#. Domain: enums
+msgid "priority.5"
+msgstr "Tr�s �lev�e"
+
+#. Domain: enums
+msgid "statusTopic.0"
+msgstr "Ferm�"
+
+#. Domain: enums
+msgid "statusTopic.1"
+msgstr "Ouvert"
+
+#. Domain: enums
+msgid "statusTopicBis.0"
+msgstr "Oui"
+
+#. Domain: enums
+msgid "statusTopicBis.1"
+msgstr "Non"
+
+#. Domain: enums
+msgid "statusPublish.0"
+msgstr "Oui"
+
+#. Domain: enums
+msgid "statusPublish.1"
+msgstr "Non"
+
+#. Domain: enums
+msgid "statusFile.0"
+msgstr "Approuv�"
+
+#. Domain: enums
+msgid "statusFile.1"
+msgstr "Approuv� avec changements"
+
+#. Domain: enums
+msgid "statusFile.2"
+msgstr "Approbation requise"
+
+#. Domain: enums
+msgid "statusFile.3"
+msgstr "Aucune approbation n�cessaire"
+
+#. Domain: enums
+msgid "statusFile.4"
+msgstr "Non approuv�"
+
+#. Domain: enums
+msgid "phaseStatus.0"
+msgstr "Non commenc�"
+
+#. Domain: enums
+msgid "phaseStatus.1"
+msgstr "Ouvert"
+
+#. Domain: enums
+msgid "phaseStatus.2"
+msgstr "Complet"
+
+#. Domain: enums
+msgid "phaseStatus.3"
+msgstr "Suspendu"
+
+#. Domain: enums
+msgid "requestStatus.0"
+msgstr "Nouveau"
+
+#. Domain: enums
+msgid "requestStatus.1"
+msgstr "Ouvert"
+
+#. Domain: enums
+msgid "requestStatus.2"
+msgstr "Complet"
+
+
+# Arrays (days, months, byte units)
+
+msgid "byteunits.0"
+msgstr "octets"
+
+msgid "byteunits.1"
+msgstr "ko"
+
+msgid "byteunits.2"
+msgstr "Mo"
+
+msgid "byteunits.3"
+msgstr "Go"
+
+msgid "dayname.1"
+msgstr "lundi"
+
+msgid "dayname.2"
+msgstr "mardi"
+
+msgid "dayname.3"
+msgstr "mercredi"
+
+msgid "dayname.4"
+msgstr "jeudi"
+
+msgid "dayname.5"
+msgstr "vendredi"
+
+msgid "dayname.6"
+msgstr "samedi"
+
+msgid "dayname.7"
+msgstr "dimanche"
+
+msgid "monthname.1"
+msgstr "janvier"
+
+msgid "monthname.2"
+msgstr "f�vrier"
+
+msgid "monthname.3"
+msgstr "mars"
+
+msgid "monthname.4"
+msgstr "avril"
+
+msgid "monthname.5"
+msgstr "mai"
+
+msgid "monthname.6"
+msgstr "juin"
+
+msgid "monthname.7"
+msgstr "juillet"
+
+msgid "monthname.8"
+msgstr "ao�t"
+
+msgid "monthname.9"
+msgstr "septembre"
+
+msgid "monthname.10"
+msgstr "octobre"
+
+msgid "monthname.11"
+msgstr "novembre"
+
+msgid "monthname.12"
+msgstr "d�cembre"
+
