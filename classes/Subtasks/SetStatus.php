@@ -5,14 +5,34 @@ namespace phpCollab\Subtasks;
 
 
 use InvalidArgumentException;
-use phpCollab\Container;
 use phpCollab\Database;
+use phpCollab\Notifications\Notifications;
+use phpCollab\Notifications\SubtaskNotifications;
 
+/**
+ * Class SetStatus
+ *
+ * Handles setting subtask status with pure constructor injection.
+ *
+ * @package phpCollab\Subtasks
+ */
 class SetStatus extends Subtasks
 {
-    public function __construct(Database $database, Container $container)
-    {
-        parent::__construct($database, $container);
+    /**
+     * SetStatus constructor.
+     *
+     * Uses pure constructor injection - all dependencies are explicit.
+     *
+     * @param Database $database Database connection
+     * @param Notifications $notifications Notifications manager for storing notification records
+     * @param SubtaskNotifications $subtaskNotifications Service for sending subtask-related notifications
+     */
+    public function __construct(
+        Database $database,
+        Notifications $notifications,
+        SubtaskNotifications $subtaskNotifications
+    ) {
+        parent::__construct($database, $notifications, $subtaskNotifications);
     }
 
     public function set(int $subtaskId, int $status, $comments = null, $modifiedDate = null, $completedDate = null)

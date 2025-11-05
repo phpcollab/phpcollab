@@ -5,14 +5,45 @@ namespace phpCollab\Tasks;
 
 
 use InvalidArgumentException;
-use phpCollab\Container;
 use phpCollab\Database;
+use phpCollab\Notification;
+use phpCollab\Notifications\MailNotification;
+use phpCollab\Notifications\Notifications;
+use phpCollab\Projects\Projects;
+use phpCollab\Teams\Teams;
 
+/**
+ * Class SetTaskStatus
+ *
+ * Handles setting task status with pure constructor injection.
+ *
+ * @package phpCollab\Tasks
+ */
 class SetTaskStatus extends Tasks
 {
-    public function __construct(Database $database, Container $container)
-    {
-        parent::__construct($database, $container);
+    /**
+     * SetTaskStatus constructor.
+     *
+     * Uses pure constructor injection - all dependencies are explicit.
+     *
+     * @param Database $database Database connection
+     * @param MailNotification $mailNotification Service for sending email notifications
+     * @param string $language Current language code (e.g., 'en', 'fr')
+     * @param Projects $projects Projects service for project operations
+     * @param Teams $teams Teams service for team operations
+     * @param Notifications $notifications Service for managing notification records
+     * @param Notification $notification Service for sending notifications
+     */
+    public function __construct(
+        Database $database,
+        MailNotification $mailNotification,
+        string $language,
+        Projects $projects,
+        Teams $teams,
+        Notifications $notifications,
+        Notification $notification
+    ) {
+        parent::__construct($database, $mailNotification, $language, $projects, $teams, $notifications, $notification);
     }
 
     /**

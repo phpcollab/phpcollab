@@ -239,7 +239,7 @@ SQL;
     public function sendEmail($notificationDetails, $comment)
     {
         if ($this->fileDetails && $this->projectDetails && $notificationDetails) {
-            $mail = $this->container->getNotification();
+            $mail = $this->notification;
 
             $mail->setFrom($this->projectDetails["pro_mem_email_work"], $this->projectDetails["pro_mem_name"]);
 

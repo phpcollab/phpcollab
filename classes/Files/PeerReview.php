@@ -5,20 +5,33 @@ namespace phpCollab\Files;
 
 use Exception;
 use InvalidArgumentException;
-use phpCollab\Container;
 use phpCollab\Database;
 use phpCollab\Notification;
 
-
+/**
+ * Class PeerReview
+ *
+ * Handles peer review of files with pure constructor injection.
+ *
+ * @package phpCollab\Files
+ */
 class PeerReview extends Files
 {
     private $projectDetails;
     private $fileDetails;
     private $notifications;
 
-    public function __construct(Database $database, Notification $notification, Container $container)
+    /**
+     * PeerReview constructor.
+     *
+     * Uses pure constructor injection - all dependencies are explicit.
+     *
+     * @param Database $database Database connection
+     * @param Notification $notification Service for sending notifications
+     */
+    public function __construct(Database $database, Notification $notification)
     {
-        parent::__construct($database, $container);
+        parent::__construct($database, $notification);
         $this->notifications = $notification;
     }
 

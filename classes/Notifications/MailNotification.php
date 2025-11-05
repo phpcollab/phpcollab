@@ -6,10 +6,16 @@ namespace phpCollab\Notifications;
 
 use Exception;
 use Monolog\Logger;
-use phpCollab\Container;
 use phpCollab\Exceptions\SendNotificationFailException;
 use PHPMailer\PHPMailer\PHPMailer;
 
+/**
+ * Class MailNotification
+ *
+ * Handles email notifications using PHPMailer with pure constructor injection.
+ *
+ * @package phpCollab\Notifications
+ */
 class MailNotification extends PHPMailer
 {
     use SendEmailTrait;
@@ -18,15 +24,22 @@ class MailNotification extends PHPMailer
      * @var mixed
      */
     private string $notificationMethod;
-    private Container $container;
     private Logger $logger;
     private $lang;
 
-    public function __construct(Container $container, Logger $logger, $lang = null, $exceptions = true)
+    /**
+     * MailNotification constructor.
+     *
+     * Uses pure constructor injection - only requires Logger service.
+     *
+     * @param Logger $logger Logger for recording notification operations
+     * @param null $lang Language code
+     * @param bool $exceptions Whether to throw exceptions on errors
+     */
+    public function __construct(Logger $logger, $lang = null, $exceptions = true)
     {
         try {
             parent::__construct($exceptions);
-            $this->container = $container;
 
             $this->logger = $logger;
 

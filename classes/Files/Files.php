@@ -5,12 +5,15 @@ namespace phpCollab\Files;
 
 use Exception;
 use InvalidArgumentException;
-use phpCollab\Container;
 use phpCollab\Database;
+use phpCollab\Notification;
 use phpCollab\Util;
 
 /**
  * Class Files
+ *
+ * Handles file management with pure constructor injection.
+ *
  * @package phpCollab\Files
  */
 class Files
@@ -19,21 +22,20 @@ class Files
     protected $db;
     protected $strings;
     protected $root;
-
-    /**
-     * @var Container
-     */
-    protected $container;
+    protected $notification;
 
     /**
      * Files constructor.
-     * @param Database $database
-     * @param Container $container
+     *
+     * Uses pure constructor injection - all dependencies are explicit.
+     *
+     * @param Database $database Database connection
+     * @param Notification $notification Service for sending notifications
      */
-    public function __construct(Database $database, Container $container)
+    public function __construct(Database $database, Notification $notification)
     {
         $this->db = $database;
-        $this->container = $container;
+        $this->notification = $notification;
         $this->files_gateway = new FilesGateway($this->db);
         $this->strings = $GLOBALS["strings"];
         $this->root = $GLOBALS["root"];
@@ -271,7 +273,7 @@ class Files
         $userLogin
     ) {
         if ($fileDetails && $projectDetails && $notificationDetails) {
-            $mail = $this->container->getNotification();
+            $mail = $this->notification;
             try {
 
                 $mail->setFrom($projectDetails["pro_mem_email_work"], $projectDetails["pro_mem_name"]);
