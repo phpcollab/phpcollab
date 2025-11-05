@@ -5,8 +5,11 @@ namespace phpCollab\Support;
 
 use Exception;
 use Monolog\Logger;
-use phpCollab\Container;
 use phpCollab\Database;
+use phpCollab\Members\Members;
+use phpCollab\Notification;
+use phpCollab\Notifications\MailNotification;
+use phpCollab\Teams\Teams;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 /**
@@ -22,30 +25,41 @@ class Support
     protected $strings;
     protected $root;
     protected $requestStatus;
-    /**
-     * @var Container
-     */
-    private $container;
-    /**
-     * @var Logger|null
-     */
-    private $logger;
+    private Logger $logger;
+    private Notification $notification;
+    private MailNotification $mailNotification;
+    private string $language;
 
     /**
      * Support constructor.
-     * @param Database $database
-     * @param Container $container
-     * @param Logger|null $logger
-     * @throws Exception
+     *
+     * Uses pure constructor injection - all dependencies are explicit.
+     *
+     * @param Database $database Database connection
+     * @param Logger $logger Logger for recording support operations
+     * @param Members $members Members service for user operations
+     * @param Teams $teams Teams service for team operations
+     * @param Notification $notification Service for sending notifications
+     * @param MailNotification $mailNotification Service for sending email notifications
+     * @param string $language Language code for email templates
      */
-    public function __construct(Database $database, Container $container, Logger $logger)
-    {
+    public function __construct(
+        Database $database,
+        Logger $logger,
+        Members $members,
+        Teams $teams,
+        Notification $notification,
+        MailNotification $mailNotification,
+        string $language
+    ) {
         $this->db = $database;
-        $this->container = $container;
         $this->logger = $logger;
+        $this->members = $members;
+        $this->teams = $teams;
+        $this->notification = $notification;
+        $this->mailNotification = $mailNotification;
+        $this->language = $language;
         $this->support_gateway = new SupportGateway($this->db);
-        $this->members = $container->getMembersLoader();
-        $this->teams = $container->getTeams();
         $this->strings = $GLOBALS["strings"];
         $this->root = $GLOBALS["root"];
         $this->requestStatus = $GLOBALS["requestStatus"];
@@ -245,7 +259,7 @@ class Support
         $teamMembers = $this->teams->getTeamByProjectId($postDetails["sp_project"]);
 
 
-        $mail = $this->container->getNotification();
+        $mail = $this->notification;
 
         $emailSubject = $this->strings["support"] . " " . $this->strings["support_id"] . ": " . $requestDetail["sr_id"];
 
@@ -303,7 +317,7 @@ EMAIL_MESSAGE;
         $teamMembers = $this->teams->getTeamByProjectId($requestDetails["sr_project"]);
 
 
-        $mail = $this->container->getNotification();
+        $mail = $this->notification;
 
         $emailSubject = $this->strings["support"] . ": " . $requestDetails["sr_subject"];
 
@@ -363,7 +377,7 @@ EMAIL_MESSAGE;
             && $userDetails
             && !empty($userDetails["mem_email_work"])
         ) {
-            $mail = $this->container->getNotification();
+            $mail = $this->notification;
             try {
 
                 // Set the From field
@@ -427,7 +441,7 @@ MAILBODY;
      */
     public function sendNewRequestNotification(array $requestDetails, array $userDetails, string $subject, string $opener)
     {
-        $mail = $this->container->getNotificationService();
+        $mail = $this->mailNotification;
 
         $emailData = array(
             "%opener%" => $opener,
@@ -445,13 +459,13 @@ MAILBODY;
                 "$this->root/general/login.php?url=support/viewrequest.php%3Fid=" . $requestDetails["sr_id"]
         );
 
-        if (!file_exists(APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/support_new_request.txt')) {
+        if (!file_exists(APP_ROOT . '/templates/email/' . $this->language . '/support_new_request.txt')) {
             throw new FileNotFoundException("Error sending mail, no template (support_new_request)");
         }
 
 
         try {
-            $mail->setTemplate(file_get_contents(APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/support_new_request.txt'));
+            $mail->setTemplate(file_get_contents(APP_ROOT . '/templates/email/' . $this->language . '/support_new_request.txt'));
 
             if ($mail->getTemplate()) {
                 $mail->populateTemplate($emailData);

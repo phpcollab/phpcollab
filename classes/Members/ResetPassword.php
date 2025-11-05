@@ -7,7 +7,6 @@ use DateTime;
 use Exception;
 use InvalidArgumentException;
 use Monolog\Logger;
-use phpCollab\Container;
 use phpCollab\Database;
 use phpCollab\Exceptions\MissingOrInvalidEmailAddress;
 use phpCollab\Exceptions\SendNotificationFailException;
@@ -15,6 +14,7 @@ use phpCollab\Exceptions\TimestampInvalidException;
 use phpCollab\Exceptions\TooManyPasswordResetAttempts;
 use phpCollab\Exceptions\UserNotFoundException;
 use phpCollab\Exceptions\TokenNotExpiredException;
+use phpCollab\Notification;
 use phpCollab\Util;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -23,16 +23,26 @@ class ResetPassword extends Members
     private ?array $userDetails;
     private ?string $token;
     private ?DateTime $timestamp;
+    private string $language;
 
     /**
      * ResetPassword constructor.
-     * @param Database $database
-     * @param Logger $logger
-     * @param Container $container
+     *
+     * Uses pure constructor injection - extends Members which has explicit dependencies.
+     *
+     * @param Database $database Database connection
+     * @param Logger $logger Logger for recording reset operations
+     * @param Notification $notification Service for sending notifications
+     * @param string $language Language code for email templates
      */
-    public function __construct(Database $database, Logger $logger, Container $container)
-    {
-        parent::__construct($database, $logger, $container);
+    public function __construct(
+        Database $database,
+        Logger $logger,
+        Notification $notification,
+        string $language
+    ) {
+        parent::__construct($database, $logger, $notification);
+        $this->language = $language;
     }
 
     /**
@@ -361,7 +371,7 @@ SQL;
         $this->logger->notice('Reset Password', ['Method' => 'sendTokenEmail']);
         try {
             // Read the email template
-            $template = file_get_contents(APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/reset_password_link.html');
+            $template = file_get_contents(APP_ROOT . '/templates/email/' . $this->language . '/reset_password_link.html');
 
             // Replace the % with the actual information
             $template = str_replace('%name%', $this->userDetails["mem_name"], $template);
@@ -396,7 +406,7 @@ SQL;
 
         try {
             // Read the email template
-            $template = file_get_contents(APP_ROOT . '/templates/email/' . $this->container->getLanguage() . '/forgot_password_success.html');
+            $template = file_get_contents(APP_ROOT . '/templates/email/' . $this->language . '/forgot_password_success.html');
 
             // Replace the %xx% with the actual data
             $template = str_replace('%name%', $this->userDetails["name"], $template);
@@ -420,7 +430,7 @@ SQL;
     private function sendNotification($template, $subject)
     {
         try {
-            $mail = $this->container->getNotification();
+            $mail = $this->notification;
             $mail->getUserinfo("1", "from", $this->logger);
             $mail->Subject = $subject;
             $mail->Priority = "1";

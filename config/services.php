@@ -155,11 +155,16 @@ return static function (ContainerConfigurator $container) {
         ->args([service(Database::class)])
         ->public();
 
+    // ✅ Refactored to use pure constructor injection
     $services->set(Support::class)
         ->args([
             service(Database::class),
-            service('service_locator.container'),
-            service(Logger::class)
+            service(Logger::class),
+            service(Members::class),
+            service(Teams::class),
+            service(Notification::class),
+            service(MailNotification::class),
+            param('app.language')
         ])
         ->public();
 
@@ -219,11 +224,15 @@ return static function (ContainerConfigurator $container) {
         ])
         ->public();
 
+    // ✅ Refactored to use pure constructor injection
     // Topics
     $services->set(Topics::class)
         ->args([
             service(Database::class),
-            service('service_locator.container')
+            service(Projects::class),
+            service(Teams::class),
+            service(Notifications::class),
+            service(Notification::class)
         ])
         ->public();
 
@@ -264,9 +273,10 @@ return static function (ContainerConfigurator $container) {
         ])
         ->public();
 
+    // ✅ Refactored to use pure constructor injection
     // Notification Services
     $services->set(Notification::class)
-        ->args([service('service_locator.container')])
+        ->args([service(Members::class)])
         ->public();
 
     $services->set(Notifications::class)
@@ -300,11 +310,12 @@ return static function (ContainerConfigurator $container) {
         ->args([service('service_locator.container')])
         ->public();
 
+    // ✅ Refactored to use pure constructor injection
     // Invoices
     $services->set(Invoices::class)
         ->args([
             service(Database::class),
-            service('service_locator.container')
+            service(Publish::class)
         ])
         ->public();
 
@@ -312,12 +323,14 @@ return static function (ContainerConfigurator $container) {
         ->args([service(Database::class)])
         ->public();
 
+    // ✅ Refactored to use pure constructor injection
     // Member Services
     $services->set(ResetPassword::class)
         ->args([
             service(Database::class),
             service(Logger::class),
-            service('service_locator.container')
+            service(Notification::class),
+            param('app.language')
         ])
         ->public();
 

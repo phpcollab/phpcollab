@@ -4,7 +4,6 @@ namespace phpCollab\Invoices;
 
 use Exception;
 use InvalidArgumentException;
-use phpCollab\Container;
 use phpCollab\Database;
 
 
@@ -16,21 +15,20 @@ class Invoices
 {
     protected $invoices_gateway;
     protected $db;
-
-    /**
-     * @var Container
-     */
-    private $container;
+    private Publish $invoicePublishService;
 
     /**
      * Invoices constructor.
-     * @param Database $database
-     * @param Container $container
+     *
+     * Uses pure constructor injection - all dependencies are explicit.
+     *
+     * @param Database $database Database connection
+     * @param Publish $invoicePublishService Service for publishing invoices
      */
-    public function __construct(Database $database, Container $container)
+    public function __construct(Database $database, Publish $invoicePublishService)
     {
         $this->db = $database;
-        $this->container = $container;
+        $this->invoicePublishService = $invoicePublishService;
         $this->invoices_gateway = new InvoicesGateway($this->db);
     }
 
@@ -214,7 +212,7 @@ class Invoices
      */
     public function togglePublish($invoiceId, $flag)
     {
-        $pub = $this->container->getInvoicePublishService();
+        $pub = $this->invoicePublishService;
 
         try {
             if ($flag === true) {

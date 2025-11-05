@@ -5,8 +5,11 @@ namespace phpCollab\Topics;
 
 use Exception;
 use InvalidArgumentException;
-use phpCollab\Container;
 use phpCollab\Database;
+use phpCollab\Notification;
+use phpCollab\Notifications\Notifications;
+use phpCollab\Projects\Projects;
+use phpCollab\Teams\Teams;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
@@ -17,22 +20,36 @@ class Topics
 {
     protected $topics_gateway;
     protected $db;
-    protected $container;
     protected $projects;
     protected $teams;
     protected $notifications;
+    protected $notification;
     protected $strings;
     protected $root;
 
     /**
      * Topics constructor.
-     * @param Database $database
-     * @param Container $container
+     *
+     * Uses pure constructor injection - all dependencies are explicit.
+     *
+     * @param Database $database Database connection
+     * @param Projects $projects Projects service for project operations
+     * @param Teams $teams Teams service for team operations
+     * @param Notifications $notifications Service for managing notification records
+     * @param Notification $notification Service for sending notifications
      */
-    public function __construct(Database $database, Container $container)
-    {
+    public function __construct(
+        Database $database,
+        Projects $projects,
+        Teams $teams,
+        Notifications $notifications,
+        Notification $notification
+    ) {
         $this->db = $database;
-        $this->container = $container;
+        $this->projects = $projects;
+        $this->teams = $teams;
+        $this->notifications = $notifications;
+        $this->notification = $notification;
         $this->topics_gateway = new TopicsGateway($this->db);
         $this->strings = $GLOBALS["strings"];
         $this->root = $GLOBALS["root"];
@@ -325,9 +342,7 @@ class Topics
      */
     public function sendNewTopicNotification(array $topicDetails, Session $session)
     {
-        $this->projects = $this->container->getProjectsLoader();
-        $this->teams = $this->container->getTeams();
-        $this->notifications = $this->container->getNotificationsManager();
+        // Dependencies already injected via constructor
 
         /*
          *  Get the project details, specifically we need:
@@ -361,7 +376,7 @@ class Topics
             /*
              * Start creating the mail notification
              */
-            $mail = $this->container->getNotification();
+            $mail = $this->notification;
 
             try {
                 $mail->setFrom($topicDetails["top_mem_email_work"], $topicDetails["top_mem_name"]);
@@ -449,9 +464,7 @@ MESSAGE_BODY;
      */
     public function sendNewPostNotification(array $postDetails, array $topicDetails, Session $session)
     {
-        $this->projects = $this->container->getProjectsLoader();
-        $this->teams = $this->container->getTeams();
-        $this->notifications = $this->container->getNotificationsManager();
+        // Dependencies already injected via constructor
 
         /*
          *  Get the project details, specifically we need:
@@ -486,7 +499,7 @@ MESSAGE_BODY;
              * Start creating the mail notification
              */
 
-            $mail = $this->container->getNotification();
+            $mail = $this->notification;
             try {
                 $mail->setFrom($topicDetails["top_mem_email_work"], $topicDetails["top_mem_name"]);
 
