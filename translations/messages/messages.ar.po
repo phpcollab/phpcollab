@@ -1,0 +1,1690 @@
+# phpCollab Translation File
+# Language: Arabic (ar)
+# Type: Lang
+# Domain: messages
+# Generated: 2025-11-06 00:44:03 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# String translations
+
+msgid "strings.please_login"
+msgstr "الرجاء تسجيل الدخول"
+
+msgid "strings.requirements"
+msgstr "احتياجات النظام"
+
+msgid "strings.login"
+msgstr "الدخول"
+
+msgid "strings.no_items"
+msgstr "لا بنود للعرض"
+
+msgid "strings.logout"
+msgstr "الخروج"
+
+msgid "strings.preferences"
+msgstr "تفضيلات"
+
+msgid "strings.my_tasks"
+msgstr "مهامي"
+
+msgid "strings.edit_task"
+msgstr "تحرير مهمة"
+
+msgid "strings.copy_task"
+msgstr "نسخ مهمة"
+
+msgid "strings.add_task"
+msgstr "اضافة مهمة"
+
+msgid "strings.delete_tasks"
+msgstr "حذف مهام"
+
+msgid "strings.assignment_history"
+msgstr "أرشيف التكليفات"
+
+msgid "strings.assigned_on"
+msgstr "التكليف في"
+
+msgid "strings.assigned_by"
+msgstr "تكليف من"
+
+msgid "strings.to"
+msgstr "إلى"
+
+msgid "strings.comment"
+msgstr "ملاحظات"
+
+msgid "strings.task_assigned"
+msgstr "المكلف بالمهمة "
+
+msgid "strings.task_unassigned"
+msgstr ""
+"المهمة من تكليف إلى بلا تكليف (بلا"
+"تكليف)"
+
+msgid "strings.edit_multiple_tasks"
+msgstr "تحرير مهام متعددة"
+
+msgid "strings.tasks_selected"
+msgstr ""
+"مهام حددت. اختر قيم جديدة لهذه المهام"
+"أو لا تغيير للاحتفاظ بالقيم الحالية"
+
+msgid "strings.assignment_comment"
+msgstr "ملاحظات التكليف"
+
+msgid "strings.no_change"
+msgstr "[لا تغيير]"
+
+msgid "strings.my_discussions"
+msgstr "نقاشاتي"
+
+msgid "strings.discussions"
+msgstr "نقاشات"
+
+msgid "strings.delete_discussions"
+msgstr "حذف نقاشات"
+
+msgid "strings.delete_discussions_note"
+msgstr "ملاحظة:لن يمكنك فتح النقاش بعد حذفه"
+
+msgid "strings.topic"
+msgstr "الموضوع"
+
+msgid "strings.posts"
+msgstr "الاضافات"
+
+msgid "strings.latest_post"
+msgstr "احدث اضافة"
+
+msgid "strings.my_reports"
+msgstr "تقاريري"
+
+msgid "strings.reports"
+msgstr "التقارير"
+
+msgid "strings.create_report"
+msgstr "انشاء تقرير"
+
+msgid "strings.report_intro"
+msgstr ""
+"اختر معايير تقرير المهام هنا ثم احفظ"
+"الاستعلام في صفحة النتائج بعد تنفيذ"
+"التقرير"
+
+msgid "strings.admin_intro"
+msgstr "اعدادات و تهيئة المشروع"
+
+msgid "strings.copy_of"
+msgstr "نسخ من "
+
+msgid "strings.add"
+msgstr "اضافة"
+
+msgid "strings.delete"
+msgstr "حذف"
+
+msgid "strings.remove"
+msgstr "ازالة"
+
+msgid "strings.copy"
+msgstr "نسخ"
+
+msgid "strings.view"
+msgstr "عرض"
+
+msgid "strings.edit"
+msgstr "تحرير"
+
+msgid "strings.update"
+msgstr "تحديث"
+
+msgid "strings.details"
+msgstr "تفاصيل"
+
+msgid "strings.none"
+msgstr "بلا"
+
+msgid "strings.close"
+msgstr "اغلاق"
+
+msgid "strings.new"
+msgstr "جديد"
+
+msgid "strings.select_all"
+msgstr "تحديد الكل"
+
+msgid "strings.unassigned"
+msgstr "بلا تكليف"
+
+msgid "strings.administrator"
+msgstr "مشرف"
+
+msgid "strings.my_projects"
+msgstr "مشاريعي"
+
+msgid "strings.project"
+msgstr "مشروع"
+
+msgid "strings.active"
+msgstr "فعال"
+
+msgid "strings.inactive"
+msgstr "غير فعال"
+
+msgid "strings.project_id"
+msgstr "رمز المشروع"
+
+msgid "strings.edit_project"
+msgstr "تحرير المشروع"
+
+msgid "strings.copy_project"
+msgstr "نسخ المشروع"
+
+msgid "strings.add_project"
+msgstr "اضافةمشروع"
+
+msgid "strings.clients"
+msgstr "العملاء"
+
+msgid "strings.organization"
+msgstr "مؤسسة العميل"
+
+msgid "strings.client_projects"
+msgstr "مشاريع العميل"
+
+msgid "strings.client_users"
+msgstr "مستخدمي العميل"
+
+msgid "strings.edit_organization"
+msgstr "تحرير مؤسسة العميل"
+
+msgid "strings.add_organization"
+msgstr "اضافة مؤسسة عميل"
+
+msgid "strings.organizations"
+msgstr "مؤسسات العملاء"
+
+msgid "strings.info"
+msgstr "معلومات"
+
+msgid "strings.status"
+msgstr "الحالة"
+
+msgid "strings.owner"
+msgstr "المالك"
+
+msgid "strings.home"
+msgstr "الموقع"
+
+msgid "strings.projects"
+msgstr "المشاريع"
+
+msgid "strings.files"
+msgstr "الملفات"
+
+msgid "strings.search"
+msgstr "بحث"
+
+msgid "strings.admin"
+msgstr "مشرف"
+
+msgid "strings.user"
+msgstr "مستخدم"
+
+msgid "strings.project_manager"
+msgstr "مدير المشروع"
+
+msgid "strings.due"
+msgstr "تسليم"
+
+msgid "strings.task"
+msgstr "مهمة"
+
+msgid "strings.tasks"
+msgstr "مهام"
+
+msgid "strings.team"
+msgstr "فريق"
+
+msgid "strings.add_team"
+msgstr "اضافة اعضاء الفريق"
+
+msgid "strings.team_members"
+msgstr "اعضاء الفريق"
+
+msgid "strings.full_name"
+msgstr "الاسم الكامل"
+
+msgid "strings.title"
+msgstr "المركز"
+
+msgid "strings.user_name"
+msgstr "اسم المستخدم"
+
+msgid "strings.work_phone"
+msgstr "هاتف العمل"
+
+msgid "strings.priority"
+msgstr "الاولوية"
+
+msgid "strings.name"
+msgstr "الاسم"
+
+msgid "strings.id"
+msgstr "الرمز"
+
+msgid "strings.description"
+msgstr "الوصف"
+
+msgid "strings.phone"
+msgstr "هاتف"
+
+msgid "strings.url"
+msgstr "موقع"
+
+msgid "strings.address"
+msgstr "عنوان"
+
+msgid "strings.comments"
+msgstr "ملاحظات"
+
+msgid "strings.created"
+msgstr "انشيء"
+
+msgid "strings.assigned"
+msgstr "كلف"
+
+msgid "strings.modified"
+msgstr "حرر"
+
+msgid "strings.assigned_to"
+msgstr "المكلف"
+
+msgid "strings.due_date"
+msgstr "موعد التسليم"
+
+msgid "strings.estimated_time"
+msgstr "الوقت المقدر"
+
+msgid "strings.actual_time"
+msgstr "الوقت الفعلي"
+
+msgid "strings.delete_following"
+msgstr "حذف التالي?"
+
+msgid "strings.cancel"
+msgstr "الغاء"
+
+msgid "strings.and"
+msgstr "و"
+
+msgid "strings.administration"
+msgstr "مشرف"
+
+msgid "strings.user_management"
+msgstr "ادارة المستخدمين"
+
+msgid "strings.system_information"
+msgstr "معلومات النظام"
+
+msgid "strings.product_information"
+msgstr "معلومات المنتج"
+
+msgid "strings.system_properties"
+msgstr "خصائص النظام"
+
+msgid "strings.create"
+msgstr "انشاء"
+
+msgid "strings.report_save"
+msgstr ""
+"حفظ الاستعلام في صفحتك الرئيسية"
+"لتتمكن من تنفيذه مجددا"
+
+msgid "strings.report_name"
+msgstr "اسم التقرير"
+
+msgid "strings.save"
+msgstr "حفظ"
+
+msgid "strings.matches"
+msgstr "المطابقة"
+
+msgid "strings.match"
+msgstr "مطابق"
+
+msgid "strings.report_results"
+msgstr "Report Results"
+
+msgid "strings.success"
+msgstr "نجاح"
+
+msgid "strings.addition_succeeded"
+msgstr "الاضافة تمت"
+
+msgid "strings.deletion_succeeded"
+msgstr "تم الحذف"
+
+msgid "strings.report_created"
+msgstr "انشاء تقرير"
+
+msgid "strings.deleted_reports"
+msgstr "حذف تقارير"
+
+msgid "strings.modification_succeeded"
+msgstr "تمت التعديلات"
+
+msgid "strings.errors"
+msgstr "اخطاء وجدت!"
+
+msgid "strings.blank_user"
+msgstr "لم يعثر على المستخدم."
+
+msgid "strings.blank_organization"
+msgstr "لم يعثر على مؤسسة العميل."
+
+msgid "strings.blank_project"
+msgstr "لم يعثر على المشروع"
+
+msgid "strings.user_profile"
+msgstr "تشكيل المستخدم"
+
+msgid "strings.change_password"
+msgstr "تغيير كلمة السر"
+
+msgid "strings.change_password_user"
+msgstr "تغيير كلمة سر المستخدم."
+
+msgid "strings.old_password_error"
+msgstr ""
+"كلمة السر القديمة غير صحيحة الرجاء"
+"ادخلها مجددا."
+
+msgid "strings.new_password_error"
+msgstr ""
+"كلمة السر الجديدة لم تتطابق الرجاء"
+"ادخلها مجددا."
+
+msgid "strings.notifications"
+msgstr "إخطارات"
+
+msgid "strings.change_password_intro"
+msgstr ""
+"ادخل كلمة السر القديمة ثم ادخل و اكد"
+"كلمة السر الجديدة."
+
+msgid "strings.old_password"
+msgstr "كلمة السر القديمة"
+
+msgid "strings.password"
+msgstr "كلمة السر"
+
+msgid "strings.new_password"
+msgstr "كلمة السر الجديدة"
+
+msgid "strings.confirm_password"
+msgstr "تاكيد كلمة السر"
+
+msgid "strings.email"
+msgstr "الايميل"
+
+msgid "strings.home_phone"
+msgstr "هاتف المنزل"
+
+msgid "strings.mobile_phone"
+msgstr "هاتف الخلوي"
+
+msgid "strings.fax"
+msgstr "الفاكس"
+
+msgid "strings.permissions"
+msgstr "الصلاحيات"
+
+msgid "strings.administrator_permissions"
+msgstr "صلاحيات المشرف"
+
+msgid "strings.project_manager_permissions"
+msgstr "صلاحيات مدير المشروع"
+
+msgid "strings.user_permissions"
+msgstr "صلاحيات المستخدم"
+
+msgid "strings.account_created"
+msgstr "انشيء الحساب"
+
+msgid "strings.edit_user"
+msgstr "تحرير المستخدم"
+
+msgid "strings.edit_user_details"
+msgstr "تحرير تفاصيل المستخدم."
+
+msgid "strings.change_user_password"
+msgstr "تغيير كلمة سر المستخدم."
+
+msgid "strings.select_permissions"
+msgstr "تحديد صلاحيات المستخدم"
+
+msgid "strings.add_user"
+msgstr "اضافة مستخدم"
+
+msgid "strings.enter_user_details"
+msgstr "ادخل التفاصيل للمستخدم."
+
+msgid "strings.enter_password"
+msgstr "ادخل كلمة سر المستخدم."
+
+msgid "strings.success_logout"
+msgstr ""
+"لقد قمت بالخروج بنجاح يمكنك معاودة"
+"الدخول بادخال الاسم و كلمة السر."
+
+msgid "strings.invalid_login"
+msgstr ""
+"الاسم و كلمة السر غير صحيحين الرجاء"
+"معاودة الادخال."
+
+msgid "strings.profile"
+msgstr "التشكيل"
+
+msgid "strings.user_details"
+msgstr "تفاصيل حساب العميل."
+
+msgid "strings.edit_user_account"
+msgstr "تحرير معلومات المستخدم."
+
+msgid "strings.no_permissions"
+msgstr "لا تملك صلاحيات لتنفيذ هذا الامر."
+
+msgid "strings.discussion"
+msgstr "نقاش"
+
+msgid "strings.retired"
+msgstr "مسحوب"
+
+msgid "strings.last_post"
+msgstr "آخر اضافة"
+
+msgid "strings.post_reply"
+msgstr "اضافة رد"
+
+msgid "strings.posted_by"
+msgstr "اضيف بواسطة"
+
+msgid "strings.when"
+msgstr "في"
+
+msgid "strings.post_to_discussion"
+msgstr "اضافة الى النقاش"
+
+msgid "strings.message"
+msgstr "رسالة"
+
+msgid "strings.delete_reports"
+msgstr "حذف التقارير"
+
+msgid "strings.delete_projects"
+msgstr "حذف المشاريع"
+
+msgid "strings.delete_organizations"
+msgstr "حذف مؤسسات العميل"
+
+msgid "strings.delete_organizations_note"
+msgstr ""
+"ملاحظة: سيتم حذف مؤسسات العميل"
+"والمشاريع و المعلوات المرتبطة"
+
+msgid "strings.delete_messages"
+msgstr "حذف الرسائل"
+
+msgid "strings.attention"
+msgstr "تنبيه"
+
+msgid "strings.delete_teamownermix"
+msgstr ""
+"تم الحذف و لكن مدير المشروع لا يمكن"
+"ازالته من الفريق"
+
+msgid "strings.delete_teamowner"
+msgstr "لا يمكنك ازالة مالك المشروع."
+
+msgid "strings.enter_keywords"
+msgstr "ادخل كلمات البحث"
+
+msgid "strings.search_options"
+msgstr "خيارات البحث و كلمات البحث"
+
+msgid "strings.search_note"
+msgstr "يجب ادخال المعومات في الحقل."
+
+msgid "strings.search_results"
+msgstr "نتائج البحث"
+
+msgid "strings.users"
+msgstr "المستخدمين"
+
+msgid "strings.search_for"
+msgstr "البحث عن"
+
+msgid "strings.results_for_keywords"
+msgstr "نتيجة البحث عن كلمات البحث"
+
+msgid "strings.add_discussion"
+msgstr "اضافة نقاش"
+
+msgid "strings.delete_users"
+msgstr "حذف حسابات المستخدمين"
+
+msgid "strings.reassignment_user"
+msgstr "تغيير تكليف المشروع و المهام"
+
+msgid "strings.there"
+msgstr "هنالك"
+
+msgid "strings.owned_by"
+msgstr "مملوك من المستخدمين بالاعلى."
+
+msgid "strings.reassign_to"
+msgstr "قبل حذف المستخدمين غير التكليف"
+
+msgid "strings.no_files"
+msgstr "لا يوجد ملفات مرتبطة"
+
+msgid "strings.published"
+msgstr "نشر"
+
+msgid "strings.project_site"
+msgstr "موقع المشروع"
+
+msgid "strings.approval_tracking"
+msgstr "متابعة الاعتماد"
+
+msgid "strings.size"
+msgstr "الحجم"
+
+msgid "strings.add_project_site"
+msgstr "اضافة الى موقع المشروع"
+
+msgid "strings.remove_project_site"
+msgstr "ازالة من موقع المشروع"
+
+msgid "strings.more_search"
+msgstr "خيارات بحث اضافية"
+
+msgid "strings.results_with"
+msgstr "ايجاد نتائج مع"
+
+msgid "strings.search_topics"
+msgstr "مواضيع البحث"
+
+msgid "strings.search_properties"
+msgstr "خصائص البحث"
+
+msgid "strings.date_restrictions"
+msgstr "حدود التاريخ"
+
+msgid "strings.case_sensitive"
+msgstr "تحسس حالة الاحرف"
+
+msgid "strings.yes"
+msgstr "نعم"
+
+msgid "strings.no"
+msgstr "لا"
+
+msgid "strings.sort_by"
+msgstr "ترتيب بـ"
+
+msgid "strings.type"
+msgstr "النوع"
+
+msgid "strings.date"
+msgstr "التاريخ"
+
+msgid "strings.all_words"
+msgstr "جميع الكلمات"
+
+msgid "strings.any_words"
+msgstr "أي من الكلمات"
+
+msgid "strings.exact_match"
+msgstr "مطابقة تامة"
+
+msgid "strings.all_dates"
+msgstr "كافة التواريخ"
+
+msgid "strings.between_dates"
+msgstr "بين تاريخ"
+
+msgid "strings.all_content"
+msgstr "كافة المحتويات"
+
+msgid "strings.all_properties"
+msgstr "جميع الخصائص"
+
+msgid "strings.no_results_search"
+msgstr "البحث بلا نتائج"
+
+msgid "strings.no_results_report"
+msgstr "التقرير بلا نتائج."
+
+msgid "strings.schema_date"
+msgstr "YYYY/MM/DD"
+
+msgid "strings.hours"
+msgstr "ساعات"
+
+msgid "strings.choice"
+msgstr "اختيار"
+
+msgid "strings.missing_file"
+msgstr "ملف مفقود !"
+
+msgid "strings.project_site_deleted"
+msgstr "تم حذف موقع المشروع بنجاح"
+
+msgid "strings.add_user_project_site"
+msgstr ""
+"تم منح صلاحيات للمستخدم على موقع"
+"المشروع."
+
+msgid "strings.remove_user_project_site"
+msgstr "تم ازالة الصلاحيات"
+
+msgid "strings.add_project_site_success"
+msgstr "تم الاضافة الى موقع المشروع بنجاح"
+
+msgid "strings.remove_project_site_success"
+msgstr "تم الازالة من موقع المشروع بنجاح."
+
+msgid "strings.add_file_success"
+msgstr "تم ربط بند محتوى 1."
+
+msgid "strings.delete_file_success"
+msgstr "تم ازالة الرابط."
+
+msgid "strings.update_comment_file"
+msgstr "تم تحديث ملاحظات الملف بنجاح."
+
+msgid "strings.session_false"
+msgstr "خطأ الجلسة"
+
+msgid "strings.logs"
+msgstr "السجلات"
+
+msgid "strings.logout_time"
+msgstr "خروج تلقائي"
+
+msgid "strings.noti_foot1"
+msgstr "هذا الإخطار انشيء بـ PhpCollab."
+
+msgid "strings.noti_foot2"
+msgstr "لزيارة PhpCollab أذهب إلى:"
+
+msgid "strings.noti_taskassignment1"
+msgstr "مهمة جديدة:"
+
+msgid "strings.noti_taskassignment2"
+msgstr "تم تكليفك بالمهمة:"
+
+msgid "strings.noti_moreinfo"
+msgstr "لمزيد من المعلومات الرجاء زيارة:"
+
+msgid "strings.noti_prioritytaskchange1"
+msgstr "تعديل اولوية المهمة:"
+
+msgid "strings.noti_prioritytaskchange2"
+msgstr "تم تعديل اولوية المهمة:"
+
+msgid "strings.noti_statustaskchange1"
+msgstr "حالة المهمة تغيرت:"
+
+msgid "strings.noti_statustaskchange2"
+msgstr "حالة المهام التالية تغيرت:"
+
+msgid "strings.login_username"
+msgstr "يجب ادخال اسم المستخدم."
+
+msgid "strings.login_password"
+msgstr "يجب ادخال كلمة السر."
+
+msgid "strings.login_clientuser"
+msgstr "هذا حساب عميل لا يمكنك الدخول به"
+
+msgid "strings.user_already_exists"
+msgstr "يجب مستخدم بهذا الاسم اختر اسم آخر."
+
+msgid "strings.noti_duedatetaskchange1"
+msgstr "تغير تاريخ التسليم للمهمة:"
+
+msgid "strings.noti_duedatetaskchange2"
+msgstr "تاريخ التسليم للمهام التالية تغير:"
+
+msgid "strings.company"
+msgstr "الشركة"
+
+msgid "strings.show_all"
+msgstr "عرض الجميع"
+
+msgid "strings.information"
+msgstr "معلومات"
+
+msgid "strings.delete_message"
+msgstr "حذف هذه الرسالة"
+
+msgid "strings.project_team"
+msgstr "فريق المشروع"
+
+msgid "strings.document_list"
+msgstr "قائمة الوثائق"
+
+msgid "strings.bulletin_board"
+msgstr "لوحة الاعلانات"
+
+msgid "strings.bulletin_board_topic"
+msgstr "مواضيع لوحة الاعلانات"
+
+msgid "strings.create_topic"
+msgstr "انشاء موضوع جديد"
+
+msgid "strings.topic_form"
+msgstr "نموذج موضوع"
+
+msgid "strings.enter_message"
+msgstr "ادخل رسالتك"
+
+msgid "strings.upload_file"
+msgstr "رفع ملف"
+
+msgid "strings.upload_form"
+msgstr "نموذج الرفع"
+
+msgid "strings.upload"
+msgstr "الرفع"
+
+msgid "strings.document"
+msgstr "الوثيقة"
+
+msgid "strings.approval_comments"
+msgstr "ملاحظات الاعتماد"
+
+msgid "strings.client_tasks"
+msgstr "مهام العميل"
+
+msgid "strings.team_tasks"
+msgstr "مهام الفريق"
+
+msgid "strings.team_member_details"
+msgstr "تفاصيل عضو فريق المشروع"
+
+msgid "strings.client_task_details"
+msgstr "تفاصيل مهمة العميل"
+
+msgid "strings.team_task_details"
+msgstr "تفاصيل مهمة الفريق"
+
+msgid "strings.language"
+msgstr "اللغة"
+
+msgid "strings.welcome"
+msgstr "مرحبا"
+
+msgid "strings.your_projectsite"
+msgstr "الى موقع مشروعك"
+
+msgid "strings.contact_projectsite"
+msgstr ""
+"اذا كانت لديك اية استفسارات عن"
+"المعلومات المعروضة يرجى مراجعة مدير"
+"المشروع"
+
+msgid "strings.company_details"
+msgstr "تفاصيل الشركة"
+
+msgid "strings.database"
+msgstr "نسخ و استرجاع قاعدة البيانات"
+
+msgid "strings.company_info"
+msgstr "تحرير معلومات الشركة"
+
+msgid "strings.create_projectsite"
+msgstr "انشاء موقع المشروع"
+
+msgid "strings.projectsite_url"
+msgstr "عنوان موقع المشروع"
+
+msgid "strings.design_template"
+msgstr "قالب التصميم"
+
+msgid "strings.preview_design_template"
+msgstr "استعراض قالب التصميم"
+
+msgid "strings.delete_projectsite"
+msgstr "حذف موقع المشروع"
+
+msgid "strings.add_file"
+msgstr "اضافة ملف"
+
+msgid "strings.linked_content"
+msgstr "محتويات مرتبطة"
+
+msgid "strings.edit_file"
+msgstr "تحرير تفاصيل الملف"
+
+msgid "strings.permitted_client"
+msgstr "مستخدمي العميل المأذونين"
+
+msgid "strings.grant_client"
+msgstr "منح صلاحية استعراض موقع المشروع"
+
+msgid "strings.add_client_user"
+msgstr "اضافة مستخدم العميل"
+
+msgid "strings.edit_client_user"
+msgstr "تحرير مستخدم العميل"
+
+msgid "strings.client_user"
+msgstr "مستخدم العميل"
+
+msgid "strings.client_change_status"
+msgstr "غير الحالة عندما تنهي المهمة"
+
+msgid "strings.project_status"
+msgstr "حالة المشروع"
+
+msgid "strings.view_projectsite"
+msgstr "عرض موقع المشروع"
+
+msgid "strings.enter_login"
+msgstr "أدخل الاسم لتستلم كلمة السر"
+
+msgid "strings.send"
+msgstr "ارسال"
+
+msgid "strings.no_login"
+msgstr "الاسم غير موجود بقاعدة البيانات"
+
+msgid "strings.email_pwd"
+msgstr "ارسلت كلمة السر"
+
+msgid "strings.no_email"
+msgstr "المستخدم بلا ايميل"
+
+msgid "strings.forgot_pwd"
+msgstr "نسيت كلمة السر ?"
+
+msgid "strings.project_owner"
+msgstr ""
+"تستطيع التعديل فقط اذا كنت مالك"
+"المشروع."
+
+msgid "strings.connected"
+msgstr "متصل"
+
+msgid "strings.session"
+msgstr "جلسة"
+
+msgid "strings.last_visit"
+msgstr "آخر زيارة"
+
+msgid "strings.compteur"
+msgstr "عدد"
+
+msgid "strings.ip"
+msgstr "Ip"
+
+msgid "strings.task_owner"
+msgstr "لست عضو بهذا المشروع"
+
+msgid "strings.export"
+msgstr "تصدير"
+
+msgid "strings.reassignment_clientuser"
+msgstr "تعديل تكليف العميل"
+
+msgid "strings.organization_already_exists"
+msgstr "الاسم موجود مسبقا أختر آخر."
+
+msgid "strings.blank_organization_field"
+msgstr "يجب ان تدخل اسم مؤسسة العميل."
+
+msgid "strings.blank_fields"
+msgstr "حقول اجبارية"
+
+msgid "strings.projectsite_login_fails"
+msgstr ""
+"لم نتمكن من التأكد من الاسم و كلمة"
+"السر."
+
+msgid "strings.start_date"
+msgstr "تاريخ البدء"
+
+msgid "strings.completion"
+msgstr "انجاز"
+
+msgid "strings.update_available"
+msgstr "تحديث متوفر!"
+
+msgid "strings.version_current"
+msgstr "انت تستخم حاليا الاصدار"
+
+msgid "strings.version_latest"
+msgstr "احدث اصدار"
+
+msgid "strings.sourceforge_link"
+msgstr "مشاهدة موقع المشروع في Sourceforge"
+
+msgid "strings.demo_mode"
+msgstr "نمط التجريبي. هذا غير متاح."
+
+msgid "strings.setup_erase"
+msgstr "أحذف الملف setup.php!!"
+
+msgid "strings.no_file"
+msgstr "لم يحدد ملف"
+
+msgid "strings.exceed_size"
+msgstr "تجاوز حد املف الأقصى"
+
+msgid "strings.no_php"
+msgstr "Php ملف غير مسموح"
+
+msgid "strings.approval_date"
+msgstr "تاريخ الاعتماد"
+
+msgid "strings.approver"
+msgstr "المعتمد"
+
+msgid "strings.error_database"
+msgstr "فشل الارتباط بقاعدة البيانات"
+
+msgid "strings.error_server"
+msgstr "فشل الاتصال بالخادم"
+
+msgid "strings.version_control"
+msgstr "متابعة الاصدارات"
+
+msgid "strings.vc_status"
+msgstr "الحالة"
+
+msgid "strings.vc_last_in"
+msgstr "تاريخ آخر تعديل"
+
+msgid "strings.ifa_comments"
+msgstr "ملاحظات الاعتماد"
+
+msgid "strings.ifa_command"
+msgstr "تغيير حالة الاعتماد"
+
+msgid "strings.vc_version"
+msgstr "الاصدار"
+
+msgid "strings.ifc_revisions"
+msgstr "مراجعات النظراء"
+
+msgid "strings.ifc_revision_of"
+msgstr "مراجعة المدققين"
+
+msgid "strings.ifc_add_revision"
+msgstr "اضفة مراجعة مدقق"
+
+msgid "strings.ifc_update_file"
+msgstr "تحديث الملف"
+
+msgid "strings.ifc_last_date"
+msgstr "تاريخ آخر تعديل"
+
+msgid "strings.ifc_version_history"
+msgstr "أرشيف الاصدارات"
+
+msgid "strings.ifc_delete_file"
+msgstr ""
+"حذف الملف و كافة الاصدارات و المراجعات"
+
+msgid "strings.ifc_delete_version"
+msgstr "حذف الاصدار المحدد"
+
+msgid "strings.ifc_delete_review"
+msgstr "حذف المراجعة المحددة"
+
+msgid "strings.ifc_no_revisions"
+msgstr "لا يوجد مراجعات لهذه الوثيقة"
+
+msgid "strings.unlink_files"
+msgstr "فك ارتباط ملف"
+
+msgid "strings.remove_team"
+msgstr "ازالة عضو فريق"
+
+msgid "strings.remove_team_info"
+msgstr "ازالة هؤلاء الاعضاء من الفريق?"
+
+msgid "strings.remove_team_client"
+msgstr "ازالة صلاحية استعراض موقع المشروع"
+
+msgid "strings.note"
+msgstr "ملاحظة"
+
+msgid "strings.notes"
+msgstr "ملاحظات"
+
+msgid "strings.subject"
+msgstr "موضوع"
+
+msgid "strings.delete_note"
+msgstr "ازالة ادخالات الملاحظات"
+
+msgid "strings.add_note"
+msgstr "اضافة ادخال ملاحظة"
+
+msgid "strings.edit_note"
+msgstr "تحرير ادخال ملاحظة"
+
+msgid "strings.version_increm"
+msgstr "اختر تغيير الاصدار المطبق:"
+
+msgid "strings.url_dev"
+msgstr "عنوان موقع التطوير"
+
+msgid "strings.url_prod"
+msgstr "عنوان الموقع النهائي"
+
+msgid "strings.note_owner"
+msgstr "يمكنك تعديل ملاحظاتك فقط."
+
+msgid "strings.alpha_only"
+msgstr "فقط احرف و ارقام في الادخال"
+
+msgid "strings.edit_notifications"
+msgstr "تحرير ايميل الإخطار"
+
+msgid "strings.edit_notifications_info"
+msgstr "أهتر الأحداث التي تود ان تخطر بها."
+
+msgid "strings.select_deselect"
+msgstr "تحديد/عدم تحديد الجميع"
+
+msgid "strings.noti_addprojectteam1"
+msgstr "اضافة الى فريق المشروع :"
+
+msgid "strings.noti_addprojectteam2"
+msgstr "لقد تم اضافتك الى فريق المشروع :"
+
+msgid "strings.noti_removeprojectteam1"
+msgstr "ازلت من فريق المشروع :"
+
+msgid "strings.noti_removeprojectteam2"
+msgstr "لقد تم ازالتك من فريق المشروع:"
+
+msgid "strings.noti_newpost1"
+msgstr "اضافة جديدة :"
+
+msgid "strings.noti_newpost2"
+msgstr "اضافة جديدة في النقاش :"
+
+msgid "strings.edit_noti_taskassignment"
+msgstr "كلفت بمهمة جديدة."
+
+msgid "strings.edit_noti_statustaskchange"
+msgstr "حالة بعض مهامي تعدلت."
+
+msgid "strings.edit_noti_prioritytaskchange"
+msgstr "أولوية بعض مهامي تعدلت."
+
+msgid "strings.edit_noti_duedatetaskchange"
+msgstr "تاريخ التسليم لبعض مهامي تعدلت."
+
+msgid "strings.edit_noti_addprojectteam"
+msgstr "اضفت لفريق المشروع."
+
+msgid "strings.edit_noti_removeprojectteam"
+msgstr "ازلت من فريق المشروع."
+
+msgid "strings.edit_noti_newpost"
+msgstr "اضافة جديدة اضيفت للنقاش."
+
+msgid "strings.add_optional"
+msgstr "اضافة اختياري"
+
+msgid "strings.assignment_comment_info"
+msgstr "اضافة ملاحظات بخصوص تكليف المهمة"
+
+msgid "strings.my_notes"
+msgstr "ملاحظاتي"
+
+msgid "strings.edit_settings"
+msgstr "تحرير الاعدادات"
+
+msgid "strings.max_upload"
+msgstr "اقصى حجم ملف"
+
+msgid "strings.project_folder_size"
+msgstr "حجم مجلد المشروع"
+
+msgid "strings.calendar"
+msgstr "التقويم"
+
+msgid "strings.date_start"
+msgstr "تاريخ البدء"
+
+msgid "strings.date_end"
+msgstr "تاريخ الانتهاء"
+
+msgid "strings.time_start"
+msgstr "وقت البدء"
+
+msgid "strings.time_end"
+msgstr "وقت الانتهاء"
+
+msgid "strings.calendar_reminder"
+msgstr "منبه"
+
+msgid "strings.shortname"
+msgstr "الاسم المختصر"
+
+msgid "strings.calendar_recurring"
+msgstr "الحدث يحدث كل اسبوع بهذا اليوم"
+
+msgid "strings.edit_database"
+msgstr "تحرير قاعدة البيانات"
+
+msgid "strings.noti_newtopic1"
+msgstr "نقاش جديد :"
+
+msgid "strings.noti_newtopic2"
+msgstr "نقاش جديد اضيف للمشروع :"
+
+msgid "strings.edit_noti_newtopic"
+msgstr "موضوع نقاش جديد انشيء."
+
+msgid "strings.today"
+msgstr "اليوم"
+
+msgid "strings.previous"
+msgstr "السابق"
+
+msgid "strings.next"
+msgstr "التالي"
+
+msgid "strings.help"
+msgstr "مساعدة"
+
+msgid "strings.complete_date"
+msgstr "تاريخ الانجاز"
+
+msgid "strings.scope_creep"
+msgstr "تجاوز الموعد"
+
+msgid "strings.days"
+msgstr "الايام"
+
+msgid "strings.logo"
+msgstr "الشعار"
+
+msgid "strings.remember_password"
+msgstr "تذكر كلمة السر"
+
+msgid "strings.client_add_task_note"
+msgstr ""
+"ملاحظة: هذه المهمة اضيفت و لكن ممكن"
+"رؤيتها فقط من اعضاء الفريق!"
+
+msgid "strings.noti_clientaddtask1"
+msgstr "مهمة اضيفت من العميل :"
+
+msgid "strings.noti_clientaddtask2"
+msgstr "مهمة جديدة اضيفت من العميل للمشاريع :"
+
+msgid "strings.phase"
+msgstr "مرحلة"
+
+msgid "strings.phases"
+msgstr "مراحل"
+
+msgid "strings.phase_id"
+msgstr "رمز المرحلة"
+
+msgid "strings.current_phase"
+msgstr "المراحل الفعالة"
+
+msgid "strings.total_tasks"
+msgstr "مجموع المهمام"
+
+msgid "strings.uncomplete_tasks"
+msgstr "المهام غير المنجزة"
+
+msgid "strings.no_current_phase"
+msgstr "لا يوجد مرحلة فعالة"
+
+msgid "strings.true"
+msgstr "صحيح"
+
+msgid "strings.false"
+msgstr "خطأ"
+
+msgid "strings.enable_phases"
+msgstr "اتاحة المراحل"
+
+msgid "strings.phase_enabled"
+msgstr "المرحلة متاحة"
+
+msgid "strings.order"
+msgstr "طلب"
+
+msgid "strings.options"
+msgstr "خيارات"
+
+msgid "strings.support"
+msgstr "دعم"
+
+msgid "strings.support_request"
+msgstr "طلب دعم"
+
+msgid "strings.support_requests"
+msgstr "طلبات الدعم"
+
+msgid "strings.support_id"
+msgstr "رمزالدعم"
+
+msgid "strings.my_support_request"
+msgstr "طلبات الدعم خاصتي"
+
+msgid "strings.introduction"
+msgstr "مقدمة"
+
+msgid "strings.submit"
+msgstr "ارسال"
+
+msgid "strings.support_management"
+msgstr "ادارة الدعم"
+
+msgid "strings.date_open"
+msgstr "تاريخ البدء"
+
+msgid "strings.date_close"
+msgstr "تاريخ الإغلاق"
+
+msgid "strings.add_support_request"
+msgstr "اضافة طلب دعم"
+
+msgid "strings.add_support_response"
+msgstr "اضافة اجابة دعم"
+
+msgid "strings.respond"
+msgstr "اجابة"
+
+msgid "strings.delete_support_request"
+msgstr "طلب دعم حذف"
+
+msgid "strings.delete_request"
+msgstr "حذف طلب دعم"
+
+msgid "strings.delete_support_post"
+msgstr "حذف اضفة دعم"
+
+msgid "strings.new_requests"
+msgstr "طلبات جديدة"
+
+msgid "strings.open_requests"
+msgstr "طلبات مفتوحة"
+
+msgid "strings.closed_requests"
+msgstr "طلبات منجزة"
+
+msgid "strings.manage_new_requests"
+msgstr "ادارة الطلبات الجديدة"
+
+msgid "strings.manage_open_requests"
+msgstr "ادارة الطلبات المفتوحة"
+
+msgid "strings.manage_closed_requests"
+msgstr "ادارة الطلبات المغلقة"
+
+msgid "strings.responses"
+msgstr "الاجابات"
+
+msgid "strings.edit_status"
+msgstr "تحرير الحالة"
+
+msgid "strings.noti_support_request_new2"
+msgstr "لقد ارسلت طلب دعم بخصوص: "
+
+msgid "strings.noti_support_post2"
+msgstr ""
+"اجابة جديدة اضيفت على طلب الدعم خاصتك"
+"الرجاء مراجعة التفاصيل بالاسفل."
+
+msgid "strings.noti_support_status2"
+msgstr ""
+"اجابة جديدة اضيفت على طلب الدعم خاصتك"
+"الرجاء مراجعة التفاصيل بالاسفل"
+
+msgid "strings.noti_support_team_new2"
+msgstr "طلب دعم جديد اضيف للمشروع: "
+
+msgid "strings.delete_subtasks"
+msgstr "حذف مهمة فرعية"
+
+msgid "strings.add_subtask"
+msgstr "اضافة مهمة فرعية"
+
+msgid "strings.edit_subtask"
+msgstr "تحرير مهمة فرعية"
+
+msgid "strings.subtask"
+msgstr "مهمة فرعية"
+
+msgid "strings.subtasks"
+msgstr "مهام فرعية"
+
+msgid "strings.show_details"
+msgstr "عرض التفاصيل"
+
+msgid "strings.updates_task"
+msgstr "أرشيف تحديثات المهمة"
+
+msgid "strings.updates_subtask"
+msgstr "أرشيف تحديثات المهمةالفرعية"
+
+msgid "strings.go_projects_site"
+msgstr "ذهاب الى موقع المشاريع"
+
+msgid "strings.bookmark"
+msgstr "علامة"
+
+msgid "strings.bookmarks"
+msgstr "علامات"
+
+msgid "strings.bookmark_category"
+msgstr "فئة"
+
+msgid "strings.bookmark_category_new"
+msgstr "فئة جديدة"
+
+msgid "strings.bookmarks_all"
+msgstr "الكل"
+
+msgid "strings.bookmarks_my"
+msgstr "علاماتي"
+
+msgid "strings.my"
+msgstr "خاصتي"
+
+msgid "strings.bookmarks_private"
+msgstr "خاص"
+
+msgid "strings.shared"
+msgstr "مشترك"
+
+msgid "strings.private"
+msgstr "خاص"
+
+msgid "strings.add_bookmark"
+msgstr "اضافة علامة"
+
+msgid "strings.edit_bookmark"
+msgstr "تحرير علامة"
+
+msgid "strings.delete_bookmarks"
+msgstr "حذف علامات"
+
+msgid "strings.team_subtask_details"
+msgstr "تفاصيل المهمة الفرعية للفريق"
+
+msgid "strings.client_subtask_details"
+msgstr "تفاصيل المهمة الفرعية للعميل"
+
+msgid "strings.client_change_status_subtask"
+msgstr ""
+"عدل الحالة بالاسفل عند انتهائك من"
+"المهمة الفرعية"
+
+msgid "strings.disabled_permissions"
+msgstr "حساب موقوف"
+
+msgid "strings.user_timezone"
+msgstr "التوقيت (GMT)"
+
+msgid "strings.project_manager_administrator_permissions"
+msgstr "مدير المشروع مشرف"
+
+msgid "strings.bug"
+msgstr "متابعة الاخطاء"
+
+msgid "strings.report"
+msgstr "تقرير"
+
+msgid "strings.license"
+msgstr "ترخيص"
+
+msgid "strings.settings_notwritable"
+msgstr "Settings.php غير قابل للكتابة"
+
+msgid "strings.allcalender"
+msgstr "تقويم الفريق"
+
+
+# Enum values (status, priority, etc.)
+# Note: These should be moved to enums.*.po domain
+
+#. Domain: enums
+msgid "status.0"
+msgstr "منجز للعميل"
+
+#. Domain: enums
+msgid "status.1"
+msgstr "منجز"
+
+#. Domain: enums
+msgid "status.2"
+msgstr "لم يبدأ"
+
+#. Domain: enums
+msgid "status.3"
+msgstr "مفتوح"
+
+#. Domain: enums
+msgid "status.4"
+msgstr "معلق"
+
+#. Domain: enums
+msgid "profil.0"
+msgstr "مشرف"
+
+#. Domain: enums
+msgid "profil.1"
+msgstr "مدير المشروع"
+
+#. Domain: enums
+msgid "profil.2"
+msgstr "مستخدم"
+
+#. Domain: enums
+msgid "profil.3"
+msgstr "مستخدم العميل"
+
+#. Domain: enums
+msgid "profil.4"
+msgstr "غير متاح"
+
+#. Domain: enums
+msgid "profil.5"
+msgstr "مدير المشروع مشرف"
+
+#. Domain: enums
+msgid "priority.0"
+msgstr "بلا"
+
+#. Domain: enums
+msgid "priority.1"
+msgstr "منخفض جدا"
+
+#. Domain: enums
+msgid "priority.2"
+msgstr "منخفض"
+
+#. Domain: enums
+msgid "priority.3"
+msgstr "متوسط"
+
+#. Domain: enums
+msgid "priority.4"
+msgstr "مرتفع"
+
+#. Domain: enums
+msgid "priority.5"
+msgstr "مرتفع جدا"
+
+#. Domain: enums
+msgid "statusTopic.0"
+msgstr "مغلق"
+
+#. Domain: enums
+msgid "statusTopic.1"
+msgstr "مفتوح"
+
+#. Domain: enums
+msgid "statusTopicBis.0"
+msgstr "نعم"
+
+#. Domain: enums
+msgid "statusTopicBis.1"
+msgstr "لا"
+
+#. Domain: enums
+msgid "statusPublish.0"
+msgstr "نعم"
+
+#. Domain: enums
+msgid "statusPublish.1"
+msgstr "لا"
+
+#. Domain: enums
+msgid "statusFile.0"
+msgstr "معتمد"
+
+#. Domain: enums
+msgid "statusFile.1"
+msgstr "معتمد مع تعديلات"
+
+#. Domain: enums
+msgid "statusFile.2"
+msgstr "يحتاج اعتماد"
+
+#. Domain: enums
+msgid "statusFile.3"
+msgstr "لا يحتاج اعتماد"
+
+#. Domain: enums
+msgid "statusFile.4"
+msgstr "غير معتمد"
+
+#. Domain: enums
+msgid "phaseStatus.0"
+msgstr "لم يبدأ"
+
+#. Domain: enums
+msgid "phaseStatus.1"
+msgstr "مفتوح"
+
+#. Domain: enums
+msgid "phaseStatus.2"
+msgstr "منجز"
+
+#. Domain: enums
+msgid "phaseStatus.3"
+msgstr "معلق"
+
+#. Domain: enums
+msgid "requestStatus.0"
+msgstr "جديد"
+
+#. Domain: enums
+msgid "requestStatus.1"
+msgstr "مفتوح"
+
+#. Domain: enums
+msgid "requestStatus.2"
+msgstr "منجز"
+
+
+# Arrays (days, months, byte units)
+
+msgid "byteunits.0"
+msgstr "بايت"
+
+msgid "byteunits.1"
+msgstr "ك"
+
+msgid "byteunits.2"
+msgstr "م.ب"
+
+msgid "byteunits.3"
+msgstr "غ.ب"
+
+msgid "dayname.1"
+msgstr "الأثنين"
+
+msgid "dayname.2"
+msgstr "الثلاثاء"
+
+msgid "dayname.3"
+msgstr "الأربعاء"
+
+msgid "dayname.4"
+msgstr "الخميس"
+
+msgid "dayname.5"
+msgstr "الجمعة"
+
+msgid "dayname.6"
+msgstr "السبت"
+
+msgid "dayname.7"
+msgstr "الأحد"
+
+msgid "monthname.1"
+msgstr "يناير"
+
+msgid "monthname.2"
+msgstr "فبراير"
+
+msgid "monthname.3"
+msgstr "مارس"
+
+msgid "monthname.4"
+msgstr "أبريل"
+
+msgid "monthname.5"
+msgstr "مايو"
+
+msgid "monthname.6"
+msgstr "يونيو"
+
+msgid "monthname.7"
+msgstr "يوليو"
+
+msgid "monthname.8"
+msgstr "اغسطس"
+
+msgid "monthname.9"
+msgstr "سبمتمبر"
+
+msgid "monthname.10"
+msgstr "اكتوبر"
+
+msgid "monthname.11"
+msgstr "نوفمبر"
+
+msgid "monthname.12"
+msgstr "ديسمبر"
+

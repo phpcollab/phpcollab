@@ -1,0 +1,59 @@
+# phpCollab Translation File
+# Language: Norwegian (no)
+# Type: Custom
+# Domain: messages
+# Generated: 2025-11-06 00:44:11 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: no\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Custom application values
+
+msgid "topicNote.1"
+msgstr "Telefon Samtale"
+
+msgid "topicNote.2"
+msgstr "Konferanse Notat"
+
+msgid "topicNote.3"
+msgstr "Generelle Notat"
+
+msgid "phaseArraySets.sets.1"
+msgstr "Webside"
+
+msgid "phaseArraySets.sets.2"
+msgstr "CD"
+
+msgid "phaseArraySets.1.0"
+msgstr "Planlegging"
+
+msgid "phaseArraySets.1.1"
+msgstr "Design"
+
+msgid "phaseArraySets.1.2"
+msgstr "Testing"
+
+msgid "phaseArraySets.1.3"
+msgstr "Avslutt"
+
+msgid "phaseArraySets.1.4"
+msgstr "Produksjon"
+
+msgid "phaseArraySets.2.0"
+msgstr "Planlegging"
+
+msgid "phaseArraySets.2.1"
+msgstr "Design"
+
+msgid "phaseArraySets.2.2"
+msgstr "Testing"
+
+msgid "phaseArraySets.2.3"
+msgstr "Produksjon"
+

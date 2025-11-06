@@ -1,0 +1,100 @@
+# phpCollab Translation File
+# Language: Italian (it)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:09 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Help text
+
+msgid "setup_mkdirMethod"
+msgstr ""
+"Se il safe-mode è abilitato (On), devi configurare un account Ftp per"
+"poter creare cartelle con la gestione dei file."
+
+msgid "setup_notifications"
+msgstr ""
+"Notifica agli usenti tramite e-mail (assegnazione task, nuove"
+"discussioni, modifiche ai task...)<br/>E' necessario un server"
+"smtp/sendmail funzionante."
+
+msgid "setup_forcedlogin"
+msgstr "Se falso, blocca i link esterno contententi login/password nell'url"
+
+msgid "setup_langdefault"
+msgstr ""
+"Sceglie il linguaggio che sarà automaticamente selezionato in fase di"
+"login se lasciato in bianco sarà attivato l'auto_detect del"
+"linguaggio del browser."
+
+msgid "setup_myprefix"
+msgstr ""
+"Assegna questo valore se hai tabelle con lo stesso nome nel"
+"database.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Lascialo"
+"in bianco per non usare il prefisso sulle tabelle."
+
+msgid "setup_loginmethod"
+msgstr ""
+"Metodo per memorizzare le passwords nel database.<br/>Seleziona"
+"&quot;Crypt&quot; per abilitare le autenticazioni su CVS e htaccess "
+"(se il supporto CVS e/o l'autenticazione htaccess sono abilitati)."
+
+msgid "admin_update"
+msgstr ""
+"Rispetta l'ordine indicato per aggiornare la tua versione<br/>1."
+"Modifica configurazione (aggiungi i nuovi parametri)<br/>2. Modifica"
+"il database (aggiorna in accordo con la tua precedente versione)"
+
+msgid "task_scope_creep"
+msgstr ""
+"Differenza in giorni tra la data di scadenza e quella di completamento"
+"(grassetto se positivo)"
+
+msgid "max_file_size"
+msgstr "Grandezza massima dei file da caricare"
+
+msgid "project_disk_space"
+msgstr "Grandezza totale dei files per il progetto"
+
+msgid "project_scope_creep"
+msgstr ""
+"Differenza in giorni tra la data di scadenza e quella di completamento"
+"(grassetto se positivo). Totale per tutti i tasks"
+
+msgid "mycompany_logo"
+msgstr ""
+"Carica un logo per la tua azienda. Apparirà nell'intestazione,"
+"sostituendo il titolo del sito"
+
+msgid "calendar_shortname"
+msgstr ""
+"Etichetta che apparirà nella visualizzazione mensile del calendario."
+"Obbligatorio"
+
+msgid "user_autologout"
+msgstr ""
+"Tempo in sec. prima di essere disconnesso dopo nessuna attività. 0"
+"per disabilitare"
+
+msgid "user_timezone"
+msgstr "Configura il tuo fuso orario (GMT)"
+
+msgid "setup_clientsfilter"
+msgstr "Filtra per vedere solo i clienti autenticati"
+
+msgid "setup_projectsfilter"
+msgstr ""
+"Filtra per vedere solo il progetto quando l'utente è nel gruppo di"
+"lavoro"
+
+msgid "newsdesk_links"
+msgstr "per aggiungere più links utilizza il punto e virgola"
+

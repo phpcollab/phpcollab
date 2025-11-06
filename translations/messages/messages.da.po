@@ -1,0 +1,1850 @@
+# phpCollab Translation File
+# Language: Danish (da)
+# Type: Lang
+# Domain: messages
+# Generated: 2025-11-06 00:44:06 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: da\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# String translations
+
+msgid "strings.please_login"
+msgstr "Log venligst ind"
+
+msgid "strings.requirements"
+msgstr "Systemkrav"
+
+msgid "strings.login"
+msgstr "Log Ind"
+
+msgid "strings.no_items"
+msgstr "Ingen emner at vise"
+
+msgid "strings.logout"
+msgstr "Log Ud"
+
+msgid "strings.preferences"
+msgstr "Præferencer"
+
+msgid "strings.my_tasks"
+msgstr "Mine Opgaver"
+
+msgid "strings.edit_task"
+msgstr "Ret Opgave"
+
+msgid "strings.copy_task"
+msgstr "Kopier Opgave"
+
+msgid "strings.add_task"
+msgstr "Tilføj Opgave"
+
+msgid "strings.delete_tasks"
+msgstr "Slet Opgave"
+
+msgid "strings.assignment_history"
+msgstr "Tildelingshistorik"
+
+msgid "strings.assigned_on"
+msgstr "Tildelt d."
+
+msgid "strings.assigned_by"
+msgstr "Tildelt af"
+
+msgid "strings.to"
+msgstr "Til"
+
+msgid "strings.comment"
+msgstr "Kommentar"
+
+msgid "strings.task_assigned"
+msgstr "Opgave tildelt "
+
+msgid "strings.task_unassigned"
+msgstr "Opgave tildelt Ingen (Ikke tildelt)"
+
+msgid "strings.edit_multiple_tasks"
+msgstr "Ret Flere Opgaver"
+
+msgid "strings.tasks_selected"
+msgstr ""
+"opgave valgt. Vælg Nye værdier for disse opgaver, eller vælg [Ingen"
+"Ændringer] for at beholde de nuværende værdier."
+
+msgid "strings.assignment_comment"
+msgstr "Tildelingskommentar"
+
+msgid "strings.no_change"
+msgstr "Ingen Ændringer"
+
+msgid "strings.my_discussions"
+msgstr "Mine Debatindlæg"
+
+msgid "strings.discussions"
+msgstr "Debatindlæg"
+
+msgid "strings.delete_discussions"
+msgstr "Slet Debatindlæg"
+
+msgid "strings.delete_discussions_note"
+msgstr "Note: Debatindlæg kan ikke genåbnes når først de er slettet."
+
+msgid "strings.topic"
+msgstr "Emne"
+
+msgid "strings.posts"
+msgstr "Indlæg"
+
+msgid "strings.latest_post"
+msgstr "Seneste Svar"
+
+msgid "strings.my_reports"
+msgstr "Mine Rapporter"
+
+msgid "strings.reports"
+msgstr "Rapporter"
+
+msgid "strings.create_report"
+msgstr "Tilføj Rapport"
+
+msgid "strings.report_intro"
+msgstr ""
+"Vælg din opgaves rapporteringsparametre her og gem forspørgelsen på"
+"resultatsiden efter du har kørt din rapport."
+
+msgid "strings.admin_intro"
+msgstr "Projektindstillinger og -konfiguration."
+
+msgid "strings.copy_of"
+msgstr "Kopi af "
+
+msgid "strings.add"
+msgstr "Tilføj"
+
+msgid "strings.delete"
+msgstr "Slet"
+
+msgid "strings.remove"
+msgstr "Fjern"
+
+msgid "strings.copy"
+msgstr "Kopier"
+
+msgid "strings.view"
+msgstr "Vis"
+
+msgid "strings.edit"
+msgstr "Ret"
+
+msgid "strings.update"
+msgstr "Opdater"
+
+msgid "strings.details"
+msgstr "Detaljer"
+
+msgid "strings.none"
+msgstr "Ingen"
+
+msgid "strings.close"
+msgstr "Luk"
+
+msgid "strings.new"
+msgstr "Ny"
+
+msgid "strings.select_all"
+msgstr "Vælg Alle"
+
+msgid "strings.unassigned"
+msgstr "Ikke Tildelt"
+
+msgid "strings.my_projects"
+msgstr "Mine Projekter"
+
+msgid "strings.project"
+msgstr "Projekt"
+
+msgid "strings.active"
+msgstr "Aktive"
+
+msgid "strings.inactive"
+msgstr "Ikke Aktive"
+
+msgid "strings.project_id"
+msgstr "Projekt ID"
+
+msgid "strings.edit_project"
+msgstr "Ret Projekt"
+
+msgid "strings.copy_project"
+msgstr "Kopier Projekt"
+
+msgid "strings.add_project"
+msgstr "Tilføj Projekt"
+
+msgid "strings.clients"
+msgstr "Kunder"
+
+msgid "strings.organization"
+msgstr "Kundens Organisation"
+
+msgid "strings.client_projects"
+msgstr "Kundens Projekter"
+
+msgid "strings.client_users"
+msgstr "Kundens brugere"
+
+msgid "strings.edit_organization"
+msgstr "Ret Kundeorganisation"
+
+msgid "strings.add_organization"
+msgstr "Tilføj Kundeorganisation"
+
+msgid "strings.organizations"
+msgstr "Kundeorganisationer"
+
+msgid "strings.owner"
+msgstr "Ejer"
+
+msgid "strings.home"
+msgstr "Forside"
+
+msgid "strings.projects"
+msgstr "Projekter"
+
+msgid "strings.files"
+msgstr "Filer"
+
+msgid "strings.search"
+msgstr "Søg"
+
+msgid "strings.admin"
+msgstr "Administrator"
+
+msgid "strings.user"
+msgstr "Bruger"
+
+msgid "strings.project_manager"
+msgstr "Projektleder"
+
+msgid "strings.due"
+msgstr "Forfalden"
+
+msgid "strings.task"
+msgstr "Opgave"
+
+msgid "strings.tasks"
+msgstr "Opgaver"
+
+msgid "strings.add_team"
+msgstr "Tilføj Team Medlemmer"
+
+msgid "strings.team_members"
+msgstr "Team Medlemmer"
+
+msgid "strings.full_name"
+msgstr "Navn"
+
+msgid "strings.title"
+msgstr "Titel"
+
+msgid "strings.user_name"
+msgstr "Brugernavn"
+
+msgid "strings.work_phone"
+msgstr "Tlf. Arbejde"
+
+msgid "strings.priority"
+msgstr "Prioritet"
+
+msgid "strings.name"
+msgstr "Navn"
+
+msgid "strings.description"
+msgstr "Beskrivelse"
+
+msgid "strings.phone"
+msgstr "Tlf."
+
+msgid "strings.address"
+msgstr "Adresse"
+
+msgid "strings.comments"
+msgstr "Kommentare"
+
+msgid "strings.created"
+msgstr "Oprettet"
+
+msgid "strings.assigned"
+msgstr "Tildelt"
+
+msgid "strings.modified"
+msgstr "Ændret"
+
+msgid "strings.assigned_to"
+msgstr "Tildelt til"
+
+msgid "strings.due_date"
+msgstr "Forfalden dato"
+
+msgid "strings.estimated_time"
+msgstr "Estimeret Tidsforbrug"
+
+msgid "strings.actual_time"
+msgstr "Faktisk Tidsforbrug"
+
+msgid "strings.delete_following"
+msgstr "Slet følgende?"
+
+msgid "strings.cancel"
+msgstr "Annulér"
+
+msgid "strings.and"
+msgstr "og"
+
+msgid "strings.user_management"
+msgstr "Bruger Styring"
+
+msgid "strings.product_information"
+msgstr "Produkt Information"
+
+msgid "strings.system_properties"
+msgstr "System Egenskaber"
+
+msgid "strings.create"
+msgstr "Tilføj"
+
+msgid "strings.report_save"
+msgstr "Gem denne Rapport på din side så du kan køre forspørgslen igen."
+
+msgid "strings.report_name"
+msgstr "Rapportnavn"
+
+msgid "strings.save"
+msgstr "Gem"
+
+msgid "strings.matches"
+msgstr "Matcher"
+
+msgid "strings.report_results"
+msgstr "Rapport Resultat"
+
+msgid "strings.success"
+msgstr "Lykkedes"
+
+msgid "strings.addition_succeeded"
+msgstr "Tilføjelse Lykkedes"
+
+msgid "strings.deletion_succeeded"
+msgstr "Sletning Lykkedes"
+
+msgid "strings.report_created"
+msgstr "Oprettede rapport"
+
+msgid "strings.deleted_reports"
+msgstr "Slettede rapporter"
+
+msgid "strings.modification_succeeded"
+msgstr "Ændring Lykkedes"
+
+msgid "strings.errors"
+msgstr "Fejl fundet!"
+
+msgid "strings.blank_user"
+msgstr "Brugeren blev ikke fundet."
+
+msgid "strings.blank_organization"
+msgstr "Kundens organisation kan ikke findes."
+
+msgid "strings.blank_project"
+msgstr "Projektet kan ikke findes."
+
+msgid "strings.user_profile"
+msgstr "Bruger Profil"
+
+msgid "strings.change_password"
+msgstr "Ændre kodeord"
+
+msgid "strings.change_password_user"
+msgstr "Ændre brugerens kodeord."
+
+msgid "strings.old_password_error"
+msgstr ""
+"Det gamle kodeord du indtastede er ikke korrekt. Prøve venligst at"
+"indtaste det gamle kodeord igen."
+
+msgid "strings.new_password_error"
+msgstr ""
+"Det andet kodeord du indtastede passer ikke med det første. Prøv"
+"venligst at indtaste det nye kodeord igen."
+
+msgid "strings.notifications"
+msgstr "Påmindelser"
+
+msgid "strings.change_password_intro"
+msgstr "Indtast dit gamle kodeord, indtast herefter det nye."
+
+msgid "strings.old_password"
+msgstr "Gammelt kodeord"
+
+msgid "strings.password"
+msgstr "Kodeord"
+
+msgid "strings.new_password"
+msgstr "Nyt kodeord"
+
+msgid "strings.confirm_password"
+msgstr "Bekræft kodeord"
+
+msgid "strings.home_phone"
+msgstr "Tlf. Hjemme"
+
+msgid "strings.mobile_phone"
+msgstr "Mobil tlf."
+
+msgid "strings.permissions"
+msgstr "Rettigheder"
+
+msgid "strings.administrator_permissions"
+msgstr "Administrator Rettigheder"
+
+msgid "strings.project_manager_permissions"
+msgstr "Projektleder Rettigheder"
+
+msgid "strings.user_permissions"
+msgstr "Bruger Rettigheder"
+
+msgid "strings.account_created"
+msgstr "Konto Oprettet"
+
+msgid "strings.edit_user"
+msgstr "Ret Bruger"
+
+msgid "strings.edit_user_details"
+msgstr "Ret Bruger konto detaljer."
+
+msgid "strings.change_user_password"
+msgstr "Ændre brugerens kodeord."
+
+msgid "strings.select_permissions"
+msgstr "Vælg Rettigheder for denne bruger"
+
+msgid "strings.add_user"
+msgstr "Tilføj Bruger"
+
+msgid "strings.enter_user_details"
+msgstr "Indtast detaljer for den brugerkonto du er ved at oprette."
+
+msgid "strings.enter_password"
+msgstr "Indtast brugerens kodeord."
+
+msgid "strings.success_logout"
+msgstr ""
+"Du er logget af med succes. Du kan logge på igen ved at indtaste dit"
+"brugernavn og kodeord herunder."
+
+msgid "strings.invalid_login"
+msgstr "Brugernavn og/eller kodeord ikke korrekt. Forsøg venligst igen."
+
+msgid "strings.profile"
+msgstr "Profil"
+
+msgid "strings.user_details"
+msgstr "Bruger konto detaljer."
+
+msgid "strings.edit_user_account"
+msgstr "Ret dine konto informationer."
+
+msgid "strings.no_permissions"
+msgstr "Du har ikke rettigheder til gøre dette."
+
+msgid "strings.discussion"
+msgstr "Debat"
+
+msgid "strings.retired"
+msgstr "Tilbagetrukket"
+
+msgid "strings.last_post"
+msgstr "Sidste Indlæg"
+
+msgid "strings.post_reply"
+msgstr "Svar på Indlæg"
+
+msgid "strings.posted_by"
+msgstr "Indlæg af"
+
+msgid "strings.when"
+msgstr "Når"
+
+msgid "strings.post_to_discussion"
+msgstr "Indlæg til Debat"
+
+msgid "strings.message"
+msgstr "Meddelelse"
+
+msgid "strings.delete_reports"
+msgstr "Slet Rapporter"
+
+msgid "strings.delete_projects"
+msgstr "Slet Projekter"
+
+msgid "strings.delete_organizations"
+msgstr "Slet Kundeorganisationer"
+
+msgid "strings.delete_organizations_note"
+msgstr ""
+"Note: Dette vil slette alle kundens brugere for disse"
+"kundeorganisationer, og deassociere alle åbne projekter fra disse"
+"kunders organisationer."
+
+msgid "strings.delete_messages"
+msgstr "Slet Meddelelser"
+
+msgid "strings.attention"
+msgstr "Bemærk"
+
+msgid "strings.delete_teamownermix"
+msgstr ""
+"Fjernelse lykkedes, men projektejeren kan ikke fjernes fra projekt"
+"teamet."
+
+msgid "strings.delete_teamowner"
+msgstr "Du kan ikke fjerne projekt ejeren fra projekt teamet.."
+
+msgid "strings.enter_keywords"
+msgstr "Indtast Nøgleord"
+
+msgid "strings.search_options"
+msgstr "Nøgleord og søge muligheder"
+
+msgid "strings.search_note"
+msgstr "Du skal indtaste informationer i Søg efter feltet."
+
+msgid "strings.search_results"
+msgstr "Søgeresultat"
+
+msgid "strings.users"
+msgstr "Brugere"
+
+msgid "strings.search_for"
+msgstr "Søg efter"
+
+msgid "strings.results_for_keywords"
+msgstr "Søgeresultater for Nøgleord"
+
+msgid "strings.add_discussion"
+msgstr "Tilføj Debat"
+
+msgid "strings.delete_users"
+msgstr "Slet Bruger kontoer"
+
+msgid "strings.reassignment_user"
+msgstr "Projekt og Opgave Omfordeling"
+
+msgid "strings.there"
+msgstr "Der er"
+
+msgid "strings.owned_by"
+msgstr "Ejet af brugeren ovenfor."
+
+msgid "strings.reassign_to"
+msgstr "Før brugere slettes, omfordel disse til"
+
+msgid "strings.no_files"
+msgstr "Ingen Filer sammenkædet"
+
+msgid "strings.published"
+msgstr "Publiceret"
+
+msgid "strings.project_site"
+msgstr "Projekt Side"
+
+msgid "strings.approval_tracking"
+msgstr "Godkendelses Tracking"
+
+msgid "strings.size"
+msgstr "Størrelse"
+
+msgid "strings.add_project_site"
+msgstr "Føj til Projekt Side"
+
+msgid "strings.remove_project_site"
+msgstr "Fjern fra Projekt Side"
+
+msgid "strings.more_search"
+msgstr "Flere søgemuligheder"
+
+msgid "strings.results_with"
+msgstr "Find Resultater med"
+
+msgid "strings.search_topics"
+msgstr "Søg Emner"
+
+msgid "strings.search_properties"
+msgstr "Søg Egenskaber"
+
+msgid "strings.date_restrictions"
+msgstr "Datorestriktioner"
+
+msgid "strings.case_sensitive"
+msgstr "Forskel på store og små bogstaver"
+
+msgid "strings.yes"
+msgstr "Ja"
+
+msgid "strings.no"
+msgstr "Nej"
+
+msgid "strings.sort_by"
+msgstr "Sorter efter"
+
+msgid "strings.date"
+msgstr "Dato"
+
+msgid "strings.all_words"
+msgstr "alle ordene"
+
+msgid "strings.any_words"
+msgstr "hvilket som helst af ordene"
+
+msgid "strings.exact_match"
+msgstr "præcis match"
+
+msgid "strings.all_dates"
+msgstr "Alle datoer"
+
+msgid "strings.between_dates"
+msgstr "Mellem datoer"
+
+msgid "strings.all_content"
+msgstr "Alt indhold"
+
+msgid "strings.all_properties"
+msgstr "Alle egenskaber"
+
+msgid "strings.no_results_search"
+msgstr "Søgningen gav intet resultat."
+
+msgid "strings.no_results_report"
+msgstr "Rapporten gav intet resultat."
+
+msgid "strings.hours"
+msgstr "timer"
+
+msgid "strings.choice"
+msgstr "valg"
+
+msgid "strings.missing_file"
+msgstr "Fil mangler !"
+
+msgid "strings.project_site_deleted"
+msgstr "Projektsiden blev slettet korrekt."
+
+msgid "strings.add_user_project_site"
+msgstr "Brugeren har fået tildelt rettigheder til at tilgå Projektsiden."
+
+msgid "strings.remove_user_project_site"
+msgstr "Brugers rettigheder blev fjernet."
+
+msgid "strings.add_project_site_success"
+msgstr "Tilføjelsen til projektsiden gennemført."
+
+msgid "strings.remove_project_site_success"
+msgstr "Fjernet korrekt fra projektsiden."
+
+msgid "strings.add_file_success"
+msgstr "Linkede 1 indholdsobjekt."
+
+msgid "strings.delete_file_success"
+msgstr "Aflinkning gennemført."
+
+msgid "strings.update_comment_file"
+msgstr "Filkommentaren blev opdateret."
+
+msgid "strings.session_false"
+msgstr "Sessionsfejl"
+
+msgid "strings.logout_time"
+msgstr "Auto Log Ud"
+
+msgid "strings.noti_foot1"
+msgstr "Denne notificering er genereret af PhpCollab."
+
+msgid "strings.noti_foot2"
+msgstr "For at se din PhpCollab hjemmeside, besøg:"
+
+msgid "strings.noti_taskassignment1"
+msgstr "Ny opgave:"
+
+msgid "strings.noti_taskassignment2"
+msgstr "En opgave er blevet tildelt til dig:"
+
+msgid "strings.noti_moreinfo"
+msgstr "For mere information, besøg venligst:"
+
+msgid "strings.noti_prioritytaskchange1"
+msgstr "Opgave-prioritet ændret:"
+
+msgid "strings.noti_prioritytaskchange2"
+msgstr "Prioriteten på følgende opgave er blevet ændret:"
+
+msgid "strings.noti_statustaskchange1"
+msgstr "Opgave status ændret:"
+
+msgid "strings.noti_statustaskchange2"
+msgstr "Status på følgende opgave er blevet ændret:"
+
+msgid "strings.login_username"
+msgstr "Du skal indtaste et brugernavn."
+
+msgid "strings.login_password"
+msgstr "Indtast venligst et kodeord."
+
+msgid "strings.login_clientuser"
+msgstr ""
+"Dette er en klient brugerkonto. Du har ikke adgang til PhpCollab med"
+"en klient brugerkonto."
+
+msgid "strings.user_already_exists"
+msgstr ""
+"Der er allerede en bruger med dette navn. Vælg venligst en variation"
+"af brugerens navn."
+
+msgid "strings.noti_duedatetaskchange1"
+msgstr "Opgave forfalden dato ændret:"
+
+msgid "strings.noti_duedatetaskchange2"
+msgstr "Forfaldsdatoen for følgende opgave er blevet ændret:"
+
+msgid "strings.company"
+msgstr "Firma"
+
+msgid "strings.show_all"
+msgstr "Vis Alle"
+
+msgid "strings.delete_message"
+msgstr "Slet denne meddelelse"
+
+msgid "strings.project_team"
+msgstr "Projekt Team"
+
+msgid "strings.document_list"
+msgstr "Dokumentliste"
+
+msgid "strings.bulletin_board"
+msgstr "Opslagstavle"
+
+msgid "strings.bulletin_board_topic"
+msgstr "Opslagstavle Emne"
+
+msgid "strings.create_topic"
+msgstr "Opret et nyt emne"
+
+msgid "strings.topic_form"
+msgstr "Emne Formular"
+
+msgid "strings.enter_message"
+msgstr "Indtast din meddelelse"
+
+msgid "strings.upload_file"
+msgstr "Upload en Fil"
+
+msgid "strings.upload_form"
+msgstr "Upload en Formular"
+
+msgid "strings.document"
+msgstr "Dokument"
+
+msgid "strings.approval_comments"
+msgstr "Godkendelseskommentarer"
+
+msgid "strings.client_tasks"
+msgstr "Klient Opgaver"
+
+msgid "strings.team_tasks"
+msgstr "Team Opgaver"
+
+msgid "strings.team_member_details"
+msgstr "Projekt Team Medlemsdetaljer"
+
+msgid "strings.client_task_details"
+msgstr "Klient Opgave Detaljer"
+
+msgid "strings.team_task_details"
+msgstr "Team Opgave Detaljer"
+
+msgid "strings.language"
+msgstr "Sprog"
+
+msgid "strings.welcome"
+msgstr "Velkommen"
+
+msgid "strings.your_projectsite"
+msgstr "til Din Projekt Side"
+
+msgid "strings.contact_projectsite"
+msgstr ""
+"Hvis du har spørgsmål til systemet eller oplysninger heri, kontakt"
+"venligst projektlederen"
+
+msgid "strings.company_details"
+msgstr "Firmadetaljer"
+
+msgid "strings.database"
+msgstr "Backup og genetablér database"
+
+msgid "strings.company_info"
+msgstr "Ret dine firmadetaljer"
+
+msgid "strings.create_projectsite"
+msgstr "Opret Projektside"
+
+msgid "strings.projectsite_url"
+msgstr "Projektside URL"
+
+msgid "strings.design_template"
+msgstr "Design Skabelon"
+
+msgid "strings.preview_design_template"
+msgstr "Gennemse Skabelon Design"
+
+msgid "strings.delete_projectsite"
+msgstr "Slet Projektside"
+
+msgid "strings.add_file"
+msgstr "Tilføj Fil"
+
+msgid "strings.linked_content"
+msgstr "Linket indhold"
+
+msgid "strings.edit_file"
+msgstr "Ret fildetaljer"
+
+msgid "strings.permitted_client"
+msgstr "Tilladte Klient Brugere"
+
+msgid "strings.grant_client"
+msgstr "Giv Tilladelse til at Se Projektside"
+
+msgid "strings.add_client_user"
+msgstr "Tilføj Klient Bruger"
+
+msgid "strings.edit_client_user"
+msgstr "Ret Klient Bruger"
+
+msgid "strings.client_user"
+msgstr "Klient Bruger"
+
+msgid "strings.client_change_status"
+msgstr "Ret status herunder når du har fuldført denne opgave"
+
+msgid "strings.project_status"
+msgstr "Projekt Status"
+
+msgid "strings.view_projectsite"
+msgstr "Se Projektside"
+
+msgid "strings.enter_login"
+msgstr "Indtast dit brugernavn for at modtage et nyt kodeord"
+
+msgid "strings.no_login"
+msgstr "Brugernavnet ikke fundet i databasen"
+
+msgid "strings.email_pwd"
+msgstr "Kodeord sendt"
+
+msgid "strings.no_email"
+msgstr "Bruger uden email"
+
+msgid "strings.forgot_pwd"
+msgstr "Glemt kodeord ?"
+
+msgid "strings.project_owner"
+msgstr "Du kan kun lave ændringer i dine egne projekter."
+
+msgid "strings.connected"
+msgstr "Forbundet"
+
+msgid "strings.last_visit"
+msgstr "Seneste besøg"
+
+msgid "strings.compteur"
+msgstr "Tæller"
+
+msgid "strings.task_owner"
+msgstr "Du er ikke teammedlem i dette projekt"
+
+msgid "strings.export"
+msgstr "Eksportér"
+
+msgid "strings.browse_cvs"
+msgstr "Vis CVS"
+
+msgid "strings.repository"
+msgstr "CVS-lager"
+
+msgid "strings.reassignment_clientuser"
+msgstr "Opgave-overdragelse"
+
+msgid "strings.organization_already_exists"
+msgstr ""
+"Navnet på organisationen er allerede i brug i systemet. Vælg"
+"venligst et andet."
+
+msgid "strings.blank_organization_field"
+msgstr "Du skal indtaste et klient organisationsnavn."
+
+msgid "strings.blank_fields"
+msgstr "tvungne felter"
+
+msgid "strings.projectsite_login_fails"
+msgstr ""
+"Vi kan desværre ikke bekræfte denne kombination af brugernavn og"
+"kodeord."
+
+msgid "strings.start_date"
+msgstr "Startdato"
+
+msgid "strings.completion"
+msgstr "Færdigt"
+
+msgid "strings.update_available"
+msgstr "En opdatering er til rådighed!"
+
+msgid "strings.version_current"
+msgstr "Du bruger i øjeblikket version"
+
+msgid "strings.version_latest"
+msgstr "Den seneste version er"
+
+msgid "strings.sourceforge_link"
+msgstr "Se projektsiden på Sourceforge"
+
+msgid "strings.demo_mode"
+msgstr "Demo modus. Ingen handlinger tilladt."
+
+msgid "strings.setup_erase"
+msgstr "Slet filen setup.php!!"
+
+msgid "strings.no_file"
+msgstr "Ingen fil valgt"
+
+msgid "strings.exceed_size"
+msgstr "Overskrider maksimal filstørrelse"
+
+msgid "strings.no_php"
+msgstr "Php fil er ikke tilladt"
+
+msgid "strings.approval_date"
+msgstr "Godkendt dato"
+
+msgid "strings.approver"
+msgstr "Godkendt af"
+
+msgid "strings.error_database"
+msgstr "Kan ikke forbinde til database"
+
+msgid "strings.error_server"
+msgstr "Kan ikke forbinde til server"
+
+msgid "strings.version_control"
+msgstr "Versionskontrol"
+
+msgid "strings.vc_last_in"
+msgstr "Dato sidst rettet"
+
+msgid "strings.ifa_comments"
+msgstr "Godkendelseskommentarer"
+
+msgid "strings.ifa_command"
+msgstr "Skift godkendelsesstatus"
+
+msgid "strings.ifc_revisions"
+msgstr "Anmeldelser"
+
+msgid "strings.ifc_revision_of"
+msgstr "Anmeldelse af version"
+
+msgid "strings.ifc_add_revision"
+msgstr "Tilføj anmeldelse"
+
+msgid "strings.ifc_update_file"
+msgstr "Opdatér fil"
+
+msgid "strings.ifc_last_date"
+msgstr "Dato for sidste rettelse"
+
+msgid "strings.ifc_version_history"
+msgstr "Versionshistorik"
+
+msgid "strings.ifc_delete_file"
+msgstr "Slet fil og alle underversioner & anmeldelser"
+
+msgid "strings.ifc_delete_version"
+msgstr "Slet valgte Version"
+
+msgid "strings.ifc_delete_review"
+msgstr "Slet valgte Anmeldelse"
+
+msgid "strings.ifc_no_revisions"
+msgstr "Der er i øjeblikket ingen revisioner af dette dokument"
+
+msgid "strings.unlink_files"
+msgstr "Aflink Filer"
+
+msgid "strings.remove_team"
+msgstr "Fjern Team Medlemmer"
+
+msgid "strings.remove_team_info"
+msgstr "Fjern disse brugere fra projekt teamet?"
+
+msgid "strings.remove_team_client"
+msgstr "Fjern Tilladelser til at Se Projektside"
+
+msgid "strings.notes"
+msgstr "Noter"
+
+msgid "strings.subject"
+msgstr "Emne"
+
+msgid "strings.delete_note"
+msgstr "Slet Indlæg i Noter"
+
+msgid "strings.add_note"
+msgstr "Tilføj Note-indlæg"
+
+msgid "strings.edit_note"
+msgstr "Ret Note-indlæg"
+
+msgid "strings.version_increm"
+msgstr "Vælg hvilken versionsændring du vil tilføje:"
+
+msgid "strings.url_dev"
+msgstr "Udviklingsside url"
+
+msgid "strings.url_prod"
+msgstr "Endelig side url"
+
+msgid "strings.note_owner"
+msgstr "Du kan kun ændre i dine egne noter."
+
+msgid "strings.alpha_only"
+msgstr "Kun alfa-numerisk i brugernavnet"
+
+msgid "strings.edit_notifications"
+msgstr "Ret E-mail Notifikationer"
+
+msgid "strings.edit_notifications_info"
+msgstr "Vælg hvilke begivenheder du vil modtage E-mail notifikation for."
+
+msgid "strings.select_deselect"
+msgstr "Vælg/Fravælg Alle"
+
+msgid "strings.noti_addprojectteam1"
+msgstr "Tilføjet til projekt teamet :"
+
+msgid "strings.noti_addprojectteam2"
+msgstr "Du er blevet tilføjet projekt teamet for :"
+
+msgid "strings.noti_removeprojectteam1"
+msgstr "Fjernet fra projekt teamet :"
+
+msgid "strings.noti_removeprojectteam2"
+msgstr "Du er blevet fjernet fra projekt teamet for :"
+
+msgid "strings.noti_newpost1"
+msgstr "Nyt indlæg :"
+
+msgid "strings.noti_newpost2"
+msgstr "Et indlæg er blevet tilføjet i følgende diskussion :"
+
+msgid "strings.edit_noti_taskassignment"
+msgstr "Jeg er blevet tildelt en ny opgave."
+
+msgid "strings.edit_noti_statustaskchange"
+msgstr "Status på en af mine opgaver er ændret."
+
+msgid "strings.edit_noti_prioritytaskchange"
+msgstr "Prioriteten på en af mine opgaver er ændret."
+
+msgid "strings.edit_noti_duedatetaskchange"
+msgstr "Forfaldsdato på en af mine opgaver er ændret."
+
+msgid "strings.edit_noti_addprojectteam"
+msgstr "Jeg er blevet tilføjet et projekt team."
+
+msgid "strings.edit_noti_removeprojectteam"
+msgstr "Jeg er blevet fjernet fra et projekt team."
+
+msgid "strings.edit_noti_newpost"
+msgstr "Et nyt indlæg er tilføjet til en diskussion."
+
+msgid "strings.add_optional"
+msgstr "Tilføj en mulighed (optional)"
+
+msgid "strings.assignment_comment_info"
+msgstr "Tilføj kommentar om tildelingen af denne opgave"
+
+msgid "strings.my_notes"
+msgstr "Mine Noter"
+
+msgid "strings.edit_settings"
+msgstr "Ret indstillinger"
+
+msgid "strings.max_upload"
+msgstr "Max filstørrelse"
+
+msgid "strings.project_folder_size"
+msgstr "Projektmappe-størrelse"
+
+msgid "strings.calendar"
+msgstr "Kalender"
+
+msgid "strings.date_start"
+msgstr "Startdato"
+
+msgid "strings.date_end"
+msgstr "Slutdato"
+
+msgid "strings.time_start"
+msgstr "Starttid"
+
+msgid "strings.time_end"
+msgstr "Sluttid"
+
+msgid "strings.shortname"
+msgstr "Kort navn"
+
+msgid "strings.calendar_recurring"
+msgstr "Begivenhed gentages hver uge på denne dag"
+
+msgid "strings.edit_database"
+msgstr "Ret database"
+
+msgid "strings.noti_newtopic1"
+msgstr "Ny diskussion :"
+
+msgid "strings.noti_newtopic2"
+msgstr "En ny diskussion er blevet tilføjet følgende projekt :"
+
+msgid "strings.edit_noti_newtopic"
+msgstr "Et nyt diskussionsemne blev oprettet."
+
+msgid "strings.today"
+msgstr "Idag"
+
+msgid "strings.previous"
+msgstr "Foregående"
+
+msgid "strings.next"
+msgstr "Næste"
+
+msgid "strings.help"
+msgstr "Hjælp"
+
+msgid "strings.complete_date"
+msgstr "Færdig dato"
+
+msgid "strings.scope_creep"
+msgstr "Scope creep"
+
+msgid "strings.days"
+msgstr "Dage"
+
+msgid "strings.remember_password"
+msgstr "Husk Kodeord"
+
+msgid "strings.client_add_task_note"
+msgstr ""
+"Bemærk: Den indtastede opgave er registreret i databasen, men vises"
+"kun hér hvis den er tilknyttet et medlem af teamet!"
+
+msgid "strings.noti_clientaddtask1"
+msgstr "Opgave tilføjet af klient :"
+
+msgid "strings.noti_clientaddtask2"
+msgstr ""
+"En ny opgave blev tilføjet af klient fra projektsiden til det"
+"følgende projekt :"
+
+msgid "strings.phase"
+msgstr "Fase"
+
+msgid "strings.phases"
+msgstr "Faser"
+
+msgid "strings.phase_id"
+msgstr "Fase ID"
+
+msgid "strings.current_phase"
+msgstr "Aktiv(e) Fase(r)"
+
+msgid "strings.total_tasks"
+msgstr "Totale Opgaver"
+
+msgid "strings.uncomplete_tasks"
+msgstr "Ufærdige Opgaver"
+
+msgid "strings.no_current_phase"
+msgstr "Ingen fase er aktiv i øjeblikket"
+
+msgid "strings.true"
+msgstr "Sandt"
+
+msgid "strings.false"
+msgstr "Falsk"
+
+msgid "strings.enable_phases"
+msgstr "Slå Faser Til"
+
+msgid "strings.phase_enabled"
+msgstr "Fase Slået Til"
+
+msgid "strings.order"
+msgstr "Rækkefølge"
+
+msgid "strings.options"
+msgstr "Indstillinger"
+
+msgid "strings.support_request"
+msgstr "Support-Forespørgsel"
+
+msgid "strings.support_requests"
+msgstr "Support-Forespørgsler"
+
+msgid "strings.support_id"
+msgstr "Forespørgsels-ID"
+
+msgid "strings.my_support_request"
+msgstr "Mine Support-Forespørgsler"
+
+msgid "strings.introduction"
+msgstr "Introduktion"
+
+msgid "strings.submit"
+msgstr "Indsend"
+
+msgid "strings.support_management"
+msgstr "Support Styring"
+
+msgid "strings.date_open"
+msgstr "Dato Åbnet"
+
+msgid "strings.date_close"
+msgstr "Dato Lukket"
+
+msgid "strings.add_support_request"
+msgstr "Tilføj Support-Forespørgsel"
+
+msgid "strings.add_support_response"
+msgstr "Tilføj Support-Svar"
+
+msgid "strings.respond"
+msgstr "Besvar"
+
+msgid "strings.delete_support_request"
+msgstr "Support-Forespørgsel slettet"
+
+msgid "strings.delete_request"
+msgstr "Slet Support-Forespørgsel"
+
+msgid "strings.delete_support_post"
+msgstr "Slet support-indlæg"
+
+msgid "strings.new_requests"
+msgstr "Ny forespørgsler"
+
+msgid "strings.open_requests"
+msgstr "Åbne forespørgsler"
+
+msgid "strings.closed_requests"
+msgstr "Gennemførte forespørgsler"
+
+msgid "strings.manage_new_requests"
+msgstr "Håndtér nye forespørgsler"
+
+msgid "strings.manage_open_requests"
+msgstr "Håndtér åbne forespørgsler"
+
+msgid "strings.manage_closed_requests"
+msgstr "Håndtér komplette forespørgsler"
+
+msgid "strings.responses"
+msgstr "Svar"
+
+msgid "strings.edit_status"
+msgstr "Ret Status"
+
+msgid "strings.noti_support_request_new2"
+msgstr "Du har submitted a support request regarding: "
+
+msgid "strings.noti_support_post2"
+msgstr ""
+"Et nyt svar er blevet tilføjet til din support-forespørgsel."
+"Gennemgå venligst detaljerne herunder."
+
+msgid "strings.noti_support_status2"
+msgstr ""
+"Din support-forespørgsel er blevet opdateret. Gennemgå venligst"
+"detaljerne herunder."
+
+msgid "strings.noti_support_team_new2"
+msgstr "En ny support-forespørgsel er blevet tilføjet til projekt: "
+
+msgid "strings.delete_subtasks"
+msgstr "Slet delopgaver"
+
+msgid "strings.add_subtask"
+msgstr "Tilføj delopgave"
+
+msgid "strings.edit_subtask"
+msgstr "Ret delopgave"
+
+msgid "strings.subtask"
+msgstr "Delopgave"
+
+msgid "strings.subtasks"
+msgstr "Delopgaver"
+
+msgid "strings.show_details"
+msgstr "Vis detaljer"
+
+msgid "strings.updates_task"
+msgstr "Opgave opdateringshistorik"
+
+msgid "strings.updates_subtask"
+msgstr "Delopgave opdateringshistorik"
+
+msgid "strings.go_projects_site"
+msgstr "Gå til projektets side"
+
+msgid "strings.bookmark"
+msgstr "Bogmærke"
+
+msgid "strings.bookmarks"
+msgstr "Bogmærker"
+
+msgid "strings.bookmark_category"
+msgstr "Kategori"
+
+msgid "strings.bookmark_category_new"
+msgstr "Ny kategori"
+
+msgid "strings.bookmarks_all"
+msgstr "Alle"
+
+msgid "strings.bookmarks_my"
+msgstr "Mine Bogmærker"
+
+msgid "strings.my"
+msgstr "Mine"
+
+msgid "strings.bookmarks_private"
+msgstr "Privat"
+
+msgid "strings.shared"
+msgstr "Delt"
+
+msgid "strings.private"
+msgstr "Privat"
+
+msgid "strings.add_bookmark"
+msgstr "Tilføj bogmærke"
+
+msgid "strings.edit_bookmark"
+msgstr "Ret bogmærke"
+
+msgid "strings.delete_bookmarks"
+msgstr "Slet bogmærker"
+
+msgid "strings.team_subtask_details"
+msgstr "Team Delopgave Detaljer"
+
+msgid "strings.client_subtask_details"
+msgstr "Klient Delopgave Detaljer"
+
+msgid "strings.client_change_status_subtask"
+msgstr "Skift din status herunder når du har fuldført denne delopgave"
+
+msgid "strings.disabled_permissions"
+msgstr "Deaktiveret konto"
+
+msgid "strings.user_timezone"
+msgstr "Tidszone (GMT)"
+
+msgid "strings.project_manager_administrator_permissions"
+msgstr "Projektleder Administrator"
+
+msgid "strings.bug"
+msgstr "Sporing af fejl"
+
+msgid "strings.report"
+msgstr "Rapport"
+
+msgid "strings.license"
+msgstr "Licens"
+
+msgid "strings.settings_notwritable"
+msgstr "Settings.php filen er ikke skrivbar"
+
+msgid "strings.invoicing"
+msgstr "Fakturering"
+
+msgid "strings.invoice"
+msgstr "Faktura"
+
+msgid "strings.invoices"
+msgstr "Fakturaer"
+
+msgid "strings.date_invoice"
+msgstr "Fakturadato"
+
+msgid "strings.header_note"
+msgstr "Header tekst"
+
+msgid "strings.footer_note"
+msgstr "Footer tekst"
+
+msgid "strings.total_ex_tax"
+msgstr "Total excl moms"
+
+msgid "strings.total_inc_tax"
+msgstr "Total incl moms"
+
+msgid "strings.tax_rate"
+msgstr "Momssats"
+
+msgid "strings.tax_amount"
+msgstr "Momsbeløb"
+
+msgid "strings.invoice_items"
+msgstr "Faktura emner"
+
+msgid "strings.amount_ex_tax"
+msgstr "Beløb excl moms"
+
+msgid "strings.completed"
+msgstr "Fuldført"
+
+msgid "strings.name_print"
+msgstr "Navn udskrevet"
+
+msgid "strings.edit_invoice"
+msgstr "Ret faktura"
+
+msgid "strings.edit_invoiceitem"
+msgstr "Ret faktura emne"
+
+msgid "strings.calculation"
+msgstr "Kalkulation"
+
+msgid "strings.items"
+msgstr "Emner"
+
+msgid "strings.service_management"
+msgstr "Service-styring"
+
+msgid "strings.hourly_rate"
+msgstr "Pris per time"
+
+msgid "strings.add_service"
+msgstr "Tilføj service"
+
+msgid "strings.edit_service"
+msgstr "Ret service"
+
+msgid "strings.delete_services"
+msgstr "Slet services"
+
+msgid "strings.worked_hours"
+msgstr "Timer forbrugt"
+
+msgid "strings.rate_type"
+msgstr "Pristype"
+
+msgid "strings.rate_value"
+msgstr "Enhedspris"
+
+msgid "strings.note_invoice_items_notcompleted"
+msgstr "Ikke alle emner er fuldført"
+
+msgid "strings.newsdesk"
+msgstr "Newsdesk"
+
+msgid "strings.newsdesk_list"
+msgstr "Nyhedsliste"
+
+msgid "strings.article_newsdesk"
+msgstr "Nyhedsindhold"
+
+msgid "strings.update_newsdesk"
+msgstr "Opdater det indtastede"
+
+msgid "strings.my_newsdesk"
+msgstr "Mit Newsdesk"
+
+msgid "strings.edit_newsdesk"
+msgstr "Ret Nyhedsartikel"
+
+msgid "strings.copy_newsdesk"
+msgstr "Kopiér Nyhedsartikel"
+
+msgid "strings.add_newsdesk"
+msgstr "Tilføj Nyhedsartikel"
+
+msgid "strings.del_newsdesk"
+msgstr "Slet Nyhedsartikel"
+
+msgid "strings.delete_news_note"
+msgstr ""
+"Bemærk: Dette vil også slette alle kommentarer til den valgte"
+"nyhedsartikel"
+
+msgid "strings.author"
+msgstr "Forfatter"
+
+msgid "strings.blank_newsdesk_title"
+msgstr "Blank titel fundet"
+
+msgid "strings.blank_newsdesk"
+msgstr "Kan ikke finde nyhederne."
+
+msgid "strings.blank_newsdesk_comment"
+msgstr "Blank kommentar fundet"
+
+msgid "strings.remove_newsdesk"
+msgstr "Nyhedsartiklen er korrekt slettet med alle dens kommentarer"
+
+msgid "strings.add_newsdesk_comment"
+msgstr "Tilføj en kommentar til Nyhedsartiklen"
+
+msgid "strings.edit_newsdesk_comment"
+msgstr "Ret Nyhedsartiklens kommentar"
+
+msgid "strings.del_newsdesk_comment"
+msgstr "Slet kommentar(er) for Nyhedsartiklen"
+
+msgid "strings.remove_newsdesk_comment"
+msgstr "Kommentaren for Nyhedsartiklen er blevet korrekt slettet"
+
+msgid "strings.errorpermission_newsdesk"
+msgstr "Du har ikke rettigheder til at rette eller slette denne nyhed"
+
+msgid "strings.errorpermission_newsdesk_comment"
+msgstr ""
+"Du har ikke rettigheder til at rette eller slette kommentaren til"
+"denne nyhed"
+
+msgid "strings.newsdesk_related"
+msgstr "Relaterede projekter"
+
+msgid "strings.newsdesk_related_generic"
+msgstr "Generelle Nyheder (ikke projekt-relaterede)"
+
+msgid "strings.newsdesk_related_links"
+msgstr "Relaterede links til nyhederne"
+
+msgid "strings.newsdesk_rss"
+msgstr "Slå RSS til for denne nyhed"
+
+msgid "strings.newsdesk_rss_enabled"
+msgstr "RSS slået til for denne nyhed"
+
+msgid "strings.noti_memberactivation1"
+msgstr "Konto Aktiveret"
+
+msgid "strings.noti_memberactivation2"
+msgstr ""
+"Du er netop blevet tilføjet til phpCollab klientstyringssystemet. "
+"Dette system er udviklet til og opdateres løbende for at hjælpe dig,"
+"klienten, med at holde styr på hvordan dit projekt skrider frem.\n"
+"\n"
+"For at bruge systemet skal du pege din browser (helst Internet"
+"Explorer 6.x eller Netscape Navigator 7.x) til DIT DOMÆNE HER og"
+"indtaste følgende:"
+
+msgid "strings.noti_memberactivation3"
+msgstr "brugernavn:"
+
+msgid "strings.noti_memberactivation4"
+msgstr "kodeord:"
+
+msgid "strings.noti_memberactivation5"
+msgstr ""
+"Når du har indtastet ovenstående information og trykket \"enter\""
+"har du adgang til din konto. \n"
+"\n"
+"I forlængelse af denne email vil du modtage yderligere meddelelser"
+"angående aktiveringer, opgavetildelinger, og andre begivenheder der"
+"relaterer til din konto.  Disse emails er sendt for at holde dig"
+"opdateret om, hvordan dit projekt skrider frem."
+
+msgid "strings.email_users"
+msgstr "Email Brugere"
+
+msgid "strings.email_following"
+msgstr "Email Følgende"
+
+msgid "strings.email_sent"
+msgstr "Din email blev afsendt korrekt."
+
+msgid "strings.clients_connected"
+msgstr "(Klient på projektside)"
+
+msgid "strings.Total_Hours_Worked"
+msgstr "Total Timer Forbrugt"
+
+msgid "strings.Pct_Complete"
+msgstr "Pct Færdig"
+
+msgid "strings.noti_filepost1"
+msgstr "Ny fil upload på Intranettet"
+
+msgid "strings.noti_filepost2"
+msgstr "En ny fil blev uploadet til projektet :"
+
+msgid "strings.noti_newfile1"
+msgstr "Ny fil upload på Intranettet"
+
+msgid "strings.noti_newfile2"
+msgstr "En ny fil blev uploadet til projektet :"
+
+msgid "strings.location"
+msgstr "Lokation"
+
+msgid "strings.calendar_broadcast"
+msgstr "Broadcast"
+
+
+# Enum values (status, priority, etc.)
+# Note: These should be moved to enums.*.po domain
+
+#. Domain: enums
+msgid "status.0"
+msgstr "Kunde udført"
+
+#. Domain: enums
+msgid "status.1"
+msgstr "Udført"
+
+#. Domain: enums
+msgid "status.2"
+msgstr "Ikke begyndt"
+
+#. Domain: enums
+msgid "status.3"
+msgstr "Åbn"
+
+#. Domain: enums
+msgid "status.4"
+msgstr "Sat i bero"
+
+#. Domain: enums
+msgid "profil.0"
+msgstr "Administrator"
+
+#. Domain: enums
+msgid "profil.1"
+msgstr "Projektleder"
+
+#. Domain: enums
+msgid "profil.2"
+msgstr "Bruger"
+
+#. Domain: enums
+msgid "profil.3"
+msgstr "Kunde bruger"
+
+#. Domain: enums
+msgid "profil.4"
+msgstr "Slået fra"
+
+#. Domain: enums
+msgid "profil.5"
+msgstr "Projektleder Administrator"
+
+#. Domain: enums
+msgid "priority.0"
+msgstr "Ingen"
+
+#. Domain: enums
+msgid "priority.1"
+msgstr "Meget lav"
+
+#. Domain: enums
+msgid "priority.2"
+msgstr "Lav"
+
+#. Domain: enums
+msgid "priority.3"
+msgstr "Medium"
+
+#. Domain: enums
+msgid "priority.4"
+msgstr "Høj"
+
+#. Domain: enums
+msgid "priority.5"
+msgstr "Meget høj"
+
+#. Domain: enums
+msgid "statusTopic.0"
+msgstr "Lukket"
+
+#. Domain: enums
+msgid "statusTopic.1"
+msgstr "Åben"
+
+#. Domain: enums
+msgid "statusTopicBis.0"
+msgstr "Ja"
+
+#. Domain: enums
+msgid "statusTopicBis.1"
+msgstr "Nej"
+
+#. Domain: enums
+msgid "statusPublish.0"
+msgstr "Ja"
+
+#. Domain: enums
+msgid "statusPublish.1"
+msgstr "Nej"
+
+#. Domain: enums
+msgid "statusFile.0"
+msgstr "Godkendt"
+
+#. Domain: enums
+msgid "statusFile.1"
+msgstr "Godkendt Med Ændringer"
+
+#. Domain: enums
+msgid "statusFile.2"
+msgstr "Skal Godkendes"
+
+#. Domain: enums
+msgid "statusFile.3"
+msgstr "Ingen Godkendelse Nødvendig"
+
+#. Domain: enums
+msgid "statusFile.4"
+msgstr "Ikke Godkendt"
+
+#. Domain: enums
+msgid "phaseStatus.0"
+msgstr "Ikket startet"
+
+#. Domain: enums
+msgid "phaseStatus.1"
+msgstr "Åben"
+
+#. Domain: enums
+msgid "phaseStatus.2"
+msgstr "Komplet"
+
+#. Domain: enums
+msgid "phaseStatus.3"
+msgstr "Suspenderet"
+
+#. Domain: enums
+msgid "requestStatus.0"
+msgstr "Ny"
+
+#. Domain: enums
+msgid "requestStatus.1"
+msgstr "Åben"
+
+#. Domain: enums
+msgid "requestStatus.2"
+msgstr "Komplet"
+
+#. Domain: enums
+msgid "invoiceStatus.0"
+msgstr "Åben"
+
+#. Domain: enums
+msgid "invoiceStatus.1"
+msgstr "Sendt"
+
+#. Domain: enums
+msgid "invoiceStatus.2"
+msgstr "Betalt"
+
+
+# Arrays (days, months, byte units)
+
+msgid "byteunits.0"
+msgstr "Bytes"
+
+msgid "byteunits.1"
+msgstr "KB"
+
+msgid "byteunits.2"
+msgstr "MB"
+
+msgid "byteunits.3"
+msgstr "GB"
+
+msgid "dayname.1"
+msgstr "Mandag"
+
+msgid "dayname.2"
+msgstr "Tirsdag"
+
+msgid "dayname.3"
+msgstr "Onsdag"
+
+msgid "dayname.4"
+msgstr "Torsdag"
+
+msgid "dayname.5"
+msgstr "Fredag"
+
+msgid "dayname.6"
+msgstr "Lørdag"
+
+msgid "dayname.7"
+msgstr "Søndag"
+
+msgid "monthname.1"
+msgstr "Januar"
+
+msgid "monthname.2"
+msgstr "Februar"
+
+msgid "monthname.3"
+msgstr "Marts"
+
+msgid "monthname.4"
+msgstr "April"
+
+msgid "monthname.5"
+msgstr "Maj"
+
+msgid "monthname.6"
+msgstr "Juni"
+
+msgid "monthname.7"
+msgstr "Juli"
+
+msgid "monthname.8"
+msgstr "August"
+
+msgid "monthname.9"
+msgstr "September"
+
+msgid "monthname.10"
+msgstr "Oktober"
+
+msgid "monthname.11"
+msgstr "November"
+
+msgid "monthname.12"
+msgstr "December"
+

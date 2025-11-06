@@ -1,0 +1,1610 @@
+# phpCollab Translation File
+# Language: Dutch (nl)
+# Type: Lang
+# Domain: messages
+# Generated: 2025-11-06 00:44:06 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# String translations
+
+msgid "strings.please_login"
+msgstr "Login a.u.b."
+
+msgid "strings.requirements"
+msgstr "Systeem Vereisten"
+
+msgid "strings.login"
+msgstr "Inloggen"
+
+msgid "strings.no_items"
+msgstr "Geen item om te laten zien"
+
+msgid "strings.logout"
+msgstr "Uitloggen"
+
+msgid "strings.preferences"
+msgstr "Voorkeuren"
+
+msgid "strings.my_tasks"
+msgstr "Mijn Taken"
+
+msgid "strings.edit_task"
+msgstr "Taak Aanpassen"
+
+msgid "strings.copy_task"
+msgstr "Taak Kopieëren"
+
+msgid "strings.add_task"
+msgstr "Taak Toevoegen"
+
+msgid "strings.delete_tasks"
+msgstr "Verwijder Taken"
+
+msgid "strings.assignment_history"
+msgstr "Toewijzingsgeschiedenis"
+
+msgid "strings.assigned_on"
+msgstr "Toegewezen Op"
+
+msgid "strings.assigned_by"
+msgstr "Toegewezen Door"
+
+msgid "strings.to"
+msgstr "Aan"
+
+msgid "strings.comment"
+msgstr "Opmerking"
+
+msgid "strings.task_assigned"
+msgstr "Taak toegewezen aan "
+
+msgid "strings.task_unassigned"
+msgstr "Taak toegewezen aan Niet toegewezen (Niet toegewezen)"
+
+msgid "strings.edit_multiple_tasks"
+msgstr "Wijzig Meerdere Taken"
+
+msgid "strings.tasks_selected"
+msgstr ""
+"taken geselecteerd. Kies nieuwe waarden voor deze taken, of selecteer"
+"[Geen wijziging] om de huidige waarden te behouden."
+
+msgid "strings.assignment_comment"
+msgstr "Toewijzingsopmerking"
+
+msgid "strings.no_change"
+msgstr "[Geen Wijziging]"
+
+msgid "strings.my_discussions"
+msgstr "Mijn Discussies"
+
+msgid "strings.discussions"
+msgstr "Discussies"
+
+msgid "strings.delete_discussions"
+msgstr "Verwijder Discussies"
+
+msgid "strings.delete_discussions_note"
+msgstr ""
+"Let op: Discussies kunnen niet heropend worden wanneer ze eenmaal"
+"verwijderd zijn."
+
+msgid "strings.topic"
+msgstr "Onderwerp"
+
+msgid "strings.posts"
+msgstr "Plaatsing"
+
+msgid "strings.latest_post"
+msgstr "Laatste Plaatsing"
+
+msgid "strings.my_reports"
+msgstr "Mijn Overzichten"
+
+msgid "strings.reports"
+msgstr "Overzichten"
+
+msgid "strings.create_report"
+msgstr "Overzicht aanmaken"
+
+msgid "strings.report_intro"
+msgstr ""
+"Selecteer uw taak rapporteer parameters hier en bewaar deze op de"
+"rapporten pagina na het draaien van het overzicht."
+
+msgid "strings.admin_intro"
+msgstr "Project instellingen en configuratie."
+
+msgid "strings.copy_of"
+msgstr "Kopie van "
+
+msgid "strings.add"
+msgstr "Toevoegen"
+
+msgid "strings.delete"
+msgstr "Wissen"
+
+msgid "strings.remove"
+msgstr "Verwijderen"
+
+msgid "strings.copy"
+msgstr "Kopieëren"
+
+msgid "strings.view"
+msgstr "Bekijken"
+
+msgid "strings.edit"
+msgstr "Bewerken"
+
+msgid "strings.update"
+msgstr "Vernieuwen"
+
+msgid "strings.none"
+msgstr "Geen"
+
+msgid "strings.close"
+msgstr "Sluiten"
+
+msgid "strings.new"
+msgstr "Nieuw"
+
+msgid "strings.select_all"
+msgstr "Alles Selecteren"
+
+msgid "strings.unassigned"
+msgstr "Niet Toegewezen"
+
+msgid "strings.administrator"
+msgstr "Beheerder"
+
+msgid "strings.my_projects"
+msgstr "Mijn Projecten"
+
+msgid "strings.active"
+msgstr "Actief"
+
+msgid "strings.inactive"
+msgstr "Inactief"
+
+msgid "strings.project_id"
+msgstr "Project ID"
+
+msgid "strings.edit_project"
+msgstr "Bewerk Project"
+
+msgid "strings.copy_project"
+msgstr "Kopieër Project"
+
+msgid "strings.add_project"
+msgstr "Project Toevoegen"
+
+msgid "strings.clients"
+msgstr "Cliënten"
+
+msgid "strings.organization"
+msgstr "Bedrijfsinformatie van Cliënt"
+
+msgid "strings.client_projects"
+msgstr "Projecten van Cliënt"
+
+msgid "strings.client_users"
+msgstr "Gebruikers van Cliënt"
+
+msgid "strings.edit_organization"
+msgstr "Bewerk Bedrijfsinformatie van Cliënt"
+
+msgid "strings.add_organization"
+msgstr "Bedrijf Toevoegen"
+
+msgid "strings.organizations"
+msgstr "Cliënt Bedrijven"
+
+msgid "strings.owner"
+msgstr "Eigenaar"
+
+msgid "strings.home"
+msgstr "Begin"
+
+msgid "strings.projects"
+msgstr "Projecten"
+
+msgid "strings.files"
+msgstr "Bestanden"
+
+msgid "strings.search"
+msgstr "Zoeken"
+
+msgid "strings.admin"
+msgstr "Beheerder"
+
+msgid "strings.user"
+msgstr "Gebruiker"
+
+msgid "strings.due"
+msgstr "Vervalt op"
+
+msgid "strings.task"
+msgstr "Taak"
+
+msgid "strings.tasks"
+msgstr "Taken"
+
+msgid "strings.team"
+msgstr "Groep"
+
+msgid "strings.add_team"
+msgstr "Groepsleden Toevoegen"
+
+msgid "strings.team_members"
+msgstr "Groepsleden"
+
+msgid "strings.full_name"
+msgstr "Volledige naam"
+
+msgid "strings.title"
+msgstr "Titel"
+
+msgid "strings.user_name"
+msgstr "Gebruikersnaam"
+
+msgid "strings.work_phone"
+msgstr "Tel. (werk)"
+
+msgid "strings.priority"
+msgstr "Prioriteit"
+
+msgid "strings.name"
+msgstr "Naam"
+
+msgid "strings.description"
+msgstr "Omschrijving"
+
+msgid "strings.phone"
+msgstr "Tel."
+
+msgid "strings.address"
+msgstr "Adres"
+
+msgid "strings.comments"
+msgstr "Opmerkingen"
+
+msgid "strings.created"
+msgstr "Gemaakt op"
+
+msgid "strings.assigned"
+msgstr "Toegewezen"
+
+msgid "strings.modified"
+msgstr "Aangepast"
+
+msgid "strings.assigned_to"
+msgstr "Toegewezen aan"
+
+msgid "strings.due_date"
+msgstr "Vervaldatum"
+
+msgid "strings.estimated_time"
+msgstr "Geschatte Tijd"
+
+msgid "strings.actual_time"
+msgstr "Werkelijke Tijd"
+
+msgid "strings.delete_following"
+msgstr "Verwijder het volgende?"
+
+msgid "strings.cancel"
+msgstr "Annuleren"
+
+msgid "strings.and"
+msgstr "en"
+
+msgid "strings.administration"
+msgstr "Administratie"
+
+msgid "strings.user_management"
+msgstr "Gebruikersbeheer"
+
+msgid "strings.system_information"
+msgstr "Systeem Informatie"
+
+msgid "strings.product_information"
+msgstr "Product Informatie"
+
+msgid "strings.system_properties"
+msgstr "Systeemeigenschappen"
+
+msgid "strings.create"
+msgstr "Maken"
+
+msgid "strings.report_save"
+msgstr "Bewaar dit rapport op uw webpagina zodat u deze vaker kunt draaien."
+
+msgid "strings.report_name"
+msgstr "Rapport naam"
+
+msgid "strings.save"
+msgstr "Bewaar"
+
+msgid "strings.matches"
+msgstr "Overeenkomsten"
+
+msgid "strings.match"
+msgstr "Overeenkomst"
+
+msgid "strings.report_results"
+msgstr "Rapport Resultaten"
+
+msgid "strings.success"
+msgstr "Succes"
+
+msgid "strings.addition_succeeded"
+msgstr "Toevoeging geslaagd"
+
+msgid "strings.deletion_succeeded"
+msgstr "Verwijderen gelukt"
+
+msgid "strings.report_created"
+msgstr "Rapport gemaakt"
+
+msgid "strings.deleted_reports"
+msgstr "Rapporten verwijderd"
+
+msgid "strings.modification_succeeded"
+msgstr "Wijziging geslaagd"
+
+msgid "strings.errors"
+msgstr "Fouten gevonden!"
+
+msgid "strings.blank_user"
+msgstr "De gebruiker is niet gevonden."
+
+msgid "strings.blank_organization"
+msgstr "Het cliëntbedrijf is niet gevonden."
+
+msgid "strings.blank_project"
+msgstr "Het project is niet gevonden."
+
+msgid "strings.user_profile"
+msgstr "Gebruikersprofiel"
+
+msgid "strings.change_password"
+msgstr "Wijzig wachtwoord"
+
+msgid "strings.change_password_user"
+msgstr "Wijzig wachtwoord van gebruiker."
+
+msgid "strings.old_password_error"
+msgstr "Het oude wachtwoord is niet goed, probeer het nog eens."
+
+msgid "strings.new_password_error"
+msgstr "De twee nieuwe wachtwoorden zijn niet identiek, probeer het nog eens."
+
+msgid "strings.notifications"
+msgstr "Kennisgevingen"
+
+msgid "strings.change_password_intro"
+msgstr "Typ uw oude wachtwoord, vul daarna het nieuwe in en bevestig deze."
+
+msgid "strings.old_password"
+msgstr "Oude Wachtwoord"
+
+msgid "strings.password"
+msgstr "Wachtwoord"
+
+msgid "strings.new_password"
+msgstr "Nieuw Wachtwoord"
+
+msgid "strings.confirm_password"
+msgstr "Bevestig Wachtwoord"
+
+msgid "strings.home_phone"
+msgstr "Tel. (thuis)"
+
+msgid "strings.mobile_phone"
+msgstr "Tel. (Mobiel)"
+
+msgid "strings.permissions"
+msgstr "Rechten"
+
+msgid "strings.administrator_permissions"
+msgstr "Beheerders rechten"
+
+msgid "strings.project_manager_permissions"
+msgstr "Projectbeheerder Rechten"
+
+msgid "strings.user_permissions"
+msgstr "Gebruikers Rechten"
+
+msgid "strings.account_created"
+msgstr "Profiel aangemaakt"
+
+msgid "strings.edit_user"
+msgstr "Bewerk Gebruikersgegevens"
+
+msgid "strings.edit_user_details"
+msgstr "Bewerk gebruikerdetails."
+
+msgid "strings.change_user_password"
+msgstr "Verander het gebruikerswachtwoord."
+
+msgid "strings.select_permissions"
+msgstr "Selecteer de rechten voor deze gebruiker"
+
+msgid "strings.add_user"
+msgstr "Gebruiker Toevoegen"
+
+msgid "strings.enter_user_details"
+msgstr "Vul de details in voor het profiel die u aan het maken bent."
+
+msgid "strings.enter_password"
+msgstr "Geef het gebruikserswachtwoord."
+
+msgid "strings.success_logout"
+msgstr ""
+"Afmelden geslaagd, u kunt zich opnieuw aanmelden door gebruikersnaam"
+"en wachtwoord hieronder in te vullen."
+
+msgid "strings.invalid_login"
+msgstr ""
+"De gebruikersnaam of het wachtwoord is niet correct, probeer het nog"
+"eens."
+
+msgid "strings.profile"
+msgstr "Profiel"
+
+msgid "strings.user_details"
+msgstr "Profieldetails."
+
+msgid "strings.edit_user_account"
+msgstr "Bewerk uw profielinformatie."
+
+msgid "strings.no_permissions"
+msgstr "U heeft niet voldoende rechten om deze actie uit te voeren."
+
+msgid "strings.discussion"
+msgstr "Discussie"
+
+msgid "strings.retired"
+msgstr "Beëindigd"
+
+msgid "strings.last_post"
+msgstr "Laatste Plaatsing"
+
+msgid "strings.post_reply"
+msgstr "Plaatsing Beantwoorden"
+
+msgid "strings.posted_by"
+msgstr "Plaatsing Door"
+
+msgid "strings.when"
+msgstr "Wanneer"
+
+msgid "strings.post_to_discussion"
+msgstr "Plaatsing naar Discussie"
+
+msgid "strings.message"
+msgstr "Bericht"
+
+msgid "strings.delete_reports"
+msgstr "Verwijder Rapporten"
+
+msgid "strings.delete_projects"
+msgstr "Verwijder Projects"
+
+msgid "strings.delete_organizations"
+msgstr "Verwijder Cliënt Bedrijf"
+
+msgid "strings.delete_organizations_note"
+msgstr ""
+"Let op: Deze actie verwijderd ook alle cliënt gebruikers en koppel"
+"alle projecten los van deze bedrijven."
+
+msgid "strings.delete_messages"
+msgstr "Verwijder Berichten"
+
+msgid "strings.attention"
+msgstr "Attentie"
+
+msgid "strings.delete_teamownermix"
+msgstr ""
+"Verwijdering geslaagd, maar de projecteigenaar kan niet worden"
+"verwijderd uit de groep."
+
+msgid "strings.delete_teamowner"
+msgstr "U kunt de projecteigenaar niet verwijderen uit de groep."
+
+msgid "strings.enter_keywords"
+msgstr "Kernwoorden invoeren"
+
+msgid "strings.search_options"
+msgstr "Kernwoord en Zoek Opties"
+
+msgid "strings.search_note"
+msgstr "Er moet informatie in het zoekveld ingevoerd zijn."
+
+msgid "strings.search_results"
+msgstr "Zoek resultaten"
+
+msgid "strings.users"
+msgstr "Gebruikers"
+
+msgid "strings.search_for"
+msgstr "Zoek naar"
+
+msgid "strings.results_for_keywords"
+msgstr "Zoek naar resultaten voor de kernwoorden"
+
+msgid "strings.add_discussion"
+msgstr "Discussie Toevoegen"
+
+msgid "strings.delete_users"
+msgstr "Gebruiker Verwijderen"
+
+msgid "strings.reassignment_user"
+msgstr "Project en Taak Hertoewijzing"
+
+msgid "strings.there"
+msgstr "Er zijn"
+
+msgid "strings.owned_by"
+msgstr "toegewezen aan de bovenstaande gebruikers."
+
+msgid "strings.reassign_to"
+msgstr "Voor het verwijderen, wijs deze opnieuw toe aan"
+
+msgid "strings.no_files"
+msgstr "Geen bestanden gekoppeld"
+
+msgid "strings.published"
+msgstr "Gepubliceerd"
+
+msgid "strings.project_site"
+msgstr "Project Pagina"
+
+msgid "strings.approval_tracking"
+msgstr "Goedkeur Tracering"
+
+msgid "strings.size"
+msgstr "Grootte"
+
+msgid "strings.add_project_site"
+msgstr "Aan Project Pagina Toevoegen"
+
+msgid "strings.remove_project_site"
+msgstr "Verwijder van Project Pagina"
+
+msgid "strings.more_search"
+msgstr "Meer zoekopties"
+
+msgid "strings.results_with"
+msgstr "Vind Resultaten Met"
+
+msgid "strings.search_topics"
+msgstr "Zoekonderwerpen"
+
+msgid "strings.search_properties"
+msgstr "Zoekeigenschappen"
+
+msgid "strings.date_restrictions"
+msgstr "Datum Restricties"
+
+msgid "strings.case_sensitive"
+msgstr "Hoofdletter gevoelig"
+
+msgid "strings.yes"
+msgstr "Ja"
+
+msgid "strings.no"
+msgstr "Nee"
+
+msgid "strings.sort_by"
+msgstr "Sorteer op"
+
+msgid "strings.type"
+msgstr "Soort"
+
+msgid "strings.date"
+msgstr "Datum"
+
+msgid "strings.all_words"
+msgstr "alle woorden"
+
+msgid "strings.any_words"
+msgstr "elk woord"
+
+msgid "strings.exact_match"
+msgstr "exacte overeenkomst"
+
+msgid "strings.all_dates"
+msgstr "Alle datums"
+
+msgid "strings.between_dates"
+msgstr "Tussen datums"
+
+msgid "strings.all_content"
+msgstr "Alle inhoud"
+
+msgid "strings.all_properties"
+msgstr "Alle eigenschappen"
+
+msgid "strings.no_results_search"
+msgstr "Geen data gevonden"
+
+msgid "strings.no_results_report"
+msgstr "Het rapport is leeg."
+
+msgid "strings.schema_date"
+msgstr "JJJJ/MM/DD"
+
+msgid "strings.hours"
+msgstr "uren"
+
+msgid "strings.choice"
+msgstr "Keuze"
+
+msgid "strings.missing_file"
+msgstr "Bestand kon niet gevonden worden !"
+
+msgid "strings.project_site_deleted"
+msgstr "De project pagina is succesvol verwijderd."
+
+msgid "strings.add_user_project_site"
+msgstr "De gebruiker heeft nu toegang tot de project pagina."
+
+msgid "strings.remove_user_project_site"
+msgstr "De gebruikersrechten zijn verwijderd."
+
+msgid "strings.add_project_site_success"
+msgstr "De toevoeging tot de projectpagina is geslaagd."
+
+msgid "strings.remove_project_site_success"
+msgstr "De verwijdering van de project pagina is geslaagd."
+
+msgid "strings.add_file_success"
+msgstr "1 Inhoudsitem gekoppeld."
+
+msgid "strings.delete_file_success"
+msgstr "Ontkoppeling geslaagd."
+
+msgid "strings.update_comment_file"
+msgstr "Het bestandscommentaar is met succes aangepast."
+
+msgid "strings.session_false"
+msgstr "Sessie fout"
+
+msgid "strings.logs"
+msgstr "Log's"
+
+msgid "strings.logout_time"
+msgstr "Automatisch Afmelden"
+
+msgid "strings.noti_foot1"
+msgstr "Deze berichtgeving is gemaakt door PhpCollab."
+
+msgid "strings.noti_foot2"
+msgstr "Om uw PhpCollab pagina te bekijken, ga naar:"
+
+msgid "strings.noti_taskassignment1"
+msgstr "Nieuwe taak:"
+
+msgid "strings.noti_taskassignment2"
+msgstr "Aan u is een taak toegewezen"
+
+msgid "strings.noti_moreinfo"
+msgstr "Ga voor meer informatie naar:"
+
+msgid "strings.noti_prioritytaskchange1"
+msgstr "Taak prioriteit gewijzigd:"
+
+msgid "strings.noti_prioritytaskchange2"
+msgstr "De prioriteit van de volgende taak is gewijzigd:"
+
+msgid "strings.noti_statustaskchange1"
+msgstr "Taak status gewijzigd:"
+
+msgid "strings.noti_statustaskchange2"
+msgstr "De status van de volgende taak is gewijzigd:"
+
+msgid "strings.login_username"
+msgstr "U moet een gebruikersnaam invullen."
+
+msgid "strings.login_password"
+msgstr "U moet een wachtwoord invullen."
+
+msgid "strings.login_clientuser"
+msgstr ""
+"Dit is een Cliënt profielnaam. U kunt geen toegang krijgen tot"
+"PhpCollab met een Cliënt gebruikersnaam."
+
+msgid "strings.user_already_exists"
+msgstr "Er is al een gebruiker met deze naam, kies een andere."
+
+msgid "strings.noti_duedatetaskchange1"
+msgstr "Taak vervaldatum is gewijzigd:"
+
+msgid "strings.noti_duedatetaskchange2"
+msgstr "De vervaldatum van de volgende taak is gewijzigd:"
+
+msgid "strings.company"
+msgstr "Bedrijf"
+
+msgid "strings.show_all"
+msgstr "Bekijk alles"
+
+msgid "strings.information"
+msgstr "Informatie"
+
+msgid "strings.delete_message"
+msgstr "Verwijder dit bericht"
+
+msgid "strings.project_team"
+msgstr "Project groep"
+
+msgid "strings.document_list"
+msgstr "Lijst van documenten"
+
+msgid "strings.bulletin_board"
+msgstr "Forum"
+
+msgid "strings.bulletin_board_topic"
+msgstr "Forum onderwerp"
+
+msgid "strings.create_topic"
+msgstr "Start een nieuw onderwerp"
+
+msgid "strings.topic_form"
+msgstr "Onderwerp details"
+
+msgid "strings.enter_message"
+msgstr "Type hier het bericht"
+
+msgid "strings.upload_file"
+msgstr "Upload een bestand"
+
+msgid "strings.upload_form"
+msgstr "Upload details"
+
+msgid "strings.upload"
+msgstr "Uploaden"
+
+msgid "strings.approval_comments"
+msgstr "Goedkeuring commentaar"
+
+msgid "strings.client_tasks"
+msgstr "Taken cliënt"
+
+msgid "strings.team_tasks"
+msgstr "Taken projectgroep"
+
+msgid "strings.team_member_details"
+msgstr "Details deelnemer projectgroep"
+
+msgid "strings.client_task_details"
+msgstr "Details taken cliënt"
+
+msgid "strings.team_task_details"
+msgstr "Details taken projectgroep"
+
+msgid "strings.language"
+msgstr "Taal"
+
+msgid "strings.welcome"
+msgstr "Welkom"
+
+msgid "strings.your_projectsite"
+msgstr "op uw projectsite"
+
+msgid "strings.contact_projectsite"
+msgstr ""
+"Wanneer u vragen heeft over het extranet of de informatie die u hier"
+"vindt kunt u contact opnemen met de beheerder(s)"
+
+msgid "strings.company_details"
+msgstr "Details bedrijf"
+
+msgid "strings.database"
+msgstr "Backup en herstellen database"
+
+msgid "strings.company_info"
+msgstr "Bewerk de bedrijfsinformatie"
+
+msgid "strings.create_projectsite"
+msgstr "Start een projectsite"
+
+msgid "strings.projectsite_url"
+msgstr "Projectsite URL"
+
+msgid "strings.design_template"
+msgstr "Ontwerp template"
+
+msgid "strings.preview_design_template"
+msgstr "Bekijk template"
+
+msgid "strings.delete_projectsite"
+msgstr "Verwijder Projectsite"
+
+msgid "strings.add_file"
+msgstr "Voeg bestand toe"
+
+msgid "strings.linked_content"
+msgstr "Bijbehorende informatie"
+
+msgid "strings.edit_file"
+msgstr "Bewerk details bestand"
+
+msgid "strings.permitted_client"
+msgstr "Toegelaten gebruikers cliënt"
+
+msgid "strings.grant_client"
+msgstr "Bekijken van de projectsite toestaan"
+
+msgid "strings.add_client_user"
+msgstr "Toevoegen gebruiker cliënt"
+
+msgid "strings.edit_client_user"
+msgstr "Bewerk gebruiker cliënt"
+
+msgid "strings.client_user"
+msgstr "Gebruiker Cliënt"
+
+msgid "strings.client_change_status"
+msgstr "Wijzig uw status wanneer uw taak is volbracht"
+
+msgid "strings.project_status"
+msgstr "Project status"
+
+msgid "strings.view_projectsite"
+msgstr "Bekijk project pagina"
+
+msgid "strings.enter_login"
+msgstr "Geef uw gebruikersnaam op om een nieuw wachtwoord te ontvangen"
+
+msgid "strings.send"
+msgstr "Verstuur"
+
+msgid "strings.no_login"
+msgstr "Gebruikersnaam niet gevonden"
+
+msgid "strings.email_pwd"
+msgstr "Wachtwoord verstuurd"
+
+msgid "strings.no_email"
+msgstr "Gebruiker heeft geen e-mail adres"
+
+msgid "strings.forgot_pwd"
+msgstr "Wachtwoord vergeten"
+
+msgid "strings.project_owner"
+msgstr "U kunt alleen uw eigen projecten aanpassen."
+
+msgid "strings.connected"
+msgstr "Verbonden"
+
+msgid "strings.session"
+msgstr "Sessie"
+
+msgid "strings.last_visit"
+msgstr "Laatste bezoek"
+
+msgid "strings.compteur"
+msgstr "Aantal"
+
+msgid "strings.task_owner"
+msgstr "U bent geen lid van deze projectgroep"
+
+msgid "strings.export"
+msgstr "Exporteren"
+
+msgid "strings.reassignment_clientuser"
+msgstr "Taak opnieuw toewijzen"
+
+msgid "strings.organization_already_exists"
+msgstr "Deze naam is al in gebruik. Probeer een andere naam."
+
+msgid "strings.blank_organization_field"
+msgstr "Een bedrijfsnaam is verplicht."
+
+msgid "strings.blank_fields"
+msgstr "verplichte velden"
+
+msgid "strings.projectsite_login_fails"
+msgstr "De combinatie van deze gebruikersnaam met dit wachtwoord is onbekend."
+
+msgid "strings.start_date"
+msgstr "Begin datum"
+
+msgid "strings.completion"
+msgstr "Beëindiging"
+
+msgid "strings.update_available"
+msgstr "Er is een update beschikbaar!"
+
+msgid "strings.version_current"
+msgstr "U gebruikt momenteel versie"
+
+msgid "strings.version_latest"
+msgstr "De laatste versie is"
+
+msgid "strings.sourceforge_link"
+msgstr "Ga naar de project pagina op Sourceforge"
+
+msgid "strings.demo_mode"
+msgstr "Demo modus. Actie is niet toegestaan."
+
+msgid "strings.setup_erase"
+msgstr "Verwijder het bestand setup.php!!"
+
+msgid "strings.no_file"
+msgstr "Geen bestand geselecteerd"
+
+msgid "strings.exceed_size"
+msgstr "Overschrijd maximale bestands grootte"
+
+msgid "strings.no_php"
+msgstr "Php bestand niet toegestaan"
+
+msgid "strings.approval_date"
+msgstr "Goedkeuringsdatum"
+
+msgid "strings.approver"
+msgstr "Goedgekeurd door"
+
+msgid "strings.error_database"
+msgstr "Kan niet verbinden met de database"
+
+msgid "strings.error_server"
+msgstr "Kan niet verbinden met de server"
+
+msgid "strings.version_control"
+msgstr "Versie beheer"
+
+msgid "strings.vc_last_in"
+msgstr "Datum laatste aanpassing"
+
+msgid "strings.ifa_comments"
+msgstr "Goedkeurings commentaar"
+
+msgid "strings.ifa_command"
+msgstr "Verander goedkeuring status"
+
+msgid "strings.vc_version"
+msgstr "Versie"
+
+msgid "strings.ifc_revisions"
+msgstr "Beoordeling van collega"
+
+msgid "strings.ifc_revision_of"
+msgstr "Beoordeling van versie"
+
+msgid "strings.ifc_add_revision"
+msgstr "Voeg beoordeling toe"
+
+msgid "strings.ifc_update_file"
+msgstr "Update bestand"
+
+msgid "strings.ifc_last_date"
+msgstr "Datum laatste aanpassing"
+
+msgid "strings.ifc_version_history"
+msgstr "Versie geschiedenis"
+
+msgid "strings.ifc_delete_file"
+msgstr "Verwijder bestand en alle onderliggende versies en beoordelingen"
+
+msgid "strings.ifc_delete_version"
+msgstr "Verwijder geselecteerde versie"
+
+msgid "strings.ifc_delete_review"
+msgstr "Verwijder geselecteerde beoordeling"
+
+msgid "strings.ifc_no_revisions"
+msgstr "Er zijn momenteel geen revisies van dit document"
+
+msgid "strings.unlink_files"
+msgstr "Ontkoppel bestanden"
+
+msgid "strings.remove_team"
+msgstr "Verwijder groeps leden"
+
+msgid "strings.remove_team_info"
+msgstr "Deze gebruikers verwijderen uit de projectgroep?"
+
+msgid "strings.remove_team_client"
+msgstr "Verwijder recht om de Project Pagina te bekijken"
+
+msgid "strings.note"
+msgstr "Notitie"
+
+msgid "strings.notes"
+msgstr "Notities"
+
+msgid "strings.subject"
+msgstr "Onderwerp"
+
+msgid "strings.delete_note"
+msgstr "Verwijder ingevoerde notities"
+
+msgid "strings.add_note"
+msgstr "Voeg notitie toe"
+
+msgid "strings.edit_note"
+msgstr "Bewerk notitie"
+
+msgid "strings.version_increm"
+msgstr "Selecteer de te gebruiken versie verandering:"
+
+msgid "strings.url_dev"
+msgstr "URL ontwikkelingssite"
+
+msgid "strings.url_prod"
+msgstr "URL uiteindelijke site"
+
+msgid "strings.note_owner"
+msgstr "Je kunt alleen uw eigen notities aanpassen."
+
+msgid "strings.alpha_only"
+msgstr "Alleen alpha-numerieke karakters voor login"
+
+msgid "strings.edit_notifications"
+msgstr "Pas e-mail notificaties aan"
+
+msgid "strings.edit_notifications_info"
+msgstr "Selecteer de gebeurtenissen waarvoor u een e-mail wenst te ontvangen."
+
+msgid "strings.select_deselect"
+msgstr "Selecteer/Deselecteer alles"
+
+msgid "strings.noti_addprojectteam1"
+msgstr "Toegevoegd aan projectgroep :"
+
+msgid "strings.noti_addprojectteam2"
+msgstr "U bent toegevoegd aan de projectgroep van :"
+
+msgid "strings.noti_removeprojectteam1"
+msgstr "Verwijderd uit de projectgroup :"
+
+msgid "strings.noti_removeprojectteam2"
+msgstr "U bent verwijderd uit de projectgroep van :"
+
+msgid "strings.noti_newpost1"
+msgstr "Nieuwe post :"
+
+msgid "strings.noti_newpost2"
+msgstr "Een post is toegevoegd aan de volgende discussie :"
+
+msgid "strings.edit_noti_taskassignment"
+msgstr "Ik heb een nieuwe taak toebedeeld gekregen."
+
+msgid "strings.edit_noti_statustaskchange"
+msgstr "De status van één van mijn taken veranderd."
+
+msgid "strings.edit_noti_prioritytaskchange"
+msgstr "De prioriteit van één van mijn taken veranderd."
+
+msgid "strings.edit_noti_duedatetaskchange"
+msgstr "De eind datum van één van mijn taken veranderd."
+
+msgid "strings.edit_noti_addprojectteam"
+msgstr "Ik word toegevoegd aan een projectgroep."
+
+msgid "strings.edit_noti_removeprojectteam"
+msgstr "Ik word verwijderd uit een projectgroep"
+
+msgid "strings.edit_noti_newpost"
+msgstr "Een nieuwe post word gedaan in een discussie"
+
+msgid "strings.add_optional"
+msgstr "Plaats een optionele"
+
+msgid "strings.assignment_comment_info"
+msgstr "Voeg commentaar toe over de toebedeling van deze taak"
+
+msgid "strings.my_notes"
+msgstr "Mijn notities"
+
+msgid "strings.edit_settings"
+msgstr "Wijzig instellingen"
+
+msgid "strings.max_upload"
+msgstr "Maximale bestands grootte"
+
+msgid "strings.project_folder_size"
+msgstr "Project map grootte"
+
+msgid "strings.calendar"
+msgstr "Kalender"
+
+msgid "strings.date_start"
+msgstr "Begin datum"
+
+msgid "strings.date_end"
+msgstr "Eind datum"
+
+msgid "strings.time_start"
+msgstr "Begin tijd"
+
+msgid "strings.time_end"
+msgstr "Eind tijd"
+
+msgid "strings.calendar_reminder"
+msgstr "Herinnering"
+
+msgid "strings.shortname"
+msgstr "Korte naam"
+
+msgid "strings.calendar_recurring"
+msgstr "Gebeurtenis herhaalt zich elke week op deze dag"
+
+msgid "strings.edit_database"
+msgstr "Wijzig database"
+
+msgid "strings.noti_newtopic1"
+msgstr "Nieuwe discussie :"
+
+msgid "strings.noti_newtopic2"
+msgstr "Er is een nieuwe discussie toegevoegd aan het volgende project :"
+
+msgid "strings.edit_noti_newtopic"
+msgstr "Er is een nieuw discussie onderwerp toegevoegd."
+
+msgid "strings.today"
+msgstr "Vandaag"
+
+msgid "strings.previous"
+msgstr "Vorige"
+
+msgid "strings.next"
+msgstr "Volgende"
+
+msgid "strings.complete_date"
+msgstr "Eind datum"
+
+msgid "strings.days"
+msgstr "Dagen"
+
+msgid "strings.remember_password"
+msgstr "Onthoud wachtwoord"
+
+msgid "strings.client_add_task_note"
+msgstr ""
+"Opmerking: De taak is toegevoegd in de database, het word alleen"
+"zichtbaar indien het is toebedeeld aan een groepslid!"
+
+msgid "strings.noti_clientaddtask1"
+msgstr "Taak toegevoegd door cliënt :"
+
+msgid "strings.noti_clientaddtask2"
+msgstr ""
+"Een nieuwe taak is toegevoegd door een cliënt aan het volgende"
+"project :"
+
+msgid "strings.phase"
+msgstr "Fase"
+
+msgid "strings.phases"
+msgstr "Fases"
+
+msgid "strings.phase_id"
+msgstr "Fase ID"
+
+msgid "strings.phase_status_open"
+msgstr "Open"
+
+msgid "strings.phase_status_complete"
+msgstr "Klaar"
+
+msgid "strings.phase_status_not_started"
+msgstr "Niet begonnen"
+
+msgid "strings.phase_status_not_suspended"
+msgstr "Uitgesteld"
+
+msgid "strings.current_phase"
+msgstr "Actieve fase(s)"
+
+msgid "strings.total_tasks"
+msgstr "Alle taken"
+
+msgid "strings.uncomplete_tasks"
+msgstr "Onvolledige taken"
+
+msgid "strings.no_current_phase"
+msgstr "Er zijn momenteel geen actieve fases"
+
+msgid "strings.true"
+msgstr "Waar"
+
+msgid "strings.false"
+msgstr "Onwaar"
+
+msgid "strings.enable_phases"
+msgstr "Pas fases toe"
+
+msgid "strings.phase_enabled"
+msgstr "Fases toegepast"
+
+msgid "strings.order"
+msgstr "Volgorde"
+
+msgid "strings.options"
+msgstr "Opties"
+
+msgid "strings.support_request"
+msgstr "Ondersteunings verzoek"
+
+msgid "strings.support_requests"
+msgstr "Ondersteunings verzoeken"
+
+msgid "strings.support_id"
+msgstr "Verzoek ID"
+
+msgid "strings.my_support_request"
+msgstr "Mijn ondersteunings verzoeken"
+
+msgid "strings.introduction"
+msgstr "Introductie"
+
+msgid "strings.submit"
+msgstr "Toevoegen"
+
+msgid "strings.support_management"
+msgstr "Ondersteunings beheer"
+
+msgid "strings.date_open"
+msgstr "Datum geopend"
+
+msgid "strings.date_close"
+msgstr "Datum gesloten"
+
+msgid "strings.add_support_request"
+msgstr "Voeg ondersteunings verzoek toe"
+
+msgid "strings.add_support_response"
+msgstr "Voeg ondersteunings antwoord toe"
+
+msgid "strings.respond"
+msgstr "Antwoorden"
+
+msgid "strings.delete_support_request"
+msgstr "Ondersteunings verzoek verwijderd"
+
+msgid "strings.delete_request"
+msgstr "Verwijder ondersteunings verzoek"
+
+msgid "strings.delete_support_post"
+msgstr "Verwijder ondersteunings post"
+
+msgid "strings.new_requests"
+msgstr "Nieuwe verzoeken"
+
+msgid "strings.open_requests"
+msgstr "Open verzoeken"
+
+msgid "strings.closed_requests"
+msgstr "Beëindigde verzoeken"
+
+msgid "strings.manage_new_requests"
+msgstr "Beheer nieuwe verzoeken"
+
+msgid "strings.manage_open_requests"
+msgstr "Beheer open verzoeken"
+
+msgid "strings.manage_closed_requests"
+msgstr "Beheer beëindigde verzoeken"
+
+msgid "strings.responses"
+msgstr "Antwoorden"
+
+msgid "strings.edit_status"
+msgstr "Wijzig status"
+
+msgid "strings.noti_support_request_new2"
+msgstr "U heeft een nieuw ondersteunings verzoek ingediend inzake : "
+
+msgid "strings.noti_support_post2"
+msgstr ""
+"Er is een nieuw antwoord toegevoegd aan uw ondersteunings verzoek."
+"Bekijk hieronder de details."
+
+msgid "strings.noti_support_status2"
+msgstr "Uw ondersteunings verzoek is vernieuwd. Bekijk hieronder de details."
+
+msgid "strings.noti_support_team_new2"
+msgstr "Er is een nieuw ondersteunings verzoek toegevoegd aan project : "
+
+msgid "strings.delete_subtasks"
+msgstr "Subtaken verwijderen"
+
+msgid "strings.add_subtask"
+msgstr "Subtaken toevoegen"
+
+msgid "strings.edit_subtask"
+msgstr "Subtaken wijzigen"
+
+msgid "strings.subtask"
+msgstr "Subtaak"
+
+msgid "strings.subtasks"
+msgstr "Subtaken"
+
+msgid "strings.show_details"
+msgstr "Toon dtails"
+
+msgid "strings.updates_task"
+msgstr "Historie taken"
+
+msgid "strings.updates_subtask"
+msgstr "Historie taak"
+
+msgid "strings.go_projects_site"
+msgstr "Projectssite"
+
+msgid "strings.bookmark_category"
+msgstr "Categorie"
+
+msgid "strings.bookmark_category_new"
+msgstr "Nieuwe categorie"
+
+msgid "strings.bookmarks_all"
+msgstr "Alles"
+
+msgid "strings.bookmarks_my"
+msgstr "Mijn bookmarks"
+
+msgid "strings.my"
+msgstr "Mijn"
+
+msgid "strings.bookmarks_private"
+msgstr "Privé"
+
+msgid "strings.shared"
+msgstr "Gedeeld"
+
+msgid "strings.private"
+msgstr "Privé"
+
+msgid "strings.add_bookmark"
+msgstr "Voeg een bookmark toe"
+
+msgid "strings.edit_bookmark"
+msgstr "Bewerk een bookmark"
+
+msgid "strings.delete_bookmarks"
+msgstr "Bookmarks verwijderen"
+
+msgid "strings.team_subtask_details"
+msgstr "Details subtaken team"
+
+msgid "strings.client_subtask_details"
+msgstr "Details subtaken cliënt"
+
+msgid "strings.client_change_status_subtask"
+msgstr "Verander uw status wanneer uw subtaak uitgevoerd is."
+
+msgid "strings.user_timezone"
+msgstr "Tijdzone (GMT)"
+
+
+# Enum values (status, priority, etc.)
+# Note: These should be moved to enums.*.po domain
+
+#. Domain: enums
+msgid "status.0"
+msgstr "Client Voltooid"
+
+#. Domain: enums
+msgid "status.1"
+msgstr "Voltooid"
+
+#. Domain: enums
+msgid "status.2"
+msgstr "Niet Gestart"
+
+#. Domain: enums
+msgid "status.3"
+msgstr "Open"
+
+#. Domain: enums
+msgid "status.4"
+msgstr "Opgeschort"
+
+#. Domain: enums
+msgid "profil.0"
+msgstr "Beheerder"
+
+#. Domain: enums
+msgid "profil.1"
+msgstr "Project Manager"
+
+#. Domain: enums
+msgid "profil.2"
+msgstr "Gebruiker"
+
+#. Domain: enums
+msgid "profil.3"
+msgstr "Client Gebruiker"
+
+#. Domain: enums
+msgid "profil.4"
+msgstr "Disabled"
+
+#. Domain: enums
+msgid "profil.5"
+msgstr "Project Manager Administrator"
+
+#. Domain: enums
+msgid "priority.0"
+msgstr "Geen"
+
+#. Domain: enums
+msgid "priority.1"
+msgstr "Erg laag"
+
+#. Domain: enums
+msgid "priority.2"
+msgstr "Laag"
+
+#. Domain: enums
+msgid "priority.3"
+msgstr "Gemiddeld"
+
+#. Domain: enums
+msgid "priority.4"
+msgstr "Hoog"
+
+#. Domain: enums
+msgid "priority.5"
+msgstr "Erg hoog"
+
+#. Domain: enums
+msgid "statusTopic.0"
+msgstr "Gesloten"
+
+#. Domain: enums
+msgid "statusTopic.1"
+msgstr "Open"
+
+#. Domain: enums
+msgid "statusTopicBis.0"
+msgstr "Ja"
+
+#. Domain: enums
+msgid "statusTopicBis.1"
+msgstr "Nee"
+
+#. Domain: enums
+msgid "statusPublish.0"
+msgstr "Ja"
+
+#. Domain: enums
+msgid "statusPublish.1"
+msgstr "Nee"
+
+#. Domain: enums
+msgid "statusFile.0"
+msgstr "Goedgekeurd"
+
+#. Domain: enums
+msgid "statusFile.1"
+msgstr "Goedgekeurd Met Wijziging"
+
+#. Domain: enums
+msgid "statusFile.2"
+msgstr "Goedkeuring Nodig"
+
+#. Domain: enums
+msgid "statusFile.3"
+msgstr "Geen Goedkeuring Nodig"
+
+#. Domain: enums
+msgid "statusFile.4"
+msgstr "Niet Goedgekeurd"
+
+#. Domain: enums
+msgid "phaseStatus.0"
+msgstr "Niet gestart"
+
+#. Domain: enums
+msgid "phaseStatus.1"
+msgstr "Open"
+
+#. Domain: enums
+msgid "phaseStatus.2"
+msgstr "Klaar"
+
+#. Domain: enums
+msgid "phaseStatus.3"
+msgstr "Uitgesteld"
+
+#. Domain: enums
+msgid "requestStatus.0"
+msgstr "Nieuw"
+
+#. Domain: enums
+msgid "requestStatus.1"
+msgstr "Open"
+
+#. Domain: enums
+msgid "requestStatus.2"
+msgstr "Klaar"
+
+
+# Arrays (days, months, byte units)
+
+msgid "byteunits.0"
+msgstr "Bytes"
+
+msgid "byteunits.1"
+msgstr "KB"
+
+msgid "byteunits.2"
+msgstr "MB"
+
+msgid "byteunits.3"
+msgstr "GB"
+
+msgid "dayname.1"
+msgstr "Maandag"
+
+msgid "dayname.2"
+msgstr "Dinsdag"
+
+msgid "dayname.3"
+msgstr "Woensdag"
+
+msgid "dayname.4"
+msgstr "Donderdag"
+
+msgid "dayname.5"
+msgstr "Vrijdag"
+
+msgid "dayname.6"
+msgstr "Zaterdag"
+
+msgid "dayname.7"
+msgstr "Zondag"
+
+msgid "monthname.1"
+msgstr "Januari"
+
+msgid "monthname.2"
+msgstr "Februari"
+
+msgid "monthname.3"
+msgstr "Maart"
+
+msgid "monthname.4"
+msgstr "April"
+
+msgid "monthname.5"
+msgstr "Mei"
+
+msgid "monthname.6"
+msgstr "Juni"
+
+msgid "monthname.7"
+msgstr "Juli"
+
+msgid "monthname.8"
+msgstr "Augustus"
+
+msgid "monthname.9"
+msgstr "September"
+
+msgid "monthname.10"
+msgstr "Oktober"
+
+msgid "monthname.11"
+msgstr "November"
+
+msgid "monthname.12"
+msgstr "December"
+

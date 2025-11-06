@@ -1,0 +1,90 @@
+# phpCollab Translation File
+# Language: Catalan (ca)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:04 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Help text
+
+msgid "setup_mkdirMethod"
+msgstr ""
+"Si teniu activat el mode-segur, cal que doneu d'alta un compte de Ftp"
+"per tal de poder crear subdirectoris amb el gestor de fitxers."
+
+msgid "setup_notifications"
+msgstr ""
+"Notificacions a usuaris per correu-e (assignació de tasques, nous"
+"missatges, canvis de tasques...)<br/>Cal un smtp/sendmail vàlid."
+
+msgid "setup_forcedlogin"
+msgstr "Si és fals, desactiva l'enllaç extern a la url amb login/clau"
+
+msgid "setup_langdefault"
+msgstr ""
+"Escolliu l'idioma que apareixerà per defecte a l'entrada o deixeu-lo"
+"en blanc si voleu que aquest sigui el que el navegador té assignat"
+"per defecte."
+
+msgid "setup_myprefix"
+msgstr ""
+"Establiu aquest valor si teniu taules amb el mateix nom a la Base de"
+"Dades.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Deixeu-ho"
+"en blanc si no voleu usar prefixos per a les taules."
+
+msgid "setup_loginmethod"
+msgstr ""
+"Mètode per guardar claus a la Base de Dades.<br/>Establiu-ho en"
+"&quot;Crypt&quot; per tal que funcioni l'autentificació CVS i la del"
+"htaccess (això sempre que estigui habilitada l'autentificació CVS"
+"i/o htaccess)."
+
+msgid "admin_update"
+msgstr ""
+"Respecteu estrictament l'ordre indicat per actualitzar la vostra"
+"versió<br/>1. Editar preferències (imposició dels nous"
+"paràmetres)<br/>2. Editar la Base de Dades (actualització d'acord"
+"amb la vostra versió anterior)"
+
+msgid "task_scope_creep"
+msgstr ""
+"Diferència en dies entre la data de finalització i la de lliurament"
+"(en negreta si és positiva)"
+
+msgid "max_file_size"
+msgstr "Tamany màxim que ha de tenir un fitxer per poder-lo pujar"
+
+msgid "project_disk_space"
+msgstr "Tamany total dels fitxers del projecte"
+
+msgid "project_scope_creep"
+msgstr ""
+"Diferència en dies entre la data de finalització i la de lliurament"
+"(en negreta si és positiva). Total per a totes les tasques"
+
+msgid "mycompany_logo"
+msgstr ""
+"Pugeu el logotip de l'empresa. Apareixerà a la capçalera, enlloc del"
+"títol del lloc"
+
+msgid "calendar_shortname"
+msgstr ""
+"Etiqueta que apareixerà a la vista del calendari mensual. És"
+"obligatòria"
+
+msgid "user_autologout"
+msgstr ""
+"Temps en segons per desconnectar-se en cas de no activitat. Poseu 0"
+"per deshabilitar aquesta opció"
+
+msgid "user_timezone"
+msgstr "Establiu la vostra zona horària GMT"
+

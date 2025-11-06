@@ -1,0 +1,1658 @@
+# phpCollab Translation File
+# Language: Turkish (tr)
+# Type: Lang
+# Domain: messages
+# Generated: 2025-11-06 00:44:14 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# String translations
+
+msgid "strings.please_login"
+msgstr "Lütfen giriþ yapýnýz"
+
+msgid "strings.requirements"
+msgstr "Sistem Gereksinimleri"
+
+msgid "strings.login"
+msgstr "Giriþ yapýn"
+
+msgid "strings.no_items"
+msgstr "Gösterilecek madde yok"
+
+msgid "strings.logout"
+msgstr "Çýkýþ"
+
+msgid "strings.preferences"
+msgstr "Seçenekler"
+
+msgid "strings.my_tasks"
+msgstr "Benim Görevlerim"
+
+msgid "strings.edit_task"
+msgstr "Görevi Düzenle"
+
+msgid "strings.copy_task"
+msgstr "Görevi Kopyala"
+
+msgid "strings.add_task"
+msgstr "Görev Ekle"
+
+msgid "strings.delete_tasks"
+msgstr "Görevleri Sil"
+
+msgid "strings.assignment_history"
+msgstr "Atama Tarihçesi"
+
+msgid "strings.assigned_on"
+msgstr "'e Atandý"
+
+msgid "strings.assigned_by"
+msgstr "tarafýndan atandý"
+
+msgid "strings.to"
+msgstr "'e"
+
+msgid "strings.comment"
+msgstr "Yorum"
+
+msgid "strings.task_assigned"
+msgstr "Görevin atandýðý kiþi : "
+
+msgid "strings.task_unassigned"
+msgstr "Görev Tanýmsýz'a atandý (Tanýmsýz)"
+
+msgid "strings.edit_multiple_tasks"
+msgstr "Çoklu Görevleri Düzenle"
+
+msgid "strings.tasks_selected"
+msgstr ""
+"adet görev seçildi. Bu görevler için yeni deðerler seçin, veya"
+"[Deðiþiklik Yok] seçerek mevcut deðerleri koruyun."
+
+msgid "strings.assignment_comment"
+msgstr "Atama Yorumu"
+
+msgid "strings.no_change"
+msgstr "[Deðiþiklik Yok]"
+
+msgid "strings.my_discussions"
+msgstr "Benim Tartýþmalarým"
+
+msgid "strings.discussions"
+msgstr "Tartýþmalar"
+
+msgid "strings.delete_discussions"
+msgstr "Tartýþmalarý sil"
+
+msgid "strings.delete_discussions_note"
+msgstr "Not: Silindikten sonra Tartýþmalar yeniden açýlamaz."
+
+msgid "strings.topic"
+msgstr "Konu"
+
+msgid "strings.posts"
+msgstr "Mesajlar"
+
+msgid "strings.latest_post"
+msgstr "En Son Mesaj"
+
+msgid "strings.my_reports"
+msgstr "Benim Raporlarým"
+
+msgid "strings.reports"
+msgstr "Raporlar"
+
+msgid "strings.create_report"
+msgstr "Rapor Oluþtur"
+
+msgid "strings.report_intro"
+msgstr ""
+"Görev raporlama parametrelerini burda seçin ve raporunuzu"
+"çalýþtýrdýktan sonra sonuçlar sayfasýnda sorgulamayý kaydedin."
+
+msgid "strings.admin_intro"
+msgstr "Proje ayarlarý ve konfigürasyonu."
+
+msgid "strings.copy_of"
+msgstr "Kopyasý "
+
+msgid "strings.add"
+msgstr "Ekle"
+
+msgid "strings.delete"
+msgstr "Sil"
+
+msgid "strings.remove"
+msgstr "Çýkart"
+
+msgid "strings.copy"
+msgstr "Kopyala"
+
+msgid "strings.view"
+msgstr "Görüntüle"
+
+msgid "strings.edit"
+msgstr "Düzenle"
+
+msgid "strings.update"
+msgstr "Güncelle"
+
+msgid "strings.details"
+msgstr "Detaylar"
+
+msgid "strings.none"
+msgstr "Hiçbiri"
+
+msgid "strings.close"
+msgstr "Kapat"
+
+msgid "strings.new"
+msgstr "Yeni"
+
+msgid "strings.select_all"
+msgstr "Hepsini Seç"
+
+msgid "strings.unassigned"
+msgstr "Atanmamýþ"
+
+msgid "strings.administrator"
+msgstr "Ýdareci"
+
+msgid "strings.my_projects"
+msgstr "Benim Projelerim"
+
+msgid "strings.project"
+msgstr "Proje"
+
+msgid "strings.active"
+msgstr "Aktif"
+
+msgid "strings.inactive"
+msgstr "Pasif"
+
+msgid "strings.project_id"
+msgstr "Proje No"
+
+msgid "strings.edit_project"
+msgstr "Projeyi Düzenle"
+
+msgid "strings.copy_project"
+msgstr "Projeyi Kopyala"
+
+msgid "strings.add_project"
+msgstr "Proje Ekle"
+
+msgid "strings.clients"
+msgstr "Müþteriler"
+
+msgid "strings.organization"
+msgstr "Müþteri Organizasyonu"
+
+msgid "strings.client_projects"
+msgstr "Müþteri Projeleri"
+
+msgid "strings.client_users"
+msgstr "Müþteri Kullanýcýlarý"
+
+msgid "strings.edit_organization"
+msgstr "Müþteri Organizasyonu Düzenle"
+
+msgid "strings.add_organization"
+msgstr "Müþteri Organizasyonu Ekle"
+
+msgid "strings.organizations"
+msgstr "Müþteri Organizasyonlarý"
+
+msgid "strings.info"
+msgstr "Bilgi"
+
+msgid "strings.status"
+msgstr "Durum"
+
+msgid "strings.owner"
+msgstr "Sahibi"
+
+msgid "strings.home"
+msgstr "Ana Sayfa"
+
+msgid "strings.projects"
+msgstr "Projeler"
+
+msgid "strings.files"
+msgstr "Dosyalar"
+
+msgid "strings.search"
+msgstr "Arama"
+
+msgid "strings.admin"
+msgstr "Ýdareci"
+
+msgid "strings.user"
+msgstr "Kullanýcý"
+
+msgid "strings.project_manager"
+msgstr "Proje Yöneticisi"
+
+msgid "strings.due"
+msgstr "beklenen bitiþ"
+
+msgid "strings.task"
+msgstr "Görev"
+
+msgid "strings.tasks"
+msgstr "Görevler"
+
+msgid "strings.team"
+msgstr "Takým"
+
+msgid "strings.add_team"
+msgstr "Takým Üyeleri Ekle"
+
+msgid "strings.team_members"
+msgstr "Takým Üyeleri"
+
+msgid "strings.full_name"
+msgstr "Tam Ýsim"
+
+msgid "strings.title"
+msgstr "Ünvan"
+
+msgid "strings.user_name"
+msgstr "Kullanýcý Adý"
+
+msgid "strings.work_phone"
+msgstr "Ýþ Telefonu"
+
+msgid "strings.priority"
+msgstr "Öncelik"
+
+msgid "strings.name"
+msgstr "Ýsim"
+
+msgid "strings.id"
+msgstr "No"
+
+msgid "strings.description"
+msgstr "Açýklama"
+
+msgid "strings.phone"
+msgstr "Telefon"
+
+msgid "strings.address"
+msgstr "Adres"
+
+msgid "strings.comments"
+msgstr "Yorumlar"
+
+msgid "strings.created"
+msgstr "Oluþturuldu"
+
+msgid "strings.assigned"
+msgstr "Atandý"
+
+msgid "strings.modified"
+msgstr "Deðiþtirildi"
+
+msgid "strings.assigned_to"
+msgstr "Atanan kiþi"
+
+msgid "strings.due_date"
+msgstr "Beklenen Bitiþ Tarihi"
+
+msgid "strings.estimated_time"
+msgstr "Tahmini Süre"
+
+msgid "strings.actual_time"
+msgstr "Esas Süre"
+
+msgid "strings.delete_following"
+msgstr "Aþaðýdakiler silinsin mi?"
+
+msgid "strings.cancel"
+msgstr "Ýptal"
+
+msgid "strings.and"
+msgstr "ve"
+
+msgid "strings.administration"
+msgstr "Ýdareci"
+
+msgid "strings.user_management"
+msgstr "Kullanýcý Yönetimi"
+
+msgid "strings.system_information"
+msgstr "Sistem Bilgisi"
+
+msgid "strings.product_information"
+msgstr "Ürün Bilgisi"
+
+msgid "strings.system_properties"
+msgstr "Sistem Özellikleri"
+
+msgid "strings.create"
+msgstr "Oluþtur"
+
+msgid "strings.report_save"
+msgstr ""
+"Sorgulamayý yeniden çalýþtýrabilmek için bu rapor"
+"sorgulamasýný ana sayfanýza kaydedin."
+
+msgid "strings.report_name"
+msgstr "Rapor Adý"
+
+msgid "strings.save"
+msgstr "Kaydet"
+
+msgid "strings.matches"
+msgstr "Bulundu"
+
+msgid "strings.match"
+msgstr "bulundu"
+
+msgid "strings.report_results"
+msgstr "Rapor Sonuçlarý"
+
+msgid "strings.success"
+msgstr "Baþarý"
+
+msgid "strings.addition_succeeded"
+msgstr "Ekleme baþarý ile yapýldý"
+
+msgid "strings.deletion_succeeded"
+msgstr "Silme baþarý ile yapýldý"
+
+msgid "strings.report_created"
+msgstr "Rapor oluþturuldu"
+
+msgid "strings.deleted_reports"
+msgstr "Rapor silindi"
+
+msgid "strings.modification_succeeded"
+msgstr "Deðiþtirme baþarý ile yapýldý"
+
+msgid "strings.errors"
+msgstr "hata bulundu!"
+
+msgid "strings.blank_user"
+msgstr "Kullanýcý bulunamadý."
+
+msgid "strings.blank_organization"
+msgstr "Müþteri organizasyonu bulunamadý."
+
+msgid "strings.blank_project"
+msgstr "Proje Bulunamadý."
+
+msgid "strings.user_profile"
+msgstr "Kullanýcý Profili"
+
+msgid "strings.change_password"
+msgstr "Þifre Deðiþtir"
+
+msgid "strings.change_password_user"
+msgstr "Kullanýcýnýn þifresini deðiþtir."
+
+msgid "strings.old_password_error"
+msgstr ""
+"Eski girdiðiniz þifre doðru deðildir. Eski þifrenizi yeniden"
+"girin."
+
+msgid "strings.new_password_error"
+msgstr ""
+"Girdiðiniz her iki þifre birbirini tutmuyor. Yeni þifrenizi tekrar"
+"giriniz."
+
+msgid "strings.notifications"
+msgstr "Uyarýlar"
+
+msgid "strings.change_password_intro"
+msgstr ""
+"Eski þifrenizi yeniden girin ve sonra yeni þifrenizi girerek"
+"onaylayýnýz."
+
+msgid "strings.old_password"
+msgstr "Eski Þifre"
+
+msgid "strings.password"
+msgstr "Þifre"
+
+msgid "strings.new_password"
+msgstr "Yeni Þifre"
+
+msgid "strings.confirm_password"
+msgstr "Þifreyi Onayla"
+
+msgid "strings.email"
+msgstr "E-Posta"
+
+msgid "strings.home_phone"
+msgstr "Ev Telefonu"
+
+msgid "strings.mobile_phone"
+msgstr "Cep Telefonu"
+
+msgid "strings.fax"
+msgstr "Faks"
+
+msgid "strings.permissions"
+msgstr "Yetkiler"
+
+msgid "strings.administrator_permissions"
+msgstr "Ýdareci Yetkileri"
+
+msgid "strings.project_manager_permissions"
+msgstr "Proje Yöneticisi Yetkileri"
+
+msgid "strings.user_permissions"
+msgstr "Kullanýcý Yetkileri"
+
+msgid "strings.account_created"
+msgstr "Hesap Oluþturuldu"
+
+msgid "strings.edit_user"
+msgstr "Kullanýcýyý Düzenle"
+
+msgid "strings.edit_user_details"
+msgstr "Kullanýcý hesabýnýn ayrýntýlarýný düzenle."
+
+msgid "strings.change_user_password"
+msgstr "Kullanýcýnýn þifresini deðiþtir."
+
+msgid "strings.select_permissions"
+msgstr "Bu kullanýcýnýn yetkilerini seç"
+
+msgid "strings.add_user"
+msgstr "Kullanýcý Ekle"
+
+msgid "strings.enter_user_details"
+msgstr "Oluþturacaðýnýz kullanýcý hesabýnýn detaylarýný giriniz.."
+
+msgid "strings.enter_password"
+msgstr "Kullanýcýnýn þifresini giriniz."
+
+msgid "strings.success_logout"
+msgstr ""
+"Sistemden baþarý ile çýktýnýz. Aþaðýya kullanýcý adý ve"
+"þifrenizi girerek yeniden sisteme giriþ yapabilirsiniz."
+
+msgid "strings.invalid_login"
+msgstr ""
+"Girdiðiniz kullanýcý adý ve/veya þifre geçersizdir. Lütfen"
+"giriþ bilgilerini tekrar girin."
+
+msgid "strings.profile"
+msgstr "Profil"
+
+msgid "strings.user_details"
+msgstr "Kullanýcý hesabý detaylarý."
+
+msgid "strings.edit_user_account"
+msgstr "Kullanýcý hesabý bilgilerini düzenleyin."
+
+msgid "strings.no_permissions"
+msgstr "Bu iþlemi yapabilmek için gerekli yetkiye sahip deðilsiniz."
+
+msgid "strings.discussion"
+msgstr "Tartýþma"
+
+msgid "strings.retired"
+msgstr "Emekli"
+
+msgid "strings.last_post"
+msgstr "Son Mesaj"
+
+msgid "strings.post_reply"
+msgstr "Cevap Ver"
+
+msgid "strings.posted_by"
+msgstr "Tarafýndan mesaj gönderildi"
+
+msgid "strings.when"
+msgstr "Zamaný"
+
+msgid "strings.post_to_discussion"
+msgstr "Tartýþmaya mesaj gönder"
+
+msgid "strings.message"
+msgstr "Yazý"
+
+msgid "strings.delete_reports"
+msgstr "Raporlarý Sil"
+
+msgid "strings.delete_projects"
+msgstr "Projeleri Sil"
+
+msgid "strings.delete_organizations"
+msgstr "Müþteri Organizasyonlarýný Sil"
+
+msgid "strings.delete_organizations_note"
+msgstr ""
+"Not: Bu iþlem bu müþteri organizasyonlarý için bütün"
+"müþterilerini silecek ve bu müþteri organizasyonlarýndan bütün"
+"açýk projelerin baðlantýsýný kesecektir."
+
+msgid "strings.delete_messages"
+msgstr "Mesajlarý Sil"
+
+msgid "strings.attention"
+msgstr "Dikkatine"
+
+msgid "strings.delete_teamownermix"
+msgstr ""
+"Baþarý ile kaldýrýldý, ama proje sahibi prje takýmýndan"
+"kaldýrýlamýyor."
+
+msgid "strings.delete_teamowner"
+msgstr "Proje sahibini proje takýmýndan silemezsiniz."
+
+msgid "strings.enter_keywords"
+msgstr "Anahtar kelimeleri girin"
+
+msgid "strings.search_options"
+msgstr "Kelimeler ve Arama Seçenekleri"
+
+msgid "strings.search_note"
+msgstr "Arama kutusuna bilgi girmeniz gereklidir."
+
+msgid "strings.search_results"
+msgstr "Arama Sonuçlarý"
+
+msgid "strings.users"
+msgstr "Kullanýcýlar"
+
+msgid "strings.search_for"
+msgstr "Ara"
+
+msgid "strings.results_for_keywords"
+msgstr "Kelimeleri için Arama sonuçlarý"
+
+msgid "strings.add_discussion"
+msgstr "Tartýþma Ekle"
+
+msgid "strings.delete_users"
+msgstr "Kullanýcý Hesaplarýný Sil"
+
+msgid "strings.reassignment_user"
+msgstr "Proje ve Görev Yeniden Atanmasý"
+
+msgid "strings.there"
+msgstr "Toplam olarak"
+
+msgid "strings.owned_by"
+msgstr "yukarýdaki kullanýcýlara aitir."
+
+msgid "strings.reassign_to"
+msgstr "Kullanýcýlar silmeden önce, bunlarý yeniden ata"
+
+msgid "strings.no_files"
+msgstr "Dosyalar baðlantýlý deðildir"
+
+msgid "strings.published"
+msgstr "Yayýnlandý"
+
+msgid "strings.project_site"
+msgstr "Proje Sitesi"
+
+msgid "strings.approval_tracking"
+msgstr "Onay Takibi"
+
+msgid "strings.size"
+msgstr "Büyüklük"
+
+msgid "strings.add_project_site"
+msgstr "Proje Sitesine Ekle"
+
+msgid "strings.remove_project_site"
+msgstr "Proje Sitesinden Kaldýr"
+
+msgid "strings.more_search"
+msgstr "Daha fazla arama seçenekleri"
+
+msgid "strings.results_with"
+msgstr "Ýle sonuçlarý ara"
+
+msgid "strings.search_topics"
+msgstr "Arama Baþlýklarý"
+
+msgid "strings.search_properties"
+msgstr "Arama Özellikleri"
+
+msgid "strings.date_restrictions"
+msgstr "Tarih Sýnýrlarý"
+
+msgid "strings.case_sensitive"
+msgstr "Harf Duyarlý"
+
+msgid "strings.yes"
+msgstr "Evet"
+
+msgid "strings.no"
+msgstr "Hayýr"
+
+msgid "strings.sort_by"
+msgstr "Sýralama seçeneði"
+
+msgid "strings.type"
+msgstr "Tip"
+
+msgid "strings.date"
+msgstr "Tarih"
+
+msgid "strings.all_words"
+msgstr "bütün kelimelerin hepsi"
+
+msgid "strings.any_words"
+msgstr "kelimelerden herhangi biri"
+
+msgid "strings.exact_match"
+msgstr "kesin eþleþtirme"
+
+msgid "strings.all_dates"
+msgstr "Bütün tarihler"
+
+msgid "strings.between_dates"
+msgstr "Tarihler arasý"
+
+msgid "strings.all_content"
+msgstr "Bütün içerik"
+
+msgid "strings.all_properties"
+msgstr "Bütün özellikler"
+
+msgid "strings.no_results_search"
+msgstr "Arama sonuç döndürmedi."
+
+msgid "strings.no_results_report"
+msgstr "Rapor sonuç döndürmedi."
+
+msgid "strings.schema_date"
+msgstr "YIL/AY/GÜN"
+
+msgid "strings.hours"
+msgstr "saatler"
+
+msgid "strings.choice"
+msgstr "Seçenek"
+
+msgid "strings.missing_file"
+msgstr "Kayýp dosya !"
+
+msgid "strings.project_site_deleted"
+msgstr "Proje sitesi baþarý ile silindi."
+
+msgid "strings.add_user_project_site"
+msgstr "Kullanýcýya proje sitesine eriþme yetkisi baþari ile verildi."
+
+msgid "strings.remove_user_project_site"
+msgstr "Kullanýcý yetkileri baþarý ile kaldýrýldý."
+
+msgid "strings.add_project_site_success"
+msgstr "Proje sitesine ekleme baþarý ile sonuçlandý."
+
+msgid "strings.remove_project_site_success"
+msgstr "Proje sitesinden çýkarma baþarý ile sonuçlandý."
+
+msgid "strings.add_file_success"
+msgstr "Ýliþkilendirilen 1 içerik maddesi."
+
+msgid "strings.delete_file_success"
+msgstr "Ýliþkilendirme kaldýrýlmasý baþarý ile sonuçlandý."
+
+msgid "strings.update_comment_file"
+msgstr "Dosya yorumu baþarý ile güncellendi."
+
+msgid "strings.session_false"
+msgstr "Oturum [Session] hatasý"
+
+msgid "strings.logs"
+msgstr "Kütükler [Logs]"
+
+msgid "strings.logout_time"
+msgstr "Otomatik çýkýþ"
+
+msgid "strings.noti_foot1"
+msgstr "Bu uyarý PhpCollab tarafýndan üretilmiþtir."
+
+msgid "strings.noti_foot2"
+msgstr "PhpCollab Ana Sayfasýný ziyaret için :"
+
+msgid "strings.noti_taskassignment1"
+msgstr "Yeni Görev:"
+
+msgid "strings.noti_taskassignment2"
+msgstr "Size yeni bir görev atandý:"
+
+msgid "strings.noti_moreinfo"
+msgstr "Daha fazla bilgi için ziyaret edin:"
+
+msgid "strings.noti_prioritytaskchange1"
+msgstr "Görev önceliði deðiþtirildi:"
+
+msgid "strings.noti_prioritytaskchange2"
+msgstr "Aþaðýdaki görevin önceliði deðiþtirildi:"
+
+msgid "strings.noti_statustaskchange1"
+msgstr "Görev durumu deðiþti:"
+
+msgid "strings.noti_statustaskchange2"
+msgstr "Aþaðýdaki görevin durumu deðiþti:"
+
+msgid "strings.login_username"
+msgstr "Bir kullanýcý adý girmelisiniz."
+
+msgid "strings.login_password"
+msgstr "Bir þifre girmelisiniz."
+
+msgid "strings.login_clientuser"
+msgstr ""
+"Bu bir müþteri hesabýdýr. Müþteri hesabý ile PhpCollab'a giriþ"
+"yapamazsýnýz."
+
+msgid "strings.user_already_exists"
+msgstr ""
+"Bu isimde bir kullanýcý zaten var. Lütfen baþka bir kullanýcý"
+"adý seçiniz."
+
+msgid "strings.noti_duedatetaskchange1"
+msgstr "Görevin beklenen bitiþ tarihi deðiþti:"
+
+msgid "strings.noti_duedatetaskchange2"
+msgstr "Aþaðýdaki görevin beklenen bitiþ tarihi deðiþti:"
+
+msgid "strings.company"
+msgstr "Firma"
+
+msgid "strings.show_all"
+msgstr "Hepsini Göster"
+
+msgid "strings.information"
+msgstr "Bilgi"
+
+msgid "strings.delete_message"
+msgstr "Bu mesajý sil"
+
+msgid "strings.project_team"
+msgstr "Proje Takýmý"
+
+msgid "strings.document_list"
+msgstr "Doküman Listesi"
+
+msgid "strings.bulletin_board"
+msgstr "Tartýþma Listesi"
+
+msgid "strings.bulletin_board_topic"
+msgstr "Tartýþma Listesi Baþlýðý"
+
+msgid "strings.create_topic"
+msgstr "Yeni Baþlýk Oluþtur"
+
+msgid "strings.topic_form"
+msgstr "Form Ýçeriði"
+
+msgid "strings.enter_message"
+msgstr "Mesajýnýzý Girin"
+
+msgid "strings.upload_file"
+msgstr "Dosya Yükle"
+
+msgid "strings.upload_form"
+msgstr "Form Yükle"
+
+msgid "strings.upload"
+msgstr "Yükle"
+
+msgid "strings.document"
+msgstr "Doküman"
+
+msgid "strings.approval_comments"
+msgstr "Yorum Onaylarý"
+
+msgid "strings.client_tasks"
+msgstr "Müþteri Görevleri"
+
+msgid "strings.team_tasks"
+msgstr "Takým Görevleri"
+
+msgid "strings.team_member_details"
+msgstr "Proje Takýmý Üyesi Detaylarý"
+
+msgid "strings.client_task_details"
+msgstr "Müþteri Görevi Detaylarý"
+
+msgid "strings.team_task_details"
+msgstr "Takým Görevi Detaylarý"
+
+msgid "strings.language"
+msgstr "Dil"
+
+msgid "strings.welcome"
+msgstr "Hoþgeldiniz"
+
+msgid "strings.your_projectsite"
+msgstr "Proje Sitesine"
+
+msgid "strings.contact_projectsite"
+msgstr ""
+"Buradaki bilgiler hakkýnda sorularýnýz var ise,proje yöneticisine"
+"baþvurun"
+
+msgid "strings.company_details"
+msgstr "Firma Detaylarý"
+
+msgid "strings.database"
+msgstr "Veritabaný Yedeklemesi ve Yüklenmesi"
+
+msgid "strings.company_info"
+msgstr "Firmanýzýn bilgilerini düzenleyin"
+
+msgid "strings.create_projectsite"
+msgstr "Proje Sitesini Oluþturun"
+
+msgid "strings.projectsite_url"
+msgstr "Projec Sitesi URL"
+
+msgid "strings.design_template"
+msgstr "Tasarým Þablonu"
+
+msgid "strings.preview_design_template"
+msgstr "Tasarým Þablonu Görüntüleyin"
+
+msgid "strings.delete_projectsite"
+msgstr "Proje Site Silin"
+
+msgid "strings.add_file"
+msgstr "Dosya Ekle"
+
+msgid "strings.linked_content"
+msgstr "Baðlantýlý Ýçerik"
+
+msgid "strings.edit_file"
+msgstr "Dosya detaylarýný düzenle"
+
+msgid "strings.permitted_client"
+msgstr "Yetkili Müþteri Kullanýcýlarý"
+
+msgid "strings.grant_client"
+msgstr "Proje Sitesini Görüntülemek için Yetki Ver"
+
+msgid "strings.add_client_user"
+msgstr "Müþteri Kullanýcýsý Ekle"
+
+msgid "strings.edit_client_user"
+msgstr "Müþteri Kullanýcýsý Düzenle"
+
+msgid "strings.client_user"
+msgstr "Müþteri Kullanýcýsý"
+
+msgid "strings.client_change_status"
+msgstr "Bu görevi bitirdikten sonra, aþaðýdaki durumunuzu deðiþtirin"
+
+msgid "strings.project_status"
+msgstr "Proje Durumu"
+
+msgid "strings.view_projectsite"
+msgstr "Proje Sitesini Görüntüle"
+
+msgid "strings.enter_login"
+msgstr "Kullanýcý adýnýzý girerek yeni þifrenizi alýn"
+
+msgid "strings.send"
+msgstr "Gönder"
+
+msgid "strings.no_login"
+msgstr "Giriþ bilgisi veritabanýnda  bulunamadý"
+
+msgid "strings.email_pwd"
+msgstr "Þifre gönderildi"
+
+msgid "strings.no_email"
+msgstr "Kullanýcýn e-posta adresi yok"
+
+msgid "strings.forgot_pwd"
+msgstr "Þifreyi unuttum ?"
+
+msgid "strings.project_owner"
+msgstr "Sadece kendi projelerinizde deðiþiklik yapabilirsiniz."
+
+msgid "strings.connected"
+msgstr "Baðlantýlý"
+
+msgid "strings.session"
+msgstr "Oturum"
+
+msgid "strings.last_visit"
+msgstr "Son Ziyaret"
+
+msgid "strings.compteur"
+msgstr "Adet"
+
+msgid "strings.task_owner"
+msgstr "Bu projenin üyesi deðilsiniz"
+
+msgid "strings.export"
+msgstr "Ýhraç"
+
+msgid "strings.reassignment_clientuser"
+msgstr "Görev Yeniden Atanmasý"
+
+msgid "strings.organization_already_exists"
+msgstr "Bu isim sistemde zaten kullanýmda, lütfen baþka bir tane seçin."
+
+msgid "strings.blank_organization_field"
+msgstr "Müþteri organizasyonu ismini girmeniz gereklidir."
+
+msgid "strings.blank_fields"
+msgstr "mecburi alanlar"
+
+msgid "strings.projectsite_login_fails"
+msgstr "Kullanýcý adý ve þifresi onaylanamadý."
+
+msgid "strings.start_date"
+msgstr "Baþlangýç Tarihi"
+
+msgid "strings.completion"
+msgstr "Bitiþ"
+
+msgid "strings.update_available"
+msgstr "Yeni versiyon var!"
+
+msgid "strings.version_current"
+msgstr "Þu anda kullandýðýnýz versiyon"
+
+msgid "strings.version_latest"
+msgstr "En son versiyon"
+
+msgid "strings.sourceforge_link"
+msgstr "Sourceforge üzerindeki project sayfasýna bakýn"
+
+msgid "strings.demo_mode"
+msgstr "Demo modu. Ýþlemlere izin verilmez."
+
+msgid "strings.setup_erase"
+msgstr "setup.php dosyasýný silin!!"
+
+msgid "strings.no_file"
+msgstr "Dosya seçilmedi"
+
+msgid "strings.exceed_size"
+msgstr "Maksimum dosya boyutu aþýldý"
+
+msgid "strings.no_php"
+msgstr "Php dosyasýna izin verilmez"
+
+msgid "strings.approval_date"
+msgstr "Onay Tarihi"
+
+msgid "strings.approver"
+msgstr "Onaylayan"
+
+msgid "strings.error_database"
+msgstr "Veritabanýna baðlanýlamadý"
+
+msgid "strings.error_server"
+msgstr "Sunucuya baðlanýlamadý"
+
+msgid "strings.version_control"
+msgstr "Sürüm Kontrolu"
+
+msgid "strings.vc_status"
+msgstr "Durum"
+
+msgid "strings.vc_last_in"
+msgstr "En son deðiþiklik tarihi"
+
+msgid "strings.ifa_comments"
+msgstr "Onay yorumlarý"
+
+msgid "strings.ifa_command"
+msgstr "Onay durumunu deðiþtir"
+
+msgid "strings.vc_version"
+msgstr "Sürüm"
+
+msgid "strings.ifc_revisions"
+msgstr "Emsal Ýncelemeler"
+
+msgid "strings.ifc_revision_of"
+msgstr "Sürüm Ýncelemesi"
+
+msgid "strings.ifc_add_revision"
+msgstr "Emsal Ýnceleme ekle"
+
+msgid "strings.ifc_update_file"
+msgstr "Dosya güncelle"
+
+msgid "strings.ifc_last_date"
+msgstr "Son deðiþiklik tarihi"
+
+msgid "strings.ifc_version_history"
+msgstr "Versiyon Tarihçesi"
+
+msgid "strings.ifc_delete_file"
+msgstr "Dosyayý ve bütün baðlý versiyon ve incelemeleri sil"
+
+msgid "strings.ifc_delete_version"
+msgstr "Seçilen Sürümü Sil"
+
+msgid "strings.ifc_delete_review"
+msgstr "Seçilen Ýncelemeyi Sil"
+
+msgid "strings.ifc_no_revisions"
+msgstr "Bu dokumanýn þu anda revizyonlarý bulunmamaktadýr"
+
+msgid "strings.unlink_files"
+msgstr "Dosyalarý Kaldýr"
+
+msgid "strings.remove_team"
+msgstr "Takým Üyelerini Kaldýr"
+
+msgid "strings.remove_team_info"
+msgstr "Bu kullanýcýlarý proje takýmýndan kaldýrýlsýn mý?"
+
+msgid "strings.remove_team_client"
+msgstr "Proje sitesiniz inceleme yetkisi kaldýrýlsýn mý"
+
+msgid "strings.note"
+msgstr "Not"
+
+msgid "strings.notes"
+msgstr "Notlar"
+
+msgid "strings.subject"
+msgstr "Konu"
+
+msgid "strings.delete_note"
+msgstr "Not Giriþleri Silinmesi"
+
+msgid "strings.add_note"
+msgstr "Not Giriþi Ekle"
+
+msgid "strings.edit_note"
+msgstr "Not Giriþi Düzenle"
+
+msgid "strings.version_increm"
+msgstr "Sürüm deðiþikliðinin uygulanacaðýný seçin:"
+
+msgid "strings.url_dev"
+msgstr "Geliþtirme sitesi url"
+
+msgid "strings.url_prod"
+msgstr "Bitiþ sitesi url"
+
+msgid "strings.note_owner"
+msgstr "Sadece kendi notlarýnýzý deðiþtirebilirsiniz."
+
+msgid "strings.alpha_only"
+msgstr "Giriþte sadece harf-rakamlar kullanýlabilir"
+
+msgid "strings.edit_notifications"
+msgstr "E-mail Uyarýlarýný düzenle"
+
+msgid "strings.edit_notifications_info"
+msgstr "E-Posta uyarýsý almak istediðiniz olaylarý seçin."
+
+msgid "strings.select_deselect"
+msgstr "Ýþaretle/Hepsini Temizle"
+
+msgid "strings.noti_addprojectteam1"
+msgstr "Proje takýmýna eklenen:"
+
+msgid "strings.noti_addprojectteam2"
+msgstr "Proje takýmýna eklendiniz :"
+
+msgid "strings.noti_removeprojectteam1"
+msgstr "Proje takýmýndan kaldýrýlan :"
+
+msgid "strings.noti_removeprojectteam2"
+msgstr "Proje takýmýndan kaldýrýldýnýz :"
+
+msgid "strings.noti_newpost1"
+msgstr "Yeni Mesaj :"
+
+msgid "strings.noti_newpost2"
+msgstr "Aþaðýdaki tartýþmaya yeni mesaj eklendi :"
+
+msgid "strings.edit_noti_taskassignment"
+msgstr "Bana yeni bir görev atandý."
+
+msgid "strings.edit_noti_statustaskchange"
+msgstr "Görevlerimden bir tanesinin durumu deðiþti."
+
+msgid "strings.edit_noti_prioritytaskchange"
+msgstr "Görevlerimden bir tanesinin önceliði deðiþti."
+
+msgid "strings.edit_noti_duedatetaskchange"
+msgstr "Görevlerimden bir tanesinin beklenen bitiþ tarihi deðiþti."
+
+msgid "strings.edit_noti_addprojectteam"
+msgstr "Proke takýmýna eklendim."
+
+msgid "strings.edit_noti_removeprojectteam"
+msgstr "Proke takýmýndan çýkartýldým."
+
+msgid "strings.edit_noti_newpost"
+msgstr "Tartýþmaya yeni bir mesaj eklendi."
+
+msgid "strings.add_optional"
+msgstr "Seçmeli olarak ekle"
+
+msgid "strings.assignment_comment_info"
+msgstr "Bu görevin atanmasý ile ilgili yorum ekle"
+
+msgid "strings.my_notes"
+msgstr "Benim Notlarým"
+
+msgid "strings.edit_settings"
+msgstr "Ayarlarý Düzenle"
+
+msgid "strings.max_upload"
+msgstr "Maksimum dosya Boyutu"
+
+msgid "strings.project_folder_size"
+msgstr "Proje klasörü boyutu"
+
+msgid "strings.calendar"
+msgstr "Takvim"
+
+msgid "strings.date_start"
+msgstr "Baþlangýç Tarihi"
+
+msgid "strings.date_end"
+msgstr "Bitiþ Tarihi"
+
+msgid "strings.time_start"
+msgstr "Baþlangýç Zamaný"
+
+msgid "strings.time_end"
+msgstr "Bitiþ Zamaný"
+
+msgid "strings.calendar_reminder"
+msgstr "Hatýrlatma"
+
+msgid "strings.shortname"
+msgstr "Kýsa isim"
+
+msgid "strings.calendar_recurring"
+msgstr "Olay her hafta bugün tekrar eder"
+
+msgid "strings.edit_database"
+msgstr "Veritabanýný düzenle"
+
+msgid "strings.noti_newtopic1"
+msgstr "Yeni tartýþma :"
+
+msgid "strings.noti_newtopic2"
+msgstr "Aþaðýdaki projeye yeni bir tartýþma eklendi :"
+
+msgid "strings.edit_noti_newtopic"
+msgstr "Yeni bir tartýþma konusu eklendi."
+
+msgid "strings.today"
+msgstr "Bugün"
+
+msgid "strings.previous"
+msgstr "Evvelki"
+
+msgid "strings.next"
+msgstr "Sonraki"
+
+msgid "strings.help"
+msgstr "Yardým"
+
+msgid "strings.complete_date"
+msgstr "Tamamlanma tarihi"
+
+msgid "strings.scope_creep"
+msgstr "Alan durumu"
+
+msgid "strings.days"
+msgstr "Günler"
+
+msgid "strings.remember_password"
+msgstr "Þifreyi hatýrla"
+
+msgid "strings.client_add_task_note"
+msgstr ""
+"Not: Girilen görev veritabanýna kayýt edilmiþtir, ancak bir takým"
+"üyesine atanmasý durumunda burada gözükecektir.!"
+
+msgid "strings.noti_clientaddtask1"
+msgstr "Müþteri tarafýndan görev eklendi :"
+
+msgid "strings.noti_clientaddtask2"
+msgstr ""
+"Proje sitesinden aþaðýdaki projeye müþteri tarafýndan yeni bir"
+"görev eklendi :"
+
+msgid "strings.phase"
+msgstr "Aþama"
+
+msgid "strings.phases"
+msgstr "Aþamalar"
+
+msgid "strings.phase_id"
+msgstr "Aþama No"
+
+msgid "strings.current_phase"
+msgstr "Aktif Aþama(lar)"
+
+msgid "strings.total_tasks"
+msgstr "Toplam Görevler"
+
+msgid "strings.uncomplete_tasks"
+msgstr "Tamamlanmamýþ Görevler"
+
+msgid "strings.no_current_phase"
+msgstr "Þu anda herhangi bir aþama aktif deðil"
+
+msgid "strings.true"
+msgstr "Doðru"
+
+msgid "strings.false"
+msgstr "Yanlýþ"
+
+msgid "strings.enable_phases"
+msgstr "Aþamalarý Aktif Et"
+
+msgid "strings.phase_enabled"
+msgstr "Aþamalar Aktif Edildi"
+
+msgid "strings.order"
+msgstr "Sýra"
+
+msgid "strings.options"
+msgstr "Seçenekler"
+
+msgid "strings.support"
+msgstr "Destek"
+
+msgid "strings.support_request"
+msgstr "Destek Talebi"
+
+msgid "strings.support_requests"
+msgstr "Destek Talepleri"
+
+msgid "strings.support_id"
+msgstr "Destek No"
+
+msgid "strings.my_support_request"
+msgstr "Benim Destek Taleplerim"
+
+msgid "strings.submit"
+msgstr "Gönder"
+
+msgid "strings.support_management"
+msgstr "Destek Yönetimi"
+
+msgid "strings.date_open"
+msgstr "Açýlýþ Tarihi"
+
+msgid "strings.date_close"
+msgstr "Kapanýþ Tarihi"
+
+msgid "strings.add_support_request"
+msgstr "Destek Talebi Ekle"
+
+msgid "strings.add_support_response"
+msgstr "Destek Talebi Cevabý Ekle"
+
+msgid "strings.respond"
+msgstr "Cevap"
+
+msgid "strings.delete_support_request"
+msgstr "Destek Talebi silindi"
+
+msgid "strings.delete_request"
+msgstr "Destek Talebini sil"
+
+msgid "strings.delete_support_post"
+msgstr "Destek mesajýný sil"
+
+msgid "strings.new_requests"
+msgstr "Yeni Talepler"
+
+msgid "strings.open_requests"
+msgstr "Açýk Talepler"
+
+msgid "strings.closed_requests"
+msgstr "Tamamlanmýþ Talepler"
+
+msgid "strings.manage_new_requests"
+msgstr "Yeni Talepleri Yönet"
+
+msgid "strings.manage_open_requests"
+msgstr "Açýk Talepleri Yönet"
+
+msgid "strings.manage_closed_requests"
+msgstr "Kapanmýþ Talepleri Yönet"
+
+msgid "strings.responses"
+msgstr "Yanýtlar"
+
+msgid "strings.edit_status"
+msgstr "Durumu Düzenle"
+
+msgid "strings.noti_support_request_new2"
+msgstr "Destek talebi gönderdiðiniz konu: "
+
+msgid "strings.noti_support_post2"
+msgstr ""
+"Destek talebinize yeni bir yanýt eklendi. Lütfen aþaðýdan"
+"detaylarý inceleyiniz."
+
+msgid "strings.noti_support_status2"
+msgstr ""
+"Destek talebiniz güncellendi. Lütfen aþaðýdan detaylarý"
+"inceleyiniz."
+
+msgid "strings.noti_support_team_new2"
+msgstr "Projeye yeni bir destek talebi eklendi: "
+
+msgid "strings.delete_subtasks"
+msgstr "Altgörevleri sil"
+
+msgid "strings.add_subtask"
+msgstr "Altgörev ekle"
+
+msgid "strings.edit_subtask"
+msgstr "Altgörev düzenle"
+
+msgid "strings.subtask"
+msgstr "Altgörev"
+
+msgid "strings.subtasks"
+msgstr "Altgörevler"
+
+msgid "strings.show_details"
+msgstr "Detaylarý Göster"
+
+msgid "strings.updates_task"
+msgstr "Görev Güncelleme Tarihçesi"
+
+msgid "strings.updates_subtask"
+msgstr "Altgörev Güncelleme Tarihçesi"
+
+msgid "strings.go_projects_site"
+msgstr "Proje sitesine eriþim"
+
+msgid "strings.bookmark"
+msgstr "Sýk Kullanýlan"
+
+msgid "strings.bookmarks"
+msgstr "Sýk Kullanýlanlar"
+
+msgid "strings.bookmark_category"
+msgstr "Kategori"
+
+msgid "strings.bookmark_category_new"
+msgstr "Yeni Kategori"
+
+msgid "strings.bookmarks_all"
+msgstr "Hepsi"
+
+msgid "strings.bookmarks_my"
+msgstr "Benim Sýk Kullanýlanlar"
+
+msgid "strings.my"
+msgstr "Benim"
+
+msgid "strings.bookmarks_private"
+msgstr "Özel"
+
+msgid "strings.shared"
+msgstr "Paylaþýlan"
+
+msgid "strings.private"
+msgstr "Özel"
+
+msgid "strings.add_bookmark"
+msgstr "Sýk Kullanýlanlara Ekle"
+
+msgid "strings.edit_bookmark"
+msgstr "Sýk Kullanýlanlarý Düzenle"
+
+msgid "strings.delete_bookmarks"
+msgstr "Sýk Kullanýlanlarý Sil"
+
+msgid "strings.team_subtask_details"
+msgstr "Takým Altgörev Detaylarý"
+
+msgid "strings.client_subtask_details"
+msgstr "Müþteri Altgörev Detaylarý"
+
+msgid "strings.client_change_status_subtask"
+msgstr ""
+"Bu altgörevi tamamladýðýnýz zaman aþaðýdan durumunuzu"
+"deðiþtirin"
+
+msgid "strings.disabled_permissions"
+msgstr "Yetkisiz hesap"
+
+msgid "strings.user_timezone"
+msgstr "Zaman Dilimi(GMT)"
+
+msgid "strings.project_manager_administrator_permissions"
+msgstr "Proje Yöneticisi Ýdarecisi"
+
+msgid "strings.bug"
+msgstr "Arýza Takibi"
+
+
+# Enum values (status, priority, etc.)
+# Note: These should be moved to enums.*.po domain
+
+#. Domain: enums
+msgid "status.0"
+msgstr "Müþteri tamamlandý"
+
+#. Domain: enums
+msgid "status.1"
+msgstr "Tamamlandý"
+
+#. Domain: enums
+msgid "status.2"
+msgstr "Baþlanmadý"
+
+#. Domain: enums
+msgid "status.3"
+msgstr "Devam Ediyor"
+
+#. Domain: enums
+msgid "status.4"
+msgstr "Askýda"
+
+#. Domain: enums
+msgid "profil.0"
+msgstr "Ýdareci"
+
+#. Domain: enums
+msgid "profil.1"
+msgstr "Proje Yöneticisi"
+
+#. Domain: enums
+msgid "profil.2"
+msgstr "Kullanýcý"
+
+#. Domain: enums
+msgid "profil.3"
+msgstr "Müþteri Kullanýcý"
+
+#. Domain: enums
+msgid "profil.4"
+msgstr "Etkisiz"
+
+#. Domain: enums
+msgid "priority.0"
+msgstr "Hiçbiri"
+
+#. Domain: enums
+msgid "priority.1"
+msgstr "Çok Düþük"
+
+#. Domain: enums
+msgid "priority.2"
+msgstr "Düþük"
+
+#. Domain: enums
+msgid "priority.3"
+msgstr "Orta"
+
+#. Domain: enums
+msgid "priority.4"
+msgstr "Yüksek"
+
+#. Domain: enums
+msgid "priority.5"
+msgstr "Çok Yüksek"
+
+#. Domain: enums
+msgid "statusTopic.0"
+msgstr "Kapatýldý"
+
+#. Domain: enums
+msgid "statusTopic.1"
+msgstr "Devam Ediyor"
+
+#. Domain: enums
+msgid "statusTopicBis.0"
+msgstr "Evet"
+
+#. Domain: enums
+msgid "statusTopicBis.1"
+msgstr "Hayýr"
+
+#. Domain: enums
+msgid "statusPublish.0"
+msgstr "Evet"
+
+#. Domain: enums
+msgid "statusPublish.1"
+msgstr "Hayýr"
+
+#. Domain: enums
+msgid "statusFile.0"
+msgstr "Onaylandý"
+
+#. Domain: enums
+msgid "statusFile.1"
+msgstr "Deðiþiklik Ýle Onaylandý"
+
+#. Domain: enums
+msgid "statusFile.2"
+msgstr "Onaya Gerek Var"
+
+#. Domain: enums
+msgid "statusFile.3"
+msgstr "Onaya Gerek Yok"
+
+#. Domain: enums
+msgid "statusFile.4"
+msgstr "Onaylanmadý"
+
+#. Domain: enums
+msgid "phaseStatus.0"
+msgstr "Baþlanmadý"
+
+#. Domain: enums
+msgid "phaseStatus.1"
+msgstr "Açýk"
+
+#. Domain: enums
+msgid "phaseStatus.2"
+msgstr "Tamamlandý"
+
+#. Domain: enums
+msgid "phaseStatus.3"
+msgstr "Askýda"
+
+#. Domain: enums
+msgid "requestStatus.0"
+msgstr "Yeni"
+
+#. Domain: enums
+msgid "requestStatus.1"
+msgstr "Devam Ediyor"
+
+#. Domain: enums
+msgid "requestStatus.2"
+msgstr "Tamamlandý"
+
+
+# Arrays (days, months, byte units)
+
+msgid "byteunits.0"
+msgstr "Bytes"
+
+msgid "byteunits.1"
+msgstr "KB"
+
+msgid "byteunits.2"
+msgstr "MB"
+
+msgid "byteunits.3"
+msgstr "GB"
+
+msgid "dayname.1"
+msgstr "Pazartesi"
+
+msgid "dayname.2"
+msgstr "Salý"
+
+msgid "dayname.3"
+msgstr "Çarþamba"
+
+msgid "dayname.4"
+msgstr "Perþembe"
+
+msgid "dayname.5"
+msgstr "Cuma"
+
+msgid "dayname.6"
+msgstr "Cumartesi"
+
+msgid "dayname.7"
+msgstr "Pazar"
+
+msgid "monthname.1"
+msgstr "Ocak"
+
+msgid "monthname.2"
+msgstr "Þubat"
+
+msgid "monthname.3"
+msgstr "Mart"
+
+msgid "monthname.4"
+msgstr "Nisan"
+
+msgid "monthname.5"
+msgstr "Mayýs"
+
+msgid "monthname.6"
+msgstr "Haziran"
+
+msgid "monthname.7"
+msgstr "Temmuz"
+
+msgid "monthname.8"
+msgstr "Aðustos"
+
+msgid "monthname.9"
+msgstr "Eylül"
+
+msgid "monthname.10"
+msgstr "Ekim"
+
+msgid "monthname.11"
+msgstr "Kasým"
+
+msgid "monthname.12"
+msgstr "Aralýk"
+

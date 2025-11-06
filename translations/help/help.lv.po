@@ -1,0 +1,96 @@
+# phpCollab Translation File
+# Language: Latvian (lv)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:11 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: lv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Help text
+
+msgid "setup_mkdirMethod"
+msgstr ""
+"Ja \"safe mode\" reþims Ieslçgts, jums jâuzstâda FTP konts lai"
+"varçtu veidot mapi ar failu vadîbu."
+
+msgid "setup_notifications"
+msgstr ""
+"Lietotâja e-pasta ziòotâji (uzdevumu pieðíirðana, jauns"
+"ziòojums, uzdevuma izmaiòas...)<br/>Npiecieðams strâdâjoðs"
+"smtp/sendmail."
+
+msgid "setup_forcedlogin"
+msgstr "Ja false, neïaut ârçju linku ar login/password tajâ"
+
+msgid "setup_langdefault"
+msgstr ""
+"Izvçlies noklusçto valodu ieieðanai sistçmâ vai atstâj Blank lai"
+"noteiktu pârlûkprogrammas valodu ar auto_detect."
+
+msgid "setup_myprefix"
+msgstr ""
+"Ievadiet vçrtîbu ja eksistçjoðajâ datubâzç jau ir tabulas ar"
+"ðâdiem"
+"nosaukumiem.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Atstâjiet"
+"tukðu lai nelietotu tabulu prefiksus."
+
+msgid "setup_loginmethod"
+msgstr ""
+"Metode ar kâdu saglabât datubâzç paroles.<br/>Uzstâdît kâ"
+"&quot;Crypt&quot; lai strâdâtu CVS auturizâcija un htaccess"
+"autentifikâcija (ja CVS atbalsts un/vai htaccess authentifikâcija ir"
+"ieslçgta)."
+
+msgid "admin_update"
+msgstr ""
+"Strikti ievçrojiet atjauninâðanas kârtîbu<br/>1. Labot"
+"uzstâdîjumus (papildinât jaunos parametrus)<br/>2. Labot datubâzi"
+"(atjaunot atbilsotði iepriekðçjâm versijâm)"
+
+msgid "task_scope_creep"
+msgstr ""
+"Starpîba starp termiòu un pabeigðanas datumu dienâs (bold ja"
+"pozitîvs)"
+
+msgid "max_file_size"
+msgstr "Uzlâdçjamo failu lielâkais atïautais izmçrs"
+
+msgid "project_disk_space"
+msgstr "Kopçjais projekta failu izmçrs"
+
+msgid "project_scope_creep"
+msgstr ""
+"Starpîba starp projekta termiòu un pabeigðanas datumu dienâs (bold"
+"ja pozitîvs). Visiem uzdevumiem kopâ"
+
+msgid "mycompany_logo"
+msgstr ""
+"Uzlâdçjiet kompânijas logotipu. Ar to tiks aizvietots lapas"
+"nosaukums (\"PHPCollab\") augðpusç."
+
+msgid "calendar_shortname"
+msgstr "Nosaukums kuru râdît ikmçneða kalendârâ. Obligâts"
+
+msgid "user_autologout"
+msgstr ""
+"Laiks sekundçs, pçc kura automâtiski iziet no sistçmas"
+"dîkstâves. 0 lai atslçgtu"
+
+msgid "user_timezone"
+msgstr "Uzstâdiet GMT laika zonu"
+
+msgid "setup_clientsfilter"
+msgstr "Filtrs lai redzçtu tikai logotos klienta lietotâjus"
+
+msgid "setup_projectsfilter"
+msgstr ""
+"Filtrs lai râdîtu tikai projektus kuru komandâs iekïauts"
+"lietotâjs"
+

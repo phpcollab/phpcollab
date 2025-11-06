@@ -1,0 +1,95 @@
+# phpCollab Translation File
+# Language: Estonian (et)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:07 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: et\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Help text
+
+msgid "setup_mkdirMethod"
+msgstr ""
+"Kui safe-mode on aktiveeritud, siis pead lisama FTP konto info, kuhu"
+"süsteem saaks katalooge ning faile lisada."
+
+msgid "setup_notifications"
+msgstr ""
+"teated kasutajate e-postile (ülesande andmine, uus postitus,"
+"ülesanne muutub...)<br/>Vajalik on smtp/sendmail konfigureeerimine."
+
+msgid "setup_forcedlogin"
+msgstr ""
+"Kui välja lülitatud, siis ära luba sisse logimist väljast ulnud"
+"URL-i parooli/kasutajanime kaudu."
+
+msgid "setup_langdefault"
+msgstr ""
+"Vali logimisel vaikimisi pakutav keel või jäta tühjaks, et brauseri"
+"keel automaatselt ära tuntaks."
+
+msgid "setup_myprefix"
+msgstr ""
+"Määra see valik, kui pareguses andmebaasis on ühe alloleva nimega"
+"tabel juba"
+"olemas.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Jäta"
+"tühjaks, kui ei soovi tabeli nime prefiksit kasutada."
+
+msgid "setup_loginmethod"
+msgstr ""
+"Kuidas hoida paroole andmebaasis.<br/>Set to &quot;Crypt&quot; in"
+"order CVS authentication and htaccess authentification to work (if CVS"
+"support and/or htaccess authentification are enabled)."
+
+msgid "admin_update"
+msgstr ""
+"Versiooni uuendamiseks tee asju kindlasti õiges järjekorras: <br/>1."
+"Muuda seadeid(lisa uued parameetrid)<br/>2. Muuda andmebaasi(uuenda"
+"varasema versiooniga kooskõlas)"
+
+msgid "task_scope_creep"
+msgstr "Erinevus planeeritud ja tegeliku valmimistähtaja vahel"
+
+msgid "max_file_size"
+msgstr "Suurim võimalik projektiga liidetava faili suurus."
+
+msgid "project_disk_space"
+msgstr "Kõigile projektidele lisatud failide maht kokku"
+
+msgid "project_scope_creep"
+msgstr ""
+"Erinevus planeeritud ja tegeliku valmimistähtaja vahel. Summa"
+"kõikide ülesannete tähtaegade ületamisest."
+
+msgid "mycompany_logo"
+msgstr "Sisesta oma firma logo, see ilmub tiitelribale."
+
+msgid "calendar_shortname"
+msgstr "Lühike nimi, mida näidatakse kalendri kuu vaates. Kohustuslik"
+
+msgid "user_autologout"
+msgstr ""
+"Aeg sekundites, mille jooksul teid peale viimast tegevust automaatselt"
+"välja logitakse."
+
+msgid "user_timezone"
+msgstr "Seadista GMT ajavõõnd"
+
+msgid "setup_clientsfilter"
+msgstr "Filter - näita ainult sisse loginud kliendikasutajaid"
+
+msgid "setup_projectsfilter"
+msgstr "Filter - näita kasutajale projekte mille meeskonnas ta on"
+
+msgid "setup_notificationMethod"
+msgstr ""
+"Seadista e-posti saatmise meetod: sisene <i>php mail function</i>"
+"(smtp või sendmail peab olema php konfiguratsioonid) või smtp server"
+

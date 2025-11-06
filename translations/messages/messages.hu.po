@@ -1,0 +1,1629 @@
+# phpCollab Translation File
+# Language: Hungarian (hu)
+# Type: Lang
+# Domain: messages
+# Generated: 2025-11-06 00:44:08 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# String translations
+
+msgid "strings.please_login"
+msgstr "Jelentkezz be"
+
+msgid "strings.requirements"
+msgstr "Rendszerkövetelmények"
+
+msgid "strings.login"
+msgstr "Bejelentkezés"
+
+msgid "strings.no_items"
+msgstr "Nincs megjeleníthetõ elem"
+
+msgid "strings.logout"
+msgstr "Kijelentkezés"
+
+msgid "strings.preferences"
+msgstr "Beállítások"
+
+msgid "strings.my_tasks"
+msgstr "Saját feladatok"
+
+msgid "strings.edit_task"
+msgstr "Feladat szerkesztése"
+
+msgid "strings.copy_task"
+msgstr "Feladat másolása"
+
+msgid "strings.add_task"
+msgstr "Feladat hozzáadása"
+
+msgid "strings.delete_tasks"
+msgstr "Feladatok törlése"
+
+msgid "strings.assignment_history"
+msgstr "Hozzárendelések története"
+
+msgid "strings.assigned_on"
+msgstr "Hozzárendelve"
+
+msgid "strings.assigned_by"
+msgstr "Hozzárendelte"
+
+msgid "strings.to"
+msgstr "Részére"
+
+msgid "strings.comment"
+msgstr "Megjegyzés"
+
+msgid "strings.task_assigned"
+msgstr "A feladat hozzárendeltje "
+
+msgid "strings.task_unassigned"
+msgstr "A feladat nincs senkihez hozzárendelve"
+
+msgid "strings.edit_multiple_tasks"
+msgstr "Több feladat szerkesztése"
+
+msgid "strings.tasks_selected"
+msgstr ""
+"feladatok kiválasztva. Válassz új értékeket vagy jelöld ki a"
+"[Nincs változás] mezõt a jelenlegi értékek megtartásához."
+
+msgid "strings.assignment_comment"
+msgstr "Hozzárendelés megjegyzés"
+
+msgid "strings.no_change"
+msgstr "[Nincs változás]"
+
+msgid "strings.my_discussions"
+msgstr "Saját fórumok"
+
+msgid "strings.discussions"
+msgstr "Fórumok"
+
+msgid "strings.delete_discussions"
+msgstr "Fórumok törlése"
+
+msgid "strings.delete_discussions_note"
+msgstr ""
+"Megjegyzés: A fórumokat nem lehet újra megnyitni, ha azok egyszer"
+"már törölve lettek."
+
+msgid "strings.topic"
+msgstr "Téma"
+
+msgid "strings.posts"
+msgstr "Hozzászólások"
+
+msgid "strings.latest_post"
+msgstr "Legutolsó hozzászólás"
+
+msgid "strings.my_reports"
+msgstr "Saját riportok"
+
+msgid "strings.reports"
+msgstr "Riportok"
+
+msgid "strings.create_report"
+msgstr "Riport létrehozása"
+
+msgid "strings.report_intro"
+msgstr ""
+"Válaszd ki a riport paramétereket itt, és mentsd el a lekérdezést"
+"az eredményoldalon a riport futtatása után."
+
+msgid "strings.admin_intro"
+msgstr "Projekt beállítások és konfiguráció."
+
+msgid "strings.copy_of"
+msgstr "Másolata "
+
+msgid "strings.add"
+msgstr "Hozzáad"
+
+msgid "strings.delete"
+msgstr "Töröl"
+
+msgid "strings.remove"
+msgstr "Eltávolít"
+
+msgid "strings.copy"
+msgstr "Másol"
+
+msgid "strings.view"
+msgstr "Megtekint"
+
+msgid "strings.edit"
+msgstr "Szerkeszt"
+
+msgid "strings.update"
+msgstr "Frissít"
+
+msgid "strings.details"
+msgstr "Részletek"
+
+msgid "strings.none"
+msgstr "Egyik sem"
+
+msgid "strings.close"
+msgstr "Bezár"
+
+msgid "strings.new"
+msgstr "Új"
+
+msgid "strings.select_all"
+msgstr "Mindet kiválaszt"
+
+msgid "strings.unassigned"
+msgstr "Nem hozzárendelt"
+
+msgid "strings.administrator"
+msgstr "Adminisztrátor"
+
+msgid "strings.my_projects"
+msgstr "Saját projektek"
+
+msgid "strings.project"
+msgstr "Projekt"
+
+msgid "strings.inactive"
+msgstr "Inaktív"
+
+msgid "strings.project_id"
+msgstr "Projekt ID"
+
+msgid "strings.edit_project"
+msgstr "Projekt szerkesztése"
+
+msgid "strings.copy_project"
+msgstr "Projekt másolása"
+
+msgid "strings.add_project"
+msgstr "Projekt hozzáadása"
+
+msgid "strings.clients"
+msgstr "Ügyfelek"
+
+msgid "strings.organization"
+msgstr "Ügyfél szervezet"
+
+msgid "strings.client_projects"
+msgstr "Ügyfél projektek"
+
+msgid "strings.client_users"
+msgstr "Ügyfél felhasználók"
+
+msgid "strings.edit_organization"
+msgstr "Ügyfél szervezet szerkesztése"
+
+msgid "strings.add_organization"
+msgstr "Ügyfél szervezet hozzáadása"
+
+msgid "strings.organizations"
+msgstr "Ügyfél szervezetek"
+
+msgid "strings.status"
+msgstr "Státusz"
+
+msgid "strings.owner"
+msgstr "Tulajdonos"
+
+msgid "strings.home"
+msgstr "Nyitólap"
+
+msgid "strings.projects"
+msgstr "Projektek"
+
+msgid "strings.files"
+msgstr "File-ok"
+
+msgid "strings.search"
+msgstr "Keresés"
+
+msgid "strings.user"
+msgstr "Felhasználó"
+
+msgid "strings.project_manager"
+msgstr "Projektvezetõ"
+
+msgid "strings.due"
+msgstr "Határidõ"
+
+msgid "strings.task"
+msgstr "Feladat"
+
+msgid "strings.tasks"
+msgstr "Feladatok"
+
+msgid "strings.team"
+msgstr "Csapat"
+
+msgid "strings.add_team"
+msgstr "Csapattag hozzáadása"
+
+msgid "strings.team_members"
+msgstr "Csapattagok"
+
+msgid "strings.full_name"
+msgstr "Teljes név"
+
+msgid "strings.title"
+msgstr "Megnevezés (titulus)"
+
+msgid "strings.user_name"
+msgstr "Felhasználónév"
+
+msgid "strings.work_phone"
+msgstr "Munkahelyi telefon"
+
+msgid "strings.priority"
+msgstr "Prioritás"
+
+msgid "strings.name"
+msgstr "Név"
+
+msgid "strings.description"
+msgstr "Leírás"
+
+msgid "strings.phone"
+msgstr "Telefon"
+
+msgid "strings.address"
+msgstr "Cím"
+
+msgid "strings.comments"
+msgstr "Megjegyzések"
+
+msgid "strings.created"
+msgstr "Létrehozva"
+
+msgid "strings.assigned"
+msgstr "Hozzárendelve"
+
+msgid "strings.modified"
+msgstr "Módosítva"
+
+msgid "strings.assigned_to"
+msgstr "Hozzárendelt"
+
+msgid "strings.due_date"
+msgstr "Határidõ dátuma"
+
+msgid "strings.estimated_time"
+msgstr "Becsült idõráfordítás"
+
+msgid "strings.actual_time"
+msgstr "Tényleges idõráfordítás"
+
+msgid "strings.delete_following"
+msgstr "Töröljem a következõket?"
+
+msgid "strings.cancel"
+msgstr "Mégsem"
+
+msgid "strings.and"
+msgstr "és"
+
+msgid "strings.administration"
+msgstr "Adminisztráció"
+
+msgid "strings.user_management"
+msgstr "Felhasználók adminisztrációja"
+
+msgid "strings.system_information"
+msgstr "Rendszerinformációk"
+
+msgid "strings.product_information"
+msgstr "Termékinformációk"
+
+msgid "strings.system_properties"
+msgstr "Rendszer tulajdonságai"
+
+msgid "strings.create"
+msgstr "Létrehoz"
+
+msgid "strings.report_save"
+msgstr "Mentsd el ezt a riportot a nyitólapodra, hogy újra futtathasd."
+
+msgid "strings.report_name"
+msgstr "Riport neve"
+
+msgid "strings.save"
+msgstr "Mentés"
+
+msgid "strings.matches"
+msgstr "Találat"
+
+msgid "strings.match"
+msgstr "Találat"
+
+msgid "strings.report_results"
+msgstr "Riport eredmények"
+
+msgid "strings.success"
+msgstr "Siker"
+
+msgid "strings.addition_succeeded"
+msgstr "Sikeres hozzáadás."
+
+msgid "strings.deletion_succeeded"
+msgstr "Sikeres törlés"
+
+msgid "strings.report_created"
+msgstr "Létrehozott riport"
+
+msgid "strings.deleted_reports"
+msgstr "Törölt riportok"
+
+msgid "strings.modification_succeeded"
+msgstr "Sikeres módosítás"
+
+msgid "strings.errors"
+msgstr "Hiba!"
+
+msgid "strings.blank_user"
+msgstr "A felhasználó nem található."
+
+msgid "strings.blank_organization"
+msgstr "Az ügyfél szervezet nem található."
+
+msgid "strings.blank_project"
+msgstr "A projekt nem található."
+
+msgid "strings.user_profile"
+msgstr "Felhasználói profil"
+
+msgid "strings.change_password"
+msgstr "Jelszómódosítás"
+
+msgid "strings.change_password_user"
+msgstr "Felhasználó jelszómódosítása"
+
+msgid "strings.old_password_error"
+msgstr ""
+"A megadott régi jelszó hibás. Kérlek add meg újra a régi"
+"jelszót."
+
+msgid "strings.new_password_error"
+msgstr "A két jelszó nem egyezik. Kérlek add meg újra az új jelszót."
+
+msgid "strings.notifications"
+msgstr "Értesítések"
+
+msgid "strings.change_password_intro"
+msgstr ""
+"Add meg a régi jelszavad, aztán add meg és erõsítsd meg az új"
+"jelszót."
+
+msgid "strings.old_password"
+msgstr "Régi jelszó"
+
+msgid "strings.password"
+msgstr "Jelszó"
+
+msgid "strings.new_password"
+msgstr "Új jelszó"
+
+msgid "strings.confirm_password"
+msgstr "Jelszó megerõsítése"
+
+msgid "strings.email"
+msgstr "E-mail"
+
+msgid "strings.home_phone"
+msgstr "Otthoni telefonszám"
+
+msgid "strings.mobile_phone"
+msgstr "Mobil telefonszám"
+
+msgid "strings.permissions"
+msgstr "Jogosultságok"
+
+msgid "strings.administrator_permissions"
+msgstr "Adminisztrátori jogosultság"
+
+msgid "strings.project_manager_permissions"
+msgstr "Projektvezetõi jogosultság"
+
+msgid "strings.user_permissions"
+msgstr "Felhasználói jogosultság"
+
+msgid "strings.account_created"
+msgstr "Account létrehozva"
+
+msgid "strings.edit_user"
+msgstr "Felhasználó szerkesztése"
+
+msgid "strings.edit_user_details"
+msgstr "Felhasználói account részleteinek szerkesztése."
+
+msgid "strings.change_user_password"
+msgstr "Felhasználó jelszavának módosítása."
+
+msgid "strings.select_permissions"
+msgstr "Válaszd ki a felhasználó jogosultságait"
+
+msgid "strings.add_user"
+msgstr "Felhasználó hozzáadása"
+
+msgid "strings.enter_user_details"
+msgstr "Add meg a felhasználó részleteit"
+
+msgid "strings.enter_password"
+msgstr "Add meg a felhasználó jelszavát"
+
+msgid "strings.success_logout"
+msgstr ""
+"Sikeresen kijelentkeztél. Újra bejelentkezhetsz a felhasználóneved"
+"és jelszavad megadásával."
+
+msgid "strings.invalid_login"
+msgstr ""
+"A megadott felhasználónév és/vagy jelszó hibás. Kérlek add meg"
+"újra a bejelentkezési információkat."
+
+msgid "strings.profile"
+msgstr "Profil"
+
+msgid "strings.user_details"
+msgstr "Felhasználói account részletek."
+
+msgid "strings.edit_user_account"
+msgstr "Szerkeszd az account információkat."
+
+msgid "strings.no_permissions"
+msgstr "Ezen tevékenységre nem vagy jogosult."
+
+msgid "strings.discussion"
+msgstr "Fórum"
+
+msgid "strings.retired"
+msgstr "Visszavonult"
+
+msgid "strings.last_post"
+msgstr "Utolsó hozzászólás"
+
+msgid "strings.post_reply"
+msgstr "Hozzászólás: "
+
+msgid "strings.posted_by"
+msgstr "Hozzászóló"
+
+msgid "strings.when"
+msgstr "Mikor"
+
+msgid "strings.post_to_discussion"
+msgstr "Hozzászólás a fórumhoz"
+
+msgid "strings.message"
+msgstr "Üzenet"
+
+msgid "strings.delete_reports"
+msgstr "Riportok törlése"
+
+msgid "strings.delete_projects"
+msgstr "Projektek törlése"
+
+msgid "strings.delete_organizations"
+msgstr "Ügyfél szervezetek törlése"
+
+msgid "strings.delete_organizations_note"
+msgstr ""
+"Megjegyzés: Ezzel törlöd az ügyfél szervezethez tartozó összes"
+"ügyfél felhasználót, valamint az ügyfél szervezethez tartozó"
+"nyitott projektek nem lesznek senkihez sem rendelve."
+
+msgid "strings.delete_messages"
+msgstr "Üzenetek törlése"
+
+msgid "strings.attention"
+msgstr "Figyelem"
+
+msgid "strings.delete_teamownermix"
+msgstr ""
+"Sikeres törlés, de a projekt tulajdonosát nem törölhetõ a"
+"projekt csapatból."
+
+msgid "strings.delete_teamowner"
+msgstr "A projekt tulajdonosa nem törölhetõ a projekt csapatból."
+
+msgid "strings.enter_keywords"
+msgstr "Kulcsszavak megadása"
+
+msgid "strings.search_options"
+msgstr "Kulcsszavak és keresési opciók"
+
+msgid "strings.search_note"
+msgstr "A Keresés mezõbe meg kell adni információt."
+
+msgid "strings.search_results"
+msgstr "Keresési eredmények"
+
+msgid "strings.users"
+msgstr "Felhasználók"
+
+msgid "strings.search_for"
+msgstr "Keresés tárgya"
+
+msgid "strings.results_for_keywords"
+msgstr "Keresési eredmények kulcsszavakra"
+
+msgid "strings.add_discussion"
+msgstr "Fórum hozzáadása"
+
+msgid "strings.delete_users"
+msgstr "Felhasználói accountok törlése"
+
+msgid "strings.reassignment_user"
+msgstr "Projekt és feladat újra-hozzárendelése"
+
+msgid "strings.there"
+msgstr "Van"
+
+msgid "strings.owned_by"
+msgstr "a fenti felhasználók tulajdonában."
+
+msgid "strings.reassign_to"
+msgstr ""
+"Mielõtt törlöd a felhasználókat újra rendeld hozzá ezeket neki:"
+
+msgid "strings.no_files"
+msgstr "Nincsenek csatolt file-ok"
+
+msgid "strings.published"
+msgstr "Publikálva"
+
+msgid "strings.project_site"
+msgstr "Projekt site"
+
+msgid "strings.approval_tracking"
+msgstr "Jóváhagyás követés"
+
+msgid "strings.size"
+msgstr "Méret"
+
+msgid "strings.add_project_site"
+msgstr "Hozzáadás a projekt site-hoz"
+
+msgid "strings.remove_project_site"
+msgstr "Eltávolítás a projekt site-ról"
+
+msgid "strings.more_search"
+msgstr "További keresési opciók"
+
+msgid "strings.results_with"
+msgstr "Eredmények keresése ezzel:"
+
+msgid "strings.search_topics"
+msgstr "Témák keresése"
+
+msgid "strings.search_properties"
+msgstr "Keresési tulajdonságok"
+
+msgid "strings.date_restrictions"
+msgstr "Dátum korlátozások"
+
+msgid "strings.case_sensitive"
+msgstr "Kisbetû/nagybetû-érzékenység"
+
+msgid "strings.yes"
+msgstr "Igen"
+
+msgid "strings.no"
+msgstr "Nem"
+
+msgid "strings.sort_by"
+msgstr "Rendezés"
+
+msgid "strings.type"
+msgstr "Típus"
+
+msgid "strings.all_words"
+msgstr "minden szó"
+
+msgid "strings.any_words"
+msgstr "bármelyik szó"
+
+msgid "strings.exact_match"
+msgstr "pontos megfeleltetés"
+
+msgid "strings.all_dates"
+msgstr "Minden dátum"
+
+msgid "strings.between_dates"
+msgstr "Dátumok között"
+
+msgid "strings.all_content"
+msgstr "Minden tartalom"
+
+msgid "strings.all_properties"
+msgstr "Minden tulajdonság"
+
+msgid "strings.no_results_search"
+msgstr "A keresés nem hozott eredményt."
+
+msgid "strings.no_results_report"
+msgstr "A riport nem hozott eredményt."
+
+msgid "strings.schema_date"
+msgstr "ÉÉÉÉ/HH/NN"
+
+msgid "strings.hours"
+msgstr "óra"
+
+msgid "strings.choice"
+msgstr "Opció"
+
+msgid "strings.missing_file"
+msgstr "Hiányzó file!"
+
+msgid "strings.project_site_deleted"
+msgstr "A projekt site sikeresen törölve."
+
+msgid "strings.add_user_project_site"
+msgstr "A felhasználó sikeresen kapott hozzáférést a projekt site-hoz."
+
+msgid "strings.remove_user_project_site"
+msgstr "A felhasználó jogosultsága sikeresen törölve."
+
+msgid "strings.add_project_site_success"
+msgstr "A hozzáadás a projekt site-hoz sikeres."
+
+msgid "strings.remove_project_site_success"
+msgstr "A törlés a projekt site-ról siekeres."
+
+msgid "strings.add_file_success"
+msgstr "Csatolva 1 tartalmi elem."
+
+msgid "strings.delete_file_success"
+msgstr "Lecsatolás sikeres."
+
+msgid "strings.update_comment_file"
+msgstr "A file megjegyzés frissítése sikeres."
+
+msgid "strings.session_false"
+msgstr "Session hiba"
+
+msgid "strings.logs"
+msgstr "Log-ok"
+
+msgid "strings.logout_time"
+msgstr "Automatikus kijelentkezés"
+
+msgid "strings.noti_foot1"
+msgstr "Ezt az értesítõt a a PhpCollab generálta."
+
+msgid "strings.noti_foot2"
+msgstr "A PhpCollab nyitólaphoz kattints ide:"
+
+msgid "strings.noti_taskassignment1"
+msgstr "Új feladat:"
+
+msgid "strings.noti_taskassignment2"
+msgstr "Új feladatot kaptál:"
+
+msgid "strings.noti_moreinfo"
+msgstr "További információkért kattints ide:"
+
+msgid "strings.noti_prioritytaskchange1"
+msgstr "A feladat prioritása változott:"
+
+msgid "strings.noti_prioritytaskchange2"
+msgstr "Az alábbi feladat prioritása változott:"
+
+msgid "strings.noti_statustaskchange1"
+msgstr "A feladat státusza változott:"
+
+msgid "strings.noti_statustaskchange2"
+msgstr "Az alábbi feladat státusza változott:"
+
+msgid "strings.login_username"
+msgstr "Meg kell adj egy felhasználónevet."
+
+msgid "strings.login_password"
+msgstr "Adj meg egy jelszót."
+
+msgid "strings.login_clientuser"
+msgstr ""
+"Ez egy ügyfél account. A PhpCollab nem hozzáférhetõ üyfél"
+"account-tal."
+
+msgid "strings.user_already_exists"
+msgstr ""
+"Már van ilyen nevû felhasználó. Kérlek válaszd a"
+"felhasználónév egy másik variációját."
+
+msgid "strings.noti_duedatetaskchange1"
+msgstr "Feladat határideje változott:"
+
+msgid "strings.noti_duedatetaskchange2"
+msgstr "Az alábbi feladat határideje változott:"
+
+msgid "strings.company"
+msgstr "Vállalat"
+
+msgid "strings.show_all"
+msgstr "Mindet mutat"
+
+msgid "strings.information"
+msgstr "Információ"
+
+msgid "strings.delete_message"
+msgstr "Üzenet törlése"
+
+msgid "strings.project_team"
+msgstr "Projekt csapat"
+
+msgid "strings.document_list"
+msgstr "Dokumentum lista"
+
+msgid "strings.bulletin_board"
+msgstr "Fórum"
+
+msgid "strings.bulletin_board_topic"
+msgstr "Fórum téma"
+
+msgid "strings.create_topic"
+msgstr "Új téma"
+
+msgid "strings.topic_form"
+msgstr "Téme form"
+
+msgid "strings.enter_message"
+msgstr "Üzenet"
+
+msgid "strings.upload_file"
+msgstr "file feltöltés"
+
+msgid "strings.upload_form"
+msgstr "Feltöltõ form"
+
+msgid "strings.upload"
+msgstr "Feltölt"
+
+msgid "strings.document"
+msgstr "Dokumentum"
+
+msgid "strings.approval_comments"
+msgstr "Megjegyzések jóváhagyása"
+
+msgid "strings.client_tasks"
+msgstr "Ügyfél feladatok"
+
+msgid "strings.team_tasks"
+msgstr "Csapat feladatok"
+
+msgid "strings.team_member_details"
+msgstr "Project csapattagok részletei"
+
+msgid "strings.client_task_details"
+msgstr "Ügyfél feladat részletei"
+
+msgid "strings.team_task_details"
+msgstr "Csapat feladat részletei"
+
+msgid "strings.language"
+msgstr "Nyelv"
+
+msgid "strings.welcome"
+msgstr "Üdvözöllek"
+
+msgid "strings.your_projectsite"
+msgstr "a projekt site-on"
+
+msgid "strings.contact_projectsite"
+msgstr ""
+"Ha bármilyen további kérdése van az extranettel vagy az itt"
+"található információkkal kapcsolatban, forduljon a projekt"
+"vezetõjéhez"
+
+msgid "strings.company_details"
+msgstr "Cég részletek"
+
+msgid "strings.database"
+msgstr "Adatbázis mentés és visszaállítás"
+
+msgid "strings.company_info"
+msgstr "Szerkessze az Ön cégének információit"
+
+msgid "strings.create_projectsite"
+msgstr "Projekt site létrehozása"
+
+msgid "strings.projectsite_url"
+msgstr "Projekt site URL"
+
+msgid "strings.design_template"
+msgstr "Design template"
+
+msgid "strings.preview_design_template"
+msgstr "Design temlate elõnézet"
+
+msgid "strings.delete_projectsite"
+msgstr "Projekt site törlése"
+
+msgid "strings.add_file"
+msgstr "File hozzáadása"
+
+msgid "strings.linked_content"
+msgstr "Csatolt tartalom"
+
+msgid "strings.edit_file"
+msgstr "File részleteinek szerkesztése"
+
+msgid "strings.permitted_client"
+msgstr "Engedélyezett ügyfél felhasználók"
+
+msgid "strings.grant_client"
+msgstr "Jogosultság delegálása a projekt site megtekintéséhez"
+
+msgid "strings.add_client_user"
+msgstr "Ügyfél felhasználó hozzáadása"
+
+msgid "strings.edit_client_user"
+msgstr "Ügyfél felhasználó szerkesztése"
+
+msgid "strings.client_user"
+msgstr "Ügyfél felhasználó"
+
+msgid "strings.client_change_status"
+msgstr "Vátoztasd meg a státuszt alább, ha teljesítetted ezt a feladatot."
+
+msgid "strings.project_status"
+msgstr "Projekt státusz"
+
+msgid "strings.view_projectsite"
+msgstr "Projekt site megtekintése"
+
+msgid "strings.enter_login"
+msgstr "Add meg a felhasználóneved, hogy új jelszót kaphass"
+
+msgid "strings.send"
+msgstr "Küldés"
+
+msgid "strings.no_login"
+msgstr "A felhasználónév nincs az adatbázisban"
+
+msgid "strings.email_pwd"
+msgstr "Jelszó elküldve"
+
+msgid "strings.no_email"
+msgstr "E-mail cím nélküli felhasználó"
+
+msgid "strings.forgot_pwd"
+msgstr "Elfelejtetted a jelszavad?"
+
+msgid "strings.project_owner"
+msgstr "Csak a saját projektjeidet módosíthatod."
+
+msgid "strings.connected"
+msgstr "Kapcsolat"
+
+msgid "strings.last_visit"
+msgstr "Utolsó látogatás"
+
+msgid "strings.compteur"
+msgstr "Számláló"
+
+msgid "strings.task_owner"
+msgstr "Te nem vagy ennek a projektnek a tagja"
+
+msgid "strings.reassignment_clientuser"
+msgstr "Feladat újra-hozzárendelése"
+
+msgid "strings.organization_already_exists"
+msgstr "Ez a név már szerepel a rendszerben, kérlek válassz másikat."
+
+msgid "strings.blank_organization_field"
+msgstr "Az ügyfél szervezet nevet meg kell adni."
+
+msgid "strings.blank_fields"
+msgstr "kötelezõ mezõk"
+
+msgid "strings.projectsite_login_fails"
+msgstr ""
+"Nem tudjuk megerõsíteni ezt a felhasználónév/jelszó"
+"kombinációt."
+
+msgid "strings.start_date"
+msgstr "Kezdés dátuma"
+
+msgid "strings.completion"
+msgstr "Teljesítés"
+
+msgid "strings.update_available"
+msgstr "Van új verzió!"
+
+msgid "strings.version_current"
+msgstr "A jelenleg használt verzió"
+
+msgid "strings.version_latest"
+msgstr "Az utolsó verzió"
+
+msgid "strings.sourceforge_link"
+msgstr "Projekt oldal a Sourceforge-on"
+
+msgid "strings.demo_mode"
+msgstr "Demo üzem. A funkció nincs engedélyezve."
+
+msgid "strings.setup_erase"
+msgstr "Töröld a setup.php file-t!"
+
+msgid "strings.no_file"
+msgstr "Nincs kiválasztott file"
+
+msgid "strings.exceed_size"
+msgstr "Maximális fileméret meghaladva"
+
+msgid "strings.no_php"
+msgstr "Php file nem megengedett"
+
+msgid "strings.approval_date"
+msgstr "Jóváhagyás dátuma"
+
+msgid "strings.approver"
+msgstr "Jóváhagyó"
+
+msgid "strings.error_database"
+msgstr "Adatbázis kapcsolat sikertelen"
+
+msgid "strings.error_server"
+msgstr "Szerver kapcsolat sikertelen"
+
+msgid "strings.version_control"
+msgstr "Verzói ellenõrzés"
+
+msgid "strings.vc_status"
+msgstr "Státusz"
+
+msgid "strings.vc_last_in"
+msgstr "Utolsó módosítás dátuma"
+
+msgid "strings.ifa_comments"
+msgstr "Jóváhagyási megjegyzések"
+
+msgid "strings.ifa_command"
+msgstr "Jóváhagyási státusz megváltoztatása"
+
+msgid "strings.vc_version"
+msgstr "Verzió"
+
+msgid "strings.ifc_revisions"
+msgstr "Verzió felülvizsgálat"
+
+msgid "strings.ifc_revision_of"
+msgstr "Verzió felülvizsgálat"
+
+msgid "strings.ifc_add_revision"
+msgstr "Verzió felülvizsgálat hozzáadása"
+
+msgid "strings.ifc_update_file"
+msgstr "File frissítése"
+
+msgid "strings.ifc_last_date"
+msgstr "Utolsó módosítás dátuma"
+
+msgid "strings.ifc_version_history"
+msgstr "Verzió történet"
+
+msgid "strings.ifc_delete_file"
+msgstr "File, valamint az összes verzió törlése"
+
+msgid "strings.ifc_delete_version"
+msgstr "Kiválasztott verzió törlése"
+
+msgid "strings.ifc_delete_review"
+msgstr "Kiválasztott verzió törlése"
+
+msgid "strings.ifc_no_revisions"
+msgstr "Jelen dokumentumnak nincs felülvizsgálata"
+
+msgid "strings.unlink_files"
+msgstr "File lecsatolása"
+
+msgid "strings.remove_team"
+msgstr "Csapattagok eltávolítása"
+
+msgid "strings.remove_team_info"
+msgstr "Ezen felhasználók eltávolítása a projekt csapatból?"
+
+msgid "strings.remove_team_client"
+msgstr "Jogosultság elvétele a projekt site megtekintéséhez"
+
+msgid "strings.note"
+msgstr "Megjegyzés"
+
+msgid "strings.notes"
+msgstr "Megjegyzések"
+
+msgid "strings.subject"
+msgstr "Téma"
+
+msgid "strings.delete_note"
+msgstr "Megjegyzések törlése"
+
+msgid "strings.add_note"
+msgstr "Megjegyzés hozzáadása"
+
+msgid "strings.edit_note"
+msgstr "Megjegyzés szerkesztése"
+
+msgid "strings.version_increm"
+msgstr "Válaszd ki az alkalmazandó verzóváltozást:"
+
+msgid "strings.url_dev"
+msgstr "Fejlesztési site URL"
+
+msgid "strings.url_prod"
+msgstr "Éles site URL"
+
+msgid "strings.note_owner"
+msgstr "Csak a saját megjegyzéseidet módosíthatod."
+
+msgid "strings.alpha_only"
+msgstr "A felhasználónévben csak alfanumerikus kaakterek szerepelhetnek"
+
+msgid "strings.edit_notifications"
+msgstr "E-mail értesítések szerkesztése"
+
+msgid "strings.edit_notifications_info"
+msgstr "Események kiválasztása, melyhez e-mail értesítést kérsz."
+
+msgid "strings.select_deselect"
+msgstr "Kiválaszt/Kiválasztás törlése"
+
+msgid "strings.noti_addprojectteam1"
+msgstr "Hozzáadásra került a projekt csapathoz:"
+
+msgid "strings.noti_addprojectteam2"
+msgstr "Hozzáadásra kerültél a projekt csapathoz:"
+
+msgid "strings.noti_removeprojectteam1"
+msgstr "Kikerült a projekt csapatból:"
+
+msgid "strings.noti_removeprojectteam2"
+msgstr "Kikerültél a projekt csapatból:"
+
+msgid "strings.noti_newpost1"
+msgstr "Új hozzászólás :"
+
+msgid "strings.noti_newpost2"
+msgstr "Új hozzászólás érkezett az alábbi fórumhoz :"
+
+msgid "strings.edit_noti_taskassignment"
+msgstr "Új feladathoz lettem hozzárendelve."
+
+msgid "strings.edit_noti_statustaskchange"
+msgstr "Valamelyik feladatom státusza változik."
+
+msgid "strings.edit_noti_prioritytaskchange"
+msgstr "Valamelyik feladatom prioritása változik."
+
+msgid "strings.edit_noti_duedatetaskchange"
+msgstr "Valamelyik feladatom határideje változik."
+
+msgid "strings.edit_noti_addprojectteam"
+msgstr "Bekerültem egy projekt csapatba."
+
+msgid "strings.edit_noti_removeprojectteam"
+msgstr "Kikerültem egy projekt csapatból."
+
+msgid "strings.edit_noti_newpost"
+msgstr "Új hozzászólás érkezett egy fórumba."
+
+msgid "strings.add_optional"
+msgstr "Vegyél fel egy opcionálisan egy"
+
+msgid "strings.assignment_comment_info"
+msgstr "Megjegyzés hozzáfûzése jelen feladat hozzárendelése kapcsán"
+
+msgid "strings.my_notes"
+msgstr "Saját jegyzetek"
+
+msgid "strings.edit_settings"
+msgstr "Beállítások szerkesztése"
+
+msgid "strings.max_upload"
+msgstr "Maximális fileméret"
+
+msgid "strings.project_folder_size"
+msgstr "Projekt könyvtár mérete"
+
+msgid "strings.calendar"
+msgstr "Naptár"
+
+msgid "strings.date_start"
+msgstr "Kezdés dátuma"
+
+msgid "strings.date_end"
+msgstr "Befejezés dátuma"
+
+msgid "strings.time_start"
+msgstr "Kezdés ideje"
+
+msgid "strings.time_end"
+msgstr "Befejezés ideje"
+
+msgid "strings.calendar_reminder"
+msgstr "Emlékeztetõ"
+
+msgid "strings.shortname"
+msgstr "Rövid név"
+
+msgid "strings.calendar_recurring"
+msgstr "Az esemény hetente ismétlõdik ezen a napon"
+
+msgid "strings.edit_database"
+msgstr "Adatbázis szerkesztése"
+
+msgid "strings.noti_newtopic1"
+msgstr "Új fórum:"
+
+msgid "strings.noti_newtopic2"
+msgstr "Új fórum lett létrehozva az alábbi projekthez csatolva:"
+
+msgid "strings.edit_noti_newtopic"
+msgstr "Új fórum téma lett létrehozva."
+
+msgid "strings.today"
+msgstr "Ma"
+
+msgid "strings.previous"
+msgstr "Elõzõ"
+
+msgid "strings.next"
+msgstr "Következõ"
+
+msgid "strings.help"
+msgstr "Súgó"
+
+msgid "strings.complete_date"
+msgstr "Teljesítés dátuma "
+
+msgid "strings.scope_creep"
+msgstr "Határidõhöz képest"
+
+msgid "strings.days"
+msgstr "nap"
+
+msgid "strings.remember_password"
+msgstr "Jelszó megjegyzése"
+
+msgid "strings.client_add_task_note"
+msgstr ""
+"Megjegyzés: A hozzáadott feladat bekerült az adatbázisba, de itt"
+"csak akkor fog megjelenni, ha egy csapattaghoz hozzárendelésre"
+"került!"
+
+msgid "strings.noti_clientaddtask1"
+msgstr "A feladatot hozzáadó ügyfél:"
+
+msgid "strings.noti_clientaddtask2"
+msgstr ""
+"Egy új feladat került hozzáadásra az ügyfél által a projekt"
+"siteról az alábbi projekthez:"
+
+msgid "strings.phase"
+msgstr "Fázis"
+
+msgid "strings.phases"
+msgstr "Fázisok"
+
+msgid "strings.phase_id"
+msgstr "Fázis ID"
+
+msgid "strings.current_phase"
+msgstr "Akítv fázis(ok)"
+
+msgid "strings.total_tasks"
+msgstr "Összes feladat"
+
+msgid "strings.uncomplete_tasks"
+msgstr "Lezáratlan feladatok"
+
+msgid "strings.no_current_phase"
+msgstr "Nincs aktív fázis"
+
+msgid "strings.true"
+msgstr "Igaz"
+
+msgid "strings.false"
+msgstr "Hamis"
+
+msgid "strings.enable_phases"
+msgstr "Fázisok engedélyezése"
+
+msgid "strings.phase_enabled"
+msgstr "Fázis engedélyezve"
+
+msgid "strings.order"
+msgstr "Rendezés"
+
+msgid "strings.options"
+msgstr "Opciók"
+
+msgid "strings.support_request"
+msgstr "Support kérés"
+
+msgid "strings.support_requests"
+msgstr "Support kérések"
+
+msgid "strings.support_id"
+msgstr "Kérés ID"
+
+msgid "strings.my_support_request"
+msgstr "Saját support kérések"
+
+msgid "strings.introduction"
+msgstr "Bemutatkozás"
+
+msgid "strings.submit"
+msgstr "Elküld"
+
+msgid "strings.support_management"
+msgstr "Support menedzsment"
+
+msgid "strings.date_open"
+msgstr "Dátum nyitva"
+
+msgid "strings.date_close"
+msgstr "Dátum lezárva"
+
+msgid "strings.add_support_request"
+msgstr "Hozz létre support kérést"
+
+msgid "strings.add_support_response"
+msgstr "Adj support választ"
+
+msgid "strings.respond"
+msgstr "Válaszolj"
+
+msgid "strings.delete_support_request"
+msgstr "Support kérés törölve"
+
+msgid "strings.delete_request"
+msgstr "Support kérés törlése"
+
+msgid "strings.delete_support_post"
+msgstr "Support megyjegyzés törlése"
+
+msgid "strings.new_requests"
+msgstr "Új kérések"
+
+msgid "strings.open_requests"
+msgstr "Nyitott kérések "
+
+msgid "strings.closed_requests"
+msgstr "Lezárt kérések"
+
+msgid "strings.manage_new_requests"
+msgstr "Új kérések menedzselése"
+
+msgid "strings.manage_open_requests"
+msgstr "Nyitott kérések menedzselése"
+
+msgid "strings.manage_closed_requests"
+msgstr "Lezárt kérések menedzselése"
+
+msgid "strings.responses"
+msgstr "Válaszok"
+
+msgid "strings.edit_status"
+msgstr "Státusz szerkesztése"
+
+msgid "strings.noti_support_request_new2"
+msgstr "Sikeresen létrehoztál egy support kérést az alábbi témában: "
+
+msgid "strings.noti_support_post2"
+msgstr "Új válasz érkezett a support kérésedre. Részletek alább."
+
+msgid "strings.noti_support_status2"
+msgstr "A Te support kérésed frissítésre került. Részletek alább:"
+
+msgid "strings.noti_support_team_new2"
+msgstr "Az új support kérés hozzáadásra került: "
+
+msgid "strings.delete_subtasks"
+msgstr "Alfeladatok törlése"
+
+msgid "strings.add_subtask"
+msgstr "Alfeladat hozzáadása"
+
+msgid "strings.edit_subtask"
+msgstr "Alfeladat szerkesztése"
+
+msgid "strings.subtask"
+msgstr "Alfeladat"
+
+msgid "strings.subtasks"
+msgstr "Alfeladatok"
+
+msgid "strings.show_details"
+msgstr "Részletek"
+
+msgid "strings.updates_task"
+msgstr "Feladat frissítés története"
+
+msgid "strings.updates_subtask"
+msgstr "Alfeladat frissítés története"
+
+msgid "strings.go_projects_site"
+msgstr "Projekt site megnyitása"
+
+msgid "strings.bookmark"
+msgstr "Kedvenc"
+
+msgid "strings.bookmarks"
+msgstr "Kedvencek"
+
+msgid "strings.bookmark_category"
+msgstr "Kategória"
+
+msgid "strings.bookmark_category_new"
+msgstr "Új kategória"
+
+msgid "strings.bookmarks_all"
+msgstr "Összes"
+
+msgid "strings.bookmarks_my"
+msgstr "Saját kedvencek"
+
+msgid "strings.my"
+msgstr "Saját"
+
+msgid "strings.bookmarks_private"
+msgstr "Privát"
+
+msgid "strings.shared"
+msgstr "Megosztott"
+
+msgid "strings.private"
+msgstr "Privát"
+
+msgid "strings.add_bookmark"
+msgstr "Kedvenc hozzáadása"
+
+msgid "strings.edit_bookmark"
+msgstr "Kedvenc szerkesztés"
+
+msgid "strings.delete_bookmarks"
+msgstr "Kedvencek törlése"
+
+msgid "strings.team_subtask_details"
+msgstr "Csapat alfeladat részletek"
+
+msgid "strings.client_subtask_details"
+msgstr "Ügyfél alfeladat részletek"
+
+msgid "strings.client_change_status_subtask"
+msgstr "Változtasd meg a státuszod alább, ha végeztél az alfeladattal."
+
+msgid "strings.disabled_permissions"
+msgstr "Inaktív account"
+
+msgid "strings.user_timezone"
+msgstr "Idõzóna (GMT)"
+
+
+# Enum values (status, priority, etc.)
+# Note: These should be moved to enums.*.po domain
+
+#. Domain: enums
+msgid "status.0"
+msgstr "Ügyfél által teljesített"
+
+#. Domain: enums
+msgid "status.1"
+msgstr "Teljesített"
+
+#. Domain: enums
+msgid "status.2"
+msgstr "El nem kezdett"
+
+#. Domain: enums
+msgid "status.3"
+msgstr "Nyitott"
+
+#. Domain: enums
+msgid "status.4"
+msgstr "Felfüggesztett"
+
+#. Domain: enums
+msgid "profil.0"
+msgstr "Adminisztrátor"
+
+#. Domain: enums
+msgid "profil.1"
+msgstr "Projektvezetõ"
+
+#. Domain: enums
+msgid "profil.2"
+msgstr "Felhasználó"
+
+#. Domain: enums
+msgid "profil.3"
+msgstr "Ügyfél felhasználó"
+
+#. Domain: enums
+msgid "profil.4"
+msgstr "Inaktív"
+
+#. Domain: enums
+msgid "profil.5"
+msgstr "Project Manager Administrator"
+
+#. Domain: enums
+msgid "priority.0"
+msgstr "Nincs"
+
+#. Domain: enums
+msgid "priority.1"
+msgstr "Nagyon alacsony"
+
+#. Domain: enums
+msgid "priority.2"
+msgstr "Alacsony"
+
+#. Domain: enums
+msgid "priority.3"
+msgstr "Közepes"
+
+#. Domain: enums
+msgid "priority.4"
+msgstr "Magas"
+
+#. Domain: enums
+msgid "priority.5"
+msgstr "Nagyon magas"
+
+#. Domain: enums
+msgid "statusTopic.0"
+msgstr "Lezárt"
+
+#. Domain: enums
+msgid "statusTopic.1"
+msgstr "Nyitott"
+
+#. Domain: enums
+msgid "statusTopicBis.0"
+msgstr "Igen"
+
+#. Domain: enums
+msgid "statusTopicBis.1"
+msgstr "Nem"
+
+#. Domain: enums
+msgid "statusPublish.0"
+msgstr "Igen"
+
+#. Domain: enums
+msgid "statusPublish.1"
+msgstr "Nem"
+
+#. Domain: enums
+msgid "statusFile.0"
+msgstr "Jóváhagyott"
+
+#. Domain: enums
+msgid "statusFile.1"
+msgstr "Módosításokkal jóváhagyott"
+
+#. Domain: enums
+msgid "statusFile.2"
+msgstr "Jóváhagyásra vár"
+
+#. Domain: enums
+msgid "statusFile.3"
+msgstr "Nem kell jóváhagyni"
+
+#. Domain: enums
+msgid "statusFile.4"
+msgstr "Nem jóváhagyott"
+
+#. Domain: enums
+msgid "phaseStatus.0"
+msgstr "El nem kezdett"
+
+#. Domain: enums
+msgid "phaseStatus.1"
+msgstr "Nyitott"
+
+#. Domain: enums
+msgid "phaseStatus.2"
+msgstr "Lezárt"
+
+#. Domain: enums
+msgid "phaseStatus.3"
+msgstr "Felfüggesztett"
+
+#. Domain: enums
+msgid "requestStatus.0"
+msgstr "Új"
+
+#. Domain: enums
+msgid "requestStatus.1"
+msgstr "Nyitott"
+
+#. Domain: enums
+msgid "requestStatus.2"
+msgstr "Lezárt"
+
+
+# Arrays (days, months, byte units)
+
+msgid "byteunits.0"
+msgstr "Byte"
+
+msgid "byteunits.1"
+msgstr "KB"
+
+msgid "byteunits.2"
+msgstr "MB"
+
+msgid "byteunits.3"
+msgstr "GB"
+
+msgid "dayname.1"
+msgstr "hétfõ"
+
+msgid "dayname.2"
+msgstr "kedd"
+
+msgid "dayname.3"
+msgstr "szerda"
+
+msgid "dayname.4"
+msgstr "csütörtök"
+
+msgid "dayname.5"
+msgstr "péntek"
+
+msgid "dayname.6"
+msgstr "szombat"
+
+msgid "dayname.7"
+msgstr "vasárnap"
+
+msgid "monthname.1"
+msgstr "január"
+
+msgid "monthname.2"
+msgstr "február"
+
+msgid "monthname.3"
+msgstr "március"
+
+msgid "monthname.4"
+msgstr "április"
+
+msgid "monthname.5"
+msgstr "május"
+
+msgid "monthname.6"
+msgstr "június"
+
+msgid "monthname.7"
+msgstr "július"
+
+msgid "monthname.8"
+msgstr "augusztus"
+
+msgid "monthname.9"
+msgstr "szeptember"
+
+msgid "monthname.10"
+msgstr "október"
+
+msgid "monthname.11"
+msgstr "november"
+
+msgid "monthname.12"
+msgstr "december"
+

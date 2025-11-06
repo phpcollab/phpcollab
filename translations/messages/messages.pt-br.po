@@ -1,0 +1,1868 @@
+# phpCollab Translation File
+# Language: Brazilian Portuguese (pt-br)
+# Type: Lang
+# Domain: messages
+# Generated: 2025-11-06 00:44:03 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: pt-br\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# String translations
+
+msgid "strings.please_login"
+msgstr "Identifique-se"
+
+msgid "strings.requirements"
+msgstr "Requisitos do Sistema"
+
+msgid "strings.login"
+msgstr "Entrar"
+
+msgid "strings.no_items"
+msgstr "Não há itens para exibição"
+
+msgid "strings.logout"
+msgstr "Sair"
+
+msgid "strings.preferences"
+msgstr "Preferências"
+
+msgid "strings.my_tasks"
+msgstr "Minhas Tarefas"
+
+msgid "strings.edit_task"
+msgstr "Editar Tarefa"
+
+msgid "strings.copy_task"
+msgstr "Copiar Tarefa"
+
+msgid "strings.add_task"
+msgstr "Adicionar Tarefa"
+
+msgid "strings.delete_tasks"
+msgstr "Excluir Tarefa"
+
+msgid "strings.assignment_history"
+msgstr "Histórico de Atribuições"
+
+msgid "strings.assigned_on"
+msgstr "Atribuído Em"
+
+msgid "strings.assigned_by"
+msgstr "Atribuído Por"
+
+msgid "strings.to"
+msgstr "Para"
+
+msgid "strings.comment"
+msgstr "Comentário"
+
+msgid "strings.task_assigned"
+msgstr "Tarefa atribuída a "
+
+msgid "strings.task_unassigned"
+msgstr "Tarefa não atribuída"
+
+msgid "strings.edit_multiple_tasks"
+msgstr "Editar Múltiplas Tarefas"
+
+msgid "strings.tasks_selected"
+msgstr ""
+"tarefas selecionadas. Escolha novos valores para estas tarefas, ou"
+"selecione [Sem Alterações] para manter os valores atuais."
+
+msgid "strings.assignment_comment"
+msgstr "Comentário da Atribuição"
+
+msgid "strings.no_change"
+msgstr "[Sem Alterações]"
+
+msgid "strings.my_discussions"
+msgstr "Meus Debates"
+
+msgid "strings.discussions"
+msgstr "Debates"
+
+msgid "strings.delete_discussions"
+msgstr "Excluir Debates"
+
+msgid "strings.delete_discussions_note"
+msgstr "Nota: Debates não podem ser reabertos uma vez que foram excluídos."
+
+msgid "strings.topic"
+msgstr "Tópico"
+
+msgid "strings.posts"
+msgstr "Mensagens"
+
+msgid "strings.latest_post"
+msgstr "Última Mensagem"
+
+msgid "strings.my_reports"
+msgstr "Meus Relatórios"
+
+msgid "strings.reports"
+msgstr "Relatórios"
+
+msgid "strings.create_report"
+msgstr "Criar Relatório"
+
+msgid "strings.report_intro"
+msgstr ""
+"Selecione os critérios do relatório aqui e salve-os na página de"
+"resultados após executar seu relatório."
+
+msgid "strings.admin_intro"
+msgstr "Opções e Configurações do Sistema."
+
+msgid "strings.copy_of"
+msgstr "Cópia de "
+
+msgid "strings.add"
+msgstr "Adicionar"
+
+msgid "strings.delete"
+msgstr "Excluir"
+
+msgid "strings.remove"
+msgstr "Remover"
+
+msgid "strings.copy"
+msgstr "Copiar"
+
+msgid "strings.view"
+msgstr "Exibir"
+
+msgid "strings.edit"
+msgstr "Editar"
+
+msgid "strings.update"
+msgstr "Atualizar"
+
+msgid "strings.details"
+msgstr "Detalhes"
+
+msgid "strings.none"
+msgstr "Não"
+
+msgid "strings.close"
+msgstr "Encerrar"
+
+msgid "strings.new"
+msgstr "Novo"
+
+msgid "strings.select_all"
+msgstr "Selecionar Tudo"
+
+msgid "strings.unassigned"
+msgstr "Não Atribuído"
+
+msgid "strings.administrator"
+msgstr "Administrador"
+
+msgid "strings.my_projects"
+msgstr "Meus Projetos"
+
+msgid "strings.project"
+msgstr "Projeto"
+
+msgid "strings.active"
+msgstr "Ativo"
+
+msgid "strings.inactive"
+msgstr "Inativo"
+
+msgid "strings.project_id"
+msgstr "ID do Projeto"
+
+msgid "strings.edit_project"
+msgstr "Editar Projeto"
+
+msgid "strings.copy_project"
+msgstr "Copiar Projeto"
+
+msgid "strings.add_project"
+msgstr "Adicionar Projeto"
+
+msgid "strings.clients"
+msgstr "Clientes"
+
+msgid "strings.organization"
+msgstr "Organização do Cliente"
+
+msgid "strings.client_projects"
+msgstr "Projetos do Cliente"
+
+msgid "strings.client_users"
+msgstr "Usuários do Cliente"
+
+msgid "strings.edit_organization"
+msgstr "Editar a Organização do Cliente"
+
+msgid "strings.add_organization"
+msgstr "Adicionar a Organização do Cliente"
+
+msgid "strings.organizations"
+msgstr "Clientes"
+
+msgid "strings.info"
+msgstr "Informação"
+
+msgid "strings.status"
+msgstr "Situação"
+
+msgid "strings.owner"
+msgstr "Dono"
+
+msgid "strings.home"
+msgstr "Início"
+
+msgid "strings.projects"
+msgstr "Projetos"
+
+msgid "strings.files"
+msgstr "Arquivos"
+
+msgid "strings.search"
+msgstr "Procurar"
+
+msgid "strings.admin"
+msgstr "Administração"
+
+msgid "strings.user"
+msgstr "Usuário"
+
+msgid "strings.project_manager"
+msgstr "Gerente de Projeto"
+
+msgid "strings.due"
+msgstr "Encerrado"
+
+msgid "strings.task"
+msgstr "Tarefa"
+
+msgid "strings.tasks"
+msgstr "Tarefas"
+
+msgid "strings.team"
+msgstr "Equipe"
+
+msgid "strings.add_team"
+msgstr "Adicionar Membros à Equipe"
+
+msgid "strings.team_members"
+msgstr "Membros da Equipe"
+
+msgid "strings.full_name"
+msgstr "Nome Completo"
+
+msgid "strings.title"
+msgstr "Título"
+
+msgid "strings.user_name"
+msgstr "Nome de Usuário"
+
+msgid "strings.work_phone"
+msgstr "Telefone Comercial"
+
+msgid "strings.priority"
+msgstr "Prioridade"
+
+msgid "strings.name"
+msgstr "Nome"
+
+msgid "strings.description"
+msgstr "Descrição"
+
+msgid "strings.phone"
+msgstr "Telefone"
+
+msgid "strings.address"
+msgstr "Endereço"
+
+msgid "strings.comments"
+msgstr "Comentários"
+
+msgid "strings.created"
+msgstr "Criado"
+
+msgid "strings.assigned"
+msgstr "Atribuído"
+
+msgid "strings.modified"
+msgstr "Modificado"
+
+msgid "strings.assigned_to"
+msgstr "Atribuído à"
+
+msgid "strings.due_date"
+msgstr "Data de Término"
+
+msgid "strings.estimated_time"
+msgstr "Tempo Estimado"
+
+msgid "strings.actual_time"
+msgstr "Tempo Real"
+
+msgid "strings.delete_following"
+msgstr "Excluír os seguintes?"
+
+msgid "strings.cancel"
+msgstr "Cancelar"
+
+msgid "strings.and"
+msgstr "e"
+
+msgid "strings.administration"
+msgstr "Administração"
+
+msgid "strings.user_management"
+msgstr "Gerenciamento de Usuários"
+
+msgid "strings.system_information"
+msgstr "Informações do Sistema"
+
+msgid "strings.product_information"
+msgstr "Informações do Produto"
+
+msgid "strings.system_properties"
+msgstr "Propriedades do Sistema"
+
+msgid "strings.create"
+msgstr "Criar"
+
+msgid "strings.report_save"
+msgstr ""
+"Salvar este relatório em sua página inicial para poder executá-lo"
+"novamente."
+
+msgid "strings.report_name"
+msgstr "Nome do Relatório"
+
+msgid "strings.save"
+msgstr "Salvar"
+
+msgid "strings.matches"
+msgstr "Resultados"
+
+msgid "strings.match"
+msgstr "Resultado"
+
+msgid "strings.report_results"
+msgstr "Resultados do Relatório"
+
+msgid "strings.success"
+msgstr "Sucesso"
+
+msgid "strings.addition_succeeded"
+msgstr "Adição efetuada com sucesso. "
+
+msgid "strings.deletion_succeeded"
+msgstr "Exclusão efetuada com sucesso. "
+
+msgid "strings.report_created"
+msgstr "Relatório criado"
+
+msgid "strings.deleted_reports"
+msgstr "Relatórios excluídos"
+
+msgid "strings.modification_succeeded"
+msgstr "Alteração efetuada com sucesso. "
+
+msgid "strings.errors"
+msgstr "Erros encontrados!"
+
+msgid "strings.blank_user"
+msgstr "Usuário não pôde ser localizado."
+
+msgid "strings.blank_organization"
+msgstr "A organização do cliente não pôde ser localizada."
+
+msgid "strings.blank_project"
+msgstr "O projeto não pôde ser localizado."
+
+msgid "strings.user_profile"
+msgstr "Perfil do Usuário"
+
+msgid "strings.change_password"
+msgstr "Alterar Senha"
+
+msgid "strings.change_password_user"
+msgstr "Alterar a senha do usuário."
+
+msgid "strings.old_password_error"
+msgstr ""
+"A senha antiga digitada está incorreta. Por favor digite novamente a"
+"senha antiga."
+
+msgid "strings.new_password_error"
+msgstr ""
+"As duas senhas digitadas não são iguais. Por favor digite novamente"
+"a sua nova senha."
+
+msgid "strings.notifications"
+msgstr "Notificações"
+
+msgid "strings.change_password_intro"
+msgstr ""
+"Digite sua senha antiga e em seguida digite e confirme sua nova senha."
+
+msgid "strings.old_password"
+msgstr "Senha Antiga"
+
+msgid "strings.password"
+msgstr "Senha"
+
+msgid "strings.new_password"
+msgstr "Nova Senha"
+
+msgid "strings.confirm_password"
+msgstr "Confirme a Nova Senha"
+
+msgid "strings.home_phone"
+msgstr "Telefone Residencial"
+
+msgid "strings.mobile_phone"
+msgstr "Telefone Celular"
+
+msgid "strings.permissions"
+msgstr "Permissões"
+
+msgid "strings.administrator_permissions"
+msgstr "Administrador"
+
+msgid "strings.project_manager_permissions"
+msgstr "Gerente de Projeto"
+
+msgid "strings.user_permissions"
+msgstr "Usuário"
+
+msgid "strings.account_created"
+msgstr "Conta Criada"
+
+msgid "strings.edit_user"
+msgstr "Editar Usuário"
+
+msgid "strings.edit_user_details"
+msgstr "Editar detalhes do usuário."
+
+msgid "strings.change_user_password"
+msgstr "Alterar a senha do usuário."
+
+msgid "strings.select_permissions"
+msgstr "Selecionar permissões para este usuário"
+
+msgid "strings.add_user"
+msgstr "Adicionar Usuário"
+
+msgid "strings.enter_user_details"
+msgstr ""
+"Informe os detalhes para esta conta de usuário que está sendo"
+"criada."
+
+msgid "strings.enter_password"
+msgstr "Digite a senha do usuário."
+
+msgid "strings.success_logout"
+msgstr ""
+"Você saiu com sucesso. Você pode entrar novamente digitando seu nome"
+"de usuário e senha abaixo."
+
+msgid "strings.invalid_login"
+msgstr ""
+"O nome de usuário e/ou a senha digita são inválidos. Por favor"
+"digite suas informações corretamente para entrar no sistema."
+
+msgid "strings.profile"
+msgstr "Perfil"
+
+msgid "strings.user_details"
+msgstr "Detalhes do usuário."
+
+msgid "strings.edit_user_account"
+msgstr "Editar minhas informações."
+
+msgid "strings.no_permissions"
+msgstr ""
+"Você não possui permissões suficientes para realizar esta"
+"operação."
+
+msgid "strings.discussion"
+msgstr "Debate"
+
+msgid "strings.retired"
+msgstr "Encerrado"
+
+msgid "strings.last_post"
+msgstr "Última Mensagem"
+
+msgid "strings.post_reply"
+msgstr "Responder"
+
+msgid "strings.posted_by"
+msgstr "Enviado Por"
+
+msgid "strings.when"
+msgstr "Quando"
+
+msgid "strings.post_to_discussion"
+msgstr "Enviar ao Debate"
+
+msgid "strings.message"
+msgstr "Mensagem"
+
+msgid "strings.delete_reports"
+msgstr "Excluir Relatórios"
+
+msgid "strings.delete_projects"
+msgstr "Excluir Projetos"
+
+msgid "strings.delete_organizations"
+msgstr "Excluir Organizações do Cliente"
+
+msgid "strings.delete_organizations_note"
+msgstr ""
+"Nota: Isto irá excluir todos os usuários para esta organização, e"
+"desfará a associação a todos os projetos ativos desta"
+"organização."
+
+msgid "strings.delete_messages"
+msgstr "Excluir Mensagens"
+
+msgid "strings.attention"
+msgstr "Atenção"
+
+msgid "strings.delete_teamownermix"
+msgstr ""
+"Excluído com sucesso, mas o dono do projeto não pode ser removido da"
+"equipe."
+
+msgid "strings.delete_teamowner"
+msgstr "Você não pode remover o dono do projeto da equipe."
+
+msgid "strings.enter_keywords"
+msgstr "Informe as palavras-chave"
+
+msgid "strings.search_options"
+msgstr "Opções de Procura"
+
+msgid "strings.search_note"
+msgstr "Você precisa entrar com as palavras-chave de procura."
+
+msgid "strings.search_results"
+msgstr "Resultados da Procura"
+
+msgid "strings.users"
+msgstr "Usuários"
+
+msgid "strings.search_for"
+msgstr "Procurar por"
+
+msgid "strings.results_for_keywords"
+msgstr "Resultados da procura pelas palavras-chave"
+
+msgid "strings.add_discussion"
+msgstr "Adicionar Debate"
+
+msgid "strings.delete_users"
+msgstr "Excluir Usuário(s)"
+
+msgid "strings.reassignment_user"
+msgstr "Atribuição de Projetos e Tarefas"
+
+msgid "strings.there"
+msgstr "Há"
+
+msgid "strings.owned_by"
+msgstr "pertencentes aos usuários acima."
+
+msgid "strings.reassign_to"
+msgstr "Antes de excluir os usuários, atribua os itens acima a"
+
+msgid "strings.no_files"
+msgstr "Não há arquivos relacionados"
+
+msgid "strings.published"
+msgstr "Publicado"
+
+msgid "strings.project_site"
+msgstr "Site do Projeto"
+
+msgid "strings.approval_tracking"
+msgstr "Acompanhamento de Aprovação"
+
+msgid "strings.size"
+msgstr "Tamanho"
+
+msgid "strings.add_project_site"
+msgstr "Incluir ao Site do Projeto"
+
+msgid "strings.remove_project_site"
+msgstr "Remover do Site do Projeto"
+
+msgid "strings.more_search"
+msgstr "Mais opções de procura"
+
+msgid "strings.results_with"
+msgstr "Encontrar Resultados Com"
+
+msgid "strings.search_topics"
+msgstr "Tópicos de Procura"
+
+msgid "strings.search_properties"
+msgstr "Propriedades de Procura"
+
+msgid "strings.date_restrictions"
+msgstr "Restrições de Datas"
+
+msgid "strings.case_sensitive"
+msgstr "Diferenciar Letras Maiúsculas de Minísculas"
+
+msgid "strings.yes"
+msgstr "Sim"
+
+msgid "strings.no"
+msgstr "Não"
+
+msgid "strings.sort_by"
+msgstr "Ordenar por"
+
+msgid "strings.type"
+msgstr "Tipo"
+
+msgid "strings.date"
+msgstr "Data"
+
+msgid "strings.all_words"
+msgstr "todas as palavras"
+
+msgid "strings.any_words"
+msgstr "qualquer uma das palavras"
+
+msgid "strings.exact_match"
+msgstr "exatamente igual"
+
+msgid "strings.all_dates"
+msgstr "Todas as datas"
+
+msgid "strings.between_dates"
+msgstr "Entre as datas"
+
+msgid "strings.all_content"
+msgstr "Todo Conteúdo"
+
+msgid "strings.all_properties"
+msgstr "Todas as propriedades"
+
+msgid "strings.no_results_search"
+msgstr "Nenhum resultado foi encontrado na procura."
+
+msgid "strings.no_results_report"
+msgstr "Nenhum resultado foi encontrado para o relatório."
+
+msgid "strings.schema_date"
+msgstr "DD/MM/YYYY"
+
+msgid "strings.hours"
+msgstr "horas"
+
+msgid "strings.choice"
+msgstr "Escolha"
+
+msgid "strings.missing_file"
+msgstr "Arquivo ausente!"
+
+msgid "strings.project_site_deleted"
+msgstr "O site do projeto foi excluído com sucesso."
+
+msgid "strings.add_user_project_site"
+msgstr "Foi concedida permissão de acesso ao site do projeto ao usuário."
+
+msgid "strings.remove_user_project_site"
+msgstr "As permissões do usuário foram removidas."
+
+msgid "strings.add_project_site_success"
+msgstr "A adição ao site do projeto foi efetuada com sucesso."
+
+msgid "strings.remove_project_site_success"
+msgstr "A remoção do site do projeto foi efetuada com sucesso."
+
+msgid "strings.add_file_success"
+msgstr "1 arquivo foi relacionado."
+
+msgid "strings.delete_file_success"
+msgstr "Remoção efetuada com sucesso."
+
+msgid "strings.update_comment_file"
+msgstr "A atualização do comentário foi efetuada com sucesso."
+
+msgid "strings.session_false"
+msgstr "Erro de Sessão"
+
+msgid "strings.logs"
+msgstr "Atividades"
+
+msgid "strings.logout_time"
+msgstr "Sair Automáticamente"
+
+msgid "strings.noti_foot1"
+msgstr "Esta notificação foi gerada pelo PHPCollab."
+
+msgid "strings.noti_foot2"
+msgstr "Para ver sua página inicial, visite:"
+
+msgid "strings.noti_taskassignment1"
+msgstr "Nova Tarefa:"
+
+msgid "strings.noti_taskassignment2"
+msgstr "Uma nova tarefa foi atribuída a você:"
+
+msgid "strings.noti_moreinfo"
+msgstr "Para maiores informações, visite:"
+
+msgid "strings.noti_prioritytaskchange1"
+msgstr "Prioridade da Tarefa alterada:"
+
+msgid "strings.noti_prioritytaskchange2"
+msgstr "A prioridade da seguinte tarefa foi alterada:"
+
+msgid "strings.noti_statustaskchange1"
+msgstr "Status da Tarefa alterado:"
+
+msgid "strings.noti_statustaskchange2"
+msgstr "O status da seguinte tarefa foi alterado:"
+
+msgid "strings.login_username"
+msgstr "Você precisa digitar um nome de usuário."
+
+msgid "strings.login_password"
+msgstr "Por favor digite a senha."
+
+msgid "strings.login_clientuser"
+msgstr ""
+"Este é uma conta de usuário de cliente. Você não pode acessar o"
+"PhpCollab com uma conta de usuário de cliente."
+
+msgid "strings.user_already_exists"
+msgstr ""
+"Já existe um usuário com este nome. Por favor escolha um novo nome"
+"ou uma variação deste nome de usuário."
+
+msgid "strings.noti_duedatetaskchange1"
+msgstr "Data de encerramento da Tarefa alterada:"
+
+msgid "strings.noti_duedatetaskchange2"
+msgstr "A data de encerramento da seguinte tarefa foi alterada:"
+
+msgid "strings.company"
+msgstr "Empresa"
+
+msgid "strings.show_all"
+msgstr "Exibir Tudo"
+
+msgid "strings.information"
+msgstr "Informação"
+
+msgid "strings.delete_message"
+msgstr "Excluir esta mensagem"
+
+msgid "strings.project_team"
+msgstr "Equipe do Projeto"
+
+msgid "strings.document_list"
+msgstr "Lista de Documentos"
+
+msgid "strings.bulletin_board"
+msgstr "Quadro de Avisos"
+
+msgid "strings.bulletin_board_topic"
+msgstr "Tópico do Quadro de Avisos"
+
+msgid "strings.create_topic"
+msgstr "Criar um Novo Tópico"
+
+msgid "strings.topic_form"
+msgstr "Formulário Topic Form"
+
+msgid "strings.enter_message"
+msgstr "Digite sua mensagem"
+
+msgid "strings.upload_file"
+msgstr "Enviar um Arquivo"
+
+msgid "strings.upload_form"
+msgstr "Enviar Formulário"
+
+msgid "strings.upload"
+msgstr "Enviar"
+
+msgid "strings.document"
+msgstr "Documento"
+
+msgid "strings.approval_comments"
+msgstr "Comentários da Aprovação"
+
+msgid "strings.client_tasks"
+msgstr "Tarefas do Cliente"
+
+msgid "strings.team_tasks"
+msgstr "Tarefas da Equipe"
+
+msgid "strings.team_member_details"
+msgstr "Detalhes do Membro da Equipe"
+
+msgid "strings.client_task_details"
+msgstr "Detalhes da Tarefa do Cliente"
+
+msgid "strings.team_task_details"
+msgstr "Detalhes da Tarefa da Equipe"
+
+msgid "strings.language"
+msgstr "Idioma"
+
+msgid "strings.welcome"
+msgstr "Bem-vindo"
+
+msgid "strings.your_projectsite"
+msgstr "ao Site do Projeto"
+
+msgid "strings.contact_projectsite"
+msgstr ""
+"Se você tem alguma dúvida sobre a extranet ou informações"
+"encontradas aqui, entre em contado com o líder do projeto"
+
+msgid "strings.company_details"
+msgstr "Detalhes da Empresa"
+
+msgid "strings.database"
+msgstr "Backup e Restauração do Banco de Dados"
+
+msgid "strings.company_info"
+msgstr "Editar informações da empresa"
+
+msgid "strings.create_projectsite"
+msgstr "Criar Site Para o Projeto"
+
+msgid "strings.projectsite_url"
+msgstr "URL para o Site do Projeto"
+
+msgid "strings.design_template"
+msgstr "Projetar Modelo"
+
+msgid "strings.preview_design_template"
+msgstr "Pré-Visualizar o Projeto do Modelo"
+
+msgid "strings.delete_projectsite"
+msgstr "Excluir o Site do Projeto"
+
+msgid "strings.add_file"
+msgstr "Adicionar Arquivo"
+
+msgid "strings.linked_content"
+msgstr "Conteúdo Relacionado"
+
+msgid "strings.edit_file"
+msgstr "Editar detalhes do arquivo"
+
+msgid "strings.permitted_client"
+msgstr "Permitido a Usuários do Cliente"
+
+msgid "strings.grant_client"
+msgstr "Permitir Visualizar o Site do Projeto"
+
+msgid "strings.add_client_user"
+msgstr "Adicionar Usuário do Cliente"
+
+msgid "strings.edit_client_user"
+msgstr "Editar Usuário do Cliente"
+
+msgid "strings.client_user"
+msgstr "Usuário do Cliente"
+
+msgid "strings.client_change_status"
+msgstr "Altere seu status abaixo quando encerrar esta tarefa."
+
+msgid "strings.project_status"
+msgstr "Status do Projeto"
+
+msgid "strings.view_projectsite"
+msgstr "Visualizar o Site do Projeto"
+
+msgid "strings.enter_login"
+msgstr "Digite seu nome de usuário para receber uma nova senha"
+
+msgid "strings.send"
+msgstr "Enviar"
+
+msgid "strings.no_login"
+msgstr "Nome de usário não cadastrado"
+
+msgid "strings.email_pwd"
+msgstr "Nova senha enviada"
+
+msgid "strings.no_email"
+msgstr "Usuário não possui um email"
+
+msgid "strings.forgot_pwd"
+msgstr "Esqueceu a senha?"
+
+msgid "strings.project_owner"
+msgstr "Você só pode fazer alterações em seus próprios projetos."
+
+msgid "strings.connected"
+msgstr "Conectado"
+
+msgid "strings.session"
+msgstr "Sessão"
+
+msgid "strings.last_visit"
+msgstr "Última visita"
+
+msgid "strings.compteur"
+msgstr "Countador"
+
+msgid "strings.ip"
+msgstr "IP"
+
+msgid "strings.task_owner"
+msgstr "Você não faz parte da equipe deste projeto"
+
+msgid "strings.export"
+msgstr "Exportar"
+
+msgid "strings.reassignment_clientuser"
+msgstr "Reatribuição de Tarefa"
+
+msgid "strings.organization_already_exists"
+msgstr "Este nome já está em uso no sistema. Por favor escolha outro."
+
+msgid "strings.blank_organization_field"
+msgstr "Você precisa digitar o nome da organização do cliente."
+
+msgid "strings.blank_fields"
+msgstr "campos obrigatórios"
+
+msgid "strings.projectsite_login_fails"
+msgstr ""
+"Não foi possível confirmar a combinação de nome de usuário e"
+"senha."
+
+msgid "strings.start_date"
+msgstr "Data de Início"
+
+msgid "strings.completion"
+msgstr "Andamento"
+
+msgid "strings.update_available"
+msgstr "Atualização disponível!"
+
+msgid "strings.version_current"
+msgstr "Você está usando a versão"
+
+msgid "strings.version_latest"
+msgstr "Versão mais recente é"
+
+msgid "strings.sourceforge_link"
+msgstr "Ver o site do projeto no Sourceforge"
+
+msgid "strings.demo_mode"
+msgstr "Modo de Demontração. Ação não disponível."
+
+msgid "strings.setup_erase"
+msgstr "Apague o arquivo setup.php!!"
+
+msgid "strings.no_file"
+msgstr "Nenhum arquivo selecionado"
+
+msgid "strings.exceed_size"
+msgstr "O arquivo excedeu o tamanho máximo disponível"
+
+msgid "strings.no_php"
+msgstr "Arquivos PHP não são permitidos"
+
+msgid "strings.approval_date"
+msgstr "Data de Aprovação"
+
+msgid "strings.approver"
+msgstr "Aprovador"
+
+msgid "strings.error_database"
+msgstr "Não foi possível estabelecer uma conexão com o banco de dados"
+
+msgid "strings.error_server"
+msgstr "Não foi possível estabelecer uma conexão com o servidor"
+
+msgid "strings.version_control"
+msgstr "Controle de Versão"
+
+msgid "strings.vc_last_in"
+msgstr "Data da última modificação"
+
+msgid "strings.ifa_comments"
+msgstr "Comentários de aprovação"
+
+msgid "strings.ifa_command"
+msgstr "Alterar status da aprovação"
+
+msgid "strings.vc_version"
+msgstr "Versão"
+
+msgid "strings.ifc_revisions"
+msgstr "Revisão dos Colegas"
+
+msgid "strings.ifc_revision_of"
+msgstr "Revisão da versão"
+
+msgid "strings.ifc_add_revision"
+msgstr "Adicionar Revisão"
+
+msgid "strings.ifc_update_file"
+msgstr "Atualizar Arquivo"
+
+msgid "strings.ifc_last_date"
+msgstr "Data da última modificação"
+
+msgid "strings.ifc_version_history"
+msgstr "Histórico da Versão"
+
+msgid "strings.ifc_delete_file"
+msgstr "Excluir arquivo e todas as suas versões e revisões"
+
+msgid "strings.ifc_delete_version"
+msgstr "Excluir versão selecionada"
+
+msgid "strings.ifc_delete_review"
+msgstr "Excluir a revisão selecionada"
+
+msgid "strings.ifc_no_revisions"
+msgstr "Não há revisões para este documento"
+
+msgid "strings.unlink_files"
+msgstr "Remover relação entre os arquivos"
+
+msgid "strings.remove_team"
+msgstr "Remover membros da equipe"
+
+msgid "strings.remove_team_info"
+msgstr "Remover estes usuários da equipe do projeto?"
+
+msgid "strings.remove_team_client"
+msgstr "Remover permissões para visualizar o site do projeto"
+
+msgid "strings.note"
+msgstr "Anotação"
+
+msgid "strings.notes"
+msgstr "Anotações"
+
+msgid "strings.subject"
+msgstr "Assunto"
+
+msgid "strings.delete_note"
+msgstr "Excluir Anotação"
+
+msgid "strings.add_note"
+msgstr "Adicionar Anotação"
+
+msgid "strings.edit_note"
+msgstr "Editar Anotação"
+
+msgid "strings.version_increm"
+msgstr "Seleciona a mudança de versão para aplicar:"
+
+msgid "strings.url_dev"
+msgstr "URL de Desenvolvimento"
+
+msgid "strings.url_prod"
+msgstr "URL de Produção"
+
+msgid "strings.note_owner"
+msgstr "Você só pode alterar suas próprias anotações."
+
+msgid "strings.alpha_only"
+msgstr "Somente caracteres alpha-numéricos são permitidos"
+
+msgid "strings.edit_notifications"
+msgstr "Editar Notifications Por Email "
+
+msgid "strings.edit_notifications_info"
+msgstr ""
+"Selecione os eventos nos quais você gostaria de receber"
+"notificações por email."
+
+msgid "strings.select_deselect"
+msgstr "Selecionar/Deselecionar Tudo"
+
+msgid "strings.noti_addprojectteam1"
+msgstr "Adicionado à equipe do projeto:"
+
+msgid "strings.noti_addprojectteam2"
+msgstr "Você foi adicionado à equipe do projeto por:"
+
+msgid "strings.noti_removeprojectteam1"
+msgstr "Removido da equipe do projeto:"
+
+msgid "strings.noti_removeprojectteam2"
+msgstr "Você foi removido da equipe do projeto por:"
+
+msgid "strings.noti_newpost1"
+msgstr "Nova mensagem:"
+
+msgid "strings.noti_newpost2"
+msgstr "Uma nova mensagem foi adicionada ao seguinte debate:"
+
+msgid "strings.edit_noti_taskassignment"
+msgstr "Uma nova tarefa foi atribuída a mim."
+
+msgid "strings.edit_noti_statustaskchange"
+msgstr "O status de uma de minhas tarefas mudou."
+
+msgid "strings.edit_noti_prioritytaskchange"
+msgstr "A prioridade de uma de minhas tarefas mudou."
+
+msgid "strings.edit_noti_duedatetaskchange"
+msgstr "A data de término de uma de minhas tarefas mudou."
+
+msgid "strings.edit_noti_addprojectteam"
+msgstr "Eu fui adicionado à uma equipe de projeto."
+
+msgid "strings.edit_noti_removeprojectteam"
+msgstr "Eu fui removido de uma equipe de projeto."
+
+msgid "strings.edit_noti_newpost"
+msgstr "Uma nova mensagem foi enviada a um debate."
+
+msgid "strings.add_optional"
+msgstr "Adicionar um opcional"
+
+msgid "strings.assignment_comment_info"
+msgstr "Adicionar comentários sobre a atribuição desta tarefa"
+
+msgid "strings.my_notes"
+msgstr "Minhas Anotações"
+
+msgid "strings.edit_settings"
+msgstr "Editar Configurações"
+
+msgid "strings.max_upload"
+msgstr "Tamanho máximo de arquivo"
+
+msgid "strings.project_folder_size"
+msgstr "Tamanho da pasta do projeto"
+
+msgid "strings.calendar"
+msgstr "Calendário"
+
+msgid "strings.date_start"
+msgstr "Data Inicial"
+
+msgid "strings.date_end"
+msgstr "Data Final"
+
+msgid "strings.time_start"
+msgstr "Hora Inicial"
+
+msgid "strings.time_end"
+msgstr "Hora Final"
+
+msgid "strings.calendar_reminder"
+msgstr "Lembrete"
+
+msgid "strings.shortname"
+msgstr "Abreviação"
+
+msgid "strings.calendar_recurring"
+msgstr "Evento repete toda semana neste dia"
+
+msgid "strings.edit_database"
+msgstr "Editar Banco de Dados"
+
+msgid "strings.noti_newtopic1"
+msgstr "Novo Debate:"
+
+msgid "strings.noti_newtopic2"
+msgstr "Um novo debate foi adicionado ao projeto:"
+
+msgid "strings.edit_noti_newtopic"
+msgstr "Um novo tópico para debate foi criado."
+
+msgid "strings.today"
+msgstr "Hoje"
+
+msgid "strings.previous"
+msgstr "Anterior"
+
+msgid "strings.next"
+msgstr "Próximo"
+
+msgid "strings.help"
+msgstr "Ajuda"
+
+msgid "strings.complete_date"
+msgstr "Data de Término"
+
+msgid "strings.scope_creep"
+msgstr "Dias em Atraso"
+
+msgid "strings.days"
+msgstr "Dias"
+
+msgid "strings.logo"
+msgstr "Logotipo"
+
+msgid "strings.remember_password"
+msgstr "Lembrar Senha"
+
+msgid "strings.client_add_task_note"
+msgstr ""
+"Nota: A tarefa incluída está registrada na base de dados e aparece"
+"aqui, mas somente se delegada a um membro da equipe!"
+
+msgid "strings.noti_clientaddtask1"
+msgstr "Tarefa adicionada pelo cliente:"
+
+msgid "strings.noti_clientaddtask2"
+msgstr "Uma nova tarefa foi adicionada por um cliente pelo site do projeto:"
+
+msgid "strings.phase"
+msgstr "Fase"
+
+msgid "strings.phases"
+msgstr "Fases"
+
+msgid "strings.phase_id"
+msgstr "ID da Fase"
+
+msgid "strings.current_phase"
+msgstr "Fase(s) Ativa(s)"
+
+msgid "strings.total_tasks"
+msgstr "Total de Tarefas"
+
+msgid "strings.uncomplete_tasks"
+msgstr "Tarefas Pendentes"
+
+msgid "strings.no_current_phase"
+msgstr "Atualmente não há fases ativas"
+
+msgid "strings.true"
+msgstr "Sim"
+
+msgid "strings.false"
+msgstr "Não"
+
+msgid "strings.enable_phases"
+msgstr "Ativar Fases"
+
+msgid "strings.phase_enabled"
+msgstr "Fase Ativa"
+
+msgid "strings.order"
+msgstr "Ordem"
+
+msgid "strings.options"
+msgstr "Opções"
+
+msgid "strings.support"
+msgstr "Suporte"
+
+msgid "strings.support_request"
+msgstr "Pedido de Suporte"
+
+msgid "strings.support_requests"
+msgstr "Pedidos de Suporte"
+
+msgid "strings.support_id"
+msgstr "ID do Suporte"
+
+msgid "strings.my_support_request"
+msgstr "Meus Pedidos de Suporte"
+
+msgid "strings.introduction"
+msgstr "Introdução"
+
+msgid "strings.submit"
+msgstr "Enviar"
+
+msgid "strings.support_management"
+msgstr "Gerenciamento de Suporte"
+
+msgid "strings.date_open"
+msgstr "Data de Abertura"
+
+msgid "strings.date_close"
+msgstr "Data de Encerramento"
+
+msgid "strings.add_support_request"
+msgstr "Adicionar Pedido de Suporte"
+
+msgid "strings.add_support_response"
+msgstr "Adicionar Resposta de Suporte"
+
+msgid "strings.respond"
+msgstr "Responder"
+
+msgid "strings.delete_support_request"
+msgstr "Pedido de suporte excluído"
+
+msgid "strings.delete_request"
+msgstr "Excluir pedido de suporte"
+
+msgid "strings.delete_support_post"
+msgstr "Excluir mensagem de suporte"
+
+msgid "strings.new_requests"
+msgstr "Novos Pedidos"
+
+msgid "strings.open_requests"
+msgstr "Pedidos Abertos"
+
+msgid "strings.closed_requests"
+msgstr "Pedidos Encerrados"
+
+msgid "strings.manage_new_requests"
+msgstr "Gerenciar novos pedidos"
+
+msgid "strings.manage_open_requests"
+msgstr "Gerenciar pedidos abertos"
+
+msgid "strings.manage_closed_requests"
+msgstr "Gerenciar pedidos encerrados"
+
+msgid "strings.responses"
+msgstr "Respostas"
+
+msgid "strings.edit_status"
+msgstr "Editar Status"
+
+msgid "strings.noti_support_request_new2"
+msgstr "Você enviou um pedido de suporte relativo a: "
+
+msgid "strings.noti_support_post2"
+msgstr ""
+"Uma nova respota foi adicionada ao seu pedido de suporte. Por favor"
+"verifique os detalhes abaixo."
+
+msgid "strings.noti_support_status2"
+msgstr ""
+"Seu pedido de suporte foi atualizado. Por favor verifique os detalhes"
+"abaixo."
+
+msgid "strings.noti_support_team_new2"
+msgstr "Um novo pedido de suporte foi adicionado ao projeto: "
+
+msgid "strings.delete_subtasks"
+msgstr "Excluir Sub-Tarefas"
+
+msgid "strings.add_subtask"
+msgstr "Adicionar Sub-Tarefa"
+
+msgid "strings.edit_subtask"
+msgstr "Editar Sub-Tarefa"
+
+msgid "strings.subtask"
+msgstr "Sub-Tarefa"
+
+msgid "strings.subtasks"
+msgstr "Sub-Tarefas"
+
+msgid "strings.show_details"
+msgstr "Exibir Detalhes"
+
+msgid "strings.updates_task"
+msgstr "Histórico de atualização da tarefa"
+
+msgid "strings.updates_subtask"
+msgstr "Histórico de atualização da sub-tarefa"
+
+msgid "strings.go_projects_site"
+msgstr "Ir ao Site do Projeto"
+
+msgid "strings.bookmark"
+msgstr "Favorito"
+
+msgid "strings.bookmarks"
+msgstr "Favoritos"
+
+msgid "strings.bookmark_category"
+msgstr "Categoria"
+
+msgid "strings.bookmark_category_new"
+msgstr "Nova categoria"
+
+msgid "strings.bookmarks_all"
+msgstr "Todos"
+
+msgid "strings.bookmarks_my"
+msgstr "Meus Favoritos"
+
+msgid "strings.my"
+msgstr "Meus"
+
+msgid "strings.bookmarks_private"
+msgstr "Privados"
+
+msgid "strings.shared"
+msgstr "Compartilhado"
+
+msgid "strings.private"
+msgstr "Privado"
+
+msgid "strings.add_bookmark"
+msgstr "Adicionar Favorito"
+
+msgid "strings.edit_bookmark"
+msgstr "Editar Favorito"
+
+msgid "strings.delete_bookmarks"
+msgstr "Excluir Favoritos"
+
+msgid "strings.team_subtask_details"
+msgstr "Detalhes da Sub-Tarefa da Equipe"
+
+msgid "strings.client_subtask_details"
+msgstr "Detalhes da Sub-Tarefa do Cliente"
+
+msgid "strings.client_change_status_subtask"
+msgstr "Altere seu status abaixo quando você encerrar esta sub-tarefa"
+
+msgid "strings.disabled_permissions"
+msgstr "Conta Desabilitada"
+
+msgid "strings.user_timezone"
+msgstr "Fuso Horário (GMT)"
+
+msgid "strings.project_manager_administrator_permissions"
+msgstr "Diretor de Projeto"
+
+msgid "strings.bug"
+msgstr "Acompanhamento de Bugs"
+
+msgid "strings.report"
+msgstr "Relatar"
+
+msgid "strings.license"
+msgstr "Licença"
+
+msgid "strings.settings_notwritable"
+msgstr "O arquivo Settings.php não pode ser modificado"
+
+msgid "strings.invoicing"
+msgstr "Faturando"
+
+msgid "strings.invoice"
+msgstr "Fatura"
+
+msgid "strings.invoices"
+msgstr "Faturas"
+
+msgid "strings.date_invoice"
+msgstr "Data da fatura"
+
+msgid "strings.header_note"
+msgstr "Nota de cabeçalho"
+
+msgid "strings.footer_note"
+msgstr "Nota de rodapé"
+
+msgid "strings.total_ex_tax"
+msgstr "Total da taxa passada"
+
+msgid "strings.total_inc_tax"
+msgstr "Total da taxa incorporada"
+
+msgid "strings.tax_rate"
+msgstr "Porcentagem de tributação"
+
+msgid "strings.tax_amount"
+msgstr "Quantia da taxa"
+
+msgid "strings.invoice_items"
+msgstr "Itens da fatura"
+
+msgid "strings.amount_ex_tax"
+msgstr "Quantidade da taxa passada"
+
+msgid "strings.completed"
+msgstr "Completa"
+
+msgid "strings.service"
+msgstr "Serviço"
+
+msgid "strings.name_print"
+msgstr "Nome impresso"
+
+msgid "strings.edit_invoice"
+msgstr "Editar fatura"
+
+msgid "strings.edit_invoiceitem"
+msgstr "Editar item da fatura"
+
+msgid "strings.calculation"
+msgstr "Cálculo"
+
+msgid "strings.items"
+msgstr "Itens"
+
+msgid "strings.position"
+msgstr "Posição"
+
+msgid "strings.service_management"
+msgstr "Administração de Serviço"
+
+msgid "strings.hourly_rate"
+msgstr "Preço por Hora"
+
+msgid "strings.add_service"
+msgstr "Adicionar Serviço"
+
+msgid "strings.edit_service"
+msgstr "Editar Serviço"
+
+msgid "strings.delete_services"
+msgstr "Excluir Serviços"
+
+msgid "strings.worked_hours"
+msgstr "Horas Trabalhadas"
+
+msgid "strings.rate_type"
+msgstr "Tipo de Taxa"
+
+msgid "strings.rate_value"
+msgstr "Valor da Taxa"
+
+msgid "strings.note_invoice_items_notcompleted"
+msgstr "Nem todos os itens estão completos"
+
+msgid "strings.newsdesk"
+msgstr "Painel de Notícias"
+
+msgid "strings.newsdesk_list"
+msgstr "Lista de notícias"
+
+msgid "strings.article_newsdesk"
+msgstr "Corpo da Notícia"
+
+msgid "strings.update_newsdesk"
+msgstr "Atualizar Notícias"
+
+msgid "strings.my_newsdesk"
+msgstr "Meu Painel de Notícias"
+
+msgid "strings.edit_newsdesk"
+msgstr "Editar Artigo"
+
+msgid "strings.copy_newsdesk"
+msgstr "Copiar Artigo"
+
+msgid "strings.add_newsdesk"
+msgstr "Adicionar Artigo"
+
+msgid "strings.del_newsdesk"
+msgstr "Excluir Artigo"
+
+msgid "strings.delete_news_note"
+msgstr ""
+"Nota: Isto também irá excluir todos os comentários do artigo"
+"selecionado"
+
+msgid "strings.author"
+msgstr "Autor"
+
+msgid "strings.blank_newsdesk_title"
+msgstr "Título em Branco"
+
+msgid "strings.blank_newsdesk"
+msgstr "As notícias não puderam ser localizadas."
+
+msgid "strings.blank_newsdesk_comment"
+msgstr "Comentário em Branco"
+
+msgid "strings.remove_newsdesk"
+msgstr "Os artigos e seus comentários foram excluídos com sucesso"
+
+msgid "strings.add_newsdesk_comment"
+msgstr "Adicionar Comentário ao Artigo"
+
+msgid "strings.edit_newsdesk_comment"
+msgstr "Editar Comentário do Artigo"
+
+msgid "strings.del_newsdesk_comment"
+msgstr "Excluir Comentário(s) do Artigo"
+
+msgid "strings.remove_newsdesk_comment"
+msgstr "O comentário para o artigo foi excluído com sucesso"
+
+msgid "strings.errorpermission_newsdesk"
+msgstr "Você não tem permissão para modificar ou cancelar esta notícia"
+
+msgid "strings.errorpermission_newsdesk_comment"
+msgstr "Você não tem permissão para modificar ou excluir este comentário"
+
+msgid "strings.newsdesk_related"
+msgstr "Projeto Relacionado"
+
+msgid "strings.newsdesk_related_generic"
+msgstr "Nenhum"
+
+msgid "strings.newsdesk_related_links"
+msgstr "Links Relacionados"
+
+msgid "strings.newsdesk_rss"
+msgstr "Ativar RSS"
+
+msgid "strings.newsdesk_rss_enabled"
+msgstr "RSS Ativo"
+
+msgid "strings.noti_memberactivation1"
+msgstr "Conta Ativada"
+
+msgid "strings.noti_memberactivation3"
+msgstr "Nome de Usuário:"
+
+msgid "strings.noti_memberactivation4"
+msgstr "Senha:"
+
+msgid "strings.email_sent"
+msgstr "Seu email foi enviado com sucesso."
+
+msgid "strings.clients_connected"
+msgstr "(Site do Projeto)"
+
+msgid "strings.my_subtasks"
+msgstr "Minhas Subtarefas"
+
+
+# Enum values (status, priority, etc.)
+# Note: These should be moved to enums.*.po domain
+
+#. Domain: enums
+msgid "status.0"
+msgstr "Finalizado pelo Cliente"
+
+#. Domain: enums
+msgid "status.1"
+msgstr "Finalizado"
+
+#. Domain: enums
+msgid "status.2"
+msgstr "Não Iniciado"
+
+#. Domain: enums
+msgid "status.3"
+msgstr "Aberto"
+
+#. Domain: enums
+msgid "status.4"
+msgstr "Suspenso"
+
+#. Domain: enums
+msgid "profil.0"
+msgstr "Administrador"
+
+#. Domain: enums
+msgid "profil.1"
+msgstr "Gerente de Projeto"
+
+#. Domain: enums
+msgid "profil.2"
+msgstr "Usuário"
+
+#. Domain: enums
+msgid "profil.3"
+msgstr "Usuário de Cliente"
+
+#. Domain: enums
+msgid "profil.4"
+msgstr "Inativo"
+
+#. Domain: enums
+msgid "profil.5"
+msgstr "Diretor de Projeto"
+
+#. Domain: enums
+msgid "priority.0"
+msgstr "Nenhuma"
+
+#. Domain: enums
+msgid "priority.1"
+msgstr "Muito Baixa"
+
+#. Domain: enums
+msgid "priority.2"
+msgstr "Baixa"
+
+#. Domain: enums
+msgid "priority.3"
+msgstr "Média"
+
+#. Domain: enums
+msgid "priority.4"
+msgstr "Alta"
+
+#. Domain: enums
+msgid "priority.5"
+msgstr "Máxima"
+
+#. Domain: enums
+msgid "statusTopic.0"
+msgstr "Encerrado"
+
+#. Domain: enums
+msgid "statusTopic.1"
+msgstr "Aberto"
+
+#. Domain: enums
+msgid "statusTopicBis.0"
+msgstr "Sim"
+
+#. Domain: enums
+msgid "statusTopicBis.1"
+msgstr "Não"
+
+#. Domain: enums
+msgid "statusPublish.0"
+msgstr "Sim"
+
+#. Domain: enums
+msgid "statusPublish.1"
+msgstr "Não"
+
+#. Domain: enums
+msgid "statusFile.0"
+msgstr "Aprovado"
+
+#. Domain: enums
+msgid "statusFile.1"
+msgstr "Aprovado com Alterações"
+
+#. Domain: enums
+msgid "statusFile.2"
+msgstr "Precisa de Aprovação"
+
+#. Domain: enums
+msgid "statusFile.3"
+msgstr "Não Precisa de Aprovação"
+
+#. Domain: enums
+msgid "statusFile.4"
+msgstr "Não Aprovado"
+
+#. Domain: enums
+msgid "phaseStatus.0"
+msgstr "Não Iniciada"
+
+#. Domain: enums
+msgid "phaseStatus.1"
+msgstr "Aberta"
+
+#. Domain: enums
+msgid "phaseStatus.2"
+msgstr "Completa"
+
+#. Domain: enums
+msgid "phaseStatus.3"
+msgstr "Suspensa"
+
+#. Domain: enums
+msgid "requestStatus.0"
+msgstr "Novo"
+
+#. Domain: enums
+msgid "requestStatus.1"
+msgstr "Aberto"
+
+#. Domain: enums
+msgid "requestStatus.2"
+msgstr "Completo"
+
+#. Domain: enums
+msgid "invoiceStatus.0"
+msgstr "Aberta"
+
+#. Domain: enums
+msgid "invoiceStatus.1"
+msgstr "Enviada"
+
+#. Domain: enums
+msgid "invoiceStatus.2"
+msgstr "Paga"
+
+
+# Arrays (days, months, byte units)
+
+msgid "byteunits.0"
+msgstr "Bytes"
+
+msgid "byteunits.1"
+msgstr "KB"
+
+msgid "byteunits.2"
+msgstr "MB"
+
+msgid "byteunits.3"
+msgstr "GB"
+
+msgid "dayname.1"
+msgstr "Segunda-Feira"
+
+msgid "dayname.2"
+msgstr "Terça-Feira"
+
+msgid "dayname.3"
+msgstr "Quarta-Feira"
+
+msgid "dayname.4"
+msgstr "Quinta-Feira"
+
+msgid "dayname.5"
+msgstr "Sexta-Feira"
+
+msgid "dayname.6"
+msgstr "Sábado"
+
+msgid "dayname.7"
+msgstr "Domingo"
+
+msgid "monthname.1"
+msgstr "Janeiro"
+
+msgid "monthname.2"
+msgstr "Fevereiro"
+
+msgid "monthname.3"
+msgstr "Março"
+
+msgid "monthname.4"
+msgstr "Abril"
+
+msgid "monthname.5"
+msgstr "Maio"
+
+msgid "monthname.6"
+msgstr "Junho"
+
+msgid "monthname.7"
+msgstr "Julho"
+
+msgid "monthname.8"
+msgstr "Agosto"
+
+msgid "monthname.9"
+msgstr "Setembro"
+
+msgid "monthname.10"
+msgstr "Outubro"
+
+msgid "monthname.11"
+msgstr "Novembro"
+
+msgid "monthname.12"
+msgstr "Dezembro"
+

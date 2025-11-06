@@ -1,0 +1,1415 @@
+# phpCollab Translation File
+# Language: Azerbaijani (az)
+# Type: Lang
+# Domain: messages
+# Generated: 2025-11-06 00:44:03 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: az\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# String translations
+
+msgid "strings.please_login"
+msgstr "Zəhmət Olmasa Sistemə Girin"
+
+msgid "strings.requirements"
+msgstr "Sistem Şərtləri"
+
+msgid "strings.login"
+msgstr "Giriş"
+
+msgid "strings.no_items"
+msgstr "Göstəriləcək Maddə Yoxdur"
+
+msgid "strings.logout"
+msgstr "Çıxış"
+
+msgid "strings.preferences"
+msgstr "Xüsusiyyətlər"
+
+msgid "strings.my_tasks"
+msgstr "Tapşırıqlarım"
+
+msgid "strings.edit_task"
+msgstr "Tapşırığı Dəyişdir"
+
+msgid "strings.copy_task"
+msgstr "Tapşırığı Köçürt"
+
+msgid "strings.add_task"
+msgstr "Tapşırıq Əlavə Et"
+
+msgid "strings.delete_tasks"
+msgstr "Tapşırıqları Sil"
+
+msgid "strings.assignment_history"
+msgstr "Təyin Tarixçəsi"
+
+msgid "strings.assigned_on"
+msgstr "Təyin Vaxtı"
+
+msgid "strings.assigned_by"
+msgstr "Tərəfindən Təyin Edilmişdir"
+
+msgid "strings.to"
+msgstr "Kimə"
+
+msgid "strings.comment"
+msgstr "Şərh"
+
+msgid "strings.task_assigned"
+msgstr "Tapşırıq Təyin Edilən"
+
+msgid "strings.task_unassigned"
+msgstr "Tapşırıq Əl şatmazdır"
+
+msgid "strings.edit_multiple_tasks"
+msgstr "Tapşırıqları Eyni Anda Düzəlt"
+
+msgid "strings.tasks_selected"
+msgstr ""
+"seçilmiş tapşırıq var. Bu tapşırıqlar üçün yeni dəyərlər"
+"seçin, yada hal-hazırdaki dəyərləri qorumaq üçün"
+"[Dəyişdirmə]yi seçin."
+
+msgid "strings.assignment_comment"
+msgstr "Təyin Rəyi"
+
+msgid "strings.no_change"
+msgstr "[Dəyişdirmə]"
+
+msgid "strings.my_discussions"
+msgstr "Müzakirələrim"
+
+msgid "strings.discussions"
+msgstr "Müzakirələr"
+
+msgid "strings.delete_discussions"
+msgstr "Müzakirələri Sil"
+
+msgid "strings.delete_discussions_note"
+msgstr "Qeyd: Müzakirələr Silinəndən Sonra Geri Almaq Olmaz."
+
+msgid "strings.topic"
+msgstr "Mövzu"
+
+msgid "strings.posts"
+msgstr "Mesajlar"
+
+msgid "strings.latest_post"
+msgstr "Son Mesaj"
+
+msgid "strings.my_reports"
+msgstr "Hesabatlarım"
+
+msgid "strings.reports"
+msgstr "Hesabatlar"
+
+msgid "strings.create_report"
+msgstr "Hesabat Yarad"
+
+msgid "strings.report_intro"
+msgstr ""
+"Tapşırıq parametrələrini seçin və nəticə səhifəsindəki"
+"sorğuyu qeyd edin."
+
+msgid "strings.admin_intro"
+msgstr "Layihə qurğuları."
+
+msgid "strings.copy_of"
+msgstr "Köçürt "
+
+msgid "strings.add"
+msgstr "Əlavə Et"
+
+msgid "strings.delete"
+msgstr "Sil"
+
+msgid "strings.remove"
+msgstr "Sil"
+
+msgid "strings.copy"
+msgstr "Köçürt"
+
+msgid "strings.view"
+msgstr "Göstər"
+
+msgid "strings.edit"
+msgstr "Dəyişdir"
+
+msgid "strings.update"
+msgstr "Yenilə"
+
+msgid "strings.details"
+msgstr "Təfsilatlar"
+
+msgid "strings.none"
+msgstr "Heç"
+
+msgid "strings.close"
+msgstr "Bağla"
+
+msgid "strings.new"
+msgstr "Yeni"
+
+msgid "strings.select_all"
+msgstr "Hamısını Seç"
+
+msgid "strings.unassigned"
+msgstr "Seçilməmiş"
+
+msgid "strings.administrator"
+msgstr "İdarə Edən"
+
+msgid "strings.my_projects"
+msgstr "Layihələrim"
+
+msgid "strings.project"
+msgstr "Layihə"
+
+msgid "strings.active"
+msgstr "Fəal"
+
+msgid "strings.inactive"
+msgstr "Fəal Deyil"
+
+msgid "strings.project_id"
+msgstr "Layihə ID"
+
+msgid "strings.edit_project"
+msgstr "Layihəni Dəyişdir"
+
+msgid "strings.copy_project"
+msgstr "Layihəni Köçürt"
+
+msgid "strings.add_project"
+msgstr "Layihə Əlavə Et"
+
+msgid "strings.clients"
+msgstr "Müştərilər"
+
+msgid "strings.organization"
+msgstr "Müştəri Təşkilatı"
+
+msgid "strings.client_projects"
+msgstr "Müştəri Layihələri"
+
+msgid "strings.client_users"
+msgstr "Müştəri İstifadəçiləri"
+
+msgid "strings.edit_organization"
+msgstr "Müştəri Təşkilatını Dəyişdir"
+
+msgid "strings.add_organization"
+msgstr "Müştəri Təşkilatı Əlavə Et"
+
+msgid "strings.organizations"
+msgstr "Müştəri Təşkilatları"
+
+msgid "strings.info"
+msgstr "Məlumat"
+
+msgid "strings.status"
+msgstr "Vəziyyət"
+
+msgid "strings.owner"
+msgstr "Sahib"
+
+msgid "strings.home"
+msgstr "Ev"
+
+msgid "strings.projects"
+msgstr "Layihələr"
+
+msgid "strings.files"
+msgstr "fayllər"
+
+msgid "strings.search"
+msgstr "Axtar"
+
+msgid "strings.admin"
+msgstr "İdarəçı"
+
+msgid "strings.user"
+msgstr "İstifadəçi"
+
+msgid "strings.project_manager"
+msgstr "Layihə İdarəçisi"
+
+msgid "strings.due"
+msgstr "Lazımi"
+
+msgid "strings.task"
+msgstr "Tapşırıq"
+
+msgid "strings.tasks"
+msgstr "Tapşırıqlar"
+
+msgid "strings.team"
+msgstr "Qrup"
+
+msgid "strings.add_team"
+msgstr "Qrupa Üzv Əlavə Et"
+
+msgid "strings.team_members"
+msgstr "Qrup Üzvləri"
+
+msgid "strings.full_name"
+msgstr "Tam Adı"
+
+msgid "strings.title"
+msgstr "Vəzifəsi"
+
+msgid "strings.user_name"
+msgstr "Ləqəb"
+
+msgid "strings.work_phone"
+msgstr "İş Yeri Telefonu"
+
+msgid "strings.priority"
+msgstr "Vaciblik"
+
+msgid "strings.name"
+msgstr "Adı"
+
+msgid "strings.description"
+msgstr "Təsvir"
+
+msgid "strings.phone"
+msgstr "Telefon Nömrəsi"
+
+msgid "strings.url"
+msgstr "Web Səhifəsi"
+
+msgid "strings.address"
+msgstr "Adres"
+
+msgid "strings.comments"
+msgstr "Rəylər"
+
+msgid "strings.created"
+msgstr "Yaradıldı"
+
+msgid "strings.assigned"
+msgstr "Təyin Edildi"
+
+msgid "strings.modified"
+msgstr "Dəyişdirildi"
+
+msgid "strings.assigned_to"
+msgstr "Təyin Edilən Şəxs"
+
+msgid "strings.due_date"
+msgstr "Tarixə Görə"
+
+msgid "strings.estimated_time"
+msgstr "Ayırılan Vaxt"
+
+msgid "strings.actual_time"
+msgstr "Əsl Vaxt"
+
+msgid "strings.delete_following"
+msgstr "Silmək İstədiyinizə Əminsiniz?"
+
+msgid "strings.cancel"
+msgstr "Ləğv"
+
+msgid "strings.and"
+msgstr "və"
+
+msgid "strings.administration"
+msgstr "İdarə"
+
+msgid "strings.user_management"
+msgstr "Üzv İdarəsi"
+
+msgid "strings.system_information"
+msgstr "Sistem Məlumatı"
+
+msgid "strings.product_information"
+msgstr "Məmul Məlumatı"
+
+msgid "strings.system_properties"
+msgstr "Sistem Xüsusiyyətləri"
+
+msgid "strings.create"
+msgstr "Yarad"
+
+msgid "strings.report_save"
+msgstr ""
+"Bu hesabatı yenidən işlədə bilmək üçün web səhifənə qeyd"
+"et."
+
+msgid "strings.report_name"
+msgstr "Hesabat adı"
+
+msgid "strings.save"
+msgstr "Qeyd Et"
+
+msgid "strings.matches"
+msgstr "Uyğun Gələnlər"
+
+msgid "strings.match"
+msgstr "Uyğun"
+
+msgid "strings.report_results"
+msgstr "Hesabat Nəticələri"
+
+msgid "strings.success"
+msgstr "Müvəffəqiyyət"
+
+msgid "strings.addition_succeeded"
+msgstr "Əlavədə Müvəffəqiyyət"
+
+msgid "strings.deletion_succeeded"
+msgstr "Silmədə Müvəffəqiyyət"
+
+msgid "strings.report_created"
+msgstr "Yaradılmış Hesabat"
+
+msgid "strings.deleted_reports"
+msgstr "Silinmiş Hesabat"
+
+msgid "strings.modification_succeeded"
+msgstr "Dəyişdirmədə Müvəffəqiyyət"
+
+msgid "strings.errors"
+msgstr "Səhvlər Tapıldı!"
+
+msgid "strings.blank_user"
+msgstr "Üzv Tapıla Bilmədi."
+
+msgid "strings.blank_organization"
+msgstr "Təşkilat Tapıla Bilmədi."
+
+msgid "strings.blank_project"
+msgstr "Layihə Tapıla Bilmədi."
+
+msgid "strings.user_profile"
+msgstr "Üzv Haqqında"
+
+msgid "strings.change_password"
+msgstr "Şifrəni Dəyişdir"
+
+msgid "strings.change_password_user"
+msgstr "Üzvün Şifrəsini Dəyişdir."
+
+msgid "strings.enter_password"
+msgstr "Üzvün Şifrəsini Yazın."
+
+msgid "strings.old_password_error"
+msgstr ""
+"Yazdığınız köhnə şifrə doğru deyil. Şifrəni yenidən"
+"yazın."
+
+msgid "strings.new_password_error"
+msgstr "Yazdığınız iki şifrə bir-biri ilə eyni deyil. "
+
+msgid "strings.notifications"
+msgstr "Bildirişlər"
+
+msgid "strings.change_password_intro"
+msgstr ""
+"Köhnə şifrənizi yazın sonra isə yeni şifrənizi və"
+"təkrarını yazın."
+
+msgid "strings.old_password"
+msgstr "Köhnə Şifrə"
+
+msgid "strings.password"
+msgstr "Şifrə"
+
+msgid "strings.new_password"
+msgstr "Yeni Şifrə"
+
+msgid "strings.confirm_password"
+msgstr "Şifrə Tekrarı"
+
+msgid "strings.email"
+msgstr "E-Məktub"
+
+msgid "strings.home_phone"
+msgstr "Ev Telefon Nömrəsi"
+
+msgid "strings.mobile_phone"
+msgstr "Cib Telefonu Nömrəsi"
+
+msgid "strings.fax"
+msgstr "Faks"
+
+msgid "strings.permissions"
+msgstr "İcazələr"
+
+msgid "strings.administrator_permissions"
+msgstr "İdarəçi İcazələri"
+
+msgid "strings.project_manager_permissions"
+msgstr "Layihə İdarəçisi İcazələri"
+
+msgid "strings.user_permissions"
+msgstr "Üzv İcazələri"
+
+msgid "strings.account_created"
+msgstr "Hesab Yaradıldı"
+
+msgid "strings.edit_user"
+msgstr "Üzvü Dəyişdir"
+
+msgid "strings.edit_user_details"
+msgstr "Üzvün hesab məlumatlarını dəyişdir."
+
+msgid "strings.change_user_password"
+msgstr "Üzvün Şifrəsini Dəyişdir"
+
+msgid "strings.select_permissions"
+msgstr "Bu Üzv Üçün İcazələr Təyin Et"
+
+msgid "strings.add_user"
+msgstr "Üzv Yarad"
+
+msgid "strings.enter_user_details"
+msgstr "Ətraflı Məlumatları Yazın."
+
+msgid "strings.success_logout"
+msgstr "Siz müvəffəqiyyətlə sistemdən çıxdınız."
+
+msgid "strings.illimited_licenses"
+msgstr "Geyri-məhdut Üzv Hesabı"
+
+msgid "strings.invalid_login"
+msgstr ""
+"Yazdığınız Ləqəb ve Şifrə səhvdir. Zəhmət olmasa"
+"məlumatları yenidən yazın."
+
+msgid "strings.licenses_used"
+msgstr "Geyri-məhdut hesablar işlədildi"
+
+msgid "strings.profile"
+msgstr "Məlumat"
+
+msgid "strings.user_details"
+msgstr "Üzv Hesabının Təfərruatları."
+
+msgid "strings.edit_user_account"
+msgstr "Hesabınız haqqında məlumatları dəyişdirin."
+
+msgid "strings.no_permissions"
+msgstr "Lazım Olan Haqqlarınız Yoxdur."
+
+msgid "strings.discussion"
+msgstr "Mezakirə"
+
+msgid "strings.retired"
+msgstr "Köhnəlmiş"
+
+msgid "strings.last_post"
+msgstr "Son Yazılan"
+
+msgid "strings.post_reply"
+msgstr "Cavab Yaz"
+
+msgid "strings.posted_by"
+msgstr "Yazan"
+
+msgid "strings.when"
+msgstr "Nə Vaxt"
+
+msgid "strings.post_to_discussion"
+msgstr "Müzakirəyə Gönder"
+
+msgid "strings.message"
+msgstr "Mesaj"
+
+msgid "strings.delete_reports"
+msgstr "Hesabatları Sil"
+
+msgid "strings.delete_projects"
+msgstr "Layihələri Sil"
+
+msgid "strings.delete_organizations"
+msgstr "Təşkilatları sil"
+
+msgid "strings.delete_organizations_note"
+msgstr ""
+"Diqqət: Bu təşkilatların bütün nümayəndə və üzvlərini"
+"siləcək və bunların bütün var olan layihələrlə əlaqəsini"
+"kəsəcək."
+
+msgid "strings.delete_messages"
+msgstr "Mesajları Sil"
+
+msgid "strings.attention"
+msgstr "Diqqət"
+
+msgid "strings.delete_teamownermix"
+msgstr ""
+"Silinmə müvəffəqiyyətli oldu, ancaq layihənin sahibi layihə"
+"qrupundan çıxarıla bilmədi."
+
+msgid "strings.delete_teamowner"
+msgstr "Layihənin sahibini layihə qrupundan çıxara bilməzsiniz."
+
+msgid "strings.enter_keywords"
+msgstr "Axtarılan Sözlər"
+
+msgid "strings.search_options"
+msgstr "Axtarılan Sözlər va Axtarma Qaydaları"
+
+msgid "strings.search_note"
+msgstr "Axtarma qutucuğuna axtardığınız bir söz yazmalısınız."
+
+msgid "strings.search_results"
+msgstr "Axtarış Nəticələri"
+
+msgid "strings.users"
+msgstr "Üzvlər"
+
+msgid "strings.search_for"
+msgstr "Axtarılan:"
+
+msgid "strings.results_for_keywords"
+msgstr "Axtarılan Sözlər Üçün Nəticələr Axtar"
+
+msgid "strings.add_discussion"
+msgstr "Mezakirə Əlavə Et"
+
+msgid "strings.delete_users"
+msgstr "Üzv Hesablarını Sil"
+
+msgid "strings.reassignment_user"
+msgstr "Layihə və Tapşırıq Yenidən Tapşıqıldı"
+
+msgid "strings.reassignment"
+msgstr "Layihə və Tapşırıqların Yenidən Təyin Edilməsi"
+
+msgid "strings.there"
+msgstr "Var"
+
+msgid "strings.owned_by"
+msgstr "sahibi yuxarıdaki üzvdür."
+
+msgid "strings.reassign_to"
+msgstr "Üzvləri silmədən qabaq işəri bunlara təyin et"
+
+msgid "strings.no_files"
+msgstr "Əlaqələndirilmiş fayllər Yoxdur."
+
+msgid "strings.published"
+msgstr "Dərc Edildi"
+
+msgid "strings.project_site"
+msgstr "Layihə Saytı"
+
+msgid "strings.approval_tracking"
+msgstr "Qəbul edilib-edilmədiyi güdülsün"
+
+msgid "strings.size"
+msgstr "Böyüklük"
+
+msgid "strings.add_project_site"
+msgstr "Layihə Saytına Əlavə Et"
+
+msgid "strings.remove_project_site"
+msgstr "Layihənin Saytından Sil"
+
+msgid "strings.more_search"
+msgstr "Daha Çox Axtarma Seçənəkləri"
+
+msgid "strings.results_with"
+msgstr "Nəticələri Tap"
+
+msgid "strings.search_topics"
+msgstr "Başlıqları Axtar"
+
+msgid "strings.search_properties"
+msgstr "Xüsusiyyətləri Axtar"
+
+msgid "strings.date_restrictions"
+msgstr "Zaman Məhdudiyyətləri"
+
+msgid "strings.case_sensitive"
+msgstr "Böyük-Kiçik Hərfləri Say"
+
+msgid "strings.yes"
+msgstr "Bəli"
+
+msgid "strings.no"
+msgstr "Xeyr"
+
+msgid "strings.sort_by"
+msgstr "Siyahıya Sal"
+
+msgid "strings.type"
+msgstr "Növ"
+
+msgid "strings.date"
+msgstr "Tarix"
+
+msgid "strings.all_words"
+msgstr "bütün sözləri"
+
+msgid "strings.any_words"
+msgstr "sözlərdən hər hansı birisini"
+
+msgid "strings.exact_match"
+msgstr "tam uyğunluq"
+
+msgid "strings.all_dates"
+msgstr "Bütün tarixlər"
+
+msgid "strings.between_dates"
+msgstr "Tarixləri arasında"
+
+msgid "strings.all_content"
+msgstr "Bütün Mündəricatı"
+
+msgid "strings.all_properties"
+msgstr "Bütün Xüsusiyyətləri"
+
+msgid "strings.no_results_search"
+msgstr "Axtarışdan Nəticə Çıxmadı."
+
+msgid "strings.no_results_report"
+msgstr "Hesabat nəticələndirilə bilmədi."
+
+msgid "strings.schema_date"
+msgstr "İİİİ/AA/GG"
+
+msgid "strings.hours"
+msgstr "saat"
+
+msgid "strings.choice"
+msgstr "Seçim"
+
+msgid "strings.missing_file"
+msgstr "Əksik Fayl !"
+
+msgid "strings.project_site_deleted"
+msgstr "Bu Layihə Saytı Müvəffəqiyyətlə Silindi."
+
+msgid "strings.add_user_project_site"
+msgstr "Bu Üzvə Sayta Girəbilmə Haqqı Müvəffəqiyyətlə Verildi."
+
+msgid "strings.remove_user_project_site"
+msgstr "Üzvün Haqqları Müvəffəqiyyətlə Silindi."
+
+msgid "strings.add_project_site_success"
+msgstr "Layihə Saytına Əlavə Müvəffəqiyyətlə Başa Çatdırıldı."
+
+msgid "strings.remove_project_site_success"
+msgstr ""
+"Layihə Saytından Çıxarma Müvəffəqiyyətlə Başa"
+"Çatdırıldı."
+
+msgid "strings.add_file_success"
+msgstr "1 ədəd fayl əlavə edildi."
+
+msgid "strings.delete_file_success"
+msgstr "fayl müvəffəqiyyətlə silindi."
+
+msgid "strings.update_comment_file"
+msgstr "Dosyanın rəyi müvəffəqiyyətlə dəyişdirildi."
+
+msgid "strings.session_false"
+msgstr "Oturma xətası"
+
+msgid "strings.logs"
+msgstr "Loqlar"
+
+msgid "strings.logout_time"
+msgstr "Sistemdən Avtomatik Çıx"
+
+msgid "strings.noti_foot1"
+msgstr "Bu Qeyd Sistem Tərəfindən Yaradılmışdır."
+
+msgid "strings.noti_foot2"
+msgstr "Ana Səhifəmiz:"
+
+msgid "strings.noti_taskassignment1"
+msgstr "Yeni Tapşırıq:"
+
+msgid "strings.noti_taskassignment2"
+msgstr "Tapşırıq Müvəffəqiyyətlə Yaradıldı"
+
+msgid "strings.noti_moreinfo"
+msgstr "Daha Geniş Məlumat Üçün:"
+
+msgid "strings.noti_prioritytaskchange1"
+msgstr "Vaciblik Dərəcəsi Dəyişdirildi:"
+
+msgid "strings.noti_prioritytaskchange2"
+msgstr ""
+"Bu Tapşırığın Vaciblik Dərəcəsi Müvəffəqiyyətlə"
+"Dəyişdirildi"
+
+msgid "strings.noti_statustaskchange1"
+msgstr "Tapşırığın Vəziyyəti Dəyişdirildi:"
+
+msgid "strings.noti_statustaskchange2"
+msgstr "Bu Tapşırığın Vəziyyəti Dəyişdirildi:"
+
+msgid "strings.login_username"
+msgstr "Ləqəbi Yazmalısınız."
+
+msgid "strings.login_password"
+msgstr "Zəhmət Olmasa Şifrəni Yazın."
+
+msgid "strings.login_clientuser"
+msgstr ""
+"Bu müştəri üzv hesabıdır. Bu hesabla intranetə girə"
+"bilməzsiniz."
+
+msgid "strings.user_already_exists"
+msgstr "Bu ləqəbdə üzvümüz var. Zəhmət olmasa başqa ləgəb seçin."
+
+msgid "strings.noti_duedatetaskchange1"
+msgstr "Tapşırığın Son Vaxtı Dəyişdirildi:"
+
+msgid "strings.noti_duedatetaskchange2"
+msgstr "Bu Tapşırığın Son Vaxtı Dəyişdirildi:"
+
+msgid "strings.company"
+msgstr "Şirkət"
+
+msgid "strings.show_all"
+msgstr "Hamısını Göstər"
+
+msgid "strings.information"
+msgstr "Mə`lumat"
+
+msgid "strings.delete_message"
+msgstr "Bu mesajı sil"
+
+msgid "strings.project_team"
+msgstr "layihənin Qrupu"
+
+msgid "strings.document_list"
+msgstr "Sənəd Siyahısı"
+
+msgid "strings.bulletin_board"
+msgstr "Forum"
+
+msgid "strings.bulletin_board_topic"
+msgstr "Forum Mövzusu"
+
+msgid "strings.create_topic"
+msgstr "Yeni Forum Mövzusu Yarad"
+
+msgid "strings.topic_form"
+msgstr "Mövzu Formu"
+
+msgid "strings.enter_message"
+msgstr "Mesajınızı Yazın"
+
+msgid "strings.upload_file"
+msgstr "fayl Göndər"
+
+msgid "strings.upload_form"
+msgstr "Anket Göndər"
+
+msgid "strings.upload"
+msgstr "Göndər"
+
+msgid "strings.document"
+msgstr "Sənəd"
+
+msgid "strings.approval_comments"
+msgstr "Bəyənmə Rəyləri"
+
+msgid "strings.client_tasks"
+msgstr "Müştəri Tapşırıqları"
+
+msgid "strings.team_tasks"
+msgstr "Qrup Tapşırıqları"
+
+msgid "strings.team_member_details"
+msgstr "Qrup Üzvünün Məlumatları"
+
+msgid "strings.client_task_details"
+msgstr "Müştəri Tapşırığı Məlumatları"
+
+msgid "strings.team_task_details"
+msgstr "Qrup Tapşırıqları Məlumatları"
+
+msgid "strings.language"
+msgstr "Dil"
+
+msgid "strings.welcome"
+msgstr "Xoş Gəlmişsiniz"
+
+msgid "strings.your_projectsite"
+msgstr "Sizin Layihə Saytınıza"
+
+msgid "strings.contact_projectsite"
+msgstr "Layihə Sahibiylə Təmas"
+
+msgid "strings.company_details"
+msgstr "Şirkət Məlumatları"
+
+msgid "strings.database"
+msgstr "Məlumat Bazasını Yedəklə/Yedəkdən Qur"
+
+msgid "strings.company_info"
+msgstr "Şirkət Məlumatlarınızı Dəyişdirin"
+
+msgid "strings.create_projectsite"
+msgstr "Layihənin Saytını Yarad"
+
+msgid "strings.projectsite_url"
+msgstr "Layihənin Saytının Ünvanı"
+
+msgid "strings.design_template"
+msgstr "Dizayn Şablonu"
+
+msgid "strings.preview_design_template"
+msgstr "Dizayn Şablonuna Baxış"
+
+msgid "strings.delete_projectsite"
+msgstr "Layihənin Saytını Sil"
+
+msgid "strings.add_file"
+msgstr "fayl Əlavə Et"
+
+msgid "strings.linked_content"
+msgstr "Əlaqələndirilmiş İçindəkilər"
+
+msgid "strings.edit_file"
+msgstr "fayl Məlumatlarını Dəyişdir"
+
+msgid "strings.permitted_client"
+msgstr "İcazəsi Olan Müştəri Üzvlər"
+
+msgid "strings.grant_client"
+msgstr "Layihənin Saytını Görmə Haqqı Ver"
+
+msgid "strings.add_client_user"
+msgstr "Müştəri Üzv Əlavə Et"
+
+msgid "strings.edit_client_user"
+msgstr "Müştəri Üzvün Məlumatlarını Dəyişdir"
+
+msgid "strings.client_user"
+msgstr "Müştəri Üzv"
+
+msgid "strings.client_change_status"
+msgstr "Tapşırığı Qurtaranda Altdaki Məlumatı Dəyişdirin"
+
+msgid "strings.project_status"
+msgstr "Layihənin Vəziyyəti"
+
+msgid "strings.view_projectsite"
+msgstr "Layihə Saytını Göstər"
+
+msgid "strings.enter_login"
+msgstr "Şifrənizi Almaq Üçün Ləqəbinizi Yazın"
+
+msgid "strings.send"
+msgstr "Göndər"
+
+msgid "strings.no_login"
+msgstr "Sizin Ləgəbinizdə Bir Üzv Tapıla Bilmədi"
+
+msgid "strings.email_pwd"
+msgstr "Şifrə Yollandı"
+
+msgid "strings.no_email"
+msgstr "E-məktub`suz üzv"
+
+msgid "strings.forgot_pwd"
+msgstr "Şifrəni Unutdunuz?"
+
+msgid "strings.project_owner"
+msgstr "Ancaq Öz Layihələrinizi Dəyişdirə Bilərsiniz."
+
+msgid "strings.connected"
+msgstr "Xətdədir/Xətdə Deyil"
+
+msgid "strings.session"
+msgstr "İclas"
+
+msgid "strings.last_visit"
+msgstr "Son giriş"
+
+msgid "strings.compteur"
+msgstr "Say"
+
+msgid "strings.ip"
+msgstr "IP"
+
+msgid "strings.task_owner"
+msgstr "Siz bu layihədə üzv deyilsiniz."
+
+msgid "strings.export"
+msgstr "Göndər"
+
+msgid "strings.reassignment_clientuser"
+msgstr "Tapşırığın Yenidən Verilməsi"
+
+msgid "strings.organization_already_exists"
+msgstr "Bu ad işlədilir. Zəhmət olmasa başqa ad yazın."
+
+msgid "strings.blank_organization_field"
+msgstr "Müştəri adını yazmaq məcburiyyətindəsiniz."
+
+msgid "strings.blank_fields"
+msgstr "boş yerlər"
+
+msgid "strings.projectsite_login_fails"
+msgstr "Ləqəb ve Şifrə birləşməsi tapıla bilmədi."
+
+msgid "strings.start_date"
+msgstr "Başlama Tarixi"
+
+msgid "strings.completion"
+msgstr "Qurtarma"
+
+msgid "strings.update_available"
+msgstr "Yeniləmə mövcuddur"
+
+msgid "strings.version_current"
+msgstr "Sizin bu dəqiqə işlətdiyiniz buraxılış"
+
+msgid "strings.version_latest"
+msgstr "Son buraxılış"
+
+msgid "strings.sourceforge_link"
+msgstr "Sourceforge`da layihə səhifəsinə baxın."
+
+msgid "strings.demo_mode"
+msgstr "Sınaq rejimindəsiniz. Bunu edə bilməzsiniz"
+
+msgid "strings.setup_erase"
+msgstr "setup.php faylını mütləq silin!!"
+
+msgid "strings.no_file"
+msgstr "Fayl seçilməyib"
+
+msgid "strings.exceed_size"
+msgstr "Maksimum fayl böyüklüyünü keçdiniz"
+
+msgid "strings.no_php"
+msgstr "PHP faylına icazə yoxdur"
+
+msgid "strings.approval_date"
+msgstr "Bəyənmə tarixi"
+
+msgid "strings.approver"
+msgstr "Bəyənən"
+
+msgid "strings.error_database"
+msgstr "Məlumat bazasına bağlanılanmadı"
+
+msgid "strings.error_server"
+msgstr "Xidmət vericiyə bağlanılanmadı"
+
+msgid "strings.version_control"
+msgstr "Buraxılış Nəzarəti"
+
+msgid "strings.vc_status"
+msgstr "Vəziyyət"
+
+msgid "strings.vc_last_in"
+msgstr "Son dəyişdirmə tarixi"
+
+msgid "strings.ifa_comments"
+msgstr "Bəyənmə qeydi"
+
+msgid "strings.ifa_command"
+msgstr "Bəyənmə vəziyyətini dəyişdir"
+
+msgid "strings.vc_version"
+msgstr "Buraxılış"
+
+msgid "strings.ifc_revisions"
+msgstr "İcmallar"
+
+msgid "strings.ifc_revision_of"
+msgstr "Buraxılış icmalı"
+
+msgid "strings.ifc_add_revision"
+msgstr "İcmal əlavə et"
+
+msgid "strings.ifc_update_file"
+msgstr "Faylı yenilə"
+
+msgid "strings.ifc_last_date"
+msgstr "Son dəyişdirmə tarixi"
+
+msgid "strings.ifc_version_history"
+msgstr "Buraxılış tarixi"
+
+msgid "strings.ifc_delete_file"
+msgstr "Bütün icmaları, faylları ve buraxılışları sil"
+
+msgid "strings.ifc_delete_version"
+msgstr "Seçilmiş Buraxılışı Sil"
+
+msgid "strings.ifc_delete_review"
+msgstr "Seçilmiş İcmalı Sil"
+
+msgid "strings.ifc_no_revisions"
+msgstr "Bu Sənədin Hal-Hazırda İcmalı Yoxdur"
+
+msgid "strings.unlink_files"
+msgstr "Körpüsüz Fayllar"
+
+msgid "strings.remove_team"
+msgstr "Qrup Üzvlərini Sil"
+
+msgid "strings.remove_team_info"
+msgstr "Layihə Qrupundakı Üzvləri Silməyə Əminsən?"
+
+msgid "strings.remove_team_client"
+msgstr "Layihə Saytının Görünməsinin İcazələrini Sil"
+
+msgid "strings.note"
+msgstr "Qeyd"
+
+msgid "strings.notes"
+msgstr "Qeydlər"
+
+msgid "strings.subject"
+msgstr "Mövzu"
+
+msgid "strings.delete_note"
+msgstr "Giriş Qeydlərini Sil"
+
+msgid "strings.add_note"
+msgstr "Giriş Qeydi Əlavə Et"
+
+msgid "strings.edit_note"
+msgstr "Giriş Qeydini Düzəlt"
+
+msgid "strings.version_increm"
+msgstr "Təyin olmanın dəyişmə buraxılışını seç:"
+
+msgid "strings.url_dev"
+msgstr "İnkişaf Etdirmə Saytının Adresi"
+
+msgid "strings.url_prod"
+msgstr "Axırıncı Saytın Adresi"
+
+msgid "strings.note_owner"
+msgstr "Ancaq Sahib Olduğunuz Qeydləri Dəyişdirə Bilərsiniz."
+
+msgid "strings.alpha_only"
+msgstr "Girişdə Ancaq Rəqəm/Hərflər"
+
+msgid "strings.edit_notifications"
+msgstr "E-məktub Xəbərdarlığını Düzəlt"
+
+msgid "strings.edit_notifications_info"
+msgstr ""
+"E-məktub Xəbərdarlığına Göndərəcəyiniz Hadisələri Seçın."
+
+msgid "strings.select_deselect"
+msgstr "Hamısını Seç/Seçmə"
+
+msgid "strings.noti_addprojectteam1"
+msgstr "Qrup Layihəsinə Əlavə Oldundu :"
+
+msgid "strings.noti_addprojectteam2"
+msgstr "Qrup Layihəsinə Əlavə olunma :"
+
+msgid "strings.noti_removeprojectteam1"
+msgstr "Qrup Layihəsindən Silindi :"
+
+msgid "strings.noti_removeprojectteam2"
+msgstr "Qrup Layihəsindən Silinmə :"
+
+msgid "strings.noti_newpost1"
+msgstr "Yeni Mesaj :"
+
+msgid "strings.noti_newpost2"
+msgstr "Mesaj Aşağıdaki Müzakirəyə Əlavə Edildi :"
+
+msgid "strings.edit_noti_taskassignment"
+msgstr "Yeni tapşırığa təyin olunmuşam."
+
+msgid "strings.edit_noti_statustaskchange"
+msgstr "Tapşırıqlarımdan birindəki vəziyyət dəyişib."
+
+msgid "strings.edit_noti_prioritytaskchange"
+msgstr "Tapşırıqlarımdan birindəki vacibdlik dəyişib."
+
+msgid "strings.edit_noti_duedatetaskchange"
+msgstr "Tapşırıqlarımdaki lazım olan vaxt dəyişib."
+
+msgid "strings.edit_noti_addprojectteam"
+msgstr "Qrup Layihəsinə Əlavə Edildim."
+
+msgid "strings.edit_noti_removeprojectteam"
+msgstr "Qrup Layihəsindən Silindim."
+
+msgid "strings.edit_noti_newpost"
+msgstr "Yeni mesaj müzakirəyə göndərildi."
+
+msgid "strings.add_optional"
+msgstr "İstəyə bağlı əlavə"
+
+msgid "strings.assignment_comment_info"
+msgstr "Bu tapşırığın təyinatları haqqında şərh əlavə et."
+
+msgid "strings.my_notes"
+msgstr "Qeydlərim"
+
+msgid "strings.edit_settings"
+msgstr "Qurğuları Dəyişdir"
+
+msgid "strings.max_upload"
+msgstr "Maksimum Fayl Böyüklüyü"
+
+msgid "strings.project_folder_size"
+msgstr "Layihə qovluğunun böyüklüyü"
+
+msgid "strings.calendar"
+msgstr "Təqvim"
+
+msgid "strings.date_start"
+msgstr "Başlama Tarixi"
+
+msgid "strings.date_end"
+msgstr "Qurtarma Tarixi"
+
+msgid "strings.time_start"
+msgstr "Başlama Saatı"
+
+msgid "strings.time_end"
+msgstr "Qurtarma Saatı"
+
+msgid "strings.calendar_reminder"
+msgstr "Təqvim Xatırladılması"
+
+msgid "strings.shortname"
+msgstr "Qısa Adı"
+
+msgid "strings.calendar_recurring"
+msgstr "Hadisə təkrarları hər həftənin bu günü"
+
+msgid "strings.edit_database"
+msgstr "Məlumat Bazasını Dəyişdir"
+
+msgid "strings.noti_newtopic1"
+msgstr "Yeni Müzakirə:"
+
+msgid "strings.noti_newtopic2"
+msgstr "Yeni müzakirə bu layihəyə əlavə edildi :"
+
+msgid "strings.edit_noti_newtopic"
+msgstr "Yeni müzakirə mövzusu yaradıldı."
+
+msgid "strings.today"
+msgstr "Bugün"
+
+msgid "strings.previous"
+msgstr "Öncəki"
+
+msgid "strings.next"
+msgstr "Sonrakı"
+
+msgid "strings.help"
+msgstr "Yardım"
+
+msgid "strings.complete_date"
+msgstr "Tam tarix"
+
+msgid "strings.delete_subtasks"
+msgstr "Alt düymələri silin"
+
+msgid "strings.go_projects_site"
+msgstr "Layihələr saytına keçin"
+
+
+# Enum values (status, priority, etc.)
+# Note: These should be moved to enums.*.po domain
+
+#. Domain: enums
+msgid "status.0"
+msgstr "İstifadəçı Sonlanmış"
+
+#. Domain: enums
+msgid "status.1"
+msgstr "Sonlanmış"
+
+#. Domain: enums
+msgid "status.2"
+msgstr "Başladılmamış"
+
+#. Domain: enums
+msgid "status.3"
+msgstr "Açıq"
+
+#. Domain: enums
+msgid "status.4"
+msgstr "Dayandırılmış"
+
+#. Domain: enums
+msgid "profil.0"
+msgstr "İdarə edən"
+
+#. Domain: enums
+msgid "profil.1"
+msgstr "Layihə İdarəçisi"
+
+#. Domain: enums
+msgid "profil.2"
+msgstr "istifadə edən"
+
+#. Domain: enums
+msgid "profil.3"
+msgstr "Müştəri İstifadəçısı"
+
+#. Domain: enums
+msgid "profil.4"
+msgstr "Disabled"
+
+#. Domain: enums
+msgid "profil.5"
+msgstr "Project Manager Administrator"
+
+#. Domain: enums
+msgid "priority.0"
+msgstr "Yox"
+
+#. Domain: enums
+msgid "priority.1"
+msgstr "Çox az"
+
+#. Domain: enums
+msgid "priority.2"
+msgstr "Az"
+
+#. Domain: enums
+msgid "priority.3"
+msgstr "Orta"
+
+#. Domain: enums
+msgid "priority.4"
+msgstr "Yüksək"
+
+#. Domain: enums
+msgid "priority.5"
+msgstr "Çox yüksək"
+
+#. Domain: enums
+msgid "statusTopic.0"
+msgstr "Bağlı"
+
+#. Domain: enums
+msgid "statusTopic.1"
+msgstr "Açıq"
+
+#. Domain: enums
+msgid "statusTopicBis.0"
+msgstr "Bəli"
+
+#. Domain: enums
+msgid "statusTopicBis.1"
+msgstr "Xeyr"
+
+#. Domain: enums
+msgid "statusPublish.0"
+msgstr "Bəli"
+
+#. Domain: enums
+msgid "statusPublish.1"
+msgstr "Xeyr"
+
+#. Domain: enums
+msgid "statusFile.0"
+msgstr "İslah Edilib"
+
+#. Domain: enums
+msgid "statusFile.1"
+msgstr "Dəyişiklərlə İslah Edilib"
+
+#. Domain: enums
+msgid "statusFile.2"
+msgstr "İslah ediləcək"
+
+#. Domain: enums
+msgid "statusFile.3"
+msgstr "İslaha ehtiyac yoxdur"
+
+#. Domain: enums
+msgid "statusFile.4"
+msgstr "İslah Edilməyib"
+
+
+# Arrays (days, months, byte units)
+
+msgid "byteunits.0"
+msgstr "Bytes"
+
+msgid "byteunits.1"
+msgstr "KB"
+
+msgid "byteunits.2"
+msgstr "MB"
+
+msgid "byteunits.3"
+msgstr "GB"
+
+msgid "dayname.1"
+msgstr "Bazar Ertəsi"
+
+msgid "dayname.2"
+msgstr "Çərşənbə Axşamı"
+
+msgid "dayname.3"
+msgstr "Çərşənbə"
+
+msgid "dayname.4"
+msgstr "Cümə Axşamı"
+
+msgid "dayname.5"
+msgstr "Cümə"
+
+msgid "dayname.6"
+msgstr "Şənbə"
+
+msgid "dayname.7"
+msgstr "Bazar"
+
+msgid "monthname.1"
+msgstr "Yanvar"
+
+msgid "monthname.2"
+msgstr "Fevral"
+
+msgid "monthname.3"
+msgstr "Mart"
+
+msgid "monthname.4"
+msgstr "Aprel"
+
+msgid "monthname.5"
+msgstr "May"
+
+msgid "monthname.6"
+msgstr "İyun"
+
+msgid "monthname.7"
+msgstr "İyul"
+
+msgid "monthname.8"
+msgstr "Avqust"
+
+msgid "monthname.9"
+msgstr "Sentyabr"
+
+msgid "monthname.10"
+msgstr "Oktyabr"
+
+msgid "monthname.11"
+msgstr "Noyabr"
+
+msgid "monthname.12"
+msgstr "Dekabr"
+

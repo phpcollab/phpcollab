@@ -1,0 +1,1653 @@
+# phpCollab Translation File
+# Language: Catalan (ca)
+# Type: Lang
+# Domain: messages
+# Generated: 2025-11-06 00:44:04 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# String translations
+
+msgid "strings.please_login"
+msgstr "Si us plau, entreu al sistema"
+
+msgid "strings.requirements"
+msgstr "Requeriments de Sistema"
+
+msgid "strings.login"
+msgstr "Entrar"
+
+msgid "strings.no_items"
+msgstr "No hi ha elements per mostrar "
+
+msgid "strings.logout"
+msgstr "Sortir"
+
+msgid "strings.preferences"
+msgstr "Prefer&egrave;ncies"
+
+msgid "strings.my_tasks"
+msgstr "Les Meves Tasques"
+
+msgid "strings.edit_task"
+msgstr "Editar Tasca"
+
+msgid "strings.copy_task"
+msgstr "Copiar Tasca"
+
+msgid "strings.add_task"
+msgstr "Afegir Tasca"
+
+msgid "strings.delete_tasks"
+msgstr "Eliminar Tasques"
+
+msgid "strings.assignment_history"
+msgstr "Historial d'Assignaci&oacute;"
+
+msgid "strings.assigned_on"
+msgstr "Assignat el "
+
+msgid "strings.assigned_by"
+msgstr "Assignat per"
+
+msgid "strings.to"
+msgstr "Per a"
+
+msgid "strings.comment"
+msgstr "Comentari"
+
+msgid "strings.task_assigned"
+msgstr "Tasca assignada a "
+
+msgid "strings.task_unassigned"
+msgstr "Tasca assignada a Sense assignar  (Sense assignar)"
+
+msgid "strings.edit_multiple_tasks"
+msgstr "Editar Tasques Múltiples "
+
+msgid "strings.tasks_selected"
+msgstr ""
+"tasques seleccionades. Escolliu nous valors per a les tasques"
+"seleccionades o [Sense Canvis] per mantenir els valors actuals."
+
+msgid "strings.assignment_comment"
+msgstr "Comentari d'Assignaci&oacute; "
+
+msgid "strings.no_change"
+msgstr "[Sense Canvi]"
+
+msgid "strings.my_discussions"
+msgstr "Les Meves Discussions "
+
+msgid "strings.discussions"
+msgstr "Discusi&oacute;"
+
+msgid "strings.delete_discussions"
+msgstr "Eliminar Discussions"
+
+msgid "strings.delete_discussions_note"
+msgstr "Nota: Les discussions no podran obrir-se un cop siguin eliminades."
+
+msgid "strings.topic"
+msgstr "Tema"
+
+msgid "strings.posts"
+msgstr "Missatges"
+
+msgid "strings.latest_post"
+msgstr "Darrer Missatge"
+
+msgid "strings.my_reports"
+msgstr "Els Meus Informes"
+
+msgid "strings.reports"
+msgstr "Informes"
+
+msgid "strings.create_report"
+msgstr "Crear Informe"
+
+msgid "strings.report_intro"
+msgstr ""
+"Seleccioneu aqu&iacute; els par&agrave;metres per informar les vostres"
+"tasques i guardeu la consulta a la p&agrave;gina de resultats"
+"despr&eacute;s d'executar el vostre informe."
+
+msgid "strings.admin_intro"
+msgstr "Configuraci&oacute; del Projecte."
+
+msgid "strings.copy_of"
+msgstr "Còpia de "
+
+msgid "strings.add"
+msgstr "Afegir"
+
+msgid "strings.delete"
+msgstr "Eliminar"
+
+msgid "strings.remove"
+msgstr "Borrar"
+
+msgid "strings.copy"
+msgstr "Copiar"
+
+msgid "strings.view"
+msgstr "Veure"
+
+msgid "strings.edit"
+msgstr "Editar"
+
+msgid "strings.update"
+msgstr "Actualitzar"
+
+msgid "strings.details"
+msgstr "Detalls"
+
+msgid "strings.none"
+msgstr "Cap"
+
+msgid "strings.close"
+msgstr "Tancar"
+
+msgid "strings.new"
+msgstr "Nou"
+
+msgid "strings.select_all"
+msgstr "Seleccionar Tots"
+
+msgid "strings.unassigned"
+msgstr "Sense Assignar"
+
+msgid "strings.administrator"
+msgstr "Administrador"
+
+msgid "strings.my_projects"
+msgstr "Els Meus Projectes"
+
+msgid "strings.project"
+msgstr "Projecte"
+
+msgid "strings.active"
+msgstr "Actiu"
+
+msgid "strings.inactive"
+msgstr "Inactiu"
+
+msgid "strings.project_id"
+msgstr "ID de Projecte"
+
+msgid "strings.edit_project"
+msgstr "Editar Projecte"
+
+msgid "strings.copy_project"
+msgstr "Còpia de Projecte"
+
+msgid "strings.add_project"
+msgstr "Afegir Projecte"
+
+msgid "strings.organization"
+msgstr "Organitzaci&oacute; del Client"
+
+msgid "strings.client_projects"
+msgstr "Projectes del Client"
+
+msgid "strings.client_users"
+msgstr "Usuaris del Client"
+
+msgid "strings.edit_organization"
+msgstr "Editar Organitzaci&oacute; del Client"
+
+msgid "strings.add_organization"
+msgstr "Afegir Organitzaci&oacute; del Client"
+
+msgid "strings.organizations"
+msgstr "Organitzacions del Client"
+
+msgid "strings.info"
+msgstr "Informaci&oacute;"
+
+msgid "strings.status"
+msgstr "Estat"
+
+msgid "strings.owner"
+msgstr "Propietari"
+
+msgid "strings.home"
+msgstr "Inici"
+
+msgid "strings.projects"
+msgstr "Projectes"
+
+msgid "strings.files"
+msgstr "Fitxers"
+
+msgid "strings.search"
+msgstr "Buscar"
+
+msgid "strings.user"
+msgstr "Usuari"
+
+msgid "strings.project_manager"
+msgstr "Cap de Projecte"
+
+msgid "strings.due"
+msgstr "Lliurament"
+
+msgid "strings.task"
+msgstr "Tasca"
+
+msgid "strings.tasks"
+msgstr "Tasques"
+
+msgid "strings.team"
+msgstr "Equip"
+
+msgid "strings.add_team"
+msgstr "Afegir Membres de l'Equip"
+
+msgid "strings.team_members"
+msgstr "Membres de l'Equip"
+
+msgid "strings.full_name"
+msgstr "Nom complet"
+
+msgid "strings.title"
+msgstr "T&iacute;tol"
+
+msgid "strings.user_name"
+msgstr "Nom d'usuari"
+
+msgid "strings.work_phone"
+msgstr "Tel&egrave;fon de treball"
+
+msgid "strings.priority"
+msgstr "Prioritat"
+
+msgid "strings.name"
+msgstr "Nom"
+
+msgid "strings.description"
+msgstr "Descripci&oacute;"
+
+msgid "strings.phone"
+msgstr "Tel&egrave;fon"
+
+msgid "strings.address"
+msgstr "Adreça"
+
+msgid "strings.comments"
+msgstr "Comentaris"
+
+msgid "strings.created"
+msgstr "Creat"
+
+msgid "strings.assigned"
+msgstr "Sense Assignar"
+
+msgid "strings.modified"
+msgstr "Modificat"
+
+msgid "strings.assigned_to"
+msgstr "Assignat a"
+
+msgid "strings.due_date"
+msgstr "Data de Lliurament"
+
+msgid "strings.estimated_time"
+msgstr "Temps Estimat"
+
+msgid "strings.actual_time"
+msgstr "Temps Actual"
+
+msgid "strings.delete_following"
+msgstr "Eliminar el següent?"
+
+msgid "strings.cancel"
+msgstr "Cancel·lar"
+
+msgid "strings.and"
+msgstr "i"
+
+msgid "strings.administration"
+msgstr "Administraci&oacute;"
+
+msgid "strings.user_management"
+msgstr "Administraci&oacute; d'Usuaris"
+
+msgid "strings.system_information"
+msgstr "Informaci&oacute; del Sistema"
+
+msgid "strings.product_information"
+msgstr "Informaci&oacute; del Producte"
+
+msgid "strings.system_properties"
+msgstr "Propietats de Sistema"
+
+msgid "strings.create"
+msgstr "Crear"
+
+msgid "strings.report_save"
+msgstr ""
+"Guardeu aquesta cerca d'informe al vostre lloc web per executar-la de"
+"nou."
+
+msgid "strings.report_name"
+msgstr "Nom d'Informe"
+
+msgid "strings.save"
+msgstr "Guardar"
+
+msgid "strings.matches"
+msgstr "Coincid&egrave;ncies"
+
+msgid "strings.match"
+msgstr "Coincid&egrave;ncia"
+
+msgid "strings.report_results"
+msgstr "Informar dels Resultats"
+
+msgid "strings.success"
+msgstr "Operaci&oacute; Correcta"
+
+msgid "strings.addition_succeeded"
+msgstr "Addici&oacute; correcta"
+
+msgid "strings.deletion_succeeded"
+msgstr "Eliminaci&oacute; correcta"
+
+msgid "strings.report_created"
+msgstr "Informe creat"
+
+msgid "strings.deleted_reports"
+msgstr "Informes eliminats"
+
+msgid "strings.modification_succeeded"
+msgstr "Modificaci&oacute; correcta"
+
+msgid "strings.errors"
+msgstr "S'ha trobat errors!"
+
+msgid "strings.blank_user"
+msgstr "No s'ha trobat l'usuari"
+
+msgid "strings.blank_organization"
+msgstr "No s'ha trobat l'organizaci&oacute; del client."
+
+msgid "strings.blank_project"
+msgstr "No s'ha pogut localitzar el projecte."
+
+msgid "strings.user_profile"
+msgstr "Perfil d'Usuari"
+
+msgid "strings.change_password"
+msgstr "Canviar Clau"
+
+msgid "strings.change_password_user"
+msgstr "Canviar la clau de l'usuari."
+
+msgid "strings.old_password_error"
+msgstr ""
+"La clau antiga que heu entrat és incorrecta. Si us plau, entreu la"
+"clau antiga de nou."
+
+msgid "strings.new_password_error"
+msgstr ""
+"Les dues claus entrades no coincideixen. Si us plau, entreu la nova"
+"clau de nou."
+
+msgid "strings.notifications"
+msgstr "Notificacions"
+
+msgid "strings.change_password_intro"
+msgstr "Entreu la vostra clau antiga i confirmeu la vostra nova clau."
+
+msgid "strings.old_password"
+msgstr "Clau Antiga "
+
+msgid "strings.password"
+msgstr "Clau"
+
+msgid "strings.new_password"
+msgstr "Nova Clau"
+
+msgid "strings.confirm_password"
+msgstr "Confirmeu la Clau"
+
+msgid "strings.email"
+msgstr "Correu-e"
+
+msgid "strings.home_phone"
+msgstr "Tel&egrave;fon Particular"
+
+msgid "strings.mobile_phone"
+msgstr "Tel&egrave;fon M&ograve;bil"
+
+msgid "strings.permissions"
+msgstr "Permisos"
+
+msgid "strings.administrator_permissions"
+msgstr "Permisos d'Administrador"
+
+msgid "strings.project_manager_permissions"
+msgstr "Permisos de Caps de Projecte"
+
+msgid "strings.user_permissions"
+msgstr "Permisos d'Usuari"
+
+msgid "strings.account_created"
+msgstr "Compte Creat"
+
+msgid "strings.edit_user"
+msgstr "Editar Usuari"
+
+msgid "strings.edit_user_details"
+msgstr "Editar els detalls del Compte."
+
+msgid "strings.change_user_password"
+msgstr "Canviar la clau de l'usuari."
+
+msgid "strings.select_permissions"
+msgstr "Establir permisos per a aquest usuari"
+
+msgid "strings.add_user"
+msgstr "Afegir Usuari"
+
+msgid "strings.enter_user_details"
+msgstr "Entreu els detalls per al compte d'usuari que esteu creant."
+
+msgid "strings.enter_password"
+msgstr "Entreu la clau d'usuari."
+
+msgid "strings.success_logout"
+msgstr ""
+"Heu sortit correctament. Podeu entrar de nou tot escrivint el vostre"
+"nom d'usuari i clau a continuaci&oacute;."
+
+msgid "strings.invalid_login"
+msgstr ""
+"Aquest usuari i/o clau que heu entrat és inv&agrave;lid. Si us plau,"
+"proveu-ho de nou."
+
+msgid "strings.profile"
+msgstr "Perfil"
+
+msgid "strings.user_details"
+msgstr "Detalls del compte d'Usuari."
+
+msgid "strings.edit_user_account"
+msgstr "Editeu la informaci&oacute; del vostre compte."
+
+msgid "strings.no_permissions"
+msgstr "No teniu prou permisos per dur a terme aquesta operaci&oacute;."
+
+msgid "strings.discussion"
+msgstr "Discussi&oacute;"
+
+msgid "strings.retired"
+msgstr "Retirat"
+
+msgid "strings.last_post"
+msgstr "Darrer Missatge"
+
+msgid "strings.post_reply"
+msgstr "Respondre"
+
+msgid "strings.posted_by"
+msgstr "Escrit per"
+
+msgid "strings.when"
+msgstr "Quan"
+
+msgid "strings.post_to_discussion"
+msgstr "Publiqueu una Discussi&oacute;"
+
+msgid "strings.message"
+msgstr "Missatge"
+
+msgid "strings.delete_reports"
+msgstr "Eliminar Informes"
+
+msgid "strings.delete_projects"
+msgstr "Eliminar Projectes"
+
+msgid "strings.delete_organizations"
+msgstr "Eliminar Organitzaci&oacute; de Client"
+
+msgid "strings.delete_organizations_note"
+msgstr ""
+"Nota: Això eliminar&agrave; tots els usuaris d'aquestes"
+"organitzacions, i tots els projectes oberts d'aquesta"
+"organizaci&oacute; seran desassociats."
+
+msgid "strings.delete_messages"
+msgstr "Eliminar Missatges"
+
+msgid "strings.attention"
+msgstr "Atenci&oacute;"
+
+msgid "strings.delete_teamownermix"
+msgstr ""
+"Eliminaci&oacute; correcta, però el propietari del projecte no es pot"
+"eliminar de l'equip."
+
+msgid "strings.delete_teamowner"
+msgstr "No podeu eliminar el propietari del projecte de l'equip."
+
+msgid "strings.enter_keywords"
+msgstr "Entreu paraules clau"
+
+msgid "strings.search_options"
+msgstr "Paraules Clau i Opcions de Cerca"
+
+msgid "strings.search_note"
+msgstr "Cal que entreu la informaci&oacute; a la casella de Cerca."
+
+msgid "strings.search_results"
+msgstr "Resultats de Cerca"
+
+msgid "strings.users"
+msgstr "Usuaris"
+
+msgid "strings.search_for"
+msgstr "Buscar"
+
+msgid "strings.results_for_keywords"
+msgstr "Buscar paraules clau als resultats"
+
+msgid "strings.add_discussion"
+msgstr "Afegir Discussi&oacute;"
+
+msgid "strings.delete_users"
+msgstr "Eliminar comptes d'Usuari"
+
+msgid "strings.reassignment"
+msgstr "Reassignaci&oacute; de Projecte i Tasques"
+
+msgid "strings.there"
+msgstr "Existeixen "
+
+msgid "strings.owned_by"
+msgstr "que pertanyen als usuaris a dalt"
+
+msgid "strings.reassign_to"
+msgstr "Abans d'eliminar usuaris, reassigneu aquests a"
+
+msgid "strings.no_files"
+msgstr "No hi ha fitxers vinculats "
+
+msgid "strings.published"
+msgstr "Publicat"
+
+msgid "strings.project_site"
+msgstr "Lloc de projecte"
+
+msgid "strings.approval_tracking"
+msgstr "Rastreig d'Aprobaci&oacute;"
+
+msgid "strings.size"
+msgstr "Tamany"
+
+msgid "strings.add_project_site"
+msgstr "Afegir al Lloc de Projecte"
+
+msgid "strings.remove_project_site"
+msgstr "Borrar del Lloc de Projecte"
+
+msgid "strings.more_search"
+msgstr "M&eacute;s opcions de cerca"
+
+msgid "strings.results_with"
+msgstr "Trobar Resultats amb"
+
+msgid "strings.search_topics"
+msgstr "Buscar Temes"
+
+msgid "strings.search_properties"
+msgstr "Propietats de Cerca"
+
+msgid "strings.date_restrictions"
+msgstr "Restriccions de Data"
+
+msgid "strings.case_sensitive"
+msgstr "Sensible a Maj&uacute;scules"
+
+msgid "strings.yes"
+msgstr "S&iacute;"
+
+msgid "strings.sort_by"
+msgstr "Ordenar per"
+
+msgid "strings.type"
+msgstr "Tipus"
+
+msgid "strings.date"
+msgstr "Data"
+
+msgid "strings.all_words"
+msgstr "totes les paraules"
+
+msgid "strings.any_words"
+msgstr "qualsevol paraula"
+
+msgid "strings.exact_match"
+msgstr "coincidir exactament"
+
+msgid "strings.all_dates"
+msgstr "Totes les dates"
+
+msgid "strings.between_dates"
+msgstr "Entre les dates"
+
+msgid "strings.all_content"
+msgstr "Tot el contingut"
+
+msgid "strings.all_properties"
+msgstr "Totes les propietats"
+
+msgid "strings.no_results_search"
+msgstr "Aquesta cerca no ha retornat resultats."
+
+msgid "strings.no_results_report"
+msgstr "Aquest informe no ha retornat resultats."
+
+msgid "strings.schema_date"
+msgstr "DD/MM/YYYY"
+
+msgid "strings.hours"
+msgstr "hores"
+
+msgid "strings.choice"
+msgstr "Elecci&oacute;"
+
+msgid "strings.missing_file"
+msgstr "Falta fitxer !"
+
+msgid "strings.project_site_deleted"
+msgstr "El Lloc de Projecte ha estat eliminat amb &egrave;xit."
+
+msgid "strings.add_user_project_site"
+msgstr ""
+"S'ha otorgat perm&iacute;s a l'usuari per accedir el Lloc de Projecte."
+
+msgid "strings.remove_user_project_site"
+msgstr "Els permisos d'usuari han estat eliminats amb &egrave;xit."
+
+msgid "strings.add_project_site_success"
+msgstr "S'ha afegit al Lloc de Projecte correctament."
+
+msgid "strings.remove_project_site_success"
+msgstr "S'ha borrat del Lloc de Projecte correctament."
+
+msgid "strings.add_file_success"
+msgstr "1 element vinculat."
+
+msgid "strings.delete_file_success"
+msgstr "Desvinculaci&oacute; correcta."
+
+msgid "strings.update_comment_file"
+msgstr "El comentari sobre el fitxer ha estat actualitzat correctament."
+
+msgid "strings.session_false"
+msgstr "Error de Sessi&oacute;"
+
+msgid "strings.logs"
+msgstr "Registres"
+
+msgid "strings.noti_foot1"
+msgstr "Aquesta notificaci&oacute; ha estat generada per PhpCollab."
+
+msgid "strings.noti_foot2"
+msgstr "Per veure la vostra p&agrave;gina d'Inici PhpCollab aneu a:"
+
+msgid "strings.noti_taskassignment1"
+msgstr "Nova tasca:"
+
+msgid "strings.noti_taskassignment2"
+msgstr "Se us ha assignat una nova tasca:"
+
+msgid "strings.noti_moreinfo"
+msgstr "Per a més informaci&oacute;, aneu a:"
+
+msgid "strings.noti_prioritytaskchange1"
+msgstr "Canvi en la prioritat de la tasca:"
+
+msgid "strings.noti_prioritytaskchange2"
+msgstr "La prioritat de la següent tasca ha canviat:"
+
+msgid "strings.noti_statustaskchange1"
+msgstr "Canvi en l'estat de la tasca:"
+
+msgid "strings.noti_statustaskchange2"
+msgstr "L'estat de la següent tasca ha canviat:"
+
+msgid "strings.login_username"
+msgstr "Cal que entreu un nom d'usuari."
+
+msgid "strings.login_password"
+msgstr "Si us plau, entreu una clau."
+
+msgid "strings.login_clientuser"
+msgstr ""
+"Aquest és el compte d'usuari d'un client. No podeu accedir a"
+"PhpCollab amb un compte d'usuari de client."
+
+msgid "strings.user_already_exists"
+msgstr ""
+"Ja hi ha un altre usuari amb aquest nom. Si us plau, escolliu una"
+"variaci&oacute; del nom d'usuari."
+
+msgid "strings.noti_duedatetaskchange1"
+msgstr "Canvi en la data de finalitzaci&oacute; de la tasca:"
+
+msgid "strings.noti_duedatetaskchange2"
+msgstr "La data de finalitzaci&oacute; de la següent tasca ha canviat:"
+
+msgid "strings.company"
+msgstr "Companyia"
+
+msgid "strings.show_all"
+msgstr "Veure totes"
+
+msgid "strings.information"
+msgstr "Informaci&oacute;"
+
+msgid "strings.delete_message"
+msgstr "Borrar aquest missatge"
+
+msgid "strings.project_team"
+msgstr "Equip de Projecte"
+
+msgid "strings.document_list"
+msgstr "Llista de Documents"
+
+msgid "strings.bulletin_board"
+msgstr "Taulell d'Anuncis"
+
+msgid "strings.bulletin_board_topic"
+msgstr "Tema del Taulell d'Anuncis"
+
+msgid "strings.create_topic"
+msgstr "Crear un Nou Tema"
+
+msgid "strings.topic_form"
+msgstr "Formulari de Temes"
+
+msgid "strings.enter_message"
+msgstr "Entreu el vostre missatge"
+
+msgid "strings.upload_file"
+msgstr "Pugeu un fitxer"
+
+msgid "strings.upload_form"
+msgstr "Formulari de Pujada"
+
+msgid "strings.upload"
+msgstr "Pujar"
+
+msgid "strings.approval_comments"
+msgstr "Comentaris d'Aprovaci&oacute;"
+
+msgid "strings.client_tasks"
+msgstr "Tasques del Client"
+
+msgid "strings.team_tasks"
+msgstr "Tasques de l'Equip"
+
+msgid "strings.team_member_details"
+msgstr "Detalls de Membre de l'Equip de Projecte"
+
+msgid "strings.client_task_details"
+msgstr "Detalls de la Tasca de Client"
+
+msgid "strings.team_task_details"
+msgstr "Detalls de la Tasca de l'Equip"
+
+msgid "strings.language"
+msgstr "Idioma"
+
+msgid "strings.welcome"
+msgstr "Benvinguts"
+
+msgid "strings.your_projectsite"
+msgstr "al vostre Lloc de Projecte"
+
+msgid "strings.contact_projectsite"
+msgstr ""
+"Si teniu qualsevol pregunta sobra l'extranet o sobre la"
+"informaci&oacute; exposada, si us plau, contacteu amb el Cap de"
+"Projecte"
+
+msgid "strings.company_details"
+msgstr "Detalls de la Companyia"
+
+msgid "strings.database"
+msgstr "Backup i Recuperaci&oacute; de la Base de Dades"
+
+msgid "strings.company_info"
+msgstr "Editeu la vostra informaci&oacute; de la companyia"
+
+msgid "strings.create_projectsite"
+msgstr "Creeu un Lloc de Projecte"
+
+msgid "strings.projectsite_url"
+msgstr "URL del Lloc de Projecte"
+
+msgid "strings.design_template"
+msgstr "Dissenyar Aparença"
+
+msgid "strings.preview_design_template"
+msgstr "Previsualitzar Disseny d'Aparença"
+
+msgid "strings.delete_projectsite"
+msgstr "Borrar el Lloc de Projecte"
+
+msgid "strings.add_file"
+msgstr "Afegir Fitxer"
+
+msgid "strings.linked_content"
+msgstr "Contingut enllaçat"
+
+msgid "strings.edit_file"
+msgstr "Editeu els detalls del fitxer"
+
+msgid "strings.permitted_client"
+msgstr "Usuaris clients admesos"
+
+msgid "strings.grant_client"
+msgstr "Garantir Permisos per Veure el Lloc de Projecte"
+
+msgid "strings.add_client_user"
+msgstr "Afegir Usuari Client"
+
+msgid "strings.edit_client_user"
+msgstr "Editar Usuari Client"
+
+msgid "strings.client_user"
+msgstr "Usuari Client"
+
+msgid "strings.client_change_status"
+msgstr "Canvieu el vostre estat a sota quan hagueu finalitzat aquesta tasca"
+
+msgid "strings.project_status"
+msgstr "Estat del Projecte"
+
+msgid "strings.view_projectsite"
+msgstr "Veure el Lloc de Projecte"
+
+msgid "strings.enter_login"
+msgstr "Entreu el vostre nom d'usuari per rebre la clau"
+
+msgid "strings.send"
+msgstr "Enviar"
+
+msgid "strings.no_login"
+msgstr "No s'ha trobat el nom d'usuari a la Base de Dades"
+
+msgid "strings.email_pwd"
+msgstr "Clau enviada"
+
+msgid "strings.no_email"
+msgstr "Usuari sense Adreça Electrònica"
+
+msgid "strings.forgot_pwd"
+msgstr "Heu oblidat la clau ?"
+
+msgid "strings.project_owner"
+msgstr "Només podeu fer canvis als vostres propis projectes."
+
+msgid "strings.connected"
+msgstr "Connectat"
+
+msgid "strings.session"
+msgstr "Sessi&oacute;"
+
+msgid "strings.last_visit"
+msgstr "Darrera visita"
+
+msgid "strings.compteur"
+msgstr "Comptador"
+
+msgid "strings.task_owner"
+msgstr "No sou membre d'equip en aquest projecte"
+
+msgid "strings.export"
+msgstr "Exportar"
+
+msgid "strings.reassignment_clientuser"
+msgstr "Reassignament  de Tasques"
+
+msgid "strings.organization_already_exists"
+msgstr ""
+"Aquest nom ja est&agrave; en ús al sistema. Si us plau, escolliu-ne"
+"un altre."
+
+msgid "strings.blank_organization_field"
+msgstr "Cal que entreu el nom de l'organitzaci&oacute; client."
+
+msgid "strings.blank_fields"
+msgstr "camps obligatoris"
+
+msgid "strings.projectsite_login_fails"
+msgstr "No s'ha pogut confirmar la combinaci&oacute; de nom d'usuari i clau."
+
+msgid "strings.start_date"
+msgstr "Data d'Inici"
+
+msgid "strings.completion"
+msgstr "Acabament"
+
+msgid "strings.update_available"
+msgstr "Hi ha una actualitzaci&oacute; disponible!"
+
+msgid "strings.version_current"
+msgstr "Esteu usant la versi&oacute;"
+
+msgid "strings.version_latest"
+msgstr "La darrera versi&oacute; és la"
+
+msgid "strings.sourceforge_link"
+msgstr "Vegeu la p&agrave;gina de projecte a Sourceforge"
+
+msgid "strings.demo_mode"
+msgstr "Mode Demo. No és permesa aquesta acci&oacute;."
+
+msgid "strings.setup_erase"
+msgstr "Borreu el fitxer setup.php!!"
+
+msgid "strings.no_file"
+msgstr "No s'ha seleccionat cap fitxer"
+
+msgid "strings.exceed_size"
+msgstr "Tamany m&agrave;xim de fitxer superat"
+
+msgid "strings.no_php"
+msgstr "Fitxer Php prohibit"
+
+msgid "strings.approval_date"
+msgstr "Data d'Aprovaci&oacute;"
+
+msgid "strings.approver"
+msgstr "Aprovador"
+
+msgid "strings.error_database"
+msgstr "No s'ha pogut conectar a la Base de Dades"
+
+msgid "strings.error_server"
+msgstr "No s'ha pogut connectar al servidor"
+
+msgid "strings.version_control"
+msgstr "Control de Versi&oacute;"
+
+msgid "strings.vc_status"
+msgstr "Estat"
+
+msgid "strings.vc_last_in"
+msgstr "Data de la darrera modificaci&oacute;"
+
+msgid "strings.ifa_comments"
+msgstr "Comentaris d'Aprovaci&oacute;"
+
+msgid "strings.ifa_command"
+msgstr "Canviar l'estat d'aprovaci&oacute;"
+
+msgid "strings.vc_version"
+msgstr "Versi&oacute;"
+
+msgid "strings.ifc_revisions"
+msgstr "Revisions de Peer"
+
+msgid "strings.ifc_revision_of"
+msgstr "Revisi&oacute; de la versi&oacute;"
+
+msgid "strings.ifc_add_revision"
+msgstr "Afegir una Revisi&oacute; de Peer"
+
+msgid "strings.ifc_update_file"
+msgstr "Actualitzar fitxer"
+
+msgid "strings.ifc_last_date"
+msgstr "Data de la darrera modificaci&oacute;"
+
+msgid "strings.ifc_version_history"
+msgstr "Historial de Versions"
+
+msgid "strings.ifc_delete_file"
+msgstr "Borrar fitxer i totes les versions i revisions que en depenen"
+
+msgid "strings.ifc_delete_version"
+msgstr "Borrar Versi&oacute; Seleccionada"
+
+msgid "strings.ifc_delete_review"
+msgstr "Borrar Revisi&oacute; Seleccionada"
+
+msgid "strings.ifc_no_revisions"
+msgstr "Ara mateix no hi ha cap revisi&oacute; d'aquest document"
+
+msgid "strings.unlink_files"
+msgstr "Fitxers no enllaçats"
+
+msgid "strings.remove_team"
+msgstr "Borrar Membres de l'Equip"
+
+msgid "strings.remove_team_info"
+msgstr "Borrar aquests usuaris de l'euquip de projecte?"
+
+msgid "strings.remove_team_client"
+msgstr "Borrar permisos de lectura del Lloc de Projecte"
+
+msgid "strings.note"
+msgstr "Nota"
+
+msgid "strings.subject"
+msgstr "Assumpte"
+
+msgid "strings.delete_note"
+msgstr "Borrar entrades de Notes"
+
+msgid "strings.add_note"
+msgstr "Afegir Nota"
+
+msgid "strings.edit_note"
+msgstr "Editar Nota"
+
+msgid "strings.version_increm"
+msgstr "Seleccionar el canvi de versi&oacute; a aplicar:"
+
+msgid "strings.url_dev"
+msgstr "Url del Lloc de Desenvolupament"
+
+msgid "strings.url_prod"
+msgstr "Url del Lloc Final"
+
+msgid "strings.note_owner"
+msgstr "Només podeu fer canvis en les vostres pròpies notes."
+
+msgid "strings.alpha_only"
+msgstr "Al nom d'usuari només car&agrave;cters alfanum&egrave;rics"
+
+msgid "strings.edit_notifications"
+msgstr "Editar Notificacions de Correu-e"
+
+msgid "strings.edit_notifications_info"
+msgstr ""
+"Seleccioneu esdeveniments per als quals voleu rebre notificacions per"
+"correu-e."
+
+msgid "strings.select_deselect"
+msgstr "Seleccionar/Desseleccionar Tot"
+
+msgid "strings.noti_addprojectteam1"
+msgstr "Afegit a l'equip de projecte :"
+
+msgid "strings.noti_addprojectteam2"
+msgstr "Heu estat afegits a l'equip de projecte per :"
+
+msgid "strings.noti_removeprojectteam1"
+msgstr "Borrat de l'equip de projecte :"
+
+msgid "strings.noti_removeprojectteam2"
+msgstr "Heu estat borrats de l'equip de projecte per :"
+
+msgid "strings.noti_newpost1"
+msgstr "Nou missatge :"
+
+msgid "strings.noti_newpost2"
+msgstr "S'ha afegit un nou missatge a la discussi&oacute; següent :"
+
+msgid "strings.edit_noti_taskassignment"
+msgstr "Estic assignat a una nova tasca."
+
+msgid "strings.edit_noti_statustaskchange"
+msgstr "Canvis en l'estat d'una de les meves tasques."
+
+msgid "strings.edit_noti_prioritytaskchange"
+msgstr "Canvis en la prioritat d'una de les meves tasques."
+
+msgid "strings.edit_noti_duedatetaskchange"
+msgstr "Canvis en la data de finalitzaci&oacute; d'una de les meves tasques."
+
+msgid "strings.edit_noti_addprojectteam"
+msgstr "Formo part d'un equip de projecte."
+
+msgid "strings.edit_noti_removeprojectteam"
+msgstr "He deixat de formar part d'un equip de projecte."
+
+msgid "strings.edit_noti_newpost"
+msgstr "S'ha enviat un nou missatge a la discussi&oacute;."
+
+msgid "strings.add_optional"
+msgstr "Afegir un opcional"
+
+msgid "strings.assignment_comment_info"
+msgstr "Afegir comentaris sobre l'assignaci&oacute; d'aquesta tasca"
+
+msgid "strings.my_notes"
+msgstr "Les Meves Notes"
+
+msgid "strings.edit_settings"
+msgstr "Editar prefer&egrave;ncies"
+
+msgid "strings.max_upload"
+msgstr "Tamany M&agrave;xim de Fitxers"
+
+msgid "strings.project_folder_size"
+msgstr "Tamany M&agrave;xim de la carpeta de projecte"
+
+msgid "strings.calendar"
+msgstr "Calendari"
+
+msgid "strings.date_start"
+msgstr "Data d'Inici"
+
+msgid "strings.date_end"
+msgstr "Data Final"
+
+msgid "strings.time_start"
+msgstr "Temps d'Inici"
+
+msgid "strings.time_end"
+msgstr "Temps Final"
+
+msgid "strings.calendar_reminder"
+msgstr "Recordatori"
+
+msgid "strings.shortname"
+msgstr "Nom curt"
+
+msgid "strings.calendar_recurring"
+msgstr "Esdeveniment recursiu cada setmana en aquest dia"
+
+msgid "strings.edit_database"
+msgstr "Editar Base de Dades"
+
+msgid "strings.noti_newtopic1"
+msgstr "Nova discussi&oacute; :"
+
+msgid "strings.noti_newtopic2"
+msgstr "S'ha afegit una nova discussi&oacute; al següent projecte :"
+
+msgid "strings.edit_noti_newtopic"
+msgstr "S'ha creat un nou tema de debat."
+
+msgid "strings.today"
+msgstr "Avui"
+
+msgid "strings.previous"
+msgstr "Anterior"
+
+msgid "strings.next"
+msgstr "Següent"
+
+msgid "strings.help"
+msgstr "Ajuda"
+
+msgid "strings.complete_date"
+msgstr "Data completa"
+
+msgid "strings.days"
+msgstr "Dies"
+
+msgid "strings.logo"
+msgstr "Logotip"
+
+msgid "strings.remember_password"
+msgstr "Recordar Clau"
+
+msgid "strings.client_add_task_note"
+msgstr ""
+"Nota: La tasca que acabeu d'entrar és registrada a la Base de Dades."
+"Tot i així apareixerà aquí si sempre que estigui assignada a un"
+"membre de l'equip!"
+
+msgid "strings.noti_clientaddtask1"
+msgstr "Tasca afegida pel client :"
+
+msgid "strings.noti_clientaddtask2"
+msgstr ""
+"Ha estat afegida una nova tasca per un client del Lloc de Projecte al"
+"següent projecte :"
+
+msgid "strings.phase"
+msgstr "Fase"
+
+msgid "strings.phases"
+msgstr "Fases"
+
+msgid "strings.phase_id"
+msgstr "ID de Fase"
+
+msgid "strings.current_phase"
+msgstr "Fase(s) activa(es)"
+
+msgid "strings.total_tasks"
+msgstr "Nombre total de tasques"
+
+msgid "strings.uncomplete_tasks"
+msgstr "Tasques incompletes"
+
+msgid "strings.no_current_phase"
+msgstr "No hi ha cap fase activa ara mateix"
+
+msgid "strings.true"
+msgstr "Veritat"
+
+msgid "strings.false"
+msgstr "Fals"
+
+msgid "strings.enable_phases"
+msgstr "Activar Fases"
+
+msgid "strings.phase_enabled"
+msgstr "Fase Activada"
+
+msgid "strings.order"
+msgstr "Ordre"
+
+msgid "strings.options"
+msgstr "Opcions"
+
+msgid "strings.support"
+msgstr "Suport"
+
+msgid "strings.support_request"
+msgstr "Petició de Suport"
+
+msgid "strings.support_requests"
+msgstr "Peticions de Suport"
+
+msgid "strings.support_id"
+msgstr "ID de Petició"
+
+msgid "strings.my_support_request"
+msgstr "Les meves Peticions de Suport"
+
+msgid "strings.introduction"
+msgstr "Introducció"
+
+msgid "strings.submit"
+msgstr "Enviar"
+
+msgid "strings.support_management"
+msgstr "Administració de Suport"
+
+msgid "strings.date_open"
+msgstr "Data d'obertura"
+
+msgid "strings.date_close"
+msgstr "Data de tancament"
+
+msgid "strings.add_support_request"
+msgstr "Afegir una petició de suport"
+
+msgid "strings.add_support_response"
+msgstr "Afegir una resposta de suport"
+
+msgid "strings.respond"
+msgstr "Respondre"
+
+msgid "strings.delete_support_request"
+msgstr "Petició de suport borrada"
+
+msgid "strings.delete_request"
+msgstr "Borrar petició de suport"
+
+msgid "strings.delete_support_post"
+msgstr "Borrar missatge de suport"
+
+msgid "strings.new_requests"
+msgstr "Noves peticions"
+
+msgid "strings.open_requests"
+msgstr "Obrir peticions"
+
+msgid "strings.closed_requests"
+msgstr "Completar peticions"
+
+msgid "strings.manage_new_requests"
+msgstr "Gestionar noves peticions"
+
+msgid "strings.manage_open_requests"
+msgstr "Gestionar peticions obertes"
+
+msgid "strings.manage_closed_requests"
+msgstr "Gestionar peticions completes"
+
+msgid "strings.responses"
+msgstr "Respostes"
+
+msgid "strings.edit_status"
+msgstr "Editar Estat"
+
+msgid "strings.noti_support_request_new2"
+msgstr "Heu enviat una petició de suport sobre el següent tema: "
+
+msgid "strings.noti_support_post2"
+msgstr ""
+"S'ha afegit una nova resposta a la vostra petició de suport. Si us"
+"plau, vegeu-ne els detalls a sota."
+
+msgid "strings.noti_support_status2"
+msgstr ""
+"La vostra petició de suport ha estat actualitzada. Si us plau,"
+"vegeu-ne els detalls a sota."
+
+msgid "strings.noti_support_team_new2"
+msgstr "Ha estat sol·licitada una nova petició de suport per al projecte: "
+
+msgid "strings.delete_subtasks"
+msgstr "Borrar Subtasques"
+
+msgid "strings.add_subtask"
+msgstr "Afegir subtasca"
+
+msgid "strings.edit_subtask"
+msgstr "Editar subtasca"
+
+msgid "strings.subtask"
+msgstr "Subtasca"
+
+msgid "strings.subtasks"
+msgstr "Subtasques"
+
+msgid "strings.show_details"
+msgstr "Mostrar detalls"
+
+msgid "strings.updates_task"
+msgstr "Historial d'actualitzacions de tasques"
+
+msgid "strings.updates_subtask"
+msgstr "Historial d'actualitzacions de subtasques"
+
+msgid "strings.go_projects_site"
+msgstr "Anar al lloc del Projecte"
+
+msgid "strings.bookmark"
+msgstr "Marcador"
+
+msgid "strings.bookmarks"
+msgstr "Marcadors"
+
+msgid "strings.bookmark_category"
+msgstr "Categoria"
+
+msgid "strings.bookmark_category_new"
+msgstr "Nova categoria"
+
+msgid "strings.bookmarks_all"
+msgstr "Tots"
+
+msgid "strings.bookmarks_my"
+msgstr "Els meus Marcadors"
+
+msgid "strings.my"
+msgstr "El/s meu/s"
+
+msgid "strings.bookmarks_private"
+msgstr "Privat"
+
+msgid "strings.shared"
+msgstr "Compartit"
+
+msgid "strings.private"
+msgstr "Privat"
+
+msgid "strings.add_bookmark"
+msgstr "Afegir marcador"
+
+msgid "strings.edit_bookmark"
+msgstr "Editar marcador"
+
+msgid "strings.delete_bookmarks"
+msgstr "Borrar marcadors"
+
+msgid "strings.team_subtask_details"
+msgstr "Detalls de subtasca d'equip"
+
+msgid "strings.client_subtask_details"
+msgstr "Detalls de la subtasca de client"
+
+msgid "strings.client_change_status_subtask"
+msgstr ""
+"Canvieu el vostre estat des d'aquí sota quan hagueu completat aquesta"
+"subtasca"
+
+msgid "strings.disabled_permissions"
+msgstr "Compte inhabilitat"
+
+msgid "strings.user_timezone"
+msgstr "Zona Horària (GMT)"
+
+msgid "strings.project_manager_administrator_permissions"
+msgstr "Administrador de Caps de Projecte"
+
+msgid "strings.bug"
+msgstr "Seguiment d'errors de programació"
+
+msgid "strings.report"
+msgstr "Informe"
+
+msgid "strings.license"
+msgstr "Llicència"
+
+
+# Enum values (status, priority, etc.)
+# Note: These should be moved to enums.*.po domain
+
+#. Domain: enums
+msgid "status.0"
+msgstr "Client Finalitzat"
+
+#. Domain: enums
+msgid "status.1"
+msgstr "Finalitzat"
+
+#. Domain: enums
+msgid "status.2"
+msgstr "No Iniciat"
+
+#. Domain: enums
+msgid "status.3"
+msgstr "Obert"
+
+#. Domain: enums
+msgid "status.4"
+msgstr "Susp&egrave;s"
+
+#. Domain: enums
+msgid "profil.0"
+msgstr "Administrador"
+
+#. Domain: enums
+msgid "profil.1"
+msgstr "Cap de Projecte"
+
+#. Domain: enums
+msgid "profil.2"
+msgstr "Usuari"
+
+#. Domain: enums
+msgid "profil.3"
+msgstr "Usuari Client"
+
+#. Domain: enums
+msgid "profil.4"
+msgstr "Disabled"
+
+#. Domain: enums
+msgid "profil.5"
+msgstr "Project Manager Administrator"
+
+#. Domain: enums
+msgid "priority.0"
+msgstr "Cap"
+
+#. Domain: enums
+msgid "priority.1"
+msgstr "Molt baixa"
+
+#. Domain: enums
+msgid "priority.2"
+msgstr "Baixa"
+
+#. Domain: enums
+msgid "priority.3"
+msgstr "Mitjana"
+
+#. Domain: enums
+msgid "priority.4"
+msgstr "Alta"
+
+#. Domain: enums
+msgid "priority.5"
+msgstr "Molt alta"
+
+#. Domain: enums
+msgid "statusTopic.0"
+msgstr "Tancat"
+
+#. Domain: enums
+msgid "statusTopic.1"
+msgstr "Obert"
+
+#. Domain: enums
+msgid "statusTopicBis.0"
+msgstr "S&iacute;"
+
+#. Domain: enums
+msgid "statusTopicBis.1"
+msgstr "No"
+
+#. Domain: enums
+msgid "statusPublish.0"
+msgstr "S&iacute;"
+
+#. Domain: enums
+msgid "statusPublish.1"
+msgstr "No"
+
+#. Domain: enums
+msgid "statusFile.0"
+msgstr "Aprovat"
+
+#. Domain: enums
+msgid "statusFile.1"
+msgstr "Aprovat amb canvis"
+
+#. Domain: enums
+msgid "statusFile.2"
+msgstr "Cal Aprovaci&oacute;"
+
+#. Domain: enums
+msgid "statusFile.3"
+msgstr "No Cal Aprovaci&oacute;"
+
+#. Domain: enums
+msgid "statusFile.4"
+msgstr "No Aprovat"
+
+#. Domain: enums
+msgid "phaseStatus.0"
+msgstr "No Començada"
+
+#. Domain: enums
+msgid "phaseStatus.1"
+msgstr "Open"
+
+#. Domain: enums
+msgid "phaseStatus.2"
+msgstr "Completa"
+
+#. Domain: enums
+msgid "phaseStatus.3"
+msgstr "Suspesa"
+
+#. Domain: enums
+msgid "requestStatus.0"
+msgstr "New"
+
+#. Domain: enums
+msgid "requestStatus.1"
+msgstr "Open"
+
+#. Domain: enums
+msgid "requestStatus.2"
+msgstr "Complete"
+
+
+# Arrays (days, months, byte units)
+
+msgid "byteunits.0"
+msgstr "Bytes"
+
+msgid "byteunits.1"
+msgstr "KB"
+
+msgid "byteunits.2"
+msgstr "MB"
+
+msgid "byteunits.3"
+msgstr "GB"
+
+msgid "dayname.1"
+msgstr "dilluns"
+
+msgid "dayname.2"
+msgstr "dimarts"
+
+msgid "dayname.3"
+msgstr "dimecres"
+
+msgid "dayname.4"
+msgstr "dijous"
+
+msgid "dayname.5"
+msgstr "divendres"
+
+msgid "dayname.6"
+msgstr "dissabte"
+
+msgid "dayname.7"
+msgstr "diumenge"
+
+msgid "monthname.1"
+msgstr "gener"
+
+msgid "monthname.2"
+msgstr "febrer"
+
+msgid "monthname.3"
+msgstr "març"
+
+msgid "monthname.4"
+msgstr "abril"
+
+msgid "monthname.5"
+msgstr "maig"
+
+msgid "monthname.6"
+msgstr "juny"
+
+msgid "monthname.7"
+msgstr "juliol"
+
+msgid "monthname.8"
+msgstr "agost"
+
+msgid "monthname.9"
+msgstr "setembre"
+
+msgid "monthname.10"
+msgstr "octubre"
+
+msgid "monthname.11"
+msgstr "novembre"
+
+msgid "monthname.12"
+msgstr "desembre"
+

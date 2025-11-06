@@ -1,0 +1,91 @@
+# phpCollab Translation File
+# Language: Hungarian (hu)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:09 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Help text
+
+msgid "setup_mkdirMethod"
+msgstr ""
+"Ha a safe-mode be van kapcsolva, szükség van egy ftp"
+"hozzáférésre, hogy filekezelésre alkalmas könyvtárat lehessen"
+"létrehozni."
+
+msgid "setup_notifications"
+msgstr ""
+"Felhasználói e-mail értesítések (feladat-hozzárendelések, új"
+"hozzászólás, új hozzászólás, feladat változás, ...)<br/>Valid"
+"smtp/sendmail szükséges."
+
+msgid "setup_forcedlogin"
+msgstr ""
+"Ha hamis, akkor ne engedd külsõ linket"
+"felhasználónévvel/jelszóval az URL-ben"
+
+msgid "setup_langdefault"
+msgstr ""
+"Válaszd ki az alapértelmezett bejelentkezési nyelvet, vagy hagyd"
+"üresen, hogy a böngészõ detektálja automatikusan."
+
+msgid "setup_myprefix"
+msgstr ""
+"Állítsd be ezt az értéket, ha már van azonos nevû táblád az"
+"adatbázisban.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Hagyd"
+"üresen tábla prefix nem-használata esetén."
+
+msgid "setup_loginmethod"
+msgstr ""
+"Jelszavak tárolási metódusa az adatbázisban.<br/>Állíts"
+"&quot;Crypt&quot;-re a CVS és htaccess autentikáció mûködéséhez"
+"(ha a CVS support és/vagy htaccess autentikáció engedélyezett)."
+
+msgid "admin_update"
+msgstr ""
+"Szigorúan tartsd be a sorrendet a verziófrissítéskor<br/>1."
+"Beállítások szerkesztése (egészítsd ki az új"
+"paramétereket)<br/>2. Adatbázis szerkesztése (frissítsd a korábbi"
+"verziódhoz igazodva)"
+
+msgid "task_scope_creep"
+msgstr ""
+"Különbség a határidõ és a teljesítés dátuma között"
+"(félkövér, ha pozitív)"
+
+msgid "max_file_size"
+msgstr "Maximum file méret feltöltéshez"
+
+msgid "project_disk_space"
+msgstr "A projekthez tartozó file-ok összmérete"
+
+msgid "project_scope_creep"
+msgstr ""
+"Különbség a határidõ és a teljesítés dátuma között"
+"(félkövér, ha pozitív). Az összes feladatra vonatkozóan."
+
+msgid "mycompany_logo"
+msgstr ""
+"Tölts fel vállalatod tetszõleges logóját. Megjelenik a"
+"fejlécben. "
+
+msgid "calendar_shortname"
+msgstr "A naptár havi nézetében megjelenõ felirat. Kötelezõ"
+
+msgid "user_autologout"
+msgstr ""
+"Az az idõintervallum másodpercekben, amely után aktivitás"
+"hiányában kijelentkezteti a felhasználót. Állíts be 0-át, ha ki"
+"akarod iktatni a funkciót."
+
+msgid "user_timezone"
+msgstr "Állítsd be a GMT idõzónát"
+

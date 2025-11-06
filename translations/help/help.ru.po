@@ -1,0 +1,123 @@
+# phpCollab Translation File
+# Language: Russian (ru)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:13 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Help text
+
+msgid "setup_mkdirMethod"
+msgstr ""
+"Если в опциях PHP установлено safe-mode как"
+"On, необходимо поставить опцию"
+"\"создание папок\" как Ftp и настроить ftp"
+"установки."
+
+msgid "setup_notifications"
+msgstr ""
+"Уведомления пользователей по e-mail"
+"(задачи и их изменения, новые"
+"сообщения...)<br/>Требуется правильная"
+"настройка smtp/sendmail."
+
+msgid "setup_forcedlogin"
+msgstr ""
+"Если установлени как false, в URL не видно"
+"логином/пароля"
+
+msgid "setup_langdefault"
+msgstr ""
+"Выберите язык из списка при входе на"
+"сайт ил оставьте пустым при"
+"использовании автоопределения."
+
+msgid "setup_myprefix"
+msgstr ""
+"Установите этот параметр (префикс)"
+"если у вас есть другие таблицы в базе"
+"данных имеющие следующие названия:"
+"<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Оставьте"
+"пустым если не хотите использовать"
+"префикс."
+
+msgid "setup_loginmethod"
+msgstr ""
+"Метод сохранения пароля в базе"
+"данных.<br/>Установите как &quot;Crypt&quot; в CVS"
+"и htaccess авторизации (есливключена"
+"поддержка CVS и/или htaccess авторизация"
+"требуется)."
+
+msgid "admin_update"
+msgstr ""
+"Строго следуйте следующим правилам"
+"при обновлении вашей версии <br/> 1."
+"Редактируйте настройки (добавьте"
+"новые параметры) <br/> 2. Отредактируйте"
+"базу данных (модернизация вашей"
+"предшествующей версии)"
+
+msgid "task_scope_creep"
+msgstr ""
+"Различие в днях между должной датой и"
+"полной датой (в целых числлах)."
+
+msgid "max_file_size"
+msgstr ""
+"Максимальный размер файла для"
+"загрузки"
+
+msgid "project_disk_space"
+msgstr "Общий размер файлов проекта"
+
+msgid "project_scope_creep"
+msgstr ""
+"Различие в днях между должной датой и"
+"полной датой (в целых числлах). Общее"
+"для всех задач"
+
+msgid "mycompany_logo"
+msgstr ""
+"Добавьте логотип Вашей компании. Он"
+"будет расположен в заголовке"
+"страницы, вместо названия сайта"
+
+msgid "calendar_shortname"
+msgstr ""
+"Отметка появляющаяся в календаре."
+"Принудительная"
+
+msgid "user_autologout"
+msgstr ""
+"Время в секундах до отключения, если"
+"пользователь неактивен. 0 для"
+"отключения опции"
+
+msgid "user_timezone"
+msgstr "Установить свой часовой пояс"
+
+msgid "setup_clientsfilter"
+msgstr "Фильтр по активным члиентам"
+
+msgid "setup_projectsfilter"
+msgstr ""
+"Фильтр по проектам где пользователи в"
+"группе"
+
+msgid "setup_notificationMethod"
+msgstr ""
+"Установите метод для рассылки"
+"уведомлений: через функцию php"
+"(необходимо иметь сервер smtp или sendmail"
+"сконфигурированный на сервере) или"
+"через внешний smtp сервер"
+

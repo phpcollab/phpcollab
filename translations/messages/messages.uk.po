@@ -1,0 +1,1236 @@
+# phpCollab Translation File
+# Language: Ukrainian (uk)
+# Type: Lang
+# Domain: messages
+# Generated: 2025-11-06 00:44:14 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# String translations
+
+msgid "strings.please_login"
+msgstr "Будь ласка, авторизуйтесь"
+
+msgid "strings.requirements"
+msgstr "Вимоги до системи"
+
+msgid "strings.login"
+msgstr "Увійти"
+
+msgid "strings.no_items"
+msgstr "немає об'єктів для відображення"
+
+msgid "strings.logout"
+msgstr "Вихід"
+
+msgid "strings.preferences"
+msgstr "Настройки"
+
+msgid "strings.my_tasks"
+msgstr "Мої завдання"
+
+msgid "strings.edit_task"
+msgstr "Редагувати завдання"
+
+msgid "strings.copy_task"
+msgstr "Скопіювати завдання"
+
+msgid "strings.add_task"
+msgstr "Додати завдання"
+
+msgid "strings.delete_tasks"
+msgstr "Знищити завдання"
+
+msgid "strings.assignment_history"
+msgstr "Історія завдання"
+
+msgid "strings.assigned_on"
+msgstr "Час призначення"
+
+msgid "strings.assigned_by"
+msgstr "Хто призначив"
+
+msgid "strings.to"
+msgstr "Кому"
+
+msgid "strings.comment"
+msgstr "Коментар"
+
+msgid "strings.task_assigned"
+msgstr "Завдання поставлено"
+
+msgid "strings.task_unassigned"
+msgstr "Вісутній відповідальний по завданню"
+
+msgid "strings.edit_multiple_tasks"
+msgstr "Відредагувати декілька завдань"
+
+msgid "strings.tasks_selected"
+msgstr ""
+"вибраних завдань. Виберіть нові"
+"параметри цих завдань або оберіть [без"
+"змін] для збереження існуючих"
+"параметрів."
+
+msgid "strings.assignment_comment"
+msgstr "Коментар до доручення"
+
+msgid "strings.no_change"
+msgstr "[без змін]"
+
+msgid "strings.my_discussions"
+msgstr "Мої обговорення"
+
+msgid "strings.discussions"
+msgstr "обговорень"
+
+msgid "strings.delete_discussions"
+msgstr "знищити обговорення"
+
+msgid "strings.delete_discussions_note"
+msgstr ""
+"Примітка: знищене обговоренння не"
+"відновлюється."
+
+msgid "strings.topic"
+msgstr "Теми"
+
+msgid "strings.posts"
+msgstr "Повідомлення"
+
+msgid "strings.latest_post"
+msgstr "Останні повідомлення"
+
+msgid "strings.my_reports"
+msgstr "Мої звіти"
+
+msgid "strings.reports"
+msgstr "Звіти"
+
+msgid "strings.create_report"
+msgstr "Створити звіт"
+
+msgid "strings.report_intro"
+msgstr ""
+"Оберіть параметри звіту за завданням"
+"та після генерації звіту збережіть"
+"його на сторінці результатів."
+
+msgid "strings.admin_intro"
+msgstr "Параметри та конфігурація проекту."
+
+msgid "strings.copy_of"
+msgstr "Копія"
+
+msgid "strings.add"
+msgstr "Додати"
+
+msgid "strings.delete"
+msgstr "Знищити"
+
+msgid "strings.remove"
+msgstr "Видалити"
+
+msgid "strings.copy"
+msgstr "Копювати"
+
+msgid "strings.view"
+msgstr "Переглянути"
+
+msgid "strings.edit"
+msgstr "Редагувати"
+
+msgid "strings.update"
+msgstr "Оновити"
+
+msgid "strings.details"
+msgstr "Деталі"
+
+msgid "strings.none"
+msgstr "Жоден з"
+
+msgid "strings.close"
+msgstr "Закрити"
+
+msgid "strings.new"
+msgstr "Новий"
+
+msgid "strings.select_all"
+msgstr "Вибрати всі"
+
+msgid "strings.unassigned"
+msgstr "Не призначено"
+
+msgid "strings.administrator"
+msgstr "Адміністратор"
+
+msgid "strings.my_projects"
+msgstr "Mої проекти"
+
+msgid "strings.project"
+msgstr "Проект"
+
+msgid "strings.active"
+msgstr "активний"
+
+msgid "strings.inactive"
+msgstr "неактивний"
+
+msgid "strings.project_id"
+msgstr "№ проекту"
+
+msgid "strings.edit_project"
+msgstr "Редагувати проект"
+
+msgid "strings.copy_project"
+msgstr "Копіювати проект"
+
+msgid "strings.add_project"
+msgstr "Додати проект"
+
+msgid "strings.clients"
+msgstr "Організації"
+
+msgid "strings.organization"
+msgstr "Організація"
+
+msgid "strings.client_projects"
+msgstr ""
+"Проекти, що здійснюється з"
+"організацією"
+
+msgid "strings.client_users"
+msgstr "Користувачі від організації"
+
+msgid "strings.edit_organization"
+msgstr "Редагувати дані організації"
+
+msgid "strings.add_organization"
+msgstr "Додати організацію"
+
+msgid "strings.organizations"
+msgstr "Організації"
+
+msgid "strings.info"
+msgstr "Інфо"
+
+msgid "strings.status"
+msgstr "Статус"
+
+msgid "strings.owner"
+msgstr "Власник"
+
+msgid "strings.home"
+msgstr "Головна сторінка"
+
+msgid "strings.projects"
+msgstr "Проекти"
+
+msgid "strings.files"
+msgstr "Файли"
+
+msgid "strings.search"
+msgstr "Пошук"
+
+msgid "strings.admin"
+msgstr "Адміністратор"
+
+msgid "strings.user"
+msgstr "Користувач"
+
+msgid "strings.project_manager"
+msgstr "Менеджер проекту"
+
+msgid "strings.due"
+msgstr "Термін виконання"
+
+msgid "strings.task"
+msgstr "Завдання"
+
+msgid "strings.tasks"
+msgstr "Завдання"
+
+msgid "strings.team"
+msgstr "Команда"
+
+msgid "strings.add_team"
+msgstr "Додати членів команди"
+
+msgid "strings.team_members"
+msgstr "Члени команди"
+
+msgid "strings.full_name"
+msgstr "Повне ім'я"
+
+msgid "strings.title"
+msgstr "Посада"
+
+msgid "strings.user_name"
+msgstr "ім'я користувача"
+
+msgid "strings.work_phone"
+msgstr "робочий телефон"
+
+msgid "strings.priority"
+msgstr "пріоритетність"
+
+msgid "strings.name"
+msgstr "ім'я"
+
+msgid "strings.id"
+msgstr "№"
+
+msgid "strings.description"
+msgstr "Опис"
+
+msgid "strings.phone"
+msgstr "телефон"
+
+msgid "strings.address"
+msgstr "адреса"
+
+msgid "strings.comments"
+msgstr "коментарі"
+
+msgid "strings.created"
+msgstr "створено"
+
+msgid "strings.assigned"
+msgstr "доручено"
+
+msgid "strings.modified"
+msgstr "змінено"
+
+msgid "strings.assigned_to"
+msgstr "Кому призначено"
+
+msgid "strings.due_date"
+msgstr "термін виконання"
+
+msgid "strings.estimated_time"
+msgstr "потрібний час"
+
+msgid "strings.actual_time"
+msgstr "поточний час"
+
+msgid "strings.delete_following"
+msgstr "Знищити?"
+
+msgid "strings.cancel"
+msgstr "Скасувати"
+
+msgid "strings.and"
+msgstr "та"
+
+msgid "strings.administration"
+msgstr "Адміністратор"
+
+msgid "strings.user_management"
+msgstr "Адміністрування користувачів"
+
+msgid "strings.system_information"
+msgstr "Системна інформація"
+
+msgid "strings.product_information"
+msgstr "Інформація про продукт"
+
+msgid "strings.system_properties"
+msgstr "Установки системи"
+
+msgid "strings.create"
+msgstr "Створити"
+
+msgid "strings.report_save"
+msgstr ""
+"Збережіть запит для звіту на своїй"
+"домашній сторінці, щоб ви могли ще раз"
+"створити звіт за цими параметрами."
+
+msgid "strings.report_name"
+msgstr "Назва звіту"
+
+msgid "strings.save"
+msgstr "Зберегти"
+
+msgid "strings.matches"
+msgstr "Відповідність"
+
+msgid "strings.match"
+msgstr "Відповідність"
+
+msgid "strings.report_results"
+msgstr "Результати звіту"
+
+msgid "strings.success"
+msgstr "Успішно"
+
+msgid "strings.addition_succeeded"
+msgstr "успішне доповнення"
+
+msgid "strings.deletion_succeeded"
+msgstr "успішне знищення"
+
+msgid "strings.report_created"
+msgstr "створений звіт"
+
+msgid "strings.deleted_reports"
+msgstr "знищені звіти"
+
+msgid "strings.modification_succeeded"
+msgstr "успішна зміна"
+
+msgid "strings.errors"
+msgstr "Помилка!"
+
+msgid "strings.blank_user"
+msgstr "Неможливо знайти користувача."
+
+msgid "strings.blank_organization"
+msgstr "Неможливо знайти організацію."
+
+msgid "strings.blank_project"
+msgstr "Неможливо знайти проект."
+
+msgid "strings.user_profile"
+msgstr "Профіль користувача"
+
+msgid "strings.change_password"
+msgstr "Змінити пароль"
+
+msgid "strings.change_password_user"
+msgstr "Змінити пароль користувача."
+
+msgid "strings.enter_password"
+msgstr "Введіть пароль користувача."
+
+msgid "strings.old_password_error"
+msgstr ""
+"Старий пароль, який ви набрали,"
+"неправильний. Будь ласка, введіть ще"
+"раз ваш старий пароль."
+
+msgid "strings.new_password_error"
+msgstr ""
+"Два введені вами паролі не збігаються."
+"Будь ласка, введіть ще раз ваш новий"
+"пароль."
+
+msgid "strings.notifications"
+msgstr "Повідомлення"
+
+msgid "strings.change_password_intro"
+msgstr ""
+"Введіть ваш старий пароль, потім"
+"введіть і підтвердіть ваш новий"
+"пароль."
+
+msgid "strings.old_password"
+msgstr "Старий пароль"
+
+msgid "strings.password"
+msgstr "Пароль"
+
+msgid "strings.new_password"
+msgstr "Новий пароль"
+
+msgid "strings.confirm_password"
+msgstr "Підтвердіть пароль"
+
+msgid "strings.email"
+msgstr "Eлектронна пошта"
+
+msgid "strings.home_phone"
+msgstr "Домашній телефон"
+
+msgid "strings.mobile_phone"
+msgstr "Moбільний телефон"
+
+msgid "strings.fax"
+msgstr "факс"
+
+msgid "strings.permissions"
+msgstr "Права"
+
+msgid "strings.administrator_permissions"
+msgstr "Права адміністратора"
+
+msgid "strings.project_manager_permissions"
+msgstr "Права менеджера проекту"
+
+msgid "strings.user_permissions"
+msgstr "Права користувача"
+
+msgid "strings.account_created"
+msgstr "Створено обліковий запис"
+
+msgid "strings.edit_user_details"
+msgstr ""
+"Редагувати облікового запису"
+"користувача."
+
+msgid "strings.change_user_password"
+msgstr "Змінити пароль користувача."
+
+msgid "strings.select_permissions"
+msgstr ""
+"Визначити права для даного"
+"користувача"
+
+msgid "strings.add_user"
+msgstr "Додати користувача"
+
+msgid "strings.enter_user_details"
+msgstr ""
+"Введіть дані до облікового запису"
+"користувача, який ви створюєте."
+
+msgid "strings.success_logout"
+msgstr ""
+"Ви успішно вийшли з системи. Ви можете"
+"знову увійти в систему, якщо введете"
+"нижче ім'я користувача і пароль."
+
+msgid "strings.invalid_login"
+msgstr ""
+"Введене вами ім'я користувача та/або"
+"пароль неправильні. Будь ласка,"
+"введіть знову ваші параметри доступу."
+
+msgid "strings.profile"
+msgstr "Профіль"
+
+msgid "strings.user_details"
+msgstr "Дані облікового запису користувача."
+
+msgid "strings.edit_user_account"
+msgstr "Відредагуйте ваш обліковий запис."
+
+msgid "strings.no_permissions"
+msgstr ""
+"У вас немає необхідних прав для такої"
+"операції."
+
+msgid "strings.discussion"
+msgstr "Обговорення"
+
+msgid "strings.retired"
+msgstr "Усунено"
+
+msgid "strings.last_post"
+msgstr "Останнє повідомлення"
+
+msgid "strings.post_reply"
+msgstr "Розмістити відповідь"
+
+msgid "strings.posted_by"
+msgstr "Автор"
+
+msgid "strings.when"
+msgstr "Коли"
+
+msgid "strings.post_to_discussion"
+msgstr "Розмістити для обговорення"
+
+msgid "strings.message"
+msgstr "Повідомлення"
+
+msgid "strings.delete_reports"
+msgstr "Знищити звіти"
+
+msgid "strings.delete_projects"
+msgstr "Знищити проекти"
+
+msgid "strings.delete_organizations"
+msgstr "Знищити організації"
+
+msgid "strings.delete_organizations_note"
+msgstr ""
+"Увага: Ця операція знищить всіх"
+"користувачів від цих організацій та"
+"від'єднає всі відкриті проекти від цих"
+"організацій."
+
+msgid "strings.delete_messages"
+msgstr "Знищити повідомлення"
+
+msgid "strings.attention"
+msgstr "Увага"
+
+msgid "strings.delete_teamownermix"
+msgstr ""
+"Виключено успішно, але менеджера"
+"проекту не можна виключити з команди"
+"проекту."
+
+msgid "strings.delete_teamowner"
+msgstr ""
+"Ви не можете усунути менеджера"
+"проекту з команди проекту."
+
+msgid "strings.enter_keywords"
+msgstr "Введіть ключове слово"
+
+msgid "strings.search_options"
+msgstr "Ключове слово та варіанти пошуку"
+
+msgid "strings.search_note"
+msgstr ""
+"Ви маєте ввести інформацію в пошукову"
+"форму."
+
+msgid "strings.search_results"
+msgstr "Результати пошуку"
+
+msgid "strings.users"
+msgstr "Користувачі"
+
+msgid "strings.search_for"
+msgstr "Шукати"
+
+msgid "strings.results_for_keywords"
+msgstr ""
+"Результати пошуку за ключовими"
+"словами"
+
+msgid "strings.add_discussion"
+msgstr "Додати обговорення"
+
+msgid "strings.delete_users"
+msgstr "Знищити обліковий запис користувача"
+
+msgid "strings.reassignment"
+msgstr "Перепроизначення проекту та завдання"
+
+msgid "strings.there"
+msgstr "Там"
+
+msgid "strings.owned_by"
+msgstr "Виконується згаданим користувачем."
+
+msgid "strings.reassign_to"
+msgstr ""
+"Перед тим як виключити користувача,"
+"призначте користувачеві"
+
+msgid "strings.no_files"
+msgstr "Жодного прикріпленого файлу"
+
+msgid "strings.published"
+msgstr "Опубліковано"
+
+msgid "strings.project_site"
+msgstr "Сайт проекту"
+
+msgid "strings.approval_tracking"
+msgstr "Статус документу"
+
+msgid "strings.size"
+msgstr "Розмір"
+
+msgid "strings.add_project_site"
+msgstr "Додати до сайту проекту"
+
+msgid "strings.remove_project_site"
+msgstr "Зняти з сайту проекту"
+
+msgid "strings.more_search"
+msgstr "Додаткові можливості пошуку"
+
+msgid "strings.results_with"
+msgstr "Знайти результати з"
+
+msgid "strings.search_topics"
+msgstr "Теми пошуку"
+
+msgid "strings.search_properties"
+msgstr "Параметри пошуку"
+
+msgid "strings.date_restrictions"
+msgstr "Обмеження за датою"
+
+msgid "strings.case_sensitive"
+msgstr "З урахуванням реєстра клавіатури"
+
+msgid "strings.yes"
+msgstr "Так"
+
+msgid "strings.no"
+msgstr "Ні"
+
+msgid "strings.sort_by"
+msgstr "Сортувати за"
+
+msgid "strings.type"
+msgstr "Тип"
+
+msgid "strings.date"
+msgstr "Дата"
+
+msgid "strings.all_words"
+msgstr "Всі слова"
+
+msgid "strings.any_words"
+msgstr "Будь-яке зі слів"
+
+msgid "strings.exact_match"
+msgstr "Повний збіг"
+
+msgid "strings.all_dates"
+msgstr "Всі дати"
+
+msgid "strings.between_dates"
+msgstr "Між датами"
+
+msgid "strings.all_content"
+msgstr "Весь зміст"
+
+msgid "strings.all_properties"
+msgstr "Всі параметри"
+
+msgid "strings.no_results_search"
+msgstr "Пошук без результатів."
+
+msgid "strings.no_results_report"
+msgstr "Звіт без результатів."
+
+msgid "strings.schema_date"
+msgstr "рік/місяць/день"
+
+msgid "strings.hours"
+msgstr "години"
+
+msgid "strings.choice"
+msgstr "Вибір"
+
+msgid "strings.missing_file"
+msgstr "Файл відсутній !"
+
+msgid "strings.project_site_deleted"
+msgstr "Сайт проекту успішно знищено."
+
+msgid "strings.add_user_project_site"
+msgstr ""
+"Користувач успішно отримав дозвіл на"
+"доступ до сайту проекту."
+
+msgid "strings.remove_user_project_site"
+msgstr "Дозвіл користувача скасовано."
+
+msgid "strings.add_project_site_success"
+msgstr "Доповнення до сайту проекту успішне."
+
+msgid "strings.remove_project_site_success"
+msgstr "Успішно видалено з сайту проекту."
+
+msgid "strings.add_file_success"
+msgstr "Один змістовий елемент приєднано."
+
+msgid "strings.delete_file_success"
+msgstr "Успішно від'єднано."
+
+msgid "strings.update_comment_file"
+msgstr "Коментарі до файлу успішно оновлено."
+
+msgid "strings.session_false"
+msgstr "Помилка сесії"
+
+msgid "strings.logout_time"
+msgstr "Автоматичний вихід з системи"
+
+msgid "strings.noti_foot1"
+msgstr "Це повідомлення створене PhpCollab."
+
+msgid "strings.noti_foot2"
+msgstr ""
+"Для перегляду вашої сторінки PhpCollab"
+"відвідайте:"
+
+msgid "strings.noti_taskassignment1"
+msgstr "Нове завдання:"
+
+msgid "strings.noti_taskassignment2"
+msgstr "Вам поставлено завдання:"
+
+msgid "strings.noti_moreinfo"
+msgstr ""
+"За додатковою інформацією"
+"звертайтесь до:"
+
+msgid "strings.noti_prioritytaskchange1"
+msgstr "Змінено пріоритетність завдання:"
+
+msgid "strings.noti_prioritytaskchange2"
+msgstr ""
+"Змінено пріоритетність наступного"
+"завдання:"
+
+msgid "strings.noti_statustaskchange1"
+msgstr "Змінено статус завдання:"
+
+msgid "strings.noti_statustaskchange2"
+msgstr "змінено статус наступного завдання:"
+
+msgid "strings.login_username"
+msgstr "Ввведіть ім'я користувача."
+
+msgid "strings.login_password"
+msgstr "Будь ласка, введіть пароль."
+
+msgid "strings.login_clientuser"
+msgstr ""
+"Це обліковий запис користувача. Ви не"
+"можете користуватися PhpCollab з"
+"обліковим записом"
+"організації-користувача."
+
+msgid "strings.user_already_exists"
+msgstr ""
+"Користувач з таким ім'ям вже існує."
+"Будь ласка, оберіть інше ім'я."
+
+msgid "strings.noti_duedatetaskchange1"
+msgstr "Змінено дату виконання завдання:"
+
+msgid "strings.noti_duedatetaskchange2"
+msgstr ""
+"Дату виконання наступного завдання"
+"змінено:"
+
+msgid "strings.company"
+msgstr "Компанія"
+
+msgid "strings.show_all"
+msgstr "Показати все"
+
+msgid "strings.information"
+msgstr "Інформація"
+
+msgid "strings.delete_message"
+msgstr "Знищити це повідомлення"
+
+msgid "strings.project_team"
+msgstr "Команда проекту"
+
+msgid "strings.document_list"
+msgstr "Перелік документів"
+
+msgid "strings.bulletin_board"
+msgstr "Дошка оголошень"
+
+msgid "strings.bulletin_board_topic"
+msgstr "Теми дошки оголошень"
+
+msgid "strings.create_topic"
+msgstr "Створити нову тему"
+
+msgid "strings.topic_form"
+msgstr "Тематичний форум"
+
+msgid "strings.enter_message"
+msgstr "Додайте своє повідомлення"
+
+msgid "strings.upload_file"
+msgstr "Завантаження файл"
+
+msgid "strings.upload_form"
+msgstr "Форма завантаження"
+
+msgid "strings.upload"
+msgstr "Завантажити"
+
+msgid "strings.document"
+msgstr "Документ"
+
+msgid "strings.approval_comments"
+msgstr "Коментарі при схваленні"
+
+msgid "strings.client_tasks"
+msgstr "Завдання організації"
+
+msgid "strings.team_tasks"
+msgstr "Завдання для команди"
+
+msgid "strings.team_member_details"
+msgstr ""
+"Інформація  про членів команди"
+"проекту"
+
+msgid "strings.client_task_details"
+msgstr "Деталізовані завдання організації"
+
+msgid "strings.team_task_details"
+msgstr "Деталізовані завдання команди"
+
+msgid "strings.language"
+msgstr "Мова"
+
+msgid "strings.welcome"
+msgstr "Ласкаво просимо"
+
+msgid "strings.your_projectsite"
+msgstr "до сайту Вашого проекту"
+
+msgid "strings.contact_projectsite"
+msgstr ""
+"Якщо ви маєте будь-які питання щодо"
+"екстранету або знайденої тут"
+"інформації, будь ласка, звертайтесь до"
+"керівника проекту"
+
+msgid "strings.company_details"
+msgstr "Інформація про компанію"
+
+msgid "strings.database"
+msgstr "Резервувати і відновити базу даних"
+
+msgid "strings.company_info"
+msgstr ""
+"Відредагуйте інформацію про вашу"
+"компанію"
+
+msgid "strings.create_projectsite"
+msgstr "Створити сайт проекту"
+
+msgid "strings.projectsite_url"
+msgstr "URL сайту проекту"
+
+msgid "strings.design_template"
+msgstr "Шаблон дизайну"
+
+msgid "strings.preview_design_template"
+msgstr "Переглянути шаблон дизайну"
+
+msgid "strings.delete_projectsite"
+msgstr "Знищити сайт проекту"
+
+msgid "strings.add_file"
+msgstr "Додати файл"
+
+msgid "strings.linked_content"
+msgstr "Приєднана інформація"
+
+msgid "strings.edit_file"
+msgstr "Редагувати інформацію про файл"
+
+msgid "strings.permitted_client"
+msgstr "Допущені користувачі від організації"
+
+msgid "strings.grant_client"
+msgstr ""
+"Дати дозвіл для перегляду сайту"
+"проекту"
+
+msgid "strings.add_client_user"
+msgstr "Додати організацію-користувача"
+
+msgid "strings.edit_client_user"
+msgstr ""
+"Редагувати інформацію про"
+"організацію-користувача"
+
+msgid "strings.client_user"
+msgstr "Організація-користувач"
+
+msgid "strings.client_change_status"
+msgstr ""
+"Змініть статус після того, як"
+"завершите це завдання"
+
+msgid "strings.project_status"
+msgstr "Статус проекту"
+
+msgid "strings.view_projectsite"
+msgstr "Переглянути сайт проекту"
+
+msgid "strings.enter_login"
+msgstr ""
+"Для отримання пароля введіть ім'я"
+"користувача"
+
+msgid "strings.send"
+msgstr "Надіслати"
+
+msgid "strings.no_login"
+msgstr ""
+"Ім'я користувача не знайдене у базі"
+"даних"
+
+msgid "strings.email_pwd"
+msgstr "Надіслано пароль"
+
+msgid "strings.no_email"
+msgstr "Користувач без електронної пошти"
+
+msgid "strings.forgot_pwd"
+msgstr "Забули пароль?"
+
+msgid "strings.project_owner"
+msgstr ""
+"Ви можете вносити зміни лише до"
+"власного проекту."
+
+msgid "strings.connected"
+msgstr "В системі"
+
+msgid "strings.session"
+msgstr "Сессія"
+
+msgid "strings.last_visit"
+msgstr "Останній вхід"
+
+msgid "strings.compteur"
+msgstr "Лічильник"
+
+msgid "strings.task_owner"
+msgstr ""
+"Ви не належите до команди цього"
+"проекту"
+
+msgid "strings.export"
+msgstr "Експорт"
+
+msgid "strings.reassignment_clientuser"
+msgstr "Делегування завдання"
+
+msgid "strings.organization_already_exists"
+msgstr ""
+"В системі вже використовується таке"
+"ім'я користувача. Будь-ласка, виберіть"
+"інше."
+
+msgid "strings.blank_organization_field"
+msgstr ""
+"Ви маєте ввести назву"
+"організації-клієнта."
+
+msgid "strings.blank_fields"
+msgstr "Обов'язкові поля"
+
+msgid "strings.projectsite_login_fails"
+msgstr ""
+"Ми не можемо підтвердити комбінацію"
+"імені та пароля користувача."
+
+msgid "strings.start_date"
+msgstr "Дата початку"
+
+msgid "strings.completion"
+msgstr "Завершення"
+
+msgid "strings.update_available"
+msgstr "Є поновлення!"
+
+msgid "strings.version_current"
+msgstr "Ви користуєтеся версією"
+
+msgid "strings.version_latest"
+msgstr "Остання версія"
+
+msgid "strings.sourceforge_link"
+msgstr ""
+"Завітайте на сторінку проекту на"
+"Sourceforge"
+
+msgid "strings.demo_mode"
+msgstr "Деморежим. Ця дія не дозволена."
+
+msgid "strings.setup_erase"
+msgstr "Знищіть файл setup.php!!"
+
+msgid "strings.no_file"
+msgstr "Не вибрано жодного файла"
+
+msgid "strings.exceed_size"
+msgstr ""
+"Перевищення максимального розміру"
+"файла"
+
+msgid "strings.no_php"
+msgstr "Файли Php заборонені"
+
+msgid "strings.approval_date"
+msgstr "Дата затвердження"
+
+msgid "strings.approver"
+msgstr "Затверджує"
+
+msgid "strings.error_database"
+msgstr "Can not connect to database"
+
+msgid "strings.error_server"
+msgstr "Can not connect to server"
+
+
+# Enum values (status, priority, etc.)
+# Note: These should be moved to enums.*.po domain
+
+#. Domain: enums
+msgid "status.0"
+msgstr "Завершено роботу з організацією"
+
+#. Domain: enums
+msgid "status.1"
+msgstr "Завершений"
+
+#. Domain: enums
+msgid "status.2"
+msgstr "Не розпочатий"
+
+#. Domain: enums
+msgid "status.3"
+msgstr "В роботі"
+
+#. Domain: enums
+msgid "status.4"
+msgstr "Призупинений"
+
+#. Domain: enums
+msgid "profil.0"
+msgstr "Адміністратор"
+
+#. Domain: enums
+msgid "profil.1"
+msgstr "Менеджер проекту"
+
+#. Domain: enums
+msgid "profil.2"
+msgstr "Користувач"
+
+#. Domain: enums
+msgid "profil.3"
+msgstr "Користувач-представник організації"
+
+#. Domain: enums
+msgid "profil.4"
+msgstr "Disabled"
+
+#. Domain: enums
+msgid "profil.5"
+msgstr "Project Manager Administrator"
+
+#. Domain: enums
+msgid "priority.0"
+msgstr "Нульова"
+
+#. Domain: enums
+msgid "priority.1"
+msgstr "Дуже низька"
+
+#. Domain: enums
+msgid "priority.2"
+msgstr "Низька"
+
+#. Domain: enums
+msgid "priority.3"
+msgstr "Середня"
+
+#. Domain: enums
+msgid "priority.4"
+msgstr "Висока"
+
+#. Domain: enums
+msgid "priority.5"
+msgstr "Дуже висока"
+
+#. Domain: enums
+msgid "statusTopic.0"
+msgstr "Закрита"
+
+#. Domain: enums
+msgid "statusTopic.1"
+msgstr "Відкрита"
+
+#. Domain: enums
+msgid "statusTopicBis.0"
+msgstr "так"
+
+#. Domain: enums
+msgid "statusTopicBis.1"
+msgstr "ні"
+
+#. Domain: enums
+msgid "statusPublish.0"
+msgstr "так"
+
+#. Domain: enums
+msgid "statusPublish.1"
+msgstr "ні"
+
+#. Domain: enums
+msgid "statusFile.0"
+msgstr "схвалено"
+
+#. Domain: enums
+msgid "statusFile.1"
+msgstr "схвалено зі змінами"
+
+#. Domain: enums
+msgid "statusFile.2"
+msgstr "потребує схвалення"
+
+#. Domain: enums
+msgid "statusFile.3"
+msgstr "не потребує схвалення"
+
+#. Domain: enums
+msgid "statusFile.4"
+msgstr "не схвалено"
+
+
+# Arrays (days, months, byte units)
+
+msgid "byteunits.0"
+msgstr "Bytes"
+
+msgid "byteunits.1"
+msgstr "KB"
+
+msgid "byteunits.2"
+msgstr "MB"
+
+msgid "byteunits.3"
+msgstr "GB"
+
+msgid "monthname.1"
+msgstr "Січень"
+
+msgid "monthname.2"
+msgstr "Лютий"
+
+msgid "monthname.3"
+msgstr "Березень"
+
+msgid "monthname.4"
+msgstr "Квітень"
+
+msgid "monthname.5"
+msgstr "Травень"
+
+msgid "monthname.6"
+msgstr "Червень"
+
+msgid "monthname.7"
+msgstr "Липень"
+
+msgid "monthname.8"
+msgstr "Серпень"
+
+msgid "monthname.9"
+msgstr "Вересень"
+
+msgid "monthname.10"
+msgstr "Жовтень"
+
+msgid "monthname.11"
+msgstr "Листопад"
+
+msgid "monthname.12"
+msgstr "Грудень"
+

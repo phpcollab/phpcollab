@@ -140,6 +140,26 @@ if ($session->get('language') == "") {
 
 include APP_ROOT . '/includes/initrequests.php';
 
+// ==============================================================================
+// TRANSLATION SYSTEM - .po file based (NEW)
+// ==============================================================================
+
+// Include translation helper functions
+require_once APP_ROOT . '/includes/translation.php';
+
+// Set the language in the Container (this initializes the translator)
+$container->setLanguage($session->get('language') ?? $langDefault ?? 'en');
+
+// Get translator instance
+$translator = $container->getTranslator();
+
+// ==============================================================================
+// BACKWARD COMPATIBILITY - Legacy $strings arrays
+// ==============================================================================
+// TODO: Remove this section once all code is migrated to trans()
+// For now, we maintain backward compatibility by loading the old PHP files
+// alongside the new .po translation system
+
 // Load english as the default language.
 require_once APP_ROOT . '/languages/lang_en.php';
 require_once APP_ROOT . '/languages/help_en.php';
@@ -149,9 +169,6 @@ if ($session->get("language") !== 'en') {
     require_once APP_ROOT . '/languages/lang_' . $session->get("language") . '.php';
     require_once APP_ROOT . '/languages/help_' . $session->get("language") . '.php';
 }
-
-// Set the language in the Container
-$container->setLanguage( $session->get('language') ?? $langDefault ?? 'en' );
 
 try {
     $loginLogs = $container->getLoginLogs();

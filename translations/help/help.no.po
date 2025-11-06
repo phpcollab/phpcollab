@@ -1,0 +1,98 @@
+# phpCollab Translation File
+# Language: Norwegian (no)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:11 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: no\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Help text
+
+msgid "setup_mkdirMethod"
+msgstr ""
+"Om safe-mode er på=On, du må sette en Ftp konto for å kunne lage en"
+"mappe med file management."
+
+msgid "setup_notifications"
+msgstr ""
+"Bruker e-mail melding (oppgave tildeling, nytt innlegg, oppgave"
+"endring...)<br>Validert smtp/sendmail behøves."
+
+msgid "setup_forcedlogin"
+msgstr "Om false, ikke tillat med ekstern link med login/password i url"
+
+msgid "setup_langdefault"
+msgstr ""
+"Velg språk som vil bli valgt ved login som standard eller la den"
+"være blank for å bruke auto_detect browser språk."
+
+msgid "setup_myprefix"
+msgstr ""
+"Definer denne verdien om du har tabeller med samme navn i eksisterende"
+"database.<br><br>oppgaver<br>bokmerke<br>bokmerke_kategorier<br>kalendar<br>filer<br>logs<br>medlemer<br>notat<br>notifikasjon<br>organisasjon<br>faser<br>posteringer<br>prosjekt<br>rapporter<br>sortering<br>suboppgave<br>suport_postering<br>suport_ønske<br>oppgaver<br>grupper<br>emner<br>updates<br><br>La"
+"være blank for ikke å bruke tabel prefix."
+
+msgid "setup_loginmethod"
+msgstr ""
+"Metode for å lagre passord i database.<br>Sett til &quot;Crypt&quot;"
+"for at CVS autentikasjon og htaccess autentikasjon skal virke (om CVS"
+"support og/eller htaccess autentikasjon er slått på)."
+
+msgid "admin_update"
+msgstr ""
+"Følg bestemt den rekkefølge indikert for å oppdatere din"
+"version<br>1. Endre settings (legg inn nye parameter)<br>2. Endre"
+"database (oppdater i samhandel med din tidliger version)"
+
+msgid "task_scope_creep"
+msgstr ""
+"Differanse i dager mellom slutt dato og ferdig dato (fet tekst om"
+"positiv)"
+
+msgid "max_file_size"
+msgstr "Maksimal fil størrelse på fil som skal lastes opp"
+
+msgid "project_disk_space"
+msgstr "Total fil størrelse for prosjektet"
+
+msgid "project_scope_creep"
+msgstr ""
+"Differanse i dager mellom slutt dato og ferdig dato (fet tekst om"
+"positiv). Total for alle oppgaver"
+
+msgid "mycompany_logo"
+msgstr ""
+"Last opp vilken som helst logo for ditt selskap. Vil komme i header,"
+"istedenfor i tittel side"
+
+msgid "calendar_shortname"
+msgstr "Tekst som vil komme på månedlig kalender view. Påkrevd"
+
+msgid "user_autologout"
+msgstr "Tid i sek. før frakobling etter ingen aktivitet. 0 for å disable"
+
+msgid "user_timezone"
+msgstr "Sett din GMT tidssone"
+
+msgid "setup_clientsfilter"
+msgstr "Filter for å bare å se loggede bruker klienter"
+
+msgid "setup_projectsfilter"
+msgstr "Filter for å bare se prosjektet når brukeren er i gruppen"
+
+msgid "setup_notificationMethod"
+msgstr ""
+"Sett metode for å sende e-mail notifikasjon: med intern php mail"
+"funksjon (trenger en smtp server eller sendmail konfigurert i php"
+"parameterene) eller med en personlig smtp server"
+
+msgid "newsdesk_links"
+msgstr "for å legge til flere linker bruk semikolon"
+

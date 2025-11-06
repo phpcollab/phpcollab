@@ -1,0 +1,65 @@
+# phpCollab Translation File
+# Language: French (fr)
+# Type: Custom
+# Domain: messages
+# Generated: 2025-11-06 00:44:08 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Custom application values
+
+msgid "topicNote.1"
+msgstr "Conversation téléphonique"
+
+msgid "topicNote.2"
+msgstr "Note de réunion"
+
+msgid "topicNote.3"
+msgstr "Note générale"
+
+msgid "phaseArraySets.sets.1"
+msgstr "Site web"
+
+msgid "phaseArraySets.sets.2"
+msgstr "CD-ROM"
+
+msgid "phaseArraySets.1.0"
+msgstr "Conception"
+
+msgid "phaseArraySets.1.1"
+msgstr "Prototypage"
+
+msgid "phaseArraySets.1.2"
+msgstr "Réalisation"
+
+msgid "phaseArraySets.1.3"
+msgstr "Expérimentation"
+
+msgid "phaseArraySets.1.4"
+msgstr "Recette"
+
+msgid "phaseArraySets.1.5"
+msgstr "Production"
+
+msgid "phaseArraySets.2.0"
+msgstr "Conception"
+
+msgid "phaseArraySets.2.1"
+msgstr "Prototypage"
+
+msgid "phaseArraySets.2.2"
+msgstr "Réalisation"
+
+msgid "phaseArraySets.2.3"
+msgstr "Expérimentation"
+
+msgid "phaseArraySets.2.4"
+msgstr "Production"
+

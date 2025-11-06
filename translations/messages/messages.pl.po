@@ -1,0 +1,1867 @@
+# phpCollab Translation File
+# Language: Polish (pl)
+# Type: Lang
+# Domain: messages
+# Generated: 2025-11-06 00:44:11 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# String translations
+
+msgid "strings.please_login"
+msgstr "Zaloguj siê"
+
+msgid "strings.requirements"
+msgstr "Wymagania"
+
+msgid "strings.login"
+msgstr "Logowanie"
+
+msgid "strings.no_items"
+msgstr "Brak elementów do wy¶wietlenia"
+
+msgid "strings.logout"
+msgstr "Wyloguj"
+
+msgid "strings.preferences"
+msgstr "Ustawienia"
+
+msgid "strings.my_tasks"
+msgstr "Moje Zadania"
+
+msgid "strings.edit_task"
+msgstr "Edytuj Zadanie"
+
+msgid "strings.copy_task"
+msgstr "Skopiuj Zadanie"
+
+msgid "strings.add_task"
+msgstr "Dodaj Zadanie"
+
+msgid "strings.delete_tasks"
+msgstr "Skasuj Zadanie"
+
+msgid "strings.assignment_history"
+msgstr "Historia przypisañ"
+
+msgid "strings.assigned_on"
+msgstr "Dnia"
+
+msgid "strings.assigned_by"
+msgstr "Przypisany przez"
+
+msgid "strings.to"
+msgstr "Do"
+
+msgid "strings.comment"
+msgstr "Komentarz"
+
+msgid "strings.task_assigned"
+msgstr "Zadanie przypisane do"
+
+msgid "strings.task_unassigned"
+msgstr "Zadanie nie jest przypisane do nikogo (Nie przypisane)"
+
+msgid "strings.edit_multiple_tasks"
+msgstr "Zmieñ wielokrotne zadania"
+
+msgid "strings.tasks_selected"
+msgstr ""
+"zadania wybrane. Wybierz nowe warto¶ci dla tego zadania, Lub wybierz"
+"[Brak zmian], aby pozostaæ przy dotychczasowych"
+
+msgid "strings.assignment_comment"
+msgstr "Komentarz do przypisania"
+
+msgid "strings.no_change"
+msgstr "[Brak zmian]"
+
+msgid "strings.my_discussions"
+msgstr "Moje Dyskusje"
+
+msgid "strings.discussions"
+msgstr "Dyskusje"
+
+msgid "strings.delete_discussions"
+msgstr "Skasuj Dyskusje"
+
+msgid "strings.delete_discussions_note"
+msgstr ""
+"Uwaga: Dyskusja nie mo¿e zostaæ ponownie otworzona, je¿eli zosta³a"
+"ju¿ skasowana."
+
+msgid "strings.topic"
+msgstr "Temat"
+
+msgid "strings.posts"
+msgstr "Wiadomo¶ci"
+
+msgid "strings.latest_post"
+msgstr "Najnowsza wiadomo¶æ"
+
+msgid "strings.my_reports"
+msgstr "Moje Raporty"
+
+msgid "strings.reports"
+msgstr "Raporty"
+
+msgid "strings.create_report"
+msgstr "Stwórz Raport"
+
+msgid "strings.report_intro"
+msgstr "Wybierz parametry swojego raportu i zachowaj je po jego uruchomieniu"
+
+msgid "strings.admin_intro"
+msgstr "Konfiguracja projektu."
+
+msgid "strings.copy_of"
+msgstr "Kopia "
+
+msgid "strings.add"
+msgstr "Dodaj"
+
+msgid "strings.delete"
+msgstr "Skasuj"
+
+msgid "strings.remove"
+msgstr "Usuñ"
+
+msgid "strings.copy"
+msgstr "Skopiuj"
+
+msgid "strings.view"
+msgstr "Poka¿"
+
+msgid "strings.edit"
+msgstr "Zmieñ"
+
+msgid "strings.update"
+msgstr "Zmieñ"
+
+msgid "strings.details"
+msgstr "Szczegó³y"
+
+msgid "strings.none"
+msgstr "Brak"
+
+msgid "strings.close"
+msgstr "Zamknij"
+
+msgid "strings.new"
+msgstr "Nowy"
+
+msgid "strings.select_all"
+msgstr "Wybierz wszystkie"
+
+msgid "strings.unassigned"
+msgstr "Nie przypisany"
+
+msgid "strings.my_projects"
+msgstr "Moje Projekty"
+
+msgid "strings.project"
+msgstr "Projekt"
+
+msgid "strings.active"
+msgstr "Aktywny"
+
+msgid "strings.inactive"
+msgstr "Nieaktywny"
+
+msgid "strings.project_id"
+msgstr "ID Projektu"
+
+msgid "strings.edit_project"
+msgstr "Edytuj Projekt"
+
+msgid "strings.copy_project"
+msgstr "Kopiuj Projekt"
+
+msgid "strings.add_project"
+msgstr "Dodaj Projekt"
+
+msgid "strings.clients"
+msgstr "Klienci"
+
+msgid "strings.organization"
+msgstr "Klient"
+
+msgid "strings.client_projects"
+msgstr "Projekty Klienta"
+
+msgid "strings.client_users"
+msgstr "U¿ytkownicy Klienta"
+
+msgid "strings.edit_organization"
+msgstr "Zmieñ dane klienta"
+
+msgid "strings.add_organization"
+msgstr "Dodaj dane klienta"
+
+msgid "strings.organizations"
+msgstr "Klienci"
+
+msgid "strings.owner"
+msgstr "W³a¶ciciel"
+
+msgid "strings.home"
+msgstr "Strona domowa"
+
+msgid "strings.projects"
+msgstr "Projekty"
+
+msgid "strings.files"
+msgstr "Pliki"
+
+msgid "strings.search"
+msgstr "Szukaj"
+
+msgid "strings.admin"
+msgstr "Administracja"
+
+msgid "strings.user"
+msgstr "U¿ytkownik"
+
+msgid "strings.project_manager"
+msgstr "Mened¿er Projektu"
+
+msgid "strings.due"
+msgstr "Do"
+
+msgid "strings.task"
+msgstr "Zadanie"
+
+msgid "strings.tasks"
+msgstr "Zadania"
+
+msgid "strings.team"
+msgstr "Zespó³"
+
+msgid "strings.add_team"
+msgstr "Dodaj cz³onka zespo³u"
+
+msgid "strings.team_members"
+msgstr "Cz³onkowie zespo³u"
+
+msgid "strings.full_name"
+msgstr "Imiê i Nazwisko"
+
+msgid "strings.title"
+msgstr "Stanowisko"
+
+msgid "strings.user_name"
+msgstr "Nazwa u¿ytkownika"
+
+msgid "strings.work_phone"
+msgstr "Tel. do pracy"
+
+msgid "strings.priority"
+msgstr "Priorytet"
+
+msgid "strings.name"
+msgstr "Nazwa"
+
+msgid "strings.description"
+msgstr "Opis"
+
+msgid "strings.phone"
+msgstr "Tel."
+
+msgid "strings.address"
+msgstr "Adres"
+
+msgid "strings.comments"
+msgstr "Komentarze"
+
+msgid "strings.created"
+msgstr "Utworzony"
+
+msgid "strings.assigned"
+msgstr "Przypisany"
+
+msgid "strings.modified"
+msgstr "Zmodyfikowany"
+
+msgid "strings.assigned_to"
+msgstr "Przypisany do"
+
+msgid "strings.due_date"
+msgstr "Termin"
+
+msgid "strings.estimated_time"
+msgstr "Przybli¿ony czas"
+
+msgid "strings.actual_time"
+msgstr "Aktualny czas"
+
+msgid "strings.delete_following"
+msgstr "Skasowaæ to co jest poni¿ej?"
+
+msgid "strings.cancel"
+msgstr "Anuluj"
+
+msgid "strings.and"
+msgstr "oraz"
+
+msgid "strings.administration"
+msgstr "Administracja"
+
+msgid "strings.user_management"
+msgstr "Zarz±dzanie u¿ytkownikami"
+
+msgid "strings.system_information"
+msgstr "Informacje o systemie"
+
+msgid "strings.product_information"
+msgstr "Informacje o produkcie"
+
+msgid "strings.system_properties"
+msgstr "Ustawienia systemu"
+
+msgid "strings.create"
+msgstr "Stwórz"
+
+msgid "strings.report_save"
+msgstr ""
+"Zachowaj to zapytanie na twojej stronie domowej, bêdziesz móg³ je"
+"wykorzystaæ jeszcze raz."
+
+msgid "strings.report_name"
+msgstr "Nazwa raportu"
+
+msgid "strings.save"
+msgstr "Zachowaj"
+
+msgid "strings.matches"
+msgstr "Znalezionych"
+
+msgid "strings.match"
+msgstr "Pasuj±cy"
+
+msgid "strings.report_results"
+msgstr "Wyniki Raportu"
+
+msgid "strings.success"
+msgstr "Wynik"
+
+msgid "strings.addition_succeeded"
+msgstr "Dodano"
+
+msgid "strings.deletion_succeeded"
+msgstr "Skasowano"
+
+msgid "strings.report_created"
+msgstr "Raport stworzony"
+
+msgid "strings.deleted_reports"
+msgstr "Raporty usuniête"
+
+msgid "strings.modification_succeeded"
+msgstr "Zmodyfikowane"
+
+msgid "strings.errors"
+msgstr "B³±d!"
+
+msgid "strings.blank_user"
+msgstr "U¿ytkownik nie zosta³ znaleziony"
+
+msgid "strings.blank_organization"
+msgstr "Klient nie mo¿e byæ zlokalizowany."
+
+msgid "strings.blank_project"
+msgstr "Projekt nie mo¿e byæ zlokalizowany."
+
+msgid "strings.user_profile"
+msgstr "Profil u¿ytkownika"
+
+msgid "strings.change_password"
+msgstr "Zmieñ has³o"
+
+msgid "strings.change_password_user"
+msgstr "Zmieñ has³o u¿ytkownika."
+
+msgid "strings.old_password_error"
+msgstr "Stare has³o jest niepoprawne. Proszê podaæ je jeszcze raz."
+
+msgid "strings.new_password_error"
+msgstr ""
+"Dwa podane przez Ciebie has³a nie zgadzaj± siê. Proszê o ich"
+"powtórne wpisane."
+
+msgid "strings.notifications"
+msgstr "Powiadomienia"
+
+msgid "strings.change_password_intro"
+msgstr "Wpisz swoje stare has³o, potem wpisz dwa razy nowe has³o."
+
+msgid "strings.old_password"
+msgstr "Stare has³o"
+
+msgid "strings.password"
+msgstr "Has³o"
+
+msgid "strings.new_password"
+msgstr "Nowe has³o"
+
+msgid "strings.confirm_password"
+msgstr "Potwierd¼ has³o"
+
+msgid "strings.home_phone"
+msgstr "Tel. do domu"
+
+msgid "strings.mobile_phone"
+msgstr "Tel. kom."
+
+msgid "strings.permissions"
+msgstr "Prawa"
+
+msgid "strings.administrator_permissions"
+msgstr "Prawa administratora"
+
+msgid "strings.project_manager_permissions"
+msgstr "Prawa mened¿era projektów"
+
+msgid "strings.user_permissions"
+msgstr "Prawa u¿ytkownika"
+
+msgid "strings.account_created"
+msgstr "Konto za³o¿one"
+
+msgid "strings.edit_user"
+msgstr "Zmieñ dane u¿ytkownika"
+
+msgid "strings.edit_user_details"
+msgstr "Edytuj dane konta u¿ytkownika."
+
+msgid "strings.change_user_password"
+msgstr "Zmieñ has³o u¿ytkownika."
+
+msgid "strings.select_permissions"
+msgstr "Wybierz prawa dla tego u¿ytkownika"
+
+msgid "strings.add_user"
+msgstr "Dodaj u¿ytkownika"
+
+msgid "strings.enter_user_details"
+msgstr "Podaj szczegó³y dla nowo tworzonego konta u¿ytkownika."
+
+msgid "strings.enter_password"
+msgstr "Podaj has³o u¿ytkowników."
+
+msgid "strings.success_logout"
+msgstr ""
+"Wylogowa³e¶ siê. Mo¿esz siê zalogowaæ ponownie, wystarczy, ¿e"
+"wpiszesz swój login i has³o."
+
+msgid "strings.invalid_login"
+msgstr ""
+"Login lub/i has³o które poda³e¶ s± nieprawid³owe. Spróbuj"
+"jeszcze raz."
+
+msgid "strings.profile"
+msgstr "Profil"
+
+msgid "strings.user_details"
+msgstr "Szczegó³y konta u¿ytkownika."
+
+msgid "strings.edit_user_account"
+msgstr "Edytuj dane twojego konta."
+
+msgid "strings.no_permissions"
+msgstr "Nie masz wystarczaj±cych praw do wykonania tej akcji."
+
+msgid "strings.discussion"
+msgstr "Dyskusja"
+
+msgid "strings.retired"
+msgstr "Zamkniêty"
+
+msgid "strings.last_post"
+msgstr "Ostatnia wiadomo¶æ"
+
+msgid "strings.post_reply"
+msgstr "Odpowiedz"
+
+msgid "strings.posted_by"
+msgstr "Wys³ane przez"
+
+msgid "strings.when"
+msgstr "Kiedy"
+
+msgid "strings.post_to_discussion"
+msgstr "Wy¶lij do dyskusji"
+
+msgid "strings.message"
+msgstr "Wiadomo¶æ"
+
+msgid "strings.delete_reports"
+msgstr "Usuñ raporty"
+
+msgid "strings.delete_projects"
+msgstr "Usuñ projekty"
+
+msgid "strings.delete_organizations"
+msgstr "Usuñ klienta"
+
+msgid "strings.delete_organizations_note"
+msgstr ""
+"UWAGA: Skasujesz wszystkich u¿ytkowników dla tego klienta i"
+"spowodujesz od³±czenie wszystkich projektów od tego klienta."
+
+msgid "strings.delete_messages"
+msgstr "Usuñ wiadomo¶ci"
+
+msgid "strings.attention"
+msgstr "Uwaga"
+
+msgid "strings.delete_teamownermix"
+msgstr ""
+"Usuniêcie zakoñczone powodzeniem, ale w³a¶ciciel projektu nie"
+"mo¿e byæ usuniêty z grupy projektowej."
+
+msgid "strings.delete_teamowner"
+msgstr "Nie mo¿esz usun±æ w³a¶ciciela projektu z grupy projektowej."
+
+msgid "strings.enter_keywords"
+msgstr "Podaj szukane s³owa"
+
+msgid "strings.search_options"
+msgstr "Szukane s³owa i opcje wyszukiwarki"
+
+msgid "strings.search_note"
+msgstr "Musisz podaæ jakie¶ s³owo w formularzu wyszukiwarki"
+
+msgid "strings.search_results"
+msgstr "Wyniki wyszukiwania"
+
+msgid "strings.users"
+msgstr "U¿ytkownicy"
+
+msgid "strings.search_for"
+msgstr "Szukaj"
+
+msgid "strings.results_for_keywords"
+msgstr "Wyniki wyszukiwania dla s³ów:"
+
+msgid "strings.add_discussion"
+msgstr "Dodaj dyskusjê"
+
+msgid "strings.delete_users"
+msgstr "Skasuj konta u¿ytkownika"
+
+msgid "strings.reassignment_user"
+msgstr "Zmiana przypisañ do projektów i zadañ"
+
+msgid "strings.there"
+msgstr "Tam jest"
+
+msgid "strings.owned_by"
+msgstr "w³a¶cicielem s± osoby wypisane poni¿ej."
+
+msgid "strings.reassign_to"
+msgstr "Zanim skasujesz u¿ytkowników, przypisz to do"
+
+msgid "strings.no_files"
+msgstr "Nie ma do³±czonych ¿adnych plików"
+
+msgid "strings.published"
+msgstr "Opublikowany"
+
+msgid "strings.project_site"
+msgstr "Strona projektu"
+
+msgid "strings.approval_tracking"
+msgstr "Zatwierdzenie"
+
+msgid "strings.size"
+msgstr "Wielko¶æ"
+
+msgid "strings.add_project_site"
+msgstr "Dodaj do strony projektu"
+
+msgid "strings.remove_project_site"
+msgstr "Usuñ ze strony projektu"
+
+msgid "strings.more_search"
+msgstr "Wiêcej opcji wyszukiwarki"
+
+msgid "strings.results_with"
+msgstr "Szukaj wyniki z"
+
+msgid "strings.search_topics"
+msgstr "Szukaj tematu"
+
+msgid "strings.search_properties"
+msgstr "Szukaj w³a¶ciwo¶ci"
+
+msgid "strings.date_restrictions"
+msgstr "Po dacie"
+
+msgid "strings.case_sensitive"
+msgstr "Wra¿liwo¶æ na wielko¶æ liter"
+
+msgid "strings.yes"
+msgstr "Tak"
+
+msgid "strings.no"
+msgstr "Nie"
+
+msgid "strings.sort_by"
+msgstr "Sortuj po"
+
+msgid "strings.type"
+msgstr "Rodzaj"
+
+msgid "strings.date"
+msgstr "Data"
+
+msgid "strings.all_words"
+msgstr "wszystkie s³owa"
+
+msgid "strings.any_words"
+msgstr "którekolwiek ze s³ów"
+
+msgid "strings.exact_match"
+msgstr "dok³adny wynik"
+
+msgid "strings.all_dates"
+msgstr "Obojêtne"
+
+msgid "strings.between_dates"
+msgstr "Pomiêdzy dniami"
+
+msgid "strings.all_content"
+msgstr "Ca³a zawarto¶æ"
+
+msgid "strings.all_properties"
+msgstr "Wszystkie w³a¶ciwo¶ci"
+
+msgid "strings.no_results_search"
+msgstr "Wyszukiwarka nic nie znalaz³a."
+
+msgid "strings.no_results_report"
+msgstr "Raport nie zwróci³ ¿adnych wyników."
+
+msgid "strings.schema_date"
+msgstr "RRRR/MM/DD"
+
+msgid "strings.hours"
+msgstr "godzin"
+
+msgid "strings.choice"
+msgstr "Wybierz"
+
+msgid "strings.missing_file"
+msgstr "Brak pliku!"
+
+msgid "strings.project_site_deleted"
+msgstr "Strona projektu zosta³a skasowana."
+
+msgid "strings.add_user_project_site"
+msgstr ""
+"Prawa dla u¿ytkownika zosta³y nadane do dostêpu do strony projektu."
+
+msgid "strings.remove_user_project_site"
+msgstr "Prawa dla u¿ytkownika zosta³y usuniête."
+
+msgid "strings.add_project_site_success"
+msgstr "Dodawanie do strony projektu zakoñczone sukcesem."
+
+msgid "strings.remove_project_site_success"
+msgstr "Usuwanie ze strony projektu zakoñczone sukcesem."
+
+msgid "strings.add_file_success"
+msgstr "Plik zosta³ dodany."
+
+msgid "strings.delete_file_success"
+msgstr "Plik zosta³ skasowany."
+
+msgid "strings.update_comment_file"
+msgstr "Komentarz do pliku zosta³ zmieniony."
+
+msgid "strings.session_false"
+msgstr "B³±d sesji"
+
+msgid "strings.logs"
+msgstr "Logi"
+
+msgid "strings.logout_time"
+msgstr "Czas automatycznego wylogowania"
+
+msgid "strings.noti_foot1"
+msgstr "To powiadomienie zosta³o wygenerowane przez PhpCollab."
+
+msgid "strings.noti_foot2"
+msgstr "Aby wej¶æ na stronê PhpCollab, wpisz:"
+
+msgid "strings.noti_taskassignment1"
+msgstr "Nowe zadanie:"
+
+msgid "strings.noti_taskassignment2"
+msgstr "Zadanie zosta³o przypisane tobie:"
+
+msgid "strings.noti_moreinfo"
+msgstr "Aby zobaczyæ wiêcej informacji wejd¼ na:"
+
+msgid "strings.noti_prioritytaskchange1"
+msgstr "Zmiana priorytetu:"
+
+msgid "strings.noti_prioritytaskchange2"
+msgstr "Priorytet poni¿szego zadania zosta³ zmieniony na:"
+
+msgid "strings.noti_statustaskchange1"
+msgstr "Zmiana statusu:"
+
+msgid "strings.noti_statustaskchange2"
+msgstr "Status poni¿szego zadania zosta³ zmieniony:"
+
+msgid "strings.login_username"
+msgstr "Musisz podaæ nazwê u¿ytkownika"
+
+msgid "strings.login_password"
+msgstr "Proszê podaæ has³o"
+
+msgid "strings.login_clientuser"
+msgstr "To jest konto klienta. Nie masz dostêpu z takim kontem do PhpCollab."
+
+msgid "strings.user_already_exists"
+msgstr ""
+"Jest ju¿ u¿ytkownik o takiej nazwie. Proszê wybraæ inn± nazw"
+"u¿ytkownika"
+
+msgid "strings.noti_duedatetaskchange1"
+msgstr "Zmiana terminu zakoñczenia zadania:"
+
+msgid "strings.noti_duedatetaskchange2"
+msgstr "Termin zakoñczenia poni¿szego zadania zosta³ zmieniony:"
+
+msgid "strings.company"
+msgstr "Firma"
+
+msgid "strings.show_all"
+msgstr "Poka¿ wszystko"
+
+msgid "strings.information"
+msgstr "Informacje"
+
+msgid "strings.delete_message"
+msgstr "Skasuj wiadomo¶æ"
+
+msgid "strings.project_team"
+msgstr "Zespó³"
+
+msgid "strings.document_list"
+msgstr "Lista dokumentów"
+
+msgid "strings.bulletin_board"
+msgstr "Biuletyn"
+
+msgid "strings.bulletin_board_topic"
+msgstr "Temat biuletynu"
+
+msgid "strings.create_topic"
+msgstr "Stwórz nowy temat"
+
+msgid "strings.topic_form"
+msgstr "Formularz Tematu"
+
+msgid "strings.enter_message"
+msgstr "Podaj swoj± wiadomo¶æ"
+
+msgid "strings.upload_file"
+msgstr "Zamie¶æ plik"
+
+msgid "strings.upload_form"
+msgstr "Formularz zamieszczania plików"
+
+msgid "strings.upload"
+msgstr "Zamie¶æ na serwerze"
+
+msgid "strings.document"
+msgstr "Dokument"
+
+msgid "strings.approval_comments"
+msgstr "Zatwierd¼ komentarze"
+
+msgid "strings.client_tasks"
+msgstr "Zadania klienta"
+
+msgid "strings.team_tasks"
+msgstr "Zadania zespo³u"
+
+msgid "strings.team_member_details"
+msgstr "Szczegó³y dotycz±ce cz³onka zespo³u projektowego"
+
+msgid "strings.client_task_details"
+msgstr "Szczegó³y dotycz±ce zadania"
+
+msgid "strings.team_task_details"
+msgstr "Szczegó³y dotycz±ce zespo³u projektowego"
+
+msgid "strings.language"
+msgstr "Jêzyk"
+
+msgid "strings.welcome"
+msgstr "Witamy"
+
+msgid "strings.your_projectsite"
+msgstr "na twojej stronie projektu"
+
+msgid "strings.contact_projectsite"
+msgstr ""
+"Je¿eli masz jakie¶ pytania dotycz±ce informacji które tutaj"
+"znalaz³e¶, skontaktuj siê z w³a¶cicielem projektu."
+
+msgid "strings.company_details"
+msgstr "Informacje o firmie"
+
+msgid "strings.database"
+msgstr "Backup i odtworzenie bazy danych"
+
+msgid "strings.company_info"
+msgstr "Zmieñ dane twojej firmy"
+
+msgid "strings.create_projectsite"
+msgstr "Stwórz stronê projektu"
+
+msgid "strings.projectsite_url"
+msgstr "URL strony projektu"
+
+msgid "strings.design_template"
+msgstr "Wzorzec"
+
+msgid "strings.preview_design_template"
+msgstr "Zobacz Wzorzec"
+
+msgid "strings.delete_projectsite"
+msgstr "Skasuj stronê projektu"
+
+msgid "strings.add_file"
+msgstr "Dodaj plik"
+
+msgid "strings.linked_content"
+msgstr "Zawarto¶æ projektu"
+
+msgid "strings.edit_file"
+msgstr "Zmieñ dane pliku"
+
+msgid "strings.permitted_client"
+msgstr "U¿ytkownicy klienta maj±cy prawa"
+
+msgid "strings.grant_client"
+msgstr "Nadaj prawa aby mo¿na by³o ogl±daæ stronê projektu."
+
+msgid "strings.add_client_user"
+msgstr "Dodaj u¿ytkownika klienta"
+
+msgid "strings.edit_client_user"
+msgstr "Zmieñ dane u¿ytkownika klienta"
+
+msgid "strings.client_user"
+msgstr "U¿ytkownicy klienta"
+
+msgid "strings.client_change_status"
+msgstr ""
+"Je¿eli skoñczy³e¶ to zadanie, zmieñ jego status (znajduj±cy siê"
+"poni¿ej)"
+
+msgid "strings.project_status"
+msgstr "Status Projektu"
+
+msgid "strings.view_projectsite"
+msgstr "Widok strony projektu"
+
+msgid "strings.enter_login"
+msgstr "Podaj swój login, aby uzyskaæ nowe has³o"
+
+msgid "strings.send"
+msgstr "Wy¶lij"
+
+msgid "strings.no_login"
+msgstr "Nie ma takiej nazwy u¿ytkownika w bazie"
+
+msgid "strings.email_pwd"
+msgstr "Has³o wys³ane"
+
+msgid "strings.no_email"
+msgstr "U¿ytkownik bez adresu e-mail"
+
+msgid "strings.forgot_pwd"
+msgstr "Zapomnia³e¶ has³a?"
+
+msgid "strings.project_owner"
+msgstr "Mo¿esz wykonywaæ zmiany tylko na swoich w³asnych projektach."
+
+msgid "strings.connected"
+msgstr "Po³±czony"
+
+msgid "strings.session"
+msgstr "Sesja"
+
+msgid "strings.last_visit"
+msgstr "Ostatnia wizyta"
+
+msgid "strings.compteur"
+msgstr "Ile razy\t"
+
+msgid "strings.ip"
+msgstr "IP"
+
+msgid "strings.task_owner"
+msgstr "Nie jeste¶ cz³onkiem zespo³u projektowego"
+
+msgid "strings.export"
+msgstr "Eksport"
+
+msgid "strings.reassignment_clientuser"
+msgstr "Ponowne przypisanie do zadania"
+
+msgid "strings.organization_already_exists"
+msgstr "Ta nazwa znajduje siê ju¿ w systemie. Proszê wybraæ inn±."
+
+msgid "strings.blank_organization_field"
+msgstr "Musisz podaæ nazwê klienta."
+
+msgid "strings.blank_fields"
+msgstr "pole obowi±zkowe"
+
+msgid "strings.projectsite_login_fails"
+msgstr ""
+"Nie mo¿emy zatwierdziæ takiej kombinacji nazwy u¿ytkownika i"
+"has³a."
+
+msgid "strings.start_date"
+msgstr "Rozpoczêto"
+
+msgid "strings.completion"
+msgstr "Postêp"
+
+msgid "strings.update_available"
+msgstr "Jest ju¿ dostêpne Uaktualnienie!"
+
+msgid "strings.version_current"
+msgstr "Obecnie u¿ywasz wersji"
+
+msgid "strings.version_latest"
+msgstr "Ostatni± wersj± jest"
+
+msgid "strings.sourceforge_link"
+msgstr "Zobacz stronê projektu na Sourceforge"
+
+msgid "strings.demo_mode"
+msgstr "Tryb Demo. Nie ma mo¿liwo¶ci wykonywania ¿adnych akcji"
+
+msgid "strings.setup_erase"
+msgstr "Skasuj setup.php!!"
+
+msgid "strings.no_file"
+msgstr "Nie wybra³e¶ ¿adnego pliku"
+
+msgid "strings.exceed_size"
+msgstr "Przekroczono maksymaln± wielko¶æ pliku"
+
+msgid "strings.no_php"
+msgstr "plik Php nie mo¿e byæ umieszczony"
+
+msgid "strings.approval_date"
+msgstr "Data zatwierdzenia"
+
+msgid "strings.approver"
+msgstr "Zatwierdzaj±cy"
+
+msgid "strings.error_database"
+msgstr "Nie uda³o siê po³±czyæ z baz± danych"
+
+msgid "strings.error_server"
+msgstr "Nie uda³o siê po³±czyæ z serwerem"
+
+msgid "strings.version_control"
+msgstr "Kontrola wersji"
+
+msgid "strings.vc_last_in"
+msgstr "Data ostatniej modyfikacji"
+
+msgid "strings.ifa_comments"
+msgstr "Komentarz do zatwierdzenia"
+
+msgid "strings.ifa_command"
+msgstr "Zmieñ status zatwierdzenia"
+
+msgid "strings.vc_version"
+msgstr "Wersja"
+
+msgid "strings.ifc_revisions"
+msgstr "Poprawki"
+
+msgid "strings.ifc_revision_of"
+msgstr "Uaktualnienie wersji"
+
+msgid "strings.ifc_add_revision"
+msgstr "Dodaj poprawkê"
+
+msgid "strings.ifc_update_file"
+msgstr "Aktualizuj plik"
+
+msgid "strings.ifc_last_date"
+msgstr "Data ostatniej modyfikacji"
+
+msgid "strings.ifc_version_history"
+msgstr "Historia wersji"
+
+msgid "strings.ifc_delete_file"
+msgstr "Skasuj plik i wszystkie potomne uaktualnienia i wersje"
+
+msgid "strings.ifc_delete_version"
+msgstr "Skasuj wybran± wersjê"
+
+msgid "strings.ifc_delete_review"
+msgstr "Skasuj wybrane uaktualnienie"
+
+msgid "strings.ifc_no_revisions"
+msgstr "W tej chwili nie ma ¿adnych uaktualnieñ tego dokumentu."
+
+msgid "strings.unlink_files"
+msgstr "Usuwanie plików"
+
+msgid "strings.remove_team"
+msgstr "Skasuj cz³onków grupy"
+
+msgid "strings.remove_team_info"
+msgstr "Czy usun±æ tych u¿ytkowników z grupy projektowej?"
+
+msgid "strings.remove_team_client"
+msgstr "Skasuj uprawnienia by zobaczyæ stronê projektu"
+
+msgid "strings.note"
+msgstr "Notka"
+
+msgid "strings.notes"
+msgstr "Notki"
+
+msgid "strings.subject"
+msgstr "Temat"
+
+msgid "strings.delete_note"
+msgstr "Skasuj notki"
+
+msgid "strings.add_note"
+msgstr "Dodaj notkê"
+
+msgid "strings.edit_note"
+msgstr "Edytuj notkê"
+
+msgid "strings.version_increm"
+msgstr "Zwiêksz numer wersji o warto¶æ: "
+
+msgid "strings.url_dev"
+msgstr "URL strony rozwojowej"
+
+msgid "strings.url_prod"
+msgstr "URL strony finalnej"
+
+msgid "strings.note_owner"
+msgstr ""
+"Jeste¶ uprawniony do wprowadzania zmian jedynie we w³asnych notkach."
+
+msgid "strings.alpha_only"
+msgstr "Dozwolone s± jedynie znaki alfanumeryczne."
+
+msgid "strings.edit_notifications"
+msgstr "Edytuj ustawienia powiadomieñ"
+
+msgid "strings.edit_notifications_info"
+msgstr ""
+"Wybierz zdarzenia, o których chcesz byæ powiadamiany poprzez e-mail."
+
+msgid "strings.select_deselect"
+msgstr "Zaznacz/odznacz wszystkie"
+
+msgid "strings.noti_addprojectteam1"
+msgstr "Dodaj do grupy projektowej: "
+
+msgid "strings.noti_addprojectteam2"
+msgstr "Zosta³e¶ dodany do grupy pracuj±cej nad projektem: "
+
+msgid "strings.noti_removeprojectteam1"
+msgstr "Usuniêty z grupy projektowej:"
+
+msgid "strings.noti_removeprojectteam2"
+msgstr "Zosta³e¶ usuniêty z grupy pracuj±cej nad projektem:"
+
+msgid "strings.noti_newpost1"
+msgstr "Nowa wiadomo¶æ: "
+
+msgid "strings.noti_newpost2"
+msgstr "Dodano wiadomo¶æ do dyskusji: "
+
+msgid "strings.edit_noti_taskassignment"
+msgstr "Gdy zostanê przypisany do zadania."
+
+msgid "strings.edit_noti_statustaskchange"
+msgstr "Gdy zmieni siê status jednego z moich zadañ."
+
+msgid "strings.edit_noti_prioritytaskchange"
+msgstr "Gdy zmieni siê priorytet jednego z moich zadañ."
+
+msgid "strings.edit_noti_duedatetaskchange"
+msgstr "Gdy zmieni siê oczekiwana data ukoñczenia mojego zadania."
+
+msgid "strings.edit_noti_addprojectteam"
+msgstr "Gdy zostanê dodany do grupy projektowej."
+
+msgid "strings.edit_noti_removeprojectteam"
+msgstr "Gdy zostanê usuniêty z grupy projektowej."
+
+msgid "strings.edit_noti_newpost"
+msgstr "Gdy pojawi siê nowy post w dyskusji."
+
+msgid "strings.add_optional"
+msgstr "| Dodaj opcjonalny"
+
+msgid "strings.assignment_comment_info"
+msgstr "Dodaj komentarz dotycz±cy przypisania zadania"
+
+msgid "strings.my_notes"
+msgstr "Moje notki"
+
+msgid "strings.edit_settings"
+msgstr "Ustawienia"
+
+msgid "strings.max_upload"
+msgstr "Maksymalna wielko¶æ pliku"
+
+msgid "strings.project_folder_size"
+msgstr "Maksymalna zawarto¶æ folderu projektu"
+
+msgid "strings.calendar"
+msgstr "Kalendarz"
+
+msgid "strings.date_start"
+msgstr "Data rozpoczêcia"
+
+msgid "strings.date_end"
+msgstr "Data zakoñczenia"
+
+msgid "strings.time_start"
+msgstr "Czas rozpoczêcia"
+
+msgid "strings.time_end"
+msgstr "Czas zakoñczenia"
+
+msgid "strings.calendar_reminder"
+msgstr "Przypominacz"
+
+msgid "strings.shortname"
+msgstr "Skrócona nazwa"
+
+msgid "strings.calendar_recurring"
+msgstr "Zdarzenie powtarza siê co tydzieñ."
+
+msgid "strings.edit_database"
+msgstr "Ustawienia bazy danych"
+
+msgid "strings.noti_newtopic1"
+msgstr "Nowa dyskusja:"
+
+msgid "strings.noti_newtopic2"
+msgstr "W nastêpuj±cym projekcie rozpoczêta zosta³a nowa dyskusja:"
+
+msgid "strings.edit_noti_newtopic"
+msgstr "Gdy pojawi siê nowa dyskusja."
+
+msgid "strings.today"
+msgstr "Dzi¶"
+
+msgid "strings.previous"
+msgstr "Poprzedni"
+
+msgid "strings.next"
+msgstr "Nastêpny"
+
+msgid "strings.help"
+msgstr "Pomoc"
+
+msgid "strings.complete_date"
+msgstr "Zada zakoñczenia"
+
+msgid "strings.scope_creep"
+msgstr "¦ledzenie terminu"
+
+msgid "strings.days"
+msgstr "Dni"
+
+msgid "strings.remember_password"
+msgstr "Pamiêtaj has³o"
+
+msgid "strings.client_add_task_note"
+msgstr ""
+"Uwaga: Wprowadzone zadanie jest dodawane do bazy, ale zostanie"
+"zaprezentowane na tej stronie jedynie je¶li zostanie przypisane do"
+"cz³onka grupy."
+
+msgid "strings.noti_clientaddtask1"
+msgstr "Zadanie dodane przez klienta:"
+
+msgid "strings.noti_clientaddtask2"
+msgstr ""
+"Nowe zadanie zosta³o dodane przez klienta ze strony projektu do"
+"nastêpuj±cego projektu:"
+
+msgid "strings.phase"
+msgstr "Faza"
+
+msgid "strings.phases"
+msgstr "Fazy"
+
+msgid "strings.phase_id"
+msgstr "ID fazy"
+
+msgid "strings.current_phase"
+msgstr "Aktywna faza/y"
+
+msgid "strings.total_tasks"
+msgstr "Zadañ w sumie"
+
+msgid "strings.uncomplete_tasks"
+msgstr "Nieukoñczonych zadañ"
+
+msgid "strings.no_current_phase"
+msgstr "Brak aktywnej fazy"
+
+msgid "strings.true"
+msgstr "Tak"
+
+msgid "strings.false"
+msgstr "Nie"
+
+msgid "strings.enable_phases"
+msgstr "Uaktywnij fazy"
+
+msgid "strings.phase_enabled"
+msgstr "Fazy uaktywnione"
+
+msgid "strings.order"
+msgstr "Sortuj"
+
+msgid "strings.options"
+msgstr "Opcje"
+
+msgid "strings.support"
+msgstr "Wsparcie"
+
+msgid "strings.support_request"
+msgstr "Zapytanie"
+
+msgid "strings.support_requests"
+msgstr "Zapytania"
+
+msgid "strings.support_id"
+msgstr "ID zapytania"
+
+msgid "strings.my_support_request"
+msgstr "Moje zapytania"
+
+msgid "strings.introduction"
+msgstr "Wstêp"
+
+msgid "strings.submit"
+msgstr "Wy¶lij"
+
+msgid "strings.support_management"
+msgstr "Zarz±dzanie zapytaniami"
+
+msgid "strings.date_open"
+msgstr "Zapytanie dodano"
+
+msgid "strings.date_close"
+msgstr "Rozwi±zano"
+
+msgid "strings.add_support_request"
+msgstr "Wy¶lij zapytanie"
+
+msgid "strings.add_support_response"
+msgstr "Dodaj odpowied¼"
+
+msgid "strings.respond"
+msgstr "Odpowiedz"
+
+msgid "strings.delete_support_request"
+msgstr "Zapytanie skasowane"
+
+msgid "strings.delete_request"
+msgstr "Skasuj zapytanie"
+
+msgid "strings.delete_support_post"
+msgstr "Skasuj zapytanie"
+
+msgid "strings.new_requests"
+msgstr "Nowe zapytania"
+
+msgid "strings.open_requests"
+msgstr "Otwarte zapytania zapytania"
+
+msgid "strings.closed_requests"
+msgstr "Zamkniête zapytania"
+
+msgid "strings.manage_new_requests"
+msgstr "Pracuj nad nowymi zapytaniami"
+
+msgid "strings.manage_open_requests"
+msgstr "Pracuj nad otwartymi zapytaniami"
+
+msgid "strings.manage_closed_requests"
+msgstr "Pracuj nad zamkniêtymi zapytaniami"
+
+msgid "strings.responses"
+msgstr "Odpowiedzi"
+
+msgid "strings.edit_status"
+msgstr "Zmieñ status"
+
+msgid "strings.noti_support_request_new2"
+msgstr "Wprowadzi³e¶ nowe zapytanie dotycz±ce: "
+
+msgid "strings.noti_support_post2"
+msgstr ""
+"Zosta³a dodana nowa odpowiedz na Twoje zapytanie. Szczegó³y"
+"poni¿ej."
+
+msgid "strings.noti_support_status2"
+msgstr "Twoje zapytanie zosta³o zaktualizowane. Szczegó³y poni¿ej."
+
+msgid "strings.noti_support_team_new2"
+msgstr "Wprowadzi³e¶ nowe zapytanie dotycz±ce: "
+
+msgid "strings.delete_subtasks"
+msgstr "Usuñ podzadanie"
+
+msgid "strings.add_subtask"
+msgstr "Dodaj podzadanie"
+
+msgid "strings.edit_subtask"
+msgstr "Edytuj podzadanie"
+
+msgid "strings.subtask"
+msgstr "Podzadanie"
+
+msgid "strings.subtasks"
+msgstr "Podzadania"
+
+msgid "strings.show_details"
+msgstr "Poka¿ szczegó³y"
+
+msgid "strings.updates_task"
+msgstr "Historia uaktualnieñ zadañ"
+
+msgid "strings.updates_subtask"
+msgstr "Historia uaktualnieñ podzadañ"
+
+msgid "strings.go_projects_site"
+msgstr "Przejd¼ do strony projektów"
+
+msgid "strings.bookmark"
+msgstr "Zak³adka"
+
+msgid "strings.bookmarks"
+msgstr "Zak³adki"
+
+msgid "strings.bookmark_category"
+msgstr "Kategoria"
+
+msgid "strings.bookmark_category_new"
+msgstr "Nowa kategoria"
+
+msgid "strings.bookmarks_all"
+msgstr "Wszystkie"
+
+msgid "strings.bookmarks_my"
+msgstr "Moje zak³adki"
+
+msgid "strings.my"
+msgstr "Moje"
+
+msgid "strings.bookmarks_private"
+msgstr "Prywatne"
+
+msgid "strings.shared"
+msgstr "Wspó³dzielona"
+
+msgid "strings.private"
+msgstr "Prywatne"
+
+msgid "strings.add_bookmark"
+msgstr "Dodaj zak³adkê"
+
+msgid "strings.edit_bookmark"
+msgstr "Edytuj zak³adkê"
+
+msgid "strings.delete_bookmarks"
+msgstr "Skasuj zak³adkê"
+
+msgid "strings.team_subtask_details"
+msgstr "Szczegó³y podzadañ zespo³u."
+
+msgid "strings.client_subtask_details"
+msgstr "Szczegó³y podzadañ klienta"
+
+msgid "strings.client_change_status_subtask"
+msgstr "Zmieñ swój status poni¿ej kiedy ukoñczysz te podzadanie"
+
+msgid "strings.disabled_permissions"
+msgstr "Konto nieaktywne"
+
+msgid "strings.user_timezone"
+msgstr "Strefa czasowa (GMT)"
+
+msgid "strings.project_manager_administrator_permissions"
+msgstr "Prawa administratora projektów"
+
+msgid "strings.bug"
+msgstr "¦ledzenie b³êdów"
+
+msgid "strings.report"
+msgstr "Raport"
+
+msgid "strings.license"
+msgstr "Licencja"
+
+msgid "strings.settings_notwritable"
+msgstr "Plik settings.php jest zabezpieczony przed zapisem!"
+
+msgid "strings.invoicing"
+msgstr "Fakturowanie"
+
+msgid "strings.invoice"
+msgstr "Faktura"
+
+msgid "strings.invoices"
+msgstr "Faktury"
+
+msgid "strings.date_invoice"
+msgstr "Data wystawienia"
+
+msgid "strings.header_note"
+msgstr "Nag³ówek"
+
+msgid "strings.footer_note"
+msgstr "Stopka"
+
+msgid "strings.total_ex_tax"
+msgstr "Przychód brutto"
+
+msgid "strings.total_inc_tax"
+msgstr "Przychód netto"
+
+msgid "strings.tax_rate"
+msgstr "Stopa podatku"
+
+msgid "strings.tax_amount"
+msgstr "Kwota podatku"
+
+msgid "strings.invoice_items"
+msgstr "Czê¶ci faktury"
+
+msgid "strings.amount_ex_tax"
+msgstr "Kwota bez podatku"
+
+msgid "strings.completed"
+msgstr "Ukoñczone"
+
+msgid "strings.service"
+msgstr "Us³uga"
+
+msgid "strings.name_print"
+msgstr "Nazwa na wydruku"
+
+msgid "strings.edit_invoice"
+msgstr "Edytuj fakturê"
+
+msgid "strings.edit_invoiceitem"
+msgstr "Edytuj fakturê"
+
+msgid "strings.calculation"
+msgstr "Koszty"
+
+msgid "strings.items"
+msgstr "Sk³adowe"
+
+msgid "strings.position"
+msgstr "Pozycja"
+
+msgid "strings.service_management"
+msgstr "Zarz±dzanie us³ugami"
+
+msgid "strings.hourly_rate"
+msgstr "Wymiar godzinowy"
+
+msgid "strings.add_service"
+msgstr "Dodaj us³ugê"
+
+msgid "strings.edit_service"
+msgstr "Edytuj us³ugê"
+
+msgid "strings.delete_services"
+msgstr "Skasuj us³ugê"
+
+msgid "strings.worked_hours"
+msgstr "Przepracowanych godzin"
+
+msgid "strings.rate_type"
+msgstr "Typ"
+
+msgid "strings.rate_value"
+msgstr "Kwota"
+
+msgid "strings.note_invoice_items_notcompleted"
+msgstr "Nie wszystkie elementy faktury s± gotowe"
+
+msgid "strings.newsdesk"
+msgstr "Wiadomo¶ci"
+
+msgid "strings.newsdesk_list"
+msgstr "Lista wiadomo¶ci"
+
+msgid "strings.article_newsdesk"
+msgstr "Tre¶æ wiadomo¶ci"
+
+msgid "strings.update_newsdesk"
+msgstr "Aktualizuj wpis"
+
+msgid "strings.my_newsdesk"
+msgstr "Moje wiadomo¶ci"
+
+msgid "strings.edit_newsdesk"
+msgstr "Edytuj wiadomo¶æ"
+
+msgid "strings.copy_newsdesk"
+msgstr "Kopiuj wiadomo¶æ"
+
+msgid "strings.add_newsdesk"
+msgstr "Dodaj wiadomo¶æ"
+
+msgid "strings.del_newsdesk"
+msgstr "Usuñ wiadomo¶æ"
+
+msgid "strings.delete_news_note"
+msgstr "Uwaga: to dzia³anie usunie wszystkie komentarze do tej wiadomo¶ci!"
+
+msgid "strings.author"
+msgstr "Autor"
+
+msgid "strings.blank_newsdesk_title"
+msgstr "Znaleziono pusty tytu³."
+
+msgid "strings.blank_newsdesk"
+msgstr "Nie uda³o siê zlokalizowaæ wiadomo¶ci."
+
+msgid "strings.blank_newsdesk_comment"
+msgstr "Znaleziono pusty komentarz."
+
+msgid "strings.remove_newsdesk"
+msgstr "Usuniêto wiadomo¶æ wraz ze wszystkimi komentarzami."
+
+msgid "strings.add_newsdesk_comment"
+msgstr "Dodaj komentarz do wiadomo¶ci."
+
+msgid "strings.edit_newsdesk_comment"
+msgstr "Edytuj komentarz wiadomo¶ci."
+
+msgid "strings.del_newsdesk_comment"
+msgstr "Skasuj komentarz/e do wiadomo¶ci."
+
+msgid "strings.remove_newsdesk_comment"
+msgstr "Komentarz/e wiadomo¶ci zosta³y skasowane."
+
+msgid "strings.errorpermission_newsdesk"
+msgstr "Brak komentarzy zmiany lub usuniêcia."
+
+msgid "strings.errorpermission_newsdesk_comment"
+msgstr "Brak komentarzy zmiany lub usuniêcia."
+
+msgid "strings.newsdesk_related"
+msgstr "Zwi±zany z projektem"
+
+msgid "strings.newsdesk_related_generic"
+msgstr "Wiadomo¶æ ogólna (nie zwi±zana z projektem)"
+
+msgid "strings.newsdesk_related_links"
+msgstr "Link zwi±zany z wiadomo¶ci±"
+
+msgid "strings.newsdesk_rss"
+msgstr "W³±cz RSS dla tej wiadomo¶ci"
+
+msgid "strings.newsdesk_rss_enabled"
+msgstr "RSS w³±czone dla tej wiadomo¶ci"
+
+msgid "strings.noti_memberactivation1"
+msgstr "Konto zosta³o aktywowane"
+
+msgid "strings.noti_memberactivation2"
+msgstr ""
+"Zosta³e¶ dodany do systemu phpCollab. System ten zosta³ stworzony i"
+"nadal ci±gle jest rozbudowywany by pomóc Ci nadzorowaæ Twoje"
+"projekty. \n"
+"\n"
+"By zalogowaæ siê do phpCollab wpisz w przegl±darce ten adres: TUTAJ"
+"WPISZ ADRES, po czym zaloguj siê u¿ywaj±c nastêpuj±cych danych:"
+
+msgid "strings.noti_memberactivation3"
+msgstr "nazwa u¿ytkownika:"
+
+msgid "strings.noti_memberactivation4"
+msgstr "has³o:"
+
+msgid "strings.noti_memberactivation5"
+msgstr ""
+"Po wpisaniu powy¿szych danych i potwierdzeniu enterem zostaniesz"
+"przeniesiony do systemu. \n"
+"\n"
+"Dodatkowo na ten adres e-mail bêdziesz otrzymywa³ dodatkowe"
+"informacje dotycz±ce aktywacji zadañ i innych zdarzeñ zwi±zanych z"
+"twoim kontem. Te wiadomo¶ci pozwol± ci lepiej nadzorowaæ pracê nad"
+"projektem."
+
+msgid "strings.email_users"
+msgstr "Wy¶lij e-mail"
+
+msgid "strings.email_following"
+msgstr "Wy¶lij e-mail do..."
+
+msgid "strings.email_sent"
+msgstr "E-mail zosta³ wys³any."
+
+msgid "strings.clients_connected"
+msgstr "(Klient na stronie projektu)"
+
+msgid "strings.edit_message"
+msgstr "Edytuj wiadomo¶æ"
+
+msgid "strings.edit_noti_clientaddtask"
+msgstr "Gdy nowe zadanie zostanie dodane przez klienta."
+
+msgid "strings.edit_noti_uploadfile"
+msgstr "Gdy pojawi siê nowy dokument w projekcie."
+
+
+# Enum values (status, priority, etc.)
+# Note: These should be moved to enums.*.po domain
+
+#. Domain: enums
+msgid "status.0"
+msgstr "Oddany Klientowi"
+
+#. Domain: enums
+msgid "status.1"
+msgstr "Skoñczony"
+
+#. Domain: enums
+msgid "status.2"
+msgstr "Nie rozpoczêty"
+
+#. Domain: enums
+msgid "status.3"
+msgstr "Rozpoczêty"
+
+#. Domain: enums
+msgid "status.4"
+msgstr "Zawieszony"
+
+#. Domain: enums
+msgid "profil.0"
+msgstr "Administrator"
+
+#. Domain: enums
+msgid "profil.1"
+msgstr "Mened¿er Projektu"
+
+#. Domain: enums
+msgid "profil.2"
+msgstr "U¿ytkownik"
+
+#. Domain: enums
+msgid "profil.3"
+msgstr "Klient"
+
+#. Domain: enums
+msgid "profil.4"
+msgstr "Niekatywny"
+
+#. Domain: enums
+msgid "profil.5"
+msgstr "Administrator projektów"
+
+#. Domain: enums
+msgid "priority.0"
+msgstr "Brak"
+
+#. Domain: enums
+msgid "priority.1"
+msgstr "Bardzo niski"
+
+#. Domain: enums
+msgid "priority.2"
+msgstr "Niski"
+
+#. Domain: enums
+msgid "priority.3"
+msgstr "¦redni"
+
+#. Domain: enums
+msgid "priority.4"
+msgstr "Wysoki"
+
+#. Domain: enums
+msgid "priority.5"
+msgstr "Bardzo wysoki"
+
+#. Domain: enums
+msgid "statusTopic.0"
+msgstr "Zamkniête"
+
+#. Domain: enums
+msgid "statusTopic.1"
+msgstr "Otwarte"
+
+#. Domain: enums
+msgid "statusTopicBis.0"
+msgstr "Tak"
+
+#. Domain: enums
+msgid "statusTopicBis.1"
+msgstr "Nie"
+
+#. Domain: enums
+msgid "statusPublish.0"
+msgstr "Tak"
+
+#. Domain: enums
+msgid "statusPublish.1"
+msgstr "Nie"
+
+#. Domain: enums
+msgid "statusFile.0"
+msgstr "Zatwierdzony"
+
+#. Domain: enums
+msgid "statusFile.1"
+msgstr "Zatwierdzony ze zmianami"
+
+#. Domain: enums
+msgid "statusFile.2"
+msgstr "Potrzebuje zatwierdzenia"
+
+#. Domain: enums
+msgid "statusFile.3"
+msgstr "Nie potrzebuje zatwierdzenia"
+
+#. Domain: enums
+msgid "statusFile.4"
+msgstr "Nie zatwierdzony"
+
+#. Domain: enums
+msgid "phaseStatus.0"
+msgstr "Nie rozpoczêtae"
+
+#. Domain: enums
+msgid "phaseStatus.1"
+msgstr "Rozpoczêta"
+
+#. Domain: enums
+msgid "phaseStatus.2"
+msgstr "Zakoñczona"
+
+#. Domain: enums
+msgid "phaseStatus.3"
+msgstr "Zawieszona"
+
+#. Domain: enums
+msgid "requestStatus.0"
+msgstr "Nowa"
+
+#. Domain: enums
+msgid "requestStatus.1"
+msgstr "Nierozwi±zana"
+
+#. Domain: enums
+msgid "requestStatus.2"
+msgstr "Rozwi±zana"
+
+
+# Arrays (days, months, byte units)
+
+msgid "byteunits.0"
+msgstr "Bajty"
+
+msgid "byteunits.1"
+msgstr "KB"
+
+msgid "byteunits.2"
+msgstr "MB"
+
+msgid "byteunits.3"
+msgstr "GB"
+
+msgid "dayname.1"
+msgstr "Poniedzia³ek"
+
+msgid "dayname.2"
+msgstr "Wtorek"
+
+msgid "dayname.3"
+msgstr "¦roda"
+
+msgid "dayname.4"
+msgstr "Czwartek"
+
+msgid "dayname.5"
+msgstr "Pi±tek"
+
+msgid "dayname.6"
+msgstr "Sobota"
+
+msgid "dayname.7"
+msgstr "Niedziela"
+
+msgid "monthname.1"
+msgstr "Styczeñ"
+
+msgid "monthname.2"
+msgstr "Luty"
+
+msgid "monthname.3"
+msgstr "Marzec"
+
+msgid "monthname.4"
+msgstr "Kwiecieñ"
+
+msgid "monthname.5"
+msgstr "Maj"
+
+msgid "monthname.6"
+msgstr "Czerwiec"
+
+msgid "monthname.7"
+msgstr "Lipiec"
+
+msgid "monthname.8"
+msgstr "Sierpieñ"
+
+msgid "monthname.9"
+msgstr "Wrzesieñ"
+
+msgid "monthname.10"
+msgstr "Pa¼dziernik"
+
+msgid "monthname.11"
+msgstr "Listopad"
+
+msgid "monthname.12"
+msgstr "Grudzieñ"
+

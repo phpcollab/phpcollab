@@ -1,0 +1,123 @@
+# phpCollab Translation File
+# Language: Bulgarian (bg)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:04 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: bg\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Help text
+
+msgid "setup_mkdirMethod"
+msgstr ""
+"Ако safe-mode е ВКЛЮЧЕН, Вие трябва да"
+"направите Ftp акаунт, за да можете да"
+"създадете папка с файлово управление."
+
+msgid "setup_notifications"
+msgstr ""
+"Уведомяване с e-mail (добавяне на задача,"
+"нови съобщения, смяна на"
+"задачи...)<br/>Валиден smtp/sendmail е"
+"необходим."
+
+msgid "setup_forcedlogin"
+msgstr ""
+"Ако е false, не разрешава външни връзки с"
+"login/password в url"
+
+msgid "setup_langdefault"
+msgstr ""
+"Избери език по подразбиране при вход"
+"на потребител или оставете blank за да"
+"използва auto_detect език на браузъра."
+
+msgid "setup_myprefix"
+msgstr ""
+"Настройте тази стойност ако имате"
+"таблици със еднакво име в база"
+"данни.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Оставете"
+"празно, за да не използвате префикс."
+
+msgid "setup_loginmethod"
+msgstr ""
+"Метод на запис на паролите и база"
+"данни.<br/>Set to &quot;Crypt&quot; in order htaccess"
+"authentification to work (if htaccess authentification are enabled)."
+
+msgid "admin_update"
+msgstr ""
+"Спазвайте стриктно реда индикиран за"
+"да обновите вашата версия<br/>1."
+"Редактирай настройките (допълнителни"
+"нови параметри)<br/>2. Редактирай база"
+"данни (обнови в съответствие на"
+"предишната версия)"
+
+msgid "task_scope_creep"
+msgstr ""
+"Разликата в дни между дата за плащане"
+"и дата на завършване (удебелено ако е"
+"положително)"
+
+msgid "max_file_size"
+msgstr ""
+"Максимална големина на файл за"
+"изпращане"
+
+msgid "project_disk_space"
+msgstr "Обща големина на файловете за проекта"
+
+msgid "project_scope_creep"
+msgstr ""
+"Разликата в дни между датите за"
+"планирано завършване и реално"
+"завършване (удебелено ако е просрочен"
+"срока). Общо за всички задачи"
+
+msgid "mycompany_logo"
+msgstr ""
+"Изпратете лого на Вашата компания."
+"Появява се в header, а не в заглавието на"
+"сайта"
+
+msgid "calendar_shortname"
+msgstr ""
+"Надпис, който да се появява в месечния"
+"календар. Задължителен"
+
+msgid "user_autologout"
+msgstr ""
+"Времето в секунди, за да бъдеш"
+"изключен, след определена"
+"неактивност. 0 (нула) за да изключиш"
+"тази опция"
+
+msgid "user_timezone"
+msgstr "Настройте вашата времева зона (GMT)"
+
+msgid "setup_projectsfilter"
+msgstr ""
+"Потребители ще виждат само проектите"
+"по който са разпределени"
+
+msgid "setup_notificationMethod"
+msgstr ""
+"Настрой метода за изпращане на емайл"
+"съобщения: with internal php mail function (need for having a"
+"smtp server or sendmail configured in the parameters of php) or with a"
+"personalized smtp server"
+
+msgid "newsdesk_links"
+msgstr ""
+"За да добавиш повече линкове,"
+"използвай точка и запетая за"
+"разделител"
+

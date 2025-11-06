@@ -1,0 +1,1940 @@
+# phpCollab Translation File
+# Language: Russian (ru)
+# Type: Lang
+# Domain: messages
+# Generated: 2025-11-06 00:44:12 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# String translations
+
+msgid "strings.please_login"
+msgstr "Вход в директории"
+
+msgid "strings.requirements"
+msgstr "Требования к браузеру"
+
+msgid "strings.login"
+msgstr "Вход"
+
+msgid "strings.no_items"
+msgstr "Нет данных"
+
+msgid "strings.logout"
+msgstr "Выход"
+
+msgid "strings.preferences"
+msgstr "Свойства"
+
+msgid "strings.my_tasks"
+msgstr "Мои задачи"
+
+msgid "strings.edit_task"
+msgstr "Правка задачи"
+
+msgid "strings.copy_task"
+msgstr "Копировать задачу"
+
+msgid "strings.add_task"
+msgstr "Добавить задачу"
+
+msgid "strings.delete_tasks"
+msgstr "Удалить задачу"
+
+msgid "strings.assignment_history"
+msgstr "История подтверждений"
+
+msgid "strings.assigned_on"
+msgstr "Подтверждено "
+
+msgid "strings.assigned_by"
+msgstr "Создана"
+
+msgid "strings.to"
+msgstr "Для"
+
+msgid "strings.comment"
+msgstr "Комментарий"
+
+msgid "strings.task_assigned"
+msgstr "Задача подписана "
+
+msgid "strings.task_unassigned"
+msgstr "Задача не нуждается в подписи"
+
+msgid "strings.edit_multiple_tasks"
+msgstr "Правка нескольких задач"
+
+msgid "strings.tasks_selected"
+msgstr ""
+"задача выбрана. Выберите новое"
+"значение, или выберите [Без изменений]."
+
+msgid "strings.assignment_comment"
+msgstr "Комментарии подтверждения"
+
+msgid "strings.no_change"
+msgstr "[Без изменений]"
+
+msgid "strings.my_discussions"
+msgstr "Мои форумы"
+
+msgid "strings.discussions"
+msgstr "Форумы"
+
+msgid "strings.delete_discussions"
+msgstr "Удалить форум"
+
+msgid "strings.delete_discussions_note"
+msgstr "Внимание: Удаление безвозвратное!."
+
+msgid "strings.topic"
+msgstr "Заголовок"
+
+msgid "strings.posts"
+msgstr "Сообщение"
+
+msgid "strings.latest_post"
+msgstr "Последние"
+
+msgid "strings.my_reports"
+msgstr "Мои отчеты"
+
+msgid "strings.reports"
+msgstr "Отчеты"
+
+msgid "strings.create_report"
+msgstr "Создать отчет"
+
+msgid "strings.report_intro"
+msgstr ""
+"Выберите параметры отчета Вашей"
+"задачи и сохраните для дальнейшего"
+"использования."
+
+msgid "strings.admin_intro"
+msgstr "Конфигурация и настройка проекта."
+
+msgid "strings.copy_of"
+msgstr "Копировать из "
+
+msgid "strings.add"
+msgstr "Добавить"
+
+msgid "strings.delete"
+msgstr "Удалить"
+
+msgid "strings.remove"
+msgstr "Переместить"
+
+msgid "strings.copy"
+msgstr "Копировать"
+
+msgid "strings.view"
+msgstr "Просмотр"
+
+msgid "strings.edit"
+msgstr "Правка"
+
+msgid "strings.update"
+msgstr "Обновить"
+
+msgid "strings.details"
+msgstr "Детали"
+
+msgid "strings.none"
+msgstr "Нет"
+
+msgid "strings.close"
+msgstr "Закрыть"
+
+msgid "strings.new"
+msgstr "Новый"
+
+msgid "strings.select_all"
+msgstr "Выделить всё"
+
+msgid "strings.unassigned"
+msgstr "Не подписан"
+
+msgid "strings.administrator"
+msgstr "Администратор"
+
+msgid "strings.my_projects"
+msgstr "Мои проекты"
+
+msgid "strings.project"
+msgstr "Проект"
+
+msgid "strings.active"
+msgstr "Активен"
+
+msgid "strings.inactive"
+msgstr "Не активен"
+
+msgid "strings.project_id"
+msgstr "ID проекта"
+
+msgid "strings.edit_project"
+msgstr "Изменить проект"
+
+msgid "strings.copy_project"
+msgstr "Копировать проект"
+
+msgid "strings.add_project"
+msgstr "Добавить проект"
+
+msgid "strings.clients"
+msgstr "Клиенты"
+
+msgid "strings.organization"
+msgstr "Фирма клиента"
+
+msgid "strings.client_projects"
+msgstr "Проекты клиента"
+
+msgid "strings.client_users"
+msgstr "Пользователи проекта"
+
+msgid "strings.edit_organization"
+msgstr "Изменить фирму клиента"
+
+msgid "strings.add_organization"
+msgstr "Добавить фирму клиента"
+
+msgid "strings.organizations"
+msgstr "Фирма"
+
+msgid "strings.info"
+msgstr "Информация о проекте"
+
+msgid "strings.status"
+msgstr "Статус"
+
+msgid "strings.owner"
+msgstr "Владелец"
+
+msgid "strings.home"
+msgstr "Домой"
+
+msgid "strings.projects"
+msgstr "Проекты"
+
+msgid "strings.files"
+msgstr "Файлы"
+
+msgid "strings.search"
+msgstr "Поиск"
+
+msgid "strings.admin"
+msgstr "Админ"
+
+msgid "strings.user"
+msgstr "Пользователь"
+
+msgid "strings.project_manager"
+msgstr "Менеджер проекта"
+
+msgid "strings.due"
+msgstr "Завершен"
+
+msgid "strings.task"
+msgstr "Задача"
+
+msgid "strings.tasks"
+msgstr "Задачи"
+
+msgid "strings.team"
+msgstr "Группа участников"
+
+msgid "strings.add_team"
+msgstr "Добавить участников"
+
+msgid "strings.team_members"
+msgstr "Участники темы"
+
+msgid "strings.full_name"
+msgstr "Полное имя"
+
+msgid "strings.title"
+msgstr "Отображать как"
+
+msgid "strings.user_name"
+msgstr "Имя для входа"
+
+msgid "strings.work_phone"
+msgstr "Рабочий телефон"
+
+msgid "strings.priority"
+msgstr "Приоритет"
+
+msgid "strings.name"
+msgstr "Имя"
+
+msgid "strings.description"
+msgstr "Описание"
+
+msgid "strings.phone"
+msgstr "Телефон"
+
+msgid "strings.address"
+msgstr "Адрес"
+
+msgid "strings.comments"
+msgstr "Комментарии"
+
+msgid "strings.created"
+msgstr "Создан"
+
+msgid "strings.assigned"
+msgstr "Подписан"
+
+msgid "strings.modified"
+msgstr "Изменен"
+
+msgid "strings.assigned_to"
+msgstr "Подписан для"
+
+msgid "strings.due_date"
+msgstr "Завершение"
+
+msgid "strings.estimated_time"
+msgstr "Время выполнения"
+
+msgid "strings.actual_time"
+msgstr "Актуально по времени"
+
+msgid "strings.delete_following"
+msgstr "Удалить это?"
+
+msgid "strings.cancel"
+msgstr "Отмена"
+
+msgid "strings.and"
+msgstr "и"
+
+msgid "strings.administration"
+msgstr "Администрирование"
+
+msgid "strings.user_management"
+msgstr "Управление пользователями"
+
+msgid "strings.system_information"
+msgstr "Системная информация"
+
+msgid "strings.product_information"
+msgstr "Информация о продукте"
+
+msgid "strings.system_properties"
+msgstr "Свойства системы"
+
+msgid "strings.create"
+msgstr "Создать"
+
+msgid "strings.report_save"
+msgstr ""
+"Сохранить для дальнейшего"
+"использования."
+
+msgid "strings.report_name"
+msgstr "Имя отчета"
+
+msgid "strings.save"
+msgstr "Сохранить"
+
+msgid "strings.matches"
+msgstr "Совпадения"
+
+msgid "strings.match"
+msgstr "Совпадение"
+
+msgid "strings.report_results"
+msgstr "Результаты отчета"
+
+msgid "strings.success"
+msgstr "Успешно"
+
+msgid "strings.addition_succeeded"
+msgstr "Добавление сделано"
+
+msgid "strings.deletion_succeeded"
+msgstr "Удаление сделано"
+
+msgid "strings.report_created"
+msgstr "Созданные отчеты"
+
+msgid "strings.deleted_reports"
+msgstr "Удаленные отчеты"
+
+msgid "strings.modification_succeeded"
+msgstr "Изменение сделано"
+
+msgid "strings.errors"
+msgstr "Есть ошибки!"
+
+msgid "strings.blank_user"
+msgstr "Нет такого пользователя."
+
+msgid "strings.blank_organization"
+msgstr "Не могу найти организацию клиента."
+
+msgid "strings.blank_project"
+msgstr "Не могу найти проект."
+
+msgid "strings.user_profile"
+msgstr "Профиль пользователя"
+
+msgid "strings.change_password"
+msgstr "Смена пароля"
+
+msgid "strings.change_password_user"
+msgstr "Изменить пароль."
+
+msgid "strings.old_password_error"
+msgstr ""
+"Старый пароль неверный, попробуйте"
+"ещё раз."
+
+msgid "strings.new_password_error"
+msgstr ""
+"Пароль и его подтверждение не"
+"совпадают, попробуйте ещё раз."
+
+msgid "strings.notifications"
+msgstr "Уведомления"
+
+msgid "strings.change_password_intro"
+msgstr ""
+"Введите старый пароль, затем новый и"
+"его подтверждение."
+
+msgid "strings.old_password"
+msgstr "Старый пароль"
+
+msgid "strings.password"
+msgstr "Пароль"
+
+msgid "strings.new_password"
+msgstr "Новый пароль"
+
+msgid "strings.confirm_password"
+msgstr "Подтверждение"
+
+msgid "strings.home_phone"
+msgstr "Домашний"
+
+msgid "strings.mobile_phone"
+msgstr "Мобильный"
+
+msgid "strings.fax"
+msgstr "Факс"
+
+msgid "strings.permissions"
+msgstr "Права"
+
+msgid "strings.administrator_permissions"
+msgstr "Права администратора"
+
+msgid "strings.project_manager_permissions"
+msgstr "Права менеджера проекта"
+
+msgid "strings.user_permissions"
+msgstr "Права пользователя"
+
+msgid "strings.account_created"
+msgstr "Аккаунт создан"
+
+msgid "strings.edit_user"
+msgstr "Правка пользователя"
+
+msgid "strings.edit_user_details"
+msgstr "Правка аккаунта."
+
+msgid "strings.change_user_password"
+msgstr "Изменить пароль."
+
+msgid "strings.select_permissions"
+msgstr "Выбрать права для этого пользователя"
+
+msgid "strings.add_user"
+msgstr "Добавить пользователя"
+
+msgid "strings.enter_user_details"
+msgstr ""
+"Добавить детали для созданного"
+"аккаунта."
+
+msgid "strings.enter_password"
+msgstr "Введите пароль."
+
+msgid "strings.success_logout"
+msgstr ""
+"Вы вышли из директорий. Для входа"
+"введите имя и пароль в форме входа."
+
+msgid "strings.illimited_licenses"
+msgstr ""
+"Неограниченная пользовательская"
+"лицензия"
+
+msgid "strings.invalid_login"
+msgstr ""
+"Имя и/или пароль неправильные, "
+"наберите правильное имя и/или пароль."
+
+msgid "strings.licenses_used"
+msgstr ""
+"Использованно неограниченных"
+"лицензий"
+
+msgid "strings.profile"
+msgstr "Профиль"
+
+msgid "strings.user_details"
+msgstr "Свойства аккаунта."
+
+msgid "strings.edit_user_account"
+msgstr "Изменение аккаунта."
+
+msgid "strings.no_permissions"
+msgstr "Вы не имеете доступа к этим свойствам"
+
+msgid "strings.discussion"
+msgstr "Форум"
+
+msgid "strings.retired"
+msgstr "Получено"
+
+msgid "strings.last_post"
+msgstr "Последнее"
+
+msgid "strings.post_reply"
+msgstr "Написать ответ"
+
+msgid "strings.posted_by"
+msgstr "Отправил"
+
+msgid "strings.when"
+msgstr "Когда"
+
+msgid "strings.post_to_discussion"
+msgstr "Написать"
+
+msgid "strings.message"
+msgstr "Сообщение"
+
+msgid "strings.delete_reports"
+msgstr "Удалить отчет"
+
+msgid "strings.delete_projects"
+msgstr "Удалить проект"
+
+msgid "strings.delete_organizations"
+msgstr "Удалить организацию клиента"
+
+msgid "strings.delete_organizations_note"
+msgstr ""
+"Внимание: Это удалит всех"
+"пользователей клиента этой"
+"организации, и удалит ссылки всех"
+"открытых проектов от этих клиентов."
+
+msgid "strings.delete_messages"
+msgstr "Удалить сообщение"
+
+msgid "strings.attention"
+msgstr "Внимание"
+
+msgid "strings.delete_teamownermix"
+msgstr ""
+"Удаление прошло успешно, но владелец"
+"проекта не может быть удален из группы"
+"проекта."
+
+msgid "strings.delete_teamowner"
+msgstr ""
+"Владелец проекта не может быть удален"
+"из группы проекта."
+
+msgid "strings.enter_keywords"
+msgstr ""
+"Введите одно или несколько ключевых"
+"слов"
+
+msgid "strings.search_options"
+msgstr "Поиск по проектам"
+
+msgid "strings.search_note"
+msgstr ""
+"Чтобы найти что-либо Вы должны ввести"
+"в поле поиска что Вы ищите."
+
+msgid "strings.search_results"
+msgstr "Результаты поиска"
+
+msgid "strings.users"
+msgstr "Пользователи"
+
+msgid "strings.search_for"
+msgstr "Искать по "
+
+msgid "strings.results_for_keywords"
+msgstr "Результаты поиска по слову"
+
+msgid "strings.add_discussion"
+msgstr "Добавить форум"
+
+msgid "strings.delete_users"
+msgstr "Удалить пользователя"
+
+msgid "strings.reassignment_user"
+msgstr "Перевод проектов и заданий"
+
+msgid "strings.there"
+msgstr "Это "
+
+msgid "strings.owned_by"
+msgstr ""
+" принадлежит указанным пользователям."
+
+msgid "strings.reassign_to"
+msgstr ""
+"Перед удалением пользователей,"
+"повторно назначите их на"
+
+msgid "strings.no_files"
+msgstr "Нет связанных полей"
+
+msgid "strings.published"
+msgstr "Опубликовано"
+
+msgid "strings.project_site"
+msgstr "Сайт проекта"
+
+msgid "strings.approval_tracking"
+msgstr "Текущий статус"
+
+msgid "strings.size"
+msgstr "Размер"
+
+msgid "strings.add_project_site"
+msgstr "Добавить на сайт проекта"
+
+msgid "strings.remove_project_site"
+msgstr "Удалить с сайта проекта"
+
+msgid "strings.more_search"
+msgstr "Расширенный поиск"
+
+msgid "strings.results_with"
+msgstr "Найти в результатах"
+
+msgid "strings.search_topics"
+msgstr "Поиск, заголовки"
+
+msgid "strings.search_properties"
+msgstr "Поиск, свойства"
+
+msgid "strings.date_restrictions"
+msgstr "Ограничить по дате"
+
+msgid "strings.case_sensitive"
+msgstr "Без учета регистра"
+
+msgid "strings.yes"
+msgstr "Да"
+
+msgid "strings.no"
+msgstr "Нет"
+
+msgid "strings.sort_by"
+msgstr "Сортировать по"
+
+msgid "strings.type"
+msgstr "Тип"
+
+msgid "strings.date"
+msgstr "Дата"
+
+msgid "strings.all_words"
+msgstr "все слова"
+
+msgid "strings.any_words"
+msgstr "любое из слов"
+
+msgid "strings.exact_match"
+msgstr "точное совпадение"
+
+msgid "strings.all_dates"
+msgstr "Все даты"
+
+msgid "strings.between_dates"
+msgstr "между датами"
+
+msgid "strings.all_content"
+msgstr "Все содержимое"
+
+msgid "strings.all_properties"
+msgstr "Все свойства"
+
+msgid "strings.no_results_search"
+msgstr "Поиск не дал результатов."
+
+msgid "strings.no_results_report"
+msgstr "Отчет не дал результатов."
+
+msgid "strings.schema_date"
+msgstr "год/мес/день"
+
+msgid "strings.hours"
+msgstr "часов"
+
+msgid "strings.choice"
+msgstr "Выбор"
+
+msgid "strings.missing_file"
+msgstr "Отсутствует файл !"
+
+msgid "strings.project_site_deleted"
+msgstr "Сайт проекта удален."
+
+msgid "strings.add_user_project_site"
+msgstr ""
+"Пользователю разрешен просмотр сайта"
+"проекта."
+
+msgid "strings.remove_user_project_site"
+msgstr "Удалены разрешения для пользователя."
+
+msgid "strings.add_project_site_success"
+msgstr "Успешно добавлен на сайт проекта."
+
+msgid "strings.remove_project_site_success"
+msgstr "Успешно удален с сайта проекта."
+
+msgid "strings.add_file_success"
+msgstr "В проект добавлен файл."
+
+msgid "strings.delete_file_success"
+msgstr "Удален файл из проекта."
+
+msgid "strings.update_comment_file"
+msgstr "Измененён комментарий к файлу."
+
+msgid "strings.session_false"
+msgstr "Ошибка авторизации"
+
+msgid "strings.logs"
+msgstr "Лог - файлы"
+
+msgid "strings.logout_time"
+msgstr "Автоматический выход"
+
+msgid "strings.noti_foot1"
+msgstr "Уведомление сгенерированно."
+
+msgid "strings.noti_foot2"
+msgstr "Для посещения Вашего сайта зайдите:"
+
+msgid "strings.noti_taskassignment1"
+msgstr "Новое задание:"
+
+msgid "strings.noti_taskassignment2"
+msgstr "Вам направлено задание:"
+
+msgid "strings.noti_moreinfo"
+msgstr "Для большей информации, посетите:"
+
+msgid "strings.noti_prioritytaskchange1"
+msgstr "Изменен приоритет задачи:"
+
+msgid "strings.noti_prioritytaskchange2"
+msgstr "Приоритет выбранных задач изменен:"
+
+msgid "strings.noti_statustaskchange1"
+msgstr "Изменен статус задачи:"
+
+msgid "strings.noti_statustaskchange2"
+msgstr "Статус выбранных задач изменен:"
+
+msgid "strings.login_username"
+msgstr "Необходимо ввести имя."
+
+msgid "strings.login_password"
+msgstr "Введите пароль."
+
+msgid "strings.login_clientuser"
+msgstr ""
+"Это имя и пароль только для просмотра"
+"на сайте проекта. Вы не имеете доступа"
+"к рабочим файлам."
+
+msgid "strings.user_already_exists"
+msgstr ""
+"Уже есть пользователь с этим именем."
+"Выберите себе другое имя."
+
+msgid "strings.noti_duedatetaskchange1"
+msgstr "Время окончания изменено:"
+
+msgid "strings.noti_duedatetaskchange2"
+msgstr ""
+"Дата окончания выбранных работ"
+"изменена:"
+
+msgid "strings.company"
+msgstr "Фирма"
+
+msgid "strings.show_all"
+msgstr "Посмотреть все"
+
+msgid "strings.information"
+msgstr "Информация"
+
+msgid "strings.delete_message"
+msgstr "Удалить это сообщение"
+
+msgid "strings.project_team"
+msgstr "Группа проекта"
+
+msgid "strings.document_list"
+msgstr "Список документов"
+
+msgid "strings.bulletin_board"
+msgstr "Доска обявлений"
+
+msgid "strings.bulletin_board_topic"
+msgstr "Темы объявлений"
+
+msgid "strings.create_topic"
+msgstr "Создать новую тему"
+
+msgid "strings.topic_form"
+msgstr "Форма темы"
+
+msgid "strings.enter_message"
+msgstr "Введите Ваше сообщение"
+
+msgid "strings.upload_file"
+msgstr "Передать файл"
+
+msgid "strings.upload_form"
+msgstr "Форма передачи файла"
+
+msgid "strings.upload"
+msgstr "Передать"
+
+msgid "strings.document"
+msgstr "Документ"
+
+msgid "strings.approval_comments"
+msgstr "Комментарии подтверждения"
+
+msgid "strings.client_tasks"
+msgstr "Задачи клиента"
+
+msgid "strings.team_tasks"
+msgstr "Задачи темы"
+
+msgid "strings.team_member_details"
+msgstr "Об участниках проекта"
+
+msgid "strings.client_task_details"
+msgstr "Детали задачи клиента"
+
+msgid "strings.team_task_details"
+msgstr "Делели задачи темы"
+
+msgid "strings.language"
+msgstr "Интерфейс"
+
+msgid "strings.welcome"
+msgstr "Приветствуем "
+
+msgid "strings.your_projectsite"
+msgstr "на Вашем сайте проекта"
+
+msgid "strings.contact_projectsite"
+msgstr ""
+"По всем вопросам и информации,"
+"представленной на данном сайте"
+"просьба обращаться к менедженру"
+"проекта"
+
+msgid "strings.company_details"
+msgstr "Информация о компании"
+
+msgid "strings.database"
+msgstr ""
+"Сохранение и восстановление базы"
+"данных"
+
+msgid "strings.company_info"
+msgstr "Править информацию о компании"
+
+msgid "strings.create_projectsite"
+msgstr "Создать сайт проекта"
+
+msgid "strings.projectsite_url"
+msgstr "URL проекта"
+
+msgid "strings.design_template"
+msgstr "Образец дизайна"
+
+msgid "strings.preview_design_template"
+msgstr "Предпросмотр дизайна"
+
+msgid "strings.delete_projectsite"
+msgstr "Удалить сайт проекта"
+
+msgid "strings.add_file"
+msgstr "Добавить файл"
+
+msgid "strings.linked_content"
+msgstr "Добавленные файлы"
+
+msgid "strings.edit_file"
+msgstr "Изменить описание"
+
+msgid "strings.permitted_client"
+msgstr ""
+"Разрешен доступ для пользователей"
+"клиентов"
+
+msgid "strings.grant_client"
+msgstr ""
+"Добавить разрешения на просмотр сайта"
+"проекта"
+
+msgid "strings.add_client_user"
+msgstr "Добавить пользователя клиента"
+
+msgid "strings.edit_client_user"
+msgstr "Изменить пользователя клиента"
+
+msgid "strings.client_user"
+msgstr "Пользователи клиента"
+
+msgid "strings.client_change_status"
+msgstr ""
+"Измените Ваш статус после выполнения"
+"этого задания"
+
+msgid "strings.project_status"
+msgstr "Статус проекта"
+
+msgid "strings.view_projectsite"
+msgstr "Посмотреть сайт проекта"
+
+msgid "strings.enter_login"
+msgstr ""
+"Введите имя для получения пароля по"
+"почте"
+
+msgid "strings.send"
+msgstr "Прислать"
+
+msgid "strings.no_login"
+msgstr "Такого пользователя нет в базе"
+
+msgid "strings.email_pwd"
+msgstr "Пароль отправлен"
+
+msgid "strings.no_email"
+msgstr "У него нет почтового адреса"
+
+msgid "strings.forgot_pwd"
+msgstr "Забыл пароль ?"
+
+msgid "strings.project_owner"
+msgstr ""
+"Вы можете изменять только проект,"
+"принадлежащий вам."
+
+msgid "strings.connected"
+msgstr "В онлайне"
+
+msgid "strings.session"
+msgstr "Сессия"
+
+msgid "strings.last_visit"
+msgstr "Последний визит"
+
+msgid "strings.compteur"
+msgstr "Количество"
+
+msgid "strings.task_owner"
+msgstr "Вы не участник этого проекта"
+
+msgid "strings.export"
+msgstr "Экспорт"
+
+msgid "strings.reassignment_clientuser"
+msgstr "Переподтвердить задачу"
+
+msgid "strings.organization_already_exists"
+msgstr ""
+"Такое имя уже есть в системе. Выберите"
+"другое."
+
+msgid "strings.blank_organization_field"
+msgstr ""
+"Введите название организации клиента."
+
+msgid "strings.blank_fields"
+msgstr "mandatory fiels"
+
+msgid "strings.projectsite_login_fails"
+msgstr ""
+"Не возможно подтвердить логин и"
+"пароль пользователя."
+
+msgid "strings.start_date"
+msgstr "Начало"
+
+msgid "strings.completion"
+msgstr "Завершение"
+
+msgid "strings.update_available"
+msgstr "Загрузите обновление!"
+
+msgid "strings.version_current"
+msgstr "Сейчас установлена версия"
+
+msgid "strings.version_latest"
+msgstr "Последняя версия"
+
+msgid "strings.sourceforge_link"
+msgstr "Посмотрите сайт проекта на Sourceforge"
+
+msgid "strings.demo_mode"
+msgstr ""
+"Демонстрационный режим. Действия на"
+"сохраняются."
+
+msgid "strings.setup_erase"
+msgstr "Удалите файл  setup.php!"
+
+msgid "strings.no_file"
+msgstr "Нет выбранных файлов"
+
+msgid "strings.exceed_size"
+msgstr "Превышен допустимый размер файла"
+
+msgid "strings.no_php"
+msgstr "Файлы с расширением php не разрешены"
+
+msgid "strings.approval_date"
+msgstr "Дата подтверждения"
+
+msgid "strings.approver"
+msgstr "Подтвержден"
+
+msgid "strings.error_database"
+msgstr "Не могу соединиться с базой данных"
+
+msgid "strings.error_server"
+msgstr "Не могу соединиться с сервером"
+
+msgid "strings.version_control"
+msgstr "Контроль версий"
+
+msgid "strings.vc_status"
+msgstr "Статус"
+
+msgid "strings.vc_last_in"
+msgstr "Последнее изменение"
+
+msgid "strings.ifa_comments"
+msgstr "Комментарии подтверждения"
+
+msgid "strings.ifa_command"
+msgstr "Изменить статус подтверждения"
+
+msgid "strings.vc_version"
+msgstr "Версия"
+
+msgid "strings.ifc_revisions"
+msgstr "Обзоры"
+
+msgid "strings.ifc_revision_of"
+msgstr "Обзор версий"
+
+msgid "strings.ifc_add_revision"
+msgstr "Добавить для обзора"
+
+msgid "strings.ifc_update_file"
+msgstr "Обновить файл"
+
+msgid "strings.ifc_last_date"
+msgstr "Последнее обновление"
+
+msgid "strings.ifc_version_history"
+msgstr "История версий"
+
+msgid "strings.ifc_delete_file"
+msgstr "Удалить файл и все его версии и обзоры"
+
+msgid "strings.ifc_delete_version"
+msgstr "Удалить выбранную версию"
+
+msgid "strings.ifc_delete_review"
+msgstr "Удалить выбранный обзор"
+
+msgid "strings.ifc_no_revisions"
+msgstr "Нет ревизий этого документа"
+
+msgid "strings.unlink_files"
+msgstr "Удалить файлы"
+
+msgid "strings.remove_team"
+msgstr "Удаление участника проекта"
+
+msgid "strings.remove_team_info"
+msgstr ""
+"Удалить этого участника из группы"
+"проекта?"
+
+msgid "strings.remove_team_client"
+msgstr ""
+"Удалить право просмотра сайта проекта"
+
+msgid "strings.note"
+msgstr "Заметка"
+
+msgid "strings.notes"
+msgstr "Заметки"
+
+msgid "strings.subject"
+msgstr "Тема"
+
+msgid "strings.delete_note"
+msgstr "Удалить заметку"
+
+msgid "strings.add_note"
+msgstr "Добавить заметку"
+
+msgid "strings.edit_note"
+msgstr "Правка заметки"
+
+msgid "strings.version_increm"
+msgstr ""
+"Выберите версию для внесения"
+"изменений:"
+
+msgid "strings.url_dev"
+msgstr "Сайт разработчиков"
+
+msgid "strings.url_prod"
+msgstr "Окончательный сайт"
+
+msgid "strings.note_owner"
+msgstr ""
+"Вы можете вносить изменения только в"
+"свои заметки."
+
+msgid "strings.alpha_only"
+msgstr ""
+"Только буквенные значения в имени"
+"входа"
+
+msgid "strings.edit_notifications"
+msgstr "Правка E-mail уведомления"
+
+msgid "strings.edit_notifications_info"
+msgstr ""
+"Выберите события, по которым Вы"
+"желаете получать уведомления на E-mail."
+
+msgid "strings.select_deselect"
+msgstr "Поставить/Снять на все"
+
+msgid "strings.noti_addprojectteam1"
+msgstr "Добавлен в группу проекта :"
+
+msgid "strings.noti_addprojectteam2"
+msgstr "Вы добавлены в группу проекта :"
+
+msgid "strings.noti_removeprojectteam1"
+msgstr "Удален из группы проекта :"
+
+msgid "strings.noti_removeprojectteam2"
+msgstr "Вы удалены из группы проекта :"
+
+msgid "strings.noti_newpost1"
+msgstr "Новые сообщения :"
+
+msgid "strings.noti_newpost2"
+msgstr ""
+"Сообщение добавлено в текущую"
+"дискуссию :"
+
+msgid "strings.edit_noti_taskassignment"
+msgstr "Я подтверждаю новое задание."
+
+msgid "strings.edit_noti_statustaskchange"
+msgstr "Статус моего задания изменен."
+
+msgid "strings.edit_noti_prioritytaskchange"
+msgstr "Приоритет моего задания изменен."
+
+msgid "strings.edit_noti_duedatetaskchange"
+msgstr "Даты моего задания изменены."
+
+msgid "strings.edit_noti_addprojectteam"
+msgstr "Я добавлен в группу проекта."
+
+msgid "strings.edit_noti_removeprojectteam"
+msgstr "Я удален из группы проекта."
+
+msgid "strings.edit_noti_newpost"
+msgstr "Новое письмо добавлено в дисскусию."
+
+msgid "strings.add_optional"
+msgstr "Добавить опцион"
+
+msgid "strings.assignment_comment_info"
+msgstr ""
+"Добавить комментарий о подтверждении"
+"этой задачи"
+
+msgid "strings.my_notes"
+msgstr "Мои заметки"
+
+msgid "strings.edit_settings"
+msgstr "Правка свойств"
+
+msgid "strings.max_upload"
+msgstr "Максимальный размер файла"
+
+msgid "strings.project_folder_size"
+msgstr "Размер папки проекта"
+
+msgid "strings.calendar"
+msgstr "Календарь"
+
+msgid "strings.date_start"
+msgstr "Дата начала"
+
+msgid "strings.date_end"
+msgstr "Дата окончания"
+
+msgid "strings.time_start"
+msgstr "Время начала"
+
+msgid "strings.time_end"
+msgstr "Время окончания"
+
+msgid "strings.calendar_reminder"
+msgstr "Напоминание"
+
+msgid "strings.shortname"
+msgstr "Короткое имя"
+
+msgid "strings.calendar_recurring"
+msgstr ""
+"Событие повторяется каждую неделю в"
+"этот день"
+
+msgid "strings.edit_database"
+msgstr "Изменить базу данных"
+
+msgid "strings.noti_newtopic1"
+msgstr "Новое обсуждение :"
+
+msgid "strings.noti_newtopic2"
+msgstr "Новая дискуссия добавлена в проект :"
+
+msgid "strings.edit_noti_newtopic"
+msgstr "Новая теме обсуждения добавлена."
+
+msgid "strings.today"
+msgstr "Сегодня"
+
+msgid "strings.previous"
+msgstr "Месяц назад"
+
+msgid "strings.next"
+msgstr "Месяц вперед"
+
+msgid "strings.help"
+msgstr "Помощь"
+
+msgid "strings.complete_date"
+msgstr "Полная дата"
+
+msgid "strings.scope_creep"
+msgstr "Ошибки по времени"
+
+msgid "strings.days"
+msgstr "Дней"
+
+msgid "strings.logo"
+msgstr "Логотип"
+
+msgid "strings.remember_password"
+msgstr "Запомнить пароль"
+
+msgid "strings.client_add_task_note"
+msgstr ""
+"Внимание: введенная задача"
+"регистрируется в базе, но появляется"
+"здесь только если она назначена"
+"кому-то из проекта!"
+
+msgid "strings.noti_clientaddtask1"
+msgstr "Задача добавлена для клиента :"
+
+msgid "strings.noti_clientaddtask2"
+msgstr ""
+"Новая задача была добавлена клиентом"
+"для следующего проекта :"
+
+msgid "strings.phase"
+msgstr "Фаза"
+
+msgid "strings.phases"
+msgstr "Фазы"
+
+msgid "strings.phase_id"
+msgstr "ID фазы"
+
+msgid "strings.current_phase"
+msgstr "Активные фаза(ы)"
+
+msgid "strings.total_tasks"
+msgstr "Всего задач"
+
+msgid "strings.uncomplete_tasks"
+msgstr "Незаконченные задачи"
+
+msgid "strings.no_current_phase"
+msgstr "Нет активной фазы"
+
+msgid "strings.true"
+msgstr "Правда"
+
+msgid "strings.false"
+msgstr "Неправда"
+
+msgid "strings.enable_phases"
+msgstr "Включить фазы"
+
+msgid "strings.phase_enabled"
+msgstr "Фазы включены"
+
+msgid "strings.order"
+msgstr "Покупатель"
+
+msgid "strings.options"
+msgstr "Опции"
+
+msgid "strings.support"
+msgstr "Поддержка"
+
+msgid "strings.support_request"
+msgstr "Требует ответа"
+
+msgid "strings.support_requests"
+msgstr "Требуют ответа"
+
+msgid "strings.support_id"
+msgstr "Номер"
+
+msgid "strings.my_support_request"
+msgstr "Требуют ответа"
+
+msgid "strings.introduction"
+msgstr "Введение"
+
+msgid "strings.submit"
+msgstr "Отправить"
+
+msgid "strings.support_management"
+msgstr "Управление службой поддержки"
+
+msgid "strings.date_open"
+msgstr "Дата начала"
+
+msgid "strings.date_close"
+msgstr "Дата закрытия"
+
+msgid "strings.add_support_request"
+msgstr "Добавить запрос в поддержку"
+
+msgid "strings.add_support_response"
+msgstr "Добавить ответ в поддержку"
+
+msgid "strings.respond"
+msgstr "Ответ"
+
+msgid "strings.delete_support_request"
+msgstr "Запрос поддержки удален"
+
+msgid "strings.delete_request"
+msgstr "Удалить запрос о поддержке"
+
+msgid "strings.delete_support_post"
+msgstr "Удалить письмо поддержки"
+
+msgid "strings.new_requests"
+msgstr "Новый запрос"
+
+msgid "strings.open_requests"
+msgstr "Открыть запрос"
+
+msgid "strings.closed_requests"
+msgstr "Завершенные запросы"
+
+msgid "strings.manage_new_requests"
+msgstr "Управление новыми запросами"
+
+msgid "strings.manage_open_requests"
+msgstr "Управление открытыми запросами"
+
+msgid "strings.manage_closed_requests"
+msgstr "Управление завершеными запросами"
+
+msgid "strings.responses"
+msgstr "Ответы"
+
+msgid "strings.edit_status"
+msgstr "Правка статуса"
+
+msgid "strings.noti_support_request_new2"
+msgstr ""
+"Есть неотвеченный запрос по"
+"поддержке: "
+
+msgid "strings.noti_support_post2"
+msgstr ""
+"Новый запрос по поддержке ждет ответа."
+"Пожалуйста рассмотрите детали."
+
+msgid "strings.noti_support_status2"
+msgstr ""
+"Ваш запрос по поддержке изменен."
+"Пожалуйста рассмотрите детали."
+
+msgid "strings.noti_support_team_new2"
+msgstr ""
+"Новый запрос поддержки был добавлен в"
+"проект: "
+
+msgid "strings.add_subtask"
+msgstr "Добавить подзадачу"
+
+msgid "strings.edit_subtask"
+msgstr "Правка подзадачи"
+
+msgid "strings.subtask"
+msgstr "Подзадача"
+
+msgid "strings.subtasks"
+msgstr "Подзадачи"
+
+msgid "strings.show_details"
+msgstr "Посмотреть детали"
+
+msgid "strings.updates_task"
+msgstr "История обновления задач"
+
+msgid "strings.updates_subtask"
+msgstr "История обновления подзадач"
+
+msgid "strings.go_projects_site"
+msgstr "На сайт проекта"
+
+msgid "strings.bookmark"
+msgstr "Закладка"
+
+msgid "strings.bookmarks"
+msgstr "Закладки"
+
+msgid "strings.bookmark_category"
+msgstr "Категория"
+
+msgid "strings.bookmark_category_new"
+msgstr "Новая категория"
+
+msgid "strings.bookmarks_all"
+msgstr "Все"
+
+msgid "strings.bookmarks_my"
+msgstr "Мои закладки"
+
+msgid "strings.my"
+msgstr "Мои"
+
+msgid "strings.bookmarks_private"
+msgstr "Личные"
+
+msgid "strings.shared"
+msgstr "Общие"
+
+msgid "strings.private"
+msgstr "Личные"
+
+msgid "strings.add_bookmark"
+msgstr "Добавить закладку"
+
+msgid "strings.edit_bookmark"
+msgstr "Правка закладки"
+
+msgid "strings.delete_bookmarks"
+msgstr "Удалить закладки"
+
+msgid "strings.team_subtask_details"
+msgstr "Подробно подзадачи группы"
+
+msgid "strings.client_subtask_details"
+msgstr "Подробно подзадачи клиента"
+
+msgid "strings.client_change_status_subtask"
+msgstr ""
+"Измените Ваш статус после того, как Вы"
+"закончили эту подзадачу"
+
+msgid "strings.disabled_permissions"
+msgstr "Отключенный аккаунт"
+
+msgid "strings.user_timezone"
+msgstr "Часовой пояс (GMT)"
+
+msgid "strings.project_manager_administrator_permissions"
+msgstr "Менеджер-администратор"
+
+msgid "strings.bug"
+msgstr "Отслеживание ошибок"
+
+msgid "strings.report"
+msgstr "Отчет"
+
+msgid "strings.license"
+msgstr "Лицензия"
+
+msgid "strings.settings_notwritable"
+msgstr "Settings.php не доступен для записи"
+
+msgid "strings.invoicing"
+msgstr "Выставление счёта"
+
+msgid "strings.invoice"
+msgstr "Счёт"
+
+msgid "strings.invoices"
+msgstr "Счета"
+
+msgid "strings.date_invoice"
+msgstr "Дата счёта"
+
+msgid "strings.header_note"
+msgstr "Заголовок"
+
+msgid "strings.footer_note"
+msgstr "Добавлено"
+
+msgid "strings.total_ex_tax"
+msgstr "Всего без налогов"
+
+msgid "strings.total_inc_tax"
+msgstr "Всего с налогами"
+
+msgid "strings.tax_rate"
+msgstr "Ставка налога"
+
+msgid "strings.tax_amount"
+msgstr "Сумма налогов"
+
+msgid "strings.invoice_items"
+msgstr "Пункт счёта"
+
+msgid "strings.amount_ex_tax"
+msgstr "Сумма без налога"
+
+msgid "strings.completed"
+msgstr "Завершено"
+
+msgid "strings.service"
+msgstr "Сервис"
+
+msgid "strings.edit_invoice"
+msgstr "Правка счёта"
+
+msgid "strings.edit_invoiceitem"
+msgstr "Правка пункта счёта"
+
+msgid "strings.calculation"
+msgstr "Подсчёт"
+
+msgid "strings.items"
+msgstr "Пункт"
+
+msgid "strings.position"
+msgstr "Позиция"
+
+msgid "strings.service_management"
+msgstr "Управление сервисами"
+
+msgid "strings.hourly_rate"
+msgstr "Стоимость часа"
+
+msgid "strings.add_service"
+msgstr "Добавить сервис"
+
+msgid "strings.edit_service"
+msgstr "Правка сервиса"
+
+msgid "strings.delete_services"
+msgstr "Удалить сервис"
+
+msgid "strings.worked_hours"
+msgstr "Затрачено часов"
+
+msgid "strings.rate_type"
+msgstr "Тип показателя"
+
+msgid "strings.rate_value"
+msgstr "Величина показателя"
+
+msgid "strings.note_invoice_items_notcompleted"
+msgstr "Не все пункты завершены"
+
+msgid "strings.newsdesk"
+msgstr "Новости"
+
+msgid "strings.newsdesk_list"
+msgstr "Список новостей"
+
+msgid "strings.article_newsdesk"
+msgstr "Сообщение"
+
+msgid "strings.update_newsdesk"
+msgstr "Обновить"
+
+msgid "strings.my_newsdesk"
+msgstr "Мои новости"
+
+msgid "strings.edit_newsdesk"
+msgstr "Правка статьи"
+
+msgid "strings.copy_newsdesk"
+msgstr "Копировать статью"
+
+msgid "strings.add_newsdesk"
+msgstr "Добавить статью"
+
+msgid "strings.del_newsdesk"
+msgstr "Удалить статью"
+
+msgid "strings.delete_news_note"
+msgstr ""
+"Примечание: Это также удалит все"
+"комментарии для текущей статьи"
+"новостей"
+
+msgid "strings.author"
+msgstr "Автор"
+
+msgid "strings.blank_newsdesk_title"
+msgstr "Пустой заголовок"
+
+msgid "strings.blank_newsdesk"
+msgstr "Пустая новость."
+
+msgid "strings.blank_newsdesk_comment"
+msgstr "Пустой комментарий"
+
+msgid "strings.remove_newsdesk"
+msgstr ""
+"Статья успешно удалена со всеми"
+"комментариями"
+
+msgid "strings.add_newsdesk_comment"
+msgstr "Добавить комментарий"
+
+msgid "strings.edit_newsdesk_comment"
+msgstr "Править комментарий"
+
+msgid "strings.del_newsdesk_comment"
+msgstr "Удалить комментарий/ии"
+
+msgid "strings.remove_newsdesk_comment"
+msgstr "Комментарий успешно удалён"
+
+msgid "strings.errorpermission_newsdesk_comment"
+msgstr ""
+"Non hai abbastanza permessi per modificare o cancellare questo"
+"messaggio"
+
+msgid "strings.noti_memberactivation1"
+msgstr "Аккаунт активирован"
+
+msgid "strings.noti_memberactivation2"
+msgstr ""
+"Вы только что добавлены в систему"
+"управления клиента phpCollab.  Эта система"
+"разработана и непрерывно"
+"модернизироваться для того, чтобы"
+"помогать Вам, как клиенту, быть в курсе"
+"Вашего проекта.\n"
+"\n"
+"Для входа в систему, откройте браузер"
+"(предподтительно Internet Explorer 6.x или Netscape"
+"7.x) и введите следующее:"
+
+msgid "strings.noti_memberactivation3"
+msgstr "имя:"
+
+msgid "strings.noti_memberactivation4"
+msgstr "пароль:"
+
+msgid "strings.noti_memberactivation5"
+msgstr ""
+"Как только Вы набрали вышеуказанную"
+"информацию и нажали \"Enter\", Вы получите"
+"доступ к Вашему сайту проекта. \n"
+"\n"
+"Так же Вы будете получать"
+"дополнительные сообщения"
+"относительно активизации, подчинения"
+"задачи, и других событиях, которые"
+"имеют отношение к Вашему счету.  Эти"
+"сообщения будут держать Вас в курсе"
+"прогресса Вашего проекта."
+
+msgid "strings.email_users"
+msgstr "Пользователям"
+
+msgid "strings.email_following"
+msgstr "Следующее"
+
+msgid "strings.email_sent"
+msgstr "Ваше сообщение отправлено."
+
+msgid "strings.clients_connected"
+msgstr "(Клиентов на сайте проекта)"
+
+
+# Enum values (status, priority, etc.)
+# Note: These should be moved to enums.*.po domain
+
+#. Domain: enums
+msgid "status.0"
+msgstr "Завершен"
+
+#. Domain: enums
+msgid "status.1"
+msgstr "Готов"
+
+#. Domain: enums
+msgid "status.2"
+msgstr "Не начат"
+
+#. Domain: enums
+msgid "status.3"
+msgstr "Открыт"
+
+#. Domain: enums
+msgid "status.4"
+msgstr "Приторможен"
+
+#. Domain: enums
+msgid "profil.0"
+msgstr "Администратор"
+
+#. Domain: enums
+msgid "profil.1"
+msgstr "Менеджер проекта"
+
+#. Domain: enums
+msgid "profil.2"
+msgstr "Пользователь"
+
+#. Domain: enums
+msgid "profil.3"
+msgstr "Клиент"
+
+#. Domain: enums
+msgid "profil.4"
+msgstr "Отключен"
+
+#. Domain: enums
+msgid "profil.5"
+msgstr "Менеджер-администратор"
+
+#. Domain: enums
+msgid "priority.0"
+msgstr "Нет"
+
+#. Domain: enums
+msgid "priority.1"
+msgstr "Ждет долго"
+
+#. Domain: enums
+msgid "priority.2"
+msgstr "Ждет"
+
+#. Domain: enums
+msgid "priority.3"
+msgstr "Средне"
+
+#. Domain: enums
+msgid "priority.4"
+msgstr "Быстро"
+
+#. Domain: enums
+msgid "priority.5"
+msgstr "Очень быстро"
+
+#. Domain: enums
+msgid "statusTopic.0"
+msgstr "Закрыт"
+
+#. Domain: enums
+msgid "statusTopic.1"
+msgstr "Открыт"
+
+#. Domain: enums
+msgid "statusTopicBis.0"
+msgstr "Нет"
+
+#. Domain: enums
+msgid "statusTopicBis.1"
+msgstr "Да"
+
+#. Domain: enums
+msgid "statusPublish.0"
+msgstr "Да"
+
+#. Domain: enums
+msgid "statusPublish.1"
+msgstr "Нет"
+
+#. Domain: enums
+msgid "statusFile.0"
+msgstr "Подтвержден"
+
+#. Domain: enums
+msgid "statusFile.1"
+msgstr "Подтвержден с изменениями"
+
+#. Domain: enums
+msgid "statusFile.2"
+msgstr "Требует подтверждения"
+
+#. Domain: enums
+msgid "statusFile.3"
+msgstr "Не требует подтверждения"
+
+#. Domain: enums
+msgid "statusFile.4"
+msgstr "Не подтвержден"
+
+#. Domain: enums
+msgid "phaseStatus.0"
+msgstr "Не начат"
+
+#. Domain: enums
+msgid "phaseStatus.1"
+msgstr "Открыт"
+
+#. Domain: enums
+msgid "phaseStatus.2"
+msgstr "Завершен"
+
+#. Domain: enums
+msgid "phaseStatus.3"
+msgstr "Приторможен"
+
+#. Domain: enums
+msgid "requestStatus.0"
+msgstr "Новый"
+
+#. Domain: enums
+msgid "requestStatus.1"
+msgstr "Открытый"
+
+#. Domain: enums
+msgid "requestStatus.2"
+msgstr "Завершенный"
+
+
+# Arrays (days, months, byte units)
+
+msgid "byteunits.0"
+msgstr "Байт"
+
+msgid "byteunits.1"
+msgstr "Kб"
+
+msgid "byteunits.2"
+msgstr "Mб"
+
+msgid "byteunits.3"
+msgstr "Гб"
+
+msgid "dayname.1"
+msgstr "Понедельник"
+
+msgid "dayname.2"
+msgstr "Вторник"
+
+msgid "dayname.3"
+msgstr "Среда"
+
+msgid "dayname.4"
+msgstr "Четверг"
+
+msgid "dayname.5"
+msgstr "Пятница"
+
+msgid "dayname.6"
+msgstr "Суббота"
+
+msgid "dayname.7"
+msgstr "Воскресенье"
+
+msgid "monthname.1"
+msgstr "Январь"
+
+msgid "monthname.2"
+msgstr "Февраль"
+
+msgid "monthname.3"
+msgstr "Март"
+
+msgid "monthname.4"
+msgstr "Апрель"
+
+msgid "monthname.5"
+msgstr "Май"
+
+msgid "monthname.6"
+msgstr "Июнь"
+
+msgid "monthname.7"
+msgstr "Июль"
+
+msgid "monthname.8"
+msgstr "Август"
+
+msgid "monthname.9"
+msgstr "Сентябрь"
+
+msgid "monthname.10"
+msgstr "Октябрь"
+
+msgid "monthname.11"
+msgstr "Ноябрь"
+
+msgid "monthname.12"
+msgstr "Декабрь"
+

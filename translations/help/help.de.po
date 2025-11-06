@@ -1,0 +1,96 @@
+# phpCollab Translation File
+# Language: German (de)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:08 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Help text
+
+msgid "setup_mkdirMethod"
+msgstr ""
+"Wenn der PHP safe-mode eingeschaltet ist, darf kein Verzeichnis"
+"angelegt werden, dann muss ein FTP Account eingerichtet werden."
+
+msgid "setup_notifications"
+msgstr ""
+"E-mail Benachrichtigungen bei Aenderungen"
+"ein/ausschalten<br/>Funktionierendes smtp/sendmail muss vorhanden"
+"sein."
+
+msgid "setup_forcedlogin"
+msgstr "Login mut User ID und Password in der URL ein-/ausschalten."
+
+msgid "setup_langdefault"
+msgstr ""
+"Standardsprache beim Login waehlen. Wenn nicht ausgefuellt wird"
+"versucht diese aus dem Browser zu ermitteln.."
+
+msgid "setup_myprefix"
+msgstr ""
+"Nur notwendig wenn bereits Tabellen mit gleichem Namen in der"
+"Datenbank enthalten sind.<br/><br/>Benutzte"
+"Namen:<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates"
+
+msgid "setup_loginmethod"
+msgstr "Wie sollen Passwords in der Datenbank gespeichert werden?<br/>"
+
+msgid "admin_update"
+msgstr ""
+"Unbedingt die Reihenfolge beim Versionsupdate einhalten.<br/>1."
+"Einstellungen &auml;ndern<br/>2. Datenbank &auml;ndern"
+
+msgid "task_scope_creep"
+msgstr "Tage bis zur Faelligkeit (Fett bei Ueberschreitung)"
+
+msgid "max_file_size"
+msgstr "Maximale Dateigr&ouml;&szlig; f&uuml;r Uploads"
+
+msgid "project_disk_space"
+msgstr "Aktueller Speicherverbrauch des Projekts."
+
+msgid "project_scope_creep"
+msgstr ""
+"Differenz in Tagen zwischen Faeliigkeit und Fertigstellung (Fett bei"
+"Ueberschreitung). Summe aller Aufgaben."
+
+msgid "mycompany_logo"
+msgstr ""
+"Beliebiges Firmenlogo uploaden, es erscheint dann im Kopf jeder Seite."
+
+msgid "calendar_shortname"
+msgstr "Dieser Text wird im Kalender angezeigt (Pflichtfeld)"
+
+msgid "user_autologout"
+msgstr ""
+"Nach wievielen Sekunden Inaktivit&auml;t soll die Verbindung getrennt"
+"werden? (0 = Nie)"
+
+msgid "user_timezone"
+msgstr "GMT Zeitzone einstellen"
+
+msgid "setup_clientsfilter"
+msgstr "Filter aktiviert zeigt nur die amgemeldeten Kundenbenutzer"
+
+msgid "setup_projectsfilter"
+msgstr ""
+"Filter aktiviert zeigt nur die Projekte, in denen der Benutzer im Team"
+"ist"
+
+msgid "setup_notificationMethod"
+msgstr ""
+"Methode zum Mail-Versenden: mit der internen PHP Mail Funktion"
+"(ben&ouml;tigt korrekte Parameter in PHP f&uuml;r einen smtp- oder"
+"sendmail-Server) oder mit personifiziertem smtp Server"
+
+msgid "newsdesk_links"
+msgstr "Um mehrere Links hinzuzuf&uuml;gen Semikolon verwenden"
+

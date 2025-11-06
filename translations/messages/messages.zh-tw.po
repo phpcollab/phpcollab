@@ -1,0 +1,792 @@
+# phpCollab Translation File
+# Language: Chinese (Traditional) (zh-tw)
+# Type: Lang
+# Domain: messages
+# Generated: 2025-11-06 00:44:05 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: zh-tw\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# String translations
+
+msgid "strings.please_login"
+msgstr "請登入系統"
+
+msgid "strings.requirements"
+msgstr "系統需求"
+
+msgid "strings.login"
+msgstr "登入"
+
+msgid "strings.no_items"
+msgstr "沒有相關項目"
+
+msgid "strings.logout"
+msgstr "登出"
+
+msgid "strings.preferences"
+msgstr "偏好設定"
+
+msgid "strings.my_tasks"
+msgstr "我的工作"
+
+msgid "strings.edit_task"
+msgstr "編輯工作"
+
+msgid "strings.copy_task"
+msgstr "複製工作"
+
+msgid "strings.add_task"
+msgstr "新增工作"
+
+msgid "strings.delete_tasks"
+msgstr "刪除工作"
+
+msgid "strings.assignment_history"
+msgstr "工作指派記錄"
+
+msgid "strings.assigned_on"
+msgstr "指派於"
+
+msgid "strings.assigned_by"
+msgstr "指派人"
+
+msgid "strings.to"
+msgstr "指派給"
+
+msgid "strings.comment"
+msgstr "註解"
+
+msgid "strings.task_assigned"
+msgstr "任務指派給"
+
+msgid "strings.task_unassigned"
+msgstr "任務未被指派"
+
+msgid "strings.assignment_comment"
+msgstr "工作指派註解"
+
+msgid "strings.my_discussions"
+msgstr "我的討論"
+
+msgid "strings.discussions"
+msgstr "討論"
+
+msgid "strings.delete_discussions"
+msgstr "刪除討論"
+
+msgid "strings.my_reports"
+msgstr "我的報告"
+
+msgid "strings.reports"
+msgstr "報告"
+
+msgid "strings.create_report"
+msgstr "建立報告"
+
+msgid "strings.report_intro"
+msgstr "在此選擇您的工作報告參數並儲存查詢結果"
+
+msgid "strings.admin_intro"
+msgstr "系統設定和配置"
+
+msgid "strings.add"
+msgstr "新增"
+
+msgid "strings.delete"
+msgstr "刪除"
+
+msgid "strings.remove"
+msgstr "刪除"
+
+msgid "strings.copy"
+msgstr "複製"
+
+msgid "strings.view"
+msgstr "查看"
+
+msgid "strings.edit"
+msgstr "編輯"
+
+msgid "strings.update"
+msgstr "更新"
+
+msgid "strings.details"
+msgstr "詳情"
+
+msgid "strings.none"
+msgstr "無"
+
+msgid "strings.close"
+msgstr "關閉"
+
+msgid "strings.new"
+msgstr "新增"
+
+msgid "strings.select_all"
+msgstr "選擇全部"
+
+msgid "strings.unassigned"
+msgstr "未被指派"
+
+msgid "strings.administrator"
+msgstr "系統管理者"
+
+msgid "strings.my_projects"
+msgstr "我的專案"
+
+msgid "strings.project"
+msgstr "專案"
+
+msgid "strings.active"
+msgstr "現行專案"
+
+msgid "strings.inactive"
+msgstr "閒置專案"
+
+msgid "strings.project_id"
+msgstr "專案編號"
+
+msgid "strings.edit_project"
+msgstr "編輯專案"
+
+msgid "strings.copy_project"
+msgstr "複製專案"
+
+msgid "strings.add_project"
+msgstr "新增專案"
+
+msgid "strings.clients"
+msgstr "客戶"
+
+msgid "strings.info"
+msgstr "資訊"
+
+msgid "strings.status"
+msgstr "狀態"
+
+msgid "strings.owner"
+msgstr "擁有者"
+
+msgid "strings.home"
+msgstr "主頁"
+
+msgid "strings.projects"
+msgstr "專案"
+
+msgid "strings.files"
+msgstr "檔案"
+
+msgid "strings.search"
+msgstr "搜尋"
+
+msgid "strings.admin"
+msgstr "管理"
+
+msgid "strings.user"
+msgstr "用戶"
+
+msgid "strings.project_manager"
+msgstr "專案經理"
+
+msgid "strings.task"
+msgstr "工作"
+
+msgid "strings.tasks"
+msgstr "工作"
+
+msgid "strings.team"
+msgstr "團隊"
+
+msgid "strings.add_team"
+msgstr "新增團隊成員"
+
+msgid "strings.team_members"
+msgstr "團隊成員"
+
+msgid "strings.full_name"
+msgstr "全名"
+
+msgid "strings.title"
+msgstr "稱謂"
+
+msgid "strings.user_name"
+msgstr "用戶名稱"
+
+msgid "strings.work_phone"
+msgstr "公司電話"
+
+msgid "strings.priority"
+msgstr "優先權"
+
+msgid "strings.name"
+msgstr "名稱"
+
+msgid "strings.id"
+msgstr "編號"
+
+msgid "strings.description"
+msgstr "敘述"
+
+msgid "strings.phone"
+msgstr "電話"
+
+msgid "strings.url"
+msgstr "網頁"
+
+msgid "strings.address"
+msgstr "地址"
+
+msgid "strings.comments"
+msgstr "註解"
+
+msgid "strings.created"
+msgstr "建立"
+
+msgid "strings.assigned"
+msgstr "指派"
+
+msgid "strings.modified"
+msgstr "修改"
+
+msgid "strings.assigned_to"
+msgstr "指派給"
+
+msgid "strings.due_date"
+msgstr "到期日期"
+
+msgid "strings.estimated_time"
+msgstr "預估時間"
+
+msgid "strings.actual_time"
+msgstr "實際時間"
+
+msgid "strings.delete_following"
+msgstr "確認要刪除下列的資料？"
+
+msgid "strings.cancel"
+msgstr "取消"
+
+msgid "strings.and"
+msgstr "和"
+
+msgid "strings.administration"
+msgstr "系統管理"
+
+msgid "strings.user_management"
+msgstr "用戶管理"
+
+msgid "strings.system_information"
+msgstr "系統資訊"
+
+msgid "strings.product_information"
+msgstr "產品資訊"
+
+msgid "strings.system_properties"
+msgstr "系統資源"
+
+msgid "strings.create"
+msgstr "建立"
+
+msgid "strings.report_save"
+msgstr "儲存報告結果至首頁以便下次執行"
+
+msgid "strings.report_name"
+msgstr "報告名稱"
+
+msgid "strings.save"
+msgstr "儲存"
+
+msgid "strings.matches"
+msgstr "符合"
+
+msgid "strings.match"
+msgstr "符合"
+
+msgid "strings.report_results"
+msgstr "報告結果"
+
+msgid "strings.success"
+msgstr "完成"
+
+msgid "strings.addition_succeeded"
+msgstr "新增完成"
+
+msgid "strings.deletion_succeeded"
+msgstr "刪除完成"
+
+msgid "strings.report_created"
+msgstr "建立報告"
+
+msgid "strings.deleted_reports"
+msgstr "刪除報告"
+
+msgid "strings.modification_succeeded"
+msgstr "修改完成"
+
+msgid "strings.errors"
+msgstr "發生錯誤！"
+
+msgid "strings.blank_user"
+msgstr "找不到此用戶"
+
+msgid "strings.user_profile"
+msgstr "用戶簡介"
+
+msgid "strings.change_password"
+msgstr "變更密碼"
+
+msgid "strings.change_password_user"
+msgstr "變更用戶密碼"
+
+msgid "strings.notifications"
+msgstr "系統通知"
+
+msgid "strings.old_password"
+msgstr "舊的密碼"
+
+msgid "strings.password"
+msgstr "密碼"
+
+msgid "strings.new_password"
+msgstr "新的密碼"
+
+msgid "strings.confirm_password"
+msgstr "確認密碼"
+
+msgid "strings.email"
+msgstr "電子郵件"
+
+msgid "strings.home_phone"
+msgstr "住宅電話"
+
+msgid "strings.mobile_phone"
+msgstr "行動電話"
+
+msgid "strings.fax"
+msgstr "傳真號碼"
+
+msgid "strings.permissions"
+msgstr "用戶權限"
+
+msgid "strings.administrator_permissions"
+msgstr "系統管理者"
+
+msgid "strings.project_manager_permissions"
+msgstr "專案經理"
+
+msgid "strings.user_permissions"
+msgstr "一般用戶"
+
+msgid "strings.account_created"
+msgstr "被建立於"
+
+msgid "strings.edit_user"
+msgstr "編輯用戶"
+
+msgid "strings.edit_user_details"
+msgstr "編輯用戶資料"
+
+msgid "strings.change_user_password"
+msgstr "變更用戶密碼"
+
+msgid "strings.select_permissions"
+msgstr "請選擇用戶權限"
+
+msgid "strings.add_user"
+msgstr "新增用戶"
+
+msgid "strings.enter_user_details"
+msgstr "請輸入用戶詳細資料"
+
+msgid "strings.enter_password"
+msgstr "請輸入用戶密碼"
+
+msgid "strings.success_logout"
+msgstr ""
+"您已成功登出。您可以輸入用戶名稱和密碼再次登入。"
+
+msgid "strings.invalid_login"
+msgstr "用戶名稱或密碼輸入錯誤，請再重新輸入一次"
+
+msgid "strings.profile"
+msgstr "用戶簡介"
+
+msgid "strings.user_details"
+msgstr "用戶詳細資料"
+
+msgid "strings.edit_user_account"
+msgstr "編輯用戶資料"
+
+msgid "strings.no_permissions"
+msgstr "您沒有足夠的權限執行這個動作"
+
+msgid "strings.discussion"
+msgstr "討論"
+
+msgid "strings.retired"
+msgstr "是否有人回覆"
+
+msgid "strings.last_post"
+msgstr "最後發表日期"
+
+msgid "strings.posted_by"
+msgstr "發表人"
+
+msgid "strings.when"
+msgstr "發表日期"
+
+msgid "strings.attention"
+msgstr "注意"
+
+msgid "strings.enter_keywords"
+msgstr "請輸入關鍵字"
+
+msgid "strings.search_options"
+msgstr "關鍵字和搜尋條件"
+
+msgid "strings.search_note"
+msgstr "您必須輸入搜尋條件"
+
+msgid "strings.search_results"
+msgstr "搜尋結果"
+
+msgid "strings.users"
+msgstr "用戶"
+
+msgid "strings.search_for"
+msgstr "搜尋"
+
+msgid "strings.results_for_keywords"
+msgstr "關鍵字查詢結果"
+
+msgid "strings.add_discussion"
+msgstr "增加討論"
+
+msgid "strings.delete_users"
+msgstr "刪除用戶帳號"
+
+msgid "strings.reassignment_user"
+msgstr "專案和工作重新指派"
+
+msgid "strings.there"
+msgstr "目前有"
+
+msgid "strings.owned_by"
+msgstr "為此用戶負責"
+
+msgid "strings.reassign_to"
+msgstr "在刪除此用戶前，請重新指派為"
+
+msgid "strings.published"
+msgstr "是否發佈"
+
+msgid "strings.yes"
+msgstr "是"
+
+msgid "strings.no"
+msgstr "否"
+
+msgid "strings.sort_by"
+msgstr "排序方式："
+
+msgid "strings.all_dates"
+msgstr "所有日期"
+
+msgid "strings.between_dates"
+msgstr "選擇日期"
+
+msgid "strings.all_content"
+msgstr "所有內容"
+
+msgid "strings.hours"
+msgstr "小時"
+
+msgid "strings.choice"
+msgstr "選擇"
+
+msgid "strings.missing_file"
+msgstr "檔案遺失！"
+
+msgid "strings.logs"
+msgstr "系統日誌"
+
+msgid "strings.logout_time"
+msgstr "自動登出"
+
+msgid "strings.login_username"
+msgstr "您必須輸入用戶名稱"
+
+msgid "strings.login_password"
+msgstr "請輸入密碼"
+
+msgid "strings.information"
+msgstr "資訊"
+
+msgid "strings.delete_message"
+msgstr "刪除此佈告"
+
+msgid "strings.project_team"
+msgstr "專案團隊"
+
+msgid "strings.document_list"
+msgstr "文件列表"
+
+msgid "strings.upload"
+msgstr "上傳"
+
+msgid "strings.document"
+msgstr "文件"
+
+msgid "strings.language"
+msgstr "語言"
+
+msgid "strings.welcome"
+msgstr "歡迎"
+
+msgid "strings.company_details"
+msgstr "公司簡介"
+
+msgid "strings.database"
+msgstr "備份／回存資料庫"
+
+msgid "strings.company_info"
+msgstr "編輯您的公司資料"
+
+msgid "strings.add_file"
+msgstr "新增檔案"
+
+msgid "strings.linked_content"
+msgstr "相關文件"
+
+msgid "strings.forgot_pwd"
+msgstr "忘記了密碼？"
+
+msgid "strings.connected"
+msgstr "是否連線"
+
+msgid "strings.last_visit"
+msgstr "最後上線時間"
+
+msgid "strings.compteur"
+msgstr "上線次數"
+
+msgid "strings.task_owner"
+msgstr "您並不是此專案的團隊成員"
+
+msgid "strings.export"
+msgstr "匯出"
+
+msgid "strings.blank_fields"
+msgstr "mandatory fiels"
+
+msgid "strings.start_date"
+msgstr "開始日期"
+
+msgid "strings.completion"
+msgstr "完成日期"
+
+msgid "strings.update_available"
+msgstr "有更新的版本！"
+
+msgid "strings.version_current"
+msgstr "您目前所使用的版本是"
+
+msgid "strings.version_latest"
+msgstr "最新的版本是"
+
+msgid "strings.sourceforge_link"
+msgstr "請參閱phpCollab在Sourceforge中的主頁"
+
+msgid "strings.demo_mode"
+msgstr "目前是展示模式，此動作不被允許。"
+
+msgid "strings.setup_erase"
+msgstr "請刪除Setup.php檔案！！"
+
+msgid "strings.no_file"
+msgstr "未選擇任何檔案"
+
+msgid "strings.exceed_size"
+msgstr "超過檔案大小限制"
+
+msgid "strings.vc_version"
+msgstr "版本"
+
+msgid "strings.remove_team"
+msgstr "刪除團隊成員"
+
+msgid "strings.remove_team_info"
+msgstr "確認要從專案團隊中刪除這些成員？"
+
+msgid "strings.subject"
+msgstr "主旨"
+
+msgid "strings.edit_notifications"
+msgstr "編輯電子郵件通知項目"
+
+msgid "strings.edit_notifications_info"
+msgstr "選擇您希望收到電子郵件通知的項目"
+
+msgid "strings.select_deselect"
+msgstr "選擇／取消 全部"
+
+msgid "strings.assignment_comment_info"
+msgstr "新增工作指派註解"
+
+msgid "strings.edit_settings"
+msgstr "系統設定"
+
+
+# Enum values (status, priority, etc.)
+# Note: These should be moved to enums.*.po domain
+
+#. Domain: enums
+msgid "status.0"
+msgstr "客戶核可"
+
+#. Domain: enums
+msgid "status.1"
+msgstr "已完成"
+
+#. Domain: enums
+msgid "status.2"
+msgstr "未開始"
+
+#. Domain: enums
+msgid "status.3"
+msgstr "進行中"
+
+#. Domain: enums
+msgid "status.4"
+msgstr "暫停"
+
+#. Domain: enums
+msgid "profil.0"
+msgstr "系統管理者"
+
+#. Domain: enums
+msgid "profil.1"
+msgstr "專案經理"
+
+#. Domain: enums
+msgid "profil.2"
+msgstr "一般用戶"
+
+#. Domain: enums
+msgid "profil.3"
+msgstr "Client User"
+
+#. Domain: enums
+msgid "profil.4"
+msgstr "Disabled"
+
+#. Domain: enums
+msgid "profil.5"
+msgstr "Project Manager Administrator"
+
+#. Domain: enums
+msgid "priority.0"
+msgstr "無"
+
+#. Domain: enums
+msgid "priority.1"
+msgstr "極低"
+
+#. Domain: enums
+msgid "priority.2"
+msgstr "較低"
+
+#. Domain: enums
+msgid "priority.3"
+msgstr "中等"
+
+#. Domain: enums
+msgid "priority.4"
+msgstr "較高"
+
+#. Domain: enums
+msgid "priority.5"
+msgstr "極高"
+
+#. Domain: enums
+msgid "statusTopic.0"
+msgstr "關閉"
+
+#. Domain: enums
+msgid "statusTopic.1"
+msgstr "開啟"
+
+#. Domain: enums
+msgid "statusTopicBis.0"
+msgstr "是"
+
+#. Domain: enums
+msgid "statusTopicBis.1"
+msgstr "否"
+
+#. Domain: enums
+msgid "statusPublish.0"
+msgstr "是"
+
+#. Domain: enums
+msgid "statusPublish.1"
+msgstr "否"
+
+
+# Arrays (days, months, byte units)
+
+msgid "byteunits.0"
+msgstr "Bytes"
+
+msgid "byteunits.1"
+msgstr "KB"
+
+msgid "byteunits.2"
+msgstr "MB"
+
+msgid "byteunits.3"
+msgstr "GB"
+
+msgid "monthname.1"
+msgstr "一月"
+
+msgid "monthname.2"
+msgstr "二月"
+
+msgid "monthname.3"
+msgstr "三月"
+
+msgid "monthname.4"
+msgstr "四月"
+
+msgid "monthname.5"
+msgstr "五月"
+
+msgid "monthname.6"
+msgstr "六月"
+
+msgid "monthname.7"
+msgstr "七月"
+
+msgid "monthname.8"
+msgstr "八月"
+
+msgid "monthname.9"
+msgstr "九月"
+
+msgid "monthname.10"
+msgstr "十月"
+
+msgid "monthname.11"
+msgstr "十一月"
+
+msgid "monthname.12"
+msgstr "十二月"
+

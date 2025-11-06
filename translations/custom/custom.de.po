@@ -1,0 +1,59 @@
+# phpCollab Translation File
+# Language: German (de)
+# Type: Custom
+# Domain: messages
+# Generated: 2025-11-06 00:44:08 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Custom application values
+
+msgid "topicNote.1"
+msgstr "Telefongespr&auml;ch"
+
+msgid "topicNote.2"
+msgstr "Konferenz Notizen"
+
+msgid "topicNote.3"
+msgstr "Allgemeine Notizen"
+
+msgid "phaseArraySets.sets.1"
+msgstr "Website"
+
+msgid "phaseArraySets.sets.2"
+msgstr "CD"
+
+msgid "phaseArraySets.1.0"
+msgstr "Planung"
+
+msgid "phaseArraySets.1.1"
+msgstr "Design"
+
+msgid "phaseArraySets.1.2"
+msgstr "Test"
+
+msgid "phaseArraySets.1.3"
+msgstr "Freigabe"
+
+msgid "phaseArraySets.1.4"
+msgstr "Produktion"
+
+msgid "phaseArraySets.2.0"
+msgstr "Planung"
+
+msgid "phaseArraySets.2.1"
+msgstr "Design"
+
+msgid "phaseArraySets.2.2"
+msgstr "Test"
+
+msgid "phaseArraySets.2.3"
+msgstr "Produktion"
+

@@ -1,0 +1,1657 @@
+# phpCollab Translation File
+# Language: Latvian (lv)
+# Type: Lang
+# Domain: messages
+# Generated: 2025-11-06 00:44:11 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: lv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# String translations
+
+msgid "strings.please_login"
+msgstr "Lûdzu autorizįjieties"
+
+msgid "strings.requirements"
+msgstr "Sistįmas prasîbas"
+
+msgid "strings.login"
+msgstr "Ieeja"
+
+msgid "strings.no_items"
+msgstr "Nav informâcijas"
+
+msgid "strings.logout"
+msgstr "Izeja"
+
+msgid "strings.preferences"
+msgstr "Uzstâdîjumi"
+
+msgid "strings.my_tasks"
+msgstr "Mani Uzdevumi"
+
+msgid "strings.edit_task"
+msgstr "Labot Uzdevumu"
+
+msgid "strings.copy_task"
+msgstr "Kopįt Uzdevumu"
+
+msgid "strings.add_task"
+msgstr "Pievienot Uzdevumu"
+
+msgid "strings.delete_tasks"
+msgstr "Izdzįst Uzdevumu"
+
+msgid "strings.assignment_history"
+msgstr "Pieđíirđanas Vįsture"
+
+msgid "strings.assigned_on"
+msgstr "Pieđíirts"
+
+msgid "strings.assigned_by"
+msgstr "Pieđíîra"
+
+msgid "strings.to"
+msgstr "Kam"
+
+msgid "strings.comment"
+msgstr "Komentâri"
+
+msgid "strings.task_assigned"
+msgstr "Uzdevums pieđíirts "
+
+msgid "strings.task_unassigned"
+msgstr "Uzdevums nav nevienam pieđíirts (Nepieđíirts)"
+
+msgid "strings.edit_multiple_tasks"
+msgstr "Labot Vairâkus Uzdevumus"
+
+msgid "strings.tasks_selected"
+msgstr ""
+"uzdevumi izvįlįti. Izvįlieties jaunas uzdevumu vįrtîbas vai arî"
+"[Nemainît] lai atstâtu pađreizįâjas."
+
+msgid "strings.assignment_comment"
+msgstr "Uzdevuma Komentârs"
+
+msgid "strings.no_change"
+msgstr "[Nemainît]"
+
+msgid "strings.my_discussions"
+msgstr "Manas Diskusijas"
+
+msgid "strings.discussions"
+msgstr "Diskusijas"
+
+msgid "strings.delete_discussions"
+msgstr "Izdzįst Diskusijas"
+
+msgid "strings.delete_discussions_note"
+msgstr "Piezîme: Nevar atvįrt diskusijas, ja tâs jau izdzįstas."
+
+msgid "strings.topic"
+msgstr "Temats"
+
+msgid "strings.posts"
+msgstr "Ziōas"
+
+msgid "strings.latest_post"
+msgstr "Pįdįjâ Ziōa"
+
+msgid "strings.my_reports"
+msgstr "Manas Atskaites"
+
+msgid "strings.reports"
+msgstr "Atskaites"
+
+msgid "strings.create_report"
+msgstr "Taisît Atskaiti"
+
+msgid "strings.report_intro"
+msgstr ""
+"Izvįlities uzdevumu atskaites parametrus un saglabâjiet"
+"pieprasîjumu pįc atskaites saōemđanas rezultâtu lapâ."
+
+msgid "strings.admin_intro"
+msgstr "Projekta iestâdîjumi un konfigurâcija."
+
+msgid "strings.copy_of"
+msgstr "Kopija no "
+
+msgid "strings.add"
+msgstr "Pievienot"
+
+msgid "strings.delete"
+msgstr "Dzįst"
+
+msgid "strings.remove"
+msgstr "Izōemt"
+
+msgid "strings.copy"
+msgstr "Kopįt"
+
+msgid "strings.view"
+msgstr "Skatît"
+
+msgid "strings.edit"
+msgstr "Labot"
+
+msgid "strings.update"
+msgstr "Atjaunot"
+
+msgid "strings.details"
+msgstr "Detaīas"
+
+msgid "strings.none"
+msgstr "Nav"
+
+msgid "strings.close"
+msgstr "Aizvįrt"
+
+msgid "strings.new"
+msgstr "Jauns"
+
+msgid "strings.select_all"
+msgstr "Izvįlįties visus"
+
+msgid "strings.unassigned"
+msgstr "Nepieđíirts"
+
+msgid "strings.administrator"
+msgstr "Administrâtors"
+
+msgid "strings.my_projects"
+msgstr "Mani Projekti"
+
+msgid "strings.project"
+msgstr "Projekts"
+
+msgid "strings.active"
+msgstr "Aktîvie"
+
+msgid "strings.inactive"
+msgstr "Neaktîvie"
+
+msgid "strings.project_id"
+msgstr "Projekta ID"
+
+msgid "strings.edit_project"
+msgstr "Labot Projektu"
+
+msgid "strings.copy_project"
+msgstr "Kopįt Projektu"
+
+msgid "strings.add_project"
+msgstr "Pievienot Projektu"
+
+msgid "strings.clients"
+msgstr "Klienti"
+
+msgid "strings.organization"
+msgstr "Klienta Organizâcija"
+
+msgid "strings.client_projects"
+msgstr "Klienta Projekti"
+
+msgid "strings.client_users"
+msgstr "Klienta Lietotâji"
+
+msgid "strings.edit_organization"
+msgstr "Labot Klientu Organizâcijas"
+
+msgid "strings.add_organization"
+msgstr "Pievienot Klientu Organizâcijas"
+
+msgid "strings.organizations"
+msgstr "Klientu Organizâcijas"
+
+msgid "strings.status"
+msgstr "Statuss"
+
+msgid "strings.owner"
+msgstr "Îpađnieks"
+
+msgid "strings.home"
+msgstr "Sâkums"
+
+msgid "strings.projects"
+msgstr "Projekti"
+
+msgid "strings.files"
+msgstr "Faili"
+
+msgid "strings.search"
+msgstr "Meklįt"
+
+msgid "strings.admin"
+msgstr "Administrįt"
+
+msgid "strings.user"
+msgstr "Lietotâjs"
+
+msgid "strings.project_manager"
+msgstr "Projektu vadîtâjs"
+
+msgid "strings.due"
+msgstr "Termiōđ"
+
+msgid "strings.task"
+msgstr "Uzdevums"
+
+msgid "strings.tasks"
+msgstr "Uzdevumi"
+
+msgid "strings.team"
+msgstr "Komanda"
+
+msgid "strings.add_team"
+msgstr "Pievienot Komandas Biedrus"
+
+msgid "strings.team_members"
+msgstr "Komandas Biedri"
+
+msgid "strings.full_name"
+msgstr "Pilns vârds"
+
+msgid "strings.title"
+msgstr "Amats"
+
+msgid "strings.user_name"
+msgstr "Lietotâja vârds"
+
+msgid "strings.work_phone"
+msgstr "Darba tâlrunis"
+
+msgid "strings.priority"
+msgstr "Prioritâte"
+
+msgid "strings.name"
+msgstr "Nosaukums"
+
+msgid "strings.description"
+msgstr "Apraksts"
+
+msgid "strings.phone"
+msgstr "Tâlrunis"
+
+msgid "strings.address"
+msgstr "Addrese"
+
+msgid "strings.comments"
+msgstr "Komentâri"
+
+msgid "strings.created"
+msgstr "Radîts"
+
+msgid "strings.assigned"
+msgstr "Pieđíirts"
+
+msgid "strings.modified"
+msgstr "Labots"
+
+msgid "strings.assigned_to"
+msgstr "Izpildîtâjs"
+
+msgid "strings.due_date"
+msgstr "Termiōđ"
+
+msgid "strings.estimated_time"
+msgstr "Paredzįtais laiks"
+
+msgid "strings.actual_time"
+msgstr "Patiesais laiks"
+
+msgid "strings.delete_following"
+msgstr "Izdzįst sekojođo?"
+
+msgid "strings.cancel"
+msgstr "Atcelt"
+
+msgid "strings.and"
+msgstr "un"
+
+msgid "strings.administration"
+msgstr "Administrâcija"
+
+msgid "strings.user_management"
+msgstr "Lietotâju Vadîba"
+
+msgid "strings.system_information"
+msgstr "Sistįmas Informâcija"
+
+msgid "strings.product_information"
+msgstr "Produkta Informâcija"
+
+msgid "strings.system_properties"
+msgstr "Sistįmas parametri"
+
+msgid "strings.create"
+msgstr "Izveidot"
+
+msgid "strings.report_save"
+msgstr ""
+"Saglabâjiet đo atskaites pieprasîjumu lapâ, lai vįlâk to varat"
+"atkârtot."
+
+msgid "strings.report_name"
+msgstr "Atskaites nosaukums"
+
+msgid "strings.save"
+msgstr "Saglabât"
+
+msgid "strings.matches"
+msgstr "Sakritîbas"
+
+msgid "strings.match"
+msgstr "Sakritîba"
+
+msgid "strings.report_results"
+msgstr "Atskaites rezultâti"
+
+msgid "strings.success"
+msgstr "Veiksmîgi"
+
+msgid "strings.addition_succeeded"
+msgstr "Veiksmîgi izveidots"
+
+msgid "strings.deletion_succeeded"
+msgstr "Veiksmîgi izdzįsts"
+
+msgid "strings.report_created"
+msgstr "Izgatavotâs atskaites"
+
+msgid "strings.deleted_reports"
+msgstr "Izdzįstâs atskaites"
+
+msgid "strings.modification_succeeded"
+msgstr "Veiksmîgi izmainîts"
+
+msgid "strings.errors"
+msgstr "Atrastas kīûdas!"
+
+msgid "strings.blank_user"
+msgstr "Lietotâjs nav atrasts."
+
+msgid "strings.blank_organization"
+msgstr "Nevar atrasts klienta organizâciju."
+
+msgid "strings.blank_project"
+msgstr "Nevar atrast projektu."
+
+msgid "strings.user_profile"
+msgstr "Lietotâja Profils"
+
+msgid "strings.change_password"
+msgstr "Mainît Paroli"
+
+msgid "strings.change_password_user"
+msgstr "Mainît lietotâja paroli."
+
+msgid "strings.old_password_error"
+msgstr "Vecâ parole ievadîta nepareizi. Lûdzu mįėiniet vįlreiz."
+
+msgid "strings.new_password_error"
+msgstr ""
+"Ievadîtâs paroles atđíiras. Lûdzu ievadiet jaunâs paroles"
+"vįlreiz."
+
+msgid "strings.notifications"
+msgstr "Ziōođana"
+
+msgid "strings.change_password_intro"
+msgstr ""
+"Iveadiet pađreizįjo (veco) paroli, pįc tam jauno un apstipriniet"
+"to."
+
+msgid "strings.old_password"
+msgstr "Vecâ parole"
+
+msgid "strings.password"
+msgstr "Parole"
+
+msgid "strings.new_password"
+msgstr "Jaunâ Parole"
+
+msgid "strings.confirm_password"
+msgstr "Apstipriniet Paroli"
+
+msgid "strings.email"
+msgstr "E-pasts"
+
+msgid "strings.home_phone"
+msgstr "Mâjas Tâlrunis"
+
+msgid "strings.mobile_phone"
+msgstr "Mobilais"
+
+msgid "strings.fax"
+msgstr "Fakss"
+
+msgid "strings.permissions"
+msgstr "Tiesîbas"
+
+msgid "strings.administrator_permissions"
+msgstr "Administrâtora Tiesîbas"
+
+msgid "strings.project_manager_permissions"
+msgstr "Projektu Vadîtâja Tiesîbas"
+
+msgid "strings.user_permissions"
+msgstr "Lietotâja Tiesîbas"
+
+msgid "strings.account_created"
+msgstr "Konts Izveidots"
+
+msgid "strings.edit_user"
+msgstr "Labot Lietotâju"
+
+msgid "strings.edit_user_details"
+msgstr "Labot đi konta detaīas."
+
+msgid "strings.change_user_password"
+msgstr "Mainît lietotâja paroli."
+
+msgid "strings.select_permissions"
+msgstr "Uzstâdît đî lietotâja tiesîbas"
+
+msgid "strings.add_user"
+msgstr "Pievienot Lietotâju"
+
+msgid "strings.enter_user_details"
+msgstr "Ievadiet detaīas lietotâja kontam, kuru taisât."
+
+msgid "strings.enter_password"
+msgstr "Ievadît lietotâja paroli."
+
+msgid "strings.success_logout"
+msgstr ""
+"Esat veiksmîgi izgâjis no sistįmas. Lai ieetu atpakaī sistįmâ,"
+"ievadiet lietotâja vârdu un paroli zemâk."
+
+msgid "strings.invalid_login"
+msgstr ""
+"Ivadîtâ parole un/vai lietotâja vârds ir nepareizs. Lûdzu"
+"autorizįtjieties vįlreiz."
+
+msgid "strings.profile"
+msgstr "Profîls"
+
+msgid "strings.user_details"
+msgstr "Lietotâja konta detaīas."
+
+msgid "strings.edit_user_account"
+msgstr "Labot sava konta detaīas."
+
+msgid "strings.no_permissions"
+msgstr "Jums nav atīaujas uz đo darbîbu."
+
+msgid "strings.discussion"
+msgstr "Diskusija"
+
+msgid "strings.retired"
+msgstr "Noslįgts"
+
+msgid "strings.last_post"
+msgstr "Pįdįjais Ziōojums"
+
+msgid "strings.post_reply"
+msgstr "Atbildįt"
+
+msgid "strings.posted_by"
+msgstr "Pievienoja"
+
+msgid "strings.when"
+msgstr "Kad"
+
+msgid "strings.post_to_discussion"
+msgstr "Ievietot Diskusijâ"
+
+msgid "strings.message"
+msgstr "Ziōojums"
+
+msgid "strings.delete_reports"
+msgstr "Izdzįst Atskaites"
+
+msgid "strings.delete_projects"
+msgstr "Izdzįst Projektus"
+
+msgid "strings.delete_organizations"
+msgstr "Izdzįst Klientu Organizâcijas"
+
+msgid "strings.delete_organizations_note"
+msgstr ""
+"Piezîme: Ar đo tiks izdzįsti visi klienta lietotâji iezîmįtajâm"
+"klientu organizâcijâm, kâ arî atsaistîti visi atvįrtie projekti"
+"no đîm klientu organizâcijâm."
+
+msgid "strings.delete_messages"
+msgstr "Izdzįst Ziōojumus"
+
+msgid "strings.attention"
+msgstr "Uzmanîbu"
+
+msgid "strings.delete_teamownermix"
+msgstr ""
+"Dzįđana veiksmîga, taču projekta îpađnieks nevar tikt izmests no"
+"projekta komandas."
+
+msgid "strings.delete_teamowner"
+msgstr "Projekta îpađnieku no projekta komandas izmest nvar."
+
+msgid "strings.enter_keywords"
+msgstr "Ievadît atslįgvârdus"
+
+msgid "strings.search_options"
+msgstr "Atslįgvârdu un Meklįđanas Iespįjas"
+
+msgid "strings.search_note"
+msgstr "Jâvievada informâcija Ko moklįt ievadlaukâ."
+
+msgid "strings.search_results"
+msgstr "Meklįđanas Rezultâti"
+
+msgid "strings.users"
+msgstr "Lietotâji"
+
+msgid "strings.search_for"
+msgstr "Ko Meklįt"
+
+msgid "strings.results_for_keywords"
+msgstr "Meklįt atslįgvârdus rezultâtos"
+
+msgid "strings.add_discussion"
+msgstr "Pievienot Diskusiju"
+
+msgid "strings.delete_users"
+msgstr "Izdzįst Lietotâja Kontus"
+
+msgid "strings.reassignment_user"
+msgstr "Projektu un Uzdevumu Pârdalîđana"
+
+msgid "strings.there"
+msgstr "Đeit ir"
+
+msgid "strings.owned_by"
+msgstr "piederođi augstâkminįtajiem lietotâjiem."
+
+msgid "strings.reassign_to"
+msgstr "Pirms dzįst lietotâjus, pieđíiriet tos đim"
+
+msgid "strings.no_files"
+msgstr "Nav saistîtu failu"
+
+msgid "strings.published"
+msgstr "Publicįts"
+
+msgid "strings.project_site"
+msgstr "Projekta lapa"
+
+msgid "strings.approval_tracking"
+msgstr "Apstriprinâjumu Sekođana"
+
+msgid "strings.size"
+msgstr "Izmįrs"
+
+msgid "strings.add_project_site"
+msgstr "Pievienot Projektu Lapai"
+
+msgid "strings.remove_project_site"
+msgstr "Izōemt no Projekta Lapas"
+
+msgid "strings.more_search"
+msgstr "Papildus Meklįđanas Iespįjas"
+
+msgid "strings.results_with"
+msgstr "Atgriezt Rezultâtus Ar"
+
+msgid "strings.search_topics"
+msgstr "Meklįđanas Tįmas"
+
+msgid "strings.search_properties"
+msgstr "Meklįđanas Îpađîbas"
+
+msgid "strings.date_restrictions"
+msgstr "Datuma Ierobeūojumi"
+
+msgid "strings.case_sensitive"
+msgstr "Reėistra jutîgs"
+
+msgid "strings.yes"
+msgstr "Jâ"
+
+msgid "strings.no"
+msgstr "Nį"
+
+msgid "strings.sort_by"
+msgstr "Kârtot pįc"
+
+msgid "strings.type"
+msgstr "Veids"
+
+msgid "strings.date"
+msgstr "Datums"
+
+msgid "strings.all_words"
+msgstr "visus vârdus"
+
+msgid "strings.any_words"
+msgstr "jebkuru no vârdiem"
+
+msgid "strings.exact_match"
+msgstr "precîzu frâzi"
+
+msgid "strings.all_dates"
+msgstr "Visus datumus"
+
+msgid "strings.between_dates"
+msgstr "Starp datumiem"
+
+msgid "strings.all_content"
+msgstr "Visâ saturâ"
+
+msgid "strings.all_properties"
+msgstr "Visas îpađîbas"
+
+msgid "strings.no_results_search"
+msgstr "Nekas nav atrodams."
+
+msgid "strings.no_results_report"
+msgstr "Atskaite neatgrieza rezultâtus."
+
+msgid "strings.schema_date"
+msgstr "GGGG/MM/DD"
+
+msgid "strings.hours"
+msgstr "stundas"
+
+msgid "strings.choice"
+msgstr "Izvįle"
+
+msgid "strings.missing_file"
+msgstr "Trûkst fails !"
+
+msgid "strings.project_site_deleted"
+msgstr "Projekta lapa tika veiksmîgi izdzįsta."
+
+msgid "strings.add_user_project_site"
+msgstr ""
+"Lietotâjam veiksmîgi pieđíirtas tiesîbas piekīût Projekta"
+"Lapai."
+
+msgid "strings.remove_user_project_site"
+msgstr "Lietotâja tiesîbas veiksmîgi atōemtas."
+
+msgid "strings.add_project_site_success"
+msgstr "Pievienođanas projekta lapai notika veiksmîgi."
+
+msgid "strings.remove_project_site_success"
+msgstr "Izōemđana no projekta lapas notika veiksmîgi."
+
+msgid "strings.add_file_success"
+msgstr "Piesaistîta 1 satura vienîba."
+
+msgid "strings.delete_file_success"
+msgstr "Atsaistîđana veiksmîga."
+
+msgid "strings.update_comment_file"
+msgstr "Faila komentârs atjauninâts veiksmîgi."
+
+msgid "strings.session_false"
+msgstr "Sesijas kīûda"
+
+msgid "strings.logs"
+msgstr "Reėistri"
+
+msgid "strings.logout_time"
+msgstr "Automâtiskâ Izieđana"
+
+msgid "strings.noti_foot1"
+msgstr "Pziōojumu ėenerįja PhpCollab."
+
+msgid "strings.noti_foot2"
+msgstr "Lai apskatîtu savu PhpCollab lapu, ejiet uz:"
+
+msgid "strings.noti_taskassignment1"
+msgstr "Jauns Uzdevums:"
+
+msgid "strings.noti_taskassignment2"
+msgstr "Jums pieđíirts uzdevums:"
+
+msgid "strings.noti_moreinfo"
+msgstr "Sîkâkai informâcijai, ejiet uz:"
+
+msgid "strings.noti_prioritytaskchange1"
+msgstr "Mainîta uzdevuma prioritâte:"
+
+msgid "strings.noti_prioritytaskchange2"
+msgstr "Đim uzdevumam mainîjusies prioritâte:"
+
+msgid "strings.noti_statustaskchange1"
+msgstr "Uzdevuma statuss mainîts:"
+
+msgid "strings.noti_statustaskchange2"
+msgstr "Đim uzdevumam mainîts statuss:"
+
+msgid "strings.login_username"
+msgstr "Jâievada lietotâja vârds."
+
+msgid "strings.login_password"
+msgstr "Lûdzu ievadiet paroli."
+
+msgid "strings.login_clientuser"
+msgstr ""
+"Đis ir klienta lietotâja konts. Jûs nevarat piekīût PhpCollab ar"
+"klienta lietotâja kontu."
+
+msgid "strings.user_already_exists"
+msgstr ""
+"Lietotâjs ar đâdu vârdu jau eksistį. Lûdzu izvįlieties kâdu no"
+"vârda variâcijâm."
+
+msgid "strings.noti_duedatetaskchange1"
+msgstr "Uzdevuma termiōđ mainîts:"
+
+msgid "strings.noti_duedatetaskchange2"
+msgstr "Sekojođajam uzdevumam mainîjies termiōđ:"
+
+msgid "strings.company"
+msgstr "Kompânija"
+
+msgid "strings.show_all"
+msgstr "Râdît visus"
+
+msgid "strings.information"
+msgstr "Informâcija"
+
+msgid "strings.delete_message"
+msgstr "Izdzįst đo ziōojumu"
+
+msgid "strings.project_team"
+msgstr "Projekta Komanda"
+
+msgid "strings.document_list"
+msgstr "Dokumentu Saraksts"
+
+msgid "strings.bulletin_board"
+msgstr "Ziōojumu Dįlis"
+
+msgid "strings.bulletin_board_topic"
+msgstr "Ziōojumu Dįīa Temats"
+
+msgid "strings.create_topic"
+msgstr "Veidot Jaunu Tematu"
+
+msgid "strings.topic_form"
+msgstr "Temata Forma"
+
+msgid "strings.enter_message"
+msgstr "Ievadiet savu sakâmo"
+
+msgid "strings.upload_file"
+msgstr "Uzlâdįt failu"
+
+msgid "strings.upload_form"
+msgstr "Uzlâdes Forma"
+
+msgid "strings.upload"
+msgstr "Uzlâdįt"
+
+msgid "strings.document"
+msgstr "Dokuments"
+
+msgid "strings.approval_comments"
+msgstr "Apstiprinâjuma komentâri"
+
+msgid "strings.client_tasks"
+msgstr "Klienta Uzdevumi"
+
+msgid "strings.team_tasks"
+msgstr "Komandas Uzdevumi"
+
+msgid "strings.team_member_details"
+msgstr "Projekta Komandas Biedra Detaīas"
+
+msgid "strings.client_task_details"
+msgstr "Klienta Uzdevuma Detaīas"
+
+msgid "strings.team_task_details"
+msgstr "Komandas Uzdevuma Detaīas"
+
+msgid "strings.language"
+msgstr "Valoda"
+
+msgid "strings.welcome"
+msgstr "Sveicinâti"
+
+msgid "strings.your_projectsite"
+msgstr "Jûsu Projektu Lapâ"
+
+msgid "strings.contact_projectsite"
+msgstr ""
+"Ja Jums ir kâdi jautâjumi par đo sistįmu vai đeit pieejamo"
+"informâciju, sazinieties ar projekta vadîtâju"
+
+msgid "strings.company_details"
+msgstr "Kompânijas detaīas"
+
+msgid "strings.database"
+msgstr "Arhivįt un atjaunot datu bâzi"
+
+msgid "strings.company_info"
+msgstr "Labot informâciju par jûsu kompâniju"
+
+msgid "strings.create_projectsite"
+msgstr "Taisît Projekta Lapu"
+
+msgid "strings.projectsite_url"
+msgstr "Projekta Lapas URL"
+
+msgid "strings.design_template"
+msgstr "Dizaina Paraugs"
+
+msgid "strings.preview_design_template"
+msgstr "Pârbaudît Parauga Dizainu"
+
+msgid "strings.delete_projectsite"
+msgstr "Izdzįst Projekta Lapu"
+
+msgid "strings.add_file"
+msgstr "Pievienot Failu"
+
+msgid "strings.linked_content"
+msgstr "Saistîtais Saturs"
+
+msgid "strings.edit_file"
+msgstr "Labot fila detaīas"
+
+msgid "strings.permitted_client"
+msgstr "Atīautie Klienta Lietotâji"
+
+msgid "strings.grant_client"
+msgstr "Dot Tiesîbas apskatît Projekta Lapu"
+
+msgid "strings.add_client_user"
+msgstr "Pievienot Klienta Lietotâju"
+
+msgid "strings.edit_client_user"
+msgstr "Labot Klienta Lietotâju"
+
+msgid "strings.client_user"
+msgstr "Klienta Lietotâjs"
+
+msgid "strings.client_change_status"
+msgstr "Kad pabeidzat uzdevumu, nomainiet statusu apakđâ"
+
+msgid "strings.project_status"
+msgstr "Projekta Statuss"
+
+msgid "strings.view_projectsite"
+msgstr "Apskatît Projekta Lapu"
+
+msgid "strings.enter_login"
+msgstr "Lai saōemtu jaunu paroli, ievadiet informâciju"
+
+msgid "strings.send"
+msgstr "Nosûtît"
+
+msgid "strings.no_login"
+msgstr "Datubâzį nav tâda konta"
+
+msgid "strings.email_pwd"
+msgstr "Parole nosûtîta"
+
+msgid "strings.no_email"
+msgstr "Lietotâjs bez e-pasta"
+
+msgid "strings.forgot_pwd"
+msgstr "Aizmrsât paroli ?"
+
+msgid "strings.project_owner"
+msgstr "Jûs varat labot tikai savus projektus."
+
+msgid "strings.connected"
+msgstr "Pievienojies"
+
+msgid "strings.session"
+msgstr "Sesija"
+
+msgid "strings.last_visit"
+msgstr "Pįdįjais apmeklįjums"
+
+msgid "strings.compteur"
+msgstr "Skaits"
+
+msgid "strings.task_owner"
+msgstr "Jûs neesat đî projekta komandâ"
+
+msgid "strings.export"
+msgstr "Eksportįt"
+
+msgid "strings.reassignment_clientuser"
+msgstr "Uzdevuma Pârđíirđana"
+
+msgid "strings.organization_already_exists"
+msgstr "Đâds nosaukums jau eksistį sistįmâ. Lûdzu izvįlieties citu."
+
+msgid "strings.blank_organization_field"
+msgstr "Ievadiet klienta organizâcijas nosaukumu."
+
+msgid "strings.blank_fields"
+msgstr "obligâtie lauki"
+
+msgid "strings.projectsite_login_fails"
+msgstr "Nevaram apstirpinât đadu lietotâja vârda un paroles kombinâciju."
+
+msgid "strings.start_date"
+msgstr "Starta datums"
+
+msgid "strings.completion"
+msgstr "Norise"
+
+msgid "strings.update_available"
+msgstr "Ir pieejami papildinâjumi!"
+
+msgid "strings.version_current"
+msgstr "Pađlaik lietojas versiju"
+
+msgid "strings.version_latest"
+msgstr "Pįdįjâ versija ir"
+
+msgid "strings.sourceforge_link"
+msgstr "Apskatît projekta lapu uz Sourceforge"
+
+msgid "strings.demo_mode"
+msgstr "Demo reūîms. Darbîba nav atīauta."
+
+msgid "strings.setup_erase"
+msgstr "Izdzįsiet setup.php!!"
+
+msgid "strings.no_file"
+msgstr "Nav izvįlįts neviens fails"
+
+msgid "strings.exceed_size"
+msgstr "Pârkâpts maksimâlâ faila izmįrs"
+
+msgid "strings.no_php"
+msgstr "Php faili nav atīauti"
+
+msgid "strings.approval_date"
+msgstr "Apstiprinâjuma datums"
+
+msgid "strings.approver"
+msgstr "Apstiprinâtâjs"
+
+msgid "strings.error_database"
+msgstr "Nevar pievienoties datu bâzei"
+
+msgid "strings.error_server"
+msgstr "Nevar pievienoties serverim"
+
+msgid "strings.version_control"
+msgstr "Versiju kontrole"
+
+msgid "strings.vc_status"
+msgstr "Statuss"
+
+msgid "strings.vc_last_in"
+msgstr "Pįdįjâs izmaiōas"
+
+msgid "strings.ifa_comments"
+msgstr "Apstiprinâjuma komentâri"
+
+msgid "strings.ifa_command"
+msgstr "Mainît apstriprinâjuma statusu"
+
+msgid "strings.vc_version"
+msgstr "Versija"
+
+msgid "strings.ifc_revisions"
+msgstr "Apskati"
+
+msgid "strings.ifc_revision_of"
+msgstr "Apskats versijai"
+
+msgid "strings.ifc_add_revision"
+msgstr "Pievienot Apskatu"
+
+msgid "strings.ifc_update_file"
+msgstr "Papildinât failu"
+
+msgid "strings.ifc_last_date"
+msgstr "Pįdįjâs izmaiōas"
+
+msgid "strings.ifc_version_history"
+msgstr "Versiju Vįsture"
+
+msgid "strings.ifc_delete_file"
+msgstr "Izdzįst failu un visas tâ apakđversijas un apskatus"
+
+msgid "strings.ifc_delete_version"
+msgstr "Izdzįst Iezîmįto Versiju"
+
+msgid "strings.ifc_delete_review"
+msgstr "Izdzįst Iezîmįto Apskatu"
+
+msgid "strings.ifc_no_revisions"
+msgstr "Dokumentam nav nevienas revîzijas"
+
+msgid "strings.unlink_files"
+msgstr "Atsaistît Failus"
+
+msgid "strings.remove_team"
+msgstr "Izmest Komandas Biedrus"
+
+msgid "strings.remove_team_info"
+msgstr "Izmest đos lietotâjus no projekta komandas?"
+
+msgid "strings.remove_team_client"
+msgstr "Atōemts Tiesîbas uz Piekīuvi Projekta Lapai."
+
+msgid "strings.note"
+msgstr "Piezîme"
+
+msgid "strings.notes"
+msgstr "Piezîmes"
+
+msgid "strings.subject"
+msgstr "Subjekts"
+
+msgid "strings.delete_note"
+msgstr "Izdzįst Piezîmes"
+
+msgid "strings.add_note"
+msgstr "Pievienot Piezîmi"
+
+msgid "strings.edit_note"
+msgstr "Labot Piezîmi"
+
+msgid "strings.version_increm"
+msgstr "Izvįlieties pielietojamo versiju maiōas formu:"
+
+msgid "strings.url_dev"
+msgstr "Izstrâdes lapas URL"
+
+msgid "strings.url_prod"
+msgstr "Gatavâs lapas URL"
+
+msgid "strings.note_owner"
+msgstr "Izmaiōas varat izdarît tikai savâs piezîmįs."
+
+msgid "strings.alpha_only"
+msgstr "Iespįjami tikai burti un cipari"
+
+msgid "strings.edit_notifications"
+msgstr "Labot E-pasta Ziōojumus"
+
+msgid "strings.edit_notifications_info"
+msgstr ""
+"Izvįlieties notikumus, par kuriem vįlaties tikt informįts pa"
+"E-Pastu."
+
+msgid "strings.select_deselect"
+msgstr "Iezîmįt/Notîrît Visus"
+
+msgid "strings.noti_addprojectteam1"
+msgstr "Pievienots projekta komandâ :"
+
+msgid "strings.noti_addprojectteam2"
+msgstr "Jûs tikât pievienots projekta komandâ :"
+
+msgid "strings.noti_removeprojectteam1"
+msgstr "Izmests no projekta komandas :"
+
+msgid "strings.noti_removeprojectteam2"
+msgstr "Jûs tikât izmests no projekta komandas :"
+
+msgid "strings.noti_newpost1"
+msgstr "Jauns ziōojums :"
+
+msgid "strings.noti_newpost2"
+msgstr "Sekojođajâ diskusijâ ir jauns ziōojums :"
+
+msgid "strings.edit_noti_taskassignment"
+msgstr "Man ir uzradies jauns uzdevums."
+
+msgid "strings.edit_noti_statustaskchange"
+msgstr "Kâdam no maniem uzdevumiem mainâs statuss."
+
+msgid "strings.edit_noti_prioritytaskchange"
+msgstr "Kâdam no maniem uzdevumiem mainâs prioritâte."
+
+msgid "strings.edit_noti_duedatetaskchange"
+msgstr "Kâdam no maniem uzdevumiem mainâs termiōđ."
+
+msgid "strings.edit_noti_addprojectteam"
+msgstr "Tieku pievienots projekta komandai."
+
+msgid "strings.edit_noti_removeprojectteam"
+msgstr "Tieku izmests no projekta komandas."
+
+msgid "strings.edit_noti_newpost"
+msgstr "Diskusijâ jauns ziōojums."
+
+msgid "strings.add_optional"
+msgstr "Pievienot papildus"
+
+msgid "strings.assignment_comment_info"
+msgstr "Pievienot komentârus par đî uzdevuma izpildi"
+
+msgid "strings.my_notes"
+msgstr "Manas Piezîmes"
+
+msgid "strings.edit_settings"
+msgstr "Labot uzstâdîjumus"
+
+msgid "strings.max_upload"
+msgstr "Maksimâlais faila izmįrs"
+
+msgid "strings.project_folder_size"
+msgstr "Projekta mapes izmįrs"
+
+msgid "strings.calendar"
+msgstr "Kalendârs"
+
+msgid "strings.date_start"
+msgstr "Starta datums"
+
+msgid "strings.date_end"
+msgstr "Beigu datums"
+
+msgid "strings.time_start"
+msgstr "Starta laiks"
+
+msgid "strings.time_end"
+msgstr "Beigu laiks"
+
+msgid "strings.calendar_reminder"
+msgstr "Atgâdinâtâjs"
+
+msgid "strings.shortname"
+msgstr "Îss nosaukums"
+
+msgid "strings.calendar_recurring"
+msgstr "Notikums parâdâs katru nedįīu đajâ dienâ"
+
+msgid "strings.edit_database"
+msgstr "Labot datu bâzi"
+
+msgid "strings.noti_newtopic1"
+msgstr "Jauna diskusija :"
+
+msgid "strings.noti_newtopic2"
+msgstr "Sekojođajam projektam pievienota jauna diskusija :"
+
+msgid "strings.edit_noti_newtopic"
+msgstr "Pievienots jauns diskusijas temats."
+
+msgid "strings.today"
+msgstr "Đodien"
+
+msgid "strings.previous"
+msgstr "Iepriekđįjais"
+
+msgid "strings.next"
+msgstr "Nâkođais"
+
+msgid "strings.help"
+msgstr "Palîdzîba"
+
+msgid "strings.complete_date"
+msgstr "Pabeigđanas datums"
+
+msgid "strings.scope_creep"
+msgstr "Laika nobîde"
+
+msgid "strings.days"
+msgstr "Dienas"
+
+msgid "strings.remember_password"
+msgstr "Atcerįties Paroli"
+
+msgid "strings.client_add_task_note"
+msgstr ""
+"Piezîme: Ievadîtais uzdevums ir reėistrįts datu bâzį, taču"
+"đeit parâdâs tikai tad, ja kâdam ir pieđíirts!"
+
+msgid "strings.noti_clientaddtask1"
+msgstr "Uzdevumu pievienojis Klients :"
+
+msgid "strings.noti_clientaddtask2"
+msgstr "Klients Projekta Lapâ pievienojis jaunu uzdevumu đim projektam :"
+
+msgid "strings.phase"
+msgstr "Fâze"
+
+msgid "strings.phases"
+msgstr "Fâzes"
+
+msgid "strings.phase_id"
+msgstr "Fâzes ID"
+
+msgid "strings.current_phase"
+msgstr "Aktîvâ(s) fâze(s)"
+
+msgid "strings.total_tasks"
+msgstr "Uzdevumi Pavisam"
+
+msgid "strings.uncomplete_tasks"
+msgstr "Nepabeigtie Uzdevumi"
+
+msgid "strings.no_current_phase"
+msgstr "Pađreiz nav aktîvu fâūu"
+
+msgid "strings.enable_phases"
+msgstr "Aktivizįt Fâzes"
+
+msgid "strings.phase_enabled"
+msgstr "Fâze Aktivizįta"
+
+msgid "strings.order"
+msgstr "Pasûtîjums"
+
+msgid "strings.options"
+msgstr "Iespįjas"
+
+msgid "strings.support"
+msgstr "Atbalsts"
+
+msgid "strings.support_request"
+msgstr "Atbalsta Pieprasîjums"
+
+msgid "strings.support_requests"
+msgstr "Atbalsta Pieprasîjumi"
+
+msgid "strings.support_id"
+msgstr "Pieprasîjuma ID"
+
+msgid "strings.my_support_request"
+msgstr "Mani Atbalsta Pieprasîjumi"
+
+msgid "strings.introduction"
+msgstr "Ievads"
+
+msgid "strings.submit"
+msgstr "Apstiprinât"
+
+msgid "strings.support_management"
+msgstr "Atbalsta Vadîba"
+
+msgid "strings.date_open"
+msgstr "Atvįrđanas Datums"
+
+msgid "strings.date_close"
+msgstr "Aizvįrđanas Datums"
+
+msgid "strings.add_support_request"
+msgstr "Pievienot Atbalsta Pieprasîjumu"
+
+msgid "strings.add_support_response"
+msgstr "Pievienot Atbalsta Atbildi"
+
+msgid "strings.respond"
+msgstr "Atbildįt"
+
+msgid "strings.delete_support_request"
+msgstr "Atbalsta pieprasîjums izdzįsts"
+
+msgid "strings.delete_request"
+msgstr "Izdzįst Atbalsta Pieprasîjumu"
+
+msgid "strings.delete_support_post"
+msgstr "Izdzįst atbalsta pieprasîjumu"
+
+msgid "strings.new_requests"
+msgstr "Jaunie pieprasîjumi"
+
+msgid "strings.open_requests"
+msgstr "Atvįrtie pieprasîjumi"
+
+msgid "strings.closed_requests"
+msgstr "Atrisinâtie pieprasîjumi"
+
+msgid "strings.manage_new_requests"
+msgstr "Izskatît jaunos pieprasîjumus"
+
+msgid "strings.manage_open_requests"
+msgstr "Izskatît atvįrtos pieprasîjumus"
+
+msgid "strings.manage_closed_requests"
+msgstr "Izskatît atrisinâtos pieprasîjumus"
+
+msgid "strings.responses"
+msgstr "Atbildes"
+
+msgid "strings.edit_status"
+msgstr "Labot Statusu"
+
+msgid "strings.noti_support_request_new2"
+msgstr "Jûs esat nosûtîjis atbalsta pieprasîjumu sakarâ ar : "
+
+msgid "strings.noti_support_post2"
+msgstr ""
+"Jûsu atbalsta pieprasîjumam tika pievienota jauna atbilde. Lûdzu"
+"apskaties detaīas zemâk."
+
+msgid "strings.noti_support_status2"
+msgstr ""
+"Jûsu atbalsta pieprasîjums tika atjaunots. Lûdzu apskaties detaīas"
+"zemâk."
+
+msgid "strings.noti_support_team_new2"
+msgstr "Sekojođajam projektam tika pievienots jauns atbalsta pieprasîjums: "
+
+msgid "strings.delete_subtasks"
+msgstr "Izdzįst apakđuzdevumus"
+
+msgid "strings.add_subtask"
+msgstr "Pievienot apakđuzdevumu"
+
+msgid "strings.edit_subtask"
+msgstr "Labot apakđuzdevumu"
+
+msgid "strings.subtask"
+msgstr "Apakđuzdevums"
+
+msgid "strings.subtasks"
+msgstr "Apakđuzdevumi"
+
+msgid "strings.show_details"
+msgstr "Râdît detaīas"
+
+msgid "strings.updates_task"
+msgstr "Uzdevumu korekciju vįsture"
+
+msgid "strings.updates_subtask"
+msgstr "Apakđuzdevumu korekciju vįsture"
+
+msgid "strings.go_projects_site"
+msgstr "Atvįrt Projektu Lapu"
+
+msgid "strings.bookmark"
+msgstr "Grâmatzîme"
+
+msgid "strings.bookmarks"
+msgstr "Grâmatzîmes"
+
+msgid "strings.bookmark_category"
+msgstr "Kategorija"
+
+msgid "strings.bookmark_category_new"
+msgstr "Jauna kategorija"
+
+msgid "strings.bookmarks_all"
+msgstr "Visas"
+
+msgid "strings.bookmarks_my"
+msgstr "Manas Grâmatzîmes"
+
+msgid "strings.my"
+msgstr "Manas"
+
+msgid "strings.bookmarks_private"
+msgstr "Privâtâs"
+
+msgid "strings.shared"
+msgstr "Koplietojamâs"
+
+msgid "strings.private"
+msgstr "Privâta"
+
+msgid "strings.add_bookmark"
+msgstr "Pievienot grâmatzîmi"
+
+msgid "strings.edit_bookmark"
+msgstr "Labot grâmatzîmi"
+
+msgid "strings.delete_bookmarks"
+msgstr "Izdzįst grâmatzîmes"
+
+msgid "strings.team_subtask_details"
+msgstr "Komandas Apakđuzdevuma Detaīas"
+
+msgid "strings.client_subtask_details"
+msgstr "Klienta Apakđuzdevuma Detaīas"
+
+msgid "strings.client_change_status_subtask"
+msgstr "Nomainiet statusu apakđâ kad pabeidzat đo apakđuzdevumu"
+
+msgid "strings.disabled_permissions"
+msgstr "Atslįgts konts"
+
+msgid "strings.user_timezone"
+msgstr "Laika zona (GMT)"
+
+msgid "strings.project_manager_administrator_permissions"
+msgstr "Projektu Vadîtâjs - Administrâtors"
+
+msgid "strings.bug"
+msgstr "Kīudu Sekođana"
+
+msgid "strings.report"
+msgstr "Atskaite"
+
+msgid "strings.settings_notwritable"
+msgstr "nevar pârrakstît failu Settings.php"
+
+
+# Enum values (status, priority, etc.)
+# Note: These should be moved to enums.*.po domain
+
+#. Domain: enums
+msgid "status.0"
+msgstr "Pabeigts (Klients)"
+
+#. Domain: enums
+msgid "status.1"
+msgstr "Pabeigts"
+
+#. Domain: enums
+msgid "status.2"
+msgstr "Nav uzsâkts"
+
+#. Domain: enums
+msgid "status.3"
+msgstr "Atvįrts"
+
+#. Domain: enums
+msgid "status.4"
+msgstr "Neaktîvs"
+
+#. Domain: enums
+msgid "profil.0"
+msgstr "Administrâtors"
+
+#. Domain: enums
+msgid "profil.1"
+msgstr "Projektu Vadîtâjs"
+
+#. Domain: enums
+msgid "profil.2"
+msgstr "Lietotâjs"
+
+#. Domain: enums
+msgid "profil.3"
+msgstr "Klienta Lietotâjs"
+
+#. Domain: enums
+msgid "profil.4"
+msgstr "Atstâdinâts"
+
+#. Domain: enums
+msgid "profil.5"
+msgstr "Projektu Vadîtâjs - Administrâtors"
+
+#. Domain: enums
+msgid "priority.0"
+msgstr "Neitrâla"
+
+#. Domain: enums
+msgid "priority.1"
+msgstr "Īoti zema"
+
+#. Domain: enums
+msgid "priority.2"
+msgstr "Zema"
+
+#. Domain: enums
+msgid "priority.3"
+msgstr "Vidįja"
+
+#. Domain: enums
+msgid "priority.4"
+msgstr "Augsta"
+
+#. Domain: enums
+msgid "priority.5"
+msgstr "Īoti augsta"
+
+#. Domain: enums
+msgid "statusTopic.0"
+msgstr "Aizvįrts"
+
+#. Domain: enums
+msgid "statusTopic.1"
+msgstr "Atvįrts"
+
+#. Domain: enums
+msgid "statusTopicBis.0"
+msgstr "Jâ"
+
+#. Domain: enums
+msgid "statusTopicBis.1"
+msgstr "Nį"
+
+#. Domain: enums
+msgid "statusPublish.0"
+msgstr "Jâ"
+
+#. Domain: enums
+msgid "statusPublish.1"
+msgstr "Nį"
+
+#. Domain: enums
+msgid "statusFile.0"
+msgstr "Apstiprinâts"
+
+#. Domain: enums
+msgid "statusFile.1"
+msgstr "Apstiprinâts Ar Izmaiōâm"
+
+#. Domain: enums
+msgid "statusFile.2"
+msgstr "Nepiecieđams Apstiprinâjums"
+
+#. Domain: enums
+msgid "statusFile.3"
+msgstr "Apstiprinâjums Nav Nepiecieđams"
+
+#. Domain: enums
+msgid "statusFile.4"
+msgstr "Neapstiprinâts"
+
+#. Domain: enums
+msgid "phaseStatus.0"
+msgstr "Neiesâkts"
+
+#. Domain: enums
+msgid "phaseStatus.1"
+msgstr "Atvįrts"
+
+#. Domain: enums
+msgid "phaseStatus.2"
+msgstr "Pabeigts"
+
+#. Domain: enums
+msgid "phaseStatus.3"
+msgstr "Uz laiku atlikts"
+
+#. Domain: enums
+msgid "requestStatus.0"
+msgstr "Jauns"
+
+#. Domain: enums
+msgid "requestStatus.1"
+msgstr "Atvįrts"
+
+#. Domain: enums
+msgid "requestStatus.2"
+msgstr "Pabeigts"
+
+
+# Arrays (days, months, byte units)
+
+msgid "byteunits.0"
+msgstr "Baiti"
+
+msgid "byteunits.1"
+msgstr "KB"
+
+msgid "byteunits.2"
+msgstr "MB"
+
+msgid "byteunits.3"
+msgstr "GB"
+
+msgid "dayname.1"
+msgstr "Pirmdiena"
+
+msgid "dayname.2"
+msgstr "Otrdiena"
+
+msgid "dayname.3"
+msgstr "Tređdiena"
+
+msgid "dayname.4"
+msgstr "Ceturtdiena"
+
+msgid "dayname.5"
+msgstr "Piektdiena"
+
+msgid "dayname.6"
+msgstr "Sestdiena"
+
+msgid "dayname.7"
+msgstr "Svįtdiena"
+
+msgid "monthname.1"
+msgstr "Janvâris"
+
+msgid "monthname.2"
+msgstr "Februâris"
+
+msgid "monthname.3"
+msgstr "Marts"
+
+msgid "monthname.4"
+msgstr "Aprîlis"
+
+msgid "monthname.5"
+msgstr "Maijs"
+
+msgid "monthname.6"
+msgstr "Jînijs"
+
+msgid "monthname.7"
+msgstr "Jûlijs"
+
+msgid "monthname.8"
+msgstr "Augusts"
+
+msgid "monthname.9"
+msgstr "Septembris"
+
+msgid "monthname.10"
+msgstr "Oktobris"
+
+msgid "monthname.11"
+msgstr "Novembris"
+
+msgid "monthname.12"
+msgstr "Decembris"
+

@@ -1,0 +1,59 @@
+# phpCollab Translation File
+# Language: Arabic (ar)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:03 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Help text
+
+msgid "setup_mkdirMethod"
+msgstr ""
+"اذا كنت بالنمط الآمن تحتاج لتحديد ftp"
+"للتعامل مع الملفات."
+
+msgid "setup_notifications"
+msgstr ""
+"إخطار المستخدم بالايميل (عن مهمة"
+"جديدة،..) <br>تحتاج smtp/sendmail صالح."
+
+msgid "setup_forcedlogin"
+msgstr ""
+"اذا  خطأ يمنع وضع الاسم و كلمة السر ضمن"
+"العنوان"
+
+msgid "setup_langdefault"
+msgstr ""
+"اختر اللغة التي ستظهر افتراضيا او"
+"اتركه فارغ ليختار حسب اعدادات مستعرض"
+"المستخدم."
+
+msgid "setup_myprefix"
+msgstr ""
+"اختر قيمة اذا كان لديك جداول بنفس"
+"الاسم.<br><br>assignments<br>bookmarks<br>bookmarks_categories<br>calendar<br>files<br>logs<br>members<br>notes<br>notifications<br>organizations<br>phases<br>posts<br>projects<br>reports<br>sorting<br>subtasks<br>support_posts<br>support_requests<br>tasks<br>teams<br>topics<br>updates<br><br>Leave"
+"blank for not use table prefix."
+
+msgid "setup_loginmethod"
+msgstr ""
+"اسلوب حفظ كلمة السر بقاعدة"
+"البيانات.<br>Set to &quot;Crypt&quot; in order htaccess"
+"authentification to work (if htaccess authentification are enabled)."
+
+msgid "admin_update"
+msgstr ""
+"Respect strictly the order indicated to update your version<br>1. Edit"
+"settings (supplement the new parameters)<br>2. Edit database (update"
+"in agreement with your preceding version)"
+
+msgid "user_timezone"
+msgstr "اعدادات التوقيت"
+

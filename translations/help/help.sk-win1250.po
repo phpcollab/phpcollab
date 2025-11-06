@@ -1,0 +1,90 @@
+# phpCollab Translation File
+# Language: English (en)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:13 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Help text
+
+msgid "setup_mkdirMethod"
+msgstr ""
+"Pokiaľ je safe-mode On, musíte použiť Ftp účet pre možnosť"
+"vytvárať adresáre pri práci so súbormi v PHP Collab."
+
+msgid "setup_notifications"
+msgstr ""
+"E-mailové oznámenie užívateľom (priradenie úlohy, nový"
+"príspevok, zmeny úlohy...)<br/>Je potrebné správne nastaviť"
+"smtp/sendmail."
+
+msgid "setup_forcedlogin"
+msgstr ""
+"Pokiaľ nie je aktívna, nie sú povolené externé odkazy s"
+"login/heslo v url"
+
+msgid "setup_langdefault"
+msgstr ""
+"Vyberte jazyk, ktorý bude predurčene vybraný pri každom"
+"prihlasovaní alebo nechajte prázdne pre autodetekciu jazyka v"
+"prehliadači."
+
+msgid "setup_myprefix"
+msgstr ""
+"Nastavte túto hodnotu, pokiaľ máte v databáze tabuľku so zhodným"
+"názvom.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Nechajte"
+"prázdne, pokiaľ nechcete použiť prefix tabuliek."
+
+msgid "setup_loginmethod"
+msgstr ""
+"Spôsob uloženia hesla v databáze.<br/>Set to &quot;Crypt&quot; in"
+"order htaccess authentificationto work (if htaccess"
+"authentificationare enabled)."
+
+msgid "admin_update"
+msgstr ""
+"Rešpektuj striktne príkaz indikujúci aktualizáciu Vašej"
+"verzie<br/>1. Upravte nastavenia (doplňte nové parametre)<br/>2."
+"Upravte databázu (aktualizácia v súlade s Vašou predchádzajúcou"
+"verziou)"
+
+msgid "task_scope_creep"
+msgstr ""
+"Rozdiel v dňoch medzi termínom dokončenia a dátumom dokončenia"
+"(tučne ak je kladný)"
+
+msgid "max_file_size"
+msgstr "Maximálna veľkosť súboru pre upload"
+
+msgid "project_disk_space"
+msgstr "Celková veľkosť súborov pre projekt"
+
+msgid "project_scope_creep"
+msgstr ""
+"Rozdiel v dňoch medzi termínom dokončenia a dátumom dokončenia"
+"(tučne ak je kladný). Celkom pre všetky úlohy."
+
+msgid "mycompany_logo"
+msgstr ""
+"Nahraj logo Vašej spoločnosti. Objaví sa v záhlavý namiesto"
+"nadpisu."
+
+msgid "calendar_shortname"
+msgstr "Popis pre zobrazenie v mesačnom kalendári. Povinné"
+
+msgid "user_autologout"
+msgstr ""
+"Čas v sekundách pre automatické odpojenie pri nečinnosti. 0 pre"
+"deaktiváciu"
+
+msgid "user_timezone"
+msgstr "Nastavte Vaše časové pásmo (GMT)"
+

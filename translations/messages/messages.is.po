@@ -1,0 +1,1656 @@
+# phpCollab Translation File
+# Language: Icelandic (is)
+# Type: Lang
+# Domain: messages
+# Generated: 2025-11-06 00:44:09 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: is\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# String translations
+
+msgid "strings.please_login"
+msgstr "Skráðu þig inn"
+
+msgid "strings.requirements"
+msgstr "Kröfur kerfisins"
+
+msgid "strings.login"
+msgstr "Innskráning"
+
+msgid "strings.no_items"
+msgstr "Engin gögn til að birta"
+
+msgid "strings.logout"
+msgstr "Útskráning"
+
+msgid "strings.preferences"
+msgstr "Stillingar"
+
+msgid "strings.my_tasks"
+msgstr "Verkin mín"
+
+msgid "strings.edit_task"
+msgstr "Breyta verki"
+
+msgid "strings.copy_task"
+msgstr "Afrita verk"
+
+msgid "strings.add_task"
+msgstr "Skrá nýtt verk"
+
+msgid "strings.delete_tasks"
+msgstr "Eyða verki"
+
+msgid "strings.assignment_history"
+msgstr "Saga úthlutuna"
+
+msgid "strings.assigned_on"
+msgstr "Úthlutað"
+
+msgid "strings.assigned_by"
+msgstr "Úthlutað af"
+
+msgid "strings.to"
+msgstr "Til"
+
+msgid "strings.comment"
+msgstr "Athugasemd"
+
+msgid "strings.task_assigned"
+msgstr "Verki úthlutað á"
+
+msgid "strings.task_unassigned"
+msgstr "Verki ekki úthlutað"
+
+msgid "strings.edit_multiple_tasks"
+msgstr "Breyta mörgum verkum"
+
+msgid "strings.tasks_selected"
+msgstr ""
+"Verk valið. Veldu ný gildi fyrir þessi verk eða veldu [Breyta"
+"engu] til að halda fyrri gildum."
+
+msgid "strings.assignment_comment"
+msgstr "Úthluta athugasemd"
+
+msgid "strings.no_change"
+msgstr "[Breyta engu]"
+
+msgid "strings.my_discussions"
+msgstr "Umræðurnar mínar"
+
+msgid "strings.discussions"
+msgstr "Umræður"
+
+msgid "strings.delete_discussions"
+msgstr "Eyða umræðum"
+
+msgid "strings.delete_discussions_note"
+msgstr ""
+"ATH: Umræða getur ekki verið opnuð aftur eftir að henni hefur"
+"verið eytt."
+
+msgid "strings.topic"
+msgstr "Umræða"
+
+msgid "strings.posts"
+msgstr "Skilaboð"
+
+msgid "strings.latest_post"
+msgstr "Nýjustu skilaboð"
+
+msgid "strings.my_reports"
+msgstr "Skýrslurnar mínar"
+
+msgid "strings.reports"
+msgstr "Skýrslur"
+
+msgid "strings.create_report"
+msgstr "Búa til skýrslu"
+
+msgid "strings.report_intro"
+msgstr ""
+"Settu saman skýrsluna með því að velja forsendur hér og vistaðu"
+"síðan skýrsluna eftir að hafa skoðað niðurstöður keyrslunnar."
+
+msgid "strings.admin_intro"
+msgstr "Stillingar verkefna og eiginleikar."
+
+msgid "strings.copy_of"
+msgstr "Afrit af "
+
+msgid "strings.add"
+msgstr "Skrá"
+
+msgid "strings.delete"
+msgstr "Eyða"
+
+msgid "strings.remove"
+msgstr "Fjarlægja"
+
+msgid "strings.copy"
+msgstr "Afrita"
+
+msgid "strings.view"
+msgstr "Skoða"
+
+msgid "strings.edit"
+msgstr "Breyta"
+
+msgid "strings.update"
+msgstr "Uppfæra"
+
+msgid "strings.details"
+msgstr "Nánar"
+
+msgid "strings.none"
+msgstr "Óskilgreint"
+
+msgid "strings.close"
+msgstr "Loka"
+
+msgid "strings.new"
+msgstr "Nýtt"
+
+msgid "strings.select_all"
+msgstr "Velja allt"
+
+msgid "strings.unassigned"
+msgstr "Ekki úthlutað"
+
+msgid "strings.administrator"
+msgstr "Umsjónarmaður"
+
+msgid "strings.my_projects"
+msgstr "Verkefnin mín"
+
+msgid "strings.project"
+msgstr "Verkefni"
+
+msgid "strings.active"
+msgstr "Virk"
+
+msgid "strings.inactive"
+msgstr "Óvirk"
+
+msgid "strings.project_id"
+msgstr "Einkennisnúmer"
+
+msgid "strings.edit_project"
+msgstr "Breyta verkefni"
+
+msgid "strings.copy_project"
+msgstr "Afrita verkefni"
+
+msgid "strings.add_project"
+msgstr "Skrá verkefni"
+
+msgid "strings.clients"
+msgstr "Viðskiptaaðilar"
+
+msgid "strings.organization"
+msgstr "Viðskiptaaðili"
+
+msgid "strings.client_projects"
+msgstr "Verkefni viðskiptaaðila"
+
+msgid "strings.client_users"
+msgstr "Tengiliðir viðskiptaaðila"
+
+msgid "strings.edit_organization"
+msgstr "Breyta viðskiptaaðila"
+
+msgid "strings.add_organization"
+msgstr "Skrá viðskiptaaðila"
+
+msgid "strings.organizations"
+msgstr "Viðskiptaaðilar"
+
+msgid "strings.info"
+msgstr "Upplýsingar"
+
+msgid "strings.status"
+msgstr "Staða"
+
+msgid "strings.owner"
+msgstr "Eigandi"
+
+msgid "strings.home"
+msgstr "Heim"
+
+msgid "strings.projects"
+msgstr "Verkefni"
+
+msgid "strings.files"
+msgstr "Skrár"
+
+msgid "strings.search"
+msgstr "Leit"
+
+msgid "strings.admin"
+msgstr "Umsýsla"
+
+msgid "strings.user"
+msgstr "Notandi"
+
+msgid "strings.project_manager"
+msgstr "Verkefnisstjóri"
+
+msgid "strings.due"
+msgstr "Eindagi"
+
+msgid "strings.task"
+msgstr "Verk"
+
+msgid "strings.tasks"
+msgstr "Verk"
+
+msgid "strings.team"
+msgstr "Vinnuhópur"
+
+msgid "strings.add_team"
+msgstr "Bæta notanda í vinnuhóp"
+
+msgid "strings.team_members"
+msgstr "Meðlimir vinnuhóps"
+
+msgid "strings.full_name"
+msgstr "Fullt nafn"
+
+msgid "strings.title"
+msgstr "Titill"
+
+msgid "strings.user_name"
+msgstr "Notendanafn"
+
+msgid "strings.work_phone"
+msgstr "Vinnusími"
+
+msgid "strings.priority"
+msgstr "Forgangur"
+
+msgid "strings.name"
+msgstr "Nafn"
+
+msgid "strings.id"
+msgstr "Einkenni"
+
+msgid "strings.description"
+msgstr "Lýsing"
+
+msgid "strings.phone"
+msgstr "Sími"
+
+msgid "strings.url"
+msgstr "Vefslóð"
+
+msgid "strings.address"
+msgstr "Heimilisfang"
+
+msgid "strings.comments"
+msgstr "Athugasemdir"
+
+msgid "strings.created"
+msgstr "Skráð þann"
+
+msgid "strings.assigned"
+msgstr "Úthlutað"
+
+msgid "strings.modified"
+msgstr "Uppfært"
+
+msgid "strings.assigned_to"
+msgstr "Úthlutað á"
+
+msgid "strings.due_date"
+msgstr "Lokadagsetning"
+
+msgid "strings.estimated_time"
+msgstr "Áætlaður tímafjöldi"
+
+msgid "strings.actual_time"
+msgstr "Endanlegur tímafjöldi"
+
+msgid "strings.delete_following"
+msgstr "Eyða eftirfarandi?"
+
+msgid "strings.cancel"
+msgstr "Aflýsa"
+
+msgid "strings.and"
+msgstr "og"
+
+msgid "strings.administration"
+msgstr "Umsýsla"
+
+msgid "strings.user_management"
+msgstr "Umsýsla notenda"
+
+msgid "strings.system_information"
+msgstr "Upplýsingar kerfis"
+
+msgid "strings.product_information"
+msgstr "Upplýsingar um kerfið"
+
+msgid "strings.system_properties"
+msgstr "Upplýsingar um umhverfi kerfis"
+
+msgid "strings.create"
+msgstr "Skrá"
+
+msgid "strings.report_save"
+msgstr ""
+"Vista þessa skýrslu á heimasíðu þína svo þú getir keyrt hafa"
+"aftur síðar."
+
+msgid "strings.report_name"
+msgstr "Nafn skýrslu"
+
+msgid "strings.save"
+msgstr "Vista"
+
+msgid "strings.matches"
+msgstr "Niðurstöður"
+
+msgid "strings.match"
+msgstr "Niðurstaða"
+
+msgid "strings.report_results"
+msgstr "Niðurstöður skýrslu"
+
+msgid "strings.success"
+msgstr "Aðgerð tókst"
+
+msgid "strings.addition_succeeded"
+msgstr "Skráning tókst"
+
+msgid "strings.deletion_succeeded"
+msgstr "Eyðing tókst"
+
+msgid "strings.report_created"
+msgstr "Skýrsla skráð"
+
+msgid "strings.deleted_reports"
+msgstr "Skýrslu eytt"
+
+msgid "strings.modification_succeeded"
+msgstr "Breytingar skráðar"
+
+msgid "strings.errors"
+msgstr "Villa kom upp!"
+
+msgid "strings.blank_user"
+msgstr "Notandi fannst ekki."
+
+msgid "strings.blank_organization"
+msgstr "Fyrirtæki viðskiptaaðila fannst ekki."
+
+msgid "strings.blank_project"
+msgstr "Verkefnið fannst ekki."
+
+msgid "strings.user_profile"
+msgstr "Upplýsingar notanda"
+
+msgid "strings.change_password"
+msgstr "Breyta aðgangsorði"
+
+msgid "strings.change_password_user"
+msgstr "Breyta aðgangsorði notanda."
+
+msgid "strings.old_password_error"
+msgstr ""
+"Upprunalega aðgangsorðið sem þú slóst inn er ekki rétt."
+"Vinsamlega sláið aftur inn upprunalegt aðgangsorð."
+
+msgid "strings.new_password_error"
+msgstr ""
+"Aðgangsorðið tvö sem þú slóst inn eru ekki eins, vinsamlega"
+"sláið aftur inn ýtt aðgangsorð."
+
+msgid "strings.notifications"
+msgstr "Tilkynningar"
+
+msgid "strings.change_password_intro"
+msgstr ""
+"Sláðu inn upprunalegt aðgangsorðið og síðan inn nýtt"
+"aðgangsorð."
+
+msgid "strings.old_password"
+msgstr "Upprunalegt aðgangsorð"
+
+msgid "strings.password"
+msgstr "Aðgangsorð"
+
+msgid "strings.new_password"
+msgstr "Nýtt aðgangsorð"
+
+msgid "strings.confirm_password"
+msgstr "Staðfesta aðgangsorð"
+
+msgid "strings.email"
+msgstr "Póstfang (e-mail)"
+
+msgid "strings.home_phone"
+msgstr "Heimasími"
+
+msgid "strings.mobile_phone"
+msgstr "Farsími"
+
+msgid "strings.permissions"
+msgstr "Heimildir"
+
+msgid "strings.administrator_permissions"
+msgstr "Heimildir umsjónarmanns"
+
+msgid "strings.project_manager_permissions"
+msgstr "Heimildir verkefnisstjóra"
+
+msgid "strings.user_permissions"
+msgstr "Heimildir notanda"
+
+msgid "strings.account_created"
+msgstr "Notandi skráður"
+
+msgid "strings.edit_user"
+msgstr "Breyta notanda"
+
+msgid "strings.edit_user_details"
+msgstr "Breyta skráningu notanda."
+
+msgid "strings.change_user_password"
+msgstr "Breyta aðgangsorði notanda."
+
+msgid "strings.select_permissions"
+msgstr "Skrá heimildir notanda"
+
+msgid "strings.add_user"
+msgstr "Skrá notanda"
+
+msgid "strings.enter_user_details"
+msgstr "Skráðu nánari upplýsingar notanda."
+
+msgid "strings.enter_password"
+msgstr "Sláðu inn aðgangsorð notanda."
+
+msgid "strings.success_logout"
+msgstr ""
+"Þú hefur aftengst kerfinu. Þú getur tengst aftur með því að"
+"slá inn notendanafn og aðgangsorð hér að neðan"
+
+msgid "strings.invalid_login"
+msgstr ""
+"Notendanafn og/eða aðgangsorð stenst ekki. Vinsamlega reynið"
+"aftur."
+
+msgid "strings.profile"
+msgstr "Upplýsingar notanda"
+
+msgid "strings.user_details"
+msgstr "Skráðu nánari upplýsingar notanda."
+
+msgid "strings.edit_user_account"
+msgstr "Breyta upplýsingum þínum."
+
+msgid "strings.no_permissions"
+msgstr "Þú hefur ekki nægar heimildir til að framkvæma þessa aðgerð."
+
+msgid "strings.discussion"
+msgstr "Umræða"
+
+msgid "strings.retired"
+msgstr "Lokið"
+
+msgid "strings.last_post"
+msgstr "Síðustu skilaboð"
+
+msgid "strings.post_reply"
+msgstr "Svara skilaboðum"
+
+msgid "strings.posted_by"
+msgstr "Sent af"
+
+msgid "strings.when"
+msgstr "Hvenær"
+
+msgid "strings.post_to_discussion"
+msgstr "Taka þátt í umræðu"
+
+msgid "strings.message"
+msgstr "Skilaboð"
+
+msgid "strings.delete_reports"
+msgstr "Eyða skýrslum"
+
+msgid "strings.delete_projects"
+msgstr "Eyða verkefnum"
+
+msgid "strings.delete_organizations"
+msgstr "Eyða fyrirtækjum viðskiptaaðila"
+
+msgid "strings.delete_organizations_note"
+msgstr ""
+"ATH: Þessi aðgerð mun eyða öllum tengiliðum viðskiptaaðila og"
+"aftengja öll opin verkefni hans."
+
+msgid "strings.delete_messages"
+msgstr "Eyða skeytum"
+
+msgid "strings.attention"
+msgstr "ATH"
+
+msgid "strings.delete_teamownermix"
+msgstr ""
+"Aðgerð tókst en eigandi verkefnis getur ekki verið skráður úr"
+"vinnuhóp verkefnisins."
+
+msgid "strings.delete_teamowner"
+msgstr ""
+"Ekki er hægt að fjarlægja eiganda verkefnir úr vinnuhóp"
+"verkefnis."
+
+msgid "strings.enter_keywords"
+msgstr "Sláðu inn leitarorð"
+
+msgid "strings.search_options"
+msgstr "Upphaf leitar"
+
+msgid "strings.search_note"
+msgstr "Þú verður að slá inn leitarorð."
+
+msgid "strings.search_results"
+msgstr "Niðurstöður leitar"
+
+msgid "strings.users"
+msgstr "Notendur"
+
+msgid "strings.search_for"
+msgstr "Leitarorð"
+
+msgid "strings.results_for_keywords"
+msgstr "Niðurstöður leitar eftir leitarorðum"
+
+msgid "strings.add_discussion"
+msgstr "Skrá umræðu"
+
+msgid "strings.delete_users"
+msgstr "Eyða notendum"
+
+msgid "strings.reassignment_user"
+msgstr "Endurúthluta verkefnum og verkum"
+
+msgid "strings.there"
+msgstr "Það eru"
+
+msgid "strings.owned_by"
+msgstr "sem ofangreindir notendur eiga."
+
+msgid "strings.reassign_to"
+msgstr "Áður en notendum er eytt skal endurúthluta á"
+
+msgid "strings.no_files"
+msgstr "Engar tengdar skrár"
+
+msgid "strings.published"
+msgstr "Birt"
+
+msgid "strings.project_site"
+msgstr "Síða verkefnis"
+
+msgid "strings.approval_tracking"
+msgstr "Samþykktir"
+
+msgid "strings.size"
+msgstr "Stærð"
+
+msgid "strings.add_project_site"
+msgstr "Bæta við síðu verkefnis"
+
+msgid "strings.remove_project_site"
+msgstr "Fjarlægja af síðu verkefnis"
+
+msgid "strings.more_search"
+msgstr "Fleiri leitarmöguleikar"
+
+msgid "strings.results_with"
+msgstr "Leitarniðustöður með"
+
+msgid "strings.search_topics"
+msgstr "Leit eftir efnisflokkum"
+
+msgid "strings.search_properties"
+msgstr "Leit eftir eiginleikum"
+
+msgid "strings.date_restrictions"
+msgstr "Leit eftir dagsetningum"
+
+msgid "strings.case_sensitive"
+msgstr "Fylgja hástöfum/lágstöfum"
+
+msgid "strings.yes"
+msgstr "Já"
+
+msgid "strings.no"
+msgstr "Nei"
+
+msgid "strings.sort_by"
+msgstr "Raða eftir"
+
+msgid "strings.type"
+msgstr "Tegund"
+
+msgid "strings.date"
+msgstr "Dagsetning"
+
+msgid "strings.all_words"
+msgstr "Öll þessi orð"
+
+msgid "strings.any_words"
+msgstr "Eitt eða fleiri orð"
+
+msgid "strings.exact_match"
+msgstr "Nákvæm samsvörun"
+
+msgid "strings.all_dates"
+msgstr "Allar dagsetningar"
+
+msgid "strings.between_dates"
+msgstr "Milli dagsetninga"
+
+msgid "strings.all_content"
+msgstr "Allt efni"
+
+msgid "strings.all_properties"
+msgstr "Allir eiginleikar"
+
+msgid "strings.no_results_search"
+msgstr "Leit skilaði engum niðurstöðum."
+
+msgid "strings.no_results_report"
+msgstr "Leit skilaði engum niðurstöðum."
+
+msgid "strings.hours"
+msgstr "klst"
+
+msgid "strings.choice"
+msgstr "Velja"
+
+msgid "strings.missing_file"
+msgstr "Skrá vantar !"
+
+msgid "strings.project_site_deleted"
+msgstr "Síðu verkefnis hefur verið eytt."
+
+msgid "strings.add_user_project_site"
+msgstr "Notandi hefur fengið heimildir til að nálgast síðu verkefnis."
+
+msgid "strings.remove_user_project_site"
+msgstr "Heimildir notanda fjarlægðar."
+
+msgid "strings.add_project_site_success"
+msgstr "Skráning efnist á síðu verkefnis tókst."
+
+msgid "strings.remove_project_site_success"
+msgstr "Efni hefur verið tekið af síðu verkefnis."
+
+msgid "strings.add_file_success"
+msgstr "1 skrá tengd."
+
+msgid "strings.delete_file_success"
+msgstr "Aftenging tókst."
+
+msgid "strings.update_comment_file"
+msgstr "Athugasemd skráar var uppfærð."
+
+msgid "strings.session_false"
+msgstr "Villa í tengingu (Session)"
+
+msgid "strings.logs"
+msgstr "Notkunarskráning"
+
+msgid "strings.logout_time"
+msgstr "Útskrá sjálfkrafa"
+
+msgid "strings.noti_foot1"
+msgstr "Þessi tilkynning er send af PhpCollab."
+
+msgid "strings.noti_foot2"
+msgstr "Til að tengjast þínum aðgangi að kerfinu smelltu á:"
+
+msgid "strings.noti_taskassignment1"
+msgstr "Nýtt verk:"
+
+msgid "strings.noti_taskassignment2"
+msgstr "Þér hefur verið úthlutað nýju verki:"
+
+msgid "strings.noti_moreinfo"
+msgstr "Frekari upplýsingar:"
+
+msgid "strings.noti_prioritytaskchange1"
+msgstr "Breytingar á forgangi verks:"
+
+msgid "strings.noti_prioritytaskchange2"
+msgstr "Forgangur eftirfarandi verka hefur verið breytt:"
+
+msgid "strings.noti_statustaskchange1"
+msgstr "Breyting á stöðu verka:"
+
+msgid "strings.noti_statustaskchange2"
+msgstr "Staða eftirfarandi verka hefur breyst:"
+
+msgid "strings.login_username"
+msgstr "Þú verður að slá inn notendanafn."
+
+msgid "strings.login_password"
+msgstr "Sláðu inn lykilorð."
+
+msgid "strings.login_clientuser"
+msgstr ""
+"Þetta er aðgangur viðskiptamanna, þú getur ekki tengst"
+"hópvinnukerfi með aðgangi viðskiptamanna."
+
+msgid "strings.user_already_exists"
+msgstr ""
+"Það er þegar skráður notandi með þetta nafn, vinsamlega"
+"skráðu notanda með breyttu notendanafni."
+
+msgid "strings.noti_duedatetaskchange1"
+msgstr "Eindagi verks hefur breyst:"
+
+msgid "strings.noti_duedatetaskchange2"
+msgstr "Eindagi eftirfarandi verka hefur breyst:"
+
+msgid "strings.company"
+msgstr "Fyritæki"
+
+msgid "strings.show_all"
+msgstr "Sýna allt"
+
+msgid "strings.information"
+msgstr "Upplýsingar"
+
+msgid "strings.delete_message"
+msgstr "Eyða þessum skilaboðum"
+
+msgid "strings.project_team"
+msgstr "Vinnuhópur verkefnis"
+
+msgid "strings.document_list"
+msgstr "Skrár"
+
+msgid "strings.bulletin_board"
+msgstr "Umræður"
+
+msgid "strings.bulletin_board_topic"
+msgstr "Efni umræðu"
+
+msgid "strings.create_topic"
+msgstr "Skrá nýja umræðu"
+
+msgid "strings.topic_form"
+msgstr "Skráning umræðu"
+
+msgid "strings.enter_message"
+msgstr "Skráðu skilaboð þín"
+
+msgid "strings.upload_file"
+msgstr "Vista skrá"
+
+msgid "strings.upload_form"
+msgstr "Skráning efnis"
+
+msgid "strings.upload"
+msgstr "Skrá til uppfærslu"
+
+msgid "strings.document"
+msgstr "Skjöl"
+
+msgid "strings.approval_comments"
+msgstr "Athugasemdir samþykktar"
+
+msgid "strings.client_tasks"
+msgstr "Verk viðskiptaaðila"
+
+msgid "strings.team_tasks"
+msgstr "Verk vinnuhóps"
+
+msgid "strings.team_member_details"
+msgstr "Nánar um meðlimi vinnuhóps verkefnis"
+
+msgid "strings.client_task_details"
+msgstr "Nánar um verk viðskiptaaðila"
+
+msgid "strings.team_task_details"
+msgstr "Nánar um verk vinnuhóps"
+
+msgid "strings.language"
+msgstr "Tungumál"
+
+msgid "strings.welcome"
+msgstr "Velkomin(n)"
+
+msgid "strings.your_projectsite"
+msgstr "á verkefnissíðu þína"
+
+msgid "strings.contact_projectsite"
+msgstr ""
+"Ef þú hefur einhverjar spurningar varðandi kerfið eða"
+"upplýsingar þessarar síðu, hafðu samband við verkefnisstjóra"
+
+msgid "strings.company_details"
+msgstr "Nánar um fyrirtæki"
+
+msgid "strings.database"
+msgstr "Öryggisafritun gagnagrunns"
+
+msgid "strings.company_info"
+msgstr "Uppfæra skráningu fyrirtækis þíns"
+
+msgid "strings.create_projectsite"
+msgstr "Búa til síðu verkefnis"
+
+msgid "strings.projectsite_url"
+msgstr "Veffang síðu verkefnis"
+
+msgid "strings.design_template"
+msgstr "Útlit"
+
+msgid "strings.preview_design_template"
+msgstr "Skoða mögulegt útlit síðu"
+
+msgid "strings.delete_projectsite"
+msgstr "Eyða síðu verkefnis"
+
+msgid "strings.add_file"
+msgstr "Ný skrá"
+
+msgid "strings.linked_content"
+msgstr "Tengt efni"
+
+msgid "strings.edit_file"
+msgstr "breyta upplýsingum skráar"
+
+msgid "strings.permitted_client"
+msgstr "Leyfðir notendur viðskiptaaðila"
+
+msgid "strings.grant_client"
+msgstr "Gefa aðgang að síðu verkefnis"
+
+msgid "strings.add_client_user"
+msgstr "Skrá notanda viðskiptaaðila"
+
+msgid "strings.edit_client_user"
+msgstr "Breyta notanda viðskiptaaðila"
+
+msgid "strings.client_user"
+msgstr "Notandi viðskiptaaðila"
+
+msgid "strings.client_change_status"
+msgstr "Breytu stöðu þinni að neðan eftir að hafa lokið þessu verki"
+
+msgid "strings.project_status"
+msgstr "Staða verkefnis"
+
+msgid "strings.view_projectsite"
+msgstr "Skoða síðu verkefnis"
+
+msgid "strings.enter_login"
+msgstr "Skráðu inn notendanafn þitt til að fá nýtt aðgansorð"
+
+msgid "strings.send"
+msgstr "Sent"
+
+msgid "strings.no_login"
+msgstr "Notendanafn fannst ekki í kerfi"
+
+msgid "strings.email_pwd"
+msgstr "Aðgangsorð sent"
+
+msgid "strings.no_email"
+msgstr "Notandi hefur ekki skráð póstfang"
+
+msgid "strings.forgot_pwd"
+msgstr "Gleymt aðgangsorð ?"
+
+msgid "strings.project_owner"
+msgstr "Þú getur aðeins breytt þínum eigin verkefnum."
+
+msgid "strings.connected"
+msgstr "Tengdur"
+
+msgid "strings.session"
+msgstr "Tenging (Session)"
+
+msgid "strings.last_visit"
+msgstr "Síðasta heimsókn"
+
+msgid "strings.compteur"
+msgstr "Fjöldi"
+
+msgid "strings.ip"
+msgstr "IP tala"
+
+msgid "strings.task_owner"
+msgstr "Þú ert meðlimur vinnuhóps þessa verkefnis"
+
+msgid "strings.export"
+msgstr "Útskráning gagna"
+
+msgid "strings.reassignment_clientuser"
+msgstr "Endurúthlutun verka"
+
+msgid "strings.organization_already_exists"
+msgstr ""
+"Þetta nafn er þegar í noktun innan kerfisins, vinsamlega veldu"
+"annað nafn á viðskiptaaðila."
+
+msgid "strings.blank_organization_field"
+msgstr "Þú verður að slá inn nafn viðskiptaaðila."
+
+msgid "strings.blank_fields"
+msgstr "Nauðsynleg svæði"
+
+msgid "strings.projectsite_login_fails"
+msgstr "Ekki tókst að sannreyna notendanafn/aðgangsorð."
+
+msgid "strings.start_date"
+msgstr "Upphafsdagsetning"
+
+msgid "strings.completion"
+msgstr "Lokið"
+
+msgid "strings.update_available"
+msgstr "Nýrri útgáfa er til!"
+
+msgid "strings.version_current"
+msgstr "Þú ert að nota útgáfu"
+
+msgid "strings.version_latest"
+msgstr "Nýjasta útgáfa er"
+
+msgid "strings.sourceforge_link"
+msgstr "Skoðaðu síðu kerfisins á sourceforge"
+
+msgid "strings.demo_mode"
+msgstr "Kerfið er í sýningarham, aðgerð ekki leyfð."
+
+msgid "strings.setup_erase"
+msgstr "Eyddu skránni setup.php!!"
+
+msgid "strings.no_file"
+msgstr "Skrá þarf að fylgja"
+
+msgid "strings.exceed_size"
+msgstr "Stærð yfir hámarksmörkum skráarstærðar"
+
+msgid "strings.no_php"
+msgstr "Php skrár eru ekki leyfðar"
+
+msgid "strings.approval_date"
+msgstr "Dagsetning samþykktar"
+
+msgid "strings.approver"
+msgstr "Samþykkt af"
+
+msgid "strings.error_database"
+msgstr "Get ekki tengst gagnagrunni"
+
+msgid "strings.error_server"
+msgstr "Get ekki tengst bakenda"
+
+msgid "strings.version_control"
+msgstr "Útgáfustýring"
+
+msgid "strings.vc_status"
+msgstr "Staða"
+
+msgid "strings.vc_last_in"
+msgstr "Síðast breytt"
+
+msgid "strings.ifa_comments"
+msgstr "Athugasemdir samþykktar"
+
+msgid "strings.ifa_command"
+msgstr "Breyta stöðu samþykktar"
+
+msgid "strings.vc_version"
+msgstr "Útgáfa"
+
+msgid "strings.ifc_revisions"
+msgstr "Umfjallanir"
+
+msgid "strings.ifc_revision_of"
+msgstr "Umfjöllun um útgáfu"
+
+msgid "strings.ifc_add_revision"
+msgstr "Skrá umfjöllun"
+
+msgid "strings.ifc_update_file"
+msgstr "Uppfæra skrá"
+
+msgid "strings.ifc_last_date"
+msgstr "Síðast breytt"
+
+msgid "strings.ifc_version_history"
+msgstr "Útgáfusaga"
+
+msgid "strings.ifc_delete_file"
+msgstr "Eyða skrá ásamt öllum útgáfum og umfjöllunum"
+
+msgid "strings.ifc_delete_version"
+msgstr "Eyða útgáfum"
+
+msgid "strings.ifc_delete_review"
+msgstr "Eyða umfjöllunum"
+
+msgid "strings.ifc_no_revisions"
+msgstr "Það eru engar skráðar útgáfur af þessari skrá"
+
+msgid "strings.unlink_files"
+msgstr "Ótengdar skrár"
+
+msgid "strings.remove_team"
+msgstr "Fjarlægja notendur úr vinnuhópi"
+
+msgid "strings.remove_team_info"
+msgstr "Fjarlægja þessa notendur úr vinnuhópi?"
+
+msgid "strings.remove_team_client"
+msgstr "Fjarlægja aðgangsheimildir að verkefnissíðu"
+
+msgid "strings.note"
+msgstr "Minnispunktur"
+
+msgid "strings.notes"
+msgstr "Minnispunktar"
+
+msgid "strings.subject"
+msgstr "Efni"
+
+msgid "strings.delete_note"
+msgstr "Eyða minnispunkt"
+
+msgid "strings.add_note"
+msgstr "Skrá minnistpunkt"
+
+msgid "strings.edit_note"
+msgstr "breyta minnistpunkt"
+
+msgid "strings.version_increm"
+msgstr "Veldu útgáfubreytingu:"
+
+msgid "strings.url_dev"
+msgstr "Vefslóð í þróun"
+
+msgid "strings.url_prod"
+msgstr "Vefslóð verklok"
+
+msgid "strings.note_owner"
+msgstr "Þú getur aðeins breytt eigin minnispunktum."
+
+msgid "strings.alpha_only"
+msgstr "Aðeins tölu -og eða bókstafi í innskráningu"
+
+msgid "strings.edit_notifications"
+msgstr "Breyta tilkynningum"
+
+msgid "strings.edit_notifications_info"
+msgstr "Veldu þá atburði sem þú vilt fá senda tilkynningu um."
+
+msgid "strings.select_deselect"
+msgstr "Velja/Afvelja allt"
+
+msgid "strings.noti_addprojectteam1"
+msgstr "Skráð í vinnuhóp verkefnis :"
+
+msgid "strings.noti_addprojectteam2"
+msgstr "Þér hefur verið bætt í vinnuhóp verkefnis :"
+
+msgid "strings.noti_removeprojectteam1"
+msgstr "Þú hefur verið skráður úr vinnuhóp verkefnis :"
+
+msgid "strings.noti_removeprojectteam2"
+msgstr "Þú hefur verið skráður úr vinnuhóp verkefnis :"
+
+msgid "strings.noti_newpost1"
+msgstr "Ný skilaboð :"
+
+msgid "strings.noti_newpost2"
+msgstr "Ný skilaboð hefa verið skráð í eftirfarandi umræðu :"
+
+msgid "strings.edit_noti_taskassignment"
+msgstr "Þegar mér hefur verið úthlutað nýju verki."
+
+msgid "strings.edit_noti_statustaskchange"
+msgstr "Þegar staða verka sem ég á breytist."
+
+msgid "strings.edit_noti_prioritytaskchange"
+msgstr "Þegar forgangur verka minna breytist."
+
+msgid "strings.edit_noti_duedatetaskchange"
+msgstr "Þegar lokadagsetning verka minna breytist."
+
+msgid "strings.edit_noti_addprojectteam"
+msgstr "Þegar mér er bætt í vinnuhóp verkefnis."
+
+msgid "strings.edit_noti_removeprojectteam"
+msgstr "Þegar ég er skráður úr vinnuhópi verkefnis."
+
+msgid "strings.edit_noti_newpost"
+msgstr "Þegar ný skilaboð eru skráð í umræðu."
+
+msgid "strings.add_optional"
+msgstr "Frjálst skráning"
+
+msgid "strings.assignment_comment_info"
+msgstr "Skrá athugasemd varðandi úthlutun þessa verks"
+
+msgid "strings.my_notes"
+msgstr "Minnispunktar mínir"
+
+msgid "strings.edit_settings"
+msgstr "Breyta stillingum"
+
+msgid "strings.max_upload"
+msgstr "Hámarksstærð skráa"
+
+msgid "strings.project_folder_size"
+msgstr "Hámarksstærð möppu verkefnis"
+
+msgid "strings.calendar"
+msgstr "Dagatal"
+
+msgid "strings.date_start"
+msgstr "Upphafsdagsetning"
+
+msgid "strings.date_end"
+msgstr "Lokadagsetning"
+
+msgid "strings.time_start"
+msgstr "Upphafstími"
+
+msgid "strings.time_end"
+msgstr "Lokatími"
+
+msgid "strings.calendar_reminder"
+msgstr "Áminning"
+
+msgid "strings.shortname"
+msgstr "Stutt nafn"
+
+msgid "strings.calendar_recurring"
+msgstr "Endurtekur sig vikulega"
+
+msgid "strings.edit_database"
+msgstr "Breyta gagnagrunni"
+
+msgid "strings.noti_newtopic1"
+msgstr "Ný umræðu :"
+
+msgid "strings.noti_newtopic2"
+msgstr "Ný umræða var skrá á eftirfarandi verkefni :"
+
+msgid "strings.edit_noti_newtopic"
+msgstr "Nýr efnisflokkur umræðu var skráður."
+
+msgid "strings.today"
+msgstr "Núverandi"
+
+msgid "strings.previous"
+msgstr "Fyrri"
+
+msgid "strings.next"
+msgstr "Næsti"
+
+msgid "strings.help"
+msgstr "Hjálp"
+
+msgid "strings.complete_date"
+msgstr "Dags. lokið"
+
+msgid "strings.scope_creep"
+msgstr "Mism. áætlunar"
+
+msgid "strings.days"
+msgstr "Dagar"
+
+msgid "strings.remember_password"
+msgstr "Muna lykilorð"
+
+msgid "strings.client_add_task_note"
+msgstr ""
+"ATH: Verkið er skráð í gagnagrunn en birtist aðeins ef því"
+"úthlutað á vinnuhópsmeðlim!"
+
+msgid "strings.noti_clientaddtask1"
+msgstr "Verk skráð af viðskiptamanni :"
+
+msgid "strings.noti_clientaddtask2"
+msgstr ""
+"Nýtt verk var skráð af viðskiptamanni á verkefnissíðu á"
+"eftirfarandi verkefni :"
+
+msgid "strings.phase"
+msgstr "Verkstig"
+
+msgid "strings.phases"
+msgstr "Verkstig"
+
+msgid "strings.phase_id"
+msgstr "Einkenni Verkstigs"
+
+msgid "strings.current_phase"
+msgstr "Virkt verkstig"
+
+msgid "strings.total_tasks"
+msgstr "Fjöldi verka"
+
+msgid "strings.uncomplete_tasks"
+msgstr "Ólokin verk"
+
+msgid "strings.no_current_phase"
+msgstr "Ekkert verkstig er virkt"
+
+msgid "strings.true"
+msgstr "Já"
+
+msgid "strings.false"
+msgstr "Nei"
+
+msgid "strings.enable_phases"
+msgstr "Virkja verkstig"
+
+msgid "strings.phase_enabled"
+msgstr "Verkstig virk"
+
+msgid "strings.order"
+msgstr "Röð"
+
+msgid "strings.options"
+msgstr "Stillingar"
+
+msgid "strings.support"
+msgstr "Þjónusta"
+
+msgid "strings.support_request"
+msgstr "Þjónustubeiðni"
+
+msgid "strings.support_requests"
+msgstr "Þjónustubeiðnir"
+
+msgid "strings.support_id"
+msgstr "Einkenni þjónustubeiðni"
+
+msgid "strings.my_support_request"
+msgstr "Þjónustubeiðnir mínar"
+
+msgid "strings.introduction"
+msgstr "Kynning"
+
+msgid "strings.submit"
+msgstr "Skrá"
+
+msgid "strings.support_management"
+msgstr "Vinna með þjónustubeiðnir"
+
+msgid "strings.date_open"
+msgstr "Dags. opnuð"
+
+msgid "strings.date_close"
+msgstr "Dags. lokað"
+
+msgid "strings.add_support_request"
+msgstr "Skrá þjónustubeiðni"
+
+msgid "strings.add_support_response"
+msgstr "Skrá svar við þjónustubeiðni"
+
+msgid "strings.respond"
+msgstr "Svara"
+
+msgid "strings.delete_support_request"
+msgstr "Þjónustubeiðni eytt"
+
+msgid "strings.delete_request"
+msgstr "Eyða þjónustubeiðni"
+
+msgid "strings.delete_support_post"
+msgstr "Eyða þjónustuskilaboðum"
+
+msgid "strings.new_requests"
+msgstr "Ný beiðni"
+
+msgid "strings.open_requests"
+msgstr "Opna beiðnir"
+
+msgid "strings.closed_requests"
+msgstr "Ljúka beiðni"
+
+msgid "strings.manage_new_requests"
+msgstr "Vinna með nýjar beiðnir"
+
+msgid "strings.manage_open_requests"
+msgstr "Vinna með opnar beiðnir"
+
+msgid "strings.manage_closed_requests"
+msgstr "Vinna með lokaðar beiðnir"
+
+msgid "strings.responses"
+msgstr "Svör"
+
+msgid "strings.edit_status"
+msgstr "Breyta stöðu"
+
+msgid "strings.noti_support_request_new2"
+msgstr "Þú hefur skráð þjónustubeiðni varðandi: "
+
+msgid "strings.noti_support_post2"
+msgstr ""
+"Nýtt svar hefur verið skráð á þjónustubeiðni þína. Sjá"
+"eftirfarandi upplýsingar."
+
+msgid "strings.noti_support_status2"
+msgstr ""
+"Þjónustubeiðni þín hefur verið uppfærð. Sjá eftirfarandi"
+"upplýsingar."
+
+msgid "strings.noti_support_team_new2"
+msgstr "Ný þjónustubeiðni hefur verið skráð á verkefni: "
+
+msgid "strings.delete_subtasks"
+msgstr "Eyða undirverki"
+
+msgid "strings.add_subtask"
+msgstr "Skrá undirverk"
+
+msgid "strings.edit_subtask"
+msgstr "Breyta undirverki"
+
+msgid "strings.subtask"
+msgstr "Undirverk"
+
+msgid "strings.subtasks"
+msgstr "Undirverk"
+
+msgid "strings.show_details"
+msgstr "Sjá nánar"
+
+msgid "strings.updates_task"
+msgstr "Saga verks"
+
+msgid "strings.updates_subtask"
+msgstr "Saga undirverks"
+
+msgid "strings.go_projects_site"
+msgstr "Sjá verkefnissíðu"
+
+msgid "strings.bookmark"
+msgstr "Vefslóð"
+
+msgid "strings.bookmarks"
+msgstr "Vefslóðir"
+
+msgid "strings.bookmark_category"
+msgstr "Flokkur"
+
+msgid "strings.bookmark_category_new"
+msgstr "Nýr flokkur"
+
+msgid "strings.bookmarks_all"
+msgstr "Allar"
+
+msgid "strings.bookmarks_my"
+msgstr "Vefslóðirnar mínar"
+
+msgid "strings.my"
+msgstr "Mínar"
+
+msgid "strings.bookmarks_private"
+msgstr "Falið öðrum"
+
+msgid "strings.shared"
+msgstr "Sýnilegt öðrum"
+
+msgid "strings.private"
+msgstr "Falið öðrum"
+
+msgid "strings.add_bookmark"
+msgstr "Skrá vefslóð"
+
+msgid "strings.edit_bookmark"
+msgstr "Breyta vefslóð"
+
+msgid "strings.delete_bookmarks"
+msgstr "Eyða vefslóð"
+
+msgid "strings.team_subtask_details"
+msgstr "Nánar um undirverk vinnuhóps"
+
+msgid "strings.client_subtask_details"
+msgstr "Nánar um undirverk viðskiptamanns"
+
+msgid "strings.client_change_status_subtask"
+msgstr ""
+"Breyttu stöðunni að neðan þegar þú hefur lokið þessu"
+"undirverki"
+
+msgid "strings.disabled_permissions"
+msgstr "Óvirkja aðgang"
+
+msgid "strings.user_timezone"
+msgstr "Tímasvæði (GMT)"
+
+
+# Enum values (status, priority, etc.)
+# Note: These should be moved to enums.*.po domain
+
+#. Domain: enums
+msgid "status.0"
+msgstr "Viðskiptaaðila lokað"
+
+#. Domain: enums
+msgid "status.1"
+msgstr "Lokið"
+
+#. Domain: enums
+msgid "status.2"
+msgstr "Ekki byrjað"
+
+#. Domain: enums
+msgid "status.3"
+msgstr "Opið"
+
+#. Domain: enums
+msgid "status.4"
+msgstr "Aflýst"
+
+#. Domain: enums
+msgid "profil.0"
+msgstr "Umsjónarmaður"
+
+#. Domain: enums
+msgid "profil.1"
+msgstr "Verkefnisstjóri"
+
+#. Domain: enums
+msgid "profil.2"
+msgstr "Notandi"
+
+#. Domain: enums
+msgid "profil.3"
+msgstr "Viðskiptamaður"
+
+#. Domain: enums
+msgid "priority.0"
+msgstr "Engin forgangur"
+
+#. Domain: enums
+msgid "priority.1"
+msgstr "Mjög lítill forgangur"
+
+#. Domain: enums
+msgid "priority.2"
+msgstr "Lítill forgangur"
+
+#. Domain: enums
+msgid "priority.3"
+msgstr "Miðlungs"
+
+#. Domain: enums
+msgid "priority.4"
+msgstr "Mikilvægt"
+
+#. Domain: enums
+msgid "priority.5"
+msgstr "Mjög mikilvægt"
+
+#. Domain: enums
+msgid "statusTopic.0"
+msgstr "Lokað"
+
+#. Domain: enums
+msgid "statusTopic.1"
+msgstr "Opið"
+
+#. Domain: enums
+msgid "statusTopicBis.0"
+msgstr "Já"
+
+#. Domain: enums
+msgid "statusTopicBis.1"
+msgstr "Nei"
+
+#. Domain: enums
+msgid "statusPublish.0"
+msgstr "Já"
+
+#. Domain: enums
+msgid "statusPublish.1"
+msgstr "Nei"
+
+#. Domain: enums
+msgid "statusFile.0"
+msgstr "Samþykkt"
+
+#. Domain: enums
+msgid "statusFile.1"
+msgstr "Samþykkt með breytingum"
+
+#. Domain: enums
+msgid "statusFile.2"
+msgstr "Þarfnast samþykktar"
+
+#. Domain: enums
+msgid "statusFile.3"
+msgstr "Þarf ekki samþykki"
+
+#. Domain: enums
+msgid "statusFile.4"
+msgstr "Ekki samþykkt"
+
+#. Domain: enums
+msgid "phaseStatus.0"
+msgstr "Ekki hafið"
+
+#. Domain: enums
+msgid "phaseStatus.1"
+msgstr "Opið"
+
+#. Domain: enums
+msgid "phaseStatus.2"
+msgstr "Lokið"
+
+#. Domain: enums
+msgid "phaseStatus.3"
+msgstr "Aflýst"
+
+#. Domain: enums
+msgid "requestStatus.0"
+msgstr "Ný"
+
+#. Domain: enums
+msgid "requestStatus.1"
+msgstr "Opin"
+
+#. Domain: enums
+msgid "requestStatus.2"
+msgstr "Lokað"
+
+
+# Arrays (days, months, byte units)
+
+msgid "byteunits.0"
+msgstr "Bæti"
+
+msgid "byteunits.1"
+msgstr "KB"
+
+msgid "byteunits.2"
+msgstr "MB"
+
+msgid "byteunits.3"
+msgstr "GB"
+
+msgid "dayname.1"
+msgstr "Mánudagur"
+
+msgid "dayname.2"
+msgstr "Þriðjudagur"
+
+msgid "dayname.3"
+msgstr "Miðvikudagur"
+
+msgid "dayname.4"
+msgstr "Fimmtudagur"
+
+msgid "dayname.5"
+msgstr "Föstudagur"
+
+msgid "dayname.6"
+msgstr "Laugardagur"
+
+msgid "dayname.7"
+msgstr "Sunnudagur"
+
+msgid "monthname.1"
+msgstr "Janúar"
+
+msgid "monthname.2"
+msgstr "Febrúar"
+
+msgid "monthname.3"
+msgstr "Mars"
+
+msgid "monthname.4"
+msgstr "Apríl"
+
+msgid "monthname.5"
+msgstr "Maí"
+
+msgid "monthname.6"
+msgstr "Júní"
+
+msgid "monthname.7"
+msgstr "Júlí"
+
+msgid "monthname.8"
+msgstr "Ágúst"
+
+msgid "monthname.9"
+msgstr "September"
+
+msgid "monthname.10"
+msgstr "Október"
+
+msgid "monthname.11"
+msgstr "Nóvember"
+
+msgid "monthname.12"
+msgstr "Desember"
+

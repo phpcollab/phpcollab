@@ -1,0 +1,1167 @@
+# phpCollab Translation File
+# Language: Indonesian (in)
+# Type: Lang
+# Domain: messages
+# Generated: 2025-11-06 00:44:09 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: in\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# String translations
+
+msgid "strings.please_login"
+msgstr "Harap log in"
+
+msgid "strings.login"
+msgstr "Masuk"
+
+msgid "strings.no_items"
+msgstr "Hasil query kosong"
+
+msgid "strings.logout"
+msgstr "Keluar"
+
+msgid "strings.preferences"
+msgstr "Konfigurasi"
+
+msgid "strings.my_tasks"
+msgstr "TugasKu "
+
+msgid "strings.edit_task"
+msgstr "Ubah Tugas"
+
+msgid "strings.copy_task"
+msgstr "Duplikat Tugas"
+
+msgid "strings.add_task"
+msgstr "Penambahan Tugas"
+
+msgid "strings.delete_tasks"
+msgstr "Penghapusan Tugas"
+
+msgid "strings.assignment_history"
+msgstr "Sejarah Penugasan"
+
+msgid "strings.assigned_on"
+msgstr "Ditugaskan Pada"
+
+msgid "strings.assigned_by"
+msgstr "Ditugaskan Oleh"
+
+msgid "strings.to"
+msgstr "Kepada"
+
+msgid "strings.comment"
+msgstr "Komentar"
+
+msgid "strings.task_assigned"
+msgstr "Penugasan kepada "
+
+msgid "strings.task_unassigned"
+msgstr "Tugas yang belum diserahkan"
+
+msgid "strings.edit_multiple_tasks"
+msgstr "Ubah Tugas (Multiple)"
+
+msgid "strings.tasks_selected"
+msgstr ""
+"Tugas telah dipilih.  Pilih informasi baru untuk tugas ini, ata pilih"
+"[Tidak Ada Perubahan] untuk menggunakan data yang terkini."
+
+msgid "strings.assignment_comment"
+msgstr "Komentar Penugasan"
+
+msgid "strings.no_change"
+msgstr "[Tidak Ada Perubahan]"
+
+msgid "strings.my_discussions"
+msgstr "DiskusiKu"
+
+msgid "strings.discussions"
+msgstr "Diskusi"
+
+msgid "strings.delete_discussions"
+msgstr "Hapus Diskusi"
+
+msgid "strings.delete_discussions_note"
+msgstr "Note: Diskusi tidak bisa dibuka ulang sesudah dihapus."
+
+msgid "strings.topic"
+msgstr "Topik"
+
+msgid "strings.latest_post"
+msgstr "Posts Terakhir"
+
+msgid "strings.my_reports"
+msgstr "LaporanKu"
+
+msgid "strings.reports"
+msgstr "Laporan"
+
+msgid "strings.create_report"
+msgstr "Buat Laporan"
+
+msgid "strings.report_intro"
+msgstr ""
+"Siapkan pilihan laporan dan simpan setelah menjalankan proses laporan."
+
+msgid "strings.admin_intro"
+msgstr "Konfigurasi Proyek."
+
+msgid "strings.copy_of"
+msgstr "Duplikat dari "
+
+msgid "strings.add"
+msgstr "Tambah"
+
+msgid "strings.delete"
+msgstr "Hapus"
+
+msgid "strings.remove"
+msgstr "Cabut"
+
+msgid "strings.copy"
+msgstr "Duplikat"
+
+msgid "strings.view"
+msgstr "Lihat"
+
+msgid "strings.edit"
+msgstr "Ubah"
+
+msgid "strings.details"
+msgstr "Detil"
+
+msgid "strings.none"
+msgstr "Tidak Ada"
+
+msgid "strings.close"
+msgstr "Tutup"
+
+msgid "strings.new"
+msgstr "Baru"
+
+msgid "strings.select_all"
+msgstr "Pilih Semua"
+
+msgid "strings.unassigned"
+msgstr "Belum Diserahkan"
+
+msgid "strings.my_projects"
+msgstr "ProyeKu"
+
+msgid "strings.project"
+msgstr "Proyek"
+
+msgid "strings.active"
+msgstr "Aktif"
+
+msgid "strings.inactive"
+msgstr "Non-Aktif"
+
+msgid "strings.project_id"
+msgstr "Proyek ID"
+
+msgid "strings.edit_project"
+msgstr "Ubah Project"
+
+msgid "strings.copy_project"
+msgstr "Duplikat Project"
+
+msgid "strings.add_project"
+msgstr "Tambah Project"
+
+msgid "strings.clients"
+msgstr "Klien"
+
+msgid "strings.organization"
+msgstr "Organisasi Klien"
+
+msgid "strings.client_projects"
+msgstr "Proyek Klien"
+
+msgid "strings.client_users"
+msgstr "Pengguna dari Klien"
+
+msgid "strings.edit_organization"
+msgstr "Ubah Organisasi Klien"
+
+msgid "strings.add_organization"
+msgstr "Tambah Organisasi Klien"
+
+msgid "strings.organizations"
+msgstr "Organisasi Klien"
+
+msgid "strings.owner"
+msgstr "Pemilik"
+
+msgid "strings.home"
+msgstr "Utama"
+
+msgid "strings.projects"
+msgstr "Proyek"
+
+msgid "strings.search"
+msgstr "Cari"
+
+msgid "strings.user"
+msgstr "Pengguna"
+
+msgid "strings.project_manager"
+msgstr "Manager Proyek"
+
+msgid "strings.task"
+msgstr "Tugas"
+
+msgid "strings.tasks"
+msgstr "Tugas-tugas"
+
+msgid "strings.team"
+msgstr "Tim"
+
+msgid "strings.add_team"
+msgstr "Tambah Anggota Tim"
+
+msgid "strings.team_members"
+msgstr "Anggota Tim "
+
+msgid "strings.full_name"
+msgstr "Nama Lengkap"
+
+msgid "strings.title"
+msgstr "Jabatan"
+
+msgid "strings.user_name"
+msgstr "Name pengguna"
+
+msgid "strings.work_phone"
+msgstr "Telepon Kantor"
+
+msgid "strings.priority"
+msgstr "Prioritas"
+
+msgid "strings.name"
+msgstr "Nama"
+
+msgid "strings.description"
+msgstr "Gambaran"
+
+msgid "strings.phone"
+msgstr "Telepon"
+
+msgid "strings.address"
+msgstr "Alamat"
+
+msgid "strings.comments"
+msgstr "Komentar"
+
+msgid "strings.new_comments"
+msgstr "Komentar Baru"
+
+msgid "strings.created"
+msgstr "Dibuat pada"
+
+msgid "strings.assigned"
+msgstr "Diserahkan tanggal"
+
+msgid "strings.modified"
+msgstr "Diubah"
+
+msgid "strings.assigned_to"
+msgstr "Kepada"
+
+msgid "strings.due_date"
+msgstr "Deadline"
+
+msgid "strings.estimated_time"
+msgstr "Perkiraan Waktu Kerja"
+
+msgid "strings.actual_time"
+msgstr "Waktu Kerja Akhir"
+
+msgid "strings.delete_following"
+msgstr "Hapus yang berikut?"
+
+msgid "strings.cancel"
+msgstr "Batal"
+
+msgid "strings.and"
+msgstr "dan"
+
+msgid "strings.administration"
+msgstr "Administrasi"
+
+msgid "strings.user_management"
+msgstr "Manajemen Pengguna"
+
+msgid "strings.system_information"
+msgstr "Informasi Sistem"
+
+msgid "strings.product_information"
+msgstr "Informasi Produk"
+
+msgid "strings.create"
+msgstr "Buat"
+
+msgid "strings.report_save"
+msgstr "Simpan laporan ini untuk dijalankan di lain waktu"
+
+msgid "strings.report_name"
+msgstr "Nama Laporan"
+
+msgid "strings.save"
+msgstr "Simpan"
+
+msgid "strings.matches"
+msgstr "Persamaan"
+
+msgid "strings.match"
+msgstr "Persamaan"
+
+msgid "strings.report_results"
+msgstr "Hasil laporan"
+
+msgid "strings.success"
+msgstr "Sukses"
+
+msgid "strings.addition_succeeded"
+msgstr "Penambahan sukses"
+
+msgid "strings.deletion_succeeded"
+msgstr "Penghapusan sukses"
+
+msgid "strings.report_created"
+msgstr "Laporan Dibuat"
+
+msgid "strings.deleted_reports"
+msgstr "Laporan Dihapus"
+
+msgid "strings.modification_succeeded"
+msgstr "Perubahan sukses"
+
+msgid "strings.errors"
+msgstr "Ditemukan kesalahan!"
+
+msgid "strings.blank_user"
+msgstr "Pengguna Tidak Dapat Ditemukan"
+
+msgid "strings.blank_organization"
+msgstr "Organisasi Klien tidak dapat ditemukan"
+
+msgid "strings.blank_project"
+msgstr "Proyek tidak ditemukan."
+
+msgid "strings.user_profile"
+msgstr "Profil Pengguna"
+
+msgid "strings.change_password"
+msgstr "Ubah Kata Sandi"
+
+msgid "strings.change_password_user"
+msgstr "Ganti Kata Sandi"
+
+msgid "strings.old_password_error"
+msgstr "Kata sandi lama salah.  Harap masukkan kembali kata sandi yang lama."
+
+msgid "strings.new_password_error"
+msgstr ""
+"Kedua kata sandi yang baru berbeda. Harap masukkan kembali kata sandi"
+"anda."
+
+msgid "strings.notifications"
+msgstr "Notifikasi"
+
+msgid "strings.change_password_intro"
+msgstr ""
+"Masukkan kata sandi anda, kemudian tambahkan dan konfirmasi kata sandi"
+"yang baru."
+
+msgid "strings.old_password"
+msgstr "Kata sandi lama"
+
+msgid "strings.password"
+msgstr "Kata Sandi"
+
+msgid "strings.new_password"
+msgstr "Kata sandi baru"
+
+msgid "strings.confirm_password"
+msgstr "Konfirmasi Kata Sandi"
+
+msgid "strings.home_phone"
+msgstr "Telepon rumah"
+
+msgid "strings.mobile_phone"
+msgstr "Telepon Genggam"
+
+msgid "strings.permissions"
+msgstr "Hak Akses"
+
+msgid "strings.administrator_permissions"
+msgstr "Hak Akses Administrator"
+
+msgid "strings.project_manager_permissions"
+msgstr "Hak Akses Manager Proyek"
+
+msgid "strings.user_permissions"
+msgstr "Hak Akses Pengguna"
+
+msgid "strings.account_created"
+msgstr "Account terbuat."
+
+msgid "strings.edit_user"
+msgstr "Ubah Pengguna"
+
+msgid "strings.edit_user_details"
+msgstr "Ubah detil account pengguna."
+
+msgid "strings.change_user_password"
+msgstr "Ganti kata sandi pengguna."
+
+msgid "strings.select_permissions"
+msgstr "Pilih hak akses untuk pengguna ini"
+
+msgid "strings.add_user"
+msgstr "Tambah Pengguna"
+
+msgid "strings.enter_user_details"
+msgstr "Masukkan detil pengguna baru yang anda siapkan"
+
+msgid "strings.enter_password"
+msgstr "Masukkan kata sandi pengguna"
+
+msgid "strings.success_logout"
+msgstr ""
+"Anda telah keluar dari sistem.  Anda dapat masuk kembali dengan"
+"memasukkan nama pengguna dan kata sandi di bawah."
+
+msgid "strings.invalid_login"
+msgstr "Nama Pengguna dan/atau kata sandi salah. Harap ulangi."
+
+msgid "strings.profile"
+msgstr "Profil"
+
+msgid "strings.user_details"
+msgstr "Detik account pengguna"
+
+msgid "strings.edit_user_account"
+msgstr "Ubah informasi account anda."
+
+msgid "strings.no_permissions"
+msgstr "Anda tidak mempunyai akses ke fungsi tersebut."
+
+msgid "strings.discussion"
+msgstr "Diskusi"
+
+msgid "strings.retired"
+msgstr "Non-aktif"
+
+msgid "strings.last_post"
+msgstr "Pesan Terakhir"
+
+msgid "strings.post_reply"
+msgstr "Pesan Balasan"
+
+msgid "strings.posted_by"
+msgstr "Dipublikasi oleh"
+
+msgid "strings.when"
+msgstr "ketika"
+
+msgid "strings.post_to_discussion"
+msgstr "Pesan ke Diskusi"
+
+msgid "strings.message"
+msgstr "Pesan"
+
+msgid "strings.delete_reports"
+msgstr "Hapus Laporan"
+
+msgid "strings.delete_projects"
+msgstr "Hapus Proyek"
+
+msgid "strings.delete_organizations"
+msgstr "Hapus Organisasi Klien"
+
+msgid "strings.delete_organizations_note"
+msgstr ""
+"Note: Menghapus klien ini akan secara otomatis menghapus semua"
+"pengguna klien organisasi ini, dan menghilangkan referensi dari semua"
+"proyek yang terbuka"
+
+msgid "strings.delete_messages"
+msgstr "Hapus Pesan-pesan"
+
+msgid "strings.attention"
+msgstr "Perhatian"
+
+msgid "strings.delete_teamownermix"
+msgstr ""
+"Penghapusan sukses, tetapi pemilik proyek tidak dapat dihapus dari tim"
+"proyek."
+
+msgid "strings.delete_teamowner"
+msgstr "Anda tidak bisa menghapus pemilik proyek dari tim"
+
+msgid "strings.enter_keywords"
+msgstr "Masukkan kata kunci untuk pencarian"
+
+msgid "strings.search_options"
+msgstr "Kata Kunci dan Pilihan Pencarian"
+
+msgid "strings.search_note"
+msgstr "Anda harus memberikan informasi di kotak Pencarian."
+
+msgid "strings.search_results"
+msgstr "Hasil Pencarian"
+
+msgid "strings.users"
+msgstr "Pengguna"
+
+msgid "strings.search_for"
+msgstr "Cari untuk"
+
+msgid "strings.results_for_keywords"
+msgstr "Hasil Pencarian Kata Kunci"
+
+msgid "strings.add_discussion"
+msgstr "Tambah Diskusi"
+
+msgid "strings.delete_users"
+msgstr "Hapus Data Pengguna"
+
+msgid "strings.reassignment_user"
+msgstr "Penyerahan Ulang Proyek dan Tugas"
+
+msgid "strings.there"
+msgstr "Ada beberapa "
+
+msgid "strings.owned_by"
+msgstr "dimiliki oleh pengguna di atas."
+
+msgid "strings.reassign_to"
+msgstr "Sebelum menghapus pengguna, harap serah ulang tugas ini ke "
+
+msgid "strings.no_files"
+msgstr "Tidak ada file"
+
+msgid "strings.published"
+msgstr "Publikasi"
+
+msgid "strings.project_site"
+msgstr "Situs Proyek"
+
+msgid "strings.add_project_site"
+msgstr "Tambah ke Situs Proyek"
+
+msgid "strings.remove_project_site"
+msgstr "Hapus dari Situs Proyek"
+
+msgid "strings.more_search"
+msgstr "Tambahan opsi pencarian"
+
+msgid "strings.results_with"
+msgstr "Cari hasil dengan"
+
+msgid "strings.search_topics"
+msgstr "Topik pencarian"
+
+msgid "strings.search_properties"
+msgstr "Properti Percarian"
+
+msgid "strings.date_restrictions"
+msgstr "Restriksi Tanggal"
+
+msgid "strings.yes"
+msgstr "Ya"
+
+msgid "strings.no"
+msgstr "Tidak"
+
+msgid "strings.sort_by"
+msgstr "Sorting Berdasarkan"
+
+msgid "strings.type"
+msgstr "Tipe"
+
+msgid "strings.date"
+msgstr "Tanggal"
+
+msgid "strings.all_words"
+msgstr "semua kata (AND)"
+
+msgid "strings.any_words"
+msgstr "semua kata (OR)"
+
+msgid "strings.exact_match"
+msgstr "Persamaan persis"
+
+msgid "strings.all_dates"
+msgstr "Semua tanggal"
+
+msgid "strings.between_dates"
+msgstr "Di antara tanggal"
+
+msgid "strings.all_content"
+msgstr "Semua Isi"
+
+msgid "strings.all_properties"
+msgstr "Semua properti"
+
+msgid "strings.no_results_search"
+msgstr "Pencarian tidak memberikan hasil."
+
+msgid "strings.no_results_report"
+msgstr "Laporan tidak memberikan hasil."
+
+msgid "strings.hours"
+msgstr "jam"
+
+msgid "strings.choice"
+msgstr "Pilihan"
+
+msgid "strings.missing_file"
+msgstr "File hilang!"
+
+msgid "strings.project_site_deleted"
+msgstr "Situs Proyes telah dihapus."
+
+msgid "strings.add_user_project_site"
+msgstr "Pengguna telah diberikan akses ke Situs Proyek."
+
+msgid "strings.remove_user_project_site"
+msgstr "Hak akses pengguna telah dihapus."
+
+msgid "strings.add_project_site_success"
+msgstr "Penambahan ke Situs Proyek berhasil."
+
+msgid "strings.remove_project_site_success"
+msgstr "Penghapusan dari Situs Proyek berhasil."
+
+msgid "strings.add_file_success"
+msgstr "1 item di-link."
+
+msgid "strings.delete_file_success"
+msgstr "Unlinking sukses."
+
+msgid "strings.update_comment_file"
+msgstr "Komentar file telah di-update."
+
+msgid "strings.session_false"
+msgstr "Kesalahan sesi"
+
+msgid "strings.noti_foot1"
+msgstr "Pesan ini disiapkan oleh CollaBoard."
+
+msgid "strings.noti_foot2"
+msgstr "Untuk melihat website CollaBoard, kunjungi:"
+
+msgid "strings.noti_taskassignment1"
+msgstr "Tugas baru:"
+
+msgid "strings.noti_taskassignment2"
+msgstr "Sebuah tugas telah diserahkan kepada anda."
+
+msgid "strings.noti_prioritytaskchange1"
+msgstr "Perubahan prioritas tugas:"
+
+msgid "strings.noti_prioritytaskchange2"
+msgstr "Prioritas dari tugas berikut telah berubah:"
+
+msgid "strings.noti_statustaskchange1"
+msgstr "Perubahan status tugas:"
+
+msgid "strings.noti_statustaskchange2"
+msgstr "Status dari tugas berikut telah berubah:"
+
+msgid "strings.login_username"
+msgstr "Harap masukkan Nama Pengguna"
+
+msgid "strings.login_password"
+msgstr "Harap masukkan Kata Sandi."
+
+msgid "strings.login_clientuser"
+msgstr ""
+"Ini adalah nama pengguna dari Klien.  Anda tidak dapat menggunakan"
+"CollaBoard dengan nama pengguna ini."
+
+msgid "strings.user_already_exists"
+msgstr ""
+"Sudah ada nama pengguna yang sama.  Harap gunakan variasi dari nama"
+"pengguna ini."
+
+msgid "strings.noti_duedatetaskchange1"
+msgstr "Tanggal deadline berubah:"
+
+msgid "strings.noti_duedatetaskchange2"
+msgstr "Tanggal deadline dari tugas berikut berubah:"
+
+msgid "strings.company"
+msgstr "Perusahaan"
+
+msgid "strings.show_all"
+msgstr "Perlihatkan Semua"
+
+msgid "strings.information"
+msgstr "Informasi"
+
+msgid "strings.delete_message"
+msgstr "Hapus Pesan Ini"
+
+msgid "strings.project_team"
+msgstr "Tim Proyek"
+
+msgid "strings.document_list"
+msgstr "List Dokumen"
+
+msgid "strings.bulletin_board"
+msgstr "Papan Bulletin"
+
+msgid "strings.bulletin_board_topic"
+msgstr "Topik Papan Bulletin"
+
+msgid "strings.create_topic"
+msgstr "Buat Topik Baru"
+
+msgid "strings.topic_form"
+msgstr "Form Topik"
+
+msgid "strings.enter_message"
+msgstr "Masukkan pesan anda"
+
+msgid "strings.upload_file"
+msgstr "Upload sebuah File"
+
+msgid "strings.upload_form"
+msgstr "Form Upload"
+
+msgid "strings.document"
+msgstr "Dokumen"
+
+msgid "strings.approval_comments"
+msgstr "Komentar Approval"
+
+msgid "strings.client_tasks"
+msgstr "Tugas Klien"
+
+msgid "strings.team_tasks"
+msgstr "Tugas Tim"
+
+msgid "strings.team_member_details"
+msgstr "Detil Anggota Tim Proyek"
+
+msgid "strings.client_task_details"
+msgstr "Detil Tugas Klien"
+
+msgid "strings.team_task_details"
+msgstr "Detil Tugas Tim"
+
+msgid "strings.language"
+msgstr "Bahasa"
+
+msgid "strings.welcome"
+msgstr "Selamat Datang"
+
+msgid "strings.your_projectsite"
+msgstr "Di Project Site"
+
+msgid "strings.contact_projectsite"
+msgstr ""
+"JIka anda mempunyai pertanyaan mengenai extranet ini atau informasi"
+"yang ditemukan di sini, harap hubungi pemilik proyek"
+
+msgid "strings.company_details"
+msgstr "Detil Perusahaan"
+
+msgid "strings.company_info"
+msgstr "Ubah informasi perusahaan anda"
+
+msgid "strings.create_projectsite"
+msgstr "Siapkan Situs Proyek"
+
+msgid "strings.projectsite_url"
+msgstr "URL Situs Proyek"
+
+msgid "strings.design_template"
+msgstr "Desain Template"
+
+msgid "strings.preview_design_template"
+msgstr "Preview Desain Template"
+
+msgid "strings.delete_projectsite"
+msgstr "Hapus Situs Proyek"
+
+msgid "strings.add_file"
+msgstr "Tambah File"
+
+msgid "strings.edit_file"
+msgstr "Ubah detil file"
+
+msgid "strings.permitted_client"
+msgstr "Pengguna Klien dengan akses"
+
+msgid "strings.grant_client"
+msgstr "Berikan akses untuk melihat Situs Proyek"
+
+msgid "strings.add_client_user"
+msgstr "Tambah Pengguna Klien"
+
+msgid "strings.edit_client_user"
+msgstr "Ubah Pengguna Klien"
+
+msgid "strings.client_user"
+msgstr "Pengguna dari Klien"
+
+msgid "strings.client_change_status"
+msgstr "Ubah status anda di-bawah setelah anda menyelesaikan tugas ini"
+
+msgid "strings.project_status"
+msgstr "Status Proyek"
+
+msgid "strings.view_projectsite"
+msgstr "Lihat Situs Proyek"
+
+msgid "strings.enter_login"
+msgstr "Masukkan nama pengguna anda untuk menerima password baru"
+
+msgid "strings.send"
+msgstr "Kirim"
+
+msgid "strings.no_login"
+msgstr "Login tidak ditemukan dalam database"
+
+msgid "strings.email_pwd"
+msgstr "Password telah dikirim"
+
+msgid "strings.no_email"
+msgstr "Pengguna tidak mempunyai email"
+
+msgid "strings.forgot_pwd"
+msgstr "Lupa Password?"
+
+msgid "strings.connected"
+msgstr "Terkoneksi"
+
+msgid "strings.session"
+msgstr "Sesi"
+
+msgid "strings.last_visit"
+msgstr "Kunjungan Terakhir"
+
+msgid "strings.task_owner"
+msgstr "Anda bukan anggota dari tim proyek ini"
+
+msgid "strings.reassignment_clientuser"
+msgstr "Penyerahan Ulang Tugas"
+
+msgid "strings.organization_already_exists"
+msgstr "Nama tersebut telah digunakan. Harap pilih yang lain"
+
+msgid "strings.blank_organization_field"
+msgstr "Anda harus memasukan detil dari organisasi klien anda."
+
+msgid "strings.blank_fields"
+msgstr "Field harus di-isi"
+
+msgid "strings.projectsite_login_fails"
+msgstr "Tidak dapat mengkonfirmasi kombinasi nama pengguna dan kata sandi."
+
+msgid "strings.start_date"
+msgstr "Tanggal Mulai"
+
+msgid "strings.completion"
+msgstr "%"
+
+msgid "strings.setup_erase"
+msgstr "Erase the file setup.php!!"
+
+msgid "strings.exceed_size"
+msgstr "Melebihi batas maximum besarnya file"
+
+msgid "strings.approval_date"
+msgstr "Tanggal ACC"
+
+msgid "strings.approver"
+msgstr "Pemberi ACC"
+
+msgid "strings.error_database"
+msgstr "Tidak terkoneksi dengan database"
+
+msgid "strings.error_server"
+msgstr "Tidak terkoneksi dengan server"
+
+msgid "strings.version_control"
+msgstr "Kontrol Versi"
+
+msgid "strings.vc_last_in"
+msgstr "Tanggal modifikasi terakhir"
+
+msgid "strings.ifa_comments"
+msgstr "Komentar ACC"
+
+msgid "strings.ifa_command"
+msgstr "Ubah status ACC"
+
+msgid "strings.vc_version"
+msgstr "Versi"
+
+msgid "strings.ifc_revisions"
+msgstr "Revisi Kolega"
+
+msgid "strings.ifc_revision_of"
+msgstr "Revisi dari versi"
+
+msgid "strings.ifc_add_revision"
+msgstr "Tambah revisi kolega"
+
+msgid "strings.ifc_last_date"
+msgstr "Tanggal modifikasi terakhir"
+
+msgid "strings.ifc_version_history"
+msgstr "Sejarah Versi"
+
+msgid "strings.ifc_delete_file"
+msgstr "Hapus file dan semua revisi"
+
+msgid "strings.ifc_delete_version"
+msgstr "Hapus versi yang dipilih"
+
+msgid "strings.ifc_delete_review"
+msgstr "Hapus revisi yang dipilih"
+
+msgid "strings.ifc_no_revisions"
+msgstr "Tidak ada revisi untuk dokumen ini"
+
+msgid "strings.remove_team"
+msgstr "Hapus Anggota Tim"
+
+msgid "strings.remove_team_info"
+msgstr "Hapus nama pengguna ini dari Tim Proyek?"
+
+msgid "strings.remove_team_client"
+msgstr "Hapus akses untuk melihat Situs Proyek"
+
+msgid "strings.subject"
+msgstr "Subyek"
+
+msgid "strings.delete_note"
+msgstr "Hapus Notes"
+
+msgid "strings.add_note"
+msgstr "Tambah Note"
+
+msgid "strings.edit_note"
+msgstr "Ubah  Note"
+
+msgid "strings.version_increm"
+msgstr "Pilih jenis perubahan versi yang digunakan:"
+
+msgid "strings.note_owner"
+msgstr "Anda hanya dapat melakukan perubahan notes kepunyaan anda sendiri"
+
+msgid "strings.alpha_only"
+msgstr "Alphanumerik saja pada saat Login"
+
+msgid "strings.edit_notifications"
+msgstr "Ubah Pemberitahuan Lewat E-mail"
+
+msgid "strings.edit_notifications_info"
+msgstr "Pilih even yang anda inginkan saat penerimaan notifikasi."
+
+msgid "strings.select_deselect"
+msgstr "Pilih/Tidak Memilih Semua"
+
+msgid "strings.noti_addprojectteam1"
+msgstr "Ditambahkan ke Tim Proyek :"
+
+msgid "strings.noti_addprojectteam2"
+msgstr "Anda telah ditambahkan ke tim untuk proyek : "
+
+msgid "strings.noti_removeprojectteam1"
+msgstr "Dipindahkan dari tim proyek : "
+
+msgid "strings.noti_removeprojectteam2"
+msgstr "Anda telah dipindahkan dari tim proyek untuk : "
+
+msgid "strings.noti_newpost1"
+msgstr "Pesan baru:"
+
+msgid "strings.noti_newpost2"
+msgstr "Pesan baru telah ditambahkan ke diskusi berikut: "
+
+msgid "strings.edit_noti_taskassignment"
+msgstr "Saya diserahkan tugas baru."
+
+msgid "strings.edit_noti_statustaskchange"
+msgstr "Status dari salah satu tugas sayang berubah."
+
+msgid "strings.edit_noti_prioritytaskchange"
+msgstr "Prioritas dari salah satu tugas saya berubah."
+
+msgid "strings.edit_noti_duedatetaskchange"
+msgstr "Deadline dari salah satu tugas saya berubah."
+
+msgid "strings.edit_noti_addprojectteam"
+msgstr "Anda telah ditambahkan ke dalam tim untuk proyek"
+
+msgid "strings.edit_noti_removeprojectteam"
+msgstr "Anda telah dipindahkan dari tim proyek"
+
+msgid "strings.edit_noti_newpost"
+msgstr "Ada pesan baru untuk didiskusikan."
+
+msgid "strings.add_optional"
+msgstr "Tambah (optional) "
+
+msgid "strings.assignment_comment_info"
+msgstr "Tambah komentar mengenai tugas ini"
+
+
+# Enum values (status, priority, etc.)
+# Note: These should be moved to enums.*.po domain
+
+#. Domain: enums
+msgid "status.0"
+msgstr "Selesai oleh Klien "
+
+#. Domain: enums
+msgid "status.1"
+msgstr "Selesai"
+
+#. Domain: enums
+msgid "status.2"
+msgstr "Belum Dimulai"
+
+#. Domain: enums
+msgid "status.3"
+msgstr "Terbuka"
+
+#. Domain: enums
+msgid "status.4"
+msgstr "Non-aktif"
+
+#. Domain: enums
+msgid "priority.0"
+msgstr "Tidak ada"
+
+#. Domain: enums
+msgid "priority.1"
+msgstr "Tidak Penting Sekali"
+
+#. Domain: enums
+msgid "priority.2"
+msgstr "Tidak Penting"
+
+#. Domain: enums
+msgid "priority.3"
+msgstr "Sedang"
+
+#. Domain: enums
+msgid "priority.4"
+msgstr "Penting"
+
+#. Domain: enums
+msgid "priority.5"
+msgstr "Sangat Penting"
+
+#. Domain: enums
+msgid "statusTopic.0"
+msgstr "Tertutup"
+
+#. Domain: enums
+msgid "statusTopic.1"
+msgstr "Terbuka"
+
+#. Domain: enums
+msgid "statusTopicBis.0"
+msgstr "Ya"
+
+#. Domain: enums
+msgid "statusTopicBis.1"
+msgstr "Tidak"
+
+#. Domain: enums
+msgid "statusPublish.0"
+msgstr "Ya"
+
+#. Domain: enums
+msgid "statusPublish.1"
+msgstr "Tidak"
+
+#. Domain: enums
+msgid "statusFile.0"
+msgstr "Disetujui"
+
+#. Domain: enums
+msgid "statusFile.1"
+msgstr "Disetujui dgn perubahan"
+
+#. Domain: enums
+msgid "statusFile.2"
+msgstr "Butuh persetujuan"
+
+#. Domain: enums
+msgid "statusFile.3"
+msgstr "Tidak perlu persetujuan"
+
+#. Domain: enums
+msgid "statusFile.4"
+msgstr "Tidak disetujui"
+
+
+# Arrays (days, months, byte units)
+
+msgid "byteunits.0"
+msgstr "Bytes"
+
+msgid "byteunits.1"
+msgstr "KB"
+
+msgid "byteunits.2"
+msgstr "MB"
+
+msgid "byteunits.3"
+msgstr "GB"
+
+msgid "monthname.1"
+msgstr "Januari"
+
+msgid "monthname.2"
+msgstr "Februari"
+
+msgid "monthname.3"
+msgstr "Maret"
+
+msgid "monthname.4"
+msgstr "April"
+
+msgid "monthname.5"
+msgstr "Mei"
+
+msgid "monthname.6"
+msgstr "Juni"
+
+msgid "monthname.7"
+msgstr "Juli"
+
+msgid "monthname.8"
+msgstr "Agustus"
+
+msgid "monthname.9"
+msgstr "September"
+
+msgid "monthname.10"
+msgstr "Oktober"
+
+msgid "monthname.11"
+msgstr "November"
+
+msgid "monthname.12"
+msgstr "Desember"
+

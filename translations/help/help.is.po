@@ -1,0 +1,83 @@
+# phpCollab Translation File
+# Language: Icelandic (is)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:09 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: is\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Help text
+
+msgid "setup_mkdirMethod"
+msgstr ""
+"Ef safe-mode er virkt verður þú að setja FTP aðgang til að geta"
+"búið til möppu fyrir skráarsafn."
+
+msgid "setup_notifications"
+msgstr ""
+"Senda notendum e-mail tilkynningar (úthlutun verka, ný skilaboð,"
+"breytingar verka, ...)<br/>Hér þarf gildan smpt/sendmail."
+
+msgid "setup_forcedlogin"
+msgstr "Ef 'false' er hægt að nota URL með aðgangsorði/lykilorði í"
+
+msgid "setup_langdefault"
+msgstr ""
+"Veldu sjálfgefið tungumál eða skildu eftir autt til að láta"
+"vefrápara notanda ráða tungumáli."
+
+msgid "setup_myprefix"
+msgstr ""
+"Settu þetta gildi ef þú hefur töflur fyrri í gagnagrunninum með"
+"sama"
+"nafn.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Skildu"
+"eftir autt til að nota ekki töfluforskeyti."
+
+msgid "setup_loginmethod"
+msgstr ""
+"Hvernig lykilrð eru vistuð í gagnagrunni.<br/>Settu á"
+"&quot;Dulkóðað&quot; ef þú vilt nota kerfið með CVS aðgangi"
+
+msgid "admin_update"
+msgstr ""
+"Fylgdu þessari röð til að uppfæra útgáfu kerfisins<br/>1."
+"Breyta stillingum (nánari forsendur)<br/>2. Breyta gagnagrunni"
+"(uppfæra kerfi úr núverandi útgáfu)"
+
+msgid "task_scope_creep"
+msgstr "Mismunur í dögum milli eindaga verks og verkloka"
+
+msgid "max_file_size"
+msgstr "Hámarksstærð skráa sem vista má"
+
+msgid "project_disk_space"
+msgstr "Stært skráarsvæðis fyrir hvert verkefni"
+
+msgid "project_scope_creep"
+msgstr ""
+"Mismunur í dögum milli eindaga og verkloka fyrir öll verk"
+"verkefnis."
+
+msgid "mycompany_logo"
+msgstr ""
+"Vistaðu merki fyrirtækis þíns.  Þá birtist myndin í haus kerfis"
+"í stað titils."
+
+msgid "calendar_shortname"
+msgstr "Nafn atburðar í mánaðaryfirliti (val)"
+
+msgid "user_autologout"
+msgstr ""
+"Tími í sek. þangað til óvirkur notandi er aftengur. 0 til að"
+"aftengjast aldrei"
+
+msgid "user_timezone"
+msgstr "Settu GMT tímasvæði"
+

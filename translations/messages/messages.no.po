@@ -1,0 +1,1629 @@
+# phpCollab Translation File
+# Language: Norwegian (no)
+# Type: Lang
+# Domain: messages
+# Generated: 2025-11-06 00:44:11 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: no\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# String translations
+
+msgid "strings.please_login"
+msgstr "Vennligst logg inn"
+
+msgid "strings.requirements"
+msgstr "Systemkrav"
+
+msgid "strings.login"
+msgstr "Logg inn"
+
+msgid "strings.no_items"
+msgstr "Ingen tilgjengelige resultater"
+
+msgid "strings.logout"
+msgstr "Logg ut"
+
+msgid "strings.preferences"
+msgstr "Preferanser"
+
+msgid "strings.my_tasks"
+msgstr "Mine oppgaver"
+
+msgid "strings.edit_task"
+msgstr "Redigere oppgave"
+
+msgid "strings.copy_task"
+msgstr "Kopiere oppgave"
+
+msgid "strings.add_task"
+msgstr "Legge til oppgave"
+
+msgid "strings.delete_tasks"
+msgstr "Fjerne oppgaver"
+
+msgid "strings.assignment_history"
+msgstr "Oppgavens historikk"
+
+msgid "strings.assigned_on"
+msgstr "Tildelt dato"
+
+msgid "strings.assigned_by"
+msgstr "Tildelt av"
+
+msgid "strings.to"
+msgstr "Til"
+
+msgid "strings.comment"
+msgstr "Kommentar"
+
+msgid "strings.task_assigned"
+msgstr "Oppgave tildelt"
+
+msgid "strings.task_unassigned"
+msgstr "Oppgave ikke tildelt"
+
+msgid "strings.edit_multiple_tasks"
+msgstr "Redigere flere oppgaver"
+
+msgid "strings.tasks_selected"
+msgstr ""
+"utvalgte oppgaver. Velg nye verdier for disse oppgavene, eller velg"
+"[ingen endring] å beholde eksisterende verdier."
+
+msgid "strings.assignment_comment"
+msgstr "Oppgavekommentar"
+
+msgid "strings.no_change"
+msgstr "[Ingen endringer]"
+
+msgid "strings.my_discussions"
+msgstr "Mine diskusjoner"
+
+msgid "strings.discussions"
+msgstr "Diskusjoner"
+
+msgid "strings.delete_discussions"
+msgstr "Slette diskusjoner"
+
+msgid "strings.delete_discussions_note"
+msgstr "NB: Diskusjoner kan ikke åpnes igjen når de er slettet."
+
+msgid "strings.topic"
+msgstr "Tema"
+
+msgid "strings.posts"
+msgstr "Postlegge"
+
+msgid "strings.latest_post"
+msgstr "Siste post"
+
+msgid "strings.my_reports"
+msgstr "Mine rapporter"
+
+msgid "strings.reports"
+msgstr "Rapporter"
+
+msgid "strings.create_report"
+msgstr "Opprette rapport"
+
+msgid "strings.report_intro"
+msgstr ""
+"Velg oppgavens rapporteringsparametre her og lagre forespørsel på"
+"resultatlisten etter å ha åpnet rapporten."
+
+msgid "strings.admin_intro"
+msgstr "Prosjekttilpasninger og konfigurasjoner."
+
+msgid "strings.copy_of"
+msgstr "Kopi av "
+
+msgid "strings.add"
+msgstr "Legge til"
+
+msgid "strings.delete"
+msgstr "Slette"
+
+msgid "strings.remove"
+msgstr "Fjerne"
+
+msgid "strings.copy"
+msgstr "Kopiere"
+
+msgid "strings.view"
+msgstr "Vise"
+
+msgid "strings.edit"
+msgstr "Redigere"
+
+msgid "strings.update"
+msgstr "Oppdatere"
+
+msgid "strings.details"
+msgstr "Detaljer"
+
+msgid "strings.none"
+msgstr "Ingen"
+
+msgid "strings.close"
+msgstr "Lukk"
+
+msgid "strings.new"
+msgstr "Ny"
+
+msgid "strings.select_all"
+msgstr "Velg alle"
+
+msgid "strings.unassigned"
+msgstr "Ikke tildelt"
+
+msgid "strings.my_projects"
+msgstr "Mine prosjekter"
+
+msgid "strings.project"
+msgstr "Prosjekt"
+
+msgid "strings.active"
+msgstr "Aktiv"
+
+msgid "strings.inactive"
+msgstr "Inaktiv"
+
+msgid "strings.project_id"
+msgstr "Prosjekt-ID"
+
+msgid "strings.edit_project"
+msgstr "Redigere prosjekt"
+
+msgid "strings.copy_project"
+msgstr "Kopiere prosjekt"
+
+msgid "strings.add_project"
+msgstr "Legge til prosjekt"
+
+msgid "strings.clients"
+msgstr "Kunde"
+
+msgid "strings.organization"
+msgstr "Kundeorganisasjon"
+
+msgid "strings.client_projects"
+msgstr "Kundeprosjekter"
+
+msgid "strings.client_users"
+msgstr "Kundebrukere"
+
+msgid "strings.edit_organization"
+msgstr "Redigere kundeorganisasjon"
+
+msgid "strings.add_organization"
+msgstr "Legge til kundeorganisasjon"
+
+msgid "strings.organizations"
+msgstr "Kundeorganisasjoner"
+
+msgid "strings.owner"
+msgstr "Eier"
+
+msgid "strings.home"
+msgstr "Hjem"
+
+msgid "strings.projects"
+msgstr "Prosjekter"
+
+msgid "strings.files"
+msgstr "Filer"
+
+msgid "strings.search"
+msgstr "Søk"
+
+msgid "strings.user"
+msgstr "Bruker"
+
+msgid "strings.project_manager"
+msgstr "Prosjektleder"
+
+msgid "strings.due"
+msgstr "Frist"
+
+msgid "strings.task"
+msgstr "Oppgave"
+
+msgid "strings.tasks"
+msgstr "Oppgaver"
+
+msgid "strings.add_team"
+msgstr "Legge til medlemmer i teamet"
+
+msgid "strings.team_members"
+msgstr "Medlemmer i teamet"
+
+msgid "strings.full_name"
+msgstr "Fullt navn"
+
+msgid "strings.title"
+msgstr "Tittel"
+
+msgid "strings.user_name"
+msgstr "Brukernavn"
+
+msgid "strings.work_phone"
+msgstr "Telefon arbeid"
+
+msgid "strings.priority"
+msgstr "Prioritet"
+
+msgid "strings.name"
+msgstr "Navn"
+
+msgid "strings.description"
+msgstr "Beskrivelse"
+
+msgid "strings.phone"
+msgstr "Telefon"
+
+msgid "strings.address"
+msgstr "Adresse"
+
+msgid "strings.comments"
+msgstr "Kommentarer"
+
+msgid "strings.created"
+msgstr "Opprettet"
+
+msgid "strings.assigned"
+msgstr "Tildelt"
+
+msgid "strings.modified"
+msgstr "Modifisert"
+
+msgid "strings.assigned_to"
+msgstr "Tildelt"
+
+msgid "strings.due_date"
+msgstr "Tidsfrist"
+
+msgid "strings.estimated_time"
+msgstr "Estimert tid"
+
+msgid "strings.actual_time"
+msgstr "Faktisk tid"
+
+msgid "strings.delete_following"
+msgstr "Slett følgende?"
+
+msgid "strings.cancel"
+msgstr "Annuler"
+
+msgid "strings.and"
+msgstr "og"
+
+msgid "strings.administration"
+msgstr "Administrasjon"
+
+msgid "strings.user_management"
+msgstr "Brukerledelse"
+
+msgid "strings.system_information"
+msgstr "Systeminformasjon"
+
+msgid "strings.product_information"
+msgstr "Produktinformasjon"
+
+msgid "strings.system_properties"
+msgstr "Systemegenskaper"
+
+msgid "strings.create"
+msgstr "Opprett"
+
+msgid "strings.report_save"
+msgstr ""
+"Lagre rapportforespørselen til din hjemmeside slik at du kan foreta"
+"forespørselen igjen."
+
+msgid "strings.report_name"
+msgstr "Rapportnavn"
+
+msgid "strings.save"
+msgstr "Lagre"
+
+msgid "strings.matches"
+msgstr "Antall treff"
+
+msgid "strings.match"
+msgstr "Treff"
+
+msgid "strings.report_results"
+msgstr "Rapportresultater"
+
+msgid "strings.success"
+msgstr "Fullført"
+
+msgid "strings.addition_succeeded"
+msgstr "Har lagt til"
+
+msgid "strings.deletion_succeeded"
+msgstr "Har slettet"
+
+msgid "strings.report_created"
+msgstr "Rapport er opprettet"
+
+msgid "strings.deleted_reports"
+msgstr "Rapport er slettet"
+
+msgid "strings.modification_succeeded"
+msgstr "Har foretatt modifisering"
+
+msgid "strings.errors"
+msgstr "Har funnet feil!"
+
+msgid "strings.blank_user"
+msgstr "Bruker ikke funnet."
+
+msgid "strings.blank_organization"
+msgstr "Kundeorganisasjonen ikke funnet."
+
+msgid "strings.blank_project"
+msgstr "Prosjektet ikke funnet."
+
+msgid "strings.user_profile"
+msgstr "Brukerprofil"
+
+msgid "strings.change_password"
+msgstr "Endre passord"
+
+msgid "strings.change_password_user"
+msgstr "Endre brukers passord."
+
+msgid "strings.old_password_error"
+msgstr ""
+"Det gamle passordet du har oppgitt er feil. Vennligst oppgi det gamle"
+"passordet på nytt."
+
+msgid "strings.new_password_error"
+msgstr ""
+"De to passordene du har oppgitt er ikke like. Vennligst oppgi ditt"
+"passord."
+
+msgid "strings.notifications"
+msgstr "Melding"
+
+msgid "strings.change_password_intro"
+msgstr ""
+"Oppgi ditt gamle passord, velg \"Enter\" og bekreft det nye passordet."
+
+msgid "strings.old_password"
+msgstr "Gammelt passord"
+
+msgid "strings.password"
+msgstr "Passord"
+
+msgid "strings.new_password"
+msgstr "Nytt passord"
+
+msgid "strings.confirm_password"
+msgstr "Bekreft passord"
+
+msgid "strings.email"
+msgstr "E-post"
+
+msgid "strings.home_phone"
+msgstr "Telefon privat"
+
+msgid "strings.mobile_phone"
+msgstr "Mobil"
+
+msgid "strings.fax"
+msgstr "Faks"
+
+msgid "strings.permissions"
+msgstr "Rettigheter"
+
+msgid "strings.administrator_permissions"
+msgstr "Rettigheter for administrator"
+
+msgid "strings.project_manager_permissions"
+msgstr "Rettigheter for prosjektleder"
+
+msgid "strings.user_permissions"
+msgstr "Brukerrettigheter"
+
+msgid "strings.account_created"
+msgstr "Konto er opprettet"
+
+msgid "strings.edit_user"
+msgstr "Redigere bruker"
+
+msgid "strings.edit_user_details"
+msgstr "Redigere detaljer i brukerkonto."
+
+msgid "strings.change_user_password"
+msgstr "Endre brukerpassord."
+
+msgid "strings.select_permissions"
+msgstr "Velge rettigheter for brukeren"
+
+msgid "strings.add_user"
+msgstr "Legge til bruker"
+
+msgid "strings.enter_user_details"
+msgstr "Oppgi detaljer for brukerkontoen du oppretter."
+
+msgid "strings.enter_password"
+msgstr "Oppgi brukerpassord."
+
+msgid "strings.success_logout"
+msgstr ""
+"Du har nå logget ut. Du kan logge inn igjen ved å skrive inn navn og"
+"passord nedenfor."
+
+msgid "strings.invalid_login"
+msgstr ""
+"Brukernavnet og/eller passordet du har oppgitt er ugyldig. Vennligst"
+"oppgi innloggingsinfo."
+
+msgid "strings.profile"
+msgstr "Profil"
+
+msgid "strings.user_details"
+msgstr "Detaljer brukerkonto."
+
+msgid "strings.edit_user_account"
+msgstr "Redigere kontoinformasjon."
+
+msgid "strings.no_permissions"
+msgstr "Du har ikke rettigheter til å utføre denne aktiviteten."
+
+msgid "strings.discussion"
+msgstr "Diskusjon"
+
+msgid "strings.retired"
+msgstr "Utdatert"
+
+msgid "strings.last_post"
+msgstr "Siste post"
+
+msgid "strings.post_reply"
+msgstr "Svar til post"
+
+msgid "strings.posted_by"
+msgstr "Post fra"
+
+msgid "strings.when"
+msgstr "Når"
+
+msgid "strings.post_to_discussion"
+msgstr "Post til diskusjon"
+
+msgid "strings.message"
+msgstr "Melding"
+
+msgid "strings.delete_reports"
+msgstr "Slette rapporter"
+
+msgid "strings.delete_projects"
+msgstr "Slette prosjekter"
+
+msgid "strings.delete_organizations"
+msgstr "Slette kundeorganisasjoner"
+
+msgid "strings.delete_organizations_note"
+msgstr ""
+"NB: Dette vil medføre sletting av alle kundebrukere for disse"
+"kundeorganisasjonene, og bryte forbindelsen mellom"
+"kundeorganisasjonene og alle åpne prosjekter."
+
+msgid "strings.delete_messages"
+msgstr "Slette meldinger"
+
+msgid "strings.attention"
+msgstr "Obs"
+
+msgid "strings.delete_teamownermix"
+msgstr ""
+"Fjernet, men eieren av prosjektet kan ikke fjernes fra prosjektteamet."
+
+msgid "strings.delete_teamowner"
+msgstr "Du kan ikke fjerne eieren av prosjektet fra prosjektteamet."
+
+msgid "strings.enter_keywords"
+msgstr "Oppgi nøkkelord"
+
+msgid "strings.search_options"
+msgstr "Nøkkelord og søkemuligheter"
+
+msgid "strings.search_note"
+msgstr "Du må oppgi informasjon i søkefeltet."
+
+msgid "strings.search_results"
+msgstr "Søkeresultater"
+
+msgid "strings.users"
+msgstr "Brukere"
+
+msgid "strings.search_for"
+msgstr "Søk etter"
+
+msgid "strings.results_for_keywords"
+msgstr "Søkeresultat for nøkkelord"
+
+msgid "strings.add_discussion"
+msgstr "Legge til diskusjon"
+
+msgid "strings.delete_users"
+msgstr "Slette brukerkontoer"
+
+msgid "strings.reassignment_user"
+msgstr "Endre tildeling av prosjekt og oppgaver"
+
+msgid "strings.there"
+msgstr "Det er"
+
+msgid "strings.owned_by"
+msgstr "eies av brukerne ovenfor."
+
+msgid "strings.reassign_to"
+msgstr "Før sletting av brukere, tildel disse til"
+
+msgid "strings.no_files"
+msgstr "Ingen opplenkede filer"
+
+msgid "strings.published"
+msgstr "Publisert"
+
+msgid "strings.project_site"
+msgstr "Prosjektområde"
+
+msgid "strings.approval_tracking"
+msgstr "Søker godkjenning"
+
+msgid "strings.size"
+msgstr "Størrelse"
+
+msgid "strings.add_project_site"
+msgstr "Legge til prosjektområde"
+
+msgid "strings.remove_project_site"
+msgstr "Fjerne fra prosjektområde"
+
+msgid "strings.more_search"
+msgstr "Flere søkemuligheter"
+
+msgid "strings.results_with"
+msgstr "Finn resultater med"
+
+msgid "strings.search_topics"
+msgstr "Tema for søk"
+
+msgid "strings.search_properties"
+msgstr "Søkeegenskaper"
+
+msgid "strings.date_restrictions"
+msgstr "Datorestriksjoner"
+
+msgid "strings.case_sensitive"
+msgstr "Identisk treff"
+
+msgid "strings.yes"
+msgstr "Ja"
+
+msgid "strings.no"
+msgstr "Nei"
+
+msgid "strings.sort_by"
+msgstr "Sorter etter"
+
+msgid "strings.date"
+msgstr "Dato"
+
+msgid "strings.all_words"
+msgstr "alle ordene"
+
+msgid "strings.exact_match"
+msgstr "helt likt"
+
+msgid "strings.all_dates"
+msgstr "Alle datoer"
+
+msgid "strings.between_dates"
+msgstr "Mellom datoene"
+
+msgid "strings.all_content"
+msgstr "Alt innhold"
+
+msgid "strings.all_properties"
+msgstr "Alle egenskaper"
+
+msgid "strings.no_results_search"
+msgstr "Søket ga ingen resultater."
+
+msgid "strings.no_results_report"
+msgstr "Rapporten ga ingen resultater."
+
+msgid "strings.schema_date"
+msgstr "ÅÅÅÅ/MM/DD"
+
+msgid "strings.hours"
+msgstr "timer"
+
+msgid "strings.choice"
+msgstr "Valg"
+
+msgid "strings.missing_file"
+msgstr "Filen mangler!"
+
+msgid "strings.project_site_deleted"
+msgstr "Prosjektområdet er slettet."
+
+msgid "strings.add_user_project_site"
+msgstr "Brukeren har nå tilgang til prosjektområdet."
+
+msgid "strings.remove_user_project_site"
+msgstr "Brukertillatelse er fjernet."
+
+msgid "strings.add_project_site_success"
+msgstr "Tillegg er nå på plass på prosjektområdet."
+
+msgid "strings.remove_project_site_success"
+msgstr "Det er nå fjernet fra prosjektområdet."
+
+msgid "strings.add_file_success"
+msgstr "1 opplenket innholdselement."
+
+msgid "strings.delete_file_success"
+msgstr "Opplenking er fjernet."
+
+msgid "strings.update_comment_file"
+msgstr "Filkommentaren er nå oppdatert."
+
+msgid "strings.session_false"
+msgstr "Sesjonsfeil"
+
+msgid "strings.logs"
+msgstr "Logger"
+
+msgid "strings.logout_time"
+msgstr "Automatisk utlogging"
+
+msgid "strings.noti_foot1"
+msgstr "Denne meldingen er generert av PhpCollab."
+
+msgid "strings.noti_foot2"
+msgstr "Se din PhpCollab hjemmeside her:"
+
+msgid "strings.noti_taskassignment1"
+msgstr "Ny oppgave:"
+
+msgid "strings.noti_taskassignment2"
+msgstr "Du er tildelt en oppgave:"
+
+msgid "strings.noti_moreinfo"
+msgstr "For mer informasjon, se:"
+
+msgid "strings.noti_prioritytaskchange1"
+msgstr "Oppgaveprioritering endret:"
+
+msgid "strings.noti_prioritytaskchange2"
+msgstr "Prioritering av følgende oppgave er endret:"
+
+msgid "strings.noti_statustaskchange1"
+msgstr "Oppgavestatus endret:"
+
+msgid "strings.noti_statustaskchange2"
+msgstr "Status på følgende oppgave er endret:"
+
+msgid "strings.login_username"
+msgstr "Du må oppgi et brukernavn."
+
+msgid "strings.login_password"
+msgstr "Vennligst oppgi et passord."
+
+msgid "strings.login_clientuser"
+msgstr ""
+"Dette er en konto for kundebruker. Du har ikke anledning til å bruke"
+"PhpCollab med konto for kundebruker."
+
+msgid "strings.user_already_exists"
+msgstr ""
+"Det eksisterer allerede en bruker med dette navnet. Vennligst velg en"
+"variasjon av brukernavnet."
+
+msgid "strings.noti_duedatetaskchange1"
+msgstr "Frist for oppgaven er endret:"
+
+msgid "strings.noti_duedatetaskchange2"
+msgstr "Frist for følgende oppgave er endret:"
+
+msgid "strings.company"
+msgstr "Selskap"
+
+msgid "strings.show_all"
+msgstr "Vis alle"
+
+msgid "strings.information"
+msgstr "Informasjon"
+
+msgid "strings.delete_message"
+msgstr "Slett denne meldingen"
+
+msgid "strings.project_team"
+msgstr "Prosjektteam"
+
+msgid "strings.document_list"
+msgstr "Dokumentliste"
+
+msgid "strings.bulletin_board"
+msgstr "Oppslagstavle"
+
+msgid "strings.bulletin_board_topic"
+msgstr "Emne på oppslagstavle"
+
+msgid "strings.create_topic"
+msgstr "Opprette nytt emne"
+
+msgid "strings.topic_form"
+msgstr "Skjema for emne"
+
+msgid "strings.enter_message"
+msgstr "Skriv inn din melding"
+
+msgid "strings.upload_file"
+msgstr "Last opp fil"
+
+msgid "strings.upload_form"
+msgstr "Last opp skjema"
+
+msgid "strings.upload"
+msgstr "Last opp"
+
+msgid "strings.document"
+msgstr "Dokument"
+
+msgid "strings.approval_comments"
+msgstr "Kommentarer"
+
+msgid "strings.client_tasks"
+msgstr "Kundeoppgaver"
+
+msgid "strings.team_tasks"
+msgstr "Teamoppgaver"
+
+msgid "strings.team_member_details"
+msgstr "Opplysninger om deltaker i prosjektteam"
+
+msgid "strings.client_task_details"
+msgstr "Opplysninger om kundeoppgave"
+
+msgid "strings.team_task_details"
+msgstr "Opplysninger om teamoppgave"
+
+msgid "strings.language"
+msgstr "Språk"
+
+msgid "strings.welcome"
+msgstr "Velkommen"
+
+msgid "strings.your_projectsite"
+msgstr "til din prosjektsite"
+
+msgid "strings.contact_projectsite"
+msgstr ""
+"Har du spørsmål angående ekstranettet eller informasjonen du finner"
+"her, kan du kontakte prosjektleder"
+
+msgid "strings.company_details"
+msgstr "Opplysninger om selskapet"
+
+msgid "strings.database"
+msgstr "Sikkerhetskopier og oppdater database"
+
+msgid "strings.company_info"
+msgstr "Endre opplysninger om selskapet"
+
+msgid "strings.create_projectsite"
+msgstr "Opprette prosjektsite"
+
+msgid "strings.projectsite_url"
+msgstr "URL for prosjektsite"
+
+msgid "strings.design_template"
+msgstr "Lage mal"
+
+msgid "strings.preview_design_template"
+msgstr "Forhåndsvisning av maloppsett"
+
+msgid "strings.delete_projectsite"
+msgstr "Slette prosjektsite"
+
+msgid "strings.add_file"
+msgstr "Legge til fil"
+
+msgid "strings.linked_content"
+msgstr "Opplenket innhold"
+
+msgid "strings.edit_file"
+msgstr "Oppdatere filopplysninger"
+
+msgid "strings.permitted_client"
+msgstr "Kundebrukere med rettigheter"
+
+msgid "strings.grant_client"
+msgstr "Gi rettigheter til visning av prosjektsite"
+
+msgid "strings.add_client_user"
+msgstr "Legge til kundebruker"
+
+msgid "strings.edit_client_user"
+msgstr "Oppdatere kundebruker"
+
+msgid "strings.client_user"
+msgstr "Kundebruker"
+
+msgid "strings.client_change_status"
+msgstr "Endre din status nedenfor når du har fullført denne oppgaven"
+
+msgid "strings.project_status"
+msgstr "Prosjektstatus"
+
+msgid "strings.view_projectsite"
+msgstr "Forhåndsvisning av prosjektsite"
+
+msgid "strings.enter_login"
+msgstr "Oppgi brukernavn for å motta passord"
+
+msgid "strings.no_login"
+msgstr "Logg inn ble ikke funnet i databasen"
+
+msgid "strings.email_pwd"
+msgstr "Passord er sendt"
+
+msgid "strings.no_email"
+msgstr "Bruker uten e-post"
+
+msgid "strings.forgot_pwd"
+msgstr "Glemt passordet?"
+
+msgid "strings.project_owner"
+msgstr "Du kan kun foreta endringer på egne prosjekter."
+
+msgid "strings.connected"
+msgstr "Oppkoblet"
+
+msgid "strings.last_visit"
+msgstr "Siste besøk"
+
+msgid "strings.compteur"
+msgstr "Teller"
+
+msgid "strings.task_owner"
+msgstr "Du er ikke ett team medlem for dette prosjektet"
+
+msgid "strings.export"
+msgstr "Eksporter"
+
+msgid "strings.reassignment_clientuser"
+msgstr "Omgjort Oppgave Tildeling"
+
+msgid "strings.organization_already_exists"
+msgstr "Det navnet er alerede i systemet. Vennligst velg ett annet."
+
+msgid "strings.blank_organization_field"
+msgstr "Du må skrive klientens organisasjons navn."
+
+msgid "strings.blank_fields"
+msgstr "Påkrevd felt"
+
+msgid "strings.projectsite_login_fails"
+msgstr "Vi kan ikke bekrefte brukernavn og passord kombinasjon."
+
+msgid "strings.start_date"
+msgstr "Start dato"
+
+msgid "strings.completion"
+msgstr "Ferdigstillelse"
+
+msgid "strings.update_available"
+msgstr "En oppdatering er tilgjengelig!"
+
+msgid "strings.version_current"
+msgstr "Du bruker for øyblikket version"
+
+msgid "strings.version_latest"
+msgstr "Den siste versionen er"
+
+msgid "strings.sourceforge_link"
+msgstr "Se prosjekt side på Sourceforge"
+
+msgid "strings.demo_mode"
+msgstr "Demo mode. Aksjon ikke tillatt."
+
+msgid "strings.setup_erase"
+msgstr "Slett filen setup.php!!"
+
+msgid "strings.no_file"
+msgstr "Ingen fil valgt"
+
+msgid "strings.exceed_size"
+msgstr "Overgår maksimum fil størrelse"
+
+msgid "strings.no_php"
+msgstr "Php fil ikke tillatt"
+
+msgid "strings.approval_date"
+msgstr "Godkjennelse dato"
+
+msgid "strings.approver"
+msgstr "Godkjenner"
+
+msgid "strings.error_database"
+msgstr "Kan ikke koble til database"
+
+msgid "strings.error_server"
+msgstr "Kan ikke koble til server"
+
+msgid "strings.version_control"
+msgstr "Versions Kontrol"
+
+msgid "strings.vc_last_in"
+msgstr "Dato sist modifisert"
+
+msgid "strings.ifa_comments"
+msgstr "Godkjennelse kommentarer"
+
+msgid "strings.ifa_command"
+msgstr "Endrings godkjennelse status"
+
+msgid "strings.ifc_revisions"
+msgstr "Peer Kommentarer"
+
+msgid "strings.ifc_revision_of"
+msgstr "Gjennomgang av version"
+
+msgid "strings.ifc_add_revision"
+msgstr "Legg til Peer kommentar"
+
+msgid "strings.ifc_update_file"
+msgstr "Oppdater fil"
+
+msgid "strings.ifc_last_date"
+msgstr "Dato sist modifisert"
+
+msgid "strings.ifc_version_history"
+msgstr "Versions Historie"
+
+msgid "strings.ifc_delete_file"
+msgstr "Slett fil og alle tilknyttede versioner og kommentarer"
+
+msgid "strings.ifc_delete_version"
+msgstr "Slett valgt version"
+
+msgid "strings.ifc_delete_review"
+msgstr "Slett valgt kommentar"
+
+msgid "strings.ifc_no_revisions"
+msgstr "Det er for øyeblikket ingen revision av dette dokumentet"
+
+msgid "strings.unlink_files"
+msgstr "Unlink Fileer"
+
+msgid "strings.remove_team"
+msgstr "Fjern Team medlemmer"
+
+msgid "strings.remove_team_info"
+msgstr "Fjern disse brukerene fra prosjekt teamet?"
+
+msgid "strings.remove_team_client"
+msgstr "Fjern Tilgang til å se prosjekt siden"
+
+msgid "strings.note"
+msgstr "Notat"
+
+msgid "strings.notes"
+msgstr "Notater"
+
+msgid "strings.subject"
+msgstr "Emne"
+
+msgid "strings.delete_note"
+msgstr "Slett Notat innlegg"
+
+msgid "strings.add_note"
+msgstr "Legg til notat innlegg"
+
+msgid "strings.edit_note"
+msgstr "Editer Notat innlegg"
+
+msgid "strings.version_increm"
+msgstr "Velg versions endring som skal gjelde:"
+
+msgid "strings.url_dev"
+msgstr "Utviklings webside url"
+
+msgid "strings.url_prod"
+msgstr "Ferdig webside url"
+
+msgid "strings.note_owner"
+msgstr "Du kan bare endre dine egne notat."
+
+msgid "strings.alpha_only"
+msgstr "Alpha-nummerisk bare for innlogging"
+
+msgid "strings.edit_notifications"
+msgstr "Editer E-mail Notifikasjon"
+
+msgid "strings.edit_notifications_info"
+msgstr "Velg for hva du ønsker å motta E-mail notifikasjon."
+
+msgid "strings.select_deselect"
+msgstr "Velg/Ikke velg alt"
+
+msgid "strings.noti_addprojectteam1"
+msgstr "Lagt til prosjekt teamet :"
+
+msgid "strings.noti_addprojectteam2"
+msgstr "Du er lagt til prosjekt teamet for :"
+
+msgid "strings.noti_removeprojectteam1"
+msgstr "Fjernet fra prosjekt teamet :"
+
+msgid "strings.noti_removeprojectteam2"
+msgstr "Du er fjernet fra prosjekt teamet for :"
+
+msgid "strings.noti_newpost1"
+msgstr "Ny postering :"
+
+msgid "strings.noti_newpost2"
+msgstr "En ny postering er lagt til for følgende diskusjon :"
+
+msgid "strings.edit_noti_taskassignment"
+msgstr "Jeg er lagt til en ny oppgave."
+
+msgid "strings.edit_noti_statustaskchange"
+msgstr "Status for en av mine oppgave endringer."
+
+msgid "strings.edit_noti_prioritytaskchange"
+msgstr "Prioritet for en av mine oppgave endringer."
+
+msgid "strings.edit_noti_duedatetaskchange"
+msgstr "Forfalls dato for en av mine oppgave endringer."
+
+msgid "strings.edit_noti_addprojectteam"
+msgstr "Jeg er lagt til ett prosjekt team."
+
+msgid "strings.edit_noti_removeprojectteam"
+msgstr "Jeg er fjernet fra ett prosjekt team."
+
+msgid "strings.edit_noti_newpost"
+msgstr "En ny postering er laget for en diskusjon."
+
+msgid "strings.add_optional"
+msgstr "Legg til en valgfri"
+
+msgid "strings.assignment_comment_info"
+msgstr "Legg til kommentarer om jobben for denne oppgaven"
+
+msgid "strings.my_notes"
+msgstr "Mine notat"
+
+msgid "strings.edit_settings"
+msgstr "Editer settings"
+
+msgid "strings.max_upload"
+msgstr "Max fil størrelse"
+
+msgid "strings.project_folder_size"
+msgstr "Prosjekt folder størrelse"
+
+msgid "strings.calendar"
+msgstr "Kalendar"
+
+msgid "strings.date_start"
+msgstr "Start dato"
+
+msgid "strings.date_end"
+msgstr "Slutt dato"
+
+msgid "strings.time_start"
+msgstr "Start tid"
+
+msgid "strings.time_end"
+msgstr "Slutt tid"
+
+msgid "strings.calendar_reminder"
+msgstr "Påminnelse"
+
+msgid "strings.shortname"
+msgstr "Kort navn"
+
+msgid "strings.calendar_recurring"
+msgstr "Hendelsen repeteres hver uke på denne dagen"
+
+msgid "strings.edit_database"
+msgstr "Editer database"
+
+msgid "strings.noti_newtopic1"
+msgstr "Ny disksjon :"
+
+msgid "strings.noti_newtopic2"
+msgstr "En ny diskusjon er blitt lagt til følgende prosjekt :"
+
+msgid "strings.edit_noti_newtopic"
+msgstr "Et nytt diskusjons emne er opprettet."
+
+msgid "strings.today"
+msgstr "Idag"
+
+msgid "strings.previous"
+msgstr "Tidligere"
+
+msgid "strings.next"
+msgstr "Neste"
+
+msgid "strings.help"
+msgstr "Hjelp"
+
+msgid "strings.complete_date"
+msgstr "Fulført dato"
+
+msgid "strings.scope_creep"
+msgstr "Leverangse omfang utvidet"
+
+msgid "strings.days"
+msgstr "Dager"
+
+msgid "strings.remember_password"
+msgstr "Husk Passord"
+
+msgid "strings.client_add_task_note"
+msgstr ""
+"Note: Oppgaven er registrert i databasen, men vil bare vises om"
+"tildelt ett tema medlem!"
+
+msgid "strings.noti_clientaddtask1"
+msgstr "Oppgave lagt inn av Klient :"
+
+msgid "strings.noti_clientaddtask2"
+msgstr "En ny oppgave er lagt til fra prosjektsiden til følgende prosjekt :"
+
+msgid "strings.phase"
+msgstr "Fase"
+
+msgid "strings.phases"
+msgstr "Faser"
+
+msgid "strings.phase_id"
+msgstr "Fase ID"
+
+msgid "strings.current_phase"
+msgstr "Aktive phase(r)"
+
+msgid "strings.total_tasks"
+msgstr "Oppgaver Totalt"
+
+msgid "strings.uncomplete_tasks"
+msgstr "Ukomplette Oppgaver"
+
+msgid "strings.no_current_phase"
+msgstr "Ingen fase er for øyeblikket aktiv"
+
+msgid "strings.true"
+msgstr "Riktig"
+
+msgid "strings.false"
+msgstr "Feil"
+
+msgid "strings.enable_phases"
+msgstr "Aktiver Faser"
+
+msgid "strings.phase_enabled"
+msgstr "Faser Aktivert"
+
+msgid "strings.order"
+msgstr "Orden"
+
+msgid "strings.options"
+msgstr "Valg"
+
+msgid "strings.support_request"
+msgstr "Support Henvendelse"
+
+msgid "strings.support_requests"
+msgstr "Support Henvendelser"
+
+msgid "strings.support_id"
+msgstr "Henvendelse ID"
+
+msgid "strings.my_support_request"
+msgstr "Mine Support Henvendelser"
+
+msgid "strings.introduction"
+msgstr "Introduksjon"
+
+msgid "strings.submit"
+msgstr "Send"
+
+msgid "strings.date_open"
+msgstr "Dato Åpnet"
+
+msgid "strings.date_close"
+msgstr "Dato Lukket"
+
+msgid "strings.add_support_request"
+msgstr "Legg til Support Henvendelse"
+
+msgid "strings.add_support_response"
+msgstr "Legg til Support Svar"
+
+msgid "strings.respond"
+msgstr "Svar"
+
+msgid "strings.delete_support_request"
+msgstr "Support Henvendelse slettet"
+
+msgid "strings.delete_request"
+msgstr "Slett support henvendelse"
+
+msgid "strings.delete_support_post"
+msgstr "Slett support postering"
+
+msgid "strings.new_requests"
+msgstr "Ny Henvendelse"
+
+msgid "strings.open_requests"
+msgstr "Åpne Henvendelser"
+
+msgid "strings.closed_requests"
+msgstr "Avsluttede Henvendelser"
+
+msgid "strings.manage_new_requests"
+msgstr "Manage nye henvendelser"
+
+msgid "strings.manage_open_requests"
+msgstr "Manage åpne henvendelser"
+
+msgid "strings.manage_closed_requests"
+msgstr "Manage lukkede henvendelser"
+
+msgid "strings.responses"
+msgstr "Svar"
+
+msgid "strings.edit_status"
+msgstr "Editer Status"
+
+msgid "strings.noti_support_request_new2"
+msgstr "Du har sendt en sopprt henvendelse om: "
+
+msgid "strings.noti_support_post2"
+msgstr ""
+"Ett nytt svar er lagt inn for din support henvendelse. Vennligst se"
+"igjennom detaljene under."
+
+msgid "strings.noti_support_status2"
+msgstr ""
+"Din support henvendelse er oppdatert. Vennligst se igjennom detaljene"
+"under."
+
+msgid "strings.noti_support_team_new2"
+msgstr "En ny support henvendelse er lagt til prosjekt: "
+
+msgid "strings.delete_subtasks"
+msgstr "Slett sub-oppgaver"
+
+msgid "strings.add_subtask"
+msgstr "Legg til sub-oppgaver"
+
+msgid "strings.edit_subtask"
+msgstr "Editer sub-oppgaver"
+
+msgid "strings.subtask"
+msgstr "Sub-oppgave"
+
+msgid "strings.subtasks"
+msgstr "Sub-oppgaver"
+
+msgid "strings.show_details"
+msgstr "Vis detaljer"
+
+msgid "strings.updates_task"
+msgstr "Oppgave oppdaterings historie"
+
+msgid "strings.updates_subtask"
+msgstr "Sub-oppgave oppdaterings historie"
+
+msgid "strings.go_projects_site"
+msgstr "Gå til prosjekt webside"
+
+msgid "strings.bookmark"
+msgstr "Bokmerke"
+
+msgid "strings.bookmarks"
+msgstr "Bokmerker"
+
+msgid "strings.bookmark_category"
+msgstr "Kategori"
+
+msgid "strings.bookmark_category_new"
+msgstr "Ny kategori"
+
+msgid "strings.bookmarks_all"
+msgstr "Alle"
+
+msgid "strings.bookmarks_my"
+msgstr "Mine Bokmerker"
+
+msgid "strings.my"
+msgstr "Min"
+
+msgid "strings.bookmarks_private"
+msgstr "Privat"
+
+msgid "strings.shared"
+msgstr "Delt"
+
+msgid "strings.private"
+msgstr "Privat"
+
+msgid "strings.add_bookmark"
+msgstr "Legg inn bokmerke"
+
+msgid "strings.edit_bookmark"
+msgstr "Editer bokmerke"
+
+msgid "strings.delete_bookmarks"
+msgstr "Slett bokmerker"
+
+msgid "strings.team_subtask_details"
+msgstr "Team Sub-oppgave Detaljer"
+
+msgid "strings.client_subtask_details"
+msgstr "Klient Sub-oppgave Detaljer"
+
+msgid "strings.client_change_status_subtask"
+msgstr "Endre din status under når du har fullført denne sub-oppgaven"
+
+msgid "strings.disabled_permissions"
+msgstr "Stopp konto"
+
+msgid "strings.user_timezone"
+msgstr "Tidssone (GMT)"
+
+msgid "strings.project_manager_administrator_permissions"
+msgstr "Prosjektleder Administrator"
+
+msgid "strings.report"
+msgstr "Rapport"
+
+msgid "strings.license"
+msgstr "Lisense"
+
+msgid "strings.settings_notwritable"
+msgstr "Settings.php filen er skrivebeskyttet"
+
+msgid "strings.Total_Hours_Worked"
+msgstr "Arbeids Timer Totalt"
+
+msgid "strings.Pct_Complete"
+msgstr "Prosent Ferdig"
+
+
+# Enum values (status, priority, etc.)
+# Note: These should be moved to enums.*.po domain
+
+#. Domain: enums
+msgid "status.0"
+msgstr "Kunde fullført"
+
+#. Domain: enums
+msgid "status.1"
+msgstr "Fullført"
+
+#. Domain: enums
+msgid "status.2"
+msgstr "Ikke begynt"
+
+#. Domain: enums
+msgid "status.3"
+msgstr "Åpen"
+
+#. Domain: enums
+msgid "status.4"
+msgstr "Utsatt"
+
+#. Domain: enums
+msgid "profil.0"
+msgstr "Administrator"
+
+#. Domain: enums
+msgid "profil.1"
+msgstr "Prosjektleder"
+
+#. Domain: enums
+msgid "profil.2"
+msgstr "Bruker"
+
+#. Domain: enums
+msgid "profil.3"
+msgstr "Kundebruker"
+
+#. Domain: enums
+msgid "profil.4"
+msgstr "Disabled"
+
+#. Domain: enums
+msgid "profil.5"
+msgstr "Prosjektleder Administrator"
+
+#. Domain: enums
+msgid "priority.0"
+msgstr "Ingen"
+
+#. Domain: enums
+msgid "priority.1"
+msgstr "Veldig liten"
+
+#. Domain: enums
+msgid "priority.2"
+msgstr "Liten"
+
+#. Domain: enums
+msgid "priority.3"
+msgstr "Middels"
+
+#. Domain: enums
+msgid "priority.4"
+msgstr "Høy"
+
+#. Domain: enums
+msgid "priority.5"
+msgstr "Veldig høy"
+
+#. Domain: enums
+msgid "statusTopic.0"
+msgstr "Lukket"
+
+#. Domain: enums
+msgid "statusTopic.1"
+msgstr "Åpen"
+
+#. Domain: enums
+msgid "statusTopicBis.0"
+msgstr "Ja"
+
+#. Domain: enums
+msgid "statusTopicBis.1"
+msgstr "Nei"
+
+#. Domain: enums
+msgid "statusPublish.0"
+msgstr "Ja"
+
+#. Domain: enums
+msgid "statusPublish.1"
+msgstr "Nei"
+
+#. Domain: enums
+msgid "statusFile.0"
+msgstr "Godkjent"
+
+#. Domain: enums
+msgid "statusFile.1"
+msgstr "Godkjent med endringer"
+
+#. Domain: enums
+msgid "statusFile.2"
+msgstr "Trenger godkjenning"
+
+#. Domain: enums
+msgid "statusFile.3"
+msgstr "Ingen godkjenning nødvendig"
+
+#. Domain: enums
+msgid "statusFile.4"
+msgstr "Ikke godkjent"
+
+#. Domain: enums
+msgid "phaseStatus.0"
+msgstr "Ikke påbegynt"
+
+#. Domain: enums
+msgid "phaseStatus.1"
+msgstr "Åpen"
+
+#. Domain: enums
+msgid "phaseStatus.2"
+msgstr "Ferdig"
+
+#. Domain: enums
+msgid "phaseStatus.3"
+msgstr "Suspendert"
+
+#. Domain: enums
+msgid "requestStatus.0"
+msgstr "Ny"
+
+#. Domain: enums
+msgid "requestStatus.1"
+msgstr "Åpen"
+
+#. Domain: enums
+msgid "requestStatus.2"
+msgstr "Ferdig"
+
+
+# Arrays (days, months, byte units)
+
+msgid "byteunits.0"
+msgstr "Bytes"
+
+msgid "byteunits.1"
+msgstr "KB"
+
+msgid "byteunits.2"
+msgstr "MB"
+
+msgid "byteunits.3"
+msgstr "GB"
+
+msgid "dayname.1"
+msgstr "Mandag"
+
+msgid "dayname.2"
+msgstr "Tirsdag"
+
+msgid "dayname.3"
+msgstr "Onsdag"
+
+msgid "dayname.4"
+msgstr "Torsdag"
+
+msgid "dayname.5"
+msgstr "Fredag"
+
+msgid "dayname.6"
+msgstr "Lørdag"
+
+msgid "dayname.7"
+msgstr "Søndag"
+
+msgid "monthname.1"
+msgstr "Januar"
+
+msgid "monthname.2"
+msgstr "Februar"
+
+msgid "monthname.3"
+msgstr "Mars"
+
+msgid "monthname.4"
+msgstr "April"
+
+msgid "monthname.5"
+msgstr "Mai"
+
+msgid "monthname.6"
+msgstr "Juni"
+
+msgid "monthname.7"
+msgstr "Juli"
+
+msgid "monthname.8"
+msgstr "August"
+
+msgid "monthname.9"
+msgstr "September"
+
+msgid "monthname.10"
+msgstr "Oktober"
+
+msgid "monthname.11"
+msgstr "November"
+
+msgid "monthname.12"
+msgstr "Desember"
+

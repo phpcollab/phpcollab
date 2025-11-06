@@ -1,0 +1,1607 @@
+# phpCollab Translation File
+# Language: Romanian (ro)
+# Type: Lang
+# Domain: messages
+# Generated: 2025-11-06 00:44:12 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# String translations
+
+msgid "strings.please_login"
+msgstr "Intra in cont"
+
+msgid "strings.requirements"
+msgstr "Cerinte de Sistem"
+
+msgid "strings.no_items"
+msgstr "Nimic de Afisat"
+
+msgid "strings.preferences"
+msgstr "Preferinte"
+
+msgid "strings.my_tasks"
+msgstr "Lucrarile Mele"
+
+msgid "strings.edit_task"
+msgstr "Editare Lucrare"
+
+msgid "strings.copy_task"
+msgstr "Copiaza Lucrare"
+
+msgid "strings.add_task"
+msgstr "Adauga Lucrare"
+
+msgid "strings.delete_tasks"
+msgstr "Sterge Lucrari"
+
+msgid "strings.assignment_history"
+msgstr "Istoric Atribuiri"
+
+msgid "strings.assigned_on"
+msgstr "Atribuit pe"
+
+msgid "strings.assigned_by"
+msgstr "Atribuit de"
+
+msgid "strings.to"
+msgstr "Lui"
+
+msgid "strings.comment"
+msgstr "Comentariu"
+
+msgid "strings.task_assigned"
+msgstr "Lucrare atribuita lui "
+
+msgid "strings.task_unassigned"
+msgstr "Lucrare atribuita nimanui (Neatribuita)"
+
+msgid "strings.edit_multiple_tasks"
+msgstr "Editare Lucrari Multiple"
+
+msgid "strings.tasks_selected"
+msgstr ""
+"lucrari selectate. Alege valori noi pentru aceste lucrari, sau alege"
+"[Nu Modifica] pentru a pastra valorile actuale."
+
+msgid "strings.assignment_comment"
+msgstr "Comentariu Atribuire"
+
+msgid "strings.no_change"
+msgstr "[Nu Modifica]"
+
+msgid "strings.my_discussions"
+msgstr "Discutiile Mele"
+
+msgid "strings.discussions"
+msgstr "Discutii"
+
+msgid "strings.delete_discussions"
+msgstr "Sterge Discutii"
+
+msgid "strings.delete_discussions_note"
+msgstr "Nota: Discutiile nu pot fi redeschise dupa ce au fost sterse."
+
+msgid "strings.topic"
+msgstr "Topica"
+
+msgid "strings.posts"
+msgstr "Anunturi"
+
+msgid "strings.latest_post"
+msgstr "Ultimul Anunt"
+
+msgid "strings.my_reports"
+msgstr "Rapoartele Mele"
+
+msgid "strings.reports"
+msgstr "Rapoarte"
+
+msgid "strings.create_report"
+msgstr "Creeaza Raport"
+
+msgid "strings.report_intro"
+msgstr ""
+"Alege aici parametrii pentru raportarea lucrarii si salveaza cererea"
+"din pagina de rezultate dupa ce executi raportul."
+
+msgid "strings.admin_intro"
+msgstr "Setarile si configuratia Proiectului."
+
+msgid "strings.copy_of"
+msgstr "Copie dupa "
+
+msgid "strings.add"
+msgstr "Adauga"
+
+msgid "strings.delete"
+msgstr "Sterge"
+
+msgid "strings.remove"
+msgstr "Elimina"
+
+msgid "strings.copy"
+msgstr "Copiaza"
+
+msgid "strings.view"
+msgstr "Vezi"
+
+msgid "strings.edit"
+msgstr "Editeaza"
+
+msgid "strings.update"
+msgstr "Actualizeaza"
+
+msgid "strings.details"
+msgstr "Detalii"
+
+msgid "strings.none"
+msgstr "Nici unul"
+
+msgid "strings.close"
+msgstr "Inchide"
+
+msgid "strings.new"
+msgstr "Nou"
+
+msgid "strings.select_all"
+msgstr "Selecteaza Tot"
+
+msgid "strings.unassigned"
+msgstr "Neatribuit"
+
+msgid "strings.my_projects"
+msgstr "Proiectele Mele"
+
+msgid "strings.project"
+msgstr "Proiect"
+
+msgid "strings.active"
+msgstr "Activ"
+
+msgid "strings.inactive"
+msgstr "Inactiv"
+
+msgid "strings.project_id"
+msgstr "ID Proiect"
+
+msgid "strings.edit_project"
+msgstr "Editare Proiect"
+
+msgid "strings.copy_project"
+msgstr "Copiaza Proiect"
+
+msgid "strings.add_project"
+msgstr "Adauga Proiect"
+
+msgid "strings.clients"
+msgstr "Clienti"
+
+msgid "strings.organization"
+msgstr "Organizatie Client"
+
+msgid "strings.client_projects"
+msgstr "Proiecte Client"
+
+msgid "strings.client_users"
+msgstr "Utilizatori Client"
+
+msgid "strings.edit_organization"
+msgstr "Editare Organizatie Client"
+
+msgid "strings.add_organization"
+msgstr "Adauga Organizatie Client"
+
+msgid "strings.organizations"
+msgstr "Organizatii Client"
+
+msgid "strings.status"
+msgstr "Stare"
+
+msgid "strings.owner"
+msgstr "Proprietar"
+
+msgid "strings.home"
+msgstr "Acasa"
+
+msgid "strings.projects"
+msgstr "Proiecte"
+
+msgid "strings.files"
+msgstr "Fisiere"
+
+msgid "strings.search"
+msgstr "Cautare"
+
+msgid "strings.user"
+msgstr "Utilizator"
+
+msgid "strings.project_manager"
+msgstr "Manager de Proiect"
+
+msgid "strings.due"
+msgstr "Termen"
+
+msgid "strings.task"
+msgstr "Lucrare"
+
+msgid "strings.tasks"
+msgstr "Lucrari"
+
+msgid "strings.team"
+msgstr "Echipa"
+
+msgid "strings.add_team"
+msgstr "Adauga Membri Echipa"
+
+msgid "strings.team_members"
+msgstr "Membri Echipa"
+
+msgid "strings.full_name"
+msgstr "Numele complet"
+
+msgid "strings.title"
+msgstr "Titlu"
+
+msgid "strings.user_name"
+msgstr "Nume de Utilizator"
+
+msgid "strings.work_phone"
+msgstr "Telefon la lucru"
+
+msgid "strings.priority"
+msgstr "Prioritate"
+
+msgid "strings.name"
+msgstr "Nume"
+
+msgid "strings.description"
+msgstr "Descriere"
+
+msgid "strings.phone"
+msgstr "Telefon"
+
+msgid "strings.address"
+msgstr "Adresa"
+
+msgid "strings.comments"
+msgstr "Comentarii"
+
+msgid "strings.created"
+msgstr "Creat"
+
+msgid "strings.assigned"
+msgstr "Atribuit"
+
+msgid "strings.modified"
+msgstr "Modificat"
+
+msgid "strings.assigned_to"
+msgstr "Atribuit lui"
+
+msgid "strings.due_date"
+msgstr "Data de Predare"
+
+msgid "strings.estimated_time"
+msgstr "Timp Estimat"
+
+msgid "strings.actual_time"
+msgstr "Timp Actual"
+
+msgid "strings.delete_following"
+msgstr "Stergi urmatoarele?"
+
+msgid "strings.cancel"
+msgstr "Renunta"
+
+msgid "strings.and"
+msgstr "si"
+
+msgid "strings.administration"
+msgstr "Administrare"
+
+msgid "strings.user_management"
+msgstr "Administrare Utilizatori"
+
+msgid "strings.system_information"
+msgstr "Informatii de Sistem"
+
+msgid "strings.product_information"
+msgstr "Informatii de Produs"
+
+msgid "strings.system_properties"
+msgstr "Proprietati de Sistem"
+
+msgid "strings.create"
+msgstr "Creeaza"
+
+msgid "strings.report_save"
+msgstr ""
+"Salveaza aceasta cerere de raport in pagina ta ca sa poti executa"
+"cererea din nou."
+
+msgid "strings.report_name"
+msgstr "Nume Raport"
+
+msgid "strings.save"
+msgstr "Salveaza"
+
+msgid "strings.matches"
+msgstr "Potriviri"
+
+msgid "strings.match"
+msgstr "Potrivire"
+
+msgid "strings.report_results"
+msgstr "Rezultatele Raportului"
+
+msgid "strings.success"
+msgstr "Succes"
+
+msgid "strings.addition_succeeded"
+msgstr "Adaugare reusita"
+
+msgid "strings.deletion_succeeded"
+msgstr "Stergere reusita"
+
+msgid "strings.report_created"
+msgstr "Raportul a fost creat"
+
+msgid "strings.deleted_reports"
+msgstr "Rapoarte sterse"
+
+msgid "strings.modification_succeeded"
+msgstr "Modificare reusita"
+
+msgid "strings.errors"
+msgstr "Au aparut Erori!"
+
+msgid "strings.blank_user"
+msgstr "Utilizatorul nu poate fi gasit."
+
+msgid "strings.blank_organization"
+msgstr "Organizatia Client nu poate fi localizata."
+
+msgid "strings.blank_project"
+msgstr "Proiectul nu poate fi localizat."
+
+msgid "strings.user_profile"
+msgstr "Profil Utilizator"
+
+msgid "strings.change_password"
+msgstr "Schimba Parola"
+
+msgid "strings.change_password_user"
+msgstr "Schimba parola de utilizator."
+
+msgid "strings.old_password_error"
+msgstr "Vechea parola introdusa nu este corecta. Reintrodu parola veche."
+
+msgid "strings.new_password_error"
+msgstr "Cele doua parole nu sunt identice. Reintrodu noua parola."
+
+msgid "strings.notifications"
+msgstr "Notificari"
+
+msgid "strings.change_password_intro"
+msgstr "Scrie vechea parola, apoi intra si confirma noua ta parola."
+
+msgid "strings.old_password"
+msgstr "Parola veche"
+
+msgid "strings.password"
+msgstr "Parola"
+
+msgid "strings.new_password"
+msgstr "Parola Noua"
+
+msgid "strings.confirm_password"
+msgstr "Confirma Parola"
+
+msgid "strings.home_phone"
+msgstr "Telefon Acasa"
+
+msgid "strings.mobile_phone"
+msgstr "Telefon Mobil"
+
+msgid "strings.permissions"
+msgstr "Permisiuni"
+
+msgid "strings.administrator_permissions"
+msgstr "Permisiuni de Administrator"
+
+msgid "strings.project_manager_permissions"
+msgstr "Permisiuni de Manager de Proiect"
+
+msgid "strings.user_permissions"
+msgstr "Permisiuni de Utilizator"
+
+msgid "strings.account_created"
+msgstr "Contul a fost creat"
+
+msgid "strings.edit_user"
+msgstr "Editare Utilizator"
+
+msgid "strings.edit_user_details"
+msgstr "Editeaza detaliile contului de utilizator."
+
+msgid "strings.change_user_password"
+msgstr "Schimba parola de utilizator."
+
+msgid "strings.select_permissions"
+msgstr "Selecteaza permisiunile pentru acest utilizator."
+
+msgid "strings.add_user"
+msgstr "Adauga Utilizator"
+
+msgid "strings.enter_user_details"
+msgstr "Introdu detaliile pentru contul de utilizator pe care il creezi."
+
+msgid "strings.enter_password"
+msgstr "Introdu parola utilizatorului."
+
+msgid "strings.success_logout"
+msgstr ""
+"Ai iesit din cont. Poti reintra in cont scriind mai jos numele de"
+"utilizator si parola."
+
+msgid "strings.invalid_login"
+msgstr ""
+"Nume de utilizator si/sau parola gresita. Reintrodu datele de intrare"
+"in cont."
+
+msgid "strings.profile"
+msgstr "Profil"
+
+msgid "strings.user_details"
+msgstr "Detalii ale contului de utilizator."
+
+msgid "strings.edit_user_account"
+msgstr "Editeaza informatiile contului tau."
+
+msgid "strings.no_permissions"
+msgstr "Nu ai permisiunea sa executi asta."
+
+msgid "strings.discussion"
+msgstr "Discutie"
+
+msgid "strings.retired"
+msgstr "Retras"
+
+msgid "strings.last_post"
+msgstr "Ultimul Anunt"
+
+msgid "strings.post_reply"
+msgstr "Raspuns la Anunt"
+
+msgid "strings.posted_by"
+msgstr "Anuntat de"
+
+msgid "strings.when"
+msgstr "Cind"
+
+msgid "strings.post_to_discussion"
+msgstr "Anunt pentru Discutia"
+
+msgid "strings.message"
+msgstr "Mesaj"
+
+msgid "strings.delete_reports"
+msgstr "Sterge Rapoarte"
+
+msgid "strings.delete_projects"
+msgstr "Sterge Proiecte"
+
+msgid "strings.delete_organizations"
+msgstr "Sterge Organizatii Client"
+
+msgid "strings.delete_organizations_note"
+msgstr ""
+"Nota: Aceasta va sterge toti utilizatorii client pentru aceste"
+"organizatii, si va deconecta toate proiectele deschise de la aceste"
+"organizatii client."
+
+msgid "strings.delete_messages"
+msgstr "Sterge Mesaje"
+
+msgid "strings.attention"
+msgstr "Atentie"
+
+msgid "strings.delete_teamownermix"
+msgstr ""
+"Stergere reusita, dar proprietarul proiectului nu poate fi sters din"
+"echipa proiectului."
+
+msgid "strings.delete_teamowner"
+msgstr "Nu poti sterge proprietarul proiectului din echipa proiectului."
+
+msgid "strings.enter_keywords"
+msgstr "Introdu cuvinte-cheie"
+
+msgid "strings.search_options"
+msgstr "Optiuni pentru Cuvinte-cheie si Cautare"
+
+msgid "strings.search_note"
+msgstr "Trebuie sa introduci ceva in cimpul Cauta."
+
+msgid "strings.search_results"
+msgstr "Rezultatele cautarii"
+
+msgid "strings.users"
+msgstr "Utilizatori"
+
+msgid "strings.search_for"
+msgstr "Cauta"
+
+msgid "strings.results_for_keywords"
+msgstr "Rezultatele cautarii dupa cuvinte-cheie"
+
+msgid "strings.add_discussion"
+msgstr "Adauga Discutie"
+
+msgid "strings.delete_users"
+msgstr "Sterge Conturi de Utilizator"
+
+msgid "strings.reassignment_user"
+msgstr "Reatribuire de Proiect si Lucrare"
+
+msgid "strings.there"
+msgstr "Exista"
+
+msgid "strings.owned_by"
+msgstr "avind ca proprietari utilizatorii de mai sus."
+
+msgid "strings.reassign_to"
+msgstr "Inainte de a sterge utilizatori, reatribuie urmatoarele lui"
+
+msgid "strings.no_files"
+msgstr "Nu exista fisiere corelate"
+
+msgid "strings.published"
+msgstr "Publicat"
+
+msgid "strings.project_site"
+msgstr "Situl Proiectului"
+
+msgid "strings.approval_tracking"
+msgstr "Urmarirea Aprobarilor"
+
+msgid "strings.size"
+msgstr "Marime"
+
+msgid "strings.add_project_site"
+msgstr "Adauga la Situl Proiectului"
+
+msgid "strings.remove_project_site"
+msgstr "Sterge din Situl Proiectului"
+
+msgid "strings.more_search"
+msgstr "Mai multe optiuni de cautare"
+
+msgid "strings.results_with"
+msgstr "Gaseste Rezultate Cu"
+
+msgid "strings.search_topics"
+msgstr "Cauta in Topici"
+
+msgid "strings.search_properties"
+msgstr "Cauta in Proprietati"
+
+msgid "strings.date_restrictions"
+msgstr "Restrictii de Data"
+
+msgid "strings.yes"
+msgstr "Da"
+
+msgid "strings.no"
+msgstr "Nu"
+
+msgid "strings.sort_by"
+msgstr "Sorteaza dupa"
+
+msgid "strings.type"
+msgstr "Tip"
+
+msgid "strings.date"
+msgstr "Data"
+
+msgid "strings.all_words"
+msgstr "toate cuvintele"
+
+msgid "strings.any_words"
+msgstr "oricare cuvint"
+
+msgid "strings.exact_match"
+msgstr "potrivire exacta"
+
+msgid "strings.all_dates"
+msgstr "Toate datele"
+
+msgid "strings.between_dates"
+msgstr "Intre datele"
+
+msgid "strings.all_content"
+msgstr "Tot continutul"
+
+msgid "strings.all_properties"
+msgstr "Toate proprietatile"
+
+msgid "strings.no_results_search"
+msgstr "Cautarea nu a dat nici un rezultat."
+
+msgid "strings.no_results_report"
+msgstr "Raportul nu a dat nici un rezultat."
+
+msgid "strings.hours"
+msgstr "ore"
+
+msgid "strings.choice"
+msgstr "Alege"
+
+msgid "strings.missing_file"
+msgstr "Fisier absent!"
+
+msgid "strings.project_site_deleted"
+msgstr "Proiectul a fost sters."
+
+msgid "strings.add_user_project_site"
+msgstr ""
+"Utilizatorului i s-a acordat permisiunea sa acceseze Situl"
+"Proiectului."
+
+msgid "strings.remove_user_project_site"
+msgstr "Permisiunea utilizatorului a fost anulata."
+
+msgid "strings.add_project_site_success"
+msgstr "Adaugarea la Situl Proiectului a reusit."
+
+msgid "strings.remove_project_site_success"
+msgstr "Stergerea din Situl Proiectului a reusit."
+
+msgid "strings.add_file_success"
+msgstr "1 item de continut a fost corelat."
+
+msgid "strings.delete_file_success"
+msgstr "Decorelare reusita."
+
+msgid "strings.update_comment_file"
+msgstr "Comentariul la fisier a fost actualizat cu succes."
+
+msgid "strings.session_false"
+msgstr "Eroare de sesiune"
+
+msgid "strings.logs"
+msgstr "Loguri"
+
+msgid "strings.noti_foot1"
+msgstr "Aceasta notificare a fost generata de Script."
+
+msgid "strings.noti_foot2"
+msgstr "Ca sa vezi pagina ta, viziteaza:"
+
+msgid "strings.noti_taskassignment1"
+msgstr "Lucrare noua:"
+
+msgid "strings.noti_taskassignment2"
+msgstr "Ti s-a atribuit o lucrare noua:"
+
+msgid "strings.noti_moreinfo"
+msgstr "Pentru mai multe informatii, viziteaza:"
+
+msgid "strings.noti_prioritytaskchange1"
+msgstr "Prioritatea lucrarii s-a modificat:"
+
+msgid "strings.noti_prioritytaskchange2"
+msgstr "S-a modificat prioritatea urmatoarei lucrari:"
+
+msgid "strings.noti_statustaskchange1"
+msgstr "Starea lucrarii:"
+
+msgid "strings.noti_statustaskchange2"
+msgstr "Starea urmatoarei lucrari s-a modificat:"
+
+msgid "strings.login_username"
+msgstr "Trebuie sa introduci un nume de utilizator."
+
+msgid "strings.login_password"
+msgstr "Introdu o parola."
+
+msgid "strings.login_clientuser"
+msgstr "Acesta este un cont de client. Nu poti intra cu un cont de client."
+
+msgid "strings.user_already_exists"
+msgstr ""
+"Deja exista un utilizator cu acest nume. Alege alt nume de utilizator."
+
+msgid "strings.noti_duedatetaskchange1"
+msgstr "Termenul de predare a lucrarii s-a schimbat:"
+
+msgid "strings.noti_duedatetaskchange2"
+msgstr "S-a schimbat termenul de predare pentru urmatoarea lucrare:"
+
+msgid "strings.company"
+msgstr "Firma/Institutia"
+
+msgid "strings.show_all"
+msgstr "Arata Tot"
+
+msgid "strings.information"
+msgstr "Informatii"
+
+msgid "strings.delete_message"
+msgstr "Sterge acest mesaj"
+
+msgid "strings.project_team"
+msgstr "Echipa Proiectului"
+
+msgid "strings.document_list"
+msgstr "Lista de Documente"
+
+msgid "strings.bulletin_board"
+msgstr "Forum"
+
+msgid "strings.bulletin_board_topic"
+msgstr "Topica in Forum"
+
+msgid "strings.create_topic"
+msgstr "Creeaza o Topica noua"
+
+msgid "strings.topic_form"
+msgstr "Formular de Topica"
+
+msgid "strings.enter_message"
+msgstr "Introdu mesajul tau"
+
+msgid "strings.upload_file"
+msgstr "Upload Fisier"
+
+msgid "strings.upload_form"
+msgstr "Upload Formular"
+
+msgid "strings.approval_comments"
+msgstr "Comentarii la Aprobare"
+
+msgid "strings.client_tasks"
+msgstr "Lucrarile Clientilor"
+
+msgid "strings.team_tasks"
+msgstr "Lucrarile Echipei"
+
+msgid "strings.team_member_details"
+msgstr "Detalii pentru Membrul Echipei Proiectului"
+
+msgid "strings.client_task_details"
+msgstr "Detalii pentru Lucrarile Clientului"
+
+msgid "strings.team_task_details"
+msgstr "Detalii pentru Echipa"
+
+msgid "strings.language"
+msgstr "Limba"
+
+msgid "strings.welcome"
+msgstr "Bun Venit"
+
+msgid "strings.your_projectsite"
+msgstr "in Situl Proiectului Tau"
+
+msgid "strings.contact_projectsite"
+msgstr ""
+"Daca ai intrebari despre extranetul sau despre informatiile gasite"
+"aici, te org sa contactezi conducatorul de proiect"
+
+msgid "strings.company_details"
+msgstr "Detalii de Firma/Institutie"
+
+msgid "strings.database"
+msgstr "Backup si restaurare baza de date"
+
+msgid "strings.company_info"
+msgstr "Editeaza informatiile de firma/institutie"
+
+msgid "strings.create_projectsite"
+msgstr "Creeaza Situl Proiectului"
+
+msgid "strings.projectsite_url"
+msgstr "URL pentru Situl Proiectului"
+
+msgid "strings.design_template"
+msgstr "Macheta de Proiectare"
+
+msgid "strings.preview_design_template"
+msgstr "Previzualizeaza Macheta de Proiectare"
+
+msgid "strings.delete_projectsite"
+msgstr "Sterge Situl Proiectului"
+
+msgid "strings.add_file"
+msgstr "Adauga Fisier"
+
+msgid "strings.linked_content"
+msgstr "Continut Corelat"
+
+msgid "strings.edit_file"
+msgstr "Editeaza detalii fisier"
+
+msgid "strings.permitted_client"
+msgstr "Utilizatori Client care au permisiune"
+
+msgid "strings.grant_client"
+msgstr "Acorda permisiunea de a vedea Situl Proiectului"
+
+msgid "strings.add_client_user"
+msgstr "Adauga Utilizator Client"
+
+msgid "strings.edit_client_user"
+msgstr "Editeaza Utilizator Client"
+
+msgid "strings.client_user"
+msgstr "Utilizator Client"
+
+msgid "strings.client_change_status"
+msgstr "Modifica starea mai jos dupa ce ai incheiat aceasta lucrare"
+
+msgid "strings.project_status"
+msgstr "Starea Proiectului"
+
+msgid "strings.view_projectsite"
+msgstr "Vezi Situl Proiectului"
+
+msgid "strings.enter_login"
+msgstr "Introdu numele tau de cont ca sa primesti o parola noua"
+
+msgid "strings.send"
+msgstr "Trimite"
+
+msgid "strings.no_login"
+msgstr "Nume de cont negasit in baza de date"
+
+msgid "strings.email_pwd"
+msgstr "Parola a fost trimisa"
+
+msgid "strings.no_email"
+msgstr "Utilizator fara e-mail"
+
+msgid "strings.forgot_pwd"
+msgstr "Ai uitat parola?"
+
+msgid "strings.project_owner"
+msgstr "Moti sa modifici numai proiectele tale."
+
+msgid "strings.connected"
+msgstr "Conectat"
+
+msgid "strings.session"
+msgstr "Sesiune"
+
+msgid "strings.last_visit"
+msgstr "Ultima vizita"
+
+msgid "strings.compteur"
+msgstr "Contor"
+
+msgid "strings.ip"
+msgstr "IP"
+
+msgid "strings.task_owner"
+msgstr "Nu esti membru in echipa acestui proiect"
+
+msgid "strings.export"
+msgstr "Exporta"
+
+msgid "strings.reassignment_clientuser"
+msgstr "Reatribuire Lucrare"
+
+msgid "strings.organization_already_exists"
+msgstr "Numele acesta este deja in uz in sistem. Alege alt nume."
+
+msgid "strings.blank_organization_field"
+msgstr "Trebuie sa introduci numele organizatiei."
+
+msgid "strings.blank_fields"
+msgstr "cimpuri obligatorii"
+
+msgid "strings.projectsite_login_fails"
+msgstr "Nu putem confirma combinatia de nume de utilizator si parola."
+
+msgid "strings.start_date"
+msgstr "Data de Start"
+
+msgid "strings.completion"
+msgstr "Incheiere"
+
+msgid "strings.update_available"
+msgstr "Este disponibil un update!"
+
+msgid "strings.version_current"
+msgstr "Acum folosesti versiunea"
+
+msgid "strings.version_latest"
+msgstr "Cea mai noua versiune este"
+
+msgid "strings.sourceforge_link"
+msgstr "Vezi pagina proiectului de la Sourceforge"
+
+msgid "strings.demo_mode"
+msgstr "Mod Demo. Operatie nepermisa."
+
+msgid "strings.setup_erase"
+msgstr "Sterge fisierul setup.php!!"
+
+msgid "strings.no_file"
+msgstr "Nici un fisier nu este selectat"
+
+msgid "strings.exceed_size"
+msgstr "S-a depasit marimea maxima de fisier"
+
+msgid "strings.no_php"
+msgstr "Fisier PHP nepermis"
+
+msgid "strings.approval_date"
+msgstr "Data Aprobarii"
+
+msgid "strings.approver"
+msgstr "A aprobat"
+
+msgid "strings.error_database"
+msgstr "A esuat conectarea la baza de date"
+
+msgid "strings.error_server"
+msgstr "A esuat conectarea la server"
+
+msgid "strings.version_control"
+msgstr "Control Versiune"
+
+msgid "strings.vc_status"
+msgstr "Stare"
+
+msgid "strings.vc_last_in"
+msgstr "Data ultimei modificari"
+
+msgid "strings.ifa_comments"
+msgstr "Comentarii la Aprobare"
+
+msgid "strings.ifa_command"
+msgstr "Modifica starea aprobarii"
+
+msgid "strings.vc_version"
+msgstr "Versiune"
+
+msgid "strings.ifc_revisions"
+msgstr "Revizuiri Pereche"
+
+msgid "strings.ifc_revision_of"
+msgstr "Revizuire a versiunii"
+
+msgid "strings.ifc_add_revision"
+msgstr "Adauga Revizuire Pereche"
+
+msgid "strings.ifc_update_file"
+msgstr "Actualizeaza fisier"
+
+msgid "strings.ifc_last_date"
+msgstr "Data ultimei modificari"
+
+msgid "strings.ifc_version_history"
+msgstr "Istoricul Versiunii"
+
+msgid "strings.ifc_delete_file"
+msgstr "Sterge fisierul si toate versiunile & revizuirile derivate"
+
+msgid "strings.ifc_delete_version"
+msgstr "Sterge Versiunea Selectata"
+
+msgid "strings.ifc_delete_review"
+msgstr "Sterge Revizuirea Selectata"
+
+msgid "strings.ifc_no_revisions"
+msgstr "Nu exista revizuiri pentru acest document"
+
+msgid "strings.unlink_files"
+msgstr "Decoreleaza Fisiere"
+
+msgid "strings.remove_team"
+msgstr "Elimina Membri din Echipa"
+
+msgid "strings.remove_team_info"
+msgstr "Elimini acesti membri din echipa proiectului?"
+
+msgid "strings.remove_team_client"
+msgstr "Anuleaza Permisiunea de a vedea Situl Proiectului"
+
+msgid "strings.note"
+msgstr "Nota"
+
+msgid "strings.notes"
+msgstr "Note"
+
+msgid "strings.subject"
+msgstr "Subiect"
+
+msgid "strings.delete_note"
+msgstr "Sterge Note"
+
+msgid "strings.add_note"
+msgstr "Adauga Nota"
+
+msgid "strings.edit_note"
+msgstr "Editeaza Nota"
+
+msgid "strings.version_increm"
+msgstr "Selecteaza schimbarea de versiune pe are o aplici:"
+
+msgid "strings.url_dev"
+msgstr "URL al sitului de dezvoltare"
+
+msgid "strings.url_prod"
+msgstr "URL final al sitului"
+
+msgid "strings.note_owner"
+msgstr "Poti modifica numai notele tale."
+
+msgid "strings.alpha_only"
+msgstr "Pune numai litere si cifre in numele de cont"
+
+msgid "strings.edit_notifications"
+msgstr "Editare Notificari prin E-mail"
+
+msgid "strings.edit_notifications_info"
+msgstr ""
+"Selecteaza evenimentele pentru care vrei sa primesti notificari prin"
+"e-mail."
+
+msgid "strings.select_deselect"
+msgstr "Selecteaza/Deselecteaza Tot"
+
+msgid "strings.noti_addprojectteam1"
+msgstr "Adaugat la echipa proiectului:"
+
+msgid "strings.noti_addprojectteam2"
+msgstr "Ai fost adaugat la echipa proiectului pentru:"
+
+msgid "strings.noti_removeprojectteam1"
+msgstr "Eliminat din echipa proiectului:"
+
+msgid "strings.noti_removeprojectteam2"
+msgstr "Ai fost eliminat din echipa proiectului pentru:"
+
+msgid "strings.noti_newpost1"
+msgstr "Anunt nou:"
+
+msgid "strings.noti_newpost2"
+msgstr "Un anunt a fost adaugat in urmatoarea discutie:"
+
+msgid "strings.edit_noti_taskassignment"
+msgstr "Mi s-a atribuit o lucrare noua."
+
+msgid "strings.edit_noti_statustaskchange"
+msgstr "Starea uneia din lucrarile mele s-a schimbat."
+
+msgid "strings.edit_noti_prioritytaskchange"
+msgstr "Prioritatea uneia din lucrarile mele s-a schimbat."
+
+msgid "strings.edit_noti_duedatetaskchange"
+msgstr "Termenul de predare pentru o lucrare de-a mea s-a schimbat."
+
+msgid "strings.edit_noti_addprojectteam"
+msgstr "Am fost adaugat in echipa unui proiect."
+
+msgid "strings.edit_noti_removeprojectteam"
+msgstr "Am fost sters din echipa unui proiect."
+
+msgid "strings.edit_noti_newpost"
+msgstr "Un anunt nou s-a adaugat intr-o discutie."
+
+msgid "strings.add_optional"
+msgstr "Adauga optional"
+
+msgid "strings.assignment_comment_info"
+msgstr "Adauga comentarii despre atribuirea acestei sarcini"
+
+msgid "strings.my_notes"
+msgstr "Notele Mele"
+
+msgid "strings.edit_settings"
+msgstr "Editare setari"
+
+msgid "strings.max_upload"
+msgstr "Marime maxima per fisier"
+
+msgid "strings.project_folder_size"
+msgstr "Marime folder Proiect"
+
+msgid "strings.date_start"
+msgstr "Data de Start"
+
+msgid "strings.date_end"
+msgstr "Data de Incheiere"
+
+msgid "strings.time_start"
+msgstr "Ora de Start"
+
+msgid "strings.time_end"
+msgstr "Ora de Incheiere"
+
+msgid "strings.calendar_reminder"
+msgstr "Alerta automata"
+
+msgid "strings.shortname"
+msgstr "Nume scurt"
+
+msgid "strings.calendar_recurring"
+msgstr "Evenimentul survine saptaminal in aceasta zi"
+
+msgid "strings.edit_database"
+msgstr "Editeaza baza de date"
+
+msgid "strings.noti_newtopic1"
+msgstr "Discutie Noua:"
+
+msgid "strings.noti_newtopic2"
+msgstr "O noua discutie a fost adaugata la proiectul urmator:"
+
+msgid "strings.edit_noti_newtopic"
+msgstr "O noua topica de discutie a fost creata."
+
+msgid "strings.today"
+msgstr "Astazi"
+
+msgid "strings.previous"
+msgstr "Precedentul"
+
+msgid "strings.next"
+msgstr "Urmatorul"
+
+msgid "strings.help"
+msgstr "Ajutor"
+
+msgid "strings.complete_date"
+msgstr "Data Completa"
+
+msgid "strings.scope_creep"
+msgstr "Obiective"
+
+msgid "strings.days"
+msgstr "Zile"
+
+msgid "strings.remember_password"
+msgstr "Tine minte Parola"
+
+msgid "strings.client_add_task_note"
+msgstr ""
+"Nota: Lucrarea introdusa este inregistrata in baza de date, dar apare"
+"aici numai daca a fost atribuita unui membru al echipei!"
+
+msgid "strings.noti_clientaddtask1"
+msgstr "Lucrare adaugata de client:"
+
+msgid "strings.noti_clientaddtask2"
+msgstr ""
+"O lucrare noua a fost adaugata de client din situl proiectului, la"
+"urmatorul proiect:"
+
+msgid "strings.phase"
+msgstr "Faza"
+
+msgid "strings.phases"
+msgstr "Faze"
+
+msgid "strings.phase_id"
+msgstr "ID Faza"
+
+msgid "strings.current_phase"
+msgstr "Faze active"
+
+msgid "strings.total_tasks"
+msgstr "Total Lucrari"
+
+msgid "strings.uncomplete_tasks"
+msgstr "Lucrari neincheiate"
+
+msgid "strings.no_current_phase"
+msgstr "Nici o faza nu este activa"
+
+msgid "strings.true"
+msgstr "Adevarat"
+
+msgid "strings.false"
+msgstr "Fals"
+
+msgid "strings.enable_phases"
+msgstr "Activeaza Faze"
+
+msgid "strings.phase_enabled"
+msgstr "Faza activata"
+
+msgid "strings.order"
+msgstr "Ordine"
+
+msgid "strings.options"
+msgstr "Optiuni"
+
+msgid "strings.support"
+msgstr "Asistenta"
+
+msgid "strings.support_request"
+msgstr "Cerere de Asistenta"
+
+msgid "strings.support_requests"
+msgstr "Cereri de Asistenta"
+
+msgid "strings.support_id"
+msgstr "ID Cerere"
+
+msgid "strings.my_support_request"
+msgstr "Cererile Mele de Asistenta"
+
+msgid "strings.introduction"
+msgstr "Introducere"
+
+msgid "strings.submit"
+msgstr "Trimite"
+
+msgid "strings.support_management"
+msgstr "Administrare Asistenta"
+
+msgid "strings.date_open"
+msgstr "Data Deschidere"
+
+msgid "strings.date_close"
+msgstr "Data Rezolvare"
+
+msgid "strings.add_support_request"
+msgstr "Adauga Cerere de Asistenta"
+
+msgid "strings.add_support_response"
+msgstr "Adauga Raspuns de Asistenta"
+
+msgid "strings.respond"
+msgstr "Raspunde"
+
+msgid "strings.delete_support_request"
+msgstr "Cererea de Asistenta a fst stearsa"
+
+msgid "strings.delete_request"
+msgstr "Sterge Cerere de Asistenta"
+
+msgid "strings.delete_support_post"
+msgstr "Sterge Anunt de Asistenta"
+
+msgid "strings.new_requests"
+msgstr "Cereri noi"
+
+msgid "strings.open_requests"
+msgstr "Cereri deschise"
+
+msgid "strings.closed_requests"
+msgstr "Cereri rezolvate"
+
+msgid "strings.manage_new_requests"
+msgstr "Administreaza cereri noi"
+
+msgid "strings.manage_open_requests"
+msgstr "Administreaza cereri deschise"
+
+msgid "strings.manage_closed_requests"
+msgstr "Administreaza cereri rezolvate"
+
+msgid "strings.responses"
+msgstr "Raspunsuri"
+
+msgid "strings.edit_status"
+msgstr "Editeaza Stare"
+
+msgid "strings.noti_support_request_new2"
+msgstr "Ai trimis o Cerere de Asistenta cu privire la: "
+
+msgid "strings.noti_support_post2"
+msgstr ""
+"Un raspuns nou a fost dat la cererea ta de asistenta. Vezi mai jos"
+"detaliile."
+
+msgid "strings.noti_support_status2"
+msgstr "Cererea ta de asistenta a fost actualizata. Vezi detaliile mai jos."
+
+msgid "strings.noti_support_team_new2"
+msgstr "O noua cerere de asistenta a fost adaugata la proiectul: "
+
+msgid "strings.delete_subtasks"
+msgstr "Ștergeți subtasco-urile"
+
+msgid "strings.add_subtask"
+msgstr "Adăugați subtasco-uri"
+
+msgid "strings.edit_subtask"
+msgstr "Editează subtasco-uri"
+
+msgid "strings.subtask"
+msgstr "subactivitate"
+
+msgid "strings.subtasks"
+msgstr "subactivități"
+
+msgid "strings.show_details"
+msgstr "Arata detaliile"
+
+msgid "strings.updates_task"
+msgstr "Istoricul actualizării activității"
+
+msgid "strings.updates_subtask"
+msgstr "Istoricul actualizărilor sub-activității"
+
+msgid "strings.bookmark"
+msgstr "semn de carte"
+
+msgid "strings.bookmarks"
+msgstr "marcaje"
+
+msgid "strings.bookmark_category"
+msgstr "Categorie"
+
+msgid "strings.bookmark_category_new"
+msgstr "Categorie noua"
+
+msgid "strings.bookmarks_all"
+msgstr "Toate"
+
+msgid "strings.bookmarks_my"
+msgstr "Marcajele mele"
+
+msgid "strings.my"
+msgstr "Mele"
+
+msgid "strings.bookmarks_private"
+msgstr "Privat"
+
+msgid "strings.shared"
+msgstr "Impartit"
+
+msgid "strings.private"
+msgstr "Privat"
+
+msgid "strings.add_bookmark"
+msgstr "Adaugă semn de carte"
+
+msgid "strings.edit_bookmark"
+msgstr "Editați marcajul"
+
+msgid "strings.delete_bookmarks"
+msgstr "Ștergeți marcajul"
+
+msgid "strings.team_subtask_details"
+msgstr "Detaliile sub-activității echipei"
+
+msgid "strings.client_subtask_details"
+msgstr "Detalii despre sub-activitate client"
+
+msgid "strings.client_change_status_subtask"
+msgstr ""
+"Schimbați-vă starea de mai jos când ați completat această"
+"subtasă"
+
+msgid "strings.disabled_permissions"
+msgstr "Cont dezactivat"
+
+
+# Enum values (status, priority, etc.)
+# Note: These should be moved to enums.*.po domain
+
+#. Domain: enums
+msgid "status.0"
+msgstr "Client Incheiat"
+
+#. Domain: enums
+msgid "status.1"
+msgstr "Incheiat"
+
+#. Domain: enums
+msgid "status.2"
+msgstr "Neinceput"
+
+#. Domain: enums
+msgid "status.3"
+msgstr "Deschis"
+
+#. Domain: enums
+msgid "status.4"
+msgstr "Suspendat"
+
+#. Domain: enums
+msgid "profil.0"
+msgstr "Administrator"
+
+#. Domain: enums
+msgid "profil.1"
+msgstr "Manager de Proiecte"
+
+#. Domain: enums
+msgid "profil.2"
+msgstr "Utilizator"
+
+#. Domain: enums
+msgid "profil.3"
+msgstr "Utilizator Client"
+
+#. Domain: enums
+msgid "profil.4"
+msgstr "Disabled"
+
+#. Domain: enums
+msgid "profil.5"
+msgstr "Project Manager Administrator"
+
+#. Domain: enums
+msgid "priority.0"
+msgstr "Nici una"
+
+#. Domain: enums
+msgid "priority.1"
+msgstr "Minima"
+
+#. Domain: enums
+msgid "priority.2"
+msgstr "Mica"
+
+#. Domain: enums
+msgid "priority.3"
+msgstr "Medie"
+
+#. Domain: enums
+msgid "priority.4"
+msgstr "Mare"
+
+#. Domain: enums
+msgid "priority.5"
+msgstr "Maxima"
+
+#. Domain: enums
+msgid "statusTopic.0"
+msgstr "Inchisa"
+
+#. Domain: enums
+msgid "statusTopic.1"
+msgstr "Deschisa"
+
+#. Domain: enums
+msgid "statusTopicBis.0"
+msgstr "Da"
+
+#. Domain: enums
+msgid "statusTopicBis.1"
+msgstr "Nu"
+
+#. Domain: enums
+msgid "statusPublish.0"
+msgstr "Da"
+
+#. Domain: enums
+msgid "statusPublish.1"
+msgstr "Nu"
+
+#. Domain: enums
+msgid "statusFile.0"
+msgstr "Aprobat"
+
+#. Domain: enums
+msgid "statusFile.1"
+msgstr "Aprobat cu Modificari"
+
+#. Domain: enums
+msgid "statusFile.2"
+msgstr "Necesita Aprobare"
+
+#. Domain: enums
+msgid "statusFile.3"
+msgstr "Nu Necesita Aprobare"
+
+#. Domain: enums
+msgid "statusFile.4"
+msgstr "Respins"
+
+#. Domain: enums
+msgid "phaseStatus.0"
+msgstr "Neinceput"
+
+#. Domain: enums
+msgid "phaseStatus.1"
+msgstr "Deschis"
+
+#. Domain: enums
+msgid "phaseStatus.2"
+msgstr "Incheiat"
+
+#. Domain: enums
+msgid "phaseStatus.3"
+msgstr "Suspendat"
+
+#. Domain: enums
+msgid "requestStatus.0"
+msgstr "Nou"
+
+#. Domain: enums
+msgid "requestStatus.1"
+msgstr "Deschide"
+
+#. Domain: enums
+msgid "requestStatus.2"
+msgstr "Incheie"
+
+
+# Arrays (days, months, byte units)
+
+msgid "byteunits.0"
+msgstr "Bytes"
+
+msgid "byteunits.1"
+msgstr "KB"
+
+msgid "byteunits.2"
+msgstr "MB"
+
+msgid "byteunits.3"
+msgstr "GB"
+
+msgid "dayname.1"
+msgstr "Luni"
+
+msgid "dayname.2"
+msgstr "Marti"
+
+msgid "dayname.3"
+msgstr "Miercuri"
+
+msgid "dayname.4"
+msgstr "Joi"
+
+msgid "dayname.5"
+msgstr "Vineri"
+
+msgid "dayname.6"
+msgstr "Simbata"
+
+msgid "dayname.7"
+msgstr "Duminica"
+
+msgid "monthname.1"
+msgstr "Ianuarie"
+
+msgid "monthname.2"
+msgstr "Februarie"
+
+msgid "monthname.3"
+msgstr "Martie"
+
+msgid "monthname.4"
+msgstr "Aprilie"
+
+msgid "monthname.5"
+msgstr "Mai"
+
+msgid "monthname.6"
+msgstr "Iunie"
+
+msgid "monthname.7"
+msgstr "Iulie"
+
+msgid "monthname.8"
+msgstr "August"
+
+msgid "monthname.9"
+msgstr "Septembrie"
+
+msgid "monthname.10"
+msgstr "Octombrie"
+
+msgid "monthname.11"
+msgstr "Noiembrie"
+
+msgid "monthname.12"
+msgstr "Decembrie"
+

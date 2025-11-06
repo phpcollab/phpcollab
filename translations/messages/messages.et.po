@@ -1,0 +1,1858 @@
+# phpCollab Translation File
+# Language: Estonian (et)
+# Type: Lang
+# Domain: messages
+# Generated: 2025-11-06 00:44:07 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: et\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# String translations
+
+msgid "strings.please_login"
+msgstr "Palun logi sisse"
+
+msgid "strings.requirements"
+msgstr "Nõuded süsteemile"
+
+msgid "strings.login"
+msgstr "Logi sisse"
+
+msgid "strings.no_items"
+msgstr "Hetkel puuduvad"
+
+msgid "strings.logout"
+msgstr "Logi välja"
+
+msgid "strings.preferences"
+msgstr "Seaded"
+
+msgid "strings.my_tasks"
+msgstr "Minu ülesanded"
+
+msgid "strings.edit_task"
+msgstr "Muuda ülesannet"
+
+msgid "strings.copy_task"
+msgstr "Kopeeri ülesanne"
+
+msgid "strings.add_task"
+msgstr "Lisa ülesanne"
+
+msgid "strings.delete_tasks"
+msgstr "Kustuta ülesandeid"
+
+msgid "strings.assignment_history"
+msgstr "Ülesannete määramise ajalugu"
+
+msgid "strings.assigned_on"
+msgstr "Määramise aeg"
+
+msgid "strings.assigned_by"
+msgstr "Kes määras"
+
+msgid "strings.to"
+msgstr "Kellele"
+
+msgid "strings.comment"
+msgstr "Kommentaar"
+
+msgid "strings.task_assigned"
+msgstr "ülesanne on määratud: "
+
+msgid "strings.task_unassigned"
+msgstr "ülesanne ei ole määratud "
+
+msgid "strings.edit_multiple_tasks"
+msgstr "Muuda mitut ülesannet"
+
+msgid "strings.tasks_selected"
+msgstr ""
+"ülesannet valitud. Vali nende ülesannete jaoks uued väärtused või"
+"vali [ära muuda] selleks, et jätta praegused väärtused."
+
+msgid "strings.assignment_comment"
+msgstr "ülesande kommentaar"
+
+msgid "strings.no_change"
+msgstr "[Muutusi ei ole]"
+
+msgid "strings.my_discussions"
+msgstr "Minu teemad foorumites"
+
+msgid "strings.discussions"
+msgstr "Foorum"
+
+msgid "strings.delete_discussions"
+msgstr "Kustuta teemad"
+
+msgid "strings.delete_discussions_note"
+msgstr "NB: Teemasid ei saa peale kustutamist uuesti avada."
+
+msgid "strings.topic"
+msgstr "Teema"
+
+msgid "strings.posts"
+msgstr "Teated"
+
+msgid "strings.latest_post"
+msgstr "Viimased teated"
+
+msgid "strings.my_reports"
+msgstr "Minu raportid"
+
+msgid "strings.reports"
+msgstr "Raportid"
+
+msgid "strings.create_report"
+msgstr "Koosta uus raport"
+
+msgid "strings.report_intro"
+msgstr ""
+"Vali parameetrid oma ülesannetest raporti loomiseks ning peale"
+"tulemuste nägemist salvesta päring tulemuste lehel."
+
+msgid "strings.admin_intro"
+msgstr "Projekti seaded ning konfiguratsioon."
+
+msgid "strings.copy_of"
+msgstr "Koopia projektist "
+
+msgid "strings.add"
+msgstr "Lisa"
+
+msgid "strings.delete"
+msgstr "Kustuta"
+
+msgid "strings.remove"
+msgstr "Eemalda"
+
+msgid "strings.copy"
+msgstr "Kopeeri"
+
+msgid "strings.view"
+msgstr "Vaata"
+
+msgid "strings.edit"
+msgstr "Muuda"
+
+msgid "strings.update"
+msgstr "Uuenda"
+
+msgid "strings.details"
+msgstr "Detailid"
+
+msgid "strings.none"
+msgstr "Puudub"
+
+msgid "strings.close"
+msgstr "Sulge"
+
+msgid "strings.new"
+msgstr "Uus"
+
+msgid "strings.select_all"
+msgstr "Vali kõik"
+
+msgid "strings.unassigned"
+msgstr "Määramata"
+
+msgid "strings.administrator"
+msgstr "Administraator"
+
+msgid "strings.my_projects"
+msgstr "Minu projektid"
+
+msgid "strings.project"
+msgstr "Projekt"
+
+msgid "strings.active"
+msgstr "Aktiivsed"
+
+msgid "strings.inactive"
+msgstr "Mitteaktiivsed"
+
+msgid "strings.project_id"
+msgstr "Projekti ID"
+
+msgid "strings.edit_project"
+msgstr "Muuda projekti"
+
+msgid "strings.copy_project"
+msgstr "Kopeeri projekt"
+
+msgid "strings.add_project"
+msgstr "Lisa projekt"
+
+msgid "strings.clients"
+msgstr "Kliendid"
+
+msgid "strings.organization"
+msgstr "Klient"
+
+msgid "strings.client_projects"
+msgstr "Kliendi projektid"
+
+msgid "strings.client_users"
+msgstr "Kliendi kasutajad"
+
+msgid "strings.edit_organization"
+msgstr "Muuda klienti"
+
+msgid "strings.add_organization"
+msgstr "Lisa klient"
+
+msgid "strings.organizations"
+msgstr "Kliendid"
+
+msgid "strings.status"
+msgstr "Seisund"
+
+msgid "strings.owner"
+msgstr "Omanik"
+
+msgid "strings.home"
+msgstr "Kodu"
+
+msgid "strings.projects"
+msgstr "Projektid"
+
+msgid "strings.files"
+msgstr "Failid"
+
+msgid "strings.search"
+msgstr "Otsi"
+
+msgid "strings.user"
+msgstr "Kasutaja"
+
+msgid "strings.project_manager"
+msgstr "Projektijuht"
+
+msgid "strings.due"
+msgstr "Valmimine"
+
+msgid "strings.task"
+msgstr "Ülesanne"
+
+msgid "strings.tasks"
+msgstr "Ülesanded"
+
+msgid "strings.team"
+msgstr "Meeskond"
+
+msgid "strings.add_team"
+msgstr "Lisa meeskonna liikmeid"
+
+msgid "strings.team_members"
+msgstr "Meeskonna liikmed"
+
+msgid "strings.full_name"
+msgstr "Täisnimi"
+
+msgid "strings.title"
+msgstr "Pealkiri"
+
+msgid "strings.user_name"
+msgstr "Kasutajanimi"
+
+msgid "strings.work_phone"
+msgstr "Töönumber"
+
+msgid "strings.priority"
+msgstr "Prioriteet"
+
+msgid "strings.name"
+msgstr "Nimi"
+
+msgid "strings.description"
+msgstr "Kirjeldus"
+
+msgid "strings.phone"
+msgstr "Telefon"
+
+msgid "strings.address"
+msgstr "Aadress"
+
+msgid "strings.comments"
+msgstr "Kommentaarid"
+
+msgid "strings.created"
+msgstr "Loodud"
+
+msgid "strings.assigned"
+msgstr "Määratud"
+
+msgid "strings.modified"
+msgstr "Muudetud"
+
+msgid "strings.assigned_to"
+msgstr "Teostaja"
+
+msgid "strings.due_date"
+msgstr "Planeeritud valmimine"
+
+msgid "strings.estimated_time"
+msgstr "Eeldatav aeg"
+
+msgid "strings.actual_time"
+msgstr "Tegelik aeg"
+
+msgid "strings.delete_following"
+msgstr "Kustuta järgnev?"
+
+msgid "strings.cancel"
+msgstr "Tühista"
+
+msgid "strings.and"
+msgstr "ja"
+
+msgid "strings.administration"
+msgstr "Administratsioon"
+
+msgid "strings.user_management"
+msgstr "Kasutajate haldus"
+
+msgid "strings.system_information"
+msgstr "Süsteemi info"
+
+msgid "strings.product_information"
+msgstr "Rakenduse info"
+
+msgid "strings.system_properties"
+msgstr "Serveri info"
+
+msgid "strings.create"
+msgstr "Alusta uut"
+
+msgid "strings.report_save"
+msgstr ""
+"Salvesta see raport oma kodulehele, et hiljem uuesti sama päringut"
+"käivitada."
+
+msgid "strings.report_name"
+msgstr "Raporti nimi"
+
+msgid "strings.save"
+msgstr "Salvesta"
+
+msgid "strings.matches"
+msgstr "vastet"
+
+msgid "strings.match"
+msgstr "vaste"
+
+msgid "strings.report_results"
+msgstr "Raporti tulemus"
+
+msgid "strings.success"
+msgstr "Edukas"
+
+msgid "strings.addition_succeeded"
+msgstr "Lisamine õnnestus"
+
+msgid "strings.deletion_succeeded"
+msgstr "Kustutamine õnnestus"
+
+msgid "strings.report_created"
+msgstr "Raport loodud"
+
+msgid "strings.deleted_reports"
+msgstr "Raportid kustutatud"
+
+msgid "strings.modification_succeeded"
+msgstr "Muutmine edukas"
+
+msgid "strings.errors"
+msgstr "Leiti vigu!"
+
+msgid "strings.blank_user"
+msgstr "Kasutajat ei leitud."
+
+msgid "strings.blank_organization"
+msgstr "Klienti ei leitud."
+
+msgid "strings.blank_project"
+msgstr "Projekti ei leitud."
+
+msgid "strings.user_profile"
+msgstr "Kasutaja profiil"
+
+msgid "strings.change_password"
+msgstr "Muuda parooli"
+
+msgid "strings.change_password_user"
+msgstr "Muuda kasutaja parooli."
+
+msgid "strings.old_password_error"
+msgstr ""
+"Sisestatud vana parool ei ole õige. Palun sisesta vana parool uuesti."
+
+msgid "strings.new_password_error"
+msgstr "Kaks sisestatud parooli ei kattunud. Palun sisesta parool uuesti."
+
+msgid "strings.notifications"
+msgstr "Märkused"
+
+msgid "strings.change_password_intro"
+msgstr "Sisesta oma vana parool ning kinnita uut parooli."
+
+msgid "strings.old_password"
+msgstr "Vana parool"
+
+msgid "strings.password"
+msgstr "Parool"
+
+msgid "strings.new_password"
+msgstr "Uus parool"
+
+msgid "strings.confirm_password"
+msgstr "Kinnita parooli"
+
+msgid "strings.email"
+msgstr "E-post"
+
+msgid "strings.home_phone"
+msgstr "Kodune telefon"
+
+msgid "strings.mobile_phone"
+msgstr "Mobiil"
+
+msgid "strings.fax"
+msgstr "Faks"
+
+msgid "strings.permissions"
+msgstr "Ligipääsuõigused"
+
+msgid "strings.administrator_permissions"
+msgstr "Administraatori õigused"
+
+msgid "strings.project_manager_permissions"
+msgstr "Projektijuhi õigused"
+
+msgid "strings.user_permissions"
+msgstr "Kasutaja õigused"
+
+msgid "strings.account_created"
+msgstr "Konto loodud"
+
+msgid "strings.edit_user"
+msgstr "Muuda kasutajat"
+
+msgid "strings.edit_user_details"
+msgstr "Muuda kasutajainfot."
+
+msgid "strings.change_user_password"
+msgstr "Muuda kasutaja parooli."
+
+msgid "strings.select_permissions"
+msgstr "Vali selle kasutaja ligipääsuõigused"
+
+msgid "strings.add_user"
+msgstr "Lisa kasutaja"
+
+msgid "strings.enter_user_details"
+msgstr "Sisesta loodava kasutajakonto detailne info."
+
+msgid "strings.enter_password"
+msgstr "Sisesta kasutaja parool."
+
+msgid "strings.success_logout"
+msgstr "Väljalogimine õnnestus."
+
+msgid "strings.invalid_login"
+msgstr "Vale kasutajanimi ja/või parool. Palun sisesta uuesti."
+
+msgid "strings.profile"
+msgstr "Profiil"
+
+msgid "strings.user_details"
+msgstr "Kasutajakonto detailid."
+
+msgid "strings.edit_user_account"
+msgstr "Muuda oma konto infot."
+
+msgid "strings.no_permissions"
+msgstr "Selleks tegevuseks ei ole sul piisavalt õigusi."
+
+msgid "strings.discussion"
+msgstr "Teema"
+
+msgid "strings.retired"
+msgstr "Lõpule jõudnud"
+
+msgid "strings.last_post"
+msgstr "Viimane teade"
+
+msgid "strings.post_reply"
+msgstr "Kirjuta vastus"
+
+msgid "strings.posted_by"
+msgstr "Kirjutaja"
+
+msgid "strings.when"
+msgstr "Millal"
+
+msgid "strings.post_to_discussion"
+msgstr "Teade teemasse"
+
+msgid "strings.message"
+msgstr "Teade"
+
+msgid "strings.delete_reports"
+msgstr "Raporti(de) kustutamine"
+
+msgid "strings.delete_projects"
+msgstr "Projekti(de) kustutamine"
+
+msgid "strings.delete_organizations"
+msgstr "Kliendi kustutamine"
+
+msgid "strings.delete_organizations_note"
+msgstr ""
+"NB! See kustutab kõik neile klientidele kuuluvad kasutajad ning"
+"jätab kõik senini nende klientidega seotud projektid omanikuta."
+
+msgid "strings.delete_messages"
+msgstr "Kustuta teated."
+
+msgid "strings.attention"
+msgstr "Tähelepanu"
+
+msgid "strings.delete_teamownermix"
+msgstr ""
+"Kustutamine õnnestus, kuid projekti omanikku ei saa projekti"
+"meeskonnast kustutada."
+
+msgid "strings.delete_teamowner"
+msgstr "Projekti omanikku ei saa projekti meeskonnast kustutada."
+
+msgid "strings.enter_keywords"
+msgstr "Sisesta otsisõnad"
+
+msgid "strings.search_options"
+msgstr "Otsingu seaded"
+
+msgid "strings.search_note"
+msgstr "Sisesta otsinguaknasse otsisõnad."
+
+msgid "strings.search_results"
+msgstr "Otsingu tulemused"
+
+msgid "strings.users"
+msgstr "Kasutajad"
+
+msgid "strings.search_for"
+msgstr "Otsi"
+
+msgid "strings.results_for_keywords"
+msgstr "Tulemused märksõnade otsingule"
+
+msgid "strings.add_discussion"
+msgstr "Lisa teema"
+
+msgid "strings.delete_users"
+msgstr "Kustuta kasutajakontod"
+
+msgid "strings.reassignment_user"
+msgstr "Projekti ning ülesande üle andmine"
+
+msgid "strings.there"
+msgstr "Kokku kuulub"
+
+msgid "strings.owned_by"
+msgstr "ülaltoodud kasutajatele."
+
+msgid "strings.reassign_to"
+msgstr "Enne kasutajate kustutamist anna need üle"
+
+msgid "strings.no_files"
+msgstr "Faile ei ole lisatud"
+
+msgid "strings.published"
+msgstr "Avaldatud"
+
+msgid "strings.project_site"
+msgstr "Projekti leht"
+
+msgid "strings.approval_tracking"
+msgstr "Heakskiitmise seisund"
+
+msgid "strings.size"
+msgstr "Suurus"
+
+msgid "strings.add_project_site"
+msgstr "Lisa projekti lehele"
+
+msgid "strings.remove_project_site"
+msgstr "Eemalda projekti lehelt"
+
+msgid "strings.more_search"
+msgstr "Veel otsimise valikuid"
+
+msgid "strings.results_with"
+msgstr "Otsi vastuseid milles on"
+
+msgid "strings.search_topics"
+msgstr "Otsi teemasid"
+
+msgid "strings.search_properties"
+msgstr "Otsimise seaded"
+
+msgid "strings.date_restrictions"
+msgstr "Kuupäevalised piirangud"
+
+msgid "strings.case_sensitive"
+msgstr "Tõusutundlik"
+
+msgid "strings.yes"
+msgstr "Jah"
+
+msgid "strings.no"
+msgstr "Ei"
+
+msgid "strings.sort_by"
+msgstr "Sortimise Kriteerium:"
+
+msgid "strings.type"
+msgstr "Tüüp"
+
+msgid "strings.date"
+msgstr "Kuupäev"
+
+msgid "strings.all_words"
+msgstr "kõik sõnad"
+
+msgid "strings.any_words"
+msgstr "mõni sõnadest"
+
+msgid "strings.exact_match"
+msgstr "täpne vaste"
+
+msgid "strings.all_dates"
+msgstr "Kõik kuupäevad"
+
+msgid "strings.between_dates"
+msgstr "Vahemikus"
+
+msgid "strings.all_content"
+msgstr "Kogu sisu"
+
+msgid "strings.all_properties"
+msgstr "Kõik omadused"
+
+msgid "strings.no_results_search"
+msgstr "Otsing ei tagastanud ühtegi tulemust."
+
+msgid "strings.no_results_report"
+msgstr "Raport ei tagastanud ühtegi tulemust."
+
+msgid "strings.schema_date"
+msgstr "AAAA/KK/PP"
+
+msgid "strings.hours"
+msgstr "tundi"
+
+msgid "strings.choice"
+msgstr "Valik"
+
+msgid "strings.missing_file"
+msgstr "Fail puudub!"
+
+msgid "strings.project_site_deleted"
+msgstr "Projekti lehe kustutamine õnnestus."
+
+msgid "strings.add_user_project_site"
+msgstr "Kasutajale anti õigus projekti lehele ligi pääsemiseks."
+
+msgid "strings.remove_user_project_site"
+msgstr "Kasutaja ligipääsuõigus on edukalt eemaldatud."
+
+msgid "strings.add_project_site_success"
+msgstr "Projekti lehele edukalt lisatud."
+
+msgid "strings.remove_project_site_success"
+msgstr "Projekti lehelt edukalt eemaldatud."
+
+msgid "strings.add_file_success"
+msgstr "Lisasin ühe faili."
+
+msgid "strings.delete_file_success"
+msgstr "Fail edukalt eemaldatud."
+
+msgid "strings.update_comment_file"
+msgstr "Faili kommentaar edukalt uuendatud."
+
+msgid "strings.session_false"
+msgstr "Sessiooni viga"
+
+msgid "strings.logs"
+msgstr "Logid"
+
+msgid "strings.logout_time"
+msgstr "Automaatne välja logimine"
+
+msgid "strings.noti_foot1"
+msgstr "Selle teate saatis phpCollab kliendileht."
+
+msgid "strings.noti_foot2"
+msgstr "Oma PhpCollabi lehe leiad aadressilt:"
+
+msgid "strings.noti_taskassignment1"
+msgstr "Uus ülesanne:"
+
+msgid "strings.noti_taskassignment2"
+msgstr "Sulle on määratud ülesanne:"
+
+msgid "strings.noti_moreinfo"
+msgstr "Täiendavat infot leiad siit:"
+
+msgid "strings.noti_prioritytaskchange1"
+msgstr "ülesande prioriteet muutus:"
+
+msgid "strings.noti_prioritytaskchange2"
+msgstr "Järgneva ülesande prioriteet on muutunud:"
+
+msgid "strings.noti_statustaskchange1"
+msgstr "ülesande seisund muutus:"
+
+msgid "strings.noti_statustaskchange2"
+msgstr "Järgneva ülesande seisund on muutunud:"
+
+msgid "strings.login_username"
+msgstr "Pead sisestama kasutajanime."
+
+msgid "strings.login_password"
+msgstr "Palun sisesta parool."
+
+msgid "strings.login_clientuser"
+msgstr ""
+"Teil on kliendi kasutajakonto. Kliendid otse PhpCollabile ligi ei"
+"pääse."
+
+msgid "strings.user_already_exists"
+msgstr ""
+"Sellise nimega kasutaja on juba olemas. Palun vali mõni muu"
+"kasutajanimi."
+
+msgid "strings.noti_duedatetaskchange1"
+msgstr "ülesande tähtaeg muutus:"
+
+msgid "strings.noti_duedatetaskchange2"
+msgstr "Järgneva ülesande tähtaeg on muutunud:"
+
+msgid "strings.company"
+msgstr "Firma"
+
+msgid "strings.show_all"
+msgstr "Näita kõiki"
+
+msgid "strings.information"
+msgstr "Informatsioon"
+
+msgid "strings.delete_message"
+msgstr "Kustuta teade"
+
+msgid "strings.project_team"
+msgstr "Projekti meeskond"
+
+msgid "strings.document_list"
+msgstr "Failid"
+
+msgid "strings.bulletin_board"
+msgstr "Foorum"
+
+msgid "strings.bulletin_board_topic"
+msgstr "Foorumi teema"
+
+msgid "strings.create_topic"
+msgstr "Uus teema"
+
+msgid "strings.topic_form"
+msgstr "Teema vorm"
+
+msgid "strings.enter_message"
+msgstr "Sisesta teade"
+
+msgid "strings.upload_file"
+msgstr "Saada uus fail"
+
+msgid "strings.upload_form"
+msgstr "Faili laadimise vorm"
+
+msgid "strings.upload"
+msgstr "Laetud fail"
+
+msgid "strings.document"
+msgstr "Fail"
+
+msgid "strings.approval_comments"
+msgstr "Heakskiitmise kommentaarid"
+
+msgid "strings.client_tasks"
+msgstr "Kliendi tööd"
+
+msgid "strings.team_tasks"
+msgstr "Meeskonna tööd"
+
+msgid "strings.team_member_details"
+msgstr "Info projektimeeskonna liikme kohta"
+
+msgid "strings.client_task_details"
+msgstr "Kliendi ülesande detailid"
+
+msgid "strings.team_task_details"
+msgstr "Meeskonna ülesande detailid"
+
+msgid "strings.language"
+msgstr "Keel"
+
+msgid "strings.welcome"
+msgstr "Tere tulemast"
+
+msgid "strings.your_projectsite"
+msgstr "- projektide haldus"
+
+msgid "strings.contact_projectsite"
+msgstr ""
+"Projektilehe või siin leiduva info kohta tekkivatele küsimustele"
+"annab vastuse projektijuht"
+
+msgid "strings.company_details"
+msgstr "Firmainfo"
+
+msgid "strings.database"
+msgstr "Tagavarakoopiate tegamine ning taastamine"
+
+msgid "strings.company_info"
+msgstr "Muuda oma firma infot"
+
+msgid "strings.create_projectsite"
+msgstr "Tee projektile leht"
+
+msgid "strings.projectsite_url"
+msgstr "Projekti URL"
+
+msgid "strings.design_template"
+msgstr "Kujunduse mall"
+
+msgid "strings.preview_design_template"
+msgstr "Kujunduse malli eelvaade"
+
+msgid "strings.delete_projectsite"
+msgstr "Kustuta projekti leht"
+
+msgid "strings.add_file"
+msgstr "Lisa fail"
+
+msgid "strings.linked_content"
+msgstr "Kaasatud failid"
+
+msgid "strings.edit_file"
+msgstr "Muuda failide infot"
+
+msgid "strings.permitted_client"
+msgstr "Ligipääsuõigusega kliendi kasutajad"
+
+msgid "strings.grant_client"
+msgstr "Lisa projekti lehe vaatamise õiguseid"
+
+msgid "strings.add_client_user"
+msgstr "Lisa kliendi kasutaja"
+
+msgid "strings.edit_client_user"
+msgstr "Muuda kliendi kasutajat"
+
+msgid "strings.client_user"
+msgstr "Kliendi kasutaja"
+
+msgid "strings.client_change_status"
+msgstr "Kui see ülesanne on täidetud, siis muuda allpool oma seisundit"
+
+msgid "strings.project_status"
+msgstr "Projekti seisund"
+
+msgid "strings.view_projectsite"
+msgstr "Vaata projekti lehte"
+
+msgid "strings.enter_login"
+msgstr "Sisesta oma kasutajanimi, et saada uus parool"
+
+msgid "strings.send"
+msgstr "Saada"
+
+msgid "strings.no_login"
+msgstr "Kasutajanime baasis ei leitud"
+
+msgid "strings.email_pwd"
+msgstr "Parool saadetud"
+
+msgid "strings.no_email"
+msgstr "Kasutajal ei ole e-posti"
+
+msgid "strings.forgot_pwd"
+msgstr "Unustasid parooli?"
+
+msgid "strings.project_owner"
+msgstr "Võid muuta ainult oma projekte."
+
+msgid "strings.connected"
+msgstr "Online"
+
+msgid "strings.session"
+msgstr "Sessioon"
+
+msgid "strings.last_visit"
+msgstr "Viimane külastus"
+
+msgid "strings.compteur"
+msgstr "Külastusi"
+
+msgid "strings.ip"
+msgstr "IP"
+
+msgid "strings.task_owner"
+msgstr "Sa ei ole selle projekti meeskonna liige"
+
+msgid "strings.export"
+msgstr "Eksport"
+
+msgid "strings.browse_cvs"
+msgstr "Sirvi CVS-i"
+
+msgid "strings.repository"
+msgstr "CVS hoidla"
+
+msgid "strings.reassignment_clientuser"
+msgstr "ülesande üle andmine"
+
+msgid "strings.organization_already_exists"
+msgstr "Selleise nimega klient on juba olemas. Palun vali erinev nimi."
+
+msgid "strings.blank_organization_field"
+msgstr "Pead sisestama kliendi nime."
+
+msgid "strings.blank_fields"
+msgstr "kohustuslikud väljad"
+
+msgid "strings.projectsite_login_fails"
+msgstr "Kasutajanime ning parooli kombinatsioon ei ole õige."
+
+msgid "strings.start_date"
+msgstr "Alguse kuupäev"
+
+msgid "strings.completion"
+msgstr "Valmimine"
+
+msgid "strings.update_available"
+msgstr "Uuendus on saadaval!"
+
+msgid "strings.version_current"
+msgstr "Praegu kasutad versiooni"
+
+msgid "strings.version_latest"
+msgstr "Kõige värskem versioon on"
+
+msgid "strings.sourceforge_link"
+msgstr "PhpCollabi leht SourceForges"
+
+msgid "strings.demo_mode"
+msgstr "Demo-rezhiim. See tegevus ei ole lubatud."
+
+msgid "strings.setup_erase"
+msgstr "Kustuta fail setup.php!!"
+
+msgid "strings.no_file"
+msgstr "Faili ei valitud"
+
+msgid "strings.exceed_size"
+msgstr "Maksimaalne faili suurus ületatud"
+
+msgid "strings.no_php"
+msgstr "PHP fail ei ole lubatud"
+
+msgid "strings.approval_date"
+msgstr "Heakskiitmise kuupäev"
+
+msgid "strings.approver"
+msgstr "Heakskiitja"
+
+msgid "strings.error_database"
+msgstr "Ei saa ühendust andmebaasiga"
+
+msgid "strings.error_server"
+msgstr "Ei saa ühendust serveriga"
+
+msgid "strings.version_control"
+msgstr "Versioonikontroll"
+
+msgid "strings.vc_status"
+msgstr "Seisund"
+
+msgid "strings.vc_last_in"
+msgstr "Viimati muudetud"
+
+msgid "strings.ifa_comments"
+msgstr "Heakskiidu kommentaarid"
+
+msgid "strings.ifa_command"
+msgstr "Muuda heakskiidu seisundit"
+
+msgid "strings.vc_version"
+msgstr "Versioon"
+
+msgid "strings.ifc_revisions"
+msgstr "Arvustused"
+
+msgid "strings.ifc_revision_of"
+msgstr "Versiooni arvustus"
+
+msgid "strings.ifc_add_revision"
+msgstr "Lisa arvustus"
+
+msgid "strings.ifc_update_file"
+msgstr "Värskenda faili"
+
+msgid "strings.ifc_last_date"
+msgstr "Viimati muudetud"
+
+msgid "strings.ifc_version_history"
+msgstr "Versioonide ajalugu"
+
+msgid "strings.ifc_delete_file"
+msgstr "Kustuta fail, ajaloo info ning arvustused"
+
+msgid "strings.ifc_delete_version"
+msgstr "Kustuta valitud versioon"
+
+msgid "strings.ifc_delete_review"
+msgstr "Kustuta valitud ülevaade"
+
+msgid "strings.ifc_no_revisions"
+msgstr "Hetkel ei ole ühtegi arendust"
+
+msgid "strings.unlink_files"
+msgstr "Eemalda failid"
+
+msgid "strings.remove_team"
+msgstr "Eemalda meeskonna liikmed"
+
+msgid "strings.remove_team_info"
+msgstr "Eemalda need kasutajad projekti meeskonnast?"
+
+msgid "strings.remove_team_client"
+msgstr "Eemalda projekti lehe vaatamise õigus"
+
+msgid "strings.note"
+msgstr "Märge"
+
+msgid "strings.notes"
+msgstr "Märkmed"
+
+msgid "strings.subject"
+msgstr "Teema"
+
+msgid "strings.delete_note"
+msgstr "Kustuta märkmeid"
+
+msgid "strings.add_note"
+msgstr "Lisa märge"
+
+msgid "strings.edit_note"
+msgstr "Muuda märget"
+
+msgid "strings.version_increm"
+msgstr "Kui palju muuta versiooni numbrit?"
+
+msgid "strings.url_dev"
+msgstr "Arenduslehe URL"
+
+msgid "strings.url_prod"
+msgstr "Lõpliku lehe URL"
+
+msgid "strings.note_owner"
+msgstr "Sa saad muuta ainult enda märkmeid."
+
+msgid "strings.alpha_only"
+msgstr "Kasutajanimes võivad olla ainult tähed ja numbrid"
+
+msgid "strings.edit_notifications"
+msgstr "Muuda e-posti kaudu tulevaid teadaandeid"
+
+msgid "strings.edit_notifications_info"
+msgstr "Vali sündmused, millest soovid e-posti kaudu teada saada."
+
+msgid "strings.select_deselect"
+msgstr "vali/tühista kõik"
+
+msgid "strings.noti_addprojectteam1"
+msgstr "Projekti meeskonda lisatud :"
+
+msgid "strings.noti_addprojectteam2"
+msgstr "Oled lisatud projektimeeskonda :"
+
+msgid "strings.noti_removeprojectteam1"
+msgstr "Projektimeeskonnast eemaldatud :"
+
+msgid "strings.noti_removeprojectteam2"
+msgstr "Oled eemaldatud projektimeeskonnast :"
+
+msgid "strings.noti_newpost1"
+msgstr "Uus teade :"
+
+msgid "strings.noti_newpost2"
+msgstr "Järgnevale foorumi teemale on lisatud uus teade :"
+
+msgid "strings.edit_noti_taskassignment"
+msgstr "Mulle on antud uus ülesanne."
+
+msgid "strings.edit_noti_statustaskchange"
+msgstr "Ühe mu ülesande seisund muutus."
+
+msgid "strings.edit_noti_prioritytaskchange"
+msgstr "Ühe mu ülesande prioriteet muutus."
+
+msgid "strings.edit_noti_duedatetaskchange"
+msgstr "Ühe mu ülesande valmimise kuupäev muutus."
+
+msgid "strings.edit_noti_addprojectteam"
+msgstr "Mind lisati projektimeeskonda."
+
+msgid "strings.edit_noti_removeprojectteam"
+msgstr "Mind eemaldati projektimeeskonnast."
+
+msgid "strings.edit_noti_newpost"
+msgstr "Foorumile lisati uus teade."
+
+msgid "strings.add_optional"
+msgstr "Võid lisada"
+
+msgid "strings.assignment_comment_info"
+msgstr "Lisa kommentaar selle ülesande määramisele"
+
+msgid "strings.my_notes"
+msgstr "Minu märkmed"
+
+msgid "strings.edit_settings"
+msgstr "Muuda seadeid"
+
+msgid "strings.max_upload"
+msgstr "Maks. failisuurus"
+
+msgid "strings.project_folder_size"
+msgstr "Projekti kausta suurus"
+
+msgid "strings.calendar"
+msgstr "Kalender"
+
+msgid "strings.date_start"
+msgstr "Alguse kuupäev"
+
+msgid "strings.date_end"
+msgstr "Lõpu kuupäev"
+
+msgid "strings.time_start"
+msgstr "Alguse aeg"
+
+msgid "strings.time_end"
+msgstr "Lõpu aeg"
+
+msgid "strings.calendar_reminder"
+msgstr "Meeldetuletaja"
+
+msgid "strings.shortname"
+msgstr "Lühike nimi"
+
+msgid "strings.calendar_recurring"
+msgstr "Sündmus kordub iga nädal samal päeval"
+
+msgid "strings.edit_database"
+msgstr "Muuda andmebaasi"
+
+msgid "strings.noti_newtopic1"
+msgstr "Uus teema :"
+
+msgid "strings.noti_newtopic2"
+msgstr "Järgnevale projekti foorumile lisati uus teema :"
+
+msgid "strings.edit_noti_newtopic"
+msgstr "Foorumisse loodi uus teema."
+
+msgid "strings.today"
+msgstr "Täna"
+
+msgid "strings.previous"
+msgstr "Eelmine"
+
+msgid "strings.next"
+msgstr "Järgmine"
+
+msgid "strings.help"
+msgstr "Abi"
+
+msgid "strings.complete_date"
+msgstr "Tegelik valmimine"
+
+msgid "strings.scope_creep"
+msgstr "Tähtajast mööda"
+
+msgid "strings.days"
+msgstr "Päeva"
+
+msgid "strings.remember_password"
+msgstr "Jäta parool meelde"
+
+msgid "strings.client_add_task_note"
+msgstr ""
+"Märkus: Sisestatud ülesanne kantakse andmebaasi ja selle kohta"
+"saadetakse projektijuhile e-post. Siia lehele ilmub ülesanne aga"
+"alles siis kui projektijuht on selle meeskonnale täitmiseks andnud."
+
+msgid "strings.noti_clientaddtask1"
+msgstr "Klient lisas ülesande:"
+
+msgid "strings.noti_clientaddtask2"
+msgstr "Klient lisas projektilehelt uue ülesande järgmisele projektile:"
+
+msgid "strings.phase"
+msgstr "Etapp"
+
+msgid "strings.phases"
+msgstr "Etapid"
+
+msgid "strings.phase_id"
+msgstr "Etapi ID"
+
+msgid "strings.current_phase"
+msgstr "Aktiivsed etapid"
+
+msgid "strings.total_tasks"
+msgstr "ülesandeid"
+
+msgid "strings.uncomplete_tasks"
+msgstr "Lõpetamata"
+
+msgid "strings.no_current_phase"
+msgstr "Ükski etapp ei ole hetkel töös"
+
+msgid "strings.true"
+msgstr "Jah"
+
+msgid "strings.false"
+msgstr "Ei"
+
+msgid "strings.enable_phases"
+msgstr "Projekti etapilisus"
+
+msgid "strings.phase_enabled"
+msgstr "Projekt on etapiviisiline"
+
+msgid "strings.order"
+msgstr "Järjekord"
+
+msgid "strings.support"
+msgstr "Kasutusabi"
+
+msgid "strings.support_request"
+msgstr "Kasutusabi päring"
+
+msgid "strings.support_requests"
+msgstr "Kasutusabi päringud"
+
+msgid "strings.support_id"
+msgstr "Päringu ID"
+
+msgid "strings.my_support_request"
+msgstr "Minu kasutusabi päringud"
+
+msgid "strings.introduction"
+msgstr "Sissejuhatus?"
+
+msgid "strings.submit"
+msgstr "Kinnita"
+
+msgid "strings.support_management"
+msgstr "Klienditoe haldus"
+
+msgid "strings.date_open"
+msgstr "Avamise kp."
+
+msgid "strings.date_close"
+msgstr "Sulgemise kp."
+
+msgid "strings.add_support_request"
+msgstr "Lisa kasutusabi päring"
+
+msgid "strings.add_support_response"
+msgstr "Lisa vastus päringule"
+
+msgid "strings.respond"
+msgstr "Vasta"
+
+msgid "strings.delete_support_request"
+msgstr "Päring kustutatud"
+
+msgid "strings.delete_request"
+msgstr "Kustuta kasutusabi päring"
+
+msgid "strings.delete_support_post"
+msgstr "Kustuta kasutusabi vastus"
+
+msgid "strings.new_requests"
+msgstr "Uued päringud"
+
+msgid "strings.open_requests"
+msgstr "Lahtised päringud"
+
+msgid "strings.closed_requests"
+msgstr "Lõpetatud päringud"
+
+msgid "strings.manage_new_requests"
+msgstr "Halda uusi päringuid"
+
+msgid "strings.manage_open_requests"
+msgstr "Halda lahtiseid päringuid"
+
+msgid "strings.manage_closed_requests"
+msgstr "Halda lõpetatud päringuid"
+
+msgid "strings.responses"
+msgstr "Vastused"
+
+msgid "strings.edit_status"
+msgstr "Muuda seisundit"
+
+msgid "strings.noti_support_request_new2"
+msgstr "Olete saatnud säärase kasutusabi päringu: "
+
+msgid "strings.noti_support_post2"
+msgstr ""
+"Teie päringule on tulnud uus vastus, allpool leiate selle kohta"
+"lähemat infot."
+
+msgid "strings.noti_support_status2"
+msgstr ""
+"Teie päringu vastust on uuendatud, allpool leiate selle kohta"
+"lähemat infot."
+
+msgid "strings.noti_support_team_new2"
+msgstr "Projektile on lisatud uus kasutusabi päring: "
+
+msgid "strings.delete_subtasks"
+msgstr "Kustuta alamülesanded"
+
+msgid "strings.add_subtask"
+msgstr "Lisa alamülesanne"
+
+msgid "strings.edit_subtask"
+msgstr "Muuda alamülesannet"
+
+msgid "strings.subtask"
+msgstr "Alamülesanne"
+
+msgid "strings.subtasks"
+msgstr "Alamülesanded"
+
+msgid "strings.show_details"
+msgstr "Näita lähemalt"
+
+msgid "strings.updates_task"
+msgstr "Ülesande muutmise ajalugu"
+
+msgid "strings.updates_subtask"
+msgstr "Alamülesande muutmise ajalugu"
+
+msgid "strings.go_projects_site"
+msgstr "Mine projekti lehele"
+
+msgid "strings.bookmark"
+msgstr "Järjehoidja"
+
+msgid "strings.bookmarks"
+msgstr "Järjehoidjad"
+
+msgid "strings.bookmark_category"
+msgstr "Kategooria"
+
+msgid "strings.bookmark_category_new"
+msgstr "Uus kategooria"
+
+msgid "strings.bookmarks_all"
+msgstr "Kõik"
+
+msgid "strings.bookmarks_my"
+msgstr "Minu järjehoidjad"
+
+msgid "strings.my"
+msgstr "Minu"
+
+msgid "strings.bookmarks_private"
+msgstr "Privaatne"
+
+msgid "strings.shared"
+msgstr "Jagatud"
+
+msgid "strings.private"
+msgstr "Privaatne"
+
+msgid "strings.add_bookmark"
+msgstr "Lisa järjehoidja"
+
+msgid "strings.edit_bookmark"
+msgstr "Muuda järjehoidjat"
+
+msgid "strings.delete_bookmarks"
+msgstr "Kustutage järjehoidjad"
+
+msgid "strings.team_subtask_details"
+msgstr "Meeskonna alamülesande üksikasjad"
+
+msgid "strings.client_subtask_details"
+msgstr "Kliendi alamülesande üksikasjad"
+
+msgid "strings.client_change_status_subtask"
+msgstr "Kui olete selle alamülesande täitnud, muutke oma olekut allpool"
+
+msgid "strings.disabled_permissions"
+msgstr "Keelatud konto"
+
+msgid "strings.user_timezone"
+msgstr "Ajavöönd (GMT)"
+
+msgid "strings.project_manager_administrator_permissions"
+msgstr "Projektijuht - administrator"
+
+msgid "strings.bug"
+msgstr "Veajälitus"
+
+msgid "strings.report"
+msgstr "Raport"
+
+msgid "strings.license"
+msgstr "Litsents"
+
+msgid "strings.settings_notwritable"
+msgstr "Settings.php ei ole kirjutamiseks õigusi"
+
+msgid "strings.invoicing"
+msgstr "Arveldamine"
+
+msgid "strings.invoice"
+msgstr "Arve"
+
+msgid "strings.invoices"
+msgstr "Arved"
+
+msgid "strings.date_invoice"
+msgstr "Arve kuupäev"
+
+msgid "strings.header_note"
+msgstr "Märge päises"
+
+msgid "strings.footer_note"
+msgstr "Märge jaluses"
+
+msgid "strings.tax_rate"
+msgstr "Maksu suurus"
+
+msgid "strings.tax_amount"
+msgstr "Maksu summa"
+
+msgid "strings.invoice_items"
+msgstr "Teenused arvel"
+
+msgid "strings.amount_ex_tax"
+msgstr "Maksu suurus (ex tax)"
+
+msgid "strings.completed"
+msgstr "Lõpetatud"
+
+msgid "strings.service"
+msgstr "Teenus"
+
+msgid "strings.name_print"
+msgstr "Nimi trükitud"
+
+msgid "strings.edit_invoice"
+msgstr "Arve muutmine"
+
+msgid "strings.edit_invoiceitem"
+msgstr "Muuda teenust arvel"
+
+msgid "strings.calculation"
+msgstr "Arvutus"
+
+msgid "strings.items"
+msgstr "Teenused/tooded"
+
+msgid "strings.position"
+msgstr "Positsioon"
+
+msgid "strings.service_management"
+msgstr "Teenuste haldus"
+
+msgid "strings.hourly_rate"
+msgstr "Tunnihind"
+
+msgid "strings.add_service"
+msgstr "Lisa teenus"
+
+msgid "strings.edit_service"
+msgstr "Teenuse muutmine"
+
+msgid "strings.delete_services"
+msgstr "Kustuta teenuseid"
+
+msgid "strings.worked_hours"
+msgstr "Tunde kokku"
+
+msgid "strings.rate_type"
+msgstr "Hindamise tüüp"
+
+msgid "strings.rate_value"
+msgstr "Hinnang"
+
+msgid "strings.note_invoice_items_notcompleted"
+msgstr "Kõik tööd teenused ei ole lõpetatud"
+
+msgid "strings.newsdesk"
+msgstr "Teadetetahvel"
+
+msgid "strings.newsdesk_list"
+msgstr "Uudislist"
+
+msgid "strings.article_newsdesk"
+msgstr "Uudise sisu"
+
+msgid "strings.my_newsdesk"
+msgstr "Minu teated"
+
+msgid "strings.edit_newsdesk"
+msgstr "Muuda artiklit"
+
+msgid "strings.copy_newsdesk"
+msgstr "Kopeeri artikkel"
+
+msgid "strings.add_newsdesk"
+msgstr "Lisa artikkel"
+
+msgid "strings.del_newsdesk"
+msgstr "Kustuta artikkel"
+
+msgid "strings.delete_news_note"
+msgstr "NB: kustutatakse ka kõik selle artikli kommentaarid"
+
+msgid "strings.author"
+msgstr "Autor"
+
+msgid "strings.blank_newsdesk_title"
+msgstr "Pealkiri tühi"
+
+msgid "strings.blank_newsdesk"
+msgstr "Uudiset ei leitud."
+
+msgid "strings.blank_newsdesk_comment"
+msgstr "Tühi kommentaar"
+
+msgid "strings.remove_newsdesk"
+msgstr "Artikkel kustutatud koos kõigi selle kommentaaridega"
+
+msgid "strings.add_newsdesk_comment"
+msgstr "Lisa kommentaar"
+
+msgid "strings.edit_newsdesk_comment"
+msgstr "Kommentaaride muutmine"
+
+msgid "strings.del_newsdesk_comment"
+msgstr "Kommentaaride kustutamine"
+
+msgid "strings.remove_newsdesk_comment"
+msgstr "Uudise kommentaar edukalt kustutatud"
+
+msgid "strings.errorpermission_newsdesk"
+msgstr ""
+"Non hai abbastanza permessi per modificare o cancellare questa notizia"
+
+msgid "strings.errorpermission_newsdesk_comment"
+msgstr ""
+"Non hai abbastanza permessi per modificare o cancellare questo"
+"messaggio"
+
+msgid "strings.newsdesk_related"
+msgstr "Seonduv projekt"
+
+msgid "strings.newsdesk_related_generic"
+msgstr "Uudised (ei ole projektiga seotud)"
+
+msgid "strings.newsdesk_related_links"
+msgstr "Seonduvad lingid"
+
+msgid "strings.newsdesk_rss"
+msgstr "Luba RSS sellele uudisele"
+
+msgid "strings.newsdesk_rss_enabled"
+msgstr "RSS lubatud sellele uudisele"
+
+msgid "strings.noti_memberactivation1"
+msgstr "Konto aktiveeritud"
+
+msgid "strings.noti_memberactivation2"
+msgstr ""
+"Tere,\n"
+"\n"
+"Teid on lisatud phpCollab kliendisüsteemi. Süsteem on arendatud"
+"selleks, et hoida Teid kursis teie projekti töödega.\n"
+"\n"
+"Sisenemiseks minge aadressile (eelistatud Internet Explorer 6.x või"
+"Firefox, Netscape)   ja kasutage autoriseerimiseks järgnevat"
+"informatsiooni:"
+
+msgid "strings.noti_memberactivation3"
+msgstr "Kasutaja:"
+
+msgid "strings.noti_memberactivation4"
+msgstr "Parool:"
+
+msgid "strings.noti_memberactivation5"
+msgstr ""
+"Ülaltoodud infot logimiseks kasutades saate ligipääsu oma"
+"projektide lehele. \n"
+"\n"
+"Toimingutest, mis leiavad aset teie projektidega saabuvad"
+"märkekirjad. Neid kirju kasutatakse teie teavitamiseks ja neile ei"
+"ole vaja vastata."
+
+
+# Enum values (status, priority, etc.)
+# Note: These should be moved to enums.*.po domain
+
+#. Domain: enums
+msgid "status.0"
+msgstr "Kliendi ülesanne valmis"
+
+#. Domain: enums
+msgid "status.1"
+msgstr "Valmis"
+
+#. Domain: enums
+msgid "status.2"
+msgstr "Ei ole alustatud"
+
+#. Domain: enums
+msgid "status.3"
+msgstr "Töös"
+
+#. Domain: enums
+msgid "status.4"
+msgstr "Peatatud"
+
+#. Domain: enums
+msgid "profil.0"
+msgstr "Administraator"
+
+#. Domain: enums
+msgid "profil.1"
+msgstr "Projektijuht"
+
+#. Domain: enums
+msgid "profil.2"
+msgstr "Kasutaja"
+
+#. Domain: enums
+msgid "profil.3"
+msgstr "Klient"
+
+#. Domain: enums
+msgid "profil.4"
+msgstr "Keelatud"
+
+#. Domain: enums
+msgid "profil.5"
+msgstr "Projektijuht administraator"
+
+#. Domain: enums
+msgid "priority.0"
+msgstr "Ebaoluline"
+
+#. Domain: enums
+msgid "priority.1"
+msgstr "Madalaim"
+
+#. Domain: enums
+msgid "priority.2"
+msgstr "Madal"
+
+#. Domain: enums
+msgid "priority.3"
+msgstr "Keskmine"
+
+#. Domain: enums
+msgid "priority.4"
+msgstr "Oluline"
+
+#. Domain: enums
+msgid "priority.5"
+msgstr "Olulisim"
+
+#. Domain: enums
+msgid "statusTopic.0"
+msgstr "Suletud"
+
+#. Domain: enums
+msgid "statusTopic.1"
+msgstr "Aktiivne"
+
+#. Domain: enums
+msgid "statusTopicBis.0"
+msgstr "Jah"
+
+#. Domain: enums
+msgid "statusTopicBis.1"
+msgstr "Ei"
+
+#. Domain: enums
+msgid "statusPublish.0"
+msgstr "Jah"
+
+#. Domain: enums
+msgid "statusPublish.1"
+msgstr "Ei"
+
+#. Domain: enums
+msgid "statusFile.0"
+msgstr "Heaks kiidetud"
+
+#. Domain: enums
+msgid "statusFile.1"
+msgstr "Heaks kiidetud muudatustega"
+
+#. Domain: enums
+msgid "statusFile.2"
+msgstr "Vajab heakskiitu"
+
+#. Domain: enums
+msgid "statusFile.3"
+msgstr "Heakskiitu ei vaja"
+
+#. Domain: enums
+msgid "statusFile.4"
+msgstr "Ei ole heaks kiidetud"
+
+#. Domain: enums
+msgid "phaseStatus.0"
+msgstr "ei ole alanud"
+
+#. Domain: enums
+msgid "phaseStatus.1"
+msgstr "Töös"
+
+#. Domain: enums
+msgid "phaseStatus.2"
+msgstr "Valmis"
+
+#. Domain: enums
+msgid "phaseStatus.3"
+msgstr "Peatatud"
+
+#. Domain: enums
+msgid "requestStatus.0"
+msgstr "Uus"
+
+#. Domain: enums
+msgid "requestStatus.1"
+msgstr "Lahtine"
+
+#. Domain: enums
+msgid "requestStatus.2"
+msgstr "Lõpetatud"
+
+#. Domain: enums
+msgid "invoiceStatus.0"
+msgstr "Open"
+
+#. Domain: enums
+msgid "invoiceStatus.1"
+msgstr "Sent"
+
+#. Domain: enums
+msgid "invoiceStatus.2"
+msgstr "Paid"
+
+
+# Arrays (days, months, byte units)
+
+msgid "byteunits.0"
+msgstr "baiti"
+
+msgid "byteunits.1"
+msgstr "KB"
+
+msgid "byteunits.2"
+msgstr "MB"
+
+msgid "byteunits.3"
+msgstr "GB"
+
+msgid "dayname.1"
+msgstr "esmaspäev"
+
+msgid "dayname.2"
+msgstr "teisipäev"
+
+msgid "dayname.3"
+msgstr "kolmapäev"
+
+msgid "dayname.4"
+msgstr "neljapäev"
+
+msgid "dayname.5"
+msgstr "reede"
+
+msgid "dayname.6"
+msgstr "laupäev"
+
+msgid "dayname.7"
+msgstr "pühapäev"
+
+msgid "monthname.1"
+msgstr "jaanuar"
+
+msgid "monthname.2"
+msgstr "veebruar"
+
+msgid "monthname.3"
+msgstr "märts"
+
+msgid "monthname.4"
+msgstr "aprill"
+
+msgid "monthname.5"
+msgstr "mai"
+
+msgid "monthname.6"
+msgstr "juuni"
+
+msgid "monthname.7"
+msgstr "juuli"
+
+msgid "monthname.8"
+msgstr "august"
+
+msgid "monthname.9"
+msgstr "september"
+
+msgid "monthname.10"
+msgstr "oktoober"
+
+msgid "monthname.11"
+msgstr "november"
+
+msgid "monthname.12"
+msgstr "detsember"
+

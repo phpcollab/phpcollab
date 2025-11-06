@@ -1,0 +1,1635 @@
+# phpCollab Translation File
+# Language: Chinese (Simplified) (zh)
+# Type: Lang
+# Domain: messages
+# Generated: 2025-11-06 00:44:05 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: zh\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# String translations
+
+msgid "strings.please_login"
+msgstr "敬请登录"
+
+msgid "strings.requirements"
+msgstr "系统配置需要"
+
+msgid "strings.login"
+msgstr "登录"
+
+msgid "strings.no_items"
+msgstr "无相关条目显示"
+
+msgid "strings.logout"
+msgstr "退出"
+
+msgid "strings.preferences"
+msgstr "参数设定"
+
+msgid "strings.my_tasks"
+msgstr "我的任务"
+
+msgid "strings.edit_task"
+msgstr "编辑任务"
+
+msgid "strings.copy_task"
+msgstr "复制任务"
+
+msgid "strings.add_task"
+msgstr "添加任务"
+
+msgid "strings.delete_tasks"
+msgstr "删除任务"
+
+msgid "strings.assignment_history"
+msgstr "工作分配历史记录"
+
+msgid "strings.assigned_on"
+msgstr "分配于"
+
+msgid "strings.assigned_by"
+msgstr "分配者为"
+
+msgid "strings.to"
+msgstr "前往"
+
+msgid "strings.comment"
+msgstr "意见"
+
+msgid "strings.task_assigned"
+msgstr "任务分配给"
+
+msgid "strings.task_unassigned"
+msgstr "任务未被分配到成员（未分配）"
+
+msgid "strings.edit_multiple_tasks"
+msgstr "编辑多个任务"
+
+msgid "strings.tasks_selected"
+msgstr ""
+"任务被选定。为这些任务选择新的参数，或者选择[无变动]以保持原有状态。"
+
+msgid "strings.assignment_comment"
+msgstr "分配意见"
+
+msgid "strings.no_change"
+msgstr "[无变动]"
+
+msgid "strings.my_discussions"
+msgstr "我的讨论"
+
+msgid "strings.discussions"
+msgstr "讨论"
+
+msgid "strings.delete_discussions"
+msgstr "删除讨论"
+
+msgid "strings.delete_discussions_note"
+msgstr "小心：讨论一旦被删除不能再次打开。"
+
+msgid "strings.topic"
+msgstr "话题"
+
+msgid "strings.posts"
+msgstr "帖子"
+
+msgid "strings.latest_post"
+msgstr "最新帖子"
+
+msgid "strings.my_reports"
+msgstr "我的报告"
+
+msgid "strings.reports"
+msgstr "报告"
+
+msgid "strings.create_report"
+msgstr "添加报告"
+
+msgid "strings.report_intro"
+msgstr ""
+"在此选择您的任务报告参数并在运行之后在结果页面保存此查询。"
+
+msgid "strings.admin_intro"
+msgstr "项目设定和配置。"
+
+msgid "strings.copy_of"
+msgstr "副本"
+
+msgid "strings.add"
+msgstr "添加"
+
+msgid "strings.delete"
+msgstr "删除"
+
+msgid "strings.remove"
+msgstr "移除"
+
+msgid "strings.copy"
+msgstr "复制"
+
+msgid "strings.view"
+msgstr "查看"
+
+msgid "strings.edit"
+msgstr "编辑"
+
+msgid "strings.update"
+msgstr "更新"
+
+msgid "strings.details"
+msgstr "详细"
+
+msgid "strings.none"
+msgstr "无"
+
+msgid "strings.close"
+msgstr "关闭"
+
+msgid "strings.new"
+msgstr "新建"
+
+msgid "strings.select_all"
+msgstr "选择全部"
+
+msgid "strings.unassigned"
+msgstr "未分配"
+
+msgid "strings.administrator"
+msgstr "管理员"
+
+msgid "strings.my_projects"
+msgstr "我的项目"
+
+msgid "strings.project"
+msgstr "项目"
+
+msgid "strings.active"
+msgstr "正活跃"
+
+msgid "strings.inactive"
+msgstr "非活跃"
+
+msgid "strings.project_id"
+msgstr "项目编号"
+
+msgid "strings.edit_project"
+msgstr "编辑项目"
+
+msgid "strings.copy_project"
+msgstr "复制项目"
+
+msgid "strings.add_project"
+msgstr "添加项目"
+
+msgid "strings.clients"
+msgstr "客户"
+
+msgid "strings.organization"
+msgstr "客户组织"
+
+msgid "strings.client_projects"
+msgstr "客户项目"
+
+msgid "strings.client_users"
+msgstr "客户访问者"
+
+msgid "strings.edit_organization"
+msgstr "编辑客户组织"
+
+msgid "strings.add_organization"
+msgstr "添加客户组织"
+
+msgid "strings.organizations"
+msgstr "客户组织"
+
+msgid "strings.info"
+msgstr "信息"
+
+msgid "strings.status"
+msgstr "状态"
+
+msgid "strings.owner"
+msgstr "所有者"
+
+msgid "strings.home"
+msgstr "主页"
+
+msgid "strings.projects"
+msgstr "项目"
+
+msgid "strings.files"
+msgstr "文件"
+
+msgid "strings.search"
+msgstr "搜索"
+
+msgid "strings.admin"
+msgstr "管理"
+
+msgid "strings.user"
+msgstr "用户"
+
+msgid "strings.project_manager"
+msgstr "项目经理"
+
+msgid "strings.due"
+msgstr "到期"
+
+msgid "strings.task"
+msgstr "任务"
+
+msgid "strings.tasks"
+msgstr "任务"
+
+msgid "strings.team"
+msgstr "团队"
+
+msgid "strings.add_team"
+msgstr "添加团队成员"
+
+msgid "strings.team_members"
+msgstr "团队成员"
+
+msgid "strings.full_name"
+msgstr "全名"
+
+msgid "strings.title"
+msgstr "称呼"
+
+msgid "strings.user_name"
+msgstr "用户名称"
+
+msgid "strings.work_phone"
+msgstr "工作电话"
+
+msgid "strings.priority"
+msgstr "优先级"
+
+msgid "strings.name"
+msgstr "名称"
+
+msgid "strings.id"
+msgstr "编号"
+
+msgid "strings.description"
+msgstr "描述"
+
+msgid "strings.phone"
+msgstr "电话"
+
+msgid "strings.url"
+msgstr "网址"
+
+msgid "strings.address"
+msgstr "地址"
+
+msgid "strings.comments"
+msgstr "注释"
+
+msgid "strings.created"
+msgstr "被添加"
+
+msgid "strings.assigned"
+msgstr "被分配"
+
+msgid "strings.modified"
+msgstr "被更改"
+
+msgid "strings.assigned_to"
+msgstr "分配给"
+
+msgid "strings.due_date"
+msgstr "到期日期"
+
+msgid "strings.estimated_time"
+msgstr "估计时间"
+
+msgid "strings.actual_time"
+msgstr "实际时间"
+
+msgid "strings.delete_following"
+msgstr "确认删除？"
+
+msgid "strings.cancel"
+msgstr "取消"
+
+msgid "strings.and"
+msgstr "和"
+
+msgid "strings.administration"
+msgstr "管理"
+
+msgid "strings.user_management"
+msgstr "用户管理"
+
+msgid "strings.system_information"
+msgstr "系统信息"
+
+msgid "strings.product_information"
+msgstr "产品信息"
+
+msgid "strings.system_properties"
+msgstr "系统属性"
+
+msgid "strings.create"
+msgstr "添加"
+
+msgid "strings.report_save"
+msgstr "将此报告查询保存至您的主页以便下次执行。"
+
+msgid "strings.report_name"
+msgstr "报告名称"
+
+msgid "strings.save"
+msgstr "保存"
+
+msgid "strings.matches"
+msgstr "匹配"
+
+msgid "strings.match"
+msgstr "匹配"
+
+msgid "strings.report_results"
+msgstr "报告结果"
+
+msgid "strings.success"
+msgstr "成功"
+
+msgid "strings.addition_succeeded"
+msgstr "添加成功"
+
+msgid "strings.deletion_succeeded"
+msgstr "删除成功"
+
+msgid "strings.report_created"
+msgstr "已生成报告"
+
+msgid "strings.deleted_reports"
+msgstr "已删除报告"
+
+msgid "strings.modification_succeeded"
+msgstr "更改成功"
+
+msgid "strings.errors"
+msgstr "出错！"
+
+msgid "strings.blank_user"
+msgstr "该用户不存在。"
+
+msgid "strings.blank_organization"
+msgstr "该客户组织不存在。"
+
+msgid "strings.blank_project"
+msgstr "该项目不存在。"
+
+msgid "strings.user_profile"
+msgstr "用户资料"
+
+msgid "strings.change_password"
+msgstr "更改密码"
+
+msgid "strings.change_password_user"
+msgstr "更改该用户的密码。"
+
+msgid "strings.old_password_error"
+msgstr "您输入的旧密码不正确。请重新输入。"
+
+msgid "strings.new_password_error"
+msgstr "您输入的新密码不匹配。请重新输入。"
+
+msgid "strings.notifications"
+msgstr "通知"
+
+msgid "strings.change_password_intro"
+msgstr ""
+"输入您的旧密码，然后输入并再次输入确认您的新密码。"
+
+msgid "strings.old_password"
+msgstr "旧密码"
+
+msgid "strings.password"
+msgstr "密码"
+
+msgid "strings.new_password"
+msgstr "新密码"
+
+msgid "strings.confirm_password"
+msgstr "确认密码"
+
+msgid "strings.email"
+msgstr "电子邮件"
+
+msgid "strings.home_phone"
+msgstr "家庭电话"
+
+msgid "strings.mobile_phone"
+msgstr "移动电话"
+
+msgid "strings.fax"
+msgstr "传真"
+
+msgid "strings.permissions"
+msgstr "权限"
+
+msgid "strings.administrator_permissions"
+msgstr "管理员权限"
+
+msgid "strings.project_manager_permissions"
+msgstr "项目经理权限"
+
+msgid "strings.user_permissions"
+msgstr "普通成员权限"
+
+msgid "strings.account_created"
+msgstr "用户被添加"
+
+msgid "strings.edit_user"
+msgstr "编辑用户"
+
+msgid "strings.edit_user_details"
+msgstr "编辑详细用户信息。"
+
+msgid "strings.change_user_password"
+msgstr "更改该用户的密码。"
+
+msgid "strings.select_permissions"
+msgstr "为该用户选择选择权限"
+
+msgid "strings.add_user"
+msgstr "添加用户"
+
+msgid "strings.enter_user_details"
+msgstr "输入您添加的用户详细信息。"
+
+msgid "strings.enter_password"
+msgstr "输入该用户的密码。"
+
+msgid "strings.success_logout"
+msgstr ""
+"您已经成功退出。您可以通过输入登录名和密码重新登录系统。"
+
+msgid "strings.invalid_login"
+msgstr ""
+"您输入的登录名和/或密码错误。请重新输入您的登录信息。"
+
+msgid "strings.profile"
+msgstr "资料"
+
+msgid "strings.user_details"
+msgstr "详细用户信息"
+
+msgid "strings.edit_user_account"
+msgstr "编辑您的用户信息"
+
+msgid "strings.no_permissions"
+msgstr "您没有足够的权限完成此操作。"
+
+msgid "strings.discussion"
+msgstr "讨论"
+
+msgid "strings.retired"
+msgstr "退休"
+
+msgid "strings.last_post"
+msgstr "最后帖子"
+
+msgid "strings.post_reply"
+msgstr "张贴回复"
+
+msgid "strings.posted_by"
+msgstr "张贴者为"
+
+msgid "strings.when"
+msgstr "当时"
+
+msgid "strings.post_to_discussion"
+msgstr "张贴到讨论"
+
+msgid "strings.message"
+msgstr "消息"
+
+msgid "strings.delete_reports"
+msgstr "删除报告"
+
+msgid "strings.delete_projects"
+msgstr "删除项目"
+
+msgid "strings.delete_organizations"
+msgstr "删除客户组织"
+
+msgid "strings.delete_organizations_note"
+msgstr ""
+"小心：属于这些客户组织的客户访问者帐号将均被删除，同时属于这些客户组织的项目也将被删除。"
+
+msgid "strings.delete_messages"
+msgstr "删除消息"
+
+msgid "strings.attention"
+msgstr "注意"
+
+msgid "strings.delete_teamownermix"
+msgstr "删除成功，但是项目经理不能从项目中删除。"
+
+msgid "strings.delete_teamowner"
+msgstr "您不能将项目经理从项目中删除。"
+
+msgid "strings.enter_keywords"
+msgstr "输入关键字"
+
+msgid "strings.search_options"
+msgstr "关键字和搜索条件"
+
+msgid "strings.search_note"
+msgstr "您必须填写搜索条件栏。"
+
+msgid "strings.search_results"
+msgstr "搜索结果"
+
+msgid "strings.users"
+msgstr "用户"
+
+msgid "strings.search_for"
+msgstr "搜索"
+
+msgid "strings.results_for_keywords"
+msgstr "根据关键字搜索结果"
+
+msgid "strings.add_discussion"
+msgstr "添加讨论"
+
+msgid "strings.delete_users"
+msgstr "删除用户登录名"
+
+msgid "strings.reassignment_user"
+msgstr "项目和任务的重新分配"
+
+msgid "strings.there"
+msgstr "存在"
+
+msgid "strings.owned_by"
+msgstr "由以上用户拥有。"
+
+msgid "strings.reassign_to"
+msgstr "在删除用户之前，将这些委派给"
+
+msgid "strings.no_files"
+msgstr "无关联文件"
+
+msgid "strings.published"
+msgstr "发布"
+
+msgid "strings.project_site"
+msgstr "项目网站"
+
+msgid "strings.approval_tracking"
+msgstr "被认可的追踪"
+
+msgid "strings.size"
+msgstr "大小"
+
+msgid "strings.add_project_site"
+msgstr "添加到项目网站"
+
+msgid "strings.remove_project_site"
+msgstr "从项目网站中删除"
+
+msgid "strings.more_search"
+msgstr "更多搜索选项"
+
+msgid "strings.results_with"
+msgstr "查找到结果"
+
+msgid "strings.search_topics"
+msgstr "搜索话题"
+
+msgid "strings.search_properties"
+msgstr "搜索属性"
+
+msgid "strings.date_restrictions"
+msgstr "日期限制"
+
+msgid "strings.case_sensitive"
+msgstr "大小写敏感"
+
+msgid "strings.yes"
+msgstr "是"
+
+msgid "strings.no"
+msgstr "否"
+
+msgid "strings.sort_by"
+msgstr "分类标准为"
+
+msgid "strings.type"
+msgstr "类型"
+
+msgid "strings.date"
+msgstr "日期"
+
+msgid "strings.all_words"
+msgstr "所有单词"
+
+msgid "strings.any_words"
+msgstr "任何单词"
+
+msgid "strings.exact_match"
+msgstr "精确吻合"
+
+msgid "strings.all_dates"
+msgstr "所有时间"
+
+msgid "strings.between_dates"
+msgstr "日期区域"
+
+msgid "strings.all_content"
+msgstr "所有文档"
+
+msgid "strings.all_properties"
+msgstr "所有属性"
+
+msgid "strings.no_results_search"
+msgstr "该搜索未返回任何结果。"
+
+msgid "strings.no_results_report"
+msgstr "该报告未返回任何结果。"
+
+msgid "strings.hours"
+msgstr "小时"
+
+msgid "strings.choice"
+msgstr "选择"
+
+msgid "strings.missing_file"
+msgstr "缺少文件！"
+
+msgid "strings.project_site_deleted"
+msgstr "项目网站被成功删除。"
+
+msgid "strings.add_user_project_site"
+msgstr "该用户已被成功授予权限以访问项目网站。"
+
+msgid "strings.remove_user_project_site"
+msgstr "用户权限已被成功删除。"
+
+msgid "strings.add_project_site_success"
+msgstr "对于项目网站的内容添加成功。"
+
+msgid "strings.remove_project_site_success"
+msgstr "对于项目网站的内容删除成功。"
+
+msgid "strings.add_file_success"
+msgstr "链接一个文档。"
+
+msgid "strings.delete_file_success"
+msgstr "解除关联成功。"
+
+msgid "strings.update_comment_file"
+msgstr "文件注释已经成功更新。"
+
+msgid "strings.session_false"
+msgstr "登录会话错误"
+
+msgid "strings.logs"
+msgstr "系统日志"
+
+msgid "strings.logout_time"
+msgstr "自动退出"
+
+msgid "strings.noti_foot1"
+msgstr "该通知由PhpCollab生成。"
+
+msgid "strings.noti_foot2"
+msgstr "查看您的PhpCollab主页，请访问："
+
+msgid "strings.noti_taskassignment1"
+msgstr "新任务："
+
+msgid "strings.noti_taskassignment2"
+msgstr "一个任务被分配给您："
+
+msgid "strings.noti_moreinfo"
+msgstr "获得更多信息，请访问："
+
+msgid "strings.noti_prioritytaskchange1"
+msgstr "任务优先级更改："
+
+msgid "strings.noti_prioritytaskchange2"
+msgstr "下列任务的优先级已经被更改："
+
+msgid "strings.noti_statustaskchange1"
+msgstr "任务状态更改："
+
+msgid "strings.noti_statustaskchange2"
+msgstr "下列任务的状态已经被更改："
+
+msgid "strings.login_username"
+msgstr "您必须输入一个登录名"
+
+msgid "strings.login_password"
+msgstr "请输入密码。"
+
+msgid "strings.login_clientuser"
+msgstr ""
+"您正在以客户访问者身份登录。您不能以客户访问者身份进入PhpCollab系统。"
+
+msgid "strings.user_already_exists"
+msgstr ""
+"已经有同名用户存在。请根据该用户的名字重新选择登录名。"
+
+msgid "strings.noti_duedatetaskchange1"
+msgstr "任务到期时间更改："
+
+msgid "strings.noti_duedatetaskchange2"
+msgstr "下列任务的到期时间已经被更改："
+
+msgid "strings.company"
+msgstr "公司"
+
+msgid "strings.show_all"
+msgstr "显示全部"
+
+msgid "strings.information"
+msgstr "信息"
+
+msgid "strings.delete_message"
+msgstr "删除此条消息"
+
+msgid "strings.project_team"
+msgstr "项目团队"
+
+msgid "strings.document_list"
+msgstr "档案列表"
+
+msgid "strings.bulletin_board"
+msgstr "公告板"
+
+msgid "strings.bulletin_board_topic"
+msgstr "公告板话题"
+
+msgid "strings.create_topic"
+msgstr "添加新话题"
+
+msgid "strings.topic_form"
+msgstr "话题表单"
+
+msgid "strings.enter_message"
+msgstr "输入您的消息"
+
+msgid "strings.upload_file"
+msgstr "上传文件"
+
+msgid "strings.upload_form"
+msgstr "上传表单"
+
+msgid "strings.upload"
+msgstr "上传"
+
+msgid "strings.document"
+msgstr "档案"
+
+msgid "strings.approval_comments"
+msgstr "被认可的意见"
+
+msgid "strings.client_tasks"
+msgstr "客户任务"
+
+msgid "strings.team_tasks"
+msgstr "团队任务"
+
+msgid "strings.team_member_details"
+msgstr "详细项目团队信息"
+
+msgid "strings.client_task_details"
+msgstr "详细客户任务信息"
+
+msgid "strings.team_task_details"
+msgstr "详细团队任务信息"
+
+msgid "strings.language"
+msgstr "语言"
+
+msgid "strings.welcome"
+msgstr "欢迎"
+
+msgid "strings.your_projectsite"
+msgstr "去往您的项目网站"
+
+msgid "strings.contact_projectsite"
+msgstr ""
+"如果您有任何有关网络或者系统信息的疑问,"
+"请联系项目负责人"
+
+msgid "strings.company_details"
+msgstr "详细公司信息"
+
+msgid "strings.database"
+msgstr "备份和恢复数据库"
+
+msgid "strings.company_info"
+msgstr "编辑您的公司信息"
+
+msgid "strings.create_projectsite"
+msgstr "生成项目网站"
+
+msgid "strings.projectsite_url"
+msgstr "项目网站网址"
+
+msgid "strings.design_template"
+msgstr "设计模板"
+
+msgid "strings.preview_design_template"
+msgstr "预览模板设计"
+
+msgid "strings.delete_projectsite"
+msgstr "删除项目网站"
+
+msgid "strings.add_file"
+msgstr "添加文件"
+
+msgid "strings.linked_content"
+msgstr "相关文档"
+
+msgid "strings.edit_file"
+msgstr "编辑详细文件信息"
+
+msgid "strings.permitted_client"
+msgstr "被许可的客户访问者"
+
+msgid "strings.grant_client"
+msgstr "授予访问客户网站的权利"
+
+msgid "strings.add_client_user"
+msgstr "添加客户访问者"
+
+msgid "strings.edit_client_user"
+msgstr "编辑客户访握哌"
+
+msgid "strings.client_user"
+msgstr "客户访问者"
+
+msgid "strings.client_change_status"
+msgstr "在您完成任务之后更改您的状态"
+
+msgid "strings.project_status"
+msgstr "项目状态"
+
+msgid "strings.view_projectsite"
+msgstr "访问项目网站"
+
+msgid "strings.enter_login"
+msgstr "输入您的登录名以取回密码"
+
+msgid "strings.send"
+msgstr "送出"
+
+msgid "strings.no_login"
+msgstr "数据库中无该登录名"
+
+msgid "strings.email_pwd"
+msgstr "密码已经送出"
+
+msgid "strings.no_email"
+msgstr "无电子邮件地址用户"
+
+msgid "strings.forgot_pwd"
+msgstr "忘记了密码？"
+
+msgid "strings.project_owner"
+msgstr "您只能对自己的项目进行改动。"
+
+msgid "strings.connected"
+msgstr "已连接"
+
+msgid "strings.session"
+msgstr "用户会话"
+
+msgid "strings.last_visit"
+msgstr "最近访问"
+
+msgid "strings.compteur"
+msgstr "总计"
+
+msgid "strings.ip"
+msgstr "IP地址"
+
+msgid "strings.task_owner"
+msgstr "您不是该项目组的成员"
+
+msgid "strings.export"
+msgstr "导出"
+
+msgid "strings.reassignment_clientuser"
+msgstr "任务再分配"
+
+msgid "strings.organization_already_exists"
+msgstr "该名称已被该系统使用。请使用另一名称。"
+
+msgid "strings.blank_organization_field"
+msgstr "你必须输入用户组织的名称。"
+
+msgid "strings.blank_fields"
+msgstr "必填条目"
+
+msgid "strings.projectsite_login_fails"
+msgstr "用户名称/密码对不正确。"
+
+msgid "strings.start_date"
+msgstr "开始日期"
+
+msgid "strings.completion"
+msgstr "已完成"
+
+msgid "strings.update_available"
+msgstr "已有最近的更新！"
+
+msgid "strings.version_current"
+msgstr "您正在使用的版本是"
+
+msgid "strings.version_latest"
+msgstr "最新版本是"
+
+msgid "strings.sourceforge_link"
+msgstr "参阅SourceForge中的项目主页"
+
+msgid "strings.demo_mode"
+msgstr "演示模式。不允许实际操作。"
+
+msgid "strings.setup_erase"
+msgstr "删除文件setup.php！！"
+
+msgid "strings.no_file"
+msgstr "无文件被选择"
+
+msgid "strings.exceed_size"
+msgstr "超出允许的最大文件容量"
+
+msgid "strings.no_php"
+msgstr "不允许PHP文件"
+
+msgid "strings.approval_date"
+msgstr "认可日期"
+
+msgid "strings.approver"
+msgstr "认可者"
+
+msgid "strings.error_database"
+msgstr "不能连接到数据库"
+
+msgid "strings.error_server"
+msgstr "不能连接到数据服务器"
+
+msgid "strings.version_control"
+msgstr "文件版本控制"
+
+msgid "strings.vc_status"
+msgstr "状态"
+
+msgid "strings.vc_last_in"
+msgstr "最后修改时间"
+
+msgid "strings.ifa_comments"
+msgstr "批准注释"
+
+msgid "strings.ifa_command"
+msgstr "改变批准状态"
+
+msgid "strings.vc_version"
+msgstr "版本"
+
+msgid "strings.ifc_revisions"
+msgstr "增加并行版本"
+
+msgid "strings.ifc_revision_of"
+msgstr "版本评论"
+
+msgid "strings.ifc_add_revision"
+msgstr "增加并行版本"
+
+msgid "strings.ifc_update_file"
+msgstr "文件更新"
+
+msgid "strings.ifc_last_date"
+msgstr "最后修改时间"
+
+msgid "strings.ifc_version_history"
+msgstr "版本变动历史"
+
+msgid "strings.ifc_delete_file"
+msgstr "删除文件和其全部子版本"
+
+msgid "strings.ifc_delete_version"
+msgstr "删除选定的文件版本"
+
+msgid "strings.ifc_delete_review"
+msgstr "删除选择的评论"
+
+msgid "strings.ifc_no_revisions"
+msgstr "当前此文档没有修订版本"
+
+msgid "strings.unlink_files"
+msgstr "删除文件"
+
+msgid "strings.remove_team"
+msgstr "删除团队成员"
+
+msgid "strings.remove_team_info"
+msgstr "把这些成员从团队中删除?"
+
+msgid "strings.remove_team_client"
+msgstr "去掉项目站点的访问权限控制"
+
+msgid "strings.note"
+msgstr "备注"
+
+msgid "strings.notes"
+msgstr "备注"
+
+msgid "strings.subject"
+msgstr "主题"
+
+msgid "strings.delete_note"
+msgstr "删除备注记录"
+
+msgid "strings.add_note"
+msgstr "增加一个备注"
+
+msgid "strings.edit_note"
+msgstr "编辑一个备注"
+
+msgid "strings.version_increm"
+msgstr "选择一个版本改变进行应用:"
+
+msgid "strings.url_dev"
+msgstr "开发中的站点链接"
+
+msgid "strings.url_prod"
+msgstr "最终站点链接"
+
+msgid "strings.note_owner"
+msgstr "你只能对自己增加的备注进行修改."
+
+msgid "strings.alpha_only"
+msgstr "登陆时只允许字母和数字字符"
+
+msgid "strings.edit_notifications"
+msgstr "设置email通知属性"
+
+msgid "strings.edit_notifications_info"
+msgstr ""
+"选择你希望接受的email通知事件(建议至少选择任务和团队的变化）."
+
+msgid "strings.select_deselect"
+msgstr "选择/删除 全部"
+
+msgid "strings.noti_addprojectteam1"
+msgstr "增加到一个团队 :"
+
+msgid "strings.noti_addprojectteam2"
+msgstr "你已经被增加到下面的项目团队中 :"
+
+msgid "strings.noti_removeprojectteam1"
+msgstr "从项目团对中删除 :"
+
+msgid "strings.noti_removeprojectteam2"
+msgstr "你已经从下面的项目团队中删除 :"
+
+msgid "strings.noti_newpost1"
+msgstr "新的文章:"
+
+msgid "strings.noti_newpost2"
+msgstr "一篇新文章已经被加入到讨论中 :"
+
+msgid "strings.edit_noti_taskassignment"
+msgstr "我已经被指定了一个新任务."
+
+msgid "strings.edit_noti_statustaskchange"
+msgstr "我的一个任务的完成状态已经修改."
+
+msgid "strings.edit_noti_prioritytaskchange"
+msgstr "我的一个任务的紧急度已经修改."
+
+msgid "strings.edit_noti_duedatetaskchange"
+msgstr "我的一个任务的到期时间已经修改."
+
+msgid "strings.edit_noti_addprojectteam"
+msgstr "我被增加到一个新的团队中."
+
+msgid "strings.edit_noti_removeprojectteam"
+msgstr "我已经从一个项目团队中删除."
+
+msgid "strings.edit_noti_newpost"
+msgstr "一篇新文章已经建立到下面的讨论中."
+
+msgid "strings.add_optional"
+msgstr "添加选项"
+
+msgid "strings.assignment_comment_info"
+msgstr "为指派该任务添加备注"
+
+msgid "strings.my_notes"
+msgstr "我的便条"
+
+msgid "strings.edit_settings"
+msgstr "修改设置"
+
+msgid "strings.max_upload"
+msgstr "最大文件大小"
+
+msgid "strings.project_folder_size"
+msgstr "项目文件夹大小"
+
+msgid "strings.calendar"
+msgstr "日历"
+
+msgid "strings.date_start"
+msgstr "开始日期"
+
+msgid "strings.date_end"
+msgstr "结束日期"
+
+msgid "strings.time_start"
+msgstr "开始时间"
+
+msgid "strings.time_end"
+msgstr "结束时间"
+
+msgid "strings.calendar_reminder"
+msgstr "提醒"
+
+msgid "strings.shortname"
+msgstr "简称"
+
+msgid "strings.calendar_recurring"
+msgstr "事件将在每周的这一天重复出现。"
+
+msgid "strings.edit_database"
+msgstr "修改数据库"
+
+msgid "strings.noti_newtopic1"
+msgstr "新的讨论："
+
+msgid "strings.noti_newtopic2"
+msgstr "新的讨论被添加到以下的项目："
+
+msgid "strings.edit_noti_newtopic"
+msgstr "新的讨论话题被生成。"
+
+msgid "strings.today"
+msgstr "今日"
+
+msgid "strings.previous"
+msgstr "前一"
+
+msgid "strings.next"
+msgstr "后一"
+
+msgid "strings.help"
+msgstr "帮助"
+
+msgid "strings.complete_date"
+msgstr "完成日期"
+
+msgid "strings.days"
+msgstr "天"
+
+msgid "strings.logo"
+msgstr "标志"
+
+msgid "strings.remember_password"
+msgstr "密码提示"
+
+msgid "strings.client_add_task_note"
+msgstr ""
+"注意：输入的任务已被加入数据库，但只有被分配给某一团队成员之后才会再次出现！"
+
+msgid "strings.noti_clientaddtask1"
+msgstr "任务被以下用户添加："
+
+msgid "strings.noti_clientaddtask2"
+msgstr "新的任务被客户由项目网站添加到以下项目："
+
+msgid "strings.phase"
+msgstr "阶段"
+
+msgid "strings.phases"
+msgstr "阶段"
+
+msgid "strings.phase_id"
+msgstr "阶段代号"
+
+msgid "strings.current_phase"
+msgstr "活跃的阶段"
+
+msgid "strings.total_tasks"
+msgstr "所有任务"
+
+msgid "strings.uncomplete_tasks"
+msgstr "未完成任务"
+
+msgid "strings.no_current_phase"
+msgstr "无当前活跃的任务"
+
+msgid "strings.true"
+msgstr "正确"
+
+msgid "strings.false"
+msgstr "错误"
+
+msgid "strings.enable_phases"
+msgstr "激活阶段"
+
+msgid "strings.phase_enabled"
+msgstr "阶段被激活"
+
+msgid "strings.order"
+msgstr "订单"
+
+msgid "strings.options"
+msgstr "选项"
+
+msgid "strings.support"
+msgstr "支持"
+
+msgid "strings.support_request"
+msgstr "支持请求"
+
+msgid "strings.support_requests"
+msgstr "支持请求"
+
+msgid "strings.support_id"
+msgstr "请求代号"
+
+msgid "strings.my_support_request"
+msgstr "我的支持请求"
+
+msgid "strings.introduction"
+msgstr "介绍"
+
+msgid "strings.submit"
+msgstr "提交"
+
+msgid "strings.support_management"
+msgstr "支持管理"
+
+msgid "strings.date_open"
+msgstr "日期开放"
+
+msgid "strings.date_close"
+msgstr "日期关闭"
+
+msgid "strings.add_support_request"
+msgstr "添加支持请求"
+
+msgid "strings.add_support_response"
+msgstr "添加支持反馈"
+
+msgid "strings.respond"
+msgstr "反馈"
+
+msgid "strings.delete_support_request"
+msgstr "支持请求被删除"
+
+msgid "strings.delete_request"
+msgstr "删除支持请求"
+
+msgid "strings.delete_support_post"
+msgstr "删除支持帖子"
+
+msgid "strings.new_requests"
+msgstr "新的请求"
+
+msgid "strings.open_requests"
+msgstr "开放请求"
+
+msgid "strings.closed_requests"
+msgstr "完成请求"
+
+msgid "strings.manage_new_requests"
+msgstr "管理新请求"
+
+msgid "strings.manage_open_requests"
+msgstr "管理开发请求"
+
+msgid "strings.manage_closed_requests"
+msgstr "管理完成请求"
+
+msgid "strings.responses"
+msgstr "反馈"
+
+msgid "strings.edit_status"
+msgstr "修改状态"
+
+msgid "strings.noti_support_request_new2"
+msgstr "您已经发布了支持请求，关于："
+
+msgid "strings.noti_support_post2"
+msgstr ""
+"新的反馈被添加到您的支持请求。请复查以下的详细信息。"
+
+msgid "strings.noti_support_status2"
+msgstr "您的支持请求被更新。请复查以下的详细信息。"
+
+msgid "strings.noti_support_team_new2"
+msgstr "新的支持请求被添加到项目："
+
+msgid "strings.delete_subtasks"
+msgstr "删除子任务"
+
+msgid "strings.add_subtask"
+msgstr "添加子任务"
+
+msgid "strings.edit_subtask"
+msgstr "编辑子任务"
+
+msgid "strings.subtask"
+msgstr "子任务"
+
+msgid "strings.subtasks"
+msgstr "子任务"
+
+msgid "strings.show_details"
+msgstr "显示详细"
+
+msgid "strings.updates_task"
+msgstr "任务更新历史"
+
+msgid "strings.updates_subtask"
+msgstr "子任务更新历史"
+
+msgid "strings.go_projects_site"
+msgstr "转到项目网站"
+
+msgid "strings.bookmark"
+msgstr "书签"
+
+msgid "strings.bookmarks"
+msgstr "书签"
+
+msgid "strings.bookmark_category"
+msgstr "类别"
+
+msgid "strings.bookmark_category_new"
+msgstr "新类别"
+
+msgid "strings.bookmarks_all"
+msgstr "所有"
+
+msgid "strings.bookmarks_my"
+msgstr "我的书签"
+
+msgid "strings.my"
+msgstr "我的"
+
+msgid "strings.bookmarks_private"
+msgstr "私人的"
+
+msgid "strings.shared"
+msgstr "共享"
+
+msgid "strings.private"
+msgstr "私人的"
+
+msgid "strings.add_bookmark"
+msgstr "添加书签"
+
+msgid "strings.edit_bookmark"
+msgstr "编辑书签"
+
+msgid "strings.delete_bookmarks"
+msgstr "删除书签"
+
+msgid "strings.team_subtask_details"
+msgstr "团队子任务详细信息"
+
+msgid "strings.client_subtask_details"
+msgstr "客户端子任务详细信息"
+
+msgid "strings.client_change_status_subtask"
+msgstr "完成此子任务后，请在下面更改您的状态"
+
+msgid "strings.disabled_permissions"
+msgstr "已禁用帐户"
+
+
+# Enum values (status, priority, etc.)
+# Note: These should be moved to enums.*.po domain
+
+#. Domain: enums
+msgid "status.0"
+msgstr "客户认可"
+
+#. Domain: enums
+msgid "status.1"
+msgstr "已完成"
+
+#. Domain: enums
+msgid "status.2"
+msgstr "未开始"
+
+#. Domain: enums
+msgid "status.3"
+msgstr "开放"
+
+#. Domain: enums
+msgid "status.4"
+msgstr "暂停"
+
+#. Domain: enums
+msgid "profil.0"
+msgstr "管理员"
+
+#. Domain: enums
+msgid "profil.1"
+msgstr "项目经理"
+
+#. Domain: enums
+msgid "profil.2"
+msgstr "项目成员"
+
+#. Domain: enums
+msgid "profil.3"
+msgstr "客户"
+
+#. Domain: enums
+msgid "profil.4"
+msgstr "Disabled"
+
+#. Domain: enums
+msgid "profil.5"
+msgstr "Project Manager Administrator"
+
+#. Domain: enums
+msgid "priority.0"
+msgstr "无"
+
+#. Domain: enums
+msgid "priority.1"
+msgstr "极低"
+
+#. Domain: enums
+msgid "priority.2"
+msgstr "较低"
+
+#. Domain: enums
+msgid "priority.3"
+msgstr "中等"
+
+#. Domain: enums
+msgid "priority.4"
+msgstr "较高"
+
+#. Domain: enums
+msgid "priority.5"
+msgstr "极高"
+
+#. Domain: enums
+msgid "statusTopic.0"
+msgstr "关闭"
+
+#. Domain: enums
+msgid "statusTopic.1"
+msgstr "开放"
+
+#. Domain: enums
+msgid "statusTopicBis.0"
+msgstr "是"
+
+#. Domain: enums
+msgid "statusTopicBis.1"
+msgstr "否"
+
+#. Domain: enums
+msgid "statusPublish.0"
+msgstr "是"
+
+#. Domain: enums
+msgid "statusPublish.1"
+msgstr "否"
+
+#. Domain: enums
+msgid "statusFile.0"
+msgstr "已经认可"
+
+#. Domain: enums
+msgid "statusFile.1"
+msgstr "认可但有更改"
+
+#. Domain: enums
+msgid "statusFile.2"
+msgstr "等待认可"
+
+#. Domain: enums
+msgid "statusFile.3"
+msgstr "无需认可"
+
+#. Domain: enums
+msgid "statusFile.4"
+msgstr "未被认可"
+
+#. Domain: enums
+msgid "phaseStatus.0"
+msgstr "未开始"
+
+#. Domain: enums
+msgid "phaseStatus.1"
+msgstr "开放"
+
+#. Domain: enums
+msgid "phaseStatus.2"
+msgstr "已完成"
+
+#. Domain: enums
+msgid "phaseStatus.3"
+msgstr "暂停"
+
+#. Domain: enums
+msgid "requestStatus.0"
+msgstr "新的"
+
+#. Domain: enums
+msgid "requestStatus.1"
+msgstr "开放"
+
+#. Domain: enums
+msgid "requestStatus.2"
+msgstr "已完成"
+
+
+# Arrays (days, months, byte units)
+
+msgid "byteunits.0"
+msgstr "Bytes"
+
+msgid "byteunits.1"
+msgstr "KB"
+
+msgid "byteunits.2"
+msgstr "MB"
+
+msgid "byteunits.3"
+msgstr "GB"
+
+msgid "dayname.1"
+msgstr "星期一"
+
+msgid "dayname.2"
+msgstr "星期二"
+
+msgid "dayname.3"
+msgstr "星期三"
+
+msgid "dayname.4"
+msgstr "星期四"
+
+msgid "dayname.5"
+msgstr "星期五"
+
+msgid "dayname.6"
+msgstr "星期六"
+
+msgid "dayname.7"
+msgstr "星期日"
+
+msgid "monthname.1"
+msgstr "一月"
+
+msgid "monthname.2"
+msgstr "二月"
+
+msgid "monthname.3"
+msgstr "三月"
+
+msgid "monthname.4"
+msgstr "四月"
+
+msgid "monthname.5"
+msgstr "五月"
+
+msgid "monthname.6"
+msgstr "六月"
+
+msgid "monthname.7"
+msgstr "七月"
+
+msgid "monthname.8"
+msgstr "八月"
+
+msgid "monthname.9"
+msgstr "九月"
+
+msgid "monthname.10"
+msgstr "十月"
+
+msgid "monthname.11"
+msgstr "十一月"
+
+msgid "monthname.12"
+msgstr "十二月"
+

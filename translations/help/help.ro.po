@@ -1,0 +1,83 @@
+# phpCollab Translation File
+# Language: Romanian (ro)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:12 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Help text
+
+msgid "setup_mkdirMethod"
+msgstr ""
+"Daca este activat safe-mode, trebuie sa setezi un cont FTP ca sa poti"
+"crea folderul cu administrarea de fisiere."
+
+msgid "setup_notifications"
+msgstr ""
+"Notificari prin e-mail pentru utilizatori (atribuiri de lucrari,"
+"anunturi noi, modificari de lucrari...)<br/>Este necesar un"
+"SMTP/sendmail valid."
+
+msgid "setup_forcedlogin"
+msgstr "Daca este fals, dezactiveaza linkul extern cu cont/parola in URL"
+
+msgid "setup_langdefault"
+msgstr ""
+"Alege limba care va fi selectata implicit la login, sau lasa gol"
+"pentru a detecta automat limba browserului."
+
+msgid "setup_myprefix"
+msgstr ""
+"Seteaza aceasta valoare daca ai tabele cu acelasi nume in baza de date"
+"existenta.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Lasa"
+"liber daca nu vei folosi un prefix de tabel."
+
+msgid "setup_loginmethod"
+msgstr ""
+"Metoda de memorare a parolelor in baza de date.<br/>Set to"
+"&quot;Crypt&quot; in order htaccess authentificationto work (if"
+"htaccess authentificationare enabled)."
+
+msgid "admin_update"
+msgstr ""
+"Respecta strict ordinea indicata ca sa actualizezi versiunea ta<br/>1."
+"Editeaza setarile (adauga parametrii noi)<br/>2. Editeaza baza de date"
+"(actualizare in acord cu versiunea ta precedenta)"
+
+msgid "task_scope_creep"
+msgstr ""
+"Diferenta in zile dintre data de predare si data de incheiere (bold"
+"daca este pozitiva)"
+
+msgid "max_file_size"
+msgstr "Marimea maxima a fisierului pentru upload"
+
+msgid "project_disk_space"
+msgstr "Marimea totala a fisierelor pentru proiect"
+
+msgid "project_scope_creep"
+msgstr ""
+"Diferenta in zile intre data de predare si data de incheiere (bold"
+"daca e pozitiva). Total pentru toate lucrarile"
+
+msgid "mycompany_logo"
+msgstr ""
+"Upload orice sigla a firmei/institutiei tale. Apare in antet, in loc"
+"de titlul sitului"
+
+msgid "calendar_shortname"
+msgstr "Eticheta care apare in calendarul lunii. Obligatoriu"
+
+msgid "user_autologout"
+msgstr ""
+"Timp in secunde pentru a fi deconectat daca nu exista activitate. 0"
+"pentru dezactivare"
+

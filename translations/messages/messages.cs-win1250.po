@@ -1,0 +1,1603 @@
+# phpCollab Translation File
+# Language: English (en)
+# Type: Lang
+# Domain: messages
+# Generated: 2025-11-06 00:44:06 +0000
+
+msgid ""
+msgstr ""
+"Project-Id-Version: phpCollab 2.x\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# String translations
+
+msgid "strings.please_login"
+msgstr "Pøihlašte se prosím"
+
+msgid "strings.requirements"
+msgstr "Požadavky na systém"
+
+msgid "strings.login"
+msgstr "Pøihlásit"
+
+msgid "strings.no_items"
+msgstr "Neobsahuje žádný záznam"
+
+msgid "strings.logout"
+msgstr "Odhlásit"
+
+msgid "strings.preferences"
+msgstr "Nastavení"
+
+msgid "strings.my_tasks"
+msgstr "Moje úkoly"
+
+msgid "strings.edit_task"
+msgstr "Uprav úkol"
+
+msgid "strings.copy_task"
+msgstr "Kopíruj úkol"
+
+msgid "strings.add_task"
+msgstr "Pøidej úkol"
+
+msgid "strings.delete_tasks"
+msgstr "Smaž úkol"
+
+msgid "strings.assignment_history"
+msgstr "Historie pøidìlování"
+
+msgid "strings.assigned_on"
+msgstr "Pøidìlen kdy"
+
+msgid "strings.assigned_by"
+msgstr "Pøidìlen od"
+
+msgid "strings.to"
+msgstr "Pro"
+
+msgid "strings.comment"
+msgstr "Komentáø"
+
+msgid "strings.task_assigned"
+msgstr "Úkol pøidìlen pro "
+
+msgid "strings.task_unassigned"
+msgstr "Úkol pøidìlen pro : nepøidìlen (nepøidìlen)"
+
+msgid "strings.edit_multiple_tasks"
+msgstr "Uprav více úkolù"
+
+msgid "strings.tasks_selected"
+msgstr ""
+"Úkol vybrán. Zvol nové hodnoty pro tyto úkoly, nebo vyber"
+"[Žádná zmìna] pro ponechání souèasných hodnot."
+
+msgid "strings.assignment_comment"
+msgstr "Poznámka k povìøení"
+
+msgid "strings.no_change"
+msgstr "[Žádná zmìna]"
+
+msgid "strings.my_discussions"
+msgstr "Moje diskuze"
+
+msgid "strings.discussions"
+msgstr "Diskuze"
+
+msgid "strings.delete_discussions"
+msgstr "Smaž diskuze"
+
+msgid "strings.delete_discussions_note"
+msgstr ""
+"Poznámka: Diskuze nemùže být znovu otevøena protože byla"
+"smazána."
+
+msgid "strings.topic"
+msgstr "Téma"
+
+msgid "strings.posts"
+msgstr "Zpráv"
+
+msgid "strings.latest_post"
+msgstr "Poslední zpráva"
+
+msgid "strings.my_reports"
+msgstr "Moje pøehledy"
+
+msgid "strings.reports"
+msgstr "Pøehledy"
+
+msgid "strings.create_report"
+msgstr "Vytvoøit pøehled"
+
+msgid "strings.report_intro"
+msgstr ""
+"Vyberte parametry dotazu na pøehled a po dokonèení dotazu výsledek"
+"uložte."
+
+msgid "strings.admin_intro"
+msgstr "Nastavení a konfigurace projektu."
+
+msgid "strings.copy_of"
+msgstr "Kopíruj z "
+
+msgid "strings.add"
+msgstr "Pøidat nový záznam"
+
+msgid "strings.delete"
+msgstr "Smaž"
+
+msgid "strings.remove"
+msgstr "Odebrat"
+
+msgid "strings.copy"
+msgstr "Kopíruj"
+
+msgid "strings.view"
+msgstr "Zobraz"
+
+msgid "strings.edit"
+msgstr "Edituj"
+
+msgid "strings.update"
+msgstr "Aktualizovat"
+
+msgid "strings.details"
+msgstr "Detaily"
+
+msgid "strings.none"
+msgstr "Žádný"
+
+msgid "strings.close"
+msgstr "Uzavøít"
+
+msgid "strings.new"
+msgstr "Nový"
+
+msgid "strings.select_all"
+msgstr "Vyber vše"
+
+msgid "strings.unassigned"
+msgstr "Nepøidìlený"
+
+msgid "strings.administrator"
+msgstr "Administrátor"
+
+msgid "strings.my_projects"
+msgstr "Moje Projekty"
+
+msgid "strings.project"
+msgstr "Projekt"
+
+msgid "strings.active"
+msgstr "Aktivní"
+
+msgid "strings.inactive"
+msgstr "Neaktivní"
+
+msgid "strings.project_id"
+msgstr "ID projektu"
+
+msgid "strings.edit_project"
+msgstr "Uprav projekt"
+
+msgid "strings.copy_project"
+msgstr "Kopíruj projekt"
+
+msgid "strings.add_project"
+msgstr "Pøidej projekt"
+
+msgid "strings.clients"
+msgstr "Zákazníci"
+
+msgid "strings.organization"
+msgstr "Zákazník"
+
+msgid "strings.client_projects"
+msgstr "Projekty spoleènosti"
+
+msgid "strings.client_users"
+msgstr "Uživatelé spoleènosti"
+
+msgid "strings.edit_organization"
+msgstr "Edituj spoleènost"
+
+msgid "strings.add_organization"
+msgstr "Pøidej spoleènost"
+
+msgid "strings.organizations"
+msgstr "Spoleènosti"
+
+msgid "strings.status"
+msgstr "Stav"
+
+msgid "strings.owner"
+msgstr "Zadavatel"
+
+msgid "strings.projects"
+msgstr "Projekty"
+
+msgid "strings.files"
+msgstr "Soubory"
+
+msgid "strings.search"
+msgstr "Hledat"
+
+msgid "strings.user"
+msgstr "Uživatel"
+
+msgid "strings.due"
+msgstr "Oèekávaný"
+
+msgid "strings.task"
+msgstr "Úkol"
+
+msgid "strings.tasks"
+msgstr "Úkoly"
+
+msgid "strings.team"
+msgstr "Tým"
+
+msgid "strings.add_team"
+msgstr "Pøidej èlena týmu"
+
+msgid "strings.team_members"
+msgstr "Èlenové týmu"
+
+msgid "strings.full_name"
+msgstr "Jméno a pøíjmení"
+
+msgid "strings.title"
+msgstr "Titul"
+
+msgid "strings.user_name"
+msgstr "Uživatelské jméno"
+
+msgid "strings.work_phone"
+msgstr "Telefon do práce"
+
+msgid "strings.priority"
+msgstr "Priorita"
+
+msgid "strings.name"
+msgstr "Název"
+
+msgid "strings.description"
+msgstr "Popis"
+
+msgid "strings.phone"
+msgstr "Telefon"
+
+msgid "strings.address"
+msgstr "Adresa"
+
+msgid "strings.comments"
+msgstr "Poznámky"
+
+msgid "strings.created"
+msgstr "Vytvoøeno"
+
+msgid "strings.assigned"
+msgstr "Pøidìleno"
+
+msgid "strings.modified"
+msgstr "Upraveno"
+
+msgid "strings.assigned_to"
+msgstr "Pøidìleno"
+
+msgid "strings.due_date"
+msgstr "Termín dokonèení"
+
+msgid "strings.estimated_time"
+msgstr "Odhad doby (celkem)"
+
+msgid "strings.actual_time"
+msgstr "Odpracovaná doba"
+
+msgid "strings.delete_following"
+msgstr "Vymazat následující?"
+
+msgid "strings.cancel"
+msgstr "Zrušit"
+
+msgid "strings.and"
+msgstr "a"
+
+msgid "strings.administration"
+msgstr "Administrace"
+
+msgid "strings.user_management"
+msgstr "Správa uživatelù"
+
+msgid "strings.system_information"
+msgstr "Informace o systému"
+
+msgid "strings.product_information"
+msgstr "Informace o produktu"
+
+msgid "strings.system_properties"
+msgstr "Systémové nastavení"
+
+msgid "strings.create"
+msgstr "Vytvoøit"
+
+msgid "strings.report_save"
+msgstr "Uložte tento dotaz na pøehled pro jeho opìtovné spuštìní."
+
+msgid "strings.report_name"
+msgstr "Název pøehledu"
+
+msgid "strings.save"
+msgstr "Uložit"
+
+msgid "strings.matches"
+msgstr "odpovídají"
+
+msgid "strings.match"
+msgstr "odpovídá"
+
+msgid "strings.report_results"
+msgstr "Výsledný pøehled"
+
+msgid "strings.success"
+msgstr "Vše ok"
+
+msgid "strings.addition_succeeded"
+msgstr "Pøidání probìhlo v poøádku"
+
+msgid "strings.deletion_succeeded"
+msgstr "Vymazání probìhlo v poøádku"
+
+msgid "strings.report_created"
+msgstr "Pøehled vytvoøen"
+
+msgid "strings.deleted_reports"
+msgstr "Pøehledy smazány"
+
+msgid "strings.modification_succeeded"
+msgstr "Úprava probìhla v poøádku"
+
+msgid "strings.errors"
+msgstr "Nalezena chyba!"
+
+msgid "strings.blank_user"
+msgstr "Uživatel neexistuje."
+
+msgid "strings.blank_organization"
+msgstr "Zákazník nebyl nalezen."
+
+msgid "strings.blank_project"
+msgstr "Projekt nebyl nalezen."
+
+msgid "strings.user_profile"
+msgstr "Uživatelský profil"
+
+msgid "strings.change_password"
+msgstr "Zmìnit heslo"
+
+msgid "strings.change_password_user"
+msgstr "Zmìnit heslo uživatele."
+
+msgid "strings.old_password_error"
+msgstr "Staré heslo nebylo zadáno správnì. Zadej jej prosím znovu."
+
+msgid "strings.new_password_error"
+msgstr "Ovìøení hesel nesedí. Zadej prosím znovu nové heslo (2x)."
+
+msgid "strings.notifications"
+msgstr "Oznámení e-mailem"
+
+msgid "strings.change_password_intro"
+msgstr "Zadej tvoje staré heslo pak vstup a potvrï tvoje nové heslo."
+
+msgid "strings.old_password"
+msgstr "Staré heslo"
+
+msgid "strings.password"
+msgstr "Heslo"
+
+msgid "strings.new_password"
+msgstr "Nové heslo"
+
+msgid "strings.confirm_password"
+msgstr "Heslo znovu"
+
+msgid "strings.home_phone"
+msgstr "Telefon domù"
+
+msgid "strings.mobile_phone"
+msgstr "Mobil"
+
+msgid "strings.permissions"
+msgstr "Práva"
+
+msgid "strings.administrator_permissions"
+msgstr "Administrátorská práva"
+
+msgid "strings.project_manager_permissions"
+msgstr "Práva - project manager"
+
+msgid "strings.user_permissions"
+msgstr "Práva - Uživatel"
+
+msgid "strings.account_created"
+msgstr "Uživatel vytvoøen"
+
+msgid "strings.edit_user"
+msgstr "Uprav uživatele"
+
+msgid "strings.edit_user_details"
+msgstr "Upravit detaily uživatelského úètu."
+
+msgid "strings.change_user_password"
+msgstr "Zmìnit heslo uživatele."
+
+msgid "strings.select_permissions"
+msgstr "Vyber práva tohoto uživatele."
+
+msgid "strings.add_user"
+msgstr "Pøidej uživatele"
+
+msgid "strings.enter_user_details"
+msgstr "Zadej detaily pro nový uživatelský úèet."
+
+msgid "strings.enter_password"
+msgstr "Zadej heslo uživatele."
+
+msgid "strings.success_logout"
+msgstr ""
+"Odhlášení bylo úspìšné. Pro opìtovné pøihlášení zadej"
+"uživatelské jméno a heslo níže."
+
+msgid "strings.invalid_login"
+msgstr ""
+"Uživatelské jméno a/nebo heslo nebylo zadáno špatnì. Zadej"
+"prosím znovu pøihlašovací údaje."
+
+msgid "strings.profile"
+msgstr "Profil"
+
+msgid "strings.user_details"
+msgstr "Detaily uživatelského úètu."
+
+msgid "strings.edit_user_account"
+msgstr "Upravit informace o mém úètu."
+
+msgid "strings.no_permissions"
+msgstr "Nemáte dostateèná práva pro tuto akci."
+
+msgid "strings.discussion"
+msgstr "Diskuze"
+
+msgid "strings.last_post"
+msgstr "Poslední zpráva"
+
+msgid "strings.post_reply"
+msgstr "Odpovìdìt"
+
+msgid "strings.posted_by"
+msgstr "Odeslal"
+
+msgid "strings.when"
+msgstr "Kdy"
+
+msgid "strings.post_to_discussion"
+msgstr "Odeslat do diskuze"
+
+msgid "strings.message"
+msgstr "Zpráva - text"
+
+msgid "strings.delete_reports"
+msgstr "Smaž pøehled"
+
+msgid "strings.delete_projects"
+msgstr "Smaž projekt"
+
+msgid "strings.delete_organizations"
+msgstr "Smazat spoleènost?"
+
+msgid "strings.delete_organizations_note"
+msgstr ""
+"Poznámka: Tímto vymažeš všechny uživatele spoleènosti pro tuto"
+"spoleènost a odlouèíš všechny otevøené projekty této"
+"spoleènosti."
+
+msgid "strings.delete_messages"
+msgstr "Smaž zprávu"
+
+msgid "strings.attention"
+msgstr "Upozornìní"
+
+msgid "strings.delete_teamownermix"
+msgstr ""
+"Odstranìní v poøádku, ale zadavatel nemùže být odebrán z"
+"projektového týmu."
+
+msgid "strings.delete_teamowner"
+msgstr "Nemùžeš odebrat zadavatele projektu z projektového týmu."
+
+msgid "strings.enter_keywords"
+msgstr "Zadej klíèové slovo"
+
+msgid "strings.search_options"
+msgstr "Klíèové slovo a volby hledání"
+
+msgid "strings.search_note"
+msgstr "Musíš zadat informace v poli pro hledání."
+
+msgid "strings.search_results"
+msgstr "Výsledek hledání"
+
+msgid "strings.users"
+msgstr "Uživatelé"
+
+msgid "strings.search_for"
+msgstr "Hledej"
+
+msgid "strings.results_for_keywords"
+msgstr "Výsledek hledání klíèového slova"
+
+msgid "strings.add_discussion"
+msgstr "Pøidej diskuzi"
+
+msgid "strings.delete_users"
+msgstr "Smazat uživatele?"
+
+msgid "strings.reassignment_user"
+msgstr "Pøevedení projektù a úkolù"
+
+msgid "strings.there"
+msgstr "Jsou zde"
+
+msgid "strings.owned_by"
+msgstr "patøící uživateli nahoøe."
+
+msgid "strings.reassign_to"
+msgstr "Pøed smazáním uživatele znovu pøiøaï"
+
+msgid "strings.no_files"
+msgstr "Žádné pøipojené soubory"
+
+msgid "strings.published"
+msgstr "Publikované"
+
+msgid "strings.approval_tracking"
+msgstr "Sledování souhlasu"
+
+msgid "strings.size"
+msgstr "Velikost"
+
+msgid "strings.add_project_site"
+msgstr "Pøidej do Project Site"
+
+msgid "strings.remove_project_site"
+msgstr "Odeber z Project Site"
+
+msgid "strings.more_search"
+msgstr "Více možností hledání"
+
+msgid "strings.results_with"
+msgstr "Výsledky nalezeny s"
+
+msgid "strings.search_topics"
+msgstr "Téma hledání"
+
+msgid "strings.search_properties"
+msgstr "Vlastnosti hledání"
+
+msgid "strings.date_restrictions"
+msgstr "Èasové omezení"
+
+msgid "strings.yes"
+msgstr "Ano"
+
+msgid "strings.no"
+msgstr "Ne"
+
+msgid "strings.sort_by"
+msgstr "Seøadit podle"
+
+msgid "strings.type"
+msgstr "Typ"
+
+msgid "strings.date"
+msgstr "Datum"
+
+msgid "strings.all_words"
+msgstr "všechny tato slova"
+
+msgid "strings.any_words"
+msgstr "žádné z tìchto slov"
+
+msgid "strings.all_dates"
+msgstr "Všechny data"
+
+msgid "strings.between_dates"
+msgstr "Mezi daty"
+
+msgid "strings.all_content"
+msgstr "Všechno"
+
+msgid "strings.all_properties"
+msgstr "Všechny vlastnosti"
+
+msgid "strings.no_results_search"
+msgstr "Hledané slovo nebylo nalezeno."
+
+msgid "strings.no_results_report"
+msgstr "Pøehled vrátil prázdný výsledek."
+
+msgid "strings.hours"
+msgstr "hodin"
+
+msgid "strings.choice"
+msgstr "Zvolte"
+
+msgid "strings.missing_file"
+msgstr "Chybìjící soubor !"
+
+msgid "strings.project_site_deleted"
+msgstr "Project site byl v poøádku vymazán."
+
+msgid "strings.add_user_project_site"
+msgstr ""
+"Uživateli bylo úspìšnì udìleno povolení k pøístupu do Project"
+"Site."
+
+msgid "strings.remove_user_project_site"
+msgstr "Uživatelské práva byly v poøádku odebrány."
+
+msgid "strings.add_project_site_success"
+msgstr "Pøidání do project site probìhlo v poøádku."
+
+msgid "strings.remove_project_site_success"
+msgstr "Odstranìní z project site probìhlo v poøádku."
+
+msgid "strings.add_file_success"
+msgstr "Pøidána 1 položka."
+
+msgid "strings.delete_file_success"
+msgstr "Odpojení vpoøádku."
+
+msgid "strings.update_comment_file"
+msgstr "Komentáø k souboru byl doplnìn v poøádku."
+
+msgid "strings.session_false"
+msgstr "Chyba session"
+
+msgid "strings.logs"
+msgstr "Logování"
+
+msgid "strings.logout_time"
+msgstr "Odhlásit po"
+
+msgid "strings.noti_foot1"
+msgstr "Toto upozornìní bylo vygenerováno z PhpCollab."
+
+msgid "strings.noti_foot2"
+msgstr "Pro shlédnutí Xone PhpCollab Home Page, navštivte:"
+
+msgid "strings.noti_taskassignment1"
+msgstr "Nový úkol:"
+
+msgid "strings.noti_taskassignment2"
+msgstr "Byl ti pøidìlen úkol:"
+
+msgid "strings.noti_moreinfo"
+msgstr "Pro více informací, prosím navštivte:"
+
+msgid "strings.noti_prioritytaskchange1"
+msgstr "Zmìnìna priorita úkolu:"
+
+msgid "strings.noti_prioritytaskchange2"
+msgstr "Priorita následujícího úkolu byla zmìnìna:"
+
+msgid "strings.noti_statustaskchange1"
+msgstr "Zmìnìn stav úkolu:"
+
+msgid "strings.noti_statustaskchange2"
+msgstr "Stav následujícího úkolu byl zmìnìn:"
+
+msgid "strings.login_username"
+msgstr "Musíte zadat uživatelské jméno."
+
+msgid "strings.login_password"
+msgstr "prosím, zadejte heslo."
+
+msgid "strings.login_clientuser"
+msgstr ""
+"Máte zákaznický úèet. Nemáte pøístup do Xone PhpCollab s"
+"tímto úètem."
+
+msgid "strings.user_already_exists"
+msgstr ""
+"Již existuje uživatel s tímto jménem. Prosím, zvolte jinou"
+"variantu uživatelského jména."
+
+msgid "strings.noti_duedatetaskchange1"
+msgstr "Datum dokonèení úkolu bylo zmìnìno:"
+
+msgid "strings.noti_duedatetaskchange2"
+msgstr "Datum dokonèení následujícího úkolu bylo zmìnìno:"
+
+msgid "strings.company"
+msgstr "Spoleènost"
+
+msgid "strings.show_all"
+msgstr "Zobraz vše"
+
+msgid "strings.information"
+msgstr "Informace"
+
+msgid "strings.delete_message"
+msgstr "Smazat tuto zprávu"
+
+msgid "strings.project_team"
+msgstr "Projektový tým"
+
+msgid "strings.document_list"
+msgstr "Seznam dokumentù"
+
+msgid "strings.bulletin_board"
+msgstr "Nástìnka"
+
+msgid "strings.bulletin_board_topic"
+msgstr "Téma nástìnky"
+
+msgid "strings.create_topic"
+msgstr "Vytvoøit nové téma"
+
+msgid "strings.topic_form"
+msgstr "Nové téma - formuláø"
+
+msgid "strings.enter_message"
+msgstr "Zadej tvou zprávu"
+
+msgid "strings.upload_file"
+msgstr "Nahrát nový soubor"
+
+msgid "strings.upload_form"
+msgstr "Formuláø pro pøidání souboru"
+
+msgid "strings.upload"
+msgstr "Nahrej"
+
+msgid "strings.document"
+msgstr "Dokument"
+
+msgid "strings.approval_comments"
+msgstr "Schválení komentáø"
+
+msgid "strings.client_tasks"
+msgstr "Úkoly zákazníka"
+
+msgid "strings.team_tasks"
+msgstr "Úkoly týmu"
+
+msgid "strings.team_member_details"
+msgstr "Detail èlena projektového týmu"
+
+msgid "strings.client_task_details"
+msgstr "Detaily úkolu zákazníka"
+
+msgid "strings.team_task_details"
+msgstr "Detaily týmového úkolu"
+
+msgid "strings.language"
+msgstr "Jazyk"
+
+msgid "strings.welcome"
+msgstr "Vítejte"
+
+msgid "strings.your_projectsite"
+msgstr "do Project Site"
+
+msgid "strings.contact_projectsite"
+msgstr ""
+"Jestliže máte jakékoliv otázky kolem extranetu nebo informací"
+"nalezených zde, prosím kontaktujte zadavatele"
+
+msgid "strings.company_details"
+msgstr "Detaily spoleènosti"
+
+msgid "strings.database"
+msgstr "Záloha a obnovení databáze"
+
+msgid "strings.company_info"
+msgstr "Uprav informace o spoleènosti"
+
+msgid "strings.create_projectsite"
+msgstr "Vytvoøit Project Site"
+
+msgid "strings.design_template"
+msgstr "Design šablona"
+
+msgid "strings.preview_design_template"
+msgstr "náhled design šablony"
+
+msgid "strings.delete_projectsite"
+msgstr "Smazat Project Site"
+
+msgid "strings.add_file"
+msgstr "Pøidej soubor"
+
+msgid "strings.linked_content"
+msgstr "Pøipojené dokumenty"
+
+msgid "strings.edit_file"
+msgstr "Upravit detaily souboru"
+
+msgid "strings.permitted_client"
+msgstr "Pøípustní uživatelé spoleènosti"
+
+msgid "strings.grant_client"
+msgstr "udìlit povolení k prohlížení Project Site"
+
+msgid "strings.add_client_user"
+msgstr "Pøidat uživatele spoleènosti"
+
+msgid "strings.edit_client_user"
+msgstr "Upravit uživatele spoleènosti"
+
+msgid "strings.client_user"
+msgstr "Uživatel spoleènosti"
+
+msgid "strings.client_change_status"
+msgstr "Zmìò tvùj stav níže jakmile dokonèíš tento úkol"
+
+msgid "strings.project_status"
+msgstr "Stav projektu"
+
+msgid "strings.view_projectsite"
+msgstr "Zobrazit Project Site"
+
+msgid "strings.enter_login"
+msgstr "Zadej uživatelské jméno pro zaslání nového hesla / Zmìna hesla"
+
+msgid "strings.send"
+msgstr "Poslat"
+
+msgid "strings.no_login"
+msgstr "Uživatelské jméno nebylo nalezeno v databázi"
+
+msgid "strings.email_pwd"
+msgstr "Heslo bylo posláno"
+
+msgid "strings.no_email"
+msgstr "Uživatel nemá email"
+
+msgid "strings.forgot_pwd"
+msgstr "Pošli mi zapomenuté heslo!"
+
+msgid "strings.project_owner"
+msgstr "Zmìny mùžete provádìt pouze ve vlastních projektech."
+
+msgid "strings.connected"
+msgstr "Pøipojený"
+
+msgid "strings.last_visit"
+msgstr "Poslední pøihlášení"
+
+msgid "strings.compteur"
+msgstr "Poèet"
+
+msgid "strings.task_owner"
+msgstr "Nejsi èlen týmu v tomto projektu"
+
+msgid "strings.reassignment_clientuser"
+msgstr "Úkol pøevést zpìt"
+
+msgid "strings.organization_already_exists"
+msgstr ""
+"Toto jméno je již používáno v tomt systému. Prosím, zvolte"
+"jiné."
+
+msgid "strings.blank_organization_field"
+msgstr "Musíš zadat název spoleènosti (zákazníka)."
+
+msgid "strings.blank_fields"
+msgstr "povinné pole"
+
+msgid "strings.projectsite_login_fails"
+msgstr "Nemùžeme potvrdit tuto kombinaci uživatelského jména a hesla."
+
+msgid "strings.start_date"
+msgstr "Datum zahájení"
+
+msgid "strings.completion"
+msgstr "Hotovo"
+
+msgid "strings.update_available"
+msgstr "Je dostupná aktualizace!"
+
+msgid "strings.version_current"
+msgstr "Právì pužíváte verzi"
+
+msgid "strings.version_latest"
+msgstr "Poslední verze je"
+
+msgid "strings.sourceforge_link"
+msgstr "stránku projektu naleznete na Sourceforge"
+
+msgid "strings.demo_mode"
+msgstr "Demo mód. Tato akce není povolena."
+
+msgid "strings.setup_erase"
+msgstr "Smažte soubor setup.php!!"
+
+msgid "strings.no_file"
+msgstr "Nebyl vybrán žádný soubor"
+
+msgid "strings.exceed_size"
+msgstr "Pøekroèena maximální velikost souboru"
+
+msgid "strings.no_php"
+msgstr "Soubory *.php nejsou povoleny."
+
+msgid "strings.approval_date"
+msgstr "Datum schválení"
+
+msgid "strings.approver"
+msgstr "Schválil"
+
+msgid "strings.error_database"
+msgstr "Nepodaøilo se pøipojit k databázi"
+
+msgid "strings.error_server"
+msgstr "Nepodaøilo se pøipojit k serveru"
+
+msgid "strings.version_control"
+msgstr "Kontrola verze"
+
+msgid "strings.vc_status"
+msgstr "Stav"
+
+msgid "strings.vc_last_in"
+msgstr "Datum poslední zmìny"
+
+msgid "strings.ifa_comments"
+msgstr "Schválení - komentáøe"
+
+msgid "strings.ifa_command"
+msgstr "Zmìnit stav schválení"
+
+msgid "strings.vc_version"
+msgstr "Verze"
+
+msgid "strings.ifc_revisions"
+msgstr "Revize - pøehled"
+
+msgid "strings.ifc_revision_of"
+msgstr "Revize verze"
+
+msgid "strings.ifc_add_revision"
+msgstr "Pøidej revizi"
+
+msgid "strings.ifc_update_file"
+msgstr "Aktualizovat soubor"
+
+msgid "strings.ifc_last_date"
+msgstr "Datum poslední zmìny"
+
+msgid "strings.ifc_version_history"
+msgstr "Verze - historie"
+
+msgid "strings.ifc_delete_file"
+msgstr "Smazat soubor vèetnì všech verzí a revizí"
+
+msgid "strings.ifc_delete_version"
+msgstr "Smaž vybranou verzi"
+
+msgid "strings.ifc_delete_review"
+msgstr "Smaž vybranou revizi"
+
+msgid "strings.ifc_no_revisions"
+msgstr "V souèasné dobì zde nejsou žádné revize tohoto dokumentu."
+
+msgid "strings.unlink_files"
+msgstr "Odpojené soubory"
+
+msgid "strings.remove_team"
+msgstr "Odstranìní èlena týmu"
+
+msgid "strings.remove_team_info"
+msgstr "Odstranit tyto uživatele z projektového týmu?"
+
+msgid "strings.remove_team_client"
+msgstr "Odstranìní práv pro zobrazení Project Site"
+
+msgid "strings.note"
+msgstr "Poznámka"
+
+msgid "strings.notes"
+msgstr "Poznámky"
+
+msgid "strings.subject"
+msgstr "Pøedmìt"
+
+msgid "strings.delete_note"
+msgstr "Smazat záznam poznámky"
+
+msgid "strings.add_note"
+msgstr "Pøidej novou poznámku"
+
+msgid "strings.edit_note"
+msgstr "Upravit záznam poznámky"
+
+msgid "strings.version_increm"
+msgstr "Vyber verzi pro uložení:"
+
+msgid "strings.url_dev"
+msgstr "Vývojová url"
+
+msgid "strings.url_prod"
+msgstr "Koneèná url"
+
+msgid "strings.note_owner"
+msgstr "Mùžeš provádìt zmìny pouze ve vlastních poznámkách."
+
+msgid "strings.alpha_only"
+msgstr "V uživatelském jménu jsou povoleny pouze písmena a èíslice."
+
+msgid "strings.edit_notifications"
+msgstr "Uprav nastavení oznámení e-mailem"
+
+msgid "strings.edit_notifications_info"
+msgstr "Vyber události pøi kterých chceš poslat e-mailové oznámeni."
+
+msgid "strings.select_deselect"
+msgstr "Vyber/zruš vše"
+
+msgid "strings.noti_addprojectteam1"
+msgstr "Pøidaní do projektového týmu :"
+
+msgid "strings.noti_addprojectteam2"
+msgstr "Byli jste pøidáni do projektového týmu pro :"
+
+msgid "strings.noti_removeprojectteam1"
+msgstr "Odstranìní z projektového týmu :"
+
+msgid "strings.noti_removeprojectteam2"
+msgstr "Byli jste odstranìni z projektového týmu pro :"
+
+msgid "strings.noti_newpost1"
+msgstr "Nová zpráva :"
+
+msgid "strings.noti_newpost2"
+msgstr "Zpráva byla pøidaná k následující diskuzi :"
+
+msgid "strings.edit_noti_taskassignment"
+msgstr "Mám pøidìlen nový úkol."
+
+msgid "strings.edit_noti_statustaskchange"
+msgstr "Zmìna stavu mého úkolu."
+
+msgid "strings.edit_noti_prioritytaskchange"
+msgstr "Zmìna priority mého úkolu."
+
+msgid "strings.edit_noti_duedatetaskchange"
+msgstr "Zmìna termínu dokonèení mého úkolu."
+
+msgid "strings.edit_noti_addprojectteam"
+msgstr "Jsem pøidán do projektového týmu."
+
+msgid "strings.edit_noti_removeprojectteam"
+msgstr "Jsem odebrán z projektového týmu."
+
+msgid "strings.edit_noti_newpost"
+msgstr "V diskuzi je nový pøíspìvek."
+
+msgid "strings.add_optional"
+msgstr "Add an optional /Pøidat možnost volby/"
+
+msgid "strings.assignment_comment_info"
+msgstr "Pøidat komentáøe o pøidìlování tohoto úkolu"
+
+msgid "strings.my_notes"
+msgstr "Moje poznámky"
+
+msgid "strings.edit_settings"
+msgstr "Upravit nastavení"
+
+msgid "strings.max_upload"
+msgstr "Maximální velikost souboru"
+
+msgid "strings.project_folder_size"
+msgstr "Velikost složky projektu"
+
+msgid "strings.calendar"
+msgstr "Kalendáø"
+
+msgid "strings.date_start"
+msgstr "Datum - start"
+
+msgid "strings.date_end"
+msgstr "Datum - konec"
+
+msgid "strings.time_start"
+msgstr "Èas - start"
+
+msgid "strings.time_end"
+msgstr "Èas - konec"
+
+msgid "strings.calendar_reminder"
+msgstr "Pøipomenout"
+
+msgid "strings.shortname"
+msgstr "Zkratka"
+
+msgid "strings.calendar_recurring"
+msgstr "Událost se opakuje každý týden v tento den"
+
+msgid "strings.edit_database"
+msgstr "Upravit databázi"
+
+msgid "strings.noti_newtopic1"
+msgstr "Nová diskuze:"
+
+msgid "strings.noti_newtopic2"
+msgstr "Nová diskuze byla pøidána k následujícímu projektu:"
+
+msgid "strings.edit_noti_newtopic"
+msgstr "Bylo vytvoøeno nové diskuzní téma."
+
+msgid "strings.today"
+msgstr "Dnes"
+
+msgid "strings.previous"
+msgstr "Pøedchozí"
+
+msgid "strings.next"
+msgstr "Následující"
+
+msgid "strings.help"
+msgstr "Nápovìda"
+
+msgid "strings.complete_date"
+msgstr "Datum dokonèení"
+
+msgid "strings.scope_creep"
+msgstr "Možnost zpoždìní"
+
+msgid "strings.days"
+msgstr "Dní"
+
+msgid "strings.remember_password"
+msgstr "Zapamatovat heslo"
+
+msgid "strings.client_add_task_note"
+msgstr ""
+"Poznámka: Vkládaný úkol je registrován v databázi, objeví se"
+"zde nicménì jen jestli ho nìkdo pøidìlil èlenu týmu!"
+
+msgid "strings.noti_clientaddtask1"
+msgstr "Úkol pøidán od klienta:"
+
+msgid "strings.noti_clientaddtask2"
+msgstr ""
+"Nový úkol byl pøidán od klienta pøes project site do"
+"následujícího projektu:"
+
+msgid "strings.phase"
+msgstr "Etapa"
+
+msgid "strings.phases"
+msgstr "Etapy"
+
+msgid "strings.phase_id"
+msgstr "ID etapy"
+
+msgid "strings.current_phase"
+msgstr "Aktivní etapa(y)"
+
+msgid "strings.total_tasks"
+msgstr "Celkem úkolù"
+
+msgid "strings.uncomplete_tasks"
+msgstr "Nekompletní úkoly"
+
+msgid "strings.no_current_phase"
+msgstr "Žádná etapa není v tuto chvíli aktivní"
+
+msgid "strings.true"
+msgstr "Správný"
+
+msgid "strings.false"
+msgstr "Chybný"
+
+msgid "strings.enable_phases"
+msgstr "Povolit etapy"
+
+msgid "strings.phase_enabled"
+msgstr "Povolené etapy"
+
+msgid "strings.order"
+msgstr "Poøadí"
+
+msgid "strings.options"
+msgstr "Volby"
+
+msgid "strings.support_request"
+msgstr "Požadavek supportu"
+
+msgid "strings.support_requests"
+msgstr "Požadavky supportu"
+
+msgid "strings.support_id"
+msgstr "ID požadavku"
+
+msgid "strings.my_support_request"
+msgstr "Moje požadavky supportu"
+
+msgid "strings.introduction"
+msgstr "Úvod"
+
+msgid "strings.date_open"
+msgstr "Datum zahájení"
+
+msgid "strings.date_close"
+msgstr "Datum ukonèení"
+
+msgid "strings.add_support_request"
+msgstr "Pøidat požadavek na support"
+
+msgid "strings.add_support_response"
+msgstr "Pøidat odezvu supportu"
+
+msgid "strings.respond"
+msgstr "Odezva"
+
+msgid "strings.delete_support_request"
+msgstr "Požadavek Supportu byl smazán"
+
+msgid "strings.delete_request"
+msgstr "Smazat požadavek supportu"
+
+msgid "strings.delete_support_post"
+msgstr "Smazat poštu supportu"
+
+msgid "strings.new_requests"
+msgstr "Nové požadavky"
+
+msgid "strings.open_requests"
+msgstr "Otevøené požadavky"
+
+msgid "strings.closed_requests"
+msgstr "Kompletní požadavky"
+
+msgid "strings.manage_new_requests"
+msgstr "Upravit nové požadavky"
+
+msgid "strings.manage_open_requests"
+msgstr "Upravit otevøené požadavky"
+
+msgid "strings.manage_closed_requests"
+msgstr "Upravit dokonèené požadavky"
+
+msgid "strings.responses"
+msgstr "Odezvy"
+
+msgid "strings.edit_status"
+msgstr "Uprav stav"
+
+msgid "strings.noti_support_request_new2"
+msgstr ""
+"You have submited a support request regarding: /Musíte uznat žádost"
+"supportu týkající se:/ "
+
+msgid "strings.noti_support_post2"
+msgstr ""
+"Byla pøidána nová odezva do Vašeho požadavku na support. Prosím,"
+"podívejte se na detaily níže."
+
+msgid "strings.noti_support_status2"
+msgstr ""
+"Váš požadavek na support byl upraven. Prosím, podívejte se na"
+"detaily níže."
+
+msgid "strings.noti_support_team_new2"
+msgstr "Nový požadavek podpory byl pøidán do projektu: "
+
+msgid "strings.delete_subtasks"
+msgstr "Smazat podúlohy"
+
+msgid "strings.add_subtask"
+msgstr "Pøidat podúlohu"
+
+msgid "strings.edit_subtask"
+msgstr "Upravit podúlohu"
+
+msgid "strings.subtask"
+msgstr "Podúloha"
+
+msgid "strings.subtasks"
+msgstr "Podúlohy"
+
+msgid "strings.show_details"
+msgstr "Ukaž podrobnosti"
+
+msgid "strings.updates_task"
+msgstr "Aktualizovat historii úkolu / Task update history /"
+
+msgid "strings.updates_subtask"
+msgstr "Aktualizovat historii podúloh / Subtask update history /"
+
+msgid "strings.go_projects_site"
+msgstr "Jdi do projects site"
+
+msgid "strings.bookmark"
+msgstr "Záložka"
+
+msgid "strings.bookmarks"
+msgstr "Záložky"
+
+msgid "strings.bookmark_category"
+msgstr "Kategorie"
+
+msgid "strings.bookmark_category_new"
+msgstr "Nová kategorie"
+
+msgid "strings.bookmarks_all"
+msgstr "Všechny"
+
+msgid "strings.bookmarks_my"
+msgstr "Moje záložky"
+
+msgid "strings.my"
+msgstr "Moje"
+
+msgid "strings.bookmarks_private"
+msgstr "Soukromé"
+
+msgid "strings.shared"
+msgstr "Sdílené"
+
+msgid "strings.private"
+msgstr "Soukromé"
+
+msgid "strings.add_bookmark"
+msgstr "Pøidej záložku"
+
+msgid "strings.edit_bookmark"
+msgstr "Uprav záložku"
+
+msgid "strings.delete_bookmarks"
+msgstr "Smaž záložku"
+
+msgid "strings.team_subtask_details"
+msgstr "Detaily týmové podúlohy"
+
+msgid "strings.client_subtask_details"
+msgstr "Detaily zákazníkovi podúlohy"
+
+msgid "strings.client_change_status_subtask"
+msgstr "Zmìòte váš stav dole, pokud jste dokonèili tuto podúlohu."
+
+msgid "strings.disabled_permissions"
+msgstr "Vyøazený úèet"
+
+msgid "strings.user_timezone"
+msgstr "Èasová zóna (GMT)"
+
+
+# Enum values (status, priority, etc.)
+# Note: These should be moved to enums.*.po domain
+
+#. Domain: enums
+msgid "status.0"
+msgstr "Zakázka kompletní"
+
+#. Domain: enums
+msgid "status.1"
+msgstr "Kompletní"
+
+#. Domain: enums
+msgid "status.2"
+msgstr "Nenastartovaný"
+
+#. Domain: enums
+msgid "status.3"
+msgstr "Otevøený"
+
+#. Domain: enums
+msgid "status.4"
+msgstr "Pozastavený"
+
+#. Domain: enums
+msgid "profil.0"
+msgstr "Administrátor"
+
+#. Domain: enums
+msgid "profil.1"
+msgstr "Project Manager"
+
+#. Domain: enums
+msgid "profil.2"
+msgstr "User"
+
+#. Domain: enums
+msgid "profil.3"
+msgstr "Zákazník"
+
+#. Domain: enums
+msgid "profil.4"
+msgstr "Neaktivní"
+
+#. Domain: enums
+msgid "profil.5"
+msgstr "Project Manager Administrator"
+
+#. Domain: enums
+msgid "priority.0"
+msgstr "žádná"
+
+#. Domain: enums
+msgid "priority.1"
+msgstr "Velmi nízká"
+
+#. Domain: enums
+msgid "priority.2"
+msgstr "Nízká"
+
+#. Domain: enums
+msgid "priority.3"
+msgstr "Støední"
+
+#. Domain: enums
+msgid "priority.4"
+msgstr "Vysoká"
+
+#. Domain: enums
+msgid "priority.5"
+msgstr "Velmi vysoká"
+
+#. Domain: enums
+msgid "statusTopic.0"
+msgstr "Uzavøen"
+
+#. Domain: enums
+msgid "statusTopic.1"
+msgstr "Otevøen"
+
+#. Domain: enums
+msgid "statusTopicBis.0"
+msgstr "Ano"
+
+#. Domain: enums
+msgid "statusTopicBis.1"
+msgstr "Ne"
+
+#. Domain: enums
+msgid "statusPublish.0"
+msgstr "Ano"
+
+#. Domain: enums
+msgid "statusPublish.1"
+msgstr "Ne"
+
+#. Domain: enums
+msgid "statusFile.0"
+msgstr "Schváleno"
+
+#. Domain: enums
+msgid "statusFile.1"
+msgstr "Schváleno se zmìnami"
+
+#. Domain: enums
+msgid "statusFile.2"
+msgstr "Potøebuje schválit"
+
+#. Domain: enums
+msgid "statusFile.3"
+msgstr "Schválení není potøeba"
+
+#. Domain: enums
+msgid "statusFile.4"
+msgstr "Neschváleno"
+
+#. Domain: enums
+msgid "phaseStatus.0"
+msgstr "Nenastartovaný"
+
+#. Domain: enums
+msgid "phaseStatus.1"
+msgstr "Otevøený"
+
+#. Domain: enums
+msgid "phaseStatus.2"
+msgstr "Kompletní"
+
+#. Domain: enums
+msgid "phaseStatus.3"
+msgstr "Pozastavený"
+
+#. Domain: enums
+msgid "requestStatus.0"
+msgstr "Nový"
+
+#. Domain: enums
+msgid "requestStatus.1"
+msgstr "Otevøený"
+
+#. Domain: enums
+msgid "requestStatus.2"
+msgstr "Kompletní"
+
+
+# Arrays (days, months, byte units)
+
+msgid "byteunits.0"
+msgstr "Bytes"
+
+msgid "byteunits.1"
+msgstr "KB"
+
+msgid "byteunits.2"
+msgstr "MB"
+
+msgid "byteunits.3"
+msgstr "GB"
+
+msgid "dayname.1"
+msgstr "Pondìlí"
+
+msgid "dayname.2"
+msgstr "Úterý"
+
+msgid "dayname.3"
+msgstr "Støeda"
+
+msgid "dayname.4"
+msgstr "Ètvrtek"
+
+msgid "dayname.5"
+msgstr "Pátek"
+
+msgid "dayname.6"
+msgstr "Sobota"
+
+msgid "dayname.7"
+msgstr "Nedìle"
+
+msgid "monthname.1"
+msgstr "Leden"
+
+msgid "monthname.2"
+msgstr "Únor"
+
+msgid "monthname.3"
+msgstr "Bøezen"
+
+msgid "monthname.4"
+msgstr "Duben"
+
+msgid "monthname.5"
+msgstr "Kvìten"
+
+msgid "monthname.6"
+msgstr "Èerven"
+
+msgid "monthname.7"
+msgstr "Èervenec"
+
+msgid "monthname.8"
+msgstr "Srpen"
+
+msgid "monthname.9"
+msgstr "Záøí"
+
+msgid "monthname.10"
+msgstr "Øíjen"
+
+msgid "monthname.11"
+msgstr "Listopad"
+
+msgid "monthname.12"
+msgstr "Prosinec"
+
