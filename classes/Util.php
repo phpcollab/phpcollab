@@ -652,11 +652,8 @@ class Util
     }
 
     /**
-     * @param $projectDetail
-     * @param Container $container
-     * @return mixed
+     * Recompute number of completed tasks of the project
      *
-     * recompute number of completed tasks of the project
      * Do it only if the project name contains [ / ]
      * list tasks of the same project and count the number of completed
      *
@@ -666,8 +663,11 @@ class Util
      *
      * I don't think this has been working properly for awhile.
      *
+     * @param array $projectDetail Project details array containing pro_name and pro_id
+     * @param \phpCollab\Tasks\Tasks $tasks Tasks service for querying task data (pure DI)
+     * @return string Updated project name with completion count
      */
-    public static function projectComputeCompletion($projectDetail, Container $container)
+    public static function projectComputeCompletion($projectDetail, \phpCollab\Tasks\Tasks $tasks)
     {
         $tableProject = $GLOBALS['tableCollab']["projects"];
         $prj_name = $projectDetail['pro_name'];
@@ -676,7 +676,6 @@ class Util
 
         if ($findit[1] != "") {
             $prj_id = $projectDetail['pro_id'];
-            $tasks = $container->getTasksLoader();
 
             $taskDetails = $tasks->getTaskById($prj_id);
 

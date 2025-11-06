@@ -5,19 +5,20 @@ namespace phpCollab\Alerts;
 
 
 use Exception;
-use phpCollab\Container;
 use phpCollab\Notification;
 
 /**
  * Class DailyAlertEmail
+ *
+ * Sends daily alert emails to members about tasks and subtasks due today.
+ * Inherits pure constructor injection from parent Notification class.
+ *
  * @package phpCollab\Alerts
  */
 class DailyAlertEmail extends Notification
 {
-    public function __construct(Container $container)
-    {
-        parent::__construct($container);
-    }
+    // No constructor needed - inherits clean constructor from Notification parent
+    // Notification::__construct(Members $members, $lang = null, $exceptions = null)
 
     /**
      * @param $member

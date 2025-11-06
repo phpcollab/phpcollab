@@ -5,12 +5,18 @@ namespace phpCollab\Alerts;
 
 
 use Exception;
-use phpCollab\Container;
 use phpCollab\Database;
 
+/**
+ * Class DailyAlerts
+ *
+ * Manages daily alert functionality with pure constructor injection.
+ *
+ * @package phpCollab\Alerts
+ */
 class DailyAlerts
 {
-    private $container;
+    private $dailyAlertEmail;
     protected $db;
     protected $membersTable;
     protected $notificationsTable;
@@ -19,10 +25,18 @@ class DailyAlerts
     protected $projectsTable;
     protected $today;
 
-    public function __construct(Database $database, Container $container)
+    /**
+     * DailyAlerts constructor.
+     *
+     * Uses pure constructor injection - all dependencies are explicit.
+     *
+     * @param Database $database Database connection
+     * @param DailyAlertEmail $dailyAlertEmail Service for sending daily alert emails
+     */
+    public function __construct(Database $database, DailyAlertEmail $dailyAlertEmail)
     {
         $this->db = $database;
-        $this->container = $container;
+        $this->dailyAlertEmail = $dailyAlertEmail;
         $this->today = date("Y-m-d", time());
         $this->membersTable = $this->db->getTableName("members");
         $this->notificationsTable = $this->db->getTableName("notifications");
@@ -115,7 +129,7 @@ SQL;
     public function sendEmail()
     {
         try {
-            $email = new DailyAlertEmail($this->container);
+            $email = $this->dailyAlertEmail;
 
             $membersToNotify = $this->getDailyAlertMembers();
 

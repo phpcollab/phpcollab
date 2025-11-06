@@ -302,7 +302,7 @@ try {
                     try {
                         //recompute number of completed tasks of the project
                         $projectDetail['pro_name'] = phpCollab\Util::projectComputeCompletion($projectDetail,
-                            $container);
+                            $tasks);
 
                         /*
                          * If the status is "completed" and complete_date is empty then set it to the current date.

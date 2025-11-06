@@ -9,6 +9,8 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\IntrospectionProcessor;
 use phpCollab\Administration\Administration;
+use phpCollab\Alerts\DailyAlertEmail;
+use phpCollab\Alerts\DailyAlerts;
 use phpCollab\Assignments\Assignments;
 use phpCollab\Bookmarks\Bookmarks;
 use phpCollab\Bookmarks\DeleteBookmarks;
@@ -354,6 +356,19 @@ return static function (ContainerConfigurator $container) {
         ->public();
 
     $services->set(VCard::class)
+        ->public();
+
+    // ✅ Refactored to use pure constructor injection
+    // Alert Services
+    $services->set(DailyAlertEmail::class)
+        ->args([service(Members::class)])
+        ->public();
+
+    $services->set(DailyAlerts::class)
+        ->args([
+            service(Database::class),
+            service(DailyAlertEmail::class)
+        ])
         ->public();
 
     // Service Locator for backward compatibility with Container pattern

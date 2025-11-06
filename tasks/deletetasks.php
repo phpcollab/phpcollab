@@ -44,7 +44,7 @@ if ($request->isMethod('post')) {
                 //recompute number of completed tasks of the project
                 $projectDetail = $projects->getProjectById($listTasks[0]["tas_project"]);
 
-                phpCollab\Util::projectComputeCompletion($listTasks->tas_project[$i], $container);
+                phpCollab\Util::projectComputeCompletion($listTasks->tas_project[$i], $tasks);
 
                 if (!empty($projectDetail)) {
                     phpCollab\Util::headerFunction("../projects/viewproject.php?id={$projectDetail["pro_id"]}&msg=delete");
