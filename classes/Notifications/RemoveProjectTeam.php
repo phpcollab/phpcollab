@@ -6,17 +6,19 @@ namespace phpCollab\Notifications;
 
 use Exception;
 use Monolog\Logger;
-use phpCollab\Container;
 use phpCollab\Notification;
 use Symfony\Component\HttpFoundation\Session\Session;
 
+/**
+ * Class RemoveProjectTeam
+ *
+ * Sends notifications when team members are removed from projects.
+ * Inherits pure constructor injection from parent Notification class.
+ *
+ * @package phpCollab\Notifications
+ */
 class RemoveProjectTeam extends Notification
 {
-    public function __construct(Container $container)
-    {
-        parent::__construct($container);
-    }
-
     /**
      * @param $projectDetail
      * @param $notificationsList

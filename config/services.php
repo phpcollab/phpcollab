@@ -276,10 +276,11 @@ return static function (ContainerConfigurator $container) {
         ])
         ->public();
 
+    // ✅ Refactored to use pure constructor injection
     $services->set(ApprovalTracking::class)
         ->args([
             service(Database::class),
-            service('service_locator.container')
+            service(Notification::class)
         ])
         ->public();
 
@@ -298,24 +299,25 @@ return static function (ContainerConfigurator $container) {
         ->args([service(Logger::class)])
         ->public();
 
+    // ✅ Refactored - all inherit pure constructor injection from Notification parent
     $services->set(TopicNewTopic::class)
-        ->args([service('service_locator.container')])
+        ->args([service(Members::class)])
         ->public();
 
     $services->set(TopicNewPost::class)
-        ->args([service('service_locator.container')])
+        ->args([service(Members::class)])
         ->public();
 
     $services->set(AddProjectTeam::class)
-        ->args([service('service_locator.container')])
+        ->args([service(Members::class)])
         ->public();
 
     $services->set(RemoveProjectTeam::class)
-        ->args([service('service_locator.container')])
+        ->args([service(Members::class)])
         ->public();
 
     $services->set(SubtaskNotifications::class)
-        ->args([service('service_locator.container')])
+        ->args([service(Members::class)])
         ->public();
 
     // ✅ Refactored to use pure constructor injection
