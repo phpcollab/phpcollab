@@ -598,7 +598,7 @@ foreach ($listVersions as $version) {
     if ($fileDetail["fil_owner"] == $session->get("id") && $version["fil_id"] != $fileDetail["fil_id"]) {
         $theme = THEME;
         echo <<<LINK
-                <a href="javascript:MM_toggleItem(document.{$block1->form}Form, '{$version["fil_id"]}', '{$block1->form}cb{$version["fil_id"]}','$theme')"><img id="{$block1->form}cb{$version["fil_id"]}" src="../themes/$theme/images/checkbox_off_16.gif" alt="checkbox" style="border: none; margin-top: 0;" ></a>
+                <a href="#" onclick="MM_toggleItem(document.{$block1->form}Form, '{$version["fil_id"]}', '{$block1->form}cb{$version["fil_id"]}','$theme'); return false;"><img id="{$block1->form}cb{$version["fil_id"]}" src="../themes/$theme/images/checkbox_off_16.gif" alt="checkbox" style="border: none; margin-top: 0;" ></a>
 LINK;
 
     }
@@ -731,7 +731,7 @@ TABLE;
 
         if ($fileDetail["fil_owner"] == $session->get("id")) {
             echo <<<LINK
-                    <a href="javascript:MM_toggleItem(document.{$peerReviewBlock->form}Form, '{$review["fil_id"]}', '{$peerReviewBlock->form}cb{$review["fil_id"]}','$theme')">
+                    <a href="#" onclick="MM_toggleItem(document.{$peerReviewBlock->form}Form, '{$review["fil_id"]}', '{$peerReviewBlock->form}cb{$review["fil_id"]}','$theme'); return false;">
                         <img id="{$peerReviewBlock->form}cb{$review["fil_id"]}" src="../themes/$theme/images/checkbox_off_16.gif" alt="" style="border: none; margin-top: 0;">
                     </a>
 LINK;

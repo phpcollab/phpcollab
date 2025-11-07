@@ -121,20 +121,19 @@ class Block
     }
 
     /**
-     * Print tooltips
+     * Print tooltips (Modernized - using data attributes instead of inline JavaScript)
      * @param string $item Text printed in tooltip
-     * @param string|null $additionalPrams
+     * @param string|null $additionalPrams (deprecated, kept for compatibility)
      * @return string
      * @access publics
      */
     public function printHelp(string $item, string $additionalPrams = null)
     {
-        $helpText = addslashes($this->help[$item]);
-        $additionalPrams = (is_null($additionalPrams) ? '' : ',' . $additionalPrams);
+        $helpText = htmlspecialchars($this->help[$item], ENT_QUOTES, 'UTF-8');
         return <<<HELP_DIV
-        <a href="javascript:void(0);"
-            onmouseover="return overlib('{$helpText}',SNAPX,550,CSSCLASS,TEXTFONTCLASS,'overDivFontClass',CAPTIONFONTCLASS,' overDivCapFontClass',BGCLASS,'overDivBgClass',FGCLASS,'overDivFgClass'{$additionalPrams});"
-            onmouseout="return nd();"><i class="icon-help fa fa-question-circle fa-lg" title="{$this->strings["help"]}"></i></a>
+        <a href="#" class="help-icon" data-tooltip="{$helpText}" aria-label="{$this->strings["help"]}" role="button">
+            <i class="icon-help fa fa-question-circle fa-lg" title="{$this->strings["help"]}"></i>
+        </a>
 HELP_DIV;
 
     }
@@ -180,7 +179,7 @@ HELP_DIV;
 
         echo <<<HTML
 <div class="headingToggle">
-    <a href="javascript:showHideModule('{$this->form}','{$this->theme}')" title="Expand">
+    <a href="#" class="toggle-link" data-toggle-target="{$this->form}" data-theme="{$this->theme}" title="Expand" onclick="showHideModule('{$this->form}','{$this->theme}'); return false;">
        <img id="{$this->form}Toggle" alt="{$this->form}Toggle" src="{$this->themeImgPath}/module_toggle_{$arrow}.gif" /></a>
     <span class="heading">{$title}</span>
 </div>
@@ -472,11 +471,10 @@ CSRF_INPUT;
                 if (isset($sortingFields) && array_key_exists($i, $sortingFields) && $sortingFields[$i] !== 'none') {
                     echo <<<HTML
 <th nowrap class="{$sortingStyles[$i]}">
-    <a href="javascript:document.{$this->form}Form.sort_target.value='{$this->sortingRef}';
+    <a href="#" class="sort-link" onclick="document.{$this->form}Form.sort_target.value='{$this->sortingRef}';
         document.{$this->form}Form.sort_fields.value='{$sortingFields[$i]}';
         document.{$this->form}Form.sort_order.value='{$sortingOrders[$i]}';
-        document.{$this->form}Form.submit();" 
-        onMouseOver="return true;" onMouseOut="return true">{$labels[$i]}{$sortingArrows[$i]}</a></th>
+        document.{$this->form}Form.submit(); return false;">{$labels[$i]}{$sortingArrows[$i]}</a></th>
 HTML;
                 } else {
                     echo "<th nowrap>{$labels[$i]}</th>";
@@ -513,7 +511,7 @@ HTML;
         if ($checkbox == "true") {
             echo <<<HTML
             <th class="flooma" style="text-align: center; width: 1%">
-                <a href="javascript:MM_toggleSelectedItems(document.{$this->form}Form,'{$this->theme}')"><img height="13" width="13" src="{$this->themeImgPath}/checkbox_off_16.gif" alt=""></a>
+                <a href="#" onclick="MM_toggleSelectedItems(document.{$this->form}Form,'{$this->theme}'); return false;"><img height="13" width="13" src="{$this->themeImgPath}/checkbox_off_16.gif" alt=""></a>
             </th>
 HTML;
         } else {
@@ -550,9 +548,10 @@ HTML;
         $altText = stripslashes($text);
         echo <<<palette_icon
         <td style="width: 30px;" class="commandBtn">
-        <a href="javascript:var b = MM_getButtonWithName(document.{$this->form}Form, '{$this->form}{$num}'); if (b) b.click();" 
-        onMouseOver="var over = MM_getButtonWithName(document.{$this->form}Form, '{$this->form}{$num}'); if (over) over.over(); return true;" 
-        onMouseOut="var out = MM_getButtonWithName(document.{$this->form}Form, '{$this->form}{$num}'); if (out) out.out(); return true; "><img style="border: none;" name="{$this->form}{$num}" src="{$this->themeImgPath}/btn_{$type}_norm.gif" alt="{$altText}"></a></td>
+        <a href="#"
+        onclick="var b = MM_getButtonWithName(document.{$this->form}Form, '{$this->form}{$num}'); if (b) b.click(); return false;"
+        onmouseover="var over = MM_getButtonWithName(document.{$this->form}Form, '{$this->form}{$num}'); if (over) over.over(); return true;"
+        onmouseout="var out = MM_getButtonWithName(document.{$this->form}Form, '{$this->form}{$num}'); if (out) out.out(); return true;"><img style="border: none;" name="{$this->form}{$num}" src="{$this->themeImgPath}/btn_{$type}_norm.gif" alt="{$altText}"></a></td>
 palette_icon;
     }
 
@@ -646,7 +645,7 @@ SCRIPT;
     public function checkboxRow($ref, $checkbox = "true")
     {
         if ($checkbox == "true") {
-            echo "<td style='text-align: center'><a href=\"javascript:MM_toggleItem(document." . $this->form . "Form, '" . $ref . "', '" . $this->form . "cb" . $ref . "','{$this->theme}')\"><img alt='' name='" . $this->form . "cb" . $ref . "' src='$this->themeImgPath/checkbox_off_16.gif' style='margin: 3px 0'></a></td>";
+            echo "<td style='text-align: center'><a href=\"#\" onclick=\"MM_toggleItem(document." . $this->form . "Form, '" . $ref . "', '" . $this->form . "cb" . $ref . "','{$this->theme}'); return false;\"><img alt='' id='" . $this->form . "cb" . $ref . "' name='" . $this->form . "cb" . $ref . "' src='$this->themeImgPath/checkbox_off_16.gif' style='margin: 3px 0'></a></td>";
         } else {
             echo "<td><img height='13' width='13' src='$this->themeImgPath/spacer.gif' alt='' style='margin: 3px 0'></td>";
         }

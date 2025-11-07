@@ -234,7 +234,7 @@ HTML;
 				<td><input size="44" value="{$_POST["dbName"]}" style="width: 200px" name="dbName" maxlength="100" type="text" required></td>
 			</tr>
 			<tr class="odd">
-				<td class="leftvalue">Table prefix :<br/>[<a href="javascript:void(0)" onmouseover="return overlib('$myPrefix',ABOVE,SNAPX,550)" onmouseout="return nd()">Help</a>] </td>
+				<td class="leftvalue">Table prefix :<br/>[<a href="#" class="help-icon" data-tooltip="$myPrefix" aria-label="Help">Help</a>] </td>
 				<td><input size="44" value="{$_POST["dbTablePrefix"]}" style="width: 200px" name="dbTablePrefix" maxlength="100" type="text"></td>
 			</tr>
 HTML;
@@ -262,15 +262,15 @@ HTML;
     $setupLangDefault = addslashes($help["setup_langdefault"]);
     echo <<<HTML
     <tr class="odd">
-        <td class="leftvalue">* Notifications :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('$setupNotifications',SNAPX,550);" onmouseout="return nd();">Help</a>] </td>
+        <td class="leftvalue">* Notifications :<br/>[<a href="#" class="help-icon" data-tooltip="$setupNotifications" aria-label="Help">Help</a>] </td>
         <td><input type="radio" name="notifications" value="false" $notificationsOff> False&nbsp;<input type="radio" name="notifications" value="true" $notificationsOn> True<br/>[Mail $mailEnabled]</td>
     </tr>
     <tr class="odd">
-        <td class="leftvalue">* Forced login :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('$setupForcedLogin',SNAPX,550);" onmouseout="return nd();">Help</a>] </td>
+        <td class="leftvalue">* Forced login :<br/>[<a href="#" class="help-icon" data-tooltip="$setupForcedLogin" aria-label="Help">Help</a>] </td>
         <td><input type="radio" name="forcedLogin" value="false" checked> False&nbsp;<input type="radio" name="forcedLogin" value="true"> True</td>
     </tr>
     <tr class="odd">
-        <td class="leftvalue">Default language :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('$setupLangDefault',SNAPX,550);" onmouseout="return nd();">Help</a>] </td>
+        <td class="leftvalue">Default language :<br/>[<a href="#" class="help-icon" data-tooltip="$setupLangDefault" aria-label="Help">Help</a>] </td>
         <td>
             <select name="defaultLanguage">
                 <option value="ar">Arabic</option>

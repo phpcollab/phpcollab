@@ -1,656 +1,591 @@
-//GLOBALS
-var w3c = (document.getElementById) ? 1 : 0
-var ns4 = (document.layers) ? 1 : 0  //browser detect for NS4 & W3C standards
-var hasCookies = false;
+/**
+ * PhpCollab - Modernized JavaScript Module
+ * Refactored from legacy Macromedia/Dreamweaver code
+ *
+ * This file provides core functionality for:
+ * - Toggle/collapse sections
+ * - Checkbox management
+ * - Button state management
+ * - Cookie handling
+ * - Popup windows
+ */
 
-// tests whether the user accepts cookies, and sets a flag.
-if (document.cookie == '') {
-    document.cookie = 'hasCookies=yes';
-    if (document.cookie.indexOf('hasCookies=yes') != -1) hasCookies = true;
-}
-else hasCookies = true;
+(function(window, document) {
+    'use strict';
 
-// returns an object reference.
-function getObject(obj) {
-    if (w3c)
-        var theObj = document.getElementById(obj);
-    else if (ns4)
-        var theObj = eval("document." + obj);
-    return theObj;
-}
+    // ===================================================================
+    // Cookie Management
+    // ===================================================================
 
-// swaps text in a layer.
-function swapText(text, divID, innerDivID) {
-    var content = "<span class=\"commandDesc\">" + text + "</span>";
-    if (w3c) {
-        var theObj = getObject(divID);
-        if (theObj) theObj.innerHTML = text;
-    }
-    else if (ns4) {
-        var innerObj = divID + ".document." + innerDivID;
-        var theObj = getObject(innerObj);
-        if (theObj) {
-            theObj.document.open();
-            theObj.document.write(content);
-            theObj.document.close();
+    /**
+     * Check if cookies are supported
+     */
+    const hasCookies = (function() {
+        try {
+            document.cookie = 'cookieTest=1';
+            const supported = document.cookie.indexOf('cookieTest=') !== -1;
+            document.cookie = 'cookieTest=1; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+            return supported;
+        } catch (e) {
+            return false;
         }
-    }
-}
+    })();
 
-// sets a cookie in the browser.
-function setCookie(name, value, hours, path) {
-    if (hasCookies) {
+    /**
+     * Set a cookie
+     * @param {string} name - Cookie name
+     * @param {string} value - Cookie value
+     * @param {number|string} hours - Expiration in hours or date string
+     * @param {string} path - Cookie path
+     */
+    function setCookie(name, value, hours, path) {
+        if (!hasCookies) return;
+
+        let expires = '';
         if (hours) {
-            if ((typeof(hours) == 'string') && Date.parse(hours)) var numHours = hours;
-            else if (typeof(hours) == 'number') var numHours = (new Date((new Date()).getTime() + hours * 3600000)).toGMTString();
+            const date = new Date();
+            if (typeof hours === 'number') {
+                date.setTime(date.getTime() + (hours * 60 * 60 * 1000));
+                expires = '; expires=' + date.toUTCString();
+            } else if (typeof hours === 'string') {
+                expires = '; expires=' + hours;
+            }
         }
-        document.cookie = name + '=' + escape(value) + ((numHours) ? (';expires=' + numHours) : '') + ((path) ? ';path=' + path : '');
-    }
-}
 
-// reads a cookie from the browser
-function readCookie(name) {
-    if (document.cookie == '') return '';
-    else {
-        var firstChar, lastChar;
-        var theBigCookie = document.cookie;
-        firstChar = theBigCookie.indexOf(name);
-        if (firstChar != -1) {
-            firstChar += name.length + 1;
-            lastChar = theBigCookie.indexOf(';', firstChar);
-            if (lastChar == -1) lastChar = theBigCookie.length;
-            return unescape(theBigCookie.substring(firstChar, lastChar));
+        const pathStr = path ? '; path=' + path : '';
+        document.cookie = name + '=' + encodeURIComponent(value) + expires + pathStr;
+    }
+
+    /**
+     * Read a cookie value
+     * @param {string} name - Cookie name
+     * @returns {string} Cookie value or empty string
+     */
+    function readCookie(name) {
+        const nameEQ = name + '=';
+        const cookies = document.cookie.split(';');
+
+        for (let i = 0; i < cookies.length; i++) {
+            let cookie = cookies[i].trim();
+            if (cookie.indexOf(nameEQ) === 0) {
+                return decodeURIComponent(cookie.substring(nameEQ.length));
+            }
         }
-        else return '';
+        return '';
     }
-}
 
-/*  Netscape 4 resize fix */
-function WM_netscapeCssFix() {
-    if (document.WM.WM_netscapeCssFix.initWindowWidth != window.innerWidth || document.WM.WM_netscapeCssFix.initWindowHeight != window.innerHeight) {
-        document.location = document.location;
-    }
-}
+    // ===================================================================
+    // Toggle/Collapse Functionality
+    // ===================================================================
 
-function WM_netscapeCssFixCheckIn() {
-    if ((navigator.appName == 'Netscape') && (parseInt(navigator.appVersion) == 4)) {
-        if (typeof document.WM == 'undefined') {
-            document.WM = {};
+    /**
+     * Toggle show/hide for collapsible modules
+     * @param {string} divID - ID of the div to toggle
+     * @param {string} theme - Theme name for image paths
+     */
+    function showHideModule(divID, theme) {
+        const state = toggleFoldyPersistState(divID);
+        const divElement = document.getElementById(divID);
+        const toggleElement = document.getElementById(divID + 'Toggle');
+
+        if (divElement && toggleElement) {
+            if (state === 'collapse') {
+                toggleElement.src = '../themes/' + theme + '/images/module_toggle_closed.gif';
+                divElement.classList.add('toggle-hide');
+            } else {
+                toggleElement.src = '../themes/' + theme + '/images/module_toggle_open.gif';
+                divElement.classList.remove('toggle-hide');
+            }
         }
-        if (typeof document.WM.WM_scaleFont == 'undefined') {
-            document.WM.WM_netscapeCssFix = {};
-            document.WM.WM_netscapeCssFix.initWindowWidth = window.innerWidth;
-            document.WM.WM_netscapeCssFix.initWindowHeight = window.innerHeight;
+    }
+
+    /**
+     * Toggle and persist collapse state in cookie
+     * @param {string} divID - ID of the div
+     * @returns {string} New state ('expand' or 'collapse')
+     */
+    function toggleFoldyPersistState(divID) {
+        const currentState = readCookie(divID);
+        const newState = (currentState === 'expand' || currentState === '') ? 'collapse' : 'expand';
+        setCookie(divID, newState, 8760, '/'); // 1 year
+        return newState;
+    }
+
+    // ===================================================================
+    // Checkbox Management
+    // ===================================================================
+
+    /**
+     * Toggle a single checkbox item
+     * @param {HTMLFormElement} form - The form containing the checkbox
+     * @param {string} itemName - Name of the item
+     * @param {string} imageName - Name of the checkbox image
+     * @param {string} theme - Theme name for image paths
+     */
+    function MM_toggleItem(form, itemName, imageName, theme) {
+        if (!form.selectedItems) {
+            form.selectedItems = [];
         }
-        window.onresize = WM_netscapeCssFix;
-    }
-}
 
-WM_netscapeCssFixCheckIn();
+        const index = form.selectedItems.indexOf(itemName);
+        const imgElement = document.getElementById(imageName) || document[imageName];
 
-function showHideModuleMouseOver(divID) {
-    var theCookie = readCookie(divID);
-    if ((theCookie == "expand") || (theCookie == "")) {
-        window.status = "Collapse";
-    }
-    else {
-        window.status = "Expand";
-    }
-}
-function showHideModule(divID, theme) {
-    var state = toggleFoldyPersistState(divID);
-    var ok = false;
-
-    var divIDobj = document.getElementById(divID);
-    var toggleobj = document.getElementById(divID + 'Toggle');
-
-    if (divIDobj != null && toggleobj != null) {
-        ok = true;
-        if (state === "collapse") {
-            toggleobj.src = "../themes/" + theme + "/images/module_toggle_closed.gif";
-            divIDobj.classList.toggle("toggle-hide")
+        if (index > -1) {
+            // Item is selected, deselect it
+            form.selectedItems.splice(index, 1);
+            if (imgElement) {
+                imgElement.src = '../themes/' + theme + '/images/checkbox_off_16.gif';
+            }
         } else {
-            toggleobj.src = "../themes/" + theme + "/images/module_toggle_open.gif";
-            divIDobj.classList.toggle("toggle-hide")
-        }
-    }
-    if (!ok) {
-        document.location = document.location;
-    }
-
-    showHideModuleMouseOver(divID);
-}
-
-function toggleFoldyPersistState(divID) {
-    var theCookie = readCookie(divID);
-    var state = "expand";
-
-    if ((theCookie === "expand") || (theCookie === "")) {
-        state = "collapse";
-    }
-    setCookie(divID, state, 8760, '/');
-    return state;
-}
-
-function MM_swapImgRestore() { //v3.0
-    var i, x, a = document.MM_sr;
-    for (i = 0; a && i < a.length && (x = a[i]) && x.oSrc; i++) x.src = x.oSrc;
-}
-
-function MM_preloadImages() { //v3.0
-    var d = document;
-    if (d.images) {
-        if (!d.MM_p) d.MM_p = [];
-        var i, j = d.MM_p.length, a = MM_preloadImages.arguments;
-        for (i = 0; i < a.length; i++)
-            if (a[i].indexOf("#") !== 0) {
-                d.MM_p[j] = new Image;
-                d.MM_p[j++].src = a[i];
+            // Item is not selected, select it
+            form.selectedItems.push(itemName);
+            if (imgElement) {
+                imgElement.src = '../themes/' + theme + '/images/checkbox_on_16.gif';
             }
-    }
-}
-
-function MM_findObj(n, d) { //v4.0
-    var p, i, x;
-    if (!d) d = document;
-    if ((p = n.indexOf("?")) > 0 && parent.frames.length) {
-        d = parent.frames[n.substring(p + 1)].document;
-        n = n.substring(0, p);
-    }
-    if (!(x = d[n]) && d.all) x = d.all[n];
-    for (i = 0; !x && i < d.forms.length; i++) x = d.forms[i][n];
-    for (i = 0; !x && d.layers && i < d.layers.length; i++) x = MM_findObj(n, d.layers[i].document);
-    if (!x && document.getElementById) x = document.getElementById(n);
-    return x;
-}
-
-function MM_swapImage() { //v3.0
-    var i, j = 0, x, a = MM_swapImage.arguments;
-    document.MM_sr = [];
-    for (i = 0; i < (a.length - 2); i += 3)
-        if ((x = MM_findObj(a[i])) != null) {
-            document.MM_sr[j++] = x;
-            if (!x.oSrc) x.oSrc = x.src;
-            x.src = a[i + 2];
         }
-}
 
-// Remove an array item at n
-// 0-based
-
-function MM_removeNthArrayItem(array, n) {
-    var lhs = [];
-
-    if (n > 0)
-        lhs = array.slice(0, n);
-
-    var rhs = [];
-
-    if (n < array.length)
-        rhs = array.slice(n + 1);
-
-    return lhs.concat(rhs);
-}
-
-// Does the array contain the given string?
-
-function MM_arrayContainsString(array, item) {
-    if (array == null)
-        return false;
-
-    var count = array.length;
-    for (i = 0; i < count; i++) {
-        if (array[i] == item)
-            return true;
+        MM_updateButtons2(form, form.selectedItems);
     }
 
-    return false;
-}
-
-// remove the given string from the array of strings
-
-function MM_removeStringFromArray(array, item) {
-    if (array == null)
-        return null;
-
-    var count = array.length;
-    for (i = 0; i < count; i++) {
-        if (array[i] == item)
-            return MM_removeNthArrayItem(array, i);
-    }
-
-    return array;
-}
-
-// a selectedItems array is kept in the form. It is an array of strings, each
-// string being the name of a checkbox image. It doesn't actually have to be
-// the name="foo" attribute of the HTML object itself, just any arbitrary name
-// that is associated with this checkbox. The image name is the actual name of the image.
-
-function MM_toggleItem(form, itemName, imageName, theme) {
-    if (form.selectedItems == null)
+    /**
+     * Select all checkboxes in a form
+     * @param {HTMLFormElement} form - The form
+     * @param {string} theme - Theme name
+     */
+    function MM_selectAllItems(form, theme) {
         form.selectedItems = [];
 
-    if (MM_arrayContainsString(form.selectedItems, itemName)) {
-        form.selectedItems = MM_removeStringFromArray(form.selectedItems, itemName);
-        document[imageName].src = '../themes/' + theme + '/images/checkbox_off_16.gif';
-        //MM_swapImage(imageName, '', '../themes/'+theme+'/checkbox_off_16.gif', '1');
-    } else {
-        form.selectedItems[form.selectedItems.length] = itemName;
-        document[imageName].src = '../themes/' + theme + '/images/checkbox_on_16.gif';
-        //MM_swapImage(imageName, '', '../themes/'+theme+'/checkbox_on_16.gif', '1');
-    }
+        if (form.checkboxes) {
+            for (let i = 0; i < form.checkboxes.length; i++) {
+                const checkbox = form.checkboxes[i];
+                const imgElement = document.getElementById(checkbox.mImageName) ||
+                                 document[checkbox.mImageName];
 
-    MM_updateButtons2(form, form.selectedItems);
-
-}
-
-function MM_selectAllItems(form, theme) {
-
-    form.selectedItems = [];
-    if (form.checkboxes) {
-        var checkboxCount = form.checkboxes.length;
-        for (i = 0; i < checkboxCount; i++) {
-            var checkbox = form.checkboxes[i];
-            if (-1 == document[checkbox.mImageName].src.indexOf('dim_16.gif')) {
-                document[checkbox.mImageName].src = '../themes/' + theme + '/images/checkbox_on_16.gif';
-                form.selectedItems[form.selectedItems.length] = checkbox.mName;
+                if (imgElement && imgElement.src.indexOf('dim_16.gif') === -1) {
+                    imgElement.src = '../themes/' + theme + '/images/checkbox_on_16.gif';
+                    form.selectedItems.push(checkbox.mName);
+                }
             }
         }
+
+        MM_updateButtons2(form, form.selectedItems);
     }
 
-    MM_updateButtons2(form, form.selectedItems);
-
-}
-
-function MM_deselectAllItems(form, theme) {
-    form.selectedItems = [];
-    if (form.checkboxes) {
-        var checkboxCount = form.checkboxes.length;
-        for (i = 0; i < checkboxCount; i++) {
-            var checkbox = form.checkboxes[i];
-            if (-1 == document[checkbox.mImageName].src.indexOf('dim_16.gif')) {
-                document[checkbox.mImageName].src = '../themes/' + theme + '/images/checkbox_off_16.gif';
-            }
-        }
-    }
-
-    MM_updateButtons2(form, form.selectedItems);
-
-}
-
-// If all items are selected, deselect all. Otherwise select all.
-function MM_toggleSelectedItems(form, theme) {
-    if (!form.selectedItems)
+    /**
+     * Deselect all checkboxes in a form
+     * @param {HTMLFormElement} form - The form
+     * @param {string} theme - Theme name
+     */
+    function MM_deselectAllItems(form, theme) {
         form.selectedItems = [];
 
-    if (form.checkboxes) {
-        if (form.selectedItems.length == form.checkboxes.length - MM_countDisabledCheckboxes(form))
-            MM_deselectAllItems(form, theme);
-        else
-            MM_selectAllItems(form, theme);
-    }
-}
+        if (form.checkboxes) {
+            for (let i = 0; i < form.checkboxes.length; i++) {
+                const checkbox = form.checkboxes[i];
+                const imgElement = document.getElementById(checkbox.mImageName) ||
+                                 document[checkbox.mImageName];
 
-// counts the number of disabled checkboxes - used for deselect all
-function MM_countDisabledCheckboxes(form) {
-    var disabledCount = 0;
-    if (form.checkboxes) {
-        var checkboxCount = form.checkboxes.length;
-        for (i = 0; i < checkboxCount; i++) {
-            var checkbox = form.checkboxes[i];
-            if (-1 != document[checkbox.mImageName].src.indexOf('dim_16.gif')) {
-                disabledCount++;
+                if (imgElement && imgElement.src.indexOf('dim_16.gif') === -1) {
+                    imgElement.src = '../themes/' + theme + '/images/checkbox_off_16.gif';
+                }
             }
         }
 
-
+        MM_updateButtons2(form, form.selectedItems);
     }
 
+    /**
+     * Toggle between select all and deselect all
+     * @param {HTMLFormElement} form - The form
+     * @param {string} theme - Theme name
+     */
+    function MM_toggleSelectedItems(form, theme) {
+        if (!form.selectedItems) {
+            form.selectedItems = [];
+        }
 
-    return disabledCount;
-}
+        if (form.checkboxes) {
+            const disabledCount = MM_countDisabledCheckboxes(form);
+            if (form.selectedItems.length === form.checkboxes.length - disabledCount) {
+                MM_deselectAllItems(form, theme);
+            } else {
+                MM_selectAllItems(form, theme);
+            }
+        }
+    }
 
-function MM_doButtonAction(action, selectedItems) {
+    /**
+     * Count disabled checkboxes in a form
+     * @param {HTMLFormElement} form - The form
+     * @returns {number} Count of disabled checkboxes
+     */
+    function MM_countDisabledCheckboxes(form) {
+        let disabledCount = 0;
 
-    // If the action is a javascript action (starts with 'javascript')
-    // then execute it immediately.
+        if (form.checkboxes) {
+            for (let i = 0; i < form.checkboxes.length; i++) {
+                const checkbox = form.checkboxes[i];
+                const imgElement = document.getElementById(checkbox.mImageName) ||
+                                 document[checkbox.mImageName];
 
-    if ((action.indexOf('javascript') == 0) || (action.indexOf('Javascript') == 0)) {
-        eval(action);
-    } else {
+                if (imgElement && imgElement.src.indexOf('dim_16.gif') !== -1) {
+                    disabledCount++;
+                }
+            }
+        }
 
-        var okay = true;
-        // if action starts with "function:" call the function on the selection to see
-        // if we can continue
-        if ((action.indexOf('function:') == 0)) {
+        return disabledCount;
+    }
+
+    // ===================================================================
+    // Button State Management
+    // ===================================================================
+
+    /**
+     * Perform button action based on selection
+     * @param {string} action - Action URL or JavaScript
+     * @param {Array} selectedItems - Array of selected item IDs
+     */
+    function MM_doButtonAction(action, selectedItems) {
+        // Check if action is JavaScript
+        if (action.indexOf('javascript:') === 0 || action.indexOf('Javascript:') === 0) {
+            // Remove 'javascript:' prefix and execute
+            const jsCode = action.substring(action.indexOf(':') + 1);
+            try {
+                // Use Function constructor instead of eval for better scoping
+                const fn = new Function('selectedItems', jsCode);
+                fn(selectedItems);
+            } catch (e) {
+                console.error('Error executing button action:', e);
+            }
+            return;
+        }
+
+        // Check for function prefix
+        let okay = true;
+        if (action.indexOf('function:') === 0) {
             okay = false;
-            var idx = action.indexOf(":");
-            if (idx + 1 < action.length) {
-                action = action.substr(idx + 1);
-                idx = action.indexOf(",");
-                if (idx + 1 < action.length) {
-                    var fxn = action.substr(0, idx);
-                    action = action.substr(idx + 1);
-                    fxn = eval(fxn);
-                    if (typeof(fxn) == "function") {
-                        okay = fxn(selectedItems);
+            const colonIdx = action.indexOf(':');
+            if (colonIdx + 1 < action.length) {
+                action = action.substring(colonIdx + 1);
+                const commaIdx = action.indexOf(',');
+                if (commaIdx !== -1 && commaIdx + 1 < action.length) {
+                    const fnName = action.substring(0, commaIdx);
+                    action = action.substring(commaIdx + 1);
+                    const fn = window[fnName];
+                    if (typeof fn === 'function') {
+                        okay = fn(selectedItems);
                     }
                 }
             }
         }
 
         if (okay) {
-            var params = new String();
-
-            if (selectedItems) {
-                for (i = 0; i < selectedItems.length; i++) {
-                    if (i > 0)
-                        params = params.concat("**");
-
-                    params = params.concat(selectedItems[i]);
-                }
+            // Build URL with selected items
+            let url = action;
+            if (selectedItems && selectedItems.length > 0) {
+                const params = selectedItems.join('**');
+                url += (url.indexOf('?') === -1 ? '?' : '&') + 'id=' + params;
             }
-
-            var url = action;
-
-            if (params.length > 0) {
-                if (url.indexOf('?') == -1)
-                    url = url + '?';
-                else
-                    url = url + '&';
-
-                url = url + 'id=' + params;
-            }
-
             window.location = url;
         }
-
     }
-}
 
-function MM_updateButtons(form) {
-    var dummy = [];
-    MM_updateButtons2(form, dummy);
-}
-
-function MM_updateButtons2(form, selectedItems) {
-    if (form.buttons) {
-        var buttonCount = form.buttons.length;
-
-        for (i = 0; i < buttonCount; i++) {
-            var button = form.buttons[i];
-            if (button) {
-                button.update(selectedItems);
-            }
-        }
+    /**
+     * Update button states (simplified version)
+     * @param {HTMLFormElement} form - The form
+     */
+    function MM_updateButtons(form) {
+        MM_updateButtons2(form, []);
     }
-}
 
-function MM_getButtonWithName(form, buttonName) {
-
-    if (form.buttons) {
-        var buttonCount = form.buttons.length;
-
-        for (i = 0; i < buttonCount; i++) {
-            var button = form.buttons[i];
-            if (button.mName == buttonName) {
-                return button;
+    /**
+     * Update button states based on selection
+     * @param {HTMLFormElement} form - The form
+     * @param {Array} selectedItems - Array of selected items
+     */
+    function MM_updateButtons2(form, selectedItems) {
+        if (form.buttons) {
+            for (let i = 0; i < form.buttons.length; i++) {
+                const button = form.buttons[i];
+                if (button && button.update) {
+                    button.update(selectedItems);
+                }
             }
         }
     }
 
-    return null;
-}
-
-function MM_countFilesFolders(selectedItems) {
-    var ret_obj = {};
-    ret_obj["files"] = 0;
-    ret_obj["folders"] = 0;
-    var i = 0;
-    for (i = 0; i < selectedItems.length; i++) {
-        var ftype = null;
-        if ((ftype = MM_findObj(selectedItems[i] + "ftype")) != null) {
-            if (ftype.value == "file") ret_obj["files"]++;
-            else if (ftype.value == "folder") ret_obj["folders"]++;
-        }
-    }
-    return ret_obj;
-}
-
-function MM_oneFileOnly(selectedItems) {
-    var ret = false;
-    if (selectedItems.length == 1) {
-        var ftype = null;
-        if ((ftype = MM_findObj(selectedItems[0] + "ftype")) != null) {
-            if (ftype.value == "file") ret = true;
-        }
-    }
-    return ret;
-}
-
-function MM_atLeastOneFile(selectedItems) {
-    var ret = false;
-    if (selectedItems.length > 0) {
-        var i = 0;
-        while (!ret && i < selectedItems.length) {
-            var ftype = null;
-            if ((ftype = MM_findObj(selectedItems[i] + "ftype")) != null) {
-                if (ftype.value == "file") ret = true;
+    /**
+     * Get a button by name
+     * @param {HTMLFormElement} form - The form
+     * @param {string} buttonName - Name of the button
+     * @returns {Object|null} Button object or null
+     */
+    function MM_getButtonWithName(form, buttonName) {
+        if (form.buttons) {
+            for (let i = 0; i < form.buttons.length; i++) {
+                const button = form.buttons[i];
+                if (button.mName === buttonName) {
+                    return button;
+                }
             }
-            ++i;
         }
+        return null;
     }
-    return ret;
-}
 
-function MMCommandButton(name,
-                         form,
-                         action,
-                         enabledImage,
-                         overImage,
-                         downImage,
-                         disabledImage,
-                         enableOnNoSelection,
-                         enableOnSingleSelection,
-                         enableOnMultipleSelection,
-                         enabledCheckSelectionJS,
-                         altText,
-                         confirmation,
-                         confirmationMessage) {
-    this.mName = name;						// Name of the image
-    this.mForm = form;						// The form object enclosing this button (to retrieve selections)
-    this.mAction = action;					// Action to perform when clicking
-    this.mEnabledImage = enabledImage;		// enabled image (String)
-    this.mOverImage = overImage;			// over image (String)
-    //this.mDownImage = downImage;			// down image (String)
-    this.mDisabledImage = disabledImage;	// disabled image (String)
-    this.mEnableOnNoSelection = enableOnNoSelection;
-    this.mEnableOnSingleSelection = enableOnSingleSelection;
-    this.mEnableOnMultipleSelection = enableOnMultipleSelection;
-    this.mEnabledCheckSelectionJS = null;
-    if (enabledCheckSelectionJS != '') {
-        this.mEnabledCheckSelectionJS = eval(enabledCheckSelectionJS);
+    // ===================================================================
+    // Button and Checkbox Classes
+    // ===================================================================
+
+    /**
+     * Command Button Constructor
+     * @constructor
+     */
+    function MMCommandButton(name, form, action, enabledImage, overImage, downImage,
+                           disabledImage, enableOnNoSelection, enableOnSingleSelection,
+                           enableOnMultipleSelection, enabledCheckSelectionJS, altText,
+                           confirmation, confirmationMessage) {
+        this.mName = name;
+        this.mForm = form;
+        this.mAction = action;
+        this.mEnabledImage = enabledImage;
+        this.mOverImage = overImage;
+        this.mDisabledImage = disabledImage;
+        this.mEnableOnNoSelection = enableOnNoSelection;
+        this.mEnableOnSingleSelection = enableOnSingleSelection;
+        this.mEnableOnMultipleSelection = enableOnMultipleSelection;
+        this.mEnabledCheckSelectionJS = null;
+
+        if (enabledCheckSelectionJS !== '') {
+            this.mEnabledCheckSelectionJS = window[enabledCheckSelectionJS];
+        }
+
+        this.mAltText = altText;
+        this.mConfirmation = confirmation;
+        this.mConfirmationMessage = confirmationMessage;
+        this.mEnabled = false;
+
+        this.update = MMCommandButton_update;
+        this.over = MMCommandButton_over;
+        this.out = MMCommandButton_out;
+        this.click = MMCommandButton_click;
     }
-    this.mAltText = altText;
-    this.mConfirmation = confirmation;
-    this.mConfirmationMessage = confirmationMessage;
-    this.mEnabled = false;
 
-    this.update = MMCommandButton_update;
-    this.over = MMCommandButton_over;
-    this.out = MMCommandButton_out;
-    this.click = MMCommandButton_click;
-}
+    /**
+     * Update button state
+     */
+    function MMCommandButton_update(selectedItems) {
+        const imgElement = document.getElementById(this.mName) || document[this.mName];
+        if (!imgElement) return;
 
-function MMCommandButton_update(selectedItems) {
-    if (this.mEnabledCheckSelectionJS != '' &&
-        typeof(this.mEnabledCheckSelectionJS) == "function") {
-        var isEnabled = this.mEnabledCheckSelectionJS(selectedItems);
-        if (isEnabled === true) {
-            document[this.mName].src = this.mEnabledImage;
-            this.mEnabled = true;
+        if (this.mEnabledCheckSelectionJS &&
+            typeof this.mEnabledCheckSelectionJS === 'function') {
+            const isEnabled = this.mEnabledCheckSelectionJS(selectedItems);
+            imgElement.src = isEnabled ? this.mEnabledImage : this.mDisabledImage;
+            this.mEnabled = isEnabled;
         } else {
-            document[this.mName].src = this.mDisabledImage;
-            this.mEnabled = false;
+            const count = selectedItems.length;
+            let enabled = false;
+
+            if (count === 0) {
+                enabled = this.mEnableOnNoSelection === true;
+            } else if (count === 1) {
+                enabled = this.mEnableOnSingleSelection === true;
+            } else if (count > 1) {
+                enabled = this.mEnableOnMultipleSelection === true;
+            }
+
+            imgElement.src = enabled ? this.mEnabledImage : this.mDisabledImage;
+            this.mEnabled = enabled;
         }
     }
-    else {
-        if (selectedItems.length == 0) {
-            if (this.mEnableOnNoSelection === true) {
-                document[this.mName].src = this.mEnabledImage;
-                this.mEnabled = true;
-            } else {
-                document[this.mName].src = this.mDisabledImage;
-                this.mEnabled = false;
+
+    /**
+     * Handle button mouseover
+     */
+    function MMCommandButton_over() {
+        if (this.mEnabled) {
+            const imgElement = document.getElementById(this.mName) || document[this.mName];
+            if (imgElement) {
+                imgElement.src = this.mOverImage;
             }
         }
+        // Note: swapText functionality removed as it's rarely used
+        window.status = this.mAltText;
+    }
 
-        if (selectedItems.length == 1) {
-            if (this.mEnableOnSingleSelection === true) {
-                document[this.mName].src = this.mEnabledImage;
-                this.mEnabled = true;
-            } else {
-                document[this.mName].src = this.mDisabledImage;
-                this.mEnabled = false;
+    /**
+     * Handle button mouseout
+     */
+    function MMCommandButton_out() {
+        if (this.mEnabled) {
+            const imgElement = document.getElementById(this.mName) || document[this.mName];
+            if (imgElement) {
+                imgElement.src = this.mEnabledImage;
             }
         }
-
-        if (selectedItems.length > 1) {
-            if (this.mEnableOnMultipleSelection === true) {
-                document[this.mName].src = this.mEnabledImage;
-                this.mEnabled = true;
-            } else {
-                document[this.mName].src = this.mDisabledImage;
-                this.mEnabled = false;
-            }
-        }
+        window.status = '';
     }
 
-}
-
-function MMCommandButton_over() {
-    if (this.mEnabled) {
-        document[this.mName].src = this.mOverImage;
-    }
-
-    // To whom it may concern. If you are revisiting this code in order
-    // to speed it up, note that the thing slowing down the rollovers is
-    // this call to swapText.
-    swapText(this.mAltText, this.mForm.tt, this.mForm.tt + "i");
-
-    window.status = this.mAltText;
-}
-
-function MMCommandButton_out() {
-    if (this.mEnabled) {
-        document[this.mName].src = this.mEnabledImage;
-    }
-    swapText('', this.mForm.tt, this.mForm.tt + "i");
-
-    window.status = '';
-}
-
-function MMCommandButton_click() {
-    if (this.mEnabled) {
-        //document[this.mName].src = this.mDownImage;
-
-        if (this.mConfirmation) {
-            if (!confirm(this.mConfirmationMessage)) {
+    /**
+     * Handle button click
+     */
+    function MMCommandButton_click() {
+        if (this.mEnabled) {
+            if (this.mConfirmation && !confirm(this.mConfirmationMessage)) {
                 return;
             }
+            MM_doButtonAction(this.mAction, this.mForm.selectedItems);
+        }
+        window.status = '';
+    }
+
+    /**
+     * Checkbox Constructor
+     * @constructor
+     */
+    function MMCheckbox(name, form, imageName) {
+        this.mName = name;
+        this.mForm = form;
+        this.mImageName = imageName;
+    }
+
+    // ===================================================================
+    // Utility Functions
+    // ===================================================================
+
+    /**
+     * Open a popup window
+     * @param {string} loc - URL to open
+     * @param {number} w - Width
+     * @param {number} h - Height
+     * @param {boolean} menubar - Show menubar
+     */
+    function popUp(loc, w, h, menubar) {
+        w = w || 700;
+        h = h || 500;
+        const menubarStr = (menubar === true) ? 'menubar,' : '';
+
+        const editorWin = window.open(
+            loc,
+            'editWin',
+            menubarStr + 'resizable,scrollbars,width=' + w + ',height=' + h
+        );
+
+        if (editorWin) {
+            editorWin.focus();
         }
 
-        MM_doButtonAction(this.mAction, this.mForm.selectedItems);
-    }
-    swapText('', this.mForm.tt, this.mForm.tt + "i");
-    window.status = '';
-}
-
-function MMCheckbox(name,
-                    form,
-                    imageName) {
-    // The mName is the name of the checkbox that is passed on via POST
-    this.mName = name;
-    this.mForm = form;
-    this.mImageName = imageName;
-}
-
-// A popup window for general use, but for invoking the content ui in particular
-// For other purposes, a 500x350 window size is reasonable
-function popUp(loc, w, h, menubar) {
-    if (w == null) {
-        w = 700;
-    }
-    if (h == null) {
-        h = 500;
-    }
-    if (menubar == null || menubar === false) {
-        menubar = "";
-    } else {
-        menubar = "menubar,";
+        return editorWin;
     }
 
-    //if( NS ) { w += 50; }
-    // Need the var or else IE4 blows up not recognizing editorWin
-    var editorWin = window.open(loc, 'editWin', menubar + 'resizable,scrollbars,width=' + w + ',height=' + h);
-    //editorWin.focus(); //causing intermittent errors
-}
+    /**
+     * Submit form on Enter key
+     * @param {HTMLFormElement} form - The form to submit
+     * @param {Event} e - Keyboard event
+     * @returns {boolean} False to prevent default
+     */
+    function submitOnEnter(form, e) {
+        const event = e || window.event;
+        const key = event.which || event.keyCode;
 
-// Used to submit a form if the user hits ENTER in the form - BAH
-function submitOnEnter(form, e) {
-    if (document.all) e = window.event;
-    key = (document.layers) ? e.which : e.keyCode;
-    if (13 === key) {
-        if (form) form.submit();
-        return false;
+        if (key === 13) {
+            if (form) form.submit();
+            return false;
+        }
+        return true;
     }
-    return true;
-}
 
-// Used to kill a key press event from bubbling up - BAH
-function killKeyEvent(e) {
-    if (document.all) e = window.event;
-    key = (document.layers) ? e.which : e.keyCode;
-    if (13 === key) e.cancelBubble = true;
-}
-
-// Used to limit the chars in a text or textarea input - BAH
-// Must define variable maxChars & maxCharsError in the HTML tag or via javascript
-function checkMaxChars(obj) {
-    // current key is not counted in length yet
-    if (obj.value.length >= obj.maxChars) {
-        alert(obj.maxCharsError + ': ' + obj.maxChars);
-        obj.value = obj.value.substr(0, obj.maxChars);
-        return false;
+    /**
+     * Check maximum character length in input
+     * @param {HTMLInputElement} obj - Input element
+     * @returns {boolean} True if within limit
+     */
+    function checkMaxChars(obj) {
+        if (obj.value.length >= obj.maxChars) {
+            alert(obj.maxCharsError + ': ' + obj.maxChars);
+            obj.value = obj.value.substr(0, obj.maxChars);
+            return false;
+        }
+        return true;
     }
-    return true;
-}
 
-function doSitespringHelper(url, msg, installurl) {
-    var doIt = true;
-    if (!gSitespringHelperOK && !confirm(msg)) {
-        doIt = false;
-    }
-    if (doIt) window.location = url;
-
-}
-function doHelpWindow(helpURL) {
-    mmHelpWindow = window.open(helpURL, "mmHelp");
-    // Quarter second pause before focus to avoid JS errors
-    setTimeout('mmHelpWindow.focus();', 250);
-}
-function focusAndSelect(fld) {
-    var ualc = navigator.userAgent.toLowerCase();
-    if (ualc.indexOf('compatible') > -1 || ualc.indexOf("macin") < 0 ||
-        parseFloat(navigator.appVersion) >= 5.0) {
-        var fldobj = MM_findObj(fld);
-        if (fldobj != null) {
-            fldobj.focus();
-            fldobj.select();
+    /**
+     * Focus and select an input field
+     * @param {string} fld - Field ID or name
+     */
+    function focusAndSelect(fld) {
+        const fldObj = document.getElementById(fld) || document.getElementsByName(fld)[0];
+        if (fldObj) {
+            fldObj.focus();
+            fldObj.select();
         }
     }
-}
 
-//-->
+    // ===================================================================
+    // File/Folder Helper Functions (for file management)
+    // ===================================================================
 
+    function MM_countFilesFolders(selectedItems) {
+        const result = { files: 0, folders: 0 };
+
+        for (let i = 0; i < selectedItems.length; i++) {
+            const ftypeElement = document.getElementById(selectedItems[i] + 'ftype');
+            if (ftypeElement) {
+                if (ftypeElement.value === 'file') {
+                    result.files++;
+                } else if (ftypeElement.value === 'folder') {
+                    result.folders++;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    function MM_oneFileOnly(selectedItems) {
+        if (selectedItems.length !== 1) return false;
+
+        const ftypeElement = document.getElementById(selectedItems[0] + 'ftype');
+        return ftypeElement && ftypeElement.value === 'file';
+    }
+
+    function MM_atLeastOneFile(selectedItems) {
+        for (let i = 0; i < selectedItems.length; i++) {
+            const ftypeElement = document.getElementById(selectedItems[i] + 'ftype');
+            if (ftypeElement && ftypeElement.value === 'file') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // ===================================================================
+    // Export to Global Scope (for backward compatibility)
+    // ===================================================================
+
+    window.hasCookies = hasCookies;
+    window.setCookie = setCookie;
+    window.readCookie = readCookie;
+    window.showHideModule = showHideModule;
+    window.toggleFoldyPersistState = toggleFoldyPersistState;
+    window.MM_toggleItem = MM_toggleItem;
+    window.MM_selectAllItems = MM_selectAllItems;
+    window.MM_deselectAllItems = MM_deselectAllItems;
+    window.MM_toggleSelectedItems = MM_toggleSelectedItems;
+    window.MM_countDisabledCheckboxes = MM_countDisabledCheckboxes;
+    window.MM_doButtonAction = MM_doButtonAction;
+    window.MM_updateButtons = MM_updateButtons;
+    window.MM_updateButtons2 = MM_updateButtons2;
+    window.MM_getButtonWithName = MM_getButtonWithName;
+    window.MMCommandButton = MMCommandButton;
+    window.MMCheckbox = MMCheckbox;
+    window.popUp = popUp;
+    window.submitOnEnter = submitOnEnter;
+    window.checkMaxChars = checkMaxChars;
+    window.focusAndSelect = focusAndSelect;
+    window.MM_countFilesFolders = MM_countFilesFolders;
+    window.MM_oneFileOnly = MM_oneFileOnly;
+    window.MM_atLeastOneFile = MM_atLeastOneFile;
+
+})(window, document);
