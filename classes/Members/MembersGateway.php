@@ -386,6 +386,33 @@ SQL;
     }
 
     /**
+     * Update password hash and hash type for password migration
+     *
+     * @param int $memberId Member ID
+     * @param string $passwordHash Hashed password
+     * @param string $hashType Hash type (argon2id, bcrypt, etc.)
+     * @return mixed
+     * @throws Exception
+     */
+    public function updatePasswordHash(int $memberId, string $passwordHash, string $hashType)
+    {
+        if (empty($memberId) || empty($passwordHash) || empty($hashType)) {
+            throw new Exception('Missing member id, password hash, or hash type');
+        }
+
+        $sql = "UPDATE {$this->db->getTableName("members")}
+                SET password = :password, password_hash_type = :hash_type
+                WHERE id = :member_id";
+
+        $this->db->query($sql);
+        $this->db->bind(':member_id', $memberId);
+        $this->db->bind(':password', $passwordHash);
+        $this->db->bind(':hash_type', $hashType);
+
+        return $this->db->execute();
+    }
+
+    /**
      * @param $user
      * @param $page
      * @return mixed

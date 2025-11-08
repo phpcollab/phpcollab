@@ -22,6 +22,8 @@
 $checkSession = "false";
 require_once '../includes/library.php';
 
+use phpCollab\Security\PasswordHasher;
+
 $strings = $GLOBALS["strings"];
 $loginMethod = $GLOBALS["loginMethod"];
 
@@ -113,6 +115,38 @@ if ($auth == "on") {
         }
 
         if ($match === true) {
+
+            // SECURITY: Opportunistic password upgrade to modern hashing
+            // Check if password needs upgrade from legacy hash (MD5, crypt, plain)
+            $currentHashType = $member['mem_password_hash_type'] ?? $loginMethod;
+
+            if (PasswordHasher::needsRehash($member['mem_password'], $currentHashType)) {
+                try {
+                    // Upgrade to modern Argon2id/bcrypt hash
+                    $newHash = PasswordHasher::hash($passwordForm);
+                    $newHashType = PasswordHasher::getDefaultHashType();
+
+                    // Update database with new secure hash
+                    $members->updatePasswordHash(
+                        $member['mem_id'],
+                        $newHash,
+                        $newHashType
+                    );
+
+                    $logger->info('Password upgraded to modern hash', [
+                        'user_id' => $member['mem_id'],
+                        'username' => $usernameForm,
+                        'old_hash_type' => $currentHashType,
+                        'new_hash_type' => $newHashType
+                    ]);
+                } catch (Exception $e) {
+                    // Log error but don't fail login - user can still log in
+                    $logger->error('Password upgrade failed', [
+                        'user_id' => $member['mem_id'],
+                        'error' => $e->getMessage()
+                    ]);
+                }
+            }
 
             //crypt password in session
             $r = substr($passwordForm, 0, 2);

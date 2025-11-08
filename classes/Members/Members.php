@@ -275,6 +275,29 @@ class Members
     }
 
     /**
+     * Update password with modern hash and hash type
+     * Used for opportunistic password migration
+     *
+     * @param int $memberId Member ID
+     * @param string $passwordHash Already hashed password (from PasswordHasher::hash())
+     * @param string $hashType Hash type (argon2id, bcrypt, etc.)
+     * @return mixed
+     * @throws Exception
+     */
+    public function updatePasswordHash(int $memberId, string $passwordHash, string $hashType)
+    {
+        if (empty($memberId) || empty($passwordHash) || empty($hashType)) {
+            throw new Exception('Invalid member id, password hash, or hash type');
+        }
+
+        $memberId = filter_var($memberId, FILTER_VALIDATE_INT);
+        $passwordHash = filter_var($passwordHash, FILTER_SANITIZE_STRING);
+        $hashType = filter_var($hashType, FILTER_SANITIZE_STRING);
+
+        return $this->members_gateway->updatePasswordHash($memberId, $passwordHash, $hashType);
+    }
+
+    /**
      * @param null $sorting
      * @return mixed
      */
