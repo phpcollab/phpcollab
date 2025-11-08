@@ -62,8 +62,39 @@ $request = Request::createFromGlobals();
 /*
  * Start the session
  */
+// SECURITY: Configure secure session cookies
+ini_set('session.cookie_httponly', '1');  // Prevent JavaScript access to session cookie
+ini_set('session.cookie_samesite', 'Strict');  // CSRF protection
+ini_set('session.use_strict_mode', '1');  // Reject uninitialized session IDs
+ini_set('session.use_only_cookies', '1');  // Don't allow session IDs in URLs
+
+// Note: session.cookie_secure should be enabled when using HTTPS
+// Uncomment the following line if your installation uses HTTPS:
+// ini_set('session.cookie_secure', '1');
+
 $session = new Session(new NativeSessionStorage());
 $session->start();
+
+/*
+ * SECURITY: Set security headers for defense-in-depth
+ */
+// Content Security Policy - XSS protection
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'self';");
+
+// X-Content-Type-Options - Prevent MIME sniffing
+header("X-Content-Type-Options: nosniff");
+
+// X-Frame-Options - Clickjacking protection
+header("X-Frame-Options: SAMEORIGIN");
+
+// X-XSS-Protection - Enable browser XSS filter (legacy browsers)
+header("X-XSS-Protection: 1; mode=block");
+
+// Referrer-Policy - Control referrer information
+header("Referrer-Policy: strict-origin-when-cross-origin");
+
+// Permissions-Policy - Disable unnecessary browser features
+header("Permissions-Policy: geolocation=(), microphone=(), camera=()");
 
 $msg = $request->query->get("msg");
 
