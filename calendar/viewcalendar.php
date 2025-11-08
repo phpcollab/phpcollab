@@ -334,23 +334,29 @@ if ($type == "calendEdit") {
     $block1->openContent();
     $block1->contentTitle($strings["details"]);
 
+    // Escape values for HTML to prevent XSS
+    $safeShortname = htmlspecialchars($shortname ?? '', ENT_QUOTES, 'UTF-8');
+    $safeSubject = htmlspecialchars($subject ?? '', ENT_QUOTES, 'UTF-8');
+    $safeDescription = htmlspecialchars($description ?? '', ENT_QUOTES, 'UTF-8');
+    $safeLocation = htmlspecialchars($location ?? '', ENT_QUOTES, 'UTF-8');
+
     $shortName = $strings["shortname"] . $block1->printHelp("calendar_shortname");
     echo <<<HTML
         <tr class="odd">
             <td class="leftvalue">* $shortName :</td>
-            <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="shortname" value="$shortname"></td>
+            <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="shortname" value="$safeShortname"></td>
         </tr>
         <tr class="odd">
             <td class="leftvalue">{$strings["subject"]} :</td>
-            <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="subject" value="$subject"></td>
+            <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="subject" value="$safeSubject"></td>
         </tr>
         <tr class="odd">
             <td class="leftvalue">{$strings["description"]} :</td>
-            <td><textarea style="width: 400px; height: 50px;" name="description" cols="35" rows="2">$description</textarea></td>
+            <td><textarea style="width: 400px; height: 50px;" name="description" cols="35" rows="2">$safeDescription</textarea></td>
         </tr>
         <tr class="odd">
             <td class="leftvalue">{$strings["location"]} :</td>
-            <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="location" value="$location"></td>
+            <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="location" value="$safeLocation"></td>
         </tr>
 HTML;
 
@@ -386,16 +392,21 @@ SCRIPT;
 
     $time_start = $time_start ?? '';
     $time_end = $time_end ?? '';
+
+    // Escape time values for HTML to prevent XSS
+    $safeTimeStart = htmlspecialchars($time_start, ENT_QUOTES, 'UTF-8');
+    $safeTimeEnd = htmlspecialchars($time_end, ENT_QUOTES, 'UTF-8');
+
     echo <<<HTML
           </td>
         </tr>
         <tr class="odd">
             <td class="leftvalue">{$strings["time_start"]} :</td>
-            <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="time_start" value="$time_start"></td>
+            <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="time_start" value="$safeTimeStart"></td>
         </tr>
         <tr class="odd">
             <td class="leftvalue">{$strings["time_end"]} :</td>
-            <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="time_end" value="$time_end"></td>
+            <td><input size="24" style="width: 250px;" maxlength="128" type="text" name="time_end" value="$safeTimeEnd"></td>
         </tr>
         <tr class="odd">
             <td class="leftvalue">{$strings["calendar_reminder"]} :</td>
@@ -484,13 +495,23 @@ if ($type == "calendDetail") {
     $block1->contentTitle($strings["details"]);
 
 
-    $nl2brDescription = nl2br($detailCalendar["cal_description"]);
+    // Escape calendar detail values for HTML to prevent XSS
+    $safeCalSubject = htmlspecialchars($detailCalendar["cal_subject"] ?? '', ENT_QUOTES, 'UTF-8');
+    $safeCalDescription = htmlspecialchars($detailCalendar["cal_description"] ?? '', ENT_QUOTES, 'UTF-8');
+    $nl2brDescription = nl2br($safeCalDescription);
+    $safeCalShortname = htmlspecialchars($detailCalendar["cal_shortname"] ?? '', ENT_QUOTES, 'UTF-8');
+    $safeCalLocation = htmlspecialchars($detailCalendar["cal_location"] ?? '', ENT_QUOTES, 'UTF-8');
+    $safeCalDateStart = htmlspecialchars($detailCalendar["cal_date_start"] ?? '', ENT_QUOTES, 'UTF-8');
+    $safeCalDateEnd = htmlspecialchars($detailCalendar["cal_date_end"] ?? '', ENT_QUOTES, 'UTF-8');
+    $safeCalTimeStart = htmlspecialchars($detailCalendar["cal_time_start"] ?? '', ENT_QUOTES, 'UTF-8');
+    $safeCalTimeEnd = htmlspecialchars($detailCalendar["cal_time_end"] ?? '', ENT_QUOTES, 'UTF-8');
+
     $shortName = $strings["shortname"] . $block1->printHelp("calendar_shortname");
 
     echo <<<HTML
         <tr class="odd">
             <td class="leftvalue">{$strings["subject"]} :</td>
-            <td>{$detailCalendar["cal_subject"]}</td>
+            <td>$safeCalSubject</td>
         </tr>
         <tr class="odd">
             <td class="leftvalue">{$strings["description"]} :</td>
@@ -498,27 +519,27 @@ if ($type == "calendDetail") {
         </tr>
         <tr class="odd">
             <td class="leftvalue">$shortName :</td>
-            <td>{$detailCalendar["cal_shortname"]}&nbsp;</td>
+            <td>$safeCalShortname&nbsp;</td>
         </tr>
         <tr class="odd">
             <td class="leftvalue">{$strings["location"]} :</td>
-            <td>{$detailCalendar["cal_location"]}&nbsp;</td>
+            <td>$safeCalLocation&nbsp;</td>
         </tr>
         <tr class="odd">
             <td class="leftvalue">{$strings["date_start"]} :</td>
-            <td>{$detailCalendar["cal_date_start"]}</td>
+            <td>$safeCalDateStart</td>
         </tr>
         <tr class="odd">
             <td class="leftvalue">{$strings["date_end"]} :</td>
-            <td>{$detailCalendar["cal_date_end"]}</td>
+            <td>$safeCalDateEnd</td>
         </tr>
         <tr class="odd">
             <td class="leftvalue">{$strings["time_start"]} :</td>
-            <td>{$detailCalendar["cal_time_start"]}</td>
+            <td>$safeCalTimeStart</td>
         </tr>
         <tr class="odd">
             <td class="leftvalue">{$strings["time_end"]} :</td>
-            <td>{$detailCalendar["cal_time_end"]}</td>
+            <td>$safeCalTimeEnd</td>
         </tr>
         <tr class="odd">
             <td class="leftvalue">{$strings["calendar_reminder"]} :</td>
@@ -700,12 +721,15 @@ if ($type == "monthPreview") {
                     $day, 'in') . "</div>";
             if ($comptListCalendarScan != "0") {
                 foreach ($listCalendarScan as $calendar) {
+                    // Escape calendar shortname to prevent XSS
+                    $safeCalShortname = htmlspecialchars($calendar['cal_shortname'], ENT_QUOTES, 'UTF-8');
+
                     if ($calendar['cal_broadcast'] == "0" && $calendar['cal_owner'] == $session->get("id")) {
-                        echo "<div class='calendar-regular-event'><a href='../calendar/viewcalendar.php?id=" . $calendar['cal_id'] . "&type=calendDetail&dateCalend=$dateLink' class='calendar-regular-todo-event'>" . $calendar['cal_shortname'] . "</a></div>";
+                        echo "<div class='calendar-regular-event'><a href='../calendar/viewcalendar.php?id=" . $calendar['cal_id'] . "&type=calendDetail&dateCalend=$dateLink' class='calendar-regular-todo-event'>" . $safeCalShortname . "</a></div>";
                     } elseif ($calendar['cal_broadcast'] != "0" && $calendar['cal_owner'] == $session->get("id")) {
-                        echo "<div class='calendar-regular-event'><a href='../calendar/viewcalendar.php?id=" . $calendar['cal_id'] . "&type=calendDetail&dateCalend=$dateLink' class='calendar-regular-todo-event'><b>" . $calendar['cal_shortname'] . "</b></a></div>";
+                        echo "<div class='calendar-regular-event'><a href='../calendar/viewcalendar.php?id=" . $calendar['cal_id'] . "&type=calendDetail&dateCalend=$dateLink' class='calendar-regular-todo-event'><b>" . $safeCalShortname . "</b></a></div>";
                     } else {
-                        echo "<div class='calendar-broadcast-event'><a href='../calendar/viewcalendar.php?id=" . $calendar['cal_id'] . "&type=calendDetail&dateCalend=$dateLink' class='calendar-broadcast-todo-event'><b>" . $calendar['cal_shortname'] . "</b></a></div>";
+                        echo "<div class='calendar-broadcast-event'><a href='../calendar/viewcalendar.php?id=" . $calendar['cal_id'] . "&type=calendDetail&dateCalend=$dateLink' class='calendar-broadcast-todo-event'><b>" . $safeCalShortname . "</b></a></div>";
                     }
                 }
             }
@@ -713,54 +737,56 @@ if ($type == "monthPreview") {
             if ($comptListTasks != "0") {
                 foreach ($listTasks as $task) {
                     $idPriority = $task['tas_priority'];
+                    // Escape task name to prevent XSS
+                    $safeTaskName = htmlspecialchars($task['tas_name'], ENT_QUOTES, 'UTF-8');
 
                     if ($task['tas_status'] == "3" || $task['tas_status'] == "2") {
                         if ($task['tas_start_date'] == $dateLink && $task['tas_start_date'] != $task['tas_due_date']) {
                             echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["task"] . "</b>: ";
-                            echo "<a href='../tasks/viewtask.php?id=" . $task['tas_id'] . "' class='calendar-results-start-date'>" . $task['tas_name'] . "</a><br /><br />";
+                            echo "<a href='../tasks/viewtask.php?id=" . $task['tas_id'] . "' class='calendar-results-start-date'>" . $safeTaskName . "</a><br /><br />";
                         }
 
                         if ($task['tas_due_date'] == $dateLink && $task['tas_start_date'] != $task['tas_due_date']) {
                             echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["task"] . "</b>: ";
                             if ($task['tas_due_date'] <= $date && $task['tas_completion'] != "10") {
-                                echo "<a href='../tasks/viewtask.php?id=" . $task['tas_id'] . "' class='calendar-results-due-date'><b>" . $task['tas_name'] . "</b></a><br /><br />";
+                                echo "<a href='../tasks/viewtask.php?id=" . $task['tas_id'] . "' class='calendar-results-due-date'><b>" . $safeTaskName . "</b></a><br /><br />";
                             } else {
-                                echo "<a href='../tasks/viewtask.php?id=" . $task['tas_id'] . "' class='calendar-results-due-date'>" . $task['tas_name'] . "</a><br /><br />";
+                                echo "<a href='../tasks/viewtask.php?id=" . $task['tas_id'] . "' class='calendar-results-due-date'>" . $safeTaskName . "</a><br /><br />";
                             }
                         }
 
                         if ($task['tas_start_date'] == $dateLink && $task['tas_due_date'] == $dateLink) {
                             echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["task"] . "</b>: ";
                             if ($task['tas_due_date'] <= $date && $task['tas_completion'] != "10") {
-                                echo "<a href='../tasks/viewtask.php?id=" . $task['tas_id'] . "' class='calendar-results-due-date'><b>" . $task['tas_name'] . "</b></a><br /><br />";
+                                echo "<a href='../tasks/viewtask.php?id=" . $task['tas_id'] . "' class='calendar-results-due-date'><b>" . $safeTaskName . "</b></a><br /><br />";
                             } else {
-                                echo "<a href='../tasks/viewtask.php?id=" . $task['tas_id'] . "' class='calendar-results-due-date'>" . $task['tas_name'] . "</a><br /><br />";
+                                echo "<a href='../tasks/viewtask.php?id=" . $task['tas_id'] . "' class='calendar-results-due-date'>" . $safeTaskName . "</a><br /><br />";
                             }
                         }
                     } else {
                         if ($task['tas_start_date'] == $dateLink && $task['tas_start_date'] != $task['tas_due_date']) {
-                            echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $task['tas_id'], $task['tas_name'],
+                            echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $task['tas_id'], $safeTaskName,
                                     'in') . " (" . $strings["start_date"] . ")<br/>";
                         }
 
                         if ($task['tas_due_date'] == $dateLink && $task['tas_start_date'] != $task['tas_due_date']) {
                             if ($task['tas_due_date'] <= $date && $task['tas_completion'] != "10") {
                                 echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $task['tas_id'],
-                                        "<b>" . $task['tas_name'] . "</b>",
+                                        "<b>" . $safeTaskName . "</b>",
                                         'in') . " (" . $strings["due_date"] . ")<br/>";
                             } else {
                                 echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $task['tas_id'],
-                                        $task['tas_name'], 'in') . " (" . $strings["due_date"] . ")<br/>";
+                                        $safeTaskName, 'in') . " (" . $strings["due_date"] . ")<br/>";
                             }
                         }
 
                         if ($task['tas_start_date'] == $dateLink && $task['tas_due_date'] == $dateLink) {
                             if ($task['tas_due_date'] <= $date && $task['tas_completion'] != "10") {
                                 echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $task['tas_id'],
-                                        "<b>" . $task['tas_name'] . "</b>", 'in') . "<br/>";
+                                        "<b>" . $safeTaskName . "</b>", 'in') . "<br/>";
                             } else {
                                 echo $blockPage->buildLink("../tasks/viewtask.php?id=" . $task['tas_id'],
-                                        $task['tas_name'], 'in') . "<br/>";
+                                        $safeTaskName, 'in') . "<br/>";
                             }
                         }
                     }
@@ -770,19 +796,21 @@ if ($type == "monthPreview") {
             if ($comptListSubtasks != "0") {
                 foreach ($listSubtasks as $subtask) {
                     $idPriority = $subtask['subtas_priority'];
+                    // Escape subtask name to prevent XSS
+                    $safeSubtaskName = htmlspecialchars($subtask['subtas_name'], ENT_QUOTES, 'UTF-8');
 
                     if ($subtask['subtas_status'] == "3" || $subtask['subtas_status'] == "2") {
                         if ($subtask['subtas_start_date'] == $dateLink && $subtask['subtas_start_date'] != $subtask['subtas_due_date']) {
                             echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["subtask"] . "</b>: ";
-                            echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "' class='calendar-results-start-date'>" . $subtask['subtas_name'] . "</a><br /><br />";
+                            echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "' class='calendar-results-start-date'>" . $safeSubtaskName . "</a><br /><br />";
                         }
 
                         if ($subtask['subtas_due_date'] == $dateLink && $subtask['subtas_start_date'] != $subtask['subtas_due_date']) {
                             echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["subtask"] . "</b>: ";
                             if ($subtask['subtas_due_date'] <= $date && $subtask['subtas_completion'] != "10") {
-                                echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "' class='calendar-results-due-date'><b>" . $subtask['subtas_name'] . "</b></a><br /><br />";
+                                echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "' class='calendar-results-due-date'><b>" . $safeSubtaskName . "</b></a><br /><br />";
                             } else {
-                                echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "' class='calendar-results-due-date'>" . $subtask['subtas_name'] . "</a><br /><br />";
+                                echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "' class='calendar-results-due-date'>" . $safeSubtaskName . "</a><br /><br />";
                             }
                         }
 
@@ -790,24 +818,24 @@ if ($type == "monthPreview") {
                             echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["subtask"] . "</b>: ";
 
                             if ($subtask['subtas_due_date'] <= $date && $subtask['subtas_completion'] != "10") {
-                                echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "' class='calendar-results-due-date'><b>" . $subtask['subtas_name'] . "</b></a><br /><br />";
+                                echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "' class='calendar-results-due-date'><b>" . $safeSubtaskName . "</b></a><br /><br />";
                             } else {
-                                echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "' class='calendar-results-due-date'>" . $subtask['subtas_name'] . "</a><br /><br />";
+                                echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "' class='calendar-results-due-date'>" . $safeSubtaskName . "</a><br /><br />";
                             }
                         }
                     } else {
                         if ($subtask['subtas_start_date'] == $dateLink && $subtask['subtas_start_date'] != $subtask['subtas_due_date']) {
                             echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["subtask"] . "</b>: ";
-                            echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "'>" . $subtask['subtas_name'] . "</a><br /><br />";
+                            echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "'>" . $safeSubtaskName . "</a><br /><br />";
                         }
 
                         if ($subtask['subtas_due_date'] == $dateLink && $subtask['subtas_start_date'] != $subtask['subtas_due_date']) {
                             echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["subtask"] . "</b>: ";
 
                             if ($subtask['subtas_due_date'] <= $date && $subtask['subtas_completion'] != "10") {
-                                echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "'><b>" . $subtask['subtas_name'] . "</b></a><br /><br />";
+                                echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "'><b>" . $safeSubtaskName . "</b></a><br /><br />";
                             } else {
-                                echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "'>" . $subtask['subtas_name'] . "</a><br /><br />";
+                                echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "'>" . $safeSubtaskName . "</a><br /><br />";
                             }
                         }
 
@@ -815,9 +843,9 @@ if ($type == "monthPreview") {
                             echo "<img src=\"../themes/" . THEME . "/images/gfx_priority/" . $idPriority . ".gif\" alt='" . $strings["priority"] . ": " . $priority[$idPriority] . "' /> <b>" . $strings["subtask"] . "</b>: ";
 
                             if ($subtask['subtas_due_date'] <= $date && $subtask['subtas_completion'] != "10") {
-                                echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "'><b>" . $subtask['subtas_name'] . "</b></a><br /><br />";
+                                echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "'><b>" . $safeSubtaskName . "</b></a><br /><br />";
                             } else {
-                                echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "'>" . $subtask['subtas_name'] . "</a><br /><br />";
+                                echo "<a href='../subtasks/viewsubtask.php?id=" . $subtask['subtas_id'] . "&task=" . $subtask['subtas_task'] . "'>" . $safeSubtaskName . "</a><br /><br />";
                             }
                         }
                     }

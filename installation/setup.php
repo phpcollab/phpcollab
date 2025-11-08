@@ -33,7 +33,11 @@ $redirect = $_GET["redirect"];
 $connection = (!empty($_GET["connection"])) ? $_GET["connection"] : $_POST["connection"];
 
 if ($redirect == "true" && $step == "2") {
-    header("Location:../installation/setup.php?step=2&connection=$connection");
+    // Sanitize connection parameter to prevent header injection
+    $connection = filter_var($connection, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+    // Remove any newlines/CR to prevent header injection attacks
+    $connection = str_replace(["\r", "\n", "%0d", "%0a"], '', $connection);
+    header("Location:../installation/setup.php?step=2&connection=" . urlencode($connection));
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -204,6 +208,13 @@ HTML;
 
     $myPrefix = addslashes($help["setup_myprefix"]);
 
+    // Escape POST values to prevent XSS
+    $safeDbServer = isset($_POST["dbServer"]) ? htmlspecialchars($_POST["dbServer"], ENT_QUOTES, 'UTF-8') : '';
+    $safeDbLogin = isset($_POST["dbLogin"]) ? htmlspecialchars($_POST["dbLogin"], ENT_QUOTES, 'UTF-8') : '';
+    $safeDbName = isset($_POST["dbName"]) ? htmlspecialchars($_POST["dbName"], ENT_QUOTES, 'UTF-8') : '';
+    $safeDbTablePrefix = isset($_POST["dbTablePrefix"]) ? htmlspecialchars($_POST["dbTablePrefix"], ENT_QUOTES, 'UTF-8') : '';
+    $safeMyPrefix = htmlspecialchars($myPrefix, ENT_QUOTES, 'UTF-8');
+
     echo <<<HTML
  	<tr class="odd">
 				<td class="leftvalue">* Installation type :</td>
@@ -219,11 +230,11 @@ HTML;
 			</tr>
 			<tr class="odd">
 				<td class="leftvalue">* Database server :</td>
-				<td><input size="44" value="{$_POST["dbServer"]}" style="width: 200px" name="dbServer" maxlength="100" type="text" required></td>
+				<td><input size="44" value="$safeDbServer" style="width: 200px" name="dbServer" maxlength="100" type="text" required></td>
 			</tr>
 			<tr class="odd">
 				<td class="leftvalue">* Database login :</td>
-				<td><input size="44" value="{$_POST["dbLogin"]}" style="width: 200px" name="dbLogin" maxlength="100" type="text" required></td>
+				<td><input size="44" value="$safeDbLogin" style="width: 200px" name="dbLogin" maxlength="100" type="text" required></td>
 			</tr>
 			<tr class="odd">
 				<td class="leftvalue">Database password :</td>
@@ -231,11 +242,11 @@ HTML;
 			</tr>
 			<tr class="odd">
 				<td class="leftvalue">* Database name :</td>
-				<td><input size="44" value="{$_POST["dbName"]}" style="width: 200px" name="dbName" maxlength="100" type="text" required></td>
+				<td><input size="44" value="$safeDbName" style="width: 200px" name="dbName" maxlength="100" type="text" required></td>
 			</tr>
 			<tr class="odd">
-				<td class="leftvalue">Table prefix :<br/>[<a href="javascript:void(0)" onmouseover="return overlib('$myPrefix',ABOVE,SNAPX,550)" onmouseout="return nd()">Help</a>] </td>
-				<td><input size="44" value="{$_POST["dbTablePrefix"]}" style="width: 200px" name="dbTablePrefix" maxlength="100" type="text"></td>
+				<td class="leftvalue">Table prefix :<br/>[<a href="javascript:void(0)" onmouseover="return overlib('$safeMyPrefix',ABOVE,SNAPX,550)" onmouseout="return nd()">Help</a>] </td>
+				<td><input size="44" value="$safeDbTablePrefix" style="width: 200px" name="dbTablePrefix" maxlength="100" type="text"></td>
 			</tr>
 HTML;
 
@@ -260,17 +271,23 @@ HTML;
     $setupNotifications = addslashes($help["setup_notifications"]);
     $setupForcedLogin = addslashes($help["setup_forcedlogin"]);
     $setupLangDefault = addslashes($help["setup_langdefault"]);
+
+    // Escape for JavaScript context to prevent XSS
+    $safeSetupNotifications = htmlspecialchars($setupNotifications, ENT_QUOTES, 'UTF-8');
+    $safeSetupForcedLogin = htmlspecialchars($setupForcedLogin, ENT_QUOTES, 'UTF-8');
+    $safeSetupLangDefault = htmlspecialchars($setupLangDefault, ENT_QUOTES, 'UTF-8');
+
     echo <<<HTML
     <tr class="odd">
-        <td class="leftvalue">* Notifications :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('$setupNotifications',SNAPX,550);" onmouseout="return nd();">Help</a>] </td>
+        <td class="leftvalue">* Notifications :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('$safeSetupNotifications',SNAPX,550);" onmouseout="return nd();">Help</a>] </td>
         <td><input type="radio" name="notifications" value="false" $notificationsOff> False&nbsp;<input type="radio" name="notifications" value="true" $notificationsOn> True<br/>[Mail $mailEnabled]</td>
     </tr>
     <tr class="odd">
-        <td class="leftvalue">* Forced login :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('$setupForcedLogin',SNAPX,550);" onmouseout="return nd();">Help</a>] </td>
+        <td class="leftvalue">* Forced login :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('$safeSetupForcedLogin',SNAPX,550);" onmouseout="return nd();">Help</a>] </td>
         <td><input type="radio" name="forcedLogin" value="false" checked> False&nbsp;<input type="radio" name="forcedLogin" value="true"> True</td>
     </tr>
     <tr class="odd">
-        <td class="leftvalue">Default language :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('$setupLangDefault',SNAPX,550);" onmouseout="return nd();">Help</a>] </td>
+        <td class="leftvalue">Default language :<br/>[<a href="javascript:void(0);" onmouseover="return overlib('$safeSetupLangDefault',SNAPX,550);" onmouseout="return nd();">Help</a>] </td>
         <td>
             <select name="defaultLanguage">
                 <option value="ar">Arabic</option>
@@ -319,6 +336,10 @@ HTML;
     $siteUrl = str_replace("installation", "", $siteUrl);
 
     $tooltipLoginMethod = addslashes($help["setup_loginmethod"]);
+
+    // Escape admin email to prevent XSS
+    $safeAdminEmail = isset($_POST["adminEmail"]) ? htmlspecialchars($_POST["adminEmail"], ENT_QUOTES, 'UTF-8') : '';
+
     echo <<<HTML
 		<tr class="odd">
 			<td class="leftvalue"> * Root :</td>
@@ -330,7 +351,7 @@ HTML;
 		</tr>
 		<tr class="odd">
 			<td class="leftvalue">* Admin email :</td>
-			<td><input size="44" value="{$_POST["adminEmail"]}" style="width: 200px" name="adminEmail" value="$adminEmail" type="email" required></td>
+			<td><input size="44" value="$safeAdminEmail" style="width: 200px" name="adminEmail" type="email" required></td>
 		</tr>
 		<tr class="odd">
 			<td class="leftvalue">&nbsp;</td>

@@ -145,26 +145,37 @@ if ($listServices) {
     $selectService = '';
 
     foreach ($listServices as $service) {
+        // Escape for JavaScript context to prevent XSS
+        $safeServHourlyRate = htmlspecialchars($service["serv_hourly_rate"], ENT_QUOTES, 'UTF-8');
+        $safeServId = htmlspecialchars($service["serv_id"], ENT_QUOTES, 'UTF-8');
+        $safeServName = htmlspecialchars($service["serv_name"], ENT_QUOTES, 'UTF-8');
+        $checkedValue = isset($checked[$service["serv_id"]]) ? $checked[$service["serv_id"]] : '';
+
         $selectService .= <<<RADIOITEM
 <label style="display: block; width: fit-content">
-    <input 
-        type="radio" 
-        name="rate_type" 
-        value="{$service["serv_id"]}" 
-        onclick="rateField('{$service["serv_hourly_rate"]}');" 
-        id="service{$service["serv_id"]}"
-        {$checked[$service["serv_id"]]}> {$rateType["3"]} [{$service["serv_name"]}]
+    <input
+        type="radio"
+        name="rate_type"
+        value="$safeServId"
+        onclick="rateField('$safeServHourlyRate');"
+        id="service$safeServId"
+        $checkedValue> {$rateType["3"]} [$safeServName]
 </label>
 RADIOITEM;
     }
 }
 
+// Escape for JavaScript context to prevent XSS
+$safeProjectHourlyRate = htmlspecialchars($projectDetail["pro_hourly_rate"], ENT_QUOTES, 'UTF-8');
+$safeOrgHourlyRate = htmlspecialchars($detailClient["org_hourly_rate"], ENT_QUOTES, 'UTF-8');
+$safeWorkedHours = htmlspecialchars($worked_hours, ENT_QUOTES, 'UTF-8');
+
 $block1->contentRow($strings["worked_hours"],
-    '<input type="hidden" name="worked_hours" value="' . $worked_hours . '">' . $worked_hours);
+    '<input type="hidden" name="worked_hours" value="' . $safeWorkedHours . '">' . $safeWorkedHours);
 $radioButtons = <<<HTML
 <label style="display: block; width: fit-content"><input type="radio" name="rate_type" value="a" $checkeda id="custom"> {$rateType["0"]}</label>
-<label style="display: block; width: fit-content"><input type="radio" name="rate_type" value="b" onclick="rateField('{$projectDetail["pro_hourly_rate"]}');" $checkedb id="project"> {$rateType["1"]}</label>
-<label style="display: block; width: fit-content"><input type="radio" name="rate_type" value="c" onclick="rateField('{$detailClient["org_hourly_rate"]}');" $checkedc id="organization"> {$rateType["2"]}</label>
+<label style="display: block; width: fit-content"><input type="radio" name="rate_type" value="b" onclick="rateField('$safeProjectHourlyRate');" $checkedb id="project"> {$rateType["1"]}</label>
+<label style="display: block; width: fit-content"><input type="radio" name="rate_type" value="c" onclick="rateField('$safeOrgHourlyRate');" $checkedc id="organization"> {$rateType["2"]}</label>
 $selectService
 HTML;
 

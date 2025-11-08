@@ -44,6 +44,7 @@ use phpCollab\Reports\Reports;
 use phpCollab\Services\Services;
 use phpCollab\Sorting\Sorting;
 use phpCollab\Security\Authorization;
+use phpCollab\Security\OutputEscaper;
 use phpCollab\Subtasks\SetStatus;
 use phpCollab\Subtasks\Subtasks;
 use phpCollab\Support\Support;
@@ -109,6 +110,7 @@ class Container
     private $exportVCardService;
     private $notificationService;
     private $authorizationService;
+    private $outputEscaperService;
 
     /**
      * @param array $configuration
@@ -735,6 +737,21 @@ class Container
             $this->authorizationService = new Authorization($this);
         }
         return $this->authorizationService;
+    }
+
+    /**
+     * Get OutputEscaper service for XSS prevention
+     *
+     * Provides context-aware output escaping for HTML, JavaScript, CSS, URLs, etc.
+     *
+     * @return OutputEscaper
+     */
+    public function getOutputEscaper(): OutputEscaper
+    {
+        if (null === $this->outputEscaperService) {
+            $this->outputEscaperService = new OutputEscaper($this->getEscaperService());
+        }
+        return $this->outputEscaperService;
     }
 
     /**

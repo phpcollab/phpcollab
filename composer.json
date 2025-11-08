@@ -44,6 +44,9 @@
     "php-webdriver/webdriver": "^1.8"
   },
   "autoload": {
+    "files": [
+      "classes/Security/OutputEscaper.php"
+    ],
     "psr-0": {
     },
     "psr-4": {

@@ -227,18 +227,23 @@ if ($id != "") {
 $block1->openContent();
 $block1->contentTitle($strings["details"]);
 
+// Escape bookmark values to prevent XSS
+$safeName = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+$safeUrl = htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
+$safeDescription = htmlspecialchars($description, ENT_QUOTES, 'UTF-8');
+
 echo <<<HTML
 <tr class="odd">
     <td class="leftvalue">{$strings["name"]} :</td>
-    <td><input size="44" value="$name" style="width: 400px" name="name" type="text" required="required" aria-required="true"></td>
+    <td><input size="44" value="$safeName" style="width: 400px" name="name" type="text" required="required" aria-required="true"></td>
 </tr>
 <tr class="odd">
     <td class="leftvalue">{$strings["url"]} :</td>
-    <td><input size="44" value="$url" style="width: 400px" name="url" type="url" required="required" aria-required="true"></td>
+    <td><input size="44" value="$safeUrl" style="width: 400px" name="url" type="url" required="required" aria-required="true"></td>
 </tr>
 <tr class="odd">
     <td class="leftvalue">{$strings["description"]} :</td>
-    <td><textarea rows="10" style="width: 400px; height: 160px;" name="description" cols="47">$description</textarea></td>
+    <td><textarea rows="10" style="width: 400px; height: 160px;" name="description" cols="47">$safeDescription</textarea></td>
 </tr>
 <tr class="odd">
     <td class="leftvalue"> {$strings['bookmark_category']} :</td>
@@ -251,7 +256,10 @@ HTML;
 
 foreach ($categories as $item) {
     $selected = ($item['boocat_id'] == $bookmarkDetail['boo_category']) ? 'selected' : '';
-    echo '<option value="' . $item['boocat_id'] . '" ' . $selected . '>' . $item['boocat_name'] . '</option>';
+    // Escape category values to prevent XSS
+    $safeCatId = htmlspecialchars($item['boocat_id'], ENT_QUOTES, 'UTF-8');
+    $safeCatName = htmlspecialchars($item['boocat_name'], ENT_QUOTES, 'UTF-8');
+    echo '<option value="' . $safeCatId . '" ' . $selected . '>' . $safeCatName . '</option>';
 }
 
 echo <<<HTML
@@ -296,7 +304,10 @@ HTML;
         if ($listCaptured) {
             $selected = (in_array($user['mem_id'], $listCaptured)) ? 'selected' : '';
         }
-        echo '<option value="' . $user['mem_id'] . '" ' . $selected . '>' . $user['mem_login'] . '</option>';
+        // Escape user values to prevent XSS
+        $safeMemId = htmlspecialchars($user['mem_id'], ENT_QUOTES, 'UTF-8');
+        $safeMemLogin = htmlspecialchars($user['mem_login'], ENT_QUOTES, 'UTF-8');
+        echo '<option value="' . $safeMemId . '" ' . $selected . '>' . $safeMemLogin . '</option>';
     }
 
     echo <<<HTML
