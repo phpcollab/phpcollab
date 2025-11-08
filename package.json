@@ -1,0 +1,33 @@
+{
+  "name": "phpcollab",
+  "version": "2.10.0",
+  "description": "phpCollab - Project Management and Collaboration System",
+  "private": true,
+  "scripts": {
+    "lint": "eslint javascript/**/*.js --ignore-pattern '**/*.min.js' --ignore-pattern 'javascript/calendar/**' --ignore-pattern 'javascript/pell/pell.min.js' --ignore-pattern 'includes/htmlarea/**'",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.0",
+    "@babel/preset-env": "^7.23.0",
+    "eslint": "^8.52.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ],
+    "collectCoverageFrom": [
+      "javascript/**/*.js",
+      "!javascript/**/*.min.js",
+      "!javascript/calendar/**",
+      "!javascript/pell/pell.min.js",
+      "!includes/htmlarea/**"
+    ]
+  }
+}

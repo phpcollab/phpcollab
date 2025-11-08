@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Minified files
+**/*.min.js
+
+# Third-party libraries (legacy)
+javascript/calendar/**
+javascript/pell/pell.min.js
+includes/htmlarea/**
+includes/phpmyadmin/**
+includes/phppgadmin/**
+includes/phpmailer/**
+
+# Build output
+public/js/**
+tests/_output/**
+
+# Temporary files
+*.tmp
+*.bak
