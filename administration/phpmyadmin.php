@@ -119,13 +119,6 @@ echo <<<HTML
 </tr>
 HTML;
 
-$block1->contentTitle("Restore database from sql file");
-
-echo <<<HTML
-<tr class="odd"><td class="leftvalue">&nbsp;</td><td>Disabled</td></tr>
-HTML;
-
-
 $block1->closeContent();
 
 include APP_ROOT . '/views/layout/footer.php';
