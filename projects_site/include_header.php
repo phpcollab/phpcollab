@@ -119,17 +119,6 @@ TR;
 TR;
     }
 
-    //if mantis bug tracker enabled
-    if ($enableMantis == "true") {
-        include "navigation.php";
-        echo <<<TR
-                <tr>
-                    <td><img src="ico_arrow_$bouton[6].gif" alt=""></td><td><a href="javascript:onClick= document.login.submit();">{$strings["bug"]}</a></td>
-                </tr>
-                </form>
-TR;
-    }
-
     echo "</table><br/><hr>";
 }
 

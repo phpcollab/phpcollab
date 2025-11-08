@@ -53,11 +53,6 @@ if ($request->isMethod('post')) {
                 $session->set('dateunix', date("U"));
                 $session->set('name', $full_name);
 
-                //if mantis bug tracker enabled
-                if ($enableMantis == "true") {
-                    // Call mantis function for user profile changes..!!!
-                    include("../mantis/user_profile.php");
-                }
                 phpCollab\Util::headerFunction("../preferences/updateuser.php?msg=update");
             }
         }

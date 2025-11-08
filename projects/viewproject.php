@@ -260,11 +260,6 @@ if ($session->get("id") == $projectDetail["pro_owner"] || $session->get("profile
         $block1->paletteIcon(3, "edit", $strings["edit"]);
     }
 
-    //if mantis bug tracker enabled
-    if ($enableMantis == "true") {
-        $block1->paletteIcon(5, "bug", $strings["bug"]);
-    }
-
     $block1->closePaletteIcon();
 }
 
@@ -397,12 +392,6 @@ if ($session->get("id") == $projectDetail["pro_owner"] || $session->get("profile
         $block1->paletteScript(3, "edit",
             "../projects/editproject.php?id=" . $projectDetail["pro_id"] . "&docopy=false", "true,true,false",
             $strings["edit"]);
-    }
-
-    if ($enableMantis == "true") {
-        $block1->paletteScript(5, "bug",
-            $pathMantis . "login.php?id=" . $projectDetail["pro_id"] . "&url=https://{$request->server->get("HTTP_HOST")}{$request->server->get("REQUEST_URI")}&username={$session->get("login")}",
-            "true,true,false", $strings["bug"]);
     }
 
     $block1->closePaletteScript("", []);

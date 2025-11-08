@@ -87,12 +87,6 @@ if ($request->isMethod('post')) {
                             phpCollab\Util::deleteDirectory("project_sites/" . $proj['pro_id']);
                         }
 
-                        //if mantis bug tracker enabled
-                        if ($enableMantis == "true") {
-                            // call mantis function to delete project
-                            include '../mantis/proj_delete.php';
-                        }
-
                     }
                     unset($proj);
                     phpCollab\Util::headerFunction("../projects/listprojects.php?msg=delete");

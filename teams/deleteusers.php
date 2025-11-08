@@ -47,11 +47,6 @@ if ($action == "delete") {
                 }
             }
         }
-        //if mantis bug tracker enabled
-        if ($enableMantis == "true") {
-            //  include mantis library
-            include '../mantis/core_API.php';
-        }
 
         $multi = strstr($id, ",");
         if ($multi != "") {
@@ -60,14 +55,6 @@ if ($action == "delete") {
 
                 if ($projectDetail["pro_owner"] != $piece) {
                     $teams->deleteFromTeamsByProjectIdAndMemberId($project, $piece);
-
-                    //if mantis bug tracker enabled
-                    if ($enableMantis == "true") {
-                        // Unassign multiple user from this project in mantis
-                        $f_project_id = $project;
-                        $f_user_id = $piece;
-                        include '../mantis/user_proj_delete.php';
-                    }
                 }
                 if ($projectDetail["pro_owner"] == $piece) {
                     $foundOwner = "true";
@@ -84,14 +71,6 @@ if ($action == "delete") {
             } else {
                 $teams->deleteFromTeamsByProjectIdAndMemberId($project, $id);
                 $msg = "delete";
-
-                //if mantis bug tracker enabled
-                if ($enableMantis == "true") {
-                    // Unassign single user from this project in mantis
-                    $f_project_id = $project;
-                    $f_user_id = $id;
-                    include '../mantis/user_proj_delete.php';
-                }
             }
         }
 

@@ -141,20 +141,6 @@ if (!empty($request->query->get('id'))) {
                                         }
 
                                         $members->setPassword($request->query->get("id"), $password);
-
-                                        //if mantis bug tracker enabled
-                                        if ($enableMantis == "true") {
-                                            // Call mantis function for user changes..!!!
-                                            $f_access_level = $team_user_level; // Developer
-                                            include '../mantis/user_update.php';
-                                        }
-                                    }
-                                } else {
-                                    //if mantis bug tracker enabled
-                                    if ($enableMantis == "true") {
-                                        // Call mantis function for user changes..!!!
-                                        $f_access_level = $team_user_level; // Developer
-                                        include '../mantis/user_update.php';
                                     }
                                 }
                                 phpCollab\Util::headerFunction("../users/listusers.php?msg=update");

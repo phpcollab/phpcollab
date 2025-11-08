@@ -65,13 +65,6 @@ $gmtTimezone = false;
 # language choice
 $langDefault = "en";
 
-# Mantis bug tracking parameters
-$enableMantis = false;
-
-# Mantis installation directory
-# Note: add slash at the end
-$pathMantis = "http://localhost/mantis/";
-
 # https related parameters
 $pathToOpenssl = "/usr/bin/openssl";
 

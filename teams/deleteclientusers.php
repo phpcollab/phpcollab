@@ -45,22 +45,10 @@ if ($action == "delete") {
         }
     }
 
-    //if mantis bug tracker enabled
-    if ($enableMantis == "true") {
-        //  include mantis library
-        include '../mantis/core_API.php';
-    }
     $compt = count($pieces);
 
     for ($i = 0; $i < $compt; $i++) {
         $teams->deleteTeamWhereMemberIn($pieces[$i]);
-        //if mantis bug tracker enabled
-        if ($enableMantis == "true") {
-            // Unassign user from this project in mantis
-            $f_project_id = $project;
-            $f_user_id = $pieces[$i];
-            include '../mantis/user_proj_delete.php';
-        }
     }
     if ($notifications == "true") {
         $removeProjectTeam = $container->getNotificationRemoveProjectTeamService();

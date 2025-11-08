@@ -74,15 +74,6 @@ $gmtTimezone = %gmtTimezone%;
 # (default) en
 $langDefault = "%defaultLanguage%";
 
-# Mantis bug tracking parameters
-$enableMantis = %enableMantis%;
-
-if ($enableMantis === true) {
-    # Mantis installation directory
-    # note: add a slash at the end
-    $pathMantis = "%mantisPath%";
-}
-
 # https related parameters
 $pathToOpenssl = "%pathToOpenssl%";
 

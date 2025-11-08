@@ -83,9 +83,6 @@ if ($session->get("profile") == "0" || $session->get("profile") == "1" || $sessi
     $block1->paletteIcon(3, "edit", $strings["edit"]);
     $block1->paletteIcon(4, "copy", $strings["copy"]);
 }
-if ($enableMantis == "true") {
-    $block1->paletteIcon(8, "bug", $strings["bug"]);
-}
 $block1->closePaletteIcon();
 
 $block1->setLimit($blockPage->returnLimit(1));
@@ -186,11 +183,6 @@ $block1->paletteScript(2, "info", "../projects/viewproject.php?", "false,true,fa
 if ($session->get("profile") == "0" || $session->get("profile") == "1" || $session->get("profile") == "5") {
     $block1->paletteScript(3, "edit", "../projects/editproject.php?", "false,true,false", $strings["edit"]);
     $block1->paletteScript(4, "copy", "../projects/editproject.php?docopy=true", "false,true,false", $strings["copy"]);
-}
-if ($enableMantis == "true") {
-    $block1->paletteScript(8, "bug",
-        $pathMantis . "login.php?url=https://{$request->server->get("HTTP_HOST")}{$request->server->get("REQUEST_URI")}&username={$session->get("login")}",
-        "false,true,false", $strings["bug"]);
 }
 
 $block1->closePaletteScript(count($dataSet), array_column($dataSet, 'pro_id'));

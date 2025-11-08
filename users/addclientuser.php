@@ -154,12 +154,6 @@ if ($request->isMethod('post')) {
                                         }
                                         // END send notification text message
 
-                                        //if mantis bug tracker enabled
-                                        if ($enableMantis == "true") {
-                                            // Call mantis function for user changes..!!!
-                                            $f_access_level = $client_user_level; // reporter
-                                            include '../mantis/user_update.php';
-                                        }
                                         phpCollab\Util::headerFunction("../clients/viewclient.php?id=$user_organization&msg=add");
 
                                     } else {

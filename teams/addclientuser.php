@@ -45,23 +45,9 @@ if ($request->query->get('action') == "add") {
 
             }
         }
-        //if mantis bug tracker enabled
-        if ($enableMantis == "true") {
-            //  include mantis library
-            include '../mantis/core_API.php';
-        }
         $comptTeam = count($pieces);
         for ($i = 0; $i < $comptTeam; $i++) {
             $teams->addTeam($projectDetail["pro_id"], $pieces[$i], 1, 0);
-
-            //if mantis bug tracker enabled
-            if ($enableMantis == "true") {
-                // Assign user to this project in mantis
-                $f_access_level = $client_user_level; // Reporter access
-                $f_project_id = $projectDetail["pro_id"];
-                $f_user_id = $pieces[$i];
-                include '../mantis/user_proj_add.php';
-            }
         }
 
         if ($notifications == "true") {

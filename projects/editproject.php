@@ -243,13 +243,6 @@ STAMP;
                                 }
                             }
 
-                            //if mantis bug tracker enabled
-                            if ($enableMantis == "true") {
-                                // call mantis function to copy project
-                                /** @noinspection PhpIncludeInspection */
-                                include $pathMantis . 'proj_add.php';
-                            }
-
                             //create phase structure if enable phase was selected as true
                             if ($thisPhase != "0") {
                                 $comptThisPhase = count($phaseArraySets[$thisPhase]);
@@ -365,11 +358,6 @@ STAMP;
                             $invoices->setActive($id, $invoicing);
                         }
 
-                        //if mantis bug tracker enabled
-                        if ($enableMantis == "true") {
-                            // call mantis function to copy project
-                            include '../mantis/proj_update.php';
-                        }
                         phpCollab\Util::headerFunction("../projects/viewproject.php?id=$id&msg=update");
                     }
                 }
@@ -481,12 +469,6 @@ STAMP;
                             $Htpasswd = $container->getHtpasswdService();
                             $Htpasswd->initialize("../files/" . $newProjectId . "/.htpasswd");
                             $Htpasswd->addUser($detailMember["mem_login"], $detailMember["mem_password"]);
-                        }
-
-                        //if mantis bug tracker enabled
-                        if ($enableMantis == "true") {
-                            // call mantis function to copy project
-                            include '../mantis/proj_add.php';
                         }
 
                         //create phase structure if enable phase was selected as true

@@ -44,27 +44,12 @@ if ($request->query->get("action") == "add") {
         }
     }
 
-    //if mantis bug tracker enabled
-    if ($enableMantis == "true") {
-        //  include mantis library
-        include '../mantis/core_API.php';
-    }
-
     foreach ($pieces as $piece) {
         try {
             $teams->addTeam($projectDetail["pro_id"], $piece, 1, 0);
         } catch (Exception $e) {
             $logger->error($e->getMessage());
             $error = $strings["action_not_allowed"];
-        }
-
-        //if mantis bug tracker enabled
-        if ($enableMantis == "true") {
-            // Assign user to this project in mantis
-            $f_access_level = $team_user_level; // Developer access
-            $f_project_id = $projectDetail["pro_id"];
-            $f_user_id = $pieces[$i];
-            include '../mantis/user_proj_add.php';
         }
     }
 

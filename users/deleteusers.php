@@ -70,11 +70,6 @@ if ($request->isMethod('post')) {
 
                 // Remove user from teams
                 $teams->deleteTeamWhereMemberIn($id);
-                //if mantis bug tracker enabled
-                if ($enableMantis == "true") {
-                    // Call mantis function to remove user
-                    include("../mantis/user_delete.php");
-                }
 
                 phpCollab\Util::headerFunction("../users/listusers.php?msg=delete");
             }

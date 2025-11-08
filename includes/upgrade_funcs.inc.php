@@ -507,13 +507,6 @@ define('THEME','$theme');
 # language choice
 \$langDefault = "$langdefault";
 
-# Mantis bug tracking parameters
-// Should bug tracking be enabled?
-\$enableMantis = "$enableMantis";
-
-// Mantis installation directory
-\$pathMantis = "$pathMantis";  // add slash at the end
-
 # https related parameters
 \$pathToOpenssl = "$pathToOpenssl";
 

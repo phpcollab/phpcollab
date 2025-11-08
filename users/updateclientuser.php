@@ -125,12 +125,6 @@ if ($request->isMethod('post')) {
                                     phpCollab\Util::headerFunction("../clients/viewclient.php?msg=update&id=$user_organization");
                                 }
                             } else {
-                                //if mantis bug tracker enabled
-                                if ($enableMantis == "true") {
-                                    // Call mantis function for user changes..!!!
-                                    $f_access_level = $client_user_level; // reporter
-                                    include '../mantis/user_update.php';
-                                }
                                 phpCollab\Util::headerFunction("../clients/viewclient.php?msg=update&id=$user_organization");
                             }
                         } catch (Exception $e) {

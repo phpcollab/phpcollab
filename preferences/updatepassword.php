@@ -71,12 +71,6 @@ if ($request->isMethod('post')) {
                         $error = $strings["action_not_allowed"];
                     }
 
-                    //if mantis bug tracker enabled
-                    if ($enableMantis == "true") {
-                        // call mantis function to reset user password
-                        include("../mantis/user_reset_pwd.php");
-                    }
-
                     phpCollab\Util::headerFunction("../preferences/updateuser.php?msg=update");
                 }
             }

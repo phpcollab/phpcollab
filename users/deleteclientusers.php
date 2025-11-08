@@ -45,12 +45,6 @@ if ($request->isMethod('post')) {
 
                     $members->deleteMemberByIdIn($id);
 
-                    //if mantis bug tracker enabled
-                    if ($enableMantis == "true") {
-                        // Call mantis function to remove user
-                        include("../mantis/user_delete.php");
-                    }
-
                     phpCollab\Util::headerFunction("../clients/viewclient.php?id=$org_id&msg=delete");
                 }
             }
