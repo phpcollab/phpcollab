@@ -29,6 +29,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use phpCollab\Alerts\DailyAlerts;
 use phpCollab\Container;
+use phpCollab\ContainerFactory;
 
 $app_root = dirname(__FILE__, 2);
 
@@ -36,12 +37,15 @@ if (php_sapi_name() == "cli") {
     require $app_root . '/vendor/autoload.php';
     require_once $app_root . "/includes/settings.php";
 
-    $container = new Container([
+    // ✅ Use Symfony DI Container with pure constructor injection
+    $container = ContainerFactory::createLegacyContainer([
         'dbServer' => MYSERVER,
         'dbUsername' => MYLOGIN,
         'dbPassword' => MYPASSWORD,
-        'dbName' => MYDATABASE
-    ]);
+        'dbName' => MYDATABASE,
+        'tableCollab' => $tableCollab ?? [],
+        'dbType' => $databaseType ?? 'mysql'
+    ], $langDefault ?? 'en');
 
     try {
         print_r( "inside try...\n" );
@@ -78,7 +82,8 @@ if (php_sapi_name() == "cli") {
             print_r( 'ERROR - DATABASE' . $strings['error_server'] );
             exit('ERROR - DATABASE' . $strings['error_server']);
         }
-        $alert = new DailyAlerts($container->getPDO(), $container);
+        // ✅ Get DailyAlerts service from Symfony DI container
+        $alert = $container->getDailyAlertsService();
         $alert->sendEmail();
 
         // Return successfully

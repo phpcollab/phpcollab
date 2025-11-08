@@ -3,6 +3,7 @@
 use DebugBar\DebugBarException;
 use DebugBar\StandardDebugBar;
 use phpCollab\Container;
+use phpCollab\ContainerFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
@@ -26,14 +27,15 @@ require_once APP_ROOT . '/includes/settings.php';
 
 $debug = $footerDev ?? false;
 
-$container = new Container([
+// ✅ Use Symfony DI Container with pure constructor injection
+$container = ContainerFactory::createLegacyContainer([
     'dbServer' => MYSERVER,
     'dbUsername' => MYLOGIN,
     'dbPassword' => MYPASSWORD,
     'dbName' => MYDATABASE,
     'tableCollab' => $tableCollab,
     'dbType' => $databaseType,
-]);
+], $GLOBALS["lang"] ?? 'en');
 
 /*
  * Setup logger

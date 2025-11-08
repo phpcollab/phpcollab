@@ -793,4 +793,19 @@ class Container
         }
         return $this->exportVCardService;
     }
+
+    /**
+     * Get DailyAlerts service
+     *
+     * @return \phpCollab\Alerts\DailyAlerts
+     * @throws Exception
+     */
+    public function getDailyAlertsService(): \phpCollab\Alerts\DailyAlerts
+    {
+        if ($this->isSymfonyDIEnabled()) {
+            return $this->symfonyContainer->get(\phpCollab\Alerts\DailyAlerts::class);
+        }
+        // Fallback for old pattern
+        return new \phpCollab\Alerts\DailyAlerts($this->getPDO(), new \phpCollab\Alerts\DailyAlertEmail($this));
+    }
 }
