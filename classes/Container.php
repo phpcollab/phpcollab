@@ -231,6 +231,22 @@ class Container
     }
 
     /**
+     * Get AppConfig instance from Symfony DI container
+     *
+     * AppConfig replaces the $GLOBALS anti-pattern with type-safe dependency injection.
+     *
+     * @return AppConfig Application configuration
+     */
+    public function getAppConfig(): AppConfig
+    {
+        if ($this->isSymfonyDIEnabled()) {
+            return $this->symfonyContainer->get(AppConfig::class);
+        }
+        // Fallback: create from $GLOBALS if Symfony DI not enabled
+        return AppConfig::fromGlobals();
+    }
+
+    /**
      * @return Bookmarks
      * @throws Exception
      */

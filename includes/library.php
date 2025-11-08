@@ -45,6 +45,32 @@ $logger = $container->getLogger($GLOBALS["logLevel"]);
 
 $escaper = $container->getEscaperService();
 
+/*
+ * ✅ Make AppConfig available to all scripts
+ *
+ * AppConfig replaces the $GLOBALS anti-pattern with type-safe dependency injection.
+ * All service classes now use AppConfig instead of accessing $GLOBALS directly.
+ *
+ * For script files (controllers/views), we expose both:
+ * 1. $appConfig - Modern approach for new code
+ * 2. Helper variables ($strings, $priority, etc.) - Backward compatibility for existing code
+ *
+ * Usage in scripts:
+ * - Legacy:  $strings["key"], $priority[1], $status[2]
+ * - Modern:  $appConfig->getString("key"), $appConfig->getPriorityLabel(1)
+ */
+$appConfig = $container->getAppConfig();
+
+// ✅ Extract commonly used configuration as helper variables for backward compatibility
+// These variables are sourced from AppConfig (not $GLOBALS) but maintain the same API
+$strings = $appConfig->getStrings();        // Translation strings
+$priority = $appConfig->getPriority();      // Priority labels (0-5)
+$status = $appConfig->getStatus();          // Status labels (0-4)
+$requestStatus = $appConfig->getRequestStatus();  // Support request status labels
+$root = $appConfig->getRoot();              // Application root URL
+$setTitle = $appConfig->getSetTitle();      // Site title
+$byteUnits = $appConfig->getByteUnits();    // File size units (B, KB, MB, etc.)
+
 // Setup debugging, if it is enabled in settings
 if ($debug) {
     $debugbar = new StandardDebugBar();
