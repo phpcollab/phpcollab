@@ -636,6 +636,28 @@ To customize checkbox appearance, edit `css/checkboxes.css`:
 - `javascript/pell/pell.min.js` (NEW)
 - `javascript/pell/pell.css` (NEW)
 
+**Phase 3.2.1: Internationalization (i18n)**
+
+Added multi-language support for Pell editor toolbar to match phpCollab's 19-language support!
+
+**New Language Strings:**
+- Added 14 editor strings to `languages/lang_en.php`:
+  - `editor_bold`, `editor_italic`, `editor_underline`, `editor_strikethrough`
+  - `editor_heading1`, `editor_heading2`, `editor_paragraph`, `editor_quote`
+  - `editor_olist`, `editor_ulist`, `editor_code`, `editor_line`, `editor_link`
+  - `editor_link_prompt` (for link dialog)
+
+**Implementation:**
+- Toolbar tooltips use `$strings` array (properly escaped for XSS safety)
+- Link prompt dialog translated
+- Icons (B, I, U, etc.) remain universal, only tooltips translated
+
+**Supported Languages (ready for translation):**
+English, Spanish, French, Italian, Portuguese, Danish, Norwegian, Dutch, German, Chinese (simplified/traditional), Ukrainian, Polish, Indonesian, Russian, Azerbaijani, Korean, Catalan, Brazilian Portuguese, Estonian, Bulgarian, Romanian, Hungarian, Czech, Icelandic, Slovak, Turkish, Latvian, Arabic, Japanese (29 total!)
+
+**For Translators:**
+Copy the 14 `editor_*` strings from `languages/lang_en.php` to each language file and translate.
+
 ### Phase 3.3: Content Security Policy (CSP)
 
 **Implemented strict security headers application-wide:**
