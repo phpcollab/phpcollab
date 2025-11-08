@@ -34,18 +34,58 @@ $passwordForm = $request->request->get("passwordForm");
 $match = false;
 $ssl = false;
 
+// SECURITY FIX (CVE-2008-4304): SSL Client Certificate Authentication
+// Removed shell command injection vulnerability - now requires PHP OpenSSL extension
 if (!empty($SSL_CLIENT_CERT) && !$request->query->get('logout') && $request->query->get('auth') != "test") {
-    $auth = "on";
-    $ssl = true;
 
+    // SECURITY: Only allow SSL authentication if PHP OpenSSL extension is available
+    // This prevents shell command injection vulnerability (CVE-2008-4304)
     if (function_exists("openssl_x509_read")) {
-        $x509 = openssl_x509_read($SSL_CLIENT_CERT);
-        $cert_array = openssl_x509_parse($x509);
-        $subject_array = $cert_array["subject"];
-        $ssl_email = $subject_array["Email"];
-        openssl_x509_free($x509);
+        $auth = "on";
+        $ssl = true;
+
+        try {
+            $x509 = openssl_x509_read($SSL_CLIENT_CERT);
+
+            if ($x509 === false) {
+                $logger->error('SSL Certificate Error: Invalid certificate format', [
+                    'ip' => $request->server->get('REMOTE_ADDR')
+                ]);
+                $error = $strings["invalid_login"];
+                $ssl = false;
+            } else {
+                $cert_array = openssl_x509_parse($x509);
+
+                if (!isset($cert_array["subject"]["emailAddress"]) && !isset($cert_array["subject"]["Email"])) {
+                    $logger->warning('SSL Certificate Error: No email address in certificate', [
+                        'ip' => $request->server->get('REMOTE_ADDR')
+                    ]);
+                    $error = $strings["invalid_login"];
+                    $ssl = false;
+                } else {
+                    // Try both possible email field names
+                    $ssl_email = $cert_array["subject"]["emailAddress"] ?? $cert_array["subject"]["Email"];
+                }
+
+                openssl_x509_free($x509);
+            }
+        } catch (Exception $e) {
+            $logger->error('SSL Certificate Exception', [
+                'error' => $e->getMessage(),
+                'ip' => $request->server->get('REMOTE_ADDR')
+            ]);
+            $error = $strings["invalid_login"];
+            $ssl = false;
+        }
     } else {
-        $ssl_email = `echo "$SSL_CLIENT_CERT" | $pathToOpenssl x509 -noout -email`;
+        // SECURITY: PHP OpenSSL extension not available - SSL client cert authentication disabled
+        // This prevents falling back to shell command execution which had a command injection vulnerability
+        $logger->critical('SSL Authentication Failed: PHP OpenSSL extension not available', [
+            'ip' => $request->server->get('REMOTE_ADDR'),
+            'message' => 'Install PHP OpenSSL extension to enable SSL client certificate authentication'
+        ]);
+        $error = "SSL client certificate authentication is not available. Please contact your administrator.";
+        $ssl = false;
     }
 } else {
     //test blank fields in form
