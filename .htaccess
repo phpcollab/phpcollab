@@ -34,3 +34,31 @@ php_value session.use_trans_sid 0
  Deny from all
  Satisfy All
 </Files>
+
+# ============================================================================
+# URL Rewriting for Pretty URLs (Optional - Progressive Enhancement)
+# ============================================================================
+# If mod_rewrite is available, enable pretty URLs (/tasks/edit/123)
+# If not available, fallback to PATH_INFO (/index.php/tasks/edit/123)
+# Legacy direct file access still works (/tasks/edittask.php?id=123)
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Set the base for rewrites (adjust if installed in subdirectory)
+    RewriteBase /
+
+    # Allow direct access to existing files (CSS, JS, images, existing .php files)
+    # This maintains backward compatibility with legacy URLs
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Route everything else through index.php
+    # This enables pretty URLs like /tasks/edit/123
+    RewriteRule ^(.*)$ index.php/$1 [L,QSA]
+</IfModule>
+
+# Note: If mod_rewrite is not available, URLs will use PATH_INFO format:
+# /index.php/tasks/edit/123 instead of /tasks/edit/123
+# The Router class handles both formats automatically.
