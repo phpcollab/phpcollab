@@ -43,6 +43,7 @@ use phpCollab\Projects\Projects;
 use phpCollab\Reports\Reports;
 use phpCollab\Services\Services;
 use phpCollab\Sorting\Sorting;
+use phpCollab\Security\Authorization;
 use phpCollab\Subtasks\SetStatus;
 use phpCollab\Subtasks\Subtasks;
 use phpCollab\Support\Support;
@@ -107,6 +108,7 @@ class Container
     private $exportPDFService;
     private $exportVCardService;
     private $notificationService;
+    private $authorizationService;
 
     /**
      * @param array $configuration
@@ -719,6 +721,20 @@ class Container
             $this->notificationService = new MailNotification($this, $this->logger);
         }
         return $this->notificationService;
+    }
+
+    /**
+     * Get Authorization service for access control and IDOR prevention
+     *
+     * @return Authorization
+     * @throws Exception
+     */
+    public function getAuthorization(): Authorization
+    {
+        if (null === $this->authorizationService) {
+            $this->authorizationService = new Authorization($this);
+        }
+        return $this->authorizationService;
     }
 
     /**

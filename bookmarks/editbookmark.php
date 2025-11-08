@@ -20,6 +20,7 @@
 
 use phpCollab\Bookmarks\Bookmark;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+use phpCollab\Security\UnauthorizedException;
 
 $checkSession = "true";
 require_once '../includes/library.php';
@@ -126,6 +127,22 @@ if (!empty($request->query->get('id'))) {
 
     $bookmarkId = filter_var((int)$id, FILTER_VALIDATE_INT);
     $bookmarkDetail = $bookmarkService->getBookmarkById($id);
+
+    // Authorization check: Ensure user owns this bookmark or it's shared with them
+    if ($bookmarkDetail['boo_owner'] != $session->get('id')) {
+        // Check if bookmark is shared with this user
+        $sharedUsers = !empty($bookmarkDetail['boo_users']) ? explode("|", $bookmarkDetail['boo_users']) : [];
+        if (!in_array($session->get('id'), $sharedUsers)) {
+            $logger->warning('Unauthorized bookmark edit attempt', [
+                'bookmark_id' => $id,
+                'bookmark_owner' => $bookmarkDetail['boo_owner'],
+                'user_id' => $session->get('id'),
+                'ip' => $request->server->get('REMOTE_ADDR')
+            ]);
+            http_response_code(403);
+            die('Access Denied: You are not authorized to edit this bookmark.');
+        }
+    }
 
     //set value in form
     $name = $bookmarkDetail['boo_name'];

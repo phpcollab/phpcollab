@@ -1,6 +1,7 @@
 <?php
 
 use phpCollab\Block;
+use phpCollab\Security\UnauthorizedException;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
 $checkSession = "true";
@@ -10,6 +11,7 @@ try {
     $files = $container->getFilesLoader();
     $projects = $container->getProjectsLoader();
     $tasks = $container->getTasksLoader();
+    $authorization = $container->getAuthorization();
 } catch (Exception $exception) {
     $logger->error('Exception', ['Error' => $exception->getMessage()]);
 }
@@ -37,6 +39,21 @@ if ($request->isMethod('post')) {
                 $listFiles = $files->getFiles($id);
 
                 foreach ($listFiles as $file) {
+                    // SECURITY: Check authorization before deleting each file (IDOR prevention)
+                    try {
+                        $authorization->requireFileDeletePermission($file['fil_id']);
+                    } catch (UnauthorizedException $e) {
+                        $logger->warning('Unauthorized file deletion attempt', [
+                            'file_id' => $file['fil_id'],
+                            'file_name' => $file['fil_name'],
+                            'user_id' => $session->get('id'),
+                            'ip' => $request->server->get('REMOTE_ADDR'),
+                            'error' => $e->getMessage()
+                        ]);
+                        $session->getFlashBag()->add('error', 'Access Denied: You are not authorized to delete file: ' . $file['fil_name']);
+                        continue; // Skip this file
+                    }
+
                     if ($task != "0") {
                         if (file_exists("../files/" . $project . "/" . $task . "/" . $file["fil_name"])) {
                             phpCollab\Util::deleteFile("files/" . $project . "/" . $task . "/" . $file["fil_name"]);
@@ -115,12 +132,23 @@ $id = str_replace("**", ",", $id);
 $listFiles = $files->getFiles($id);
 
 foreach ($listFiles as $file) {
-    echo <<< HTML
-    <tr class="odd">
-        <td class="leftvalue">&nbsp;</td>
-        <td>{$file["fil_name"]}</td></tr>
+    // SECURITY: Only show files user has permission to delete (IDOR prevention)
+    try {
+        $authorization->requireFileDeletePermission($file['fil_id']);
+
+        echo <<< HTML
+        <tr class="odd">
+            <td class="leftvalue">&nbsp;</td>
+            <td>{$file["fil_name"]}</td></tr>
 HTML;
 
+    } catch (UnauthorizedException $e) {
+        // Silently skip files user cannot delete
+        $logger->info('File omitted from delete list (no permission)', [
+            'file_id' => $file['fil_id'],
+            'user_id' => $session->get('id')
+        ]);
+    }
 }
 
 echo <<<HTML

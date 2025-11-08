@@ -2,6 +2,7 @@
 
 use phpCollab\Util;
 use phpCollab\Block;
+use phpCollab\Security\UnauthorizedException;
 
 $checkSession = "true";
 require_once '../includes/library.php';
@@ -19,6 +20,7 @@ try {
     $notes = $container->getNotesLoader();
     $phases = $container->getPhasesLoader();
     $files = $container->getFilesLoader();
+    $authorization = $container->getAuthorization();
 } catch (Exception $exception) {
     $logger->error('Exception', ['Error' => $exception->getMessage()]);
 }
@@ -181,6 +183,20 @@ if ($msg == "demo") {
     $id = $project;
 }
 
+// Authorization check: Ensure user can access this project
+try {
+    $authorization->requireProjectAccess((int)$id);
+} catch (UnauthorizedException $e) {
+    $logger->warning('Unauthorized project access attempt', [
+        'project_id' => $id,
+        'user_id' => $session->get('id'),
+        'ip' => $request->server->get('REMOTE_ADDR'),
+        'error' => $e->getMessage()
+    ]);
+    http_response_code(403);
+    die('Access Denied: You are not authorized to access this project.');
+}
+
 $projectDetail = $projects->getProjectById($id);
 
 if (!$projectDetail) {
@@ -212,10 +228,6 @@ if ($listTasksTime) {
 
 $teamMember = "false";
 $teamMember = $teams->isTeamMember($id, $session->get("id"));
-
-if ($teamMember == "false" && $projectsFilter == "true") {
-    header("Location:../general/permissiondenied.php");
-}
 
 if ($enableHelpSupport == "true" && ($teamMember == "true" || $session->get("profile") == "5")) {
     $comptListNewRequests = count($support->getSupportRequestByStatusAndProjectId(0, $projectDetail["pro_id"]));

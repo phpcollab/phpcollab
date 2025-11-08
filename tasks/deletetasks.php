@@ -4,6 +4,7 @@
 #Path by root: ../tasks/deletetasks.php
 
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+use phpCollab\Security\UnauthorizedException;
 
 $checkSession = "true";
 require_once '../includes/library.php';
@@ -18,8 +19,29 @@ try {
     $tasks = $container->getTasksLoader();
     $assignments = $container->getAssignmentsManager();
     $projects = $container->getProjectsLoader();
+    $authorization = $container->getAuthorization();
 } catch (Exception $exception) {
     $logger->error('Exception', ['Error' => $exception->getMessage()]);
+}
+
+// Authorization check: Ensure user can delete these tasks
+try {
+    // Handle multiple task IDs (separated by **)
+    $taskIds = str_replace("**", ",", $id);
+    $taskIdArray = explode(",", $taskIds);
+
+    foreach ($taskIdArray as $taskId) {
+        $authorization->requireTaskDeletePermission((int)$taskId);
+    }
+} catch (UnauthorizedException $e) {
+    $logger->warning('Unauthorized delete attempt', [
+        'task_ids' => $id,
+        'user_id' => $session->get('id'),
+        'ip' => $request->server->get('REMOTE_ADDR'),
+        'error' => $e->getMessage()
+    ]);
+    http_response_code(403);
+    die('Access Denied: You are not authorized to delete these tasks.');
 }
 
 $strings = $GLOBALS["strings"];

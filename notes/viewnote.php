@@ -27,6 +27,8 @@
 ** =============================================================================
 */
 
+use phpCollab\Security\UnauthorizedException;
+
 $checkSession = "true";
 require_once '../includes/library.php';
 include '../includes/customvalues.php';
@@ -43,12 +45,29 @@ try {
     $notes = $container->getNotesLoader();
     $projects = $container->getProjectsLoader();
     $teams = $container->getTeams();
+    $authorization = $container->getAuthorization();
 } catch (Exception $exception) {
     $logger->error('Exception', ['Error' => $exception->getMessage()]);
 }
 
 
 if ($action == "publish") {
+    // Authorization check for publish action
+    $noteForPublish = $notes->getNoteById($id);
+    try {
+        $authorization->requireProjectAccess((int)$noteForPublish["note_project"]);
+    } catch (UnauthorizedException $e) {
+        $logger->warning('Unauthorized note publish attempt', [
+            'note_id' => $id,
+            'project_id' => $noteForPublish["note_project"],
+            'user_id' => $session->get('id'),
+            'ip' => $request->server->get('REMOTE_ADDR'),
+            'error' => $e->getMessage()
+        ]);
+        http_response_code(403);
+        die('Access Denied: You are not authorized to publish/unpublish this note.');
+    }
+
     if ($addToSite == "true") {
         $notes->publishToSite($id);
         $msg = "addToSite";
@@ -59,9 +78,25 @@ if ($action == "publish") {
     }
 }
 
+$noteDetail = $notes->getNoteById($id);
+
+// Authorization check: Ensure user can access the project this note belongs to
+try {
+    $authorization->requireProjectAccess((int)$noteDetail["note_project"]);
+} catch (UnauthorizedException $e) {
+    $logger->warning('Unauthorized note access attempt', [
+        'note_id' => $id,
+        'project_id' => $noteDetail["note_project"],
+        'user_id' => $session->get('id'),
+        'ip' => $request->server->get('REMOTE_ADDR'),
+        'error' => $e->getMessage()
+    ]);
+    http_response_code(403);
+    die('Access Denied: You are not authorized to access this note.');
+}
+
 include APP_ROOT . '/views/layout/header.php';
 
-$noteDetail = $notes->getNoteById($id);
 $projectDetail = $projects->getProjectById($noteDetail["note_project"]);
 
 $teamMember = "false";

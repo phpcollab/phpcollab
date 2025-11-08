@@ -3,6 +3,7 @@
 use phpCollab\Block;
 use phpCollab\Util;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+use phpCollab\Security\UnauthorizedException;
 
 $checkSession = "true";
 require_once '../includes/library.php';
@@ -20,14 +21,46 @@ try {
     $projects = $container->getProjectsLoader();
     $phases = $container->getPhasesLoader();
     $tasks = $container->getTasksLoader();
-
-
+    $authorization = $container->getAuthorization();
 } catch (Exception $exception) {
     $logger->error('Exception', ['Error' => $exception->getMessage()]);
 }
 
+// Authorization check: Ensure user can access this file
+try {
+    $authorization->requireFileAccess((int)$id);
+} catch (UnauthorizedException $e) {
+    $logger->warning('Unauthorized file access attempt', [
+        'file_id' => $id,
+        'user_id' => $session->get('id'),
+        'ip' => $request->server->get('REMOTE_ADDR'),
+        'error' => $e->getMessage()
+    ]);
+    http_response_code(403);
+    die('Access Denied: You are not authorized to access this file.');
+}
+
 if ($action == "publish") {
     $file = $request->query->get("file");
+
+    // Additional authorization check for publish action
+    try {
+        $authorization->requireFileAccess((int)$file);
+
+        // Also verify project access for publish operations
+        $fileForPublish = $files->getFileById($file);
+        $authorization->requireProjectAccess((int)$fileForPublish["fil_project"]);
+    } catch (UnauthorizedException $e) {
+        $logger->warning('Unauthorized file publish attempt', [
+            'file_id' => $file,
+            'user_id' => $session->get('id'),
+            'ip' => $request->server->get('REMOTE_ADDR'),
+            'error' => $e->getMessage()
+        ]);
+        http_response_code(403);
+        die('Access Denied: You are not authorized to publish/unpublish this file.');
+    }
+
     if ($addToSiteFile == "true") {
         $files->publishFileByIdOrVcParent($file);
         $msg = "addToSite";
@@ -44,13 +77,7 @@ if ($action == "publish") {
 $fileDetail = $files->getFileById($id);
 
 $teamMember = "false";
-
-
 $teamMember = $teams->isTeamMember($fileDetail["fil_project"], $session->get("id"));
-
-if ($teamMember == "false" && $projectsFilter == "true") {
-    header("Location:../general/permissiondenied.php");
-}
 
 $projectDetail = $projects->getProjectById($fileDetail["fil_project"]);
 
