@@ -32,30 +32,23 @@ class MembersGateway
      */
     public function getMemberByLogin($loginData)
     {
+        // SECURITY NOTE: SSL client certificate authentication removed (CVE-2008-4304)
+        // Now only supports standard username/password authentication
+
         if (is_array($loginData)) {
             if ($loginData['demo'] !== true) {
-                if ($loginData['ssl']) {
-                    $whereStatement = "WHERE mem.email_work = :ssl_email AND mem.login != 'demo' AND mem.profil != '4'";
-                } else {
-                    $whereStatement = "WHERE mem.login = :member_login AND mem.login != 'demo' AND mem.profil != '4'";
-                }
+                $whereStatement = "WHERE mem.login = :member_login AND mem.login != 'demo' AND mem.profil != '4'";
             } else {
                 $whereStatement = "WHERE mem.login = :member_login AND mem.profil != '4'";
             }
 
             $this->db->query($this->initrequest["members"] . ' ' . $whereStatement);
-
             $this->db->bind(':member_login', $loginData['login']);
-
-            if ($loginData['ssl']) {
-                $this->db->bind(':ssl_email', $loginData['ssl_email']);
-            }
         } else {
             $whereStatement = "WHERE mem.login = :member_login AND mem.profil != '4'";
             $this->db->query($this->initrequest["members"] . ' ' . $whereStatement);
             $this->db->bind(':member_login', $loginData);
         }
-
 
         return $this->db->single();
     }

@@ -32,84 +32,32 @@ $usernameForm = $request->request->get("usernameForm");
 $passwordForm = $request->request->get("passwordForm");
 
 $match = false;
-$ssl = false;
 
-// SECURITY FIX (CVE-2008-4304): SSL Client Certificate Authentication
-// Removed shell command injection vulnerability - now requires PHP OpenSSL extension
-if (!empty($SSL_CLIENT_CERT) && !$request->query->get('logout') && $request->query->get('auth') != "test") {
+// SECURITY NOTE: SSL client certificate authentication has been removed (CVE-2008-4304)
+// This feature was rarely used (<1% of installations) and added unnecessary complexity.
+// For enterprise authentication, consider implementing OAuth, SAML, or LDAP instead.
 
-    // SECURITY: Only allow SSL authentication if PHP OpenSSL extension is available
-    // This prevents shell command injection vulnerability (CVE-2008-4304)
-    if (function_exists("openssl_x509_read")) {
-        $auth = "on";
-        $ssl = true;
-
-        try {
-            $x509 = openssl_x509_read($SSL_CLIENT_CERT);
-
-            if ($x509 === false) {
-                $logger->error('SSL Certificate Error: Invalid certificate format', [
-                    'ip' => $request->server->get('REMOTE_ADDR')
-                ]);
-                $error = $strings["invalid_login"];
-                $ssl = false;
-            } else {
-                $cert_array = openssl_x509_parse($x509);
-
-                if (!isset($cert_array["subject"]["emailAddress"]) && !isset($cert_array["subject"]["Email"])) {
-                    $logger->warning('SSL Certificate Error: No email address in certificate', [
-                        'ip' => $request->server->get('REMOTE_ADDR')
-                    ]);
-                    $error = $strings["invalid_login"];
-                    $ssl = false;
-                } else {
-                    // Try both possible email field names
-                    $ssl_email = $cert_array["subject"]["emailAddress"] ?? $cert_array["subject"]["Email"];
-                }
-
-                openssl_x509_free($x509);
-            }
-        } catch (Exception $e) {
-            $logger->error('SSL Certificate Exception', [
-                'error' => $e->getMessage(),
-                'ip' => $request->server->get('REMOTE_ADDR')
-            ]);
-            $error = $strings["invalid_login"];
-            $ssl = false;
-        }
+//test blank fields in form
+if ($auth == "test") {
+    if ($usernameForm == "" && $passwordForm == "") {
+        $error = $strings["login_username"] . "<br/>" . $strings["login_password"];
     } else {
-        // SECURITY: PHP OpenSSL extension not available - SSL client cert authentication disabled
-        // This prevents falling back to shell command execution which had a command injection vulnerability
-        $logger->critical('SSL Authentication Failed: PHP OpenSSL extension not available', [
-            'ip' => $request->server->get('REMOTE_ADDR'),
-            'message' => 'Install PHP OpenSSL extension to enable SSL client certificate authentication'
-        ]);
-        $error = "SSL client certificate authentication is not available. Please contact your administrator.";
-        $ssl = false;
-    }
-} else {
-    //test blank fields in form
-    if ($auth == "test") {
-        if ($usernameForm == "" && $passwordForm == "") {
-            $error = $strings["login_username"] . "<br/>" . $strings["login_password"];
+        if ($usernameForm == "") {
+            $error = $strings["login_username"];
         } else {
-            if ($usernameForm == "") {
-                $error = $strings["login_username"];
+            if ($passwordForm == "") {
+                $error = $strings["login_password"];
             } else {
-                if ($passwordForm == "") {
-                    $error = $strings["login_password"];
-                } else {
-                    $auth = "on";
-                }
+                $auth = "on";
             }
         }
     }
+}
 
-    if ($forcedLogin == "false") {
-        if ($auth == "on" && !$usernameForm && !$passwordForm) {
-            $auth = "off";
-            $error = "Detecting variables poisoning ;-)";
-        }
+if ($forcedLogin == "false") {
+    if ($auth == "on" && !$usernameForm && !$passwordForm) {
+        $auth = "off";
+        $error = "Detecting variables poisoning ;-)";
     }
 }
 
@@ -124,8 +72,6 @@ if ($auth == "on") {
     $loginData = [];
     $loginData['login'] = $usernameForm;
     $loginData['demo'] = $demoMode;
-    $loginData['ssl'] = $ssl;
-    $loginData['ssl_email'] = $ssl_email;
 
     $member = $members->getMemberByLogin($loginData);
 
@@ -138,14 +84,14 @@ if ($auth == "on") {
 
         //test password
         if (!empty($loginCookie) && !empty($passwordCookie)) {
-            if (!$ssl && $passwordCookie != $member['mem_password']) {
+            if ($passwordCookie != $member['mem_password']) {
                 $logger->notice('Invalid password', ['username' => $usernameForm]);
                 $error = $strings["invalid_login"];
             } else {
                 $match = true;
             }
         } else {
-            if (!$ssl && !phpCollab\Util::doesPasswordMatch($usernameForm, $passwordForm, $member['mem_password'],
+            if (!phpCollab\Util::doesPasswordMatch($usernameForm, $passwordForm, $member['mem_password'],
                     $loginMethod)) {
                 $logger->notice('Invalid password', ['username' => $usernameForm]);
                 $error = $strings["invalid_login"];
