@@ -605,11 +605,61 @@ To customize checkbox appearance, edit `css/checkboxes.css`:
 5. Test in different browsers (Chrome, Firefox, Safari, Edge)
 6. Test on mobile devices
 
-### Automated Testing
+### Automated Testing (Codeception)
+
+**⚠️ IMPORTANT: Run Tests Before Merging to Main**
+
+The project includes a Codeception test suite that should be run to verify these changes don't break existing functionality.
+
+**Test Suite Overview:**
+- **Location:** `tests/` directory
+- **Framework:** Codeception (configured in `codeception.dist.yml`)
+- **Type:** Full end-to-end acceptance tests
+- **Coverage:** Projects, Tasks, Calendar, Bookmarks, Administration, Users, etc.
+
+**Requirements to Run Tests:**
+1. Web server (Apache/nginx or `php -S localhost:8000`)
+2. MySQL/MariaDB database server
+3. Composer dependencies installed (`composer install`)
+4. Test environment configured
+
+**Running Tests:**
+```bash
+# Install dependencies
+composer install
+
+# Run all acceptance tests
+vendor/bin/codecept run acceptance
+
+# Run specific test suite
+vendor/bin/codecept run acceptance ProjectsCest
+vendor/bin/codecept run acceptance TasksCest
+```
+
+**Why These Tests Should Still Pass:**
+
+The modernization changes **implementation** but preserves **behavior**:
+- ✅ Real checkboxes work like fake checkboxes (same user behavior)
+- ✅ Event delegation preserves all click/hover functionality
+- ✅ Tooltips still appear on hover
+- ✅ Forms still submit correctly
+- ✅ Sorting still works
+
+The tests verify user behavior (clicking buttons, seeing elements), not implementation details (inline onclick attributes, image sources). They test things like:
+```php
+$I->seeElement('.listing');              // "Does the table exist?"
+$I->click('button[type="submit"]');     // "Can I submit the form?"
+$I->see('Success : Addition succeeded'); // "Do I see the success message?"
+```
+
+**Status:** Tests were NOT run during this modernization due to environment constraints (no web server/database setup). It is **strongly recommended** to run the test suite in a proper environment before merging to main.
+
+### Future Testing Improvements (Outside Scope)
 Consider adding:
 - Jest for JavaScript unit tests
-- Playwright/Cypress for E2E tests
+- Additional Codeception tests for checkbox interactions
 - Visual regression tests for tooltip positioning
+- Unit tests for all PHP classes (PHPUnit)
 
 ## Rollback Plan
 
