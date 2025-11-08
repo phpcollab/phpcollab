@@ -579,24 +579,53 @@ If issues arise during migration:
 
 ---
 
-## Questions for User
+## Decisions Made
 
-Before proceeding with implementation:
+**Date:** November 8, 2025
 
-1. **PostgreSQL Usage:** What percentage of your installations use PostgreSQL?
-2. **SQL Server Usage:** Do any installations use SQL Server?
-3. **Restore Feature:** Is database restore needed, or backups only?
-4. **Timeline:** Is 4-week timeline acceptable, or more urgent?
-5. **Testing:** Can you help test PostgreSQL backup (if you have PG installations)?
-6. **Migration:** Prefer gradual migration or all-at-once?
+### ✅ Restore Functionality
+**Decision:** Restore will NOT be implemented in phpCollab web interface
+
+**Rationale:**
+- High security risk (file upload + SQL execution)
+- Better handled via command-line tools (ssh access)
+- Reduces attack surface significantly
+- Most admins use external tools anyway (phpMyAdmin, Adminer, CLI)
+
+**Alternative:** Documentation will guide users to:
+- MySQL: `mysql -u user -p database < backup.sql`
+- PostgreSQL: `psql -U user -d database -f backup.sql`
+- SQL Server: `sqlcmd -S server -d database -i backup.sql`
+- External tools: Adminer, phpMyAdmin, pgAdmin 4
+
+### ✅ Scope Simplified
+**In Scope:**
+- ✅ Backup functionality for all database types
+- ✅ Remove vulnerable bundled libraries (279KB)
+- ✅ CSRF protection, validation, logging
+- ✅ Documentation for external restore
+
+**Out of Scope:**
+- ❌ Web-based restore functionality
+- ❌ HTMLArea replacement (handled separately)
+- ❌ Advanced features (scheduled backups, cloud storage)
+
+---
+
+## Updated Timeline (3 Weeks)
+
+| Week | Tasks | Deliverables |
+|------|-------|--------------|
+| **1** | PostgreSQL backup | - `dumpPostgreSQLTables()` method<br>- Updated phppgadmin.php UI<br>- backupPostgreSQL.php handler<br>- Keep restore disabled |
+| **2** | SQL Server backup | - `dumpSQLServerTables()` method<br>- sqlserver.php admin page<br>- Testing |
+| **3** | Cleanup & docs | - Delete bundled libs (279KB)<br>- Restore documentation<br>- User communication |
 
 ---
 
 **Next Steps:**
 
-1. Review this plan
-2. Answer questions above
-3. Prioritize phases
-4. Begin Phase 1 implementation (PostgreSQL)
+1. ✅ Plan reviewed and approved
+2. ✅ Restore decision finalized (external only)
+3. Ready to implement Phase 1 (PostgreSQL backup)
 
-Ready to proceed when you approve the plan!
+**Ready to proceed with implementation!**
