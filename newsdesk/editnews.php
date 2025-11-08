@@ -107,30 +107,11 @@ if (empty($id) || !$newsDetail) {
 }
 
 
-// htmlArea 3.0 initialization
-$headBonus = "	
-            <script type='text/javascript'> 
-              _editor_url = '../includes/htmlarea/'; 
-            </script> 
-            <script type='text/javascript' src='../includes/htmlarea/htmlarea.js'></script>
-            <script type='text/javascript' src='../includes/htmlarea/lang/{$session->get("language")}.js'></script>
-            <script type='text/javascript' src='../includes/htmlarea/dialog.js'></script>
-            <script type='text/javascript' src='../includes/htmlarea/popupdiv.js'></script>
-            <script type='text/javascript' src='../includes/htmlarea/popupwin.js'></script> 
-            <style>@import url(../includes/htmlarea/htmlarea.css)</style>
-            <script type='text/javascript'>
-                HTMLArea.loadPlugin('TableOperations'); 
-                
-                let editor = null;
-                
-                function initEditor() {
-                  editor = new HTMLArea('content');
-                  editor.registerPlugin('TableOperations');
-                  editor.generate();
-                }
-            </script>
-            ";
-$bodyCommand = "onload='initEditor();'";
+// Pell editor initialization
+$headBonus = <<<HEADBONUS
+<link rel="stylesheet" href="../javascript/pell/pell.css">
+<script type='text/javascript' src='../javascript/pell/pell.min.js'></script>
+HEADBONUS;
 
 //** Title stuff here.. **
 
@@ -200,8 +181,47 @@ $block1->contentRow($strings["author"],
 
 $block1->contentRow($strings["newsdesk_related"], "<select name='related' style='width: 300px;'>$option</select>");
 
-$block1->contentRow($strings["comments"],
-    '<textarea rows="30" name="content" id="content" style="width: 400px;">' . $content . '</textarea>');
+// Pell editor
+$contentJson = json_encode($content ?? '');
+$editorHtml = <<<EDITOR
+<div id="pell-editor" class="pell"></div>
+<input type="hidden" name="content" id="content-input">
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const editor = pell.init({
+        element: document.getElementById('pell-editor'),
+        onChange: function(html) {
+            document.getElementById('content-input').value = html;
+        },
+        defaultParagraphSeparator: 'p',
+        styleWithCSS: false,
+        actions: [
+            'bold',
+            'italic',
+            'underline',
+            'strikethrough',
+            'heading1',
+            'heading2',
+            'paragraph',
+            'quote',
+            'olist',
+            'ulist',
+            'code',
+            'line',
+            'link'
+        ]
+    });
+    // Set initial content
+    const initialContent = $contentJson;
+    if (initialContent) {
+        editor.content.innerHTML = initialContent;
+        document.getElementById('content-input').value = initialContent;
+    }
+});
+</script>
+EDITOR;
+
+$block1->contentRow($strings["comments"], $editorHtml);
 
     // 14/06/2003 related links & rss enabled by fullo
 $block1->contentRow($strings["newsdesk_related_links"] . $block1->printHelp("newsdesk_links"),

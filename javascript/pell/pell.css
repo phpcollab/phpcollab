@@ -1,0 +1,134 @@
+/**
+ * Pell - WYSIWYG Editor CSS
+ * Customized for phpCollab
+ */
+
+.pell {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: #fff;
+}
+
+.pell-actionbar {
+  background-color: #f4f4f4;
+  border-bottom: 1px solid #ccc;
+  padding: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.pell-button {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  cursor: pointer;
+  height: 30px;
+  min-width: 30px;
+  padding: 4px 8px;
+  font-size: 14px;
+  vertical-align: middle;
+  transition: background-color 0.2s;
+}
+
+.pell-button:hover {
+  background-color: #e8e8e8;
+  border-color: #999;
+}
+
+.pell-button:active,
+.pell-button-selected {
+  background-color: #d0d0d0;
+  border-color: #666;
+}
+
+.pell-button:focus {
+  outline: 2px solid #4A90E2;
+  outline-offset: 1px;
+}
+
+.pell-content {
+  min-height: 300px;
+  padding: 12px;
+  outline: none;
+  overflow-y: auto;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.pell-content:focus {
+  outline: none;
+}
+
+/* Content styling */
+.pell-content h1 {
+  font-size: 24px;
+  margin: 16px 0 8px;
+}
+
+.pell-content h2 {
+  font-size: 20px;
+  margin: 14px 0 7px;
+}
+
+.pell-content h3 {
+  font-size: 16px;
+  margin: 12px 0 6px;
+}
+
+.pell-content blockquote {
+  border-left: 4px solid #ccc;
+  padding-left: 16px;
+  margin: 8px 0;
+  color: #666;
+  font-style: italic;
+}
+
+.pell-content pre {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 12px;
+  overflow-x: auto;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+}
+
+.pell-content code {
+  background-color: #f5f5f5;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+}
+
+.pell-content ul,
+.pell-content ol {
+  margin: 8px 0;
+  padding-left: 32px;
+}
+
+.pell-content li {
+  margin: 4px 0;
+}
+
+.pell-content a {
+  color: #4A90E2;
+  text-decoration: underline;
+}
+
+.pell-content a:hover {
+  color: #357ABD;
+}
+
+.pell-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+.pell-content hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 16px 0;
+}

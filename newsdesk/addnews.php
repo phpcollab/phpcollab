@@ -75,31 +75,9 @@ if ($request->isMethod('post')) {
 }
 
 $headBonus = <<<HEADBONUS
-<script type='text/javascript'> 
-  _editor_url = '../includes/htmlarea/'; 
-</script> 
-
-<script type='text/javascript' src='../includes/htmlarea/htmlarea.js'></script>
-<script type='text/javascript' src='../includes/htmlarea/lang/{$session->get("language")}.js'></script>
-<script type='text/javascript' src='../includes/htmlarea/dialog.js'></script>
-<script type='text/javascript' src='../includes/htmlarea/popupdiv.js'></script>
-<script type='text/javascript' src='../includes/htmlarea/popupwin.js'></script> 
-
-<link rel="stylesheet" href="../includes/htmlarea/htmlarea.css">
-<script type='text/javascript'>
-
-    HTMLArea.loadPlugin('TableOperations'); 
-    
-    let editor = null;
-    
-    function initEditor() {
-      editor = new HTMLArea('content');
-      editor.generate();
-    }
-</script>
+<link rel="stylesheet" href="../javascript/pell/pell.css">
+<script type='text/javascript' src='../javascript/pell/pell.min.js'></script>
 HEADBONUS;
-
-$bodyCommand = "onload='initEditor();'";
 
 $setTitle .= " : " . $strings["add_newsdesk"];
 
@@ -159,8 +137,47 @@ if ($listProjects) {
 
 $block1->contentRow($strings["newsdesk_related"], "<select name='related' style='width: 300px;'>$option</select>");
 
-$block1->contentRow($strings["comments"],
-    '<textarea rows="30" name="content" id="content" style="width: 400px;">' . $content . '</textarea>');
+// Pell editor
+$contentJson = json_encode($content ?? '');
+$editorHtml = <<<EDITOR
+<div id="pell-editor" class="pell"></div>
+<input type="hidden" name="content" id="content-input">
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const editor = pell.init({
+        element: document.getElementById('pell-editor'),
+        onChange: function(html) {
+            document.getElementById('content-input').value = html;
+        },
+        defaultParagraphSeparator: 'p',
+        styleWithCSS: false,
+        actions: [
+            'bold',
+            'italic',
+            'underline',
+            'strikethrough',
+            'heading1',
+            'heading2',
+            'paragraph',
+            'quote',
+            'olist',
+            'ulist',
+            'code',
+            'line',
+            'link'
+        ]
+    });
+    // Set initial content
+    const initialContent = $contentJson;
+    if (initialContent) {
+        editor.content.innerHTML = initialContent;
+        document.getElementById('content-input').value = initialContent;
+    }
+});
+</script>
+EDITOR;
+
+$block1->contentRow($strings["comments"], $editorHtml);
 
 $block1->contentRow($strings["newsdesk_related_links"] . $block1->printHelp("newsdesk_links"),
     '<input type="text" name="links" value="' . $links . '" style="width: 300px;">');
