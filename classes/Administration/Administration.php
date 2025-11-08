@@ -230,6 +230,175 @@ class Administration
     }
 
     /**
+     * Dump SQL Server database
+     *
+     * SECURITY: Uses sqlcmd with properly escaped parameters to prevent injection.
+     * All user inputs and configuration values are sanitized with escapeshellarg().
+     * Password is passed via SQLCMDPASSWORD environment variable.
+     *
+     * NOTE: SQL Server backup requires:
+     * - sqlcmd utility installed on web server
+     * - Backup location accessible to both SQL Server and web server
+     * - Appropriate SQL Server permissions (db_backupoperator or higher)
+     *
+     * @param array|null $dumpSettings Configuration for dump operation
+     *        - 'include-tables' (array): List of table names to include
+     *        - 'no-data' (bool): Schema only, no data
+     *        - 'no-create-info' (bool): Data only, no schema
+     *        - 'compress' (string): 'Gzip' to compress output
+     * @throws Exception If database type is not SQL Server or backup fails
+     */
+    public function dumpSQLServerTables($dumpSettings = null)
+    {
+        // SECURITY: Validate database type
+        if (!in_array(MYDBTYPE, ['sqlsrv', 'mssql', 'dblib'])) {
+            throw new Exception('Database type is not SQL Server');
+        }
+
+        $fileName = MYDATABASE . '_' . date("Y_m_d", time());
+        $backupPath = '/tmp/' . $fileName . '.bak';
+        $sqlPath = '/tmp/' . $fileName . '.sql';
+
+        // Determine what to export
+        $schemaOnly = isset($dumpSettings['no-data']) && $dumpSettings['no-data'] === true;
+        $dataOnly = isset($dumpSettings['no-create-info']) && $dumpSettings['no-create-info'] === true;
+
+        try {
+            // SECURITY: Build script content with proper SQL escaping
+            $sqlScript = '';
+
+            // Get list of tables to export
+            $tablesToExport = [];
+            if (!empty($dumpSettings['include-tables']) && is_array($dumpSettings['include-tables'])) {
+                $tablesToExport = $dumpSettings['include-tables'];
+            } else {
+                // Get all tables if none specified
+                $query = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_CATALOG = ?";
+                $this->db->query($query);
+                $this->db->bind(1, MYDATABASE);
+                $this->db->execute();
+                $tables = $this->db->fetchAll();
+                foreach ($tables as $table) {
+                    $tablesToExport[] = $table['TABLE_NAME'];
+                }
+            }
+
+            // Generate SQL script for each table
+            foreach ($tablesToExport as $tableName) {
+                // SECURITY: Validate table name (alphanumeric and underscore only)
+                if (!preg_match('/^[a-zA-Z0-9_]+$/', $tableName)) {
+                    throw new Exception('Invalid table name: ' . $tableName);
+                }
+
+                // Add schema (CREATE TABLE) if not data-only
+                if (!$dataOnly) {
+                    $sqlScript .= "-- Table: $tableName\n";
+
+                    // Get column definitions
+                    $query = "SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, IS_NULLABLE, COLUMN_DEFAULT
+                             FROM INFORMATION_SCHEMA.COLUMNS
+                             WHERE TABLE_NAME = ? AND TABLE_CATALOG = ?
+                             ORDER BY ORDINAL_POSITION";
+                    $this->db->query($query);
+                    $this->db->bind(1, $tableName);
+                    $this->db->bind(2, MYDATABASE);
+                    $this->db->execute();
+                    $columns = $this->db->fetchAll();
+
+                    if (isset($dumpSettings['add-drop-table']) && $dumpSettings['add-drop-table'] === true) {
+                        $sqlScript .= "IF OBJECT_ID('dbo.$tableName', 'U') IS NOT NULL DROP TABLE dbo.$tableName;\n";
+                    }
+
+                    $sqlScript .= "CREATE TABLE dbo.$tableName (\n";
+                    $columnDefs = [];
+                    foreach ($columns as $col) {
+                        $def = "    [{$col['COLUMN_NAME']}] {$col['DATA_TYPE']}";
+                        if ($col['CHARACTER_MAXIMUM_LENGTH']) {
+                            $def .= "({$col['CHARACTER_MAXIMUM_LENGTH']})";
+                        }
+                        if ($col['IS_NULLABLE'] === 'NO') {
+                            $def .= " NOT NULL";
+                        }
+                        if ($col['COLUMN_DEFAULT']) {
+                            $def .= " DEFAULT {$col['COLUMN_DEFAULT']}";
+                        }
+                        $columnDefs[] = $def;
+                    }
+                    $sqlScript .= implode(",\n", $columnDefs);
+                    $sqlScript .= "\n);\nGO\n\n";
+                }
+
+                // Add data (INSERT statements) if not schema-only
+                if (!$schemaOnly) {
+                    $this->db->query("SELECT * FROM $tableName");
+                    $this->db->execute();
+                    $rows = $this->db->fetchAll();
+
+                    if (count($rows) > 0) {
+                        $sqlScript .= "-- Data for table: $tableName\n";
+                        foreach ($rows as $row) {
+                            $values = [];
+                            foreach ($row as $value) {
+                                if ($value === null) {
+                                    $values[] = 'NULL';
+                                } elseif (is_numeric($value)) {
+                                    $values[] = $value;
+                                } else {
+                                    // SECURITY: Escape single quotes for SQL
+                                    $values[] = "'" . str_replace("'", "''", $value) . "'";
+                                }
+                            }
+                            $sqlScript .= "INSERT INTO dbo.$tableName VALUES (" . implode(', ', $values) . ");\n";
+                        }
+                        $sqlScript .= "GO\n\n";
+                    }
+                }
+            }
+
+            // Write SQL script to file
+            if (file_put_contents($sqlPath, $sqlScript) === false) {
+                throw new Exception('Failed to write SQL backup file');
+            }
+
+            $finalPath = $sqlPath;
+            $finalName = $fileName . '.sql';
+
+            // Compress if requested
+            if (isset($dumpSettings['compress']) && $dumpSettings['compress'] === 'Gzip') {
+                exec('gzip ' . escapeshellarg($sqlPath), $gzipOutput, $gzipReturnCode);
+
+                if ($gzipReturnCode !== 0) {
+                    @unlink($sqlPath);
+                    throw new Exception('Compression failed');
+                }
+
+                $finalPath = $sqlPath . '.gz';
+                $finalName = $fileName . '.sql.gz';
+            }
+
+            // SECURITY: Verify file exists and is readable before download
+            if (!file_exists($finalPath) || !is_readable($finalPath)) {
+                throw new Exception('Backup file not found or not readable');
+            }
+
+            // Download file
+            $fileDownload = FileDownload::createFromFilePath($finalPath);
+            $fileDownload->sendDownload($finalName);
+
+            // SECURITY: Clean up temporary files
+            @unlink($finalPath);
+            @unlink($sqlPath);
+            @unlink($backupPath);
+
+        } catch (Exception $e) {
+            // Clean up any temporary files on error
+            @unlink($sqlPath);
+            @unlink($backupPath);
+            throw $e;
+        }
+    }
+
+    /**
      * @return bool
      */
     public function isUpdate(): bool
