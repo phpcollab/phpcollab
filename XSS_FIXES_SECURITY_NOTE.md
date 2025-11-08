@@ -516,18 +516,33 @@ header("Permissions-Policy: geolocation=(), microphone=(), camera=()");
 Session cookies are now protected with secure configuration in `includes/library.php`:
 
 ```php
-// SECURITY: Configure secure session cookies
-ini_set('session.cookie_httponly', '1');  // Prevent JavaScript access to session cookie
-ini_set('session.cookie_samesite', 'Strict');  // CSRF protection
-ini_set('session.use_strict_mode', '1');  // Reject uninitialized session IDs
-ini_set('session.use_only_cookies', '1');  // Don't allow session IDs in URLs
+// SECURITY: Configure secure session cookies (before session_start)
+// Using session_set_cookie_params() for maximum compatibility across hosting environments
+// including Apache/Windows, IIS, and shared hosting with restricted ini_set()
+session_set_cookie_params([
+    'lifetime' => 0,           // Session cookie (expires when browser closes)
+    'path' => '/',
+    'domain' => '',            // Current domain
+    'secure' => false,         // Set to true for HTTPS-only deployments
+    'httponly' => true,        // Prevent JavaScript access (XSS protection)
+    'samesite' => 'Strict'     // CSRF protection
+]);
 
-// Note: session.cookie_secure should be enabled when using HTTPS
-// Uncomment the following line if your installation uses HTTPS:
-// ini_set('session.cookie_secure', '1');
+// Additional session security settings
+// Using @ to suppress errors if ini_set() is disabled on shared hosting
+@ini_set('session.use_strict_mode', '1');   // Reject uninitialized session IDs (session fixation protection)
+@ini_set('session.use_only_cookies', '1');  // Don't allow session IDs in URLs (prevents session leakage)
 ```
 
-**HTTPS Deployments:** Administrators should uncomment `session.cookie_secure` in `includes/library.php` when using HTTPS to ensure cookies are only transmitted over secure connections.
+**HTTPS Deployments:** Set `'secure' => true` in the `session_set_cookie_params()` array when using HTTPS.
+
+**Shared Hosting:** If `ini_set()` is disabled, configure `session.use_strict_mode = 1` and `session.use_only_cookies = 1` in php.ini.
+
+**Compatibility:** Using `session_set_cookie_params()` ensures compatibility with:
+- Apache on Linux/Windows
+- IIS on Windows
+- Nginx
+- Shared hosting environments with restricted `ini_set()`
 
 ## References
 
