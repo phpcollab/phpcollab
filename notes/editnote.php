@@ -194,16 +194,7 @@ foreach ($listProjects as $project) {
 echo "</select></td></tr>";
 
 $block1->contentRow($strings["date"],
-    '<input type="text" name="dd" id="noteDate" size="20" value="' . $dd . '"><input type="button" value=" ... " id="trigNoteDate">');
-echo <<<JAVASCRIPT
-<script type='text/javascript'>
-    Calendar.setup({
-        inputField     :    'noteDate',
-        button         :    'trigNoteDate',
-        $calendar_common_settings
-    })
-</script>
-JAVASCRIPT;
+    '<input type="date" name="dd" id="noteDate" value="' . $dd . '">');
 
 $comptTopic = count($topicNote);
 

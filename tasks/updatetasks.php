@@ -315,28 +315,10 @@ $start_date = empty($sd) ? '--' : $sd;
 $due_date = empty($dd) ? '--' : $dd;
 
 $block1->contentRow($strings["start_date"],
-    "<input type='text' name='start_date' id='start_date' size='20' value='$start_date'><input type='button' value=' ... ' id='trigStartDate'>");
-echo <<<JavaScript
-<script type="text/javascript">
-    Calendar.setup({
-        inputField     :    'start_date',
-        button         :    'trigStartDate',
-        $calendar_common_settings
-    })
-</script>
-JavaScript;
+    "<input type='date' name='start_date' id='start_date' value='$start_date'>");
 
 $block1->contentRow($strings["due_date"],
-    "<input type='text' name='due_date' id='due_date' size='20' value='$due_date'><input type='button' value=' ... ' id='trigDueDate'>");
-echo <<<JavaScript
-<script type="text/javascript">
-    Calendar.setup({
-        inputField     :    'due_date',
-        button         :    'trigDueDate',
-        $calendar_common_settings
-    })
-</script>
-JavaScript;
+    "<input type='date' name='due_date' id='due_date' value='$due_date'>");
 
 echo <<<TR
     <tr class="odd">

@@ -141,30 +141,10 @@ if (empty($end_date)) {
 }
 
 $block1->contentRow($strings["date_start"],
-    "<input type='text' name='start_date' id='start_date' size='20' value='$start_date'><input type='button' value=' ... ' id='trigStartDate'>");
-
-echo <<<JAVASCRIPT
-<script type='text/javascript'>
-    Calendar.setup({
-        inputField     :    'start_date',
-        button         :    'trigStartDate',
-        $calendar_common_settings
-    })
-</script>
-JAVASCRIPT;
+    "<input type='date' name='start_date' id='start_date' value='$start_date'>");
 
 $block1->contentRow($strings["date_end"],
-    "<input type='text' name='end_date' id='end_date' size='20' value='$end_date'><input type='button' value=' ... ' id='trigDateEnd'>");
-
-echo <<<JAVASCRIPT
-<script type='text/javascript'>
-    Calendar.setup({
-        inputField     :    'end_date',
-        button         :    'trigDateEnd',
-        $calendar_common_settings
-    })
-</script>
-JAVASCRIPT;
+    "<input type='date' name='end_date' id='end_date' value='$end_date'>");
 
 echo <<<HTML
 <tr class="odd">

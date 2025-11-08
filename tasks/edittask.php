@@ -967,41 +967,14 @@ try {
     }
 
     $block1->contentRow($strings["start_date"],
-        '<input type="text" name="start_date" id="start_date" size="20" value="' . $start_date . '"> <i id="trigStartDate" class="far fa-lg fa-calendar-alt calendarIcon"></i>');
-    echo "
-    <script type='text/javascript'>
-        Calendar.setup({
-            inputField     :    'start_date',
-            button         :    'trigStartDate',
-            $calendar_common_settings
-        })
-    </script>
-    ";
+        '<input type="date" name="start_date" id="start_date" value="' . $start_date . '">');
 
     $block1->contentRow($strings["due_date"],
-        '<input type="text" name="due_date" id="due_date" size="20" value="' . $due_date . '"> <i id="trigDueDate" class="far fa-lg fa-calendar-alt calendarIcon"></i>');
-    echo <<<JAVASCRIPT
-    <script type='text/javascript'>
-        Calendar.setup({
-            inputField     :    'due_date',
-            button         :    'trigDueDate',
-            $calendar_common_settings
-        })
-    </script>
-    JAVASCRIPT;
+        '<input type="date" name="due_date" id="due_date" value="' . $due_date . '">');
 
     if ($task_id != "") {
         $block1->contentRow($strings["complete_date"],
-        '<input type="text" name="complete_date" id="complete_date" size="20" value="' . $complete_date . '"> <i id="trigCompleteDate" class="far fa-lg fa-calendar-alt calendarIcon"></i>');
-        echo <<<JAVASCRIPT
-        <script type='text/javascript'>
-            Calendar.setup({
-                inputField     :    'complete_date',
-                button         :    'trigCompleteDate',
-            $calendar_common_settings
-            })
-        </script>
-    JAVASCRIPT;
+        '<input type="date" name="complete_date" id="complete_date" value="' . $complete_date . '">');
     }
 
     echo <<<TR

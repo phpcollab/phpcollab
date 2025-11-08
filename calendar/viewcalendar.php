@@ -362,27 +362,9 @@ HTML;
     }
 
     $block1->contentRow($strings["date_start"],
-        "<input type='text' name='dateStart' id='dateStart' size='20' value='$date_start'><input type='button' value=' ... ' id=\"trigDateStart\">");
-    echo <<<SCRIPT
-	<script type='text/javascript'>
-	    Calendar.setup({
-        	inputField     :    'dateStart',
-        	button         :    'trigDateStart',
-        	$calendar_common_settings
-	    })
-	</script>
-SCRIPT;
+        "<input type='date' name='dateStart' id='dateStart' value='$date_start'>");
     $block1->contentRow($strings["date_end"],
-        "<input type='text' name='dateEnd' id='dateEnd' size='20' value='$date_end'><input type='button' value=' ... ' id=\"trigDateEnd\">");
-    echo <<<SCRIPT
-	<script type='text/javascript'>
-	    Calendar.setup({
-        	inputField     :    'dateEnd',
-	        button         :    'trigDateEnd',
-        	$calendar_common_settings
-    	})
-	</script>
-SCRIPT;
+        "<input type='date' name='dateEnd' id='dateEnd' value='$date_end'>");
 
     $time_start = $time_start ?? '';
     $time_end = $time_end ?? '';

@@ -177,27 +177,13 @@ echo <<<HTML
             <table class="nonStriped">
 				<tr>
 				    <td style="width: 18px;"></td>
-					<td style="width: 200px;" class="infoValue" noWrap><input type="text" name="S_SDATE" id="dueDate_start" size="20" value=""><input type="button" value=" ... " id="trigDueDateStart"></td>
+					<td style="width: 200px;" class="infoValue" noWrap><input type="date" name="S_SDATE" id="dueDate_start" value=""></td>
 				</tr>
 				<tr>
 					<td style="width: 18px;">{$strings["and"]}</td>
-					<td style="width: 200px;" class="infoValue" noWrap><input type="text" name="S_EDATE" id="dueDate_end" size="20" value=""><input type="button" value=" ... " id="trigDueDateEnd"></td>
+					<td style="width: 200px;" class="infoValue" noWrap><input type="date" name="S_EDATE" id="dueDate_end" value=""></td>
 				</tr>
             </table>
-<script type="text/javascript">
-    Calendar.setup({
-        inputField     :    "dueDate_start",
-        button         :    "trigDueDateStart",
-        {$calendar_common_settings}
-    })
-</script>
-<script type="text/javascript">
-    Calendar.setup({
-        inputField     :    "dueDate_end",
-        button         :    "trigDueDateEnd",
-        {$calendar_common_settings}
-    })
-</script>
 			</td>
 		</tr>
 		<tr class="odd">
@@ -217,27 +203,13 @@ echo <<<HTML
 				<table class="nonStriped">
                     <tr>
                         <td style="width: 18px;"></td>
-                        <td class="infoValue" noWrap><input type="text" name="S_SDATE2" id="compDate_start" size="20" value=""><input type="button" value=" ... " id="trigCompDateStart"></td>
+                        <td class="infoValue" noWrap><input type="date" name="S_SDATE2" id="compDate_start" value=""></td>
                     </tr>
                     <tr>
                         <td style="width: 18px;">&nbsp;{$strings["and"]}&nbsp;</td>
-                        <td class="infoValue" noWrap><input type="text" name="S_EDATE2" id="compDate_end" size="20" value=""><input type="button" value=" ... " id="trigCompDateEnd"></td>
+                        <td class="infoValue" noWrap><input type="date" name="S_EDATE2" id="compDate_end" value=""></td>
                     </tr>
 				</table>
-<script type="text/javascript">
-    Calendar.setup({
-        inputField     :    "compDate_start",
-        button         :    "trigCompDateStart",
-        {$calendar_common_settings}
-    })
-</script>
-<script type="text/javascript">
-    Calendar.setup({
-        inputField     :    "compDate_end",
-        button         :    "trigCompDateEnd",
-        {$calendar_common_settings}
-    })
-</script>
 			</td>
 		</tr>
 		<tr class="odd">

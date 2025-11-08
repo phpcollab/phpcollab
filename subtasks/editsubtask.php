@@ -575,44 +575,15 @@ HTML;
     }
 
     $block1->contentRow($strings["start_date"],
-        '<input type="text" name="start_date" id="start_date" size="20" value="' . $subtaskDetail["subtas_start_date"] . '"> <i id="trigStartDate" class="far fa-lg fa-calendar-alt calendarIcon"></i>');
-
-    echo <<< JavaScript
-    <script type="text/javascript">
-        Calendar.setup({
-            inputField     :    "start_date",
-            button         :    "trigStartDate",
-            $calendar_common_settings
-        })
-    </script>
-JavaScript;
+        '<input type="date" name="start_date" id="start_date" value="' . $subtaskDetail["subtas_start_date"] . '">');
 
     $block1->contentRow($strings["due_date"],
-        '<input type="text" name="due_date" id="due_date" size="20" value="' . $subtaskDetail["subtas_due_date"] . '"> <i id="trigDueDate" class="far fa-lg fa-calendar-alt calendarIcon"></i>');
-    echo <<< JavaScript
-    <script type="text/javascript">
-        Calendar.setup({
-            inputField     :    "due_date",
-            button         :    "trigDueDate",
-            $calendar_common_settings
-        })
-    </script>
-JavaScript;
+        '<input type="date" name="due_date" id="due_date" value="' . $subtaskDetail["subtas_due_date"] . '">');
 
 
     if ($id != "") {
         $block1->contentRow($strings["complete_date"],
-            '<input type="text" name="completed_date" id="complete_date" size="20" value="' . $subtaskDetail["subtas_complete_date"] . '"> <i id="trigCompleteDate" class="far fa-lg fa-calendar-alt calendarIcon"></i>');
-        echo <<< JavaScript
-    <script type="text/javascript">
-        Calendar.setup({
-            inputField     :    "complete_date",
-            button         :    "trigCompleteDate",
-            $calendar_common_settings
-        })
-    </script>
-JavaScript;
-
+            '<input type="date" name="completed_date" id="complete_date" value="' . $subtaskDetail["subtas_complete_date"] . '">');
     }
 
     echo <<< HTML

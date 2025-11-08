@@ -203,16 +203,7 @@ if ($dd == "") {
 }
 
 $block1->contentRow($strings["due_date"],
-    "<input type='text' name='dd' id='due_date' size='20' value='$dd'><input type='button' value=' ... ' id='trigDueDate''>");
-echo <<<SCRIPT
-<script type='text/javascript'>
-    Calendar.setup({
-        inputField     :    'due_date',
-        button         :    'trigDueDate',
-        $calendar_common_settings
-    })
-</script>
-SCRIPT;
+    "<input type='date' name='dd' id='due_date' value='$dd'>");
 
 $block1->contentRow($strings["published"], '<input size="32" value="0" name="pub" type="checkbox"' . $checkedPub . '>');
 

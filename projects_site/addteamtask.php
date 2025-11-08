@@ -188,15 +188,7 @@ if (empty($request->request->get('due_date'))) {
 echo <<< STARTDATE
  <tr>
 			<th>{$strings["start_date"]} :</th>
-			<td><input type="text" name="start_date" id="start_date" size="20" value="{$request->request->get('start_date')}" />
-				<input type="button" value=" ... " id="trigStartDate" />
-				<script type="text/javascript">
-				    Calendar.setup({
-				        inputField     :    "start_date",
-				        button         :    "trigStartDate",
-				        $calendar_common_settings
-				    })
-				</script>
+			<td><input type="date" name="start_date" id="start_date" value="{$request->request->get('start_date')}" />
 			</td>
 	</tr>
 STARTDATE;
@@ -205,15 +197,7 @@ echo <<< DUEDATE
 	<tr>
 		<th>{$strings["due_date"]} :</th>
 		<td>
-			<input type="text" name="due_date" id="due_date" size="20" value="{$request->request->get('due_date')}" />
-			<input type="button" value=" ... " id="trigDueDate" />
-			<script type="text/javascript">
-			    Calendar.setup({
-			        inputField     :    "due_date",
-			        button         :    "trigDueDate",
-			        $calendar_common_settings
-			    })
-			</script>
+			<input type="date" name="due_date" id="due_date" value="{$request->request->get('due_date')}" />
 		</td>
 	</tr>
 DUEDATE;
