@@ -1,6 +1,7 @@
 <?php
 
 use phpCollab\Block;
+use phpCollab\Files\SecureFileUploadValidator;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
 $checkSession = "true";
@@ -51,49 +52,49 @@ if ($request->isMethod('post')) {
 
             $files = $container->getFilesLoader();
 
-            // Clean the filename of spaces, slashes, etc
-            $filename1 = phpCollab\Util::checkFileName($_FILES['upload']['name']);
+            // SECURITY: Get uploaded file object
+            $uploadedFile = $request->files->get('upload');
 
-            $filename = $request->files->get('upload')->getClientOriginalName();
-
-
-            // Check to see if the custom maximum file size is set, and if so use it.
-            if (!empty($request->request->get("maxCustom"))) {
-                $maxFileSize = $request->request->get("maxCustom");
-            }
-
-            if (!empty($request->files->get('upload')->getSize())) {
-                $taille_ko = $request->files->get('upload')->getSize() / 1024;
-            } else {
-                $taille_ko = 0;
-            }
-
-            if (empty($filename)) {
+            if (!$uploadedFile) {
                 $error .= $strings["no_file"] . "<br/>";
-            }
+                $docopy = "false";
+            } else {
+                // SECURITY: Use project-defined max file size (not user-controlled)
+                $maxFileSize = !empty($projectDetail["pro_upload_max"])
+                    ? $projectDetail["pro_upload_max"]
+                    : SecureFileUploadValidator::MAX_FILE_SIZE;
 
-            if ($request->files->get('upload')->getSize() > $maxFileSize) {
-                if ($maxFileSize != 0) {
-                    $taille_max_ko = $maxFileSize / 1024;
+                // SECURITY: Validate file upload with comprehensive security checks
+                $validation = SecureFileUploadValidator::validate($uploadedFile, $maxFileSize);
+
+                if (!$validation['valid']) {
+                    // Log security validation failures
+                    $logger->warning('File upload validation failed', [
+                        'file' => $uploadedFile->getClientOriginalName(),
+                        'user' => $session->get("login"),
+                        'errors' => $validation['errors']
+                    ]);
+
+                    // Display errors to user
+                    foreach ($validation['errors'] as $validationError) {
+                        $error .= $validationError . "<br/>";
+                    }
+                    $docopy = "false";
+                } else {
+                    // SECURITY: Generate secure random filename (discard user-provided name)
+                    $secureFilename = SecureFileUploadValidator::generateSecureFilename(
+                        $validation['extension']
+                    );
+
+                    // Store original filename for display purposes only
+                    $originalFilename = $uploadedFile->getClientOriginalName();
+
+                    // Get file size for display
+                    $taille_ko = $uploadedFile->getSize() / 1024;
+                    $extension = $validation['extension'];
+
+                    $docopy = "true";
                 }
-                $error .= $strings["exceed_size"] . " ($taille_max_ko $byteUnits[1])<br/>";
-            }
-
-            $extension = strtolower(substr(strrchr($filename, "."), 1));
-
-            if ($allowPhp == "false") {
-                $send = "";
-                if (!empty($filename) && ($extension == "php" || $extension == "php3" || $extension == "phtml")) {
-                    $error .= $strings["no_php"] . "<br/>";
-                    $send = "false";
-                }
-            }
-
-            if (!empty($filename)
-                && $request->files->get('upload')->getSize() < $maxFileSize
-                && $request->files->get('upload')->getSize() != 0
-                && $send != "false") {
-                $docopy = "true";
             }
 
             if ($docopy == "true") {
@@ -124,26 +125,24 @@ if ($request->isMethod('post')) {
             if ($taskId != "0") {
 
                 if ($docopy == "true") {
+                    // SECURITY: Use secure random filename, not user-provided name
                     phpCollab\Util::uploadFile("files/$projectId/$taskId",
-                        $request->files->get('upload')->getPathName(), "$num--" . $filename);
-                    $size = phpCollab\Util::fileInfoSize("../files/" . $projectId . "/" . $taskId . "/" . $num . "--" . $filename);
-                    $filePath = strrev("../files/" . $projectId . "/" . $taskId . "/" . $num . "--" . $filename);
-                    $tab = explode(".", $filePath);
-                    $extension = strtolower(strrev($tab[0]));
+                        $uploadedFile->getPathName(), $secureFilename);
+                    $size = phpCollab\Util::fileInfoSize("../files/" . $projectId . "/" . $taskId . "/" . $secureFilename);
                 }
             } else {
                 if ($docopy == "true") {
-                    phpCollab\Util::uploadFile("files/$projectId", $request->files->get('upload')->getPathName(),
-                        "$num--" . $filename);
-                    $size = phpCollab\Util::fileInfoSize("../files/" . $projectId . "/" . $num . "--" . $filename);
-                    $filePath = strrev("../files/" . $projectId . "/" . $num . "--" . $filename);
-                    $tab = explode(".", $filePath);
-                    $extension = strtolower(strrev($tab[0]));
+                    // SECURITY: Use secure random filename, not user-provided name
+                    phpCollab\Util::uploadFile("files/$projectId",
+                        $uploadedFile->getPathName(), $secureFilename);
+                    $size = phpCollab\Util::fileInfoSize("../files/" . $projectId . "/" . $secureFilename);
                 }
             }
 
             if ($docopy == "true") {
-                $fileDetails = $files->updateFile($num, "$num--$filename", date('Y-m-d h:i'), $size, $extension);
+                // SECURITY: Store both secure filename and original filename for reference
+                // Secure filename is used for storage, original filename for display
+                $fileDetails = $files->updateFile($num, $secureFilename, date('Y-m-d h:i'), $size, $extension);
 
                 if ($notifications == "true") {
                     try {
