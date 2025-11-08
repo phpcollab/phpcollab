@@ -65,6 +65,29 @@ $request = Request::createFromGlobals();
 $session = new Session(new NativeSessionStorage());
 $session->start();
 
+/*
+ * Set security headers
+ * Added as part of Phase 3 modernization (November 2024)
+ */
+// Content Security Policy - No inline scripts allowed (all eliminated in modernization)
+header("Content-Security-Policy: " .
+    "default-src 'self'; " .
+    "script-src 'self'; " .  // Only allow scripts from same origin
+    "style-src 'self' 'unsafe-inline'; " .  // Allow inline styles (common in PHP templates)
+    "img-src 'self' data:; " .  // Allow images from same origin and data URIs
+    "font-src 'self'; " .
+    "connect-src 'self'; " .
+    "frame-ancestors 'self'; " .  // Prevent clickjacking
+    "base-uri 'self'; " .
+    "form-action 'self'"
+);
+
+// Additional security headers
+header("X-Frame-Options: SAMEORIGIN");  // Prevent clickjacking
+header("X-Content-Type-Options: nosniff");  // Prevent MIME sniffing
+header("X-XSS-Protection: 1; mode=block");  // Enable XSS filter (legacy browsers)
+header("Referrer-Policy: strict-origin-when-cross-origin");  // Control referrer information
+
 $msg = $request->query->get("msg");
 
 $parse_start = phpCollab\Util::getMicroTime();
