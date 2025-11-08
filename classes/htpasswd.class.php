@@ -91,7 +91,8 @@ class Htpasswd
     {
         $this->FILE = $passwdFile;
 
-        srand((double)microtime() * 1000000); // Seed the random number gen
+        // SECURITY FIX: Removed srand() call - PHP auto-seeds RNG since PHP 7.1
+        // Modern PHP uses cryptographically secure auto-seeding
 
         if (empty($passwdFile)) {
             // PHP is going to bitch about this, this is here just because
@@ -974,7 +975,12 @@ class Htpasswd
         $random = 0;
         $rand64 = "";
         $salt = "";
-        $random = rand();    // Seeded via initialize()
+        // SECURITY FIX: Use cryptographically secure random_int() instead of weak rand()
+        try {
+            $random = random_int(0, PHP_INT_MAX);
+        } catch (Exception $e) {
+            $random = mt_rand(); // Fallback
+        }
 
         // Crypt(3) can only handle A-Z a-z ./
 
@@ -1002,22 +1008,20 @@ class Htpasswd
         $randpass = "";
         $pass = "";
 
-        $maxcount = rand(4, 9);
-
-        // The rand() limits (min 4, max 9) don't actually limit the number
-        // returned by rand, so keep looping until we have a password that's
-        // more than 4 characters and less than 9.
-
-        if (($maxcount > 8) || ($maxcount < 5)) {
-            do {
-                $maxcount = rand(4, 9);
-
-            } while (($maxcount > 8) || ($maxcount < 5));
+        // SECURITY FIX: Use cryptographically secure random_int() instead of weak rand()
+        try {
+            $maxcount = random_int(5, 8); // Simplified: directly get valid range
+        } catch (Exception $e) {
+            $maxcount = mt_rand(5, 8); // Fallback
         }
 
         $rand78 = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()-=_+abcdefghijklmnopqrstuvwxyz";
         for ($count = 0; $count <= $maxcount; $count++) {
-            $random = rand(0, 77);
+            try {
+                $random = random_int(0, 77);
+            } catch (Exception $e) {
+                $random = mt_rand(0, 77); // Fallback
+            }
             $randpass = substr($rand78, $random, 1);
             $pass = $pass . $randpass;
         }
@@ -1044,18 +1048,20 @@ class Htpasswd
         $randuser = "";
         $userid = "";
 
-        $maxcount = rand(4, 9);
-
-        if (($maxcount > 8) || ($maxcount < 5)) {
-            do {
-                $maxcount = rand(4, 9);
-
-            } while (($maxcount > 8) || ($maxcount < 5));
+        // SECURITY FIX: Use cryptographically secure random_int() instead of weak rand()
+        try {
+            $maxcount = random_int(5, 8); // Simplified: directly get valid range
+        } catch (Exception $e) {
+            $maxcount = mt_rand(5, 8); // Fallback
         }
 
         $rand62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         for ($count = 0; $count <= $maxcount; $count++) {
-            $random = rand(0, 61);
+            try {
+                $random = random_int(0, 61);
+            } catch (Exception $e) {
+                $random = mt_rand(0, 61); // Fallback
+            }
             $randuser = substr($rand62, $random, 1);
             $userid = $userid . $randuser;
         }

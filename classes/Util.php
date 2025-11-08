@@ -151,7 +151,8 @@ class Util
      */
     public static function dayOfWeek($timestamp)
     {
-        return intval(strftime("%w", $timestamp) + 1);
+        // SECURITY FIX: Replace deprecated strftime() with date() (PHP 8.1+ compatibility)
+        return intval(date('w', $timestamp) + 1);
     }
 
 
@@ -318,9 +319,16 @@ class Util
         }
 
         if ($sizeof_lchar > 0) {
-            srand((double)microtime() * date("YmdGis"));
+            // SECURITY FIX: Use cryptographically secure random_int() instead of weak rand()/srand()
+            // Removed srand() seeding (PHP auto-seeds since PHP 7.1)
+            // Replaced rand() with random_int() for cryptographic security
             for ($cnt = 0; $cnt < $size; $cnt++) {
-                $char_select = rand(0, $sizeof_lchar - 1);
+                try {
+                    $char_select = random_int(0, $sizeof_lchar - 1);
+                } catch (Exception $e) {
+                    // Fallback to mt_rand if random_int fails (extremely rare)
+                    $char_select = mt_rand(0, $sizeof_lchar - 1);
+                }
                 self::$pass_g .= $letter[$char_select];
             }
         }
@@ -624,19 +632,14 @@ class Util
      */
     public static function convertData($data)
     {
+        // SECURITY FIX: Removed deprecated get_magic_quotes_gpc() check (PHP 8.0+ compatibility)
+        // Magic quotes was removed in PHP 5.4, and the function removed in PHP 8.0
         if (self::$databaseType == "sqlserver") {
             $data = str_replace('"', '&quot;', $data);
             $data = str_replace("'", '&#39;', $data);
             $data = str_replace('<', '&lt;', $data);
             $data = str_replace('>', '&gt;', $data);
             $data = stripslashes($data);
-
-            return ($data);
-        } elseif (get_magic_quotes_gpc() == 1) {
-            $data = str_replace('"', '&quot;', $data);
-            $data = str_replace('<', '&lt;', $data);
-            $data = str_replace('>', '&gt;', $data);
-            $data = str_replace("'", '&#39;', $data);
 
             return ($data);
         } else {

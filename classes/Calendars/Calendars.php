@@ -159,7 +159,8 @@ class Calendars
      */
     public function dayOfWeek($timestamp): int
     {
-        $dayOfWeek = strftime("%w", $timestamp);
+        // SECURITY FIX: Replace deprecated strftime() with date() (PHP 8.1+ compatibility)
+        $dayOfWeek = date('w', $timestamp);
         return intval($dayOfWeek) + 1;
     }
 
