@@ -36,8 +36,10 @@ try {
         'ip' => $request->server->get('REMOTE_ADDR'),
         'error' => $e->getMessage()
     ]);
-    http_response_code(403);
-    die('Access Denied: You are not authorized to access this file.');
+
+    // Store error in flash bag and redirect
+    $session->getFlashBag()->add('error', $strings['no_permissions'] ?? 'Access Denied: You are not authorized to access this resource.');
+    phpCollab\Util::headerFunction('../general/home.php');
 }
 
 if ($action == "publish") {
@@ -57,8 +59,10 @@ if ($action == "publish") {
             'ip' => $request->server->get('REMOTE_ADDR'),
             'error' => $e->getMessage()
         ]);
-        http_response_code(403);
-        die('Access Denied: You are not authorized to publish/unpublish this file.');
+
+        // Store error in flash bag and redirect
+        $session->getFlashBag()->add('error', $strings['no_permissions'] ?? 'Access Denied: You are not authorized to access this resource.');
+        phpCollab\Util::headerFunction('../general/home.php');
     }
 
     if ($addToSiteFile == "true") {

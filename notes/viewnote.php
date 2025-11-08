@@ -64,8 +64,10 @@ if ($action == "publish") {
             'ip' => $request->server->get('REMOTE_ADDR'),
             'error' => $e->getMessage()
         ]);
-        http_response_code(403);
-        die('Access Denied: You are not authorized to publish/unpublish this note.');
+
+        // Store error in flash bag and redirect
+        $session->getFlashBag()->add('error', $strings['no_permissions'] ?? 'Access Denied: You are not authorized to access this resource.');
+        phpCollab\Util::headerFunction('../general/home.php');
     }
 
     if ($addToSite == "true") {
@@ -91,8 +93,10 @@ try {
         'ip' => $request->server->get('REMOTE_ADDR'),
         'error' => $e->getMessage()
     ]);
-    http_response_code(403);
-    die('Access Denied: You are not authorized to access this note.');
+
+    // Store error in flash bag and redirect
+    $session->getFlashBag()->add('error', $strings['no_permissions'] ?? 'Access Denied: You are not authorized to access this resource.');
+    phpCollab\Util::headerFunction('../general/home.php');
 }
 
 include APP_ROOT . '/views/layout/header.php';

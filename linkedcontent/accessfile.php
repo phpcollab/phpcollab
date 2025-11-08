@@ -29,8 +29,10 @@ try {
         'ip' => $request->server->get('REMOTE_ADDR'),
         'error' => $e->getMessage()
     ]);
-    http_response_code(403);
-    die('Access Denied: You are not authorized to access this file.');
+
+    // Store error in flash bag and redirect to home
+    $session->getFlashBag()->add('error', $strings['no_permissions'] ?? 'Access Denied: You are not authorized to access this file.');
+    phpCollab\Util::headerFunction('../general/home.php');
 }
 
 $fileDetail = $files->getFileById($fileId);
