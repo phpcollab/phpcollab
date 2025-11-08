@@ -1,0 +1,165 @@
+PHPCollab SaaS Pricing Comparison - 3 Year Financial Summary
+
+YEAR 1 COMPARISON
+Metric,Option A: Hybrid ($10/user OR $99),Option B: Pure Unlimited ($99 flat)
+Starting Customers,0,0
+Ending Customers,250,260
+Customer Growth,250,260
+Total Revenue,"$136,296","$141,867"
+Infrastructure Costs,"$10,800","$9,000"
+Support Costs,"$30,000","$30,000"
+Development Costs,"$96,000","$96,000"
+Marketing Costs,"$18,000","$27,000"
+Overhead Costs,"$5,400","$5,400"
+Total Costs,"$154,800","$183,300"
+NET PROFIT (LOSS),"($18,504)","($41,433)"
+Profit Margin,-14%,-29%
+Monthly MRR (End of Year),"$22,500","$25,740"
+Annual Run Rate,"$270,000","$308,880"
+ARPA (Avg Revenue Per Account),$90,$99
+Break-even Month,Month 8,Month 9
+Cash Runway Needed,"$68,000","$78,000"
+Customer Acquisition Cost,$80,$100
+
+YEAR 2 COMPARISON
+Metric,Option A: Hybrid,Option B: Pure Unlimited
+Starting Customers,250,260
+Ending Customers,600,650
+Customer Growth,350,390
+Total Revenue,"$491,400","$546,000"
+Infrastructure Costs,"$28,800","$30,000"
+Support Costs,"$48,000","$42,000"
+Development Costs,"$120,000","$120,000"
+Marketing Costs,"$36,000","$48,000"
+Overhead Costs,"$12,000","$12,000"
+Total Costs,"$244,800","$252,000"
+NET PROFIT,"$246,600","$294,000"
+Profit Margin,50%,54%
+Monthly MRR (End of Year),"$55,200","$64,350"
+Annual Run Rate,"$662,400","$772,200"
+ARPA,$92,$99
+
+YEAR 3 COMPARISON
+Metric,Option A: Hybrid,Option B: Pure Unlimited
+Starting Customers,600,650
+Ending Customers,900,"1,000"
+Customer Growth,300,350
+Total Revenue,"$855,000","$1,010,100"
+Infrastructure Costs,"$42,000","$48,000"
+Support Costs,"$72,000","$84,000"
+Development Costs,"$156,000","$156,000"
+Marketing Costs,"$54,000","$72,000"
+Overhead Costs,"$18,000","$24,000"
+Total Costs,"$342,000","$384,000"
+NET PROFIT,"$513,000","$626,100"
+Profit Margin,60%,62%
+Monthly MRR (End of Year),"$85,500","$101,000"
+Annual Run Rate,"$1,026,000","$1,212,000"
+ARPA,$95,$101
+
+3-YEAR CUMULATIVE
+Metric,Option A: Hybrid,Option B: Pure Unlimited
+Total Revenue,"$1,482,696","$1,697,967"
+Total Costs,"$741,600","$819,300"
+TOTAL NET PROFIT,"$741,096","$878,667"
+Difference in Profit,Baseline,"+$137,571"
+Final Customer Count,900,"1,000"
+Final ARR,"$1,026,000","$1,212,000"
+Total Customers Acquired,"~1,150","~1,280"
+
+MONTHLY BREAKDOWN - YEAR 1 (OPTION A: HYBRID)
+Month,New Customers,Total Customers,Churn,Revenue,Costs,Monthly Profit,Cumulative Profit
+1,15,15,0,"$1,245","$12,500","($11,255)","($11,255)"
+2,13,28,-2,"$2,091","$12,500","($10,409)","($21,664)"
+3,15,43,-3,"$3,360","$12,500","($9,140)","($30,804)"
+4,22,65,-4,"$5,400","$12,500","($7,100)","($37,904)"
+5,28,93,-5,"$7,650","$12,500","($4,850)","($42,754)"
+6,30,123,-6,"$9,900","$12,500","($2,600)","($45,354)"
+7,35,158,-8,"$12,600","$14,700","($2,100)","($47,454)"
+8,30,188,-9,"$14,850","$14,700",$150,"($47,304)"
+9,28,216,-10,"$16,650","$14,700","$1,950","($45,354)"
+10,33,249,-11,"$18,900","$14,700","$4,200","($41,154)"
+11,33,282,-12,"$21,150","$14,700","$6,450","($34,704)"
+12,27,309,-13,"$22,500","$14,700","$7,800","($26,904)"
+YEAR 1 TOTAL,,,,"$136,296","$154,800","($18,504)","($18,504)"
+
+MONTHLY BREAKDOWN - YEAR 1 (OPTION B: PURE UNLIMITED)
+Month,New Customers,Total Customers,Churn,Revenue,Costs,Monthly Profit,Cumulative Profit
+1,12,12,0,"$1,188","$12,900","($11,712)","($11,712)"
+2,10,22,-2,"$1,980","$12,900","($10,920)","($22,632)"
+3,14,36,-3,"$3,168","$12,900","($9,732)","($32,364)"
+4,20,56,-4,"$4,950","$12,900","($7,950)","($40,314)"
+5,25,81,-5,"$7,128","$12,900","($5,772)","($46,086)"
+6,27,108,-6,"$9,405","$12,900","($3,495)","($49,581)"
+7,35,143,-8,"$12,375","$15,000","($2,625)","($52,206)"
+8,33,176,-9,"$15,048","$15,000",$48,"($52,158)"
+9,30,206,-10,"$17,325","$15,000","$2,325","($49,833)"
+10,38,244,-11,"$20,295","$15,000","$5,295","($44,538)"
+11,38,282,-12,"$23,265","$15,000","$8,265","($36,273)"
+12,33,315,-13,"$25,740","$15,000","$10,740","($25,533)"
+YEAR 1 TOTAL,,,,"$141,867","$183,300","($41,433)","($41,433)"
+
+COST STRUCTURE BREAKDOWN (% of Revenue)
+Category,Option A Year 1,Option A Year 2,Option A Year 3,Option B Year 1,Option B Year 2,Option B Year 3
+Infrastructure,7.9%,5.9%,4.9%,6.3%,5.5%,4.8%
+Support,22.0%,9.8%,8.4%,21.1%,7.7%,8.3%
+Development,70.4%,24.4%,18.2%,67.7%,22.0%,15.4%
+Marketing,13.2%,7.3%,6.3%,19.0%,8.8%,7.1%
+Overhead,4.0%,2.4%,2.1%,3.8%,2.2%,2.4%
+TOTAL COSTS,113.5%,49.8%,40.0%,129.2%,46.2%,38.0%
+PROFIT MARGIN,-13.5%,50.2%,60.0%,-29.2%,53.8%,62.0%
+
+KEY METRICS COMPARISON
+Metric,Option A: Hybrid,Option B: Pure Unlimited,Winner
+Faster Break-even,Month 8,Month 9,Option A
+Lower Cash Needed,"$68,000","$78,000",Option A
+Year 1 Loss,"($18,504)","($41,433)",Option A
+Year 2 Profit,"$246,600","$294,000",Option B
+Year 3 Profit,"$513,000","$626,100",Option B
+3-Year Total Profit,"$741,096","$878,667",Option B
+Final Customer Count,900,"1,000",Option B
+Final ARR,"$1,026,000","$1,212,000",Option B
+Easier Customer Acquisition,Yes,No,Option A
+Simpler Pricing,No,Yes,Option B
+Lower Infrastructure Risk,No,Yes,Option B
+
+SENSITIVITY ANALYSIS - YEAR 1 IMPACT
+Scenario,Option A Impact,Option B Impact,Better Option
+50% Slower Growth,"($86,652) loss","($112,366) loss",Option A more resilient
+2x Storage Usage,"($32,904) loss","($51,033) loss",Option B (enforced limits)
+8% Churn (vs 5%),"($59,193) loss","($83,992) loss",Option A (lower entry)
+CAC +50% ($120 → $180),"($31,504) loss","($56,433) loss",Option A (easier sell)
+Support 2x Higher,"($48,504) loss","($71,433) loss",Tie
+
+BREAK-EVEN SCENARIOS
+Scenario,Option A Customers Needed,Option B Customers Needed
+Conservative (high costs),163,152
+Base Case,139,130
+Optimistic (low costs),110,105
+
+RECOMMENDATION SUMMARY
+Phase,Timeframe,Action,Rationale
+Phase 1: Launch,Months 1-12,Use Option A (Hybrid),"Lower risk, faster break-even, easier customer acquisition"
+Phase 2: Optimize,Months 13-24,Monitor and test Option B,"If >70% revenue from unlimited tier, consider switch"
+Phase 3: Scale,Months 25-36,Potentially switch to Option B,"Simpler operations, higher revenue potential"
+
+DECISION CRITERIA
+Choose Option A (Hybrid) If:,Choose Option B (Pure Unlimited) If:
+Bootstrapping with limited runway,Have $80K+ in funding
+Want to minimize Year 1 losses,Willing to lose more Year 1 for higher Year 3 returns
+Want to capture small teams,Targeting mid-large teams primarily
+Okay with pricing complexity,Want simplest possible messaging
+Want fastest path to profitability,Want to directly compete with Basecamp
+Need to prove concept quickly,Have conviction in unlimited model
+
+AWS INFRASTRUCTURE COSTS BY TIER
+Service,0-200 Customers,201-500 Customers,501-1000 Customers
+EC2 (Compute),$15-60,$120,$280
+RDS (Database),$85-150,$280,$500
+ElastiCache (Redis),$12-30,$30,$150
+S3 (Storage),Option A: $1150 | Option B: $460,Option A: $2875 | Option B: $1150,Option A: $5750 | Option B: $2300
+CloudFront (CDN),$40-50,$120,$200
+Load Balancer,$20,$25,$25
+Other (DNS, Monitoring),$20,$30,$50
+TOTAL (Option A),"$600-800","$1,200","$2,000"
+TOTAL (Option B),"$500-700","$1,000","$1,500"
