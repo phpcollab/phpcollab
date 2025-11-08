@@ -16,6 +16,11 @@
 */
 
 use phpCollab\Installation\Installation;
+use phpCollab\Security\CsrfHandler;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
 error_reporting(2039);
 
@@ -27,6 +32,32 @@ require_once '../languages/help_en.php';
 $appRoot = dirname(__FILE__, 2);
 
 define('APP_ROOT', dirname(__FILE__, 2));
+
+// SECURITY: Initialize session and CSRF protection for installation
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'domain' => '',
+    'secure' => false,
+    'httponly' => true,
+    'samesite' => 'Strict'
+]);
+
+$session = new Session(new NativeSessionStorage());
+$session->start();
+
+$request = Request::createFromGlobals();
+
+// Set CSRF token in session if not already set
+if (!$session->has('csrfToken')) {
+    try {
+        $session->set('csrfToken', bin2hex(random_bytes(32)));
+    } catch (Exception $exception) {
+        error_log('Unable to set csrfToken: ' . $exception->getMessage());
+    }
+}
+
+$csrfHandler = new CsrfHandler($session);
 
 $step = $_GET["step"];
 $redirect = $_GET["redirect"];
@@ -42,6 +73,16 @@ if ($redirect == "true" && $step == "2") {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST["action"] == "generate") {
+        // SECURITY: Validate CSRF token (CSRF protection)
+        try {
+            if (!$csrfHandler->isValid($_POST['csrf_token'] ?? '')) {
+                throw new InvalidCsrfTokenException('Invalid CSRF token');
+            }
+        } catch (InvalidCsrfTokenException $e) {
+            $error = "Security error: Invalid form submission. Please try again.";
+            error_log('CSRF Token Error in installation/setup.php: ' . $_SERVER['REMOTE_ADDR']);
+        }
+
         if (empty($_POST["dbServer"])) {
             $error = $help["setup_error_database_server"];
         } elseif (empty($_POST["dbLogin"])) {
@@ -399,8 +440,10 @@ HTML;
 
 $stepNext = $step + 1;
 if ($step < "2") {
+    $csrfToken = $csrfHandler->getToken();
     echo <<<FORM
     <form id="license" name="license" action="../installation/setup.php?step=2&redirect=true" method="post" style="text-align: center;">
+        <input type="hidden" name="csrf_token" value="{$csrfToken}">
         <p><input type="submit" value="Step $stepNext" style="color: #000; font-weight: bold; background-color: transparent; border: none; text-decoration: underline; cursor: pointer" /></p>
         <label><input type="checkbox" value="off" name="connection"> Offline installation (firewall/intranet, no update checker)</label>
     </form>
