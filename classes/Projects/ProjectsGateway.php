@@ -2,6 +2,7 @@
 
 namespace phpCollab\Projects;
 
+use phpCollab\AppConfig;
 use phpCollab\Database;
 use phpCollab\RequestData;
 
@@ -19,11 +20,13 @@ class ProjectsGateway
     /**
      * Reports constructor.
      * @param Database $db
+     * @param RequestData $requestData Request data
+     * @param AppConfig $appConfig Application configuration
      */
-    public function __construct(Database $db, RequestData $requestData)
+    public function __construct(Database $db, RequestData $requestData, AppConfig $appConfig)
     {
         $this->db = $db;
-        $this->projectsFilter = $GLOBALS['projectsFilter'];
+        $this->projectsFilter = $appConfig->getProjectsFilter();
         $this->initrequest = $requestData->all(); // Maintain BC with existing code
 
     }

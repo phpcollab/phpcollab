@@ -2,6 +2,7 @@
 namespace phpCollab;
 
 use PDO;
+use phpCollab\RequestData;
 
 /**
  * Class ProjectSite
@@ -15,10 +16,11 @@ class ProjectSite
     /**
      * ProjectSite constructor.
      * @param Database $database
+     * @param RequestData $requestData Request data
      */
-    public function __construct(Database $database)
+    public function __construct(Database $database, RequestData $requestData)
     {
-        $this->initrequest = $GLOBALS['initrequest'];
+        $this->initrequest = $requestData->all();
         $this->db = $database;
     }
 

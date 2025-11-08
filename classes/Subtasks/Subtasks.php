@@ -5,16 +5,18 @@ namespace phpCollab\Subtasks;
 
 use Exception;
 use Monolog\Logger;
+use phpCollab\AppConfig;
 use phpCollab\Database;
 use phpCollab\Notifications\Notifications;
 use phpCollab\Notifications\SubtaskNotifications;
+use phpCollab\RequestData;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class Subtasks
 {
     protected $subtasks_gateway;
     protected $db;
-    protected $strings;
+    protected $appConfig;
     protected $notifications;
     protected $notificationsList;
     protected $subtaskNotifications;
@@ -27,18 +29,22 @@ class Subtasks
      * @param Database $database Database connection
      * @param Notifications $notifications Notifications manager for storing notification records
      * @param SubtaskNotifications $subtaskNotifications Service for sending subtask-related notifications
+     * @param AppConfig $appConfig Application configuration
+     * @param RequestData $requestData Request data for gateway
      * @throws Exception
      */
     public function __construct(
         Database $database,
         Notifications $notifications,
-        SubtaskNotifications $subtaskNotifications
+        SubtaskNotifications $subtaskNotifications,
+        AppConfig $appConfig,
+        RequestData $requestData
     ) {
         $this->db = $database;
-        $this->subtasks_gateway = new SubtasksGateway($this->db);
+        $this->subtasks_gateway = new SubtasksGateway($this->db, $requestData);
         $this->notifications = $notifications;
         $this->subtaskNotifications = $subtaskNotifications;
-        $this->strings = $GLOBALS["strings"];
+        $this->appConfig = $appConfig;
     }
 
     /**
@@ -205,29 +211,29 @@ class Subtasks
         switch ($notification) {
             case "priority":
                 if ($this->notificationsList["priorityTaskChange"] == "0") {
-                    $this->subtaskNotifications->setSubject($this->strings["noti_prioritytaskchange1"]);
-                    $this->subtaskNotifications->setBody($this->strings["noti_prioritytaskchange2"]);
+                    $this->subtaskNotifications->setSubject($this->appConfig->getString("noti_prioritytaskchange1"));
+                    $this->subtaskNotifications->setBody($this->appConfig->getString("noti_prioritytaskchange2"));
                     $send = true;
                 }
                 break;
             case "status":
                 if ($this->notificationsList["statusTaskChange"] == "0") {
-                    $this->subtaskNotifications->setSubject($this->strings["noti_statustaskchange1"]);
-                    $this->subtaskNotifications->setBody($this->strings["noti_statustaskchange2"]);
+                    $this->subtaskNotifications->setSubject($this->appConfig->getString("noti_statustaskchange1"));
+                    $this->subtaskNotifications->setBody($this->appConfig->getString("noti_statustaskchange2"));
                     $send = true;
                 }
                 break;
             case "dueDate":
                 if ($this->notificationsList["duedateTaskChange"] == "0") {
-                    $this->subtaskNotifications->setSubject($this->strings["noti_duedatetaskchange1"]);
-                    $this->subtaskNotifications->setBody($this->strings["noti_duedatetaskchange2"]);
+                    $this->subtaskNotifications->setSubject($this->appConfig->getString("noti_duedatetaskchange1"));
+                    $this->subtaskNotifications->setBody($this->appConfig->getString("noti_duedatetaskchange2"));
                     $send = true;
                 }
                 break;
             case "assignment":
                 if ($this->notificationsList["taskAssignment"] == "0") {
-                    $this->subtaskNotifications->setSubject($this->strings["noti_taskassignment1"]);
-                    $this->subtaskNotifications->setBody($this->strings["noti_taskassignment2"]);
+                    $this->subtaskNotifications->setSubject($this->appConfig->getString("noti_taskassignment1"));
+                    $this->subtaskNotifications->setBody($this->appConfig->getString("noti_taskassignment2"));
                     $send = true;
                 }
                 break;

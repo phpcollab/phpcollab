@@ -5,8 +5,10 @@ namespace phpCollab\Files;
 
 use Exception;
 use InvalidArgumentException;
+use phpCollab\AppConfig;
 use phpCollab\Database;
 use phpCollab\Notification;
+use phpCollab\RequestData;
 use phpCollab\Util;
 
 /**
@@ -20,8 +22,7 @@ class Files
 {
     protected $files_gateway;
     protected $db;
-    protected $strings;
-    protected $root;
+    protected $appConfig;
     protected $notification;
 
     /**
@@ -31,14 +32,15 @@ class Files
      *
      * @param Database $database Database connection
      * @param Notification $notification Service for sending notifications
+     * @param AppConfig $appConfig Application configuration
+     * @param RequestData $requestData Request data for gateway
      */
-    public function __construct(Database $database, Notification $notification)
+    public function __construct(Database $database, Notification $notification, AppConfig $appConfig, RequestData $requestData)
     {
         $this->db = $database;
         $this->notification = $notification;
-        $this->files_gateway = new FilesGateway($this->db);
-        $this->strings = $GLOBALS["strings"];
-        $this->root = $GLOBALS["root"];
+        $this->appConfig = $appConfig;
+        $this->files_gateway = new FilesGateway($this->db, $requestData);
     }
 
     /**
@@ -278,14 +280,14 @@ class Files
 
                 $mail->setFrom($projectDetails["pro_mem_email_work"], $projectDetails["pro_mem_name"]);
 
-                $mail->partSubject = $this->strings["noti_newfile1"];
-                $mail->partMessage = $this->strings["noti_newfile2"];
+                $mail->partSubject = $this->appConfig->getString("noti_newfile1");
+                $mail->partMessage = $this->appConfig->getString("noti_newfile2");
 
                 $subject = $mail->partSubject . " " . $fileDetails["fil_name"];
 
 
                 if ($projectDetails["pro_org_id"] == "1") {
-                    $projectDetails["pro_org_name"] = $this->strings["none"];
+                    $projectDetails["pro_org_name"] = $this->appConfig->getString("none");
                 }
 
                 if (
@@ -304,23 +306,23 @@ class Files
                         $body = <<<MAILBODY
 $mail->partMessage
 
-{$this->strings["upload"]} : {$fileDetails["fil_name"]}
-{$this->strings["posted_by"]} : $userName ($userLogin)
+{$this->appConfig->getString("upload")} : {$fileDetails["fil_name"]}
+{$this->appConfig->getString("posted_by")} : $userName ($userLogin)
 
-{$this->strings["comments"]} : 
+{$this->appConfig->getString("comments")} :
 {$fileDetails["fil_comments"]}
 
-{$this->strings["project"]} : {$projectDetails["pro_name"]} ({$projectDetails["pro_id"]})
-{$this->strings["organization"]} : {$projectDetails["pro_org_name"]}
+{$this->appConfig->getString("project")} : {$projectDetails["pro_name"]} ({$projectDetails["pro_id"]})
+{$this->appConfig->getString("organization")} : {$projectDetails["pro_org_name"]}
 
-{$this->strings["noti_moreinfo"]} 
+{$this->appConfig->getString("noti_moreinfo")} 
 MAILBODY;
 
                         if ($notificationDetails["organization"] == "1") {
-                            $body .= $this->root . "/general/login.php?url=linkedcontent/viewfile.php?id=" . $fileDetails["fil_id"];
+                            $body .= $this->appConfig->getRoot() . "/general/login.php?url=linkedcontent/viewfile.php?id=" . $fileDetails["fil_id"];
                         }
                         if ($notificationDetails["organization"] != "1") {
-                            $body .= $this->root . "/general/login.php?url=projects_site/home.php?project=" . $projectDetails["pro_id"];
+                            $body .= $this->appConfig->getRoot() . "/general/login.php?url=projects_site/home.php?project=" . $projectDetails["pro_id"];
                         }
 
                         $body .= "\n\n" . $mail->footer;

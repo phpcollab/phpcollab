@@ -16,33 +16,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  */
 class Util
 {
-    protected static $strings;
-    protected static $useLDAP;
-    protected static $configLDAP;
-    protected static $pass_g;
-    protected static $mkdirMethod;
-    protected static $ftpRoot;
-    protected static $byteUnits;
-    protected static $databaseType;
-    protected static $gmtTimezone;
-    protected static $lastId;
-
-    /**
-     * Util constructor.
-     */
-    public function __construct()
-    {
-        self::$strings = $GLOBALS['strings'];
-        self::$useLDAP = $GLOBALS["useLDAP"];
-        self::$configLDAP = $GLOBALS["configLDAP"];
-        self::$pass_g = $GLOBALS["pass_g"];
-        self::$mkdirMethod = $GLOBALS["mkdirMethod"];
-        self::$ftpRoot = $GLOBALS["ftpRoot"];
-        self::$byteUnits = $GLOBALS["byteUnits"];
-        self::$databaseType = $GLOBALS["databaseType"];
-        self::$gmtTimezone = $GLOBALS["gmtTimezone"];
-        self::$lastId = $GLOBALS["lastId"];
-    }
+    // ✅ No longer using static properties from $GLOBALS
+    // Methods that need configuration now accept AppConfig parameter
 
     /**
      * Checks to see if the passed in URL begins with http or not.  If it doesn't,
@@ -336,10 +311,10 @@ class Util
      **/
     public static function moveFile($source, $dest)
     {
-        if (self::$mkdirMethod == "FTP") {
+        if ($GLOBALS["mkdirMethod"] == "FTP") {
             $ftp = ftp_connect(FTPSERVER);
             ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
-            ftp_rename($ftp, self::$ftpRoot . "/" . $source, self::$ftpRoot . "/" . $dest);
+            ftp_rename($ftp, $GLOBALS["ftpRoot"] . "/" . $source, $GLOBALS["ftpRoot"] . "/" . $dest);
             ftp_quit($ftp);
         } else {
             copy("../" . $source, "../" . $dest);
@@ -353,10 +328,10 @@ class Util
      **/
     public static function deleteFile($source)
     {
-        if (self::$mkdirMethod == "FTP") {
+        if ($GLOBALS["mkdirMethod"] == "FTP") {
             $ftp = ftp_connect(FTPSERVER);
             ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
-            ftp_delete($ftp, self::$ftpRoot . "/" . $source);
+            ftp_delete($ftp, $GLOBALS["ftpRoot"] . "/" . $source);
             ftp_quit($ftp);
         } else {
             unlink("../" . $source);
@@ -412,7 +387,7 @@ class Util
     {
         if ($GLOBALS["mkdirMethod"] == "FTP") {
             try {
-                $pathNew = self::$ftpRoot . "/" . $path;
+                $pathNew = $GLOBALS["ftpRoot"] . "/" . $path;
                 $ftp = ftp_connect(FTPSERVER);
                 ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
                 ftp_mkdir($ftp, $pathNew);
@@ -665,11 +640,16 @@ class Util
      *
      * @param array $projectDetail Project details array containing pro_name and pro_id
      * @param \phpCollab\Tasks\Tasks $tasks Tasks service for querying task data (pure DI)
+     * @param AppConfig|null $appConfig Application configuration (optional for BC)
      * @return string Updated project name with completion count
      */
-    public static function projectComputeCompletion($projectDetail, \phpCollab\Tasks\Tasks $tasks)
+    public static function projectComputeCompletion($projectDetail, \phpCollab\Tasks\Tasks $tasks, AppConfig $appConfig = null)
     {
-        $tableProject = $GLOBALS['tableCollab']["projects"];
+        // ✅ Support DI while maintaining backward compatibility
+        if ($appConfig === null) {
+            $appConfig = AppConfig::fromGlobals();
+        }
+        $tableProject = $appConfig->getTableName("projects");
         $prj_name = $projectDetail['pro_name'];
 
         preg_match("/\[([0-9 ]*\/[0-9 ]*)\]/", $prj_name, $findit);

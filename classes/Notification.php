@@ -12,10 +12,7 @@ class Notification extends phpmailer
     private Members $members;
     private $lang;
     private $notificationMethod;
-    protected $strings;
-    protected $root;
-    protected $priority;
-    protected $status;
+    protected $appConfig;
     public $partMessage;
     public $footer;
     public $partSubject;
@@ -24,27 +21,25 @@ class Notification extends phpmailer
     /**
      * Notification constructor.
      *
-     * Uses pure constructor injection for Members service.
+     * Uses pure constructor injection for Members service and AppConfig.
      *
      * @param Members $members Members service for user information
+     * @param AppConfig $appConfig Application configuration
      * @param null $lang Language code
      * @param null $exceptions Exception handling mode
      */
-    public function __construct(Members $members, $lang = null, $exceptions = null)
+    public function __construct(Members $members, AppConfig $appConfig, $lang = null, $exceptions = null)
     {
         parent::__construct($exceptions);
         $this->members = $members;
+        $this->appConfig = $appConfig;
 
         if (is_null($lang)) {
-            $this->lang = (!empty($GLOBALS["lang"])) ? $GLOBALS["lang"] : "en";
+            $this->lang = $appConfig->getLang();
         } else {
             $this->lang = $lang;
         }
-        $this->notificationMethod = $GLOBALS["notificationMethod"];
-        $this->strings = $GLOBALS["strings"];
-        $this->root = $GLOBALS["root"];
-        $this->priority = $GLOBALS["priority"];
-        $this->status = $GLOBALS["status"];
+        $this->notificationMethod = $appConfig->getNotificationMethod();
 
         $this->Mailer = $this->notificationMethod;
         $this->SetLanguage($this->lang);
@@ -66,7 +61,7 @@ class Notification extends phpmailer
             }
         }
 
-        $this->footer = "--\n" . $this->strings["noti_foot1"] . "\n\n" . $this->strings["noti_foot2"] . "\n$this->root/";
+        $this->footer = "--\n" . $appConfig->getString("noti_foot1") . "\n\n" . $appConfig->getString("noti_foot2") . "\n" . $appConfig->getRoot() . "/";
 
     }
 

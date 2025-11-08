@@ -5,8 +5,10 @@ namespace phpCollab\Members;
 use Exception;
 use InvalidArgumentException;
 use Monolog\Logger;
+use phpCollab\AppConfig;
 use phpCollab\Database;
 use phpCollab\Notification;
+use phpCollab\RequestData;
 use phpCollab\Util;
 
 /**
@@ -17,7 +19,7 @@ class Members
 {
     protected $members_gateway;
     protected $db;
-    protected $strings;
+    protected $appConfig;
     protected $logger;
     protected $notification;
 
@@ -29,14 +31,16 @@ class Members
      * @param Database $database Database connection
      * @param Logger $logger Logger for recording member operations
      * @param Notification $notification Service for sending member-related notifications
+     * @param AppConfig $appConfig Application configuration
+     * @param RequestData $requestData Request data for gateway
      */
-    public function __construct(Database $database, Logger $logger, Notification $notification)
+    public function __construct(Database $database, Logger $logger, Notification $notification, AppConfig $appConfig, RequestData $requestData)
     {
         $this->logger = $logger;
         $this->db = $database;
         $this->notification = $notification;
-        $this->members_gateway = new MembersGateway($this->db);
-        $this->strings = $GLOBALS["strings"];
+        $this->appConfig = $appConfig;
+        $this->members_gateway = new MembersGateway($this->db, $requestData);
     }
 
     /**
@@ -377,16 +381,16 @@ class Members
                 }
 
                 if (empty($fromEmail)) {
-                    $fromEmail = $GLOBALS["supportEmail"];
+                    $fromEmail = $this->appConfig->getSupportEmail();
                 }
 
                 if (empty($fromName)) {
-                    $fromName = $GLOBALS["setTitle"];
+                    $fromName = $this->appConfig->getSetTitle();
                 }
 
                 $mail->setFrom($fromEmail, $fromName);
 
-                $mail->setFooter("---\n" . $this->strings["noti_foot1"]);
+                $mail->setFooter("---\n" . $this->appConfig->getString("noti_foot1"));
 
                 $body = $message;
 

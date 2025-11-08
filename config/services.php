@@ -131,12 +131,14 @@ return static function (ContainerConfigurator $container) {
         ->args([service(Database::class)])
         ->public();
 
-    // ✅ Refactored to use pure constructor injection
+    // ✅ Refactored to use pure constructor injection + AppConfig
     $services->set(Members::class)
         ->args([
             service(Database::class),
             service(Logger::class),
-            service(Notification::class)
+            service(Notification::class),
+            service(AppConfig::class),
+            service(RequestData::class)
         ])
         ->public();
 
@@ -168,7 +170,7 @@ return static function (ContainerConfigurator $container) {
         ->args([service(Database::class)])
         ->public();
 
-    // ✅ Refactored to use pure constructor injection
+    // ✅ Refactored to use pure constructor injection + AppConfig
     $services->set(Support::class)
         ->args([
             service(Database::class),
@@ -177,6 +179,8 @@ return static function (ContainerConfigurator $container) {
             service(Teams::class),
             service(Notification::class),
             service(MailNotification::class),
+            service(AppConfig::class),
+            service(RequestData::class),
             param('app.language')
         ])
         ->public();
@@ -186,7 +190,7 @@ return static function (ContainerConfigurator $container) {
         ->args([service(Database::class)])
         ->public();
 
-    // ✅ Refactored to use pure constructor injection
+    // ✅ Refactored to use pure constructor injection + AppConfig
     // Task-related Services
     $services->set(Tasks::class)
         ->args([
@@ -196,7 +200,9 @@ return static function (ContainerConfigurator $container) {
             service(Projects::class),
             service(Teams::class),
             service(Notifications::class),
-            service(Notification::class)
+            service(Notification::class),
+            service(AppConfig::class),
+            service(RequestData::class)
         ])
         ->public();
 
@@ -217,13 +223,15 @@ return static function (ContainerConfigurator $container) {
         ])
         ->public();
 
-    // ✅ Refactored to use pure constructor injection
+    // ✅ Refactored to use pure constructor injection + AppConfig
     // Subtask Services
     $services->set(Subtasks::class)
         ->args([
             service(Database::class),
             service(Notifications::class),
-            service(SubtaskNotifications::class)
+            service(SubtaskNotifications::class),
+            service(AppConfig::class),
+            service(RequestData::class)
         ])
         ->public();
 
@@ -236,16 +244,18 @@ return static function (ContainerConfigurator $container) {
         ])
         ->public();
 
-    // Teams
+    // ✅ Refactored to use pure constructor injection + AppConfig
     $services->set(Teams::class)
         ->args([
             service(Database::class),
             service(Notification::class),
-            service(Notifications::class)
+            service(Notifications::class),
+            service(AppConfig::class),
+            service(RequestData::class)
         ])
         ->public();
 
-    // ✅ Refactored to use pure constructor injection
+    // ✅ Refactored to use pure constructor injection + AppConfig
     // Topics
     $services->set(Topics::class)
         ->args([
@@ -253,16 +263,20 @@ return static function (ContainerConfigurator $container) {
             service(Projects::class),
             service(Teams::class),
             service(Notifications::class),
-            service(Notification::class)
+            service(Notification::class),
+            service(AppConfig::class),
+            service(RequestData::class)
         ])
         ->public();
 
-    // ✅ Refactored to use pure constructor injection
+    // ✅ Refactored to use pure constructor injection + AppConfig
     // File Services
     $services->set(Files::class)
         ->args([
             service(Database::class),
-            service(Notification::class)
+            service(Notification::class),
+            service(AppConfig::class),
+            service(RequestData::class)
         ])
         ->public();
 
@@ -297,40 +311,40 @@ return static function (ContainerConfigurator $container) {
         ])
         ->public();
 
-    // ✅ Refactored to use pure constructor injection
+    // ✅ Refactored to use pure constructor injection + AppConfig
     // Notification Services
     $services->set(Notification::class)
-        ->args([service(Members::class)])
+        ->args([service(Members::class), service(AppConfig::class)])
         ->public();
 
     $services->set(Notifications::class)
         ->args([service(Database::class)])
         ->public();
 
-    // ✅ Refactored to use pure constructor injection
+    // ✅ Refactored to use pure constructor injection + AppConfig
     $services->set(MailNotification::class)
-        ->args([service(Logger::class)])
+        ->args([service(Logger::class), service(AppConfig::class)])
         ->public();
 
-    // ✅ Refactored - all inherit pure constructor injection from Notification parent
+    // ✅ Refactored - all inherit pure constructor injection from Notification parent + AppConfig
     $services->set(TopicNewTopic::class)
-        ->args([service(Members::class)])
+        ->args([service(Members::class), service(AppConfig::class)])
         ->public();
 
     $services->set(TopicNewPost::class)
-        ->args([service(Members::class)])
+        ->args([service(Members::class), service(AppConfig::class)])
         ->public();
 
     $services->set(AddProjectTeam::class)
-        ->args([service(Members::class)])
+        ->args([service(Members::class), service(AppConfig::class)])
         ->public();
 
     $services->set(RemoveProjectTeam::class)
-        ->args([service(Members::class)])
+        ->args([service(Members::class), service(AppConfig::class)])
         ->public();
 
     $services->set(SubtaskNotifications::class)
-        ->args([service(Members::class)])
+        ->args([service(Members::class), service(AppConfig::class)])
         ->public();
 
     // ✅ Refactored to use pure constructor injection
@@ -369,10 +383,10 @@ return static function (ContainerConfigurator $container) {
     $services->set(VCard::class)
         ->public();
 
-    // ✅ Refactored to use pure constructor injection
+    // ✅ Refactored to use pure constructor injection + AppConfig
     // Alert Services
     $services->set(DailyAlertEmail::class)
-        ->args([service(Members::class)])
+        ->args([service(Members::class), service(AppConfig::class)])
         ->public();
 
     $services->set(DailyAlerts::class)

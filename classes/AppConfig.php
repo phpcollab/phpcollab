@@ -32,6 +32,14 @@ class AppConfig
     private array $configLDAP;
     private string $passG;
     private string $lastId;
+    private array $tableCollab;
+    private $projectsFilter;
+    private array $sortingOrders;
+    private array $sortingFields;
+    private array $sortingArrows;
+    private array $sortingStyles;
+    private $explode;
+    private array $help;
 
     /**
      * AppConfig constructor.
@@ -76,6 +84,22 @@ class AppConfig
         // Security
         $this->passG = $config['passG'] ?? '';
         $this->lastId = $config['lastId'] ?? '';
+
+        // Database table names
+        $this->tableCollab = $config['tableCollab'] ?? [];
+
+        // UI/Filtering settings
+        $this->projectsFilter = $config['projectsFilter'] ?? false;
+
+        // Sorting configuration (for Block class table sorting)
+        $this->sortingOrders = $config['sortingOrders'] ?? [];
+        $this->sortingFields = $config['sortingFields'] ?? [];
+        $this->sortingArrows = $config['sortingArrows'] ?? [];
+        $this->sortingStyles = $config['sortingStyles'] ?? [];
+        $this->explode = $config['explode'] ?? ' ';
+
+        // Help text
+        $this->help = $config['help'] ?? [];
     }
 
     /**
@@ -105,6 +129,14 @@ class AppConfig
             'configLDAP' => $GLOBALS['configLDAP'] ?? [],
             'passG' => $GLOBALS['pass_g'] ?? '',
             'lastId' => $GLOBALS['lastId'] ?? '',
+            'tableCollab' => $GLOBALS['tableCollab'] ?? [],
+            'projectsFilter' => $GLOBALS['projectsFilter'] ?? false,
+            'sortingOrders' => $GLOBALS['sortingOrders'] ?? [],
+            'sortingFields' => $GLOBALS['sortingFields'] ?? [],
+            'sortingArrows' => $GLOBALS['sortingArrows'] ?? [],
+            'sortingStyles' => $GLOBALS['sortingStyles'] ?? [],
+            'explode' => $GLOBALS['explode'] ?? ' ',
+            'help' => $GLOBALS['help'] ?? [],
         ]);
     }
 
@@ -223,5 +255,55 @@ class AppConfig
     public function getLastId(): string
     {
         return $this->lastId;
+    }
+
+    public function getTableCollab(): array
+    {
+        return $this->tableCollab;
+    }
+
+    public function getTableName(string $tableName): string
+    {
+        return $this->tableCollab[$tableName] ?? '';
+    }
+
+    public function getProjectsFilter()
+    {
+        return $this->projectsFilter;
+    }
+
+    public function getSortingOrders(): array
+    {
+        return $this->sortingOrders;
+    }
+
+    public function getSortingFields(): array
+    {
+        return $this->sortingFields;
+    }
+
+    public function getSortingArrows(): array
+    {
+        return $this->sortingArrows;
+    }
+
+    public function getSortingStyles(): array
+    {
+        return $this->sortingStyles;
+    }
+
+    public function getExplode()
+    {
+        return $this->explode;
+    }
+
+    public function getHelp(): array
+    {
+        return $this->help;
+    }
+
+    public function getHelpItem(string $key): string
+    {
+        return $this->help[$key] ?? '';
     }
 }

@@ -5,10 +5,12 @@ namespace phpCollab\Support;
 
 use Exception;
 use Monolog\Logger;
+use phpCollab\AppConfig;
 use phpCollab\Database;
 use phpCollab\Members\Members;
 use phpCollab\Notification;
 use phpCollab\Notifications\MailNotification;
+use phpCollab\RequestData;
 use phpCollab\Teams\Teams;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
@@ -22,9 +24,7 @@ class Support
     protected $members;
     protected $teams;
     protected $db;
-    protected $strings;
-    protected $root;
-    protected $requestStatus;
+    protected $appConfig;
     private Logger $logger;
     private Notification $notification;
     private MailNotification $mailNotification;
@@ -41,6 +41,8 @@ class Support
      * @param Teams $teams Teams service for team operations
      * @param Notification $notification Service for sending notifications
      * @param MailNotification $mailNotification Service for sending email notifications
+     * @param AppConfig $appConfig Application configuration
+     * @param RequestData $requestData Request data for gateway
      * @param string $language Language code for email templates
      */
     public function __construct(
@@ -50,6 +52,8 @@ class Support
         Teams $teams,
         Notification $notification,
         MailNotification $mailNotification,
+        AppConfig $appConfig,
+        RequestData $requestData,
         string $language
     ) {
         $this->db = $database;
@@ -58,11 +62,9 @@ class Support
         $this->teams = $teams;
         $this->notification = $notification;
         $this->mailNotification = $mailNotification;
+        $this->appConfig = $appConfig;
         $this->language = $language;
-        $this->support_gateway = new SupportGateway($this->db);
-        $this->strings = $GLOBALS["strings"];
-        $this->root = $GLOBALS["root"];
-        $this->requestStatus = $GLOBALS["requestStatus"];
+        $this->support_gateway = new SupportGateway($this->db, $requestData);
     }
 
     /**
@@ -261,15 +263,15 @@ class Support
 
         $mail = $this->notification;
 
-        $emailSubject = $this->strings["support"] . " " . $this->strings["support_id"] . ": " . $requestDetail["sr_id"];
+        $emailSubject = $this->appConfig->getString("support") . " " . $this->appConfig->getString("support_id") . ": " . $requestDetail["sr_id"];
 
         $emailMessage = <<<EMAIL_MESSAGE
-{$this->strings["noti_support_status2"]}
+{$this->appConfig->getString("noti_support_status2")}
 
-{$this->strings["id"]} : {$requestDetail["sr_id"]}
-{$this->strings["subject"]} : {$requestDetail["sr_subject"]}
-{$this->strings["status"]} : {$this->requestStatus[$requestDetail["sr_status"]]}
-{$this->strings["details"]} : 
+{$this->appConfig->getString("id")} : {$requestDetail["sr_id"]}
+{$this->appConfig->getString("subject")} : {$requestDetail["sr_subject"]}
+{$this->appConfig->getString("status")} : {$this->appConfig->getRequestStatus()[$requestDetail["sr_status"]]}
+{$this->appConfig->getString("details")} : 
 
 EMAIL_MESSAGE;
 
@@ -291,9 +293,9 @@ EMAIL_MESSAGE;
                     ];
 
                     if ($teamMember["tea_mem_profil"] == 3) {
-                        $link = "$this->root/general/login.php?url=projects_site/home.php%3Fproject=" . $postDetails["sp_project"] . "\n\n";
+                        $link = "$this->appConfig->getRoot()/general/login.php?url=projects_site/home.php%3Fproject=" . $postDetails["sp_project"] . "\n\n";
                     } else {
-                        $link = "$this->root/general/login.php?url=support/viewrequest.php%3Fid={$requestDetail["sr_id"]}\n\n";
+                        $link = "$this->appConfig->getRoot()/general/login.php?url=support/viewrequest.php%3Fid={$requestDetail["sr_id"]}\n\n";
                     }
 
                     $mail->sendMessage($to, $from, $emailSubject, $emailMessage . $link);
@@ -319,15 +321,15 @@ EMAIL_MESSAGE;
 
         $mail = $this->notification;
 
-        $emailSubject = $this->strings["support"] . ": " . $requestDetails["sr_subject"];
+        $emailSubject = $this->appConfig->getString("support") . ": " . $requestDetails["sr_subject"];
 
         $emailMessage = <<<EMAIL_MESSAGE
-{$this->strings["noti_support_status2"]}
+{$this->appConfig->getString("noti_support_status2")}
 
-{$this->strings["id"]} : {$requestDetails["sr_id"]}
-{$this->strings["subject"]} : {$requestDetails["sr_subject"]}
-{$this->strings["status"]} : {$this->requestStatus[$requestDetails["sr_status"]]}
-{$this->strings["details"]} : 
+{$this->appConfig->getString("id")} : {$requestDetails["sr_id"]}
+{$this->appConfig->getString("subject")} : {$requestDetails["sr_subject"]}
+{$this->appConfig->getString("status")} : {$this->appConfig->getRequestStatus()[$requestDetails["sr_status"]]}
+{$this->appConfig->getString("details")} : 
 
 EMAIL_MESSAGE;
 
@@ -348,9 +350,9 @@ EMAIL_MESSAGE;
                     ];
 
                     if ($teamMember["tea_mem_profil"] == 3) {
-                        $link = "$this->root/general/login.php?url=projects_site/home.php%3Fproject=" . $requestDetails["sr_project"] . "\n\n";
+                        $link = "$this->appConfig->getRoot()/general/login.php?url=projects_site/home.php%3Fproject=" . $requestDetails["sr_project"] . "\n\n";
                     } else {
-                        $link = "$this->root/general/login.php?url=support/viewrequest.php%3Fid={$requestDetails["sr_id"]}\n\n";
+                        $link = "$this->appConfig->getRoot()/general/login.php?url=support/viewrequest.php%3Fid={$requestDetails["sr_id"]}\n\n";
                     }
 
                     $mail->sendMessage($to, $from, $emailSubject, $emailMessage . $link);
@@ -384,8 +386,8 @@ EMAIL_MESSAGE;
                 $mail->setFrom($userDetails["mem_email_work"], $userDetails["mem_name"]);
 
                 // Start building the Subject and Body
-                $mail->partSubject = $this->strings["support"] . " " . $this->strings["support_id"];
-                $mail->partMessage = $this->strings["noti_support_post2"];
+                $mail->partSubject = $this->appConfig->getString("support") . " " . $this->appConfig->getString("support_id");
+                $mail->partMessage = $this->appConfig->getString("noti_support_post2");
 
 
                 // Set the subject
@@ -395,20 +397,20 @@ EMAIL_MESSAGE;
                 $body = <<<MAILBODY
 $mail->partMessage
 
-{$this->strings["id"]} : {$requestDetail["sr_id"]}
-{$this->strings["subject"]} : {$requestDetail["sr_subject"]}
-{$this->strings["status"]} : {$GLOBALS["requestStatus"][$requestDetail["sr_status"]]}
+{$this->appConfig->getString("id")} : {$requestDetail["sr_id"]}
+{$this->appConfig->getString("subject")} : {$requestDetail["sr_subject"]}
+{$this->appConfig->getString("status")} : {$this->appConfig->getRequestStatus()[$requestDetail["sr_status"]]}
 
-{$this->strings["details"]} : 
+{$this->appConfig->getString("details")} : 
 
 MAILBODY;
 
                 if (isset($listTeam) && $listTeam["tea_mem_profil"] == 3) {
-                    $body .= $this->root . "/general/login.php?url=projects_site/home.php%3Fproject=" . $requestDetail["sr_project"] . "\n\n";
+                    $body .= $this->appConfig->getRoot() . "/general/login.php?url=projects_site/home.php%3Fproject=" . $requestDetail["sr_project"] . "\n\n";
                 } else {
-                    $body .= $this->root . "/general/login.php?url=support/viewrequest.php%3Fid=" . $requestDetail["sr_id"] . "\n\n";
+                    $body .= $this->appConfig->getRoot() . "/general/login.php?url=support/viewrequest.php%3Fid=" . $requestDetail["sr_id"] . "\n\n";
                 }
-                $body .= $this->strings["message"] . " : " . $postDetails["sp_message"] . "";
+                $body .= $this->appConfig->getString("message") . " : " . $postDetails["sp_message"] . "";
 
 
                 $body .= "\n\n" . $mail->footer;
@@ -449,14 +451,14 @@ MAILBODY;
             '%sr_id%' => $requestDetails["sr_id"],
             "%sr_subject%" => $requestDetails["sr_subject"],
             "%sr_message%" => $requestDetails["sr_message"],
-            "%sr_priority%" => $GLOBALS["priority"][$requestDetails["sr_priority"]],
-            "%sr_status%" => $GLOBALS["status"][$requestDetails["sr_status"]],
-            "%site_name%" => $GLOBALS["setTitle"],
-            "%site_link%" => $GLOBALS["root"],
+            "%sr_priority%" => $this->appConfig->getPriority()[$requestDetails["sr_priority"]],
+            "%sr_status%" => $this->appConfig->getStatus()[$requestDetails["sr_status"]],
+            "%site_name%" => $this->appConfig->getSetTitle(),
+            "%site_link%" => $this->appConfig->getRoot(),
             "%sr_link%" => ( $userDetails["mem_profil"] === "3" ) ?
-                "$this->root/general/login.php?url=projects_site/home.php%3Fproject={$requestDetails["sr_project"]}"
+                "$this->appConfig->getRoot()/general/login.php?url=projects_site/home.php%3Fproject={$requestDetails["sr_project"]}"
                 :
-                "$this->root/general/login.php?url=support/viewrequest.php%3Fid=" . $requestDetails["sr_id"]
+                "$this->appConfig->getRoot()/general/login.php?url=support/viewrequest.php%3Fid=" . $requestDetails["sr_id"]
         );
 
         if (!file_exists(APP_ROOT . '/templates/email/' . $this->language . '/support_new_request.txt')) {

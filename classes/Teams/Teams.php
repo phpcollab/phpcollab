@@ -5,9 +5,11 @@ namespace phpCollab\Teams;
 
 use Exception;
 use Monolog\Logger;
+use phpCollab\AppConfig;
 use phpCollab\Database;
 use phpCollab\Notification;
 use phpCollab\Notifications;
+use phpCollab\RequestData;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
@@ -20,26 +22,28 @@ class Teams
     protected $db;
     protected $notification;
     protected $notifications;
-    protected $strings;
-    protected $root;
+    protected $appConfig;
 
     /**
      * Teams constructor.
      * @param Database $database
      * @param Notification $notification
      * @param Notifications\Notifications $notifications
+     * @param AppConfig $appConfig Application configuration
+     * @param RequestData $requestData Request data for gateway
      */
     public function __construct(
         Database $database,
         Notification $notification,
-        Notifications\Notifications $notifications
+        Notifications\Notifications $notifications,
+        AppConfig $appConfig,
+        RequestData $requestData
     ) {
         $this->db = $database;
         $this->notification = $notification;
         $this->notifications = $notifications;
-        $this->teams_gateway = new TeamsGateway($this->db);
-        $this->strings = $GLOBALS["strings"];
-        $this->root = $GLOBALS["root"];
+        $this->appConfig = $appConfig;
+        $this->teams_gateway = new TeamsGateway($this->db, $requestData);
     }
 
     /**
@@ -257,26 +261,26 @@ class Teams
 
                 $mail->setFrom($projectDetails["pro_mem_email_work"], $projectDetails["pro_mem_name"]);
 
-                $mail->partSubject = $this->strings["noti_removeprojectteam1"];
-                $mail->partMessage = $this->strings["noti_removeprojectteam2"];
+                $mail->partSubject = $this->appConfig->getString("noti_removeprojectteam1");
+                $mail->partMessage = $this->appConfig->getString("noti_removeprojectteam2");
 
 
                 if ($projectDetails["pro_org_id"] == "1") {
-                    $projectDetails["pro_org_name"] = $this->strings["none"];
+                    $projectDetails["pro_org_name"] = $this->appConfig->getString("none");
                 }
 
                 $body = $mail->partMessage . "\n\n";
-                $body .= $this->strings["project"] . " : " . $projectDetails["pro_name"] . " (" . $projectDetails["pro_id"] . ")\n";
-                $body .= $this->strings["organization"] . " : " . $projectDetails["pro_org_name"] . "\n\n";
-                $body .= $this->strings["noti_moreinfo"] . "\n";
+                $body .= $this->appConfig->getString("project") . " : " . $projectDetails["pro_name"] . " (" . $projectDetails["pro_id"] . ")\n";
+                $body .= $this->appConfig->getString("organization") . " : " . $projectDetails["pro_org_name"] . "\n\n";
+                $body .= $this->appConfig->getString("noti_moreinfo") . "\n";
 
                 // This is hard coded, so it is always "1"
                 $organization = "1";
                 if ($organization == "1") {
-                    $body .= $this->root . "/general/login.php?url=projects/viewproject.php%3Fid=" . $projectDetails["pro_id"];
+                    $body .= $this->appConfig->getRoot() . "/general/login.php?url=projects/viewproject.php%3Fid=" . $projectDetails["pro_id"];
                 }
                 if ($organization != "1" && $projectDetails["pro_published"] == "0") {
-                    $body .= $this->root;
+                    $body .= $this->appConfig->getRoot();
                 }
 
                 $body .= "\n\n" . $mail->footer;
@@ -319,27 +323,27 @@ class Teams
             try {
                 $logger->debug('Nofitication: Send project team notification', ['projectDetail' => $projectDetail]);
                 $mail->getUserinfo($session->get("id"), "from", $logger);
-                $mail->partSubject = $this->strings["noti_addprojectteam1"];
-                $mail->partMessage = $this->strings["noti_addprojectteam2"];
+                $mail->partSubject = $this->appConfig->getString("noti_addprojectteam1");
+                $mail->partMessage = $this->appConfig->getString("noti_addprojectteam2");
 
                 if ($projectDetail["pro_org_id"] == "1") {
-                    $projectDetail["pro_org_name"] = $this->strings["none"];
+                    $projectDetail["pro_org_name"] = $this->appConfig->getString("none");
                 }
 
                 $body = $mail->partMessage . "\n\n";
-                $body .= $this->strings["project"] . " : " . $projectDetail["pro_name"] . " (" . $projectDetail["pro_id"] . ")\n";
-                $body .= $this->strings["organization"] . " : " . $projectDetail["pro_org_name"] . "\n\n";
-                $body .= $this->strings["noti_moreinfo"] . "\n";
+                $body .= $this->appConfig->getString("project") . " : " . $projectDetail["pro_name"] . " (" . $projectDetail["pro_id"] . ")\n";
+                $body .= $this->appConfig->getString("organization") . " : " . $projectDetail["pro_org_name"] . "\n\n";
+                $body .= $this->appConfig->getString("noti_moreinfo") . "\n";
 
 
                 // This is hard coded, so it is always "1"
                 $organization = "1";
                 if ($organization == "1") {
-                    $body .= $this->root . "/general/login.php?url=projects/viewproject.php%3Fid=" . $projectDetail["pro_id"];
+                    $body .= $this->appConfig->getRoot() . "/general/login.php?url=projects/viewproject.php%3Fid=" . $projectDetail["pro_id"];
                 }
                 if ($organization != "1" && $projectDetail["pro_published"] == "0") {
-                    $body .= $this->root;
-                    $body .= $this->root . "/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetail["pro_id"];
+                    $body .= $this->appConfig->getRoot();
+                    $body .= $this->appConfig->getRoot() . "/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetail["pro_id"];
                 }
 
                 $body .= "\n\n" . $mail->footer;

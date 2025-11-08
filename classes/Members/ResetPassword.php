@@ -377,11 +377,11 @@ SQL;
             $template = str_replace('%name%', $this->userDetails["mem_name"], $template);
             $template = str_replace('%email%', $this->userDetails["mem_email_work"], $template);
             $template = str_replace('%username%', $this->userDetails["mem_login"], $template);
-            $template = str_replace('%site_name%', $GLOBALS["setTitle"], $template);
-            $template = str_replace('%link%', $GLOBALS["root"] . '/general/resetpassword.php?token=' . $this->token,
+            $template = str_replace('%site_name%', $this->appConfig->getSetTitle(), $template);
+            $template = str_replace('%link%', $this->appConfig->getRoot() . '/general/resetpassword.php?token=' . $this->token,
                 $template);
 
-            $subject = $GLOBALS["setTitle"] . " " . $this->strings["email_forgot_pwd_subject"];
+            $subject = $this->appConfig->getSetTitle() . " " . $this->strings["email_forgot_pwd_subject"];
 
             $this->sendNotification($template, $subject);
         } catch (Exception $exception) {
@@ -410,7 +410,7 @@ SQL;
 
             // Replace the %xx% with the actual data
             $template = str_replace('%name%', $this->userDetails["name"], $template);
-            $template = str_replace('%site_name%', $GLOBALS["setTitle"], $template);
+            $template = str_replace('%site_name%', $this->appConfig->getSetTitle(), $template);
 
             $subject = sprintf($this->strings["password_reset_confirmation_subject"], $this->userDetails["name"]);
 

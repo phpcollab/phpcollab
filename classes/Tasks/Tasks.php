@@ -4,12 +4,14 @@
 namespace phpCollab\Tasks;
 
 use Exception;
+use phpCollab\AppConfig;
 use phpCollab\Database;
 use phpCollab\Exceptions\MissingTemplateException;
 use phpCollab\Notification;
 use phpCollab\Notifications\MailNotification;
 use phpCollab\Notifications\Notifications;
 use phpCollab\Projects\Projects;
+use phpCollab\RequestData;
 use phpCollab\Teams\Teams;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
@@ -22,10 +24,7 @@ class Tasks
     protected $tasks_gateway;
     protected $db;
     protected $tasksCount;
-    private $strings;
-    private $root;
-    private $priority;
-    private $status;
+    private $appConfig;
     private $mailNotification;
     private $language;
     private $projects;
@@ -45,6 +44,8 @@ class Tasks
      * @param Teams $teams Teams service for team operations
      * @param Notifications $notifications Service for managing notification records
      * @param Notification $notification Service for sending notifications
+     * @param AppConfig $appConfig Application configuration
+     * @param RequestData $requestData Request data for gateway
      */
     public function __construct(
         Database $database,
@@ -53,7 +54,9 @@ class Tasks
         Projects $projects,
         Teams $teams,
         Notifications $notifications,
-        Notification $notification
+        Notification $notification,
+        AppConfig $appConfig,
+        RequestData $requestData
     ) {
         $this->db = $database;
         $this->mailNotification = $mailNotification;
@@ -62,11 +65,8 @@ class Tasks
         $this->teams = $teams;
         $this->notifications = $notifications;
         $this->notification = $notification;
-        $this->tasks_gateway = new TasksGateway($this->db);
-        $this->strings = $GLOBALS["strings"];
-        $this->root = $GLOBALS["root"];
-        $this->priority = $GLOBALS["priority"];
-        $this->status = $GLOBALS["status"];
+        $this->appConfig = $appConfig;
+        $this->tasks_gateway = new TasksGateway($this->db, $requestData);
     }
 
     /**
@@ -947,15 +947,15 @@ class Tasks
                 "%task_start_date%" => $taskDetails["tas_start_date"],
                 "%task_due_date%" => $taskDetails["tas_due_date"],
                 "%task_completion%" => ($taskDetails["tas_completion"] > 0) ? $taskDetails["tas_completion"] . "0%" : $taskDetails["tas_completion"] . "",
-                "%task_priority%" => $GLOBALS["priority"][$taskDetails["tas_priority"]],
-                "%task_status%" => $GLOBALS["status"][$taskDetails["tas_status"]],
+                "%task_priority%" => $this->appConfig->getPriority()[$taskDetails["tas_priority"]],
+                "%task_status%" => $this->appConfig->getStatus()[$taskDetails["tas_status"]],
                 "%task_description%" => $taskDetails["tas_description"],
                 "%project_name%" => $projectDetails["pro_name"],
-                "%org_name%" => ($projectDetails["pro_org_id"] == "1") ? $this->strings["none"] : $projectDetails["pro_org_name"],
-                "%site_name%" => $GLOBALS["setTitle"],
-                "%site_link%" => $GLOBALS["root"],
+                "%org_name%" => ($projectDetails["pro_org_id"] == "1") ? $this->appConfig->getString("none") : $projectDetails["pro_org_name"],
+                "%site_name%" => $this->appConfig->getSetTitle(),
+                "%site_link%" => $this->appConfig->getRoot(),
                 // If user is a client user, then set link to the project site
-                "%task_link%" => ( $userDetails["mem_profil"] === "3" ) ? "$this->root/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetails["pro_id"] : "$this->root/general/login.php?url=tasks/viewtask.php%3Fid={$taskDetails["tas_id"]}",
+                "%task_link%" => ( $userDetails["mem_profil"] === "3" ) ? "$this->appConfig->getRoot()/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetails["pro_id"] : "$this->appConfig->getRoot()/general/login.php?url=tasks/viewtask.php%3Fid={$taskDetails["tas_id"]}",
             );
 
 
@@ -1061,8 +1061,8 @@ class Tasks
             try {
                 $mail->setFrom($taskDetails["tas_mem2_email_work"], $taskDetails["tas_mem2_name"]);
 
-                $mail->partSubject = $this->strings["noti_clientaddtask1"];
-                $mail->partMessage = $this->strings["noti_clientaddtask2"];
+                $mail->partSubject = $this->appConfig->getString("noti_clientaddtask1");
+                $mail->partMessage = $this->appConfig->getString("noti_clientaddtask2");
 
                 $complValue = ($taskDetails["tas_completion"] > 0) ? $taskDetails["tas_completion"] . "0 %" : $taskDetails["tas_completion"] . " %";
 
@@ -1072,7 +1072,7 @@ class Tasks
                 $subject = $mail->partSubject . " " . $taskDetails["tas_name"];
 
                 if ($projectDetails["pro_org_id"] == "1") {
-                    $projectDetails["pro_org_name"] = $this->strings["none"];
+                    $projectDetails["pro_org_name"] = $this->appConfig->getString("none");
                 }
 
                 /*
@@ -1101,25 +1101,25 @@ class Tasks
                             $body = <<<MESSAGE_BODY
 $mail->partMessage
 
-{$this->strings["task"]} : {$taskDetails["tas_name"]}
-{$this->strings["start_date"]} : {$taskDetails["tas_start_date"]}
-{$this->strings["due_date"]} : {$taskDetails["tas_due_date"]}
-{$this->strings["completion"]} : $complValue
-{$this->strings["priority"]} : {$this->priority[$idPriority]}
-{$this->strings["status"]} : {$this->status[$idStatus]}
-{$this->strings["description"]} : {$taskDetails["tas_description"]}
+{$this->appConfig->getString("task")} : {$taskDetails["tas_name"]}
+{$this->appConfig->getString("start_date")} : {$taskDetails["tas_start_date"]}
+{$this->appConfig->getString("due_date")} : {$taskDetails["tas_due_date"]}
+{$this->appConfig->getString("completion")} : $complValue
+{$this->appConfig->getString("priority")} : {$this->appConfig->getPriority()[$idPriority]}
+{$this->appConfig->getString("status")} : {$this->appConfig->getStatus()[$idStatus]}
+{$this->appConfig->getString("description")} : {$taskDetails["tas_description"]}
 
-{$this->strings["project"]} : {$projectDetails["pro_name"]} ({$projectDetails["pro_id"]})
-{$this->strings["organization"]} : {$projectDetails["pro_org_name"]}
+{$this->appConfig->getString("project")} : {$projectDetails["pro_name"]} ({$projectDetails["pro_id"]})
+{$this->appConfig->getString("organization")} : {$projectDetails["pro_org_name"]}
 
-{$this->strings["noti_moreinfo"]}
+{$this->appConfig->getString("noti_moreinfo")}
 MESSAGE_BODY;
 
                             if ($listNotification["organization"] == "1") {
-                                $body .= "$this->root/general/login.php?url=topics/viewtopic.php%3Fid=" . $taskDetails["tas_id"];
+                                $body .= "$this->appConfig->getRoot()/general/login.php?url=topics/viewtopic.php%3Fid=" . $taskDetails["tas_id"];
                             }
                             if ($listNotification["organization"] != "1") {
-                                $body .= "$this->root/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetails["pro_id"];
+                                $body .= "$this->appConfig->getRoot()/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetails["pro_id"];
                             }
 
                             $body .= "\n\n" . $mail->footer;

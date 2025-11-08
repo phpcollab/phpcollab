@@ -4,7 +4,9 @@
 namespace phpCollab\Files;
 
 use Exception;
+use phpCollab\AppConfig;
 use phpCollab\Database;
+use phpCollab\RequestData;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -16,8 +18,7 @@ class FileUploader
 {
     protected $files_gateway;
     protected $db;
-    protected $strings;
-    protected $root;
+    protected $appConfig;
     private $fileExtension;
 
     private $fileObj;
@@ -26,13 +27,14 @@ class FileUploader
      * Files constructor.
      * @param Database $database
      * @param UploadedFile $fileObj
+     * @param AppConfig $appConfig Application configuration
+     * @param RequestData $requestData Request data for gateway
      */
-    public function __construct(Database $database, UploadedFile $fileObj)
+    public function __construct(Database $database, UploadedFile $fileObj, AppConfig $appConfig, RequestData $requestData)
     {
         $this->db = $database;
-        $this->files_gateway = new FilesGateway($this->db);
-        $this->strings = $GLOBALS["strings"];
-        $this->root = $GLOBALS["root"];
+        $this->files_gateway = new FilesGateway($this->db, $requestData);
+        $this->appConfig = $appConfig;
 
         $this->fileObj = $fileObj;
     }

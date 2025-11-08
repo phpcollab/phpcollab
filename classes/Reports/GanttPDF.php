@@ -23,7 +23,7 @@ class GanttPDF
             $graph->SetBox();
             $graph->SetMarginColor("white");
             $graph->SetColor("white");
-            $graph->title->Set($GLOBALS["strings"]["project"] . " " . $reportName);
+            $graph->title->Set($this->appConfig->getStrings()["project"] . " " . $reportName);
             $graph->title->SetFont(FF_FONT1);
             $graph->SetColor("white");
             $graph->ShowHeaders(GANTT_HYEAR | GANTT_HMONTH | GANTT_HDAY | GANTT_HWEEK);

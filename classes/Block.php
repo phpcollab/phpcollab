@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 class Block
 {
-    protected $help, $strings, $class, $theme, $themeImgPath, $accountTotal, $account, $sortingOrders,
+    protected $appConfig, $class, $theme, $themeImgPath, $accountTotal, $account, $sortingOrders,
         $sortingFields, $sortingArrows, $sortingStyles, $explode, $labels,
         $sitePublish, $navigation, $navigationTotal, $limit, $rowsLimit,
         $recordsTotal, $limitsNumber, $sortName, $sortingRef, $sortingDefault,
@@ -21,23 +21,27 @@ class Block
 
     /**
      * Block constructor.
+     * @param AppConfig|null $appConfig Application configuration (optional for BC)
      */
-    public function __construct()
+    public function __construct(AppConfig $appConfig = null)
     {
-        $this->sortingOrders = $GLOBALS['sortingOrders'];
-        $this->sortingFields = $GLOBALS['sortingFields'];
-        $this->sortingArrows = $GLOBALS['sortingArrows'];
-        $this->sortingStyles = $GLOBALS['sortingStyles'];
-        $this->explode = $GLOBALS['explode'];
+        // ✅ Support DI while maintaining backward compatibility
+        if ($appConfig === null) {
+            $appConfig = AppConfig::fromGlobals();
+        }
+        $this->appConfig = $appConfig;
 
-        $this->help = $GLOBALS['help'];
-        $this->strings = $GLOBALS['strings'];
+        $this->sortingOrders = $appConfig->getSortingOrders();
+        $this->sortingFields = $appConfig->getSortingFields();
+        $this->sortingArrows = $appConfig->getSortingArrows();
+        $this->sortingStyles = $appConfig->getSortingStyles();
+        $this->explode = $appConfig->getExplode();
 
         $this->class = "odd";
         $this->theme = THEME;
         $this->themeImgPath = '../themes/' . $this->theme . '/images';
 
-        $this->sitePublish = $GLOBALS["sitePublished"];
+        $this->sitePublish = $appConfig->isSitePublished();
     }
 
     /**
@@ -129,12 +133,12 @@ class Block
      */
     public function printHelp(string $item, string $additionalPrams = null)
     {
-        $helpText = addslashes($this->help[$item]);
+        $helpText = addslashes($this->appConfig->getHelpItem($item));
         $additionalPrams = (is_null($additionalPrams) ? '' : ',' . $additionalPrams);
         return <<<HELP_DIV
         <a href="javascript:void(0);"
             onmouseover="return overlib('{$helpText}',SNAPX,550,CSSCLASS,TEXTFONTCLASS,'overDivFontClass',CAPTIONFONTCLASS,' overDivCapFontClass',BGCLASS,'overDivBgClass',FGCLASS,'overDivFgClass'{$additionalPrams});"
-            onmouseout="return nd();"><i class="icon-help fa fa-question-circle fa-lg" title="{$this->strings["help"]}"></i></a>
+            onmouseout="return nd();"><i class="icon-help fa fa-question-circle fa-lg" title="{$this->appConfig->getString("help")}"></i></a>
 HELP_DIV;
 
     }
@@ -272,7 +276,7 @@ HTML;
             }
             echo '</td><td nowrap class="footerCell">';
             if ($showall != "") {
-                echo '<a href="' . $showall . '">' . $this->strings["show_all"] . '</a>';
+                echo '<a href="' . $showall . '">' . $this->appConfig->getString("show_all") . '</a>';
             }
             echo <<<HTML
     </td>
@@ -534,7 +538,7 @@ HTML;
      */
     public function noresults()
     {
-        echo '<div class="noItemsFound">' . $this->strings["no_items"] . '</div>';
+        echo '<div class="noItemsFound">' . $this->appConfig->getString("no_items") . '</div>';
     }
 
     /**

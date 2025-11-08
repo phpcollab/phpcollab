@@ -5,10 +5,12 @@ namespace phpCollab\Topics;
 
 use Exception;
 use InvalidArgumentException;
+use phpCollab\AppConfig;
 use phpCollab\Database;
 use phpCollab\Notification;
 use phpCollab\Notifications\Notifications;
 use phpCollab\Projects\Projects;
+use phpCollab\RequestData;
 use phpCollab\Teams\Teams;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -24,8 +26,7 @@ class Topics
     protected $teams;
     protected $notifications;
     protected $notification;
-    protected $strings;
-    protected $root;
+    protected $appConfig;
 
     /**
      * Topics constructor.
@@ -37,22 +38,25 @@ class Topics
      * @param Teams $teams Teams service for team operations
      * @param Notifications $notifications Service for managing notification records
      * @param Notification $notification Service for sending notifications
+     * @param AppConfig $appConfig Application configuration
+     * @param RequestData $requestData Request data for gateway
      */
     public function __construct(
         Database $database,
         Projects $projects,
         Teams $teams,
         Notifications $notifications,
-        Notification $notification
+        Notification $notification,
+        AppConfig $appConfig,
+        RequestData $requestData
     ) {
         $this->db = $database;
         $this->projects = $projects;
         $this->teams = $teams;
         $this->notifications = $notifications;
         $this->notification = $notification;
-        $this->topics_gateway = new TopicsGateway($this->db);
-        $this->strings = $GLOBALS["strings"];
-        $this->root = $GLOBALS["root"];
+        $this->appConfig = $appConfig;
+        $this->topics_gateway = new TopicsGateway($this->db, $requestData);
     }
 
     /**
@@ -381,15 +385,15 @@ class Topics
             try {
                 $mail->setFrom($topicDetails["top_mem_email_work"], $topicDetails["top_mem_name"]);
 
-                $mail->partSubject = $this->strings["noti_newtopic1"];
-                $mail->partMessage = $this->strings["noti_newtopic2"];
+                $mail->partSubject = $this->appConfig->getString("noti_newtopic1");
+                $mail->partMessage = $this->appConfig->getString("noti_newtopic2");
 
 
                 $subject = $mail->partSubject . " " . $topicDetails["top_subject"];
 
 
                 if ($projectDetails["pro_org_id"] == "1") {
-                    $projectDetails["pro_org_name"] = $this->strings["none"];
+                    $projectDetails["pro_org_name"] = $this->appConfig->getString("none");
                 }
 
                 /*
@@ -417,21 +421,21 @@ class Topics
                                 $body = <<<MESSAGE_BODY
 $mail->partMessage
 
-{$this->strings["discussion"]} : {$topicDetails["top_subject"]}
-{$this->strings["posted_by"]} : {$session->get('name')} ({$session->get('login')})
+{$this->appConfig->getString("discussion")} : {$topicDetails["top_subject"]}
+{$this->appConfig->getString("posted_by")} : {$session->get('name')} ({$session->get('login')})
 
-{$this->strings["project"]} : {$projectDetails["pro_name"]} ({$projectDetails["pro_id"]})
-{$this->strings["organization"]} : {$projectDetails["pro_org_name"]}
+{$this->appConfig->getString("project")} : {$projectDetails["pro_name"]} ({$projectDetails["pro_id"]})
+{$this->appConfig->getString("organization")} : {$projectDetails["pro_org_name"]}
 
-{$this->strings["noti_moreinfo"]}
+{$this->appConfig->getString("noti_moreinfo")}
 
 MESSAGE_BODY;
 
                                 if ($listNotification["organization"] == "1") {
-                                    $body .= "$this->root/general/login.php?url=topics/viewtopic.php%3Fid=" . $topicDetails["top_id"];
+                                    $body .= "$this->appConfig->getRoot()/general/login.php?url=topics/viewtopic.php%3Fid=" . $topicDetails["top_id"];
                                 }
                                 if ($listNotification["organization"] != "1") {
-                                    $body .= "$this->root/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetails["pro_id"];
+                                    $body .= "$this->appConfig->getRoot()/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetails["pro_id"];
                                 }
 
                                 $body .= "\n\n" . $mail->footer;
@@ -503,15 +507,15 @@ MESSAGE_BODY;
             try {
                 $mail->setFrom($topicDetails["top_mem_email_work"], $topicDetails["top_mem_name"]);
 
-                $mail->partSubject = $this->strings["noti_newpost1"];
-                $mail->partMessage = $this->strings["noti_newpost2"];
+                $mail->partSubject = $this->appConfig->getString("noti_newpost1");
+                $mail->partMessage = $this->appConfig->getString("noti_newpost2");
 
 
                 $subject = $mail->partSubject . " " . $topicDetails["top_subject"];
 
 
                 if ($projectDetails["pro_org_id"] == "1") {
-                    $projectDetails["pro_org_name"] = $this->strings["none"];
+                    $projectDetails["pro_org_name"] = $this->appConfig->getString("none");
                 }
 
                 /*
@@ -540,21 +544,21 @@ MESSAGE_BODY;
                                 $body = <<<MESSAGE_BODY
 $mail->partMessage
 
-{$this->strings["discussion"]} : {$topicDetails["top_subject"]}
-{$this->strings["posted_by"]} : {$session->get('name')} ({$session->get('login')})
+{$this->appConfig->getString("discussion")} : {$topicDetails["top_subject"]}
+{$this->appConfig->getString("posted_by")} : {$session->get('name')} ({$session->get('login')})
 
-{$this->strings["project"]} : {$projectDetails["pro_name"]} ({$projectDetails["pro_id"]})
-{$this->strings["organization"]} : {$projectDetails["pro_org_name"]}
+{$this->appConfig->getString("project")} : {$projectDetails["pro_name"]} ({$projectDetails["pro_id"]})
+{$this->appConfig->getString("organization")} : {$projectDetails["pro_org_name"]}
 
-{$this->strings["noti_moreinfo"]}
+{$this->appConfig->getString("noti_moreinfo")}
 
 MESSAGE_BODY;
 
                                 if ($listNotification["organization"] == "1") {
-                                    $body .= "$this->root/general/login.php?url=topics/viewtopic.php%3Fid=" . $topicDetails["top_id"];
+                                    $body .= "$this->appConfig->getRoot()/general/login.php?url=topics/viewtopic.php%3Fid=" . $topicDetails["top_id"];
                                 }
                                 if ($listNotification["organization"] != "1") {
-                                    $body .= "$this->root/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetails["pro_id"];
+                                    $body .= "$this->appConfig->getRoot()/general/login.php?url=projects_site/home.php%3Fproject=" . $projectDetails["pro_id"];
                                 }
 
                                 $body .= "\n\n" . $mail->footer;

@@ -6,6 +6,7 @@ namespace phpCollab\Notifications;
 
 use Exception;
 use Monolog\Logger;
+use phpCollab\AppConfig;
 use phpCollab\Exceptions\SendNotificationFailException;
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -30,13 +31,14 @@ class MailNotification extends PHPMailer
     /**
      * MailNotification constructor.
      *
-     * Uses pure constructor injection - only requires Logger service.
+     * Uses pure constructor injection - requires Logger and AppConfig.
      *
      * @param Logger $logger Logger for recording notification operations
+     * @param AppConfig $appConfig Application configuration
      * @param null $lang Language code
      * @param bool $exceptions Whether to throw exceptions on errors
      */
-    public function __construct(Logger $logger, $lang = null, $exceptions = true)
+    public function __construct(Logger $logger, AppConfig $appConfig, $lang = null, $exceptions = true)
     {
         try {
             parent::__construct($exceptions);
@@ -46,12 +48,12 @@ class MailNotification extends PHPMailer
             $this->logger->debug(__CLASS__, ['Info', __FUNCTION__]);
 
             if (is_null($lang)) {
-                $this->lang = (!empty($GLOBALS["lang"])) ? $GLOBALS["lang"] : "en";
+                $this->lang = $appConfig->getLang();
             } else {
                 $this->lang = $lang;
             }
 
-            $this->notificationMethod = $GLOBALS["notificationMethod"];
+            $this->notificationMethod = $appConfig->getNotificationMethod();
 
             $this->Mailer = $this->notificationMethod;
             $this->SetLanguage($this->lang);
