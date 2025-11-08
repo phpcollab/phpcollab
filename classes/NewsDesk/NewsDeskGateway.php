@@ -4,6 +4,7 @@
 namespace phpCollab\NewsDesk;
 
 use phpCollab\Database;
+use phpCollab\RequestData;
 
 /**
  * Class NewsDeskGateway
@@ -18,10 +19,10 @@ class NewsDeskGateway
      * NewsDeskGateway constructor.
      * @param Database $db
      */
-    public function __construct(Database $db)
+    public function __construct(Database $db, RequestData $requestData)
     {
         $this->db = $db;
-        $this->initrequest = $GLOBALS['initrequest'];
+        $this->initrequest = $requestData->all(); // Maintain BC with existing code
 
     }
 

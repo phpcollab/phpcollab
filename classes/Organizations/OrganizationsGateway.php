@@ -3,6 +3,7 @@
 namespace phpCollab\Organizations;
 
 use phpCollab\Database;
+use phpCollab\RequestData;
 
 /**
  * Class OrganizationsGateway
@@ -17,10 +18,10 @@ class OrganizationsGateway
      * OrganizationsGateway constructor.
      * @param Database $db
      */
-    public function __construct(Database $db)
+    public function __construct(Database $db, RequestData $requestData)
     {
         $this->db = $db;
-        $this->initrequest = $GLOBALS['initrequest'];
+        $this->initrequest = $requestData->all(); // Maintain BC with existing code
 
     }
 
