@@ -757,6 +757,25 @@ $strings["will_not_email"] = $strings["users_selected"] . " will NOT be emailed"
 $strings["support_request_new"] = "A new support request has been created.";
 
 /**
+ * Editor (Pell WYSIWYG) toolbar strings
+ * Added as part of Phase 3.2 modernization
+ */
+$strings["editor_bold"] = "Bold";
+$strings["editor_italic"] = "Italic";
+$strings["editor_underline"] = "Underline";
+$strings["editor_strikethrough"] = "Strike-through";
+$strings["editor_heading1"] = "Heading 1";
+$strings["editor_heading2"] = "Heading 2";
+$strings["editor_paragraph"] = "Paragraph";
+$strings["editor_quote"] = "Quote";
+$strings["editor_olist"] = "Ordered List";
+$strings["editor_ulist"] = "Unordered List";
+$strings["editor_code"] = "Code";
+$strings["editor_line"] = "Horizontal Line";
+$strings["editor_link"] = "Link";
+$strings["editor_link_prompt"] = "Enter the link URL";
+
+/**
  * Error messages
  */
 $strings["error_messages"] = [

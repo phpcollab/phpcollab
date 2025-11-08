@@ -181,8 +181,27 @@ $block1->contentRow($strings["author"],
 
 $block1->contentRow($strings["newsdesk_related"], "<select name='related' style='width: 300px;'>$option</select>");
 
-// Pell editor
+// Pell editor with internationalization support
 $contentJson = json_encode($content ?? '');
+
+// Prepare translated strings for JavaScript (properly escaped)
+$editorStrings = [
+    'bold' => htmlspecialchars($strings["editor_bold"], ENT_QUOTES, 'UTF-8'),
+    'italic' => htmlspecialchars($strings["editor_italic"], ENT_QUOTES, 'UTF-8'),
+    'underline' => htmlspecialchars($strings["editor_underline"], ENT_QUOTES, 'UTF-8'),
+    'strikethrough' => htmlspecialchars($strings["editor_strikethrough"], ENT_QUOTES, 'UTF-8'),
+    'heading1' => htmlspecialchars($strings["editor_heading1"], ENT_QUOTES, 'UTF-8'),
+    'heading2' => htmlspecialchars($strings["editor_heading2"], ENT_QUOTES, 'UTF-8'),
+    'paragraph' => htmlspecialchars($strings["editor_paragraph"], ENT_QUOTES, 'UTF-8'),
+    'quote' => htmlspecialchars($strings["editor_quote"], ENT_QUOTES, 'UTF-8'),
+    'olist' => htmlspecialchars($strings["editor_olist"], ENT_QUOTES, 'UTF-8'),
+    'ulist' => htmlspecialchars($strings["editor_ulist"], ENT_QUOTES, 'UTF-8'),
+    'code' => htmlspecialchars($strings["editor_code"], ENT_QUOTES, 'UTF-8'),
+    'line' => htmlspecialchars($strings["editor_line"], ENT_QUOTES, 'UTF-8'),
+    'link' => htmlspecialchars($strings["editor_link"], ENT_QUOTES, 'UTF-8'),
+    'link_prompt' => htmlspecialchars($strings["editor_link_prompt"], ENT_QUOTES, 'UTF-8')
+];
+
 $editorHtml = <<<EDITOR
 <div id="pell-editor" class="pell"></div>
 <input type="hidden" name="content" id="content-input">
@@ -196,19 +215,27 @@ document.addEventListener('DOMContentLoaded', function() {
         defaultParagraphSeparator: 'p',
         styleWithCSS: false,
         actions: [
-            'bold',
-            'italic',
-            'underline',
-            'strikethrough',
-            'heading1',
-            'heading2',
-            'paragraph',
-            'quote',
-            'olist',
-            'ulist',
-            'code',
-            'line',
-            'link'
+            {name: 'bold', icon: '<b>B</b>', title: '{$editorStrings['bold']}', result: () => pell.exec('bold')},
+            {name: 'italic', icon: '<i>I</i>', title: '{$editorStrings['italic']}', result: () => pell.exec('italic')},
+            {name: 'underline', icon: '<u>U</u>', title: '{$editorStrings['underline']}', result: () => pell.exec('underline')},
+            {name: 'strikethrough', icon: '<strike>S</strike>', title: '{$editorStrings['strikethrough']}', result: () => pell.exec('strikethrough')},
+            {name: 'heading1', icon: '<b>H<sub>1</sub></b>', title: '{$editorStrings['heading1']}', result: () => pell.exec('formatBlock', '<h1>')},
+            {name: 'heading2', icon: '<b>H<sub>2</sub></b>', title: '{$editorStrings['heading2']}', result: () => pell.exec('formatBlock', '<h2>')},
+            {name: 'paragraph', icon: '&#182;', title: '{$editorStrings['paragraph']}', result: () => pell.exec('formatBlock', '<p>')},
+            {name: 'quote', icon: '&#8220; &#8221;', title: '{$editorStrings['quote']}', result: () => pell.exec('formatBlock', '<blockquote>')},
+            {name: 'olist', icon: '&#35;', title: '{$editorStrings['olist']}', result: () => pell.exec('insertOrderedList')},
+            {name: 'ulist', icon: '&#8226;', title: '{$editorStrings['ulist']}', result: () => pell.exec('insertUnorderedList')},
+            {name: 'code', icon: '&lt;/&gt;', title: '{$editorStrings['code']}', result: () => pell.exec('formatBlock', '<pre>')},
+            {name: 'line', icon: '&#8213;', title: '{$editorStrings['line']}', result: () => pell.exec('insertHorizontalRule')},
+            {
+                name: 'link',
+                icon: '&#128279;',
+                title: '{$editorStrings['link']}',
+                result: () => {
+                    const url = window.prompt('{$editorStrings['link_prompt']}');
+                    if (url) pell.exec('createLink', url);
+                }
+            }
         ]
     });
     // Set initial content
