@@ -72,8 +72,34 @@ try {
         $router->loadRoutesFromDirectory(__DIR__ . '/routes');
     }
 
-    // Dispatch the request
-    $router->dispatch();
+    // Match the route
+    $routeInfo = $router->match();
+
+    if ($routeInfo) {
+        // Route matched - merge parameters into $_GET and $_REQUEST
+        $_GET = array_merge($_GET, $routeInfo['params']);
+        $_REQUEST = array_merge($_REQUEST, $routeInfo['params']);
+
+        // Include handler at global scope (critical for variable access!)
+        $handlerFile = __DIR__ . '/' . $routeInfo['handler'];
+
+        if (file_exists($handlerFile)) {
+            require $handlerFile;
+        } else {
+            $router->handleNotFound($router->getRequestUri());
+        }
+    } else {
+        // No route matched - try direct file access (legacy compatibility)
+        $uri = $router->getRequestUri();
+        $directFile = $router->tryDirectFileAccess($uri);
+
+        if ($directFile) {
+            require $directFile;
+        } else {
+            // 404 Not Found
+            $router->handleNotFound($uri);
+        }
+    }
 
 } catch (Exception $exception) {
     require_once dirname(__FILE__) . "/views/fatal_error.php";

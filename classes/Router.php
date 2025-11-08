@@ -106,14 +106,16 @@ class Router
     }
 
     /**
-     * Dispatch the current request
+     * Match the current request and return route information
      *
-     * @return void
+     * @param string|null $method HTTP method (defaults to current request)
+     * @param string|null $uri Request URI (defaults to current request)
+     * @return array|null Route information array with 'handler' and 'params' keys, or null if not found
      */
-    public function dispatch(): void
+    public function match(?string $method = null, ?string $uri = null): ?array
     {
-        $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
-        $uri = $this->getRequestUri();
+        $method = $method ?? ($_SERVER['REQUEST_METHOD'] ?? 'GET');
+        $uri = $uri ?? $this->getRequestUri();
 
         if ($this->debug) {
             error_log("Router: Method={$method}, URI={$uri}");
@@ -122,23 +124,45 @@ class Router
         // 1. Try explicit routes first
         $result = $this->matchExplicitRoute($method, $uri);
         if ($result) {
-            $this->executeRoute($result['handler'], $result['params']);
-            return;
+            return $result;
         }
 
         // 2. Try convention-based routing
         $result = $this->matchConventionRoute($uri);
         if ($result) {
+            return $result;
+        }
+
+        // 3. Not found
+        return null;
+    }
+
+    /**
+     * Dispatch the current request (convenience method)
+     *
+     * Note: This includes the handler file from within the Router class scope.
+     * For better compatibility, use match() and include the handler at global scope.
+     *
+     * @return void
+     */
+    public function dispatch(): void
+    {
+        $result = $this->match();
+
+        if ($result) {
             $this->executeRoute($result['handler'], $result['params']);
             return;
         }
 
-        // 3. Try direct file access (legacy compatibility)
-        if ($this->tryDirectFileAccess($uri)) {
+        // Try direct file access (legacy compatibility)
+        $uri = $this->getRequestUri();
+        $directFile = $this->tryDirectFileAccess($uri);
+        if ($directFile) {
+            require $directFile;
             return;
         }
 
-        // 4. 404 Not Found
+        // 404 Not Found
         $this->handleNotFound($uri);
     }
 
@@ -147,7 +171,7 @@ class Router
      *
      * @return string Request URI
      */
-    private function getRequestUri(): string
+    public function getRequestUri(): string
     {
         // Check for PATH_INFO first (e.g., /index.php/tasks/edit/123)
         if (!empty($_SERVER['PATH_INFO'])) {
@@ -333,13 +357,13 @@ class Router
      * Try to access a file directly (legacy compatibility)
      *
      * @param string $uri Request URI
-     * @return bool True if file was found and executed
+     * @return string|null File path if found, null otherwise
      */
-    private function tryDirectFileAccess(string $uri): bool
+    public function tryDirectFileAccess(string $uri): ?string
     {
         // Security: Don't allow directory traversal
         if (strpos($uri, '..') !== false) {
-            return false;
+            return null;
         }
 
         // Try direct file access
@@ -362,13 +386,13 @@ class Router
                         error_log("Router: Direct file access - {$uri} -> {$tryFile}");
                     }
 
-                    require $tryFile;
-                    return true;
+                    // Return the file path instead of executing
+                    return $tryFile;
                 }
             }
         }
 
-        return false;
+        return null;
     }
 
     /**
@@ -402,7 +426,7 @@ class Router
      * @param string $uri Requested URI
      * @return void
      */
-    private function handleNotFound(string $uri): void
+    public function handleNotFound(string $uri): void
     {
         http_response_code(404);
 
