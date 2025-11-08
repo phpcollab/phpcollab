@@ -116,101 +116,87 @@
     // ===================================================================
 
     /**
-     * Toggle a single checkbox item
+     * Sync selectedItems array with actual checkbox states (for real HTML checkboxes)
+     * @param {HTMLFormElement} form - The form
+     */
+    function MM_syncSelectedItems(form) {
+        if (!form) return;
+
+        form.selectedItems = [];
+        const checkboxes = form.querySelectorAll('.checkbox-item:checked');
+
+        checkboxes.forEach(function(checkbox) {
+            const itemId = checkbox.getAttribute('data-item-id') || checkbox.value;
+            if (itemId) {
+                form.selectedItems.push(itemId);
+            }
+        });
+
+        return form.selectedItems;
+    }
+
+    /**
+     * Toggle a single checkbox item (Legacy - for backward compatibility with image-based checkboxes)
      * @param {HTMLFormElement} form - The form containing the checkbox
      * @param {string} itemName - Name of the item
-     * @param {string} imageName - Name of the checkbox image
-     * @param {string} theme - Theme name for image paths
+     * @param {string} imageName - Name of the checkbox image (deprecated)
+     * @param {string} theme - Theme name for image paths (deprecated)
+     * @deprecated Use real HTML checkboxes with MM_syncSelectedItems instead
      */
     function MM_toggleItem(form, itemName, imageName, theme) {
-        if (!form.selectedItems) {
-            form.selectedItems = [];
-        }
-
-        const index = form.selectedItems.indexOf(itemName);
-        const imgElement = document.getElementById(imageName) || document[imageName];
-
-        if (index > -1) {
-            // Item is selected, deselect it
-            form.selectedItems.splice(index, 1);
-            if (imgElement) {
-                imgElement.src = '../themes/' + theme + '/images/checkbox_off_16.gif';
-            }
-        } else {
-            // Item is not selected, select it
-            form.selectedItems.push(itemName);
-            if (imgElement) {
-                imgElement.src = '../themes/' + theme + '/images/checkbox_on_16.gif';
-            }
-        }
-
+        // For real checkboxes, this is handled by event delegation
+        // This function is kept for backward compatibility
+        MM_syncSelectedItems(form);
         MM_updateButtons2(form, form.selectedItems);
     }
 
     /**
      * Select all checkboxes in a form
      * @param {HTMLFormElement} form - The form
-     * @param {string} theme - Theme name
+     * @param {string} theme - Theme name (deprecated - not used with real checkboxes)
      */
     function MM_selectAllItems(form, theme) {
-        form.selectedItems = [];
-
-        if (form.checkboxes) {
-            for (let i = 0; i < form.checkboxes.length; i++) {
-                const checkbox = form.checkboxes[i];
-                const imgElement = document.getElementById(checkbox.mImageName) ||
-                                 document[checkbox.mImageName];
-
-                if (imgElement && imgElement.src.indexOf('dim_16.gif') === -1) {
-                    imgElement.src = '../themes/' + theme + '/images/checkbox_on_16.gif';
-                    form.selectedItems.push(checkbox.mName);
-                }
+        const checkboxes = form.querySelectorAll('.checkbox-item');
+        checkboxes.forEach(function(checkbox) {
+            if (!checkbox.disabled) {
+                checkbox.checked = true;
             }
-        }
+        });
 
+        MM_syncSelectedItems(form);
         MM_updateButtons2(form, form.selectedItems);
     }
 
     /**
      * Deselect all checkboxes in a form
      * @param {HTMLFormElement} form - The form
-     * @param {string} theme - Theme name
+     * @param {string} theme - Theme name (deprecated - not used with real checkboxes)
      */
     function MM_deselectAllItems(form, theme) {
+        const checkboxes = form.querySelectorAll('.checkbox-item');
+        checkboxes.forEach(function(checkbox) {
+            checkbox.checked = false;
+        });
+
         form.selectedItems = [];
-
-        if (form.checkboxes) {
-            for (let i = 0; i < form.checkboxes.length; i++) {
-                const checkbox = form.checkboxes[i];
-                const imgElement = document.getElementById(checkbox.mImageName) ||
-                                 document[checkbox.mImageName];
-
-                if (imgElement && imgElement.src.indexOf('dim_16.gif') === -1) {
-                    imgElement.src = '../themes/' + theme + '/images/checkbox_off_16.gif';
-                }
-            }
-        }
-
         MM_updateButtons2(form, form.selectedItems);
     }
 
     /**
      * Toggle between select all and deselect all
      * @param {HTMLFormElement} form - The form
-     * @param {string} theme - Theme name
+     * @param {string} theme - Theme name (deprecated - not used with real checkboxes)
      */
     function MM_toggleSelectedItems(form, theme) {
-        if (!form.selectedItems) {
-            form.selectedItems = [];
-        }
+        MM_syncSelectedItems(form);
 
-        if (form.checkboxes) {
-            const disabledCount = MM_countDisabledCheckboxes(form);
-            if (form.selectedItems.length === form.checkboxes.length - disabledCount) {
-                MM_deselectAllItems(form, theme);
-            } else {
-                MM_selectAllItems(form, theme);
-            }
+        const checkboxes = form.querySelectorAll('.checkbox-item');
+        const checkedCount = form.querySelectorAll('.checkbox-item:checked').length;
+
+        if (checkedCount === checkboxes.length && checkboxes.length > 0) {
+            MM_deselectAllItems(form, theme);
+        } else {
+            MM_selectAllItems(form, theme);
         }
     }
 
@@ -220,21 +206,8 @@
      * @returns {number} Count of disabled checkboxes
      */
     function MM_countDisabledCheckboxes(form) {
-        let disabledCount = 0;
-
-        if (form.checkboxes) {
-            for (let i = 0; i < form.checkboxes.length; i++) {
-                const checkbox = form.checkboxes[i];
-                const imgElement = document.getElementById(checkbox.mImageName) ||
-                                 document[checkbox.mImageName];
-
-                if (imgElement && imgElement.src.indexOf('dim_16.gif') !== -1) {
-                    disabledCount++;
-                }
-            }
-        }
-
-        return disabledCount;
+        const checkboxes = form.querySelectorAll('.checkbox-item:disabled');
+        return checkboxes.length;
     }
 
     // ===================================================================
@@ -569,6 +542,7 @@
     window.readCookie = readCookie;
     window.showHideModule = showHideModule;
     window.toggleFoldyPersistState = toggleFoldyPersistState;
+    window.MM_syncSelectedItems = MM_syncSelectedItems;
     window.MM_toggleItem = MM_toggleItem;
     window.MM_selectAllItems = MM_selectAllItems;
     window.MM_deselectAllItems = MM_deselectAllItems;

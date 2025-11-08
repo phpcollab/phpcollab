@@ -597,8 +597,11 @@ foreach ($listVersions as $version) {
 
     if ($fileDetail["fil_owner"] == $session->get("id") && $version["fil_id"] != $fileDetail["fil_id"]) {
         $theme = THEME;
+        $fileId = htmlspecialchars($version["fil_id"], ENT_QUOTES, 'UTF-8');
         echo <<<LINK
-                <a href="#" class="checkbox-toggle" data-form="{$block1->form}" data-item-id="{$version["fil_id"]}" data-image-id="{$block1->form}cb{$version["fil_id"]}" data-theme="$theme"><img id="{$block1->form}cb{$version["fil_id"]}" src="../themes/$theme/images/checkbox_off_16.gif" alt="checkbox" style="border: none; margin-top: 0;" ></a>
+                <label class="checkbox-label">
+                    <input type="checkbox" class="checkbox-item" name="selected[]" value="{$fileId}" data-form="{$block1->form}" data-item-id="{$fileId}" data-theme="$theme">
+                </label>
 LINK;
 
     }
@@ -730,10 +733,11 @@ TABLE;
 
 
         if ($fileDetail["fil_owner"] == $session->get("id")) {
+            $reviewFileId = htmlspecialchars($review["fil_id"], ENT_QUOTES, 'UTF-8');
             echo <<<LINK
-                    <a href="#" class="checkbox-toggle" data-form="{$peerReviewBlock->form}" data-item-id="{$review["fil_id"]}" data-image-id="{$peerReviewBlock->form}cb{$review["fil_id"]}" data-theme="$theme">
-                        <img id="{$peerReviewBlock->form}cb{$review["fil_id"]}" src="../themes/$theme/images/checkbox_off_16.gif" alt="" style="border: none; margin-top: 0;">
-                    </a>
+                    <label class="checkbox-label">
+                        <input type="checkbox" class="checkbox-item" name="selected[]" value="{$reviewFileId}" data-form="{$peerReviewBlock->form}" data-item-id="{$reviewFileId}" data-theme="$theme">
+                    </label>
 LINK;
 
         }

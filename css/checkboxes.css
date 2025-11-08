@@ -1,0 +1,152 @@
+/**
+ * Modern Checkbox Styles
+ * PhpCollab - Phase 2.5
+ *
+ * Replaces image-based fake checkboxes with real, accessible HTML checkboxes
+ */
+
+/* Checkbox Label Container */
+.checkbox-label,
+.checkbox-label-header {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Base Checkbox Styling */
+.checkbox-item,
+.checkbox-select-all {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    width: 16px;
+    height: 16px;
+    border: 1px solid #999;
+    border-radius: 3px;
+    background-color: #fff;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    transition: all 0.2s ease;
+    vertical-align: middle;
+}
+
+/* Hover State */
+.checkbox-item:hover,
+.checkbox-select-all:hover {
+    border-color: #666;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Focus State (for keyboard navigation) */
+.checkbox-item:focus,
+.checkbox-select-all:focus {
+    outline: 2px solid #4A90E2;
+    outline-offset: 2px;
+    border-color: #4A90E2;
+}
+
+/* Checked State */
+.checkbox-item:checked,
+.checkbox-select-all:checked {
+    background-color: #4A90E2;
+    border-color: #4A90E2;
+}
+
+/* Checkmark */
+.checkbox-item:checked::after,
+.checkbox-select-all:checked::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 2px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* Indeterminate State (for select-all checkbox when some are selected) */
+.checkbox-select-all:indeterminate {
+    background-color: #4A90E2;
+    border-color: #4A90E2;
+}
+
+.checkbox-select-all:indeterminate::after {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: 7px;
+    width: 8px;
+    height: 2px;
+    background-color: white;
+    border: none;
+    transform: none;
+}
+
+/* Disabled State */
+.checkbox-item:disabled,
+.checkbox-select-all:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #f5f5f5;
+}
+
+.checkbox-item:disabled:hover,
+.checkbox-select-all:disabled:hover {
+    border-color: #999;
+    box-shadow: none;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    .checkbox-item,
+    .checkbox-select-all {
+        border-width: 2px;
+    }
+}
+
+/* Dark Mode Support (if needed) */
+@media (prefers-color-scheme: dark) {
+    .checkbox-item,
+    .checkbox-select-all {
+        border-color: #666;
+        background-color: #333;
+    }
+
+    .checkbox-item:hover,
+    .checkbox-select-all:hover {
+        border-color: #888;
+    }
+
+    .checkbox-item:checked,
+    .checkbox-select-all:checked,
+    .checkbox-select-all:indeterminate {
+        background-color: #5A9FF2;
+        border-color: #5A9FF2;
+    }
+}
+
+/* Table Cell Alignment for Checkboxes */
+.listing td .checkbox-label {
+    justify-content: center;
+}
+
+/* Screen Reader Only Text (for accessibility) */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}

@@ -347,6 +347,241 @@ linkedcontent/
 
 ---
 
+# Phase 2.5: Real HTML Checkboxes
+
+**Status:** ✅ Complete
+
+## Overview
+
+Phase 2.5 addresses a critical accessibility and usability issue: the project was using **image-based fake checkboxes** instead of real HTML checkbox elements. This modernization replaces all fake checkboxes with semantic, accessible, native HTML checkboxes.
+
+## Problems with Image-Based Checkboxes
+
+The original implementation had several serious issues:
+
+1. **Not Accessible** - Screen readers couldn't identify them as checkboxes
+2. **No Keyboard Support** - Couldn't use spacebar to toggle
+3. **Not Semantic** - Just images wrapped in links, not proper form controls
+4. **Poor UX** - Required clicking on images instead of standard checkbox behavior
+5. **Form Submission Issues** - Not real inputs; values stored in JavaScript array only
+6. **Styling Limitations** - Couldn't be styled with CSS; required multiple image files
+
+### Old Approach
+```html
+<!-- Image-based fake checkbox -->
+<a href="#" onclick="...">
+    <img src="checkbox_off_16.gif" id="cb123">
+</a>
+```
+
+### New Approach
+```html
+<!-- Real HTML checkbox -->
+<label class="checkbox-label">
+    <input type="checkbox"
+           class="checkbox-item"
+           name="selected[]"
+           value="123">
+</label>
+```
+
+## Changes Made
+
+### 1. Updated `classes/Block.php`
+
+#### `openResults()` method (line 515)
+```html
+<!-- Before: Image-based select-all -->
+<a href="#" class="checkbox-select-all" ...>
+    <img src="checkbox_off_16.gif" alt="Select All">
+</a>
+
+<!-- After: Real checkbox for select-all -->
+<label class="checkbox-label-header">
+    <input type="checkbox"
+           class="checkbox-select-all"
+           data-form="..."
+           data-theme="..."
+           aria-label="Select All"
+           title="Select All">
+</label>
+```
+
+#### `checkboxRow()` method (line 658)
+```html
+<!-- Before: Image-based checkbox -->
+<a href="#" class="checkbox-toggle" ...>
+    <img src="checkbox_off_16.gif" id="cb123">
+</a>
+
+<!-- After: Real checkbox -->
+<label class="checkbox-label">
+    <input type="checkbox"
+           class="checkbox-item"
+           name="selected[]"
+           value="123"
+           data-form="..."
+           data-item-id="..."
+           data-theme="...">
+</label>
+```
+
+### 2. Updated `linkedcontent/viewfile.php`
+
+**Two checkboxes converted:**
+- Line 602: Version file checkbox
+- Line 738: Peer review checkbox
+
+Both now use real HTML checkboxes with proper `<label>` wrappers and security (`htmlspecialchars`).
+
+### 3. Updated `javascript/event-delegation.js`
+
+**Complete rewrite of checkbox event handlers:**
+
+- **`setupCheckboxSelectAll()`**: Now listens for `change` events on real checkboxes
+  - Toggles all item checkboxes when select-all is clicked
+  - Syncs `selectedItems` array automatically
+  - Updates button states
+
+- **`setupCheckboxRows()`**: Handles individual checkbox changes
+  - Syncs `selectedItems` array on each change
+  - Updates select-all checkbox state (checked/unchecked/indeterminate)
+  - Supports indeterminate state when some checkboxes are checked
+
+### 4. Updated `javascript/general.js`
+
+**New Function Added:**
+```javascript
+MM_syncSelectedItems(form)
+```
+- Synchronizes the `selectedItems` array with actual checkbox states
+- Queries all checked checkboxes and builds the array
+- Called automatically by event delegation
+
+**Updated Functions:**
+- `MM_toggleItem()` - Now deprecated, kept for backward compatibility
+- `MM_selectAllItems()` - Checks all `.checkbox-item` elements
+- `MM_deselectAllItems()` - Unchecks all `.checkbox-item` elements
+- `MM_toggleSelectedItems()` - Toggles based on current state
+- `MM_countDisabledCheckboxes()` - Uses `.checkbox-item:disabled` selector
+
+All functions now work with real checkboxes using `querySelector`/`querySelectorAll`.
+
+### 5. Created `css/checkboxes.css`
+
+**Modern, accessible checkbox styling:**
+
+**Features:**
+- Custom checkbox appearance (removing browser defaults)
+- Hover, focus, and active states
+- Checked state with checkmark (CSS-generated)
+- Indeterminate state support (for select-all)
+- Disabled state styling
+- Keyboard focus indicators (WCAG 2.1 compliant)
+- High contrast mode support
+- Dark mode support
+- Smooth transitions
+
+**Accessibility:**
+- Proper focus outlines for keyboard navigation
+- Adequate color contrast ratios
+- Support for high contrast and dark modes
+- Screen reader friendly
+
+## Benefits
+
+### Accessibility ✅
+- **Screen Reader Support**: Properly announced as checkboxes
+- **Keyboard Navigation**: Space to toggle, Tab to navigate
+- **ARIA Attributes**: Proper `aria-label` attributes
+- **Focus Indicators**: Clear visual focus for keyboard users
+- **Semantic HTML**: Proper `<input type="checkbox">` elements
+
+### Usability ✅
+- **Native Behavior**: Works like standard checkboxes
+- **Form Integration**: Real form inputs that can be submitted
+- **Label Click Support**: Clicking label toggles checkbox
+- **Indeterminate State**: Select-all shows partial selection
+- **No Image Loading**: Instant rendering, no HTTP requests for images
+
+### Performance ✅
+- **No Images**: Eliminated `checkbox_on_16.gif` and `checkbox_off_16.gif`
+- **CSS-Based**: Checkmarks drawn with CSS, not images
+- **Faster Loading**: No additional HTTP requests
+- **Better Caching**: CSS cached once, applies to all checkboxes
+
+### Maintainability ✅
+- **Standard HTML**: Easy to understand and modify
+- **CSS Styling**: Simple to customize appearance
+- **No Image Management**: No need to maintain multiple checkbox images
+- **Future-Proof**: Uses modern web standards
+
+### Code Quality ✅
+- **Semantic Markup**: Proper HTML5 form elements
+- **Clean JavaScript**: Event delegation pattern
+- **Security**: Proper `htmlspecialchars()` escaping
+- **Best Practices**: Follows modern web development standards
+
+## Testing Checklist
+
+- ✅ Individual checkboxes toggle on click
+- ✅ Individual checkboxes toggle with spacebar (keyboard)
+- ✅ Select-all checkbox toggles all items
+- ✅ Select-all shows indeterminate state when partially selected
+- ✅ Unchecking an item updates select-all to unchecked/indeterminate
+- ✅ `selectedItems` array stays synchronized
+- ✅ Button states update based on selection
+- ✅ Form submission includes checked values
+- ✅ Focus indicators visible for keyboard navigation
+- ✅ Screen readers announce checkbox state correctly
+
+## Files Modified (Phase 2.5)
+
+```
+classes/
+  └── Block.php                # UPDATED - Real checkboxes in openResults() and checkboxRow()
+
+linkedcontent/
+  └── viewfile.php             # UPDATED - Two checkboxes converted to real HTML
+
+javascript/
+  ├── event-delegation.js      # UPDATED - Rewritten checkbox event handlers
+  └── general.js               # UPDATED - Added MM_syncSelectedItems, updated checkbox functions
+
+css/
+  └── checkboxes.css           # NEW - Modern checkbox styling
+```
+
+## Backward Compatibility
+
+✅ **Fully Backward Compatible**
+- The `selectedItems` array still exists and works the same way
+- All `MM_*` functions still work (just updated internally)
+- Button state management unchanged
+- Form behavior unchanged (from user perspective)
+
+## Migration Notes
+
+### For Users
+**No action required** - checkboxes will work better:
+- Click on checkbox or label to toggle
+- Use spacebar when focused to toggle
+- Better keyboard navigation
+
+### For Developers
+If you have custom code that manipulates checkboxes:
+- **Old way**: `document.getElementById('cb123').src = 'checkbox_on_16.gif'`
+- **New way**: `document.querySelector('[value="123"]').checked = true`
+- Use `MM_syncSelectedItems(form)` to update the selectedItems array
+
+### CSS Customization
+To customize checkbox appearance, edit `css/checkboxes.css`:
+- Change colors, sizes, or borders
+- Modify checkmark style
+- Add custom themes
+
+---
+
 ## Next Steps (Phase 3)
 
 ### Phase 3: Architecture & External Dependencies
@@ -418,4 +653,5 @@ For questions or issues related to this modernization:
 - ✅ Phase 1.1 - Core JavaScript Modernization (general.js)
 - ✅ Phase 1.2 - Modern Tooltip System (tooltips.js)
 - ✅ Phase 2 - Event Delegation & Unobtrusive JavaScript
+- ✅ Phase 2.5 - Real HTML Checkboxes (Accessibility & Usability)
 **Status:** Ready for Phase 3

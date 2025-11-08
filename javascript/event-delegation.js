@@ -90,48 +90,72 @@
 
         /**
          * Setup "Select All" checkbox functionality
-         * Handles: <a class="checkbox-select-all" data-form="..." data-theme="...">
+         * Handles: <input type="checkbox" class="checkbox-select-all" data-form="..." data-theme="...">
          */
         setupCheckboxSelectAll: function() {
-            document.addEventListener('click', function(e) {
-                const link = e.target.closest('.checkbox-select-all');
-                if (!link) return;
+            document.addEventListener('change', function(e) {
+                const checkbox = e.target;
+                if (!checkbox.classList.contains('checkbox-select-all')) return;
 
-                e.preventDefault();
-
-                const formName = link.getAttribute('data-form');
-                const theme = link.getAttribute('data-theme');
-
+                const formName = checkbox.getAttribute('data-form');
+                const theme = checkbox.getAttribute('data-theme');
                 const form = document.forms[formName + 'Form'];
+
                 if (!form) return;
 
-                if (typeof window.MM_toggleSelectedItems === 'function') {
-                    window.MM_toggleSelectedItems(form, theme);
+                // Get all item checkboxes in this form
+                const itemCheckboxes = form.querySelectorAll('.checkbox-item');
+                const isChecked = checkbox.checked;
+
+                // Update all item checkboxes
+                itemCheckboxes.forEach(function(item) {
+                    item.checked = isChecked;
+                });
+
+                // Sync selectedItems array
+                if (typeof window.MM_syncSelectedItems === 'function') {
+                    window.MM_syncSelectedItems(form);
+                }
+
+                // Update button states
+                if (typeof window.MM_updateButtons2 === 'function') {
+                    window.MM_updateButtons2(form, form.selectedItems || []);
                 }
             });
         },
 
         /**
-         * Setup individual checkbox row functionality
-         * Handles: <a class="checkbox-toggle" data-form="..." data-item-id="..." data-image-id="..." data-theme="...">
+         * Setup individual checkbox functionality
+         * Handles: <input type="checkbox" class="checkbox-item" data-form="..." data-item-id="...">
          */
         setupCheckboxRows: function() {
-            document.addEventListener('click', function(e) {
-                const link = e.target.closest('.checkbox-toggle');
-                if (!link) return;
+            document.addEventListener('change', function(e) {
+                const checkbox = e.target;
+                if (!checkbox.classList.contains('checkbox-item')) return;
 
-                e.preventDefault();
-
-                const formName = link.getAttribute('data-form');
-                const itemId = link.getAttribute('data-item-id');
-                const imageId = link.getAttribute('data-image-id');
-                const theme = link.getAttribute('data-theme');
-
+                const formName = checkbox.getAttribute('data-form');
                 const form = document.forms[formName + 'Form'];
+
                 if (!form) return;
 
-                if (typeof window.MM_toggleItem === 'function') {
-                    window.MM_toggleItem(form, itemId, imageId, theme);
+                // Sync selectedItems array
+                if (typeof window.MM_syncSelectedItems === 'function') {
+                    window.MM_syncSelectedItems(form);
+                }
+
+                // Update select-all checkbox state
+                const selectAllCheckbox = form.querySelector('.checkbox-select-all');
+                const itemCheckboxes = form.querySelectorAll('.checkbox-item');
+                const checkedCount = form.querySelectorAll('.checkbox-item:checked').length;
+
+                if (selectAllCheckbox) {
+                    selectAllCheckbox.checked = (checkedCount === itemCheckboxes.length && itemCheckboxes.length > 0);
+                    selectAllCheckbox.indeterminate = (checkedCount > 0 && checkedCount < itemCheckboxes.length);
+                }
+
+                // Update button states
+                if (typeof window.MM_updateButtons2 === 'function') {
+                    window.MM_updateButtons2(form, form.selectedItems || []);
                 }
             });
         },

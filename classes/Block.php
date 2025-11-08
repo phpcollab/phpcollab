@@ -512,9 +512,14 @@ HTML;
         if ($checkbox == "true") {
             echo <<<HTML
             <th class="flooma" style="text-align: center; width: 1%">
-                <a href="#" class="checkbox-select-all" data-form="{$this->form}" data-theme="{$this->theme}">
-                    <img height="13" width="13" src="{$this->themeImgPath}/checkbox_off_16.gif" alt="Select All">
-                </a>
+                <label class="checkbox-label-header">
+                    <input type="checkbox"
+                           class="checkbox-select-all"
+                           data-form="{$this->form}"
+                           data-theme="{$this->theme}"
+                           aria-label="Select All"
+                           title="Select All">
+                </label>
             </th>
 HTML;
         } else {
@@ -650,9 +655,9 @@ SCRIPT;
     public function checkboxRow($ref, $checkbox = "true")
     {
         if ($checkbox == "true") {
-            echo "<td style='text-align: center'><a href=\"#\" class=\"checkbox-toggle\" data-form=\"" . $this->form . "\" data-item-id=\"" . $ref . "\" data-image-id=\"" . $this->form . "cb" . $ref . "\" data-theme=\"{$this->theme}\"><img alt='' id='" . $this->form . "cb" . $ref . "' name='" . $this->form . "cb" . $ref . "' src='$this->themeImgPath/checkbox_off_16.gif' style='margin: 3px 0'></a></td>";
+            echo "<td style='text-align: center'><label class='checkbox-label'><input type='checkbox' class='checkbox-item' name='selected[]' value='" . htmlspecialchars($ref, ENT_QUOTES, 'UTF-8') . "' data-form='" . $this->form . "' data-item-id='" . $ref . "' data-theme='" . $this->theme . "'></label></td>";
         } else {
-            echo "<td><img height='13' width='13' src='$this->themeImgPath/spacer.gif' alt='' style='margin: 3px 0'></td>";
+            echo "<td style='text-align: center; width: 1%'>&nbsp;</td>";
         }
     }
 
