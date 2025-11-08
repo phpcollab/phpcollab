@@ -5,9 +5,13 @@ namespace phpCollab\Members;
 
 use Exception;
 use phpCollab\Database;
+use phpCollab\RequestData;
 
 /**
  * Class MembersGateway
+ *
+ * Data access layer for members with pure dependency injection.
+ *
  * @package phpCollab\Members
  */
 class MembersGateway
@@ -16,13 +20,15 @@ class MembersGateway
     protected $initrequest;
 
     /**
-     * Reports constructor.
-     * @param Database $db
+     * MembersGateway constructor.
+     *
+     * @param Database $db Database connection
+     * @param RequestData $requestData Request data object (replaces $GLOBALS['initrequest'])
      */
-    public function __construct(Database $db)
+    public function __construct(Database $db, RequestData $requestData)
     {
         $this->db = $db;
-        $this->initrequest = $GLOBALS['initrequest'];
+        $this->initrequest = $requestData->all(); // Maintain BC with existing code
 
     }
 

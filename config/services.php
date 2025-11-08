@@ -11,6 +11,7 @@ use Monolog\Processor\IntrospectionProcessor;
 use phpCollab\Administration\Administration;
 use phpCollab\Alerts\DailyAlertEmail;
 use phpCollab\Alerts\DailyAlerts;
+use phpCollab\AppConfig;
 use phpCollab\Assignments\Assignments;
 use phpCollab\Bookmarks\Bookmarks;
 use phpCollab\Bookmarks\DeleteBookmarks;
@@ -44,6 +45,7 @@ use phpCollab\Organizations\Organizations;
 use phpCollab\Phases\Phases;
 use phpCollab\Projects\Projects;
 use phpCollab\Reports\Reports;
+use phpCollab\RequestData;
 use phpCollab\Services\Services;
 use phpCollab\Sorting\Sorting;
 use phpCollab\Subtasks\SetStatus;
@@ -89,6 +91,15 @@ return static function (ContainerConfigurator $container) {
 
     $services->set(Escaper::class)
         ->args(['utf-8'])
+        ->public();
+
+    // ✅ Configuration Objects (replaces $GLOBALS anti-pattern)
+    $services->set(AppConfig::class)
+        ->synthetic() // Will be set at runtime from $GLOBALS
+        ->public();
+
+    $services->set(RequestData::class)
+        ->synthetic() // Will be set at runtime from $GLOBALS['initrequest']
         ->public();
 
     // Data Services

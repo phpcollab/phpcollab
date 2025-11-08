@@ -36,6 +36,13 @@ class ContainerFactory
         $loader = new PhpFileLoader($container, new FileLocator(APP_ROOT . '/config'));
         $loader->load('services.php');
 
+        // ✅ Create and inject configuration objects to eliminate $GLOBALS usage
+        $appConfig = AppConfig::fromGlobals();
+        $container->set(AppConfig::class, $appConfig);
+
+        $requestData = RequestData::fromGlobals();
+        $container->set(RequestData::class, $requestData);
+
         // Compile the container for better performance
         $container->compile();
 

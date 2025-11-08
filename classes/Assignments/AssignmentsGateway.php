@@ -4,9 +4,13 @@
 namespace phpCollab\Assignments;
 
 use phpCollab\Database;
+use phpCollab\RequestData;
 
 /**
  * Class AssignmentsGateway
+ *
+ * Data access layer for assignments with pure dependency injection.
+ *
  * @package phpCollab\Assignments
  */
 class AssignmentsGateway
@@ -16,12 +20,14 @@ class AssignmentsGateway
 
     /**
      * AssignmentsGateway constructor.
-     * @param Database $db
+     *
+     * @param Database $db Database connection
+     * @param RequestData $requestData Request data object (replaces $GLOBALS['initrequest'])
      */
-    public function __construct(Database $db)
+    public function __construct(Database $db, RequestData $requestData)
     {
         $this->db = $db;
-        $this->initrequest = $GLOBALS['initrequest'];
+        $this->initrequest = $requestData->all(); // Maintain BC with existing code
     }
 
     /**
