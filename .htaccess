@@ -1,8 +1,82 @@
-# Deny access to the vendor subdirectory
+# =============================================================================
+# phpCollab Security Configuration
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# 1. DIRECTORY AND FILE ACCESS PROTECTION
+# -----------------------------------------------------------------------------
+
+# Deny access to the vendor subdirectory (Composer packages)
 RedirectMatch 403 ^/vendor/?$
 
-# Set the level of error reporting to E_ALL (32767)
+# SECURITY: Deny access to .git directory (prevents source code exposure)
+RedirectMatch 403 /\.git
+
+# SECURITY: Deny access to .env files (environment variables/secrets)
+<FilesMatch "^\.env">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# SECURITY: Deny access to configuration files
+<FilesMatch "^(settings\.php|config\.php|configuration\.php)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# SECURITY: Deny access to backup and temporary files
+<FilesMatch "\.(bak|backup|sql|old|tmp|temp|swp|swo|log|txt~|orig)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# SECURITY: Deny access to composer files
+<FilesMatch "^(composer\.json|composer\.lock|package\.json|package-lock\.json)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# SECURITY: Deny access to README and documentation that might reveal structure
+<FilesMatch "^(README\.md|CHANGELOG\.md|CONTRIBUTING\.md|\.gitignore)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# -----------------------------------------------------------------------------
+# 2. PHP ERROR HANDLING
+# -----------------------------------------------------------------------------
+
+# SECURITY: Set the level of error reporting to E_ALL (32767)
+# All errors are logged, but NOT displayed to users
 php_value error_reporting 32767
+
+# SECURITY: DISABLE error display (prevents information disclosure)
+# In production, errors should NEVER be shown to end users
+# They can reveal paths, database details, and application structure
+php_value display_errors 0
+
+# Enable the logging of errors (errors go to log file instead)
+php_value log_errors 1
+
+# Set the maximum length of an error message. 0 means no limit
+php_value log_errors_max_len 0
+
+# Specify the path to the error log file
+php_value error_log ./logs/php_errors.log
+
+# Deny access to the PHP error log file
+<Files php_errors.log>
+    Order allow,deny
+    Deny from all
+    Satisfy All
+</Files>
+
+# -----------------------------------------------------------------------------
+# 3. XDEBUG CONFIGURATION (Development Only)
+# -----------------------------------------------------------------------------
+
+# NOTE: These settings are for development environments only.
+# In production, xdebug should be completely disabled in php.ini
 
 # Set the maximum depth that xdebug will display when var_dump() is called
 php_value xdebug.var_display_max_depth 5
@@ -13,24 +87,72 @@ php_value xdebug.var_display_max_children 256
 # Set the maximum amount of data (in bytes) that xdebug will display when var_dump() is called
 php_value xdebug.var_display_max_data 3000
 
-# Enable the display of errors
-php_value display_errors 1
+# -----------------------------------------------------------------------------
+# 4. SESSION SECURITY
+# -----------------------------------------------------------------------------
 
-# Enable the logging of errors
-php_value log_errors 1
-
-# Set the maximum length of an error message. 0 means no limit
-php_value log_errors_max_len 0
-
-# Specify the path to the error log file
-php_value error_log ./logs/php_errors.log
-
-# Disable the use of transparent session IDs
+# SECURITY: Disable the use of transparent session IDs (prevents session ID in URLs)
 php_value session.use_trans_sid 0
 
-# Deny access to the PHP error log file
-<Files php_errors.log>
- Order allow,deny
- Deny from all
- Satisfy All
-</Files>
+# SECURITY: Set session cookie lifetime (0 = session cookie, expires when browser closes)
+php_value session.cookie_lifetime 0
+
+# SECURITY: Session garbage collection - cleanup old sessions after 30 minutes of inactivity
+php_value session.gc_maxlifetime 1800
+
+# SECURITY: Session cookie path
+php_value session.cookie_path /
+
+# SECURITY: Session name (customize to avoid default PHPSESSID fingerprinting)
+php_value session.name PHPCOLLAB_SESSID
+
+# -----------------------------------------------------------------------------
+# 5. SECURITY HEADERS (Backup - Already set in library.php)
+# -----------------------------------------------------------------------------
+
+# Note: Security headers are primarily set in includes/library.php
+# These are backup settings in case PHP headers fail
+
+<IfModule mod_headers.c>
+    # Prevent MIME sniffing
+    Header always set X-Content-Type-Options "nosniff"
+
+    # Clickjacking protection
+    Header always set X-Frame-Options "SAMEORIGIN"
+
+    # XSS protection (legacy browsers)
+    Header always set X-XSS-Protection "1; mode=block"
+
+    # Referrer policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# -----------------------------------------------------------------------------
+# 6. FILE UPLOAD LIMITS
+# -----------------------------------------------------------------------------
+
+# Set maximum file upload size (adjust as needed)
+php_value upload_max_filesize 20M
+php_value post_max_size 20M
+
+# -----------------------------------------------------------------------------
+# 7. DIRECTORY INDEX PROTECTION
+# -----------------------------------------------------------------------------
+
+# SECURITY: Disable directory browsing
+Options -Indexes
+
+# -----------------------------------------------------------------------------
+# 8. ADDITIONAL SECURITY MEASURES
+# -----------------------------------------------------------------------------
+
+# SECURITY: Prevent access to hidden files (starting with .)
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# SECURITY: Disable server signature (reduces information disclosure)
+<IfModule mod_security.c>
+    ServerSignature Off
+</IfModule>
