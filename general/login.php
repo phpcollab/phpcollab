@@ -62,6 +62,33 @@ if ($forcedLogin == "false") {
 }
 
 if ($auth == "on") {
+    // SECURITY: Brute force protection - Rate limiting on login attempts
+    $clientIp = $request->server->get('REMOTE_ADDR');
+    $loginAttemptsKey = 'login_attempts_' . md5($clientIp);
+    $loginAttempts = $session->get($loginAttemptsKey, []);
+
+    // Clean up old attempts (older than 15 minutes)
+    $now = time();
+    $loginAttempts = array_filter($loginAttempts, function($timestamp) use ($now) {
+        return ($now - $timestamp) < 900; // 15 minutes
+    });
+
+    // Check if too many failed attempts from this IP
+    if (count($loginAttempts) >= 5) {
+        $oldestAttempt = min($loginAttempts);
+        $timeRemaining = 900 - ($now - $oldestAttempt); // Time until oldest attempt expires
+        $minutesRemaining = ceil($timeRemaining / 60);
+
+        $logger->warning('Login rate limit exceeded', [
+            'ip' => $clientIp,
+            'username' => $usernameForm,
+            'attempts' => count($loginAttempts)
+        ]);
+
+        $error = "Too many failed login attempts. Please try again in $minutesRemaining minute(s).";
+        $auth = "off";
+    }
+
     $usernameForm = strip_tags($usernameForm);
     $passwordForm = strip_tags($passwordForm);
 
@@ -80,6 +107,10 @@ if ($auth == "on") {
     if (!$member) {
         $logger->notice('Member not found', ['username' => $usernameForm]);
         $error = $strings["invalid_login"];
+
+        // SECURITY: Record failed login attempt for brute force protection
+        $loginAttempts[] = time();
+        $session->set($loginAttemptsKey, $loginAttempts);
     } else {
 
         //test password
@@ -87,6 +118,10 @@ if ($auth == "on") {
             if ($passwordCookie != $member['mem_password']) {
                 $logger->notice('Invalid password', ['username' => $usernameForm]);
                 $error = $strings["invalid_login"];
+
+                // SECURITY: Record failed login attempt for brute force protection
+                $loginAttempts[] = time();
+                $session->set($loginAttemptsKey, $loginAttempts);
             } else {
                 $match = true;
             }
@@ -95,12 +130,23 @@ if ($auth == "on") {
                     $loginMethod)) {
                 $logger->notice('Invalid password', ['username' => $usernameForm]);
                 $error = $strings["invalid_login"];
+
+                // SECURITY: Record failed login attempt for brute force protection
+                $loginAttempts[] = time();
+                $session->set($loginAttemptsKey, $loginAttempts);
             } else {
                 $match = true;
             }
         }
 
         if ($match === true) {
+
+            // SECURITY: Clear failed login attempts on successful login
+            $session->remove($loginAttemptsKey);
+
+            // SECURITY: Regenerate session ID to prevent session fixation attacks
+            // This must be done BEFORE setting any session variables
+            $session->migrate();
 
             // SECURITY: Opportunistic password upgrade to modern hashing
             // Check if password needs upgrade from legacy hash (MD5, crypt, plain)
