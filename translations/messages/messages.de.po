@@ -915,8 +915,8 @@ msgstr "Pflichtfelder"
 
 msgid "strings.projectsite_login_fails"
 msgstr ""
-"Es ist nicht m�glich diesen Benutzernamen und Passwort zu"
-"best�tigen."
+"Es ist nicht möglich diesen Benutzernamen und Passwort zu"
+"bestätigen."
 
 msgid "strings.start_date"
 msgstr "Start Datum"
@@ -1002,7 +1002,7 @@ msgid "strings.ifc_version_history"
 msgstr "Versions Historie"
 
 msgid "strings.ifc_delete_file"
-msgstr "L�sche Datei und alle Kindversionen & Reviews"
+msgstr "Lösche Datei und alle Kindversionen & Reviews"
 
 msgid "strings.ifc_delete_version"
 msgstr "Ausgew&auml;hlte Version l&ouml;schen"

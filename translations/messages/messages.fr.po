@@ -28,54 +28,54 @@ msgid "strings.no_items"
 msgstr "Pas d'enregistrement"
 
 msgid "strings.logout"
-msgstr "D�connexion"
+msgstr "Déconnexion"
 
 msgid "strings.preferences"
-msgstr "Pr�f�rences"
+msgstr "Préférences"
 
 msgid "strings.my_tasks"
-msgstr "Mes T�ches"
+msgstr "Mes Tâches"
 
 msgid "strings.edit_task"
-msgstr "�diter une t�che"
+msgstr "Éditer une tâche"
 
 msgid "strings.copy_task"
-msgstr "Copier une t�che"
+msgstr "Copier une tâche"
 
 msgid "strings.add_task"
-msgstr "Ajouter une t�che"
+msgstr "Ajouter une tâche"
 
 msgid "strings.delete_tasks"
-msgstr "Effacer les t�ches"
+msgstr "Effacer les tâches"
 
 msgid "strings.assignment_history"
 msgstr "Historique des assignations"
 
 msgid "strings.assigned_on"
-msgstr "Assign�e �"
+msgstr "Assignée à"
 
 msgid "strings.assigned_by"
-msgstr "Assign�e par"
+msgstr "Assignée par"
 
 msgid "strings.to"
-msgstr "�"
+msgstr "à"
 
 msgid "strings.comment"
 msgstr "Commentaire"
 
 msgid "strings.task_assigned"
-msgstr "T�che assign�e �"
+msgstr "Tâche assignée à"
 
 msgid "strings.task_unassigned"
-msgstr "T�che assign�e � Non assign�e (Non assign�e)"
+msgstr "Tâche assignée à Non assignée (Non assignée)"
 
 msgid "strings.edit_multiple_tasks"
-msgstr "�diter plusieurs t�ches"
+msgstr "Éditer plusieurs tâches"
 
 msgid "strings.tasks_selected"
 msgstr ""
-"t�ches s�lectionn�es. Choisissez de nouvelles valeurs pour ces"
-"t�ches, ou s�lectionnez [Pas de changement] pour conserver les"
+"tâches sélectionnées. Choisissez de nouvelles valeurs pour ces"
+"tâches, ou sélectionnez [Pas de changement] pour conserver les"
 "valeurs d'origine."
 
 msgid "strings.assignment_comment"
@@ -92,7 +92,7 @@ msgstr "Effacer les discussions"
 
 msgid "strings.delete_discussions_note"
 msgstr ""
-"Note : Les discussions ne peuvent pas �tre r�ouvertes apr�s"
+"Note : Les discussions ne peuvent pas être réouvertes après"
 "effacement."
 
 msgid "strings.topic"
@@ -111,12 +111,12 @@ msgid "strings.reports"
 msgstr "Rapports"
 
 msgid "strings.create_report"
-msgstr "Cr�er un rapport"
+msgstr "Créer un rapport"
 
 msgid "strings.report_intro"
 msgstr ""
-"Choisissez les crit�res de cr�ation du rapport d'avancement des"
-"t�ches puis sauvegardez votre requ�te dans la page de r�sultat."
+"Choisissez les critères de crééation du rapport d'avancement des"
+"tâches puis sauvegardez votre requête dans la page de résultat."
 
 msgid "strings.admin_intro"
 msgstr "Information et Configuration."
@@ -140,13 +140,13 @@ msgid "strings.view"
 msgstr "Voir"
 
 msgid "strings.edit"
-msgstr "�diter"
+msgstr "Éditer"
 
 msgid "strings.update"
 msgstr "Modifier"
 
 msgid "strings.details"
-msgstr "D�tails"
+msgstr "Détails"
 
 msgid "strings.none"
 msgstr "Vide"
@@ -158,10 +158,10 @@ msgid "strings.new"
 msgstr "Nouveau"
 
 msgid "strings.select_all"
-msgstr "S�lectionner tout"
+msgstr "Sélectionner tout"
 
 msgid "strings.unassigned"
-msgstr "Non assign�"
+msgstr "Non assigné"
 
 msgid "strings.administrator"
 msgstr "Administrateur"
@@ -179,10 +179,10 @@ msgid "strings.inactive"
 msgstr "Inactif"
 
 msgid "strings.project_id"
-msgstr "N� de projet"
+msgstr "Nà de projet"
 
 msgid "strings.edit_project"
-msgstr "�diter le projet"
+msgstr "Éditer le projet"
 
 msgid "strings.copy_project"
 msgstr "Copier le projet"
@@ -200,7 +200,7 @@ msgid "strings.client_users"
 msgstr "Utilisateurs Client"
 
 msgid "strings.edit_organization"
-msgstr "�diter un client"
+msgstr "Éditer un client"
 
 msgid "strings.add_organization"
 msgstr "Ajouter un client"
@@ -209,10 +209,10 @@ msgid "strings.organizations"
 msgstr "Clients"
 
 msgid "strings.status"
-msgstr "�tat"
+msgstr "État"
 
 msgid "strings.owner"
-msgstr "Propri�taire"
+msgstr "Propriétaire"
 
 msgid "strings.home"
 msgstr "Accueil"
@@ -233,19 +233,19 @@ msgid "strings.project_manager"
 msgstr "Chef de projet"
 
 msgid "strings.task"
-msgstr "T�che"
+msgstr "Tâche"
 
 msgid "strings.tasks"
-msgstr "T�ches"
+msgstr "Tâches"
 
 msgid "strings.team"
-msgstr "�quipe"
+msgstr "Équipe"
 
 msgid "strings.add_team"
-msgstr "Ajouter un membre � l'�quipe"
+msgstr "Ajouter un membre à l'Équipe"
 
 msgid "strings.team_members"
-msgstr "Membres de l'�quipe"
+msgstr "Membres de l'Équipe"
 
 msgid "strings.full_name"
 msgstr "Nom complet"
@@ -257,16 +257,16 @@ msgid "strings.user_name"
 msgstr "Utilisateur"
 
 msgid "strings.work_phone"
-msgstr "T�l�phone Travail"
+msgstr "Téléphone Travail"
 
 msgid "strings.priority"
-msgstr "Priorit�"
+msgstr "Priorité"
 
 msgid "strings.name"
 msgstr "Nom"
 
 msgid "strings.phone"
-msgstr "T�l�phone"
+msgstr "Téléphone"
 
 msgid "strings.address"
 msgstr "Adresse"
@@ -275,28 +275,28 @@ msgid "strings.comments"
 msgstr "Commentaires"
 
 msgid "strings.created"
-msgstr "Cr��"
+msgstr "Crééà"
 
 msgid "strings.assigned"
-msgstr "Assign�e"
+msgstr "Assignée"
 
 msgid "strings.modified"
-msgstr "Modifi�"
+msgstr "Modifià"
 
 msgid "strings.assigned_to"
-msgstr "Assign�e �"
+msgstr "Assignée à"
 
 msgid "strings.due_date"
 msgstr "Date due"
 
 msgid "strings.estimated_time"
-msgstr "Temps estim�"
+msgstr "Temps estimà"
 
 msgid "strings.actual_time"
-msgstr "Temps r�el"
+msgstr "Temps réel"
 
 msgid "strings.delete_following"
-msgstr "Effacer les �l�ments suivants ?"
+msgstr "Effacer les éléments suivants ?"
 
 msgid "strings.cancel"
 msgstr "Annuler"
@@ -308,21 +308,21 @@ msgid "strings.user_management"
 msgstr "Gestion des utilisateurs"
 
 msgid "strings.system_information"
-msgstr "Information Syst�me"
+msgstr "Information Système"
 
 msgid "strings.product_information"
 msgstr "Information Produit"
 
 msgid "strings.system_properties"
-msgstr "Propri�t�s Syst�me"
+msgstr "Propriétés Système"
 
 msgid "strings.create"
-msgstr "Cr�er"
+msgstr "Créer"
 
 msgid "strings.report_save"
 msgstr ""
-"Sauvegarder cette requ�te sur votre page d'accueil pour pouvoir la"
-"lancer � nouveau."
+"Sauvegarder cette requête sur votre page d'accueil pour pouvoir la"
+"lancer à nouveau."
 
 msgid "strings.report_name"
 msgstr "Nom du rapport"
@@ -331,34 +331,34 @@ msgid "strings.save"
 msgstr "Sauvegarder"
 
 msgid "strings.matches"
-msgstr "R�sultats"
+msgstr "Résultats"
 
 msgid "strings.match"
-msgstr "R�sultat"
+msgstr "Résultat"
 
 msgid "strings.report_results"
-msgstr "R�sultats de la requ�te"
+msgstr "Résultats de la requête"
 
 msgid "strings.success"
-msgstr "Succ�s"
+msgstr "Succès"
 
 msgid "strings.addition_succeeded"
-msgstr "Ajout r�ussi"
+msgstr "Ajout réussi"
 
 msgid "strings.deletion_succeeded"
-msgstr "Suppression r�ussie"
+msgstr "Suppression réussie"
 
 msgid "strings.report_created"
-msgstr "Rapport cr��"
+msgstr "Rapport crééà"
 
 msgid "strings.deleted_reports"
-msgstr "Rapport effac�s"
+msgstr "Rapport effacés"
 
 msgid "strings.modification_succeeded"
-msgstr "Modification r�ussie"
+msgstr "Modification réussie"
 
 msgid "strings.errors"
-msgstr "Erreurs trouv�es !"
+msgstr "Erreurs trouvées !"
 
 msgid "strings.blank_user"
 msgstr "Utilisateur introuvable."
@@ -380,7 +380,7 @@ msgstr "Changer le mot de passe utilisateur."
 
 msgid "strings.old_password_error"
 msgstr ""
-"L'ancien mot de passe saisi est incorrect. Veuillez le saisir �"
+"L'ancien mot de passe saisi est incorrect. Veuillez le saisir à"
 "nouveau."
 
 msgid "strings.new_password_error"
@@ -407,10 +407,10 @@ msgid "strings.email"
 msgstr "E-mail"
 
 msgid "strings.home_phone"
-msgstr "T�l�phone domicile"
+msgstr "Téléphone domicile"
 
 msgid "strings.mobile_phone"
-msgstr "T�l�phone portable"
+msgstr "Téléphone portable"
 
 msgid "strings.administrator_permissions"
 msgstr "Permissions Administrateur"
@@ -422,74 +422,74 @@ msgid "strings.user_permissions"
 msgstr "Permissions Utilisateur"
 
 msgid "strings.account_created"
-msgstr "Compte cr��"
+msgstr "Compte crééà"
 
 msgid "strings.edit_user"
-msgstr "�diter l'utilisateur"
+msgstr "Éditer l'utilisateur"
 
 msgid "strings.edit_user_details"
-msgstr "�diter les d�tails du compte utilisateur."
+msgstr "Éditer les détails du compte utilisateur."
 
 msgid "strings.change_user_password"
 msgstr "Changer le mot de passe utilisateur."
 
 msgid "strings.select_permissions"
-msgstr "S�lectionner les permissions pour l'utilisateur."
+msgstr "Sélectionner les permissions pour l'utilisateur."
 
 msgid "strings.add_user"
 msgstr "Ajouter un utilisateur"
 
 msgid "strings.enter_user_details"
-msgstr "Entrer les d�tails pour le nouveau compte utilisateur.."
+msgstr "Entrer les détails pour le nouveau compte utilisateur.."
 
 msgid "strings.enter_password"
 msgstr "Entrer le mot de passe utilisateur."
 
 msgid "strings.success_logout"
 msgstr ""
-"Vous vous �tes d�connect� avec succ�s. Vous pouvez vous"
+"Vous vous êtes déconnectà avec succès. Vous pouvez vous"
 "reconnecter en saisissant votre nom d'utilisateur et votre mot de"
 "passe ci-dessous."
 
 msgid "strings.invalid_login"
 msgstr ""
 "Le nom d'utilisateur et/ou le mot de passe saisi est incorrect."
-"Saisissez � nouveau vos informations de connexion."
+"Saisissez à nouveau vos informations de connexion."
 
 msgid "strings.profile"
 msgstr "Profil"
 
 msgid "strings.user_details"
-msgstr "D�tails du compte utilisateur."
+msgstr "Détails du compte utilisateur."
 
 msgid "strings.edit_user_account"
-msgstr "�diter vos informations."
+msgstr "Éditer vos informations."
 
 msgid "strings.no_permissions"
 msgstr ""
-"Vous n'avez pas les permissions n�cessaires pour effectuer cette"
+"Vous n'avez pas les permissions nécessaires pour effectuer cette"
 "action."
 
 msgid "strings.retired"
-msgstr "Retir�e"
+msgstr "Retirée"
 
 msgid "strings.last_post"
 msgstr "Dernier message"
 
 msgid "strings.post_reply"
-msgstr "Poster une r�ponse"
+msgstr "Poster une réponse"
 
 msgid "strings.posted_by"
-msgstr "Post� par"
+msgstr "Postà par"
 
 msgid "strings.when"
 msgstr "Quand"
 
 msgid "strings.post_to_discussion"
-msgstr "Poster une r�ponse"
+msgstr "Poster une réponse"
 
 msgid "strings.delete_reports"
-msgstr "Effacer des �tats"
+msgstr "Effacer des États"
 
 msgid "strings.delete_projects"
 msgstr "Effacer des projets"
@@ -499,33 +499,33 @@ msgstr "Effacer des clients"
 
 msgid "strings.delete_organizations_note"
 msgstr ""
-"Note: Les utilisateurs de ces clients seront effac�s et les projets"
-"r�-associ�s."
+"Note: Les utilisateurs de ces clients seront effacés et les projets"
+"ré-associés."
 
 msgid "strings.delete_messages"
 msgstr "Effacer les messages"
 
 msgid "strings.delete_teamownermix"
 msgstr ""
-"Suppression r�ussie, mais le propri�taire du projet ne peut pas"
-"�tre supprim� de l'�quipe."
+"Suppression réussie, mais le propriétaire du projet ne peut pas"
+"être supprimé de l'Équipe."
 
 msgid "strings.delete_teamowner"
 msgstr ""
-"Vous ne pouvez pas supprimer le propri�taire du projet de"
-"l'�quipe."
+"Vous ne pouvez pas supprimer le propriétaire du projet de"
+"l'Équipe."
 
 msgid "strings.enter_keywords"
-msgstr "Saisir des mots cl�s"
+msgstr "Saisir des mots clés"
 
 msgid "strings.search_options"
-msgstr "Mots cl�s et options de recherche"
+msgstr "Mots clés et options de recherche"
 
 msgid "strings.search_note"
 msgstr "Vous devez saisir des informations dans le champs de recherche."
 
 msgid "strings.search_results"
-msgstr "R�sultats de recherche"
+msgstr "Résultats de recherche"
 
 msgid "strings.users"
 msgstr "Utilisateurs"
@@ -534,7 +534,7 @@ msgid "strings.search_for"
 msgstr "Rechercher"
 
 msgid "strings.results_for_keywords"
-msgstr "R�sultats de recherche pour le(s) mot(s) cl�(s)"
+msgstr "Résultats de recherche pour le(s) mot(s) clé(s)"
 
 msgid "strings.add_discussion"
 msgstr "Ajouter un sujet"
@@ -543,22 +543,22 @@ msgid "strings.delete_users"
 msgstr "Effacer les comptes utilisateurs"
 
 msgid "strings.reassignment_user"
-msgstr "R�assignation de projet et t�che"
+msgstr "Réassignation de projet et tâche"
 
 msgid "strings.there"
 msgstr "Il y a"
 
 msgid "strings.owned_by"
-msgstr "li�s aux utilisateurs ci-dessus."
+msgstr "liés aux utilisateurs ci-dessus."
 
 msgid "strings.reassign_to"
-msgstr "Avant d'effacer les utilisateurs, r�assigner �"
+msgstr "Avant d'effacer les utilisateurs, réassigner à"
 
 msgid "strings.no_files"
-msgstr "Aucun fichier associ�"
+msgstr "Aucun fichier associé"
 
 msgid "strings.published"
-msgstr "Publi�"
+msgstr "Publié"
 
 msgid "strings.project_site"
 msgstr "Site Projet"
@@ -579,13 +579,13 @@ msgid "strings.more_search"
 msgstr "Plus d'options de recherches"
 
 msgid "strings.results_with"
-msgstr "R�sultats trouv�s avec"
+msgstr "Résultats trouvés avec"
 
 msgid "strings.search_topics"
 msgstr "Sujets de recherche"
 
 msgid "strings.search_properties"
-msgstr "Caract�ristiques de recherche"
+msgstr "Caractéristiques de recherche"
 
 msgid "strings.date_restrictions"
 msgstr "Restrictions de date"
@@ -609,7 +609,7 @@ msgid "strings.any_words"
 msgstr "certains mots"
 
 msgid "strings.exact_match"
-msgstr "recherche pr�cise"
+msgstr "recherche précise"
 
 msgid "strings.all_dates"
 msgstr "Toutes les dates"
@@ -621,13 +621,13 @@ msgid "strings.all_content"
 msgstr "Tout le contenu"
 
 msgid "strings.all_properties"
-msgstr "Toutes les propri�t�s"
+msgstr "Toutes les propriétés"
 
 msgid "strings.no_results_search"
-msgstr "La recherche n'a pas donn� de r�sultats."
+msgstr "La recherche n'a pas donnà de résultats."
 
 msgid "strings.no_results_report"
-msgstr "La recherche n'a pas donn� de r�sultats."
+msgstr "La recherche n'a pas donnà de résultats."
 
 msgid "strings.schema_date"
 msgstr "AAAA/MM/JJ"
@@ -642,29 +642,29 @@ msgid "strings.missing_file"
 msgstr "Fichier absent!"
 
 msgid "strings.project_site_deleted"
-msgstr "Le site projet a �t� effac� avec succ�s."
+msgstr "Le site projet a été effacé avec succès."
 
 msgid "strings.add_user_project_site"
 msgstr ""
-"Les utilisateurs ont �t� autoris�s � acc�der au site projet."
+"Les utilisateurs ont été autorisés à accéder au site projet."
 
 msgid "strings.remove_user_project_site"
-msgstr "Les permissions utilisateurs ont �t� retir�es avec succ�s."
+msgstr "Les permissions utilisateurs ont été retirées avec succès."
 
 msgid "strings.add_project_site_success"
-msgstr "L'ajout au site projet est r�ussi."
+msgstr "L'ajout au site projet est réussi."
 
 msgid "strings.remove_project_site_success"
-msgstr "La suppression du site projet est r�ussie."
+msgstr "La suppression du site projet est réussie."
 
 msgid "strings.add_file_success"
-msgstr "Fichier associ�."
+msgstr "Fichier associé."
 
 msgid "strings.delete_file_success"
-msgstr "Fichier retir�."
+msgstr "Fichier retiré."
 
 msgid "strings.update_comment_file"
-msgstr "Le commentaire du fichier a �t� mis � jour avec succ�s."
+msgstr "Le commentaire du fichier a été mis à jour avec succès."
 
 msgid "strings.session_false"
 msgstr "Erreur de session"
@@ -673,34 +673,34 @@ msgid "strings.logs"
 msgstr "Journal"
 
 msgid "strings.logout_time"
-msgstr "Auto d�connexion"
+msgstr "Auto déconnexion"
 
 msgid "strings.noti_foot1"
-msgstr "Cette notification a �t� g�n�r�e par PhpCollab."
+msgstr "Cette notification a été générée par PhpCollab."
 
 msgid "strings.noti_foot2"
-msgstr "Pour acc�der � la page d'accueil de PhpCollab, visitez :"
+msgstr "Pour accéder à la page d'accueil de PhpCollab, visitez :"
 
 msgid "strings.noti_taskassignment1"
-msgstr "Nouvelle t�che :"
+msgstr "Nouvelle tâche :"
 
 msgid "strings.noti_taskassignment2"
-msgstr "Une t�che vous a �t� assign�e :"
+msgstr "Une tâche vous a été assignée :"
 
 msgid "strings.noti_moreinfo"
 msgstr "Pour plus d'informations, visitez :"
 
 msgid "strings.noti_prioritytaskchange1"
-msgstr "Priorit� d'une t�che modifi�e :"
+msgstr "Priorité d'une tâche modifiée :"
 
 msgid "strings.noti_prioritytaskchange2"
-msgstr "La priorit� de la t�che suivante a �t� modifi�e :"
+msgstr "La priorité de la tâche suivante a été modifiée :"
 
 msgid "strings.noti_statustaskchange1"
-msgstr "�tat d'une t�che modifi� :"
+msgstr "État d'une tâche modifié :"
 
 msgid "strings.noti_statustaskchange2"
-msgstr "L'�tat de la t�che suivante a �t� modifi� :"
+msgstr "L'État de la tâche suivante a été modifié :"
 
 msgid "strings.login_username"
 msgstr "Vous devez saisir un nom d'utilisateur"
@@ -710,22 +710,22 @@ msgstr "Saisissez un mot de passe."
 
 msgid "strings.login_clientuser"
 msgstr ""
-"Il s'agit d'un compte utilisateur client. Vous ne pouvez pas acc�der"
-"� PhpCollab avec ce type de compte."
+"Il s'agit d'un compte utilisateur client. Vous ne pouvez pas accéder"
+"à PhpCollab avec ce type de compte."
 
 msgid "strings.user_already_exists"
 msgstr ""
-"Il y a d�j� un utilisateur avec ce nom. Choisissez un nom"
-"d'utilisateur diff�rent."
+"Il y a déjà un utilisateur avec ce nom. Choisissez un nom"
+"d'utilisateur différent."
 
 msgid "strings.noti_duedatetaskchange1"
-msgstr "Date due d'une t�che modifi�e :"
+msgstr "Date due d'une tâche modifiée :"
 
 msgid "strings.noti_duedatetaskchange2"
-msgstr "La date de livraison de la t�che suivante a �t� modifi�e :"
+msgstr "La date de livraison de la tâche suivante a été modifiée :"
 
 msgid "strings.company"
-msgstr "Soci�t�"
+msgstr "Société"
 
 msgid "strings.show_all"
 msgstr "Montrer tout"
@@ -746,7 +746,7 @@ msgid "strings.bulletin_board_topic"
 msgstr "Sujet de discussion"
 
 msgid "strings.create_topic"
-msgstr "Cr�er un nouveau sujet"
+msgstr "Créer un nouveau sujet"
 
 msgid "strings.topic_form"
 msgstr "Formulaire"
@@ -767,19 +767,19 @@ msgid "strings.approval_comments"
 msgstr "Commentaires d'approbation"
 
 msgid "strings.client_tasks"
-msgstr "T�ches clients"
+msgstr "Tâches clients"
 
 msgid "strings.team_tasks"
-msgstr "T�ches �quipe"
+msgstr "Tâches Équipe"
 
 msgid "strings.team_member_details"
-msgstr "D�tails membre de l'�quipe"
+msgstr "Détails membre de l'Équipe"
 
 msgid "strings.client_task_details"
-msgstr "D�tails t�che client"
+msgstr "Détails tâche client"
 
 msgid "strings.team_task_details"
-msgstr "D�tails t�che membre de l'�quipe"
+msgstr "Détails tâche membre de l'Équipe"
 
 msgid "strings.language"
 msgstr "Langage"
@@ -793,28 +793,28 @@ msgstr "dans votre site projet"
 msgid "strings.contact_projectsite"
 msgstr ""
 "Si vous avez des questions concernant l'extranet ou les informations"
-"indiqu�es sur ce site, contactez le responsable projet"
+"indiquées sur ce site, contactez le responsable projet"
 
 msgid "strings.company_details"
-msgstr "D�tails Soci�t�"
+msgstr "Détails Société"
 
 msgid "strings.database"
 msgstr "Sauvegarde et restauration de la base"
 
 msgid "strings.company_info"
-msgstr "�diter les informations sur votre soci�t�"
+msgstr "Éditer les informations sur votre société"
 
 msgid "strings.create_projectsite"
-msgstr "Cr�er le site projet"
+msgstr "Créer le site projet"
 
 msgid "strings.projectsite_url"
 msgstr "Adresse du site projet"
 
 msgid "strings.design_template"
-msgstr "Mod�le de site"
+msgstr "Modèle de site"
 
 msgid "strings.preview_design_template"
-msgstr "Aper�u du mod�le"
+msgstr "Aperçu du modèle"
 
 msgid "strings.delete_projectsite"
 msgstr "Supprimer le site projet"
@@ -826,28 +826,28 @@ msgid "strings.linked_content"
 msgstr "Fichiers"
 
 msgid "strings.edit_file"
-msgstr "�diter le commentaire du fichier"
+msgstr "Éditer le commentaire du fichier"
 
 msgid "strings.permitted_client"
-msgstr "Utilisateurs client autoris�s"
+msgstr "Utilisateurs client autorisés"
 
 msgid "strings.grant_client"
-msgstr "Attribuer les acc�s au Site Projet"
+msgstr "Attribuer les accès au Site Projet"
 
 msgid "strings.add_client_user"
 msgstr "Ajouter un utilisateur client"
 
 msgid "strings.edit_client_user"
-msgstr "�diter l'utilisateur client"
+msgstr "Éditer l'utilisateur client"
 
 msgid "strings.client_user"
 msgstr "Utilisateur client"
 
 msgid "strings.client_change_status"
-msgstr "Changez l'�tat ci-dessous quand vous avez fini la t�che"
+msgstr "Changez l'État ci-dessous quand vous avez fini la tâche"
 
 msgid "strings.project_status"
-msgstr "�tat du projet"
+msgstr "État du projet"
 
 msgid "strings.view_projectsite"
 msgstr "Voir le site projet"
@@ -861,25 +861,25 @@ msgid "strings.send"
 msgstr "Envoyer"
 
 msgid "strings.no_login"
-msgstr "Nom d'utilisateur non pr�sent"
+msgstr "Nom d'utilisateur non présent"
 
 msgid "strings.email_pwd"
-msgstr "Mot de passe envoy�"
+msgstr "Mot de passe envoyé"
 
 msgid "strings.no_email"
 msgstr "Utilisateur sans e-mail"
 
 msgid "strings.forgot_pwd"
-msgstr "Mot de passe oubli� ?"
+msgstr "Mot de passe oublié ?"
 
 msgid "strings.project_owner"
 msgstr "Vous pouvez faire des changements sur vos propres projets uniquement."
 
 msgid "strings.connected"
-msgstr "Connect�"
+msgstr "Connectà"
 
 msgid "strings.last_visit"
-msgstr "Derni�re visite"
+msgstr "Derniére visite"
 
 msgid "strings.compteur"
 msgstr "Compteur"
@@ -888,18 +888,18 @@ msgid "strings.ip"
 msgstr "IP"
 
 msgid "strings.task_owner"
-msgstr "Vous ne faites pas partie de l'�quipe dans ce projet."
+msgstr "Vous ne faites pas partie de l'Équipe dans ce projet."
 
 msgid "strings.export"
 msgstr "Exporter"
 
 msgid "strings.reassignment_clientuser"
-msgstr "R�assignation de t�che"
+msgstr "Réassignation de tâche"
 
 msgid "strings.organization_already_exists"
 msgstr ""
-"Le nom indiqu� est d�j� en utilis�. Veuillez en sp�cifier un"
-"diff�rent."
+"Le nom indiqué est déjà en utilisà. Veuillez en spécifier un"
+"différent."
 
 msgid "strings.blank_organization_field"
 msgstr "Vous devez indiquer le nom du client."
@@ -911,10 +911,10 @@ msgid "strings.projectsite_login_fails"
 msgstr "L'usager et/ou le mot de passe ne sont pas valides."
 
 msgid "strings.start_date"
-msgstr "Date de d�but"
+msgstr "Date de début"
 
 msgid "strings.completion"
-msgstr "Compl�tion"
+msgstr "Complétion"
 
 msgid "strings.update_available"
 msgstr "Une nouvelle version est disponible!"
@@ -923,13 +923,13 @@ msgid "strings.version_current"
 msgstr "Vous utilisez actuellement la version"
 
 msgid "strings.version_latest"
-msgstr "La derni�re version est la"
+msgstr "La dernière version est la"
 
 msgid "strings.sourceforge_link"
 msgstr "Voir la page projet sur SourceForge"
 
 msgid "strings.demo_mode"
-msgstr "Mode d�mo. Action non autoris��."
+msgstr "Mode démo. Action non autoriséà."
 
 msgid "strings.setup_erase"
 msgstr "Effacez le fichier setup.php!!"
@@ -943,13 +943,13 @@ msgstr ""
 "vous plaît supprimer manuellement."
 
 msgid "strings.no_file"
-msgstr "Pas de fichier s�lectionn�"
+msgstr "Pas de fichier sélectionné"
 
 msgid "strings.exceed_size"
-msgstr "D�passement de la taille maximum"
+msgstr "Dépassement de la taille maximum"
 
 msgid "strings.no_php"
-msgstr "Fichiers Php non autoris�s"
+msgstr "Fichiers Php non autorisés"
 
 msgid "strings.approval_date"
 msgstr "Date d'approbation"
@@ -958,25 +958,25 @@ msgid "strings.approver"
 msgstr "Approbateur"
 
 msgid "strings.error_database"
-msgstr "Connexion impossible � la base de donn�es"
+msgstr "Connexion impossible à la base de données"
 
 msgid "strings.error_server"
-msgstr "Connexion impossible au serveur de base de donn�es"
+msgstr "Connexion impossible au serveur de base de données"
 
 msgid "strings.version_control"
-msgstr "Contr�le de version"
+msgstr "Contrôle de version"
 
 msgid "strings.vc_status"
-msgstr "�tat"
+msgstr "État"
 
 msgid "strings.vc_last_in"
-msgstr "Date de derni�re modification"
+msgstr "Date de dernière modification"
 
 msgid "strings.ifa_comments"
 msgstr "Commentaires d'approbation"
 
 msgid "strings.ifa_command"
-msgstr "Changer l'�tat d'approbation"
+msgstr "Changer l'État d'approbation"
 
 msgid "strings.ifc_revisions"
 msgstr "Critiques"
@@ -988,37 +988,37 @@ msgid "strings.ifc_add_revision"
 msgstr "Ajouter une critique"
 
 msgid "strings.ifc_update_file"
-msgstr "Mettre � jour le fichier"
+msgstr "Mettre à jour le fichier"
 
 msgid "strings.ifc_last_date"
-msgstr "Date de la derni�re modification"
+msgstr "Date de la dernière modification"
 
 msgid "strings.ifc_version_history"
 msgstr "Historique des versions"
 
 msgid "strings.ifc_delete_file"
-msgstr "Effacer le fichier et tous ceux qui lui sont apparent�s"
+msgstr "Effacer le fichier et tous ceux qui lui sont apparentés"
 
 msgid "strings.ifc_delete_version"
-msgstr "Effacer la version s�lectionn�e"
+msgstr "Effacer la version sélectionnée"
 
 msgid "strings.ifc_delete_review"
-msgstr "Effacer la critique s�lectionn�e"
+msgstr "Effacer la critique sélectionnée"
 
 msgid "strings.ifc_no_revisions"
-msgstr "Il n'y a aucune r�vision de ce document en ce moment"
+msgstr "Il n'y a aucune révision de ce document en ce moment"
 
 msgid "strings.unlink_files"
 msgstr "Enlever les fichiers"
 
 msgid "strings.remove_team"
-msgstr "Enlever des �quipiers"
+msgstr "Enlever des àquipiers"
 
 msgid "strings.remove_team_info"
-msgstr "Enlever ces utilisateurs de l'�quipe du projet ?"
+msgstr "Enlever ces utilisateurs de l'Équipe du projet ?"
 
 msgid "strings.remove_team_client"
-msgstr "R�voquer les permissions permettant de visionner le site du projet"
+msgstr "Révoquer les permissions permettant de visionner le site du projet"
 
 msgid "strings.subject"
 msgstr "Sujet"
@@ -1030,13 +1030,13 @@ msgid "strings.add_note"
 msgstr "Ajouter une note"
 
 msgid "strings.edit_note"
-msgstr "�diter une note"
+msgstr "Éditer une note"
 
 msgid "strings.version_increm"
-msgstr "Choisissez l'incr�ment � appliquer :"
+msgstr "Choisissez l'incréément à appliquer :"
 
 msgid "strings.url_dev"
-msgstr "Adresse du site de d�veloppement"
+msgstr "Adresse du site de développement"
 
 msgid "strings.url_prod"
 msgstr "Adresse du site final"
@@ -1045,71 +1045,71 @@ msgid "strings.note_owner"
 msgstr "Vous pouvez modifier uniquement vos notes."
 
 msgid "strings.alpha_only"
-msgstr "Caract�res alpha-num�rique uniquement pour le login"
+msgstr "Caractères alpha-numérique uniquement pour le login"
 
 msgid "strings.edit_notifications"
-msgstr "�diter les notifications par e-mail"
+msgstr "Éditer les notifications par e-mail"
 
 msgid "strings.edit_notifications_info"
 msgstr ""
-"S�lectionnez les �l�ments pour lesquels vous souhaitez recevoir"
+"Sélectionnez les éléments pour lesquels vous souhaitez recevoir"
 "une notification par e-mail."
 
 msgid "strings.select_deselect"
-msgstr "S�lectionner/D�selectionner tout"
+msgstr "Sélectionner/Désélectionner tout"
 
 msgid "strings.noti_addprojectteam1"
-msgstr "Ajout� � l'�quipe du projet:"
+msgstr "Ajouté à l'Équipe du projet:"
 
 msgid "strings.noti_addprojectteam2"
-msgstr "Vous avez �t� ajout� � l'�quipe pour le projet :"
+msgstr "Vous avez été ajouté à l'Équipe pour le projet :"
 
 msgid "strings.noti_removeprojectteam1"
-msgstr "Retir� de l'�quipe projet :"
+msgstr "Retiré de l'Équipe projet :"
 
 msgid "strings.noti_removeprojectteam2"
-msgstr "Vous avez �t� retir� de l'�quipe pour le projet :"
+msgstr "Vous avez été retiré de l'Équipe pour le projet :"
 
 msgid "strings.noti_newpost1"
 msgstr "Nouveau message dans la discussion :"
 
 msgid "strings.noti_newpost2"
-msgstr "Un nouveau message a �t� ajout� dans la discussion suivante :"
+msgstr "Un nouveau message a été ajouté dans la discussion suivante :"
 
 msgid "strings.edit_noti_taskassignment"
-msgstr "J'ai �t� assign� � une nouvelle t�che"
+msgstr "J'ai été assigné à une nouvelle tâche"
 
 msgid "strings.edit_noti_statustaskchange"
-msgstr "L'�tat d'une de mes t�ches a chang�"
+msgstr "L'État d'une de mes tâches a changà"
 
 msgid "strings.edit_noti_prioritytaskchange"
-msgstr "La priorit� d'une de mes t�ches a chang�"
+msgstr "La priorité d'une de mes tâches a changà"
 
 msgid "strings.edit_noti_duedatetaskchange"
-msgstr "La date due d'une de mes t�ches a chang�"
+msgstr "La date due d'une de mes tâches a changà"
 
 msgid "strings.edit_noti_addprojectteam"
-msgstr "J'ai �t� ajout� � une �quipe projet."
+msgstr "J'ai été ajouté à une Équipe projet."
 
 msgid "strings.edit_noti_removeprojectteam"
-msgstr "J'ai �t� retir� d'une �quipe projet."
+msgstr "J'ai été retiré d'une Équipe projet."
 
 msgid "strings.edit_noti_newpost"
 msgstr ""
-"Un nouveau message a �t� ajout� � une discussion dans laquelle"
+"Un nouveau message a été ajouté à une discussion dans laquelle"
 "je participe."
 
 msgid "strings.add_optional"
 msgstr "Ajouter un "
 
 msgid "strings.assignment_comment_info"
-msgstr "Ajoutez des commentaires concernant l'assignation de cette t�che"
+msgstr "Ajoutez des commentaires concernant l'assignation de cette tâche"
 
 msgid "strings.my_notes"
 msgstr "Mes Notes"
 
 msgid "strings.edit_settings"
-msgstr "�diter le fichier des param�tres"
+msgstr "Éditer le fichier des paramètres"
 
 msgid "strings.max_upload"
 msgstr "Taille maximum pour un fichier"
@@ -1121,13 +1121,13 @@ msgid "strings.calendar"
 msgstr "Calendrier"
 
 msgid "strings.date_start"
-msgstr "Date de d�but"
+msgstr "Date de début"
 
 msgid "strings.date_end"
 msgstr "Date de fin"
 
 msgid "strings.time_start"
-msgstr "Heure de d�but"
+msgstr "Heure de début"
 
 msgid "strings.time_end"
 msgstr "Heure de fin"
@@ -1139,27 +1139,27 @@ msgid "strings.shortname"
 msgstr "Etiquette"
 
 msgid "strings.calendar_recurring"
-msgstr "L'�v�nement se r�p�te chaque semaine, ce jour l�"
+msgstr "L'événement se répête chaque semaine, ce jour là"
 
 msgid "strings.edit_database"
-msgstr "�diter la base de donn�es"
+msgstr "Éditer la base de données"
 
 msgid "strings.noti_newtopic1"
 msgstr "Nouvelle discussion :"
 
 msgid "strings.noti_newtopic2"
-msgstr "Une nouvelle discussion a �t� ajout�e au project suivant :"
+msgstr "Une nouvelle discussion a été ajoutée au project suivant :"
 
 msgid "strings.edit_noti_newtopic"
 msgstr ""
-"Une nouvelle discussion a �t� ajout�e au project dont je fais"
+"Une nouvelle discussion a été ajoutée au project dont je fais"
 "partie."
 
 msgid "strings.today"
 msgstr "Aujourd'hui"
 
 msgid "strings.previous"
-msgstr "Pr�c�dent"
+msgstr "Précédent"
 
 msgid "strings.next"
 msgstr "Suivant"
@@ -1168,10 +1168,10 @@ msgid "strings.help"
 msgstr "Aide"
 
 msgid "strings.complete_date"
-msgstr "Date d'ach�vement"
+msgstr "Date d'achèvement"
 
 msgid "strings.scope_creep"
-msgstr "D�passement du temps pr�vu"
+msgstr "Dépassement du temps prévu"
 
 msgid "strings.days"
 msgstr "Jours"
@@ -1181,16 +1181,16 @@ msgstr "Se souvenir du mot de passe"
 
 msgid "strings.client_add_task_note"
 msgstr ""
-"Note: La t�che entr�e est enregistr�e dans la base de donn�e."
-"Elle appara�t cependant ici uniquement si elle a �t� assign�e"
-"� un membre de l'�quipe !"
+"Note: La tâche entrée est enregistrée dans la base de donnée."
+"Elle apparaît cependant ici uniquement si elle a été assignée"
+"à un membre de l'Équipe !"
 
 msgid "strings.noti_clientaddtask1"
-msgstr "T�che ajout�e par un client :"
+msgstr "Tâche ajoutée par un client :"
 
 msgid "strings.noti_clientaddtask2"
 msgstr ""
-"Une t�che a �t� ajout�e par un client � partir du site"
+"Une tâche a été ajoutée par un client à partir du site"
 "projet pour le projet suivant :"
 
 msgid "strings.phase_id"
@@ -1200,10 +1200,10 @@ msgid "strings.current_phase"
 msgstr "Phase(s) active(s)"
 
 msgid "strings.total_tasks"
-msgstr "Nombre total de t�ches"
+msgstr "Nombre total de tâches"
 
 msgid "strings.uncomplete_tasks"
-msgstr "T�ches non termin�es"
+msgstr "Tâches non terminées"
 
 msgid "strings.no_current_phase"
 msgstr "Aucune phase n'est active en ce moment"
@@ -1218,7 +1218,7 @@ msgid "strings.enable_phases"
 msgstr "Activer les phases"
 
 msgid "strings.phase_enabled"
-msgstr "Phase activ�e"
+msgstr "Phase activée"
 
 msgid "strings.order"
 msgstr "Ordre"
@@ -1245,89 +1245,89 @@ msgid "strings.date_open"
 msgstr "Date de la demande"
 
 msgid "strings.date_close"
-msgstr "Date de la r�solution"
+msgstr "Date de la résolution"
 
 msgid "strings.add_support_request"
 msgstr "Ajouter une demande d'assistance"
 
 msgid "strings.add_support_response"
-msgstr "Ajouter une r�ponse"
+msgstr "Ajouter une réponse"
 
 msgid "strings.respond"
-msgstr "R�pondre"
+msgstr "Répondre"
 
 msgid "strings.delete_support_request"
-msgstr "Demande d'assistance effac�e"
+msgstr "Demande d'assistance effacée"
 
 msgid "strings.delete_request"
 msgstr "Effacer la demande d'assistance"
 
 msgid "strings.delete_support_post"
-msgstr "Effacer la r�ponse du service de support"
+msgstr "Effacer la réponse du service de support"
 
 msgid "strings.new_requests"
-msgstr "Nouvelles requ�tes"
+msgstr "Nouvelles requêtes"
 
 msgid "strings.open_requests"
-msgstr "Requ�tes ouvertes"
+msgstr "Requêtes ouvertes"
 
 msgid "strings.closed_requests"
-msgstr "Requ�tes trait�es"
+msgstr "Requêtes traitées"
 
 msgid "strings.manage_new_requests"
-msgstr "G�rer les nouvelles requ�tes"
+msgstr "Gérer les nouvelles requêtes"
 
 msgid "strings.manage_open_requests"
-msgstr "G�rer les requ�tes ouvertes"
+msgstr "Gérer les requêtes ouvertes"
 
 msgid "strings.manage_closed_requests"
-msgstr "G�rer les requ�tes trait�es"
+msgstr "Gérer les requêtes traitées"
 
 msgid "strings.responses"
-msgstr "R�ponses"
+msgstr "Réponses"
 
 msgid "strings.edit_status"
-msgstr "Modifier l'�tat"
+msgstr "Modifier l'État"
 
 msgid "strings.noti_support_request_new2"
-msgstr "Vous venez de soumettre une demande d'assistance � propos de : "
+msgstr "Vous venez de soumettre une demande d'assistance à propos de : "
 
 msgid "strings.noti_support_post2"
 msgstr ""
-"Une nouvelle r�ponse a �t� ajout�e � votre requ�te"
-"d'assistance. Veuillez prendre connaissance des d�tails ci-dessous."
+"Une nouvelle réponse a été ajoutée à votre requête"
+"d'assistance. Veuillez prendre connaissance des détails ci-dessous."
 
 msgid "strings.noti_support_status2"
 msgstr ""
-"Votre requ�te d'assistance a �t� mise � jour. Veuillez prendre"
-"connaissance des d�tails ci-dessous."
+"Votre requête d'assistance a été mise à jour. Veuillez prendre"
+"connaissance des détails ci-dessous."
 
 msgid "strings.noti_support_team_new2"
-msgstr "Une nouvelle requ�te d'assistance a �t� ajout�e au projet : "
+msgstr "Une nouvelle requête d'assistance a été ajoutée au projet : "
 
 msgid "strings.delete_subtasks"
-msgstr "Effacer les sous-t�ches"
+msgstr "Effacer les sous-tâches"
 
 msgid "strings.add_subtask"
-msgstr "Ajouter une sous-t�che"
+msgstr "Ajouter une sous-tâche"
 
 msgid "strings.edit_subtask"
-msgstr "�diter une sous-t�che"
+msgstr "Éditer une sous-tâche"
 
 msgid "strings.subtask"
-msgstr "Sous-t�che"
+msgstr "Sous-tâche"
 
 msgid "strings.subtasks"
-msgstr "Sous-t�ches"
+msgstr "Sous-tâches"
 
 msgid "strings.show_details"
-msgstr "Montrer le d�tail"
+msgstr "Montrer le détail"
 
 msgid "strings.updates_task"
-msgstr "Historique des mises � jour de la t�che"
+msgstr "Historique des mises à jour de la tâche"
 
 msgid "strings.updates_subtask"
-msgstr "Historique des mises � jour de la sous-t�che"
+msgstr "Historique des mises à jour de la sous-tâche"
 
 msgid "strings.go_projects_site"
 msgstr "Aller au site des projets"
@@ -1339,10 +1339,10 @@ msgid "strings.bookmarks"
 msgstr "Signets"
 
 msgid "strings.bookmark_category"
-msgstr "Cat�gorie"
+msgstr "Catégorie"
 
 msgid "strings.bookmark_category_new"
-msgstr "Nouvelle cat�gorie"
+msgstr "Nouvelle catégorie"
 
 msgid "strings.bookmarks_all"
 msgstr "Tout"
@@ -1354,36 +1354,36 @@ msgid "strings.my"
 msgstr "Mes"
 
 msgid "strings.bookmarks_private"
-msgstr "Priv�"
+msgstr "Privà"
 
 msgid "strings.shared"
-msgstr "Partag�"
+msgstr "Partagà"
 
 msgid "strings.private"
-msgstr "Priv�"
+msgstr "Privà"
 
 msgid "strings.add_bookmark"
 msgstr "Ajouter un signet"
 
 msgid "strings.edit_bookmark"
-msgstr "�diter un signet"
+msgstr "Éditer un signet"
 
 msgid "strings.delete_bookmarks"
 msgstr "Effacer un signet"
 
 msgid "strings.team_subtask_details"
-msgstr "D�tails des sous-t�ches d'une �quipe"
+msgstr "Détails des sous-tâches d'une Équipe"
 
 msgid "strings.client_subtask_details"
-msgstr "D�tails des sous-t�ches d'un client"
+msgstr "Détails des sous-tâches d'un client"
 
 msgid "strings.client_change_status_subtask"
 msgstr ""
-"Changez votre �tat ci-dessous apr�s avoir termin� cette"
-"sous-t�che"
+"Changez votre État ci-dessous après avoir terminé cette"
+"sous-tâche"
 
 msgid "strings.disabled_permissions"
-msgstr "D�sactiver le compte"
+msgstr "Désactiver le compte"
 
 msgid "strings.user_timezone"
 msgstr "Fuseau horaire (GMT)"
@@ -1398,7 +1398,7 @@ msgid "strings.report"
 msgstr "Rapport"
 
 msgid "strings.settings_notwritable"
-msgstr "Le fichier settings.php n'est pas accessible en �criture"
+msgstr "Le fichier settings.php n'est pas accessible en àcriture"
 
 msgid "strings.invoicing"
 msgstr "Facturation"
@@ -1431,28 +1431,28 @@ msgid "strings.tax_amount"
 msgstr "TVA"
 
 msgid "strings.invoice_items"
-msgstr "D�tail facturation"
+msgstr "Détail facturation"
 
 msgid "strings.amount_ex_tax"
 msgstr "Prix HT"
 
 msgid "strings.completed"
-msgstr "Termin�"
+msgstr "Terminé"
 
 msgid "strings.name_print"
-msgstr "Nom affich�"
+msgstr "Nom affichà"
 
 msgid "strings.edit_invoice"
 msgstr "Modifier une facture"
 
 msgid "strings.edit_invoiceitem"
-msgstr "Modifier une d�signation"
+msgstr "Modifier une désignation"
 
 msgid "strings.calculation"
 msgstr "Calcul"
 
 msgid "strings.items"
-msgstr "D�signation"
+msgstr "Désignation"
 
 msgid "strings.service_management"
 msgstr "Gestion de services"
@@ -1470,7 +1470,7 @@ msgid "strings.delete_services"
 msgstr "Effacer des services"
 
 msgid "strings.worked_hours"
-msgstr "Heures travaill�es"
+msgstr "Heures travaillées"
 
 msgid "strings.rate_type"
 msgstr "Type de taux"
@@ -1479,10 +1479,10 @@ msgid "strings.rate_value"
 msgstr "Valeur de taux"
 
 msgid "strings.note_invoice_items_notcompleted"
-msgstr "Les d�signations ne sont pas toutes compl�t�es"
+msgstr "Les désignations ne sont pas toutes complétées"
 
 msgid "strings.newsdesk"
-msgstr "Actualit�s"
+msgstr "Actualités"
 
 msgid "strings.newsdesk_list"
 msgstr "Liste des articles"
@@ -1491,27 +1491,27 @@ msgid "strings.article_newsdesk"
 msgstr "Corps de l'article"
 
 msgid "strings.update_newsdesk"
-msgstr "Actualit� mise � jour"
+msgstr "Actualité mise à jour"
 
 msgid "strings.my_newsdesk"
-msgstr "Mon Actualit�"
+msgstr "Mon Actualité"
 
 msgid "strings.edit_newsdesk"
-msgstr "�diter une actualit�"
+msgstr "Éditer une actualité"
 
 msgid "strings.copy_newsdesk"
-msgstr "Copier une actualit�"
+msgstr "Copier une actualité"
 
 msgid "strings.add_newsdesk"
-msgstr "Ajouter une actualit�"
+msgstr "Ajouter une actualité"
 
 msgid "strings.del_newsdesk"
-msgstr "Supprimer des actualit�s"
+msgstr "Supprimer des actualités"
 
 msgid "strings.delete_news_note"
 msgstr ""
-"Note : Cette op�ration d�truira aussi tous les commentaires"
-"associ�s"
+"Note : Cette opération détruira aussi tous les commentaires"
+"associés"
 
 msgid "strings.author"
 msgstr "Auteur"
@@ -1520,14 +1520,14 @@ msgid "strings.blank_newsdesk_title"
 msgstr "Pas de titre saisi"
 
 msgid "strings.blank_newsdesk"
-msgstr "L'actualit� n'a pas �t� trouv�e."
+msgstr "L'actualité n'a pas été trouvée."
 
 msgid "strings.blank_newsdesk_comment"
 msgstr "Pas de commentaire saisi"
 
 msgid "strings.remove_newsdesk"
 msgstr ""
-"Les actualit�s ont �t� supprim�es avec succ�s ainsi que"
+"Les actualités ont été supprimées avec succès ainsi que"
 "leurs commentaires"
 
 msgid "strings.add_newsdesk_comment"
@@ -1540,42 +1540,42 @@ msgid "strings.del_newsdesk_comment"
 msgstr "Supprimer les commentaires"
 
 msgid "strings.remove_newsdesk_comment"
-msgstr "Le commentaire a �t� supprim� avec succ�s"
+msgstr "Le commentaire a été supprimé avec succès"
 
 msgid "strings.errorpermission_newsdesk"
 msgstr ""
-"Vous n'avez les permissions n�cessaires pour modifier ou supprimer"
-"cette actualit�"
+"Vous n'avez les permissions nécessaires pour modifier ou supprimer"
+"cette actualité"
 
 msgid "strings.errorpermission_newsdesk_comment"
 msgstr ""
-"Vous n'avez les permissions n�cessaires pour modifier ou supprimer"
+"Vous n'avez les permissions nécessaires pour modifier ou supprimer"
 "ce commentaire"
 
 msgid "strings.newsdesk_related"
-msgstr "Projet Associ�"
+msgstr "Projet Associé"
 
 msgid "strings.newsdesk_related_generic"
-msgstr "Information g�n�rale (pas de projet associ�)"
+msgstr "Information générale (pas de projet associé)"
 
 msgid "strings.newsdesk_related_links"
-msgstr "Lien associ�"
+msgstr "Lien associé"
 
 msgid "strings.newsdesk_rss"
 msgstr "Autoriser la syndication RSS"
 
 msgid "strings.newsdesk_rss_enabled"
-msgstr "Syndication RSS autoris�e"
+msgstr "Syndication RSS autorisée"
 
 msgid "strings.noti_memberactivation1"
-msgstr "Compte activ�"
+msgstr "Compte activé"
 
 msgid "strings.noti_memberactivation2"
 msgstr ""
-"Vous avez �t� ajout� comme client au syst�me de Suivi de"
-"projet phpCollab. Ce syst�me a �t� mis en place et est soutenu"
-"pour vous aider � suivre l'�volution de votre projet. Pour"
-"utiliser l'outil, allez � l'adresse suivante  avec votre navigateur"
+"Vous avez été ajouté comme client au système de Suivi de"
+"projet phpCollab. Ce système a été mis en place et est soutenu"
+"pour vous aider à suivre l'Évolution de votre projet. Pour"
+"utiliser l'outil, allez à l'adresse suivante  avec votre navigateur"
 "et utilisez les codes suivants : "
 
 msgid "strings.noti_memberactivation3"
@@ -1586,42 +1586,42 @@ msgstr "Mot de passe :"
 
 msgid "strings.noti_memberactivation5"
 msgstr ""
-"Une fois ces informations saisies et le formulaire valid� par le"
-"bouton \"Connexion\" vous acc�derez � votre compte. Par la suite,"
+"Une fois ces informations saisies et le formulaire validé par le"
+"bouton \"Connexion\" vous accéderez à votre compte. Par la suite,"
 "vous recevrez par messagerie de nouveaux messages concernant les"
-"diff�rentes t�ches relatives � vos projets. Ces messages vous"
-"seront envoy�s pour vous tenir inform� de l'�volution de votre"
+"différentes tâches relatives à vos projets. Ces messages vous"
+"seront envoyés pour vous tenir informà de l'Évolution de votre"
 "projet."
 
 msgid "strings.email_users"
-msgstr "Envoyer un message �lectronique"
+msgstr "Envoyer un message àlectronique"
 
 msgid "strings.email_following"
 msgstr "Destinataire"
 
 msgid "strings.email_sent"
-msgstr "Votre message � �t� envoy� avec succ�s."
+msgstr "Votre message à été envoyé avec succès."
 
 msgid "strings.clients_connected"
 msgstr "(client sur le site projet)"
 
 msgid "strings.Total_Hours_Worked"
-msgstr "Nombre total d'heures travaill�es"
+msgstr "Nombre total d'heures travaillées"
 
 msgid "strings.Pct_Complete"
 msgstr "Pct Complet"
 
 msgid "strings.noti_filepost1"
-msgstr "Nouveau fichier t�l�charg� sur l'Intranet"
+msgstr "Nouveau fichier téléchargé sur l'Intranet"
 
 msgid "strings.noti_filepost2"
-msgstr "Un nouveau fichier a �t� t�l�charg� pour le projet :"
+msgstr "Un nouveau fichier a été téléchargé pour le projet :"
 
 msgid "strings.noti_newfile1"
-msgstr "Nouveau fichier t�l�charg� sur l'Intranet"
+msgstr "Nouveau fichier téléchargé sur l'Intranet"
 
 msgid "strings.noti_newfile2"
-msgstr "Un nouveau fichier a �t� t�l�charg� pour le projet :"
+msgstr "Un nouveau fichier a été téléchargé pour le projet :"
 
 msgid "strings.location"
 msgstr "Lieu"
@@ -1630,13 +1630,13 @@ msgid "strings.calendar_broadcast"
 msgstr "Diffusion globale"
 
 msgid "strings.edit_noti_clientaddtask"
-msgstr "Une t�che a �t� ajout�e par un client."
+msgstr "Une tâche a été ajoutée par un client."
 
 msgid "strings.edit_noti_uploadfile"
-msgstr "Un fichier associ� a �t� ajout�."
+msgstr "Un fichier associé a été ajouté."
 
 msgid "strings.my_subtasks"
-msgstr "Mes Soust�ches"
+msgstr "Mes Soustâches"
 
 
 # Enum values (status, priority, etc.)
@@ -1652,7 +1652,7 @@ msgstr "Complet"
 
 #. Domain: enums
 msgid "status.2"
-msgstr "Non commenc�"
+msgstr "Non commencà"
 
 #. Domain: enums
 msgid "status.3"
@@ -1680,7 +1680,7 @@ msgstr "Utilisateur Client"
 
 #. Domain: enums
 msgid "profil.4"
-msgstr "D�sactiv�"
+msgstr "Désactivé"
 
 #. Domain: enums
 msgid "profil.5"
@@ -1692,7 +1692,7 @@ msgstr "Vide"
 
 #. Domain: enums
 msgid "priority.1"
-msgstr "Tr�s faible"
+msgstr "Très faible"
 
 #. Domain: enums
 msgid "priority.2"
@@ -1704,15 +1704,15 @@ msgstr "Moyenne"
 
 #. Domain: enums
 msgid "priority.4"
-msgstr "�lev�e"
+msgstr "àlevée"
 
 #. Domain: enums
 msgid "priority.5"
-msgstr "Tr�s �lev�e"
+msgstr "Très àlevée"
 
 #. Domain: enums
 msgid "statusTopic.0"
-msgstr "Ferm�"
+msgstr "Fermé"
 
 #. Domain: enums
 msgid "statusTopic.1"
@@ -1736,11 +1736,11 @@ msgstr "Non"
 
 #. Domain: enums
 msgid "statusFile.0"
-msgstr "Approuv�"
+msgstr "Approuvà"
 
 #. Domain: enums
 msgid "statusFile.1"
-msgstr "Approuv� avec changements"
+msgstr "Approuvà avec changements"
 
 #. Domain: enums
 msgid "statusFile.2"
@@ -1748,15 +1748,15 @@ msgstr "Approbation requise"
 
 #. Domain: enums
 msgid "statusFile.3"
-msgstr "Aucune approbation n�cessaire"
+msgstr "Aucune approbation nécessaire"
 
 #. Domain: enums
 msgid "statusFile.4"
-msgstr "Non approuv�"
+msgstr "Non approuvà"
 
 #. Domain: enums
 msgid "phaseStatus.0"
-msgstr "Non commenc�"
+msgstr "Non commencà"
 
 #. Domain: enums
 msgid "phaseStatus.1"
@@ -1822,7 +1822,7 @@ msgid "monthname.1"
 msgstr "janvier"
 
 msgid "monthname.2"
-msgstr "f�vrier"
+msgstr "février"
 
 msgid "monthname.3"
 msgstr "mars"
@@ -1840,7 +1840,7 @@ msgid "monthname.7"
 msgstr "juillet"
 
 msgid "monthname.8"
-msgstr "ao�t"
+msgstr "août"
 
 msgid "monthname.9"
 msgstr "septembre"
@@ -1852,5 +1852,5 @@ msgid "monthname.11"
 msgstr "novembre"
 
 msgid "monthname.12"
-msgstr "d�cembre"
+msgstr "décembre"
 
