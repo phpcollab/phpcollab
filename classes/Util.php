@@ -192,18 +192,25 @@ class Util
      * @param string $formPassword User name password to test
      * @param string $storedPassword Password stored in database
      * @param string $loginMethod
+     * @param AppConfig|null $appConfig Application configuration (optional for BC)
      * @return bool
      * @access public
      *
      */
-    public static function doesPasswordMatch($formUsername, $formPassword, $storedPassword, $loginMethod = "crypt")
+    public static function doesPasswordMatch($formUsername, $formPassword, $storedPassword, $loginMethod = "crypt", AppConfig $appConfig = null)
     {
-        if (self::$useLDAP == "true") {
+        // ✅ Support DI while maintaining backward compatibility
+        if ($appConfig === null) {
+            $appConfig = AppConfig::fromGlobals();
+        }
+
+        if ($appConfig->isUseLDAP()) {
             if ($formUsername == "admin") {
                 return self::passwordMatch($formPassword, $storedPassword, $loginMethod);
             }
-            $conn = ldap_connect(self::$configLDAP[ldapserver]);
-            $sr = ldap_search($conn, self::$configLDAP[searchroot], "uid=$formUsername");
+            $configLDAP = $appConfig->getConfigLDAP();
+            $conn = ldap_connect($configLDAP['ldapserver']);
+            $sr = ldap_search($conn, $configLDAP['searchroot'], "uid=$formUsername");
             $info = ldap_get_entries($conn, $sr);
             $user_dn = $info[0]["dn"];
             try {
@@ -307,14 +314,21 @@ class Util
      * Move a file in a new destination
      * @param string $source Current path of file
      * @param string $dest New path of file
+     * @param AppConfig|null $appConfig Application configuration (optional for BC)
      * @access public
      **/
-    public static function moveFile($source, $dest)
+    public static function moveFile($source, $dest, AppConfig $appConfig = null)
     {
-        if ($GLOBALS["mkdirMethod"] == "FTP") {
+        // ✅ Support DI while maintaining backward compatibility
+        if ($appConfig === null) {
+            $appConfig = AppConfig::fromGlobals();
+        }
+
+        if ($appConfig->getMkdirMethod() == "FTP") {
             $ftp = ftp_connect(FTPSERVER);
             ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
-            ftp_rename($ftp, $GLOBALS["ftpRoot"] . "/" . $source, $GLOBALS["ftpRoot"] . "/" . $dest);
+            $ftpRoot = $appConfig->getFtpRoot();
+            ftp_rename($ftp, $ftpRoot . "/" . $source, $ftpRoot . "/" . $dest);
             ftp_quit($ftp);
         } else {
             copy("../" . $source, "../" . $dest);
@@ -324,14 +338,21 @@ class Util
     /**
      * Delete a file with a specified path
      * @param string $source Path of file
+     * @param AppConfig|null $appConfig Application configuration (optional for BC)
      * @access public
      **/
-    public static function deleteFile($source)
+    public static function deleteFile($source, AppConfig $appConfig = null)
     {
-        if ($GLOBALS["mkdirMethod"] == "FTP") {
+        // ✅ Support DI while maintaining backward compatibility
+        if ($appConfig === null) {
+            $appConfig = AppConfig::fromGlobals();
+        }
+
+        if ($appConfig->getMkdirMethod() == "FTP") {
             $ftp = ftp_connect(FTPSERVER);
             ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
-            ftp_delete($ftp, $GLOBALS["ftpRoot"] . "/" . $source);
+            $ftpRoot = $appConfig->getFtpRoot();
+            ftp_delete($ftp, $ftpRoot . "/" . $source);
             ftp_quit($ftp);
         } else {
             unlink("../" . $source);
@@ -343,10 +364,16 @@ class Util
      * @param string $path Path of original file
      * @param string $source Temp file
      * @param string $dest Destination path
+     * @param AppConfig|null $appConfig Application configuration (optional for BC)
      * @access public
      **/
-    public static function uploadFile($path, $source, $dest)
+    public static function uploadFile($path, $source, $dest, AppConfig $appConfig = null)
     {
+        // ✅ Support DI while maintaining backward compatibility
+        if ($appConfig === null) {
+            $appConfig = AppConfig::fromGlobals();
+        }
+
         $pathNew = "../{$path}";
 
         try {
@@ -354,15 +381,15 @@ class Util
                 # if there is no project dir first create it
                 $path_info = pathinfo($path);
                 if ($path != APP_ROOT . '/files/' . $path_info['basename']) {
-                    Util::createDirectory($path_info['dirname']);
-                    Util::createDirectory($path);
+                    Util::createDirectory($path_info['dirname'], $appConfig);
+                    Util::createDirectory($path, $appConfig);
                 } else {
-                    Util::createDirectory($path);
+                    Util::createDirectory($path, $appConfig);
                 }
             }
 
 
-            if ($GLOBALS["mkdirMethod"] == "FTP") {
+            if ($appConfig->getMkdirMethod() == "FTP") {
                 $ftp = ftp_connect(FTPSERVER);
                 ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
                 ftp_chdir($ftp, $pathNew);
@@ -379,15 +406,22 @@ class Util
     /**
      * Folder creation
      * @param string $path Path to the new directory
+     * @param AppConfig|null $appConfig Application configuration (optional for BC)
      * @access public
      *
      * @return mixed
      */
-    public static function createDirectory($path)
+    public static function createDirectory($path, AppConfig $appConfig = null)
     {
-        if ($GLOBALS["mkdirMethod"] == "FTP") {
+        // ✅ Support DI while maintaining backward compatibility
+        if ($appConfig === null) {
+            $appConfig = AppConfig::fromGlobals();
+        }
+
+        if ($appConfig->getMkdirMethod() == "FTP") {
             try {
-                $pathNew = $GLOBALS["ftpRoot"] . "/" . $path;
+                $ftpRoot = $appConfig->getFtpRoot();
+                $pathNew = $ftpRoot . "/" . $path;
                 $ftp = ftp_connect(FTPSERVER);
                 ftp_login($ftp, FTPLOGIN, FTPPASSWORD);
                 ftp_mkdir($ftp, $pathNew);
@@ -398,7 +432,7 @@ class Util
             }
         }
 
-        if ($GLOBALS["mkdirMethod"] == "PHP") {
+        if ($appConfig->getMkdirMethod() == "PHP") {
             try {
                 if (!file_exists("../{$path}")) {
                     mkdir("../{$path}", 0755);
@@ -568,13 +602,19 @@ class Util
      * Displat date according to timezone (if timezone enabled)
      * @param string $storedDate Date stored in database
      * @param string $gmtUser User timezone
+     * @param AppConfig|null $appConfig Application configuration (optional for BC)
      * @access public
      *
      * @return false|string
      */
-    public static function createDate($storedDate, $gmtUser)
+    public static function createDate($storedDate, $gmtUser, AppConfig $appConfig = null)
     {
-        if (self::$gmtTimezone == "true") {
+        // ✅ Support DI while maintaining backward compatibility
+        if ($appConfig === null) {
+            $appConfig = AppConfig::fromGlobals();
+        }
+
+        if ($appConfig->getGmtTimezone() == "true") {
             if ($storedDate != "") {
                 $extractHour = substr("$storedDate", 11, 2);
                 $extractMinute = substr("$storedDate", 14, 2);
@@ -593,13 +633,19 @@ class Util
     /**
      * Convert insert data value in form
      * @param string $data Data to convert
+     * @param AppConfig|null $appConfig Application configuration (optional for BC)
      * @access public
      *
      * @return mixed|string
      */
-    public static function convertData($data)
+    public static function convertData($data, AppConfig $appConfig = null)
     {
-        if (self::$databaseType == "sqlserver") {
+        // ✅ Support DI while maintaining backward compatibility
+        if ($appConfig === null) {
+            $appConfig = AppConfig::fromGlobals();
+        }
+
+        if ($appConfig->getDatabaseType() == "sqlserver") {
             $data = str_replace('"', '&quot;', $data);
             $data = str_replace("'", '&#39;', $data);
             $data = str_replace('<', '&lt;', $data);
