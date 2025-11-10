@@ -6,41 +6,46 @@ use Exception;
 use InvalidArgumentException;
 use Monolog\Logger;
 use phpCollab\AppConfig;
-use phpCollab\Database;
 use phpCollab\Notification;
-use phpCollab\RequestData;
 use phpCollab\Util;
 
 /**
  * Class Members
+ *
+ * Service layer for member management.
+ * Handles business logic, validation, and notifications.
+ * All data access is delegated to MembersRepositoryInterface.
+ *
  * @package phpCollab\Members
  */
 class Members
 {
-    protected $members_gateway;
-    protected $db;
-    protected $appConfig;
-    protected $logger;
-    protected $notification;
+    protected MembersRepositoryInterface $repository;
+    protected AppConfig $appConfig;
+    protected Logger $logger;
+    protected Notification $notification;
 
     /**
      * Members constructor.
      *
-     * Uses pure constructor injection - all dependencies are explicitly declared.
+     * Uses pure constructor injection with Repository Pattern.
+     * Now depends on MembersRepositoryInterface instead of Gateway directly.
      *
-     * @param Database $database Database connection
+     * @param MembersRepositoryInterface $repository Repository for member data access
      * @param Logger $logger Logger for recording member operations
      * @param Notification $notification Service for sending member-related notifications
      * @param AppConfig $appConfig Application configuration
-     * @param RequestData $requestData Request data for gateway
      */
-    public function __construct(Database $database, Logger $logger, Notification $notification, AppConfig $appConfig, RequestData $requestData)
-    {
+    public function __construct(
+        MembersRepositoryInterface $repository,
+        Logger $logger,
+        Notification $notification,
+        AppConfig $appConfig
+    ) {
+        $this->repository = $repository;
         $this->logger = $logger;
-        $this->db = $database;
         $this->notification = $notification;
         $this->appConfig = $appConfig;
-        $this->members_gateway = new MembersGateway($this->db, $requestData);
     }
 
     /**
@@ -50,7 +55,7 @@ class Members
     public function getMemberByLogin($memberLogin)
     {
         $this->logger->info('Members', ['Method' => 'getMemberByLogin', 'memberLogin' => $memberLogin]);
-        return $this->members_gateway->getMemberByLogin($memberLogin);
+        return $this->repository->findByLogin($memberLogin);
     }
 
     /**
@@ -60,15 +65,7 @@ class Members
      */
     public function checkIfMemberExists($memberLogin, $memberLoginOld = null): bool
     {
-        $memberLoginOld = (is_null($memberLoginOld)) ? '' : $memberLoginOld;
-
-        $data = $this->members_gateway->checkMemberExists($memberLogin, $memberLoginOld);
-
-        if (empty($data)) {
-            return false;
-        } else {
-            return true;
-        }
+        return $this->repository->exists($memberLogin, $memberLoginOld);
     }
 
     /**
@@ -78,8 +75,7 @@ class Members
     public function getMemberById($memberId)
     {
         $memberId = filter_var($memberId, FILTER_VALIDATE_INT);
-
-        return $this->members_gateway->getMemberById($memberId);
+        return $this->repository->findById($memberId);
     }
 
     /**
@@ -92,7 +88,7 @@ class Members
         if (empty($memberIds)) {
             throw new InvalidArgumentException('No member ID(s) provided.');
         }
-        return $this->members_gateway->getNonClientMembersNotIn($memberIds);
+        return $this->repository->findNonClientMembersExcept($memberIds);
 
     }
 
@@ -104,7 +100,7 @@ class Members
     public function getMembersByIdIn($memberIds, $sorting = null)
     {
         $memberIds = filter_var($memberIds, FILTER_SANITIZE_STRING);
-        return $this->members_gateway->getMembersIn($memberIds, $sorting);
+        return $this->repository->findByIds($memberIds, $sorting);
     }
 
     /**
@@ -116,7 +112,7 @@ class Members
     public function getMembersByProfileIn($memberIds, $excludeId = null, $sorting = null)
     {
         $memberIds = filter_var($memberIds, FILTER_SANITIZE_STRING);
-        return $this->members_gateway->getMembersByProfileIn($memberIds, $excludeId, $sorting);
+        return $this->repository->findByProfiles($memberIds, $excludeId, $sorting);
     }
 
     /**
@@ -129,7 +125,7 @@ class Members
         $orgId = filter_var($orgId, FILTER_VALIDATE_INT);
         $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
 
-        return $this->members_gateway->getAllByOrg($orgId, $sorting);
+        return $this->repository->findByOrganization($orgId, $sorting);
     }
 
     /**
@@ -144,7 +140,7 @@ class Members
         $membersTeam = filter_var($membersTeam, FILTER_SANITIZE_STRING);
         $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
 
-        return $this->members_gateway->getClientMembersByOrgIdAndNotInTeam($orgId, $membersTeam, $sorting);
+        return $this->repository->findClientMembersByOrgNotInTeam($orgId, $membersTeam, $sorting);
     }
 
     /**
@@ -183,25 +179,26 @@ class Members
     ) {
         if (empty($login) || empty($name) || empty($emailWork) || empty($password)) {
             throw new Exception('Invalid member id, login, name, or email');
-        } else {
-            $login = filter_var($login, FILTER_SANITIZE_STRING);
-            $name = filter_var($name, FILTER_SANITIZE_STRING);
-            $emailWork = filter_var($emailWork, FILTER_SANITIZE_STRING);
-            $password = filter_var($password, FILTER_SANITIZE_STRING);
-            $profile = filter_var($profile, FILTER_SANITIZE_STRING);
-            $created = filter_var($created, FILTER_SANITIZE_STRING);
-            $organization = filter_var($organization, FILTER_SANITIZE_STRING);
-            $title = filter_var($title, FILTER_SANITIZE_STRING);
-            $phoneWork = filter_var($phoneWork, FILTER_SANITIZE_STRING);
-            $phoneHome = filter_var($phoneHome, FILTER_SANITIZE_STRING);
-            $phoneMobile = filter_var($phoneMobile, FILTER_SANITIZE_STRING);
-            $fax = filter_var($fax, FILTER_SANITIZE_STRING);
-            $comments = filter_var($comments, FILTER_SANITIZE_STRING);
-            $timezone = filter_var($timezone, FILTER_SANITIZE_STRING);
-
-            return $this->members_gateway->addMember($login, $name, $title, $organization, $emailWork, $phoneWork,
-                $phoneHome, $phoneMobile, $fax, $comments, $password, $profile, $created, $timezone);
         }
+
+        $data = [
+            'login' => filter_var($login, FILTER_SANITIZE_STRING),
+            'name' => filter_var($name, FILTER_SANITIZE_STRING),
+            'email_work' => filter_var($emailWork, FILTER_SANITIZE_STRING),
+            'password' => filter_var($password, FILTER_SANITIZE_STRING),
+            'profil' => filter_var($profile, FILTER_SANITIZE_STRING),
+            'created' => filter_var($created, FILTER_SANITIZE_STRING),
+            'organization' => filter_var($organization, FILTER_SANITIZE_STRING),
+            'title' => filter_var($title, FILTER_SANITIZE_STRING),
+            'phone_work' => filter_var($phoneWork, FILTER_SANITIZE_STRING),
+            'phone_home' => filter_var($phoneHome, FILTER_SANITIZE_STRING),
+            'mobile' => filter_var($phoneMobile, FILTER_SANITIZE_STRING),
+            'fax' => filter_var($fax, FILTER_SANITIZE_STRING),
+            'comments' => filter_var($comments, FILTER_SANITIZE_STRING),
+            'timezone' => filter_var($timezone, FILTER_SANITIZE_STRING),
+        ];
+
+        return $this->repository->create($data);
     }
 
     /**
@@ -238,23 +235,25 @@ class Members
     ) {
         if (empty($memberId) || empty($login) || empty($name) || empty($emailWork)) {
             throw new Exception('Invalid member id, login, name, or email');
-        } else {
-
-            $login = filter_var($login, FILTER_SANITIZE_STRING);
-            $name = filter_var($name, FILTER_SANITIZE_STRING);
-            $organization = filter_var($organization, FILTER_SANITIZE_STRING);
-            $title = filter_var($title, FILTER_SANITIZE_STRING);
-            $emailWork = filter_var($emailWork, FILTER_SANITIZE_STRING);
-            $phoneWork = filter_var($phoneWork, FILTER_SANITIZE_STRING);
-            $phoneHome = filter_var($phoneHome, FILTER_SANITIZE_STRING);
-            $phoneMobile = filter_var($phoneMobile, FILTER_SANITIZE_STRING);
-            $fax = filter_var($fax, FILTER_SANITIZE_STRING);
-            $comments = filter_var($comments, FILTER_SANITIZE_STRING);
-            $lastPage = filter_var($lastPage, FILTER_SANITIZE_STRING);
-
-            return $this->members_gateway->updateMember($memberId, $login, $name, $title, $organization, $emailWork,
-                $phoneWork, $phoneHome, $phoneMobile, $fax, $lastPage, $comments, $profile);
         }
+
+        $data = [
+            'login' => filter_var($login, FILTER_SANITIZE_STRING),
+            'name' => filter_var($name, FILTER_SANITIZE_STRING),
+            'organization' => filter_var($organization, FILTER_SANITIZE_STRING),
+            'title' => filter_var($title, FILTER_SANITIZE_STRING),
+            'email_work' => filter_var($emailWork, FILTER_SANITIZE_STRING),
+            'phone_work' => filter_var($phoneWork, FILTER_SANITIZE_STRING),
+            'phone_home' => filter_var($phoneHome, FILTER_SANITIZE_STRING),
+            'mobile' => filter_var($phoneMobile, FILTER_SANITIZE_STRING),
+            'fax' => filter_var($fax, FILTER_SANITIZE_STRING),
+            'comments' => filter_var($comments, FILTER_SANITIZE_STRING),
+            'last_page' => filter_var($lastPage, FILTER_SANITIZE_STRING),
+            'profil' => $profile,
+        ];
+
+        $this->repository->update($memberId, $data);
+        return true;
     }
 
     /**
@@ -270,7 +269,7 @@ class Members
         } else {
             $memberId = filter_var((int)$memberId, FILTER_VALIDATE_INT);
             $password = Util::getPassword($password);
-            return $this->members_gateway->setPassword($memberId, $password);
+            return $this->repository->updatePassword($memberId, $password);
         }
     }
 
@@ -280,7 +279,7 @@ class Members
      */
     public function getAllMembers($sorting = null)
     {
-        return $this->members_gateway->getAllMembers($sorting);
+        return $this->repository->findAll($sorting);
     }
 
     /**
@@ -289,7 +288,7 @@ class Members
      */
     public function getNonClientMembers($sorting = null)
     {
-        return $this->members_gateway->getNonClientMembers($sorting);
+        return $this->repository->findNonClientMembers($sorting);
     }
 
     /**
@@ -298,7 +297,7 @@ class Members
      */
     public function getNonManagementMembers($sorting = null)
     {
-        return $this->members_gateway->getNonManagementMembers($sorting);
+        return $this->repository->findNonManagementMembers($sorting);
     }
 
     /**
@@ -308,7 +307,7 @@ class Members
     public function deleteMemberByOrgId($orgId)
     {
         $orgId = filter_var($orgId, FILTER_SANITIZE_STRING);
-        return $this->members_gateway->deleteMember($orgId);
+        return $this->repository->deleteByOrganization($orgId);
     }
 
     /**
@@ -318,7 +317,7 @@ class Members
      */
     public function deleteMemberByIdIn($memberIds)
     {
-        return $this->members_gateway->deleteMemberByIdIn($memberIds);
+        return $this->repository->deleteByIds($memberIds);
     }
 
     /**
@@ -328,7 +327,7 @@ class Members
      */
     public function setLastPageVisited($userId, $page)
     {
-        return $this->members_gateway->setLastPageVisited($userId, $page);
+        return $this->repository->updateLastPageVisited($userId, $page);
     }
 
     /**
@@ -338,7 +337,7 @@ class Members
      */
     public function setLastPageVisitedByLogin($userName, $page)
     {
-        return $this->members_gateway->setLastPageVisited($userName, $page);
+        return $this->repository->updateLastPageVisited($userName, $page);
     }
 
     /**
@@ -350,7 +349,7 @@ class Members
      */
     public function getSearchMembers($query, $sorting = null, $limit = null, $rowLimit = null)
     {
-        return $this->members_gateway->searchResultsUsers($query, $sorting, $limit, $rowLimit);
+        return $this->repository->search($query, $sorting, $limit, $rowLimit);
     }
 
     /**

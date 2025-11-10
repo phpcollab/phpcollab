@@ -30,6 +30,8 @@ use phpCollab\Invoices\Invoices;
 use phpCollab\Invoices\Publish;
 use phpCollab\LoginLogs\LoginLogs;
 use phpCollab\Members\Members;
+use phpCollab\Members\MembersRepository;
+use phpCollab\Members\MembersRepositoryInterface;
 use phpCollab\Members\ResetPassword;
 use phpCollab\NewsDesk\NewsDesk;
 use phpCollab\Notes\Notes;
@@ -134,14 +136,26 @@ return static function (ContainerConfigurator $container) {
         ->args([service(Database::class)])
         ->public();
 
-    // ✅ Refactored to use pure constructor injection + AppConfig
-    $services->set(Members::class)
+    // ✅ Repository Pattern Implementation
+    // Register the MembersRepository interface and implementation
+    $services->set(MembersRepositoryInterface::class, MembersRepository::class)
         ->args([
             service(Database::class),
+            service(RequestData::class)
+        ])
+        ->public();
+
+    // Alias for easier access
+    $services->alias(MembersRepository::class, MembersRepositoryInterface::class)
+        ->public();
+
+    // ✅ Refactored to use Repository Pattern + pure constructor injection
+    $services->set(Members::class)
+        ->args([
+            service(MembersRepositoryInterface::class),
             service(Logger::class),
             service(Notification::class),
-            service(AppConfig::class),
-            service(RequestData::class)
+            service(AppConfig::class)
         ])
         ->public();
 

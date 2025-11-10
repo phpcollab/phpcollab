@@ -6,6 +6,7 @@ use Codeception\Test\Unit;
 use phpCollab\AppConfig;
 use phpCollab\Database;
 use phpCollab\Members\Members;
+use phpCollab\Members\MembersRepositoryInterface;
 use phpCollab\Notification;
 use phpCollab\Notifications\MailNotification;
 use phpCollab\Notifications\Notifications;
@@ -354,24 +355,24 @@ class PureConstructorInjectionComparisonTest extends Unit
         // When you see:
         //
         // $members = new Members(
-        //     $mockDatabase,
+        //     $mockRepository,
         //     $mockLogger,
-        //     $mockNotification
+        //     $mockNotification,
+        //     $mockAppConfig
         // );
         //
         // It's immediately clear:
-        // - Members needs Database, Logger, and Notification
-        // - To test Members, mock these 3 dependencies
-        // - No surprises!
+        // - Members needs MembersRepositoryInterface, Logger, Notification, and AppConfig
+        // - To test Members, mock these 4 dependencies
+        // - Repository Pattern makes data access testable without Database!
         //
         // The test setup tells you exactly what the service needs! ✅
 
         $members = new Members(
-            $this->createMock(Database::class),
+            $this->createMock(MembersRepositoryInterface::class),
             $this->createMock(Logger::class),
             $this->createMock(Notification::class),
-            $this->createMock(AppConfig::class),
-            $this->createMock(RequestData::class)
+            $this->createMock(AppConfig::class)
         );
 
         $this->assertInstanceOf(Members::class, $members);
@@ -388,13 +389,12 @@ class PureConstructorInjectionComparisonTest extends Unit
      */
     public function testAllRefactoredServicesAreEasyToTest()
     {
-        // Test Members (3 dependencies)
+        // Test Members (4 dependencies) with Repository Pattern
         $members = new Members(
-            $this->createMock(Database::class),
+            $this->createMock(MembersRepositoryInterface::class),
             $this->createMock(Logger::class),
             $this->createMock(Notification::class),
-            $this->createMock(AppConfig::class),
-            $this->createMock(RequestData::class)
+            $this->createMock(AppConfig::class)
         );
         $this->assertInstanceOf(Members::class, $members);
 

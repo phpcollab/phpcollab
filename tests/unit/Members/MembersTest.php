@@ -5,19 +5,18 @@ namespace Tests\Unit\Members;
 use Codeception\Test\Unit;
 use Monolog\Logger;
 use phpCollab\AppConfig;
-use phpCollab\Database;
 use phpCollab\Members\Members;
-use phpCollab\Members\MembersGateway;
+use phpCollab\Members\MembersRepositoryInterface;
 use phpCollab\Notification;
-use phpCollab\RequestData;
 
 /**
- * Unit tests for Members service with updated AppConfig/RequestData dependencies
+ * Unit tests for Members service with Repository Pattern
  *
  * These tests demonstrate:
- * - Pure constructor injection with all explicit dependencies
- * - Easy mocking and testing of business logic
- * - Type safety and clear dependency graph
+ * - Repository Pattern with clean separation of concerns
+ * - Service layer testing without database dependencies
+ * - Easy mocking of repository for unit testing
+ * - Pure constructor injection with explicit dependencies
  */
 class MembersTest extends Unit
 {
@@ -27,33 +26,31 @@ class MembersTest extends Unit
     protected $tester;
 
     /**
-     * Helper method to create standard mocks
+     * Helper method to create standard mocks with Repository Pattern
      */
     private function createMembersMocks(): array
     {
         return [
-            'database' => $this->createMock(Database::class),
+            'repository' => $this->createMock(MembersRepositoryInterface::class),
             'logger' => $this->createMock(Logger::class),
             'notification' => $this->createMock(Notification::class),
             'appConfig' => $this->createMock(AppConfig::class),
-            'requestData' => $this->createMock(RequestData::class),
         ];
     }
 
     /**
-     * Test that Members can be instantiated with all 5 dependencies
+     * Test that Members can be instantiated with Repository Pattern
      */
     public function testCanInstantiateWithMockedDependencies()
     {
         $mocks = $this->createMembersMocks();
 
-        // ✅ Easy to test - just create mocks for each dependency
+        // ✅ With Repository Pattern - cleaner dependencies
         $members = new Members(
-            $mocks['database'],
+            $mocks['repository'],
             $mocks['logger'],
             $mocks['notification'],
-            $mocks['appConfig'],
-            $mocks['requestData']
+            $mocks['appConfig']
         );
 
         // Verify the service was created successfully
@@ -61,18 +58,17 @@ class MembersTest extends Unit
     }
 
     /**
-     * Test constructor enforces type safety
+     * Test constructor enforces type safety with Repository Pattern
      */
     public function testConstructorTypeEnforcement()
     {
         $mocks = $this->createMembersMocks();
 
         $members = new Members(
-            $mocks['database'],      // Type: Database
+            $mocks['repository'],    // Type: MembersRepositoryInterface
             $mocks['logger'],        // Type: Logger
             $mocks['notification'],  // Type: Notification
-            $mocks['appConfig'],     // Type: AppConfig
-            $mocks['requestData']    // Type: RequestData
+            $mocks['appConfig']      // Type: AppConfig
         );
 
         // If we got here, all types are correct ✅
@@ -119,11 +115,10 @@ class MembersTest extends Unit
 
         // Create service and call the method
         $members = new Members(
-            $mocks['database'],
+            $mocks['repository'],
             $mocks['logger'],
             $mocks['notification'],
-            $mocks['appConfig'],
-            $mocks['requestData']
+            $mocks['appConfig']
         );
 
         $result = $members->sendEmail(
@@ -146,11 +141,11 @@ class MembersTest extends Unit
     {
         $mocks = $this->createMembersMocks();
 
-        // Mock RequestData to provide the SQL query
-        $mocks['requestData']->method('all')
-            ->willReturn([
-                'members' => 'SELECT mem.* FROM members mem'
-            ]);
+        // Mock repository to return member data
+        $mocks['repository']->expects($this->once())
+            ->method('findByLogin')
+            ->with('testuser')
+            ->willReturn(['mem_id' => 1, 'mem_login' => 'testuser']);
 
         // Expect logger to be called
         $mocks['logger']->expects($this->once())
@@ -165,24 +160,11 @@ class MembersTest extends Unit
                 })
             );
 
-        // Mock database to handle query and bind calls
-        $mocks['database']->expects($this->once())
-            ->method('query');
-
-        $mocks['database']->expects($this->once())
-            ->method('bind')
-            ->with(':member_login', 'testuser');
-
-        $mocks['database']->expects($this->once())
-            ->method('single')
-            ->willReturn(['mem_id' => 1, 'mem_login' => 'testuser']);
-
         $members = new Members(
-            $mocks['database'],
+            $mocks['repository'],
             $mocks['logger'],
             $mocks['notification'],
-            $mocks['appConfig'],
-            $mocks['requestData']
+            $mocks['appConfig']
         );
 
         // Act
@@ -199,12 +181,6 @@ class MembersTest extends Unit
     {
         $mocks = $this->createMembersMocks();
 
-        // Mock RequestData to provide the SQL query
-        $mocks['requestData']->method('all')
-            ->willReturn([
-                'members' => 'SELECT mem.* FROM members mem'
-            ]);
-
         $expectedMember = [
             'mem_id' => '1',
             'mem_login' => 'johndoe',
@@ -213,24 +189,17 @@ class MembersTest extends Unit
             'mem_profil' => '0'
         ];
 
-        // Mock database to handle query, bind, and single calls
-        $mocks['database']->expects($this->once())
-            ->method('query');
-
-        $mocks['database']->expects($this->once())
-            ->method('bind')
-            ->with(':member_id', 1);
-
-        $mocks['database']->expects($this->once())
-            ->method('single')
+        // Mock repository to return member data
+        $mocks['repository']->expects($this->once())
+            ->method('findById')
+            ->with(1)
             ->willReturn($expectedMember);
 
         $members = new Members(
-            $mocks['database'],
+            $mocks['repository'],
             $mocks['logger'],
             $mocks['notification'],
-            $mocks['appConfig'],
-            $mocks['requestData']
+            $mocks['appConfig']
         );
 
         $result = $members->getMemberById('1');
@@ -254,11 +223,10 @@ class MembersTest extends Unit
             ->willReturn('Test String');
 
         $members = new Members(
-            $mocks['database'],
+            $mocks['repository'],
             $mocks['logger'],
             $mocks['notification'],
-            $mocks['appConfig'],
-            $mocks['requestData']
+            $mocks['appConfig']
         );
 
         // Service created successfully with AppConfig
@@ -275,11 +243,10 @@ class MembersTest extends Unit
         $mocks1['notification']->method('send')->willReturn(true);
 
         $members1 = new Members(
-            $mocks1['database'],
+            $mocks1['repository'],
             $mocks1['logger'],
             $mocks1['notification'],
-            $mocks1['appConfig'],
-            $mocks1['requestData']
+            $mocks1['appConfig']
         );
 
         // Test 2: Notification fails (different mock behavior)
@@ -287,11 +254,10 @@ class MembersTest extends Unit
         $mocks2['notification']->method('send')->willReturn(false);
 
         $members2 = new Members(
-            $mocks2['database'],
+            $mocks2['repository'],
             $mocks2['logger'],
             $mocks2['notification'],
-            $mocks2['appConfig'],
-            $mocks2['requestData']
+            $mocks2['appConfig']
         );
 
         // Both services are independent with different behaviors ✅
@@ -304,20 +270,21 @@ class MembersTest extends Unit
     public function testDependenciesAreSelfDocumenting()
     {
         // Just by looking at the constructor, we know Members needs:
-        // 1. Database - for data access
+        // 1. MembersRepositoryInterface - for data access (Repository Pattern!)
         // 2. Logger - for logging
         // 3. Notification - for sending notifications
         // 4. AppConfig - for configuration values
-        // 5. RequestData - for request parameters
+        //
+        // Notice how the Repository Pattern makes this even cleaner!
+        // No more Database or RequestData - that's hidden in the repository.
 
         $mocks = $this->createMembersMocks();
 
         $members = new Members(
-            $mocks['database'],       // #1 Data access
+            $mocks['repository'],     // #1 Data access (via Repository!)
             $mocks['logger'],         // #2 Logging
             $mocks['notification'],   // #3 Notifications
-            $mocks['appConfig'],      // #4 Configuration
-            $mocks['requestData']     // #5 Request data
+            $mocks['appConfig']       // #4 Configuration
         );
 
         $this->assertInstanceOf(Members::class, $members);
@@ -361,11 +328,10 @@ class MembersTest extends Unit
         $mocks = $this->createMembersMocks();
 
         $members = new Members(
-            $mocks['database'],
+            $mocks['repository'],
             $mocks['logger'],
             $mocks['notification'],
-            $mocks['appConfig'],
-            $mocks['requestData']
+            $mocks['appConfig']
         );
 
         $this->assertInstanceOf(Members::class, $members);
