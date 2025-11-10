@@ -1,8 +1,7 @@
 # phpCollab Translation File
-# Language: Turkish (tr)
-# Type: Help
-# Domain: messages
-# Generated: 2025-11-06 00:44:14 +0000
+# Language: tr
+# Domain: help
+# Synced: 2025-11-10 23:06:53 +0000
 
 msgid ""
 msgstr ""
@@ -13,55 +12,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+# phpCollab Translation File
+# Language: Turkish (tr)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:14 +0000
 # Help text
-
 msgid "setup_mkdirMethod"
-msgstr ""
-"Eðer güvenli-mode aktif ise [safe-mode on] Dosya yönetimi ile"
-"klasör yaratabilmeniz için önce Ftp hesabý açmanýz gereklidir."
+msgstr "Eðer güvenli-mode aktif ise [safe-mode on] Dosya yönetimi ileklasör yaratabilmeniz için önce Ftp hesabý açmanýz gereklidir."
 
 msgid "setup_notifications"
-msgstr ""
-"Kullanýcýlara e-posta bildirimleri için (görev atamasý, yeni"
-"mesaj, görev deðiþiklikleri...)<br/> Geçerli smtp/sendmail"
-"gereklidir."
+msgstr "Kullanýcýlara e-posta bildirimleri için (görev atamasý, yenimesaj, görev deðiþiklikleri...)<br/> Geçerli smtp/sendmailgereklidir."
 
 msgid "setup_forcedlogin"
-msgstr ""
-"Eðer iptal edilmiþ ise, giriþ ekraný URL'sinde dýþ"
-"baðlantýlara izin vermez."
+msgstr "Eðer iptal edilmiþ ise, giriþ ekraný URL'sinde dýþbaðlantýlara izin vermez."
 
 msgid "setup_langdefault"
-msgstr ""
-"Giriþ ekranýnda varsayýlan dil seçimi için seçin veya boþ"
-"býrakarak internet gezgininin dilinin otomatik algýlanmasýný"
-"kullanýn."
+msgstr "Giriþ ekranýnda varsayýlan dil seçimi için seçin veya boþbýrakarak internet gezgininin dilinin otomatik algýlanmasýnýkullanýn."
 
 msgid "setup_myprefix"
-msgstr ""
-"Eðer mevcut veritabanýnda ayný isimde tablolar var ise bu deðeri"
-"kullanýn"
-"<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Tablo"
-"adlarýna ön ek yapmamak için boþ býrakýn."
+msgstr "Eðer mevcut veritabanýnda ayný isimde tablolar var ise bu deðerikullanýn<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Tabloadlarýna ön ek yapmamak için boþ býrakýn."
 
 msgid "setup_loginmethod"
-msgstr ""
-"Veritabanýnda þifre saklama yöntemi.<br/>CVS doðrulamasý ve"
-"htaccess doðrulamasýnýn çalýþmasý için &quot;Crypt&quot;"
-"seçin (eðer CVS desteði ve/veya htaccess doðrulamalarý aktif"
-"edilmiþ ise)."
+msgstr "Veritabanýnda þifre saklama yöntemi.<br/>CVS doðrulamasý vehtaccess doðrulamasýnýn çalýþmasý için &quot;Crypt&quot;seçin (eðer CVS desteði ve/veya htaccess doðrulamalarý aktifedilmiþ ise)."
 
 msgid "admin_update"
-msgstr ""
-"Sürüm güncellemesi için belirtilen sýralamaya kesin olarak"
-"uyun<br/>1. Ayarlarý düzenleyin (yeni parametreleri doldurun)<br/>2."
-"Veritabanýný düzenleyin (önceki sürümdeki anlaþmaya uygun"
-"olarak güncelleyin)"
+msgstr "Sürüm güncellemesi için belirtilen sýralamaya kesin olarakuyun<br/>1. Ayarlarý düzenleyin (yeni parametreleri doldurun)<br/>2.Veritabanýný düzenleyin (önceki sürümdeki anlaþmaya uygunolarak güncelleyin)"
 
 msgid "task_scope_creep"
-msgstr ""
-"Beklenen bitiþ tarihi ile tamamlanma tarihi arasýndaki gün farký"
-"(eðer sýfýrdan büyük ise koyu renklidir)"
+msgstr "Beklenen bitiþ tarihi ile tamamlanma tarihi arasýndaki gün farký(eðer sýfýrdan büyük ise koyu renklidir)"
 
 msgid "max_file_size"
 msgstr "Yüklenebilecek dosyanýn maksimum boyutu"
@@ -70,24 +49,96 @@ msgid "project_disk_space"
 msgstr "Proje için toplam dosyalarýn büyüklüðü"
 
 msgid "project_scope_creep"
-msgstr ""
-"Beklenen bitiþ tarihi ile tamamlanma tarihi arasýndaki gün farký"
-"(eðer sýfýrdan büyük ise koyu renklidir). Bütün görevler için"
-"toplamdýr"
+msgstr "Beklenen bitiþ tarihi ile tamamlanma tarihi arasýndaki gün farký(eðer sýfýrdan büyük ise koyu renklidir). Bütün görevler içintoplamdýr"
 
 msgid "mycompany_logo"
-msgstr ""
-"Firmanýzýn logosunu yükleyin . Site baþlýðý yerine baþta"
-"gözükür"
+msgstr "Firmanýzýn logosunu yükleyin . Site baþlýðý yerine baþtagözükür"
 
 msgid "calendar_shortname"
 msgstr "Aylýk takvim görüntüsünde gözükecek olan yazý. Mecburidir."
 
 msgid "user_autologout"
-msgstr ""
-"Sistemde faaliyet olmamasý durumunda baðlantýnýn kesileceði"
-"saniye süresi. Ýptal etmek için 0 yazýn"
+msgstr "Sistemde faaliyet olmamasý durumunda baðlantýnýn kesileceðisaniye süresi. Ýptal etmek için 0 yazýn"
 
 msgid "user_timezone"
 msgstr "GMT zaman dilimini [timezone] ayarlayýn."
 
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_clientsfilter"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_projectsfilter"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_notificationMethod"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "newsdesk_links"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_server"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_login"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_name"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_site_url"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_password"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_email"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_general_error"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_success"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_social_info"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "logLevels"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "homeViewOptions"
+msgstr ""

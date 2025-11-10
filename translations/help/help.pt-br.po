@@ -1,8 +1,7 @@
 # phpCollab Translation File
-# Language: Brazilian Portuguese (pt-br)
-# Type: Help
-# Domain: messages
-# Generated: 2025-11-06 00:44:03 +0000
+# Language: pt-br
+# Domain: help
+# Synced: 2025-11-10 23:06:53 +0000
 
 msgid ""
 msgstr ""
@@ -13,58 +12,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+# phpCollab Translation File
+# Language: Brazilian Portuguese (pt-br)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:03 +0000
 # Help text
-
 msgid "setup_mkdirMethod"
-msgstr ""
-"Se o modo de segurança está Ativo, você precisa definir uma conta"
-"de FTP para ser capaz de criar uma pasta para o gerenciamento do"
-"arquivo."
+msgstr "Se o modo de segurança está Ativo, você precisa definir uma contade FTP para ser capaz de criar uma pasta para o gerenciamento doarquivo."
 
 msgid "setup_notifications"
-msgstr ""
-"Notificações por email aos usuários:<br/><br/>&nbsp;&nbsp;-"
-"Atribuição de tarefa<br/>&nbsp;&nbsp;- Nova"
-"mensagem<br/>&nbsp;&nbsp;- Alterações nas tarefas<br/>&nbsp;&nbsp;-"
-"ect<br/><br/>Requerem um servidor de SMTP/SendMail válido."
+msgstr "Notificações por email aos usuários:<br/><br/>&nbsp;&nbsp;-Atribuição de tarefa<br/>&nbsp;&nbsp;- Novamensagem<br/>&nbsp;&nbsp;- Alterações nas tarefas<br/>&nbsp;&nbsp;-ect<br/><br/>Requerem um servidor de SMTP/SendMail válido."
 
 msgid "setup_forcedlogin"
-msgstr ""
-"Se não, rejeita um link externo com o nome de usuário e senha na"
-"url."
+msgstr "Se não, rejeita um link externo com o nome de usuário e senha naurl."
 
 msgid "setup_langdefault"
-msgstr ""
-"Escolha o idioma padrão selecionado na entrada do sistema ou deixe em"
-"branco para detecção automática do idioma através da"
-"configuração do navegador."
+msgstr "Escolha o idioma padrão selecionado na entrada do sistema ou deixe embranco para detecção automática do idioma através daconfiguração do navegador."
 
 msgid "setup_myprefix"
-msgstr ""
-"Defina esta propriedade se você tiver tabelas com mesmo nome num"
-"mesmo banco de"
-"dados.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Deixem"
-"em branco caso não for usar um prefixo para as tabelas."
+msgstr "Defina esta propriedade se você tiver tabelas com mesmo nome nummesmo banco dedados.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Deixemem branco caso não for usar um prefixo para as tabelas."
 
 msgid "setup_loginmethod"
-msgstr ""
-"Método para armazenar as senhas no banco de dados.<br/><br/>Defina"
-"para &quot;Crypt&quot; para a autenticação do CVS e htaccess"
-"funcionarem caso estejam ativos."
+msgstr "Método para armazenar as senhas no banco de dados.<br/><br/>Definapara &quot;Crypt&quot; para a autenticação do CVS e htaccessfuncionarem caso estejam ativos."
 
 msgid "admin_update"
-msgstr ""
-"Considere sempre a notificação indicando para você atualizar sua"
-"versão.<br/><br/>&nbsp;&nbsp;1. Editar Configurações - Opções"
-"gerais para FTP, servidor de email, temas, módulos suplementares,"
-"etc;<br/><br/>&nbsp;&nbsp;2. Editar Banco de Dados - Atualização"
-"dependendo da sua versão anterior do PhpCollab."
+msgstr "Considere sempre a notificação indicando para você atualizar suaversão.<br/><br/>&nbsp;&nbsp;1. Editar Configurações - Opçõesgerais para FTP, servidor de email, temas, módulos suplementares,etc;<br/><br/>&nbsp;&nbsp;2. Editar Banco de Dados - Atualizaçãodependendo da sua versão anterior do PhpCollab."
 
 msgid "task_scope_creep"
-msgstr ""
-"Diferença, em dias, entre a data de término e a data de"
-"finalização (se houver a diferença o valor será mostrado em"
-"negrito)."
+msgstr "Diferença, em dias, entre a data de término e a data definalização (se houver a diferença o valor será mostrado emnegrito)."
 
 msgid "max_file_size"
 msgstr "Tamanho máximo de um arquivo para upload."
@@ -73,25 +49,16 @@ msgid "project_disk_space"
 msgstr "Tamanho total dos arquivos relacionados ao projeto."
 
 msgid "project_scope_creep"
-msgstr ""
-"Diferença, em dias, entre a data de encerração e a data de"
-"finalização (se houver diferença o valor será mostrado em"
-"negrito).<br/><br/>Tempo total para todas as tarefas do projeto."
+msgstr "Diferença, em dias, entre a data de encerração e a data definalização (se houver diferença o valor será mostrado emnegrito).<br/><br/>Tempo total para todas as tarefas do projeto."
 
 msgid "mycompany_logo"
-msgstr ""
-"Envia o logotipo da sua empresa. A imagem irá aparecer no cabeçalho"
-"no lugar do título do site."
+msgstr "Envia o logotipo da sua empresa. A imagem irá aparecer no cabeçalhono lugar do título do site."
 
 msgid "calendar_shortname"
-msgstr ""
-"Rótulo que aparecerá no calendário no modo de visualização"
-"mensal. Obrigatório."
+msgstr "Rótulo que aparecerá no calendário no modo de visualizaçãomensal. Obrigatório."
 
 msgid "user_autologout"
-msgstr ""
-"Tempo, em segundos, para ser desconectado após inatividade. Coloque 0"
-"(zero) para desabilitar este recurso."
+msgstr "Tempo, em segundos, para ser desconectado após inatividade. Coloque 0(zero) para desabilitar este recurso."
 
 msgid "user_timezone"
 msgstr "Defina seu fuso horário (GMT)."
@@ -100,21 +67,70 @@ msgid "setup_clientsfilter"
 msgstr "Filtrar para ver somente os usuários de clientes conectados."
 
 msgid "setup_projectsfilter"
-msgstr ""
-"Filtrar para ver somente o projeto quando o usuário estiver em uma"
-"equipe."
+msgstr "Filtrar para ver somente o projeto quando o usuário estiver em umaequipe."
 
 msgid "setup_notificationMethod"
-msgstr ""
-"Define o método de envio de notificações por"
-"email:<br/><br/>&nbsp;&nbsp;a) Utilizando a função interna de email"
-"do PHP (para ter um servidor SMTP ou sendmail é necessário que os"
-"parâmetros necessários estejam configurados no"
-"PHP).<br/><br/>&nbsp;&nbsp;b) Utilizando um servidor SMTP"
-"personalizado."
+msgstr "Define o método de envio de notificações poremail:<br/><br/>&nbsp;&nbsp;a) Utilizando a função interna de emaildo PHP (para ter um servidor SMTP ou sendmail é necessário que osparâmetros necessários estejam configurados noPHP).<br/><br/>&nbsp;&nbsp;b) Utilizando um servidor SMTPpersonalizado."
 
 msgid "newsdesk_links"
-msgstr ""
-"Para adicionar múltiplos links relacionados use um ponto-e-vírgula"
-"entre cada link. Ex: http://php.org/; http://phpcollab.com/"
+msgstr "Para adicionar múltiplos links relacionados use um ponto-e-vírgulaentre cada link. Ex: http://php.org/; http://phpcollab.com/"
 
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_server"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_login"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_name"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_site_url"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_password"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_email"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_general_error"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_success"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_social_info"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "logLevels"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "homeViewOptions"
+msgstr ""

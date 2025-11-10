@@ -1,8 +1,7 @@
 # phpCollab Translation File
-# Language: French (fr)
-# Type: Lang
+# Language: fr
 # Domain: messages
-# Generated: 2025-11-06 00:44:08 +0000
+# Synced: 2025-11-10 23:06:53 +0000
 
 msgid ""
 msgstr ""
@@ -13,8 +12,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+# phpCollab Translation File
+# Language: French (fr)
+# Type: Lang
+# Domain: messages
+# Generated: 2025-11-06 00:44:08 +0000
 # String translations
-
 msgid "strings.please_login"
 msgstr "Connectez-vous"
 
@@ -73,10 +76,7 @@ msgid "strings.edit_multiple_tasks"
 msgstr "Éditer plusieurs tâches"
 
 msgid "strings.tasks_selected"
-msgstr ""
-"tâches sélectionnées. Choisissez de nouvelles valeurs pour ces"
-"tâches, ou sélectionnez [Pas de changement] pour conserver les"
-"valeurs d'origine."
+msgstr "tâches sélectionnées. Choisissez de nouvelles valeurs pour cestâches, ou sélectionnez [Pas de changement] pour conserver lesvaleurs d'origine."
 
 msgid "strings.assignment_comment"
 msgstr "Commentaire d'assignation"
@@ -91,9 +91,7 @@ msgid "strings.delete_discussions"
 msgstr "Effacer les discussions"
 
 msgid "strings.delete_discussions_note"
-msgstr ""
-"Note : Les discussions ne peuvent pas être réouvertes après"
-"effacement."
+msgstr "Note : Les discussions ne peuvent pas être réouvertes aprèseffacement."
 
 msgid "strings.topic"
 msgstr "Sujet"
@@ -114,9 +112,7 @@ msgid "strings.create_report"
 msgstr "Créer un rapport"
 
 msgid "strings.report_intro"
-msgstr ""
-"Choisissez les critères de crééation du rapport d'avancement des"
-"tâches puis sauvegardez votre requête dans la page de résultat."
+msgstr "Choisissez les critères de crééation du rapport d'avancement destâches puis sauvegardez votre requête dans la page de résultat."
 
 msgid "strings.admin_intro"
 msgstr "Information et Configuration."
@@ -320,9 +316,7 @@ msgid "strings.create"
 msgstr "Créer"
 
 msgid "strings.report_save"
-msgstr ""
-"Sauvegarder cette requête sur votre page d'accueil pour pouvoir la"
-"lancer à nouveau."
+msgstr "Sauvegarder cette requête sur votre page d'accueil pour pouvoir lalancer à nouveau."
 
 msgid "strings.report_name"
 msgstr "Nom du rapport"
@@ -379,14 +373,10 @@ msgid "strings.change_password_user"
 msgstr "Changer le mot de passe utilisateur."
 
 msgid "strings.old_password_error"
-msgstr ""
-"L'ancien mot de passe saisi est incorrect. Veuillez le saisir à"
-"nouveau."
+msgstr "L'ancien mot de passe saisi est incorrect. Veuillez le saisir ànouveau."
 
 msgid "strings.new_password_error"
-msgstr ""
-"Les 2 mots de passe saisis ne correspondent pas. Veuillez re-saisir"
-"votre nouveau mot de passe."
+msgstr "Les 2 mots de passe saisis ne correspondent pas. Veuillez re-saisirvotre nouveau mot de passe."
 
 msgid "strings.change_password_intro"
 msgstr "Saisissez votre ancien mot de passe et deux fois le nouveau."
@@ -446,15 +436,10 @@ msgid "strings.enter_password"
 msgstr "Entrer le mot de passe utilisateur."
 
 msgid "strings.success_logout"
-msgstr ""
-"Vous vous êtes déconnectà avec succès. Vous pouvez vous"
-"reconnecter en saisissant votre nom d'utilisateur et votre mot de"
-"passe ci-dessous."
+msgstr "Vous vous êtes déconnectà avec succès. Vous pouvez vousreconnecter en saisissant votre nom d'utilisateur et votre mot depasse ci-dessous."
 
 msgid "strings.invalid_login"
-msgstr ""
-"Le nom d'utilisateur et/ou le mot de passe saisi est incorrect."
-"Saisissez à nouveau vos informations de connexion."
+msgstr "Le nom d'utilisateur et/ou le mot de passe saisi est incorrect.Saisissez à nouveau vos informations de connexion."
 
 msgid "strings.profile"
 msgstr "Profil"
@@ -466,9 +451,7 @@ msgid "strings.edit_user_account"
 msgstr "Éditer vos informations."
 
 msgid "strings.no_permissions"
-msgstr ""
-"Vous n'avez pas les permissions nécessaires pour effectuer cette"
-"action."
+msgstr "Vous n'avez pas les permissions nécessaires pour effectuer cetteaction."
 
 msgid "strings.retired"
 msgstr "Retirée"
@@ -498,22 +481,16 @@ msgid "strings.delete_organizations"
 msgstr "Effacer des clients"
 
 msgid "strings.delete_organizations_note"
-msgstr ""
-"Note: Les utilisateurs de ces clients seront effacés et les projets"
-"ré-associés."
+msgstr "Note: Les utilisateurs de ces clients seront effacés et les projetsré-associés."
 
 msgid "strings.delete_messages"
 msgstr "Effacer les messages"
 
 msgid "strings.delete_teamownermix"
-msgstr ""
-"Suppression réussie, mais le propriétaire du projet ne peut pas"
-"être supprimé de l'Équipe."
+msgstr "Suppression réussie, mais le propriétaire du projet ne peut pasêtre supprimé de l'Équipe."
 
 msgid "strings.delete_teamowner"
-msgstr ""
-"Vous ne pouvez pas supprimer le propriétaire du projet de"
-"l'Équipe."
+msgstr "Vous ne pouvez pas supprimer le propriétaire du projet del'Équipe."
 
 msgid "strings.enter_keywords"
 msgstr "Saisir des mots clés"
@@ -645,8 +622,7 @@ msgid "strings.project_site_deleted"
 msgstr "Le site projet a été effacé avec succès."
 
 msgid "strings.add_user_project_site"
-msgstr ""
-"Les utilisateurs ont été autorisés à accéder au site projet."
+msgstr "Les utilisateurs ont été autorisés à accéder au site projet."
 
 msgid "strings.remove_user_project_site"
 msgstr "Les permissions utilisateurs ont été retirées avec succès."
@@ -709,14 +685,10 @@ msgid "strings.login_password"
 msgstr "Saisissez un mot de passe."
 
 msgid "strings.login_clientuser"
-msgstr ""
-"Il s'agit d'un compte utilisateur client. Vous ne pouvez pas accéder"
-"à PhpCollab avec ce type de compte."
+msgstr "Il s'agit d'un compte utilisateur client. Vous ne pouvez pas accéderà PhpCollab avec ce type de compte."
 
 msgid "strings.user_already_exists"
-msgstr ""
-"Il y a déjà un utilisateur avec ce nom. Choisissez un nom"
-"d'utilisateur différent."
+msgstr "Il y a déjà un utilisateur avec ce nom. Choisissez un nomd'utilisateur différent."
 
 msgid "strings.noti_duedatetaskchange1"
 msgstr "Date due d'une tâche modifiée :"
@@ -791,9 +763,7 @@ msgid "strings.your_projectsite"
 msgstr "dans votre site projet"
 
 msgid "strings.contact_projectsite"
-msgstr ""
-"Si vous avez des questions concernant l'extranet ou les informations"
-"indiquées sur ce site, contactez le responsable projet"
+msgstr "Si vous avez des questions concernant l'extranet ou les informationsindiquées sur ce site, contactez le responsable projet"
 
 msgid "strings.company_details"
 msgstr "Détails Société"
@@ -853,9 +823,7 @@ msgid "strings.view_projectsite"
 msgstr "Voir le site projet"
 
 msgid "strings.enter_login"
-msgstr ""
-"Saisissez votre identifiant (login) pour recevoir votre nouveau mot de"
-"passe"
+msgstr "Saisissez votre identifiant (login) pour recevoir votre nouveau mot depasse"
 
 msgid "strings.send"
 msgstr "Envoyer"
@@ -897,9 +865,7 @@ msgid "strings.reassignment_clientuser"
 msgstr "Réassignation de tâche"
 
 msgid "strings.organization_already_exists"
-msgstr ""
-"Le nom indiqué est déjà en utilisà. Veuillez en spécifier un"
-"différent."
+msgstr "Le nom indiqué est déjà en utilisà. Veuillez en spécifier undifférent."
 
 msgid "strings.blank_organization_field"
 msgstr "Vous devez indiquer le nom du client."
@@ -938,9 +904,7 @@ msgid "strings.setup_erase_file"
 msgstr "Cliquez ici pour essayer de supprimer le fichier d'installation"
 
 msgid "strings.setup_erase_file_ua"
-msgstr ""
-"Nous ne pouvons pas supprimer le fichier, il n'est pas writtable. S'il"
-"vous plaît supprimer manuellement."
+msgstr "Nous ne pouvons pas supprimer le fichier, il n'est pas writtable. S'ilvous plaît supprimer manuellement."
 
 msgid "strings.no_file"
 msgstr "Pas de fichier sélectionné"
@@ -1051,9 +1015,7 @@ msgid "strings.edit_notifications"
 msgstr "Éditer les notifications par e-mail"
 
 msgid "strings.edit_notifications_info"
-msgstr ""
-"Sélectionnez les éléments pour lesquels vous souhaitez recevoir"
-"une notification par e-mail."
+msgstr "Sélectionnez les éléments pour lesquels vous souhaitez recevoirune notification par e-mail."
 
 msgid "strings.select_deselect"
 msgstr "Sélectionner/Désélectionner tout"
@@ -1095,9 +1057,7 @@ msgid "strings.edit_noti_removeprojectteam"
 msgstr "J'ai été retiré d'une Équipe projet."
 
 msgid "strings.edit_noti_newpost"
-msgstr ""
-"Un nouveau message a été ajouté à une discussion dans laquelle"
-"je participe."
+msgstr "Un nouveau message a été ajouté à une discussion dans laquelleje participe."
 
 msgid "strings.add_optional"
 msgstr "Ajouter un "
@@ -1151,9 +1111,7 @@ msgid "strings.noti_newtopic2"
 msgstr "Une nouvelle discussion a été ajoutée au project suivant :"
 
 msgid "strings.edit_noti_newtopic"
-msgstr ""
-"Une nouvelle discussion a été ajoutée au project dont je fais"
-"partie."
+msgstr "Une nouvelle discussion a été ajoutée au project dont je faispartie."
 
 msgid "strings.today"
 msgstr "Aujourd'hui"
@@ -1180,18 +1138,13 @@ msgid "strings.remember_password"
 msgstr "Se souvenir du mot de passe"
 
 msgid "strings.client_add_task_note"
-msgstr ""
-"Note: La tâche entrée est enregistrée dans la base de donnée."
-"Elle apparaît cependant ici uniquement si elle a été assignée"
-"à un membre de l'Équipe !"
+msgstr "Note: La tâche entrée est enregistrée dans la base de donnée.Elle apparaît cependant ici uniquement si elle a été assignéeà un membre de l'Équipe !"
 
 msgid "strings.noti_clientaddtask1"
 msgstr "Tâche ajoutée par un client :"
 
 msgid "strings.noti_clientaddtask2"
-msgstr ""
-"Une tâche a été ajoutée par un client à partir du site"
-"projet pour le projet suivant :"
+msgstr "Une tâche a été ajoutée par un client à partir du siteprojet pour le projet suivant :"
 
 msgid "strings.phase_id"
 msgstr "ID de phase"
@@ -1293,14 +1246,10 @@ msgid "strings.noti_support_request_new2"
 msgstr "Vous venez de soumettre une demande d'assistance à propos de : "
 
 msgid "strings.noti_support_post2"
-msgstr ""
-"Une nouvelle réponse a été ajoutée à votre requête"
-"d'assistance. Veuillez prendre connaissance des détails ci-dessous."
+msgstr "Une nouvelle réponse a été ajoutée à votre requêted'assistance. Veuillez prendre connaissance des détails ci-dessous."
 
 msgid "strings.noti_support_status2"
-msgstr ""
-"Votre requête d'assistance a été mise à jour. Veuillez prendre"
-"connaissance des détails ci-dessous."
+msgstr "Votre requête d'assistance a été mise à jour. Veuillez prendreconnaissance des détails ci-dessous."
 
 msgid "strings.noti_support_team_new2"
 msgstr "Une nouvelle requête d'assistance a été ajoutée au projet : "
@@ -1378,9 +1327,7 @@ msgid "strings.client_subtask_details"
 msgstr "Détails des sous-tâches d'un client"
 
 msgid "strings.client_change_status_subtask"
-msgstr ""
-"Changez votre État ci-dessous après avoir terminé cette"
-"sous-tâche"
+msgstr "Changez votre État ci-dessous après avoir terminé cettesous-tâche"
 
 msgid "strings.disabled_permissions"
 msgstr "Désactiver le compte"
@@ -1509,9 +1456,7 @@ msgid "strings.del_newsdesk"
 msgstr "Supprimer des actualités"
 
 msgid "strings.delete_news_note"
-msgstr ""
-"Note : Cette opération détruira aussi tous les commentaires"
-"associés"
+msgstr "Note : Cette opération détruira aussi tous les commentairesassociés"
 
 msgid "strings.author"
 msgstr "Auteur"
@@ -1526,9 +1471,7 @@ msgid "strings.blank_newsdesk_comment"
 msgstr "Pas de commentaire saisi"
 
 msgid "strings.remove_newsdesk"
-msgstr ""
-"Les actualités ont été supprimées avec succès ainsi que"
-"leurs commentaires"
+msgstr "Les actualités ont été supprimées avec succès ainsi queleurs commentaires"
 
 msgid "strings.add_newsdesk_comment"
 msgstr "Ajouter un commentaire"
@@ -1543,14 +1486,10 @@ msgid "strings.remove_newsdesk_comment"
 msgstr "Le commentaire a été supprimé avec succès"
 
 msgid "strings.errorpermission_newsdesk"
-msgstr ""
-"Vous n'avez les permissions nécessaires pour modifier ou supprimer"
-"cette actualité"
+msgstr "Vous n'avez les permissions nécessaires pour modifier ou supprimercette actualité"
 
 msgid "strings.errorpermission_newsdesk_comment"
-msgstr ""
-"Vous n'avez les permissions nécessaires pour modifier ou supprimer"
-"ce commentaire"
+msgstr "Vous n'avez les permissions nécessaires pour modifier ou supprimerce commentaire"
 
 msgid "strings.newsdesk_related"
 msgstr "Projet Associé"
@@ -1571,12 +1510,7 @@ msgid "strings.noti_memberactivation1"
 msgstr "Compte activé"
 
 msgid "strings.noti_memberactivation2"
-msgstr ""
-"Vous avez été ajouté comme client au système de Suivi de"
-"projet phpCollab. Ce système a été mis en place et est soutenu"
-"pour vous aider à suivre l'Évolution de votre projet. Pour"
-"utiliser l'outil, allez à l'adresse suivante  avec votre navigateur"
-"et utilisez les codes suivants : "
+msgstr "Vous avez été ajouté comme client au système de Suivi deprojet phpCollab. Ce système a été mis en place et est soutenupour vous aider à suivre l'Évolution de votre projet. Pourutiliser l'outil, allez à l'adresse suivante  avec votre navigateuret utilisez les codes suivants : "
 
 msgid "strings.noti_memberactivation3"
 msgstr "Utilisateur :"
@@ -1585,13 +1519,7 @@ msgid "strings.noti_memberactivation4"
 msgstr "Mot de passe :"
 
 msgid "strings.noti_memberactivation5"
-msgstr ""
-"Une fois ces informations saisies et le formulaire validé par le"
-"bouton \"Connexion\" vous accéderez à votre compte. Par la suite,"
-"vous recevrez par messagerie de nouveaux messages concernant les"
-"différentes tâches relatives à vos projets. Ces messages vous"
-"seront envoyés pour vous tenir informà de l'Évolution de votre"
-"projet."
+msgstr "Une fois ces informations saisies et le formulaire validé par lebouton \"Connexion\" vous accéderez à votre compte. Par la suite,vous recevrez par messagerie de nouveaux messages concernant lesdifférentes tâches relatives à vos projets. Ces messages vousseront envoyés pour vous tenir informà de l'Évolution de votreprojet."
 
 msgid "strings.email_users"
 msgstr "Envoyer un message àlectronique"
@@ -1638,10 +1566,8 @@ msgstr "Un fichier associé a été ajouté."
 msgid "strings.my_subtasks"
 msgstr "Mes Soustâches"
 
-
 # Enum values (status, priority, etc.)
 # Note: These should be moved to enums.*.po domain
-
 #. Domain: enums
 msgid "status.0"
 msgstr "Complet (client)"
@@ -1782,9 +1708,7 @@ msgstr "Ouvert"
 msgid "requestStatus.2"
 msgstr "Complet"
 
-
 # Arrays (days, months, byte units)
-
 msgid "byteunits.0"
 msgstr "octets"
 
@@ -1854,3 +1778,762 @@ msgstr "novembre"
 msgid "monthname.12"
 msgstr "décembre"
 
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.discussions"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.clients"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.info"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.admin"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.due"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.id"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.description"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.url"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.administration"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.notifications"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.fax"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.permissions"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.discussion"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.message"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.attention"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.type"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.date"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.information"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.document"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.session"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.vc_version"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.note"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.notes"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.logo"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.phase"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.phases"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.options"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.support"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.introduction"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.license"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.service"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.position"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.version_check_error"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.edit_noti_daily_alert"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.edit_noti_weekly_alert"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.edit_noti_pastdue_alert"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.daily_alert_subject"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.weekly_alert_subject"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.pastdue_alert_subject"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.alert_daily_task"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.alert_daily_subtask"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.alert_weekly_task"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.alert_weekly_subtask"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.alert_pastdue_task"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.alert_pastdue_subtask"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.link"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.action_not_allowed"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.this_report_generated_by"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.noti_file_approval_added"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.approval_status"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.approval_details"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.file_details"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.file"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.noti_peer_review_added"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.noti_peer_review_details"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.error_file_update_zero_size"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.noti_file_update_added"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.noti_file_update_details"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.delete_calendars"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.error_publishing_invoice"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.error_editing_invoice"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.view_invoice"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.send_password_phrase"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.empty_field"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.error_delete_bookmark"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.reset_password_error"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.error_delete_post"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.delete_post"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.error_file_add"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.error_file_does_not_exist"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.bookmark_error_blank_name_and_url"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.bookmark_error_blank_name"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.bookmark_error_blank_url"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.client_error_add"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.client_error_edit"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.genericError"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.last_page"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.view_newsdesk"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.task_not_found"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.email_forgot_pwd_subject"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.password_successful_changed"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.password_reset_confirmation_subject"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.password_confirm_blank"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.latest_release_link_text"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.system_info_file_sizes"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.newsdesk_comment_added"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.newsdesk_comment_updated"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.newsdesk_invalid_link"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.newsdesk_item_updated"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.newsdesk_item_blank"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.newsdesk_item_remove"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.newsdesk_item_add"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.newsdesk_item_add_error"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.newsdesk_item_edit"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.newsdesk_item_view"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.error_message"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.success_message"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.file_upload_invalid"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.file_image_invalid_type"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.file_remove_error"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.error_too_many_attempts"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.error_email_already_sent"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.invalid_email"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.share_with"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.bookmark_added"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.bookmark_updated"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.bookmark_view_all"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.bookmark_view_my"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.bookmark_view_private"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.bookmark_error_url_invalid"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.admin_password_reset_settings"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.admin_mantis_integration"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.admin_advanced"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.admin_extended_footer"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.admin_number_of_attempts"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.admin_time_between_attempts"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.admin_time_token_valid"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.time_days"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.time_hours"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.time_minutes"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.time_seconds"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.admin_install_online"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.admin_install_offline"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.admin_notification_method"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.admin_php_mail_function"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.admin_smtp"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.admin_smtp_server"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.admin_smtp_login"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.admin_smtp_password"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.admin_smtp_port"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.team_task_created_success"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.project_site_topic_success"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.support_request_details"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.users_selected"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.will_not_email"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.support_request_new"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.error_messages.too_many_attempts"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.error_messages.email_already_sent"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.error_messages.blank_email"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.error_messages.tasks.blank_task_name"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "strings.error_messages.tasks.invalid_task_name"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "invoiceStatus.0"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "invoiceStatus.1"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "invoiceStatus.2"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "logLevels.100"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "logLevels.200"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "logLevels.250"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "logLevels.300"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "logLevels.400"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "logLevels.500"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "logLevels.550"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "logLevels.600"
+msgstr ""

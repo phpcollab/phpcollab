@@ -1,8 +1,7 @@
 # phpCollab Translation File
-# Language: Danish (da)
-# Type: Help
-# Domain: messages
-# Generated: 2025-11-06 00:44:06 +0000
+# Language: da
+# Domain: help
+# Synced: 2025-11-10 23:06:53 +0000
 
 msgid ""
 msgstr ""
@@ -13,48 +12,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+# phpCollab Translation File
+# Language: Danish (da)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:06 +0000
 # Help text
-
 msgid "setup_mkdirMethod"
-msgstr ""
-"Hvis safe-mode er sat til, bliver du nødt til, at konfigurere en"
-"ftp-adgang, for at kunne oprette mapper med fil-redigeringen."
+msgstr "Hvis safe-mode er sat til, bliver du nødt til, at konfigurere enftp-adgang, for at kunne oprette mapper med fil-redigeringen."
 
 msgid "setup_notifications"
-msgstr ""
-"E-mail påmindelser (Opgaver, nye beskeder, opgaveændringer og så"
-"videre.)<br />Godkendt smtp/sendmail behøves."
+msgstr "E-mail påmindelser (Opgaver, nye beskeder, opgaveændringer og såvidere.)<br />Godkendt smtp/sendmail behøves."
 
 msgid "setup_forcedlogin"
 msgstr "Ved fejl, nægt eksternt link med login og password i adresse(url)"
 
 msgid "setup_langdefault"
-msgstr ""
-"Vælg sprog, som skal vælges ved login, eller lad den forblive blank,"
-"og sprog vil blive vlagt ud fra browserindstillinger."
+msgstr "Vælg sprog, som skal vælges ved login, eller lad den forblive blank,og sprog vil blive vlagt ud fra browserindstillinger."
 
 msgid "setup_myprefix"
-msgstr ""
-"Ret denne værdi, hvis du har tabeller med samme navn i din"
-"database.<br><br>opgaver<br>bogmærker<br>bogmærke_kategorier<br>kalender<br>filer<br>logbog<br>medlemmer<br>noter<br>påmindelser<br>organisationer<br>faser<br>beskeder<br>projekter<br>rapporter<br>sortering<br>underopgaver<br>support_beskeder<br>support_ønsker<br>opgaver<br>grupper<br>emner<br>opdateringer<br><br>Efterlad"
-"blank, hvis du ikke ønsker at bruge præ-fix."
+msgstr "Ret denne værdi, hvis du har tabeller med samme navn i dindatabase.<br><br>opgaver<br>bogmærker<br>bogmærke_kategorier<br>kalender<br>filer<br>logbog<br>medlemmer<br>noter<br>påmindelser<br>organisationer<br>faser<br>beskeder<br>projekter<br>rapporter<br>sortering<br>underopgaver<br>support_beskeder<br>support_ønsker<br>opgaver<br>grupper<br>emner<br>opdateringer<br><br>Efterladblank, hvis du ikke ønsker at bruge præ-fix."
 
 msgid "setup_loginmethod"
-msgstr ""
-"Metode til at gemme kodeord i database.<br>&quot;Kryptér&quot; for at"
-"CVS autentifikation and htaccess autentifikation skal virke (Hvis CVS"
-"support og/eller htaccess autentifikation er tilladt)."
+msgstr "Metode til at gemme kodeord i database.<br>&quot;Kryptér&quot; for atCVS autentifikation and htaccess autentifikation skal virke (Hvis CVSsupport og/eller htaccess autentifikation er tilladt)."
 
 msgid "admin_update"
-msgstr ""
-"Følg præcist den rigtige rækkefølge, for at opdatere din"
-"udgave<br>1. Ændre opsætning (Sumplement til nye parametre)<br>2."
-"Ændré database (Opdatér som følge af din nye udgave)"
+msgstr "Følg præcist den rigtige rækkefølge, for at opdatere dinudgave<br>1. Ændre opsætning (Sumplement til nye parametre)<br>2.Ændré database (Opdatér som følge af din nye udgave)"
 
 msgid "task_scope_creep"
-msgstr ""
-"Forskel i dage mellem planlagt dato og færdig dato(Fed, hvis positiv"
-"værdi)"
+msgstr "Forskel i dage mellem planlagt dato og færdig dato(Fed, hvis positivværdi)"
 
 msgid "max_file_size"
 msgstr "Maksimum størrelse af fil-opload"
@@ -63,22 +49,16 @@ msgid "project_disk_space"
 msgstr "Total størrelse af filer i dette projekt"
 
 msgid "project_scope_creep"
-msgstr ""
-"Forskel i dage mellem planlagt dato og færdig dato(Fed, hvis positiv"
-"værdi). Totalt for alle opgaver."
+msgstr "Forskel i dage mellem planlagt dato og færdig dato(Fed, hvis positivværdi). Totalt for alle opgaver."
 
 msgid "mycompany_logo"
-msgstr ""
-"Upload dit firmas logo, dette vil blive vist i stedet for navn, i"
-"header"
+msgstr "Upload dit firmas logo, dette vil blive vist i stedet for navn, iheader"
 
 msgid "calendar_shortname"
 msgstr "Værdi ved månedlig visning i kalender. Tvungen"
 
 msgid "user_autologout"
-msgstr ""
-"Tid i sekunder, før man bliver logget af, på grund af manglende"
-"aktivitet. 0 for at deaktivere."
+msgstr "Tid i sekunder, før man bliver logget af, på grund af manglendeaktivitet. 0 for at deaktivere."
 
 msgid "user_timezone"
 msgstr "Vælg din GMT tidszone"
@@ -90,8 +70,69 @@ msgid "setup_projectsfilter"
 msgstr "Filtrér for kun at se projekt, hvis brugere er en del af en gruppe."
 
 msgid "setup_notificationMethod"
-msgstr ""
-"Sæt metode for at sende email notifikationer: med intern php mail"
-"funktion (kræver en smtp server eller sendmail konfigureret i phps"
-"parametre) eller med en personlig smtp server"
+msgstr "Sæt metode for at sende email notifikationer: med intern php mailfunktion (kræver en smtp server eller sendmail konfigureret i phpsparametre) eller med en personlig smtp server"
 
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "newsdesk_links"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_server"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_login"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_name"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_site_url"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_password"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_email"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_general_error"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_success"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_social_info"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "logLevels"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "homeViewOptions"
+msgstr ""

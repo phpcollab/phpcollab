@@ -1,8 +1,7 @@
 # phpCollab Translation File
-# Language: Icelandic (is)
-# Type: Help
-# Domain: messages
-# Generated: 2025-11-06 00:44:09 +0000
+# Language: is
+# Domain: help
+# Synced: 2025-11-10 23:06:53 +0000
 
 msgid ""
 msgstr ""
@@ -13,43 +12,32 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+# phpCollab Translation File
+# Language: Icelandic (is)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:09 +0000
 # Help text
-
 msgid "setup_mkdirMethod"
-msgstr ""
-"Ef safe-mode er virkt verður þú að setja FTP aðgang til að geta"
-"búið til möppu fyrir skráarsafn."
+msgstr "Ef safe-mode er virkt verður þú að setja FTP aðgang til að getabúið til möppu fyrir skráarsafn."
 
 msgid "setup_notifications"
-msgstr ""
-"Senda notendum e-mail tilkynningar (úthlutun verka, ný skilaboð,"
-"breytingar verka, ...)<br/>Hér þarf gildan smpt/sendmail."
+msgstr "Senda notendum e-mail tilkynningar (úthlutun verka, ný skilaboð,breytingar verka, ...)<br/>Hér þarf gildan smpt/sendmail."
 
 msgid "setup_forcedlogin"
 msgstr "Ef 'false' er hægt að nota URL með aðgangsorði/lykilorði í"
 
 msgid "setup_langdefault"
-msgstr ""
-"Veldu sjálfgefið tungumál eða skildu eftir autt til að láta"
-"vefrápara notanda ráða tungumáli."
+msgstr "Veldu sjálfgefið tungumál eða skildu eftir autt til að látavefrápara notanda ráða tungumáli."
 
 msgid "setup_myprefix"
-msgstr ""
-"Settu þetta gildi ef þú hefur töflur fyrri í gagnagrunninum með"
-"sama"
-"nafn.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Skildu"
-"eftir autt til að nota ekki töfluforskeyti."
+msgstr "Settu þetta gildi ef þú hefur töflur fyrri í gagnagrunninum meðsamanafn.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Skildueftir autt til að nota ekki töfluforskeyti."
 
 msgid "setup_loginmethod"
-msgstr ""
-"Hvernig lykilrð eru vistuð í gagnagrunni.<br/>Settu á"
-"&quot;Dulkóðað&quot; ef þú vilt nota kerfið með CVS aðgangi"
+msgstr "Hvernig lykilrð eru vistuð í gagnagrunni.<br/>Settu á&quot;Dulkóðað&quot; ef þú vilt nota kerfið með CVS aðgangi"
 
 msgid "admin_update"
-msgstr ""
-"Fylgdu þessari röð til að uppfæra útgáfu kerfisins<br/>1."
-"Breyta stillingum (nánari forsendur)<br/>2. Breyta gagnagrunni"
-"(uppfæra kerfi úr núverandi útgáfu)"
+msgstr "Fylgdu þessari röð til að uppfæra útgáfu kerfisins<br/>1.Breyta stillingum (nánari forsendur)<br/>2. Breyta gagnagrunni(uppfæra kerfi úr núverandi útgáfu)"
 
 msgid "task_scope_creep"
 msgstr "Mismunur í dögum milli eindaga verks og verkloka"
@@ -61,23 +49,96 @@ msgid "project_disk_space"
 msgstr "Stært skráarsvæðis fyrir hvert verkefni"
 
 msgid "project_scope_creep"
-msgstr ""
-"Mismunur í dögum milli eindaga og verkloka fyrir öll verk"
-"verkefnis."
+msgstr "Mismunur í dögum milli eindaga og verkloka fyrir öll verkverkefnis."
 
 msgid "mycompany_logo"
-msgstr ""
-"Vistaðu merki fyrirtækis þíns.  Þá birtist myndin í haus kerfis"
-"í stað titils."
+msgstr "Vistaðu merki fyrirtækis þíns.  Þá birtist myndin í haus kerfisí stað titils."
 
 msgid "calendar_shortname"
 msgstr "Nafn atburðar í mánaðaryfirliti (val)"
 
 msgid "user_autologout"
-msgstr ""
-"Tími í sek. þangað til óvirkur notandi er aftengur. 0 til að"
-"aftengjast aldrei"
+msgstr "Tími í sek. þangað til óvirkur notandi er aftengur. 0 til aðaftengjast aldrei"
 
 msgid "user_timezone"
 msgstr "Settu GMT tímasvæði"
 
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_clientsfilter"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_projectsfilter"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_notificationMethod"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "newsdesk_links"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_server"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_login"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_name"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_site_url"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_password"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_email"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_general_error"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_success"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_social_info"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "logLevels"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "homeViewOptions"
+msgstr ""

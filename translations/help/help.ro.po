@@ -1,8 +1,7 @@
 # phpCollab Translation File
-# Language: Romanian (ro)
-# Type: Help
-# Domain: messages
-# Generated: 2025-11-06 00:44:12 +0000
+# Language: ro
+# Domain: help
+# Synced: 2025-11-10 23:06:53 +0000
 
 msgid ""
 msgstr ""
@@ -13,49 +12,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+# phpCollab Translation File
+# Language: Romanian (ro)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:12 +0000
 # Help text
-
 msgid "setup_mkdirMethod"
-msgstr ""
-"Daca este activat safe-mode, trebuie sa setezi un cont FTP ca sa poti"
-"crea folderul cu administrarea de fisiere."
+msgstr "Daca este activat safe-mode, trebuie sa setezi un cont FTP ca sa poticrea folderul cu administrarea de fisiere."
 
 msgid "setup_notifications"
-msgstr ""
-"Notificari prin e-mail pentru utilizatori (atribuiri de lucrari,"
-"anunturi noi, modificari de lucrari...)<br/>Este necesar un"
-"SMTP/sendmail valid."
+msgstr "Notificari prin e-mail pentru utilizatori (atribuiri de lucrari,anunturi noi, modificari de lucrari...)<br/>Este necesar unSMTP/sendmail valid."
 
 msgid "setup_forcedlogin"
 msgstr "Daca este fals, dezactiveaza linkul extern cu cont/parola in URL"
 
 msgid "setup_langdefault"
-msgstr ""
-"Alege limba care va fi selectata implicit la login, sau lasa gol"
-"pentru a detecta automat limba browserului."
+msgstr "Alege limba care va fi selectata implicit la login, sau lasa golpentru a detecta automat limba browserului."
 
 msgid "setup_myprefix"
-msgstr ""
-"Seteaza aceasta valoare daca ai tabele cu acelasi nume in baza de date"
-"existenta.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Lasa"
-"liber daca nu vei folosi un prefix de tabel."
+msgstr "Seteaza aceasta valoare daca ai tabele cu acelasi nume in baza de dateexistenta.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Lasaliber daca nu vei folosi un prefix de tabel."
 
 msgid "setup_loginmethod"
-msgstr ""
-"Metoda de memorare a parolelor in baza de date.<br/>Set to"
-"&quot;Crypt&quot; in order htaccess authentificationto work (if"
-"htaccess authentificationare enabled)."
+msgstr "Metoda de memorare a parolelor in baza de date.<br/>Set to&quot;Crypt&quot; in order htaccess authentificationto work (ifhtaccess authentificationare enabled)."
 
 msgid "admin_update"
-msgstr ""
-"Respecta strict ordinea indicata ca sa actualizezi versiunea ta<br/>1."
-"Editeaza setarile (adauga parametrii noi)<br/>2. Editeaza baza de date"
-"(actualizare in acord cu versiunea ta precedenta)"
+msgstr "Respecta strict ordinea indicata ca sa actualizezi versiunea ta<br/>1.Editeaza setarile (adauga parametrii noi)<br/>2. Editeaza baza de date(actualizare in acord cu versiunea ta precedenta)"
 
 msgid "task_scope_creep"
-msgstr ""
-"Diferenta in zile dintre data de predare si data de incheiere (bold"
-"daca este pozitiva)"
+msgstr "Diferenta in zile dintre data de predare si data de incheiere (bolddaca este pozitiva)"
 
 msgid "max_file_size"
 msgstr "Marimea maxima a fisierului pentru upload"
@@ -64,20 +49,98 @@ msgid "project_disk_space"
 msgstr "Marimea totala a fisierelor pentru proiect"
 
 msgid "project_scope_creep"
-msgstr ""
-"Diferenta in zile intre data de predare si data de incheiere (bold"
-"daca e pozitiva). Total pentru toate lucrarile"
+msgstr "Diferenta in zile intre data de predare si data de incheiere (bolddaca e pozitiva). Total pentru toate lucrarile"
 
 msgid "mycompany_logo"
-msgstr ""
-"Upload orice sigla a firmei/institutiei tale. Apare in antet, in loc"
-"de titlul sitului"
+msgstr "Upload orice sigla a firmei/institutiei tale. Apare in antet, in locde titlul sitului"
 
 msgid "calendar_shortname"
 msgstr "Eticheta care apare in calendarul lunii. Obligatoriu"
 
 msgid "user_autologout"
-msgstr ""
-"Timp in secunde pentru a fi deconectat daca nu exista activitate. 0"
-"pentru dezactivare"
+msgstr "Timp in secunde pentru a fi deconectat daca nu exista activitate. 0pentru dezactivare"
 
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "user_timezone"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_clientsfilter"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_projectsfilter"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_notificationMethod"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "newsdesk_links"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_server"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_login"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_name"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_site_url"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_password"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_email"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_general_error"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_success"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_social_info"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "logLevels"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "homeViewOptions"
+msgstr ""

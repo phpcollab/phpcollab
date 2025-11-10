@@ -1,8 +1,7 @@
 # phpCollab Translation File
-# Language: Hungarian (hu)
-# Type: Help
-# Domain: messages
-# Generated: 2025-11-06 00:44:09 +0000
+# Language: hu
+# Domain: help
+# Synced: 2025-11-10 23:06:53 +0000
 
 msgid ""
 msgstr ""
@@ -13,53 +12,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+# phpCollab Translation File
+# Language: Hungarian (hu)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:09 +0000
 # Help text
-
 msgid "setup_mkdirMethod"
-msgstr ""
-"Ha a safe-mode be van kapcsolva, szükség van egy ftp"
-"hozzáférésre, hogy filekezelésre alkalmas könyvtárat lehessen"
-"létrehozni."
+msgstr "Ha a safe-mode be van kapcsolva, szükség van egy ftphozzáférésre, hogy filekezelésre alkalmas könyvtárat lehessenlétrehozni."
 
 msgid "setup_notifications"
-msgstr ""
-"Felhasználói e-mail értesítések (feladat-hozzárendelések, új"
-"hozzászólás, új hozzászólás, feladat változás, ...)<br/>Valid"
-"smtp/sendmail szükséges."
+msgstr "Felhasználói e-mail értesítések (feladat-hozzárendelések, újhozzászólás, új hozzászólás, feladat változás, ...)<br/>Validsmtp/sendmail szükséges."
 
 msgid "setup_forcedlogin"
-msgstr ""
-"Ha hamis, akkor ne engedd külsõ linket"
-"felhasználónévvel/jelszóval az URL-ben"
+msgstr "Ha hamis, akkor ne engedd külsõ linketfelhasználónévvel/jelszóval az URL-ben"
 
 msgid "setup_langdefault"
-msgstr ""
-"Válaszd ki az alapértelmezett bejelentkezési nyelvet, vagy hagyd"
-"üresen, hogy a böngészõ detektálja automatikusan."
+msgstr "Válaszd ki az alapértelmezett bejelentkezési nyelvet, vagy hagydüresen, hogy a böngészõ detektálja automatikusan."
 
 msgid "setup_myprefix"
-msgstr ""
-"Állítsd be ezt az értéket, ha már van azonos nevû táblád az"
-"adatbázisban.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Hagyd"
-"üresen tábla prefix nem-használata esetén."
+msgstr "Állítsd be ezt az értéket, ha már van azonos nevû táblád azadatbázisban.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Hagydüresen tábla prefix nem-használata esetén."
 
 msgid "setup_loginmethod"
-msgstr ""
-"Jelszavak tárolási metódusa az adatbázisban.<br/>Állíts"
-"&quot;Crypt&quot;-re a CVS és htaccess autentikáció mûködéséhez"
-"(ha a CVS support és/vagy htaccess autentikáció engedélyezett)."
+msgstr "Jelszavak tárolási metódusa az adatbázisban.<br/>Állíts&quot;Crypt&quot;-re a CVS és htaccess autentikáció mûködéséhez(ha a CVS support és/vagy htaccess autentikáció engedélyezett)."
 
 msgid "admin_update"
-msgstr ""
-"Szigorúan tartsd be a sorrendet a verziófrissítéskor<br/>1."
-"Beállítások szerkesztése (egészítsd ki az új"
-"paramétereket)<br/>2. Adatbázis szerkesztése (frissítsd a korábbi"
-"verziódhoz igazodva)"
+msgstr "Szigorúan tartsd be a sorrendet a verziófrissítéskor<br/>1.Beállítások szerkesztése (egészítsd ki az újparamétereket)<br/>2. Adatbázis szerkesztése (frissítsd a korábbiverziódhoz igazodva)"
 
 msgid "task_scope_creep"
-msgstr ""
-"Különbség a határidõ és a teljesítés dátuma között"
-"(félkövér, ha pozitív)"
+msgstr "Különbség a határidõ és a teljesítés dátuma között(félkövér, ha pozitív)"
 
 msgid "max_file_size"
 msgstr "Maximum file méret feltöltéshez"
@@ -68,24 +49,96 @@ msgid "project_disk_space"
 msgstr "A projekthez tartozó file-ok összmérete"
 
 msgid "project_scope_creep"
-msgstr ""
-"Különbség a határidõ és a teljesítés dátuma között"
-"(félkövér, ha pozitív). Az összes feladatra vonatkozóan."
+msgstr "Különbség a határidõ és a teljesítés dátuma között(félkövér, ha pozitív). Az összes feladatra vonatkozóan."
 
 msgid "mycompany_logo"
-msgstr ""
-"Tölts fel vállalatod tetszõleges logóját. Megjelenik a"
-"fejlécben. "
+msgstr "Tölts fel vállalatod tetszõleges logóját. Megjelenik afejlécben. "
 
 msgid "calendar_shortname"
 msgstr "A naptár havi nézetében megjelenõ felirat. Kötelezõ"
 
 msgid "user_autologout"
-msgstr ""
-"Az az idõintervallum másodpercekben, amely után aktivitás"
-"hiányában kijelentkezteti a felhasználót. Állíts be 0-át, ha ki"
-"akarod iktatni a funkciót."
+msgstr "Az az idõintervallum másodpercekben, amely után aktivitáshiányában kijelentkezteti a felhasználót. Állíts be 0-át, ha kiakarod iktatni a funkciót."
 
 msgid "user_timezone"
 msgstr "Állítsd be a GMT idõzónát"
 
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_clientsfilter"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_projectsfilter"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_notificationMethod"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "newsdesk_links"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_server"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_login"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_name"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_site_url"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_password"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_email"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_general_error"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_success"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_social_info"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "logLevels"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "homeViewOptions"
+msgstr ""

@@ -1,8 +1,7 @@
 # phpCollab Translation File
-# Language: Spanish (es)
-# Type: Help
-# Domain: messages
-# Generated: 2025-11-06 00:44:13 +0000
+# Language: es
+# Domain: help
+# Synced: 2025-11-10 23:06:53 +0000
 
 msgid ""
 msgstr ""
@@ -13,53 +12,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+# phpCollab Translation File
+# Language: Spanish (es)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:13 +0000
 # Help text
-
 msgid "setup_mkdirMethod"
-msgstr ""
-"Si safe-mode esta activado, usted necesita crear una cuenta FTP que"
-"esté autorizada para crear carpetas con administración de archivos."
+msgstr "Si safe-mode esta activado, usted necesita crear una cuenta FTP queesté autorizada para crear carpetas con administración de archivos."
 
 msgid "setup_notifications"
-msgstr ""
-"Notificaciones vía correo electrónico (Asignación de tareas, nuevos"
-"temas, cambios en tareas...)<br/>Se requiere smtp/sendmail valido."
+msgstr "Notificaciones vía correo electrónico (Asignación de tareas, nuevostemas, cambios en tareas...)<br/>Se requiere smtp/sendmail valido."
 
 msgid "setup_forcedlogin"
-msgstr ""
-"Si es falso, deshabilita que se autorice la entrada desde un url que"
-"contenga el login/password incluido."
+msgstr "Si es falso, deshabilita que se autorice la entrada desde un url quecontenga el login/password incluido."
 
 msgid "setup_langdefault"
-msgstr ""
-"Escoja el idioma que se seleccionará como predeterminado en el"
-"momento de logearse, o deje en blanco para que sea autodetectado por"
-"el navegador."
+msgstr "Escoja el idioma que se seleccionará como predeterminado en elmomento de logearse, o deje en blanco para que sea autodetectado porel navegador."
 
 msgid "setup_myprefix"
-msgstr ""
-"Ingrese este valor si usted tiene tablas en la base de datos con el"
-"mismo"
-"nombre.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Deje"
-"en blanco si no quiere utilizar un prefijo."
+msgstr "Ingrese este valor si usted tiene tablas en la base de datos con elmismonombre.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Dejeen blanco si no quiere utilizar un prefijo."
 
 msgid "setup_loginmethod"
-msgstr ""
-"Método para almacenar passwords en la base de datos.<br/>Seleccione"
-"&quot;Crypt&quot; si quiere que la autenticación por el método CVS y"
-"htaccess funcionen (Si autenticación y/o htaccess están activados)."
+msgstr "Método para almacenar passwords en la base de datos.<br/>Seleccione&quot;Crypt&quot; si quiere que la autenticación por el método CVS yhtaccess funcionen (Si autenticación y/o htaccess están activados)."
 
 msgid "admin_update"
-msgstr ""
-"Respetar estrictamente el orden indicado para actualizar su"
-"versión<br/>1. Edite sus preferencias (sustituya con los nuevos"
-"parámetros)<br/>2. Edite la base de datos (actualice de acuerdo con"
-"su versión anterior)"
+msgstr "Respetar estrictamente el orden indicado para actualizar suversión<br/>1. Edite sus preferencias (sustituya con los nuevosparámetros)<br/>2. Edite la base de datos (actualice de acuerdo consu versión anterior)"
 
 msgid "task_scope_creep"
-msgstr ""
-"Diferencia en días entre los la fecha de entrega y la fecha de"
-"completada (Negrilla si es positiva)"
+msgstr "Diferencia en días entre los la fecha de entrega y la fecha decompletada (Negrilla si es positiva)"
 
 msgid "max_file_size"
 msgstr "Máximo peso de un archivo permitido para ser publicado"
@@ -68,22 +49,16 @@ msgid "project_disk_space"
 msgstr "Tamaño total de los archivos publicados en el proyecto"
 
 msgid "project_scope_creep"
-msgstr ""
-"Diferencia en días entre los la fecha de entrega y la fecha de"
-"completada (Negrilla si es positiva). Total para todas las tareas."
+msgstr "Diferencia en días entre los la fecha de entrega y la fecha decompletada (Negrilla si es positiva). Total para todas las tareas."
 
 msgid "mycompany_logo"
-msgstr ""
-"Publique el logo de su compañía. Aparece en el encabezado, en vez de"
-"el título en texto"
+msgstr "Publique el logo de su compañía. Aparece en el encabezado, en vez deel título en texto"
 
 msgid "calendar_shortname"
 msgstr "Título que aparece en la vista del calendario mensual. Obligatorio"
 
 msgid "user_autologout"
-msgstr ""
-"Tiempo, en segundos para ser desconetado del sistema si no hay"
-"actividad (Time Out). 0 para desactivar esta opción."
+msgstr "Tiempo, en segundos para ser desconetado del sistema si no hayactividad (Time Out). 0 para desactivar esta opción."
 
 msgid "user_timezone"
 msgstr "Seleccione su zona de tiempo global (GMT)"
@@ -92,16 +67,70 @@ msgid "setup_clientsfilter"
 msgstr "Filtro :  Solo se veran los clientes conectados."
 
 msgid "setup_projectsfilter"
-msgstr ""
-"Filtro : Los usuarios solo podran ver los proyectos a los que"
-"pertenezcan."
+msgstr "Filtro : Los usuarios solo podran ver los proyectos a los quepertenezcan."
 
 msgid "setup_notificationMethod"
-msgstr ""
-"Selecciona el metodo para enviar las notificaciones por correo  : Con"
-"las funciones propias de php ( necesita tener php configurado para"
-"enviar correo) o  con un servidor SMTP externo"
+msgstr "Selecciona el metodo para enviar las notificaciones por correo  : Conlas funciones propias de php ( necesita tener php configurado paraenviar correo) o  con un servidor SMTP externo"
 
 msgid "newsdesk_links"
 msgstr "Para añadir multiples enlaces hagalo separandolos por comas"
 
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_server"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_login"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_name"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_site_url"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_password"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_email"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_general_error"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_success"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_social_info"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "logLevels"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "homeViewOptions"
+msgstr ""

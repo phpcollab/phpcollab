@@ -1,8 +1,7 @@
 # phpCollab Translation File
-# Language: Korean (ko)
-# Type: Help
-# Domain: messages
-# Generated: 2025-11-06 00:44:10 +0000
+# Language: ko
+# Domain: help
+# Synced: 2025-11-10 23:06:53 +0000
 
 msgid ""
 msgstr ""
@@ -13,3 +12,157 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_mkdirMethod"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_notifications"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_forcedlogin"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_langdefault"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_myprefix"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_loginmethod"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "admin_update"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "task_scope_creep"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "max_file_size"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "project_disk_space"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "project_scope_creep"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "mycompany_logo"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "calendar_shortname"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "user_autologout"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "user_timezone"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_clientsfilter"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_projectsfilter"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_notificationMethod"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "newsdesk_links"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_server"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_login"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_name"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_site_url"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_password"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_email"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_general_error"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_success"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_social_info"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "logLevels"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "homeViewOptions"
+msgstr ""

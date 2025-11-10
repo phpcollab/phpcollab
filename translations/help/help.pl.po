@@ -1,8 +1,7 @@
 # phpCollab Translation File
-# Language: Polish (pl)
-# Type: Help
-# Domain: messages
-# Generated: 2025-11-06 00:44:12 +0000
+# Language: pl
+# Domain: help
+# Synced: 2025-11-10 23:06:53 +0000
 
 msgid ""
 msgstr ""
@@ -13,52 +12,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+# phpCollab Translation File
+# Language: Polish (pl)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:12 +0000
 # Help text
-
 msgid "setup_mkdirMethod"
-msgstr ""
-"Je¶li serwer dzia³a w trybie safe-moed, musisz zdefiniowaæ konto"
-"ftp do zarz±dzania plikami w phpCollab."
+msgstr "Je¶li serwer dzia³a w trybie safe-moed, musisz zdefiniowaæ kontoftp do zarz±dzania plikami w phpCollab."
 
 msgid "setup_notifications"
-msgstr ""
-"Powiadamiania za pomoc± poczty elektronicznej (zmiana w zadaniach,"
-"nowa wiadomo¶æ, ...)<br/>Smtp/sendmail konieczny"
+msgstr "Powiadamiania za pomoc± poczty elektronicznej (zmiana w zadaniach,nowa wiadomo¶æ, ...)<br/>Smtp/sendmail konieczny"
 
 msgid "setup_forcedlogin"
-msgstr ""
-"Je¶li False, nie zezwalaj na zdalne logowanie przez login i has³o"
-"zapisane w URL"
+msgstr "Je¶li False, nie zezwalaj na zdalne logowanie przez login i has³ozapisane w URL"
 
 msgid "setup_langdefault"
-msgstr ""
-"Wybierz jêzyk, który ma byæ domy¶lnie wybierany podczas logowania"
-"lub pozostaw je¶li chcesz. by aktualny jêzyk by³ rozpoznawany"
-"automatycznie."
+msgstr "Wybierz jêzyk, który ma byæ domy¶lnie wybierany podczas logowanialub pozostaw je¶li chcesz. by aktualny jêzyk by³ rozpoznawanyautomatycznie."
 
 msgid "setup_myprefix"
-msgstr ""
-"Ustaw t± zmienn± je¶li chcesz by nazwy tabel w bazie danych"
-"zosta³y poprzedzone prefiksem."
-"<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Pozostaw"
-"to pole puste je¶li nie chcesz u¿ywaæ prefiksu."
+msgstr "Ustaw t± zmienn± je¶li chcesz by nazwy tabel w bazie danychzosta³y poprzedzone prefiksem.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Pozostawto pole puste je¶li nie chcesz u¿ywaæ prefiksu."
 
 msgid "setup_loginmethod"
-msgstr ""
-"Metoda zapisu hase³ w bazie danych.<br/>Ustaw &quot;Crypt&quot;"
-"je¶lic chesz by dzia³a³a autentykacja w CVS i za pomoc± htaccess"
-"(w przypadku gdy w³±czone jest u¿ywanie CVS i/lub htaccess)."
+msgstr "Metoda zapisu hase³ w bazie danych.<br/>Ustaw &quot;Crypt&quot;je¶lic chesz by dzia³a³a autentykacja w CVS i za pomoc± htaccess(w przypadku gdy w³±czone jest u¿ywanie CVS i/lub htaccess)."
 
 msgid "admin_update"
-msgstr ""
-"W przypadku aktualizowania wersji postêpuj dok³adnie w tej"
-"kolejno¶ci:<br/>1. Ustawienia (wprowad¼ nowe parametry)<br/>2."
-"Ustawienia bazy danych (uaktualnij zgodnie z now± wersj±)"
+msgstr "W przypadku aktualizowania wersji postêpuj dok³adnie w tejkolejno¶ci:<br/>1. Ustawienia (wprowad¼ nowe parametry)<br/>2.Ustawienia bazy danych (uaktualnij zgodnie z now± wersj±)"
 
 msgid "task_scope_creep"
-msgstr ""
-"Ró¿nica dni pomiêdzy planowana dat± zakoñczenia i rzeczywist±"
-"dat± zakoñczenia (pogrubione dodatnia)."
+msgstr "Ró¿nica dni pomiêdzy planowana dat± zakoñczenia i rzeczywist±dat± zakoñczenia (pogrubione dodatnia)."
 
 msgid "max_file_size"
 msgstr "Maksymalna wielko¶æ pliku."
@@ -67,22 +49,16 @@ msgid "project_disk_space"
 msgstr "Sumaryczna maksymalna wielko¶æ foldera z plikami."
 
 msgid "project_scope_creep"
-msgstr ""
-"Ró¿nica dni pomiêdzy planowana dat± zakoñczenia i rzeczywist±"
-"dat± zakoñczenia (pogrubione dodatnia). Dla wszystkich zadañ."
+msgstr "Ró¿nica dni pomiêdzy planowana dat± zakoñczenia i rzeczywist±dat± zakoñczenia (pogrubione dodatnia). Dla wszystkich zadañ."
 
 msgid "mycompany_logo"
-msgstr ""
-"Za³aduj logo swojej firmy. Logo poka¿e siê w lewym górnym rogu"
-"okna."
+msgstr "Za³aduj logo swojej firmy. Logo poka¿e siê w lewym górnym roguokna."
 
 msgid "calendar_shortname"
 msgstr "Etykieta, która poka¿e siê w kalendarzu. Wymagane."
 
 msgid "user_autologout"
-msgstr ""
-"Czas w sekundach do automatycznego wylogowania w przypadku braku"
-"aktywno¶ci, 0 = wy³±czone."
+msgstr "Czas w sekundach do automatycznego wylogowania w przypadku brakuaktywno¶ci, 0 = wy³±czone."
 
 msgid "user_timezone"
 msgstr "Ustaw strefê  GMT."
@@ -91,13 +67,72 @@ msgid "setup_clientsfilter"
 msgstr "Filtruj tylko zalogowanych u¿ytkowników klienta."
 
 msgid "setup_projectsfilter"
-msgstr ""
-"Filtruj, by pokazywaæ jedynie projekty, do których u¿ytkownik"
-"zosta³ przypisany."
+msgstr "Filtruj, by pokazywaæ jedynie projekty, do których u¿ytkownikzosta³ przypisany."
 
 msgid "setup_notificationMethod"
-msgstr ""
-"Ustal metodê dla wysy³ania poczty elektronicznej: za pomoc± funkcji"
-"mail jêzyka php (konieczny w³asny serwer smtp lub sendmail i"
-"skonfigurowany php) lub za pomoc± innego serwera smtp."
+msgstr "Ustal metodê dla wysy³ania poczty elektronicznej: za pomoc± funkcjimail jêzyka php (konieczny w³asny serwer smtp lub sendmail iskonfigurowany php) lub za pomoc± innego serwera smtp."
 
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "newsdesk_links"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_server"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_login"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_name"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_site_url"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_password"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_email"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_general_error"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_success"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_social_info"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "logLevels"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "homeViewOptions"
+msgstr ""

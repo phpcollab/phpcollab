@@ -1,8 +1,7 @@
 # phpCollab Translation File
-# Language: Arabic (ar)
-# Type: Help
-# Domain: messages
-# Generated: 2025-11-06 00:44:03 +0000
+# Language: ar
+# Domain: help
+# Synced: 2025-11-10 23:06:53 +0000
 
 msgid ""
 msgstr ""
@@ -13,47 +12,147 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+# phpCollab Translation File
+# Language: Arabic (ar)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:03 +0000
 # Help text
-
 msgid "setup_mkdirMethod"
-msgstr ""
-"اذا كنت بالنمط الآمن تحتاج لتحديد ftp"
-"للتعامل مع الملفات."
+msgstr "اذا كنت بالنمط الآمن تحتاج لتحديد ftpللتعامل مع الملفات."
 
 msgid "setup_notifications"
-msgstr ""
-"إخطار المستخدم بالايميل (عن مهمة"
-"جديدة،..) <br>تحتاج smtp/sendmail صالح."
+msgstr "إخطار المستخدم بالايميل (عن مهمةجديدة،..) <br>تحتاج smtp/sendmail صالح."
 
 msgid "setup_forcedlogin"
-msgstr ""
-"اذا  خطأ يمنع وضع الاسم و كلمة السر ضمن"
-"العنوان"
+msgstr "اذا  خطأ يمنع وضع الاسم و كلمة السر ضمنالعنوان"
 
 msgid "setup_langdefault"
-msgstr ""
-"اختر اللغة التي ستظهر افتراضيا او"
-"اتركه فارغ ليختار حسب اعدادات مستعرض"
-"المستخدم."
+msgstr "اختر اللغة التي ستظهر افتراضيا اواتركه فارغ ليختار حسب اعدادات مستعرضالمستخدم."
 
 msgid "setup_myprefix"
-msgstr ""
-"اختر قيمة اذا كان لديك جداول بنفس"
-"الاسم.<br><br>assignments<br>bookmarks<br>bookmarks_categories<br>calendar<br>files<br>logs<br>members<br>notes<br>notifications<br>organizations<br>phases<br>posts<br>projects<br>reports<br>sorting<br>subtasks<br>support_posts<br>support_requests<br>tasks<br>teams<br>topics<br>updates<br><br>Leave"
-"blank for not use table prefix."
+msgstr "اختر قيمة اذا كان لديك جداول بنفسالاسم.<br><br>assignments<br>bookmarks<br>bookmarks_categories<br>calendar<br>files<br>logs<br>members<br>notes<br>notifications<br>organizations<br>phases<br>posts<br>projects<br>reports<br>sorting<br>subtasks<br>support_posts<br>support_requests<br>tasks<br>teams<br>topics<br>updates<br><br>Leaveblank for not use table prefix."
 
 msgid "setup_loginmethod"
-msgstr ""
-"اسلوب حفظ كلمة السر بقاعدة"
-"البيانات.<br>Set to &quot;Crypt&quot; in order htaccess"
-"authentification to work (if htaccess authentification are enabled)."
+msgstr "اسلوب حفظ كلمة السر بقاعدةالبيانات.<br>Set to &quot;Crypt&quot; in order htaccessauthentification to work (if htaccess authentification are enabled)."
 
 msgid "admin_update"
-msgstr ""
-"Respect strictly the order indicated to update your version<br>1. Edit"
-"settings (supplement the new parameters)<br>2. Edit database (update"
-"in agreement with your preceding version)"
+msgstr "Respect strictly the order indicated to update your version<br>1. Editsettings (supplement the new parameters)<br>2. Edit database (updatein agreement with your preceding version)"
 
 msgid "user_timezone"
 msgstr "اعدادات التوقيت"
 
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "task_scope_creep"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "max_file_size"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "project_disk_space"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "project_scope_creep"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "mycompany_logo"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "calendar_shortname"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "user_autologout"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_clientsfilter"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_projectsfilter"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_notificationMethod"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "newsdesk_links"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_server"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_login"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_name"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_site_url"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_password"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_email"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_general_error"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_success"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_social_info"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "logLevels"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "homeViewOptions"
+msgstr ""

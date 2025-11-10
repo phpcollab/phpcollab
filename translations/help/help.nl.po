@@ -1,8 +1,7 @@
 # phpCollab Translation File
-# Language: Dutch (nl)
-# Type: Help
-# Domain: messages
-# Generated: 2025-11-06 00:44:06 +0000
+# Language: nl
+# Domain: help
+# Synced: 2025-11-10 23:06:53 +0000
 
 msgid ""
 msgstr ""
@@ -13,47 +12,32 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+# phpCollab Translation File
+# Language: Dutch (nl)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:06 +0000
 # Help text
-
 msgid "setup_mkdirMethod"
-msgstr ""
-"Wanneer safe-mode geactiveerd is dient u een Ftp account te creëren"
-"om een map met bestandsmanagement aan te maken."
+msgstr "Wanneer safe-mode geactiveerd is dient u een Ftp account te creërenom een map met bestandsmanagement aan te maken."
 
 msgid "setup_notifications"
-msgstr ""
-"Email notificatie voor gebruikers (taak toewijzingen, nieuwe"
-"berichten, taakwijzigingen etc.)<br/>Een geldige SMTP/Sendmail"
-"toepassing is vereist."
+msgstr "Email notificatie voor gebruikers (taak toewijzingen, nieuweberichten, taakwijzigingen etc.)<br/>Een geldige SMTP/Sendmailtoepassing is vereist."
 
 msgid "setup_forcedlogin"
-msgstr ""
-"Wanneer niet geactiveerd (<i>false</i>) zullen passwords en loginnamen"
-"niet in de url getoond worden."
+msgstr "Wanneer niet geactiveerd (<i>false</i>) zullen passwords en loginnamenniet in de url getoond worden."
 
 msgid "setup_langdefault"
-msgstr ""
-"Kies de taal die standaard wordt gekozen bij een nieuwe login, of laat"
-"deze leeg om de taal te auto-detecteren."
+msgstr "Kies de taal die standaard wordt gekozen bij een nieuwe login, of laatdeze leeg om de taal te auto-detecteren."
 
 msgid "setup_myprefix"
-msgstr ""
-"Plaats hier een voorvoegsel wanneer u de database -tabellen in een"
-"bestaande database wilt"
-"plaatsen.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Plaats"
-"geen waarde wanneer u geen gebruik wilt maken van een voorvoegsel."
+msgstr "Plaats hier een voorvoegsel wanneer u de database -tabellen in eenbestaande database wiltplaatsen.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Plaatsgeen waarde wanneer u geen gebruik wilt maken van een voorvoegsel."
 
 msgid "setup_loginmethod"
-msgstr ""
-"Methoden om de passwords op te slaan in de database.<br/>Kies voor"
-"&quot;Crypt&quot; om CVS én htaccess authenticatie te kunnen"
-"gebruiken (wanneer CVS support en/of htaccess authenticatie zijn"
-"geactiveerd)."
+msgstr "Methoden om de passwords op te slaan in de database.<br/>Kies voor&quot;Crypt&quot; om CVS én htaccess authenticatie te kunnengebruiken (wanneer CVS support en/of htaccess authenticatie zijngeactiveerd)."
 
 msgid "task_scope_creep"
-msgstr ""
-"Verschil in dagen tussen de vervaldatum en de afrondingsdatum (vet"
-"wanneer positief)"
+msgstr "Verschil in dagen tussen de vervaldatum en de afrondingsdatum (vetwanneer positief)"
 
 msgid "max_file_size"
 msgstr "Maximale bestandsgrootte van een bestand bij het uploaden"
@@ -62,25 +46,101 @@ msgid "project_disk_space"
 msgstr "Totale grootte aan bestanden voor een project"
 
 msgid "project_scope_creep"
-msgstr ""
-"Verschil in dagen tussen de vervaldatum en de afrondingsdatum (vet"
-"wanneer positief). Het totaal voor alle taken."
+msgstr "Verschil in dagen tussen de vervaldatum en de afrondingsdatum (vetwanneer positief). Het totaal voor alle taken."
 
 msgid "mycompany_logo"
-msgstr ""
-"Upload een logo van uw bedrijf. Wordt getoond in de header, in plaats"
-"van de titel van de site"
+msgstr "Upload een logo van uw bedrijf. Wordt getoond in de header, in plaatsvan de titel van de site"
 
 msgid "calendar_shortname"
-msgstr ""
-"Verkorte tekst welke wordt getoond in de kalender (overzicht). Dit is"
-"een verplicht veld!"
+msgstr "Verkorte tekst welke wordt getoond in de kalender (overzicht). Dit iseen verplicht veld!"
 
 msgid "user_autologout"
-msgstr ""
-"Tijd in seconden, wanneer u uitgelogd wordt na geen activiteit. type 0"
-"om te deactiveren"
+msgstr "Tijd in seconden, wanneer u uitgelogd wordt na geen activiteit. type 0om te deactiveren"
 
 msgid "user_timezone"
 msgstr "Geef uw Tijdzone aan (GMT)"
 
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "admin_update"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_clientsfilter"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_projectsfilter"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_notificationMethod"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "newsdesk_links"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_server"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_login"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_name"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_site_url"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_password"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_email"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_general_error"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_success"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_social_info"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "logLevels"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "homeViewOptions"
+msgstr ""

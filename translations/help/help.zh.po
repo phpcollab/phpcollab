@@ -1,8 +1,7 @@
 # phpCollab Translation File
-# Language: Chinese (Simplified) (zh)
-# Type: Help
-# Domain: messages
-# Generated: 2025-11-06 00:44:05 +0000
+# Language: zh
+# Domain: help
+# Synced: 2025-11-10 23:06:53 +0000
 
 msgid ""
 msgstr ""
@@ -13,48 +12,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+# phpCollab Translation File
+# Language: Chinese (Simplified) (zh)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:05 +0000
 # Help text
-
 msgid "setup_mkdirMethod"
-msgstr ""
-"If safe-mode is On, you need to set a Ftp account to be able to create"
-"folder with file management."
+msgstr "If safe-mode is On, you need to set a Ftp account to be able to createfolder with file management."
 
 msgid "setup_notifications"
-msgstr ""
-"Users e-mail notifications (task assignment, new post, task"
-"changes...)<br/>Valid smtp/sendmail needed."
+msgstr "Users e-mail notifications (task assignment, new post, taskchanges...)<br/>Valid smtp/sendmail needed."
 
 msgid "setup_forcedlogin"
 msgstr "If false, disallow external link with login/password in url"
 
 msgid "setup_langdefault"
-msgstr ""
-"Choose language to be selected on login by default or leave blank to"
-"use auto_detect browser language."
+msgstr "Choose language to be selected on login by default or leave blank touse auto_detect browser language."
 
 msgid "setup_myprefix"
-msgstr ""
-"Set this value if you have tables with same name in existing"
-"database.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Leave"
-"blank for not use table prefix."
+msgstr "Set this value if you have tables with same name in existingdatabase.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Leaveblank for not use table prefix."
 
 msgid "setup_loginmethod"
-msgstr ""
-"Method to store passwords in database.<br/>Set to &quot;Crypt&quot; in"
-"order htaccess authentificationto work (if htaccess"
-"authentificationare enabled)."
+msgstr "Method to store passwords in database.<br/>Set to &quot;Crypt&quot; inorder htaccess authentificationto work (if htaccessauthentificationare enabled)."
 
 msgid "admin_update"
-msgstr ""
-"Respect strictly the order indicated to update your version<br/>1."
-"Edit settings (supplement the new parameters)<br/>2. Edit database"
-"(update in agreement with your preceding version)"
+msgstr "Respect strictly the order indicated to update your version<br/>1.Edit settings (supplement the new parameters)<br/>2. Edit database(update in agreement with your preceding version)"
 
 msgid "task_scope_creep"
-msgstr ""
-"Difference in days between due date and complete date (bold if"
-"positive)"
+msgstr "Difference in days between due date and complete date (bold ifpositive)"
 
 msgid "max_file_size"
 msgstr "Maximum file size of a file to upload"
@@ -63,14 +49,10 @@ msgid "project_disk_space"
 msgstr "Total size of files for the project"
 
 msgid "project_scope_creep"
-msgstr ""
-"Difference in days between due date and complete date (bold if"
-"positive). Total for all tasks"
+msgstr "Difference in days between due date and complete date (bold ifpositive). Total for all tasks"
 
 msgid "mycompany_logo"
-msgstr ""
-"Upload any logo of your company. Appears in header, instead of title"
-"site"
+msgstr "Upload any logo of your company. Appears in header, instead of titlesite"
 
 msgid "calendar_shortname"
 msgstr "Label to appear in monthly calendar view. Mandatory"
@@ -88,8 +70,69 @@ msgid "setup_projectsfilter"
 msgstr "Filter to see only the project when the user are in the team"
 
 msgid "setup_notificationMethod"
-msgstr ""
-"Set method to send email notifications: with internal php mail"
-"function (need for having a smtp server or sendmail configured in the"
-"parameters of php) or with a personalized smtp server"
+msgstr "Set method to send email notifications: with internal php mailfunction (need for having a smtp server or sendmail configured in theparameters of php) or with a personalized smtp server"
 
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "newsdesk_links"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_server"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_login"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_name"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_site_url"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_password"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_email"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_general_error"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_success"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_social_info"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "logLevels"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "homeViewOptions"
+msgstr ""

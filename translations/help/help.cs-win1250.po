@@ -1,63 +1,46 @@
 # phpCollab Translation File
-# Language: English (en)
-# Type: Help
-# Domain: messages
-# Generated: 2025-11-06 00:44:06 +0000
+# Language: cs-win1250
+# Domain: help
+# Synced: 2025-11-10 23:06:53 +0000
 
 msgid ""
 msgstr ""
 "Project-Id-Version: phpCollab 2.x\n"
-"Language: en\n"
+"Language: cs-win1250\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+# phpCollab Translation File
+# Language: English (en)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:06 +0000
 # Help text
-
 msgid "setup_mkdirMethod"
-msgstr ""
-"Pokud je safe-mode On, musíte použít Ftp úèet pro možnost"
-"vytváøet adresáøe pøi práci se soubory v PHP Collab."
+msgstr "Pokud je safe-mode On, musíte použít Ftp úèet pro možnostvytváøet adresáøe pøi práci se soubory v PHP Collab."
 
 msgid "setup_notifications"
-msgstr ""
-"E-mailové oznámení uživatelùm (pøiøazení úkolu, nový"
-"pøíspìvek, zmìny úkolu...)<br/>Je potøeba správnì nastavit"
-"smtp/sendmail."
+msgstr "E-mailové oznámení uživatelùm (pøiøazení úkolu, novýpøíspìvek, zmìny úkolu...)<br/>Je potøeba správnì nastavitsmtp/sendmail."
 
 msgid "setup_forcedlogin"
-msgstr ""
-"Pokud není aktivní, nejsou povoleny externí odkazy s login/heslo v"
-"url"
+msgstr "Pokud není aktivní, nejsou povoleny externí odkazy s login/heslo vurl"
 
 msgid "setup_langdefault"
-msgstr ""
-"Vyberte jazyk, který bude defaultnì vybrán pøi pøihlašování"
-"nebo nechte prázdné pro autodetekci jazyka v prohlížeèi."
+msgstr "Vyberte jazyk, který bude defaultnì vybrán pøi pøihlašovánínebo nechte prázdné pro autodetekci jazyka v prohlížeèi."
 
 msgid "setup_myprefix"
-msgstr ""
-"Natavte tuto hodnotu, pokud máte v databázi tabulku se shodným"
-"názvem.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Nechte"
-"prázdné, pokud nechcete použít prefix tabulek."
+msgstr "Natavte tuto hodnotu, pokud máte v databázi tabulku se shodnýmnázvem.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Nechteprázdné, pokud nechcete použít prefix tabulek."
 
 msgid "setup_loginmethod"
-msgstr ""
-"Zpùsob uložení hesla v databázi.<br/>Set to &quot;Crypt&quot; in"
-"order htaccess authentificationto work (if htaccess"
-"authentificationare enabled)."
+msgstr "Zpùsob uložení hesla v databázi.<br/>Set to &quot;Crypt&quot; inorder htaccess authentificationto work (if htaccessauthentificationare enabled)."
 
 msgid "admin_update"
-msgstr ""
-"Respect strictly the order indicated to update your version<br/>1."
-"Upravte nastavení (doplòte nové parametry)<br/>2. Upravte databázi"
-"(aktualizace v souladu s vaší pøedchozí verzí)"
+msgstr "Respect strictly the order indicated to update your version<br/>1.Upravte nastavení (doplòte nové parametry)<br/>2. Upravte databázi(aktualizace v souladu s vaší pøedchozí verzí)"
 
 msgid "task_scope_creep"
-msgstr ""
-"Rozdíl v dnech mezi termínem dokonèení a datem dokonèení"
-"(tuènì jestliže je kladný)"
+msgstr "Rozdíl v dnech mezi termínem dokonèení a datem dokonèení(tuènì jestliže je kladný)"
 
 msgid "max_file_size"
 msgstr "Maximální velikost souboru pro upload"
@@ -66,23 +49,96 @@ msgid "project_disk_space"
 msgstr "Celková velikost suoborù pro projekt"
 
 msgid "project_scope_creep"
-msgstr ""
-"Rozdíl v dnech mezi termínem dokonèení a datem dokonèení"
-"(tuènì jestliže je kladný). Celkem pro všechny úkoly."
+msgstr "Rozdíl v dnech mezi termínem dokonèení a datem dokonèení(tuènì jestliže je kladný). Celkem pro všechny úkoly."
 
 msgid "mycompany_logo"
-msgstr ""
-"Nahrej logo vaší spoleènosti. Objeví se v záhlaví místo"
-"nadpisu."
+msgstr "Nahrej logo vaší spoleènosti. Objeví se v záhlaví místonadpisu."
 
 msgid "calendar_shortname"
 msgstr "Popisek pro zobrazení v mìsíèním kalendáøi. povinné"
 
 msgid "user_autologout"
-msgstr ""
-"Èas v sekundách pro automatické odpojení pøi neèinnosti. 0 pro"
-"deaktivaci"
+msgstr "Èas v sekundách pro automatické odpojení pøi neèinnosti. 0 prodeaktivaci"
 
 msgid "user_timezone"
 msgstr "Nastavte Vaše èasové pásmo (GMT)"
 
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_clientsfilter"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_projectsfilter"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_notificationMethod"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "newsdesk_links"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_server"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_login"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_name"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_site_url"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_password"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_email"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_general_error"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_success"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_social_info"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "logLevels"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "homeViewOptions"
+msgstr ""

@@ -1,8 +1,7 @@
 # phpCollab Translation File
-# Language: Estonian (et)
-# Type: Help
-# Domain: messages
-# Generated: 2025-11-06 00:44:07 +0000
+# Language: et
+# Domain: help
+# Synced: 2025-11-10 23:06:53 +0000
 
 msgid ""
 msgstr ""
@@ -13,46 +12,32 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+# phpCollab Translation File
+# Language: Estonian (et)
+# Type: Help
+# Domain: messages
+# Generated: 2025-11-06 00:44:07 +0000
 # Help text
-
 msgid "setup_mkdirMethod"
-msgstr ""
-"Kui safe-mode on aktiveeritud, siis pead lisama FTP konto info, kuhu"
-"süsteem saaks katalooge ning faile lisada."
+msgstr "Kui safe-mode on aktiveeritud, siis pead lisama FTP konto info, kuhusüsteem saaks katalooge ning faile lisada."
 
 msgid "setup_notifications"
-msgstr ""
-"teated kasutajate e-postile (ülesande andmine, uus postitus,"
-"ülesanne muutub...)<br/>Vajalik on smtp/sendmail konfigureeerimine."
+msgstr "teated kasutajate e-postile (ülesande andmine, uus postitus,ülesanne muutub...)<br/>Vajalik on smtp/sendmail konfigureeerimine."
 
 msgid "setup_forcedlogin"
-msgstr ""
-"Kui välja lülitatud, siis ära luba sisse logimist väljast ulnud"
-"URL-i parooli/kasutajanime kaudu."
+msgstr "Kui välja lülitatud, siis ära luba sisse logimist väljast ulnudURL-i parooli/kasutajanime kaudu."
 
 msgid "setup_langdefault"
-msgstr ""
-"Vali logimisel vaikimisi pakutav keel või jäta tühjaks, et brauseri"
-"keel automaatselt ära tuntaks."
+msgstr "Vali logimisel vaikimisi pakutav keel või jäta tühjaks, et brauserikeel automaatselt ära tuntaks."
 
 msgid "setup_myprefix"
-msgstr ""
-"Määra see valik, kui pareguses andmebaasis on ühe alloleva nimega"
-"tabel juba"
-"olemas.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Jäta"
-"tühjaks, kui ei soovi tabeli nime prefiksit kasutada."
+msgstr "Määra see valik, kui pareguses andmebaasis on ühe alloleva nimegatabel jubaolemas.<br/><br/>assignments<br/>bookmarks<br/>bookmarks_categories<br/>calendar<br/>files<br/>logs<br/>members<br/>notes<br/>notifications<br/>organizations<br/>phases<br/>posts<br/>projects<br/>reports<br/>sorting<br/>subtasks<br/>support_posts<br/>support_requests<br/>tasks<br/>teams<br/>topics<br/>updates<br/><br/>Jätatühjaks, kui ei soovi tabeli nime prefiksit kasutada."
 
 msgid "setup_loginmethod"
-msgstr ""
-"Kuidas hoida paroole andmebaasis.<br/>Set to &quot;Crypt&quot; in"
-"order CVS authentication and htaccess authentification to work (if CVS"
-"support and/or htaccess authentification are enabled)."
+msgstr "Kuidas hoida paroole andmebaasis.<br/>Set to &quot;Crypt&quot; inorder CVS authentication and htaccess authentification to work (if CVSsupport and/or htaccess authentification are enabled)."
 
 msgid "admin_update"
-msgstr ""
-"Versiooni uuendamiseks tee asju kindlasti õiges järjekorras: <br/>1."
-"Muuda seadeid(lisa uued parameetrid)<br/>2. Muuda andmebaasi(uuenda"
-"varasema versiooniga kooskõlas)"
+msgstr "Versiooni uuendamiseks tee asju kindlasti õiges järjekorras: <br/>1.Muuda seadeid(lisa uued parameetrid)<br/>2. Muuda andmebaasi(uuendavarasema versiooniga kooskõlas)"
 
 msgid "task_scope_creep"
 msgstr "Erinevus planeeritud ja tegeliku valmimistähtaja vahel"
@@ -64,9 +49,7 @@ msgid "project_disk_space"
 msgstr "Kõigile projektidele lisatud failide maht kokku"
 
 msgid "project_scope_creep"
-msgstr ""
-"Erinevus planeeritud ja tegeliku valmimistähtaja vahel. Summa"
-"kõikide ülesannete tähtaegade ületamisest."
+msgstr "Erinevus planeeritud ja tegeliku valmimistähtaja vahel. Summakõikide ülesannete tähtaegade ületamisest."
 
 msgid "mycompany_logo"
 msgstr "Sisesta oma firma logo, see ilmub tiitelribale."
@@ -75,9 +58,7 @@ msgid "calendar_shortname"
 msgstr "Lühike nimi, mida näidatakse kalendri kuu vaates. Kohustuslik"
 
 msgid "user_autologout"
-msgstr ""
-"Aeg sekundites, mille jooksul teid peale viimast tegevust automaatselt"
-"välja logitakse."
+msgstr "Aeg sekundites, mille jooksul teid peale viimast tegevust automaatseltvälja logitakse."
 
 msgid "user_timezone"
 msgstr "Seadista GMT ajavõõnd"
@@ -89,7 +70,69 @@ msgid "setup_projectsfilter"
 msgstr "Filter - näita kasutajale projekte mille meeskonnas ta on"
 
 msgid "setup_notificationMethod"
-msgstr ""
-"Seadista e-posti saatmise meetod: sisene <i>php mail function</i>"
-"(smtp või sendmail peab olema php konfiguratsioonid) või smtp server"
+msgstr "Seadista e-posti saatmise meetod: sisene <i>php mail function</i>(smtp või sendmail peab olema php konfiguratsioonid) või smtp server"
 
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "newsdesk_links"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_server"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_login"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database_name"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_site_url"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_password"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_admin_email"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_error_database"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_general_error"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_success"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "setup_social_info"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "logLevels"
+msgstr ""
+
+# NEEDS TRANSLATION
+#, fuzzy
+msgid "homeViewOptions"
+msgstr ""
