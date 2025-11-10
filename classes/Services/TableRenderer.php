@@ -293,14 +293,25 @@ HTML;
     }
 
     /**
-     * Render content title
+     * Render a table cell with content
+     *
+     * @param string $content Cell content
+     * @return string HTML for table cell
+     */
+    public function renderCellRow(string $content): string
+    {
+        return '<td>' . $content . '</td>';
+    }
+
+    /**
+     * Render content title row (table header spanning columns)
      *
      * @param string $title Title text
-     * @return string HTML for content title
+     * @return string HTML for content title row
      */
     public function renderContentTitle(string $title): string
     {
-        return '<h3 class="content-title">' . htmlspecialchars($title) . '</h3>';
+        return "<tr><th colspan='2'>" . $title . "</th></tr>";
     }
 
     /**

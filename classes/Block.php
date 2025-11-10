@@ -709,7 +709,8 @@ SCRIPT;
      */
     public function cellRow($content)
     {
-        echo "<td>$content</td>";
+        // ✅ Delegate to TableRenderer
+        echo $this->tableRenderer->renderCellRow($content);
     }
 
     /**
@@ -726,7 +727,8 @@ SCRIPT;
      */
     public function contentTitle($title)
     {
-        echo "<tr><th colspan='2'>" . $title . "</th></tr>";
+        // ✅ Delegate to TableRenderer
+        echo $this->tableRenderer->renderContentTitle($title);
     }
 
     /**
