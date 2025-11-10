@@ -488,15 +488,8 @@ SCRIPT;
      */
     public function openForm(string $address, $additionalAttributes = null, CsrfHandler $csrfHandler = null)
     {
-        echo <<<FORM
-<form id="{$this->form}Anchor" method="POST" action="{$address}" name="{$this->form}Form" enctype="application/x-www-form-urlencoded" {$additionalAttributes} class="content-section">
-FORM;
-        if ($csrfHandler) {
-            echo <<<CSRF_INPUT
-    <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}">
-CSRF_INPUT;
-
-        }
+        // ✅ Delegate to TableRenderer
+        echo $this->tableRenderer->renderOpenForm($this->form, $address, $additionalAttributes, $csrfHandler);
     }
 
     /**
@@ -505,7 +498,8 @@ CSRF_INPUT;
      **/
     public function closeFormResults()
     {
-        echo '<input name="sort_target" type="HIDDEN" value="' . $this->sortingRef . '"><input name="sort_fields" type="HIDDEN" value=""><input name="sort_order" type="HIDDEN" value=""></form>';
+        // ✅ Delegate to TableRenderer
+        echo $this->tableRenderer->renderCloseFormResults($this->sortingRef);
     }
 
     /**
@@ -745,7 +739,8 @@ SCRIPT;
      */
     public function closeForm()
     {
-        echo "</form>";
+        // ✅ Delegate to TableRenderer
+        echo $this->tableRenderer->renderCloseForm();
     }
 
     /**

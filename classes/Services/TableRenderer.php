@@ -369,4 +369,51 @@ HTML;
     {
         return '<div class="content-error">' . $content . '</div>';
     }
+
+    /**
+     * Render opening form tag
+     *
+     * @param string $formName Form name for ID and name attributes
+     * @param string $address Action URL
+     * @param string|null $additionalAttributes Additional HTML attributes
+     * @param mixed|null $csrfHandler CSRF handler for token generation
+     * @return string HTML for opening form tag
+     */
+    public function renderOpenForm(string $formName, string $address, ?string $additionalAttributes = null, $csrfHandler = null): string
+    {
+        $html = <<<FORM
+<form id="{$formName}Anchor" method="POST" action="{$address}" name="{$formName}Form" enctype="application/x-www-form-urlencoded" {$additionalAttributes} class="content-section">
+FORM;
+
+        if ($csrfHandler) {
+            $html .= <<<CSRF_INPUT
+
+    <input type="hidden" name="csrf_token" value="{$csrfHandler->getToken()}">
+CSRF_INPUT;
+        }
+
+        return $html;
+    }
+
+    /**
+     * Render closing form tag
+     *
+     * @return string HTML for closing form tag
+     */
+    public function renderCloseForm(): string
+    {
+        return '</form>';
+    }
+
+    /**
+     * Render closing form tag with hidden sorting fields
+     *
+     * @param string|null $sortingRef Sorting reference field value
+     * @return string HTML for closing form with hidden fields
+     */
+    public function renderCloseFormResults(?string $sortingRef = null): string
+    {
+        $sortingRefValue = $sortingRef ?? '';
+        return '<input name="sort_target" type="HIDDEN" value="' . htmlspecialchars($sortingRefValue) . '"><input name="sort_fields" type="HIDDEN" value=""><input name="sort_order" type="HIDDEN" value=""></form>';
+    }
 }
