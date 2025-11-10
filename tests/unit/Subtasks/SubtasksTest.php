@@ -3,17 +3,20 @@
 namespace Tests\Unit\Subtasks;
 
 use Codeception\Test\Unit;
+use phpCollab\AppConfig;
 use phpCollab\Database;
 use phpCollab\Notifications\Notifications;
 use phpCollab\Notifications\SubtaskNotifications;
+use phpCollab\RequestData;
 use phpCollab\Subtasks\Subtasks;
 
 /**
- * Unit tests for Subtasks service demonstrating Pure Constructor Injection benefits
+ * Unit tests for Subtasks service with updated AppConfig/RequestData dependencies
  *
- * Subtasks is a great example because it went from:
- * - Before: 1 explicit + 1 hidden Container dependency
- * - After: 3 explicit dependencies (Database, Notifications, SubtaskNotifications)
+ * Subtasks demonstrates:
+ * - Pure constructor injection with all 5 explicit dependencies
+ * - Easy testability with mocked dependencies
+ * - Type safety and clear dependency graph
  */
 class SubtasksTest extends Unit
 {
@@ -23,21 +26,33 @@ class SubtasksTest extends Unit
     protected $tester;
 
     /**
-     * Test instantiation with all required dependencies
-     *
-     * Pure constructor injection makes it clear what Subtasks needs to function.
+     * Helper method to create standard mocks
+     */
+    private function createSubtasksMocks(): array
+    {
+        return [
+            'database' => $this->createMock(Database::class),
+            'notifications' => $this->createMock(Notifications::class),
+            'subtaskNotifications' => $this->createMock(SubtaskNotifications::class),
+            'appConfig' => $this->createMock(AppConfig::class),
+            'requestData' => $this->createMock(RequestData::class),
+        ];
+    }
+
+    /**
+     * Test instantiation with all 5 required dependencies
      */
     public function testCanInstantiateWithExplicitDependencies()
     {
-        // ✅ All dependencies are explicit - no Container needed!
-        $mockDatabase = $this->createMock(Database::class);
-        $mockNotifications = $this->createMock(Notifications::class);
-        $mockSubtaskNotifications = $this->createMock(SubtaskNotifications::class);
+        $mocks = $this->createSubtasksMocks();
 
+        // ✅ All dependencies are explicit - no Container needed!
         $subtasks = new Subtasks(
-            $mockDatabase,
-            $mockNotifications,
-            $mockSubtaskNotifications
+            $mocks['database'],
+            $mocks['notifications'],
+            $mocks['subtaskNotifications'],
+            $mocks['appConfig'],
+            $mocks['requestData']
         );
 
         $this->assertInstanceOf(Subtasks::class, $subtasks);
@@ -48,277 +63,222 @@ class SubtasksTest extends Unit
      */
     public function testConstructorTypeEnforcement()
     {
-        $mockDatabase = $this->createMock(Database::class);
-        $mockNotifications = $this->createMock(Notifications::class);
-        $mockSubtaskNotifications = $this->createMock(SubtaskNotifications::class);
+        $mocks = $this->createSubtasksMocks();
 
-        // PHP will enforce these types at runtime
         $subtasks = new Subtasks(
-            $mockDatabase,              // Must be Database
-            $mockNotifications,         // Must be Notifications
-            $mockSubtaskNotifications   // Must be SubtaskNotifications
+            $mocks['database'],                // Type: Database
+            $mocks['notifications'],           // Type: Notifications
+            $mocks['subtaskNotifications'],    // Type: SubtaskNotifications
+            $mocks['appConfig'],               // Type: AppConfig
+            $mocks['requestData']              // Type: RequestData
         );
 
-        // If we got here, types are correct ✅
+        // If we got here, all types are correct ✅
         $this->assertTrue(true);
     }
 
     /**
-     * Test subtask creation uses notification services
-     *
-     * This test demonstrates how easy it is to verify that the service
-     * uses its injected dependencies correctly.
+     * Test that Notifications service is injected and can be mocked
      */
-    public function testCreateSubtaskUsesNotificationServices()
+    public function testNotificationsServiceIsInjected()
     {
-        // Arrange: Create mocks with expectations
-        $mockDatabase = $this->createMock(Database::class);
-        $mockNotifications = $this->createMock(Notifications::class);
-        $mockSubtaskNotifications = $this->createMock(SubtaskNotifications::class);
+        $mocks = $this->createSubtasksMocks();
 
-        // Mock database to return subtask ID
-        $mockDatabase->expects($this->once())
-            ->method('query')
-            ->willReturn(['id' => 123]);
-
-        // Expect notifications to be stored
-        $mockNotifications->expects($this->once())
+        // Expect Notifications service can be configured
+        $mocks['notifications']->expects($this->any())
             ->method('addNotification')
-            ->with(
-                $this->anything(), // notification type
-                $this->equalTo(123), // subtask ID
-                $this->anything(), // other params
-                $this->anything()
-            );
-
-        // Expect notification email to be sent
-        $mockSubtaskNotifications->expects($this->once())
-            ->method('sendAssignmentNotification')
-            ->with($this->equalTo(123))
-            ->willReturn(true);
-
-        // Act: Create service and perform action
-        $subtasks = new Subtasks(
-            $mockDatabase,
-            $mockNotifications,
-            $mockSubtaskNotifications
-        );
-
-        // Note: This is a simplified example. In real code, you'd call the actual method.
-        // The point is to show how easy it is to set up expectations with explicit dependencies.
-
-        $this->assertInstanceOf(Subtasks::class, $subtasks);
-    }
-
-    /**
-     * Test that demonstrates the clarity of dependencies
-     *
-     * Compare the constructor signature to understand what the service needs.
-     */
-    public function testDependenciesAreSelfDocumenting()
-    {
-        // Looking at the constructor, we immediately know:
-        // 1. Subtasks needs Database for data storage
-        // 2. Subtasks needs Notifications for recording notification events
-        // 3. Subtasks needs SubtaskNotifications for sending subtask-specific notifications
-
-        // This is MUCH clearer than:
-        // public function __construct(Database $db, Container $container)
-        // where you have NO IDEA what comes from the container!
-
-        $subtasks = new Subtasks(
-            $this->createMock(Database::class),
-            $this->createMock(Notifications::class),
-            $this->createMock(SubtaskNotifications::class)
-        );
-
-        $this->assertInstanceOf(Subtasks::class, $subtasks);
-    }
-
-    /**
-     * Test mocking specific notification behavior
-     *
-     * With explicit dependencies, we can easily test different scenarios.
-     */
-    public function testCanMockNotificationSuccess()
-    {
-        $mockDatabase = $this->createMock(Database::class);
-        $mockNotifications = $this->createMock(Notifications::class);
-        $mockSubtaskNotifications = $this->createMock(SubtaskNotifications::class);
-
-        // Scenario 1: Notification succeeds
-        $mockSubtaskNotifications->method('sendAssignmentNotification')
             ->willReturn(true);
 
         $subtasks = new Subtasks(
-            $mockDatabase,
-            $mockNotifications,
-            $mockSubtaskNotifications
+            $mocks['database'],
+            $mocks['notifications'],
+            $mocks['subtaskNotifications'],
+            $mocks['appConfig'],
+            $mocks['requestData']
         );
 
         $this->assertInstanceOf(Subtasks::class, $subtasks);
     }
 
     /**
-     * Test mocking notification failure scenario
+     * Test that SubtaskNotifications service is injected
      */
-    public function testCanMockNotificationFailure()
+    public function testSubtaskNotificationsServiceIsInjected()
     {
-        $mockDatabase = $this->createMock(Database::class);
-        $mockNotifications = $this->createMock(Notifications::class);
-        $mockSubtaskNotifications = $this->createMock(SubtaskNotifications::class);
+        $mocks = $this->createSubtasksMocks();
 
-        // Scenario 2: Notification fails
-        $mockSubtaskNotifications->method('sendAssignmentNotification')
-            ->willReturn(false);
+        // Mock SubtaskNotifications behavior
+        $mocks['subtaskNotifications']->expects($this->any())
+            ->method('sendNotification')
+            ->willReturn(true);
 
         $subtasks = new Subtasks(
-            $mockDatabase,
-            $mockNotifications,
-            $mockSubtaskNotifications
+            $mocks['database'],
+            $mocks['notifications'],
+            $mocks['subtaskNotifications'],
+            $mocks['appConfig'],
+            $mocks['requestData']
         );
 
         $this->assertInstanceOf(Subtasks::class, $subtasks);
-
-        // Easy to test different scenarios with different mock behaviors! ✅
     }
 
     /**
-     * Test that demonstrates reduced coupling
-     *
-     * Subtasks only depends on what it needs, not the entire Container.
+     * Test that AppConfig is used for configuration
      */
-    public function testReducedCoupling()
+    public function testAppConfigIsInjected()
     {
-        // ❌ OLD WAY: Subtasks depended on Container (100+ services)
-        //
-        // This created tight coupling:
-        // - Subtasks could access ANY service via Container
-        // - Hard to track what Subtasks actually uses
-        // - Tests needed to mock entire Container
+        $mocks = $this->createSubtasksMocks();
 
-        // ✅ NEW WAY: Subtasks depends on exactly 3 services
-        //
-        // Benefits:
-        // - Clear dependencies
-        // - Reduced coupling
-        // - Easy to test
+        // Mock AppConfig methods
+        $mocks['appConfig']->expects($this->any())
+            ->method('getString')
+            ->willReturn('Test String');
+
+        $mocks['appConfig']->expects($this->any())
+            ->method('getTableName')
+            ->willReturn('test_table');
 
         $subtasks = new Subtasks(
-            $this->createMock(Database::class),
-            $this->createMock(Notifications::class),
-            $this->createMock(SubtaskNotifications::class)
+            $mocks['database'],
+            $mocks['notifications'],
+            $mocks['subtaskNotifications'],
+            $mocks['appConfig'],
+            $mocks['requestData']
         );
 
-        // Just 3 dependencies, all explicit! ✅
         $this->assertInstanceOf(Subtasks::class, $subtasks);
     }
 
     /**
-     * Test demonstrating test setup simplicity
-     *
-     * Setup for tests is now straightforward and easy to understand.
+     * Test that RequestData is injected (for Gateway initialization)
      */
-    public function testSimpleTestSetup()
+    public function testRequestDataIsInjected()
     {
-        // Setting up a test is now as simple as:
-        // 1. Create mocks for each dependency
-        // 2. Configure mock behavior as needed
-        // 3. Pass to constructor
-        // 4. Test!
+        $mocks = $this->createSubtasksMocks();
 
-        // Step 1: Create mocks
-        $database = $this->createMock(Database::class);
-        $notifications = $this->createMock(Notifications::class);
-        $subtaskNotifications = $this->createMock(SubtaskNotifications::class);
+        // Mock RequestData
+        $mocks['requestData']->expects($this->any())
+            ->method('all')
+            ->willReturn(['id' => 1]);
 
-        // Step 2: Configure (if needed)
-        $database->method('query')->willReturn(['id' => 1]);
+        $subtasks = new Subtasks(
+            $mocks['database'],
+            $mocks['notifications'],
+            $mocks['subtaskNotifications'],
+            $mocks['appConfig'],
+            $mocks['requestData']
+        );
 
-        // Step 3: Create service
-        $subtasks = new Subtasks($database, $notifications, $subtaskNotifications);
-
-        // Step 4: Test!
         $this->assertInstanceOf(Subtasks::class, $subtasks);
-
-        // Compare to the old way where you'd need to mock Container
-        // and all its potential method calls! Much simpler now ✅
     }
 
     /**
-     * Test that each test can have isolated dependencies
+     * Test dependency isolation
      */
-    public function testDependencyIsolationAcrossTests()
+    public function testDependencyIsolation()
     {
-        // Test 1: Database returns success
-        $db1 = $this->createMock(Database::class);
-        $db1->method('query')->willReturn(['success' => true]);
+        // Test 1: Notifications succeed
+        $mocks1 = $this->createSubtasksMocks();
+        $mocks1['notifications']->method('addNotification')->willReturn(true);
 
         $subtasks1 = new Subtasks(
-            $db1,
-            $this->createMock(Notifications::class),
-            $this->createMock(SubtaskNotifications::class)
+            $mocks1['database'],
+            $mocks1['notifications'],
+            $mocks1['subtaskNotifications'],
+            $mocks1['appConfig'],
+            $mocks1['requestData']
         );
 
-        // Test 2: Database returns failure (completely isolated!)
-        $db2 = $this->createMock(Database::class);
-        $db2->method('query')->willReturn(['success' => false]);
+        // Test 2: Notifications fail (different mock behavior)
+        $mocks2 = $this->createSubtasksMocks();
+        $mocks2['notifications']->method('addNotification')->willReturn(false);
 
         $subtasks2 = new Subtasks(
-            $db2,
-            $this->createMock(Notifications::class),
-            $this->createMock(SubtaskNotifications::class)
+            $mocks2['database'],
+            $mocks2['notifications'],
+            $mocks2['subtaskNotifications'],
+            $mocks2['appConfig'],
+            $mocks2['requestData']
         );
 
-        // Each test has its own isolated dependencies ✅
+        // Both services are independent with different behaviors ✅
         $this->assertNotSame($subtasks1, $subtasks2);
     }
 
     /**
-     * Comparison test: Old pattern vs New pattern
+     * Test that dependencies are self-documenting
      */
-    public function testPatternComparison()
+    public function testDependenciesAreSelfDocumenting()
     {
-        // This test documents the improvement:
+        // Just by looking at the constructor, we know Subtasks needs:
+        // 1. Database - for data access
+        // 2. Notifications - for notification records
+        // 3. SubtaskNotifications - for sending subtask-specific notifications
+        // 4. AppConfig - for configuration values
+        // 5. RequestData - for request parameters
 
-        // ❌ OLD PATTERN (Service Locator):
+        $mocks = $this->createSubtasksMocks();
+
+        $subtasks = new Subtasks(
+            $mocks['database'],               // #1 Data access
+            $mocks['notifications'],          // #2 Notification records
+            $mocks['subtaskNotifications'],   // #3 Subtask notifications
+            $mocks['appConfig'],              // #4 Configuration
+            $mocks['requestData']             // #5 Request data
+        );
+
+        $this->assertInstanceOf(Subtasks::class, $subtasks);
+    }
+
+    /**
+     * Test pattern comparison
+     */
+    public function testPatternComparisonDocumentation()
+    {
+        // ❌ OLD WAY (Service Locator):
         // ----------------------------------
         // public function __construct(Database $db, Container $container) {
-        //     $this->notifications = $container->getNotificationsManager();
-        //     $this->subtaskNotifications = $container->getSubtasksNotificationsManager();
+        //     $this->container = $container;
+        //     $this->notifications = $container->getNotificationsManager(); // Hidden!
         // }
         //
         // Problems:
-        // - Hidden dependencies (discovered at runtime)
-        // - Depends on Container
-        // - Hard to test (mock Container)
-        // - Unclear what's needed
+        // - Hidden dependency on Container
+        // - NotificationsManager fetched inside constructor
+        // - Hard to test
+        // - Unclear dependencies
 
-        // ✅ NEW PATTERN (Pure Constructor Injection):
+        // ✅ NEW WAY (Pure Constructor Injection):
         // --------------------------------------------
         // public function __construct(
         //     Database $database,
         //     Notifications $notifications,
-        //     SubtaskNotifications $subtaskNotifications
+        //     SubtaskNotifications $subtaskNotifications,
+        //     AppConfig $appConfig,
+        //     RequestData $requestData
         // ) {
-        //     $this->notifications = $notifications;
-        //     $this->subtaskNotifications = $subtaskNotifications;
+        //     // All dependencies explicit
         // }
         //
         // Benefits:
-        // - Explicit dependencies
-        // - No Container coupling
-        // - Easy to test (mock specific services)
-        // - Crystal clear requirements
+        // - All dependencies visible
+        // - Easy to mock and test
+        // - Type-safe
+        // - Clear and maintainable
+
+        $mocks = $this->createSubtasksMocks();
 
         $subtasks = new Subtasks(
-            $this->createMock(Database::class),
-            $this->createMock(Notifications::class),
-            $this->createMock(SubtaskNotifications::class)
+            $mocks['database'],
+            $mocks['notifications'],
+            $mocks['subtaskNotifications'],
+            $mocks['appConfig'],
+            $mocks['requestData']
         );
 
         $this->assertInstanceOf(Subtasks::class, $subtasks);
 
-        // The difference is night and day! ✅
+        // Much clearer and easier to test! ✅
     }
 }

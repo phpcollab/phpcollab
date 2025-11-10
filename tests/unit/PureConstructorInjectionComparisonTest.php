@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use Codeception\Test\Unit;
+use phpCollab\AppConfig;
 use phpCollab\Database;
 use phpCollab\Members\Members;
 use phpCollab\Notification;
@@ -10,6 +11,7 @@ use phpCollab\Notifications\MailNotification;
 use phpCollab\Notifications\Notifications;
 use phpCollab\Notifications\SubtaskNotifications;
 use phpCollab\Projects\Projects;
+use phpCollab\RequestData;
 use phpCollab\Subtasks\Subtasks;
 use phpCollab\Tasks\Tasks;
 use phpCollab\Teams\Teams;
@@ -100,7 +102,9 @@ class PureConstructorInjectionComparisonTest extends Unit
             $this->createMock(Projects::class),
             $this->createMock(Teams::class),
             $this->createMock(Notifications::class),
-            $this->createMock(Notification::class)
+            $this->createMock(Notification::class),
+            $this->createMock(AppConfig::class),
+            $this->createMock(RequestData::class)
         );
 
         // Benefits:
@@ -175,7 +179,9 @@ class PureConstructorInjectionComparisonTest extends Unit
             $this->createMock(Projects::class),
             $this->createMock(Teams::class),
             $this->createMock(Notifications::class),
-            $this->createMock(Notification::class)
+            $this->createMock(Notification::class),
+            $this->createMock(AppConfig::class),
+            $this->createMock(RequestData::class)
         );
 
         $this->assertInstanceOf(Tasks::class, $tasks);
@@ -238,7 +244,9 @@ class PureConstructorInjectionComparisonTest extends Unit
             $this->createMock(Projects::class),
             $this->createMock(Teams::class),
             $this->createMock(Notifications::class),
-            $this->createMock(Notification::class)
+            $this->createMock(Notification::class),
+            $this->createMock(AppConfig::class),
+            $this->createMock(RequestData::class)
         );
 
         $this->assertInstanceOf(Tasks::class, $tasks);
@@ -303,7 +311,9 @@ class PureConstructorInjectionComparisonTest extends Unit
             $this->createMock(Projects::class),
             $this->createMock(Teams::class),
             $this->createMock(Notifications::class),
-            $this->createMock(Notification::class)
+            $this->createMock(Notification::class),
+            $this->createMock(AppConfig::class),
+            $this->createMock(RequestData::class)
         );
 
         $this->assertInstanceOf(Tasks::class, $tasks);
@@ -359,7 +369,9 @@ class PureConstructorInjectionComparisonTest extends Unit
         $members = new Members(
             $this->createMock(Database::class),
             $this->createMock(Logger::class),
-            $this->createMock(Notification::class)
+            $this->createMock(Notification::class),
+            $this->createMock(AppConfig::class),
+            $this->createMock(RequestData::class)
         );
 
         $this->assertInstanceOf(Members::class, $members);
@@ -380,7 +392,9 @@ class PureConstructorInjectionComparisonTest extends Unit
         $members = new Members(
             $this->createMock(Database::class),
             $this->createMock(Logger::class),
-            $this->createMock(Notification::class)
+            $this->createMock(Notification::class),
+            $this->createMock(AppConfig::class),
+            $this->createMock(RequestData::class)
         );
         $this->assertInstanceOf(Members::class, $members);
 
@@ -388,7 +402,9 @@ class PureConstructorInjectionComparisonTest extends Unit
         $subtasks = new Subtasks(
             $this->createMock(Database::class),
             $this->createMock(Notifications::class),
-            $this->createMock(SubtaskNotifications::class)
+            $this->createMock(SubtaskNotifications::class),
+            $this->createMock(AppConfig::class),
+            $this->createMock(RequestData::class)
         );
         $this->assertInstanceOf(Subtasks::class, $subtasks);
 
@@ -400,7 +416,9 @@ class PureConstructorInjectionComparisonTest extends Unit
             $this->createMock(Projects::class),
             $this->createMock(Teams::class),
             $this->createMock(Notifications::class),
-            $this->createMock(Notification::class)
+            $this->createMock(Notification::class),
+            $this->createMock(AppConfig::class),
+            $this->createMock(RequestData::class)
         );
         $this->assertInstanceOf(Tasks::class, $tasks);
 

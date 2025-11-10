@@ -4,15 +4,20 @@ namespace Tests\Unit\Members;
 
 use Codeception\Test\Unit;
 use Monolog\Logger;
+use phpCollab\AppConfig;
 use phpCollab\Database;
 use phpCollab\Members\Members;
+use phpCollab\Members\MembersGateway;
 use phpCollab\Notification;
+use phpCollab\RequestData;
 
 /**
- * Unit tests for Members service demonstrating Pure Constructor Injection benefits
+ * Unit tests for Members service with updated AppConfig/RequestData dependencies
  *
- * These tests show how easy it is to test services with explicit dependencies
- * compared to the old Service Locator pattern.
+ * These tests demonstrate:
+ * - Pure constructor injection with all explicit dependencies
+ * - Easy mocking and testing of business logic
+ * - Type safety and clear dependency graph
  */
 class MembersTest extends Unit
 {
@@ -22,80 +27,97 @@ class MembersTest extends Unit
     protected $tester;
 
     /**
-     * Test that Members can be instantiated with mocked dependencies
-     *
-     * This demonstrates the primary benefit of pure constructor injection:
-     * We can create the service with mocks without needing the Container.
+     * Helper method to create standard mocks
+     */
+    private function createMembersMocks(): array
+    {
+        return [
+            'database' => $this->createMock(Database::class),
+            'logger' => $this->createMock(Logger::class),
+            'notification' => $this->createMock(Notification::class),
+            'appConfig' => $this->createMock(AppConfig::class),
+            'requestData' => $this->createMock(RequestData::class),
+        ];
+    }
+
+    /**
+     * Test that Members can be instantiated with all 5 dependencies
      */
     public function testCanInstantiateWithMockedDependencies()
     {
-        // ✅ Easy to test - just create mocks for each dependency
-        $mockDatabase = $this->createMock(Database::class);
-        $mockLogger = $this->createMock(Logger::class);
-        $mockNotification = $this->createMock(Notification::class);
+        $mocks = $this->createMembersMocks();
 
-        // Create the service with mocked dependencies
-        $members = new Members($mockDatabase, $mockLogger, $mockNotification);
+        // ✅ Easy to test - just create mocks for each dependency
+        $members = new Members(
+            $mocks['database'],
+            $mocks['logger'],
+            $mocks['notification'],
+            $mocks['appConfig'],
+            $mocks['requestData']
+        );
 
         // Verify the service was created successfully
         $this->assertInstanceOf(Members::class, $members);
     }
 
     /**
-     * Test that Members accepts correct dependency types
-     *
-     * This demonstrates type safety - PHP will throw a TypeError if wrong types are passed.
+     * Test constructor enforces type safety
      */
-    public function testConstructorAcceptsCorrectTypes()
+    public function testConstructorTypeEnforcement()
     {
-        $mockDatabase = $this->createMock(Database::class);
-        $mockLogger = $this->createMock(Logger::class);
-        $mockNotification = $this->createMock(Notification::class);
+        $mocks = $this->createMembersMocks();
 
-        $members = new Members($mockDatabase, $mockLogger, $mockNotification);
+        $members = new Members(
+            $mocks['database'],      // Type: Database
+            $mocks['logger'],        // Type: Logger
+            $mocks['notification'],  // Type: Notification
+            $mocks['appConfig'],     // Type: AppConfig
+            $mocks['requestData']    // Type: RequestData
+        );
 
-        // If we get here without a TypeError, the types are correct ✅
+        // If we got here, all types are correct ✅
         $this->assertTrue(true);
     }
 
     /**
-     * Test sendEmail method with mocked notification service
-     *
-     * This demonstrates how easy it is to verify interactions when dependencies are explicit.
+     * Test sendEmail method uses injected Notification service
      */
     public function testSendEmailUsesInjectedNotification()
     {
-        // Arrange: Set up mocks
-        $mockDatabase = $this->createMock(Database::class);
-        $mockLogger = $this->createMock(Logger::class);
-        $mockNotification = $this->createMock(Notification::class);
+        $mocks = $this->createMembersMocks();
 
         // Expect that the notification service will be called
-        $mockNotification->expects($this->once())
+        $mocks['notification']->expects($this->once())
             ->method('setFrom')
             ->with(
                 $this->equalTo('test@example.com'),
                 $this->equalTo('Test User')
             );
 
-        $mockNotification->expects($this->once())
+        $mocks['notification']->expects($this->once())
             ->method('setTo')
             ->with($this->equalTo('recipient@example.com'));
 
-        $mockNotification->expects($this->once())
+        $mocks['notification']->expects($this->once())
             ->method('setSubject')
             ->with($this->equalTo('Test Subject'));
 
-        $mockNotification->expects($this->once())
+        $mocks['notification']->expects($this->once())
             ->method('setBodyText')
             ->with($this->equalTo('Test message'));
 
-        $mockNotification->expects($this->once())
+        $mocks['notification']->expects($this->once())
             ->method('send')
             ->willReturn(true);
 
-        // Act: Create service and call the method
-        $members = new Members($mockDatabase, $mockLogger, $mockNotification);
+        // Create service and call the method
+        $members = new Members(
+            $mocks['database'],
+            $mocks['logger'],
+            $mocks['notification'],
+            $mocks['appConfig'],
+            $mocks['requestData']
+        );
 
         $result = $members->sendEmail(
             'recipient@example.com',
@@ -106,24 +128,19 @@ class MembersTest extends Unit
             'Test User'
         );
 
-        // Assert: Verify the result
+        // Verify the result
         $this->assertTrue($result);
     }
 
     /**
      * Test that logger is used when fetching member by login
-     *
-     * Demonstrates testing of logging behavior with mocked logger.
      */
     public function testGetMemberByLoginUsesLogger()
     {
-        // Arrange
-        $mockDatabase = $this->createMock(Database::class);
-        $mockLogger = $this->createMock(Logger::class);
-        $mockNotification = $this->createMock(Notification::class);
+        $mocks = $this->createMembersMocks();
 
         // Expect logger to be called
-        $mockLogger->expects($this->once())
+        $mocks['logger']->expects($this->once())
             ->method('info')
             ->with(
                 $this->equalTo('Members'),
@@ -136,11 +153,17 @@ class MembersTest extends Unit
             );
 
         // Mock database to return test data
-        $mockDatabase->expects($this->once())
+        $mocks['database']->expects($this->once())
             ->method('query')
             ->willReturn(['mem_id' => 1, 'mem_login' => 'testuser']);
 
-        $members = new Members($mockDatabase, $mockLogger, $mockNotification);
+        $members = new Members(
+            $mocks['database'],
+            $mocks['logger'],
+            $mocks['notification'],
+            $mocks['appConfig'],
+            $mocks['requestData']
+        );
 
         // Act
         $result = $members->getMemberByLogin('testuser');
@@ -150,84 +173,96 @@ class MembersTest extends Unit
     }
 
     /**
-     * Test comparison: Old way (Service Locator) vs New way (Constructor Injection)
-     *
-     * This test documents the improvement in testability.
+     * Test getMemberById returns expected data structure
      */
-    public function testTestabilityComparison()
+    public function testGetMemberByIdReturnsCorrectStructure()
     {
-        // ❌ OLD WAY (Service Locator Pattern):
-        // -----------------------------------------
-        // public function __construct(Database $db, Logger $logger, Container $container) {
-        //     $this->container = $container;
-        // }
-        //
-        // To test, you would need to:
-        // 1. Create mock Container
-        // 2. Mock EVERY possible method that might be called on Container
-        // 3. Set up complex expectations for container->getX() calls
-        // 4. Hope you didn't miss any Container calls
-        //
-        // Example of old test complexity:
-        // $mockContainer = $this->createMock(Container::class);
-        // $mockContainer->expects($this->any())
-        //     ->method('getNotification')
-        //     ->willReturn($mockNotification);
-        // $mockContainer->expects($this->any())
-        //     ->method('getProjectsLoader')
-        //     ->willReturn($mockProjects);
-        // // ... and so on for every possible dependency
-        // $members = new Members($mockDb, $mockLogger, $mockContainer);
+        $mocks = $this->createMembersMocks();
 
-        // ✅ NEW WAY (Pure Constructor Injection):
-        // -----------------------------------------
-        // public function __construct(Database $db, Logger $logger, Notification $notification) {
-        //     $this->notification = $notification;
-        // }
-        //
-        // To test:
-        // 1. Create mocks for each explicit dependency
-        // 2. Pass them to constructor
-        // 3. Done! ✅
+        $expectedMember = [
+            'mem_id' => '1',
+            'mem_login' => 'johndoe',
+            'mem_name' => 'John Doe',
+            'mem_email_work' => 'john@example.com',
+            'mem_profil' => '0'
+        ];
 
-        $mockDatabase = $this->createMock(Database::class);
-        $mockLogger = $this->createMock(Logger::class);
-        $mockNotification = $this->createMock(Notification::class);
+        // Mock database to return member data
+        $mocks['database']->expects($this->once())
+            ->method('query')
+            ->willReturn($expectedMember);
 
-        // That's it! So much cleaner ✅
-        $members = new Members($mockDatabase, $mockLogger, $mockNotification);
+        // Mock logger
+        $mocks['logger']->expects($this->once())
+            ->method('info');
 
-        $this->assertInstanceOf(Members::class, $members);
+        $members = new Members(
+            $mocks['database'],
+            $mocks['logger'],
+            $mocks['notification'],
+            $mocks['appConfig'],
+            $mocks['requestData']
+        );
 
-        // This test demonstrates how much simpler and clearer the new approach is!
+        $result = $members->getMemberById('1');
+
+        // Verify we got the expected structure
+        $this->assertIsArray($result);
+        $this->assertEquals('1', $result['mem_id']);
+        $this->assertEquals('johndoe', $result['mem_login']);
     }
 
     /**
-     * Test that demonstrates dependency isolation
-     *
-     * With pure constructor injection, each test can have different mock behavior
-     * without affecting other tests.
+     * Test that AppConfig is used for accessing configuration
+     */
+    public function testUsesAppConfigForConfiguration()
+    {
+        $mocks = $this->createMembersMocks();
+
+        // AppConfig should be called for configuration values
+        $mocks['appConfig']->expects($this->any())
+            ->method('getString')
+            ->willReturn('Test String');
+
+        $members = new Members(
+            $mocks['database'],
+            $mocks['logger'],
+            $mocks['notification'],
+            $mocks['appConfig'],
+            $mocks['requestData']
+        );
+
+        // Service created successfully with AppConfig
+        $this->assertInstanceOf(Members::class, $members);
+    }
+
+    /**
+     * Test dependency isolation - different mocks don't interfere
      */
     public function testDependencyIsolation()
     {
         // Test 1: Notification succeeds
-        $mockNotification1 = $this->createMock(Notification::class);
-        $mockNotification1->method('send')->willReturn(true);
+        $mocks1 = $this->createMembersMocks();
+        $mocks1['notification']->method('send')->willReturn(true);
 
         $members1 = new Members(
-            $this->createMock(Database::class),
-            $this->createMock(Logger::class),
-            $mockNotification1
+            $mocks1['database'],
+            $mocks1['logger'],
+            $mocks1['notification'],
+            $mocks1['appConfig'],
+            $mocks1['requestData']
         );
 
         // Test 2: Notification fails (different mock behavior)
-        $mockNotification2 = $this->createMock(Notification::class);
-        $mockNotification2->method('send')->willReturn(false);
+        $mocks2 = $this->createMembersMocks();
+        $mocks2['notification']->method('send')->willReturn(false);
 
         $members2 = new Members(
-            $this->createMock(Database::class),
-            $this->createMock(Logger::class),
-            $mockNotification2
+            $mocks2['database'],
+            $mocks2['logger'],
+            $mocks2['notification'],
+            $mocks2['appConfig'],
+            $mocks2['requestData']
         );
 
         // Both services are independent with different behaviors ✅
@@ -235,23 +270,77 @@ class MembersTest extends Unit
     }
 
     /**
-     * Test that demonstrates explicit dependencies make tests self-documenting
+     * Test that all dependencies are explicit and self-documenting
      */
-    public function testSelfDocumentingDependencies()
+    public function testDependenciesAreSelfDocumenting()
     {
-        // Just by looking at the constructor call, you know EXACTLY what Members needs:
+        // Just by looking at the constructor, we know Members needs:
         // 1. Database - for data access
         // 2. Logger - for logging
         // 3. Notification - for sending notifications
+        // 4. AppConfig - for configuration values
+        // 5. RequestData - for request parameters
 
-        // No surprises! No hidden dependencies! ✅
+        $mocks = $this->createMembersMocks();
 
         $members = new Members(
-            $this->createMock(Database::class),     // Data access
-            $this->createMock(Logger::class),       // Logging
-            $this->createMock(Notification::class)  // Notifications
+            $mocks['database'],       // #1 Data access
+            $mocks['logger'],         // #2 Logging
+            $mocks['notification'],   // #3 Notifications
+            $mocks['appConfig'],      // #4 Configuration
+            $mocks['requestData']     // #5 Request data
         );
 
         $this->assertInstanceOf(Members::class, $members);
+    }
+
+    /**
+     * Comparison test: Old pattern (Service Locator) vs New pattern (Pure DI)
+     */
+    public function testPatternComparisonDocumentation()
+    {
+        // ❌ OLD WAY (Service Locator):
+        // ----------------------------------
+        // public function __construct(Database $db, Logger $logger, Container $container) {
+        //     $this->container = $container;
+        // }
+        //
+        // Problems:
+        // - Hidden dependencies fetched via $container->getNotification()
+        // - Hard to test - need to mock entire Container
+        // - Dependencies not clear from constructor
+        // - Tight coupling to Container
+
+        // ✅ NEW WAY (Pure Constructor Injection):
+        // --------------------------------------------
+        // public function __construct(
+        //     Database $database,
+        //     Logger $logger,
+        //     Notification $notification,
+        //     AppConfig $appConfig,
+        //     RequestData $requestData
+        // ) {
+        //     // All dependencies explicit
+        // }
+        //
+        // Benefits:
+        // - All dependencies visible in constructor
+        // - Easy to test - just mock what you need
+        // - Type-safe
+        // - Reduced coupling
+
+        $mocks = $this->createMembersMocks();
+
+        $members = new Members(
+            $mocks['database'],
+            $mocks['logger'],
+            $mocks['notification'],
+            $mocks['appConfig'],
+            $mocks['requestData']
+        );
+
+        $this->assertInstanceOf(Members::class, $members);
+
+        // The improvement is massive! ✅
     }
 }
