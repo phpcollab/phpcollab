@@ -17,12 +17,16 @@ use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 /**
  * Class Tasks
+ *
+ * Service layer for task management with Repository Pattern.
+ * Handles business logic, validation, and notifications.
+ * All data access is delegated to TasksRepositoryInterface.
+ *
  * @package phpCollab\Tasks
  */
 class Tasks
 {
-    protected $tasks_gateway;
-    protected $db;
+    protected TasksRepositoryInterface $repository;
     protected $tasksCount;
     private $appConfig;
     private $mailNotification;
@@ -35,9 +39,10 @@ class Tasks
     /**
      * Tasks constructor.
      *
-     * Uses pure constructor injection - all dependencies are explicitly declared.
+     * Uses pure constructor injection with Repository Pattern.
+     * Now depends on TasksRepositoryInterface instead of Gateway/Database directly.
      *
-     * @param Database $database Database connection
+     * @param TasksRepositoryInterface $repository Repository for task data access
      * @param MailNotification $mailNotification Service for sending email notifications
      * @param string $language Current language code (e.g., 'en', 'fr')
      * @param Projects $projects Projects service for project operations
@@ -45,20 +50,18 @@ class Tasks
      * @param Notifications $notifications Service for managing notification records
      * @param Notification $notification Service for sending notifications
      * @param AppConfig $appConfig Application configuration
-     * @param RequestData $requestData Request data for gateway
      */
     public function __construct(
-        Database $database,
+        TasksRepositoryInterface $repository,
         MailNotification $mailNotification,
         string $language,
         Projects $projects,
         Teams $teams,
         Notifications $notifications,
         Notification $notification,
-        AppConfig $appConfig,
-        RequestData $requestData
+        AppConfig $appConfig
     ) {
-        $this->db = $database;
+        $this->repository = $repository;
         $this->mailNotification = $mailNotification;
         $this->language = $language;
         $this->projects = $projects;
@@ -66,7 +69,6 @@ class Tasks
         $this->notifications = $notifications;
         $this->notification = $notification;
         $this->appConfig = $appConfig;
-        $this->tasks_gateway = new TasksGateway($this->db, $requestData);
     }
 
     /**
@@ -97,7 +99,7 @@ class Tasks
         }
         $userId = filter_var((string)$userId, FILTER_SANITIZE_STRING);
 
-        return $this->tasks_gateway->getMyTasks($userId, $sorting);
+        return $this->repository->findMyTasks($userId, $sorting);
     }
 
     /**
@@ -110,7 +112,7 @@ class Tasks
      */
     public function getAllMyTasks(int $userId, string $subtasks = null, int $startRow = null, int $rowsLimit = null, string $sorting = null)
     {
-        return $this->tasks_gateway->getAllMyTasks($userId, $subtasks, $startRow, $rowsLimit, $sorting);
+        return $this->repository->findAllMyTasks($userId, $subtasks, $startRow, $rowsLimit, $sorting);
     }
 
     /**
@@ -119,7 +121,7 @@ class Tasks
      */
     public function getClientUserTasksCount(int $userId): int
     {
-        $data = $this->tasks_gateway->getClientUserTasksIn($userId);
+        $data = $this->repository->findClientUserTasksIn($userId);
         return count($data);
     }
 
@@ -131,7 +133,7 @@ class Tasks
     {
         $userId = filter_var((string)$userId, FILTER_SANITIZE_STRING);
 
-        return $this->tasks_gateway->getSubtasksAssignedToMe($userId);
+        return $this->repository->findSubtasksAssignedTo($userId);
     }
 
     /**
@@ -141,7 +143,7 @@ class Tasks
     public function getTaskById(int $taskId)
     {
         $taskId = filter_var($taskId, FILTER_VALIDATE_INT);
-        return $this->tasks_gateway->getTaskById($taskId);
+        return $this->repository->findById($taskId);
     }
 
     /**
@@ -150,7 +152,7 @@ class Tasks
      */
     public function getOpenPhaseTasks(int $phaseId)
     {
-        return $this->tasks_gateway->getOpenPhaseTasks($phaseId);
+        return $this->repository->findOpenPhaseTasks($phaseId);
     }
 
     /**
@@ -160,7 +162,7 @@ class Tasks
     public function getTasksAssignedTo(int $assignedTo)
     {
         $assignedTo = filter_var($assignedTo, FILTER_SANITIZE_STRING);
-        return $this->tasks_gateway->getTasksAssignedTo($assignedTo);
+        return $this->repository->findTasksAssignedTo($assignedTo);
     }
 
     /**
@@ -170,7 +172,7 @@ class Tasks
     public function getTasksAssignedToMeThatAreNotCompletedOrSuspended(int $assignedTo)
     {
         $assignedTo = filter_var($assignedTo, FILTER_SANITIZE_STRING);
-        return $this->tasks_gateway->getTasksAssignedToMeThatAreNotCompletedOrSuspended($assignedTo);
+        return $this->repository->findActiveTasksAssignedTo($assignedTo);
     }
 
     /**
@@ -179,7 +181,7 @@ class Tasks
      */
     public function getTasksById(string $taskIds)
     {
-        return $this->tasks_gateway->getTasksById($taskIds);
+        return $this->repository->findByIds($taskIds);
     }
 
     /**
@@ -189,7 +191,7 @@ class Tasks
      */
     public function setTaskStatus(int $taskId, int $status)
     {
-        return $this->tasks_gateway->setTaskStatus($taskId, $status);
+        return $this->repository->updateStatus($taskId, $status);
     }
 
     /**
@@ -199,7 +201,7 @@ class Tasks
     public function getTasksByProjectName(string $projectName)
     {
         $projectName = filter_var($projectName, FILTER_SANITIZE_STRING);
-        return $this->tasks_gateway->getTasksByProjectName($projectName);
+        return $this->repository->findByProjectName($projectName);
     }
 
     /**
@@ -212,7 +214,7 @@ class Tasks
     public function getTasksByProjectId(int $projectId, int $startRow = null, int $rowsLimit = null, string $sorting = null)
     {
         $projectId = filter_var($projectId, FILTER_SANITIZE_STRING);
-        return $this->tasks_gateway->getTasksByProjectId($projectId, $startRow, $rowsLimit, $sorting);
+        return $this->repository->findByProjectId($projectId, $startRow, $rowsLimit, $sorting);
     }
 
     /**
@@ -231,7 +233,7 @@ class Tasks
         string $sorting = null
     ) {
         $projectId = filter_var($projectId, FILTER_SANITIZE_STRING);
-        return $this->tasks_gateway->getTasksByProjectIdAndOwnerOrPublished($projectId, $taskOwner, $startRow,
+        return $this->repository->findByProjectAndOwnerOrPublished($projectId, $taskOwner, $startRow,
             $rowsLimit, $sorting);
     }
 
@@ -251,7 +253,7 @@ class Tasks
         string $sorting = null
     ) {
         $projectId = filter_var($projectId, FILTER_SANITIZE_STRING);
-        return $this->tasks_gateway->getSubTasksByProjectIdAndOwnerOrPublished($projectId, $taskOwner, $startRow,
+        return $this->repository->findSubtasksByProjectAndOwnerOrPublished($projectId, $taskOwner, $startRow,
             $rowsLimit, $sorting);
     }
 
@@ -270,7 +272,7 @@ class Tasks
      */
     public function getClientUserTasks(int $userId): int
     {
-        $tasks = $this->tasks_gateway->getClientUserTasks($userId);
+        $tasks = $this->repository->findClientUserTasks($userId);
         return count($tasks);
     }
 
@@ -283,7 +285,7 @@ class Tasks
      */
     public function getProjectSiteClientTasks(int $projectId, int $startRow = null, int $rowsLimit = null, string $sorting = null)
     {
-        return $this->tasks_gateway->getProjectSiteClientTasks($projectId, $startRow, $rowsLimit, $sorting);
+        return $this->repository->findProjectSiteClientTasks($projectId, $startRow, $rowsLimit, $sorting);
     }
 
     /**
@@ -297,7 +299,7 @@ class Tasks
         $projectId = filter_var($projectId, FILTER_VALIDATE_INT);
         $phaseId = filter_var($phaseId, FILTER_VALIDATE_INT);
         $sorting = filter_var($sorting, FILTER_SANITIZE_STRING);
-        return $this->tasks_gateway->getTasksByProjectIdAndParentPhase($projectId, $phaseId, $sorting);
+        return $this->repository->findByProjectAndPhase($projectId, $phaseId, $sorting);
     }
 
     /**
@@ -359,7 +361,7 @@ class Tasks
         }
         $ownerId = filter_var((string)$ownerId, FILTER_SANITIZE_STRING);
 
-        return $this->tasks_gateway->getOpenAndCompletedSubTasksAssignedToMe($ownerId, $sorting);
+        return $this->repository->findActiveSubtasksAssignedTo($ownerId, $sorting);
     }
 
     /**
@@ -369,7 +371,7 @@ class Tasks
     public function getSubTaskById(int $taskId)
     {
         $taskId = filter_var($taskId, FILTER_VALIDATE_INT);
-        return $this->tasks_gateway->getSubTaskById($taskId);
+        return $this->repository->findSubtaskById($taskId);
     }
 
     /**
@@ -378,7 +380,7 @@ class Tasks
      */
     public function getSubTaskByIdIn(int $subTaskId)
     {
-        return $this->tasks_gateway->getSubTaskByIdIn($subTaskId);
+        return $this->repository->findSubtaskByIds($subTaskId);
     }
 
     /**
@@ -389,7 +391,7 @@ class Tasks
     public function getSubtasksByParentTaskId(int $parentTaskId, string $sorting = null)
     {
         $parentTaskId = filter_var($parentTaskId, FILTER_VALIDATE_INT);
-        return $this->tasks_gateway->getSubtasksByParentTaskId($parentTaskId, $sorting);
+        return $this->repository->findSubtasksByParent($parentTaskId, $sorting);
     }
 
     /**
@@ -399,7 +401,7 @@ class Tasks
      */
     public function getSubtasksByParentTaskIdIn(string $parentTaskIds, string $sorting = null)
     {
-        return $this->tasks_gateway->getSubtasksByParentTaskIdIn($parentTaskIds, $sorting);
+        return $this->repository->findSubtasksByParents($parentTaskIds, $sorting);
     }
 
     /**
@@ -410,7 +412,7 @@ class Tasks
     public function getPublishedSubtasksByParentTaskId(string $parentTaskId, string $sorting = null)
     {
         $parentTaskId = filter_var($parentTaskId, FILTER_VALIDATE_INT);
-        return $this->tasks_gateway->getSubtasksByParentTaskId($parentTaskId, $sorting);
+        return $this->repository->findPublishedSubtasksByParent($parentTaskId, $sorting);
     }
 
     /**
@@ -419,7 +421,7 @@ class Tasks
      */
     public function getSubtasksByParentTaskIdAndStartAndEndDateAreNotEmptyAndNotPublished(int $parentTaskId)
     {
-        return $this->tasks_gateway->getSubtasksByParentTaskIdAndStartAndEndDateAreNotEmptyAndNotPublished($parentTaskId);
+        return $this->repository->findSubtasksByParentWithDatesNotPublished($parentTaskId);
     }
 
     /**
@@ -428,7 +430,7 @@ class Tasks
      */
     public function getSubtasksByParentTaskIdAndStartAndEndDateAreNotEmpty(int $parentTaskId)
     {
-        return $this->tasks_gateway->getSubtasksByParentTaskIdAndStartAndEndDateAreNotEmpty($parentTaskId);
+        return $this->repository->findSubtasksByParentWithDates($parentTaskId);
     }
 
     /**
@@ -438,7 +440,7 @@ class Tasks
      */
     public function getTasksByStartDateEndDateAssignedTo(string $taskDate, int $assignedTo)
     {
-        return $this->tasks_gateway->getTasksByStartDateEndDateAssignedTo($taskDate, $assignedTo);
+        return $this->repository->findByDateAndAssignedTo($taskDate, $assignedTo);
     }
 
     /**
@@ -447,7 +449,7 @@ class Tasks
      */
     public function getTasksByProjectIdWhereStartAndEndAreNotEmpty(int $projectId)
     {
-        return $this->tasks_gateway->getTasksByProjectIdWhereStartAndEndAreNotEmpty($projectId);
+        return $this->repository->findByProjectWithDates($projectId);
     }
 
     /**
@@ -456,7 +458,7 @@ class Tasks
      */
     public function getTasksByProjectIdWhereStartAndEndAreNotEmptyAndNotPublished(int $projectId)
     {
-        return $this->tasks_gateway->getTasksByProjectIdWhereStartAndEndAreNotEmptyAndNotPublished($projectId);
+        return $this->repository->findByProjectWithDatesNotPublished($projectId);
     }
 
     /**
@@ -466,7 +468,7 @@ class Tasks
      */
     public function getTasksByProjectIdAndParentPhaseAndStartEndDateNotBlank(int $projectId, int $phaseId)
     {
-        return $this->tasks_gateway->getTasksByProjectIdAndParentPhaseAndStartEndDateNotBlank($projectId, $phaseId);
+        return $this->repository->findByProjectPhaseWithDates($projectId, $phaseId);
     }
 
     /**
@@ -475,7 +477,7 @@ class Tasks
      */
     public function getReportTasks(string $sql)
     {
-        return $this->tasks_gateway->getReportTasks($sql);
+        return $this->repository->findForReport($sql);
     }
 
     /**
@@ -487,7 +489,7 @@ class Tasks
      */
     public function getSearchTasks(string $tmpQuery, string $sorting = null, int $limit = null, int $rowLimit = null)
     {
-        return $this->tasks_gateway->searchResultTasks($tmpQuery, $sorting, $limit, $rowLimit);
+        return $this->repository->search($tmpQuery, $sorting, $limit, $rowLimit);
     }
 
     /**
@@ -499,7 +501,7 @@ class Tasks
      */
     public function getSearchSubTasks(string $sql, string $sorting = null, int $limit = null, int $rowLimit = null)
     {
-        return $this->tasks_gateway->searchResultSubTasks($sql, $sorting, $limit, $rowLimit);
+        return $this->repository->searchSubtasks($sql, $sorting, $limit, $rowLimit);
     }
 
     /**
@@ -511,7 +513,7 @@ class Tasks
     {
         $taskId = filter_var((int)$taskId, FILTER_SANITIZE_NUMBER_INT);
 
-        return $this->tasks_gateway->assignTaskTo($taskId, $assignedDate);
+        return $this->repository->updateAssignedDate($taskId, $assignedDate);
     }
 
     /**
@@ -551,8 +553,8 @@ class Tasks
         int $invoicing = 0,
         float $workedHours = 0.00
     ) {
-        return $this->tasks_gateway->updateTask($id, $name, $description, $assignedTo, $status, $priority, $startDate,
-            $dueDate, $estimatedTime, $actualTime, $comments, $completion, $parentPhase, $published, $invoicing,
+        return $this->repository->update($id, $name, $description, $assignedTo, $status, $priority, $startDate,
+            $dueDate, $estimatedTime, $actualTime, $comments, $published, $completion, $parentPhase, $invoicing,
             $workedHours, date('Y-m-d h:i') );
     }
 
@@ -563,7 +565,7 @@ class Tasks
      */
     public function setTasksAssignedToWhereAssignedToIn(int $newAssignee, int $assignedTo)
     {
-        return $this->tasks_gateway->setTasksAssignedToWhereAssignedToIn($newAssignee, $assignedTo);
+        return $this->repository->reassignMultiple($newAssignee, $assignedTo);
     }
 
     /**
@@ -615,13 +617,13 @@ class Tasks
             $completion = $completion ?? 0;
             $workedHours = $workedHours ?? 0.0;
 
-            $newTaskId = $this->tasks_gateway->addTask($projectId, $owner, $name, $description, $assignedTo, $status,
+            $newTaskId = $this->repository->create($projectId, $owner, $name, $description, $assignedTo, $status,
                 $priority, $startDate,
                 $dueDate, $estimatedTime, $actualTime, $comments, $published, $completion, $parentPhase,
                 $invoicing, $workedHours, $assignedDate);
 
             if ($newTaskId) {
-                return $this->tasks_gateway->getTaskById($newTaskId);
+                return $this->repository->findById($newTaskId);
             } else {
                 throw new Exception('Error adding task');
             }
@@ -667,10 +669,8 @@ class Tasks
         int $completion
     ) {
 
-        return $this->tasks_gateway->addSubTask($parentTask, $name, $description, $owner, $assigned_to, $status,
+        return $this->repository->createSubtask($parentTask, $name, $description, $owner, $assigned_to, $status,
             $priority, $start_date, $due_date, $complete_date, $estimated_time, $actual_time, $comments,
-            date('Y-m-d h:i'),
-            date('Y-m-d h:i'),
             $published, $completion);
     }
 
@@ -681,7 +681,7 @@ class Tasks
      */
     public function setProjectByTaskId(int $projectId, int $taskId)
     {
-        return $this->tasks_gateway->setProjectByTaskId($projectId, $taskId);
+        return $this->repository->updateProject($projectId, $taskId);
     }
 
     /**
@@ -691,7 +691,7 @@ class Tasks
      */
     public function setCompletionDateForTaskById(int $taskId, string $date)
     {
-        return $this->tasks_gateway->setCompletionDateForTaskById($taskId, $date);
+        return $this->repository->updateCompletionDate($taskId, $date);
     }
 
 
@@ -702,7 +702,7 @@ class Tasks
      */
     public function setName(int $taskId, string $taskName)
     {
-        return $this->tasks_gateway->setName($taskId, $taskName);
+        return $this->repository->updateName($taskId, $taskName);
     }
 
     /**
@@ -712,7 +712,7 @@ class Tasks
      */
     public function setStartDate(int $taskId, string $startDate)
     {
-        return $this->tasks_gateway->setStartDate($taskId, $startDate);
+        return $this->repository->updateStartDate($taskId, $startDate);
     }
 
     /**
@@ -722,7 +722,7 @@ class Tasks
      */
     public function setDueDate(int $taskId, string $dueDate)
     {
-        return $this->tasks_gateway->setDueDate($taskId, $dueDate);
+        return $this->repository->updateDueDate($taskId, $dueDate);
     }
 
     /**
@@ -732,7 +732,7 @@ class Tasks
      */
     public function setAssignedTo(int $taskId, int $assignedTo)
     {
-        return $this->tasks_gateway->setAssignedTo($taskId, $assignedTo);
+        return $this->repository->updateAssignedTo($taskId, $assignedTo);
     }
 
     /**
@@ -742,7 +742,7 @@ class Tasks
      */
     public function setAssignedDate(int $taskId, string $assignedDate)
     {
-        return $this->tasks_gateway->setAssignedDate($taskId, $assignedDate);
+        return $this->repository->updateAssignedDate($taskId, $assignedDate);
     }
 
     /**
@@ -752,7 +752,7 @@ class Tasks
      */
     public function setStatus(int $taskId, int $status)
     {
-        return $this->tasks_gateway->setStatus($taskId, $status);
+        return $this->repository->updateStatus($taskId, $status);
     }
 
     /**
@@ -762,7 +762,7 @@ class Tasks
      */
     public function setCompletion(int $taskId, int $completion)
     {
-        return $this->tasks_gateway->setCompletion($taskId, $completion);
+        return $this->repository->updateCompletion($taskId, $completion);
     }
 
     /**
@@ -772,7 +772,7 @@ class Tasks
      */
     public function setPriority(int $taskId, int $priority)
     {
-        return $this->tasks_gateway->setPriority($taskId, $priority);
+        return $this->repository->updatePriority($taskId, $priority);
 
     }
 
@@ -783,7 +783,7 @@ class Tasks
      */
     public function setComment(int $taskId, string $comment)
     {
-        return $this->tasks_gateway->setComment($taskId, $comment);
+        return $this->repository->updateComment($taskId, $comment);
     }
 
     /**
@@ -792,7 +792,7 @@ class Tasks
      */
     public function setModifiedDate(int $taskId)
     {
-        return $this->tasks_gateway->setModifiedDate($taskId);
+        return $this->repository->updateModifiedDate($taskId);
     }
 
     /**
@@ -802,7 +802,7 @@ class Tasks
      */
     public function setParentPhase(int $taskId, int $phase)
     {
-        return $this->tasks_gateway->setParentPhase($taskId, $phase);
+        return $this->repository->updateParentPhase($taskId, $phase);
     }
 
     /**
@@ -811,7 +811,7 @@ class Tasks
      */
     public function addToSiteFile(string $ids)
     {
-        return $this->tasks_gateway->addToSiteFile($ids);
+        return $this->repository->addToSiteFile($ids);
     }
 
     /**
@@ -820,7 +820,7 @@ class Tasks
      */
     public function removeToSiteFile(string $ids)
     {
-        return $this->tasks_gateway->removeToSiteFile($ids);
+        return $this->repository->removeFromSiteFile($ids);
     }
 
     /**
@@ -830,7 +830,7 @@ class Tasks
     public function publishTasks(int $tasksId)
     {
         $tasksId = filter_var($tasksId, FILTER_SANITIZE_STRING);
-        return $this->tasks_gateway->publishTasks($tasksId);
+        return $this->repository->publish($tasksId);
     }
 
     /**
@@ -840,7 +840,7 @@ class Tasks
     public function unPublishTasks(int $tasksId)
     {
         $tasksId = filter_var($tasksId, FILTER_SANITIZE_STRING);
-        return $this->tasks_gateway->unPublishTasks($tasksId);
+        return $this->repository->unpublish($tasksId);
     }
 
     /**
@@ -849,7 +849,7 @@ class Tasks
      */
     public function reassignTasks(int $oldOwner, int $newOwner)
     {
-        $this->tasks_gateway->reassignTasks($oldOwner, $newOwner);
+        $this->repository->reassign($oldOwner, $newOwner);
     }
 
     /**
@@ -858,7 +858,7 @@ class Tasks
      */
     public function deleteTasks(string $taskIds)
     {
-        return $this->tasks_gateway->deleteTasks($taskIds);
+        return $this->repository->delete($taskIds);
     }
 
     /**
@@ -867,7 +867,7 @@ class Tasks
      */
     public function deleteTasksByProjectId(string $projectIds)
     {
-        return $this->tasks_gateway->deleteTasksByProject($projectIds);
+        return $this->repository->deleteByProject($projectIds);
     }
 
     /**
@@ -876,7 +876,7 @@ class Tasks
      */
     public function deleteSubtasksByProjectId(string $projectIds)
     {
-        return $this->tasks_gateway->deleteSubtasksByProjectId($projectIds);
+        return $this->repository->deleteSubtasksByProject($projectIds);
     }
 
     /**
@@ -885,7 +885,7 @@ class Tasks
      */
     public function deleteSubTasks(string $subTaskIds)
     {
-        return $this->tasks_gateway->deleteSubTasks($subTaskIds);
+        return $this->repository->deleteSubtasksByParent($subTaskIds);
     }
 
     /**
@@ -894,7 +894,7 @@ class Tasks
      */
     public function deleteSubTasksById($subtaskIds)
     {
-        return $this->tasks_gateway->deleteSubTasksById($subtaskIds);
+        return $this->repository->deleteSubtasks($subtaskIds);
     }
 
     /**
@@ -904,7 +904,7 @@ class Tasks
      */
     public function isOwner(int $taskId, int $userId): bool
     {
-        $taskDetail = $this->tasks_gateway->getTaskById($taskId);
+        $taskDetail = $this->repository->findById($taskId);
 
         if ($taskDetail) {
             return $taskDetail["tas_owner"] == $userId;
@@ -919,7 +919,7 @@ class Tasks
      */
     public function recalculateSubtaskAverages(int $taskId)
     {
-        $avg = $this->tasks_gateway->recalculateSubtaskAverage($taskId);
+        $avg = $this->repository->calculateSubtaskAverage($taskId);
         $avg = $avg["average"];
         settype($avg, "integer");
         return $avg;
@@ -1150,6 +1150,6 @@ MESSAGE_BODY;
      */
     public function getTeamTasks(int $projectId, string $sorting = null)
     {
-        return $this->tasks_gateway->getTeamTasks($projectId, $sorting);
+        return $this->repository->findTeamTasks($projectId, $sorting);
     }
 }

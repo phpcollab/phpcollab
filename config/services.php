@@ -58,6 +58,8 @@ use phpCollab\Subtasks\Subtasks;
 use phpCollab\Support\Support;
 use phpCollab\Tasks\SetTaskStatus;
 use phpCollab\Tasks\Tasks;
+use phpCollab\Tasks\TasksRepository;
+use phpCollab\Tasks\TasksRepositoryInterface;
 use phpCollab\Tasks\TaskUpdates;
 use phpCollab\Teams\Teams;
 use phpCollab\Topics\Topics;
@@ -207,19 +209,31 @@ return static function (ContainerConfigurator $container) {
         ->args([service(Database::class)])
         ->public();
 
-    // ✅ Refactored to use pure constructor injection + AppConfig
+    // ✅ Repository Pattern Implementation - Tasks
+    // Register the TasksRepository interface and implementation
+    $services->set(TasksRepositoryInterface::class, TasksRepository::class)
+        ->args([
+            service(Database::class),
+            service(RequestData::class)
+        ])
+        ->public();
+
+    // Alias for easier access
+    $services->alias(TasksRepository::class, TasksRepositoryInterface::class)
+        ->public();
+
+    // ✅ Refactored to use Repository Pattern + pure constructor injection + AppConfig
     // Task-related Services
     $services->set(Tasks::class)
         ->args([
-            service(Database::class),
+            service(TasksRepositoryInterface::class),
             service(MailNotification::class),
             param('app.language'),
             service(Projects::class),
             service(Teams::class),
             service(Notifications::class),
             service(Notification::class),
-            service(AppConfig::class),
-            service(RequestData::class)
+            service(AppConfig::class)
         ])
         ->public();
 

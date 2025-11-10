@@ -15,6 +15,7 @@ use phpCollab\Projects\Projects;
 use phpCollab\RequestData;
 use phpCollab\Subtasks\Subtasks;
 use phpCollab\Tasks\Tasks;
+use phpCollab\Tasks\TasksRepositoryInterface;
 use phpCollab\Teams\Teams;
 use Monolog\Logger;
 
@@ -97,15 +98,14 @@ class PureConstructorInjectionComparisonTest extends Unit
     {
         // ✅ Simple and clear!
         $tasks = new Tasks(
-            $this->createMock(Database::class),
+            $this->createMock(TasksRepositoryInterface::class),
             $this->createMock(MailNotification::class),
             'en',
             $this->createMock(Projects::class),
             $this->createMock(Teams::class),
             $this->createMock(Notifications::class),
             $this->createMock(Notification::class),
-            $this->createMock(AppConfig::class),
-            $this->createMock(RequestData::class)
+            $this->createMock(AppConfig::class)
         );
 
         // Benefits:
@@ -174,15 +174,14 @@ class PureConstructorInjectionComparisonTest extends Unit
         // ALL dependencies visible at a glance! ✅
 
         $tasks = new Tasks(
-            $this->createMock(Database::class),
+            $this->createMock(TasksRepositoryInterface::class),
             $this->createMock(MailNotification::class),
             'en',
             $this->createMock(Projects::class),
             $this->createMock(Teams::class),
             $this->createMock(Notifications::class),
             $this->createMock(Notification::class),
-            $this->createMock(AppConfig::class),
-            $this->createMock(RequestData::class)
+            $this->createMock(AppConfig::class)
         );
 
         $this->assertInstanceOf(Tasks::class, $tasks);
@@ -239,15 +238,14 @@ class PureConstructorInjectionComparisonTest extends Unit
         // - Errors found before code runs
 
         $tasks = new Tasks(
-            $this->createMock(Database::class),
+            $this->createMock(TasksRepositoryInterface::class),
             $this->createMock(MailNotification::class),
             'en',  // PHP ensures this is a string
             $this->createMock(Projects::class),
             $this->createMock(Teams::class),
             $this->createMock(Notifications::class),
             $this->createMock(Notification::class),
-            $this->createMock(AppConfig::class),
-            $this->createMock(RequestData::class)
+            $this->createMock(AppConfig::class)
         );
 
         $this->assertInstanceOf(Tasks::class, $tasks);
@@ -306,15 +304,14 @@ class PureConstructorInjectionComparisonTest extends Unit
         // Coupling reduced from ~100 to 7 (~93% reduction!)
 
         $tasks = new Tasks(
-            $this->createMock(Database::class),
+            $this->createMock(TasksRepositoryInterface::class),
             $this->createMock(MailNotification::class),
             'en',
             $this->createMock(Projects::class),
             $this->createMock(Teams::class),
             $this->createMock(Notifications::class),
             $this->createMock(Notification::class),
-            $this->createMock(AppConfig::class),
-            $this->createMock(RequestData::class)
+            $this->createMock(AppConfig::class)
         );
 
         $this->assertInstanceOf(Tasks::class, $tasks);
@@ -410,15 +407,14 @@ class PureConstructorInjectionComparisonTest extends Unit
 
         // Test Tasks (7 dependencies)
         $tasks = new Tasks(
-            $this->createMock(Database::class),
+            $this->createMock(TasksRepositoryInterface::class),
             $this->createMock(MailNotification::class),
             'en',
             $this->createMock(Projects::class),
             $this->createMock(Teams::class),
             $this->createMock(Notifications::class),
             $this->createMock(Notification::class),
-            $this->createMock(AppConfig::class),
-            $this->createMock(RequestData::class)
+            $this->createMock(AppConfig::class)
         );
         $this->assertInstanceOf(Tasks::class, $tasks);
 
