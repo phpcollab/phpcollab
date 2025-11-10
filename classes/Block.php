@@ -4,15 +4,33 @@
 
 namespace phpCollab;
 
+use phpCollab\Services\PaginationService;
+use phpCollab\Services\SortingService;
+use phpCollab\Services\TableRenderer;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
- * Class Block
+ * Class Block - Facade for table/list rendering
+ *
+ * Refactored to use dedicated services for different responsibilities:
+ * - SortingService: Handles sorting logic
+ * - PaginationService: Handles pagination logic
+ * - TableRenderer: Handles HTML table rendering
+ *
+ * This class now acts as a facade, maintaining backward compatibility
+ * while delegating to focused, testable services.
+ *
  * @package phpCollab
  */
 class Block
 {
-    protected $appConfig, $class, $theme, $themeImgPath, $accountTotal, $account, $sortingOrders,
+    protected $appConfig;
+    protected SortingService $sortingService;
+    protected PaginationService $paginationService;
+    protected TableRenderer $tableRenderer;
+
+    // Legacy properties maintained for BC
+    protected $class, $theme, $themeImgPath, $accountTotal, $account, $sortingOrders,
         $sortingFields, $sortingArrows, $sortingStyles, $explode, $labels,
         $sitePublish, $navigation, $navigationTotal, $limit, $rowsLimit,
         $recordsTotal, $limitsNumber, $sortName, $sortingRef, $sortingDefault,
@@ -21,16 +39,30 @@ class Block
 
     /**
      * Block constructor.
+     *
      * @param AppConfig|null $appConfig Application configuration (optional for BC)
+     * @param SortingService|null $sortingService Sorting service (optional, auto-created if null)
+     * @param PaginationService|null $paginationService Pagination service (optional, auto-created if null)
+     * @param TableRenderer|null $tableRenderer Table renderer (optional, auto-created if null)
      */
-    public function __construct(AppConfig $appConfig = null)
-    {
+    public function __construct(
+        AppConfig $appConfig = null,
+        SortingService $sortingService = null,
+        PaginationService $paginationService = null,
+        TableRenderer $tableRenderer = null
+    ) {
         // ✅ Support DI while maintaining backward compatibility
         if ($appConfig === null) {
             $appConfig = AppConfig::fromGlobals();
         }
         $this->appConfig = $appConfig;
 
+        // ✅ Create services if not injected (for BC)
+        $this->sortingService = $sortingService ?? new SortingService($appConfig);
+        $this->paginationService = $paginationService ?? new PaginationService($appConfig);
+        $this->tableRenderer = $tableRenderer ?? new TableRenderer($appConfig, $this->sortingService);
+
+        // Initialize legacy properties for BC
         $this->sortingOrders = $appConfig->getSortingOrders();
         $this->sortingFields = $appConfig->getSortingFields();
         $this->sortingArrows = $appConfig->getSortingArrows();
@@ -45,38 +77,49 @@ class Block
     }
 
     /**
+     * Get current limit offset
      * @return mixed
      */
     public function getLimit()
     {
-        return $this->limit;
+        // Delegate to PaginationService
+        return $this->paginationService->getLimit() ?? $this->limit;
     }
 
     /**
+     * Set current limit offset
      * @param mixed $limit
      */
     public function setLimit($limit)
     {
+        // Update both legacy property and service
         $this->limit = $limit;
+        $this->paginationService->setLimit($limit);
     }
 
     /**
+     * Get rows per page limit
      * @return mixed
      */
     public function getRowsLimit()
     {
-        return $this->rowsLimit;
+        // Delegate to PaginationService
+        return $this->paginationService->getRowsLimit() ?? $this->rowsLimit;
     }
 
     /**
+     * Set rows per page limit
      * @param mixed $rowsLimit
      */
     public function setRowsLimit($rowsLimit)
     {
+        // Update both legacy property and service
         $this->rowsLimit = $rowsLimit;
+        $this->paginationService->setRowsLimit($rowsLimit);
     }
 
     /**
+     * Get sort name
      * @return mixed
      */
     public function getSortName()
@@ -85,6 +128,7 @@ class Block
     }
 
     /**
+     * Set sort name
      * @param mixed $sortName
      */
     public function setSortName($sortName)
@@ -93,35 +137,45 @@ class Block
     }
 
     /**
+     * Get limits number
      * @return mixed
      */
     public function getLimitsNumber()
     {
-        return $this->limitsNumber;
+        // Delegate to PaginationService
+        return $this->paginationService->getLimitsNumber() ?? $this->limitsNumber;
     }
 
     /**
+     * Set limits number
      * @param mixed $limitsNumber
      */
     public function setLimitsNumber($limitsNumber)
     {
+        // Update both legacy property and service
         $this->limitsNumber = $limitsNumber;
+        $this->paginationService->setLimitsNumber($limitsNumber);
     }
 
     /**
+     * Get total number of records
      * @return mixed
      */
     public function getRecordsTotal()
     {
-        return $this->recordsTotal;
+        // Delegate to PaginationService
+        return $this->paginationService->getRecordsTotal() ?? $this->recordsTotal;
     }
 
     /**
+     * Set total number of records
      * @param mixed $recordsTotal
      */
     public function setRecordsTotal($recordsTotal)
     {
+        // Update both legacy property and service
         $this->recordsTotal = $recordsTotal;
+        $this->paginationService->setRecordsTotal($recordsTotal);
     }
 
     /**

@@ -46,7 +46,10 @@ use phpCollab\Phases\Phases;
 use phpCollab\Projects\Projects;
 use phpCollab\Reports\Reports;
 use phpCollab\RequestData;
+use phpCollab\Services\PaginationService;
 use phpCollab\Services\Services;
+use phpCollab\Services\SortingService;
+use phpCollab\Services\TableRenderer;
 use phpCollab\Sorting\Sorting;
 use phpCollab\Subtasks\SetStatus;
 use phpCollab\Subtasks\Subtasks;
@@ -393,6 +396,27 @@ return static function (ContainerConfigurator $container) {
         ->args([
             service(Database::class),
             service(DailyAlertEmail::class)
+        ])
+        ->public();
+
+    // ✅ New Refactored Services - Extracted from Block.php God Class
+    // These services follow Single Responsibility Principle
+
+    // Sorting Service - Handles all sorting logic
+    $services->set(SortingService::class)
+        ->args([service(AppConfig::class)])
+        ->public();
+
+    // Pagination Service - Handles all pagination logic
+    $services->set(PaginationService::class)
+        ->args([service(AppConfig::class)])
+        ->public();
+
+    // Table Renderer - Handles HTML table/row rendering
+    $services->set(TableRenderer::class)
+        ->args([
+            service(AppConfig::class),
+            service(SortingService::class)
         ])
         ->public();
 
