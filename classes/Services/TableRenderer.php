@@ -416,4 +416,132 @@ CSRF_INPUT;
         $sortingRefValue = $sortingRef ?? '';
         return '<input name="sort_target" type="HIDDEN" value="' . htmlspecialchars($sortingRefValue) . '"><input name="sort_fields" type="HIDDEN" value=""><input name="sort_order" type="HIDDEN" value=""></form>';
     }
+
+    /**
+     * Render opening icon/palette table
+     *
+     * @return string HTML for opening icons table
+     */
+    public function renderOpenPaletteIcon(): string
+    {
+        return '<table class="icons"><tr>';
+    }
+
+    /**
+     * Render closing icon/palette table
+     *
+     * @param string $formName Form name for tooltip div IDs
+     * @return string HTML for closing icons table
+     */
+    public function renderClosePaletteIcon(string $formName): string
+    {
+        return <<<ICON
+        <td style="text-align: left; width: 1%;"><img height="26" width="5" src="{$this->themeImgPath}/spacer.gif" alt=""></td>
+        <td class="commandDesc" style="text-align: left; width: 99%;">
+            <div id="{$formName}tt" class="rel">
+                <div id="{$formName}tti" class="abs"><img height="1" width="350" src="{$this->themeImgPath}/spacer.gif" alt=""></div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+ICON;
+    }
+
+    /**
+     * Render individual palette icon (HTML)
+     *
+     * @param string $formName Form name for JavaScript references
+     * @param int $num Icon number
+     * @param string $type Icon type (for image file name)
+     * @param string $text Alt text for icon
+     * @return string HTML for palette icon
+     */
+    public function renderPaletteIcon(string $formName, int $num, string $type, string $text): string
+    {
+        $altText = stripslashes($text);
+        return <<<palette_icon
+        <td style="width: 30px;" class="commandBtn">
+        <a href="javascript:var b = MM_getButtonWithName(document.{$formName}Form, '{$formName}{$num}'); if (b) b.click();"
+        onMouseOver="var over = MM_getButtonWithName(document.{$formName}Form, '{$formName}{$num}'); if (over) over.over(); return true;"
+        onMouseOut="var out = MM_getButtonWithName(document.{$formName}Form, '{$formName}{$num}'); if (out) out.out(); return true; "><img style="border: none;" name="{$formName}{$num}" src="{$this->themeImgPath}/btn_{$type}_norm.gif" alt="{$altText}"></a></td>
+palette_icon;
+    }
+
+    /**
+     * Render opening palette script tag
+     *
+     * @param string $formName Form name for JavaScript
+     * @return string HTML/JavaScript for opening palette script
+     */
+    public function renderOpenPaletteScript(string $formName): string
+    {
+        return <<<SCRIPT
+        <script type="text/JavaScript">
+        document.{$formName}Form.buttons = [];
+SCRIPT;
+    }
+
+    /**
+     * Render individual palette script (JavaScript button registration)
+     *
+     * @param string $formName Form name for JavaScript
+     * @param int $num Icon number
+     * @param string $type Icon type (for image files)
+     * @param string $link Link URL
+     * @param string $options JavaScript options
+     * @param string $text Tooltip text
+     * @return string JavaScript for palette button
+     */
+    public function renderPaletteScript(string $formName, int $num, string $type, string $link, string $options, string $text): string
+    {
+        $link = rtrim($link, '?');
+        $link = (strpos($link, '?')) ? $link : $link . '?&';
+        $text = stripslashes($text);
+
+        return <<<SCRIPT
+    document.{$formName}Form.buttons[
+        document.{$formName}Form.buttons.length] = new MMCommandButton(
+            '{$formName}{$num}',
+            document.{$formName}Form,
+            '{$link}',
+            '{$this->themeImgPath}/btn_{$type}_norm.gif',
+            '{$this->themeImgPath}/btn_{$type}_over.gif',
+            '{$this->themeImgPath}/btn_{$type}_down.gif',
+            '{$this->themeImgPath}/btn_{$type}_dim.gif',
+            {$options},
+            '',
+            "{$text}",
+            false,
+            ''
+        );
+SCRIPT;
+    }
+
+    /**
+     * Render closing palette script
+     *
+     * @param string $formName Form name for JavaScript
+     * @param int $compt Count of items
+     * @param array $values Array of values for checkboxes
+     * @return string JavaScript for closing palette script
+     */
+    public function renderClosePaletteScript(string $formName, int $compt, array $values): string
+    {
+        $html = "MM_updateButtons(document.{$formName}Form, 0);document.{$formName}Form.checkboxes = new Array();";
+
+        for ($i = 0; $i < $compt; $i++) {
+            $html .= <<<SCRIPT
+
+document.{$formName}Form.checkboxes[document.{$formName}Form.checkboxes.length] = new MMCheckbox('{$values[$i]}',document.{$formName}Form,'{$formName}cb{$values[$i]}');
+SCRIPT;
+        }
+
+        $html .= <<<SCRIPT
+
+document.{$formName}Form.tt = '{$formName}tt';</script>
+SCRIPT;
+
+        return $html;
+    }
 }

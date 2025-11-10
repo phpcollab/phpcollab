@@ -367,7 +367,8 @@ HTML;
      **/
     public function openPaletteIcon()
     {
-        echo '<table class="icons"><tr>';
+        // ✅ Delegate to TableRenderer
+        echo $this->tableRenderer->renderOpenPaletteIcon();
     }
 
     /**
@@ -379,17 +380,8 @@ HTML;
      **/
     public function closePaletteIcon()
     {
-        echo <<<ICON
-        <td style="text-align: left; width: 1%;"><img height="26" width="5" src="{$this->themeImgPath}/spacer.gif" alt=""></td>
-        <td class="commandDesc" style="text-align: left; width: 99%;">
-            <div id="{$this->form}tt" class="rel">
-                <div id="{$this->form}tti" class="abs"><img height="1" width="350" src="{$this->themeImgPath}/spacer.gif" alt=""></div>
-            </div>
-        </td>
-    </tr>
-</table>
-
-ICON;
+        // ✅ Delegate to TableRenderer
+        echo $this->tableRenderer->renderClosePaletteIcon($this->form);
     }
 
     /**
@@ -399,11 +391,8 @@ ICON;
      **/
     public function openPaletteScript()
     {
-        echo <<< SCRIPT
-        <script type="text/JavaScript">
-        document.{$this->form}Form.buttons = [];
-SCRIPT;
-
+        // ✅ Delegate to TableRenderer
+        echo $this->tableRenderer->renderOpenPaletteScript($this->form);
     }
 
     /**
@@ -415,15 +404,8 @@ SCRIPT;
      **/
     public function closePaletteScript($compt, $values)
     {
-        echo "MM_updateButtons(document." . $this->form . "Form, 0);document." . $this->form . "Form.checkboxes = new Array();";
-        for ($i = 0; $i < $compt; $i++) {
-            echo <<<SCRIPT
-document.{$this->form}Form.checkboxes[document.{$this->form}Form.checkboxes.length] = new MMCheckbox('{$values[$i]}',document.{$this->form}Form,'{$this->form}cb{$values[$i]}');
-SCRIPT;
-        }
-        echo <<<SCRIPT
-document.{$this->form}Form.tt = '{$this->form}tt';</script>
-SCRIPT;
+        // ✅ Delegate to TableRenderer
+        echo $this->tableRenderer->renderClosePaletteScript($this->form, $compt, $values);
     }
 
     /**
@@ -601,13 +583,8 @@ HTML;
      */
     public function paletteIcon(int $num, string $type, string $text)
     {
-        $altText = stripslashes($text);
-        echo <<<palette_icon
-        <td style="width: 30px;" class="commandBtn">
-        <a href="javascript:var b = MM_getButtonWithName(document.{$this->form}Form, '{$this->form}{$num}'); if (b) b.click();" 
-        onMouseOver="var over = MM_getButtonWithName(document.{$this->form}Form, '{$this->form}{$num}'); if (over) over.over(); return true;" 
-        onMouseOut="var out = MM_getButtonWithName(document.{$this->form}Form, '{$this->form}{$num}'); if (out) out.out(); return true; "><img style="border: none;" name="{$this->form}{$num}" src="{$this->themeImgPath}/btn_{$type}_norm.gif" alt="{$altText}"></a></td>
-palette_icon;
+        // ✅ Delegate to TableRenderer
+        echo $this->tableRenderer->renderPaletteIcon($this->form, $num, $type, $text);
     }
 
     /**
@@ -622,29 +599,8 @@ palette_icon;
      */
     public function paletteScript(int $num, string $type, string $link, string $options, string $text)
     {
-        $link = rtrim($link, '?');
-        $link = (strpos($link, '?')) ? $link : $link . '?&';
-        $text = stripslashes($text);
-
-        echo <<<SCRIPT
-    document.{$this->form}Form.buttons[
-        document.{$this->form}Form.buttons.length] = new MMCommandButton(
-            '{$this->form}{$num}',
-            document.{$this->form}Form,
-            '{$link}',
-            '{$this->themeImgPath}/btn_{$type}_norm.gif',
-            '{$this->themeImgPath}/btn_{$type}_over.gif',
-            '{$this->themeImgPath}/btn_{$type}_down.gif',
-            '{$this->themeImgPath}/btn_{$type}_dim.gif',
-            {$options},
-            '',
-            "{$text}",
-            false,
-            ''
-        );
-SCRIPT;
-
-
+        // ✅ Delegate to TableRenderer
+        echo $this->tableRenderer->renderPaletteScript($this->form, $num, $type, $link, $options, $text);
     }
 
     /**
