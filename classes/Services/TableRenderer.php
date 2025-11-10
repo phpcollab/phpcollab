@@ -3,6 +3,7 @@
 namespace phpCollab\Services;
 
 use phpCollab\AppConfig;
+use phpCollab\Util;
 
 /**
  * Service for rendering HTML tables and table components
@@ -543,5 +544,162 @@ document.{$formName}Form.tt = '{$formName}tt';</script>
 SCRIPT;
 
         return $html;
+    }
+
+    /**
+     * Render opening breadcrumbs tag
+     *
+     * @return string HTML for opening breadcrumbs
+     */
+    public function renderOpenBreadcrumbs(): string
+    {
+        return "<p class='breadcrumbs'>";
+    }
+
+    /**
+     * Render breadcrumbs items with separator
+     *
+     * @param array $items Array of breadcrumb content
+     * @return string HTML for breadcrumbs items
+     */
+    public function renderBreadcrumbsItems(array $items): string
+    {
+        $html = '';
+        $total = count($items);
+        for ($i = 0; $i < $total; $i++) {
+            $html .= stripslashes($items[$i]);
+            if ($total - 1 != $i) {
+                $html .= " / ";
+            }
+        }
+        return $html;
+    }
+
+    /**
+     * Render closing breadcrumbs tag
+     *
+     * @return string HTML for closing breadcrumbs
+     */
+    public function renderCloseBreadcrumbs(): string
+    {
+        return "</p>";
+    }
+
+    /**
+     * Render opening navigation tag
+     *
+     * @return string HTML for opening navigation
+     */
+    public function renderOpenNavigation(): string
+    {
+        return "<nav>";
+    }
+
+    /**
+     * Render navigation items
+     *
+     * @param array $items Array of navigation content
+     * @return string HTML for navigation items
+     */
+    public function renderNavigationItems(array $items): string
+    {
+        return implode('', $items);
+    }
+
+    /**
+     * Render closing navigation tag
+     *
+     * @return string HTML for closing navigation
+     */
+    public function renderCloseNavigation(): string
+    {
+        return "</nav>";
+    }
+
+    /**
+     * Render opening account dropdown
+     *
+     * @param string $userName User name to display
+     * @return string HTML for opening account dropdown
+     */
+    public function renderOpenAccount(string $userName): string
+    {
+        return <<<ACCOUNT_PROFILE
+        <div id="account" class="dropdown">
+          <div class="accountButton">{$userName}</div>
+          <div class="dropdown-content">
+ACCOUNT_PROFILE;
+    }
+
+    /**
+     * Render account items
+     *
+     * @param array $items Array of account menu items
+     * @return string HTML for account items
+     */
+    public function renderAccountItems(array $items): string
+    {
+        return implode('', $items);
+    }
+
+    /**
+     * Render closing account dropdown
+     *
+     * @return string HTML for closing account dropdown
+     */
+    public function renderCloseAccount(): string
+    {
+        return <<<DROPDOWN
+  </div>
+</div>
+DROPDOWN;
+    }
+
+    /**
+     * Build HTML link based on type
+     *
+     * @param string $url URL for the link
+     * @param string $label Link text
+     * @param string $type Link type (in, out, mail, icone, inblank, powered)
+     * @param string|null $class Optional CSS class
+     * @return string HTML link
+     */
+    public function buildLink(string $url, string $label, string $type, ?string $class = null): string
+    {
+        if (!empty($url)) {
+            if ($type == "in") {
+                return '<a href="' . $url . '" class="'. $class  .'">' . $label . '</a>';
+            } else {
+                if ($type == "icone") {
+                    return '<a href="' . $url . '&"><img src="../interface/icones/' . $label . '" alt=""></a>';
+                } else {
+                    if ($type == "inblank") {
+                        return '<a href="' . $url . '&" target="_blank">' . $label . '</a>';
+                    } else {
+                        if ($type == "powered") {
+                            return 'Powered by <a href="' . $url . '" target="_blank">' . $label . '</a>';
+                        } else {
+                            if ($type == "out") {
+                                // Verify correct urltyping
+                                if (substr($url, 0, 4) != 'http') {
+                                    // Add default http on it
+                                    $url = "http://" . $url;
+                                }
+                                return "<a href='$url' target='_blank'>$label</a>";
+                            } else {
+                                if ($type == "mail") {
+                                    return "<a href='mailto:$url'>$label</a>";
+                                }
+                            }
+                        }
+                    }
+                }
+                return '';
+            }
+        }
+        if (!empty($label)) {
+            return $label;
+        }
+        return Util::doubleDash();
     }
 }

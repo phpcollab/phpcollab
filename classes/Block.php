@@ -704,7 +704,8 @@ HTML;
      */
     public function openBreadcrumbs()
     {
-        echo "<p class='breadcrumbs'>";
+        // ✅ Delegate to TableRenderer
+        echo $this->tableRenderer->renderOpenBreadcrumbs();
     }
 
     /**
@@ -715,7 +716,7 @@ HTML;
         if ($this->breadcrumbsTotal == "") {
             $this->breadcrumbsTotal = 0;
         }
-        $this->breadcrumbs[$this->breadcrumbsTotal] = stripslashes($content);
+        $this->breadcrumbs[$this->breadcrumbsTotal] = $content;
         $this->breadcrumbsTotal = $this->breadcrumbsTotal + 1;
     }
 
@@ -724,14 +725,10 @@ HTML;
      */
     public function closeBreadcrumbs()
     {
-        $items = $this->breadcrumbsTotal;
-        for ($i = 0; $i < $items; $i++) {
-            echo $this->breadcrumbs[$i];
-            if ($items - 1 != $i) {
-                echo " / ";
-            }
-        }
-        echo "</p>";
+        // ✅ Delegate to TableRenderer
+        $items = array_slice($this->breadcrumbs, 0, $this->breadcrumbsTotal);
+        echo $this->tableRenderer->renderBreadcrumbsItems($items);
+        echo $this->tableRenderer->renderCloseBreadcrumbs();
     }
 
     /**
@@ -739,7 +736,8 @@ HTML;
      */
     public function openNavigation()
     {
-        echo "<nav>";
+        // ✅ Delegate to TableRenderer
+        echo $this->tableRenderer->renderOpenNavigation();
     }
 
     /**
@@ -759,11 +757,10 @@ HTML;
      */
     public function closeNavigation()
     {
-        $items = $this->navigationTotal;
-        for ($i = 0; $i < $items; $i++) {
-            echo $this->navigation[$i];
-        }
-        echo "</nav>";
+        // ✅ Delegate to TableRenderer
+        $items = array_slice($this->navigation, 0, $this->navigationTotal);
+        echo $this->tableRenderer->renderNavigationItems($items);
+        echo $this->tableRenderer->renderCloseNavigation();
     }
 
     /**
@@ -771,11 +768,8 @@ HTML;
      */
     public function openAccount(Session $session)
     {
-        echo <<<ACCOUNT_PROFILE
-        <div id="account" class="dropdown">
-          <div class="accountButton">{$session->get("name")}</div>
-          <div class="dropdown-content">
-ACCOUNT_PROFILE;
+        // ✅ Delegate to TableRenderer
+        echo $this->tableRenderer->renderOpenAccount($session->get("name"));
     }
 
     /**
@@ -795,11 +789,10 @@ ACCOUNT_PROFILE;
      */
     public function closeAccount()
     {
-        echo <<<DROPDOWN
-  </div>
-</div>
-DROPDOWN;
-
+        // ✅ Delegate to TableRenderer
+        $items = array_slice($this->account, 0, $this->accountTotal);
+        echo $this->tableRenderer->renderAccountItems($items);
+        echo $this->tableRenderer->renderCloseAccount();
     }
 
     /**
@@ -810,42 +803,7 @@ DROPDOWN;
      */
     public function buildLink($url, $label, $type, $class = null)
     {
-        if (!empty($url)) {
-
-            if ($type == "in") {
-                return '<a href="' . $url . '" class="'. $class  .'">' . $label . '</a>';
-            } else {
-                if ($type == "icone") {
-                    return '<a href="' . $url . '&"><img src="../interface/icones/' . $label . '" alt=""></a>';
-                } else {
-                    if ($type == "inblank") {
-                        return '<a href="' . $url . '&" target="_blank">' . $label . '</a>';
-                    } else {
-                        if ($type == "powered") {
-                            return 'Powered by <a href="' . $url . '" target="_blank">' . $label . '</a>';
-                        } else {
-                            if ($type == "out") {
-                                // Verify correct urltyping
-                                if (substr($url, 0, 4) != 'http') {
-                                    // Add default http on it
-                                    $url = "http://" . $url;
-                                }
-
-                                return "<a href='$url' target='_blank'>$label</a>";
-                            } else {
-                                if ($type == "mail") {
-                                    return "<a href='mailto:$url'>$label</a>";
-                                }
-                            }
-                        }
-                    }
-                }
-                return '';
-            }
-        }
-        if (!empty($label)) {
-            return $label;
-        }
-        return Util::doubleDash();
+        // ✅ Delegate to TableRenderer
+        return $this->tableRenderer->buildLink($url, $label, $type, $class);
     }
 }
