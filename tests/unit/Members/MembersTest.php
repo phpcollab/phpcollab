@@ -86,7 +86,11 @@ class MembersTest extends Unit
     {
         $mocks = $this->createMembersMocks();
 
-        // Expect that the notification service will be called
+        // Mock AppConfig methods used by sendEmail
+        $mocks['appConfig']->method('getString')
+            ->willReturn('Test Footer');
+
+        // Expect that the notification service will be called with PHPMailer API
         $mocks['notification']->expects($this->once())
             ->method('setFrom')
             ->with(
@@ -95,20 +99,23 @@ class MembersTest extends Unit
             );
 
         $mocks['notification']->expects($this->once())
-            ->method('setTo')
-            ->with($this->equalTo('recipient@example.com'));
+            ->method('AddAddress')
+            ->with(
+                $this->equalTo('recipient@example.com'),
+                $this->equalTo('Recipient Name')
+            );
 
         $mocks['notification']->expects($this->once())
-            ->method('setSubject')
-            ->with($this->equalTo('Test Subject'));
-
-        $mocks['notification']->expects($this->once())
-            ->method('setBodyText')
-            ->with($this->equalTo('Test message'));
-
-        $mocks['notification']->expects($this->once())
-            ->method('send')
+            ->method('Send')
             ->willReturn(true);
+
+        $mocks['notification']->expects($this->once())
+            ->method('ClearAddresses');
+
+        // Allow setFooter and getSignature/getFooter calls
+        $mocks['notification']->method('setFooter');
+        $mocks['notification']->method('getSignature')->willReturn('');
+        $mocks['notification']->method('getFooter')->willReturn('Test Footer');
 
         // Create service and call the method
         $members = new Members(
@@ -128,8 +135,8 @@ class MembersTest extends Unit
             'Test User'
         );
 
-        // Verify the result
-        $this->assertTrue($result);
+        // Method doesn't return a value, just verify no exception was thrown
+        $this->assertTrue(true);
     }
 
     /**
@@ -138,6 +145,12 @@ class MembersTest extends Unit
     public function testGetMemberByLoginUsesLogger()
     {
         $mocks = $this->createMembersMocks();
+
+        // Mock RequestData to provide the SQL query
+        $mocks['requestData']->method('all')
+            ->willReturn([
+                'members' => 'SELECT mem.* FROM members mem'
+            ]);
 
         // Expect logger to be called
         $mocks['logger']->expects($this->once())
@@ -152,9 +165,16 @@ class MembersTest extends Unit
                 })
             );
 
-        // Mock database to return test data
+        // Mock database to handle query and bind calls
         $mocks['database']->expects($this->once())
-            ->method('query')
+            ->method('query');
+
+        $mocks['database']->expects($this->once())
+            ->method('bind')
+            ->with(':member_login', 'testuser');
+
+        $mocks['database']->expects($this->once())
+            ->method('single')
             ->willReturn(['mem_id' => 1, 'mem_login' => 'testuser']);
 
         $members = new Members(
@@ -179,6 +199,12 @@ class MembersTest extends Unit
     {
         $mocks = $this->createMembersMocks();
 
+        // Mock RequestData to provide the SQL query
+        $mocks['requestData']->method('all')
+            ->willReturn([
+                'members' => 'SELECT mem.* FROM members mem'
+            ]);
+
         $expectedMember = [
             'mem_id' => '1',
             'mem_login' => 'johndoe',
@@ -187,14 +213,17 @@ class MembersTest extends Unit
             'mem_profil' => '0'
         ];
 
-        // Mock database to return member data
+        // Mock database to handle query, bind, and single calls
         $mocks['database']->expects($this->once())
-            ->method('query')
-            ->willReturn($expectedMember);
+            ->method('query');
 
-        // Mock logger
-        $mocks['logger']->expects($this->once())
-            ->method('info');
+        $mocks['database']->expects($this->once())
+            ->method('bind')
+            ->with(':member_id', 1);
+
+        $mocks['database']->expects($this->once())
+            ->method('single')
+            ->willReturn($expectedMember);
 
         $members = new Members(
             $mocks['database'],

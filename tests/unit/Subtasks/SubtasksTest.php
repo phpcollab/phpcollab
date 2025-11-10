@@ -84,10 +84,10 @@ class SubtasksTest extends Unit
     {
         $mocks = $this->createSubtasksMocks();
 
-        // Expect Notifications service can be configured
+        // Mock the actual method used: getMemberNotifications()
         $mocks['notifications']->expects($this->any())
-            ->method('addNotification')
-            ->willReturn(true);
+            ->method('getMemberNotifications')
+            ->willReturn(['email_work' => 'test@example.com', 'name' => 'Test User']);
 
         $subtasks = new Subtasks(
             $mocks['database'],
@@ -107,10 +107,16 @@ class SubtasksTest extends Unit
     {
         $mocks = $this->createSubtasksMocks();
 
-        // Mock SubtaskNotifications behavior
+        // Mock the actual methods used by SubtaskNotifications
         $mocks['subtaskNotifications']->expects($this->any())
-            ->method('sendNotification')
-            ->willReturn(true);
+            ->method('setWorkEmail');
+
+        $mocks['subtaskNotifications']->expects($this->any())
+            ->method('setUserName');
+
+        $mocks['subtaskNotifications']->expects($this->any())
+            ->method('getTaskDetails')
+            ->willReturn(null);
 
         $subtasks = new Subtasks(
             $mocks['database'],
@@ -178,9 +184,10 @@ class SubtasksTest extends Unit
      */
     public function testDependencyIsolation()
     {
-        // Test 1: Notifications succeed
+        // Test 1: Notifications returns user data
         $mocks1 = $this->createSubtasksMocks();
-        $mocks1['notifications']->method('addNotification')->willReturn(true);
+        $mocks1['notifications']->method('getMemberNotifications')
+            ->willReturn(['email_work' => 'user1@example.com', 'name' => 'User 1']);
 
         $subtasks1 = new Subtasks(
             $mocks1['database'],
@@ -190,9 +197,10 @@ class SubtasksTest extends Unit
             $mocks1['requestData']
         );
 
-        // Test 2: Notifications fail (different mock behavior)
+        // Test 2: Notifications returns different user data (different mock behavior)
         $mocks2 = $this->createSubtasksMocks();
-        $mocks2['notifications']->method('addNotification')->willReturn(false);
+        $mocks2['notifications']->method('getMemberNotifications')
+            ->willReturn(['email_work' => 'user2@example.com', 'name' => 'User 2']);
 
         $subtasks2 = new Subtasks(
             $mocks2['database'],

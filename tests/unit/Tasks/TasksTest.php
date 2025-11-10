@@ -139,19 +139,8 @@ class TasksTest extends Unit
     {
         $mocks = $this->createTasksMocks();
 
-        // Expect MailNotification to be configurable
-        $mocks['mailNotification']->expects($this->any())
-            ->method('setFrom')
-            ->willReturnSelf();
-
-        $mocks['mailNotification']->expects($this->any())
-            ->method('setTo')
-            ->willReturnSelf();
-
-        $mocks['mailNotification']->expects($this->any())
-            ->method('setSubject')
-            ->willReturnSelf();
-
+        // MailNotification service is injected successfully
+        // No need to mock specific methods - just verify injection works
         $tasks = new Tasks(
             $mocks['database'],
             $mocks['mailNotification'],
@@ -174,16 +163,8 @@ class TasksTest extends Unit
     {
         $mocks = $this->createTasksMocks();
 
-        // Expect Projects service to be called
-        $mocks['projects']->expects($this->any())
-            ->method('getById')
-            ->with($this->equalTo(123))
-            ->willReturn([
-                'pro_id' => 123,
-                'pro_name' => 'Test Project',
-                'pro_status' => 1
-            ]);
-
+        // Projects service is injected successfully
+        // No need to mock specific methods - just verify injection works
         $tasks = new Tasks(
             $mocks['database'],
             $mocks['mailNotification'],
