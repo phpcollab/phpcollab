@@ -570,16 +570,13 @@ HTML;
      */
     public function openResults($checkbox = "true")
     {
-        echo "<table class='listing striped foo'><tr>";
-        if ($checkbox == "true") {
-            echo <<<HTML
-            <th class="flooma" style="text-align: center; width: 1%">
-                <a href="javascript:MM_toggleSelectedItems(document.{$this->form}Form,'{$this->theme}')"><img height="13" width="13" src="{$this->themeImgPath}/checkbox_off_16.gif" alt=""></a>
-            </th>
-HTML;
-        } else {
-            echo '<th class="moomla" style="text-align: center; width: 1%"><img style="width: 13px; height: 13px; margin: 3px 0; border: none" src="' . $this->themeImgPath . '/spacer.gif" alt=""></th>';
-        }
+        // ✅ Delegate to TableRenderer
+        $checkboxBool = ($checkbox === "true" || $checkbox === true);
+
+        // Update TableRenderer with current form for backward compatibility
+        $this->tableRenderer->setForm($this->form);
+
+        echo $this->tableRenderer->openResults($checkboxBool, $this->form, $this->theme);
     }
 
     /**
@@ -587,7 +584,8 @@ HTML;
      */
     public function closeResults()
     {
-        echo "</table><hr />";
+        // ✅ Delegate to TableRenderer
+        echo $this->tableRenderer->closeResults();
     }
 
     /**
@@ -662,7 +660,8 @@ SCRIPT;
      **/
     public function openContent($extraClasses = null)
     {
-        echo '<table class="content ' . $extraClasses .'">';
+        // ✅ Delegate to TableRenderer
+        echo $this->tableRenderer->openContent($extraClasses);
     }
 
     /**
@@ -674,23 +673,11 @@ SCRIPT;
      */
     public function contentRow(string $left, ?string $right, $altern = "false")
     {
-        if ($this->class == "") {
-            $this->class = "odd";
-        }
+        // ✅ Delegate to TableRenderer
+        echo $this->tableRenderer->renderContentRow($left, $right, $altern);
 
-        if ($left != "") {
-            echo "<tr class='{$this->class}'><td class='leftvalue'>" . $left . " :</td><td>" . $right . "&nbsp;</td></tr>";
-        } else {
-            echo "<tr class='{$this->class}'><td class='leftvalue'>&nbsp;</td><td>" . $right . "&nbsp;</td></tr>";
-        }
-
-        if ($this->class == "odd" && $altern == "true") {
-            $this->class = "even";
-        } else {
-            if ($this->class == "even" && $altern == "true") {
-                $this->class = "odd";
-            }
-        }
+        // Update legacy class property for backward compatibility
+        $this->class = $this->tableRenderer->getRowClass();
     }
 
     /**
@@ -698,7 +685,8 @@ SCRIPT;
      */
     public function openRow()
     {
-        echo "<tr>";
+        // ✅ Delegate to TableRenderer
+        echo $this->tableRenderer->openRow();
     }
 
     /**
@@ -707,11 +695,13 @@ SCRIPT;
      */
     public function checkboxRow($ref, $checkbox = "true")
     {
-        if ($checkbox == "true") {
-            echo "<td style='text-align: center'><a href=\"javascript:MM_toggleItem(document." . $this->form . "Form, '" . $ref . "', '" . $this->form . "cb" . $ref . "','{$this->theme}')\"><img alt='' name='" . $this->form . "cb" . $ref . "' src='$this->themeImgPath/checkbox_off_16.gif' style='margin: 3px 0'></a></td>";
-        } else {
-            echo "<td><img height='13' width='13' src='$this->themeImgPath/spacer.gif' alt='' style='margin: 3px 0'></td>";
-        }
+        // ✅ Delegate to TableRenderer
+        $checkboxBool = ($checkbox === "true" || $checkbox === true);
+
+        // Update TableRenderer with current form for backward compatibility
+        $this->tableRenderer->setForm($this->form);
+
+        echo $this->tableRenderer->renderCheckboxCell($ref, $checkboxBool);
     }
 
     /**
@@ -727,7 +717,8 @@ SCRIPT;
      */
     public function closeRow()
     {
-        echo "</tr>";
+        // ✅ Delegate to TableRenderer
+        echo $this->tableRenderer->closeRow();
     }
 
     /**
@@ -743,7 +734,8 @@ SCRIPT;
      */
     public function closeContent()
     {
-        echo "</table><hr />";
+        // ✅ Delegate to TableRenderer
+        echo $this->tableRenderer->closeContent();
     }
 
     /**

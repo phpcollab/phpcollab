@@ -134,16 +134,27 @@ class TableRenderer
      * Open results table
      *
      * @param bool $checkbox Include checkbox column
+     * @param string|null $formName Form name for checkbox toggle
+     * @param string|null $theme Theme name for images
      * @return string HTML for opening results table
      */
-    public function openResults(bool $checkbox = true): string
+    public function openResults(bool $checkbox = true, ?string $formName = null, ?string $theme = null): string
     {
         $this->resetRowClass();
 
-        $html = '<table class="results" cellspacing="0" cellpadding="0">';
+        $html = "<table class='listing striped foo'><tr>";
 
         if ($checkbox) {
-            $html .= '<col class="checkbox-col" />';
+            $formName = $formName ?? $this->form ?? 'form';
+            $theme = $theme ?? $this->theme;
+
+            $html .= <<<HTML
+            <th class="flooma" style="text-align: center; width: 1%">
+                <a href="javascript:MM_toggleSelectedItems(document.{$formName}Form,'{$theme}')"><img height="13" width="13" src="{$this->themeImgPath}/checkbox_off_16.gif" alt=""></a>
+            </th>
+HTML;
+        } else {
+            $html .= '<th class="moomla" style="text-align: center; width: 1%"><img style="width: 13px; height: 13px; margin: 3px 0; border: none" src="' . $this->themeImgPath . '/spacer.gif" alt=""></th>';
         }
 
         return $html;
@@ -156,7 +167,7 @@ class TableRenderer
      */
     public function closeResults(): string
     {
-        return '</table>';
+        return "</table><hr />";
     }
 
     /**
@@ -208,17 +219,13 @@ class TableRenderer
      */
     public function renderCheckboxCell($ref, bool $checkbox = true): string
     {
-        if (!$checkbox) {
-            return '';
-        }
-
         $formName = $this->form ?? 'form';
-        $checkboxId = $formName . 'cb' . $ref;
 
-        return '<td class="checkbox-cell">' .
-               '<input type="checkbox" name="' . htmlspecialchars($checkboxId) . '" ' .
-               'id="' . htmlspecialchars($checkboxId) . '" value="' . htmlspecialchars($ref) . '" />' .
-               '</td>';
+        if ($checkbox) {
+            return "<td style='text-align: center'><a href=\"javascript:MM_toggleItem(document." . $formName . "Form, '" . $ref . "', '" . $formName . "cb" . $ref . "','{$this->theme}')\"><img alt='' name='" . $formName . "cb" . $ref . "' src='$this->themeImgPath/checkbox_off_16.gif' style='margin: 3px 0'></a></td>";
+        } else {
+            return "<td><img height='13' width='13' src='$this->themeImgPath/spacer.gif' alt='' style='margin: 3px 0'></td>";
+        }
     }
 
     /**
@@ -242,12 +249,7 @@ class TableRenderer
      */
     public function openContent(?string $extraClasses = null): string
     {
-        $classes = 'content';
-        if ($extraClasses) {
-            $classes .= ' ' . $extraClasses;
-        }
-
-        return '<div class="' . htmlspecialchars($classes) . '">';
+        return '<table class="content ' . $extraClasses .'">';
     }
 
     /**
@@ -257,7 +259,7 @@ class TableRenderer
      */
     public function closeContent(): string
     {
-        return '</div>';
+        return "</table><hr />";
     }
 
     /**
@@ -270,18 +272,22 @@ class TableRenderer
      */
     public function renderContentRow(string $left, ?string $right, bool $alternate = false): string
     {
-        if ($alternate) {
+        // Initialize class if empty
+        if (empty($this->class)) {
+            $this->class = "odd";
+        }
+
+        // Build the row HTML
+        if ($left != "") {
+            $html = "<tr class='{$this->class}'><td class='leftvalue'>" . $left . " :</td><td>" . $right . "&nbsp;</td></tr>";
+        } else {
+            $html = "<tr class='{$this->class}'><td class='leftvalue'>&nbsp;</td><td>" . $right . "&nbsp;</td></tr>";
+        }
+
+        // Toggle class for alternating rows if requested
+        if ($alternate === "true" || $alternate === true) {
             $this->toggleRowClass();
         }
-
-        $html = '<div class="content-row ' . htmlspecialchars($this->class) . '">';
-        $html .= '<div class="content-left">' . $left . '</div>';
-
-        if ($right !== null) {
-            $html .= '<div class="content-right">' . $right . '</div>';
-        }
-
-        $html .= '</div>';
 
         return $html;
     }
