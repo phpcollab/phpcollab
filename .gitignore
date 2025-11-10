@@ -38,6 +38,11 @@ tests/_output/*
 **/*.jar
 chromedriver*
 
+# Translation backups #
+#######################
+translations/**/*.bak.*
+*.po.bak.*
+
 # Codeception #
 ###############
 # https://codeception.com/docs/reference/Configuration.html#config-templates-dist
