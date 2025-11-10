@@ -205,7 +205,8 @@ HELP_DIV;
      */
     public function note(string $content)
     {
-        echo '<p class="alert info note">' . $content . '</p>';
+        // ✅ Delegate to TableRenderer
+        echo $this->tableRenderer->renderNote($content);
     }
 
     /**
@@ -216,7 +217,8 @@ HELP_DIV;
      */
     public function heading(string $title)
     {
-        echo '<h1 class="heading">' . stripslashes($title) . '</h1>';
+        // ✅ Delegate to TableRenderer
+        echo $this->tableRenderer->renderHeading(stripslashes($title));
     }
 
     /**
@@ -263,7 +265,8 @@ HTML;
      */
     public function headingError(string $title)
     {
-        echo '<h1 class="headingError">' . $title . '</h1>';
+        // ✅ Delegate to TableRenderer
+        echo $this->tableRenderer->renderHeadingError($title);
     }
 
     /**
@@ -273,7 +276,8 @@ HTML;
      */
     public function contentError(string $content)
     {
-        echo '<p class="error">' . $content . '</p>';
+        // ✅ Delegate to TableRenderer
+        echo $this->tableRenderer->renderContentError($content);
     }
 
     /**
@@ -349,10 +353,9 @@ HTML;
      */
     public function messageBox(string $msgLabel)
     {
+        // ✅ Delegate to TableRenderer
         $msgLabel = ($msgLabel) ? $msgLabel : 'Action not allowed.';
-        echo <<< MESSAGE
-        <div class="message">{$msgLabel}</div>
-MESSAGE;
+        echo $this->tableRenderer->renderMessageBox($msgLabel);
     }
 
     /**
@@ -592,7 +595,8 @@ HTML;
      */
     public function noresults()
     {
-        echo '<div class="noItemsFound">' . $this->appConfig->getString("no_items") . '</div>';
+        // ✅ Delegate to TableRenderer
+        echo $this->tableRenderer->renderNoResults();
     }
 
     /**
